@@ -1,5 +1,5 @@
 {
-  "name": "styled-system-ui-monorepo",
+  "name": "styled-ui-monorepo",
   "description": "A themeable UI component library built with Emotion and Styled System",
   "private": true,
   "workspaces": [
@@ -15,14 +15,14 @@
     "start-storybook": "start-storybook --config-dir .storybook --docs --port 8080"
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
-  "homepage": "https://github.com/trendmicro-frontend/styled-system-ui",
+  "homepage": "https://github.com/trendmicro-frontend/styled-ui",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trendmicro-frontend/styled-system-ui.git"
+    "url": "git+https://github.com/trendmicro-frontend/styled-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/trendmicro-frontend/styled-system-ui/issues"
+    "url": "https://github.com/trendmicro-frontend/styled-ui/issues"
   },
   "devDependencies": {
     "@babel/cli": "~7.8.3",
