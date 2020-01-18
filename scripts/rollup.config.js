@@ -4,9 +4,11 @@ import babel from 'rollup-plugin-babel';
 
 const packageName = process.env.PACKAGE_NAME;
 
-const input = process.env.INPUT || path.resolve(__dirname, 'packages', packageName, 'index.js');
+const input = process.env.INPUT
+  || path.resolve(__dirname, 'packages', packageName, 'index.js');
 
-const outputDirectory = process.env.OUTPUT_DIRECTORY || path.resolve(__dirname, 'build', 'packages', packageName, 'dist');
+const outputDirectory = process.env.OUTPUT_DIRECTORY
+  || path.resolve(__dirname, 'build', 'packages', packageName, 'dist');
 
 const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
 
@@ -30,7 +32,7 @@ export default [
     plugins: [
       resolve(),
       babel(getBabelOptions({ useESModules: false })),
-    ]
+    ],
   },
   {
     input,
@@ -42,6 +44,6 @@ export default [
     plugins: [
       resolve(),
       babel(getBabelOptions({ useESModules: true })),
-    ]
+    ],
   }
 ];
