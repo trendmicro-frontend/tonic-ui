@@ -1,0 +1,72 @@
+{
+  "name": "styled-system-ui-monorepo",
+  "description": "A themeable UI component library built with Emotion and Styled System",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "postinstall": "lerna bootstrap --use-workspaces",
+    "build": "lerna exec -- yarn build",
+    "build:parallel": "lerna exec --parallel -- yarn build",
+    "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
+    "release": "lerna publish",
+    "eslint": "eslint --ext .js --ext .jsx *.js packages/*",
+    "start-storybook": "start-storybook --config-dir .storybook --docs --port 8080"
+  },
+  "author": "Cheton Wu <cheton_wu@trendmicro.com>",
+  "homepage": "https://github.com/trendmicro-frontend/styled-system-ui",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trendmicro-frontend/styled-system-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/trendmicro-frontend/styled-system-ui/issues"
+  },
+  "devDependencies": {
+    "@babel/cli": "~7.8.3",
+    "@babel/core": "~7.8.3",
+    "@babel/plugin-transform-runtime": "~7.8.3",
+    "@babel/polyfill": "~7.8.3",
+    "@babel/preset-env": "~7.8.3",
+    "@babel/preset-react": "~7.8.3",
+    "@babel/register": "~7.8.3",
+    "@commitlint/cli": "~8.3.5",
+    "@commitlint/config-conventional": "~8.3.4",
+    "@emotion/babel-preset-css-prop": "~10.0.27",
+    "@emotion/core": "~10.0.27",
+    "@emotion/styled": "~10.0.27",
+    "@rollup/plugin-node-resolve": "~7.0.0",
+    "@storybook/addon-actions": "~5.3.6",
+    "@storybook/addon-docs": "~5.3.6",
+    "@storybook/addon-links": "~5.3.6",
+    "@storybook/addons": "~5.3.6",
+    "@storybook/react": "~5.3.6",
+    "@trendmicro/babel-config": "~1.0.0-alpha",
+    "babel-eslint": "~10.0.3",
+    "babel-loader": "~8.0.6",
+    "cross-env": "~6.0.3",
+    "css-loader": "~3.4.2",
+    "emotion-theming": "~10.0.27",
+    "eslint": "~6.8.0",
+    "eslint-config-trendmicro": "~1.4.1",
+    "eslint-loader": "~3.0.3",
+    "eslint-plugin-import": "~2.20.0",
+    "eslint-plugin-jsx-a11y": "~6.2.3",
+    "eslint-plugin-react": "~7.18.0",
+    "eslint-plugin-react-hooks": "~2.3.0",
+    "file-loader": "~5.0.2",
+    "husky": "~4.0.10",
+    "lerna": "~3.20.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "rimraf": "^3.0.0",
+    "rollup": "~1.29.0",
+    "rollup-plugin-babel": "~4.3.3",
+    "style-loader": "~1.1.3",
+    "url-loader": "~3.0.0",
+    "webpack": "~4.41.5",
+    "webpack-cli": "~3.3.10"
+  }
+}
