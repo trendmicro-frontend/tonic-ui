@@ -26,15 +26,15 @@
     "rollup-plugin-babel": "~4.3.3"
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
-  "homepage": "https://github.com/trendmicro-frontend/styled-system-ui",
+  "homepage": "https://github.com/trendmicro-frontend/styled-ui",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/trendmicro-frontend/styled-system-ui.git",
+    "url": "https://github.com/trendmicro-frontend/styled-ui.git",
     "directory": "packages/styled-theme"
   },
   "bugs": {
-    "url": "https://github.com/trendmicro-frontend/styled-system-ui/issues"
+    "url": "https://github.com/trendmicro-frontend/styled-ui/issues"
   },
   "keywords": [
     "design-system",
