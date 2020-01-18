@@ -1,0 +1,87 @@
+import { Link } from '@trendmicro/react-styled-core';
+
+# Link
+
+Links are accessible elements used primarily for navigation. This component is styled to resemble a hyperlink and semantically renders an `<a />`.
+
+## Import
+
+```js
+import Link from '@trendmicro/react-styled-core/Link';
+// or
+import { Link } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+### Link with `href` attribute
+
+```jsx
+<Link
+  href="https://github.com/trendmicro-frontend"
+>
+  Trend Micro Frontend
+</Link>
+```
+
+### Link without `href` attribute
+
+```jsx
+<Link
+  onClick={() => {
+    console.log('clicked');
+  }}
+>
+  Click Me
+</Link>
+```
+
+### Variant: underline
+
+```jsx
+<Link
+  href="https://github.com/trendmicro-frontend"
+  variant="underline"
+>
+  Trend Micro Frontend
+</Link>
+```
+
+### Link with `disabled` attribute
+
+```jsx
+<Link
+  href="https://github.com/trendmicro-frontend"
+  disabled
+>
+  Trend Micro Frontend
+</Link>
+```
+
+### Link to another page
+
+```jsx
+<Link
+  href="https://github.com/trendmicro-frontend"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Trend Micro Frontend
+</Link>
+```
+
+You can also create a `<ExternalLink />` component for convenience of use:
+
+```jsx readonly
+const ExternalLink = React.forwadRef((props, ref) => (
+  <Link
+    ref={ref}
+    target="_blank"
+    rel="noopener noreferrer"
+    {...props}
+  />
+));
+
+export default ExternalLink;
+```
+

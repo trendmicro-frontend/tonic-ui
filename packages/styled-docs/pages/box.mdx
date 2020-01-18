@@ -1,0 +1,53 @@
+import { Box } from '@trendmicro/react-styled-core';
+
+# Box
+
+The Box component serves as a wrapper component for most of the CSS utility needs.
+
+## Import
+
+```js
+import Box from '@trendmicro/react-styled-core/Box';
+// or
+import { Box } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<Box
+  backgroundColor="#151515"
+  color="#fff"
+  px=".75rem"
+  py=".5rem"
+>
+  The Box component
+</Box>
+```
+
+## as prop
+
+You can use the `as` prop to change what is rendered dynamically at runtime.
+
+```jsx
+<>
+  <Box
+    as="i"
+    display="inline-block"
+  >
+    Hello World!
+  </Box>
+  <Box
+    as="button"
+    backgroundColor="rgba(255, 99, 71, 0.8)"
+    borderColor="tomato"
+    borderRadius={3}
+    color="white"
+    cursor="pointer"
+    px=".5rem"
+    py=".25rem"
+  >
+    Button
+  </Box>
+</>
+```
