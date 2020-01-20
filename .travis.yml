@@ -14,10 +14,11 @@ script:
   - yarn build
 after_success: true
 deploy:
+  edge: true # dpl v2
   provider: pages:git
   token:
     secure: uyXP8KcMgT7MJifnX7n0bEOeclggpatNnrpL5rMJLrxfPYuFQ2sT1Pzf3ZBjI8ijZHUzrVNzI4Hds6wge0VFdELLCfIuaTQNkywTsmkbPUHj7Gd4HX5DkfiWUPsoDXLR19C3iiX92JfinayQQZqKthVjqp8xhLVjJqEqSUIEsz0Zyk76PQ2+JH0TkgbLy2Wg1N41wWQW1P8NRhEzxtLBTCB9mh0HdLBAFM0FsdIBRQFNFwb8QXUFsrurbISpc9oROVlS646ZrA8Grp0+014sWBGeca5WBgihl3krNlm9pbvT2c02X+ur7CKf1+az7Y44fvzxa+a1nARi0HbkV/rmW9ADLRN8N+zcv6rLYA4HgO4aPk1s1mOi72ANeGu2VjrGhR2+Yh5GSaqTYBmsrotJHVpXUecEH+cRYqS2GtTGNGEErlZRQAC8bOqd7SuKHM5XhilEDOIs8h6yd2rcg2nT5ecRuJNITIZEljPdGfSpqicthtYmWxVSqWhnFx9CheMARvBPUk2W4w5UvFVXcV1vYYbumO70CC68z/RMAc8v1jFmkJoVU966PRdGAGwuLBoH22GNdBP6fdMwBXj4VnrGOVKgf9RMMdFdRAjC3+YmLDRUj63GeuL1OTMRP5adJU/KxWbVaFKM50wkny8bR56yL5RFEWSGrEaiwKU6eHbKgCA=
-  edge: true
+  keep_history: false
   target_branch: gh-pages
   local_dir: packages/styled-docs/docs
   on:
