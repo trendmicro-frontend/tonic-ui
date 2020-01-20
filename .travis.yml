@@ -1,22 +1,28 @@
 language: node_js
-
 os:
   - linux
-
 node_js:
   - '10'
   - '12'
-
 cache:
   yarn: true
   directories:
     - "node_modules"
-
 before_install:
   - npm install -g yarn
-
 install:
   - yarn install
-
 script:
   - yarn build
+  - |
+    pushd packages/styled-docs \
+    yarn export:prod \
+    popd
+after_success:
+  - find packages/*/{build,dist} -type f
+deploy:
+  edge: true # opt in to dpl v2
+  provider: pages:git
+  deploy_key: ".travis/github-deploy-key.enc"
+  target_branch: gh-pages
+  local_dir: packages/styled-docs/out
