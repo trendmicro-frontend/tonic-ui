@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "clean": "rimraf build out",
+    "clean": "rimraf build docs",
     "dev": "next dev",
     "build": "next build",
-    "export:dev": "cross-env NODE_ENV=development next export",
-    "export:prod": "cross-env NODE_ENV=production next export",
+    "postbuild": "next export --outdir docs && touch docs/.nojekyll",
     "start": "next start"
   },
   "devDependencies": {
