@@ -226,7 +226,11 @@ const hr = props => (
 );
 
 const a = props => (
-  <Link {...props}>Trend Micro FED GitHub</Link>
+  <Link
+    as="a"
+    fontSize="sm"
+    {...props}
+  />
 );
 
 const img = Image;
