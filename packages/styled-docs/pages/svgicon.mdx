@@ -6,7 +6,6 @@ If you need a custom SVG icon, you can use the `<SVGIcon>` component to extend t
 
 * It comes with built-in accessibility.
 * SVG elements should be scaled for a 24x24px viewport.
-* By default, the component inherits the current color.
 
 ## Import
 
@@ -18,14 +17,18 @@ import { SVGIcon } from '@trendmicro/react-styled-core';
 
 ## Usage
 
+You can use the current text color by adding the `fill=currentColor` attribute to the `<path>` or `<g>` element. This means that the fill color of the SVG will be inherited from the color value of its parent.
+
 ```jsx readonly
 const HomeIcon = props => (
   <SVGIcon
     fontSize="1.5rem"
-    mx="1rem"
+    mx=".75rem"
     {...props}
   >
-    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    <g fill="currentColor">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </g>
   </SVGIcon>
 );
 ```
