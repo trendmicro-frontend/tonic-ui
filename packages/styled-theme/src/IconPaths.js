@@ -17,7 +17,7 @@ const IconPaths = {
       />
     ),
   },
-  "search-2": {
+  'search-2': {
     path: (
       <path
         fill="currentColor"
@@ -62,7 +62,7 @@ const IconPaths = {
       />
     ),
   },
-  "small-add": {
+  'small-add': {
     path: (
       <path
         fill="currentColor"
@@ -70,10 +70,10 @@ const IconPaths = {
         fillRule="evenodd"
       />
     ),
-    viewBox: "0 0 20 20",
+    viewBox: '0 0 20 20',
   },
   settings: {
-    viewBox: "0 0 14 14",
+    viewBox: '0 0 14 14',
     path: (
       <path
         fill="currentColor"
@@ -81,7 +81,7 @@ const IconPaths = {
       />
     ),
   },
-  "check-circle": {
+  'check-circle': {
     path: (
       <path
         fill="currentColor"
@@ -113,7 +113,7 @@ const IconPaths = {
       </g>
     ),
   },
-  "view-off": {
+  'view-off': {
     path: (
       <g fill="currentColor">
         <path d="M23.2,10.549a20.954,20.954,0,0,0-4.3-3.6l4-3.995a1,1,0,1,0-1.414-1.414l-.018.018a.737.737,0,0,1-.173.291l-19.5,19.5c-.008.007-.018.009-.026.017a1,1,0,0,0,1.631,1.088l4.146-4.146a11.26,11.26,0,0,0,4.31.939h.3c4.256,0,8.489-2.984,11.051-5.8A2.171,2.171,0,0,0,23.2,10.549ZM16.313,13.27a4.581,4.581,0,0,1-3,3.028,4.3,4.3,0,0,1-3.1-.19.253.253,0,0,1-.068-.407l5.56-5.559a.252.252,0,0,1,.407.067A4.3,4.3,0,0,1,16.313,13.27Z" />
@@ -122,7 +122,7 @@ const IconPaths = {
     ),
   },
   download: {
-    viewBox: "0 0 14 14",
+    viewBox: '0 0 14 14',
     path: (
       <path
         fill="currentColor"
@@ -146,7 +146,7 @@ const IconPaths = {
       </g>
     ),
   },
-  "repeat-clock": {
+  'repeat-clock': {
     path: (
       <g fill="currentColor">
         <path d="M12.965,6a1,1,0,0,0-1,1v5.5a1,1,0,0,0,1,1h5a1,1,0,0,0,0-2h-3.75a.25.25,0,0,1-.25-.25V7A1,1,0,0,0,12.965,6Z" />
@@ -162,7 +162,7 @@ const IconPaths = {
       </g>
     ),
   },
-  "chevron-right": {
+  'chevron-right': {
     path: (
       <path
         fill="currentColor"
@@ -170,7 +170,7 @@ const IconPaths = {
       />
     ),
   },
-  "chevron-left": {
+  'chevron-left': {
     path: (
       <path
         fill="currentColor"
@@ -178,7 +178,7 @@ const IconPaths = {
       />
     ),
   },
-  "chevron-down": {
+  'chevron-down': {
     path: (
       <path
         fill="currentColor"
@@ -186,7 +186,7 @@ const IconPaths = {
       />
     ),
   },
-  "chevron-up": {
+  'chevron-up': {
     path: (
       <path
         fill="currentColor"
@@ -194,7 +194,7 @@ const IconPaths = {
       />
     ),
   },
-  "arrow-forward": {
+  'arrow-forward': {
     path: (
       <path
         fill="currentColor"
@@ -202,7 +202,7 @@ const IconPaths = {
       />
     ),
   },
-  "arrow-up": {
+  'arrow-up': {
     path: (
       <path
         fill="currentColor"
@@ -210,7 +210,7 @@ const IconPaths = {
       />
     ),
   },
-  "arrow-down": {
+  'arrow-down': {
     path: (
       <path
         fill="currentColor"
@@ -218,7 +218,7 @@ const IconPaths = {
       />
     ),
   },
-  "arrow-back": {
+  'arrow-back': {
     path: (
       <path
         fill="currentColor"
@@ -226,7 +226,7 @@ const IconPaths = {
       />
     ),
   },
-  "external-link": {
+  'external-link': {
     path: (
       <g fill="none" stroke="currentColor" strokeLinecap="full" strokeWidth="2">
         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -243,7 +243,7 @@ const IconPaths = {
       </g>
     ),
   },
-  "plus-square": {
+  'plus-square': {
     path: (
       <g fill="none" stroke="currentColor" strokeLinecap="full" strokeWidth="2">
         <rect height="18" width="18" rx="2" ry="2" x="3" y="3" />
@@ -286,7 +286,7 @@ const IconPaths = {
       />
     ),
   },
-  "up-down": {
+  'up-down': {
     viewBox: "-1 -1 9 11",
     path: (
       <path
@@ -295,7 +295,7 @@ const IconPaths = {
       />
     ),
   },
-  "at-sign": {
+  'at-sign': {
     path: (
       <path
         fill="currentColor"
@@ -303,7 +303,7 @@ const IconPaths = {
       />
     ),
   },
-  "arrow-left": {
+  'arrow-left': {
     path: (
       <g fill="currentColor">
         <path d="M10.416,12a2.643,2.643,0,0,1,.775-1.875L20.732.584a1.768,1.768,0,0,1,2.5,2.5l-8.739,8.739a.25.25,0,0,0,0,.354l8.739,8.739a1.768,1.768,0,0,1-2.5,2.5l-9.541-9.541A2.643,2.643,0,0,1,10.416,12Z" />
@@ -311,7 +311,7 @@ const IconPaths = {
       </g>
     ),
   },
-  "arrow-right": {
+  'arrow-right': {
     path: (
       <g fill="currentColor">
         <path d="M13.584,12a2.643,2.643,0,0,1-.775,1.875L3.268,23.416a1.768,1.768,0,0,1-2.5-2.5l8.739-8.739a.25.25,0,0,0,0-.354L.768,3.084a1.768,1.768,0,0,1,2.5-2.5l9.541,9.541A2.643,2.643,0,0,1,13.584,12Z" />
@@ -336,7 +336,7 @@ const IconPaths = {
     ),
   },
   phone: {
-    viewBox: "0 0 14 14",
+    viewBox: '0 0 14 14',
     path: (
       <path
         fill="currentColor"
@@ -371,8 +371,8 @@ const IconPaths = {
       </React.Fragment>
     ),
   },
-  "drag-handle": {
-    viewBox: "0 0 10 10",
+  'drag-handle': {
+    viewBox: '0 0 10 10',
     path: (
       <path
         fill="currentColor"
@@ -388,7 +388,7 @@ const IconPaths = {
       />
     ),
   },
-  "small-close": {
+  'small-close': {
     path: (
       <path
         d="M9.41 8l2.29-2.29c.19-.18.3-.43.3-.71a1.003 1.003 0 0 0-1.71-.71L8 6.59l-2.29-2.3a1.003 1.003 0 0 0-1.42 1.42L6.59 8 4.3 10.29c-.19.18-.3.43-.3.71a1.003 1.003 0 0 0 1.71.71L8 9.41l2.29 2.29c.18.19.43.3.71.3a1.003 1.003 0 0 0 .71-1.71L9.41 8z"
@@ -398,7 +398,7 @@ const IconPaths = {
     ),
     viewBox: "0 0 16 16",
   },
-  "not-allowed": {
+  'not-allowed': {
     path: (
       <path
         fill="currentColor"
@@ -406,7 +406,7 @@ const IconPaths = {
       />
     ),
   },
-  "triangle-down": {
+  'triangle-down': {
     path: (
       <path
         fill="currentColor"
@@ -414,7 +414,7 @@ const IconPaths = {
       />
     ),
   },
-  "triangle-up": {
+  'triangle-up': {
     path: (
       <path
         fill="currentColor"
@@ -430,7 +430,7 @@ const IconPaths = {
       />
     ),
   },
-  "info-outline": {
+  'info-outline': {
     path: (
       <g
         fill="currentColor"
@@ -460,7 +460,7 @@ const IconPaths = {
       />
     ),
   },
-  "question-outline": {
+  'question-outline': {
     path: (
       <g stroke="currentColor" strokeWidth="1.5">
         <path
@@ -485,7 +485,7 @@ const IconPaths = {
       />
     ),
   },
-  "warning-2": {
+  'warning-2': {
     path: (
       <path
         fill="currentColor"
@@ -493,14 +493,14 @@ const IconPaths = {
       />
     ),
   },
-  "arrow-up-down": {
+  'arrow-up-down': {
     path: (
       <path
         fill="currentColor"
         d="M11.891 9.992a1 1 0 1 1 1.416 1.415l-4.3 4.3a1 1 0 0 1-1.414 0l-4.3-4.3A1 1 0 0 1 4.71 9.992l3.59 3.591 3.591-3.591zm0-3.984L8.3 2.417 4.709 6.008a1 1 0 0 1-1.416-1.415l4.3-4.3a1 1 0 0 1 1.414 0l4.3 4.3a1 1 0 1 1-1.416 1.415z"
       />
     ),
-    viewBox: "0 0 16 16",
+    viewBox: '0 0 16 16',
   },
   check: {
     path: (
@@ -508,7 +508,7 @@ const IconPaths = {
         <polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039" />
       </g>
     ),
-    viewBox: "0 0 14 14",
+    viewBox: '0 0 14 14',
   },
   minus: {
     path: (
