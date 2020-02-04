@@ -4,7 +4,6 @@ import { forwardRef } from "react";
 import Box from '../Box';
 
 const SVGIconBase = styled(Box)`
-  fill: currentColor;
   flex-shrink: 0;
   backface-visibility: hidden;
   &:not(:root) {
@@ -17,7 +16,6 @@ const SVGIcon = forwardRef(
     {
       children,
       size = '1em',
-      name,
       color = 'currentColor',
       role = 'presentation',
       focusable = false,
@@ -28,6 +26,7 @@ const SVGIcon = forwardRef(
   ) => {
     return (
       <SVGIconBase
+        aria-hidden={true}
         ref={ref}
         as="svg"
         size={size}
