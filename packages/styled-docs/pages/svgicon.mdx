@@ -1,0 +1,65 @@
+import HomeIcon from '../components/HomeIcon';
+
+# SVGIcon
+
+If you need a custom SVG icon, you can use the `<SVGIcon>` component to extend the native `<svg>` element:
+
+* It comes with built-in accessibility.
+* SVG elements should be scaled for a 24x24px viewport.
+* By default, the component inherits the current color.
+
+## Import
+
+```js
+import SVGIcon from '@trendmicro/react-styled-core/SVGIcon';
+// or
+import { SVGIcon } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx readonly
+const HomeIcon = props => (
+  <SVGIcon
+    fontSize="1.5rem"
+    mx="1rem"
+    {...props}
+  >
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+  </SVGIcon>
+);
+```
+
+### Color
+
+<HomeIcon color="gray.50" />
+<HomeIcon color="red.50" />
+<HomeIcon color="green.50" />
+<HomeIcon color="blue.50" />
+
+```jsx readonly
+<HomeIcon color="gray.50" />
+<HomeIcon color="red.50" />
+<HomeIcon color="green.50" />
+<HomeIcon color="blue.50" />
+```
+
+### Size
+
+<HomeIcon fontSize="xs" />
+<HomeIcon fontSize="sm" />
+<HomeIcon fontSize="lg" />
+<HomeIcon fontSize="xl" />
+<HomeIcon fontSize="2xl" />
+<HomeIcon fontSize="3xl" />
+<HomeIcon fontSize="4xl" />
+
+```jsx readonly
+<HomeIcon fontSize="xs" />
+<HomeIcon fontSize="sm" />
+<HomeIcon fontSize="lg" />
+<HomeIcon fontSize="xl" />
+<HomeIcon fontSize="2xl" />
+<HomeIcon fontSize="3xl" />
+<HomeIcon fontSize="4xl" />
+```

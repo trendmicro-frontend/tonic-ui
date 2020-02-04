@@ -9,6 +9,7 @@ import Icon from './Icon';
 import Image from './Image';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
+import SVGIcon from './SVGIcon';
 import Text from './Text';
 import ThemeProvider from './ThemeProvider';
 import theme from './theme';
@@ -27,6 +28,7 @@ export {
   Image,
   Link,
   PseudoBox,
+  SVGIcon,
   Text,
   ThemeProvider,
   theme,
