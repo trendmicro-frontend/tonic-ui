@@ -1,3 +1,5 @@
+import icons from './IconPaths';
+
 const breakpoints = [
   '320px',
   '640px',
@@ -318,6 +320,7 @@ const theme = {
   radii,
   shadows,
   zIndices,
+  icons,
 };
 
 export default theme;

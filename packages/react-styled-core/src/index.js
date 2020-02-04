@@ -5,6 +5,7 @@ import ColorModeProvider from './ColorModeProvider';
 import CSSBaseline from './CSSBaseline';
 import Flex from './Flex';
 import Heading from './Heading';
+import Icon from './Icon';
 import Image from './Image';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
@@ -24,6 +25,7 @@ export {
   CSSBaseline,
   Flex,
   Heading,
+  Icon,
   Image,
   Link,
   PseudoBox,
@@ -35,3 +37,5 @@ export {
   useTheme,
   withTheme,
 };
+
+export * from './Accordion';
