@@ -136,7 +136,6 @@ AccordionItem.displayName = 'AccordionItem';
 
 const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
   const {
-    isExpanded,
     panelId,
     headerId,
     isDisabled,
@@ -150,14 +149,12 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
       width="100%"
       transition="all 0.2s"
       _focus={{ boxShadow: 'outline' }}
-      _hover={{ bg: 'blackAlpha.50' }}
+      _hover={{ bg: 'gray.10' }}
       _disabled={{ opacity: '0.4', cursor: 'not-allowed' }}
       as="button"
       type="button"
       outline="0"
       disabled={isDisabled}
-      aria-disabled={isDisabled}
-      aria-expanded={isExpanded}
       onClick={event => {
         onToggle();
         if (onClick) {
@@ -166,8 +163,8 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
       }}
       id={headerId}
       aria-controls={panelId}
-      px={4}
-      py={2}
+      px="1rem"
+      py="0.5rem"
       {...props}
     />
   );
