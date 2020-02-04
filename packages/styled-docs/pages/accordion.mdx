@@ -135,15 +135,22 @@ style this state.
 
 ```jsx
 <AccordionItem>
-  <AccordionHeader _expanded={{ bg: "tomato", color: "white" }}>
-    <Box flex="1" textAlign="left">
-      Click me to see a different style
-    </Box>
-    <AccordionIcon />
-  </AccordionHeader>
-  <AccordionPanel>
-    Trend Micro Frontend
-  </AccordionPanel>
+  {({ isExpanded }) => (
+    <>
+      <AccordionHeader
+        bg={isExpanded ? 'tomato': 'inherit'}
+        color={isExpanded ? 'white' : 'inherit' }
+      >
+        <Box flex="1" textAlign="left">
+          Click me to see a different style
+        </Box>
+        <AccordionIcon />
+      </AccordionHeader>
+      <AccordionPanel>
+        Trend Micro Frontend
+      </AccordionPanel>
+    </>
+  )}
 </AccordionItem>
 ```
 
@@ -218,7 +225,7 @@ toggle (expand or collapse) the accordion.
 ### AccordionHeader Props
 
 AccordionHeader renders a `button` and composes `PseudoBox`, this means you can
-style it by passing the pseudo style props `_expanded`, `_disabled`, `_hover`,
+style it by passing the pseudo style props `_disabled`, `_hover`,
 etc.
 
 <br />

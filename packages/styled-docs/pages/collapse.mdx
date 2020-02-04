@@ -28,9 +28,9 @@ function Example() {
 
   return (
     <div style={{ whiteSpace: 'pre-wrap' }}>
-      <button onClick={handleToggle}>
+      <Button variantColor="emphasis" onClick={handleToggle}>
         Toggle
-      </button>
+      </Button>
       <Collapse mt={4} isOpen={show}>
         Hello, we are Trend Micro Frontend, PR please when had some advice ^_^
       </Collapse>
@@ -54,9 +54,9 @@ function Example() {
         嗨, 我們是趨勢科技的前端團隊, 歡迎發PR給予我們幫助跟建議。
         謝謝大家賞臉
       </Collapse>
-      <button onClick={handleToggle}>
+      <Button size="sm" onClick={handleToggle} mt="1rem">
         Show {show ? "Less" : "More"}
-      </button>
+      </Button>
     </div>
   );
 }
