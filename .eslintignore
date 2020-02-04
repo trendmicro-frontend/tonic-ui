@@ -1,4 +1,4 @@
 packages/*/build
 packages/*/dist
-packages/styled-docs/docs
+packages/*/docs
 node_modules

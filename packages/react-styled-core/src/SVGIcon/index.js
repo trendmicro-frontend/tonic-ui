@@ -1,9 +1,8 @@
-import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
 
 const SVGIconBase = styled(Box)`
-  fill: currentColor;
   flex-shrink: 0;
   backface-visibility: hidden;
   &:not(:root) {
@@ -26,6 +25,7 @@ const SVGIcon = forwardRef(
   ) => {
     return (
       <SVGIconBase
+        aria-hidden={true}
         ref={ref}
         as="svg"
         size={size}
