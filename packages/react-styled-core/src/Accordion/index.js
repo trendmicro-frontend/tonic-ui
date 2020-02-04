@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/core";
 import uuid from 'uuid/v4';
 import {
   createContext,
@@ -10,11 +8,11 @@ import {
   Children,
   cloneElement,
   isValidElement,
-} from "react";
-import Box from "../Box";
-import Collapse from "../Collapse";
-import PseudoBox from "../PseudoBox";
-import Icon from "../SVGIcon";
+} from 'react';
+import Box from '../Box';
+import Collapse from '../Collapse';
+import PseudoBox from '../PseudoBox';
+import Icon from '../SVGIcon';
 
 const Accordion = ({
   allowMultiple,
