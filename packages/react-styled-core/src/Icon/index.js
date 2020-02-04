@@ -1,8 +1,7 @@
-/** @jsx jsx */
-import { jsx, ThemeContext } from "@emotion/core";
-import styled from "@emotion/styled";
-import { useContext, forwardRef } from "react";
-import Box from "../Box";
+import { ThemeContext } from '@emotion/core';
+import styled from '@emotion/styled';
+import { useContext, forwardRef } from 'react';
+import Box from '../Box';
 
 const Svg = styled(Box)`
   flex-shrink: 0;
@@ -15,10 +14,10 @@ const Svg = styled(Box)`
 const Icon = forwardRef(
   (
     {
-      size = "1em",
+      size = '1em',
       name,
-      color = "currentColor",
-      role = "presentation",
+      color = 'currentColor',
+      role = 'presentation',
       focusable = false,
       ...rest
     },
@@ -27,7 +26,7 @@ const Icon = forwardRef(
     const { icons: iconPaths } = useContext(ThemeContext);
 
     // Fallback in case you pass the wrong name
-    const iconFallback = iconPaths["question-outline"];
+    const iconFallback = iconPaths['question-outline'];
 
     const path =
       iconPaths[name] == null ? iconFallback.path : iconPaths[name].path;
@@ -35,7 +34,7 @@ const Icon = forwardRef(
     const viewBox =
       (iconPaths[name] == null
         ? iconFallback.viewBox
-        : iconPaths[name].viewBox) || "0 0 24 24";
+        : iconPaths[name].viewBox) || '0 0 24 24';
 
     return (
       <Svg
@@ -56,6 +55,6 @@ const Icon = forwardRef(
   },
 );
 
-Icon.displayName = "Icon";
+Icon.displayName = 'Icon';
 
 export default Icon;

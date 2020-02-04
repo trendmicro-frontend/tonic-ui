@@ -123,7 +123,7 @@ const AccordionItem = forwardRef(
           ref={ref}
           {...rest}
         >
-          {typeof children === "function"
+          {typeof children === 'function'
             ? children({ isExpanded: _isExpanded, isDisabled })
             : children}
         </PseudoBox>
@@ -132,7 +132,7 @@ const AccordionItem = forwardRef(
   },
 );
 
-AccordionItem.displayName = "AccordionItem";
+AccordionItem.displayName = 'AccordionItem';
 
 /////////////////////////////////////////////////////////////
 
@@ -151,9 +151,9 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
       alignItems="center"
       width="100%"
       transition="all 0.2s"
-      _focus={{ boxShadow: "outline" }}
-      _hover={{ bg: "blackAlpha.50" }}
-      _disabled={{ opacity: "0.4", cursor: "not-allowed" }}
+      _focus={{ boxShadow: 'outline' }}
+      _hover={{ bg: 'blackAlpha.50' }}
+      _disabled={{ opacity: '0.4', cursor: 'not-allowed' }}
       as="button"
       type="button"
       outline="0"
@@ -198,7 +198,7 @@ const AccordionPanel = forwardRef((props, ref) => {
   );
 });
 
-AccordionPanel.displayName = "AccordionPanel";
+AccordionPanel.displayName = 'AccordionPanel';
 
 /////////////////////////////////////////////////////////////
 
@@ -210,7 +210,7 @@ const AccordionIcon = props => {
       focusable="false"
       size="1.25em"
       opacity={isDisabled ? 0.4 : 1}
-      transform={isExpanded ? "rotate(-180deg)" : null}
+      transform={isExpanded ? 'rotate(-180deg)' : null}
       transition="transform 0.2s"
       transformOrigin="center"
       {...props}
