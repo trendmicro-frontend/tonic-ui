@@ -12,6 +12,7 @@ install:
   - yarn install
 script:
   - yarn build
+  - yarn eslint
 after_success: true
 deploy:
   provider: pages:git
