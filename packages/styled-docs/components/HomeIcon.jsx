@@ -1,3 +1,4 @@
+import React from 'react';
 import { SVGIcon } from '@trendmicro/react-styled-core';
 
 const HomeIcon = (props) => (
