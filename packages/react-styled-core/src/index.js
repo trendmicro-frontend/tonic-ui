@@ -1,4 +1,5 @@
 import Box from './Box';
+import Button from './Button';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import CSSBaseline from './CSSBaseline';
@@ -17,6 +18,7 @@ import withTheme from './withTheme';
 
 export {
   Box,
+  Button,
   Collapse,
   ColorModeProvider,
   CSSBaseline,
