@@ -188,9 +188,9 @@ const AccordionPanel = forwardRef((props, ref) => {
       aria-labelledby={headerId}
       aria-hidden={!isExpanded}
       isOpen={isExpanded}
-      pt={2}
-      px={4}
-      pb={5}
+      pt="0.5rem"
+      px="1rem"
+      pb="1.24rem"
       {...props}
     />
   );
