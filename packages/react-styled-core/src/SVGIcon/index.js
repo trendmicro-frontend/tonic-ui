@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
-import { forwardRef } from "react";
 import Box from '../Box';
 
 const SVGIconBase = styled(Box)`

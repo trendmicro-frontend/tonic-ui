@@ -44,7 +44,9 @@ const Accordion = ({
   const _index = isControlled ? index : expandedIndex;
 
   const clones = Children.map(children, (child, childIndex) => {
-    if (!isValidElement(child)) return;
+    if (!isValidElement(child)) {
+      return null;
+    }
 
     return cloneElement(child, {
       isOpen: getExpandCondition(_index, childIndex),
@@ -61,16 +63,12 @@ const Accordion = ({
             !isControlled && setExpandedIndex(newIndexes);
             onChange && onChange(newIndexes);
           }
-        } else {
-          if (isExpanded) {
-            !isControlled && setExpandedIndex(childIndex);
-            onChange && onChange(childIndex);
-          } else {
-            if (allowToggle) {
-              !isControlled && setExpandedIndex(null);
-              onChange && onChange(null);
-            }
-          }
+        } else if (isExpanded) {
+          !isControlled && setExpandedIndex(childIndex);
+          onChange && onChange(childIndex);
+        } else if (allowToggle) {
+          !isControlled && setExpandedIndex(null);
+          onChange && onChange(null);
         }
       },
     });
@@ -118,7 +116,7 @@ const AccordionItem = forwardRef(
       >
         <PseudoBox
           borderTopWidth="1px"
-          _last={{ borderBottomWidth: "1px" }}
+          _last={{ borderBottomWidth: '1px' }}
           data-accordion-item=""
           ref={ref}
           {...rest}
@@ -175,7 +173,7 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
   );
 });
 
-AccordionHeader.displayName = "AccordionHeader";
+AccordionHeader.displayName = 'AccordionHeader';
 
 /////////////////////////////////////////////////////////////
 

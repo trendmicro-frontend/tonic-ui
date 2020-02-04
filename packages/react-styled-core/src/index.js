@@ -1,4 +1,3 @@
-export * from './Accordion';
 import Box from './Box';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
@@ -36,3 +35,5 @@ export {
   useTheme,
   withTheme,
 };
+
+export * from './Accordion';
