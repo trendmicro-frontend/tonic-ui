@@ -17,7 +17,6 @@ const SVGIcon = forwardRef(
     {
       children,
       size = '1em',
-      name,
       color = 'currentColor',
       role = 'presentation',
       focusable = false,

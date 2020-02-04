@@ -14,7 +14,7 @@ import {
 import Box from "../Box";
 import Collapse from "../Collapse";
 import PseudoBox from "../PseudoBox";
-import Icon from "../Icon";
+import Icon from "../SVGIcon";
 
 const Accordion = ({
   allowMultiple,
@@ -211,13 +211,17 @@ const AccordionIcon = props => {
       aria-hidden
       focusable="false"
       size="1.25em"
-      name="chevron-down"
       opacity={isDisabled ? 0.4 : 1}
       transform={isExpanded ? "rotate(-180deg)" : null}
       transition="transform 0.2s"
       transformOrigin="center"
       {...props}
-    />
+    >
+      <path
+        fill="currentColor"
+        d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+      />
+    </Icon>
   );
 };
 
