@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const IconPaths = {
   copy: {
@@ -6,7 +6,7 @@ const IconPaths = {
       <path
         fill="currentColor"
         d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-      ></path>
+      />
     ),
   },
   search: {
@@ -156,7 +156,12 @@ const IconPaths = {
   },
   edit: {
     path: (
-      <g fill="none" stroke="currentColor" strokeLinecap="full" strokeWidth="2">
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="full"
+        strokeWidth="2"
+      >
         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
       </g>
@@ -228,7 +233,12 @@ const IconPaths = {
   },
   'external-link': {
     path: (
-      <g fill="none" stroke="currentColor" strokeLinecap="full" strokeWidth="2">
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="full"
+        strokeWidth="2"
+      >
         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
         <path d="M15 3h6v6" />
         <path d="M10 14L21 3" />
@@ -245,15 +255,27 @@ const IconPaths = {
   },
   'plus-square': {
     path: (
-      <g fill="none" stroke="currentColor" strokeLinecap="full" strokeWidth="2">
-        <rect height="18" width="18" rx="2" ry="2" x="3" y="3" />
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="full"
+        strokeWidth="2"
+      >
+        <rect
+          height="18"
+          width="18"
+          rx="2"
+          ry="2"
+          x="3"
+          y="3"
+        />
         <path d="M12 8v8" />
         <path d="M8 12h8" />
       </g>
     ),
   },
   chat: {
-    viewBox: "0 0 14 14",
+    viewBox: '0 0 14 14',
     path: (
       <path
         fill="currentColor"
@@ -262,7 +284,7 @@ const IconPaths = {
     ),
   },
   calendar: {
-    viewBox: "0 0 14 14",
+    viewBox: '0 0 14 14',
     path: (
       <path
         fill="currentColor"
@@ -287,7 +309,7 @@ const IconPaths = {
     ),
   },
   'up-down': {
-    viewBox: "-1 -1 9 11",
+    viewBox: '-1 -1 9 11',
     path: (
       <path
         fill="currentColor"
@@ -360,13 +382,25 @@ const IconPaths = {
           </linearGradient>
         </defs>
         <g transform="translate(2)" fill="none">
-          <circle stroke="url(#a)" strokeWidth="4" cx="10" cy="12" r="10" />
+          <circle
+            stroke="url(#a)"
+            strokeWidth="4"
+            cx="10"
+            cy="12"
+            r="10"
+          />
           <path
             d="M10 2C4.477 2 0 6.477 0 12"
             stroke="currentColor"
             strokeWidth="4"
           />
-          <rect fill="currentColor" x="8" width="4" height="4" rx="8" />
+          <rect
+            fill="currentColor"
+            x="8"
+            width="4"
+            height="4"
+            rx="8"
+          />
         </g>
       </React.Fragment>
     ),
@@ -396,7 +430,7 @@ const IconPaths = {
         fill="currentColor"
       />
     ),
-    viewBox: "0 0 16 16",
+    viewBox: '0 0 16 16',
   },
   'not-allowed': {
     path: (
@@ -438,9 +472,26 @@ const IconPaths = {
         strokeLinecap="square"
         strokeWidth="2"
       >
-        <circle cx="12" cy="12" fill="none" r="11" stroke="currentColor" />
-        <line fill="none" x1="11.959" x2="11.959" y1="11" y2="17" />
-        <circle cx="11.959" cy="7" r="1" stroke="none" />
+        <circle
+          cx="12"
+          cy="12"
+          fill="none"
+          r="11"
+          stroke="currentColor"
+        />
+        <line
+          fill="none"
+          x1="11.959"
+          x2="11.959"
+          y1="11"
+          y2="17"
+        />
+        <circle
+          cx="11.959"
+          cy="7"
+          r="1"
+          stroke="none"
+        />
       </g>
     ),
   },
@@ -473,7 +524,13 @@ const IconPaths = {
           strokeLinecap="full"
           d="M12,17.25a.375.375,0,1,0,.375.375A.375.375,0,0,0,12,17.25h0"
         />
-        <circle fill="none" strokeMiterlimit="10" cx="12" cy="12" r="11.25" />
+        <circle
+          fill="none"
+          strokeMiterlimit="10"
+          cx="12"
+          cy="12"
+          r="11.25"
+        />
       </g>
     ),
   },
@@ -513,7 +570,12 @@ const IconPaths = {
   minus: {
     path: (
       <g fill="currentColor">
-        <rect height="4" width="20" x="2" y="10" />
+        <rect
+          height="4"
+          width="20"
+          x="2"
+          y="10"
+        />
       </g>
     ),
   },
