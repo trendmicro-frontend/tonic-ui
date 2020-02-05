@@ -3,8 +3,8 @@ import Box from '../Box';
 import { forwardRef } from 'react';
 
 const Badge = forwardRef(
-  ({ variantColor = 'gray', variant = 'gray', ...props }, ref) => {
-    const badgeStyleProps = useBadgeStyle({ color: variantColor, variant });
+  ({ variant = 'gray', ...props }, ref) => {
+    const badgeStyleProps = useBadgeStyle({ variant });
 
     return (
       <Box
