@@ -98,18 +98,18 @@ const blueStyle = ({ colorMode }) => {
 };
 
 const variantProps = props => {
-  const { variant, colorMode } = props;
+  const { variant } = props;
   switch (variant) {
-    case 'gray':
-      return grayStyle(props);
-    case 'red':
-      return redStyle(props);
-    case 'green':
-      return greenStyle(props);
-    case 'blue':
-      return blueStyle(props);
-    default:
-      return {};
+  case 'gray':
+    return grayStyle(props);
+  case 'red':
+    return redStyle(props);
+  case 'green':
+    return greenStyle(props);
+  case 'blue':
+    return blueStyle(props);
+  default:
+    return {};
   }
 };
 

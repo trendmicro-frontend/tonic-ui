@@ -1,6 +1,6 @@
+import React, { forwardRef } from 'react';
 import useBadgeStyle from './styles';
 import Box from '../Box';
-import { forwardRef } from 'react';
 
 const Badge = forwardRef(
   ({ variant = 'gray', ...props }, ref) => {
