@@ -1,0 +1,68 @@
+# Badge
+
+Badges are used to highlight an item's status for quick recognition.
+
+## Import
+
+```js
+import { Badge } from "@chakra-ui/core";
+```
+
+## Usage
+
+```jsx
+<Badge>1</Badge>
+```
+
+### Badge Color
+
+Pass the `variantColor` prop to customize the color of the Badge. `variantColor`
+can be any **color key** that exists in the `theme.colors`.
+[Learn more about theming](./theming).
+
+```jsx
+<div>
+  <Badge>1</Badge>
+  <Badge variant="green">2</Badge>
+  <Badge variant="red">3</Badge>
+  <Badge variant="blue">4</Badge>
+</div>
+```
+
+### Badge Variants
+
+Pass the variant prop and set to either `subtle`, `solid`, or `outline` to get a
+different style.
+
+```jsx
+<div>
+  <Badge variant="gray">
+    1
+  </Badge>
+  <Badge variant="red">
+    2
+  </Badge>
+  <Badge variant="green">
+    3
+  </Badge>
+</div>
+```
+
+You can also change the size of the badge by passing `fontSize` prop.
+
+```jsx
+<Text fontSize="xl" fontWeight="bold">
+  Trend Micro Frontend
+  <Badge ml="1" fontSize="0.8em" variant="green">
+    New
+  </Badge>
+</Text>
+```
+
+## Props
+
+The Badge component composes `Box` component so you can pass props for `Box`.
+
+| Name           | Type                         | Default  | Description                                                            |
+| -------------- | ---------------------------- | -------- | ---------------------------------------------------------------------- |
+| `variant`      | `gray`, `red`, `green`, `blue` | `gray` | The style variant of the badge                                         |
