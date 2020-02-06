@@ -30,72 +30,6 @@ import { Box } from '@trendmicro/react-styled-core';
 </Box>
 ```
 
-### Composite layout
-
-```jsx
-function Example() {
-  const Light = ({ on, ...rest }) => (
-    <Box
-      display="inline-block"
-      borderRadius="50%"
-      bg={on ? '#00ff00' : '#666'}
-      boxShadow={on ? '0 0 1px 2px rgba(0, 255, 0, .8)' : 'none'}
-      height={16}
-      width={16}
-      verticalAlign="middle"
-      {...rest}
-    />
-  );
-
-  const playerNumber = 240;
-  const playerName = '404 Not Found';
-  const raceLaps = 2;
-  const raceTime = '01:20.592';
-
-  return (
-    <Box display="flex">
-      <Box width={4} bg="green.30" />
-      <Box p={6} bg="gray.80" color="whiteAlpha.primary" flexBasis={0} flexGrow={1} maxWidth="100" px={24}>
-        <Box display="flex" alignItems="flex-end">
-          <Box flexBasis={0} flexGrow={1} maxWidth="100%">
-            <Text
-              color="#6fffff"
-              fontWeight="bold"
-              fontSize={48}
-            >
-              {playerNumber}
-            </Text>
-          </Box>
-          <Box flexBasis="auto" flexGrow={0} width="auto">
-            <Text fontSize={40}>
-              {raceLaps} / {raceTime}
-            </Text>
-          </Box>
-        </Box>
-        <Box display="flex" alignItems="center" pt=".5rem">
-          <Box width={0} flexBasis={0} flexGrow={1} maxWidth="100%">
-            <Text fontSize="2xl" lineHeight="2xl">
-              {playerName}
-            </Text>
-          </Box>
-          <Box fontSize={24}>
-            <Box width={20} />
-            <Box>
-              <Light m={8} />
-              <Text mr={8}>REC</Text>
-              <Light on m={8}/>
-              <Text mr={8}>A</Text>
-              <Light on m={8} />
-              <Text mr={8}>B</Text>
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
-  );
-}
-```
-
 ### `as` prop
 
 You can use the `as` prop to change what is rendered dynamically at runtime.
@@ -113,4 +47,139 @@ You can use the `as` prop to change what is rendered dynamically at runtime.
 >
   Button
 </Box>
+```
+
+### Responsive layout
+
+```jsx
+function Example() {
+  const Ellipsis = (props) => (
+    <Box whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" {...props} />
+  );
+
+  const Light = ({ on, ...rest }) => (
+    <Box
+      display="inline-block"
+      borderRadius="50%"
+      bg={on ? '#00ff00' : '#666'}
+      boxShadow={on ? '0 0 1px 2px rgba(0, 255, 0, .8)' : 'none'}
+      height={16}
+      width={16}
+      verticalAlign="middle"
+      {...rest}
+    />
+  );
+
+  const laneColor = {
+    1: '#389efc',
+    2: '#ff7332',
+    3: '#00b449',
+    4: '#fdf133',
+    5: '#fc74cf',
+  };
+
+  const players = [
+    { id: '240', lane: 1, name: 'Taiwan Leave System', laps: 2, raceTime: '01:20.592', gates: [1, 1, 1] },
+    { id: '339', lane: 2, name: '404 Not Found', laps: 2, raceTime: '01:24.036', gates: [1, 1, 1] },
+    { id: '003', lane: 3, name: 'ShowMeThe$$', laps: 2, raceTime: '01:37.890', gates: [1, 1, 0] },
+    { id: '207', lane: 4, name: 'Dragon Rider', laps: 1, raceTime: '00:49.211', gates: [1, 1, 0] },
+    { id: '456', lane: 5, name: 'BumbleBee', laps: 0, raceTime: '00:00.000', gates: [1, 1, 1] },
+  ];
+
+  return (
+    <Box position="relative" mx="auto">
+      {players.map((player, index) => (
+        <Box
+          key={player.id}
+          display="flex"
+          minWidth={360}
+        >
+          <Box
+            flexBasis="auto"
+            flexGrow={0}
+            minWidth=".5rem"
+            width=".5rem"
+            bg={laneColor[player.lane]}
+          />
+          <Box
+            bg={index % 2 ? 'gray.100' : 'gray.80'}
+            color="whiteAlpha.primary"
+            flexBasis={0}
+            flexGrow={1}
+            maxWidth="calc(100% - .5rem)"
+            py={8}
+            px={24}
+          >
+            <Box
+              display="flex"
+              alignItems="flex-end"
+            >
+              <Box
+                flexBasis={0}
+                flexGrow={1}
+                maxWidth="100%"
+              >
+                <Text
+                  color="#6fffff"
+                  fontWeight="bold"
+                  fontSize={['4xl', null, null, 48]}
+                  lineHeights={['4xl', null, null, '1.5']}
+                >
+                  {player.id}
+                </Text>
+              </Box>
+              <Box
+                flexBasis="auto"
+                flexGrow={0}
+                width="auto"
+              >
+                <Text
+                  fontSize={['3xl', null, null, '4xl']}
+                  lineHeight={['3xl', null, null, '4xl']}
+                >
+                  {player.laps} / {player.raceTime}
+                </Text>
+              </Box>
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              pt=".5rem"
+            >
+              <Box
+                flexBasis={0}
+                flexGrow={1}
+                maxWidth="100%"
+                width={0}
+              >
+                <Ellipsis>
+                  <Text
+                    fontSize={['2xl', null, null, '3xl']}
+                    lineHeight={['2xl', null, null, '3xl']}
+                  >
+                    {player.name}
+                  </Text>
+                </Ellipsis>
+              </Box>
+              <Box
+                flexBasis="auto"
+                flexGrow={0}
+                width="auto"
+                fontSize={[null, null, 'xl', '2xl']}
+                lineHeight={[null, null, 'xl', '2xl']}
+              >
+                <Light on={player.gates[0]} m={8} />
+                <Text pr={8}>REC</Text>
+                <Light on={player.gates[1]} m={8}/>
+                <Text pr={8}>A</Text>
+                <Light on={player.gates[2]} m={8} />
+                <Text pr={8}>B</Text>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      ))}
+    </Box>
+  );
+}
 ```
