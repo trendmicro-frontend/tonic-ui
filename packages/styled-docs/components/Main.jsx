@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/core';
 import { Box, useColorMode } from '@trendmicro/react-styled-core';
 import React from 'react';
 
