@@ -1,11 +1,24 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 
-const Flex = forwardRef((props, ref) => (
+const Flex = forwardRef((
+  {
+    direction,
+    wrap,
+    align,
+    justify,
+    ...rest
+  },
+  ref
+) => (
   <Box
     ref={ref}
     display="flex"
-    {...props}
+    flexDirection={direction}
+    flexWrap={wrap}
+    alignItems={align}
+    justifyContent={justify}
+    {...rest}
   />
 ));
 
