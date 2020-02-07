@@ -7,7 +7,6 @@ import {
   Link,
   useColorMode,
 } from '@trendmicro/react-styled-core';
-import React from 'react';
 import Code from './Code';
 import CodeBlock from './CodeBlock';
 
