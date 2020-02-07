@@ -41,35 +41,35 @@ To see the effect of these values, try resizing the flex containers below:
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box p=".75rem" mr="1em" mb="1rem" {...props} />
+    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   return (
     <>
       <Flex bg="gray.20" p="1rem" pb={0} pr={0} mb="1rem">
-        <FlexItem bg="blue.50" flex="auto">auto</FlexItem>
-        <FlexItem bg="blue.50" flex="auto">auto</FlexItem>
-        <FlexItem bg="blue.50" flex="auto">auto</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
       </Flex>
       <Flex bg="gray.20" p="1rem" pb={0} pr={0} mb="1rem">
-        <FlexItem bg="blue.50" flex="auto">auto</FlexItem>
-        <FlexItem bg="blue.50" flex="initial">initial</FlexItem>
-        <FlexItem bg="blue.50" flex="initial">initial</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="initial">initial</FlexItem>
+        <FlexItem flex="initial">initial</FlexItem>
       </Flex>
       <Flex bg="gray.20" p="1rem" pb={0} pr={0} mb="1rem">
-        <FlexItem bg="blue.50" flex="auto">auto</FlexItem>
-        <FlexItem bg="blue.50" flex="auto">auto</FlexItem>
-        <FlexItem bg="blue.50" flex="none">none</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="none">none</FlexItem>
       </Flex>
       <Flex bg="gray.20" p="1rem" pb={0} pr={0} mb="1rem">
-        <FlexItem bg="blue.50" flex="initial">initial</FlexItem>
-        <FlexItem bg="blue.50" flex="none">none</FlexItem>
-        <FlexItem bg="blue.50" flex="none">none</FlexItem>
+        <FlexItem flex="initial">initial</FlexItem>
+        <FlexItem flex="none">none</FlexItem>
+        <FlexItem flex="none">none</FlexItem>
       </Flex>
       <Flex bg="gray.20" p="1rem" pb={0} pr={0}>
-        <FlexItem bg="blue.50" flex={4}>4</FlexItem>
-        <FlexItem bg="blue.50" flex={2}>2</FlexItem>
-        <FlexItem bg="blue.50" flex={1}>1</FlexItem>
+        <FlexItem flex={4}>4</FlexItem>
+        <FlexItem flex={2}>2</FlexItem>
+        <FlexItem flex={1}>1</FlexItem>
       </Flex>
     </>
   );
@@ -81,7 +81,7 @@ function Example() {
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box p=".75rem" mr="1em" mb="1rem" {...props} />
+    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   const [value, setValue] = React.useState('row');
@@ -98,9 +98,9 @@ function Example() {
         {`<Flex direction="${value}">`}
       </pre>
       <Flex direction={value} bg="gray.20" p="1rem" pb={0} pr={0}>
-        <FlexItem bg="blue.50" flex="auto">One</FlexItem>
-        <FlexItem bg="blue.50" flex="auto">Two</FlexItem>
-        <FlexItem bg="blue.50" flex="auto">Three</FlexItem>
+        <FlexItem flex="auto">One</FlexItem>
+        <FlexItem flex="auto">Two</FlexItem>
+        <FlexItem flex="auto">Three</FlexItem>
       </Flex>
     </>
   );
@@ -112,7 +112,7 @@ function Example() {
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box p=".75rem" mr="1rem" mb="1rem" {...props} />
+    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   const [value, setValue] = React.useState('nowrap');
@@ -128,12 +128,12 @@ function Example() {
         {`<Flex wrap="${value}">`}
       </pre>
       <Flex wrap={value} width={480} bg="gray.20" p="1rem" pb={0} pr={0}>
-        <FlexItem bg="blue.50" flex="auto" minWidth={120}>One</FlexItem>
-        <FlexItem bg="blue.50" flex="auto" minWidth={120}>Two</FlexItem>
-        <FlexItem bg="blue.50" flex="auto" minWidth={120}>Three</FlexItem>
-        <FlexItem bg="blue.50" flex="auto" minWidth={120}>Four</FlexItem>
-        <FlexItem bg="blue.50" flex="auto" minWidth={120}>Five</FlexItem>
-        <FlexItem bg="blue.50" flex="auto" minWidth={120}>Six</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>One</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Two</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Three</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Four</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Five</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Six</FlexItem>
       </Flex>
     </>
   );
@@ -145,7 +145,7 @@ function Example() {
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box p=".75rem" mr="1rem" mb="1rem" {...props} />
+    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   const [value, setValue] = React.useState('stretch');
@@ -162,9 +162,9 @@ function Example() {
         {`<Flex align="${value}">`}
       </pre>
       <Flex align={value} height={240} bg="gray.20" p="1rem" pb={0} pr={0}>
-        <FlexItem bg="blue.50" flex="auto">One</FlexItem>
-        <FlexItem bg="blue.50" flex="auto">Two</FlexItem>
-        <FlexItem bg="blue.50" flex="auto">Three</FlexItem>
+        <FlexItem flex="auto">One</FlexItem>
+        <FlexItem flex="auto">Two</FlexItem>
+        <FlexItem flex="auto">Three</FlexItem>
       </Flex>
     </>
   );
@@ -176,7 +176,7 @@ function Example() {
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box p=".75rem" mr="1rem" mb="1rem" {...props} />
+    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   const [value, setValue] = React.useState('start');
@@ -195,9 +195,9 @@ function Example() {
         {`<Flex justify="${value}">`}
       </pre>
       <Flex justify={value} bg="gray.20" p="1rem" pb={0} pr={0}>
-        <FlexItem bg="blue.50">One</FlexItem>
-        <FlexItem bg="blue.50">Two</FlexItem>
-        <FlexItem bg="blue.50">Three</FlexItem>
+        <FlexItem>One</FlexItem>
+        <FlexItem>Two</FlexItem>
+        <FlexItem>Three</FlexItem>
       </Flex>
     </>
   );
