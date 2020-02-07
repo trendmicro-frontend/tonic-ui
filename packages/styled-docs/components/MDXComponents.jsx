@@ -1,12 +1,12 @@
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import {
   Box,
   Heading,
   Image,
-  Text,
   Link,
   useColorMode,
 } from '@trendmicro/react-styled-core';
-import React from 'react';
 import Code from './Code';
 import CodeBlock from './CodeBlock';
 
@@ -16,11 +16,13 @@ const mapColorModeToHeadingColor = (colorMode) => ({
 }[colorMode]);
 
 const p = props => (
-  <Text
+  <Box
     as="p"
+    mt={0}
+    mb="1rem"
+    display="block"
     fontSize="sm"
-    fontWeight="sm"
-    my="xl"
+    lineHeight="sm"
     {...props}
   />
 );
@@ -32,11 +34,14 @@ const H1 = props => {
   return (
     <Heading
       as="h1"
+      mt={24}
+      mb={16}
+      pb=".375rem"
+      borderBottom="1px solid #eaecef"
       color={color}
       fontSize="4xl"
       fontWeight="semibold"
       lineHeight="4xl"
-      my="2x"
       {...props}
     />
   );
@@ -49,11 +54,14 @@ const H2 = props => {
   return (
     <Heading
       as="h2"
+      mt={24}
+      mb={16}
+      pb=".375rem"
+      borderBottom="1px solid #eaecef"
       color={color}
       fontSize="2xl"
       fontWeight="semibold"
       lineHeight="2xl"
-      my="2x"
       {...props}
     />
   );
@@ -66,11 +74,12 @@ const H3 = props => {
   return (
     <Heading
       as="h3"
+      mt={24}
+      mb={16}
       color={color}
       fontSize="xl"
       fontWeight="semibold"
       lineHeight="xl"
-      my="2x"
       {...props}
     />
   );
@@ -100,11 +109,12 @@ const H5 = props => {
   return (
     <Heading
       as="h5"
+      mt={24}
+      mb={16}
       color={color}
       fontSize="md"
       fontWeight="semibold"
       lineHeight="md"
-      my="2x"
       {...props}
     />
   );
@@ -117,11 +127,12 @@ const H6 = props => {
   return (
     <Heading
       as="h6"
+      mt={24}
+      mb={16}
       color={color}
       fontSize="sm"
       fontWeight="semibold"
       lineHeight="sm"
-      my="2x"
       {...props}
     />
   );
@@ -130,6 +141,8 @@ const H6 = props => {
 const Blockquote = props => (
   <Box
     as="blockquote"
+    mt={0}
+    mb="1rem"
     {...props}
   />
 );
@@ -137,6 +150,8 @@ const Blockquote = props => (
 const ul = props => (
   <Box
     as="ul"
+    mt={0}
+    mb="1rem"
     {...props}
   />
 );
@@ -144,6 +159,8 @@ const ul = props => (
 const ol = props => (
   <Box
     as="ol"
+    mt={0}
+    mb="1rem"
     {...props}
   />
 );
@@ -158,6 +175,14 @@ const li = props => (
 const table = props => (
   <Box
     as="table"
+    mt={0}
+    mb="1rem"
+    display="block"
+    width="100%"
+    css={css`
+      border-spacing: 0;
+      border-collapse: collapse;
+    `}
     {...props}
   />
 );
@@ -165,6 +190,8 @@ const table = props => (
 const thead = props => (
   <Box
     as="thead"
+    verticalAlign="middle"
+    borderColor="inherit"
     {...props}
   />
 );
@@ -172,6 +199,8 @@ const thead = props => (
 const tbody = props => (
   <Box
     as="tbody"
+    verticalAlign="middle"
+    borderColor="inherit"
     {...props}
   />
 );
@@ -183,9 +212,16 @@ const tr = props => (
   />
 );
 
-const th = props => (
+const th = ({ align, ...props }) => (
   <Box
     as="th"
+    px=".75rem"
+    py=".5rem"
+    border={1}
+    borderColor="gray.20"
+    fontWeight="semibold"
+    whiteSpace="nowrap"
+    textAlign={align}
     {...props}
   />
 );
@@ -193,6 +229,10 @@ const th = props => (
 const td = props => (
   <Box
     as="td"
+    px=".75rem"
+    py=".5rem"
+    border={1}
+    borderColor="gray.20"
     {...props}
   />
 );
@@ -200,6 +240,8 @@ const td = props => (
 const pre = props => (
   <Box
     as="pre"
+    mt={0}
+    mb="1rem"
     {...props}
   />
 );
