@@ -1,0 +1,30 @@
+# Grid
+
+Flex is [Box](box) with `display: grid` and comes with helpful style shorthand props.
+
+## Import
+
+```js
+import Grid from '@trendmicro/react-styled-core/Grid';
+// or
+import { Grid } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+Grid provides the following style shorthand props:
+
+| Shorthand Prop | Style Prop | CSS Property | Description |
+| :------------- | :--------- | :----------- | ----------- |
+| gap | gridGap | [grid-gap](https://developer.mozilla.org/en-US/docs/Web/CSS/gap) | Sets the gaps (gutters) between rows and columns. It is a shorthand for `row-gap` and `column-gap`. |
+| rowGap | gridRowGap | [grid-row-gap](https://developer.mozilla.org/en-US/docs/Web/CSS/row-gap) | Sets the size of the gap (gutter) between an element's grid rows. |
+| columnGap | gridColumnGap | [grid-column-gap](https://developer.mozilla.org/en-US/docs/Web/CSS/column-gap) | Sets the size of the gap (gutter) between an element's columns. |
+| column | gridColumn | [grid-column](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-column) | A shorthand property for `grid-column-start` and `grid-column-end`. |
+| row | gridRow | [grid-row](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-row) | a shorthand property for `grid-row-start` and `grid-row-end`. |
+| area | gridArea | [grid-area]() | A shorthand property for `grid-row-start`, `grid-column-start`, `grid-row-end` and `grid-column-end`. |
+| autoFlow | gridAutoFlow | [grid-auto-flow](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-flow) | Controls how the auto-placement algorithm works. |
+| autoRows | gridAutoRows | [grid-auto-rows](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-rows) | Specifies the size of an implicitly-created grid row track or pattern of tracks. |
+| autoColumns | gridAutoColumns | [grid-auto-columns](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-columns) | Specifies the size of an implicitly-created grid column track or pattern of tracks. |
+| templateRows | gridTemplateRows | [grid-template-rows](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-rows) | Defines the line names and track sizing functions of the grid rows. |
+| templateColumns | gridTemplateColumns | [grid-template-columns](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns) | Defines the line names and track sizing functions of the grid columns. |
+| templateAreas | gridTemplateAreas | [grid-template-areas](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-areas) | Specifies named grid areas. |
