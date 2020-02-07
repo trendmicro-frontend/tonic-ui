@@ -6,10 +6,11 @@ const Button = forwardRef(
   (
     {
       disabled,
+      borderRadius,
       children,
       as: Comp = 'button',
       variant = 'solid',
-      variantColor = 'default',
+      variantColor,
       type = 'button',
       size = 'md',
       colorMode,
@@ -18,9 +19,11 @@ const Button = forwardRef(
     ref,
   ) => {
     const buttonStyleProps = useButtonStyle({
+      borderRadius,
       color: variantColor,
-      size,
       colorMode,
+      size,
+      variant,
     });
 
     return (
@@ -30,7 +33,6 @@ const Button = forwardRef(
         ref={ref}
         as={Comp}
         type={type}
-        borderRadius={variant === 'solid' ? 'md' : 'lg'}
         {...buttonStyleProps}
         {...rest}
       >
