@@ -168,6 +168,7 @@ const focusProps = ({ colorMode, borderRadius }) => {
           content: '""',
           border: '1px solid',
           borderColor: 'black',
+          borderRadius: borderRadius || 'sm',
           position: 'absolute',
           top: '2px',
           bottom: '2px',
