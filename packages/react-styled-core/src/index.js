@@ -5,6 +5,7 @@ import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import CSSBaseline from './CSSBaseline';
 import Flex from './Flex';
+import Grid from './Grid';
 import Heading from './Heading';
 import Icon from './Icon';
 import Image from './Image';
@@ -26,6 +27,7 @@ export {
   ColorModeProvider,
   CSSBaseline,
   Flex,
+  Grid,
   Heading,
   Icon,
   Image,
