@@ -13,10 +13,10 @@ const Main = React.forwardRef(({ children, ...props }, ref) => {
   return (
     <Box
       as="main"
-      px="1.25rem"
-      py=".75rem"
+      pt=".75rem"
+      pb="1.5rem"
+      px="1.5rem"
       backgroundColor={backgroundColor}
-      minHeight="100vh"
       css={css`
         >:first-child {
           margin-top: 0!important;

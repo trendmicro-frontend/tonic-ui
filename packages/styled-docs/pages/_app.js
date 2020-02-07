@@ -29,12 +29,19 @@ const Layout = ({ children }) => {
         px="xl"
         py="lg"
       />
-      <Main
-        mt="4rem"
-        ml={[0, null, '20rem']}
+      <Box
+        height="100vh"
+        pt="4rem"
       >
-        {children}
-      </Main>
+        <Main
+          fontSize="md"
+          lineHeight="md"
+          ml={[0, null, '20rem']}
+          height="100%"
+        >
+          {children}
+        </Main>
+      </Box>
     </Box>
   );
 };
