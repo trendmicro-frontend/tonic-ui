@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import {
   Box,
   Heading,
@@ -176,6 +178,12 @@ const table = props => (
     as="table"
     mt={0}
     mb="1rem"
+    display="block"
+    width="100%"
+    css={css`
+      border-spacing: 0;
+      border-collapse: collapse;
+    `}
     {...props}
   />
 );
@@ -183,6 +191,8 @@ const table = props => (
 const thead = props => (
   <Box
     as="thead"
+    verticalAlign="middle"
+    borderColor="inherit"
     {...props}
   />
 );
@@ -190,6 +200,8 @@ const thead = props => (
 const tbody = props => (
   <Box
     as="tbody"
+    verticalAlign="middle"
+    borderColor="inherit"
     {...props}
   />
 );
@@ -201,9 +213,16 @@ const tr = props => (
   />
 );
 
-const th = props => (
+const th = ({ align, ...props }) => (
   <Box
     as="th"
+    px=".75rem"
+    py=".5rem"
+    border={1}
+    borderColor="gray.20"
+    fontWeight="semibold"
+    whiteSpace="nowrap"
+    textAlign={align}
     {...props}
   />
 );
@@ -211,6 +230,10 @@ const th = props => (
 const td = props => (
   <Box
     as="td"
+    px=".75rem"
+    py=".5rem"
+    border={1}
+    borderColor="gray.20"
     {...props}
   />
 );
