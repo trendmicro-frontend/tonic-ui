@@ -1,8 +1,9 @@
-import { Box, Flex, Text } from '@trendmicro/react-styled-core';
+import React from 'react';
+import { Flex, Text } from '@trendmicro/react-styled-core';
 
 const Error = ({ statusCode }) => {
   const errorDescription = {
-    [404]: 'This page could not be found.',
+    404: 'This page could not be found.',
   }[statusCode] || 'An error occurred on this page.';
 
   return (
@@ -33,7 +34,16 @@ const Error = ({ statusCode }) => {
 };
 
 Error.getInitialProps = ({ res, err }) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
+  let statusCode = -1;
+
+  if (res) {
+    statusCode = res.statusCode;
+  } else if (err) {
+    statusCode = err.statusCode;
+  } else {
+    statusCode = 404;
+  }
+
   return { statusCode };
 };
 
