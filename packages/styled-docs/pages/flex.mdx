@@ -41,7 +41,7 @@ To see the effect of these values, try resizing the flex containers below:
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
+    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   return (
@@ -76,12 +76,12 @@ function Example() {
 }
 ```
 
-### The `direction` (or `flexDirection`) property
+### The `direction` (`flexDirection`) property
 
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
+    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   const [value, setValue] = React.useState('row');
@@ -89,10 +89,10 @@ function Example() {
   return (
     <>
       <Box mb="1rem">
-        <Button onClick={() => setValue('row')}>row</Button>
-        <Button onClick={() => setValue('row-reverse')}>row-reverse</Button>
-        <Button onClick={() => setValue('column')}>column</Button>
-        <Button onClick={() => setValue('column-reverse')}>column-reverse</Button>
+        <Button variant="outline" onClick={() => setValue('row')}>row</Button>
+        <Button variant="outline" onClick={() => setValue('row-reverse')}>row-reverse</Button>
+        <Button variant="outline" onClick={() => setValue('column')}>column</Button>
+        <Button variant="outline" onClick={() => setValue('column-reverse')}>column-reverse</Button>
       </Box>
       <pre>
         {`<Flex direction="${value}">`}
@@ -107,12 +107,12 @@ function Example() {
 }
 ```
 
-### The `wrap` (or `flexWrap`) property
+### The `wrap` (`flexWrap`) property
 
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
+    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   const [value, setValue] = React.useState('nowrap');
@@ -120,9 +120,9 @@ function Example() {
   return (
     <>
       <Box mb="1rem">
-        <Button onClick={() => setValue('nowrap')}>nowrap</Button>
-        <Button onClick={() => setValue('wrap')}>wrap</Button>
-        <Button onClick={() => setValue('wrap-reverse')}>wrap-reverse</Button>
+        <Button variant="outline" onClick={() => setValue('nowrap')}>nowrap</Button>
+        <Button variant="outline" onClick={() => setValue('wrap')}>wrap</Button>
+        <Button variant="outline" onClick={() => setValue('wrap-reverse')}>wrap-reverse</Button>
       </Box>
       <pre>
         {`<Flex wrap="${value}">`}
@@ -140,12 +140,12 @@ function Example() {
 }
 ```
 
-### The `align` (or `alignItems`) property
+### The `align` (`alignItems`) property
 
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
+    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   const [value, setValue] = React.useState('stretch');
@@ -153,10 +153,10 @@ function Example() {
   return (
     <>
       <Box mb="1rem">
-        <Button onClick={() => setValue('stretch')}>stretch</Button>
-        <Button onClick={() => setValue('flex-start')}>flex-start</Button>
-        <Button onClick={() => setValue('center')}>center</Button>
-        <Button onClick={() => setValue('flex-end')}>flex-end</Button>
+        <Button variant="outline" click={() => setValue('stretch')}>stretch</Button>
+        <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
+        <Button variant="outline" onClick={() => setValue('center')}>center</Button>
+        <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
       </Box>
       <pre>
         {`<Flex align="${value}">`}
@@ -171,12 +171,12 @@ function Example() {
 }
 ```
 
-### The `justify` (or `justifyContent`) property
+### The `justify` (`justifyContent`) property
 
 ```jsx
 function Example() {
   const FlexItem = (props) => (
-    <Box bg="blue.50" p=".75rem" mr="1em" mb="1rem" {...props} />
+    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
   );
 
   const [value, setValue] = React.useState('start');
@@ -184,12 +184,12 @@ function Example() {
   return (
     <>
       <Box mb="1rem">
-        <Button onClick={() => setValue('flex-start')}>flex-start</Button>
-        <Button onClick={() => setValue('center')}>center</Button>
-        <Button onClick={() => setValue('flex-end')}>flex-end</Button>
-        <Button onClick={() => setValue('space-between')}>space-between</Button>
-        <Button onClick={() => setValue('space-around')}>space-around</Button>
-        <Button onClick={() => setValue('space-evenly')}>space-evenly</Button>
+        <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
+        <Button variant="outline" onClick={() => setValue('center')}>center</Button>
+        <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
+        <Button variant="outline" onClick={() => setValue('space-between')}>space-between</Button>
+        <Button variant="outline" onClick={() => setValue('space-around')}>space-around</Button>
+        <Button variant="outline" onClick={() => setValue('space-evenly')}>space-evenly</Button>
       </Box>
       <pre>
         {`<Flex justify="${value}">`}
