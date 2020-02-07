@@ -19,6 +19,7 @@
   "dependencies": {
     "@styled-system/css": "5.x",
     "@trendmicro/styled-theme": "*",
+    "color": "^3.1.2",
     "react-animate-height": "^2.0.20",
     "styled-system": "5.x"
   },
