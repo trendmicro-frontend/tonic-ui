@@ -21,8 +21,6 @@ const p = props => (
     mt={0}
     mb="1rem"
     display="block"
-    fontSize="sm"
-    lineHeight="sm"
     {...props}
   />
 );
@@ -270,7 +268,6 @@ const hr = props => (
 const a = props => (
   <Link
     as="a"
-    fontSize="sm"
     {...props}
   />
 );
