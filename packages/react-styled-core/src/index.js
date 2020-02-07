@@ -1,3 +1,4 @@
+import Badge from './Badge';
 import Box from './Box';
 import Button from './Button';
 import Collapse from './Collapse';
@@ -18,6 +19,7 @@ import useTheme from './useTheme';
 import withTheme from './withTheme';
 
 export {
+  Badge,
   Box,
   Button,
   Collapse,

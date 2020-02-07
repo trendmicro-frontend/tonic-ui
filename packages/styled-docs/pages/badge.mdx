@@ -1,0 +1,57 @@
+# Badge
+
+Badges are used to highlight an item's status for quick recognition.
+
+## Import
+
+```js
+import Badge from '@trendmicro/react-styled-core/Badge';
+// or
+import { Badge } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<Badge>100</Badge>
+```
+
+### Badge Color
+
+* Pass the `variantColor` prop to customize the color of the Badge. `variantColor`
+can be any **color key with key 60** that exists in the `theme.colors`.
+  > Thats mean the `green.50` exists in the `theme.colors` then can use variantColor="green".
+
+* [Learn more about theming](./theme).
+
+```jsx
+<div>
+  <Badge>1</Badge>
+  <Badge variantColor="green">2</Badge>
+  <Badge variantColor="red">3</Badge>
+  <Badge variantColor="blue">4</Badge>
+  <Badge variantColor="magenta">5</Badge>
+  <Badge variantColor="purple">6</Badge>
+  <Badge variantColor="teal">7</Badge>
+  <Badge variantColor="cyan">8</Badge>
+</div>
+```
+
+You can also change the size of the badge by passing `fontSize` prop.
+
+```jsx
+<Text fontSize="xl" fontWeight="bold">
+  Trend Micro Frontend
+  <Badge ml="1" fontSize="0.8em" variantColor="green">
+    New
+  </Badge>
+</Text>
+```
+
+## Props
+
+The Badge component composes `Box` component so you can pass props for `Box`.
+
+| Name           | Type                         | Default  | Description                                                            |
+| -------------- | ---------------------------- | -------- | ---------------------------------------------------------------------- |
+| `variantColor`      | string | `gray` | The color scheme to use for the badge. Must be a key in theme.colors                                         |
