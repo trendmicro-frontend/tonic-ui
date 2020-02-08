@@ -38,12 +38,12 @@ The item is sized according to its `width` and `height` properties. It is fully 
 
 To see the effect of these values, try resizing the flex containers below:
 
-```jsx
-function Example() {
-  const FlexItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
-  );
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
+);
 
+function Example() {
   return (
     <>
       <Flex bg="gray.20" p="1rem" pb={0} pr={0} mb="1rem">
@@ -74,16 +74,18 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `direction` (`flexDirection`) property
 
-```jsx
-function Example() {
-  const FlexItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
-  );
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('row');
 
   return (
@@ -105,16 +107,18 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `wrap` (`flexWrap`) property
 
-```jsx
-function Example() {
-  const FlexItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
-  );
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('nowrap');
 
   return (
@@ -138,22 +142,24 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `align` (`alignItems`) property
 
-```jsx
-function Example() {
-  const FlexItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
-  );
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('stretch');
 
   return (
     <>
       <Box mb="1rem">
-        <Button variant="outline" click={() => setValue('stretch')}>stretch</Button>
+        <Button variant="outline" onClick={() => setValue('stretch')}>stretch</Button>
         <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
         <Button variant="outline" onClick={() => setValue('center')}>center</Button>
         <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
@@ -169,16 +175,18 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `justify` (`justifyContent`) property
 
-```jsx
-function Example() {
-  const FlexItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
-  );
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" mr="1em" mb="1rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('start');
 
   return (
@@ -202,4 +210,6 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
