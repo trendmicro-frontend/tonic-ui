@@ -31,12 +31,12 @@ Grid provides the following style shorthand props:
 
 ### The `gap` (`gridGap`) property
 
-```jsx
-function Example() {
-  const GridItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
-  );
+```jsx noInline
+const GridItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('0');
 
   return (
@@ -67,16 +67,18 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `rowGap` (`gridRowGap`) property
 
-```jsx
-function Example() {
-  const GridItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
-  );
+```jsx noInline
+const GridItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('0');
 
   return (
@@ -106,16 +108,18 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `columnGap` (`gridColumnGap`) property
 
-```jsx
-function Example() {
-  const GridItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
-  );
+```jsx noInline
+const GridItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('0');
 
   return (
@@ -145,16 +149,18 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `autoFlow` (`gridAutoFlow`) property
 
-```jsx
-function Example() {
-  const GridItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
-  );
+```jsx noInline
+const GridItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('row');
 
   return (
@@ -184,16 +190,18 @@ function Example() {
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `autoRows` (`gridAutoRows`) property
 
-```jsx
-function Example() {
-  const GridItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" {...props} />
-  );
+```jsx noInline
+const GridItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('auto');
 
   return (
@@ -214,25 +222,27 @@ function Example() {
         bg="gray.20"
         p="1rem"
       >
-        <GridItem><Text p=".75rem">One</Text></GridItem>
-        <GridItem><Text p=".75rem">Two</Text></GridItem>
-        <GridItem><Text p=".75rem">Three</Text></GridItem>
-        <GridItem><Text p=".75rem">Four</Text></GridItem>
+        <GridItem>One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
         <GridItem></GridItem>
       </Grid>
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### The `autoColumns` (`gridAutoColumns`) property
 
-```jsx
-function Example() {
-  const GridItem = (props) => (
-    <Box bg="blue.50" border={1} borderColor="blue.60" {...props} />
-  );
+```jsx noInline
+const GridItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+);
 
+function Example() {
   const [value, setValue] = React.useState('auto');
 
   return (
@@ -252,13 +262,15 @@ function Example() {
         bg="gray.20"
         p="1rem"
       >
-        <GridItem gridColumn="1/3"><Text p=".75rem">One</Text></GridItem>
-        <GridItem gridColumn="2"><Text p=".75rem">Two</Text></GridItem>
-        <GridItem><Text p=".75rem">Three</Text></GridItem>
-        <GridItem><Text p=".75rem">Four</Text></GridItem>
-        <GridItem><Text p=".75rem">Five</Text></GridItem>
+        <GridItem gridColumn="1/3">One</GridItem>
+        <GridItem gridColumn="2">Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
       </Grid>
     </>
   );
 }
+
+render(<Example />);
 ```
