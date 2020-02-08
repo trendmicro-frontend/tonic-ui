@@ -75,8 +75,8 @@ import { Link } from '@trendmicro/react-styled-core';
 
 You can also create a `<ExternalLink />` component for convenience of use:
 
-```jsx readonly
-const ExternalLink = React.forwadRef((props, ref) => (
+```jsx noInline
+const ExternalLink = React.forwardRef((props, ref) => (
   <Link
     ref={ref}
     target="_blank"
@@ -85,6 +85,9 @@ const ExternalLink = React.forwadRef((props, ref) => (
   />
 ));
 
-export default ExternalLink;
+render(
+  <ExternalLink href="https://github.com/trendmicro-frontend/styled-ui">
+    Open link in new window
+  </ExternalLink>
+);
 ```
-
