@@ -39,7 +39,7 @@ const Stack = ({
           return (
             <Box
               key={`stack-box-wrapper-${index}`}
-              d='inline-block'
+              display="inline-block"
               {...spacingProps}
             >
               {child}
