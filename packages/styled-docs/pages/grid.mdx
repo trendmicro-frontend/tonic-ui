@@ -33,7 +33,7 @@ Grid provides the following style shorthand props:
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -75,7 +75,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -116,7 +116,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -157,7 +157,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -181,8 +181,8 @@ function Example() {
         bg="gray.20"
         p="1rem"
       >
-        <GridItem gridColumn="auto/span 2">One</GridItem>
-        <GridItem gridColumn="auto/span 2">Two</GridItem>
+        <GridItem column="auto/span 2">One</GridItem>
+        <GridItem column="auto/span 2">Two</GridItem>
         <GridItem>Three</GridItem>
         <GridItem>Four</GridItem>
         <GridItem>Five</GridItem>
@@ -198,7 +198,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -239,7 +239,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -262,8 +262,8 @@ function Example() {
         bg="gray.20"
         p="1rem"
       >
-        <GridItem gridColumn="1/3">One</GridItem>
-        <GridItem gridColumn="2">Two</GridItem>
+        <GridItem column="1/3">One</GridItem>
+        <GridItem column="2">Two</GridItem>
         <GridItem>Three</GridItem>
         <GridItem>Four</GridItem>
         <GridItem>Five</GridItem>
@@ -279,7 +279,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -320,7 +320,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -348,6 +348,63 @@ function Example() {
         <GridItem>Three</GridItem>
         <GridItem>Four</GridItem>
         <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `templateAreas` (`gridTemplateAreas`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('"a a a" "b c c" "b c c"');
+
+  return (
+    <>
+      <Box mb="1rem">
+        <Button variant="outline" onClick={() => setValue('"a a a" "b c c" "b c c"')}>
+          <Box fontFamily="mono" py=".25rem">
+            <Box>"a a a"</Box>
+            <Box>"b c c"</Box>
+            <Box>"b c c"</Box>
+          </Box>
+        </Button>
+        <Button variant="outline" onClick={() => setValue('"b b a" "b b c" "b b c"')}>
+          <Box fontFamily="mono" py=".25rem">
+            <Box>"b b a"</Box>
+            <Box>"b b c"</Box>
+            <Box>"b b c"</Box>
+          </Box>
+        </Button>
+        <Button variant="outline" onClick={() => setValue('"a a ." "a a ." ". b c"')}>
+          <Box fontFamily="mono" py=".25rem">
+            <Box>"a a ."</Box>
+            <Box>"a a ."</Box>
+            <Box>". b c"</Box>
+          </Box>
+        </Button>
+      </Box>
+      <pre>
+        {`<Grid templateAreas=${JSON.stringify(value)}>`}
+      </pre>
+      <Grid
+        templateAreas={value}
+        templateRows="repeat(3,minmax(48px,auto))"
+        templateColumns="1fr 1fr 1fr"
+        gap=".5rem"
+        bg="gray.20"
+        p="1rem"
+      >
+        <GridItem area="a">One (a)</GridItem>
+        <GridItem area="b">Two (b)</GridItem>
+        <GridItem area="c">Three (c)</GridItem>
       </Grid>
     </>
   );
