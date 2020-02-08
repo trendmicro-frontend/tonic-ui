@@ -175,9 +175,9 @@ function Example() {
       </pre>
       <Grid
         autoFlow={value}
-        gap=".5rem"
-        templateColumns="1fr 1fr 1fr"
         templateRows="repeat(3,minmax(48px,auto))"
+        templateColumns="1fr 1fr 1fr"
+        gap=".5rem"
         bg="gray.20"
         p="1rem"
       >
@@ -217,8 +217,8 @@ function Example() {
       </pre>
       <Grid
         autoRows={value}
-        gap=".5rem"
         templateColumns="1fr 1fr"
+        gap=".5rem"
         bg="gray.20"
         p="1rem"
       >
@@ -291,7 +291,7 @@ function Example() {
         <Button variant="outline" onClick={() => setValue('auto')}>auto</Button>
         <Button variant="outline" onClick={() => setValue('48px 4rem 48px')}>48px 4rem 48px</Button>
         <Button variant="outline" onClick={() => setValue('1fr 2fr 1fr')}>1fr 2fr 1fr</Button>
-        <Button variant="outline" onClick={() => setValue('48px auto minmax(3rem, 60px)')}>48px auto minmax(3rem, 60px)</Button>
+        <Button variant="outline" onClick={() => setValue('48px auto minmax(3rem, 64px)')}>48px auto minmax(3rem, 64px)</Button>
       </Box>
       <pre>
         {`<Grid templateRows="${value}">`}
@@ -299,6 +299,46 @@ function Example() {
       <Grid
         templateRows={value}
         templateColumns="1fr 1fr"
+        gap=".5rem"
+        bg="gray.20"
+        p="1rem"
+      >
+        <GridItem>One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `templateColumns` (`gridTemplateColumns`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Box bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('64px 64px');
+
+  return (
+    <>
+      <Box mb="1rem">
+        <Button variant="outline" onClick={() => setValue('64px 64px')}>64px 64px</Button>
+        <Button variant="outline" onClick={() => setValue('1fr 64px')}>1fr 64px</Button>
+        <Button variant="outline" onClick={() => setValue('1fr auto')}>1fr auto</Button>
+        <Button variant="outline" onClick={() => setValue('1fr 2fr')}>1fr 2fr</Button>
+      </Box>
+      <pre>
+        {`<Grid templateColumns="${value}">`}
+      </pre>
+      <Grid
+        templateColumns={value}
         gap=".5rem"
         bg="gray.20"
         p="1rem"
