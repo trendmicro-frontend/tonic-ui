@@ -1,12 +1,18 @@
 import { mdx } from '@mdx-js/react';
-import * as StyledCore from '@trendmicro/react-styled-core';
+import * as StyledCoreComponents from '@trendmicro/react-styled-core';
 import { boolean } from 'boolean';
 import githubTheme from 'prism-react-renderer/themes/github';
 import vsDarkTheme from 'prism-react-renderer/themes/vsDark';
 import React, { useCallback, useState } from 'react';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
+import DocsIcon from './DocsIcon';
+import FontAwesomeIcon from './FontAwesomeIcon';
+import TMIcon from './TMIcon';
 
-const { Box, useColorMode } = StyledCore;
+const { Box, useColorMode } = StyledCoreComponents;
+const DocsComponents = {
+  DocsIcon,
+};
 
 const liveEditorStyle = {
   fontSize: 14,
@@ -79,7 +85,16 @@ const EditableNotice = props => {
 };
 
 const CodeBlock = ({
-  readonly,
+  /**
+   * Do not evaluate and mount the inline code (Default: `false`).
+   */
+  noInline = false,
+
+  /**
+   * Disable editing on the `<LiveEditor />` (Default: `false`)
+   */
+  disabled = false,
+
   className,
   children,
   ...props
@@ -96,30 +111,37 @@ const CodeBlock = ({
   const theme = themes[colorMode];
   const language = className && className.replace(/language-/, '');
 
-  if (readonly === undefined) {
-    readonly = (language !== 'jsx');
+  noInline = boolean(noInline);
+
+  if (disabled === undefined) {
+    disabled = (language !== 'jsx');
   } else {
-    readonly = (language !== 'jsx') || boolean(readonly);
+    disabled = (language !== 'jsx') || boolean(disabled);
   }
 
   const liveProviderProps = {
     theme,
     language,
-    disabled: readonly,
+    noInline,
+    disabled,
     code: editorCode,
     transformCode: code => code,
     scope: {
-      ...StyledCore,
+      ...StyledCoreComponents,
+      ...DocsComponents,
+      FontAwesomeIcon,
+      TMIcon,
       mdx,
     },
     mountStylesheet: false,
-    noInline: false,
     ...props,
   };
 
+  const isEditable = !disabled;
+
   return (
     <LiveProvider {...liveProviderProps}>
-      {!readonly && (
+      {isEditable && (
         <LiveCodePreview />
       )}
       <Box position="relative">
@@ -128,11 +150,11 @@ const CodeBlock = ({
           padding={20}
           style={liveEditorStyle}
         />
-        {!readonly && (
+        {isEditable && (
           <EditableNotice />
         )}
       </Box>
-      {!readonly && (
+      {isEditable && (
         <LiveError style={liveErrorStyle} />
       )}
     </LiveProvider>
