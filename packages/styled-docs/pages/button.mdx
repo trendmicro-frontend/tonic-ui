@@ -21,10 +21,10 @@ import { Button } from '@trendmicro/react-styled-core';
 Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
 
 ```jsx
-<div>
+<ButtonGroup>
   <Button variant="solid">Button</Button>
   <Button variant="outline">Button</Button>
-</div>
+</ButtonGroup>
 ```
 
 ### Button Color
@@ -32,11 +32,11 @@ Use the `variant` prop to change the visual style of the Button. You can set the
 Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the them.color.
 
 ```jsx
-<div>
+<ButtonGroup>
   <Button variantColor="red">Emphasis Button</Button>
   <Button variantColor="blue">Primary Button</Button>
   <Button variantColor="gray">Default Button</Button>
-</div>
+</ButtonGroup>
 ```
 
 ### Button Sizes
@@ -44,11 +44,11 @@ Use the `variantColor` prop to change the color scheme of the Button. `variantCo
 Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<div>
+<ButtonGroup spacing="lg">
   <Button size="sm">Button</Button>
   <Button size="md">Button</Button>
   <Button size="lg">Button</Button>
-</div>
+</ButtonGroup>
 ```
 
 ## Accessibility
@@ -75,20 +75,28 @@ Button composes [PseudoBox](./pseudobox) and all props you pass (variant, varian
 You can add icons to the Button components.
 
 ```jsx
-<div>
-  <div>
-    <Button variantColor="blue" borderRadius="circle"><TMIcon name="add" color="white"/></Button>
-    <Button variantColor="blue"><TMIcon name="add" color="white"/></Button>
+<>
+  <ButtonGroup display="block" mb="4px">
+    <Button variantColor="blue" borderRadius="circle" px="0px">
+      <TMIcon name="add" color="white" width="32px" />
+    </Button>
+    <Button variantColor="blue" px="0px">
+      <TMIcon name="add" color="white" width="32px"/>
+    </Button>
     <Button variantColor="blue" borderRadius="32px"><TMIcon name="add" color="white"/>Add Account</Button>
     <Button variantColor="blue"><TMIcon name="add" color="white"/>Add Account</Button>
-  </div>
-  <div>
-    <Button variant="outline" borderRadius="circle"><TMIcon name="add"/></Button>
-    <Button variant="outline"><TMIcon name="add"/></Button>
+  </ButtonGroup>
+  <ButtonGroup>
+    <Button variant="outline" borderRadius="circle" px="0px">
+      <TMIcon name="add" width="32px"/>
+    </Button>
+    <Button variant="outline" px="0px">
+      <TMIcon name="add" width="32px" />
+    </Button>
     <Button variant="outline" borderRadius="32px"><TMIcon name="add"/>Add Account</Button>
     <Button variant="outline"><TMIcon name="add"/>Add Account</Button>
-  </div>
-</div>
+  </ButtonGroup>
+</>
 ```
 ---
 
