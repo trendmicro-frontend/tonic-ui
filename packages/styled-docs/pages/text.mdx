@@ -1,1 +1,110 @@
 # Text
+
+Text is [Box](./box) with `display="inline-block"` and `fontFamily="base"`.
+
+## Import
+
+```js
+import Text from '@trendmicro/react-styled-core/Text';
+// or
+import { Text } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+### Font size
+
+#### Built-in font size
+
+```jsx
+<Stack spacing=".5rem">
+  <Text fontSize="4xl" lineHeight="4xl">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="3xl" lineHeight="3xl">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="2xl" lineHeight="2xl">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="xl" lineHeight="xl">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="lg" lineHeight="lg">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="md" lineHeight="md">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="sm" lineHeight="sm">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="xs" lineHeight="xs">Lorem ipsum dolor sit amet</Text>
+</Stack>
+```
+
+#### User-defined font size
+
+```jsx
+<Stack spacing=".5rem">
+  <Text fontSize="4rem" lineHeight="base">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="3rem" lineHeight="base">Lorem ipsum dolor sit amet</Text>
+</Stack>
+```
+
+### Line height
+
+```jsx
+function Example() {
+  const { colorMode } = useColorMode();
+  const backgroundColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  return (
+    <Stack spacing=".5rem">
+      <Text backgroundColor={backgroundColor} lineHeight="1">
+        This is exactly the same height as the font size
+      </Text>
+      <Text backgroundColor={backgroundColor} lineHeight="normal">
+        A normal line height is about 20% larger than the font size
+      </Text>
+      <Text backgroundColor={backgroundColor} lineHeight="base">
+        For accessibility concerns, use a minimum value of 1.5 for <code>line-height</code> for main paragraph content
+      </Text>
+    </Stack>
+  );
+}
+```
+
+### Text truncation
+
+```jsx
+<Text
+  overflow="hidden"
+  textOverflow="ellipsis"
+  whiteSpace="nowrap"
+  width="100%"
+>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</Text>
+```
+
+### The `as` prop
+
+```jsx noInline
+const TextBlock = (props) => {
+  const { colorMode } = useColorMode();
+  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  return (
+    <Box px=".75rem" py=".5rem" border={1} borderColor={borderColor}>
+      <Text {...props} />
+    </Box>
+  );
+};
+
+function Example() {
+  return (
+    <Stack direction="column" spacing=".5rem" shouldWrapChildren>
+      <TextBlock as="i">Italic</TextBlock>
+      <TextBlock as="u">Underline</TextBlock>
+      <TextBlock as="abbr">Abbreviation or acronym</TextBlock>
+      <TextBlock as="cite">Citation</TextBlock>
+      <TextBlock as="del">Deleted</TextBlock>
+      <TextBlock as="em">Emphasis</TextBlock>
+      <TextBlock as="ins">Inserted</TextBlock>
+      <TextBlock as="kbd">Ctrl + C</TextBlock>
+      <TextBlock as="mark">Highlighted</TextBlock>
+      <TextBlock as="s">Strikethrough</TextBlock>
+      <TextBlock as="samp">Sample</TextBlock>
+      <TextBlock as="sup">Superscript</TextBlock>
+      <TextBlock as="sub">Subscript</TextBlock>
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
