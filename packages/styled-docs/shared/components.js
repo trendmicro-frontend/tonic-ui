@@ -28,6 +28,7 @@ const components = [
   'Radio',
   'RadioGroup',
   'Select',
+  'Space',
   'Stack',
   'SVGIcon',
   'Switch',
