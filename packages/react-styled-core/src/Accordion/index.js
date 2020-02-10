@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4';
-import {
+import React, {
   createContext,
   forwardRef,
   useContext,
@@ -145,8 +145,8 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
   } = useAccordionItemContext();
   const { colorMode } = useColorMode();
   const hoverBg = {
-      dark: 'rgba(0, 0, 0, 0.04)',
-      light: 'gray.10',
+    dark: 'rgba(0, 0, 0, 0.04)',
+    light: 'gray.10',
   }[colorMode];
   return (
     <PseudoBox
