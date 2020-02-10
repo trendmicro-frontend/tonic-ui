@@ -47,7 +47,7 @@ const Layout = ({ children }) => {
 
 const CustomApp = (props) => (
   <ThemeProvider>
-    <ColorModeProvider>
+    <ColorModeProvider value="dark">
       <CSSBaseline />
       <MDXProvider components={MDXComponents}>
         <Layout>
