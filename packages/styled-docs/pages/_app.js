@@ -37,7 +37,6 @@ const Layout = ({ children }) => {
           fontSize="md"
           lineHeight="md"
           ml={[0, null, '20rem']}
-          height="100%"
         >
           {children}
         </Main>
