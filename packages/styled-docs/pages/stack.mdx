@@ -27,7 +27,7 @@ By default, each item is stacked vertically. Stack clones it's children and pass
 const Item = (props) => {
   const { colorMode } = useColorMode();
   const boxShadow = colorMode === 'dark' ? '1x.dark' : '1x.light';
-  const borderColor = colorMode === 'dark' ? 'gray.50' : 'gray.10';
+  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
   return (
     <Box p=".5rem" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
   );
@@ -52,7 +52,7 @@ render(<Example />);
 const Item = (props) => {
   const { colorMode } = useColorMode();
   const boxShadow = colorMode === 'dark' ? '1x.dark' : '1x.light';
-  const borderColor = colorMode === 'dark' ? 'gray.50' : 'gray.10';
+  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
   return (
     <Box p=".5rem" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
   );
@@ -77,7 +77,7 @@ render(<Example />);
 const Item = (props) => {
   const { colorMode } = useColorMode();
   const boxShadow = colorMode === 'dark' ? '1x.dark' : '1x.light';
-  const borderColor = colorMode === 'dark' ? 'gray.50' : 'gray.10';
+  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
   return (
     <Box p=".5rem" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
   );
@@ -103,7 +103,7 @@ render(<Example />);
 const Item = (props) => {
   const { colorMode } = useColorMode();
   const boxShadow = colorMode === 'dark' ? '1x.dark' : '1x.light';
-  const borderColor = colorMode === 'dark' ? 'gray.50' : 'gray.10';
+  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
   return (
     <Box p=".5rem" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
   );
@@ -127,5 +127,5 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | `direction` | `string` | 'column' | The direction to stack the items. One of: 'column', 'column-reverse', 'row', 'row-reverse' |
-| `spacing` | `string` or `number` | 0 | The space between each stack item |
-| `shouldWrapChildren` | `boolean` | false | If `true`, the children will be wrapped in a `Box` with `display: inline-block`, and the Box will take the spacing props |
+| `spacing` | `string` or `number` | 0 | The space between each stack item. |
+| `shouldWrapChildren` | `boolean` | false | If `true`, the children will be wrapped in a `Box` with `display="inline-block"`, and the Box will take the spacing props. |
