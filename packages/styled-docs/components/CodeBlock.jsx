@@ -1,3 +1,4 @@
+import { css } from '@emotion/core';
 import { mdx } from '@mdx-js/react';
 import * as StyledCoreComponents from '@trendmicro/react-styled-core';
 import { boolean } from 'boolean';
@@ -131,6 +132,7 @@ const CodeBlock = ({
       ...DocsComponents,
       FontAwesomeIcon,
       TMIcon,
+      css,
       mdx,
     },
     mountStylesheet: false,
