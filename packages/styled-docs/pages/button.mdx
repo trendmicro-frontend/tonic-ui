@@ -29,7 +29,7 @@ Use the `variant` prop to change the visual style of the Button. You can set the
 
 ### Button Color
 
-Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key with key `50`, `60` and `70` that exist in the them.color.
+Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the them.color.
 
 ```jsx
 <div>
@@ -65,9 +65,7 @@ Button composes [PseudoBox](./pseudobox) and all props you pass (variant, varian
   variant="outline"
   height="48px"
   width="200px"
-  __before={{
-    border: 'none'
-  }}
+  boxShadow="none"
 >
   Ghost Button
 </Button>
@@ -79,16 +77,16 @@ You can add icons to the Button components.
 ```jsx
 <div>
   <div>
-    <Button variantColor="blue" borderRadius="circle">+</Button>
-    <Button variantColor="blue">+</Button>
-    <Button variantColor="blue" borderRadius="32px">+ Add Account</Button>
-    <Button variantColor="blue">+ Add Account</Button>
+    <Button variantColor="blue" borderRadius="circle"><TMIcon name="add" color="white"/></Button>
+    <Button variantColor="blue"><TMIcon name="add" color="white"/></Button>
+    <Button variantColor="blue" borderRadius="32px"><TMIcon name="add" color="white"/>Add Account</Button>
+    <Button variantColor="blue"><TMIcon name="add" color="white"/>Add Account</Button>
   </div>
   <div>
-    <Button variant="outline" borderRadius="circle">+</Button>
-    <Button variant="outline">+</Button>
-    <Button variant="outline" borderRadius="32px">+ Add Account</Button>
-    <Button variant="outline">+ Add Account</Button>
+    <Button variant="outline" borderRadius="circle"><TMIcon name="add"/></Button>
+    <Button variant="outline"><TMIcon name="add"/></Button>
+    <Button variant="outline" borderRadius="32px"><TMIcon name="add"/>Add Account</Button>
+    <Button variant="outline"><TMIcon name="add"/>Add Account</Button>
   </div>
 </div>
 ```
