@@ -6,7 +6,7 @@ const Button = forwardRef(
   (
     {
       disabled,
-      borderRadius,
+      borderRadius = 'sm',
       children,
       as: Comp = 'button',
       variant = 'solid',
@@ -33,6 +33,7 @@ const Button = forwardRef(
         ref={ref}
         as={Comp}
         type={type}
+        borderRadius={borderRadius}
         {...buttonStyleProps}
         {...rest}
       >

@@ -3,11 +3,10 @@ import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
 // Solid Button
-const solidVariantProps = ({ color = 'gray', colorMode, borderRadius }) => {
+const solidVariantProps = ({ color = 'gray', colorMode }) => {
   const style = {
     light: {
       bg: `${color}.60`,
-      borderRadius: borderRadius || 'sm',
       color: 'white',
       _hover: {
         bg: `${color}.50`,
@@ -18,7 +17,6 @@ const solidVariantProps = ({ color = 'gray', colorMode, borderRadius }) => {
     },
     dark: {
       bg: `${color}.60`,
-      borderRadius: borderRadius || 'sm',
       color: 'white',
       _hover: {
         bg: `${color}.50`,
@@ -33,51 +31,36 @@ const solidVariantProps = ({ color = 'gray', colorMode, borderRadius }) => {
 };
 
 // Outline Button
-const outlineVariantProps = ({ color = 'blue', colorMode, borderRadius }) => {
+const outlineVariantProps = ({ color = 'blue', colorMode, theme: { colors } }) => {
+  const normalColor = colors.gray && colors.gray[60];
+  const hoveredColor = colors[color] && colors[color][50];
+  const activatedColor = colors[color] && colors[color][70];
   const style = {
     light: {
       bg: 'transparent',
-      borderRadius: borderRadius || 'sm',
-      __before: {
-        content: '""',
-        border: '1px solid',
-        borderColor: 'gray.60',
-        borderRadius: borderRadius || 'sm',
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-      },
+      boxShadow: `inset 0 0 0 1px ${normalColor}`,
       color: 'black',
       _hover: {
+        boxShadow: `inset 0 0 0 1px ${hoveredColor}`,
         color: `${color}.50`,
       },
       _active: {
         bg: addOpacity('black', 0.12),
+        boxShadow: `inset 0 0 0 1px ${activatedColor}`,
         color: `${color}.70`,
       },
     },
     dark: {
       bg: 'transparent',
-      borderRadius: borderRadius || 'sm',
+      boxShadow: `inset 0 0 0 1px ${normalColor}`,
       color: 'white',
-      __before: {
-        content: '""',
-        border: '1px solid',
-        borderColor: 'gray.60',
-        borderRadius: borderRadius || 'sm',
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-      },
       _hover: {
+        boxShadow: `inset 0 0 0 1px ${hoveredColor}`,
         color: `${color}.60`,
       },
       _active: {
         bg: addOpacity('black', 0.12),
+        boxShadow: `inset 0 0 0 1px ${activatedColor}`,
         color: `${color}.70`,
       },
     },
@@ -123,58 +106,17 @@ const sizeProps = ({ size }) => sizes[size];
 
 ////////////////////////////////////////////////////////////
 
-const focusProps = ({ colorMode, borderRadius }) => {
+const focusProps = ({ colorMode, theme: { colors } }) => {
+  const outerBorderColor = colors.blue && colors.blue[60];
   const style = {
     light: {
       _focus: {
-        '::before': { // outer border
-          content: '""',
-          border: '2px solid',
-          borderColor: 'blue.60',
-          borderRadius: borderRadius || 'sm',
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-        },
-        '::after': { // inner border
-          content: '""',
-          border: '1px solid',
-          borderColor: 'white',
-          borderRadius: borderRadius || 'sm',
-          position: 'absolute',
-          top: '2px',
-          bottom: '2px',
-          left: '2px',
-          right: '2px',
-        },
+        boxShadow: `inset 0 0 0 2px ${outerBorderColor}, inset 0 0 0 3px #fff`,
       }
     },
     dark: {
       _focus: {
-        '::before': { // outer border
-          content: '""',
-          border: '2px solid',
-          borderColor: 'blue.60',
-          borderRadius: borderRadius || 'sm',
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-        },
-        '::after': { // inner border
-          content: '""',
-          border: '1px solid',
-          borderColor: 'black',
-          borderRadius: borderRadius || 'sm',
-          position: 'absolute',
-          top: '2px',
-          bottom: '2px',
-          left: '2px',
-          right: '2px',
-        },
+        boxShadow: `inset 0 0 0 2px ${outerBorderColor}, inset 0 0 0 3px #000`,
       }
     },
   };
