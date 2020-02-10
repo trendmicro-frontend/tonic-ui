@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/core';
-import { Box, useColorMode } from '@trendmicro/react-styled-core';
+import { Box } from '@trendmicro/react-styled-core';
 import cx from 'classnames';
 import React from 'react';
 
@@ -25,25 +25,20 @@ const TMIcon = React.forwardRef(({
   spin,
   spinReverse,
   fontSize = 'md',
+  lineHeight = 'md',
   className,
   name,
   ...props
 }, ref) => {
-  const { colorMode } = useColorMode();
-  const color = {
-    light: '#666666',
-    dark: '#bbbbbb',
-  }[colorMode];
-
   return (
     <Box
       ref={ref}
       as="i"
       name={name}
       className={cx(className, 'tmicon', { [`tmicon-${name}`]: !!name })}
-      color={color}
       display="inline-block"
       fontSize={fontSize}
+      lineHeight={lineHeight}
       verticalAlign="top"
       animation={
         (spin && `${spinKeyframes} 2s infinite linear`) ||
