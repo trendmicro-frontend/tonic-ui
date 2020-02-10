@@ -185,7 +185,6 @@ const colors = {
     secondary: 'rgba(0, 0, 0, .65)',
     tertiary: 'rgba(0, 0, 0, .54)',
     disabled: 'rgba(0, 0, 0, .30)',
-    10: 'rgba(0, 0, 0, 0.04)'
   },
 };
 
