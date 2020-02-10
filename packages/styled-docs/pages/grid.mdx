@@ -41,13 +41,13 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('0')}>0</Button>
         <Button variant="outline" onClick={() => setValue('10%')}>10%</Button>
         <Button variant="outline" onClick={() => setValue('1rem')}>1rem</Button>
         <Button variant="outline" onClick={() => setValue('10px 20px')}>10px 20px</Button>
         <Button variant="outline" onClick={() => setValue('calc(20px + 10%)')}>calc(20px + 10%)</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid gap="${value}">`}
       </pre>
@@ -83,12 +83,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('0')}>0</Button>
         <Button variant="outline" onClick={() => setValue('10%')}>10%</Button>
         <Button variant="outline" onClick={() => setValue('1rem')}>1rem</Button>
         <Button variant="outline" onClick={() => setValue('20px')}>20px</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid rowGap="${value}">`}
       </pre>
@@ -124,12 +124,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('0')}>0</Button>
         <Button variant="outline" onClick={() => setValue('10%')}>10%</Button>
         <Button variant="outline" onClick={() => setValue('1rem')}>1rem</Button>
         <Button variant="outline" onClick={() => setValue('20px')}>20px</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid columnGap="${value}">`}
       </pre>
@@ -165,12 +165,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('1')}>1</Button>
         <Button variant="outline" onClick={() => setValue('1 / 3')}>1 / 3</Button>
         <Button variant="outline" onClick={() => setValue('2 / -1')}>2 / -1</Button>
         <Button variant="outline" onClick={() => setValue('1 / span 2')}>1 / span 2</Button>
-      </Box>
+      </Stack>
       <Grid
         templateRows="repeat(3,minmax(3rem,auto))"
         templateColumns="1fr 1.5fr 1fr"
@@ -201,12 +201,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('1')}>1</Button>
         <Button variant="outline" onClick={() => setValue('1 / 3')}>1 / 3</Button>
         <Button variant="outline" onClick={() => setValue('2 / -1')}>2 / -1</Button>
         <Button variant="outline" onClick={() => setValue('1 / span 2')}>1 / span 2</Button>
-      </Box>
+      </Stack>
       <Grid
         templateRows="repeat(3,minmax(3rem,auto))"
         templateColumns="1fr 1.5fr 1fr"
@@ -237,12 +237,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('a')}>a</Button>
         <Button variant="outline" onClick={() => setValue('b')}>b</Button>
         <Button variant="outline" onClick={() => setValue('c')}>c</Button>
         <Button variant="outline" onClick={() => setValue('2 / 1 / 2 / 4')}>2 / 1 / 2 / 4</Button>
-      </Box>
+      </Stack>
       <Grid
         templateRows="repeat(3,minmax(3rem,auto))"
         templateColumns="1fr 1fr 1fr"
@@ -276,11 +276,11 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('row')}>row</Button>
         <Button variant="outline" onClick={() => setValue('column')}>column</Button>
         <Button variant="outline" onClick={() => setValue('row dense')}>row dense</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid autoFlow="${value}">`}
       </pre>
@@ -317,12 +317,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('auto')}>auto</Button>
         <Button variant="outline" onClick={() => setValue('3rem')}>3rem</Button>
         <Button variant="outline" onClick={() => setValue('min-content')}>min-content</Button>
         <Button variant="outline" onClick={() => setValue('minmax(2rem, auto)')}>minmax(2rem, auto)</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid autoRows="${value}">`}
       </pre>
@@ -358,12 +358,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('auto')}>auto</Button>
         <Button variant="outline" onClick={() => setValue('1fr')}>1fr</Button>
         <Button variant="outline" onClick={() => setValue('min-content')}>min-content</Button>
         <Button variant="outline" onClick={() => setValue('minmax(3rem, auto)')}>minmax(3rem, auto)</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid autoColumns="${value}">`}
       </pre>
@@ -398,12 +398,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('auto')}>auto</Button>
         <Button variant="outline" onClick={() => setValue('3rem 4rem 3rem')}>3rem 4rem 3rem</Button>
         <Button variant="outline" onClick={() => setValue('1fr 2fr 1fr')}>1fr 2fr 1fr</Button>
         <Button variant="outline" onClick={() => setValue('3rem auto minmax(3rem, 4rem)')}>3rem auto minmax(3rem, 4rem)</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid templateRows="${value}">`}
       </pre>
@@ -439,12 +439,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('4rem 4rem')}>4rem 4rem</Button>
         <Button variant="outline" onClick={() => setValue('1fr 4rem')}>1fr 4rem</Button>
         <Button variant="outline" onClick={() => setValue('1fr auto')}>1fr auto</Button>
         <Button variant="outline" onClick={() => setValue('1fr 2fr')}>1fr 2fr</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid templateColumns="${value}">`}
       </pre>
@@ -479,7 +479,7 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('"a a a" "b c c" "b c c"')}>
           <Box fontFamily="mono" py=".25rem">
             <Box>"a a a"</Box>
@@ -501,7 +501,7 @@ function Example() {
             <Box>". b c"</Box>
           </Box>
         </Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Grid templateAreas=${JSON.stringify(value)}>`}
       </pre>
