@@ -140,6 +140,7 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
     headerId,
     isDisabled,
     onToggle,
+    _hover = null,
   } = useAccordionItemContext();
   return (
     <PseudoBox
@@ -149,7 +150,7 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
       width="100%"
       transition="all 0.2s"
       _focus={{ boxShadow: 'outline' }}
-      _hover={{ bg: 'gray.10' }}
+      _hover={_hover === null ? { bg: 'blackAlpha.10' } : _hover}
       _disabled={{ opacity: '0.4', cursor: 'not-allowed' }}
       as="button"
       type="button"
