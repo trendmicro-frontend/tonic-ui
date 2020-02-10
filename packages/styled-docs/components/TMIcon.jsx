@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/core';
-import { Box, useColorMode } from '@trendmicro/react-styled-core';
+import { Box } from '@trendmicro/react-styled-core';
 import cx from 'classnames';
 import React from 'react';
 
