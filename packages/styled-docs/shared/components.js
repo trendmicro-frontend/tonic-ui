@@ -3,6 +3,7 @@ const components = [
   'Badge',
   'Box',
   'Button',
+  'ButtonGroup',
   'Card',
   'Collapse',
   'CSSBaseline',
