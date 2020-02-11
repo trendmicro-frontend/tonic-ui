@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import PseudoBox from '../PseudoBox';
 import useColorMode from '../useColorMode';
 
-const baseStyleProps = (colorMode, variant) => {
+const baseStyleProps = (colorMode) => {
   const color = { light: 'blue.60', dark: 'blue.40' }[colorMode];
   const hoverColor = { light: 'blue.50', dark: 'blue.40' }[colorMode];
   const visitedColor = { light: 'purple.60', dark: 'purple.50' }[colorMode];
   const disabledColor = { light: 'blackAlpha.disabled', dark: 'whiteAlpha.disabled' }[colorMode];
-  const textDecoration = variant === 'underline' ? 'underline' : 'none';
 
   return {
-    color: color,
+    color,
     cursor: 'pointer',
-    textDecoration: textDecoration,
     outline: 'none',
+    textDecoration: 'none',
     _disabled: {
       color: disabledColor,
       textDecoration: textDecoration,
@@ -43,7 +42,7 @@ const Link = forwardRef(({ disabled, onClick, ...props }, ref) => {
       ref={ref}
       aria-disabled={disabled}
       onClick={disabled ? event => event.preventDefault() : onClick}
-      {...baseStyleProps(colorMode, props.variant)}
+      {...baseStyleProps(colorMode)}
       {...props}
     />
   );
@@ -52,8 +51,9 @@ const Link = forwardRef(({ disabled, onClick, ...props }, ref) => {
 Link.propTypes = {
   variant: PropTypes.string,
   disabled: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 Link.displayName = 'Link';
+
 export default Link;
