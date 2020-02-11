@@ -18,6 +18,7 @@ import Text from './Text';
 import ThemeProvider from './ThemeProvider';
 import theme from './theme';
 import useColorMode from './useColorMode';
+import useClipboard from './useClipboard';
 import useTheme from './useTheme';
 import withTheme from './withTheme';
 
@@ -42,6 +43,7 @@ export {
   ThemeProvider,
   theme,
   useColorMode,
+  useClipboard,
   useTheme,
   withTheme,
 };
