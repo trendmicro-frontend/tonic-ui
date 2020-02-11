@@ -166,7 +166,7 @@ const CodeBlock = ({
           style={liveEditorStyle}
         />
         <CopyButton onClick={onCopy}>
-          {hasCopied ? "copied" : "copy"}
+          {hasCopied ? 'copied' : 'copy'}
         </CopyButton>
         {isEditable && (
           <EditableNotice />
