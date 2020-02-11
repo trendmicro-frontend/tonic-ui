@@ -7,22 +7,28 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
   const style = {
     light: {
       bg: `${color}.60`,
+      borderColor: 'transparent',
       color: 'white',
       _hover: {
         bg: `${color}.50`,
       },
       _active: {
         bg: `${color}.70`,
+        borderColor: 'transparent',
+        boxShadow: 'none',
       },
     },
     dark: {
       bg: `${color}.60`,
+      borderColor: 'transparent',
       color: 'white',
       _hover: {
         bg: `${color}.50`,
       },
       _active: {
         bg: `${color}.70`,
+        borderColor: 'transparent',
+        boxShadow: 'none',
       },
     },
   };
@@ -31,37 +37,34 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
 };
 
 // Outline Button
-const outlineVariantProps = ({ color = 'blue', colorMode, theme: { colors } }) => {
-  const normalColor = colors.gray && colors.gray[60];
-  const hoveredColor = colors[color] && colors[color][50];
-  const activatedColor = colors[color] && colors[color][70];
+const outlineVariantProps = ({ color = 'blue', colorMode }) => {
   const style = {
     light: {
-      bg: 'transparent',
-      boxShadow: `inset 0 0 0 1px ${normalColor}`,
+      borderColor: 'gray.60',
       color: 'black',
       _hover: {
-        boxShadow: `inset 0 0 0 1px ${hoveredColor}`,
+        borderColor: `${color}.50`,
         color: `${color}.50`,
       },
       _active: {
         bg: addOpacity('black', 0.12),
-        boxShadow: `inset 0 0 0 1px ${activatedColor}`,
+        borderColor: `${color}.70`,
         color: `${color}.70`,
+        boxShadow: 'none',
       },
     },
     dark: {
-      bg: 'transparent',
-      boxShadow: `inset 0 0 0 1px ${normalColor}`,
+      borderColor: 'gray.60',
       color: 'white',
       _hover: {
-        boxShadow: `inset 0 0 0 1px ${hoveredColor}`,
-        color: `${color}.60`,
+        borderColor: `${color}.50`,
+        color: `${color}.50`,
       },
       _active: {
         bg: addOpacity('black', 0.12),
-        boxShadow: `inset 0 0 0 1px ${activatedColor}`,
+        borderColor: `${color}.70`,
         color: `${color}.70`,
+        boxShadow: 'none',
       },
     },
   };
@@ -111,12 +114,16 @@ const focusProps = ({ colorMode, theme: { colors } }) => {
   const style = {
     light: {
       _focus: {
-        boxShadow: `inset 0 0 0 2px ${outerBorderColor}, inset 0 0 0 3px #fff`,
+        zIndex: 1,
+        borderColor: outerBorderColor,
+        boxShadow: `inset 0 0 0 1px ${outerBorderColor}, inset 0 0 0 2px #fff`,
       }
     },
     dark: {
       _focus: {
-        boxShadow: `inset 0 0 0 2px ${outerBorderColor}, inset 0 0 0 3px #000`,
+        zIndex: 1,
+        borderColor: outerBorderColor,
+        boxShadow: `inset 0 0 0 1px ${outerBorderColor}, inset 0 0 0 2px #000`,
       }
     },
   };
@@ -151,8 +158,7 @@ const baseProps = {
   position: 'relative',
   whiteSpace: 'nowrap',
   verticalAlign: 'middle',
-  outline: 'none',
-  border: 'none',
+  border: 1,
 };
 
 ////////////////////////////////////////////////////////////
