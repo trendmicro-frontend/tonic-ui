@@ -240,7 +240,6 @@ const lineHeights = {
   '4xl': '2.5rem', // font-size: 32px, line-height: 40px
 
   normal: 'normal',
-  none: '1',
   base: '1.5',
 };
 
