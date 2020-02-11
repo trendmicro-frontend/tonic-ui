@@ -16,7 +16,6 @@ const baseStyleProps = (colorMode) => {
     textDecoration: 'none',
     _disabled: {
       color: disabledColor,
-      textDecoration: textDecoration,
       cursor: 'not-allowed',
     },
     _visited: {
