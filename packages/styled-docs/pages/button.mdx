@@ -21,10 +21,10 @@ import { Button } from '@trendmicro/react-styled-core';
 Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
 
 ```jsx
-<ButtonGroup>
+<Stack direction="row" spacing="0.5rem">
   <Button variant="solid">Button</Button>
   <Button variant="outline">Button</Button>
-</ButtonGroup>
+</Stack>
 ```
 
 ### Button Color
@@ -32,11 +32,11 @@ Use the `variant` prop to change the visual style of the Button. You can set the
 Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the them.color.
 
 ```jsx
-<ButtonGroup>
+<Stack direction="row" spacing="0.5rem">
   <Button variantColor="red">Emphasis Button</Button>
   <Button variantColor="blue">Primary Button</Button>
   <Button variantColor="gray">Default Button</Button>
-</ButtonGroup>
+</Stack>
 ```
 
 ### Button Sizes
@@ -44,28 +44,28 @@ Use the `variantColor` prop to change the color scheme of the Button. `variantCo
 Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<ButtonGroup spacing="lg">
+<Stack direction="row" spacing="0.5rem" shouldWrapChildren={true} alignItems="center">
   <Button size="sm">Button</Button>
   <Button size="md">Button</Button>
   <Button size="lg">Button</Button>
-</ButtonGroup>
+</Stack>
 ```
 
 ## Accessibility
 
 - Button has `role` button.
-- When Button has focus, <kbd>Space</kbd> and <kbd>Enter</kbd> activates it.
+- When Button has <kbd>focus</kbd>, <kbd>Space</kbd> and <kbd>Enter</kbd> activates it.
 
 ## Composition
 
-Button composes [PseudoBox](./pseudobox) and all props you pass (variant, variantColor, etc.) are converted to style props. This means you can override any style of the Button via props.
+The Button component composes [ButtonBase](./buttonbase), and you can override any style of the Button via props.
 
 ```jsx
 <Button
   variant="outline"
   height="48px"
   width="200px"
-  boxShadow="none"
+  border="none"
 >
   Ghost Button
 </Button>
@@ -75,8 +75,8 @@ Button composes [PseudoBox](./pseudobox) and all props you pass (variant, varian
 You can add icons to the Button components.
 
 ```jsx
-<>
-  <ButtonGroup display="block" mb="4px">
+<Stack spacing="0.5rem">
+  <Stack direction="row" spacing="0.5rem">
     <Button variantColor="blue" borderRadius="circle" px="0px">
       <TMIcon name="add" color="white" width="32px" />
     </Button>
@@ -85,8 +85,8 @@ You can add icons to the Button components.
     </Button>
     <Button variantColor="blue" borderRadius="32px"><TMIcon name="add" color="white"/>Add Account</Button>
     <Button variantColor="blue"><TMIcon name="add" color="white"/>Add Account</Button>
-  </ButtonGroup>
-  <ButtonGroup>
+  </Stack>
+  <Stack direction="row" spacing="0.5rem">
     <Button variant="outline" borderRadius="circle" px="0px">
       <TMIcon name="add" width="32px"/>
     </Button>
@@ -95,32 +95,32 @@ You can add icons to the Button components.
     </Button>
     <Button variant="outline" borderRadius="32px"><TMIcon name="add"/>Add Account</Button>
     <Button variant="outline"><TMIcon name="add"/>Add Account</Button>
-  </ButtonGroup>
-</>
+  </Stack>
+</Stack>
 ```
 ---
 
 ## Custom Button
 
-In event you need to make your own custom button, you can leverage the
-`PseudoBox` component. It provides the `hover`, `focus`, `active` and `disabled` style props to style the button.
+In event you need to make your own custom button, you can leverage the [ButtonBase](./buttonbase) component.
 
 ```jsx
-// Button from facebook.com
-<PseudoBox
-  as="button"
-  height="24px"
-  lineHeight="1.2"
-  transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+<ButtonBase
+  bg="#f5f6f7"
   border="1px solid"
-  px="8px"
-  rounded="2px"
+  borderColor="#ccd0d5"
+  borderRadius="md"
+  color="#4b4f56"
   fontSize="14px"
   fontWeight="semibold"
-  bg="#f5f6f7"
-  borderColor="#ccd0d5"
-  color="#4b4f56"
-  _hover={{ bg: "#ebedf0" }}
+  height="24px"
+  lineHeight="1.2"
+  px="8px"
+  transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+
+  _hover={{
+    bg: "#ebedf0"
+  }}
   _active={{
     bg: "#dddfe2",
     transform: "scale(0.98)",
@@ -132,7 +132,7 @@ In event you need to make your own custom button, you can leverage the
   }}
 >
   Join Group
-</PseudoBox>
+</ButtonBase>
 ```
 
 ## Props
