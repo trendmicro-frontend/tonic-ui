@@ -5,8 +5,6 @@ const ButtonGroup = ({
   size,
   variantColor,
   variant,
-  isAttached,
-  spacing = 'xs',
   children,
   ...rest
 }) => {
@@ -22,11 +20,10 @@ const ButtonGroup = ({
       size: child.props.size || size,
       variantColor: child.props.variantColor || variantColor,
       variant: child.props.variant || variant,
-      ...(!isLast && !isAttached && { mr: spacing }),
-      ...(isFirst && isAttached && { borderTopRightRadius: 0, borderBottomRightRadius: 0 }),
-      ...(isLast && isAttached && { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
-      ...(!isLast && isAttached && { borderRight: 0 }),
-      ...(!isFirst && !isLast && isAttached && { borderRadius: 0 }),
+      ...(isFirst && { borderTopRightRadius: 0, borderBottomRightRadius: 0 }),
+      ...(isLast && { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
+      ...(!isLast && { mr: -1 }),
+      ...(!isFirst && !isLast && { borderRadius: 0 }),
     });
   });
 
