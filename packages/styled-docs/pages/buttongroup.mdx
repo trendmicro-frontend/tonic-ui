@@ -21,7 +21,7 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 
 ### Buttons Variant
 
-Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
+Use the `variant` prop to change the visual style of every button in a group. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
 
 ```jsx
 <ButtonGroup variant="outline">
@@ -32,50 +32,40 @@ Use the `variant` prop to change the visual style of the Button. You can set the
 
 ### Buttons Color
 
-Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the them.color.
+Use the `variantColor` prop to change the color scheme of every button in a group. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the `theme.color`.
 
 ```jsx
-<ButtonGroup variantColor="red">
-  <Button>Emphasis Button</Button>
-  <Button>Primary Button</Button>
-  <Button variantColor="gray">Default Button</Button>
-</ButtonGroup>
-```
-
-### Buttons Sizes
-
-Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
-
-```jsx
-<ButtonGroup size="lg">
-  <Button size="sm">Button</Button>
-  <Button>Button</Button>
-  <Button>Button</Button>
-</ButtonGroup>
-```
-
-### isAttached
-
-Use the `isAttached` prop to change the borderRadius of button that are direct children will be altered to look flushed together.
-
-```jsx
-<ButtonGroup variant="outline" isAttached="true">
+<ButtonGroup variantColor="blue">
   <Button>Left</Button>
   <Button>Middle</Button>
   <Button>Right</Button>
 </ButtonGroup>
 ```
 
-### spacing
+### Buttons Size
 
-Use the `spacing` prop to change the right margin between Buttons in the group. `spacing` can be any key that exist in the them.space.
+Use the `size` prop to change the size of every button in a group. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<ButtonGroup spacing="lg">
-  <Button>Left</Button>
-  <Button>Middle</Button>
-  <Button>Right</Button>
-</ButtonGroup>
+<Stack spacing="0.5rem">
+  <ButtonGroup variant="outline" size="sm">
+    <Button>Left</Button>
+    <Button>Middle</Button>
+    <Button>Right</Button>
+  </ButtonGroup>
+  <ButtonGroup variant="solid" size="md">
+    <Button>Left</Button>
+    <Button>Middle</Button>
+    <Button>Right</Button>
+  </ButtonGroup>
+  <ButtonGroup variant="outline" size="lg">
+    <Button>Left</Button>
+    <Button>Middle</Button>
+    <Button>Right</Button>
+  </ButtonGroup>
+</Stack>
+
+
 ```
 
 ## Props
@@ -84,8 +74,6 @@ The ButtonGroup composes the `Box` component so you can pass props for `Box`. Th
 
 | Name               | Type                 | Default       | Description                                                            |
 | ------------------ | -------------------- | ------------- | ---------------------------------------------------------------------- |
-| `isAttached`       | boolean              | false         | If `true`, the borderRadius of button that are direct children will be altered to look flushed together.  |
 | `size`             | `sm`, `md`, `lg`     | `md`          | Sets the size for all Buttons in the group.                            |
-| `spacing`          | string               | `xs`          | The right margin between Buttons in the group. Use a key passed in `theme.space`.  |
 | `variant`          | `solid`, `outline`   | `solid`       | Sets the variant of all Buttons in the group.                          |
 | `variantColor`     | string               |               | Sets the variant of all Buttons in the group. Use a color key passed in `theme.colors`.  |
