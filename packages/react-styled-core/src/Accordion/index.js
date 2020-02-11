@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4';
-import {
+import React, {
   createContext,
   forwardRef,
   useContext,
@@ -9,6 +9,7 @@ import {
   cloneElement,
   isValidElement,
 } from 'react';
+import useColorMode from '../useColorMode';
 import Box from '../Box';
 import Collapse from '../Collapse';
 import PseudoBox from '../PseudoBox';
@@ -140,7 +141,13 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
     headerId,
     isDisabled,
     onToggle,
+    _hover = null,
   } = useAccordionItemContext();
+  const { colorMode } = useColorMode();
+  const hoverBg = {
+    dark: 'rgba(0, 0, 0, 0.04)',
+    light: 'gray.10',
+  }[colorMode];
   return (
     <PseudoBox
       ref={ref}
@@ -149,7 +156,7 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
       width="100%"
       transition="all 0.2s"
       _focus={{ boxShadow: 'outline' }}
-      _hover={{ bg: 'gray.10' }}
+      _hover={_hover === null ? { bg: hoverBg } : _hover}
       _disabled={{ opacity: '0.4', cursor: 'not-allowed' }}
       as="button"
       type="button"
