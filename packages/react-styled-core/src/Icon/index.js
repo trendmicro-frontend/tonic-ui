@@ -1,59 +1,36 @@
-import { ThemeContext } from '@emotion/core';
-import styled from '@emotion/styled';
-import { useContext, forwardRef } from 'react';
-import Box from '../Box';
+import _get from 'lodash.get';
+import React, { forwardRef } from 'react';
+import SVGIcon from '../SVGIcon';
+import useTheme from '../useTheme';
 
-const Svg = styled(Box)`
-  flex-shrink: 0;
-  backface-visibility: hidden;
-  &:not(:root) {
-    overflow: hidden;
-  }
-`;
-
-const Icon = forwardRef(
-  (
-    {
-      size = '1em',
-      name,
-      color = 'currentColor',
-      role = 'presentation',
-      focusable = false,
-      ...rest
-    },
-    ref,
-  ) => {
-    const { icons: iconPaths } = useContext(ThemeContext);
-
-    // Fallback in case you pass the wrong name
-    const iconFallback = iconPaths['question-outline'];
-
-    const path =
-      iconPaths[name] == null ? iconFallback.path : iconPaths[name].path;
-
-    const viewBox =
-      (iconPaths[name] == null
-        ? iconFallback.viewBox
-        : iconPaths[name].viewBox) || '0 0 24 24';
-
-    return (
-      <Svg
-        ref={ref}
-        as="svg"
-        size={size}
-        color={color}
-        display="inline-block"
-        verticalAlign="middle"
-        viewBox={viewBox}
-        focusable={focusable}
-        role={role}
-        {...rest}
-      >
-        {path}
-      </Svg>
-    );
+const Icon = forwardRef((
+  {
+    name,
+    ...rest
   },
-);
+  ref
+) => {
+  const { icons = {} } = useTheme();
+  const { path, ...restIconProps } = { ..._get(icons, name) };
+
+  if (typeof path === 'string') {
+    return (
+      <SVGIcon
+        dangerouslySetInnerHTML={{
+          __html: path,
+        }}
+        {...restIconProps}
+        {...rest}
+      />
+    );
+  }
+
+  return (
+    <SVGIcon {...restIconProps} {...rest}>
+      {path}
+    </SVGIcon>
+  );
+});
 
 Icon.displayName = 'Icon';
 
