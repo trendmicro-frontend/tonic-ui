@@ -21,7 +21,7 @@ import { Button } from '@trendmicro/react-styled-core';
 Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
 
 ```jsx
-<Stack direction="row" spacing="1rem" alignItems="center" shouldWrapChildren>
+<Stack direction="row" spacing=".5rem" shouldWrapChildren>
   <Button variant="solid">Solid Button</Button>
   <Button variant="outline">Outlined Button</Button>
 </Stack>
@@ -32,7 +32,7 @@ Use the `variant` prop to change the visual style of the Button. You can set the
 Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the them.color.
 
 ```jsx
-<Stack direction="row" spacing="1rem" alignItems="center" shouldWrapChildren>
+<Stack direction="row" spacing=".5rem" shouldWrapChildren>
   <Button variantColor="red">Emphasis Button</Button>
   <Button variantColor="blue">Primary Button</Button>
   <Button variantColor="gray">Default Button</Button>
@@ -44,7 +44,7 @@ Use the `variantColor` prop to change the color scheme of the Button. `variantCo
 Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="row" spacing="1rem" alignItems="center" shouldWrapChildren>
+<Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
   <Button size="sm">Small</Button>
   <Button size="md">Medium</Button>
   <Button size="lg">Large</Button>
@@ -107,7 +107,7 @@ Sometimes you might want to add label to certain icon buttons to enhance the UX.
 
 ```jsx
 <Stack direction="column" spacing="1rem">
-  <Stack direction="row" spacing="1rem">
+  <Stack direction="row" spacing=".5rem">
     <Button variantColor="blue" borderRadius="circle" width="2rem" height="2rem">
       <TMIcon name="add" color="white" />
     </Button>
@@ -125,7 +125,7 @@ Sometimes you might want to add label to certain icon buttons to enhance the UX.
       Add Account
     </Button>
   </Stack>
-  <Stack direction="row" spacing="1rem">
+  <Stack direction="row" spacing=".5rem">
     <Button variant="outline" borderRadius="circle" width="2rem" height="2rem">
       <TMIcon name="add" />
     </Button>
