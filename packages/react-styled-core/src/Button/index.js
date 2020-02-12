@@ -5,6 +5,7 @@ import ButtonBase from '../ButtonBase';
 const Button = forwardRef(
   (
     {
+      active,
       borderRadius = 'sm',
       children,
       as: Comp = 'button',
@@ -30,6 +31,7 @@ const Button = forwardRef(
         as={Comp}
         type={type}
         borderRadius={borderRadius}
+        data-active={active ? 'true' : undefined}
         {...buttonStyleProps}
         {...rest}
       >

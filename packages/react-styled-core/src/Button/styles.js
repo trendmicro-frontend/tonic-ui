@@ -161,6 +161,16 @@ const focusProps = ({ colorMode, theme: { colors } }) => {
 
 ////////////////////////////////////////////////////////////
 
+const selectedProps = {
+  _selected: {
+    bg: 'blue.60',
+    borderColor: 'blue.60',
+    color: 'inherit',
+  },
+};
+
+////////////////////////////////////////////////////////////
+
 const variantProps = props => {
   const variant = props.variant;
 
@@ -198,6 +208,7 @@ const useButtonStyle = props => {
   const _props = { ...props, colorMode, theme };
   return {
     ...baseProps,
+    ...selectedProps,
     ...sizeProps(_props),
     ...focusProps(_props),
     ...variantProps(_props),
