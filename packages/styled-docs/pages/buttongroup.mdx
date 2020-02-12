@@ -1,6 +1,6 @@
 # ButtonGroup
 
-Group a series of [buttons](./button) together on a single line with the button group.
+ButtonGroup is used to group related buttons.
 
 ## Import
 
@@ -14,8 +14,8 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 
 ```jsx
 <ButtonGroup>
-  <Button variant="solid">Button</Button>
-  <Button variant="outline">Button</Button>
+  <Button variant="solid">One</Button>
+  <Button variant="outline">Two</Button>
 </ButtonGroup>
 ```
 
@@ -24,10 +24,17 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 Use the `variant` prop to change the visual style of every button in a group. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
 
 ```jsx
-<ButtonGroup variant="outline">
-  <Button>Button</Button>
-  <Button>Button</Button>
-</ButtonGroup>
+<>
+  <ButtonGroup variant="solid">
+    <Button>One</Button>
+    <Button>Two</Button>
+  </ButtonGroup>
+  <Space width="1rem" />
+  <ButtonGroup variant="outline">
+    <Button>One</Button>
+    <Button>Two</Button>
+  </ButtonGroup>
+</>
 ```
 
 ### Buttons Color
@@ -47,13 +54,13 @@ Use the `variantColor` prop to change the color scheme of every button in a grou
 Use the `size` prop to change the size of every button in a group. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack spacing="0.5rem">
+<Stack spacing="1rem">
   <ButtonGroup variant="outline" size="sm">
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
   </ButtonGroup>
-  <ButtonGroup variant="solid" size="md">
+  <ButtonGroup variant="outline" size="md">
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
@@ -72,8 +79,8 @@ Use the `size` prop to change the size of every button in a group. You can set t
 
 The ButtonGroup composes the `Box` component so you can pass props for `Box`. These are props related to the ButtonGroup component.
 
-| Name               | Type                 | Default       | Description                                                            |
-| ------------------ | -------------------- | ------------- | ---------------------------------------------------------------------- |
-| `size`             | `sm`, `md`, `lg`     | `md`          | Sets the size for all Buttons in the group.                            |
-| `variant`          | `solid`, `outline`   | `solid`       | Sets the variant of all Buttons in the group.                          |
-| `variantColor`     | string               |               | Sets the variant of all Buttons in the group. Use a color key passed in `theme.colors`.  |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `size` | `sm`, `md`, `lg` | `md` | Sets the size for all Buttons in the group. |
+| `variant` | `solid`, `outline` | `solid` | Sets the variant of all Buttons in the group. |
+| `variantColor` | string | | Sets the variant of all Buttons in the group. Use a color key passed in `theme.colors`. |
