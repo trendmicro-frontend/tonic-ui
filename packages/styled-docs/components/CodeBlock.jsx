@@ -10,7 +10,7 @@ import DocsIcon from './DocsIcon';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import TMIcon from './TMIcon';
 
-const { Box, useColorMode } = StyledCoreComponents;
+const { Box, Button, useColorMode, useClipboard } = StyledCoreComponents;
 const DocsComponents = {
   DocsIcon,
 };
@@ -53,6 +53,18 @@ const LiveCodePreview = props => {
     />
   );
 };
+
+const CopyButton = props => (
+  <Button
+    fontFamily="base"
+    position="absolute"
+    textTransform="uppercase"
+    top={0}
+    zIndex="1"
+    right="xl"
+    {...props}
+  />
+);
 
 const EditableNotice = props => {
   const { colorMode } = useColorMode();
@@ -101,6 +113,7 @@ const CodeBlock = ({
   ...props
 }) => {
   const [editorCode, setEditorCode] = useState(children.trim());
+  const { onCopy, hasCopied } = useClipboard(editorCode);
   const handleCodeChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
   }, []);
@@ -152,6 +165,9 @@ const CodeBlock = ({
           padding={20}
           style={liveEditorStyle}
         />
+        <CopyButton onClick={onCopy}>
+          {hasCopied ? 'copied' : 'copy'}
+        </CopyButton>
         {isEditable && (
           <EditableNotice />
         )}
