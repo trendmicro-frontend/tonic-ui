@@ -15,6 +15,7 @@ const ButtonBase = forwardRef((
   const baseStyleProps = {
     bg: 'transparent',
     border: 'none',
+    color: 'inherit',
     outline: 0,
     padding: 0,
     cursor: 'pointer',
