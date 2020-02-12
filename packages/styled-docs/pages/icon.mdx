@@ -21,15 +21,18 @@ First, you have to add custom icons to the theme. Each icon must be an object co
 ```jsx disabled noInline
 const customIcons = {
   icon1: {
-    path: '<path fill="currentColor" d="..." />',
+    path: (
+      <path fill="currentColor" d="..." />
+    ),
   },
   icon2: {
-    // The icon path can be a React component
     path: (
       <g fill="currentColor">
         <path d="..." />
       </g>
     ),
+
+    // optional style props
     viewBox: '0 0 48 48',
   },
 };
