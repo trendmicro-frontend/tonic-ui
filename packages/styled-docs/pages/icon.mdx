@@ -46,7 +46,7 @@ const customTheme = {
 };
 ```
 
-Pass the new theme to the ThemeProvider:
+After that simply wrap your app into `ThemeProvider` component and pass your theme as a `theme` prop. Just like this:
 
 ```jsx disabled noInline
 <ThemeProvider theme={customTheme}>
@@ -54,7 +54,7 @@ Pass the new theme to the ThemeProvider:
 </ThemeProvider>
 ```
 
-Now you can pass icon name to render an icon:
+Pass the icon name as a prop to the `<Icon>` component to render the SVG icon:
 
 ```jsx disabled noInline
 <Icon name="icon1" color="blue.50" />
