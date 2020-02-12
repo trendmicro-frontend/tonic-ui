@@ -17,6 +17,13 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
         borderColor: 'transparent',
         boxShadow: 'none',
       },
+      _disabled: {
+        bg: `${color}.60`,
+        borderColor: 'transparent',
+        boxShadow: 'none',
+        cursor: 'not-allowed',
+        opacity: '40%',
+      },
     },
     dark: {
       bg: `${color}.60`,
@@ -29,6 +36,13 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
         bg: `${color}.70`,
         borderColor: 'transparent',
         boxShadow: 'none',
+      },
+      _disabled: {
+        bg: `${color}.60`,
+        borderColor: 'transparent',
+        boxShadow: 'none',
+        cursor: 'not-allowed',
+        opacity: '40%',
       },
     },
   };
@@ -49,8 +63,16 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
       _active: {
         bg: addOpacity('black', 0.12),
         borderColor: `${color}.70`,
-        color: `${color}.70`,
         boxShadow: 'none',
+        color: `${color}.70`,
+      },
+      _disabled: {
+        bg: 'transparent',
+        borderColor: 'gray.60',
+        boxShadow: 'none',
+        color: 'black',
+        cursor: 'not-allowed',
+        opacity: '40%',
       },
     },
     dark: {
@@ -63,23 +85,21 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
       _active: {
         bg: addOpacity('black', 0.12),
         borderColor: `${color}.70`,
-        color: `${color}.70`,
         boxShadow: 'none',
+        color: `${color}.70`,
+      },
+      _disabled: {
+        bg: 'transparent',
+        borderColor: 'gray.60',
+        boxShadow: 'none',
+        color: 'white',
+        cursor: 'not-allowed',
+        opacity: '40%',
       },
     },
   };
 
   return style[colorMode];
-};
-
-////////////////////////////////////////////////////////////
-
-const disabledProps = {
-  _disabled: {
-    opacity: '40%',
-    cursor: 'not-allowed',
-    boxShadow: 'none',
-  },
 };
 
 ////////////////////////////////////////////////////////////
@@ -172,7 +192,6 @@ const useButtonStyle = props => {
     ...baseProps,
     ...sizeProps(_props),
     ...focusProps(_props),
-    ...disabledProps,
     ...variantProps(_props),
   };
 };
