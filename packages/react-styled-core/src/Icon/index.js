@@ -13,18 +13,6 @@ const Icon = forwardRef((
   const { icons = {} } = useTheme();
   const { path, ...restIconProps } = { ..._get(icons, name) };
 
-  if (typeof path === 'string') {
-    return (
-      <SVGIcon
-        dangerouslySetInnerHTML={{
-          __html: path,
-        }}
-        {...restIconProps}
-        {...rest}
-      />
-    );
-  }
-
   return (
     <SVGIcon {...restIconProps} {...rest}>
       {path}
