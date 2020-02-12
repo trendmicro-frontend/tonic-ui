@@ -136,8 +136,9 @@ The `AccordionItem` component has the render prop `isExpanded` set to `true` or 
   {({ isExpanded }) => (
     <>
       <AccordionHeader
-        bg={isExpanded ? 'tomato': 'inherit'}
-        color={isExpanded ? 'white' : 'inherit' }
+        bg={isExpanded ? 'tomato': 'green.50'}
+        color={isExpanded ? 'white' : 'red.100' }
+        _hover={{ bg: 'tomato' }}
       >
         <Box flex="1" textAlign="left">
           Click me to see a different style
