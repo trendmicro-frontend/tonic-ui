@@ -11,6 +11,7 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
       color: 'white',
       _hover: {
         bg: `${color}.50`,
+        zIndex: 1,
       },
       _active: {
         bg: `${color}.70`,
@@ -23,6 +24,7 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
         boxShadow: 'none',
         cursor: 'not-allowed',
         opacity: '40%',
+        zIndex: 'auto',
       },
     },
     dark: {
@@ -31,6 +33,7 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
       color: 'white',
       _hover: {
         bg: `${color}.50`,
+        zIndex: 1,
       },
       _active: {
         bg: `${color}.70`,
@@ -43,6 +46,7 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
         boxShadow: 'none',
         cursor: 'not-allowed',
         opacity: '40%',
+        zIndex: 'auto',
       },
     },
   };
@@ -59,6 +63,7 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
       _hover: {
         borderColor: `${color}.50`,
         color: `${color}.50`,
+        zIndex: 1,
       },
       _active: {
         bg: addOpacity('black', 0.12),
@@ -73,6 +78,7 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
         color: 'black',
         cursor: 'not-allowed',
         opacity: '40%',
+        zIndex: 'auto',
       },
     },
     dark: {
@@ -81,6 +87,7 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
       _hover: {
         borderColor: `${color}.50`,
         color: `${color}.50`,
+        zIndex: 1,
       },
       _active: {
         bg: addOpacity('black', 0.12),
@@ -95,6 +102,7 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
         color: 'white',
         cursor: 'not-allowed',
         opacity: '40%',
+        zIndex: 'auto',
       },
     },
   };
