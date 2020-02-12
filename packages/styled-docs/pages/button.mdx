@@ -1,6 +1,6 @@
 # Button
 
-The Button component is used to trigger an action or event, such as submitting a form, opening a [Dialog](./modal), canceling an action, or performing a delete operation.
+Button is used to trigger an action or event, such as submitting a form, opening a [Dialog](./modal), canceling an action, or performing a delete operation.
 
 ## Import
 
@@ -16,93 +16,139 @@ import { Button } from '@trendmicro/react-styled-core';
 <Button>Default Button</Button>
 ```
 
-### Button Variant
+### Variants
 
 Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
 
 ```jsx
-<Stack direction="row" spacing="0.5rem">
-  <Button variant="solid">Button</Button>
-  <Button variant="outline">Button</Button>
+<Stack direction="row" spacing=".5rem" shouldWrapChildren>
+  <Button variant="solid">Solid Button</Button>
+  <Button variant="outline">Outlined Button</Button>
 </Stack>
 ```
 
-### Button Color
+### Colors
 
 Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the them.color.
 
 ```jsx
-<Stack direction="row" spacing="0.5rem">
+<Stack direction="row" spacing=".5rem" shouldWrapChildren>
   <Button variantColor="red">Emphasis Button</Button>
   <Button variantColor="blue">Primary Button</Button>
   <Button variantColor="gray">Default Button</Button>
 </Stack>
 ```
 
-### Button Sizes
+### Sizes
 
 Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="row" spacing="0.5rem" shouldWrapChildren={true} alignItems="center">
-  <Button size="sm">Button</Button>
-  <Button size="md">Button</Button>
-  <Button size="lg">Button</Button>
+<Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
+  <Button size="sm">Small</Button>
+  <Button size="md">Medium</Button>
+  <Button size="lg">Large</Button>
 </Stack>
 ```
 
-## Accessibility
+### `REVIEW REQUIRED` Text buttons
 
-- Button has `role` button.
-- When Button has <kbd>focus</kbd>, <kbd>Space</kbd> and <kbd>Enter</kbd> activates it.
+Text buttons are typically used for less-pronounced actions.
 
-## Composition
+```jsx noInline
+const TextButton = (props) => (
+  <Button variant="none" border="none" {...props} />
+);
 
-The Button component composes [ButtonBase](./buttonbase), and you can override any style of the Button via props.
+function Example() {
+  return (
+    <>
+      <TextButton>Default</TextButton>
+      <TextButton color="red.50">Emphasis</TextButton>
+      <TextButton color="blue.50">Primary</TextButton>
+      <TextButton disabled>Disabled</TextButton>
+    </>
+  );
+}
 
-```jsx
-<Button
-  variant="outline"
-  height="48px"
-  width="200px"
-  border="none"
->
-  Ghost Button
-</Button>
+render(<Example />);
 ```
-### Button with Icon
 
-You can add icons to the Button components.
+### `REVIEW REQUIRED` Icon buttons
+
+Icon buttons are commonly used in toolbars. 
+
+```jsx noInline
+const PlainButton = (props) => (
+  <Button
+    variant="outline"
+    border="none"
+    {...props}
+  />
+);
+
+function Example() {
+  return (
+    <Flex>
+      <PlainButton>
+        <TMIcon name="add" />
+      </PlainButton>
+      <PlainButton>
+        <TMIcon name="minus" />
+      </PlainButton>
+    </Flex>
+  );
+}
+
+render(<Example />);
+```
+
+Sometimes you might want to add label to certain icon buttons to enhance the UX. You can use [Space](./space) to add a padding space with `.5rem` (`8px`) between icon and label.
 
 ```jsx
-<Stack spacing="0.5rem">
-  <Stack direction="row" spacing="0.5rem">
-    <Button variantColor="blue" borderRadius="circle" px="0px">
-      <TMIcon name="add" color="white" width="32px" />
+<Stack direction="column" spacing="1rem">
+  <Stack direction="row" spacing=".5rem">
+    <Button variantColor="blue" borderRadius="circle" width="2rem" height="2rem">
+      <TMIcon name="add" color="white" />
     </Button>
-    <Button variantColor="blue" px="0px">
-      <TMIcon name="add" color="white" width="32px"/>
+    <Button variantColor="blue" width="2rem" height="2rem">
+      <TMIcon name="add" color="white" />
     </Button>
-    <Button variantColor="blue" borderRadius="32px"><TMIcon name="add" color="white"/>Add Account</Button>
-    <Button variantColor="blue"><TMIcon name="add" color="white"/>Add Account</Button>
+    <Button variantColor="blue" borderRadius="2rem">
+      <TMIcon name="add" color="white"/>
+      <Space width=".5rem" />
+      Add Account
+    </Button>
+    <Button variantColor="blue">
+      <TMIcon name="add" color="white"/>
+      <Space width=".5rem" />
+      Add Account
+    </Button>
   </Stack>
-  <Stack direction="row" spacing="0.5rem">
-    <Button variant="outline" borderRadius="circle" px="0px">
-      <TMIcon name="add" width="32px"/>
+  <Stack direction="row" spacing=".5rem">
+    <Button variant="outline" borderRadius="circle" width="2rem" height="2rem">
+      <TMIcon name="add" />
     </Button>
-    <Button variant="outline" px="0px">
-      <TMIcon name="add" width="32px" />
+    <Button variant="outline" width="2rem" height="2rem">
+      <TMIcon name="add" />
     </Button>
-    <Button variant="outline" borderRadius="32px"><TMIcon name="add"/>Add Account</Button>
-    <Button variant="outline"><TMIcon name="add"/>Add Account</Button>
+    <Button variant="outline" borderRadius="2rem">
+      <TMIcon name="add" />
+      <Space width=".5rem" />
+      Add Account
+    </Button>
+    <Button variant="outline">
+      <TMIcon name="add" />
+      <Space width=".5rem" />
+      Add Account
+    </Button>
   </Stack>
 </Stack>
 ```
----
 
-## Custom Button
+## Custom button
 
-In event you need to make your own custom button, you can leverage the [ButtonBase](./buttonbase) component.
+In case you need to customize the button, pass style props to the [ButtonBase](./buttonbase) component to create a custom button.
 
 ```jsx
 <ButtonBase
@@ -117,7 +163,6 @@ In event you need to make your own custom button, you can leverage the [ButtonBa
   lineHeight="1.2"
   px="8px"
   transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
-
   _hover={{
     bg: "#ebedf0"
   }}
@@ -137,7 +182,7 @@ In event you need to make your own custom button, you can leverage the [ButtonBa
 
 ## Props
 
-The Button composes the `PseudoBox` component so you can pass props for `PseudoBox`. These are props related to the Button component.
+Button composes [ButtonBase](./buttonbase). You can override the default styles with style props.
 
 | Name               | Type                 | Default       | Description                                                            |
 | ------------------ | -------------------- | ------------- | ---------------------------------------------------------------------- |
