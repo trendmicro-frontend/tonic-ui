@@ -11,7 +11,7 @@ const ButtonBase = forwardRef((
   },
   ref,
 ) => {
-  // The base button does not have appearance including default color, padding, outline, and border settings
+  // ButtonBase does not have appearance settings including default color, padding, outline, and border
   const baseStyleProps = {
     bg: 'transparent',
     border: 'none',
