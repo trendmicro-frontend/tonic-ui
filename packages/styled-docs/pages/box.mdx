@@ -51,25 +51,25 @@ You can use the `as` prop to change what is rendered dynamically at runtime.
 
 ### Responsive layout
 
-```jsx
+```jsx noInline
+const Ellipsis = (props) => (
+  <Box whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" {...props} />
+);
+
+const Light = ({ on, ...rest }) => (
+  <Box
+    display="inline-block"
+    borderRadius="50%"
+    bg={on ? '#00ff00' : '#666'}
+    boxShadow={on ? '0 0 1px 2px rgba(0, 255, 0, .8)' : 'none'}
+    height={16}
+    width={16}
+    verticalAlign="middle"
+    {...rest}
+  />
+);
+
 function Example() {
-  const Ellipsis = (props) => (
-    <Box whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" {...props} />
-  );
-
-  const Light = ({ on, ...rest }) => (
-    <Box
-      display="inline-block"
-      borderRadius="50%"
-      bg={on ? '#00ff00' : '#666'}
-      boxShadow={on ? '0 0 1px 2px rgba(0, 255, 0, .8)' : 'none'}
-      height={16}
-      width={16}
-      verticalAlign="middle"
-      {...rest}
-    />
-  );
-
   const laneColor = {
     1: '#389efc',
     2: '#ff7332',
@@ -165,8 +165,8 @@ function Example() {
                 flexBasis="auto"
                 flexGrow={0}
                 width="auto"
-                fontSize={[null, null, 'xl', '2xl']}
-                lineHeight={[null, null, 'xl', '2xl']}
+                fontSize={['xl', null, null, '2xl']}
+                lineHeight={['xl', null, null, '2xl']}
               >
                 <Light on={player.gates[0]} m={8} />
                 <Text pr={8}>REC</Text>
@@ -182,4 +182,6 @@ function Example() {
     </Box>
   );
 }
+
+render(<Example />);
 ```
