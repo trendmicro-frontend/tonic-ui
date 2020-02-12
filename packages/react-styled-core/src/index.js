@@ -1,6 +1,7 @@
 import Badge from './Badge';
 import Box from './Box';
 import Button from './Button';
+import ButtonBase from './ButtonBase';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import CSSBaseline from './CSSBaseline';
@@ -26,6 +27,7 @@ export {
   Badge,
   Box,
   Button,
+  ButtonBase,
   Collapse,
   ColorModeProvider,
   CSSBaseline,
