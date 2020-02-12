@@ -1,6 +1,10 @@
 # ButtonBase
 
-The ButtonBase component does not contains any styles. It aims to be a simple building block for creating a button.
+ButtonBase does not have appearance settings including default color, padding, outline, and border. It aims to be a simple building block for creating a button.
+
+```jsx disabled
+<ButtonBase>Text</ButtonBase>
+```
 
 ## Import
 
@@ -12,14 +16,64 @@ import { ButtonBase } from '@trendmicro/react-styled-core';
 
 ## Usage
 
+### Plain button
+
 ```jsx
-<ButtonBase>Base Button</ButtonBase>
+function Example() {
+  const [value, setValue] = React.useState(0);
+  const handleClear = () => setValue(0);
+  const handleAdd = () => setValue(value => value + 1);
+
+  return (
+    <Stack direction="column" alignItems="flex-start">
+      <ButtonBase onClick={handleClear}>
+        <Badge>{value}</Badge>
+      </ButtonBase>
+      <Space height="1rem" />
+      <ButtonBase onClick={handleAdd}>
+        Click Me
+      </ButtonBase>
+    </Stack>
+  );
+}
+```
+
+### Adding an icon to a plain button
+
+```jsx
+function Example() {
+  const [value, setValue] = React.useState(false);
+  const handleClick = () => {
+    setValue(value => !value);
+  };
+  const btnStyleProps = {
+    color: value > 0 ? 'blue.70' : 'inherit',
+    opacity: value > 0 ? .9 : .7,
+    _active: {
+      opacity: .9,
+    },
+    _hover: {
+      opacity: .8,
+    },
+  };
+
+  return (
+    <Stack direction="column" alignItems="flex-start">
+      <Badge>{value ? '1' : '0'}</Badge>
+      <Space height="1rem" />
+      <ButtonBase
+        onClick={handleClick}
+        {...btnStyleProps}
+      >
+        <FontAwesomeIcon icon="thumbs-up" fixedWidth style={{ color: 'inherit' }} />
+        <Space width=".25rem" />
+        Like
+      </ButtonBase>
+    </Stack>
+  );
+}
 ```
 
 ## Props
 
-The ButtonBase component composes [PseudoBox](./pseudobox) and all props you pass are converted to style props. This means you can override any style of the ButtonBase via props.
-
-## Demos
-
-- [Button](./button)
+ButtonBase composes [PseudoBox](./pseudobox). You can override the default styles with style props.
