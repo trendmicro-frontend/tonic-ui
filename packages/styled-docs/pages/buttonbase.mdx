@@ -2,10 +2,6 @@
 
 ButtonBase does not have appearance settings including default color, padding, outline, and border. It aims to be a simple building block for creating a button.
 
-```jsx disabled
-<ButtonBase>Text</ButtonBase>
-```
-
 ## Import
 
 ```js
@@ -15,6 +11,14 @@ import { ButtonBase } from '@trendmicro/react-styled-core';
 ```
 
 ## Usage
+
+```jsx
+<>
+  <ButtonBase>Clickable</ButtonBase>
+  <Space width="1rem" />
+  <ButtonBase disabled>Disabled</ButtonBase>
+</>
+```
 
 ### Plain button
 
@@ -30,7 +34,11 @@ function Example() {
         <Badge>{value}</Badge>
       </ButtonBase>
       <Space height="1rem" />
-      <ButtonBase onClick={handleAdd}>
+      <ButtonBase
+        opacity={.6}
+        _hover={{ opacity: .8 }}
+        onClick={handleAdd}
+      >
         Click Me
       </ButtonBase>
     </Stack>
@@ -48,9 +56,9 @@ function Example() {
   };
   const btnStyleProps = {
     color: value > 0 ? 'blue.50' : 'inherit',
-    opacity: value > 0 ? .9 : .7,
+    opacity: value > 0 ? 1 : .6,
     _active: {
-      opacity: .9,
+      opacity: 1,
     },
     _hover: {
       opacity: .8,
