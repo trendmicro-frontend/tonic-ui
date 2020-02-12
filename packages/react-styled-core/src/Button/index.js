@@ -5,7 +5,6 @@ import ButtonBase from '../ButtonBase';
 const Button = forwardRef(
   (
     {
-      disabled,
       borderRadius = 'sm',
       children,
       as: Comp = 'button',
