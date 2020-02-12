@@ -22,11 +22,6 @@ const baseCSS = theme => {
     samp {
       font-family: ${theme.fonts.mono};
     }
-
-    button {
-      background: transparent;
-      padding: 0;
-    }
   `;
 };
 
