@@ -5,7 +5,7 @@ const ButtonBase = forwardRef((
   {
     disabled,
     children,
-    as: Comp = 'button',
+    as = 'button',
     type = 'button',
     ...rest
   },
@@ -16,9 +16,9 @@ const ButtonBase = forwardRef((
     bg: 'transparent',
     border: 'none',
     color: 'inherit',
+    cursor: disabled ? 'default' : 'pointer',
     outline: 0,
     padding: 0,
-    cursor: 'pointer',
   };
 
   return (
@@ -26,7 +26,7 @@ const ButtonBase = forwardRef((
       disabled={disabled}
       aria-disabled={disabled}
       ref={ref}
-      as={Comp}
+      as={as}
       type={type}
       {...baseStyleProps}
       {...rest}
