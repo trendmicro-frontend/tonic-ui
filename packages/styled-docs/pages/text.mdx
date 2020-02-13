@@ -18,24 +18,48 @@ import { Text } from '@trendmicro/react-styled-core';
 
 ```jsx
 <Stack spacing=".5rem">
-  <Text fontSize="4xl" lineHeight="4xl">Lorem ipsum dolor sit amet</Text>
-  <Text fontSize="3xl" lineHeight="3xl">Lorem ipsum dolor sit amet</Text>
-  <Text fontSize="2xl" lineHeight="2xl">Lorem ipsum dolor sit amet</Text>
-  <Text fontSize="xl" lineHeight="xl">Lorem ipsum dolor sit amet</Text>
-  <Text fontSize="lg" lineHeight="lg">Lorem ipsum dolor sit amet</Text>
-  <Text fontSize="md" lineHeight="md">Lorem ipsum dolor sit amet</Text>
-  <Text fontSize="sm" lineHeight="sm">Lorem ipsum dolor sit amet</Text>
-  <Text fontSize="xs" lineHeight="xs">Lorem ipsum dolor sit amet</Text>
+  <Text fontSize="4xl" lineHeight="4xl">
+    Four Extra Large (4XL)
+  </Text>
+  <Text fontSize="3xl" lineHeight="3xl">
+    Three Extra Large (3XL)
+  </Text>
+  <Text fontSize="2xl" lineHeight="2xl">
+    Two Extra Large (2XL)
+  </Text>
+  <Text fontSize="xl" lineHeight="xl">
+    Extra Large (XL)
+  </Text>
+  <Text fontSize="lg" lineHeight="lg">
+    Large (LG)
+  </Text>
+  <Text fontSize="md" lineHeight="md">
+    Medium (MD)
+  </Text>
+  <Text fontSize="sm" lineHeight="sm">
+    Small (SM)
+  </Text>
+  <Text fontSize="xs" lineHeight="xs">
+    Extra Small (XS)
+  </Text>
 </Stack>
 ```
 
-#### User-defined font size
+#### User-defined font size and line height
 
 ```jsx
-<Stack spacing=".5rem">
-  <Text fontSize="4rem" lineHeight="base">Lorem ipsum dolor sit amet</Text>
-  <Text fontSize="3rem" lineHeight="base">Lorem ipsum dolor sit amet</Text>
-</Stack>
+function Example() {
+  const { colorMode } = useColorMode();
+  const backgroundColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+
+  return (
+    <Stack spacing=".5rem">
+      <Text backgroundColor={backgroundColor} fontSize="3rem" lineHeight="base">
+        User-defined font size and line height
+      </Text>
+    </Stack>
+  );
+}
 ```
 
 ### Line height
@@ -69,7 +93,7 @@ function Example() {
   whiteSpace="nowrap"
   width="100%"
 >
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
 </Text>
 ```
 
