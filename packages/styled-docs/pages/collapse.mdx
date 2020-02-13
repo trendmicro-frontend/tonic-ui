@@ -19,18 +19,19 @@ import { Collapse } from '@trendmicro/react-styled-core';
 ```jsx
 function Example() {
   const [show, setShow] = React.useState(false);
-
   const handleToggle = () => setShow(!show);
 
   return (
-    <div style={{ whiteSpace: 'pre-wrap' }}>
-      <Button onClick={handleToggle}>
-        Toggle
-      </Button>
-      <Collapse mt={4} isOpen={show}>
-        Hello, we are Trend Micro Frontend, PR please when had some advice ^_^
+    <Box whiteSpace="pre-wrap">
+      <Box mb=".5rem">
+        <Button onClick={handleToggle}>
+          Toggle
+        </Button>
+      </Box>
+      <Collapse isOpen={show}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </Collapse>
-    </div>
+    </Box>
   );
 }
 ```
@@ -40,20 +41,25 @@ function Example() {
 ```jsx
 function Example() {
   const [show, setShow] = React.useState(false);
-
   const handleToggle = () => setShow(!show);
+  const textStyleProps = {
+    whiteSpace: show ? 'wrap' : 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    width: '100%',
+  };
 
   return (
-    <div style={{ whiteSpace: 'pre-wrap' }}>
+    <Box whiteSpace="pre-wrap">
       <Collapse startingHeight={20} isOpen={show}>
-        Hello, we are Trend Micro Frontend, PR please when had some advice ^_^.
-        嗨, 我們是趨勢科技的前端團隊, 歡迎發PR給予我們幫助跟建議。
-        謝謝大家賞臉
+        <Text {...textStyleProps}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </Text>
       </Collapse>
-      <Button size="sm" onClick={handleToggle} mt="1rem">
-        Show {show ? "Less" : "More"}
-      </Button>
-    </div>
+      <Link onClick={handleToggle}>
+        {show ? 'Show less' : 'Show more'}
+      </Link>
+    </Box>
   );
 }
 ```
@@ -62,12 +68,12 @@ function Example() {
 
 This component doesn't have any custom props.
 
-| Name             | Type      | Description                                                                                                  |
-| ---------------- | --------- | ------------------------------------------------------------------------------------------------------------ |
-| isOpen           | `boolean` | If `true`, the content will be visible                                                                       |
-| animateOpacity   | `boolean` | If `true`, the opacity of the content will be animated                                                       |
-| duration         | `number`  | The animation duration as it expands                                                                         |
-| startingHeight   | `number`  | The height you want the content in it's collapsed state. Set to `0` by default                               |
-| endingHeight     | `number`  | The height you want the content in it's expanded state. Set to `auto` by default                             |
-| onAnimationEnd   | `func`    | The function to be called when the collapse animation starts. It provides the `currentHeight` as an argument |
-| onAnimationStart | `func`    | The function to be called when the collapse animation ends. It provides the `currentHeight` as an argument   |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| isOpen | `boolean` | false | If `true`, the content will be visible. |
+| animateOpacity | `boolean` | true | If `true`, the opacity of the content will be animated. |
+| duration | `number` | | The animation duration as it expands. |
+| startingHeight | `number` | 0 | The height you want the content in it's collapsed state. Set to `0` by default. |
+| endingHeight | `number` | 'auto' | The height you want the content in it's expanded state. Set to `auto` by default. |
+| onAnimationEnd | `function` | | The function to be called when the collapse animation starts. It provides the `currentHeight` as an argument. |
+| onAnimationStart | `function` | | The function to be called when the collapse animation ends. It provides the `currentHeight` as an argument. |
