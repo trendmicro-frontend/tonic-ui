@@ -31,9 +31,10 @@ expanding another.
 <Accordion>
   <AccordionItem>
     <AccordionHeader>
-      <AccordionIcon />
-      <Space width=".5rem" />
-      Section 1
+      <Flex justify="space-between">
+        Section 1
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
     <AccordionPanel>
       <Text whiteSpace="pre-wrap" p=".75rem">
@@ -43,9 +44,10 @@ expanding another.
   </AccordionItem>
   <AccordionItem>
     <AccordionHeader>
-      <AccordionIcon />
-      <Space width=".5rem" />
-      Section 2
+      <Flex justify="space-between">
+        Section 2
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
     <AccordionPanel>
       <Text whiteSpace="pre-wrap" p=".75rem">
@@ -69,9 +71,10 @@ If you pass this prop, ensure that the `index` or `defaultIndex` prop is an arra
 >
   <AccordionItem>
     <AccordionHeader>
-      <AccordionIcon />
-      <Space width=".5rem" />
-      Section 1
+      <Flex justify="space-between">
+        Section 1
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
     <AccordionPanel>
       <Text whiteSpace="pre-wrap" p=".75rem">
@@ -81,9 +84,10 @@ If you pass this prop, ensure that the `index` or `defaultIndex` prop is an arra
   </AccordionItem>
   <AccordionItem>
     <AccordionHeader>
-      <AccordionIcon />
-      <Space width=".5rem" />
-      Section 2
+      <Flex justify="space-between">
+        Section 2
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
     <AccordionPanel>
       <Text whiteSpace="pre-wrap" p=".75rem">
@@ -102,9 +106,10 @@ If you set `allowToggle` to true, any expanded item may be collapsed again.
 <Accordion allowToggle>
   <AccordionItem>
     <AccordionHeader>
-      <AccordionIcon />
-      <Space width=".5rem" />
-      Section 1
+      <Flex justify="space-between">
+        Section 1
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
     <AccordionPanel>
       <Text whiteSpace="pre-wrap" p=".75rem">
@@ -114,9 +119,10 @@ If you set `allowToggle` to true, any expanded item may be collapsed again.
   </AccordionItem>
   <AccordionItem>
     <AccordionHeader>
-      <AccordionIcon />
-      <Space width=".5rem" />
-      Section 2
+      <Flex justify="space-between">
+        Section 2
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
     <AccordionPanel>
       <Text whiteSpace="pre-wrap" p=".75rem">
@@ -141,9 +147,10 @@ The `AccordionItem` component has the render prop `isExpanded` set to `true` or 
         _active={{ bg: 'blue.80' }}
         p=".75rem"
       >
-        <AccordionIcon />
-        <Space width=".5rem" />
-        Click Me
+        <Flex justify="space-between">
+          Click Me
+          <AccordionIcon />
+        </Flex>
       </AccordionHeader>
       <AccordionPanel>
         <Text whiteSpace="pre-wrap" p=".75rem">
@@ -164,9 +171,10 @@ render prop. It provides 2 internal state: `isDisabled and `isExpanded`.
 <Accordion allowMultiple>
   <AccordionItem>
     <AccordionHeader>
-      <AccordionIcon />
-      <Space width=".5rem" />
-      Section 1
+      <Flex justify="space-between">
+        Section 1
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
     <AccordionPanel>
       <Text whiteSpace="pre-wrap" p=".75rem">
@@ -178,17 +186,18 @@ render prop. It provides 2 internal state: `isDisabled and `isExpanded`.
     {({ isDisabled, isExpanded }) => (
       <>
         <AccordionHeader>
-          <TMIcon
-            name={isExpanded ? 'minus' : 'add'}
-            style={{
-              opacity: isDisabled ? .4 : 1,
-              transform: isExpanded ? null : 'rotate(-90deg)',
-              transition: 'transform 0.2s',
-              transformOrigin: 'center',
-            }}
-          />
-          <Space width=".5rem" />
-          Section 2
+          <Flex justify="space-between">
+            Section 2
+            <TMIcon
+              name={isExpanded ? 'minus' : 'add'}
+              style={{
+                opacity: isDisabled ? .4 : 1,
+                transform: isExpanded ? null : 'rotate(-90deg)',
+                transition: 'transform 0.2s',
+                transformOrigin: 'center',
+              }}
+            />
+          </Flex>
         </AccordionHeader>
         <AccordionPanel>
           <Text whiteSpace="pre-wrap" p=".75rem">

@@ -194,7 +194,7 @@ const AccordionIcon = props => {
     <Icon
       name="_core.chevron-down"
       opacity={isDisabled ? 0.4 : 1}
-      transform={isExpanded ? null : 'rotate(-90deg)'}
+      transform={isExpanded ? 'rotate(180deg)' : null}
       transition="transform 0.2s"
       transformOrigin="center"
       {...props}
