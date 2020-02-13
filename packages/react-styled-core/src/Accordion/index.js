@@ -9,11 +9,11 @@ import React, {
   cloneElement,
   isValidElement,
 } from 'react';
-import useColorMode from '../useColorMode';
 import Box from '../Box';
+import ButtonBase from '../ButtonBase';
 import Collapse from '../Collapse';
+import Icon from '../Icon';
 import PseudoBox from '../PseudoBox';
-import Icon from '../SVGIcon';
 
 const Accordion = ({
   allowMultiple,
@@ -141,26 +141,13 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
     headerId,
     isDisabled,
     onToggle,
-    _hover = null,
   } = useAccordionItemContext();
-  const { colorMode } = useColorMode();
-  const hoverBg = {
-    dark: 'rgba(0, 0, 0, 0.04)',
-    light: 'gray.10',
-  }[colorMode];
+
   return (
-    <PseudoBox
+    <ButtonBase
       ref={ref}
-      display="flex"
-      alignItems="center"
       width="100%"
       transition="all 0.2s"
-      _focus={{ boxShadow: 'outline' }}
-      _hover={_hover === null ? { bg: hoverBg } : _hover}
-      _disabled={{ opacity: '0.4', cursor: 'not-allowed' }}
-      as="button"
-      type="button"
-      outline="0"
       disabled={isDisabled}
       onClick={event => {
         onToggle();
@@ -170,8 +157,8 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
       }}
       id={headerId}
       aria-controls={panelId}
-      px="1rem"
-      py="0.5rem"
+      textAlign="left"
+      cursor={isDisabled ? 'default' : 'pointer'}
       {...props}
     />
   );
@@ -192,9 +179,6 @@ const AccordionPanel = forwardRef((props, ref) => {
       aria-labelledby={headerId}
       aria-hidden={!isExpanded}
       isOpen={isExpanded}
-      pt="0.5rem"
-      px="1rem"
-      pb="1.24rem"
       {...props}
     />
   );
@@ -208,20 +192,13 @@ const AccordionIcon = props => {
   const { isExpanded, isDisabled } = useAccordionItemContext();
   return (
     <Icon
-      aria-hidden
-      focusable="false"
-      size="1.25em"
+      name="_core.chevron-down"
       opacity={isDisabled ? 0.4 : 1}
-      transform={isExpanded ? 'rotate(-180deg)' : null}
+      transform={isExpanded ? 'rotate(180deg)' : null}
       transition="transform 0.2s"
       transformOrigin="center"
       {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-      />
-    </Icon>
+    />
   );
 };
 
