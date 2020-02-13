@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
 
   return (
     <Box color={fontColor}>
-      <Header zIndex="1" />
+      <Header />
       <SideNav
         display={['none', null, 'block']}
         maxWidth="20rem"

@@ -90,12 +90,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('row')}>row</Button>
         <Button variant="outline" onClick={() => setValue('row-reverse')}>row-reverse</Button>
         <Button variant="outline" onClick={() => setValue('column')}>column</Button>
         <Button variant="outline" onClick={() => setValue('column-reverse')}>column-reverse</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Flex direction="${value}">`}
       </pre>
@@ -123,11 +123,11 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('nowrap')}>nowrap</Button>
         <Button variant="outline" onClick={() => setValue('wrap')}>wrap</Button>
         <Button variant="outline" onClick={() => setValue('wrap-reverse')}>wrap-reverse</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Flex wrap="${value}">`}
       </pre>
@@ -158,12 +158,12 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('stretch')}>stretch</Button>
         <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
         <Button variant="outline" onClick={() => setValue('center')}>center</Button>
         <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Flex align="${value}">`}
       </pre>
@@ -191,14 +191,14 @@ function Example() {
 
   return (
     <>
-      <Box mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="1rem">
         <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
         <Button variant="outline" onClick={() => setValue('center')}>center</Button>
         <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
         <Button variant="outline" onClick={() => setValue('space-between')}>space-between</Button>
         <Button variant="outline" onClick={() => setValue('space-around')}>space-around</Button>
         <Button variant="outline" onClick={() => setValue('space-evenly')}>space-evenly</Button>
-      </Box>
+      </Stack>
       <pre>
         {`<Flex justify="${value}">`}
       </pre>

@@ -19,9 +19,10 @@
   "dependencies": {
     "@styled-system/css": "5.x",
     "@trendmicro/styled-theme": "*",
-    "color": "^3.1.2",
-    "react-animate-height": "^2.0.20",
-    "styled-system": "5.x"
+    "color": "3.x",
+    "react-animate-height": "2.x",
+    "styled-system": "5.x",
+    "lodash.get": "4.x"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "~7.0.0",
