@@ -21,7 +21,7 @@ const Header = React.forwardRef((props, ref) => {
       top={0}
       height="4rem"
       width="100%"
-      zIndex="2"
+      zIndex="fixed"
       backgroundColor={backgroundColor}
       borderBottom={1}
       borderBottomColor={borderColor}
