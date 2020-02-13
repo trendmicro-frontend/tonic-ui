@@ -1,20 +1,16 @@
 # Accordion
 
-Accordions display a list of high-level options that can expand/collapse to
-reveal more information.
+`Accordion` is used to display a list of high-level options that can expand/collapse to reveal more information.
+
+### Accordion components
+
+- `Accordion`: The wrapper that uses cloneElement to pass its prop to `AccordionItem`.
+- `AccordionItem`: A single accordion item.
+- `AccordionHeader`: It is used to toggle the expand/collapse state of the accordion item.
+- `AccordionPanel`: The container for the details to be revealed.
+- `AccordionIcon`: A `chevron-down` icon that rotates based on the expand/collapse state.
 
 ## Import
-
-Trend Micro Styled UI exports 5 accordion related components.
-
-- `Accordion`: The wrapper that uses cloneElement to pass it's prop to the
-  `AccordionItem`.
-- `AccordionItem`: A single accordion item.
-- `AccordionHeader`: The button that toggles the expand/collapse state of the
-  accordion item.
-- `AccordionPanel`: The container for the details to be revealed.
-- `AccordionIcon`: A `chevron-down` icon that rotates based on the
-  expanded/collapsed state
 
 ```js
 import {
@@ -35,25 +31,28 @@ expanding another.
 <Accordion>
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 1 title
-      </Box>
-      <AccordionIcon />
+      <Flex justify="space-between">
+        Section 1
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
-    <AccordionPanel pb="1rem">
-      Trend Micro Frontend
+    <AccordionPanel>
+      <Text whiteSpace="pre-wrap" p=".75rem">
+        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+      </Text>
     </AccordionPanel>
   </AccordionItem>
-
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 2 title
-      </Box>
-      <AccordionIcon />
+      <Flex justify="space-between">
+        Section 2
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
-    <AccordionPanel pb="1rem">
-      Trend Micro Frontend
+    <AccordionPanel>
+      <Text whiteSpace="pre-wrap" p=".75rem">
+        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+      </Text>
     </AccordionPanel>
   </AccordionItem>
 </Accordion>
@@ -61,35 +60,39 @@ expanding another.
 
 ### Expand multiple items at once
 
-If you set `allowMultiple` to true then the accordion will permit multiple items
-to be expanded at once.
+If you set `allowMultiple` to true, then the accordion will permit multiple items to be expanded at once.
 
-> If you pass this prop, ensure that the `index` or `defaultIndex` prop is an
-> array.
+If you pass this prop, ensure that the `index` or `defaultIndex` prop is an array.
 
 ```jsx
-<Accordion defaultIndex={[0]} allowMultiple>
+<Accordion
+  defaultIndex={[0]}
+  allowMultiple
+>
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 1 title
-      </Box>
-      <AccordionIcon />
+      <Flex justify="space-between">
+        Section 1
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
-    <AccordionPanel pb="1rem">
-      Trend Micro Frontend
+    <AccordionPanel>
+      <Text whiteSpace="pre-wrap" p=".75rem">
+        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+      </Text>
     </AccordionPanel>
   </AccordionItem>
-
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 2 title
-      </Box>
-      <AccordionIcon />
+      <Flex justify="space-between">
+        Section 2
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
-    <AccordionPanel pb="1rem">
-      Trend Micro Frontend
+    <AccordionPanel>
+      <Text whiteSpace="pre-wrap" p=".75rem">
+        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+      </Text>
     </AccordionPanel>
   </AccordionItem>
 </Accordion>
@@ -103,25 +106,28 @@ If you set `allowToggle` to true, any expanded item may be collapsed again.
 <Accordion allowToggle>
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 1 title
-      </Box>
-      <AccordionIcon />
+      <Flex justify="space-between">
+        Section 1
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
-    <AccordionPanel pb="1rem">
-      Trend Micro Frontend
+    <AccordionPanel>
+      <Text whiteSpace="pre-wrap" p=".75rem">
+        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+      </Text>
     </AccordionPanel>
   </AccordionItem>
-
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 2 title
-      </Box>
-      <AccordionIcon />
+      <Flex justify="space-between">
+        Section 2
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
-    <AccordionPanel pb="1rem">
-      Trend Micro Frontend
+    <AccordionPanel>
+      <Text whiteSpace="pre-wrap" p=".75rem">
+        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+      </Text>
     </AccordionPanel>
   </AccordionItem>
 </Accordion>
@@ -136,17 +142,20 @@ The `AccordionItem` component has the render prop `isExpanded` set to `true` or 
   {({ isExpanded }) => (
     <>
       <AccordionHeader
-        bg={isExpanded ? 'tomato': 'green.50'}
-        color={isExpanded ? 'white' : 'red.100' }
-        _hover={{ bg: 'tomato' }}
+        bg={isExpanded ? 'blue.80': 'blue.60'}
+        _hover={{ bg: 'blue.70' }}
+        _active={{ bg: 'blue.80' }}
+        p=".75rem"
       >
-        <Box flex="1" textAlign="left">
-          Click me to see a different style
-        </Box>
-        <AccordionIcon />
+        <Flex justify="space-between">
+          Click Me
+          <AccordionIcon />
+        </Flex>
       </AccordionHeader>
       <AccordionPanel>
-        Trend Micro Frontend
+        <Text whiteSpace="pre-wrap" p=".75rem">
+          Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+        </Text>
       </AccordionPanel>
     </>
   )}
@@ -156,33 +165,44 @@ The `AccordionItem` component has the render prop `isExpanded` set to `true` or 
 ### Accessing the internal state
 
 If you need access to the internal state of each accordion item, you can use a
-render prop. It provides 2 internal state `isExpanded`, and `isDisabled`.
+render prop. It provides 2 internal state: `isDisabled and `isExpanded`.
 
 ```jsx
 <Accordion allowMultiple>
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 2 title
-      </Box>
-      <AccordionIcon />
+      <Flex justify="space-between">
+        Section 1
+        <AccordionIcon />
+      </Flex>
     </AccordionHeader>
-    <AccordionPanel pb="1rem">
-      Trend Micro Frontend
+    <AccordionPanel>
+      <Text whiteSpace="pre-wrap" p=".75rem">
+        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+      </Text>
     </AccordionPanel>
   </AccordionItem>
-
   <AccordionItem>
-    {({ isExpanded }) => (
+    {({ isDisabled, isExpanded }) => (
       <>
         <AccordionHeader>
-          <Box flex="1" textAlign="left">
-            Section 2 title
-          </Box>
-          <Icon size="12px" name={isExpanded ? "minus" : "add"} />
+          <Flex justify="space-between">
+            Section 2
+            <TMIcon
+              name={isExpanded ? 'minus' : 'add'}
+              style={{
+                opacity: isDisabled ? .4 : 1,
+                transform: isExpanded ? null : 'rotate(-90deg)',
+                transition: 'transform 0.2s',
+                transformOrigin: 'center',
+              }}
+            />
+          </Flex>
         </AccordionHeader>
-        <AccordionPanel pb="1rem">
-          Trend Micro Frontend
+        <AccordionPanel>
+          <Text whiteSpace="pre-wrap" p=".75rem">
+            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+          </Text>
         </AccordionPanel>
       </>
     )}
@@ -199,37 +219,30 @@ toggle (expand or collapse) the accordion.
 
 ### Accordion Props
 
-| Name          | Type                              | Default | Description                                                                                               |
-| ------------- | --------------------------------- | ------- | --------------------------------------------------------------------------------------------------------- |
-| allowMultiple | `boolean`                         |         | If `true`, multiple accordion items can be expanded at once.                                              |
-| allowToggle   | `boolean`                         |         | If `true`, any expanded accordion item can be collapsed again.                                            |
-| index         | `NumberOrArrayOfNumber`           |         | The index(es) of the expanded accordion item                                                              |
-| defaultIndex  | `NumberOrArrayOfNumber`           |         | The initial index(es) of the expanded accordion item                                                      |
-| onChange      | `(NumberOrArrayOfNumber) => void` |         | The callback invoked when accordion items are expanded or collapsed.                                      |
-| children      | `ReactNode`                       |         | The content of the accordion. The children must be the `AccordionHeader` and `AccordionPanel` components. |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| allowMultiple | `boolean` | false | If `true`, multiple accordion items can be expanded at once. |
+| allowToggle | `boolean` | false | If `true`, any expanded accordion item can be collapsed again. |
+| index | `number` or `array` | | The index(es) of the expanded accordion item. |
+| defaultIndex | `number` or `array` | | The initial index(es) of the expanded accordion item. |
+| onChange | `function` | | The callback invoked when accordion items are expanded or collapsed. |
+| children | `ReactNode` | | The content of the accordion. The children must be one of the `AccordionHeader` and `AccordionPanel` components. |
 
 ### AccordionItem Props
 
-| Name          | Type                                      | Default | Description                                                                                               |
-| ------------- | ----------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------- |
-| isOpen        | `boolean`                                 |         | If `true`, expands the accordion in the controlled mode.                                                  |
-| defaultIsOpen | `boolean`                                 |         | If `true`, expands the accordion by on initial mount.                                                     |
-| id            | `string`                                  |         | A unique `id` for the accordion item.                                                                     |
-| isDisabled    | `boolean`                                 |         | If `true`, the accordion header will be disabled.                                                         |
-| onChange      | `(NumberOrArrayOfNumber) => void`         |         | The callback fired when the accordion is expanded/collapsed.                                              |
-| children      | `ReactNode`, `(RenderProps) => ReactNode` |         | The content of the accordion. The children must be the `AccordionHeader` and `AccordionPanel` components. |
-
-<br />
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| id | `string` | | A unique `id` for the accordion item. |
+| isOpen | `boolean` | false | If `true`, expands the accordion in the controlled mode. |
+| defaultIsOpen | `boolean` | false | If `true`, expands the accordion by on initial mount. |
+| isDisabled | `boolean` | false | If `true`, the accordion header will be disabled. |
+| onChange | `function` | | The callback fired when the accordion is expanded/collapsed. |
+| children | `ReactNode`, `(RenderProps) => ReactNode` | | The content of the accordion. The children must be one of the `AccordionHeader` and `AccordionPanel` components. |
 
 ### AccordionHeader Props
 
-AccordionHeader renders a `button` and composes `PseudoBox`, this means you can
-style it by passing the pseudo style props `_disabled`, `_hover`,
-etc.
-
-<br />
+`AccordionHeader` renders a `button` and composes the [`PseudoBox`](./pseudobox) component, this means you can style it by passing the pseudo style props `_disabled`, `_hover`, etc.
 
 ### AccordionPanel Props
 
-AccordionPanel renders a `div` and composes `Collapse` to provide the height
-animation.
+`AccordionPanel` renders a `div` and composes the [`Collapse`](./collapse) component to provide the height animation.
