@@ -1,4 +1,4 @@
-import icons from './IconPaths';
+import icons from './icons';
 
 const breakpoints = [
   '320px',
