@@ -14,9 +14,8 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 
 ```jsx
 <ButtonGroup>
-  <Button variant="solid">One</Button>
-  <Button variant="outline">Two</Button>
-  <Button variant="solid">Three</Button>
+  <Button>One</Button>
+  <Button>Two</Button>
 </ButtonGroup>
 ```
 
@@ -27,15 +26,15 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 ```jsx
 <>
   <ButtonGroup>
-    <Button variant="solid">One</Button>
-    <Button variant="outline">Two</Button>
-    <Button variant="solid">Three</Button>
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
   </ButtonGroup>
   <Space width="1rem" />
   <ButtonGroup vertical>
-    <Button variant="solid">One</Button>
-    <Button variant="outline">Two</Button>
-    <Button variant="solid">Three</Button>
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
   </ButtonGroup>
 </>
 ```
@@ -76,17 +75,17 @@ Use the `size` prop to change the size of every button in a group. You can set t
 
 ```jsx
 <Stack spacing="1rem">
-  <ButtonGroup variant="outline" size="sm">
+  <ButtonGroup size="sm">
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
   </ButtonGroup>
-  <ButtonGroup variant="outline" size="md">
+  <ButtonGroup size="md">
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
   </ButtonGroup>
-  <ButtonGroup variant="outline" size="lg">
+  <ButtonGroup size="lg">
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
