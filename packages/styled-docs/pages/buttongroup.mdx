@@ -27,17 +27,18 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 Use the `variant` prop to change the visual style of every button in a group. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
 
 ```jsx
-<>
+<Stack direction="column" spacing="1rem">
   <ButtonGroup variant="solid">
     <Button>One</Button>
     <Button>Two</Button>
+    <Button>Three</Button>
   </ButtonGroup>
-  <Space width="1rem" />
   <ButtonGroup variant="outline">
     <Button>One</Button>
     <Button>Two</Button>
+    <Button>Three</Button>
   </ButtonGroup>
-</>
+</Stack>
 ```
 
 ### Group colors
@@ -57,7 +58,7 @@ Use the `variantColor` prop to change the color scheme of every button in a grou
 Use the `size` prop to change the size of every button in a group. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack spacing="1rem">
+<Stack direction="column" spacing="1rem">
   <ButtonGroup size="sm">
     <Button>Left</Button>
     <Button>Middle</Button>
@@ -81,19 +82,18 @@ Use the `size` prop to change the size of every button in a group. You can set t
 Make a set of buttons appear vertically stacked rather than horizontally, by adding `vertical` to the `ButtonGroup` component.
 
 ```jsx
-<>
+<Stack direction="column" spacing="1rem" shouldWrapChildren>
   <ButtonGroup>
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
-  <Space width="1rem" />
   <ButtonGroup vertical>
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
-</>
+</Stack>
 ```
 
 ### Button states
