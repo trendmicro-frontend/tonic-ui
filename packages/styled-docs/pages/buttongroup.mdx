@@ -1,6 +1,6 @@
 # ButtonGroup
 
-ButtonGroup is used to group related buttons.
+`ButtonGroup` is used to group related buttons.
 
 ## Import
 
@@ -12,34 +12,17 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 
 ## Usage
 
+### Basic button group
+
 ```jsx
 <ButtonGroup>
   <Button>One</Button>
   <Button>Two</Button>
+  <Button>Three</Button>
 </ButtonGroup>
 ```
 
-### Direction
-
-Make a set of buttons appear vertically stacked rather than horizontally, by adding `vertical` to the `<ButtonGroup>`.
-
-```jsx
-<>
-  <ButtonGroup>
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
-  <Space width="1rem" />
-  <ButtonGroup vertical>
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
-</>
-```
-
-### Buttons Variant
+### Group variants
 
 Use the `variant` prop to change the visual style of every button in a group. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
 
@@ -57,7 +40,7 @@ Use the `variant` prop to change the visual style of every button in a group. Yo
 </>
 ```
 
-### Buttons Color
+### Group colors
 
 Use the `variantColor` prop to change the color scheme of every button in a group. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the `theme.color`.
 
@@ -69,7 +52,7 @@ Use the `variantColor` prop to change the color scheme of every button in a grou
 </ButtonGroup>
 ```
 
-### Buttons Size
+### Group sizes
 
 Use the `size` prop to change the size of every button in a group. You can set the value to `sm`, `md`, or `lg`.
 
@@ -93,111 +76,60 @@ Use the `size` prop to change the size of every button in a group. You can set t
 </Stack>
 ```
 
-### Enable Button
+### Group orientation
+
+Make a set of buttons appear vertically stacked rather than horizontally, by adding `vertical` to the `ButtonGroup` component.
 
 ```jsx
 <>
-  <Stack direction="row" spacing="1rem">
-    <ButtonGroup>
-      <Button><TMIcon name="chart-pie" /></Button>
-      <Button><TMIcon name="chart-line" /></Button>
-      <Button><TMIcon name="chart-bar" /></Button>
-    </ButtonGroup>
-    <ButtonGroup>
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-  </Stack>
-
-  <Space height="1rem" />
-
-  <Stack direction="row" spacing="1rem">
-    <ButtonGroup variant="outline">
-      <Button><TMIcon name="chart-pie" /></Button>
-      <Button><TMIcon name="chart-line" /></Button>
-      <Button><TMIcon name="chart-bar" /></Button>
-    </ButtonGroup>
-    <ButtonGroup variant="outline">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-  </Stack>
+  <ButtonGroup>
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
+  <Space width="1rem" />
+  <ButtonGroup vertical>
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
 </>
 ```
 
-### Selected Button
+### Button states
 
 ```jsx
-<>
+<Stack direction="column" spacing="1rem">
   <Stack direction="row" spacing="1rem">
     <ButtonGroup>
       <Button active><TMIcon name="chart-pie" /></Button>
       <Button><TMIcon name="chart-line" /></Button>
-      <Button><TMIcon name="chart-bar" /></Button>
+      <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
     <ButtonGroup>
-      <Button active>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
+      <Button active>Active</Button>
+      <Button>Normal</Button>
+      <Button disabled>Disabled</Button>
     </ButtonGroup>
   </Stack>
-
-  <Space height="1rem" />
-
   <Stack direction="row" spacing="1rem">
     <ButtonGroup variant="outline">
       <Button active><TMIcon name="chart-pie" /></Button>
       <Button><TMIcon name="chart-line" /></Button>
-      <Button><TMIcon name="chart-bar" /></Button>
-    </ButtonGroup>
-    <ButtonGroup variant="outline">
-      <Button active>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-  </Stack>
-</>
-```
-
-### Disabled Button
-
-```jsx
-<>
-  <Stack direction="row" spacing="1rem">
-    <ButtonGroup>
-      <Button><TMIcon name="chart-pie" /></Button>
-      <Button><TMIcon name="chart-line" /></Button>
-      <Button disabled><TMIcon name="chart-bar" /></Button>
-    </ButtonGroup>
-    <ButtonGroup>
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button disabled>Right</Button>
-    </ButtonGroup>
-  </Stack>
-
-  <Space height="1rem" />
-
-  <Stack direction="row" spacing="1rem">
-    <ButtonGroup variant="outline">
-      <Button><TMIcon name="chart-pie" /></Button>
-      <Button><TMIcon name="chart-line" /></Button>
       <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
     <ButtonGroup variant="outline">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button disabled>Right</Button>
+      <Button active>Active</Button>
+      <Button>Normal</Button>
+      <Button disabled>Disabled</Button>
     </ButtonGroup>
   </Stack>
-</>
+</Stack>
 ```
 
 ## Props
 
-The ButtonGroup composes the `Box` component so you can pass props for `Box`. These are props related to the ButtonGroup component.
+`ButtonGroup` composes the [`Box`](./box) component. You can override the default styles with style props.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
