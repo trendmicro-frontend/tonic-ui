@@ -5,9 +5,13 @@ import icons from './icons';
 const theme = {
   ...base,
   icons: {
+    ...base?.icons,
+
     // `_core` is a reserved key for internal use within this package
-    _core: { ...icons },
-    ...base.icons,
+    _core: {
+      ...base?.icons?._core,
+      ...icons,
+    },
   },
 };
 
