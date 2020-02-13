@@ -87,6 +87,9 @@ const SideNav = React.forwardRef((props, ref) => {
           <NavLink href="theme">
             Theme
           </NavLink>
+          <NavLink href="contributing">
+            Contributing
+          </NavLink>
         </Box>
         <Box mb="2rem">
           <Heading
