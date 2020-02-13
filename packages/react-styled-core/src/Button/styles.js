@@ -166,6 +166,7 @@ const selectedProps = {
     bg: 'blue.60',
     borderColor: 'blue.60',
     color: 'inherit',
+    zIndex: 1,
   },
 };
 
