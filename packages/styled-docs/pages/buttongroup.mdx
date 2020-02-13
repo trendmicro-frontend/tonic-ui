@@ -16,7 +16,28 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 <ButtonGroup>
   <Button variant="solid">One</Button>
   <Button variant="outline">Two</Button>
+  <Button variant="solid">Three</Button>
 </ButtonGroup>
+```
+
+### Direction
+
+Make a set of buttons appear vertically stacked rather than horizontally, by adding `vertical` to the `<ButtonGroup>`.
+
+```jsx
+<>
+  <ButtonGroup>
+    <Button variant="solid">One</Button>
+    <Button variant="outline">Two</Button>
+    <Button variant="solid">Three</Button>
+  </ButtonGroup>
+  <Space width="1rem" />
+  <ButtonGroup vertical>
+    <Button variant="solid">One</Button>
+    <Button variant="outline">Two</Button>
+    <Button variant="solid">Three</Button>
+  </ButtonGroup>
+</>
 ```
 
 ### Buttons Variant
@@ -71,8 +92,108 @@ Use the `size` prop to change the size of every button in a group. You can set t
     <Button>Right</Button>
   </ButtonGroup>
 </Stack>
+```
 
+### Enable Button
 
+```jsx
+<>
+  <Stack direction="row" spacing="1rem">
+    <ButtonGroup>
+      <Button><TMIcon name="chart-pie" /></Button>
+      <Button><TMIcon name="chart-line" /></Button>
+      <Button><TMIcon name="chart-bar" /></Button>
+    </ButtonGroup>
+    <ButtonGroup>
+      <Button>Left</Button>
+      <Button>Middle</Button>
+      <Button>Right</Button>
+    </ButtonGroup>
+  </Stack>
+
+  <Space height="1rem" />
+
+  <Stack direction="row" spacing="1rem">
+    <ButtonGroup variant="outline">
+      <Button><TMIcon name="chart-pie" /></Button>
+      <Button><TMIcon name="chart-line" /></Button>
+      <Button><TMIcon name="chart-bar" /></Button>
+    </ButtonGroup>
+    <ButtonGroup variant="outline">
+      <Button>Left</Button>
+      <Button>Middle</Button>
+      <Button>Right</Button>
+    </ButtonGroup>
+  </Stack>
+</>
+```
+
+### Selected Button
+
+```jsx
+<>
+  <Stack direction="row" spacing="1rem">
+    <ButtonGroup>
+      <Button active><TMIcon name="chart-pie" /></Button>
+      <Button><TMIcon name="chart-line" /></Button>
+      <Button><TMIcon name="chart-bar" /></Button>
+    </ButtonGroup>
+    <ButtonGroup>
+      <Button active>Left</Button>
+      <Button>Middle</Button>
+      <Button>Right</Button>
+    </ButtonGroup>
+  </Stack>
+
+  <Space height="1rem" />
+
+  <Stack direction="row" spacing="1rem">
+    <ButtonGroup variant="outline">
+      <Button active><TMIcon name="chart-pie" /></Button>
+      <Button><TMIcon name="chart-line" /></Button>
+      <Button><TMIcon name="chart-bar" /></Button>
+    </ButtonGroup>
+    <ButtonGroup variant="outline">
+      <Button active>Left</Button>
+      <Button>Middle</Button>
+      <Button>Right</Button>
+    </ButtonGroup>
+  </Stack>
+</>
+```
+
+### Disabled Button
+
+```jsx
+<>
+  <Stack direction="row" spacing="1rem">
+    <ButtonGroup>
+      <Button><TMIcon name="chart-pie" /></Button>
+      <Button><TMIcon name="chart-line" /></Button>
+      <Button disabled><TMIcon name="chart-bar" /></Button>
+    </ButtonGroup>
+    <ButtonGroup>
+      <Button>Left</Button>
+      <Button>Middle</Button>
+      <Button disabled>Right</Button>
+    </ButtonGroup>
+  </Stack>
+
+  <Space height="1rem" />
+
+  <Stack direction="row" spacing="1rem">
+    <ButtonGroup variant="outline">
+      <Button><TMIcon name="chart-pie" /></Button>
+      <Button><TMIcon name="chart-line" /></Button>
+      <Button disabled><TMIcon name="chart-bar" /></Button>
+    </ButtonGroup>
+    <ButtonGroup variant="outline">
+      <Button>Left</Button>
+      <Button>Middle</Button>
+      <Button disabled>Right</Button>
+    </ButtonGroup>
+  </Stack>
+</>
 ```
 
 ## Props
@@ -84,3 +205,4 @@ The ButtonGroup composes the `Box` component so you can pass props for `Box`. Th
 | `size` | `sm`, `md`, `lg` | `md` | Sets the size for all Buttons in the group. |
 | `variant` | `solid`, `outline` | `solid` | Sets the variant of all Buttons in the group. |
 | `variantColor` | string | | Sets the variant of all Buttons in the group. Use a color key passed in `theme.colors`. |
+| `vertical` | boolean | `false` | Make the set of Buttons appear vertically stacked. |
