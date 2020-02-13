@@ -6,7 +6,7 @@ const createPseudoClassTransformFunction = name => prop => {
   const result = {};
   if (Array.isArray(prop)) {
     result[`${name}(${prop[0]})`] = prop[1];
-  } else if (typeof x === 'object') {
+  } else if (typeof prop === 'object') {
     for (const key in prop) {
       if (Object.prototype.hasOwnProperty.call(prop, key)) {
         result[`${name}(${key})`] = prop[key];
