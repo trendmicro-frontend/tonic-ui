@@ -1,20 +1,16 @@
 # Accordion
 
-Accordions display a list of high-level options that can expand/collapse to
-reveal more information.
+`Accordion` is used to display a list of high-level options that can expand/collapse to reveal more information.
+
+### Accordion components
+
+- `Accordion`: The wrapper that uses cloneElement to pass its prop to `AccordionItem`.
+- `AccordionItem`: A single accordion item.
+- `AccordionHeader`: It is used to toggle the expand/collapse state of the accordion item.
+- `AccordionPanel`: The container for the details to be revealed.
+- `AccordionIcon`: A `chevron-down` icon that rotates based on the expand/collapse state.
 
 ## Import
-
-Trend Micro Styled UI exports 5 accordion related components.
-
-- `Accordion`: The wrapper that uses cloneElement to pass it's prop to the
-  `AccordionItem`.
-- `AccordionItem`: A single accordion item.
-- `AccordionHeader`: The button that toggles the expand/collapse state of the
-  accordion item.
-- `AccordionPanel`: The container for the details to be revealed.
-- `AccordionIcon`: A `chevron-down` icon that rotates based on the
-  expanded/collapsed state
 
 ```js
 import {
@@ -35,22 +31,19 @@ expanding another.
 <Accordion>
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 1 title
-      </Box>
       <AccordionIcon />
+      <Space width=".5rem" />
+      Section 1 title
     </AccordionHeader>
     <AccordionPanel pb="1rem">
       Trend Micro Frontend
     </AccordionPanel>
   </AccordionItem>
-
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 2 title
-      </Box>
       <AccordionIcon />
+      <Space width=".5rem" />
+      Section 2 title
     </AccordionHeader>
     <AccordionPanel pb="1rem">
       Trend Micro Frontend
@@ -61,32 +54,30 @@ expanding another.
 
 ### Expand multiple items at once
 
-If you set `allowMultiple` to true then the accordion will permit multiple items
-to be expanded at once.
+If you set `allowMultiple` to true, then the accordion will permit multiple items to be expanded at once.
 
-> If you pass this prop, ensure that the `index` or `defaultIndex` prop is an
-> array.
+If you pass this prop, ensure that the `index` or `defaultIndex` prop is an array.
 
 ```jsx
-<Accordion defaultIndex={[0]} allowMultiple>
+<Accordion
+  defaultIndex={[0]}
+  allowMultiple
+>
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 1 title
-      </Box>
       <AccordionIcon />
+      <Space width=".5rem" />
+      Section 1 title
     </AccordionHeader>
     <AccordionPanel pb="1rem">
       Trend Micro Frontend
     </AccordionPanel>
   </AccordionItem>
-
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 2 title
-      </Box>
       <AccordionIcon />
+      <Space width=".5rem" />
+      Section 2 title
     </AccordionHeader>
     <AccordionPanel pb="1rem">
       Trend Micro Frontend
@@ -103,22 +94,19 @@ If you set `allowToggle` to true, any expanded item may be collapsed again.
 <Accordion allowToggle>
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 1 title
-      </Box>
       <AccordionIcon />
+      <Space width=".5rem" />
+      Section 1 title
     </AccordionHeader>
     <AccordionPanel pb="1rem">
       Trend Micro Frontend
     </AccordionPanel>
   </AccordionItem>
-
   <AccordionItem>
     <AccordionHeader>
-      <Box flex="1" textAlign="left">
-        Section 2 title
-      </Box>
       <AccordionIcon />
+      <Space width=".5rem" />
+      Section 2 title
     </AccordionHeader>
     <AccordionPanel pb="1rem">
       Trend Micro Frontend
@@ -139,13 +127,13 @@ The `AccordionItem` component has the render prop `isExpanded` set to `true` or 
         bg={isExpanded ? 'tomato': 'green.50'}
         color={isExpanded ? 'white' : 'red.100' }
         _hover={{ bg: 'tomato' }}
+        p=".75rem"
       >
-        <Box flex="1" textAlign="left">
-          Click me to see a different style
-        </Box>
         <AccordionIcon />
+        <Space width=".5rem" />
+        Click me to see a different style
       </AccordionHeader>
-      <AccordionPanel>
+      <AccordionPanel p=".75rem">
         Trend Micro Frontend
       </AccordionPanel>
     </>
@@ -162,10 +150,10 @@ render prop. It provides 2 internal state `isExpanded`, and `isDisabled`.
 <Accordion allowMultiple>
   <AccordionItem>
     <AccordionHeader>
+      <AccordionIcon />
       <Box flex="1" textAlign="left">
         Section 2 title
       </Box>
-      <AccordionIcon />
     </AccordionHeader>
     <AccordionPanel pb="1rem">
       Trend Micro Frontend
@@ -223,8 +211,8 @@ toggle (expand or collapse) the accordion.
 
 ### AccordionHeader Props
 
-`AccordionHeader` renders a `button` and composes `PseudoBox`, this means you can style it by passing the pseudo style props `_disabled`, `_hover`, etc.
+`AccordionHeader` renders a `button` and composes the [`PseudoBox`](./pseudobox) component, this means you can style it by passing the pseudo style props `_disabled`, `_hover`, etc.
 
 ### AccordionPanel Props
 
-`AccordionPanel` renders a `div` and composes `Collapse` to provide the height animation.
+`AccordionPanel` renders a `div` and composes the [`Collapse`](./collapse) component to provide the height animation.
