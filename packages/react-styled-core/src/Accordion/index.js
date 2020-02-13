@@ -9,7 +9,6 @@ import React, {
   cloneElement,
   isValidElement,
 } from 'react';
-import useColorMode from '../useColorMode';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Collapse from '../Collapse';
@@ -143,7 +142,6 @@ const AccordionHeader = forwardRef(({ onClick, ...props }, ref) => {
     isDisabled,
     onToggle,
   } = useAccordionItemContext();
-  const { colorMode } = useColorMode();
 
   return (
     <ButtonBase
