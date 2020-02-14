@@ -51,59 +51,26 @@ Use the `size` prop to change the size of the button. You can set the value to `
 </Stack>
 ```
 
-### `REVIEW REQUIRED` Text buttons
+### States
 
-Text buttons are typically used for less-pronounced actions.
-
-```jsx noInline
-const TextButton = (props) => (
-  <Button variant="none" border="none" {...props} />
-);
-
-function Example() {
-  return (
-    <>
-      <TextButton>Default</TextButton>
-      <TextButton color="red.50">Emphasis</TextButton>
-      <TextButton color="blue.50">Primary</TextButton>
-      <TextButton disabled>Disabled</TextButton>
-    </>
-  );
-}
-
-render(<Example />);
+```jsx
+<Stack direction="column" spacing="1rem">
+  <Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
+    <Button active>Active</Button>
+    <Button>Normal</Button>
+    <Button disabled>Disabled</Button>
+  </Stack>
+  <Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
+    <Button variant="outline" active>Active</Button>
+    <Button variant="outline">Normal</Button>
+    <Button variant="outline" disabled>Disabled</Button>
+  </Stack>
+</Stack>
 ```
 
-### `REVIEW REQUIRED` Icon buttons
+### Icon buttons
 
-Icon buttons are commonly used in toolbars. 
-
-```jsx noInline
-const PlainButton = (props) => (
-  <Button
-    variant="outline"
-    border="none"
-    {...props}
-  />
-);
-
-function Example() {
-  return (
-    <Flex>
-      <PlainButton>
-        <TMIcon name="add" />
-      </PlainButton>
-      <PlainButton>
-        <TMIcon name="minus" />
-      </PlainButton>
-    </Flex>
-  );
-}
-
-render(<Example />);
-```
-
-Sometimes you might want to add label to certain icon buttons to enhance the UX. You can use [Space](./space) to add a padding space with `.5rem` (`8px`) between icon and label.
+Icon buttons are commonly used in toolbars. Sometimes you might want to add label to certain icon buttons to enhance the UX. You can use [Space](./space) to add a padding space with `.5rem` (`8px`) between icon and label.
 
 ```jsx
 <Stack direction="column" spacing="1rem">
