@@ -7,7 +7,7 @@ const defaultVariantMapping = {
     fontSize: '4xl',
     lineHeight: '4xl',
     fontWeight: 'semibold',
-    m: 0,
+    margin: 0,
   },
   h2: {
     as: 'h2',
