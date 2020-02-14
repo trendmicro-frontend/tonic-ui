@@ -4,6 +4,7 @@ const components = [
   'Box',
   'Button',
   'ButtonBase',
+  'ButtonGroup',
   'Card',
   'Collapse',
   'CSSBaseline',

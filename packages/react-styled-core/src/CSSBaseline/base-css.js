@@ -22,21 +22,6 @@ const baseCSS = theme => {
     samp {
       font-family: ${theme.fonts.mono};
     }
-
-    button {
-      background: transparent;
-      padding: 0;
-    }
-
-    button,
-    input,
-    optgroup,
-    select,
-    textarea {
-      padding: 0;
-      line-height: inherit;
-      color: inherit;
-    }
   `;
 };
 

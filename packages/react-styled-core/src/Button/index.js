@@ -1,12 +1,12 @@
 import React, { forwardRef } from 'react';
 import useButtonStyle from './styles';
-import PseudoBox from '../PseudoBox';
+import ButtonBase from '../ButtonBase';
 
 const Button = forwardRef(
   (
     {
-      disabled,
-      borderRadius,
+      active,
+      borderRadius = 'sm',
       children,
       as: Comp = 'button',
       variant = 'solid',
@@ -19,7 +19,6 @@ const Button = forwardRef(
     ref,
   ) => {
     const buttonStyleProps = useButtonStyle({
-      borderRadius,
       color: variantColor,
       colorMode,
       size,
@@ -27,17 +26,17 @@ const Button = forwardRef(
     });
 
     return (
-      <PseudoBox
-        disabled={disabled}
-        aria-disabled={disabled}
+      <ButtonBase
         ref={ref}
         as={Comp}
         type={type}
+        borderRadius={borderRadius}
+        data-active={active ? 'true' : undefined}
         {...buttonStyleProps}
         {...rest}
       >
         { children }
-      </PseudoBox>
+      </ButtonBase>
     );
   },
 );

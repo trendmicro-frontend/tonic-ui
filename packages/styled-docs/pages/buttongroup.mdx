@@ -1,0 +1,139 @@
+# ButtonGroup
+
+`ButtonGroup` is used to group related buttons.
+
+## Import
+
+```js
+import ButtonGroup from '@trendmicro/react-styled-core/ButtonGroup';
+// or
+import { ButtonGroup } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+### Basic button group
+
+```jsx
+<ButtonGroup>
+  <Button>One</Button>
+  <Button>Two</Button>
+  <Button>Three</Button>
+</ButtonGroup>
+```
+
+### Group variants
+
+Use the `variant` prop to change the visual style of every button in a group. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
+
+```jsx
+<Stack direction="column" spacing="1rem">
+  <ButtonGroup variant="solid">
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
+  <ButtonGroup variant="outline">
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
+</Stack>
+```
+
+### Group colors
+
+Use the `variantColor` prop to change the color scheme of every button in a group. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the `theme.color`.
+
+```jsx
+<ButtonGroup variantColor="blue">
+  <Button>Left</Button>
+  <Button>Middle</Button>
+  <Button>Right</Button>
+</ButtonGroup>
+```
+
+### Group sizes
+
+Use the `size` prop to change the size of every button in a group. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="1rem">
+  <ButtonGroup size="sm">
+    <Button>Left</Button>
+    <Button>Middle</Button>
+    <Button>Right</Button>
+  </ButtonGroup>
+  <ButtonGroup size="md">
+    <Button>Left</Button>
+    <Button>Middle</Button>
+    <Button>Right</Button>
+  </ButtonGroup>
+  <ButtonGroup size="lg">
+    <Button>Left</Button>
+    <Button>Middle</Button>
+    <Button>Right</Button>
+  </ButtonGroup>
+</Stack>
+```
+
+### Group orientation
+
+Make a set of buttons appear vertically stacked rather than horizontally, by adding `vertical` to the `ButtonGroup` component.
+
+```jsx
+<Stack direction="column" spacing="1rem" shouldWrapChildren>
+  <ButtonGroup>
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
+  <ButtonGroup vertical>
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
+</Stack>
+```
+
+### Button states
+
+```jsx
+<Stack direction="column" spacing="1rem">
+  <Stack direction="row" spacing="1rem">
+    <ButtonGroup>
+      <Button active><TMIcon name="chart-pie" /></Button>
+      <Button><TMIcon name="chart-line" /></Button>
+      <Button disabled><TMIcon name="chart-bar" /></Button>
+    </ButtonGroup>
+    <ButtonGroup>
+      <Button active>Active</Button>
+      <Button>Normal</Button>
+      <Button disabled>Disabled</Button>
+    </ButtonGroup>
+  </Stack>
+  <Stack direction="row" spacing="1rem">
+    <ButtonGroup variant="outline">
+      <Button active><TMIcon name="chart-pie" /></Button>
+      <Button><TMIcon name="chart-line" /></Button>
+      <Button disabled><TMIcon name="chart-bar" /></Button>
+    </ButtonGroup>
+    <ButtonGroup variant="outline">
+      <Button active>Active</Button>
+      <Button>Normal</Button>
+      <Button disabled>Disabled</Button>
+    </ButtonGroup>
+  </Stack>
+</Stack>
+```
+
+## Props
+
+`ButtonGroup` composes the [`Box`](./box) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `size` | `sm`, `md`, `lg` | `md` | Sets the size for all Buttons in the group. |
+| `variant` | `solid`, `outline` | `solid` | Sets the variant of all Buttons in the group. |
+| `variantColor` | string | | Sets the variant of all Buttons in the group. Use a color key passed in `theme.colors`. |
+| `vertical` | boolean | `false` | Make the set of Buttons appear vertically stacked. |
