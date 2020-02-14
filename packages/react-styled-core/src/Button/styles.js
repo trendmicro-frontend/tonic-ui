@@ -20,7 +20,6 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
       },
       _disabled: {
         bg: `${color}.60`,
-        borderColor: 'transparent',
         boxShadow: 'none',
         cursor: 'not-allowed',
         opacity: '40%',
@@ -42,7 +41,6 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
       },
       _disabled: {
         bg: `${color}.60`,
-        borderColor: 'transparent',
         boxShadow: 'none',
         cursor: 'not-allowed',
         opacity: '40%',
@@ -72,7 +70,6 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
         color: `${color}.70`,
       },
       _disabled: {
-        bg: 'transparent',
         borderColor: 'gray.60',
         boxShadow: 'none',
         color: 'black',
@@ -96,7 +93,6 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
         color: `${color}.70`,
       },
       _disabled: {
-        bg: 'transparent',
         borderColor: 'gray.60',
         boxShadow: 'none',
         color: 'white',
