@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, Fragment, isValidElement } from 'react';
+import React, { Children, cloneElement, isValidElement } from 'react';
 import Box from '../Box';
 
 const ButtonGroup = ({
@@ -14,25 +14,25 @@ const ButtonGroup = ({
       return false;
     }
 
-    const isFirst = index === 0;
-    const isLast = index === Children.count(children) - 1;
+    const isFirstChild = index === 0;
+    const isLastChild = index === Children.count(children) - 1;
     const horizontalProps = {
-      ...(isFirst && { borderTopRightRadius: 0, borderBottomRightRadius: 0 }),
-      ...(isLast && { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
-      ...(!isFirst && variant === 'outline' && { ml: -1 }),
-      ...(!isFirst && !isLast && { borderRadius: 0 }),
+      ...(isFirstChild && { borderTopRightRadius: 0, borderBottomRightRadius: 0 }),
+      ...(isLastChild && { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
+      ...(!isFirstChild && variant === 'outline' && { ml: -1 }),
+      ...(!isFirstChild && !isLastChild && { borderRadius: 0 }),
     };
     const verticalProps = {
-      ...(isFirst && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }),
-      ...(isLast && { borderTopLeftRadius: 0, borderTopRightRadius: 0 }),
-      ...(!isFirst && variant === 'outline' && { mt: -1 }),
-      ...(!isFirst && !isLast && { borderRadius: 0 }),
+      ...(isFirstChild && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }),
+      ...(isLastChild && { borderTopLeftRadius: 0, borderTopRightRadius: 0 }),
+      ...(!isFirstChild && variant === 'outline' && { mt: -1 }),
+      ...(!isFirstChild && !isLastChild && { borderRadius: 0 }),
     };
     const buttonStyleProps = vertical ? verticalProps : horizontalProps;
 
-    let hr = null;
-    if (!isFirst && variant === 'solid') {
-      hr = vertical ? (
+    let divider = null;
+    if (!isFirstChild && variant === 'solid') {
+      divider = vertical ? (
         <Box height="1px" bg="gray.70" />
       ) : (
         <Box width="1px" bg="gray.70" />
@@ -40,8 +40,8 @@ const ButtonGroup = ({
     }
 
     return (
-      <Fragment>
-        { hr }
+      <>
+        {divider}
         {
           cloneElement(child, {
             size: size,
@@ -50,7 +50,7 @@ const ButtonGroup = ({
             ...buttonStyleProps
           })
         }
-      </Fragment>
+      </>
     );
   });
 
