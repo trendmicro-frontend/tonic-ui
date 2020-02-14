@@ -58,7 +58,6 @@ const Heading = forwardRef((
   return (
     <Box
       ref={ref}
-      as={defaultVariantMapping[variant]}
       display="block"
       fontFamily="heading"
       {...variantProps}
