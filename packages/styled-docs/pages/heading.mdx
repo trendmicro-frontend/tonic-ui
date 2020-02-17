@@ -1,1 +1,56 @@
 # Heading
+
+Headings are used for rendering headlines.
+
+## Import
+
+```js
+import Heading from '@trendmicro/react-styled-core/Heading';
+// or
+import { Heading } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+### Variants
+
+```jsx
+<Stack direction="column" spacing="1rem">
+  <Heading variant="h1">
+    h1. Heading
+  </Heading>
+  <Heading variant="h2">
+    h2. Heading
+  </Heading>
+  <Heading variant="h3">
+    h3. Heading
+  </Heading>
+  <Heading variant="h4">
+    h4. Heading
+  </Heading>
+  <Heading variant="h5">
+    h5. Heading
+  </Heading>
+  <Heading variant="h6">
+    h6. Heading
+  </Heading>
+</Stack>
+```
+
+### Override style
+
+You can override the size of the Heading component by passing `fontSize`, `lineHeight`, or other style props.
+
+```jsx
+<Heading fontSize="3rem" lineHeight="base">
+  Override a heading
+</Heading>
+```
+
+## Props
+
+`Heading` composes the [`Box`](./box) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| variant | `string` | | One of: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
