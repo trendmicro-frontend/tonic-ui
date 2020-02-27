@@ -87,10 +87,6 @@ const PseudoBox = styled(Box)(
     __firstLine,
     __placeholder,
     __selection,
-    
-    cursor,
-    outline,
-    textDecoration,
   }) => {
     let rest = null;
 
@@ -128,10 +124,6 @@ const PseudoBox = styled(Box)(
       [firstLine]: __firstLine,
       [placeholder]: __placeholder,
       [selection]: __selection,
-      
-      cursor,
-      outline,
-      textDecoration,
 
       ...rest
     });
