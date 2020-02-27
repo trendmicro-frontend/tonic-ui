@@ -39,8 +39,8 @@
     "@emotion/styled": "10.x",
     "emotion-theming": "10.x",
     "prop-types": "^15.6.0",
-    "react": ">= 16.8",
-    "react-dom": ">= 16.8"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
   "homepage": "https://github.com/trendmicro-frontend/styled-ui",
