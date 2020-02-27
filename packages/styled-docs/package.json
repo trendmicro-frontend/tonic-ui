@@ -31,8 +31,8 @@
     "next-compose-plugins": "^2.2.0",
     "prism-react-renderer": "^1.0.2",
     "prop-types": "^15.6.0",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "react-live": "^2.2.2",
     "remark-emoji": "^2.0.2",
     "remark-images": "^1.0.0"
