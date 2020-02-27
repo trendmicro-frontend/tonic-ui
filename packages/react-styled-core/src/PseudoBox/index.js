@@ -96,11 +96,11 @@ const PseudoBox = styled(Box)(
 
     return css({
       // pseudo-classes
-      [hover]: _hover,
       [focus]: _focus,
-      [active]: _active,
       [checked]: _checked,
       [visited]: _visited,
+      [hover]: _hover,
+      [active]: _active,
       [selected]: _selected,
       [disabled]: _disabled,
       [empty]: _empty,
