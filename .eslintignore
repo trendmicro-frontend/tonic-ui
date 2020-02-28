@@ -1,4 +1,0 @@
-packages/*/build
-packages/*/dist
-packages/*/docs
-node_modules
