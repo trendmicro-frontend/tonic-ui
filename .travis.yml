@@ -10,6 +10,8 @@ before_install:
   - npm install -g yarn
 install:
   - yarn install
+  # list installed react and react-dom packages
+  - yarn list --silent react react-dom
 script:
   - yarn build
   - yarn eslint
