@@ -7,7 +7,7 @@ const baseStyleProps = (colorMode) => {
   const color = { light: 'blue:60', dark: 'blue:40' }[colorMode];
   const hoverColor = { light: 'blue:50', dark: 'blue:40' }[colorMode];
   const visitedColor = { light: 'purple:60', dark: 'purple:50' }[colorMode];
-  const disabledColor = { light: 'blackAlpha.disabled', dark: 'whiteAlpha.disabled' }[colorMode];
+  const disabledColor = { light: 'blackText.disabled', dark: 'whiteText.disabled' }[colorMode];
 
   return {
     color,

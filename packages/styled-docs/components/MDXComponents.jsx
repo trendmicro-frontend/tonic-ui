@@ -11,8 +11,8 @@ import Code from './Code';
 import CodeBlock from './CodeBlock';
 
 const mapColorModeToHeadingColor = (colorMode) => ({
-  light: 'blackAlpha.secondary',
-  dark: 'whiteAlpha.secondary',
+  light: 'blackText.secondary',
+  dark: 'whiteText.secondary',
 }[colorMode]);
 
 const p = props => (

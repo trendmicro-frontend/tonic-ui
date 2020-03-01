@@ -149,7 +149,7 @@ const colors = {
 
   white: '#ffffff',
 
-  whiteAlpha: {
+  whiteText: {
     emphasis: 'rgba(255, 255, 255, 1.0)',
     primary: 'rgba(255, 255, 255, .92)',
     secondary: 'rgba(255, 255, 255, .60)',
@@ -159,7 +159,7 @@ const colors = {
 
   black: '#000000',
 
-  blackAlpha: {
+  blackText: {
     emphasis: 'rgba(0, 0, 0, .92)',
     primary: 'rgba(0, 0, 0, .92)',
     secondary: 'rgba(0, 0, 0, .65)',
