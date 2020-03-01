@@ -33,9 +33,9 @@ const ButtonGroup = ({
     let divider = null;
     if (!isFirstChild && variant === 'solid') {
       divider = vertical ? (
-        <Box height="1px" bg="gray.70" />
+        <Box height="1px" bg="gray:70" />
       ) : (
-        <Box width="1px" bg="gray.70" />
+        <Box width="1px" bg="gray:70" />
       );
     }
 

@@ -216,7 +216,7 @@ const th = ({ align, ...props }) => (
     px=".75rem"
     py=".5rem"
     border={1}
-    borderColor="gray.20"
+    borderColor="gray:20"
     fontWeight="semibold"
     whiteSpace="nowrap"
     textAlign={align}
@@ -230,7 +230,7 @@ const td = props => (
     px=".75rem"
     py=".5rem"
     border={1}
-    borderColor="gray.20"
+    borderColor="gray:20"
     {...props}
   />
 );
@@ -260,7 +260,7 @@ const hr = props => (
     as="hr"
     my="lg"
     borderTop={1}
-    borderTopColor="gray.70"
+    borderTopColor="gray:70"
     {...props}
   />
 );

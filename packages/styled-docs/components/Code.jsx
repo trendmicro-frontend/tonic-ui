@@ -4,8 +4,8 @@ import React, { forwardRef } from 'react';
 const Code = forwardRef((props, ref) => {
   const { colorMode } = useColorMode();
   const backgroundColor = {
-    light: 'gray.10', // FIXME
-    dark: 'gray.80', // FIXME
+    light: 'gray:10', // FIXME
+    dark: 'gray:80', // FIXME
   }[colorMode];
 
   return (

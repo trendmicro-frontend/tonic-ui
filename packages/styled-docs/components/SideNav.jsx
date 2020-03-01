@@ -6,7 +6,7 @@ import components from '../shared/components';
 const NavLink = React.forwardRef(({ children, ...props }, ref) => {
   const { colorMode } = useColorMode();
   const color = {
-    light: 'gray.90', // FIXME
+    light: 'gray:90', // FIXME
     dark: 'white', // FIXME
   }[colorMode];
   const activeBackgroundColor = {
@@ -49,11 +49,11 @@ const SideNav = React.forwardRef((props, ref) => {
   const { colorMode } = useColorMode();
   const backgroundColor = {
     light: 'white', // FIXME
-    dark: 'gray.90', // FIXME
+    dark: 'gray:90', // FIXME
   }[colorMode];
   const borderColor = {
-    light: 'gray.20', // FIXME
-    dark: 'gray.70', // FIXME
+    light: 'gray:20', // FIXME
+    dark: 'gray:70', // FIXME
   }[colorMode];
   const headingColor = {
     light: 'blackAlpha.tertiary',
