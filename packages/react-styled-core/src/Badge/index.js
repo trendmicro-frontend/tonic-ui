@@ -10,7 +10,7 @@ const Badge = forwardRef(
       <Box
         ref={ref}
         display="inline-block"
-        px="0.3rem"
+        px="1x"
         textTransform="uppercase"
         fontSize="xs"
         borderRadius="sm"
