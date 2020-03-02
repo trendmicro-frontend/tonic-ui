@@ -15,7 +15,7 @@ const Code = forwardRef((props, ref) => {
       display="inline-block"
       fontFamily="mono"
       fontSize="sm"
-      px=".2em"
+      px="1x"
       borderRadius="sm"
       backgroundColor={backgroundColor}
       {...props}

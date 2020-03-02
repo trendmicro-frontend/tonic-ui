@@ -19,7 +19,7 @@ const p = props => (
   <Box
     as="p"
     mt={0}
-    mb="1rem"
+    mb="4x"
     display="block"
     {...props}
   />
@@ -32,9 +32,9 @@ const H1 = props => {
   return (
     <Heading
       as="h1"
-      mt={24}
-      mb={16}
-      pb=".375rem"
+      mt="6x"
+      mb="4x"
+      pb="2x"
       borderBottom="1px solid #eaecef"
       color={color}
       fontSize="4xl"
@@ -52,9 +52,9 @@ const H2 = props => {
   return (
     <Heading
       as="h2"
-      mt={24}
-      mb={16}
-      pb=".375rem"
+      mt="6x"
+      mb="4x"
+      pb="2x"
       borderBottom="1px solid #eaecef"
       color={color}
       fontSize="2xl"
@@ -72,8 +72,8 @@ const H3 = props => {
   return (
     <Heading
       as="h3"
-      mt={24}
-      mb={16}
+      mt="6x"
+      mb="4x"
       color={color}
       fontSize="xl"
       fontWeight="semibold"
@@ -107,8 +107,8 @@ const H5 = props => {
   return (
     <Heading
       as="h5"
-      mt={24}
-      mb={16}
+      mt="6x"
+      mb="4x"
       color={color}
       fontSize="md"
       fontWeight="semibold"
@@ -125,8 +125,8 @@ const H6 = props => {
   return (
     <Heading
       as="h6"
-      mt={24}
-      mb={16}
+      mt="6x"
+      mb="4x"
       color={color}
       fontSize="sm"
       fontWeight="semibold"
@@ -140,7 +140,7 @@ const Blockquote = props => (
   <Box
     as="blockquote"
     mt={0}
-    mb="1rem"
+    mb="4x"
     {...props}
   />
 );
@@ -149,7 +149,7 @@ const ul = props => (
   <Box
     as="ul"
     mt={0}
-    mb="1rem"
+    mb="4x"
     {...props}
   />
 );
@@ -158,7 +158,7 @@ const ol = props => (
   <Box
     as="ol"
     mt={0}
-    mb="1rem"
+    mb="4x"
     {...props}
   />
 );
@@ -174,7 +174,7 @@ const table = props => (
   <Box
     as="table"
     mt={0}
-    mb="1rem"
+    mb="4x"
     display="block"
     width="100%"
     css={css`
@@ -213,8 +213,8 @@ const tr = props => (
 const th = ({ align, ...props }) => (
   <Box
     as="th"
-    px=".75rem"
-    py=".5rem"
+    px="3x"
+    py="2x"
     border={1}
     borderColor="gray:20"
     fontWeight="semibold"
@@ -227,8 +227,8 @@ const th = ({ align, ...props }) => (
 const td = props => (
   <Box
     as="td"
-    px=".75rem"
-    py=".5rem"
+    px="3x"
+    py="2x"
     border={1}
     borderColor="gray:20"
     {...props}
@@ -239,7 +239,7 @@ const pre = props => (
   <Box
     as="pre"
     mt={0}
-    mb="1rem"
+    mb="4x"
     {...props}
   />
 );
@@ -258,7 +258,7 @@ const inlineCode = props => (
 const hr = props => (
   <Box
     as="hr"
-    my="lg"
+    my="3x"
     borderTop={1}
     borderTopColor="gray:70"
     {...props}

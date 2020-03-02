@@ -23,8 +23,8 @@ import { Box } from '@trendmicro/react-styled-core';
   backgroundColor="blue:50"
   color="black:primary"
   display="inline-block"
-  px=".875rem"
-  py=".75rem"
+  px="4x"
+  py="3x"
 >
   My component
 </Box>
@@ -42,8 +42,8 @@ You can use the `as` prop to change what is rendered dynamically at runtime.
   border="none"
   borderRadius="sm"
   cursor="pointer"
-  px=".5rem"
-  py=".25rem"
+  px="2x"
+  py="1x"
 >
   Button
 </Box>
@@ -107,8 +107,8 @@ function Example() {
             flexBasis={0}
             flexGrow={1}
             maxWidth="calc(100% - .5rem)"
-            py={8}
-            px={24}
+            py="2x"
+            px="6x"
           >
             <Box
               display="flex"
@@ -144,7 +144,7 @@ function Example() {
             <Box
               display="flex"
               alignItems="center"
-              pt=".5rem"
+              pt="2x"
             >
               <Box
                 flexBasis={0}
@@ -168,12 +168,12 @@ function Example() {
                 fontSize={['xl', null, null, '2xl']}
                 lineHeight={['xl', null, null, '2xl']}
               >
-                <Light on={player.gates[0]} m={8} />
-                <Text pr={8}>REC</Text>
-                <Light on={player.gates[1]} m={8}/>
-                <Text pr={8}>A</Text>
-                <Light on={player.gates[2]} m={8} />
-                <Text pr={8}>B</Text>
+                <Light on={player.gates[0]} m="2x" />
+                <Text pr="2x">REC</Text>
+                <Light on={player.gates[1]} m="2x" />
+                <Text pr="2x">A</Text>
+                <Light on={player.gates[2]} m="2x" />
+                <Text pr="2x">B</Text>
               </Box>
             </Box>
           </Box>

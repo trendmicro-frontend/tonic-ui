@@ -23,13 +23,6 @@ breakpoints['2xl'] = breakpoints[4];
 // space for margin and padding
 const space = {
   0: '0',
-
-  xs: '.125rem', // 2px
-  sm: '.25rem', // 4px
-  md: '.5rem', // 8px
-  lg: '.75rem', // 12px
-  xl: '1rem', // 16px
-
   '1x': '.25rem', // 4px
   '2x': '.5rem', // 8px
   '3x': '.75rem', // 12px
@@ -219,6 +212,7 @@ const letterSpacings = {
 };
 
 const sizes = {
+  ...space,
 };
 
 const borders = {

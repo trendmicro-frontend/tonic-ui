@@ -29,7 +29,7 @@ const NavLink = React.forwardRef(({ children, ...props }, ref) => {
         as="a"
         color={color}
         display="flex"
-        p=".5rem"
+        p="2x"
         textDecoration="none"
         _active={{
           backgroundColor: activeBackgroundColor,
@@ -63,7 +63,7 @@ const SideNav = React.forwardRef((props, ref) => {
   return (
     <Box
       position="fixed"
-      top="4rem"
+      top="16x"
       left={0}
       width="100%"
       height="100%"
@@ -77,7 +77,7 @@ const SideNav = React.forwardRef((props, ref) => {
         position="relative"
         height="100%"
       >
-        <Box mb="2rem">
+        <Box mb="8x">
           <NavLink href="getting-started">
             Getting Started
           </NavLink>
@@ -91,12 +91,12 @@ const SideNav = React.forwardRef((props, ref) => {
             Contributing
           </NavLink>
         </Box>
-        <Box mb="2rem">
+        <Box mb="8x">
           <Heading
             fontSize="md"
             color={headingColor}
-            mb=".5rem"
-            pl=".5rem"
+            mb="2x"
+            pl="2x"
           >
             COMPONENTS
           </Heading>
@@ -114,8 +114,8 @@ const SideNav = React.forwardRef((props, ref) => {
           <Heading
             fontSize="md"
             color={headingColor}
-            mb=".5rem"
-            pl=".5rem"
+            mb="2x"
+            pl="2x"
           >
             OTHERS
           </Heading>

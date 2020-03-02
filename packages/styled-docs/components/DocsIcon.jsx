@@ -4,7 +4,7 @@ import { SVGIcon } from '@trendmicro/react-styled-core';
 const DocsIcon = (props) => (
   <SVGIcon
     fontSize="1.5rem"
-    mx=".75rem"
+    mx="3x"
     {...props}
   >
     <g fill="currentColor">

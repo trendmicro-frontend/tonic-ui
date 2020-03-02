@@ -40,33 +40,33 @@ To see the effect of these values, try resizing the flex containers below:
 
 ```jsx noInline
 const FlexItem = (props) => (
-  <Box bg="blue:50" border={1} borderColor="blue:60" p=".75rem" mr="1em" mb="1rem" {...props} />
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
 );
 
 function Example() {
   return (
     <>
-      <Flex bg="gray:20" p="1rem" pb={0} pr={0} mb="1rem">
+      <Flex bg="gray:20" p="4x" pb={0} pr={0} mb="4x">
         <FlexItem flex="auto">auto</FlexItem>
         <FlexItem flex="auto">auto</FlexItem>
         <FlexItem flex="auto">auto</FlexItem>
       </Flex>
-      <Flex bg="gray:20" p="1rem" pb={0} pr={0} mb="1rem">
+      <Flex bg="gray:20" p="4x" pb={0} pr={0} mb="4x">
         <FlexItem flex="auto">auto</FlexItem>
         <FlexItem flex="initial">initial</FlexItem>
         <FlexItem flex="initial">initial</FlexItem>
       </Flex>
-      <Flex bg="gray:20" p="1rem" pb={0} pr={0} mb="1rem">
+      <Flex bg="gray:20" p="4x" pb={0} pr={0} mb="4x">
         <FlexItem flex="auto">auto</FlexItem>
         <FlexItem flex="auto">auto</FlexItem>
         <FlexItem flex="none">none</FlexItem>
       </Flex>
-      <Flex bg="gray:20" p="1rem" pb={0} pr={0} mb="1rem">
+      <Flex bg="gray:20" p="4x" pb={0} pr={0} mb="4x">
         <FlexItem flex="initial">initial</FlexItem>
         <FlexItem flex="none">none</FlexItem>
         <FlexItem flex="none">none</FlexItem>
       </Flex>
-      <Flex bg="gray:20" p="1rem" pb={0} pr={0}>
+      <Flex bg="gray:20" p="4x" pb={0} pr={0}>
         <FlexItem flex={4}>4</FlexItem>
         <FlexItem flex={2}>2</FlexItem>
         <FlexItem flex={1}>1</FlexItem>
@@ -82,7 +82,7 @@ render(<Example />);
 
 ```jsx noInline
 const FlexItem = (props) => (
-  <Box bg="blue:50" border={1} borderColor="blue:60" p=".75rem" mr="1em" mb="1rem" {...props} />
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
 );
 
 function Example() {
@@ -90,7 +90,7 @@ function Example() {
 
   return (
     <>
-      <Stack direction="row" spacing=".5rem" mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="4x">
         <Button variant="outline" onClick={() => setValue('row')}>row</Button>
         <Button variant="outline" onClick={() => setValue('row-reverse')}>row-reverse</Button>
         <Button variant="outline" onClick={() => setValue('column')}>column</Button>
@@ -99,7 +99,7 @@ function Example() {
       <pre>
         {`<Flex direction="${value}">`}
       </pre>
-      <Flex direction={value} bg="gray:20" p="1rem" pb={0} pr={0}>
+      <Flex direction={value} bg="gray:20" p="4x" pb={0} pr={0}>
         <FlexItem flex="auto">One</FlexItem>
         <FlexItem flex="auto">Two</FlexItem>
         <FlexItem flex="auto">Three</FlexItem>
@@ -115,7 +115,7 @@ render(<Example />);
 
 ```jsx noInline
 const FlexItem = (props) => (
-  <Box bg="blue:50" border={1} borderColor="blue:60" p=".75rem" mr="1em" mb="1rem" {...props} />
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
 );
 
 function Example() {
@@ -123,7 +123,7 @@ function Example() {
 
   return (
     <>
-      <Stack direction="row" spacing=".5rem" mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="4x">
         <Button variant="outline" onClick={() => setValue('nowrap')}>nowrap</Button>
         <Button variant="outline" onClick={() => setValue('wrap')}>wrap</Button>
         <Button variant="outline" onClick={() => setValue('wrap-reverse')}>wrap-reverse</Button>
@@ -131,7 +131,7 @@ function Example() {
       <pre>
         {`<Flex wrap="${value}">`}
       </pre>
-      <Flex wrap={value} width={480} bg="gray:20" p="1rem" pb={0} pr={0}>
+      <Flex wrap={value} width={480} bg="gray:20" p="4x" pb={0} pr={0}>
         <FlexItem flex="auto" minWidth={120}>One</FlexItem>
         <FlexItem flex="auto" minWidth={120}>Two</FlexItem>
         <FlexItem flex="auto" minWidth={120}>Three</FlexItem>
@@ -150,7 +150,7 @@ render(<Example />);
 
 ```jsx noInline
 const FlexItem = (props) => (
-  <Box bg="blue:50" border={1} borderColor="blue:60" p=".75rem" mr="1em" mb="1rem" {...props} />
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
 );
 
 function Example() {
@@ -158,7 +158,7 @@ function Example() {
 
   return (
     <>
-      <Stack direction="row" spacing=".5rem" mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="4x">
         <Button variant="outline" onClick={() => setValue('stretch')}>stretch</Button>
         <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
         <Button variant="outline" onClick={() => setValue('center')}>center</Button>
@@ -167,7 +167,7 @@ function Example() {
       <pre>
         {`<Flex align="${value}">`}
       </pre>
-      <Flex align={value} height={240} bg="gray:20" p="1rem" pb={0} pr={0}>
+      <Flex align={value} height={240} bg="gray:20" p="4x" pb={0} pr={0}>
         <FlexItem flex="auto">One</FlexItem>
         <FlexItem flex="auto">Two</FlexItem>
         <FlexItem flex="auto">Three</FlexItem>
@@ -183,7 +183,7 @@ render(<Example />);
 
 ```jsx noInline
 const FlexItem = (props) => (
-  <Box bg="blue:50" border={1} borderColor="blue:60" p=".75rem" mr="1em" mb="1rem" {...props} />
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
 );
 
 function Example() {
@@ -191,7 +191,7 @@ function Example() {
 
   return (
     <>
-      <Stack direction="row" spacing=".5rem" mb="1rem">
+      <Stack direction="row" spacing=".5rem" mb="4x">
         <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
         <Button variant="outline" onClick={() => setValue('center')}>center</Button>
         <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
@@ -202,7 +202,7 @@ function Example() {
       <pre>
         {`<Flex justify="${value}">`}
       </pre>
-      <Flex justify={value} bg="gray:20" p="1rem" pb={0} pr={0}>
+      <Flex justify={value} bg="gray:20" p="4x" pb={0} pr={0}>
         <FlexItem>One</FlexItem>
         <FlexItem>Two</FlexItem>
         <FlexItem>Three</FlexItem>
