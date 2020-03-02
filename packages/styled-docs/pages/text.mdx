@@ -50,7 +50,7 @@ import { Text } from '@trendmicro/react-styled-core';
 ```jsx
 function Example() {
   const { colorMode } = useColorMode();
-  const backgroundColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  const backgroundColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (
     <Stack spacing=".5rem">
@@ -67,7 +67,7 @@ function Example() {
 ```jsx
 function Example() {
   const { colorMode } = useColorMode();
-  const backgroundColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  const backgroundColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
     <Stack spacing=".5rem">
       <Text backgroundColor={backgroundColor} lineHeight="1">
@@ -102,7 +102,7 @@ function Example() {
 ```jsx noInline
 const TextBlock = (props) => {
   const { colorMode } = useColorMode();
-  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
     <Box px=".75rem" py=".5rem" border={1} borderColor={borderColor}>
       <Text {...props} />

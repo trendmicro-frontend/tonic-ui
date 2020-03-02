@@ -1,7 +1,7 @@
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
-const get = (color, hue) => `${color}.${hue}`;
+const get = (color, hue) => `${color}:${hue}`;
 
 const badgeStyle = ({ color }) => {
   return {

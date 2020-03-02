@@ -20,8 +20,8 @@ import { Box } from '@trendmicro/react-styled-core';
 
 ```jsx
 <Box
-  backgroundColor="blue.50"
-  color="blackAlpha.primary"
+  backgroundColor="blue:50"
+  color="black:primary"
   display="inline-block"
   px=".875rem"
   py=".75rem"
@@ -37,8 +37,8 @@ You can use the `as` prop to change what is rendered dynamically at runtime.
 ```jsx
 <Box
   as="button"
-  backgroundColor="blue.70"
-  color="whiteAlpha.primary"
+  backgroundColor="blue:70"
+  color="white:primary"
   border="none"
   borderRadius="sm"
   cursor="pointer"
@@ -102,8 +102,8 @@ function Example() {
             bg={laneColor[player.lane]}
           />
           <Box
-            bg={index % 2 ? 'gray.100' : 'gray.80'}
-            color="whiteAlpha.primary"
+            bg={index % 2 ? 'gray:100' : 'gray:80'}
+            color="white:primary"
             flexBasis={0}
             flexGrow={1}
             maxWidth="calc(100% - .5rem)"

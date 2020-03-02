@@ -36,8 +36,8 @@ const liveErrorStyle = {
 const LiveCodePreview = props => {
   const { colorMode } = useColorMode();
   const borderColor = {
-    light: 'gray.20', // FIXME
-    dark: 'gray.70', // FIXME
+    light: 'gray:20', // FIXME
+    dark: 'gray:70', // FIXME
   }[colorMode];
 
   return (
@@ -83,7 +83,7 @@ const EditableNotice = props => {
       backgroundColor={backgroundColor}
       py=".5rem"
       zIndex="0"
-      color="gray.40"
+      color="gray:40"
       fontFamily="base"
       fontSize="xs"
       lineHeight="xs"

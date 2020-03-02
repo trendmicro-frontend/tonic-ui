@@ -8,11 +8,11 @@ const Header = React.forwardRef((props, ref) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const backgroundColor = {
     light: 'white', // FIXME
-    dark: 'gray.90', // FIXME
+    dark: 'gray:90', // FIXME
   }[colorMode];
   const borderColor = {
-    light: 'gray.20', // FIXME
-    dark: 'gray.70', // FIXME
+    light: 'gray:20', // FIXME
+    dark: 'gray:70', // FIXME
   }[colorMode];
 
   return (

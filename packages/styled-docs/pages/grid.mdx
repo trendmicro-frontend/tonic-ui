@@ -33,7 +33,7 @@ Grid provides the following style shorthand props:
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -54,7 +54,7 @@ function Example() {
       <Grid
         gap={value}
         templateColumns="1fr 1fr"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
         transition="all .3s ease-in"
       >
@@ -75,7 +75,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -95,7 +95,7 @@ function Example() {
       <Grid
         rowGap={value}
         templateColumns="1fr 1fr"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
         transition="all .3s ease-in"
       >
@@ -116,7 +116,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -136,7 +136,7 @@ function Example() {
       <Grid
         columnGap={value}
         templateColumns="1fr 1fr"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
         transition="all .3s ease-in"
       >
@@ -157,7 +157,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -175,10 +175,10 @@ function Example() {
         templateRows="repeat(3,minmax(3rem,auto))"
         templateColumns="1fr 1.5fr 1fr"
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
-        <GridItem row={value} bg="red.50" borderColor="red.60">One</GridItem>
+        <GridItem row={value} bg="red:50" borderColor="red:60">One</GridItem>
         <GridItem>Two</GridItem>
         <GridItem>Three</GridItem>
       </Grid>
@@ -193,7 +193,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -211,10 +211,10 @@ function Example() {
         templateRows="repeat(3,minmax(3rem,auto))"
         templateColumns="1fr 1.5fr 1fr"
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
-        <GridItem column={value} bg="red.50" borderColor="red.60">One</GridItem>
+        <GridItem column={value} bg="red:50" borderColor="red:60">One</GridItem>
         <GridItem>Two</GridItem>
         <GridItem>Three</GridItem>
       </Grid>
@@ -229,7 +229,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -252,10 +252,10 @@ function Example() {
           "b c c"
         `}
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
-        <GridItem area={value} bg="red.50" borderColor="red.60">Example</GridItem>
+        <GridItem area={value} bg="red:50" borderColor="red:60">Example</GridItem>
       </Grid>
     </>
   );
@@ -268,7 +268,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -289,7 +289,7 @@ function Example() {
         templateRows="repeat(3,minmax(3rem,auto))"
         templateColumns="1fr 1fr 1fr"
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
         <GridItem column="auto/span 2">One</GridItem>
@@ -309,7 +309,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -330,7 +330,7 @@ function Example() {
         autoRows={value}
         templateColumns="1fr 1fr"
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
         <GridItem>One</GridItem>
@@ -350,7 +350,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -370,7 +370,7 @@ function Example() {
       <Grid
         autoColumns={value}
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
         <GridItem column="1/3">One</GridItem>
@@ -390,7 +390,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -411,7 +411,7 @@ function Example() {
         templateRows={value}
         templateColumns="1fr 1fr"
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
         <GridItem>One</GridItem>
@@ -431,7 +431,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -451,7 +451,7 @@ function Example() {
       <Grid
         templateColumns={value}
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
         <GridItem>One</GridItem>
@@ -471,7 +471,7 @@ render(<Example />);
 
 ```jsx noInline
 const GridItem = (props) => (
-  <Grid bg="blue.50" border={1} borderColor="blue.60" p=".75rem" {...props} />
+  <Grid bg="blue:50" border={1} borderColor="blue:60" p=".75rem" {...props} />
 );
 
 function Example() {
@@ -510,12 +510,12 @@ function Example() {
         templateRows="repeat(3,minmax(3rem,auto))"
         templateColumns="1fr 1fr 1fr"
         gap=".5rem"
-        bg="gray.20"
+        bg="gray:20"
         p="1rem"
       >
-        <GridItem area="a" bg="blue.50" borderColor="blue.60">One (a)</GridItem>
-        <GridItem area="b" bg="red.50" borderColor="red.60">Two (b)</GridItem>
-        <GridItem area="c" bg="green.50" borderColor="green.60">Three (c)</GridItem>
+        <GridItem area="a" bg="blue:50" borderColor="blue:60">One (a)</GridItem>
+        <GridItem area="b" bg="red:50" borderColor="red:60">Two (b)</GridItem>
+        <GridItem area="c" bg="green:50" borderColor="green:60">Three (c)</GridItem>
       </Grid>
     </>
   );

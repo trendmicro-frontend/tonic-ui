@@ -4,10 +4,10 @@ import PseudoBox from '../PseudoBox';
 import useColorMode from '../useColorMode';
 
 const baseStyleProps = (colorMode) => {
-  const color = { light: 'blue.60', dark: 'blue.40' }[colorMode];
-  const hoverColor = { light: 'blue.50', dark: 'blue.40' }[colorMode];
-  const visitedColor = { light: 'purple.60', dark: 'purple.50' }[colorMode];
-  const disabledColor = { light: 'blackAlpha.disabled', dark: 'whiteAlpha.disabled' }[colorMode];
+  const color = { light: 'blue:60', dark: 'blue:40' }[colorMode];
+  const hoverColor = { light: 'blue:50', dark: 'blue:40' }[colorMode];
+  const visitedColor = { light: 'purple:60', dark: 'purple:50' }[colorMode];
+  const disabledColor = { light: 'black:disabled', dark: 'white:disabled' }[colorMode];
 
   return {
     color,
@@ -26,7 +26,7 @@ const baseStyleProps = (colorMode) => {
       textDecoration: 'underline',
     },
     _active: {
-      color: 'blue.60',
+      color: 'blue:60',
       textDecoration: 'underline',
     },
   };

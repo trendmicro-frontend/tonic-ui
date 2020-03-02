@@ -6,20 +6,20 @@ import useTheme from '../useTheme';
 const solidVariantProps = ({ color = 'gray', colorMode }) => {
   const style = {
     light: {
-      bg: `${color}.60`,
+      bg: `${color}:60`,
       borderColor: 'transparent',
       color: 'white',
       _hover: {
-        bg: `${color}.50`,
+        bg: `${color}:50`,
         zIndex: 1,
       },
       _active: {
-        bg: `${color}.70`,
+        bg: `${color}:70`,
         borderColor: 'transparent',
         boxShadow: 'none',
       },
       _disabled: {
-        bg: `${color}.60`,
+        bg: `${color}:60`,
         boxShadow: 'none',
         cursor: 'not-allowed',
         opacity: '40%',
@@ -27,20 +27,20 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
       },
     },
     dark: {
-      bg: `${color}.60`,
+      bg: `${color}:60`,
       borderColor: 'transparent',
       color: 'white',
       _hover: {
-        bg: `${color}.50`,
+        bg: `${color}:50`,
         zIndex: 1,
       },
       _active: {
-        bg: `${color}.70`,
+        bg: `${color}:70`,
         borderColor: 'transparent',
         boxShadow: 'none',
       },
       _disabled: {
-        bg: `${color}.60`,
+        bg: `${color}:60`,
         boxShadow: 'none',
         cursor: 'not-allowed',
         opacity: '40%',
@@ -56,21 +56,21 @@ const solidVariantProps = ({ color = 'gray', colorMode }) => {
 const outlineVariantProps = ({ color = 'blue', colorMode }) => {
   const style = {
     light: {
-      borderColor: 'gray.60',
+      borderColor: 'gray:60',
       color: 'black',
       _hover: {
-        borderColor: `${color}.50`,
-        color: `${color}.50`,
+        borderColor: `${color}:50`,
+        color: `${color}:50`,
         zIndex: 1,
       },
       _active: {
         bg: addOpacity('black', 0.12),
-        borderColor: `${color}.70`,
+        borderColor: `${color}:70`,
         boxShadow: 'none',
-        color: `${color}.70`,
+        color: `${color}:70`,
       },
       _disabled: {
-        borderColor: 'gray.60',
+        borderColor: 'gray:60',
         boxShadow: 'none',
         color: 'black',
         cursor: 'not-allowed',
@@ -79,21 +79,21 @@ const outlineVariantProps = ({ color = 'blue', colorMode }) => {
       },
     },
     dark: {
-      borderColor: 'gray.60',
+      borderColor: 'gray:60',
       color: 'white',
       _hover: {
-        borderColor: `${color}.50`,
-        color: `${color}.50`,
+        borderColor: `${color}:50`,
+        color: `${color}:50`,
         zIndex: 1,
       },
       _active: {
         bg: addOpacity('black', 0.12),
-        borderColor: `${color}.70`,
+        borderColor: `${color}:70`,
         boxShadow: 'none',
-        color: `${color}.70`,
+        color: `${color}:70`,
       },
       _disabled: {
-        borderColor: 'gray.60',
+        borderColor: 'gray:60',
         boxShadow: 'none',
         color: 'white',
         cursor: 'not-allowed',
@@ -159,8 +159,8 @@ const focusProps = ({ colorMode, theme: { colors } }) => {
 
 const selectedProps = {
   _selected: {
-    bg: 'blue.60',
-    borderColor: 'blue.60',
+    bg: 'blue:60',
+    borderColor: 'blue:60',
     color: 'inherit',
     zIndex: 1,
   },

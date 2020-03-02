@@ -25,15 +25,15 @@ Add the `_hover` prop to apply style props on hover.
 ```jsx
 <PseudoBox
   as="button"
-  color="blue.40"
+  color="blue:40"
   py=".5rem"
   px=".75rem"
   border={1}
-  borderColor="blue.40"
+  borderColor="blue:40"
   borderRadius="sm"
   cursor="pointer"
   _hover={{
-    bg: 'blue.50',
+    bg: 'blue:50',
     color: 'white',
   }}
 >
@@ -48,19 +48,19 @@ Add the `_active` prop to apply style props on active.
 ```jsx
 <PseudoBox
   as="button"
-  color="blue.40"
+  color="blue:40"
   py=".5rem"
   px=".75rem"
   border={1}
-  borderColor="blue.40"
+  borderColor="blue:40"
   borderRadius="sm"
   cursor="pointer"
   _hover={{
-    bg: 'blue.50',
+    bg: 'blue:50',
     color: 'white',
   }}
   _active={{
-    bg: 'blue.60',
+    bg: 'blue:60',
     color: 'white',
   }}
 >
@@ -78,7 +78,7 @@ Add the `_focus` prop to apply style props on focus.
   placeholder="Click Me"
   py=".5rem"
   px=".75rem"
-  bg="gray.20"
+  bg="gray:20"
   border={1}
   borderColor="transparent"
   borderRadius="sm"
@@ -98,20 +98,20 @@ Add the `_disabled` prop to style an element which is disabled.
 <Stack direction="row" spacing=".5rem">
   <PseudoBox
     as="button"
-    bg="blue.40"
+    bg="blue:40"
     color="white"
     py=".5rem"
     px=".75rem"
     border={1}
-    borderColor="blue.40"
+    borderColor="blue:40"
     borderRadius="sm"
     cursor="pointer"
     _hover={{
-      bg: 'blue.50',
+      bg: 'blue:50',
       color: 'white',
     }}
     _active={{
-      bg: 'blue.60',
+      bg: 'blue:60',
       color: 'white',
     }}
   >
@@ -119,27 +119,27 @@ Add the `_disabled` prop to style an element which is disabled.
   </PseudoBox>
   <PseudoBox
     as="button"
-    bg="blue.40"
+    bg="blue:40"
     color="white"
     py=".5rem"
     px=".75rem"
     border={1}
-    borderColor="blue.40"
+    borderColor="blue:40"
     borderRadius="sm"
     cursor="pointer"
     disabled
     _disabled={{
       cursor: 'not-allowed',
-      bg: 'blue.40',
+      bg: 'blue:40',
       color: 'white',
       opacity: .6,
     }}
     _hover={{
-      bg: 'blue.50',
+      bg: 'blue:50',
       color: 'white',
     }}
     _active={{
-      bg: 'blue.60',
+      bg: 'blue:60',
       color: 'white',
     }}
   >
@@ -157,7 +157,7 @@ Add the `_visited` prop to style a visited link.
   <PseudoBox
     as="a"
     href=""
-    color="blue.40"
+    color="blue:40"
     fontWeight="semibold"
     textDecoration="none"
     _hover={{
@@ -169,14 +169,14 @@ Add the `_visited` prop to style a visited link.
   <PseudoBox
     as="a"
     href=""
-    color="blue.40"
+    color="blue:40"
     fontWeight="semibold"
     textDecoration="none"
     _hover={{
       textDecoration: 'underline',
     }}
     _visited={{
-      color: 'purple.60',
+      color: 'purple:60',
     }}
   >
     Visited link
@@ -191,7 +191,7 @@ Add the `_firstChild` prop to style an element that is the first element among i
 ```jsx
 function Example() {
   const { colorMode } = useColorMode();
-  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (
     <Box border={1} borderColor={borderColor} borderRadius="sm">
@@ -204,7 +204,7 @@ function Example() {
           borderTopColor={borderColor}
           _firstChild={{
             borderTopWidth: 0,
-            bg: 'blue.40',
+            bg: 'blue:40',
             color: 'white',
           }}
         >
@@ -223,7 +223,7 @@ Add the `_lastChild` prop to style an element that is the last element among its
 ```jsx
 function Example() {
   const { colorMode } = useColorMode();
-  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (
     <Box border={1} borderColor={borderColor} borderRadius="sm">
@@ -236,7 +236,7 @@ function Example() {
           borderBottomColor={borderColor}
           _lastChild={{
             borderBottomWidth: 0,
-            bg: 'blue.40',
+            bg: 'blue:40',
             color: 'white',
           }}
         >
@@ -253,10 +253,10 @@ function Example() {
 Add the `_nthOfType` prop to match elements of a given type, based on their position among a group of siblings. The value can be represented as an array or an object in the following form:
 ```
 // array
-_nthOfType={['2n+1', { color: 'red.40' }]
+_nthOfType={['2n+1', { color: 'red:40' }]
 
 // object
-_nthOfType={{ '2n+1': { color: 'red.40' }}
+_nthOfType={{ '2n+1': { color: 'red:40' }}
 ```
 
 ```jsx noInline
@@ -268,10 +268,10 @@ const Paragraph = (props) => (
         fontWeight: 'bold'
       },
       '2n+1': {
-        color: 'red.40',
+        color: 'red:40',
       },
       '2n': {
-        color: 'blue.40',
+        color: 'blue:40',
       }
     }}
     {...props}
@@ -299,7 +299,7 @@ render(<Example />);
 ```jsx
 function Example() {
   const { colorMode } = useColorMode();
-  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (
     <Box border={1} borderColor={borderColor} borderRadius="sm">
@@ -309,7 +309,7 @@ function Example() {
           py=".5rem"
           px=".75rem"
           _nthOfType={['odd', {
-            bg: 'blue.40',
+            bg: 'blue:40',
             color: 'white',
           }]}
         >
@@ -326,7 +326,7 @@ function Example() {
 ```jsx
 function Example() {
   const { colorMode } = useColorMode();
-  const borderColor = colorMode === 'dark' ? 'gray.70' : 'gray.20';
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (
     <Box border={1} borderColor={borderColor} borderRadius="sm">
@@ -336,7 +336,7 @@ function Example() {
           py=".5rem"
           px=".75rem"
           _nthOfType={['even', {
-            bg: 'blue.40',
+            bg: 'blue:40',
             color: 'white',
           }]}
         >
