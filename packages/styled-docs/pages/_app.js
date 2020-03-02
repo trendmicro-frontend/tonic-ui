@@ -16,8 +16,8 @@ import SideNav from '../components/SideNav';
 const Layout = ({ children }) => {
   const { colorMode } = useColorMode();
   const fontColor = {
-    light: 'blackText.primary',
-    dark: 'whiteText.primary',
+    light: 'black:primary',
+    dark: 'white:primary',
   }[colorMode];
 
   return (

@@ -56,8 +56,8 @@ const SideNav = React.forwardRef((props, ref) => {
     dark: 'gray:70', // FIXME
   }[colorMode];
   const headingColor = {
-    light: 'blackText.tertiary',
-    dark: 'whiteText.tertiary',
+    light: 'black:tertiary',
+    dark: 'white:tertiary',
   }[colorMode];
 
   return (

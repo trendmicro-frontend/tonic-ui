@@ -147,25 +147,17 @@ const colors = {
 
   'yellow:50': '#faca2a',
 
-  white: '#ffffff',
+  'white:emphasis': 'rgba(255, 255, 255, 1.0)',
+  'white:primary': 'rgba(255, 255, 255, .92)',
+  'white:secondary': 'rgba(255, 255, 255, .60)',
+  'white:tertiary': 'rgba(255, 255, 255, .47)',
+  'white:disabled': 'rgba(255, 255, 255, .28)',
 
-  whiteText: {
-    emphasis: 'rgba(255, 255, 255, 1.0)',
-    primary: 'rgba(255, 255, 255, .92)',
-    secondary: 'rgba(255, 255, 255, .60)',
-    tertiary: 'rgba(255, 255, 255, .47)',
-    disabled: 'rgba(255, 255, 255, .28)',
-  },
-
-  black: '#000000',
-
-  blackText: {
-    emphasis: 'rgba(0, 0, 0, .92)',
-    primary: 'rgba(0, 0, 0, .92)',
-    secondary: 'rgba(0, 0, 0, .65)',
-    tertiary: 'rgba(0, 0, 0, .54)',
-    disabled: 'rgba(0, 0, 0, .30)',
-  },
+  'black:emphasis': 'rgba(0, 0, 0, .92)',
+  'black:primary': 'rgba(0, 0, 0, .92)',
+  'black:secondary': 'rgba(0, 0, 0, .65)',
+  'black:tertiary': 'rgba(0, 0, 0, .54)',
+  'black:disabled': 'rgba(0, 0, 0, .30)',
 };
 
 /**
