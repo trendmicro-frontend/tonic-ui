@@ -18,13 +18,13 @@ const Error = ({ statusCode }) => {
         fontSize="1.5em"
         lineHeight="1.5em"
         fontWeight="semibold"
-        pr=".75em"
+        pr="3x"
         verticalAlign="top"
       >
         {statusCode}
       </Text>
       <Text
-        pl=".75em"
+        pl="3x"
         verticalAlign="middle"
       >
         {errorDescription}

@@ -104,7 +104,7 @@ const TextBlock = (props) => {
   const { colorMode } = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
-    <Box px=".75rem" py=".5rem" border={1} borderColor={borderColor}>
+    <Box px="3x" py="2x" border={1} borderColor={borderColor}>
       <Text {...props} />
     </Box>
   );

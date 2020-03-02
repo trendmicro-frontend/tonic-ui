@@ -44,8 +44,8 @@ const LiveCodePreview = props => {
     <Box
       as={LivePreview}
       fontFamily="base"
-      mt="1.25rem"
-      p=".75rem"
+      mt="5x"
+      p="3x"
       border={1}
       borderColor={borderColor}
       borderRadius="sm"
@@ -61,7 +61,7 @@ const CopyButton = props => (
     textTransform="uppercase"
     top={0}
     zIndex="1"
-    right="xl"
+    right="4x"
     {...props}
   />
 );
@@ -81,7 +81,7 @@ const EditableNotice = props => {
       borderTopLeftRadius={10}
       borderTopRightRadius={10}
       backgroundColor={backgroundColor}
-      py=".5rem"
+      py="2x"
       zIndex="0"
       color="gray:40"
       fontFamily="base"

@@ -36,14 +36,14 @@ const Header = React.forwardRef((props, ref) => {
           flex="auto"
           fontSize="3xl"
           maxWidth="100%"
-          px="1rem"
+          px="4x"
         >
           Trend Micro Styled System
         </Box>
         <Box
           flex="none"
           width="auto"
-          px="1rem"
+          px="4x"
         >
           <PseudoBox
             as="a"

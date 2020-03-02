@@ -13,9 +13,9 @@ const Main = React.forwardRef(({ children, ...props }, ref) => {
   return (
     <Box
       as="main"
-      pt=".75rem"
-      pb="1.5rem"
-      px="1.5rem"
+      pt="3x"
+      pb="6x"
+      px="6x"
       backgroundColor={backgroundColor}
       css={css`
         >:first-child {

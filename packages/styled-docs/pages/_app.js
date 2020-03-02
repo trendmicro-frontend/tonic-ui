@@ -26,12 +26,12 @@ const Layout = ({ children }) => {
       <SideNav
         display={['none', null, 'block']}
         maxWidth="20rem"
-        px="xl"
-        py="lg"
+        px="4x"
+        py="3x"
       />
       <Box
         height="100vh"
-        pt="4rem"
+        pt="16x"
       >
         <Main
           fontSize="md"
