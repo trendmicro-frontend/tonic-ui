@@ -15,7 +15,7 @@ const Checkbox = forwardRef(
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledBy,
 
-      defaultIsChecked,
+      defaultChecked,
       checked,
       disabled,
       readOnly,
@@ -39,8 +39,8 @@ const Checkbox = forwardRef(
     const { colorMode } = useColorMode();
     const styleProps = checkboxStyles({ color: variantColor, size, colorMode, indeterminate });
     const opacity = readOnly || disabled ? 0.32 : 1;
-    const _defaultIsChecked = defaultIsChecked ? undefined : checked;
-    const _checked = readOnly ? Boolean(checked) : _defaultIsChecked;
+    const _defaultChecked = defaultChecked ? undefined : checked;
+    const _checked = readOnly ? Boolean(checked) : _defaultChecked;
 
     return (
       <Box
@@ -59,7 +59,7 @@ const Checkbox = forwardRef(
           ref={ref}
           name={name}
           value={value}
-          defaultChecked={readOnly ? undefined : defaultIsChecked}
+          defaultChecked={readOnly ? undefined : defaultChecked}
           onChange={readOnly ? undefined : onChange}
           onBlur={onBlur}
           onFocus={onFocus}
