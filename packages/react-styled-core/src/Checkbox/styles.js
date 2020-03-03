@@ -1,7 +1,6 @@
 const baseProps = {
   userSelect: 'none',
   border: 1,
-  borderColor: 'gray:60',
   transition: 'background-color 120ms, box-shadow 250ms',
 };
 
@@ -80,7 +79,7 @@ const interactionProps = ({ color, colorMode }) => {
 
 const useCheckboxStyle = props => {
   const sizes = {
-    lg: '24px',
+    lg: '20px',
     md: '16px',
     sm: 'auto',
   };

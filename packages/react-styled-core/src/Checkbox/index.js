@@ -80,7 +80,7 @@ const Checkbox = forwardRef(
         </ControlBox>
         {children && (
           <Box
-            ml="1x"
+            ml="2x"
             fontSize={size}
             userSelect="none"
             opacity={opacity}
