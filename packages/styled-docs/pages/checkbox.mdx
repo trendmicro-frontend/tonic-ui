@@ -21,7 +21,7 @@ import { Checkbox } from '@trendmicro/react-styled-core';
 Use the `variantColor` prop to change the color scheme of the Checkbox. `variantColor` can be any color key with key `50`(hover), `60`(checked, active) that exist in the them.color.
 
 ```jsx
-<Stack direction="row" spacing=".5rem" shouldWrapChildren>
+<Stack direction="row" spacing="2x">
   <Checkbox variantColor="red" defaultIsChecked>
     Checkbox
   </Checkbox>
@@ -36,7 +36,7 @@ Use the `variantColor` prop to change the color scheme of the Checkbox. `variant
 Use the `size` prop to change the size of the Checkbox. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
+<Stack spacing="2x">
   <Checkbox size="sm">Checkbox</Checkbox>
   <Checkbox size="md">Checkbox</Checkbox>
   <Checkbox size="lg">Checkbox</Checkbox>
@@ -46,8 +46,9 @@ Use the `size` prop to change the size of the Checkbox. You can set the value to
 ### States
 
 ```jsx
-<Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
+<Stack direction="row" spacing="2x" alignItems="center">
   <Checkbox>Checkbox</Checkbox>
+  <Checkbox defaultIsChecked>Checkbox</Checkbox>
   <Checkbox disabled>Checkbox</Checkbox>
   <Checkbox disabled defaultIsChecked>Checkbox</Checkbox>
   <Checkbox isInvalid>Checkbox</Checkbox>
@@ -66,11 +67,11 @@ function IndeterminateExample() {
     <>
       <Checkbox
         checked={allChecked}
-        isIndeterminate={isIndeterminate}
+        indeterminate={isIndeterminate}
         onChange={e => setCheckedItems([e.target.checked, e.target.checked])}
         children="Parent Checkbox"
       />
-      <Stack pl="5x" mt="2x" spacing=".5rem">
+      <Stack pl="6x" mt="2x" spacing="2x">
         <Checkbox
           checked={checkedItems[0]}
           onChange={e => setCheckedItems([e.target.checked, checkedItems[1]])}
@@ -99,7 +100,7 @@ function IndeterminateExample() {
 | defaultIsChecked | `boolean` | | If `true`, the checkbox will be initially checked. |
 | checked | `boolean` | | If `true`, the checkbox will be checked. You'll need to pass `onChange` to update it's value (since it's now controlled) |
 | disabled | `boolean` | | If `true`, the checkbox will be disabled |
-| isIndeterminate | `boolean` | | If `true`, the checkbox will be indeterminate. This only affects the icon shown inside checkbox |
+| indeterminate | `boolean` | | If `true`, the checkbox will be indeterminate. This only affects the icon shown inside checkbox |
 | isInvalid | `boolean` | | If `true`, the checkbox is marked as invalid. Changes style of unchecked state. |
 | children | `React.ReactNode` | | The children of the checkbox. |
 | onChange | `function` | | Function called when the state of the checkbox changes. |
