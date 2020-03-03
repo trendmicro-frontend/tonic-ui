@@ -86,7 +86,7 @@ const useCheckboxStyle = props => {
 
   return {
     ...baseProps,
-    ...props.isIndeterminate ? { ...indeterminateProps(props) } : { ...interactionProps(props) },
+    ...props.indeterminate ? { ...indeterminateProps(props) } : { ...interactionProps(props) },
     size: sizes[props.size],
   };
 };

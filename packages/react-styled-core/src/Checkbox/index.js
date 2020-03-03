@@ -19,7 +19,7 @@ const Checkbox = forwardRef(
       checked,
       disabled,
       readOnly,
-      isIndeterminate,
+      indeterminate,
       isInvalid,
 
       variantColor = 'blue',
@@ -37,7 +37,7 @@ const Checkbox = forwardRef(
     ref,
   ) => {
     const { colorMode } = useColorMode();
-    const styleProps = checkboxStyles({ color: variantColor, size, colorMode, isIndeterminate });
+    const styleProps = checkboxStyles({ color: variantColor, size, colorMode, indeterminate });
     const opacity = readOnly || disabled ? 0.32 : 1;
     const _defaultIsChecked = defaultIsChecked ? undefined : checked;
     const _checked = readOnly ? Boolean(checked) : _defaultIsChecked;
@@ -68,11 +68,11 @@ const Checkbox = forwardRef(
           readOnly={readOnly}
           aria-readonly={readOnly}
           aria-invalid={isInvalid}
-          aria-checked={isIndeterminate ? 'mixed' : checked}
+          aria-checked={indeterminate ? 'mixed' : checked}
         />
         <ControlBox {...styleProps}>
           <Icon
-            name={isIndeterminate ? '_core.minus' : '_core.check'}
+            name={indeterminate ? '_core.minus' : '_core.check'}
             size={iconSize}
             color={iconColor}
             transition="transform 240ms, opacity 240ms"
