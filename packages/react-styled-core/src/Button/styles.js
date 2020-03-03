@@ -134,7 +134,7 @@ const sizeProps = ({ size }) => sizes[size];
 ////////////////////////////////////////////////////////////
 
 const focusProps = ({ colorMode, theme: { colors } }) => {
-  const outerBorderColor = colors.blue && colors.blue[60];
+  const outerBorderColor = colors['blue:60'];
   const style = {
     light: {
       _focus: {
