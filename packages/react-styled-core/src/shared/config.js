@@ -1,4 +1,12 @@
 export const config = {
+  w: {
+    property: 'width',
+    scale: 'sizes',
+  },
+  h: {
+    property: 'height',
+    scale: 'sizes',
+  },
   animation: true,
   appearance: true,
   backgroundAttachment: true,
