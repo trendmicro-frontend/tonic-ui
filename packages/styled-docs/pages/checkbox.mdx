@@ -2,6 +2,11 @@
 
 `Checkbox` is used in forms when a user needs to select multiple values from several options.
 
+Native HTML checkboxes are 100% accessible by default, so we used a [very common CSS technique](https://dev.to/lkopacz/create-custom-keyboard-accessible-checkboxes-2036) to style the checkboxes.
+
+The Checkbox component composes [ControlBox](./controlbox), a component we created to make it easy to style an element based on sibling inputs.
+
+
 ## Import
 
 ```js
@@ -51,7 +56,6 @@ Use the `size` prop to change the size of the Checkbox. You can set the value to
   <Checkbox defaultChecked>Checkbox</Checkbox>
   <Checkbox disabled>Checkbox</Checkbox>
   <Checkbox disabled defaultChecked>Checkbox</Checkbox>
-  <Checkbox isInvalid>Checkbox</Checkbox>
 </Stack>
 ```
 
@@ -101,10 +105,7 @@ function IndeterminateExample() {
 | checked | `boolean` | | If `true`, the checkbox will be checked. You'll need to pass `onChange` to update it's value (since it's now controlled) |
 | disabled | `boolean` | | If `true`, the checkbox will be disabled |
 | indeterminate | `boolean` | | If `true`, the checkbox will be indeterminate. This only affects the icon shown inside checkbox |
-| isInvalid | `boolean` | | If `true`, the checkbox is marked as invalid. Changes style of unchecked state. |
 | children | `React.ReactNode` | | The children of the checkbox. |
 | onChange | `function` | | Function called when the state of the checkbox changes. |
 | onBlur | `function` | | Function called when you blur out of the checkbox. |
 | onFocus | `function` | | Function called when the checkbox receive focus. |
-| aria-label | `string` | | An accessible label for the checkbox in event there's no visible label or `children` passed |
-| aria-labelledby | `string` | | Id that points to the label for the checkbox in event no `children` was passed |

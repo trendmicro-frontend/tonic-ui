@@ -12,15 +12,12 @@ const Checkbox = forwardRef(
       id,
       name,
       value,
-      'aria-label': ariaLabel,
-      'aria-labelledby': ariaLabelledBy,
 
       defaultChecked,
       checked,
       disabled,
       readOnly,
       indeterminate,
-      isInvalid,
 
       variantColor = 'blue',
       size = 'md',
@@ -54,7 +51,6 @@ const Checkbox = forwardRef(
         <VisuallyHidden
           as="input"
           type="checkbox"
-          aria-label={ariaLabel}
           id={id}
           ref={ref}
           name={name}
@@ -66,9 +62,7 @@ const Checkbox = forwardRef(
           checked={_checked}
           disabled={disabled}
           readOnly={readOnly}
-          aria-readonly={readOnly}
-          aria-invalid={isInvalid}
-          aria-checked={indeterminate ? 'mixed' : checked}
+          data-indeterminate={indeterminate}
         />
         <ControlBox {...styleProps}>
           <Icon

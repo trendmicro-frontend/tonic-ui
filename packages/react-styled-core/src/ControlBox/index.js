@@ -6,7 +6,6 @@ const ControlBox = styled(Box)(
   ({
     type = 'checkbox',
     _hover,
-    _invalid,
     _disabled,
     _focus,
     _checked,
@@ -23,26 +22,24 @@ const ControlBox = styled(Box)(
     _indeterminateAndFocus,
     _indeterminateAndHover,
   }) => {
-    const checkedAndDisabled = `input[type=${type}]:checked:disabled + &`,
-      checkedAndActive = `input[type=${type}]:checked:active:not(:disabled):not(:focus) + &`,
-      checkedAndHover = `input[type=${type}]:checked:hover:not(:disabled):not(:focus) + &`,
-      checkedAndFocus = `input[type=${type}]:checked:focus + &`,
-      indeterminateAndDisabled = `input[type=${type}][aria-checked=mixed]:disabled + &`,
-      indeterminateAndActive = `input[type=${type}][aria-checked=mixed]:active:not(:disabled):not(:focus) + &`,
-      indeterminateAndHover = `input[type=${type}][aria-checked=mixed]:hover:not(:disabled):not(:focus) + &`,
-      indeterminateAndFocus = `input[type=${type}][aria-checked=mixed]:focus + &`,
-      disabled = `input[type=${type}]:disabled + &`,
-      focus = `input[type=${type}]:focus + &`,
-      hover = `input[type=${type}]:hover:not(:disabled):not(:checked):not(:focus) + &`,
-      checked = `input[type=${type}]:checked + &`,
-      indeterminate = `input[type=${type}][aria-checked=mixed] + &`,
-      invalid = `input[type=${type}][aria-invalid=true] + &`;
+    const checkedAndDisabled = `input[type=${type}]:checked:disabled + &`;
+    const checkedAndActive = `input[type=${type}]:checked:active:not(:disabled):not(:focus) + &`;
+    const checkedAndHover = `input[type=${type}]:checked:hover:not(:disabled):not(:focus) + &`;
+    const checkedAndFocus = `input[type=${type}]:checked:focus + &`;
+    const indeterminateAndDisabled = `input[type=${type}][data-indeterminate=true]:disabled + &`;
+    const indeterminateAndActive = `input[type=${type}][data-indeterminate=true]:active:not(:disabled):not(:focus) + &`;
+    const indeterminateAndHover = `input[type=${type}][data-indeterminate=true]:hover:not(:disabled):not(:focus) + &`;
+    const indeterminateAndFocus = `input[type=${type}][data-indeterminate=true]:focus + &`;
+    const disabled = `input[type=${type}]:disabled + &`;
+    const focus = `input[type=${type}]:focus + &`;
+    const hover = `input[type=${type}]:hover:not(:disabled):not(:checked):not(:focus) + &`;
+    const checked = `input[type=${type}]:checked + &`;
+    const indeterminate = `input[type=${type}][data-indeterminate=true] + &`;
 
     return css({
       [focus]: _focus,
       [hover]: _hover,
       [disabled]: _disabled,
-      [invalid]: _invalid,
 
       [checkedAndDisabled]: _checkedAndDisabled,
       [checkedAndActive]: _checkedAndActive,
