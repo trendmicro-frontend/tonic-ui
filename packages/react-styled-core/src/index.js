@@ -3,6 +3,7 @@ import Box from './Box';
 import Button from './Button';
 import ButtonBase from './ButtonBase';
 import ButtonGroup from './ButtonGroup';
+import Checkbox from './Checkbox';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import CSSBaseline from './CSSBaseline';
@@ -30,6 +31,7 @@ export {
   Button,
   ButtonBase,
   ButtonGroup,
+  Checkbox,
   Collapse,
   ColorModeProvider,
   CSSBaseline,
