@@ -1,1 +1,69 @@
 # Color Mode
+
+To enable color mode, wrap your application in a `ColorModeProvider`, and specify the value prop with a color mode: `dark` or `light`.
+
+```jsx disabled
+import React from 'react';
+import { ThemeProvider, ColorModeProvider } from '@trendmicro/react-styled-core';
+
+function Example({ children }) {
+  return (
+    <ThemeProvider>
+      <ColorModeProvider value="dark">
+        {children}
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+Then you can use the `useColorMode` hook to get current color mode or change the color mode.
+
+```jsx
+function Example() {
+  const { colorMode, toggleColorMode } = useColorMode();
+  return (
+    <Button onClick={toggleColorMode} alignItems="initial">
+      {colorMode === 'light' ? (
+        <>
+          <TMIcon name="moon" />
+          <Space width="2x" />
+          Toggle Dark Mode
+        </>
+      ) : (
+        <>
+          <TMIcon name="sun" />
+          <Space width="2x" />
+          Toggle Light Mode
+        </>
+      )}
+    </Button>
+  );
+}
+```
+
+To force a specific color mode, wrap your component in `LightMode` or `DarkMode` to override the global color mode.
+
+```jsx
+function Example() {
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  return (
+    <Stack direction="row" spacing="2x" shouldWrapChildren>
+      <LightMode>
+        <Button variantColor="blue">
+          Light Mode Always
+        </Button>
+      </LightMode>
+      <DarkMode>
+        <Button variantColor="blue">
+          Dark Mode Always
+        </Button>
+      </DarkMode>
+      <Button variantColor="blue" onClick={toggleColorMode}>
+        Toggle Mode
+      </Button>
+    </Stack>
+  );
+}
+```
