@@ -1,0 +1,85 @@
+# ControlBox
+
+ControlBox provides style props to change it's styles based on a sibling `checkbox` or `radio` input. It relies on a [common CSS technique](https://dev.to/lkopacz/create-custom-keyboard-accessible-checkboxes-2036) for styling custom controls.
+
+For this component to work, it should have a sibling `input` and be contained in a `label`.
+
+## Usage
+
+Creating a custom checkbox component
+
+```jsx
+<label>
+  {/* This is the sibling input, it's visually hidden */}
+  <VisuallyHidden as="input" type="checkbox" defaultChecked />
+
+  {/* This is the control box with a check icon as children */}
+  <ControlBox
+    size="24px"
+    border="1"
+    borderRadius="sm"
+    _checked={{ bg: "green:50", color: "white", borderColor: "green:50" }}
+    _focus={{ borderColor: "green:60", boxShadow: "rgba(66, 153, 225, 0.6) 0px 0px 0px 3px" }}
+  >
+    <Icon name="_core.check" size="16px" />
+  </ControlBox>
+
+  {/* You can pass additional text */}
+  <Box as="span" ml="2x" verticalAlign="top">
+    Checkbox Label
+  </Box>
+</label>
+```
+
+Creating a custom radio component
+
+```jsx
+<label>
+  {/* This is the sibling input, it's visually hidden */}
+  <VisuallyHidden type="radio" as="input" />
+
+  {/* This is the control box with a circle as children */}
+  <ControlBox
+    type="radio"
+    size="24px"
+    border="2"
+    borderRadius="circle"
+    borderColor="inherit"
+    bg="inherit"
+    _checked={{ bg: "green:50", borderColor: "green:50" }}
+    _focus={{ boxShadow: "rgba(66, 153, 225, 0.6) 0px 0px 0px 3px" }}
+    _hover={{ borderColor: "gray:30" }}
+    _disabled={{ opacity: "40%" }}
+  >
+    <Box size="50%" bg="white" borderRadius="circle" />
+  </ControlBox>
+
+  {/* You can pass additional text */}
+  <Box as="span" ml="2x" verticalAlign="center" userSelect="none">
+    This is a Radio
+  </Box>
+</label>
+```
+
+## Props
+
+ControlBox composes the [Box](./box) component so you can pass all Box props. By default, we toggle the opacity of the `ControlBox` children by setting `_child` to `{ opacity: 0 }` and `_checkedAndChild` to `{ opacity: 1 }`
+
+| Prop | CSS selector | Description |
+| :--- | :----------- | :---------- |
+| \_child | `[input] + & > *` | Styles for the child of the `ControlBox` |
+| \_disabled | `[input]:disabled + &` | Styles for when the sibling `input` is disabled |
+| \_focus | `[input]:focus + &` | Styles for when the sibling `input` is focused |
+| \_hover | `[input]:hover:not(:disabled):not(:checked):not(:focus) + &` | Styles for when the sibling `input` is hovered |
+| \_checked | `[input]:checked + &` | Styles for when the sibling `input` is checked |
+| \_checkedAndActive | `[input]:checked:active:not(:disabled):not(:focus) + &` | Styles for when the sibling `input` is checked and actived |
+| \_checkedAndChild | `[input]:checked + & > *` | Styles for the child of the `ControlBox` when the sibling `input` is checked |
+| \_checkedAndDisabled | `[input]:checked:disabled + &` | Styles for when the sibling `input` is checked and disabled |
+| \_checkedAndFocus | `[input]:checked:focus + &` | Styles for when the sibling `input` is checked and focused |
+| \_checkedAndHover | `[input]:checked:hover:not(:disabled):not(:focus) + &` | Styles for when the sibling `input` is checked and hovered |
+| \_indeterminate | `[input][data-indeterminate=true] + &` | Styles for when the sibling `input` is indeterminate |
+| \_indeterminateAndActive | `[input][data-indeterminate=true]:active:not(:disabled):not(:focus) + &` | Styles for when the sibling `input` is indeterminate and actived |
+| \_indeterminateAndChild | `[input][data-indeterminate=true] + & > *` | Styles for the child of the `ControlBox` when the sibling `input` is indeterminate |
+| \_indeterminateAndDisabled | `[input][data-indeterminate=true]:disabled + &` | Styles for when the sibling `input` is indeterminate and disabled |
+| \_indeterminateAndFocus | `[input][data-indeterminate=true]:focus + &` | Styles for when the sibling `input` is indeterminate and focused |
+| \_indeterminateAndHover | `[input][data-indeterminate=true]:hover:not(:disabled):not(:focus) + &` | Styles for when the sibling `input` is indeterminate and hovered |
