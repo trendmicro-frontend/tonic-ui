@@ -5,7 +5,7 @@ import React, {
   useRef,
   isValidElement,
 } from 'react';
-import { useId } from '@reach/auto-id';
+import { useId } from '../utils/autoId';
 import Box from '../Box';
 
 const CheckboxGroup = ({
