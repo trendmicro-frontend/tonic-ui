@@ -7,7 +7,8 @@ import {
   useColorMode,
 } from '@trendmicro/react-styled-core';
 import App from 'next/app';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Main from '../components/Main';
 import MDXComponents from '../components/MDXComponents';
@@ -45,17 +46,23 @@ const Layout = ({ children }) => {
   );
 };
 
-const CustomApp = (props) => (
-  <ThemeProvider>
-    <ColorModeProvider value="dark">
-      <CSSBaseline />
-      <MDXProvider components={MDXComponents}>
-        <Layout>
-          <App {...props} />
-        </Layout>
-      </MDXProvider>
-    </ColorModeProvider>
-  </ThemeProvider>
-);
+const CustomApp = (props) => {
+  const router = useRouter();
+  useEffect(() => {
+    router.pathname === '/' && router.push('/getting-started');
+  }, [router]);
+  return (
+    <ThemeProvider>
+      <ColorModeProvider value="dark">
+        <CSSBaseline />
+        <MDXProvider components={MDXComponents}>
+          <Layout>
+            <App {...props} />
+          </Layout>
+        </MDXProvider>
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+};
 
 export default CustomApp;
