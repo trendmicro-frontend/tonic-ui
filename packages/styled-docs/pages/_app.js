@@ -49,7 +49,7 @@ const Layout = ({ children }) => {
 const CustomApp = (props) => {
   const router = useRouter();
   useEffect(() => {
-    router.pathname === '/' && router.push('/getting-started');
+    router.pathname === '/' && router.push(`${process.env.PUBLIC_URL}/getting-started`);
   }, [router]);
   return (
     <ThemeProvider>
