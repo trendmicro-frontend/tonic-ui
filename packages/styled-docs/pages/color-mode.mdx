@@ -1,6 +1,6 @@
 # Color Mode
 
-To enable color mode, wrap your application in a `ColorModeProvider`, and specify the value prop with a color mode: `dark` or `light`.
+To enable color mode, wrap your application in a `ColorModeProvider` and specify the value prop with a color mode: `dark` or `light`.
 
 ```jsx disabled
 import React from 'react';
@@ -28,13 +28,13 @@ function Example() {
         <>
           <TMIcon name="moon" />
           <Space width="2x" />
-          Toggle Dark Mode
+          Toggle Color Mode
         </>
       ) : (
         <>
           <TMIcon name="sun" />
           <Space width="2x" />
-          Toggle Light Mode
+          Toggle Color Mode
         </>
       )}
     </Button>
@@ -42,7 +42,7 @@ function Example() {
 }
 ```
 
-To force a specific color mode, wrap your component in `LightMode` or `DarkMode` to override the global color mode.
+To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override global color mode.
 
 ```jsx
 function Example() {
@@ -51,18 +51,24 @@ function Example() {
   return (
     <Stack direction="row" spacing="2x" shouldWrapChildren>
       <LightMode>
-        <Button variantColor="blue">
-          Light Mode Always
-        </Button>
+        <Box bg="white" px="6x" py="4x">
+          <Button variant="outline">
+            Force Light Mode
+          </Button>
+        </Box>
       </LightMode>
       <DarkMode>
-        <Button variantColor="blue">
-          Dark Mode Always
-        </Button>
+        <Box bg="gray:90" px="6x" py="4x">
+          <Button variant="outline">
+            Force Dark Mode
+          </Button>
+        </Box>
       </DarkMode>
-      <Button variantColor="blue" onClick={toggleColorMode}>
-        Toggle Mode
-      </Button>
+      <Box px="6x" py="4x">
+        <Button onClick={toggleColorMode}>
+          Current Color Mode
+        </Button>
+      </Box>
     </Stack>
   );
 }
