@@ -14,6 +14,9 @@ const withPlugins = require('next-compose-plugins');
 
 module.exports = withPlugins([
   withMDX({
+    env: {
+      PUBLIC_URL: process.env.PUBLIC_URL || '',
+    },
     assetPrefix: process.env.ASSET_PREFIX || './',
     distDir: 'build',
     pageExtensions: ['js', 'jsx', 'md', 'mdx'],
