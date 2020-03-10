@@ -3,8 +3,11 @@ import Box from './Box';
 import Button from './Button';
 import ButtonBase from './ButtonBase';
 import ButtonGroup from './ButtonGroup';
+import Checkbox from './Checkbox';
+import CheckboxGroup from './CheckboxGroup';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
+import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
 import Flex from './Flex';
 import Grid from './Grid';
@@ -22,6 +25,7 @@ import theme from './theme';
 import useColorMode from './useColorMode';
 import useClipboard from './useClipboard';
 import useTheme from './useTheme';
+import VisuallyHidden from './VisuallyHidden';
 import withTheme from './withTheme';
 
 export {
@@ -30,8 +34,11 @@ export {
   Button,
   ButtonBase,
   ButtonGroup,
+  Checkbox,
+  CheckboxGroup,
   Collapse,
   ColorModeProvider,
+  ControlBox,
   CSSBaseline,
   Flex,
   Grid,
@@ -49,6 +56,7 @@ export {
   useColorMode,
   useClipboard,
   useTheme,
+  VisuallyHidden,
   withTheme,
 };
 

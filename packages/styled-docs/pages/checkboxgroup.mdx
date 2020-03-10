@@ -1,0 +1,92 @@
+# CheckboxGroup
+
+
+## Installation
+
+```js
+import CheckboxGroup from '@trendmicro/react-styled-core/CheckboxGroup';
+// or
+import { CheckboxGroup } from '@trendmicro/react-styled-core';
+```
+
+### Usage
+
+```jsx
+<CheckboxGroup defaultValue={["apple", "papaya"]}>
+  <Checkbox value="apple">Apple</Checkbox>
+  <Checkbox value="orange">Orange</Checkbox>
+  <Checkbox value="papaya">Papaya</Checkbox>
+</CheckboxGroup>
+```
+
+### Group orientation
+
+Make a set of radios appear horizontal stacked rather than vertically, by adding `inline` to the `CheckboxGroup` component.
+
+```jsx
+<CheckboxGroup inline defaultValue={["apple", "papaya"]}>
+  <Checkbox value="apple">Apple</Checkbox>
+  <Checkbox value="orange">Orange</Checkbox>
+  <Checkbox value="papaya">Papaya</Checkbox>
+</CheckboxGroup>
+```
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of the Radio. `variantColor` can be any color key with key `50`(hover), `60`(checked) that exist in the them.color.
+
+```jsx
+<CheckboxGroup variantColor="green" defaultValue={["apple", "papaya"]}>
+  <Checkbox value="apple">Apple</Checkbox>
+  <Checkbox value="orange">Orange</Checkbox>
+  <Checkbox value="papaya">Papaya</Checkbox>
+</CheckboxGroup>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the Radio. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="1rem">
+  <CheckboxGroup inline spacing="2x" size="sm">
+    <Checkbox value="apple">Apple</Checkbox>
+    <Checkbox value="orange">Orange</Checkbox>
+    <Checkbox value="papaya">Papaya</Checkbox>
+  </CheckboxGroup>
+  <CheckboxGroup inline spacing="2x" size="md">
+    <Checkbox value="apple">Apple</Checkbox>
+    <Checkbox value="orange">Orange</Checkbox>
+    <Checkbox value="papaya">Papaya</Checkbox>
+  </CheckboxGroup>
+  <CheckboxGroup inline spacing="2x" size="lg">
+    <Checkbox value="apple">Apple</Checkbox>
+    <Checkbox value="orange">Orange</Checkbox>
+    <Checkbox value="papaya">Papaya</Checkbox>
+  </CheckboxGroup>
+</Stack>
+```
+
+### States
+```jsx
+<CheckboxGroup disabled>
+  <Checkbox value="apple">Apple</Checkbox>
+  <Checkbox value="orange">Orange</Checkbox>
+  <Checkbox value="papaya">Papaya</Checkbox>
+</CheckboxGroup>
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| name | `string` | | The name of the checkbox group. This prop is passed to each checbox. |
+| value | `Array<Checkbox["value"]>` | | The value of the checkbox group. |
+| disabled | `boolean` | false | If `true`, all checkboxes will be disabled. |
+| inline | `boolean` | false | If `true`, the checkboxes will aligned horizontally. |
+| variantColor | `string` | | The color of the radio when it's checked. This should be one of the color keys in the theme (e.g."green", "red"). |
+| size | `sm`, `md`, `lg` | `md` | The size (width and height) of the radio. |
+| spacing | `string` or `number` | `1x` | The space between each checkbox. |
+| defaultValue | `Array<Checkbox["value"]>` | | The initial value of the checkbox group. |
+| children | `React.ReactNode` | | The content of the checkbox group. Must be the `Checkbox` component. |
+| onChange | `function` | | The callback fired when any children Checkbox is checked or unchecked. |
