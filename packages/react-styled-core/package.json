@@ -2,8 +2,8 @@
   "name": "@trendmicro/react-styled-core",
   "version": "0.0.0",
   "description": "React UI components built with Emotion and Styled System",
-  "main": "dist/react-styled-core.cjs.js",
-  "module": "dist/react-styled-core.esm.js",
+  "main": "dist/react-styled-core.js",
+  "module": "dist/es/react-styled-core.js",
   "publishConfig": {
     "access": "public",
     "directory": "build"
@@ -27,7 +27,7 @@
     "lodash.get": "4.x"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "~7.0.0",
+    "@rollup/plugin-node-resolve": "~7.1.1",
     "@storybook/addon-actions": "~5.3.6",
     "@storybook/addon-docs": "~5.3.6",
     "@storybook/addon-links": "~5.3.6",
@@ -37,8 +37,8 @@
     "cross-env": "~6.0.3",
     "mkdirp": "~0.5.1",
     "rimraf": "~3.0.0",
-    "rollup": "~1.29.0",
-    "rollup-plugin-babel": "~4.3.3"
+    "rollup": "~2.0.3",
+    "rollup-plugin-babel": "~4.4.0"
   },
   "peerDependencies": {
     "@emotion/core": "10.x",
