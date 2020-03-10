@@ -1,9 +1,11 @@
+import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
 import useColorMode from '../useColorMode';
 import VisuallyHidden from '../VisuallyHidden';
 import radioStyles from './styles';
+import { useGroupContext } from '../GroupContext';
 
 const sizes = {
   lg: '20px',
@@ -20,30 +22,49 @@ const iconSizes = {
 const Radio = forwardRef(
   (
     {
+      checked,
+      children,
+      defaultChecked,
+      disabled,
       id,
       name,
-      value,
-
-      defaultChecked,
-      checked,
-      disabled,
-
-      variantColor = 'blue',
       size = 'md',
-
+      value,
+      variantColor = 'blue',
       onChange,
       onBlur,
       onFocus,
-
-      children,
       ...rest
     },
     ref,
   ) => {
     const { colorMode } = useColorMode();
-    const styleProps = radioStyles({ color: variantColor, size, colorMode });
-    const _size = sizes[size];
-    const _iconSize = iconSizes[size];
+    const {
+      disabled: disabledFromParent,
+      name: nameFromParent,
+      size: sizeFromParent,
+      value: valueFromParent,
+      variantColor: variantColorFromParent,
+      onChange: onChangeFromParent
+    } = useGroupContext();
+    let _checked = checked;
+    if (valueFromParent !== undefined) {
+      _checked = (valueFromParent === value);
+    }
+    const _disabled = disabledFromParent || disabled;
+    const _name = nameFromParent || name;
+    const _size = sizes[sizeFromParent || size];
+    const _iconSize = iconSizes[sizeFromParent || size];
+    const _variantColor = variantColorFromParent || variantColor;
+    const _onChange = chainedFunction(
+      onChange,
+      onChangeFromParent,
+    );
+    const styleProps = radioStyles({
+      color: _variantColor,
+      size: _size,
+      colorMode
+    });
 
     return (
       <Box
@@ -52,7 +73,7 @@ const Radio = forwardRef(
         verticalAlign="top"
         htmlFor={id}
         alignItems="center"
-        cursor={disabled ? 'not-allowed' : 'pointer'}
+        cursor={_disabled ? 'not-allowed' : 'pointer'}
         {...rest}
       >
         <VisuallyHidden
@@ -60,14 +81,14 @@ const Radio = forwardRef(
           type="radio"
           id={id}
           ref={ref}
-          name={name}
+          name={_name}
           value={value}
           defaultChecked={defaultChecked}
-          onChange={onChange}
+          onChange={_onChange}
           onBlur={onBlur}
           onFocus={onFocus}
-          checked={checked}
-          disabled={disabled}
+          checked={_checked}
+          disabled={_disabled}
         />
         <ControlBox
           {...styleProps}
@@ -82,7 +103,7 @@ const Radio = forwardRef(
             ml="2x"
             fontSize={size}
             userSelect="none"
-            opacity={disabled ? 0.32 : 1}
+            opacity={_disabled ? 0.32 : 1}
           >
             {children}
           </Box>

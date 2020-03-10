@@ -16,9 +16,11 @@ function RadioExample() {
   const [value, setValue] = React.useState("2");
   return (
     <RadioGroup onChange={e => setValue(e.target.value)} value={value}>
-      <Radio value="1">First</Radio>
-      <Radio value="2">Second</Radio>
-      <Radio value="3">Third</Radio>
+      <Stack spacing="1x">
+        <Radio value="1">First</Radio>
+        <Radio value="2">Second</Radio>
+        <Radio value="3">Third</Radio>
+      </Stack>
     </RadioGroup>
   );
 }
@@ -26,13 +28,15 @@ function RadioExample() {
 
 ### Group orientation
 
-Make a set of radios appear horizontal stacked rather than vertically, by adding `inline` to the `RadioGroup` component.
+Make a set of radios appear horizontal stacked rather than vertically, by adding `direction="row"` to the `Stack` component.
 
 ```jsx
-<RadioGroup inline defaultValue="1">
-  <Radio value="1">Radio 1</Radio>
-  <Radio value="2">Radio 2</Radio>
-  <Radio value="3">Radio 3</Radio>
+<RadioGroup defaultValue="1">
+  <Stack direction="row" spacing="6x">
+    <Radio value="1">Radio 1</Radio>
+    <Radio value="2">Radio 2</Radio>
+    <Radio value="3">Radio 3</Radio>
+  </Stack>
 </RadioGroup>
 ```
 
@@ -42,8 +46,10 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 
 ```jsx
 <RadioGroup variantColor="green" defaultValue="2">
-  <Radio value="1">Radio 1</Radio>
-  <Radio value="2">Radio 2</Radio>
+  <Stack direction="row" spacing="6x">
+    <Radio value="1">Radio 1</Radio>
+    <Radio value="2">Radio 2</Radio>
+  </Stack>
 </RadioGroup>
 ```
 
@@ -53,20 +59,26 @@ Use the `size` prop to change the size of the Radio. You can set the value to `s
 
 ```jsx
 <Stack direction="column" spacing="1rem">
-  <RadioGroup inline spacing="2x" size="sm">
-    <Radio value="1">Radio 1</Radio>
-    <Radio value="2">Radio 2</Radio>
-    <Radio value="3">Radio 3</Radio>
+  <RadioGroup size="sm">
+    <Stack direction="row" spacing="2x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
   </RadioGroup>
-  <RadioGroup inline spacing="2x" size="md">
-    <Radio value="1">Radio 1</Radio>
-    <Radio value="2">Radio 2</Radio>
-    <Radio value="3">Radio 3</Radio>
+  <RadioGroup size="md">
+    <Stack direction="row" spacing="2x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
   </RadioGroup>
-  <RadioGroup inline spacing="2x" size="lg">
-    <Radio value="1">Radio 1</Radio>
-    <Radio value="2">Radio 2</Radio>
-    <Radio value="3">Radio 3</Radio>
+  <RadioGroup size="lg">
+    <Stack direction="row" spacing="2x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
   </RadioGroup>
 </Stack>
 ```
@@ -74,9 +86,11 @@ Use the `size` prop to change the size of the Radio. You can set the value to `s
 ### States
 ```jsx
 <RadioGroup defaultValue="1" disabled>
-  <Radio value="1">Radio 1</Radio>
-  <Radio value="2">Radio 2</Radio>
-  <Radio value="3">Radio 3</Radio>
+  <Stack direction="row" spacing="2x">
+    <Radio value="1">Radio 1</Radio>
+    <Radio value="2">Radio 2</Radio>
+    <Radio value="3">Radio 3</Radio>
+  </Stack>
 </RadioGroup>
 ```
 
@@ -87,10 +101,8 @@ Use the `size` prop to change the size of the Radio. You can set the value to `s
 | name | `string` | | The name used to reference the value of the control. If you don't provide this prop, it falls back to a randomly generated name. |
 | value | `string` or `number` | | The value to be used in the radio input. This is the value that will be returned on form submission. |
 | disabled | `boolean` | false | If `true`, all radios will be disabled. |
-| inline | `boolean` | false | If `true`, the radios will aligned horizontally. |
 | variantColor | `string` | | The color of the radio when it's checked. This should be one of the color keys in the theme (e.g."green", "red"). |
 | size | `sm`, `md`, `lg` | `md` | The size (width and height) of the radio. |
-| spacing | `string` or `number` | `1x` | The space between each radio item. |
 | defaultValue | `string` or `number` | | The default `input` element value. Use when the component is not controlled. |
 | children | `React.ReactNode` | | The children of the radio. |
 | onChange | `function` | | Function called when the state of the radio changes. |
