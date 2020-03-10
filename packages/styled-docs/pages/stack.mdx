@@ -26,7 +26,7 @@ By default, each item is stacked vertically. Stack clones it's children and pass
 ```jsx noInline
 const Item = (props) => {
   const { colorMode } = useColorMode();
-  const boxShadow = colorMode === 'dark' ? 'dark:1x' : 'light:1x';
+  const boxShadow = `${colorMode}.sm`;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
     <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
@@ -51,7 +51,7 @@ render(<Example />);
 ```jsx noInline
 const Item = (props) => {
   const { colorMode } = useColorMode();
-  const boxShadow = colorMode === 'dark' ? 'dark:1x' : 'light:1x';
+  const boxShadow = `${colorMode}.sm`;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
     <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
@@ -76,7 +76,7 @@ render(<Example />);
 ```jsx noInline
 const Item = (props) => {
   const { colorMode } = useColorMode();
-  const boxShadow = colorMode === 'dark' ? 'dark:1x' : 'light:1x';
+  const boxShadow = `${colorMode}.sm`;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
     <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
@@ -102,7 +102,7 @@ render(<Example />);
 ```jsx noInline
 const Item = (props) => {
   const { colorMode } = useColorMode();
-  const boxShadow = colorMode === 'dark' ? 'dark:1x' : 'light:1x';
+  const boxShadow = `${colorMode}.sm`;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
     <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />

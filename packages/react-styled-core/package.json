@@ -21,6 +21,11 @@
   "dependencies": {
     "@styled-system/css": "5.x",
     "@trendmicro/styled-theme": "*",
+    "@emotion/core": "10.x",
+    "@emotion/is-prop-valid": "~0.8.6",
+    "@emotion/styled": "10.x",
+    "emotion-theming": "10.x",
+    "prop-types": "^15.6.0",
     "color": "3.x",
     "react-animate-height": "2.x",
     "styled-system": "5.x",
@@ -41,11 +46,6 @@
     "rollup-plugin-babel": "~4.3.3"
   },
   "peerDependencies": {
-    "@emotion/core": "10.x",
-    "@emotion/is-prop-valid": "~0.8.6",
-    "@emotion/styled": "10.x",
-    "emotion-theming": "10.x",
-    "prop-types": "^15.6.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
