@@ -17,6 +17,7 @@ import Image from './Image';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
+import RadioGroup from './RadioGroup';
 import Space from './Space';
 import Stack from './Stack';
 import SVGIcon from './SVGIcon';
@@ -49,6 +50,7 @@ export {
   Link,
   PseudoBox,
   Radio,
+  RadioGroup,
   Space,
   Stack,
   SVGIcon,
