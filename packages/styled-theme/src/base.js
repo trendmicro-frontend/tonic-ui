@@ -138,7 +138,7 @@ const colors = {
 
   'orange:50': '#ff7633',
 
-  'yellow:50': '#faca2a',
+  'yellow:50': '#faba2a',
 
   'white:emphasis': 'rgba(255, 255, 255, 1.0)',
   'white:primary': 'rgba(255, 255, 255, .92)',
