@@ -1,4 +1,5 @@
 import AnimatedCube from '../components/AnimatedCube';
+import TMIcon from '../components/TMIcon';
 
 # Box
 
@@ -13,13 +14,14 @@ The Box component serves as a wrapper component for most of the CSS utility need
   }}
 >
   <AnimatedCube
+    fontSize="lg"
     size={128}
-    frontPane="FRONT"
-    backPane="BACK"
-    topPane="TOP"
-    bottomPane="BOTTOM"
-    leftPane="LEFT"
-    rightPane="RIGHT"
+    frontPane={(
+      <TMIcon name="t-ball" style={{ color: '#f24c4f', fontSize: 32 }} />
+    )}
+    rightPane="Trend Micro"
+    backPane="Styled UI"
+    leftPane="Box"
   />
 </div>
 
