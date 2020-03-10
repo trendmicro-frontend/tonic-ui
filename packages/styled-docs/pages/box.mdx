@@ -1,10 +1,27 @@
+import AnimatedCube from '../components/AnimatedCube';
+
 # Box
 
 The Box component serves as a wrapper component for most of the CSS utility needs. It allows you to control styles using [style props](https://styled-system.com/api) for building UI components with [Styled System](https://styled-system.com).
 
-<br />
-
-![styled-system](data:image/png;base64,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)
+<div
+  style={{
+    display: 'inline-block',
+    perspective: '100vw',
+    perspectiveOrigin: 'center 250%',
+    padding: '64px 32px',
+  }}
+>
+  <AnimatedCube
+    size={128}
+    frontPane="FRONT"
+    backPane="BACK"
+    topPane="TOP"
+    bottomPane="BOTTOM"
+    leftPane="LEFT"
+    rightPane="RIGHT"
+  />
+</div>
 
 ## Import
 
