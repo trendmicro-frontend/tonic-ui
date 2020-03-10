@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "cross-env NODE_ENV=production next build",
     "clean": "rimraf build docs",
     "dev": "next dev --hostname 0.0.0.0",
     "postbuild": "next export --outdir docs && touch docs/.nojekyll",

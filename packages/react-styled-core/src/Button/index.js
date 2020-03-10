@@ -13,14 +13,12 @@ const Button = forwardRef(
       variantColor,
       type = 'button',
       size = 'md',
-      colorMode,
       ...rest
     },
     ref,
   ) => {
     const buttonStyleProps = useButtonStyle({
       color: variantColor,
-      colorMode,
       size,
       variant,
     });
