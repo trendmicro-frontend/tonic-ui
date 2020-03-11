@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
-import { useTransition, animated, config } from 'react-spring';
+import React, { forwardRef, useState } from 'react';
+import { useSpring, animated } from 'react-spring'
 import Box from '../Box';
 
 const Fade = forwardRef(
@@ -7,31 +7,22 @@ const Fade = forwardRef(
     {
       children,
       show,
-      from = { opacity: 0 },
-      enter = { opacity: 1 },
-      leave = { opacity: 0 },
       duration = 200,
       ...rest
     },
     ref,
   ) => {
-    const transitions = useTransition(show, null, {
-      enter,
-      leave,
-      from,
-      config: { ...config.default, duration },
+    const springs = useSpring({
+      config: { duration },
+      opacity: show ? 1 : 0,
+      from: { opacity: 0 },
     });
     const Component = animated(Box);
-    return transitions.map(({ item, key, props }) => {
-      if (item) {
-        return (
-          <Component key={key} style={props} ref={ref} {...rest}>
-            {children}
-          </Component>
-        );
-      }
-      return null;
-    });
+    return (
+      <Component style={springs} ref={ref} {...rest}>
+        {children}
+      </Component>
+    );
   },
 );
 

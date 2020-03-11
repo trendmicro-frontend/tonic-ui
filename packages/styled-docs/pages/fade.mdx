@@ -24,7 +24,7 @@ function Example() {
   return (
     <Box whiteSpace="pre-wrap">
       <Box mb="2x">
-        <Button variantColor="red" onClick={handleToggle}>
+        <Button variantColor="green" onClick={handleToggle}>
           Toggle
         </Button>
       </Box>
@@ -45,6 +45,4 @@ function Example() {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | show | `boolean` | false | If `true`, the content will be visible. |
-| from | `object | { opacity: 0 } | Base values, optional |
-| enter | `object` | { opacity: 1 } | Styles apply for entering elements, optional |
-| leave | `object` | { opacity: 0 } | Styles apply for leaving elements, optional |
+| duration | `number` | 200 | animate duration for ms |
