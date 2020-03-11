@@ -19,17 +19,18 @@
     "start-storybook": "start-storybook --config-dir .storybook --docs --port 8080"
   },
   "dependencies": {
-    "@styled-system/css": "5.x",
-    "@trendmicro/styled-theme": "*",
     "@emotion/core": "10.x",
     "@emotion/is-prop-valid": "~0.8.6",
     "@emotion/styled": "10.x",
-    "emotion-theming": "10.x",
-    "prop-types": "^15.6.0",
+    "@styled-system/css": "5.x",
+    "@trendmicro/styled-theme": "*",
     "color": "3.x",
+    "emotion-theming": "10.x",
+    "lodash.get": "4.x",
+    "prop-types": "^15.6.0",
     "react-animate-height": "2.x",
-    "styled-system": "5.x",
-    "lodash.get": "4.x"
+    "react-spring": "^9.0.0-beta.34",
+    "styled-system": "5.x"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "~7.0.0",
