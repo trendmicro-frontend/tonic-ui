@@ -2,6 +2,7 @@ import { Box, Heading, PseudoBox, useColorMode } from '@trendmicro/react-styled-
 import Link from 'next/link';
 import React from 'react';
 import components from '../shared/components';
+import themes from '../shared/themes';
 
 const NavLink = React.forwardRef(({ children, ...props }, ref) => {
   const { colorMode } = useColorMode();
@@ -84,12 +85,28 @@ const SideNav = React.forwardRef((props, ref) => {
           <NavLink href="color-mode">
             Color Mode
           </NavLink>
-          <NavLink href="theme">
-            Theme
-          </NavLink>
           <NavLink href="contributing">
             Contributing
           </NavLink>
+        </Box>
+        <Box mb="8x">
+          <Heading
+            fontSize="md"
+            color={headingColor}
+            mb="2x"
+            pl="2x"
+          >
+            THEMES
+          </Heading>
+          {themes.map(theme => {
+            const url = `./${theme.toLowerCase().split(' ').join('-')}`;
+
+            return (
+              <NavLink key={theme} href={url}>
+                {theme}
+              </NavLink>
+            );
+          })}
         </Box>
         <Box mb="8x">
           <Heading

@@ -1,0 +1,41 @@
+import { Box, Stack } from "@trendmicro/react-styled-core";
+import ThemeParser from "../components/ThemeParser";
+
+# Sizes
+
+The `sizes` key allows you to customize the global sizeing of components you
+build for your project. By default these spacing value can be referenced by the
+`width`, `height`, and `maxWidth`, `minWidth`, `maxHeight`, `minHeight` styles.
+
+<ThemeParser theme="sizes" />
+
+## Width
+
+```jsx
+<Stack direction="column" spacing=".5rem">
+  <Box width="40x" p="1x" fontSize="sm" bg="gray:70">Width 10rem(160px)</Box>
+  <Box width="48x" p="1x" fontSize="sm" bg="gray:70">Width 12rem(192px)</Box>
+  <Box width="56x" p="1x" fontSize="sm" bg="gray:70">Width 14rem(224px)</Box>
+  <Box width="64x" p="1x" fontSize="sm" bg="gray:70">Width 16rem(256px)</Box>
+</Stack>
+```
+
+## Height
+
+```jsx
+<Stack direction="row" spacing=".5rem">
+  <Box width="40x" height="8x" p="1x" fontSize="sm" bg="gray:70">Height 2rem(32px)</Box>
+  <Box width="40x" height="16x" p="1x" fontSize="sm" bg="gray:70">Height 4rem(64px)</Box>
+  <Box width="40x" height="24x" p="1x" fontSize="sm" bg="gray:70">Height 6rem(96px)</Box>
+  <Box width="40x" height="32x" p="1x" fontSize="sm" bg="gray:70">Height 8rem(128px)</Box>
+</Stack>
+```
+
+## Configuration reference
+
+Except for breakpoints, colors, and spacing, all of the keys in the theme object
+map to one of our core theme. All of these keys can be replaced or
+extended.
+
+See the <a href="https://styled-system.com/table" target="_blank">full reference
+table</a> of properties.

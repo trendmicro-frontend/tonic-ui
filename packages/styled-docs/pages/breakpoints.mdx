@@ -1,0 +1,28 @@
+import ThemeParser from "../components/ThemeParser";
+
+# Breakpoints
+
+To configure the default breakpoints used in responsive array values, add a
+breakpoints array to your theme. These values will be used to generate
+mobile-first (i.e. min-width) media queries, which can then be used to apply
+responsive styles. 
+
+> The `breakpoints` array which is used at breakpoints theme scale.
+
+> For example, you can write `<Box fontSize={["xs", "sm"]}/>` to make the font size responsive.
+
+<ThemeParser theme="breakpoints" />
+
+```jsx
+// responsive font size
+<Box fontSize={["xs", "sm", "md", "lg"]}>Trend Micro</Box>
+```
+
+## Configuration reference
+
+Except for breakpoints, colors, and spacing, all of the keys in the theme object
+map to one of our core theme. All of these keys can be replaced or
+extended.
+
+See the <a href="https://styled-system.com/table" target="_blank">full reference
+table</a> of properties.
