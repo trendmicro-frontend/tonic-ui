@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { Box, useColorMode } from '@trendmicro/react-styled-core';
 import React, { useContext } from 'react';
 
@@ -65,7 +64,7 @@ const CubePlane = (props) => {
   );
 };
 
-Cube.Front = (props) => {
+const Front = (props) => {
   const size = useContext(CubeContext);
   return (
     <CubePlane
@@ -75,7 +74,7 @@ Cube.Front = (props) => {
   );
 };
 
-Cube.Back = (props) => {
+const Back = (props) => {
   const size = useContext(CubeContext);
   return (
     <CubePlane
@@ -85,7 +84,7 @@ Cube.Back = (props) => {
   );
 };
 
-Cube.Top = (props) => {
+const Top = (props) => {
   const size = useContext(CubeContext);
   return (
     <CubePlane
@@ -96,7 +95,7 @@ Cube.Top = (props) => {
   );
 };
 
-Cube.Bottom = (props) => {
+const Bottom = (props) => {
   const size = useContext(CubeContext);
   return (
     <CubePlane
@@ -107,7 +106,7 @@ Cube.Bottom = (props) => {
   );
 };
 
-Cube.Left = (props) => {
+const Left = (props) => {
   const size = useContext(CubeContext);
   return (
     <CubePlane
@@ -118,7 +117,7 @@ Cube.Left = (props) => {
   );
 };
 
-Cube.Right = (props) => {
+const Right = (props) => {
   const size = useContext(CubeContext);
   return (
     <CubePlane
@@ -128,5 +127,12 @@ Cube.Right = (props) => {
     />
   );
 };
+
+Cube.Front = Front;
+Cube.Back = Back;
+Cube.Top = Top;
+Cube.Bottom = Bottom;
+Cube.Left = Left;
+Cube.Right = Right;
 
 export default Cube;

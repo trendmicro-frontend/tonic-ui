@@ -32,9 +32,8 @@ const TMIcon = React.forwardRef(({
   ...props
 }, ref) => {
   if (size !== undefined) {
-    size = size || 0;
     if (typeof size === 'number') {
-      size = size + 'px';
+      size = `${size || 0}px`;
     }
     fontSize = size;
     lineHeight = size;
