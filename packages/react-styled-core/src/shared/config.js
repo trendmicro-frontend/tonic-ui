@@ -63,8 +63,6 @@ export const config = {
   backfaceVisibility: true,
   perspective: true,
   perspectiveOrigin: true,
-  rotate: true,
-  scale: true,
   transform: true,
   transformBox: true,
   transformOrigin: true,
