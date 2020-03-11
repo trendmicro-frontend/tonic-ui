@@ -38,7 +38,7 @@ const Header = React.forwardRef((props, ref) => {
           maxWidth="100%"
           px="4x"
         >
-          Trend Micro Styled System
+          Trend Micro Styled UI
         </Box>
         <Box
           flex="none"
