@@ -1,19 +1,19 @@
 import { css } from '@emotion/core';
 import { mdx } from '@mdx-js/react';
-import * as StyledCoreComponents from '@trendmicro/react-styled-core';
+import * as CoreComponents from '@trendmicro/react-styled-core';
 import { boolean } from 'boolean';
 import githubTheme from 'prism-react-renderer/themes/github';
 import vsDarkTheme from 'prism-react-renderer/themes/vsDark';
 import React, { useCallback, useState } from 'react';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
-import DocsIcon from './DocsIcon';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import TMIcon from './TMIcon';
 
-const { Box, Button, useColorMode, useClipboard } = StyledCoreComponents;
-const DocsComponents = {
-  DocsIcon,
+const IconComponents = {
+  FontAwesomeIcon,
+  TMIcon,
 };
+const { Box, Button, useColorMode, useClipboard } = CoreComponents;
 
 const liveEditorStyle = {
   fontSize: 14,
@@ -108,6 +108,11 @@ const CodeBlock = ({
    */
   disabled = false,
 
+  /**
+   * Preview only (Default: `false`)
+   */
+  previewOnly = false,
+
   className,
   children,
   ...props
@@ -141,16 +146,22 @@ const CodeBlock = ({
     code: editorCode,
     transformCode: code => code,
     scope: {
-      ...StyledCoreComponents,
-      ...DocsComponents,
-      FontAwesomeIcon,
-      TMIcon,
+      ...IconComponents,
+      ...CoreComponents,
       css,
       mdx,
     },
     mountStylesheet: false,
     ...props,
   };
+
+  if (previewOnly) {
+    return (
+      <LiveProvider {...liveProviderProps}>
+        <LivePreview />
+      </LiveProvider>
+    );
+  }
 
   const isEditable = !disabled;
 
