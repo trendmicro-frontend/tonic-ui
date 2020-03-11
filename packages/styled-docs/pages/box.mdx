@@ -1,29 +1,10 @@
-import AnimatedCube from '../components/AnimatedCube';
-import TMIcon from '../components/TMIcon';
+import AnimatedCubeDemo from '../components/AnimatedCubeDemo';
 
 # Box
 
 The Box component serves as a wrapper component for most of the CSS utility needs. It allows you to control styles using [style props](https://styled-system.com/api) for building UI components with [Styled System](https://styled-system.com).
 
-<div
-  style={{
-    display: 'inline-block',
-    perspective: '100vw',
-    perspectiveOrigin: 'center 250%',
-    padding: '64px 32px',
-  }}
->
-  <AnimatedCube
-    fontSize="lg"
-    size={128}
-    frontPane={(
-      <TMIcon name="t-ball" style={{ color: '#f24c4f', fontSize: 32 }} />
-    )}
-    rightPane="Trend Micro"
-    backPane="Styled UI"
-    leftPane="Box"
-  />
-</div>
+<AnimatedCubeDemo />
 
 ## Import
 

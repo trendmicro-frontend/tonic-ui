@@ -1,23 +1,44 @@
 import styled from '@emotion/styled';
 import { Box, useColorMode } from '@trendmicro/react-styled-core';
-import React from 'react';
+import React, { useContext } from 'react';
+
+const CubeContext = React.createContext();
 
 /**
  * CSS Cube
  * https://davidwalsh.name/css-cube
  */
 const Cube = ({
-  size = 100,
-  frontPane,
-  backPane,
-  topPane,
-  bottomPane,
-  leftPane,
-  rightPane,
+  size,
   ...rest
 }) => {
   size = Number(size) || 0;
-  const half = size / 2;
+  if (size < 0) {
+    size = 0;
+  }
+  return (
+    <CubeContext.Provider value={size}>
+      <CubeObject {...rest} />
+    </CubeContext.Provider>
+  );
+};
+
+const CubeObject = (props) => {
+  const size = useContext(CubeContext);
+  return (
+    <Box
+      position="relative"
+      width={size}
+      height={size}
+      my={0}
+      mx="auto"
+      transformStyle="preserve-3d"
+      {...props}
+    />
+  );
+};
+
+const CubePlane = (props) => {
   const { colorMode } = useColorMode();
   const backgroundColor = colorMode === 'dark'
     ? 'rgba(255,255,255,.05)'
@@ -26,15 +47,7 @@ const Cube = ({
     ? 'dark.sm'
     : 'light.sm';
 
-  const CubeEntity = styled(Box)`
-    position: relative;
-    width: ${size}px;
-    height: ${size}px;
-    margin: 0 auto;
-    transform-style: preserve-3d;
-  `;
-
-  const CubePane = (props) => (
+  return (
     <Box
       position="absolute"
       top={0}
@@ -46,47 +59,73 @@ const Cube = ({
       display="flex"
       justifyContent="center"
       alignItems="center"
+      backfaceVisibility="hidden"
       {...props}
     />
   );
+};
 
-  const FrontPane = styled(CubePane)`
-    transform: translateZ(${half}px);
-  `;
-
-  const BackPane = styled(CubePane)`
-    transform: translateZ(-${half}px) rotateY(180deg);
-  `;
-
-  const TopPane = styled(CubePane)`
-    transform: rotateX(-90deg) translateY(-${half}px);
-    transform-origin: top center;
-  `;
-
-  const BottomPane = styled(CubePane)`
-    transform: rotateX(90deg) translateY(${half}px);
-    transform-origin: bottom center;
-  `;
-
-  const LeftPane = styled(CubePane)`
-    transform: rotateY(270deg) translateX(-${half}px);
-    transform-origin: center left;
-  `;
-
-  const RightPane = styled(CubePane)`
-    transform: rotateY(-270deg) translateX(${half}px);
-    transform-origin: top right;
-  `;
-
+Cube.Front = (props) => {
+  const size = useContext(CubeContext);
   return (
-    <CubeEntity {...rest}>
-      <FrontPane>{frontPane}</FrontPane>
-      <BackPane>{backPane}</BackPane>
-      <TopPane>{topPane}</TopPane>
-      <BottomPane>{bottomPane}</BottomPane>
-      <LeftPane>{leftPane}</LeftPane>
-      <RightPane>{rightPane}</RightPane>
-    </CubeEntity>
+    <CubePlane
+      transform={`translateZ(${size / 2}px)`}
+      {...props}
+    />
+  );
+};
+
+Cube.Back = (props) => {
+  const size = useContext(CubeContext);
+  return (
+    <CubePlane
+      transform={`translateZ(-${size / 2}px) rotateY(180deg)`}
+      {...props}
+    />
+  );
+};
+
+Cube.Top = (props) => {
+  const size = useContext(CubeContext);
+  return (
+    <CubePlane
+      transform={`rotateX(-90deg) translateY(-${size / 2}px)`}
+      transformOrigin="top center"
+      {...props}
+    />
+  );
+};
+
+Cube.Bottom = (props) => {
+  const size = useContext(CubeContext);
+  return (
+    <CubePlane
+      transform={`rotateX(90deg) translateY(${size / 2}px)`}
+      transformOrigin="bottom center"
+      {...props}
+    />
+  );
+};
+
+Cube.Left = (props) => {
+  const size = useContext(CubeContext);
+  return (
+    <CubePlane
+      transform={`rotateY(270deg) translateX(-${size / 2}px)`}
+      transformOrigin="center left"
+      {...props}
+    />
+  );
+};
+
+Cube.Right = (props) => {
+  const size = useContext(CubeContext);
+  return (
+    <CubePlane
+      transform={`rotateY(-270deg) translateX(${size / 2}px)`}
+      transformOrigin="top right"
+      {...props}
+    />
   );
 };
 
