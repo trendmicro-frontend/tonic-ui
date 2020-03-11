@@ -9,11 +9,13 @@ import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
+import DarkMode from './DarkMode';
 import Flex from './Flex';
 import Grid from './Grid';
 import Heading from './Heading';
 import Icon from './Icon';
 import Image from './Image';
+import LightMode from './LightMode';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
@@ -42,11 +44,13 @@ export {
   ColorModeProvider,
   ControlBox,
   CSSBaseline,
+  DarkMode,
   Flex,
   Grid,
   Heading,
   Icon,
   Image,
+  LightMode,
   Link,
   PseudoBox,
   Radio,

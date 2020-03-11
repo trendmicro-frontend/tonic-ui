@@ -9,7 +9,7 @@
     "postinstall": "lerna bootstrap --use-workspaces",
     "build": "lerna exec -- yarn build",
     "build:parallel": "lerna exec --parallel -- yarn build",
-    "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
+    "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes && rimraf yarn.lock",
     "release": "lerna publish",
     "pre-push": "lerna exec -- yarn pre-push"
   },
