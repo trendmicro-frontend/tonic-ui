@@ -13,6 +13,7 @@ const components = [
   //'Divider',
   //'Drawer',
   //'Editable',
+  'Fade',
   'Flex',
   //'FormControl',
   //'FormGroup',

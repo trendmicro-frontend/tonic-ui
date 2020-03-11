@@ -1,0 +1,50 @@
+# Fade
+
+`Fade` in from transparent to opaque.
+
+This component uses [react-spring](https://github.com/react-spring/react-spring) for animating.
+
+## Import
+
+```js
+import Fade from '@trendmicro/react-styled-core/Fade';
+// or
+import { Fade } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+### Basic usage
+
+```jsx
+function Example() {
+  const [show, setShow] = React.useState(false);
+  const handleToggle = () => setShow(!show);
+
+  return (
+    <Box whiteSpace="pre-wrap">
+      <Box mb="2x">
+        <Button variantColor="red" onClick={handleToggle}>
+          Toggle
+        </Button>
+      </Box>
+      <Box height={64}>
+        <Fade show={show}>
+          Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+        </Fade>
+      </Box>
+    </Box>
+  );
+}
+```
+
+## Props
+
+`Fade` composes the [`Box`](./box) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| show | `boolean` | false | If `true`, the content will be visible. |
+| from | `object` or `function` | { opacity: 0 } | Base values, optional |
+| enter | `object`  or `function` | { opacity: 1 } | Styles apply for entering elements, optional |
+| leave | `object`  or `function` | { opacity: 0 } | Styles apply for leaving elements, optional |
