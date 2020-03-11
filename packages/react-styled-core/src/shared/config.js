@@ -14,13 +14,6 @@ export const config = {
   // backgrounds and borders
   backgroundAttachment: true,
   backgroundClip: true,
-  backgroundImage: true,
-  backgroundOrigin: true,
-  backgroundPosition: true,
-  backgroundPositionX: true,
-  backgroundPositionY: true,
-  backgroundRepeat: true,
-  backgroundSize: true,
 
   // basic user interface
   appearance: true,
