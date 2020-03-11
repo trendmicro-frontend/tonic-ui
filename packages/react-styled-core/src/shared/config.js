@@ -7,28 +7,71 @@ export const config = {
     property: 'height',
     scale: 'sizes',
   },
+
+  // animations
   animation: true,
-  appearance: true,
+
+  // backgrounds and borders
+  background: true,
   backgroundAttachment: true,
+  backgroundClip: true,
+  backgroundColor: true,
+  backgroundImage: true,
+  backgroundOrigin: true,
+  backgroundPosition: true,
+  backgroundPositionX: true,
+  backgroundPositionY: true,
+  backgroundRepeat: true,
+  backgroundSize: true,
+  boxShadow: true,
+
+  // basic user interface
+  appearance: true,
+  aspectRatio: true,
   boxSizing: true,
+  caretColor: true,
   cursor: true,
+  outline: true,
+  resize: true,
+  textOverflow: true,
+  userSelect: true,
+
+  // box model
+  visibility: true,
+
+  // float
   float: true,
-  listStyleType: true,
-  listStylePosition: true,
-  listStyleImage: true,
+
+  // images
   objectFit: true,
   objectPosition: true,
-  outline: true,
-  overflowX: true,
-  overflowY: true,
-  overflowWrap: true,
-  pointerEvents: true,
-  resize: true,
-  textDecoration: true,
-  textOverflow: true,
-  textTransform: true,
 
-  // CSS transforms
+  // lists and counters
+  listStyleImage: true,
+  listStylePosition: true,
+  listStyleType: true,
+
+  // pointer events
+  pointerEvents: true,
+
+  // text
+  letterSpacing: true,
+  lineBreak: true,
+  overflowWrap: true,
+  textAlign: true,
+  textIndent: true,
+  textJustify: true,
+  textTransform: true,
+  whiteSpace: true,
+  wordBreak: true,
+  wordSpacing: true,
+
+  // text decoration
+  textDecoration: true,
+  textEmphasis: true,
+  textShadow: true,
+
+  // transforms
   backfaceVisibility: true,
   perspective: true,
   perspectiveOrigin: true,
@@ -39,10 +82,13 @@ export const config = {
   transformOrigin: true,
   transformStyle: true,
 
+  // transitions
   transition: true,
-  userSelect: true,
-  visibility: true,
-  whiteSpace: true,
+  transitionDelay: true,
+  transitionDuration: true,
+  transitionProperty: true,
+  transitionTimingFunction: true,
+
+  // will change
   willChange: true,
-  wordBreak: true,
 };
