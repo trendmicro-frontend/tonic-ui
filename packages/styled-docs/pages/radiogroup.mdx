@@ -1,0 +1,108 @@
+# RadioGroup
+
+
+## Installation
+
+```js
+import RadioGroup from '@trendmicro/react-styled-core/RadioGroup';
+// or
+import { RadioGroup } from '@trendmicro/react-styled-core';
+```
+
+### Usage
+
+```jsx
+function RadioExample() {
+  const [value, setValue] = React.useState("2");
+  return (
+    <RadioGroup onChange={e => setValue(e.target.value)} value={value}>
+      <Stack spacing="1x">
+        <Radio value="1">First</Radio>
+        <Radio value="2">Second</Radio>
+        <Radio value="3">Third</Radio>
+      </Stack>
+    </RadioGroup>
+  );
+}
+```
+
+### Group orientation
+
+Make a set of radios appear horizontal stacked rather than vertically, by adding `direction="row"` to the `Stack` component.
+
+```jsx
+<RadioGroup defaultValue="1">
+  <Stack direction="row" spacing="6x">
+    <Radio value="1">Radio 1</Radio>
+    <Radio value="2">Radio 2</Radio>
+    <Radio value="3">Radio 3</Radio>
+  </Stack>
+</RadioGroup>
+```
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of the Radio. `variantColor` can be any color key with key `50`(hover), `60`(checked) that exist in the them.color.
+
+```jsx
+<RadioGroup variantColor="green" defaultValue="2">
+  <Stack direction="row" spacing="6x">
+    <Radio value="1">Radio 1</Radio>
+    <Radio value="2">Radio 2</Radio>
+  </Stack>
+</RadioGroup>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the Radio. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="1rem">
+  <RadioGroup size="sm">
+    <Stack direction="row" spacing="2x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
+  </RadioGroup>
+  <RadioGroup size="md">
+    <Stack direction="row" spacing="2x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
+  </RadioGroup>
+  <RadioGroup size="lg">
+    <Stack direction="row" spacing="2x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
+  </RadioGroup>
+</Stack>
+```
+
+### States
+```jsx
+<RadioGroup defaultValue="1" disabled>
+  <Stack direction="row" spacing="2x">
+    <Radio value="1">Radio 1</Radio>
+    <Radio value="2">Radio 2</Radio>
+    <Radio value="3">Radio 3</Radio>
+  </Stack>
+</RadioGroup>
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| name | `string` | | The name used to reference the value of the control. If you don't provide this prop, it falls back to a randomly generated name. |
+| value | `string` or `number` | | The value to be used in the radio input. This is the value that will be returned on form submission. |
+| disabled | `boolean` | false | If `true`, all radios will be disabled. |
+| variantColor | `string` | | The color of the radio when it's checked. This should be one of the color keys in the theme (e.g."green", "red"). |
+| size | `sm`, `md`, `lg` | `md` | The size (width and height) of the radio. |
+| defaultValue | `string` or `number` | | The default `input` element value. Use when the component is not controlled. |
+| children | `React.ReactNode` | | The children of the radio. |
+| onChange | `function` | | Function called when the state of the radio changes. |

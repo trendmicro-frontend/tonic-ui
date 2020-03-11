@@ -2,8 +2,8 @@
   "name": "@trendmicro/react-styled-core",
   "version": "0.0.0",
   "description": "React UI components built with Emotion and Styled System",
-  "main": "dist/react-styled-core.cjs.js",
-  "module": "dist/react-styled-core.esm.js",
+  "main": "dist/react-styled-core.js",
+  "module": "dist/es/react-styled-core.js",
   "publishConfig": {
     "access": "public",
     "directory": "build"
@@ -28,23 +28,25 @@
     "emotion-theming": "10.x",
     "lodash.get": "4.x",
     "prop-types": "^15.6.0",
+    "chained-function": "^0.5.0",
+    "color": "3.x",
     "react-animate-height": "2.x",
     "react-spring": "^9.0.0-beta.34",
     "styled-system": "5.x"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "~7.0.0",
+    "@rollup/plugin-node-resolve": "~7.1.1",
     "@storybook/addon-actions": "~5.3.6",
     "@storybook/addon-docs": "~5.3.6",
     "@storybook/addon-links": "~5.3.6",
     "@storybook/addons": "~5.3.6",
     "@storybook/react": "~5.3.6",
-    "cpy-cli": "~3.0.0",
-    "cross-env": "~6.0.3",
-    "mkdirp": "~0.5.1",
-    "rimraf": "~3.0.0",
-    "rollup": "~1.29.0",
-    "rollup-plugin-babel": "~4.3.3"
+    "cpy-cli": "~3.1.0",
+    "cross-env": "~7.0.2",
+    "mkdirp": "~1.0.3",
+    "rimraf": "~3.0.2",
+    "rollup": "~2.0.3",
+    "rollup-plugin-babel": "~4.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",

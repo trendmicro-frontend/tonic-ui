@@ -1,1 +1,75 @@
 # Color Mode
+
+To enable color mode, wrap your application in a `ColorModeProvider` and specify the value prop with a color mode: `dark` or `light`.
+
+```jsx disabled
+import React from 'react';
+import { ThemeProvider, ColorModeProvider } from '@trendmicro/react-styled-core';
+
+function Example({ children }) {
+  return (
+    <ThemeProvider>
+      <ColorModeProvider value="dark">
+        {children}
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+Then you can use the `useColorMode` hook to get current color mode or change the color mode.
+
+```jsx
+function Example() {
+  const { colorMode, toggleColorMode } = useColorMode();
+  return (
+    <Button onClick={toggleColorMode} alignItems="initial">
+      {colorMode === 'light' ? (
+        <>
+          <TMIcon name="moon" />
+          <Space width="2x" />
+          Toggle Color Mode
+        </>
+      ) : (
+        <>
+          <TMIcon name="sun" />
+          <Space width="2x" />
+          Toggle Color Mode
+        </>
+      )}
+    </Button>
+  );
+}
+```
+
+To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override global color mode.
+
+```jsx
+function Example() {
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  return (
+    <Stack direction="row" spacing="2x" shouldWrapChildren>
+      <LightMode>
+        <Box bg="white" px="6x" py="4x">
+          <Button variant="outline">
+            Force Light Mode
+          </Button>
+        </Box>
+      </LightMode>
+      <DarkMode>
+        <Box bg="gray:90" px="6x" py="4x">
+          <Button variant="outline">
+            Force Dark Mode
+          </Button>
+        </Box>
+      </DarkMode>
+      <Box px="6x" py="4x">
+        <Button onClick={toggleColorMode}>
+          Current Color Mode
+        </Button>
+      </Box>
+    </Stack>
+  );
+}
+```
