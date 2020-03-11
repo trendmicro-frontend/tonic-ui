@@ -1,5 +1,7 @@
 require('dotenv-flow').config();
 
+const withPlugins = require('next-compose-plugins');
+const withCSS = require('@zeit/next-css');
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
@@ -9,17 +11,16 @@ const withMDX = require('@next/mdx')({
     ],
   }
 });
-const withCSS = require('@zeit/next-css');
-const withPlugins = require('next-compose-plugins');
 
 module.exports = withPlugins([
-  withMDX({
+  withCSS,
+  withMDX(),
+  {
     env: {
       PUBLIC_URL: process.env.PUBLIC_URL || '',
     },
     assetPrefix: process.env.ASSET_PREFIX || './',
     distDir: 'build',
     pageExtensions: ['js', 'jsx', 'md', 'mdx'],
-  }),
-  withCSS,
+  }
 ]);
