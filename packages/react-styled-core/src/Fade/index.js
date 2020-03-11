@@ -6,7 +6,7 @@ const Fade = forwardRef(
   (
     {
       children,
-      show,
+      show = false,
       duration = 200,
       ...rest
     },
