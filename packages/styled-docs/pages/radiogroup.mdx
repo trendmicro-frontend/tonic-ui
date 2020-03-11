@@ -58,23 +58,23 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 Use the `size` prop to change the size of the Radio. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="1rem">
+<Stack direction="column" spacing="1x" shouldWrapChildren>
   <RadioGroup size="sm">
-    <Stack direction="row" spacing="2x">
+    <Stack direction="row" spacing="6x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
   <RadioGroup size="md">
-    <Stack direction="row" spacing="2x">
+    <Stack direction="row" spacing="6x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
   <RadioGroup size="lg">
-    <Stack direction="row" spacing="2x">
+    <Stack direction="row" spacing="6x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
@@ -86,7 +86,7 @@ Use the `size` prop to change the size of the Radio. You can set the value to `s
 ### States
 ```jsx
 <RadioGroup defaultValue="1" disabled>
-  <Stack direction="row" spacing="2x">
+  <Stack direction="row" spacing="6x">
     <Radio value="1">Radio 1</Radio>
     <Radio value="2">Radio 2</Radio>
     <Radio value="3">Radio 3</Radio>

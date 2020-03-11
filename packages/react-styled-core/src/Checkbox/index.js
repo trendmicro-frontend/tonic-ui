@@ -1,3 +1,4 @@
+import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
@@ -5,6 +6,7 @@ import Icon from '../Icon';
 import useColorMode from '../useColorMode';
 import VisuallyHidden from '../VisuallyHidden';
 import checkboxStyles from './styles';
+import { useGroupContext } from '../GroupContext';
 
 const Checkbox = forwardRef(
   (
@@ -34,10 +36,31 @@ const Checkbox = forwardRef(
     ref,
   ) => {
     const { colorMode } = useColorMode();
-    const styleProps = checkboxStyles({ color: variantColor, size, colorMode, indeterminate });
-    const opacity = readOnly || disabled ? 0.32 : 1;
+    const {
+      disabled: disabledFromParent,
+      size: sizeFromParent,
+      value: valueFromParent,
+      variantColor: variantColorFromParent,
+      onChange: onChangeFromParent
+    } = useGroupContext();
     const _defaultChecked = defaultChecked ? undefined : checked;
-    const _checked = readOnly ? Boolean(checked) : _defaultChecked;
+    let _checked = readOnly ? Boolean(checked) : _defaultChecked;
+    if (valueFromParent !== undefined) {
+      _checked = valueFromParent.includes(value);
+    }
+    const _disabled = disabledFromParent || disabled;
+    const _size = sizeFromParent || size;
+    const _variantColor = variantColorFromParent || variantColor;
+    const _onChange = chainedFunction(
+      onChange,
+      onChangeFromParent,
+    );
+    const styleProps = checkboxStyles({
+      color: _variantColor,
+      size: _size,
+      colorMode,
+      indeterminate
+    });
 
     return (
       <Box
@@ -45,7 +68,7 @@ const Checkbox = forwardRef(
         display="inline-flex"
         verticalAlign="top"
         alignItems="center"
-        cursor={disabled || readOnly ? 'not-allowed' : 'pointer'}
+        cursor={_disabled || readOnly ? 'not-allowed' : 'pointer'}
         {...rest}
       >
         <VisuallyHidden
@@ -56,11 +79,11 @@ const Checkbox = forwardRef(
           name={name}
           value={value}
           defaultChecked={readOnly ? undefined : defaultChecked}
-          onChange={readOnly ? undefined : onChange}
+          onChange={readOnly ? undefined : _onChange}
           onBlur={onBlur}
           onFocus={onFocus}
           checked={_checked}
-          disabled={disabled}
+          disabled={_disabled}
           readOnly={readOnly}
           data-indeterminate={indeterminate}
         />
@@ -77,7 +100,7 @@ const Checkbox = forwardRef(
             ml="2x"
             fontSize={size}
             userSelect="none"
-            opacity={opacity}
+            opacity={readOnly || _disabled ? 0.32 : 1}
           >
             {children}
           </Box>
