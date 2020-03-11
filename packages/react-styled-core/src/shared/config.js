@@ -12,10 +12,8 @@ export const config = {
   animation: true,
 
   // backgrounds and borders
-  background: true,
   backgroundAttachment: true,
   backgroundClip: true,
-  backgroundColor: true,
   backgroundImage: true,
   backgroundOrigin: true,
   backgroundPosition: true,
@@ -23,7 +21,6 @@ export const config = {
   backgroundPositionY: true,
   backgroundRepeat: true,
   backgroundSize: true,
-  boxShadow: true,
 
   // basic user interface
   appearance: true,
@@ -58,7 +55,6 @@ export const config = {
   letterSpacing: true,
   lineBreak: true,
   overflowWrap: true,
-  textAlign: true,
   textIndent: true,
   textJustify: true,
   textTransform: true,
@@ -69,7 +65,6 @@ export const config = {
   // text decoration
   textDecoration: true,
   textEmphasis: true,
-  textShadow: true,
 
   // transforms
   backfaceVisibility: true,
