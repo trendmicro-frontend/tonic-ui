@@ -9,6 +9,7 @@ import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
+import Fade from './Fade';
 import Flex from './Flex';
 import Grid from './Grid';
 import Heading from './Heading';
@@ -40,6 +41,7 @@ export {
   ColorModeProvider,
   ControlBox,
   CSSBaseline,
+  Fade,
   Flex,
   Grid,
   Heading,
