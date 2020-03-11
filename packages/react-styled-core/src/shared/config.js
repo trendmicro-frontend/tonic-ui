@@ -27,8 +27,18 @@ export const config = {
   textDecoration: true,
   textOverflow: true,
   textTransform: true,
+
+  // CSS transforms
+  backfaceVisibility: true,
+  perspective: true,
+  perspectiveOrigin: true,
+  rotate: true,
+  scale: true,
   transform: true,
+  transformBox: true,
   transformOrigin: true,
+  transformStyle: true,
+
   transition: true,
   userSelect: true,
   visibility: true,
