@@ -1,5 +1,5 @@
-import React, { forwardRef, useState } from 'react';
-import { useSpring, animated } from 'react-spring'
+import React, { forwardRef } from 'react';
+import { useSpring, animated } from 'react-spring';
 import Box from '../Box';
 
 const Fade = forwardRef(
