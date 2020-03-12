@@ -95,10 +95,24 @@ const PseudoBox = styled(Box)(
     }
 
     return css({
-      // pseudo-classes
-      // XXX:
-      //    a:hover MUST come after a:link and a:visited in the CSS definition in order to be effective.
-      //    a:active MUST come after a:hover in the CSS definition in order to be effective.
+      /**
+       * Pseudo-classes must be declared in a specific order, as shown below:
+       *
+       * ```
+       * :link
+       * :visited
+       * :hover
+       * :active
+       * ```
+       *
+       * Each pseudo-class corresponds to an event which can only happen later in the timeline than the one before.
+       *
+       * That is to say:
+       *
+       * 1. A link is unvisited before it is visited.
+       * 2. A link is visited before it is hovered over.
+       * 3. A link is hovered over before it is in active use.
+       */
       [focus]: _focus,
       [visited]: _visited,
       [hover]: _hover,
