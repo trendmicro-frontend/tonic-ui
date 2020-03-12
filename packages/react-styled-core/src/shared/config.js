@@ -45,7 +45,6 @@ export const config = {
   pointerEvents: true,
 
   // text
-  letterSpacing: true,
   lineBreak: true,
   overflowWrap: true,
   textIndent: true,
