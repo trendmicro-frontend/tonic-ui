@@ -86,7 +86,6 @@ const useInputStyleProps = ({
   const styleProps = {
     ...baseProps,
     ...sizeProps,
-    backgroundColor: defaultBackgroundColor,
     border: defaultBorder,
     borderColor: defaultBorderColor,
     color: defaultColor,
