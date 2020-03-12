@@ -16,6 +16,7 @@ import Grid from './Grid';
 import Heading from './Heading';
 import Icon from './Icon';
 import Image from './Image';
+import Input from './Input';
 import LightMode from './LightMode';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
@@ -52,6 +53,7 @@ export {
   Heading,
   Icon,
   Image,
+  Input,
   LightMode,
   Link,
   PseudoBox,
