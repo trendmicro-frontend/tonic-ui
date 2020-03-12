@@ -110,7 +110,7 @@ const colors = {
   'teal:60': '#00866c',
   'teal:50': '#00a584',
   'teal:40': '#04caa1',
-  'teal:30': '#4119c5',
+  'teal:30': '#41e9c5',
   'teal:20': '#89f6df',
   'teal:10': '#c3fcf0',
 

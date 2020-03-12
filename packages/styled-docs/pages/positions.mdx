@@ -1,0 +1,29 @@
+import { Box, Stack } from "@trendmicro/react-styled-core";
+import ThemeParser from "../components/ThemeParser";
+
+# Positions
+
+Use these style properties such as `zIndex`, `position`, `top`, `right`, `bottom` and `left` for quickly configuring the position of an element.
+
+## Z-Index
+
+We provides some zIndex values out of the box to control the stacking order
+of components.
+
+<ThemeParser theme="zIndices" />
+
+```jsx
+<Box position="relative" height="32x">
+  <Box position="absolute" zIndex="popover" left="4x" p="4x" bg="gray:80">z-index=popover</Box>
+  <Box position="absolute" zIndex="toast" top="9x" p="4x" bg="gray:70">z-index=toast</Box>
+</Box>
+```
+
+## Configuration Reference
+
+Except for breakpoints, colors, and spacing, all of the keys in the theme object
+map to one of our core theme. All of these keys can be replaced or
+extended.
+
+See the <a href="https://styled-system.com/table" target="_blank">full reference
+table</a> of properties.

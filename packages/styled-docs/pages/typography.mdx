@@ -1,0 +1,65 @@
+import { Box, Stack } from "@trendmicro/react-styled-core";
+import ThemeParser from "../components/ThemeParser";
+
+# Typography
+
+To manage Typography options, the theme object supports the following keys:
+
+- `fonts` (font families)
+- `fontSizes`
+- `fontWeights`
+- `lineHeights`
+
+## Font Family
+<ThemeParser theme="fonts" />
+
+```jsx
+<Stack direction="column" spacing=".5rem">
+  <Box fontFamily="heading">-apple-system</Box>
+  <Box fontFamily="base">-apple-system</Box>
+  <Box fontFamily="mono">SFMono-Medium</Box>
+</Stack>
+```
+
+## Font Size
+<ThemeParser theme="fontSizes" />
+
+```jsx
+<Stack direction="column" spacing=".5rem">
+  <Box fontSize="sm">Trend Micro</Box>
+  <Box fontSize="md">Trend Micro</Box>
+  <Box fontSize="lg">Trend Micro</Box>
+</Stack>
+```
+
+## Font Weight
+<ThemeParser theme="fontWeights" />
+
+```jsx
+<Stack direction="column" spacing=".5rem">
+  <Box fontWeight="normal">Trend Micro</Box>
+  <Box fontWeight="medium">Trend Micro</Box>
+  <Box fontWeight="semibold">Trend Micro</Box>
+</Stack>
+```
+
+## Line Height
+<ThemeParser theme="lineHeights" />
+
+```jsx
+<Stack direction="column" spacing=".5rem">
+  <Box display="inline-block" pl="1x" lineHeight="sm" bg="green:80">Line height 1.25rem</Box>
+  <Box display="inline-block" pl="1x" lineHeight="lg" bg="green:80">Line height 1.5rem</Box>
+  <Box display="inline-block" pl="1x" lineHeight="2xl" bg="green:80">Line height 2rem</Box>
+</Stack>
+```
+
+## Configuration Reference
+
+Except for breakpoints, colors, and spacing, all of the keys in the theme object
+map to one of our core theme. All of these keys can be replaced or
+extended.
+
+See the <a href="https://styled-system.com/table" target="_blank">full reference
+table</a> of properties.
+
