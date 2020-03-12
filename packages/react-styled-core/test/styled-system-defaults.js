@@ -11,11 +11,10 @@ const toPixel = (x) => {
   return (x > 0) ? `${x}px` : '0';
 };
 
-/**
- * Some style props include default, fallback scales if not defined
- * in the theme object.
- */
 describe('styled system defaults', () => {
+  /**
+   * https://github.com/styled-system/styled-system/blob/master/packages/space/src/index.js
+   */
   test('default space for margin and padding', () => {
     const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
     const json = render(
@@ -31,6 +30,9 @@ describe('styled system defaults', () => {
     });
   });
 
+  /**
+   * https://github.com/styled-system/styled-system/blob/master/packages/typography/src/index.js
+   */
   test('default fontSizes', () => {
     const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
     const json = render(
