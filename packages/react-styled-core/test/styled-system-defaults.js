@@ -1,14 +1,15 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer, { matchers } from 'jest-emotion';
-import styled from '@emotion/styled';
 import Box from '../src/Box';
 
 expect.extend(matchers);
 expect.addSnapshotSerializer(serializer);
 
 const render = el => renderer.create(el).toJSON();
-const toPixel = (x) => (x > 0) ? `${x}px` : '0';
+const toPixel = (x) => {
+  return (x > 0) ? `${x}px` : '0';
+};
 
 /**
  * Some style props include default, fallback scales if not defined
