@@ -28,8 +28,17 @@ const TMIcon = React.forwardRef(({
   lineHeight = 'md',
   className,
   name,
+  size,
   ...props
 }, ref) => {
+  if (size !== undefined) {
+    if (typeof size === 'number') {
+      size = `${size || 0}px`;
+    }
+    fontSize = size;
+    lineHeight = size;
+  }
+
   return (
     <Box
       ref={ref}

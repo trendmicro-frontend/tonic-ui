@@ -7,32 +7,74 @@ export const config = {
     property: 'height',
     scale: 'sizes',
   },
+
+  // animations
   animation: true,
-  appearance: true,
+
+  // backgrounds and borders
   backgroundAttachment: true,
+  backgroundClip: true,
+
+  // basic user interface
+  appearance: true,
+  aspectRatio: true,
   boxSizing: true,
+  caretColor: true,
   cursor: true,
+  outline: true,
+  resize: true,
+  textOverflow: true,
+  userSelect: true,
+
+  // box model
+  visibility: true,
+
+  // float
   float: true,
-  listStyleType: true,
-  listStylePosition: true,
-  listStyleImage: true,
+
+  // images
   objectFit: true,
   objectPosition: true,
-  outline: true,
-  overflowX: true,
-  overflowY: true,
-  overflowWrap: true,
+
+  // lists and counters
+  listStyleImage: true,
+  listStylePosition: true,
+  listStyleType: true,
+
+  // pointer events
   pointerEvents: true,
-  resize: true,
-  textDecoration: true,
-  textOverflow: true,
+
+  // text
+  letterSpacing: true,
+  lineBreak: true,
+  overflowWrap: true,
+  textIndent: true,
+  textJustify: true,
   textTransform: true,
-  transform: true,
-  transformOrigin: true,
-  transition: true,
-  userSelect: true,
-  visibility: true,
   whiteSpace: true,
-  willChange: true,
   wordBreak: true,
+  wordSpacing: true,
+
+  // text decoration
+  textDecoration: true,
+  textEmphasis: true,
+
+  // transforms
+  backfaceVisibility: true,
+  perspective: true,
+  perspectiveOrigin: true,
+  transform: true,
+  transformBox: true,
+  transformOrigin: true,
+  transformStyle: true,
+
+  // transitions
+  transition: true,
+  transitionDelay: true,
+  transitionDuration: true,
+  transitionProperty: true,
+  transitionTimingFunction: true,
+
+  // will change
+  willChange: true,
 };
