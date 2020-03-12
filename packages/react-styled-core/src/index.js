@@ -10,6 +10,7 @@ import ColorModeProvider from './ColorModeProvider';
 import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
 import DarkMode from './DarkMode';
+import Fade from './Fade';
 import Flex from './Flex';
 import Grid from './Grid';
 import Heading from './Heading';
@@ -45,6 +46,7 @@ export {
   ControlBox,
   CSSBaseline,
   DarkMode,
+  Fade,
   Flex,
   Grid,
   Heading,
