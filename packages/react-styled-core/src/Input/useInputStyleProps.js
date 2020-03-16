@@ -23,13 +23,14 @@ const getSizeProps = ({ size }) => {
       fontSize: 'sm',
       lineHeight: 'sm',
       px: '.75rem',
-      py: '.375rem',
+      py: '.3125rem',
     },
     'sm': {
       borderRadius: 'sm',
       fontSize: 'sm',
       lineHeight: 'sm',
       px: '.75rem',
+      py: '.0625rem',
     }
   };
 
