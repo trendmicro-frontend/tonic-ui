@@ -16,7 +16,7 @@ function RadioExample() {
   const [value, setValue] = React.useState("2");
   return (
     <RadioGroup onChange={e => setValue(e.target.value)} value={value}>
-      <Stack spacing="1x">
+      <Stack spacing="4x">
         <Radio value="1">First</Radio>
         <Radio value="2">Second</Radio>
         <Radio value="3">Third</Radio>
@@ -55,10 +55,10 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 
 ### Sizes
 
-Use the `size` prop to change the size of the Radio. You can set the value to `sm`, `md`, or `lg`.
+Use the `size` prop to change the size of the `RadioGroup`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="1x" shouldWrapChildren>
+<Stack direction="column" spacing="4x" shouldWrapChildren>
   <RadioGroup size="sm">
     <Stack direction="row" spacing="6x">
       <Radio value="1">Radio 1</Radio>
