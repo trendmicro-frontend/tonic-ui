@@ -38,7 +38,7 @@ const components = [
   //'Tag',
   'Text',
   //'Toast',
-  //'Tooltip',
+  'Tooltip',
 ];
 
 export default components;

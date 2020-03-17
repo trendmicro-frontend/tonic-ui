@@ -28,6 +28,7 @@ import Stack from './Stack';
 import SVGIcon from './SVGIcon';
 import Text from './Text';
 import ThemeProvider from './ThemeProvider';
+import Tooltip from './Tooltip';
 import theme from './theme';
 import useColorMode from './useColorMode';
 import useClipboard from './useClipboard';
@@ -66,6 +67,7 @@ export {
   SVGIcon,
   Text,
   ThemeProvider,
+  Tooltip,
   theme,
   useColorMode,
   useClipboard,
