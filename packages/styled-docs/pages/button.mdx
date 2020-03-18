@@ -18,24 +18,48 @@ import { Button } from '@trendmicro/react-styled-core';
 
 ### Variants
 
-Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
+Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`, `emphasis`, `primary`, `default`, `secondary`, `ghost`.
 
 ```jsx
-<Stack direction="row" spacing=".5rem" shouldWrapChildren>
+<Stack direction="row" spacing="2x" shouldWrapChildren>
   <Button variant="solid">Solid Button</Button>
   <Button variant="outline">Outlined Button</Button>
+  <Button variant="emphasis">Emphasis Button</Button>
+  <Button variant="primary">Primary Button</Button>
+  <Button variant="default">Default Button</Button>
+  <Button variant="secondary">Secondary Button</Button>
+  <Button variant="ghost">Ghost Button</Button>
 </Stack>
 ```
 
 ### Colors
 
-Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the them.color.
+Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key exist in the them.color.
+
+The color scheme for `emphasis`, `primary`, `default`, `secondary`, `ghost` buttons cannot be changed via `variantColor`.
+
+| variant | normal | hover | active | focus | disabled | font color |
+| :------ | :----- | :---- | :----- | :---- | :------- | :--------- |
+| solid | `${variantColor}:60` | `${variantColor}:50` | `${variantColor}:70` | `blud:40` | `gray:60` | `white` |
+| outline | `${variantColor}:60` | `${variantColor}:50` | `${variantColor}:50` | `blue:60` | `gray:60` | `${variantColor}:40` |
+| emphasis | `red:60` | `red:50` | `red:70` | `blue:60` | `gray:60` | `white` |
+| primary | `blue:60` | `blue:50` | `blue:70` | `blue:60` | `gray:60` | `white` |
+| default | `gray:60` | `gray:50` | `gray:70` | `blue:60` | `gray:60` | `white` |
+| secondary | `gray:60` | `blue:50` | `blue:70` | `blue:60` | `gray:60` | `white`/`black`, `blue:40` |
+| ghost | | `blue:50` | `blue:70` | `blue:60` | `gray:60` | `white`/`black`, `blue:40` |
 
 ```jsx
-<Stack direction="row" spacing=".5rem" shouldWrapChildren>
-  <Button variantColor="red">Emphasis Button</Button>
-  <Button variantColor="blue">Primary Button</Button>
-  <Button variantColor="gray">Default Button</Button>
+<Stack direction="column" spacing="4x">
+  <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
+    <Button variantColor="red">Button</Button>
+    <Button variantColor="blue">Button</Button>
+    <Button variantColor="gray">Button</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
+    <Button variant="outline" variantColor="red">Button</Button>
+    <Button variant="outline" variantColor="blue">Button</Button>
+    <Button variant="outline" variantColor="gray">Button</Button>
+  </Stack>
 </Stack>
 ```
 
@@ -44,23 +68,35 @@ Use the `variantColor` prop to change the color scheme of the Button. `variantCo
 Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
-  <Button size="sm">Small</Button>
-  <Button size="md">Medium</Button>
-  <Button size="lg">Large</Button>
+<Stack direction="column" spacing="4x">
+  <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
+    <Button variant="outline" size="sm" variantColor="gray">Small</Button>
+    <Button variant="outline" size="md" variantColor="gray">Medium</Button>
+    <Button variant="outline" size="lg" variantColor="gray">Large</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
+    <Button variant="default" size="sm">Small</Button>
+    <Button variant="default" size="md">Medium</Button>
+    <Button variant="default" size="lg">Large</Button>
+  </Stack>
 </Stack>
 ```
 
 ### States
 
 ```jsx
-<Stack direction="column" spacing="1rem">
-  <Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
+<Stack direction="column" spacing="4x">
+  <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
     <Button active>Active</Button>
     <Button>Normal</Button>
     <Button disabled>Disabled</Button>
   </Stack>
-  <Stack direction="row" spacing=".5rem" alignItems="center" shouldWrapChildren>
+  <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
     <Button variant="outline" active>Active</Button>
     <Button variant="outline">Normal</Button>
     <Button variant="outline" disabled>Disabled</Button>
@@ -73,12 +109,12 @@ Use the `size` prop to change the size of the button. You can set the value to `
 Icon buttons are commonly used in toolbars. Sometimes you might want to add label to certain icon buttons to enhance the UX. You can use [Space](./space) to add a padding space with `.5rem` (`8px`) between icon and label.
 
 ```jsx
-<Stack direction="column" spacing="1rem">
-  <Stack direction="row" spacing=".5rem">
-    <Button variantColor="blue" borderRadius="circle" width="2rem" height="2rem">
+<Stack direction="column" spacing="4x">
+  <Stack direction="row" spacing="2x">
+    <Button variantColor="blue" borderRadius="circle" width="8x" height="8x">
       <TMIcon name="add" color="white" />
     </Button>
-    <Button variantColor="blue" width="2rem" height="2rem">
+    <Button variantColor="blue" width="8x" height="8x">
       <TMIcon name="add" color="white" />
     </Button>
     <Button variantColor="blue" borderRadius="2rem">
@@ -92,11 +128,11 @@ Icon buttons are commonly used in toolbars. Sometimes you might want to add labe
       Add Account
     </Button>
   </Stack>
-  <Stack direction="row" spacing=".5rem">
-    <Button variant="outline" borderRadius="circle" width="2rem" height="2rem">
+  <Stack direction="row" spacing="2x">
+    <Button variant="outline" borderRadius="circle" width="8x" height="8x">
       <TMIcon name="add" />
     </Button>
-    <Button variant="outline" width="2rem" height="2rem">
+    <Button variant="outline" width="8x" height="8x">
       <TMIcon name="add" />
     </Button>
     <Button variant="outline" borderRadius="2rem">
@@ -105,6 +141,24 @@ Icon buttons are commonly used in toolbars. Sometimes you might want to add labe
       Add Account
     </Button>
     <Button variant="outline">
+      <TMIcon name="add" />
+      <Space width=".5rem" />
+      Add Account
+    </Button>
+  </Stack>
+  <Stack direction="row" spacing="2x">
+    <Button variant="primary" width="8x" height="8x" px="0"  borderRadius="circle">
+      <TMIcon name="add" />
+    </Button>
+    <Button variant="primary" width="8x" height="8x" px="0">
+      <TMIcon name="add" />
+    </Button>
+    <Button variant="primary" borderRadius="2rem">
+      <TMIcon name="add" />
+      <Space width=".5rem" />
+      Add Account
+    </Button>
+    <Button variant="primary">
       <TMIcon name="add" />
       <Space width=".5rem" />
       Add Account
@@ -120,14 +174,14 @@ In case you need to customize the button, pass style props to the [ButtonBase](.
 ```jsx
 <ButtonBase
   bg="#f5f6f7"
-  border="1px solid"
+  border="1"
   borderColor="#ccd0d5"
   borderRadius="md"
   color="#4b4f56"
-  fontSize="14px"
+  fontSize="sm"
   fontWeight="semibold"
   height="24px"
-  lineHeight="1.2"
+  lineHeight="sm"
   px="2x"
   transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
   _hover={{
@@ -154,6 +208,6 @@ In case you need to customize the button, pass style props to the [ButtonBase](.
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | disabled | `boolean` | false | If `true`, the button will be disabled. |
-| size | `string` | `md` | The size of the button. One of: 'sm', 'md', 'lg' |
-| variant | `string` | 'solid' | The variant of the button style to use. One of: 'solid', 'outline' |
+| size | `string` | `md` | The size of the button. One of: `sm`, `md`, `lg` |
+| variant | `string` | `solid` | The variant of the button style to use. One of: `solid`, `outline`, `emphasis`, `primary`, `default`, `secondary`, `ghost` |
 | variantColor | `string` | | The color of the button. It must be a color key defined in `theme.colors`. |
