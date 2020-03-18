@@ -23,7 +23,7 @@ const createPseudoClassTransformFunction = name => prop => {
 
 const active = '&:active';
 const checked = '&:checked';
-const selected = '&[data-active=true], &:active[data-active=true], &:hover[data-active=true]';
+const selected = '&[data-selected=true], &:active[data-selected=true], &:hover[data-selected=true]';
 const disabled = '&[aria-disabled=true], &:disabled, &:disabled:focus, &:disabled:hover, &:focus[aria-disabled=true], &:hover[aria-disabled=true]';
 const empty = '&:empty';
 const enabled = '&:enabled, &:enabled:focus, &:enabled:hover';

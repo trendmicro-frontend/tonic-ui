@@ -7,15 +7,15 @@ import useTheme from '../useTheme';
 const Button = forwardRef(
   (
     {
-      active,
+      as: Comp = 'button',
       borderRadius = 'sm',
       children,
-      as: Comp = 'button',
+      px = '2x',
+      selected,
+      size = 'md',
+      type = 'button',
       variant = 'solid',
       variantColor,
-      type = 'button',
-      size = 'md',
-      px = '2x',
       ...rest
     },
     ref,
@@ -43,7 +43,7 @@ const Button = forwardRef(
           as={Comp}
           type={type}
           borderRadius={borderRadius}
-          data-active={active ? 'true' : undefined}
+          data-selected={selected ? 'true' : undefined}
           {...buttonStyleProps}
           {...rest}
         >
@@ -69,7 +69,7 @@ const Button = forwardRef(
         as={Comp}
         type={type}
         borderRadius={borderRadius}
-        data-active={active ? 'true' : undefined}
+        data-selected={selected ? 'true' : undefined}
         px={px}
         {...buttonStyleProps}
         {...rest}

@@ -16,6 +16,7 @@ const solidVariantProps = ({ color = 'gray', colorMode, theme: { colors } }) => 
       },
       _hover: {
         bg: `${color}:50`,
+        zIndex: 1,
       },
       _active: {
         bg: `${color}:70`,
@@ -36,6 +37,7 @@ const solidVariantProps = ({ color = 'gray', colorMode, theme: { colors } }) => 
       },
       _hover: {
         bg: `${color}:50`,
+        zIndex: 1,
       },
       _active: {
         bg: `${color}:70`,
@@ -68,6 +70,7 @@ const outlineVariantProps = ({ color = 'blue', colorMode, theme: { colors } }) =
           borderColor: `${color}:50`,
         },
         color: `${color}:40`,
+        zIndex: 1,
       },
       _active: {
         '&:not(:focus)': {
@@ -95,6 +98,7 @@ const outlineVariantProps = ({ color = 'blue', colorMode, theme: { colors } }) =
           borderColor: `${color}:50`,
         },
         color: `${color}:40`,
+        zIndex: 1,
       },
       _active: {
         '&:not(:focus)': {
@@ -131,6 +135,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
           borderColor: `${color}:50`,
         },
         color: `${color}:40`,
+        zIndex: 1,
       },
       _active: {
         '&:not(:focus)': {
@@ -158,6 +163,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
           borderColor: `${color}:50`,
         },
         color: `${color}:40`,
+        zIndex: 1,
       },
       _active: {
         '&:not(:focus)': {
@@ -212,13 +218,14 @@ const definedVariantProps = ({ color, colorMode, theme: { colors } }) => {
         },
         '& > :first-of-type': {
           bg: `${color}:50`,
-        }
+        },
+        zIndex: 1,
       },
       _active: {
         bg: `${color}:70`,
         '& > :first-of-type': {
           bg: `${color}:70`,
-        }
+        },
       },
       _disabled: {
         bg: 'gray:60',
@@ -246,13 +253,14 @@ const definedVariantProps = ({ color, colorMode, theme: { colors } }) => {
         },
         '& > :first-of-type': {
           bg: `${color}:50`,
-        }
+        },
+        zIndex: 1,
       },
       _active: {
         bg: `${color}:70`,
         '& > :first-of-type': {
           bg: `${color}:70`,
-        }
+        },
       },
       _disabled: {
         bg: 'gray:60',
@@ -294,6 +302,9 @@ const selectedProps = {
     bg: 'blue:60',
     borderColor: 'blue:60',
     color: 'white',
+    '&:focus': {
+      boxShadow: 'unset',
+    }
   },
 };
 

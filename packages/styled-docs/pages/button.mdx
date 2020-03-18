@@ -92,12 +92,12 @@ Use the `size` prop to change the size of the button. You can set the value to `
 ```jsx
 <Stack direction="column" spacing="4x">
   <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
-    <Button active>Active</Button>
+    <Button selected>Selected</Button>
     <Button>Normal</Button>
     <Button disabled>Disabled</Button>
   </Stack>
   <Stack direction="row" spacing="2x" alignItems="center" shouldWrapChildren>
-    <Button variant="outline" active>Active</Button>
+    <Button variant="outline" selected>Selected</Button>
     <Button variant="outline">Normal</Button>
     <Button variant="outline" disabled>Disabled</Button>
   </Stack>
@@ -208,6 +208,7 @@ In case you need to customize the button, pass style props to the [ButtonBase](.
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | disabled | `boolean` | false | If `true`, the button will be disabled. |
+| selected | `boolean` | false | If `true`, the button will be selected. |
 | size | `string` | `md` | The size of the button. One of: `sm`, `md`, `lg` |
 | variant | `string` | `solid` | The variant of the button style to use. One of: `solid`, `outline`, `emphasis`, `primary`, `default`, `secondary`, `ghost` |
 | variantColor | `string` | | The color of the button. It must be a color key defined in `theme.colors`. |
