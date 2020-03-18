@@ -7,6 +7,7 @@ const ButtonGroup = ({
   variant = 'solid',
   variantColor,
   vertical,
+  divide,
   ...rest
 }) => {
   const clones = Children.map(children, (child, index) => {
@@ -19,19 +20,19 @@ const ButtonGroup = ({
     const horizontalProps = {
       ...(isFirstChild && { borderTopRightRadius: 0, borderBottomRightRadius: 0 }),
       ...(isLastChild && { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
-      ...(!isFirstChild && variant === 'outline' && { ml: -1 }),
+      ...(!isFirstChild && !divide && { ml: -1 }),
       ...(!isFirstChild && !isLastChild && { borderRadius: 0 }),
     };
     const verticalProps = {
       ...(isFirstChild && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }),
       ...(isLastChild && { borderTopLeftRadius: 0, borderTopRightRadius: 0 }),
-      ...(!isFirstChild && variant === 'outline' && { mt: -1 }),
+      ...(!isFirstChild && !divide && { mt: -1 }),
       ...(!isFirstChild && !isLastChild && { borderRadius: 0 }),
     };
     const buttonStyleProps = vertical ? verticalProps : horizontalProps;
 
     let divider = null;
-    if (!isFirstChild && variant === 'solid') {
+    if (!isFirstChild && divide) {
       divider = vertical ? (
         <Box height="1px" bg="gray:70" />
       ) : (

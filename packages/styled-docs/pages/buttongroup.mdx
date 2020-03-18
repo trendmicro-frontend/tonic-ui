@@ -28,7 +28,7 @@ Use the `variant` prop to change the visual style of every button in a group. Yo
 
 ```jsx
 <Stack direction="column" spacing="1rem">
-  <ButtonGroup variant="solid">
+  <ButtonGroup variant="solid" divide>
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
@@ -38,15 +38,25 @@ Use the `variant` prop to change the visual style of every button in a group. Yo
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
+  <ButtonGroup variant="default" divide>
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
+  <ButtonGroup variant="secondary">
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
 </Stack>
 ```
 
 ### Group colors
 
-Use the `variantColor` prop to change the color scheme of every button in a group. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the `theme.color`.
+Use the `variantColor` prop to change the color scheme of every button in a group. `variantColor` can be any color key exist in the `theme.color`.
 
 ```jsx
-<ButtonGroup variantColor="blue">
+<ButtonGroup variantColor="blue" divide>
   <Button>Left</Button>
   <Button>Middle</Button>
   <Button>Right</Button>
@@ -59,17 +69,17 @@ Use the `size` prop to change the size of every button in a group. You can set t
 
 ```jsx
 <Stack direction="column" spacing="1rem">
-  <ButtonGroup size="sm">
+  <ButtonGroup size="sm" divide>
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
   </ButtonGroup>
-  <ButtonGroup size="md">
+  <ButtonGroup size="md" divide>
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
   </ButtonGroup>
-  <ButtonGroup size="lg">
+  <ButtonGroup size="lg" divide>
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
@@ -83,12 +93,12 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 
 ```jsx
 <Stack direction="column" spacing="1rem" shouldWrapChildren>
-  <ButtonGroup>
+  <ButtonGroup divide>
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
-  <ButtonGroup vertical>
+  <ButtonGroup vertical divide>
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
@@ -101,26 +111,26 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 ```jsx
 <Stack direction="column" spacing="1rem">
   <Stack direction="row" spacing="1rem">
-    <ButtonGroup>
-      <Button active><TMIcon name="chart-pie" /></Button>
-      <Button><TMIcon name="chart-line" /></Button>
+    <ButtonGroup divide>
+      <Button><TMIcon name="chart-pie" /></Button>
+      <Button selected><TMIcon name="chart-line" /></Button>
       <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
-    <ButtonGroup>
-      <Button active>Active</Button>
+    <ButtonGroup divide>
       <Button>Normal</Button>
+      <Button selected>Selected</Button>
       <Button disabled>Disabled</Button>
     </ButtonGroup>
   </Stack>
   <Stack direction="row" spacing="1rem">
     <ButtonGroup variant="outline">
-      <Button active><TMIcon name="chart-pie" /></Button>
-      <Button><TMIcon name="chart-line" /></Button>
+      <Button><TMIcon name="chart-pie" /></Button>
+      <Button selected><TMIcon name="chart-line" /></Button>
       <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
     <ButtonGroup variant="outline">
-      <Button active>Active</Button>
       <Button>Normal</Button>
+      <Button selected>Selected</Button>
       <Button disabled>Disabled</Button>
     </ButtonGroup>
   </Stack>
@@ -133,6 +143,7 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| `divide` | boolean | `false` | Add one divide line between buttons. |
 | `size` | `sm`, `md`, `lg` | `md` | Sets the size for all Buttons in the group. |
 | `variant` | `solid`, `outline` | `solid` | Sets the variant of all Buttons in the group. |
 | `variantColor` | string | | Sets the variant of all Buttons in the group. Use a color key passed in `theme.colors`. |
