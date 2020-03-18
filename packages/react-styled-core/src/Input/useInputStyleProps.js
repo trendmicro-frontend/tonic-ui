@@ -1,15 +1,20 @@
 import useColorMode from '../useColorMode';
 
+const defaultSize = 'md';
+const defaultVariant = 'outline';
+
 const baseProps = {
   display: 'block',
   width: '100%',
   fontWeight: 'normal',
+  appearance: 'none',
   backgroundColor: 'inherit',
   backgroundClip: 'padding-box',
 };
 
-const getSizeProps = ({ size }) => {
-  const defaultSize = 'md';
+const getSizeProps = ({
+  size,
+}) => {
   const sizes = {
     'lg': {
       borderRadius: 'sm',
@@ -34,67 +39,90 @@ const getSizeProps = ({ size }) => {
     }
   };
 
-  return sizes[size] || sizes[defaultSize];
+  return sizes[size] ?? sizes[defaultSize];
 };
 
-const getVariantProps = ({ colorMode, variant }) => {
+const getVariantProps = ({
+  colorMode,
+  error,
+  variant,
+}) => {
   const variants = {
-    error: {
-      borderColor: colorMode === 'dark' ? 'red:50' : 'red:50',
-    },
-    skeleton: {
-      borderColor: colorMode === 'dark' ? 'gray:80' : 'gray:80',
-      backgroundColor: colorMode === 'dark' ? 'gray:80' : 'gray:80',
-    },
+    outline: (() => {
+      const border = 1;
+      const borderColor = colorMode === 'dark' ? 'gray:60' : 'gray:60';
+      const color = colorMode === 'dark' ? 'white:primary' : 'black:primary';
+      const _hoverProps = {
+        borderColor: colorMode === 'dark' ? 'blue:50' : 'blue:50',
+      };
+      const _focusProps = {
+        borderColor: colorMode === 'dark' ? 'blue:60' : 'blue:60',
+      };
+      const _disabledProps = {
+        borderColor: colorMode === 'dark' ? 'gray:60' : 'gray:60',
+        cursor: 'not-allowed',
+        // iOS fix for unreadable disabled content
+        opacity: '.28',
+      };
+      const _readOnlyProps = _disabledProps;
+      const __placeholderProps = {
+        color: colorMode === 'dark' ? 'white:tertiary' : 'black:tertiary',
+        // Override Firefox's unusual default opacity
+        opacity: 1,
+      };
+
+      const variantProps = {
+        border,
+        borderColor,
+        color,
+        outline: 0,
+        _hover: _hoverProps,
+        _focus: _focusProps,
+        _disabled: _disabledProps,
+        _readOnly: _readOnlyProps,
+        __placeholder: __placeholderProps,
+      };
+
+      if (error) {
+        variantProps.borderColor = colorMode === 'dark' ? 'red:50' : 'red:50';
+        variantProps._hover.borderColor = colorMode === 'dark' ? 'red:50' : 'red:50';
+        variantProps._focus.borderColor = colorMode === 'dark' ? 'red:50' : 'red:50';
+        variantProps._disabled.borderColor = colorMode === 'dark' ? 'red:50' : 'red:50';
+      }
+
+      return variantProps;
+    })(),
+    unstyled: (() => {
+      const variantProps = {
+        border: 1,
+        borderColor: 'transparent',
+        color: colorMode === 'dark' ? 'white:primary' : 'black:primary',
+        outline: 0,
+      };
+
+      return variantProps;
+    })(),
   };
 
-  return variants[variant];
+  return variants[variant] ?? variants[defaultVariant];
 };
 
 const useInputStyleProps = ({
+  error,
   size,
   variant,
 }) => {
   const { colorMode } = useColorMode();
-  const defaultBorder = 1;
-  const defaultBorderColor = colorMode === 'dark' ? 'gray:60' : 'gray:60';
-  const defaultColor = colorMode === 'dark' ? 'white:primary' : 'black:primary';
-  const _hoverProps = {
-    borderColor: colorMode === 'dark' ? 'blue:50' : 'blue:50',
-  };
-  const _focusProps = {
-    borderColor: colorMode === 'dark' ? 'blue:60' : 'blue:60',
-    outline: 0,
-  };
-  const _disabledProps = {
-    cursor: 'not-allowed',
-    // iOS fix for unreadable disabled content
-    opacity: '.28',
-  };
-  const _readOnlyProps = _disabledProps;
-  const __placeholderProps = {
-    color: colorMode === 'dark' ? 'white:tertiary' : 'black:tertiary',
-    // Override Firefox's unusual default opacity
-    opacity: 1,
-  };
 
   // size
   const sizeProps = getSizeProps({ size });
 
   // variant
-  const variantProps = getVariantProps({ colorMode, variant });
+  const variantProps = getVariantProps({ colorMode, error, variant });
 
   const styleProps = {
     ...baseProps,
     ...sizeProps,
-    border: defaultBorder,
-    borderColor: defaultBorderColor,
-    color: defaultColor,
-    _hover: _hoverProps,
-    _focus: _focusProps,
-    _disabled: _disabledProps,
-    _readOnly: _readOnlyProps,
-    __placeholder: __placeholderProps,
     ...variantProps,
   };
 

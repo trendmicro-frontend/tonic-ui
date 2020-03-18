@@ -9,19 +9,35 @@ import { Input } from '@trendmicro/react-styled-core';
 ## Usage
 
 ```jsx
-<Input
-  placeholder="Placeholder text"
-/>
+<Input placeholder="Basic usage" />
+```
+
+### Disabled input
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Input disabled placeholder="Placeholder text" />
+  <Input disabled defaultValue="Input text" placeholder="Placeholder text" />
+</Stack>
 ```
 
 ### Sizes
 
-Use the `size` prop to change the size of the `Input`. You can set the value to `sm`, `md`, or `lg`.
+Use the `size` prop to change the size of the `Input`. You can set the value to `sm` (24px), `md` (32px), or `lg` (40px).
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Input size="sm" placeholder="Placeholder text" />
-  <Input size="md" placeholder="Placeholder text" />
-  <Input size="lg" placeholder="Placeholder text" />
+  <Input size="sm" placeholder="Small size" />
+  <Input size="md" placeholder="Default size" />
+  <Input size="lg" placeholder="Large size" />
+</Stack>
+```
+
+### Variants
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Input variant="outline" placeholder="Outline" />
+  <Input variant="unstyled" placeholder="Unstyled" />
 </Stack>
 ```

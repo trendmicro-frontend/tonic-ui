@@ -4,13 +4,14 @@ import useInputStyleProps from './useInputStyleProps';
 
 const Input = forwardRef((
   {
+    error,
     size,
     variant,
     ...rest
   },
   ref,
 ) => {
-  const inputStyleProps = useInputStyleProps({ size, variant });
+  const inputStyleProps = useInputStyleProps({ error, size, variant });
 
   return (
     <PseudoBox
