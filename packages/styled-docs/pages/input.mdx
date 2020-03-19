@@ -23,13 +23,13 @@ import { Input } from '@trendmicro/react-styled-core';
 
 ### Sizes
 
-Use the `size` prop to change the size of the `Input`. You can set the value to `sm` (24px), `md` (32px), or `lg` (40px).
+Use the `size` prop to change the size of the `Input`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Input size="sm" placeholder="Small size" />
-  <Input size="md" placeholder="Default size" />
-  <Input size="lg" placeholder="Large size" />
+  <Input size="sm" placeholder="Small size (24px)" />
+  <Input size="md" placeholder="Default size (32px)" />
+  <Input size="lg" placeholder="Large size (40px)" />
 </Stack>
 ```
 
@@ -40,4 +40,25 @@ Use the `size` prop to change the size of the `Input`. You can set the value to 
   <Input variant="outline" placeholder="Outline" />
   <Input variant="unstyled" placeholder="Unstyled" />
 </Stack>
+```
+
+### Validation
+
+The `error` prop toggles the error state:
+
+```jsx
+function Example() {
+  const InlineError = (props) => (
+    <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
+  );
+
+  return (
+    <>
+      <Input error placeholder="Enter your name here" mb="1x" />
+      <InlineError>
+        This is a required field.
+      </InlineError>
+    </>
+  );
+}
 ```
