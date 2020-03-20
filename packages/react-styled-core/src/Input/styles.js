@@ -4,129 +4,148 @@ const defaultSize = 'md';
 const defaultVariant = 'outline';
 
 const baseProps = {
-  display: 'block',
-  width: '100%',
-  fontWeight: 'normal',
+  display: 'flex',
+  alignItems: 'center',
+  position: 'relative',
+  transition: 'all .2s',
+  outline: 0,
   appearance: 'none',
-  backgroundColor: 'inherit',
-  backgroundClip: 'padding-box',
+  width: '100%',
+};
+
+const inputSizes = {
+  'lg': {
+    borderRadius: 'sm',
+    fontSize: 'md',
+    lineHeight: 'md',
+    px: '.75rem',
+    py: '.5rem',
+  },
+  'md': {
+    borderRadius: 'sm',
+    fontSize: 'sm',
+    lineHeight: 'sm',
+    px: '.75rem',
+    py: '.3125rem',
+  },
+  'sm': {
+    borderRadius: 'sm',
+    fontSize: 'sm',
+    lineHeight: 'sm',
+    px: '.75rem',
+    py: '.0625rem',
+  }
+};
+
+const getOutlinedStyle = ({
+  colorMode,
+  invalid,
+}) => {
+  const backgroundColor = {
+    light: 'white',
+    dark: 'gray:100',
+  }[colorMode];
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const hoverBorderColor = {
+    dark: 'blue:50',
+    light: 'blue:50',
+  }[colorMode];
+  const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+  const disabledBorderColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+  const invalidBorderColor = {
+    dark: 'red:50',
+    light: 'red:50',
+  }[colorMode];
+  const placeholderColor = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+
+  return {
+    backgroundColor,
+    border: 1,
+    borderColor,
+    color,
+    _hover: {
+      borderColor: hoverBorderColor,
+    },
+    _focus: {
+      borderColor: focusBorderColor,
+    },
+    _disabled: {
+      borderColor: disabledBorderColor,
+      cursor: 'not-allowed',
+      opacity: '.28',
+    },
+    _valid: {
+      // XXX - border color for valid input is not defined
+    },
+    _invalid: {
+      borderColor: invalidBorderColor,
+    },
+    __placeholder: {
+      color: placeholderColor,
+      // Override Firefox's unusual default opacity
+      opacity: 1,
+    },
+  };
+};
+
+const getUnstyledStyle = ({
+  colorMode,
+}) => {
+  const backgroundColor = 'transparent';
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+
+  return {
+    backgroundColor,
+    color,
+    border: 0,
+    borderRadius: 0,
+    px: undefined,
+    py: undefined,
+  };
 };
 
 const getSizeProps = ({
   size,
 }) => {
-  const sizes = {
-    'lg': {
-      borderRadius: 'sm',
-      fontSize: 'md',
-      lineHeight: 'md',
-      px: '.75rem',
-      py: '.5rem',
-    },
-    'md': {
-      borderRadius: 'sm',
-      fontSize: 'sm',
-      lineHeight: 'sm',
-      px: '.75rem',
-      py: '.3125rem',
-    },
-    'sm': {
-      borderRadius: 'sm',
-      fontSize: 'sm',
-      lineHeight: 'sm',
-      px: '.75rem',
-      py: '.0625rem',
-    }
-  };
-
-  return sizes[size] ?? sizes[defaultSize];
+  return inputSizes[size] ?? inputSizes[defaultSize];
 };
 
 const getVariantProps = ({
-  colorMode,
-  error,
   variant,
+  ...props
 }) => {
-  const variants = {
-    outline: (() => {
-      const border = 1;
-      const borderColor = colorMode === 'dark' ? 'gray:60' : 'gray:60';
-      const color = colorMode === 'dark' ? 'white:primary' : 'black:primary';
-      const _hoverProps = {
-        borderColor: colorMode === 'dark' ? 'blue:50' : 'blue:50',
-      };
-      const _focusProps = {
-        borderColor: colorMode === 'dark' ? 'blue:60' : 'blue:60',
-      };
-      const _disabledProps = {
-        borderColor: colorMode === 'dark' ? 'gray:60' : 'gray:60',
-        cursor: 'not-allowed',
-        // iOS fix for unreadable disabled content
-        opacity: '.28',
-      };
-      const _readOnlyProps = _disabledProps;
-      const __placeholderProps = {
-        color: colorMode === 'dark' ? 'white:tertiary' : 'black:tertiary',
-        // Override Firefox's unusual default opacity
-        opacity: 1,
-      };
+  if (variant === 'outline') {
+    return getOutlinedStyle(props);
+  }
 
-      const variantProps = {
-        border,
-        borderColor,
-        color,
-        outline: 0,
-        _hover: _hoverProps,
-        _focus: _focusProps,
-        _disabled: _disabledProps,
-        _readOnly: _readOnlyProps,
-        __placeholder: __placeholderProps,
-      };
+  if (variant === 'unstyled') {
+    return getUnstyledStyle(props);
+  }
 
-      if (error) {
-        variantProps.borderColor = colorMode === 'dark' ? 'red:50' : 'red:50';
-        variantProps._hover.borderColor = colorMode === 'dark' ? 'red:50' : 'red:50';
-        variantProps._focus.borderColor = colorMode === 'dark' ? 'red:50' : 'red:50';
-        variantProps._disabled.borderColor = colorMode === 'dark' ? 'red:50' : 'red:50';
-      }
-
-      return variantProps;
-    })(),
-    unstyled: (() => {
-      const variantProps = {
-        border: 1,
-        borderColor: 'transparent',
-        color: colorMode === 'dark' ? 'white:primary' : 'black:primary',
-        outline: 0,
-      };
-
-      return variantProps;
-    })(),
-  };
-
-  return variants[variant] ?? variants[defaultVariant];
+  return {};
 };
 
-const useInputStyleProps = ({
-  error,
-  size,
-  variant,
-}) => {
-  const { colorMode } = useColorMode();
-
-  // size
-  const sizeProps = getSizeProps({ size });
-
-  // variant
-  const variantProps = getVariantProps({ colorMode, error, variant });
-
-  const styleProps = {
-    ...baseProps,
-    ...sizeProps,
-    ...variantProps,
-  };
-
-  return styleProps;
+export {
+  baseProps,
+  getSizeProps,
+  getVariantProps,
 };
-
-export default useInputStyleProps;
