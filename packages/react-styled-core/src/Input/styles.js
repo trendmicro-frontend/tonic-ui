@@ -1,8 +1,3 @@
-import useColorMode from '../useColorMode';
-
-const defaultSize = 'md';
-const defaultVariant = 'outline';
-
 const baseProps = {
   display: 'flex',
   alignItems: 'center',
@@ -126,6 +121,7 @@ const getUnstyledStyle = ({
 const getSizeProps = ({
   size,
 }) => {
+  const defaultSize = 'md';
   return inputSizes[size] ?? inputSizes[defaultSize];
 };
 
