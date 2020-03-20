@@ -22,11 +22,29 @@ const createPseudoClassTransformFunction = name => prop => {
  */
 
 const active = '&:active';
-const checked = '&:checked';
-const selected = '&[data-active=true], &:active[data-active=true], &:hover[data-active=true]';
-const disabled = '&[aria-disabled=true], &:disabled, &:disabled:focus, &:disabled:hover, &:focus[aria-disabled=true], &:hover[aria-disabled=true]';
+const checked = [
+  '&[aria-checked=true]',
+  '&:checked',
+].join(',');
+const selected = [
+  '&[data-active=true]',
+  '&:active[data-active=true]',
+  '&:hover[data-active=true]',
+].join(',');
+const disabled = [
+  '&[aria-disabled=true]',
+  '&:disabled',
+  '&:disabled:hover',
+  '&:disabled:focus',
+  '&:hover[aria-disabled=true]',
+  '&:focus[aria-disabled=true]',
+].join(',');
 const empty = '&:empty';
-const enabled = '&:enabled, &:enabled:focus, &:enabled:hover';
+const enabled = [
+  '&:enabled',
+  '&:enabled:focus',
+  '&:enabled:hover',
+].join(',');
 const firstChild = '&:first-child';
 const firstOfType = '&:first-of-type';
 const fullscreen = '&:fullscreen';
@@ -34,11 +52,21 @@ const focus = '&:focus';
 const focusWithin = '&:focus-within';
 const hover = '&:hover';
 const indeterminate = '&:indeterminate';
-const invalid = '&:invalid';
+const valid = [
+  '&[aria-invalid=false]',
+  '&:valid',
+].join(',');
+const invalid = [
+  '&[aria-invalid=true]',
+  '&:invalid',
+].join(',');
 const lastChild = '&:last-child';
 const lastOfType = '&:last-of-type';
 const nthOfTypeFn = createPseudoClassTransformFunction('&:nth-of-type');
-const readOnly = '&:read-only';
+const readOnly = [
+  '&[aria-readonly=true]',
+  '&:read-only',
+].join(',');
 const visited = '&:visited';
 
 /**
@@ -71,6 +99,7 @@ const PseudoBox = styled(Box)(
     _focusWithin,
     _hover,
     _indeterminate,
+    _valid,
     _invalid,
     _lastChild,
     _lastOfType,
@@ -127,6 +156,7 @@ const PseudoBox = styled(Box)(
       [fullscreen]: _fullscreen,
       [focusWithin]: _focusWithin,
       [indeterminate]: _indeterminate,
+      [valid]: _valid,
       [invalid]: _invalid,
       [lastChild]: _lastChild,
       [lastOfType]: _lastOfType,
