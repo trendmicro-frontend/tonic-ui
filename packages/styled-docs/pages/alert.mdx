@@ -4,7 +4,7 @@ Alerts are used to communicate a state that affects a system, feature or page.
 
 ## Import
 
-Chakra UI exports 4 alert related components.
+Trend Micro Styled UI exports 4 alert related components.
 
 - `Alert`: The wrapper for alert components.
 - `AlertIcon`: The visual icon for the alert that changes based on the `status`
@@ -35,7 +35,7 @@ import {
 ### Status
 
 Change the status of the alerts by passing the `status` prop. This affects the
-color scheme and icon used. Alert supports `error`, `success`, `warning`, and
+color scheme and icon used. Alert supports `error`, `warning`, and
 `info` statuses.
 
 ```jsx
@@ -57,35 +57,6 @@ color scheme and icon used. Alert supports `error`, `success`, `warning`, and
 </Stack>
 ```
 
-### Variant
-
-Alert has 4 variant styles you can use. Pass the `variant` prop and use either
-`subtle`, `solid`, `left-accent` or `top-accent`.
-
-```jsx
-<Stack spacing=".5rem" shouldWrapChildren>
-  <Alert status="success" variant="subtle">
-    <AlertIcon />
-    Data uploaded to the server. Fire on!
-  </Alert>
-
-  <Alert status="success" variant="solid">
-    <AlertIcon />
-    Data uploaded to the server. Fire on!
-  </Alert>
-
-  <Alert status="success" variant="left-accent">
-    <AlertIcon />
-    Data uploaded to the server. Fire on!
-  </Alert>
-
-  <Alert status="success" variant="top-accent">
-    <AlertIcon />
-    Data uploaded to the server. Fire on!
-  </Alert>
-</Stack>
-```
-
 ### Composition
 
 Alert ships with smaller component to allow for flexibility and make it easy to
@@ -93,8 +64,7 @@ create all kinds of layout. Here's an example of custom alert style and layout.
 
 ```jsx
 <Alert
-  status="success"
-  variant="subtle"
+  status="info"
   flexDirection="column"
   justifyContent="center"
   textAlign="center"
@@ -118,8 +88,7 @@ Alert is the wrapper for alert component. It composes the `Flex` component.
 
 | Name    | Type                                           | Default  | Description                            |
 | ------- | ---------------------------------------------- | -------- | -------------------------------------- |
-| status  | `error`, `success`, `warning`, `info`          | `info`   | The status of the alert                |
-| variant | `subtle`, `solid`, `left-accent`, `top-accent` | `subtle` | The variant of the alert style to use. |
+| status  | `error`, `warning`, `info`                     | `info`   | The status of the alert                |
 
 ### AlertIcon Props
 
