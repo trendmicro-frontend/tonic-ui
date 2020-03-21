@@ -4,9 +4,18 @@ import Icon from '../Icon';
 import useAlertStyle from './styles';
 
 const statuses = {
-  info: { icon: 'info', color: 'blue:40' },
-  warning: { icon: 'warning-triangle', color: 'yellow:50' },
-  error: { icon: 'circle-close', color: 'red:40' },
+  info: {
+    icon: 'info',
+    color: 'blue'
+  },
+  warning: {
+    icon: 'warning-triangle',
+    color: 'yellow'
+  },
+  error: {
+    icon: 'circle-close',
+    color: 'red'
+  },
 };
 
 const AlertContext = createContext();
@@ -22,6 +31,7 @@ const useAlertContext = () => {
 
 const Alert = ({ status = 'info', ...rest }) => {
   const alertStyleProps = useAlertStyle({
+    status,
     color: statuses[status] && statuses[status].color,
   });
 

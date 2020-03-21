@@ -14,15 +14,29 @@ const baseProps = {
   fontSize: 'sm',
 };
 
-const styleProps = ({ color, theme: { colors } }) => {
+const styleProps = ({ color, theme: { colors } }, colorLevel) => {
   return {
     light: {
-      bg: colors[color],
+      bg: colors[`${color}:${colorLevel}`],
     },
     dark: {
-      bg: colors[color]
+      bg: colors[`${color}:${colorLevel}`]
     },
   };
+};
+
+const statusProps = props => {
+  const status = props.status;
+
+  switch (status) {
+  case 'info':
+  case 'error':
+    return styleProps(props, 40);
+  case 'warning':
+    return styleProps(props, 50);
+  default:
+    return {};
+  }
 };
 
 const useAlertStyle = props => {
@@ -32,7 +46,7 @@ const useAlertStyle = props => {
 
   return {
     ...baseProps,
-    ...styleProps(_props)[colorMode],
+    ...statusProps(_props)[colorMode],
   };
 };
 
