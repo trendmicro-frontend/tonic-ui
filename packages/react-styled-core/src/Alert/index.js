@@ -43,11 +43,6 @@ const Alert = ({ status = 'info', ...rest }) => {
   );
 };
 
-const AlertTitle = props => (
-  <Box fontWeight="bold" lineHeight="normal" {...props} />
-);
-const AlertDescription = props => <Box {...props} />;
-
 const AlertIcon = props => {
   const { status } = useAlertContext();
   const iconName = statuses[status] && statuses[status].icon;
@@ -61,4 +56,8 @@ const AlertIcon = props => {
   );
 };
 
-export { Alert, AlertTitle, AlertDescription, AlertIcon };
+const AlertButton = props => {
+  return <Box as="button" {...props}>{props.children}</Box>;
+};
+
+export { Alert, AlertIcon, AlertButton };
