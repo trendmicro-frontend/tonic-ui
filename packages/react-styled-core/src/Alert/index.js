@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import Box from '../Box';
 import Icon from '../Icon';
 import useAlertStyle from './styles';
@@ -22,7 +22,7 @@ const useAlertContext = () => {
 
 const Alert = ({ status = 'info', ...rest }) => {
   const alertStyleProps = useAlertStyle({
-    color: statuses[status] && statuses[status]['color'],
+    color: statuses[status] && statuses[status].color,
   });
 
   const context = { status };
@@ -40,8 +40,7 @@ const AlertDescription = props => <Box {...props} />;
 
 const AlertIcon = props => {
   const { status } = useAlertContext();
-  const iconName = statuses[status] && statuses[status]['icon'];
-  console.log('AlertIcon:::', iconName);
+  const iconName = statuses[status] && statuses[status].icon;
   return (
     <Icon
       mr={8}
