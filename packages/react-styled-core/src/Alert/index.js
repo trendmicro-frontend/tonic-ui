@@ -53,8 +53,8 @@ const AlertIcon = props => {
   const iconName = statuses[status] && statuses[status].icon;
   return (
     <Icon
-      mr={8}
-      size={16}
+      mr="2x"
+      size="4x"
       name={`_core.${iconName}`}
       {...props}
     />
