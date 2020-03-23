@@ -24,26 +24,16 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 
 ### Group variants
 
-Use the `variant` prop to change the visual style of every button in a group. You can set the value to `solid`, `outline`, `emphasis`, `primary`, `default`, `secondary` and `ghost`.
+Use the `variant` prop to change the visual style of every button in a group. You can set the value to `emphasis`, `primary`, `default`, `secondary` and `ghost`.
 
 ```jsx
-<Stack direction="column" spacing="1rem">
-  <ButtonGroup variant="solid" divide>
+<Stack direction="column" spacing="3x">
+  <ButtonGroup variant="default">
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
-  <ButtonGroup variant="outline">
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
-  <ButtonGroup variant="default" divide>
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
-  <ButtonGroup variant="secondary">
+  <ButtonGroup variant="secondary" nodivide>
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
@@ -51,35 +41,23 @@ Use the `variant` prop to change the visual style of every button in a group. Yo
 </Stack>
 ```
 
-### Group colors
-
-Use the `variantColor` prop to change the color scheme of every button in a group. `variantColor` can be any color key exist in the `theme.color`.
-
-```jsx
-<ButtonGroup variantColor="blue" divide>
-  <Button>Left</Button>
-  <Button>Middle</Button>
-  <Button>Right</Button>
-</ButtonGroup>
-```
-
 ### Group sizes
 
 Use the `size` prop to change the size of every button in a group. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="1rem">
-  <ButtonGroup size="sm" divide>
+<Stack direction="column" spacing="3x">
+  <ButtonGroup size="sm">
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
   </ButtonGroup>
-  <ButtonGroup size="md" divide>
+  <ButtonGroup size="md">
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
   </ButtonGroup>
-  <ButtonGroup size="lg" divide>
+  <ButtonGroup size="lg">
     <Button>Left</Button>
     <Button>Middle</Button>
     <Button>Right</Button>
@@ -93,12 +71,12 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 
 ```jsx
 <Stack direction="column" spacing="1rem" shouldWrapChildren>
-  <ButtonGroup divide>
+  <ButtonGroup>
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
-  <ButtonGroup vertical divide>
+  <ButtonGroup vertical>
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
@@ -109,26 +87,26 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 ### Button states
 
 ```jsx
-<Stack direction="column" spacing="1rem">
-  <Stack direction="row" spacing="1rem">
-    <ButtonGroup divide>
+<Stack direction="column" spacing="3x">
+  <Stack direction="row" spacing="3x">
+    <ButtonGroup>
       <Button><TMIcon name="chart-pie" /></Button>
       <Button selected><TMIcon name="chart-line" /></Button>
       <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
-    <ButtonGroup divide>
+    <ButtonGroup>
       <Button>Normal</Button>
       <Button selected>Selected</Button>
       <Button disabled>Disabled</Button>
     </ButtonGroup>
   </Stack>
-  <Stack direction="row" spacing="1rem">
-    <ButtonGroup variant="outline">
+  <Stack direction="row" spacing="3x">
+    <ButtonGroup variant="secondary" nodivide>
       <Button><TMIcon name="chart-pie" /></Button>
       <Button selected><TMIcon name="chart-line" /></Button>
       <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
-    <ButtonGroup variant="outline">
+    <ButtonGroup variant="secondary" nodivide>
       <Button>Normal</Button>
       <Button selected>Selected</Button>
       <Button disabled>Disabled</Button>
@@ -143,8 +121,7 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| `divide` | boolean | `false` | Add one divide line between buttons. |
-| `size` | `sm`, `md`, `lg` | `md` | Sets the size for all Buttons in the group. |
-| `variant` | `solid`, `outline` | `solid` | Sets the variant of all Buttons in the group. |
-| `variantColor` | string | | Sets the variant of all Buttons in the group. Use a color key passed in `theme.colors`. |
-| `vertical` | boolean | `false` | Make the set of Buttons appear vertically stacked. |
+| `nodivide` | `boolean` | false | There are no the divide line between buttons. |
+| `size` | `string` | `md` | Sets the size for all Buttons in the group. |
+| `variant` | `string` | `default` | Sets the variant of all Buttons in the group. |
+| `vertical` | `boolean` | false | Make the set of Buttons appear vertically stacked. |
