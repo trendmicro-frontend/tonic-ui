@@ -93,10 +93,10 @@ const AlertButton = forwardRef((
     pr: '3x',
     _hover: {
       zIndex: 1,
-      bg: addOpacity('black', .12),
+      bg: addOpacity('black', 0.12),
     },
     _active: {
-      bg: addOpacity('black', .12),
+      bg: addOpacity('black', 0.12),
     },
     _focus: {
       zIndex: 1,
