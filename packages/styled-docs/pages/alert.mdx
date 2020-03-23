@@ -4,7 +4,7 @@ Alerts are used to communicate a state that affects a system, feature or page.
 
 ## Import
 
-Trend Micro Styled UI exports ? alert related components.
+Trend Micro Styled UI exports 3 alert related components.
 
 - `Alert`: The wrapper for alert components.
 - `AlertIcon`: The visual icon for the alert that changes based on the `status` prop.
@@ -13,6 +13,7 @@ Trend Micro Styled UI exports ? alert related components.
 import {
   Alert,
   AlertIcon,
+  AlertButton,
 } from '@trendmicro/react-styled-core/Alert';
 ```
 
@@ -20,9 +21,18 @@ import {
 
 ```jsx
 <Alert status="error">
-  <AlertIcon />
-  <Heading mr="2x" fontWeight="bold">Your browser is outdated!</Heading>
-  <Text>Your XDR experience may be degraded.</Text>
+  <Flex width="100%" justifyContent="space-between">
+    <Flex alignItems="center">
+      <AlertIcon />
+      <Heading mr="2x" fontWeight="bold">Your browser is outdated!</Heading>
+      <Text>Your XDR experience may be degraded.</Text>
+    </Flex>
+    <Flex>
+      <AlertButton minWidth={76}>Action</AlertButton>
+      <Space width="1rem" />
+      <ButtonBase color="black:secondary">X</ButtonBase>
+    </Flex>
+  </Flex>
 </Alert>
 ```
 
@@ -87,3 +97,7 @@ Alert is the wrapper for alert component. It composes the `Flex` component.
 ### AlertIcon Props
 
 AlertIcon composes `Icon` and changes the icon based on the `status` prop.
+
+### AlertButton Props
+
+AlertButton composes the `PseudoBox` component.
