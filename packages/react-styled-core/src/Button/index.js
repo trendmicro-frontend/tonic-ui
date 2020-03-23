@@ -10,22 +10,18 @@ const Button = forwardRef(
       as: Comp = 'button',
       borderRadius = 'sm',
       children,
-      px = '2x',
+      px = '3x',
       selected,
       size = 'md',
       type = 'button',
-      variant = 'solid',
-      variantColor,
+      variant = 'default',
       ...rest
     },
     ref,
   ) => {
-    const isDefinedButton = ['emphasis', 'primary', 'default'].indexOf(variant) >= 0;
     const buttonStyleProps = useButtonStyle({
-      color: variantColor,
       size,
       variant,
-      isDefinedButton,
     });
     const theme = useTheme();
     const { radii } = theme;
@@ -34,33 +30,6 @@ const Button = forwardRef(
     innerRadius = `calc(${radius} - 3px)`;
     if (/^\d+(\.\d+)?%$/.test(radius)) {
       innerRadius = radius;
-    }
-
-    if (isDefinedButton) {
-      return (
-        <ButtonBase
-          ref={ref}
-          as={Comp}
-          type={type}
-          borderRadius={borderRadius}
-          data-selected={selected ? 'true' : undefined}
-          {...buttonStyleProps}
-          {...rest}
-        >
-          <Box
-            px={px}
-            margin="2px"
-            flex="1"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            transition="inherit"
-            borderRadius={innerRadius}
-          >
-            { children }
-          </Box>
-        </ButtonBase>
-      );
     }
 
     return (
@@ -74,7 +43,18 @@ const Button = forwardRef(
         {...buttonStyleProps}
         {...rest}
       >
-        { children }
+        {/* This Box is for rendering background color of Button. */}
+        <Box
+          transition="inherit"
+          borderRadius={innerRadius}
+          position="absolute"
+          top="0"
+          bottom="0"
+          left="0"
+          right="0"
+        />
+        {/* The z-index is for placing text over the above box. */}
+        <Box zIndex="1">{ children }</Box>
       </ButtonBase>
     );
   },

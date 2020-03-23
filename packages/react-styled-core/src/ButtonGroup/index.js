@@ -4,8 +4,7 @@ import Box from '../Box';
 const ButtonGroup = ({
   children,
   size = 'md',
-  variant = 'solid',
-  variantColor,
+  variant = 'default',
   vertical,
   divide,
   ...rest
@@ -46,7 +45,6 @@ const ButtonGroup = ({
         {
           cloneElement(child, {
             size: size,
-            variantColor: child.props.variantColor || variantColor,
             variant: variant,
             ...buttonStyleProps
           })
