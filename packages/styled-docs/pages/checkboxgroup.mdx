@@ -1,7 +1,6 @@
 # CheckboxGroup
 
-
-## Installation
+## Import
 
 ```js
 import CheckboxGroup from '@trendmicro/react-styled-core/CheckboxGroup';
@@ -13,7 +12,7 @@ import { CheckboxGroup } from '@trendmicro/react-styled-core';
 
 ```jsx
 <CheckboxGroup defaultValue={["apple", "papaya"]}>
-  <Stack spacing="1x">
+  <Stack direction="column" spacing="4x">
     <Checkbox value="apple">Apple</Checkbox>
     <Checkbox value="orange">Orange</Checkbox>
     <Checkbox value="papaya">Papaya</Checkbox>
@@ -51,10 +50,10 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 
 ### Sizes
 
-Use the `size` prop to change the size of the Radio. You can set the value to `sm`, `md`, or `lg`.
+Use the `size` prop to change the size of the `CheckboxGroup`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="1x" shouldWrapChildren>
+<Stack direction="column" spacing="4x" shouldWrapChildren>
   <CheckboxGroup size="sm">
     <Stack direction="row" spacing="6x">
       <Checkbox value="apple">Apple</Checkbox>

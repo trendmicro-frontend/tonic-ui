@@ -1,0 +1,122 @@
+# Input
+
+Input component is a component that is used to get user input in a text field.
+
+## Import
+
+```js
+import Input from '@trendmicro/react-styled-core/Input';
+// or
+import { Input } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<Input placeholder="Basic usage" />
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the `Input`. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Input size="sm" placeholder="Small size (24px)" />
+  <Input size="md" placeholder="Default size (32px)" />
+  <Input size="lg" placeholder="Large size (40px)" />
+</Stack>
+```
+
+### Attributes
+
+Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, etc.
+
+```jsx
+<>
+  <Stack direction="column" spacing="4x" mb="8x">
+    <Text>type</Text>
+    <Grid
+      gap="4x"
+      templateColumns="1fr 1fr"
+    >
+      <Input type="text" defaultValue="John" />
+      <Input type="password" defaultValue="password" />
+      <Input type="number" defaultValue={0} min={0} max={10} />
+      <Input type="color" height={40} px="2x" py="1x" />
+    </Grid>
+  </Stack>
+  <Stack direction="column" spacing="4x" mb="8x">
+    <Text>disabled</Text>
+    <Input disabled placeholder="Placeholder text (disabled)" />
+    <Input disabled defaultValue="Input text (disabled)" placeholder="Placeholder text" />
+  </Stack>
+  <Stack direction="column" spacing="4x" mb="8x">
+    <Text>readOnly</Text>
+    <Input readOnly placeholder="Placeholder text (readOnly)" />
+    <Input readOnly defaultValue="Input text (readOnly)" placeholder="Placeholder text" />
+  </Stack>
+  <Stack direction="column" spacing="4x" mb="8x">
+    <Text>required</Text>
+    <Input required placeholder="Placeholder text (required)" />
+    <Input required defaultValue="Input text (required)" placeholder="Placeholder text" />
+  </Stack>
+</>
+```
+
+### Variants
+
+The `Input` component comes in two variants: `outline` and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Input variant="outline" placeholder="Outlined input" />
+  <Input variant="unstyled" placeholder="Unstyled input" />
+</Stack>
+```
+
+### Validation
+
+Use the `aria-invalid` attribute to indicate that the value entered into an input field does not conform to the format expected by the application. `aria-invalid` can also be used to indicate that a required field has not been filled in.
+
+Set `aria-invalid` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
+
+```jsx
+function Example() {
+  const [value, setValue] = React.useState();
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+  const InlineError = (props) => (
+    <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
+  );
+  const isInvalid = (value === '');
+
+  return (
+    <>
+      <Input
+        placeholder="Enter your name here"
+        mb="1x"
+        value={value}
+        onChange={onChange}
+        aria-invalid={isInvalid}
+      />
+      {isInvalid && (
+        <InlineError>This is a required field.</InlineError>
+      )}
+    </>
+  );
+}
+```
+
+## Props
+
+`Input` composes the [`PseudoBox`](./pseudobox) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `variant` | `string` | 'outline' | The variant of the input style to use. One of: 'outline', 'unstyled' |
+| `size` | `string` | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
+| `disabled` | `boolean` | false | If `true`, the input will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| `readOnly` | `boolean` | | If `true`, prevents the value of the input from being edited. |
+| `aria-invalid` | `boolean` | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |

@@ -9,9 +9,10 @@
     "postinstall": "lerna bootstrap --use-workspaces",
     "build": "lerna exec -- yarn build",
     "build:parallel": "lerna exec --parallel -- yarn build",
-    "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes && rimraf yarn.lock",
+    "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes && del yarn.lock",
     "release": "lerna publish",
-    "pre-push": "lerna exec -- yarn pre-push"
+    "pre-push": "lerna exec -- yarn pre-push",
+    "test": "lerna exec -- yarn test"
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
   "homepage": "https://github.com/trendmicro-frontend/styled-ui",
@@ -41,6 +42,7 @@
     "babel-eslint": "~10.0.3",
     "babel-loader": "~8.0.6",
     "cross-env": "~6.0.3",
+    "del-cli": "~3.0.0",
     "eslint": "~6.8.0",
     "eslint-config-trendmicro": "~1.4.1",
     "eslint-loader": "~3.0.3",
@@ -50,7 +52,6 @@
     "eslint-plugin-react-hooks": "~2.3.0",
     "husky": "~4.0.10",
     "lerna": "~3.20.2",
-    "rimraf": "^3.0.0",
     "rollup": "~2.0.3",
     "rollup-plugin-babel": "~4.4.0"
   }
