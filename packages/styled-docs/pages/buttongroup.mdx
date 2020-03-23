@@ -33,7 +33,7 @@ Use the `variant` prop to change the visual style of every button in a group. Yo
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
-  <ButtonGroup variant="secondary" nodivide>
+  <ButtonGroup variant="secondary">
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
@@ -101,12 +101,12 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
     </ButtonGroup>
   </Stack>
   <Stack direction="row" spacing="3x">
-    <ButtonGroup variant="secondary" nodivide>
+    <ButtonGroup variant="secondary">
       <Button><TMIcon name="chart-pie" /></Button>
       <Button selected><TMIcon name="chart-line" /></Button>
       <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
-    <ButtonGroup variant="secondary" nodivide>
+    <ButtonGroup variant="secondary">
       <Button>Normal</Button>
       <Button selected>Selected</Button>
       <Button disabled>Disabled</Button>
@@ -121,7 +121,6 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| `nodivide` | `boolean` | false | There are no the divide line between buttons. |
 | `size` | `string` | `md` | Sets the size for all Buttons in the group. |
 | `variant` | `string` | `default` | Sets the variant of all Buttons in the group. |
 | `vertical` | `boolean` | false | Make the set of Buttons appear vertically stacked. |

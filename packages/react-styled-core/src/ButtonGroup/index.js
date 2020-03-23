@@ -6,9 +6,9 @@ const ButtonGroup = ({
   size = 'md',
   variant = 'default',
   vertical,
-  nodivide,
   ...rest
 }) => {
+  const addDivide = ['emphasis', 'primary', 'default'].indexOf(variant) >= 0;
   const clones = Children.map(children, (child, index) => {
     if (!isValidElement(child)) {
       return false;
@@ -19,19 +19,19 @@ const ButtonGroup = ({
     const horizontalProps = {
       ...(isFirstChild && { borderTopRightRadius: 0, borderBottomRightRadius: 0 }),
       ...(isLastChild && { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }),
-      ...(!isFirstChild && nodivide && { ml: -1 }),
+      ...(!isFirstChild && !addDivide && { ml: -1 }),
       ...(!isFirstChild && !isLastChild && { borderRadius: 0 }),
     };
     const verticalProps = {
       ...(isFirstChild && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }),
       ...(isLastChild && { borderTopLeftRadius: 0, borderTopRightRadius: 0 }),
-      ...(!isFirstChild && nodivide && { mt: -1 }),
+      ...(!isFirstChild && !addDivide && { mt: -1 }),
       ...(!isFirstChild && !isLastChild && { borderRadius: 0 }),
     };
     const buttonStyleProps = vertical ? verticalProps : horizontalProps;
 
     let divider = null;
-    if (!isFirstChild && !nodivide) {
+    if (!isFirstChild && addDivide) {
       divider = vertical ? (
         <Box height="1px" bg="gray:70" />
       ) : (
