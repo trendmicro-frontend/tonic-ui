@@ -102,7 +102,7 @@ const AlertButton = forwardRef((
       zIndex: 1,
       borderColor: 'blue:60',
       color: 'black:emphasis',
-      boxShadow: `inset 0 0 0 1px ${activeBorderColor}, inset 0 0 0 1px ${activeBorderColor}`,
+      boxShadow: `inset 0 0 0 1px ${activeBorderColor}`,
     },
   };
 
