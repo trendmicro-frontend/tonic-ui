@@ -32,10 +32,10 @@ If the `children` of Tooltip is a string, we wrap with in a `span` with
 </Tooltip>
 ```
 
-### With arrow
+### Without an arrow
 
 ```jsx
-<Tooltip hasArrow label="Search places" placement="top">
+<Tooltip hasArrow={false} label="Search places" placement="top">
   <TMIcon cursor="pointer" name="search-o" />
 </Tooltip>
 ```
@@ -46,7 +46,7 @@ If the `children` of Tooltip is a string, we wrap with in a `span` with
 can be any color key that exists in the `theme.colors`. [Learn more about color theming](./colors).
 
 ```jsx
-<Tooltip hasArrow label="Search places" placement="top" variantColor="red:60">
+<Tooltip label="Search places" placement="top" variantColor="red:60">
   <Button>Button</Button>
 </Tooltip>
 ```
@@ -58,7 +58,7 @@ when you focus or hover on the element, and will hide when you blur or move
 cursor out of the element.
 
 ```jsx
-<Tooltip hasArrow label="Search places" placement="top">
+<Tooltip label="Search places" placement="top">
   <Button>Button</Button>
 </Tooltip>
 ```
@@ -127,7 +127,7 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 | `placement`          | `PopperJS.Placement` | `bottom` | Position the tooltip relative to the trigger element as well as surrounding elements.      |
 | `variantColor`       | `string`             | `gray`   | The color scheme to use for the tooltip. It must be a color key defined in `theme.colors`. |
 | `children`           | `React.ReactNode`    |          | The `ReactNode` to be used as the trigger of the tooltip.                                  |
-| `hasArrow`           | `boolean`            |          | If `true` display an arrow tip on the tooltip.                                             |
+| `hasArrow`           | `boolean`            | `true`   | If `true` display an arrow tip on the tooltip.                                             |
 | `showDelay`          | `number`             |          | The delay in `ms` for the tooltip to show                                                  |
 | `hideDelay`          | `number`             |          | The delay in `ms` for the tooltip to hide                                                  |
 | `closeOnClick`       | `boolean`            |          | If `true` hide the tooltip, when the trigger is clicked.                                   |

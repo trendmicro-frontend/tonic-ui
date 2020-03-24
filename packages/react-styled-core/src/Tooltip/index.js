@@ -24,7 +24,7 @@ const Tooltip = ({
   hideDelay = 0,
   placement = 'bottom',
   children,
-  hasArrow,
+  hasArrow = true,
   variantColor,
   closeOnClick,
   defaultIsOpen,
