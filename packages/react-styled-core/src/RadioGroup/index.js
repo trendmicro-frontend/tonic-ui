@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useId } from '../utils/autoId';
-import GroupContext from '../GroupContext';
+import GroupContext from './context';
 
 const RadioGroup = ({
   children,

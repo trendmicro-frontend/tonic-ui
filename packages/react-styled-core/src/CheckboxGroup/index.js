@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import GroupContext from '../GroupContext';
+import GroupContext from './context';
 
 const CheckboxGroup = ({
   children,

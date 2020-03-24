@@ -2,8 +2,8 @@ import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
+import { useGroupContext } from '../RadioGroup/context';
 import VisuallyHidden from '../VisuallyHidden';
-import { useGroupContext } from '../GroupContext';
 import useRadioStyle from './styles';
 
 const sizes = {

@@ -1,10 +1,10 @@
 import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import { useGroupContext } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
 import Icon from '../Icon';
 import VisuallyHidden from '../VisuallyHidden';
-import { useGroupContext } from '../GroupContext';
 import useCheckboxStyle from './styles';
 
 const Checkbox = forwardRef(
