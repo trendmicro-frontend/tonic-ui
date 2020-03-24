@@ -14,6 +14,7 @@ const components = [
   //'Drawer',
   //'Editable',
   'Fade',
+  'FlatButton',
   'Flex',
   //'FormGroup',
   'Grid',
