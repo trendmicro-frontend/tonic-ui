@@ -27,9 +27,9 @@ const checked = [
   '&:checked',
 ].join(',');
 const selected = [
-  '&[data-active=true]',
-  '&:active[data-active=true]',
-  '&:hover[data-active=true]',
+  '&[data-selected=true]',
+  '&:active[data-selected=true]',
+  '&:hover[data-selected=true]',
 ].join(',');
 const disabled = [
   '&[aria-disabled=true]',

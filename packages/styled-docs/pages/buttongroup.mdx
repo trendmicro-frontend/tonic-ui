@@ -24,16 +24,16 @@ import { ButtonGroup } from '@trendmicro/react-styled-core';
 
 ### Group variants
 
-Use the `variant` prop to change the visual style of every button in a group. You can set the value to `solid`, `outline`. Use `outline` to remove all background images and colors on any button.
+Use the `variant` prop to change the visual style of every button in a group. You can set the value to `emphasis`, `primary`, `default`, `secondary` and `ghost`.
 
 ```jsx
-<Stack direction="column" spacing="1rem">
-  <ButtonGroup variant="solid">
+<Stack direction="column" spacing="3x">
+  <ButtonGroup variant="default">
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
-  <ButtonGroup variant="outline">
+  <ButtonGroup variant="secondary">
     <Button>One</Button>
     <Button>Two</Button>
     <Button>Three</Button>
@@ -41,24 +41,12 @@ Use the `variant` prop to change the visual style of every button in a group. Yo
 </Stack>
 ```
 
-### Group colors
-
-Use the `variantColor` prop to change the color scheme of every button in a group. `variantColor` can be any color key with key `50`(hover), `60`(normal) and `70`(active) that exist in the `theme.color`.
-
-```jsx
-<ButtonGroup variantColor="blue">
-  <Button>Left</Button>
-  <Button>Middle</Button>
-  <Button>Right</Button>
-</ButtonGroup>
-```
-
 ### Group sizes
 
 Use the `size` prop to change the size of the `ButtonGroup`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="1rem">
+<Stack direction="column" spacing="3x">
   <ButtonGroup size="sm">
     <Button>Left</Button>
     <Button>Middle</Button>
@@ -99,28 +87,28 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 ### Button states
 
 ```jsx
-<Stack direction="column" spacing="1rem">
-  <Stack direction="row" spacing="1rem">
+<Stack direction="column" spacing="3x">
+  <Stack direction="row" spacing="3x">
     <ButtonGroup>
-      <Button active><TMIcon name="chart-pie" /></Button>
-      <Button><TMIcon name="chart-line" /></Button>
+      <Button><TMIcon name="chart-pie" /></Button>
+      <Button selected><TMIcon name="chart-line" /></Button>
       <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
     <ButtonGroup>
-      <Button active>Active</Button>
       <Button>Normal</Button>
+      <Button selected>Selected</Button>
       <Button disabled>Disabled</Button>
     </ButtonGroup>
   </Stack>
-  <Stack direction="row" spacing="1rem">
-    <ButtonGroup variant="outline">
-      <Button active><TMIcon name="chart-pie" /></Button>
-      <Button><TMIcon name="chart-line" /></Button>
+  <Stack direction="row" spacing="3x">
+    <ButtonGroup variant="secondary">
+      <Button><TMIcon name="chart-pie" /></Button>
+      <Button selected><TMIcon name="chart-line" /></Button>
       <Button disabled><TMIcon name="chart-bar" /></Button>
     </ButtonGroup>
-    <ButtonGroup variant="outline">
-      <Button active>Active</Button>
+    <ButtonGroup variant="secondary">
       <Button>Normal</Button>
+      <Button selected>Selected</Button>
       <Button disabled>Disabled</Button>
     </ButtonGroup>
   </Stack>
@@ -133,7 +121,6 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| `size` | `sm`, `md`, `lg` | `md` | Sets the size for all Buttons in the group. |
-| `variant` | `solid`, `outline` | `solid` | Sets the variant of all Buttons in the group. |
-| `variantColor` | string | | Sets the variant of all Buttons in the group. Use a color key passed in `theme.colors`. |
-| `vertical` | boolean | `false` | Make the set of Buttons appear vertically stacked. |
+| `size` | `string` | `md` | Sets the size for all Buttons in the group. |
+| `variant` | `string` | `default` | Sets the variant of all Buttons in the group. |
+| `vertical` | `boolean` | false | Make the set of Buttons appear vertically stacked. |

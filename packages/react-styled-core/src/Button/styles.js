@@ -2,108 +2,97 @@ import { addOpacity } from '../theme/colors-utils';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
-// Solid Button
-const solidVariantProps = ({ color = 'gray', colorMode }) => {
+// Secondary Button
+const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
+  const isDarkMode = (colorMode === 'dark');
+  const outerBorderColor = colors['blue:60'];
   const style = {
-    light: {
-      bg: `${color}:60`,
-      borderColor: 'transparent',
-      color: 'white',
-      _hover: {
-        bg: `${color}:50`,
-        zIndex: 1,
-      },
-      _active: {
-        bg: `${color}:70`,
-        borderColor: 'transparent',
-        boxShadow: 'none',
-      },
-      _disabled: {
-        bg: `${color}:60`,
-        boxShadow: 'none',
-        cursor: 'not-allowed',
-        opacity: '40%',
-        zIndex: 'auto',
-      },
+    borderColor: 'gray:60',
+    color: isDarkMode ? 'rgba(255, 255, 255, 0.92)' : 'rgba(0, 0, 0, 0.92)',
+    _focus: {
+      borderColor: outerBorderColor,
+      boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
     },
-    dark: {
-      bg: `${color}:60`,
-      borderColor: 'transparent',
-      color: 'white',
-      _hover: {
-        bg: `${color}:50`,
-        zIndex: 1,
+    _hover: {
+      '&:not(:focus)': {
+        borderColor: `${color}:50`,
       },
-      _active: {
-        bg: `${color}:70`,
-        borderColor: 'transparent',
-        boxShadow: 'none',
+      color: `${color}:40`,
+      zIndex: 1,
+    },
+    _active: {
+      '&:not(:focus)': {
+        borderColor: `${color}:50`,
       },
-      _disabled: {
-        bg: `${color}:60`,
-        boxShadow: 'none',
-        cursor: 'not-allowed',
-        opacity: '40%',
-        zIndex: 'auto',
-      },
+      bg: addOpacity('black', 0.12),
+      color: `${color}:40`,
+    },
+    _disabled: {
+      borderColor: 'gray:60',
+      color: isDarkMode ? 'white' : 'black',
+      cursor: 'not-allowed',
+      opacity: 0.28,
     },
   };
 
-  return style[colorMode];
+  return style;
 };
 
-// Outline Button
-const outlineVariantProps = ({ color = 'blue', colorMode }) => {
+// Ghost Button
+const ghostVariantProps = (props) => {
+  const styles = {
+    ...secondaryVariantProps(props),
+    borderColor: 'transparent',
+  };
+
+  return styles;
+};
+
+// Fill Color Button
+const fillColorVariantProps = ({ color, theme: { colors } }) => {
+  const outerBorderColor = colors['blue:60'];
   const style = {
-    light: {
-      borderColor: 'gray:60',
-      color: 'black',
-      _hover: {
-        borderColor: `${color}:50`,
-        color: `${color}:50`,
-        zIndex: 1,
+    bg: `${color}:60`,
+    borderColor: 'transparent',
+    color: 'white',
+    _focus: {
+      ':not(:active)': {
+        borderColor: outerBorderColor,
+        boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
+        bg: 'inherit',
       },
-      _active: {
-        bg: addOpacity('black', 0.12),
-        borderColor: `${color}:70`,
-        boxShadow: 'none',
-        color: `${color}:70`,
-      },
-      _disabled: {
-        borderColor: 'gray:60',
-        boxShadow: 'none',
-        color: 'black',
-        cursor: 'not-allowed',
-        opacity: '40%',
-        zIndex: 'auto',
+      '& > :first-of-type': {
+        top: '2px',
+        bottom: '2px',
+        left: '2px',
+        right: '2px',
+        bg: `${color}:60`,
       },
     },
-    dark: {
-      borderColor: 'gray:60',
-      color: 'white',
-      _hover: {
-        borderColor: `${color}:50`,
-        color: `${color}:50`,
-        zIndex: 1,
+    _hover: {
+      bg: `${color}:50`,
+      '& > :first-of-type': {
+        bg: `${color}:50`,
       },
-      _active: {
-        bg: addOpacity('black', 0.12),
-        borderColor: `${color}:70`,
-        boxShadow: 'none',
-        color: `${color}:70`,
+      zIndex: 1,
+    },
+    _active: {
+      bg: `${color}:70`,
+      '& > :first-of-type': {
+        bg: `${color}:70`,
       },
-      _disabled: {
-        borderColor: 'gray:60',
-        boxShadow: 'none',
-        color: 'white',
-        cursor: 'not-allowed',
-        opacity: '40%',
-        zIndex: 'auto',
+    },
+    _disabled: {
+      bg: 'gray:60',
+      '& > :first-of-type': {
+        bg: 'inherit',
       },
+      cursor: 'not-allowed',
+      opacity: 0.28,
     },
   };
 
-  return style[colorMode];
+  return style;
 };
 
 ////////////////////////////////////////////////////////////
@@ -113,19 +102,16 @@ const sizes = {
     minHeight: '2.5rem', // 40px
     fontSize: 'md',
     lineHeight: 'md',
-    px: '3x',
   },
   md: {
     minHeight: '2rem', //32px
     fontSize: 'sm',
     lineHeight: 'sm',
-    px: '3x',
   },
   sm: {
     minHeight: '1.5rem', //24px
     fontSize: 'sm',
     lineHeight: 'sm',
-    px: '3x',
   },
 };
 
@@ -133,36 +119,21 @@ const sizeProps = ({ size }) => sizes[size];
 
 ////////////////////////////////////////////////////////////
 
-const focusProps = ({ colorMode, theme: { colors } }) => {
-  const outerBorderColor = colors['blue:60'];
-  const style = {
-    light: {
-      _focus: {
-        zIndex: 1,
-        borderColor: outerBorderColor,
-        boxShadow: `inset 0 0 0 1px ${outerBorderColor}, inset 0 0 0 2px #fff`,
-      }
-    },
-    dark: {
-      _focus: {
-        zIndex: 1,
-        borderColor: outerBorderColor,
-        boxShadow: `inset 0 0 0 1px ${outerBorderColor}, inset 0 0 0 2px #000`,
-      }
-    },
-  };
-
-  return style[colorMode];
-};
-
-////////////////////////////////////////////////////////////
-
 const selectedProps = {
   _selected: {
     bg: 'blue:60',
     borderColor: 'blue:60',
-    color: 'inherit',
-    zIndex: 1,
+    color: 'white',
+    '& > :first-of-type': {
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      bg: 'inherit',
+    },
+    '&:focus': {
+      boxShadow: 'unset',
+    }
   },
 };
 
@@ -172,10 +143,16 @@ const variantProps = props => {
   const variant = props.variant;
 
   switch (variant) {
-  case 'solid':
-    return solidVariantProps(props);
-  case 'outline':
-    return outlineVariantProps(props);
+  case 'secondary':
+    return secondaryVariantProps({ ...props, color: 'blue' });
+  case 'ghost':
+    return ghostVariantProps({ ...props, color: 'blue' });
+  case 'emphasis':
+    return fillColorVariantProps({ ...props, color: 'red' });
+  case 'primary':
+    return fillColorVariantProps({ ...props, color: 'blue' });
+  case 'default':
+    return fillColorVariantProps({ ...props, color: 'gray' });
   default:
     return {};
   }
@@ -185,15 +162,15 @@ const variantProps = props => {
 
 const baseProps = {
   display: 'inline-flex',
-  appearance: 'none',
   alignItems: 'center',
   justifyContent: 'center',
   transition: 'all 250ms',
+  appearance: 'none',
   userSelect: 'none',
-  position: 'relative',
-  whiteSpace: 'nowrap',
   verticalAlign: 'middle',
+  whiteSpace: 'nowrap',
   border: 1,
+  position: 'relative',
 };
 
 ////////////////////////////////////////////////////////////
@@ -201,13 +178,11 @@ const baseProps = {
 const useButtonStyle = props => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
-
   const _props = { ...props, colorMode, theme };
   return {
     ...baseProps,
     ...selectedProps,
     ...sizeProps(_props),
-    ...focusProps(_props),
     ...variantProps(_props),
   };
 };
