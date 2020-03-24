@@ -11,6 +11,7 @@ import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
 import DarkMode from './DarkMode';
 import Fade from './Fade';
+import FlatButton from './FlatButton';
 import Flex from './Flex';
 import Grid from './Grid';
 import Heading from './Heading';
@@ -48,6 +49,7 @@ export {
   CSSBaseline,
   DarkMode,
   Fade,
+  FlatButton,
   Flex,
   Grid,
   Heading,

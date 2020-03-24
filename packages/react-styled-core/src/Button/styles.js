@@ -8,7 +8,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
   const outerBorderColor = colors['blue:60'];
   const style = {
     borderColor: 'gray:60',
-    color: isDarkMode ? 'rgba(255, 255, 255, 0.92)' : 'rgba(0, 0, 0, 0.92)',
+    color: isDarkMode ? 'white:primary' : 'black:primary',
     _focus: {
       borderColor: outerBorderColor,
       boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
@@ -29,7 +29,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
     },
     _disabled: {
       borderColor: 'gray:60',
-      color: isDarkMode ? 'white' : 'black',
+      color: isDarkMode ? 'white:emphasis' : 'black',
       cursor: 'not-allowed',
       opacity: 0.28,
     },
@@ -54,7 +54,7 @@ const fillColorVariantProps = ({ color, theme: { colors } }) => {
   const style = {
     bg: `${color}:60`,
     borderColor: 'transparent',
-    color: 'white',
+    color: 'white:emphasis',
     _focus: {
       ':not(:active)': {
         borderColor: outerBorderColor,
@@ -99,17 +99,17 @@ const fillColorVariantProps = ({ color, theme: { colors } }) => {
 
 const sizes = {
   lg: {
-    minHeight: '2.5rem', // 40px
+    minHeight: '10x', // 40px
     fontSize: 'md',
     lineHeight: 'md',
   },
   md: {
-    minHeight: '2rem', //32px
+    minHeight: '8x', //32px
     fontSize: 'sm',
     lineHeight: 'sm',
   },
   sm: {
-    minHeight: '1.5rem', //24px
+    minHeight: '6x', //24px
     fontSize: 'sm',
     lineHeight: 'sm',
   },
@@ -123,7 +123,7 @@ const selectedProps = {
   _selected: {
     bg: 'blue:60',
     borderColor: 'blue:60',
-    color: 'white',
+    color: 'white:emphasis',
     '& > :first-of-type': {
       top: 0,
       bottom: 0,
