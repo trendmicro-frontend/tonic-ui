@@ -29,6 +29,7 @@
     "color": "3.x",
     "emotion-theming": "10.x",
     "lodash.get": "4.x",
+    "micro-memoize": "4.x",
     "prop-types": "^15.6.0",
     "react-animate-height": "2.x",
     "react-spring": "8.x",

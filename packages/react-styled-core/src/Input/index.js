@@ -11,7 +11,7 @@ const Input = forwardRef((
   },
   ref,
 ) => {
-  const inputStyleProps = useInputStyle({ invalid, size, variant });
+  const styleProps = useInputStyle({ invalid, size, variant });
   const { readOnly, required } = rest;
 
   return (
@@ -21,7 +21,7 @@ const Input = forwardRef((
       aria-invalid={invalid}
       aria-readonly={readOnly}
       aria-required={required}
-      {...inputStyleProps}
+      {...styleProps}
       {...rest}
     />
   );

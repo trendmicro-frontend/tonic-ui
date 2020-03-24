@@ -1,8 +1,7 @@
 import useColorMode from '../useColorMode';
 import { baseProps, getSizeProps, getVariantProps } from './styles';
 
-const useInputStyle = ({
-  invalid,
+const useInputGroupAddonStyle = ({
   size,
   variant,
 }) => {
@@ -12,7 +11,7 @@ const useInputStyle = ({
   const sizeProps = getSizeProps({ size });
 
   // variant
-  const variantProps = getVariantProps({ variant, colorMode, invalid });
+  const variantProps = getVariantProps({ variant, colorMode });
 
   return {
     ...baseProps,
@@ -21,4 +20,4 @@ const useInputStyle = ({
   };
 };
 
-export default useInputStyle;
+export default useInputGroupAddonStyle;

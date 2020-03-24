@@ -13,7 +13,7 @@ import { Input } from '@trendmicro/react-styled-core';
 ## Usage
 
 ```jsx
-<Input placeholder="Basic usage" />
+<Input placeholder="Basic example" />
 ```
 
 ### Sizes
@@ -28,6 +28,28 @@ Use the `size` prop to change the size of the `Input`. You can set the value to 
 </Stack>
 ```
 
+### Variants
+
+The `Input` component comes in two variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+```jsx
+<Input variant="outline" placeholder="John Doe" />
+```
+
+#### `filled`
+
+```jsx
+<Input variant="filled" placeholder="John Doe" />
+```
+
+#### `unstyled`
+
+```jsx
+<Input variant="unstyled" placeholder="John Doe" />
+```
+
 ### Attributes
 
 Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, etc.
@@ -40,7 +62,7 @@ Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `
       gap="4x"
       templateColumns="1fr 1fr"
     >
-      <Input type="text" defaultValue="John" />
+      <Input type="text" defaultValue="John Doe" />
       <Input type="password" defaultValue="password" />
       <Input type="number" defaultValue={0} min={0} max={10} />
       <Input type="color" height={40} px="2x" py="1x" />
@@ -64,15 +86,61 @@ Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `
 </>
 ```
 
-### Variants
+### Adornments
 
-The `Input` component comes in two variants: `outline` and `unstyled`. Pass the `variant` prop and set it to either of these values.
+Input adornments can be used to add a prefix, a suffix or an action to an input. For instance, you can use an icon button to hide or reveal the password.
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Input variant="outline" placeholder="Outlined input" />
-  <Input variant="unstyled" placeholder="Unstyled input" />
-</Stack>
+function Example() {
+  const [view, setView] = React.useState(false);
+  const toggleView = () => setView(view => !view);
+  const { colorMode } = useColorMode();
+  const adornmentColor = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const adornmentIconName = view ? 'view' : 'view-off';
+  const inputType = view ? 'text' : 'password';
+
+  return (
+    <Stack direction="column" spacing="4x">
+      <Flex position="relative" alignItems="center">
+        <Box position="absolute" left={0}>
+          <TMIcon name="mobile" px="3x" color={adornmentColor} />
+        </Box>
+        <Input
+          placeholder="Mobile phone number"
+          px="10x"
+        />
+      </Flex>
+      <Flex position="relative" alignItems="center">
+        <Box position="absolute" left={0}>
+          <Text width="10x" textAlign="center" color={adornmentColor}>$</Text>
+        </Box>
+        <Input
+          placeholder="Enter the amount"
+          px="10x"
+        />
+        <Box position="absolute" right={0}>
+          <TMIcon name="check" color="green:50" px="3x"/>
+        </Box>
+      </Flex>
+      <Flex position="relative" alignItems="center">
+        <Input
+          type={inputType}
+          defaultValue="Revealed Password"
+          placeholder="Password"
+          pr="10x"
+        />
+        <Box position="absolute" right={0}>
+          <ButtonBase onClick={toggleView}>
+            <TMIcon name={adornmentIconName} px="3x" color={adornmentColor} />
+          </ButtonBase>
+        </Box>
+      </Flex>
+    </Stack>
+  );
+}
 ```
 
 ### Validation
@@ -81,32 +149,61 @@ Use the `aria-invalid` attribute to indicate that the value entered into an inpu
 
 Set `aria-invalid` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
 
-```jsx
-function Example() {
-  const [value, setValue] = React.useState();
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
-  const InlineError = (props) => (
-    <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
-  );
+```jsx noInline
+const InlineError = (props) => (
+  <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
+);
+
+const InputField = ({
+  value,
+  onChange,
+  ...props
+}) => {
   const isInvalid = (value === '');
+  let invalidInputStyle = {};
+  if (isInvalid) {
+    invalidInputStyle = {
+      'aria-invalid': true,
+      pr: '10x',
+    };
+  }
 
   return (
     <>
-      <Input
-        placeholder="Enter your name here"
-        mb="1x"
-        value={value}
-        onChange={onChange}
-        aria-invalid={isInvalid}
-      />
-      {isInvalid && (
-        <InlineError>This is a required field.</InlineError>
-      )}
+      <Flex position="relative" alignItems="center" mb="1x">
+        <Input
+          placeholder="Enter your name here"
+          value={value}
+          onChange={onChange}
+          {...invalidInputStyle}
+        />
+        {isInvalid && (
+          <Box position="absolute" right={0}>
+            <TMIcon name="warning-circle" px="3x" color="red:50" />
+          </Box>
+        )}
+      </Flex>
+      <Box>
+        {isInvalid && (
+          <InlineError>This is a required field.</InlineError>
+        )}
+      </Box>
     </>
   );
+};
+
+function Example() {
+  const [value, setValue] = React.useState('');
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  return (
+    <InputField value={value} onChange={onChange} />
+  );
 }
+
+render(<Example />);
 ```
 
 ## Props
@@ -115,8 +212,8 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| `variant` | `string` | 'outline' | The variant of the input style to use. One of: 'outline', 'unstyled' |
 | `size` | `string` | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
+| `variant` | `string` | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
 | `disabled` | `boolean` | false | If `true`, the input will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | `readOnly` | `boolean` | | If `true`, prevents the value of the input from being edited. |
 | `aria-invalid` | `boolean` | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |

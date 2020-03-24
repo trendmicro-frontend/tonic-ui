@@ -17,6 +17,10 @@ import Heading from './Heading';
 import Icon from './Icon';
 import Image from './Image';
 import Input from './Input';
+import InputGroup from './InputGroup';
+import InputGroupAddon from './InputGroupAddon';
+import InputGroupAppend from './InputGroupAppend';
+import InputGroupPrepend from './InputGroupPrepend';
 import LightMode from './LightMode';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
@@ -54,6 +58,10 @@ export {
   Icon,
   Image,
   Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupAppend,
+  InputGroupPrepend,
   LightMode,
   Link,
   PseudoBox,
