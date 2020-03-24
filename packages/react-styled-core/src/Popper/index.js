@@ -37,7 +37,6 @@ const Popper = forwardRef(
       willUseTransition = false,
       arrowSize,
       arrowColor,
-      hasArrow,
       ...rest
     },
     ref,

@@ -24,7 +24,7 @@ const Tooltip = ({
   hideDelay = 0,
   placement = 'bottom',
   children,
-  hasArrow = true,
+  hideArrow,
   variantColor,
   closeOnClick,
   defaultIsOpen,
@@ -117,7 +117,7 @@ const Tooltip = ({
         placement={placement}
         modifiers={{ offset: [0, 8] }}
         anchorEl={referenceRef.current}
-        hasArrow={hasArrow}
+        hideArrow={hideArrow}
         id={hasAriaLabel ? undefined : tooltipId}
         role={hasAriaLabel ? undefined : 'tooltip'}
         pointerEvents="none"
@@ -132,7 +132,7 @@ const Tooltip = ({
             {ariaLabel}
           </VisuallyHidden>
         )}
-        {hasArrow && <PopperArrow />}
+        {!hideArrow && <PopperArrow />}
       </Popper>
     </Fragment>
   );
