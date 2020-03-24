@@ -14,7 +14,7 @@ const baseProps = {
   fontSize: 'sm',
 };
 
-const styleProps = ({ color }, colorLevel) => {
+const styleProps = ({ color, colorLevel }) => {
   return {
     light: {
       bg: `${color}:${colorLevel}`,
@@ -31,9 +31,9 @@ const statusProps = props => {
   switch (status) {
   case 'info':
   case 'error':
-    return styleProps(props, 40);
+    return styleProps({ ...props, colorLevel: 40 });
   case 'warning':
-    return styleProps(props, 50);
+    return styleProps({ ...props, colorLevel: 50 });
   default:
     return {};
   }
