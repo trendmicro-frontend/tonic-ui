@@ -14,13 +14,13 @@ const baseProps = {
   fontSize: 'sm',
 };
 
-const styleProps = ({ color, theme: { colors } }, colorLevel) => {
+const styleProps = ({ color }, colorLevel) => {
   return {
     light: {
-      bg: colors[`${color}:${colorLevel}`],
+      bg: `${color}:${colorLevel}`,
     },
     dark: {
-      bg: colors[`${color}:${colorLevel}`]
+      bg: `${color}:${colorLevel}`
     },
   };
 };
