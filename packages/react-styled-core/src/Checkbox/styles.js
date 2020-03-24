@@ -1,3 +1,5 @@
+import useColorMode from '../useColorMode';
+
 const baseProps = {
   userSelect: 'none',
   border: 1,
@@ -78,15 +80,16 @@ const interactionProps = ({ color, colorMode }) => {
 };
 
 const useCheckboxStyle = props => {
+  const { colorMode } = useColorMode();
   const sizes = {
     lg: '20px',
     md: '16px',
     sm: 'auto',
   };
-
+  const _props = { ...props, colorMode };
   return {
     ...baseProps,
-    ...props.indeterminate ? { ...indeterminateProps(props) } : { ...interactionProps(props) },
+    ...props.indeterminate ? { ...indeterminateProps(_props) } : { ...interactionProps(_props) },
     size: sizes[props.size],
   };
 };

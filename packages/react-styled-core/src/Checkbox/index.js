@@ -3,10 +3,9 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
 import Icon from '../Icon';
-import useColorMode from '../useColorMode';
 import VisuallyHidden from '../VisuallyHidden';
-import checkboxStyles from './styles';
 import { useGroupContext } from '../GroupContext';
+import useCheckboxStyle from './styles';
 
 const Checkbox = forwardRef(
   (
@@ -35,7 +34,6 @@ const Checkbox = forwardRef(
     },
     ref,
   ) => {
-    const { colorMode } = useColorMode();
     const {
       disabled: disabledFromParent,
       size: sizeFromParent,
@@ -55,10 +53,9 @@ const Checkbox = forwardRef(
       onChange,
       onChangeFromParent,
     );
-    const styleProps = checkboxStyles({
+    const styleProps = useCheckboxStyle({
       color: _variantColor,
       size: _size,
-      colorMode,
       indeterminate
     });
 

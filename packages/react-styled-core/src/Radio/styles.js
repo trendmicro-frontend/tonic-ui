@@ -1,3 +1,4 @@
+import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
 const baseProps = {
@@ -40,7 +41,8 @@ const interactionProps = ({ color, colorMode, theme: { colors } }) => {
 
 const useRadioStyle = props => {
   const theme = useTheme();
-  const _props = { ...props, theme };
+  const { colorMode } = useColorMode();
+  const _props = { ...props, colorMode, theme };
   return {
     ...baseProps,
     ...interactionProps(_props),
