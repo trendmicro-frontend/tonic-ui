@@ -1,5 +1,6 @@
 const components = [
   'Accordion',
+  'Alert',
   'Badge',
   'Box',
   'Button',
