@@ -9,7 +9,7 @@ const solidVariantProps = ({ color = 'gray', theme: { colors } }) => {
   const styles = {
     bg: color,
     borderColor: 'transparent',
-    color: 'white',
+    color: 'white:emphasis',
     _focus: {
       borderColor: outerBorderColor,
       boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
@@ -49,7 +49,7 @@ const outlineVariantProps = ({ color = 'gray', theme: { colors } }) => {
     },
     _disabled: {
       borderColor: 'gray:60',
-      color: 'white',
+      color: 'white:emphasis',
       cursor: 'not-allowed',
       opacity: 0.28,
     },
@@ -62,17 +62,17 @@ const outlineVariantProps = ({ color = 'gray', theme: { colors } }) => {
 
 const sizes = {
   lg: {
-    minHeight: '2.5rem', // 40px
+    minHeight: '10x', // 40px
     fontSize: 'md',
     lineHeight: 'md',
   },
   md: {
-    minHeight: '2rem', //32px
+    minHeight: '8x', //32px
     fontSize: 'sm',
     lineHeight: 'sm',
   },
   sm: {
-    minHeight: '1.5rem', //24px
+    minHeight: '6x', //24px
     fontSize: 'sm',
     lineHeight: 'sm',
   },
