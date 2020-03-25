@@ -110,7 +110,7 @@ The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyl
 <Stack direction="column" spacing="4x">
   <InputGroup variant="filled">
     <InputGroupPrepend>
-      <InputGroupAddon variant="filled">@</InputGroupAddon>
+      <InputGroupAddon>@</InputGroupAddon>
     </InputGroupPrepend>
     <Input variant="outline" placeholder="Username" />
   </InputGroup>
@@ -125,7 +125,7 @@ The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyl
 
 #### `unstyled`
 
-For an unstyled input group, it is not necessary to place an `InputPrepend` or `InputAppend` on either side of an `Input`.
+For an unstyled input group that doesn't have border and padding spaces, it is not necessary to place an `InputPrepend` or `InputAppend` on either side of an `Input`.
 
 ```jsx
 <Stack direction="column" spacing="4x">
