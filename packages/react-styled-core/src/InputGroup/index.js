@@ -1,7 +1,6 @@
 import memoize from 'micro-memoize';
-import React, { cloneElement, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
-import Input from '../Input';
 import { InputGroupProvider } from './context';
 import {
   baseProps,
