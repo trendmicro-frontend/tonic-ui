@@ -10,10 +10,6 @@ const useInputGroup = () => {
   }
 
   const context = useContext(InputGroupContext);
-  if (context === undefined) {
-    throw new Error('The `useInputGroup` hook must be called from a descendent of the `InputGroupProvider`.');
-  }
-
   return context;
 };
 
