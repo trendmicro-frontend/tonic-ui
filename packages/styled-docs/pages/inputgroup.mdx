@@ -1,5 +1,7 @@
 # InputGroup
 
+`InputGroup` is used to group related add-ons and inputs.
+
 ## Import
 
 ### Default imports
@@ -23,6 +25,8 @@ import {
 ```
 
 ## Usage
+
+Use `InputGroup` to place an `InputGroupAddon` or `Button` on either side of an `Input`. You may also place one on both sides of an `Input`.
 
 ```jsx
 <Stack direction="column" spacing="4x">
@@ -53,8 +57,6 @@ import {
 ### Sizes
 
 Use the `size` prop to change the size of the input group. You can set the value to `sm`, `md`, or `lg`.
-
-Change the size on the individual input group elements is not supported.
 
 ```jsx
 <Stack direction="column" spacing="4x">
@@ -126,15 +128,13 @@ The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyl
 ```jsx
 <Stack direction="column" spacing="4x">
   <InputGroup variant="unstyled">
-    <InputGroupPrepend>
-      <InputGroupAddon pr="1x">@</InputGroupAddon>
-    </InputGroupPrepend>
+    <InputGroupAddon pr="1x">@</InputGroupAddon>
     <Input placeholder="Username" />
   </InputGroup>
 </Stack>
 ```
 
-### Multiple addons
+### Multiple add-ons
 
 Multiple add-ons are supported and can be mixed with checkbox and radio input components.
 
@@ -179,32 +179,47 @@ While multiple `<Input />`s are supported visually, validation styles are only a
 
 ```jsx
 <InputGroup variant="unstyled">
-  <Input placeholder="YYYY" borderBottom={1} width="12x" />
-  <Text px="2x">-</Text>
-  <Input placeholder="MM" borderBottom={1} width="8x" />
-  <Text px="2x">-</Text>
-  <Input placeholder="DD" borderBottom={1} width="8x" />
+  <Input
+    placeholder="YYYY"
+    borderBottom={1}
+    textAlign="center"
+    width="12x"
+  />
+  <Text px="2x">–</Text>
+  <Input
+    placeholder="MM"
+    borderBottom={1}
+    textAlign="center"
+    width="8x"
+  />
+  <Text px="2x">–</Text>
+  <Input
+    placeholder="DD"
+    borderBottom={1}
+    textAlign="center"
+    width="8x"
+  />
 </InputGroup>
 ```
 
-### Button addons
+### Button add-ons
 
 ```jsx
 <Stack direction="column" spacing="4x">
   <InputGroup>
-    <InputGroupPrepend>
+    <InputGroupPrepend mr={0}>
       <Button>Button</Button>
     </InputGroupPrepend>
     <Input />
   </InputGroup>
   <InputGroup>
     <Input />
-    <InputGroupAppend>
+    <InputGroupAppend ml={0}>
       <Button>Button</Button>
     </InputGroupAppend>
   </InputGroup>
   <InputGroup>
-    <InputGroupPrepend>
+    <InputGroupPrepend mr={0}>
       <Button variant="primary">Button</Button>
     </InputGroupPrepend>
     <InputGroupPrepend>
@@ -214,7 +229,7 @@ While multiple `<Input />`s are supported visually, validation styles are only a
   </InputGroup>
   <InputGroup>
     <Input />
-    <InputGroupAppend>
+    <InputGroupAppend ml={0}>
       <Button variant="primary">Button</Button>
     </InputGroupAppend>
     <InputGroupAppend>
@@ -224,9 +239,9 @@ While multiple `<Input />`s are supported visually, validation styles are only a
 </Stack>
 ```
 
-### Checkbox and radio addons
+### Checkbox and radio add-ons
 
-Place any checkbox or radio option within an input group's addon instead of text.
+Place any checkbox or radio option within an input group's add-on instead of text.
 
 ```jsx
 <Stack direction="column" spacing="4x">
