@@ -1,6 +1,6 @@
-import React from 'react';
+import { createContext, useContext } from 'react';
 
-const GroupContext = React.createContext({
+const RadioGroupContext = createContext({
   disabled: false,
   name: undefined,
   size: undefined,
@@ -9,6 +9,19 @@ const GroupContext = React.createContext({
   onChange: (e) => {},
 });
 
-export const useGroupContext = () => React.useContext(GroupContext);
+const RadioGroupProvider = RadioGroupContext.Provider;
 
-export default GroupContext;
+const useRadioGroup = () => {
+  if (!useContext) {
+    throw new Error('The `useContext` hook is not available with your React version.');
+  }
+
+  const context = useContext(RadioGroupContext);
+  return context;
+};
+
+export {
+  RadioGroupContext,
+  RadioGroupProvider,
+  useRadioGroup,
+};

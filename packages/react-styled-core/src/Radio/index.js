@@ -2,7 +2,7 @@ import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
-import { useGroupContext } from '../RadioGroup/context';
+import { useRadioGroup } from '../RadioGroup/context';
 import VisuallyHidden from '../VisuallyHidden';
 import useRadioStyle from './styles';
 
@@ -44,7 +44,7 @@ const Radio = forwardRef(
       value: valueFromParent,
       variantColor: variantColorFromParent,
       onChange: onChangeFromParent
-    } = useGroupContext();
+    } = useRadioGroup();
     let _checked = checked;
     if (valueFromParent !== undefined) {
       _checked = (valueFromParent === value);

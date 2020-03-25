@@ -1,6 +1,6 @@
-import React from 'react';
+import { createContext, useContext } from 'react';
 
-const GroupContext = React.createContext({
+const CheckboxGroupContext = createContext({
   disabled: false,
   size: undefined,
   value: undefined,
@@ -8,6 +8,19 @@ const GroupContext = React.createContext({
   onChange: (e) => {},
 });
 
-export const useGroupContext = () => React.useContext(GroupContext);
+const CheckboxGroupProvider = CheckboxGroupContext.Provider;
 
-export default GroupContext;
+const useCheckboxGroup = () => {
+  if (!useContext) {
+    throw new Error('The `useContext` hook is not available with your React version.');
+  }
+
+  const context = useContext(CheckboxGroupContext);
+  return context;
+};
+
+export {
+  CheckboxGroupContext,
+  CheckboxGroupProvider,
+  useCheckboxGroup,
+};

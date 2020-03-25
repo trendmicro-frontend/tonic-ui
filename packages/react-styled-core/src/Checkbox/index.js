@@ -1,7 +1,7 @@
 import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import { useGroupContext } from '../CheckboxGroup/context';
+import { useCheckboxGroup } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
 import Icon from '../Icon';
 import VisuallyHidden from '../VisuallyHidden';
@@ -40,7 +40,7 @@ const Checkbox = forwardRef(
       value: valueFromParent,
       variantColor: variantColorFromParent,
       onChange: onChangeFromParent
-    } = useGroupContext();
+    } = useCheckboxGroup();
     const _defaultChecked = defaultChecked ? undefined : checked;
     let _checked = readOnly ? Boolean(checked) : _defaultChecked;
     if (valueFromParent !== undefined) {

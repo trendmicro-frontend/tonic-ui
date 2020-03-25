@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useId } from '../utils/autoId';
-import GroupContext from './context';
+import { RadioGroupProvider } from './context';
 
 const RadioGroup = ({
   children,
@@ -36,9 +36,9 @@ const RadioGroup = ({
   };
 
   return (
-    <GroupContext.Provider value={state}>
+    <RadioGroupProvider value={state}>
       { children }
-    </GroupContext.Provider>
+    </RadioGroupProvider>
   );
 };
 
