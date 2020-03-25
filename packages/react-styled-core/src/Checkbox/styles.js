@@ -4,6 +4,7 @@ const baseProps = {
   userSelect: 'none',
   border: 1,
   transition: 'background-color 120ms, box-shadow 250ms',
+  position: 'relative',
 };
 
 const indeterminateProps = ({ color, colorMode }) => {
@@ -37,7 +38,6 @@ const indeterminateProps = ({ color, colorMode }) => {
 };
 
 const interactionProps = ({ color, colorMode }) => {
-  const isDarkMode = colorMode === 'dark';
   return {
     borderColor: 'gray:50',
     color: 'white', // Icon color
@@ -54,8 +54,11 @@ const interactionProps = ({ color, colorMode }) => {
       borderColor: `${color}:50`,
     },
     _checkedAndFocus: {
-      bg: `${color}:60`,
-      borderColor: isDarkMode ? 'black' : 'white',
+      bg: 'inherit',
+      borderColor: 'transparent',
+      '& > :first-child': {
+        bg: `${color}:60`,
+      },
     },
     _checkedAndDisabled: {
       bg: 'gray:60',

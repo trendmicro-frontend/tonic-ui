@@ -85,7 +85,17 @@ const Checkbox = forwardRef(
           data-indeterminate={indeterminate}
         />
         <ControlBox {...styleProps}>
+          {/* This Box is for rendering background color of Checkbox which is focused. */}
+          <Box
+            position="absolute"
+            top="0"
+            bottom="0"
+            left="0"
+            right="0"
+          />
+          {/* The z-index is for placing icon over the above box. */}
           <Icon
+            zIndex="1"
             name={indeterminate ? '_core.minus' : '_core.check'}
             size={iconSize}
             color={iconColor}
