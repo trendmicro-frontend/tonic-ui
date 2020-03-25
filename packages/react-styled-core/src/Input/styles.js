@@ -15,21 +15,21 @@ const inputSizes = {
     fontSize: 'sm',
     lineHeight: 'sm',
     height: '6x',
-    px: '.75rem',
+    px: '3x',
   },
   'md': {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
     height: '8x',
-    px: '.75rem',
+    px: '3x',
   },
   'lg': {
     borderRadius: 'sm',
     fontSize: 'md',
     lineHeight: 'md',
     height: '10x',
-    px: '.75rem',
+    px: '3x',
   },
 };
 
@@ -103,62 +103,10 @@ const getFilledStyle = ({
     dark: 'gray:70',
     light: 'gray:20',
   }[colorMode];
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledBorderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const invalidBorderColor = {
-    dark: 'red:50',
-    light: 'red:50',
-  }[colorMode];
-  const placeholderColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
 
   return {
+    ...getOutlinedStyle({ colorMode, invalid }),
     backgroundColor,
-    border: 1,
-    borderColor,
-    color,
-    _hover: {
-      borderColor: hoverBorderColor,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-    },
-    _disabled: {
-      borderColor: disabledBorderColor,
-      cursor: 'not-allowed',
-      opacity: '.28',
-    },
-    _valid: {
-      // XXX - border color for valid input is not defined
-    },
-    _invalid: {
-      borderColor: invalidBorderColor,
-    },
-    __placeholder: {
-      color: placeholderColor,
-      // Override Firefox's unusual default opacity
-      opacity: 1,
-    },
   };
 };
 

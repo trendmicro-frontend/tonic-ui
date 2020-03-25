@@ -55,20 +55,10 @@ const getFilledStyle = ({
     dark: 'gray:70',
     light: 'gray:20',
   }[colorMode];
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
 
   return {
+    ...getOutlinedStyle({ colorMode }),
     backgroundColor,
-    border: 1,
-    borderColor,
-    color,
   };
 };
 
