@@ -72,9 +72,13 @@ const getOutlinedStyle = ({
     color,
     _hover: {
       borderColor: hoverBorderColor,
+      // The hover state should have higher z-index value than the focus state
+      zIndex: 2,
     },
     _focus: {
       borderColor: focusBorderColor,
+      // This will bring overlapping border to front when focused
+      zIndex: 1,
     },
     _disabled: {
       borderColor: disabledBorderColor,
