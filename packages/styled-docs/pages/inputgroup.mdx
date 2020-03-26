@@ -209,34 +209,46 @@ While multiple `<Input />`s are supported visually, validation styles are only a
 ```jsx
 <Stack direction="column" spacing="4x">
   <InputGroup>
-    <InputGroupPrepend mr={0}>
-      <Button>Button</Button>
-    </InputGroupPrepend>
-    <Input />
-  </InputGroup>
-  <InputGroup>
-    <Input />
-    <InputGroupAppend ml={0}>
-      <Button>Button</Button>
-    </InputGroupAppend>
-  </InputGroup>
-  <InputGroup>
-    <InputGroupPrepend mr={0}>
-      <Button variant="primary">Button</Button>
-    </InputGroupPrepend>
     <InputGroupPrepend>
-      <Button variant="secondary">Button</Button>
+      <Button variant="secondary">
+        Action
+      </Button>
     </InputGroupPrepend>
     <Input />
   </InputGroup>
   <InputGroup>
     <Input />
     <InputGroupAppend ml={0}>
-      <Button variant="primary">Button</Button>
+      <Button variant="secondary">
+        Action
+      </Button>
     </InputGroupAppend>
+  </InputGroup>
+  <InputGroup>
+    <InputGroupPrepend mr={0}>
+      <Button variant="secondary">
+        Host name
+        <Space width="1x" />
+        <TMIcon name="angle-down" />
+      </Button>
+    </InputGroupPrepend>
+    <Input />
     <InputGroupAppend>
-      <Button variant="secondary">Button</Button>
-    </InputGroupAppend>
+      <Button>
+        Action
+      </Button>
+        </InputGroupAppend>
+      </InputGroup>
+      <InputGroup>
+        <Input />
+        <ButtonGroup>
+          <Button borderRadius={0}>
+            Action
+          </Button>
+          <Button>
+        <TMIcon name="settings" />
+      </Button>
+    </ButtonGroup>
   </InputGroup>
 </Stack>
 ```
@@ -245,7 +257,7 @@ While multiple `<Input />`s are supported visually, validation styles are only a
 
 ### InputGroup
 
-`InputGroup` composes the [`Box`](./box) component. You can override the default styles with style props.
+`InputGroup` composes the [`Box`](./box) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
