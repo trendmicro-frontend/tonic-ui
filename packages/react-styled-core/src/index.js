@@ -18,6 +18,7 @@ import Heading from './Heading';
 import Icon from './Icon';
 import Image from './Image';
 import Input from './Input';
+import InputBase from './InputBase';
 import InputGroup from './InputGroup';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupAppend from './InputGroupAppend';
@@ -61,6 +62,7 @@ export {
   Icon,
   Image,
   Input,
+  InputBase,
   InputGroup,
   InputGroupAddon,
   InputGroupAppend,
