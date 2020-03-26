@@ -26,7 +26,7 @@ const Input = forwardRef((
     // - Use the inherited value from the input group
     // - Fallback to the default value if the value is null or undefined
     size = (size ?? inputGroupSize) ?? defaultSize;
-    variant = (variant ?? inputGroupVariant) ?? defaultSize;
+    variant = (variant ?? inputGroupVariant) ?? defaultVariant;
 
     const useNegativeMargin = (variant === 'outline' || variant === 'filled');
 
