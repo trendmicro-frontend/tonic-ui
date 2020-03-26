@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import InputBase from '../InputBase';
 import { useInputGroup } from '../InputGroup/context';
-import PseudoBox from '../PseudoBox';
 import useInputStyle from './useInputStyle';
 
 const defaultSize = 'md';
