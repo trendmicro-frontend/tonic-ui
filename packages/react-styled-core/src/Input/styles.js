@@ -107,7 +107,7 @@ const getFilledStyle = ({
 }) => {
   const backgroundColor = {
     dark: 'gray:80',
-    light: 'gray:20',
+    light: 'gray:10',
   }[colorMode];
 
   return {
