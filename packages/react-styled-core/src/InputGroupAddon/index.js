@@ -11,11 +11,18 @@ const InputGroupAddon = forwardRef((
   },
   ref,
 ) => {
+  const inputGroupContext = useInputGroup();
+  if (!inputGroupContext) {
+    throw new Error('`InputGroupAddon` must be a descendant of a `InputGroup`.');
+  }
+
   const {
     size: inputGroupSize,
     variant: inputGroupVariant,
-  } = useInputGroup();
+  } = inputGroupContext;
 
+  // - Use the inherited value from the input group
+  // - A fallback default value is not necessary for `InputGroupAddon`
   size = size ?? inputGroupSize;
   variant = variant ?? inputGroupVariant;
 
