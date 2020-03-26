@@ -11,6 +11,7 @@ import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
 import DarkMode from './DarkMode';
 import Fade from './Fade';
+import FlatButton from './FlatButton';
 import Flex from './Flex';
 import Grid from './Grid';
 import Heading from './Heading';
@@ -31,6 +32,7 @@ import Stack from './Stack';
 import SVGIcon from './SVGIcon';
 import Text from './Text';
 import ThemeProvider from './ThemeProvider';
+import Tooltip from './Tooltip';
 import theme from './theme';
 import useColorMode from './useColorMode';
 import useClipboard from './useClipboard';
@@ -52,6 +54,7 @@ export {
   CSSBaseline,
   DarkMode,
   Fade,
+  FlatButton,
   Flex,
   Grid,
   Heading,
@@ -72,6 +75,7 @@ export {
   SVGIcon,
   Text,
   ThemeProvider,
+  Tooltip,
   theme,
   useColorMode,
   useClipboard,
@@ -81,3 +85,4 @@ export {
 };
 
 export * from './Accordion';
+export * from './Alert';

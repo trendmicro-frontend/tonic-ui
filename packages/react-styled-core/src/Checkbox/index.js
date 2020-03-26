@@ -1,12 +1,11 @@
 import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import { useCheckboxGroup } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
 import Icon from '../Icon';
-import useColorMode from '../useColorMode';
 import VisuallyHidden from '../VisuallyHidden';
-import checkboxStyles from './styles';
-import { useGroupContext } from '../GroupContext';
+import useCheckboxStyle from './styles';
 
 const Checkbox = forwardRef(
   (
@@ -35,14 +34,13 @@ const Checkbox = forwardRef(
     },
     ref,
   ) => {
-    const { colorMode } = useColorMode();
     const {
       disabled: disabledFromParent,
       size: sizeFromParent,
       value: valueFromParent,
       variantColor: variantColorFromParent,
       onChange: onChangeFromParent
-    } = useGroupContext();
+    } = useCheckboxGroup();
     const _defaultChecked = defaultChecked ? undefined : checked;
     let _checked = readOnly ? Boolean(checked) : _defaultChecked;
     if (valueFromParent !== undefined) {
@@ -55,10 +53,9 @@ const Checkbox = forwardRef(
       onChange,
       onChangeFromParent,
     );
-    const styleProps = checkboxStyles({
+    const styleProps = useCheckboxStyle({
       color: _variantColor,
       size: _size,
-      colorMode,
       indeterminate
     });
 
@@ -88,7 +85,17 @@ const Checkbox = forwardRef(
           data-indeterminate={indeterminate}
         />
         <ControlBox {...styleProps}>
+          {/* This Box is for rendering background color of Checkbox which is focused. */}
+          <Box
+            position="absolute"
+            top="0"
+            bottom="0"
+            left="0"
+            right="0"
+          />
+          {/* The z-index is for placing icon over the above box. */}
           <Icon
+            zIndex="1"
             name={indeterminate ? '_core.minus' : '_core.check'}
             size={iconSize}
             color={iconColor}

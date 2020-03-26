@@ -1,5 +1,6 @@
 const components = [
   'Accordion',
+  'Alert',
   'Badge',
   'Box',
   'Button',
@@ -14,6 +15,7 @@ const components = [
   //'Drawer',
   //'Editable',
   'Fade',
+  'FlatButton',
   'Flex',
   //'FormGroup',
   'Grid',
@@ -37,7 +39,7 @@ const components = [
   //'Tag',
   'Text',
   //'Toast',
-  //'Tooltip',
+  'Tooltip',
 ];
 
 export default components;

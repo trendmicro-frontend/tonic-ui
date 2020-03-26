@@ -12,72 +12,61 @@ import { Text } from '@trendmicro/react-styled-core';
 
 ## Usage
 
-### Font size
+### Sizes
 
-#### Built-in font size
+Use the `size` prop to change the corresponding font size and line height. You can set the value to `4xl`, `3xl`, `2xl`, `xl`, `lg`, `md`, `sm`, or `xs`.
 
 ```jsx
-<Stack spacing=".5rem">
-  <Text fontSize="4xl" lineHeight="4xl">
+<Stack direction="column" spacing="4x">
+  <Text size="4xl">
     Four Extra Large (4XL)
   </Text>
-  <Text fontSize="3xl" lineHeight="3xl">
+  <Text size="3xl">
     Three Extra Large (3XL)
   </Text>
-  <Text fontSize="2xl" lineHeight="2xl">
+  <Text size="2xl">
     Two Extra Large (2XL)
   </Text>
-  <Text fontSize="xl" lineHeight="xl">
+  <Text size="xl">
     Extra Large (XL)
   </Text>
-  <Text fontSize="lg" lineHeight="lg">
+  <Text size="lg">
     Large (LG)
   </Text>
-  <Text fontSize="md" lineHeight="md">
+  <Text size="md">
     Medium (MD)
   </Text>
-  <Text fontSize="sm" lineHeight="sm">
+  <Text size="sm">
     Small (SM)
   </Text>
-  <Text fontSize="xs" lineHeight="xs">
+  <Text size="xs">
     Extra Small (XS)
   </Text>
 </Stack>
 ```
 
-#### User-defined font size and line height
+### Formatting text
+
+You can format the `Text` component by passing `fontSize`, `lineHeight`, or other style props.
 
 ```jsx
 function Example() {
   const { colorMode } = useColorMode();
-  const backgroundColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+  const bg = colorMode === 'dark' ? 'gray:80' : 'gray:20';
 
   return (
-    <Stack spacing=".5rem">
-      <Text backgroundColor={backgroundColor} fontSize="3rem" lineHeight="base">
-        User-defined font size and line height
-      </Text>
-    </Stack>
-  );
-}
-```
-
-### Line height
-
-```jsx
-function Example() {
-  const { colorMode } = useColorMode();
-  const backgroundColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
-  return (
-    <Stack spacing=".5rem">
-      <Text backgroundColor={backgroundColor} lineHeight="1">
+    <Stack direction="column" spacing="4x">
+      <Text bg={bg} lineHeight="1" px="2x">
         This is exactly the same height as the font size
       </Text>
-      <Text backgroundColor={backgroundColor} lineHeight="normal">
+      <Text bg={bg} lineHeight="normal" px="2x">
         A normal line height is about 20% larger than the font size
       </Text>
-      <Text backgroundColor={backgroundColor} lineHeight="base">
+      <Text bg={bg} lineHeight="base" px="2x">
         For accessibility concerns, use a minimum value of 1.5 for <code>line-height</code> for main paragraph content
+      </Text>
+      <Text bg={bg} fontSize="3rem" lineHeight="1.5" px="2x">
+        Pass fontSize and lineHeight props
       </Text>
     </Stack>
   );
@@ -103,6 +92,7 @@ function Example() {
 const TextBlock = (props) => {
   const { colorMode } = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+
   return (
     <Box px="3x" py="2x" border={1} borderColor={borderColor}>
       <Text {...props} />
@@ -112,7 +102,7 @@ const TextBlock = (props) => {
 
 function Example() {
   return (
-    <Stack direction="column" spacing=".5rem" shouldWrapChildren>
+    <Stack direction="column" spacing="4x" shouldWrapChildren>
       <TextBlock as="i">Italic</TextBlock>
       <TextBlock as="u">Underline</TextBlock>
       <TextBlock as="abbr">Abbreviation or acronym</TextBlock>
@@ -132,3 +122,11 @@ function Example() {
 
 render(<Example />);
 ```
+
+## Props
+
+`Text` composes the [`Box`](./box) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `size` | `string` | | One of: '4xl', '3xl', '2xl', 'xl', 'lg', 'md', 'sm', 'xs' |

@@ -12,10 +12,45 @@ import { Heading } from '@trendmicro/react-styled-core';
 
 ## Usage
 
-### Variants
+### Sizes
+
+Use the `size` prop to change the corresponding font size and line height. You can set the value to `4xl`, `3xl`, `2xl`, `xl`, `lg`, `md`, `sm`, or `xs`.
 
 ```jsx
-<Stack direction="column" spacing="1rem">
+<Stack direction="column" spacing="4x">
+  <Heading size="4xl">
+    Four Extra Large (4XL)
+  </Heading>
+  <Heading size="3xl">
+    Three Extra Large (3XL)
+  </Heading>
+  <Heading size="2xl">
+    Two Extra Large (2XL)
+  </Heading>
+  <Heading size="xl">
+    Extra Large (XL)
+  </Heading>
+  <Heading size="lg">
+    Large (LG)
+  </Heading>
+  <Heading size="md">
+    Medium (MD)
+  </Heading>
+  <Heading size="sm">
+    Small (SM)
+  </Heading>
+  <Heading size="xs">
+    Extra Small (XS)
+  </Heading>
+</Stack>
+```
+
+### Variants
+
+The `Heading` component comes in six variants: `h1`, `h2`, `h3`, `h4`, `h5`, and `h6`. Pass the `variant` prop and set it to either of these values.
+
+```jsx
+<Stack direction="column" spacing="4x">
   <Heading variant="h1">
     h1. Heading
   </Heading>
@@ -37,14 +72,32 @@ import { Heading } from '@trendmicro/react-styled-core';
 </Stack>
 ```
 
-### Override style
+### Formatting heading
 
-You can override the size of the Heading component by passing `fontSize`, `lineHeight`, or other style props.
+You can format the `Heading` component by passing `fontSize`, `lineHeight`, or other style props.
 
 ```jsx
-<Heading fontSize="3rem" lineHeight="base">
-  Override a heading
-</Heading>
+function Example() {
+  const { colorMode } = useColorMode();
+  const bg = colorMode === 'dark' ? 'gray:80' : 'gray:20';
+
+  return (
+    <Stack direction="column" spacing="4x">
+      <Heading bg={bg} lineHeight="1" px="2x">
+        This is exactly the same height as the font size
+      </Heading>
+      <Heading bg={bg} lineHeight="normal" px="2x">
+        A normal line height is about 20% larger than the font size
+      </Heading>
+      <Heading bg={bg} lineHeight="base" px="2x">
+        For accessibility concerns, use a minimum value of 1.5 for <code>line-height</code> for main paragraph content
+      </Heading>
+      <Heading bg={bg} fontSize="3rem" lineHeight="1.5" px="2x">
+        Pass fontSize and lineHeight props
+      </Heading>
+    </Stack>
+  );
+}
 ```
 
 ## Props
@@ -53,4 +106,5 @@ You can override the size of the Heading component by passing `fontSize`, `lineH
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| variant | `string` | | One of: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+| variant | `string` | | One of: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' |
+| `size` | `string` | | One of: '4xl', '3xl', '2xl', 'xl', 'lg', 'md', 'sm', 'xs' |
