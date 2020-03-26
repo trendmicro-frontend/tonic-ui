@@ -28,6 +28,7 @@ import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
 import Space from './Space';
+import Spinner from './Spinner';
 import Stack from './Stack';
 import SVGIcon from './SVGIcon';
 import Text from './Text';
@@ -71,6 +72,7 @@ export {
   Radio,
   RadioGroup,
   Space,
+  Spinner,
   Stack,
   SVGIcon,
   Text,

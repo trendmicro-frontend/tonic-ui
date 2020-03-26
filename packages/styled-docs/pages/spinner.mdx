@@ -1,0 +1,49 @@
+# Spinner
+
+Spinners provide a visual cue that an action is processing awaiting a course of
+change or a result.
+
+## Import
+
+```js
+import Spinner from '@trendmicro/react-styled-core/Spinner';
+// or
+import { Spinner } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<Spinner />
+```
+
+### Spinner with color
+
+```jsx
+<Stack direction="row" spacing="2rem">
+  <Spinner color="red:50" />
+  <Spinner color="red" />
+  <Spinner color="white" />
+  <Spinner color="rgba(255, 167, 196, 1)" />
+  <Spinner color="#8f41e9" />
+</Stack>
+```
+
+### Spinner with different size
+
+```jsx
+<Stack direction="row" spacing="2rem">
+  <Spinner size="xs" />
+  <Spinner size="sm" />
+  <Spinner size="md" />
+  <Spinner size="lg" />
+  <Spinner size="xl" />
+</Stack>
+```
+
+## Props
+
+| Name       | Type                     | Default       | Description                                                     |
+| ---------- | ------------------------ | ------------- | --------------------------------------------------------------- |
+| size       | `xl`,`lg`,`md`,`sm`,`xs` | `md`          | The size of the spinner.                                        |
+| color      | `string`                 | `blue:60`     | The color of the spinner.                                       |

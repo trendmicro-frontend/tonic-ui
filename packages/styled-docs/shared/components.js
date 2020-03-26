@@ -32,6 +32,7 @@ const components = [
   'PseudoBox',
   'Radio',
   'RadioGroup',
+  'Spinner',
   'Space',
   'Stack',
   'SVGIcon',
