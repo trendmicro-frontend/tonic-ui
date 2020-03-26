@@ -22,6 +22,7 @@ import InputGroup from './InputGroup';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
+import InputLabel from './InputLabel';
 import LightMode from './LightMode';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
@@ -65,6 +66,7 @@ export {
   InputGroupAddon,
   InputGroupAppend,
   InputGroupPrepend,
+  InputLabel,
   LightMode,
   Link,
   PseudoBox,
