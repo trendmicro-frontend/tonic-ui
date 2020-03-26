@@ -1,15 +1,11 @@
 const baseProps = {
-  appearance: 'none',
-  background: 'inherit',
   position: 'relative',
-  outline: 0,
-  width: '100%',
   display: 'flex',
   alignItems: 'center',
-  transition: 'all .2s',
+  outline: 0,
 };
 
-const inputSizes = {
+const inputGroupAddonSizes = {
   'sm': {
     borderRadius: 'sm',
     fontSize: 'sm',
@@ -35,7 +31,6 @@ const inputSizes = {
 
 const getOutlinedStyle = ({
   colorMode,
-  invalid,
 }) => {
   const borderColor = {
     dark: 'gray:60',
@@ -45,65 +40,16 @@ const getOutlinedStyle = ({
     dark: 'white:primary',
     light: 'black:primary',
   }[colorMode];
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledBorderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const invalidBorderColor = {
-    dark: 'red:50',
-    light: 'red:50',
-  }[colorMode];
-  const placeholderColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
 
   return {
     border: 1,
     borderColor,
     color,
-    _hover: {
-      borderColor: hoverBorderColor,
-
-      // Use a higher z-index value to bring overlapping border to front when hovered
-      zIndex: 2,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-
-      // Bring overlapping border to front when focused
-      zIndex: 1,
-    },
-    _disabled: {
-      borderColor: disabledBorderColor,
-      cursor: 'not-allowed',
-      opacity: '.28',
-    },
-    _valid: {
-      // XXX - border color for valid input is not defined
-    },
-    _invalid: {
-      borderColor: invalidBorderColor,
-    },
-    __placeholder: {
-      color: placeholderColor,
-      // Override Firefox's unusual default opacity
-      opacity: 1,
-    },
   };
 };
 
 const getFilledStyle = ({
   colorMode,
-  invalid,
 }) => {
   const backgroundColor = {
     dark: 'gray:80',
@@ -111,7 +57,7 @@ const getFilledStyle = ({
   }[colorMode];
 
   return {
-    ...getOutlinedStyle({ colorMode, invalid }),
+    ...getOutlinedStyle({ colorMode }),
     backgroundColor,
   };
 };
@@ -137,7 +83,7 @@ const getSizeProps = ({
   size,
 }) => {
   const defaultSize = 'md';
-  return inputSizes[size] ?? inputSizes[defaultSize];
+  return inputGroupAddonSizes[size] ?? inputGroupAddonSizes[defaultSize];
 };
 
 const getVariantProps = ({

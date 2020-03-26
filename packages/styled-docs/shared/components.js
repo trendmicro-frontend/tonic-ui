@@ -23,6 +23,7 @@ const components = [
   'Icon',
   'Image',
   'Input',
+  'InputGroup',
   'Link',
   //'List',
   //'Menu',
