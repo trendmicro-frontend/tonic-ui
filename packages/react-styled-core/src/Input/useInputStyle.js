@@ -2,7 +2,6 @@ import useColorMode from '../useColorMode';
 import { baseProps, getSizeProps, getVariantProps } from './styles';
 
 const useInputStyle = ({
-  invalid,
   size,
   variant,
 }) => {
@@ -12,7 +11,7 @@ const useInputStyle = ({
   const sizeProps = getSizeProps({ size });
 
   // variant
-  const variantProps = getVariantProps({ variant, colorMode, invalid });
+  const variantProps = getVariantProps({ variant, colorMode });
 
   return {
     ...baseProps,

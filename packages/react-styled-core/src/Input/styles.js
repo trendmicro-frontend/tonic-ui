@@ -1,8 +1,5 @@
 const baseProps = {
-  appearance: 'none',
-  background: 'inherit',
   position: 'relative',
-  outline: 0,
   width: '100%',
   display: 'flex',
   alignItems: 'center',
@@ -35,7 +32,6 @@ const inputSizes = {
 
 const getOutlinedStyle = ({
   colorMode,
-  invalid,
 }) => {
   const borderColor = {
     dark: 'gray:60',
@@ -103,7 +99,6 @@ const getOutlinedStyle = ({
 
 const getFilledStyle = ({
   colorMode,
-  invalid,
 }) => {
   const backgroundColor = {
     dark: 'gray:80',
@@ -111,7 +106,7 @@ const getFilledStyle = ({
   }[colorMode];
 
   return {
-    ...getOutlinedStyle({ colorMode, invalid }),
+    ...getOutlinedStyle({ colorMode }),
     backgroundColor,
   };
 };

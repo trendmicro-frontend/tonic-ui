@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import InputBase from '../InputBase';
 import { useInputGroup } from '../InputGroup/context';
 import PseudoBox from '../PseudoBox';
 import useInputStyle from './useInputStyle';
@@ -8,7 +9,6 @@ const defaultVariant = 'outline';
 
 const Input = forwardRef((
   {
-    'aria-invalid': invalid,
     size,
     variant,
     css,
@@ -51,16 +51,12 @@ const Input = forwardRef((
     variant = variant ?? defaultVariant;
   }
 
-  const styleProps = useInputStyle({ invalid, size, variant });
-  const { readOnly, required } = rest;
+  const styleProps = useInputStyle({ size, variant });
 
   return (
-    <PseudoBox
+    <InputBase
       ref={ref}
       as="input"
-      aria-invalid={invalid}
-      aria-readonly={readOnly}
-      aria-required={required}
       css={css}
       {...styleProps}
       {...rest}
