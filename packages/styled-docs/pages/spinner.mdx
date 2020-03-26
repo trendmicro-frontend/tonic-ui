@@ -1,7 +1,6 @@
 # Spinner
 
-Spinners provide a visual cue that an action is processing awaiting a course of
-change or a result.
+A spinner can be used to display the loading state when the part of the page is waiting for the results.
 
 ## Import
 
@@ -17,10 +16,10 @@ import { Spinner } from '@trendmicro/react-styled-core';
 <Spinner />
 ```
 
-### Spinner with color
+### Colors
 
 ```jsx
-<Stack direction="row" spacing="2rem">
+<Stack direction="row" spacing="6x">
   <Spinner color="red:50" />
   <Spinner color="red" />
   <Spinner color="white" />
@@ -29,10 +28,10 @@ import { Spinner } from '@trendmicro/react-styled-core';
 </Stack>
 ```
 
-### Spinner with different size
+### Sizes
 
 ```jsx
-<Stack direction="row" spacing="2rem">
+<Stack direction="row" spacing="6x">
   <Spinner size="xs" />
   <Spinner size="sm" />
   <Spinner size="md" />
@@ -43,7 +42,7 @@ import { Spinner } from '@trendmicro/react-styled-core';
 
 ## Props
 
-| Name       | Type                     | Default       | Description                                                     |
-| ---------- | ------------------------ | ------------- | --------------------------------------------------------------- |
-| size       | `xl`,`lg`,`md`,`sm`,`xs` | `md`          | The size of the spinner.                                        |
-| color      | `string`                 | `blue:60`     | The color of the spinner.                                       |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `size` | `string` | 'md' | The size of the spinner. One of: 'xl', 'lg', 'md', 'sm', 'xs' |
+| `color` | `string` | 'blue:60' | The color of the spinner. |
