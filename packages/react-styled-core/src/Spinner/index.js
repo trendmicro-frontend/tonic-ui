@@ -1,9 +1,8 @@
 import { forwardRef } from 'react';
 import { keyframes } from '@emotion/core';
-import styled from '@emotion/styled';
 import useTheme from '../useTheme';
 import Box from '../Box';
-import PseudoBox from "../PseudoBox";
+import PseudoBox from '../PseudoBox';
 
 const rotate = keyframes`
   100% {
@@ -47,7 +46,7 @@ const sizes = {
     width: 80,
     strokeWidth: 4,
   },
-}
+};
 
 const Spinner = forwardRef(
   (
@@ -62,7 +61,7 @@ const Spinner = forwardRef(
     const { colors } = useTheme();
     const _width = sizes[size] ? sizes[size].width : sizes.md.width;
     const _strokeWidth = sizes[size] ? sizes[size].strokeWidth : sizes.md.strokeWidth;
-    const _strokeColor = color ? ( colors[color] || color ) : colors['blue:60'];
+    const _strokeColor = color ? (colors[color] || color) : colors['blue:60'];
 
     return (
       <PseudoBox
