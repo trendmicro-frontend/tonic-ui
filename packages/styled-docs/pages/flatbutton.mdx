@@ -1,0 +1,88 @@
+# FlatButton
+
+## Import
+
+```js
+import FlatButton from '@trendmicro/react-styled-core/FlatButton';
+// or
+import { FlatButton } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<FlatButton>Flat Button</FlatButton>
+```
+
+### Variants
+
+Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`.
+
+```jsx
+<Stack direction="row" spacing="2x">
+  <FlatButton variant="solid">Solid Button</FlatButton>
+  <FlatButton variant="outline">Outline Button</FlatButton>
+</Stack>
+```
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of the Button. `variantColor` can be any color key that exist in the `them.color`.
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x">
+    <FlatButton variantColor="green">Button</FlatButton>
+    <FlatButton variantColor="green:40">Button</FlatButton>
+  </Stack>
+  <Stack direction="row" spacing="2x">
+    <FlatButton variant="outline" variantColor="green">Button</FlatButton>
+    <FlatButton variant="outline" variantColor="green:40">Button</FlatButton>
+  </Stack>
+</Stack>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the `Button`. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <FlatButton size="sm">Small</FlatButton>
+    <FlatButton size="md">Medium</FlatButton>
+    <FlatButton size="lg">Large</FlatButton>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <FlatButton variant="outline" size="sm">Small</FlatButton>
+    <FlatButton variant="outline" size="md">Medium</FlatButton>
+    <FlatButton variant="outline" size="lg">Large</FlatButton>
+  </Stack>
+</Stack>
+```
+
+### States
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x">
+    <FlatButton>Normal</FlatButton>
+    <FlatButton disabled>Disabled</FlatButton>
+  </Stack>
+  <Stack direction="row" spacing="2x">
+    <FlatButton variant="outline">Normal</FlatButton>
+    <FlatButton variant="outline" disabled>Disabled</FlatButton>
+  </Stack>
+</Stack>
+```
+
+## Props
+
+`FlatButton` composes the [`ButtonBase`](./buttonbase) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | `boolean` | | If `true`, the button will be disabled. |
+| size | `string` | `md` | The size of the button. One of: `sm`, `md`, `lg` |
+| variant | `string` | `solid` | The variant of the button style to use. One of: `solid`, `outline` |
+| variantColor | `string` | `gray` | The color of the button. It must be a color key defined in `theme.colors`. |

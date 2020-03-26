@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import GroupContext from '../GroupContext';
+import { CheckboxGroupProvider } from './context';
 
 const CheckboxGroup = ({
   children,
@@ -33,9 +33,9 @@ const CheckboxGroup = ({
   };
 
   return (
-    <GroupContext.Provider value={state}>
+    <CheckboxGroupProvider value={state}>
       { children }
-    </GroupContext.Provider>
+    </CheckboxGroupProvider>
   );
 };
 
