@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { keyframes } from '@emotion/core';
 import Box from '../Box';
 import PseudoBox from '../PseudoBox';
+import { ensureNumber } from '../utils/ensure-type';
 
 const rotate = keyframes`
   100% {
@@ -64,12 +65,8 @@ const Spinner = forwardRef(
     const _strokeColor = color ?? 'blue:60';
 
     /***** speed setting *****/
-    let _speed = speed;
-    if (typeof speed !== 'number') {
-      _speed = 2;
-    }
+    const _speed = ensureNumber(speed);
     const _dashSpeed = Math.floor(_speed * 0.75 * 100) / 100;
-    /***** speed setting *****/
 
     return (
       <PseudoBox
