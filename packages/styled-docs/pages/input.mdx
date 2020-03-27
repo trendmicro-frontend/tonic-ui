@@ -4,16 +4,29 @@ Input component is a component that is used to get user input in a text field.
 
 ## Import
 
+### Default imports
+
 ```js
 import Input from '@trendmicro/react-styled-core/Input';
-// or
-import { Input } from '@trendmicro/react-styled-core';
+import InputLabel from '@trendmicro/react-styled-core/InputLabel';
+```
+
+### Named imports
+
+```js
+import {
+  Input,
+  InputLabel,
+} from '@trendmicro/react-styled-core';
 ```
 
 ## Usage
 
 ```jsx
-<Input placeholder="Basic example" />
+<>
+  <InputLabel mb="1x">Label:</InputLabel>
+  <Input placeholder="Basic example" />
+</>
 ```
 
 ### Sizes
@@ -22,9 +35,18 @@ Use the `size` prop to change the size of the `Input`. You can set the value to 
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Input size="sm" placeholder="Small size (24px)" />
-  <Input size="md" placeholder="Default size (32px)" />
-  <Input size="lg" placeholder="Large size (40px)" />
+  <Box>
+    <InputLabel mb="1x" size="sm">Label:</InputLabel>
+    <Input size="sm" placeholder="Small size (24px)" />
+  </Box>
+  <Box>
+    <InputLabel mb="1x" size="md">Label:</InputLabel>
+    <Input size="md" placeholder="Default size (32px)" />
+  </Box>
+  <Box>
+    <InputLabel mb="1x" size="lg">Label:</InputLabel>
+    <Input size="lg" placeholder="Large size (40px)" />
+  </Box>
 </Stack>
 ```
 
@@ -208,7 +230,9 @@ render(<Example />);
 
 ## Props
 
-`Input` composes the [`PseudoBox`](./pseudobox) component. You can override the default styles with style props.
+### Input
+
+`Input` composes the [`PseudoBox`](./pseudobox) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -217,3 +241,11 @@ render(<Example />);
 | `disabled` | `boolean` | false | If `true`, the input will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | `readOnly` | `boolean` | | If `true`, prevents the value of the input from being edited. |
 | `aria-invalid` | `boolean` | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
+
+### InputLabel
+
+`InputLabel` composes the [`Box`](./box) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `size` | `string` | 'md' | One of: 'sm', 'md', 'lg' |
