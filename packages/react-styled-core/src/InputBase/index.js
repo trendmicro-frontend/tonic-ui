@@ -7,7 +7,6 @@ import { baseProps } from './styles';
  */
 const InputBase = forwardRef((
   {
-    'aria-invalid': invalid,
     children,
     ...rest
   },
@@ -21,7 +20,6 @@ const InputBase = forwardRef((
       as="input"
       type="text"
       aria-disabled={disabled}
-      aria-invalid={invalid}
       aria-readonly={readOnly}
       aria-required={required}
       {...baseProps}

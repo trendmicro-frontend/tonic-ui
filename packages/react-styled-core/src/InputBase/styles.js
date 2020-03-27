@@ -5,6 +5,7 @@ const baseProps = {
   color: 'inherit',
   outline: 0,
   padding: 0,
+  width: 'auto',
 };
 
 export {
