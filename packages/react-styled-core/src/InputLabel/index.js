@@ -36,7 +36,6 @@ const InputLabel = forwardRef((
   return (
     <Box
       ref={ref}
-      mb="1x"
       {...colorProps}
       {...sizeProps}
       {...rest}
