@@ -30,6 +30,15 @@ import { Spinner } from '@trendmicro/react-styled-core';
 
 ### Sizes
 
+Use the `size` prop to change the size of the `Spinner`. You can set the value to `xs`, `sm`, `md`, `lg`, or `xs`. The corresponding stroke width is listed as below:
+| Size | Stroke Width |
+| :---- | :------------- |
+| xs | 2px |
+| sm | 2px |
+| md | 4px |
+| lg | 4px |
+| xl | 4px |
+
 ```jsx
 <Stack direction="row" spacing="6x">
   <Spinner size="xs" />
@@ -52,6 +61,17 @@ import { Spinner } from '@trendmicro/react-styled-core';
 </Stack>
 ```
 
+### Speed
+
+```jsx
+<Stack direction="row" spacing="6x">
+  <Spinner speed={2.5} />
+  <Spinner speed={3} />
+  <Spinner speed={3.5} />
+  <Spinner speed={4} />
+</Stack>
+```
+
 
 ## Props
 
@@ -59,4 +79,5 @@ import { Spinner } from '@trendmicro/react-styled-core';
 | :--- | :--- | :------ | :---------- |
 | `size` | `string` | 'md' | The size of the spinner. One of: 'xl', 'lg', 'md', 'sm', 'xs' |
 | `color` | `string` | 'blue:60' | The color of the spinner. |
-| `strokeWidth` | `number` | depand on size | One of: 'xl': 4, 'lg': 4, 'md': 4, 'sm': 2, 'xs': 2 |
+| `strokeWidth` | `number` | | Set a different stroke width for the spinner. |
+| `speed` | `float` | 2 | Set a different speed for the spinner. |

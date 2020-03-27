@@ -52,8 +52,9 @@ const Spinner = forwardRef(
     {
       size = 'md',
       label = 'Loading...',
-      strokeWidth = 0,
+      strokeWidth,
       color,
+      speed = 2,
       ...props
     },
     ref,
@@ -61,6 +62,14 @@ const Spinner = forwardRef(
     const _width = sizes[size] ? sizes[size].width : sizes.md.width;
     const _strokeWidth = sizes[size] ? sizes[size].strokeWidth : sizes.md.strokeWidth;
     const _strokeColor = color ?? 'blue:60';
+
+    /***** speed setting *****/
+    let _speed = speed;
+    if (typeof speed !== 'number') {
+      _speed = 2;
+    }
+    const _dashSpeed = Math.floor(_speed * 0.75 * 100) / 100;
+    /***** speed setting *****/
 
     return (
       <PseudoBox
@@ -76,7 +85,7 @@ const Spinner = forwardRef(
         <Box
           as="svg"
           viewBox="25 25 50 50"
-          animation={`${rotate} 2s linear infinite`}
+          animation={`${rotate} ${_speed}s linear infinite`}
           height="100%"
           width="100%"
           transformOrigin="center center"
@@ -93,13 +102,13 @@ const Spinner = forwardRef(
             cy="50"
             r="20"
             fill="none"
-            strokeWidth={strokeWidth || _strokeWidth}
+            strokeWidth={strokeWidth ?? _strokeWidth}
             strokeMiterlimit="10"
             strokeDasharray="1, 200"
             strokeDashoffset={0}
             strokeLinecap="round"
             stroke={_strokeColor}
-            animation={`${dash} 1.5s ease-in-out infinite, color 6s ease-in-out infinite`}
+            animation={`${dash} ${_dashSpeed}s ease-in-out infinite`}
           >
           </Box>
         </Box>
