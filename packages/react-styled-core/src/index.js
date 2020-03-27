@@ -23,6 +23,7 @@ import InputGroup from './InputGroup';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
+import InputLabel from './InputLabel';
 import LightMode from './LightMode';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
@@ -37,6 +38,7 @@ import Tooltip from './Tooltip';
 import theme from './theme';
 import useColorMode from './useColorMode';
 import useClipboard from './useClipboard';
+import useDisclosure from './useDisclosure';
 import useTheme from './useTheme';
 import VisuallyHidden from './VisuallyHidden';
 import withTheme from './withTheme';
@@ -67,6 +69,7 @@ export {
   InputGroupAddon,
   InputGroupAppend,
   InputGroupPrepend,
+  InputLabel,
   LightMode,
   Link,
   PseudoBox,
@@ -81,6 +84,7 @@ export {
   theme,
   useColorMode,
   useClipboard,
+  useDisclosure,
   useTheme,
   VisuallyHidden,
   withTheme,
