@@ -1,0 +1,66 @@
+# InputBase
+
+`InputBase` does not have appearance settings including default border, color, outline, and padding. It aims to be a simple building block for creating an input.
+
+## Import
+
+```js
+import InputBase from '@trendmicro/react-styled-core/InputBase';
+// or
+import { InputBase } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<InputBase placeholder="Placeholder text" />
+```
+
+### Attributes
+
+Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, etc.
+
+#### `type`
+
+```jsx
+<Grid
+  templateColumns="min-content auto"
+  columnGap="2x"
+  rowGap="3x"
+>
+  <Grid>
+    <Text>Name:</Text>
+  </Grid>
+  <Grid>
+    <InputBase type="text" placeholder="John Doe" />
+  </Grid>
+  <Grid>
+    <Text>Password:</Text>
+  </Grid>
+  <Grid>
+    <InputBase type="password" placeholder="Password" />
+  </Grid>
+</Grid>
+```
+
+#### `disabled`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <InputBase disabled placeholder="Placeholder text" />
+  <InputBase disabled placeholder="Placeholder text" defaultValue="Disabled value" />
+</Stack>
+```
+
+#### `readOnly`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <InputBase readOnly placeholder="Placeholder text" />
+  <InputBase readOnly placeholder="Placeholder text" defaultValue="Read-only value" />
+</Stack>
+```
+
+## Props
+
+`InputBase` composes [`PseudoBox`](./pseudobox). You can override the default styles with style props.
