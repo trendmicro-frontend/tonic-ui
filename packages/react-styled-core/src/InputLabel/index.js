@@ -21,12 +21,15 @@ const InputLabel = forwardRef((
   const sizeProps = {
     'sm': {
       fontSize: 'sm',
+      lineHeight: 'sm',
     },
     'md': {
       fontSize: 'sm',
+      lineHeight: 'sm',
     },
     'lg': {
       fontSize: 'md',
+      lineHeight: 'md',
     },
   }[size];
 
