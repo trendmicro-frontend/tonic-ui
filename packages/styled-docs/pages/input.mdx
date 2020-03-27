@@ -54,36 +54,51 @@ The `Input` component comes in two variants: `outline`, `filled`, and `unstyled`
 
 Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, etc.
 
+#### `type`
+
 ```jsx
-<>
-  <Stack direction="column" spacing="4x" mb="8x">
-    <Text>type</Text>
-    <Grid
-      gap="4x"
-      templateColumns="1fr 1fr"
-    >
-      <Input type="text" defaultValue="John Doe" />
-      <Input type="password" defaultValue="password" />
-      <Input type="number" defaultValue={0} min={0} max={10} />
-      <Input type="color" height={40} px="2x" py="1x" />
-    </Grid>
-  </Stack>
-  <Stack direction="column" spacing="4x" mb="8x">
-    <Text>disabled</Text>
-    <Input disabled placeholder="Placeholder text (disabled)" />
-    <Input disabled defaultValue="Input text (disabled)" placeholder="Placeholder text" />
-  </Stack>
-  <Stack direction="column" spacing="4x" mb="8x">
-    <Text>readOnly</Text>
-    <Input readOnly placeholder="Placeholder text (readOnly)" />
-    <Input readOnly defaultValue="Input text (readOnly)" placeholder="Placeholder text" />
-  </Stack>
-  <Stack direction="column" spacing="4x" mb="8x">
-    <Text>required</Text>
-    <Input required placeholder="Placeholder text (required)" />
-    <Input required defaultValue="Input text (required)" placeholder="Placeholder text" />
-  </Stack>
-</>
+<Grid
+  templateColumns="min-content auto"
+  columnGap="3x"
+  rowGap="3x"
+>
+  <Grid>
+    <Text>Name:</Text>
+  </Grid>
+  <Grid>
+    <Input type="text" placeholder="John Doe" />
+  </Grid>
+  <Grid>
+    <Text>Password:</Text>
+  </Grid>
+  <Grid>
+    <Input type="password" placeholder="Password" />
+  </Grid>
+</Grid>
+```
+
+#### `disabled`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <Input disabled placeholder="Placeholder text" />
+  <Input disabled placeholder="Placeholder text" defaultValue="Disabled" />
+</Stack>
+```
+
+#### `readOnly`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <Input readOnly placeholder="Placeholder text" />
+  <Input readOnly placeholder="Placeholder text" defaultValue="Read-only" />
+</Stack>
+```
+
+#### `required`
+
+```jsx
+<Input required placeholder="Placeholder text" />
 ```
 
 ### Adornments
