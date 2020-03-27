@@ -13,11 +13,17 @@ import { ButtonBase } from '@trendmicro/react-styled-core';
 ## Usage
 
 ```jsx
-<>
-  <ButtonBase>Clickable</ButtonBase>
-  <Space width="1rem" />
-  <ButtonBase disabled>Disabled</ButtonBase>
-</>
+<ButtonBase>Click Me</ButtonBase>
+```
+
+### Attributes
+
+Standard button attributes are supported, e.g., `type`, `disabled`, etc.
+
+#### `disabled`
+
+```jsx
+<ButtonBase disabled>Disabled</ButtonBase>
 ```
 
 ### Plain button
@@ -85,3 +91,7 @@ function Example() {
 ## Props
 
 `ButtonBase` composes [`PseudoBox`](./pseudobox). You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `disabled` | `boolean` | | If `true`, the input will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
