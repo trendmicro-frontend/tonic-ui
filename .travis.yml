@@ -1,33 +1,74 @@
 language: node_js
 os:
   - linux
-node_js:
-  - '10'
-  - '12'
 cache:
   yarn: true
+
+stages:
+  - name: deploy
+    if: type = push AND branch = master
+  - name: deploy review
+    if: type = pull_request
+
 before_install:
   - npm install -g yarn
+
 install:
   - yarn install
   - yarn test
   # list installed react and react-dom packages
   - yarn list --silent react react-dom
-script:
-  - yarn build
-  - yarn eslint
-after_success: true
-deploy:
-  provider: pages:git
-  token:
-    secure: "EDPLwCPAyG6QGtWRpCmZrs+2t/mX4a0V2ng/ImbhBorpiAfgG9RBMs14454A4qr11xGneeh8khcGZ06egeStBsyzeYc59PGGDHwuhygpOzEgNGLJsldsDJQ0/WmDiAhKQHeUcHO3Ck/2EqILChX3mJBq4zsiuZw5U05AhnXw0RTnLQf0vAAcPKQllZ/pgdbi+nRNZugBpVOc+SoSp9hX+yy01CGXwrWo+MSzgtJl3xrn6k7mZZmyviY0DQE0JMfZsv3kOx1y8JT9F2aXd51aH0rPSBzO8AjWFAhSAenE0mz0sMqDmonDOYGVIHy9jnTBpy9i/E1NuZ4PHM472W2APbuxZA1U3L3e/6ATIx1BQYPGu2uM3DqSbTTtyLZoWXY8rdsA3PQuaeje3XzlQ2fbTSBbN/230GrjtLwKNugvTIRvf3JTaxKn83SUICrrzq0ChDAffNn5AEv7V95Q7ykX1UfDHFs2uhKYDTM9ITeWhPFkm6wDqcqQeu3cxMOLmrMWtwDlLu0VEtIIvZWYEjXxnFYo8E2e34lqn0j1aQEWqpznC+pJ9Rrpajs0dHO3U1dkSWvEli/Z7NmfdQ15MR0J1X/zLbLuPBR+7pT9qRVMC0XU58oky2eEUZ0kDmGAgLLDSynEGxK2JUHcsTBIhXeqaW4rDbT+GOhzGuOgh/sHaBs="
-  edge: true # dpl v2
-  keep_history: false
-  target_branch: gh-pages
-  local_dir: "packages/styled-docs/docs"
-  on:
-    branch: dev
-    node: '10'
+
+jobs:
+  include:
+    - stage: deploy review
+      node_js:
+        - '10'
+      install:
+        - yarn add -D octokit-cli
+      script:
+        - yarn build
+        - yarn eslint
+      after_success:
+        - git clone https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git 
+        - cd styled-ui-demo
+        - git checkout -b gh-pages
+        - git pull https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages 
+        - mkdir -p pr-${TRAVIS_PULL_REQUEST}/
+        - cp -af ../packages/styled-docs/docs/** pr-${TRAVIS_PULL_REQUEST}/
+        - git add pr-${TRAVIS_PULL_REQUEST}/
+        - git commit -m "Create pull request - ${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
+        - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages
+        - cd ..
+        - octokit issues create-comment --body "Review site URL:https://trendmicro-frontend.github.io/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui-demo --issue_number ${TRAVIS_PULL_REQUEST}
+
+    - stage: deploy
+      node_js:
+        - '10'
+      script:
+        - yarn build
+        - yarn eslint
+      after_success: true
+      deploy:
+        provider: pages:git
+        token:
+          secure: "EDPLwCPAyG6QGtWRpCmZrs+2t/mX4a0V2ng/ImbhBorpiAfgG9RBMs14454A4qr11xGneeh8khcGZ06egeStBsyzeYc59PGGDHwuhygpOzEgNGLJsldsDJQ0/WmDiAhKQHeUcHO3Ck/2EqILChX3mJBq4zsiuZw5U05AhnXw0RTnLQf0vAAcPKQllZ/pgdbi+nRNZugBpVOc+SoSp9hX+yy01CGXwrWo+MSzgtJl3xrn6k7mZZmyviY0DQE0JMfZsv3kOx1y8JT9F2aXd51aH0rPSBzO8AjWFAhSAenE0mz0sMqDmonDOYGVIHy9jnTBpy9i/E1NuZ4PHM472W2APbuxZA1U3L3e/6ATIx1BQYPGu2uM3DqSbTTtyLZoWXY8rdsA3PQuaeje3XzlQ2fbTSBbN/230GrjtLwKNugvTIRvf3JTaxKn83SUICrrzq0ChDAffNn5AEv7V95Q7ykX1UfDHFs2uhKYDTM9ITeWhPFkm6wDqcqQeu3cxMOLmrMWtwDlLu0VEtIIvZWYEjXxnFYo8E2e34lqn0j1aQEWqpznC+pJ9Rrpajs0dHO3U1dkSWvEli/Z7NmfdQ15MR0J1X/zLbLuPBR+7pT9qRVMC0XU58oky2eEUZ0kDmGAgLLDSynEGxK2JUHcsTBIhXeqaW4rDbT+GOhzGuOgh/sHaBs="
+        edge: true # dpl v2
+        keep_history: false
+        target_branch: gh-pages
+        local_dir: "packages/styled-docs/docs"
+        skip_cleanup: true
+        on:
+          branch: master
+          node: '10'
+
 notifications:
   slack:
     secure: dPF2omw9ykWqJ2C9kV8yq67zJVyezt58kmnRHavrq1+U1e5tDZootxoMjwMzq/T3pctghLbE4QYtg4s3GxINP5mMLMKLoUjDqsnFijKXB9jInWdbxFcDi0pY1w3KimEgSUWd5UZS6WWH23mPGO923KKhu3FE0jnISNlpV6/HQAiAgokMYEMC3Sx9V37iUQsnVBpshhEHMXbK6s9kp6H1gmmfPNuqnSJN0PQ9OaRKlUOlbFjgahFJdljG/TG1qeeGGxUzGu+r1tBmsfsjSqgWbcRDNfHpkx1PeelyhorsA6/CMBW82tVAGA5Z03nw0USrETG8vqPm/B6nnAa+vCvXaUxeft0R75Dczmx9FqGNygyrIwbtxjel5BQCYovVxjkHDniOhd7n0I7c97aXkaaJTvSV2CRSt7DmOPiNE+6mqBaEh9f7OfjsTA8/nShsaVQ5DQAuGfxsSjRTDuJY5NGjBgfIF/2nT2gS1cS/QQza6HcijaOWKTRCgT6/PC++oNTTy6FK1H7epYe41HmIYCDF/Urk1k+DlmCSbshdIGRg05anuTLqCPi6Tz7fFKNNzY4uuB6315vDgKOI91JTIM+5QBCgxjm09E2eIiEpZgIEicvjs1CKZIsfi9R1HgkWD+mngcJvYApwQ+qwvdV/L+zLUkWR9ifz3uFIFtssK30OWQ8=
+    on_success: always
+    on_failure: always
+    template:
+      - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{TRAVIS_PULL_REQUEST_BRANCH}`."
+      - "Execution time: *%{duration}*"
+      - "Message: %{message}"
+      - "Review site URL: https://trendmicro-frontend.github.io/styled-ui-demo/pr-`%{TRAVIS_PULL_REQUEST}`/"
