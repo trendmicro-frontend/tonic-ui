@@ -40,9 +40,23 @@ import { Spinner } from '@trendmicro/react-styled-core';
 </Stack>
 ```
 
+### StrokeWidth
+
+```jsx
+<Stack direction="row" spacing="6x">
+  <Spinner strokeWidth={1} />
+  <Spinner strokeWidth={2} />
+  <Spinner strokeWidth={3} />
+  <Spinner strokeWidth={5} />
+  <Spinner strokeWidth={10} />
+</Stack>
+```
+
+
 ## Props
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | `size` | `string` | 'md' | The size of the spinner. One of: 'xl', 'lg', 'md', 'sm', 'xs' |
 | `color` | `string` | 'blue:60' | The color of the spinner. |
+| `strokeWidth` | `number` | depand on size | One of: 'xl': 4, 'lg': 4, 'md': 4, 'sm': 2, 'xs': 2 |

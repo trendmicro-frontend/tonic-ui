@@ -52,6 +52,7 @@ const Spinner = forwardRef(
     {
       size = 'md',
       label = 'Loading...',
+      strokeWidth = 0,
       color,
       ...props
     },
@@ -92,7 +93,7 @@ const Spinner = forwardRef(
             cy="50"
             r="20"
             fill="none"
-            strokeWidth={_strokeWidth}
+            strokeWidth={strokeWidth || _strokeWidth}
             strokeMiterlimit="10"
             strokeDasharray="1, 200"
             strokeDashoffset={0}
