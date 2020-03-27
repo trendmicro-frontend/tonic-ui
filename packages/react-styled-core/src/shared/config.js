@@ -8,12 +8,12 @@ export const config = {
     scale: 'sizes',
   },
   fill: {
-    property: "fill",
-    scale: "colors",
+    property: 'fill',
+    scale: 'colors',
   },
   stroke: {
-    property: "stroke",
-    scale: "colors",
+    property: 'stroke',
+    scale: 'colors',
   },
 
   // animations
