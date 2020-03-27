@@ -18,7 +18,7 @@ import { InputBase } from '@trendmicro/react-styled-core';
 
 ### Attributes
 
-Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, etc.
+Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, etc.
 
 #### `type`
 
@@ -61,6 +61,22 @@ Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, e
 </Stack>
 ```
 
+#### `required`
+
+```jsx
+<InputBase
+  required
+  placeholder="Placeholder text"
+  px="2x"
+  py="1x"
+  border={1}
+  borderColor="transparent"
+  _invalid={{
+    borderColor: 'red:50',
+  }}
+/>
+```
+
 ## Props
 
 `InputBase` composes [`PseudoBox`](./pseudobox). You can override the default styles with style props.
@@ -69,3 +85,4 @@ Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, e
 | :--- | :--- | :------ | :---------- |
 | `disabled` | `boolean` | | If `true`, the input will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | `readOnly` | `boolean` | | If `true`, prevents the value of the input from being edited. |
+| `aria-invalid` | `boolean` | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
