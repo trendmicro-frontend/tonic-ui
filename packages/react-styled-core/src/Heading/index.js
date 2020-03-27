@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import useTheme from '../useTheme';
 
 const defaultVariantMapping = {
   h1: {
@@ -48,11 +49,18 @@ const defaultVariantMapping = {
 
 const Heading = forwardRef((
   {
+    size,
     variant,
     ...rest
   },
   ref
 ) => {
+  const { fontSizes } = useTheme();
+  const sizeProps = {};
+  if ((size !== undefined) && Object.prototype.hasOwnProperty.call(fontSizes, size)) {
+    sizeProps.fontSize = size;
+    sizeProps.lineHeight = size;
+  }
   const variantProps = defaultVariantMapping[variant];
 
   return (
@@ -60,6 +68,7 @@ const Heading = forwardRef((
       ref={ref}
       display="block"
       fontFamily="heading"
+      {...sizeProps}
       {...variantProps}
       {...rest}
     />

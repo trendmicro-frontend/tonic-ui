@@ -2,10 +2,9 @@ import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
-import useColorMode from '../useColorMode';
+import { useRadioGroup } from '../RadioGroup/context';
 import VisuallyHidden from '../VisuallyHidden';
-import radioStyles from './styles';
-import { useGroupContext } from '../GroupContext';
+import useRadioStyle from './styles';
 
 const sizes = {
   lg: '20px',
@@ -38,7 +37,6 @@ const Radio = forwardRef(
     },
     ref,
   ) => {
-    const { colorMode } = useColorMode();
     const {
       disabled: disabledFromParent,
       name: nameFromParent,
@@ -46,7 +44,7 @@ const Radio = forwardRef(
       value: valueFromParent,
       variantColor: variantColorFromParent,
       onChange: onChangeFromParent
-    } = useGroupContext();
+    } = useRadioGroup();
     let _checked = checked;
     if (valueFromParent !== undefined) {
       _checked = (valueFromParent === value);
@@ -60,10 +58,9 @@ const Radio = forwardRef(
       onChange,
       onChangeFromParent,
     );
-    const styleProps = radioStyles({
+    const styleProps = useRadioStyle({
       color: _variantColor,
       size: _size,
-      colorMode
     });
 
     return (
