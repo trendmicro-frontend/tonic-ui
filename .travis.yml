@@ -29,7 +29,7 @@ jobs:
         - yarn global add octokit-cli
       script:
         - yarn build
-        - yarn eslint
+        - yarn pre-push
       after_success:
         - git clone https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git >/dev/null 2>&1
         - cd styled-ui-demo
