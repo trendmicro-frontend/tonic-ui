@@ -34,6 +34,8 @@ const components = [
   'SVGIcon',
   //'Tag',
   'Text',
+  'Textarea',
+  'TextLabel',
   //'Toast',
   'Tooltip',
 ];
