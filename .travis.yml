@@ -33,7 +33,7 @@ jobs:
       after_success:
         - git clone https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git >/dev/null 2>&1
         - cd styled-ui-demo
-        - git checkout -b gh-pages
+        - git checkout gh-pages
         - git pull https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
         - mkdir -p pr-${TRAVIS_PULL_REQUEST}/
         - cp -af ../packages/styled-docs/docs/** pr-${TRAVIS_PULL_REQUEST}/
