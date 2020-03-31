@@ -33,6 +33,7 @@ const components = [
   'Space',
   'Stack',
   'SVGIcon',
+  'ToggleSwitch',
   //'Tag',
   'Text',
   //'Toast',

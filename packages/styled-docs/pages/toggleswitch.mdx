@@ -1,0 +1,73 @@
+# Toggle Switch
+
+The Toggle Switch component is used as an alternative for the [Checkbox](/checkbox)
+component, switch between enabled or disabled states.
+
+Toggle Switch must always be accompanied by a label, and follows the same keyboard
+workflow as a checkbox.
+
+## Import
+
+### Default imports
+
+```js
+import ToggleSwitch from @trendmicro/react-styled-core/ToggleSwitch";
+```
+
+### Named imports
+
+```js
+import { ToggleSwitch } from @trendmicro/react-styled-core";
+```
+
+## Usage
+
+```jsx
+<Flex align="center">
+  <ToggleSwitch pr="1x" id="email-alerts" />
+  <label htmlFor="email-alerts">Enable email alerts?</label>
+</Flex>
+```
+
+## Sizes
+
+Pass the `size` prop to change the size of the toggle switch.
+
+```jsx
+<Flex align="center">
+  <ToggleSwitch size="sm" />
+  <ToggleSwitch size="md" />
+  <ToggleSwitch size="lg" />
+</Flex>
+```
+
+## ToggleSwitch background color
+
+Use the `variantColor` prop to change the checked background color of the Toggle Switch. `variantColor` can be any color key with key `50`(hover), `60`(checked, focus) that exist in the theme.color.
+
+  > That means the `red:60` exists in the `theme.colors` then can use variantColor="red".
+
+* [Learn more about colors theming](./colors).
+
+```jsx
+<Flex align="center">
+  <ToggleSwitch defaultIsChecked variantColor="red" />
+  <ToggleSwitch defaultIsChecked size="lg" variantColor="green" />
+</Flex>
+```
+
+## Props
+
+| Name               | Type                | Default | Description                                          |
+| ------------------ | ------------------- | ------- | ---------------------------------------------------- |
+| `size`             | `sm`, `md`, `lg`    |  `md`   | The size of the switch.                              |
+| `variantColor`     | `string`            |         | The background color of the switch when checked.     |
+| `name`             | `string`            |         | The input name of the switch when used in a form.    |
+| `value`            | `string`, `boolean` |         | The value of the switch.                             |
+| `children`         | `React.ReactNode`   |         | The children of the switch.                          |
+| `aria-label`       | `string`            |         | The aria-label of the switch for accessibility.      |
+| `aria-labelledby`  | `string`            |         | The aria-labelledby of the switch for accessibility. |
+| `isChecked`        | `boolean`           |         | If `true`, set the switch to the checked state.      |
+| `defaultIsChecked` | `boolean`           |         | If `true`, the checkbox will be initially checked.   |
+| `isDisabled`       | `boolean`           |         | If `true`, set the disabled to the invalid state.    |
+| `isInvalid`        | `boolean`           |         | If `true`, set the switch to the invalid state.      |

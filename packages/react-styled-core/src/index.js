@@ -35,6 +35,7 @@ import Stack from './Stack';
 import SVGIcon from './SVGIcon';
 import Text from './Text';
 import ThemeProvider from './ThemeProvider';
+import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
 import theme from './theme';
 import useColorMode from './useColorMode';
@@ -82,6 +83,7 @@ export {
   SVGIcon,
   Text,
   ThemeProvider,
+  ToggleSwitch,
   Tooltip,
   theme,
   useColorMode,
