@@ -4,6 +4,10 @@ os:
 cache:
   yarn: true
 
+env:
+  global:
+    - secure: "XXUDo2/SUYO/t/axAUo63CywPI8AmEaiaix5Y7/2DpR8HvgXFq9rLcI57hiNFuuHF9wwdaFf3tKzQZmEzi/qMDSg/pZxiAlL9B43HT6OcLK4EccxqPBzALaAqxQ5hv/p+HVxbjMlj2nJrxBMxP5LcX1A6se6ulM63rvPhFx/iwpfvafz3lOf8m+LsQeMxwfSQdUAuoW2vhiJ1Ox6XFeRazRdbrvSJ9NE5V6IrKtvDY44lB6ROIo5SvpEmAsqrNJ+o3Ne4e6fdxRVOdayFB49RwD6rLNGbNuMoinzCRgdf+eJ19Kt8OnLhLzqgO3VLYxubIPopvpRPeXFcx3tjHv9L6HZ9/lZEHWXJLfkbdHIKPgsnZYO9i32Ypbi25Xl+tYHb7vhjp3lnbkh/6PCjIT1DhvgDCdJCu4sd2Y92oX4FwO62rK1CJP5cM/n/L88ar0sgyxbZMFMaX3eYcNg7A5s1aPtt1IpUYRyn/7hOgS4+BEG3JnAq/dHlOKoScghRZg2zZQXhi3DAMiUO7SYnI6wpKumTThCWupt0MS6pBOEamqmXIQ+OI3P7negGiSg2DVmQskGPrjY6YY9KfaSREhw0BCiZ9U6YEu6aN2q2t7f2vSMkdn8OfRWdtlpPRjJR1xNxAyhgSn9xqkvc5S/0SmTM76svcG7P2GudjQ47IVj+lo=" # GH_TOKEN=
+
 stages:
   - name: deploy
     if: type = push AND branch = master
@@ -21,8 +25,6 @@ install:
 jobs:
   include:
     - stage: deploy review
-      env:
-        - secure: "XXUDo2/SUYO/t/axAUo63CywPI8AmEaiaix5Y7/2DpR8HvgXFq9rLcI57hiNFuuHF9wwdaFf3tKzQZmEzi/qMDSg/pZxiAlL9B43HT6OcLK4EccxqPBzALaAqxQ5hv/p+HVxbjMlj2nJrxBMxP5LcX1A6se6ulM63rvPhFx/iwpfvafz3lOf8m+LsQeMxwfSQdUAuoW2vhiJ1Ox6XFeRazRdbrvSJ9NE5V6IrKtvDY44lB6ROIo5SvpEmAsqrNJ+o3Ne4e6fdxRVOdayFB49RwD6rLNGbNuMoinzCRgdf+eJ19Kt8OnLhLzqgO3VLYxubIPopvpRPeXFcx3tjHv9L6HZ9/lZEHWXJLfkbdHIKPgsnZYO9i32Ypbi25Xl+tYHb7vhjp3lnbkh/6PCjIT1DhvgDCdJCu4sd2Y92oX4FwO62rK1CJP5cM/n/L88ar0sgyxbZMFMaX3eYcNg7A5s1aPtt1IpUYRyn/7hOgS4+BEG3JnAq/dHlOKoScghRZg2zZQXhi3DAMiUO7SYnI6wpKumTThCWupt0MS6pBOEamqmXIQ+OI3P7negGiSg2DVmQskGPrjY6YY9KfaSREhw0BCiZ9U6YEu6aN2q2t7f2vSMkdn8OfRWdtlpPRjJR1xNxAyhgSn9xqkvc5S/0SmTM76svcG7P2GudjQ47IVj+lo=" # GH_TOKEN=
       node_js:
         - '10'
       install:
