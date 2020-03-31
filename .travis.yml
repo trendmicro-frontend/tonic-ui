@@ -25,7 +25,7 @@ jobs:
       node_js:
         - '10'
       install:
-        - yarn add -D octokit-cli
+        - yarn global add octokit-cli
       script:
         - yarn build
         - yarn eslint
