@@ -37,6 +37,7 @@ jobs:
         - git pull https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
         - mkdir -p pr-${TRAVIS_PULL_REQUEST}/
         - cp -af ../packages/styled-docs/docs/** pr-${TRAVIS_PULL_REQUEST}/
+        - ls -l pr-${TRAVIS_PULL_REQUEST}/
         - git add pr-${TRAVIS_PULL_REQUEST}/
         - git commit -m "chore: added pr-${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
         - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
