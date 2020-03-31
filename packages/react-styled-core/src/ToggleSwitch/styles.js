@@ -1,5 +1,7 @@
 import useColorMode from '../useColorMode';
 
+const defaultSize = 'md';
+
 const switchSizes = {
   sm: {
     width: 32,
@@ -147,10 +149,8 @@ const switchThumbProps = ({
 
 const useToggleSwitchStyle = props => {
   const { colorMode } = useColorMode();
-  const { size } = props;
-  const width = switchSizes[size] && switchSizes[size].width;
-  const height = switchSizes[size] && switchSizes[size].height;
-  const radius = switchSizes[size] && switchSizes[size].radius;
+  const size = switchSizes[props.size] ?? switchSizes[defaultSize];
+  const { width, height, radius } = size;
   const switchMaxWidth = width + 6; //The border and halo width of the one side switching track is 1 and 2, so the sum of both sides is 6
   const switchMaxHeight = height + 6; // Same as width
   const _props = { ...props, colorMode, width, height, radius, switchMaxWidth, switchMaxHeight };
