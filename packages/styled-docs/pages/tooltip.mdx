@@ -42,11 +42,13 @@ If the `children` of Tooltip is a string, we wrap with in a `span` with
 
 ### Tooltip color
 
-* Pass the `variantColor` prop to customize the color of the Tooltip. `variantColor`
-can be any color key that exists in the `theme.colors`. [Learn more about color theming](./colors).
+* Use the `variantColor` prop to change the background color of the tooltip. `variantColor` can be any **color key with key 60** that exist in the `theme.colors`.
+
+  > That means the `red:60` exists in the `theme.colors` then can use variantColor="red".
+* [Learn more about colors theming](./colors).
 
 ```jsx
-<Tooltip label="Search places" placement="top" variantColor="red:60">
+<Tooltip label="Search places" placement="top" variantColor="red">
   <Button>Button</Button>
 </Tooltip>
 ```

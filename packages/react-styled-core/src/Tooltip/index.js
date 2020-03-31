@@ -25,7 +25,7 @@ const Tooltip = ({
   placement = 'bottom',
   children,
   hideArrow,
-  variantColor,
+  variantColor = 'gray',
   closeOnClick,
   defaultIsOpen,
   shouldWrapChildren,
