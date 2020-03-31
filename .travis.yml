@@ -30,15 +30,15 @@ jobs:
         - yarn build
         - yarn eslint
       after_success:
-        - git clone https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git 
+        - git clone https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git >/dev/null 2>&1
         - cd styled-ui-demo
         - git checkout -b gh-pages
-        - git pull https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages 
+        - git pull https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
         - mkdir -p pr-${TRAVIS_PULL_REQUEST}/
         - cp -af ../packages/styled-docs/docs/** pr-${TRAVIS_PULL_REQUEST}/
         - git add pr-${TRAVIS_PULL_REQUEST}/
         - git commit -m "Create pull request - ${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
-        - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages
+        - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
         - cd ..
         - octokit issues create-comment --body "Review site URL:https://trendmicro-frontend.github.io/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui-demo --issue_number ${TRAVIS_PULL_REQUEST}
 
