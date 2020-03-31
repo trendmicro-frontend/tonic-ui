@@ -42,7 +42,7 @@ jobs:
         - git commit -m "chore: added pr-${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
         - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
         - cd ..
-        - octokit issues create-comment --body "Successfully deployed ${TRAVIS_COMMIT} to https://trendmicro-frontend.github.io/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui-demo --issue_number ${TRAVIS_PULL_REQUEST}
+        - octokit issues create-comment --body "Successfully deployed ${TRAVIS_COMMIT} to https://trendmicro-frontend.github.io/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
     - stage: deploy
       node_js:
         - '10'
