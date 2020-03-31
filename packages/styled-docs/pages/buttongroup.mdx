@@ -38,6 +38,11 @@ Use the `variant` prop to change the visual style of every button in a group. Yo
     <Button>Two</Button>
     <Button>Three</Button>
   </ButtonGroup>
+  <ButtonGroup variant="ghost">
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
 </Stack>
 ```
 
@@ -70,17 +75,43 @@ Use the `size` prop to change the size of the `ButtonGroup`. You can set the val
 Make a set of buttons appear vertically stacked rather than horizontally, by adding `vertical` to the `ButtonGroup` component.
 
 ```jsx
-<Stack direction="column" spacing="1rem" shouldWrapChildren>
-  <ButtonGroup>
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
-  <ButtonGroup vertical>
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
+<Stack direction="row" spacing="4x">
+  <Stack spacing="4x" alignItems="center">
+      <ButtonGroup>
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+    </ButtonGroup>
+    <ButtonGroup vertical>
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+    </ButtonGroup>
+  </Stack>
+  <Stack spacing="4x" alignItems="center">
+    <ButtonGroup variant="secondary">
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+    </ButtonGroup>
+    <ButtonGroup variant="secondary" vertical>
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+    </ButtonGroup>
+  </Stack>
+  <Stack spacing="4x" alignItems="center">
+    <ButtonGroup variant="ghost">
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+    </ButtonGroup>
+    <ButtonGroup variant="ghost" vertical>
+      <Button>One</Button>
+      <Button>Two</Button>
+      <Button>Three</Button>
+    </ButtonGroup>
+  </Stack>
 </Stack>
 ```
 
