@@ -14,11 +14,10 @@ const ToggleSwitch = forwardRef(
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledBy,
       variantColor,
-      defaultIsChecked,
-      isChecked,
+      defaultChecked,
+      checked,
       size,
-      isDisabled,
-      isInvalid,
+      disabled,
       onChange,
       onBlur,
       onFocus,
@@ -50,13 +49,12 @@ const ToggleSwitch = forwardRef(
           ref={ref}
           name={name}
           value={value}
-          aria-invalid={isInvalid}
-          defaultChecked={defaultIsChecked}
+          defaultChecked={defaultChecked}
           onChange={onChange}
           onBlur={onBlur}
           onFocus={onFocus}
-          checked={isChecked}
-          disabled={isDisabled}
+          checked={checked}
+          disabled={disabled}
         />
         <ControlBox {...baseProps}>
           <Box
