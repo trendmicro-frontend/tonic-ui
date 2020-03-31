@@ -16,12 +16,13 @@ before_install:
 install:
   - yarn install
   - yarn test
-  # list installed react and react-dom packages
   - yarn list --silent react react-dom
 
 jobs:
   include:
     - stage: deploy review
+      env:
+        secure: "XXUDo2/SUYO/t/axAUo63CywPI8AmEaiaix5Y7/2DpR8HvgXFq9rLcI57hiNFuuHF9wwdaFf3tKzQZmEzi/qMDSg/pZxiAlL9B43HT6OcLK4EccxqPBzALaAqxQ5hv/p+HVxbjMlj2nJrxBMxP5LcX1A6se6ulM63rvPhFx/iwpfvafz3lOf8m+LsQeMxwfSQdUAuoW2vhiJ1Ox6XFeRazRdbrvSJ9NE5V6IrKtvDY44lB6ROIo5SvpEmAsqrNJ+o3Ne4e6fdxRVOdayFB49RwD6rLNGbNuMoinzCRgdf+eJ19Kt8OnLhLzqgO3VLYxubIPopvpRPeXFcx3tjHv9L6HZ9/lZEHWXJLfkbdHIKPgsnZYO9i32Ypbi25Xl+tYHb7vhjp3lnbkh/6PCjIT1DhvgDCdJCu4sd2Y92oX4FwO62rK1CJP5cM/n/L88ar0sgyxbZMFMaX3eYcNg7A5s1aPtt1IpUYRyn/7hOgS4+BEG3JnAq/dHlOKoScghRZg2zZQXhi3DAMiUO7SYnI6wpKumTThCWupt0MS6pBOEamqmXIQ+OI3P7negGiSg2DVmQskGPrjY6YY9KfaSREhw0BCiZ9U6YEu6aN2q2t7f2vSMkdn8OfRWdtlpPRjJR1xNxAyhgSn9xqkvc5S/0SmTM76svcG7P2GudjQ47IVj+lo=" # GH_TOKEN=
       node_js:
         - '10'
       install:
@@ -37,11 +38,10 @@ jobs:
         - mkdir -p pr-${TRAVIS_PULL_REQUEST}/
         - cp -af ../packages/styled-docs/docs/** pr-${TRAVIS_PULL_REQUEST}/
         - git add pr-${TRAVIS_PULL_REQUEST}/
-        - git commit -m "Create pull request - ${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
+        - git commit -m "chore: added pr-${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
         - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
         - cd ..
-        - octokit issues create-comment --body "Review site URL:https://trendmicro-frontend.github.io/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui-demo --issue_number ${TRAVIS_PULL_REQUEST}
-
+        - octokit issues create-comment --body "Successfully deployed ${TRAVIS_COMMIT} to https://trendmicro-frontend.github.io/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui-demo --issue_number ${TRAVIS_PULL_REQUEST}
     - stage: deploy
       node_js:
         - '10'
