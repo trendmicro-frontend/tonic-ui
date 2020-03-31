@@ -6,11 +6,7 @@ const useInputGroupAddonStyle = ({
   variant,
 }) => {
   const { colorMode } = useColorMode();
-
-  // size
   const sizeProps = getSizeProps({ size });
-
-  // variant
   const variantProps = getVariantProps({ variant, colorMode });
 
   return {

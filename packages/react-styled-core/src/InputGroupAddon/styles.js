@@ -5,7 +5,7 @@ const baseProps = {
   outline: 0,
 };
 
-const inputGroupAddonSizes = {
+const sizes = {
   'sm': {
     borderRadius: 'sm',
     fontSize: 'sm',
@@ -83,7 +83,7 @@ const getSizeProps = ({
   size,
 }) => {
   const defaultSize = 'md';
-  return inputGroupAddonSizes[size] ?? inputGroupAddonSizes[defaultSize];
+  return sizes[size] ?? sizes[defaultSize];
 };
 
 const getVariantProps = ({

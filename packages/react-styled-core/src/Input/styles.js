@@ -6,7 +6,7 @@ const baseProps = {
   transition: 'all .2s',
 };
 
-const inputSizes = {
+const sizes = {
   'sm': {
     borderRadius: 'sm',
     fontSize: 'sm',
@@ -132,7 +132,7 @@ const getSizeProps = ({
   size,
 }) => {
   const defaultSize = 'md';
-  return inputSizes[size] ?? inputSizes[defaultSize];
+  return sizes[size] ?? sizes[defaultSize];
 };
 
 const getVariantProps = ({
