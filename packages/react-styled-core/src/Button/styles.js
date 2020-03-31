@@ -12,13 +12,16 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
     _focus: {
       borderColor: outerBorderColor,
       boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
+      // Bring overlapping border to front when focused
+      zIndex: 1,
     },
     _hover: {
       '&:not(:focus)': {
         borderColor: `${color}:50`,
       },
       color: `${color}:40`,
-      zIndex: 1,
+      // Use a higher z-index value to bring overlapping border to front when hovered
+      zIndex: 2,
     },
     _active: {
       '&:not(:focus)': {
@@ -68,13 +71,16 @@ const fillColorVariantProps = ({ color, theme: { colors } }) => {
         right: '2px',
         bg: `${color}:60`,
       },
+      // Bring overlapping border to front when focused
+      zIndex: 1,
     },
     _hover: {
       bg: `${color}:50`,
       '& > :first-of-type': {
         bg: `${color}:50`,
       },
-      zIndex: 1,
+      // Use a higher z-index value to bring overlapping border to front when hovered
+      zIndex: 2,
     },
     _active: {
       bg: `${color}:70`,
