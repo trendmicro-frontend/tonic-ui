@@ -43,7 +43,7 @@ jobs:
         - ls -l pr-${TRAVIS_PULL_REQUEST}/
         - git add pr-${TRAVIS_PULL_REQUEST}
         - git commit -m "added pr-${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
-        - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages
+        - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
         - cd ..
         - octokit issues create-comment --body "Successfully deployed ${TRAVIS_COMMIT} to https://trendmicro-frontend.github.io/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
     - stage: deploy
@@ -55,13 +55,12 @@ jobs:
       after_success: true
       deploy:
         provider: pages:git
+        edge: true # dpl v2
         token:
           secure: "EDPLwCPAyG6QGtWRpCmZrs+2t/mX4a0V2ng/ImbhBorpiAfgG9RBMs14454A4qr11xGneeh8khcGZ06egeStBsyzeYc59PGGDHwuhygpOzEgNGLJsldsDJQ0/WmDiAhKQHeUcHO3Ck/2EqILChX3mJBq4zsiuZw5U05AhnXw0RTnLQf0vAAcPKQllZ/pgdbi+nRNZugBpVOc+SoSp9hX+yy01CGXwrWo+MSzgtJl3xrn6k7mZZmyviY0DQE0JMfZsv3kOx1y8JT9F2aXd51aH0rPSBzO8AjWFAhSAenE0mz0sMqDmonDOYGVIHy9jnTBpy9i/E1NuZ4PHM472W2APbuxZA1U3L3e/6ATIx1BQYPGu2uM3DqSbTTtyLZoWXY8rdsA3PQuaeje3XzlQ2fbTSBbN/230GrjtLwKNugvTIRvf3JTaxKn83SUICrrzq0ChDAffNn5AEv7V95Q7ykX1UfDHFs2uhKYDTM9ITeWhPFkm6wDqcqQeu3cxMOLmrMWtwDlLu0VEtIIvZWYEjXxnFYo8E2e34lqn0j1aQEWqpznC+pJ9Rrpajs0dHO3U1dkSWvEli/Z7NmfdQ15MR0J1X/zLbLuPBR+7pT9qRVMC0XU58oky2eEUZ0kDmGAgLLDSynEGxK2JUHcsTBIhXeqaW4rDbT+GOhzGuOgh/sHaBs="
-        edge: true # dpl v2
         keep_history: false
         target_branch: gh-pages
         local_dir: "packages/styled-docs/docs"
-        skip_cleanup: true
         on:
           branch: master
           node: '10'
