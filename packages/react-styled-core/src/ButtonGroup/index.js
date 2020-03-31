@@ -1,5 +1,5 @@
 import memoize from 'micro-memoize';
-import React, { forwardRef } from 'react'; //, Children, cloneElement, isValidElement
+import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { ButtonGroupProvider } from './context';
 
