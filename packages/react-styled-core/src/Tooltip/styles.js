@@ -3,14 +3,20 @@ import useColorMode from '../useColorMode';
 const colorProps = ({ variantColor, colorMode }) => {
   if (variantColor === 'gray') {
     return {
-      bg: colorMode === 'dark' ? 'gray:10' : 'gray:70',
-      color: colorMode === 'dark' ? 'black:emphasis' : 'white:emphasis',
-    };
+      dark: {
+        bg: 'gray:10',
+        color: 'black:primary',
+      },
+      light: {
+        bg: 'gray:70',
+        color: 'white:primary',
+      },
+    }[colorMode];
   }
 
   return {
     bg: `${variantColor}:60`,
-    color: 'white:emphasis',
+    color: 'white:primary',
   };
 };
 
