@@ -1,13 +1,6 @@
 import { createContext, useContext } from 'react';
 
-const RadioGroupContext = createContext({
-  disabled: false,
-  name: undefined,
-  size: undefined,
-  value: undefined,
-  variantColor: undefined,
-  onChange: (e) => {},
-});
+const RadioGroupContext = createContext();
 
 const RadioGroupProvider = RadioGroupContext.Provider;
 
