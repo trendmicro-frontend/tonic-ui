@@ -155,6 +155,27 @@ const getVariantProps = (props) => {
   return {};
 };
 
+const getInputGroupCSS = ({
+  variant,
+}) => {
+  const useNegativeMargin = (variant === 'outline' || variant === 'filled');
+
+  return {
+    '&:not(:first-child)': {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
+    '&:not(:last-child)': {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    // adjacent sibling
+    '&+&': {
+      marginLeft: useNegativeMargin ? -1 : 0,
+    },
+  };
+};
+
 const useInputStyle = ({
   size,
   variant,
@@ -176,5 +197,6 @@ const useInputStyle = ({
 };
 
 export {
+  getInputGroupCSS,
   useInputStyle,
 };
