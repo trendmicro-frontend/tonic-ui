@@ -12,8 +12,8 @@ env:
 
 stages:
   - name: deploy
-    if: type = push AND branch = master
-  - name: deploy review
+    if: type = push AND branch = dev
+  - name: PR review
     if: type = pull_request
 
 before_install:
@@ -48,7 +48,7 @@ jobs:
         - git push "https://${GH_TOKEN}@${PR_DEMO_REPO}" gh-pages > /dev/null 2>&1
         - cd ..
         - octokit issues create-comment --body "Successfully deployed ${TRAVIS_COMMIT} to ${PR_DEMO_SITE}/pr-${TRAVIS_PULL_REQUEST}" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
-    - stage: deploy to production
+    - stage: deploy
       node_js:
         - '10'
       script:
