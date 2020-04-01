@@ -37,7 +37,6 @@ jobs:
         - git rm -rf pr-${TRAVIS_PULL_REQUEST}
         - mkdir -p pr-${TRAVIS_PULL_REQUEST}
         - cp -af ../packages/styled-docs/docs/** pr-${TRAVIS_PULL_REQUEST}/
-        - ls -l pr-${TRAVIS_PULL_REQUEST}/
         - git add pr-${TRAVIS_PULL_REQUEST}
         - git commit -m "added pr-${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
         - git push "https://${GH_TOKEN}@${PR_DEMO_REPO}" gh-pages > /dev/null 2>&1
