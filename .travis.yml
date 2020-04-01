@@ -26,8 +26,13 @@ jobs:
         - yarn install
         - yarn test
         - yarn list --silent react react-dom
-      script:
+      before_script:
+        - echo "TRAVIS_COMMIT=${TRAVIS_COMMIT}"
+        - echo "TRAVIS_PULL_REQUEST=${TRAVIS_PULL_REQUEST}"
+        - echo "TRAVIS_PULL_REQUEST_SHA=${TRAVIS_PULL_REQUEST_SHA}"
+        - PULL_REQUEST_COMMIT=${TRAVIS_PULL_REQUEST_SHA:-$TRAVIS_COMMIT}
         - echo "PUBLIC_URL=/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}" > ./packages/styled-docs/.env.production
+      script:
         - yarn build
         - yarn pre-push
       after_success:
@@ -39,10 +44,15 @@ jobs:
         - mkdir -p pr-${TRAVIS_PULL_REQUEST}
         - cp -af ../packages/styled-docs/docs/** pr-${TRAVIS_PULL_REQUEST}/
         - git add pr-${TRAVIS_PULL_REQUEST}
-        - git commit -m "added pr-${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
+        - git commit -m "added pr-${TRAVIS_PULL_REQUEST}"
         - git push "https://${GH_TOKEN}@${PR_DEMO_REPO}" gh-pages > /dev/null 2>&1
         - cd ..
-        - octokit issues create-comment --body "Successfully deployed ${TRAVIS_COMMIT} to ${PR_DEMO_SITE}/pr-${TRAVIS_PULL_REQUEST}" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
+        - >
+          octokit issues create-comment
+            --body "Successfully deployed ${PULL_REQUEST_COMMIT} to ${PR_DEMO_SITE}/pr-${TRAVIS_PULL_REQUEST}"
+            --owner trendmicro-frontend
+            --repo styled-ui
+            --issue_number ${TRAVIS_PULL_REQUEST}
     - stage: deploy
       node_js:
         - '10'
