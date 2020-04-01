@@ -14,7 +14,6 @@ const Button = forwardRef(
       as: Comp = 'button',
       type = 'button',
       borderRadius = 'sm',
-      px = '3x',
       selected,
       size,
       variant,
@@ -72,7 +71,6 @@ const Button = forwardRef(
           type={type}
           borderRadius={borderRadius}
           data-selected={selected ? 'true' : undefined}
-          px={px}
           css={[
             isInGroup && getGroupButtonStyle({ useVertical, useDivideLine, useNegativeMargin }),
             { ...css }

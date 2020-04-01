@@ -108,16 +108,19 @@ const sizes = {
     minHeight: '10x', // 40px
     fontSize: 'md',
     lineHeight: 'md',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
   md: {
     minHeight: '8x', //32px
     fontSize: 'sm',
     lineHeight: 'sm',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
   sm: {
     minHeight: '6x', //24px
     fontSize: 'sm',
     lineHeight: 'sm',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
 };
 
