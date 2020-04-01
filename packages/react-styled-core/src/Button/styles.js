@@ -193,4 +193,47 @@ const useButtonStyle = props => {
   };
 };
 
-export default useButtonStyle;
+const getGroupButtonStyle = ({ useVertical, useDivideLine, useNegativeMargin }) => {
+  const horizontalCss = {
+    '&:not(:first-of-type)': {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
+    '&:not(:last-of-type)': {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    // hide last divide line
+    '&:last-of-type + *': {
+      display: useDivideLine ? 'none' : 'inherit',
+    },
+    // adjacent sibling
+    '&+&': {
+      marginLeft: useNegativeMargin ? -1 : 0,
+    },
+  };
+  const verticalCss = {
+    '&:not(:first-of-type)': {
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+    },
+    '&:not(:last-of-type)': {
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    // hide last divide line
+    '&:last-of-type + *': {
+      display: useDivideLine ? 'none' : 'inherit',
+    },
+    // adjacent sibling
+    '&+&': {
+      marginTop: useNegativeMargin ? -1 : 0,
+    },
+  };
+  return useVertical ? verticalCss : horizontalCss;
+};
+
+export {
+  getGroupButtonStyle,
+  useButtonStyle,
+};

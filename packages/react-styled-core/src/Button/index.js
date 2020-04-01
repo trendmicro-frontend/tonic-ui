@@ -3,7 +3,7 @@ import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import { useButtonGroup } from '../ButtonGroup/context';
 import useTheme from '../useTheme';
-import useButtonStyle from './styles';
+import { getGroupButtonStyle, useButtonStyle } from './styles';
 
 const defaultSize = 'md';
 const defaultVariant = 'default';
@@ -25,70 +25,32 @@ const Button = forwardRef(
     ref,
   ) => {
     const buttonGroupContext = useButtonGroup();
-    let divider = null;
+    let isInGroup = false;
+    let useVertical = false;
     if (buttonGroupContext) {
+      isInGroup = true;
       const {
         size: buttonGroupSize,
         variant: buttonGroupVariant,
-        vertical: buttonGroupVertical,
+        vertical,
       } = { ...buttonGroupContext };
+      useVertical = vertical;
       // - Use the inherited value from the button group
       // - Fallback to the default value if the value is null or undefined
       size = (buttonGroupSize ?? size) ?? defaultSize;
       variant = (buttonGroupVariant ?? variant) ?? defaultVariant;
-      const useNegativeMargin = (variant === 'secondary');
-      const useDivideLine = ['emphasis', 'primary', 'default', 'ghost'].indexOf(variant) >= 0;
-      if (useDivideLine) {
-        divider = buttonGroupVertical ? (
-          <Box height="1px" bg="gray:70" />
-        ) : (
-          <Box width="1px" bg="gray:70" />
-        );
-      }
-      const horizontalCss = {
-        '&:not(:first-of-type)': {
-          borderTopLeftRadius: 0,
-          borderBottomLeftRadius: 0,
-        },
-        '&:not(:last-of-type)': {
-          borderTopRightRadius: 0,
-          borderBottomRightRadius: 0,
-        },
-        // hide last divide line
-        '&:last-of-type + *': {
-          display: useDivideLine ? 'none' : 'inherit',
-        },
-        // adjacent sibling
-        '&+&': {
-          marginLeft: useNegativeMargin ? -1 : 0,
-        },
-        ...css
-      };
-      const verticalCss = {
-        '&:not(:first-of-type)': {
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-        },
-        '&:not(:last-of-type)': {
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-        },
-        // hide last divide line
-        '&:last-of-type + *': {
-          display: useDivideLine ? 'none' : 'inherit',
-        },
-        // adjacent sibling
-        '&+&': {
-          marginTop: useNegativeMargin ? -1 : 0,
-        },
-        ...css
-      };
-      css = buttonGroupVertical ? verticalCss : horizontalCss;
     } else {
       // Use the default value if the value is null or undefined
       size = size ?? defaultSize;
       variant = variant ?? defaultVariant;
     }
+    const useNegativeMargin = (variant === 'secondary');
+    const useDivideLine = ['emphasis', 'primary', 'default', 'ghost'].indexOf(variant) >= 0;
+    const divider = useVertical ? (
+      <Box height="1px" bg="gray:70" />
+    ) : (
+      <Box width="1px" bg="gray:70" />
+    );
     const buttonStyleProps = useButtonStyle({
       size,
       variant,
@@ -111,7 +73,10 @@ const Button = forwardRef(
           borderRadius={borderRadius}
           data-selected={selected ? 'true' : undefined}
           px={px}
-          css={css}
+          css={[
+            isInGroup && getGroupButtonStyle({ useVertical, useDivideLine, useNegativeMargin }),
+            { ...css }
+          ]}
           {...buttonStyleProps}
           {...rest}
         >
@@ -128,7 +93,7 @@ const Button = forwardRef(
           {/* The z-index is for placing text over the above box. */}
           <Box zIndex="1">{ children }</Box>
         </ButtonBase>
-        { divider }
+        { isInGroup && useDivideLine && divider }
       </>
     );
   },
