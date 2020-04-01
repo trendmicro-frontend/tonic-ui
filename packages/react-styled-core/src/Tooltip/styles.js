@@ -1,23 +1,16 @@
 import useColorMode from '../useColorMode';
 
-const colorProps = ({ variantColor, colorMode }) => {
-  if (variantColor === 'gray') {
-    return {
-      dark: {
-        bg: 'gray:10',
-        color: 'black:primary',
-      },
-      light: {
-        bg: 'gray:70',
-        color: 'white:primary',
-      },
-    }[colorMode];
-  }
-
+const colorProps = ({ colorMode }) => {
   return {
-    bg: `${variantColor}:60`,
-    color: 'white:primary',
-  };
+    dark: {
+      bg: 'gray:10',
+      color: 'black:primary',
+    },
+    light: {
+      bg: 'gray:70',
+      color: 'white:primary',
+    },
+  }[colorMode];
 };
 
 const baseProps = {
