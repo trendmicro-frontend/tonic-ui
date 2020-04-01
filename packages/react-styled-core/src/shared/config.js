@@ -7,6 +7,14 @@ export const config = {
     property: 'height',
     scale: 'sizes',
   },
+  fill: {
+    property: 'fill',
+    scale: 'colors',
+  },
+  stroke: {
+    property: 'stroke',
+    scale: 'colors',
+  },
 
   // animations
   animation: true,
