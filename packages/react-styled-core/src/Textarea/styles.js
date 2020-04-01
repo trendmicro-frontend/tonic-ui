@@ -9,26 +9,14 @@ const baseProps = {
 };
 
 const sizes = {
-  'sm': {
-    borderRadius: 'sm',
-    fontSize: 'sm',
-    lineHeight: 'sm',
-    height: '6x',
-    px: 'calc(.75rem - 1px)', // 12px - 1px
-  },
   'md': {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
-    height: '8x',
+    minHeight: '9x', // 6px (top) + 20px + 10px (bottom) = 36px
     px: 'calc(.75rem - 1px)', // 12px - 1px
-  },
-  'lg': {
-    borderRadius: 'sm',
-    fontSize: 'md',
-    lineHeight: 'md',
-    height: '10x',
-    px: 'calc(.75rem - 1px)', // 12px - 1px
+    pt: 'calc(.375rem - 1px)', // 6px - 1px
+    pb: 'calc(.625rem - 1px)', // 10px - 1px
   },
 };
 
@@ -70,15 +58,9 @@ const getOutlinedStyle = ({
     color,
     _hover: {
       borderColor: hoverBorderColor,
-
-      // Use a higher z-index value to bring overlapping border to front when hovered
-      zIndex: 2,
     },
     _focus: {
       borderColor: focusBorderColor,
-
-      // Bring overlapping border to front when focused
-      zIndex: 1,
     },
     _disabled: {
       borderColor: disabledBorderColor,
@@ -131,10 +113,9 @@ const getUnstyledStyle = ({
 };
 
 const getSizeProps = (props) => {
-  const { size } = props;
   const defaultSize = 'md';
 
-  return sizes[size] ?? sizes[defaultSize];
+  return sizes[defaultSize];
 };
 
 const getVariantProps = (props) => {
@@ -155,38 +136,15 @@ const getVariantProps = (props) => {
   return {};
 };
 
-const getInputGroupCSS = ({
-  variant,
-}) => {
-  const useNegativeMargin = (variant === 'outline' || variant === 'filled');
-
-  return {
-    '&:not(:first-child)': {
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-    },
-    '&:not(:last-child)': {
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-    // adjacent sibling
-    '&+&': {
-      marginLeft: useNegativeMargin ? -1 : 0,
-    },
-  };
-};
-
-const useInputStyle = ({
-  size,
+const useTextareaStyle = ({
   variant,
 }) => {
   const { colorMode } = useColorMode();
   const _props = {
     colorMode,
-    size,
     variant,
   };
-  const sizeProps = getSizeProps(_props);
+  const sizeProps = getSizeProps(_props); // use default size
   const variantProps = getVariantProps(_props);
 
   return {
@@ -197,6 +155,5 @@ const useInputStyle = ({
 };
 
 export {
-  getInputGroupCSS,
-  useInputStyle,
+  useTextareaStyle,
 };

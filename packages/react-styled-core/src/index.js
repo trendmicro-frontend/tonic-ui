@@ -23,7 +23,6 @@ import InputGroup from './InputGroup';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
-import InputLabel from './InputLabel';
 import LightMode from './LightMode';
 import Link from './Link';
 import PseudoBox from './PseudoBox';
@@ -34,6 +33,8 @@ import Spinner from './Spinner';
 import Stack from './Stack';
 import SVGIcon from './SVGIcon';
 import Text from './Text';
+import Textarea from './Textarea';
+import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
 import Tooltip from './Tooltip';
 import theme from './theme';
@@ -70,7 +71,6 @@ export {
   InputGroupAddon,
   InputGroupAppend,
   InputGroupPrepend,
-  InputLabel,
   LightMode,
   Link,
   PseudoBox,
@@ -81,6 +81,8 @@ export {
   Stack,
   SVGIcon,
   Text,
+  Textarea,
+  TextLabel,
   ThemeProvider,
   Tooltip,
   theme,
