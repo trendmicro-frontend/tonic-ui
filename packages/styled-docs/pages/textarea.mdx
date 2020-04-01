@@ -1,0 +1,187 @@
+# Textarea
+
+The `Textarea` component allows you to create a multi-line text input.
+
+## Import
+
+```js
+import Textarea from '@trendmicro/react-styled-core/Textarea';
+// or
+import { Textarea } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<>
+  <TextLabel mb="1x">Label:</TextLabel>
+  <Textarea placeholder="Basic example" />
+  <Text size="xs" mt="1x">Help text for the text input</Text>
+</>
+```
+
+### Sizing
+
+* The `rows` and `cols` properties allow you to specify an exact size for the `<Textarea>` to take. Setting these is a good idea for consistency, as browser defaults can differ.
+* The `maxLength` property specifies a maximum number of characters that the `Textarea` is allowed to contain.
+* The `minLength` property specifies a minimum length that is considered valid. `Textarea` will not submit (and is invalid) if it is empty, using the `required` attribute.
+* The `resize` property to set whether the `Textarea` is resizable, and if so, in which directions. You can set the value to `none`, `both`, `horizontal`, or `vertical`.
+
+```jsx
+
+function Example() {
+  const [resize, setResize] = React.useState('both');
+
+  return (
+    <>
+      <Text mb="2x">resize:</Text>
+      <Stack direction="row" spacing=".5rem" mb="4x">
+        <Button variant="outline" selected={resize === 'none'} onClick={() => setResize('none')}>none</Button>
+        <Button variant="outline" selected={resize === 'both'} onClick={() => setResize('both')}>both</Button>
+        <Button variant="outline" selected={resize === 'horizontal'} onClick={() => setResize('horizontal')}>horizontal</Button>
+        <Button variant="outline" selected={resize === 'vertical'} onClick={() => setResize('vertical')}>vertical</Button>
+      </Stack>
+      <Textarea
+        defaultValue="Placeholder text"
+        width="auto"
+        resize={resize}
+        rows="3"
+        cols="12"
+        minLength={4}
+        maxLength={16}
+      />
+    </>
+  );
+}
+```
+
+### Variants
+
+The `Textarea` component comes in two variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+```jsx
+<Textarea variant="outline" placeholder="John Doe" />
+```
+
+#### `filled`
+
+```jsx
+<Textarea variant="filled" placeholder="John Doe" />
+```
+
+#### `unstyled`
+
+```jsx
+<Textarea variant="unstyled" placeholder="John Doe" />
+```
+
+### Attributes
+
+Standard textarea attributes are supported, e.g., `disabled`, `readOnly`, `required`, etc.
+
+#### `disabled`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <Textarea disabled placeholder="Placeholder text" />
+  <Textarea disabled placeholder="Placeholder text" defaultValue="Disabled" />
+</Stack>
+```
+
+#### `readOnly`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <Textarea readOnly placeholder="Placeholder text" />
+  <Textarea readOnly placeholder="Placeholder text" defaultValue="Read-only" />
+</Stack>
+```
+
+#### `required`
+
+```jsx
+<Textarea required placeholder="Placeholder text" />
+```
+
+### Validation
+
+Use the `aria-invalid` attribute to indicate that the value entered into an input field does not conform to the format expected by the application. `aria-invalid` can also be used to indicate that a required field has not been filled in.
+
+Set `aria-invalid` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
+
+```jsx noInline
+const InlineError = (props) => (
+  <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
+);
+
+const MultilineInputField = ({
+  value,
+  onChange,
+  ...props
+}) => {
+  const isInvalid = (value === '');
+  let invalidTextareaStyle = {};
+  if (isInvalid) {
+    invalidTextareaStyle = {
+      'aria-invalid': true,
+      pr: '10x',
+    };
+  }
+
+  return (
+    <>
+      <Flex position="relative" alignItems="center" mb="1x">
+        <Textarea
+          resize="none"
+          rows="3"
+          placeholder="Placeholder text"
+          value={value}
+          onChange={onChange}
+          {...invalidTextareaStyle}
+        />
+        {isInvalid && (
+          <Box position="absolute" right={0} top=".375rem">
+            <TMIcon name="warning-circle" px="3x" color="red:50" />
+          </Box>
+        )}
+      </Flex>
+      <Box>
+        {isInvalid && (
+          <InlineError>This is a required field.</InlineError>
+        )}
+      </Box>
+    </>
+  );
+};
+
+function Example() {
+  const [value, setValue] = React.useState('');
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  return (
+    <MultilineInputField value={value} onChange={onChange} />
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+`Textarea` composes the [`InputBase`](./inputbase) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `rows` | `number` | | Specifies the visible number of lines in a text area. |
+| `cols` | `number` | | Specifies the visible width of a text area. |
+| `maxLength` | `number` | | Specifies a maximum number of characters that is allowed to contain. |
+| `minLength` | `number` | | Specifies a minimum length that is considered valid. |
+| `resize` | `string` | | One of: 'none', 'both', 'horizontal', 'vertical' |
+| `variant` | `string` | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
+| `disabled` | `boolean` | | If `true`, the input will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| `readOnly` | `boolean` | | If `true`, prevents the value of the input from being edited. |
+| `aria-invalid` | `boolean` | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
