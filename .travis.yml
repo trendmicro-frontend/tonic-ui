@@ -47,7 +47,7 @@ jobs:
         - git init
         - git checkout --orphan gh-pages
         - git add .
-        - git commit -m "Deploy github.com/trendmicro-frontend/styled-ui/pull/${TRAVIS_PULL_REQUEST} to github.com/trendmicro-frontend/styled-ui-demo.git"
+        - git commit -m "Deploy pr-${TRAVIS_PULL_REQUEST} to github.com/trendmicro-frontend/styled-ui-demo.git"
         - git remote add origin https://${PR_DEMO_REPO}
         - git push -u --force "https://${GH_TOKEN}@${PR_DEMO_REPO}" gh-pages > /dev/null 2>&1
         - cd ..
