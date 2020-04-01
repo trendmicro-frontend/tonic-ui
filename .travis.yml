@@ -6,6 +6,8 @@ cache:
 
 env:
   global:
+    - PR_DEMO_REPO: github.com/trendmicro-frontend/styled-ui-demo.git
+    - PR_DEMO_SITE: https://trendmicro-frontend.github.io/styled-ui-demo
     - secure: "1hJgtxxGQdVerHK673tRbUWO4UAwdT0U1qwDpNGVCr/7vbnxcTpbLuexmdxpP3ORk4UOS8ZGZclEcnscpH/2t+qgkDNk5Y+6DGFb5Av3eIcDyltfr4eZuWo+olNlGCE3GgZJReJWDnBQM8/9pf3nUhFlG7VN7p+I/254J2FKpatGWv+aJvcBRzAu403SzYECVxtG/wIkvnl8GN9xjRVSbLYD1MuqZnWt3bnPj8NqdR+yaQSmLPzLE+5j43/noNn1BdBQ6I/bgEw37n9lxUj5BSLNDss/YElW0CynrFXgPCwYXWK0uhw4Vf7xL9JJ8OpJqkVmtx4lqAS39su6gjZW+gCb2pzrV29BGmYQJ5CUcMb8qKENAKBSV8uyBwsF30d4WWU0oi/wrsl6Oc/5GvXJbRTVBG2oHXuYScMUIhMqvNntfqPZ/uKKSqPUkXMY9B8f6kzRM2SmKqD+3NdO2QoLhUbiBBVXJVRhygKACDZLrgS8SDCuJarWVI5rs6LQxHbOzKxOgLrh5nlOzGO3yTFTKoM00JV9RMBrCjg2wRQNfHx3tPXlUo2a6O5A88rfIFfUJ066nYH2zXlyCO6crmuENa4H7/1nzYditiHFjg7hPr0630Zru1qPCbRElvCh9gelKBIC+gsG6uCcWRpx7VyVEP3LNagmBhDRQMVwvSD7ln4="
 
 stages:
@@ -24,7 +26,7 @@ install:
 
 jobs:
   include:
-    - stage: deploy review
+    - stage: PR review
       node_js:
         - '10'
       install:
@@ -33,25 +35,25 @@ jobs:
         - yarn build
         - yarn pre-push
       after_success:
-        - git clone https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git >/dev/null 2>&1
+        - git clone "https://${GH_TOKEN}@${PR_DEMO_REPO}" styled-ui-demo > /dev/null 2>&1
         - cd styled-ui-demo
         - git checkout gh-pages
-        - git pull https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages >/dev/null 2>&1
+        - git pull "https://${GH_TOKEN}@${PR_DEMO_REPO}" gh-pages > /dev/null 2>&1
         - git rm -rf pr-${TRAVIS_PULL_REQUEST}
         - mkdir -p pr-${TRAVIS_PULL_REQUEST}
         - cp -af ../packages/styled-docs/docs/** pr-${TRAVIS_PULL_REQUEST}/
         - ls -l pr-${TRAVIS_PULL_REQUEST}/
         - git add pr-${TRAVIS_PULL_REQUEST}
         - git commit -m "added pr-${TRAVIS_PULL_REQUEST} by ${TRAVIS_PULL_REQUEST_SLUG}"
-        - git push https://${GH_TOKEN}@github.com/trendmicro-frontend/styled-ui-demo.git gh-pages
+        - git push "https://${GH_TOKEN}@${PR_DEMO_REPO}" gh-pages > /dev/null 2>&1
         - cd ..
-        - octokit issues create-comment --body "Successfully deployed ${TRAVIS_COMMIT} to https://trendmicro-frontend.github.io/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
-    - stage: deploy
+        - octokit issues create-comment --body "Successfully deployed ${TRAVIS_COMMIT} to ${PR_DEMO_SITE}/pr-${TRAVIS_PULL_REQUEST}" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
+    - stage: deploy to production
       node_js:
         - '10'
       script:
         - yarn build
-        - yarn eslint
+        - yarn pre-push
       after_success: true
       deploy:
         provider: pages:git
@@ -62,7 +64,7 @@ jobs:
         target_branch: gh-pages
         local_dir: "packages/styled-docs/docs"
         on:
-          branch: master
+          branch: dev
           node: '10'
 
 notifications:
