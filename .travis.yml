@@ -16,7 +16,7 @@ jobs:
       env:
         - PR_DEMO_REPO: github.com/trendmicro-frontend/styled-ui-demo.git
         - PR_DEMO_SITE: https://trendmicro-frontend.github.io/styled-ui-demo
-        - secure: "1hJgtxxGQdVerHK673tRbUWO4UAwdT0U1qwDpNGVCr/7vbnxcTpbLuexmdxpP3ORk4UOS8ZGZclEcnscpH/2t+qgkDNk5Y+6DGFb5Av3eIcDyltfr4eZuWo+olNlGCE3GgZJReJWDnBQM8/9pf3nUhFlG7VN7p+I/254J2FKpatGWv+aJvcBRzAu403SzYECVxtG/wIkvnl8GN9xjRVSbLYD1MuqZnWt3bnPj8NqdR+yaQSmLPzLE+5j43/noNn1BdBQ6I/bgEw37n9lxUj5BSLNDss/YElW0CynrFXgPCwYXWK0uhw4Vf7xL9JJ8OpJqkVmtx4lqAS39su6gjZW+gCb2pzrV29BGmYQJ5CUcMb8qKENAKBSV8uyBwsF30d4WWU0oi/wrsl6Oc/5GvXJbRTVBG2oHXuYScMUIhMqvNntfqPZ/uKKSqPUkXMY9B8f6kzRM2SmKqD+3NdO2QoLhUbiBBVXJVRhygKACDZLrgS8SDCuJarWVI5rs6LQxHbOzKxOgLrh5nlOzGO3yTFTKoM00JV9RMBrCjg2wRQNfHx3tPXlUo2a6O5A88rfIFfUJ066nYH2zXlyCO6crmuENa4H7/1nzYditiHFjg7hPr0630Zru1qPCbRElvCh9gelKBIC+gsG6uCcWRpx7VyVEP3LNagmBhDRQMVwvSD7ln4="
+        - secure: "vO8p3O2LU1TpRglxCobHwEQAKpOL+BIrjHwntqawaEBK9dLlFG7AK+Nyg/6pw6WXT+tisZwQrdzsg/EBLRarNHDa0h2oIDQA/3MQRGIpMdFg5zezPaJFK25A9+/XYtlgr4M4L11vVAjxQcPzz9FASz4eUuJZ5pmqEI8dr5eL6hfwka5fnyWjNXvLOczjbTQY/93f7Ai1kreAE/puSJMhxJsbc+FJrWskxTnz8EIcT3TB6r+eKg/OpxMegC1Zj0m0zn4Q2SXt+PNqoeIbCt2q7+F6lZJfCH8NFOuFCAmqz3t9l0GiXSEP05ZRAywouFn2c2o5mtsMpuBYdFz2lGprjOiR0C2qzL+PcwPY1aiu4D9IStR2QdNir8m71vVIXJ+OZDTdnOs4X0yoNH5YjqV2YEwkhQcCqVCKYyIH0OMx26KH4+Hp7z+tmbG/HF32k6IsP99F91QgE4KDSqITo82M+G3o308vB1A462+Pl3a29nkC/7ufLA0Kx4fDHW5vjKyAbLLn5/7TuQK6T2yC5l3pOdXbPB3807qYgWV+F2rAWwZHwXvVeYO4tnh+3Nlg5wNwG4gzn5CJWnXmZsj21WkIjTgTSdu/1XGFiUQrWcpEuzWkmzDxb/WRTFVwnyQf7pauNndL/NFACgJsS2BvaxH6wPwB1LLQzZ//mQ1QCVIVQlg="
       node_js:
         - '10'
       before_install:
@@ -27,6 +27,7 @@ jobs:
         - yarn test
         - yarn list --silent react react-dom
       script:
+        - echo "PUBLIC_URL=/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}" > ./packages/styled-docs/.env.production
         - yarn build
         - yarn pre-push
       after_success:
