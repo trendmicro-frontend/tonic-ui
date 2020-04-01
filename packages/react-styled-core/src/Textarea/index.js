@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import InputBase from '../InputBase';
-import useTextareaStyle from './useTextareaStyle';
+import { useTextareaStyle } from './styles';
 
 const defaultVariant = 'outline';
 

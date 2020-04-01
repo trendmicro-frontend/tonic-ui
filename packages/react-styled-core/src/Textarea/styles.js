@@ -1,3 +1,5 @@
+import useColorMode from '../useColorMode';
+
 const baseProps = {
   position: 'relative',
   width: '100%',
@@ -11,9 +13,10 @@ const sizes = {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
-    minHeight: '8x',
-    px: '3x',
-    py: '.3125rem',
+    minHeight: '9x', // 6px (top) + 20px + 10px (bottom) = 36px
+    px: 'calc(.75rem - 1px)', // 12px - 1px
+    pt: 'calc(.375rem - 1px)', // 6px - 1px
+    pb: 'calc(.625rem - 1px)', // 10px - 1px
   },
 };
 
@@ -109,32 +112,48 @@ const getUnstyledStyle = ({
   };
 };
 
-const getSizeProps = () => {
+const getSizeProps = (props) => {
   const defaultSize = 'md';
+
   return sizes[defaultSize];
 };
 
-const getVariantProps = ({
-  variant,
-  ...props
-}) => {
+const getVariantProps = (props) => {
+  const { colorMode, variant } = props;
+
   if (variant === 'outline') {
-    return getOutlinedStyle(props);
+    return getOutlinedStyle({ colorMode });
   }
 
   if (variant === 'filled') {
-    return getFilledStyle(props);
+    return getFilledStyle({ colorMode });
   }
 
   if (variant === 'unstyled') {
-    return getUnstyledStyle(props);
+    return getUnstyledStyle({ colorMode });
   }
 
   return {};
 };
 
+const useTextareaStyle = ({
+  variant,
+}) => {
+  const { colorMode } = useColorMode();
+  const _props = {
+    colorMode,
+    variant,
+  };
+  const sizeProps = getSizeProps(_props); // use default size
+  const variantProps = getVariantProps(_props);
+
+  return {
+    ...baseProps,
+    ...sizeProps,
+    ...variantProps,
+  };
+};
+
 export {
-  baseProps,
-  getSizeProps,
-  getVariantProps,
+  useTextareaStyle,
 };

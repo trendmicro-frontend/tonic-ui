@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import InputBase from '../InputBase';
 import { useInputGroup } from '../InputGroup/context';
-import useInputStyle from './useInputStyle';
+import { useInputStyle}  from './styles';
 
 const defaultSize = 'md';
 const defaultVariant = 'outline';
