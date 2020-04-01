@@ -13,10 +13,10 @@ const ToggleSwitch = forwardRef(
       value,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledBy,
-      variantColor,
+      variantColor = 'blue',
       defaultChecked,
       checked,
-      size,
+      size = 'md',
       disabled,
       onChange,
       onBlur,
@@ -96,10 +96,5 @@ const ToggleSwitch = forwardRef(
 );
 
 ToggleSwitch.displayName = 'ToggleSwitch';
-
-ToggleSwitch.defaultProps = {
-  variantColor: 'blue',
-  size: 'md',
-};
 
 export default ToggleSwitch;

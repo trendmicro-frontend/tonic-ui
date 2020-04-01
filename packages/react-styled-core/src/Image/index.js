@@ -5,13 +5,10 @@ const Image = forwardRef((props, ref) => (
   <Box
     ref={ref}
     as="img"
+    alt=""
     {...props}
   />
 ));
-
-Image.defaultProps = {
-  alt: '',
-};
 
 Image.displayName = 'Image';
 
