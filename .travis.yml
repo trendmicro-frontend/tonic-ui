@@ -16,21 +16,18 @@ stages:
   - name: PR review
     if: type = pull_request
 
-before_install:
-  - npm install -g yarn
-
-install:
-  - yarn install
-  - yarn test
-  - yarn list --silent react react-dom
-
 jobs:
   include:
     - stage: PR review
       node_js:
         - '10'
+      before_install:
+        - npm install -g yarn
       install:
         - yarn global add octokit-cli
+        - yarn install
+        - yarn test
+        - yarn list --silent react react-dom
       script:
         - yarn build
         - yarn pre-push
@@ -51,6 +48,12 @@ jobs:
     - stage: deploy
       node_js:
         - '10'
+      before_install:
+        - npm install -g yarn
+      install:
+        - yarn install
+        - yarn test
+        - yarn list --silent react react-dom
       script:
         - yarn build
         - yarn pre-push
