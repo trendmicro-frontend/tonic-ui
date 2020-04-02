@@ -70,10 +70,10 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isOpen | `boolean` | false | If `true`, the content will be visible. |
-| animateOpacity | `boolean` | true | If `true`, the opacity of the content will be animated. |
-| duration | `number` | | The animation duration as it expands. |
-| startingHeight | `number` | 0 | The height you want the content in it's collapsed state. Set to `0` by default. |
-| endingHeight | `number` | 'auto' | The height you want the content in it's expanded state. Set to `auto` by default. |
-| onAnimationEnd | `function` | | The function to be called when the collapse animation starts. It provides the `currentHeight` as an argument. |
-| onAnimationStart | `function` | | The function to be called when the collapse animation ends. It provides the `currentHeight` as an argument. |
+| isOpen | boolean | false | If `true`, the content will be visible. |
+| animateOpacity | boolean | true | If `true`, the opacity of the content will be animated. |
+| duration | number | | The animation duration as it expands. |
+| startingHeight | number | 0 | The height you want the content in it's collapsed state. |
+| endingHeight | number | 'auto' | The height you want the content in it's expanded state. |
+| onAnimationEnd | function | | A callback which will be called when animation starts. This first argument passed to this callback is an object containing `newHeight`, the pixel value of the height at which the animation will end. |
+| onAnimationStart | function | | A callback which will be called when animation ends. This first argument passed to this callback is an object containing `newHeight`, the pixel value of the height at which the animation ended. |
