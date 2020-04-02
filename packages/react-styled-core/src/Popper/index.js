@@ -36,7 +36,6 @@ const Popper = forwardRef(
       popperRef: popperRefProp,
       willUseTransition = false,
       arrowSize,
-      arrowColor,
       ...rest
     },
     ref,
@@ -161,7 +160,7 @@ const Popper = forwardRef(
         <PseudoBox
           ref={handleRef}
           pos="absolute"
-          css={getPopperArrowStyle({ arrowSize, arrowColor })}
+          css={getPopperArrowStyle({ arrowSize })}
           {...rest}
         >
           {typeof children === 'function' ? children(childProps) : children}
