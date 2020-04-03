@@ -62,9 +62,9 @@ Use the `size` prop to change the size of the `Radio`. You can set the value to 
 | variantColor | string | | The color of the radio when it's checked. This should be one of the color keys in the theme (e.g. `'green'`, `'red'`) |
 | size | string | 'md' | The size (width and height) of the radio. One of: `'sm'`, `'md'`, `'lg'` |
 | defaultChecked | boolean | | If `true`, the radio will be initially checked. |
-| checked | boolean | | If `true`, the radio will be checked. You'll need to pass `onChange` to update it's value (since it's now controlled). |
+| checked | boolean | | If `true`, the radio will be checked. You'll need to pass `onChange` to update the state for a controlled component. |
 | disabled | boolean | | If `true`, the radio will be disabled. |
 | children | ReactNode | | The children of the radio. |
-| onChange | function | | A callback called when the state of the radio changes. |
-| onBlur | function | | A callback called when you blur out of the radio. |
-| onFocus | function | | A callback called when the radio receive focus. |
+| onChange | function | | A callback called when the state is changed. |
+| onBlur | function | | A callback called when the radio loses focus. |
+| onFocus | function | | A callback called when the radio receives focus. |
