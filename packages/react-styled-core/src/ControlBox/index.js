@@ -69,6 +69,7 @@ const ControlBox = ({
       transition="all 120ms"
       flexShrink="0"
       aria-hidden={true}
+      userSelect="none"
       css={style}
       {...rest}
     >

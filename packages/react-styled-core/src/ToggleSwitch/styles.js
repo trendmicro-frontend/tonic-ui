@@ -40,7 +40,6 @@ const baseProps = ({
   return {
     width: switchMaxWidth,
     height: switchMaxHeight,
-    userSelect: 'none',
     _child: {
       opacity: 1
     },
