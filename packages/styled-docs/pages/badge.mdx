@@ -25,7 +25,7 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 * [Learn more about theming](./theme).
 
 ```jsx
-<div>
+<Stack direction="row" spacing="4x">
   <Badge>1</Badge>
   <Badge variantColor="green">2</Badge>
   <Badge variantColor="red">3</Badge>
@@ -34,7 +34,7 @@ can be any **color key with key 60** that exists in the `theme.colors`.
   <Badge variantColor="purple">6</Badge>
   <Badge variantColor="teal">7</Badge>
   <Badge variantColor="cyan">8</Badge>
-</div>
+</Stack>
 ```
 
 You can also change the size of the badge by passing `fontSize` prop.
@@ -54,4 +54,4 @@ You can also change the size of the badge by passing `fontSize` prop.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| variantColor | `string` | 'gray' | The color scheme to use for the badge. It must be a color key defined in `theme.colors`. |
+| variantColor | string | 'gray' | The color scheme to use for the badge. It must be a color key defined in `theme.colors`. |
