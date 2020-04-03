@@ -1,31 +1,22 @@
 # Input
 
-Input component is a component that is used to get user input in a text field.
+The `Input` component is used to get user input in a text field.
 
 ## Import
 
-### Default imports
-
 ```js
 import Input from '@trendmicro/react-styled-core/Input';
-import InputLabel from '@trendmicro/react-styled-core/InputLabel';
-```
-
-### Named imports
-
-```js
-import {
-  Input,
-  InputLabel,
-} from '@trendmicro/react-styled-core';
+// or
+import { Input } from '@trendmicro/react-styled-core';
 ```
 
 ## Usage
 
 ```jsx
 <>
-  <InputLabel mb="1x">Label:</InputLabel>
+  <TextLabel mb="1x">Label:</TextLabel>
   <Input placeholder="Basic example" />
+  <Text size="xs" mt="1x">Help text for the text input</Text>
 </>
 ```
 
@@ -36,15 +27,15 @@ Use the `size` prop to change the size of the `Input`. You can set the value to 
 ```jsx
 <Stack direction="column" spacing="4x">
   <Box>
-    <InputLabel mb="1x" size="sm">Label:</InputLabel>
+    <TextLabel mb="1x" size="sm">Label:</TextLabel>
     <Input size="sm" placeholder="Small size (24px)" />
   </Box>
   <Box>
-    <InputLabel mb="1x" size="md">Label:</InputLabel>
+    <TextLabel mb="1x" size="md">Label:</TextLabel>
     <Input size="md" placeholder="Default size (32px)" />
   </Box>
   <Box>
-    <InputLabel mb="1x" size="lg">Label:</InputLabel>
+    <TextLabel mb="1x" size="lg">Label:</TextLabel>
     <Input size="lg" placeholder="Large size (40px)" />
   </Box>
 </Stack>
@@ -85,13 +76,13 @@ Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `
   rowGap="3x"
 >
   <Grid>
-    <Text>Name:</Text>
+    <TextLabel>Name:</TextLabel>
   </Grid>
   <Grid>
     <Input type="text" placeholder="John Doe" />
   </Grid>
   <Grid>
-    <Text>Password:</Text>
+    <TextLabel>Password:</TextLabel>
   </Grid>
   <Grid>
     <Input type="password" placeholder="Password" />
@@ -247,7 +238,7 @@ render(<Example />);
 
 ### Input
 
-`Input` composes the [`PseudoBox`](./pseudobox) component.
+`Input` composes the [`InputBase`](./inputbase) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -257,9 +248,9 @@ render(<Example />);
 | `readOnly` | `boolean` | | If `true`, prevents the value of the input from being edited. |
 | `aria-invalid` | `boolean` | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
 
-### InputLabel
+### TextLabel
 
-`InputLabel` composes the [`Box`](./box) component.
+`TextLabel` composes the [`Box`](./box) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

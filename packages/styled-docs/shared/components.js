@@ -36,6 +36,8 @@ const components = [
   'ToggleSwitch',
   //'Tag',
   'Text',
+  'Textarea',
+  'TextLabel',
   //'Toast',
   'Tooltip',
 ];

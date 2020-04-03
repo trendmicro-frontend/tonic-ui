@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import Flex from '../Flex';
 import { useInputGroup } from '../InputGroup/context';
-import useInputGroupAddonStyle from './useInputGroupAddonStyle';
+import { useInputGroupAddonStyle } from './styles';
 
 const InputGroupAddon = forwardRef((
   {

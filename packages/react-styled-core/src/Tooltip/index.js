@@ -25,7 +25,6 @@ const Tooltip = ({
   placement = 'bottom',
   children,
   hideArrow,
-  variantColor,
   closeOnClick,
   defaultIsOpen,
   shouldWrapChildren,
@@ -73,8 +72,8 @@ const Tooltip = ({
     }
   };
 
-  const tooltipStyleProps = useTooltipStyle({ variantColor });
-  const arrowSize = '4px';
+  const tooltipStyleProps = useTooltipStyle();
+  const arrowSize = '6px';
 
   const handleClick = wrapEvent(children, 'onClick', () => {
     if (closeOnClick) {
@@ -122,7 +121,6 @@ const Tooltip = ({
         role={hasAriaLabel ? undefined : 'tooltip'}
         pointerEvents="none"
         arrowSize={arrowSize}
-        arrowColor={tooltipStyleProps.bg}
         {...tooltipStyleProps}
         {...rest}
       >

@@ -1,3 +1,5 @@
+import useColorMode from '../useColorMode';
+
 const baseProps = {
   position: 'relative',
   display: 'flex',
@@ -5,27 +7,27 @@ const baseProps = {
   outline: 0,
 };
 
-const inputGroupAddonSizes = {
+const sizes = {
   'sm': {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
     height: '6x',
-    px: '3x',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
   'md': {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
     height: '8x',
-    px: '3x',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
   'lg': {
     borderRadius: 'sm',
     fontSize: 'md',
     lineHeight: 'md',
     height: '10x',
-    px: '3x',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
 };
 
@@ -79,34 +81,51 @@ const getUnstyledStyle = ({
   };
 };
 
-const getSizeProps = ({
-  size,
-}) => {
+const getSizeProps = (props) => {
+  const { size } = props;
   const defaultSize = 'md';
-  return inputGroupAddonSizes[size] ?? inputGroupAddonSizes[defaultSize];
+
+  return sizes[size] ?? sizes[defaultSize];
 };
 
-const getVariantProps = ({
-  variant,
-  ...props
-}) => {
+const getVariantProps = (props) => {
+  const { colorMode, variant } = props;
+
   if (variant === 'outline') {
-    return getOutlinedStyle(props);
+    return getOutlinedStyle({ colorMode });
   }
 
   if (variant === 'filled') {
-    return getFilledStyle(props);
+    return getFilledStyle({ colorMode });
   }
 
   if (variant === 'unstyled') {
-    return getUnstyledStyle(props);
+    return getUnstyledStyle({ colorMode });
   }
 
   return {};
 };
 
+const useInputGroupAddonStyle = ({
+  size,
+  variant,
+}) => {
+  const { colorMode } = useColorMode();
+  const _props = {
+    colorMode,
+    size,
+    variant,
+  };
+  const sizeProps = getSizeProps(_props);
+  const variantProps = getVariantProps(_props);
+
+  return {
+    ...baseProps,
+    ...sizeProps,
+    ...variantProps,
+  };
+};
+
 export {
-  baseProps,
-  getSizeProps,
-  getVariantProps,
+  useInputGroupAddonStyle,
 };
