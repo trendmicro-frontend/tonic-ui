@@ -1,12 +1,10 @@
 # PesudoBox
 
-PseudoBox provides useful props to style common CSS <b>pseudo-class</b> and <b>pseudo-element</b> selectors.
+`PseudoBox` provides useful props to style common CSS pseudo-class and pseudo-element selectors.
 
-A <b>pseudo-class</b> selector targets elements depending on their state rather than on information from the document tree. For example, the selector `:hover` matches when the user interacts with an element with a pointing device, but does not necessary activate it.
+A pseudo-class selector targets elements depending on their state rather than on information from the document tree. For example, the selector `:hover` matches when the user interacts with an element with a pointing device, but does not necessary activate it.
 
-A <b>pseudo-element</b> selector applies styles to parts of your document content in scenarios where there isn't a specific HTML element to select. For example, `::before` creates a <b>pseudo-element</b> that is the first child of the selected element. It is often used to add cosmetic content to an element with the `content` property.
-
-This component composes [Box](./box).
+A pseudo-element selector applies styles to parts of your document content in scenarios where there isn't a specific HTML element to select. For example, `::before` creates a <b>pseudo-element</b> that is the first child of the selected element. It is often used to add cosmetic content to an element with the `content` property.
 
 ## Import
 
@@ -348,33 +346,35 @@ function Example() {
 }
 ```
 
-## Selectors and Props
+## Props
 
-| Selector | Props |
-| :------- | :---- |
-| `&:active` | `_active` |
-| `&:checked` | `_checked` |
-| `&:disabled` | `_disabled` |
-| `&:empty` | `_empty` |
-| `&:enabled` | `_enabled` |
-| `&:first-child` | `_firstChild` |
-| `&:first-of-type` | `_firstOfType` |
-| `&:fullscreen` | `_fullscreen` |
-| `&:focus` | `_focus` |
-| `&:focus-within` | `_focusWithin` |
-| `&:hover` | `_hover` |
-| `&:indeterminate` | `_indeterminate` |
-| `&:invalid` | `_invalid` |
-| `&:last-child` | `_lastChild` |
-| `&:last-of-type` | `_lastOfType` |
-| `&:nth-of-type()` | `_nthOfType` |
-| `&:read-only` | `_readOnly` |
-| `&:visited` | `_visited` |
-| `&::after` | `__after` |
-| `&::backdrop` | `__backdrop` |
-| `&::before` | `__before` |
-| `&::cue` | `__cue` |
-| `&::first-letter` | `__firstLetter` |
-| `&::first-line` | `__firstLine` |
-| `&::placeholder` | `__placeholder` |
-| `&::selection` | `__selection` |
+`PseudoBox` composes the [`Box`](./box) component.
+
+| Name | Selector |
+| :------- | :--- |
+| _active | `&:active` |
+| _checked | `&:checked` |
+| _disabled | `&:disabled` |
+| _empty | `&:empty` |
+| _enabled | `&:enabled` |
+| _firstChild | `&:first-child` |
+| _firstOfType | `&:first-of-type` |
+| _fullscreen | `&:fullscreen` |
+| _focus | `&:focus` |
+| _focusWithin | `&:focus-within` |
+| _hover | `&:hover` |
+| _indeterminate | `&:indeterminate` |
+| _invalid | `&:invalid` |
+| _lastChild | `&:last-child` |
+| _lastOfType | `&:last-of-type` |
+| _nthOfType | `&:nth-of-type()` |
+| _readOnly | `&:read-only` |
+| _visited | `&:visited` |
+| __after | `&::after` |
+| __backdrop | `&::backdrop` |
+| __before | `&::before` |
+| __cue | `&::cue` |
+| __firstLetter | `&::first-letter` |
+| __firstLine | `&::first-line` |
+| __placeholder | `&::placeholder` |
+| __selection | `&::selection` |
