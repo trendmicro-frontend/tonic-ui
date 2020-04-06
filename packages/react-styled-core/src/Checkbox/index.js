@@ -4,8 +4,11 @@ import Box from '../Box';
 import { useCheckboxGroup } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
 import Icon from '../Icon';
+import { ensureArray } from '../utils/ensure-type';
 import VisuallyHidden from '../VisuallyHidden';
 import useCheckboxStyle from './styles';
+
+const defaultSize = 'md';
 
 const Checkbox = forwardRef(
   (
@@ -21,7 +24,7 @@ const Checkbox = forwardRef(
       indeterminate,
 
       variantColor = 'blue',
-      size = 'md',
+      size,
       iconColor,
       iconSize = '12px',
 
@@ -34,29 +37,39 @@ const Checkbox = forwardRef(
     },
     ref,
   ) => {
-    const {
-      disabled: disabledFromParent,
-      size: sizeFromParent,
-      value: valueFromParent,
-      variantColor: variantColorFromParent,
-      onChange: onChangeFromParent
-    } = useCheckboxGroup();
+    const checkboxGroupContext = useCheckboxGroup();
     const _defaultChecked = defaultChecked ? undefined : checked;
-    let _checked = readOnly ? Boolean(checked) : _defaultChecked;
-    if (valueFromParent !== undefined) {
-      _checked = valueFromParent.includes(value);
+    checked = readOnly ? Boolean(checked) : _defaultChecked;
+
+    if (checkboxGroupContext) {
+      const {
+        disabled: checkboxGroupDisabled,
+        size: checkboxGroupSize,
+        value: checkboxGroupValue,
+        variantColor: checkboxGroupVariantColor,
+        onChange: checkboxGroupOnChange
+      } = { ...checkboxGroupContext };
+      if (checkboxGroupValue !== undefined) {
+        checked = ensureArray(checkboxGroupValue).includes(value);
+      }
+      disabled = checkboxGroupDisabled || disabled;
+      onChange = chainedFunction(
+        onChange,
+        checkboxGroupOnChange,
+      );
+      // - Use the inherited value from the checkbox group
+      // - Fallback to the default value if the value is null or undefined
+      size = (checkboxGroupSize ?? size) ?? defaultSize;
+      variantColor = checkboxGroupVariantColor ?? variantColor;
+    } else {
+      // Use the default value if the value is null or undefined
+      size = size ?? defaultSize;
     }
-    const _disabled = disabledFromParent || disabled;
-    const _size = sizeFromParent || size;
-    const _variantColor = variantColorFromParent || variantColor;
-    const _onChange = chainedFunction(
-      onChange,
-      onChangeFromParent,
-    );
+
     const styleProps = useCheckboxStyle({
-      color: _variantColor,
-      size: _size,
-      indeterminate
+      color: variantColor,
+      size,
+      indeterminate,
     });
 
     return (
@@ -65,7 +78,7 @@ const Checkbox = forwardRef(
         display="inline-flex"
         verticalAlign="top"
         alignItems="center"
-        cursor={_disabled || readOnly ? 'not-allowed' : 'pointer'}
+        cursor={disabled || readOnly ? 'not-allowed' : 'pointer'}
         {...rest}
       >
         <VisuallyHidden
@@ -76,11 +89,11 @@ const Checkbox = forwardRef(
           name={name}
           value={value}
           defaultChecked={readOnly ? undefined : defaultChecked}
-          onChange={readOnly ? undefined : _onChange}
+          onChange={readOnly ? undefined : onChange}
           onBlur={onBlur}
           onFocus={onFocus}
-          checked={_checked}
-          disabled={_disabled}
+          checked={checked}
+          disabled={disabled}
           readOnly={readOnly}
           data-indeterminate={indeterminate}
         />
@@ -107,7 +120,7 @@ const Checkbox = forwardRef(
             ml="2x"
             fontSize={size}
             userSelect="none"
-            opacity={readOnly || _disabled ? 0.32 : 1}
+            opacity={readOnly || disabled ? 0.32 : 1}
           >
             {children}
           </Box>

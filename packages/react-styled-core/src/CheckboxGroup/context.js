@@ -1,12 +1,6 @@
 import { createContext, useContext } from 'react';
 
-const CheckboxGroupContext = createContext({
-  disabled: false,
-  size: undefined,
-  value: undefined,
-  variantColor: undefined,
-  onChange: (e) => {},
-});
+const CheckboxGroupContext = createContext();
 
 const CheckboxGroupProvider = CheckboxGroupContext.Provider;
 
