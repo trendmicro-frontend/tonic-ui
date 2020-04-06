@@ -12,13 +12,16 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
     _focus: {
       borderColor: outerBorderColor,
       boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
+      // Bring overlapping border to front when focused
+      zIndex: 1,
     },
     _hover: {
       '&:not(:focus)': {
         borderColor: `${color}:50`,
       },
       color: `${color}:40`,
-      zIndex: 1,
+      // Use a higher z-index value to bring overlapping border to front when hovered
+      zIndex: 2,
     },
     _active: {
       '&:not(:focus)': {
@@ -68,13 +71,16 @@ const fillColorVariantProps = ({ color, theme: { colors } }) => {
         right: '2px',
         bg: `${color}:60`,
       },
+      // Bring overlapping border to front when focused
+      zIndex: 1,
     },
     _hover: {
       bg: `${color}:50`,
       '& > :first-of-type': {
         bg: `${color}:50`,
       },
-      zIndex: 1,
+      // Use a higher z-index value to bring overlapping border to front when hovered
+      zIndex: 2,
     },
     _active: {
       bg: `${color}:70`,
@@ -102,16 +108,19 @@ const sizes = {
     minHeight: '10x', // 40px
     fontSize: 'md',
     lineHeight: 'md',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
   md: {
     minHeight: '8x', //32px
     fontSize: 'sm',
     lineHeight: 'sm',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
   sm: {
     minHeight: '6x', //24px
     fontSize: 'sm',
     lineHeight: 'sm',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
   },
 };
 
@@ -187,4 +196,47 @@ const useButtonStyle = props => {
   };
 };
 
-export default useButtonStyle;
+const getGroupButtonStyle = ({ useVertical, useDivideLine, useNegativeMargin }) => {
+  const horizontalCss = {
+    '&:not(:first-of-type)': {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
+    '&:not(:last-of-type)': {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    // hide last divide line
+    '&:last-of-type + *': {
+      display: useDivideLine ? 'none' : 'inherit',
+    },
+    // adjacent sibling
+    '&+&': {
+      marginLeft: useNegativeMargin ? -1 : 0,
+    },
+  };
+  const verticalCss = {
+    '&:not(:first-of-type)': {
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+    },
+    '&:not(:last-of-type)': {
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    // hide last divide line
+    '&:last-of-type + *': {
+      display: useDivideLine ? 'none' : 'inherit',
+    },
+    // adjacent sibling
+    '&+&': {
+      marginTop: useNegativeMargin ? -1 : 0,
+    },
+  };
+  return useVertical ? verticalCss : horizontalCss;
+};
+
+export {
+  getGroupButtonStyle,
+  useButtonStyle,
+};
