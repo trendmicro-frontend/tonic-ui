@@ -3,16 +3,12 @@ import React from 'react';
 import theme from '../theme';
 
 const ThemeProvider = ({
-  theme,
+  theme: customTheme = theme,
   children,
 }) => (
-  <EmotionThemeProvider theme={theme}>
+  <EmotionThemeProvider theme={customTheme}>
     {children}
   </EmotionThemeProvider>
 );
-
-ThemeProvider.defaultProps = {
-  theme,
-};
 
 export default ThemeProvider;
