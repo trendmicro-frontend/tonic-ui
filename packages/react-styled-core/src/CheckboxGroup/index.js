@@ -1,5 +1,8 @@
+import memoize from 'micro-memoize';
 import React, { useState, useRef } from 'react';
 import { CheckboxGroupProvider } from './context';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const CheckboxGroup = ({
   children,
@@ -24,16 +27,16 @@ const CheckboxGroup = ({
     !isControlled && setValues(newValues);
     onChange && onChange(newValues);
   };
-  const state = {
+  const checkboxGroupState = getMemoizedState({
     disabled: disabled,
     onChange: _onChange,
     size: size,
     value: _values,
     variantColor: variantColor,
-  };
+  });
 
   return (
-    <CheckboxGroupProvider value={state}>
+    <CheckboxGroupProvider value={checkboxGroupState}>
       { children }
     </CheckboxGroupProvider>
   );

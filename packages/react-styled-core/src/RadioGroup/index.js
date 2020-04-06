@@ -1,6 +1,9 @@
+import memoize from 'micro-memoize';
 import React, { useState, useRef } from 'react';
 import { useId } from '../utils/autoId';
 import { RadioGroupProvider } from './context';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const RadioGroup = ({
   children,
@@ -26,17 +29,17 @@ const RadioGroup = ({
   // If no name is passed, we'll generate a random, unique name
   const fallbackName = `radio-${useId()}`;
   const _name = name || fallbackName;
-  const state = {
+  const radioGroupState = getMemoizedState({
     disabled: disabled,
     name: _name,
     onChange: _onChange,
     size: size,
     value: _value,
     variantColor: variantColor,
-  };
+  });
 
   return (
-    <RadioGroupProvider value={state}>
+    <RadioGroupProvider value={radioGroupState}>
       { children }
     </RadioGroupProvider>
   );

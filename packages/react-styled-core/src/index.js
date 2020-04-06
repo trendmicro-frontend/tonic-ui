@@ -36,6 +36,7 @@ import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
+import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
 import theme from './theme';
 import useColorMode from './useColorMode';
@@ -84,6 +85,7 @@ export {
   Textarea,
   TextLabel,
   ThemeProvider,
+  ToggleSwitch,
   Tooltip,
   theme,
   useColorMode,

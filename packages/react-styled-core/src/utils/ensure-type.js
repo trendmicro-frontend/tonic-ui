@@ -1,3 +1,17 @@
+export const ensureArray = (...args) => {
+  if (args.length === 0) { // no args, return []
+    return [];
+  }
+  if (args.length === 1) { // single argument
+    if (args[0] === undefined || args[0] === null) { // undefined or null, return []
+      return [];
+    }
+    return [].concat(args[0]);
+  }
+  // return array with copy of all arguments
+  return [].concat(args);
+};
+
 export const ensureBoolean = (value, defaultValue = false) => {
   if (value === undefined || value === null) {
     return Boolean(defaultValue);

@@ -18,6 +18,8 @@ const iconSizes = {
   sm: '6px',
 };
 
+const defaultSize = 'md';
+
 const Radio = forwardRef(
   (
     {
@@ -27,7 +29,7 @@ const Radio = forwardRef(
       disabled,
       id,
       name,
-      size = 'md',
+      size,
       value,
       variantColor = 'blue',
       onChange,
@@ -37,29 +39,39 @@ const Radio = forwardRef(
     },
     ref,
   ) => {
-    const {
-      disabled: disabledFromParent,
-      name: nameFromParent,
-      size: sizeFromParent,
-      value: valueFromParent,
-      variantColor: variantColorFromParent,
-      onChange: onChangeFromParent
-    } = useRadioGroup();
-    let _checked = checked;
-    if (valueFromParent !== undefined) {
-      _checked = (valueFromParent === value);
+    const radioGroupContext = useRadioGroup();
+
+    if (radioGroupContext) {
+      const {
+        disabled: radioGroupDisabled,
+        name: radioGroupName,
+        size: radioGroupSize,
+        value: radioGroupValue,
+        variantColor: radioGroupVariantColor,
+        onChange: radioGroupOnChange,
+      } = useRadioGroup();
+      if (radioGroupValue !== undefined) {
+        checked = (radioGroupValue === value);
+      }
+      disabled = radioGroupDisabled || disabled;
+      onChange = chainedFunction(
+        onChange,
+        radioGroupOnChange,
+      );
+      // - Use the inherited value from the radio group
+      // - Fallback to the default value if the value is null or undefined
+      name = radioGroupName ?? name;
+      size = (radioGroupSize ?? size) ?? defaultSize;
+      variantColor = radioGroupVariantColor ?? variantColor;
+    } else {
+      // Use the default value if the value is null or undefined
+      size = size ?? defaultSize;
     }
-    const _disabled = disabledFromParent || disabled;
-    const _name = nameFromParent || name;
-    const _size = sizes[sizeFromParent || size];
-    const _iconSize = iconSizes[sizeFromParent || size];
-    const _variantColor = variantColorFromParent || variantColor;
-    const _onChange = chainedFunction(
-      onChange,
-      onChangeFromParent,
-    );
+
+    const _size = sizes[size];
+    const _iconSize = iconSizes[size];
     const styleProps = useRadioStyle({
-      color: _variantColor,
+      color: variantColor,
       size: _size,
     });
 
@@ -70,7 +82,7 @@ const Radio = forwardRef(
         verticalAlign="top"
         htmlFor={id}
         alignItems="center"
-        cursor={_disabled ? 'not-allowed' : 'pointer'}
+        cursor={disabled ? 'not-allowed' : 'pointer'}
         {...rest}
       >
         <VisuallyHidden
@@ -78,14 +90,14 @@ const Radio = forwardRef(
           type="radio"
           id={id}
           ref={ref}
-          name={_name}
+          name={name}
           value={value}
           defaultChecked={defaultChecked}
-          onChange={_onChange}
+          onChange={onChange}
           onBlur={onBlur}
           onFocus={onFocus}
-          checked={_checked}
-          disabled={_disabled}
+          checked={checked}
+          disabled={disabled}
         />
         <ControlBox
           {...styleProps}
@@ -100,7 +112,7 @@ const Radio = forwardRef(
             ml="2x"
             fontSize={size}
             userSelect="none"
-            opacity={_disabled ? 0.32 : 1}
+            opacity={disabled ? 0.32 : 1}
           >
             {children}
           </Box>
