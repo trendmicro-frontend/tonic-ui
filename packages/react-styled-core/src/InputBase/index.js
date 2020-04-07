@@ -18,7 +18,6 @@ const InputBase = forwardRef((
     <PseudoBox
       ref={ref}
       as="input"
-      type="text"
       aria-disabled={disabled}
       aria-readonly={readOnly}
       aria-required={required}
