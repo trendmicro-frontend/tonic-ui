@@ -22,8 +22,7 @@ const Input = forwardRef((
       variant: inputGroupVariant,
     } = { ...inputGroupContext };
 
-    // - Use the inherited value from the input group
-    // - Fallback to the default value if the value is null or undefined
+    // Use fallback values if values are null or undefined
     size = (size ?? inputGroupSize) ?? defaultSize;
     variant = (variant ?? inputGroupVariant) ?? defaultVariant;
     css = [
@@ -31,7 +30,7 @@ const Input = forwardRef((
       css,
     ];
   } else {
-    // Use the default value if the value is null or undefined
+    // Use fallback values if values are null or undefined
     size = size ?? defaultSize;
     variant = variant ?? defaultVariant;
   }
