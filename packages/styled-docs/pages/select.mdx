@@ -1,0 +1,93 @@
+# Select
+
+The `Select` component is used to get user input in a text field.
+
+## Import
+
+```js
+import Select from '@trendmicro/react-styled-core/Select';
+// or
+import { Select } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<>
+  <TextLabel mb="1x">Label:</TextLabel>
+  <Select>
+    <option value="">Choose an option</option>
+    <optgroup label="Category 1">
+      <option value={1}>Option 1</option>
+      <option value={2}>Option 2</option>
+    </optgroup>
+    <optgroup label="Category 2">
+      <option value={3}>Option 3</option>
+      <option value={4}>Option 4</option>
+    </optgroup>
+  </Select>
+</>
+```
+
+### Variants
+
+The `Select` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+```jsx
+<Select variant="outline">
+  <option value="">Choose an option</option>
+  <option value="outline">Outline</option>
+</Select>
+```
+
+#### `filled`
+
+```jsx
+<Select variant="filled">
+  <option value="">Choose an option</option>
+  <option value="filled">Filled</option>
+</Select>
+```
+
+#### `unstyled`
+
+```jsx
+<Select variant="unstyled">
+  <option value="">Choose an option</option>
+  <option value="unstyled">Unstyled</option>
+</Select>
+```
+
+### Attributes
+
+General form input attributes are supported, such as `disabled`, `required`, etc.
+
+#### `disabled`
+
+```jsx
+<Select disabled>
+  <option value="">Choose an option</option>
+</Select>
+```
+
+#### `required`
+
+```jsx
+<Select required>
+  <option value="">Choose an option</option>
+  <option value="dog">Dog</option>
+  <option value="cat">Cat</option>
+</Select>
+```
+
+## Props
+
+`Select` composes the [`InputBase`](./inputbase) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| variant | string | 'outline' | The variant of the input style to use. One of: `'outline'`, `'filled'`, `'unstyled'` |
+| disabled | boolean | | If `true`, the input will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| aria-invalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
