@@ -1,12 +1,73 @@
+import { get } from '@styled-system/core'
+
+const isFiniteNumber = n => (typeof n === 'number') && !Number.isNaN(n);
+
+/**
+ * The `width` prop is transformed based on the following:
+ * • Numbers from 0-1 are converted to percentage widths.
+ * • Numbers greater than 1 are converted to pixel values.
+ * • String values are passed as raw CSS values.
+ * • Arrays are converted to responsive width styles.
+ * • If `theme.sizes` is defined, the `width` prop will attempt to pick up values from the theme.
+ */
+const getWidth = (n, scale) => {
+  const defaultValue = (!isFiniteNumber(n) || n > 1)
+    ? n
+    : n * 100 + '%';
+  return get(scale, n, defaultValue);
+};
+
 export const config = {
-  w: {
+  /**
+   * Layout (https://styled-system.com/api#layout)
+   *
+   * The layout utility includes style props for `width`, `w`, `height`, `h`,
+   * `minWidth`, `minHeight`, `maxWidth`, `maxHeight`, `overflow`, `overflowX`,
+   * `overflowY`, `display`, and `verticalAlign`.
+   */
+  width: {
     property: 'width',
     scale: 'sizes',
+    transform: getWidth,
   },
-  h: {
+  w: { // shorthand
+    property: 'width',
+    scale: 'sizes',
+    transform: getWidth,
+  },
+  height: {
     property: 'height',
     scale: 'sizes',
   },
+  h: { // shorthand
+    property: 'height',
+    scale: 'sizes',
+  },
+  minWidth: {
+    property: 'minWidth',
+    scale: 'sizes',
+  },
+  minHeight: {
+    property: 'minHeight',
+    scale: 'sizes',
+  },
+  maxWidth: {
+    property: 'maxWidth',
+    scale: 'sizes',
+  },
+  maxHeight: {
+    property: 'maxHeight',
+    scale: 'sizes',
+  },
+  overflow: true,
+  overflowX: true,
+  overflowY: true,
+  display: true,
+  verticalAlign: true,
+
+  /**
+   * SVG
+   */
   fill: {
     property: 'fill',
     scale: 'colors',
@@ -16,14 +77,20 @@ export const config = {
     scale: 'colors',
   },
 
-  // animations
+  /**
+   * Animations
+   */
   animation: true,
 
-  // backgrounds and borders
+  /**
+   * Backgrounds and Borders
+   */
   backgroundAttachment: true,
   backgroundClip: true,
 
-  // basic user interface
+  /**
+   * Basic User Interface
+   */
   appearance: true,
   aspectRatio: true,
   boxSizing: true,
@@ -34,25 +101,37 @@ export const config = {
   textOverflow: true,
   userSelect: true,
 
-  // box model
+  /**
+   * Box Model
+   */
   visibility: true,
 
-  // float
+  /**
+   * Float
+   */
   float: true,
 
-  // images
+  /**
+   * Images
+   */
   objectFit: true,
   objectPosition: true,
 
-  // lists and counters
+  /**
+   * Lists and Counters
+   */
   listStyleImage: true,
   listStylePosition: true,
   listStyleType: true,
 
-  // pointer events
+  /**
+   * Pointer Events
+   */
   pointerEvents: true,
 
-  // text
+  /**
+   * Text
+   */
   lineBreak: true,
   overflowWrap: true,
   textIndent: true,
@@ -62,11 +141,15 @@ export const config = {
   wordBreak: true,
   wordSpacing: true,
 
-  // text decoration
+  /**
+   * Text Decoration
+   */
   textDecoration: true,
   textEmphasis: true,
 
-  // transforms
+  /**
+   * Transforms
+   */
   backfaceVisibility: true,
   perspective: true,
   perspectiveOrigin: true,
@@ -75,13 +158,17 @@ export const config = {
   transformOrigin: true,
   transformStyle: true,
 
-  // transitions
+  /**
+   * Transitions
+   */
   transition: true,
   transitionDelay: true,
   transitionDuration: true,
   transitionProperty: true,
   transitionTimingFunction: true,
 
-  // will change
+  /**
+   * Will Change
+   */
   willChange: true,
 };
