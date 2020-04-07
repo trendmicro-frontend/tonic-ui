@@ -1,4 +1,4 @@
-import { get, system } from '@styled-system/core'
+import { get, system } from '@styled-system/core';
 
 const isFiniteNumber = n => (typeof n === 'number') && !Number.isNaN(n);
 

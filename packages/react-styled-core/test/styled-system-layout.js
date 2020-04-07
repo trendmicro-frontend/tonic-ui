@@ -2,7 +2,7 @@ import layout from '../src/shared/layout';
 
 test('returns layout styles', () => {
   const style = layout({
-    width: [1, 1/2, 1/4],
+    width: [1, 1 / 2, 1 / 4],
     minHeight: 32,
     maxWidth: 768,
   });
