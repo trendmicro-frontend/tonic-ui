@@ -19,8 +19,8 @@ const getWidth = (n, scale) => {
 
 /**
  * The layout utility includes style props for the following:
- * • `width`, `w`
- * • `height`, `h`
+ * • `width` (or `w`)
+ * • `height` (or `h`)
  * • `minWidth`
  * • `minHeight`
  * • `maxWidth`
