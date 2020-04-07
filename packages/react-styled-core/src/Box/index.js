@@ -13,7 +13,8 @@ import {
   compose,
   system,
 } from 'styled-system';
-import { config } from '../shared/config';
+import config from '../shared/config';
+import layout from '../shared/layout';
 
 const styledSystemProps = compose(
   background,
@@ -21,6 +22,7 @@ const styledSystemProps = compose(
   color,
   flexbox,
   grid,
+  layout,
   position,
   shadow,
   space,
