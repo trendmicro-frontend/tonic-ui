@@ -26,6 +26,10 @@ const Input = forwardRef((
     // - Fallback to the default value if the value is null or undefined
     size = (size ?? inputGroupSize) ?? defaultSize;
     variant = (variant ?? inputGroupVariant) ?? defaultVariant;
+    css = [
+      getInputGroupCSS({ variant }),
+      css,
+    ];
   } else {
     // Use the default value if the value is null or undefined
     size = size ?? defaultSize;
@@ -38,10 +42,7 @@ const Input = forwardRef((
     <InputBase
       ref={ref}
       as="input"
-      css={[ // TODO: combine the css array in v11
-        getInputGroupCSS({ variant }),
-        css,
-      ]}
+      css={css}
       {...styleProps}
       {...rest}
     />

@@ -125,6 +125,7 @@ const getUnstyledStyle = ({
     color,
     border: 0,
     borderRadius: 0,
+    height: undefined,
     px: undefined,
     py: undefined,
   };
