@@ -17,14 +17,23 @@ const getWidth = (n, scale) => {
   return get(scale, n, defaultValue);
 };
 
+/**
+ * The layout utility includes style props for the following:
+ * • `width`, `w`
+ * • `height`, `h`
+ * • `minWidth`
+ * • `minHeight`
+ * • `maxWidth`
+ * • `maxHeight`
+ * • `overflow`
+ * • `overflowX`
+ * • `overflowY`
+ * • `display`
+ * • `verticalAlign`
+ *
+ * See also: https://styled-system.com/api#layout
+ */
 const config = {
-  /**
-   * Layout (https://styled-system.com/api#layout)
-   *
-   * The layout utility includes style props for `width`, `w`, `height`, `h`,
-   * `minWidth`, `minHeight`, `maxWidth`, `maxHeight`, `overflow`, `overflowX`,
-   * `overflowY`, `display`, and `verticalAlign`.
-   */
   width: {
     property: 'width',
     scale: 'sizes',
