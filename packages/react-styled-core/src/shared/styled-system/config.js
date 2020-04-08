@@ -1,12 +1,7 @@
-export const config = {
-  w: {
-    property: 'width',
-    scale: 'sizes',
-  },
-  h: {
-    property: 'height',
-    scale: 'sizes',
-  },
+const config = {
+  /**
+   * SVG
+   */
   fill: {
     property: 'fill',
     scale: 'colors',
@@ -16,14 +11,20 @@ export const config = {
     scale: 'colors',
   },
 
-  // animations
+  /**
+   * Animations
+   */
   animation: true,
 
-  // backgrounds and borders
+  /**
+   * Backgrounds and Borders
+   */
   backgroundAttachment: true,
   backgroundClip: true,
 
-  // basic user interface
+  /**
+   * Basic User Interface
+   */
   appearance: true,
   aspectRatio: true,
   boxSizing: true,
@@ -34,25 +35,37 @@ export const config = {
   textOverflow: true,
   userSelect: true,
 
-  // box model
+  /**
+   * Box Model
+   */
   visibility: true,
 
-  // float
+  /**
+   * Float
+   */
   float: true,
 
-  // images
+  /**
+   * Images
+   */
   objectFit: true,
   objectPosition: true,
 
-  // lists and counters
+  /**
+   * Lists and Counters
+   */
   listStyleImage: true,
   listStylePosition: true,
   listStyleType: true,
 
-  // pointer events
+  /**
+   * Pointer Events
+   */
   pointerEvents: true,
 
-  // text
+  /**
+   * Text
+   */
   lineBreak: true,
   overflowWrap: true,
   textIndent: true,
@@ -62,11 +75,15 @@ export const config = {
   wordBreak: true,
   wordSpacing: true,
 
-  // text decoration
+  /**
+   * Text Decoration
+   */
   textDecoration: true,
   textEmphasis: true,
 
-  // transforms
+  /**
+   * Transforms
+   */
   backfaceVisibility: true,
   perspective: true,
   perspectiveOrigin: true,
@@ -75,13 +92,19 @@ export const config = {
   transformOrigin: true,
   transformStyle: true,
 
-  // transitions
+  /**
+   * Transitions
+   */
   transition: true,
   transitionDelay: true,
   transitionDuration: true,
   transitionProperty: true,
   transitionTimingFunction: true,
 
-  // will change
+  /**
+   * Will Change
+   */
   willChange: true,
 };
+
+export default config;
