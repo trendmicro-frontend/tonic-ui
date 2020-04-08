@@ -5,7 +5,7 @@ import ColorModeProvider from '../ColorModeProvider';
 import useTheme from '../useTheme';
 import useColorMode from '../useColorMode';
 import Box from '../Box';
-import { AlertButton as ToastButton } from '../Alert';
+import ToastButton from '../ActionButton';
 import Icon from '../Icon';
 import { useToastStyle, useToastIconStyle } from './styles';
 
@@ -62,7 +62,8 @@ const ToastIcon = props => {
   return (
     <Icon
       mr="2x"
-      size="4x"
+      width="4x"
+      height="4x"
       name={`_core.${iconName}`}
       {...iconProps}
       {...props}

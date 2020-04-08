@@ -12,6 +12,7 @@ const baseProps = {
   pb: '2x',
   color: 'black:emphasis',
   fontSize: 'sm',
+  lineHeight: 'sm',
 };
 
 const styleToastProps = ({ color, colorLevel, theme: { colors } }) => {

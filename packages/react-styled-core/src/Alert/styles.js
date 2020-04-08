@@ -11,7 +11,6 @@ const baseProps = {
   pt: '2x',
   pb: '2x',
   color: 'black:emphasis',
-  fontSize: 'sm',
 };
 
 const styleProps = ({ color, colorLevel }) => {

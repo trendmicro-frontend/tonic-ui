@@ -2,7 +2,7 @@ import React, { createContext, useContext, forwardRef } from 'react';
 import Box from '../Box';
 import Icon from '../Icon';
 import useAlertStyle from './styles';
-import FlatButton from '../FlatButton';
+import AlertButton from '../ActionButton';
 
 const statuses = {
   info: {
@@ -57,32 +57,5 @@ const AlertIcon = props => {
     />
   );
 };
-
-const AlertButton = forwardRef((
-  {
-    disabled,
-    children,
-    as = 'button',
-    type = 'button',
-    ...rest
-  },
-  ref,
-) => {
-  return (
-    <FlatButton
-      disabled={disabled}
-      aria-disabled={disabled}
-      ref={ref}
-      as={as}
-      type={type}
-      variant="outline"
-      variantColor="black:emphasis"
-      size="sm"
-      minWidth={76}
-    >
-      {children}
-    </FlatButton>
-  );
-});
 
 export { Alert, AlertIcon, AlertButton };
