@@ -99,8 +99,9 @@ function useToast() {
           options,
         );
       }
+      return null;
     },
-    [theme],
+    [theme, colorMode],
   );
 
   return notify;

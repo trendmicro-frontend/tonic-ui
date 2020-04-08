@@ -84,6 +84,6 @@ const useToastIconStyle = props => {
   return {
     ...statusToastIconProps(_props)[colorMode],
   };
-}
+};
 
 export { useToastStyle, useToastIconStyle };
