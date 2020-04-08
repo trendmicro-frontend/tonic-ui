@@ -1,11 +1,8 @@
 import React, { createContext, useContext, forwardRef } from 'react';
 import Box from '../Box';
-import PseudoBox from '../PseudoBox';
 import Icon from '../Icon';
 import useAlertStyle from './styles';
-import useTheme from '../useTheme';
 import FlatButton from '../FlatButton';
-import { addOpacity } from '../theme/colors-utils';
 
 const statuses = {
   info: {
