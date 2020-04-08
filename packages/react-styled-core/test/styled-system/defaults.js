@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer, { matchers } from 'jest-emotion';
-import Box from '../src/Box';
+import Box from '../../src/Box';
 
 expect.extend(matchers);
 expect.addSnapshotSerializer(serializer);

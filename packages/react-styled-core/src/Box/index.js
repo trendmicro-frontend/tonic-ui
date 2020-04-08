@@ -13,8 +13,8 @@ import {
   compose,
   system,
 } from 'styled-system';
-import config from '../shared/config';
-import layout from '../shared/layout';
+import config from '../shared/styled-system/config';
+import layout from '../shared/styled-system/layout';
 
 const styledSystemProps = compose(
   background,
