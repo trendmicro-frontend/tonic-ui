@@ -101,11 +101,12 @@ const Radio = forwardRef(
         />
         <ControlBox
           {...styleProps}
-          size={_size}
           type="radio"
           borderRadius="circle"
+          width={_size}
+          height={_size}
         >
-          <Box bg="currentColor" as="span" borderRadius="circle" size={_iconSize} />
+          <Box bg="currentColor" as="span" borderRadius="circle" width={_iconSize} height={_iconSize} />
         </ControlBox>
         {children && (
           <Box
