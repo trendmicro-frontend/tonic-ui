@@ -53,7 +53,8 @@ const AlertIcon = props => {
   return (
     <Icon
       mr="2x"
-      size="4x"
+      width="4x"
+      height="4x"
       name={`_core.${iconName}`}
       {...props}
     />
