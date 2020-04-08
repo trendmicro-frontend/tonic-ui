@@ -1,11 +1,10 @@
-import React, { createContext, useContext, forwardRef, useCallback } from 'react';
+import React, { createContext, useContext, useCallback } from 'react';
 import toaster from 'toasted-notes';
 import ThemeProvider from '../ThemeProvider';
 import ColorModeProvider from '../ColorModeProvider';
 import useTheme from '../useTheme';
 import useColorMode from '../useColorMode';
 import Box from '../Box';
-import PseudoBox from '../PseudoBox';
 import { AlertButton as ToastButton } from '../Alert';
 import Icon from '../Icon';
 import { useToastStyle, useToastIconStyle } from './styles';
