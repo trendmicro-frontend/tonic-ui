@@ -2,13 +2,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer, { matchers } from 'jest-emotion';
 import Box from '../../src/Box';
+import { ensureFiniteNumber } from '../../src/utils/ensure-type';
 
 expect.extend(matchers);
 expect.addSnapshotSerializer(serializer);
 
 const render = el => renderer.create(el).toJSON();
 const toPixel = (x) => {
-  return (x > 0) ? `${x}px` : '0';
+  x = ensureFiniteNumber(x);
+  return (x !== 0) ? `${x}px` : '0';
 };
 
 describe('styled system defaults', () => {
