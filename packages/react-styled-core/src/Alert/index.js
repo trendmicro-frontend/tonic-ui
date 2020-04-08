@@ -1,4 +1,4 @@
-import React, { createContext, useContext, forwardRef } from 'react';
+import React, { createContext, useContext } from 'react';
 import Box from '../Box';
 import Icon from '../Icon';
 import useAlertStyle from './styles';
