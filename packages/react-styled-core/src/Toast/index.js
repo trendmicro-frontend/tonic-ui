@@ -86,7 +86,7 @@ function useToast() {
         duration,
       };
 
-      if (render) {
+      if (render && typeof render === 'function') {
         return toaster.notify(
           ({ onClose, id }) => (
             <ThemeProvider theme={theme}>
