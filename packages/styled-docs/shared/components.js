@@ -38,7 +38,7 @@ const components = [
   'Text',
   'Textarea',
   'TextLabel',
-  //'Toast',
+  'Toast',
   'Tooltip',
 ];
 
