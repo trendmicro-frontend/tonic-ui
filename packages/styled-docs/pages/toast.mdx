@@ -59,7 +59,7 @@ color scheme and icon used. Toast supports `error`, `warning`, and
 function Example() {
   const toast = useToast();
   return (
-    <Stack spacing=".5rem" shouldWrapChildren>
+    <Stack spacing="2x" shouldWrapChildren>
       <Button
         onClick={() =>
           toast({
@@ -138,7 +138,7 @@ function Example() {
     </Toast>
   );
   return (
-    <Stack direction="column" spacing="2rem">
+    <Stack direction="column" spacing="4x">
       <Stack shouldWrapChildren direction="row" spacing="2rem">
         <Button
           onClick={() =>
@@ -171,7 +171,7 @@ function Example() {
           Show Top Right Toast
         </Button>
       </Stack>
-      <Stack shouldWrapChildren direction="row" spacing="2rem">
+      <Stack shouldWrapChildren direction="row" spacing="4x">
         <Button
           onClick={() =>
             toast({
