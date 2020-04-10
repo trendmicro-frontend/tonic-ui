@@ -18,6 +18,7 @@ const components = [
   'Grid',
   'Heading',
   'Icon',
+  'IconButton',
   'Image',
   'Input',
   'InputBase',

@@ -1,0 +1,41 @@
+# Icon Button
+
+`IconButton` composes the [`ButtonBase`](./buttonbase) component, except that it renders only an icon.
+
+## Import
+
+```js
+import IconButton from '@trendmicro/react-styled-core/IconButton';
+// or
+import { IconButton } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<IconButton icon="_core.warning-triangle" />
+```
+
+### Colors
+
+```jsx
+<IconButton icon="_core.warning-triangle" color="yellow" />
+```
+
+### Sizes
+
+```jsx
+<IconButton
+  width="12x"
+  height="12x"
+  icon="_core.check-circle"
+  iconSize="10x"
+/>
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | ------- | ----------- |
+| icon | string | | The icon to be used. Refer to the [Icons](./icon) section of the docs for the available icon options. |
+| iconSize | string | | The size of the icon. |

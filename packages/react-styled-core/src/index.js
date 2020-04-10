@@ -16,6 +16,7 @@ import Flex from './Flex';
 import Grid from './Grid';
 import Heading from './Heading';
 import Icon from './Icon';
+import IconButton from './IconButton';
 import Image from './Image';
 import Input from './Input';
 import InputBase from './InputBase';
@@ -65,6 +66,7 @@ export {
   Grid,
   Heading,
   Icon,
+  IconButton,
   Image,
   Input,
   InputBase,
