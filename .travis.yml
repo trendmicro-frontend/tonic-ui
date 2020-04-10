@@ -51,7 +51,7 @@ jobs:
         - git remote add origin https://${PR_DEMO_REPO}
         - git push -u --force "https://${GH_TOKEN}@${PR_DEMO_REPO}" gh-pages > /dev/null 2>&1
         - cd ..
-        - octokit issues create-comment --body "Successfully deployed ${PULL_REQUEST_COMMIT} to ${PR_DEMO_SITE}/pr-${TRAVIS_PULL_REQUEST}" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
+        - octokit issues create-comment --body "Successfully deployed ${PULL_REQUEST_COMMIT} to ${PR_DEMO_SITE}/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
     - stage: deploy
       node_js:
         - '10'
