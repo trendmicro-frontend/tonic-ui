@@ -12,7 +12,7 @@ export const ColorPalette = ({ color, name, ...props }) => {
 
   return (
     <Flex align="center" {...props}>
-      <Box size="12x" mr="2x" bg={color} />
+      <Box width="12x" height="12x" mr="2x" bg={color} />
       <Box fontSize="sm">
         <Box fontWeight="semibold" textTransform="capitalize">
           {shade} {hue}
