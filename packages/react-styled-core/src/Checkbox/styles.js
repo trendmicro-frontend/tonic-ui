@@ -89,11 +89,13 @@ const useCheckboxStyle = props => {
     md: '16px',
     sm: 'auto',
   };
+  const size = sizes[props.size];
   const _props = { ...props, colorMode };
   return {
     ...baseProps,
     ...props.indeterminate ? { ...indeterminateProps(_props) } : { ...interactionProps(_props) },
-    size: sizes[props.size],
+    width: size,
+    height: size,
   };
 };
 

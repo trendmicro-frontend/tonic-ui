@@ -110,8 +110,7 @@ const Checkbox = forwardRef(
           <Icon
             zIndex="1"
             name={indeterminate ? '_core.minus' : '_core.check'}
-            width={iconSize}
-            height={iconSize}
+            size={iconSize}
             color={iconColor}
             transition="transform 240ms, opacity 240ms"
           />
