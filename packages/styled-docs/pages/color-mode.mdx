@@ -45,31 +45,20 @@ function Example() {
 To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override global color mode.
 
 ```jsx
-function Example() {
-  const { colorMode, toggleColorMode } = useColorMode();
-
-  return (
-    <Stack direction="row" spacing="2x" shouldWrapChildren>
-      <LightMode>
-        <Box bg="white" px="6x" py="4x">
-          <Button variant="outline">
-            Force Light Mode
-          </Button>
-        </Box>
-      </LightMode>
-      <DarkMode>
-        <Box bg="gray:90" px="6x" py="4x">
-          <Button variant="outline">
-            Force Dark Mode
-          </Button>
-        </Box>
-      </DarkMode>
-      <Box px="6x" py="4x">
-        <Button onClick={toggleColorMode}>
-          Current Color Mode
-        </Button>
-      </Box>
-    </Stack>
-  );
-}
+<Flex>
+  <LightMode>
+    <Box bg="white" color="black:primary" px="4x" py="2x">
+      <Button variant="outline">
+        Light Mode
+      </Button>
+    </Box>
+  </LightMode>
+  <DarkMode>
+    <Box bg="gray:90" color="white:primary" px="4x" py="2x">
+      <Button variant="outline">
+        Dark Mode
+      </Button>
+    </Box>
+  </DarkMode>
+</Flex>
 ```
