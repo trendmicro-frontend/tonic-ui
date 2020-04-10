@@ -62,8 +62,7 @@ const ToastIcon = props => {
   return (
     <Icon
       mr="2x"
-      width="4x"
-      height="4x"
+      size="4x"
       name={`_core.${iconName}`}
       {...iconProps}
       {...props}
