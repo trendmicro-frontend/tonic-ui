@@ -5,6 +5,7 @@ import ButtonBase from './ButtonBase';
 import ButtonGroup from './ButtonGroup';
 import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
+import CloseButton from './CloseButton';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import ControlBox from './ControlBox';
@@ -55,6 +56,7 @@ export {
   ButtonGroup,
   Checkbox,
   CheckboxGroup,
+  CloseButton,
   Collapse,
   ColorModeProvider,
   ControlBox,

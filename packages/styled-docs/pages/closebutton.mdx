@@ -1,0 +1,55 @@
+# CloseButton
+
+`CloseButton` is essentially a button with a close icon. It is used to handle the close functionality in feedback and overlay components like [Alerts](./alert), [Drawers](./drawer), [Modals](./modal), [Tags](./tag) and [Toasts](./toast).
+
+## Import
+
+```js
+import CloseButton from '@trendmicro/react-styled-core/CloseButton';
+// or
+import { CloseButton } from '@trendmicro/react-styled-core';
+```
+
+## Usage
+
+```jsx
+<CloseButton />
+```
+
+### Colors
+
+```jsx
+<CloseButton color="red" />
+```
+
+### Sizes
+
+Pass the size prop to adjust the size of the close button. Values can be `sm`, `md` or `lg`.
+
+```jsx
+<Stack direction="row" spacing="4x">
+  <CloseButton size="sm" />
+  <CloseButton size="md" />
+  <CloseButton size="lg" />
+</Stack>
+```
+
+### Focus
+
+```jsx
+<CloseButton
+  _focus={{
+    borderColor: '#1e5ede',
+    boxShadow: `inset 0 0 0 1px #1e5ede`,
+  }}
+/>
+```
+
+## Props
+
+`CloseButton` composes the [`IconButton`](./IconButton) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| color | string | | The color of the close icon |
+| size | string | 'md' | The size of the close button. One of: 'sm', 'md', 'lg' |

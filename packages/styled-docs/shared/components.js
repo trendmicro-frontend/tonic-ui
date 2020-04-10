@@ -8,6 +8,7 @@ const components = [
   'ButtonGroup',
   'Checkbox',
   'CheckboxGroup',
+  'CloseButton',
   'Collapse',
   'ControlBox',
   'CSSBaseline',
