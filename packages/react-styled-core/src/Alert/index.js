@@ -1,8 +1,10 @@
 import React, { createContext, useContext } from 'react';
-import Box from '../Box';
-import Icon from '../Icon';
-import useAlertStyle from './styles';
 import AlertButton from '../ActionButton';
+import Box from '../Box';
+import CloseButton from '../CloseButton';
+import Icon from '../Icon';
+import LightMode from '../LightMode';
+import useAlertStyle from './styles';
 
 const statuses = {
   info: {
@@ -57,4 +59,12 @@ const AlertIcon = props => {
   );
 };
 
-export { Alert, AlertIcon, AlertButton };
+const AlertCloseButton = props => {
+  return (
+    <LightMode>
+      <CloseButton {...props} />
+    </LightMode>
+  );
+};
+
+export { Alert, AlertIcon, AlertButton, AlertCloseButton };

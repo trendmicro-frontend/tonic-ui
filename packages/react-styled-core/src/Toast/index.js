@@ -4,9 +4,11 @@ import ThemeProvider from '../ThemeProvider';
 import ColorModeProvider from '../ColorModeProvider';
 import useTheme from '../useTheme';
 import useColorMode from '../useColorMode';
-import Box from '../Box';
 import ToastButton from '../ActionButton';
+import Box from '../Box';
+import CloseButton from '../CloseButton';
 import Icon from '../Icon';
+import LightMode from '../LightMode';
 import { useToastStyle, useToastIconStyle } from './styles';
 
 const statuses = {
@@ -70,6 +72,14 @@ const ToastIcon = props => {
   );
 };
 
+const ToastCloseButton = props => {
+  return (
+    <LightMode>
+      <CloseButton {...props} />
+    </LightMode>
+  );
+};
+
 function useToast() {
   const theme = useTheme();
   const { colorMode } = useColorMode();
@@ -107,4 +117,4 @@ function useToast() {
   return notify;
 }
 
-export { useToast, Toast, ToastIcon, ToastButton };
+export { useToast, Toast, ToastIcon, ToastCloseButton, ToastButton };

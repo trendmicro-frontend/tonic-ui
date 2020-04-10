@@ -17,6 +17,7 @@ import {
   Toast,
   ToastIcon,
   ToastButton,
+  ToastCloseButton,
 } from '@trendmicro/react-styled-core/Toast';
 ```
 
@@ -37,7 +38,7 @@ function Example() {
               <Space width="8x" />
               <ToastButton minWidth={76}>Revert</ToastButton>
               <Space width="4x" />
-              <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
+              <ToastCloseButton onClick={onClose} />
             </Toast>
           ),
         })
@@ -69,7 +70,7 @@ function Example() {
                 <Heading mr="2x" fontWeight="bold" whiteSpace="nowrap">Account created.</Heading>
                 <Text whiteSpace="nowrap">We've created your account for you.</Text>
                 <Space width="8x" />
-                <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
+                <ToastCloseButton onClick={onClose} />
               </Toast>
             ),
           })
@@ -87,7 +88,7 @@ function Example() {
                 <Space width="8x" />
                 <ToastButton minWidth={76}>Revert</ToastButton>
                 <Space width="4x" />
-                <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
+                <ToastCloseButton onClick={onClose} />
               </Toast>
             ),
           })
@@ -106,7 +107,7 @@ function Example() {
                 <Space width="8x" />
                 <ToastButton minWidth={76}>Retry</ToastButton>
                 <Space width="4x" />
-                <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
+                <ToastCloseButton onClick={onClose} />
               </Toast>
             ),
           })
@@ -134,7 +135,7 @@ function Example() {
       <Space width="8x" />
       <ToastButton minWidth={76}>Revert</ToastButton>
       <Space width="4x" />
-      <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
+      <ToastCloseButton onClick={onClose} />
     </Toast>
   );
   return (
@@ -228,7 +229,7 @@ function Example() {
               <Space width="8x" />
               <ToastButton minWidth={76}>Revert</ToastButton>
               <Space width="4x" />
-              <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
+              <ToastCloseButton onClick={onClose} />
             </Toast>
           ),
         })
@@ -252,8 +253,12 @@ function Example() {
 
 ### ToastIcon props
 
-ToastIcon composes `Icon` and changes the icon based on the `status` prop.
+ToastIcon composes [`Icon`](./icon) and changes the icon based on the `status` prop.
 
 ### ToastButton props
 
-ToastButton composes the `PseudoBox` component.
+ToastButton composes the [`PseudoBox`](./pseudoBox) component.
+
+### ToastCloseButton props
+
+ToastCloseButton composes the [`CloseButton`](./closebutton) component.

@@ -14,6 +14,7 @@ import {
   Alert,
   AlertIcon,
   AlertButton,
+  AlertCloseButton,
 } from '@trendmicro/react-styled-core/Alert';
 ```
 
@@ -29,8 +30,8 @@ import {
     </Flex>
     <Flex>
       <AlertButton minWidth={76}>Action</AlertButton>
-      <Space width="1rem" />
-      <ButtonBase color="black:secondary">X</ButtonBase>
+      <Space width="4x" />
+      <AlertCloseButton mr="-8px" />
     </Flex>
   </Flex>
 </Alert>
@@ -88,7 +89,7 @@ create all kinds of layout. Here's an example of custom alert style and layout.
 
 ### Alert props
 
-Alert is the wrapper for alert component. It composes the `Flex` component.
+`Alert` is the wrapper for alert component. It composes the [`Flex`](./flex) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -96,8 +97,12 @@ Alert is the wrapper for alert component. It composes the `Flex` component.
 
 ### AlertIcon props
 
-AlertIcon composes `Icon` and changes the icon based on the `status` prop.
+AlertIcon composes [`Icon`](./icon) and changes the icon based on the `status` prop.
 
 ### AlertButton props
 
-AlertButton composes the `PseudoBox` component.
+AlertButton composes the [`PseudoBox`](./pseudoBox) component.
+
+### AlertCloseButton props
+
+AlertCloseButton composes the [`CloseButton`](./closebutton) component.
