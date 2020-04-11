@@ -4,7 +4,8 @@ To enable color mode, wrap your application in a `ColorModeProvider` and specify
 
 ```jsx disabled
 import React from 'react';
-import { ThemeProvider, ColorModeProvider, useColorMode } from '@trendmicro/react-styled-core';
+import { ThemeProvider, ColorModeProvider } from '@trendmicro/react-styled-core';
+import App from './App';
 
 function Example({ children }) {
   return (
@@ -20,6 +21,7 @@ function Example({ children }) {
 Then you can use the `useColorMode` hook to get current color mode or change the color mode.
 
 ```jsx disabled
+// App.jsx
 import React from 'react';
 import { Button, useColorMode } from '@trendmicro/react-styled-core';
 
