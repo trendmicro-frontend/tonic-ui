@@ -1,36 +1,16 @@
 # Color Mode
 
-## Import
-
-### Default imports
-
-```js
-import ColorModeProvider from '@trendmicro/react-styled-core/ColorModeProvider';
-import useColorMode from '@trendmicro/react-styled-core/useColorMode';
-```
-
-### Named imports
-
-```js
-import {
-  ColorModeProvider,
-  useColorMode,
-} from '@trendmicro/react-styled-core';
-```
-
-## Usage
-
 To enable color mode, wrap your application in a `ColorModeProvider` and specify the value prop with a color mode: `dark` or `light`.
 
 ```jsx disabled
 import React from 'react';
-import { ThemeProvider, ColorModeProvider } from '@trendmicro/react-styled-core';
+import { ThemeProvider, ColorModeProvider, useColorMode } from '@trendmicro/react-styled-core';
 
 function Example({ children }) {
   return (
     <ThemeProvider>
       <ColorModeProvider value="dark">
-        {children}
+        <App />
       </ColorModeProvider>
     </ThemeProvider>
   );
@@ -39,27 +19,18 @@ function Example({ children }) {
 
 Then you can use the `useColorMode` hook to get current color mode or change the color mode.
 
-```jsx
-function Example() {
+```jsx disabled
+import React from 'react';
+import { Button, useColorMode } from '@trendmicro/react-styled-core';
+
+const App = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Button onClick={toggleColorMode} alignItems="initial">
-      {colorMode === 'light' ? (
-        <>
-          <TMIcon name="moon" />
-          <Space width="2x" />
-          Toggle Color Mode
-        </>
-      ) : (
-        <>
-          <TMIcon name="sun" />
-          <Space width="2x" />
-          Toggle Color Mode
-        </>
-      )}
+    <Button onClick={toggleColorMode}>
+      Toggle Color Mode
     </Button>
   );
-}
+};
 ```
 
 To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override global color mode.

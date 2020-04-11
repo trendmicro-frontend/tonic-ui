@@ -94,8 +94,8 @@ const SideNav = React.forwardRef((props, ref) => {
         <NavLink href="getting-started">
           Getting Started
         </NavLink>
-        <NavLink href="color-mode">
-          Color Mode
+        <NavLink href="color-modes">
+          Color Modes
         </NavLink>
         <NavLink href="contributing">
           Contributing
