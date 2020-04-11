@@ -1,6 +1,6 @@
-# Color Mode
+# Color Modes
 
-To enable color mode, wrap your application in a `ColorModeProvider` and specify the value prop with a color mode: `dark` or `light`.
+To enable color modes, wrap your application in a `ColorModeProvider` and specify the value prop with a color mode: `dark` or `light`.
 
 ```jsx disabled
 import React from 'react';
@@ -39,19 +39,15 @@ To force a specific color mode, wrap your component in `LightMode` or `DarkMode`
 
 ```jsx
 <Flex>
-  <LightMode>
-    <Box bg="white" color="black:primary" px="4x" py="2x">
-      <Button variant="outline">
-        Light Mode
-      </Button>
-    </Box>
+  <LightMode bg="white" color="black:primary" px="4x" py="2x">
+    <Button variant="outline">
+      Light Mode
+    </Button>
   </LightMode>
-  <DarkMode>
-    <Box bg="gray:90" color="white:primary" px="4x" py="2x">
-      <Button variant="outline">
-        Dark Mode
-      </Button>
-    </Box>
+  <DarkMode bg="gray:90" color="white:primary" px="4x" py="2x">
+    <Button variant="outline">
+      Dark Mode
+    </Button>
   </DarkMode>
 </Flex>
 ```
