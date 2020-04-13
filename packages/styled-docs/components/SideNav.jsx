@@ -1,10 +1,19 @@
-import { Box, Heading, PseudoBox, useColorMode } from '@trendmicro/react-styled-core';
-import Link from 'next/link';
+import {
+  Box,
+  Heading,
+  PseudoBox,
+  useColorMode,
+  useTheme,
+} from '@trendmicro/react-styled-core';
+import NextLink from 'next/link';
 import React from 'react';
-import components from '../shared/components';
-import themes from '../shared/themes';
+import {
+  themeLinks,
+  buildingBlockLinks,
+  componentLinks,
+} from './nav-links';
 
-const NavLink = React.forwardRef(({ children, ...props }, ref) => {
+const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
   const { colorMode } = useColorMode();
   const color = {
     light: 'gray:90', // FIXME
@@ -24,7 +33,10 @@ const NavLink = React.forwardRef(({ children, ...props }, ref) => {
   }[colorMode];
 
   return (
-    <Link passHref {...props}>
+    <NextLink
+      passHref
+      href={href}
+    >
       <PseudoBox
         ref={ref}
         as="a"
@@ -39,14 +51,16 @@ const NavLink = React.forwardRef(({ children, ...props }, ref) => {
         _hover={{
           color: hoverColor,
         }}
+        {...rest}
       >
         {children}
       </PseudoBox>
-    </Link>
+    </NextLink>
   );
 });
 
 const SideNav = React.forwardRef((props, ref) => {
+  const theme = useTheme();
   const { colorMode } = useColorMode();
   const backgroundColor = {
     light: 'white', // FIXME
@@ -60,94 +74,94 @@ const SideNav = React.forwardRef((props, ref) => {
     light: 'black:tertiary',
     dark: 'white:tertiary',
   }[colorMode];
+  const top = theme.sizes['16x'];
+  const height = `calc(100vh - ${top})`;
 
   return (
-    <Box
+    <PseudoBox
       position="fixed"
-      top="16x"
+      top={top}
       left={0}
       width="100%"
-      height="100%"
+      height={height}
       backgroundColor={backgroundColor}
       borderRight={1}
       borderRightColor={borderColor}
       overflowY="auto"
       {...props}
     >
-      <Box
-        position="relative"
-        height="100%"
-      >
-        <Box mb="8x">
-          <NavLink href="getting-started">
-            Getting Started
-          </NavLink>
-          <NavLink href="color-mode">
-            Color Mode
-          </NavLink>
-          <NavLink href="contributing">
-            Contributing
-          </NavLink>
-        </Box>
-        <Box mb="8x">
-          <Heading
-            fontSize="md"
-            color={headingColor}
-            mb="2x"
-            pl="2x"
-          >
-            THEMES
-          </Heading>
-          {themes.map(theme => {
-            const url = `./${theme.toLowerCase().split(' ').join('-')}`;
-
-            return (
-              <NavLink key={theme} href={url}>
-                {theme}
-              </NavLink>
-            );
-          })}
-        </Box>
-        <Box mb="8x">
-          <Heading
-            fontSize="md"
-            color={headingColor}
-            mb="2x"
-            pl="2x"
-          >
-            COMPONENTS
-          </Heading>
-          {components.map(component => {
-            const url = `./${component.toLowerCase().split(' ').join('-')}`;
-
-            return (
-              <NavLink key={component} href={url}>
-                {component}
-              </NavLink>
-            );
-          })}
-        </Box>
-        <Box mb="calc(2rem + 4rem)">
-          <Heading
-            fontSize="md"
-            color={headingColor}
-            mb="2x"
-            pl="2x"
-          >
-            OTHERS
-          </Heading>
-          <NavLink href="usecolormode">
-            useColorMode
-          </NavLink>
-          <NavLink href="usetheme">
-            useTheme
-          </NavLink>
-          <NavLink href="withcolormode">
-            withColorMode
-          </NavLink>
-        </Box>
+      <Box>
+        <NavLink href="getting-started">
+          Getting Started
+        </NavLink>
+        <NavLink href="color-modes">
+          Color Modes
+        </NavLink>
+        <NavLink href="contributing">
+          Contributing
+        </NavLink>
       </Box>
-    </Box>
+      <Box>
+        <Heading
+          fontSize="md"
+          color={headingColor}
+          mt="4x"
+          mb="2x"
+          pl="2x"
+        >
+          THEME
+        </Heading>
+        {themeLinks.map(link => {
+          const url = `./${link.toLowerCase().split(' ').join('-')}`;
+
+          return (
+            <NavLink key={link} href={url}>
+              {link}
+            </NavLink>
+          );
+        })}
+      </Box>
+      <Box>
+        <Heading
+          fontSize="md"
+          color={headingColor}
+          mt="4x"
+          mb="2x"
+          pl="2x"
+        >
+          BUILDING BLOCKS
+        </Heading>
+        {buildingBlockLinks.map(link => {
+          const url = `./${link.toLowerCase().split(' ').join('-')}`;
+
+          return (
+            <NavLink key={link} href={url}>
+              {link}
+            </NavLink>
+          );
+        })}
+      </Box>
+      <Box>
+        <Heading
+          fontSize="md"
+          color={headingColor}
+          mt="4x"
+          mb="2x"
+          pl="2x"
+        >
+          COMPONENTS
+        </Heading>
+        {componentLinks.map(link => {
+          const url = `./${link.toLowerCase().split(' ').join('-')}`;
+
+          return (
+            <NavLink key={link} href={url}>
+              {link}
+            </NavLink>
+          );
+        })}
+      </Box>
+    </PseudoBox>
   );
 });
 

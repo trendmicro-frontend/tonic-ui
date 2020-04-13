@@ -1,8 +1,24 @@
-const components = [
+export const themeLinks = [
+  'Borders',
+  'Breakpoints',
+  'Colors',
+  'Positions',
+  'Spacing',
+  'Sizes',
+  'Shadows',
+  'Typography',
+];
+
+export const buildingBlockLinks = [
+  'Box',
+  'ControlBox',
+  'PseudoBox',
+];
+
+export const componentLinks = [
   'Accordion',
   'Alert',
   'Badge',
-  'Box',
   'Button',
   'ButtonBase',
   'ButtonGroup',
@@ -10,7 +26,6 @@ const components = [
   'CheckboxGroup',
   'CloseButton',
   'Collapse',
-  'ControlBox',
   'CSSBaseline',
   //'Drawer',
   'Fade',
@@ -28,7 +43,6 @@ const components = [
   //'Menu',
   //'Modal',
   //'Popover',
-  'PseudoBox',
   'Radio',
   'RadioGroup',
   'Spinner',
@@ -43,5 +57,3 @@ const components = [
   'Toast',
   'Tooltip',
 ];
-
-export default components;
