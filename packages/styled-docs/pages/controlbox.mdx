@@ -6,7 +6,7 @@ For this component to work, it should have a sibling `input` and be contained in
 
 ## Usage
 
-Creating a custom checkbox component
+#### Creating a custom checkbox component
 
 ```jsx
 <label>
@@ -15,23 +15,25 @@ Creating a custom checkbox component
 
   {/* This is the control box with a check icon as children */}
   <ControlBox
-    size="24px"
     border="1"
     borderRadius="sm"
+    width="6x"
+    height="6x"
+    verticalAlign="middle"
     _checked={{ bg: "green:50", color: "white", borderColor: "green:50" }}
     _focus={{ borderColor: "green:60", boxShadow: "rgba(66, 153, 225, 0.6) 0px 0px 0px 3px" }}
   >
-    <Icon name="_core.check" size="16px" />
+    <Icon name="_core.check" size="4x" />
   </ControlBox>
 
   {/* You can pass additional text */}
-  <Box as="span" ml="2x" verticalAlign="top">
-    Checkbox Label
-  </Box>
+  <Text ml="2x" userSelect="none">
+    Label text
+  </Text>
 </label>
 ```
 
-Creating a custom radio component
+#### Creating a custom radio component
 
 ```jsx
 <label>
@@ -41,11 +43,13 @@ Creating a custom radio component
   {/* This is the control box with a circle as children */}
   <ControlBox
     type="radio"
-    size="24px"
     border="2"
     borderRadius="circle"
     borderColor="inherit"
     bg="inherit"
+    width="6x"
+    height="6x"
+    verticalAlign="middle"
     _checked={{ bg: "green:50", borderColor: "green:50" }}
     _focus={{ boxShadow: "rgba(66, 153, 225, 0.6) 0px 0px 0px 3px" }}
     _hover={{ borderColor: "gray:30" }}
@@ -55,9 +59,9 @@ Creating a custom radio component
   </ControlBox>
 
   {/* You can pass additional text */}
-  <Box as="span" ml="2x" verticalAlign="center" userSelect="none">
-    This is a Radio
-  </Box>
+  <Text ml="2x">
+    Label text
+  </Text>
 </label>
 ```
 

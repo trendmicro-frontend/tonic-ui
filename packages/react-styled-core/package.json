@@ -34,7 +34,8 @@
     "prop-types": "^15.6.0",
     "react-animate-height": "2.x",
     "react-spring": "8.x",
-    "styled-system": "5.x"
+    "styled-system": "5.x",
+    "toasted-notes": "3.2.x"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "~7.1.1",
