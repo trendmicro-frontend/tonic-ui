@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
-import Icon from '../Icon';
+import Box from '../Box';
 import ButtonBase from '../ButtonBase';
+import Icon from '../Icon';
 import { useIconButtonStyle } from './styles';
 
 const IconButton = forwardRef(
@@ -22,11 +23,18 @@ const IconButton = forwardRef(
         {...buttonStyleProps}
         {...rest}
       >
-        <Icon
-          color="inherit"
-          name={icon}
-          size={iconSize}
-        />
+        {typeof icon === 'string' ? (
+          <Icon
+            color="inherit"
+            name={icon}
+            size={iconSize}
+          />
+        ) : (
+          <Box
+            as={icon}
+            color="inherit"
+          />
+        )}
       </ButtonBase>
     );
   },
