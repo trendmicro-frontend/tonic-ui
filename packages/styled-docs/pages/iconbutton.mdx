@@ -19,17 +19,24 @@ import { IconButton } from '@trendmicro/react-styled-core';
 ### Colors
 
 ```jsx
-<IconButton icon="_core.warning-triangle" color="yellow" />
+<Stack direction="row" spacing="4x">
+  <IconButton icon="_core.warning-triangle" color="red" />
+  <IconButton icon="_core.warning-triangle" color="yellow" />
+  <IconButton icon="_core.warning-triangle" color="green" />
+</Stack>
 ```
 
-### Sizes
+### Sizing
 
 ```jsx
 <IconButton
-  width="12x"
-  height="12x"
-  icon="_core.check-circle"
+  icon="_core.check"
   iconSize="10x"
+  px="4x"
+  py="4x"
+  border={1}
+  borderColor="gray:50"
+  borderRadius="circle"
 />
 ```
 
