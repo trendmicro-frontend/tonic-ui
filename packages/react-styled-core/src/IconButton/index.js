@@ -1,5 +1,4 @@
-import React, { forwardRef } from 'react';
-import Box from '../Box';
+import React, { forwardRef, isValidElement } from 'react';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
 import { useIconButtonStyle } from './styles';
@@ -9,7 +8,6 @@ const IconButton = forwardRef(
     {
       color,
       icon,
-      iconSize,
       ...rest
     },
     ref
@@ -18,23 +16,20 @@ const IconButton = forwardRef(
       color,
     });
 
+    let _icon = null;
+    if (typeof icon === 'string') {
+      _icon = <Icon name={icon} color="inherit" />;
+    } else if (isValidElement(icon)) {
+      _icon = icon;
+    }
+
     return (
       <ButtonBase
+        ref={ref}
         {...buttonStyleProps}
         {...rest}
       >
-        {typeof icon === 'string' ? (
-          <Icon
-            color="inherit"
-            name={icon}
-            size={iconSize}
-          />
-        ) : (
-          <Box
-            as={icon}
-            color="inherit"
-          />
-        )}
+        { _icon }
       </ButtonBase>
     );
   },

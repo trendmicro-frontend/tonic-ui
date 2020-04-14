@@ -26,23 +26,29 @@ import { IconButton } from '@trendmicro/react-styled-core';
 </Stack>
 ```
 
-### Sizing
+### Custom icon
 
 ```jsx
-<IconButton
-  icon="_core.check"
-  iconSize="10x"
-  px="4x"
-  py="4x"
-  border={1}
-  borderColor="gray:50"
-  borderRadius="circle"
-/>
+function Example() {
+  const MyIcon = (
+    <Icon name="_core.check" size="10x" />
+  );
+
+  return (
+    <IconButton
+      icon={MyIcon}
+      px="4x"
+      py="4x"
+      border={1}
+      borderColor="gray:50"
+      borderRadius="circle"
+    />
+  );
+}
 ```
 
 ## Props
 
 | Name | Type | Default | Description |
 | :--- | :--- | ------- | ----------- |
-| icon | string | | The icon to be used. Refer to the [Icons](./icon) section of the docs for the available icon options. |
-| iconSize | string | | The size of the icon. |
+| icon | string \| ReactElement | | The icon to be used. Refer to the [Icons](./icon) section of the docs for the available icon options. |

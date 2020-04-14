@@ -1,4 +1,5 @@
 import React from 'react';
+import Icon from '../Icon';
 import IconButton from '../IconButton';
 
 const sizes = {
@@ -24,11 +25,14 @@ const CloseButton = ({
   const buttonSize = sizes[size] && sizes[size].button;
   const iconSize = sizes[size] && sizes[size].icon;
 
+  const closeIcon = (
+    <Icon name="_core.close" size={iconSize} />
+  );
+
   return (
     <IconButton
       color={color}
-      icon="_core.close"
-      iconSize={iconSize}
+      icon={closeIcon}
       width={buttonSize}
       height={buttonSize}
       {...rest}
