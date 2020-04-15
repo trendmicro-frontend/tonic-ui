@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PseudoBox from '../PseudoBox';
 import useColorMode from '../useColorMode';
 
-const baseStyleProps = (colorMode, disabled, textDecoration) => {
+const baseStyleProps = ({ colorMode, disabled, textDecoration }) => {
   const color = { light: 'blue:60', dark: 'blue:40' }[colorMode];
   const hoverColor = { light: 'blue:50', dark: 'blue:40' }[colorMode];
   const visitedColor = { light: 'purple:60', dark: 'purple:50' }[colorMode];
@@ -35,14 +35,13 @@ const baseStyleProps = (colorMode, disabled, textDecoration) => {
 
 const Link = forwardRef(({ disabled, onClick, textDecoration, ...props }, ref) => {
   const { colorMode } = useColorMode();
-  //const hideUnderline = props.textDecoration !== 'underline' && disabled;
   return (
     <PseudoBox
       as="a"
       ref={ref}
       aria-disabled={disabled}
       onClick={disabled ? event => event.preventDefault() : onClick}
-      {...baseStyleProps(colorMode, disabled, textDecoration)}
+      {...baseStyleProps({ colorMode, disabled, textDecoration })}
       {...props}
     />
   );
