@@ -1,9 +1,9 @@
 {
-  "name": "@trendmicro/styled-theme",
+  "name": "@trendmicro/styled-ui-theme",
   "version": "0.0.0",
   "description": "An extensible theming system for building UI component library with Styled System",
-  "main": "dist/styled-theme.js",
-  "module": "dist/es/styled-theme.js",
+  "main": "dist/styled-ui-theme.js",
+  "module": "dist/es/styled-ui-theme.js",
   "publishConfig": {
     "access": "public",
     "directory": "build"
@@ -11,11 +11,11 @@
   "scripts": {
     "build": "yarn run build:cjs && yarn run build:dist",
     "build:cjs": "cross-env NODE_ENV=cjs babel --root-mode upward src --out-dir build --ignore='**/*.test.js'",
-    "build:dist": "cross-env PACKAGE_NAME=styled-theme INPUT=src OUTPUT_DIRECTORY=dist rollup --config ../../scripts/rollup.config.js",
+    "build:dist": "cross-env PACKAGE_NAME=styled-ui-theme INPUT=src OUTPUT_DIRECTORY=dist rollup --config ../../scripts/rollup.config.js",
     "clean": "del build dist",
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "eslint src",
-    "prepare": "yarn run build",
+    "prepublish": "yarn run build",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/trendmicro-frontend/styled-ui.git",
-    "directory": "packages/styled-theme"
+    "directory": "packages/styled-ui-theme"
   },
   "bugs": {
     "url": "https://github.com/trendmicro-frontend/styled-ui/issues"

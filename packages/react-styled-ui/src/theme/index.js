@@ -1,5 +1,5 @@
 /* eslint-disable-next-line import/no-unresolved */
-import { base } from '@trendmicro/styled-theme';
+import { base } from '@trendmicro/styled-ui-theme';
 import icons from './icons';
 
 const theme = {
