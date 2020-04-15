@@ -102,7 +102,7 @@ function IndeterminateExample() {
 | size | string | 'md' | The size (width and height) of the checkbox. One of: `'sm'`, `'md'`, `'lg'` |
 | defaultChecked | boolean | | If `true`, the checkbox will be initially checked. |
 | checked | boolean | | If `true`, the checkbox will be checked. You'll need to pass `onChange` to update the state for a controlled component. |
-| disabled | boolean | | If `true`, the checkbox will be disabled. |
+| disabled | boolean | | If `true`, the checkbox will be disabled. This sets `aria-disabled=true` and you can style this state by passingthe `_disabled` prop. |
 | indeterminate | boolean | | If `true`, the checkbox will be indeterminate. This only affects the icon shown inside checkbox. |
 | children | ReactNode | | The children of the checkbox. |
 | onChange | function | | A callback called when the state is changed. |

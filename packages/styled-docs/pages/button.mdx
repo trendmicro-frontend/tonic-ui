@@ -198,7 +198,7 @@ In case you need to customize the button, pass style props to the [ButtonBase](.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | | If `true`, the button will be disabled. |
-| selected | boolean | | If `true`, the button will be selected. |
+| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| selected | boolean | | If `true`, it indicates that the button is in a selected state. |
 | size | string | 'md' | The size of the button. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'default' | The variant of the button style to use. One of: `'emphasis'`, `'primary'`, `'default'`, `'secondary'`, `'ghost'` |
