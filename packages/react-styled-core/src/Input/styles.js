@@ -13,22 +13,22 @@ const sizes = {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
-    height: '6x',
     px: 'calc(.75rem - 1px)', // 12px - 1px
+    py: '1px',
   },
   'md': {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
-    height: '8x',
     px: 'calc(.75rem - 1px)', // 12px - 1px
+    py: 'calc(.375rem - 1px)', // 6px - 1px
   },
   'lg': {
     borderRadius: 'sm',
     fontSize: 'md',
     lineHeight: 'md',
-    height: '10x',
     px: 'calc(.75rem - 1px)', // 12px - 1px
+    py: 'calc(.75rem - 1px)', // 12px - 1px
   },
 };
 

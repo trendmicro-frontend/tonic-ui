@@ -19,9 +19,9 @@ const sizes = {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
-    height: '8x',
     pl: 'calc(.75rem - 1px)', // 12px - 1px
     pr: 'calc(2rem - 1px)', // 32px - 1px
+    py: 'calc(.375rem - 1px)', // 6px - 1px
   },
 };
 
