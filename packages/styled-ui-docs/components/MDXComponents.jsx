@@ -6,7 +6,7 @@ import {
   Image,
   Link,
   useColorMode,
-} from '@trendmicro/react-styled-core';
+} from '@trendmicro/react-styled-ui';
 import Code from './Code';
 import CodeBlock from './CodeBlock';
 

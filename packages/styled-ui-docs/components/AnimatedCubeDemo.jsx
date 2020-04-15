@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/core';
-import { Box, Image, Stack, Text, useColorMode } from '@trendmicro/react-styled-core';
+import { Box, Image, Stack, Text, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import Cube from './Cube';
 import TMIcon from './TMIcon';

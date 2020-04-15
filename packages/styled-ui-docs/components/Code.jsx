@@ -1,4 +1,4 @@
-import { Box, useColorMode } from '@trendmicro/react-styled-core';
+import { Box, useColorMode } from '@trendmicro/react-styled-ui';
 import React, { forwardRef } from 'react';
 
 const Code = forwardRef((props, ref) => {

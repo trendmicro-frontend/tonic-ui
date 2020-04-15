@@ -4,7 +4,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useColorMode } from '@trendmicro/react-styled-core';
+import { useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 
 library.add(fab);

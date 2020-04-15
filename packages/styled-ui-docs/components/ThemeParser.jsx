@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '@trendmicro/react-styled-core';
+import { useTheme } from '@trendmicro/react-styled-ui';
 import CodeBlock from './CodeBlock';
 
 const ThemeParser = ({ theme, ...props }) => {

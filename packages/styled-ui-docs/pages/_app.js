@@ -5,7 +5,7 @@ import {
   CSSBaseline,
   ThemeProvider,
   useColorMode,
-} from '@trendmicro/react-styled-core';
+} from '@trendmicro/react-styled-ui';
 import App from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';

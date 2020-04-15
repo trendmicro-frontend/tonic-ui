@@ -4,7 +4,7 @@ import {
   PseudoBox,
   useColorMode,
   useTheme,
-} from '@trendmicro/react-styled-core';
+} from '@trendmicro/react-styled-ui';
 import NextLink from 'next/link';
 import React from 'react';
 import {

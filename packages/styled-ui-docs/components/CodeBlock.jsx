@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 import { mdx } from '@mdx-js/react';
-import * as CoreComponents from '@trendmicro/react-styled-core';
+import * as CoreComponents from '@trendmicro/react-styled-ui';
 import { boolean } from 'boolean';
 import githubTheme from 'prism-react-renderer/themes/github';
 import vsDarkTheme from 'prism-react-renderer/themes/vsDark';

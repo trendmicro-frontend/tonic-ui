@@ -1,4 +1,4 @@
-import { Box, Flex, PseudoBox, useColorMode } from '@trendmicro/react-styled-core';
+import { Box, Flex, PseudoBox, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import TMIcon from './TMIcon';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Grid, useTheme } from '@trendmicro/react-styled-core';
+import { Box, Flex, Grid, useTheme } from '@trendmicro/react-styled-ui';
 
 export const ColorPalette = ({ color, name, ...props }) => {
   const theme = useTheme();

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { Box, useColorMode } from '@trendmicro/react-styled-core';
+import { Box, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 
 const Main = React.forwardRef(({ children, ...props }, ref) => {

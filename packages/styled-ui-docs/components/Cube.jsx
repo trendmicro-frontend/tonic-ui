@@ -1,4 +1,4 @@
-import { Box, useColorMode } from '@trendmicro/react-styled-core';
+import { Box, useColorMode } from '@trendmicro/react-styled-ui';
 import React, { useContext } from 'react';
 
 const CubeContext = React.createContext();
