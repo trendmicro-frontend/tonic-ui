@@ -44,12 +44,12 @@ const Select = forwardRef((
         {children}
       </PseudoBox>
       {!multiple && (
-          <PseudoBox
-            aria-disabled={disabled}
-            {...iconWrapperProps}
-          >
-            <Icon width="4x" name="_core.angle-down" />
-          </PseudoBox>
+        <PseudoBox
+          aria-disabled={disabled}
+          {...iconWrapperProps}
+        >
+          <Icon width="4x" name="_core.angle-down" />
+        </PseudoBox>
       )}
     </Box>
   );
