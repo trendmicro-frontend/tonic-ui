@@ -10,6 +10,8 @@ const defaultVariant = 'outline';
 const Select = forwardRef((
   {
     variant,
+    multiple, // multiple options
+    size, // multiple options
     children,
     ...rest
   },
@@ -19,7 +21,7 @@ const Select = forwardRef((
   variant = variant ?? defaultVariant;
 
   const iconWrapperProps = getIconWrapperProps();
-  const styleProps = useSelectStyle({ variant });
+  const styleProps = useSelectStyle({ variant, multiple });
   const [rootProps, selectProps] = splitProps(rest);
   const { disabled, required } = selectProps;
 
@@ -34,17 +36,21 @@ const Select = forwardRef((
         as="select"
         aria-disabled={disabled}
         aria-required={required}
+        multiple={multiple}
+        size={size}
         {...styleProps}
         {...selectProps}
       >
         {children}
       </PseudoBox>
-      <PseudoBox
-        aria-disabled={disabled}
-        {...iconWrapperProps}
-      >
-        <Icon width="4x" name="_core.angle-down" />
-      </PseudoBox>
+      {!multiple && (
+          <PseudoBox
+            aria-disabled={disabled}
+            {...iconWrapperProps}
+          >
+            <Icon width="4x" name="_core.angle-down" />
+          </PseudoBox>
+      )}
     </Box>
   );
 });

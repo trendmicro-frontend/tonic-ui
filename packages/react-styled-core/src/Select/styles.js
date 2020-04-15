@@ -178,6 +178,7 @@ const getVariantProps = (props) => {
 
 const useSelectStyle = ({
   variant,
+  multiple,
 }) => {
   const { colorMode } = useColorMode();
   const _props = {
@@ -186,6 +187,11 @@ const useSelectStyle = ({
   };
   const sizeProps = getSizeProps(_props); // use default size
   const variantProps = getVariantProps(_props);
+
+  if (multiple) {
+    variantProps.height = undefined;
+    variantProps.px = undefined;
+  }
 
   return {
     ...baseProps,
