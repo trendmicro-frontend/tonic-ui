@@ -1,6 +1,15 @@
 import React from 'react';
 
 const icons = {
+  'angle-down': {
+    path: (
+      <path
+        fill="currentColor"
+        d="M12.5 6.5l-4.5 4.5-4.5-4.5 1-1 3.5 3.5 3.5-3.5 1 1z"
+      />
+    ),
+    viewBox: '0 0 16 16',
+  },
   'chevron-down': {
     path: (
       <path

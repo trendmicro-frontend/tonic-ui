@@ -13,7 +13,7 @@ import { Link } from '@trendmicro/react-styled-ui';
 ## Usage
 
 ```jsx
-<Stack direction="column" spacing=".5rem">
+<Stack shouldWrapChildren direction="column" spacing=".5rem">
   <Link href="https://github.com/trendmicro-frontend" fontSize="xs" lineHeight="xs">
     Trend Micro Frontend
   </Link>
@@ -32,26 +32,6 @@ import { Link } from '@trendmicro/react-styled-ui';
 </Stack>
 ```
 
-### Link without `href` attribute
-
-```jsx
-function Example() {
-  const [value, setValue] = React.useState(0);
-
-  return (
-    <>
-      <Link
-        onClick={() => {
-          setValue(value => value + 1);
-        }}
-      >
-        Click Me
-      </Link>
-      <Box>Count: {value}</Box>
-    </>
-  );
-}
-```
 
 ### An underlined link
 
@@ -67,12 +47,21 @@ function Example() {
 ### Link with `disabled` attribute
 
 ```jsx
-<Link
-  href="https://github.com/trendmicro-frontend"
-  disabled
->
-  Trend Micro Frontend
-</Link>
+<Stack shouldWrapChildren direction="column" spacing=".5rem">
+  <Link
+    href="https://github.com/trendmicro-frontend"
+    disabled
+  >
+    Trend Micro Frontend
+  </Link>
+  <Link
+    href="https://github.com/trendmicro-frontend"
+    textDecoration="underline"
+    disabled
+  >
+    Trend Micro Frontend
+  </Link>
+</Stack>
 ```
 
 ### Link to another page
@@ -112,5 +101,5 @@ render(
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | | If `true`, the link will be disabled. |
+| disabled | boolean | | If `true`, the link will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | onClick | function | | A callback called when the link is clicked. |

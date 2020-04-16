@@ -1,6 +1,12 @@
 import useColorMode from '../useColorMode';
 
 const baseProps = {
+  appearance: 'none',
+  backgroundColor: 'inherit',
+  border: 'none',
+  color: 'inherit',
+  outline: 0,
+  padding: 0,
   position: 'relative',
   width: '100%',
   display: 'flex',
@@ -9,39 +15,30 @@ const baseProps = {
 };
 
 const sizes = {
-  'sm': {
-    borderRadius: 'sm',
-    fontSize: 'sm',
-    lineHeight: 'sm',
-    px: 'calc(.75rem - 1px)', // 12px - 1px
-    py: '1px',
-  },
   'md': {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
-    px: 'calc(.75rem - 1px)', // 12px - 1px
+    pl: 'calc(.75rem - 1px)', // 12px - 1px
+    pr: 'calc(2rem - 1px)', // 32px - 1px
     py: 'calc(.375rem - 1px)', // 6px - 1px
-  },
-  'lg': {
-    borderRadius: 'sm',
-    fontSize: 'md',
-    lineHeight: 'md',
-    px: 'calc(.75rem - 1px)', // 12px - 1px
-    py: 'calc(.75rem - 1px)', // 12px - 1px
   },
 };
 
 const getOutlinedStyle = ({
   colorMode,
 }) => {
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
+  const backgroundColor = {
+    dark: 'gray:90',
+    light: 'white',
   }[colorMode];
   const color = {
     dark: 'white:primary',
     light: 'black:primary',
+  }[colorMode];
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
   }[colorMode];
   const hoverBorderColor = {
     dark: 'blue:50',
@@ -65,20 +62,15 @@ const getOutlinedStyle = ({
   }[colorMode];
 
   return {
+    backgroundColor,
+    color,
     border: 1,
     borderColor,
-    color,
     _hover: {
       borderColor: hoverBorderColor,
-
-      // Use a higher z-index value to bring overlapping border to front when hovered
-      zIndex: 2,
     },
     _focus: {
       borderColor: focusBorderColor,
-
-      // Bring overlapping border to front when focused
-      zIndex: 1,
     },
     _disabled: {
       borderColor: disabledBorderColor,
@@ -106,22 +98,32 @@ const getFilledStyle = ({
     dark: 'gray:80',
     light: 'gray:10',
   }[colorMode];
-
-  return {
-    ...getOutlinedStyle({ colorMode }),
-    backgroundColor,
-  };
-};
-
-const getUnstyledStyle = ({
-  colorMode,
-}) => {
   const color = {
     dark: 'white:primary',
     light: 'black:primary',
   }[colorMode];
 
   return {
+    ...getOutlinedStyle({ colorMode }),
+    backgroundColor,
+    color,
+  };
+};
+
+const getUnstyledStyle = ({
+  colorMode,
+}) => {
+  const backgroundColor = {
+    dark: 'gray:90',
+    light: 'white',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+
+  return {
+    backgroundColor,
     color,
     border: 0,
     borderRadius: 0,
@@ -131,11 +133,29 @@ const getUnstyledStyle = ({
   };
 };
 
+const getIconWrapperProps = () => {
+  return {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    height: '100%',
+    pointerEvents: 'none',
+    color: 'inherit',
+    pr: 'calc(.75rem - 1px)', // 12px - 1px
+    pl: '1x',
+    _disabled: {
+      opacity: '.28',
+    },
+  };
+};
+
 const getSizeProps = (props) => {
-  const { size } = props;
   const defaultSize = 'md';
 
-  return sizes[size] ?? sizes[defaultSize];
+  return sizes[defaultSize];
 };
 
 const getVariantProps = (props) => {
@@ -156,39 +176,22 @@ const getVariantProps = (props) => {
   return {};
 };
 
-const getInputGroupCSS = ({
+const useSelectStyle = ({
   variant,
-}) => {
-  const useNegativeMargin = (variant === 'outline' || variant === 'filled');
-
-  return {
-    '&:not(:first-child)': {
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-    },
-    '&:not(:last-child)': {
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-    // adjacent sibling
-    '&+&': {
-      marginLeft: useNegativeMargin ? -1 : 0,
-    },
-  };
-};
-
-const useInputStyle = ({
-  size,
-  variant,
+  multiple,
 }) => {
   const { colorMode } = useColorMode();
   const _props = {
     colorMode,
-    size,
     variant,
   };
-  const sizeProps = getSizeProps(_props);
+  const sizeProps = getSizeProps(_props); // use default size
   const variantProps = getVariantProps(_props);
+
+  if (multiple) {
+    variantProps.height = undefined;
+    variantProps.px = undefined;
+  }
 
   return {
     ...baseProps,
@@ -198,6 +201,6 @@ const useInputStyle = ({
 };
 
 export {
-  getInputGroupCSS,
-  useInputStyle,
+  getIconWrapperProps,
+  useSelectStyle,
 };
