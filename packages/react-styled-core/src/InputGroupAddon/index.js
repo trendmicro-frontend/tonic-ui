@@ -21,8 +21,7 @@ const InputGroupAddon = forwardRef((
     variant: inputGroupVariant,
   } = inputGroupContext;
 
-  // - Use the inherited value from the input group
-  // - A fallback default value is not necessary for `InputGroupAddon`
+  // Use fallback values if values are null or undefined
   size = size ?? inputGroupSize;
   variant = variant ?? inputGroupVariant;
 
