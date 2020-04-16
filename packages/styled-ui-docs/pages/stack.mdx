@@ -1,0 +1,133 @@
+# Stack
+
+`Stack` is a layout utility component that makes it easy to stack items together and apply a space between them.
+
+## Import
+
+```js
+import Stack from '@trendmicro/react-styled-ui/Stack';
+// or
+import { Stack } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+By default, each item is stacked vertically. Stack clones it's children and passes the spacing to them using the margin property.
+
+| `direction` Prop | Item Spacing |
+| :-------- | :------ |
+| column | `margin-bottom` |
+| column-reverse | `margin-top` |
+| row | `margin-right` |
+| row-reverse | `margin-left` |
+
+### Vertically stacked items
+
+```jsx noInline
+const Item = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = `${colorMode}.sm`;
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+  return (
+    <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
+  );
+};
+
+function Example() {
+  return (
+    <Stack direction="column" spacing="1rem">
+      <Item>Item 1</Item>
+      <Item>Item 2</Item>
+      <Item>Item 3</Item>
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+### Vertically stacked items in reverse order
+
+```jsx noInline
+const Item = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = `${colorMode}.sm`;
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+  return (
+    <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
+  );
+};
+
+function Example() {
+  return (
+    <Stack direction="column-reverse" spacing="1rem">
+      <Item>Item 1</Item>
+      <Item>Item 2</Item>
+      <Item>Item 3</Item>
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+### Horizontally stacked items
+
+```jsx noInline
+const Item = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = `${colorMode}.sm`;
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+  return (
+    <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
+  );
+};
+
+function Example() {
+  return (
+    <Stack direction="row" spacing="1rem">
+      <Item>Item 1</Item>
+      <Item>Item 2</Item>
+      <Item>Item 3</Item>
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+
+### Horizontally stacked items in reverse order
+
+```jsx noInline
+const Item = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = `${colorMode}.sm`;
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+  return (
+    <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
+  );
+};
+
+function Example() {
+  return (
+    <Stack direction="row-reverse" spacing="1rem">
+      <Item>Item 1</Item>
+      <Item>Item 2</Item>
+      <Item>Item 3</Item>
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+`Stack` composes the [`Flex`](./flex) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| direction | string | 'column' | The direction to stack the items. One of: `'column'`, `'column-reverse'`, `'row'`, `'row-reverse'` |
+| spacing | number \| string | 0 | The space between each stack item. |
+| shouldWrapChildren | boolean | false | If `true`, the children will be wrapped in a `Box` with `display: inline-block`, and the `Box` will take the `spacing` props. |

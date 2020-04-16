@@ -1,0 +1,33 @@
+# Space
+
+Space is [Box](./box) with `display="inline-block"`. You can specify either `width` or `height` to add space between two elements.
+
+## Import
+
+```js
+import Space from '@trendmicro/react-styled-ui/Space';
+// or
+import { Space } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+### Horizontal spacing
+
+```jsx
+<Stack direction="row">
+  <TMIcon name="add" />
+  <Space width=".5rem" />
+  <Text>New</Text>
+</Stack>
+```
+
+### Vertical spacing
+
+```jsx
+<Stack direction="column">
+  <TMIcon name="add" />
+  <Space height=".5rem" />
+  <Text>New</Text>
+</Stack>
+```

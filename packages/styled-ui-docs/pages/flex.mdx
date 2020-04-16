@@ -1,0 +1,215 @@
+# Flex
+
+`Flex` is a [`Box`](./box) with `display: flex` and comes with helpful style shorthand props.
+
+## Import
+
+```js
+import Flex from '@trendmicro/react-styled-ui/Flex';
+// or
+import { Flex } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+Flex provides the following style shorthand props:
+
+| Shorthand Prop | Style Prop | CSS Property | Description |
+| :------------- | :--------- | :----------- | :---------- |
+| direction | flexDirection | [flex-direction](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) | Sets how flex items are placed in the flex container. |
+| wrap | flexWrap | [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) | Sets whether flex items are forced onto one line or can wrap onto multiple lines. |
+| align | alignItems | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | Sets the `align-self` value on all direct children as a group. |
+| justify | justifyContent | [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content) | Defines how the browser distributes space between and around content items along the main axis of a flex container. |
+
+### Flex items
+
+You can use the `flex` property to set how a flex item will grow or shrink to fit the available space in its flex container. It is a shorthand for `flex-grow`, `flex-shrink`, and `flex-basis`. For most purposes, you should set `flex` to one of the following values: `auto`, `initial`, `none`, or a positive unitless number.
+
+#### Values
+
+##### `initial`
+The item is sized according to its `width` and `height` properties. It shrinks to its minimum size to fit the container, but does not grow to absorb any extra free space in the flex container. This is equivalent to setting `flex: 0 1 auto`.
+
+##### `auto`
+The item is sized according to its `width` and `height` properties, but grows to absorb any extra free space in the flex container, and shrinks to its minimum size to fit the container. This is equivalent to setting `flex: 1 1 auto`.
+
+##### `none`
+The item is sized according to its `width` and `height` properties. It is fully inflexible: it neither shrinks nor grows in relation to the flex container. This is equivalent to setting `flex: 0 0 auto`.
+
+To see the effect of these values, try resizing the flex containers below:
+
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
+);
+
+function Example() {
+  return (
+    <>
+      <Flex bg="gray:20" p="4x" pb={0} pr={0} mb="4x">
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
+      </Flex>
+      <Flex bg="gray:20" p="4x" pb={0} pr={0} mb="4x">
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="initial">initial</FlexItem>
+        <FlexItem flex="initial">initial</FlexItem>
+      </Flex>
+      <Flex bg="gray:20" p="4x" pb={0} pr={0} mb="4x">
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="auto">auto</FlexItem>
+        <FlexItem flex="none">none</FlexItem>
+      </Flex>
+      <Flex bg="gray:20" p="4x" pb={0} pr={0} mb="4x">
+        <FlexItem flex="initial">initial</FlexItem>
+        <FlexItem flex="none">none</FlexItem>
+        <FlexItem flex="none">none</FlexItem>
+      </Flex>
+      <Flex bg="gray:20" p="4x" pb={0} pr={0}>
+        <FlexItem flex={4}>4</FlexItem>
+        <FlexItem flex={2}>2</FlexItem>
+        <FlexItem flex={1}>1</FlexItem>
+      </Flex>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `direction` (`flexDirection`) property
+
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('row');
+
+  return (
+    <>
+      <Stack direction="row" spacing=".5rem" mb="4x">
+        <Button variant="outline" onClick={() => setValue('row')}>row</Button>
+        <Button variant="outline" onClick={() => setValue('row-reverse')}>row-reverse</Button>
+        <Button variant="outline" onClick={() => setValue('column')}>column</Button>
+        <Button variant="outline" onClick={() => setValue('column-reverse')}>column-reverse</Button>
+      </Stack>
+      <pre>
+        {`<Flex direction="${value}">`}
+      </pre>
+      <Flex direction={value} bg="gray:20" p="4x" pb={0} pr={0}>
+        <FlexItem flex="auto">One</FlexItem>
+        <FlexItem flex="auto">Two</FlexItem>
+        <FlexItem flex="auto">Three</FlexItem>
+      </Flex>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `wrap` (`flexWrap`) property
+
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('nowrap');
+
+  return (
+    <>
+      <Stack direction="row" spacing=".5rem" mb="4x">
+        <Button variant="outline" onClick={() => setValue('nowrap')}>nowrap</Button>
+        <Button variant="outline" onClick={() => setValue('wrap')}>wrap</Button>
+        <Button variant="outline" onClick={() => setValue('wrap-reverse')}>wrap-reverse</Button>
+      </Stack>
+      <pre>
+        {`<Flex wrap="${value}">`}
+      </pre>
+      <Flex wrap={value} width={480} bg="gray:20" p="4x" pb={0} pr={0}>
+        <FlexItem flex="auto" minWidth={120}>One</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Two</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Three</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Four</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Five</FlexItem>
+        <FlexItem flex="auto" minWidth={120}>Six</FlexItem>
+      </Flex>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `align` (`alignItems`) property
+
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('stretch');
+
+  return (
+    <>
+      <Stack direction="row" spacing=".5rem" mb="4x">
+        <Button variant="outline" onClick={() => setValue('stretch')}>stretch</Button>
+        <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
+        <Button variant="outline" onClick={() => setValue('center')}>center</Button>
+        <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
+      </Stack>
+      <pre>
+        {`<Flex align="${value}">`}
+      </pre>
+      <Flex align={value} height={240} bg="gray:20" p="4x" pb={0} pr={0}>
+        <FlexItem flex="auto">One</FlexItem>
+        <FlexItem flex="auto">Two</FlexItem>
+        <FlexItem flex="auto">Three</FlexItem>
+      </Flex>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `justify` (`justifyContent`) property
+
+```jsx noInline
+const FlexItem = (props) => (
+  <Box bg="blue:50" border={1} borderColor="blue:60" p="3x" mr="4x" mb="4x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('start');
+
+  return (
+    <>
+      <Stack direction="row" spacing=".5rem" mb="4x">
+        <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
+        <Button variant="outline" onClick={() => setValue('center')}>center</Button>
+        <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
+        <Button variant="outline" onClick={() => setValue('space-between')}>space-between</Button>
+        <Button variant="outline" onClick={() => setValue('space-around')}>space-around</Button>
+        <Button variant="outline" onClick={() => setValue('space-evenly')}>space-evenly</Button>
+      </Stack>
+      <pre>
+        {`<Flex justify="${value}">`}
+      </pre>
+      <Flex justify={value} bg="gray:20" p="4x" pb={0} pr={0}>
+        <FlexItem>One</FlexItem>
+        <FlexItem>Two</FlexItem>
+        <FlexItem>Three</FlexItem>
+      </Flex>
+    </>
+  );
+}
+
+render(<Example />);
+```

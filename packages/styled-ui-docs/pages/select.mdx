@@ -1,0 +1,122 @@
+# Select
+
+The `Select` component is used for collecting user provided information from a list of options.
+
+## Import
+
+```js
+import Select from '@trendmicro/react-styled-ui/Select';
+// or
+import { Select } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<>
+  <TextLabel mb="1x">Label:</TextLabel>
+  <Select>
+    <option value="">Choose an option</option>
+    <optgroup label="Category 1">
+      <option value={1}>Option 1</option>
+      <option value={2}>Option 2</option>
+    </optgroup>
+    <optgroup label="Category 2">
+      <option value={3}>Option 3</option>
+      <option value={4}>Option 4</option>
+    </optgroup>
+  </Select>
+</>
+```
+
+### Variants
+
+The `Select` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+```jsx
+<Select variant="outline">
+  <option value="">Choose an option</option>
+  <option value="outline">Outline</option>
+</Select>
+```
+
+#### `filled`
+
+```jsx
+<Select variant="filled">
+  <option value="">Choose an option</option>
+  <option value="filled">Filled</option>
+</Select>
+```
+
+#### `unstyled`
+
+```jsx
+<Select variant="unstyled">
+  <option value="">Choose an option</option>
+  <option value="unstyled">Unstyled</option>
+</Select>
+```
+
+### Attributes
+
+The `<select>` element has some unique attributes you can use to control it, such as `multiple` to specify whether multiple options can be selected, and `size` to specify how many options should be shown at once. It also accepts most of the general form input attributes such as `disabled`, `required`, etc.
+
+#### Multiple options
+
+```jsx noInline
+const Option = ({ style, ...props }) => (
+  <Flex
+    as="option"
+    align="center"
+    height="8x"
+    px="3x"
+    {...props}
+  />
+);
+
+function Example() {
+  return (
+    <Select multiple size="4">
+      <Option value={1}>Option 1</Option>
+      <Option value={2}>Option 2</Option>
+      <Option value={3}>Option 3</Option>
+      <Option value={4}>Option 4</Option>
+      <Option value={5}>Option 5</Option>
+      <Option value={6}>Option 6</Option>
+    </Select>
+  );
+}
+
+render(<Example />);
+```
+
+#### `disabled`
+
+```jsx
+<Select disabled>
+  <option value="">Choose an option</option>
+</Select>
+```
+
+#### `required`
+
+```jsx
+<Select required>
+  <option value="">Choose an option</option>
+  <option value="dog">Dog</option>
+  <option value="cat">Cat</option>
+</Select>
+```
+
+## Props
+
+`Select` composes the [`PseudoBox`](./pseudobox) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| variant | string | 'outline' | The variant of the select style to use. One of: `'outline'`, `'filled'`, `'unstyled'` |
+| disabled | boolean | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| aria-invalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |

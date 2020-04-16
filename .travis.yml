@@ -31,7 +31,7 @@ jobs:
         - echo "TRAVIS_PULL_REQUEST=${TRAVIS_PULL_REQUEST}"
         - echo "TRAVIS_PULL_REQUEST_SHA=${TRAVIS_PULL_REQUEST_SHA}"
         - PULL_REQUEST_COMMIT=${TRAVIS_PULL_REQUEST_SHA:-$TRAVIS_COMMIT}
-        - echo "PUBLIC_URL=/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}" > ./packages/styled-docs/.env.production
+        - echo "PUBLIC_URL=/styled-ui-demo/pr-${TRAVIS_PULL_REQUEST}" > ./packages/styled-ui-docs/.env.production
       script:
         - yarn build
         - yarn pre-push
@@ -43,7 +43,7 @@ jobs:
         - rm -rf .git
         - rm -rf "pr-${TRAVIS_PULL_REQUEST}"
         - mkdir -p "pr-${TRAVIS_PULL_REQUEST}"
-        - cp -af ../packages/styled-docs/docs/** "pr-${TRAVIS_PULL_REQUEST}/"
+        - cp -af ../packages/styled-ui-docs/docs/** "pr-${TRAVIS_PULL_REQUEST}/"
         - git init
         - git checkout --orphan gh-pages
         - git add .
@@ -72,7 +72,7 @@ jobs:
           secure: "EDPLwCPAyG6QGtWRpCmZrs+2t/mX4a0V2ng/ImbhBorpiAfgG9RBMs14454A4qr11xGneeh8khcGZ06egeStBsyzeYc59PGGDHwuhygpOzEgNGLJsldsDJQ0/WmDiAhKQHeUcHO3Ck/2EqILChX3mJBq4zsiuZw5U05AhnXw0RTnLQf0vAAcPKQllZ/pgdbi+nRNZugBpVOc+SoSp9hX+yy01CGXwrWo+MSzgtJl3xrn6k7mZZmyviY0DQE0JMfZsv3kOx1y8JT9F2aXd51aH0rPSBzO8AjWFAhSAenE0mz0sMqDmonDOYGVIHy9jnTBpy9i/E1NuZ4PHM472W2APbuxZA1U3L3e/6ATIx1BQYPGu2uM3DqSbTTtyLZoWXY8rdsA3PQuaeje3XzlQ2fbTSBbN/230GrjtLwKNugvTIRvf3JTaxKn83SUICrrzq0ChDAffNn5AEv7V95Q7ykX1UfDHFs2uhKYDTM9ITeWhPFkm6wDqcqQeu3cxMOLmrMWtwDlLu0VEtIIvZWYEjXxnFYo8E2e34lqn0j1aQEWqpznC+pJ9Rrpajs0dHO3U1dkSWvEli/Z7NmfdQ15MR0J1X/zLbLuPBR+7pT9qRVMC0XU58oky2eEUZ0kDmGAgLLDSynEGxK2JUHcsTBIhXeqaW4rDbT+GOhzGuOgh/sHaBs="
         keep_history: false
         target_branch: gh-pages
-        local_dir: "packages/styled-docs/docs"
+        local_dir: "packages/styled-ui-docs/docs"
         on:
           branch: dev
           node: '10'
