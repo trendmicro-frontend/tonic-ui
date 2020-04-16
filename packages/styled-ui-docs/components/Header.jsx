@@ -19,7 +19,7 @@ const Header = React.forwardRef((props, ref) => {
     <Box
       position="fixed"
       top={0}
-      height="4rem"
+      height="16x"
       width="100%"
       zIndex="fixed"
       backgroundColor={backgroundColor}
@@ -40,9 +40,10 @@ const Header = React.forwardRef((props, ref) => {
         >
           Trend Micro Styled UI
         </Box>
-        <Box
+        <Flex
           flex="none"
           width="auto"
+          align="center"
           px="4x"
         >
           <PseudoBox
@@ -61,7 +62,7 @@ const Header = React.forwardRef((props, ref) => {
           </PseudoBox>
           <Box
             display="inline-block"
-            width="1rem"
+            width="5x"
           />
           <PseudoBox
             as="a"
@@ -79,7 +80,7 @@ const Header = React.forwardRef((props, ref) => {
               }}
             />
           </PseudoBox>
-        </Box>
+        </Flex>
       </Flex>
     </Box>
   );
