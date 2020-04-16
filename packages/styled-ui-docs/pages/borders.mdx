@@ -1,0 +1,58 @@
+import { Box, Stack } from "@trendmicro/react-styled-ui";
+import ThemeParser from "../components/ThemeParser";
+
+# Borders
+
+The border theme object is around the following scales:
+
+- `borders`
+- `borderWidths`
+- `radii` (Radius)
+
+which is based on the [Styled System Theme Specification](https://styled-system.com/theme-specification)
+
+## Border
+
+<ThemeParser theme="borders" />
+<ThemeParser theme="borderWidths" />
+
+```jsx
+<Stack direction="column" spacing="1rem">
+  <Stack direction="row" spacing=".5rem">
+    <Box border={1} width="12x" height="12x" bg="gray:70"/>
+    <Box borderTop={1} width="12x" height="12x" bg="gray:70"/>
+    <Box borderRight={1} width="12x" height="12x" bg="gray:70"/>
+    <Box borderBottom={1} width="12x" height="12x" bg="gray:70"/>
+    <Box borderLeft={1} width="12x" height="12x" bg="gray:70"/>
+  </Stack>
+  <Stack direction="row" spacing=".5rem">
+    <Box border={2} width="12x" height="12x" bg="gray:70"/>
+    <Box borderTop={2} width="12x" height="12x" bg="gray:70"/>
+    <Box borderRight={2} width="12x" height="12x" bg="gray:70"/>
+    <Box borderBottom={2} width="12x" height="12x" bg="gray:70"/>
+    <Box borderLeft={2} width="12x" height="12x" bg="gray:70"/>
+  </Stack>
+</Stack>
+```
+
+## Border Radius
+
+<ThemeParser theme="radii" />
+
+```jsx
+<Stack direction="row" spacing=".5rem">
+  <Box border={1} borderRadius="circle" width="12x" height="12x" bg="gray:70"/>
+  <Box border={1} borderRadius="sm" width="12x" height="12x" bg="gray:70"/>
+  <Box border={1} borderRadius="md" width="12x" height="12x" bg="gray:70"/>
+  <Box border={1} borderRadius="lg" width="12x" height="12x" bg="gray:70"/>
+</Stack>
+```
+
+## Configuration Reference
+
+Except for breakpoints, colors, and spacing, all of the keys in the theme object
+map to one of our core theme. All of these keys can be replaced or
+extended.
+
+See the <a href="https://styled-system.com/table" target="_blank">full reference
+table</a> of properties.

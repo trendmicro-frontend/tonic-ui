@@ -1,0 +1,53 @@
+# Color Modes
+
+To enable color modes, wrap your application in a `ColorModeProvider` and specify the value prop with a color mode: `dark` or `light`.
+
+```jsx disabled
+import React from 'react';
+import { ThemeProvider, ColorModeProvider } from '@trendmicro/react-styled-ui';
+import App from './App';
+
+function Example({ children }) {
+  return (
+    <ThemeProvider>
+      <ColorModeProvider value="dark">
+        <App />
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+Then you can use the `useColorMode` hook to get current color mode or change the color mode.
+
+```jsx disabled
+// App.jsx
+import React from 'react';
+import { Button, useColorMode } from '@trendmicro/react-styled-ui';
+
+const App = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+  return (
+    <Button onClick={toggleColorMode}>
+      Toggle Color Mode
+    </Button>
+  );
+};
+```
+
+To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override global color mode.
+
+```jsx
+<Flex>
+  <LightMode bg="white" color="black:primary" px="4x" py="2x">
+    <Button variant="outline">
+      Light Mode
+    </Button>
+  </LightMode>
+  <DarkMode bg="gray:90" color="white:primary" px="4x" py="2x">
+    <Button variant="outline">
+      Dark Mode
+    </Button>
+  </DarkMode>
+</Flex>
+```

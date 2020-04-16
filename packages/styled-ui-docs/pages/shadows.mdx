@@ -1,0 +1,32 @@
+import { Box, Stack } from "@trendmicro/react-styled-ui";
+import ThemeParser from "../components/ThemeParser";
+
+# Shadows
+
+Add or remove shadows to elements with box-shadow utilities.
+
+<ThemeParser theme="shadows" />
+
+```jsx noInline
+function Example() {
+  const { colorMode } = useColorMode();
+  return (
+    <Stack direction="row" spacing="1rem">
+      <Box width="40x" height="24x" p="2x" boxShadow={`${colorMode}.sm`}>boxShadow=sm</Box>
+      <Box width="40x" height="24x" p="2x" boxShadow={`${colorMode}.md`}>boxShadow=md</Box>
+      <Box width="40x" height="24x" p="2x" boxShadow={`${colorMode}.lg`}>boxShadow=lg</Box>
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+## Configuration Reference
+
+Except for breakpoints, colors, and spacing, all of the keys in the theme object
+map to one of our core theme. All of these keys can be replaced or
+extended.
+
+See the <a href="https://styled-system.com/table" target="_blank">full reference
+table</a> of properties.

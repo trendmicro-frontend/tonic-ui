@@ -1,0 +1,105 @@
+# Link
+
+Links are accessible elements used primarily for navigation. This component is styled to resemble a hyperlink and semantically renders an `<a>`.
+
+## Import
+
+```js
+import Link from '@trendmicro/react-styled-ui/Link';
+// or
+import { Link } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<Stack shouldWrapChildren direction="column" spacing=".5rem">
+  <Link href="https://github.com/trendmicro-frontend" fontSize="xs" lineHeight="xs">
+    Trend Micro Frontend
+  </Link>
+  <Link href="https://github.com/trendmicro-frontend" fontSize="sm" lineHeight="sm">
+    Trend Micro Frontend
+  </Link>
+  <Link href="https://github.com/trendmicro-frontend" fontSize="md" lineHeigh="md">
+    Trend Micro Frontend
+  </Link>
+  <Link href="https://github.com/trendmicro-frontend" fontSize="lg" lineHeight="lg">
+    Trend Micro Frontend
+  </Link>
+  <Link href="https://github.com/trendmicro-frontend" fontSize="xl" lineHeight="xl">
+    Trend Micro Frontend
+  </Link>
+</Stack>
+```
+
+
+### An underlined link
+
+```jsx
+<Link
+  href="https://github.com/trendmicro-frontend"
+  textDecoration="underline"
+>
+  Trend Micro Frontend
+</Link>
+```
+
+### Link with `disabled` attribute
+
+```jsx
+<Stack shouldWrapChildren direction="column" spacing=".5rem">
+  <Link
+    href="https://github.com/trendmicro-frontend"
+    disabled
+  >
+    Trend Micro Frontend
+  </Link>
+  <Link
+    href="https://github.com/trendmicro-frontend"
+    textDecoration="underline"
+    disabled
+  >
+    Trend Micro Frontend
+  </Link>
+</Stack>
+```
+
+### Link to another page
+
+```jsx
+<Link
+  href="https://github.com/trendmicro-frontend"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Trend Micro Frontend
+</Link>
+```
+
+You can also create a `<ExternalLink>` component for convenience of use:
+
+```jsx noInline
+const ExternalLink = React.forwardRef((props, ref) => (
+  <Link
+    ref={ref}
+    target="_blank"
+    rel="noopener noreferrer"
+    {...props}
+  />
+));
+
+render(
+  <ExternalLink href="https://github.com/trendmicro-frontend/styled-ui">
+    Open link in new window
+  </ExternalLink>
+);
+```
+
+## Props
+
+`Link` composes the [`PseudoBox`](./pseudobox) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the link will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| onClick | function | | A callback called when the link is clicked. |
