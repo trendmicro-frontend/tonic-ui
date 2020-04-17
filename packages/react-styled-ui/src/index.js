@@ -1,3 +1,4 @@
+import Alert from './Alert';
 import Badge from './Badge';
 import Box from './Box';
 import Button from './Button';
@@ -37,6 +38,7 @@ import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
+import Toast from './Toast';
 import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
 import theme from './theme';
@@ -44,10 +46,12 @@ import useColorMode from './useColorMode';
 import useClipboard from './useClipboard';
 import useDisclosure from './useDisclosure';
 import useTheme from './useTheme';
+import useToast from './useToast';
 import VisuallyHidden from './VisuallyHidden';
 import withTheme from './withTheme';
 
 export {
+  Alert,
   Badge,
   Box,
   Button,
@@ -87,6 +91,7 @@ export {
   Textarea,
   TextLabel,
   ThemeProvider,
+  Toast,
   ToggleSwitch,
   Tooltip,
   theme,
@@ -94,10 +99,9 @@ export {
   useClipboard,
   useDisclosure,
   useTheme,
+  useToast,
   VisuallyHidden,
   withTheme,
 };
 
 export * from './Accordion';
-export * from './Alert';
-export * from './Toast';
