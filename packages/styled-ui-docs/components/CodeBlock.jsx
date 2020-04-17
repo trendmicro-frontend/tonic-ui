@@ -44,8 +44,10 @@ const LiveCodePreview = props => {
     <Box
       as={LivePreview}
       fontFamily="base"
+      fontSize="sm"
+      lineHeight="sm"
       mt="5x"
-      p="3x"
+      p="4x"
       border={1}
       borderColor={borderColor}
       borderRadius="sm"
