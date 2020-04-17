@@ -1,60 +1,78 @@
-import React, { createContext, useContext } from 'react';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
+import Flex from '../Flex';
 import Icon from '../Icon';
-import useAlertStyle from './styles';
-import AlertButton from '../ActionButton';
+import {
+  useAlertRootStyle,
+  useAlertIconStyle,
+  useAlertMessageStyle,
+} from './styles';
 
-const statuses = {
-  info: {
-    icon: 'info',
-    color: 'blue'
-  },
-  warning: {
-    icon: 'warning-triangle',
-    color: 'yellow'
-  },
-  error: {
-    icon: 'circle-close',
-    color: 'red'
-  },
-};
+const defaultSeverity = 'success';
 
-const AlertContext = createContext();
-const useAlertContext = () => {
-  const context = useContext(AlertContext);
-  if (context === undefined) {
-    throw new Error(
-      'useAlertContext must be used within a AlertContextProvider',
-    );
+const getIconBySeverity = (severity) => {
+  const iconName = {
+    success: 'severity-success',
+    info: 'severity-info',
+    warning: 'severity-warning',
+    error: 'severity-error',
+  }[severity];
+
+  if (!iconName) {
+    return null;
   }
-  return context;
-};
 
-const Alert = ({ status = 'info', ...rest }) => {
-  const alertStyleProps = useAlertStyle({
-    status,
-    color: statuses[status] && statuses[status].color,
-  });
-
-  const context = { status };
   return (
-    <AlertContext.Provider value={context}>
-      <Box role="alert" {...alertStyleProps} {...rest} />
-    </AlertContext.Provider>
+    <Icon name={`_core.${iconName}`} />
   );
 };
 
-const AlertIcon = props => {
-  const { status } = useAlertContext();
-  const iconName = statuses[status] && statuses[status].icon;
-  return (
-    <Icon
-      mr="2x"
-      size="4x"
-      name={`_core.${iconName}`}
-      {...props}
-    />
-  );
-};
+const AlertIcon = (props) => (
+  <Flex {...props} />
+);
 
-export { Alert, AlertIcon, AlertButton };
+const AlertMessage = (props) => (
+  <Box {...props} />
+);
+
+const Alert = forwardRef((
+  {
+    icon,
+    severity = defaultSeverity,
+    children,
+    ...rest
+  },
+  ref,
+) => {
+  const rootStyleProps = useAlertRootStyle({ severity });
+  const iconStyleProps = useAlertIconStyle();
+  const messageStyleProps = useAlertMessageStyle();
+
+  if (typeof icon === 'string') {
+    icon = (<Icon name={icon} />);
+  }
+  if (typeof icon === 'undefined') {
+    icon = getIconBySeverity(severity);
+  }
+
+  return (
+    <Flex
+      ref={ref}
+      {...rootStyleProps}
+      {...rest}
+    >
+      {!!icon && (
+        <AlertIcon {...iconStyleProps}>
+          {icon}
+        </AlertIcon>
+      )}
+      <AlertMessage {...messageStyleProps}>
+        {children}
+      </AlertMessage>
+    </Flex>
+  );
+});
+
+Alert.displayName = 'Alert';
+
+export default Alert;

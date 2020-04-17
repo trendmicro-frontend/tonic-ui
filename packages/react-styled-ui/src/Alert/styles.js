@@ -1,52 +1,123 @@
+import { get } from '@styled-system/core';
 import useColorMode from '../useColorMode';
-import useTheme from '../useTheme';
 
 const baseProps = {
-  display: 'flex',
-  alignItems: 'center',
-  position: 'relative',
-  overflow: 'hidden',
-  pl: '4x',
-  pr: '4x',
-  pt: '2x',
-  pb: '2x',
-  color: 'black:emphasis',
+  px: '4x',
+  py: '2x',
 };
 
-const styleProps = ({ color, colorLevel }) => {
+const getSuccessStyle = ({
+  colorMode,
+}) => {
+  const backgroundColor = {
+    dark: 'green:50',
+    light: 'green:50',
+  }[colorMode];
+  const color = 'black:primary';
+
   return {
-    light: {
-      bg: `${color}:${colorLevel}`,
-    },
-    dark: {
-      bg: `${color}:${colorLevel}`
-    },
+    backgroundColor,
+    color,
   };
 };
 
-const statusProps = props => {
-  const status = props.status;
+const getInfoStyle = ({
+  colorMode,
+}) => {
+  const backgroundColor = {
+    dark: 'blue:40',
+    light: 'blue:40',
+  }[colorMode];
+  const color = 'black:primary';
 
-  switch (status) {
-  case 'info':
-  case 'error':
-    return styleProps({ ...props, colorLevel: 40 });
-  case 'warning':
-    return styleProps({ ...props, colorLevel: 50 });
-  default:
-    return {};
-  }
+  return {
+    backgroundColor,
+    color,
+  };
 };
 
-const useAlertStyle = props => {
+const getWarningStyle = ({
+  colorMode,
+}) => {
+  const backgroundColor = {
+    dark: 'yellow:50',
+    light: 'yellow:50',
+  }[colorMode];
+  const color = 'black:primary';
+
+  return {
+    backgroundColor,
+    color,
+  };
+};
+
+const getErrorStyle = ({
+  colorMode,
+}) => {
+  const backgroundColor = {
+    dark: 'red:40',
+    light: 'red:40',
+  }[colorMode];
+  const color = 'black:primary';
+
+  return {
+    backgroundColor,
+    color,
+  };
+};
+
+const getSeverityProps = ({ severity, ...props }) => {
+  if (severity === 'success') {
+    return getSuccessStyle(props);
+  }
+
+  if (severity === 'info') {
+    return getInfoStyle(props);
+  }
+
+  if (severity === 'warning') {
+    return getWarningStyle(props);
+  }
+
+  if (severity === 'error') {
+    return getErrorStyle(props);
+  }
+
+  return {};
+};
+
+const useAlertRootStyle = ({
+  severity,
+}) => {
   const { colorMode } = useColorMode();
-  const theme = useTheme();
-  const _props = { ...props, theme };
+  const _props = {
+    colorMode,
+    severity,
+  };
+  const severityProps = getSeverityProps(_props);
 
   return {
     ...baseProps,
-    ...statusProps(_props)[colorMode],
+    ...severityProps,
   };
 };
 
-export default useAlertStyle;
+const useAlertIconStyle = () => {
+  return {
+    py: '1x',
+    mr: '2x',
+    lineHeight: 1, // exactly the same height as the icon's height
+  };
+};
+
+const useAlertMessageStyle = () => {
+  return {
+    width: '100%',
+  };
+};
+
+export {
+  useAlertRootStyle,
+  useAlertIconStyle,
+  useAlertMessageStyle,
+};
