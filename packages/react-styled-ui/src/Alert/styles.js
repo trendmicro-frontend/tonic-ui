@@ -1,4 +1,3 @@
-import { get } from '@styled-system/core';
 import useColorMode from '../useColorMode';
 
 const baseProps = {
