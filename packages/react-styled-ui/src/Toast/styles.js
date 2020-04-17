@@ -1,90 +1,189 @@
+import { get } from '@styled-system/core';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
 const baseProps = {
-  display: 'flex',
-  alignItems: 'center',
-  position: 'relative',
-  overflow: 'hidden',
   pl: '4x',
   pr: '4x',
-  pt: '2x',
-  pb: '2x',
-  color: 'black:emphasis',
-  fontSize: 'sm',
-  lineHeight: 'sm',
+  py: '4x',
 };
 
-const styleToastProps = ({ color, colorLevel, theme: { colors } }) => {
+const getDefaultStyle = ({
+  theme,
+  colorMode,
+}) => {
+  const backgroundColor = {
+    dark: 'gray:10',
+    light: 'gray:10', // FIXME
+  }[colorMode];
+  const color = 'black:primary';
+
   return {
-    light: {
-      bg: `${color}:${colorLevel}`,
-    },
-    dark: {
-      bg: 'gray:10',
-      borderLeft: `4px solid ${colors[`${color}:${colorLevel}`]}`,
-    },
+    backgroundColor,
+    color,
   };
 };
 
-const styleToastIconProps = ({ color, colorLevel }) => {
+const getSuccessStyle = ({
+  theme,
+  colorMode,
+}) => {
+  const { sizes } = theme;
+  const backgroundColor = {
+    dark: 'gray:10',
+    light: 'gray:10', // FIXME
+  }[colorMode];
+  const color = 'black:primary';
+  const borderStyle = {
+    borderLeftColor: 'green:50',
+    borderLeftStyle: 'solid',
+    borderLeftWidth: get(sizes, '1x'),
+    pl: '3x',
+  };
+
   return {
-    light: {
-      color: 'black:emphasis',
-    },
-    dark: {
-      color: `${color}:${colorLevel}`,
-    },
+    backgroundColor,
+    color,
+    ...borderStyle,
   };
 };
 
-const statusToastProps = props => {
-  const status = props.status;
+const getInfoStyle = ({
+  theme,
+  colorMode,
+}) => {
+  const { sizes } = theme;
+  const backgroundColor = {
+    dark: 'gray:10',
+    light: 'gray:10', // FIXME
+  }[colorMode];
+  const color = 'black:primary';
+  const borderStyle = {
+    borderLeftColor: 'blue:50',
+    borderLeftStyle: 'solid',
+    borderLeftWidth: get(sizes, '1x'),
+    pl: '3x',
+  };
 
-  switch (status) {
-  case 'success':
-  case 'warning':
-    return styleToastProps({ ...props, colorLevel: 50 });
-  case 'error':
-    return styleToastProps({ ...props, colorLevel: 60 });
-  default:
-    return {};
-  }
+  return {
+    backgroundColor,
+    color,
+    ...borderStyle,
+  };
 };
 
-const statusToastIconProps = props => {
-  const status = props.status;
+const getWarningStyle = ({
+  theme,
+  colorMode,
+}) => {
+  const { sizes } = theme;
+  const backgroundColor = {
+    dark: 'gray:10',
+    light: 'gray:10', // FIXME
+  }[colorMode];
+  const color = 'black:primary';
+  const borderStyle = {
+    borderLeftColor: 'yellow:50',
+    borderLeftStyle: 'solid',
+    borderLeftWidth: get(sizes, '1x'),
+    pl: '3x',
+  };
 
-  switch (status) {
-  case 'success':
-  case 'warning':
-    return styleToastIconProps({ ...props, colorLevel: 50 });
-  case 'error':
-    return styleToastIconProps({ ...props, colorLevel: 60 });
-  default:
-    return {};
-  }
+  return {
+    backgroundColor,
+    color,
+    ...borderStyle,
+  };
 };
 
-const useToastStyle = props => {
-  const { colorMode } = useColorMode();
+const getErrorStyle = ({
+  theme,
+  colorMode,
+}) => {
+  const { sizes } = theme;
+  const backgroundColor = {
+    dark: 'gray:10',
+    light: 'gray:10', // FIXME
+  }[colorMode];
+  const color = 'black:primary';
+  const borderStyle = {
+    borderLeftColor: 'red:60',
+    borderLeftStyle: 'solid',
+    borderLeftWidth: get(sizes, '1x'),
+    pl: '3x',
+  };
+
+  return {
+    backgroundColor,
+    color,
+    ...borderStyle,
+  };
+};
+
+const getSeverityProps = ({ severity, ...props }) => {
+  if (severity === 'success') {
+    return getSuccessStyle(props);
+  }
+
+  if (severity === 'info') {
+    return getInfoStyle(props);
+  }
+
+  if (severity === 'warning') {
+    return getWarningStyle(props);
+  }
+
+  if (severity === 'error') {
+    return getErrorStyle(props);
+  }
+
+  return getDefaultStyle(props);
+};
+
+const useToastRootStyle = ({
+  severity,
+}) => {
   const theme = useTheme();
-  const _props = { ...props, theme };
+  const { colorMode } = useColorMode();
+  const _props = {
+    theme,
+    colorMode,
+    severity,
+  };
+  const severityProps = getSeverityProps(_props);
 
   return {
     ...baseProps,
-    ...statusToastProps(_props)[colorMode],
+    ...severityProps,
   };
 };
 
-const useToastIconStyle = props => {
-  const { colorMode } = useColorMode();
-  const theme = useTheme();
-  const _props = { ...props, theme };
+const useToastIconStyle = ({
+  severity,
+}) => {
+  const color = {
+    'success': 'green:50',
+    'info': 'blue:50',
+    'warning': 'yellow:50',
+    'error': 'red:60',
+  }[severity];
 
   return {
-    ...statusToastIconProps(_props)[colorMode],
+    color,
+    py: '.125rem',
+    mr: '2x',
+    lineHeight: 1, // exactly the same height as the icon's height
   };
 };
 
-export { useToastStyle, useToastIconStyle };
+const useToastMessageStyle = () => {
+  return {
+    width: '100%',
+  };
+};
+
+export {
+  useToastRootStyle,
+  useToastIconStyle,
+  useToastMessageStyle,
+};

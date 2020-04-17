@@ -1,259 +1,338 @@
 # Toast
 
-Toasts are used to communicate a state that affects a system, feature or page.
+A toast notification is a small message that shows up in a box at one side of the screen and disappears on its own after few seconds. It is a simple feedback about an operation in which current activity remains visibility and interactive. Basically it is to inform the user of something that is not critical and that does not require specific attention and does not prevent the user from using the app.
 
 ## Import
 
-Trend Micro Styled UI exports 3 Toast related components and a hooks to interaction with your toast component.
-
-- `Toast`: The wrapper for Toast components.
-- `ToastIcon`: The visual icon for the Toast that changes based on the `status` prop.
-- `ToastButton`: The special button for the Toast that with transparent background and 2px border on focus
-- `useToast`: The hooks for trigger toast content by render props
-
 ```js
-import {
-  useToast,
-  Toast,
-  ToastIcon,
-  ToastButton,
-} from '@trendmicro/react-styled-ui/Toast';
+import Toast from '@trendmicro/react-styled-ui/Toast';
+// or
+import { Toast } from '@trendmicro/react-styled-ui';
 ```
 
 ## Usage
 
-```jsx
+```jsx noInline
+const Layout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+const BasicToast = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between">
+      <Text>
+        This is the notification content.
+      </Text>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+  </Toast>
+);
+
+const BasicToastWithTitle = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between" mb="2x">
+      <Heading fontWeight="bold">Notification Title</Heading>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+    <Text>
+      This is the notification content.
+    </Text>
+  </Toast>
+);
+
+const BasicToastWithIcon = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between">
+      <Flex align="flex-start">
+        <Box
+          bg="gray:40"
+          height={48}
+          minWidth={48}
+        />
+        <Space minWidth="4x" />
+        <Text>
+          This is the notification content.
+        </Text>
+      </Flex>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+  </Toast>
+);
+
+const BasicToastWithActionButton = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between" mb="6x">
+      <Text>
+        This is the notification content.
+      </Text>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+    <Flex justify="flex-end">
+      <FlatButton variant="outline" color="black:primary" size="sm">
+        Action Button
+      </FlatButton>
+    </Flex>
+  </Toast>
+);
+
+const BasicToastWithLink = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between" mb="6x">
+      <Text>
+        This is the notification content.
+      </Text>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+    <Flex justify="flex-end">
+      <Link>
+        Learn More
+      </Link>
+    </Flex>
+  </Toast>
+);
+
+const BasicToastWithAllTogether = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between" mb="2x">
+      <Heading fontWeight="bold">Notification Title</Heading>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+    <Flex align="flex-start" mb="6x">
+      <Box
+        bg="gray:40"
+        height={48}
+        minWidth={48}
+      />
+      <Space minWidth="4x" />
+      <Text>
+        This is the notification content.
+      </Text>
+    </Flex>
+    <Flex justify="flex-end">
+      <FlatButton variant="outline" color="black:primary" size="sm">
+        Action Button
+      </FlatButton>
+    </Flex>
+  </Toast>
+);
+
 function Example() {
   const toast = useToast();
+  const ToastComponent = BasicToast;
+  const handleClickBy = (ToastComponent) => () => {
+    toast({
+      duration: 5000,
+      render: ({ onClose }) => (
+        <Layout minWidth={320}>
+          <ToastComponent onClose={onClose} />
+        </Layout>
+      ),
+    });
+  };
+
   return (
-    <Button
-      onClick={() =>
-        toast({
-          render: ({ onClose }) => (
-            <Toast status="success">
-              <ToastIcon />
-              <Heading mr="2x" fontWeight="bold" whiteSpace="nowrap">Account created.</Heading>
-              <Text whiteSpace="nowrap">We've created your account for you.</Text>
-              <Space width="8x" />
-              <ToastButton minWidth={76}>Revert</ToastButton>
-              <Space width="4x" />
-              <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
-            </Toast>
-          ),
-        })
-      }
-    >
-      Show Toast
-    </Button>
-  );
-}
-```
-
-### Status
-
-Change the status of the Toasts by passing the `status` prop. This affects the
-color scheme and icon used. Toast supports `error`, `warning`, and
-`success` statuses.
-
-```jsx
-function Example() {
-  const toast = useToast();
-  return (
-    <Stack spacing="2x" shouldWrapChildren>
-      <Button
-        onClick={() =>
-          toast({
-            render: ({ onClose }) => (
-              <Toast status="success">
-                <ToastIcon />
-                <Heading mr="2x" fontWeight="bold" whiteSpace="nowrap">Account created.</Heading>
-                <Text whiteSpace="nowrap">We've created your account for you.</Text>
-                <Space width="8x" />
-                <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
-              </Toast>
-            ),
-          })
-        }
-      >
-        Show success toast
-      </Button>
-      <Button
-        onClick={() =>
-          toast({
-            render: ({ onClose }) => (
-              <Toast status="warning">
-                <ToastIcon />
-                <Text whiteSpace="nowrap">Seems your account is about to expire, upgrade now!</Text>
-                <Space width="8x" />
-                <ToastButton minWidth={76}>Revert</ToastButton>
-                <Space width="4x" />
-                <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
-              </Toast>
-            ),
-          })
-        }
-      >
-        Show warning toast
-      </Button>
-      <Button
-        onClick={() =>
-          toast({
-            render: ({ onClose }) => (
-              <Toast status="error">
-                <ToastIcon />
-                <Heading mr="2x" fontWeight="bold" whiteSpace="nowrap">An error occurred.</Heading>
-                <Text whiteSpace="nowrap">Unable to create user account.</Text>
-                <Space width="8x" />
-                <ToastButton minWidth={76}>Retry</ToastButton>
-                <Space width="4x" />
-                <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
-              </Toast>
-            ),
-          })
-        }
-      >
-        Show error toast
-      </Button>
-    </Stack>
-  );
-}
-```
-
-### Position
-
-The default value is 'top'
-
-```jsx
-function Example() {
-  const toast = useToast();
-  const render = ({ onClose }) => (
-    <Toast status="success">
-      <ToastIcon />
-      <Heading mr="2x" fontWeight="bold" whiteSpace="nowrap">Account created.</Heading>
-      <Text whiteSpace="nowrap">We've created your account for you.</Text>
-      <Space width="8x" />
-      <ToastButton minWidth={76}>Revert</ToastButton>
-      <Space width="4x" />
-      <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
-    </Toast>
-  );
-  return (
-    <Stack direction="column" spacing="4x">
-      <Stack shouldWrapChildren direction="row" spacing="2rem">
-        <Button
-          onClick={() =>
-            toast({
-              position: 'top-left',
-              render,
-            })
-          }
-        >
-          Show Top Left Toast
-        </Button>
-        <Button
-          onClick={() =>
-            toast({
-              position: 'top',
-              render,
-            })
-          }
-        >
-          Show Top Toast
-        </Button>
-        <Button
-          onClick={() =>
-            toast({
-              position: 'top-right',
-              render,
-            })
-          }
-        >
-          Show Top Right Toast
-        </Button>
+    <>
+      <Stack direction="column" spacing="4x">
+        <Box>
+          <Button
+            variant="secondary"
+            mr="4x"
+            onClick={handleClickBy(BasicToast)}
+          >
+            Show basic toast
+          </Button>
+          <Layout><BasicToast /></Layout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            mr="4x"
+            onClick={handleClickBy(BasicToastWithTitle)}
+          >
+            Show basic toast with title
+          </Button>
+          <Layout><BasicToastWithTitle /></Layout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            mr="4x"
+            onClick={handleClickBy(BasicToastWithIcon)}
+          >
+            Show basic toast with icon
+          </Button>
+          <Layout><BasicToastWithIcon /></Layout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            mr="4x"
+            onClick={handleClickBy(BasicToastWithActionButton)}
+          >
+            Show basic toast with action button
+          </Button>
+          <Layout><BasicToastWithActionButton /></Layout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            mr="4x"
+            onClick={handleClickBy(BasicToastWithLink)}
+          >
+            Show basic toast with link
+          </Button>
+          <Layout><BasicToastWithLink /></Layout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            mr="4x"
+            onClick={handleClickBy(BasicToastWithAllTogether)}
+          >
+            Show basic toast with all together
+          </Button>
+          <Layout><BasicToastWithAllTogether /></Layout>
+        </Box>
       </Stack>
-      <Stack shouldWrapChildren direction="row" spacing="4x">
-        <Button
-          onClick={() =>
-            toast({
-              position: 'bottom-left',
-              render,
-            })
-          }
-        >
-          Show Bottom Left Toast
-        </Button>
-        <Button
-          onClick={() =>
-            toast({
-              position: 'bottom',
-              render,
-            })
-          }
-        >
-          Show Bottom Toast
-        </Button>
-        <Button
-          onClick={() =>
-            toast({
-              position: 'bottom-right',
-              render,
-            })
-          }
-        >
-          Show Bottom Right Toast
-        </Button>
-      </Stack>
-    </Stack>
+    </>
   );
 }
+
+render(<Example />);
 ```
 
-## Duration
+### Severity levels
 
-The default value is 5000.
+The toast offers four severity levels, each has a distinctive icon and color.
 
 ```jsx
-function Example() {
-  const toast = useToast();
-  return (
-    <Button
-      onClick={() =>
-        toast({
-          duration: 9000, // ms
-          render: ({ onClose }) => (
-            <Toast status="success">
-              <ToastIcon />
-              <Heading mr="2x" fontWeight="bold" whiteSpace="nowrap">Account created.</Heading>
-              <Text whiteSpace="nowrap">We've created your account for you.</Text>
-              <Space width="8x" />
-              <ToastButton minWidth={76}>Revert</ToastButton>
-              <Space width="4x" />
-              <ButtonBase onClick={onClose} color="black:secondary">X</ButtonBase>
-            </Toast>
-          ),
-        })
-      }
-    >
-      Show Toast
-    </Button>
-  );
-}
+<Stack direction="column" spacing="4x">
+  <Toast severity="success">
+    This is a success toast.
+  </Toast>
+  <Toast severity="info">
+    This is an info toast.
+  </Toast>
+  <Toast severity="warning">
+    This is a warning toast.
+  </Toast>
+  <Toast severity="error">
+    This is an error toast.
+  </Toast>
+</Stack>
 ```
 
+### Using the `useToast` hook
+
+#### Available options
+
+* `position`
+
+  You can display toast notifications in different positions, including `top-left`, `top`, `top-right`, `bottom-left`, `bottom`, and `bottom-right`. The default value is `top`.
+
+* `duration`
+
+  When the `duration` is set to `null`, the toast notification will appear indefinitely until manually closed by the user. The default value is `5000` in milliseconds.
+
+```jsx noInline
+const Layout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+const BasicToast = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between">
+      <Text>
+        This is the notification content.
+      </Text>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+  </Toast>
+);
+
+function Example() {
+  const toast = useToast();
+  const duration = 5000; // in ms
+  const handleClickBy = (position) => () => {
+    toast({
+      duration,
+      position,
+      render: (props) => <BasicToast {...props} />,
+    });
+  };
+
+  return (
+    <Grid
+      gap="4x"
+      templateColumns="1fr 1fr 1fr"
+    >
+      <Button onClick={handleClickBy('top-left')}>
+        Top Left
+      </Button>
+      <Button onClick={handleClickBy('top')}>
+        Top
+      </Button>
+      <Button onClick={handleClickBy('top-right')}>
+        Top Right
+      </Button>
+      <Button onClick={handleClickBy('bottom-left')}>
+        Bottom Left
+      </Button>
+      <Button onClick={handleClickBy('bottom')}>
+        Bottom
+      </Button>
+      <Button onClick={handleClickBy('bottom-right')}>
+        Bottom Right
+      </Button>
+    </Grid>
+  );
+}
+
+render(<Example />);
+```
 
 ## Props
 
-### Toast props
-
+`Toast` composes the `Flex` component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| status | string | 'success' | The status of the alert. One of: `'error'`, `'warning'`, `'success'` |
-
-### ToastIcon props
-
-ToastIcon composes `Icon` and changes the icon based on the `status` prop.
-
-### ToastButton props
-
-ToastButton composes the `PseudoBox` component.
+| severity | string | 'none' | The severity level of the alert. One of: `'none'`, `'success'`, `'info'`, `'warning'`, `'error'` |
+| icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |
