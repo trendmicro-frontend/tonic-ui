@@ -51,6 +51,7 @@ const LiveCodePreview = props => {
       border={1}
       borderColor={borderColor}
       borderRadius="sm"
+      whiteSpace="normal"
       {...props}
     />
   );
