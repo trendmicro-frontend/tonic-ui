@@ -12,24 +12,21 @@ import { Toast } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
+The `Toast` component should work with the `useToast` hook to trigger a toast notification. Learn more about the [`useToast`](./usetoast) hook.
+
+### Layouts
+
+* Add a minimum horizontal margin space (`4x` or `1rem`) before the close button.
+* Add a minimum horizontal margin space (`4x` or `1rem`) between the icon and the content.
+* Add a vertical margin space (`2x` or `.5rem`) between title and its content.
+* Add a vertical margin space (`6x` or `1.5rem`) between the end of the content and the action button.
+
 ```jsx noInline
-const Layout = (props) => {
-  const { colorMode } = useColorMode();
-  const boxShadow = {
-    dark: 'dark.sm',
-    light: 'light.sm',
-  }[colorMode];
-
-  return (
-    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
-  );
-};
-
-const BasicToast = ({ onClose }) => (
+const ToastSimple = ({ onClose }) => (
   <Toast>
     <Flex align="flex-start" justify="space-between">
       <Text>
-        This is the notification content.
+        This is a toast notification.
       </Text>
       <Space minWidth="4x" />
       <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
@@ -39,22 +36,7 @@ const BasicToast = ({ onClose }) => (
   </Toast>
 );
 
-const BasicToastWithTitle = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between" mb="2x">
-      <Heading fontWeight="bold">Notification Title</Heading>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
-    <Text>
-      This is the notification content.
-    </Text>
-  </Toast>
-);
-
-const BasicToastWithIcon = ({ onClose }) => (
+const ToastWithIcon = ({ onClose }) => (
   <Toast>
     <Flex align="flex-start" justify="space-between">
       <Flex align="flex-start">
@@ -65,7 +47,7 @@ const BasicToastWithIcon = ({ onClose }) => (
         />
         <Space minWidth="4x" />
         <Text>
-          This is the notification content.
+          This is a toast notification.
         </Text>
       </Flex>
       <Space minWidth="4x" />
@@ -76,11 +58,26 @@ const BasicToastWithIcon = ({ onClose }) => (
   </Toast>
 );
 
-const BasicToastWithActionButton = ({ onClose }) => (
+const ToastWithTitle = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between" mb="2x">
+      <Heading fontWeight="bold">Notification Title</Heading>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+    <Text>
+      This is a toast notification.
+    </Text>
+  </Toast>
+);
+
+const ToastWithActionButton = ({ onClose }) => (
   <Toast>
     <Flex align="flex-start" justify="space-between" mb="6x">
       <Text>
-        This is the notification content.
+        This is a toast notification.
       </Text>
       <Space minWidth="4x" />
       <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
@@ -95,11 +92,11 @@ const BasicToastWithActionButton = ({ onClose }) => (
   </Toast>
 );
 
-const BasicToastWithLink = ({ onClose }) => (
+const ToastWithLink = ({ onClose }) => (
   <Toast>
     <Flex align="flex-start" justify="space-between" mb="6x">
       <Text>
-        This is the notification content.
+        This is a toast notification.
       </Text>
       <Space minWidth="4x" />
       <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
@@ -114,7 +111,7 @@ const BasicToastWithLink = ({ onClose }) => (
   </Toast>
 );
 
-const BasicToastWithAllTogether = ({ onClose }) => (
+const ToastWithAllTogether = ({ onClose }) => (
   <Toast>
     <Flex align="flex-start" justify="space-between" mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
@@ -131,7 +128,7 @@ const BasicToastWithAllTogether = ({ onClose }) => (
       />
       <Space minWidth="4x" />
       <Text>
-        This is the notification content.
+        This is a toast notification.
       </Text>
     </Flex>
     <Flex justify="flex-end">
@@ -142,82 +139,106 @@ const BasicToastWithAllTogether = ({ onClose }) => (
   </Toast>
 );
 
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+  );
+};
+
 function Example() {
   const toast = useToast();
-  const ToastComponent = BasicToast;
   const handleClickBy = (ToastComponent) => () => {
     toast({
       duration: 5000,
       render: ({ onClose }) => (
-        <Layout minWidth={320}>
+        <ToastLayout minWidth={320}>
           <ToastComponent onClose={onClose} />
-        </Layout>
+        </ToastLayout>
       ),
     });
   };
 
   return (
     <>
-      <Stack direction="column" spacing="4x">
+      <Stack direction="column" spacing="6x">
         <Box>
           <Button
             variant="secondary"
             mr="4x"
-            onClick={handleClickBy(BasicToast)}
+            onClick={handleClickBy(ToastSimple)}
           >
-            Show basic toast
+            Show toast notification
           </Button>
-          <Layout><BasicToast /></Layout>
+          <ToastLayout mt="4x">
+            <ToastSimple />
+          </ToastLayout>
         </Box>
         <Box>
           <Button
             variant="secondary"
             mr="4x"
-            onClick={handleClickBy(BasicToastWithTitle)}
+            onClick={handleClickBy(ToastWithIcon)}
           >
-            Show basic toast with title
+            Show toast notification with icon
           </Button>
-          <Layout><BasicToastWithTitle /></Layout>
+          <ToastLayout mt="4x">
+            <ToastWithIcon />
+          </ToastLayout>
         </Box>
         <Box>
           <Button
             variant="secondary"
             mr="4x"
-            onClick={handleClickBy(BasicToastWithIcon)}
+            onClick={handleClickBy(ToastWithTitle)}
           >
-            Show basic toast with icon
+            Show toast notification with title
           </Button>
-          <Layout><BasicToastWithIcon /></Layout>
+          <ToastLayout mt="4x">
+            <ToastWithTitle />
+          </ToastLayout>
+        </Box>
+
+        <Box>
+          <Button
+            variant="secondary"
+            mr="4x"
+            onClick={handleClickBy(ToastWithActionButton)}
+          >
+            Show toast notification with action button
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastWithActionButton />
+          </ToastLayout>
         </Box>
         <Box>
           <Button
             variant="secondary"
             mr="4x"
-            onClick={handleClickBy(BasicToastWithActionButton)}
+            onClick={handleClickBy(ToastWithLink)}
           >
-            Show basic toast with action button
+            Show toast notification with link
           </Button>
-          <Layout><BasicToastWithActionButton /></Layout>
+          <ToastLayout mt="4x">
+            <ToastWithLink />
+          </ToastLayout>
         </Box>
         <Box>
           <Button
             variant="secondary"
             mr="4x"
-            onClick={handleClickBy(BasicToastWithLink)}
+            onClick={handleClickBy(ToastWithAllTogether)}
           >
-            Show basic toast with link
+            Show toast notification with all together
           </Button>
-          <Layout><BasicToastWithLink /></Layout>
-        </Box>
-        <Box>
-          <Button
-            variant="secondary"
-            mr="4x"
-            onClick={handleClickBy(BasicToastWithAllTogether)}
-          >
-            Show basic toast with all together
-          </Button>
-          <Layout><BasicToastWithAllTogether /></Layout>
+          <ToastLayout mt="4x">
+            <ToastWithAllTogether />
+          </ToastLayout>
         </Box>
       </Stack>
     </>
@@ -227,112 +248,6 @@ function Example() {
 render(<Example />);
 ```
 
-### Severity levels
-
-The toast offers four severity levels, each has a distinctive icon and color.
-
-```jsx
-<Stack direction="column" spacing="4x">
-  <Toast severity="success">
-    This is a success toast.
-  </Toast>
-  <Toast severity="info">
-    This is an info toast.
-  </Toast>
-  <Toast severity="warning">
-    This is a warning toast.
-  </Toast>
-  <Toast severity="error">
-    This is an error toast.
-  </Toast>
-</Stack>
-```
-
-### Using the `useToast` hook
-
-#### Available options
-
-* `position`
-
-  You can display toast notifications in different positions, including `top-left`, `top`, `top-right`, `bottom-left`, `bottom`, and `bottom-right`. The default value is `top`.
-
-* `duration`
-
-  When the `duration` is set to `null`, the toast notification will appear indefinitely until manually closed by the user. The default value is `5000` in milliseconds.
-
-```jsx noInline
-const Layout = (props) => {
-  const { colorMode } = useColorMode();
-  const boxShadow = {
-    dark: 'dark.sm',
-    light: 'light.sm',
-  }[colorMode];
-
-  return (
-    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
-  );
-};
-
-const BasicToast = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between">
-      <Text>
-        This is the notification content.
-      </Text>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
-  </Toast>
-);
-
-function Example() {
-  const toast = useToast();
-  const duration = 5000; // in ms
-  const handleClickBy = (position) => () => {
-    toast({
-      duration,
-      position,
-      render: (props) => <BasicToast {...props} />,
-    });
-  };
-
-  return (
-    <Grid
-      gap="4x"
-      templateColumns="1fr 1fr 1fr"
-    >
-      <Button onClick={handleClickBy('top-left')}>
-        Top Left
-      </Button>
-      <Button onClick={handleClickBy('top')}>
-        Top
-      </Button>
-      <Button onClick={handleClickBy('top-right')}>
-        Top Right
-      </Button>
-      <Button onClick={handleClickBy('bottom-left')}>
-        Bottom Left
-      </Button>
-      <Button onClick={handleClickBy('bottom')}>
-        Bottom
-      </Button>
-      <Button onClick={handleClickBy('bottom-right')}>
-        Bottom Right
-      </Button>
-    </Grid>
-  );
-}
-
-render(<Example />);
-```
-
 ## Props
 
-`Toast` composes the `Flex` component.
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| severity | string | 'none' | The severity level of the alert. One of: `'none'`, `'success'`, `'info'`, `'warning'`, `'error'` |
-| icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |
+`Toast` composes the [`Box`](./box) component. You can override the default styles with style props.

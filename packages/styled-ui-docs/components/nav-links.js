@@ -18,6 +18,7 @@ export const buildingBlockLinks = [
 export const componentLinks = [
   'Accordion',
   'Alert',
+  'AlertToast',
   'Badge',
   'Button',
   'ButtonBase',
@@ -55,4 +56,8 @@ export const componentLinks = [
   'TextLabel',
   'Toast',
   'Tooltip',
+];
+
+export const hookLinks = [
+  'useToast',
 ];

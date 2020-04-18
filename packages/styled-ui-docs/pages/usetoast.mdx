@@ -1,0 +1,207 @@
+# useToast
+
+The `useToast` hook allows you to show up a toast notification that presents timely information, including confirmation of actions, alerts, and errors.
+
+## Import
+
+```js
+import useToast from '@trendmicro/react-styled-ui/useToast';
+// or
+import { useToast } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx disabled
+function Example() {
+  const toast = useToast();
+
+  // Trigger a toast notification
+  toast({
+    render: ({ onClose }) => (
+      <ToastLayout minWidth={320}>
+        <ToastNotification onClose={onClose} />
+      </ToastLayout>
+    ),
+  });
+}
+```
+
+### Toast layout
+
+```jsx disabled
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+  );
+};
+```
+
+### Toast notification
+
+```jsx disabled
+const ToastNotification = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between">
+      <Text>
+        This is a toast notification.
+      </Text>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+  </Toast>
+);
+```
+
+### Example
+
+```jsx noInline
+const ToastNotification = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between">
+      <Text>
+        This is a toast notification.
+      </Text>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (ToastNotification) => () => {
+    toast({
+      duration: 5000,
+      render: ({ onClose }) => (
+        <ToastLayout minWidth={320}>
+          <ToastNotification onClose={onClose} />
+        </ToastLayout>
+      ),
+    });
+  };
+
+  return (
+    <>
+      <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
+        Show
+      </Button>
+      <ToastLayout mt="4x">
+        <ToastNotification />
+      </ToastLayout>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+## Options
+
+#### `position`
+
+You can display toast notifications in different positions, including `top-left`, `top`, `top-right`, `bottom-left`, `bottom`, and `bottom-right`. The default value is `top`.
+
+#### `duration`
+
+When the `duration` is set to `null`, the toast notification will appear indefinitely until manually closed by the user. The default value is `5000` in milliseconds.
+
+#### `render`
+
+A render function that renders toast notifications.
+
+### Positions
+
+```jsx noInline
+const ToastBasic = ({ onClose }) => (
+  <Toast>
+    <Flex align="flex-start" justify="space-between">
+      <Text>
+        This is a toast notification.
+      </Text>
+      <Space minWidth="4x" />
+      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
+        <TMIcon name="close-s" />
+      </ButtonBase>
+    </Flex>
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const duration = 5000; // in ms
+  const handleClickBy = (position) => () => {
+    toast({
+      duration,
+      position,
+      render: ({ onClose }) => (
+        <ToastLayout>
+          <ToastBasic onClose={onClose} />
+        </ToastLayout>
+      ),
+    });
+  };
+
+  return (
+    <Grid
+      gap="4x"
+      templateColumns="1fr 1fr 1fr"
+    >
+      <Button onClick={handleClickBy('top-left')}>
+        Top Left
+      </Button>
+      <Button onClick={handleClickBy('top')}>
+        Top
+      </Button>
+      <Button onClick={handleClickBy('top-right')}>
+        Top Right
+      </Button>
+      <Button onClick={handleClickBy('bottom-left')}>
+        Bottom Left
+      </Button>
+      <Button onClick={handleClickBy('bottom')}>
+        Bottom
+      </Button>
+      <Button onClick={handleClickBy('bottom-right')}>
+        Bottom Right
+      </Button>
+    </Grid>
+  );
+}
+
+render(<Example />);
+```
