@@ -11,7 +11,7 @@ import {
   themeLinks,
   buildingBlockLinks,
   componentLinks,
-  hookLinks,
+  utilityLinks,
 } from './nav-links';
 
 const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
@@ -170,9 +170,9 @@ const SideNav = React.forwardRef((props, ref) => {
           mb="2x"
           pl="2x"
         >
-          HOOKS
+          UTILITIES
         </Heading>
-        {hookLinks.map(link => {
+        {utilityLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
           return (

@@ -58,6 +58,6 @@ export const componentLinks = [
   'Tooltip',
 ];
 
-export const hookLinks = [
+export const utilityLinks = [
   'useToast',
 ];

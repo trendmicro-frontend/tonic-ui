@@ -1,6 +1,6 @@
 # useToast
 
-The `useToast` hook allows you to show up a toast notification that presents timely information, including confirmation of actions, alerts, and errors.
+The `useToast` Hook allows you to show up a toast notification that presents timely information, including confirmation of actions, alerts, and errors.
 
 ## Import
 
@@ -10,14 +10,26 @@ import useToast from '@trendmicro/react-styled-ui/useToast';
 import { useToast } from '@trendmicro/react-styled-ui';
 ```
 
-## Usage
+## `useToast`
+
+```js
+const toast = useToast();
+```
+
+Returns a toast function, the function is used to trigger a toast notification.
 
 ```jsx disabled
 function Example() {
+  // Get a toast function that can trigger toast notifications later
   const toast = useToast();
 
-  // Trigger a toast notification
   toast({
+    // [optional] The position to display toast notifications.
+    position: 'top',
+
+    // [optional] The duration (in ms) that a toast notification remains visible and interactive.
+    duration: 5000,
+
     render: ({ onClose }) => (
       <ToastLayout minWidth={320}>
         <ToastNotification onClose={onClose} />
@@ -27,11 +39,14 @@ function Example() {
 }
 ```
 
-### Toast layout
+### How to setup
+
+It is recommended that you create a layout component to wrap each toast notification as shown below:
 
 ```jsx disabled
 const ToastLayout = (props) => {
   const { colorMode } = useColorMode();
+  // Add a box shadow effect
   const boxShadow = {
     dark: 'dark.sm',
     light: 'light.sm',
@@ -43,7 +58,7 @@ const ToastLayout = (props) => {
 };
 ```
 
-### Toast notification
+Create a `ToastNotification` component to wrap children:
 
 ```jsx disabled
 const ToastNotification = ({ onClose }) => (
@@ -61,7 +76,7 @@ const ToastNotification = ({ onClose }) => (
 );
 ```
 
-### Example
+Let's see how this works.
 
 ```jsx noInline
 const ToastNotification = ({ onClose }) => (
@@ -94,6 +109,7 @@ function Example() {
   const toast = useToast();
   const handleClickBy = (ToastNotification) => () => {
     toast({
+      position: 'top',
       duration: 5000,
       render: ({ onClose }) => (
         <ToastLayout minWidth={320}>
@@ -118,7 +134,7 @@ function Example() {
 render(<Example />);
 ```
 
-## Options
+### Options
 
 #### `position`
 
@@ -131,8 +147,6 @@ When the `duration` is set to `null`, the toast notification will appear indefin
 #### `render`
 
 A render function that renders toast notifications.
-
-### Positions
 
 ```jsx noInline
 const ToastBasic = ({ onClose }) => (
