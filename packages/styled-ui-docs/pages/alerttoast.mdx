@@ -191,6 +191,194 @@ function Example() {
 render(<Example />);
 ```
 
+### Layouts
+
+* Add a minimum horizontal margin space (`4x` or `1rem`) before the close button.
+* Add a minimum horizontal margin space (`4x` or `1rem`) between the icon and the content.
+* Add a vertical margin space (`2x` or `.5rem`) between title and its content.
+* Add a vertical margin space (`6x` or `1.5rem`) between the end of the content and the action button (or action link).
+
+```jsx noInline
+const AlertToastSimple = ({ onClose }) => (
+  <AlertToast onClose={onClose}>
+    <Text>This is a toast notification.</Text>
+  </AlertToast>
+);
+
+const AlertToastWithIcon = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Flex align="flex-start">
+      <Box
+        bg="gray:40"
+        height={48}
+        minWidth={48}
+      />
+      <Space minWidth="4x" />
+      <Text>This is a toast notification.</Text>
+    </Flex>
+  </AlertToast>
+);
+
+const AlertToastWithTitle = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Box mb="2x">
+      <Heading fontWeight="bold">Notification Title</Heading>
+    </Box>
+    <Box mr={-36}>
+      <Text>This is a toast notification.</Text>
+    </Box>
+  </AlertToast>
+);
+
+const AlertToastWithActionButton = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Box mb="6x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+    <Flex justify="flex-end" mr={-36}>
+      <FlatButton variant="outline" color="black:primary" size="sm">
+        Action Button
+      </FlatButton>
+    </Flex>
+  </AlertToast>
+);
+
+const AlertToastWithActionLink = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Box mb="6x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+    <Flex justify="flex-end" mr={-36}>
+      <Link>Action Link</Link>
+    </Flex>
+  </AlertToast>
+);
+
+const AlertToastWithAllTogether = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Box mb="2x">
+      <Heading fontWeight="bold">Notification Title</Heading>
+    </Box>
+    <Flex align="flex-start" mb="6x">
+      <Box
+        bg="gray:40"
+        height={48}
+        minWidth={48}
+      />
+      <Space minWidth="4x" />
+      <Text>This is a toast notification.</Text>
+    </Flex>
+    <Flex justify="flex-end" mr={-36}>
+      <FlatButton variant="outline" color="black:primary" size="sm">
+        Action Button
+      </FlatButton>
+    </Flex>
+  </AlertToast>
+);
+
+const AlertToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (AlertToastComponent) => () => {
+    toast({
+      duration: 5000,
+      render: ({ onClose }) => (
+        <AlertToastLayout minWidth={320}>
+          <AlertToastComponent onClose={onClose} />
+        </AlertToastLayout>
+      ),
+    });
+  };
+
+  return (
+    <>
+      <Stack direction="column" spacing="6x">
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastSimple)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastSimple />
+          </AlertToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithIcon)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithIcon />
+          </AlertToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithTitle)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithTitle />
+          </AlertToastLayout>
+        </Box>
+
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithActionButton)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithActionButton />
+          </AlertToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithActionLink)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithActionLink />
+          </AlertToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithAllTogether)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithAllTogether />
+          </AlertToastLayout>
+        </Box>
+      </Stack>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
 ## Props
 
 `AlertToast` composes the [`Toast`](./toast) component.

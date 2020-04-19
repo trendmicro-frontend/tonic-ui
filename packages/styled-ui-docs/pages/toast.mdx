@@ -19,7 +19,7 @@ The `Toast` component should work with the `useToast` hook to trigger a toast no
 * Add a minimum horizontal margin space (`4x` or `1rem`) before the close button.
 * Add a minimum horizontal margin space (`4x` or `1rem`) between the icon and the content.
 * Add a vertical margin space (`2x` or `.5rem`) between title and its content.
-* Add a vertical margin space (`6x` or `1.5rem`) between the end of the content and the action button.
+* Add a vertical margin space (`6x` or `1.5rem`) between the end of the content and the action button (or action link).
 
 ```jsx noInline
 const ToastSimple = ({ onClose }) => (
@@ -29,7 +29,7 @@ const ToastSimple = ({ onClose }) => (
 );
 
 const ToastWithIcon = ({ onClose }) => (
-  <Toast onClose={onClose}>
+  <Toast onClose={onClose} py="4x">
     <Flex align="flex-start">
       <Box
         bg="gray:40"
@@ -43,7 +43,7 @@ const ToastWithIcon = ({ onClose }) => (
 );
 
 const ToastWithTitle = ({ onClose }) => (
-  <Toast onClose={onClose}>
+  <Toast onClose={onClose} py="4x">
     <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
     </Box>
@@ -54,7 +54,7 @@ const ToastWithTitle = ({ onClose }) => (
 );
 
 const ToastWithActionButton = ({ onClose }) => (
-  <Toast onClose={onClose}>
+  <Toast onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -66,19 +66,19 @@ const ToastWithActionButton = ({ onClose }) => (
   </Toast>
 );
 
-const ToastWithLink = ({ onClose }) => (
-  <Toast onClose={onClose}>
+const ToastWithActionLink = ({ onClose }) => (
+  <Toast onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
     <Flex justify="flex-end" mr={-36}>
-      <Link>Learn More</Link>
+      <Link>Action Link</Link>
     </Flex>
   </Toast>
 );
 
 const ToastWithAllTogether = ({ onClose }) => (
-  <Toast onClose={onClose}>
+  <Toast onClose={onClose} py="4x">
     <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
     </Box>
@@ -130,10 +130,9 @@ function Example() {
         <Box>
           <Button
             variant="secondary"
-            mr="4x"
             onClick={handleClickBy(ToastSimple)}
           >
-            Show toast notification
+            Show
           </Button>
           <ToastLayout mt="4x">
             <ToastSimple />
@@ -142,10 +141,9 @@ function Example() {
         <Box>
           <Button
             variant="secondary"
-            mr="4x"
             onClick={handleClickBy(ToastWithIcon)}
           >
-            Show toast notification with icon
+            Show
           </Button>
           <ToastLayout mt="4x">
             <ToastWithIcon />
@@ -154,23 +152,20 @@ function Example() {
         <Box>
           <Button
             variant="secondary"
-            mr="4x"
             onClick={handleClickBy(ToastWithTitle)}
           >
-            Show toast notification with title
+            Show
           </Button>
           <ToastLayout mt="4x">
             <ToastWithTitle />
           </ToastLayout>
         </Box>
-
         <Box>
           <Button
             variant="secondary"
-            mr="4x"
             onClick={handleClickBy(ToastWithActionButton)}
           >
-            Show toast notification with action button
+            Show
           </Button>
           <ToastLayout mt="4x">
             <ToastWithActionButton />
@@ -179,22 +174,20 @@ function Example() {
         <Box>
           <Button
             variant="secondary"
-            mr="4x"
-            onClick={handleClickBy(ToastWithLink)}
+            onClick={handleClickBy(ToastWithActionLink)}
           >
-            Show toast notification with link
+            Show
           </Button>
           <ToastLayout mt="4x">
-            <ToastWithLink />
+            <ToastWithActionLink />
           </ToastLayout>
         </Box>
         <Box>
           <Button
             variant="secondary"
-            mr="4x"
             onClick={handleClickBy(ToastWithAllTogether)}
           >
-            Show toast notification with all together
+            Show
           </Button>
           <ToastLayout mt="4x">
             <ToastWithAllTogether />

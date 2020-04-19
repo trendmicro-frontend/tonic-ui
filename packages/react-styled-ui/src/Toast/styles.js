@@ -1,9 +1,8 @@
 import useColorMode from '../useColorMode';
 
 const baseProps = {
-  pl: '4x',
-  pr: '4x',
-  py: '4x',
+  px: '4x',
+  py: '2x',
 };
 
 const useToastRootStyle = () => {
@@ -23,6 +22,8 @@ const useToastRootStyle = () => {
 
 const useToastMessageStyle = () => {
   return {
+    py: 2,
+    mt: -1,
     width: '100%',
   };
 };
@@ -35,8 +36,8 @@ const useToastCloseButtonStyle = () => {
     lineHeight: 1,
     width: '8x',
     height: '8x',
-    mt: -8,
-    mb: -8,
+    mt: -4,
+    mb: -4,
     mr: -8,
     px: 0,
     py: 0,
