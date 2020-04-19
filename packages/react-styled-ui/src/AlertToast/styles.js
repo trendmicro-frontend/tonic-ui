@@ -191,6 +191,7 @@ const useAlertToastCloseButtonStyle = () => {
     width: '8x',
     height: '8x',
     mt: -8,
+    mb: -8,
     mr: -8,
     px: 0,
     py: 0,

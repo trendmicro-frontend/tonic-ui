@@ -127,6 +127,7 @@ const useAlertCloseButtonStyle = () => {
     width: '8x',
     height: '8x',
     mt: -4,
+    mb: -4,
     mr: -8,
     px: 0,
     py: 0,
