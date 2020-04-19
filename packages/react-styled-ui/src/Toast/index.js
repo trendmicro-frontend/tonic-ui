@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import Closeable from '../Closeable';
-import CloseButton from '../CloseButton';
 import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
+import CloseButtonBase from '../shared/CloseButtonBase';
 import {
   useToastRootStyle,
   useToastMessageStyle,
@@ -16,7 +16,7 @@ const ToastMessage = (props) => (
 );
 
 const ToastCloseButton = (props) => (
-  <CloseButton {...props} />
+  <CloseButtonBase {...props} />
 );
 
 const Toast = forwardRef((

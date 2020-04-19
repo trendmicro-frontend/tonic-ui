@@ -8,7 +8,6 @@ import ButtonGroup from './ButtonGroup';
 import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
 import Closeable from './Closeable';
-import CloseButton from './CloseButton';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import ControlBox from './ControlBox';
@@ -65,7 +64,6 @@ export {
   Checkbox,
   CheckboxGroup,
   Closeable,
-  CloseButton,
   Collapse,
   ColorModeProvider,
   ControlBox,

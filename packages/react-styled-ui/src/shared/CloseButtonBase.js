@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import ButtonBase from '../ButtonBase';
 import { CloseableContext } from '../Closeable/context';
 
-const CloseButton = ({
+const CloseButtonBase = ({
   children,
   onClick,
   ...rest
@@ -28,4 +28,4 @@ const CloseButton = ({
   );
 };
 
-export default CloseButton;
+export default CloseButtonBase;
