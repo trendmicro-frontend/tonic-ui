@@ -170,14 +170,42 @@ const useAlertToastIconStyle = ({
   return {
     color,
     py: '.125rem',
-    mr: '2x',
     lineHeight: 1, // exactly the same height as the icon's height
   };
 };
 
 const useAlertToastMessageStyle = () => {
   return {
+    py: 2,
+    mt: -1,
     width: '100%',
+  };
+};
+
+const useAlertToastCloseButtonStyle = () => {
+  return {
+    border: 2,
+    borderColor: 'transparent',
+    color: 'black',
+    lineHeight: 1,
+    width: '8x',
+    height: '8x',
+    mt: -8,
+    mr: -8,
+    px: 0,
+    py: 0,
+    opacity: 0.54,
+    _hover: {
+      opacity: 1,
+    },
+    _active: {
+      opacity: 0.54,
+    },
+    _focus: {
+      border: 2,
+      borderColor: 'blue:60',
+      opacity: 1,
+    },
   };
 };
 
@@ -185,4 +213,5 @@ export {
   useAlertToastRootStyle,
   useAlertToastIconStyle,
   useAlertToastMessageStyle,
+  useAlertToastCloseButtonStyle,
 };

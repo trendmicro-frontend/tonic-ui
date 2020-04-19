@@ -1,12 +1,15 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import Closeable from '../Closeable';
+import CloseButton from '../CloseButton';
 import Flex from '../Flex';
 import Icon from '../Icon';
-import Toast from '../Toast';
+import Space from '../Space';
 import {
   useAlertToastRootStyle,
   useAlertToastIconStyle,
   useAlertToastMessageStyle,
+  useAlertToastCloseButtonStyle,
 } from './styles';
 
 const defaultSeverity = 'success';
@@ -36,10 +39,16 @@ const AlertToastMessage = (props) => (
   <Box {...props} />
 );
 
+const AlertToastCloseButton = (props) => (
+  <CloseButton {...props} />
+);
+
 const AlertToast = forwardRef((
   {
-    icon,
+    closeable = true,
+    onClose,
     severity = defaultSeverity,
+    icon,
     children,
     ...rest
   },
@@ -48,6 +57,7 @@ const AlertToast = forwardRef((
   const rootStyleProps = useAlertToastRootStyle({ severity });
   const iconStyleProps = useAlertToastIconStyle({ severity });
   const messageStyleProps = useAlertToastMessageStyle();
+  const closeButtonStyleProps = useAlertToastCloseButtonStyle();
 
   if (typeof icon === 'string') {
     icon = (<Icon name={icon} />);
@@ -57,21 +67,38 @@ const AlertToast = forwardRef((
   }
 
   return (
-    <Toast
-      ref={ref}
-      as={Flex}
-      {...rootStyleProps}
-      {...rest}
+    <Closeable
+      closeable={closeable}
+      onClose={onClose}
     >
-      {!!icon && (
-        <AlertToastIcon {...iconStyleProps}>
-          {icon}
-        </AlertToastIcon>
-      )}
-      <AlertToastMessage {...messageStyleProps}>
-        {children}
-      </AlertToastMessage>
-    </Toast>
+      <Flex
+        ref={ref}
+        align="flex-start"
+        justify="space-between"
+        {...rootStyleProps}
+        {...rest}
+      >
+        {!!icon && (
+          <>
+            <AlertToastIcon {...iconStyleProps}>
+              {icon}
+            </AlertToastIcon>
+            <Space minWidth="2x" />
+          </>
+        )}
+        <AlertToastMessage {...messageStyleProps}>
+          {children}
+        </AlertToastMessage>
+        {!!closeable && (
+          <>
+            <Space minWidth="4x" />
+            <AlertToastCloseButton {...closeButtonStyleProps}>
+              <Icon name="_core.close-s" />
+            </AlertToastCloseButton>
+          </>
+        )}
+      </Flex>
+    </Closeable>
   );
 });
 

@@ -19,16 +19,16 @@ The alert offers four severity levels, each has a distinctive icon and color.
 ```jsx
 <Stack direction="column" spacing="4x">
   <Alert severity="success">
-    This is a success alert.
+    <Text>This is a success alert.</Text>
   </Alert>
   <Alert severity="info">
-    This is an info alert.
+    <Text>This is an info alert.</Text>
   </Alert>
   <Alert severity="warning">
-    This is a warning alert.
+    <Text>This is a warning alert.</Text>
   </Alert>
   <Alert severity="error">
-    This is an error alert.
+    <Text>This is an error alert.</Text>
   </Alert>
 </Stack>
 ```
@@ -59,20 +59,36 @@ You can use the `Heading` component to display a formatted title above the conte
 ```jsx
 <Stack direction="column" spacing="4x">
   <Alert severity="success">
-    <Heading fontWeight="semibold" mb="1x">Success</Heading>
-    This is a success alert.
+    <Box mb="1x">
+      <Heading fontWeight="bold">Success</Heading>
+    </Box>
+    <Text mr={-36}>
+      This is a success alert.
+    </Text>
   </Alert>
   <Alert severity="info">
-    <Heading fontWeight="semibold" mb="1x">Info</Heading>
-    This is an info alert.
+    <Box mb="1x">
+      <Heading fontWeight="bold">Info</Heading>
+    </Box>
+    <Text mr={-36}>
+      This is an info alert.
+    </Text>
   </Alert>
   <Alert severity="warning">
-    <Heading fontWeight="semibold" mb="1x">Warning</Heading>
-    This is a warning alert.
+    <Box mb="1x">
+      <Heading fontWeight="bold">Warning</Heading>
+    </Box>
+    <Text mr={-36}>
+      This is a warning alert.
+    </Text>
   </Alert>
   <Alert severity="error">
-    <Heading fontWeight="semibold" mb="1x">Error</Heading>
-    This is an error alert.
+    <Box mb="1x">
+      <Heading fontWeight="bold">Error</Heading>
+    </Box>
+    <Text mr={-36}>
+      This is an error alert.
+    </Text>
   </Alert>
 </Stack>
 ```
@@ -84,25 +100,14 @@ An alert can have an action, such as a close or action button. It is rendered af
 ```jsx
 <Stack direction="column" spacing={1}>
   <Alert severity="warning">
-    <Flex justify="space-between">
-      <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
+    <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
   </Alert>
   <Alert severity="error">
     <Flex justify="space-between">
       <Text>Your license will expire in 7 days.</Text>
-      <Flex>
-        <FlatButton size="sm" variant="outline" variantColor="black:primary">
-          Renew Now
-        </FlatButton>
-        <Space width="4x" />
-        <ButtonBase opacity=".6" _hover={{ opacity: 1 }}>
-          <TMIcon name="close-s" />
-        </ButtonBase>
-      </Flex>
+      <FlatButton size="sm" variant="outline" variantColor="black:primary">
+        Renew Now
+      </FlatButton>
     </Flex>
   </Alert>
 </Stack>
@@ -121,13 +126,8 @@ function Example() {
   return (
     <>
       <Collapse isOpen={isOpen}>
-        <Alert severity="info">
-          <Flex justify="space-between">
-            Click the close button on the right side.
-            <ButtonBase onClick={handleClose} opacity=".6" _hover={{ opacity: 1 }}>
-              <TMIcon name="close-s" />
-            </ButtonBase>
-          </Flex>
+        <Alert severity="info" onClose={handleClose}>
+          Click the close button on the right side.
         </Alert>
       </Collapse>
       <Box mt="4x">
@@ -148,10 +148,15 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Alert severity="success">
+  <Alert
+    severity="success"
+  >
     This is a success alert.
   </Alert>
-  <Alert severity="success" icon="_core.severity-success">
+  <Alert
+    severity="success"
+    icon="_core.severity-success"
+  >
     This is a success alert.
   </Alert>
   <Alert
@@ -160,7 +165,10 @@ Setting the `icon` prop to `false` will remove the icon altogether.
   >
     This is a success alert.
   </Alert>
-  <Alert severity="success" icon={false}>
+  <Alert
+    severity="success"
+    icon={false}
+  >
     This is a success alert.
   </Alert>
 </Stack>
@@ -172,5 +180,7 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| closeable | boolean | true | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the alert is being closed. |
 | severity | string | 'success' | The severity level of the alert. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |

@@ -22,25 +22,25 @@ The alert toast offers four severity levels, each has a distinctive icon and col
 
 ```jsx noInline
 const AlertToastSuccess = ({ onClose }) => (
-  <AlertToast severity="success">
+  <AlertToast onClose={onClose} severity="success">
     This is a success toast alert.
   </AlertToast>
 );
 
 const AlertToastInfo = ({ onClose }) => (
-  <AlertToast severity="info">
+  <AlertToast onClose={onClose} severity="info">
     This is an info toast alert.
   </AlertToast>
 );
 
 const AlertToastWarning = ({ onClose }) => (
-  <AlertToast severity="warning">
+  <AlertToast onClose={onClose} severity="warning">
     This is a warning toast alert.
   </AlertToast>
 );
 
 const AlertToastError = ({ onClose }) => (
-  <AlertToast severity="error">
+  <AlertToast onClose={onClose} severity="error">
     This is an error toast alert.
   </AlertToast>
 );
@@ -103,19 +103,27 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 
 ```jsx noInline
 const AlertToastWithDefaultIcon = ({ onClose }) => (
-  <AlertToast severity="success">
+  <AlertToast
+    onClose={onClose}
+    severity="success"
+  >
     This is a success toast alert.
   </AlertToast>
 );
 
 const AlertToastWithAnotherIcon = ({ onClose }) => (
-  <AlertToast severity="success" icon="_core.severity-success">
+  <AlertToast
+    onClose={onClose}
+    severity="success"
+    icon="_core.severity-success"
+  >
     This is a success toast alert.
   </AlertToast>
 );
 
 const AlertToastWithProprietaryIcon = ({ onClose }) => (
   <AlertToast
+    onClose={onClose}
     severity="success"
     icon={<TMIcon name="check-circle-o" lineHeight={1} color="gray:80" />}
   >
@@ -124,7 +132,11 @@ const AlertToastWithProprietaryIcon = ({ onClose }) => (
 );
 
 const AlertToastWithoutIcon = ({ onClose }) => (
-  <AlertToast severity="success" icon={false}>
+  <AlertToast
+    onClose={onClose}
+    severity="success"
+    icon={false}
+  >
     This is a success toast alert.
   </AlertToast>
 );
@@ -185,5 +197,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| closeable | boolean | true | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the alert toast is being closed. |
 | severity | string | 'success' | The severity level of the alert. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |

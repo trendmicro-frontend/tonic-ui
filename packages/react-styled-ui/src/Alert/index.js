@@ -1,11 +1,15 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import Closeable from '../Closeable';
+import CloseButton from '../CloseButton';
 import Flex from '../Flex';
 import Icon from '../Icon';
+import Space from '../Space';
 import {
   useAlertRootStyle,
   useAlertIconStyle,
   useAlertMessageStyle,
+  useAlertCloseButtonStyle,
 } from './styles';
 
 const defaultSeverity = 'success';
@@ -35,18 +39,25 @@ const AlertMessage = (props) => (
   <Box {...props} />
 );
 
+const AlertCloseButton = (props) => (
+  <CloseButton {...props} />
+);
+
 const Alert = forwardRef((
   {
-    icon,
+    closeable = true,
+    onClose,
     severity = defaultSeverity,
+    icon,
     children,
     ...rest
   },
   ref,
 ) => {
   const rootStyleProps = useAlertRootStyle({ severity });
-  const iconStyleProps = useAlertIconStyle();
+  const iconStyleProps = useAlertIconStyle({ severity });
   const messageStyleProps = useAlertMessageStyle();
+  const closeButtonStyleProps = useAlertCloseButtonStyle();
 
   if (typeof icon === 'string') {
     icon = (<Icon name={icon} />);
@@ -56,20 +67,38 @@ const Alert = forwardRef((
   }
 
   return (
-    <Flex
-      ref={ref}
-      {...rootStyleProps}
-      {...rest}
+    <Closeable
+      closeable={closeable}
+      onClose={onClose}
     >
-      {!!icon && (
-        <AlertIcon {...iconStyleProps}>
-          {icon}
-        </AlertIcon>
-      )}
-      <AlertMessage {...messageStyleProps}>
-        {children}
-      </AlertMessage>
-    </Flex>
+      <Flex
+        ref={ref}
+        align="flex-start"
+        justify="space-between"
+        {...rootStyleProps}
+        {...rest}
+      >
+        {!!icon && (
+          <>
+            <AlertIcon {...iconStyleProps}>
+              {icon}
+            </AlertIcon>
+            <Space minWidth="2x" />
+          </>
+        )}
+        <AlertMessage {...messageStyleProps}>
+          {children}
+        </AlertMessage>
+        {!!closeable && (
+          <>
+            <Space minWidth="4x" />
+            <AlertCloseButton {...closeButtonStyleProps}>
+              <Icon name="_core.close-s" />
+            </AlertCloseButton>
+          </>
+        )}
+      </Flex>
+    </Closeable>
   );
 });
 

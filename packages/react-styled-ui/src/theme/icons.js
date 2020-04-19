@@ -34,6 +34,15 @@ const icons = {
       </g>
     ),
   },
+  'close-s': {
+    path: (
+      <path
+        fill="currentColor"
+        d="M9 8l4-4-1-1-4 4-4-4-1 1 4 4-4 4 1 1 4-4 4 4 1-1-4-4z"
+      />
+    ),
+    viewBox: '0 0 16 16',
+  },
   'severity-success': {
     path: (
       <path

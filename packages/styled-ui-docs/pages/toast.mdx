@@ -23,68 +23,42 @@ The `Toast` component should work with the `useToast` hook to trigger a toast no
 
 ```jsx noInline
 const ToastSimple = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between">
-      <Text>
-        This is a toast notification.
-      </Text>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
+  <Toast onClose={onClose}>
+    <Text>This is a toast notification.</Text>
   </Toast>
 );
 
 const ToastWithIcon = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between">
-      <Flex align="flex-start">
-        <Box
-          bg="gray:40"
-          height={48}
-          minWidth={48}
-        />
-        <Space minWidth="4x" />
-        <Text>
-          This is a toast notification.
-        </Text>
-      </Flex>
+  <Toast onClose={onClose}>
+    <Flex align="flex-start">
+      <Box
+        bg="gray:40"
+        height={48}
+        minWidth={48}
+      />
       <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
+      <Text>This is a toast notification.</Text>
     </Flex>
   </Toast>
 );
 
 const ToastWithTitle = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between" mb="2x">
+  <Toast onClose={onClose}>
+    <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
-    <Text>
-      This is a toast notification.
-    </Text>
+    </Box>
+    <Box mr={-36}>
+      <Text>This is a toast notification.</Text>
+    </Box>
   </Toast>
 );
 
 const ToastWithActionButton = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between" mb="6x">
-      <Text>
-        This is a toast notification.
-      </Text>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
-    <Flex justify="flex-end">
+  <Toast onClose={onClose}>
+    <Box mb="6x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+    <Flex justify="flex-end" mr={-36}>
       <FlatButton variant="outline" color="black:primary" size="sm">
         Action Button
       </FlatButton>
@@ -93,33 +67,21 @@ const ToastWithActionButton = ({ onClose }) => (
 );
 
 const ToastWithLink = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between" mb="6x">
-      <Text>
-        This is a toast notification.
-      </Text>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
-    <Flex justify="flex-end">
-      <Link>
-        Learn More
-      </Link>
+  <Toast onClose={onClose}>
+    <Box mb="6x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+    <Flex justify="flex-end" mr={-36}>
+      <Link>Learn More</Link>
     </Flex>
   </Toast>
 );
 
 const ToastWithAllTogether = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between" mb="2x">
+  <Toast onClose={onClose}>
+    <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
+    </Box>
     <Flex align="flex-start" mb="6x">
       <Box
         bg="gray:40"
@@ -127,11 +89,9 @@ const ToastWithAllTogether = ({ onClose }) => (
         minWidth={48}
       />
       <Space minWidth="4x" />
-      <Text>
-        This is a toast notification.
-      </Text>
+      <Text>This is a toast notification.</Text>
     </Flex>
-    <Flex justify="flex-end">
+    <Flex justify="flex-end" mr={-36}>
       <FlatButton variant="outline" color="black:primary" size="sm">
         Action Button
       </FlatButton>
@@ -251,3 +211,8 @@ render(<Example />);
 ## Props
 
 `Toast` composes the [`Box`](./box) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| closeable | boolean | true | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the toast is being closed. |
