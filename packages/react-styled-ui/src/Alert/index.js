@@ -45,7 +45,7 @@ const AlertCloseButton = (props) => (
 
 const Alert = forwardRef((
   {
-    closeable = true,
+    isCloseable = true,
     onClose,
     severity = defaultSeverity,
     icon,
@@ -68,7 +68,7 @@ const Alert = forwardRef((
 
   return (
     <Closeable
-      closeable={closeable}
+      isCloseable={isCloseable}
       onClose={onClose}
     >
       <Flex
@@ -89,7 +89,7 @@ const Alert = forwardRef((
         <AlertMessage {...messageStyleProps}>
           {children}
         </AlertMessage>
-        {!!closeable && (
+        {!!isCloseable && (
           <>
             <Space minWidth="4x" />
             <AlertCloseButton {...closeButtonStyleProps}>

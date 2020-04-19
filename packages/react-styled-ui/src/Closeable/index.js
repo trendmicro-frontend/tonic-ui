@@ -5,19 +5,19 @@ import { CloseableContext } from './context';
 const getMemoizedState = memoize(state => ({ ...state }));
 
 const Closeable = ({
-  closeable,
+  isCloseable,
   onClose,
   children,
 }) => {
   const onCloseCallback = useCallback(() => {
-    if (closeable) {
+    if (isCloseable) {
       if (typeof onClose === 'function') {
         onClose();
       }
     }
-  }, [closeable, onClose]);
+  }, [isCloseable, onClose]);
   const closeableState = getMemoizedState({
-    closeable,
+    isCloseable,
     onClose: onCloseCallback,
   });
 

@@ -21,7 +21,7 @@ const ToastCloseButton = (props) => (
 
 const Toast = forwardRef((
   {
-    closeable = true,
+    isCloseable = true,
     onClose,
     children,
     ...rest
@@ -34,7 +34,7 @@ const Toast = forwardRef((
 
   return (
     <Closeable
-      closeable={closeable}
+      isCloseable={isCloseable}
       onClose={onClose}
     >
       <Flex
@@ -47,7 +47,7 @@ const Toast = forwardRef((
         <ToastMessage {...messageStyleProps}>
           {children}
         </ToastMessage>
-        {!!closeable && (
+        {!!isCloseable && (
           <>
             <Space minWidth="4x" />
             <ToastCloseButton {...closeButtonStyleProps}>
