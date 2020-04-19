@@ -33,6 +33,40 @@ The alert offers four severity levels, each has a distinctive icon and color.
 </Stack>
 ```
 
+### Icons
+
+The `icon` prop allows you to override the default icon for the specified severity.
+
+Setting the `icon` prop to `false` will remove the icon altogether.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Alert
+    severity="success"
+  >
+    This is a success alert.
+  </Alert>
+  <Alert
+    severity="success"
+    icon="_core.severity-success"
+  >
+    This is a success alert.
+  </Alert>
+  <Alert
+    severity="success"
+    icon={<TMIcon name="check-circle-o" lineHeight={1} color="gray:80" />}
+  >
+    This is a success alert.
+  </Alert>
+  <Alert
+    severity="success"
+    icon={false}
+  >
+    This is a success alert.
+  </Alert>
+</Stack>
+```
+
 ### Multiline text
 
 ```jsx noInline
@@ -103,7 +137,7 @@ An alert can have an action, such as a close or action button. It is rendered af
     <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
   </Alert>
   <Alert severity="error">
-    <Flex justify="space-between">
+    <Flex justify="space-between" mt={-1} mb={-2}>
       <Text>Your license will expire in 7 days.</Text>
       <FlatButton size="sm" variant="outline" variantColor="black:primary">
         Renew Now
@@ -138,40 +172,6 @@ function Example() {
     </>
   );
 }
-```
-
-### Icons
-
-The `icon` prop allows you to override the default icon for the specified severity.
-
-Setting the `icon` prop to `false` will remove the icon altogether.
-
-```jsx
-<Stack direction="column" spacing="4x">
-  <Alert
-    severity="success"
-  >
-    This is a success alert.
-  </Alert>
-  <Alert
-    severity="success"
-    icon="_core.severity-success"
-  >
-    This is a success alert.
-  </Alert>
-  <Alert
-    severity="success"
-    icon={<TMIcon name="check-circle-o" lineHeight={1} color="gray:80" />}
-  >
-    This is a success alert.
-  </Alert>
-  <Alert
-    severity="success"
-    icon={false}
-  >
-    This is a success alert.
-  </Alert>
-</Stack>
 ```
 
 ## Props
