@@ -3,9 +3,8 @@ import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
 const baseProps = {
-  pl: '4x',
-  pr: '4x',
-  py: '4x',
+  px: '4x',
+  py: '2x',
 };
 
 const getDefaultStyle = ({
@@ -169,7 +168,7 @@ const useAlertToastIconStyle = ({
 
   return {
     color,
-    py: '.125rem',
+    py: '1x',
     lineHeight: 1, // exactly the same height as the icon's height
   };
 };
@@ -190,8 +189,8 @@ const useAlertToastCloseButtonStyle = () => {
     lineHeight: 1,
     width: '8x',
     height: '8x',
-    mt: -8,
-    mb: -8,
+    mt: -4,
+    mb: -4,
     mr: -8,
     px: 0,
     py: 0,
