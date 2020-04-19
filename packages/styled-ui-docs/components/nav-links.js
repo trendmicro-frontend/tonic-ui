@@ -59,5 +59,6 @@ export const componentLinks = [
 ];
 
 export const utilityLinks = [
+  'useCloseable',
   'useToast',
 ];
