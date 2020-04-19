@@ -18,11 +18,11 @@ import { useToast } from '@trendmicro/react-styled-ui';
 const toast = useToast();
 ```
 
-Returns a toast function, the function is used to trigger a toast notification.
+Returns a toast function, which is used to trigger a toast notification.
 
 ```jsx disabled
 function Example() {
-  // Get a toast function that can trigger toast notifications later
+  // Get a toast function
   const toast = useToast();
 
   toast({
@@ -43,7 +43,7 @@ function Example() {
 
 ### How to setup
 
-It is recommended that you create a layout component to wrap each toast notification as shown below:
+First, you have to create a layout to wrap each toast notification as below:
 
 ```jsx disabled
 const ToastLayout = (props) => {
@@ -60,20 +60,12 @@ const ToastLayout = (props) => {
 };
 ```
 
-Create a `ToastNotification` component to wrap children:
+Then, create a `ToastNotification` component to wrap children:
 
 ```jsx disabled
 const ToastNotification = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between">
-      <Text>
-        This is a toast notification.
-      </Text>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
+  <Toast onClose={onClose}>
+    This is a toast notification.
   </Toast>
 );
 ```
@@ -82,16 +74,8 @@ Let's see how this works.
 
 ```jsx noInline
 const ToastNotification = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between">
-      <Text>
-        This is a toast notification.
-      </Text>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
+  <Toast onClose={onClose}>
+    This is a toast notification.
   </Toast>
 );
 
@@ -152,16 +136,8 @@ A render function that renders toast notifications.
 
 ```jsx noInline
 const ToastBasic = ({ onClose }) => (
-  <Toast>
-    <Flex align="flex-start" justify="space-between">
-      <Text>
-        This is a toast notification.
-      </Text>
-      <Space minWidth="4x" />
-      <ButtonBase opacity=".6" _hover={{ opacity: 1 }} onClick={onClose}>
-        <TMIcon name="close-s" />
-      </ButtonBase>
-    </Flex>
+  <Toast onClose={onClose}>
+    This is a toast notification.
   </Toast>
 );
 
