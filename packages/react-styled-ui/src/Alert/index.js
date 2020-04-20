@@ -4,7 +4,7 @@ import Closeable from '../Closeable';
 import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
-import CloseButtonBase from '../shared/CloseButtonBase';
+import CloseableButtonBase from '../shared/CloseableButtonBase';
 import {
   useAlertRootStyle,
   useAlertIconStyle,
@@ -40,7 +40,7 @@ const AlertMessage = (props) => (
 );
 
 const AlertCloseButton = (props) => (
-  <CloseButtonBase {...props} />
+  <CloseableButtonBase {...props} />
 );
 
 const Alert = forwardRef((
