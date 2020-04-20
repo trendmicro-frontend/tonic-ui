@@ -1,10 +1,9 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import Closeable from '../Closeable';
+import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
-import CloseableButtonBase from '../shared/CloseableButtonBase';
 import {
   useAlertToastRootStyle,
   useAlertToastIconStyle,
@@ -40,7 +39,7 @@ const AlertToastMessage = (props) => (
 );
 
 const AlertToastCloseButton = (props) => (
-  <CloseableButtonBase {...props} />
+  <ButtonBase {...props} />
 );
 
 const AlertToast = forwardRef((
@@ -67,38 +66,33 @@ const AlertToast = forwardRef((
   }
 
   return (
-    <Closeable
-      isCloseable={isCloseable}
-      onClose={onClose}
+    <Flex
+      ref={ref}
+      align="flex-start"
+      justify="space-between"
+      {...rootStyleProps}
+      {...rest}
     >
-      <Flex
-        ref={ref}
-        align="flex-start"
-        justify="space-between"
-        {...rootStyleProps}
-        {...rest}
-      >
-        {!!icon && (
-          <>
-            <AlertToastIcon {...iconStyleProps}>
-              {icon}
-            </AlertToastIcon>
-            <Space minWidth="2x" />
-          </>
-        )}
-        <AlertToastMessage {...messageStyleProps}>
-          {children}
-        </AlertToastMessage>
-        {!!isCloseable && (
-          <>
-            <Space minWidth="4x" />
-            <AlertToastCloseButton {...closeButtonStyleProps}>
-              <Icon name="_core.close-s" />
-            </AlertToastCloseButton>
-          </>
-        )}
-      </Flex>
-    </Closeable>
+      {!!icon && (
+        <>
+          <AlertToastIcon {...iconStyleProps}>
+            {icon}
+          </AlertToastIcon>
+          <Space minWidth="2x" />
+        </>
+      )}
+      <AlertToastMessage {...messageStyleProps}>
+        {children}
+      </AlertToastMessage>
+      {!!isCloseable && (
+        <>
+          <Space minWidth="4x" />
+          <AlertToastCloseButton {...closeButtonStyleProps} onClick={onClose}>
+            <Icon name="_core.close-s" />
+          </AlertToastCloseButton>
+        </>
+      )}
+    </Flex>
   );
 });
 

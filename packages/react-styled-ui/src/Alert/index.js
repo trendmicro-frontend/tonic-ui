@@ -1,10 +1,9 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import Closeable from '../Closeable';
+import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
-import CloseableButtonBase from '../shared/CloseableButtonBase';
 import {
   useAlertRootStyle,
   useAlertIconStyle,
@@ -40,7 +39,7 @@ const AlertMessage = (props) => (
 );
 
 const AlertCloseButton = (props) => (
-  <CloseableButtonBase {...props} />
+  <ButtonBase {...props} />
 );
 
 const Alert = forwardRef((
@@ -67,38 +66,33 @@ const Alert = forwardRef((
   }
 
   return (
-    <Closeable
-      isCloseable={isCloseable}
-      onClose={onClose}
+    <Flex
+      ref={ref}
+      align="flex-start"
+      justify="space-between"
+      {...rootStyleProps}
+      {...rest}
     >
-      <Flex
-        ref={ref}
-        align="flex-start"
-        justify="space-between"
-        {...rootStyleProps}
-        {...rest}
-      >
-        {!!icon && (
-          <>
-            <AlertIcon {...iconStyleProps}>
-              {icon}
-            </AlertIcon>
-            <Space minWidth="2x" />
-          </>
-        )}
-        <AlertMessage {...messageStyleProps}>
-          {children}
-        </AlertMessage>
-        {!!isCloseable && (
-          <>
-            <Space minWidth="4x" />
-            <AlertCloseButton {...closeButtonStyleProps}>
-              <Icon name="_core.close-s" />
-            </AlertCloseButton>
-          </>
-        )}
-      </Flex>
-    </Closeable>
+      {!!icon && (
+        <>
+          <AlertIcon {...iconStyleProps}>
+            {icon}
+          </AlertIcon>
+          <Space minWidth="2x" />
+        </>
+      )}
+      <AlertMessage {...messageStyleProps}>
+        {children}
+      </AlertMessage>
+      {!!isCloseable && (
+        <>
+          <Space minWidth="4x" />
+          <AlertCloseButton {...closeButtonStyleProps} onClick={onClose}>
+            <Icon name="_core.close-s" />
+          </AlertCloseButton>
+        </>
+      )}
+    </Flex>
   );
 });
 

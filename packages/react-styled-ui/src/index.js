@@ -7,7 +7,6 @@ import ButtonBase from './ButtonBase';
 import ButtonGroup from './ButtonGroup';
 import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
-import Closeable from './Closeable';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
 import ControlBox from './ControlBox';
@@ -45,7 +44,6 @@ import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
 import theme from './theme';
 import useClipboard from './useClipboard';
-import useCloseable from './useCloseable';
 import useColorMode from './useColorMode';
 import useDisclosure from './useDisclosure';
 import useTheme from './useTheme';
@@ -63,7 +61,6 @@ export {
   ButtonGroup,
   Checkbox,
   CheckboxGroup,
-  Closeable,
   Collapse,
   ColorModeProvider,
   ControlBox,
@@ -101,7 +98,6 @@ export {
   Tooltip,
   theme,
   useClipboard,
-  useCloseable,
   useColorMode,
   useDisclosure,
   useTheme,

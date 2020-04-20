@@ -1,10 +1,9 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import Closeable from '../Closeable';
+import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
-import CloseableButtonBase from '../shared/CloseableButtonBase';
 import {
   useToastRootStyle,
   useToastMessageStyle,
@@ -16,7 +15,7 @@ const ToastMessage = (props) => (
 );
 
 const ToastCloseButton = (props) => (
-  <CloseableButtonBase {...props} />
+  <ButtonBase {...props} />
 );
 
 const Toast = forwardRef((
@@ -33,30 +32,25 @@ const Toast = forwardRef((
   const closeButtonStyleProps = useToastCloseButtonStyle();
 
   return (
-    <Closeable
-      isCloseable={isCloseable}
-      onClose={onClose}
+    <Flex
+      ref={ref}
+      align="flex-start"
+      justify="space-between"
+      {...rootStyleProps}
+      {...rest}
     >
-      <Flex
-        ref={ref}
-        align="flex-start"
-        justify="space-between"
-        {...rootStyleProps}
-        {...rest}
-      >
-        <ToastMessage {...messageStyleProps}>
-          {children}
-        </ToastMessage>
-        {!!isCloseable && (
-          <>
-            <Space minWidth="4x" />
-            <ToastCloseButton {...closeButtonStyleProps}>
-              <Icon name="_core.close-s" />
-            </ToastCloseButton>
-          </>
-        )}
-      </Flex>
-    </Closeable>
+      <ToastMessage {...messageStyleProps}>
+        {children}
+      </ToastMessage>
+      {!!isCloseable && (
+        <>
+          <Space minWidth="4x" />
+          <ToastCloseButton {...closeButtonStyleProps} onClick={onClose}>
+            <Icon name="_core.close-s" />
+          </ToastCloseButton>
+        </>
+      )}
+    </Flex>
   );
 });
 
