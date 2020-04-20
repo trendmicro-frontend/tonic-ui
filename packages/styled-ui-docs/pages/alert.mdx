@@ -71,14 +71,15 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 
 ```jsx noInline
 const Paragraph = (props) => (
-  <Text display="block" mb="1x" {...props} />
+  <PseudoBox mb="1x" _lastChild={{ mb: 0 }} {...props} />
 );
 
 function Example() {
   return (
     <Alert severity="info">
       <Paragraph>This is the first paragraph.</Paragraph>
-      <Paragraph mb={0}>This is the second paragraph.</Paragraph>
+      <Paragraph>This is the second paragraph.</Paragraph>
+      <Paragraph>This is the third paragraph.</Paragraph>
     </Alert>
   );
 }
