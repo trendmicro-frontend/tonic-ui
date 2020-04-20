@@ -1,4 +1,7 @@
+import { get } from '@styled-system/core';
+import { addOpacity } from '../theme/colors-utils';
 import useColorMode from '../useColorMode';
+import useTheme from '../useTheme';
 
 const baseProps = {
   px: '4x',
@@ -29,10 +32,20 @@ const useToastMessageStyle = () => {
 };
 
 const useToastCloseButtonStyle = () => {
+  const { colors } = useTheme();
+  const color = addOpacity('black', 0.54);
+  const hoverColor = 'black';
+  const activeColor = color;
+  const focusColor = color;
+  const focusHoverColor = hoverColor;
+  const focusActiveColor = activeColor;
+  const focusBorderColor = get(colors, 'blue:60');
+
   return {
-    border: 2,
+    border: 1,
     borderColor: 'transparent',
-    color: 'black',
+    color: color,
+    transition: 'all .2s',
     lineHeight: 1,
     width: '8x',
     height: '8x',
@@ -41,17 +54,24 @@ const useToastCloseButtonStyle = () => {
     mr: -8,
     px: 0,
     py: 0,
-    opacity: 0.54,
     _hover: {
-      opacity: 1,
+      color: hoverColor,
     },
     _active: {
-      opacity: 0.54,
+      color: activeColor,
     },
     _focus: {
-      border: 2,
-      borderColor: 'blue:60',
-      opacity: 1,
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusColor,
+    },
+    _focusHover: {
+      color: focusHoverColor,
+    },
+    _focusActive: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusActiveColor,
     },
   };
 };
