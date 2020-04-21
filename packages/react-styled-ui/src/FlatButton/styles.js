@@ -1,4 +1,4 @@
-import { addOpacity } from '../theme/colors-utils';
+import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
@@ -15,10 +15,10 @@ const solidVariantProps = ({ color = 'gray', theme: { colors } }) => {
       boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
     },
     _hover: {
-      bg: addOpacity(_color, 0.60),
+      bg: setColorWithOpacity(_color, 0.60),
     },
     _active: {
-      bg: addOpacity(_color, 0.60),
+      bg: setColorWithOpacity(_color, 0.60),
     },
     _disabled: {
       bg: 'gray:60',
@@ -33,7 +33,7 @@ const solidVariantProps = ({ color = 'gray', theme: { colors } }) => {
 // Outline Button
 const outlineVariantProps = ({ color = 'gray', theme: { colors } }) => {
   const outerBorderColor = colors['blue:60'];
-  const _color = colors[color] ? addOpacity(colors[color], 0.92) : addOpacity(color, 0.92);
+  const _color = colors[color] ? setColorWithOpacity(colors[color], 0.92) : setColorWithOpacity(color, 0.92);
   const styles = {
     borderColor: _color,
     color: _color,
@@ -42,10 +42,10 @@ const outlineVariantProps = ({ color = 'gray', theme: { colors } }) => {
       boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
     },
     _hover: {
-      bg: addOpacity('black', 0.12),
+      bg: setColorWithOpacity('black', 0.12),
     },
     _active: {
-      bg: addOpacity('black', 0.12),
+      bg: setColorWithOpacity('black', 0.12),
     },
     _disabled: {
       borderColor: 'gray:60',
