@@ -2,6 +2,8 @@
 
 A toast notification is a small message that shows up in a box at one side of the screen and disappears on its own after few seconds. It is a simple feedback about an operation in which current activity remains visibility and interactive. Basically it is to inform the user of something that is not critical and that does not require specific attention and does not prevent the user from using the app.
 
+If you're looking for a toast that offers severity levels, such as `success`, `info`, `warning`, and `error`, just to check out the [`AlertToast`](./alerttoast) component.
+
 ## Import
 
 ```js
@@ -10,9 +12,13 @@ import Toast from '@trendmicro/react-styled-ui/Toast';
 import { Toast } from '@trendmicro/react-styled-ui';
 ```
 
-## Usage
+## Prerequisite
 
-The `Toast` component should work with the `useToast` hook to trigger a toast notification. Learn more about the [`useToast`](./usetoast) hook.
+The `Toast` component should work with the `useToast` Hook to trigger a toast notification.
+
+Learn more about the [`useToast`](./usetoast) Hook.
+
+## Usage
 
 ### Layouts
 
@@ -209,4 +215,4 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | isCloseable | boolean | true | If `true`, a close button will appear on the right side. |
-| onClose | function | | A callback called when the toast is being closed. |
+| onClose | function | | A callback called when the close button is clicked. |
