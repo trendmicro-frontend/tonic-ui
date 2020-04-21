@@ -49,6 +49,8 @@ const firstChild = '&:first-child';
 const firstOfType = '&:first-of-type';
 const fullscreen = '&:fullscreen';
 const focus = '&:focus';
+const focusActive = '&:focus:active';
+const focusHover = '&:focus:hover';
 const focusWithin = '&:focus-within';
 const hover = '&:hover';
 const indeterminate = '&:indeterminate';
@@ -96,6 +98,8 @@ const PseudoBox = styled(Box)(
     _firstOfType,
     _fullscreen,
     _focus,
+    _focusActive,
+    _focusHover,
     _focusWithin,
     _hover,
     _indeterminate,
@@ -145,7 +149,10 @@ const PseudoBox = styled(Box)(
       [focus]: _focus,
       [visited]: _visited,
       [hover]: _hover,
+      [focusHover]: _focusHover,
       [active]: _active,
+      [focusActive]: _focusActive,
+      [focusWithin]: _focusWithin,
       [checked]: _checked,
       [selected]: _selected,
       [disabled]: _disabled,
@@ -154,7 +161,6 @@ const PseudoBox = styled(Box)(
       [firstChild]: _firstChild,
       [firstOfType]: _firstOfType,
       [fullscreen]: _fullscreen,
-      [focusWithin]: _focusWithin,
       [indeterminate]: _indeterminate,
       [valid]: _valid,
       [invalid]: _invalid,

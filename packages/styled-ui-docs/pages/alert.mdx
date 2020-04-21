@@ -1,103 +1,187 @@
 # Alert
 
-Alerts are used to communicate a state that affects a system, feature or page.
+An alert displays a short, important message in a way that attracts the user's attention without interrupting the user's task.
 
 ## Import
 
-Trend Micro Styled UI exports 3 alert related components.
-
-- `Alert`: The wrapper for alert components.
-- `AlertIcon`: The visual icon for the alert that changes based on the `status` prop.
-
 ```js
-import {
-  Alert,
-  AlertIcon,
-  AlertButton,
-} from '@trendmicro/react-styled-ui/Alert';
+import Alert from '@trendmicro/react-styled-ui/Alert';
+// or
+import { Alert } from '@trendmicro/react-styled-ui';
 ```
 
 ## Usage
 
-```jsx
-<Alert status="error">
-  <Flex width="100%" justifyContent="space-between">
-    <Flex alignItems="center">
-      <AlertIcon />
-      <Heading mr="2x" fontWeight="bold">Your browser is outdated!</Heading>
-      <Text>Your XDR experience may be degraded.</Text>
-    </Flex>
-    <Flex>
-      <AlertButton minWidth={76}>Action</AlertButton>
-      <Space width="1rem" />
-      <ButtonBase color="black:secondary">X</ButtonBase>
-    </Flex>
-  </Flex>
-</Alert>
-```
+### Severity levels
 
-### Status
-
-Change the status of the alerts by passing the `status` prop. This affects the
-color scheme and icon used. Alert supports `error`, `warning`, and
-`info` statuses.
+The alert offers four severity levels, each has a distinctive icon and color.
 
 ```jsx
-<Stack spacing=".5rem" shouldWrapChildren>
-  <Alert status="error">
-    <AlertIcon />
-    There was an error processing your request
+<Stack direction="column" spacing="4x">
+  <Alert severity="success">
+    <Text>This is a success alert.</Text>
   </Alert>
-
-  <Alert status="warning">
-    <AlertIcon />
-    Seems your account is about to expire, upgrade now!
+  <Alert severity="info">
+    <Text>This is an info alert.</Text>
   </Alert>
-
-  <Alert status="info">
-    <AlertIcon />
-    XDR is going live on August 30th. Get ready!
+  <Alert severity="warning">
+    <Text>This is a warning alert.</Text>
+  </Alert>
+  <Alert severity="error">
+    <Text>This is an error alert.</Text>
   </Alert>
 </Stack>
 ```
 
-### Composition
+### Icons
 
-Alert ships with smaller component to allow for flexibility and make it easy to
-create all kinds of layout. Here's an example of custom alert style and layout.
+The `icon` prop allows you to override the default icon for the specified severity.
+
+Setting the `icon` prop to `false` will remove the icon altogether.
 
 ```jsx
-<Alert
-  status="info"
-  flexDirection="column"
-  justifyContent="center"
-  textAlign="center"
-  height="200px"
->
-  <AlertIcon size={40} mr={0} />
-  <Heading mt={4} mb={1} fontSize="lg" fontWeight="bold">
-    Application submitted!
-  </Heading>
-  <Text maxWidth="sm">
-    Thanks for submitting your application. Our team will get back to you soon.
-  </Text>
-</Alert>
+<Stack direction="column" spacing="4x">
+  <Alert
+    severity="success"
+  >
+    This is a success alert.
+  </Alert>
+  <Alert
+    severity="success"
+    icon="_core.severity-success"
+  >
+    This is a success alert.
+  </Alert>
+  <Alert
+    severity="success"
+    icon={<TMIcon name="check-circle-o" lineHeight={1} color="gray:80" />}
+  >
+    This is a success alert.
+  </Alert>
+  <Alert
+    severity="success"
+    icon={false}
+  >
+    This is a success alert.
+  </Alert>
+</Stack>
+```
+
+### Multiline text
+
+```jsx noInline
+const Paragraph = (props) => (
+  <PseudoBox mb="1x" _lastChild={{ mb: 0 }} {...props} />
+);
+
+function Example() {
+  return (
+    <Alert severity="info">
+      <Paragraph>This is the first paragraph.</Paragraph>
+      <Paragraph>This is the second paragraph.</Paragraph>
+      <Paragraph>This is the third paragraph.</Paragraph>
+    </Alert>
+  );
+}
+
+render(<Example />);
+```
+
+### Formatted title
+
+You can use the `Heading` component to display a formatted title above the content.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Alert severity="success">
+    <Box mb="1x">
+      <Heading fontWeight="bold">Success</Heading>
+    </Box>
+    <Text mr={-36}>
+      This is a success alert.
+    </Text>
+  </Alert>
+  <Alert severity="info">
+    <Box mb="1x">
+      <Heading fontWeight="bold">Info</Heading>
+    </Box>
+    <Text mr={-36}>
+      This is an info alert.
+    </Text>
+  </Alert>
+  <Alert severity="warning">
+    <Box mb="1x">
+      <Heading fontWeight="bold">Warning</Heading>
+    </Box>
+    <Text mr={-36}>
+      This is a warning alert.
+    </Text>
+  </Alert>
+  <Alert severity="error">
+    <Box mb="1x">
+      <Heading fontWeight="bold">Error</Heading>
+    </Box>
+    <Text mr={-36}>
+      This is an error alert.
+    </Text>
+  </Alert>
+</Stack>
+```
+
+### Actions
+
+An alert can have an action, such as a close or action button. It is rendered after the message, at the end of the alert.
+
+```jsx
+<Stack direction="column" spacing={1}>
+  <Alert severity="warning">
+    <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
+  </Alert>
+  <Alert severity="error">
+    <Flex justify="space-between" mt={-1} mb={-2}>
+      <Text>Your license will expire in 7 days.</Text>
+      <FlatButton size="sm" variant="outline" variantColor="black:primary">
+        Renew Now
+      </FlatButton>
+    </Flex>
+  </Alert>
+</Stack>
+```
+
+### Transition
+
+You can use a transition component such as `Collapse` to give the appearance of a smooth transition.
+
+```jsx
+function Example() {
+  const [isOpen, setIsOpen] = React.useState(true);
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
+
+  return (
+    <>
+      <Collapse isOpen={isOpen}>
+        <Alert severity="info" onClose={handleClose}>
+          Click the close button on the right side.
+        </Alert>
+      </Collapse>
+      <Box mt="4x">
+        <Button onClick={handleOpen} disabled={isOpen}>
+          Reopen
+        </Button>
+      </Box>
+    </>
+  );
+}
 ```
 
 ## Props
 
-### Alert props
-
-Alert is the wrapper for alert component. It composes the `Flex` component.
+`Alert` composes the [`Flex`](./flex) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| status | string | 'info' | The status of the alert. One of: `'error'`, `'warning'`, `'info'` |
-
-### AlertIcon props
-
-AlertIcon composes `Icon` and changes the icon based on the `status` prop.
-
-### AlertButton props
-
-AlertButton composes the `PseudoBox` component.
+| isCloseable | boolean | true | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
+| severity | string | 'success' | The severity level of the alert. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
+| icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |

@@ -5,10 +5,10 @@ import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
 import {
-  useAlertRootStyle,
-  useAlertIconStyle,
-  useAlertMessageStyle,
-  useAlertCloseButtonStyle,
+  useAlertToastRootStyle,
+  useAlertToastIconStyle,
+  useAlertToastMessageStyle,
+  useAlertToastCloseButtonStyle,
 } from './styles';
 
 const defaultSeverity = 'success';
@@ -30,19 +30,19 @@ const getIconBySeverity = (severity) => {
   );
 };
 
-const AlertIcon = (props) => (
+const AlertToastIcon = (props) => (
   <Flex {...props} />
 );
 
-const AlertMessage = (props) => (
+const AlertToastMessage = (props) => (
   <Box {...props} />
 );
 
-const AlertCloseButton = (props) => (
+const AlertToastCloseButton = (props) => (
   <ButtonBase {...props} />
 );
 
-const Alert = forwardRef((
+const AlertToast = forwardRef((
   {
     isCloseable = true,
     onClose,
@@ -53,10 +53,10 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
-  const rootStyleProps = useAlertRootStyle({ severity });
-  const iconStyleProps = useAlertIconStyle({ severity });
-  const messageStyleProps = useAlertMessageStyle();
-  const closeButtonStyleProps = useAlertCloseButtonStyle();
+  const rootStyleProps = useAlertToastRootStyle({ severity });
+  const iconStyleProps = useAlertToastIconStyle({ severity });
+  const messageStyleProps = useAlertToastMessageStyle();
+  const closeButtonStyleProps = useAlertToastCloseButtonStyle();
 
   if (typeof icon === 'string') {
     icon = (<Icon name={icon} />);
@@ -75,27 +75,27 @@ const Alert = forwardRef((
     >
       {!!icon && (
         <>
-          <AlertIcon {...iconStyleProps}>
+          <AlertToastIcon {...iconStyleProps}>
             {icon}
-          </AlertIcon>
+          </AlertToastIcon>
           <Space minWidth="2x" />
         </>
       )}
-      <AlertMessage {...messageStyleProps}>
+      <AlertToastMessage {...messageStyleProps}>
         {children}
-      </AlertMessage>
+      </AlertToastMessage>
       {!!isCloseable && (
         <>
           <Space minWidth="4x" />
-          <AlertCloseButton {...closeButtonStyleProps} onClick={onClose}>
+          <AlertToastCloseButton {...closeButtonStyleProps} onClick={onClose}>
             <Icon name="_core.close-s" />
-          </AlertCloseButton>
+          </AlertToastCloseButton>
         </>
       )}
     </Flex>
   );
 });
 
-Alert.displayName = 'Alert';
+AlertToast.displayName = 'AlertToast';
 
-export default Alert;
+export default AlertToast;

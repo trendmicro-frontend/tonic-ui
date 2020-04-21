@@ -1,4 +1,4 @@
-import { addOpacity } from '../theme/colors-utils';
+import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
@@ -27,7 +27,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
       '&:not(:focus)': {
         borderColor: `${color}:50`,
       },
-      bg: addOpacity('black', 0.12),
+      bg: setColorWithOpacity('black', 0.12),
       color: `${color}:40`,
     },
     _disabled: {

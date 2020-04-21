@@ -13,7 +13,7 @@ const SVGIconBase = styled(Box)`
 const SVGIcon = forwardRef((
   {
     children,
-    size = '1em',
+    size = '4x',
     color = 'currentColor',
     role = 'presentation',
     focusable = false,

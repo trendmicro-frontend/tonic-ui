@@ -12,6 +12,7 @@ class CustomDocument extends Document {
       <Html>
         <Head>
           <link href="tmicon/tmicon-font.css" rel="stylesheet" type="text/css" />
+          <link href="fonts/redacted/stylesheet.css" rel="stylesheet" type="text/css" />
         </Head>
         <body>
           <Main />

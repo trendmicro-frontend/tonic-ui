@@ -1,110 +1,59 @@
-import React, { createContext, useContext, useCallback } from 'react';
-import toaster from 'toasted-notes';
-import ThemeProvider from '../ThemeProvider';
-import ColorModeProvider from '../ColorModeProvider';
-import useTheme from '../useTheme';
-import useColorMode from '../useColorMode';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
-import ToastButton from '../ActionButton';
+import ButtonBase from '../ButtonBase';
+import Flex from '../Flex';
 import Icon from '../Icon';
-import { useToastStyle, useToastIconStyle } from './styles';
+import Space from '../Space';
+import {
+  useToastRootStyle,
+  useToastMessageStyle,
+  useToastCloseButtonStyle,
+} from './styles';
 
-const statuses = {
-  success: {
-    icon: 'check-circle',
-    color: 'green',
+const ToastMessage = (props) => (
+  <Box {...props} />
+);
+
+const ToastCloseButton = (props) => (
+  <ButtonBase {...props} />
+);
+
+const Toast = forwardRef((
+  {
+    isCloseable = true,
+    onClose,
+    children,
+    ...rest
   },
-  warning: {
-    icon: 'warning-triangle',
-    color: 'yellow'
-  },
-  error: {
-    icon: 'circle-close',
-    color: 'red'
-  },
-};
-
-const ToastContext = createContext();
-
-const useToastContext = () => {
-  const context = useContext(ToastContext);
-  if (context === undefined) {
-    throw new Error(
-      'useToastContext must be used within a ToastContext.Provider',
-    );
-  }
-  return context;
-};
-
-const Toast = ({ status = 'success', ...rest }) => {
-  const styleProps = useToastStyle({
-    status,
-    color: statuses[status] && statuses[status].color,
-  });
-
-  const context = { status };
+  ref,
+) => {
+  const rootStyleProps = useToastRootStyle();
+  const messageStyleProps = useToastMessageStyle();
+  const closeButtonStyleProps = useToastCloseButtonStyle();
 
   return (
-    <ToastContext.Provider value={context}>
-      <Box {...styleProps} {...rest} />
-    </ToastContext.Provider>
+    <Flex
+      ref={ref}
+      align="flex-start"
+      justify="space-between"
+      {...rootStyleProps}
+      {...rest}
+    >
+      <ToastMessage {...messageStyleProps}>
+        {children}
+      </ToastMessage>
+      {!!isCloseable && (
+        <>
+          <Space minWidth="4x" />
+          <ToastCloseButton {...closeButtonStyleProps} onClick={onClose}>
+            <Icon name="_core.close-s" />
+          </ToastCloseButton>
+        </>
+      )}
+    </Flex>
   );
-};
+});
 
-const ToastIcon = props => {
-  const { status } = useToastContext();
-  const iconName = statuses[status] && statuses[status].icon;
-  const iconProps = useToastIconStyle({
-    status,
-    color: statuses[status] && statuses[status].color,
-  });
+Toast.displayName = 'Toast';
 
-  return (
-    <Icon
-      mr="2x"
-      size="4x"
-      name={`_core.${iconName}`}
-      {...iconProps}
-      {...props}
-    />
-  );
-};
-
-function useToast() {
-  const theme = useTheme();
-  const { colorMode } = useColorMode();
-  const notify = useCallback(
-    ({
-      position = 'top',
-      duration = 5000,
-      render,
-      status,
-    }) => {
-      const options = {
-        position,
-        duration,
-      };
-
-      if (render && typeof render === 'function') {
-        return toaster.notify(
-          ({ onClose, id }) => (
-            <ThemeProvider theme={theme}>
-              <ColorModeProvider value={colorMode}>
-                <Box margin={8}>
-                  {render({ onClose, id })}
-                </Box>
-              </ColorModeProvider>
-            </ThemeProvider>
-          ),
-          options,
-        );
-      }
-      return null;
-    },
-    [theme, colorMode],
-  );
-
-  return notify;
-}
-
-export { useToast, Toast, ToastIcon, ToastButton };
+export default Toast;

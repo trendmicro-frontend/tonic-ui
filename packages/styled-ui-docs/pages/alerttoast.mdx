@@ -1,0 +1,396 @@
+# AlertToast
+
+An alert toast is a toast that offers severity levels.
+
+If you're looking for a simple toast, just to check out the [`Toast`](./toast) component.
+
+## Import
+
+```js
+import AlertToast from '@trendmicro/react-styled-ui/AlertToast';
+// or
+import { AlertToast } from '@trendmicro/react-styled-ui';
+```
+
+## Prerequisite
+
+The `AlertToast` component should work with the `useToast` Hook to trigger a toast notification.
+
+Learn more about the [`useToast`](./usetoast) Hook.
+
+## Usage
+
+### Layouts
+
+* Increase the vertical padding space to `4x` (or `1rem`) for a multiline paragraph.
+* Set the minimum horizontal margin space to `4x` (or `1rem`) before the close button.
+* Set the minimum horizontal margin space to `4x` (or `1rem`) between the icon and the content.
+* Apply vertical margin space with `2x` (or `.5rem`) between title and its content.
+* Apply vertical margin space with `6x` (or `1.5rem`) between the end of the content and the action button (or action link).
+
+```jsx noInline
+const AlertToastSimple = ({ onClose }) => (
+  <AlertToast onClose={onClose}>
+    <Text>This is a toast notification.</Text>
+  </AlertToast>
+);
+
+const AlertToastWithIcon = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Flex align="flex-start">
+      <Box
+        bg="gray:40"
+        height={48}
+        minWidth={48}
+      />
+      <Space minWidth="4x" />
+      <Text>This is a toast notification.</Text>
+    </Flex>
+  </AlertToast>
+);
+
+const AlertToastWithTitle = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Box mb="2x">
+      <Heading fontWeight="bold">Notification Title</Heading>
+    </Box>
+    <Box mr={-36}>
+      <Text>This is a toast notification.</Text>
+    </Box>
+  </AlertToast>
+);
+
+const AlertToastWithActionButton = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Box mb="6x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+    <Flex justify="flex-end" mr={-36}>
+      <FlatButton variant="outline" color="black:primary" size="sm">
+        Action Button
+      </FlatButton>
+    </Flex>
+  </AlertToast>
+);
+
+const AlertToastWithActionLink = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Box mb="6x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+    <Flex justify="flex-end" mr={-36}>
+      <Link>Action Link</Link>
+    </Flex>
+  </AlertToast>
+);
+
+const AlertToastWithAllTogether = ({ onClose }) => (
+  <AlertToast onClose={onClose} py="4x">
+    <Box mb="2x">
+      <Heading fontWeight="bold">Notification Title</Heading>
+    </Box>
+    <Flex align="flex-start" mb="6x">
+      <Box
+        bg="gray:40"
+        height={48}
+        minWidth={48}
+      />
+      <Space minWidth="4x" />
+      <Text>This is a toast notification.</Text>
+    </Flex>
+    <Flex justify="flex-end" mr={-36}>
+      <FlatButton variant="outline" color="black:primary" size="sm">
+        Action Button
+      </FlatButton>
+    </Flex>
+  </AlertToast>
+);
+
+const AlertToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (AlertToastComponent) => () => {
+    toast({
+      duration: 5000,
+      render: ({ onClose }) => (
+        <AlertToastLayout minWidth={320}>
+          <AlertToastComponent onClose={onClose} />
+        </AlertToastLayout>
+      ),
+    });
+  };
+
+  return (
+    <>
+      <Stack direction="column" spacing="6x">
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastSimple)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastSimple />
+          </AlertToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithIcon)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithIcon />
+          </AlertToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithTitle)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithTitle />
+          </AlertToastLayout>
+        </Box>
+
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithActionButton)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithActionButton />
+          </AlertToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithActionLink)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithActionLink />
+          </AlertToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(AlertToastWithAllTogether)}
+          >
+            Show
+          </Button>
+          <AlertToastLayout mt="4x">
+            <AlertToastWithAllTogether />
+          </AlertToastLayout>
+        </Box>
+      </Stack>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### Severity levels
+
+The alert toast offers four severity levels, each has a distinctive icon and color.
+
+```jsx noInline
+const AlertToastSuccess = ({ onClose }) => (
+  <AlertToast onClose={onClose} severity="success">
+    This is a success toast alert.
+  </AlertToast>
+);
+
+const AlertToastInfo = ({ onClose }) => (
+  <AlertToast onClose={onClose} severity="info">
+    This is an info toast alert.
+  </AlertToast>
+);
+
+const AlertToastWarning = ({ onClose }) => (
+  <AlertToast onClose={onClose} severity="warning">
+    This is a warning toast alert.
+  </AlertToast>
+);
+
+const AlertToastError = ({ onClose }) => (
+  <AlertToast onClose={onClose} severity="error">
+    This is an error toast alert.
+  </AlertToast>
+);
+
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (AlertToastNotification) => () => {
+    toast({
+      duration: 5000,
+      render: ({ onClose }) => (
+        <ToastLayout minWidth={320}>
+          <AlertToastNotification onClose={onClose} />
+        </ToastLayout>
+      ),
+    });
+  };
+  const alertToasts = [
+    AlertToastSuccess,
+    AlertToastInfo,
+    AlertToastWarning,
+    AlertToastError,
+  ];
+
+  return (
+    <Stack direction="column" spacing="6x">
+      {alertToasts.map((AlertToastNotification, idx) => (
+        <Box key={idx}>
+          <Button variant="secondary" onClick={handleClickBy(AlertToastNotification)}>
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <AlertToastNotification />
+          </ToastLayout>
+        </Box>
+      ))}
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+### Icons
+
+The `icon` prop allows you to override the default icon for the specified severity.
+
+Setting the `icon` prop to `false` will remove the icon altogether.
+
+```jsx noInline
+const AlertToastWithDefaultIcon = ({ onClose }) => (
+  <AlertToast
+    onClose={onClose}
+    severity="success"
+  >
+    This is a success toast alert.
+  </AlertToast>
+);
+
+const AlertToastWithAnotherIcon = ({ onClose }) => (
+  <AlertToast
+    onClose={onClose}
+    severity="success"
+    icon="_core.severity-success"
+  >
+    This is a success toast alert.
+  </AlertToast>
+);
+
+const AlertToastWithProprietaryIcon = ({ onClose }) => (
+  <AlertToast
+    onClose={onClose}
+    severity="success"
+    icon={<TMIcon name="check-circle-o" lineHeight={1} color="gray:80" />}
+  >
+    This is a success toast alert.
+  </AlertToast>
+);
+
+const AlertToastWithoutIcon = ({ onClose }) => (
+  <AlertToast
+    onClose={onClose}
+    severity="success"
+    icon={false}
+  >
+    This is a success toast alert.
+  </AlertToast>
+);
+
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (AlertToastNotification) => () => {
+    toast({
+      duration: 5000,
+      render: ({ onClose }) => (
+        <ToastLayout minWidth={320}>
+          <AlertToastNotification onClose={onClose} />
+        </ToastLayout>
+      ),
+    });
+  };
+  const alertToasts = [
+    AlertToastWithDefaultIcon,
+    AlertToastWithAnotherIcon,
+    AlertToastWithProprietaryIcon,
+    AlertToastWithoutIcon,
+  ];
+
+  return (
+    <Stack direction="column" spacing="6x">
+      {alertToasts.map((AlertToastNotification, idx) => (
+        <Box key={idx}>
+          <Button variant="secondary" onClick={handleClickBy(AlertToastNotification)}>
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <AlertToastNotification />
+          </ToastLayout>
+        </Box>
+      ))}
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+`AlertToast` composes the [`Toast`](./toast) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| isCloseable | boolean | true | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
+| severity | string | 'success' | The severity level of the alert. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
+| icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |

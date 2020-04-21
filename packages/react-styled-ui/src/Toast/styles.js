@@ -1,90 +1,83 @@
+import { get } from '@styled-system/core';
+import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
 const baseProps = {
-  display: 'flex',
-  alignItems: 'center',
-  position: 'relative',
-  overflow: 'hidden',
-  pl: '4x',
-  pr: '4x',
-  pt: '2x',
-  pb: '2x',
-  color: 'black:emphasis',
-  fontSize: 'sm',
-  lineHeight: 'sm',
+  px: '4x',
+  py: '2x',
 };
 
-const styleToastProps = ({ color, colorLevel, theme: { colors } }) => {
-  return {
-    light: {
-      bg: `${color}:${colorLevel}`,
-    },
-    dark: {
-      bg: 'gray:10',
-      borderLeft: `4px solid ${colors[`${color}:${colorLevel}`]}`,
-    },
-  };
-};
-
-const styleToastIconProps = ({ color, colorLevel }) => {
-  return {
-    light: {
-      color: 'black:emphasis',
-    },
-    dark: {
-      color: `${color}:${colorLevel}`,
-    },
-  };
-};
-
-const statusToastProps = props => {
-  const status = props.status;
-
-  switch (status) {
-  case 'success':
-  case 'warning':
-    return styleToastProps({ ...props, colorLevel: 50 });
-  case 'error':
-    return styleToastProps({ ...props, colorLevel: 60 });
-  default:
-    return {};
-  }
-};
-
-const statusToastIconProps = props => {
-  const status = props.status;
-
-  switch (status) {
-  case 'success':
-  case 'warning':
-    return styleToastIconProps({ ...props, colorLevel: 50 });
-  case 'error':
-    return styleToastIconProps({ ...props, colorLevel: 60 });
-  default:
-    return {};
-  }
-};
-
-const useToastStyle = props => {
+const useToastRootStyle = () => {
   const { colorMode } = useColorMode();
-  const theme = useTheme();
-  const _props = { ...props, theme };
+  const backgroundColor = {
+    dark: 'gray:10',
+    light: 'gray:10',
+  }[colorMode];
+  const color = 'black:primary';
 
   return {
     ...baseProps,
-    ...statusToastProps(_props)[colorMode],
+    backgroundColor,
+    color,
   };
 };
 
-const useToastIconStyle = props => {
-  const { colorMode } = useColorMode();
-  const theme = useTheme();
-  const _props = { ...props, theme };
+const useToastMessageStyle = () => {
+  return {
+    py: 2,
+    mt: -1,
+    width: '100%',
+  };
+};
+
+const useToastCloseButtonStyle = () => {
+  const { colors } = useTheme();
+  const color = setColorWithOpacity('black', 0.54);
+  const hoverColor = 'black';
+  const activeColor = color;
+  const focusColor = color;
+  const focusHoverColor = hoverColor;
+  const focusActiveColor = activeColor;
+  const focusBorderColor = get(colors, 'blue:60');
 
   return {
-    ...statusToastIconProps(_props)[colorMode],
+    border: 1,
+    borderColor: 'transparent',
+    color: color,
+    transition: 'all .2s',
+    lineHeight: 1,
+    width: '8x',
+    height: '8x',
+    mt: -4,
+    mb: -4,
+    mr: -8,
+    px: 0,
+    py: 0,
+    _hover: {
+      color: hoverColor,
+    },
+    _active: {
+      color: activeColor,
+    },
+    _focus: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusColor,
+    },
+    _focusHover: {
+      color: focusHoverColor,
+    },
+    _focusActive: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusActiveColor,
+    },
   };
 };
 
-export { useToastStyle, useToastIconStyle };
+export {
+  useToastRootStyle,
+  useToastMessageStyle,
+  useToastCloseButtonStyle,
+};

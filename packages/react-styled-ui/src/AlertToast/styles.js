@@ -8,63 +8,114 @@ const baseProps = {
   py: '2x',
 };
 
-const getSuccessStyle = ({
+const getDefaultStyle = ({
   colorMode,
 }) => {
   const backgroundColor = {
-    dark: 'green:50',
-    light: 'green:50',
+    dark: 'gray:10',
+    light: 'gray:10',
   }[colorMode];
   const color = 'black:primary';
 
   return {
     backgroundColor,
     color,
+  };
+};
+
+const getSuccessStyle = ({
+  theme,
+  colorMode,
+}) => {
+  const { sizes } = theme;
+  const backgroundColor = {
+    dark: 'gray:10',
+    light: 'gray:10',
+  }[colorMode];
+  const color = 'black:primary';
+  const borderStyle = {
+    borderLeftColor: 'green:50',
+    borderLeftStyle: 'solid',
+    borderLeftWidth: get(sizes, '1x'),
+    pl: '3x',
+  };
+
+  return {
+    backgroundColor,
+    color,
+    ...borderStyle,
   };
 };
 
 const getInfoStyle = ({
+  theme,
   colorMode,
 }) => {
+  const { sizes } = theme;
   const backgroundColor = {
-    dark: 'blue:40',
-    light: 'blue:40',
+    dark: 'gray:10',
+    light: 'gray:10',
   }[colorMode];
   const color = 'black:primary';
+  const borderStyle = {
+    borderLeftColor: 'blue:50',
+    borderLeftStyle: 'solid',
+    borderLeftWidth: get(sizes, '1x'),
+    pl: '3x',
+  };
 
   return {
     backgroundColor,
     color,
+    ...borderStyle,
   };
 };
 
 const getWarningStyle = ({
+  theme,
   colorMode,
 }) => {
+  const { sizes } = theme;
   const backgroundColor = {
-    dark: 'yellow:50',
-    light: 'yellow:50',
+    dark: 'gray:10',
+    light: 'gray:10',
   }[colorMode];
   const color = 'black:primary';
+  const borderStyle = {
+    borderLeftColor: 'yellow:50',
+    borderLeftStyle: 'solid',
+    borderLeftWidth: get(sizes, '1x'),
+    pl: '3x',
+  };
 
   return {
     backgroundColor,
     color,
+    ...borderStyle,
   };
 };
 
 const getErrorStyle = ({
+  theme,
   colorMode,
 }) => {
+  const { sizes } = theme;
   const backgroundColor = {
-    dark: 'red:40',
-    light: 'red:40',
+    dark: 'gray:10',
+    light: 'gray:10',
   }[colorMode];
   const color = 'black:primary';
+  const borderStyle = {
+    borderLeftColor: 'red:60',
+    borderLeftStyle: 'solid',
+    borderLeftWidth: get(sizes, '1x'),
+    pl: '3x',
+  };
 
   return {
     backgroundColor,
     color,
+    ...borderStyle,
   };
 };
 
@@ -85,14 +136,16 @@ const getSeverityProps = ({ severity, ...props }) => {
     return getErrorStyle(props);
   }
 
-  return {};
+  return getDefaultStyle(props);
 };
 
-const useAlertRootStyle = ({
+const useAlertToastRootStyle = ({
   severity,
 }) => {
+  const theme = useTheme();
   const { colorMode } = useColorMode();
   const _props = {
+    theme,
     colorMode,
     severity,
   };
@@ -104,16 +157,24 @@ const useAlertRootStyle = ({
   };
 };
 
-const useAlertIconStyle = ({
+const useAlertToastIconStyle = ({
   severity,
 }) => {
+  const color = {
+    'success': 'green:50',
+    'info': 'blue:50',
+    'warning': 'yellow:50',
+    'error': 'red:60',
+  }[severity];
+
   return {
+    color,
     py: '1x',
     lineHeight: 1, // exactly the same height as the icon's height
   };
 };
 
-const useAlertMessageStyle = () => {
+const useAlertToastMessageStyle = () => {
   return {
     py: 2,
     mt: -1,
@@ -121,7 +182,7 @@ const useAlertMessageStyle = () => {
   };
 };
 
-const useAlertCloseButtonStyle = () => {
+const useAlertToastCloseButtonStyle = () => {
   const { colors } = useTheme();
   const color = setColorWithOpacity('black', 0.54);
   const hoverColor = 'black';
@@ -167,8 +228,8 @@ const useAlertCloseButtonStyle = () => {
 };
 
 export {
-  useAlertRootStyle,
-  useAlertIconStyle,
-  useAlertMessageStyle,
-  useAlertCloseButtonStyle,
+  useAlertToastRootStyle,
+  useAlertToastIconStyle,
+  useAlertToastMessageStyle,
+  useAlertToastCloseButtonStyle,
 };

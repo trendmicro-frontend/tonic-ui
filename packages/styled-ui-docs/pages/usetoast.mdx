@@ -1,0 +1,199 @@
+# useToast
+
+The `useToast` Hook allows you to show up a toast notification that presents timely information, including confirmation of actions, alerts, and errors.
+
+See [`Toast`](./toast) and [`AlertToast`](./alerttoast) for more examples of how to use.
+
+## Import
+
+```js
+import useToast from '@trendmicro/react-styled-ui/useToast';
+// or
+import { useToast } from '@trendmicro/react-styled-ui';
+```
+
+## `useToast`
+
+```js
+const toast = useToast();
+```
+
+Returns a toast function, which is used to trigger a toast notification.
+
+```jsx disabled
+function Example() {
+  // Get a toast function
+  const toast = useToast();
+
+  toast({
+    // [optional] The position to display toast notifications.
+    position: 'top',
+
+    // [optional] The duration (in ms) that a toast notification remains visible and interactive.
+    duration: 5000,
+
+    render: ({ onClose }) => (
+      <ToastLayout minWidth={320}>
+        <ToastNotification onClose={onClose} />
+      </ToastLayout>
+    ),
+  });
+}
+```
+
+### How to setup
+
+First, you have to create a layout to wrap each toast notification as below:
+
+```jsx disabled
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  // Add a box shadow effect
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+  );
+};
+```
+
+Then, create a `ToastNotification` component to wrap children:
+
+```jsx disabled
+const ToastNotification = ({ onClose }) => (
+  <Toast onClose={onClose}>
+    This is a toast notification.
+  </Toast>
+);
+```
+
+Let's see how this works.
+
+```jsx noInline
+const ToastNotification = ({ onClose }) => (
+  <Toast onClose={onClose}>
+    This is a toast notification.
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (ToastNotification) => () => {
+    toast({
+      position: 'top',
+      duration: 5000,
+      render: ({ onClose }) => (
+        <ToastLayout minWidth={320}>
+          <ToastNotification onClose={onClose} />
+        </ToastLayout>
+      ),
+    });
+  };
+
+  return (
+    <>
+      <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
+        Show
+      </Button>
+      <ToastLayout mt="4x">
+        <ToastNotification />
+      </ToastLayout>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### Options
+
+#### `position`
+
+You can display toast notifications in different positions, including `top-left`, `top`, `top-right`, `bottom-left`, `bottom`, and `bottom-right`. The default value is `top`.
+
+#### `duration`
+
+When the `duration` is set to `null`, the toast notification will appear indefinitely until manually closed by the user. The default value is `5000` in milliseconds.
+
+#### `render`
+
+A render function that renders toast notifications.
+
+```jsx noInline
+const ToastBasic = ({ onClose }) => (
+  <Toast onClose={onClose}>
+    This is a toast notification.
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const duration = 5000; // in ms
+  const handleClickBy = (position) => () => {
+    toast({
+      duration,
+      position,
+      render: ({ onClose }) => (
+        <ToastLayout>
+          <ToastBasic onClose={onClose} />
+        </ToastLayout>
+      ),
+    });
+  };
+
+  return (
+    <Grid
+      gap="4x"
+      templateColumns="1fr 1fr 1fr"
+    >
+      <Button onClick={handleClickBy('top-left')}>
+        Top Left
+      </Button>
+      <Button onClick={handleClickBy('top')}>
+        Top
+      </Button>
+      <Button onClick={handleClickBy('top-right')}>
+        Top Right
+      </Button>
+      <Button onClick={handleClickBy('bottom-left')}>
+        Bottom Left
+      </Button>
+      <Button onClick={handleClickBy('bottom')}>
+        Bottom
+      </Button>
+      <Button onClick={handleClickBy('bottom-right')}>
+        Bottom Right
+      </Button>
+    </Grid>
+  );
+}
+
+render(<Example />);
+```
