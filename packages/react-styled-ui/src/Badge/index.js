@@ -11,7 +11,6 @@ const Badge = forwardRef(
         ref={ref}
         display="inline-block"
         px="1x"
-        textTransform="uppercase"
         fontSize="xs"
         borderRadius="sm"
         fontWeight="normal"
