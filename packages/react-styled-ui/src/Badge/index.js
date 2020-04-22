@@ -14,7 +14,7 @@ const Badge = forwardRef(
         textTransform="uppercase"
         fontSize="xs"
         borderRadius="sm"
-        fontWeight="bold"
+        fontWeight="normal"
         whiteSpace="nowrap"
         verticalAlign="middle"
         {...badgeStyleProps}
