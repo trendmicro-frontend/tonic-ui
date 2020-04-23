@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { keyframes } from '@emotion/core';
 import Box from '../Box';
 import PseudoBox from '../PseudoBox';
+import useColorMode from '../useColorMode';
 import { ensureNumber } from '../utils/ensure-type';
 
 const rotate = keyframes`
@@ -68,6 +69,12 @@ const Spinner = forwardRef(
     const _speed = ensureNumber(speed);
     const _dashSpeed = Math.floor(_speed * 0.75 * 100) / 100;
 
+    /***** full circle color *****/
+    const { colorMode } = useColorMode();
+    const _secondCircleColor = {
+      light: 'gray:20',
+      dark: 'gray:80',
+    }[colorMode];
     return (
       <PseudoBox
         position="relative"
@@ -103,7 +110,7 @@ const Spinner = forwardRef(
             strokeDasharray="200, 200"
             strokeDashoffset={0}
             strokeLinecap="round"
-            stroke="gray:80"
+            stroke={_secondCircleColor}
           />
           <Box
             as="circle"
