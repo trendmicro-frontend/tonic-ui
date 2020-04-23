@@ -100,14 +100,25 @@ const Spinner = forwardRef(
             r="20"
             fill="none"
             strokeWidth={strokeWidth ?? _strokeWidth}
+            strokeDasharray="200, 200"
+            strokeDashoffset={0}
+            strokeLinecap="round"
+            stroke="gray:80"
+          />
+          <Box
+            as="circle"
+            cx="50"
+            cy="50"
+            r="20"
+            fill="none"
+            strokeWidth={strokeWidth ?? _strokeWidth}
             strokeMiterlimit="10"
             strokeDasharray="1, 200"
             strokeDashoffset={0}
             strokeLinecap="round"
             stroke={_strokeColor}
             animation={`${dash} ${_dashSpeed}s ease-in-out infinite`}
-          >
-          </Box>
+          />
         </Box>
       </PseudoBox>
     );
