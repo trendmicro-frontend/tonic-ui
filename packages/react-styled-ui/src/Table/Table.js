@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import Flex from '../Flex';
+import useColorMode from '../useColorMode';
 import { TableProvider } from './context';
 
 const Table = forwardRef((
@@ -45,24 +46,32 @@ const Table = forwardRef((
   );
 });
 
-const VerticalLine = (props) => (
-  <Box
-    borderLeft={1}
-    borderColor="gray:70"
-    height="100%"
-    width="1px"
-    {...props}
-  />
-);
-const HorizontalLine = (props) => (
-  <Box
-    borderTop={1}
-    borderColor="gray:70"
-    height="1px"
-    width="100%"
-    {...props}
-  />
-);
+const VerticalLine = (props) => {
+  const { colorMode } = useColorMode();
+  const isDark = colorMode === 'dark';
+  return (
+    <Box
+      borderLeft={1}
+      borderColor={isDark ? 'gray:70' : 'gray:50'}
+      height="100%"
+      width="1px"
+      {...props}
+    />
+  );
+};
+const HorizontalLine = (props) => {
+  const { colorMode } = useColorMode();
+  const isDark = colorMode === 'dark';
+  return (
+    <Box
+      borderTop={1}
+      borderColor={isDark ? 'gray:70' : 'gray:50'}
+      height="1px"
+      width="100%"
+      {...props}
+    />
+  );
+};
 
 Table.displayName = 'Table';
 

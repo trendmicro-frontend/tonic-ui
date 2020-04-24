@@ -1,32 +1,27 @@
 import React, { forwardRef } from 'react';
-import Box from '../Box';
+import PseudoBox from '../PseudoBox';
 import { setColorWithOpacity } from '../theme/colors';
+import useColorMode from '../useColorMode';
 import { useTableContext } from './context';
 
 const TableRow = forwardRef(({
   children,
-  css,
   ...props
 }, ref) => {
   const { hoverable } = useTableContext();
-  if (hoverable) {
-    css = [
-      {
-        '&:hover': {
-          backgroundColor: setColorWithOpacity('white', 0.12),
-        },
-      },
-      css,
-    ];
-  }
+  const { colorMode } = useColorMode();
+  const isDark = colorMode === 'dark';
+  const bg = isDark ? 'white' : 'black';
   return (
-    <Box
+    <PseudoBox
       ref={ref}
-      css={css}
+      _hover={{
+        backgroundColor: hoverable ? setColorWithOpacity(bg, 0.12) : undefined
+      }}
       {...props}
     >
       { children }
-    </Box>
+    </PseudoBox>
   );
 });
 

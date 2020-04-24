@@ -1,13 +1,15 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import useColorMode from '../useColorMode';
 import { useTableContext } from './context';
 
 const TableHeaderCell = forwardRef(({
   children,
   ...props
 }, ref) => {
+  const { colorMode } = useColorMode();
   const { minimalist } = useTableContext();
-  const tableCellStyle = getTableCellStyle({ minimalist });
+  const tableCellStyle = getTableCellStyle({ colorMode, minimalist });
   return (
     <Box
       ref={ref}
@@ -20,24 +22,37 @@ const TableHeaderCell = forwardRef(({
 });
 
 const getTableCellStyle = ({
+  colorMode,
   minimalist,
 }) => {
   const baseStyle = {
     px: '3x',
     py: '2x',
-    color: 'white:secondary',
-    fontWeight: 'semibold',
     borderBottom: 2,
-    borderColor: 'gray:70',
+    fontWeight: 'semibold',
+  };
+  const colorStyle = {
+    light: {
+      color: 'black:secondary',
+      borderColor: 'gray:50',
+    },
+    dark: {
+      color: 'white:secondary',
+      borderColor: 'gray:70',
+    }
   };
 
   if (minimalist) {
-    return baseStyle;
+    return {
+      ...baseStyle,
+      ...colorStyle[colorMode],
+    };
   }
 
   return {
     borderRight: 1,
     ...baseStyle,
+    ...colorStyle[colorMode],
   };
 };
 
