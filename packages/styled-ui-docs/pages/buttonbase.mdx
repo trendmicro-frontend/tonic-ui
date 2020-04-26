@@ -23,69 +23,76 @@ Standard button attributes are supported, e.g., `type`, `disabled`, etc.
 #### `disabled`
 
 ```jsx
-<ButtonBase disabled>Disabled</ButtonBase>
+<ButtonBase
+  disabled
+  _disabled={{
+    opacity: 0.28, // dark: 0.28, light: 0.3
+    cursor: 'not-allowed',
+  }}
+>
+  Button is disabled
+</ButtonBase>
 ```
 
-### Plain button
+### Icon button
 
-```jsx
-function Example() {
-  const [value, setValue] = React.useState(0);
-  const handleClear = () => setValue(0);
-  const handleAdd = () => setValue(value => value + 1);
-
-  return (
-    <Stack direction="column" alignItems="flex-start">
-      <ButtonBase onClick={handleClear}>
-        <Badge>{value}</Badge>
-      </ButtonBase>
-      <Space height="1rem" />
-      <ButtonBase
-        opacity={.6}
-        _hover={{ opacity: .8 }}
-        onClick={handleAdd}
-      >
-        Click Me
-      </ButtonBase>
-    </Stack>
-  );
-}
-```
-
-### Adding an icon to a plain button
-
-```jsx
-function Example() {
-  const [value, setValue] = React.useState(false);
-  const handleClick = () => {
-    setValue(value => !value);
-  };
-  const btnStyleProps = {
-    color: value > 0 ? 'blue:50' : 'inherit',
-    opacity: value > 0 ? 1 : .6,
-    _active: {
-      opacity: 1,
-    },
-    _hover: {
-      opacity: .8,
-    },
-  };
+```jsx noInline
+const IconButton = (props) => {
+  const { colorMode } = useColorMode();
+  const color = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const activeColor = color;
+  const focusColor = color;
+  const focusHoverColor = hoverColor;
+  const focusActiveColor = activeColor;
+  const focusBorderColor = 'blue:60';
 
   return (
-    <Stack direction="column" alignItems="flex-start">
-      <Badge>{value ? '1' : '0'}</Badge>
-      <Space height="1rem" />
-      <ButtonBase
-        onClick={handleClick}
-        {...btnStyleProps}
-      >
-        <FontAwesomeIcon icon="thumbs-up" fixedWidth style={{ color: 'inherit' }} />
-        <Space width=".25rem" />
-        Like
-      </ButtonBase>
-    </Stack>
+    <ButtonBase
+      border={1}
+      borderColor="transparent"
+      color={color}
+      transition="all .2s"
+      lineHeight={1}
+      _hover={{
+        color: hoverColor,
+      }}
+      _active={{
+        color: activeColor,
+      }}
+      _focus={{
+        borderColor: focusBorderColor,
+        boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+        color: focusColor,
+      }}
+      _focusHover={{
+        color: focusHoverColor,
+      }}
+      _focusActive={{
+        borderColor: focusBorderColor,
+        boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+        color: focusActiveColor,
+      }}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  return (
+    <IconButton>
+      <TMIcon name="close" p="1x" />
+    </IconButton>
   );
 }
+
+render(<Example />);
 ```
 
 ## Props
