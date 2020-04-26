@@ -12,7 +12,7 @@ const useToastRootStyle = () => {
   const { colorMode } = useColorMode();
   const backgroundColor = {
     dark: 'gray:10',
-    light: 'gray:10',
+    light: 'white',
   }[colorMode];
   const color = 'black:primary';
 
