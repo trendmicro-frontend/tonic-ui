@@ -106,7 +106,7 @@ const AlertToastWithAllTogether = ({ onClose }) => (
   </AlertToast>
 );
 
-const AlertToastLayout = (props) => {
+const ToastLayout = (props) => {
   const { colorMode } = useColorMode();
   const boxShadow = {
     dark: 'dark.sm',
@@ -114,20 +114,39 @@ const AlertToastLayout = (props) => {
   }[colorMode];
 
   return (
-    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
   );
 };
 
 function Example() {
   const toast = useToast();
-  const handleClickBy = (AlertToastComponent) => () => {
+  const handleClickBy = (AlertToastNotification) => () => {
     toast({
+      position: 'bottom-right',
       duration: 5000,
-      render: ({ onClose }) => (
-        <AlertToastLayout minWidth={320}>
-          <AlertToastComponent onClose={onClose} />
-        </AlertToastLayout>
-      ),
+      render: ({ onClose, position }) => {
+        const styleProps = {
+          'top-left': { mt: '2x', mx: '4x' },
+          'top': { mt: '2x', mx: '4x' },
+          'top-right': { mt: '2x', mx: '4x' },
+          'bottom-left': { mb: '2x', mx: '4x' },
+          'bottom': { mb: '2x', mx: '4x' },
+          'bottom-right': { mb: '2x', mx: '4x' },
+        }[position];
+
+        return (
+          <ToastLayout {...styleProps}>
+            <AlertToastNotification onClose={onClose} />
+          </ToastLayout>
+        );
+      },
     });
   };
 
@@ -141,9 +160,9 @@ function Example() {
           >
             Show
           </Button>
-          <AlertToastLayout mt="4x">
+          <ToastLayout mt="4x">
             <AlertToastSimple />
-          </AlertToastLayout>
+          </ToastLayout>
         </Box>
         <Box>
           <Button
@@ -152,9 +171,9 @@ function Example() {
           >
             Show
           </Button>
-          <AlertToastLayout mt="4x">
+          <ToastLayout mt="4x">
             <AlertToastWithIcon />
-          </AlertToastLayout>
+          </ToastLayout>
         </Box>
         <Box>
           <Button
@@ -163,11 +182,10 @@ function Example() {
           >
             Show
           </Button>
-          <AlertToastLayout mt="4x">
+          <ToastLayout mt="4x">
             <AlertToastWithTitle />
-          </AlertToastLayout>
+          </ToastLayout>
         </Box>
-
         <Box>
           <Button
             variant="secondary"
@@ -175,9 +193,9 @@ function Example() {
           >
             Show
           </Button>
-          <AlertToastLayout mt="4x">
+          <ToastLayout mt="4x">
             <AlertToastWithActionButton />
-          </AlertToastLayout>
+          </ToastLayout>
         </Box>
         <Box>
           <Button
@@ -186,9 +204,9 @@ function Example() {
           >
             Show
           </Button>
-          <AlertToastLayout mt="4x">
+          <ToastLayout mt="4x">
             <AlertToastWithActionLink />
-          </AlertToastLayout>
+          </ToastLayout>
         </Box>
         <Box>
           <Button
@@ -197,9 +215,9 @@ function Example() {
           >
             Show
           </Button>
-          <AlertToastLayout mt="4x">
+          <ToastLayout mt="4x">
             <AlertToastWithAllTogether />
-          </AlertToastLayout>
+          </ToastLayout>
         </Box>
       </Stack>
     </>
@@ -246,7 +264,14 @@ const ToastLayout = (props) => {
   }[colorMode];
 
   return (
-    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
   );
 };
 
@@ -254,12 +279,24 @@ function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
     toast({
+      position: 'bottom-right',
       duration: 5000,
-      render: ({ onClose }) => (
-        <ToastLayout minWidth={320}>
-          <AlertToastNotification onClose={onClose} />
-        </ToastLayout>
-      ),
+      render: ({ onClose, position }) => {
+        const styleProps = {
+          'top-left': { mt: '2x', mx: '4x' },
+          'top': { mt: '2x', mx: '4x' },
+          'top-right': { mt: '2x', mx: '4x' },
+          'bottom-left': { mb: '2x', mx: '4x' },
+          'bottom': { mb: '2x', mx: '4x' },
+          'bottom-right': { mb: '2x', mx: '4x' },
+        }[position];
+
+        return (
+          <ToastLayout {...styleProps}>
+            <AlertToastNotification onClose={onClose} />
+          </ToastLayout>
+        );
+      },
     });
   };
   const alertToasts = [
@@ -342,7 +379,14 @@ const ToastLayout = (props) => {
   }[colorMode];
 
   return (
-    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
   );
 };
 
@@ -350,12 +394,24 @@ function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
     toast({
+      position: 'bottom-right',
       duration: 5000,
-      render: ({ onClose }) => (
-        <ToastLayout minWidth={320}>
-          <AlertToastNotification onClose={onClose} />
-        </ToastLayout>
-      ),
+      render: ({ onClose, position }) => {
+        const styleProps = {
+          'top-left': { mt: '2x', mx: '4x' },
+          'top': { mt: '2x', mx: '4x' },
+          'top-right': { mt: '2x', mx: '4x' },
+          'bottom-left': { mb: '2x', mx: '4x' },
+          'bottom': { mb: '2x', mx: '4x' },
+          'bottom-right': { mb: '2x', mx: '4x' },
+        }[position];
+
+        return (
+          <ToastLayout {...styleProps}>
+            <AlertToastNotification onClose={onClose} />
+          </ToastLayout>
+        );
+      },
     });
   };
   const alertToasts = [
