@@ -1,14 +1,7 @@
+import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 import Popper, { PopperArrow } from '../Popper';
 import { usePopoverContentStyle } from './styles';
-
-const wrapEvent = (theirHandler, ourHandler) => event => {
-  theirHandler && theirHandler(event);
-  if (!event.defaultPrevented) {
-    return ourHandler(event);
-  }
-  return '';
-};
 
 const PopoverContent = ({
   onKeyDown,

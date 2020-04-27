@@ -1,14 +1,7 @@
 import React, { Children, cloneElement, useRef } from 'react';
+import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 import Box from '../Box';
-
-const wrapEvent = (theirHandler, ourHandler) => event => {
-  theirHandler && theirHandler(event);
-  if (!event.defaultPrevented) {
-    return ourHandler(event);
-  }
-  return '';
-};
 
 const PopoverTrigger = ({ children }) => {
   const {
