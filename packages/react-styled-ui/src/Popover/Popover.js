@@ -25,8 +25,7 @@ const Popover = ({
   hideArrow,
   skidding = 0,
   distance = 4,
-  showDelay = 0,
-  hideDelay = 100,
+  delay = 0,
   closeOnBlur = true,
   closeOnEsc = true,
   onOpen: onOpenProp,
@@ -41,6 +40,13 @@ const Popover = ({
   const popoverRef = useRef();
 
   const _isOpen = isControlled ? isOpenProp : isOpen;
+
+  if (typeof delay === 'number') {
+    delay = {
+      show: delay,
+      hide: delay
+    };
+  }
 
   const onToggle = () => {
     if (!isControlled) {
@@ -142,8 +148,7 @@ const Popover = ({
     hideArrow,
     skidding,
     distance,
-    showDelay,
-    hideDelay,
+    delay,
   };
 
   return (

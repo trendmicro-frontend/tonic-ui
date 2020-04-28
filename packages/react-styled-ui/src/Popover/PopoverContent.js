@@ -30,7 +30,7 @@ const PopoverContent = ({
     hideArrow,
     skidding,
     distance,
-    hideDelay,
+    delay,
   } = usePopover();
   const contentStyleProps = usePopoverContentStyle();
   const arrowSize = 12;
@@ -56,7 +56,7 @@ const PopoverContent = ({
       }),
       onMouseLeave: wrapEvent(onMouseLeave, () => {
         isHoveringRef.current = false;
-        setTimeout(onClose, hideDelay);
+        setTimeout(onClose, delay.hide);
       }),
     };
 
