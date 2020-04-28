@@ -9,9 +9,9 @@ import {
   TableRow,
   TableCell,
   Box,
-  Icon,
   Space,
 } from '@trendmicro/react-styled-ui';
+import TMIcon from './TMIcon';
 
 function SortableTable() {
   const columns = React.useMemo(() => [
@@ -75,7 +75,7 @@ function SortableTable() {
                   <Box as="span">
                     <Space minWidth="4x" />
                     {
-                      column.isSortedDesc ? <Icon name="_core.sort-down" /> : <Icon name="_core.sort-up" />
+                      column.isSortedDesc ? <TMIcon name="sort-down" /> : <TMIcon name="sort-up" />
                     }
                   </Box>
                 )}
