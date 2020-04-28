@@ -1,60 +1,27 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import useColorMode from '../useColorMode';
 import { useTableContext } from './context';
+import { useTableHeaderCellStyle } from './styles';
 
 const TableHeaderCell = forwardRef(({
   children,
   ...props
 }, ref) => {
-  const { colorMode } = useColorMode();
-  const { minimalist } = useTableContext();
-  const tableCellStyle = getTableCellStyle({ colorMode, minimalist });
+  const { size, variant } = useTableContext();
+  const tableHeaderCellStyle = useTableHeaderCellStyle({
+    size,
+    variant,
+  });
   return (
     <Box
       ref={ref}
-      {...tableCellStyle}
+      {...tableHeaderCellStyle}
       {...props}
     >
       { children }
     </Box>
   );
 });
-
-const getTableCellStyle = ({
-  colorMode,
-  minimalist,
-}) => {
-  const baseStyle = {
-    px: '3x',
-    py: '2x',
-    borderBottom: 2,
-    fontWeight: 'semibold',
-  };
-  const colorStyle = {
-    light: {
-      color: 'black:secondary',
-      borderColor: 'gray:50',
-    },
-    dark: {
-      color: 'white:secondary',
-      borderColor: 'gray:70',
-    }
-  };
-
-  if (minimalist) {
-    return {
-      ...baseStyle,
-      ...colorStyle[colorMode],
-    };
-  }
-
-  return {
-    borderRight: 1,
-    ...baseStyle,
-    ...colorStyle[colorMode],
-  };
-};
 
 TableHeaderCell.displayName = 'TableHeaderCell';
 

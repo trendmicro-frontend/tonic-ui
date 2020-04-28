@@ -6,7 +6,8 @@ import { TableProvider } from './context';
 
 const Table = forwardRef((
   {
-    minimalist,
+    variant = 'default',
+    size = 'md',
     hoverable,
     children,
     height,
@@ -17,9 +18,11 @@ const Table = forwardRef((
 ) => {
   const tableHeight = !!height ? `${height}px` : 'auto';
   const tableWidth = !!width ? `${width}px` : 'auto';
+  const minimalist = (variant === 'default');
   const context = {
-    minimalist,
+    variant,
     hoverable,
+    size,
   };
 
   return (
