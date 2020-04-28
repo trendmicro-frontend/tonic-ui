@@ -10,9 +10,12 @@ import {
   TableRow,
   TableCell,
   Box,
+  useColorMode,
 } from '@trendmicro/react-styled-ui';
 
 function StickyTable() {
+  const { colorMode } = useColorMode();
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -50,7 +53,7 @@ function StickyTable() {
     return (
       <Box
         borderRadius="lg"
-        bg="white:tertiary"
+        bg={colorMode === 'dark' ? 'white:tertiary' : 'black:tertiary'}
         {...props}
       />
     );
