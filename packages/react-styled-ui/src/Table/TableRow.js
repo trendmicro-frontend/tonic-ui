@@ -15,6 +15,7 @@ const TableRow = forwardRef(({
   return (
     <PseudoBox
       ref={ref}
+      display="flex"
       _hover={{
         backgroundColor: hoverable ? setColorWithOpacity(bg, 0.12) : undefined
       }}

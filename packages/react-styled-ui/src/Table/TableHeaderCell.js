@@ -5,6 +5,7 @@ import { useTableHeaderCellStyle } from './styles';
 
 const TableHeaderCell = forwardRef(({
   children,
+  width = 150,
   ...props
 }, ref) => {
   const { size, variant } = useTableContext();
@@ -15,6 +16,7 @@ const TableHeaderCell = forwardRef(({
   return (
     <Box
       ref={ref}
+      width={width}
       {...tableHeaderCellStyle}
       {...props}
     >

@@ -10,14 +10,10 @@ const Table = forwardRef((
     size = 'md',
     hoverable,
     children,
-    height,
-    width,
     ...rest
   },
   ref,
 ) => {
-  const tableHeight = !!height ? `${height}px` : 'auto';
-  const tableWidth = !!width ? `${width}px` : 'auto';
   const minimalist = (variant === 'default');
   const context = {
     variant,
@@ -29,9 +25,8 @@ const Table = forwardRef((
     <TableProvider value={context}>
       <Flex
         ref={ref}
+        display="inline-flex"
         position="relative"
-        height={tableHeight}
-        width={tableWidth}
         direction="column"
         {...rest}
       >
