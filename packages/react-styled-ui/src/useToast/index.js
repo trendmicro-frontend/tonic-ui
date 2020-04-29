@@ -13,7 +13,6 @@ const useToast = () => {
       position = 'top',
       duration = 5000,
       render,
-      status,
     }) => {
       const options = {
         position,
@@ -25,10 +24,10 @@ const useToast = () => {
       }
 
       return toaster.notify(
-        ({ onClose, id }) => (
+        ({ id, onClose }) => (
           <ThemeProvider theme={theme}>
             <ColorModeProvider value={colorMode}>
-              {render({ onClose, id })}
+              {render({ id, onClose, position, duration })}
             </ColorModeProvider>
           </ThemeProvider>
         ),
