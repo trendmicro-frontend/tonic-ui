@@ -161,26 +161,16 @@ In the following examples, we demonstrate how to use [`react-table`](https://git
 function BaseTable() {
   const columns = React.useMemo(() => [
     {
-      Header: 'Name',
-      columns: [
-        {
-          Header: 'Event Type',
-          accessor: 'eventType',
-        },
-      ],
+      Header: 'Event Type',
+      accessor: 'eventType',
     },
     {
-      Header: 'Info',
-      columns: [
-        {
-          Header: 'Affected Devices',
-          accessor: 'affectedDevices',
-        },
-        {
-          Header: 'Detections',
-          accessor: 'detections',
-        },
-      ],
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
     },
   ], []);
 
@@ -261,26 +251,16 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
 function SelectableTable() {
   const columns = React.useMemo(() => [
     {
-      Header: 'Name',
-      columns: [
-        {
-          Header: 'Event Type',
-          accessor: 'eventType',
-        },
-      ],
+      Header: 'Event Type',
+      accessor: 'eventType',
     },
     {
-      Header: 'Info',
-      columns: [
-        {
-          Header: 'Affected Devices',
-          accessor: 'affectedDevices',
-        },
-        {
-          Header: 'Detections',
-          accessor: 'detections',
-        },
-      ],
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
     },
   ], []);
 
@@ -382,26 +362,16 @@ render(<SelectableTable />);
 function SortableTable() {
   const columns = React.useMemo(() => [
     {
-      Header: 'Name',
-      columns: [
-        {
-          Header: 'Event Type',
-          accessor: 'eventType',
-        },
-      ],
+      Header: 'Event Type',
+      accessor: 'eventType',
     },
     {
-      Header: 'Info',
-      columns: [
-        {
-          Header: 'Affected Devices',
-          accessor: 'affectedDevices',
-        },
-        {
-          Header: 'Detections',
-          accessor: 'detections',
-        },
-      ],
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
     },
   ], []);
 
