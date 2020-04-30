@@ -54,28 +54,31 @@ Use the `variant` prop to change the visual style of the Table. You can set the 
 ```jsx
 <Stack direction="row" spacing="4x">
   {["default", "outline"].map(variant => (
-    <Table variant={variant} key={variant}>
-      <TableHeader>
-        <TableHeaderRow>
-          <TableHeaderCell>Event Type</TableHeaderCell>
-          <TableHeaderCell>Detections</TableHeaderCell>
-        </TableHeaderRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell>Virus/Malware</TableCell>
-          <TableCell>634</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>Virus/Malware</TableCell>
-          <TableCell>778</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>URL Filtering</TableCell>
-          <TableCell>598</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+    <Stack direction="column" spacing="4x" shouldWrapChildren>
+      <Text>{variant}</Text>
+      <Table variant={variant} key={variant}>
+        <TableHeader>
+          <TableHeaderRow>
+            <TableHeaderCell>Event Type</TableHeaderCell>
+            <TableHeaderCell>Detections</TableHeaderCell>
+          </TableHeaderRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Virus/Malware</TableCell>
+            <TableCell>634</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Virus/Malware</TableCell>
+            <TableCell>778</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>URL Filtering</TableCell>
+            <TableCell>598</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </Stack>
   ))}
 </Stack>
 ```
@@ -85,30 +88,34 @@ Use the `variant` prop to change the visual style of the Table. You can set the 
 Use the `size` prop to change the padding of the `<TableCell>`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="row" spacing="2x">
+<Stack direction="column" spacing="6x" shouldWrapChildren>
   {["sm", "md", "lg"].map(size => (
-    <Table size={size} key={size}>
-      <TableHeader>
-        <TableHeaderRow>
-          <TableHeaderCell>Event Type</TableHeaderCell>
-          <TableHeaderCell>Detections</TableHeaderCell>
-        </TableHeaderRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell>Virus/Malware</TableCell>
-          <TableCell>634</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>Virus/Malware</TableCell>
-          <TableCell>778</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>URL Filtering</TableCell>
-          <TableCell>598</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+    <>
+      <Text>Size: {size}</Text>
+      <Space width="4x" />
+      <Table variant="outline" size={size} key={size}>
+        <TableHeader>
+          <TableHeaderRow>
+            <TableHeaderCell>Event Type</TableHeaderCell>
+            <TableHeaderCell>Detections</TableHeaderCell>
+          </TableHeaderRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Virus/Malware</TableCell>
+            <TableCell>634</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Virus/Malware</TableCell>
+            <TableCell>778</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>URL Filtering</TableCell>
+            <TableCell>598</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </>
   ))}
 </Stack>
 ```
@@ -144,7 +151,9 @@ Enable a hover state on TableRows.
 
 ## Custom buttons
 
-In the following examples, we demonstrate how to use `react-table` with the Table component.
+In the following examples, we demonstrate how to use [`react-table`](https://github.com/tannerlinsley/react-table) with the Table component.
+
+`import { useTable, useBlockLayout, useRowSelect, useSortBy } from 'react-table';`
 
 ### Base table
 
@@ -304,10 +313,14 @@ function SelectableTable() {
         {
           id: 'selection',
           Header: ({ getToggleAllRowsSelectedProps }) => (
-            <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            <Flex height="100%" alignItems="center">
+              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            </Flex>
           ),
           Cell: ({ row }) => (
-            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            <Flex height="100%" alignItems="center">
+              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            </Flex>
           ),
           width: 41,
         },
@@ -423,10 +436,18 @@ function SortableTable() {
           <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
               <TableHeaderCell {...column.getHeaderProps(column.getSortByToggleProps())}>
-                {column.render('Header')}
+                <Box
+                  display="inline-block"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  whiteSpace="nowrap"
+                  width={`calc(100% - ${(column.isSorted ? '20px' : '0px')})`}
+                >
+                  {column.render('Header')}
+                </Box>
                 {column.isSorted && (
                   <Box as="span">
-                    <Space minWidth="4x" />
+                    <Space minWidth="1x" />
                     {
                       column.isSortedDesc ? <TMIcon name="sort-down" /> : <TMIcon name="sort-up" />
                     }
@@ -461,6 +482,11 @@ render(<SortableTable />);
 ```
 
 ### Sticky table
+
+In this examples, we use [`react-custom-scrollbars`](https://github.com/malte-wessel/react-custom-scrollbars) to display scrollbar.
+
+`import { Scrollbars } from 'react-custom-scrollbars';`
+
 
 ```jsx noInline
 function StickyTable() {
