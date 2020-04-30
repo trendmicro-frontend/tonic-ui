@@ -8,7 +8,7 @@ const TableRow = forwardRef(({
   children,
   ...props
 }, ref) => {
-  const { hoverable } = useTableContext();
+  const { isHoverable } = useTableContext();
   const { colorMode } = useColorMode();
   const isDark = colorMode === 'dark';
   const bg = isDark ? 'white' : 'black';
@@ -17,7 +17,7 @@ const TableRow = forwardRef(({
       ref={ref}
       display="flex"
       _hover={{
-        backgroundColor: hoverable ? setColorWithOpacity(bg, 0.12) : undefined
+        backgroundColor: isHoverable ? setColorWithOpacity(bg, 0.12) : undefined
       }}
       {...props}
     >

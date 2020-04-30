@@ -8,7 +8,7 @@ const Table = forwardRef((
   {
     variant = 'default',
     size = 'md',
-    hoverable,
+    isHoverable,
     children,
     ...rest
   },
@@ -17,7 +17,7 @@ const Table = forwardRef((
   const minimalist = (variant === 'default');
   const context = {
     variant,
-    hoverable,
+    isHoverable,
     size,
   };
 

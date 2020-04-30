@@ -125,7 +125,7 @@ Use the `size` prop to change the padding of the `<TableCell>`. You can set the 
 Enable a hover state on TableRows.
 
 ```jsx
-<Table hoverable>
+<Table isHoverable>
   <TableHeader>
     <TableHeaderRow>
       <TableHeaderCell>Event Type</TableHeaderCell>
@@ -209,7 +209,7 @@ function BaseTable() {
 
   return (
     <Table
-      hoverable
+      isHoverable
       {...getTableProps()}
     >
       <TableHeader>
@@ -331,7 +331,7 @@ function SelectableTable() {
 
   return (
     <>
-      <Table hoverable {...getTableProps()}>
+      <Table isHoverable {...getTableProps()}>
         <TableHeader>
           {headerGroups.map(headerGroup => (
             <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
@@ -430,7 +430,7 @@ function SortableTable() {
   );
 
   return (
-    <Table hoverable {...getTableProps()}>
+    <Table isHoverable {...getTableProps()}>
       <TableHeader>
         {headerGroups.map(headerGroup => (
           <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
@@ -552,7 +552,7 @@ function StickyTable() {
 
   return (
     <Table
-      hoverable
+      isHoverable
       variant="outline"
       width={400}
       height={200}
@@ -607,7 +607,7 @@ render(<StickyTable />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| hoverable | boolean | | Enable a hover state on TableRows. |
+| isHoverable | boolean | | Enable a hover state on TableRows. |
 | size | string | 'md' | The size of TableCells. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'default' | The variant of the table style to use. One of: `'default'`, `'outline'` |
 
