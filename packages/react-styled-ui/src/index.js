@@ -108,3 +108,4 @@ export {
 
 export * from './Accordion';
 export * from './Popover';
+export * from './Table';
