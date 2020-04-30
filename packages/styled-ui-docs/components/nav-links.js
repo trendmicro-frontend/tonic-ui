@@ -41,7 +41,7 @@ export const componentLinks = [
   'Link',
   //'Menu',
   //'Modal',
-  //'Popover',
+  'Popover',
   'Radio',
   'RadioGroup',
   'Select',
