@@ -4,6 +4,7 @@ import Box from '../Box';
 import PseudoBox from '../PseudoBox';
 import useColorMode from '../useColorMode';
 import { ensureNumber } from '../utils/ensure-type';
+import { setColorWithOpacity } from '../theme/colors';
 
 const rotate = keyframes`
   100% {
@@ -72,8 +73,8 @@ const Spinner = forwardRef(
     /***** full circle color *****/
     const { colorMode } = useColorMode();
     const _secondCircleColor = {
-      light: 'gray:20',
-      dark: 'gray:80',
+      light: setColorWithOpacity('black', 0.12),
+      dark: setColorWithOpacity('white', 0.12),
     }[colorMode];
     return (
       <PseudoBox
