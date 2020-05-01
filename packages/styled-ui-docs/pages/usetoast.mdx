@@ -27,16 +27,27 @@ function Example() {
 
   toast({
     // [optional] The position to display toast notifications.
-    position: 'top',
+    position: 'bottom-right',
 
     // [optional] The duration (in ms) that a toast notification remains visible and interactive.
     duration: 5000,
 
-    render: ({ onClose }) => (
-      <ToastLayout minWidth={320}>
-        <ToastNotification onClose={onClose} />
-      </ToastLayout>
-    ),
+    render: ({ onClose, position }) => {
+      const styleProps = {
+        'top-left': { mt: '2x', mx: '4x' },
+        'top': { mt: '2x', mx: '4x' },
+        'top-right': { mt: '2x', mx: '4x' },
+        'bottom-left': { mb: '2x', mx: '4x' },
+        'bottom': { mb: '2x', mx: '4x' },
+        'bottom-right': { mb: '2x', mx: '4x' },
+      }[position];
+
+      return (
+        <ToastLayout {...styleProps}>
+          <ToastNotification onClose={onClose} />
+        </ToastLayout>
+      );
+    },
   });
 }
 ```
@@ -55,7 +66,14 @@ const ToastLayout = (props) => {
   }[colorMode];
 
   return (
-    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="2x" boxShadow={boxShadow} {...props} />
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
   );
 };
 ```
@@ -87,7 +105,14 @@ const ToastLayout = (props) => {
   }[colorMode];
 
   return (
-    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
   );
 };
 
@@ -95,13 +120,24 @@ function Example() {
   const toast = useToast();
   const handleClickBy = (ToastNotification) => () => {
     toast({
-      position: 'top',
+      position: 'bottom-right',
       duration: 5000,
-      render: ({ onClose }) => (
-        <ToastLayout minWidth={320}>
-          <ToastNotification onClose={onClose} />
-        </ToastLayout>
-      ),
+      render: ({ onClose, position }) => {
+        const styleProps = {
+          'top-left': { mt: '2x', mx: '4x' },
+          'top': { mt: '2x', mx: '4x' },
+          'top-right': { mt: '2x', mx: '4x' },
+          'bottom-left': { mb: '2x', mx: '4x' },
+          'bottom': { mb: '2x', mx: '4x' },
+          'bottom-right': { mb: '2x', mx: '4x' },
+        }[position];
+
+        return (
+          <ToastLayout {...styleProps}>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        );
+      },
     });
   };
 
@@ -130,7 +166,7 @@ You can display toast notifications in different positions, including `top-left`
 
 When the `duration` is set to `null`, the toast notification will appear indefinitely until manually closed by the user. The default value is `5000` in milliseconds.
 
-#### `render`
+#### `render({ id, onClose, position, duration })`
 
 A render function that renders toast notifications.
 
@@ -149,7 +185,14 @@ const ToastLayout = (props) => {
   }[colorMode];
 
   return (
-    <Box fontSize="sm" lineHeight="sm" textAlign="left" my="1x" boxShadow={boxShadow} {...props} />
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
   );
 };
 
@@ -160,11 +203,22 @@ function Example() {
     toast({
       duration,
       position,
-      render: ({ onClose }) => (
-        <ToastLayout>
-          <ToastBasic onClose={onClose} />
-        </ToastLayout>
-      ),
+      render: ({ onClose, position }) => {
+        const styleProps = {
+          'top-left': { mt: '2x', mx: '4x' },
+          'top': { mt: '2x', mx: '4x' },
+          'top-right': { mt: '2x', mx: '4x' },
+          'bottom-left': { mb: '2x', mx: '4x' },
+          'bottom': { mb: '2x', mx: '4x' },
+          'bottom-right': { mb: '2x', mx: '4x' },
+        }[position];
+
+        return (
+          <ToastLayout {...styleProps}>
+            <ToastBasic onClose={onClose} />
+          </ToastLayout>
+        );
+      }
     });
   };
 

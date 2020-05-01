@@ -13,7 +13,7 @@ const getDefaultStyle = ({
 }) => {
   const backgroundColor = {
     dark: 'gray:10',
-    light: 'gray:10',
+    light: 'white',
   }[colorMode];
   const color = 'black:primary';
 
@@ -30,7 +30,7 @@ const getSuccessStyle = ({
   const { sizes } = theme;
   const backgroundColor = {
     dark: 'gray:10',
-    light: 'gray:10',
+    light: 'white',
   }[colorMode];
   const color = 'black:primary';
   const borderStyle = {
@@ -54,7 +54,7 @@ const getInfoStyle = ({
   const { sizes } = theme;
   const backgroundColor = {
     dark: 'gray:10',
-    light: 'gray:10',
+    light: 'white',
   }[colorMode];
   const color = 'black:primary';
   const borderStyle = {
@@ -78,7 +78,7 @@ const getWarningStyle = ({
   const { sizes } = theme;
   const backgroundColor = {
     dark: 'gray:10',
-    light: 'gray:10',
+    light: 'white',
   }[colorMode];
   const color = 'black:primary';
   const borderStyle = {
@@ -102,7 +102,7 @@ const getErrorStyle = ({
   const { sizes } = theme;
   const backgroundColor = {
     dark: 'gray:10',
-    light: 'gray:10',
+    light: 'white',
   }[colorMode];
   const color = 'black:primary';
   const borderStyle = {

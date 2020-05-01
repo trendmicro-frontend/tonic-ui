@@ -5,9 +5,16 @@ import { boolean } from 'boolean';
 import githubTheme from 'prism-react-renderer/themes/github';
 import vsDarkTheme from 'prism-react-renderer/themes/vsDark';
 import React, { useCallback, useState } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
+import * as ReactTable from 'react-table';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import TMIcon from './TMIcon';
+
+const ThirdPartyComponents = {
+  Scrollbars,
+  ...ReactTable,
+};
 
 const IconComponents = {
   FontAwesomeIcon,
@@ -151,6 +158,7 @@ const CodeBlock = ({
     scope: {
       ...IconComponents,
       ...CoreComponents,
+      ...ThirdPartyComponents,
       css,
       mdx,
     },

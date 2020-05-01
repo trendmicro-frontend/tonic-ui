@@ -38,7 +38,9 @@
     "prop-types": "^15.6.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
+    "react-custom-scrollbars": "^4.2.1",
     "react-live": "^2.2.2",
+    "react-table": "^7.0.4",
     "remark-emoji": "^2.0.2",
     "remark-images": "^1.0.0"
   },

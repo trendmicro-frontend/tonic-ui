@@ -1,0 +1,430 @@
+# Popover
+
+Popover is a non-modal dialog that floats around a trigger. It's used to display
+contextual information to the user, and should be paired with a clickable
+trigger element.
+
+Popover is built on top of the [Popper.js](https://popper.js.org/) library, and
+composes the `Popper` component.
+
+<carbon-ad></carbon-ad>
+
+## Import
+
+- `Popover`: The wrapper that provides props, state, and context to it's
+  children.
+- `PopoverTrigger`: Used to wrap the reference (or trigger) element.
+- `PopoverContent`: The popover itself.
+- `PopoverHeader`: The header of the popover.
+- `PopoverBody`: The body of the popover.
+- `PopoverFooter`: The footer of the popover.
+
+```js
+import { Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverFooter } from '@trendmicro/react-styled-ui';
+// or
+import Popover from '@trendmicro/react-styled-ui/Popover';
+```
+
+## Basic Usage
+
+When using this component, ensure the children passed to `PopoverTrigger` is
+focusable, user can tab to it using their keyboard, and it can take a `ref`.
+It's critical for accessiblity.
+
+**A11y:** When the Popover opens, focus is sent to the `PopoverContent`. When it closes, focus is returned to the trigger.
+
+```jsx
+<Popover>
+  <PopoverTrigger>
+    <Button>Trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverHeader>Confirmation!</PopoverHeader>
+    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+  </PopoverContent>
+</Popover>
+```
+## Focus an element when Popover opens
+
+By default, focus is to sent to the `PopoverContent` when it opens, you might
+want to send focus to a specific element when it opens. Pass the
+`initialFocusRef` prop to do so.
+
+```jsx
+function WalkthroughPopover() {
+  const initialFocusRef = React.useRef();
+  return (
+    <Popover
+      initialFocusRef={initialFocusRef}
+      placement="bottom"
+    >
+      <PopoverTrigger>
+        <Link>Trigger</Link>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>
+          Manage Your Channels
+        </PopoverHeader>
+        <PopoverBody>
+          Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          <Input mt="3x" ref={initialFocusRef} placeholder="Placeholder text" />
+        </PopoverBody>
+        <PopoverFooter
+          border="0"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Link fontSize="sm">Learn more</Link>
+          <Stack direction="row" spacing="2x">
+            <Button variant="primary">Setup Email</Button>
+            <Button variant="default">
+              Next
+            </Button>
+          </Stack>
+        </PopoverFooter>
+      </PopoverContent>
+    </Popover>
+  );
+}
+```
+
+## Accessing Internal state
+
+Styled UI provides access to two internal details, `isOpen` and `onClose`. Use the
+render prop pattern to gain access to them.
+
+```jsx
+function InternalStateEx() {
+  const initRef = React.useRef();
+  return (
+    <Popover
+      initialFocusRef={initRef}
+      placement="right"
+    >
+    {({ isOpen, onClose }) => (
+      <>
+        <PopoverTrigger>
+          <Button>Click to {isOpen ? "close" : "open"}</Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverHeader>
+            Manage Your Channels
+          </PopoverHeader>
+          <PopoverBody>
+            Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <Input mt="3x" placeholder="Placeholder text" />
+          </PopoverBody>
+          <PopoverFooter
+            border="0"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Link fontSize="sm">Learn more</Link>
+            <Stack direction="row" spacing="2x">
+              <Button variant="primary">Submit</Button>
+              <Button variant="default" onClick={onClose} ref={initRef}>
+                Cancel
+              </Button>
+            </Stack>
+          </PopoverFooter>
+        </PopoverContent>
+      </>
+    )}
+    </Popover>
+  );
+}
+```
+
+## Controlled Usage
+
+You can completely controlled the opening and closing of the popover by passing
+the `isOpen`, and `onClose`.
+
+Sometime, you might need to set `returnFocusOnClose` to `false` to prevent
+popver from returning focus to `PopoverTrigger`'s children.
+
+```jsx
+function ControlledUsage() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const open = () => setIsOpen(!isOpen);
+  const close = () => setIsOpen(false);
+  return (
+    <>
+      <Button mr={5} onClick={open}>
+        Trigger
+      </Button>
+      <Popover
+        returnFocusOnClose={false}
+        isOpen={isOpen}
+        onClose={close}
+        placement="right"
+        closeOnBlur={false}
+      >
+        <PopoverTrigger>
+          <Button variant="primary">Popover Target</Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverHeader>
+            At least 8 characters consisting of:
+          </PopoverHeader>
+          <PopoverBody>
+            <ul>
+              <li>Alphanumeric characters (A-Z, a-z, 0-9) with both upper and lower case letters and number characters.</li>
+              <li>At least one special character</li>
+            </ul>
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+    </>
+  );
+}
+```
+
+## Customizing the Popover
+
+### Hide the arrow
+
+```jsx
+<Popover hideArrow>
+  <PopoverTrigger>
+    <Button>Trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverHeader>Confirmation!</PopoverHeader>
+    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+  </PopoverContent>
+</Popover>
+```
+
+### Offset position
+
+```jsx
+<Popover skidding={50} distance={0}>
+  <PopoverTrigger>
+    <Button>Trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverHeader>Confirmation!</PopoverHeader>
+    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+  </PopoverContent>
+</Popover>
+```
+
+## Popover Placements
+
+Since popover is powered by PopperJS, you can change the placement of the
+popover by passing the `placement` prop.
+
+Even though you specified the placement, Popover will try to reposition itself in event the available space at the specified placment isn't enough.
+
+```jsx
+<Stack direction="column" spacing="2rem">
+  <Stack shouldWrapChildren direction="row" spacing="2rem">
+    <Popover placement="top">
+      <PopoverTrigger>
+        <Button minWidth="32x">Top</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+    <Popover placement="top-start">
+      <PopoverTrigger>
+        <Button minWidth="32x">Top-Start</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+    <Popover placement="top-end">
+      <PopoverTrigger>
+        <Button minWidth="32x">Top-End</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+  </Stack>
+  <Stack shouldWrapChildren direction="row" spacing="2rem">
+    <Popover placement="right">
+      <PopoverTrigger>
+        <Button minWidth="32x">Right</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+    <Popover placement="right-start">
+      <PopoverTrigger>
+        <Button minWidth="32x">Right-Start</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+    <Popover placement="right-end">
+      <PopoverTrigger>
+        <Button minWidth="32x">Right-End</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+  </Stack>
+  <Stack shouldWrapChildren direction="row" spacing="2rem">
+    <Popover placement="bottom">
+      <PopoverTrigger>
+        <Button minWidth="32x">Bottom</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+    <Popover placement="bottom-start">
+      <PopoverTrigger>
+        <Button minWidth="32x">Bottom-Start</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+    <Popover placement="bottom-end">
+      <PopoverTrigger>
+        <Button minWidth="32x">Bottom-End</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+  </Stack>
+  <Stack shouldWrapChildren direction="row" spacing="2rem">
+    <Popover placement="left">
+      <PopoverTrigger>
+        <Button minWidth="32x">Left</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+    <Popover placement="left-start">
+      <PopoverTrigger>
+        <Button minWidth="32x">Left-Start</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+    <Popover placement="left-end">
+      <PopoverTrigger>
+        <Button minWidth="32x">Left-End</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Confirmation!</PopoverHeader>
+        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+      </PopoverContent>
+    </Popover>
+  </Stack>
+</Stack>
+```
+
+## Hover Trigger
+
+To show the popover when you mouse over or focus on the trigger, pass the prop
+`trigger` and set it to `hover`. When you focus on or mouse over the popover
+trigger, the popover will open.
+
+If you quickly move your cursor to the popover content when it's open, it'll remain open till you leave.
+
+```jsx
+<Popover hideArrow trigger="hover">
+  <PopoverTrigger>
+    <Icon name="_core.severity-info" />
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverHeader>Confirmation!</PopoverHeader>
+    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+  </PopoverContent>
+</Popover>
+```
+
+## Accessibility
+
+When you see the word _"trigger"_, it's referring to the `children` of `PopoverTrigger`
+
+### Keyboard and Focus
+
+- When the popover is opened, focus is moved to the `PopoverContent`. If the
+  `initialFocusRef` is set, then focus moves to the element with that `ref`.
+- When the popover is closed, focus returns to the trigger. If you set
+  `returnFocusOnClose` to `false`, focus will not return.
+- If trigger is set to `hover`:
+  - Focusing on or mousing over the trigger will open the popover
+  - Blurring or mousing out of the trigger will close the popover. If you move
+    your mouse into the `PopoverContent`, it'll remain visible.
+- If trigger is set to `click`:
+  - Clicking the trigger or using the `Space` or `Enter` when focus is on the
+    trigger will open the popover.
+  - Clicking the trigger again will close the popover.
+- Hitting the `Esc` key while the popover is open and focus is within the
+  `PopoverContent`, will close the popover. If you set `closeOnEsc` to `false`,
+  it will not close.
+- Clicking outside or blurring out of the `PopoverContent` closes the popover.
+  If you set `closeOnBlur` to `false`, it will not close.
+
+### ARIA Attributes
+
+- If the trigger is set to `click`, the `PopoverContent` element has role set to
+  `dialog`. If the trigger is set to `hover`, the `PopoverContent` has `role`
+  set to `tooltip`.
+- The `PopoverContent` has `aria-labelledby` set to the `id` of the
+  `PopoverHeader`.
+- The `PopoverContent` has `aria-describedby` set to the `id` of the
+  `PopoverBody`.
+- The `PopoverContent` has `aria-hidden` set to `true` or `false` depending on
+  the open/closed state of the popover.
+- The trigger has `aria-haspopup` set to `true` to denote that it triggers a
+  popover.
+- The trigger has `aria-controls` set to the `id` of the `PopoverContent` to
+  associate the popover and the trigger.
+- The trigger has `aria-expanded` set to `true` or `false` depending on the
+  open/closed state of the popover.
+
+## Props
+
+### Popover Props
+
+| Name               | Type                                                         | Default                  | Description                                                                                                                                                                                                                                                                                                |
+| :----------------- | :----------------------------------------------------------- | :----------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| isOpen             | boolean                                                      |                          | If `true`, the popover is shown                                                                                                                                                                                                                                                                            |
+| defaultIsOpen      | boolean                                                      |                          | If `true`, the popover is shown initially.                                                                                                                                                                                                                                                                 |
+| initialFocusRef    | React.Ref                                                    |                          | The `ref` of the element that should receive focus when the popover opens.                                                                                                                                                                                                                                 |
+| trigger            | hover, click                                                 | `click`                  | The interaction that triggers the popover.                                                                                                                                                                                                                                                                 |
+| placement          | PopperJS.placement                                           | `bottom`                 | Position the tooltip relative to the trigger element as well as surrounding elements. One of: `'auto'`, `'auto-start'`, `'auto-end'`, `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'` |
+| returnFocusOnClose | boolean                                                      | `true`                   | If `true`, the popover will return focus to the trigger when it closes                                                                                                                                                                                                                                     |
+| closeOnBlur        | boolean                                                      | `true`                   | If `true`, the popover will close when you blur out it by clicking outside or tabbing out                                                                                                                                                                                                                  |
+| closeOnEsc         | boolean                                                      | `true`                   | If `true`, close the popover when the `esc` key is pressed                                                                                                                                                                                                                                                 |
+| children           | React.ReactNode, (props: InternalState) => React.ReactNode   |                          | The children of the popover                                                                                                                                                                                                                                                                                |
+| hideArrow          | boolean                                                      |                          | If `true` hide the arrow tip on the popover.                                                                                                                                                                                                                                                               |
+| skidding           | number                                                       | `0`                      | Displaces the popover (in pixels) along the reference element. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#skidding-1)                                                                                                                                                           |
+| distance           | number                                                       | `4`                      | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1)                                                                                                                                                   |
+| delay              | number or object                                             | show=`0`, hide=`100`     | If `trigger` is hover, delay showing and hiding the popover (ms). Object structure is: `delay={{ show: 500, hide: 100 }}`                                                                                                                                                                                                      |
+| usePortal          | boolean                                                      | `true`                   | If `true` the popover is displayed with a `Portal`. Rendering content inside a Portal allows the popover content to escape the physical bounds of its parent while still being positioned correctly relative to its target                                                                                 |
+| onOpen             | () => void                                                   |                          | Callback fired when the popover opens                                                                                                                                                                                                                                                                      |
+| onClose            | () => void                                                   |                          | Callback fired when the popover closes                                                                                                                                                                                                                                                                     |
+
+### Other Props
+- `PopoverContent` composes [`PseudoBox`](./pseudobox). You can override the default styles with style props.
+- `PopoverHeader`, `PopoverFooter` and `PopoverBody` composes [`Box`](./box).
