@@ -1,38 +1,9 @@
 import React from 'react';
 import useForkRef from '../utils/useForkRef';
-import useColorMode from '../useColorMode';
 import { useModal } from './context';
 import { useModalContentStyles } from './styles';
 import wrapEvent from '../utils/wrapEvent';
 import Box from '../Box';
-
-const sizeProps = (size) => {
-  return {
-    xs: {
-      width: 352,
-      height: '22rem',
-    },
-    sm: {
-      width: 512,
-      height: '32rem',
-    },
-    md: {
-      width: 672,
-      height: '42rem',
-    },
-    lg: {
-      width: 832,
-      height: '52rem',
-    },
-    xl: {
-      width: 992,
-      height: '62rem',
-    },
-    full: {
-      maxWidth: '100%'
-    }
-  }[size];
-};
 
 const ModalContent = React.forwardRef(
   ({ onClick, children, zIndex = 'modal', noStyles, ...props }, ref) => {
