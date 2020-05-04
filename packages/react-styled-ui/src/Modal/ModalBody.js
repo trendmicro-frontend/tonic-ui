@@ -11,7 +11,7 @@ const ModalBody = forwardRef((props, ref) => {
       p="6x"
       pt={0}
       flex="1"
-      h="calc(100% - 116px)"
+      h="auto"
       overflowY="auto"
       fontSize="sm"
       {...props}

@@ -96,6 +96,52 @@ function SizeExample() {
 }
 ```
 
+### Multiple Modal
+
+```jsx
+function MultipleModalUsage() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
+  return (
+    <>
+      <Button onClick={onOpen}>Open Modal</Button>
+
+      <Modal size="md" isOpen={isOpen} onClose={onClose}>
+        <ModalHeader title="Modal Title">Modal 1 Title</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          Modal 1 Body
+          <Lorem count={10} />
+        </ModalBody>
+        <ModalFooter>
+          <Button mr="2x" variant="emphasis" disabled={!isOpen2} onClick={onClose2}>Close Modal 2</Button>
+          <Button mr="2x" variant="emphasis" disabled={isOpen2} onClick={onOpen2}>Open Modal 2</Button>
+          <Button onClick={onClose}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal size="sm" isOpen={isOpen2} onClose={onClose2}>
+        <ModalHeader title="Modal Title2">Modal 2 Title</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          Modal 2 Body
+          <Lorem count={2} />
+        </ModalBody>
+        <ModalFooter>
+          <Button mr="2x" variant="primary" disabled={!isOpen} onClick={onClose}>Close Modal 1</Button>
+          <Button mr="2x" variant="primary" disabled={isOpen} onClick={onOpen}>Open Modal 1</Button>
+          <Button onClick={onClose2}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+```
+
 ## Props
 
 ### Modal Props

@@ -58,23 +58,23 @@ const useModalCloseButtonStyle = () => {
 const sizeProps = (size) => {
   return {
     xs: {
-      width: ['22rem', '22rem', '22rem', '22rem', '22rem'],
+      width: '22rem',
       minHeight: 240,
     },
     sm: {
-      width: ['100%', '32rem', '32rem', '32rem', '32rem'],
+      width: '32rem',
       minHeight: 320,
     },
     md: {
-      width: ['100%', '100%', '42rem', '42rem', '42rem'],
+      width: '42rem',
       minHeight: 320,
     },
     lg: {
-      width: ['100%', '100%', '52rem', '52rem', '52rem'],
+      width: '52rem',
       minHeight: 320,
     },
     xl: {
-      width: ['100%', '100%', '62rem', '62rem', '62rem'],
+      width: '62rem',
       minHeight: 320,
     },
     full: {
@@ -87,9 +87,11 @@ const useModalContentStyles = ({ size }) => {
   const { colorMode } = useColorMode();
   const _baseStyle = {
     mx: 'auto',
-    height: '100%',
-    maxHeight: '80%',
+    height: 'auto',
+    maxHeight: 'calc(80vh)',
     top: 0,
+    display: 'flex',
+    flexDirection: 'column',
   };
   const _colorModeStyles = {
     light: {
