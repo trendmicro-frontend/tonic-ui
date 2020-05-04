@@ -7,7 +7,6 @@ import ModalCloseButton from './ModalCloseButton';
 Modal.Header = ModalHeader;
 Modal.Body = ModalBody;
 Modal.Footer = ModalFooter;
-Modal.Trigger = ModalOverlay;
 Modal.ModalCloseButton = ModalCloseButton;
 
 export {
