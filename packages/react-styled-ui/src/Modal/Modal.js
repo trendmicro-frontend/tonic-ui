@@ -50,8 +50,6 @@ const Modal = ({
   blockScrollOnMount = true,
   closeOnEsc = true,
   closeOnOverlayClick = true,
-  useInert = true,
-  isCentered,
   preserveScrollBarGap,
   formatIds = id => ({
     content: `modal-${id}`,

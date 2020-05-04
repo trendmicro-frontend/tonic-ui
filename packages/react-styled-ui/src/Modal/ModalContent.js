@@ -26,6 +26,9 @@ const ModalContent = React.forwardRef(
         w="100%"
         h="100%"
         overflow="hidden"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
         zIndex={zIndex}
         onClick={event => {
           event.stopPropagation();
