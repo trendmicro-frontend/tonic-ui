@@ -10,6 +10,8 @@ import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 import Portal from '../Portal';
 import { ModalContext } from './context';
+import ModalContent from './ModalContent';
+import ModalOverlay from './ModalOverlay';
 
 const { canUseDOM } = exenv;
 
@@ -60,7 +62,7 @@ const Modal = ({
   returnFocusOnClose = true,
   children,
   id,
-  variantSize,
+  size,
 }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
@@ -102,7 +104,7 @@ const Modal = ({
     headerId,
     bodyId,
     contentId,
-    variantSize,
+    size,
   };
 
   const activateFocusLock = useCallback(() => {
@@ -136,7 +138,10 @@ const Modal = ({
         >
           <ThemeProvider theme={theme}>
             <ColorModeProvider value={colorMode}>
-              {children}
+              <ModalOverlay />
+              <ModalContent>
+                {children}
+              </ModalContent>
             </ColorModeProvider>
           </ThemeProvider>
         </FocusLock>

@@ -11,12 +11,12 @@ const ModalContent = React.forwardRef(
       contentRef,
       onClose,
       contentId,
-      variantSize,
+      size,
       closeOnEsc,
       closeOnOverlayClick,
     } = useModal();
     const _contentRef = useForkRef(ref, contentRef);
-    const _sectionProps = useModalContentStyles({ variantSize });
+    const _sectionProps = useModalContentStyles({ size });
 
     return (
       <Box

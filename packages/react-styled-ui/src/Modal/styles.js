@@ -58,24 +58,24 @@ const useModalCloseButtonStyle = () => {
 const sizeProps = (size) => {
   return {
     xs: {
-      width: 352,
-      height: '22rem',
+      width: ['22rem', '22rem', '22rem', '22rem', '22rem'],
+      minHeight: 240,
     },
     sm: {
-      width: 512,
-      height: '32rem',
+      width: ['100%', '32rem', '32rem', '32rem', '32rem'],
+      minHeight: 320,
     },
     md: {
-      width: 672,
-      height: '42rem',
+      width: ['100%', '100%', '42rem', '42rem', '42rem'],
+      minHeight: 320,
     },
     lg: {
-      width: 832,
-      height: '52rem',
+      width: ['100%', '100%', '52rem', '52rem', '52rem'],
+      minHeight: 320,
     },
     xl: {
-      width: 992,
-      height: '62rem',
+      width: ['100%', '100%', '62rem', '62rem', '62rem'],
+      minHeight: 320,
     },
     full: {
       maxWidth: '100%'
@@ -83,11 +83,12 @@ const sizeProps = (size) => {
   }[size];
 };
 
-const useModalContentStyles = ({ variantSize }) => {
+const useModalContentStyles = ({ size }) => {
   const { colorMode } = useColorMode();
   const _baseStyle = {
     mx: 'auto',
     height: '100%',
+    maxHeight: '80%',
     top: 0,
   };
   const _colorModeStyles = {
@@ -106,7 +107,7 @@ const useModalContentStyles = ({ variantSize }) => {
       borderColor: 'gray:80',
     },
   }[colorMode];
-  const _sizeProps = sizeProps(variantSize);
+  const _sizeProps = sizeProps(size);
 
   return {
     ..._baseStyle,

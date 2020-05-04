@@ -6,11 +6,9 @@ interact with content behind the dialog.
 
 ## Import
 
-Trend Micro Styled UI exports 7 components to help you create any modal dialog.
+Trend Micro Styled UI exports 5 components to help you create any modal dialog.
 
 - `Modal`: The wrapper that provides context for its children
-- `ModalOverlay`: The dimmed overlay behind the modal dialog
-- `ModalContent`: The container for the modal dialog's content
 - `ModalHeader`: The header that labels the modal dialog
 - `ModalFooter`: The footer that houses the modal actions
 - `ModalBody`: The wrapper that houses the modal's main content
@@ -19,8 +17,6 @@ Trend Micro Styled UI exports 7 components to help you create any modal dialog.
 ```js
 import {
   Modal,
-  ModalOverlay,
-  ModalContent,
   ModalHeader,
   ModalFooter,
   ModalBody,
@@ -40,21 +36,18 @@ function BasicUsage() {
     <>
       <Button onClick={onOpen}>Open Modal</Button>
 
-      <Modal variantSize="md" isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader title="Modal Title">Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Lorem count={10} />
-          </ModalBody>
-          <ModalFooter>
-            <Button mr="2x" variant="primary">Submit</Button>
-            <Button onClick={onClose}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </ModalContent>
+      <Modal size="md" isOpen={isOpen} onClose={onClose}>
+        <ModalHeader title="Modal Title">Modal Title</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Lorem count={10} />
+        </ModalBody>
+        <ModalFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose}>
+            Cancel
+          </Button>
+        </ModalFooter>
       </Modal>
     </>
   );
@@ -88,18 +81,15 @@ function SizeExample() {
         >{`Open ${size} Modal`}</Button>
       ))}
 
-      <Modal onClose={onClose} variantSize={size} isOpen={isOpen}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Lorem count={20} />
-          </ModalBody>
-          <ModalFooter>
-            <Button>Close</Button>
-          </ModalFooter>
-        </ModalContent>
+      <Modal onClose={onClose} size={size} isOpen={isOpen}>
+        <ModalHeader>Modal Title</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Lorem count={20} />
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={onClose}>Close</Button>
+        </ModalFooter>
       </Modal>
     </>
   );
@@ -113,12 +103,12 @@ function SizeExample() {
 | Name               | Type              | Default                  | Description |
 | :----------------- | :---------------- | :----------------------- | :--------------------- |
 | isOpen             | boolean           |                          | If `true`, the modal is shown |
-| variantSize        | `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |  `'md'`                  | The size of the modal |
+| size        | `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |  `'md'`                  | The size of the modal |
 | closeOnEsc         | boolean           | `false`                   | If `true`, close the modal when the `esc` key is pressed |
 | closeOnOverlayClick | boolean          | `false`                   | If `true`, close the modal when click outside of the modal |
 | onOpen             | () => void        |                          | Callback fired when the modal opens |
 | onClose            | () => void        |                          | Callback fired when the modal closes |
 
 ### Other Props
-- `ModalContent`, `ModalHeader`, `ModalFooter` and `ModalBody` composes [`Box`](./box).
+- `ModalHeader`, `ModalFooter` and `ModalBody` composes [`Box`](./box).
 - `ModalCloseButton` based on [`ButtonBase`](./buttonbase)
