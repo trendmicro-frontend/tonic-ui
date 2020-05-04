@@ -27,6 +27,7 @@ import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
 import LightMode from './LightMode';
 import Link from './Link';
+
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
@@ -108,3 +109,4 @@ export {
 
 export * from './Accordion';
 export * from './Popover';
+export * from './Modal';

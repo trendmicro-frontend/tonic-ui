@@ -6,6 +6,7 @@ import githubTheme from 'prism-react-renderer/themes/github';
 import vsDarkTheme from 'prism-react-renderer/themes/vsDark';
 import React, { useCallback, useState } from 'react';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
+import Lorem from "react-lorem-component";
 import FontAwesomeIcon from './FontAwesomeIcon';
 import TMIcon from './TMIcon';
 
@@ -151,6 +152,7 @@ const CodeBlock = ({
     scope: {
       ...IconComponents,
       ...CoreComponents,
+      Lorem,
       css,
       mdx,
     },
