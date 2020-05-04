@@ -51,7 +51,6 @@ const Modal = ({
   closeOnEsc = true,
   closeOnOverlayClick = true,
   useInert = true,
-  scrollBehavior = 'inside',
   isCentered,
   preserveScrollBarGap,
   formatIds = id => ({
@@ -102,8 +101,6 @@ const Modal = ({
     closeOnOverlayClick,
     returnFocusOnClose,
     contentRef,
-    scrollBehavior,
-    isCentered,
     headerId,
     bodyId,
     contentId,

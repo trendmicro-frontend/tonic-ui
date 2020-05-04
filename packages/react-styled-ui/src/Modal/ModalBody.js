@@ -8,8 +8,7 @@ const ModalBody = forwardRef((props, ref) => {
     <Box
       ref={ref}
       id={bodyId}
-      pl="4x"
-      pr="10x"
+      p="6x"
       flex="1"
       h="calc(100% - 116px)"
       overflowY="auto"
