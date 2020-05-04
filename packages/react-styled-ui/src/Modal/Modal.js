@@ -48,8 +48,8 @@ const Modal = ({
   finalFocusRef,
   onClose,
   blockScrollOnMount = true,
-  closeOnEsc = true,
-  closeOnOverlayClick = true,
+  closeOnEsc = false,
+  closeOnOverlayClick = false,
   preserveScrollBarGap,
   formatIds = id => ({
     content: `modal-${id}`,

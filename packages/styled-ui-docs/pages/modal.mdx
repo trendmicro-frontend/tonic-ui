@@ -44,7 +44,7 @@ function BasicUsage() {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader title="Modal Title">Modal Title</ModalHeader>
-          <ModalCloseButton onClick={onClose} />
+          <ModalCloseButton />
           <ModalBody>
             <Lorem count={10} />
           </ModalBody>
@@ -60,3 +60,65 @@ function BasicUsage() {
   );
 }
 ```
+
+### Modal Sizes
+
+Pass the `size` prop if you need to adjust the size of the modal. Values can be
+`xs`, `sm`, `md`, `lg`, `xl`, or `full`.
+
+```jsx
+function SizeExample() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [size, setSize] = React.useState("md");
+
+  const handleSizeClick = newSize => {
+    setSize(newSize);
+    onOpen();
+  };
+
+  const sizes = ["xs", "sm", "md", "lg", "xl", "full"];
+
+  return (
+    <>
+      {sizes.map(size => (
+        <Button
+          onClick={() => handleSizeClick(size)}
+          key={size}
+          m={4}
+        >{`Open ${size} Modal`}</Button>
+      ))}
+
+      <Modal onClose={onClose} variantSize={size} isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Lorem count={20} />
+          </ModalBody>
+          <ModalFooter>
+            <Button>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+```
+
+## Props
+
+### Modal Props
+
+| Name               | Type              | Default                  | Description |
+| :----------------- | :---------------- | :----------------------- | :--------------------- |
+| isOpen             | boolean           |                          | If `true`, the modal is shown |
+| variantSize        | `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |  `'md'`                  | The size of the modal |
+| closeOnEsc         | boolean           | `false`                   | If `true`, close the modal when the `esc` key is pressed |
+| closeOnOverlayClick | boolean          | `false`                   | If `true`, close the modal when click outside of the modal |
+| onOpen             | () => void        |                          | Callback fired when the modal opens |
+| onClose            | () => void        |                          | Callback fired when the modal closes |
+
+### Other Props
+- `ModalContent` composes [`PseudoBox`](./pseudobox). You can override the default styles with style props.
+- `ModalHeader`, `ModalFooter` and `ModalBody` composes [`Box`](./box).
