@@ -1,8 +1,9 @@
 import React, { forwardRef } from 'react';
 import { useModal } from './context';
 import Box from '../Box';
+import ModalCloseButton from './ModalCloseButton';
 
-const ModalHeader = forwardRef((props, ref) => {
+const ModalHeader = forwardRef(({ children, hideCloseButton, ...restProps }, ref) => {
   const { headerId } = useModal();
   return (
     <Box
@@ -19,8 +20,11 @@ const ModalHeader = forwardRef((props, ref) => {
       width="100%"
       overflow="hidden"
       textOverflow="ellipsis"
-      {...props}
-    />
+      {...restProps}
+    >
+      {children}
+      {!hideCloseButton && <ModalCloseButton />}
+    </Box>
   );
 });
 

@@ -36,9 +36,8 @@ function BasicUsage() {
     <>
       <Button onClick={onOpen}>Open Modal</Button>
 
-      <Modal size="md" isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalHeader title="Modal Title">Modal Title</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
           <Lorem count={10} />
         </ModalBody>
@@ -83,9 +82,8 @@ function SizeExample() {
 
       <Modal onClose={onClose} size={size} isOpen={isOpen}>
         <ModalHeader>Modal Title</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
-          <Lorem count={20} />
+          <Lorem count={2} />
         </ModalBody>
         <ModalFooter>
           <Button onClick={onClose}>Close</Button>
@@ -133,6 +131,61 @@ function MultipleModalUsage() {
           <Button mr="2x" variant="primary" disabled={!isOpen} onClick={onClose}>Close Modal 1</Button>
           <Button mr="2x" variant="primary" disabled={isOpen} onClick={onOpen}>Open Modal 1</Button>
           <Button onClick={onClose2}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+```
+
+### Header and closed button
+
+```jsx
+function Example() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
+  const { isOpen: isOpen3, onOpen: onOpen3, onClose: onClose3 } = useDisclosure();
+  return (
+    <>
+      <Button m="2x" onClick={onOpen}>Open Modal without close button</Button>
+      <Button m="2x" onClick={onOpen2}>Open Modal without header and close button</Button>
+      <Button m="2x" onClick={onOpen3}>Open Modal without header</Button>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalHeader hideCloseButton title="Modal Title">Modal Title</ModalHeader>
+        <ModalBody>
+          <Lorem count={2} />
+        </ModalBody>
+        <ModalFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={isOpen2} onClose={onClose2}>
+        <ModalBody>
+          <Lorem count={2} />
+        </ModalBody>
+        <ModalFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose2}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={isOpen3} onClose={onClose3}>
+        <ModalCloseButton />
+        <ModalBody>
+          <Lorem count={2} />
+        </ModalBody>
+        <ModalFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose3}>
             Cancel
           </Button>
         </ModalFooter>

@@ -62,7 +62,8 @@ const Modal = ({
   returnFocusOnClose = true,
   children,
   id,
-  size,
+  size = 'md',
+  ...restProps
 }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
@@ -139,7 +140,7 @@ const Modal = ({
           <ThemeProvider theme={theme}>
             <ColorModeProvider value={colorMode}>
               <ModalOverlay />
-              <ModalContent>
+              <ModalContent {...restProps}>
                 {children}
               </ModalContent>
             </ColorModeProvider>
