@@ -14,77 +14,42 @@ We recommend adding palette that go from `10` - `100`.
 
 <ThemeParser theme="colors" />
 
-### Orange
+### Base Color Palettes
 
-<ColorWrapper>
-  <ColorPalettes color="orange" />
-</ColorWrapper>
-
-### Yellow
-
-<ColorWrapper>
-  <ColorPalettes color="yellow" />
-</ColorWrapper>
-
-### Red
-
-<ColorWrapper>
+<ColorWrapper templateColumns="repeat( auto-fit, minmax(256px, 1fr) )">
   <ColorPalettes color="red" />
-</ColorWrapper>
-
-### Magenta
-
-<ColorWrapper>
   <ColorPalettes color="magenta" />
-</ColorWrapper>
-
-### Purple
-
-<ColorWrapper>
   <ColorPalettes color="purple" />
-</ColorWrapper>
-
-### Blue
-
-<ColorWrapper>
   <ColorPalettes color="blue" />
-</ColorWrapper>
-
-### Green
-
-<ColorWrapper>
   <ColorPalettes color="green" />
-</ColorWrapper>
-
-### Teal
-
-<ColorWrapper>
   <ColorPalettes color="teal" />
-</ColorWrapper>
-
-### Cyan
-
-<ColorWrapper>
   <ColorPalettes color="cyan" />
-</ColorWrapper>
-
-### Gray
-
-<ColorWrapper>
   <ColorPalettes color="gray" />
 </ColorWrapper>
 
-### Black
-
-<ColorWrapper>
-  <ColorPalettes color="black" />
-</ColorWrapper>
-
-### White
-
-<ColorWrapper>
-  <ColorPalettes color="white" />
-</ColorWrapper>
+### Text Color
+```jsx
+  <Flex display="inline-flex" flexDirection="column">
+    <LightMode bg="white" px="4x" py="2x">
+      <Stack direction="row" spacing="1rem">
+        <Box width="20x" height="20x" mr="2x" bg="black:emphasis" />
+        <Box width="20x" height="20x" mr="2x" bg="black:primary" />
+        <Box width="20x" height="20x" mr="2x" bg="black:secondary" />
+        <Box width="20x" height="20x" mr="2x" bg="black:tertiary" />
+        <Box width="20x" height="20x" mr="2x" bg="black:disabled" />
+      </Stack>
+    </LightMode>
+    <DarkMode bg="gray:100" px="4x" py="2x">
+      <Stack direction="row" spacing="1rem">
+        <Box width="20x" height="20x" mr="2x" bg="white:emphasis" />
+        <Box width="20x" height="20x" mr="2x" bg="white:primary" />
+        <Box width="20x" height="20x" mr="2x" bg="white:secondary" />
+        <Box width="20x" height="20x" mr="2x" bg="white:tertiary" />
+        <Box width="20x" height="20x" mr="2x" bg="white:disabled" />
+      </Stack>
+    </DarkMode>
+  </Flex>
+```
 
 ## Configuration Reference
 
