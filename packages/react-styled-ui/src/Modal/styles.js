@@ -12,8 +12,8 @@ const useModalCloseButtonStyle = () => {
     dark: 'white:primary',
   }[colorMode]];
   const styles = {
-    width: 32,
-    height: 32,
+    width: '8x',
+    height: '8x',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -22,6 +22,10 @@ const useModalCloseButtonStyle = () => {
     right: 8,
     transition: 'all 0.2s ease 0s',
     flex: '0 0 auto',
+    _focus: {
+      borderColor: '#1e5ede',  //blue:60
+      boxShadow: `inset 0 0 0 1px #1e5ede`, //blue:60
+    },
   };
   const interactionProps = {
     light: {
@@ -88,7 +92,7 @@ const useModalContentStyles = ({ size }) => {
   const _baseStyle = {
     mx: 'auto',
     height: 'auto',
-    maxHeight: 'calc(80vh)',
+    maxHeight: '80vh',
     top: 0,
     display: 'flex',
     flexDirection: 'column',
