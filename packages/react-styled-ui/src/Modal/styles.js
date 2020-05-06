@@ -23,8 +23,8 @@ const useModalCloseButtonStyle = () => {
     transition: 'all 0.2s ease 0s',
     flex: '0 0 auto',
     _focus: {
-      borderColor: '#1e5ede',  //blue:60
-      boxShadow: `inset 0 0 0 1px #1e5ede`, //blue:60
+      borderColor: '#1e5ede', // blue:60
+      boxShadow: 'inset 0 0 0 1px #1e5ede', // blue:60
     },
   };
   const interactionProps = {
