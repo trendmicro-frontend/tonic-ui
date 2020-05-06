@@ -14,6 +14,7 @@ const ModalBody = forwardRef((props, ref) => {
       h="auto"
       overflowY="auto"
       fontSize="sm"
+      lineHeight="sm"
       {...props}
     />
   );
