@@ -12,7 +12,7 @@ const ModalOverlay = forwardRef((props, ref) => {
       w="100vw"
       h="100vh"
       ref={ref}
-      zIndex="overlay"
+      zIndex="modal"
       onClick={wrapEvent(props.onClick, event => {
         event.stopPropagation();
       })}
