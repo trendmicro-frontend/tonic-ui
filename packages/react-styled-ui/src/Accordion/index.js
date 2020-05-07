@@ -1,4 +1,3 @@
-import uuid from 'uuid/v4';
 import React, {
   createContext,
   forwardRef,
@@ -14,6 +13,9 @@ import ButtonBase from '../ButtonBase';
 import Collapse from '../Collapse';
 import Icon from '../Icon';
 import PseudoBox from '../PseudoBox';
+import { createUniqueId } from '../shared/uniqueid';
+
+const uniqueId = createUniqueId();
 
 const Accordion = ({
   allowMultiple,
@@ -99,11 +101,9 @@ const AccordionItem = forwardRef(
       !isControlled && setIsExpanded(!isExpanded);
     };
 
-    const defaultUuid = uuid();
-    const uniqueId = id || defaultUuid;
-
-    const headerId = `accordion-header-${uniqueId}`;
-    const panelId = `accordion-panel-${uniqueId}`;
+    id = id ?? uniqueId();
+    const headerId = `accordion-header-${id}`;
+    const panelId = `accordion-panel-${id}`;
 
     return (
       <AccordionItemContext.Provider
