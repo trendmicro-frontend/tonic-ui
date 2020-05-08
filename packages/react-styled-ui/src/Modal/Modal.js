@@ -89,7 +89,7 @@ const Modal = ({
     return () => {
       return mountedModalCount === 0 ? enableBodyScroll(dialogNode) : {};
     };
-  }, [isOpen, blockScrollOnMount, preserveScrollBarGap], mountedModalCount);
+  }, [isOpen, blockScrollOnMount, preserveScrollBarGap, mountedModalCount]);
 
   const mountRef = useHider({
     isOpen,
