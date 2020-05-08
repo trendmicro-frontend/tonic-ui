@@ -13,7 +13,7 @@ import ButtonBase from '../ButtonBase';
 import Collapse from '../Collapse';
 import Icon from '../Icon';
 import PseudoBox from '../PseudoBox';
-import { createUniqueId } from '../shared/uniqueid';
+import { createUniqueId } from '../utils/uniqueid';
 
 const uniqueId = createUniqueId();
 
