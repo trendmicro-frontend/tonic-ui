@@ -26,9 +26,6 @@ import {
 
 ## Usage
 
-When the modal opens, focus is sent into the modal and set to the first tabbable
-element. If there are no tabbled element, focus is set on the `ModalContent`.
-
 ```jsx
 function BasicUsage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -80,13 +77,39 @@ function SizeExample() {
         >{`Open ${size} Modal`}</Button>
       ))}
 
-      <Modal onClose={onClose} size={size} isOpen={isOpen}>
+      <Modal disableOverlay onClose={onClose} size={size} isOpen={isOpen}>
         <ModalHeader>Modal Title</ModalHeader>
         <ModalBody>
           <Lorem count={2} />
         </ModalBody>
         <ModalFooter>
           <Button onClick={onClose}>Close</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+}
+```
+
+### Disable overlay
+
+```jsx
+function BasicUsage() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <Button onClick={onOpen}>Open Modal</Button>
+
+      <Modal disableOverlay isOpen={isOpen} onClose={onClose}>
+        <ModalHeader title="Modal Title">Modal Title</ModalHeader>
+        <ModalBody>
+          <Lorem count={2} />
+        </ModalBody>
+        <ModalFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose}>
+            Cancel
+          </Button>
         </ModalFooter>
       </Modal>
     </>
@@ -199,9 +222,10 @@ function Example() {
 | Name               | Type              | Default                  | Description |
 | :----------------- | :---------------- | :----------------------- | :--------------------- |
 | isOpen             | boolean           |                          | If `true`, the modal is shown |
-| size        | `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |  `'md'`                  | The size of the modal |
-| closeOnEsc         | boolean           | `false`                   | If `true`, close the modal when the `esc` key is pressed |
-| closeOnOverlayClick | boolean          | `false`                   | If `true`, close the modal when click outside of the modal |
+| size               | `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |  `'md'` | The size of the modal |
+| disableOverlay     | boolean           | `false`                  | If `true`, no shown the overlay when modal open |
+| closeOnEsc         | boolean           | `false`                  | If `true`, close the modal when the `esc` key is pressed |
+| closeOnOverlayClick | boolean          | `false`                  | If `true`, close the modal when click outside of the modal |
 | onOpen             | () => void        |                          | Callback fired when the modal opens |
 | onClose            | () => void        |                          | Callback fired when the modal closes |
 
