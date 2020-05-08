@@ -77,6 +77,7 @@ const Modal = ({
   const headerId = formatIds(_id).header;
   const bodyId = formatIds(_id).body;
   const portalId = `trendmicro-react-styled-ui-portal-${_id}`;
+  const mountedModalCount = canUseDOM ? document.querySelectorAll('[id^=trendmicro-react-styled-ui-portal-]').length : 0;
 
   useEffect(() => {
     const dialogNode = contentRef.current;
@@ -85,8 +86,10 @@ const Modal = ({
         reserveScrollBarGap: preserveScrollBarGap,
       });
     }
-    return () => enableBodyScroll(dialogNode);
-  }, [isOpen, blockScrollOnMount, preserveScrollBarGap]);
+    return () => {
+      return mountedModalCount === 0 ? enableBodyScroll(dialogNode) : {};
+    };
+  }, [isOpen, blockScrollOnMount, preserveScrollBarGap], mountedModalCount);
 
   const mountRef = useHider({
     isOpen,
