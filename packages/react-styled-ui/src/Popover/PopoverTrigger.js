@@ -15,13 +15,18 @@ const PopoverTrigger = ({ children }) => {
     isHoveringRef,
     delay,
   } = usePopover();
-  const _children = <PseudoBox tabIndex="0" display="inline-block">{children}</PseudoBox>; // always wrap a div to make sure the element can be bound event.
+  const _children = <PseudoBox role="button" tabIndex="0" tabIndex="0" display="inline-block">{children}</PseudoBox>; // always wrap a div to make sure the element can be bound event.
   const child = Children.only(_children);
   let eventHandlers = {};
 
   if (trigger === 'click') {
     eventHandlers = {
       onClick: wrapEvent(child.props.onClick, onToggle),
+      onKeyDown: wrapEvent(child.props.onKeyDown, event => {
+        if (event.key === 'Enter') {
+          setTimeout(onOpen, delay.show);
+        }
+      }),
     };
   }
 
