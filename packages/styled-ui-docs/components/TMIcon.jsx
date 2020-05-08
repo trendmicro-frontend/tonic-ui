@@ -25,7 +25,6 @@ const TMIcon = React.forwardRef(({
   spin,
   spinReverse,
   fontSize = 'md',
-  lineHeight = 'md',
   className,
   name,
   size,
@@ -36,7 +35,6 @@ const TMIcon = React.forwardRef(({
       size = `${size || 0}px`;
     }
     fontSize = size;
-    lineHeight = size;
   }
 
   return (
@@ -47,7 +45,7 @@ const TMIcon = React.forwardRef(({
       className={cx(className, 'tmicon', { [`tmicon-${name}`]: !!name })}
       display="inline-block"
       fontSize={fontSize}
-      lineHeight={lineHeight}
+      lineHeight="1"
       verticalAlign="top"
       animation={
         (spin && `${spinKeyframes} 2s infinite linear`) ||
