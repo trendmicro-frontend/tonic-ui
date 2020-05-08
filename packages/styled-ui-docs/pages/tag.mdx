@@ -1,0 +1,156 @@
+# Tag
+
+`Tag` is used for items that need to be labeled, categorized, or organized using keywords that describe them.
+
+## Import
+
+```js
+import Tag from '@trendmicro/react-styled-ui/Tag';
+// or
+import { Tag } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<Tag>Sample Tag</Tag>
+```
+
+### Variants
+
+Use the `variant` prop to change the visual style of the `Tag`. You can set the value to `solid`, `outline`.
+
+```jsx
+<Stack direction="row" spacing="2x" shouldWrapChildren>
+  <Tag variant="solid">Solid Tag</Tag>
+  <Tag variant="outline">Outline Tag</Tag>
+</Stack>
+```
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of the `Tag`. `variantColor` can be any color key that exist in the `theme.colors`.
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variantColor="gray">Gray</Tag>
+    <Tag variantColor="red">Red</Tag>
+    <Tag variantColor="magenta">Magenta</Tag>
+    <Tag variantColor="purple">Purple</Tag>
+    <Tag variantColor="blue">Blue</Tag>
+    <Tag variantColor="green">Green</Tag>
+    <Tag variantColor="teal">Teal</Tag>
+    <Tag variantColor="cyan">Cyan</Tag>
+  </Stack>
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variant="outline" variantColor="gray">Gray</Tag>
+    <Tag variant="outline" variantColor="red">Red</Tag>
+    <Tag variant="outline" variantColor="magenta">Magenta</Tag>
+    <Tag variant="outline" variantColor="purple">Purple</Tag>
+    <Tag variant="outline" variantColor="blue">Blue</Tag>
+    <Tag variant="outline" variantColor="green">Green</Tag>
+    <Tag variant="outline" variantColor="teal">Teal</Tag>
+    <Tag variant="outline" variantColor="cyan">Cyan</Tag>
+  </Stack>
+</Stack>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the `Tag`. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="row" spacing="2x" alignItems="center">
+  {["sm", "md", "lg"].map(size => (
+    <Tag size={size} key={size} variantColor="gray">
+      Gray
+    </Tag>
+  ))}
+</Stack>
+```
+
+### States
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="4x" shouldWrapChildren>
+    <Tag isCloseable>Normal</Tag>
+    <Tag isCloseable disabled>Disabled</Tag>
+    <Tag isCloseable invalid>Invalid</Tag>
+  </Stack>
+  <Stack direction="row" spacing="4x" shouldWrapChildren>
+    <Tag variant="outline" isCloseable>Normal</Tag>
+    <Tag variant="outline" isCloseable disabled>Disabled</Tag>
+    <Tag variant="outline" isCloseable invalid>Invalid</Tag>
+  </Stack>
+</Stack>
+```
+
+### With close button
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x" alignItems="center">
+    {["sm", "md", "lg"].map(size => (
+      <Tag
+        size={size}
+        key={size}
+        variantColor="cyan"
+        isCloseable
+      >
+        Cyan
+      </Tag>
+    ))}
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
+    {["sm", "md", "lg"].map(size => (
+      <Tag
+        size={size}
+        key={size}
+        variant="outline"
+        variantColor="cyan"
+        isCloseable
+      >
+        Cyan
+      </Tag>
+    ))}
+  </Stack>
+</Stack>
+```
+
+### Round tags
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variantColor="gray" borderRadius="lg">Gray</Tag>
+    <Tag variantColor="red" borderRadius="lg">Red</Tag>
+    <Tag variantColor="magenta" borderRadius="lg">Magenta</Tag>
+    <Tag variantColor="purple" borderRadius="lg">Purple</Tag>
+    <Tag variantColor="blue" borderRadius="lg">Blue</Tag>
+    <Tag variantColor="green" borderRadius="lg">Green</Tag>
+    <Tag variantColor="teal" borderRadius="lg">Teal</Tag>
+    <Tag variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  </Stack>
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variant="outline" variantColor="gray" borderRadius="lg">Gray</Tag>
+    <Tag variant="outline" variantColor="red" borderRadius="lg">Red</Tag>
+    <Tag variant="outline" variantColor="magenta" borderRadius="lg">Magenta</Tag>
+    <Tag variant="outline" variantColor="purple" borderRadius="lg">Purple</Tag>
+    <Tag variant="outline" variantColor="blue" borderRadius="lg">Blue</Tag>
+    <Tag variant="outline" variantColor="green" borderRadius="lg">Green</Tag>
+    <Tag variant="outline" variantColor="teal" borderRadius="lg">Teal</Tag>
+    <Tag variant="outline" variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  </Stack>
+</Stack>
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| isCloseable | boolean | true | If `true`, a close button will appear on the right side. |
+| size | string | 'md' | The size of the tag component. One of: `'sm'`, `'md'`, `'lg'` |
+| variant | string | 'solid' | The variant style of the tag component. One of: `'solid'`, `'outline'` |
+| variantColor | string | 'gray' | The color scheme of the tag variant. It must be a color key defined in `theme.colors`. |

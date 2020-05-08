@@ -35,6 +35,7 @@ import Space from './Space';
 import Spinner from './Spinner';
 import Stack from './Stack';
 import SVGIcon from './SVGIcon';
+import Tag from './Tag';
 import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
@@ -93,6 +94,7 @@ export {
   Textarea,
   TextLabel,
   ThemeProvider,
+  Tag,
   Toast,
   ToggleSwitch,
   Tooltip,
