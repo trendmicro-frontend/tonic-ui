@@ -28,7 +28,7 @@ const sizes = {
     fontSize: 'md',
     lineHeight: 'md',
     px: 'calc(.75rem - 1px)', // 12px - 1px
-    py: 'calc(.75rem - 1px)', // 12px - 1px
+    py: 'calc(.5625rem - 1px)', // 9px - 1px
   },
 };
 
