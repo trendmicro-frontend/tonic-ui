@@ -63,6 +63,7 @@ const Modal = ({
   children,
   id,
   size = 'md',
+  disableOverlay = false,
   ...restProps
 }) => {
   const theme = useTheme();
@@ -106,6 +107,7 @@ const Modal = ({
     bodyId,
     contentId,
     size,
+    disableOverlay,
   };
 
   const activateFocusLock = useCallback(() => {

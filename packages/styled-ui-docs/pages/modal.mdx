@@ -68,7 +68,7 @@ function SizeExample() {
     onOpen();
   };
 
-  const sizes = ["xs", "sm", "md", "lg", "xl", "full"];
+  const sizes = ["xs", "sm", "md", "lg", "xl", "full", "auto"];
 
   return (
     <>
@@ -109,10 +109,9 @@ function MultipleModalUsage() {
         <ModalCloseButton />
         <ModalBody>
           Modal 1 Body
-          <Lorem count={10} />
+          <Lorem count={5} />
         </ModalBody>
         <ModalFooter>
-          <Button mr="2x" variant="emphasis" disabled={!isOpen2} onClick={onClose2}>Close Modal 2</Button>
           <Button mr="2x" variant="emphasis" disabled={isOpen2} onClick={onOpen2}>Open Modal 2</Button>
           <Button onClick={onClose}>
             Cancel
@@ -128,8 +127,6 @@ function MultipleModalUsage() {
           <Lorem count={2} />
         </ModalBody>
         <ModalFooter>
-          <Button mr="2x" variant="primary" disabled={!isOpen} onClick={onClose}>Close Modal 1</Button>
-          <Button mr="2x" variant="primary" disabled={isOpen} onClick={onOpen}>Open Modal 1</Button>
           <Button onClick={onClose2}>
             Cancel
           </Button>

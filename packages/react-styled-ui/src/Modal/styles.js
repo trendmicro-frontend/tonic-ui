@@ -11,6 +11,7 @@ const useModalCloseButtonStyle = () => {
     light: 'black:primary',
     dark: 'white:primary',
   }[colorMode]];
+  const focusColor = colors['blue:60'];
   const styles = {
     width: '8x',
     height: '8x',
@@ -23,8 +24,8 @@ const useModalCloseButtonStyle = () => {
     transition: 'all 0.2s ease 0s',
     flex: '0 0 auto',
     _focus: {
-      borderColor: '#1e5ede', // blue:60
-      boxShadow: 'inset 0 0 0 1px #1e5ede', // blue:60
+      borderColor: focusColor,
+      boxShadow: `inset 0 0 0 1px ${focusColor}`,
     },
   };
   const interactionProps = {
@@ -62,28 +63,32 @@ const useModalCloseButtonStyle = () => {
 const sizeProps = (size) => {
   return {
     xs: {
-      width: '22rem',
+      width: 352,
       minHeight: 240,
     },
     sm: {
-      width: '32rem',
+      width: 512,
       minHeight: 320,
     },
     md: {
-      width: '42rem',
+      width: 672,
       minHeight: 320,
     },
     lg: {
-      width: '52rem',
+      width: 832,
       minHeight: 320,
     },
     xl: {
-      width: '62rem',
+      width: 992,
       minHeight: 320,
     },
     full: {
       maxWidth: '100%'
-    }
+    },
+    auto: {
+      width: 'auto',
+      height: 'auto',
+    },
   }[size];
 };
 
@@ -103,7 +108,8 @@ const useModalContentStyles = ({ size }) => {
       bg: 'white',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'gray:20'
+      borderColor: 'gray:20',
+      boxShadow: 'light.lg',
     },
     dark: {
       color: 'white:primary',
@@ -111,6 +117,7 @@ const useModalContentStyles = ({ size }) => {
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'gray:80',
+      boxShadow: 'dark.lg',
     },
   }[colorMode];
   const _sizeProps = sizeProps(size);

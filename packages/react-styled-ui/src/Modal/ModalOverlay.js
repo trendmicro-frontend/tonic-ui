@@ -1,12 +1,17 @@
 import React, { forwardRef } from 'react';
 import wrapEvent from '../utils/wrapEvent';
 import Box from '../Box';
+import { useModal } from './context';
 
 const ModalOverlay = forwardRef((props, ref) => {
+  const { disableOverlay } = useModal();
+  const _opacity = disableOverlay ? 0 : 0.7;
+  const _bg = `rgba(0, 0, 0, ${_opacity})`;
+
   return (
     <Box
       position="fixed"
-      bg="rgba(0, 0, 0, 0.7)"
+      bg={_bg}
       left="0"
       top="0"
       w="100vw"
