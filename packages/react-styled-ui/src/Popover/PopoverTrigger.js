@@ -15,7 +15,7 @@ const PopoverTrigger = ({ children }) => {
     isHoveringRef,
     delay,
   } = usePopover();
-  const _children = <PseudoBox role="button" tabIndex="0" tabIndex="0" display="inline-block">{children}</PseudoBox>; // always wrap a div to make sure the element can be bound event.
+  const _children = <PseudoBox role="button" tabIndex="0" display="inline-block">{children}</PseudoBox>; // always wrap a div to make sure the element can be bound event.
   const child = Children.only(_children);
   let eventHandlers = {};
 
