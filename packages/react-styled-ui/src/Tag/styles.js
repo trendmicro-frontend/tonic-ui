@@ -43,23 +43,24 @@ const solidStyle = ({ color, theme: { colors } }) => {
   };
   const focusColor = colors['blue:60'];
   const styles = {
-    border: 'none',
     ...colorStyle,
     _focus: {
-      boxShadow: `inset 0 0 0 2px ${focusColor}`,
+      borderColor: focusColor,
+      boxShadow: `inset 0 0 0 1px ${focusColor}`,
       bg: 'inherit',
-      '& > :first-of-type': {
-        top: '3px',
-        bottom: '3px',
-        left: '3px',
-        right: '3px',
+      '& > :first-child': {
+        top: '2px',
+        bottom: '2px',
+        left: '2px',
+        right: '2px',
         bg: `${color}:60`,
       },
     },
     _disabled: {
+      borderColor: 'transparent', // override focus style
       boxShadow: 'none', // override focus style
-      bg: 'gray:60',
-      '& > :first-of-type': {
+      bg: 'gray:70',
+      '& > :first-child': {
         bg: 'inherit',
       },
       cursor: 'not-allowed',
@@ -84,14 +85,13 @@ const outlineStyle = ({ color, colorMode, theme: { colors } }) => {
   const isDarkMode = (colorMode === 'dark');
   const focusColor = colors['blue:60'];
   const styles = {
-    border: 1,
     ...colorStyle,
     _focus: {
       borderColor: focusColor,
       boxShadow: `inset 0 0 0 1px ${focusColor}`,
     },
     _disabled: {
-      borderColor: 'gray:60',
+      borderColor: 'gray:70',
       boxShadow: 'none',
       color: isDarkMode ? 'white:emphasis' : 'black',
       cursor: 'not-allowed',
@@ -102,44 +102,8 @@ const outlineStyle = ({ color, colorMode, theme: { colors } }) => {
   return styles;
 };
 
-const invalidStyle = ({ theme: { colors } }) => {
-  const focusColor = colors['blue:60'];
-  const styles = {
-    border: 'none',
-    bg: 'red:60',
-    color: 'white:emphasis',
-    _focus: {
-      boxShadow: `inset 0 0 0 2px ${focusColor}`,
-      bg: 'inherit',
-      '& > :first-of-type': {
-        top: '2px',
-        bottom: '2px',
-        left: '2px',
-        right: '2px',
-        bg: 'red:60',
-      },
-    },
-    _disabled: {
-      boxShadow: 'none', // override focus style
-      bg: 'gray:60',
-      '& > :first-of-type': {
-        bg: 'inherit',
-      },
-      cursor: 'not-allowed',
-      opacity: 0.28,
-    },
-  };
-
-  return styles;
-};
-
 const variantProps = props => {
   const variant = props.variant;
-  const invalid = props.invalid;
-
-  if (invalid) {
-    return invalidStyle(props);
-  }
 
   switch (variant) {
   case 'solid':
@@ -153,40 +117,51 @@ const variantProps = props => {
 
 ////////////////////////////////////////////////////////////
 
-const sizes = {
+const labelSizes = {
   sm: {
     fontSize: 'xs',
     lineHeight: 1,
     minHeight: '4x',
-    px: '2x',
   },
   md: {
     fontSize: 'xs',
     lineHeight: 1,
     minHeight: '6x',
-    px: '2x',
   },
   lg: {
     fontSize: 'md',
     lineHeight: 1,
     minHeight: '8x',
-    px: '2x',
   },
 };
 
-const sizeProps = ({ size }) => sizes[size];
+const closeButtonSizes = {
+  sm: '4x',
+  md: '6x',
+  lg: '8x',
+};
+
+const sizeProps = ({ size, isCloseable, theme: { sizes } }) => {
+  const closeButtonSize = closeButtonSizes[size];
+  const pr = isCloseable ? `calc(${sizes[closeButtonSize]} + 4px)` : '2x';
+  return {
+    ...labelSizes[size],
+    pl: '2x',
+    pr: pr,
+  };
+};
 
 ////////////////////////////////////////////////////////////
 
 const baseProps = {
-  display: 'inline-flex',
   alignItems: 'center',
+  border: 1,
+  borderColor: 'transparent',
   cursor: 'default',
+  display: 'inline-flex',
   position: 'relative',
   outline: 'none',
 };
-
-////////////////////////////////////////////////////////////
 
 const useTagStyle = props => {
   const theme = useTheme();
@@ -205,20 +180,14 @@ const useTagCloseButtonStyle = ({ size }) => {
   const color = setColorWithOpacity('white', 0.6);
   const hoverColor = 'white';
   const activeColor = color;
-  const _size = {
-    sm: '4x',
-    md: '6x',
-    lg: '8x',
-  }[size];
+  const _size = closeButtonSizes[size];
 
   return {
+    position: 'absolute',
+    right: 0,
     color: color,
-    transition: 'all .2s',
     width: _size,
     height: _size,
-    ml: '1x',
-    mr: -8,
-    // mt: -2,
     _hover: {
       color: hoverColor,
     },
