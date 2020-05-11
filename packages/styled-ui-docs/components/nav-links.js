@@ -40,7 +40,7 @@ export const componentLinks = [
   'InputGroup',
   'Link',
   //'Menu',
-  //'Modal',
+  'Modal',
   'Popover',
   'Radio',
   'RadioGroup',
