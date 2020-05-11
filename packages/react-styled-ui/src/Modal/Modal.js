@@ -117,13 +117,13 @@ const Modal = ({
   const activateFocusLock = useCallback(() => {
     if (initialFocusRef && initialFocusRef.current) {
       initialFocusRef.current.focus();
-    } else if (autoFocus && contentRef.current) {
+    } else if (contentRef.current) {
       let focusables = getFocusables(contentRef.current);
       if (focusables.length === 0) {
         contentRef.current.focus();
       }
     }
-  }, [initialFocusRef, autoFocus]);
+  }, [initialFocusRef]);
 
   const deactivateFocusLock = useCallback(() => {
     if (finalFocusRef && finalFocusRef.current) {
@@ -139,6 +139,7 @@ const Modal = ({
     <ModalContext.Provider value={context}>
       <Portal container={mountRef.current}>
         <FocusLock
+          autoFocus={autoFocus}
           returnFocus={returnFocusOnClose && !finalFocusRef}
           onActivation={activateFocusLock}
           onDeactivation={deactivateFocusLock}
