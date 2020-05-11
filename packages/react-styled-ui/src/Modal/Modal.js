@@ -46,6 +46,7 @@ const useHider = ({
 
 const Modal = ({
   isOpen,
+  autoFocus = false,
   initialFocusRef,
   finalFocusRef,
   onClose,
@@ -116,13 +117,13 @@ const Modal = ({
   const activateFocusLock = useCallback(() => {
     if (initialFocusRef && initialFocusRef.current) {
       initialFocusRef.current.focus();
-    } else if (contentRef.current) {
+    } else if (autoFocus && contentRef.current) {
       let focusables = getFocusables(contentRef.current);
       if (focusables.length === 0) {
         contentRef.current.focus();
       }
     }
-  }, [initialFocusRef]);
+  }, [initialFocusRef, autoFocus]);
 
   const deactivateFocusLock = useCallback(() => {
     if (finalFocusRef && finalFocusRef.current) {

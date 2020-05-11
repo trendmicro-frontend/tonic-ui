@@ -228,6 +228,9 @@ function Example() {
 | closeOnOverlayClick | boolean          | `false`                  | If `true`, close the modal when click outside of the modal |
 | onOpen             | () => void        |                          | Callback fired when the modal opens |
 | onClose            | () => void        |                          | Callback fired when the modal closes |
+| initialFocusRef    | React.ref         |                          | The `ref` of the element to receive focus when the dialog opens |
+| finalFocusRef      | React.ref         |                          | The `ref` of element to receive focus when the dialog closes |
+| autoFocus          | boolean           | `false`                  | If `true` and `initialFocusRef` not set a ref, auto focus on first focusable element of model content |
 
 ### Other Props
 - `ModalHeader`, `ModalFooter` and `ModalBody` composes [`Box`](./box).
