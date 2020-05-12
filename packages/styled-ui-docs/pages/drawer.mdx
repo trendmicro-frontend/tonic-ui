@@ -1,0 +1,47 @@
+# Drawer
+
+## Import
+
+Trend Micro Styled UI exports 5 components to help you create any Drawer dialog.
+
+- `Drawer`: The wrapper that provides context for its children
+- `DrawerHeader`: The header that labels the Drawer dialog
+- `DrawerFooter`: The footer that houses the Drawer actions
+- `DrawerBody`: The wrapper that houses the Drawer's main content
+- `DrawerCloseButton`: The button that closes the Drawer.
+
+```js
+import {
+  Drawer,
+  DrawerHeader,
+  DrawerFooter,
+  DrawerBody,
+  DrawerCloseButton,
+} from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+function BasicUsage() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <Button onClick={onOpen}>Open Modal</Button>
+
+      <Drawer isOpen={isOpen} onClose={onClose}>
+        <DrawerHeader title="Drawer Title">Drawer Title</DrawerHeader>
+        <DrawerBody>
+          <Lorem count={10} />
+        </DrawerBody>
+        <DrawerFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose}>
+            Cancel
+          </Button>
+        </DrawerFooter>
+      </Drawer>
+    </>
+  );
+}
+```
