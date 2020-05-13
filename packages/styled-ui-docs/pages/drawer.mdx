@@ -88,3 +88,123 @@ function SizeExample() {
   );
 }
 ```
+
+### Header and closed button
+
+```jsx
+function Example() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
+  const { isOpen: isOpen3, onOpen: onOpen3, onClose: onClose3 } = useDisclosure();
+  return (
+    <>
+      <Button m="2x" onClick={onOpen}>Open Drawer without close button</Button>
+      <Button m="2x" onClick={onOpen2}>Open Drawer without header and close button</Button>
+      <Button m="2x" onClick={onOpen3}>Open Drawer without header</Button>
+
+      <Drawer isOpen={isOpen} onClose={onClose}>
+        <DrawerHeader hideCloseButton title="Drawer Title">Drawer Title</DrawerHeader>
+        <DrawerBody>
+          <Lorem count={2} />
+        </DrawerBody>
+        <DrawerFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose}>
+            Cancel
+          </Button>
+        </DrawerFooter>
+      </Drawer>
+
+      <Drawer isOpen={isOpen2} onClose={onClose2}>
+        <DrawerBody>
+          <Lorem count={2} />
+        </DrawerBody>
+        <DrawerFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose2}>
+            Cancel
+          </Button>
+        </DrawerFooter>
+      </Drawer>
+
+      <Drawer isOpen={isOpen3} onClose={onClose3}>
+        <DrawerCloseButton />
+        <DrawerBody>
+          <Lorem count={2} />
+        </DrawerBody>
+        <DrawerFooter>
+          <Button mr="2x" variant="primary">Submit</Button>
+          <Button onClick={onClose3}>
+            Cancel
+          </Button>
+        </DrawerFooter>
+      </Drawer>
+    </>
+  );
+}
+```
+
+### Placement
+
+Pass the `placement` prop if you need to adjust the placement of the Drawer. Values can be
+ `right` or `left`. Default is `right`.
+
+```jsx
+function SizeExample() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [placement, setPlacement] = React.useState('right');
+
+  const handlePlacementClick = newPlacement => {
+    setPlacement(newPlacement);
+    onOpen();
+  };
+
+  const placements = ['left', 'right'];
+
+  return (
+    <>
+      {placements.map(placement => (
+        <Button
+          onClick={() => handlePlacementClick(placement)}
+          key={placement}
+          m={4}
+        >{`Open ${placement} Drawer`}</Button>
+      ))}
+
+      <Drawer onClose={onClose} placement={placement} isOpen={isOpen}>
+        <DrawerHeader>Drawer Title</DrawerHeader>
+        <DrawerBody>
+          Bla bla bla...
+          Bla bla bla...
+          Bla bla bla...
+        </DrawerBody>
+        <DrawerFooter>
+          <Button onClick={onClose}>Close</Button>
+        </DrawerFooter>
+      </Drawer>
+    </>
+  );
+}
+```
+
+## Props
+
+### Drawer Props
+
+| Name               | Type              | Default                  | Description |
+| :----------------- | :---------------- | :----------------------- | :--------------------- |
+| isOpen             | boolean           |                          | If `true`, the drawer is shown |
+| placement          |`'left'`, `'right'`| `'right'`                | The drawer placement |
+| size               | `'sm'`, `'md'`, `'lg'`, `'full'`, `'auto'`   |  `'md'` | The size of the drawer |
+| disableOverlay     | boolean           | `false`                  | If `true`, no shown the overlay when drawer open |
+| closeOnEsc         | boolean           | `false`                  | If `true`, close the drawer when the `esc` key is pressed |
+| closeOnOverlayClick | boolean          | `false`                  | If `true`, close the drawer when click outside of the drawer |
+| onOpen             | () => void        |                          | Callback fired when the drawer opens |
+| onClose            | () => void        |                          | Callback fired when the drawer closes |
+| initialFocusRef    | React.ref         |                          | The `ref` of the element to receive focus when the dialog opens |
+| finalFocusRef      | React.ref         |                          | The `ref` of element to receive focus when the dialog closes |
+| autoFocus          | boolean           | `false`                  | If `true` and `initialFocusRef` not set a ref, auto focus on first focusable element of model content |
+
+### Other Props
+- `DrawerHeader`, `DrawerFooter` and `DrawerBody` composes [`Box`](./box).
+- `DrawerCloseButton` based on [`ButtonBase`](./buttonbase)

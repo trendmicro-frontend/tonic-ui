@@ -9,10 +9,8 @@ const Drawer = ({
   onClose,
   isFullHeight,
   placement = 'right',
-  finalFocusRef,
   size = 'md',
   children,
-  closeOnOverlayClick = true,
   ...props
 }) => {
   return (
@@ -26,8 +24,6 @@ const Drawer = ({
           <ModalBase
             isOpen={true}
             onClose={onClose}
-            finalFocusRef={finalFocusRef}
-            closeOnOverlayClick={closeOnOverlayClick}
             formatIds={id => ({
               content: `trendmicro-styled-ui-drawer-${id}`,
               header: `trendmicro-styled-ui-drawer-${id}-header`,

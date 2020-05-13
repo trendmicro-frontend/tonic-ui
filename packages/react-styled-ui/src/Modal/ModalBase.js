@@ -42,7 +42,7 @@ const useHider = ({
   return mountRef;
 };
 
-const Modal = ({
+const ModalBase = ({
   isOpen,
   autoFocus = false,
   initialFocusRef,
@@ -153,6 +153,6 @@ const Modal = ({
   );
 };
 
-Modal.displayName = 'Modal';
+ModalBase.displayName = 'ModalBase';
 
-export default Modal;
+export default ModalBase;
