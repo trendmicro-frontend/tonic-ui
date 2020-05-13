@@ -5,6 +5,7 @@ import DrawerOverlay from './DrawerOverlay';
 import DrawerContent from './DrawerContent';
 
 const Drawer = ({
+  context: Context = DrawerContext,
   isOpen,
   onClose,
   isFullHeight,
@@ -20,7 +21,7 @@ const Drawer = ({
       finalHeight={isFullHeight ? '100vh' : 'auto'}
     >
       {styles => (
-        <DrawerContext.Provider value={{ styles, size }}>
+        <Context.Provider value={{ styles, size }}>
           <ModalBase
             isOpen={true}
             onClose={onClose}
@@ -36,7 +37,7 @@ const Drawer = ({
               {children}
             </DrawerContent>
           </ModalBase>
-        </DrawerContext.Provider>
+        </Context.Provider>
       )}
     </Slide>
   );

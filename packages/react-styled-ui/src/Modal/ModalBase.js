@@ -43,6 +43,7 @@ const useHider = ({
 };
 
 const ModalBase = ({
+  context: Context = ModalContext,
   isOpen,
   autoFocus = false,
   initialFocusRef,
@@ -134,7 +135,7 @@ const ModalBase = ({
   }
 
   return (
-    <ModalContext.Provider value={context}>
+    <Context.Provider value={context}>
       <Portal container={mountRef.current}>
         <FocusLock
           autoFocus={autoFocus}
@@ -149,7 +150,7 @@ const ModalBase = ({
           </ThemeProvider>
         </FocusLock>
       </Portal>
-    </ModalContext.Provider>
+    </Context.Provider>
   );
 };
 
