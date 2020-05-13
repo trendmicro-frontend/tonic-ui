@@ -53,19 +53,19 @@ function BasicUsage() {
 ### Sizes
 
 Pass the `size` prop if you need to adjust the size of the modal. Values can be
-`xs`, `sm`, `md`, `lg`, `xl`, or `full`.
+`xs`, `sm`, `md`, `lg`, `xl`, `full` or `auto`.
 
 ```jsx
 function SizeExample() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [size, setSize] = React.useState("md");
+  const [size, setSize] = React.useState('md');
 
   const handleSizeClick = newSize => {
     setSize(newSize);
     onOpen();
   };
 
-  const sizes = ["xs", "sm", "md", "lg", "xl", "full", "auto"];
+  const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'full', 'auto'];
 
   return (
     <>
@@ -77,7 +77,7 @@ function SizeExample() {
         >{`Open ${size} Modal`}</Button>
       ))}
 
-      <Modal disableOverlay onClose={onClose} size={size} isOpen={isOpen}>
+      <Modal onClose={onClose} size={size} isOpen={isOpen}>
         <ModalHeader>Modal Title</ModalHeader>
         <ModalBody>
           <Lorem count={2} />

@@ -12,6 +12,7 @@ const Drawer = ({
   finalFocusRef,
   size = 'md',
   children,
+  closeOnOverlayClick = true,
   ...props
 }) => {
   return (
@@ -26,6 +27,7 @@ const Drawer = ({
             isOpen={true}
             onClose={onClose}
             finalFocusRef={finalFocusRef}
+            closeOnOverlayClick={closeOnOverlayClick}
             formatIds={id => ({
               content: `trendmicro-styled-ui-drawer-${id}`,
               header: `trendmicro-styled-ui-drawer-${id}-header`,

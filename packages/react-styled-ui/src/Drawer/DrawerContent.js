@@ -14,11 +14,10 @@ const sizeProps = (size) => {
       width: 672,
     },
     full: {
-      maxWidth: '100%'
+      width: '100vw'
     },
     auto: {
       width: 'auto',
-      height: 'auto',
     },
   }[size];
 };

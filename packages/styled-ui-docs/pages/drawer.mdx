@@ -27,7 +27,7 @@ function BasicUsage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      <Button onClick={onOpen}>Open Drawer</Button>
 
       <Drawer isOpen={isOpen} onClose={onClose}>
         <DrawerHeader title="Drawer Title">Drawer Title</DrawerHeader>
@@ -39,6 +39,49 @@ function BasicUsage() {
           <Button onClick={onClose}>
             Cancel
           </Button>
+        </DrawerFooter>
+      </Drawer>
+    </>
+  );
+}
+```
+
+### Sizes
+
+Pass the `size` prop if you need to adjust the size of the Drawer. Values can be
+ `sm`, `md`, `lg`, `full` or `auto`.
+
+```jsx
+function SizeExample() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [size, setSize] = React.useState('md');
+
+  const handleSizeClick = newSize => {
+    setSize(newSize);
+    onOpen();
+  };
+
+  const sizes = ['sm', 'md', 'lg', 'full', 'auto'];
+
+  return (
+    <>
+      {sizes.map(size => (
+        <Button
+          onClick={() => handleSizeClick(size)}
+          key={size}
+          m={4}
+        >{`Open ${size} Drawer`}</Button>
+      ))}
+
+      <Drawer onClose={onClose} size={size} isOpen={isOpen}>
+        <DrawerHeader>Drawer Title</DrawerHeader>
+        <DrawerBody>
+          Bla bla bla...
+          Bla bla bla...
+          Bla bla bla...
+        </DrawerBody>
+        <DrawerFooter>
+          <Button onClick={onClose}>Close</Button>
         </DrawerFooter>
       </Drawer>
     </>
