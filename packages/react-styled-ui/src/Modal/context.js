@@ -2,8 +2,6 @@ import { createContext, useContext } from 'react';
 
 const ModalContext = createContext();
 
-const ModalContextProvider = ModalContext.Provider;
-
 const useModal = () => {
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
@@ -15,6 +13,5 @@ const useModal = () => {
 
 export {
   ModalContext,
-  ModalContextProvider,
   useModal,
 };
