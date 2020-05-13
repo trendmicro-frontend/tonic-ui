@@ -8,13 +8,15 @@ const baseStyleProps = ({ colorMode, disabled, textDecoration }) => {
   const hoverColor = { light: 'blue:50', dark: 'blue:40' }[colorMode];
   const visitedColor = { light: 'purple:60', dark: 'purple:50' }[colorMode];
   const disabledColor = { light: 'black:disabled', dark: 'white:disabled' }[colorMode];
-  const hoverTextDecoration = !!disabled ? 'none' : 'underline';
+  const hoverTextDecoration = textDecoration ? 'none' : 'underline';
   const activeTextDecoration = !!disabled ? 'none' : 'underline';
   return {
     color,
     cursor: 'pointer',
     outline: 'none',
     textDecoration: textDecoration ?? 'none',
+    display: 'inline-block',
+    lineHeight: 'sm',
     _disabled: {
       color: disabledColor,
       cursor: 'not-allowed',
@@ -24,7 +26,7 @@ const baseStyleProps = ({ colorMode, disabled, textDecoration }) => {
     },
     _hover: {
       color: hoverColor,
-      textDecoration: textDecoration ?? hoverTextDecoration,
+      textDecoration: !!disabled ? textDecoration : hoverTextDecoration
     },
     _active: {
       color: 'blue:60',
