@@ -1,6 +1,8 @@
-import { Modal } from '../Modal';
+import ModalBase from '../Modal/ModalBase';
 import { Slide } from '../BasicTransition';
 import { DrawerContext } from './context';
+import DrawerOverlay from './DrawerOverlay';
+import DrawerContent from './DrawerContent';
 
 const Drawer = ({
   isOpen,
@@ -8,7 +10,8 @@ const Drawer = ({
   isFullHeight,
   placement = 'right',
   finalFocusRef,
-  size = 'xs',
+  size = 'md',
+  children,
   ...props
 }) => {
   return (
@@ -19,7 +22,7 @@ const Drawer = ({
     >
       {styles => (
         <DrawerContext.Provider value={{ styles, size }}>
-          <Modal
+          <ModalBase
             isOpen={true}
             onClose={onClose}
             finalFocusRef={finalFocusRef}
@@ -29,7 +32,12 @@ const Drawer = ({
               body: `trendmicro-styled-ui-drawer-${id}-body`,
             })}
             {...props}
-          />
+          >
+            <DrawerOverlay />
+            <DrawerContent>
+              {children}
+            </DrawerContent>
+          </ModalBase>
         </DrawerContext.Provider>
       )}
     </Slide>
