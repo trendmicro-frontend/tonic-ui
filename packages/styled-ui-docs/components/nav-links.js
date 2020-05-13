@@ -49,6 +49,7 @@ export const componentLinks = [
   'Space',
   'Stack',
   'SVGIcon',
+  'Tabs',
   'ToggleSwitch',
   //'Tag',
   'Text',

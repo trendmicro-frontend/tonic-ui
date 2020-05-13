@@ -35,6 +35,7 @@ import Space from './Space';
 import Spinner from './Spinner';
 import Stack from './Stack';
 import SVGIcon from './SVGIcon';
+import Tabs from './Tabs';
 import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
@@ -89,6 +90,7 @@ export {
   Spinner,
   Stack,
   SVGIcon,
+  Tabs,
   Text,
   Textarea,
   TextLabel,
@@ -106,4 +108,5 @@ export {
   withTheme,
 };
 
+export * from './Tabs';
 export * from './Accordion';
