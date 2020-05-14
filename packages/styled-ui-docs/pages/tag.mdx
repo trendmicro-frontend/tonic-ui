@@ -61,12 +61,30 @@ Use the `variantColor` prop to change the color scheme of the `Tag`. `variantCol
 Use the `size` prop to change the size of the `Tag`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="row" spacing="2x" alignItems="center">
-  {["sm", "md", "lg"].map(size => (
-    <Tag size={size} key={size} variantColor="gray">
-      Gray
-    </Tag>
-  ))}
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x" lineHeight={1} shouldWrapChildren>
+    {["sm", "md", "lg"].map(size => (
+      <Tag
+        size={size}
+        key={size}
+        variantColor="gray"
+      >
+        { size }
+      </Tag>
+    ))}
+  </Stack>
+  <Stack direction="row" spacing="2x" lineHeight={1} shouldWrapChildren>
+    {["sm", "md", "lg"].map(size => (
+      <Tag
+        size={size}
+        key={size}
+        variant="outline"
+        variantColor="gray"
+      >
+        { size }
+      </Tag>
+    ))}
+  </Stack>
 </Stack>
 ```
 
@@ -91,28 +109,26 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 
 ```jsx
 <Stack spacing="4x">
-  <Stack direction="row" spacing="2x" alignItems="center">
+  <Stack direction="row" spacing="2x" lineHeight={1} shouldWrapChildren>
     {["sm", "md", "lg"].map(size => (
       <Tag
         size={size}
         key={size}
-        variantColor="cyan"
         isCloseable
       >
-        Cyan
+        Gray
       </Tag>
     ))}
   </Stack>
-  <Stack direction="row" spacing="2x" alignItems="center">
+  <Stack direction="row" spacing="2x" lineHeight={1} shouldWrapChildren>
     {["sm", "md", "lg"].map(size => (
       <Tag
         size={size}
         key={size}
         variant="outline"
-        variantColor="cyan"
         isCloseable
       >
-        Cyan
+        Gray
       </Tag>
     ))}
   </Stack>
