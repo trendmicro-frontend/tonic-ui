@@ -53,7 +53,15 @@ const solidStyle = ({ color, theme: { colors } }) => {
         bottom: '2px',
         left: '2px',
         right: '2px',
+        bg: colorStyle.bg
+      },
+    },
+    _hover: {
+      '&:not(:focus)': {
         bg: `${color}:60`,
+        '& > :first-child': {
+          bg: `${color}:60`,
+        },
       },
     },
     _disabled: {
@@ -90,6 +98,12 @@ const outlineStyle = ({ color, colorMode, theme: { colors } }) => {
       borderColor: focusColor,
       boxShadow: `inset 0 0 0 1px ${focusColor}`,
     },
+    _hover: {
+      '&:not(:focus)': {
+        borderColor: `${color}:60`,
+        color: `${color}:60`,
+      },
+    },
     _disabled: {
       borderColor: 'gray:70',
       boxShadow: 'none',
@@ -102,8 +116,53 @@ const outlineStyle = ({ color, colorMode, theme: { colors } }) => {
   return styles;
 };
 
+const invalidStyle = ({ theme: { colors } }) => {
+  const focusColor = colors['blue:60'];
+  const styles = {
+    bg: 'red:60',
+    color: 'white:emphasis',
+    _focus: {
+      borderColor: focusColor,
+      boxShadow: `inset 0 0 0 1px ${focusColor}`,
+      bg: 'inherit',
+      '& > :first-child': {
+        top: '2px',
+        bottom: '2px',
+        left: '2px',
+        right: '2px',
+        bg: 'red:60'
+      },
+    },
+    _hover: {
+      '&:not(:focus)': {
+        bg: 'red:50',
+        '& > :first-child': {
+          bg: 'red:50',
+        },
+      },
+    },
+    _disabled: {
+      borderColor: 'transparent', // override focus style
+      boxShadow: 'none', // override focus style
+      bg: 'gray:70',
+      '& > :first-child': {
+        bg: 'inherit',
+      },
+      cursor: 'not-allowed',
+      opacity: 0.28,
+    },
+  };
+
+  return styles;
+};
+
 const variantProps = props => {
   const variant = props.variant;
+  const invalid = props.invalid;
+
+  if (invalid) {
+    return invalidStyle(props);
+  }
 
   switch (variant) {
   case 'solid':

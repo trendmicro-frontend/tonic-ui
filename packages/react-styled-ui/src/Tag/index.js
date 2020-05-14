@@ -19,6 +19,7 @@ const Tag = forwardRef(
       size = 'md',
       variant = 'solid',
       variantColor = 'gray',
+      invalid,
       isCloseable,
       disabled,
       children,
@@ -31,6 +32,7 @@ const Tag = forwardRef(
       color: variantColor,
       size,
       variant,
+      invalid,
       isCloseable,
     });
 
