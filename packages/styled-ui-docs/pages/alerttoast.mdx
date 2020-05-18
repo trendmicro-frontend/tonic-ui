@@ -128,7 +128,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -278,7 +278,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -393,7 +393,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
