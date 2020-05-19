@@ -201,6 +201,9 @@ function Example() {
       <Modal isOpen={isOpen3} onClose={onClose3}>
         <ModalCloseButton />
         <ModalBody>
+          <Stack direction="column">
+            <Space height={32} />
+          </Stack>
           <Lorem count={2} />
         </ModalBody>
         <ModalFooter>

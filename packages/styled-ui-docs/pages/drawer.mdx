@@ -2,17 +2,21 @@
 
 ## Import
 
-Trend Micro Styled UI exports 5 components to help you create any Drawer.
+Trend Micro Styled UI exports 7 components to help you create any Drawer.
 
 - `Drawer`: The wrapper that provides context for its children
+- `DrawerContent`: The content of the Drawer.
 - `DrawerHeader`: The header that labels the Drawer
 - `DrawerFooter`: The footer that houses the Drawer actions
 - `DrawerBody`: The wrapper that houses the Drawer's main content
+- `DrawerOverlay`: The overlay of the Drawer.
 - `DrawerCloseButton`: The button that closes the Drawer.
 
 ```js
 import {
   Drawer,
+  DrawerContent,
+  DrawerOverlay,
   DrawerHeader,
   DrawerFooter,
   DrawerBody,
@@ -30,16 +34,19 @@ function BasicUsage() {
       <Button onClick={onOpen}>Open Drawer</Button>
 
       <Drawer isOpen={isOpen} onClose={onClose}>
-        <DrawerHeader title="Drawer Title">Drawer Title</DrawerHeader>
-        <DrawerBody>
-          <Lorem count={5} />
-        </DrawerBody>
-        <DrawerFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
-        </DrawerFooter>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader title="Drawer Title">Drawer Title</DrawerHeader>
+          <DrawerBody>
+            <Lorem count={5} />
+          </DrawerBody>
+          <DrawerFooter>
+            <Button mr="2x" variant="primary">Submit</Button>
+            <Button onClick={onClose}>
+              Cancel
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
       </Drawer>
     </>
   );
@@ -74,15 +81,18 @@ function SizeExample() {
       ))}
 
       <Drawer onClose={onClose} size={size} isOpen={isOpen}>
-        <DrawerHeader>Drawer Title</DrawerHeader>
-        <DrawerBody>
-          Bla bla bla...
-          Bla bla bla...
-          Bla bla bla...
-        </DrawerBody>
-        <DrawerFooter>
-          <Button onClick={onClose}>Close</Button>
-        </DrawerFooter>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader>Drawer Title</DrawerHeader>
+          <DrawerBody>
+            Bla bla bla...
+            Bla bla bla...
+            Bla bla bla...
+          </DrawerBody>
+          <DrawerFooter>
+            <Button onClick={onClose}>Close</Button>
+          </DrawerFooter>
+        </DrawerContent>
       </Drawer>
     </>
   );
@@ -103,41 +113,53 @@ function Example() {
       <Button m="2x" onClick={onOpen3}>Open Drawer without header</Button>
 
       <Drawer isOpen={isOpen} onClose={onClose}>
-        <DrawerHeader hideCloseButton title="Drawer Title">Drawer Title</DrawerHeader>
-        <DrawerBody>
-          <Lorem count={2} />
-        </DrawerBody>
-        <DrawerFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
-        </DrawerFooter>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader hideCloseButton title="Drawer Title">Drawer Title</DrawerHeader>
+          <DrawerBody>
+            <Lorem count={2} />
+          </DrawerBody>
+          <DrawerFooter>
+            <Button mr="2x" variant="primary">Submit</Button>
+            <Button onClick={onClose}>
+              Cancel
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
       </Drawer>
 
       <Drawer isOpen={isOpen2} onClose={onClose2}>
-        <DrawerBody>
-          <Lorem count={2} />
-        </DrawerBody>
-        <DrawerFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose2}>
-            Cancel
-          </Button>
-        </DrawerFooter>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerBody>
+            <Lorem count={2} />
+          </DrawerBody>
+          <DrawerFooter>
+            <Button mr="2x" variant="primary">Submit</Button>
+            <Button onClick={onClose2}>
+              Cancel
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
       </Drawer>
 
       <Drawer isOpen={isOpen3} onClose={onClose3}>
-        <DrawerCloseButton />
-        <DrawerBody>
-          <Lorem count={2} />
-        </DrawerBody>
-        <DrawerFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose3}>
-            Cancel
-          </Button>
-        </DrawerFooter>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerBody>
+            <Stack direction="column">
+              <Space height={32} />
+            </Stack>
+            <Lorem count={2} />
+          </DrawerBody>
+          <DrawerFooter>
+            <Button mr="2x" variant="primary">Submit</Button>
+            <Button onClick={onClose3}>
+              Cancel
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
       </Drawer>
     </>
   );
@@ -172,15 +194,18 @@ function SizeExample() {
       ))}
 
       <Drawer onClose={onClose} placement={placement} isOpen={isOpen}>
-        <DrawerHeader>Drawer Title</DrawerHeader>
-        <DrawerBody>
-          Bla bla bla...
-          Bla bla bla...
-          Bla bla bla...
-        </DrawerBody>
-        <DrawerFooter>
-          <Button onClick={onClose}>Close</Button>
-        </DrawerFooter>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader>Drawer Title</DrawerHeader>
+          <DrawerBody>
+            Bla bla bla...
+            Bla bla bla...
+            Bla bla bla...
+          </DrawerBody>
+          <DrawerFooter>
+            <Button onClick={onClose}>Close</Button>
+          </DrawerFooter>
+        </DrawerContent>
       </Drawer>
     </>
   );
