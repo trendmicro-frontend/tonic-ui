@@ -36,8 +36,12 @@ const useToast = () => {
     },
     [theme, colorMode],
   );
+  const closeAll = toaster.closeAll;
 
-  return notify;
+  return {
+    closeAll,
+    notify,
+  };
 };
 
 export default useToast;
