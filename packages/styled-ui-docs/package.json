@@ -1,6 +1,6 @@
 {
-  "name": "styled-docs",
-  "version": "0.1.0",
+  "name": "styled-ui-docs",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production next build",
