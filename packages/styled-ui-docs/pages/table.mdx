@@ -149,7 +149,7 @@ Enable a hover state on TableRows.
 </Table>
 ```
 
-## Custom buttons
+## Custom tables
 
 In the following examples, we demonstrate how to use [`react-table`](https://github.com/tannerlinsley/react-table) with the Table component.
 
@@ -394,6 +394,8 @@ function SortableTable() {
     {
       columns,
       data,
+      // useSortBy
+      disableSortRemove: true,
     },
     useBlockLayout,
     useSortBy,
