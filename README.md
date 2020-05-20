@@ -1,6 +1,13 @@
-# styled-ui
+# Trend Micro Styled UI
 
-A themeable UI component library built with Emotion and Styled System
+ [![contributors](https://img.shields.io/github/contributors/trendmicro-frontend/styled-ui)](https://img.shields.io/github/contributors/trendmicro-frontend/styled-ui)
+[![build](https://travis-ci.com/trendmicro-frontend/styled-ui.svg)](https://travis-ci.com/trendmicro-frontend/styled-ui)
+[![coverage](https://coveralls.io/repos/github/trendmicro-frontend/styled-ui/badge.svg)](https://coveralls.io/repos/github/trendmicro-frontend/styled-ui/badge.svg)
+[![downloads](https://img.shields.io/npm/dm/@trendmicro/react-styled-ui.svg?style=flat)](https://img.shields.io/npm/dm/@trendmicro/react-styled-ui.svg?style=flat)
+[![last commit](https://badgen.net/github/last-commit/trendmicro-frontend/styled-ui)](https://badgen.net/github/last-commit/trendmicro-frontend/styled-ui)
+[![stars](https://badgen.net/github/stars/trendmicro-frontend/styled-ui)](https://badgen.net/github/stars/trendmicro-frontend/styled-ui)
+
+A themeable UI component library built with Emotion and Styled System.
 
 ![image](https://user-images.githubusercontent.com/447801/82400545-254a1d80-9a8a-11ea-8ced-d5c22beedc99.png)
 
