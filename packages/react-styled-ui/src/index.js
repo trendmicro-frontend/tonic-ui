@@ -110,4 +110,5 @@ export {
 export * from './Accordion';
 export * from './Popover';
 export * from './Modal';
+export * from './Drawer';
 export * from './Table';
