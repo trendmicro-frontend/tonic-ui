@@ -4,6 +4,12 @@ A toast notification is a small message that shows up in a box at one side of th
 
 If you're looking for a toast that offers severity levels, such as `success`, `info`, `warning`, and `error`, just to check out the [`AlertToast`](./alerttoast) component.
 
+### Prerequisite
+
+The `Toast` component should work with the `useToast` Hook to trigger a toast notification.
+
+Learn more about the [`useToast`](./usetoast) Hook.
+
 ## Import
 
 ```js
@@ -11,12 +17,6 @@ import Toast from '@trendmicro/react-styled-ui/Toast';
 // or
 import { Toast } from '@trendmicro/react-styled-ui';
 ```
-
-## Prerequisite
-
-The `Toast` component should work with the `useToast` Hook to trigger a toast notification.
-
-Learn more about the [`useToast`](./usetoast) Hook.
 
 ## Usage
 
@@ -128,7 +128,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (ToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
