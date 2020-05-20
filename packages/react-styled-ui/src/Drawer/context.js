@@ -1,17 +1,17 @@
 import { createContext, useContext } from 'react';
 
-const ModalContext = createContext();
+const DrawerContext = createContext();
 
-const useModal = () => {
+const useDrawer = () => {
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
 
-  const context = useContext(ModalContext);
+  const context = useContext(DrawerContext);
   return context;
 };
 
 export {
-  ModalContext,
-  useModal,
+  DrawerContext,
+  useDrawer,
 };
