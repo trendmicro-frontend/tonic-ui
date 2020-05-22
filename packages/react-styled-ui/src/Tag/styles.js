@@ -2,7 +2,7 @@ import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
-const solidStyle = ({ color, theme: { colors } }) => {
+const solidStyle = ({ color, canFocus, theme: { colors } }) => {
   const solidColors = {
     gray: {
       bg: 'gray:70',
@@ -44,23 +44,17 @@ const solidStyle = ({ color, theme: { colors } }) => {
   const focusColor = colors['blue:60'];
   const styles = {
     ...colorStyle,
-    _focus: {
-      borderColor: focusColor,
-      boxShadow: `inset 0 0 0 1px ${focusColor}`,
-      bg: 'inherit',
-      '& > :first-child': {
-        top: '2px',
-        bottom: '2px',
-        left: '2px',
-        right: '2px',
-        bg: colorStyle.bg
-      },
-    },
-    _hover: {
-      '&:not(:focus)': {
-        bg: `${color}:60`,
+    ...(canFocus) && {
+      _focus: {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 1px ${focusColor}`,
+        bg: 'inherit',
         '& > :first-child': {
-          bg: `${color}:60`,
+          top: '2px',
+          bottom: '2px',
+          left: '2px',
+          right: '2px',
+          bg: colorStyle.bg
         },
       },
     },
@@ -79,7 +73,7 @@ const solidStyle = ({ color, theme: { colors } }) => {
   return styles;
 };
 
-const outlineStyle = ({ color, colorMode, theme: { colors } }) => {
+const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
   const outlineColors = {
     gray: {
       borderColor: 'gray:50',
@@ -94,14 +88,10 @@ const outlineStyle = ({ color, colorMode, theme: { colors } }) => {
   const focusColor = colors['blue:60'];
   const styles = {
     ...colorStyle,
-    _focus: {
-      borderColor: focusColor,
-      boxShadow: `inset 0 0 0 1px ${focusColor}`,
-    },
-    _hover: {
-      '&:not(:focus)': {
-        borderColor: `${color}:60`,
-        color: `${color}:60`,
+    ...(canFocus) && {
+      _focus: {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 1px ${focusColor}`,
       },
     },
     _disabled: {
@@ -116,28 +106,22 @@ const outlineStyle = ({ color, colorMode, theme: { colors } }) => {
   return styles;
 };
 
-const invalidStyle = ({ theme: { colors } }) => {
+const invalidStyle = ({ canFocus, theme: { colors } }) => {
   const focusColor = colors['blue:60'];
   const styles = {
     bg: 'red:60',
     color: 'white:emphasis',
-    _focus: {
-      borderColor: focusColor,
-      boxShadow: `inset 0 0 0 1px ${focusColor}`,
-      bg: 'inherit',
-      '& > :first-child': {
-        top: '2px',
-        bottom: '2px',
-        left: '2px',
-        right: '2px',
-        bg: 'red:60'
-      },
-    },
-    _hover: {
-      '&:not(:focus)': {
-        bg: 'red:50',
+    ...(canFocus) && {
+      _focus: {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 1px ${focusColor}`,
+        bg: 'inherit',
         '& > :first-child': {
-          bg: 'red:50',
+          top: '2px',
+          bottom: '2px',
+          left: '2px',
+          right: '2px',
+          bg: 'red:60'
         },
       },
     },
@@ -184,13 +168,15 @@ const labelSizes = {
   },
   md: {
     fontSize: 'xs',
-    lineHeight: 1,
+    lineHeight: 'xs',
     minHeight: '6x',
+    py: 2
   },
   lg: {
     fontSize: 'md',
-    lineHeight: 1,
+    lineHeight: 'md',
     minHeight: '8x',
+    py: '1x'
   },
 };
 
@@ -214,6 +200,7 @@ const sizeProps = ({ size, isCloseable, theme: { sizes } }) => {
 
 const baseProps = {
   alignItems: 'center',
+  verticalAlign: 'top',
   border: 1,
   borderColor: 'transparent',
   cursor: 'default',

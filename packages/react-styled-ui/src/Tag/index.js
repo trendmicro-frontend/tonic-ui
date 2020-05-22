@@ -21,6 +21,7 @@ const Tag = forwardRef(
       variantColor = 'gray',
       invalid,
       isCloseable,
+      canFocus,
       disabled,
       children,
       onClose,
@@ -33,6 +34,7 @@ const Tag = forwardRef(
       size,
       variant,
       invalid,
+      canFocus: canFocus || isCloseable,
       isCloseable,
     });
 
