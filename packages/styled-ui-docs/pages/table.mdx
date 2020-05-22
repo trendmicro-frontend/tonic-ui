@@ -1,0 +1,597 @@
+# Table
+
+### Table components
+
+- `Table`: The wrapper that provides props, state, and context to it's children.
+- `TableHeader`: The header of the table.
+- `TableHeaderRow`: The header row of the table.
+- `TableHeaderCell`: The header cell of the table.
+- `TableBody`: The body of the table.
+- `TableRow`: The body row of the table.
+- `TableCell`: The body cell of the table.
+
+## Import
+
+```js
+import { Table, TableHeader, TableHeaderRow, TableHeaderCell, TableBody, TableRow, TableCell } from '@trendmicro/react-styled-ui';
+// or
+import Table from '@trendmicro/react-styled-ui/Table';
+```
+
+## Usage
+
+```jsx
+<Table>
+  <TableHeader>
+    <TableHeaderRow>
+      <TableHeaderCell>Event Type</TableHeaderCell>
+      <TableHeaderCell>Detections</TableHeaderCell>
+    </TableHeaderRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Virus/Malware</TableCell>
+      <TableCell>634</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Virus/Malware</TableCell>
+      <TableCell>778</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>URL Filtering</TableCell>
+      <TableCell>598</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+### Variants
+
+Use the `variant` prop to change the visual style of the Table. You can set the value to `default`, `outline`.
+- `default`: Only add bottom border into cells, including table header.
+- `outline`: Adds borders on all sides of the table and cells.
+
+```jsx
+<Stack direction="row" spacing="4x">
+  {["default", "outline"].map(variant => (
+    <Stack direction="column" spacing="4x" shouldWrapChildren>
+      <Text>{variant}</Text>
+      <Table variant={variant} key={variant}>
+        <TableHeader>
+          <TableHeaderRow>
+            <TableHeaderCell>Event Type</TableHeaderCell>
+            <TableHeaderCell>Detections</TableHeaderCell>
+          </TableHeaderRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Virus/Malware</TableCell>
+            <TableCell>634</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Virus/Malware</TableCell>
+            <TableCell>778</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>URL Filtering</TableCell>
+            <TableCell>598</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </Stack>
+  ))}
+</Stack>
+```
+
+### Sizes
+
+Use the `size` prop to change the padding of the `<TableCell>`. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="6x" shouldWrapChildren>
+  {["sm", "md", "lg"].map(size => (
+    <>
+      <Text>Size: {size}</Text>
+      <Space width="4x" />
+      <Table variant="outline" size={size} key={size}>
+        <TableHeader>
+          <TableHeaderRow>
+            <TableHeaderCell>Event Type</TableHeaderCell>
+            <TableHeaderCell>Detections</TableHeaderCell>
+          </TableHeaderRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Virus/Malware</TableCell>
+            <TableCell>634</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Virus/Malware</TableCell>
+            <TableCell>778</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>URL Filtering</TableCell>
+            <TableCell>598</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </>
+  ))}
+</Stack>
+```
+
+### Hoverable
+
+Enable a hover state on TableRows.
+
+```jsx
+<Table isHoverable>
+  <TableHeader>
+    <TableHeaderRow>
+      <TableHeaderCell>Event Type</TableHeaderCell>
+      <TableHeaderCell>Detections</TableHeaderCell>
+    </TableHeaderRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Virus/Malware</TableCell>
+      <TableCell>634</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Virus/Malware</TableCell>
+      <TableCell>778</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>URL Filtering</TableCell>
+      <TableCell>598</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## Custom tables
+
+In the following examples, we demonstrate how to use [`react-table`](https://github.com/tannerlinsley/react-table) with the Table component.
+
+`import { useTable, useBlockLayout, useRowSelect, useSortBy } from 'react-table';`
+
+### Base table
+
+```jsx noInline
+function BaseTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      accessor: 'eventType',
+    },
+    {
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout,
+  );
+
+  return (
+    <Table
+      isHoverable
+      {...getTableProps()}
+    >
+      <TableHeader>
+        {headerGroups.map(headerGroup => (
+          <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <TableHeaderCell {...column.getHeaderProps()}>{column.render('Header')}</TableHeaderCell>
+            ))}
+          </TableHeaderRow>
+        ))}
+      </TableHeader>
+      <TableBody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <TableRow {...row.getRowProps()}>
+              {
+                row.cells.map(cell => {
+                  return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                })
+              }
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
+  );
+}
+
+render(<BaseTable />);
+```
+
+### Selectable table
+
+```jsx noInline
+const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
+  const defaultRef = React.useRef();
+  const resolvedRef = ref || defaultRef;
+
+  return (
+    <Checkbox
+      ref={resolvedRef}
+      indeterminate={indeterminate}
+      {...rest}
+    />
+  );
+});
+
+function SelectableTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      accessor: 'eventType',
+    },
+    {
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    selectedFlatRows,
+    state: { selectedRowIds },
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout,
+    useRowSelect,
+    hooks => {
+      hooks.visibleColumns.push(columns => [
+        {
+          id: 'selection',
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <Flex height="100%" alignItems="center">
+              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            </Flex>
+          ),
+          Cell: ({ row }) => (
+            <Flex height="100%" alignItems="center">
+              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            </Flex>
+          ),
+          width: 41,
+        },
+        ...columns,
+      ]);
+    }
+  );
+
+  return (
+    <>
+      <Table isHoverable {...getTableProps()}>
+        <TableHeader>
+          {headerGroups.map(headerGroup => (
+            <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <TableHeaderCell {...column.getHeaderProps()}>{column.render('Header')}</TableHeaderCell>
+              ))}
+            </TableHeaderRow>
+          ))}
+        </TableHeader>
+        <TableBody {...getTableBodyProps()}>
+          {rows.slice(0, 10).map((row, i) => {
+            prepareRow(row);
+            return (
+              <TableRow {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+      <p>Selected Rows: {Object.keys(selectedRowIds).length}</p>
+      <pre>
+        <code>
+          {JSON.stringify(
+            {
+              selectedRowIds: selectedRowIds,
+              'selectedFlatRows[].original': selectedFlatRows.map(
+                d => d.original
+              ),
+            },
+            null,
+            2
+          )}
+        </code>
+      </pre>
+    </>
+  );
+}
+
+render(<SelectableTable />);
+```
+
+### Sortable table
+
+```jsx noInline
+function SortableTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      accessor: 'eventType',
+    },
+    {
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable(
+    {
+      columns,
+      data,
+      // useSortBy
+      disableSortRemove: true,
+    },
+    useBlockLayout,
+    useSortBy,
+  );
+
+  return (
+    <Table isHoverable {...getTableProps()}>
+      <TableHeader>
+        {headerGroups.map(headerGroup => (
+          <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <TableHeaderCell {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <Box
+                  display="inline-block"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  whiteSpace="nowrap"
+                  width={`calc(100% - ${(column.isSorted ? '20px' : '0px')})`}
+                >
+                  {column.render('Header')}
+                </Box>
+                {column.isSorted && (
+                  <Box as="span">
+                    <Space minWidth="1x" />
+                    {
+                      column.isSortedDesc ? <TMIcon name="sort-down" /> : <TMIcon name="sort-up" />
+                    }
+                  </Box>
+                )}
+              </TableHeaderCell>
+            ))}
+          </TableHeaderRow>
+        ))}
+      </TableHeader>
+      <TableBody {...getTableBodyProps()}>
+        {rows.map(
+          (row, i) => {
+            prepareRow(row);
+            return (
+              <TableRow {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          }
+        )}
+      </TableBody>
+    </Table>
+  );
+}
+
+render(<SortableTable />);
+```
+
+### Sticky table
+
+In this examples, we use [`react-custom-scrollbars`](https://github.com/malte-wessel/react-custom-scrollbars) to display scrollbar.
+
+`import { Scrollbars } from 'react-custom-scrollbars';`
+
+
+```jsx noInline
+function StickyTable() {
+  const { colorMode } = useColorMode();
+  const scrollbarColor = colorMode === 'dark' ? 'white:tertiary' : 'black:tertiary';
+
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      accessor: 'eventType',
+    },
+    {
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const tableHeaderRef = React.createRef();
+
+  const onScroll = (e) => {
+    const scrollLeft = e.target.scrollLeft;
+    if (!!tableHeaderRef && tableHeaderRef.current.scrollLeft !== scrollLeft) {
+      tableHeaderRef.current.scrollLeft = scrollLeft;
+    }
+  };
+
+  const renderThumb = props => {
+    return (
+      <Box
+        borderRadius="lg"
+        bg={scrollbarColor}
+        {...props}
+      />
+    );
+  };
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout,
+  );
+
+  return (
+    <Table
+      isHoverable
+      variant="outline"
+      width={400}
+      height={200}
+      {...getTableProps()}
+    >
+      <TableHeader ref={tableHeaderRef}>
+        {headerGroups.map(headerGroup => (
+          <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <TableHeaderCell {...column.getHeaderProps()}>
+                {column.render('Header')}
+              </TableHeaderCell>
+            ))}
+          </TableHeaderRow>
+        ))}
+      </TableHeader>
+      <Scrollbars
+        universal
+        renderThumbHorizontal={renderThumb}
+        renderThumbVertical={renderThumb}
+        onScroll={onScroll}
+      >
+        <TableBody {...getTableBodyProps()}>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <TableRow {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <TableCell {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Scrollbars>
+    </Table>
+  );
+}
+
+render(<StickyTable />);
+```
+
+## Props
+
+### Table
+
+`Table` composes the [`Flex`](./flex) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| isHoverable | boolean | | Enable a hover state on TableRows. |
+| size | string | 'md' | The size of TableCells. One of: `'sm'`, `'md'`, `'lg'` |
+| variant | string | 'default' | The variant of the table style to use. One of: `'default'`, `'outline'` |
+
+### TableHeaderCell / TableCell
+
+`TableHeaderCell` and `TableCell` composes the [`Box`](./box) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| width | string \| number | 150 | The width of the column. |
+
+
+### Other Props
+- `TableRow` and `TableHeaderRow` composes the [`PseudoBox`](./pseudobox) component.
+- `TableHeader` and `TableBody` composes the [`Box`](./box) component.

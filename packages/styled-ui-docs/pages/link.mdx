@@ -12,24 +12,14 @@ import { Link } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
+### Default
+
 ```jsx
-<Stack shouldWrapChildren direction="column" spacing=".5rem">
-  <Link href="https://github.com/trendmicro-frontend" fontSize="xs" lineHeight="xs">
-    Trend Micro Frontend
-  </Link>
-  <Link href="https://github.com/trendmicro-frontend" fontSize="sm" lineHeight="sm">
-    Trend Micro Frontend
-  </Link>
-  <Link href="https://github.com/trendmicro-frontend" fontSize="md" lineHeigh="md">
-    Trend Micro Frontend
-  </Link>
-  <Link href="https://github.com/trendmicro-frontend" fontSize="lg" lineHeight="lg">
-    Trend Micro Frontend
-  </Link>
-  <Link href="https://github.com/trendmicro-frontend" fontSize="xl" lineHeight="xl">
-    Trend Micro Frontend
-  </Link>
-</Stack>
+<Link
+  href="https://github.com/trendmicro-frontend"
+>
+  Trend Micro Frontend
+</Link>
 ```
 
 
@@ -42,6 +32,28 @@ import { Link } from '@trendmicro/react-styled-ui';
 >
   Trend Micro Frontend
 </Link>
+```
+
+### Link with icon
+
+```jsx
+<Stack shouldWrapChildren direction="column" spacing=".5rem">
+  <Link
+    href="https://github.com/trendmicro-frontend"
+  >
+    <TMIcon name="t-ball" lineHeight="sm"/>
+    <Space width="2x" />
+    Trend Micro Frontend
+  </Link>
+  <Link
+    href="https://github.com/trendmicro-frontend"
+    textDecoration="underline"
+  >
+    <TMIcon name="t-ball" lineHeight="sm"/>
+    <Space width="2x" />
+    Trend Micro Frontend
+  </Link>
+</Stack>
 ```
 
 ### Link with `disabled` attribute
@@ -91,6 +103,8 @@ const ExternalLink = React.forwardRef((props, ref) => (
 render(
   <ExternalLink href="https://github.com/trendmicro-frontend/styled-ui">
     Open link in new window
+    <Space width="2x" />
+    <TMIcon name="external-link" lineHeight="sm"/>
   </ExternalLink>
 );
 ```
