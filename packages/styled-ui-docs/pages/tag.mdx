@@ -56,6 +56,33 @@ Use the `variantColor` prop to change the color scheme of the `Tag`. `variantCol
 </Stack>
 ```
 
+### Round tags
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variantColor="gray" borderRadius="lg">Gray</Tag>
+    <Tag variantColor="red" borderRadius="lg">Red</Tag>
+    <Tag variantColor="magenta" borderRadius="lg">Magenta</Tag>
+    <Tag variantColor="purple" borderRadius="lg">Purple</Tag>
+    <Tag variantColor="blue" borderRadius="lg">Blue</Tag>
+    <Tag variantColor="green" borderRadius="lg">Green</Tag>
+    <Tag variantColor="teal" borderRadius="lg">Teal</Tag>
+    <Tag variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  </Stack>
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variant="outline" variantColor="gray" borderRadius="lg">Gray</Tag>
+    <Tag variant="outline" variantColor="red" borderRadius="lg">Red</Tag>
+    <Tag variant="outline" variantColor="magenta" borderRadius="lg">Magenta</Tag>
+    <Tag variant="outline" variantColor="purple" borderRadius="lg">Purple</Tag>
+    <Tag variant="outline" variantColor="blue" borderRadius="lg">Blue</Tag>
+    <Tag variant="outline" variantColor="green" borderRadius="lg">Green</Tag>
+    <Tag variant="outline" variantColor="teal" borderRadius="lg">Teal</Tag>
+    <Tag variant="outline" variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  </Stack>
+</Stack>
+```
+
 ### Sizes
 
 Use the `size` prop to change the size of the `Tag`. You can set the value to `sm`, `md`, or `lg`.
@@ -88,24 +115,7 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 </Stack>
 ```
 
-### States
-
-```jsx
-<Stack spacing="4x">
-  <Stack direction="row" spacing="4x" shouldWrapChildren>
-    <Tag isCloseable>Normal</Tag>
-    <Tag isCloseable disabled>Disabled</Tag>
-    <Tag isCloseable invalid>Invalid</Tag>
-  </Stack>
-  <Stack direction="row" spacing="4x" shouldWrapChildren>
-    <Tag variant="outline" isCloseable>Normal</Tag>
-    <Tag variant="outline" isCloseable disabled>Disabled</Tag>
-    <Tag variant="outline" isCloseable invalid>Invalid</Tag>
-  </Stack>
-</Stack>
-```
-
-### With close button
+### isCloseable
 
 ```jsx
 <Stack spacing="4x">
@@ -135,38 +145,34 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 </Stack>
 ```
 
-### Round tags
+### States
+
 ```jsx
 <Stack spacing="4x">
-  <Stack direction="row" spacing="2x" shouldWrapChildren>
-    <Tag variantColor="gray" borderRadius="lg">Gray</Tag>
-    <Tag variantColor="red" borderRadius="lg">Red</Tag>
-    <Tag variantColor="magenta" borderRadius="lg">Magenta</Tag>
-    <Tag variantColor="purple" borderRadius="lg">Purple</Tag>
-    <Tag variantColor="blue" borderRadius="lg">Blue</Tag>
-    <Tag variantColor="green" borderRadius="lg">Green</Tag>
-    <Tag variantColor="teal" borderRadius="lg">Teal</Tag>
-    <Tag variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  <Stack direction="row" spacing="4x" shouldWrapChildren>
+    <Tag isCloseable>Normal</Tag>
+    <Tag isCloseable disabled>Disabled</Tag>
+    <Tag isCloseable invalid>Invalid</Tag>
   </Stack>
-  <Stack direction="row" spacing="2x" shouldWrapChildren>
-    <Tag variant="outline" variantColor="gray" borderRadius="lg">Gray</Tag>
-    <Tag variant="outline" variantColor="red" borderRadius="lg">Red</Tag>
-    <Tag variant="outline" variantColor="magenta" borderRadius="lg">Magenta</Tag>
-    <Tag variant="outline" variantColor="purple" borderRadius="lg">Purple</Tag>
-    <Tag variant="outline" variantColor="blue" borderRadius="lg">Blue</Tag>
-    <Tag variant="outline" variantColor="green" borderRadius="lg">Green</Tag>
-    <Tag variant="outline" variantColor="teal" borderRadius="lg">Teal</Tag>
-    <Tag variant="outline" variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  <Stack direction="row" spacing="4x" shouldWrapChildren>
+    <Tag variant="outline" isCloseable>Normal</Tag>
+    <Tag variant="outline" isCloseable disabled>Disabled</Tag>
+    <Tag variant="outline" isCloseable invalid>Invalid</Tag>
   </Stack>
 </Stack>
 ```
+
+### With input
+
+Please reference the [`ActivedTag`](./activedtag) component.
 
 ## Props
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
-| isCloseable | boolean | true | If `true`, a close button will appear on the right side. |
+| disabled | boolean | | If `true`, the tag will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| invalid | boolean | | If `true`, set the tag to invalid style. |
+| isCloseable | boolean | | If `true`, a close button will appear on the right side. |
 | size | string | 'md' | The size of the tag component. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'solid' | The variant style of the tag component. One of: `'solid'`, `'outline'` |
 | variantColor | string | 'gray' | The color scheme of the tag variant. It must be a color key defined in `theme.colors`. |
