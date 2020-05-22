@@ -1,14 +1,13 @@
 import React, { forwardRef } from 'react';
-import Box from '../Box';
+import Flex from '../Flex';
 
 const ModalFooter = forwardRef((props, ref) => (
-  <Box
-    display="flex"
-    justifyContent="flex-end"
+  <Flex
     ref={ref}
+    as="footer"
+    justify="flex-end"
     px="6x"
     py="3x"
-    as="footer"
     {...props}
   />
 ));
