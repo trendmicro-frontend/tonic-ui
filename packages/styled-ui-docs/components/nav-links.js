@@ -16,6 +16,7 @@ export const buildingBlockLinks = [
 ];
 
 export const componentLinks = [
+  'ActivedTag',
   'Accordion',
   'Alert',
   'AlertToast',
