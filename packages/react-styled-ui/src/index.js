@@ -1,4 +1,3 @@
-import ActivedTag from './ActivedTag';
 import Alert from './Alert';
 import AlertToast from './AlertToast';
 import Badge from './Badge';
@@ -54,7 +53,6 @@ import VisuallyHidden from './VisuallyHidden';
 import withTheme from './withTheme';
 
 export {
-  ActivedTag,
   Alert,
   AlertToast,
   Badge,

@@ -164,7 +164,201 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 
 ### With input
 
-Please reference the [`ActivedTag`](./activedtag) component.
+In this example, setting `invalid` style when value is empty after editing tag.
+
+```jsx noInline
+const EditableTag = ({
+  children,
+  invalid,
+  onChange,
+  ...rest
+}) => {
+    const [inputValue, setInputValue] = React.useState(children);
+    const [inputVisible, setInputVisible] = React.useState(false);
+    const handleInputVisible = () => setInputVisible(true);
+    const handleInputHidden = () => setInputVisible(false);
+    const handleInputBlur = (e) => {
+      onChange(e);
+      handleInputHidden();
+    };
+    const handleInputChange = (e) => {
+      setInputValue(e.target.value);
+    };
+    const handleInputKeyUp = (e) => {
+      const keyCode = event.keyCode;
+      if (keyCode === 13) {
+        onChange(e);
+        handleInputHidden();
+      }
+    };
+    const handleTagClick = (e) => {
+      e.stopPropagation();
+      handleInputVisible();
+    };
+    const handleTagKeyUp = (e) => {
+      const keyCode = event.keyCode;
+      if (keyCode === 13) {
+        handleInputVisible();
+      }
+    };
+
+    if (inputVisible) {
+      return (
+        <InputBase
+          autoFocus
+          minHeight="6x"
+          mr="2x"
+          mt="1x"
+          value={inputValue}
+          onChange={handleInputChange}
+          onKeyUp={handleInputKeyUp}
+          onBlur={handleInputBlur}
+        />
+      );
+    }
+    return (
+      <Tag
+        isCloseable
+        invalid={invalid}
+        mr="2x"
+        mt="1x"
+        onClick={handleTagClick}
+        onKeyUp={handleTagKeyUp}
+        cursor="pointer"
+        {...!invalid && {
+          _hover: {
+            '&:not(:focus)': {
+              bg: 'gray:60',
+              '& > :first-child': {
+                bg: 'gray:60',
+              },
+            },
+          }
+        }}
+        {...invalid && {
+          _hover: {
+            '&:not(:focus)': {
+              bg: 'red:50',
+              '& > :first-child': {
+                bg: 'red:50',
+              },
+            },
+          }
+        }}
+        {...rest}
+      >
+        {children}
+      </Tag>
+    );
+};
+
+function Tags() {
+  const [inputValue, setInputValue] = React.useState();
+  const [inputVisible, setInputVisible] = React.useState(false);
+  const [tags, setTags] = React.useState([]);
+  const handleInputVisible = () => setInputVisible(true);
+  const handleInputHidden = () => setInputVisible(false);
+  const handleInputBlur = (e) => {
+    e.stopPropagation();
+    const inputValue = e.target.value;
+    let newTags = tags;
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      newTags = [...tags, inputValue];
+    }
+    setTags(newTags);
+    handleInputHidden();
+  };
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+  const handleInputKeyUp = (e) => {
+    const keyCode = event.keyCode;
+    if (keyCode === 13) {
+      const inputValue = e.target.value;
+      let newTags = tags;
+      if (inputValue && tags.indexOf(inputValue) === -1) {
+        newTags = [...tags, inputValue];
+      }
+      setTags(newTags);
+      handleInputHidden();
+    }
+  };
+  const handleTagChange = (index) => (e) => {
+    const inputValue = e.target.value;
+    let newTags = tags;
+    newTags[index] = inputValue;
+    setTags([...newTags]);
+  };
+  const handleTagClose = (index) => (e) => {
+    e.stopPropagation();
+    tags.splice(index, 1);
+    setTags([...tags]);
+  };
+
+  return (
+    <Box
+      width={320}
+      minHeight={34}
+      border={1}
+      px="2x"
+      pb="1x"
+      borderColor="gray:60"
+      onClick={handleInputVisible}
+    >
+      {
+        tags.map((tag, i) => {
+          return (
+            <EditableTag
+              key={i}
+              invalid={tag.length === 0}
+              onChange={handleTagChange(i)}
+              onClose={handleTagClose(i)}
+            >
+              {tag}
+            </EditableTag>
+          );
+        })
+      }
+      {(tags.length === 0 && !inputVisible) && (
+        <Box
+          display="inline-flex"
+          alignItems="center"
+          borderRadius="sm"
+          border="1px dotted"
+          borderColor="gray:60"
+          width={92}
+          Height="6x"
+          py={2}
+          pl="2x"
+          pr="1x"
+          mt="1x"
+        >
+          <TMIcon name="add" color="white:tertiary" />
+          <Space width="2x" />
+          <Text
+            color="white:secondary"
+            fontSize="xs"
+            lineHeight="xs"
+          >
+            New Tag
+          </Text>
+        </Box>
+      )}
+      { inputVisible && (
+        <InputBase
+          autoFocus
+          minHeight="6x"
+          mt="1x"
+          onKeyUp={handleInputKeyUp}
+          onBlur={handleInputBlur}
+        />
+      )}
+    </Box>
+  );
+}
+
+render(<Tags />);
+```
 
 ## Props
 
