@@ -584,18 +584,21 @@ function FullWidthTable() {
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
+      id: 'eventType',
       accessor: 'eventType',
       width: 'auto',
     },
     {
       Header: 'Affected Devices',
+      id: 'affectedDevices',
       accessor: 'affectedDevices',
       width: 160,
     },
     {
       Header: 'Detections',
+      id: 'detections',
       accessor: 'detections',
-      width: 100,
+      width: '10%',
     },
   ], []);
 
@@ -607,6 +610,42 @@ function FullWidthTable() {
     { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
     { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
   ], []);
+
+  const calculatedColumns = ({ initColumns, tableWidth }) => {
+    const columns = initColumns.map(column => {
+      let columnWidth = column.width;
+      if (typeof columnWidth === 'string') {
+        const lastChar = columnWidth.substr(columnWidth.length - 1);
+        if (lastChar === '%') {
+          columnWidth = tableWidth * (parseFloat(columnWidth) / 100);
+          return {
+            ...column,
+            width: columnWidth
+          };
+        }
+        if (columnWidth === 'auto') {
+          return {
+            ...column,
+            width: 0
+          };
+        }
+      }
+      return column;
+    });
+    const customWidthColumns = columns.filter(column => !!column.width);
+    const totalCustomWidth = customWidthColumns.reduce((accumulator, column) => accumulator + column.width, 0);
+    let defaultCellWidth = (tableWidth - totalCustomWidth) / (columns.length - customWidthColumns.length);
+    defaultCellWidth = defaultCellWidth <= 0 ? 150 : defaultCellWidth;
+    return columns.map(column => {
+      if (!!column.width) {
+        return column;
+      }
+      return {
+        ...column,
+        width: defaultCellWidth
+      };
+    });
+  };
 
   const {
     getTableProps,
@@ -623,15 +662,13 @@ function FullWidthTable() {
   );
 
   return (
-    <Box height={300}>
+    <Box height={300} overflow="auto">
       <AutoSizer>
         {({ height, width }) => {
           if (height === 0 || width === 0) {
             return null;
           }
-          const customWidthColumns = columns.filter(column => column.width != 'auto');
-          const totalCustomWidth = customWidthColumns.reduce((accumulator, column) => accumulator + column.width, 0);
-          const defaultCellWidth = (width - totalCustomWidth) / (columns.length - customWidthColumns.length);
+          const newColumns = calculatedColumns({ initColumns: columns, tableWidth: width });
           return (
             <Table
               isHoverable
@@ -639,17 +676,14 @@ function FullWidthTable() {
             >
               <TableHeader>
                 {headerGroups.map(headerGroup => (
-                  <TableHeaderRow
-                    {...headerGroup.getHeaderGroupProps()}
-                  >
+                  <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.map(column => {
-                      let cellWidth = column.width;
-                      if (cellWidth === 'auto') {
-                        cellWidth = defaultCellWidth;
-                      }
+                      const columnId = column.id;
+                      const _column = newColumns.filter(column => column.id === columnId);
+                      const _columnWidth = _column[0].width;
                       return (
                         <TableHeaderCell
-                          width={cellWidth}
+                          width={_columnWidth}
                           {...column.getHeaderProps()}
                         >
                           {column.render('Header')}
@@ -663,18 +697,15 @@ function FullWidthTable() {
                 {rows.map((row, i) => {
                   prepareRow(row);
                   return (
-                    <TableRow
-                      {...row.getRowProps()}
-                    >
+                    <TableRow {...row.getRowProps()}>
                       {
                         row.cells.map(cell => {
-                          let cellWidth = cell.column.width;
-                          if (cellWidth === 'auto') {
-                            cellWidth = defaultCellWidth;
-                          }
+                          const columnId = cell.column.id;
+                          const _column = newColumns.filter(column => column.id === columnId);
+                          const _columnWidth = _column[0].width;
                           return (
                             <TableCell
-                              width={cellWidth}
+                              width={_columnWidth}
                               {...cell.getCellProps()}
                             >
                               {cell.render('Cell')}
