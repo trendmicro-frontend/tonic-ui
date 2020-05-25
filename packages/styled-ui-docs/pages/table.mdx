@@ -611,7 +611,7 @@ function FullWidthTable() {
     { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
   ], []);
 
-  const calculatedColumns = ({ initColumns, tableWidth }) => {
+  const getCalculatedColumns = ({ initColumns, tableWidth }) => {
     const columns = initColumns.map(column => {
       let columnWidth = column.width;
       if (typeof columnWidth === 'string') {
@@ -668,7 +668,7 @@ function FullWidthTable() {
           if (height === 0 || width === 0) {
             return null;
           }
-          const newColumns = calculatedColumns({ initColumns: columns, tableWidth: width });
+          const newColumns = getCalculatedColumns({ initColumns: columns, tableWidth: width });
           return (
             <Table
               isHoverable
