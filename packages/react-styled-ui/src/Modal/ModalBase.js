@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import exenv from 'exenv';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import FocusLock from 'react-focus-lock/dist/cjs';
+import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import getFocusables from '../utils/getFocusables';
 import ColorModeProvider from '../ColorModeProvider';
@@ -54,9 +55,9 @@ const ModalBase = ({
   closeOnOverlayClick = false,
   preserveScrollBarGap,
   formatIds = id => ({
-    content: `modal-${id}`,
-    header: `modal-${id}-header`,
-    body: `modal-${id}-body`,
+    content: `${config.name}:modal-content-${id}`,
+    header: `${config.name}:modal-header-${id}`,
+    body: `${config.name}:modal-body-${id}`,
   }),
   container,
   returnFocusOnClose = true,
@@ -76,10 +77,10 @@ const ModalBase = ({
   const contentId = formatIds(_id).content;
   const headerId = formatIds(_id).header;
   const bodyId = formatIds(_id).body;
-  const portalId = `trendmicro-react-styled-ui-portal-${_id}`;
+  const portalId = `${config.name}:portal-${_id}`;
 
   useEffect(() => {
-    const mountedModalCount = canUseDOM ? document.querySelectorAll('[id^=trendmicro-react-styled-ui-portal-]').length : 0;
+    const mountedModalCount = canUseDOM ? document.querySelectorAll(`[id^="${config.name}:portal-"]`).length : 0;
     const dialogNode = contentRef.current;
     if (isOpen && blockScrollOnMount) {
       disableBodyScroll(dialogNode, {
