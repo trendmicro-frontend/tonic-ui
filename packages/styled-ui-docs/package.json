@@ -1,6 +1,6 @@
 {
-  "name": "styled-docs",
-  "version": "0.1.0",
+  "name": "styled-ui-docs",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production next build",
@@ -40,7 +40,9 @@
     "react-dom": "^16.8.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-live": "^2.2.2",
+    "react-lorem-component": "^0.13.0",
     "react-table": "^7.0.4",
+    "react-virtualized": "^9.21.2",
     "remark-emoji": "^2.0.2",
     "remark-images": "^1.0.0"
   },

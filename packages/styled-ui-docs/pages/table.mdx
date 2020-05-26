@@ -149,7 +149,7 @@ Enable a hover state on TableRows.
 </Table>
 ```
 
-## Custom buttons
+## Custom tables
 
 In the following examples, we demonstrate how to use [`react-table`](https://github.com/tannerlinsley/react-table) with the Table component.
 
@@ -394,6 +394,8 @@ function SortableTable() {
     {
       columns,
       data,
+      // useSortBy
+      disableSortRemove: true,
     },
     useBlockLayout,
     useSortBy,
@@ -567,6 +569,163 @@ function StickyTable() {
 }
 
 render(<StickyTable />);
+```
+
+
+### Full width table
+
+In this examples, we use [`react-virtualized`](https://github.com/bvaughn/react-virtualized) to get full width.
+
+`import { AutoSizer } from 'react-virtualized';`
+
+
+```jsx noInline
+function FullWidthTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      id: 'eventType',
+      accessor: 'eventType',
+      width: 'auto',
+    },
+    {
+      Header: 'Affected Devices',
+      id: 'affectedDevices',
+      accessor: 'affectedDevices',
+      width: 160,
+    },
+    {
+      Header: 'Detections',
+      id: 'detections',
+      accessor: 'detections',
+      width: '10%',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const getCalculatedColumns = ({ initColumns, tableWidth }) => {
+    const columns = initColumns.map(column => {
+      let columnWidth = column.width;
+      if (typeof columnWidth === 'string') {
+        const lastChar = columnWidth.substr(columnWidth.length - 1);
+        if (lastChar === '%') {
+          columnWidth = tableWidth * (parseFloat(columnWidth) / 100);
+          return {
+            ...column,
+            width: columnWidth
+          };
+        }
+        if (columnWidth === 'auto') {
+          return {
+            ...column,
+            width: 0
+          };
+        }
+      }
+      return column;
+    });
+    const customWidthColumns = columns.filter(column => !!column.width);
+    const totalCustomWidth = customWidthColumns.reduce((accumulator, column) => accumulator + column.width, 0);
+    let defaultCellWidth = (tableWidth - totalCustomWidth) / (columns.length - customWidthColumns.length);
+    defaultCellWidth = defaultCellWidth <= 0 ? 150 : defaultCellWidth;
+    return columns.map(column => {
+      if (!!column.width) {
+        return column;
+      }
+      return {
+        ...column,
+        width: defaultCellWidth
+      };
+    });
+  };
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout,
+  );
+
+  return (
+    <Box height={300} overflow="auto">
+      <AutoSizer>
+        {({ height, width }) => {
+          if (height === 0 || width === 0) {
+            return null;
+          }
+          const newColumns = getCalculatedColumns({ initColumns: columns, tableWidth: width });
+          return (
+            <Table
+              isHoverable
+              {...getTableProps()}
+            >
+              <TableHeader>
+                {headerGroups.map(headerGroup => (
+                  <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(column => {
+                      const columnId = column.id;
+                      const _column = newColumns.filter(column => column.id === columnId);
+                      const _columnWidth = _column[0].width;
+                      return (
+                        <TableHeaderCell
+                          width={_columnWidth}
+                          {...column.getHeaderProps()}
+                        >
+                          {column.render('Header')}
+                        </TableHeaderCell>
+                      );
+                    })}
+                  </TableHeaderRow>
+                ))}
+              </TableHeader>
+              <TableBody {...getTableBodyProps()}>
+                {rows.map((row, i) => {
+                  prepareRow(row);
+                  return (
+                    <TableRow {...row.getRowProps()}>
+                      {
+                        row.cells.map(cell => {
+                          const columnId = cell.column.id;
+                          const _column = newColumns.filter(column => column.id === columnId);
+                          const _columnWidth = _column[0].width;
+                          return (
+                            <TableCell
+                              width={_columnWidth}
+                              {...cell.getCellProps()}
+                            >
+                              {cell.render('Cell')}
+                            </TableCell>
+                          );
+                        })
+                      }
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          );
+        }}
+      </AutoSizer>
+    </Box>
+  );
+}
+
+render(<FullWidthTable />);
 ```
 
 ## Props

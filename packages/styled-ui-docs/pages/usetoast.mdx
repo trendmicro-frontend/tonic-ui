@@ -18,14 +18,19 @@ import { useToast } from '@trendmicro/react-styled-ui';
 const toast = useToast();
 ```
 
-Returns a toast function, which is used to trigger a toast notification.
+The `useToast` Hook returns an object with the following fields:
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| notify | function | | A function to trigger a toast notification. |
+| closeAll | function | | A function To close all toast notificatios. |
 
 ```jsx disabled
 function Example() {
   // Get a toast function
   const toast = useToast();
 
-  toast({
+  toast.notify({
     // [optional] The position to display toast notifications.
     position: 'bottom-right',
 
@@ -119,7 +124,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (ToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -140,13 +145,22 @@ function Example() {
       },
     });
   };
+  const handleCloseAll = () => {
+    toast.closeAll();
+  };
 
   return (
     <>
-      <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
-        Show
-      </Button>
-      <ToastLayout mt="4x">
+      <Box mb="4x">
+        <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
+          Show
+        </Button>
+        <Space width="2x" />
+        <Button variant="secondary" onClick={handleCloseAll}>
+          Close All
+        </Button>
+      </Box>
+      <ToastLayout>
         <ToastNotification />
       </ToastLayout>
     </>
@@ -200,7 +214,7 @@ function Example() {
   const toast = useToast();
   const duration = 5000; // in ms
   const handleClickBy = (position) => () => {
-    toast({
+    toast.notify({
       duration,
       position,
       render: ({ onClose, position }) => {
@@ -221,31 +235,41 @@ function Example() {
       }
     });
   };
+  const handleCloseAll = () => {
+    toast.closeAll();
+  };
 
   return (
-    <Grid
-      gap="4x"
-      templateColumns="1fr 1fr 1fr"
-    >
-      <Button onClick={handleClickBy('top-left')}>
-        Top Left
-      </Button>
-      <Button onClick={handleClickBy('top')}>
-        Top
-      </Button>
-      <Button onClick={handleClickBy('top-right')}>
-        Top Right
-      </Button>
-      <Button onClick={handleClickBy('bottom-left')}>
-        Bottom Left
-      </Button>
-      <Button onClick={handleClickBy('bottom')}>
-        Bottom
-      </Button>
-      <Button onClick={handleClickBy('bottom-right')}>
-        Bottom Right
-      </Button>
-    </Grid>
+    <>
+      <Box mb="4x">
+        <Button variant="secondary" onClick={handleCloseAll}>
+          Close All
+        </Button>
+      </Box>
+      <Grid
+        gap="4x"
+        templateColumns="1fr 1fr 1fr"
+      >
+        <Button onClick={handleClickBy('top-left')}>
+          Top Left
+        </Button>
+        <Button onClick={handleClickBy('top')}>
+          Top
+        </Button>
+        <Button onClick={handleClickBy('top-right')}>
+          Top Right
+        </Button>
+        <Button onClick={handleClickBy('bottom-left')}>
+          Bottom Left
+        </Button>
+        <Button onClick={handleClickBy('bottom')}>
+          Bottom
+        </Button>
+        <Button onClick={handleClickBy('bottom-right')}>
+          Bottom Right
+        </Button>
+      </Grid>
+    </>
   );
 }
 

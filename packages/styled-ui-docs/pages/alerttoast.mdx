@@ -4,6 +4,12 @@ An alert toast is a toast that offers severity levels.
 
 If you're looking for a simple toast, just to check out the [`Toast`](./toast) component.
 
+### Prerequisite
+
+The `AlertToast` component should work with the `useToast` Hook to trigger a toast notification.
+
+Learn more about the [`useToast`](./usetoast) Hook.
+
 ## Import
 
 ```js
@@ -11,12 +17,6 @@ import AlertToast from '@trendmicro/react-styled-ui/AlertToast';
 // or
 import { AlertToast } from '@trendmicro/react-styled-ui';
 ```
-
-## Prerequisite
-
-The `AlertToast` component should work with the `useToast` Hook to trigger a toast notification.
-
-Learn more about the [`useToast`](./usetoast) Hook.
 
 ## Usage
 
@@ -128,7 +128,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -278,7 +278,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -393,7 +393,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
