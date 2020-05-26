@@ -24,8 +24,11 @@ const sizeProps = (size) => {
 
 const DrawerContent = forwardRef((props, ref) => {
   const {
-    // Don't want to  animate the opacity of the DrawerContent
-    styles: { ...placementStyles },
+    styles: {
+      // Do not apply opacity transition effect to DrawerContent
+      opacity, // eslint-disable-line no-unused-vars
+      ...placementStyles
+    },
     size,
   } = useDrawer();
 
@@ -38,7 +41,10 @@ const DrawerContent = forwardRef((props, ref) => {
       {..._sizeProps}
       maxHeight="100vh"
       {...props}
-      style={{ ...props.styles, ...placementStyles }}
+      style={{
+        ...props.styles,
+        ...placementStyles,
+      }}
     />
   );
 });
