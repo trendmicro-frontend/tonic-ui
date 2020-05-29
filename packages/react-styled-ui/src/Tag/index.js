@@ -20,7 +20,7 @@ const Tag = forwardRef(
       variant = 'solid',
       variantColor = 'gray',
       isInvalid,
-      isCloseable,
+      isCloseButtonVisible,
       disabled,
       children,
       onClose,
@@ -32,8 +32,8 @@ const Tag = forwardRef(
       color: variantColor,
       size,
       variant,
-      canFocus: isCloseable,
-      isCloseable,
+      canFocus: isCloseButtonVisible,
+      isCloseButtonVisible,
     });
 
     return (
@@ -58,7 +58,7 @@ const Tag = forwardRef(
         />
         {/* The z-index is for placing text over the above box. */}
         <Box zIndex="1">{ children }</Box>
-        {!!isCloseable && (
+        {!!isCloseButtonVisible && (
           <TagCloseButton
             size={size}
             disabled={disabled}
