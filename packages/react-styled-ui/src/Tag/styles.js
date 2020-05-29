@@ -58,6 +58,24 @@ const solidStyle = ({ color, canFocus, theme: { colors } }) => {
         },
       },
     },
+    _invalid: {
+      bg: 'red:60',
+      color: 'white:emphasis',
+      ...(canFocus) && {
+        '&:focus': {
+          borderColor: focusColor,
+          boxShadow: `inset 0 0 0 1px ${focusColor}`,
+          bg: 'inherit',
+          '& > :first-child': {
+            top: '2px',
+            bottom: '2px',
+            left: '2px',
+            right: '2px',
+            bg: 'red:60'
+          },
+        },
+      },
+    },
     _disabled: {
       borderColor: 'transparent', // override focus style
       boxShadow: 'none', // override focus style
@@ -94,6 +112,25 @@ const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
         boxShadow: `inset 0 0 0 1px ${focusColor}`,
       },
     },
+    _invalid: {
+      borderColor: 'transparent',
+      bg: 'red:60',
+      color: 'white:emphasis',
+      ...(canFocus) && {
+        '&:focus': {
+          borderColor: focusColor,
+          boxShadow: `inset 0 0 0 1px ${focusColor}`,
+          bg: 'inherit',
+          '& > :first-child': {
+            top: '2px',
+            bottom: '2px',
+            left: '2px',
+            right: '2px',
+            bg: 'red:60'
+          },
+        },
+      },
+    },
     _disabled: {
       borderColor: 'gray:70',
       boxShadow: 'none',
@@ -106,47 +143,8 @@ const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
   return styles;
 };
 
-const invalidStyle = ({ canFocus, theme: { colors } }) => {
-  const focusColor = colors['blue:60'];
-  const styles = {
-    bg: 'red:60',
-    color: 'white:emphasis',
-    ...(canFocus) && {
-      _focus: {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 1px ${focusColor}`,
-        bg: 'inherit',
-        '& > :first-child': {
-          top: '2px',
-          bottom: '2px',
-          left: '2px',
-          right: '2px',
-          bg: 'red:60'
-        },
-      },
-    },
-    _disabled: {
-      borderColor: 'transparent', // override focus style
-      boxShadow: 'none', // override focus style
-      bg: 'gray:70',
-      '& > :first-child': {
-        bg: 'inherit',
-      },
-      cursor: 'not-allowed',
-      opacity: 0.28,
-    },
-  };
-
-  return styles;
-};
-
 const variantProps = props => {
   const variant = props.variant;
-  const invalid = props.invalid;
-
-  if (invalid) {
-    return invalidStyle(props);
-  }
 
   switch (variant) {
   case 'solid':

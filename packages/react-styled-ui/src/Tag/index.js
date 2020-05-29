@@ -19,9 +19,8 @@ const Tag = forwardRef(
       size = 'md',
       variant = 'solid',
       variantColor = 'gray',
-      invalid,
+      isInvalid,
       isCloseable,
-      canFocus,
       disabled,
       children,
       onClose,
@@ -33,8 +32,7 @@ const Tag = forwardRef(
       color: variantColor,
       size,
       variant,
-      invalid,
-      canFocus: canFocus || isCloseable,
+      canFocus: isCloseable,
       isCloseable,
     });
 
@@ -43,6 +41,7 @@ const Tag = forwardRef(
         ref={ref}
         disabled={disabled}
         aria-disabled={disabled}
+        aria-invalid={isInvalid}
         borderRadius={borderRadius}
         tabIndex="0"
         {...tagStyleProps}

@@ -152,24 +152,24 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
   <Stack direction="row" spacing="4x" shouldWrapChildren>
     <Tag isCloseable>Normal</Tag>
     <Tag isCloseable disabled>Disabled</Tag>
-    <Tag isCloseable invalid>Invalid</Tag>
+    <Tag isCloseable isInvalid>Invalid</Tag>
   </Stack>
   <Stack direction="row" spacing="4x" shouldWrapChildren>
     <Tag variant="outline" isCloseable>Normal</Tag>
     <Tag variant="outline" isCloseable disabled>Disabled</Tag>
-    <Tag variant="outline" isCloseable invalid>Invalid</Tag>
+    <Tag variant="outline" isCloseable isInvalid>Invalid</Tag>
   </Stack>
 </Stack>
 ```
 
-### With input
+### Editable tag
 
-In this example, setting `invalid` style when value is empty after editing tag.
+In this example, setting invalid style when value is empty after editing tag.
 
 ```jsx noInline
 const EditableTag = ({
   children,
-  invalid,
+  isInvalid,
   onChange,
   ...rest
 }) => {
@@ -181,13 +181,13 @@ const EditableTag = ({
       onChange(e);
       handleInputHidden();
     };
-    const handleInputChange = (e) => {
-      setInputValue(e.target.value);
-    };
     const handleInputKeyUp = (e) => {
       const keyCode = event.keyCode;
       if (keyCode === 13) {
         onChange(e);
+        handleInputHidden();
+      }
+      if (keyCode === 27) {
         handleInputHidden();
       }
     };
@@ -209,8 +209,7 @@ const EditableTag = ({
           minHeight="6x"
           mr="2x"
           mt="1x"
-          value={inputValue}
-          onChange={handleInputChange}
+          defaultValue={inputValue}
           onKeyUp={handleInputKeyUp}
           onBlur={handleInputBlur}
         />
@@ -219,13 +218,13 @@ const EditableTag = ({
     return (
       <Tag
         isCloseable
-        invalid={invalid}
+        isInvalid={isInvalid}
         mr="2x"
         mt="1x"
         onClick={handleTagClick}
         onKeyUp={handleTagKeyUp}
         cursor="pointer"
-        {...!invalid && {
+        {...!isInvalid && {
           _hover: {
             '&:not(:focus)': {
               bg: 'gray:60',
@@ -235,7 +234,7 @@ const EditableTag = ({
             },
           }
         }}
-        {...invalid && {
+        {...isInvalid && {
           _hover: {
             '&:not(:focus)': {
               bg: 'red:50',
@@ -268,9 +267,6 @@ function Tags() {
     setTags(newTags);
     handleInputHidden();
   };
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
   const handleInputKeyUp = (e) => {
     const keyCode = event.keyCode;
     if (keyCode === 13) {
@@ -280,6 +276,10 @@ function Tags() {
         newTags = [...tags, inputValue];
       }
       setTags(newTags);
+      handleInputHidden();
+    }
+
+    if (keyCode === 27) {
       handleInputHidden();
     }
   };
@@ -296,21 +296,13 @@ function Tags() {
   };
 
   return (
-    <Box
-      width={320}
-      minHeight={34}
-      border={1}
-      px="2x"
-      pb="1x"
-      borderColor="gray:60"
-      onClick={handleInputVisible}
-    >
+    <Box>
       {
         tags.map((tag, i) => {
           return (
             <EditableTag
               key={i}
-              invalid={tag.length === 0}
+              isInvalid={tag.length === 0}
               onChange={handleTagChange(i)}
               onClose={handleTagClose(i)}
             >
@@ -319,7 +311,7 @@ function Tags() {
           );
         })
       }
-      {(tags.length === 0 && !inputVisible) && (
+      { !inputVisible && (
         <Box
           display="inline-flex"
           alignItems="center"
@@ -332,6 +324,7 @@ function Tags() {
           pl="2x"
           pr="1x"
           mt="1x"
+          onClick={handleInputVisible}
         >
           <TMIcon name="add" color="white:tertiary" />
           <Space width="2x" />
@@ -365,8 +358,9 @@ render(<Tags />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | disabled | boolean | | If `true`, the tag will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
-| invalid | boolean | | If `true`, set the tag to invalid style. |
+| isInvalid | boolean | | If `true`, the tag will indicate an error. You can style this state by passing the `_invalid` prop. |
 | isCloseable | boolean | | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
 | size | string | 'md' | The size of the tag component. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'solid' | The variant style of the tag component. One of: `'solid'`, `'outline'` |
 | variantColor | string | 'gray' | The color scheme of the tag variant. It must be a color key defined in `theme.colors`. |
