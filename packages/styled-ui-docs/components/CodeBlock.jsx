@@ -43,6 +43,10 @@ const liveErrorStyle = {
 
 const LiveCodePreview = props => {
   const { colorMode } = useColorMode();
+  const backgroundColor = {
+    light: 'white',
+    dark: 'gray:100',
+  }[colorMode];
   const borderColor = {
     light: 'gray:20', // FIXME
     dark: 'gray:70', // FIXME
@@ -56,6 +60,7 @@ const LiveCodePreview = props => {
       lineHeight="sm"
       mt="5x"
       p="4x"
+      backgroundColor={backgroundColor}
       border={1}
       borderColor={borderColor}
       borderRadius="sm"
