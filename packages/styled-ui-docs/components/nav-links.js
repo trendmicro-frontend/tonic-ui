@@ -45,6 +45,7 @@ export const componentLinks = [
   'Radio',
   'RadioGroup',
   'Select',
+  'Skeleton',
   'Spinner',
   'Space',
   'Stack',

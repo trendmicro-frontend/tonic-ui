@@ -27,11 +27,11 @@ import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
 import LightMode from './LightMode';
 import Link from './Link';
-
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
 import Select from './Select';
+import Skeleton from './Skeleton';
 import Space from './Space';
 import Spinner from './Spinner';
 import Stack from './Stack';
@@ -86,6 +86,7 @@ export {
   Radio,
   RadioGroup,
   Select,
+  Skeleton,
   Space,
   Spinner,
   Stack,
