@@ -7,7 +7,7 @@ import {
 
 const defaultVariant = 'text';
 
-const Skeleton = ((
+const Skeleton = forwardRef((
   {
     animation = false,
     variant,
