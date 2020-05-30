@@ -10,90 +10,108 @@ import { SearchInput } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
+### Uncontrolled state
+
 ```jsx
-<>
-  <TextLabel mb="1x">Label:</TextLabel>
-  <SearchInput placeholder="Basic example" />
-  <Text size="xs" mt="1x">Help text for the text input</Text>
-</>
+<Stack direction="column" spacing="4x">
+  <SearchInput placeholder="Search" />
+  <SearchInput placeholder="Search" defaultValue="John Doe" />
+  <SearchInput placeholder="Search" defaultValue="John Doe" readOnly isLoading />
+</Stack>
+```
+
+### Controlled state
+
+```jsx
+function Example() {
+  const ref = React.useRef();
+  const [keyword, setKeyword] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const searchKeyword = (keyword) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
+  const onChange = (e) => {
+    const keyword = e.target.value;
+    setKeyword(keyword);
+  };
+  const onClearInput = (e) => {
+    const keyword = '';
+    setKeyword(keyword);
+  };
+  const onKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      const keyword = e.target.value;
+      if (!!keyword) {
+        searchKeyword(keyword);
+      }
+    }
+  };
+  const handleClickSearch = (e) => {
+    if (!!keyword) {
+      searchKeyword(keyword);
+    }
+  };
+
+  return (
+    <Flex>
+      <SearchInput
+        ref={ref}
+        placeholder="Search"
+        value={keyword}
+        isLoading={isLoading}
+        readOnly={isLoading}
+        onChange={onChange}
+        onClearInput={onClearInput}
+        onFocus={() => {
+          ref.current.select();
+        }}
+        onKeyPress={onKeyPress}
+      />
+      <Button ml="4x" disabled={!keyword} onClick={handleClickSearch}>
+        Search
+      </Button>
+    </Flex>
+  );
+}
 ```
 
 ### Sizes
 
-Use the `size` prop to change the size of the `Input`. You can set the value to `sm`, `md`, or `lg`.
+Use the `size` prop to change the size of the `SearchInput`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Box>
-    <TextLabel mb="1x" size="sm">Label:</TextLabel>
-    <Input size="sm" placeholder="Small size (24px)" />
-  </Box>
-  <Box>
-    <TextLabel mb="1x" size="md">Label:</TextLabel>
-    <Input size="md" placeholder="Default size (32px)" />
-  </Box>
-  <Box>
-    <TextLabel mb="1x" size="lg">Label:</TextLabel>
-    <Input size="lg" placeholder="Large size (40px)" />
-  </Box>
+  <SearchInput size="sm" placeholder="Small size (24px)" />
+  <SearchInput size="md" placeholder="Default size (32px)" />
+  <SearchInput size="lg" placeholder="Large size (40px)" />
 </Stack>
 ```
 
 ### Variants
 
-The `Input` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
-
-#### `outline`
+The `SearchInput` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
 
 ```jsx
-<Input variant="outline" placeholder="John Doe" />
-```
-
-#### `filled`
-
-```jsx
-<Input variant="filled" placeholder="John Doe" />
-```
-
-#### `unstyled`
-
-```jsx
-<Input variant="unstyled" placeholder="John Doe" />
+<Stack direction="column" spacing="4x">
+  <SearchInput variant="outline" placeholder="Search" />
+  <SearchInput variant="filled" placeholder="Search" />
+  <SearchInput variant="unstyled" placeholder="Search" />
+</Stack>
 ```
 
 ### Attributes
 
-Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, etc.
-
-#### `type`
-
-```jsx
-<Grid
-  templateColumns="min-content auto"
-  columnGap="3x"
-  rowGap="3x"
->
-  <Grid>
-    <TextLabel>Name:</TextLabel>
-  </Grid>
-  <Grid>
-    <Input type="text" placeholder="John Doe" />
-  </Grid>
-  <Grid>
-    <TextLabel>Password:</TextLabel>
-  </Grid>
-  <Grid>
-    <Input type="password" placeholder="Password" />
-  </Grid>
-</Grid>
-```
+Standard input attributes are supported, e.g., `disabled`, `readOnly`, `required`, etc.
 
 #### `disabled`
 
 ```jsx
 <Stack directin="column" spacing="4x">
-  <Input disabled placeholder="Placeholder text" />
-  <Input disabled placeholder="Placeholder text" defaultValue="Disabled" />
+  <SearchInput disabled placeholder="Placeholder text" />
+  <SearchInput disabled placeholder="Placeholder text" defaultValue="Disabled" />
 </Stack>
 ```
 
@@ -101,135 +119,15 @@ Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `
 
 ```jsx
 <Stack directin="column" spacing="4x">
-  <Input readOnly placeholder="Placeholder text" />
-  <Input readOnly placeholder="Placeholder text" defaultValue="Read-only" />
+  <SearchInput readOnly placeholder="Placeholder text" />
+  <SearchInput readOnly placeholder="Placeholder text" defaultValue="Read-only" />
 </Stack>
 ```
 
 #### `required`
 
 ```jsx
-<Input required placeholder="Placeholder text" />
-```
-
-### Adornments
-
-Input adornments can be used to add a prefix, a suffix or an action to an input. For instance, you can use an icon button to hide or reveal the password.
-
-```jsx
-function Example() {
-  const [view, setView] = React.useState(false);
-  const toggleView = () => setView(view => !view);
-  const { colorMode } = useColorMode();
-  const adornmentColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const adornmentIconName = view ? 'view' : 'view-off';
-  const inputType = view ? 'text' : 'password';
-
-  return (
-    <Stack direction="column" spacing="4x">
-      <Flex position="relative" alignItems="center">
-        <Box position="absolute" left={0}>
-          <TMIcon name="mobile" px="3x" color={adornmentColor} />
-        </Box>
-        <Input
-          placeholder="Mobile phone number"
-          px="10x"
-        />
-      </Flex>
-      <Flex position="relative" alignItems="center">
-        <Box position="absolute" left={0}>
-          <Text width="10x" textAlign="center" color={adornmentColor}>$</Text>
-        </Box>
-        <Input
-          placeholder="Enter the amount"
-          px="10x"
-        />
-        <Box position="absolute" right={0}>
-          <TMIcon name="check" color="green:50" px="3x"/>
-        </Box>
-      </Flex>
-      <Flex position="relative" alignItems="center">
-        <Input
-          type={inputType}
-          defaultValue="Revealed Password"
-          placeholder="Password"
-          pr="10x"
-        />
-        <Box position="absolute" right={0} zIndex={2}>
-          <ButtonBase onClick={toggleView}>
-            <TMIcon name={adornmentIconName} px="3x" color={adornmentColor} />
-          </ButtonBase>
-        </Box>
-      </Flex>
-    </Stack>
-  );
-}
-```
-
-### Validation
-
-Use the `aria-invalid` attribute to indicate that the value entered into an input field does not conform to the format expected by the application. `aria-invalid` can also be used to indicate that a required field has not been filled in.
-
-Set `aria-invalid` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
-
-```jsx noInline
-const InlineError = (props) => (
-  <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
-);
-
-const InputField = ({
-  value,
-  onChange,
-  ...props
-}) => {
-  const isInvalid = (value === '');
-  let invalidInputStyle = {};
-  if (isInvalid) {
-    invalidInputStyle = {
-      'aria-invalid': true,
-      pr: '10x',
-    };
-  }
-
-  return (
-    <>
-      <Flex position="relative" alignItems="center" mb="1x">
-        <Input
-          placeholder="Enter your name here"
-          value={value}
-          onChange={onChange}
-          {...invalidInputStyle}
-        />
-        {isInvalid && (
-          <Box position="absolute" right={0}>
-            <TMIcon name="warning-circle" px="3x" color="red:50" />
-          </Box>
-        )}
-      </Flex>
-      <Box>
-        {isInvalid && (
-          <InlineError>This is a required field.</InlineError>
-        )}
-      </Box>
-    </>
-  );
-};
-
-function Example() {
-  const [value, setValue] = React.useState('');
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  return (
-    <InputField value={value} onChange={onChange} />
-  );
-}
-
-render(<Example />);
+<SearchInput required placeholder="Placeholder text" />
 ```
 
 ## Props
@@ -238,6 +136,9 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| isLoading | boolean | | If `true`, then display the loading spinner. |
+| onChange | function | | A callback called when the value is changed. |
+| onClearInput | function | | A callback called when the clear button is clicked. |
 | size | string | 'md' | The visual size of the `input` element. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'outline' | The variant of the input style to use. One of: `'outline'`, `'filled'`, `'unstyled'` |
 | disabled | boolean | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |

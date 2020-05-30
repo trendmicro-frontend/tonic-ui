@@ -1,10 +1,12 @@
 import { keyframes } from '@emotion/core';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
 import Icon from '../Icon';
 import Input from '../Input';
 import useColorMode from '../useColorMode';
+import useForkRef from '../utils/useForkRef';
 import splitProps from './split-props';
 
 const spin = keyframes`
@@ -25,6 +27,8 @@ const SearchInput = React.forwardRef((
   },
   ref
 ) => {
+  const searchInputRef = useRef();
+  const _ref = useForkRef(searchInputRef, ref);
   const [rootProps, inputProps] = splitProps(rest);
   const { colorMode } = useColorMode();
   const primaryColor = {
@@ -36,12 +40,12 @@ const SearchInput = React.forwardRef((
     light: 'black:tertiary',
   }[colorMode];
 
-  const hasValue = !!rest.defaultValue || !!rest.value;
+  const hasValue = !!(rest.value ?? rest.defaultValue);
   const [isClearable, setIsClearable] = useState(hasValue);
   useEffect(() => {
-    const value = String(ref?.current?.value ?? '');
+    const value = String(searchInputRef?.current?.value ?? '');
     setIsClearable(value.length > 0);
-  }, [ref]);
+  });
 
   const iconState = (() => {
     if (isLoading) {
@@ -53,12 +57,15 @@ const SearchInput = React.forwardRef((
     return null;
   })();
 
-  const handleClick = useCallback((e) => {
+  const handleClickClearButton = useCallback((e) => {
     if (iconState !== 'clearable') {
       return;
     }
 
-    setIsClearable(false);
+    if (rest.value === undefined) {
+      setIsClearable(false);
+      searchInputRef.current.value = '';
+    }
 
     if (typeof onClearInput === 'function') {
       onClearInput(e);
@@ -76,13 +83,14 @@ const SearchInput = React.forwardRef((
         position="absolute"
         left={0}
         height="100%"
+        zIndex={3}
         color={tertiaryColor}
         px="3x"
       >
         <Icon name="_core.search-o" />
       </Flex>
       <Input
-        ref={ref}
+        ref={_ref}
         pl="10x"
         pr="10x"
         onChange={(e) => {
@@ -95,31 +103,31 @@ const SearchInput = React.forwardRef((
         }}
         {...inputProps}
       />
-      <Flex
-        align="center"
-        position="absolute"
-        right={0}
-        height="100%"
-        zIndex={2}
-      >
-        <ButtonBase
-          cursor="default"
+      {!!iconState && (
+        <Flex
+          align="center"
+          position="absolute"
+          right={0}
+          height="100%"
+          zIndex={3}
           color={tertiaryColor}
-          _hover={{
-            cursor: 'pointer',
-            color: primaryColor,
-          }}
-          onClick={handleClick}
           px="3x"
         >
+          {iconState === 'clearable' && (
+            <ButtonBase
+              _hover={{
+                color: primaryColor,
+              }}
+              onClick={handleClickClearButton}
+            >
+              <Icon name="_core.close-s" />
+            </ButtonBase>
+          )}
           {iconState === 'loading' && (
             <Icon name="_core.spinner" animation={`${spin} 2s infinite linear`} />
           )}
-          {iconState === 'clearable' && (
-            <Icon name="_core.close-s" />
-          )}
-        </ButtonBase>
-      </Flex>
+        </Flex>
+      )}
     </Flex>
   );
 });
