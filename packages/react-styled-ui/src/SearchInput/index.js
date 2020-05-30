@@ -1,6 +1,5 @@
 import { keyframes } from '@emotion/core';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Box from '../Box';
+import React, { useEffect, useRef, useState } from 'react';
 import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
 import Icon from '../Icon';
@@ -28,7 +27,7 @@ const SearchInput = React.forwardRef((
   ref
 ) => {
   const searchInputRef = useRef();
-  const _ref = useForkRef(searchInputRef, ref);
+  const forkedRef = useForkRef(searchInputRef, ref);
   const [rootProps, inputProps] = splitProps(rest);
   const { colorMode } = useColorMode();
   const primaryColor = {
@@ -40,12 +39,11 @@ const SearchInput = React.forwardRef((
     light: 'black:tertiary',
   }[colorMode];
 
-  const hasValue = !!(rest.value ?? rest.defaultValue);
-  const [isClearable, setIsClearable] = useState(hasValue);
+  const [isClearable, setIsClearable] = useState(!!(rest.value ?? rest.defaultValue));
+  const refValue = String(searchInputRef.current?.value ?? '');
   useEffect(() => {
-    const value = String(searchInputRef?.current?.value ?? '');
-    setIsClearable(value.length > 0);
-  });
+    setIsClearable(refValue.length > 0);
+  }, [refValue, setIsClearable]);
 
   const iconState = (() => {
     if (isLoading) {
@@ -57,20 +55,18 @@ const SearchInput = React.forwardRef((
     return null;
   })();
 
-  const handleClickClearButton = useCallback((e) => {
+  const handleClickClearButton = (e) => {
     if (iconState !== 'clearable') {
       return;
     }
 
-    if (rest.value === undefined) {
-      setIsClearable(false);
-      searchInputRef.current.value = '';
-    }
+    searchInputRef.current.value = '';
+    setIsClearable(false);
 
     if (typeof onClearInput === 'function') {
       onClearInput(e);
     }
-  }, [iconState, onClearInput]);
+  };
 
   return (
     <Flex
@@ -90,7 +86,7 @@ const SearchInput = React.forwardRef((
         <Icon name="_core.search-o" />
       </Flex>
       <Input
-        ref={_ref}
+        ref={forkedRef}
         pl="10x"
         pr="10x"
         onChange={(e) => {
