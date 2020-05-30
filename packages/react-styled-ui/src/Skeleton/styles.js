@@ -1,4 +1,5 @@
 import { css, keyframes } from '@emotion/core';
+import _includes from 'lodash/includes';
 import useColorMode from '../useColorMode';
 
 const pulse = keyframes`
@@ -24,6 +25,44 @@ const wave = keyframes`
     transform: translateX(100%);
   }
 `;
+
+// eslint-disable-next-line consistent-return
+const getAnimationCSS = (animation) => {
+  if (animation === true || animation === 'pulse') {
+    return css`
+      animation: ${pulse} 1.5s ease-in-out .5s infinite;
+    `;
+  }
+
+  if (animation === 'wave') {
+    return css`
+      overflow: hidden;
+      position: relative;
+      &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: "";
+        animation: ${wave} 1.6s linear .5s infinite;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .08), transparent);
+      }
+    `;
+  }
+};
+
+// eslint-disable-next-line consistent-return
+const getVariantCSS = (variant) => {
+  if (variant === 'text') {
+    return css`
+      :empty::before {
+        content: "\\00a0";
+      }
+    `;
+  }
+};
 
 const baseProps = {
   display: 'block',
@@ -67,46 +106,8 @@ const getVariantProps = (props) => {
   return {};
 };
 
-const getSkeletonCSS = (props) => {
-  const list = [];
-  const { animation, variant } = props;
-
-  if (animation === true || animation === 'pulse') {
-    list.push(css`
-      animation: ${pulse} 1.5s ease-in-out .5s infinite;
-    `);
-  }
-
-  if (animation === 'wave') {
-    list.push(css`
-      overflow: hidden;
-      position: relative;
-      &::after {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        content: "";
-        animation: ${wave} 1.6s linear .5s infinite;
-        transform: translateX(-100%);
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .08), transparent);
-      }
-    `);
-  }
-
-  if (variant === 'text') {
-    list.push(css`
-      :empty::before {
-        content: "\\00a0";
-      }
-    `);
-  }
-
-  return list;
-};
-
 const useSkeletonStyle = ({
+  animation,
   variant,
 }) => {
   const { colorMode } = useColorMode();
@@ -119,14 +120,21 @@ const useSkeletonStyle = ({
   };
   const variantProps = getVariantProps(_props);
 
+  const builtinAnimationTypes = ['pulse', 'wave', true, false];
+  if (_includes(builtinAnimationTypes, animation)) {
+    animation = undefined;
+  }
+
   return {
     ...baseProps,
+    animation,
     backgroundColor,
     ...variantProps,
   };
 };
 
 export {
-  getSkeletonCSS,
+  getAnimationCSS,
+  getVariantCSS,
   useSkeletonStyle,
 };

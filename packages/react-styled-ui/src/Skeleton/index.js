@@ -1,7 +1,8 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import {
-  getSkeletonCSS,
+  getAnimationCSS,
+  getVariantCSS,
   useSkeletonStyle,
 } from './styles';
 
@@ -19,7 +20,8 @@ const Skeleton = forwardRef((
   // Use fallback values if values are null or undefined
   variant = variant ?? defaultVariant;
   css = [
-    ...getSkeletonCSS({ animation, variant }),
+    getAnimationCSS(animation),
+    getVariantCSS(variant),
     css,
   ];
   const styleProps = useSkeletonStyle({ animation, variant });
