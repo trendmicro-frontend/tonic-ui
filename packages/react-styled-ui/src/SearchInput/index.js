@@ -26,8 +26,8 @@ const SearchInput = React.forwardRef((
   },
   ref
 ) => {
-  const searchInputRef = useRef();
-  const forkedRef = useForkRef(searchInputRef, ref);
+  const inputRef = useRef();
+  const combinedRef = useForkRef(inputRef, ref);
   const [rootProps, inputProps] = splitProps(rest);
   const { colorMode } = useColorMode();
   const primaryColor = {
@@ -40,7 +40,7 @@ const SearchInput = React.forwardRef((
   }[colorMode];
 
   const [isClearable, setIsClearable] = useState(!!(rest.value ?? rest.defaultValue));
-  const refValue = String(searchInputRef.current?.value ?? '');
+  const refValue = String(inputRef.current?.value ?? '');
   useEffect(() => {
     setIsClearable(refValue.length > 0);
   }, [refValue, setIsClearable]);
@@ -60,7 +60,7 @@ const SearchInput = React.forwardRef((
       return;
     }
 
-    searchInputRef.current.value = '';
+    inputRef.current.value = '';
     setIsClearable(false);
 
     if (typeof onClearInput === 'function') {
@@ -70,8 +70,8 @@ const SearchInput = React.forwardRef((
 
   return (
     <Flex
-      align="center"
       position="relative"
+      transition="all .2s"
       {...rootProps}
     >
       <Flex
@@ -86,7 +86,7 @@ const SearchInput = React.forwardRef((
         <Icon name="_core.search-o" />
       </Flex>
       <Input
-        ref={forkedRef}
+        ref={combinedRef}
         pl="10x"
         pr="10x"
         onChange={(e) => {
@@ -99,31 +99,29 @@ const SearchInput = React.forwardRef((
         }}
         {...inputProps}
       />
-      {!!iconState && (
-        <Flex
-          align="center"
-          position="absolute"
-          right={0}
-          height="100%"
-          zIndex={3}
-          color={tertiaryColor}
-          px="3x"
-        >
-          {iconState === 'clearable' && (
-            <ButtonBase
-              _hover={{
-                color: primaryColor,
-              }}
-              onClick={handleClickClearButton}
-            >
-              <Icon name="_core.close-s" />
-            </ButtonBase>
-          )}
-          {iconState === 'loading' && (
-            <Icon name="_core.spinner" animation={`${spin} 2s infinite linear`} />
-          )}
-        </Flex>
-      )}
+      <Flex
+        align="center"
+        position="absolute"
+        right={0}
+        height="100%"
+        zIndex={3}
+        color={tertiaryColor}
+        px="3x"
+      >
+        {iconState === 'clearable' && (
+          <ButtonBase
+            _hover={{
+              color: primaryColor,
+            }}
+            onClick={handleClickClearButton}
+          >
+            <Icon name="_core.close-s" />
+          </ButtonBase>
+        )}
+        {iconState === 'loading' && (
+          <Icon name="_core.spinner" animation={`${spin} 2s infinite linear`} />
+        )}
+      </Flex>
     </Flex>
   );
 });

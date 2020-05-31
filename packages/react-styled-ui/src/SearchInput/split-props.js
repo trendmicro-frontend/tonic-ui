@@ -24,6 +24,10 @@ const rootOptions = [
   'bottom',
   'left',
   'position',
+
+  // The `onFocus` and `onBlur` event handlers must be on the component's outermost element to ensure that it gets focused
+  'onFocus',
+  'onBlur',
 ];
 
 const splitProps = props => {
