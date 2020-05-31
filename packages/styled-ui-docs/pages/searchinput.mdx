@@ -14,11 +14,27 @@ import { SearchInput } from '@trendmicro/react-styled-ui';
 <Stack direction="column" spacing="4x">
   <SearchInput placeholder="Search" />
   <SearchInput placeholder="Search" defaultValue="John Doe" />
-  <SearchInput placeholder="Search" defaultValue="John Doe" readOnly isLoading />
+  <SearchInput
+    placeholder="Search"
+    defaultValue="John Doe"
+    readOnly
+    isLoading
+  />
+  <SearchInput
+    placeholder="Search"
+    defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis. Etiam vestibulum lorem vel urna tempor, eu fermentum odio aliquam. Aliquam consequat urna vitae ipsum pulvinar, in blandit purus eleifend."
+    textOverflow="ellipsis"
+  />
 </Stack>
 ```
 
-### Auto-expanding width
+### Keyword search
+
+This example shows how to create a keyword search component with the following features:
+- Automatically adjust the width of an input element
+- Handle focus and blur events
+- Trigger search when pressed `Enter` key
+- Display a loading indicator that recognizes the loading state
 
 ```jsx
 function Example() {
@@ -78,7 +94,6 @@ function Example() {
         }}
         onKeyPress={onKeyPress}
         width={inputWidth}
-        overflow="hidden"
         textOverflow="ellipsis"
       />
       <Box mt="4x">
