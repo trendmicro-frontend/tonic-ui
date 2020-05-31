@@ -79,6 +79,7 @@ const SearchInput = React.forwardRef((
         position="absolute"
         left={0}
         height="100%"
+        // The z-index value should be at least 3 for the prepeneded input adornment
         zIndex={3}
         color={tertiaryColor}
         px="3x"
@@ -104,7 +105,8 @@ const SearchInput = React.forwardRef((
         position="absolute"
         right={0}
         height="100%"
-        zIndex={3}
+        // The z-index value should be at least 2 for the appended input adornment
+        zIndex={2}
         color={tertiaryColor}
         px="3x"
       >
