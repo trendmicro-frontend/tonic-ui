@@ -10,8 +10,6 @@ import { SearchInput } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
-### Uncontrolled state
-
 ```jsx
 <Stack direction="column" spacing="4x">
   <SearchInput placeholder="Search" />
@@ -20,13 +18,13 @@ import { SearchInput } from '@trendmicro/react-styled-ui';
 </Stack>
 ```
 
-### Controlled state
+### Controlled component with auto-expanding width
 
 ```jsx
 function Example() {
   const ref = React.useRef();
   const [placeholder, setPlaceholder] = React.useState('Search');
-  const [inputWidth, setInputWidth] = React.useState(150);
+  const [inputWidth, setInputWidth] = React.useState(180);
   const [keyword, setKeyword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const searchKeyword = (keyword) => {
@@ -69,12 +67,14 @@ function Example() {
         onClearInput={onClearInput}
         onFocus={() => {
           setPlaceholder('Company name, endpoint name');
-          setInputWidth(300);
+          setInputWidth(360);
           ref.current.select();
         }}
         onBlur={() => {
           setPlaceholder('Search');
-          setInputWidth(150);
+
+          // Shrink width when the value is empty
+          setInputWidth(!!keyword ? 360 : 180);
         }}
         onKeyPress={onKeyPress}
         width={inputWidth}
