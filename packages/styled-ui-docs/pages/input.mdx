@@ -118,7 +118,61 @@ Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `
 
 Input adornments can be used to add a prefix, a suffix or an action to an input. For instance, you can use an icon button to hide or reveal the password.
 
-```jsx
+First, you may have to create your input adornment components for convenience. Note that you must use the `z-index` value as mentioned below.
+
+```jsx disabled
+const InputAdornmentPrepend = (props) => (
+  <Flex
+    align="center"
+    position="absolute"
+    left={0}
+    px="3x"
+    // The z-index value should be at least 3 for the prepeneded input adornment
+    zIndex={3}
+    {...props}
+  />
+);
+
+const InputAdornmentAppend = (props) => (
+  <Flex
+    align="center"
+    position="absolute"
+    right={0}
+    px="3x"
+    // The z-index value should be at least 2 for the appended input adornment
+    zIndex={2}
+    {...props}
+  />
+);
+```
+
+Take a look at the following examples:
+
+```jsx noInline
+const InputAdornmentPrepend = (props) => (
+  <Flex
+    align="center"
+    position="absolute"
+    left={0}
+    px="3x"
+    // The z-index value should be at least 3 for the prepeneded input adornment
+    zIndex={3}
+    {...props}
+  />
+);
+
+const InputAdornmentAppend = (props) => (
+  <Flex
+    align="center"
+    position="absolute"
+    right={0}
+    px="3x"
+    // The z-index value should be at least 2 for the appended input adornment
+    zIndex={2}
+    {...props}
+  />
+);
+
 function Example() {
   const [view, setView] = React.useState(false);
   const toggleView = () => setView(view => !view);
@@ -133,25 +187,25 @@ function Example() {
   return (
     <Stack direction="column" spacing="4x">
       <Flex position="relative" alignItems="center">
-        <Box position="absolute" left={0}>
-          <TMIcon name="mobile" px="3x" color={adornmentColor} />
-        </Box>
+        <InputAdornmentPrepend>
+          <TMIcon name="mobile" color={adornmentColor} />
+        </InputAdornmentPrepend>
         <Input
           placeholder="Mobile phone number"
           px="10x"
         />
       </Flex>
       <Flex position="relative" alignItems="center">
-        <Box position="absolute" left={0}>
-          <Text width="10x" textAlign="center" color={adornmentColor}>$</Text>
-        </Box>
+        <InputAdornmentPrepend>
+          <Text width="4x" textAlign="center" color={adornmentColor}>$</Text>
+        </InputAdornmentPrepend>
         <Input
           placeholder="Enter the amount"
           px="10x"
         />
-        <Box position="absolute" right={0}>
-          <TMIcon name="check" color="green:50" px="3x"/>
-        </Box>
+        <InputAdornmentAppend>
+          <TMIcon name="check" color="green:50" />
+        </InputAdornmentAppend>
       </Flex>
       <Flex position="relative" alignItems="center">
         <Input
@@ -160,15 +214,17 @@ function Example() {
           placeholder="Password"
           pr="10x"
         />
-        <Box position="absolute" right={0} zIndex={2}>
+        <InputAdornmentAppend>
           <ButtonBase onClick={toggleView}>
-            <TMIcon name={adornmentIconName} px="3x" color={adornmentColor} />
+            <TMIcon name={adornmentIconName} color={adornmentColor} />
           </ButtonBase>
-        </Box>
+        </InputAdornmentAppend>
       </Flex>
     </Stack>
   );
 }
+
+render(<Example />);
 ```
 
 ### Validation
