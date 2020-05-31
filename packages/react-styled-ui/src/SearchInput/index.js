@@ -17,6 +17,32 @@ const spin = keyframes`
   }
 `;
 
+const InputAdornmentPrepend = (props) => (
+  <Flex
+    align="center"
+    position="absolute"
+    left={0}
+    height="100%"
+    px="3x"
+    // The z-index value should be at least 3 for the prepeneded input adornment
+    zIndex={3}
+    {...props}
+  />
+);
+
+const InputAdornmentAppend = (props) => (
+  <Flex
+    align="center"
+    position="absolute"
+    right={0}
+    height="100%"
+    px="3x"
+    // The z-index value should be at least 2 for the appended input adornment
+    zIndex={2}
+    {...props}
+  />
+);
+
 const SearchInput = React.forwardRef((
   {
     isLoading,
@@ -74,18 +100,11 @@ const SearchInput = React.forwardRef((
       transition="all .2s"
       {...rootProps}
     >
-      <Flex
-        align="center"
-        position="absolute"
-        left={0}
-        height="100%"
-        // The z-index value should be at least 3 for the prepeneded input adornment
-        zIndex={3}
+      <InputAdornmentPrepend
         color={tertiaryColor}
-        px="3x"
       >
         <Icon name="_core.search-o" />
-      </Flex>
+      </InputAdornmentPrepend>
       <Input
         ref={combinedRef}
         pl="10x"
@@ -100,15 +119,8 @@ const SearchInput = React.forwardRef((
         }}
         {...inputProps}
       />
-      <Flex
-        align="center"
-        position="absolute"
-        right={0}
-        height="100%"
-        // The z-index value should be at least 2 for the appended input adornment
-        zIndex={2}
+      <InputAdornmentAppend
         color={tertiaryColor}
-        px="3x"
       >
         {iconState === 'clearable' && (
           <ButtonBase
@@ -121,9 +133,12 @@ const SearchInput = React.forwardRef((
           </ButtonBase>
         )}
         {iconState === 'loading' && (
-          <Icon name="_core.spinner" animation={`${spin} 2s infinite linear`} />
+          <Icon
+            name="_core.spinner"
+            animation={`${spin} 2s infinite linear`}
+          />
         )}
-      </Flex>
+      </InputAdornmentAppend>
     </Flex>
   );
 });
