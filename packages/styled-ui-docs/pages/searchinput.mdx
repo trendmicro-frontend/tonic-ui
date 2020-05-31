@@ -25,6 +25,8 @@ import { SearchInput } from '@trendmicro/react-styled-ui';
 ```jsx
 function Example() {
   const ref = React.useRef();
+  const [placeholder, setPlaceholder] = React.useState('Search');
+  const [inputWidth, setInputWidth] = React.useState(150);
   const [keyword, setKeyword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const searchKeyword = (keyword) => {
@@ -56,24 +58,35 @@ function Example() {
   };
 
   return (
-    <Flex>
+    <>
       <SearchInput
         ref={ref}
-        placeholder="Search"
+        placeholder={placeholder}
         value={keyword}
         isLoading={isLoading}
         readOnly={isLoading}
         onChange={onChange}
         onClearInput={onClearInput}
         onFocus={() => {
+          setPlaceholder('Company name, endpoint name');
+          setInputWidth(300);
           ref.current.select();
         }}
+        onBlur={() => {
+          setPlaceholder('Search');
+          setInputWidth(150);
+        }}
         onKeyPress={onKeyPress}
+        width={inputWidth}
+        overflow="hidden"
+        textOverflow="ellipsis"
       />
-      <Button ml="4x" disabled={!keyword} onClick={handleClickSearch}>
-        Search
-      </Button>
-    </Flex>
+      <Box mt="4x">
+        <Button disabled={!keyword} onClick={handleClickSearch}>
+          Search
+        </Button>
+      </Box>
+    </>
   );
 }
 ```
