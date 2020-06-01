@@ -30,6 +30,7 @@ import Link from './Link';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
+import SearchInput from './SearchInput';
 import Select from './Select';
 import Skeleton from './Skeleton';
 import Space from './Space';
@@ -85,6 +86,7 @@ export {
   PseudoBox,
   Radio,
   RadioGroup,
+  SearchInput,
   Select,
   Skeleton,
   Space,
