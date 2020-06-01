@@ -44,6 +44,7 @@ export const componentLinks = [
   'Popover',
   'Radio',
   'RadioGroup',
+  'SearchInput',
   'Select',
   'Spinner',
   'Space',
