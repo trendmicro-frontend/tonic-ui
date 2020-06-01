@@ -31,6 +31,7 @@ import Link from './Link';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
+import SearchInput from './SearchInput';
 import Select from './Select';
 import Space from './Space';
 import Spinner from './Spinner';
@@ -85,6 +86,7 @@ export {
   PseudoBox,
   Radio,
   RadioGroup,
+  SearchInput,
   Select,
   Space,
   Spinner,
