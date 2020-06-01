@@ -28,7 +28,7 @@ const wave = keyframes`
 
 // eslint-disable-next-line consistent-return
 const getAnimationCSS = (animation) => {
-  if (animation === true || animation === 'pulse') {
+  if (animation === 'pulse') {
     return css`
       animation: ${pulse} 1.5s ease-in-out .5s infinite;
     `;
@@ -120,7 +120,7 @@ const useSkeletonStyle = ({
   };
   const variantProps = getVariantProps(_props);
 
-  const builtinAnimationTypes = ['pulse', 'wave', true, false];
+  const builtinAnimationTypes = ['pulse', 'wave'];
   if (_includes(builtinAnimationTypes, animation)) {
     animation = undefined;
   }

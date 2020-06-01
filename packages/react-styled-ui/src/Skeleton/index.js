@@ -10,7 +10,7 @@ const defaultVariant = 'text';
 
 const Skeleton = forwardRef((
   {
-    animation = false,
+    animation,
     variant,
     css,
     ...props
