@@ -44,23 +44,6 @@ Use the `variantColor` prop to change the color scheme of the `Tag`. `variantCol
     <Tag variantColor="cyan">Cyan</Tag>
   </Stack>
   <Stack direction="row" spacing="2x" shouldWrapChildren>
-    <Tag variant="outline" variantColor="gray">Gray</Tag>
-    <Tag variant="outline" variantColor="red">Red</Tag>
-    <Tag variant="outline" variantColor="magenta">Magenta</Tag>
-    <Tag variant="outline" variantColor="purple">Purple</Tag>
-    <Tag variant="outline" variantColor="blue">Blue</Tag>
-    <Tag variant="outline" variantColor="green">Green</Tag>
-    <Tag variant="outline" variantColor="teal">Teal</Tag>
-    <Tag variant="outline" variantColor="cyan">Cyan</Tag>
-  </Stack>
-</Stack>
-```
-
-### Round tags
-
-```jsx
-<Stack spacing="4x">
-  <Stack direction="row" spacing="2x" shouldWrapChildren>
     <Tag variantColor="gray" borderRadius="lg">Gray</Tag>
     <Tag variantColor="red" borderRadius="lg">Red</Tag>
     <Tag variantColor="magenta" borderRadius="lg">Magenta</Tag>
@@ -69,6 +52,16 @@ Use the `variantColor` prop to change the color scheme of the `Tag`. `variantCol
     <Tag variantColor="green" borderRadius="lg">Green</Tag>
     <Tag variantColor="teal" borderRadius="lg">Teal</Tag>
     <Tag variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  </Stack>
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variant="outline" variantColor="gray">Gray</Tag>
+    <Tag variant="outline" variantColor="red">Red</Tag>
+    <Tag variant="outline" variantColor="magenta">Magenta</Tag>
+    <Tag variant="outline" variantColor="purple">Purple</Tag>
+    <Tag variant="outline" variantColor="blue">Blue</Tag>
+    <Tag variant="outline" variantColor="green">Green</Tag>
+    <Tag variant="outline" variantColor="teal">Teal</Tag>
+    <Tag variant="outline" variantColor="cyan">Cyan</Tag>
   </Stack>
   <Stack direction="row" spacing="2x" shouldWrapChildren>
     <Tag variant="outline" variantColor="gray" borderRadius="lg">Gray</Tag>
@@ -89,58 +82,23 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 
 ```jsx
 <Stack spacing="4x">
-  <Stack direction="row" spacing="2x" lineHeight={1} shouldWrapChildren>
-    {["sm", "md", "lg"].map(size => (
-      <Tag
-        size={size}
-        key={size}
-        variantColor="gray"
-      >
-        { size }
-      </Tag>
-    ))}
+  <Stack
+    align="center"
+    direction="row"
+    spacing="2x"
+  >
+    <Tag size="sm" variantColor="gray">Small</Tag>
+    <Tag size="md" variantColor="gray">Medium</Tag>
+    <Tag size="lg" variantColor="gray">Large</Tag>
   </Stack>
-  <Stack direction="row" spacing="2x" lineHeight={1} shouldWrapChildren>
-    {["sm", "md", "lg"].map(size => (
-      <Tag
-        size={size}
-        key={size}
-        variant="outline"
-        variantColor="gray"
-      >
-        { size }
-      </Tag>
-    ))}
-  </Stack>
-</Stack>
-```
-
-### isCloseButtonVisible
-
-```jsx
-<Stack spacing="4x">
-  <Stack direction="row" spacing="2x" lineHeight={1} shouldWrapChildren>
-    {["sm", "md", "lg"].map(size => (
-      <Tag
-        size={size}
-        key={size}
-        isCloseButtonVisible
-      >
-        Gray
-      </Tag>
-    ))}
-  </Stack>
-  <Stack direction="row" spacing="2x" lineHeight={1} shouldWrapChildren>
-    {["sm", "md", "lg"].map(size => (
-      <Tag
-        size={size}
-        key={size}
-        variant="outline"
-        isCloseButtonVisible
-      >
-        Gray
-      </Tag>
-    ))}
+  <Stack
+    align="center"
+    direction="row"
+    spacing="2x"
+  >
+    <Tag size="sm" variant="outline" variantColor="gray">Small</Tag>
+    <Tag size="md" variant="outline" variantColor="gray">Medium</Tag>
+    <Tag size="lg" variant="outline" variantColor="gray">Large</Tag>
   </Stack>
 </Stack>
 ```
