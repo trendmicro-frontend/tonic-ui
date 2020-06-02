@@ -231,9 +231,9 @@ render(<Example />);
 
 ### Validation
 
-Use the `aria-invalid` attribute to indicate that the value entered into an input field does not conform to the format expected by the application. `aria-invalid` can also be used to indicate that a required field has not been filled in.
+Use the `isInvalid` attribute to indicate that the value entered into an input field does not conform to the format expected by the application. `isInvalid` can also be used to indicate that a required field has not been filled in.
 
-Set `aria-invalid` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
+Set `isInvalid` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
 
 ```jsx noInline
 const InlineError = (props) => (
@@ -249,7 +249,7 @@ const InputField = ({
   let invalidInputStyle = {};
   if (isInvalid) {
     invalidInputStyle = {
-      'aria-invalid': true,
+      isInvalid: true,
       pr: '10x',
     };
   }
@@ -302,4 +302,4 @@ render(<Example />);
 | variant | string | 'outline' | The variant of the input style to use. One of: `'outline'`, `'filled'`, `'unstyled'` |
 | disabled | boolean | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
-| aria-invalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
+| isInvalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
