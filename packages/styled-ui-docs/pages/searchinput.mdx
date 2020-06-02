@@ -1,0 +1,174 @@
+# SearchInput
+
+## Import
+
+```js
+import SearchInput from '@trendmicro/react-styled-ui/SearchInput';
+// or
+import { SearchInput } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <SearchInput placeholder="Search" />
+  <SearchInput placeholder="Search" defaultValue="John Doe" />
+  <SearchInput
+    placeholder="Search"
+    defaultValue="John Doe"
+    readOnly
+    isLoading
+  />
+  <SearchInput
+    placeholder="Search"
+    defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis. Etiam vestibulum lorem vel urna tempor, eu fermentum odio aliquam. Aliquam consequat urna vitae ipsum pulvinar, in blandit purus eleifend."
+    textOverflow="ellipsis"
+  />
+</Stack>
+```
+
+### Keyword search
+
+This example shows how to create a keyword search component with the following features:
+- Automatically adjust the width of an input element
+- Handle focus and blur events
+- Trigger search when pressed `Enter` key
+- Display a loading indicator that recognizes the loading state
+
+```jsx
+function Example() {
+  const ref = React.useRef();
+  const [placeholder, setPlaceholder] = React.useState('Search');
+  const [inputWidth, setInputWidth] = React.useState(180);
+  const [keyword, setKeyword] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const searchKeyword = (keyword) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
+  const onChange = (e) => {
+    const keyword = e.target.value;
+    setKeyword(keyword);
+  };
+  const onClearInput = (e) => {
+    const keyword = '';
+    setKeyword(keyword);
+  };
+  const onKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      const keyword = e.target.value;
+      if (!!keyword) {
+        searchKeyword(keyword);
+      }
+    }
+  };
+  const handleClickSearch = (e) => {
+    if (!!keyword) {
+      searchKeyword(keyword);
+    }
+  };
+
+  return (
+    <>
+      <SearchInput
+        ref={ref}
+        placeholder={placeholder}
+        value={keyword}
+        isLoading={isLoading}
+        readOnly={isLoading}
+        onChange={onChange}
+        onClearInput={onClearInput}
+        onFocus={() => {
+          setPlaceholder('Company name, endpoint name');
+          setInputWidth(360);
+          ref.current.select();
+        }}
+        onBlur={() => {
+          setPlaceholder('Search');
+
+          // Shrink width when the value is empty
+          setInputWidth(!!keyword ? 360 : 180);
+        }}
+        onKeyPress={onKeyPress}
+        width={inputWidth}
+        textOverflow="ellipsis"
+      />
+      <Box mt="4x">
+        <Button disabled={!keyword} onClick={handleClickSearch}>
+          Search
+        </Button>
+      </Box>
+    </>
+  );
+}
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the `SearchInput`. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <SearchInput size="sm" placeholder="Small size (24px)" />
+  <SearchInput size="md" placeholder="Default size (32px)" />
+  <SearchInput size="lg" placeholder="Large size (40px)" />
+</Stack>
+```
+
+### Variants
+
+The `SearchInput` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <SearchInput variant="outline" placeholder="Search" />
+  <SearchInput variant="filled" placeholder="Search" />
+  <SearchInput variant="unstyled" placeholder="Search" />
+</Stack>
+```
+
+### Attributes
+
+Standard input attributes are supported, e.g., `disabled`, `readOnly`, `required`, etc.
+
+#### `disabled`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <SearchInput disabled placeholder="Placeholder text" />
+  <SearchInput disabled placeholder="Placeholder text" defaultValue="Disabled" />
+</Stack>
+```
+
+#### `readOnly`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <SearchInput readOnly placeholder="Placeholder text" />
+  <SearchInput readOnly placeholder="Placeholder text" defaultValue="Read-only" />
+</Stack>
+```
+
+#### `required`
+
+```jsx
+<SearchInput required placeholder="Placeholder text" />
+```
+
+## Props
+
+`SearchInput` composes the [`Input`](./input) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| isLoading | boolean | | If `true`, then display the loading spinner. |
+| onChange | function | | A callback called when the value is changed. |
+| onClearInput | function | | A callback called when the clear button is clicked. |
+| size | string | 'md' | The visual size of the `input` element. One of: `'sm'`, `'md'`, `'lg'` |
+| variant | string | 'outline' | The variant of the input style to use. One of: `'outline'`, `'filled'`, `'unstyled'` |
+| disabled | boolean | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
+| aria-invalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
