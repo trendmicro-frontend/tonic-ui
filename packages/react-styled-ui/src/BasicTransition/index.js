@@ -1,3 +1,4 @@
+import React from 'react';
 import { Transition } from 'react-spring/renderprops.cjs';
 
 // Easing function from d3-ease: https://github.com/d3/d3-ease/blob/master/src/exp.js

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { ModalCloseButton } from '../Modal';
 
 const DrawerCloseButton = forwardRef(({ onClick, ...rest }, ref) => (
