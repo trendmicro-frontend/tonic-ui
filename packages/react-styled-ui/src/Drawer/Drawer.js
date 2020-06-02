@@ -1,5 +1,6 @@
-import ModalBase from '../Modal/ModalBase';
 import { Slide } from '../BasicTransition';
+import ModalBase from '../Modal/ModalBase';
+import config from '../shared/config';
 import { DrawerContext } from './context';
 
 const Drawer = ({
@@ -26,9 +27,9 @@ const Drawer = ({
             onClose={onClose}
             closeOnOverlayClick={closeOnOverlayClick}
             formatIds={id => ({
-              content: `trendmicro-styled-ui-drawer-${id}`,
-              header: `trendmicro-styled-ui-drawer-${id}-header`,
-              body: `trendmicro-styled-ui-drawer-${id}-body`,
+              content: `${config.name}:drawer-content-${id}`,
+              header: `${config.name}:drawer-header-${id}`,
+              body: `${config.name}:drawer-body-${id}`,
             })}
             {...props}
           >
