@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import PseudoBox from '../PseudoBox';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
