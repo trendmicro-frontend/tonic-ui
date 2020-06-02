@@ -20,7 +20,7 @@ const ToastCloseButton = (props) => (
 
 const Toast = forwardRef((
   {
-    isCloseButtonVisible = true,
+    isCloseButtonVisible,
     onClose,
     children,
     ...rest

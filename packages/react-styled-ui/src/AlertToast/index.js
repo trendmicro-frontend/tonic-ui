@@ -44,7 +44,7 @@ const AlertToastCloseButton = (props) => (
 
 const AlertToast = forwardRef((
   {
-    isCloseButtonVisible = true,
+    isCloseButtonVisible,
     onClose,
     severity = defaultSeverity,
     icon,

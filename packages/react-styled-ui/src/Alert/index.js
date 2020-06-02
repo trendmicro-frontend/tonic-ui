@@ -44,7 +44,7 @@ const AlertCloseButton = (props) => (
 
 const Alert = forwardRef((
   {
-    isCloseButtonVisible = true,
+    isCloseButtonVisible,
     onClose,
     severity = defaultSeverity,
     icon,

@@ -33,6 +33,27 @@ The alert offers four severity levels, each has a distinctive icon and color.
 </Stack>
 ```
 
+### With close button
+
+Set `isCloseButtonVisible` to `true`, a close button will appear on the right side.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Alert severity="success" isCloseButtonVisible>
+    <Text>This is a success alert.</Text>
+  </Alert>
+  <Alert severity="info" isCloseButtonVisible>
+    <Text>This is an info alert.</Text>
+  </Alert>
+  <Alert severity="warning" isCloseButtonVisible>
+    <Text>This is a warning alert.</Text>
+  </Alert>
+  <Alert severity="error" isCloseButtonVisible>
+    <Text>This is an error alert.</Text>
+  </Alert>
+</Stack>
+```
+
 ### Icons
 
 The `icon` prop allows you to override the default icon for the specified severity.
@@ -42,23 +63,27 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 ```jsx
 <Stack direction="column" spacing="4x">
   <Alert
+    isCloseButtonVisible
     severity="success"
   >
     This is a success alert.
   </Alert>
   <Alert
+    isCloseButtonVisible
     severity="success"
     icon="_core.severity-success"
   >
     This is a success alert.
   </Alert>
   <Alert
+    isCloseButtonVisible
     severity="success"
     icon={<TMIcon name="check-circle-o" lineHeight={1} color="gray:80" />}
   >
     This is a success alert.
   </Alert>
   <Alert
+    isCloseButtonVisible
     severity="success"
     icon={false}
   >
@@ -76,7 +101,7 @@ const Paragraph = (props) => (
 
 function Example() {
   return (
-    <Alert severity="info">
+    <Alert isCloseButtonVisible severity="info">
       <Paragraph>This is the first paragraph.</Paragraph>
       <Paragraph>This is the second paragraph.</Paragraph>
       <Paragraph>This is the third paragraph.</Paragraph>
@@ -93,7 +118,7 @@ You can use the `Heading` component to display a formatted title above the conte
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Alert severity="success">
+  <Alert isCloseButtonVisible severity="success">
     <Box mb="1x">
       <Heading fontWeight="bold">Success</Heading>
     </Box>
@@ -101,7 +126,7 @@ You can use the `Heading` component to display a formatted title above the conte
       This is a success alert.
     </Text>
   </Alert>
-  <Alert severity="info">
+  <Alert isCloseButtonVisible severity="info">
     <Box mb="1x">
       <Heading fontWeight="bold">Info</Heading>
     </Box>
@@ -109,7 +134,7 @@ You can use the `Heading` component to display a formatted title above the conte
       This is an info alert.
     </Text>
   </Alert>
-  <Alert severity="warning">
+  <Alert isCloseButtonVisible severity="warning">
     <Box mb="1x">
       <Heading fontWeight="bold">Warning</Heading>
     </Box>
@@ -117,7 +142,7 @@ You can use the `Heading` component to display a formatted title above the conte
       This is a warning alert.
     </Text>
   </Alert>
-  <Alert severity="error">
+  <Alert isCloseButtonVisible severity="error">
     <Box mb="1x">
       <Heading fontWeight="bold">Error</Heading>
     </Box>
@@ -134,10 +159,10 @@ An alert can have an action, such as a close or action button. It is rendered af
 
 ```jsx
 <Stack direction="column" spacing={1}>
-  <Alert severity="warning">
+  <Alert isCloseButtonVisible severity="warning">
     <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
   </Alert>
-  <Alert severity="error">
+  <Alert isCloseButtonVisible severity="error">
     <Flex justify="space-between" mt={-1} mb={-2}>
       <Text>Your license will expire in 7 days.</Text>
       <FlatButton size="sm" variant="outline" variantColor="black:primary">
@@ -161,7 +186,7 @@ function Example() {
   return (
     <>
       <Collapse isOpen={isOpen}>
-        <Alert severity="info" onClose={handleClose}>
+        <Alert isCloseButtonVisible severity="info" onClose={handleClose}>
           Click the close button on the right side.
         </Alert>
       </Collapse>
@@ -181,7 +206,7 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isCloseButtonVisible | boolean | true | If `true`, a close button will appear on the right side. |
+| isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
 | severity | string | 'success' | The severity level of the alert. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |
