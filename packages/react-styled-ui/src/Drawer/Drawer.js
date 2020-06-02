@@ -1,3 +1,4 @@
+import React from 'react';
 import { Slide } from '../BasicTransition';
 import ModalBase from '../Modal/ModalBase';
 import config from '../shared/config';

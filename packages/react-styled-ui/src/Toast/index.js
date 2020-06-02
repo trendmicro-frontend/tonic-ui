@@ -20,7 +20,7 @@ const ToastCloseButton = (props) => (
 
 const Toast = forwardRef((
   {
-    isCloseable = true,
+    isCloseButtonVisible,
     onClose,
     children,
     ...rest
@@ -42,7 +42,7 @@ const Toast = forwardRef((
       <ToastMessage {...messageStyleProps}>
         {children}
       </ToastMessage>
-      {!!isCloseable && (
+      {!!isCloseButtonVisible && (
         <>
           <Space minWidth="4x" />
           <ToastCloseButton {...closeButtonStyleProps} onClick={onClose}>

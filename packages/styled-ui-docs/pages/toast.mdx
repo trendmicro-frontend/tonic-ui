@@ -30,13 +30,13 @@ import { Toast } from '@trendmicro/react-styled-ui';
 
 ```jsx noInline
 const ToastSimple = ({ onClose }) => (
-  <Toast onClose={onClose}>
+  <Toast isCloseButtonVisible onClose={onClose}>
     <Text>This is a toast notification.</Text>
   </Toast>
 );
 
 const ToastWithIcon = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Flex align="flex-start">
       <Box
         bg="gray:40"
@@ -50,7 +50,7 @@ const ToastWithIcon = ({ onClose }) => (
 );
 
 const ToastWithTitle = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
     </Box>
@@ -61,7 +61,7 @@ const ToastWithTitle = ({ onClose }) => (
 );
 
 const ToastWithActionButton = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -74,7 +74,7 @@ const ToastWithActionButton = ({ onClose }) => (
 );
 
 const ToastWithActionLink = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -85,7 +85,7 @@ const ToastWithActionLink = ({ onClose }) => (
 );
 
 const ToastWithAllTogether = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
     </Box>
@@ -233,5 +233,5 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isCloseable | boolean | true | If `true`, a close button will appear on the right side. |
+| isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
