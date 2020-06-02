@@ -413,7 +413,7 @@ function SortableTable() {
                   overflow="hidden"
                   textOverflow="ellipsis"
                   whiteSpace="nowrap"
-                  width={`calc(100% - ${(column.isSorted ? '20px' : '0px')})`}
+                  maxWidth={`calc(100% - ${(column.isSorted ? '24px' : '0px')})`}
                 >
                   {column.render('Header')}
                 </Box>
@@ -421,7 +421,7 @@ function SortableTable() {
                   <Box as="span">
                     <Space minWidth="1x" />
                     {
-                      column.isSortedDesc ? <TMIcon name="sort-down" /> : <TMIcon name="sort-up" />
+                      column.isSortedDesc ? <TMIcon name="sort-down" size={20} /> : <TMIcon name="sort-up" size={20} />
                     }
                   </Box>
                 )}

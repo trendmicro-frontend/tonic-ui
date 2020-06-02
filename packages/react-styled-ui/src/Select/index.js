@@ -12,6 +12,7 @@ const Select = forwardRef((
     variant,
     multiple, // multiple options
     size, // multiple options
+    isInvalid,
     children,
     ...rest
   },
@@ -36,6 +37,7 @@ const Select = forwardRef((
         as="select"
         aria-disabled={disabled}
         aria-required={required}
+        aria-invalid={isInvalid}
         multiple={multiple}
         size={size}
         {...styleProps}
