@@ -1,3 +1,4 @@
+import React from 'react';
 import ModalBase from '../Modal/ModalBase';
 import { Slide } from '../BasicTransition';
 import { DrawerContext } from './context';
