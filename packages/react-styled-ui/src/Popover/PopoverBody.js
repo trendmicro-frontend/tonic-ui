@@ -1,5 +1,6 @@
-import { usePopover } from './context';
+import React from 'react';
 import Box from '../Box';
+import { usePopover } from './context';
 import { usePopoverBodyStyle } from './styles';
 
 const PopoverBody = props => {

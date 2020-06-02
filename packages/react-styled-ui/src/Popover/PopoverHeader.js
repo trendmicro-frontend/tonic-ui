@@ -1,3 +1,4 @@
+import React from 'react';
 import { usePopover } from './context';
 import PseudoBox from '../PseudoBox';
 import { usePopoverHeaderStyle } from './styles';
