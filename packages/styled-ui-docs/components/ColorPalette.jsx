@@ -12,14 +12,14 @@ export const ColorPalette = ({ color, name, ...props }) => {
   const flexStyleProps = {
     justify: 'space-between',
     fontSize: 'sm',
-    width: '64x',
+    width: '300px',
     height: '12x',
     py: '3x',
     px: '4x',
     lineHeight: 'lg',
     fontFamily: 'mono',
     color: (hue <= 50) ? 'black' : 'white',
-    bg: color
+    bg: color,
   };
 
   if (color in theme.colors && typeof theme.colors[color] === 'string') {
@@ -57,8 +57,8 @@ export const ColorPalettes = ({ color }) => {
 
 export const ColorWrapper = props => (
   <Grid
-    gap="4x"
-    templateColumns="repeat( auto-fit, minmax(256px, 1fr) )"
+    gap="6x"
+    templateColumns="repeat( auto-fit, minmax(300px, 300px) )"
     {...props}
   />
 );
@@ -131,7 +131,8 @@ export const FunctionalColorWrapper = props => (
   <Grid
     px="14x"
     py="10x"
-    gap="6x"
+    rowGap="8x"
+    columnGap="6x"
     templateColumns="repeat( auto-fit, minmax(120px, 120px) )"
     maxWidth="1242px"
     border={1}
