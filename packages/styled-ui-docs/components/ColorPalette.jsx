@@ -1,10 +1,14 @@
 import React from 'react';
-import { Box, Flex, Grid, Stack, LightMode, DarkMode, useTheme } from '@trendmicro/react-styled-ui';
+import { Box, Flex, Grid, Stack, useTheme, useColorMode } from '@trendmicro/react-styled-ui';
+import { getColorPalette } from '@trendmicro/styled-ui-theme';
+
+const splitString = (value) => value.split(':');
+const getToken = (val, obj) => Object.keys(obj).find(key => obj[key] === val);
 
 export const ColorPalette = ({ color, name, ...props }) => {
   const theme = useTheme();
   let colorCode = color;
-  const [shade, hue] = color.split(':');
+  const [shade, hue] = splitString(color);
   const flexStyleProps = {
     justify: 'space-between',
     fontSize: 'sm',
@@ -13,6 +17,7 @@ export const ColorPalette = ({ color, name, ...props }) => {
     py: '3x',
     px: '4x',
     lineHeight: 'lg',
+    fontFamily: 'mono',
     color: (hue <= 50) ? 'black' : 'white',
     bg: color
   };
@@ -53,17 +58,83 @@ export const ColorPalettes = ({ color }) => {
 export const ColorWrapper = props => (
   <Grid
     gap="4x"
+    templateColumns="repeat( auto-fit, minmax(256px, 1fr) )"
     {...props}
   />
 );
 
+export const FunctionalColorPalette = ({ color, value, mode, type, ...props }) => {
+  const { colorMode } = useColorMode();
+  const theme = useTheme();
+  const boxProps = {
+    width: '80px',
+    height: '80px',
+  };
+  const titleProps = {
+    fontSize: 'sm',
+    mt: '2x',
+    color: {
+      dark: 'white:primary',
+      light: 'black:primary'
+    }[mode ?? colorMode]
+  };
+
+  const infoProps = {
+    fontSize: 'xs',
+    lineHeight: 'sm',
+    color: {
+      dark: 'white:secondary',
+      light: 'black:secondary'
+    }[mode ?? colorMode],
+  };
+
+  let colorInfo;
+
+  if (type === 'gradient') {
+    const gradientColor = color.match(/#\w+/g);
+    colorInfo = gradientColor.map((color) => {
+      const [shade, hue] = splitString(getToken(color, theme.colors));
+      return <Box key={color} {...infoProps}>{`${shade.charAt(0).toUpperCase()}${shade.slice(1)}`} {hue} {color}</Box>;
+    });
+  } else {
+    const [shade, hue] = splitString(getToken(color, theme.colors));
+    colorInfo = (type === 'text' && ['black', 'white'].includes(shade)) ?
+      <Box {...infoProps}>{color}</Box>
+      : <Box {...infoProps}>{`${shade.charAt(0).toUpperCase()}${shade.slice(1)}`} {hue} {color}</Box>;
+  }
+
+  return (
+    <Box>
+      <Box background={color} {...boxProps} />
+      <Box {...titleProps}>{type}.{value}</Box>
+      {colorInfo}
+    </Box>
+  );
+};
+
 export const FunctionalColorPalettes = props => {
+  const { mode, type } = props;
+  const palette = getColorPalette(mode);
+  const functionColor = palette.get(type);
   return (
     <>
-      <LightMode bg="white" color="black:primary" px="4x" py="2x">
-      </LightMode>
-      <DarkMode bg="gray:90" color="white:primary" px="4x" py="2x">
-      </DarkMode>
+      {
+        Object.keys(functionColor).map((value) => (
+          <FunctionalColorPalette key={value} color={`${functionColor[value]}`} mode={mode} type={type} value={value} />
+        ))
+      }
     </>
   );
 };
+
+export const FunctionalColorWrapper = props => (
+  <Grid
+    px="14x"
+    py="10x"
+    gap="6x"
+    templateColumns="repeat( auto-fit, minmax(120px, 120px) )"
+    maxWidth="1242px"
+    border={1}
+    {...props}
+  />
+);

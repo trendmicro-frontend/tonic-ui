@@ -1,6 +1,8 @@
 import {
   ColorPalettes,
   ColorWrapper,
+  FunctionalColorPalettes,
+  FunctionalColorWrapper,
 } from "../components/ColorPalette";
 import ThemeParser from "../components/ThemeParser";
 
@@ -16,7 +18,7 @@ We recommend adding palette that go from `10` - `100`.
 
 ### Base Color Palettes
 
-<ColorWrapper templateColumns="repeat( auto-fit, minmax(256px, 1fr) )">
+<ColorWrapper>
   <ColorPalettes color="red" />
   <ColorPalettes color="magenta" />
   <ColorPalettes color="purple" />
@@ -28,28 +30,51 @@ We recommend adding palette that go from `10` - `100`.
 </ColorWrapper>
 
 ### Text Color
-```jsx
-  <Flex display="inline-flex" flexDirection="column">
-    <LightMode bg="white" px="4x" py="2x">
-      <Stack direction="row" spacing="1rem">
-        <Box width="20x" height="20x" mr="2x" bg="black:emphasis" />
-        <Box width="20x" height="20x" mr="2x" bg="black:primary" />
-        <Box width="20x" height="20x" mr="2x" bg="black:secondary" />
-        <Box width="20x" height="20x" mr="2x" bg="black:tertiary" />
-        <Box width="20x" height="20x" mr="2x" bg="black:disabled" />
-      </Stack>
-    </LightMode>
-    <DarkMode bg="gray:100" px="4x" py="2x">
-      <Stack direction="row" spacing="1rem">
-        <Box width="20x" height="20x" mr="2x" bg="white:emphasis" />
-        <Box width="20x" height="20x" mr="2x" bg="white:primary" />
-        <Box width="20x" height="20x" mr="2x" bg="white:secondary" />
-        <Box width="20x" height="20x" mr="2x" bg="white:tertiary" />
-        <Box width="20x" height="20x" mr="2x" bg="white:disabled" />
-      </Stack>
-    </DarkMode>
-  </Flex>
-```
+
+<ThemeParser colorMode="light" theme="text" />
+<ThemeParser colorMode="dark" theme="text" />
+
+<FunctionalColorWrapper bg="white" borderColor="gray:20">
+  <FunctionalColorPalettes mode="light" type="text" />
+</FunctionalColorWrapper>
+
+<FunctionalColorWrapper bg="gray:100" borderColor="gray:70">
+  <FunctionalColorPalettes mode="dark" type="text" />
+</FunctionalColorWrapper>
+
+### Functional Color
+
+<ThemeParser colorMode="light" theme="risk" />
+<ThemeParser colorMode="dark" theme="risk" />
+
+<FunctionalColorWrapper bg="white" borderColor="gray:20">
+  <FunctionalColorPalettes mode="light" type="risk" />
+</FunctionalColorWrapper>
+
+<FunctionalColorWrapper bg="gray:100" borderColor="gray:70">
+  <FunctionalColorPalettes mode="dark" type="risk" />
+</FunctionalColorWrapper>
+
+### Chart Color
+
+<ThemeParser colorMode="light" theme="chart" />
+<ThemeParser colorMode="dark" theme="chart" />
+
+<FunctionalColorWrapper bg="white" borderColor="gray:20">
+  <FunctionalColorPalettes mode="light" type="chart" />
+</FunctionalColorWrapper>
+
+<FunctionalColorWrapper bg="gray:100" borderColor="gray:70">
+  <FunctionalColorPalettes mode="dark" type="chart" />
+</FunctionalColorWrapper>
+
+### Gradient Color
+
+<ThemeParser theme="gradient" />
+
+<FunctionalColorWrapper border={0}>
+  <FunctionalColorPalettes type="gradient" />
+</FunctionalColorWrapper>
 
 ## Configuration Reference
 
