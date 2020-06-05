@@ -2,7 +2,6 @@ import {
   ColorPalettes,
   ColorWrapper,
   FunctionalColorPalettes,
-  FunctionalColorWrapper,
 } from "../components/ColorPalette";
 import ThemeParser from "../components/ThemeParser";
 
@@ -21,62 +20,45 @@ The color palette both define for Light Theme and Dark Theme, `10` - `50` are pa
 ### Base Color Palettes
 
 <ColorWrapper>
-  <ColorPalettes color="red" />
-  <ColorPalettes color="magenta" />
-  <ColorPalettes color="purple" />
-  <ColorPalettes color="blue" />
-  <ColorPalettes color="green" />
-  <ColorPalettes color="teal" />
-  <ColorPalettes color="cyan" />
-  <ColorPalettes color="gray" />
+  <ColorPalettes hue="red" />
+  <ColorPalettes hue="magenta" />
+  <ColorPalettes hue="purple" />
+  <ColorPalettes hue="blue" />
+  <ColorPalettes hue="green" />
+  <ColorPalettes hue="teal" />
+  <ColorPalettes hue="cyan" />
+  <ColorPalettes hue="gray" />
 </ColorWrapper>
 
 ### Text Color
 
-<ThemeParser colorMode="light" theme="text" />
-<ThemeParser colorMode="dark" theme="text" />
+<ThemeParser mode="light" theme="text" />
+<ThemeParser mode="dark" theme="text" />
 
-<FunctionalColorWrapper bg="white" borderColor="gray:20">
-  <FunctionalColorPalettes mode="light" type="text" />
-</FunctionalColorWrapper>
-
-<FunctionalColorWrapper bg="gray:100" borderColor="gray:70">
-  <FunctionalColorPalettes mode="dark" type="text" />
-</FunctionalColorWrapper>
+<FunctionalColorPalettes mode="light" palette="text" />
+<FunctionalColorPalettes mode="dark" palette="text" />
 
 ### Functional Color
 
-<ThemeParser colorMode="light" theme="risk" />
-<ThemeParser colorMode="dark" theme="risk" />
+<ThemeParser mode="light" theme="risk" />
+<ThemeParser mode="dark" theme="risk" />
 
-<FunctionalColorWrapper bg="white" borderColor="gray:20">
-  <FunctionalColorPalettes mode="light" type="risk" />
-</FunctionalColorWrapper>
-
-<FunctionalColorWrapper bg="gray:100" borderColor="gray:70">
-  <FunctionalColorPalettes mode="dark" type="risk" />
-</FunctionalColorWrapper>
+<FunctionalColorPalettes mode="light" palette="risk" />
+<FunctionalColorPalettes mode="dark" palette="risk" />
 
 ### Chart Color
 
-<ThemeParser colorMode="light" theme="chart" />
-<ThemeParser colorMode="dark" theme="chart" />
+<ThemeParser mode="light" theme="chart" />
+<ThemeParser mode="dark" theme="chart" />
 
-<FunctionalColorWrapper bg="white" borderColor="gray:20">
-  <FunctionalColorPalettes mode="light" type="chart" />
-</FunctionalColorWrapper>
-
-<FunctionalColorWrapper bg="gray:100" borderColor="gray:70">
-  <FunctionalColorPalettes mode="dark" type="chart" />
-</FunctionalColorWrapper>
+<FunctionalColorPalettes mode="light" palette="chart" />
+<FunctionalColorPalettes mode="dark" palette="chart" />
 
 ### Gradient Color
 
 <ThemeParser theme="gradient" />
 
-<FunctionalColorWrapper border={0}>
-  <FunctionalColorPalettes type="gradient" />
-</FunctionalColorWrapper>
+<FunctionalColorPalettes palette="gradient" />
 
 ## Configuration Reference
 
