@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import Flex from '../Flex';
 import useColorMode from '../useColorMode';
 
-const ModalFooter = forwardRef((props, ref) => {
+const DrawerFooter = forwardRef((props, ref) => {
   const { colorMode } = useColorMode();
   const borderColor = {
     dark: 'gray:80',
@@ -27,6 +27,6 @@ const ModalFooter = forwardRef((props, ref) => {
   );
 });
 
-ModalFooter.displayName = 'ModalFooter';
+DrawerFooter.displayName = 'DrawerFooter';
 
-export default ModalFooter;
+export default DrawerFooter;
