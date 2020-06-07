@@ -25,7 +25,7 @@ You can also compose your modal components when customization is needed.
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <ModalContent>
+  <ModalContent mx={0}>
     <ModalHeader>
       Modal Title
     </ModalHeader>
@@ -38,7 +38,7 @@ You can also compose your modal components when customization is needed.
       <Button minWidth="20x">Cancel</Button>
     </ModalFooter>
   </ModalContent>
-  <ModalContent>
+  <ModalContent mx={0}>
     <ModalBody>
       <Lorem count={2} />
     </ModalBody>
@@ -48,10 +48,15 @@ You can also compose your modal components when customization is needed.
       <Button minWidth="20x">Cancel</Button>
     </ModalFooter>
   </ModalContent>
-  <ModalContent>
+  <ModalContent mx={0}>
     <ModalBody>
       <Lorem count={2} />
     </ModalBody>
+  </ModalContent>
+  <ModalContent mx={0}>
+    <Box px="4x" py="4x">
+      You can create a custom modal with any sort of content.
+    </Box>
   </ModalContent>
 </Stack>
 ```
@@ -73,9 +78,20 @@ const useToggle = (defaultValue) => {
   return [value, toggle];
 };
 
+const Divider = (props) => {
+  const { colorMode } = useColorMode();
+  const dividerColor = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+  return (
+    <Box mb="4x" pb="4x" borderBottom={1} borderBottomColor={dividerColor} {...props} />
+  );
+};
+
 const FormGroup = (props) => (
   <Box mb="4x">
-    <Box display="inline-flex" {...props} />
+    <Flex display="inline-flex" {...props} />
   </Box>
 );
 
@@ -86,7 +102,6 @@ function Example() {
     light: 'black:tertiary',
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [size, changeSizeBy] = useSelection('sm');
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
@@ -95,14 +110,16 @@ function Example() {
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
+  const [size, changeSizeBy] = useSelection('sm');
 
   return (
     <>
-      <FormGroup>
+      <Box>
         <Button onClick={onOpen}>
           Launch modal
         </Button>
-      </FormGroup>
+      </Box>
+      <Divider />
       <FormGroup>
         <ButtonGroup variant="secondary">
           {['auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full'].map(value => (
@@ -185,7 +202,10 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">ModalFooter</Text>
         </TextLabel>
       </FormGroup>
-      <Scale in={isOpen}>
+      <Scale
+        in={isOpen}
+        duration={150}
+      >
         {styles => (
           <Modal
             autoFocus={autoFocus}
@@ -374,7 +394,7 @@ function Example() {
 
 ### Transitions
 
-The modal doesn't come with transitions by default. You can use transition components to provide simple transitions.
+The modal doesn't come with transitions by default. You can use the `Transition` components to provide simple transitions.
 
 When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the modal.
 

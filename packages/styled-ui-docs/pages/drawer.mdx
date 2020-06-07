@@ -21,8 +21,6 @@ import Drawer from '@trendmicro/react-styled-ui/Drawer';
 
 ## Usage
 
-### Functionality
-
 Click the button below to toggle a drawer. The drawer will show up on either side of the screen.
 
 ```jsx noInline
@@ -38,9 +36,20 @@ const useToggle = (defaultValue) => {
   return [value, toggle, setValue];
 };
 
+const Divider = (props) => {
+  const { colorMode } = useColorMode();
+  const dividerColor = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+  return (
+    <Box mb="4x" pb="4x" borderBottom={1} borderBottomColor={dividerColor} {...props} />
+  );
+};
+
 const FormGroup = (props) => (
   <Box mb="4x">
-    <Box display="inline-flex" {...props} />
+    <Flex display="inline-flex" {...props} />
   </Box>
 );
 
@@ -52,24 +61,25 @@ function Example() {
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [placement, changePlacementBy] = useSelection('right');
-  const [size, changeSizeBy] = useSelection('sm');
   const [autoFocus, toggleAutoFocus] = useToggle(false);
   const [backdrop, toggleBackdrop] = useToggle(true);
-  const [isCloseButtonVisible, toggleIsCloseButtonVisible] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick, setCloseOnOutsideClick] = useToggle(true);
+  const [isCloseButtonVisible, toggleIsCloseButtonVisible] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible, setIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
+  const [size, changeSizeBy] = useSelection('sm');
 
   return (
     <>
-      <FormGroup>
+      <Box>
         <Button onClick={onOpen}>
           Launch drawer
         </Button>
-      </FormGroup>
+      </Box>
+      <Divider />
       <FormGroup>
         <ButtonGroup variant="secondary">
           {['left', 'right'].map(value => (
@@ -190,6 +200,7 @@ function Example() {
       </FormGroup>
       <Slide
         in={isOpen}
+        duration={250}
         from={placement}
         finalHeight="100vh"
       >
@@ -365,7 +376,7 @@ function Example() {
 
 ### Transitions
 
-The drawer doesn't come with transitions by default. You can use transition components to provide simple transitions.
+The drawer doesn't come with transitions by default. You can use the `Transition` components to provide simple transitions.
 
 When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the drawer.
 
