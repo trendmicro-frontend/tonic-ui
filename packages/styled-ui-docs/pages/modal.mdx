@@ -17,48 +17,84 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter 
 import Modal from '@trendmicro/react-styled-ui/Modal';
 ```
 
-## Overview
+## Modal components
 
 Below is a static modal example, including modal header (optional), modal body (required when padding is necessary), and modal footer (optional).
 
 You can also compose your modal components when customization is needed.
 
-```jsx
-<Stack direction="column" spacing="4x">
-  <ModalContent mx={0}>
-    <ModalHeader>
-      Modal Title
-    </ModalHeader>
-    <ModalBody>
-      <Lorem count={2} />
-    </ModalBody>
-    <ModalFooter>
-      <Button variant="primary" minWidth="20x">Save Changes</Button>
-      <Space width="2x" />
-      <Button minWidth="20x">Cancel</Button>
-    </ModalFooter>
-  </ModalContent>
-  <ModalContent mx={0}>
-    <ModalBody>
-      <Lorem count={2} />
-    </ModalBody>
-    <ModalFooter>
-      <Button variant="primary" minWidth="20x">Save Changes</Button>
-      <Space width="2x" />
-      <Button minWidth="20x">Cancel</Button>
-    </ModalFooter>
-  </ModalContent>
-  <ModalContent mx={0}>
-    <ModalBody>
-      <Lorem count={2} />
-    </ModalBody>
-  </ModalContent>
-  <ModalContent mx={0}>
-    <Box px="4x" py="4x">
-      You can create a custom modal with any sort of content.
-    </Box>
-  </ModalContent>
-</Stack>
+```jsx noInline
+const SkeletonContent = (props) => {
+  const { colorMode } = useColorMode();
+  const bg = {
+    dark: 'gray:80',
+    light: 'gray:10',
+  }[colorMode];
+
+  return (
+    <Flex>
+      <Flex flex="none" mr="4x" align="center">
+        <Skeleton variant="circle" bg={bg} width="10x" height="10x" />
+      </Flex>
+      <Box flex="auto">
+        <Skeleton bg={bg} />
+        <Skeleton bg={bg} />
+        <Skeleton bg={bg} />
+      </Box>
+    </Flex>
+  );
+};
+
+function Example() {
+  return (
+    <Stack direction="column" spacing="4x">
+      <ModalContent ml={0} width={480}>
+        <ModalHeader>
+          Modal Title
+        </ModalHeader>
+        <ModalBody>
+          <Text mb="4x">
+            Modal body text goes here.
+          </Text>
+          <SkeletonContent />
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="primary" minWidth="20x">Save Changes</Button>
+          <Space width="2x" />
+          <Button minWidth="20x">Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+      <ModalContent ml={0} width={480}>
+        <ModalBody>
+          <Text mb="4x">
+            Modal body text goes here.
+          </Text>
+          <SkeletonContent />
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="primary" minWidth="20x">Save Changes</Button>
+          <Space width="2x" />
+          <Button minWidth="20x">Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+      <ModalContent ml={0} width={480}>
+        <ModalBody>
+          <Text mb="4x">
+            Modal body text goes here.
+          </Text>
+          <SkeletonContent />
+        </ModalBody>
+      </ModalContent>
+      <ModalContent ml={0} width={480}>
+        <Box px="4x" py="4x">
+          You can create a custom modal with any sort of content.
+        </Box>
+      </ModalContent>
+    </Stack>
+  );
+}
+
+render(<Example />);
 ```
 
 ## Usage
@@ -371,7 +407,7 @@ function Example() {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Nested Modal Title
+            Nested modal title
           </ModalHeader>
           <ModalBody>
             <Lorem count={1} />
