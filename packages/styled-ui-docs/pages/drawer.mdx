@@ -54,11 +54,11 @@ function Example() {
   const [placement, changePlacementBy] = useSelection('right');
   const [size, changeSizeBy] = useSelection('sm');
   const [autoFocus, toggleAutoFocus] = useToggle(false);
-  const [backdrop, toggleBackdrop] = useToggle(false);
+  const [backdrop, toggleBackdrop] = useToggle(true);
   const [isCloseButtonVisible, toggleIsCloseButtonVisible] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
-  const [closeOnOutsideClick, toggleCloseOnOutsideClick, setCloseOnOutsideClick] = useToggle(false);
-  const [isOverlayVisible, toggleIsOverlayVisible, setIsOverlayVisible] = useToggle(false);
+  const [closeOnOutsideClick, toggleCloseOnOutsideClick, setCloseOnOutsideClick] = useToggle(true);
+  const [isOverlayVisible, toggleIsOverlayVisible, setIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
@@ -198,7 +198,7 @@ function Example() {
             autoFocus={autoFocus}
             backdrop={backdrop}
             isCloseButtonVisible={isCloseButtonVisible}
-            isOpen={isOpen}
+            isOpen={true} // Set to `true` if a transition is active
             closeOnEsc={closeOnEsc}
             closeOnOutsideClick={closeOnOutsideClick}
             onClose={onClose}
@@ -206,7 +206,7 @@ function Example() {
             size={size}
           >
             {isOverlayVisible && (
-              <DrawerOverlay />
+              <DrawerOverlay opacity={styles.opacity} />
             )}
             <DrawerContent {...styles}>
               {isHeaderVisible && (
@@ -289,7 +289,7 @@ function Example() {
         closeOnOutsideClick
         onClose={onClose}
         placement={placement}
-        size="auto"
+        size="sm"
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -363,9 +363,11 @@ function Example() {
 }
 ```
 
-### Transition
+### Transitions
 
-The drawer doesn't come with a transition by default. You can use transition components to provide simple transitions.
+The drawer doesn't come with transitions by default. You can use transition components to provide simple transitions.
+
+When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the drawer.
 
 #### Adding slide transition
 
@@ -392,13 +394,14 @@ function Example() {
             autoFocus={false}
             backdrop
             isCloseButtonVisible
-            isOpen={isOpen}
+            isOpen={true} // Set to `true` if a transition is active
             closeOnEsc
             closeOnOutsideClick
             onClose={onClose}
             placement="right"
+            size="sm"
           >
-            <DrawerOverlay />
+            <DrawerOverlay opacity={styles.opacity} />
             <DrawerContent {...styles}>
               <DrawerHeader>
                 Drawer Title
