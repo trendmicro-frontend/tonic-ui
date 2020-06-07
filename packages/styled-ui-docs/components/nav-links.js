@@ -53,12 +53,13 @@ export const componentLinks = [
   'SVGIcon',
   'Table',
   'Tag',
-  'ToggleSwitch',
   'Text',
   'Textarea',
   'TextLabel',
   'Toast',
+  'ToggleSwitch',
   'Tooltip',
+  'Transition',
 ];
 
 export const utilityLinks = [

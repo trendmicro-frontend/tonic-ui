@@ -24,26 +24,18 @@ Below is a static modal example, including modal header (optional), modal body (
 You can also compose your modal components when customization is needed.
 
 ```jsx noInline
-const SkeletonContent = (props) => {
-  const { colorMode } = useColorMode();
-  const bg = {
-    dark: 'gray:80',
-    light: 'gray:10',
-  }[colorMode];
-
-  return (
-    <Flex>
-      <Flex flex="none" mr="4x" align="center">
-        <Skeleton variant="circle" bg={bg} width="10x" height="10x" />
-      </Flex>
-      <Box flex="auto">
-        <Skeleton bg={bg} />
-        <Skeleton bg={bg} />
-        <Skeleton bg={bg} />
-      </Box>
+const SkeletonContent = (props) => (
+  <Flex {...props}>
+    <Flex flex="none" mr="4x" align="center">
+      <Skeleton variant="circle" width="10x" height="10x" />
     </Flex>
-  );
-};
+    <Box flex="auto">
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+    </Box>
+  </Flex>
+);
 
 function Example() {
   return (
@@ -430,7 +422,7 @@ function Example() {
 
 ### Transitions
 
-The modal doesn't come with transitions by default. You can use the `Transition` components to provide simple transitions.
+The modal doesn't come with transitions by default. You can use the [`Transition`](./transition) components to provide simple transitions.
 
 When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the modal.
 
