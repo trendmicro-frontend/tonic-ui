@@ -17,7 +17,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter 
 import Modal from '@trendmicro/react-styled-ui/Modal';
 ```
 
-## Usage
+## Overview
 
 Below is a static modal example, including modal header (optional), modal body (required when padding is necessary), and modal footer (optional).
 
@@ -54,7 +54,7 @@ Below is a static modal example, including modal header (optional), modal body (
 </Stack>
 ```
 
-### Functionality
+## Usage
 
 Click the button below to toggle a modal. The modal will show up in the center of the screen.
 
@@ -190,12 +190,12 @@ function Example() {
             closeOnEsc={closeOnEsc}
             closeOnOutsideClick={closeOnOutsideClick}
             isCloseButtonVisible={isCloseButtonVisible}
-            isOpen={isOpen}
+            isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
             size={size}
           >
             {isOverlayVisible && (
-              <ModalOverlay />
+              <ModalOverlay opacity={styles.opacity} />
             )}
             <ModalContent {...styles}>
               {isHeaderVisible && (
@@ -370,9 +370,11 @@ function Example() {
 }
 ```
 
-### Transition
+### Transitions
 
-The modal doesn't come with a transition by default. You can use transition components to provide simple transitions.
+The modal doesn't come with transitions by default. You can use transition components to provide simple transitions.
+
+When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the modal.
 
 #### Adding scale transition
 
@@ -396,10 +398,10 @@ function Example() {
             closeOnEsc
             closeOnOutsideClick
             isCloseButtonVisible
-            isOpen={isOpen}
+            isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
           >
-            <ModalOverlay />
+            <ModalOverlay opacity={styles.opacity} />
             <ModalContent {...styles}>
               <ModalHeader>
                 Modal Title
@@ -443,10 +445,10 @@ function Example() {
             closeOnEsc
             closeOnOutsideClick
             isCloseButtonVisible
-            isOpen={isOpen}
+            isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
           >
-            <ModalOverlay />
+            <ModalOverlay opacity={styles.opacity} />
             <ModalContent {...styles}>
               <ModalHeader>
                 Modal Title
