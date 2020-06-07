@@ -112,8 +112,8 @@ const useSkeletonStyle = ({
 }) => {
   const { colorMode } = useColorMode();
   const backgroundColor = {
-    dark: 'gray:90',
-    light: 'gray:10',
+    dark: 'gray:80',
+    light: 'gray:20',
   }[colorMode];
   const _props = {
     variant,
