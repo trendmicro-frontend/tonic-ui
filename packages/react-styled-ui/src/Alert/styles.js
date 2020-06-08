@@ -122,9 +122,16 @@ const useAlertMessageStyle = () => {
 };
 
 const useAlertCloseButtonStyle = () => {
+  const { colorMode } = useColorMode();
   const { colors } = useTheme();
-  const color = setColorWithOpacity('black', 0.54);
-  const hoverColor = 'black';
+  const color = {
+    dark: 'black:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'black:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
   const activeColor = color;
   const focusColor = color;
   const focusHoverColor = hoverColor;

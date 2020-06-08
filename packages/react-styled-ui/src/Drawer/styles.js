@@ -52,8 +52,8 @@ const useDrawerCloseButtonStyle = () => {
     light: 'black:tertiary',
   }[colorMode];
   const hoverColor = {
-    dark: 'white:primary',
-    light: 'black:primary',
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
   }[colorMode];
   const activeColor = color;
   const focusColor = color;
