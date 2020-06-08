@@ -1,5 +1,4 @@
 import { get } from '@styled-system/core';
-import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
