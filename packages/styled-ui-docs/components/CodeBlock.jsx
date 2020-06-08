@@ -167,7 +167,15 @@ const CodeBlock = ({
       ...IconComponents,
       ...CoreComponents,
       ...ThirdPartyComponents,
-      Lorem,
+      Lorem: (props) => (
+        <Lorem
+          paragraphLowerBound={1}
+          paragraphUpperBound={3}
+          sentenceLowerBound={3}
+          sentenceUpperBound={12}
+          {...props}
+        />
+      ),
       css,
       mdx,
     },

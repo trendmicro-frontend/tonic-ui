@@ -1,44 +1,106 @@
-import { Slide } from '../BasicTransition';
-import ModalBase from '../Modal/ModalBase';
+import FocusLock from 'react-focus-lock/dist/cjs';
+import memoize from 'micro-memoize';
+import React, { useCallback, useRef } from 'react';
+import Portal from '../Portal';
 import config from '../shared/config';
-import { DrawerContext } from './context';
+import { useId } from '../utils/autoId';
+import useNodeRef from '../utils/useNodeRef';
+import getFocusableElements from '../utils/getFocusableElements';
+import { DrawerProvider } from './context';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const Drawer = ({
-  context: Context = DrawerContext,
-  isOpen,
-  onClose,
-  isFullHeight,
+  backdrop,
   placement = 'right',
-  size = 'md',
+  size = 'auto',
+  isOpen = false,
+  isCloseButtonVisible = false,
+  closeOnEsc = false,
+  closeOnOutsideClick = false,
+  onClose,
+  initialFocusRef,
+  finalFocusRef,
+  autoFocus = false,
+  id,
   children,
-  closeOnOverlayClick = true,
-  ...props
 }) => {
+  const contentRef = useRef(null);
+  const drawerState = getMemoizedState({
+    backdrop,
+    placement,
+    size,
+    isOpen,
+    isCloseButtonVisible,
+    closeOnEsc,
+    closeOnOutsideClick,
+    onClose,
+    initialFocusRef,
+    finalFocusRef,
+    autoFocus,
+
+    // internal use only
+    contentRef,
+  });
+
+  id = id ?? useId();
+  const portalId = `${config.name}:portal-${id}`;
+  const mountRef = useNodeRef({
+    isOpen,
+    id: portalId,
+  });
+
+  const returnFocus = !finalFocusRef;
+  const onFocusLockActivation = useCallback(() => {
+    if (initialFocusRef && initialFocusRef.current) {
+      const el = initialFocusRef.current;
+      if (typeof el.focus === 'function') {
+        el.focus();
+      }
+      return;
+    }
+
+    if (contentRef.current) {
+      const el = contentRef.current;
+      const focusableElements = getFocusableElements(el);
+      if (focusableElements.length > 0) {
+        return;
+      }
+
+      if (typeof el.focus === 'function') {
+        el.focus();
+      }
+    }
+  }, [initialFocusRef]);
+  const onFocusLockDeactivation = useCallback(() => {
+    if (finalFocusRef && finalFocusRef.current) {
+      const el = finalFocusRef.current;
+      if (typeof el.focus === 'function') {
+        el.focus();
+      }
+    }
+  }, [finalFocusRef]);
+
+  if (!isOpen) {
+    return null;
+  }
+
   return (
-    <Slide
-      in={isOpen}
-      from={placement}
-      finalHeight={isFullHeight ? '100vh' : 'auto'}
-    >
-      {styles => (
-        <Context.Provider value={{ styles, size }}>
-          <ModalBase
-            isOpen={true}
-            onClose={onClose}
-            closeOnOverlayClick={closeOnOverlayClick}
-            formatIds={id => ({
-              content: `${config.name}:drawer-content-${id}`,
-              header: `${config.name}:drawer-header-${id}`,
-              body: `${config.name}:drawer-body-${id}`,
-            })}
-            {...props}
-          >
-            {children}
-          </ModalBase>
-        </Context.Provider>
-      )}
-    </Slide>
+    <DrawerProvider value={drawerState}>
+      <Portal container={mountRef.current}>
+        <FocusLock
+          autoFocus={autoFocus}
+          returnFocus={returnFocus}
+          onActivation={onFocusLockActivation}
+          onDeactivation={onFocusLockDeactivation}
+        >
+          {children}
+        </FocusLock>
+      </Portal>
+    </DrawerProvider>
   );
 };
+
+Drawer.displayName = 'Drawer';
 
 export default Drawer;

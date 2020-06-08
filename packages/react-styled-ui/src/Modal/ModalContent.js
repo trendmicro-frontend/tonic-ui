@@ -1,72 +1,115 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
+import Box from '../Box';
+import ButtonBase from '../ButtonBase';
+import Icon from '../Icon';
 import useForkRef from '../utils/useForkRef';
 import { useModal } from './context';
-import { useModalContentStyles } from './styles';
-import wrapEvent from '../utils/wrapEvent';
-import Box from '../Box';
+import {
+  useModalContentStyles,
+  useModalCloseButtonStyle,
+} from './styles';
 
-const ModalContent = React.forwardRef(
-  ({ onClick, children, zIndex = 'modal', noStyles, ...props }, ref) => {
-    const {
-      contentRef,
-      onClose,
-      contentId,
-      size,
-      closeOnEsc,
-      closeOnOverlayClick,
-    } = useModal();
-    const _contentRef = useForkRef(ref, contentRef);
-    const _sectionProps = useModalContentStyles({ size });
+const ModalCloseButton = (props) => {
+  const closeButtonStyleProps = useModalCloseButtonStyle();
 
-    return (
-      <Box
-        position="fixed"
-        left="0"
-        top="0"
-        w="100%"
-        h="100%"
-        overflow="hidden"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        zIndex={zIndex}
-        onClick={event => {
+  return (
+    <ButtonBase {...closeButtonStyleProps} {...props}>
+      <Icon name="_core.close" />
+    </ButtonBase>
+  );
+};
+
+const ModalContentBackdrop = forwardRef((props, ref) => {
+  const context = useModal(); // context might be an undefined value
+  const {
+    closeOnOutsideClick,
+    onClose,
+  } = { ...context };
+
+  return (
+    <Box
+      position="fixed"
+      left={0}
+      top={0}
+      width="100%"
+      height="100%"
+      overflow="hidden"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      zIndex="modal"
+      onClick={event => {
+        event.stopPropagation();
+        if (closeOnOutsideClick) {
+          (typeof onClose === 'function') && onClose(event);
+        }
+      }}
+      {...props}
+    />
+  );
+});
+
+const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
+  const context = useModal(); // context might be an undefined value
+  const {
+    closeOnEsc,
+    isCloseButtonVisible,
+    onClose,
+    size,
+
+    // internal use only
+    contentRef,
+  } = { ...context };
+  const combinedRef = useForkRef(ref, contentRef);
+  const contentStyleProps = useModalContentStyles({ size });
+
+  return (
+    <Box
+      ref={combinedRef}
+      role="dialog"
+      tabIndex={-1}
+      outline={0}
+      position="relative"
+      width="100%"
+      onClick={event => event.stopPropagation()}
+      onKeyDown={event => {
+        if (event.key === 'Escape') {
           event.stopPropagation();
-          if (closeOnOverlayClick) {
-            onClose(event, 'clickedOverlay');
+          if (closeOnEsc) {
+            (typeof onClose === 'function') && onClose(event);
           }
-        }}
-        onKeyDown={event => {
-          if (event.key === 'Escape') {
-            event.stopPropagation();
-            if (closeOnEsc) {
-              onClose(event, 'pressedEscape');
-            }
-          }
-        }}
-      >
-        <Box
-          ref={_contentRef}
-          as="section"
-          role="dialog"
-          tabIndex={-1}
-          outline={0}
-          w="100%"
-          id={contentId}
-          position="relative"
-          d="flex"
-          flexDir="column"
-          zIndex={zIndex}
-          onClick={wrapEvent(onClick, event => event.stopPropagation())}
-          {..._sectionProps}
-          {...props}
-        >
-          {children}
-        </Box>
-      </Box>
+        }
+      }}
+      {...contentStyleProps}
+      {...props}
+    >
+      {children}
+      {!!isCloseButtonVisible && (
+        <ModalCloseButton onClick={onClose} />
+      )}
+    </Box>
+  );
+});
+
+const ModalContent = React.forwardRef(({ children, ...props }, ref) => {
+  const context = useModal(); // context might be an undefined value
+
+  if (!context) {
+    return (
+      <ModalContentFront ref={ref} {...props}>
+        {children}
+      </ModalContentFront>
     );
-  },
-);
+  }
+
+  return (
+    <ModalContentBackdrop>
+      <ModalContentFront ref={ref} {...props}>
+        {children}
+      </ModalContentFront>
+    </ModalContentBackdrop>
+  );
+});
 
 ModalContent.displayName = 'ModalContent';
 

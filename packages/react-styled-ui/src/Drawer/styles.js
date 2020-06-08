@@ -2,43 +2,49 @@ import { get } from '@styled-system/core';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
+const defaultPlacement = 'right';
 const defaultSize = 'auto';
+
+const getPlacementProps = (placement) => {
+  placement = placement ?? defaultPlacement;
+
+  return {
+    right: {
+      right: 0,
+      top: 0,
+      height: '100vh',
+    },
+    left: {
+      left: 0,
+      top: 0,
+      height: '100vh',
+    },
+  }[placement];
+};
 
 const getSizeProps = (size) => {
   size = size ?? defaultSize;
 
   return {
-    xs: {
-      width: 352,
-      minHeight: 240,
-    },
     sm: {
-      width: 512,
-      minHeight: 320,
+      width: 336,
     },
     md: {
-      width: 672,
-      minHeight: 320,
+      width: 504,
     },
     lg: {
-      width: 832,
-      minHeight: 320,
-    },
-    xl: {
-      width: 992,
-      minHeight: 320,
+      width: 672,
     },
     full: {
-      maxWidth: '100%'
+      width: '100vw'
     },
     auto: {
       width: 'auto',
-      height: 'auto',
     },
   }[size];
 };
 
-const useModalCloseButtonStyle = () => {
+const useDrawerCloseButtonStyle = () => {
   const { colorMode } = useColorMode();
   const { colors } = useTheme();
   const color = {
@@ -90,12 +96,15 @@ const useModalCloseButtonStyle = () => {
   };
 };
 
-const useModalContentStyles = ({ size }) => {
+const useDrawerContentStyles = ({
+  placement,
+  size,
+}) => {
   const { colorMode } = useColorMode();
   const baseStyle = {
     mx: 'auto',
     height: 'auto',
-    maxHeight: '80vh',
+    maxHeight: '100vh',
     top: 0,
     display: 'flex',
     flexDirection: 'column',
@@ -118,16 +127,18 @@ const useModalContentStyles = ({ size }) => {
       boxShadow: 'dark.lg',
     },
   }[colorMode];
+  const placementProps = getPlacementProps(placement);
   const sizeProps = getSizeProps(size);
 
   return {
     ...baseStyle,
     ...colorModeStyles,
+    ...placementProps,
     ...sizeProps,
   };
 };
 
 export {
-  useModalCloseButtonStyle,
-  useModalContentStyles,
+  useDrawerCloseButtonStyle,
+  useDrawerContentStyles,
 };

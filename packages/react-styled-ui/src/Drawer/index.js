@@ -1,26 +1,23 @@
 import Drawer from './Drawer';
-import DrawerBody from '../Modal/ModalBody';
-import DrawerFooter from '../Modal/ModalFooter';
-import DrawerHeader from '../Modal/ModalHeader';
-import DrawerCloseButton from './DrawerCloseButton';
 import DrawerOverlay from './DrawerOverlay';
 import DrawerContent from './DrawerContent';
+import DrawerHeader from './DrawerHeader';
+import DrawerBody from './DrawerBody';
+import DrawerFooter from './DrawerFooter';
 
+Drawer.Overlay = DrawerOverlay;
+Drawer.Content = DrawerContent;
 Drawer.Header = DrawerHeader;
 Drawer.Body = DrawerBody;
 Drawer.Footer = DrawerFooter;
-Drawer.CloseButton = DrawerCloseButton;
-Drawer.Overlay = DrawerOverlay;
-Drawer.Content = DrawerContent;
 
 export {
   Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerCloseButton,
   DrawerOverlay,
   DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
 };
 
 export default Drawer;

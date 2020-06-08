@@ -1,218 +1,520 @@
-# Modal (Dialog)
+# Modal
 
-A dialog is a window overlaid on either the primary window or another dialog
-window. Contents behind a modal dialog are **inert** meaning that users cannot
-interact with content behind the dialog.
+Modal dialogs are used to inform users about a task and can contain critical information, require decisions, or involve multiple tasks. Modal dialogs disable app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
 
 ## Import
 
-Trend Micro Styled UI exports 5 components to help you create any modal dialog.
-
-- `Modal`: The wrapper that provides context for its children
-- `ModalHeader`: The header that labels the modal dialog
-- `ModalFooter`: The footer that houses the modal actions
-- `ModalBody`: The wrapper that houses the modal's main content
-- `ModalCloseButton`: The button that closes the modal.
+- `Modal`: A `Provider` component that provides the context to the components it wraps.
+- `ModalOverlay`: The overlay of the modal.
+- `ModalContent`: The content of the modal.
+- `ModalHeader`: The header of the modal.
+- `ModalBody`: The body of the modal.
+- `ModalFooter`: The footer of the modal.
 
 ```js
-import {
-  Modal,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from '@trendmicro/react-styled-ui';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@trendmicro/react-styled-ui';
+// or
+import Modal from '@trendmicro/react-styled-ui/Modal';
+```
+
+## Modal components
+
+Below is a static modal example, including modal header (optional), modal body (required when padding is necessary), and modal footer (optional).
+
+You can also compose your modal components when customization is needed.
+
+```jsx noInline
+const SkeletonContent = (props) => (
+  <Flex {...props}>
+    <Flex flex="none" mr="4x" align="center">
+      <Skeleton variant="circle" width="10x" height="10x" />
+    </Flex>
+    <Box flex="auto">
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+    </Box>
+  </Flex>
+);
+
+function Example() {
+  return (
+    <Stack direction="column" spacing="4x">
+      <ModalContent ml={0} width={480}>
+        <ModalHeader>
+          Modal Title
+        </ModalHeader>
+        <ModalBody>
+          <Text mb="4x">
+            Modal body text goes here.
+          </Text>
+          <SkeletonContent />
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="primary" minWidth="20x">Save Changes</Button>
+          <Space width="2x" />
+          <Button minWidth="20x">Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+      <ModalContent ml={0} width={480}>
+        <ModalBody>
+          <Text mb="4x">
+            Modal body text goes here.
+          </Text>
+          <SkeletonContent />
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="primary" minWidth="20x">Save Changes</Button>
+          <Space width="2x" />
+          <Button minWidth="20x">Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+      <ModalContent ml={0} width={480}>
+        <ModalBody>
+          <Text mb="4x">
+            Modal body text goes here.
+          </Text>
+          <SkeletonContent />
+        </ModalBody>
+      </ModalContent>
+      <ModalContent ml={0} width={480}>
+        <Box px="4x" py="4x">
+          You can create a custom modal with any sort of content.
+        </Box>
+      </ModalContent>
+    </Stack>
+  );
+}
+
+render(<Example />);
 ```
 
 ## Usage
 
-```jsx
-function BasicUsage() {
+Click the button below to toggle a modal. The modal will show up in the center of the screen.
+
+```jsx noInline
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const useToggle = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const toggle = () => setValue(value => !value);
+  return [value, toggle];
+};
+
+const Divider = (props) => {
+  const { colorMode } = useColorMode();
+  const dividerColor = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+  return (
+    <Box mb="4x" pb="4x" borderBottom={1} borderBottomColor={dividerColor} {...props} />
+  );
+};
+
+const FormGroup = (props) => (
+  <Box mb="4x">
+    <Flex display="inline-flex" {...props} />
+  </Box>
+);
+
+function Example() {
+  const { colorMode } = useColorMode();
+  const iconColor = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [autoFocus, toggleAutoFocus] = useToggle(true);
+  const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
+  const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
+  const [isCloseButtonVisible, toggleIsCloseButtonVisible] = useToggle(true);
+  const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
+  const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
+  const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
+  const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
+  const [size, changeSizeBy] = useSelection('sm');
+
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalHeader title="Modal Title">Modal Title</ModalHeader>
-        <ModalBody>
-          <Lorem count={10} />
-        </ModalBody>
-        <ModalFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
+      <Box>
+        <Button onClick={onOpen}>
+          Launch modal
+        </Button>
+      </Box>
+      <Divider />
+      <FormGroup>
+        <ButtonGroup variant="secondary">
+          {['auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full'].map(value => (
+            <Button
+              key={value}
+              selected={value === size}
+              onClick={changeSizeBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={autoFocus} onChange={toggleAutoFocus} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">autoFocus</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={closeOnEsc}
+            disabled={!isCloseButtonVisible && !closeOnOutsideClick}
+            onChange={toggleCloseOnEsc}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">closeOnEsc</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={closeOnOutsideClick}
+            disabled={!isCloseButtonVisible && !closeOnEsc}
+            onChange={toggleCloseOnOutsideClick}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">closeOnOutsideClick</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={isCloseButtonVisible}
+            disabled={!closeOnEsc && !closeOnOutsideClick}
+            onChange={toggleIsCloseButtonVisible}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">isCloseButtonVisible</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isOverlayVisible} onChange={toggleIsOverlayVisible} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ModalOverlay</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isHeaderVisible} onChange={toggleIsHeaderVisible} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ModalHeader</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isBodyVisible} onChange={toggleIsBodyVisible} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ModalBody</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isFooterVisible} onChange={toggleIsFooterVisible} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ModalFooter</Text>
+        </TextLabel>
+      </FormGroup>
+      <Scale
+        in={isOpen}
+        duration={150}
+      >
+        {styles => (
+          <Modal
+            autoFocus={autoFocus}
+            closeOnEsc={closeOnEsc}
+            closeOnOutsideClick={closeOnOutsideClick}
+            isCloseButtonVisible={isCloseButtonVisible}
+            isOpen={true} // Set to `true` if a transition is active
+            onClose={onClose}
+            size={size}
+          >
+            {isOverlayVisible && (
+              <ModalOverlay opacity={styles.opacity} />
+            )}
+            <ModalContent {...styles}>
+              {isHeaderVisible && (
+                <ModalHeader>
+                  Create an Account
+                </ModalHeader>
+              )}
+              {isBodyVisible && (
+                <ModalBody>
+                  <Grid
+                    templateColumns="auto 1fr"
+                    rowGap="2x"
+                    columnGap="3x"
+                    alignItems="center"
+                  >
+                    <TMIcon name="user" color={iconColor} />
+                    <Input placeholder="User name" />
+                    <TMIcon name="lock" color={iconColor} />
+                    <Input type="password" placeholder="Password" />
+                    <Box />
+                    <Input type="password" placeholder="Confirm password" />
+                    <TMIcon name="email" color={iconColor} />
+                    <Input placeholder="Email address" />
+                  </Grid>
+                </ModalBody>
+              )}
+              {isFooterVisible && (
+                <ModalFooter>
+                  <Button variant="primary">
+                    Confirm
+                  </Button>
+                  <Space width="2x" />
+                  <Button onClick={onClose}>
+                    Cancel
+                  </Button>
+                </ModalFooter>
+              )}
+            </ModalContent>
+          </Modal>
+        )}
+      </Scale>
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### Sizes
 
-Pass the `size` prop if you need to adjust the size of the modal. Values can be
-`xs`, `sm`, `md`, `lg`, `xl`, `full` or `auto`.
-
-```jsx
-function SizeExample() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [size, setSize] = React.useState('md');
-
-  const handleSizeClick = newSize => {
-    setSize(newSize);
-    onOpen();
-  };
-
-  const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'full', 'auto'];
-
-  return (
-    <>
-      {sizes.map(size => (
-        <Button
-          onClick={() => handleSizeClick(size)}
-          key={size}
-          m={4}
-        >{`Open ${size} Modal`}</Button>
-      ))}
-
-      <Modal onClose={onClose} size={size} isOpen={isOpen}>
-        <ModalHeader>Modal Title</ModalHeader>
-        <ModalBody>
-          Bla Bla Bla...
-          Bla Bla Bla...
-          Bla Bla Bla...
-        </ModalBody>
-        <ModalFooter>
-          <Button onClick={onClose}>Close</Button>
-        </ModalFooter>
-      </Modal>
-    </>
-  );
-}
-```
-
-### Disable overlay
-
-```jsx
-function BasicUsage() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  return (
-    <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
-      <Modal disableOverlay isOpen={isOpen} onClose={onClose}>
-        <ModalHeader title="Modal Title">Modal Title</ModalHeader>
-        <ModalBody>
-          <Lorem count={2} />
-        </ModalBody>
-        <ModalFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </>
-  );
-}
-```
-
-### Multiple Modals
-
-```jsx
-function MultipleModalUsage() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
-  return (
-    <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
-      <Modal size="md" isOpen={isOpen} onClose={onClose}>
-        <ModalHeader title="Modal Title">Modal 1 Title</ModalHeader>
-        <ModalBody>
-          Modal 1 Body
-          <Lorem count={5} />
-        </ModalBody>
-        <ModalFooter>
-          <Button mr="2x" variant="emphasis" disabled={isOpen2} onClick={onOpen2}>Open Modal 2</Button>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal size="sm" isOpen={isOpen2} onClose={onClose2}>
-        <ModalHeader title="Modal Title2">Modal 2 Title</ModalHeader>
-        <ModalBody>
-          Modal 2 Body
-          <Lorem count={2} />
-        </ModalBody>
-        <ModalFooter>
-          <Button onClick={onClose2}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </>
-  );
-}
-```
-
-### Header and closed button
+Use the `size` prop to change the size of the `Modal`. You can set the value to `auto`, `xs`, `sm`, `md`, `lg`, `xl`, or `full`.
 
 ```jsx
 function Example() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
-  const { isOpen: isOpen3, onOpen: onOpen3, onClose: onClose3 } = useDisclosure();
+  const [size, setSize] = React.useState('auto');
+  const handleClickBy = nextSize => (e) => {
+    setSize(nextSize);
+    onOpen();
+  };
+
   return (
     <>
-      <Button m="2x" onClick={onOpen}>Open Modal without close button</Button>
-      <Button m="2x" onClick={onOpen2}>Open Modal without header and close button</Button>
-      <Button m="2x" onClick={onOpen3}>Open Modal without header</Button>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalHeader hideCloseButton title="Modal Title">Modal Title</ModalHeader>
-        <ModalBody>
-          <Lorem count={2} />
-        </ModalBody>
-        <ModalFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
-        </ModalFooter>
+      <Stack direction="row" spacing="3x" flexWrap="wrap" mt={-12}>
+        <Button onClick={handleClickBy('auto')} mt="3x">Auto width</Button>
+        <Button onClick={handleClickBy('xs')} mt="3x">Extra small width</Button>
+        <Button onClick={handleClickBy('sm')} mt="3x">Small width</Button>
+        <Button onClick={handleClickBy('md')} mt="3x">Medium width</Button>
+        <Button onClick={handleClickBy('lg')} mt="3x">Large width</Button>
+        <Button onClick={handleClickBy('xl')} mt="3x">Extra large width</Button>
+        <Button onClick={handleClickBy('full')} mt="3x">Full width</Button>
+      </Stack>
+      <Modal
+        autoFocus
+        closeOnEsc
+        closeOnOutsideClick
+        isCloseButtonVisible
+        isOpen={isOpen}
+        onClose={onClose}
+        size={size}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Modal Title
+          </ModalHeader>
+          <ModalBody>
+            <Lorem count={2} />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
       </Modal>
+    </>
+  );
+}
+```
 
-      <Modal isOpen={isOpen2} onClose={onClose2}>
-        <ModalBody>
-          <Lorem count={2} />
-        </ModalBody>
-        <ModalFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose2}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
+### Nested modals
 
-      <Modal isOpen={isOpen3} onClose={onClose3}>
-        <ModalCloseButton />
-        <ModalBody>
-          <Stack direction="column">
-            <Space height={32} />
-          </Stack>
-          <Lorem count={2} />
-        </ModalBody>
-        <ModalFooter>
-          <Button mr="2x" variant="primary">Submit</Button>
-          <Button onClick={onClose3}>
-            Cancel
-          </Button>
-        </ModalFooter>
+```jsx
+function Example() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isNestedOpen, onOpen: onNestedOpen, onClose: onNestedClose } = useDisclosure();
+
+  return (
+    <>
+      <Button onClick={onOpen}>Launch modal</Button>
+      <Modal
+        closeOnEsc
+        closeOnOutsideClick
+        isCloseButtonVisible
+        isOpen={isOpen}
+        onClose={onClose}
+        size="auto"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Modal Title
+          </ModalHeader>
+          <ModalBody>
+            <Lorem count={2} />
+          </ModalBody>
+          <ModalFooter justify="space-between">
+            <Button
+              disabled={isNestedOpen}
+              variant="primary"
+              onClick={onNestedOpen}
+            >
+              Launch nested modal
+            </Button>
+            <Box>
+              <Button minWidth="20x" onClick={onClose}>
+                Close
+              </Button>
+            </Box>
+          </ModalFooter>
+        </ModalContent>
       </Modal>
+      <Modal
+        closeOnEsc
+        closeOnOutsideClick
+        isCloseButtonVisible
+        isOpen={isNestedOpen}
+        onClose={onNestedClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Nested modal title
+          </ModalHeader>
+          <ModalBody>
+            <Lorem count={1} />
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="primary" onClick={onNestedClose} minWidth="20x">
+              Yes
+            </Button>
+            <Space width="2x" />
+            <Button onClick={onNestedClose} minWidth="20x">
+              No
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+```
+
+### Transitions
+
+The modal doesn't come with transitions by default. You can use the [`Transition`](./transition) components to provide simple transitions.
+
+When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the modal.
+
+#### Adding scale transition
+
+```
+import { Scale } from '@trendmicro/react-styled-ui';
+```
+
+```jsx
+function Example() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Button onClick={onOpen}>
+        Launch modal
+      </Button>
+      <Scale in={isOpen}>
+        {styles => (
+          <Modal
+            autoFocus
+            closeOnEsc
+            closeOnOutsideClick
+            isCloseButtonVisible
+            isOpen={true} // Set to `true` if a transition is active
+            onClose={onClose}
+          >
+            <ModalOverlay opacity={styles.opacity} />
+            <ModalContent {...styles}>
+              <ModalHeader>
+                Modal Title
+              </ModalHeader>
+              <ModalBody>
+                <Lorem count={2} />
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        )}
+      </Scale>
+    </>
+  );
+}
+```
+
+#### Adding slide-in transition
+
+```
+import { SlideIn } from '@trendmicro/react-styled-ui';
+```
+
+```jsx
+function Example() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Button onClick={onOpen}>
+        Launch modal
+      </Button>
+      <SlideIn in={isOpen}>
+        {styles => (
+          <Modal
+            autoFocus
+            closeOnEsc
+            closeOnOutsideClick
+            isCloseButtonVisible
+            isOpen={true} // Set to `true` if a transition is active
+            onClose={onClose}
+          >
+            <ModalOverlay opacity={styles.opacity} />
+            <ModalContent {...styles}>
+              <ModalHeader>
+                Modal Title
+              </ModalHeader>
+              <ModalBody>
+                <Lorem count={2} />
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        )}
+      </SlideIn>
     </>
   );
 }
@@ -220,23 +522,38 @@ function Example() {
 
 ## Props
 
-### Modal Props
+### Modal
 
-| Name               | Type              | Default                  | Description |
-| :----------------- | :---------------- | :----------------------- | :--------------------- |
-| isOpen             | boolean           |                          | If `true`, the modal is shown |
-| size               | `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |  `'md'` | The size of the modal |
-| disableOverlay     | boolean           | `false`                  | If `true`, no shown the overlay when modal open |
-| closeOnEsc         | boolean           | `false`                  | If `true`, close the modal when the `esc` key is pressed |
-| closeOnOverlayClick | boolean          | `false`                  | If `true`, close the modal when click outside of the modal |
-| onOpen             | () => void        |                          | Callback fired when the modal opens |
-| onClose            | () => void        |                          | Callback fired when the modal closes |
-| initialFocusRef    | React.ref         |                          | The `ref` of the element to receive focus when the dialog opens |
-| finalFocusRef      | React.ref         |                          | The `ref` of element to receive focus when the dialog closes |
-| autoFocus          | boolean           | `false`                  | If `true` and `initialFocusRef` not set a ref, auto focus on first focusable element of model content |
+`Modal` composes the [`Box`](./box) component.
 
-### Other Props
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| autoFocus | boolean | false | If `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
+| finalFocusRef | React.ref | | The `ref` of element to receive focus when the modal closes. |
+| initialFocusRef | React.ref | | The `ref` of the element to receive focus when the modal opens. |
+| isCloseButtonVisible | boolean | false | If `true`, a close button will appear on the right side. |
+| isOpen | boolean | false | If `true`, the modal is shown. |
+| closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
+| closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
+| onClose | function | | Callback fired when the modal closes. |
+| size | string | 'auto' | The size of the modal. One of: `'auto'`, `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |
 
-- `ModalHeader` composes the [`Box`](./box) component.
-- `ModalBody` composes the [`Box`](./box) component.
-- `ModalFooter` composes the [`Flex`](./flex) component.
+### ModalOverlay
+
+`ModalOverlay` composes the [`Box`](./box) component.
+
+### ModalContent
+
+`ModalContent` composes the [`Box`](./box) component.
+
+### ModalHeader
+
+`ModalHeader` composes the [`Box`](./box) component.
+
+### ModalBody
+
+`ModalBody` composes the [`Box`](./box) component.
+
+### ModalFooter
+
+`ModalFooter` composes the [`Flex`](./flex) component.

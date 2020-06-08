@@ -12,7 +12,7 @@ const InputBase = forwardRef((
   },
   ref,
 ) => {
-  const { disabled, readOnly, required } = rest;
+  const { disabled, readOnly, required, isInvalid } = rest;
 
   return (
     <PseudoBox
@@ -21,6 +21,7 @@ const InputBase = forwardRef((
       aria-disabled={disabled}
       aria-readonly={readOnly}
       aria-required={required}
+      aria-invalid={isInvalid}
       {...baseProps}
       {...rest}
     >

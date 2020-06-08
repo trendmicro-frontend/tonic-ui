@@ -1,6 +1,7 @@
 import {
   ColorPalettes,
   ColorWrapper,
+  FunctionalColorPalettes,
 } from "../components/ColorPalette";
 import ThemeParser from "../components/ThemeParser";
 
@@ -10,81 +11,54 @@ Add a `theme.colors` object to provide colors for your project. By default these
 colors can be referenced by the `color`, `borderColor`, and `backgroundColor`,
 `fill`, `stroke`, styles.
 
-We recommend adding palette that go from `10` - `100`.
+We recommend adding palette that go from `10` - `100`. The `10` being the lightest color and the `100` being the darkest color. We could communicate via the naming such as Red 10 or Red 70 to easily understand Red 10 is a light red, Red 70 is a dark red.
+
+The color palette both define for Light Theme and Dark Theme, `10` - `50` are pass AA contrast with black text, `60` - `100` are pass AA contrast with white text,
 
 <ThemeParser theme="colors" />
 
-### Orange
+### Base Color Palettes
 
 <ColorWrapper>
-  <ColorPalettes color="orange" />
+  <ColorPalettes hue="red" />
+  <ColorPalettes hue="magenta" />
+  <ColorPalettes hue="purple" />
+  <ColorPalettes hue="blue" />
+  <ColorPalettes hue="green" />
+  <ColorPalettes hue="teal" />
+  <ColorPalettes hue="cyan" />
+  <ColorPalettes hue="gray" />
 </ColorWrapper>
 
-### Yellow
+### Text Color
 
-<ColorWrapper>
-  <ColorPalettes color="yellow" />
-</ColorWrapper>
+<ThemeParser mode="light" theme="text" />
+<ThemeParser mode="dark" theme="text" />
 
-### Red
+<FunctionalColorPalettes mode="light" palette="text" />
+<FunctionalColorPalettes mode="dark" palette="text" />
 
-<ColorWrapper>
-  <ColorPalettes color="red" />
-</ColorWrapper>
+### Functional Color
 
-### Magenta
+<ThemeParser mode="light" theme="risk" />
+<ThemeParser mode="dark" theme="risk" />
 
-<ColorWrapper>
-  <ColorPalettes color="magenta" />
-</ColorWrapper>
+<FunctionalColorPalettes mode="light" palette="risk" />
+<FunctionalColorPalettes mode="dark" palette="risk" />
 
-### Purple
+### Chart Color
 
-<ColorWrapper>
-  <ColorPalettes color="purple" />
-</ColorWrapper>
+<ThemeParser mode="light" theme="chart" />
+<ThemeParser mode="dark" theme="chart" />
 
-### Blue
+<FunctionalColorPalettes mode="light" palette="chart" />
+<FunctionalColorPalettes mode="dark" palette="chart" />
 
-<ColorWrapper>
-  <ColorPalettes color="blue" />
-</ColorWrapper>
+### Gradient Color
 
-### Green
+<ThemeParser theme="gradient" />
 
-<ColorWrapper>
-  <ColorPalettes color="green" />
-</ColorWrapper>
-
-### Teal
-
-<ColorWrapper>
-  <ColorPalettes color="teal" />
-</ColorWrapper>
-
-### Cyan
-
-<ColorWrapper>
-  <ColorPalettes color="cyan" />
-</ColorWrapper>
-
-### Gray
-
-<ColorWrapper>
-  <ColorPalettes color="gray" />
-</ColorWrapper>
-
-### Black
-
-<ColorWrapper>
-  <ColorPalettes color="black" />
-</ColorWrapper>
-
-### White
-
-<ColorWrapper>
-  <ColorPalettes color="white" />
-</ColorWrapper>
+<FunctionalColorPalettes palette="gradient" />
 
 ## Configuration Reference
 

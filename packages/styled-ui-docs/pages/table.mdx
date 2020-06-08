@@ -1,16 +1,14 @@
 # Table
 
-### Table components
+## Import
 
-- `Table`: The wrapper that provides props, state, and context to it's children.
+- `Table`: The wrapper that provides props, state, and context to its children.
 - `TableHeader`: The header of the table.
 - `TableHeaderRow`: The header row of the table.
 - `TableHeaderCell`: The header cell of the table.
 - `TableBody`: The body of the table.
 - `TableRow`: The body row of the table.
 - `TableCell`: The body cell of the table.
-
-## Import
 
 ```js
 import { Table, TableHeader, TableHeaderRow, TableHeaderCell, TableBody, TableRow, TableCell } from '@trendmicro/react-styled-ui';
@@ -413,7 +411,7 @@ function SortableTable() {
                   overflow="hidden"
                   textOverflow="ellipsis"
                   whiteSpace="nowrap"
-                  width={`calc(100% - ${(column.isSorted ? '20px' : '0px')})`}
+                  maxWidth={`calc(100% - ${(column.isSorted ? '24px' : '0px')})`}
                 >
                   {column.render('Header')}
                 </Box>
@@ -421,7 +419,7 @@ function SortableTable() {
                   <Box as="span">
                     <Space minWidth="1x" />
                     {
-                      column.isSortedDesc ? <TMIcon name="sort-down" /> : <TMIcon name="sort-up" />
+                      column.isSortedDesc ? <TMIcon name="sort-down" size={20} /> : <TMIcon name="sort-up" size={20} />
                     }
                   </Box>
                 )}
