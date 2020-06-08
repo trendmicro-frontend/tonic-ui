@@ -19,6 +19,7 @@ const baseProps = {
   borderRadius: 'sm',
   fontWeight: 'normal',
   fontSize: 'sm',
+  lineHeight: 'sm',
   zIndex: 'tooltip',
 };
 

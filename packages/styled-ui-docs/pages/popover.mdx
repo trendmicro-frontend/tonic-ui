@@ -212,6 +212,26 @@ function ControlledUsage() {
 </Popover>
 ```
 
+## Hover Trigger
+
+To show the popover when you mouse over or focus on the trigger, pass the prop
+`trigger` and set it to `hover`. When you focus on or mouse over the popover
+trigger, the popover will open.
+
+If you quickly move your cursor to the popover content when it's open, it'll remain open till you leave.
+
+```jsx
+<Popover hideArrow trigger="hover">
+  <PopoverTrigger>
+    <TMIcon name="info" color="white:secondary" _hover={{ color: 'white:emphasis' }}/>
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverHeader>Confirmation!</PopoverHeader>
+    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+  </PopoverContent>
+</Popover>
+```
+
 ## Popover Placements
 
 Since popover is powered by PopperJS, you can change the placement of the
@@ -338,26 +358,6 @@ Even though you specified the placement, Popover will try to reposition itself i
     </Popover>
   </Stack>
 </Stack>
-```
-
-## Hover Trigger
-
-To show the popover when you mouse over or focus on the trigger, pass the prop
-`trigger` and set it to `hover`. When you focus on or mouse over the popover
-trigger, the popover will open.
-
-If you quickly move your cursor to the popover content when it's open, it'll remain open till you leave.
-
-```jsx
-<Popover hideArrow trigger="hover">
-  <PopoverTrigger>
-    <Icon name="_core.severity-info" />
-  </PopoverTrigger>
-  <PopoverContent>
-    <PopoverHeader>Confirmation!</PopoverHeader>
-    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-  </PopoverContent>
-</Popover>
 ```
 
 ## Accessibility
