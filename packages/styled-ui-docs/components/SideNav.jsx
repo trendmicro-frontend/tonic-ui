@@ -64,8 +64,8 @@ const SideNav = React.forwardRef((props, ref) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
   const backgroundColor = {
-    light: 'white', // FIXME
-    dark: 'gray:90', // FIXME
+    light: 'white',
+    dark: 'gray:100',
   }[colorMode];
   const borderColor = {
     light: 'gray:20', // FIXME

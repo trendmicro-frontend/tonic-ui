@@ -6,8 +6,8 @@ import React from 'react';
 const Main = React.forwardRef(({ children, ...props }, ref) => {
   const { colorMode } = useColorMode();
   const backgroundColor = {
-    light: 'white', // FIXME
-    dark: 'gray:90', // FIXME
+    light: 'white',
+    dark: 'gray:100',
   }[colorMode];
 
   return (
