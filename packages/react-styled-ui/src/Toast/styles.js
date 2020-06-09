@@ -1,5 +1,4 @@
 import { get } from '@styled-system/core';
-import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
@@ -32,9 +31,16 @@ const useToastMessageStyle = () => {
 };
 
 const useToastCloseButtonStyle = () => {
+  const { colorMode } = useColorMode();
   const { colors } = useTheme();
-  const color = setColorWithOpacity('black', 0.54);
-  const hoverColor = 'black';
+  const color = {
+    dark: 'black:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'black:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
   const activeColor = color;
   const focusColor = color;
   const focusHoverColor = hoverColor;

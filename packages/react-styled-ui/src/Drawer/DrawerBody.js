@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 
-const ModalBody = forwardRef((props, ref) => {
+const DrawerBody = forwardRef((props, ref) => {
   return (
     <Box
       ref={ref}
@@ -20,6 +20,6 @@ const ModalBody = forwardRef((props, ref) => {
   );
 });
 
-ModalBody.displayName = 'ModalBody';
+DrawerBody.displayName = 'DrawerBody';
 
-export default ModalBody;
+export default DrawerBody;
