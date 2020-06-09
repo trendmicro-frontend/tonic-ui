@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/core';
-import { Box } from '@trendmicro/react-styled-ui';
+import { PseudoBox } from '@trendmicro/react-styled-ui';
 import cx from 'classnames';
 import React from 'react';
 
@@ -38,7 +38,7 @@ const TMIcon = React.forwardRef(({
   }
 
   return (
-    <Box
+    <PseudoBox
       ref={ref}
       as="i"
       name={name}
