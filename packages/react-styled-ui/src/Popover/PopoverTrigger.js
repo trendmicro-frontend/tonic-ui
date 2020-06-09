@@ -1,7 +1,6 @@
-import React, { Children, cloneElement, useRef } from 'react';
+import { Children, cloneElement, useRef } from 'react';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
-import PseudoBox from '../PseudoBox';
 
 const PopoverTrigger = ({ children }) => {
   const {
@@ -15,8 +14,7 @@ const PopoverTrigger = ({ children }) => {
     isHoveringRef,
     delay,
   } = usePopover();
-  const _children = <PseudoBox role="button" tabIndex="0" display="inline-block">{children}</PseudoBox>; // always wrap a div to make sure the element can be bound event.
-  const child = Children.only(_children);
+  const child = Children.only(children);
   let eventHandlers = {};
 
   if (trigger === 'click') {
@@ -65,6 +63,9 @@ const PopoverTrigger = ({ children }) => {
     'aria-expanded': isOpen,
     'aria-controls': popoverId,
     ref: referenceRef,
+    role: 'button',
+    tabIndex: '0',
+    outline: '0',
     ...eventHandlers,
   });
 };

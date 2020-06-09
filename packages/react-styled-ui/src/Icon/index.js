@@ -14,7 +14,7 @@ const Icon = forwardRef((
   const { path, ...restIconProps } = { ..._get(icons, name) };
 
   return (
-    <SVGIcon {...restIconProps} {...rest}>
+    <SVGIcon ref={ref} {...restIconProps} {...rest}>
       {path}
     </SVGIcon>
   );
