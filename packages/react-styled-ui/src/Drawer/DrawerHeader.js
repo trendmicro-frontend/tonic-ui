@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 
-const ModalHeader = forwardRef((props, ref) => {
+const DrawerHeader = forwardRef((props, ref) => {
   return (
     <Box
       ref={ref}
@@ -17,6 +17,6 @@ const ModalHeader = forwardRef((props, ref) => {
   );
 });
 
-ModalHeader.displayName = 'ModalHeader';
+DrawerHeader.displayName = 'DrawerHeader';
 
-export default ModalHeader;
+export default DrawerHeader;

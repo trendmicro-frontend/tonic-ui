@@ -1,20 +1,23 @@
 import Modal from './Modal';
+import ModalOverlay from './ModalOverlay';
+import ModalContent from './ModalContent';
+import ModalHeader from './ModalHeader';
 import ModalBody from './ModalBody';
 import ModalFooter from './ModalFooter';
-import ModalHeader from './ModalHeader';
-import ModalCloseButton from './ModalCloseButton';
 
+Modal.Overlay = ModalOverlay;
+Modal.Content = ModalContent;
 Modal.Header = ModalHeader;
 Modal.Body = ModalBody;
 Modal.Footer = ModalFooter;
-Modal.CloseButton = ModalCloseButton;
 
 export {
   Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
   ModalBody,
   ModalFooter,
-  ModalHeader,
-  ModalCloseButton,
 };
 
 export default Modal;
