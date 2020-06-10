@@ -9,7 +9,7 @@
   "command": {
     "version": {
       "allowBranch": "master",
-      "changelog": false,
+      "changelog": true,
       "conventionalCommits": false,
       "message": "chore(release): publish"
     }
