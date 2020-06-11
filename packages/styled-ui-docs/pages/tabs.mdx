@@ -45,8 +45,7 @@ you can have tabs at the top, at the bottom, or both.
 
 ### Tab variants and color
 
-Tabs come in 6 different variants to style the tabs: `line`,`enclosed`,
-`enclosed-colored`, `soft-rounded`, `solid-rounded`, `unstyled`
+Tabs come in 3 different variants to style the tabs: `line`,`enclosed`, `unstyled`
 
 ```jsx
 <Tabs variant="enclosed">
@@ -69,49 +68,28 @@ Tabs come in 6 different variants to style the tabs: `line`,`enclosed`,
 </Tabs>
 ```
 
-You can also change the color for any specific variant by passing the
-`variantColor`.
+### Make a Tab disabled
 
-> The value of `variantColor` must exist in the theme object, and must be a key
-> in `theme.colors` that has the `100` - `900` color values.
-
-```jsx
-<Tabs variant="soft-rounded" variantColor="green">
-  <TabList>
-    <Tab>Tab 1</Tab>
-    <Tab>Tab 2</Tab>
-  </TabList>
-  <TabPanels>
-    <TabPanel>
-      <p>one!</p>
-    </TabPanel>
-    <TabPanel>
-      <p>two!</p>
-    </TabPanel>
-  </TabPanels>
-</Tabs>
-```
-
-### Tab sizes
-
-You can change the size of the tab by passing `size` prop. We support 3 sizes
-`sm`, `md`, `lg`
+When a `Tab` is disabled, it's skipped during keyboard navigation and it's not
+clickable.
 
 ```jsx
-<Tabs size="md" variant="enclosed">
-  <TabList>
-    <Tab>One</Tab>
-    <Tab>Two</Tab>
-  </TabList>
-  <TabPanels>
-    <TabPanel>
-      <p>one!</p>
-    </TabPanel>
-    <TabPanel>
-      <p>two!</p>
-    </TabPanel>
-  </TabPanels>
-</Tabs>
+function Example() {
+  return (
+    <Tabs>
+      <TabList>
+        <Tab>One</Tab>
+        <Tab disabled>Two</Tab>
+        <Tab>Three</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel><p>1</p></TabPanel>
+        <TabPanel><p>2</p></TabPanel>
+        <TabPanel><p>3</p></TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+}
 ```
 
 ### Change the tabs alignment
@@ -120,7 +98,7 @@ You can change the alignment of the `TabList` by passing `align` prop. We
 support 3 sizes `left`, `center`, `right`.
 
 ```jsx
-<Tabs align="end" variant="enclosed">
+<Tabs align="right" variant="enclosed">
   <TabList>
     <Tab>One</Tab>
     <Tab>Two</Tab>
@@ -179,58 +157,6 @@ to `unstyled`, and use the `_selected`, `_hover`, `_active` style props.
 </Tabs>
 ```
 
-### Tabs onChange
-
-The `onChange` callback returns the active tab's index whenever the user changes
-tabs. If you intend to control the tabs programmatically, use this with the
-`index` prop.
-
-```jsx
-function Example() {
-  const colors = ["blue:50", "green:50", "purple:60"];
-  const [tabIndex, setTabIndex] = React.useState(0);
-  const bg = colors[tabIndex];
-  return (
-    <Tabs onChange={index => setTabIndex(index)} color="white" bg={bg}>
-      <TabList>
-        <Tab>Red</Tab>
-        <Tab>Teal</Tab>
-        <Tab>Blue</Tab>
-      </TabList>
-      <TabPanels p="2rem">
-        <TabPanel>The Primary Colors</TabPanel>
-        <TabPanel>Are 1, 2, 3</TabPanel>
-        <TabPanel>Red, yellow and blue.</TabPanel>
-      </TabPanels>
-    </Tabs>
-  );
-}
-```
-
-### Make a Tab disabled
-
-When a `Tab` is disabled, it's skipped during keyboard navigation and it's not
-clickable.
-
-```jsx
-function Example() {
-  return (
-    <Tabs>
-      <TabList>
-        <Tab>One</Tab>
-        <Tab disabled>Two</Tab>
-        <Tab>Three</Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel><p>1</p></TabPanel>
-        <TabPanel><p>2</p></TabPanel>
-        <TabPanel><p>3</p></TabPanel>
-      </TabPanels>
-    </Tabs>
-  );
-}
-```
-
 ### Manually Activated Tabs
 
 By default, `Tabs` are activated automatically. This means when you use the
@@ -246,7 +172,7 @@ without activating the tabs. With focus on a specifc tab, users can activate a
 tab by pressing <kbd>Space</kbd> or <kbd>Enter</kbd>.
 
 ```jsx
-<Tabs isManual variant="enclosed">
+<Tabs isManual variant="line">
   <TabList>
     <Tab>One</Tab>
     <Tab>Two</Tab>
@@ -260,39 +186,6 @@ tab by pressing <kbd>Space</kbd> or <kbd>Enter</kbd>.
     </TabPanel>
   </TabPanels>
 </Tabs>
-```
-
-### Creating custom tab components
-
-Because `TabList` needs to know the order of the children, we use `cloneElement`
-to pass state internally. If you want to know if a tab is active, you can wrap
-it, and then inspect clone props passed in.
-
-```jsx
-function CoolTabsExample() {
-  const CoolTab = React.forwardRef((props, ref) => {
-    // `isSelected` is passed to all children of `TabList`.
-    return (
-      <Tab ref={ref} isSelected={props.isSelected} {...props}>
-        {props.isSelected ? "😎" : "😐"}
-        {props.children}
-      </Tab>
-    );
-  });
-
-  return (
-    <Tabs>
-      <TabList>
-        <CoolTab>One</CoolTab>
-        <CoolTab>Two</CoolTab>
-      </TabList>
-      <TabPanels>
-        <TabPanel><p>1</p></TabPanel>
-        <TabPanel><p>2</p></TabPanel>
-      </TabPanels>
-    </Tabs>
-  );
-}
 ```
 
 ### Data Tabs
@@ -378,9 +271,7 @@ Tabs composes `Box` so you call pass all `Box` related props.
 | `defaultIndex` | `number`                                                                          |              | The index of the initial active tab.                                                                                            |
 | `isManual`     | `boolean`                                                                         |              | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` to active it |
 | `children`     | `React.ReactNode`                                                                 |              | The children of the switch.                                                                                                     |
-| `variant`      | `line`,`enclosed`,`enclosed-colored`, `soft-rounded`, `solid-rounded`, `unstyled` | `line`       | The visual style of the tab.                                                                                                    |
-| `variantColor` | `string`                                                                          |              | The primary color to use for the selected variant. Use a color key in `theme.colors`                                            |
-| `size`         | `sm`, `md`, `lg`                                                                  | `md`         | The visual size of the tabs                                                                                                     |
+| `variant`      | `line`,`enclosed`, `unstyled`                                                     | `line`       | The visual style of the tab.                                                                                                    |
 | `orientation`  | `horizontal`, `vertical`                                                          | `horizontal` | The orientation of the tabs                                                                                                     |
 | `isFitted`     | `boolean`                                                                         |              | If `true`, the tabs will stretch to fill the available space                                                                    |
 
