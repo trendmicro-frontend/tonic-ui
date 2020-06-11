@@ -1,30 +1,19 @@
 import React, { forwardRef } from 'react';
-import { useModal } from './context';
 import Box from '../Box';
-import ModalCloseButton from './ModalCloseButton';
 
-const ModalHeader = forwardRef(({ children, hideCloseButton, ...restProps }, ref) => {
-  const { headerId } = useModal();
+const ModalHeader = forwardRef((props, ref) => {
   return (
     <Box
       ref={ref}
+      pt="4x"
+      pb="3x"
       pl="6x"
-      py="4x"
-      pr="10x"
-      id={headerId}
-      as="header"
+      pr="12x"
       position="relative"
       fontSize="xl"
       lineHeight="xl"
-      whiteSpace="nowrap"
-      width="100%"
-      overflow="hidden"
-      textOverflow="ellipsis"
-      {...restProps}
-    >
-      {children}
-      {!hideCloseButton && <ModalCloseButton />}
-    </Box>
+      {...props}
+    />
   );
 });
 

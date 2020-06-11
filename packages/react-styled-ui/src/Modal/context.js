@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 
 const ModalContext = createContext();
 
-const ModalContextProvider = ModalContext.Provider;
+const ModalProvider = ModalContext.Provider;
 
 const useModal = () => {
   if (!useContext) {
@@ -15,6 +15,6 @@ const useModal = () => {
 
 export {
   ModalContext,
-  ModalContextProvider,
+  ModalProvider,
   useModal,
 };

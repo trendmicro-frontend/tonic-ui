@@ -27,16 +27,18 @@ import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
 import LightMode from './LightMode';
 import Link from './Link';
-
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
+import SearchInput from './SearchInput';
 import Select from './Select';
+import Skeleton from './Skeleton';
 import Space from './Space';
 import Spinner from './Spinner';
 import Stack from './Stack';
 import SVGIcon from './SVGIcon';
 import Tabs from './Tabs';
+import Tag from './Tag';
 import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
@@ -86,7 +88,9 @@ export {
   PseudoBox,
   Radio,
   RadioGroup,
+  SearchInput,
   Select,
+  Skeleton,
   Space,
   Spinner,
   Stack,
@@ -96,6 +100,7 @@ export {
   Textarea,
   TextLabel,
   ThemeProvider,
+  Tag,
   Toast,
   ToggleSwitch,
   Tooltip,
@@ -113,4 +118,6 @@ export * from './Tabs';
 export * from './Accordion';
 export * from './Popover';
 export * from './Modal';
+export * from './Drawer';
 export * from './Table';
+export * from './Transition';

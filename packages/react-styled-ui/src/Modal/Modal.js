@@ -1,133 +1,79 @@
-import React, { useRef, useEffect, useCallback } from 'react';
-import exenv from 'exenv';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import FocusLock from 'react-focus-lock/dist/cjs';
-import { useId } from '../utils/autoId';
-import getFocusables from '../utils/getFocusables';
-import ColorModeProvider from '../ColorModeProvider';
-import ThemeProvider from '../ThemeProvider';
-import useColorMode from '../useColorMode';
-import useTheme from '../useTheme';
+import memoize from 'micro-memoize';
+import React, { useCallback, useRef } from 'react';
 import Portal from '../Portal';
-import { ModalContext } from './context';
-import ModalContent from './ModalContent';
-import ModalOverlay from './ModalOverlay';
+import config from '../shared/config';
+import { useId } from '../utils/autoId';
+import useNodeRef from '../utils/useNodeRef';
+import getFocusableElements from '../utils/getFocusableElements';
+import { ModalProvider } from './context';
 
-const { canUseDOM } = exenv;
-
-const useHider = ({
-  isOpen,
-  id,
-  container = canUseDOM ? document.body : null,
-}) => {
-  const mountRef = useRef(
-    canUseDOM
-      ? document.getElementById(id) || document.createElement('div')
-      : null,
-  );
-
-  useEffect(() => {
-    let mountNode = mountRef.current;
-
-    if (isOpen && canUseDOM) {
-      mountRef.current.id = id;
-      container.appendChild(mountRef.current);
-    }
-
-    return () => {
-      if (mountNode.parentElement) {
-        mountNode.parentElement.removeChild(mountNode);
-      }
-    };
-  }, [isOpen, id, container]);
-
-  return mountRef;
-};
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const Modal = ({
-  isOpen,
-  autoFocus = false,
+  size = 'auto',
+  isOpen = false,
+  isCloseButtonVisible = false,
+  closeOnEsc = false,
+  closeOnOutsideClick = false,
+  onClose,
   initialFocusRef,
   finalFocusRef,
-  onClose,
-  blockScrollOnMount = true,
-  closeOnEsc = false,
-  closeOnOverlayClick = false,
-  preserveScrollBarGap,
-  formatIds = id => ({
-    content: `modal-${id}`,
-    header: `modal-${id}-header`,
-    body: `modal-${id}-body`,
-  }),
-  container,
-  returnFocusOnClose = true,
-  children,
+  autoFocus = false,
   id,
-  size = 'md',
-  disableOverlay = false,
-  ...restProps
+  children,
 }) => {
-  const theme = useTheme();
-  const { colorMode } = useColorMode();
-
   const contentRef = useRef(null);
-  const uuid = useId();
-  const _id = id || uuid;
-
-  const contentId = formatIds(_id).content;
-  const headerId = formatIds(_id).header;
-  const bodyId = formatIds(_id).body;
-  const portalId = `trendmicro-react-styled-ui-portal-${_id}`;
-
-  useEffect(() => {
-    const mountedModalCount = canUseDOM ? document.querySelectorAll('[id^=trendmicro-react-styled-ui-portal-]').length : 0;
-    const dialogNode = contentRef.current;
-    if (isOpen && blockScrollOnMount) {
-      disableBodyScroll(dialogNode, {
-        reserveScrollBarGap: preserveScrollBarGap,
-      });
-    }
-    return () => {
-      return mountedModalCount === 0 ? enableBodyScroll(dialogNode) : {};
-    };
-  }, [isOpen, blockScrollOnMount, preserveScrollBarGap]);
-
-  const mountRef = useHider({
+  const modalState = getMemoizedState({
+    size,
     isOpen,
-    id: portalId,
-    container,
+    isCloseButtonVisible,
+    closeOnEsc,
+    closeOnOutsideClick,
+    onClose,
+    initialFocusRef,
+    finalFocusRef,
+    autoFocus,
+
+    // internal use only
+    contentRef,
   });
 
-  const context = {
+  id = id ?? useId();
+  const portalId = `${config.name}:portal-${id}`;
+  const mountRef = useNodeRef({
     isOpen,
-    initialFocusRef,
-    onClose,
-    blockScrollOnMount,
-    closeOnEsc,
-    closeOnOverlayClick,
-    returnFocusOnClose,
-    contentRef,
-    headerId,
-    bodyId,
-    contentId,
-    size,
-    disableOverlay,
-  };
+    id: portalId,
+  });
 
-  const activateFocusLock = useCallback(() => {
+  const returnFocus = !finalFocusRef;
+  const onFocusLockActivation = useCallback(() => {
     if (initialFocusRef && initialFocusRef.current) {
-      initialFocusRef.current.focus();
-    } else if (contentRef.current) {
-      let focusables = getFocusables(contentRef.current);
-      if (focusables.length === 0) {
-        contentRef.current.focus();
+      const el = initialFocusRef.current;
+      if (typeof el.focus === 'function') {
+        el.focus();
+      }
+      return;
+    }
+
+    if (contentRef.current) {
+      const el = contentRef.current;
+      const focusableElements = getFocusableElements(el);
+      if (focusableElements.length > 0) {
+        return;
+      }
+
+      if (typeof el.focus === 'function') {
+        el.focus();
       }
     }
   }, [initialFocusRef]);
-
-  const deactivateFocusLock = useCallback(() => {
+  const onFocusLockDeactivation = useCallback(() => {
     if (finalFocusRef && finalFocusRef.current) {
-      finalFocusRef.current.focus();
+      const el = finalFocusRef.current;
+      if (typeof el.focus === 'function') {
+        el.focus();
+      }
     }
   }, [finalFocusRef]);
 
@@ -136,25 +82,18 @@ const Modal = ({
   }
 
   return (
-    <ModalContext.Provider value={context}>
+    <ModalProvider value={modalState}>
       <Portal container={mountRef.current}>
         <FocusLock
           autoFocus={autoFocus}
-          returnFocus={returnFocusOnClose && !finalFocusRef}
-          onActivation={activateFocusLock}
-          onDeactivation={deactivateFocusLock}
+          returnFocus={returnFocus}
+          onActivation={onFocusLockActivation}
+          onDeactivation={onFocusLockDeactivation}
         >
-          <ThemeProvider theme={theme}>
-            <ColorModeProvider value={colorMode}>
-              <ModalOverlay />
-              <ModalContent {...restProps}>
-                {children}
-              </ModalContent>
-            </ColorModeProvider>
-          </ThemeProvider>
+          {children}
         </FocusLock>
       </Portal>
-    </ModalContext.Provider>
+    </ModalProvider>
   );
 };
 

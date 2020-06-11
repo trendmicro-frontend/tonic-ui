@@ -1,0 +1,189 @@
+# Transition
+
+## Import
+
+```js
+import * as Transition from '@trendmicro/react-styled-ui/Transition';
+// or
+import { Scale, Slide, SlideIn } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+### Scale transition
+
+```jsx noInline
+const SkeletonContent = (props) => (
+  <ModalContent p="4x" {...props}>
+    <Flex>
+      <Flex flex="none" mr="4x" align="center">
+        <Skeleton variant="circle" width="10x" height="10x" />
+      </Flex>
+      <Box flex="auto">
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </Box>
+    </Flex>
+  </ModalContent>
+);
+
+function Example() {
+  const { isOpen, onToggle } = useDisclosure();
+
+  return (
+    <>
+      <Button onClick={onToggle}>
+        Toggle
+      </Button>
+      <Scale in={isOpen}>
+        {styles => (
+          <SkeletonContent mt="4x" {...styles} />
+        )}
+      </Scale>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### Slide transition
+
+```jsx noInline
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const SkeletonContent = (props) => (
+  <ModalContent p="4x" {...props}>
+    <Flex>
+      <Flex flex="none" mr="4x" align="center">
+        <Skeleton variant="circle" width="10x" height="10x" />
+      </Flex>
+      <Box flex="auto">
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </Box>
+    </Flex>
+  </ModalContent>
+);
+
+function Example() {
+  const { isOpen, onClose, onToggle } = useDisclosure();
+  const [from, changeFromBy] = useSelection('top');
+
+  return (
+    <>
+      <Box mb="4x">
+        <Button onClick={onToggle}>
+          Toggle
+        </Button>
+      </Box>
+      <ButtonGroup variant="secondary">
+        {['top', 'bottom', 'left', 'right'].map(value => {
+          const changeFrom = changeFromBy(value);
+          const onClick = () => {
+            changeFrom();
+            onClose();
+          };
+
+          return (
+            <Button
+              key={value}
+              selected={value === from}
+              onClick={onClick}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          );
+        })}
+      </ButtonGroup>
+      <Slide
+        in={isOpen}
+        from={from}
+        finalWidth="100%"
+      >
+        {styles => (
+          <SkeletonContent mt="4x" {...styles} />
+        )}
+      </Slide>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### Slide in transition
+
+```jsx noInline
+const SkeletonContent = (props) => (
+  <ModalContent p="4x" {...props}>
+    <Flex>
+      <Flex flex="none" mr="4x" align="center">
+        <Skeleton variant="circle" width="10x" height="10x" />
+      </Flex>
+      <Box flex="auto">
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </Box>
+    </Flex>
+  </ModalContent>
+);
+
+function Example() {
+  const { isOpen, onToggle } = useDisclosure();
+
+  return (
+    <>
+      <Button onClick={onToggle}>
+        Toggle
+      </Button>
+      <SlideIn in={isOpen}>
+        {styles => (
+          <SkeletonContent mt="4x" {...styles} />
+        )}
+      </SlideIn>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+### Scale
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| in | boolean | | Toggle visibility with a transition effect. |
+| children | function | | A single function-child that receives the styles and renders components. |
+| duration | number | 150 | The duration of the transition. |
+| initialScale | number | 0.97 | The initial zoom level. |
+
+### Slide
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| in | boolean | | Toggle visibility with a transition effect. |
+| children | function | | A single function-child that receives the styles and renders components. |
+| duration | number | 250 | The duration of the transition. |
+| from | string | | One of: `'bottom'`, `'top'`, `'left'`, `'right'` |
+| finalHeight | string | 'auto' | |
+| finalWidth | string | | |
+
+### SlideIn
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| in | boolean | | Toggle visibility with a transition effect. |
+| children | function | | A single function-child that receives the styles and renders components. |
+| duration | number | 150 | The duration of the transition. |
+| offset | string | '10px' | The slide-in offset in pixel. |

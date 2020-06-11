@@ -1,17 +1,31 @@
 import React, { forwardRef } from 'react';
-import Box from '../Box';
+import Flex from '../Flex';
+import useColorMode from '../useColorMode';
 
-const ModalFooter = forwardRef((props, ref) => (
-  <Box
-    display="flex"
-    justifyContent="flex-end"
-    ref={ref}
-    px="6x"
-    py="3x"
-    as="footer"
-    {...props}
-  />
-));
+const ModalFooter = forwardRef((props, ref) => {
+  const { colorMode } = useColorMode();
+  const borderColor = {
+    dark: 'gray:80',
+    light: 'gray:20', // TBD: light mode is not ready yet
+  }[colorMode];
+
+  return (
+    <Flex
+      ref={ref}
+      justify="flex-end"
+      px="6x"
+      py="4x"
+      borderTop={1}
+      borderTopColor={borderColor}
+      css={{
+        '&:first-child': {
+          marginTop: (16 + 28 + 12),
+        },
+      }}
+      {...props}
+    />
+  );
+});
 
 ModalFooter.displayName = 'ModalFooter';
 

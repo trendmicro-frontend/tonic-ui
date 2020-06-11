@@ -4,6 +4,12 @@ An alert toast is a toast that offers severity levels.
 
 If you're looking for a simple toast, just to check out the [`Toast`](./toast) component.
 
+### Prerequisite
+
+The `AlertToast` component should work with the `useToast` Hook to trigger a toast notification.
+
+Learn more about the [`useToast`](./usetoast) Hook.
+
 ## Import
 
 ```js
@@ -11,12 +17,6 @@ import AlertToast from '@trendmicro/react-styled-ui/AlertToast';
 // or
 import { AlertToast } from '@trendmicro/react-styled-ui';
 ```
-
-## Prerequisite
-
-The `AlertToast` component should work with the `useToast` Hook to trigger a toast notification.
-
-Learn more about the [`useToast`](./usetoast) Hook.
 
 ## Usage
 
@@ -30,13 +30,13 @@ Learn more about the [`useToast`](./usetoast) Hook.
 
 ```jsx noInline
 const AlertToastSimple = ({ onClose }) => (
-  <AlertToast onClose={onClose}>
+  <AlertToast isCloseButtonVisible onClose={onClose}>
     <Text>This is a toast notification.</Text>
   </AlertToast>
 );
 
 const AlertToastWithIcon = ({ onClose }) => (
-  <AlertToast onClose={onClose} py="4x">
+  <AlertToast isCloseButtonVisible onClose={onClose} py="4x">
     <Flex align="flex-start">
       <Box
         bg="gray:40"
@@ -50,7 +50,7 @@ const AlertToastWithIcon = ({ onClose }) => (
 );
 
 const AlertToastWithTitle = ({ onClose }) => (
-  <AlertToast onClose={onClose} py="4x">
+  <AlertToast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
     </Box>
@@ -61,7 +61,7 @@ const AlertToastWithTitle = ({ onClose }) => (
 );
 
 const AlertToastWithActionButton = ({ onClose }) => (
-  <AlertToast onClose={onClose} py="4x">
+  <AlertToast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -74,7 +74,7 @@ const AlertToastWithActionButton = ({ onClose }) => (
 );
 
 const AlertToastWithActionLink = ({ onClose }) => (
-  <AlertToast onClose={onClose} py="4x">
+  <AlertToast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -85,7 +85,7 @@ const AlertToastWithActionLink = ({ onClose }) => (
 );
 
 const AlertToastWithAllTogether = ({ onClose }) => (
-  <AlertToast onClose={onClose} py="4x">
+  <AlertToast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
     </Box>
@@ -128,7 +128,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -233,25 +233,25 @@ The alert toast offers four severity levels, each has a distinctive icon and col
 
 ```jsx noInline
 const AlertToastSuccess = ({ onClose }) => (
-  <AlertToast onClose={onClose} severity="success">
+  <AlertToast isCloseButtonVisible onClose={onClose} severity="success">
     This is a success toast alert.
   </AlertToast>
 );
 
 const AlertToastInfo = ({ onClose }) => (
-  <AlertToast onClose={onClose} severity="info">
+  <AlertToast isCloseButtonVisible onClose={onClose} severity="info">
     This is an info toast alert.
   </AlertToast>
 );
 
 const AlertToastWarning = ({ onClose }) => (
-  <AlertToast onClose={onClose} severity="warning">
+  <AlertToast isCloseButtonVisible onClose={onClose} severity="warning">
     This is a warning toast alert.
   </AlertToast>
 );
 
 const AlertToastError = ({ onClose }) => (
-  <AlertToast onClose={onClose} severity="error">
+  <AlertToast isCloseButtonVisible onClose={onClose} severity="error">
     This is an error toast alert.
   </AlertToast>
 );
@@ -278,7 +278,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -334,6 +334,7 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 ```jsx noInline
 const AlertToastWithDefaultIcon = ({ onClose }) => (
   <AlertToast
+    isCloseButtonVisible
     onClose={onClose}
     severity="success"
   >
@@ -343,6 +344,7 @@ const AlertToastWithDefaultIcon = ({ onClose }) => (
 
 const AlertToastWithAnotherIcon = ({ onClose }) => (
   <AlertToast
+    isCloseButtonVisible
     onClose={onClose}
     severity="success"
     icon="_core.severity-success"
@@ -353,6 +355,7 @@ const AlertToastWithAnotherIcon = ({ onClose }) => (
 
 const AlertToastWithProprietaryIcon = ({ onClose }) => (
   <AlertToast
+    isCloseButtonVisible
     onClose={onClose}
     severity="success"
     icon={<TMIcon name="check-circle-o" lineHeight={1} color="gray:80" />}
@@ -363,6 +366,7 @@ const AlertToastWithProprietaryIcon = ({ onClose }) => (
 
 const AlertToastWithoutIcon = ({ onClose }) => (
   <AlertToast
+    isCloseButtonVisible
     onClose={onClose}
     severity="success"
     icon={false}
@@ -393,7 +397,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (AlertToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -446,7 +450,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isCloseable | boolean | true | If `true`, a close button will appear on the right side. |
+| isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
 | severity | string | 'success' | The severity level of the alert. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |

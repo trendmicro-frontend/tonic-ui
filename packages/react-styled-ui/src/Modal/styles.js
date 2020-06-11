@@ -1,66 +1,12 @@
-import { setColorWithOpacity } from '../theme/colors';
+import { get } from '@styled-system/core';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
-////////////// Modal Close Button ////////////
+const defaultSize = 'auto';
 
-const useModalCloseButtonStyle = () => {
-  const { colorMode } = useColorMode();
-  const { colors } = useTheme();
-  const _color = colors[{
-    light: 'black:primary',
-    dark: 'white:primary',
-  }[colorMode]];
-  const focusColor = colors['blue:60'];
-  const styles = {
-    width: '8x',
-    height: '8x',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    transition: 'all 0.2s ease 0s',
-    flex: '0 0 auto',
-    _focus: {
-      borderColor: focusColor,
-      boxShadow: `inset 0 0 0 1px ${focusColor}`,
-    },
-  };
-  const interactionProps = {
-    light: {
-      color: setColorWithOpacity(_color, 0.54),
-      _hover: {
-        color: setColorWithOpacity(_color, 1),
-      },
-      _active: {
-        color: setColorWithOpacity(_color, 0.54),
-      },
-      _disabled: {
-        color: setColorWithOpacity(_color, 0.28),
-        cursor: 'not-allowed',
-      },
-    },
-    dark: {
-      color: setColorWithOpacity(_color, 0.47),
-      _hover: {
-        color: setColorWithOpacity(_color, 1),
-      },
-      _active: {
-        color: setColorWithOpacity(_color, 0.47),
-      },
-      _disabled: {
-        color: setColorWithOpacity(_color, 0.3),
-        cursor: 'not-allowed',
-      },
-    },
-  }[colorMode];
-  return { ...styles, ...interactionProps };
-};
+const getSizeProps = (size) => {
+  size = size ?? defaultSize;
 
-/////////////// Modal Content ////////////
-const sizeProps = (size) => {
   return {
     xs: {
       width: 352,
@@ -92,9 +38,61 @@ const sizeProps = (size) => {
   }[size];
 };
 
+const useModalCloseButtonStyle = () => {
+  const { colorMode } = useColorMode();
+  const { colors } = useTheme();
+  const color = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+  const activeColor = color;
+  const focusColor = color;
+  const focusHoverColor = hoverColor;
+  const focusActiveColor = activeColor;
+  const focusBorderColor = get(colors, 'blue:60');
+
+  return {
+    position: 'absolute',
+    top: '2x',
+    right: '2x',
+    border: 1,
+    borderColor: 'transparent',
+    color: color,
+    transition: 'all .2s',
+    lineHeight: 1,
+    width: '8x',
+    height: '8x',
+    px: 0,
+    py: 0,
+    _hover: {
+      color: hoverColor,
+    },
+    _active: {
+      color: activeColor,
+    },
+    _focus: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusColor,
+    },
+    _focusHover: {
+      color: focusHoverColor,
+    },
+    _focusActive: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusActiveColor,
+    },
+  };
+};
+
 const useModalContentStyles = ({ size }) => {
   const { colorMode } = useColorMode();
-  const _baseStyle = {
+  const baseStyle = {
     mx: 'auto',
     height: 'auto',
     maxHeight: '80vh',
@@ -102,7 +100,7 @@ const useModalContentStyles = ({ size }) => {
     display: 'flex',
     flexDirection: 'column',
   };
-  const _colorModeStyles = {
+  const colorModeStyles = {
     light: {
       color: 'black:primary',
       bg: 'white',
@@ -120,12 +118,12 @@ const useModalContentStyles = ({ size }) => {
       boxShadow: 'dark.lg',
     },
   }[colorMode];
-  const _sizeProps = sizeProps(size);
+  const sizeProps = getSizeProps(size);
 
   return {
-    ..._baseStyle,
-    ..._colorModeStyles,
-    ..._sizeProps,
+    ...baseStyle,
+    ...colorModeStyles,
+    ...sizeProps,
   };
 };
 

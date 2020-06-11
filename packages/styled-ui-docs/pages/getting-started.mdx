@@ -75,3 +75,54 @@ import Button from '@trendmicro/react-styled-ui/Button';
 ```js
 import { Button } from '@trendmicro/react-styled-ui';
 ```
+## Recommended setup
+
+```js
+import {
+  Box,
+  ColorModeProvider,
+  CSSBaseline,
+  ThemeProvider,
+  useColorMode,
+} from '@trendmicro/react-styled-ui';
+
+import App from './App';
+
+const Layout = (props) => {
+  const { colorMode } = useColorMode();
+  const backgroundColor = {
+    light: 'white',
+    dark: 'gray:100',
+  }[colorMode];
+  const color = {
+    light: 'black:primary',
+    dark: 'white:primary',
+  }[colorMode];
+
+  return (
+    <Box
+      backgroundColor={backgroundColor}
+      color={color}
+      fontSize="sm"
+      lineHeight="sm"
+      height="100vh"
+      {...props}
+    />
+  );
+};
+
+const CustomApp = (props) => {
+  return (
+    <ThemeProvider>
+      <ColorModeProvider value="dark">
+        <CSSBaseline />
+        <Layout>
+          <App {...props} />
+        </Layout>
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+};
+
+export default CustomApp;
+```

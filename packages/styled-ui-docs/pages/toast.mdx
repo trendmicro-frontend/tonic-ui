@@ -4,6 +4,12 @@ A toast notification is a small message that shows up in a box at one side of th
 
 If you're looking for a toast that offers severity levels, such as `success`, `info`, `warning`, and `error`, just to check out the [`AlertToast`](./alerttoast) component.
 
+### Prerequisite
+
+The `Toast` component should work with the `useToast` Hook to trigger a toast notification.
+
+Learn more about the [`useToast`](./usetoast) Hook.
+
 ## Import
 
 ```js
@@ -11,12 +17,6 @@ import Toast from '@trendmicro/react-styled-ui/Toast';
 // or
 import { Toast } from '@trendmicro/react-styled-ui';
 ```
-
-## Prerequisite
-
-The `Toast` component should work with the `useToast` Hook to trigger a toast notification.
-
-Learn more about the [`useToast`](./usetoast) Hook.
 
 ## Usage
 
@@ -30,13 +30,13 @@ Learn more about the [`useToast`](./usetoast) Hook.
 
 ```jsx noInline
 const ToastSimple = ({ onClose }) => (
-  <Toast onClose={onClose}>
+  <Toast isCloseButtonVisible onClose={onClose}>
     <Text>This is a toast notification.</Text>
   </Toast>
 );
 
 const ToastWithIcon = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Flex align="flex-start">
       <Box
         bg="gray:40"
@@ -50,7 +50,7 @@ const ToastWithIcon = ({ onClose }) => (
 );
 
 const ToastWithTitle = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
     </Box>
@@ -61,7 +61,7 @@ const ToastWithTitle = ({ onClose }) => (
 );
 
 const ToastWithActionButton = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -74,7 +74,7 @@ const ToastWithActionButton = ({ onClose }) => (
 );
 
 const ToastWithActionLink = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -85,7 +85,7 @@ const ToastWithActionLink = ({ onClose }) => (
 );
 
 const ToastWithAllTogether = ({ onClose }) => (
-  <Toast onClose={onClose} py="4x">
+  <Toast isCloseButtonVisible onClose={onClose} py="4x">
     <Box mb="2x">
       <Heading fontWeight="bold">Notification Title</Heading>
     </Box>
@@ -128,7 +128,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (ToastNotification) => () => {
-    toast({
+    toast.notify({
       position: 'bottom-right',
       duration: 5000,
       render: ({ onClose, position }) => {
@@ -233,5 +233,5 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isCloseable | boolean | true | If `true`, a close button will appear on the right side. |
+| isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |

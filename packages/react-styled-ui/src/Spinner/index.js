@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
 import { keyframes } from '@emotion/core';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
 import PseudoBox from '../PseudoBox';
 import useColorMode from '../useColorMode';
