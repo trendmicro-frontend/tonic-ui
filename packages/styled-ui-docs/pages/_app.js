@@ -1,3 +1,4 @@
+import { Global, css } from '@emotion/core';
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
@@ -5,6 +6,7 @@ import {
   CSSBaseline,
   ThemeProvider,
   useColorMode,
+  useTheme,
 } from '@trendmicro/react-styled-ui';
 import App from 'next/app';
 import { useRouter } from 'next/router';
@@ -16,33 +18,46 @@ import SideNav from '../components/SideNav';
 
 const Layout = ({ children }) => {
   const { colorMode } = useColorMode();
+  const { fontSizes, lineHeights } = useTheme();
   const fontColor = {
     light: 'black:primary',
     dark: 'white:primary',
   }[colorMode];
 
   return (
-    <Box color={fontColor}>
-      <Header />
-      <SideNav
-        display={['none', null, 'block']}
-        maxWidth="20rem"
-        px="4x"
-        py="3x"
+    <>
+      <Global
+        styles={css`
+          body {
+            font-size: ${fontSizes.sm};
+            line-height: ${lineHeights.sm};
+          }
+        `}
       />
       <Box
-        height="100vh"
-        pt="16x"
+        color={fontColor}
+        fontSize="md"
+        lineHeight="md"
       >
-        <Main
-          fontSize="md"
-          lineHeight="md"
-          ml={[0, null, '20rem']}
+        <Header />
+        <SideNav
+          display={['none', null, 'block']}
+          maxWidth="20rem"
+          px="4x"
+          py="3x"
+        />
+        <Box
+          height="100vh"
+          pt="16x"
         >
-          {children}
-        </Main>
+          <Main
+            ml={[0, null, '20rem']}
+          >
+            {children}
+          </Main>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

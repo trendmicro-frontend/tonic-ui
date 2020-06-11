@@ -78,18 +78,21 @@ import { Button } from '@trendmicro/react-styled-ui';
 ## Recommended setup
 
 ```js
+import { Global, css } from '@emotion/core';
 import {
   Box,
   ColorModeProvider,
   CSSBaseline,
   ThemeProvider,
   useColorMode,
+  useTheme,
 } from '@trendmicro/react-styled-ui';
 
 import App from './App';
 
 const Layout = (props) => {
   const { colorMode } = useColorMode();
+  const { fontSizes, lineHeights } = useTheme();
   const backgroundColor = {
     light: 'white',
     dark: 'gray:100',
@@ -100,14 +103,24 @@ const Layout = (props) => {
   }[colorMode];
 
   return (
-    <Box
-      backgroundColor={backgroundColor}
-      color={color}
-      fontSize="sm"
-      lineHeight="sm"
-      height="100vh"
-      {...props}
-    />
+    <>
+      <Global
+        styles={css`
+          body {
+            font-size: ${fontSizes.sm};
+            line-height: ${lineHeights.sm};
+          }
+        `}
+      />
+      <Box
+        backgroundColor={backgroundColor}
+        color={color}
+        fontSize="sm"
+        lineHeight="sm"
+        height="100vh"
+        {...props}
+      />
+    </>
   );
 };
 
