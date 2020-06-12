@@ -11,29 +11,33 @@ const getSizeProps = (size) => {
     xs: {
       width: 352,
       minHeight: 240,
+      maxHeight: '80vh',
     },
     sm: {
       width: 512,
       minHeight: 320,
+      maxHeight: '80vh',
     },
     md: {
       width: 672,
       minHeight: 320,
+      maxHeight: '80vh',
     },
     lg: {
       width: 832,
       minHeight: 320,
+      maxHeight: '80vh',
     },
     xl: {
       width: 992,
       minHeight: 320,
+      maxHeight: '80vh',
     },
     full: {
       maxWidth: '100%'
     },
     auto: {
       width: 'auto',
-      height: 'auto',
     },
   }[size];
 };
@@ -95,7 +99,6 @@ const useModalContentStyles = ({ size }) => {
   const baseStyle = {
     mx: 'auto',
     height: 'auto',
-    maxHeight: '80vh',
     top: 0,
     display: 'flex',
     flexDirection: 'column',
