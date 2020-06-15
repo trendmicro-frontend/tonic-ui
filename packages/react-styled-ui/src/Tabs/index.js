@@ -5,4 +5,4 @@ import TabPanels from './TabPanels';
 import TabPanel from './TabPanel';
 
 export default Tabs;
-export { TabList, Tab, TabPanel, TabPanels };
+export { Tabs, TabList, Tab, TabPanel, TabPanels };
