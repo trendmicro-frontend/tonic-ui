@@ -64,11 +64,6 @@ const Popper = forwardRef(
         return;
       }
 
-      if (popperRef.current) {
-        popperRef.current.destroy();
-        handlePopperRefRef.current(null);
-      }
-
       const handlePopperUpdate = data => {
         setPlacement(data.placement);
       };
