@@ -21,7 +21,10 @@ const createPseudoClassTransformFunction = name => prop => {
  * https://developer.mozilla.org/en-US/docs/Web/CSS/
  */
 
-const active = '&:active';
+const active = [
+  '&:active',
+  '&[data-active=true]'
+].join(',');
 const checked = [
   '&[aria-checked=true]',
   '&:checked',
