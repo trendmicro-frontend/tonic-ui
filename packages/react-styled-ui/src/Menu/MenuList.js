@@ -1,0 +1,102 @@
+import React from 'react';
+import Popper from '../Popper';
+import { useMenu } from './context';
+import { useMenuListStyle } from './styles';
+
+const MenuList = ({ ...props }) => {
+  const {
+    activeIndex: index,
+    isOpen,
+    focusAtIndex,
+    focusOnFirstItem,
+    focusOnLastItem,
+    closeMenu,
+    focusableItems,
+    buttonRef,
+    menuId,
+    buttonId,
+    menuRef,
+    closeOnBlur,
+    placement,
+    onKeyDown,
+    onBlur,
+  } = useMenu();
+
+  const handleKeyDown = event => {
+    const count = focusableItems.current.length;
+    let nextIndex;
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      nextIndex = (index + 1) % count;
+      focusAtIndex(nextIndex);
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      nextIndex = (index - 1 + count) % count;
+      focusAtIndex(nextIndex);
+    } else if (event.key === 'Home') {
+      focusOnFirstItem();
+    } else if (event.key === 'End') {
+      focusOnLastItem();
+    } else if (event.key === 'Tab') {
+      event.preventDefault();
+    } else if (event.key === 'Escape') {
+      closeMenu();
+    }
+
+    // Set focus based on first character
+    if (/^[a-z0-9_-]$/i.test(event.key)) {
+      event.stopPropagation();
+      event.preventDefault();
+      let foundNode = focusableItems.current.find(item => item.textContent.toLowerCase().startsWith(event.key));
+      if (foundNode) {
+        nextIndex = focusableItems.current.indexOf(foundNode);
+        focusAtIndex(nextIndex);
+      }
+    }
+
+    onKeyDown && onKeyDown(event);
+  };
+
+  // Close the menu on blur
+  const handleBlur = event => {
+    const target = event.relatedTarget || document.activeElement;
+    if (
+      closeOnBlur &&
+      isOpen &&
+      menuRef.current &&
+      buttonRef.current &&
+      !menuRef.current.contains(target) &&
+      !buttonRef.current.contains(target)
+    ) {
+      closeMenu();
+    }
+
+    onBlur && onBlur(event);
+  };
+
+  const styleProps = useMenuListStyle();
+
+  return (
+    <Popper
+      as="ul"
+      usePortal={false}
+      isOpen={isOpen}
+      anchorEl={buttonRef.current}
+      placement={placement}
+      modifiers={{ offset: [0, 0] }}
+      role="menu"
+      ref={menuRef}
+      id={menuId}
+      aria-labelledby={buttonId}
+      onKeyDown={handleKeyDown}
+      onBlur={handleBlur}
+      zIndex="1"
+      tabIndex={-1}
+      _focus={{ outline: 0 }}
+      {...styleProps}
+      {...props}
+    />
+  );
+};
+
+export default MenuList;
