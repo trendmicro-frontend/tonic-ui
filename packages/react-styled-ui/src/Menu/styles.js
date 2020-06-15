@@ -6,7 +6,7 @@ export const useMenuListStyle = () => {
   const { colorMode } = useColorMode();
   const elevation = {
     light: {
-      bg: '#fff',
+      bg: 'white',
       boxShadow: 'light.sm',
     },
     dark: {

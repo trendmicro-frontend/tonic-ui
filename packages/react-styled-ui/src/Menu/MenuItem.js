@@ -8,7 +8,7 @@ import wrapEvent from '../utils/wrapEvent';
 const MenuItem = forwardRef(
   (
     {
-      isDisabled,
+      disabled,
       onClick,
       onMouseLeave,
       onMouseEnter,
@@ -33,10 +33,10 @@ const MenuItem = forwardRef(
         ref={ref}
         role={role}
         tabIndex={-1}
-        disabled={isDisabled}
-        aria-disabled={isDisabled}
+        disabled={disabled}
+        aria-disabled={disabled}
         onClick={wrapEvent(onClick, event => {
-          if (isDisabled) {
+          if (disabled) {
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -46,7 +46,7 @@ const MenuItem = forwardRef(
           }
         })}
         onMouseEnter={wrapEvent(onMouseEnter, event => {
-          if (isDisabled) {
+          if (disabled) {
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -60,7 +60,7 @@ const MenuItem = forwardRef(
           focusAtIndex(-1);
         })}
         onKeyDown={wrapEvent(onKeyDown, event => {
-          if (isDisabled) {
+          if (disabled) {
             return;
           }
           if (event.key === 'Enter' || event.key === ' ') {
