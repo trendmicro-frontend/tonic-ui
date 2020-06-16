@@ -26,25 +26,24 @@ const tabSizes = {
   },
 };
 
-export const baseProps = {
-  tab: {
-    display: 'flex',
-    cursor: 'pointer',
-    borderStyle: 'solid',
-    borderColor: 'transparent',
-    borderWidth: '2px',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabList: {
-    borderWidth: 0,
-    borderBottomWidth: '2px',
-    borderColor: 'transparent',
-    borderStyle: 'solid'
-  }
+const tabProps = {
+  display: 'flex',
+  cursor: 'pointer',
+  borderStyle: 'solid',
+  borderColor: 'transparent',
+  borderWidth: '2px',
+  alignItems: 'center',
+  justifyContent: 'center',
 };
 
-export const statusProps = {
+const tabList = {
+  borderWidth: 0,
+  borderBottomWidth: tabProps.borderWidth,
+  borderColor: 'transparent',
+  borderStyle: 'solid'
+};
+
+const statusProps = {
   _focus: {
     zIndex: '3'
   },
@@ -70,14 +69,14 @@ const lineStyle = ({ size, colorMode, theme }) => {
   const _px = tabSizes[size] ? theme.space[tabSizes[size].px] : theme.space[tabSizes.md.px];
   return {
     tabList: {
-      borderBottomWidth: baseProps.tab.borderWidth,
+      borderBottomWidth: tabList.borderBottomWidth,
       borderColor: 'transparent',
     },
     tab: {
       color: _fontColor,
       borderLeftWidth: 0,
       borderRightWidth: 0,
-      mb: `-${baseProps.tab.borderWidth}`,
+      mb: `-${tabProps.borderWidth}`,
       _hover: {
         borderBottomColor: _hoveredBorderColor
       },
@@ -87,7 +86,7 @@ const lineStyle = ({ size, colorMode, theme }) => {
       }, statusProps._selected),
       _focus: {
         px: `calc(${_px} - 2px)`,
-        borderWidth: baseProps.tab.borderWidth,
+        borderWidth: tabProps.borderWidth,
         borderColor: _focusBorderColor
       },
       _disabled: Object.assign(statusProps._disabled, {
@@ -99,31 +98,19 @@ const lineStyle = ({ size, colorMode, theme }) => {
   };
 };
 
-// TODO: Create new issue in @styled-system/css to allow custom alias
 const enclosedStyle = ({ size, colorMode, theme }) => {
-  const borderWidth = '1px';
+  const _borderWidth = '1px';
   const _focusBorderWidth = '2px';
   const _px = tabSizes[size] ? theme.space[tabSizes[size].px] : theme.space[tabSizes.md.px];
   const _lineHeight = tabSizes[size] ? theme.lineHeights[tabSizes[size].lineHeight] : theme.lineHeights[tabSizes.md.lineHeight];
-
-  let _color = theme.colors['white:emphasis'];
-  let backgroundColor = 'gray:90';
-  let borderColor = 'gray:80';
-  let _hoveredBorderColor = 'gray:70';
-  let _hoveredBgColor = 'gray:70';
-  let _focusBorderColor = 'blue:60';
-  let _selectedBg = 'gray:80';
-  let _selectedBorder = _selectedBg;
-  if (colorMode === 'light') {
-    _color = theme.colors['black:emphasis'];
-    backgroundColor = 'gray:20';
-    borderColor = 'gray:30';
-    _hoveredBorderColor = 'gray:30';
-    _hoveredBgColor = 'gray:10';
-    _focusBorderColor = 'blue:60';
-    _selectedBg = '#fff';
-    _selectedBorder = borderColor;
-  }
+  const _color = { light: theme.colors['black:emphasis'], dark: theme.colors['white:emphasis'] }[colorMode];
+  const _backgroundColor = { light: 'gray:20', dark: 'gray:90' }[colorMode];
+  const _borderColor = { light: 'gray:30', dark: 'gray:80'}[colorMode];
+  const _hoveredBorderColor = { light: 'gray:30', dark: 'gray:70' }[colorMode];
+  const _hoveredBgColor = { light: 'gray:10', dark: 'gray:70'}[colorMode];
+  const _focusBorderColor = { light: 'blue:60', dark: 'blue:60' }[colorMode];
+  const _selectedBg = { light: 'white:emphasis', dark: 'gray:80' }[colorMode];
+  const _selectedBorder = { light: 'gray:30', dark: 'gray:80' }[colorMode];
   const _fontColor = setColorWithOpacity(_color, 0.6);
   const _selectedFontColor = _color;
   const _disabledColor = setColorWithOpacity(_color, 0.28);
@@ -131,11 +118,11 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
   return {
     tab: {
       color: _fontColor,
-      borderWidth,
-      borderColor,
-      backgroundColor,
-      px: `calc(${_px} - ${borderWidth})`,
-      py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${borderWidth} * 2)) / 2)`,
+      borderWidth: _borderWidth,
+      borderColor: _borderColor,
+      backgroundColor: _backgroundColor,
+      px: `calc(${_px} - ${_borderWidth})`,
+      py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_borderWidth} * 2)) / 2)`,
       mr: '-1px',
       mb: '-1px',
 
@@ -171,19 +158,14 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
 
       _disabled: Object.assign(statusProps._disabled, {
         color: _disabledColor,
-        backgroundColor,
-        borderColor
+        backgroundColor: _backgroundColor,
+        borderColor: _borderColor
       })
-    },
-    // tabList: {
-    //   mb: '-1px',
-    //   borderBottom: '1px',
-    //   borderColor: 'inherit',
-    // },
+    }
   };
 };
 
-export const variantStyle = props => {
+const variantStyle = props => {
   switch (props.variant) {
   case 'line':
     return lineStyle(props);
@@ -194,8 +176,7 @@ export const variantStyle = props => {
   }
 };
 
-// TO DO: Add support for vertical orientation
-export const orientationStyle = ({ align, orientation }) => {
+const orientationStyle = ({ align, orientation }) => {
   const alignments = {
     right: 'flex-end',
     center: 'center',
@@ -241,7 +222,7 @@ export const useTabStyle = () => {
   const _orientationStyle = orientationStyle({ orientation });
 
   return {
-    ...baseProps.tab,
+    ...tabProps,
     ...statusProps,
     ...(tabSizes[size] ? tabSizes[size] : tabSizes.md),
     ...(_variantStyle && _variantStyle.tab),
@@ -257,7 +238,7 @@ export const useTabListStyle = () => {
   const _orientationStyle = orientationStyle({ align, orientation });
 
   return {
-    ...baseProps.tabList,
+    ...tabList,
     ...(_variantStyle && _variantStyle.tabList),
     ...(_orientationStyle && _orientationStyle.tabList),
   };
