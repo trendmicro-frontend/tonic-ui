@@ -105,9 +105,9 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
   const _lineHeight = tabSizes[size] ? theme.lineHeights[tabSizes[size].lineHeight] : theme.lineHeights[tabSizes.md.lineHeight];
   const _color = { light: theme.colors['black:emphasis'], dark: theme.colors['white:emphasis'] }[colorMode];
   const _backgroundColor = { light: 'gray:20', dark: 'gray:90' }[colorMode];
-  const _borderColor = { light: 'gray:30', dark: 'gray:80'}[colorMode];
+  const _borderColor = { light: 'gray:30', dark: 'gray:80' }[colorMode];
   const _hoveredBorderColor = { light: 'gray:30', dark: 'gray:70' }[colorMode];
-  const _hoveredBgColor = { light: 'gray:10', dark: 'gray:70'}[colorMode];
+  const _hoveredBgColor = { light: 'gray:10', dark: 'gray:70' }[colorMode];
   const _focusBorderColor = { light: 'blue:60', dark: 'blue:60' }[colorMode];
   const _selectedBg = { light: 'white:emphasis', dark: 'gray:80' }[colorMode];
   const _selectedBorder = { light: 'gray:30', dark: 'gray:80' }[colorMode];
