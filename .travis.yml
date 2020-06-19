@@ -6,7 +6,7 @@ cache:
 
 stages:
   - name: deploy
-    if: type = push AND branch = dev
+    if: type = push AND branch = master
   - name: PR review
     if: type = pull_request
 
@@ -18,7 +18,7 @@ jobs:
         - PR_DEMO_SITE: https://trendmicro-frontend.github.io/styled-ui-demo
         - secure: "vO8p3O2LU1TpRglxCobHwEQAKpOL+BIrjHwntqawaEBK9dLlFG7AK+Nyg/6pw6WXT+tisZwQrdzsg/EBLRarNHDa0h2oIDQA/3MQRGIpMdFg5zezPaJFK25A9+/XYtlgr4M4L11vVAjxQcPzz9FASz4eUuJZ5pmqEI8dr5eL6hfwka5fnyWjNXvLOczjbTQY/93f7Ai1kreAE/puSJMhxJsbc+FJrWskxTnz8EIcT3TB6r+eKg/OpxMegC1Zj0m0zn4Q2SXt+PNqoeIbCt2q7+F6lZJfCH8NFOuFCAmqz3t9l0GiXSEP05ZRAywouFn2c2o5mtsMpuBYdFz2lGprjOiR0C2qzL+PcwPY1aiu4D9IStR2QdNir8m71vVIXJ+OZDTdnOs4X0yoNH5YjqV2YEwkhQcCqVCKYyIH0OMx26KH4+Hp7z+tmbG/HF32k6IsP99F91QgE4KDSqITo82M+G3o308vB1A462+Pl3a29nkC/7ufLA0Kx4fDHW5vjKyAbLLn5/7TuQK6T2yC5l3pOdXbPB3807qYgWV+F2rAWwZHwXvVeYO4tnh+3Nlg5wNwG4gzn5CJWnXmZsj21WkIjTgTSdu/1XGFiUQrWcpEuzWkmzDxb/WRTFVwnyQf7pauNndL/NFACgJsS2BvaxH6wPwB1LLQzZ//mQ1QCVIVQlg="
       node_js:
-        - '10'
+        - '12'
       before_install:
         - npm install -g yarn
       install:
@@ -54,7 +54,7 @@ jobs:
         - octokit issues create-comment --body "Successfully deployed ${PULL_REQUEST_COMMIT} to ${PR_DEMO_SITE}/pr-${TRAVIS_PULL_REQUEST}/" --owner trendmicro-frontend --repo styled-ui --issue_number ${TRAVIS_PULL_REQUEST}
     - stage: deploy
       node_js:
-        - '10'
+        - '12'
       before_install:
         - npm install -g yarn
       install:
@@ -74,8 +74,8 @@ jobs:
         target_branch: gh-pages
         local_dir: "packages/styled-ui-docs/docs"
         on:
-          branch: dev
-          node: '10'
+          branch: master
+          node: '12'
 
 notifications:
   slack:
