@@ -52,7 +52,7 @@ const Badge = forwardRef(
         mr={!!children ? 24 : 0} // Need to discuss
       >
         {children}
-        {(!isZero() || showZero || dot) &&
+        {!isHidden() &&
           <Box
             as="sup"
             py="0.125rem"
