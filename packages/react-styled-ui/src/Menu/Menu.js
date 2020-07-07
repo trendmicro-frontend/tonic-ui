@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useId } from '../utils/autoId';
-import useColorMode from '../useColorMode';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuContextProvider } from './context';
 
@@ -29,8 +28,6 @@ const Menu = ({
   onKeyDown,
   onBlur,
 }) => {
-  const { colorMode } = useColorMode();
-
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex || -1);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
   const { current: isControlled } = useRef(isOpenProp != null);
@@ -150,7 +147,6 @@ const Menu = ({
     autoSelect,
     closeOnSelect,
     closeOnBlur,
-    colorMode,
     onKeyDown,
     onBlur,
   };

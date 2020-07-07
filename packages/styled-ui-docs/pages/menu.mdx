@@ -21,6 +21,42 @@ import Menu from '@trendmicro/react-styled-ui/Menu';
 ## Usage
 
 ```jsx
+function anchorMenu() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { isOpen, onClose, onToggle } = useDisclosure();
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    onToggle();
+  };
+
+  return (
+    <>
+      <Button onClick={handleClick}>Anchor Button</Button>
+      <Menu
+        anchorEl={anchorEl}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <MenuList>
+          <MenuGroup title="title1">
+            <MenuItem>Endpoint name</MenuItem>
+            <MenuItem>IP address</MenuItem>
+            <MenuItem>Operating system</MenuItem>
+          </MenuGroup>
+          <MenuGroup title="title2">
+            <MenuItem>Endpoint name</MenuItem>
+            <MenuItem>IP address</MenuItem>
+            <MenuItem>Operating system</MenuItem>
+          </MenuGroup>
+        </MenuList>
+      </Menu>
+    </>
+  );
+}
+```
+
+```jsx
 function WalkthroughMenu() {
     const [menuItem, setMenuItem] = React.useState('Endpoint name');
 
@@ -30,15 +66,15 @@ function WalkthroughMenu() {
 
   return (
     <>
-            <Menu>
-                <MenuButton minWidth="230px"><Text color="white:secondary">Sort by:</Text> {menuItem}</MenuButton>
-                <MenuList minWidth="230px" onClick={handleClick}>
-                    <MenuItem onKeyDown={handleClick}>Endpoint name</MenuItem>
-                    <MenuItem onKeyDown={handleClick}>IP address</MenuItem>
-                    <MenuItem onKeyDown={handleClick}>Operating system</MenuItem>
-                </MenuList>
-            </Menu>
-        </>
+      <Menu>
+        <MenuButton minWidth="230px"><Text color="white:secondary">Sort by:</Text> {menuItem}</MenuButton>
+        <MenuList minWidth="230px" onClick={handleClick}>
+          <MenuItem onKeyDown={handleClick}>Endpoint name</MenuItem>
+          <MenuItem onKeyDown={handleClick}>IP address</MenuItem>
+          <MenuItem onKeyDown={handleClick}>Operating system</MenuItem>
+        </MenuList>
+      </Menu>
+    </>
   );
 }
 ```

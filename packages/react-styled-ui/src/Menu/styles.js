@@ -25,24 +25,47 @@ export const useMenuListStyle = () => {
 
 /**
 |--------------------------------------------------
+| Styles for MenuGroup
+|--------------------------------------------------
+*/
+
+export const useMenuGroupStyle = () => {
+  const { colorMode } = useColorMode();
+  const color = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+
+  return {
+    listStyleType: 'none',
+    px: '3x',
+    py: '2x',
+    color
+  };
+};
+
+/**
+|--------------------------------------------------
 | Styles for MenuItem
 |--------------------------------------------------
 */
 
-const baseProps = {
-  flex: ' 0 0 auto',
-  userSelect: 'none',
-  px: '3x',
-  py: '2x',
-  color: 'inherit',
-  display: 'flex',
-  textDecoration: 'none',
-  alignItems: 'center',
-  textAlign: 'left',
-  outline: 'none'
+const baseProps = ({ isMenuGrouped }) => {
+  return {
+    flex: ' 0 0 auto',
+    userSelect: 'none',
+    px: isMenuGrouped ? '6x' : '3x',
+    py: '2x',
+    color: 'inherit',
+    display: 'flex',
+    textDecoration: 'none',
+    alignItems: 'center',
+    textAlign: 'left',
+    outline: 'none'
+  };
 };
 
-const menuItemProps = ({ colorMode }) => {
+const menuItemProps = ({ colorMode, isMenuGrouped }) => {
   const _hoverColor = { light: 'black:disabled', dark: setColorWithOpacity('white', 0.12) };
   const _activeFocusColor = { light: 'gray:20', dark: setColorWithOpacity('white', 0.08) };
   const _disabled = { light: 'black:disabled', dark: 'white:disabled' };
@@ -64,13 +87,13 @@ const menuItemProps = ({ colorMode }) => {
   };
 };
 
-export const useMenuItemStyle = () => {
+export const useMenuItemStyle = ({ isMenuGrouped }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
-  const props = { theme, colorMode };
+  const props = { theme, colorMode, isMenuGrouped };
 
   return {
-    ...baseProps,
+    ...baseProps(props),
     ...menuItemProps(props),
   };
 };
