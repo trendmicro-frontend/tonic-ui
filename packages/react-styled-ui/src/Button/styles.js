@@ -43,9 +43,14 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
 
 // Ghost Button
 const ghostVariantProps = (props) => {
+  const secondaryProps = secondaryVariantProps(props);
   const styles = {
-    ...secondaryVariantProps(props),
+    ...secondaryProps,
     borderColor: 'transparent',
+    _disabled: {
+      ...secondaryProps._disabled,
+      borderColor: 'transparent',
+    },
   };
 
   return styles;
