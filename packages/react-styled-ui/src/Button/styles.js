@@ -151,23 +151,6 @@ const sizeProps = ({ size }) => sizes[size];
 
 ////////////////////////////////////////////////////////////
 
-const selectedProps = {
-  _selected: {
-    bg: 'blue:60',
-    borderColor: 'blue:60',
-    color: 'white:emphasis',
-    '&&&::before': {
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      bg: 'blue:60',
-    },
-  },
-};
-
-////////////////////////////////////////////////////////////
-
 const variantProps = (props) => {
   const { variant } = props;
 
@@ -210,7 +193,6 @@ const useButtonStyle = props => {
   const _props = { ...props, colorMode, theme };
   return {
     ...baseProps,
-    ...selectedProps,
     ...sizeProps(_props),
     ...variantProps(_props),
   };

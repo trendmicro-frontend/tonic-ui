@@ -117,33 +117,110 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 
 ### Button states
 
-```jsx
-<Stack direction="column" spacing="3x">
-  <Stack direction="row" spacing="3x">
-    <ButtonGroup>
-      <Button><TMIcon name="chart-pie" /></Button>
-      <Button selected><TMIcon name="chart-line" /></Button>
-      <Button disabled><TMIcon name="chart-bar" /></Button>
-    </ButtonGroup>
-    <ButtonGroup>
-      <Button>Normal</Button>
-      <Button selected>Selected</Button>
-      <Button disabled>Disabled</Button>
-    </ButtonGroup>
-  </Stack>
-  <Stack direction="row" spacing="3x">
-    <ButtonGroup variant="secondary">
-      <Button><TMIcon name="chart-pie" /></Button>
-      <Button selected><TMIcon name="chart-line" /></Button>
-      <Button disabled><TMIcon name="chart-bar" /></Button>
-    </ButtonGroup>
-    <ButtonGroup variant="secondary">
-      <Button>Normal</Button>
-      <Button selected>Selected</Button>
-      <Button disabled>Disabled</Button>
-    </ButtonGroup>
-  </Stack>
-</Stack>
+```jsx noInline
+const SelectableButton = ({ selected, ...props }) => {
+  const { colors } = useTheme();
+  const focusColor = colors['blue:60'];
+  const selectedColor = colors['blue:60'];
+  const getSelectedProps = {
+    bg: selectedColor,
+    borderColor: selectedColor,
+    color: 'white:emphasis',
+    cursor: 'default',
+    pointerEvents: 'none',
+    __before: {
+      content: '""',
+      display: 'inline-block',
+      transition: 'all 150ms, background-color 250ms',
+      zIndex: '-1',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      bg: selectedColor,
+    },
+    _focus: {
+      ':not(:active)': {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 1px ${focusColor}`,
+        bg: 'transparent',
+      },
+      '&::before': {
+        top: '2px',
+        bottom: '2px',
+        left: '2px',
+        right: '2px',
+        bg: focusColor,
+      },
+    },
+    _hover: {
+      bg: selectedColor,
+    },
+    _active: {
+      bg: selectedColor,
+    },
+  };
+  return (
+    <Button
+      {...(selected && getSelectedProps)}
+      {...props}
+    />
+  );
+};
+
+function SwitchButton() {
+  const [activeButton1, setActiveButton1] = React.useState('default-line');
+  const [activeButton2, setActiveButton2] = React.useState('secondary-line');
+
+  const handleClick1 = (button) => (e) => {
+    setActiveButton1(button);
+    // Remove focus
+    e.currentTarget.blur();
+  };
+  const handleClick2 = (button) => (e) => {
+    setActiveButton2(button);
+    // Remove focus
+    e.currentTarget.blur();
+  };
+
+  return (
+    <Stack direction="row" spacing="3x">
+      <ButtonGroup>
+        <SelectableButton
+          selected={activeButton1 === 'default-pie'}
+          onClick={handleClick1('default-pie')}
+        >
+          <TMIcon name="chart-pie" />
+        </SelectableButton>
+        <SelectableButton
+          selected={activeButton1 === 'default-line'}
+          onClick={handleClick1('default-line')}
+        >
+          <TMIcon name="chart-line" />
+        </SelectableButton>
+        <Button disabled><TMIcon name="chart-bar" /></Button>
+      </ButtonGroup>
+      <ButtonGroup variant="secondary">
+        <SelectableButton
+          selected={activeButton2 === 'secondary-pie'}
+          onClick={handleClick2('secondary-pie')}
+        >
+          <TMIcon name="chart-pie" />
+        </SelectableButton>
+        <SelectableButton
+          selected={activeButton2 === 'secondary-line'}
+          onClick={handleClick2('secondary-line')}
+        >
+          <TMIcon name="chart-line" />
+        </SelectableButton>
+        <Button disabled><TMIcon name="chart-bar" /></Button>
+      </ButtonGroup>
+    </Stack>
+  );
+}
+
+render(<SwitchButton />);
 ```
 
 ## Props

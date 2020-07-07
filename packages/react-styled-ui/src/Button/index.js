@@ -13,7 +13,6 @@ const Button = forwardRef(
       as: Comp = 'button',
       type = 'button',
       borderRadius = 'sm',
-      selected,
       size,
       variant,
       children,
@@ -66,7 +65,6 @@ const Button = forwardRef(
           as={Comp}
           type={type}
           borderRadius={borderRadius}
-          data-selected={selected ? 'true' : undefined}
           css={css}
           {...buttonStyleProps}
           {...rest}
