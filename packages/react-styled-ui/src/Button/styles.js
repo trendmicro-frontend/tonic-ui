@@ -218,7 +218,7 @@ const getButtonGroupCSS = ({ useVertical, useDivideLine, useNegativeMargin }) =>
       display: useDivideLine ? 'none' : 'inherit',
     },
     // adjacent sibling
-    '&+&': {
+    '& + *': {
       marginLeft: useNegativeMargin ? -1 : 0,
     },
   };
@@ -236,7 +236,7 @@ const getButtonGroupCSS = ({ useVertical, useDivideLine, useNegativeMargin }) =>
       display: useDivideLine ? 'none' : 'inherit',
     },
     // adjacent sibling
-    '&+&': {
+    '& + *': {
       marginTop: useNegativeMargin ? -1 : 0,
     },
   };
