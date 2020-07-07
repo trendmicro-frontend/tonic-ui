@@ -3,7 +3,6 @@ import useColorMode from '../useColorMode';
 const baseProps = {
   userSelect: 'none',
   border: 1,
-  position: 'relative',
   transition: 'background-color 120ms',
 };
 

@@ -97,18 +97,21 @@ const Checkbox = forwardRef(
           readOnly={readOnly}
           data-indeterminate={indeterminate}
         />
-        <ControlBox {...styleProps}>
+        <ControlBox
+          zIndex="0"
+          position="relative"
+          {...styleProps}
+        >
           {/* This Box is for rendering background color of Checkbox which is focused. */}
           <Box
+            zIndex="-1"
             position="absolute"
             top="0"
             bottom="0"
             left="0"
             right="0"
           />
-          {/* The z-index is for placing icon over the above box. */}
           <Icon
-            zIndex="1"
             name={indeterminate ? '_core.minus' : '_core.check'}
             size={iconSize}
             color={iconColor}
@@ -119,7 +122,7 @@ const Checkbox = forwardRef(
             ml="2x"
             fontSize={size}
             userSelect="none"
-            opacity={readOnly || disabled ? 0.32 : 1}
+            opacity={readOnly || disabled ? 0.28 : 1}
           >
             {children}
           </Box>
