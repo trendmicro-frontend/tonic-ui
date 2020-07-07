@@ -1,0 +1,44 @@
+# Menu
+
+An accessible dropdown menu for the common dropdown menu button design pattern.
+Menu uses roving tabIndex for focus management.
+
+<carbon-ad></carbon-ad>
+
+## Import
+
+- `Menu`: The wrapper component that provides context, state, and focus
+  management.
+- `MenuItem`: The trigger that handles menu selection. Must be a direct child of
+  a `MenuList`
+
+```js
+import { Menu, MenuItem } from '@trendmicro/react-styled-ui';
+// or
+import Menu from '@trendmicro/react-styled-ui/Menu';
+```
+
+## Usage
+
+```jsx
+function WalkthroughMenu() {
+    const [menuItem, setMenuItem] = React.useState('Endpoint name');
+
+  const handleClick = (event) => {
+    if (event.key === 'Enter' || event.type === 'click') {setMenuItem(event.target.innerHTML)}
+  };
+
+  return (
+    <>
+            <Menu>
+                <MenuButton minWidth="230px"><Text color="white:secondary">Sort by:</Text> {menuItem}</MenuButton>
+                <MenuList minWidth="230px" onClick={handleClick}>
+                    <MenuItem onKeyDown={handleClick}>Endpoint name</MenuItem>
+                    <MenuItem onKeyDown={handleClick}>IP address</MenuItem>
+                    <MenuItem onKeyDown={handleClick}>Operating system</MenuItem>
+                </MenuList>
+            </Menu>
+        </>
+  );
+}
+```
