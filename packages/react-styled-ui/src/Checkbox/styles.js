@@ -3,8 +3,8 @@ import useColorMode from '../useColorMode';
 const baseProps = {
   userSelect: 'none',
   border: 1,
-  transition: 'background-color 120ms, box-shadow 250ms',
   position: 'relative',
+  transition: 'background-color 120ms',
 };
 
 const indeterminateProps = ({ color, colorMode }) => {
