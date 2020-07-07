@@ -8,27 +8,47 @@ const badgeStyle = ({ color }) => {
     light: {
       bg: get(color, 60),
       color: '#fff',
-      borderRadius: '0.75rem', //12px
-      minWidth: '1.125rem', //18px
-      height: '1.125rem',
+      borderRadius: 16, //12px
       textAlign: 'center',
-      lineHeight: '1.125rem',
+      lineHeight: '12px',
+      px: 5,
+      transform: 'translate(50%,-50%)',
+      border: '1px solid #151515'
     },
     dark: {
       bg: get(color, 60),
       color: '#fff',
-      borderRadius: '0.75rem', //12px
-      minWidth: '1.125rem', //18px
-      height: '1.125rem',
+      borderRadius: 16, //12px
       textAlign: 'center',
-      lineHeight: '1.125rem',
+      lineHeight: '12px',
+      px: 5,
+      transform: 'translate(50%,-50%)',
+      border: '1px solid #151515'
     },
   };
 };
 
 const variantProps = props => {
-  const { colorMode } = props;
-  return badgeStyle(props)[colorMode];
+  const { colorMode, hasChildren, showAsDot } = props;
+  const hasChildrenProps = hasChildren ? {
+    position: 'absolute',
+    top: 0,
+    right: 0
+  } : {
+    top: 0
+  };
+  const showAsDotProps = showAsDot ? {
+    p: 0,
+    width: 6,
+    height: 6,
+  } : {
+    minWidth: 16
+  };
+  return {
+    ...hasChildrenProps,
+    ...badgeStyle(props)[colorMode],
+    ...showAsDotProps,
+  };
 };
 
 const useBadgeStyle = props => {

@@ -13,7 +13,23 @@ import { Badge } from '@trendmicro/react-styled-ui';
 ## Usage
 
 ```jsx
-<Badge>100</Badge>
+<Stack direction="row">
+  <Badge count={10000} overflowCount={999}>
+    <Skeleton variant="rect" width={42} height={42} />
+  </Badge>
+  <Badge dot>
+    <Skeleton variant="rect" width={42} height={42} />
+  </Badge>
+  <Badge count={5}>
+    <Skeleton variant="rect" width={42} height={42} />
+  </Badge>
+  <Badge count={0}>
+    <Skeleton variant="rect" width={42} height={42} />
+  </Badge>
+  <Badge showZero count={0}>
+    <Skeleton variant="rect" width={42} height={42} />
+  </Badge>
+</Stack>
 ```
 
 ### Badge Color
@@ -26,14 +42,14 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 
 ```jsx
 <Stack direction="row" spacing="4x">
-  <Badge>1</Badge>
-  <Badge variantColor="green">2</Badge>
-  <Badge variantColor="red">3</Badge>
-  <Badge variantColor="blue">4</Badge>
-  <Badge variantColor="magenta">5</Badge>
-  <Badge variantColor="purple">6</Badge>
-  <Badge variantColor="teal">7</Badge>
-  <Badge variantColor="cyan">8</Badge>
+  <Badge count={10} />
+  <Badge variantColor="green" count={10} />
+  <Badge variantColor="red" count={10} />
+  <Badge variantColor="blue" count={10} />
+  <Badge variantColor="magenta" count={10} />
+  <Badge variantColor="purple" count={10} />
+  <Badge variantColor="teal" count={10} />
+  <Badge variantColor="cyan" count={10} />
 </Stack>
 ```
 
