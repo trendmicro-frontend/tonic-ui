@@ -52,46 +52,69 @@ const ghostVariantProps = (props) => {
 };
 
 // Fill Color Button
-const fillColorVariantProps = ({ color, theme: { colors } }) => {
-  const outerBorderColor = colors['blue:60'];
+const fillColorVariantProps = ({ borderRadius, color, theme: { colors, radii } }) => {
+  let innerRadius;
+  const radius = radii[borderRadius] ?? borderRadius;
+  innerRadius = `calc(${radius} - 3px)`;
+  if (/^\d+(\.\d+)?%$/.test(radius)) {
+    innerRadius = radius;
+  }
+  const _color = colors[`${color}:60`];
+  const hoverColor = colors[`${color}:50`];
+  const activeColor = colors[`${color}:70`];
+  const focusColor = colors['blue:60'];
+  const disabledColor = colors['gray:60'];
   const style = {
-    bg: `${color}:60`,
     borderColor: 'transparent',
+    bg: _color,
     color: 'white:emphasis',
+    __before: {
+      content: '""',
+      display: 'inline-block',
+      transition: 'all 150ms, background-color 250ms',
+      borderRadius: innerRadius,
+      zIndex: '-1',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      bg: _color,
+    },
     _focus: {
       ':not(:active)': {
-        borderColor: outerBorderColor,
-        boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
-        bg: 'inherit',
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 1px ${focusColor}`,
+        bg: 'transparent',
       },
-      '& > :first-of-type': {
+      '&::before': {
         top: '2px',
         bottom: '2px',
         left: '2px',
         right: '2px',
-        bg: `${color}:60`,
+        bg: focusColor,
       },
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
     _hover: {
-      bg: `${color}:50`,
-      '& > :first-of-type': {
-        bg: `${color}:50`,
+      bg: hoverColor,
+      '&::before': {
+        bg: hoverColor,
       },
       // Use a higher z-index value to bring overlapping border to front when hovered
       zIndex: 2,
     },
     _active: {
-      bg: `${color}:70`,
-      '& > :first-of-type': {
-        bg: `${color}:70`,
+      bg: activeColor,
+      '&::before': {
+        bg: activeColor,
       },
     },
     _disabled: {
-      bg: 'gray:60',
-      '& > :first-of-type': {
-        bg: 'inherit',
+      bg: disabledColor,
+      '&::before': {
+        bg: disabledColor,
       },
       cursor: 'not-allowed',
       opacity: 0.28,
@@ -133,23 +156,20 @@ const selectedProps = {
     bg: 'blue:60',
     borderColor: 'blue:60',
     color: 'white:emphasis',
-    '& > :first-of-type': {
+    '&&&::before': {
       top: 0,
       bottom: 0,
       left: 0,
       right: 0,
-      bg: 'inherit',
+      bg: 'blue:60',
     },
-    '&:focus': {
-      boxShadow: 'unset',
-    }
   },
 };
 
 ////////////////////////////////////////////////////////////
 
-const variantProps = props => {
-  const variant = props.variant;
+const variantProps = (props) => {
+  const { variant } = props;
 
   switch (variant) {
   case 'secondary':
@@ -176,9 +196,9 @@ const baseProps = {
   transition: 'all 250ms',
   appearance: 'none',
   userSelect: 'none',
-  verticalAlign: 'middle',
   whiteSpace: 'nowrap',
   border: 1,
+  zIndex: 0,
   position: 'relative',
 };
 
@@ -196,7 +216,7 @@ const useButtonStyle = props => {
   };
 };
 
-const getGroupButtonStyle = ({ useVertical, useDivideLine, useNegativeMargin }) => {
+const getButtonGroupCSS = ({ useVertical, useDivideLine, useNegativeMargin }) => {
   const horizontalCss = {
     '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
@@ -237,6 +257,6 @@ const getGroupButtonStyle = ({ useVertical, useDivideLine, useNegativeMargin }) 
 };
 
 export {
-  getGroupButtonStyle,
+  getButtonGroupCSS,
   useButtonStyle,
 };
