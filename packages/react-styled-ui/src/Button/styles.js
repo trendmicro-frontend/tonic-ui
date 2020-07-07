@@ -1,38 +1,66 @@
+import { get } from '@styled-system/core';
 import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
 // Secondary Button
 const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
-  const isDarkMode = (colorMode === 'dark');
-  const outerBorderColor = colors['blue:60'];
+  // color
+  const _color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const hoverColor = {
+    dark: `${color}:40`,
+    light: `${color}:40`,
+  }[colorMode];
+  const disabledColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+  const activeColor = hoverColor;
+  const focusColor = _color;
+  // border color
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+  const hoverBorderColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const activeBorderColor = hoverBorderColor;
+  const focusBorderColor = 'blue:60';
+  const disabledBorderColor = borderColor;
+
   const style = {
-    borderColor: 'gray:60',
-    color: isDarkMode ? 'white:primary' : 'black:primary',
+    borderColor: borderColor,
+    color: _color,
     _focus: {
-      borderColor: outerBorderColor,
-      boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
+      color: focusColor,
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${get(colors, focusBorderColor)}`,
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
     _hover: {
+      color: hoverColor,
       '&:not(:focus)': {
-        borderColor: `${color}:50`,
+        borderColor: hoverBorderColor,
       },
-      color: `${color}:40`,
       // Use a higher z-index value to bring overlapping border to front when hovered
       zIndex: 2,
     },
     _active: {
+      color: activeColor,
       '&:not(:focus)': {
-        borderColor: `${color}:50`,
+        borderColor: activeBorderColor,
       },
       bg: setColorWithOpacity('black', 0.12),
-      color: `${color}:40`,
     },
     _disabled: {
-      borderColor: 'gray:60',
-      color: isDarkMode ? 'white:emphasis' : 'black',
+      color: disabledColor,
+      borderColor: disabledBorderColor,
       cursor: 'not-allowed',
       opacity: 0.28,
     },
@@ -57,21 +85,38 @@ const ghostVariantProps = (props) => {
 };
 
 // Fill Color Button
-const fillColorVariantProps = ({ borderRadius, color, theme: { colors, radii } }) => {
+const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors, radii } }) => {
   let innerRadius;
   const radius = radii[borderRadius] ?? borderRadius;
   innerRadius = `calc(${radius} - 3px)`;
   if (/^\d+(\.\d+)?%$/.test(radius)) {
     innerRadius = radius;
   }
-  const _color = colors[`${color}:60`];
-  const hoverColor = colors[`${color}:50`];
-  const activeColor = colors[`${color}:70`];
-  const focusColor = colors['blue:60'];
-  const disabledColor = colors['gray:60'];
+
+  // background color
+  const bgColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const focusBgColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const hoverBgColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const activeBgColor = {
+    dark: `${color}:70`,
+    light: `${color}:70`,
+  }[colorMode];
+  const disabledBgColor = 'gray:60';
+  // border color
+  const focusBorderColor = 'blue:60';
+
   const style = {
     borderColor: 'transparent',
-    bg: _color,
+    bg: bgColor,
     color: 'white:emphasis',
     __before: {
       content: '""',
@@ -84,12 +129,12 @@ const fillColorVariantProps = ({ borderRadius, color, theme: { colors, radii } }
       bottom: 0,
       left: 0,
       right: 0,
-      bg: _color,
+      bg: bgColor,
     },
     _focus: {
       ':not(:active)': {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 1px ${focusColor}`,
+        borderColor: focusBorderColor,
+        boxShadow: `inset 0 0 0 1px ${get(colors, focusBorderColor)}`,
         bg: 'transparent',
       },
       '&::before': {
@@ -97,29 +142,29 @@ const fillColorVariantProps = ({ borderRadius, color, theme: { colors, radii } }
         bottom: '2px',
         left: '2px',
         right: '2px',
-        bg: focusColor,
+        bg: focusBgColor,
       },
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
     _hover: {
-      bg: hoverColor,
+      bg: hoverBgColor,
       '&::before': {
-        bg: hoverColor,
+        bg: hoverBgColor,
       },
       // Use a higher z-index value to bring overlapping border to front when hovered
       zIndex: 2,
     },
     _active: {
-      bg: activeColor,
+      bg: activeBgColor,
       '&::before': {
-        bg: activeColor,
+        bg: activeBgColor,
       },
     },
     _disabled: {
-      bg: disabledColor,
+      bg: disabledBgColor,
       '&::before': {
-        bg: disabledColor,
+        bg: disabledBgColor,
       },
       cursor: 'not-allowed',
       opacity: 0.28,
