@@ -60,6 +60,7 @@ const interactionProps = ({ color, colorMode, theme: { colors } }) => {
     },
     _disabled: {
       borderColor: disabledBorderColor,
+      opacity: 0.28,
     },
     _checked: {
       borderColor: checkedBorderColor,
@@ -72,6 +73,7 @@ const interactionProps = ({ color, colorMode, theme: { colors } }) => {
     _checkedAndDisabled: {
       borderColor: checkedAndDisabledBorderColor,
       color: disabledColor,
+      opacity: 0.28,
     },
   };
 };

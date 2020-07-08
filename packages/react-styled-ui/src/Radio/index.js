@@ -7,13 +7,13 @@ import VisuallyHidden from '../VisuallyHidden';
 import useRadioStyle from './styles';
 
 const sizes = {
-  lg: '20px',
+  lg: '24px',
   md: '16px',
   sm: '12px',
 };
 
 const iconSizes = {
-  lg: '10px',
+  lg: '12px',
   md: '8px',
   sm: '6px',
 };
@@ -113,7 +113,7 @@ const Radio = forwardRef(
             ml="2x"
             fontSize={size}
             userSelect="none"
-            opacity={disabled ? 0.32 : 1}
+            opacity={disabled ? 0.28 : 1}
           >
             {children}
           </Box>
