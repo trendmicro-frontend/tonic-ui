@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import _merge from 'lodash/merge';
 import { TabContext } from './context';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
@@ -80,20 +81,20 @@ const lineStyle = ({ size, colorMode, theme }) => {
       _hover: {
         borderBottomColor: _hoveredBorderColor
       },
-      _selected: Object.assign({
+      _selected: {
         color: _selectedFontColor,
         borderBottomColor: _selectedBorderColor
-      }, statusProps._selected),
+      },
       _focus: {
         px: `calc(${_px} - 2px)`,
         borderWidth: tabProps.borderWidth,
         borderColor: _focusBorderColor
       },
-      _disabled: Object.assign(statusProps._disabled, {
+      _disabled: {
         color: _disabledColor,
         borderColor: _disabledBorderColor,
         backgroundColor: _disabledBackgroundColor
-      })
+      }
     },
   };
 };
@@ -126,41 +127,41 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
       mr: '-1px',
       mb: '-1px',
 
-      _focus: {
-        borderColor: _focusBorderColor,
-        borderWidth: _focusBorderWidth,
-        px: `calc(${_px} - ${_focusBorderWidth})`,
-        py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_focusBorderWidth} * 2)) / 2)`,
-        zIndex: 3
-      },
-
-      _focusHover: {
-        borderColor: _focusBorderColor
+      _selected: {
+        color: _selectedFontColor,
+        borderColor: _selectedBorder,
+        backgroundColor: _selectedBg,
+        zIndex: 1
       },
 
       _hover: {
         borderColor: _hoveredBorderColor,
         backgroundColor: _hoveredBgColor,
-        zIndex: 1
+        zIndex: 2
       },
 
-      _selected: Object.assign({
-        color: _selectedFontColor,
-        borderColor: _selectedBorder,
-        backgroundColor: _selectedBg,
-        zIndex: 2
-      }, statusProps._selected),
+      _focus: {
+        borderColor: _focusBorderColor,
+        borderWidth: _focusBorderWidth,
+        px: `calc(${_px} - ${_focusBorderWidth})`,
+        py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_focusBorderWidth} * 2)) / 2)`,
+      },
+
+      _focusHover: {
+        borderColor: _focusBorderColor,
+        zIndex: 3
+      },
 
       _focusSelected: {
         borderColor: _focusBorderColor,
         zIndex: 3
       },
 
-      _disabled: Object.assign(statusProps._disabled, {
+      _disabled: {
         color: _disabledColor,
         backgroundColor: _backgroundColor,
         borderColor: _borderColor
-      })
+      }
     }
   };
 };
@@ -223,9 +224,8 @@ export const useTabStyle = () => {
 
   return {
     ...tabProps,
-    ...statusProps,
     ...(tabSizes[size] ? tabSizes[size] : tabSizes.md),
-    ...(_variantStyle && _variantStyle.tab),
+    ..._merge(_variantStyle.tab, statusProps),
     ...(_orientationStyle && _orientationStyle.tab),
     ...(isFitted && { flex: 1 }),
   };
