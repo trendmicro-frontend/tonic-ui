@@ -14,20 +14,29 @@ import { Badge } from '@trendmicro/react-styled-ui';
 
 ```jsx
 <Stack direction="row">
-  <Badge count={10000} overflowCount={999}>
-    <Skeleton variant="rect" width={42} height={42} />
+  <Badge badgeContent="5+">
+    <TMIcon name="alert" />
   </Badge>
-  <Badge dot>
-    <Skeleton variant="rect" width={42} height={42} />
+  <Badge badgeContent="99+">
+    <TMIcon name="alert" />
   </Badge>
-  <Badge count={5}>
-    <Skeleton variant="rect" width={42} height={42} />
+  <Badge badgeContent="87">
+    <TMIcon name="alert" />
   </Badge>
-  <Badge count={0}>
-    <Skeleton variant="rect" width={42} height={42} />
+  <Badge variant="dot">
+    <TMIcon name="alert" />
   </Badge>
-  <Badge showZero count={0}>
-    <Skeleton variant="rect" width={42} height={42} />
+  <Badge isHidden>
+    <TMIcon name="alert" />
+  </Badge>
+  <Badge badgeContent={0}>
+    <TMIcon name="alert" />
+  </Badge>
+  <Badge badgeContent="!">
+    <TMIcon name="alert" />
+  </Badge>
+  <Badge badgeContent={<TMIcon name="search-o" fontSize="xs" />}>
+    <TMIcon name="alert" />
   </Badge>
 </Stack>
 ```
@@ -42,28 +51,17 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 
 ```jsx
 <Stack direction="row" spacing="4x">
-  <Badge count={10} />
-  <Badge variantColor="green" count={10} />
-  <Badge variantColor="red" count={10} />
-  <Badge variantColor="blue" count={10} />
-  <Badge variantColor="magenta" count={10} />
-  <Badge variantColor="purple" count={10} />
-  <Badge variantColor="teal" count={10} />
-  <Badge variantColor="cyan" count={10} />
+  <Badge badgeContent={10} />
+  <Badge variantColor="orange" badgeContent={10} />
+  <Badge variantColor="yellow" badgeContent={10} />
+  <Badge variantColor="green" badgeContent={10} />
+  <Badge variantColor="blue" badgeContent={10} />
+  <Badge variantColor="gray" badgeContent={10} />
+  <Badge variantColor="magenta" badgeContent={10} />
+  <Badge variantColor="purple" badgeContent={10} />
+  <Badge variantColor="teal" badgeContent={10} />
+  <Badge variantColor="cyan" badgeContent={10} />
 </Stack>
-```
-
-* Example
-
-```jsx
-<Flex alignItems="center">
-  <Text size="xl" fontWeight="bold">
-    Trend Micro Frontend
-  </Text>
-  <Badge ml="1x" variantColor="green">
-    New
-  </Badge>
-</Flex>
 ```
 
 ## Props
@@ -72,4 +70,7 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| variantColor | string | 'gray' | The color scheme to use for the badge. It must be a color key defined in `theme.colors`. |
+| variant | string | 'badge' | 'badge' or 'dot'. |
+| variantColor | string | 'red' | The color scheme to use for the badge. It must be a color key defined in `theme.colors`. |
+| badgeContent | number\|string\|React Element  | | |
+| isHidden | boolean  | false | show badge content or not. |

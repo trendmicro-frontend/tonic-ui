@@ -5,44 +5,15 @@ import Box from '../Box';
 const Badge = forwardRef(
   (
     {
+      variant = 'badge',
       variantColor = 'red',
-      count,
-      dot = false,
-      overflowCount = 99,
-      showZero = false,
-      title,
+      badgeContent,
+      isHidden,
       children,
       ...restProps
     }
   ) => {
-    const badgeStyleProps = useBadgeStyle({ color: variantColor, hasChildren: !!children, showAsDot: dot });
-    const getNumberedDisplayCount = () => {
-      const displayCount =
-        count > overflowCount ? `${overflowCount}+` : count;
-      return displayCount;
-    };
-
-    const isZero = () => {
-      const numberedDisplayCount = getNumberedDisplayCount();
-      return numberedDisplayCount === '0' || numberedDisplayCount === 0;
-    };
-
-    const isDot = () => {
-      return (dot && !isZero());
-    };
-
-    const getDisplayCount = () => {
-      if (isDot()) {
-        return '';
-      }
-      return getNumberedDisplayCount();
-    };
-
-    const isHidden = () => {
-      const displayCount = getDisplayCount();
-      const isEmpty = displayCount === null || displayCount === undefined || displayCount === '';
-      return (isEmpty || (isZero() && !showZero)) && !isDot();
-    };
+    const badgeStyleProps = useBadgeStyle({ color: variantColor, hasChildren: !!children, showAsDot: variant === 'dot' });
 
     return (
       <Box
@@ -52,9 +23,9 @@ const Badge = forwardRef(
         mr={!!children ? 24 : 0} // Need to discuss
       >
         {children}
-        {!isHidden() &&
+        {!isHidden &&
           <Box
-            as="sup"
+            as="span"
             py="0.125rem"
             fontWeight="normal"
             borderRadius="sm"
@@ -62,7 +33,7 @@ const Badge = forwardRef(
             {...badgeStyleProps}
             {...restProps}
           >
-            {getDisplayCount()}
+            {badgeContent}
           </Box>
         }
       </Box>

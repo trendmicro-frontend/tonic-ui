@@ -3,12 +3,12 @@ import useTheme from '../useTheme';
 
 const get = (color, hue) => `${color}:${hue}`;
 
-const badgeStyle = ({ color }) => {
+const badgeStyle = ({ color, theme: { colors } }) => {
   return {
     light: {
-      bg: get(color, 60),
+      bg: colors[get(color, 60)] ? get(color, 60) : get(color, 50),
       color: '#fff',
-      borderRadius: 16, //12px
+      borderRadius: 18, //12px
       textAlign: 'center',
       lineHeight: '12px',
       px: 5,
@@ -16,9 +16,9 @@ const badgeStyle = ({ color }) => {
       border: '1px solid #151515'
     },
     dark: {
-      bg: get(color, 60),
+      bg: colors[get(color, 60)] ? get(color, 60) : get(color, 50),
       color: '#fff',
-      borderRadius: 16, //12px
+      borderRadius: 18, //12px
       textAlign: 'center',
       lineHeight: '12px',
       px: 5,
@@ -42,7 +42,7 @@ const variantProps = props => {
     width: 6,
     height: 6,
   } : {
-    minWidth: 16
+    minWidth: 18
   };
   return {
     ...hasChildrenProps,
