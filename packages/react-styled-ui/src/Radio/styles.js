@@ -1,3 +1,4 @@
+import { get } from '@styled-system/core';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
@@ -9,32 +10,68 @@ const baseProps = {
 };
 
 const interactionProps = ({ color, colorMode, theme: { colors } }) => {
-  const focusOutlineColor = colors[`${color}:60`];
+  // icon color
+  const _color = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const hoverColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const disabledColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+
+  // border color
+  const borderColor = {
+    dark: 'gray:50',
+    light: 'gray:50',
+  }[colorMode];
+  const hoverBorderColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const disabledBorderColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+  const checkedBorderColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const checkedAndHoverBorderColor = hoverBorderColor;
+  const checkedAndDisabledBorderColor = disabledBorderColor;
+
+  // focus color
+  const focusOutlineColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+
   return {
-    borderColor: 'gray:50',
-    _checked: {
-      borderColor: `${color}:60`,
-      color: `${color}:60`, // Icon color
-    },
-    _checkedAndHover: {
-      borderColor: `${color}:50`,
-      color: `${color}:50`, // Icon color
-    },
-    _checkedAndDisabled: {
-      borderColor: 'gray:60',
-      color: 'gray:60', // Icon color
-    },
+    borderColor: borderColor,
     _hover: {
-      borderColor: `${color}:50`,
-    },
-    _disabled: {
-      borderColor: 'gray:60',
+      borderColor: hoverBorderColor,
     },
     _focus: {
-      boxShadow: `0 0 0 2px ${focusOutlineColor}`,
+      boxShadow: `0 0 0 2px ${get(colors, focusOutlineColor)}`,
     },
-    _invalid: {
-      borderColor: 'red:50',
+    _disabled: {
+      borderColor: disabledBorderColor,
+    },
+    _checked: {
+      borderColor: checkedBorderColor,
+      color: _color,
+    },
+    _checkedAndHover: {
+      borderColor: checkedAndHoverBorderColor,
+      color: hoverColor,
+    },
+    _checkedAndDisabled: {
+      borderColor: checkedAndDisabledBorderColor,
+      color: disabledColor,
     },
   };
 };
