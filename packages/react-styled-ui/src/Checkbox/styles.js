@@ -170,18 +170,10 @@ const interactionProps = ({ color, colorMode }) => {
 
 const useCheckboxStyle = props => {
   const { colorMode } = useColorMode();
-  const sizes = {
-    lg: '6x',
-    md: '4x',
-    sm: '3x',
-  };
-  const size = sizes[props.size];
   const _props = { ...props, colorMode };
   return {
     ...baseProps,
     ...props.indeterminate ? { ...indeterminateProps(_props) } : { ...interactionProps(_props) },
-    width: size,
-    height: size,
   };
 };
 
