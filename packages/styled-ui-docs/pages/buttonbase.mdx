@@ -39,6 +39,7 @@ Standard button attributes are supported, e.g., `type`, `disabled`, etc.
 ```jsx noInline
 const IconButton = (props) => {
   const { colorMode } = useColorMode();
+  const { colors } = useTheme();
   const color = {
     dark: 'white:secondary',
     light: 'black:secondary',
@@ -51,7 +52,7 @@ const IconButton = (props) => {
   const focusColor = color;
   const focusHoverColor = hoverColor;
   const focusActiveColor = activeColor;
-  const focusBorderColor = 'blue:60';
+  const focusBorderColor = colors['blue:60'];
 
   return (
     <ButtonBase
@@ -70,7 +71,7 @@ const IconButton = (props) => {
       }}
       _focus={{
         borderColor: focusBorderColor,
-        boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+        boxShadow: `inset 0 0 0 2px ${focusBorderColor}`,
         color: focusColor,
       }}
       _focusHover={{
@@ -78,7 +79,7 @@ const IconButton = (props) => {
       }}
       _focusActive={{
         borderColor: focusBorderColor,
-        boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+        boxShadow: `inset 0 0 0 2px ${focusBorderColor}`,
         color: focusActiveColor,
       }}
       {...props}
