@@ -13,7 +13,7 @@ const badgeStyle = ({ color, theme: { colors } }) => {
       lineHeight: '12px',
       px: 5,
       transform: 'translate(50%,-50%)',
-      border: '1px solid #151515'
+      border: `1px solid ${colors['gray:100']}`
     },
     dark: {
       bg: colors[get(color, 60)] ? get(color, 60) : get(color, 50),
@@ -23,7 +23,7 @@ const badgeStyle = ({ color, theme: { colors } }) => {
       lineHeight: '12px',
       px: 5,
       transform: 'translate(50%,-50%)',
-      border: '1px solid #151515'
+      border: `1px solid ${colors['gray:100']}`
     },
   };
 };
