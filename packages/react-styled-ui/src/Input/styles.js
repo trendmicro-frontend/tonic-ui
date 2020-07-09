@@ -57,7 +57,7 @@ const getOutlinedStyle = ({
   }[colorMode];
   const invalidBorderColor = {
     dark: 'red:50',
-    light: 'red:50',
+    light: 'red:60',
   }[colorMode];
   const placeholderColor = {
     dark: 'white:tertiary',
@@ -104,7 +104,7 @@ const getFilledStyle = ({
 }) => {
   const backgroundColor = {
     dark: 'gray:80',
-    light: 'gray:10',
+    light: 'white:emphasis',
   }[colorMode];
 
   return {
