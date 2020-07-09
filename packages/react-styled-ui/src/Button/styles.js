@@ -135,7 +135,7 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
       ':not(:active)': {
         borderColor: focusBorderColor,
         boxShadow: `inset 0 0 0 1px ${get(colors, focusBorderColor)}`,
-        bg: 'transparent',
+        bg: 'inherit',
       },
       '&::before': {
         top: '2px',
