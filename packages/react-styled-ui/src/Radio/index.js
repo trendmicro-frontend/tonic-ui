@@ -1,21 +1,17 @@
+import _get from 'lodash.get';
 import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
 import { useRadioGroup } from '../RadioGroup/context';
+import useTheme from '../useTheme';
 import VisuallyHidden from '../VisuallyHidden';
 import useRadioStyle from './styles';
 
 const sizes = {
-  lg: '24px',
-  md: '16px',
-  sm: '12px',
-};
-
-const iconSizes = {
-  lg: '12px',
-  md: '8px',
-  sm: '6px',
+  lg: '6x',
+  md: '4x',
+  sm: '3x',
 };
 
 const defaultSize = 'md';
@@ -68,11 +64,12 @@ const Radio = forwardRef(
       size = size ?? defaultSize;
     }
 
+    const { sizes: themeSizes } = useTheme();
     const _size = sizes[size];
-    const _iconSize = iconSizes[size];
+    const themeSize = _get(themeSizes, _size);
+    const iconSize = `calc(${themeSize} / 2)`;
     const styleProps = useRadioStyle({
       color: variantColor,
-      size: _size,
     });
 
     return (
@@ -106,7 +103,13 @@ const Radio = forwardRef(
           width={_size}
           height={_size}
         >
-          <Box bg="currentColor" as="span" borderRadius="circle" width={_iconSize} height={_iconSize} />
+          <Box
+            bg="currentColor"
+            as="span"
+            borderRadius="circle"
+            width={iconSize}
+            height={iconSize}
+          />
         </ControlBox>
         {children && (
           <Box
