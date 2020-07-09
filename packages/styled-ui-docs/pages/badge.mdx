@@ -23,7 +23,10 @@ import { Badge } from '@trendmicro/react-styled-ui';
   <Badge badgeContent="87">
     <TMIcon name="alert" />
   </Badge>
-  <Badge variant="dot">
+  <Badge variant="dot" offset={[4, 2]}>
+    <TMIcon name="alert" />
+  </Badge>
+  <Badge variant="dot" dotSize={8} offset={[4, 2]}>
     <TMIcon name="alert" />
   </Badge>
   <Badge isHidden>
@@ -35,7 +38,7 @@ import { Badge } from '@trendmicro/react-styled-ui';
   <Badge badgeContent="!">
     <TMIcon name="alert" />
   </Badge>
-  <Badge badgeContent={<TMIcon name="search-o" fontSize="xs" />}>
+  <Badge badgeContent={<Text color="yellow:50">Text</Text>}>
     <TMIcon name="alert" />
   </Badge>
 </Stack>
@@ -74,3 +77,4 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 | variantColor | string | 'red' | The color scheme to use for the badge. It must be a color key defined in `theme.colors`. |
 | badgeContent | number\|string\|React Element  | | |
 | isHidden | boolean  | false | show badge content or not. |
+| offset | \[number, number\]  | - | Set offset of the badge. |

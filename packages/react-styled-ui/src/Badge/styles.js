@@ -1,5 +1,6 @@
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
+import { ensureArray } from '../utils/ensure-type';
 
 const get = (color, hue) => `${color}:${hue}`;
 
@@ -10,9 +11,10 @@ const badgeStyle = ({ color, theme: { colors } }) => {
       color: '#fff',
       borderRadius: 18, //12px
       textAlign: 'center',
-      lineHeight: '12px',
-      px: 5,
+      lineHeight: '16px',
+      px: 4,
       transform: 'translate(50%,-50%)',
+      fontSize: 12,
       border: `1px solid ${colors['gray:100']}`
     },
     dark: {
@@ -20,16 +22,17 @@ const badgeStyle = ({ color, theme: { colors } }) => {
       color: '#fff',
       borderRadius: 18, //12px
       textAlign: 'center',
-      lineHeight: '12px',
-      px: 5,
+      lineHeight: '16px',
+      px: 4,
       transform: 'translate(50%,-50%)',
+      fontSize: 12,
       border: `1px solid ${colors['gray:100']}`
     },
   };
 };
 
 const variantProps = props => {
-  const { colorMode, hasChildren, showAsDot } = props;
+  const { colorMode, hasChildren, showAsDot, dotSize, offset } = props;
   const hasChildrenProps = hasChildren ? {
     position: 'absolute',
     top: 0,
@@ -39,15 +42,21 @@ const variantProps = props => {
   };
   const showAsDotProps = showAsDot ? {
     p: 0,
-    width: 6,
-    height: 6,
+    width: dotSize,
+    height: dotSize,
   } : {
     minWidth: 18
   };
+  const offsetArray = ensureArray(offset);
+  const offsetProps = offsetArray.length === 2 ? {
+    right: offsetArray[0],
+    mt: offsetArray[1]
+  } : {};
   return {
     ...hasChildrenProps,
     ...badgeStyle(props)[colorMode],
     ...showAsDotProps,
+    ...offsetProps
   };
 };
 

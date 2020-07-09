@@ -10,10 +10,12 @@ const Badge = forwardRef(
       badgeContent,
       isHidden,
       children,
+      offset,
+      dotSize = 6,
       ...restProps
     }
   ) => {
-    const badgeStyleProps = useBadgeStyle({ color: variantColor, hasChildren: !!children, showAsDot: variant === 'dot' });
+    const badgeStyleProps = useBadgeStyle({ color: variantColor, hasChildren: !!children, showAsDot: variant === 'dot', offset, dotSize });
 
     return (
       <Box
@@ -26,7 +28,6 @@ const Badge = forwardRef(
         {!isHidden &&
           <Box
             as="span"
-            py="0.125rem"
             fontWeight="normal"
             borderRadius="sm"
             whiteSpace="nowrap"
