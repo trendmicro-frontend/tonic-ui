@@ -8,7 +8,7 @@ const Badge = forwardRef(
       variant = 'badge',
       variantColor = 'red',
       badgeContent,
-      isHidden,
+      isHidden = false,
       children,
       offset,
       dotSize = 6,
