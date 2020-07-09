@@ -1,20 +1,22 @@
+import _get from 'lodash/get';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 import { ensureArray } from '../utils/ensure-type';
 
 const get = (color, hue) => `${color}:${hue}`;
 
-const badgeStyle = ({ color, theme: { colors } }) => {
+const badgeStyle = ({ color, theme: { colors, lineHeights } }) => {
+  const xsLineHeight = _get(lineHeights, 'xs');
   return {
     light: {
       bg: colors[get(color, 60)] ? get(color, 60) : get(color, 50),
       color: '#fff',
       borderRadius: 18, //12px
       textAlign: 'center',
-      lineHeight: '16px',
+      lineHeight: `calc(${xsLineHeight} - 2px)`, // 18px - 2px
       px: 4,
       transform: 'translate(50%,-50%)',
-      fontSize: 12,
+      fontSize: 'xs',
       border: `1px solid ${colors['gray:100']}`
     },
     dark: {
@@ -22,10 +24,10 @@ const badgeStyle = ({ color, theme: { colors } }) => {
       color: '#fff',
       borderRadius: 18, //12px
       textAlign: 'center',
-      lineHeight: '16px',
+      lineHeight: `calc(${xsLineHeight} - 2px)`, // 18px - 2px
       px: 4,
       transform: 'translate(50%,-50%)',
-      fontSize: 12,
+      fontSize: 'xs',
       border: `1px solid ${colors['gray:100']}`
     },
   };
