@@ -47,6 +47,7 @@
     "@storybook/react": "~5.3.6",
     "cpy-cli": "~3.1.0",
     "cross-env": "~7.0.2",
+    "cz-conventional-changelog": "3.2.0",
     "del-cli": "~3.0.0",
     "jest": "~25.1.0",
     "jest-emotion": "~10.0.27",
@@ -93,5 +94,10 @@
     "components",
     "emotion",
     "styled-system"
-  ]
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
