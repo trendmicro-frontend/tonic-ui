@@ -1,23 +1,19 @@
 import chainedFunction from 'chained-function';
+import _get from 'lodash/get';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useCheckboxGroup } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
 import Icon from '../Icon';
+import useTheme from '../useTheme';
 import { ensureArray } from '../utils/ensure-type';
 import VisuallyHidden from '../VisuallyHidden';
 import useCheckboxStyle from './styles';
 
 const sizes = {
-  lg: '24px',
-  md: '16px',
-  sm: '12px',
-};
-
-const iconSizes = {
-  lg: '20px',
-  md: '12px',
-  sm: '8px',
+  lg: '6x',
+  md: '4x',
+  sm: '3x',
 };
 
 const defaultSize = 'md';
@@ -77,8 +73,10 @@ const Checkbox = forwardRef(
       size = size ?? defaultSize;
     }
 
+    const { sizes: themeSizes } = useTheme();
     const _size = sizes[size];
-    const _iconSize = iconSizes[size];
+    const themeSize = _get(themeSizes, _size);
+    const iconSize = `calc(${themeSize} - 2px)`;
     const styleProps = useCheckboxStyle({
       color: variantColor,
       indeterminate,
@@ -127,7 +125,7 @@ const Checkbox = forwardRef(
           />
           <Icon
             name={indeterminate ? '_core.minus' : '_core.check'}
-            size={_iconSize}
+            size={iconSize}
             color={iconColor}
           />
         </ControlBox>
