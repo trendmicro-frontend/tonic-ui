@@ -5,7 +5,7 @@ import { ensureArray } from '../utils/ensure-type';
 
 const get = (color, hue) => `${color}:${hue}`;
 
-const badgeStyle = ({ color, theme: { colors, lineHeights } }) => {
+const badgeStyle = ({ color, borderColor, borderWidth, theme: { colors, lineHeights } }) => {
   const xsLineHeight = _get(lineHeights, 'xs');
   return {
     light: {
@@ -15,9 +15,8 @@ const badgeStyle = ({ color, theme: { colors, lineHeights } }) => {
       textAlign: 'center',
       lineHeight: `calc(${xsLineHeight} - 2px)`, // 18px - 2px
       px: 4,
-      transform: 'translate(50%,-50%)',
       fontSize: 'xs',
-      border: `1px solid ${colors['gray:100']}`
+      border: `${borderWidth}px solid ${colors[borderColor] || borderColor}`
     },
     dark: {
       bg: colors[get(color, 60)] ? get(color, 60) : get(color, 50),
@@ -26,9 +25,8 @@ const badgeStyle = ({ color, theme: { colors, lineHeights } }) => {
       textAlign: 'center',
       lineHeight: `calc(${xsLineHeight} - 2px)`, // 18px - 2px
       px: 4,
-      transform: 'translate(50%,-50%)',
       fontSize: 'xs',
-      border: `1px solid ${colors['gray:100']}`
+      border: `${borderWidth}px solid ${colors[borderColor] || borderColor}`
     },
   };
 };
@@ -38,9 +36,12 @@ const variantProps = props => {
   const hasChildrenProps = hasChildren ? {
     position: 'absolute',
     top: 0,
-    right: 0
+    right: 0,
+    transform: 'translate(50%, -50%)',
   } : {
-    top: 0
+    top: 0,
+    display: 'block',
+    transform: 'none'
   };
   const showAsDotProps = showAsDot ? {
     p: 0,

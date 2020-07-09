@@ -11,18 +11,20 @@ const Badge = forwardRef(
       isHidden = false,
       children,
       offset,
-      dotSize = 6,
+      dotSize = 8,
+      borderColor = 'gray:100',
+      borderWidth = 1,
       ...restProps
     }
   ) => {
-    const badgeStyleProps = useBadgeStyle({ color: variantColor, hasChildren: !!children, showAsDot: variant === 'dot', offset, dotSize });
+    const badgeStyleProps = useBadgeStyle({ color: variantColor, hasChildren: !!children, showAsDot: variant === 'dot', offset, dotSize, borderColor, borderWidth });
 
     return (
       <Box
         as="span"
         position="relative"
         display="inline-block"
-        mr={!!children ? 24 : 0} // Need to discuss
+        mr={!!children ? 20 : 0} // Need to discuss
       >
         {children}
         {!isHidden &&
