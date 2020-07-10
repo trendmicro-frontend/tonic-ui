@@ -1,5 +1,5 @@
 # RadioGroup
- 
+
 `RadioGroup` is used to group related radios.
 
 ## Import
@@ -17,7 +17,7 @@ function RadioExample() {
   const [value, setValue] = React.useState("2");
   return (
     <RadioGroup onChange={e => setValue(e.target.value)} value={value}>
-      <Stack spacing="4x">
+      <Stack spacing="1x" shouldWrapChildren>
         <Radio value="1">First</Radio>
         <Radio value="2">Second</Radio>
         <Radio value="3">Third</Radio>
@@ -33,7 +33,7 @@ Make a set of radios appear horizontal stacked rather than vertically, by adding
 
 ```jsx
 <RadioGroup defaultValue="1">
-  <Stack direction="row" spacing="6x">
+  <Stack direction="row" spacing="3x">
     <Radio value="1">Radio 1</Radio>
     <Radio value="2">Radio 2</Radio>
     <Radio value="3">Radio 3</Radio>
@@ -47,7 +47,7 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 
 ```jsx
 <RadioGroup variantColor="green" defaultValue="2">
-  <Stack direction="row" spacing="6x">
+  <Stack direction="row" spacing="3x">
     <Radio value="1">Radio 1</Radio>
     <Radio value="2">Radio 2</Radio>
   </Stack>
@@ -61,21 +61,21 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 ```jsx
 <Stack direction="column" spacing="4x" shouldWrapChildren>
   <RadioGroup size="sm">
-    <Stack direction="row" spacing="6x">
+    <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
   <RadioGroup size="md">
-    <Stack direction="row" spacing="6x">
+    <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
   <RadioGroup size="lg">
-    <Stack direction="row" spacing="6x">
+    <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
@@ -87,7 +87,7 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 ### States
 ```jsx
 <RadioGroup defaultValue="1" disabled>
-  <Stack direction="row" spacing="6x">
+  <Stack direction="row" spacing="3x">
     <Radio value="1">Radio 1</Radio>
     <Radio value="2">Radio 2</Radio>
     <Radio value="3">Radio 3</Radio>
