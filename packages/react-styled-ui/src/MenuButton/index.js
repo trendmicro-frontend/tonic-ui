@@ -7,14 +7,18 @@ import wrapEvent from '../utils/wrapEvent';
 import useForkRef from '../utils/useForkRef';
 import { useMenuButtonStyle, getIconWrapperProps } from './styles';
 
-const PseudoButton = forwardRef((props, ref) => (
-  <Button variant="secondary" ref={ref} as="button" {...props} />
-));
-
-PseudoButton.displayName = 'PseudoButton';
-
 const MenuButton = forwardRef(
-  ({ hideArrow, onClick, onKeyDown, as: Comp = PseudoButton, children, disabled, ...rest }, ref) => {
+  (
+    {
+      onClick,
+      onKeyDown,
+      children,
+      disabled,
+      variant = 'secondary',
+      ...rest
+    },
+    ref
+  ) => {
     const {
       isOpen,
       focusOnLastItem,
@@ -32,12 +36,13 @@ const MenuButton = forwardRef(
     const iconWrapperProps = getIconWrapperProps();
 
     return (
-      <Comp
+      <Button
         aria-haspopup="menu"
         aria-expanded={isOpen}
         aria-controls={menuId}
         data-active={isOpen}
         aria-disabled={disabled}
+        disabled={disabled}
         id={buttonId}
         role="button"
         ref={menuButtonRef}
@@ -62,19 +67,18 @@ const MenuButton = forwardRef(
             focusOnLastItem();
           }
         })}
+        variant={variant}
         {...styleProps}
         {...rest}
       >
         {children}
-        {!hideArrow && (
-          <PseudoBox
-            aria-disabled={disabled}
-            {...iconWrapperProps}
-          >
-            <Icon width="4x" name="_core.angle-down" />
-          </PseudoBox>
-        )}
-      </Comp>
+        <PseudoBox
+          aria-disabled={disabled}
+          {...iconWrapperProps}
+        >
+          <Icon width="4x" name="_core.angle-down" />
+        </PseudoBox>
+      </Button>
     );
   },
 );

@@ -25,12 +25,12 @@ const MenuItem = forwardRef(
       closeMenu,
     } = useMenu();
     const menuGroupContext = useMenuGroup();
-    const isMenuGrouped = menuGroupContext ? menuGroupContext.isMenuGrouped : false;
+    const isMenuGrouped = !!menuGroupContext;
     const styleProps = useMenuItemStyle({ isMenuGrouped });
 
     return (
       <PseudoBox
-        as="li"
+        as="div"
         ref={ref}
         role={role}
         tabIndex={-1}

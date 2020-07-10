@@ -2,16 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useId } from '../utils/autoId';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuContextProvider } from './context';
-
-const usePrevious = (value) => {
-  const ref = useRef();
-
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-
-  return ref.current;
-};
+import usePrevious from '../utils/usePrevious';
 
 const Menu = ({
   anchorEl,
@@ -43,7 +34,7 @@ const Menu = ({
 
   useEffect(() => {
     if (_isOpen && menuRef && menuRef.current) {
-      let focusables = getFocusableElements(menuRef.current).filter(node => ['menuitem', 'menuitemradio', 'menuitemcheckbox'].includes(node.getAttribute('role'),));
+      let focusables = getFocusableElements(menuRef.current).filter(node => node.getAttribute('role') === 'menuitem');
       focusableItems.current = menuRef.current ? focusables : [];
       initTabIndex();
     }
