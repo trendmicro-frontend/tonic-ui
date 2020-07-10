@@ -14,7 +14,7 @@ import { Badge } from '@trendmicro/react-styled-ui';
 
 ```jsx
 <Stack direction="column" spacing="4x" shouldWrapChildren>
-  <Stack direction="row" spacing="4x" shouldWrapChildren>
+  <Stack direction="row" spacing="6x" shouldWrapChildren>
     <Badge badgeContent="5+">
       <TMIcon name="alert" />
     </Badge>
@@ -24,10 +24,10 @@ import { Badge } from '@trendmicro/react-styled-ui';
     <Badge badgeContent="87">
       <TMIcon name="alert" />
     </Badge>
-    <Badge variant="dot" offset={[4, 2]}>
+    <Badge variant="dot" offset={[4, 2]} borderColor="gray:100">
       <TMIcon name="alert" />
     </Badge>
-    <Badge variant="dot" dotSize={6} offset={[4, 2]}>
+    <Badge variant="dot" dotSize={6} offset={[4, 2]} borderColor="gray:100">
       <TMIcon name="alert" />
     </Badge>
     <Badge isHidden>
@@ -43,7 +43,7 @@ import { Badge } from '@trendmicro/react-styled-ui';
       <TMIcon name="alert" />
     </Badge>
   </Stack>
-  <Stack direction="row" spacing="4x" shouldWrapChildren>
+  <Stack direction="row" spacing="6x" shouldWrapChildren>
     <Badge badgeContent="5+">
       <Skeleton variant="rect" width={42} height={42} />
     </Badge>
@@ -53,10 +53,10 @@ import { Badge } from '@trendmicro/react-styled-ui';
     <Badge badgeContent="87">
       <Skeleton variant="rect" width={42} height={42} />
     </Badge>
-    <Badge variant="dot">
+    <Badge variant="dot" borderColor="gray:100">
       <Skeleton variant="rect" width={42} height={42} />
     </Badge>
-    <Badge variant="dot" dotSize={6}>
+    <Badge variant="dot" dotSize={6} borderColor="gray:100">
       <Skeleton variant="rect" width={42} height={42} />
     </Badge>
     <Badge isHidden>
@@ -75,7 +75,7 @@ import { Badge } from '@trendmicro/react-styled-ui';
 </Stack>
 ```
 
-### Badge Color
+### Badge color
 
 * Pass the `variantColor` prop to customize the color of the Badge. `variantColor`
 can be any **color key with key 60** that exists in the `theme.colors`.
@@ -98,6 +98,26 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 </Stack>
 ```
 
+### Badge border color
+
+* Pass the `borderColor` or `borderWidth` props to customize the border of the Badge. It only effect on wrapped children.
+
+```jsx
+<Stack direction="row" spacing="6x" shouldWrapChildren>
+  <Badge badgeContent="5" borderColor="orange:50">
+    <TMIcon name="alert" />
+  </Badge>
+  <Badge badgeContent="5">
+    <TMIcon name="alert" borderColor="orange:50" borderWidth={3} />
+  </Badge>
+  <Badge badgeContent="5" borderColor="orange:50">
+    <TMIcon name="alert" />
+  </Badge>
+  <Badge variant="dot" offset={[4, 2]} borderColor="orange:50" borderWidth={3}>
+    <TMIcon name="alert" />
+  </Badge>
+</Stack>
+```
 ## Props
 
 `Badge` composes the [`Box`](./box) component. You can override the default styles with style props.

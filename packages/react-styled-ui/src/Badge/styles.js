@@ -11,7 +11,6 @@ const badgeStyle = ({ color, borderColor, borderWidth, theme: { colors, lineHeig
     light: {
       bg: colors[get(color, 60)] ? get(color, 60) : get(color, 50),
       color: '#fff',
-      borderRadius: 18, //12px
       textAlign: 'center',
       lineHeight: `calc(${xsLineHeight} - 2px)`, // 18px - 2px
       px: 4,
@@ -20,7 +19,6 @@ const badgeStyle = ({ color, borderColor, borderWidth, theme: { colors, lineHeig
     dark: {
       bg: colors[get(color, 60)] ? get(color, 60) : get(color, 50),
       color: '#fff',
-      borderRadius: 18, //12px
       textAlign: 'center',
       lineHeight: `calc(${xsLineHeight} - 2px)`, // 18px - 2px
       px: 4,
@@ -45,19 +43,21 @@ const variantProps = props => {
     top: 0,
     right: 0,
     transform: 'translate(50%, -50%)',
-    border: `${borderWidth}px solid ${colors[borderColor] || borderColor}`
+    border: `${borderWidth}px solid ${colors[borderColor] || borderColor}`,
+    borderRadius: 18,
+    minWidth: 18,
   } : {
     top: 0,
     display: 'block',
-    transform: 'none'
+    transform: 'none',
+    borderRadius: 16,
+    minWidth: 16
   };
   const showAsDotProps = showAsDot ? {
     p: 0,
     width: dotSize,
     height: dotSize,
-  } : {
-    minWidth: 18
-  };
+  } : {};
   const offsetArray = ensureArray(offset);
   const offsetProps = offsetArray.length === 2 ? {
     right: offsetArray[0],

@@ -33,7 +33,6 @@ const Badge = forwardRef(
         as="span"
         position="relative"
         display="inline-block"
-        mr={!!children ? 20 : 0} // Need to discuss
       >
         {children}
         {!isHidden &&
