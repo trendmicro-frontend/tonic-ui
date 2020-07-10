@@ -57,6 +57,7 @@ const variantProps = props => {
     p: 0,
     width: dotSize,
     height: dotSize,
+    minWidth: 0
   } : {};
   const offsetArray = ensureArray(offset);
   const offsetProps = offsetArray.length === 2 ? {
