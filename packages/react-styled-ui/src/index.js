@@ -114,6 +114,7 @@ export {
   withTheme,
 };
 
+export * from './Tabs';
 export * from './Accordion';
 export * from './Drawer';
 export * from './Menu';
