@@ -14,7 +14,7 @@ const Tabs = forwardRef(
       onChange,
       index: controlledIndex,
       defaultIndex,
-      isManual,
+      activateOnKeypress,
       variant = 'line',
       align = 'left',
       size = 'md',
@@ -28,7 +28,7 @@ const Tabs = forwardRef(
     const selectedPanelRef = useRef();
 
     const getInitialIndex = () => {
-      if (!isManual) {
+      if (!activateOnKeypress) {
         return defaultIndex || 0;
       } else {
         return controlledIndex || defaultIndex || 0;
@@ -36,7 +36,7 @@ const Tabs = forwardRef(
     };
 
     const getActualIdx = () => {
-      if (isManual) {
+      if (activateOnKeypress) {
         return selectedIndex;
       } else {
         return isControlled ? controlledIndex : selectedIndex;
@@ -56,11 +56,11 @@ const Tabs = forwardRef(
         setSelectedIndex(index);
       }
 
-      if (isControlled && isManual) {
+      if (isControlled && activateOnKeypress) {
         setSelectedIndex(index);
       }
 
-      if (!isManual) {
+      if (!activateOnKeypress) {
         onChange && onChange(index);
       }
     };
@@ -70,7 +70,7 @@ const Tabs = forwardRef(
         setManualIndex(index);
       }
 
-      if (isManual) {
+      if (activateOnKeypress) {
         onChange && onChange(index);
       }
     };
@@ -88,7 +88,7 @@ const Tabs = forwardRef(
       index: actualIdx,
       manualIndex: manualIdx,
       onManualTabChange,
-      isManual,
+      activateOnKeypress,
       onChangeTab,
       selectedPanelRef,
       onFocusPanel,

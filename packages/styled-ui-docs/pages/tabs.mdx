@@ -162,17 +162,14 @@ to `unstyled`, and use the `_selected`, `_hover`, `_active` style props.
 By default, `Tabs` are activated automatically. This means when you use the
 arrow keys to change tabs, the tab is activated and focused.
 
-> The content of a `TabPanel` should ideally be preloaded. However, if switching
-> to a tab panel causes a network request and possibly a page refresh, there
-> might be some notable latency and this might affect the experience for
-> keyboard and screen reader users.
+The content of a `TabPanel` should ideally be preloaded. However, if switching to a tab panel causes a network request and possibly a page refresh, there might be some notable latency and this might affect the experience for keyboard and screen reader users.
 
 In this scenario, you should use a manually activated tab, it moves focus
 without activating the tabs. With focus on a specifc tab, users can activate a
 tab by pressing <kbd>Space</kbd> or <kbd>Enter</kbd>.
 
 ```jsx
-<Tabs isManual variant="line">
+<Tabs activateOnKeypress variant="line">
   <TabList>
     <Tab>One</Tab>
     <Tab>Two</Tab>
@@ -269,7 +266,7 @@ Tabs composes `Box` so you call pass all `Box` related props.
 | `onChange`     | `(index: number) => void`                                                         |              | The callback to update the active tab index.                                                                                    |
 | `index`        | `number`                                                                          |              | The controlled index of the tabs.                                                                                               |
 | `defaultIndex` | `number`                                                                          |              | The index of the initial active tab.                                                                                            |
-| `isManual`     | `boolean`                                                                         |              | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` to active it |
+| `activateOnKeypress`     | `boolean`                                                                         |              | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` to active it |
 | `children`     | `React.ReactNode`                                                                 |              | The children of the switch.                                                                                                     |
 | `variant`      | `line`,`enclosed`, `unstyled`                                                     | `line`       | The visual style of the tab.                                                                                                    |
 | `orientation`  | `horizontal`, `vertical`                                                          | `horizontal` | The orientation of the tabs                                                                                                     |

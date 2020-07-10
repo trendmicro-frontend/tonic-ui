@@ -12,7 +12,7 @@ const TabList = forwardRef((props, ref) => {
     index: selectedIndex,
     manualIndex,
     onManualTabChange,
-    isManual,
+    activateOnKeypress,
     onChangeTab,
     onFocusPanel,
     orientation,
@@ -25,7 +25,7 @@ const TabList = forwardRef((props, ref) => {
   const validChildren = cleanChildren(children);
 
   const focusableIndexes = validChildren
-    .map((child, index) => (child.props.isDisabled === true ? null : index))
+    .map((child, index) => (child.props.disabled === true ? null : index))
     .filter((index) => index != null);
 
   const enabledSelectedIndex = focusableIndexes.indexOf(selectedIndex);
@@ -71,7 +71,7 @@ const TabList = forwardRef((props, ref) => {
   };
 
   const clones = validChildren.map((child, index) => {
-    let isSelected = isManual ? index === manualIndex : index === selectedIndex;
+    let isSelected = activateOnKeypress ? index === manualIndex : index === selectedIndex;
 
     const handleClick = (event) => {
       // Hack for Safari. Buttons don't receive focus on click on Safari
