@@ -52,6 +52,7 @@ export const componentLinks = [
   'Stack',
   'SVGIcon',
   'Table',
+  'Tabs',
   'Tag',
   'Text',
   'Textarea',

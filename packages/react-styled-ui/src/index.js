@@ -12,6 +12,7 @@ import ColorModeProvider from './ColorModeProvider';
 import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
 import DarkMode from './DarkMode';
+import Divider from './Divider';
 import Fade from './Fade';
 import FlatButton from './FlatButton';
 import Flex from './Flex';
@@ -70,6 +71,7 @@ export {
   ControlBox,
   CSSBaseline,
   DarkMode,
+  Divider,
   Fade,
   FlatButton,
   Flex,
@@ -114,6 +116,7 @@ export {
   withTheme,
 };
 
+export * from './Tabs';
 export * from './Accordion';
 export * from './Drawer';
 export * from './Menu';

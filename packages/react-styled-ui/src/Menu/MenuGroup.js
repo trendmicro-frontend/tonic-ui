@@ -9,18 +9,19 @@ const MenuGroup = forwardRef(({ children, title, ...rest }, ref) => {
   return (
     <>
       <Box
-        as="li"
         ref={ref}
         role="group"
         {...styleProps}
       >
         {title && title}
       </Box>
-      <MenuGroupContextProvider value={{ isMenuGrouped: true }}>
+      <MenuGroupContextProvider value={{}}>
         {children}
       </MenuGroupContextProvider>
     </>
   );
 });
+
+MenuGroup.displayName = 'MenuGroup';
 
 export default MenuGroup;

@@ -22,9 +22,11 @@ const getIconWrapperProps = () => {
 };
 
 const menuButtonProps = ({ colorMode, theme: { colors } }) => {
-  const isDarkMode = (colorMode === 'dark');
   const outerBorderColor = colors['blue:60'];
-  const fontColor = isDarkMode ? 'white:primary' : 'black:primary';
+  const fontColor = {
+    dark: 'white:primary',
+    light: 'black:primary'
+  }[colorMode];
   const style = {
     justifyContent: 'left',
     pr: 'calc(2rem - 1px)', // 32px - 1px
@@ -49,7 +51,7 @@ const menuButtonProps = ({ colorMode, theme: { colors } }) => {
     },
     _disabled: {
       borderColor: 'gray:60',
-      color: isDarkMode ? 'white:emphasis' : 'black',
+      color: fontColor,
       cursor: 'not-allowed',
       opacity: 0.28,
     },

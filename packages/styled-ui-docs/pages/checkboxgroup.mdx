@@ -14,7 +14,7 @@ import { CheckboxGroup } from '@trendmicro/react-styled-ui';
 
 ```jsx
 <CheckboxGroup defaultValue={["apple", "papaya"]}>
-  <Stack direction="column" spacing="4x">
+  <Stack direction="column" spacing="1x" shouldWrapChildren>
     <Checkbox value="apple">Apple</Checkbox>
     <Checkbox value="orange">Orange</Checkbox>
     <Checkbox value="papaya">Papaya</Checkbox>
@@ -28,7 +28,7 @@ Make a set of checkboxes appear horizontal stacked rather than vertically, by ad
 
 ```jsx
 <CheckboxGroup defaultValue={["apple", "papaya"]}>
-  <Stack direction="row" spacing="6x">
+  <Stack direction="row" spacing="3x">
     <Checkbox value="apple">Apple</Checkbox>
     <Checkbox value="orange">Orange</Checkbox>
     <Checkbox value="papaya">Papaya</Checkbox>
@@ -42,7 +42,7 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 
 ```jsx
 <CheckboxGroup variantColor="green" defaultValue={["apple", "papaya"]}>
-  <Stack direction="row" spacing="6x">
+  <Stack direction="row" spacing="3x">
     <Checkbox value="apple">Apple</Checkbox>
     <Checkbox value="orange">Orange</Checkbox>
     <Checkbox value="papaya">Papaya</Checkbox>
@@ -55,23 +55,23 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 Use the `size` prop to change the size of the `CheckboxGroup`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="4x" shouldWrapChildren>
+<Stack direction="column" spacing="1x" shouldWrapChildren>
   <CheckboxGroup size="sm">
-    <Stack direction="row" spacing="6x">
+    <Stack direction="row" spacing="3x">
       <Checkbox value="apple">Apple</Checkbox>
       <Checkbox value="orange">Orange</Checkbox>
       <Checkbox value="papaya">Papaya</Checkbox>
     </Stack>
   </CheckboxGroup>
   <CheckboxGroup size="md">
-    <Stack direction="row" spacing="6x">
+    <Stack direction="row" spacing="3x">
       <Checkbox value="apple">Apple</Checkbox>
       <Checkbox value="orange">Orange</Checkbox>
       <Checkbox value="papaya">Papaya</Checkbox>
     </Stack>
   </CheckboxGroup>
   <CheckboxGroup size="lg">
-    <Stack direction="row" spacing="6x">
+    <Stack direction="row" spacing="3x">
       <Checkbox value="apple">Apple</Checkbox>
       <Checkbox value="orange">Orange</Checkbox>
       <Checkbox value="papaya">Papaya</Checkbox>
@@ -83,7 +83,7 @@ Use the `size` prop to change the size of the `CheckboxGroup`. You can set the v
 ### States
 ```jsx
 <CheckboxGroup disabled>
-  <Stack direction="row" spacing="6x">
+  <Stack spacing="1x">
     <Checkbox value="apple">Apple</Checkbox>
     <Checkbox value="orange">Orange</Checkbox>
     <Checkbox value="papaya">Papaya</Checkbox>

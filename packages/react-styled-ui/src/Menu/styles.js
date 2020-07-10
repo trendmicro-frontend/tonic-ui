@@ -2,7 +2,7 @@ import { setColorWithOpacity } from '../theme/colors';
 import useTheme from '../useTheme';
 import useColorMode from '../useColorMode';
 
-export const useMenuListStyle = () => {
+export const useMenuListStyle = ({ buttonRefWidth }) => {
   const { colorMode } = useColorMode();
   const elevation = {
     light: {
@@ -13,13 +13,14 @@ export const useMenuListStyle = () => {
       bg: 'gray:80',
       boxShadow: 'dark.sm',
     },
-  };
+  }[colorMode];
 
   return {
     color: 'inherit',
     m: '0',
     p: '0',
-    ...elevation[colorMode],
+    minWidth: buttonRefWidth,
+    ...elevation,
   };
 };
 
@@ -37,7 +38,6 @@ export const useMenuGroupStyle = () => {
   }[colorMode];
 
   return {
-    listStyleType: 'none',
     px: '3x',
     py: '2x',
     color
@@ -65,32 +65,32 @@ const baseProps = ({ isMenuGrouped }) => {
   };
 };
 
-const menuItemProps = ({ colorMode, isMenuGrouped }) => {
-  const _hoverColor = { light: 'black:disabled', dark: setColorWithOpacity('white', 0.12) };
-  const _activeFocusColor = { light: 'gray:20', dark: setColorWithOpacity('white', 0.08) };
-  const _disabled = { light: 'black:disabled', dark: 'white:disabled' };
+const menuItemProps = ({ colorMode, disabled }) => {
+  const _hoverColor = { light: 'black:disabled', dark: setColorWithOpacity('white', 0.12) }[colorMode];
+  const _activeFocusColor = { light: 'gray:20', dark: setColorWithOpacity('white', 0.08) }[colorMode];
+  const _disabled = { light: 'black:disabled', dark: 'white:disabled' }[colorMode];
   return {
     _hover: {
-      bg: _hoverColor[colorMode],
+      bg: !disabled ? _hoverColor : '',
     },
     _active: {
-      bg: _activeFocusColor[colorMode],
+      bg: _activeFocusColor,
     },
     _focus: {
-      bg: _activeFocusColor[colorMode],
+      bg: _activeFocusColor,
       outline: 0,
     },
     _disabled: {
-      color: _disabled[colorMode],
+      color: _disabled,
       cursor: 'not-allowed',
     },
   };
 };
 
-export const useMenuItemStyle = ({ isMenuGrouped }) => {
+export const useMenuItemStyle = ({ isMenuGrouped, disabled }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
-  const props = { theme, colorMode, isMenuGrouped };
+  const props = { theme, colorMode, isMenuGrouped, disabled };
 
   return {
     ...baseProps(props),
