@@ -3,99 +3,177 @@ import useColorMode from '../useColorMode';
 const baseProps = {
   userSelect: 'none',
   border: 1,
-  transition: 'background-color 120ms, box-shadow 250ms',
-  position: 'relative',
+  transition: 'background-color 120ms',
 };
 
 const indeterminateProps = ({ color, colorMode }) => {
+  // icon color
+  const _color = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const hoverColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const disabledColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+
+  // border color
+  const borderColor = {
+    dark: 'gray:50',
+    light: 'gray:50',
+  }[colorMode];
+  const hoverBorderColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const disabledBorderColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+
+  // outline color
+  const focusOutlineColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+
   return {
-    borderColor: 'gray:50',
     _indeterminate: {
-      borderColor: 'gray:50',
-      color: `${color}:60`, // Icon color
+      borderColor: borderColor,
+      color: _color, // Icon color
     },
     _indeterminateAndHover: {
-      borderColor: `${color}:50`,
-      color: `${color}:50`,
-    },
-    _indeterminateAndActive: {
-      borderColor: `${color}:60`,
-      color: `${color}:60`, // Icon color
-    },
-    _indeterminateAndDisabled: {
-      borderColor: 'gray:60',
-      color: 'gray:60', // Icon color
+      borderColor: hoverBorderColor,
+      color: hoverColor,
     },
     _indeterminateAndFocus: {
       outlineStyle: 'solid',
-      outlineColor: `${color}:60`,
+      outlineColor: focusOutlineColor,
       outlineWidth: '2px',
     },
-    _invalid: {
-      borderColor: 'red:50',
+    _indeterminateAndDisabled: {
+      borderColor: disabledBorderColor,
+      color: disabledColor, // Icon color
+      opacity: 0.28,
     },
   };
 };
 
 const interactionProps = ({ color, colorMode }) => {
+  // icon color
+  const _color = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+  const hoverColor = _color;
+  const disabledColor = _color;
+  const checkedColor = _color;
+  const checkedAndHoverColor = _color;
+  const checkedAndFocusColor = _color;
+  const checkedAndDisabledColor = _color;
+
+  // background color
+  const bgColor = 'transparent';
+  const hoverBgColor = bgColor;
+  const disabledBgColor = bgColor;
+  const checkedBgColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const checkedAndHoverBgColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const checkedAndFocusBgColor = checkedBgColor;
+  const checkedAndDisabledBgColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+
+  // border color
+  const borderColor = {
+    dark: 'gray:50',
+    light: 'gray:50',
+  }[colorMode];
+  const hoverBorderColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const disabledBorderColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+  const checkedBorderColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const checkedAndHoverBorderColor = hoverBorderColor;
+  const checkedAndFocusBorderColor = 'transparent';
+  const checkedAndDisabledBorderColor = disabledBorderColor;
+
+  // outline color
+  const focusOutlineColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+
   return {
-    borderColor: 'gray:50',
-    color: 'white', // Icon color
-    _checked: {
-      bg: `${color}:60`,
-      borderColor: `${color}:60`,
-    },
-    _checkedAndActive: {
-      bg: `${color}:60`,
-      borderColor: `${color}:60`,
-    },
-    _checkedAndHover: {
-      bg: `${color}:50`,
-      borderColor: `${color}:50`,
-    },
-    _checkedAndFocus: {
-      bg: 'inherit',
-      borderColor: 'transparent',
-      '& > :first-child': {
-        bg: `${color}:60`,
-      },
-    },
-    _checkedAndDisabled: {
-      bg: 'gray:60',
-      borderColor: 'gray:60',
-      color: 'gray:40', // Icon color
-    },
+    bg: bgColor,
+    borderColor: borderColor,
+    color: _color, // Icon color
     _hover: {
-      borderColor: `${color}:50`,
+      bg: hoverBgColor,
+      borderColor: hoverBorderColor,
+      color: hoverColor, // Icon color
     },
     _disabled: {
-      borderColor: 'gray:60',
+      bg: disabledBgColor,
+      borderColor: disabledBorderColor,
+      color: disabledColor, // Icon color
+      opacity: 0.28,
     },
     _focus: {
       outlineStyle: 'solid',
-      outlineColor: `${color}:60`,
+      outlineColor: focusOutlineColor,
       outlineWidth: '2px',
     },
-    _invalid: {
-      borderColor: 'red:50',
+    _checked: {
+      bg: checkedBgColor,
+      borderColor: checkedBorderColor,
+      color: checkedColor, // Icon color
+    },
+    _checkedAndHover: {
+      bg: checkedAndHoverBgColor,
+      borderColor: checkedAndHoverBorderColor,
+      color: checkedAndHoverColor, // Icon color
+    },
+    _checkedAndFocus: {
+      bg: 'inherit',
+      borderColor: checkedAndFocusBorderColor,
+      color: checkedAndFocusColor, // Icon color
+      '& > :first-child': {
+        bg: checkedAndFocusBgColor,
+      },
+    },
+    _checkedAndDisabled: {
+      bg: checkedAndDisabledBgColor,
+      borderColor: checkedAndDisabledBorderColor,
+      color: checkedAndDisabledColor, // Icon color
+      opacity: 0.28,
     },
   };
 };
 
 const useCheckboxStyle = props => {
   const { colorMode } = useColorMode();
-  const sizes = {
-    lg: '20px',
-    md: '16px',
-    sm: 'auto',
-  };
-  const size = sizes[props.size];
   const _props = { ...props, colorMode };
   return {
     ...baseProps,
     ...props.indeterminate ? { ...indeterminateProps(_props) } : { ...interactionProps(_props) },
-    width: size,
-    height: size,
   };
 };
 

@@ -1,12 +1,20 @@
 import chainedFunction from 'chained-function';
+import _get from 'lodash/get';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useCheckboxGroup } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
 import Icon from '../Icon';
+import useTheme from '../useTheme';
 import { ensureArray } from '../utils/ensure-type';
 import VisuallyHidden from '../VisuallyHidden';
 import useCheckboxStyle from './styles';
+
+const sizes = {
+  lg: '6x',
+  md: '4x',
+  sm: '3x',
+};
 
 const defaultSize = 'md';
 
@@ -26,7 +34,6 @@ const Checkbox = forwardRef(
       variantColor = 'blue',
       size,
       iconColor,
-      iconSize = '12px',
 
       onChange,
       onBlur,
@@ -66,9 +73,12 @@ const Checkbox = forwardRef(
       size = size ?? defaultSize;
     }
 
+    const { sizes: themeSizes } = useTheme();
+    const _size = sizes[size];
+    const themeSize = _get(themeSizes, _size);
+    const iconSize = `calc(${themeSize} - 4px)`;
     const styleProps = useCheckboxStyle({
       color: variantColor,
-      size,
       indeterminate,
     });
 
@@ -97,22 +107,26 @@ const Checkbox = forwardRef(
           readOnly={readOnly}
           data-indeterminate={indeterminate}
         />
-        <ControlBox {...styleProps}>
+        <ControlBox
+          zIndex="0"
+          position="relative"
+          width={_size}
+          height={_size}
+          {...styleProps}
+        >
           {/* This Box is for rendering background color of Checkbox which is focused. */}
           <Box
+            zIndex="-1"
             position="absolute"
             top="0"
             bottom="0"
             left="0"
             right="0"
           />
-          {/* The z-index is for placing icon over the above box. */}
           <Icon
-            zIndex="1"
             name={indeterminate ? '_core.minus' : '_core.check'}
             size={iconSize}
             color={iconColor}
-            transition="transform 240ms, opacity 240ms"
           />
         </ControlBox>
         {children && (
@@ -120,7 +134,7 @@ const Checkbox = forwardRef(
             ml="2x"
             fontSize={size}
             userSelect="none"
-            opacity={readOnly || disabled ? 0.32 : 1}
+            opacity={readOnly || disabled ? 0.28 : 1}
           >
             {children}
           </Box>
