@@ -3,24 +3,53 @@ import useBadgeStyle from './styles';
 import Box from '../Box';
 
 const Badge = forwardRef(
-  ({ variantColor = 'gray', ...props }, ref) => {
-    const badgeStyleProps = useBadgeStyle({ color: variantColor });
+  (
+    {
+      variant = 'badge',
+      variantColor = 'red',
+      badgeContent,
+      isHidden = false,
+      children,
+      offset,
+      dotSize = 8,
+      borderColor,
+      borderWidth = 1,
+      ...restProps
+    }
+  ) => {
+    const badgeBorderColor = borderColor ?? variantColor;
+    const badgeStyleProps = useBadgeStyle({
+      color: variantColor,
+      hasChildren: !!children,
+      showAsDot: variant === 'dot',
+      offset,
+      dotSize,
+      borderColor: badgeBorderColor,
+      borderWidth
+    });
 
     return (
       <Box
-        ref={ref}
+        as="span"
+        position="relative"
         display="inline-block"
-        px="1x"
-        fontSize="xs"
-        borderRadius="sm"
-        fontWeight="normal"
-        whiteSpace="nowrap"
-        verticalAlign="middle"
-        {...badgeStyleProps}
-        {...props}
-      />
+      >
+        {children}
+        {!isHidden &&
+          <Box
+            as="span"
+            fontWeight="normal"
+            borderRadius="sm"
+            whiteSpace="nowrap"
+            {...badgeStyleProps}
+            {...restProps}
+          >
+            {badgeContent}
+          </Box>
+        }
+      </Box>
     );
-  },
+  }
 );
 
 Badge.displayName = 'Badge';

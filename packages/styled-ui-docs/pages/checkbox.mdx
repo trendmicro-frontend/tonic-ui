@@ -32,6 +32,9 @@ Use the `variantColor` prop to change the color scheme of the Checkbox. `variant
   <Checkbox variantColor="green" defaultChecked>
     Checkbox
   </Checkbox>
+  <Checkbox variantColor="purple" indeterminate>
+    Checkbox
+  </Checkbox>
 </Stack>
 ```
 
@@ -40,7 +43,7 @@ Use the `variantColor` prop to change the color scheme of the Checkbox. `variant
 Use the `size` prop to change the size of the `Checkbox`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="4x">
+<Stack direction="row" spacing="4x">
   <Checkbox size="sm">Checkbox</Checkbox>
   <Checkbox size="md">Checkbox</Checkbox>
   <Checkbox size="lg">Checkbox</Checkbox>
@@ -51,10 +54,18 @@ Use the `size` prop to change the size of the `Checkbox`. You can set the value 
 
 ```jsx
 <Stack direction="row" spacing="6x" alignItems="center">
-  <Checkbox>Checkbox</Checkbox>
-  <Checkbox defaultChecked>Checkbox</Checkbox>
-  <Checkbox disabled>Checkbox</Checkbox>
-  <Checkbox disabled defaultChecked>Checkbox</Checkbox>
+  <Stack spacing="2x" alignItems="center">
+    <Checkbox>Checkbox</Checkbox>
+    <Checkbox disabled>Checkbox</Checkbox>
+  </Stack>
+  <Stack spacing="2x" alignItems="center">
+    <Checkbox defaultChecked>Checkbox</Checkbox>
+    <Checkbox disabled defaultChecked>Checkbox</Checkbox>
+  </Stack>
+  <Stack spacing="2x" alignItems="center">
+    <Checkbox indeterminate>Checkbox</Checkbox>
+    <Checkbox disabled indeterminate>Checkbox</Checkbox>
+  </Stack>
 </Stack>
 ```
 
@@ -74,7 +85,7 @@ function IndeterminateExample() {
         onChange={e => setCheckedItems([e.target.checked, e.target.checked])}
         children="Parent Checkbox"
       />
-      <Stack direction="column" pl="6x" mt="4x" spacing="4x">
+      <Stack direction="column" pl="6x" mt="1x" spacing="1x" shouldWrapChildren>
         <Checkbox
           checked={checkedItems[0]}
           onChange={e => setCheckedItems([e.target.checked, checkedItems[1]])}

@@ -1,38 +1,66 @@
+import { get } from '@styled-system/core';
 import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
 // Secondary Button
 const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
-  const isDarkMode = (colorMode === 'dark');
-  const outerBorderColor = colors['blue:60'];
+  // color
+  const _color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const hoverColor = {
+    dark: `${color}:40`,
+    light: `${color}:40`,
+  }[colorMode];
+  const disabledColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+  const activeColor = hoverColor;
+  const focusColor = _color;
+  // border color
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:60',
+  }[colorMode];
+  const hoverBorderColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const activeBorderColor = hoverBorderColor;
+  const focusBorderColor = 'blue:60';
+  const disabledBorderColor = borderColor;
+
   const style = {
-    borderColor: 'gray:60',
-    color: isDarkMode ? 'white:primary' : 'black:primary',
+    borderColor: borderColor,
+    color: _color,
     _focus: {
-      borderColor: outerBorderColor,
-      boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
+      color: focusColor,
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${get(colors, focusBorderColor)}`,
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
     _hover: {
+      color: hoverColor,
       '&:not(:focus)': {
-        borderColor: `${color}:50`,
+        borderColor: hoverBorderColor,
       },
-      color: `${color}:40`,
       // Use a higher z-index value to bring overlapping border to front when hovered
       zIndex: 2,
     },
     _active: {
+      color: activeColor,
       '&:not(:focus)': {
-        borderColor: `${color}:50`,
+        borderColor: activeBorderColor,
       },
       bg: setColorWithOpacity('black', 0.12),
-      color: `${color}:40`,
     },
     _disabled: {
-      borderColor: 'gray:60',
-      color: isDarkMode ? 'white:emphasis' : 'black',
+      color: disabledColor,
+      borderColor: disabledBorderColor,
       cursor: 'not-allowed',
       opacity: 0.28,
     },
@@ -43,55 +71,100 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
 
 // Ghost Button
 const ghostVariantProps = (props) => {
+  const secondaryProps = secondaryVariantProps(props);
   const styles = {
-    ...secondaryVariantProps(props),
+    ...secondaryProps,
     borderColor: 'transparent',
+    _disabled: {
+      ...secondaryProps._disabled,
+      borderColor: 'transparent',
+    },
   };
 
   return styles;
 };
 
 // Fill Color Button
-const fillColorVariantProps = ({ color, theme: { colors } }) => {
-  const outerBorderColor = colors['blue:60'];
+const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors, radii } }) => {
+  let innerRadius;
+  const radius = radii[borderRadius] ?? borderRadius;
+  innerRadius = `calc(${radius} - 3px)`;
+  if (/^\d+(\.\d+)?%$/.test(radius)) {
+    innerRadius = radius;
+  }
+
+  // background color
+  const bgColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const focusBgColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
+  const hoverBgColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const activeBgColor = {
+    dark: `${color}:70`,
+    light: `${color}:70`,
+  }[colorMode];
+  const disabledBgColor = 'gray:60';
+  // border color
+  const focusBorderColor = 'blue:60';
+
   const style = {
-    bg: `${color}:60`,
     borderColor: 'transparent',
+    bg: bgColor,
     color: 'white:emphasis',
+    __before: {
+      content: '""',
+      display: 'inline-block',
+      transition: 'all 150ms, background-color 250ms',
+      borderRadius: innerRadius,
+      zIndex: '-1',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      bg: bgColor,
+    },
     _focus: {
       ':not(:active)': {
-        borderColor: outerBorderColor,
-        boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
+        borderColor: focusBorderColor,
+        boxShadow: `inset 0 0 0 1px ${get(colors, focusBorderColor)}`,
         bg: 'inherit',
       },
-      '& > :first-of-type': {
+      '&::before': {
         top: '2px',
         bottom: '2px',
         left: '2px',
         right: '2px',
-        bg: `${color}:60`,
+        bg: focusBgColor,
       },
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
     _hover: {
-      bg: `${color}:50`,
-      '& > :first-of-type': {
-        bg: `${color}:50`,
+      bg: hoverBgColor,
+      '&::before': {
+        bg: hoverBgColor,
       },
       // Use a higher z-index value to bring overlapping border to front when hovered
       zIndex: 2,
     },
     _active: {
-      bg: `${color}:70`,
-      '& > :first-of-type': {
-        bg: `${color}:70`,
+      bg: activeBgColor,
+      '&::before': {
+        bg: activeBgColor,
       },
     },
     _disabled: {
-      bg: 'gray:60',
-      '& > :first-of-type': {
-        bg: 'inherit',
+      bg: disabledBgColor,
+      '&::before': {
+        bg: disabledBgColor,
       },
       cursor: 'not-allowed',
       opacity: 0.28,
@@ -128,28 +201,8 @@ const sizeProps = ({ size }) => sizes[size];
 
 ////////////////////////////////////////////////////////////
 
-const selectedProps = {
-  _selected: {
-    bg: 'blue:60',
-    borderColor: 'blue:60',
-    color: 'white:emphasis',
-    '& > :first-of-type': {
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      bg: 'inherit',
-    },
-    '&:focus': {
-      boxShadow: 'unset',
-    }
-  },
-};
-
-////////////////////////////////////////////////////////////
-
-const variantProps = props => {
-  const variant = props.variant;
+const variantProps = (props) => {
+  const { variant } = props;
 
   switch (variant) {
   case 'secondary':
@@ -176,9 +229,9 @@ const baseProps = {
   transition: 'all 250ms',
   appearance: 'none',
   userSelect: 'none',
-  verticalAlign: 'middle',
   whiteSpace: 'nowrap',
   border: 1,
+  zIndex: 0,
   position: 'relative',
 };
 
@@ -190,13 +243,12 @@ const useButtonStyle = props => {
   const _props = { ...props, colorMode, theme };
   return {
     ...baseProps,
-    ...selectedProps,
     ...sizeProps(_props),
     ...variantProps(_props),
   };
 };
 
-const getGroupButtonStyle = ({ useVertical, useDivideLine, useNegativeMargin }) => {
+const getButtonGroupCSS = ({ useVertical, useDivideLine, useNegativeMargin }) => {
   const horizontalCss = {
     '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
@@ -211,7 +263,7 @@ const getGroupButtonStyle = ({ useVertical, useDivideLine, useNegativeMargin }) 
       display: useDivideLine ? 'none' : 'inherit',
     },
     // adjacent sibling
-    '&+&': {
+    '& + *': {
       marginLeft: useNegativeMargin ? -1 : 0,
     },
   };
@@ -229,7 +281,7 @@ const getGroupButtonStyle = ({ useVertical, useDivideLine, useNegativeMargin }) 
       display: useDivideLine ? 'none' : 'inherit',
     },
     // adjacent sibling
-    '&+&': {
+    '& + *': {
       marginTop: useNegativeMargin ? -1 : 0,
     },
   };
@@ -237,6 +289,6 @@ const getGroupButtonStyle = ({ useVertical, useDivideLine, useNegativeMargin }) 
 };
 
 export {
-  getGroupButtonStyle,
+  getButtonGroupCSS,
   useButtonStyle,
 };

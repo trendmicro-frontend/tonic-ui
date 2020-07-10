@@ -2,8 +2,7 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import { useButtonGroup } from '../ButtonGroup/context';
-import useTheme from '../useTheme';
-import { getGroupButtonStyle, useButtonStyle } from './styles';
+import { getButtonGroupCSS, useButtonStyle } from './styles';
 
 const defaultSize = 'md';
 const defaultVariant = 'default';
@@ -14,7 +13,6 @@ const Button = forwardRef(
       as: Comp = 'button',
       type = 'button',
       borderRadius = 'sm',
-      selected,
       size,
       variant,
       children,
@@ -53,15 +51,12 @@ const Button = forwardRef(
     const buttonStyleProps = useButtonStyle({
       size,
       variant,
+      borderRadius,
     });
-    const theme = useTheme();
-    const { radii } = theme;
-    let innerRadius;
-    const radius = radii[borderRadius] ?? borderRadius;
-    innerRadius = `calc(${radius} - 3px)`;
-    if (/^\d+(\.\d+)?%$/.test(radius)) {
-      innerRadius = radius;
-    }
+    css = [
+      isInGroup && getButtonGroupCSS({ useVertical, useDivideLine, useNegativeMargin }),
+      { ...css }
+    ];
 
     return (
       <>
@@ -70,26 +65,11 @@ const Button = forwardRef(
           as={Comp}
           type={type}
           borderRadius={borderRadius}
-          data-selected={selected ? 'true' : undefined}
-          css={[
-            isInGroup && getGroupButtonStyle({ useVertical, useDivideLine, useNegativeMargin }),
-            { ...css }
-          ]}
+          css={css}
           {...buttonStyleProps}
           {...rest}
         >
-          {/* This Box is for rendering background color of Button. */}
-          <Box
-            transition="inherit"
-            borderRadius={innerRadius}
-            position="absolute"
-            top="0"
-            bottom="0"
-            left="0"
-            right="0"
-          />
-          {/* The z-index is for placing text over the above box. */}
-          <Box zIndex="1">{ children }</Box>
+          { children }
         </ButtonBase>
         { isInGroup && useDivideLine && divider }
       </>
