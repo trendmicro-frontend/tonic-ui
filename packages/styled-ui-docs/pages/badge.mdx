@@ -13,61 +13,65 @@ import { Badge } from '@trendmicro/react-styled-ui';
 ## Usage
 
 ```jsx
-<Stack direction="row">
-  <Badge badgeContent="5+">
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge badgeContent="99+">
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge badgeContent="87">
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge variant="dot" offset={[4, 2]}>
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge variant="dot" dotSize={6} offset={[4, 2]}>
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge isHidden>
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge badgeContent={0}>
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge badgeContent="!">
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge badgeContent={<Text color="yellow:50">Text</Text>}>
-    <TMIcon name="alert" />
-  </Badge>
-  <Badge badgeContent="5+">
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
-  <Badge badgeContent="99+">
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
-  <Badge badgeContent="87">
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
-  <Badge variant="dot">
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
-  <Badge variant="dot" dotSize={6}>
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
-  <Badge isHidden>
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
-  <Badge badgeContent={0}>
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
-  <Badge badgeContent="!">
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
-  <Badge badgeContent={<Text color="yellow:50">Text</Text>}>
-    <Skeleton variant="rect" width={42} height={42} />
-  </Badge>
+<Stack direction="column" spacing="4x" shouldWrapChildren>
+  <Stack direction="row" spacing="4x" shouldWrapChildren>
+    <Badge badgeContent="5+">
+      <TMIcon name="alert" />
+    </Badge>
+    <Badge badgeContent="99+">
+      <TMIcon name="alert" />
+    </Badge>
+    <Badge badgeContent="87">
+      <TMIcon name="alert" />
+    </Badge>
+    <Badge variant="dot" offset={[4, 2]}>
+      <TMIcon name="alert" />
+    </Badge>
+    <Badge variant="dot" dotSize={6} offset={[4, 2]}>
+      <TMIcon name="alert" />
+    </Badge>
+    <Badge isHidden>
+      <TMIcon name="alert" />
+    </Badge>
+    <Badge badgeContent={0}>
+      <TMIcon name="alert" />
+    </Badge>
+    <Badge badgeContent="!">
+      <TMIcon name="alert" />
+    </Badge>
+    <Badge badgeContent={<Text color="yellow:50">Text</Text>}>
+      <TMIcon name="alert" />
+    </Badge>
+  </Stack>
+  <Stack direction="row" spacing="4x" shouldWrapChildren>
+    <Badge badgeContent="5+">
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+    <Badge badgeContent="99+">
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+    <Badge badgeContent="87">
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+    <Badge variant="dot">
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+    <Badge variant="dot" dotSize={6}>
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+    <Badge isHidden>
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+    <Badge badgeContent={0}>
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+    <Badge badgeContent="!">
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+    <Badge badgeContent={<Text color="yellow:50">Text</Text>}>
+      <Skeleton variant="rect" width={42} height={42} />
+    </Badge>
+  </Stack>
 </Stack>
 ```
 
@@ -105,5 +109,5 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 | badgeContent | number\|string\|React Element  | | |
 | isHidden | boolean  | false | show badge content or not. |
 | offset | \[number, number\]  | - | Set offset of the badge. |
-| borderColor | string  | gray:100 | Set border color of the badge. |
-| borderWidth | number  | 1 | Set border width of the badge. |
+| borderColor | string  | gray:100 | Set border color of the badge when overlap a children. |
+| borderWidth | number  | 1 | Set border width of the badge when overlap a children. |

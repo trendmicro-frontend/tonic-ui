@@ -12,12 +12,21 @@ const Badge = forwardRef(
       children,
       offset,
       dotSize = 8,
-      borderColor = 'gray:100',
+      borderColor,
       borderWidth = 1,
       ...restProps
     }
   ) => {
-    const badgeStyleProps = useBadgeStyle({ color: variantColor, hasChildren: !!children, showAsDot: variant === 'dot', offset, dotSize, borderColor, borderWidth });
+    const badgeBorderColor = borderColor ?? variantColor;
+    const badgeStyleProps = useBadgeStyle({
+      color: variantColor,
+      hasChildren: !!children,
+      showAsDot: variant === 'dot',
+      offset,
+      dotSize,
+      borderColor: badgeBorderColor,
+      borderWidth
+    });
 
     return (
       <Box

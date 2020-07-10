@@ -15,8 +15,7 @@ const badgeStyle = ({ color, borderColor, borderWidth, theme: { colors, lineHeig
       textAlign: 'center',
       lineHeight: `calc(${xsLineHeight} - 2px)`, // 18px - 2px
       px: 4,
-      fontSize: 'xs',
-      border: `${borderWidth}px solid ${colors[borderColor] || borderColor}`
+      fontSize: 'xs'
     },
     dark: {
       bg: colors[get(color, 60)] ? get(color, 60) : get(color, 50),
@@ -25,19 +24,28 @@ const badgeStyle = ({ color, borderColor, borderWidth, theme: { colors, lineHeig
       textAlign: 'center',
       lineHeight: `calc(${xsLineHeight} - 2px)`, // 18px - 2px
       px: 4,
-      fontSize: 'xs',
-      border: `${borderWidth}px solid ${colors[borderColor] || borderColor}`
+      fontSize: 'xs'
     },
   };
 };
 
 const variantProps = props => {
-  const { colorMode, hasChildren, showAsDot, dotSize, offset } = props;
+  const {
+    colorMode,
+    hasChildren,
+    showAsDot,
+    dotSize,
+    offset,
+    borderColor,
+    borderWidth,
+    theme: { colors }
+  } = props;
   const hasChildrenProps = hasChildren ? {
     position: 'absolute',
     top: 0,
     right: 0,
     transform: 'translate(50%, -50%)',
+    border: `${borderWidth}px solid ${colors[borderColor] || borderColor}`
   } : {
     top: 0,
     display: 'block',
