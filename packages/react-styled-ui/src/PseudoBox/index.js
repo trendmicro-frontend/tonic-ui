@@ -30,6 +30,7 @@ const checked = [
   '&:checked',
 ].join(',');
 const selected = [
+  '&[aria-selected=true]',
   '&[data-selected=true]',
   '&:active[data-selected=true]',
   '&:hover[data-selected=true]',
@@ -55,6 +56,7 @@ const focus = '&:focus';
 const focusActive = '&:focus:active';
 const focusHover = '&:focus:hover';
 const focusWithin = '&:focus-within';
+const focusSelected = ['&[aria-selected=true]:focus', '&[data-selected=true]:focus'].join(',');
 const hover = '&:hover';
 const indeterminate = '&:indeterminate';
 const valid = [
@@ -104,6 +106,7 @@ const PseudoBox = styled(Box)(
     _focusActive,
     _focusHover,
     _focusWithin,
+    _focusSelected,
     _hover,
     _indeterminate,
     _valid,
@@ -155,6 +158,7 @@ const PseudoBox = styled(Box)(
       [focusHover]: _focusHover,
       [active]: _active,
       [focusActive]: _focusActive,
+      [focusSelected]: _focusSelected,
       [focusWithin]: _focusWithin,
       [checked]: _checked,
       [selected]: _selected,
