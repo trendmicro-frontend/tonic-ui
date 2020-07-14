@@ -9,7 +9,7 @@ Menu uses roving tabIndex for focus management.
 
 - `Menu`: The wrapper component that provides context, state, and focus
   management.
-- `MenuList`: The wrapper for the menu items. Must be a direct child of `Menu`. The `minWidth` will set refer to the Button.
+- `MenuList`: The wrapper for the menu items. Must be a direct child of `Menu`.
 - `MenuItem`: The trigger that handles menu selection. Must be a direct child of
   a `MenuList`.
 - `MenuGroup`: A wrapper to group related menu items.
@@ -146,6 +146,27 @@ Add `disabled` property on `MenuItem`
 </Menu>
 ```
 
+### Set the minimum width of the `MenuList` to the width of the `MenuButton`
+
+```jsx
+<Menu display="inline-block">
+  <MenuButton>Select an option</MenuButton>
+  <MenuList minWidth="100%" whiteSpace="nowrap">
+    <MenuGroup title="title1">
+      <MenuItem>List item</MenuItem>
+      <MenuItem disabled>List item</MenuItem>
+      <MenuItem>List item</MenuItem>
+    </MenuGroup>
+    <MenuDivider />
+    <MenuGroup title="title2">
+      <MenuItem>List item</MenuItem>
+      <MenuItem>List item</MenuItem>
+      <MenuItem disabled>List item</MenuItem>
+    </MenuGroup>
+  </MenuList>
+</Menu>
+```
+
 ### Menu with icon
 
 ```jsx
@@ -196,9 +217,9 @@ function inlineLabelMenu() {
   };
 
   return (
-    <Menu>
+    <Menu display="inline-block">
       <MenuButton><Text color="white:secondary" mr="1x">Search by:</Text>{menuItem}</MenuButton>
-      <MenuList onClick={handleClick}>
+      <MenuList onClick={handleClick} minWidth="100%" whiteSpace="nowrap">
         <MenuItem onKeyDown={handleClick}>Name</MenuItem>
         <MenuItem onKeyDown={handleClick}>Address</MenuItem>
         <MenuItem onKeyDown={handleClick}>Postcode</MenuItem>

@@ -146,7 +146,6 @@ const Menu = ({
 
   const styleProps = {
     position: 'relative',
-    display: 'inline-flex',
   };
 
   return (
