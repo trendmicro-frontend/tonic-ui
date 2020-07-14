@@ -7,6 +7,10 @@ import wrapEvent from '../utils/wrapEvent';
 import useForkRef from '../utils/useForkRef';
 import { useMenuButtonStyle, getIconWrapperProps } from './styles';
 
+const MenuButtonIcon = (props) => (
+  <PseudoBox {...props} />
+);
+
 const MenuButton = forwardRef(
   (
     {
@@ -29,11 +33,38 @@ const MenuButton = forwardRef(
       autoSelect,
       openMenu,
       buttonRef,
+      placement,
     } = useMenu();
+
+    const getIconByDirection = (placement) => {
+      const direction = placement.split('-')[0];
+      const iconName = {
+        top: 'angle-up',
+        bottom: 'angle-down',
+        right: 'angle-right',
+        left: 'angle-left',
+      }[direction];
+
+      if (!iconName) {
+        return null;
+      }
+
+      return (
+        <Icon width="4x" name={`_core.${iconName}`} />
+      );
+    };
 
     const menuButtonRef = useForkRef(buttonRef, ref);
     const styleProps = useMenuButtonStyle();
     const iconWrapperProps = getIconWrapperProps();
+    let icon;
+
+    if (typeof placement === 'string') {
+      icon = getIconByDirection(placement);
+    }
+    if (typeof placement === 'undefined') {
+      icon = <Icon width="4x" name="_core.angle-down" />;
+    }
 
     return (
       <Button
@@ -72,12 +103,12 @@ const MenuButton = forwardRef(
         {...rest}
       >
         {children}
-        <PseudoBox
+        <MenuButtonIcon
           aria-disabled={disabled}
           {...iconWrapperProps}
         >
-          <Icon width="4x" name="_core.angle-down" />
-        </PseudoBox>
+          {icon}
+        </MenuButtonIcon>
       </Button>
     );
   },
