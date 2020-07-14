@@ -3,6 +3,7 @@ import { useId } from '../utils/autoId';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuContextProvider } from './context';
 import usePrevious from '../utils/usePrevious';
+import Box from '../Box';
 
 const Menu = ({
   anchorEl,
@@ -18,6 +19,7 @@ const Menu = ({
   placement = 'bottom-start',
   onKeyDown,
   onBlur,
+  ...props
 }) => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex || -1);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
@@ -142,12 +144,19 @@ const Menu = ({
     onBlur,
   };
 
+  const styleProps = {
+    position: 'relative',
+    display: 'inline-flex',
+  };
+
   return (
-    <MenuContextProvider value={context}>
-      {typeof children === 'function'
-        ? children({ isOpen: _isOpen, onClose: closeMenu })
-        : children }
-    </MenuContextProvider>
+    <Box {...styleProps} {...props}>
+      <MenuContextProvider value={context}>
+        {typeof children === 'function'
+          ? children({ isOpen: _isOpen, onClose: closeMenu })
+          : children }
+      </MenuContextProvider>
+    </Box>
   );
 };
 
