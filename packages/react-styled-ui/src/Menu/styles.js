@@ -2,7 +2,7 @@ import { setColorWithOpacity } from '../theme/colors';
 import useTheme from '../useTheme';
 import useColorMode from '../useColorMode';
 
-export const useMenuListStyle = ({ buttonRefWidth }) => {
+export const useMenuListStyle = () => {
   const { colorMode } = useColorMode();
   const elevation = {
     light: {
@@ -19,7 +19,6 @@ export const useMenuListStyle = ({ buttonRefWidth }) => {
     color: 'inherit',
     m: '0',
     p: '0',
-    minWidth: buttonRefWidth,
     ...elevation,
   };
 };

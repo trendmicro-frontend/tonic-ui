@@ -74,8 +74,7 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
     onBlur && onBlur(event);
   };
 
-  const buttonRefWidth = buttonRef.current ? buttonRef.current.offsetWidth : 'unset';
-  const styleProps = useMenuListStyle({ buttonRefWidth });
+  const styleProps = useMenuListStyle();
 
   return (
     <Popper
