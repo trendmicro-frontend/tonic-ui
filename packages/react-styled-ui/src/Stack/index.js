@@ -20,6 +20,7 @@ const Stack = ({
     >
       {validChildrenArray.map((child, index) => {
         const isLastChild = ((index + 1) === validChildrenArray.length);
+        const id = index;
         const spacingProps = {
           'column': {
             'mb': isLastChild ? null : spacing,
@@ -38,7 +39,7 @@ const Stack = ({
         if (shouldWrapChildren) {
           return (
             <Box
-              key={`stack-box-wrapper-${index}`}
+              key={`stack-box-wrapper-${id}`}
               display="inline-block"
               {...spacingProps}
             >

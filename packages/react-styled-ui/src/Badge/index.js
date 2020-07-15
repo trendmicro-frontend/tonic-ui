@@ -35,7 +35,7 @@ const Badge = forwardRef(
         display="inline-block"
       >
         {children}
-        {!isHidden &&
+        {!isHidden && (
           <Box
             as="span"
             fontWeight="normal"
@@ -46,7 +46,7 @@ const Badge = forwardRef(
           >
             {badgeContent}
           </Box>
-        }
+        )}
       </Box>
     );
   }
