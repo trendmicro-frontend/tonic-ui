@@ -78,7 +78,6 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
 
   return (
     <Popper
-      as="div"
       usePortal={false}
       isOpen={isOpen}
       anchorEl={buttonRef.current}
