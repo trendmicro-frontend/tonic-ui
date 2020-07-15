@@ -90,14 +90,14 @@ function basicMenu() {
   <MenuButton>Select an option</MenuButton>
   <MenuList>
     <MenuGroup title="title1">
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
+      <MenuItem px="6x">List item</MenuItem>
+      <MenuItem px="6x">List item</MenuItem>
+      <MenuItem px="6x">List item</MenuItem>
     </MenuGroup>
     <MenuGroup title="title2">
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
+      <MenuItem px="6x">List item</MenuItem>
+      <MenuItem px="6x">List item</MenuItem>
+      <MenuItem px="6x">List item</MenuItem>
     </MenuGroup>
   </MenuList>
 </Menu>
@@ -109,17 +109,13 @@ function basicMenu() {
 <Menu>
   <MenuButton>Select an option</MenuButton>
   <MenuList>
-    <MenuGroup title="title1">
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-    </MenuGroup>
+    <MenuItem>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
     <MenuDivider />
-    <MenuGroup title="title2">
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-    </MenuGroup>
+    <MenuItem>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
   </MenuList>
 </Menu>
 ```
@@ -131,17 +127,9 @@ Add `disabled` property on `MenuItem`
 <Menu>
   <MenuButton>Select an option</MenuButton>
   <MenuList>
-    <MenuGroup title="title1">
-      <MenuItem>List item</MenuItem>
-      <MenuItem disabled>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-    </MenuGroup>
-    <MenuDivider />
-    <MenuGroup title="title2">
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-      <MenuItem disabled>List item</MenuItem>
-    </MenuGroup>
+    <MenuItem>List item</MenuItem>
+    <MenuItem disabled>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
   </MenuList>
 </Menu>
 ```
@@ -152,17 +140,9 @@ Add `disabled` property on `MenuItem`
 <Menu display="inline-block">
   <MenuButton>Select an option</MenuButton>
   <MenuList minWidth="100%" whiteSpace="nowrap">
-    <MenuGroup title="title1">
-      <MenuItem>List item</MenuItem>
-      <MenuItem disabled>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-    </MenuGroup>
-    <MenuDivider />
-    <MenuGroup title="title2">
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-      <MenuItem disabled>List item</MenuItem>
-    </MenuGroup>
+    <MenuItem>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
   </MenuList>
 </Menu>
 ```
@@ -176,6 +156,19 @@ Add `disabled` property on `MenuItem`
     <MenuItem><TMIcon name="delete" mr="2x"/>List item</MenuItem>
     <MenuItem><TMIcon name="edit" mr="2x"/>List item</MenuItem>
     <MenuItem><TMIcon name="share" mr="2x"/>List item</MenuItem>
+  </MenuList>
+</Menu>
+```
+
+### Dropup Menu
+Add the `placement` property with `top-start`
+```jsx
+<Menu display="inline-block" placement="top-start">
+  <MenuButton>Select an option</MenuButton>
+  <MenuList minWidth="100%" whiteSpace="nowrap">
+    <MenuItem>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
+    <MenuItem>List item</MenuItem>
   </MenuList>
 </Menu>
 ```
