@@ -76,7 +76,12 @@ const icons = {
   'minus': {
     path: (
       <g fill="currentColor">
-        <rect height="18" width="18" x="3" y="3" />
+        <rect
+          height="18"
+          width="18"
+          x="3"
+          y="3"
+        />
       </g>
     ),
   },

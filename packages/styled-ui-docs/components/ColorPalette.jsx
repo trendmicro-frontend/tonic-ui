@@ -120,8 +120,8 @@ export const FunctionalColorPalette = ({ mode, palette, type, color, ...props })
     });
   } else {
     const [hue, shade] = splitString(getColorToken(color, theme.colors));
-    colorInfo = (palette === 'text' && ['black', 'white'].includes(hue)) ?
-      <Box {...infoProps}>{color}</Box>
+    colorInfo = (palette === 'text' && ['black', 'white'].includes(hue))
+      ? <Box {...infoProps}>{color}</Box>
       : <Box {...infoProps}>{`${hue.charAt(0).toUpperCase()}${hue.slice(1)}`} {shade} {color}</Box>;
   }
 
@@ -140,7 +140,13 @@ export const FunctionalColorPalettes = ({ mode, palette, ...props }) => {
     <FunctionalColorWrapper mode={mode}>
       {
         Object.keys(palettes).map((type) => (
-          <FunctionalColorPalette key={type} mode={mode} palette={palette} type={type} color={`${palettes[type]}`} />
+          <FunctionalColorPalette
+            key={type}
+            mode={mode}
+            palette={palette}
+            type={type}
+            color={`${palettes[type]}`}
+          />
         ))
       }
     </FunctionalColorWrapper>

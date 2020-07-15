@@ -1,6 +1,9 @@
+/* eslint max-lines-per-function: 0 */
+
 import { css } from '@emotion/core';
 
 const normalizeCSS = theme => css`
+
   /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
   /* Document
