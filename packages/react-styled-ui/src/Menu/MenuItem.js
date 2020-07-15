@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { useMenu, useMenuGroup } from './context';
+import { useMenu } from './context';
 import { useMenuItemStyle } from './styles';
 import PseudoBox from '../PseudoBox';
 import wrapEvent from '../utils/wrapEvent';
@@ -24,13 +24,11 @@ const MenuItem = forwardRef(
       closeOnSelect,
       closeMenu,
     } = useMenu();
-    const menuGroupContext = useMenuGroup();
-    const isMenuGrouped = !!menuGroupContext;
-    const styleProps = useMenuItemStyle({ isMenuGrouped });
+
+    const styleProps = useMenuItemStyle();
 
     return (
       <PseudoBox
-        as="div"
         ref={ref}
         role={role}
         tabIndex={-1}

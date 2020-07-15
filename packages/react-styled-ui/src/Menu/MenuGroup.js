@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useMenuGroupStyle } from './styles';
-import { MenuGroupContextProvider } from './context';
 
 const MenuGroup = forwardRef(({ children, title, ...rest }, ref) => {
   const styleProps = useMenuGroupStyle();
@@ -15,9 +14,7 @@ const MenuGroup = forwardRef(({ children, title, ...rest }, ref) => {
       >
         {title}
       </Box>
-      <MenuGroupContextProvider value={{}}>
-        {children}
-      </MenuGroupContextProvider>
+      {children}
     </>
   );
 });

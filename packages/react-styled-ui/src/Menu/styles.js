@@ -49,11 +49,11 @@ export const useMenuGroupStyle = () => {
 |--------------------------------------------------
 */
 
-const baseProps = ({ isMenuGrouped }) => {
+const baseProps = () => {
   return {
     flex: ' 0 0 auto',
     userSelect: 'none',
-    px: isMenuGrouped ? '6x' : '3x',
+    px: '3x',
     py: '2x',
     color: 'inherit',
     display: 'flex',
@@ -89,10 +89,10 @@ const menuItemProps = ({ colorMode }) => {
   };
 };
 
-export const useMenuItemStyle = ({ isMenuGrouped }) => {
+export const useMenuItemStyle = () => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
-  const props = { theme, colorMode, isMenuGrouped };
+  const props = { theme, colorMode };
 
   return {
     ...baseProps(props),
