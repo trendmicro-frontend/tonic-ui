@@ -1,18 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useId } from '../utils/autoId';
-import useColorMode from '../useColorMode';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuContextProvider } from './context';
-
-const usePrevious = (value) => {
-  const ref = useRef();
-
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-
-  return ref.current;
-};
+import usePrevious from '../utils/usePrevious';
+import Box from '../Box';
 
 const Menu = ({
   anchorEl,
@@ -28,9 +19,8 @@ const Menu = ({
   placement = 'bottom-start',
   onKeyDown,
   onBlur,
+  ...props
 }) => {
-  const { colorMode } = useColorMode();
-
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex || -1);
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
   const { current: isControlled } = useRef(isOpenProp != null);
@@ -46,7 +36,7 @@ const Menu = ({
 
   useEffect(() => {
     if (_isOpen && menuRef && menuRef.current) {
-      let focusables = getFocusableElements(menuRef.current).filter(node => ['menuitem', 'menuitemradio', 'menuitemcheckbox'].includes(node.getAttribute('role'),));
+      let focusables = getFocusableElements(menuRef.current).filter(node => node.getAttribute('role') === 'menuitem');
       focusableItems.current = menuRef.current ? focusables : [];
       initTabIndex();
     }
@@ -150,17 +140,22 @@ const Menu = ({
     autoSelect,
     closeOnSelect,
     closeOnBlur,
-    colorMode,
     onKeyDown,
     onBlur,
   };
 
+  const styleProps = {
+    position: 'relative',
+  };
+
   return (
-    <MenuContextProvider value={context}>
-      {typeof children === 'function'
-        ? children({ isOpen: _isOpen, onClose: closeMenu })
-        : children }
-    </MenuContextProvider>
+    <Box {...styleProps} {...props}>
+      <MenuContextProvider value={context}>
+        {typeof children === 'function'
+          ? children({ isOpen: _isOpen, onClose: closeMenu })
+          : children }
+      </MenuContextProvider>
+    </Box>
   );
 };
 

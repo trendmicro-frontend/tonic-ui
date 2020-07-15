@@ -3,7 +3,7 @@ import Popper from '../Popper';
 import { useMenu } from './context';
 import { useMenuListStyle } from './styles';
 
-const MenuList = ({ ...props }) => {
+const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
   const {
     activeIndex: index,
     isOpen,
@@ -78,12 +78,11 @@ const MenuList = ({ ...props }) => {
 
   return (
     <Popper
-      as="ul"
       usePortal={false}
       isOpen={isOpen}
       anchorEl={buttonRef.current}
       placement={placement}
-      modifiers={{ offset: [0, 0] }}
+      modifiers={{ offset: [skidding, distance] }}
       role="menu"
       ref={menuRef}
       id={menuId}

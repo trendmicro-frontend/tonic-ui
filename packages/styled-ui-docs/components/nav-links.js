@@ -39,6 +39,7 @@ export const componentLinks = [
   'InputBase',
   'InputGroup',
   'Link',
+  'Menu',
   'Modal',
   'Popover',
   'Radio',

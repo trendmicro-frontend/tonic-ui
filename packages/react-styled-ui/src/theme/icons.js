@@ -10,6 +10,33 @@ const icons = {
     ),
     viewBox: '0 0 16 16',
   },
+  'angle-left': {
+    path: (
+      <path
+        fill="currentColor"
+        d="M9.501 12.506l-4.499-4.506 4.488-4.494 1 1-3.49 3.494 3.501 3.506z"
+      />
+    ),
+    viewBox: '0 0 16 16',
+  },
+  'angle-right': {
+    path: (
+      <path
+        fill="currentColor"
+        d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+      />
+    ),
+    viewBox: '0 0 16 16',
+  },
+  'angle-up': {
+    path: (
+      <path
+        fill="currentColor"
+        d="M3.5 10l4.5-4.5 4.5 4.5-1 1-3.5-3.5-3.5 3.5-1-1z"
+      />
+    ),
+    viewBox: '0 0 16 16',
+  },
   'check': {
     path: (
       <path

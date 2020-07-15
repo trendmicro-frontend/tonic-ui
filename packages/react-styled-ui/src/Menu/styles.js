@@ -13,13 +13,33 @@ export const useMenuListStyle = () => {
       bg: 'gray:80',
       boxShadow: 'dark.sm',
     },
-  };
+  }[colorMode];
 
   return {
     color: 'inherit',
     m: '0',
     p: '0',
-    ...elevation[colorMode],
+    ...elevation,
+  };
+};
+
+/**
+|--------------------------------------------------
+| Styles for MenuGroup
+|--------------------------------------------------
+*/
+
+export const useMenuGroupStyle = () => {
+  const { colorMode } = useColorMode();
+  const color = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+
+  return {
+    px: '3x',
+    py: '2x',
+    color
   };
 };
 
@@ -29,36 +49,41 @@ export const useMenuListStyle = () => {
 |--------------------------------------------------
 */
 
-const baseProps = {
-  flex: ' 0 0 auto',
-  userSelect: 'none',
-  px: '3x',
-  py: '2x',
-  color: 'inherit',
-  display: 'flex',
-  textDecoration: 'none',
-  alignItems: 'center',
-  textAlign: 'left',
-  outline: 'none'
+const baseProps = () => {
+  return {
+    flex: ' 0 0 auto',
+    userSelect: 'none',
+    px: '3x',
+    py: '2x',
+    color: 'inherit',
+    display: 'flex',
+    textDecoration: 'none',
+    alignItems: 'center',
+    textAlign: 'left',
+    outline: 'none'
+  };
 };
 
 const menuItemProps = ({ colorMode }) => {
-  const _hoverColor = { light: 'black:disabled', dark: setColorWithOpacity('white', 0.12) };
-  const _activeFocusColor = { light: 'gray:20', dark: setColorWithOpacity('white', 0.08) };
-  const _disabled = { light: 'black:disabled', dark: 'white:disabled' };
+  const hoverBackground = { light: 'black:disabled', dark: setColorWithOpacity('white', 0.12) }[colorMode];
+  const activeBackground = { light: 'gray:20', dark: setColorWithOpacity('white', 0.08) }[colorMode];
+  const disabledColor = { light: 'black:disabled', dark: 'white:disabled' }[colorMode];
+  const disabledBackground = { light: 'white', dark: 'gray:80' }[colorMode];
+  const focusBackground = activeBackground;
   return {
     _hover: {
-      bg: _hoverColor[colorMode],
+      bg: hoverBackground,
     },
     _active: {
-      bg: _activeFocusColor[colorMode],
+      bg: activeBackground,
     },
     _focus: {
-      bg: _activeFocusColor[colorMode],
+      bg: focusBackground,
       outline: 0,
     },
     _disabled: {
-      color: _disabled[colorMode],
+      bg: disabledBackground,
+      color: disabledColor,
       cursor: 'not-allowed',
     },
   };
@@ -70,7 +95,7 @@ export const useMenuItemStyle = () => {
   const props = { theme, colorMode };
 
   return {
-    ...baseProps,
+    ...baseProps(props),
     ...menuItemProps(props),
   };
 };

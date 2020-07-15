@@ -21,47 +21,34 @@ const getIconWrapperProps = () => {
   };
 };
 
-const menuButtonProps = ({ colorMode, theme: { colors } }) => {
-  const isDarkMode = (colorMode === 'dark');
-  const outerBorderColor = colors['blue:60'];
-  const fontColor = isDarkMode ? 'white:primary' : 'black:primary';
-  const style = {
+const menuButtonProps = ({ colorMode, color }) => {
+  const hoverBorderColor = {
+    dark: `${color}:50`,
+    light: `${color}:50`,
+  }[colorMode];
+  const activeBorderColor = hoverBorderColor;
+  return {
     justifyContent: 'left',
     pr: 'calc(2rem - 1px)', // 32px - 1px
-    borderColor: 'gray:60',
-    color: fontColor,
-    _focus: {
-      borderColor: outerBorderColor,
-      boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
-      zIndex: 1,
-    },
     _hover: {
       '&:not(:focus)': {
-        borderColor: 'blue:50',
+        borderColor: hoverBorderColor,
       },
       zIndex: 2,
     },
     _active: {
       '&:not(:focus)': {
-        borderColor: 'blue:50',
+        borderColor: activeBorderColor,
       },
       bg: setColorWithOpacity('black', 0.12),
     },
-    _disabled: {
-      borderColor: 'gray:60',
-      color: isDarkMode ? 'white:emphasis' : 'black',
-      cursor: 'not-allowed',
-      opacity: 0.28,
-    },
   };
-
-  return style;
 };
 
 const useMenuButtonStyle = props => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
-  const _props = { ...props, colorMode, theme };
+  const _props = { ...props, colorMode, theme, color: 'blue' };
 
   return {
     ...menuButtonProps(_props),

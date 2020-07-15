@@ -29,7 +29,6 @@ const MenuItem = forwardRef(
 
     return (
       <PseudoBox
-        as="li"
         ref={ref}
         role={role}
         tabIndex={-1}
