@@ -76,7 +76,7 @@ const Checkbox = forwardRef(
     const { sizes: themeSizes } = useTheme();
     const _size = sizes[size];
     const themeSize = _get(themeSizes, _size);
-    const iconSize = `calc(${themeSize} - 4px)`;
+    const iconSize = themeSize;
     const styleProps = useCheckboxStyle({
       color: variantColor,
       indeterminate,
