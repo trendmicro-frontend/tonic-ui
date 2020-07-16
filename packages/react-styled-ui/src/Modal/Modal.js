@@ -23,6 +23,7 @@ const Modal = ({
   id,
   children,
 }) => {
+  const defaultId = useId();
   const contentRef = useRef(null);
   const modalState = getMemoizedState({
     size,
@@ -39,7 +40,7 @@ const Modal = ({
     contentRef,
   });
 
-  id = id ?? useId();
+  id = id ?? defaultId;
   const portalId = `${config.name}:portal-${id}`;
   const mountRef = useNodeRef({
     isOpen,
