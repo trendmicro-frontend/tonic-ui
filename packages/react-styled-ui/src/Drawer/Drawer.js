@@ -25,6 +25,7 @@ const Drawer = ({
   id,
   children,
 }) => {
+  const defaultId = useId();
   const contentRef = useRef(null);
   const drawerState = getMemoizedState({
     backdrop,
@@ -43,7 +44,7 @@ const Drawer = ({
     contentRef,
   });
 
-  id = id ?? useId();
+  id = id ?? defaultId;
   const portalId = `${config.name}:portal-${id}`;
   const mountRef = useNodeRef({
     isOpen,
