@@ -19,13 +19,13 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "~7.1.1",
-    "cpy-cli": "~3.1.0",
+    "@rollup/plugin-node-resolve": "~8.4.0",
+    "cpy-cli": "~3.1.1",
     "cross-env": "~7.0.2",
-    "del-cli": "~3.0.0",
-    "jest": "~25.1.0",
-    "mkdirp": "~1.0.3",
-    "rollup": "~2.0.3",
+    "del-cli": "~3.0.1",
+    "jest": "~26.1.0",
+    "mkdirp": "~1.0.4",
+    "rollup": "~2.21.0",
     "rollup-plugin-babel": "~4.4.0"
   },
   "jest": {
