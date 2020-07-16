@@ -44,6 +44,7 @@ import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
+import TMIcon from './TMIcon';
 import Toast from './Toast';
 import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
@@ -103,6 +104,7 @@ export {
   TextLabel,
   ThemeProvider,
   Tag,
+  TMIcon,
   Toast,
   ToggleSwitch,
   Tooltip,
