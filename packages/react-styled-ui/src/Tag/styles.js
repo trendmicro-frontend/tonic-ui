@@ -230,8 +230,9 @@ const useTagCloseButtonStyle = ({ size }) => {
     position: 'absolute',
     right: 0,
     color: color,
-    width: _size,
     height: _size,
+    width: _size,
+    minWidth: _size, // ensure a minimum width for the close button
     _hover: {
       color: hoverColor,
     },
