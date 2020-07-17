@@ -7,7 +7,7 @@ import pkg from '../../../package.json';
 const Header = React.forwardRef((props, ref) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const backgroundColor = {
-    light: 'white', // FIXME
+    light: 'white:emphasis', // FIXME
     dark: 'gray:90',
   }[colorMode];
   const borderColor = {
@@ -15,8 +15,8 @@ const Header = React.forwardRef((props, ref) => {
     dark: 'gray:70',
   }[colorMode];
   const fontColor = {
-    light: 'black', // FIXME
-    dark: 'white',
+    light: 'black:emphasis', // FIXME
+    dark: 'white:emphasis',
   }[colorMode];
   return (
     <Box
