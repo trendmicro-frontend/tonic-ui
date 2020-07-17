@@ -185,8 +185,11 @@ const closeButtonSizes = {
 };
 
 const sizeProps = ({ size, isCloseButtonVisible, theme: { sizes } }) => {
-  const closeButtonSize = closeButtonSizes[size];
-  const pr = isCloseButtonVisible ? `calc(${sizes[closeButtonSize]} + 4px)` : '2x';
+  const space = sizes['1x'];
+  const closeButtonSize = sizes[closeButtonSizes[size]];
+  const pr = isCloseButtonVisible
+    ? `calc(${space} + ${closeButtonSize})`
+    : '2x';
   return {
     ...labelSizes[size],
     pl: '2x',
