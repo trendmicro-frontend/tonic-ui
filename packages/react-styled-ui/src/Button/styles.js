@@ -44,7 +44,7 @@ const defaultVariantProps = (props) => {
     _focus: {
       ...fillColorProps._focus,
       '&::before': {
-        ...fillColorProps._focus["&::before"],
+        ...fillColorProps._focus['&::before'],
         bg: focusBgColor,
       },
     },
