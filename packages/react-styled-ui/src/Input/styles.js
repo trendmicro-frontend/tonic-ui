@@ -63,10 +63,15 @@ const getOutlinedStyle = ({
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
+  const backgroundColor = {
+    dark: '', // TODO need confirm with VD
+    light: 'white',
+  }[colorMode];
 
   return {
     border: 1,
     borderColor,
+    backgroundColor,
     color,
     _hover: {
       borderColor: hoverBorderColor,
@@ -104,7 +109,7 @@ const getFilledStyle = ({
 }) => {
   const backgroundColor = {
     dark: 'gray:80',
-    light: 'white:emphasis',
+    light: 'gray:10',
   }[colorMode];
 
   return {
