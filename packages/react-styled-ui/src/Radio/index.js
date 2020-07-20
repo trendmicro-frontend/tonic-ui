@@ -45,7 +45,8 @@ const Radio = forwardRef(
         value: radioGroupValue,
         variantColor: radioGroupVariantColor,
         onChange: radioGroupOnChange,
-      } = useRadioGroup();
+      } = { ...radioGroupContext };
+
       if (radioGroupValue !== undefined) {
         checked = (radioGroupValue === value);
       }

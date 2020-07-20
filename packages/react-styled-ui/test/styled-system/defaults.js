@@ -21,9 +21,10 @@ describe('styled system defaults', () => {
     const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
     const json = render(
       <>
-        {space.map((value, key) => (
-          <Box key={key} m={key} p={key} />
-        ))}
+        {space.map((value, key) => {
+          const id = key;
+          return <Box key={id} m={key} p={key} />;
+        })}
       </>
     );
     space.forEach((value, key) => {
@@ -39,9 +40,10 @@ describe('styled system defaults', () => {
     const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
     const json = render(
       <>
-        {fontSizes.map((value, key) => (
-          <Box key={key} fontSize={key} />
-        ))}
+        {fontSizes.map((value, key) => {
+          const id = key;
+          return <Box key={id} fontSize={value} />;
+        })}
       </>
     );
     fontSizes.forEach((value, key) => {

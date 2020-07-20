@@ -10,13 +10,41 @@ const icons = {
     ),
     viewBox: '0 0 16 16',
   },
+  'angle-left': {
+    path: (
+      <path
+        fill="currentColor"
+        d="M9.501 12.506l-4.499-4.506 4.488-4.494 1 1-3.49 3.494 3.501 3.506z"
+      />
+    ),
+    viewBox: '0 0 16 16',
+  },
+  'angle-right': {
+    path: (
+      <path
+        fill="currentColor"
+        d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+      />
+    ),
+    viewBox: '0 0 16 16',
+  },
+  'angle-up': {
+    path: (
+      <path
+        fill="currentColor"
+        d="M3.5 10l4.5-4.5 4.5 4.5-1 1-3.5-3.5-3.5 3.5-1-1z"
+      />
+    ),
+    viewBox: '0 0 16 16',
+  },
   'check': {
     path: (
-      <g fill="currentColor">
-        <polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039" />
-      </g>
+      <path
+        fill="currentColor"
+        d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+      />
     ),
-    viewBox: '0 0 14 14',
+    viewBox: '0 0 16 16',
   },
   'chevron-down': {
     path: (
@@ -48,7 +76,12 @@ const icons = {
   'minus': {
     path: (
       <g fill="currentColor">
-        <rect height="18" width="18" x="3" y="3" />
+        <rect
+          height="18"
+          width="18"
+          x="3"
+          y="3"
+        />
       </g>
     ),
   },

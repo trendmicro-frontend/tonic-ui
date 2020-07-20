@@ -19,6 +19,10 @@ import SideNav from '../components/SideNav';
 const Layout = ({ children }) => {
   const { colorMode } = useColorMode();
   const { fontSizes, lineHeights } = useTheme();
+  const backgroundColor = {
+    light: 'white',
+    dark: 'gray:100',
+  }[colorMode];
   const fontColor = {
     light: 'black:primary',
     dark: 'white:primary',
@@ -35,6 +39,7 @@ const Layout = ({ children }) => {
         `}
       />
       <Box
+        backgroundColor={backgroundColor}
         color={fontColor}
         fontSize="md"
         lineHeight="md"
