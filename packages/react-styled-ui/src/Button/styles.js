@@ -3,6 +3,76 @@ import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
+// Default Button
+const defaultVariantProps = (props) => {
+  const fillColorProps = fillColorVariantProps(props);
+  const { colorMode, color } = props;
+  const _color = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+
+  // background color
+  const bgColor = {
+    dark: `${color}:60`,
+    light: `${color}:20`,
+  }[colorMode];
+  const focusBgColor = {
+    dark: `${color}:60`,
+    light: `${color}:20`,
+  }[colorMode];
+  const hoverBgColor = {
+    dark: `${color}:50`,
+    light: `${color}:10`,
+  }[colorMode];
+  const activeBgColor = {
+    dark: `${color}:70`,
+    light: `${color}:30`,
+  }[colorMode];
+  const disabledBgColor = {
+    dark: 'gray:60',
+    light: 'gray:20',
+  }[colorMode];
+  const styles = {
+    ...fillColorProps,
+    color: _color,
+    bg: bgColor,
+    __before: {
+      ...fillColorProps.__before,
+      bg: bgColor,
+    },
+    _focus: {
+      ...fillColorProps._focus,
+      '&::before': {
+        ...fillColorProps._focus["&::before"],
+        bg: focusBgColor,
+      },
+    },
+    _hover: {
+      ...fillColorProps._hover,
+      bg: hoverBgColor,
+      '&::before': {
+        bg: hoverBgColor,
+      },
+    },
+    _active: {
+      bg: activeBgColor,
+      '&::before': {
+        bg: activeBgColor,
+      },
+    },
+    _disabled: {
+      ...fillColorProps._disabled,
+      bg: disabledBgColor,
+      '&::before': {
+        bg: disabledBgColor,
+      },
+    },
+  };
+
+  return styles;
+};
+
 // Secondary Button
 const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
   // color
@@ -12,7 +82,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
   }[colorMode];
   const hoverColor = {
     dark: `${color}:40`,
-    light: `${color}:40`,
+    light: `${color}:60`,
   }[colorMode];
   const disabledColor = {
     dark: 'white:emphasis',
@@ -23,7 +93,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
   // border color
   const borderColor = {
     dark: 'gray:60',
-    light: 'gray:60',
+    light: 'gray:30',
   }[colorMode];
   const hoverBorderColor = {
     dark: `${color}:50`,
@@ -32,6 +102,11 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
   const activeBorderColor = hoverBorderColor;
   const focusBorderColor = 'blue:60';
   const disabledBorderColor = borderColor;
+  // background color
+  const activeBgColor = {
+    dark: setColorWithOpacity('black', 0.12),
+    light: setColorWithOpacity('black', 0.08),
+  }[colorMode];
 
   const style = {
     borderColor: borderColor,
@@ -56,7 +131,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
       '&:not(:focus)': {
         borderColor: activeBorderColor,
       },
-      bg: setColorWithOpacity('black', 0.12),
+      bg: activeBgColor,
     },
     _disabled: {
       color: disabledColor,
@@ -93,6 +168,12 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
     innerRadius = radius;
   }
 
+  //color
+  const disabledColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+
   // background color
   const bgColor = {
     dark: `${color}:60`,
@@ -110,7 +191,11 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
     dark: `${color}:70`,
     light: `${color}:70`,
   }[colorMode];
-  const disabledBgColor = 'gray:60';
+  const disabledBgColor = {
+    dark: 'gray:60',
+    light: 'gray:20',
+  }[colorMode];
+
   // border color
   const focusBorderColor = 'blue:60';
 
@@ -166,6 +251,7 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
       '&::before': {
         bg: disabledBgColor,
       },
+      color: disabledColor,
       cursor: 'not-allowed',
       opacity: 0.28,
     },
@@ -214,7 +300,7 @@ const variantProps = (props) => {
   case 'primary':
     return fillColorVariantProps({ ...props, color: 'blue' });
   case 'default':
-    return fillColorVariantProps({ ...props, color: 'gray' });
+    return defaultVariantProps({ ...props, color: 'gray' });
   default:
     return {};
   }
