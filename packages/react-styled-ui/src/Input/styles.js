@@ -57,16 +57,21 @@ const getOutlinedStyle = ({
   }[colorMode];
   const invalidBorderColor = {
     dark: 'red:50',
-    light: 'red:50',
+    light: 'red:60',
   }[colorMode];
   const placeholderColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
+  const backgroundColor = {
+    dark: '', // TODO need confirm with VD
+    light: 'white',
+  }[colorMode];
 
   return {
     border: 1,
     borderColor,
+    backgroundColor,
     color,
     _hover: {
       borderColor: hoverBorderColor,
