@@ -17,8 +17,7 @@ import {
 
 const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
   const router = useRouter();
-  const regex = new RegExp(router.pathname, 'g');
-  const isRouteActive = href.match(regex);
+  const isRouteActive = href.replace('.', '') === router.pathname;
   const { colorMode } = useColorMode();
   const color = {
     light: 'gray:90', // FIXME

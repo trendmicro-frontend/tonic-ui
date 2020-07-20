@@ -1,6 +1,6 @@
 {
   "name": "@trendmicro/styled-ui-theme",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "An extensible theming system for building UI component library with Styled System",
   "main": "dist/styled-ui-theme.js",
   "module": "dist/es/styled-ui-theme.js",
