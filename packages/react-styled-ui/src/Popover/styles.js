@@ -1,5 +1,4 @@
 import useColorMode from '../useColorMode';
-import { setColorWithOpacity } from '../theme/colors';
 
 const baseProps = {
   fontSize: 'sm',
@@ -56,19 +55,8 @@ const usePopoverBodyStyle = () => {
   };
 };
 
-const usePopoverCloseButtonStyle = () => {
-  const color = setColorWithOpacity('white', 0.47);
-  return {
-    position: 'absolute',
-    top: '3x',
-    right: '3x',
-    color,
-  };
-};
-
 export {
   usePopoverContentStyle,
   usePopoverHeaderStyle,
   usePopoverBodyStyle,
-  usePopoverCloseButtonStyle,
 };
