@@ -48,12 +48,10 @@ const Layout = ({ children }) => {
         <SideNav
           display={['none', null, 'block']}
           maxWidth="20rem"
-          px="4x"
-          py="3x"
         />
         <Box
           height="100vh"
-          pt="16x"
+          pt="12x"
         >
           <Main
             ml={[0, null, '20rem']}
