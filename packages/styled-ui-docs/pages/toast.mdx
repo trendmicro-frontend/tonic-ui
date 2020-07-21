@@ -2,8 +2,6 @@
 
 A toast notification is a small message that shows up in a box at one side of the screen and disappears on its own after few seconds. It is a simple feedback about an operation in which current activity remains visibility and interactive. Basically it is to inform the user of something that is not critical and that does not require specific attention and does not prevent the user from using the app.
 
-If you're looking for a toast that offers severity levels, such as `success`, `info`, `warning`, and `error`, just to check out the [`AlertToast`](./alerttoast) component.
-
 ### Prerequisite
 
 The `Toast` component should work with the `useToast` Hook to trigger a toast notification.
@@ -227,6 +225,239 @@ function Example() {
 render(<Example />);
 ```
 
+### Appearances
+
+You can control the appearance of a toast notification. The value can be one of `success`, `info`, `warning`, or `error` if specified.
+
+```jsx noInline
+const ToastSuccess = ({ onClose }) => (
+  <Toast
+    isCloseButtonVisible
+    onClose={onClose}
+    appearance="success"
+  >
+    This is a success toast alert.
+  </Toast>
+);
+
+const ToastInfo = ({ onClose }) => (
+  <Toast
+    isCloseButtonVisible
+    onClose={onClose}
+    appearance="info"
+  >
+    This is an info toast alert.
+  </Toast>
+);
+
+const ToastWarning = ({ onClose }) => (
+  <Toast
+    isCloseButtonVisible
+    onClose={onClose}
+    appearance="warning"
+  >
+    This is a warning toast alert.
+  </Toast>
+);
+
+const ToastError = ({ onClose }) => (
+  <Toast
+    isCloseButtonVisible
+    onClose={onClose}
+    appearance="error"
+  >
+    This is an error toast alert.
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (ToastNotification) => () => {
+    toast.notify({
+      position: 'bottom-right',
+      duration: 5000,
+      render: ({ onClose, position }) => {
+        const styleProps = {
+          'top-left': { mt: '2x', mx: '4x' },
+          'top': { mt: '2x', mx: '4x' },
+          'top-right': { mt: '2x', mx: '4x' },
+          'bottom-left': { mb: '2x', mx: '4x' },
+          'bottom': { mb: '2x', mx: '4x' },
+          'bottom-right': { mb: '2x', mx: '4x' },
+        }[position];
+
+        return (
+          <ToastLayout {...styleProps}>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        );
+      },
+    });
+  };
+  const toastComponents = [
+    ToastSuccess,
+    ToastInfo,
+    ToastWarning,
+    ToastError,
+  ];
+
+  return (
+    <Stack direction="column" spacing="6x">
+      {toastComponents.map((ToastNotification, idx) => (
+        <Box key={idx}>
+          <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastNotification />
+          </ToastLayout>
+        </Box>
+      ))}
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+### Icons
+
+The `icon` prop allows you to override the default icon for the specified appearance.
+
+Setting the `icon` prop to `false` will remove the icon altogether.
+
+```jsx noInline
+const ToastWithDefaultIcon = ({ onClose }) => (
+  <Toast
+    isCloseButtonVisible
+    onClose={onClose}
+    appearance="success"
+  >
+    This is a success toast alert.
+  </Toast>
+);
+
+const ToastWithAnotherIcon = ({ onClose }) => (
+  <Toast
+    isCloseButtonVisible
+    onClose={onClose}
+    appearance="success"
+    icon="_core.severity-success"
+  >
+    This is a success toast alert.
+  </Toast>
+);
+
+const ToastWithProprietaryIcon = ({ onClose }) => (
+  <Toast
+    isCloseButtonVisible
+    onClose={onClose}
+    appearance="success"
+    icon={<TMIcon name="check-circle-o" lineHeight={1} color="gray:80" />}
+  >
+    This is a success toast alert.
+  </Toast>
+);
+
+const ToastWithoutIcon = ({ onClose }) => (
+  <Toast
+    isCloseButtonVisible
+    onClose={onClose}
+    appearance="success"
+    icon={false}
+  >
+    This is a success toast alert.
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const { colorMode } = useColorMode();
+  const boxShadow = {
+    dark: 'dark.sm',
+    light: 'light.sm',
+  }[colorMode];
+
+  return (
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (ToastNotification) => () => {
+    toast.notify({
+      position: 'bottom-right',
+      duration: 5000,
+      render: ({ onClose, position }) => {
+        const styleProps = {
+          'top-left': { mt: '2x', mx: '4x' },
+          'top': { mt: '2x', mx: '4x' },
+          'top-right': { mt: '2x', mx: '4x' },
+          'bottom-left': { mb: '2x', mx: '4x' },
+          'bottom': { mb: '2x', mx: '4x' },
+          'bottom-right': { mb: '2x', mx: '4x' },
+        }[position];
+
+        return (
+          <ToastLayout {...styleProps}>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        );
+      },
+    });
+  };
+  const alertToasts = [
+    ToastWithDefaultIcon,
+    ToastWithAnotherIcon,
+    ToastWithProprietaryIcon,
+    ToastWithoutIcon,
+  ];
+
+  return (
+    <Stack direction="column" spacing="6x">
+      {alertToasts.map((ToastNotification, idx) => (
+        <Box key={idx}>
+          <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastNotification />
+          </ToastLayout>
+        </Box>
+      ))}
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
 ## Props
 
 `Toast` composes the [`Box`](./box) component. You can override the default styles with style props.
@@ -235,3 +466,5 @@ render(<Example />);
 | :--- | :--- | :------ | :---------- |
 | isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
+| appearance | string | 'none' | One of: `'none'`, `'success'`, `'info'`, `'warning'`, `'error'` |
+| icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
