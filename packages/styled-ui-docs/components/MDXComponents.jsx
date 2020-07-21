@@ -15,12 +15,19 @@ const mapColorModeToHeadingColor = (colorMode) => ({
   dark: 'white:secondary',
 }[colorMode]);
 
+const mapColorModeToTableBorderColor = (colorMode) => ({
+  light: 'gray:40',
+  dark: 'gray:70',
+}[colorMode]);
+
 const p = props => (
   <Box
     as="p"
     mt={0}
     mb="4x"
     display="block"
+    fontSize="sm"
+    lineHeight="sm"
     {...props}
   />
 );
@@ -28,6 +35,10 @@ const p = props => (
 const H1 = props => {
   const { colorMode } = useColorMode();
   const color = mapColorModeToHeadingColor(colorMode);
+  const borderColor = {
+    light: 'gray:40', //FIX ME
+    dark: 'gray:60',
+  }[colorMode];
 
   return (
     <Heading
@@ -35,11 +46,12 @@ const H1 = props => {
       mt="6x"
       mb="4x"
       pb="2x"
-      borderBottom="1px solid #eaecef"
+      borderBottom={1}
+      borderBottomColor={borderColor}
       color={color}
-      fontSize="4xl"
+      fontSize="3xl"
       fontWeight="semibold"
-      lineHeight="4xl"
+      lineHeight="3xl"
       {...props}
     />
   );
@@ -48,6 +60,10 @@ const H1 = props => {
 const H2 = props => {
   const { colorMode } = useColorMode();
   const color = mapColorModeToHeadingColor(colorMode);
+  const borderColor = {
+    light: 'gray:40', //FIX ME
+    dark: 'gray:60',
+  }[colorMode];
 
   return (
     <Heading
@@ -55,7 +71,8 @@ const H2 = props => {
       mt="6x"
       mb="4x"
       pb="2x"
-      borderBottom="1px solid #eaecef"
+      borderBottom={1}
+      borderBottomColor={borderColor}
       color={color}
       fontSize="2xl"
       fontWeight="semibold"
@@ -177,6 +194,7 @@ const table = props => (
     mb="4x"
     display="block"
     width="100%"
+    fontSize="sm"
     css={css`
       border-spacing: 0;
       border-collapse: collapse;
@@ -210,30 +228,41 @@ const tr = props => (
   />
 );
 
-const th = ({ align, ...props }) => (
-  <Box
-    as="th"
-    px="3x"
-    py="2x"
-    border={1}
-    borderColor="gray:20"
-    fontWeight="semibold"
-    whiteSpace="nowrap"
-    textAlign={align}
-    {...props}
-  />
-);
+const TH = ({ align, ...props }) => {
+  const { colorMode } = useColorMode();
+  const borderColor = mapColorModeToTableBorderColor(colorMode);
 
-const td = props => (
-  <Box
-    as="td"
-    px="3x"
-    py="2x"
-    border={1}
-    borderColor="gray:20"
-    {...props}
-  />
-);
+  return (
+    <Box
+      as="th"
+      px="3x"
+      py="2x"
+      fontWeight="semibold"
+      whiteSpace="nowrap"
+      border={1}
+      borderBottom={2}
+      borderColor={borderColor}
+      textAlign={align}
+      {...props}
+    />
+  );
+};
+
+const TD = props => {
+  const { colorMode } = useColorMode();
+  const borderColor = mapColorModeToTableBorderColor(colorMode);
+
+  return (
+    <Box
+      as="td"
+      px="3x"
+      py="2x"
+      border={1}
+      borderColor={borderColor}
+      {...props}
+    />
+  );
+};
 
 const pre = props => (
   <Box
@@ -293,8 +322,8 @@ const MDXComponents = {
   thead,
   tbody,
   tr,
-  th,
-  td,
+  th: TH,
+  td: TD,
   pre,
   code,
   inlineCode,
