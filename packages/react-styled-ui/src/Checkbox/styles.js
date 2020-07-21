@@ -18,13 +18,13 @@ const indeterminateProps = ({ color, colorMode }) => {
   }[colorMode];
   const disabledColor = {
     dark: 'gray:60',
-    light: 'gray:60',
+    light: 'gray:40',
   }[colorMode];
 
   // border color
   const borderColor = {
     dark: 'gray:50',
-    light: 'gray:50',
+    light: 'gray:40',
   }[colorMode];
   const hoverBorderColor = {
     dark: `${color}:50`,
@@ -32,7 +32,7 @@ const indeterminateProps = ({ color, colorMode }) => {
   }[colorMode];
   const disabledBorderColor = {
     dark: 'gray:60',
-    light: 'gray:60',
+    light: 'gray:40',
   }[colorMode];
 
   // outline color
@@ -67,14 +67,17 @@ const interactionProps = ({ color, colorMode }) => {
   // icon color
   const _color = {
     dark: 'white:emphasis',
-    light: 'black:emphasis',
+    light: 'white:emphasis',
   }[colorMode];
   const hoverColor = _color;
   const disabledColor = _color;
   const checkedColor = _color;
   const checkedAndHoverColor = _color;
   const checkedAndFocusColor = _color;
-  const checkedAndDisabledColor = _color;
+  const checkedAndDisabledColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
 
   // background color
   const bgColor = 'transparent';
@@ -91,13 +94,13 @@ const interactionProps = ({ color, colorMode }) => {
   const checkedAndFocusBgColor = checkedBgColor;
   const checkedAndDisabledBgColor = {
     dark: 'gray:60',
-    light: 'gray:60',
+    light: 'gray:40',
   }[colorMode];
 
   // border color
   const borderColor = {
     dark: 'gray:50',
-    light: 'gray:50',
+    light: 'gray:40',
   }[colorMode];
   const hoverBorderColor = {
     dark: `${color}:50`,
@@ -105,7 +108,7 @@ const interactionProps = ({ color, colorMode }) => {
   }[colorMode];
   const disabledBorderColor = {
     dark: 'gray:60',
-    light: 'gray:60',
+    light: 'gray:40',
   }[colorMode];
   const checkedBorderColor = {
     dark: `${color}:60`,
