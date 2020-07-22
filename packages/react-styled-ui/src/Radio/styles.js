@@ -21,13 +21,13 @@ const interactionProps = ({ color, colorMode, theme: { colors } }) => {
   }[colorMode];
   const disabledColor = {
     dark: 'gray:60',
-    light: 'gray:60',
+    light: 'gray:40',
   }[colorMode];
 
   // border color
   const borderColor = {
     dark: 'gray:50',
-    light: 'gray:50',
+    light: 'gray:40',
   }[colorMode];
   const hoverBorderColor = {
     dark: `${color}:50`,
@@ -35,7 +35,7 @@ const interactionProps = ({ color, colorMode, theme: { colors } }) => {
   }[colorMode];
   const disabledBorderColor = {
     dark: 'gray:60',
-    light: 'gray:60',
+    light: 'gray:40',
   }[colorMode];
   const checkedBorderColor = {
     dark: `${color}:60`,
