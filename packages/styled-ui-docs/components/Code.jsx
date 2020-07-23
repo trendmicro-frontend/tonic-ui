@@ -5,7 +5,7 @@ const Code = forwardRef((props, ref) => {
   const { colorMode } = useColorMode();
   const backgroundColor = {
     light: 'gray:10', // FIXME
-    dark: 'gray:80', // FIXME
+    dark: 'gray:70',
   }[colorMode];
 
   return (
@@ -15,7 +15,8 @@ const Code = forwardRef((props, ref) => {
       display="inline-block"
       fontFamily="mono"
       fontSize="sm"
-      px="1x"
+      lineHeight="sm"
+      px="2x"
       borderRadius="sm"
       backgroundColor={backgroundColor}
       {...props}
