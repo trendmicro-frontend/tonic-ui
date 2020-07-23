@@ -70,7 +70,6 @@ const CopyButton = props => (
     fontFamily="base"
     position="absolute"
     textTransform="uppercase"
-    top={0}
     zIndex="1"
     top="3x"
     right="4x"
