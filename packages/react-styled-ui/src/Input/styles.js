@@ -64,7 +64,7 @@ const getOutlinedStyle = ({
     light: 'black:tertiary',
   }[colorMode];
   const backgroundColor = {
-    dark: '', // TODO need confirm with VD
+    dark: 'transparent', // TODO need confirm with VD
     light: 'white',
   }[colorMode];
 
