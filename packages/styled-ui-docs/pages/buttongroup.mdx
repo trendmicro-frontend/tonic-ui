@@ -14,187 +14,379 @@ import { ButtonGroup } from '@trendmicro/react-styled-ui';
 
 ### Basic button group
 
-```jsx
-<ButtonGroup>
-  <Button>One</Button>
-  <Button>Two</Button>
-  <Button>Three</Button>
-</ButtonGroup>
+```jsx noInline
+function Example() {
+  const { colorMode } = useColorMode();
+  const dividerColor ={
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  return (
+    <ButtonGroup>
+      <Button>One</Button>
+      <Divider vertical color={dividerColor} />
+      <Button>Two</Button>
+      <Divider vertical color={dividerColor} />
+      <Button>Three</Button>
+    </ButtonGroup>
+  );
+}
+
+render(<Example />);
 ```
 
 ### Group variants
 
 Use the `variant` prop to change the visual style of every button in a group. You can set the value to `emphasis`, `primary`, `default`, `secondary` and `ghost`.
 
-```jsx
-<Stack direction="column" spacing="3x">
-  <ButtonGroup variant="default">
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
-  <ButtonGroup variant="secondary">
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
-  <ButtonGroup variant="ghost">
-    <Button>One</Button>
-    <Button>Two</Button>
-    <Button>Three</Button>
-  </ButtonGroup>
-</Stack>
+```jsx noInline
+function Example() {
+  const { colorMode } = useColorMode();
+  const emphasisDividerColor ={
+    dark: 'red:80',
+    light: 'red:80',
+  }[colorMode];
+  const primaryDividerColor ={
+    dark: 'blue:80',
+    light: 'blue:80',
+  }[colorMode];
+  const defaultDividerColor ={
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const ghostDividerColor ={
+    dark: 'gray:60',
+    light: 'gray:20',
+  }[colorMode];
+
+  return (
+    <Stack direction="column" spacing="3x">
+      <ButtonGroup variant="emphasis">
+        <Button>One</Button>
+        <Divider vertical color={emphasisDividerColor} />
+        <Button>Two</Button>
+        <Divider vertical color={emphasisDividerColor} />
+        <Button>Three</Button>
+      </ButtonGroup>
+      <ButtonGroup variant="primary">
+        <Button>One</Button>
+        <Divider vertical color={primaryDividerColor} />
+        <Button>Two</Button>
+        <Divider vertical color={primaryDividerColor} />
+        <Button>Three</Button>
+      </ButtonGroup>
+      <ButtonGroup variant="default">
+        <Button>One</Button>
+        <Divider vertical color={defaultDividerColor} />
+        <Button>Two</Button>
+        <Divider vertical color={defaultDividerColor} />
+        <Button>Three</Button>
+      </ButtonGroup>
+      <ButtonGroup
+        variant="secondary"
+        css={{
+          '> *:not(:first-child)': {
+            marginLeft: -1
+          }
+        }}
+      >
+        <Button>One</Button>
+        <Button>Two</Button>
+        <Button>Three</Button>
+      </ButtonGroup>
+      <ButtonGroup
+        variant="ghost"
+        css={{
+          '> *:not(:first-child)': {
+            marginLeft: -1
+          }
+        }}
+      >
+        <Button>One</Button>
+        <Divider vertical color={ghostDividerColor} />
+        <Button>Two</Button>
+        <Divider vertical color={ghostDividerColor} />
+        <Button>Three</Button>
+      </ButtonGroup>
+    </Stack>
+  );
+}
+
+render(<Example />);
 ```
 
 ### Group sizes
 
 Use the `size` prop to change the size of the `ButtonGroup`. You can set the value to `sm`, `md`, or `lg`.
 
-```jsx
-<Stack direction="row" spacing="4x">
-  <Stack spacing="4x" alignItems="flex-start">
-    <ButtonGroup size="sm">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-    <ButtonGroup size="md">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-    <ButtonGroup size="lg">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-  </Stack>
-  <Stack spacing="4x" alignItems="flex-start">
-    <ButtonGroup size="sm" variant="secondary">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-    <ButtonGroup size="md" variant="secondary">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-    <ButtonGroup size="lg" variant="secondary">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-  </Stack>
-  <Stack spacing="4x" alignItems="flex-start">
-    <ButtonGroup size="sm" variant="ghost">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-    <ButtonGroup size="md" variant="ghost">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-    <ButtonGroup size="lg" variant="ghost">
-      <Button>Left</Button>
-      <Button>Middle</Button>
-      <Button>Right</Button>
-    </ButtonGroup>
-  </Stack>
-</Stack>
+```jsx noInline
+function Example() {
+  const { colorMode } = useColorMode();
+  const defaultDividerColor ={
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const ghostDividerColor ={
+    dark: 'gray:60',
+    light: 'gray:20',
+  }[colorMode];
+
+  return (
+    <Stack direction="row" spacing="4x">
+      <Stack spacing="4x" alignItems="flex-start">
+        <ButtonGroup size="sm">
+          <Button>Left</Button>
+          <Divider vertical color={defaultDividerColor} />
+          <Button>Middle</Button>
+          <Divider vertical color={defaultDividerColor} />
+          <Button>Right</Button>
+        </ButtonGroup>
+        <ButtonGroup size="md">
+          <Button>Left</Button>
+          <Divider vertical color={defaultDividerColor} />
+          <Button>Middle</Button>
+          <Divider vertical color={defaultDividerColor} />
+          <Button>Right</Button>
+        </ButtonGroup>
+        <ButtonGroup size="lg">
+          <Button>Left</Button>
+          <Divider vertical color={defaultDividerColor} />
+          <Button>Middle</Button>
+          <Divider vertical color={defaultDividerColor} />
+          <Button>Right</Button>
+        </ButtonGroup>
+      </Stack>
+      <Stack spacing="4x" alignItems="flex-start">
+        <ButtonGroup
+          size="sm"
+          variant="secondary"
+          css={{
+            '> *:not(:first-child)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button>Left</Button>
+          <Button>Middle</Button>
+          <Button>Right</Button>
+        </ButtonGroup>
+        <ButtonGroup
+          size="md"
+          variant="secondary"
+          css={{
+            '> *:not(:first-child)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button>Left</Button>
+          <Button>Middle</Button>
+          <Button>Right</Button>
+        </ButtonGroup>
+        <ButtonGroup
+          size="lg"
+          variant="secondary"
+          css={{
+            '> *:not(:first-child)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button>Left</Button>
+          <Button>Middle</Button>
+          <Button>Right</Button>
+        </ButtonGroup>
+      </Stack>
+      <Stack spacing="4x" alignItems="flex-start">
+        <ButtonGroup
+          size="sm"
+          variant="ghost"
+          css={{
+            '> *:not(:first-child)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button>Left</Button>
+          <Divider vertical color={ghostDividerColor} />
+          <Button>Middle</Button>
+          <Divider vertical color={ghostDividerColor} />
+          <Button>Right</Button>
+        </ButtonGroup>
+        <ButtonGroup
+          size="md"
+          variant="ghost"
+          css={{
+            '> *:not(:first-child)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button>Left</Button>
+          <Divider vertical color={ghostDividerColor} />
+          <Button>Middle</Button>
+          <Divider vertical color={ghostDividerColor} />
+          <Button>Right</Button>
+        </ButtonGroup>
+        <ButtonGroup
+          size="lg"
+          variant="ghost"
+          css={{
+            '> *:not(:first-child)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button>Left</Button>
+          <Divider vertical color={ghostDividerColor} />
+          <Button>Middle</Button>
+          <Divider vertical color={ghostDividerColor} />
+          <Button>Right</Button>
+        </ButtonGroup>
+      </Stack>
+    </Stack>
+  );
+}
+
+render(<Example />);
 ```
 
 ### Group orientation
 
 Make a set of buttons appear vertically stacked rather than horizontally, by adding `vertical` to the `ButtonGroup` component.
 
-```jsx
-<Stack direction="row" spacing="4x">
-  <Stack spacing="4x" alignItems="center">
-    <ButtonGroup>
-      <Button>One</Button>
-      <Button>Two</Button>
-      <Button>Three</Button>
-    </ButtonGroup>
-    <ButtonGroup vertical>
-      <Button>One</Button>
-      <Button>Two</Button>
-      <Button>Three</Button>
-    </ButtonGroup>
-  </Stack>
-  <Stack spacing="4x" alignItems="center">
-    <ButtonGroup variant="secondary">
-      <Button>One</Button>
-      <Button>Two</Button>
-      <Button>Three</Button>
-    </ButtonGroup>
-    <ButtonGroup variant="secondary" vertical>
-      <Button>One</Button>
-      <Button>Two</Button>
-      <Button>Three</Button>
-    </ButtonGroup>
-  </Stack>
-  <Stack spacing="4x" alignItems="center">
-    <ButtonGroup variant="ghost">
-      <Button>One</Button>
-      <Button>Two</Button>
-      <Button>Three</Button>
-    </ButtonGroup>
-    <ButtonGroup variant="ghost" vertical>
-      <Button>One</Button>
-      <Button>Two</Button>
-      <Button>Three</Button>
-    </ButtonGroup>
-  </Stack>
-</Stack>
+```jsx noInline
+function Example() {
+  const { colorMode } = useColorMode();
+  const defaultDividerColor ={
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const ghostDividerColor ={
+    dark: 'gray:60',
+    light: 'gray:20',
+  }[colorMode];
+  return (
+    <Stack direction="row" spacing="4x">
+      <Stack spacing="4x" alignItems="center">
+        <ButtonGroup>
+          <Button>One</Button>
+          <Divider vertical color={defaultDividerColor} />
+          <Button>Two</Button>
+          <Divider vertical color={defaultDividerColor} />
+          <Button>Three</Button>
+        </ButtonGroup>
+        <ButtonGroup vertical>
+          <Button>One</Button>
+          <Divider color={defaultDividerColor} />
+          <Button>Two</Button>
+          <Divider color={defaultDividerColor} />
+          <Button>Three</Button>
+        </ButtonGroup>
+      </Stack>
+      <Stack spacing="4x" alignItems="center">
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-child)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button>One</Button>
+          <Button>Two</Button>
+          <Button>Three</Button>
+        </ButtonGroup>
+        <ButtonGroup
+          vertical
+          variant="secondary"
+          css={{
+            '> *:not(:first-child)': {
+              marginTop: -1
+            }
+          }}
+        >
+          <Button>One</Button>
+          <Button>Two</Button>
+          <Button>Three</Button>
+        </ButtonGroup>
+      </Stack>
+      <Stack spacing="4x" alignItems="center">
+        <ButtonGroup
+          variant="ghost"
+          css={{
+            '> *:not(:first-child)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button>One</Button>
+          <Divider vertical color={ghostDividerColor} />
+          <Button>Two</Button>
+          <Divider vertical color={ghostDividerColor} />
+          <Button>Three</Button>
+        </ButtonGroup>
+        <ButtonGroup
+          vertical
+          variant="ghost"
+          css={{
+            '> *:not(:first-child)': {
+              marginTop: -1
+            }
+          }}
+        >
+          <Button>One</Button>
+          <Divider color={ghostDividerColor} />
+          <Button>Two</Button>
+          <Divider color={ghostDividerColor} />
+          <Button>Three</Button>
+        </ButtonGroup>
+      </Stack>
+    </Stack>
+  );
+}
+
+render(<Example />);
 ```
 
 ### Button states
 
 ```jsx noInline
-const SelectableButton = ({ selected, ...props }) => {
+const SelectableButton = ({ selected, selectedColor, ...props }) => {
+  const { colorMode } = useColorMode();
   const { colors } = useTheme();
   const focusColor = colors['blue:60'];
-  const selectedColor = colors['blue:60'];
+  let _selectedColor = selectedColor || {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+  _selectedColor = colors[_selectedColor];
   const getSelectedProps = {
-    bg: selectedColor,
-    borderColor: selectedColor,
+    bg: _selectedColor,
+    borderColor: _selectedColor,
     color: 'white:emphasis',
     cursor: 'default',
     pointerEvents: 'none',
-    __before: {
-      content: '""',
-      display: 'inline-block',
-      transition: 'all 150ms, background-color 250ms',
-      zIndex: '-1',
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      bg: selectedColor,
-    },
-    _focus: {
-      ':not(:active)': {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 1px ${focusColor}`,
-        bg: 'transparent',
-      },
+    zIndex: 1,
+    css: {
       '&::before': {
-        top: '2px',
-        bottom: '2px',
-        left: '2px',
-        right: '2px',
-        bg: focusColor,
+        backgroundColor: _selectedColor,
       },
+      '&:focus': {
+        ':not(:active)': {
+          borderColor: focusColor,
+          boxShadow: `inset 0 0 0 1px ${focusColor}`,
+        },
+        '&::before': {
+          backgroundColor: focusColor,
+        },
+      }
     },
     _hover: {
-      bg: selectedColor,
+      bg: _selectedColor,
     },
     _active: {
-      bg: selectedColor,
+      bg: _selectedColor,
     },
   };
   return (
@@ -206,8 +398,39 @@ const SelectableButton = ({ selected, ...props }) => {
 };
 
 function SwitchButton() {
-  const [activeButton1, setActiveButton1] = React.useState('default-line');
-  const [activeButton2, setActiveButton2] = React.useState('secondary-line');
+  const { colorMode } = useColorMode();
+  const emphasisDividerColor = {
+    dark: 'red:80',
+    light: 'red:80',
+  }[colorMode];
+  const primaryDividerColor = {
+    dark: 'blue:80',
+    light: 'blue:80',
+  }[colorMode];
+  const defaultDividerColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const ghostDividerColor = {
+    dark: 'gray:60',
+    light: 'gray:20',
+  }[colorMode];
+
+  const emphasisSelectedColor = {
+    dark: 'red:80',
+    light: 'red:80',
+  }[colorMode];
+  const primarySelectedColor = {
+    dark: 'blue:80',
+    light: 'blue:80',
+  }[colorMode];
+
+  const [activeButton1, setActiveButton1] = React.useState('emphasis-chart-line');
+  const [activeButton2, setActiveButton2] = React.useState('primary-chart-line');
+  const [activeButton3, setActiveButton3] = React.useState('default-chart-line');
+  const [activeButton4, setActiveButton4] = React.useState('secondary-chart-line');
+  const [activeButton5, setActiveButton5] = React.useState('ghost-chart-line');
+  const [activeButton6, setActiveButton6] = React.useState('no-divider-ghost-chart-line');
 
   const handleClick1 = (button) => (e) => {
     setActiveButton1(button);
@@ -219,39 +442,157 @@ function SwitchButton() {
     // Remove focus
     e.currentTarget.blur();
   };
+  const handleClick3 = (button) => (e) => {
+    setActiveButton3(button);
+    // Remove focus
+    e.currentTarget.blur();
+  };
+  const handleClick4 = (button) => (e) => {
+    setActiveButton4(button);
+    // Remove focus
+    e.currentTarget.blur();
+  };
+  const handleClick5 = (button) => (e) => {
+    setActiveButton5(button);
+    // Remove focus
+    e.currentTarget.blur();
+  };
+  const handleClick6 = (button) => (e) => {
+    setActiveButton6(button);
+    // Remove focus
+    e.currentTarget.blur();
+  };
 
   return (
-    <Stack direction="row" spacing="3x">
+    <Stack spacing="3x">
+      <ButtonGroup variant="emphasis">
+        {
+          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
+            const activeKey = `emphasis-${key}`;
+            return (
+              <React.Fragment key={key}>
+                <SelectableButton
+                  selectedColor={emphasisSelectedColor}
+                  selected={activeButton1 === activeKey}
+                  onClick={handleClick1(activeKey)}
+                >
+                  <TMIcon name={key} />
+                </SelectableButton>
+                <Divider vertical color={emphasisDividerColor} />
+              </React.Fragment>
+            );
+          })
+        }
+        <Button disabled><TMIcon name="chart-bar" /></Button>
+      </ButtonGroup>
+      <ButtonGroup variant="primary">
+        {
+          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
+            const activeKey = `primary-${key}`;
+            return (
+              <React.Fragment key={key}>
+                <SelectableButton
+                  selectedColor={primarySelectedColor}
+                  selected={activeButton2 === activeKey}
+                  onClick={handleClick2(activeKey)}
+                >
+                  <TMIcon name={key} />
+                </SelectableButton>
+                <Divider vertical color={primaryDividerColor} />
+              </React.Fragment>
+            );
+          })
+        }
+        <Button disabled><TMIcon name="chart-bar" /></Button>
+      </ButtonGroup>
       <ButtonGroup>
-        <SelectableButton
-          selected={activeButton1 === 'default-pie'}
-          onClick={handleClick1('default-pie')}
-        >
-          <TMIcon name="chart-pie" />
-        </SelectableButton>
-        <SelectableButton
-          selected={activeButton1 === 'default-line'}
-          onClick={handleClick1('default-line')}
-        >
-          <TMIcon name="chart-line" />
-        </SelectableButton>
+        {
+          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
+            const activeKey = `default-${key}`;
+            return (
+              <React.Fragment key={key}>
+                <SelectableButton
+                  selected={activeButton3 === activeKey}
+                  onClick={handleClick3(activeKey)}
+                >
+                  <TMIcon name={key} />
+                </SelectableButton>
+                <Divider vertical color={defaultDividerColor} />
+              </React.Fragment>
+            );
+          })
+        }
         <Button disabled><TMIcon name="chart-bar" /></Button>
       </ButtonGroup>
-      <ButtonGroup variant="secondary">
-        <SelectableButton
-          selected={activeButton2 === 'secondary-pie'}
-          onClick={handleClick2('secondary-pie')}
-        >
-          <TMIcon name="chart-pie" />
-        </SelectableButton>
-        <SelectableButton
-          selected={activeButton2 === 'secondary-line'}
-          onClick={handleClick2('secondary-line')}
-        >
-          <TMIcon name="chart-line" />
-        </SelectableButton>
+      <ButtonGroup
+        variant="secondary"
+        css={{
+          '> *:not(:first-child)': {
+            marginLeft: -1
+          }
+        }}
+      >
+        {
+          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
+            const activeKey = `secondary-${key}`;
+            return (
+              <SelectableButton
+                key={key}
+                selected={activeButton4 === activeKey}
+                onClick={handleClick4(activeKey)}
+              >
+                <TMIcon name={key} />
+              </SelectableButton>
+            );
+          })
+        }
         <Button disabled><TMIcon name="chart-bar" /></Button>
       </ButtonGroup>
+      <ButtonGroup
+        variant="ghost"
+        css={{
+          '> *:not(:first-child)': {
+            marginLeft: -1
+          }
+        }}
+      >
+        {
+          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
+            const activeKey = `ghost-${key}`;
+            return (
+              <React.Fragment key={key}>
+                <SelectableButton
+                  selected={activeButton5 === activeKey}
+                  onClick={handleClick5(activeKey)}
+                >
+                  <TMIcon name={key} />
+                </SelectableButton>
+                <Divider vertical color={ghostDividerColor} />
+              </React.Fragment>
+            );
+          })
+        }
+        <Button disabled><TMIcon name="chart-bar" /></Button>
+      </ButtonGroup>
+      <Box>
+        {
+          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
+            const activeKey = `no-divider-ghost-${key}`;
+            return (
+              <React.Fragment key={key}>
+                <SelectableButton
+                  variant="ghost"
+                  selected={activeButton6 === activeKey}
+                  onClick={handleClick6(activeKey)}
+                >
+                  <TMIcon name={key} />
+                </SelectableButton>
+              </React.Fragment>
+            );
+          })
+        }
+        <Button variant="ghost" disabled><TMIcon name="chart-bar" /></Button>
+      </Box>
     </Stack>
   );
 }
