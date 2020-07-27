@@ -1,0 +1,160 @@
+# TMIcon
+
+`TMIcon` is used to render Trend Micro defined SVG icons in a more convenient way.
+
+## Import
+
+```js
+import '@trendmicro/react-styled-ui/dist/tmicon.css';
+import TMIcon from '@trendmicro/react-styled-ui/TMIcon';
+// or
+import '@trendmicro/react-styled-ui/dist/tmicon.css';
+import { TMIcon } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+
+```jsx
+<Stack direction="column" spacing="2rem">
+    <Text size="md">
+      Standard font-size value, eg. px, rem
+    </Text>
+    <Stack direction="row" spacing="1rem">
+        <TMIcon name="moon" fontSize="12px"/>
+        <TMIcon name="moon" fontSize="1em"/>
+        <TMIcon name="moon" fontSize="1rem"/>
+    </Stack>
+    <Text size="md">
+      Font sizes from @trendmicro/react-styled-ui style-props
+    </Text>
+    <Stack direction="row" spacing="1rem">
+        <TMIcon name="moon" fontSize="sm"/>
+        <TMIcon name="moon" fontSize="md"/>
+        <TMIcon name="moon" fontSize="lg"/>
+        <TMIcon name="moon" fontSize="xl"/>
+        <TMIcon name="moon" fontSize="2xl"/>
+    </Stack>
+</Stack>
+```
+
+Use an icon by passing the `name` prop. This name must match an icon key defined in `tmicon.css`.
+
+### Search icons
+
+```jsx noInline
+const getIcons = (keyword) => tmIconList.map(({ group, icons }) => {
+    const filteredIcons = icons.filter(({ iconset, name }) => (!keyword || name.indexOf(keyword) >= 0));
+    if (filteredIcons.length === 0) {
+      return null
+    }
+    return { group, icons: filteredIcons }
+  }
+);
+
+const FlexItem = (props) => (
+  <Box {...props} />
+);
+
+const renderIconGroup = (iconSet, keyword, showCharCode) => {
+  if(!iconSet) {
+    return null;
+  }
+  return (<Box key={iconSet.group.name}>
+    <FlexItem>
+      <Text fontSize={"2xl"}>{iconSet.group.name}</Text>    
+    </FlexItem>
+    {<Grid
+      gap={10}
+      templateColumns="1fr 1fr 1fr 1fr"
+      gap=".5rem"
+      p="4x"
+      pl="6x"
+      pr="4x"
+    >
+      {iconSet.icons.map(icon => (
+          <Flex direction="row" align="center" pb={0} pr={0} overflow="hidden" key={icon.code}>
+            <FlexItem flex="initial" pr="2x">
+              <TMIcon name={icon.name} fontSize={"md"}/>
+            </FlexItem>
+            <FlexItem flex="none" pr="2x">
+              <Text display={"inline-block"} fontSize={"md"}>
+                {icon.name}
+              </Text>
+            </FlexItem>
+            {showCharCode && <FlexItem flex="none" pr="1x">
+              <Text fontSize={"md"}>
+                {`(&#x${icon.code})`}
+              </Text>
+            </FlexItem>
+            }
+            <FlexItem flex="none" pb=".2rem">
+              {icon.new && <Badge variantColor="green" badgeContent={"new"} />}
+            </FlexItem>
+          </Flex>
+      ))}
+    </Grid>}
+  </Box>)
+}
+
+function Example() {
+  const [keyword, setKeyword] = React.useState('');
+  const [showCharCode, setShowCharCode] = React.useState(false);
+
+  const onChange = (e) => {
+    const keyword = e.target.value;
+    setKeyword(keyword);
+  };
+
+  const onClearInput = (e) => {
+    const keyword = '';
+    setKeyword(keyword);
+  };
+
+  const onChecked = () => {
+    setShowCharCode(!showCharCode);
+  }
+
+  return (
+    <>
+      <Flex direction="row" align="center" position="relative">
+        <Box pl="4x">
+          <SearchInput
+            fontSize="md"
+            placeholder="Search"
+            onChange={onChange}
+            onClearInput={onClearInput}
+            width={430}
+          />
+        </Box>
+        <Box position="absolute" right="5px">
+          <Checkbox
+            size="md"
+            onChange={() => onChecked()}>
+            Display character codes
+          </Checkbox>
+        </Box>
+      </Flex>
+      <Grid
+        gap={0}
+        templateRows="1fr"
+        p="4x"
+        transition="all .3s ease-in"
+      >
+        {getIcons(keyword).map((iconSet) => renderIconGroup(iconSet, keyword, showCharCode))}
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| name | string | | The name of the icon. |
+| fontSize | string | | Standard font-size value such as px, em or fontSizes from @trendmicro/react-styled-ui |

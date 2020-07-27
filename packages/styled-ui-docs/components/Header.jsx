@@ -1,7 +1,6 @@
-import { Box, Flex, PseudoBox, useColorMode } from '@trendmicro/react-styled-ui';
+import { Box, Flex, PseudoBox, useColorMode, TMIcon } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
-import TMIcon from './TMIcon';
 import pkg from '../../../package.json';
 
 const Header = React.forwardRef((props, ref) => {

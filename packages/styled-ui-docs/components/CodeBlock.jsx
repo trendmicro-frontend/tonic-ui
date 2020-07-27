@@ -11,7 +11,7 @@ import Lorem from 'react-lorem-component';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import FontAwesomeIcon from './FontAwesomeIcon';
-import TMIcon from './TMIcon';
+import iconList from './tmicon-list';
 
 const ThirdPartyComponents = {
   AutoSizer,
@@ -21,7 +21,6 @@ const ThirdPartyComponents = {
 
 const IconComponents = {
   FontAwesomeIcon,
-  TMIcon,
 };
 const { Box, Button, useColorMode, useClipboard } = CoreComponents;
 
@@ -147,6 +146,13 @@ const CodeBlock = ({
   };
   const theme = themes[colorMode];
   const language = className && className.replace(/language-/, '');
+  const tmIconList = iconList.iconsets.map(group => {
+    const icons = iconList.icons.filter(({ iconset }) => iconset === group.id);
+    if (icons.length === 0) {
+      return null;
+    }
+    return { group, icons };
+  });
 
   noInline = boolean(noInline);
 
@@ -178,6 +184,7 @@ const CodeBlock = ({
       ),
       css,
       mdx,
+      tmIconList,
     },
     mountStylesheet: false,
     ...props,
