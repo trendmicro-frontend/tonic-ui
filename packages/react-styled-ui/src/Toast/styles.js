@@ -7,18 +7,83 @@ const baseProps = {
   py: '2x',
 };
 
-const useToastRootStyle = () => {
-  const { colorMode } = useColorMode();
+const getAppearanceProps = ({
+  theme,
+  colorMode,
+  appearance,
+}) => {
+  const { sizes } = theme;
   const backgroundColor = {
     dark: 'gray:10',
     light: 'white',
   }[colorMode];
   const color = 'black:primary';
+  const appearanceStyle = {
+    success: {
+      borderLeftColor: 'green:50',
+      borderLeftStyle: 'solid',
+      borderLeftWidth: get(sizes, '1x'),
+      pl: '3x',
+    },
+    info: {
+      borderLeftColor: 'blue:50',
+      borderLeftStyle: 'solid',
+      borderLeftWidth: get(sizes, '1x'),
+      pl: '3x',
+    },
+    warning: {
+      borderLeftColor: 'yellow:50',
+      borderLeftStyle: 'solid',
+      borderLeftWidth: get(sizes, '1x'),
+      pl: '3x',
+    },
+    error: {
+      borderLeftColor: 'red:60',
+      borderLeftStyle: 'solid',
+      borderLeftWidth: get(sizes, '1x'),
+      pl: '3x',
+    },
+  }[appearance];
+
+  return {
+    backgroundColor,
+    color,
+    ...appearanceStyle,
+  };
+};
+
+const useToastRootStyle = ({
+  appearance,
+}) => {
+  const theme = useTheme();
+  const { colorMode } = useColorMode();
+  const _props = {
+    theme,
+    colorMode,
+    appearance,
+  };
+  const appearanceProps = getAppearanceProps(_props);
 
   return {
     ...baseProps,
-    backgroundColor,
+    ...appearanceProps,
+  };
+};
+
+const useToastIconStyle = ({
+  appearance,
+}) => {
+  const color = {
+    'success': 'green:50',
+    'info': 'blue:50',
+    'warning': 'yellow:50',
+    'error': 'red:60',
+  }[appearance];
+
+  return {
     color,
+    py: '1x',
+    lineHeight: 1, // exactly the same height as the icon's height
   };
 };
 
@@ -85,6 +150,7 @@ const useToastCloseButtonStyle = () => {
 
 export {
   useToastRootStyle,
+  useToastIconStyle,
   useToastMessageStyle,
   useToastCloseButtonStyle,
 };
