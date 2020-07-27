@@ -77,6 +77,10 @@ import { Button } from '@trendmicro/react-styled-ui';
 ```
 ## Recommended setup
 
+Sometimes you may need to apply base CSS styles to your application. Styled UI export a `CSSBaseline` that will normalize styles for a wide range of elements, which is based on the [normalize.css](https://github.com/necolas/normalize.css).
+
+`CSSBaseline` is recommended to add at the root to ensure all components work correctly.
+
 ```js
 import { Global, css } from '@emotion/core';
 import {
