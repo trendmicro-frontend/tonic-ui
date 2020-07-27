@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import { useButtonGroup } from '../ButtonGroup/context';
 import { getButtonGroupCSS, useButtonStyle } from './styles';
@@ -41,38 +40,28 @@ const Button = forwardRef(
       size = size ?? defaultSize;
       variant = variant ?? defaultVariant;
     }
-    const useNegativeMargin = (variant === 'secondary');
-    const useDivideLine = ['emphasis', 'primary', 'default', 'ghost'].indexOf(variant) >= 0;
-    const divider = useVertical ? (
-      <Box height="1px" bg="gray:70" />
-    ) : (
-      <Box width="1px" bg="gray:70" />
-    );
     const buttonStyleProps = useButtonStyle({
       size,
       variant,
       borderRadius,
     });
     css = [
-      isInGroup && getButtonGroupCSS({ useVertical, useDivideLine, useNegativeMargin }),
+      isInGroup && getButtonGroupCSS({ useVertical }),
       { ...css }
     ];
 
     return (
-      <>
-        <ButtonBase
-          ref={ref}
-          as={Comp}
-          type={type}
-          borderRadius={borderRadius}
-          css={css}
-          {...buttonStyleProps}
-          {...rest}
-        >
-          { children }
-        </ButtonBase>
-        { isInGroup && useDivideLine && divider }
-      </>
+      <ButtonBase
+        ref={ref}
+        as={Comp}
+        type={type}
+        borderRadius={borderRadius}
+        css={css}
+        {...buttonStyleProps}
+        {...rest}
+      >
+        { children }
+      </ButtonBase>
     );
   },
 );

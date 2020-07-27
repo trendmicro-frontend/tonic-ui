@@ -14,10 +14,10 @@ To manage Typography options, the theme object supports the following keys:
 <ThemeParser theme="fonts" />
 
 ```jsx
-<Stack direction="column" spacing=".5rem">
-  <Box fontFamily="heading">-apple-system</Box>
-  <Box fontFamily="base">-apple-system</Box>
-  <Box fontFamily="mono">SFMono-Medium</Box>
+<Stack direction="column" spacing=".5rem" alignItems="center">
+  <Box fontFamily="heading" fontWeight="medium">Segoe UI Sans-Serif</Box>
+  <Box fontFamily="base">Segoe UI Sans-Serif</Box>
+  <Box fontFamily="mono">Segoe UI Mono</Box>
 </Stack>
 ```
 
@@ -25,10 +25,10 @@ To manage Typography options, the theme object supports the following keys:
 <ThemeParser theme="fontSizes" />
 
 ```jsx
-<Stack direction="column" spacing=".5rem">
-  <Box fontSize="sm">Trend Micro</Box>
-  <Box fontSize="md">Trend Micro</Box>
-  <Box fontSize="lg">Trend Micro</Box>
+<Stack direction="column" spacing=".5rem" alignItems="center">
+  <Box fontSize="sm">Font Size 14px</Box>
+  <Box fontSize="md">Font Size 16px</Box>
+  <Box fontSize="lg">Font Size 18px</Box>
 </Stack>
 ```
 
@@ -36,10 +36,10 @@ To manage Typography options, the theme object supports the following keys:
 <ThemeParser theme="fontWeights" />
 
 ```jsx
-<Stack direction="column" spacing=".5rem">
-  <Box fontWeight="normal">Trend Micro</Box>
-  <Box fontWeight="medium">Trend Micro</Box>
-  <Box fontWeight="semibold">Trend Micro</Box>
+<Stack direction="column" spacing=".5rem" alignItems="center">
+  <Box fontWeight="normal">Regular (400)</Box>
+  <Box fontWeight="medium">Semibold (600)</Box>
+  <Box fontWeight="semibold">Bold (600)</Box>
 </Stack>
 ```
 
@@ -47,10 +47,19 @@ To manage Typography options, the theme object supports the following keys:
 <ThemeParser theme="lineHeights" />
 
 ```jsx
-<Stack direction="column" spacing=".5rem">
-  <Box display="inline-block" pl="1x" lineHeight="sm" bg="green:80">Line height 1.25rem</Box>
-  <Box display="inline-block" pl="1x" lineHeight="lg" bg="green:80">Line height 1.5rem</Box>
-  <Box display="inline-block" pl="1x" lineHeight="2xl" bg="green:80">Line height 2rem</Box>
+<Stack direction="row" spacing="12x" justifyContent="center">
+  <Box width="324px" lineHeight="sm">
+    <Box>Line height 1.25rem</Box>
+    <Box>Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus.</Box>
+  </Box>
+  <Box width="324px" lineHeight="lg">
+    <Box>Line height 1.5rem</Box>
+    <Box>Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus.</Box>
+  </Box>
+  <Box width="324px" lineHeight="2xl">
+    <Box>Line height 2rem</Box>
+    <Box>Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus.</Box>
+  </Box>
 </Stack>
 ```
 

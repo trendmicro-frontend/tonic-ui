@@ -2,14 +2,13 @@ import { css } from '@emotion/core';
 import { mdx } from '@mdx-js/react';
 import * as CoreComponents from '@trendmicro/react-styled-ui';
 import { boolean } from 'boolean';
-import githubTheme from 'prism-react-renderer/themes/github';
-import vsDarkTheme from 'prism-react-renderer/themes/vsDark';
 import React, { useCallback, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import Lorem from 'react-lorem-component';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
+import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import TMIcon from './TMIcon';
 
@@ -31,7 +30,6 @@ const liveEditorStyle = {
   marginTop: 32,
   overflowX: 'auto',
   fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
-  borderRadius: 10,
 };
 
 const liveErrorStyle = {
@@ -45,13 +43,9 @@ const liveErrorStyle = {
 
 const LiveCodePreview = props => {
   const { colorMode } = useColorMode();
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
   const borderColor = {
     light: 'gray:20', // FIXME
-    dark: 'gray:70', // FIXME
+    dark: 'gray:70',
   }[colorMode];
 
   return (
@@ -62,7 +56,6 @@ const LiveCodePreview = props => {
       lineHeight="sm"
       mt="5x"
       p="4x"
-      backgroundColor={backgroundColor}
       border={1}
       borderColor={borderColor}
       borderRadius="sm"
@@ -77,43 +70,31 @@ const CopyButton = props => (
     fontFamily="base"
     position="absolute"
     textTransform="uppercase"
-    top={0}
     zIndex="1"
+    top="3x"
     right="4x"
     {...props}
   />
 );
 
-const EditableNotice = props => {
-  const { colorMode } = useColorMode();
-  const backgroundColor = {
-    light: 'rgb(246, 248, 250)', // github
-    dark: 'rgb(30, 30, 30)', // vscode
-  }[colorMode];
-
-  return (
-    <Box
-      position="absolute"
-      width="100%"
-      top="-1.25rem"
-      borderTopLeftRadius={10}
-      borderTopRightRadius={10}
-      backgroundColor={backgroundColor}
-      py="2x"
-      zIndex="0"
-      color="gray:40"
-      fontFamily="base"
-      fontSize="xs"
-      lineHeight="xs"
-      fontWeight="semibold"
-      textAlign="center"
-      pointerEvents="none"
-      {...props}
-    >
-      EDITABLE EXAMPLE
-    </Box>
-  );
-};
+const EditableNotice = props => (
+  <Box
+    position="absolute"
+    top="2x"
+    zIndex="0"
+    color="gray:40"
+    fontFamily="base"
+    fontSize="xs"
+    lineHeight={1}
+    fontWeight="semibold"
+    pointerEvents="none"
+    left="50%"
+    transform="translate(-50%)"
+    {...props}
+  >
+    EDITABLE EXAMPLE
+  </Box>
+);
 
 const CodeBlock = ({
   /**
@@ -142,8 +123,8 @@ const CodeBlock = ({
   }, []);
   const { colorMode } = useColorMode();
   const themes = {
-    light: githubTheme,
-    dark: vsDarkTheme,
+    light: codeBlockLight,
+    dark: codeBlockDark,
   };
   const theme = themes[colorMode];
   const language = className && className.replace(/language-/, '');
