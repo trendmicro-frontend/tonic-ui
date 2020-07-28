@@ -73,8 +73,8 @@ export default function usePagination(props = {}) {
     ...(siblingsStart > boundaryCount + 2
       ? ['start-ellipsis']
       : boundaryCount + 1 < count - boundaryCount
-      ? [boundaryCount + 1]
-      : []),
+        ? [boundaryCount + 1]
+        : []),
 
     // Sibling pages
     ...range(siblingsStart, siblingsEnd),
@@ -84,8 +84,8 @@ export default function usePagination(props = {}) {
     ...(siblingsEnd < count - boundaryCount - 1
       ? ['end-ellipsis']
       : count - boundaryCount > boundaryCount
-      ? [count - boundaryCount]
-      : []),
+        ? [count - boundaryCount]
+        : []),
 
     ...endPages,
     ...(hideNextButton ? [] : ['next']),
@@ -95,27 +95,27 @@ export default function usePagination(props = {}) {
   // Map the button type to its page number
   const buttonPage = (type) => {
     switch (type) {
-      case 'first':
-        return 1;
-      case 'previous':
-        return page - 1;
-      case 'next':
-        return page + 1;
-      case 'last':
-        return count;
-      case 'start-ellipsis':
-        return page - (siblingCount * 2 + 1) || 1;
-      case 'end-ellipsis':
-        return page + (siblingCount * 2 + 1) > count ? count : page + (siblingCount * 2 + 1);
-      default:
-        return null;
+    case 'first':
+      return 1;
+    case 'previous':
+      return page - 1;
+    case 'next':
+      return page + 1;
+    case 'last':
+      return count;
+    case 'start-ellipsis':
+      return page - (siblingCount * 2 + 1) || 1;
+    case 'end-ellipsis':
+      return page + (siblingCount * 2 + 1) > count ? count : page + (siblingCount * 2 + 1);
+    default:
+      return null;
     }
   };
 
   // Convert the basic item list to PaginationItem props objects
   const items = itemList.map((item) => {
-  return typeof item === 'number'
-    ? {
+    return typeof item === 'number'
+      ? {
         onClick: (event) => {
           handleClick(event, item);
         },
@@ -125,7 +125,7 @@ export default function usePagination(props = {}) {
         disabled,
         'aria-current': item === page ? 'true' : undefined,
       }
-    : {
+      : {
         onClick: (event) => {
           handleClick(event, buttonPage(item));
         },

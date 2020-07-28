@@ -1,14 +1,11 @@
 import React, { forwardRef } from 'react';
 import usePagination from '../usePagination';
 import Button from '../Button';
-import Box from '../Box';
 import useColorMode from '../useColorMode';
-import useTheme from '../useTheme';
 import { setColorWithOpacity } from '../theme/colors';
 
 const SelectableButton = ({ selected, selectedColor, color, ...props }) => {
   const { colorMode } = useColorMode();
-  const { colors } = useTheme();
   const activeColor = {
     dark: `${color}:40`,
     light: `${color}:60`,
