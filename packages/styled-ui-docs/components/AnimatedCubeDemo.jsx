@@ -1,8 +1,7 @@
 import { keyframes } from '@emotion/core';
-import { Box, Image, Stack, Text, useColorMode } from '@trendmicro/react-styled-ui';
+import { Box, Image, Stack, Text, TMIcon, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import Cube from './Cube';
-import TMIcon from './TMIcon';
 
 const cubeSpin = keyframes`
   from { transform: rotateY(360deg); }

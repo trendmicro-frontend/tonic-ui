@@ -15,6 +15,7 @@ import Header from '../components/Header';
 import Main from '../components/Main';
 import MDXComponents from '../components/MDXComponents';
 import SideNav from '../components/SideNav';
+import '@trendmicro/react-styled-ui/dist/tmicon.css';
 
 const Layout = ({ children }) => {
   const { colorMode } = useColorMode();

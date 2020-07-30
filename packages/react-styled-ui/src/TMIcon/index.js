@@ -1,7 +1,7 @@
 import { keyframes } from '@emotion/core';
-import { PseudoBox } from '@trendmicro/react-styled-ui';
 import cx from 'classnames';
 import React from 'react';
+import PseudoBox from '../PseudoBox';
 
 const spinKeyframes = keyframes`
   0% {

@@ -10,7 +10,7 @@ import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
-import TMIcon from './TMIcon';
+import iconList from './tmicon-list';
 
 const ThirdPartyComponents = {
   AutoSizer,
@@ -20,7 +20,6 @@ const ThirdPartyComponents = {
 
 const IconComponents = {
   FontAwesomeIcon,
-  TMIcon,
 };
 const { Box, Button, useColorMode, useClipboard } = CoreComponents;
 
@@ -40,6 +39,14 @@ const liveErrorStyle = {
   color: 'white',
   backgroundColor: 'red',
 };
+
+const tmIconList = iconList.iconsets.map(group => {
+  const icons = iconList.icons.filter(({ iconset }) => iconset === group.id);
+  if (icons.length === 0) {
+    return null;
+  }
+  return { group, icons };
+});
 
 const LiveCodePreview = props => {
   const { colorMode } = useColorMode();
@@ -159,6 +166,7 @@ const CodeBlock = ({
       ),
       css,
       mdx,
+      tmIconList,
     },
     mountStylesheet: false,
     ...props,

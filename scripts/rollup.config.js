@@ -1,6 +1,7 @@
 import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
+import copy from 'rollup-plugin-copy';
 
 const packageName = process.env.PACKAGE_NAME;
 
@@ -30,6 +31,12 @@ export default [
     },
     external: isExternal,
     plugins: [
+      copy({
+        targets: [
+          { src: './src/TMIcon/icon-font.css', dest: outputDirectory, rename: 'tmicon.css' },
+          { src: './src/TMIcon/fonts/*', dest: `${outputDirectory}/fonts` },
+        ]
+      }),
       resolve(),
       babel(getBabelOptions({ useESModules: false })),
     ],
@@ -42,6 +49,12 @@ export default [
     },
     external: isExternal,
     plugins: [
+      copy({
+        targets: [
+          { src: './src/TMIcon/icon-font.css', dest: outputDirectory, rename: 'tmicon.css' },
+          { src: './src/TMIcon/fonts/*', dest: `${outputDirectory}/fonts` },
+        ]
+      }),
       resolve(),
       babel(getBabelOptions({ useESModules: true })),
     ],
