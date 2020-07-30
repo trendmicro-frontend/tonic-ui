@@ -115,7 +115,6 @@ const Radio = forwardRef(
         {children && (
           <Box
             ml="2x"
-            fontSize={size}
             userSelect="none"
             opacity={disabled ? 0.28 : 1}
           >
