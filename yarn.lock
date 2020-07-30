@@ -3687,7 +3687,7 @@
 
 "@types/fs-extra@^8.0.1":
   version "8.1.1"
-  resolved "https://dsnexus.trendmicro.com:8443/nexus/repository/node-package-registry-all/@types/fs-extra/-/fs-extra-8.1.1.tgz#1e49f22d09aa46e19b51c0b013cb63d0d923a068"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-8.1.1.tgz#1e49f22d09aa46e19b51c0b013cb63d0d923a068"
   integrity sha512-TcUlBem321DFQzBNuz8p0CLLKp0VvF/XH9E4KHNmgwyp4E3AfgI5cjiIVZWlbfThBop2qxFIh4+LeY6hVWWZ2w==
   dependencies:
     "@types/node" "*"
@@ -8711,7 +8711,7 @@ globalthis@^1.0.0:
 
 globby@10.0.1:
   version "10.0.1"
-  resolved "https://dsnexus.trendmicro.com:8443/nexus/repository/node-package-registry-all/globby/-/globby-10.0.1.tgz#4782c34cb75dd683351335c5829cc3420e606b22"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-10.0.1.tgz#4782c34cb75dd683351335c5829cc3420e606b22"
   integrity sha512-sSs4inE1FB2YQiymcmTv6NWENryABjUNPeWhOvmn4SjtKybglsyPZxFB3U1/+L1bYi0rNZDqCLlHyLYDl1Pq5A==
   dependencies:
     "@types/glob" "^7.1.1"
@@ -14652,7 +14652,7 @@ rollup-plugin-babel@~4.4.0:
 
 rollup-plugin-copy@~3.3.0:
   version "3.3.0"
-  resolved "https://dsnexus.trendmicro.com:8443/nexus/repository/node-package-registry-all/rollup-plugin-copy/-/rollup-plugin-copy-3.3.0.tgz#5ba230047f86b9f703a29288f242948a5580e7b9"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-copy/-/rollup-plugin-copy-3.3.0.tgz#5ba230047f86b9f703a29288f242948a5580e7b9"
   integrity sha512-euDjCUSBXZa06nqnwCNADbkAcYDfzwowfZQkto9K/TFhiH+QG7I4PUsEMwM9tDgomGWJc//z7KLW8t+tZwxADA==
   dependencies:
     "@types/fs-extra" "^8.0.1"
