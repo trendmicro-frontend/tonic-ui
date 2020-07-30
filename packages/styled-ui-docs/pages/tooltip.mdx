@@ -1,11 +1,8 @@
 # Tooltip
 
-A tooltip is a brief, informative message that appears when a user interacts
-with an element. Tooltips are usually initiated in one of two ways: through a
-mouse-hover gesture or through a keyboard-hover gesture.
+A tooltip is a brief, informative message that appears when a user interacts with an element. Tooltips are usually initiated in one of two ways: through a mouse-hover or keyboard-hover action.
 
-The Tooltip component follows the
-[WAI-ARIA](https://www.w3.org/TR/wai-aria-practices/#tooltip) Tooltip Pattern.
+The `Tooltip` component follows the [WAI-ARIA](https://www.w3.org/TR/wai-aria-practices/#tooltip) Tooltip pattern.
 
 ## Import
 
@@ -17,8 +14,7 @@ import { Tooltip } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
-If the `children` of Tooltip is a string, we wrap with in a `span` with
-`tabIndex` set to `0`, to ensure it meets the accessibility requirements.
+If the `children` of Tooltip is a string, wrap within a `span` with `tabIndex` set to `0` to ensure accessibility requirements are met.
 
 ```jsx
 <Tooltip label="Hey, I'm here!">Hover me</Tooltip>
@@ -42,9 +38,7 @@ If the `children` of Tooltip is a string, we wrap with in a `span` with
 
 ### Tooltip with focusable content
 
-If the children of the tooltip is a focusable element, the tooltip will show
-when you focus or hover on the element, and will hide when you blur or move
-cursor out of the element.
+If the children of Tooltip are focusable elements, Tooltip will show when you focus or hover on the a children element and will hide when you blur or move cursor out of the element.
 
 ```jsx
 <Tooltip label="Search places" placement="top">
@@ -110,15 +104,15 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | isOpen | boolean | | If `true`, the tooltip is shown. |
-| defaultIsOpen | boolean | | If `true`, the tooltip is initially shown. |
+| defaultIsOpen | boolean | | If `true`, the tooltip is shown initially. |
 | label | string | | The label of the tooltip.|
 | aria-label | string | | An alternate label for screen readers. |
-| placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'` |
-| children | ReactNode | | The `ReactNode` to be used as the trigger of the tooltip. |
-| hideArrow | boolean | | If `true` hide the arrow tip on the tooltip. |
+| placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. Possible values: `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'` |
+| children | ReactNode | | The `ReactNode` element to be used as the trigger of the tooltip. |
+| hideArrow | boolean | | If `true`, hide the arrow tip on the tooltip. |
 | showDelay | number | | The delay in milliseconds for the tooltip to show. |
 | hideDelay | number | | The delay in milliseconds for the tooltip to hide. |
-| closeOnClick | boolean | | If `true` hide the tooltip, when the trigger is clicked. |
+| closeOnClick | boolean | | If `true`, hide the tooltip when the trigger is clicked. |
 | shouldWrapChildren | boolean | | If `true`, the tooltip will wrap the children in a `span` with `tabIndex=0`. |
 | onOpen | function | | A callback called when the tooltip shows. |
 | onClose| function | | A callback called when the tooltip hides. |

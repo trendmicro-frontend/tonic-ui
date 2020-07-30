@@ -6,6 +6,7 @@ import {
   useTheme,
 } from '@trendmicro/react-styled-ui';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import {
   themeLinks,
@@ -15,22 +16,28 @@ import {
 } from './nav-links';
 
 const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
+  const router = useRouter();
+  const isRouteActive = href.replace('.', '') === router.pathname;
   const { colorMode } = useColorMode();
   const color = {
     light: 'gray:90', // FIXME
-    dark: 'white', // FIXME
+    dark: 'white:primary',
   }[colorMode];
   const activeBackgroundColor = {
-    light: 'inherit', // FIXME
-    dark: 'inherit', // FIXME
+    light: 'rgba(0, 0, 0, 0.1)', // FIXME
+    dark: 'rgba(255, 255, 255, 0.1)',
   }[colorMode];
   const activeColor = {
     light: 'inherit', // FIXME
-    dark: 'inherit', // FIXME
+    dark: 'inherit',
   }[colorMode];
-  const hoverColor = {
-    light: 'inherit', // FIXME
-    dark: 'inherit', // FIXME
+  const hoverBackgroundColor = {
+    light: 'rgba(0, 0, 0, 0.12)', // FIXME
+    dark: 'rgba(255, 255, 255, 0.12)',
+  }[colorMode];
+  const selectedBackgroundColor = {
+    light: 'rgba(0, 0, 0, 0.08)', // FIXME
+    dark: 'rgba(255, 255, 255, 0.08)',
   }[colorMode];
 
   return (
@@ -43,14 +50,20 @@ const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
         as="a"
         color={color}
         display="flex"
-        p="2x"
+        px="4x"
+        py="2x"
+        fontSize="sm"
         textDecoration="none"
+        aria-selected={!!isRouteActive}
         _active={{
           backgroundColor: activeBackgroundColor,
           color: activeColor,
         }}
         _hover={{
-          color: hoverColor,
+          backgroundColor: hoverBackgroundColor,
+        }}
+        _selected={{
+          backgroundColor: selectedBackgroundColor,
         }}
         {...rest}
       >
@@ -65,17 +78,18 @@ const SideNav = React.forwardRef((props, ref) => {
   const { colorMode } = useColorMode();
   const backgroundColor = {
     light: 'white',
-    dark: 'gray:100',
+    dark: 'gray:90',
   }[colorMode];
   const borderColor = {
     light: 'gray:20', // FIXME
     dark: 'gray:70', // FIXME
   }[colorMode];
   const headingColor = {
-    light: 'black:tertiary',
-    dark: 'white:tertiary',
+    light: 'black:secondary',
+    dark: 'white:secondary',
   }[colorMode];
-  const top = theme.sizes['16x'];
+  const headingFontSize = 'xs';
+  const top = theme.sizes['12x'];
   const height = `calc(100vh - ${top})`;
 
   return (
@@ -92,19 +106,19 @@ const SideNav = React.forwardRef((props, ref) => {
       {...props}
     >
       <Box>
-        <NavLink href="getting-started">
+        <NavLink href="./getting-started">
           Getting Started
         </NavLink>
-        <NavLink href="color-modes">
+        <NavLink href="./color-modes">
           Color Modes
         </NavLink>
-        <NavLink href="contributing">
+        <NavLink href="./contributing">
           Contributing
         </NavLink>
       </Box>
       <Box>
         <Heading
-          fontSize="md"
+          fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
           mb="2x"
@@ -124,7 +138,7 @@ const SideNav = React.forwardRef((props, ref) => {
       </Box>
       <Box>
         <Heading
-          fontSize="md"
+          fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
           mb="2x"
@@ -144,7 +158,7 @@ const SideNav = React.forwardRef((props, ref) => {
       </Box>
       <Box>
         <Heading
-          fontSize="md"
+          fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
           mb="2x"
@@ -164,7 +178,7 @@ const SideNav = React.forwardRef((props, ref) => {
       </Box>
       <Box>
         <Heading
-          fontSize="md"
+          fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
           mb="2x"

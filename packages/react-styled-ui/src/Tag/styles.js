@@ -185,8 +185,11 @@ const closeButtonSizes = {
 };
 
 const sizeProps = ({ size, isCloseButtonVisible, theme: { sizes } }) => {
-  const closeButtonSize = closeButtonSizes[size];
-  const pr = isCloseButtonVisible ? `calc(${sizes[closeButtonSize]} + 4px)` : '2x';
+  const space = sizes['1x'];
+  const closeButtonSize = sizes[closeButtonSizes[size]];
+  const pr = isCloseButtonVisible
+    ? `calc(${space} + ${closeButtonSize})`
+    : '2x';
   return {
     ...labelSizes[size],
     pl: '2x',
@@ -230,8 +233,9 @@ const useTagCloseButtonStyle = ({ size }) => {
     position: 'absolute',
     right: 0,
     color: color,
-    width: _size,
     height: _size,
+    width: _size,
+    minWidth: _size, // ensure a minimum width for the close button
     _hover: {
       color: hoverColor,
     },

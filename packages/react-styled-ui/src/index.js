@@ -1,5 +1,4 @@
 import Alert from './Alert';
-import AlertToast from './AlertToast';
 import Badge from './Badge';
 import Box from './Box';
 import Button from './Button';
@@ -59,7 +58,6 @@ import withTheme from './withTheme';
 
 export {
   Alert,
-  AlertToast,
   Badge,
   Box,
   Button,

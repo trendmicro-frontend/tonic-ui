@@ -6,19 +6,22 @@ import pkg from '../../../package.json';
 const Header = React.forwardRef((props, ref) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const backgroundColor = {
-    light: 'white', // FIXME
-    dark: 'gray:90', // FIXME
+    light: 'white:emphasis', // FIXME
+    dark: 'gray:90',
   }[colorMode];
   const borderColor = {
     light: 'gray:20', // FIXME
-    dark: 'gray:70', // FIXME
+    dark: 'gray:70',
   }[colorMode];
-
+  const fontColor = {
+    light: 'black:emphasis', // FIXME
+    dark: 'white:emphasis',
+  }[colorMode];
   return (
     <Box
       position="fixed"
       top={0}
-      height="16x"
+      height="12x"
       width="100%"
       zIndex="fixed"
       backgroundColor={backgroundColor}
@@ -33,9 +36,11 @@ const Header = React.forwardRef((props, ref) => {
       >
         <Box
           flex="auto"
-          fontSize="3xl"
+          fontSize="xl"
           maxWidth="100%"
           px="4x"
+          py="3x"
+          color={fontColor}
         >
           Trend Micro Styled UI
         </Box>

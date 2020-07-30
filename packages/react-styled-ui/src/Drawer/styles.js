@@ -70,8 +70,9 @@ const useDrawerCloseButtonStyle = () => {
     color: color,
     transition: 'all .2s',
     lineHeight: 1,
-    width: '8x',
     height: '8x',
+    width: '8x',
+    minWidth: '8x', // ensure a minimum width for the close button
     px: 0,
     py: 0,
     _hover: {

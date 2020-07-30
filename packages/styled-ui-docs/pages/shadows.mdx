@@ -11,10 +11,10 @@ Add or remove shadows to elements with box-shadow utilities.
 function Example() {
   const { colorMode } = useColorMode();
   return (
-    <Stack direction="row" spacing="1rem">
-      <Box width="40x" height="24x" p="2x" boxShadow={`${colorMode}.sm`}>boxShadow=sm</Box>
-      <Box width="40x" height="24x" p="2x" boxShadow={`${colorMode}.md`}>boxShadow=md</Box>
-      <Box width="40x" height="24x" p="2x" boxShadow={`${colorMode}.lg`}>boxShadow=lg</Box>
+    <Stack direction="row" spacing="6x" justifyContent="center">
+      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.sm`}>boxShadow=sm</Box>
+      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.md`}>boxShadow=md</Box>
+      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.lg`}>boxShadow=lg</Box>
     </Stack>
   );
 }

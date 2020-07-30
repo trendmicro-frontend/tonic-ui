@@ -18,7 +18,7 @@ import { Button } from '@trendmicro/react-styled-ui';
 
 ### Variants
 
-Use the `variant` prop to change the visual style of the Button. You can set the value to `emphasis`, `primary`, `default`, `secondary`, `ghost`.
+Use the `variant` prop to change the visual style of `Button`. You can set the value to `emphasis`, `primary`, `default`, `secondary`, or `ghost`.
 
 ```jsx
 <Stack direction="row" spacing="2x">
@@ -32,7 +32,7 @@ Use the `variant` prop to change the visual style of the Button. You can set the
 
 ### Sizes
 
-Use the `size` prop to change the size of the `Button`. You can set the value to `sm`, `md`, or `lg`.
+Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
 <Stack direction="column" spacing="4x">
@@ -84,7 +84,7 @@ Use the `size` prop to change the size of the `Button`. You can set the value to
 
 ### Button with icon
 
-Icon buttons are commonly used in toolbars. Sometimes you might want to add label to certain icon buttons to enhance the UX. You can use [Space](./space) to add a padding space with `.25rem` (`4px`) between icon and label.
+Icon buttons are commonly used in toolbars. If required, you can add a label to icon buttons. To add padding space (`.25rem` (`4px`)) between an icon and label, use [Space](./space).
 
 ```jsx
 <Stack direction="column" spacing="4x">
@@ -97,22 +97,22 @@ Icon buttons are commonly used in toolbars. Sometimes you might want to add labe
     </Button>
     <Button variant="primary" borderRadius="2rem">
       <TMIcon name="settings" />
-      <Space width="1x" />
+      <Space width="2x" />
       Settings
     </Button>
     <Button variant="primary">
       <TMIcon name="settings" />
-      <Space width="1x" />
+      <Space width="2x" />
       Settings
     </Button>
     <Button variant="primary" borderRadius="2rem">
       Next
-      <Space width="1x" />
+      <Space width="2x" />
       <TMIcon name="angle-right" />
     </Button>
     <Button variant="primary">
       Next
-      <Space width="1x" />
+      <Space width="2x" />
       <TMIcon name="angle-right" />
     </Button>
   </Stack>
@@ -125,22 +125,22 @@ Icon buttons are commonly used in toolbars. Sometimes you might want to add labe
     </Button>
     <Button borderRadius="2rem">
       <TMIcon name="settings" />
-      <Space width="1x" />
+      <Space width="2x" />
       Settings
     </Button>
     <Button>
       <TMIcon name="settings" />
-      <Space width="1x" />
+      <Space width="2x" />
       Settings
     </Button>
     <Button borderRadius="2rem">
       Next
-      <Space width="1x" />
+      <Space width="2x" />
       <TMIcon name="angle-right" />
     </Button>
     <Button>
       Next
-      <Space width="1x" />
+      <Space width="2x" />
       <TMIcon name="angle-right" />
     </Button>
   </Stack>
@@ -153,22 +153,22 @@ Icon buttons are commonly used in toolbars. Sometimes you might want to add labe
     </Button>
     <Button variant="secondary" borderRadius="2rem">
       <TMIcon name="settings" />
-      <Space width="1x" />
+      <Space width="2x" />
       Settings
     </Button>
     <Button variant="secondary">
       <TMIcon name="settings" />
-      <Space width="1x" />
+      <Space width="2x" />
       Settings
     </Button>
     <Button variant="secondary" borderRadius="2rem">
       Next
-      <Space width="1x" />
+      <Space width="2x" />
       <TMIcon name="angle-right" />
     </Button>
     <Button variant="secondary">
       Next
-      <Space width="1x" />
+      <Space width="2x" />
       <TMIcon name="angle-right" />
     </Button>
   </Stack>
@@ -181,32 +181,31 @@ Icon buttons are commonly used in toolbars. Sometimes you might want to add labe
     </Button>
     <Button variant="ghost" borderRadius="2rem">
       <TMIcon name="settings" />
-      <Space width="1x" />
+      <Space width="2x" />
       Settings
     </Button>
     <Button variant="ghost">
       <TMIcon name="settings" />
-      <Space width="1x" />
+      <Space width="2x" />
       Settings
     </Button>
     <Button variant="ghost" borderRadius="2rem">
       Next
-      <Space width="1x" />
+      <Space width="2x" />
       <TMIcon name="angle-right" />
     </Button>
     <Button variant="ghost">
       Next
-      <Space width="1x" />
+      <Space width="2x" />
       <TMIcon name="angle-right" />
     </Button>
   </Stack>
 </Stack>
 ```
 
-## Custom button
+## Custom Button
 
-In case you need to customize the button, pass style props to the [ButtonBase](./buttonbase) component to create a custom button.
-
+To create a custom button, you can use the style props for the [ButtonBase](./buttonbase) component.
 
 ## Props
 
@@ -214,6 +213,6 @@ In case you need to customize the button, pass style props to the [ButtonBase](.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true`. You can style this state by using the `_disabled` prop. |
 | size | string | 'md' | The size of the button. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'default' | The variant of the button style to use. One of: `'emphasis'`, `'primary'`, `'default'`, `'secondary'`, `'ghost'` |
