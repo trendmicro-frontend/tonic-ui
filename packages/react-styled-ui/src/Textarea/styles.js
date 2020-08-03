@@ -23,6 +23,10 @@ const sizes = {
 const getOutlinedStyle = ({
   colorMode,
 }) => {
+  const backgroundColor = {
+    dark: 'transparent',
+    light: 'white',
+  }[colorMode];
   const borderColor = {
     dark: 'gray:60',
     light: 'gray:30',
@@ -53,6 +57,7 @@ const getOutlinedStyle = ({
   }[colorMode];
 
   return {
+    backgroundColor,
     border: 1,
     borderColor,
     color,
@@ -98,15 +103,20 @@ const getFilledStyle = ({
 const getUnstyledStyle = ({
   colorMode,
 }) => {
+  const backgroundColor = {
+    dark: 'transparent',
+    light: 'white',
+  }[colorMode];
   const color = {
     dark: 'white:primary',
     light: 'black:primary',
   }[colorMode];
 
   return {
-    color,
+    backgroundColor,
     border: 0,
     borderRadius: 0,
+    color,
     px: undefined,
     py: undefined,
   };
