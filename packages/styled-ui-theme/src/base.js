@@ -153,7 +153,7 @@ const colors = {
   'white:tertiary': 'rgba(255, 255, 255, .47)',
   'white:disabled': 'rgba(255, 255, 255, .28)',
 
-  'black:emphasis': 'rgba(0, 0, 0, .92)',
+  'black:emphasis': 'rgba(0, 0, 0, 1.0)',
   'black:primary': 'rgba(0, 0, 0, .92)',
   'black:secondary': 'rgba(0, 0, 0, .65)',
   'black:tertiary': 'rgba(0, 0, 0, .54)',
