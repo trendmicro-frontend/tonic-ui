@@ -9,7 +9,7 @@ const defaultVariantProps = (props) => {
   const { colorMode, color } = props;
   const _color = {
     dark: 'white:emphasis',
-    light: 'black:emphasis',
+    light: 'black:primary',
   }[colorMode];
 
   // background color
@@ -86,7 +86,7 @@ const secondaryVariantProps = ({ color, colorMode, theme: { colors } }) => {
   }[colorMode];
   const disabledColor = {
     dark: 'white:emphasis',
-    light: 'black:emphasis',
+    light: 'black:primary',
   }[colorMode];
   const activeColor = hoverColor;
   const focusColor = _color;
@@ -171,7 +171,7 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
   //color
   const disabledColor = {
     dark: 'white:emphasis',
-    light: 'black:emphasis',
+    light: 'black:primary',
   }[colorMode];
 
   // background color
