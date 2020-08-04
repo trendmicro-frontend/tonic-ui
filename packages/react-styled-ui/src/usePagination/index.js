@@ -103,10 +103,6 @@ export default function usePagination(props = {}) {
       return page + 1;
     case 'last':
       return count;
-    case 'start-ellipsis':
-      return page - (siblingCount * 2 + 1) || 1;
-    case 'end-ellipsis':
-      return page + (siblingCount * 2 + 1) > count ? count : page + (siblingCount * 2 + 1);
     default:
       return null;
     }

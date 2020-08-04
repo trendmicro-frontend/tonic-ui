@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import usePagination from '../usePagination';
 import Button from '../Button';
+import ButtonBase from '../ButtonBase';
 import useColorMode from '../useColorMode';
 import { setColorWithOpacity } from '../theme/colors';
 
@@ -63,7 +64,15 @@ const Pagination = forwardRef(
           if (item.type === 'previous') {
             label = prevLabel;
           } else if (item.type === 'start-ellipsis' || item.type === 'end-ellipsis') {
-            label = ellipsisLabel;
+            return (
+              <ButtonBase
+                key={`${item.page}-${item.type}`}
+                cursor="default"
+                px={11}
+              >
+                {ellipsisLabel}
+              </ButtonBase>
+            );
           } else if (item.type === 'next') {
             label = nextLabel;
           } else {
