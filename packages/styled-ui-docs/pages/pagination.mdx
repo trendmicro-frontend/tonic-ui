@@ -31,7 +31,10 @@ import { Pagination } from '@trendmicro/react-styled-ui';
 ### On change
 
 ```jsx
-<Pagination count={10} onChange={(event, value) => alert(`${event} ${value}`)} />
+<Pagination
+  count={10}
+  onChange={(event, value) => alert(`${event} ${value}`)}
+/>
 ```
 
 ### Boundary count
@@ -43,7 +46,11 @@ import { Pagination } from '@trendmicro/react-styled-ui';
 ### Sibling count
 
 ```jsx
-<Pagination count={20} siblingCount={2} defaultPage={10} />
+<Pagination
+  count={20}
+  siblingCount={2}
+  defaultPage={10}
+/>
 ```
 
 ### Advanced mode
