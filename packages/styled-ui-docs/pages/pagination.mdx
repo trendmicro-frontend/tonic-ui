@@ -13,9 +13,44 @@ import { Pagination } from '@trendmicro/react-styled-ui';
 ## Usage
 
 ```jsx
-<Pagination count={30} />
+<Pagination count={10} />
 ```
 
+### Disable
+
+```jsx
+<Pagination count={10} disabled />
+```
+
+### Default page
+
+```jsx
+<Pagination count={10} defaultPage={5} />
+```
+
+### On change
+
+```jsx
+<Pagination count={10} onChange={(event, value) => alert(`${event} ${value}`)} />
+```
+
+### Boundary count
+
+```jsx
+<Pagination count={10} boundaryCount={2} />
+```
+
+### Sibling count
+
+```jsx
+<Pagination count={20} siblingCount={2} defaultPage={10} />
+```
+
+### Advanced mode
+
+### Reduced mode
+
+### Minor mode
 
 ## Props
 

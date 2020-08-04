@@ -68,6 +68,7 @@ const Pagination = forwardRef(
               <ButtonBase
                 key={`${item.page}-${item.type}`}
                 cursor="default"
+                disabled={item.disabled}
                 px={11}
               >
                 {ellipsisLabel}
