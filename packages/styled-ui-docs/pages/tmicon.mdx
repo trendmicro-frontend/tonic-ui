@@ -5,10 +5,8 @@
 ## Import
 
 ```js
-import '@trendmicro/react-styled-ui/dist/tmicon.css';
 import TMIcon from '@trendmicro/react-styled-ui/TMIcon';
 // or
-import '@trendmicro/react-styled-ui/dist/tmicon.css';
 import { TMIcon } from '@trendmicro/react-styled-ui';
 ```
 
@@ -18,27 +16,16 @@ import { TMIcon } from '@trendmicro/react-styled-ui';
 ```jsx
 <Stack direction="column" spacing="2rem">
     <Text size="md">
-      Standard font-size value, eg. px, rem
+      Use an icon by passing the `icon` prop. Supported icons are listed in the next section below.
     </Text>
     <Stack direction="row" spacing="1rem">
-        <TMIcon name="moon" fontSize="12px"/>
-        <TMIcon name="moon" fontSize="1em"/>
-        <TMIcon name="moon" fontSize="1rem"/>
-    </Stack>
-    <Text size="md">
-      Font sizes from @trendmicro/react-styled-ui style-props
-    </Text>
-    <Stack direction="row" spacing="1rem">
-        <TMIcon name="moon" fontSize="sm"/>
-        <TMIcon name="moon" fontSize="md"/>
-        <TMIcon name="moon" fontSize="lg"/>
-        <TMIcon name="moon" fontSize="xl"/>
-        <TMIcon name="moon" fontSize="2xl"/>
+        <TMIcon name="moon" size="4x"/>
+        <TMIcon name="moon" size="5x"/>
+        <TMIcon name="moon" size="6x"/>
+        <TMIcon name="moon" size="7x"/>
     </Stack>
 </Stack>
 ```
-
-Use an icon by passing the `name` prop. This name must match an icon key defined in `tmicon.css`.
 
 ### Search icons
 
@@ -75,7 +62,7 @@ const renderIconGroup = (iconSet, keyword, showCharCode) => {
       {iconSet.icons.map(icon => (
           <Flex direction="row" align="center" pb={0} pr={0} overflow="hidden" key={icon.code}>
             <FlexItem flex="initial" pr="2x">
-              <TMIcon name={icon.name} fontSize={"md"}/>
+              <TMIcon name={icon.name}/>
             </FlexItem>
             <FlexItem flex="none" pr="2x">
               <Text display={"inline-block"} fontSize={"md"}>
@@ -152,9 +139,8 @@ render(<Example />);
 
 ## Props
 
-You can override the default styles with style props.
+TMIcon composes the [`Icon`](./icon) component. You can override the default styles with style props.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| name | string | | The name of the icon. |
-| fontSize | string | | Standard font-size value such as px, em or fontSizes from @trendmicro/react-styled-ui |
+| icon | string | | The name of the icon. |

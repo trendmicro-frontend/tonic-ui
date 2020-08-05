@@ -1,4 +1,5 @@
 import React from 'react';
+import tmIconSvgMap from '../TMIcon/tmIconSvgMap';
 
 const icons = {
   'angle-down': {
@@ -139,6 +140,7 @@ const icons = {
     ),
     viewBox: '0 0 16 16',
   },
+  ...tmIconSvgMap
 };
 
 export default icons;
