@@ -22,13 +22,13 @@ import { Pagination } from '@trendmicro/react-styled-ui';
 <Pagination count={10} disabled />
 ```
 
-### Default page
+### Assigned page
 
 ```jsx
-<Pagination count={10} defaultPage={5} />
+<Pagination count={10} page={5} />
 ```
 
-### On change
+### On page change
 
 ```jsx
 <Pagination
@@ -57,10 +57,8 @@ import { Pagination } from '@trendmicro/react-styled-ui';
 
 ```jsx
 function Minor() {
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(3);
   const totalPages = 20;
-  const prevPageDisabled = (page <= 1);
-  const nextPageDisabled = (page >= totalPages);
 
   return (
     <Flex>
@@ -79,7 +77,7 @@ function Minor() {
         </Menu>
         <Divider vertical height="6x" />
       </Flex>
-      <Pagination count={totalPages} onChange={(_, value) => setPage(value)} />
+      <Pagination count={totalPages} page={page} onChange={(_, value) => setPage(value)} />
     </Flex>
   );
 }
