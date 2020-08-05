@@ -5,13 +5,13 @@ import useTheme from '../useTheme';
 
 const Icon = forwardRef((
   {
-    name,
+    icon,
     ...rest
   },
   ref
 ) => {
   const { icons = {} } = useTheme();
-  const { path, ...restIconProps } = { ..._get(icons, name) };
+  const { path, ...restIconProps } = { ..._get(icons, icon) };
 
   return (
     <SVGIcon ref={ref} {...restIconProps} {...rest}>

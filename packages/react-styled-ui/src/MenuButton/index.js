@@ -50,7 +50,7 @@ const MenuButton = forwardRef(
       }
 
       return (
-        <Icon width="4x" name={`_core.${iconName}`} />
+        <Icon width="4x" icon={`_core.${iconName}`} />
       );
     };
 
@@ -63,7 +63,7 @@ const MenuButton = forwardRef(
       icon = getIconByDirection(placement);
     }
     if (typeof placement === 'undefined') {
-      icon = <Icon width="4x" name="_core.angle-down" />;
+      icon = <Icon width="4x" icon="_core.angle-down" />;
     }
 
     return (

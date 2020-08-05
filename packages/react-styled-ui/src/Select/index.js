@@ -50,7 +50,7 @@ const Select = forwardRef((
           aria-disabled={disabled}
           {...iconWrapperProps}
         >
-          <Icon width="4x" name="_core.angle-down" />
+          <Icon width="4x" icon="_core.angle-down" />
         </PseudoBox>
       )}
     </Box>

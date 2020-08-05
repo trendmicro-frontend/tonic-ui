@@ -12,7 +12,7 @@ import { Icon } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
-Use an icon by passing the `name` prop. This name must match an icon key defined in `theme.icons`. By default, the icon inherits the font size and color of its parent.
+Use an icon by passing the `icon` prop. This `icon` property value must match an icon key defined in `theme.icons`. By default, the icon inherits the font size and color of its parent.
 
 ## Adding custom icons
 
@@ -57,7 +57,7 @@ After that simply wrap your app into `ThemeProvider` component and pass your the
 Pass the icon name as a prop to the `<Icon>` component to render the SVG icon:
 
 ```jsx disabled noInline
-<Icon name="icon1" color="blue:50" />
+<Icon icon="icon1" color="blue:50" />
 ```
 
 ## Props
@@ -66,4 +66,4 @@ Pass the icon name as a prop to the `<Icon>` component to render the SVG icon:
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| name | string | | The name of the icon. |
+| icon | string | | The name of the icon. |
