@@ -7,10 +7,6 @@ import { setColorWithOpacity } from '../theme/colors';
 
 const SelectableButton = ({ selected, selectedColor, color = 'blue', ...props }) => {
   const { colorMode } = useColorMode();
-  const focusBorderColor = {
-    dark: `${color}:60`,
-    light: `${color}:60`,
-  }[colorMode];
   const activeColor = {
     dark: `${color}:40`,
     light: `${color}:60`,
