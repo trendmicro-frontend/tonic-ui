@@ -103,8 +103,8 @@ const useToastCloseButtonStyle = () => {
     light: 'black:tertiary',
   }[colorMode];
   const hoverColor = {
-    dark: 'black:emphasis',
-    light: 'black:emphasis',
+    dark: 'black:primary',
+    light: 'black:primary',
   }[colorMode];
   const activeColor = color;
   const focusColor = color;
