@@ -472,6 +472,7 @@ function SwitchButton() {
             return (
               <React.Fragment key={key}>
                 <SelectableButton
+                  width="8x"
                   selectedColor={emphasisSelectedColor}
                   selected={activeButton1 === activeKey}
                   onClick={handleClick1(activeKey)}
@@ -483,7 +484,7 @@ function SwitchButton() {
             );
           })
         }
-        <Button disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
       </ButtonGroup>
       <ButtonGroup variant="primary">
         {
@@ -492,6 +493,7 @@ function SwitchButton() {
             return (
               <React.Fragment key={key}>
                 <SelectableButton
+                  width="8x"
                   selectedColor={primarySelectedColor}
                   selected={activeButton2 === activeKey}
                   onClick={handleClick2(activeKey)}
@@ -503,7 +505,7 @@ function SwitchButton() {
             );
           })
         }
-        <Button disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
       </ButtonGroup>
       <ButtonGroup>
         {
@@ -512,6 +514,7 @@ function SwitchButton() {
             return (
               <React.Fragment key={key}>
                 <SelectableButton
+                  width="8x"
                   selected={activeButton3 === activeKey}
                   onClick={handleClick3(activeKey)}
                 >
@@ -522,7 +525,7 @@ function SwitchButton() {
             );
           })
         }
-        <Button disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
       </ButtonGroup>
       <ButtonGroup
         variant="secondary"
@@ -538,6 +541,7 @@ function SwitchButton() {
             return (
               <SelectableButton
                 key={key}
+                width="8x"
                 selected={activeButton4 === activeKey}
                 onClick={handleClick4(activeKey)}
               >
@@ -546,7 +550,7 @@ function SwitchButton() {
             );
           })
         }
-        <Button disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
       </ButtonGroup>
       <ButtonGroup
         variant="ghost"
@@ -562,6 +566,7 @@ function SwitchButton() {
             return (
               <React.Fragment key={key}>
                 <SelectableButton
+                  width="8x"
                   selected={activeButton5 === activeKey}
                   onClick={handleClick5(activeKey)}
                 >
@@ -572,7 +577,7 @@ function SwitchButton() {
             );
           })
         }
-        <Button disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
       </ButtonGroup>
       <Box>
         {
@@ -582,6 +587,7 @@ function SwitchButton() {
               <React.Fragment key={key}>
                 <SelectableButton
                   variant="ghost"
+                  width="8x"
                   selected={activeButton6 === activeKey}
                   onClick={handleClick6(activeKey)}
                 >
@@ -591,7 +597,7 @@ function SwitchButton() {
             );
           })
         }
-        <Button variant="ghost" disabled><TMIcon name="chart-bar" /></Button>
+        <Button variant="ghost" width="8x" disabled><TMIcon name="chart-bar" /></Button>
       </Box>
     </Stack>
   );
