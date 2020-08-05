@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import usePagination from '../usePagination';
 import Button from '../Button';
 import ButtonBase from '../ButtonBase';
@@ -32,67 +32,63 @@ const SelectableButton = ({ selected, selectedColor, color = 'blue', ...props })
   );
 };
 
-const Pagination = forwardRef(
-  (
-    props,
-    ref
-  ) => {
-    const {
-      prevLabel = '<',
-      nextLabel = '>',
-      ellipsisLabel = '...',
-    } = props;
-    // const {
-    //   boundaryCount,
-    //   count,
-    //   defaultPage,
-    //   disabled,
-    //   hideNextButton,
-    //   hidePrevButton,
-    //   onChange: handleChange,
-    //   page: pageProp,
-    //   showFirstButton,
-    //   showLastButton,
-    //   siblingCount,
-    // } = props;
-    const { items } = usePagination(props);
-    return (
-      <React.Fragment>
-        {items.map((item, index) => {
-          let label;
-          if (item.type === 'previous') {
-            label = prevLabel;
-          } else if (item.type === 'start-ellipsis' || item.type === 'end-ellipsis') {
-            return (
-              <ButtonBase
-                key={`${item.page}-${item.type}`}
-                cursor="default"
-                disabled={item.disabled}
-                px={11}
-              >
-                {ellipsisLabel}
-              </ButtonBase>
-            );
-          } else if (item.type === 'next') {
-            label = nextLabel;
-          } else {
-            label = item.page;
-          }
+const Pagination = (props, ref) => {
+  const {
+    prevLabel = '<',
+    nextLabel = '>',
+    ellipsisLabel = '...',
+  } = props;
+  // const {
+  //   boundaryCount,
+  //   count,
+  //   defaultPage,
+  //   disabled,
+  //   hideNextButton,
+  //   hidePrevButton,
+  //   onChange: handleChange,
+  //   page: pageProp,
+  //   showFirstButton,
+  //   showLastButton,
+  //   siblingCount,
+  // } = props;
+  const { items } = usePagination(props);
+  return (
+    <React.Fragment>
+      {items.map((item, index) => {
+        let label;
+        if (item.type === 'previous') {
+          label = prevLabel;
+        } else if (item.type === 'start-ellipsis' || item.type === 'end-ellipsis') {
           return (
-            <SelectableButton
+            <ButtonBase
               key={`${item.page}-${item.type}`}
-              selected={item.selected}
+              cursor="default"
               disabled={item.disabled}
-              variant="ghost"
-              onClick={item.onClick}
+              px={11}
             >
-              {label}
-            </SelectableButton>
+              {ellipsisLabel}
+            </ButtonBase>
           );
-        })}
-      </React.Fragment>
-    );
-  }
-);
+        } else if (item.type === 'next') {
+          label = nextLabel;
+        } else {
+          label = item.page;
+        }
+        return (
+          <SelectableButton
+            key={`${item.page}-${item.type}`}
+            selected={item.selected}
+            disabled={item.disabled}
+            variant="ghost"
+            onClick={item.onClick}
+            transition="none"
+          >
+            {label}
+          </SelectableButton>
+        );
+      })}
+    </React.Fragment>
+  );
+};
 
 export default Pagination;
