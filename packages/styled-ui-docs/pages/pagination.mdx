@@ -22,10 +22,10 @@ import { Pagination } from '@trendmicro/react-styled-ui';
 <Pagination count={10} disabled />
 ```
 
-### Assigned page
+### Default page
 
 ```jsx
-<Pagination count={10} page={5} />
+<Pagination count={10} defaultPage={5} />
 ```
 
 ### On page change
@@ -213,3 +213,14 @@ function Minor() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| count | number | `1` | The total number of pages. |
+| disabled | boolean | `false` | If `true`, the pagination component will be disabled. |
+| defaultPage | number | `1` | The page selected by default when the component is uncontrolled. |
+| page | number | | The current page. when the component is controlled. |
+| prevLabel | string or react element | `<` | The previous button label |
+| nextLabel | string or react element | `>` | The next button label |
+| ellipsisLabel | string or react element | `...`| The next button label |
+| boundaryCount | number | `1` | Number of always visible pages at the beginning and end. |
+| siblingCount | number | `1` | Number of always visible pages before and after the current page. |
+| onChange | function | | Callback fired when the page is changed. <br /><br /> Signature: <br /> `function(event: object, page: number) => void` <br />event: The event source of the callback. <br />page: The page selected. |
+

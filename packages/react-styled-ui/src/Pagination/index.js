@@ -5,8 +5,12 @@ import ButtonBase from '../ButtonBase';
 import useColorMode from '../useColorMode';
 import { setColorWithOpacity } from '../theme/colors';
 
-const SelectableButton = ({ selected, selectedColor, color, ...props }) => {
+const SelectableButton = ({ selected, selectedColor, color = 'blue', ...props }) => {
   const { colorMode } = useColorMode();
+  const focusBorderColor = {
+    dark: `${color}:60`,
+    light: `${color}:60`,
+  }[colorMode];
   const activeColor = {
     dark: `${color}:40`,
     light: `${color}:60`,
@@ -41,7 +45,6 @@ const Pagination = forwardRef(
       prevLabel = '<',
       nextLabel = '>',
       ellipsisLabel = '...',
-      pageButtonColor = 'blue',
     } = props;
     // const {
     //   boundaryCount,
@@ -82,7 +85,6 @@ const Pagination = forwardRef(
           return (
             <SelectableButton
               key={`${item.page}-${item.type}`}
-              color={pageButtonColor}
               selected={item.selected}
               disabled={item.disabled}
               variant="ghost"
