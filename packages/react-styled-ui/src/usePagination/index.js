@@ -1,7 +1,6 @@
 import useControlled from '../utils/useControlled';
 
 export default function usePagination(props = {}) {
-  // keep default values in sync with @default tags in Pagination.propTypes
   const {
     boundaryCount = 1,
     count = 1,

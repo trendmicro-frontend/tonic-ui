@@ -5,19 +5,19 @@ import ButtonBase from '../ButtonBase';
 import useColorMode from '../useColorMode';
 import { setColorWithOpacity } from '../theme/colors';
 
-const SelectableButton = ({ selected, selectedColor, color = 'blue', ...props }) => {
+const SelectableButton = ({ selected, ...props }) => {
   const { colorMode } = useColorMode();
   const activeColor = {
-    dark: `${color}:40`,
-    light: `${color}:60`,
+    dark: 'blue:40',
+    light: 'blue:60',
   }[colorMode];
   const activeBgColor = {
     dark: setColorWithOpacity('black', 0.12),
     light: setColorWithOpacity('black', 0.08),
   }[colorMode];
   const activeBorderColor = {
-    dark: `${color}:50`,
-    light: `${color}:50`,
+    dark: 'blue:50',
+    light: 'blue:50',
   }[colorMode];
   const getSelectedProps = {
     color: activeColor,
