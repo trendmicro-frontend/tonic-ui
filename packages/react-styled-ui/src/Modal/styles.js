@@ -51,7 +51,7 @@ const useModalCloseButtonStyle = () => {
   }[colorMode];
   const hoverColor = {
     dark: 'white:emphasis',
-    light: 'black:emphasis',
+    light: 'black:primary',
   }[colorMode];
   const activeColor = color;
   const focusColor = color;

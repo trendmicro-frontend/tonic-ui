@@ -7,17 +7,15 @@ import ThemeParser from "../components/ThemeParser";
 
 # Colors
 
-Add a `theme.colors` object to provide colors for your project. By default these
-colors can be referenced by the `color`, `borderColor`, and `backgroundColor`,
-`fill`, `stroke`, styles.
+Add a `theme.colors` object to provide colors for your project. By default these colors can be referenced by `color`, `borderColor`, and `backgroundColor`, `fill`, `stroke`, and styles.
 
-We recommend adding palette that go from `10` - `100`. The `10` being the lightest color and the `100` being the darkest color. We could communicate via the naming such as Red 10 or Red 70 to easily understand Red 10 is a light red, Red 70 is a dark red.
+We recommend adding a palette that go from `10` (lightest color) to `100` (darkest color). You can use a name (such as Red 10 or Red 70) to indicate that Red 10 is a light red color and Red 70 is a dark red color.
 
-The color palette both define for Light Theme and Dark Theme, `10` - `50` are pass AA contrast with black text, `60` - `100` are pass AA contrast with white text,
+The color palette  is defined for both Light Theme and Dark Theme where `10` - `50` means to pass AA contrast with black text and  `60` - `100` means to pass AA contrast with white text.
 
 <ThemeParser theme="colors" />
 
-### Base Color Palettes
+### Color palettes
 
 <ColorWrapper>
   <ColorPalettes hue="red" />
@@ -30,7 +28,7 @@ The color palette both define for Light Theme and Dark Theme, `10` - `50` are pa
   <ColorPalettes hue="gray" />
 </ColorWrapper>
 
-### Text Color
+### Text color
 
 <ThemeParser mode="light" theme="text" />
 <ThemeParser mode="dark" theme="text" />
@@ -38,7 +36,7 @@ The color palette both define for Light Theme and Dark Theme, `10` - `50` are pa
 <FunctionalColorPalettes mode="light" palette="text" />
 <FunctionalColorPalettes mode="dark" palette="text" />
 
-### Functional Color
+### Functional color
 
 <ThemeParser mode="light" theme="risk" />
 <ThemeParser mode="dark" theme="risk" />
@@ -46,7 +44,7 @@ The color palette both define for Light Theme and Dark Theme, `10` - `50` are pa
 <FunctionalColorPalettes mode="light" palette="risk" />
 <FunctionalColorPalettes mode="dark" palette="risk" />
 
-### Chart Color
+### Chart color
 
 <ThemeParser mode="light" theme="chart" />
 <ThemeParser mode="dark" theme="chart" />
@@ -54,7 +52,7 @@ The color palette both define for Light Theme and Dark Theme, `10` - `50` are pa
 <FunctionalColorPalettes mode="light" palette="chart" />
 <FunctionalColorPalettes mode="dark" palette="chart" />
 
-### Gradient Color
+### Gradient color
 
 <ThemeParser theme="gradient" />
 
@@ -62,9 +60,6 @@ The color palette both define for Light Theme and Dark Theme, `10` - `50` are pa
 
 ## Configuration Reference
 
-Except for breakpoints, colors, and spacing, all of the keys in the theme object
-map to one of our core theme. All of these keys can be replaced or
-extended.
+Except for breakpoints, colors, and spacing, all keys in the theme object map to one of the core themes. All keys can be replaced or extended.
 
-See the <a href="https://styled-system.com/table" target="_blank">full reference
-table</a> of properties.
+For more information, see the complete properties <a href="https://styled-system.com/table" target="_blank">reference table</a>.
