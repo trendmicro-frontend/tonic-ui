@@ -186,7 +186,7 @@ const EditableTag = ({
           _hover: {
             '&:not(:focus)': {
               bg: 'gray:60',
-              '& > :first-child': {
+              '&::before': {
                 bg: 'gray:60',
               },
             },
@@ -196,7 +196,7 @@ const EditableTag = ({
           _hover: {
             '&:not(:focus)': {
               bg: 'red:50',
-              '& > :first-child': {
+              '&::before': {
                 bg: 'red:50',
               },
             },

@@ -49,7 +49,8 @@ const solidStyle = ({ color, canFocus, theme: { colors } }) => {
         borderColor: focusColor,
         boxShadow: `inset 0 0 0 1px ${focusColor}`,
         bg: 'inherit',
-        '& > :first-child': {
+        zIndex: 1,
+        '&::before': {
           top: '2px',
           bottom: '2px',
           left: '2px',
@@ -66,7 +67,7 @@ const solidStyle = ({ color, canFocus, theme: { colors } }) => {
           borderColor: focusColor,
           boxShadow: `inset 0 0 0 1px ${focusColor}`,
           bg: 'inherit',
-          '& > :first-child': {
+          '&::before': {
             top: '2px',
             bottom: '2px',
             left: '2px',
@@ -80,14 +81,13 @@ const solidStyle = ({ color, canFocus, theme: { colors } }) => {
       borderColor: 'transparent', // override focus style
       boxShadow: 'none', // override focus style
       bg: 'gray:70',
-      '& > :first-child': {
+      '&::before': {
         bg: 'inherit',
       },
       cursor: 'not-allowed',
       opacity: 0.28,
     },
   };
-
   return styles;
 };
 
@@ -110,6 +110,7 @@ const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
       _focus: {
         borderColor: focusColor,
         boxShadow: `inset 0 0 0 1px ${focusColor}`,
+        zIndex: 1,
       },
     },
     _invalid: {
@@ -121,7 +122,7 @@ const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
           borderColor: focusColor,
           boxShadow: `inset 0 0 0 1px ${focusColor}`,
           bg: 'inherit',
-          '& > :first-child': {
+          '&::before': {
             top: '2px',
             bottom: '2px',
             left: '2px',
@@ -210,12 +211,23 @@ const baseProps = {
   outline: 'none',
 };
 
-const useTagStyle = props => {
+const useTagStyle = ({ borderRadius, ...props }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
   const _props = { ...props, theme, colorMode };
   return {
     ...baseProps,
+    __before: {
+      content: '""',
+      display: 'inline-block',
+      borderRadius: borderRadius,
+      zIndex: -1,
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
     ...sizeProps(_props),
     ...variantProps(_props),
   };
