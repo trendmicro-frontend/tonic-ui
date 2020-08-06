@@ -28,6 +28,7 @@ import InputGroupPrepend from './InputGroupPrepend';
 import LightMode from './LightMode';
 import Link from './Link';
 import MenuButton from './MenuButton';
+import Pagination from './Pagination';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
@@ -50,6 +51,7 @@ import theme from './theme';
 import useClipboard from './useClipboard';
 import useColorMode from './useColorMode';
 import useDisclosure from './useDisclosure';
+import usePagination from './usePagination';
 import useTheme from './useTheme';
 import useToast from './useToast';
 import VisuallyHidden from './VisuallyHidden';
@@ -86,6 +88,7 @@ export {
   LightMode,
   Link,
   MenuButton,
+  Pagination,
   PseudoBox,
   Radio,
   RadioGroup,
@@ -108,6 +111,7 @@ export {
   useClipboard,
   useColorMode,
   useDisclosure,
+  usePagination,
   useTheme,
   useToast,
   VisuallyHidden,
