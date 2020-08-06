@@ -3,6 +3,7 @@ import usePagination from '../usePagination';
 import Button from '../Button';
 import ButtonBase from '../ButtonBase';
 import useColorMode from '../useColorMode';
+import useTheme from '../useTheme';
 import { setColorWithOpacity } from '../theme/colors';
 
 const SelectableButton = ({ selected, ...props }) => {
@@ -59,12 +60,22 @@ const Pagination = (props, ref) => {
         if (item.type === 'previous') {
           label = prevLabel;
         } else if (item.type === 'start-ellipsis' || item.type === 'end-ellipsis') {
+          const { colorMode } = useColorMode();
+          const { sizes } = useTheme();
+          const space = sizes['3x'];
+          const ellipsisOpacity = {
+            dark: 0.28,
+            light: 0.3,
+          }[colorMode];
           return (
             <ButtonBase
               key={`${item.page}-${item.type}`}
               cursor="default"
               disabled={item.disabled}
-              px={11}
+              _disabled={{
+                opacity: ellipsisOpacity
+              }}
+              px={`calc(${space} - 1px)`}
             >
               {ellipsisLabel}
             </ButtonBase>
