@@ -190,7 +190,7 @@ function Example() {
     <Stack direction="column" spacing="4x">
       <Flex position="relative" alignItems="center">
         <InputAdornmentPrepend>
-          <TMIcon name="mobile" color={adornmentColor} />
+          <TMIcon icon="mobile" color={adornmentColor} />
         </InputAdornmentPrepend>
         <Input
           placeholder="Mobile phone number"
@@ -206,7 +206,7 @@ function Example() {
           px="10x"
         />
         <InputAdornmentAppend>
-          <TMIcon name="check" color="green:50" />
+          <TMIcon icon="check" color="green:50" />
         </InputAdornmentAppend>
       </Flex>
       <Flex position="relative" alignItems="center">
@@ -218,7 +218,7 @@ function Example() {
         />
         <InputAdornmentAppend>
           <ButtonBase onClick={toggleView}>
-            <TMIcon name={adornmentIconName} color={adornmentColor} />
+            <TMIcon icon={adornmentIconName} color={adornmentColor} />
           </ButtonBase>
         </InputAdornmentAppend>
       </Flex>
@@ -265,7 +265,7 @@ const InputField = ({
         />
         {isInvalid && (
           <Box position="absolute" right={0}>
-            <TMIcon name="warning-circle" px="3x" color="red:50" />
+            <TMIcon icon="warning-circle" mx="3x" color="red:50" />
           </Box>
         )}
       </Flex>

@@ -19,10 +19,10 @@ import { TMIcon } from '@trendmicro/react-styled-ui';
       Use an icon by passing the `icon` prop. Supported icons are listed in the next section below.
     </Text>
     <Stack direction="row" spacing="1rem">
-        <TMIcon name="moon" size="4x"/>
-        <TMIcon name="moon" size="5x"/>
-        <TMIcon name="moon" size="6x"/>
-        <TMIcon name="moon" size="7x"/>
+        <TMIcon icon="moon" size="4x"/>
+        <TMIcon icon="moon" size="5x"/>
+        <TMIcon icon="moon" size="6x"/>
+        <TMIcon icon="moon" size="7x"/>
     </Stack>
 </Stack>
 ```
@@ -62,7 +62,7 @@ const renderIconGroup = (iconSet, keyword, showCharCode) => {
       {iconSet.icons.map(icon => (
           <Flex direction="row" align="center" pb={0} pr={0} overflow="hidden" key={icon.code}>
             <FlexItem flex="initial" pr="2x">
-              <TMIcon name={icon.name}/>
+              <TMIcon icon={icon.name}/>
             </FlexItem>
             <FlexItem flex="none" pr="2x">
               <Text display={"inline-block"} fontSize={"md"}>

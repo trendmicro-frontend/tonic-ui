@@ -43,13 +43,13 @@ const AnimatedCubeDemo = ({ size = 128, ...rest }) => {
           >
             {colorMode === 'dark' && (
               <Stack direction="column" spacing="3x" textAlign="center">
-                <TMIcon name="moon" size={24} />
+                <TMIcon icon="moon" size={24} mx="auto" />
                 <Text>Dark Mode</Text>
               </Stack>
             )}
             {colorMode === 'light' && (
               <Stack direction="column" spacing="3x" textAlign="center">
-                <TMIcon name="sun" size={24} />
+                <TMIcon icon="sun" size={24} mx="auto" />
                 <Text>Light Mode</Text>
               </Stack>
             )}

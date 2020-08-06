@@ -58,10 +58,10 @@ const Header = React.forwardRef((props, ref) => {
             onClick={toggleColorMode}
           >
             {colorMode === 'light' && (
-              <TMIcon name="moon" fontSize="2xl" />
+              <TMIcon icon="moon" size={24} />
             )}
             {colorMode === 'dark' && (
-              <TMIcon name="sun" fontSize="2xl" />
+              <TMIcon icon="sun" size={24} />
             )}
           </PseudoBox>
           <Box

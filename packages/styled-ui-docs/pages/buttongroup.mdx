@@ -477,14 +477,14 @@ function SwitchButton() {
                   selected={activeButton1 === activeKey}
                   onClick={handleClick1(activeKey)}
                 >
-                  <TMIcon name={key} />
+                  <TMIcon icon={key} />
                 </SelectableButton>
                 <Divider vertical color={emphasisDividerColor} />
               </React.Fragment>
             );
           })
         }
-        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon icon="chart-bar" /></Button>
       </ButtonGroup>
       <ButtonGroup variant="primary">
         {
@@ -498,14 +498,14 @@ function SwitchButton() {
                   selected={activeButton2 === activeKey}
                   onClick={handleClick2(activeKey)}
                 >
-                  <TMIcon name={key} />
+                  <TMIcon icon={key} />
                 </SelectableButton>
                 <Divider vertical color={primaryDividerColor} />
               </React.Fragment>
             );
           })
         }
-        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon icon="chart-bar" /></Button>
       </ButtonGroup>
       <ButtonGroup>
         {
@@ -518,14 +518,14 @@ function SwitchButton() {
                   selected={activeButton3 === activeKey}
                   onClick={handleClick3(activeKey)}
                 >
-                  <TMIcon name={key} />
+                  <TMIcon icon={key} />
                 </SelectableButton>
                 <Divider vertical color={defaultDividerColor} />
               </React.Fragment>
             );
           })
         }
-        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon icon="chart-bar" /></Button>
       </ButtonGroup>
       <ButtonGroup
         variant="secondary"
@@ -545,12 +545,12 @@ function SwitchButton() {
                 selected={activeButton4 === activeKey}
                 onClick={handleClick4(activeKey)}
               >
-                <TMIcon name={key} />
+                <TMIcon icon={key} />
               </SelectableButton>
             );
           })
         }
-        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon icon="chart-bar" /></Button>
       </ButtonGroup>
       <ButtonGroup
         variant="ghost"
@@ -570,14 +570,14 @@ function SwitchButton() {
                   selected={activeButton5 === activeKey}
                   onClick={handleClick5(activeKey)}
                 >
-                  <TMIcon name={key} />
+                  <TMIcon icon={key} />
                 </SelectableButton>
                 <Divider vertical color={ghostDividerColor} />
               </React.Fragment>
             );
           })
         }
-        <Button width="8x" disabled><TMIcon name="chart-bar" /></Button>
+        <Button width="8x" disabled><TMIcon icon="chart-bar" /></Button>
       </ButtonGroup>
       <Box>
         {
@@ -591,13 +591,13 @@ function SwitchButton() {
                   selected={activeButton6 === activeKey}
                   onClick={handleClick6(activeKey)}
                 >
-                  <TMIcon name={key} />
+                  <TMIcon icon={key} />
                 </SelectableButton>
               </React.Fragment>
             );
           })
         }
-        <Button variant="ghost" width="8x" disabled><TMIcon name="chart-bar" /></Button>
+        <Button variant="ghost" width="8x" disabled><TMIcon icon="chart-bar" /></Button>
       </Box>
     </Stack>
   );

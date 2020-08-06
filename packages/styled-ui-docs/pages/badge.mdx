@@ -16,31 +16,31 @@ import { Badge } from '@trendmicro/react-styled-ui';
 <Stack direction="column" spacing="4x" shouldWrapChildren>
   <Stack direction="row" spacing="6x" shouldWrapChildren>
     <Badge badgeContent="5+">
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
     <Badge badgeContent="99+">
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
     <Badge badgeContent="87">
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
     <Badge variant="dot" offset={[4, 2]} borderColor="gray:100">
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
     <Badge variant="dot" dotSize={6} offset={[4, 2]} borderColor="gray:100">
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
     <Badge isHidden>
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
     <Badge badgeContent={0}>
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
     <Badge badgeContent="!">
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
     <Badge badgeContent={<Text color="yellow:50">Text</Text>}>
-      <TMIcon name="alert" />
+      <TMIcon icon="alert" />
     </Badge>
   </Stack>
   <Stack direction="row" spacing="6x" shouldWrapChildren>
@@ -105,16 +105,16 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 ```jsx
 <Stack direction="row" spacing="6x" shouldWrapChildren>
   <Badge badgeContent="5" borderColor="orange:50">
-    <TMIcon name="alert" />
+    <TMIcon icon="alert" />
   </Badge>
   <Badge badgeContent="5">
-    <TMIcon name="alert" borderColor="orange:50" borderWidth={3} />
+    <TMIcon icon="alert" borderColor="orange:50" borderWidth={3} />
   </Badge>
   <Badge badgeContent="5" borderColor="orange:50">
-    <TMIcon name="alert" />
+    <TMIcon icon="alert" />
   </Badge>
   <Badge variant="dot" offset={[4, 2]} borderColor="orange:50" borderWidth={3}>
-    <TMIcon name="alert" />
+    <TMIcon icon="alert" />
   </Badge>
 </Stack>
 ```

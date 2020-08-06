@@ -3,7 +3,7 @@ import Icon from '../Icon';
 
 const TMIcon = React.forwardRef((
   {
-    name,
+    icon,
     size,
     ...props
   },
@@ -17,7 +17,7 @@ const TMIcon = React.forwardRef((
   return (
     <Icon
       ref={ref}
-      name={`_core.tmicon-${name}`}
+      icon={`_core.tmicon-${icon}`}
       size={size}
       {...props}
     />
