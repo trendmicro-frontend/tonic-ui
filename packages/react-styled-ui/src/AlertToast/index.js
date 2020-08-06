@@ -26,7 +26,7 @@ const getIconBySeverity = (severity) => {
   }
 
   return (
-    <Icon name={`_core.${iconName}`} />
+    <Icon icon={`_core.${iconName}`} />
   );
 };
 
@@ -59,7 +59,7 @@ const AlertToast = forwardRef((
   const closeButtonStyleProps = useAlertToastCloseButtonStyle();
 
   if (typeof icon === 'string') {
-    icon = (<Icon name={icon} />);
+    icon = (<Icon icon={icon} />);
   }
   if (typeof icon === 'undefined') {
     icon = getIconBySeverity(severity);
@@ -88,7 +88,7 @@ const AlertToast = forwardRef((
         <>
           <Space minWidth="4x" />
           <AlertToastCloseButton {...closeButtonStyleProps} onClick={onClose}>
-            <Icon name="_core.close-s" />
+            <Icon icon="_core.close-s" />
           </AlertToastCloseButton>
         </>
       )}
