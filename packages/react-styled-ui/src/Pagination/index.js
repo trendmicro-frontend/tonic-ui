@@ -53,6 +53,8 @@ const Pagination = (props, ref) => {
   //   siblingCount,
   // } = props;
   const { items } = usePagination(props);
+  const { colorMode } = useColorMode();
+  const { sizes } = useTheme();
   return (
     <React.Fragment>
       {items.map((item, index) => {
@@ -60,8 +62,6 @@ const Pagination = (props, ref) => {
         if (item.type === 'previous') {
           label = prevLabel;
         } else if (item.type === 'start-ellipsis' || item.type === 'end-ellipsis') {
-          const { colorMode } = useColorMode();
-          const { sizes } = useTheme();
           const space = sizes['3x'];
           const ellipsisOpacity = {
             dark: 0.28,
