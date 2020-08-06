@@ -64,7 +64,7 @@ const Tag = forwardRef(
             disabled={disabled}
             onClick={onClose}
           >
-            <Icon name="_core.close-s" />
+            <Icon icon="_core.close-s" />
           </TagCloseButton>
         )}
       </PseudoBox>

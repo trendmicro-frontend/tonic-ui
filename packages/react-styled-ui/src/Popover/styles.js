@@ -30,7 +30,7 @@ const usePopoverContentStyle = () => {
 
 const usePopoverHeaderStyle = () => {
   const { colorMode } = useColorMode();
-  const color = { dark: 'white:emphasis', light: 'black:emphasis' }[colorMode];
+  const color = { dark: 'white:emphasis', light: 'black:primary' }[colorMode];
   return {
     ...baseProps,
     fontWeight: 'semibold',

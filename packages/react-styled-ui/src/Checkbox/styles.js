@@ -76,7 +76,7 @@ const interactionProps = ({ color, colorMode }) => {
   const checkedAndFocusColor = _color;
   const checkedAndDisabledColor = {
     dark: 'white:emphasis',
-    light: 'black:emphasis',
+    light: 'black:primary',
   }[colorMode];
 
   // background color

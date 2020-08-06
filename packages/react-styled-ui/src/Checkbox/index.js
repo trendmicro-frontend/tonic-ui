@@ -124,7 +124,7 @@ const Checkbox = forwardRef(
             right="0"
           />
           <Icon
-            name={indeterminate ? '_core.minus' : '_core.check'}
+            icon={indeterminate ? '_core.minus' : '_core.check'}
             size={iconSize}
             color={iconColor}
           />
@@ -132,7 +132,6 @@ const Checkbox = forwardRef(
         {children && (
           <Box
             ml="2x"
-            fontSize={size}
             userSelect="none"
             opacity={readOnly || disabled ? 0.28 : 1}
           >

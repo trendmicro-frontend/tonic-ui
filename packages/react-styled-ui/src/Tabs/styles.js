@@ -58,7 +58,7 @@ const statusProps = {
 };
 
 const lineStyle = ({ size, colorMode, theme }) => {
-  const _color = { light: theme.colors['black:emphasis'], dark: theme.colors['white:emphasis'] }[colorMode];
+  const _color = { light: theme.colors['black:primary'], dark: theme.colors['white:emphasis'] }[colorMode];
   const _fontColor = setColorWithOpacity(_color, 0.6);
   const _hoveredBorderColor = 'gray:60';
   const _focusBorderColor = 'blue:60';
@@ -104,7 +104,7 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
   const _focusBorderWidth = '2px';
   const _px = tabSizes[size] ? theme.space[tabSizes[size].px] : theme.space[tabSizes.md.px];
   const _lineHeight = tabSizes[size] ? theme.lineHeights[tabSizes[size].lineHeight] : theme.lineHeights[tabSizes.md.lineHeight];
-  const _color = { light: theme.colors['black:emphasis'], dark: theme.colors['white:emphasis'] }[colorMode];
+  const _color = { light: theme.colors['black:primary'], dark: theme.colors['white:emphasis'] }[colorMode];
   const _backgroundColor = { light: 'gray:20', dark: 'gray:90' }[colorMode];
   const _borderColor = { light: 'gray:30', dark: 'gray:80' }[colorMode];
   const _hoveredBorderColor = { light: 'gray:30', dark: 'gray:70' }[colorMode];

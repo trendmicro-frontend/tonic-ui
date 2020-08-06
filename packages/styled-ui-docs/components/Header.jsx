@@ -15,7 +15,7 @@ const Header = React.forwardRef((props, ref) => {
     dark: 'gray:70',
   }[colorMode];
   const fontColor = {
-    light: 'black:emphasis', // FIXME
+    light: 'black:primary', // FIXME
     dark: 'white:emphasis',
   }[colorMode];
   return (

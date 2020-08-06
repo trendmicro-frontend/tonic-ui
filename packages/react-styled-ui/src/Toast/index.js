@@ -26,7 +26,7 @@ const getIconByAppearance = (appearance) => {
   }
 
   return (
-    <Icon name={`_core.${iconName}`} />
+    <Icon icon={`_core.${iconName}`} />
   );
 };
 
@@ -59,7 +59,7 @@ const Toast = forwardRef((
   const closeButtonStyleProps = useToastCloseButtonStyle();
 
   if (typeof icon === 'string') {
-    icon = (<Icon name={icon} />);
+    icon = (<Icon icon={icon} />);
   }
   if (typeof icon === 'undefined') {
     icon = getIconByAppearance(appearance);
@@ -88,7 +88,7 @@ const Toast = forwardRef((
         <>
           <Space minWidth="4x" />
           <ToastCloseButton {...closeButtonStyleProps} onClick={onClose}>
-            <Icon name="_core.close-s" />
+            <Icon icon="_core.close-s" />
           </ToastCloseButton>
         </>
       )}

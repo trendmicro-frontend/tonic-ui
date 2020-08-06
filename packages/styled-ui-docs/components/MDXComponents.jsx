@@ -50,7 +50,7 @@ const H1 = props => {
       borderBottomColor={borderColor}
       color={color}
       fontSize="3xl"
-      fontWeight="semibold"
+      fontWeight="normal"
       lineHeight="3xl"
       {...props}
     />
@@ -75,7 +75,7 @@ const H2 = props => {
       borderBottomColor={borderColor}
       color={color}
       fontSize="2xl"
-      fontWeight="semibold"
+      fontWeight="normal"
       lineHeight="2xl"
       {...props}
     />
