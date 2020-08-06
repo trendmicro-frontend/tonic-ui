@@ -1,12 +1,12 @@
 # Toast
 
-A toast notification is a small message that shows up in a box at one side of the screen and disappears on its own after few seconds. It is a simple feedback about an operation in which current activity remains visibility and interactive. Basically it is to inform the user of something that is not critical and that does not require specific attention and does not prevent the user from using the app.
+A toast notification is a short message that displays at the  side of the screen and disappears automatically after a few seconds. A toast notification is a status update about an operation for which the current activity remains visibility and interactive. Basically, a toast notification is used inform the user of something that is not critical and that does not require specific attention, and does not prevent the user from using the app.
 
 ### Prerequisite
 
-The `Toast` component should work with the `useToast` Hook to trigger a toast notification.
+A `Toast` element works with the `useToast` hook to trigger a toast notification.
 
-Learn more about the [`useToast`](./usetoast) Hook.
+For more information, see the [`useToast`](./usetoast) hook.
 
 ## Import
 
@@ -18,12 +18,12 @@ import { Toast } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
-### Layouts
+### Layout
 
 * Increase the vertical padding space to `4x` (or `1rem`) for a multiline paragraph.
 * Set the minimum horizontal margin space to `4x` (or `1rem`) before the close button.
 * Set the minimum horizontal margin space to `4x` (or `1rem`) between the icon and the content.
-* Apply vertical margin space with `2x` (or `.5rem`) between title and its content.
+* Apply vertical margin space with `2x` (or `.5rem`) between the title and its content.
 * Apply vertical margin space with `6x` (or `1.5rem`) between the end of the content and the action button (or action link).
 
 ```jsx noInline
@@ -227,7 +227,7 @@ render(<Example />);
 
 ### Appearances
 
-You can control the appearance of a toast notification. The value can be one of `success`, `info`, `warning`, or `error` if specified.
+You can control the appearance of a toast notification. If specified, the value can be one of `success`, `info`, `warning`, or `error`.
 
 ```jsx noInline
 const ToastSuccess = ({ onClose }) => (
@@ -460,7 +460,7 @@ render(<Example />);
 
 ## Props
 
-`Toast` composes the [`Box`](./box) component. You can override the default styles with style props.
+A `Toast` element is composed of the [`Box`](./box) component. You can override the default styles using the style props.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

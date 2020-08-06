@@ -14,7 +14,7 @@ const DrawerCloseButton = (props) => {
 
   return (
     <ButtonBase {...closeButtonStyleProps} {...props}>
-      <Icon name="_core.close" />
+      <Icon icon="_core.close" />
     </ButtonBase>
   );
 };
