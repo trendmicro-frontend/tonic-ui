@@ -35,32 +35,31 @@ const SelectableButton = ({ selected, ...props }) => {
 
 const Pagination = (props, ref) => {
   const {
-    prevLabel = '<',
-    nextLabel = '>',
     ellipsisLabel = '...',
+    firstButton = false,
+    lastButton = false,
+    prevButton = '<',
+    nextButton = '>',
   } = props;
-  // const {
-  //   boundaryCount,
-  //   count,
-  //   defaultPage,
-  //   disabled,
-  //   hideNextButton,
-  //   hidePrevButton,
-  //   onChange: handleChange,
-  //   page: pageProp,
-  //   showFirstButton,
-  //   showLastButton,
-  //   siblingCount,
-  // } = props;
-  const { items } = usePagination(props);
+  const { items } = usePagination({
+    ...props,
+    hideNextButton: !nextButton,
+    hidePrevButton: !prevButton,
+    showFirstButton: !!firstButton,
+    showLastButton: !!lastButton,
+  });
   const { colorMode } = useColorMode();
   const { sizes } = useTheme();
   return (
     <React.Fragment>
       {items.map((item, index) => {
         let label;
-        if (item.type === 'previous') {
-          label = prevLabel;
+        if (item.type === 'first') {
+          label = firstButton;
+        } else if (item.type === 'last') {
+          label = lastButton;
+        } else if (item.type === 'previous') {
+          label = prevButton;
         } else if (item.type === 'start-ellipsis' || item.type === 'end-ellipsis') {
           const space = sizes['3x'];
           const ellipsisOpacity = {
@@ -81,7 +80,7 @@ const Pagination = (props, ref) => {
             </ButtonBase>
           );
         } else if (item.type === 'next') {
-          label = nextLabel;
+          label = nextButton;
         } else {
           label = item.page;
         }
