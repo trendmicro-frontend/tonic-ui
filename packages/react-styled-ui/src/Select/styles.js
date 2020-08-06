@@ -2,7 +2,6 @@ import useColorMode from '../useColorMode';
 
 const baseProps = {
   appearance: 'none',
-  backgroundColor: 'inherit',
   border: 'none',
   color: 'inherit',
   outline: 0,
@@ -29,7 +28,7 @@ const getOutlinedStyle = ({
   colorMode,
 }) => {
   const backgroundColor = {
-    dark: 'gray:90',
+    dark: 'transparent',
     light: 'white',
   }[colorMode];
   const color = {
@@ -63,9 +62,9 @@ const getOutlinedStyle = ({
 
   return {
     backgroundColor,
-    color,
     border: 1,
     borderColor,
+    color,
     _hover: {
       borderColor: hoverBorderColor,
     },
@@ -114,7 +113,7 @@ const getUnstyledStyle = ({
   colorMode,
 }) => {
   const backgroundColor = {
-    dark: 'gray:90',
+    dark: 'transparent',
     light: 'white',
   }[colorMode];
   const color = {
