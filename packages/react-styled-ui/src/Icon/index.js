@@ -11,8 +11,7 @@ const Icon = forwardRef((
   ref
 ) => {
   const { icons = {} } = useTheme();
-  const { path, ...restIconProps } = { ..._get(icons, icon) };
-
+  const { path, ...restIconProps } = { ..._get(icons, `tmicon-${icon}`) };
   return (
     <SVGIcon ref={ref} {...restIconProps} {...rest}>
       {path}

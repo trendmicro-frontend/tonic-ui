@@ -124,7 +124,7 @@ const Checkbox = forwardRef(
             right="0"
           />
           <Icon
-            icon={indeterminate ? '_core.minus' : '_core.check'}
+            icon={indeterminate ? 'minus' : 'check'}
             size={iconSize}
             color={iconColor}
           />

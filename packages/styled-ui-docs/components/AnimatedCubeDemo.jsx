@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/core';
-import { Box, Image, Stack, Text, TMIcon, useColorMode } from '@trendmicro/react-styled-ui';
+import { Box, Image, Stack, Text, Icon, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import Cube from './Cube';
 
@@ -43,13 +43,13 @@ const AnimatedCubeDemo = ({ size = 128, ...rest }) => {
           >
             {colorMode === 'dark' && (
               <Stack direction="column" spacing="3x" textAlign="center">
-                <TMIcon icon="moon" size={24} mx="auto" />
+                <Icon icon="moon" size={24} mx="auto" />
                 <Text>Dark Mode</Text>
               </Stack>
             )}
             {colorMode === 'light' && (
               <Stack direction="column" spacing="3x" textAlign="center">
-                <TMIcon icon="sun" size={24} mx="auto" />
+                <Icon icon="sun" size={24} mx="auto" />
                 <Text>Light Mode</Text>
               </Stack>
             )}

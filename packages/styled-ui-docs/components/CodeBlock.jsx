@@ -10,7 +10,7 @@ import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
-import iconList from './tmicon-list';
+import tmIconMap from '../../react-styled-ui/src/Icon/tmIconMap';
 
 const ThirdPartyComponents = {
   AutoSizer,
@@ -40,8 +40,8 @@ const liveErrorStyle = {
   backgroundColor: 'red',
 };
 
-const tmIconList = iconList.iconsets.map(group => {
-  const icons = iconList.icons.filter(({ iconset }) => iconset === group.id);
+const tmIconList = tmIconMap.iconsets.map(group => {
+  const icons = tmIconMap.icons.filter(({ iconset }) => iconset === group.id);
   if (icons.length === 0) {
     return null;
   }

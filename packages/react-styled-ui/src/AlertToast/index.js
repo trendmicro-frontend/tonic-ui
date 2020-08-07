@@ -15,10 +15,10 @@ const defaultSeverity = 'success';
 
 const getIconBySeverity = (severity) => {
   const iconName = {
-    success: 'severity-success',
-    info: 'severity-info',
-    warning: 'severity-warning',
-    error: 'severity-error',
+    success: 'success',
+    info: 'info',
+    warning: 'warning-triangle',
+    error: 'error',
   }[severity];
 
   if (!iconName) {
@@ -26,7 +26,7 @@ const getIconBySeverity = (severity) => {
   }
 
   return (
-    <Icon icon={`_core.${iconName}`} />
+    <Icon icon={`${iconName}`} />
   );
 };
 
@@ -88,7 +88,7 @@ const AlertToast = forwardRef((
         <>
           <Space minWidth="4x" />
           <AlertToastCloseButton {...closeButtonStyleProps} onClick={onClose}>
-            <Icon icon="_core.close-s" />
+            <Icon icon="close-s" />
           </AlertToastCloseButton>
         </>
       )}

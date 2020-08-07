@@ -56,7 +56,6 @@ export const componentLinks = [
   'Text',
   'Textarea',
   'TextLabel',
-  'TMIcon',
   'Toast',
   'ToggleSwitch',
   'Tooltip',
