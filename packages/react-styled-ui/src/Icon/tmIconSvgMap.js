@@ -1,7 +1,7 @@
 import React from 'react';
 import tmIconMap from './tmIconMap';
 
-const tmIconSvgMap = tmIconMap.icons.reduce((prevMap, { name, paths }) => {
+const tmIconSvgMap = tmIconMap.icons.reduce((prevMap, { name, paths, viewBox }) => {
   return {
     ...prevMap,
     [`tmicon-${name}`]: {
@@ -17,7 +17,7 @@ const tmIconSvgMap = tmIconMap.icons.reduce((prevMap, { name, paths }) => {
           ))}
         </g>
       ),
-      viewBox: '0 0 16 16',
+      viewBox,
     }
   };
 }, {});
