@@ -11,13 +11,16 @@ import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import TMIcon from './TMIcon';
+import EditableTag from './EditableTag';
 
 const ThirdPartyComponents = {
   AutoSizer,
   Scrollbars,
   ...ReactTable,
 };
-
+const CustomedComponents = {
+  EditableTag,
+};
 const IconComponents = {
   FontAwesomeIcon,
   TMIcon,
@@ -148,6 +151,7 @@ const CodeBlock = ({
       ...IconComponents,
       ...CoreComponents,
       ...ThirdPartyComponents,
+      ...CustomedComponents,
       Lorem: (props) => (
         <Lorem
           paragraphLowerBound={1}

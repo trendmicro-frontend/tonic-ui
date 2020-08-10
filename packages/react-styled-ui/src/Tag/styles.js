@@ -106,10 +106,6 @@ const solidStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
     dark: 'white:emphasis',
     light: 'white:emphasis',
   }[colorMode];
-  const hoverInvalidBgColor = {
-    dark: 'red:50',
-    light: 'red:50',
-  }[colorMode];
 
   const styles = {
     ...baseColors,
@@ -144,14 +140,6 @@ const solidStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
             bg: invalidBgColor
           },
         },
-        '&:hover': {
-          '&:not(:focus)': {
-            bg: hoverInvalidBgColor,
-            '&::before': {
-              bg: hoverInvalidBgColor,
-            },
-          },
-        }
       },
     },
     _disabled: {
@@ -220,10 +208,6 @@ const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
     dark: 'white:emphasis',
     light: 'white:emphasis',
   }[colorMode];
-  const hoverInvalidBgColor = {
-    dark: 'red:50',
-    light: 'red:50',
-  }[colorMode];
 
   const styles = {
     ...baseColors,
@@ -251,14 +235,6 @@ const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
             bg: invalidBgColor
           },
         },
-        '&:hover': {
-          '&:not(:focus)': {
-            bg: hoverInvalidBgColor,
-            '&::before': {
-              bg: hoverInvalidBgColor,
-            },
-          },
-        }
       },
     },
     _disabled: {
