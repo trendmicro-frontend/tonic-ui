@@ -233,9 +233,9 @@ function Example() {
                     columnGap="3x"
                     alignItems="center"
                   >
-                    <TMIcon name="user" color={iconColor} />
+                    <Icon icon="user" color={iconColor} />
                     <Input placeholder="User name" />
-                    <TMIcon name="lock" color={iconColor} />
+                    <Icon icon="lock" color={iconColor} />
                     <Input type="password" placeholder="Password" />
                   </Grid>
                 </DrawerBody>
@@ -280,13 +280,13 @@ function Example() {
       <Stack direction="row" spacing="2x">
         <Button onClick={handleClickBy('left')}>
           <Flex align="center">
-            <TMIcon name="chevron-right" mr="2x" />
+            <Icon icon="chevron-right" mr="2x" />
             Left
           </Flex>
         </Button>
         <Button onClick={handleClickBy('right')}>
           <Flex align="center">
-            <TMIcon name="chevron-left" mr="2x" />
+            <Icon icon="chevron-left" mr="2x" />
             Right
           </Flex>
         </Button>
