@@ -1,4 +1,4 @@
-import { Children, cloneElement, useRef } from 'react';
+import { Children, cloneElement, useRef, useState } from 'react';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 
@@ -13,7 +13,11 @@ const PopoverTrigger = ({ children }) => {
     onClose,
     isHoveringRef,
     delay,
+    setMouseCoordinate,
+    nextToCursor,
+    followCursor
   } = usePopover();
+  const [enableMouseMove, setEnableMouseMove] = useState(true);
   const child = Children.only(children);
   let eventHandlers = {};
 
@@ -39,9 +43,15 @@ const PopoverTrigger = ({ children }) => {
         }
       }),
       onBlur: wrapEvent(child.props.onBlur, onClose),
+      onMouseMove: wrapEvent(child.props.onMouseMove, (event) => {
+        (enableMouseMove || followCursor) && setMouseCoordinate(event);
+      }),
       onMouseEnter: wrapEvent(child.props.onMouseEnter, () => {
         isHoveringRef.current = true;
-        openTimeout.current = setTimeout(onOpen, delay.show);
+        openTimeout.current = setTimeout(() => {
+          setEnableMouseMove(followCursor);
+          onOpen();
+        }, delay.show || ((nextToCursor || followCursor) && 500));
       }),
       onMouseLeave: wrapEvent(child.props.onMouseLeave, () => {
         isHoveringRef.current = false;
@@ -51,6 +61,7 @@ const PopoverTrigger = ({ children }) => {
         }
         setTimeout(() => {
           if (isHoveringRef.current === false) {
+            setEnableMouseMove(true);
             onClose();
           }
         }, delay.hide || 100); // keep opening popover when cursor quick move from trigger element to popover.

@@ -219,6 +219,29 @@ If you quickly move your cursor to the popover content when it is open, `Popover
 </Popover>
 ```
 
+### Mouse tracking
+
+```jsx
+<Stack shouldWrapChildren direction="row" spacing="2x">
+  <Popover trigger="hover" nextToCursor>
+    <PopoverTrigger>
+      <Button>Next to cursor</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+    </PopoverContent>
+  </Popover>
+  <Popover trigger="hover" followCursor>
+    <PopoverTrigger>
+      <Button>Follow cursor</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+    </PopoverContent>
+  </Popover>
+</Stack>
+```
+
 ## Popover Placement
 
 Since `Popover` is controlled by PopperJS, you can change the placement of `Popover` by passing the `placement` prop.
@@ -393,6 +416,8 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 | usePortal          | boolean                                                      | `true`                   | If `true`, the popover is displayed with a `Portal`. Rendering content inside a Portal allows the popover content to escape the physical bounds of its parent while still being positioned correctly relative to its target.                                                                                 |
 | onOpen             | () => void                                                   |                          | A callback called when the popover opens.                                                                                                                                                                                                                                                                      |
 | onClose            | () => void                                                   |                          | A callback called when the popover closes.                                                                                                                                                                                                                                                                     |
+| nextToCursor       | boolean                                                      |                          | Popover will next to mouse cursor when mouse enter the reference                                                                                                                                                                                                                                                                 |
+| followCursor       | boolean                                                      |                          | Popover will follow mouse cursor when mouse move on the reference                                                                                                                                                                                                                                                                     |
 
 ### Other props
 - `PopoverContent` is composed of [`PseudoBox`](./pseudobox). You can override the default styles with style props.

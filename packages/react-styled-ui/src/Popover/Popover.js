@@ -30,8 +30,12 @@ const Popover = ({
   closeOnEsc = true,
   onOpen: onOpenProp,
   onClose: onCloseProp,
+  nextToCursor,
+  followCursor,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
+  const [mousePageX, setMousePageX] = useState(0);
+  const [mousePageY, setMousePageY] = useState(0);
   const { current: isControlled } = useRef(isOpenProp != null);
 
   const isHoveringRef = useRef();
@@ -81,6 +85,11 @@ const Popover = ({
     ) {
       onClose();
     }
+  };
+
+  const setMouseCoordinate = event => {
+    setMousePageX(event.pageX);
+    setMousePageY(event.pageY);
   };
 
   const fallbackId = `popover-${useId()}`;
@@ -134,7 +143,7 @@ const Popover = ({
     headerId,
     bodyId,
     popoverId,
-    placement,
+    placement: (nextToCursor || followCursor) ? 'bottom-start' : placement,
     onOpen,
     onClose,
     onToggle,
@@ -145,10 +154,15 @@ const Popover = ({
     initialFocusRef,
     isHoveringRef,
     usePortal,
-    hideArrow,
+    hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
     skidding,
     distance,
     delay,
+    setMouseCoordinate,
+    nextToCursor,
+    followCursor,
+    mousePageX,
+    mousePageY,
   };
 
   return (
