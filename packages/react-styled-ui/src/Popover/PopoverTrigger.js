@@ -55,13 +55,13 @@ const PopoverTrigger = ({ children }) => {
       }),
       onMouseLeave: wrapEvent(child.props.onMouseLeave, () => {
         isHoveringRef.current = false;
+        setEnableMouseMove(true);
         if (openTimeout.current) {
           clearTimeout(openTimeout.current);
           openTimeout.current = null;
         }
         setTimeout(() => {
           if (isHoveringRef.current === false) {
-            setEnableMouseMove(true);
             onClose();
           }
         }, delay.hide || 100); // keep opening popover when cursor quick move from trigger element to popover.

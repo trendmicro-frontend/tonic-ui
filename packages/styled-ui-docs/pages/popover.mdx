@@ -222,55 +222,24 @@ If you quickly move your cursor to the popover content when it is open, `Popover
 ### Mouse tracking
 
 ```jsx
-<>
-  <Stack shouldWrapChildren direction="row" spacing="2x">
-    <Popover trigger="hover" nextToCursor>
-      <PopoverTrigger>
-        <Button>Next to cursor</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover trigger="hover" followCursor>
-      <PopoverTrigger>
-        <Button>Follow cursor</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-  </Stack>
-  <Table>
-    <TableHeader>
-      <TableHeaderRow>
-        <TableHeaderCell>Event Type</TableHeaderCell>
-        <TableHeaderCell>Detections</TableHeaderCell>
-      </TableHeaderRow>
-    </TableHeader>
-    <TableBody>
-      <TableRow>
-        <TableCell>Virus/Malware</TableCell>
-        <TableCell>634</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Virus/Malware</TableCell>
-        <TableCell>778</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>URL Filtering</TableCell>
-        <Popover trigger="hover" followCursor>
-          <PopoverTrigger>
-            <TableCell>598</TableCell>
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-          </PopoverContent>
-        </Popover>
-      </TableRow>
-    </TableBody>
-  </Table>
-</>
+<Stack shouldWrapChildren direction="row" spacing="2x">
+  <Popover trigger="hover" nextToCursor>
+    <PopoverTrigger>
+      <Button>Next to cursor</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <PopoverBody>Lorem ipsum dolor sit amet</PopoverBody>
+    </PopoverContent>
+  </Popover>
+  <Popover trigger="hover" followCursor>
+    <PopoverTrigger>
+      <Button>Follow cursor</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <PopoverBody>Lorem ipsum dolor sit amet</PopoverBody>
+    </PopoverContent>
+  </Popover>
+</Stack>
 ```
 
 ## Popover Placement
