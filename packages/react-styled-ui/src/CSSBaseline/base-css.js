@@ -7,13 +7,10 @@ const baseCSS = theme => {
      */
     html {
       box-sizing: border-box;
+      font-family: ${theme.fonts.base};
     }
     *, *:before, *:after {
       box-sizing: inherit;
-    }
-
-    html {
-      font-family: ${theme.fonts.base};
     }
 
     pre,
