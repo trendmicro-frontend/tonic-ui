@@ -55,8 +55,17 @@ const PopoverContent = ({
     };
   }
 
+  const getOffset = (element, relativeTop = false) => {
+    if (!element) {
+      return 0;
+    }
+    return getOffset(element.offsetParent, relativeTop) + (relativeTop ? element.offsetTop : element.offsetLeft);
+  };
+
   if ((nextToCursor || followCursor) && referenceRef.current) {
-    const { offsetLeft, offsetTop, offsetHeight } = referenceRef.current;
+    const { offsetHeight } = referenceRef.current;
+    const offsetLeft = getOffset(referenceRef.current);
+    const offsetTop = getOffset(referenceRef.current, true);
     _skidding = mousePageX - offsetLeft + 8; // 8px is a estimated value of cursor
     _distance = -8 + (mousePageY - offsetTop - offsetHeight) + 24; // 24px is a estimated value of cursor
   }
