@@ -85,7 +85,7 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
   );
 };
 
-export const FunctionalColorPalette = ({ mode, palette, type, color, ...props }) => {
+export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...props }) => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
   const boxProps = {
@@ -128,24 +128,25 @@ export const FunctionalColorPalette = ({ mode, palette, type, color, ...props })
   return (
     <Box>
       <Box background={color} {...boxProps} />
-      <Box {...titleProps}>{palette}.{type}</Box>
+      <Box {...titleProps}>{palette}.{colorType}</Box>
       {colorInfo}
     </Box>
   );
 };
 
-export const FunctionalColorPalettes = ({ mode, palette, ...props }) => {
-  const palettes = getColorPalette(mode).get(palette);
+export const FunctionalColorPalettes = ({ mode, type, palette, ...props }) => {
+  const paletteColor = (type && palette) ? `${type}.${palette}` : palette ?? type;
+  const palettes = getColorPalette(mode).get(paletteColor);
   return (
     <FunctionalColorWrapper mode={mode}>
       {
-        Object.keys(palettes).map((type) => (
+        Object.keys(palettes).map((color) => (
           <FunctionalColorPalette
-            key={type}
+            key={color}
             mode={mode}
-            palette={palette}
-            type={type}
-            color={`${palettes[type]}`}
+            palette={palette ?? type}
+            colorType={color}
+            color={`${palettes[color]}`}
           />
         ))
       }
