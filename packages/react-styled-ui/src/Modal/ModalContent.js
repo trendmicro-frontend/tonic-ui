@@ -14,7 +14,7 @@ const ModalCloseButton = (props) => {
 
   return (
     <ButtonBase {...closeButtonStyleProps} {...props}>
-      <Icon icon="_core.close" />
+      <Icon icon="close" />
     </ButtonBase>
   );
 };

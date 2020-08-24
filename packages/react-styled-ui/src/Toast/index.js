@@ -15,10 +15,10 @@ const defaultAppearance = 'none';
 
 const getIconByAppearance = (appearance) => {
   const iconName = {
-    success: 'severity-success',
-    info: 'severity-info',
-    warning: 'severity-warning',
-    error: 'severity-error',
+    success: 'success',
+    info: 'info',
+    warning: 'warning-triangle',
+    error: 'error',
   }[appearance];
 
   if (!iconName) {
@@ -26,7 +26,7 @@ const getIconByAppearance = (appearance) => {
   }
 
   return (
-    <Icon icon={`_core.${iconName}`} />
+    <Icon icon={`${iconName}`} />
   );
 };
 
@@ -88,7 +88,7 @@ const Toast = forwardRef((
         <>
           <Space minWidth="4x" />
           <ToastCloseButton {...closeButtonStyleProps} onClick={onClose}>
-            <Icon icon="_core.close-s" />
+            <Icon icon="close-s" />
           </ToastCloseButton>
         </>
       )}

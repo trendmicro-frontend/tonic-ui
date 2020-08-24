@@ -103,7 +103,7 @@ const SearchInput = React.forwardRef((
       <InputAdornmentPrepend
         color={tertiaryColor}
       >
-        <Icon icon="_core.search-o" />
+        <Icon icon="search-o" />
       </InputAdornmentPrepend>
       <Input
         ref={combinedRef}
@@ -129,12 +129,12 @@ const SearchInput = React.forwardRef((
             }}
             onClick={handleClickClearButton}
           >
-            <Icon icon="_core.close-s" />
+            <Icon icon="close-s" />
           </ButtonBase>
         )}
         {iconState === 'loading' && (
           <Icon
-            icon="_core.spinner"
+            icon="spinner"
             animation={`${spin} 2s infinite linear`}
           />
         )}

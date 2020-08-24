@@ -192,7 +192,7 @@ const AccordionIcon = props => {
   const { isExpanded, isDisabled } = useAccordionItemContext();
   return (
     <Icon
-      icon="_core.chevron-down"
+      icon="chevron-down"
       opacity={isDisabled ? 0.4 : 1}
       transform={isExpanded ? 'rotate(180deg)' : null}
       transition="transform 0.2s"

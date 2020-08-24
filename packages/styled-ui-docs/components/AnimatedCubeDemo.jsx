@@ -1,8 +1,7 @@
 import { keyframes } from '@emotion/core';
-import { Box, Image, Stack, Text, useColorMode } from '@trendmicro/react-styled-ui';
+import { Box, Image, Stack, Text, Icon, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import Cube from './Cube';
-import TMIcon from './TMIcon';
 
 const cubeSpin = keyframes`
   from { transform: rotateY(360deg); }
@@ -44,13 +43,13 @@ const AnimatedCubeDemo = ({ size = 128, ...rest }) => {
           >
             {colorMode === 'dark' && (
               <Stack direction="column" spacing="3x" textAlign="center">
-                <TMIcon name="moon" size={24} />
+                <Icon icon="moon" size={24} mx="auto" />
                 <Text>Dark Mode</Text>
               </Stack>
             )}
             {colorMode === 'light' && (
               <Stack direction="column" spacing="3x" textAlign="center">
-                <TMIcon name="sun" size={24} />
+                <Icon icon="sun" size={24} mx="auto" />
                 <Text>Light Mode</Text>
               </Stack>
             )}

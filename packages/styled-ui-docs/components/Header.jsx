@@ -1,7 +1,6 @@
-import { Box, Flex, PseudoBox, useColorMode } from '@trendmicro/react-styled-ui';
+import { Box, Flex, PseudoBox, Icon, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
-import TMIcon from './TMIcon';
 import pkg from '../../../package.json';
 
 const Header = React.forwardRef((props, ref) => {
@@ -59,10 +58,10 @@ const Header = React.forwardRef((props, ref) => {
             onClick={toggleColorMode}
           >
             {colorMode === 'light' && (
-              <TMIcon name="moon" fontSize="2xl" />
+              <Icon icon="moon" size={24} />
             )}
             {colorMode === 'dark' && (
-              <TMIcon name="sun" fontSize="2xl" />
+              <Icon icon="sun" size={24} />
             )}
           </PseudoBox>
           <Box
