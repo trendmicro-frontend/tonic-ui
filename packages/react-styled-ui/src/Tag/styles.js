@@ -2,76 +2,142 @@ import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
-const solidStyle = ({ color, canFocus, theme: { colors } }) => {
+const solidStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
+  const undefinedColor = {
+    dark: {
+      bg: `${color}:80`,
+      color: `${color}:20`,
+    },
+    light: {
+      bg: `${color}:80`,
+      color: `${color}:20`,
+    }
+  }[colorMode];
   const solidColors = {
-    gray: {
-      bg: 'gray:70',
-      color: 'gray:20'
+    dark: {
+      gray: {
+        bg: 'gray:70',
+        color: 'gray:20'
+      },
+      red: {
+        bg: 'red:80',
+        color: 'red:20'
+      },
+      magenta: {
+        bg: 'magenta:80',
+        color: 'magenta:20'
+      },
+      purple: {
+        bg: 'purple:80',
+        color: 'purple:20'
+      },
+      blue: {
+        bg: 'blue:80',
+        color: 'blue:20'
+      },
+      green: {
+        bg: 'green:70',
+        color: 'green:20'
+      },
+      teal: {
+        bg: 'teal:70',
+        color: 'teal:20'
+      },
+      cyan: {
+        bg: 'cyan:70',
+        color: 'cyan:20'
+      },
     },
-    red: {
-      bg: 'red:80',
-      color: 'red:20'
-    },
-    magenta: {
-      bg: 'magenta:80',
-      color: 'magenta:20'
-    },
-    purple: {
-      bg: 'purple:80',
-      color: 'purple:20'
-    },
-    blue: {
-      bg: 'blue:80',
-      color: 'blue:20'
-    },
-    green: {
-      bg: 'green:70',
-      color: 'green:20'
-    },
-    teal: {
-      bg: 'teal:70',
-      color: 'teal:20'
-    },
-    cyan: {
-      bg: 'cyan:70',
-      color: 'cyan:20'
-    },
-  };
-  const colorStyle = solidColors[color] || {
-    bg: `${color}:80`,
-    color: `${color}:20`,
-  };
-  const focusColor = colors['blue:60'];
+    light: {
+      gray: {
+        bg: 'gray:70',
+        color: 'gray:20'
+      },
+      red: {
+        bg: 'red:80',
+        color: 'red:20'
+      },
+      magenta: {
+        bg: 'magenta:80',
+        color: 'magenta:20'
+      },
+      purple: {
+        bg: 'purple:80',
+        color: 'purple:20'
+      },
+      blue: {
+        bg: 'blue:80',
+        color: 'blue:20'
+      },
+      green: {
+        bg: 'green:70',
+        color: 'green:20'
+      },
+      teal: {
+        bg: 'teal:70',
+        color: 'teal:20'
+      },
+      cyan: {
+        bg: 'cyan:70',
+        color: 'cyan:20'
+      },
+    }
+  }[colorMode];
+
+  const baseColors = solidColors[color] || undefinedColor;
+
+  const focusColor = {
+    dark: colors['blue:60'],
+    light: colors['blue:60'],
+  }[colorMode];
+  const disabledBgColor = {
+    dark: 'gray:70',
+    light: 'gray:70',
+  }[colorMode];
+  const disabledOpacity = {
+    dark: 0.28,
+    light: 0.3,
+  }[colorMode];
+  const invalidBgColor = {
+    dark: 'red:60',
+    light: 'red:60',
+  }[colorMode];
+  const invalidColor = {
+    dark: 'white:emphasis',
+    light: 'white:emphasis',
+  }[colorMode];
+
   const styles = {
-    ...colorStyle,
+    ...baseColors,
     ...(canFocus) && {
       _focus: {
         borderColor: focusColor,
         boxShadow: `inset 0 0 0 1px ${focusColor}`,
         bg: 'inherit',
-        '& > :first-child': {
+        zIndex: 1,
+        '&::before': {
           top: '2px',
           bottom: '2px',
           left: '2px',
           right: '2px',
-          bg: colorStyle.bg
+          bg: baseColors.bg
         },
       },
     },
     _invalid: {
-      bg: 'red:60',
-      color: 'white:emphasis',
+      bg: invalidBgColor,
+      color: invalidColor,
       ...(canFocus) && {
         '&:focus': {
           borderColor: focusColor,
           boxShadow: `inset 0 0 0 1px ${focusColor}`,
           bg: 'inherit',
-          '& > :first-child': {
+          '&::before': {
             top: '2px',
             bottom: '2px',
             left: '2px',
             right: '2px',
-            bg: 'red:60'
+            bg: invalidBgColor
           },
         },
       },
@@ -79,64 +145,104 @@ const solidStyle = ({ color, canFocus, theme: { colors } }) => {
     _disabled: {
       borderColor: 'transparent', // override focus style
       boxShadow: 'none', // override focus style
-      bg: 'gray:70',
-      '& > :first-child': {
+      bg: disabledBgColor,
+      '&::before': {
         bg: 'inherit',
       },
       cursor: 'not-allowed',
-      opacity: 0.28,
+      opacity: disabledOpacity,
     },
   };
-
   return styles;
 };
 
 const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
-  const outlineColors = {
-    gray: {
-      borderColor: 'gray:50',
-      color: 'gray:40'
+  const undefinedColor = {
+    dark: {
+      borderColor: `${color}:50`,
+      color: `${color}:50`,
     },
-  };
-  const colorStyle = outlineColors[color] || {
-    borderColor: `${color}:50`,
-    color: `${color}:50`,
-  };
-  const isDarkMode = (colorMode === 'dark');
-  const focusColor = colors['blue:60'];
+    light: {
+      borderColor: `${color}:50`,
+      color: `${color}:50`,
+    }
+  }[colorMode];
+  const outlineColors = {
+    dark: {
+      gray: {
+        borderColor: 'gray:50',
+        color: 'gray:40'
+      },
+    },
+    light: {
+      gray: {
+        borderColor: 'gray:50',
+        color: 'gray:40'
+      },
+    }
+  }[colorMode];
+
+  const baseColors = outlineColors[color] || undefinedColor;
+
+  const focusColor = {
+    dark: colors['blue:60'],
+    light: colors['blue:60'],
+  }[colorMode];
+  const disabledBorderColor = {
+    dark: 'gray:70',
+    light: 'gray:70',
+  }[colorMode];
+  const disabledColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+  const disabledOpacity = {
+    dark: 0.28,
+    light: 0.3,
+  }[colorMode];
+  const invalidBgColor = {
+    dark: 'red:60',
+    light: 'red:60',
+  }[colorMode];
+  const invalidColor = {
+    dark: 'white:emphasis',
+    light: 'white:emphasis',
+  }[colorMode];
+
   const styles = {
-    ...colorStyle,
+    ...baseColors,
     ...(canFocus) && {
       _focus: {
         borderColor: focusColor,
         boxShadow: `inset 0 0 0 1px ${focusColor}`,
+        zIndex: 1,
       },
     },
     _invalid: {
       borderColor: 'transparent',
-      bg: 'red:60',
-      color: 'white:emphasis',
+      bg: invalidBgColor,
+      color: invalidColor,
       ...(canFocus) && {
         '&:focus': {
           borderColor: focusColor,
           boxShadow: `inset 0 0 0 1px ${focusColor}`,
           bg: 'inherit',
-          '& > :first-child': {
+          '&::before': {
             top: '2px',
             bottom: '2px',
             left: '2px',
             right: '2px',
-            bg: 'red:60'
+            bg: invalidBgColor
           },
         },
       },
     },
     _disabled: {
-      borderColor: 'gray:70',
+      borderColor: disabledBorderColor,
       boxShadow: 'none',
-      color: isDarkMode ? 'white:emphasis' : 'black',
+      color: disabledColor,
       cursor: 'not-allowed',
-      opacity: 0.28,
+      opacity: disabledOpacity,
     },
   };
 
@@ -210,12 +316,23 @@ const baseProps = {
   outline: 'none',
 };
 
-const useTagStyle = props => {
+const useTagStyle = ({ borderRadius, ...props }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
   const _props = { ...props, theme, colorMode };
   return {
     ...baseProps,
+    __before: {
+      content: '""',
+      display: 'inline-block',
+      borderRadius: borderRadius,
+      zIndex: -1,
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
     ...sizeProps(_props),
     ...variantProps(_props),
   };
