@@ -43,7 +43,7 @@ const Tag = forwardRef(
         aria-disabled={disabled}
         aria-invalid={isInvalid}
         borderRadius={borderRadius}
-        tabIndex="0"
+        tabIndex={disabled ? '-1' : '0'}
         {...tagStyleProps}
         {...rest}
       >
@@ -53,6 +53,7 @@ const Tag = forwardRef(
             size={size}
             disabled={disabled}
             onClick={onClose}
+            tabIndex="-1"
           >
             <Icon icon="close-s" />
           </TagCloseButton>
