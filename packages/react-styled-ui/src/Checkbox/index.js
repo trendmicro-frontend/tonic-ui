@@ -4,10 +4,11 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useCheckboxGroup } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
-import Icon from '../Icon';
 import useTheme from '../useTheme';
 import { ensureArray } from '../utils/ensure-type';
 import VisuallyHidden from '../VisuallyHidden';
+import IconCheck from './IconCheck';
+import IconMinus from './IconMinus';
 import useCheckboxStyle from './styles';
 
 const sizes = {
@@ -123,11 +124,11 @@ const Checkbox = forwardRef(
             left="0"
             right="0"
           />
-          <Icon
-            icon={indeterminate ? 'minus' : 'check'}
-            size={iconSize}
-            color={iconColor}
-          />
+          {
+            indeterminate
+              ? <IconMinus size={iconSize} color={iconColor} />
+              : <IconCheck size={iconSize} color={iconColor} />
+          }
         </ControlBox>
         {children && (
           <Box
