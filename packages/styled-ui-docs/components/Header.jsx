@@ -1,4 +1,4 @@
-import { Box, Flex, PseudoBox, Icon, useColorMode } from '@trendmicro/react-styled-ui';
+import { Box, Flex, PseudoBox, Icon, Image, Text, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
@@ -35,14 +35,22 @@ const Header = React.forwardRef((props, ref) => {
         alignItems="center"
       >
         <Box
+          display="flex"
+          alignItems="center"
           flex="auto"
           fontSize="xl"
           maxWidth="100%"
           px="4x"
-          py="3x"
+          py="2x"
           color={fontColor}
         >
-          Trend Micro Styled UI
+          <Image
+            src="images/tonic.png"
+            width={35}
+            height={30}
+            marginRight="2x"
+          />
+          <Text>Tonic Styled UI</Text>
         </Box>
         <Flex
           flex="none"

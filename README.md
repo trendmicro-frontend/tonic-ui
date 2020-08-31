@@ -1,4 +1,4 @@
-# Trend Micro Styled UI
+# Tonic Styled UI
 
  [![contributors](https://img.shields.io/github/contributors/trendmicro-frontend/styled-ui)](https://img.shields.io/github/contributors/trendmicro-frontend/styled-ui)
 [![build](https://travis-ci.com/trendmicro-frontend/styled-ui.svg)](https://travis-ci.com/trendmicro-frontend/styled-ui)
@@ -21,7 +21,7 @@ A themeable UI component library built with Emotion and Styled System.
 * A standarized naming convention powered by [Styled System](https://styled-system.com/)
 
 ## Documentation
-* [Getting Started](https://trendmicro-frontend.github.io/styled-ui/getting-started) - Walk through how to install Trend Micro Styled UI packages
+* [Getting Started](https://trendmicro-frontend.github.io/styled-ui/getting-started) - Walk through how to install Tonic Styled UI packages
 * [Color Modes](https://trendmicro-frontend.github.io/styled-ui/color-modes) - Learn how to use color modes
 * [Contributing](https://trendmicro-frontend.github.io/styled-ui/contributing) - Become familiar with how to make a contribution
 * [Examples](https://trendmicro-frontend.github.io/styled-ui/) - Get to know Styled UI components and learn from some examples with best practices
