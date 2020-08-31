@@ -45,7 +45,7 @@ const Header = React.forwardRef((props, ref) => {
           color={fontColor}
         >
           <Image
-            src="/images/tonic.png"
+            src="images/tonic.png"
             width={35}
             height={30}
             marginRight="2x"
