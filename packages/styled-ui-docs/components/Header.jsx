@@ -5,6 +5,10 @@ import pkg from '../../../package.json';
 
 const Header = React.forwardRef((props, ref) => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const logoPath = {
+    light: 'images/tonic-logo-light.svg',
+    dark: 'images/tonic-logo-dark.svg',
+  }[colorMode];
   const backgroundColor = {
     light: 'white:emphasis', // FIXME
     dark: 'gray:90',
@@ -45,7 +49,7 @@ const Header = React.forwardRef((props, ref) => {
           color={fontColor}
         >
           <Image
-            src="images/tonic.png"
+            src={logoPath}
             width={35}
             height={30}
             marginRight="2x"
@@ -64,6 +68,7 @@ const Header = React.forwardRef((props, ref) => {
               cursor: 'pointer',
             }}
             onClick={toggleColorMode}
+            display="inline-flex"
           >
             {colorMode === 'light' && (
               <Icon icon="moon" size={24} />
@@ -83,6 +88,7 @@ const Header = React.forwardRef((props, ref) => {
             }}
             href={pkg.homepage}
             target="_blank"
+            display="inline-flex"
           >
             <FontAwesomeIcon
               icon={['fab', 'github']}
