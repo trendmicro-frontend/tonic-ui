@@ -88,7 +88,7 @@ export const blindnessColor = {
       5: colors['magenta:60'],
       6: colors['purple:50'],
       7: colors['teal:40'],
-      8: colors['purple:40'],
+      8: colors['purple:30'],
       9: colors['cyan:70'],
       10: colors['yellow:50'],
       other: colors['gray:50'],
