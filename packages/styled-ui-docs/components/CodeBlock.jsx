@@ -12,6 +12,7 @@ import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 import tmIconMap from '../../react-styled-ui/src/Icon/tmIconMap';
+import useToast from './useToast';
 
 const ThirdPartyComponents = {
   AutoSizer,
@@ -159,6 +160,7 @@ const CodeBlock = ({
       ...CoreComponents,
       ...ThirdPartyComponents,
       ...CustomedComponents,
+      useToast,
       Lorem: (props) => (
         <Lorem
           paragraphLowerBound={1}
