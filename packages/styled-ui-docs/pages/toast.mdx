@@ -6,7 +6,55 @@ A toast notification is a short message that displays at the  side of the screen
 
 A `Toast` element works with the `useToast` hook to trigger a toast notification.
 
-For more information, see the [`useToast`](./usetoast) hook.
+## Example of `useToast`
+
+```js readOnly
+import React, { useCallback } from 'react';
+import toaster from 'toasted-notes';
+import { ColorModeProvider, ThemeProvider, useColorMode, useTheme } from '@trendmicro/react-styled-ui';
+
+const useToast = () => {
+  const theme = useTheme();
+  const { colorMode } = useColorMode();
+  const notify = useCallback(
+    ({
+      position = 'top',
+      duration = 5000,
+      render,
+    }) => {
+      const options = {
+        position,
+        duration,
+      };
+
+      if (typeof render !== 'function') {
+        return null;
+      }
+
+      return toaster.notify(
+        ({ id, onClose }) => (
+          <ThemeProvider theme={theme}>
+            <ColorModeProvider value={colorMode}>
+              {render({ id, onClose, position, duration })}
+            </ColorModeProvider>
+          </ThemeProvider>
+        ),
+        options,
+      );
+    },
+    [theme, colorMode],
+  );
+  const closeAll = toaster.closeAll;
+
+  return {
+    closeAll,
+    notify,
+  };
+};
+
+export default useToast;
+
+```
 
 ## Import
 
