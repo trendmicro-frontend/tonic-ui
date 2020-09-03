@@ -32,10 +32,15 @@ const PopoverContent = ({
     skidding,
     distance,
     delay,
+    nextToCursor,
+    followCursor,
+    mousePageX,
+    mousePageY,
   } = usePopover();
   const contentStyleProps = usePopoverContentStyle();
   const arrowSize = 12;
-  const _distance = distance + 8; // Arrow height is 8px
+  let _skidding = skidding;
+  let _distance = distance + 8; // Arrow height is 8px
   let eventHandlers = {};
   let roleProps = {};
 
@@ -48,6 +53,21 @@ const PopoverContent = ({
       role: 'dialog',
       'aria-modal': 'false',
     };
+  }
+
+  const getOffset = (element, relativeTop = false) => {
+    if (!element) {
+      return 0;
+    }
+    return getOffset(element.offsetParent, relativeTop) + (relativeTop ? element.offsetTop : element.offsetLeft);
+  };
+
+  if ((nextToCursor || followCursor) && referenceRef.current) {
+    const { offsetHeight } = referenceRef.current;
+    const offsetLeft = getOffset(referenceRef.current);
+    const offsetTop = getOffset(referenceRef.current, true);
+    _skidding = mousePageX - offsetLeft + 8; // 8px is a estimated value of cursor
+    _distance = -8 + (mousePageY - offsetTop - offsetHeight) + 24; // 24px is a estimated value of cursor
   }
 
   if (trigger === 'hover') {
@@ -87,7 +107,7 @@ const PopoverContent = ({
       id={popoverId}
       aria-hidden={!isOpen}
       arrowSize={`${arrowSize}px`}
-      modifiers={{ offset: [skidding, _distance] }}
+      modifiers={{ offset: [_skidding, _distance] }}
       aria-labelledby={headerId}
       aria-describedby={bodyId}
       {...contentStyleProps}
