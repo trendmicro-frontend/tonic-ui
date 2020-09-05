@@ -65,7 +65,7 @@ The `Input` component comes in 3 variants: `outline`, `filled`, and `unstyled`. 
 
 ### Attributes
 
-Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, etc.
+Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, `list`, etc.
 
 #### `type`
 
@@ -112,6 +112,29 @@ Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `
 
 ```jsx
 <Input required placeholder="Placeholder text" />
+```
+
+#### `list`
+
+The value of `list` is the id attribute of the `<datalist>` of autocomplete options. The HTML `<datalist>` element contains a set of `<option>` elements that represent the permissible or recommended options available to choose from within other controls.
+
+```jsx
+<Flex align="center">
+  <TextLabel for="browser-choice" whiteSpace="nowrap" mr="2x">
+    Choose a browser from the list:
+  </TextLabel>
+  <Flex>
+    <Input list="browsers" id="browser-choice" />
+    <Box as="datalist" id="browsers">
+      <Option value="Chrome" />
+      <Option value="Firefox" />
+      <Option value="Internet Explorer" />
+      <Option value="Opera" />
+      <Option value="Safari" />
+      <Option value="Microsoft Edge" />
+    </Box>
+  </Flex>
+</Flex>
 ```
 
 ### Adornments
