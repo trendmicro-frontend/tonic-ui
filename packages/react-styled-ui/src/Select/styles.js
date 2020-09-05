@@ -199,7 +199,30 @@ const useSelectStyle = ({
   };
 };
 
+const useOptionStyle = () => {
+  const { colorMode } = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:100',
+    light: 'white',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+
+  return {
+    backgroundColor,
+    color,
+  };
+};
+
+const useOptionGroupStyle = () => {
+  return useOptionStyle();
+};
+
 export {
   getIconWrapperProps,
   useSelectStyle,
+  useOptionStyle,
+  useOptionGroupStyle,
 };
