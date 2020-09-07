@@ -64,5 +64,4 @@ export const componentLinks = [
 ];
 
 export const utilityLinks = [
-  'useToast',
 ];
