@@ -52,7 +52,6 @@ import useColorMode from './useColorMode';
 import useDisclosure from './useDisclosure';
 import usePagination from './usePagination';
 import useTheme from './useTheme';
-import useToast from './useToast';
 import VisuallyHidden from './VisuallyHidden';
 import withTheme from './withTheme';
 
@@ -111,7 +110,6 @@ export {
   useDisclosure,
   usePagination,
   useTheme,
-  useToast,
   VisuallyHidden,
   withTheme,
 };

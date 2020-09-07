@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react';
 import toaster from 'toasted-notes';
-import ColorModeProvider from '../ColorModeProvider';
-import ThemeProvider from '../ThemeProvider';
-import useColorMode from '../useColorMode';
-import useTheme from '../useTheme';
+import { ColorModeProvider, ThemeProvider, useColorMode, useTheme } from '@trendmicro/react-styled-ui';
 
 const useToast = () => {
   const theme = useTheme();
