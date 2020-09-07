@@ -32,6 +32,7 @@ const Popover = ({
   onClose: onCloseProp,
   nextToCursor,
   followCursor,
+  arrowAt,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
   const [mousePageX, setMousePageX] = useState(0);
@@ -163,6 +164,7 @@ const Popover = ({
     followCursor,
     mousePageX,
     mousePageY,
+    arrowAt
   };
 
   return (

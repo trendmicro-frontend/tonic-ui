@@ -6,7 +6,7 @@ const getPopperArrowStyle = ({
   const arrowPos = `calc(${arrowSize} / 2 * -1)`;
 
   return css`
-    [data-popper-arrow] {
+    [data-arrow-style] {
       &,
       &::before {
         position: absolute;
@@ -16,34 +16,34 @@ const getPopperArrowStyle = ({
       }
     }
 
-    [data-popper-arrow]::before {
+    [data-arrow-style]::before {
       content: '';
       transform: rotate(45deg);
       background: inherit;
     }
 
-    &[data-popper-placement^="top"] [data-popper-arrow] {
+    &[data-popper-placement^="top"] [data-arrow-style] {
       bottom: 0;
       &::before {
         bottom: ${arrowPos};
       }
     }
 
-    &[data-popper-placement^="bottom"] [data-popper-arrow] {
+    &[data-popper-placement^="bottom"] [data-arrow-style] {
       top: 0;
       &::before {
         top: ${arrowPos};
       }
     }
 
-    &[data-popper-placement^="right"] [data-popper-arrow] {
+    &[data-popper-placement^="right"] [data-arrow-style] {
       left: 0;
       &::before {
         left: ${arrowPos};
       }
     }
 
-    &[data-popper-placement^="left"] [data-popper-arrow] {
+    &[data-popper-placement^="left"] [data-arrow-style] {
       right: 0;
       &::before {
         right: ${arrowPos};

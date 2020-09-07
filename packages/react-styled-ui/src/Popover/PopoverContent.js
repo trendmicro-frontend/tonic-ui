@@ -36,6 +36,7 @@ const PopoverContent = ({
     followCursor,
     mousePageX,
     mousePageY,
+    arrowAt,
   } = usePopover();
   const contentStyleProps = usePopoverContentStyle();
   const arrowSize = 12;
@@ -115,7 +116,7 @@ const PopoverContent = ({
       {...eventHandlers}
       {...props}
     >
-      {!hideArrow && <PopperArrow />}
+      {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
       {children}
     </Popper>
   );
