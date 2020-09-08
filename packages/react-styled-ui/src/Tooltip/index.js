@@ -31,6 +31,7 @@ const Tooltip = ({
   isOpen: controlledIsOpen,
   onOpen: onOpenProp,
   onClose: onCloseProp,
+  arrowAt,
   ...rest
 }) => {
   const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
@@ -130,7 +131,7 @@ const Tooltip = ({
             {ariaLabel}
           </VisuallyHidden>
         )}
-        {!hideArrow && <PopperArrow />}
+        {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
       </Popper>
     </Fragment>
   );

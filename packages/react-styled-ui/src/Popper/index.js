@@ -79,7 +79,7 @@ const Popper = forwardRef(
           {
             name: 'arrow',
             options: {
-              padding: 4, // 4px from the edges of the popper
+              padding: 12, // 12px from the edges of the popper
             },
           },
           {
@@ -175,7 +175,7 @@ export default Popper;
 export const PopperArrow = ({ arrowAt, ...rest }) => {
   const placement = ['left', 'right', 'top', 'bottom'];
   if (placement.includes(arrowAt)) {
-    const arrowPlacement = { [arrowAt]: '6px' };
+    const arrowPlacement = { [arrowAt]: '12px' };
     return (
       <Box
         data-arrow-style=""
