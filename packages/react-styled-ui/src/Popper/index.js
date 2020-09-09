@@ -67,7 +67,6 @@ const Popper = forwardRef(
       const handlePopperUpdate = data => {
         setPlacement(data.placement);
       };
-
       const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
         placement: placement,
         modifiers: [
@@ -75,6 +74,12 @@ const Popper = forwardRef(
             name: 'offset',
             options: {
               offset: modifiers.offset
+            },
+          },
+          {
+            name: 'arrow',
+            options: {
+              padding: 12, // 12px from the edges of the popper
             },
           },
           {
@@ -167,6 +172,25 @@ const Popper = forwardRef(
 
 export default Popper;
 
-export const PopperArrow = props => (
-  <Box data-popper-arrow="" role="presentation" {...props} />
-);
+export const PopperArrow = ({ arrowAt, ...rest }) => {
+  const placement = ['left', 'right', 'top', 'bottom'];
+  if (placement.includes(arrowAt)) {
+    const arrowPlacement = { [arrowAt]: '12px' };
+    return (
+      <Box
+        data-arrow-style=""
+        role="presentation"
+        {...arrowPlacement}
+        {...rest}
+      />
+    );
+  }
+  return (
+    <Box
+      data-popper-arrow=""
+      data-arrow-style=""
+      role="presentation"
+      {...rest}
+    />
+  );
+};
