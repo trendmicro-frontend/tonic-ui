@@ -1,0 +1,53 @@
+# Divider
+
+`Divider` is used to visually separate content in a list or group.
+
+## Import
+
+```js
+import Divider from '@trendmicro/react-styled-ui/Divider';
+// or
+import { Divider } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+The Divider displays a thin horizontal or vertical line.
+
+```jsx
+<Divider />
+```
+
+### Orientation
+
+Pass the `vertical` prop and set it to either `true` (vertical) or `false` (horizontal).
+
+```jsx
+<Divider vertical={false} />
+```
+
+If the vertical orientation is used, make sure that the parent element is assigned a height.
+
+```jsx
+<Flex height="12x">
+  <Divider vertical={true} />
+</Flex>
+```
+
+## Composition
+
+```jsx
+<Flex>
+  <Icon icon="align-right" m="1x" />
+  <Divider vertical={true} />
+  <Icon icon="align-center" m="1x" />
+  <Divider vertical={true} />
+  <Icon icon="align-left" m="1x" />
+</Flex>
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `vertical` | boolean | | The orientation of the divider. If `true`, the vertical orientation is used.  |
