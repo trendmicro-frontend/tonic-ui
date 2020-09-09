@@ -33,7 +33,6 @@ import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
 import SearchInput from './SearchInput';
-import Select from './Select';
 import Skeleton from './Skeleton';
 import Space from './Space';
 import Spinner from './Spinner';
@@ -92,7 +91,6 @@ export {
   Radio,
   RadioGroup,
   SearchInput,
-  Select,
   Skeleton,
   Space,
   Spinner,
@@ -122,5 +120,6 @@ export * from './Drawer';
 export * from './Menu';
 export * from './Modal';
 export * from './Popover';
+export * from './Select';
 export * from './Table';
 export * from './Transition';

@@ -1,62 +1,14 @@
-import React, { forwardRef } from 'react';
-import Box from '../Box';
-import Icon from '../Icon';
-import PseudoBox from '../PseudoBox';
-import { getIconWrapperProps, useSelectStyle } from './styles';
-import splitProps from './split-props';
+import Select from './Select';
+import Option from './Option';
+import OptionGroup from './OptionGroup';
 
-const defaultVariant = 'outline';
+Select.Option = Option;
+Select.OptionGroup = OptionGroup;
 
-const Select = forwardRef((
-  {
-    variant,
-    multiple, // multiple options
-    size, // multiple options
-    isInvalid,
-    children,
-    ...rest
-  },
-  ref,
-) => {
-  // Use fallback values if values are null or undefined
-  variant = variant ?? defaultVariant;
-
-  const iconWrapperProps = getIconWrapperProps();
-  const styleProps = useSelectStyle({ variant, multiple });
-  const [rootProps, selectProps] = splitProps(rest);
-  const { disabled, required } = selectProps;
-
-  return (
-    <Box
-      position="relative"
-      width="100%"
-      {...rootProps}
-    >
-      <PseudoBox
-        ref={ref}
-        as="select"
-        aria-disabled={disabled}
-        aria-required={required}
-        aria-invalid={isInvalid}
-        multiple={multiple}
-        size={size}
-        {...styleProps}
-        {...selectProps}
-      >
-        {children}
-      </PseudoBox>
-      {!multiple && (
-        <PseudoBox
-          aria-disabled={disabled}
-          {...iconWrapperProps}
-        >
-          <Icon width="4x" icon="angle-down" />
-        </PseudoBox>
-      )}
-    </Box>
-  );
-});
-
-Select.displayName = 'Select';
+export {
+  Select,
+  Option,
+  OptionGroup,
+};
 
 export default Select;

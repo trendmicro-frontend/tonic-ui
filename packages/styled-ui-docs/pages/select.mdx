@@ -7,7 +7,7 @@ The `Select` component is used for collecting user provided information from a l
 ```js
 import Select from '@trendmicro/react-styled-ui/Select';
 // or
-import { Select } from '@trendmicro/react-styled-ui';
+import { Select, Option, OptionGroup } from '@trendmicro/react-styled-ui';
 ```
 
 ## Usage
@@ -16,15 +16,15 @@ import { Select } from '@trendmicro/react-styled-ui';
 <>
   <TextLabel mb="1x">Label:</TextLabel>
   <Select>
-    <option value="">Choose an option</option>
-    <optgroup label="Category 1">
-      <option value={1}>Option 1</option>
-      <option value={2}>Option 2</option>
-    </optgroup>
-    <optgroup label="Category 2">
-      <option value={3}>Option 3</option>
-      <option value={4}>Option 4</option>
-    </optgroup>
+    <Option value="">Choose an option</Option>
+    <OptionGroup label="Category 1">
+      <Option value={1}>Option 1</Option>
+      <Option value={2}>Option 2</Option>
+    </OptionGroup>
+    <OptionGroup label="Category 2">
+      <Option value={3}>Option 3</Option>
+      <Option value={4}>Option 4</Option>
+    </OptionGroup>
   </Select>
 </>
 ```
@@ -37,8 +37,8 @@ The `Select` component comes in 3 variants: `outline`, `filled`, and `unstyled`.
 
 ```jsx
 <Select variant="outline">
-  <option value="">Choose an option</option>
-  <option value="outline">Outline</option>
+  <Option value="">Choose an option</Option>
+  <Option value="outline">Outline</Option>
 </Select>
 ```
 
@@ -46,8 +46,8 @@ The `Select` component comes in 3 variants: `outline`, `filled`, and `unstyled`.
 
 ```jsx
 <Select variant="filled">
-  <option value="">Choose an option</option>
-  <option value="filled">Filled</option>
+  <Option value="">Choose an option</Option>
+  <Option value="filled">Filled</Option>
 </Select>
 ```
 
@@ -55,8 +55,8 @@ The `Select` component comes in 3 variants: `outline`, `filled`, and `unstyled`.
 
 ```jsx
 <Select variant="unstyled">
-  <option value="">Choose an option</option>
-  <option value="unstyled">Unstyled</option>
+  <Option value="">Choose an option</Option>
+  <Option value="unstyled">Unstyled</Option>
 </Select>
 ```
 
@@ -67,7 +67,7 @@ The `<select>` element has some unique attributes you can use to control it, suc
 #### Multiple options
 
 ```jsx noInline
-const Option = ({ style, ...props }) => (
+const FlexOption = ({ style, ...props }) => (
   <Flex
     as="option"
     align="center"
@@ -80,12 +80,12 @@ const Option = ({ style, ...props }) => (
 function Example() {
   return (
     <Select multiple size="4">
-      <Option value={1}>Option 1</Option>
-      <Option value={2}>Option 2</Option>
-      <Option value={3}>Option 3</Option>
-      <Option value={4}>Option 4</Option>
-      <Option value={5}>Option 5</Option>
-      <Option value={6}>Option 6</Option>
+      <FlexOption value={1}>Option 1</FlexOption>
+      <FlexOption value={2}>Option 2</FlexOption>
+      <FlexOption value={3}>Option 3</FlexOption>
+      <FlexOption value={4}>Option 4</FlexOption>
+      <FlexOption value={5}>Option 5</FlexOption>
+      <FlexOption value={6}>Option 6</FlexOption>
     </Select>
   );
 }
@@ -97,7 +97,7 @@ render(<Example />);
 
 ```jsx
 <Select disabled>
-  <option value="">Choose an option</option>
+  <Option value="">Choose an option</Option>
 </Select>
 ```
 
@@ -105,13 +105,15 @@ render(<Example />);
 
 ```jsx
 <Select required>
-  <option value="">Choose an option</option>
-  <option value="dog">Dog</option>
-  <option value="cat">Cat</option>
+  <Option value="">Choose an option</Option>
+  <Option value="dog">Dog</Option>
+  <Option value="cat">Cat</Option>
 </Select>
 ```
 
 ## Props
+
+### Select
 
 `Select` composes the [`PseudoBox`](./pseudobox) component.
 
@@ -120,3 +122,7 @@ render(<Example />);
 | variant | string | 'outline' | The variant of the select style to use. One of: `'outline'`, `'filled'`, `'unstyled'` |
 | disabled | boolean | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | isInvalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
+
+### Option / OptionGroup
+
+`Option` and `OptionGroup` compose the [`PseudoBox`](./pseudobox) component.
