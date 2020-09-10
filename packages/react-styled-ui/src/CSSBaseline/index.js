@@ -14,4 +14,6 @@ const CSSBaseline = () => {
   );
 };
 
+CSSBaseline.displayName = 'CSSBaseline';
+
 export default CSSBaseline;

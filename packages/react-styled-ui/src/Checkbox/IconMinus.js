@@ -17,4 +17,6 @@ const IconMinus = (props) => {
   );
 };
 
+IconMinus.displayName = 'IconMinus';
+
 export default IconMinus;

@@ -84,6 +84,8 @@ const Accordion = ({
   );
 };
 
+Accordion.displayName = 'Accordion';
+
 const AccordionItemContext = createContext();
 const useAccordionItemContext = () => useContext(AccordionItemContext);
 
@@ -201,6 +203,8 @@ const AccordionIcon = props => {
     />
   );
 };
+
+AccordionIcon.displayName = 'AccordionIcon';
 
 export {
   Accordion,

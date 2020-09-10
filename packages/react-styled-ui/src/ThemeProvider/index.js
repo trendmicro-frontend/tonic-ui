@@ -11,4 +11,6 @@ const ThemeProvider = ({
   </EmotionThemeProvider>
 );
 
+ThemeProvider.displayName = 'ThemeProvider';
+
 export default ThemeProvider;

@@ -143,4 +143,6 @@ const SearchInput = React.forwardRef((
   );
 });
 
+SearchInput.displayName = 'SearchInput';
+
 export default SearchInput;

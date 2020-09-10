@@ -101,4 +101,6 @@ const Pagination = (props, ref) => {
   );
 };
 
+Pagination.displayName = 'Pagination';
+
 export default Pagination;

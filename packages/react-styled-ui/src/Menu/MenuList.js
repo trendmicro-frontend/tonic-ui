@@ -98,4 +98,6 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
   );
 };
 
+MenuList.displayName = 'MenuList';
+
 export default MenuList;

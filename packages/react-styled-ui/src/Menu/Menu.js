@@ -159,4 +159,6 @@ const Menu = ({
   );
 };
 
+Menu.displayName = 'Menu';
+
 export default Menu;

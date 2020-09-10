@@ -12,4 +12,6 @@ const IconCheck = ({ size, ...rest }) => {
   );
 };
 
+IconCheck.displayName = 'IconCheck';
+
 export default IconCheck;
