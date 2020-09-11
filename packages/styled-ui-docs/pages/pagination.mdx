@@ -123,7 +123,14 @@ function Minor() {
         <Space width="2x" />
         <Text>{totalPages}</Text>
       </Flex>
-      <ButtonGroup variant="secondary">
+      <ButtonGroup
+        variant="secondary"
+        css={{
+          '> *:not(:first-child)': {
+            marginLeft: -1
+          }
+        }}
+      >
         <Button
           disabled={prevPageDisabled}
           onClick={(event) => {
@@ -178,7 +185,14 @@ function Minor() {
         <Space width="2x" />
         <Text>{totalPages}</Text>
       </Flex>
-      <ButtonGroup variant="secondary">
+      <ButtonGroup
+        variant="secondary"
+        css={{
+          '> *:not(:first-child)': {
+            marginLeft: -1
+          }
+        }}
+      >
         <Button
           disabled={prevPageDisabled}
           onClick={(event) => {
