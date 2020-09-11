@@ -20,17 +20,17 @@ The `Divider` renders a thin line vertically or horizontally.
 
 ### Orientation
 
-Pass the `vertical` prop and set it to either `true` (vertical) or `false` (horizontal).
+Pass the `orientation` prop and set it to either `horizontal` or `vertical`.
 
 ```jsx
-<Divider vertical={false} />
+<Divider orientation="horizontal" />
 ```
 
 If the vertical orientation is used, make sure that the parent element is assigned a height.
 
 ```jsx
 <Flex height="12x">
-  <Divider vertical={true} />
+  <Divider orientation="vertical" />
 </Flex>
 ```
 
@@ -39,9 +39,9 @@ If the vertical orientation is used, make sure that the parent element is assign
 ```jsx
 <Flex>
   <Icon icon="align-right" m="1x" />
-  <Divider vertical={true} />
+  <Divider orientation="vertical" />
   <Icon icon="align-center" m="1x" />
-  <Divider vertical={true} />
+  <Divider orientation="vertical" />
   <Icon icon="align-left" m="1x" />
 </Flex>
 ```
@@ -50,4 +50,5 @@ If the vertical orientation is used, make sure that the parent element is assign
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| `vertical` | boolean | | The orientation of the divider. If `true`, the vertical orientation is used.  |
+| orientation | string | 'horizontal' | The orientation of the divider. Acceptable values: `'horizontal'`, `'vertical'` |
+

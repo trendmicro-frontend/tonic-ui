@@ -28,9 +28,9 @@ const Button = forwardRef(
       const {
         size: buttonGroupSize,
         variant: buttonGroupVariant,
-        vertical,
+        orientation,
       } = { ...buttonGroupContext };
-      useVertical = vertical;
+      useVertical = (orientation === 'vertical');
       // - Use the inherited value from the button group
       // - Fallback to the default value if the value is null or undefined
       size = (buttonGroupSize ?? size) ?? defaultSize;

@@ -24,9 +24,9 @@ function Example() {
   return (
     <ButtonGroup>
       <Button>One</Button>
-      <Divider vertical color={dividerColor} />
+      <Divider orientation="vertical" color={dividerColor} />
       <Button>Two</Button>
-      <Divider vertical color={dividerColor} />
+      <Divider orientation="vertical" color={dividerColor} />
       <Button>Three</Button>
     </ButtonGroup>
   );
@@ -63,23 +63,23 @@ function Example() {
     <Stack direction="column" spacing="3x">
       <ButtonGroup variant="emphasis">
         <Button>One</Button>
-        <Divider vertical color={emphasisDividerColor} />
+        <Divider orientation="vertical" color={emphasisDividerColor} />
         <Button>Two</Button>
-        <Divider vertical color={emphasisDividerColor} />
+        <Divider orientation="vertical" color={emphasisDividerColor} />
         <Button>Three</Button>
       </ButtonGroup>
       <ButtonGroup variant="primary">
         <Button>One</Button>
-        <Divider vertical color={primaryDividerColor} />
+        <Divider orientation="vertical" color={primaryDividerColor} />
         <Button>Two</Button>
-        <Divider vertical color={primaryDividerColor} />
+        <Divider orientation="vertical" color={primaryDividerColor} />
         <Button>Three</Button>
       </ButtonGroup>
       <ButtonGroup variant="default">
         <Button>One</Button>
-        <Divider vertical color={defaultDividerColor} />
+        <Divider orientation="vertical" color={defaultDividerColor} />
         <Button>Two</Button>
-        <Divider vertical color={defaultDividerColor} />
+        <Divider orientation="vertical" color={defaultDividerColor} />
         <Button>Three</Button>
       </ButtonGroup>
       <ButtonGroup
@@ -103,9 +103,9 @@ function Example() {
         }}
       >
         <Button>One</Button>
-        <Divider vertical color={ghostDividerColor} />
+        <Divider orientation="vertical" color={ghostDividerColor} />
         <Button>Two</Button>
-        <Divider vertical color={ghostDividerColor} />
+        <Divider orientation="vertical" color={ghostDividerColor} />
         <Button>Three</Button>
       </ButtonGroup>
     </Stack>
@@ -136,23 +136,23 @@ function Example() {
       <Stack spacing="4x" alignItems="flex-start">
         <ButtonGroup size="sm">
           <Button>Left</Button>
-          <Divider vertical color={defaultDividerColor} />
+          <Divider orientation="vertical" color={defaultDividerColor} />
           <Button>Middle</Button>
-          <Divider vertical color={defaultDividerColor} />
+          <Divider orientation="vertical" color={defaultDividerColor} />
           <Button>Right</Button>
         </ButtonGroup>
         <ButtonGroup size="md">
           <Button>Left</Button>
-          <Divider vertical color={defaultDividerColor} />
+          <Divider orientation="vertical" color={defaultDividerColor} />
           <Button>Middle</Button>
-          <Divider vertical color={defaultDividerColor} />
+          <Divider orientation="vertical" color={defaultDividerColor} />
           <Button>Right</Button>
         </ButtonGroup>
         <ButtonGroup size="lg">
           <Button>Left</Button>
-          <Divider vertical color={defaultDividerColor} />
+          <Divider orientation="vertical" color={defaultDividerColor} />
           <Button>Middle</Button>
-          <Divider vertical color={defaultDividerColor} />
+          <Divider orientation="vertical" color={defaultDividerColor} />
           <Button>Right</Button>
         </ButtonGroup>
       </Stack>
@@ -208,9 +208,9 @@ function Example() {
           }}
         >
           <Button>Left</Button>
-          <Divider vertical color={ghostDividerColor} />
+          <Divider orientation="vertical" color={ghostDividerColor} />
           <Button>Middle</Button>
-          <Divider vertical color={ghostDividerColor} />
+          <Divider orientation="vertical" color={ghostDividerColor} />
           <Button>Right</Button>
         </ButtonGroup>
         <ButtonGroup
@@ -223,9 +223,9 @@ function Example() {
           }}
         >
           <Button>Left</Button>
-          <Divider vertical color={ghostDividerColor} />
+          <Divider orientation="vertical" color={ghostDividerColor} />
           <Button>Middle</Button>
-          <Divider vertical color={ghostDividerColor} />
+          <Divider orientation="vertical" color={ghostDividerColor} />
           <Button>Right</Button>
         </ButtonGroup>
         <ButtonGroup
@@ -238,9 +238,9 @@ function Example() {
           }}
         >
           <Button>Left</Button>
-          <Divider vertical color={ghostDividerColor} />
+          <Divider orientation="vertical" color={ghostDividerColor} />
           <Button>Middle</Button>
-          <Divider vertical color={ghostDividerColor} />
+          <Divider orientation="vertical" color={ghostDividerColor} />
           <Button>Right</Button>
         </ButtonGroup>
       </Stack>
@@ -253,7 +253,7 @@ render(<Example />);
 
 ### Group orientation
 
-Make a set of buttons appear vertically stacked rather than horizontally, by adding `vertical` to the `ButtonGroup` component.
+Make a set of buttons appear vertically stacked rather than horizontally, by adding `orientation="vertical"` to the `ButtonGroup` component.
 
 ```jsx noInline
 function Example() {
@@ -271,12 +271,12 @@ function Example() {
       <Stack spacing="4x" alignItems="center">
         <ButtonGroup>
           <Button>One</Button>
-          <Divider vertical color={defaultDividerColor} />
+          <Divider orientation="vertical" color={defaultDividerColor} />
           <Button>Two</Button>
-          <Divider vertical color={defaultDividerColor} />
+          <Divider orientation="vertical" color={defaultDividerColor} />
           <Button>Three</Button>
         </ButtonGroup>
-        <ButtonGroup vertical>
+        <ButtonGroup orientation="vertical">
           <Button>One</Button>
           <Divider color={defaultDividerColor} />
           <Button>Two</Button>
@@ -298,7 +298,7 @@ function Example() {
           <Button>Three</Button>
         </ButtonGroup>
         <ButtonGroup
-          vertical
+          orientation="vertical"
           variant="secondary"
           css={{
             '> *:not(:first-child)': {
@@ -321,13 +321,13 @@ function Example() {
           }}
         >
           <Button>One</Button>
-          <Divider vertical color={ghostDividerColor} />
+          <Divider orientation="vertical" color={ghostDividerColor} />
           <Button>Two</Button>
-          <Divider vertical color={ghostDividerColor} />
+          <Divider orientation="vertical" color={ghostDividerColor} />
           <Button>Three</Button>
         </ButtonGroup>
         <ButtonGroup
-          vertical
+          orientation="vertical"
           variant="ghost"
           css={{
             '> *:not(:first-child)': {
@@ -479,7 +479,7 @@ function SwitchButton() {
                 >
                   <Icon icon={key} />
                 </SelectableButton>
-                <Divider vertical color={emphasisDividerColor} />
+                <Divider orientation="vertical" color={emphasisDividerColor} />
               </React.Fragment>
             );
           })
@@ -500,7 +500,7 @@ function SwitchButton() {
                 >
                   <Icon icon={key} />
                 </SelectableButton>
-                <Divider vertical color={primaryDividerColor} />
+                <Divider orientation="vertical" color={primaryDividerColor} />
               </React.Fragment>
             );
           })
@@ -520,7 +520,7 @@ function SwitchButton() {
                 >
                   <Icon icon={key} />
                 </SelectableButton>
-                <Divider vertical color={defaultDividerColor} />
+                <Divider orientation="vertical" color={defaultDividerColor} />
               </React.Fragment>
             );
           })
@@ -572,7 +572,7 @@ function SwitchButton() {
                 >
                   <Icon icon={key} />
                 </SelectableButton>
-                <Divider vertical color={ghostDividerColor} />
+                <Divider orientation="vertical" color={ghostDividerColor} />
               </React.Fragment>
             );
           })
@@ -614,4 +614,4 @@ render(<SwitchButton />);
 | :--- | :--- | :------ | :---------- |
 | size | string | 'md' | The size for all buttons in the group. Acceptable values: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'default' | The variant of all buttons in the group. Acceptable values: `'emphasis'`, `'primary'`, `'default'`, `'secondary'`, `'ghost'` |
-| vertical | boolean | false | Make the set of Buttons appear vertically stacked. |
+| orientation | string | 'horizontal' | The orientation of the Buttons. Acceptable values: `'horizontal'`, `'vertical'` |
