@@ -42,4 +42,6 @@ const CheckboxGroup = ({
   );
 };
 
+CheckboxGroup.displayName = 'CheckboxGroup';
+
 export default CheckboxGroup;

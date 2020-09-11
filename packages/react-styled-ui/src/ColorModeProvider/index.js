@@ -41,5 +41,7 @@ ColorModeProvider.propTypes = {
   value: PropTypes.oneOf(['light', 'dark']),
 };
 
+ColorModeProvider.displayName = 'ColorModeProvider';
+
 export default ColorModeProvider;
 export { ColorModeContext, ColorModeSetterContext };

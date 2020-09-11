@@ -8,4 +8,6 @@ const LightMode = (props) => (
   </ColorModeProvider>
 );
 
+LightMode.displayName = 'LightMode';
+
 export default LightMode;

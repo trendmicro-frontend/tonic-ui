@@ -54,4 +54,6 @@ const Stack = ({
   );
 };
 
+Stack.displayName = 'Stack';
+
 export default Stack;

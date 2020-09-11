@@ -20,6 +20,33 @@ function getAnchorEl(anchorEl) {
   return typeof anchorEl === 'function' ? anchorEl() : anchorEl;
 }
 
+const PopperArrow = ({ arrowAt, ...rest }) => {
+  const placement = ['left', 'right', 'top', 'bottom'];
+  if (placement.includes(arrowAt)) {
+    const arrowPlacement = { [arrowAt]: '12px' };
+    return (
+      <Box
+        data-arrow-style=""
+        role="presentation"
+        {...arrowPlacement}
+        {...rest}
+      />
+    );
+  }
+  return (
+    <Box
+      data-popper-arrow=""
+      data-arrow-style=""
+      role="presentation"
+      {...rest}
+    />
+  );
+};
+
+PopperArrow.displayName = 'PopperArrow';
+
+///////////////////////////////////////////////////////////////
+
 const Popper = forwardRef(
   (
     {
@@ -170,27 +197,7 @@ const Popper = forwardRef(
   },
 );
 
-export default Popper;
+Popper.displayName = 'Popper';
 
-export const PopperArrow = ({ arrowAt, ...rest }) => {
-  const placement = ['left', 'right', 'top', 'bottom'];
-  if (placement.includes(arrowAt)) {
-    const arrowPlacement = { [arrowAt]: '12px' };
-    return (
-      <Box
-        data-arrow-style=""
-        role="presentation"
-        {...arrowPlacement}
-        {...rest}
-      />
-    );
-  }
-  return (
-    <Box
-      data-popper-arrow=""
-      data-arrow-style=""
-      role="presentation"
-      {...rest}
-    />
-  );
-};
+export default Popper;
+export { PopperArrow };

@@ -24,4 +24,6 @@ const Divider = forwardRef(({
   );
 });
 
+Divider.displayName = 'Divider';
+
 export default Divider;

@@ -8,4 +8,6 @@ const DarkMode = (props) => (
   </ColorModeProvider>
 );
 
+DarkMode.displayName = 'DarkMode';
+
 export default DarkMode;

@@ -35,4 +35,6 @@ const Skeleton = forwardRef((
   );
 });
 
+Skeleton.displayName = 'Skeleton';
+
 export default Skeleton;

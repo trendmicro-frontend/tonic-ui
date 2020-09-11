@@ -8,7 +8,7 @@ function expOut(t) {
 
 ///////////////////////////////////////////////////////////////////////////
 
-export const Slide = ({
+const Slide = ({
   in: inProp,
   children,
   duration = 250,
@@ -85,9 +85,11 @@ export const Slide = ({
   );
 };
 
+Slide.displayName = 'Slide';
+
 ///////////////////////////////////////////////////////////////////////////
 
-export const Scale = ({
+const Scale = ({
   in: inProp,
   initialScale = 0.97,
   duration = 150,
@@ -109,7 +111,11 @@ export const Scale = ({
   </Transition>
 );
 
-export const SlideIn = ({
+Scale.displayName = 'Scale';
+
+///////////////////////////////////////////////////////////////////////////
+
+const SlideIn = ({
   in: inProp,
   offset = '10px',
   duration = 150,
@@ -130,3 +136,11 @@ export const SlideIn = ({
     }))}
   </Transition>
 );
+
+SlideIn.displayName = 'SlideIn';
+
+export {
+  Slide,
+  Scale,
+  SlideIn,
+};
