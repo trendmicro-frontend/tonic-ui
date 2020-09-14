@@ -10,18 +10,26 @@ const ButtonGroup = forwardRef((
     children,
     size = 'md',
     variant = 'default',
-    vertical,
+    orientation = 'horizontal',
     ...rest
   },
   ref
 ) => {
-  const buttonGroupState = getMemoizedState({ size, variant, vertical });
+  const buttonGroupState = getMemoizedState({ size, variant, orientation });
+  const orientationProps = {
+    vertical: {
+      flexDirection: 'column',
+    },
+    horizontal: {
+      flexDirection: 'row',
+    },
+  }[orientation];
   return (
     <ButtonGroupProvider value={buttonGroupState}>
       <Box
         ref={ref}
         display="inline-flex"
-        flexDirection={vertical ? 'column' : 'row'}
+        {...orientationProps}
         {...rest}
       >
         {children}
