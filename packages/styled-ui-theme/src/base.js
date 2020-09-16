@@ -25,19 +25,19 @@ const spaceUnit = {
   quarter: {
     list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     notation: 'q',
-    value: .0625,
+    value: 0.0625,
     unit: baseUnit,
   },
   half: {
     list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     notation: 'h',
-    value: .125,
+    value: 0.125,
     unit: baseUnit,
   },
   whole: {
     list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 24, 32, 40, 48, 56, 64],
     notation: 'x',
-    value: .25,
+    value: 0.25,
     unit: baseUnit,
   },
 };
@@ -52,7 +52,7 @@ const space = (() => {
     const { list, notation, value, unit } = spaceUnit[name];
     const reducer = (acc, n) => {
       const k = `${n}${notation}`;
-      const v = `${(value * n)}${unit}`;
+      const v = `${(value * n)}${unit}`.replace(/^0+/, ''); // omitting leading '0's
       acc[k] = v;
       return acc;
     };
