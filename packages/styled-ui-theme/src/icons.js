@@ -1,7 +1,3 @@
-const icons = {
-  _core: {
-    // `_core` is a reserved key for internal use
-  },
-};
+const icons = {};
 
 export default icons;
