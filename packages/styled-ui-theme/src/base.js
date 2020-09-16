@@ -20,36 +20,52 @@ breakpoints.lg = breakpoints[2];
 breakpoints.xl = breakpoints[3];
 breakpoints['2xl'] = breakpoints[4];
 
-// space for margin and padding
-const space = {
-  0: '0',
-  '1x': '.25rem', // 4px
-  '2x': '.5rem', // 8px
-  '3x': '.75rem', // 12px
-  '4x': '1rem', // 16px
-  '5x': '1.25rem', // 20px
-  '6x': '1.5rem', // 24px
-  '7x': '1.75rem', // 28px
-  '8x': '2rem', // 32px
-  '9x': '2.25rem', // 36px
-  '10x': '2.5rem', // 40px
-  '11x': '2.75rem', // 44px
-  '12x': '3rem', // 48px
-  '13x': '3.25rem', // 52px
-  '14x': '3.5rem', // 56px
-  '15x': '3.75rem', // 60px
-  '16x': '4rem', // 64px
-  '17x': '4.25rem', // 68px
-  '18x': '4.5rem', // 72px
-  '19x': '4.75rem', // 76px
-  '20x': '5rem', // 80px
-  '24x': '6rem', // 96px
-  '32x': '8rem', // 128px
-  '40x': '10rem', // 160px
-  '48x': '12rem', // 192px
-  '56x': '14rem', // 224px
-  '64x': '16rem', // 256px
+const baseUnit = 'rem';
+const spaceUnit = {
+  quarter: {
+    list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    notation: 'q',
+    value: .0625,
+    unit: baseUnit,
+  },
+  half: {
+    list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    notation: 'h',
+    value: .125,
+    unit: baseUnit,
+  },
+  whole: {
+    list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 24, 32, 40, 48, 56, 64],
+    notation: 'x',
+    value: .25,
+    unit: baseUnit,
+  },
 };
+
+// space for margin and padding
+const space = (() => {
+  let accumulatedSpace = {
+    0: '0',
+  };
+
+  Object.keys(spaceUnit).forEach(name => {
+    const { list, notation, value, unit } = spaceUnit[name];
+    const reducer = (acc, n) => {
+      const k = `${n}${notation}`;
+      const v = `${(value * n)}${unit}`;
+      acc[k] = v;
+      return acc;
+    };
+    const initialValue = {};
+
+    accumulatedSpace = {
+      ...accumulatedSpace,
+      ...list.reduce(reducer, initialValue),
+    };
+  });
+
+  return accumulatedSpace;
+})();
 
 const colors = {
   transparent: 'transparent',
