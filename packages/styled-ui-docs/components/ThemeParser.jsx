@@ -19,10 +19,18 @@ const jsonStringify = (obj, indent) => {
 const ThemeParser = ({ theme, mode, ...props }) => {
   const themes = useTheme();
   const colorPalette = getColorPalette(mode);
-  const token = themes[theme] || colorPalette[theme];
   const indent = !!mode;
+  let token = themes[theme] || colorPalette[theme];
   if (!token) {
     return 'Theme field not found';
+  }
+  if (theme === 'space' || theme === 'sizes') {
+    token = Object.keys(token)
+      .filter(key => !(key.toString().match(/\q|h/g))) // Filter strings matching 'g' or 'h' like '1q', '1h'
+      .reduce((res, key) => {
+        res[key] = token[key];
+        return res;
+      }, {});
   }
   const themeField = jsonStringify(token, indent);
   return (
