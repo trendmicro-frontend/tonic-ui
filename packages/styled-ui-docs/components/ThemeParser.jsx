@@ -26,7 +26,7 @@ const ThemeParser = ({ theme, mode, ...props }) => {
   }
   if (theme === 'space' || theme === 'sizes') {
     token = Object.keys(token)
-      .filter(key => !(key.toString().match(/\q|h/g))) // Filter strings matching 'g' or 'h' like '1q', '1h'
+      .filter(key => !(key.toString().match(/[qh]$/))) // Filter strings matching 'q' or 'h' like '1q', '1h'
       .reduce((res, key) => {
         res[key] = token[key];
         return res;
