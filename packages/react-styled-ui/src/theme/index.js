@@ -3,10 +3,7 @@ import icons from './icons';
 
 const theme = {
   ...base,
-  icons: {
-    ...base?.icons,
-    ...icons,
-  },
+  icons,
 };
 
 export default theme;
