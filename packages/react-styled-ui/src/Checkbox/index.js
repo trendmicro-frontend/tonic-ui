@@ -102,6 +102,9 @@ const Checkbox = forwardRef(
           defaultChecked={readOnly ? undefined : defaultChecked}
           onChange={readOnly ? undefined : onChange}
           onBlur={onBlur}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
           onFocus={onFocus}
           checked={checked}
           disabled={disabled}

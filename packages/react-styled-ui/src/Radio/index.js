@@ -93,6 +93,9 @@ const Radio = forwardRef(
           defaultChecked={defaultChecked}
           onChange={onChange}
           onBlur={onBlur}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
           onFocus={onFocus}
           checked={checked}
           disabled={disabled}
