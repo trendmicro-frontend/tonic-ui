@@ -10,7 +10,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=cjs babel --root-mode upward src --out-dir build --ignore='**/*.test.js'",
     "clean": "del build dist",
-    "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
+    "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json,types/**} build",
     "pre-push": "eslint --ext .js,.jsx .",
     "prepublish": "yarn run build",
     "start-storybook": "start-storybook --config-dir .storybook --docs --port 8080",
@@ -85,5 +85,6 @@
     "components",
     "emotion",
     "styled-system"
-  ]
+  ],
+  "types": "types/index.d.ts"
 }
