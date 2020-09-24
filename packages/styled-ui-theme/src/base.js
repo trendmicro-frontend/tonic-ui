@@ -1,303 +1,33 @@
-const spaceUnit = 'rem';
-const spaceDefinition = {
-  quarter: {
-    list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    notation: 'q',
-    value: 0.0625,
-  },
-  half: {
-    list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    notation: 'h',
-    value: 0.125,
-  },
-  whole: {
-    list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 24, 32, 40, 48, 56, 64],
-    notation: 'x',
-    value: 0.25,
-  },
-};
+import borders from './foundations/borders';
+import borderStyles from './foundations/borderStyles';
+import borderWidths from './foundations/borderWidths';
+import breakpoints from './foundations/breakpoints';
+import colors from './foundations/colors';
+import fonts from './foundations/fonts';
+import fontSizes from './foundations/fontSizes';
+import fontWeights from './foundations/fontWeights';
+import letterSpacings from './foundations/letterSpacings';
+import lineHeights from './foundations/lineHeights';
+import radii from './foundations/radii';
+import shadows from './foundations/shadows';
+import sizes from './foundations/sizes';
+import space from './foundations/space';
+import zIndices from './foundations/zIndices';
 
-const breakpoints = [
-  '320px',
-  '640px',
-  '1024px',
-  '1280px',
-  '1680px',
-];
-// @media screen and (min-width: 320px)
-// @media screen and (min-width: 640px)
-// @media screen and (min-width: 1024px)
-// @media screen and (min-width: 1280px)
-// @media screen and (min-width: 1680px)
-
-// aliases
-breakpoints.sm = breakpoints[0];
-breakpoints.md = breakpoints[1];
-breakpoints.lg = breakpoints[2];
-breakpoints.xl = breakpoints[3];
-breakpoints['2xl'] = breakpoints[4];
-
-// space for margin and padding
-const space = (() => {
-  let accumulatedSpace = {};
-
-  Object.keys(spaceDefinition).forEach(name => {
-    const { list, notation, value } = spaceDefinition[name];
-    const reducer = (acc, n) => {
-      const k = `${n}${notation}`;
-      const v = `${(value * n)}${spaceUnit}`.replace(/^0+/, ''); // omitting leading '0's
-      acc[k] = v;
-      return acc;
-    };
-    const initialValue = {};
-
-    accumulatedSpace = {
-      ...accumulatedSpace,
-      ...list.reduce(reducer, initialValue),
-    };
-  });
-
-  return accumulatedSpace;
-})();
-
-const colors = {
-  transparent: 'transparent',
-  current: 'currentColor',
-
-  'red:100': '#6e0002',
-  'red:90': '#9d0003',
-  'red:80': '#b80003',
-  'red:70': '#d71920',
-  'red:60': '#e52630',
-  'red:50': '#f24c4f',
-  'red:40': '#f46f71',
-  'red:30': '#fd999a',
-  'red:20': '#fcc3c4',
-  'red:10': '#fee1e2',
-
-  'magenta:100': '#750037',
-  'magenta:90': '#960043',
-  'magenta:80': '#b3004c',
-  'magenta:70': '#ca0455',
-  'magenta:60': '#dc1d68',
-  'magenta:50': '#e94181',
-  'magenta:40': '#f36fa0',
-  'magenta:30': '#f9a0c1',
-  'magenta:20': '#fcc3d8',
-  'magenta:10': '#fee1ec',
-
-  'purple:100': '#460086',
-  'purple:90': '#5300a5',
-  'purple:80': '#6304ca',
-  'purple:70': '#771ddc',
-  'purple:60': '#8f41e9',
-  'purple:50': '#ab6ff3',
-  'purple:40': '#bb89f6',
-  'purple:30': '#cca6f9',
-  'purple:20': '#ddc3fc',
-  'purple:10': '#eee1fe',
-
-  'blue:100': '#002a7e',
-  'blue:90': '#00349d',
-  'blue:80': '#003db8',
-  'blue:70': '#0547cd',
-  'blue:60': '#1e5ede',
-  'blue:50': '#578aef',
-  'blue:40': '#6f9bf4',
-  'blue:30': '#95b7fc',
-  'blue:20': '#c3d6fc',
-  'blue:10': '#e1ebfe',
-
-  'green:100': '#003011',
-  'green:90': '#00461a',
-  'green:80': '#005c24',
-  'green:70': '#00712e',
-  'green:60': '#008539',
-  'green:50': '#00a94f',
-  'green:40': '#04c45a',
-  'green:30': '#40e884',
-  'green:20': '#89f6b2',
-  'green:10': '#c3fcd8',
-
-  'teal:100': '#004034',
-  'teal:90': '#005242',
-  'teal:80': '#006451',
-  'teal:70': '#00755f',
-  'teal:60': '#00866c',
-  'teal:50': '#00a584',
-  'teal:40': '#04caa1',
-  'teal:30': '#41e9c5',
-  'teal:20': '#89f6df',
-  'teal:10': '#c3fcf0',
-
-  'cyan:100': '#003664',
-  'cyan:90': '#004575',
-  'cyan:80': '#005486',
-  'cyan:70': '#006496',
-  'cyan:60': '#0075a5',
-  'cyan:50': '#0095bf',
-  'cyan:40': '#10b4d3',
-  'cyan:30': '#41d8e9',
-  'cyan:20': '#89f0f6',
-  'cyan:10': '#c3f9fc',
-
-  'gray:100': '#151515',
-  'gray:90': '#212121',
-  'gray:80': '#303030',
-  'gray:70': '#424242',
-  'gray:60': '#5e5e5e',
-  'gray:50': '#8a8a8a',
-  'gray:40': '#adadad',
-  'gray:30': '#c9c9c9',
-  'gray:20': '#e0e0e0',
-  'gray:10': '#f2f2f2',
-
-  'orange:50': '#ff7633',
-
-  'yellow:50': '#faba2a',
-
-  'white:emphasis': 'rgba(255, 255, 255, 1.0)',
-  'white:primary': 'rgba(255, 255, 255, .92)',
-  'white:secondary': 'rgba(255, 255, 255, .60)',
-  'white:tertiary': 'rgba(255, 255, 255, .47)',
-  'white:disabled': 'rgba(255, 255, 255, .28)',
-
-  'black:emphasis': 'rgba(0, 0, 0, 1.0)',
-  'black:primary': 'rgba(0, 0, 0, .92)',
-  'black:secondary': 'rgba(0, 0, 0, .65)',
-  'black:tertiary': 'rgba(0, 0, 0, .54)',
-  'black:disabled': 'rgba(0, 0, 0, .30)',
-};
-
-/**
- * A generic font family should be the last item in the list of font family names:
- * - serif
- * - sans-serif
- * - monospace
- * - cursive
- * - fantasy
- * - system-ui
- * - math
- * - emoji
- * - fangsong
- */
-const fonts = {
-  heading: '"Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif',
-  base: '"Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif',
-  mono: '"Segoe UI Mono", "SFMono-Medium", "SF Mono", Menlo, Consolas, Courier, monospace',
-};
-
-const fontWeights = {
-  thin: 100,
-  extralight: 200,
-  light: 300,
-  normal: 400,
-  medium: 500,
-  semibold: 600,
-  bold: 700,
-  extrabold: 800,
-  black: 900,
-};
-
-const fontSizes = {
-  xs: '.75rem',
-  sm: '.875rem',
-  md: '1rem',
-  lg: '1.125rem',
-  xl: '1.25rem',
-  '2xl': '1.5rem',
-  '3xl': '1.75rem',
-  '4xl': '2rem',
-};
-
-const lineHeights = {
-  normal: 'normal',
-  base: '1.5',
-  xs: '1.125rem',
-  sm: '1.25rem',
-  md: '1.375rem',
-  lg: '1.5rem',
-  xl: '1.75rem',
-  '2xl': '2rem',
-  '3xl': '2.25rem',
-  '4xl': '2.5rem',
-};
-
-const letterSpacings = {
-};
-
-const sizes = {
-  ...space,
-};
-
-const borders = {
-  none: 0,
-  1: '1px solid',
-  2: '2px solid',
-};
-
-const borderWidths = {
-  none: 0,
-  1: '1px',
-  2: '2px',
-};
-
-const radii = {
-  circle: '50%',
-  none: 0,
-  sm: '.1875rem',
-  md: '.375rem',
-  lg: '.75rem',
-};
-
-const shadows = {
-  none: 'none',
-
-  /**
-   * offset-x | offset-y | blur-radius | spread-radius | color
-   */
-  dark: {
-    sm: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
-    md: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
-    lg: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
-  },
-  light: {
-    sm: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
-    md: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-    lg: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
-  },
-};
-
-const zIndices = {
-  hide: -1,
-  auto: 'auto',
-  base: 0,
-  dropdown: 1000,
-  sticky: 1100,
-  fixed: 1200,
-  overlay: 1300,
-  drawer: 1400,
-  modal: 1500,
-  popover: 1600,
-  toast: 1700,
-  tooltip: 1800,
-};
-
-const theme = {
+export default {
+  borders,
+  borderStyles,
+  borderWidths,
   breakpoints,
-  space,
   colors,
   fonts,
-  fontWeights,
   fontSizes,
-  lineHeights,
+  fontWeights,
   letterSpacings,
-  sizes,
-  borders,
-  borderWidths,
+  lineHeights,
   radii,
   shadows,
+  sizes,
+  space,
   zIndices,
 };
-
-export default theme;
