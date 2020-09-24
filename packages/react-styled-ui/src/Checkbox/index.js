@@ -37,6 +37,7 @@ const Checkbox = forwardRef(
       iconColor,
 
       onChange,
+      onClick,
       onBlur,
       onFocus,
 
@@ -101,10 +102,8 @@ const Checkbox = forwardRef(
           value={value}
           defaultChecked={readOnly ? undefined : defaultChecked}
           onChange={readOnly ? undefined : onChange}
+          onClick={readOnly ? undefined : onClick}
           onBlur={onBlur}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
           onFocus={onFocus}
           checked={checked}
           disabled={disabled}
