@@ -248,7 +248,7 @@ const TH = ({ align, ...props }) => {
   );
 };
 
-const TD = props => {
+const TD = ({ align, ...props }) => {
   const { colorMode } = useColorMode();
   const borderColor = mapColorModeToTableBorderColor(colorMode);
 
@@ -259,6 +259,7 @@ const TD = props => {
       py="2x"
       border={1}
       borderColor={borderColor}
+      textAlign={align}
       {...props}
     />
   );
