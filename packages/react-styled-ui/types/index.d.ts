@@ -363,34 +363,40 @@ declare namespace __StyledUI {
     export const Image: React.FC<ImageProps>;
   }
   export namespace __Input {
-    type InputProps = BoxProps & {
+    type BaseInputProps = BoxProps & {
       defaultValue?: string | number | undefined | null;
       disabled?: boolean;
       label?: string;
       name?: string;
-      onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-      onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-      onMouseEnter?: () => void;
       placeholder?: string;
       ref?: React.RefObject;
       required?: boolean;
       type?: string;
       value?: string | number | undefined | null;
     };
+    type InputProps = BaseInputProps & {
+      onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+      onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+      onMouseEnter?: (e: React.MouseEvent<HTMLInputElement>) => void;
+    };
+
     export const Input: React.FC<InputProps>;
 
-    type SelectProps = InputProps & {
+    type SelectProps = BaseInputProps & {
       children: React.ReactNode;
     };
     export const Select: React.FC<SelectProps>;
 
-    type SearchInputProps = InputProps & {
+    type SearchInputProps = BaseInputProps & {
       size?: string;
     };
     export const SearchInput: React.FC<SearchInputProps>;
 
-    type TextareaProps = InputProps & {
+    type TextareaProps = BaseInputProps & {
       children?: React.ReactNode;
+      onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+      onKeyPress?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+      onMouseEnter?: (e: React.MouseEvent<HTMLTextAreaElement>) => void;
       rows?: number;
       resize?: "none" | "both" | "horizontal" | "vertical";
     };
