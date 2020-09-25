@@ -1,0 +1,36 @@
+import defaultTheme from '../src';
+import borders from '../src/foundations/borders';
+import borderStyles from '../src/foundations/borderStyles';
+import borderWidths from '../src/foundations/borderWidths';
+import breakpoints from '../src/foundations/breakpoints';
+import colors from '../src/foundations/colors';
+import fonts from '../src/foundations/fonts';
+import fontSizes from '../src/foundations/fontSizes';
+import fontWeights from '../src/foundations/fontWeights';
+import letterSpacings from '../src/foundations/letterSpacings';
+import lineHeights from '../src/foundations/lineHeights';
+import radii from '../src/foundations/radii';
+import shadows from '../src/foundations/shadows';
+import sizes from '../src/foundations/sizes';
+import space from '../src/foundations/space';
+import zIndices from '../src/foundations/zIndices';
+import absolutePx from '../src/absolute/px';
+import relativeRem from '../src/relative/rem';
+
+test('the default export must have all properties defined in the theme object', () => {
+  expect(defaultTheme).toHaveProperty('borders', borders);
+  expect(defaultTheme).toHaveProperty('borderStyles', borderStyles);
+  expect(defaultTheme).toHaveProperty('borderWidths', borderWidths);
+  expect(defaultTheme).toHaveProperty('breakpoints', breakpoints);
+  expect(defaultTheme).toHaveProperty('colors', colors);
+  expect(defaultTheme).toHaveProperty('fonts', fonts);
+  expect(defaultTheme).toHaveProperty('fontSizes', fontSizes);
+  expect(defaultTheme).toHaveProperty('fontWeights', fontWeights);
+  expect(defaultTheme).toHaveProperty('letterSpacings', letterSpacings);
+  expect(defaultTheme).toHaveProperty('lineHeights', lineHeights);
+  expect(defaultTheme).toHaveProperty('radii', radii);
+  expect(defaultTheme).toHaveProperty('shadows', shadows);
+  expect(defaultTheme).toHaveProperty('sizes', sizes);
+  expect(defaultTheme).toHaveProperty('space', space);
+  expect(defaultTheme).toHaveProperty('zIndices', zIndices);
+});
