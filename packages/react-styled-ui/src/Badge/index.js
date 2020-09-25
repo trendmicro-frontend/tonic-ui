@@ -15,7 +15,8 @@ const Badge = forwardRef(
       borderColor,
       borderWidth = 1,
       ...restProps
-    }
+    },
+    ref,
   ) => {
     const badgeBorderColor = borderColor ?? variantColor;
     const badgeStyleProps = useBadgeStyle({
@@ -37,6 +38,7 @@ const Badge = forwardRef(
         {children}
         {!isHidden && (
           <Box
+            ref={ref}
             as="span"
             fontWeight="normal"
             borderRadius="sm"
