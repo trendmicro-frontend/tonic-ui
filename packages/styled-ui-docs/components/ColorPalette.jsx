@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Flex, Grid, Stack, useTheme, useColorMode } from '@trendmicro/react-styled-ui';
-import { getColorPalette } from '@trendmicro/styled-ui-theme';
+import getColorPalette from '@trendmicro/styled-ui-theme/build/color-palette';
 
 const splitString = (value) => value.split(':');
 const getColorToken = (val, obj) => Object.keys(obj).find(key => obj[key] === val);

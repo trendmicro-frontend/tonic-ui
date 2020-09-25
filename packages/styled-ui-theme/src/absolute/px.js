@@ -1,4 +1,18 @@
-import base from '../base';
+import borders from '../foundations/borders';
+import borderStyles from '../foundations/borderStyles';
+import borderWidths from '../foundations/borderWidths';
+import breakpoints from '../foundations/breakpoints';
+import colors from '../foundations/colors';
+import fonts from '../foundations/fonts';
+import fontSizes from '../foundations/fontSizes';
+import fontWeights from '../foundations/fontWeights';
+import letterSpacings from '../foundations/letterSpacings';
+import lineHeights from '../foundations/lineHeights';
+import radii from '../foundations/radii';
+import shadows from '../foundations/shadows';
+import sizes from '../foundations/sizes';
+import space from '../foundations/space';
+import zIndices from '../foundations/zIndices';
 
 const spaceUnit = 'px';
 const spaceDefinition = {
@@ -20,7 +34,7 @@ const spaceDefinition = {
 };
 
 // space for margin and padding
-const space = (() => {
+const pxSpace = (() => {
   let accumulatedSpace = {};
 
   Object.keys(spaceDefinition).forEach(name => {
@@ -42,7 +56,7 @@ const space = (() => {
   return accumulatedSpace;
 })();
 
-const fontSizes = {
+const pxFontSizes = {
   xs: '12px',
   sm: '14px',
   md: '16px',
@@ -53,7 +67,7 @@ const fontSizes = {
   '4xl': '32px',
 };
 
-const lineHeights = {
+const pxLineHeights = {
   normal: 'normal',
   base: '1.5',
   xs: '18px',
@@ -66,11 +80,9 @@ const lineHeights = {
   '4xl': '40px',
 };
 
-const sizes = {
-  ...space,
-};
+const pxSizes = pxSpace;
 
-const radii = {
+const pxRadii = {
   circle: '50%',
   none: 0,
   sm: '3px',
@@ -79,10 +91,19 @@ const radii = {
 };
 
 export default {
-  ...base,
-  space,
-  fontSizes,
-  lineHeights,
-  sizes,
-  radii,
+  borders,
+  borderStyles,
+  borderWidths,
+  breakpoints,
+  colors,
+  fonts,
+  fontSizes: { ...fontSizes, ...pxFontSizes },
+  fontWeights,
+  letterSpacings,
+  lineHeights: { ...lineHeights, ...pxLineHeights },
+  radii: { ...radii, ...pxRadii },
+  shadows,
+  sizes: { ...sizes, ...pxSizes },
+  space: { ...space, ...pxSpace },
+  zIndices,
 };

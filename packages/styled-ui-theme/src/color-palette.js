@@ -1,7 +1,5 @@
 import _get from 'lodash.get';
-import theme from './base';
-
-const { colors } = theme;
+import colors from './foundations/colors';
 
 export const light = {
   text: {
