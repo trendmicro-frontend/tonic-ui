@@ -29,6 +29,7 @@ const Radio = forwardRef(
       value,
       variantColor = 'blue',
       onChange,
+      onClick,
       onBlur,
       onFocus,
       ...rest
@@ -92,6 +93,7 @@ const Radio = forwardRef(
           value={value}
           defaultChecked={defaultChecked}
           onChange={onChange}
+          onClick={onClick}
           onBlur={onBlur}
           onFocus={onFocus}
           checked={checked}
