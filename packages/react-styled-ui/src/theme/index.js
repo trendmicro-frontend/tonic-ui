@@ -1,12 +1,9 @@
-import { base } from '@trendmicro/styled-ui-theme';
+import defaultTheme from '@trendmicro/styled-ui-theme';
 import icons from './icons';
 
 const theme = {
-  ...base,
-  icons: {
-    ...base?.icons,
-    ...icons,
-  },
+  ...defaultTheme,
+  icons,
 };
 
 export default theme;

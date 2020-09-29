@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@trendmicro/react-styled-ui';
-import { getColorPalette } from '@trendmicro/styled-ui-theme';
+import getColorPalette from '@trendmicro/styled-ui-theme/build/color-palette';
 import CodeBlock from './CodeBlock';
 
 const jsonStringify = (obj, indent) => {
@@ -19,10 +19,18 @@ const jsonStringify = (obj, indent) => {
 const ThemeParser = ({ theme, mode, ...props }) => {
   const themes = useTheme();
   const colorPalette = getColorPalette(mode);
-  const token = themes[theme] || colorPalette[theme];
   const indent = !!mode;
+  let token = themes[theme] || colorPalette[theme];
   if (!token) {
     return 'Theme field not found';
+  }
+  if (theme === 'space' || theme === 'sizes') {
+    token = Object.keys(token)
+      .filter(key => !(key.toString().match(/[qh]$/))) // Filter strings matching 'q' or 'h' like '1q', '1h'
+      .reduce((res, key) => {
+        res[key] = token[key];
+        return res;
+      }, {});
   }
   const themeField = jsonStringify(token, indent);
   return (

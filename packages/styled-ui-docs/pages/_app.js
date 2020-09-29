@@ -7,6 +7,7 @@ import {
   ThemeProvider,
   useColorMode,
   useTheme,
+  theme,
 } from '@trendmicro/react-styled-ui';
 import App from 'next/app';
 import { useRouter } from 'next/router';
@@ -15,6 +16,10 @@ import Header from '../components/Header';
 import Main from '../components/Main';
 import MDXComponents from '../components/MDXComponents';
 import SideNav from '../components/SideNav';
+
+const customTheme = {
+  ...theme,
+};
 
 const Layout = ({ children }) => {
   const { colorMode } = useColorMode();
@@ -69,8 +74,9 @@ const CustomApp = (props) => {
   useEffect(() => {
     router.pathname === '/' && router.push(`${process.env.PUBLIC_URL}/getting-started`);
   }, [router]);
+
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={customTheme}>
       <ColorModeProvider value="dark">
         <CSSBaseline />
         <MDXProvider components={MDXComponents}>

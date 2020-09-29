@@ -1,7 +1,3 @@
-import base from './base';
-import getColorPalette from './color-palette';
+import defaultTheme from './relative/rem';
 
-export {
-  base,
-  getColorPalette,
-};
+export default defaultTheme;

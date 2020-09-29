@@ -13,7 +13,7 @@
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "eslint src",
     "prepublish": "yarn run build",
-    "test": "jest --passWithNoTests"
+    "test": "jest"
   },
   "devDependencies": {
     "cpy-cli": "~3.1.1",
