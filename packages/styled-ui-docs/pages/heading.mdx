@@ -45,29 +45,35 @@ Use the `size` prop to change the corresponding font size and line height. You c
 </Stack>
 ```
 
-### Variants
+### Type Scales
 
-The `Heading` component comes in six variants: `h1`, `h2`, `h3`, `h4`, `h5`, and `h6`. Pass the `variant` prop and set it to either of these values.
+The `Heading` component comes in 8 type scales, from `1` to `8`. It corresponds to font size, line height and font-weight. Pass the `typeScale` prop and set it to either of these values.
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Heading variant="h1">
-    h1. Heading
+  <Heading typeScale="1">
+    Heading 1
   </Heading>
-  <Heading variant="h2">
-    h2. Heading
+  <Heading typeScale="2">
+    Heading 2
   </Heading>
-  <Heading variant="h3">
-    h3. Heading
+  <Heading typeScale="3">
+    Heading 3
   </Heading>
-  <Heading variant="h4">
-    h4. Heading
+  <Heading typeScale="4">
+    Heading 4
   </Heading>
-  <Heading variant="h5">
-    h5. Heading
+  <Heading typeScale="5">
+    Heading 5
   </Heading>
-  <Heading variant="h6">
-    h6. Heading
+  <Heading typeScale="6">
+    Heading 6
+  </Heading>
+  <Heading typeScale="7">
+    Heading 7
+  </Heading>
+  <Heading typeScale="8">
+    Heading 8
   </Heading>
 </Stack>
 ```
@@ -106,5 +112,5 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| variant | string | | One of: `'h1'`, `'h2'`, `'h3'`, `'h4'`, `'h5'`, `'h6'` |
+| typeScale | string | | One of: `'1'`, `'2'`, `'3'`, `'4'`, `'5'`, `'6'`, `'7'`, `'8'` |
 | size | string | | One of: `'4xl'`, `'3xl'`, `'2xl'`, `'xl'`, `'lg'`, `'md'`, `'sm'`, `'xs'` |
