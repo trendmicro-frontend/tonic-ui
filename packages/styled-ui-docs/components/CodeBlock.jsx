@@ -6,6 +6,7 @@ import React, { useCallback, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import Lorem from 'react-lorem-component';
+import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
@@ -17,6 +18,7 @@ import useToast from './useToast';
 const ThirdPartyComponents = {
   AutoSizer,
   Scrollbars,
+  ...ReactMovable,
   ...ReactTable,
 };
 const CustomedComponents = {

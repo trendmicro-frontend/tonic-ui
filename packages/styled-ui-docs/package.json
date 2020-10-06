@@ -41,6 +41,7 @@
     "react-dom": "^16.8.0",
     "react-live": "^2.2.2",
     "react-lorem-component": "^0.13.0",
+    "react-movable": "^2.5.1",
     "react-table": "^7.2.2",
     "react-virtualized": "^9.21.2",
     "remark-emoji": "^2.1.0",

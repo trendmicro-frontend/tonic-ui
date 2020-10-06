@@ -726,6 +726,77 @@ function FullWidthTable() {
 render(<FullWidthTable />);
 ```
 
+### Movable table
+
+In this examples, we use [`react-movable`](https://github.com/tajo/react-movable) to move table row.
+
+`import { List, arrayMove } from 'react-movable';`
+
+
+```jsx noInline
+function MovableTable() {
+  const [items, setItems] = React.useState([
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ]);
+
+  return (
+    <List
+      values={items}
+      onChange={({ oldIndex, newIndex }) =>
+        setItems(arrayMove(items, oldIndex, newIndex))
+      }
+      renderList={({ children, props, isDragged }) => (
+        <Table
+          style={{
+            cursor: isDragged ? 'grabbing' : undefined
+          }}
+        >
+          <TableHeader>
+            <TableHeaderRow>
+              <TableHeaderCell>Event Type</TableHeaderCell>
+              <TableHeaderCell>Affected Devices</TableHeaderCell>
+              <TableHeaderCell>Detections</TableHeaderCell>
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody {...props}>{children}</TableBody>
+        </Table>
+      )}
+      renderItem={({ value, props, isDragged, isSelected }) => {
+        const row = (
+          <TableRow
+            {...props}
+            style={{
+              ...props.style,
+              cursor: isDragged ? 'grabbing' : 'grab',
+              backgroundColor: isDragged || isSelected ? '#8a8a8a' : 'inherit',
+            }}
+          >
+            <TableCell>{value.eventType}</TableCell>
+            <TableCell>{value.affectedDevices}</TableCell>
+            <TableCell>{value.detections}</TableCell>
+          </TableRow>
+        );
+        return isDragged ? (
+          <Table style={{ ...props.style }}>
+            <TableBody>{row}</TableBody>
+          </Table>
+        ) : (
+          row
+        );
+      }}
+    />
+  );
+}
+
+render(<MovableTable />);
+```
+
+
 ## Props
 
 ### Table
