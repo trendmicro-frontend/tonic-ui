@@ -2,8 +2,11 @@ import { css } from '@emotion/core';
 import { mdx } from '@mdx-js/react';
 import * as CoreComponents from '@trendmicro/react-styled-ui';
 import { boolean } from 'boolean';
+import update from 'immutability-helper';
 import React, { useCallback, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
+import * as ReactDND from 'react-dnd';
+import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import Lorem from 'react-lorem-component';
 import * as ReactMovable from 'react-movable';
@@ -18,7 +21,10 @@ import useToast from './useToast';
 const ThirdPartyComponents = {
   AutoSizer,
   Scrollbars,
-  ...ReactMovable,
+  ReactDND,
+  ReactDNDHtml5backend,
+  ReactMovable,
+  update,
   ...ReactTable,
 };
 const CustomedComponents = {
