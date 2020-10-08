@@ -451,6 +451,106 @@ function SortableTable() {
 render(<SortableTable />);
 ```
 
+
+### Resizable table
+
+```jsx noInline
+function ResizableTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      accessor: 'eventType',
+    },
+    {
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    resetResizing,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout,
+    useResizeColumns,
+  );
+
+  return (
+    <Stack spacing="4x" shouldWrapChildren>
+      <Button onClick={resetResizing}>Reset Resizing</Button>
+      <Table
+        isHoverable
+        variant="outline"
+        {...getTableProps()}
+      >
+        <TableHeader>
+          {headerGroups.map(headerGroup => (
+            <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <TableHeaderCell {...column.getHeaderProps()}>
+                  {column.render('Header')}
+                  {/* Use column.getResizerProps to hook up the events correctly */}
+                  <Box
+                    {...column.getResizerProps()}
+                    display="inline-block"
+                    bg="blue:60"
+                    width="3x"
+                    height="100%"
+                    position="absolute"
+                    right="0"
+                    top="0"
+                    transform="translateX(50%)"
+                    zIndex={1}
+                    {...column.isResizing && { bg: "red:60" }}
+                  />
+                </TableHeaderCell>
+              ))}
+            </TableHeaderRow>
+          ))}
+        </TableHeader>
+        <TableBody {...getTableBodyProps()}>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <TableRow {...row.getRowProps()}>
+                {
+                  row.cells.map(cell => {
+                    return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                  })
+                }
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </Stack>
+  );
+}
+
+render(<ResizableTable />);
+```
+
 ### Sticky table
 
 In this example, we use [`react-custom-scrollbars`](https://github.com/malte-wessel/react-custom-scrollbars) to display scrollbar.
@@ -726,6 +826,7 @@ function FullWidthTable() {
 render(<FullWidthTable />);
 ```
 
+
 ### Row reordering
 
 #### By react-movable
@@ -807,6 +908,7 @@ In this example, we use [`react-dnd`](https://github.com/react-dnd/react-dnd) to
 `import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend';`
 
 `import update from 'immutability-helper';`
+
 
 ```jsx noInline
 const ItemTypes = {
@@ -992,6 +1094,7 @@ In this example, we use [`react-beautiful-dnd`](https://github.com/atlassian/rea
 
 `import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";`
 
+
 ```jsx noInline
 const getItemStyle = ({ isDragging, isDropAnimating }, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
@@ -1150,7 +1253,7 @@ function BaseTable() {
                       top={placeholderProps.clientY}
                       left={placeholderProps.clientX}
                       height={placeholderProps.clientHeight}
-                      background="tomato"
+                      bg="gray:60"
                       width={placeholderProps.clientWidth}
                     />
                   </TableHeaderRow>
