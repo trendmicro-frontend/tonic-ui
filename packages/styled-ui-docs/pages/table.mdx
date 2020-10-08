@@ -726,11 +726,11 @@ function FullWidthTable() {
 render(<FullWidthTable />);
 ```
 
-### Movable table rows
+### Row reordering
 
-#### With react-movable
+#### By react-movable
 
-In this example, we use [`react-movable`](https://github.com/tajo/react-movable) to move table row.
+In this example, we use [`react-movable`](https://github.com/tajo/react-movable) to move table rows.
 
 `import { List, arrayMove } from 'react-movable';`
 
@@ -798,9 +798,9 @@ function ReactMovableExample() {
 render(<ReactMovableExample />);
 ```
 
-#### With react-dnd
+#### By react-dnd
 
-In this example, we use [`react-dnd`](https://github.com/react-dnd/react-dnd) to move table row.
+In this example, we use [`react-dnd`](https://github.com/react-dnd/react-dnd) to move table rows.
 
 `import { DndProvider, useDrop, useDragLayer } from 'react-dnd';`
 
@@ -985,6 +985,207 @@ render(
   </ReactDND.DndProvider>
 );
 ```
+
+### Column reordering
+
+In this example, we use [`react-beautiful-dnd`](https://github.com/atlassian/react-beautiful-dnd) to move table columns.
+
+`import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";`
+
+```jsx noInline
+const getItemStyle = ({ isDragging, isDropAnimating }, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: "none",
+
+  // change background colour if dragging
+  background: isDragging ? "#8a8a8a" : "inherit",
+
+  // styles we need to apply on draggables
+  ...draggableStyle,
+});
+
+function BaseTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      accessor: 'eventType',
+    },
+    {
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    allColumns,
+    setColumnOrder,
+  } = useTable(
+    {
+      columns,
+      data,
+      defaultColumn,
+    },
+    useColumnOrder,
+    useBlockLayout,
+  );
+
+  const currentColOrder = React.useRef();
+  const [placeholderProps, setPlaceholderProps] = React.useState({});
+  const onDragEnd = (result) => {
+    setPlaceholderProps({});
+
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+  };
+
+  const onDragUpdate = (dragUpdateObj, b) => {
+    if(!dragUpdateObj.destination){
+      return;
+    }
+    const draggableId = dragUpdateObj.draggableId;
+    const destinationIndex = dragUpdateObj.destination.index;
+
+    const queryAttr = "data-rbd-drag-handle-draggable-id";
+    const domQuery = `[${queryAttr}='${draggableId}']`;
+    const draggedDOM = document.querySelector(domQuery);
+
+    if (!draggedDOM) {
+      return;
+    }
+    const { clientHeight, clientWidth } = draggedDOM;
+
+    const clientX = Array.from(draggedDOM.parentNode.children)
+      .slice(0, destinationIndex)
+      .reduce((total, curr) => {
+        return total + curr.clientWidth;
+      }, 0);
+
+    setPlaceholderProps({
+      clientHeight,
+      clientWidth,
+      clientY: 0,
+      clientX: clientX
+    });
+
+    const colOrder = [...currentColOrder.current];
+    const sIndex = dragUpdateObj.source.index;
+    const dIndex = dragUpdateObj.destination && dragUpdateObj.destination.index;
+    if (typeof sIndex === "number" && typeof dIndex === "number") {
+      colOrder.splice(sIndex, 1);
+      colOrder.splice(dIndex, 0, dragUpdateObj.draggableId);
+      setColumnOrder(colOrder);
+    }
+  };
+
+  return (
+    <Table {...getTableProps()}>
+      <TableHeader>
+        {headerGroups.map((headerGroup, index) => (
+          <ReactBeautifulDND.DragDropContext
+            key={index}
+            onDragStart={() => {
+              currentColOrder.current = allColumns.map(o => o.id);
+            }}
+            onDragUpdate={onDragUpdate}
+            onDragEnd={onDragEnd}
+          >
+            <ReactBeautifulDND.Droppable droppableId="droppable" direction="horizontal">
+              {(droppableProvided, droppableSnapshot) => {
+                return (
+                  <TableHeaderRow
+                    ref={droppableProvided.innerRef}
+                    {...droppableProvided.droppableProps}
+                    {...headerGroup.getHeaderGroupProps()}
+                  >
+                    {headerGroup.headers.map((column, index) => (
+                      <ReactBeautifulDND.Draggable
+                        key={column.id}
+                        draggableId={column.id}
+                        index={index}
+                        isDragDisabled={!column.accessor}
+                      >
+                        {(provided, snapshot) => {
+                          return (
+                            <TableHeaderCell
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              {...column.getHeaderProps()}
+                              style={{
+                                ...getItemStyle(
+                                  snapshot,
+                                  provided.draggableProps.style
+                                )
+                              }}
+                            >
+                              {column.render("Header")}
+                            </TableHeaderCell>
+                          );
+                        }}
+                      </ReactBeautifulDND.Draggable>
+                    ))}
+                    {droppableProvided.placeholder}
+                    <Box
+                      position="absolute"
+                      top={placeholderProps.clientY}
+                      left={placeholderProps.clientX}
+                      height={placeholderProps.clientHeight}
+                      background="tomato"
+                      width={placeholderProps.clientWidth}
+                    />
+                  </TableHeaderRow>
+                );
+              }}
+            </ReactBeautifulDND.Droppable>
+          </ReactBeautifulDND.DragDropContext>
+        ))}
+      </TableHeader>
+      <TableBody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <TableRow {...row.getRowProps()}>
+              {
+                row.cells.map(cell => {
+                  return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                })
+              }
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
+  );
+}
+
+// The resetServerContext function should be used when server side rendering (SSR).
+// It ensures context state does not persist across multiple renders on the server
+// which would result in client/server markup mismatches after multiple requests are rendered on the server.
+ReactBeautifulDND.resetServerContext();
+
+render(<BaseTable />);
+```
+
 
 ## Props
 
