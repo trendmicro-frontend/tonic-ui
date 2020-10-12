@@ -49,9 +49,7 @@ const H1 = props => {
       borderBottom={1}
       borderBottomColor={borderColor}
       color={color}
-      fontSize="3xl"
-      fontWeight="normal"
-      lineHeight="3xl"
+      typeScale="heading7"
       {...props}
     />
   );
@@ -74,9 +72,7 @@ const H2 = props => {
       borderBottom={1}
       borderBottomColor={borderColor}
       color={color}
-      fontSize="2xl"
-      fontWeight="normal"
-      lineHeight="2xl"
+      typeScale="heading6"
       {...props}
     />
   );
@@ -92,9 +88,7 @@ const H3 = props => {
       mt="6x"
       mb="4x"
       color={color}
-      fontSize="xl"
-      fontWeight="semibold"
-      lineHeight="xl"
+      typeScale="heading5"
       {...props}
     />
   );
@@ -108,9 +102,7 @@ const H4 = props => {
     <Heading
       as="h4"
       color={color}
-      fontSize="lg"
-      fontWeight="semibold"
-      lineHeight="lg"
+      typeScale="heading3"
       my="2x"
       {...props}
     />
@@ -127,9 +119,7 @@ const H5 = props => {
       mt="6x"
       mb="4x"
       color={color}
-      fontSize="md"
-      fontWeight="semibold"
-      lineHeight="md"
+      typeScale="heading2"
       {...props}
     />
   );
@@ -145,9 +135,7 @@ const H6 = props => {
       mt="6x"
       mb="4x"
       color={color}
-      fontSize="sm"
-      fontWeight="semibold"
-      lineHeight="sm"
+      typeScale="heading1"
       {...props}
     />
   );
