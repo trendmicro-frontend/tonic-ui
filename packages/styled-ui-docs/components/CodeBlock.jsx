@@ -2,10 +2,15 @@ import { css } from '@emotion/core';
 import { mdx } from '@mdx-js/react';
 import * as CoreComponents from '@trendmicro/react-styled-ui';
 import { boolean } from 'boolean';
+import update from 'immutability-helper';
 import React, { useCallback, useState } from 'react';
+import * as ReactBeautifulDND from 'react-beautiful-dnd';
 import { Scrollbars } from 'react-custom-scrollbars';
+import * as ReactDND from 'react-dnd';
+import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import Lorem from 'react-lorem-component';
+import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
@@ -17,6 +22,11 @@ import useToast from './useToast';
 const ThirdPartyComponents = {
   AutoSizer,
   Scrollbars,
+  ReactBeautifulDND,
+  ReactDND,
+  ReactDNDHtml5backend,
+  ReactMovable,
+  update,
   ...ReactTable,
 };
 const CustomedComponents = {
