@@ -35,12 +35,10 @@ const CustomedComponents = {
 const IconComponents = {
   FontAwesomeIcon,
 };
-const { Box, Button, useColorMode, useClipboard } = CoreComponents;
+const { Box, Button, Flex, AccordionItem, AccordionHeader, AccordionIcon, AccordionPanel, useColorMode, useClipboard } = CoreComponents;
 
 const liveEditorStyle = {
   fontSize: 14,
-  marginBottom: 32,
-  marginTop: 32,
   overflowX: 'auto',
   fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
 };
@@ -92,29 +90,10 @@ const CopyButton = props => (
     position="absolute"
     textTransform="uppercase"
     zIndex="1"
-    top="3x"
+    top="4x"
     right="4x"
     {...props}
   />
-);
-
-const EditableNotice = props => (
-  <Box
-    position="absolute"
-    top="2x"
-    zIndex="0"
-    color="gray:40"
-    fontFamily="base"
-    fontSize="xs"
-    lineHeight={1}
-    fontWeight="semibold"
-    pointerEvents="none"
-    left="50%"
-    transform="translate(-50%)"
-    {...props}
-  >
-    EDITABLE EXAMPLE
-  </Box>
 );
 
 const CodeBlock = ({
@@ -132,6 +111,11 @@ const CodeBlock = ({
    * Preview only (Default: `false`)
    */
   previewOnly = false,
+
+  /**
+   * Default is expand or collapse (Default: `false`)
+   */
+  expanded = false,
 
   className,
   children,
@@ -157,6 +141,12 @@ const CodeBlock = ({
   } else {
     disabled = (language !== 'jsx') || boolean(disabled);
   }
+
+  const useAccordionItemStyle = {
+    p: '2x',
+    mt: '1x',
+    backgroundColor: colorMode === 'dark' ? 'black' : 'white',
+  };
 
   const liveProviderProps = {
     theme,
@@ -204,17 +194,49 @@ const CodeBlock = ({
         <LiveCodePreview />
       )}
       <Box position="relative">
-        <LiveEditor
-          onChange={handleCodeChange}
-          padding={20}
-          style={liveEditorStyle}
-        />
-        <CopyButton onClick={onCopy}>
-          {hasCopied ? 'copied' : 'copy'}
-        </CopyButton>
-        {isEditable && (
-          <EditableNotice />
-        )}
+        {
+          isEditable ? (
+            <AccordionItem defaultIsOpen={expanded} {...useAccordionItemStyle}>
+              {({ isExpanded }) => (
+                <>
+                  <AccordionHeader py="2x">
+                    <Flex justify="space-between">
+                      <Box>EDITABLE EXAMPLE</Box>
+                      <AccordionIcon />
+                    </Flex>
+                  </AccordionHeader>
+                  <AccordionPanel startingHeight={50}>
+                    <Box position="relative">
+                      {
+                        isExpanded && (
+                          <CopyButton onClick={onCopy}>
+                            {hasCopied ? 'copied' : 'copy'}
+                          </CopyButton>
+                        )
+                      }
+                      <LiveEditor
+                        onChange={handleCodeChange}
+                        padding={20}
+                        style={liveEditorStyle}
+                      />
+                    </Box>
+                  </AccordionPanel>
+                </>
+              )}
+            </AccordionItem>
+          ) : (
+            <Box position="relative">
+              <CopyButton onClick={onCopy}>
+                {hasCopied ? 'copied' : 'copy'}
+              </CopyButton>
+              <LiveEditor
+                onChange={handleCodeChange}
+                padding={20}
+                style={liveEditorStyle}
+              />
+            </Box>
+          )
+        }
       </Box>
       {isEditable && (
         <LiveError style={liveErrorStyle} />
