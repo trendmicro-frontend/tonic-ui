@@ -1,9 +1,9 @@
 import { keyframes } from '@emotion/core';
+import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import PseudoBox from '../PseudoBox';
 import useColorMode from '../useColorMode';
-import { ensureNumber } from '../utils/ensure-type';
 import { setColorWithOpacity } from '../theme/colors';
 
 const rotate = keyframes`
@@ -67,7 +67,7 @@ const Spinner = forwardRef(
     const _strokeColor = color ?? 'blue:60';
 
     /***** speed setting *****/
-    const _speed = ensureNumber(speed);
+    const _speed = ensureFiniteNumber(speed);
     const _dashSpeed = Math.floor(_speed * 0.75 * 100) / 100;
 
     /***** full circle color *****/
