@@ -1,8 +1,8 @@
+import { ensureFiniteNumber } from 'ensure-type';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer, { matchers } from 'jest-emotion';
 import Box from '../../src/Box';
-import { ensureFiniteNumber } from '../../src/utils/ensure-type';
 
 expect.extend(matchers);
 expect.addSnapshotSerializer(serializer);
