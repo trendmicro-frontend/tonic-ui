@@ -2,7 +2,6 @@
 import { jsx, css } from '@emotion/core';
 import {
   Box,
-  Heading,
   Image,
   Link,
   useColorMode,
@@ -41,7 +40,7 @@ const H1 = props => {
   }[colorMode];
 
   return (
-    <Heading
+    <Box
       as="h1"
       mt="6x"
       mb="4x"
@@ -66,7 +65,7 @@ const H2 = props => {
   }[colorMode];
 
   return (
-    <Heading
+    <Box
       as="h2"
       mt="6x"
       mb="4x"
@@ -87,7 +86,7 @@ const H3 = props => {
   const color = mapColorModeToHeadingColor(colorMode);
 
   return (
-    <Heading
+    <Box
       as="h3"
       mt="6x"
       mb="4x"
@@ -105,7 +104,7 @@ const H4 = props => {
   const color = mapColorModeToHeadingColor(colorMode);
 
   return (
-    <Heading
+    <Box
       as="h4"
       color={color}
       fontSize="lg"
@@ -122,7 +121,7 @@ const H5 = props => {
   const color = mapColorModeToHeadingColor(colorMode);
 
   return (
-    <Heading
+    <Box
       as="h5"
       mt="6x"
       mb="4x"
@@ -140,7 +139,7 @@ const H6 = props => {
   const color = mapColorModeToHeadingColor(colorMode);
 
   return (
-    <Heading
+    <Box
       as="h6"
       mt="6x"
       mb="4x"
