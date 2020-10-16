@@ -1,6 +1,7 @@
 import {
   Box,
   PseudoBox,
+  Text,
   useColorMode,
   useTheme,
 } from '@trendmicro/react-styled-ui';
@@ -116,7 +117,7 @@ const SideNav = React.forwardRef((props, ref) => {
         </NavLink>
       </Box>
       <Box>
-        <Box
+        <Text
           fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
@@ -124,7 +125,7 @@ const SideNav = React.forwardRef((props, ref) => {
           pl="2x"
         >
           THEME
-        </Box>
+        </Text>
         {themeLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
@@ -136,7 +137,7 @@ const SideNav = React.forwardRef((props, ref) => {
         })}
       </Box>
       <Box>
-        <Box
+        <Text
           fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
@@ -144,7 +145,7 @@ const SideNav = React.forwardRef((props, ref) => {
           pl="2x"
         >
           BUILDING BLOCKS
-        </Box>
+        </Text>
         {buildingBlockLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
@@ -156,7 +157,7 @@ const SideNav = React.forwardRef((props, ref) => {
         })}
       </Box>
       <Box>
-        <Box
+        <Text
           fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
@@ -164,7 +165,7 @@ const SideNav = React.forwardRef((props, ref) => {
           pl="2x"
         >
           COMPONENTS
-        </Box>
+        </Text>
         {componentLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
@@ -176,7 +177,7 @@ const SideNav = React.forwardRef((props, ref) => {
         })}
       </Box>
       <Box>
-        <Box
+        <Text
           fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
@@ -184,7 +185,7 @@ const SideNav = React.forwardRef((props, ref) => {
           pl="2x"
         >
           UTILITIES
-        </Box>
+        </Text>
         {utilityLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
