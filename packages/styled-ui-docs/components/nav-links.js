@@ -32,7 +32,6 @@ export const componentLinks = [
   'FlatButton',
   'Flex',
   'Grid',
-  'Heading',
   'Icon',
   'Image',
   'Input',
