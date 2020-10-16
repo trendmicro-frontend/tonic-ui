@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/core';
-import { ensureFiniteNumber } from 'ensure-type';
+import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import PseudoBox from '../PseudoBox';
@@ -67,7 +67,7 @@ const Spinner = forwardRef(
     const _strokeColor = color ?? 'blue:60';
 
     /***** speed setting *****/
-    const _speed = ensureFiniteNumber(speed);
+    const _speed = ensurePositiveFiniteNumber(speed);
     const _dashSpeed = Math.floor(_speed * 0.75 * 100) / 100;
 
     /***** full circle color *****/
