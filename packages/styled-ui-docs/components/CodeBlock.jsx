@@ -35,7 +35,7 @@ const CustomedComponents = {
 const IconComponents = {
   FontAwesomeIcon,
 };
-const { Box, Button, Flex, AccordionItem, AccordionHeader, AccordionIcon, AccordionPanel, useColorMode, useClipboard } = CoreComponents;
+const { PseudoBox, Box, Button, Collapse, Icon, useColorMode, useClipboard } = CoreComponents;
 
 const liveEditorStyle = {
   fontSize: 14,
@@ -123,6 +123,8 @@ const CodeBlock = ({
 }) => {
   const [editorCode, setEditorCode] = useState(children.trim());
   const { onCopy, hasCopied } = useClipboard(editorCode);
+  const [expand, setExpand] = React.useState(expanded);
+  const handleCollapse = () => setExpand(!expand);
   const handleCodeChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
   }, []);
@@ -142,10 +144,42 @@ const CodeBlock = ({
     disabled = (language !== 'jsx') || boolean(disabled);
   }
 
-  const useAccordionItemStyle = {
-    p: '2x',
-    mt: '1x',
-    backgroundColor: colorMode === 'dark' ? 'black' : 'white',
+  const useCodeBlockTitleStyle = {
+    pt: '4x',
+    px: '4x',
+    backgroundColor: {
+      light: 'gray:10',
+      dark: 'black:emphasis',
+    }[colorMode],
+  };
+
+  const useCollapseButtonStyle = {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    py: '2x',
+    backgroundColor: {
+      light: 'gray:10',
+      dark: 'black:emphasis',
+    }[colorMode],
+    __before: {
+      content: '""',
+      position: 'absolute',
+      display: 'block',
+      width: '100%',
+      height: '5x',
+      top: '-20px',
+      background: {
+        light: 'linear-gradient(360deg, rgba(242, 242, 242, 0.6) 25%, rgba(242, 242, 242, 0) 83.33%)',
+        dark: 'linear-gradient(360deg, rgba(0, 0, 0, 0.6) 25%, rgba(0, 0, 0, 0) 83.33%)',
+      }[colorMode],
+    },
+  };
+
+  const useCollapseIconStyle = {
+    transform: expand ? 'rotate(180deg)' : null,
+    transition: 'transform 0.2s',
+    transformOrigin: 'center',
   };
 
   const liveProviderProps = {
@@ -196,34 +230,32 @@ const CodeBlock = ({
       <Box position="relative">
         {
           isEditable ? (
-            <AccordionItem defaultIsOpen={expanded} {...useAccordionItemStyle}>
-              {({ isExpanded }) => (
-                <>
-                  <AccordionHeader py="2x">
-                    <Flex justify="space-between">
-                      <Box>EDITABLE EXAMPLE</Box>
-                      <AccordionIcon />
-                    </Flex>
-                  </AccordionHeader>
-                  <AccordionPanel startingHeight={50}>
-                    <Box position="relative">
-                      {
-                        isExpanded && (
-                          <CopyButton onClick={onCopy}>
-                            {hasCopied ? 'copied' : 'copy'}
-                          </CopyButton>
-                        )
-                      }
-                      <LiveEditor
-                        onChange={handleCodeChange}
-                        padding={20}
-                        style={liveEditorStyle}
-                      />
-                    </Box>
-                  </AccordionPanel>
-                </>
-              )}
-            </AccordionItem>
+            <Box mt="4x">
+              <Box {...useCodeBlockTitleStyle}>EDITABLE EXAMPLE</Box>
+              <Collapse startingHeight={84} isOpen={expand}>
+                <Box position="relative">
+                  {
+                    expand && (
+                      <CopyButton onClick={onCopy}>
+                        {hasCopied ? 'copied' : 'copy'}
+                      </CopyButton>
+                    )
+                  }
+                  <LiveEditor
+                    onChange={handleCodeChange}
+                    padding={20}
+                    style={liveEditorStyle}
+                  />
+                </Box>
+              </Collapse>
+              <PseudoBox {...useCollapseButtonStyle}>
+                <Icon
+                  icon="chevron-down"
+                  onClick={handleCollapse}
+                  {...useCollapseIconStyle}
+                />
+              </PseudoBox>
+            </Box>
           ) : (
             <Box position="relative">
               <CopyButton onClick={onCopy}>
