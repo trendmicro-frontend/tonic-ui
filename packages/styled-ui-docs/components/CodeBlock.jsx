@@ -3,7 +3,7 @@ import { mdx } from '@mdx-js/react';
 import * as CoreComponents from '@trendmicro/react-styled-ui';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import * as ReactBeautifulDND from 'react-beautiful-dnd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import * as ReactDND from 'react-dnd';
@@ -124,7 +124,9 @@ const CodeBlock = ({
   const [editorCode, setEditorCode] = useState(children.trim());
   const { onCopy, hasCopied } = useClipboard(editorCode);
   const [expand, setExpand] = React.useState(expanded);
+  const [liveEditorHeight, setLiveEditorHeight] = React.useState(false);
   const handleCollapse = () => setExpand(!expand);
+  const liveEditorRef = useRef(null);
   const handleCodeChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
   }, []);
@@ -164,10 +166,6 @@ const CodeBlock = ({
     }[colorMode],
     _hover: {
       cursor: 'pointer',
-      backgroundColor: {
-        light: 'gray:20',
-        dark: 'black:secondary',
-      }[colorMode],
     },
     __before: {
       content: '""',
@@ -220,6 +218,10 @@ const CodeBlock = ({
     ...props,
   };
 
+  useEffect(() => {
+    liveEditorRef && setLiveEditorHeight(liveEditorRef.current.clientHeight);
+  }, [liveEditorRef]);
+
   if (previewOnly) {
     return (
       <LiveProvider {...liveProviderProps}>
@@ -235,47 +237,51 @@ const CodeBlock = ({
       {isEditable && (
         <LiveCodePreview />
       )}
-      <Box position="relative">
-        {
-          isEditable ? (
-            <Box mt="4x">
-              <Box {...useCodeBlockTitleStyle}>EDITABLE EXAMPLE</Box>
-              <Collapse startingHeight={84} isOpen={expand}>
-                <Box position="relative">
-                  {
-                    expand && (
-                      <CopyButton onClick={onCopy}>
-                        {hasCopied ? 'copied' : 'copy'}
-                      </CopyButton>
-                    )
-                  }
+      <Box mt="4x" position="relative">
+        {isEditable && (
+          <Box {...useCodeBlockTitleStyle}>EDITABLE EXAMPLE</Box>
+        )}
+        {(isEditable && liveEditorHeight > 84) ? (
+          <Box>
+            <Collapse startingHeight={84} isOpen={expand}>
+              <Box position="relative">
+                {
+                  expand && (
+                    <CopyButton onClick={onCopy}>
+                      {hasCopied ? 'copied' : 'copy'}
+                    </CopyButton>
+                  )
+                }
+                <Box ref={liveEditorRef}>
                   <LiveEditor
                     onChange={handleCodeChange}
                     padding={20}
                     style={liveEditorStyle}
                   />
                 </Box>
-              </Collapse>
-              <PseudoBox onClick={handleCollapse} {...useCollapseButtonStyle}>
-                <Icon
-                  icon="chevron-down"
-                  {...useCollapseIconStyle}
-                />
-              </PseudoBox>
-            </Box>
-          ) : (
-            <Box position="relative">
-              <CopyButton onClick={onCopy}>
-                {hasCopied ? 'copied' : 'copy'}
-              </CopyButton>
+              </Box>
+            </Collapse>
+            <PseudoBox onClick={handleCollapse} {...useCollapseButtonStyle}>
+              <Icon
+                icon="chevron-down"
+                {...useCollapseIconStyle}
+              />
+            </PseudoBox>
+          </Box>
+        ) : (
+          <Box position="relative">
+            <CopyButton onClick={onCopy}>
+              {hasCopied ? 'copied' : 'copy'}
+            </CopyButton>
+            <Box ref={liveEditorRef}>
               <LiveEditor
                 onChange={handleCodeChange}
                 padding={20}
                 style={liveEditorStyle}
               />
             </Box>
-          )
-        }
+          </Box>
+        )}
       </Box>
       {isEditable && (
         <LiveError style={liveErrorStyle} />
