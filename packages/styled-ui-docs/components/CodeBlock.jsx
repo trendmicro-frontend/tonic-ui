@@ -162,6 +162,13 @@ const CodeBlock = ({
       light: 'gray:10',
       dark: 'black:emphasis',
     }[colorMode],
+    _hover: {
+      cursor: 'pointer',
+      backgroundColor: {
+        light: 'gray:20',
+        dark: 'black:secondary',
+      }[colorMode],
+    },
     __before: {
       content: '""',
       position: 'absolute',
@@ -180,6 +187,7 @@ const CodeBlock = ({
     transform: expand ? 'rotate(180deg)' : null,
     transition: 'transform 0.2s',
     transformOrigin: 'center',
+    cursor: 'pointer',
   };
 
   const liveProviderProps = {
@@ -248,10 +256,9 @@ const CodeBlock = ({
                   />
                 </Box>
               </Collapse>
-              <PseudoBox {...useCollapseButtonStyle}>
+              <PseudoBox onClick={handleCollapse} {...useCollapseButtonStyle}>
                 <Icon
                   icon="chevron-down"
-                  onClick={handleCollapse}
                   {...useCollapseIconStyle}
                 />
               </PseudoBox>
