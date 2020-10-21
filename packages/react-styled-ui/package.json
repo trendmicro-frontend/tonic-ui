@@ -25,6 +25,7 @@
     "chained-function": "^0.5.0",
     "color": "3.x",
     "emotion-theming": "10.x",
+    "ensure-type": "1.x",
     "exenv": "1.2.x",
     "lodash.get": "4.x",
     "micro-memoize": "4.x",

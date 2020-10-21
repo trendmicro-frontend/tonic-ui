@@ -1,11 +1,11 @@
 import chainedFunction from 'chained-function';
+import { ensureArray } from 'ensure-type';
 import _get from 'lodash/get';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useCheckboxGroup } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
 import useTheme from '../useTheme';
-import { ensureArray } from '../utils/ensure-type';
 import VisuallyHidden from '../VisuallyHidden';
 import IconCheck from './IconCheck';
 import IconMinus from './IconMinus';

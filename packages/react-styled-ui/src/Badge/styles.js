@@ -1,7 +1,7 @@
+import { ensureArray } from 'ensure-type';
 import _get from 'lodash/get';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
-import { ensureArray } from '../utils/ensure-type';
 
 const get = (color, hue) => `${color}:${hue}`;
 
