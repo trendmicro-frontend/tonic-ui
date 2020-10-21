@@ -123,9 +123,9 @@ const CodeBlock = ({
 }) => {
   const [editorCode, setEditorCode] = useState(children.trim());
   const { onCopy, hasCopied } = useClipboard(editorCode);
-  const [expand, setExpand] = React.useState(expanded);
+  const [isExpanded, setIsExpanded] = React.useState(expanded);
   const [liveEditorHeight, setLiveEditorHeight] = React.useState(false);
-  const handleCollapse = () => setExpand(!expand);
+  const handleCollapse = () => setIsExpanded(!isExpanded);
   const liveEditorRef = useRef(null);
   const handleCodeChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
@@ -137,6 +137,7 @@ const CodeBlock = ({
   };
   const theme = themes[colorMode];
   const language = className && className.replace(/language-/, '');
+  const isCollapsible = liveEditorHeight > 84;
 
   noInline = boolean(noInline);
 
@@ -153,12 +154,12 @@ const CodeBlock = ({
       light: 'gray:10',
       dark: 'black:emphasis',
     }[colorMode],
-    cursor: 'pointer',
+    cursor: isCollapsible ? 'pointer' : 'default',
   };
 
   const useCollapseBoxStyle = {
     position: 'relative',
-    __after: {
+    __after: !isExpanded && {
       content: '""',
       position: 'absolute',
       display: 'block',
@@ -173,7 +174,7 @@ const CodeBlock = ({
   };
 
   const useCollapseIconStyle = {
-    transform: expand ? 'rotate(180deg)' : null,
+    transform: isExpanded ? 'rotate(180deg)' : null,
     transition: 'transform 0.2s',
     transformOrigin: 'center',
     cursor: 'pointer',
@@ -230,20 +231,22 @@ const CodeBlock = ({
       )}
       <Box mt="4x" position="relative">
         {isEditable && (
-          <Flex justify="space-between" onClick={handleCollapse} {...useCodeBlockTitleStyle}>
+          <Flex justify="space-between" onClick={isCollapsible ? handleCollapse : undefined} {...useCodeBlockTitleStyle}>
             EDITABLE EXAMPLE
-            <Icon
-              icon="chevron-down"
-              {...useCollapseIconStyle}
-            />
+            {isCollapsible && (
+              <Icon
+                icon="chevron-down"
+                {...useCollapseIconStyle}
+              />
+            )}
           </Flex>
         )}
-        {(isEditable && liveEditorHeight > 84) ? (
+        {(isEditable && isCollapsible) ? (
           <PseudoBox {...useCollapseBoxStyle}>
-            <Collapse startingHeight={84} isOpen={expand}>
+            <Collapse startingHeight={84} isOpen={isExpanded}>
               <Box position="relative">
                 {
-                  expand && (
+                  isExpanded && (
                     <CopyButton onClick={onCopy}>
                       {hasCopied ? 'copied' : 'copy'}
                     </CopyButton>
