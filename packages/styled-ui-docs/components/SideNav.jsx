@@ -1,7 +1,7 @@
 import {
   Box,
-  Heading,
   PseudoBox,
+  Text,
   useColorMode,
   useTheme,
 } from '@trendmicro/react-styled-ui';
@@ -117,7 +117,7 @@ const SideNav = React.forwardRef((props, ref) => {
         </NavLink>
       </Box>
       <Box>
-        <Heading
+        <Text
           fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
@@ -125,7 +125,7 @@ const SideNav = React.forwardRef((props, ref) => {
           pl="2x"
         >
           THEME
-        </Heading>
+        </Text>
         {themeLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
@@ -137,7 +137,7 @@ const SideNav = React.forwardRef((props, ref) => {
         })}
       </Box>
       <Box>
-        <Heading
+        <Text
           fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
@@ -145,7 +145,7 @@ const SideNav = React.forwardRef((props, ref) => {
           pl="2x"
         >
           BUILDING BLOCKS
-        </Heading>
+        </Text>
         {buildingBlockLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
@@ -157,7 +157,7 @@ const SideNav = React.forwardRef((props, ref) => {
         })}
       </Box>
       <Box>
-        <Heading
+        <Text
           fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
@@ -165,7 +165,7 @@ const SideNav = React.forwardRef((props, ref) => {
           pl="2x"
         >
           COMPONENTS
-        </Heading>
+        </Text>
         {componentLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
@@ -177,7 +177,7 @@ const SideNav = React.forwardRef((props, ref) => {
         })}
       </Box>
       <Box>
-        <Heading
+        <Text
           fontSize={headingFontSize}
           color={headingColor}
           mt="4x"
@@ -185,7 +185,7 @@ const SideNav = React.forwardRef((props, ref) => {
           pl="2x"
         >
           UTILITIES
-        </Heading>
+        </Text>
         {utilityLinks.map(link => {
           const url = `./${link.toLowerCase().split(' ').join('-')}`;
 
