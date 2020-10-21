@@ -3,7 +3,7 @@ import { mdx } from '@mdx-js/react';
 import * as CoreComponents from '@trendmicro/react-styled-ui';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import * as ReactBeautifulDND from 'react-beautiful-dnd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import * as ReactDND from 'react-dnd';
@@ -35,12 +35,10 @@ const CustomedComponents = {
 const IconComponents = {
   FontAwesomeIcon,
 };
-const { Box, Button, useColorMode, useClipboard } = CoreComponents;
+const { PseudoBox, Box, Flex, Button, Collapse, Icon, useColorMode, useClipboard } = CoreComponents;
 
 const liveEditorStyle = {
   fontSize: 14,
-  marginBottom: 32,
-  marginTop: 32,
   overflowX: 'auto',
   fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
 };
@@ -92,29 +90,10 @@ const CopyButton = props => (
     position="absolute"
     textTransform="uppercase"
     zIndex="1"
-    top="3x"
+    top="4x"
     right="4x"
     {...props}
   />
-);
-
-const EditableNotice = props => (
-  <Box
-    position="absolute"
-    top="2x"
-    zIndex="0"
-    color="gray:40"
-    fontFamily="base"
-    fontSize="xs"
-    lineHeight={1}
-    fontWeight="semibold"
-    pointerEvents="none"
-    left="50%"
-    transform="translate(-50%)"
-    {...props}
-  >
-    EDITABLE EXAMPLE
-  </Box>
 );
 
 const CodeBlock = ({
@@ -133,12 +112,21 @@ const CodeBlock = ({
    */
   previewOnly = false,
 
+  /**
+   * Default is expand or collapse (Default: `false`)
+   */
+  expanded = false,
+
   className,
   children,
   ...props
 }) => {
   const [editorCode, setEditorCode] = useState(children.trim());
   const { onCopy, hasCopied } = useClipboard(editorCode);
+  const [isExpanded, setIsExpanded] = React.useState(expanded);
+  const [liveEditorHeight, setLiveEditorHeight] = React.useState(false);
+  const handleCollapse = () => setIsExpanded(!isExpanded);
+  const liveEditorRef = useRef(null);
   const handleCodeChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
   }, []);
@@ -149,6 +137,7 @@ const CodeBlock = ({
   };
   const theme = themes[colorMode];
   const language = className && className.replace(/language-/, '');
+  const isCollapsible = liveEditorHeight > 84;
 
   noInline = boolean(noInline);
 
@@ -157,6 +146,39 @@ const CodeBlock = ({
   } else {
     disabled = (language !== 'jsx') || boolean(disabled);
   }
+
+  const useCodeBlockTitleStyle = {
+    pt: '4x',
+    px: '4x',
+    backgroundColor: {
+      light: 'gray:10',
+      dark: 'black:emphasis',
+    }[colorMode],
+    cursor: isCollapsible ? 'pointer' : 'default',
+  };
+
+  const useCollapseBoxStyle = {
+    position: 'relative',
+    __after: !isExpanded && {
+      content: '""',
+      position: 'absolute',
+      display: 'block',
+      width: '100%',
+      height: '5x',
+      bottom: '0',
+      background: {
+        light: 'linear-gradient(360deg, rgba(242, 242, 242, 0.6) 25%, rgba(242, 242, 242, 0) 83.33%)',
+        dark: 'linear-gradient(360deg, rgba(0, 0, 0, 0.6) 25%, rgba(0, 0, 0, 0) 83.33%)',
+      }[colorMode],
+    },
+  };
+
+  const useCollapseIconStyle = {
+    transform: isExpanded ? 'rotate(180deg)' : null,
+    transition: 'transform 0.2s',
+    transformOrigin: 'center',
+    cursor: 'pointer',
+  };
 
   const liveProviderProps = {
     theme,
@@ -188,6 +210,10 @@ const CodeBlock = ({
     ...props,
   };
 
+  useEffect(() => {
+    liveEditorRef && setLiveEditorHeight(liveEditorRef.current.clientHeight);
+  }, [liveEditorRef]);
+
   if (previewOnly) {
     return (
       <LiveProvider {...liveProviderProps}>
@@ -203,17 +229,52 @@ const CodeBlock = ({
       {isEditable && (
         <LiveCodePreview />
       )}
-      <Box position="relative">
-        <LiveEditor
-          onChange={handleCodeChange}
-          padding={20}
-          style={liveEditorStyle}
-        />
-        <CopyButton onClick={onCopy}>
-          {hasCopied ? 'copied' : 'copy'}
-        </CopyButton>
+      <Box mt="4x" position="relative">
         {isEditable && (
-          <EditableNotice />
+          <Flex justify="space-between" onClick={isCollapsible ? handleCollapse : undefined} {...useCodeBlockTitleStyle}>
+            EDITABLE EXAMPLE
+            {isCollapsible && (
+              <Icon
+                icon="chevron-down"
+                {...useCollapseIconStyle}
+              />
+            )}
+          </Flex>
+        )}
+        {(isEditable && isCollapsible) ? (
+          <PseudoBox {...useCollapseBoxStyle}>
+            <Collapse startingHeight={84} isOpen={isExpanded}>
+              <Box position="relative">
+                {
+                  isExpanded && (
+                    <CopyButton onClick={onCopy}>
+                      {hasCopied ? 'copied' : 'copy'}
+                    </CopyButton>
+                  )
+                }
+                <Box ref={liveEditorRef}>
+                  <LiveEditor
+                    onChange={handleCodeChange}
+                    padding={20}
+                    style={liveEditorStyle}
+                  />
+                </Box>
+              </Box>
+            </Collapse>
+          </PseudoBox>
+        ) : (
+          <Box position="relative">
+            <CopyButton onClick={onCopy}>
+              {hasCopied ? 'copied' : 'copy'}
+            </CopyButton>
+            <Box ref={liveEditorRef}>
+              <LiveEditor
+                onChange={handleCodeChange}
+                padding={20}
+                style={liveEditorStyle}
+              />
+            </Box>
+          </Box>
         )}
       </Box>
       {isEditable && (
