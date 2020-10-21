@@ -35,7 +35,7 @@ const CustomedComponents = {
 const IconComponents = {
   FontAwesomeIcon,
 };
-const { PseudoBox, Box, Button, Collapse, Icon, useColorMode, useClipboard } = CoreComponents;
+const { PseudoBox, Box, Flex, Button, Collapse, Icon, useColorMode, useClipboard } = CoreComponents;
 
 const liveEditorStyle = {
   fontSize: 14,
@@ -153,27 +153,18 @@ const CodeBlock = ({
       light: 'gray:10',
       dark: 'black:emphasis',
     }[colorMode],
+    cursor: 'pointer',
   };
 
-  const useCollapseButtonStyle = {
+  const useCollapseBoxStyle = {
     position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    py: '2x',
-    backgroundColor: {
-      light: 'gray:10',
-      dark: 'black:emphasis',
-    }[colorMode],
-    _hover: {
-      cursor: 'pointer',
-    },
-    __before: {
+    __after: {
       content: '""',
       position: 'absolute',
       display: 'block',
       width: '100%',
       height: '5x',
-      top: '-20px',
+      bottom: '0',
       background: {
         light: 'linear-gradient(360deg, rgba(242, 242, 242, 0.6) 25%, rgba(242, 242, 242, 0) 83.33%)',
         dark: 'linear-gradient(360deg, rgba(0, 0, 0, 0.6) 25%, rgba(0, 0, 0, 0) 83.33%)',
@@ -239,10 +230,16 @@ const CodeBlock = ({
       )}
       <Box mt="4x" position="relative">
         {isEditable && (
-          <Box {...useCodeBlockTitleStyle}>EDITABLE EXAMPLE</Box>
+          <Flex justify="space-between" onClick={handleCollapse} {...useCodeBlockTitleStyle}>
+            EDITABLE EXAMPLE
+            <Icon
+              icon="chevron-down"
+              {...useCollapseIconStyle}
+            />
+          </Flex>
         )}
         {(isEditable && liveEditorHeight > 84) ? (
-          <Box>
+          <PseudoBox {...useCollapseBoxStyle}>
             <Collapse startingHeight={84} isOpen={expand}>
               <Box position="relative">
                 {
@@ -261,13 +258,7 @@ const CodeBlock = ({
                 </Box>
               </Box>
             </Collapse>
-            <PseudoBox onClick={handleCollapse} {...useCollapseButtonStyle}>
-              <Icon
-                icon="chevron-down"
-                {...useCollapseIconStyle}
-              />
-            </PseudoBox>
-          </Box>
+          </PseudoBox>
         ) : (
           <Box position="relative">
             <CopyButton onClick={onCopy}>
