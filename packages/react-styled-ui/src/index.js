@@ -16,7 +16,6 @@ import Fade from './Fade';
 import FlatButton from './FlatButton';
 import Flex from './Flex';
 import Grid from './Grid';
-import Heading from './Heading';
 import Icon from './Icon';
 import Image from './Image';
 import Input from './Input';
@@ -74,7 +73,6 @@ export {
   FlatButton,
   Flex,
   Grid,
-  Heading,
   Icon,
   Image,
   Input,

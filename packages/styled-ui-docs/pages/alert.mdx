@@ -114,13 +114,13 @@ render(<Example />);
 
 ### Formatted title
 
-You can use the `Heading` component to display a formatted title above the content.
+You can use the `Text` component with `fontWeight` to display a formatted title above the content.
 
 ```jsx
 <Stack direction="column" spacing="4x">
   <Alert isCloseButtonVisible severity="success">
     <Box mb="1x">
-      <Heading fontWeight="bold">Success</Heading>
+      <Text fontWeight="bold">Success</Text>
     </Box>
     <Text mr={-36}>
       This is a success alert.
@@ -128,7 +128,7 @@ You can use the `Heading` component to display a formatted title above the conte
   </Alert>
   <Alert isCloseButtonVisible severity="info">
     <Box mb="1x">
-      <Heading fontWeight="bold">Info</Heading>
+      <Text fontWeight="bold">Info</Text>
     </Box>
     <Text mr={-36}>
       This is an info alert.
@@ -136,7 +136,7 @@ You can use the `Heading` component to display a formatted title above the conte
   </Alert>
   <Alert isCloseButtonVisible severity="warning">
     <Box mb="1x">
-      <Heading fontWeight="bold">Warning</Heading>
+      <Text fontWeight="bold">Warning</Text>
     </Box>
     <Text mr={-36}>
       This is a warning alert.
@@ -144,7 +144,7 @@ You can use the `Heading` component to display a formatted title above the conte
   </Alert>
   <Alert isCloseButtonVisible severity="error">
     <Box mb="1x">
-      <Heading fontWeight="bold">Error</Heading>
+      <Text fontWeight="bold">Error</Text>
     </Box>
     <Text mr={-36}>
       This is an error alert.
