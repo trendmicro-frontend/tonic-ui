@@ -15,7 +15,8 @@ const baseStyleProps = ({ colorMode, disabled, textDecoration }) => {
     cursor: 'pointer',
     outline: 'none',
     textDecoration: textDecoration ?? 'none',
-    display: 'inline-block',
+    display: 'inline-flex',
+    alignItems: 'center',
     lineHeight: 'sm',
     _disabled: {
       color: disabledColor,
