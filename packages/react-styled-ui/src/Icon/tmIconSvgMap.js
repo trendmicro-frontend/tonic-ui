@@ -11,7 +11,6 @@ const tmIconSvgMap = tmIconMap.icons.reduce((prevMap, { name, paths, viewBox }) 
             <path
               // eslint-disable-next-line react/no-array-index-key
               key={`${name}-${idx}`}
-              fill="currentColor"
               d={path}
             />
           ))}
