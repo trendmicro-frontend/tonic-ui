@@ -86,6 +86,19 @@ function Example() {
 }
 ```
 
+You can format the `::selection` style by passing `__selection`.
+
+```jsx
+<Text
+  __selection={{
+    backgroundColor: 'blue:60',
+    color: 'white:primary'
+  }}
+>
+  This is exactly the same height as the font size
+</Text>
+```
+
 ### Text truncation
 
 ```jsx
@@ -138,7 +151,7 @@ render(<Example />);
 
 ## Props
 
-`Text` composes the [`Box`](./box) component. You can override the default styles with style props.
+`Text` composes the [`PseudoBox`](./pseudoBox) component. You can override the default styles with style props.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
