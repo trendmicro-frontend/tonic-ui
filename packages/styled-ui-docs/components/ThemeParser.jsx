@@ -13,6 +13,7 @@ const jsonStringify = (obj, indent) => {
   }
   return JSON.stringify(obj, null, 2)
     .replace(/\"/g, '\'')
+    .replace(/\\'/g, '\"') // json stringify will cause double quotes to \"
     .replace(/\'(\d+|[a-z]+)\':/g, '$1:');
 };
 
