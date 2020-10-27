@@ -2,6 +2,14 @@ import _get from 'lodash.get';
 import colors from './foundations/colors';
 
 export const light = {
+  background: {
+    1: colors['white:emphasis'],
+    2: colors['gray:10'],
+    3: colors['gray:20'],
+    inverse: colors['gray:70'],
+    selected: colors['blue:60'],
+    marked: '#fce79e',
+  },
   text: {
     emphasis: colors['black:emphasis'],
     primary: colors['black:primary'],
@@ -13,6 +21,7 @@ export const light = {
     warning: colors['orange:50']
   },
   risk: {
+    critical: colors['magenta:60'],
     high: colors['red:60'],
     medium: colors['orange:50'],
     low: colors['yellow:50'],
@@ -36,6 +45,14 @@ export const light = {
 };
 
 export const dark = {
+  background: {
+    1: colors['gray:100'],
+    2: colors['gray:90'],
+    3: colors['gray:80'],
+    inverse: colors['gray:10'],
+    selected: colors['blue:60'],
+    marked: '#fce79e',
+  },
   text: {
     emphasis: colors['white:emphasis'],
     primary: colors['white:primary'],
@@ -47,6 +64,7 @@ export const dark = {
     warning: colors['orange:50']
   },
   risk: {
+    critical: colors['magenta:60'],
     high: colors['red:50'],
     medium: colors['orange:50'],
     low: colors['yellow:50'],
