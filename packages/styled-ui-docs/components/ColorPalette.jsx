@@ -88,9 +88,20 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
 export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...props }) => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
+  const getBoxBorderColor = () => {
+    if (mode === 'light' && color === 'rgba(255, 255, 255, 1.0)') {
+      return 'gray:30';
+    }
+    if (color === '#151515') {
+      return 'gray:70';
+    }
+    return 'transparent';
+  }
   const boxProps = {
     width: '80px',
     height: '80px',
+    border: 1,
+    borderColor: getBoxBorderColor()
   };
   const titleProps = {
     fontSize: 'sm',
@@ -119,10 +130,12 @@ export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...pro
       return <Box key={color} {...infoProps}>{`${hue.charAt(0).toUpperCase()}${hue.slice(1)}`} {shade} {color}</Box>;
     });
   } else {
-    const [hue, shade] = splitString(getColorToken(color, theme.colors));
-    colorInfo = (palette === 'text' && ['black', 'white'].includes(hue))
+    const colorToken = getColorToken(color, theme.colors); //There is a specific background "backgorund-marked" without color token.
+    const [hue, shade] = colorToken ?  splitString(colorToken) : [undefined, color];
+    const token = hue ? `${hue.charAt(0).toUpperCase()}${hue.slice(1)} ${shade}` : '';
+    colorInfo = ((palette === 'text' || palette === 'background') && ['black', 'white'].includes(hue))
       ? <Box {...infoProps}>{color}</Box>
-      : <Box {...infoProps}>{`${hue.charAt(0).toUpperCase()}${hue.slice(1)}`} {shade} {color}</Box>;
+      : <Box {...infoProps}>{token} {color}</Box>;
   }
 
   return (
