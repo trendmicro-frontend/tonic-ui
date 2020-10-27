@@ -96,7 +96,7 @@ export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...pro
       return 'gray:70';
     }
     return 'transparent';
-  }
+  };
   const boxProps = {
     width: '80px',
     height: '80px',
@@ -131,7 +131,7 @@ export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...pro
     });
   } else {
     const colorToken = getColorToken(color, theme.colors); //There is a specific background "backgorund-marked" without color token.
-    const [hue, shade] = colorToken ?  splitString(colorToken) : [undefined, color];
+    const [hue, shade] = colorToken ? splitString(colorToken) : [undefined, color];
     const token = hue ? `${hue.charAt(0).toUpperCase()}${hue.slice(1)} ${shade}` : '';
     colorInfo = ((palette === 'text' || palette === 'background') && ['black', 'white'].includes(hue))
       ? <Box {...infoProps}>{color}</Box>
