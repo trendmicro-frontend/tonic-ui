@@ -93,15 +93,15 @@ export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...pro
       return {
         border: 1,
         borderColor: 'gray:30',
-      }
+      };
     }
     if (color === '#151515') {
       return {
         border: 1,
         borderColor: 'gray:70',
-      }
+      };
     }
-    return;
+    return {};
   };
   const boxBorderStyle = getBoxBorderStyle();
   const boxProps = {

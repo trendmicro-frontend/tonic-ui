@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
+import getColorPalette from '@trendmicro/styled-ui-theme/build/color-palette';
 import PseudoBox from '../PseudoBox';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
-import getColorPalette from '@trendmicro/styled-ui-theme/build/color-palette';
 
 const Text = forwardRef((
   {
