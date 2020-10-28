@@ -88,20 +88,26 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
 export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...props }) => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
-  const getBoxBorderColor = () => {
+  const getBoxBorderStyle = () => {
     if (mode === 'light' && color === 'rgba(255, 255, 255, 1.0)') {
-      return 'gray:30';
+      return {
+        border: 1,
+        borderColor: 'gray:30',
+      }
     }
     if (color === '#151515') {
-      return 'gray:70';
+      return {
+        border: 1,
+        borderColor: 'gray:70',
+      }
     }
-    return 'transparent';
+    return;
   };
+  const boxBorderStyle = getBoxBorderStyle();
   const boxProps = {
     width: '80px',
     height: '80px',
-    border: 1,
-    borderColor: getBoxBorderColor()
+    ...boxBorderStyle
   };
   const titleProps = {
     fontSize: 'sm',
