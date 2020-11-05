@@ -5,7 +5,7 @@ import Icon from '../Icon';
 import useForkRef from '../utils/useForkRef';
 import { useModal } from './context';
 import {
-  useModalContentStyles,
+  useModalContentStyle,
   useModalCloseButtonStyle,
 } from './styles';
 
@@ -61,7 +61,7 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
     contentRef,
   } = { ...context };
   const combinedRef = useForkRef(ref, contentRef);
-  const contentStyleProps = useModalContentStyles({ size });
+  const contentStyleProps = useModalContentStyle({ size });
 
   return (
     <Box
