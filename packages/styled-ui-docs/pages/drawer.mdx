@@ -170,14 +170,21 @@ function Example() {
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={ensureFocus} onChange={toggleEnsureFocus} />
+          <Checkbox
+            checked={ensureFocus}
+            onChange={toggleEnsureFocus}
+          />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={autoFocus} onChange={toggleAutoFocus} />
+          <Checkbox
+            checked={autoFocus}
+            disabled={!ensureFocus}
+            onChange={toggleAutoFocus}
+          />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">autoFocus</Text>
         </TextLabel>
