@@ -129,7 +129,7 @@ function Example() {
         <ButtonGroup
           variant="secondary"
           css={{
-            '> *:not(:first-child)': {
+            '> *:not(:first-of-type)': {
               marginLeft: -1
             }
           }}
@@ -150,7 +150,7 @@ function Example() {
         <ButtonGroup
           variant="secondary"
           css={{
-            '> *:not(:first-child)': {
+            '> *:not(:first-of-type)': {
               marginLeft: -1
             }
           }}
@@ -527,8 +527,8 @@ function Example() {
 
 ### DrawerBody
 
-`DrawerBody` composes the [`Box`](./box) component.
+`DrawerBody` composes the [`PseudoBox`](./pseudoBox) component.
 
 ### DrawerFooter
 
-`DrawerFooter` composes the [`Flex`](./flex) component.
+`DrawerFooter` composes the [`PseudoBox`](./pseudoBox) component.

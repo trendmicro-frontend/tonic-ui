@@ -139,7 +139,45 @@ const useDrawerContentStyle = ({
   };
 };
 
+const useDrawerBodyStyle = () => {
+  const { sizes, lineHeights } = useTheme();
+
+  return {
+    px: '6x',
+    pb: '6x',
+    flex: 1,
+    height: 'auto',
+    overflowY: 'auto',
+    _firstOfType: {
+      marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
+    },
+  };
+};
+
+const useDrawerFooterStyle = () => {
+  const { colorMode } = useColorMode();
+  const { sizes, lineHeights } = useTheme();
+  const borderColor = {
+    dark: 'gray:80',
+    light: 'gray:20', // TBD: light mode is not ready yet
+  }[colorMode];
+
+  return {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    px: '6x',
+    py: '4x',
+    borderTop: 1,
+    borderTopColor: borderColor,
+    _firstOfType: {
+      marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
+    },
+  };
+};
+
 export {
   useDrawerCloseButtonStyle,
   useDrawerContentStyle,
+  useDrawerBodyStyle,
+  useDrawerFooterStyle,
 };
