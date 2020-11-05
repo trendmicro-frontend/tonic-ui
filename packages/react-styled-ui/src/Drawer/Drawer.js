@@ -21,6 +21,7 @@ const Drawer = ({
   onClose,
   initialFocusRef,
   finalFocusRef,
+  ensureFocus = false,
   autoFocus = false,
   id,
   children,
@@ -90,6 +91,7 @@ const Drawer = ({
     <DrawerProvider value={drawerState}>
       <Portal container={mountRef.current}>
         <FocusLock
+          disabled={!ensureFocus}
           autoFocus={autoFocus}
           returnFocus={returnFocus}
           onActivation={onFocusLockActivation}
