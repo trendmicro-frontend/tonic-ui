@@ -139,6 +139,18 @@ const useDrawerContentStyle = ({
   };
 };
 
+const useDrawerHeaderStyle = () => {
+  return {
+    pt: '4x',
+    pb: '3x',
+    pl: '6x',
+    pr: '12x',
+    position: 'relative',
+    fontSize: 'xl',
+    lineHeight: 'xl',
+  };
+};
+
 const useDrawerBodyStyle = () => {
   const { sizes, lineHeights } = useTheme();
 
@@ -178,6 +190,7 @@ const useDrawerFooterStyle = () => {
 export {
   useDrawerCloseButtonStyle,
   useDrawerContentStyle,
+  useDrawerHeaderStyle,
   useDrawerBodyStyle,
   useDrawerFooterStyle,
 };

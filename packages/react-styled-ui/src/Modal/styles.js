@@ -131,6 +131,18 @@ const useModalContentStyle = ({ size }) => {
   };
 };
 
+const useModalHeaderStyle = () => {
+  return {
+    pt: '4x',
+    pb: '3x',
+    pl: '6x',
+    pr: '12x',
+    position: 'relative',
+    fontSize: 'xl',
+    lineHeight: 'xl',
+  };
+};
+
 const useModalBodyStyle = () => {
   const { sizes, lineHeights } = useTheme();
 
@@ -170,6 +182,7 @@ const useModalFooterStyle = () => {
 export {
   useModalCloseButtonStyle,
   useModalContentStyle,
+  useModalHeaderStyle,
   useModalBodyStyle,
   useModalFooterStyle,
 };
