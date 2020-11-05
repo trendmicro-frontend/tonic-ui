@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
-import Box from '../Box';
+import PseudoBox from '../PseudoBox';
 
 const DrawerHeader = forwardRef((props, ref) => {
   return (
-    <Box
+    <PseudoBox
       ref={ref}
       pt="4x"
       pb="3x"
