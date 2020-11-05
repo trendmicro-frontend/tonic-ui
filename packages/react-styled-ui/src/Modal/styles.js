@@ -155,6 +155,7 @@ const useModalFooterStyle = () => {
   }[colorMode];
 
   return {
+    display: 'flex',
     justifyContent: 'flex-end',
     px: '6x',
     py: '4x',
