@@ -175,6 +175,7 @@ function Example() {
     light: 'black:tertiary',
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
@@ -213,6 +214,13 @@ function Example() {
             </SelectableButton>
           ))}
         </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={ensureFocus} onChange={toggleEnsureFocus} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
+        </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
@@ -288,6 +296,7 @@ function Example() {
       >
         {styles => (
           <Modal
+            ensureFocus={ensureFocus}
             autoFocus={autoFocus}
             closeOnEsc={closeOnEsc}
             closeOnOutsideClick={closeOnOutsideClick}
@@ -371,6 +380,7 @@ function Example() {
         <Button onClick={handleClickBy('full')} mt="3x">Full width</Button>
       </Stack>
       <Modal
+        ensureFocus
         autoFocus
         closeOnEsc
         closeOnOutsideClick
@@ -496,6 +506,7 @@ function Example() {
       <Scale in={isOpen}>
         {styles => (
           <Modal
+            ensureFocus
             autoFocus
             closeOnEsc
             closeOnOutsideClick
@@ -543,6 +554,7 @@ function Example() {
       <SlideIn in={isOpen}>
         {styles => (
           <Modal
+            ensureFocus
             autoFocus
             closeOnEsc
             closeOnOutsideClick
@@ -580,7 +592,8 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| autoFocus | boolean | false | If `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
+| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Modal` descendants, which does not allow the focus to escape while open. |
+| autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
 | finalFocusRef | React.ref | | The `ref` of element to receive focus when the modal closes. |
 | initialFocusRef | React.ref | | The `ref` of the element to receive focus when the modal opens. |
 | isCloseButtonVisible | boolean | false | If `true`, a close button will appear on the right side. |
