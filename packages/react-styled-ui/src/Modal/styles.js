@@ -141,7 +141,7 @@ const useModalBodyStyle = () => {
     height: 'auto',
     overflowY: 'auto',
     _firstOfType: {
-      marginTop: `calc(${sizes['4x']} + ${lineHeights['xl']} + ${sizes['3x']})`,
+      marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
     },
   };
 };
@@ -161,7 +161,7 @@ const useModalFooterStyle = () => {
     borderTop: 1,
     borderTopColor: borderColor,
     _firstOfType: {
-      marginTop: `calc(${sizes['4x']} + ${lineHeights['xl']} + ${sizes['3x']})`,
+      marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
     },
   };
 };
