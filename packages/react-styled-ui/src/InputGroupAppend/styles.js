@@ -11,8 +11,8 @@ const notLastChildStyle = {
 const baseProps = {
   ml: -1,
   css: {
-    '& > *:first-child': notFirstChildStyle,
-    '&:not(:last-child) > *:first-child': notLastChildStyle,
+    '& > *:first-of-type': notFirstChildStyle,
+    '&:not(:last-child) > *:first-of-type': notLastChildStyle,
   }
 };
 
