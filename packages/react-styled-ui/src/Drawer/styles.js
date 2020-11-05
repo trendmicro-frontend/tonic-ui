@@ -97,7 +97,7 @@ const useDrawerCloseButtonStyle = () => {
   };
 };
 
-const useDrawerContentStyles = ({
+const useDrawerContentStyle = ({
   placement,
   size,
 }) => {
@@ -110,7 +110,7 @@ const useDrawerContentStyles = ({
     display: 'flex',
     flexDirection: 'column',
   };
-  const colorModeStyles = {
+  const colorModeStyle = {
     light: {
       color: 'black:primary',
       bg: 'white',
@@ -133,7 +133,7 @@ const useDrawerContentStyles = ({
 
   return {
     ...baseStyle,
-    ...colorModeStyles,
+    ...colorModeStyle,
     ...placementProps,
     ...sizeProps,
   };
@@ -141,5 +141,5 @@ const useDrawerContentStyles = ({
 
 export {
   useDrawerCloseButtonStyle,
-  useDrawerContentStyles,
+  useDrawerContentStyle,
 };
