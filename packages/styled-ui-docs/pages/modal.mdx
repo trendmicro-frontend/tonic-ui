@@ -198,7 +198,7 @@ function Example() {
         <ButtonGroup
           variant="secondary"
           css={{
-            '> *:not(:first-child)': {
+            '> *:not(:first-of-type)': {
               marginLeft: -1
             }
           }}
@@ -217,14 +217,21 @@ function Example() {
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={ensureFocus} onChange={toggleEnsureFocus} />
+          <Checkbox
+            checked={ensureFocus}
+            onChange={toggleEnsureFocus}
+          />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={autoFocus} onChange={toggleAutoFocus} />
+          <Checkbox
+            checked={autoFocus}
+            disabled={!ensureFocus}
+            onChange={toggleAutoFocus}
+          />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">autoFocus</Text>
         </TextLabel>
@@ -435,7 +442,7 @@ function Example() {
           <ModalBody>
             <Lorem count={2} />
           </ModalBody>
-          <ModalFooter justify="space-between">
+          <ModalFooter justifyContent="space-between">
             <Button
               disabled={isNestedOpen}
               variant="primary"
@@ -613,12 +620,12 @@ function Example() {
 
 ### ModalHeader
 
-`ModalHeader` composes the [`Box`](./box) component.
+`ModalHeader` composes the [`PseudoBox`](./pseudobox) component.
 
 ### ModalBody
 
-`ModalBody` composes the [`Box`](./box) component.
+`ModalBody` composes the [`PseudoBox`](./pseudobox) component.
 
 ### ModalFooter
 
-`ModalFooter` composes the [`Flex`](./flex) component.
+`ModalFooter` composes the [`PseudoBox`](./pseudobox) component.

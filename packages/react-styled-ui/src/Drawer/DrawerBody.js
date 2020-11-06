@@ -1,20 +1,15 @@
 import React, { forwardRef } from 'react';
-import Box from '../Box';
+import PseudoBox from '../PseudoBox';
+import {
+  useDrawerBodyStyle,
+} from './styles';
 
 const DrawerBody = forwardRef((props, ref) => {
+  const styleProps = useDrawerBodyStyle();
   return (
-    <Box
+    <PseudoBox
       ref={ref}
-      px="6x"
-      pb="6x"
-      flex="1"
-      h="auto"
-      overflowY="auto"
-      css={{
-        '&:first-child': {
-          marginTop: (16 + 28 + 12),
-        },
-      }}
+      {...styleProps}
       {...props}
     />
   );

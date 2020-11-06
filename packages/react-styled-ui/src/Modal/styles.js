@@ -95,7 +95,7 @@ const useModalCloseButtonStyle = () => {
   };
 };
 
-const useModalContentStyles = ({ size }) => {
+const useModalContentStyle = ({ size }) => {
   const { colorMode } = useColorMode();
   const baseStyle = {
     mx: 'auto',
@@ -104,7 +104,7 @@ const useModalContentStyles = ({ size }) => {
     display: 'flex',
     flexDirection: 'column',
   };
-  const colorModeStyles = {
+  const colorModeStyle = {
     light: {
       color: 'black:primary',
       bg: 'white',
@@ -126,12 +126,63 @@ const useModalContentStyles = ({ size }) => {
 
   return {
     ...baseStyle,
-    ...colorModeStyles,
+    ...colorModeStyle,
     ...sizeProps,
+  };
+};
+
+const useModalHeaderStyle = () => {
+  return {
+    pt: '4x',
+    pb: '3x',
+    pl: '6x',
+    pr: '12x',
+    position: 'relative',
+    fontSize: 'xl',
+    lineHeight: 'xl',
+  };
+};
+
+const useModalBodyStyle = () => {
+  const { sizes, lineHeights } = useTheme();
+
+  return {
+    px: '6x',
+    pb: '6x',
+    flex: 1,
+    height: 'auto',
+    overflowY: 'auto',
+    _firstOfType: {
+      marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
+    },
+  };
+};
+
+const useModalFooterStyle = () => {
+  const { colorMode } = useColorMode();
+  const { sizes, lineHeights } = useTheme();
+  const borderColor = {
+    dark: 'gray:80',
+    light: 'gray:20', // TBD: light mode is not ready yet
+  }[colorMode];
+
+  return {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    px: '6x',
+    py: '4x',
+    borderTop: 1,
+    borderTopColor: borderColor,
+    _firstOfType: {
+      marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
+    },
   };
 };
 
 export {
   useModalCloseButtonStyle,
-  useModalContentStyles,
+  useModalContentStyle,
+  useModalHeaderStyle,
+  useModalBodyStyle,
+  useModalFooterStyle,
 };

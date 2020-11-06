@@ -5,7 +5,7 @@ import Icon from '../Icon';
 import useForkRef from '../utils/useForkRef';
 import { useDrawer } from './context';
 import {
-  useDrawerContentStyles,
+  useDrawerContentStyle,
   useDrawerCloseButtonStyle,
 } from './styles';
 
@@ -62,7 +62,7 @@ const DrawerContentFront = forwardRef(({ children, ...props }, ref) => {
     contentRef,
   } = { ...context };
   const combinedRef = useForkRef(ref, contentRef);
-  const contentStyleProps = useDrawerContentStyles({ placement, size });
+  const contentStyleProps = useDrawerContentStyle({ placement, size });
 
   return (
     <Box

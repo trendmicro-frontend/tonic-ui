@@ -18,7 +18,7 @@ const Main = React.forwardRef(({ children, ...props }, ref) => {
       px="6x"
       backgroundColor={backgroundColor}
       css={css`
-        >:first-child {
+        >:first-of-type {
           margin-top: 0!important;
         }
         >:last-child {
