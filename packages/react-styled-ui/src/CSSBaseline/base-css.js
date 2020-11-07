@@ -1,4 +1,5 @@
 import { css } from '@emotion/core';
+import _get from 'lodash.get';
 
 const baseCSS = theme => {
   return css`
@@ -13,14 +14,14 @@ const baseCSS = theme => {
     }
 
     html {
-      font-family: ${theme.fonts.base};
+      font-family: ${_get(theme, 'fonts.base')};
     }
 
     pre,
     code,
     kbd,
     samp {
-      font-family: ${theme.fonts.mono};
+      font-family: ${_get(theme, 'fonts.mono')};
     }
   `;
 };
