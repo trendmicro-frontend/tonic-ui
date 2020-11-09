@@ -1,5 +1,5 @@
 import { ensureArray } from 'ensure-type';
-import _get from 'lodash/get';
+import _get from 'lodash.get';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
