@@ -1,6 +1,6 @@
 {
   "name": "@trendmicro/react-styled-ui",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "description": "React UI components built with Emotion and Styled System",
   "main": "index.js",
   "publishConfig": {
