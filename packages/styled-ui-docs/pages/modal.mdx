@@ -175,6 +175,7 @@ function Example() {
     light: 'black:tertiary',
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
@@ -197,7 +198,7 @@ function Example() {
         <ButtonGroup
           variant="secondary"
           css={{
-            '> *:not(:first-child)': {
+            '> *:not(:first-of-type)': {
               marginLeft: -1
             }
           }}
@@ -216,7 +217,21 @@ function Example() {
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={autoFocus} onChange={toggleAutoFocus} />
+          <Checkbox
+            checked={ensureFocus}
+            onChange={toggleEnsureFocus}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={autoFocus}
+            disabled={!ensureFocus}
+            onChange={toggleAutoFocus}
+          />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">autoFocus</Text>
         </TextLabel>
@@ -288,6 +303,7 @@ function Example() {
       >
         {styles => (
           <Modal
+            ensureFocus={ensureFocus}
             autoFocus={autoFocus}
             closeOnEsc={closeOnEsc}
             closeOnOutsideClick={closeOnOutsideClick}
@@ -371,6 +387,7 @@ function Example() {
         <Button onClick={handleClickBy('full')} mt="3x">Full width</Button>
       </Stack>
       <Modal
+        ensureFocus
         autoFocus
         closeOnEsc
         closeOnOutsideClick
@@ -425,7 +442,7 @@ function Example() {
           <ModalBody>
             <Lorem count={2} />
           </ModalBody>
-          <ModalFooter justify="space-between">
+          <ModalFooter justifyContent="space-between">
             <Button
               disabled={isNestedOpen}
               variant="primary"
@@ -496,6 +513,7 @@ function Example() {
       <Scale in={isOpen}>
         {styles => (
           <Modal
+            ensureFocus
             autoFocus
             closeOnEsc
             closeOnOutsideClick
@@ -543,6 +561,7 @@ function Example() {
       <SlideIn in={isOpen}>
         {styles => (
           <Modal
+            ensureFocus
             autoFocus
             closeOnEsc
             closeOnOutsideClick
@@ -580,7 +599,8 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| autoFocus | boolean | false | If `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
+| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Modal` descendants, which does not allow the focus to escape while open. |
+| autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
 | finalFocusRef | React.ref | | The `ref` of element to receive focus when the modal closes. |
 | initialFocusRef | React.ref | | The `ref` of the element to receive focus when the modal opens. |
 | isCloseButtonVisible | boolean | false | If `true`, a close button will appear on the right side. |
@@ -600,12 +620,12 @@ function Example() {
 
 ### ModalHeader
 
-`ModalHeader` composes the [`Box`](./box) component.
+`ModalHeader` composes the [`PseudoBox`](./pseudobox) component.
 
 ### ModalBody
 
-`ModalBody` composes the [`Box`](./box) component.
+`ModalBody` composes the [`PseudoBox`](./pseudobox) component.
 
 ### ModalFooter
 
-`ModalFooter` composes the [`Flex`](./flex) component.
+`ModalFooter` composes the [`PseudoBox`](./pseudobox) component.

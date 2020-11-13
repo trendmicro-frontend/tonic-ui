@@ -19,6 +19,7 @@ const Modal = ({
   onClose,
   initialFocusRef,
   finalFocusRef,
+  ensureFocus = false,
   autoFocus = false,
   id,
   children,
@@ -86,6 +87,7 @@ const Modal = ({
     <ModalProvider value={modalState}>
       <Portal container={mountRef.current}>
         <FocusLock
+          disabled={!ensureFocus}
           autoFocus={autoFocus}
           returnFocus={returnFocus}
           onActivation={onFocusLockActivation}

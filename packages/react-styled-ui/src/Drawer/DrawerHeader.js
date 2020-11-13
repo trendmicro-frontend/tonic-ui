@@ -1,17 +1,16 @@
 import React, { forwardRef } from 'react';
-import Box from '../Box';
+import PseudoBox from '../PseudoBox';
+import {
+  useDrawerHeaderStyle,
+} from './styles';
 
 const DrawerHeader = forwardRef((props, ref) => {
+  const styleProps = useDrawerHeaderStyle();
+
   return (
-    <Box
+    <PseudoBox
       ref={ref}
-      pt="4x"
-      pb="3x"
-      pl="6x"
-      pr="12x"
-      position="relative"
-      fontSize="xl"
-      lineHeight="xl"
+      {...styleProps}
       {...props}
     />
   );

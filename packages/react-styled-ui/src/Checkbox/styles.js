@@ -158,7 +158,7 @@ const interactionProps = ({ color, colorMode }) => {
       bg: 'inherit',
       borderColor: checkedAndFocusBorderColor,
       color: checkedAndFocusColor, // Icon color
-      '& > :first-child': {
+      '& > div:first-of-type': {
         bg: checkedAndFocusBgColor,
       },
     },

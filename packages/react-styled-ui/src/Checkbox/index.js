@@ -1,6 +1,6 @@
 import chainedFunction from 'chained-function';
 import { ensureArray } from 'ensure-type';
-import _get from 'lodash/get';
+import _get from 'lodash.get';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useCheckboxGroup } from '../CheckboxGroup/context';
