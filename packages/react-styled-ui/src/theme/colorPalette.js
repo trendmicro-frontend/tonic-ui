@@ -1,4 +1,4 @@
-const gradientPalette = {
+const gradient = {
   high: 'linear-gradient(45deg, purple:60, red:50)',
   medium: 'linear-gradient(45deg, red:50, orange:50)',
   low: 'linear-gradient(45deg, orange:50, yellow:50)',
@@ -22,17 +22,15 @@ const colorPalette = {
       tertiary: 'white:tertiary',
       disabled: 'white:disabled',
       link: 'blue:40',
-      success: 'green:40',
-      info: 'blue:50',
       warning: 'orange:50',
       error: 'red:50',
     },
 
-    // background color
+    // Background color
     background: {
-      1: 'gray:100',
-      2: 'gray:90',
-      3: 'gray:80',
+      primary: 'gray:100',
+      secondary: 'gray:90',
+      tertiary: 'gray:80',
       inverse: 'gray:10',
       selected: 'blue:60',
       marked: '#fce79e',
@@ -52,8 +50,9 @@ const colorPalette = {
       high: 'red:50',
       medium: 'orange:50',
       low: 'yellow:50',
-      save: 'green:40',
-      none: 'gray:50',
+      safe: 'green:40',
+      info: 'blue:50',
+      unknown: 'gray:50',
     },
 
     // Chart color scheme
@@ -73,7 +72,9 @@ const colorPalette = {
         10: 'yellow:50',
       },
     },
-    gradient: { ...gradientPalette },
+
+    // Gradient color
+    gradient,
   },
   light: {
     // Text color
@@ -84,16 +85,15 @@ const colorPalette = {
       tertiary: 'black:tertiary',
       disabled: 'black:disabled',
       link: 'blue:60',
-      success: 'green:50',
-      info: 'blue:60',
       warning: 'orange:50',
       error: 'red:60',
     },
 
+    // Background color
     background: {
-      1: 'white:emphasis',
-      2: 'gray:10',
-      3: 'gray:20',
+      primary: 'white:emphasis',
+      secondary: 'gray:10',
+      tertiary: 'gray:20',
       inverse: 'gray:70',
       selected: 'blue:60',
       marked: '#fce79e',
@@ -114,7 +114,8 @@ const colorPalette = {
       medium: 'orange:50',
       low: 'yellow:50',
       safe: 'green:50',
-      none: 'gray:50',
+      info: 'blue:60',
+      unknown: 'gray:50',
     },
 
     // Chart color scheme
@@ -134,7 +135,9 @@ const colorPalette = {
         10: 'yellow:50',
       },
     },
-    gradient: { ...gradientPalette },
+
+    // Gradient color
+    gradient,
   },
   blindness: {
     // Severity color: critical, high, medium, low, none
@@ -162,6 +165,8 @@ const colorPalette = {
         10: 'yellow:50',
       },
     },
+
+    // Gradient color
     gradient: {
       high: 'linear-gradient(45deg, purple:60, magenta:60)',
       medium: 'linear-gradient(45deg, magenta:60, orange:50)',
