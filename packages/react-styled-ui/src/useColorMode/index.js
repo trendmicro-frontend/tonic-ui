@@ -6,7 +6,7 @@ const useColorMode = () => {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
 
-  const colorMode = useContext(ColorModeContext);
+  const { colorMode } = useContext(ColorModeContext);
   const {
     setColorMode,
     toggleColorMode,

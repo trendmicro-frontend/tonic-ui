@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useContext } from 'react';
+import { ThemeContext } from '../ThemeProvider';
 
 const initialColorMode = 'light';
 const ColorModeContext = React.createContext(initialColorMode);
@@ -9,10 +10,15 @@ const ColorModeProvider = ({
   value = initialColorMode,
   children,
 }) => {
+  const themes = useContext(ThemeContext);
   const [colorMode, setColorMode] = useState(value);
+  const [colorStyle, setColorStyle] = useState(themes[value]);
   useEffect(() => {
     setColorMode(value);
   }, [value]);
+  useEffect(() => {
+    setColorStyle(themes[colorMode]);
+  }, [colorMode, themes]);
   const toggleColorMode = useCallback(() => {
     setColorMode(prevColorMode => {
       const nextColorMode = {
@@ -29,7 +35,7 @@ const ColorModeProvider = ({
   });
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
+    <ColorModeContext.Provider value={{ colorMode, colorStyle }}>
       <ColorModeSetterContext.Provider value={colorModeSetterRef.current}>
         {children}
       </ColorModeSetterContext.Provider>
