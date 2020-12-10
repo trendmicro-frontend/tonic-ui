@@ -45,9 +45,9 @@ import ThemeProvider from './ThemeProvider';
 import Toast from './Toast';
 import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
-import theme from './theme';
 import useClipboard from './useClipboard';
 import useColorMode from './useColorMode';
+import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure';
 import usePagination from './usePagination';
 import useTheme from './useTheme';
@@ -102,9 +102,9 @@ export {
   Toast,
   ToggleSwitch,
   Tooltip,
-  theme,
   useClipboard,
   useColorMode,
+  useColorStyle,
   useDisclosure,
   usePagination,
   useTheme,
@@ -112,6 +112,7 @@ export {
   withTheme,
 };
 
+export * from './theme';
 export * from './Tabs';
 export * from './Accordion';
 export * from './Drawer';
