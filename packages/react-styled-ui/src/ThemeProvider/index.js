@@ -1,6 +1,6 @@
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 import React, { useEffect, useState } from 'react';
-import theme from '../theme';
+import { theme } from '../theme';
 import colorPaletteMap from '../theme/colorPalette';
 import createPalette from '../utils/createPalette';
 
