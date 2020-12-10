@@ -7,7 +7,7 @@ const theme = {
   icons,
 };
 
-export { 
-  theme, 
+export {
+  theme,
   colorPalettes,
-}
+};
