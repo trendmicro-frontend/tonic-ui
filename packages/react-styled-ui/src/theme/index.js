@@ -1,6 +1,6 @@
 import defaultTheme from '@trendmicro/styled-ui-theme';
 import icons from './icons';
-import colorPalette from './colorPalette';
+import colorPalettes from './colorPalettes';
 
 const theme = {
   ...defaultTheme,
@@ -9,5 +9,5 @@ const theme = {
 
 export { 
   theme, 
-  colorPalette,
+  colorPalettes,
 }

@@ -12,7 +12,7 @@ const gradient = {
   7: 'linear-gradient(45deg, magenta:60, red:40)',
   8: 'linear-gradient(45deg, magenta:50, blue:60)',
 };
-const colorPalette = {
+const colorPalettes = {
   dark: {
     // Text color
     text: {
@@ -176,4 +176,4 @@ const colorPalette = {
   }
 };
 
-export default colorPalette;
+export default colorPalettes;
