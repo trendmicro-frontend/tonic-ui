@@ -1,8 +1,7 @@
 import _get from 'lodash.get';
-import _merge from 'lodash.merge';
 
 const createPalette = (paletteMap, theme) => {
-  const colorStyle = _merge({}, paletteMap);
+  const colorStyle = JSON.parse(JSON.stringify(paletteMap));
   const regex = /([a-zA-Z]+:\w+)/g;
   (function parserColorPalette(obj) {
     Object.keys(obj).map((key) => {

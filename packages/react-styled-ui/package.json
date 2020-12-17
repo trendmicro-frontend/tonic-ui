@@ -28,7 +28,6 @@
     "ensure-type": "1.x",
     "exenv": "1.2.x",
     "lodash.get": "4.x",
-    "lodash.merge": "4.x",
     "micro-memoize": "4.x",
     "prop-types": "^15.6.0",
     "react-animate-height": "2.x",
