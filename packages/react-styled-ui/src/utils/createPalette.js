@@ -1,7 +1,9 @@
+import { ensurePlainObject } from 'ensure-type';
 import _get from 'lodash.get';
 
 const createPalette = (paletteMap, theme) => {
-  const colorStyle = JSON.parse(JSON.stringify(paletteMap));
+  // Use `JSON.parse` to create a new structure from the string representation
+  const colorStyle = JSON.parse(JSON.stringify(ensurePlainObject(paletteMap)));
   const regex = /([a-zA-Z]+:\w+)/g;
   (function parserColorPalette(obj) {
     Object.keys(obj).map((key) => {
