@@ -1,0 +1,74 @@
+# Color Styles
+
+Create a palette object to include custom functional color values based on your color mode. Styled UI comes with a default palette, so this step is optional.
+
+These color values can be referenced from our color themes, or you can customize them yourself.
+
+```js
+// example palette.js
+export customColorPalette {
+   dark: {
+    // Text color
+    text: {
+      emphasis: 'white:primary',
+      primary: 'white:primary',
+      secondary: 'white:secondary',
+      tertiary: 'white:tertiary',
+      disabled: 'white:disabled',
+      link: 'blue:40',
+      warning: 'orange:50',
+      error: 'red:50',
+    },
+  },
+  light: {
+    // Text color
+    text: {
+      emphasis: 'black:emphasis',
+      primary: 'black:primary',
+      secondary: 'black:secondary',
+      tertiary: 'black:tertiary',
+      disabled: 'black:disabled',
+      link: 'blue:60',
+      warning: 'orange:50',
+      error: 'red:60',
+    },
+  },
+};
+```
+
+Add the palette to your application with the `ThemeProvider`, passing in the palette object as prop. Styled UI comes with a default palette, so this step is optional.
+
+```jsx disabled
+import React from 'react';
+import { ThemeProvider, ColorModeProvider } from '@trendmicro/react-styled-ui';
+import App from './App';
+
+function Example({ children }) {
+  return (
+    <ThemeProvider palette={customColorPalette}>
+      <ColorModeProvider value="dark">
+        <App />
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+Then you can use the `useColorStyle` Hook to get text color, background color, etc.
+
+The values will change based to your color mode.
+
+```jsx
+function Example() {
+  const [colorStyle] = useColorStyle();
+  const backgorundColor = colorStyle.background.secondary;
+  const textColor = colorStyle.text.secondary;
+  return (
+    <Box background={backgorundColor} p="4x">
+      <Text color={textColor} size="lg">
+        You can change the color mode via the toggle button at the top right.
+      </Text>
+    </Box>
+  );
+};
+```

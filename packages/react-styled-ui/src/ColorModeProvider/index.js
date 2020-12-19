@@ -1,18 +1,20 @@
+import memoize from 'micro-memoize';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
+import { ThemeContext } from '../ThemeProvider';
 
 const initialColorMode = 'light';
-const ColorModeContext = React.createContext(initialColorMode);
-const ColorModeSetterContext = React.createContext({});
+const getMemoizedState = memoize(state => ({ ...state }));
+const ColorModeContext = React.createContext();
 
 const ColorModeProvider = ({
   value = initialColorMode,
   children,
 }) => {
+  const themes = useContext(ThemeContext);
   const [colorMode, setColorMode] = useState(value);
-  useEffect(() => {
-    setColorMode(value);
-  }, [value]);
+  const [colorStyle, setColorStyle] = useState(themes[value]);
+  // TODO: toggleColorMode is deprecated and will be removed in the v1 release
   const toggleColorMode = useCallback(() => {
     setColorMode(prevColorMode => {
       const nextColorMode = {
@@ -23,16 +25,24 @@ const ColorModeProvider = ({
     });
   }, []);
 
-  const colorModeSetterRef = useRef({
+  useEffect(() => {
+    setColorMode(value);
+  }, [value]);
+
+  useEffect(() => {
+    setColorStyle(themes[colorMode]);
+  }, [colorMode, themes]);
+
+  const colorModeState = getMemoizedState({
+    colorMode,
+    colorStyle,
     setColorMode,
     toggleColorMode,
   });
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ColorModeSetterContext.Provider value={colorModeSetterRef.current}>
-        {children}
-      </ColorModeSetterContext.Provider>
+    <ColorModeContext.Provider value={colorModeState}>
+      {children}
     </ColorModeContext.Provider>
   );
 };
@@ -44,4 +54,4 @@ ColorModeProvider.propTypes = {
 ColorModeProvider.displayName = 'ColorModeProvider';
 
 export default ColorModeProvider;
-export { ColorModeContext, ColorModeSetterContext };
+export { ColorModeContext };
