@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Flex, Grid, Stack, useTheme, useColorMode } from '@trendmicro/react-styled-ui';
+import _get from 'lodash.get';
+import { Box, Flex, Grid, Stack, useTheme, useColorMode, colorPalettes, useColorStyle } from '@trendmicro/react-styled-ui';
 import getColorPalette from '@trendmicro/styled-ui-theme/build/color-palette';
 
 const splitString = (value) => value.split(':');
@@ -85,7 +86,8 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
   );
 };
 
-export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...props }) => {
+export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
+  const { palette, type, color, label } = paletteInfo;
   const { colorMode } = useColorMode();
   const theme = useTheme();
   const boxProps = {
@@ -109,44 +111,54 @@ export const FunctionalColorPalette = ({ mode, palette, colorType, color, ...pro
       light: 'black:secondary'
     }[mode ?? colorMode],
   };
-
+  const showHue = typeof label === 'string' && !label.includes('black') && !label.includes('white');
   let colorInfo;
 
-  if (palette === 'gradient') {
-    const gradientColor = color.match(/#\w+/g);
-    colorInfo = gradientColor.map((color) => {
-      const [hue, shade] = splitString(getColorToken(color, theme.colors));
-      return <Box key={color} {...infoProps}>{`${hue.charAt(0).toUpperCase()}${hue.slice(1)}`} {shade} {color}</Box>;
-    });
+  if (showHue) {
+    colorInfo = <Box {...infoProps}>{label} {color}</Box>
+  } else if (palette === 'gradient') {
+    colorInfo = label.map((label, index) => <Box key={index} {...infoProps}>{label.token} {label.value}</Box> );
   } else {
-    const [hue, shade] = splitString(getColorToken(color, theme.colors));
-    colorInfo = (palette === 'text' && ['black', 'white'].includes(hue))
-      ? <Box {...infoProps}>{color}</Box>
-      : <Box {...infoProps}>{`${hue.charAt(0).toUpperCase()}${hue.slice(1)}`} {shade} {color}</Box>;
+    colorInfo = <Box {...infoProps}>{color}</Box>
   }
-
   return (
     <Box>
       <Box background={color} {...boxProps} />
-      <Box {...titleProps}>{palette}.{colorType}</Box>
+      <Box {...titleProps}>{palette}.{type}</Box>
       {colorInfo}
     </Box>
   );
 };
 
-export const FunctionalColorPalettes = ({ mode, type, palette, ...props }) => {
-  const paletteColor = (type && palette) ? `${type}.${palette}` : palette ?? type;
-  const palettes = getColorPalette(mode).get(paletteColor);
+export const FunctionalColorPalettes = ({ mode, palette, ...props }) => {
+  const theme = useTheme();
+  const palettes = _get(colorPalettes[mode], palette);
+  const getColor = (type) => _get(theme, `colors.${type}`, type);
+  const palettesInfo = Object.keys(palettes).map(type => {
+    const token = getColor(palettes[type]) === palettes[type] ? null : palettes[type];
+    const color = getColor(palettes[type]);
+    const label = getColor(palettes[type]) === palettes[type] ? null : palettes[type].replace(':', ' ');
+    if (palette === 'gradient') {
+      const regex = /([a-zA-Z]+:\w+)/g;
+      const matches = palettes[type].match(regex);
+      const color = palettes[type].replace(regex, match => getColor(match));
+      const label = matches.map(match => {
+        const token = match.replace(':', ' ');
+        const value = getColor(match);
+        return { token, value };
+      });
+      return { palette, type, token, color, label };
+    }
+    return { palette, type, token, color, label };
+  });
   return (
     <FunctionalColorWrapper mode={mode}>
       {
-        Object.keys(palettes).map((color) => (
+        palettesInfo.map((ColorPalette, index) => (
           <FunctionalColorPalette
-            key={color}
+            key={index}
             mode={mode}
-            palette={palette ?? type}
-            colorType={color}
-            color={`${palettes[color]}`}
+            paletteInfo={ColorPalette}
           />
         ))
       }

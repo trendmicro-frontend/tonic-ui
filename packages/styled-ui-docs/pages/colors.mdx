@@ -28,6 +28,11 @@ The color palette  is defined for both Light Theme and Dark Theme where `10` - `
   <ColorPalettes hue="gray" />
 </ColorWrapper>
 
+### Background color
+
+<FunctionalColorPalettes mode="light" palette="background" />
+<FunctionalColorPalettes mode="dark" palette="background" />
+
 ### Text color
 
 <ThemeParser mode="light" theme="text" />
@@ -36,27 +41,27 @@ The color palette  is defined for both Light Theme and Dark Theme where `10` - `
 <FunctionalColorPalettes mode="light" palette="text" />
 <FunctionalColorPalettes mode="dark" palette="text" />
 
-### Functional color
+### Severity color
 
 <ThemeParser mode="light" theme="risk" />
 <ThemeParser mode="dark" theme="risk" />
 
-<FunctionalColorPalettes mode="light" palette="risk" />
-<FunctionalColorPalettes mode="dark" palette="risk" />
+<FunctionalColorPalettes mode="light" palette="severity" />
+<FunctionalColorPalettes mode="dark" palette="severity" />
 
 ### Chart color
 
 <ThemeParser mode="light" theme="chart" />
 <ThemeParser mode="dark" theme="chart" />
 
-<FunctionalColorPalettes mode="light" palette="chart" />
-<FunctionalColorPalettes mode="dark" palette="chart" />
+<FunctionalColorPalettes mode="light" palette="chart.classic" />
+<FunctionalColorPalettes mode="dark" palette="chart.classic" />
 
 ### Gradient color
 
 <ThemeParser theme="gradient" />
 
-<FunctionalColorPalettes type="gradient" />
+<FunctionalColorPalettes mode="dark" palette="gradient" />
 
 ### Color blindness
 
@@ -66,15 +71,15 @@ We provide different colors for color blind users.
 
 #### Functional color
 
-<FunctionalColorPalettes type="blindness" palette="risk" />
+<FunctionalColorPalettes mode="blindness" palette="severity" />
 
 #### Chart color
 
-<FunctionalColorPalettes type="blindness" palette="chart" />
+<FunctionalColorPalettes mode="blindness" palette="chart.classic" />
 
 #### Gradient color
 
-<FunctionalColorPalettes type="blindness" palette="gradient" />
+<FunctionalColorPalettes mode="blindness" palette="gradient" />
 
 ## Configuration Reference
 
