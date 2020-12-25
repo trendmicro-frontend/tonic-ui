@@ -1,10 +1,8 @@
 import React from 'react';
 import _get from 'lodash.get';
-import { Box, Flex, Grid, Stack, useTheme, useColorMode, colorPalettes, useColorStyle } from '@trendmicro/react-styled-ui';
-import getColorPalette from '@trendmicro/styled-ui-theme/build/color-palette';
+import { Box, Flex, Grid, Stack, useTheme, useColorMode, colorPalettes } from '@trendmicro/react-styled-ui';
 
 const splitString = (value) => value.split(':');
-const getColorToken = (val, obj) => Object.keys(obj).find(key => obj[key] === val);
 
 export const ColorPalette = ({ token, color, ...props }) => {
   const [hue, shade] = splitString(token);
@@ -89,7 +87,6 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
 export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
   const { palette, type, color, label } = paletteInfo;
   const { colorMode } = useColorMode();
-  const theme = useTheme();
   const boxProps = {
     width: '80px',
     height: '80px',
@@ -115,11 +112,11 @@ export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
   let colorInfo;
 
   if (showHue) {
-    colorInfo = <Box {...infoProps}>{label} {color}</Box>
+    colorInfo = <Box {...infoProps}>{label} {color}</Box>;
   } else if (palette === 'gradient') {
-    colorInfo = label.map((label, index) => <Box key={index} {...infoProps}>{label.token} {label.value}</Box> );
+    colorInfo = label.map(label => <Box key={label.value} {...infoProps}>{label.token} {label.value}</Box>);
   } else {
-    colorInfo = <Box {...infoProps}>{color}</Box>
+    colorInfo = <Box {...infoProps}>{color}</Box>;
   }
   return (
     <Box>
@@ -154,11 +151,11 @@ export const FunctionalColorPalettes = ({ mode, palette, ...props }) => {
   return (
     <FunctionalColorWrapper mode={mode}>
       {
-        palettesInfo.map((ColorPalette, index) => (
+        palettesInfo.map(colorPalette => (
           <FunctionalColorPalette
-            key={index}
+            key={`${colorPalette.palette}-${colorPalette.type}-${colorPalette.color}`}
             mode={mode}
-            paletteInfo={ColorPalette}
+            paletteInfo={colorPalette}
           />
         ))
       }
