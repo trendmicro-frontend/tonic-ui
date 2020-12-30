@@ -1,6 +1,7 @@
 import { css } from '@emotion/core';
 import { mdx } from '@mdx-js/react';
 import * as CoreComponents from '@trendmicro/react-styled-ui';
+import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
 import React, { useEffect, useCallback, useState, useRef } from 'react';
@@ -16,7 +17,6 @@ import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
-import tmIconMap from '../../react-styled-ui/src/Icon/tmIconMap';
 import useToast from './useToast';
 
 const ThirdPartyComponents = {
@@ -52,8 +52,8 @@ const liveErrorStyle = {
   backgroundColor: 'red',
 };
 
-const tmIconList = tmIconMap.iconsets.map(group => {
-  const icons = tmIconMap.icons.filter(({ iconset }) => iconset === group.id);
+const tmicons = tmicon.iconsets.map(group => {
+  const icons = tmicon.icons.filter(({ iconset }) => iconset === group.id);
   if (icons.length === 0) {
     return null;
   }
@@ -204,7 +204,7 @@ const CodeBlock = ({
       ),
       css,
       mdx,
-      tmIconList,
+      tmicons,
     },
     mountStylesheet: false,
     ...props,
