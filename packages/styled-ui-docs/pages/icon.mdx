@@ -72,7 +72,7 @@ Pass the icon name as a prop to the `<Icon>` component to render the SVG icon:
 ### Search icons
 
 ```jsx noInline
-const getIcons = (keyword) => tmIconList.map(({ group, icons }) => {
+const getIcons = (keyword) => tmicons.map(({ group, icons }) => {
     const filteredIcons = icons.filter(({ iconset, name }) => (!keyword || name.indexOf(keyword) >= 0));
     if (filteredIcons.length === 0) {
       return null
