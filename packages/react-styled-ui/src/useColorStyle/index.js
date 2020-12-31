@@ -1,18 +1,17 @@
 import { useContext } from 'react';
-import { ColorModeContext } from '../ColorModeProvider';
+import { ColorStyleContext } from '../ColorStyleProvider';
 
 const useColorStyle = () => {
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
 
-  const { colorStyle } = useContext(ColorModeContext);
-
+  const { colorStyle, setColorStyle } = useContext(ColorStyleContext);
   if (colorStyle === undefined) {
-    throw new Error('The `useColorStyle` hook must be called from a descendent of the `ColorModeProvider`.');
+    throw new Error('The `useColorStyle` hook must be called from a descendent of the `ColorStyleProvider`.');
   }
 
-  return [colorStyle];
+  return [colorStyle, setColorStyle];
 };
 
 export default useColorStyle;
