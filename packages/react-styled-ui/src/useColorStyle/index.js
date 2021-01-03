@@ -1,3 +1,4 @@
+import { ensurePlainObject } from 'ensure-type';
 import _get from 'lodash/get';
 import _includes from 'lodash/includes';
 import { useContext } from 'react';
@@ -23,7 +24,7 @@ const useColorStyle = (options) => {
 
   const getter = (() => {
     let colorStyleGetter = { ...colorStyle };
-    colorStyleGetter = ensurePlainObject(colorStyleGetter[colorMode] ?? colorStyleGetter['global']);
+    colorStyleGetter = ensurePlainObject(colorStyleGetter[colorMode] ?? colorStyleGetter.global);
     Object.defineProperty(colorStyleGetter, 'get', {
       value: function get(key, defaultValue) {
         if (colorMode !== 'global') {
