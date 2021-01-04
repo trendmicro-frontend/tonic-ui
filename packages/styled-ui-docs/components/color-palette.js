@@ -1,5 +1,5 @@
+import colors from '@trendmicro/styled-ui-theme/build/foundations/colors';
 import _get from 'lodash.get';
-import colors from './foundations/colors';
 
 export const light = {
   text: {

@@ -1,7 +1,7 @@
-import React from 'react';
 import { useTheme } from '@trendmicro/react-styled-ui';
-import getColorPalette from '@trendmicro/styled-ui-theme/build/color-palette';
+import React from 'react';
 import CodeBlock from './CodeBlock';
+import getColorPalette from './color-palette';
 
 const jsonStringify = (obj, indent) => {
   if (indent) {
