@@ -4,10 +4,10 @@ import _includes from 'lodash/includes';
 import { useContext } from 'react';
 import { ColorStyleContext } from '../ColorStyleProvider';
 
+const colorModes = ['dark', 'light'];
+
 const useColorStyle = (options) => {
-  let {
-    colorMode = 'global',
-  } = { ...options };
+  const { colorMode } = { ...options };
 
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
@@ -18,20 +18,14 @@ const useColorStyle = (options) => {
     throw new Error('The `useColorStyle` hook must be called from a descendent of the `ColorStyleProvider`.');
   }
 
-  if (!_includes(['dark', 'light', 'global'], colorMode)) {
-    throw new Error('The `colorMode` must be one of "dark", "light", or "global"');
+  if (!_includes(colorModes, colorMode)) {
+    throw new Error('The `colorMode` must be one of:', colorModes.join(', '));
   }
 
   const getter = (() => {
-    let colorStyleGetter = { ...colorStyle };
-    colorStyleGetter = ensurePlainObject(colorStyleGetter[colorMode] ?? colorStyleGetter.global);
+    const colorStyleGetter = ensurePlainObject(_get(colorStyle, [colorMode]));
     Object.defineProperty(colorStyleGetter, 'get', {
       value: function get(key, defaultValue) {
-        if (colorMode !== 'global') {
-          return Array.isArray(key)
-            ? _get(this, key, _get(colorStyleGetter, ['global'].concat(key), defaultValue))
-            : _get(this, key, _get(colorStyleGetter, `global.${key}`, defaultValue));
-        }
         return _get(this, key, defaultValue);
       },
       writable: false,
