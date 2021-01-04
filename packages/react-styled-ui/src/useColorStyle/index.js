@@ -22,20 +22,19 @@ const useColorStyle = (options) => {
     throw new Error('The `colorMode` must be one of:', colorModes.join(', '));
   }
 
-  const getter = (() => {
-    const colorStyleGetter = ensurePlainObject(_get(colorStyle, [colorMode]));
-    Object.defineProperty(colorStyleGetter, 'get', {
-      value: function get(key, defaultValue) {
-        return _get(this, key, defaultValue);
-      },
-      writable: false,
-      enumerable: false,
-      configurable: false,
-    });
+  const getter = ensurePlainObject(_get(colorStyle, [colorMode]));
+  const setter = (value) => {
+    setColorStyle(prevState => {
+      if (typeof value === 'function') {
+        value = value(ensurePlainObject(_get(prevState, [colorMode])));
+      }
 
-    return colorStyleGetter;
-  })();
-  const setter = setColorStyle;
+      return {
+        ...prevState,
+        [colorMode]: ensurePlainObject(value),
+      };
+    });
+  };
 
   return [getter, setter];
 };
