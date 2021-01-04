@@ -3,11 +3,12 @@ import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
   ColorModeProvider,
+  ColorStyleProvider,
   CSSBaseline,
   ThemeProvider,
+  theme,
   useColorMode,
   useTheme,
-  theme,
 } from '@trendmicro/react-styled-ui';
 import App from 'next/app';
 import { useRouter } from 'next/router';
@@ -78,12 +79,14 @@ const CustomApp = (props) => {
   return (
     <ThemeProvider theme={customTheme}>
       <ColorModeProvider value="dark">
-        <CSSBaseline />
-        <MDXProvider components={MDXComponents}>
-          <Layout>
-            <App {...props} />
-          </Layout>
-        </MDXProvider>
+        <ColorStyleProvider>
+          <CSSBaseline />
+          <MDXProvider components={MDXComponents}>
+            <Layout>
+              <App {...props} />
+            </Layout>
+          </MDXProvider>
+        </ColorStyleProvider>
       </ColorModeProvider>
     </ThemeProvider>
   );

@@ -86,6 +86,7 @@ import { Global, css } from '@emotion/core';
 import {
   Box,
   ColorModeProvider,
+  ColorStyleProvider,
   CSSBaseline,
   ThemeProvider,
   useColorMode,
@@ -96,15 +97,10 @@ import App from './App';
 
 const Layout = (props) => {
   const { colorMode } = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const { fontSizes, lineHeights } = useTheme();
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
-  const color = {
-    light: 'black:primary',
-    dark: 'white:primary',
-  }[colorMode];
+  const backgroundColor = colorStyle.background.primary;
+  const color = colorStyle.text.primary;
 
   return (
     <>
@@ -132,10 +128,12 @@ const CustomApp = (props) => {
   return (
     <ThemeProvider>
       <ColorModeProvider value="dark">
-        <CSSBaseline />
-        <Layout>
-          <App {...props} />
-        </Layout>
+        <ColorStyleProvider>
+          <CSSBaseline />
+          <Layout>
+            <App {...props} />
+          </Layout>
+        </ColorStyleProvider>
       </ColorModeProvider>
     </ThemeProvider>
   );
