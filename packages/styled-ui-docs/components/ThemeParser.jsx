@@ -2,19 +2,7 @@ import { useTheme } from '@trendmicro/react-styled-ui';
 import React from 'react';
 import CodeBlock from './CodeBlock';
 import getColorPalette from './color-palette';
-
-const jsonStringify = (obj, indent) => {
-  if (indent) {
-    return JSON.stringify(obj, null, 2)
-      .replace(/\"/g, '\'')
-      .replace(/\'(\d+|[a-z]+)\':/g, '\ \ $1:')
-      .replace(/{/g, '\ {')
-      .replace(/}/g, '\ \ }');
-  }
-  return JSON.stringify(obj, null, 2)
-    .replace(/\"/g, '\'')
-    .replace(/\'(\d+|[a-z]+)\':/g, '$1:');
-};
+import jsonPrettify from './json-prettify';
 
 const ThemeParser = ({ theme, mode, ...props }) => {
   const themes = useTheme();
@@ -32,7 +20,7 @@ const ThemeParser = ({ theme, mode, ...props }) => {
         return res;
       }, {});
   }
-  const themeField = jsonStringify(token, indent);
+  const themeField = jsonPrettify(token, indent);
   return (
     <CodeBlock>
       {mode ? `export const ${mode} = {\n \ ${theme}:${themeField} \n}` : `export const ${theme} = ${themeField}`}
