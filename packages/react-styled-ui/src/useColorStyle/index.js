@@ -15,7 +15,7 @@ const useColorStyle = (options) => {
   }
 
   colorStyle = ensurePlainObject(colorStyle);
-  if (!colorStyle.hasOwnProperty(colorMode)) {
+  if (!Object.prototype.hasOwnProperty.call(colorStyle, colorMode)) {
     throw new Error('The `colorMode` must be one of:', Object.keys(colorStyle));
   }
 
