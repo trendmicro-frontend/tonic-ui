@@ -118,20 +118,51 @@ render(<Example />);
 
 ## Color Values
 
-### Dark mode
+### Dark color mode
 
 <CodeBlock>
   {jsonPrettify(colorStyle.dark)}
 </CodeBlock>
 
-### Light mode
+### Light color mode
 
 <CodeBlock>
   {jsonPrettify(colorStyle.light)}
 </CodeBlock>
 
-### Blindness mode
+### Blindness
+
+For the blindness color mode, it is not defined in the color style system, you can replace `severity`, `charts`, and `gradients` with below values if necessary.
 
 <CodeBlock>
-  {jsonPrettify(colorStyle.blindness)}
+  {jsonPrettify({
+    severity: {
+      high: 'magenta:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      safe: 'green:30',
+      none: 'gray:50',
+    },
+    chart: {
+      classic: {
+        0: 'gray:50',
+        1: 'blue:30',
+        2: 'green:30',
+        3: 'orange:50',
+        4: 'cyan:30',
+        5: 'magenta:60',
+        6: 'purple:50',
+        7: 'teal:40',
+        8: 'purple:30',
+        9: 'cyan:70',
+        10: 'yellow:50',
+      },
+    },
+    gradient: {
+      high: 'linear-gradient(45deg, purple:60, magenta:60)',
+      medium: 'linear-gradient(45deg, magenta:60, orange:50)',
+      low: 'linear-gradient(45deg, orange:50, yellow:50)',
+      safe: 'linear-gradient(45deg, teal:50, green:30)',
+    },
+  })}
 </CodeBlock>

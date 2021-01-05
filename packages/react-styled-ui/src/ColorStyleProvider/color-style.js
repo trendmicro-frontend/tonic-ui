@@ -140,41 +140,6 @@ const colorStyle = {
     // Gradient color
     gradient,
   },
-  blindness: {
-    // Severity color: critical, high, medium, low, none
-    severity: {
-      high: 'magenta:60',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      safe: 'green:30',
-      none: 'gray:50',
-    },
-    // Chart color scheme
-    // https://docs.appian.com/suite/help/20.2/Chart_Color_Scheme.html
-    chart: {
-      classic: {
-        0: 'gray:50',
-        1: 'blue:30',
-        2: 'green:30',
-        3: 'orange:50',
-        4: 'cyan:30',
-        5: 'magenta:60',
-        6: 'purple:50',
-        7: 'teal:40',
-        8: 'purple:30',
-        9: 'cyan:70',
-        10: 'yellow:50',
-      },
-    },
-
-    // Gradient color
-    gradient: {
-      high: 'linear-gradient(45deg, purple:60, magenta:60)',
-      medium: 'linear-gradient(45deg, magenta:60, orange:50)',
-      low: 'linear-gradient(45deg, orange:50, yellow:50)',
-      safe: 'linear-gradient(45deg, teal:50, green:30)',
-    },
-  }
 };
 
 export default colorStyle;
