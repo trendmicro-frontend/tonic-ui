@@ -70,50 +70,40 @@ console.log(colorStyle.background.primary);
 // => 'gray:100'
 ```
 
-```jsx noInline
+```jsx
 function Example() {
   const [colorMode] = useColorMode();
   const [colorStyle, setColorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = colorStyle.background.secondary;
-  const textColor = colorStyle.text.secondary;
-  const changeBackgroundColor = () => {
-    setColorStyle(backgroundColorUpdater);
+  const [colorVariant, setColorVariant] = React.useState('primary');
+  const backgroundColor = colorStyle.background[colorVariant];
+  const textColor = colorStyle.text[colorVariant];
+  const changeColorVariant = (colorVariant) => (event) => {
+    setColorVariant(colorVariant);
   };
 
   return (
     <>
       <Box mb="4x">
-        <Button variant="primary" onClick={changeBackgroundColor}>
-          Change background color
+        <Button onClick={changeColorVariant('primary')}>
+          Use primary color
+        </Button>
+        <Space width="2x" />
+        <Button onClick={changeColorVariant('secondary')}>
+          Use secondary color
+        </Button>
+        <Space width="2x" />
+        <Button onClick={changeColorVariant('tertiary')}>
+          Use tertary color
         </Button>
       </Box>
       <Box backgroundColor={backgroundColor} p="4x">
         <Text color={textColor} size="lg">
-          You can change the color mode via the toggle button at the top right.
+          To change the color mode, click the <b>toggle color mode</b> button at the top right corner.
         </Text>
       </Box>
     </>
   );
 };
-
-const backgroundColorUpdater = (() => {
-  const bgColors = ['red:50', 'magenta:50', 'purple:50', 'blue:50', 'green:50', 'teal:50', 'cyan:50', 'gray:50'];
-  let bgIndex = 0;
-
-  return (prevColorStyle) => {
-    const nextColorStyle = {
-      ...prevColorStyle,
-      background: {
-        ...prevColorStyle.background,
-        secondary: bgColors[bgIndex],
-      },
-    };
-    bgIndex = (bgIndex + 1) % bgColors.length;
-    return nextColorStyle;
-  };
-})();
-
-render(<Example />);
 ```
 
 ## Color Values
