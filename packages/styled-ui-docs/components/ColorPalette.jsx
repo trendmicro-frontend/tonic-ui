@@ -58,7 +58,8 @@ export const ColorWrapper = props => (
 
 export const FunctionalColorWrapper = ({ mode, ...props }) => {
   const { colorMode } = useColorMode();
-  const baseProps = mode && {
+  const _mode = mode === 'blindness' ? undefined : mode;
+  const baseProps = {
     light: {
       bg: 'white',
       border: 1,
@@ -69,7 +70,7 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
       border: 1,
       borderColor: 'gray:70',
     }
-  }[mode ?? colorMode];
+  }[_mode ?? colorMode];
   return (
     <Grid
       px="14x"
@@ -87,9 +88,15 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
 export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
   const { palette, type, color, label } = paletteInfo;
   const { colorMode } = useColorMode();
+  const showBoxBorder = color === 'rgba(255, 255, 255, 1.0)' | color === '#151515';
   const boxProps = {
     width: '80px',
     height: '80px',
+    border: showBoxBorder ? 1 : 0,
+    borderColor: {
+      dark: 'gray:70',
+      light: 'gray:30'
+    }[mode ?? colorMode],
   };
   const titleProps = {
     fontSize: 'sm',
@@ -108,6 +115,7 @@ export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
       light: 'black:secondary'
     }[mode ?? colorMode],
   };
+
   const showHue = typeof label === 'string' && !label.includes('black') && !label.includes('white');
   let colorInfo;
 
@@ -129,7 +137,9 @@ export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
 
 export const FunctionalColorPalettes = ({ mode, palette, ...props }) => {
   const theme = useTheme();
-  const palettes = _get(colorPalettes[mode], palette);
+  const { colorMode } = useColorMode();
+  const _mode = mode ?? colorMode;
+  const palettes = _get(colorPalettes[_mode], palette);
   const getColor = (type) => _get(theme, `colors.${type}`, type);
   const palettesInfo = Object.keys(palettes).map(type => {
     const token = getColor(palettes[type]) === palettes[type] ? null : palettes[type];
@@ -149,12 +159,12 @@ export const FunctionalColorPalettes = ({ mode, palette, ...props }) => {
     return { palette, type, token, color, label };
   });
   return (
-    <FunctionalColorWrapper mode={mode}>
+    <FunctionalColorWrapper mode={_mode}>
       {
         palettesInfo.map(colorPalette => (
           <FunctionalColorPalette
             key={`${colorPalette.palette}-${colorPalette.type}-${colorPalette.color}`}
-            mode={mode}
+            mode={_mode}
             paletteInfo={colorPalette}
           />
         ))
