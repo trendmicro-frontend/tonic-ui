@@ -12,10 +12,16 @@ import {
 import App from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import ReactGA from 'react-ga';
 import Header from '../components/Header';
 import Main from '../components/Main';
 import MDXComponents from '../components/MDXComponents';
 import SideNav from '../components/SideNav';
+
+const pageview = () => {
+  ReactGA.set({ page: window.location.pathname });
+  ReactGA.pageview(window.location.pathname);
+};
 
 const customTheme = {
   ...theme,
@@ -74,6 +80,22 @@ const CustomApp = (props) => {
   useEffect(() => {
     router.pathname === '/' && router.push(`${process.env.PUBLIC_URL}/getting-started`);
   }, [router]);
+
+  useEffect(() => {
+    ReactGA.initialize(process.env.GA_TRACKING_ID);
+
+    if (!router.asPath.includes('?')) {
+      pageview();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', pageview);
+    return () => {
+      router.events.off('routeChangeComplete', pageview);
+    };
+  }, [router.events]);
 
   return (
     <ThemeProvider theme={customTheme}>
