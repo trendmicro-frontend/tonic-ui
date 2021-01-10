@@ -81,9 +81,12 @@ const CustomApp = (props) => {
     router.pathname === '/' && router.push(`${process.env.PUBLIC_URL}/getting-started`);
   }, [router]);
 
+  // https://github.com/vercel/next.js/blob/canary/examples/with-react-ga/pages/_app.js
   useEffect(() => {
     ReactGA.initialize(process.env.GA_TRACKING_ID);
-
+    // `routeChangeComplete` won't run for the first page load unless the query string is
+    // hydrated later on, so here we log a page view if this is the first render and
+    // there's no query string
     if (!router.asPath.includes('?')) {
       pageview();
     }
@@ -91,6 +94,7 @@ const CustomApp = (props) => {
   }, []);
 
   useEffect(() => {
+    // Listen for page changes after a navigation or when the query changes
     router.events.on('routeChangeComplete', pageview);
     return () => {
       router.events.off('routeChangeComplete', pageview);
