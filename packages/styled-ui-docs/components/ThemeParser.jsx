@@ -20,7 +20,7 @@ const ThemeParser = ({ theme, mode, ...props }) => {
   const themes = useTheme();
   const indent = !!mode;
   const { colorMode } = useColorMode();
-  const _mode = mode ?? colorMode
+  const _mode = mode ?? colorMode;
   let token = _get(colorPalettes[_mode], theme) || themes[theme];
   if (!token) {
     return 'Theme field not found';

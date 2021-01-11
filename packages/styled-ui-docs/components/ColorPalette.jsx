@@ -88,7 +88,7 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
 export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
   const { palette, type, color, label } = paletteInfo;
   const { colorMode } = useColorMode();
-  const showBoxBorder = color === 'rgba(255, 255, 255, 1.0)' | color === '#151515';
+  const showBoxBorder = (color === 'rgba(255, 255, 255, 1.0)' || color === '#151515');
   const boxProps = {
     width: '80px',
     height: '80px',
