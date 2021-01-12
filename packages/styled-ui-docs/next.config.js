@@ -18,7 +18,7 @@ module.exports = withPlugins([
   {
     env: {
       PUBLIC_URL: process.env.PUBLIC_URL || '',
-      GA_TRACKING_ID: '258401021',
+      GA_TRACKING_ID: 'UA-187145735-1',
     },
     assetPrefix: process.env.ASSET_PREFIX || './',
     distDir: 'build',
