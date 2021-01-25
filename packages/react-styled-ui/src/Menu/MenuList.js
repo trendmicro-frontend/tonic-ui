@@ -89,7 +89,7 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
       aria-labelledby={buttonId}
       onKeyDown={handleKeyDown}
       onBlur={handleBlur}
-      zIndex="1"
+      zIndex="dropdown"
       tabIndex={-1}
       _focus={{ outline: 0 }}
       {...styleProps}
