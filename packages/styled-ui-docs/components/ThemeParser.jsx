@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTheme } from '@trendmicro/react-styled-ui';
-import getColorPalette from '@trendmicro/styled-ui-theme/build/color-palette';
+import _get from 'lodash.get';
+import { useTheme, useColorMode, colorPalettes } from '@trendmicro/react-styled-ui';
 import CodeBlock from './CodeBlock';
 
 const jsonStringify = (obj, indent) => {
@@ -18,9 +18,10 @@ const jsonStringify = (obj, indent) => {
 
 const ThemeParser = ({ theme, mode, ...props }) => {
   const themes = useTheme();
-  const colorPalette = getColorPalette(mode);
   const indent = !!mode;
-  let token = themes[theme] || colorPalette[theme];
+  const { colorMode } = useColorMode();
+  const _mode = mode ?? colorMode;
+  let token = _get(colorPalettes[_mode], theme) || themes[theme];
   if (!token) {
     return 'Theme field not found';
   }
