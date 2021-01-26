@@ -19,8 +19,6 @@ const MenuItem = forwardRef(
     ref,
   ) => {
     const {
-      focusableItems,
-      focusAtIndex,
       closeOnSelect,
       closeMenu,
     } = useMenu();
@@ -43,20 +41,6 @@ const MenuItem = forwardRef(
           if (closeOnSelect) {
             closeMenu();
           }
-        })}
-        onMouseEnter={wrapEvent(onMouseEnter, event => {
-          if (disabled) {
-            event.stopPropagation();
-            event.preventDefault();
-            return;
-          }
-          if (focusableItems && focusableItems.current.length > 0) {
-            let nextIndex = focusableItems.current.indexOf(event.currentTarget);
-            focusAtIndex(nextIndex);
-          }
-        })}
-        onMouseLeave={wrapEvent(onMouseLeave, () => {
-          focusAtIndex(-1);
         })}
         onKeyDown={wrapEvent(onKeyDown, event => {
           if (disabled) {
