@@ -50,6 +50,7 @@ const Tag = forwardRef(
         { children }
         {!!isCloseButtonVisible && (
           <TagCloseButton
+            borderRadius={borderRadius}
             size={size}
             disabled={disabled}
             onClick={onClose}
