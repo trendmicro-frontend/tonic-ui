@@ -1,4 +1,4 @@
-import React, { cloneElement, useRef, Children, Fragment } from 'react';
+import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
@@ -28,17 +28,17 @@ const Tooltip = ({
   closeOnClick,
   defaultIsOpen,
   shouldWrapChildren,
-  isOpen: controlledIsOpen,
+  isOpen: isControlledOpen,
   onOpen: onOpenProp,
   onClose: onCloseProp,
   arrowAt,
   ...rest
 }) => {
   const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
-  const { current: isControlled } = useRef(controlledIsOpen != null);
-  const _isOpen = isControlled ? controlledIsOpen : isOpen;
+  const { current: isControlled } = useRef(isControlledOpen != null);
+  const _isOpen = isControlled ? isControlledOpen : isOpen;
 
-  const referenceRef = useRef();
+  const anchorRef = useRef();
   const enterTimeoutRef = useRef();
   const exitTimeoutRef = useRef();
 
@@ -83,7 +83,6 @@ const Tooltip = ({
   });
 
   const referenceProps = {
-    ref: referenceRef,
     onMouseEnter: wrapEvent(children, 'onMouseEnter', handleOpen),
     onMouseLeave: wrapEvent(children, 'onMouseLeave', handleClose),
     onClick: handleClick,
@@ -92,31 +91,51 @@ const Tooltip = ({
     ...(_isOpen && { 'aria-describedby': tooltipId }),
   };
 
-  let clone;
+  let decoratedChild = null;
 
   if (typeof children === 'string' || shouldWrapChildren) {
-    clone = (
-      <Box as="span" tabIndex="0" {...referenceProps}>
+    decoratedChild = (
+      <Box
+        ref={anchorRef}
+        display="inline-block"
+        tabIndex="0"
+        {...referenceProps}
+      >
         {children}
       </Box>
     );
   } else {
-    clone = cloneElement(Children.only(children), referenceProps);
+    const child = Children.only(children);
+    decoratedChild = cloneElement(child, {
+      ref: (node) => {
+        anchorRef.current = node;
+
+        if (child.ref === null || child.ref === undefined) {
+          return;
+        }
+
+        if (typeof child.ref === 'function') {
+          child.ref(anchorRef.current);
+        } else if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+          child.ref.current = anchorRef.current;
+        }
+      },
+      ...referenceProps,
+    });
   }
 
   const hasAriaLabel = ariaLabel != null;
 
   return (
-    <Fragment>
-      {clone}
-
+    <>
+      {decoratedChild}
       <Popper
         usePortal
         isOpen={_isOpen}
         data-popper-placement={placement}
         placement={placement}
         modifiers={{ offset: [0, 8] }}
-        anchorEl={referenceRef.current}
+        anchorEl={anchorRef.current}
         hideArrow={hideArrow}
         id={hasAriaLabel ? undefined : tooltipId}
         role={hasAriaLabel ? undefined : 'tooltip'}
@@ -133,7 +152,7 @@ const Tooltip = ({
         )}
         {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
       </Popper>
-    </Fragment>
+    </>
   );
 };
 
