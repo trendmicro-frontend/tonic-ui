@@ -35,7 +35,7 @@ const Tooltip = ({
   ...rest
 }) => {
   const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
-  const { current: isControlled } = useRef(isControlledOpen != null);
+  const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;
 
   const anchorRef = useRef();
