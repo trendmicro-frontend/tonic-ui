@@ -46,6 +46,75 @@ If the children of Tooltip are focusable elements, Tooltip will show when you fo
 </Tooltip>
 ```
 
+### Tooltip with `Menu`
+
+```jsx
+function Example() {
+  const { colorMode } = useColorMode();
+  const inputRef = React.useRef();
+  const [menuItem, setMenuItem] = React.useState('hostname');
+  const handleMenuClick = (event) => {
+    // [optional] persist `Synthetic Event` for React v16 and earlier versions
+    event.persist();
+
+    const { value } = event.target.attributes.value;
+    setMenuItem(value);
+
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 0);
+  };
+
+  return (
+    <InputGroup>
+      <InputGroupPrepend>
+        <Menu>
+          <MenuButton>
+            <Box
+              color={colorMode === 'dark' ? 'white:secondary' : 'black:secondary'}
+              mr="2x"
+            >
+              Search by:
+            </Box>
+            {{
+              'hostname': 'Endpoint name',
+              'filename': 'File name',
+            }[menuItem]}
+          </MenuButton>
+          <MenuList
+            onClick={handleMenuClick}
+          >
+            <MenuItem value="hostname">Endpoint name</MenuItem>
+            <MenuItem value="filename">File name</MenuItem>
+          </MenuList>
+        </Menu>
+      </InputGroupPrepend>
+      <Tooltip
+        backgroundColor="gray:80"
+        color="gray:20"
+        px="2x"
+        py="3x"
+        arrowAt="left"
+        placement="bottom-start"
+        label="Use commas to separate multiple keywords"
+      >
+        <Input
+          ref={inputRef}
+          borderTopLeftRadius={0}
+          borderBottomLeftRadius={0}
+          placeholder={{
+            'hostname': 'John Doe, Jane',
+            'filename': 'README.md, *.cmd',
+          }[menuItem]}
+        />
+      </Tooltip>
+    </InputGroup>
+  );
+}
+```
+
 ## Placement
 
 Using the `placement` prop you can adjust where your tooltip will be displayed.
