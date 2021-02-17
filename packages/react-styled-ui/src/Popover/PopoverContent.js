@@ -16,7 +16,7 @@ const PopoverContent = ({
 }) => {
   const {
     popoverRef,
-    referenceRef,
+    anchorRef,
     placement,
     popoverId,
     isOpen,
@@ -63,10 +63,10 @@ const PopoverContent = ({
     return getOffset(element.offsetParent, relativeTop) + (relativeTop ? element.offsetTop : element.offsetLeft);
   };
 
-  if ((nextToCursor || followCursor) && referenceRef.current) {
-    const { offsetHeight } = referenceRef.current;
-    const offsetLeft = getOffset(referenceRef.current);
-    const offsetTop = getOffset(referenceRef.current, true);
+  if ((nextToCursor || followCursor) && anchorRef.current) {
+    const { offsetHeight } = anchorRef.current;
+    const offsetLeft = getOffset(anchorRef.current);
+    const offsetTop = getOffset(anchorRef.current, true);
     _skidding = mousePageX - offsetLeft + 8; // 8px is a estimated value of cursor
     _distance = -8 + (mousePageY - offsetTop - offsetHeight) + 24; // 24px is a estimated value of cursor
   }
@@ -103,7 +103,7 @@ const PopoverContent = ({
       isOpen={isOpen}
       placement={placement}
       aria-label={ariaLabel}
-      anchorEl={referenceRef.current}
+      anchorEl={anchorRef.current}
       ref={popoverRef}
       id={popoverId}
       aria-hidden={!isOpen}

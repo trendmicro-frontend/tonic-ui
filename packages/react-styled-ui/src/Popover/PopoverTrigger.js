@@ -4,7 +4,7 @@ import { usePopover } from './context';
 
 const PopoverTrigger = ({ children }) => {
   const {
-    referenceRef,
+    anchorRef,
     popoverId,
     onToggle,
     trigger,
@@ -73,7 +73,7 @@ const PopoverTrigger = ({ children }) => {
     'aria-haspopup': 'dialog',
     'aria-expanded': isOpen,
     'aria-controls': popoverId,
-    ref: referenceRef,
+    ref: anchorRef,
     role: 'button',
     tabIndex: '0',
     outline: '0',
