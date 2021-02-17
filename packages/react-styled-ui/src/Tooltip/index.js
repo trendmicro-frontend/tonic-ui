@@ -1,21 +1,11 @@
 import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
-import useDisclosure from '../useDisclosure';
-import { useId } from '../utils/autoId';
 import Popper, { PopperArrow } from '../Popper';
 import VisuallyHidden from '../VisuallyHidden';
+import useDisclosure from '../useDisclosure';
+import { useId } from '../utils/autoId';
+import wrapEvent from '../utils/wrapEvent';
 import useTooltipStyle from './styles';
-
-const wrapEvent = (child, theirHandler, ourHandler) => event => {
-  if (typeof child !== 'string' && child.props[theirHandler]) {
-    child.props[theirHandler](event);
-  }
-
-  if (!event.defaultPrevented) {
-    return ourHandler(event);
-  }
-  return '';
-};
 
 const Tooltip = ({
   label,
@@ -73,23 +63,15 @@ const Tooltip = ({
     }
   };
 
-  const tooltipStyleProps = useTooltipStyle();
-  const arrowSize = '6px';
-
-  const handleClick = wrapEvent(children, 'onClick', () => {
+  const handleClick = () => {
     if (closeOnClick) {
       closeWithDelay();
     }
-  });
-
-  const referenceProps = {
-    onMouseEnter: wrapEvent(children, 'onMouseEnter', handleOpen),
-    onMouseLeave: wrapEvent(children, 'onMouseLeave', handleClose),
-    onClick: handleClick,
-    onFocus: wrapEvent(children, 'onFocus', handleOpen),
-    onBlur: wrapEvent(children, 'onBlur', handleClose),
-    ...(_isOpen && { 'aria-describedby': tooltipId }),
   };
+
+  const arrowSize = '6px';
+  const hasAriaLabel = ariaLabel != null;
+  const tooltipStyleProps = useTooltipStyle();
 
   let decoratedChild = null;
 
@@ -97,9 +79,14 @@ const Tooltip = ({
     decoratedChild = (
       <Box
         ref={anchorRef}
+        aria-describedby={_isOpen ? tooltipId : undefined}
         display="inline-block"
         tabIndex="0"
-        {...referenceProps}
+        onMouseEnter={handleOpen}
+        onMouseLeave={handleClose}
+        onClick={handleClick}
+        onFocus={handleOpen}
+        onBlur={handleClose}
       >
         {children}
       </Box>
@@ -124,11 +111,14 @@ const Tooltip = ({
           return;
         }
       },
-      ...referenceProps,
+      'aria-describedby': _isOpen ? tooltipId : undefined,
+      onMouseEnter: wrapEvent(child.props.onMouseEnter, handleOpen),
+      onMouseLeave: wrapEvent(child.props.onMouseLeave, handleClose),
+      onClick: wrapEvent(child.props.onClick, handleClick),
+      onFocus: wrapEvent(child.props.onFocus, handleOpen),
+      onBlur: wrapEvent(child.props.onBlur, handleClose),
     });
   }
-
-  const hasAriaLabel = ariaLabel != null;
 
   return (
     <>
