@@ -110,14 +110,18 @@ const Tooltip = ({
       ref: (node) => {
         anchorRef.current = node;
 
-        if (child.ref === null || child.ref === undefined) {
+        if (child.ref === undefined || child.ref === null) {
           return;
         }
 
         if (typeof child.ref === 'function') {
           child.ref(anchorRef.current);
-        } else if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+          return;
+        }
+
+        if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
           child.ref.current = anchorRef.current;
+          return;
         }
       },
       ...referenceProps,
