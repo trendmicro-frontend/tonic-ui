@@ -20,12 +20,21 @@ const PopoverTrigger = ({ children }) => {
   const openTimeout = useRef(null);
   const [enableMouseMove, setEnableMouseMove] = useState(true);
   const child = Children.only(children);
+  const {
+    onBlur: _onBlur,
+    onClick: _onClick,
+    onFocus: _onFocus,
+    onKeyDown: _onKeyDown,
+    onMouseEnter: _onMouseEnter,
+    onMouseLeave: _onMouseLeave,
+    onMouseMove: _onMouseMove,
+  } = { ...child?.props };
   let eventHandlers = {};
 
   if (trigger === 'click') {
     eventHandlers = {
-      onClick: wrapEvent(child.props.onClick, onToggle),
-      onKeyDown: wrapEvent(child.props.onKeyDown, event => {
+      onClick: wrapEvent(_onClick, onToggle),
+      onKeyDown: wrapEvent(_onKeyDown, event => {
         if (event.key === 'Enter') {
           setTimeout(onOpen, delay.show);
         }
@@ -35,24 +44,24 @@ const PopoverTrigger = ({ children }) => {
 
   if (trigger === 'hover') {
     eventHandlers = {
-      onFocus: wrapEvent(child.props.onFocus, onOpen),
-      onKeyDown: wrapEvent(child.props.onKeyDown, event => {
+      onFocus: wrapEvent(_onFocus, onOpen),
+      onKeyDown: wrapEvent(_onKeyDown, event => {
         if (event.key === 'Escape') {
           setTimeout(onClose, delay.hide);
         }
       }),
-      onBlur: wrapEvent(child.props.onBlur, onClose),
-      onMouseMove: wrapEvent(child.props.onMouseMove, (event) => {
+      onBlur: wrapEvent(_onBlur, onClose),
+      onMouseMove: wrapEvent(_onMouseMove, (event) => {
         (enableMouseMove || followCursor) && setMouseCoordinate(event);
       }),
-      onMouseEnter: wrapEvent(child.props.onMouseEnter, () => {
+      onMouseEnter: wrapEvent(_onMouseEnter, () => {
         isHoveringRef.current = true;
         openTimeout.current = setTimeout(() => {
           setEnableMouseMove(followCursor);
           onOpen();
         }, delay.show || ((nextToCursor || followCursor) && 500));
       }),
-      onMouseLeave: wrapEvent(child.props.onMouseLeave, () => {
+      onMouseLeave: wrapEvent(_onMouseLeave, () => {
         isHoveringRef.current = false;
         setEnableMouseMove(true);
         if (openTimeout.current) {
