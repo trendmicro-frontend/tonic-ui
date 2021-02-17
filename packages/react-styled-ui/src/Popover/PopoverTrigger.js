@@ -17,6 +17,7 @@ const PopoverTrigger = ({ children }) => {
     nextToCursor,
     followCursor
   } = usePopover();
+  const openTimeout = useRef(null);
   const [enableMouseMove, setEnableMouseMove] = useState(true);
   const child = Children.only(children);
   let eventHandlers = {};
@@ -31,8 +32,6 @@ const PopoverTrigger = ({ children }) => {
       }),
     };
   }
-
-  const openTimeout = useRef(null);
 
   if (trigger === 'hover') {
     eventHandlers = {
