@@ -1,21 +1,11 @@
-import React, { cloneElement, useRef, Children, Fragment } from 'react';
+import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
-import useDisclosure from '../useDisclosure';
-import { useId } from '../utils/autoId';
 import Popper, { PopperArrow } from '../Popper';
 import VisuallyHidden from '../VisuallyHidden';
+import useDisclosure from '../useDisclosure';
+import { useId } from '../utils/autoId';
+import wrapEvent from '../utils/wrapEvent';
 import useTooltipStyle from './styles';
-
-const wrapEvent = (child, theirHandler, ourHandler) => event => {
-  if (typeof child !== 'string' && child.props[theirHandler]) {
-    child.props[theirHandler](event);
-  }
-
-  if (!event.defaultPrevented) {
-    return ourHandler(event);
-  }
-  return '';
-};
 
 const Tooltip = ({
   label,
@@ -28,17 +18,17 @@ const Tooltip = ({
   closeOnClick,
   defaultIsOpen,
   shouldWrapChildren,
-  isOpen: controlledIsOpen,
+  isOpen: isControlledOpen,
   onOpen: onOpenProp,
   onClose: onCloseProp,
   arrowAt,
   ...rest
 }) => {
   const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
-  const { current: isControlled } = useRef(controlledIsOpen != null);
-  const _isOpen = isControlled ? controlledIsOpen : isOpen;
+  const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
+  const _isOpen = isControlled ? isControlledOpen : isOpen;
 
-  const referenceRef = useRef();
+  const anchorRef = useRef();
   const enterTimeoutRef = useRef();
   const exitTimeoutRef = useRef();
 
@@ -73,50 +63,73 @@ const Tooltip = ({
     }
   };
 
-  const tooltipStyleProps = useTooltipStyle();
-  const arrowSize = '6px';
-
-  const handleClick = wrapEvent(children, 'onClick', () => {
+  const handleClick = () => {
     if (closeOnClick) {
       closeWithDelay();
     }
-  });
-
-  const referenceProps = {
-    ref: referenceRef,
-    onMouseEnter: wrapEvent(children, 'onMouseEnter', handleOpen),
-    onMouseLeave: wrapEvent(children, 'onMouseLeave', handleClose),
-    onClick: handleClick,
-    onFocus: wrapEvent(children, 'onFocus', handleOpen),
-    onBlur: wrapEvent(children, 'onBlur', handleClose),
-    ...(_isOpen && { 'aria-describedby': tooltipId }),
   };
 
-  let clone;
+  const arrowSize = '6px';
+  const hasAriaLabel = ariaLabel != null;
+  const tooltipStyleProps = useTooltipStyle();
+
+  let decoratedChild = null;
 
   if (typeof children === 'string' || shouldWrapChildren) {
-    clone = (
-      <Box as="span" tabIndex="0" {...referenceProps}>
+    decoratedChild = (
+      <Box
+        ref={anchorRef}
+        aria-describedby={_isOpen ? tooltipId : undefined}
+        display="inline-block"
+        tabIndex="0"
+        onMouseEnter={handleOpen}
+        onMouseLeave={handleClose}
+        onClick={handleClick}
+        onFocus={handleOpen}
+        onBlur={handleClose}
+      >
         {children}
       </Box>
     );
   } else {
-    clone = cloneElement(Children.only(children), referenceProps);
+    const child = Children.only(children);
+    decoratedChild = cloneElement(child, {
+      ref: (node) => {
+        anchorRef.current = node;
+
+        if (child.ref === undefined || child.ref === null) {
+          return;
+        }
+
+        if (typeof child.ref === 'function') {
+          child.ref(anchorRef.current);
+          return;
+        }
+
+        if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+          child.ref.current = anchorRef.current;
+          return;
+        }
+      },
+      'aria-describedby': _isOpen ? tooltipId : undefined,
+      onMouseEnter: wrapEvent(child.props.onMouseEnter, handleOpen),
+      onMouseLeave: wrapEvent(child.props.onMouseLeave, handleClose),
+      onClick: wrapEvent(child.props.onClick, handleClick),
+      onFocus: wrapEvent(child.props.onFocus, handleOpen),
+      onBlur: wrapEvent(child.props.onBlur, handleClose),
+    });
   }
 
-  const hasAriaLabel = ariaLabel != null;
-
   return (
-    <Fragment>
-      {clone}
-
+    <>
+      {decoratedChild}
       <Popper
         usePortal
         isOpen={_isOpen}
         data-popper-placement={placement}
         placement={placement}
         modifiers={{ offset: [0, 8] }}
-        anchorEl={referenceRef.current}
+        anchorEl={anchorRef.current}
         hideArrow={hideArrow}
         id={hasAriaLabel ? undefined : tooltipId}
         role={hasAriaLabel ? undefined : 'tooltip'}
@@ -133,7 +146,7 @@ const Tooltip = ({
         )}
         {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
       </Popper>
-    </Fragment>
+    </>
   );
 };
 
