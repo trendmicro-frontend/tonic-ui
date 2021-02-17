@@ -70,10 +70,26 @@ const PopoverTrigger = ({ children }) => {
   }
 
   return cloneElement(child, {
+    ref: (node) => {
+      anchorRef.current = node;
+
+      if (child.ref === undefined || child.ref === null) {
+        return;
+      }
+
+      if (typeof child.ref === 'function') {
+        child.ref(anchorRef.current);
+        return;
+      }
+
+      if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+        child.ref.current = anchorRef.current;
+        return;
+      }
+    },
     'aria-haspopup': 'dialog',
     'aria-expanded': isOpen,
     'aria-controls': popoverId,
-    ref: anchorRef,
     role: 'button',
     tabIndex: '0',
     outline: '0',
