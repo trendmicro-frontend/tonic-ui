@@ -86,7 +86,11 @@ const PopoverTrigger = ({
   }
 
   const child = Children.only(children);
+
   for (const eventName in eventHandlerProps) {
+    if (!Object.prototype.hasOwnProperty.call(eventHandlerProps, eventName)) {
+      continue;
+    }
     const eventHandler = eventHandlerProps[eventName];
     const wrappedEventHandler = wrapEvent(child.props[eventName], eventHandler);
     eventHandlerProps[eventName] = wrappedEventHandler;
