@@ -1,8 +1,12 @@
 import { Children, cloneElement, useRef, useState } from 'react';
+import Box from '../Box';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 
-const PopoverTrigger = ({ children }) => {
+const PopoverTrigger = ({
+  children,
+  shouldWrapChildren,
+}) => {
   const {
     anchorRef,
     popoverId,
@@ -19,62 +23,73 @@ const PopoverTrigger = ({ children }) => {
   } = usePopover();
   const openTimeout = useRef(null);
   const [enableMouseMove, setEnableMouseMove] = useState(true);
-  const child = Children.only(children);
-  const {
-    onBlur: _onBlur,
-    onClick: _onClick,
-    onFocus: _onFocus,
-    onKeyDown: _onKeyDown,
-    onMouseEnter: _onMouseEnter,
-    onMouseLeave: _onMouseLeave,
-    onMouseMove: _onMouseMove,
-  } = { ...child?.props };
-  let eventHandlers = {};
+  const eventHandlerProps = {};
 
   if (trigger === 'click') {
-    eventHandlers = {
-      onClick: wrapEvent(_onClick, onToggle),
-      onKeyDown: wrapEvent(_onKeyDown, event => {
-        if (event.key === 'Enter') {
-          setTimeout(onOpen, delay.show);
-        }
-      }),
+    eventHandlerProps.onClick = onToggle;
+    eventHandlerProps.onKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        setTimeout(onOpen, delay.show);
+      }
     };
   }
 
   if (trigger === 'hover') {
-    eventHandlers = {
-      onFocus: wrapEvent(_onFocus, onOpen),
-      onKeyDown: wrapEvent(_onKeyDown, event => {
-        if (event.key === 'Escape') {
-          setTimeout(onClose, delay.hide);
-        }
-      }),
-      onBlur: wrapEvent(_onBlur, onClose),
-      onMouseMove: wrapEvent(_onMouseMove, (event) => {
-        (enableMouseMove || followCursor) && setMouseCoordinate(event);
-      }),
-      onMouseEnter: wrapEvent(_onMouseEnter, () => {
-        isHoveringRef.current = true;
-        openTimeout.current = setTimeout(() => {
-          setEnableMouseMove(followCursor);
-          onOpen();
-        }, delay.show || ((nextToCursor || followCursor) && 500));
-      }),
-      onMouseLeave: wrapEvent(_onMouseLeave, () => {
-        isHoveringRef.current = false;
-        setEnableMouseMove(true);
-        if (openTimeout.current) {
-          clearTimeout(openTimeout.current);
-          openTimeout.current = null;
-        }
-        setTimeout(() => {
-          if (isHoveringRef.current === false) {
-            onClose();
-          }
-        }, delay.hide || 100); // keep opening popover when cursor quick move from trigger element to popover.
-      }),
+    eventHandlerProps.onFocus = onOpen;
+    eventHandlerProps.onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setTimeout(onClose, delay.hide);
+      }
     };
+    eventHandlerProps.onBlur = onClose;
+    eventHandlerProps.onMouseEnter = (event) => {
+      isHoveringRef.current = true;
+      openTimeout.current = setTimeout(() => {
+        setEnableMouseMove(followCursor);
+        onOpen();
+      }, delay.show || ((nextToCursor || followCursor) && 500));
+    };
+    eventHandlerProps.onMouseLeave = (event) => {
+      isHoveringRef.current = false;
+      setEnableMouseMove(true);
+      if (openTimeout.current) {
+        clearTimeout(openTimeout.current);
+        openTimeout.current = null;
+      }
+      setTimeout(() => {
+        if (isHoveringRef.current === false) {
+          onClose();
+        }
+      }, delay.hide || 100); // keep opening popover when cursor quick move from trigger element to popover.
+    };
+    eventHandlerProps.onMouseMove = (event) => {
+      (enableMouseMove || followCursor) && setMouseCoordinate(event);
+    };
+  }
+
+  if (typeof children === 'string' || shouldWrapChildren) {
+    return (
+      <Box
+        ref={anchorRef}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        aria-controls={popoverId}
+        display="inline-block"
+        role="button"
+        tabIndex="0"
+        outline="0"
+        {...eventHandlerProps}
+      >
+        {children}
+      </Box>
+    );
+  }
+
+  const child = Children.only(children);
+  for (const eventName in eventHandlerProps) {
+    const eventHandler = eventHandlerProps[eventName];
+    const wrappedEventHandler = wrapEvent(child.props[eventName], eventHandler);
+    eventHandlerProps[eventName] = wrappedEventHandler;
   }
 
   return cloneElement(child, {
@@ -101,7 +116,7 @@ const PopoverTrigger = ({ children }) => {
     role: 'button',
     tabIndex: '0',
     outline: '0',
-    ...eventHandlers,
+    ...eventHandlerProps,
   });
 };
 
