@@ -1302,15 +1302,34 @@ render(<BaseTable />);
 | size | string | 'md' | The size of TableCells. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'default' | The variant of the table style to use. One of: `'default'`, `'outline'` |
 
-### TableHeaderCell / TableCell
+### TableHeader
 
-`TableHeaderCell` and `TableCell` composes the [`Box`](./box) component.
+`TableHeader` composes the [`Box`](./box) component.
+
+### TableHeaderRow
+
+`TableHeaderRow` composes the [`PseudoBox`](./pseudobox) component.
+
+### TableHeaderCell
+
+`TableHeaderCell` composes the [`Box`](./box) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| width | string \| number | 150 | The width of the column. |
+| width | string | number | 150 | The width of the column. |
 
+### TableBody
 
-### Other Props
-- `TableRow` and `TableHeaderRow` composes the [`PseudoBox`](./pseudobox) component.
-- `TableHeader` and `TableBody` composes the [`Box`](./box) component.
+`TableBody` composes the [`Box`](./box) component.
+
+###  TableRow
+
+`TableRow` composes the [`PseudoBox`](./pseudobox) component.
+
+###  TableCell
+
+`TableCell` composes the [`Box`](./box) component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| width | string | number | 150 | The width of the column. |
