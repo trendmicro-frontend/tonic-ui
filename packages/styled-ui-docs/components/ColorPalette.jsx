@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Stack, useTheme, useColorMode, colorStyle } from '@trendmicro/react-styled-ui';
+import { Box, Flex, Grid, Stack, useTheme, useColorMode, useColorStyle } from '@trendmicro/react-styled-ui';
 import _get from 'lodash/get';
 import React from 'react';
 
@@ -85,7 +85,7 @@ export const FunctionalColorWrapper = ({ mode, ...props }) => {
   );
 };
 
-export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
+export const FunctionalColorPalette = ({ paletteInfo, ...props }) => {
   const { palette, type, color, label } = paletteInfo;
   const { colorMode } = useColorMode();
   const showBoxBorder = (color === 'rgba(255, 255, 255, 1.0)' || color === '#151515');
@@ -96,7 +96,7 @@ export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
     borderColor: {
       dark: 'gray:70',
       light: 'gray:30'
-    }[mode ?? colorMode],
+    }[colorMode],
   };
   const titleProps = {
     fontSize: 'sm',
@@ -104,7 +104,7 @@ export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
     color: {
       dark: 'white:primary',
       light: 'black:primary'
-    }[mode ?? colorMode]
+    }[colorMode]
   };
 
   const infoProps = {
@@ -113,7 +113,7 @@ export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
     color: {
       dark: 'white:secondary',
       light: 'black:secondary'
-    }[mode ?? colorMode],
+    }[colorMode],
   };
 
   const showHue = typeof label === 'string' && !label.includes('black') && !label.includes('white');
@@ -135,11 +135,11 @@ export const FunctionalColorPalette = ({ mode, paletteInfo, ...props }) => {
   );
 };
 
-export const FunctionalColorPalettes = ({ mode, palette, ...props }) => {
+export const FunctionalColorPalettes = ({ palette, ...props }) => {
   const theme = useTheme();
-  const { colorMode } = useColorMode();
-  const _mode = mode ?? colorMode;
-  const palettes = _get(colorStyle[_mode], palette);
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const palettes = _get(colorStyle, palette);
   const getColor = (type) => _get(theme, `colors.${type}`, type);
   const palettesInfo = Object.keys(palettes).map(type => {
     const token = getColor(palettes[type]) === palettes[type] ? null : palettes[type];
@@ -159,12 +159,11 @@ export const FunctionalColorPalettes = ({ mode, palette, ...props }) => {
     return { palette, type, token, color, label };
   });
   return (
-    <FunctionalColorWrapper mode={_mode}>
+    <FunctionalColorWrapper>
       {
         palettesInfo.map(colorPalette => (
           <FunctionalColorPalette
             key={`${colorPalette.palette}-${colorPalette.type}-${colorPalette.color}`}
-            mode={_mode}
             paletteInfo={colorPalette}
           />
         ))

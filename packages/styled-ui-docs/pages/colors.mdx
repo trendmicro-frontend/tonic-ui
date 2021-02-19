@@ -1,9 +1,13 @@
 import {
+  LightMode,
+  DarkMode,
+} from '@trendmicro/react-styled-ui';
+import {
   ColorPalettes,
   ColorWrapper,
   FunctionalColorPalettes,
-} from "../components/ColorPalette";
-import ThemeParser from "../components/ThemeParser";
+} from '../components/ColorPalette';
+import ThemeParser from '../components/ThemeParser';
 
 # Colors
 
@@ -33,32 +37,52 @@ The color palette  is defined for both Light Theme and Dark Theme where `10` - `
 <ThemeParser mode="light" theme="background" />
 <ThemeParser mode="dark" theme="background" />
 
-<FunctionalColorPalettes mode="light" palette="background" />
-<FunctionalColorPalettes mode="dark" palette="background" />
+<LightMode>
+  <FunctionalColorPalettes palette="background" />
+</LightMode>
+
+<DarkMode>
+  <FunctionalColorPalettes palette="background" />
+</DarkMode>
 
 ### Text color
 
 <ThemeParser mode="light" theme="text" />
 <ThemeParser mode="dark" theme="text" />
 
-<FunctionalColorPalettes mode="light" palette="text" />
-<FunctionalColorPalettes mode="dark" palette="text" />
+<LightMode>
+  <FunctionalColorPalettes palette="text" />
+</LightMode>
+
+<DarkMode>
+  <FunctionalColorPalettes palette="text" />
+</DarkMode>
 
 ### Severity color
 
 <ThemeParser mode="light" theme="severity" />
 <ThemeParser mode="dark" theme="severity" />
 
-<FunctionalColorPalettes mode="light" palette="severity" />
-<FunctionalColorPalettes mode="dark" palette="severity" />
+<LightMode>
+  <FunctionalColorPalettes palette="severity" />
+</LightMode>
+
+<DarkMode>
+  <FunctionalColorPalettes palette="severity" />
+</DarkMode>
 
 ### Chart color
 
 <ThemeParser mode="light" theme="chart" />
 <ThemeParser mode="dark" theme="chart" />
 
-<FunctionalColorPalettes mode="light" palette="chart.classic" />
-<FunctionalColorPalettes mode="dark" palette="chart.classic" />
+<LightMode>
+  <FunctionalColorPalettes palette="chart.classic" />
+</LightMode>
+
+<DarkMode>
+  <FunctionalColorPalettes palette="chart.classic" />
+</DarkMode>
 
 ### Gradient color
 
