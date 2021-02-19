@@ -41,7 +41,7 @@ const Popover = ({
 
   const isHoveringRef = useRef();
 
-  const referenceRef = useRef();
+  const anchorRef = useRef();
   const popoverRef = useRef();
 
   const _isOpen = isControlled ? isOpenProp : isOpen;
@@ -80,9 +80,9 @@ const Popover = ({
       _isOpen &&
       closeOnBlur &&
       popoverRef.current &&
-      referenceRef.current &&
+      anchorRef.current &&
       !popoverRef.current.contains(event.relatedTarget) &&
-      !referenceRef.current.contains(event.relatedTarget)
+      !anchorRef.current.contains(event.relatedTarget)
     ) {
       onClose();
     }
@@ -113,8 +113,8 @@ const Popover = ({
     }
 
     if (!_isOpen && prevIsOpen && trigger === 'click' && returnFocusOnClose) {
-      if (referenceRef.current) {
-        referenceRef.current.focus();
+      if (anchorRef.current) {
+        anchorRef.current.focus();
       }
     }
   }, [
@@ -122,14 +122,14 @@ const Popover = ({
     popoverRef,
     initialFocusRef,
     trigger,
-    referenceRef,
+    anchorRef,
     prevIsOpen,
     returnFocusOnClose,
   ]);
 
   /**
    * popoverRef: use the ref in the popover itself in PopoverContent
-   * referenceRef: use the ref in the popover trigger element
+   * anchorRef: use the ref in the popover trigger element
    * placement: the directions of popover in PopoverContent
    * initialFocusRef: the ref of the element that should receive focus when the popover opens
    * isHoveringRef: use the ref to control the status of the trigger element or popover when the trigger event is 'hover'
@@ -140,7 +140,7 @@ const Popover = ({
 
   const context = {
     popoverRef,
-    referenceRef,
+    anchorRef,
     headerId,
     bodyId,
     popoverId,
