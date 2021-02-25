@@ -1,7 +1,7 @@
 import { ensureFiniteNumber } from 'ensure-type';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { matchers, createSerializer } from '@emotion/jest'
+import { matchers, createSerializer } from '@emotion/jest';
 import Box from '../../src/Box';
 
 expect.extend(matchers);
