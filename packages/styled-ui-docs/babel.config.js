@@ -13,4 +13,7 @@ module.exports = {
     }],
     '@emotion/babel-preset-css-prop',
   ],
+  plugins: [
+    '@babel/plugin-transform-runtime',
+  ],
 };
