@@ -106,16 +106,16 @@ const SideNav = React.forwardRef((props, ref) => {
       {...props}
     >
       <Box>
-        <NavLink href="./getting-started">
+        <NavLink href="getting-started">
           Getting Started
         </NavLink>
-        <NavLink href="./color-modes">
+        <NavLink href="color-modes">
           Color Modes
         </NavLink>
-        <NavLink href="./color-styles">
+        <NavLink href="color-styles">
           Color Styles
         </NavLink>
-        <NavLink href="./contributing">
+        <NavLink href="contributing">
           Contributing
         </NavLink>
       </Box>
@@ -130,7 +130,7 @@ const SideNav = React.forwardRef((props, ref) => {
           THEME
         </Text>
         {themeLinks.map(link => {
-          const url = `./${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -150,7 +150,7 @@ const SideNav = React.forwardRef((props, ref) => {
           BUILDING BLOCKS
         </Text>
         {buildingBlockLinks.map(link => {
-          const url = `./${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -170,7 +170,7 @@ const SideNav = React.forwardRef((props, ref) => {
           COMPONENTS
         </Text>
         {componentLinks.map(link => {
-          const url = `./${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -190,7 +190,7 @@ const SideNav = React.forwardRef((props, ref) => {
           UTILITIES
         </Text>
         {utilityLinks.map(link => {
-          const url = `./${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
