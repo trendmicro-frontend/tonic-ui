@@ -2,6 +2,8 @@ build
 node_modules
 lerna-debug.log*
 npm-debug.log*
+package-lock.json
+yarn.lock
 yarn-debug.log*
 yarn-error.log*
 .DS_Store

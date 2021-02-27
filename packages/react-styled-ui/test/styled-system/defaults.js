@@ -1,11 +1,11 @@
 import { ensureFiniteNumber } from 'ensure-type';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import serializer, { matchers } from 'jest-emotion';
+import { matchers, createSerializer } from '@emotion/jest';
 import Box from '../../src/Box';
 
 expect.extend(matchers);
-expect.addSnapshotSerializer(serializer);
+expect.addSnapshotSerializer(createSerializer());
 
 const render = el => renderer.create(el).toJSON();
 const toPixel = (x) => {
