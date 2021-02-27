@@ -108,16 +108,16 @@ const SideNav = React.forwardRef((props, ref) => {
       {...props}
     >
       <Box>
-        <NavLink href="getting-started">
+        <NavLink href={`${publicUrl}/getting-started`}>
           Getting Started
         </NavLink>
-        <NavLink href="color-modes">
+        <NavLink href={`${publicUrl}/color-modes`}>
           Color Modes
         </NavLink>
-        <NavLink href="color-styles">
+        <NavLink href={`${publicUrl}/color-styles`}>
           Color Styles
         </NavLink>
-        <NavLink href="contributing">
+        <NavLink href={`${publicUrl}/contributing`}>
           Contributing
         </NavLink>
       </Box>
