@@ -2,13 +2,14 @@ const path = require('path');
 
 module.exports = {
   extends: 'trendmicro',
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   env: {
     browser: true,
     node: true,
     jest: true,
   },
   plugins: [
+    '@babel',
     'react-hooks',
   ],
   rules: {
