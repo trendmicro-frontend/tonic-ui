@@ -2,7 +2,6 @@ import { Box, Flex, Stack, useTheme } from '@trendmicro/react-styled-ui';
 import {
   ensureString,
 } from 'ensure-type';
-import _get from 'lodash/get';
 import React from 'react';
 
 const ColorPalette = ({ hue }) => {
