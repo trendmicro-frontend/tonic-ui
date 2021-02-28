@@ -1,71 +1,108 @@
-import { Box, Grid, useTheme, useColorMode, useColorStyle } from '@trendmicro/react-styled-ui';
-import { ensurePlainObject } from 'ensure-type';
+import {
+  Box,
+  Grid,
+  Space,
+  Tag,
+  Text,
+  useTheme,
+  useColorMode,
+  useColorStyle } from '@trendmicro/react-styled-ui';
+import { ensurePlainObject, ensureString } from 'ensure-type';
 import _get from 'lodash/get';
+import _has from 'lodash/has';
 import React from 'react';
+import { yiq } from 'yiq';
+
+const isValidHex = (hex) => {
+  return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(hex);
+};
 
 const ColorStyleBlock = ({
   colorType,
   colorKey,
   colorValue,
-  label,
+  colorToken,
   ...props
 }) => {
   const { colorMode } = useColorMode();
-  const showBoxBorder = (colorValue === 'rgba(255, 255, 255, 1.0)' || colorValue === '#151515');
-  const boxProps = {
-    width: '80px',
-    height: '80px',
-    border: showBoxBorder ? 1 : 0,
-    borderColor: {
-      dark: 'gray:70',
-      light: 'gray:30'
-    }[colorMode],
-  };
-  const titleProps = {
-    fontSize: 'sm',
-    mt: '2x',
-    color: {
-      dark: 'white:primary',
-      light: 'black:primary'
-    }[colorMode]
-  };
-  const infoProps = {
-    fontSize: 'xs',
-    lineHeight: 'sm',
-    color: {
-      dark: 'white:secondary',
-      light: 'black:secondary'
-    }[colorMode],
-  };
+  const [colorStyle] = useColorStyle({ colorMode });
+  const primaryTextColor = colorStyle.text.primary;
+  const secondaryTextColor = colorStyle.text.secondary;
 
-  const showHue = typeof label === 'string' && !label.includes('black') && !label.includes('white');
-  let colorInfo;
+  const blockProps = {};
 
-  if (showHue) {
-    colorInfo = <Box {...infoProps}>{label} {colorValue}</Box>;
+  if (isValidHex(colorValue)) {
+    blockProps.color = yiq(colorValue, {
+      colors: {
+        dark: 'black:secondary',
+        light: 'white:secondary',
+      },
+      threshold: 128,
+    });
+  } else if (ensureString(colorToken).startsWith('white:')) {
+    blockProps.color = 'black:secondary';
+  } else if (ensureString(colorToken).startsWith('black:')) {
+    blockProps.color = 'white:secondary';
   } else {
-    colorInfo = <Box {...infoProps}>{colorValue}</Box>;
+    blockProps.color = secondaryTextColor;
   }
 
   if (colorType === 'shadow') {
-    boxProps.boxShadow = colorValue;
-    boxProps.width = '240px';
-    boxProps.height = '160px';
+    blockProps.boxShadow = colorValue;
   } else {
-    boxProps.backgroundColor = colorValue;
+    blockProps.backgroundColor = colorValue;
   }
 
   return (
     <Box>
-      <Box {...boxProps} />
-      <Box {...titleProps}>{colorKey}</Box>
-      {colorInfo}
+      <Box
+        mb="2x"
+      >
+        <Text
+          color={primaryTextColor}
+          fontSize="md"
+          lineHeight="md"
+        >
+          {colorKey}
+        </Text>
+      </Box>
+      <Box
+        width="auto"
+        height="120px"
+        mb="3x"
+        {...blockProps}
+      >
+        <Text
+          fontFamily="mono"
+          fontWeight="semibold"
+          fontSize="sm"
+          lineHeight="sm"
+          m="2x"
+        >
+          {colorValue}
+        </Text>
+      </Box>
+      {colorToken && (
+        <Box>
+          <Tag
+            variant="outline"
+            color={secondaryTextColor}
+            fontFamily="mono"
+            fontSize="sm"
+            lineHeight="sm"
+            mb="2x"
+          >
+            {colorToken}
+          </Tag>
+          <Space width="3x" />
+        </Box>
+      )}
     </Box>
   );
 };
 
 const ColorStyleBlocks = ({
-  type: colorType,
+  colorType,
   ...props
 }) => {
   const theme = useTheme();
@@ -73,13 +110,29 @@ const ColorStyleBlocks = ({
   const [colorStyle] = useColorStyle({ colorMode });
   const colorStyleBlocks = Object.keys(ensurePlainObject(_get(colorStyle, colorType)))
     .map(colorKey => {
-      const originalColorValue = _get(colorStyle, [colorType, colorKey]);
-      const resolvedColorValue = _get(theme, ['colors', originalColorValue]) ?? originalColorValue;
+      const originalColorValue = _get(colorStyle, `${colorType}.${colorKey}`);
+      const colorToken = _has(theme, ['colors', originalColorValue]) ? originalColorValue : null;
+      const colorValue = _get(theme, ['colors', originalColorValue]) ?? originalColorValue;
+
+      /**
+       * Example:
+       *
+       * {
+       *   background: {
+       *     secondary: 'gray:90',
+       *   }
+       * }
+       *
+       * colorType  = 'background'
+       * colorKey   = 'secondary'
+       * colorToken = 'gray:90'
+       * colorValue = '#212121'
+       */
       return {
         colorType,
         colorKey,
-        colorValue: resolvedColorValue,
-        originalColorValue,
+        colorToken,
+        colorValue,
       };
     });
   const baseProps = {
@@ -105,13 +158,14 @@ const ColorStyleBlocks = ({
       {...baseProps}
       {...props}
     >
-      {colorStyleBlocks.map(({ colorType, colorKey, colorValue }) => {
+      {colorStyleBlocks.map(({ colorType, colorKey, colorValue, colorToken }) => {
         return (
           <ColorStyleBlock
             key={colorKey}
             colorType={colorType}
             colorKey={colorKey}
             colorValue={colorValue}
+            colorToken={colorToken}
           />
         );
       })}

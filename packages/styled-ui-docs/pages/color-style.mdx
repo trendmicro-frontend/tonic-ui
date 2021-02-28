@@ -115,80 +115,90 @@ function Example() {
 
 ## Dark Color Values
 
+<CodeBlock>
+  {jsonPrettify(colorStyle.dark)}
+</CodeBlock>
+
 <DarkMode>
-  <Stack shouldWrapChildren direction="column" spacing="6x">
-    <CodeBlock>
-      {jsonPrettify(colorStyle.dark)}
-    </CodeBlock>
+  <Stack
+    direction="column"
+    shouldWrapChildren
+    spacing="6x"
+  >
     <>
       <Text fontSize="lg" mb="3x">
         Text
       </Text>
-      <ColorStyleBlocks type="text" />
+      <ColorStyleBlocks colorType="text" />
     </>
     <>
       <Text fontSize="lg" mb="3x">
         Background
       </Text>
-      <ColorStyleBlocks type="background" />
+      <ColorStyleBlocks colorType="background" />
     </>
     <>
       <Text fontSize="lg" mb="3x">
         Shadow
       </Text>
-      <ColorStyleBlocks type="shadow" />
+      <ColorStyleBlocks colorType="shadow" />
     </>
     <>
       <Text fontSize="lg" mb="3x">
         Severity
       </Text>
-      <ColorStyleBlocks type="severity" />
+      <ColorStyleBlocks colorType="severity" />
     </>
     <>
       <Text fontSize="lg" mb="3x">
         Chart - Classic
       </Text>
-      <ColorStyleBlocks type="chart.classic" />
+      <ColorStyleBlocks colorType="chart.classic" />
     </>
   </Stack>
 </DarkMode>
 
 ## Light Color Values
 
+<CodeBlock>
+  {jsonPrettify(colorStyle.dark)}
+</CodeBlock>
+
 <LightMode>
-  <Stack shouldWrapChildren direction="column" spacing="6x">
-    <CodeBlock>
-      {jsonPrettify(colorStyle.dark)}
-    </CodeBlock>
+  <Stack
+    direction="column"
+    shouldWrapChildren
+    spacing="6x"
+  >
     <>
       <Text fontSize="lg" mb="3x">
         Text
       </Text>
-      <ColorStyleBlocks type="text" />
+      <ColorStyleBlocks colorType="text" />
     </>
     <>
       <Text fontSize="lg" mb="3x">
         Background
       </Text>
-      <ColorStyleBlocks type="background" />
+      <ColorStyleBlocks colorType="background" />
     </>
     <>
       <Text fontSize="lg" mb="3x">
         Shadow
       </Text>
-      <ColorStyleBlocks type="shadow" />
+      <ColorStyleBlocks colorType="shadow" />
     </>
     <>
       <Text fontSize="lg" mb="3x">
         Severity
       </Text>
-      <ColorStyleBlocks type="severity" />
+      <ColorStyleBlocks colorType="severity" />
     </>
     <>
       <Text fontSize="lg" mb="3x">
         Chart - Classic
       </Text>
-      <ColorStyleBlocks type="chart.classic" />
+      <ColorStyleBlocks colorType="chart.classic" />
     </>
   </Stack>
 </LightMode>
