@@ -1,18 +1,3 @@
-const gradient = {
-  high: 'linear-gradient(45deg, purple:60, red:50)',
-  medium: 'linear-gradient(45deg, red:50, orange:50)',
-  low: 'linear-gradient(45deg, orange:50, yellow:50)',
-  safe: 'linear-gradient(45deg, teal:50, green:40)',
-  1: 'linear-gradient(45deg, purple:50, magenta:40)',
-  2: 'linear-gradient(45deg, purple:60, blue:50)',
-  3: 'linear-gradient(45deg, blue:50, teal:40)',
-  4: 'linear-gradient(45deg, cyan:40, teal:30)',
-  5: 'linear-gradient(45deg, blue:60, teal:40)',
-  6: 'linear-gradient(45deg, green:40, cyan:30)',
-  7: 'linear-gradient(45deg, magenta:60, red:40)',
-  8: 'linear-gradient(45deg, magenta:50, blue:60)',
-};
-
 const colorStyle = {
   dark: {
     // Text color
@@ -73,9 +58,6 @@ const colorStyle = {
         10: 'yellow:50',
       },
     },
-
-    // Gradient color
-    gradient,
   },
   light: {
     // Text color
@@ -136,9 +118,6 @@ const colorStyle = {
         10: 'yellow:50',
       },
     },
-
-    // Gradient color
-    gradient,
   },
 };
 
