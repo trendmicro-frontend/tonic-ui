@@ -1,5 +1,12 @@
-import { colorStyle } from "@trendmicro/react-styled-ui";
+import {
+  colorStyle,
+  Stack,
+  Text,
+  DarkMode,
+  LightMode,
+} from "@trendmicro/react-styled-ui";
 import CodeBlock from "../components/CodeBlock";
+import ColorStyleBlocks from '../components/ColorStyleBlocks';
 import jsonPrettify from "../components/json-prettify";
 
 # Color Style
@@ -106,23 +113,89 @@ function Example() {
 };
 ```
 
-## Color Values
+## Dark Color Values
 
-### Dark color mode
+<DarkMode>
+  <Stack shouldWrapChildren direction="column" spacing="6x">
+    <CodeBlock>
+      {jsonPrettify(colorStyle.dark)}
+    </CodeBlock>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Text
+      </Text>
+      <ColorStyleBlocks type="text" />
+    </>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Background
+      </Text>
+      <ColorStyleBlocks type="background" />
+    </>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Shadow
+      </Text>
+      <ColorStyleBlocks type="shadow" />
+    </>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Severity
+      </Text>
+      <ColorStyleBlocks type="severity" />
+    </>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Chart - Classic
+      </Text>
+      <ColorStyleBlocks type="chart.classic" />
+    </>
+  </Stack>
+</DarkMode>
 
-<CodeBlock>
-  {jsonPrettify(colorStyle.dark)}
-</CodeBlock>
+## Light Color Values
 
-### Light color mode
+<LightMode>
+  <Stack shouldWrapChildren direction="column" spacing="6x">
+    <CodeBlock>
+      {jsonPrettify(colorStyle.dark)}
+    </CodeBlock>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Text
+      </Text>
+      <ColorStyleBlocks type="text" />
+    </>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Background
+      </Text>
+      <ColorStyleBlocks type="background" />
+    </>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Shadow
+      </Text>
+      <ColorStyleBlocks type="shadow" />
+    </>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Severity
+      </Text>
+      <ColorStyleBlocks type="severity" />
+    </>
+    <>
+      <Text fontSize="lg" mb="3x">
+        Chart - Classic
+      </Text>
+      <ColorStyleBlocks type="chart.classic" />
+    </>
+  </Stack>
+</LightMode>
 
-<CodeBlock>
-  {jsonPrettify(colorStyle.light)}
-</CodeBlock>
+## Blindness Color Values
 
-### Blindness
-
-For the blindness color mode, it is not defined in the color style system, you can replace `severity`, `charts`, and `gradients` with below values if necessary.
+Blindness color values are not defined in the color style system, you can replace `severity`, `chart`, and `gradient` with below values when necessary.
 
 <CodeBlock>
   {jsonPrettify({
@@ -148,11 +221,22 @@ For the blindness color mode, it is not defined in the color style system, you c
         10: 'yellow:50',
       },
     },
+  })}
+</CodeBlock>
+
+## Gradient Color Values
+
+Gradient color values are not defined in the color style system, you can set `gradient` with below values when necessary.
+
+<CodeBlock>
+  {jsonPrettify({
     gradient: {
-      high: 'linear-gradient(45deg, purple:60, magenta:60)',
-      medium: 'linear-gradient(45deg, magenta:60, orange:50)',
-      low: 'linear-gradient(45deg, orange:50, yellow:50)',
-      safe: 'linear-gradient(45deg, teal:50, green:30)',
+      severity: {
+        high: ['purple:60', 'magenta:60'],
+        medium: ['magenta:60', 'orange:50'],
+        low: ['orange:50', 'yellow:50'],
+        safe: ['teal:50', 'green:30'],
+      },
     },
   })}
 </CodeBlock>

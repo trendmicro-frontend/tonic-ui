@@ -1,4 +1,4 @@
-import { useTheme, useColorMode, colorStyle } from '@trendmicro/react-styled-ui';
+import { Box, useTheme, useColorMode, colorStyle } from '@trendmicro/react-styled-ui';
 import _get from 'lodash/get';
 import React from 'react';
 import CodeBlock from './CodeBlock';
@@ -22,10 +22,13 @@ const ThemeParser = ({ theme, mode, ...props }) => {
       }, {});
   }
   const themeField = jsonPrettify(token, indent);
+
   return (
-    <CodeBlock>
-      {mode ? `export const ${mode} = {\n \ ${theme}:${themeField} \n}` : `export const ${theme} = ${themeField}`}
-    </CodeBlock>
+    <Box mb="6x">
+      <CodeBlock>
+        {mode ? `export const ${mode} = {\n \ ${theme}:${themeField} \n}` : `export const ${theme} = ${themeField}`}
+      </CodeBlock>
+    </Box>
   );
 };
 

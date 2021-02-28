@@ -1,12 +1,5 @@
-import {
-  LightMode,
-  DarkMode,
-} from '@trendmicro/react-styled-ui';
-import {
-  ColorPalettes,
-  ColorWrapper,
-  FunctionalColorPalettes,
-} from '../components/ColorPalette';
+import { Grid } from '@trendmicro/react-styled-ui';
+import ColorPalette from '../components/ColorPalette';
 import ThemeParser from '../components/ThemeParser';
 
 # Colors
@@ -19,98 +12,22 @@ The color palette  is defined for both Light Theme and Dark Theme where `10` - `
 
 <ThemeParser theme="colors" />
 
-### Color palettes
+### Color palette
 
-<ColorWrapper>
-  <ColorPalettes hue="red" />
-  <ColorPalettes hue="magenta" />
-  <ColorPalettes hue="purple" />
-  <ColorPalettes hue="blue" />
-  <ColorPalettes hue="green" />
-  <ColorPalettes hue="teal" />
-  <ColorPalettes hue="cyan" />
-  <ColorPalettes hue="gray" />
-</ColorWrapper>
-
-### Background color
-
-<ThemeParser mode="light" theme="background" />
-<ThemeParser mode="dark" theme="background" />
-
-<LightMode>
-  <FunctionalColorPalettes palette="background" />
-</LightMode>
-
-<DarkMode>
-  <FunctionalColorPalettes palette="background" />
-</DarkMode>
-
-### Text color
-
-<ThemeParser mode="light" theme="text" />
-<ThemeParser mode="dark" theme="text" />
-
-<LightMode>
-  <FunctionalColorPalettes palette="text" />
-</LightMode>
-
-<DarkMode>
-  <FunctionalColorPalettes palette="text" />
-</DarkMode>
-
-### Severity color
-
-<ThemeParser mode="light" theme="severity" />
-<ThemeParser mode="dark" theme="severity" />
-
-<LightMode>
-  <FunctionalColorPalettes palette="severity" />
-</LightMode>
-
-<DarkMode>
-  <FunctionalColorPalettes palette="severity" />
-</DarkMode>
-
-### Chart color
-
-<ThemeParser mode="light" theme="chart" />
-<ThemeParser mode="dark" theme="chart" />
-
-<LightMode>
-  <FunctionalColorPalettes palette="chart.classic" />
-</LightMode>
-
-<DarkMode>
-  <FunctionalColorPalettes palette="chart.classic" />
-</DarkMode>
-
-### Gradient color
-
-<ThemeParser theme="gradient" />
-
-<FunctionalColorPalettes palette="gradient" />
-
-### Color blindness
-
-We provide different colors for color blind users.
-
-#### Functional color
-
-<ThemeParser mode="blindness" theme="severity" />
-
-<FunctionalColorPalettes mode="blindness" palette="severity" />
-
-#### Chart color
-
-<ThemeParser mode="blindness" theme="chart" />
-
-<FunctionalColorPalettes mode="blindness" palette="chart.classic" />
-
-#### Gradient color
-
-<ThemeParser mode="blindness" theme="gradient" />
-
-<FunctionalColorPalettes mode="blindness" palette="gradient" />
+<Grid
+  gap="6x"
+  templateColumns="repeat(auto-fit, 300px)"
+  mb="6x"
+>
+  <ColorPalette hue="red" />
+  <ColorPalette hue="magenta" />
+  <ColorPalette hue="purple" />
+  <ColorPalette hue="blue" />
+  <ColorPalette hue="green" />
+  <ColorPalette hue="teal" />
+  <ColorPalette hue="cyan" />
+  <ColorPalette hue="gray" />
+</Grid>
 
 ## Configuration Reference
 
