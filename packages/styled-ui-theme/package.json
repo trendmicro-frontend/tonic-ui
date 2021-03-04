@@ -1,6 +1,6 @@
 {
   "name": "@trendmicro/styled-ui-theme",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "An extensible theming system for building UI component library with Styled System",
   "main": "index.js",
   "publishConfig": {
