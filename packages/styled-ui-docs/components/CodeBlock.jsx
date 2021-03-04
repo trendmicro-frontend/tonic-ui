@@ -211,7 +211,7 @@ const CodeBlock = ({
   };
 
   useEffect(() => {
-    liveEditorRef && setLiveEditorHeight(liveEditorRef.current.clientHeight);
+    liveEditorRef.current && setLiveEditorHeight(liveEditorRef.current.clientHeight);
   }, [liveEditorRef]);
 
   if (previewOnly) {

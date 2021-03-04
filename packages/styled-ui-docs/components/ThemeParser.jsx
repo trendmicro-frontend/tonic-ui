@@ -1,27 +1,15 @@
+import { Box, useTheme, useColorMode, colorStyle } from '@trendmicro/react-styled-ui';
+import _get from 'lodash/get';
 import React from 'react';
-import _get from 'lodash.get';
-import { useTheme, useColorMode, colorPalettes } from '@trendmicro/react-styled-ui';
 import CodeBlock from './CodeBlock';
-
-const jsonStringify = (obj, indent) => {
-  if (indent) {
-    return JSON.stringify(obj, null, 2)
-      .replace(/\"/g, '\'')
-      .replace(/\'(\d+|[a-z]+)\':/g, '\ \ $1:')
-      .replace(/{/g, '\ {')
-      .replace(/}/g, '\ \ }');
-  }
-  return JSON.stringify(obj, null, 2)
-    .replace(/\"/g, '\'')
-    .replace(/\'(\d+|[a-z]+)\':/g, '$1:');
-};
+import jsonPrettify from './json-prettify';
 
 const ThemeParser = ({ theme, mode, ...props }) => {
   const themes = useTheme();
   const indent = !!mode;
   const { colorMode } = useColorMode();
   const _mode = mode ?? colorMode;
-  let token = _get(colorPalettes[_mode], theme) || themes[theme];
+  let token = _get(colorStyle[_mode], theme) || themes[theme];
   if (!token) {
     return 'Theme field not found';
   }
@@ -33,11 +21,14 @@ const ThemeParser = ({ theme, mode, ...props }) => {
         return res;
       }, {});
   }
-  const themeField = jsonStringify(token, indent);
+  const themeField = jsonPrettify(token, indent);
+
   return (
-    <CodeBlock>
-      {mode ? `export const ${mode} = {\n \ ${theme}:${themeField} \n}` : `export const ${theme} = ${themeField}`}
-    </CodeBlock>
+    <Box mb="6x">
+      <CodeBlock>
+        {mode ? `export const ${mode} = {\n \ ${theme}:${themeField} \n}` : `export const ${theme} = ${themeField}`}
+      </CodeBlock>
+    </Box>
   );
 };
 

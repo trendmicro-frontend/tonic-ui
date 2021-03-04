@@ -8,6 +8,7 @@ import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
 import Collapse from './Collapse';
 import ColorModeProvider from './ColorModeProvider';
+import ColorStyleProvider from './ColorStyleProvider';
 import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
 import DarkMode from './DarkMode';
@@ -45,13 +46,15 @@ import ThemeProvider from './ThemeProvider';
 import Toast from './Toast';
 import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
+import VisuallyHidden from './VisuallyHidden';
+import colorStyle from './ColorStyleProvider/color-style';
+import theme from './theme';
 import useClipboard from './useClipboard';
 import useColorMode from './useColorMode';
 import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure';
 import usePagination from './usePagination';
 import useTheme from './useTheme';
-import VisuallyHidden from './VisuallyHidden';
 import withTheme from './withTheme';
 
 export {
@@ -65,6 +68,7 @@ export {
   CheckboxGroup,
   Collapse,
   ColorModeProvider,
+  ColorStyleProvider,
   ControlBox,
   CSSBaseline,
   DarkMode,
@@ -102,17 +106,18 @@ export {
   Toast,
   ToggleSwitch,
   Tooltip,
+  VisuallyHidden,
+  colorStyle,
+  theme,
   useClipboard,
   useColorMode,
   useColorStyle,
   useDisclosure,
   usePagination,
   useTheme,
-  VisuallyHidden,
   withTheme,
 };
 
-export * from './theme';
 export * from './Tabs';
 export * from './Accordion';
 export * from './Drawer';

@@ -1,6 +1,6 @@
 # Color Modes
 
-To enable color modes, wrap your application in a `ColorModeProvider` and specify the value prop with a color mode: `dark` or `light`.
+Use the `ColorModeProvider` to use color mode in your application. The color mode value can be one of `dark` or `light`. By default, the color mode is `light` if the value is not explicitly specified.
 
 ```jsx disabled
 import React from 'react';
@@ -18,7 +18,7 @@ function Example({ children }) {
 }
 ```
 
-Then you can use the `useColorMode` Hook to get current color mode or change the color mode.
+To handle color mode manually in your application, use the `useColorMode` Hook to get current color mode or change the color mode.
 
 ```jsx disabled
 // App.jsx
@@ -35,7 +35,7 @@ const App = () => {
 };
 ```
 
-To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override global color mode.
+To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override the global color mode.
 
 ```jsx
 <Flex>

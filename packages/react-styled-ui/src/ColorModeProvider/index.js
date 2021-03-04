@@ -1,7 +1,6 @@
 import memoize from 'micro-memoize';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState, useContext } from 'react';
-import { ThemeContext } from '../ThemeProvider';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const initialColorMode = 'light';
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -11,9 +10,7 @@ const ColorModeProvider = ({
   value = initialColorMode,
   children,
 }) => {
-  const themes = useContext(ThemeContext);
   const [colorMode, setColorMode] = useState(value);
-  const [colorStyle, setColorStyle] = useState(themes[value]);
   // TODO: toggleColorMode is deprecated and will be removed in the v1 release
   const toggleColorMode = useCallback(() => {
     setColorMode(prevColorMode => {
@@ -29,15 +26,10 @@ const ColorModeProvider = ({
     setColorMode(value);
   }, [value]);
 
-  useEffect(() => {
-    setColorStyle(themes[colorMode]);
-  }, [colorMode, themes]);
-
   const colorModeState = getMemoizedState({
     colorMode,
-    colorStyle,
     setColorMode,
-    toggleColorMode,
+    toggleColorMode, // TODO: toggleColorMode is deprecated and will be removed in the v1 release
   });
 
   return (
