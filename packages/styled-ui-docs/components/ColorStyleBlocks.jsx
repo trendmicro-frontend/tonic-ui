@@ -8,7 +8,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@trendmicro/react-styled-ui';
-import { ensurePlainObject, ensureString } from 'ensure-type';
+import { ensureString } from 'ensure-type';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import React from 'react';
