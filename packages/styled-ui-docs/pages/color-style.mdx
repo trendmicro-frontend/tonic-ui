@@ -68,13 +68,21 @@ function Example({ children }) {
 
 Then you can use the `useColorStyle` Hook to get or set color style for a given color mode.
 
-```js
-const [colorStyle, setColorStyle] = useColorStyle({ colorMode: 'dark' });
+```jsx disabled
+const [colorMode] = useColorMode();
+const [colorStyle, setColorStyle] = useColorStyle({ colorMode });
+const { colors } = useTheme();
 
+console.log(colorMode);
+// => 'dark' / 'light'
 console.log(colorStyle.text.primary);
-// => 'white:primary'
+// => 'white:primary' / 'black:primary'
 console.log(colorStyle.background.primary);
-// => 'gray:100'
+// => 'gray:100' / 'white:emphasis'
+console.log(colors[colorStyle.text.primary]);
+// => 'rgba(255, 255, 255, .92)' / 'rgba(0, 0, 0, .92)'
+console.log(colors[colorStyle.background.primary]);
+// => '#151515' / 'rgba(255, 255, 255, 1.0)'
 ```
 
 ```jsx
@@ -164,7 +172,7 @@ function Example() {
 
 <Box mb="6x">
   <CodeBlock>
-    {jsonPrettify(colorStyle.dark)}
+    {jsonPrettify(colorStyle.light)}
   </CodeBlock>
 </Box>
 
