@@ -155,7 +155,7 @@ function Example() {
       <Text fontSize="lg" mb="3x">
         Chart - Classic
       </Text>
-      <ColorStyleBlocks colorType="chart.classic" />
+      <ColorStyleBlocks colorType="chart.classic.colors" />
     </>
   </Stack>
 </DarkMode>
@@ -202,7 +202,7 @@ function Example() {
       <Text fontSize="lg" mb="3x">
         Chart - Classic
       </Text>
-      <ColorStyleBlocks colorType="chart.classic" />
+      <ColorStyleBlocks colorType="chart.classic.colors" />
     </>
   </Stack>
 </LightMode>
@@ -222,17 +222,19 @@ Blindness color values are not defined in the color style system, you can replac
     },
     chart: {
       classic: {
-        0: 'gray:50',
-        1: 'blue:30',
-        2: 'green:30',
-        3: 'orange:50',
-        4: 'cyan:30',
-        5: 'magenta:60',
-        6: 'purple:50',
-        7: 'teal:40',
-        8: 'purple:30',
-        9: 'cyan:70',
-        10: 'yellow:50',
+        colors: [
+          'gray:50',
+          'blue:30',
+          'green:30',
+          'orange:50',
+          'cyan:30',
+          'magenta:60',
+          'purple:50',
+          'teal:40',
+          'purple:30',
+          'cyan:70',
+          'yellow:50',
+        ],
       },
     },
   })}

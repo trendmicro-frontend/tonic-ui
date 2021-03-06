@@ -109,11 +109,16 @@ const ColorStyleBlocks = ({
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const colorStyleBlocks = Object.keys(ensurePlainObject(_get(colorStyle, colorType)))
+  const colorStyleOfType = _get(colorStyle, colorType);
+  const colorStyleBlocks = Object.keys(colorStyleOfType)
     .map(colorKey => {
       const originalColorValue = _get(colorStyle, `${colorType}.${colorKey}`);
       const colorToken = _has(theme, ['colors', originalColorValue]) ? originalColorValue : null;
       const colorValue = _get(theme, ['colors', originalColorValue]) ?? originalColorValue;
+
+      if (Array.isArray(colorStyleOfType)) {
+        colorKey = '#' + (Number(colorKey) + 1);
+      }
 
       /**
        * Example:
