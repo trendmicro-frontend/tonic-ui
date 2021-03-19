@@ -37,7 +37,6 @@ const DrawerContentBackdrop = forwardRef((props, ref) => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      zIndex="drawer"
       onClick={event => {
         event.stopPropagation();
         if (closeOnOutsideClick) {
@@ -92,7 +91,11 @@ const DrawerContentFront = forwardRef(({ children, ...props }, ref) => {
   );
 });
 
-const DrawerContent = React.forwardRef(({ children, ...props }, ref) => {
+const DrawerContent = React.forwardRef(({
+  children,
+  zIndex = 'drawer',
+  ...props
+}, ref) => {
   const context = useDrawer(); // context might be an undefined value
   const {
     backdrop,
@@ -111,7 +114,7 @@ const DrawerContent = React.forwardRef(({ children, ...props }, ref) => {
       <DrawerContentFront
         ref={ref}
         position="fixed"
-        zIndex="drawer"
+        zIndex={zIndex}
         top={0}
         height="100%"
         {...props}
@@ -122,7 +125,7 @@ const DrawerContent = React.forwardRef(({ children, ...props }, ref) => {
   }
 
   return (
-    <DrawerContentBackdrop>
+    <DrawerContentBackdrop zIndex={zIndex}>
       <DrawerContentFront ref={ref} {...props}>
         {children}
       </DrawerContentFront>

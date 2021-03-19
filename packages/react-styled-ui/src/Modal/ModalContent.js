@@ -37,7 +37,6 @@ const ModalContentBackdrop = forwardRef((props, ref) => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      zIndex="modal"
       onClick={event => {
         event.stopPropagation();
         if (closeOnOutsideClick) {
@@ -91,7 +90,11 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
   );
 });
 
-const ModalContent = React.forwardRef(({ children, ...props }, ref) => {
+const ModalContent = React.forwardRef(({
+  children,
+  zIndex = 'modal',
+  ...props
+}, ref) => {
   const context = useModal(); // context might be an undefined value
 
   if (!context) {
@@ -103,7 +106,7 @@ const ModalContent = React.forwardRef(({ children, ...props }, ref) => {
   }
 
   return (
-    <ModalContentBackdrop>
+    <ModalContentBackdrop zIndex={zIndex}>
       <ModalContentFront ref={ref} {...props}>
         {children}
       </ModalContentFront>
