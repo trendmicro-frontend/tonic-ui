@@ -9,11 +9,11 @@ export const useMenuListStyle = () => {
   const colorModeStyle = {
     light: {
       bg: 'white',
-      boxShadow: colorStyle.shadow.medium,
+      boxShadow: colorStyle?.shadow?.medium,
     },
     dark: {
       bg: 'gray:80',
-      boxShadow: colorStyle.shadow.medium,
+      boxShadow: colorStyle?.shadow?.medium,
     },
   }[colorMode];
 

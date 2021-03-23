@@ -16,7 +16,7 @@ const usePopoverContentStyle = () => {
 
   return {
     backgroundColor,
-    boxShadow: colorStyle.shadow.thin,
+    boxShadow: colorStyle?.shadow?.thin,
     tabIndex: '-1',
     borderWidth: 1,
     p: '3x',

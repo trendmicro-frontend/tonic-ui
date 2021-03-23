@@ -18,12 +18,12 @@ const useTooltipStyle = props => {
     dark: {
       backgroundColor: 'gray:10',
       color: 'black:primary',
-      boxShadow: colorStyle.shadow.thin,
+      boxShadow: colorStyle?.shadow?.thin,
     },
     light: {
       backgroundColor: 'gray:70',
       color: 'white:primary',
-      boxShadow: colorStyle.shadow.thin,
+      boxShadow: colorStyle?.shadow?.thin,
     },
   }[colorMode];
 

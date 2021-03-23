@@ -119,7 +119,7 @@ const useDrawerContentStyle = ({
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'gray:20',
-      boxShadow: colorStyle.shadow.thick,
+      boxShadow: colorStyle?.shadow?.thick,
     },
     dark: {
       color: 'white:primary',
@@ -127,7 +127,7 @@ const useDrawerContentStyle = ({
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'gray:80',
-      boxShadow: colorStyle.shadow.thick,
+      boxShadow: colorStyle?.shadow?.thick,
     },
   }[colorMode];
   const placementProps = getPlacementProps(placement);
