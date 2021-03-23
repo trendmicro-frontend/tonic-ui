@@ -28,14 +28,16 @@ const ColorStyleBlock = ({
   if (colorType === 'gradient') {
     const [from, to] = colorValues;
     blockProps.background = `linear-gradient(45deg, ${from}, ${to})`;
+    blockProps.boxShadow = colorStyle?.shadow.medium;
   } else if (colorType === 'shadow') {
     blockProps.boxShadow = colorValues[0];
   } else {
     blockProps.backgroundColor = colorValues[0];
+    blockProps.boxShadow = colorStyle?.shadow.medium;
   }
 
   if (colorMode === 'dark') {
-    blockProps.borderColor = 'gray:70';
+    blockProps.borderColor = 'gray:80';
   }
   if (colorMode === 'light') {
     blockProps.borderColor = 'gray:20';
