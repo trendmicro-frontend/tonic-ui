@@ -138,17 +138,10 @@ const ColorStyleBlocks = ({
   const colorStyleOfType = _get(colorStyle, colorType);
   const colorStyleBlocks = Object.keys(colorStyleOfType)
     .map(colorKey => {
+      const colorLabel = capitalizeFirstLetter(colorKey);
       const originalColorValue = _get(colorStyle, `${colorType}.${colorKey}`);
       const colorToken = _has(theme, ['colors', originalColorValue]) ? originalColorValue : null;
       const colorValue = _get(theme, ['colors', originalColorValue]) ?? originalColorValue;
-      let colorLabel = capitalizeFirstLetter(colorKey);
-      if (colorType === 'shadow') {
-        colorLabel = {
-          'sm': capitalizeFirstLetter('small'),
-          'md': capitalizeFirstLetter('medium'),
-          'lg': capitalizeFirstLetter('large'),
-        }[colorKey];
-      }
 
       if (Array.isArray(colorStyleOfType)) {
         colorKey = '#' + (Number(colorKey) + 1);

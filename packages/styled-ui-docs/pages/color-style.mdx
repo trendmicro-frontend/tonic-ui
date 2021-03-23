@@ -202,39 +202,6 @@ function Example() {
   </Stack>
 </DarkMode>
 
-## Blindness Color Values
-
-Blindness color values are not defined in the color style system, you can replace `severity`, `chart`, and `gradient` with below values when necessary.
-
-<CodeBlock>
-  {jsonPrettify({
-    severity: {
-      high: 'magenta:60',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      safe: 'green:30',
-      none: 'gray:50',
-    },
-    chart: {
-      classic: {
-        colors: [
-          'gray:50',
-          'blue:30',
-          'green:30',
-          'orange:50',
-          'cyan:30',
-          'magenta:60',
-          'purple:50',
-          'teal:40',
-          'purple:30',
-          'cyan:70',
-          'yellow:50',
-        ],
-      },
-    },
-  })}
-</CodeBlock>
-
 ## Gradient Color Values
 
 Gradient color values are not defined in the color style system, you can set `gradient` with below values when necessary.
@@ -242,7 +209,55 @@ Gradient color values are not defined in the color style system, you can set `gr
 <CodeBlock>
   {jsonPrettify({
     gradient: {
+      high: ['purple:60', 'red:50'],
+      medium: ['red:50', 'orange:50'],
+      low: ['orange:50', 'yellow:50'],
+      safe: ['teal:50', 'green:40'],
+      color1: ['purple:50', 'magenta:40'],
+      color2: ['purple:60', 'blue:50'],
+      color3: ['blue:50', 'teal:40'],
+      color4: ['cyan:40', 'teal:30'],
+      color5: ['blue:60', 'teal:40'],
+      color6: ['green:40', 'cyan:30'],
+      color7: ['magenta:60', 'red:40'],
+      color8: ['magenta:50', 'blue:60'],
+    },
+  })}
+</CodeBlock>
+
+## Blindness Color Values
+
+Blindness color values are not defined in the color style system, you can set `blindness` with below values when necessary.
+
+<CodeBlock>
+  {jsonPrettify({
+    blindness: {
       severity: {
+        high: 'magenta:60',
+        medium: 'orange:50',
+        low: 'yellow:50',
+        safe: 'green:30',
+        info: 'gray:50',
+        none: 'gray:50',
+      },
+      chart: {
+        classic: {
+          colors: [
+            'gray:50',
+            'blue:30',
+            'green:30',
+            'orange:50',
+            'cyan:30',
+            'magenta:60',
+            'purple:50',
+            'teal:40',
+            'purple:30',
+            'cyan:70',
+            'yellow:50',
+          ],
+        },
+      },
+      gradient: {
         high: ['purple:60', 'magenta:60'],
         medium: ['magenta:60', 'orange:50'],
         low: ['orange:50', 'yellow:50'],
