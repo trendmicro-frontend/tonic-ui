@@ -5,17 +5,8 @@ import {
   Text,
   useColorMode,
   useColorStyle,
-  useTheme,
 } from '@trendmicro/react-styled-ui';
-import {
-  ensureString,
-} from 'ensure-type';
-import _get from 'lodash/get';
 import React from 'react';
-
-const isValidHex = (hex) => {
-  return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(hex);
-};
 
 const baseWidth = 120;
 const baseHeight = 120;
@@ -28,7 +19,6 @@ const ColorStyleBlock = ({
   colorValues,
   ...props
 }) => {
-  const { colors } = useTheme();
   const { colorMode } = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const primaryTextColor = colorStyle.text.primary;
@@ -94,7 +84,7 @@ const ColorStyleBlock = ({
                   mb="1x"
                 >
                   {colorToken}
-              </Tag>
+                </Tag>
               );
             })}
           </Stack>

@@ -1,12 +1,10 @@
 import {
   Box,
-  useTheme,
   useColorMode,
 } from '@trendmicro/react-styled-ui';
 import React from 'react';
 
 const ColorStyleContent = (props) => {
-  const theme = useTheme();
   const [colorMode] = useColorMode();
   const baseProps = {
     dark: {
