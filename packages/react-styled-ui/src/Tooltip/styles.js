@@ -1,17 +1,5 @@
 import useColorMode from '../useColorMode';
-
-const colorProps = ({ colorMode }) => {
-  return {
-    dark: {
-      bg: 'gray:10',
-      color: 'black:primary',
-    },
-    light: {
-      bg: 'gray:70',
-      color: 'white:primary',
-    },
-  }[colorMode];
-};
+import useColorStyle from '../useColorStyle';
 
 const baseProps = {
   px: '3x',
@@ -25,10 +13,23 @@ const baseProps = {
 
 const useTooltipStyle = props => {
   const { colorMode } = useColorMode();
-  const _props = { ...props, colorMode };
+  const [colorStyle] = useColorStyle({ colorMode });
+  const colorModeStyle = {
+    dark: {
+      backgroundColor: 'gray:10',
+      color: 'black:primary',
+      boxShadow: colorStyle.shadow.thin,
+    },
+    light: {
+      backgroundColor: 'gray:70',
+      color: 'white:primary',
+      boxShadow: colorStyle.shadow.thin,
+    },
+  }[colorMode];
+
   return {
     ...baseProps,
-    ...colorProps(_props)
+    ...colorModeStyle,
   };
 };
 

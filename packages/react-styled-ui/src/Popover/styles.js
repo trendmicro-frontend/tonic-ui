@@ -1,4 +1,5 @@
 import useColorMode from '../useColorMode';
+import useColorStyle from '../useColorStyle';
 
 const baseProps = {
   fontSize: 'sm',
@@ -7,14 +8,15 @@ const baseProps = {
 
 const usePopoverContentStyle = () => {
   const { colorMode } = useColorMode();
-  const bg = { dark: 'gray:80', light: 'white' }[colorMode];
-  const boxShadow = {
-    dark: 'dark.sm',
-    light: 'light.sm',
+  const [colorStyle] = useColorStyle({ colorMode });
+  const backgroundColor = {
+    dark: 'gray:80',
+    light: 'white',
   }[colorMode];
+
   return {
-    bg,
-    boxShadow,
+    backgroundColor,
+    boxShadow: colorStyle.shadow.thin,
     tabIndex: '-1',
     borderWidth: 1,
     p: '3x',
