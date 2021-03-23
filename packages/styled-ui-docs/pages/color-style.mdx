@@ -121,7 +121,9 @@ function Example() {
 };
 ```
 
-## Dark Color Values
+## Color Values
+
+### Dark color style
 
 <Box mb="6x">
   <CodeBlock>
@@ -129,46 +131,7 @@ function Example() {
   </CodeBlock>
 </Box>
 
-<DarkMode>
-  <Stack
-    direction="column"
-    shouldWrapChildren
-    spacing="6x"
-  >
-    <>
-      <Text fontSize="lg" mb="3x">
-        Text
-      </Text>
-      <ColorStyleBlocks colorType="text" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Background
-      </Text>
-      <ColorStyleBlocks colorType="background" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Shadow
-      </Text>
-      <ColorStyleBlocks colorType="shadow" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Severity
-      </Text>
-      <ColorStyleBlocks colorType="severity" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Chart - Classic
-      </Text>
-      <ColorStyleBlocks colorType="chart.classic.colors" />
-    </>
-  </Stack>
-</DarkMode>
-
-## Light Color Values
+### Light color style
 
 <Box mb="6x">
   <CodeBlock>
@@ -176,44 +139,68 @@ function Example() {
   </CodeBlock>
 </Box>
 
-<LightMode>
+<DarkMode>
   <Stack
     direction="column"
     shouldWrapChildren
-    spacing="6x"
   >
     <>
-      <Text fontSize="lg" mb="3x">
-        Text
+      <Text fontSize="xl" my="6x">
+        Text Colors
       </Text>
-      <ColorStyleBlocks colorType="text" />
+      <DarkMode>
+        <ColorStyleBlocks colorType="text" />
+      </DarkMode>
+      <LightMode>
+        <ColorStyleBlocks colorType="text" />
+      </LightMode>
     </>
     <>
-      <Text fontSize="lg" mb="3x">
-        Background
+      <Text fontSize="xl" my="6x">
+        Background Colors
       </Text>
-      <ColorStyleBlocks colorType="background" />
+      <DarkMode>
+        <ColorStyleBlocks colorType="background" />
+      </DarkMode>
+      <LightMode>
+        <ColorStyleBlocks colorType="background" />
+      </LightMode>
     </>
     <>
-      <Text fontSize="lg" mb="3x">
-        Shadow
+      <Text fontSize="xl" my="6x">
+        Shadow Colors
       </Text>
-      <ColorStyleBlocks colorType="shadow" />
+      <DarkMode>
+        <ColorStyleBlocks colorType="shadow" />
+      </DarkMode>
+      <LightMode>
+        <ColorStyleBlocks colorType="shadow" />
+      </LightMode>
     </>
     <>
-      <Text fontSize="lg" mb="3x">
-        Severity
+      <Text fontSize="xl" my="6x">
+        Severity Colors
       </Text>
-      <ColorStyleBlocks colorType="severity" />
+      <DarkMode>
+        <ColorStyleBlocks colorType="severity" />
+      </DarkMode>
+      <LightMode>
+        <ColorStyleBlocks colorType="severity" />
+      </LightMode>
     </>
     <>
-      <Text fontSize="lg" mb="3x">
-        Chart - Classic
+      <Text fontSize="xl" my="6x">
+        Classic Chart Colors
       </Text>
-      <ColorStyleBlocks colorType="chart.classic.colors" />
+      <DarkMode>
+        <ColorStyleBlocks colorType="chart.classic.colors" />
+      </DarkMode>
+      <LightMode>
+        <ColorStyleBlocks colorType="chart.classic.colors" />
+      </LightMode>
     </>
   </Stack>
-</LightMode>
+</DarkMode>
 
 ## Blindness Color Values
 
