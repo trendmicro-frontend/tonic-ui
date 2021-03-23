@@ -1,17 +1,19 @@
 import { setColorWithOpacity } from '../theme/colors';
 import useTheme from '../useTheme';
 import useColorMode from '../useColorMode';
+import useColorStyle from '../useColorStyle';
 
 export const useMenuListStyle = () => {
   const { colorMode } = useColorMode();
-  const elevation = {
+  const [colorStyle] = useColorStyle({ colorMode });
+  const colorModeStyle = {
     light: {
       bg: 'white',
-      boxShadow: 'light.sm',
+      boxShadow: colorStyle.shadow.medium,
     },
     dark: {
       bg: 'gray:80',
-      boxShadow: 'dark.sm',
+      boxShadow: colorStyle.shadow.medium,
     },
   }[colorMode];
 
@@ -19,7 +21,7 @@ export const useMenuListStyle = () => {
     color: 'inherit',
     m: '0',
     p: '0',
-    ...elevation,
+    ...colorModeStyle,
   };
 };
 

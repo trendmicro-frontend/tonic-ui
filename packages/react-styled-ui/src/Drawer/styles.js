@@ -1,5 +1,6 @@
 import { get } from '@styled-system/core';
 import useColorMode from '../useColorMode';
+import useColorStyle from '../useColorStyle';
 import useTheme from '../useTheme';
 
 const defaultPlacement = 'right';
@@ -102,6 +103,7 @@ const useDrawerContentStyle = ({
   size,
 }) => {
   const { colorMode } = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     mx: 'auto',
     height: 'auto',
@@ -117,7 +119,7 @@ const useDrawerContentStyle = ({
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'gray:20',
-      boxShadow: 'light.lg',
+      boxShadow: colorStyle.shadow.thick,
     },
     dark: {
       color: 'white:primary',
@@ -125,7 +127,7 @@ const useDrawerContentStyle = ({
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'gray:80',
-      boxShadow: 'dark.lg',
+      boxShadow: colorStyle.shadow.thick,
     },
   }[colorMode];
   const placementProps = getPlacementProps(placement);
