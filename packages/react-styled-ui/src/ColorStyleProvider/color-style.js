@@ -23,10 +23,14 @@ const colorStyle = {
     },
 
     // Shadow color
-    // Note: The shadow style props will be removed from 'styled-ui-theme'.
     shadow: {
+      // Tooltip, Popover
       thin: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
-      normal: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+
+      // Menu
+      medium: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+
+      // Drawer, Modal
       thick: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
     },
 
@@ -85,10 +89,14 @@ const colorStyle = {
     },
 
     // Shadow color
-    // Note: The shadow style props will be removed from 'styled-ui-theme'.
     shadow: {
+      // Tooltip, Popover
       thin: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
-      normal: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+
+      // Menu
+      medium: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+
+      // Drawer, Modal
       thick: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
     },
 
