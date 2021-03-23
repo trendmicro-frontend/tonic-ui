@@ -21,8 +21,8 @@ const ColorStyleBlock = ({
 }) => {
   const { colorMode } = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const primaryTextColor = colorStyle.text.primary;
-  const secondaryTextColor = colorStyle.text.secondary;
+  const primaryTextColor = colorStyle?.text?.primary;
+  const secondaryTextColor = colorStyle?.text?.secondary;
   const blockProps = {};
 
   if (colorType === 'gradient') {

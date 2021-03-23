@@ -8,7 +8,7 @@ import React from 'react';
 const ColorStyleHeader = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const primaryTextColor = colorStyle.text.primary;
+  const primaryTextColor = colorStyle?.text?.primary;
 
   return (
     <Box
