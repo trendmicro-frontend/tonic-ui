@@ -7,7 +7,7 @@ const Divider = forwardRef(({
   orientation = 'horizontal',
   ...props
 }, ref) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const dividerColor = color || {
     dark: 'gray:60',
     light: 'gray:20',

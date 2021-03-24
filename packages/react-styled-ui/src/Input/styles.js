@@ -191,7 +191,7 @@ const useInputStyle = ({
   size,
   variant,
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = {
     colorMode,
     size,

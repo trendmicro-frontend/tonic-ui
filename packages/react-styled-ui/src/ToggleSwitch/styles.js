@@ -148,7 +148,7 @@ const switchThumbProps = ({
 
 
 const useToggleSwitchStyle = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const size = switchSizes[props.size] ?? switchSizes[defaultSize];
   const { width, height, radius } = size;
   const switchMaxWidth = width + 6; //The border and halo width of the one side switching track is 1 and 2, so the sum of both sides is 6

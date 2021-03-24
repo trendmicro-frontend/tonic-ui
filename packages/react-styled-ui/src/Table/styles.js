@@ -33,7 +33,7 @@ const colorProps = {
 ////////////////////////////////////////////////////////////
 
 const useTableCellStyle = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   return {
     borderBottom: 1,
     ...props.variant === 'outline' && { borderRight: 1 },
@@ -45,7 +45,7 @@ const useTableCellStyle = props => {
 ////////////////////////////////////////////////////////////
 
 const useTableHeaderCellStyle = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   return {
     borderBottom: 2,
     fontWeight: 'semibold',

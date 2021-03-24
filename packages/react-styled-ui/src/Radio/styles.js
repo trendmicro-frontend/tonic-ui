@@ -80,7 +80,7 @@ const interactionProps = ({ color, colorMode, theme: { colors } }) => {
 
 const useRadioStyle = props => {
   const theme = useTheme();
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = { ...props, colorMode, theme };
   return {
     ...baseProps,

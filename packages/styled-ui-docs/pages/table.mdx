@@ -560,7 +560,7 @@ In this example, we use [`react-custom-scrollbars`](https://github.com/malte-wes
 
 ```jsx noInline
 function StickyTable() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const scrollbarColor = colorMode === 'dark' ? 'white:tertiary' : 'black:tertiary';
 
   const columns = React.useMemo(() => [

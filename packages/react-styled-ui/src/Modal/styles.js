@@ -44,7 +44,7 @@ const getSizeProps = (size) => {
 };
 
 const useModalCloseButtonStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { colors } = useTheme();
   const color = {
     dark: 'white:tertiary',
@@ -97,7 +97,7 @@ const useModalCloseButtonStyle = () => {
 };
 
 const useModalContentStyle = ({ size }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     mx: 'auto',
@@ -161,7 +161,7 @@ const useModalBodyStyle = () => {
 };
 
 const useModalFooterStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { sizes, lineHeights } = useTheme();
   const borderColor = {
     dark: 'gray:80',

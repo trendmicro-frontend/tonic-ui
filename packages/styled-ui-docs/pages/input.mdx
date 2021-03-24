@@ -201,7 +201,7 @@ const InputAdornmentAppend = (props) => (
 function Example() {
   const [view, setView] = React.useState(false);
   const toggleView = () => setView(view => !view);
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const adornmentColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',

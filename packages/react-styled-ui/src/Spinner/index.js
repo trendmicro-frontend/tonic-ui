@@ -71,7 +71,7 @@ const Spinner = forwardRef(
     const _dashSpeed = Math.floor(_speed * 0.75 * 100) / 100;
 
     /***** full circle color *****/
-    const { colorMode } = useColorMode();
+    const [colorMode] = useColorMode();
     const _secondCircleColor = {
       light: setColorWithOpacity('black', 0.12),
       dark: setColorWithOpacity('white', 0.12),

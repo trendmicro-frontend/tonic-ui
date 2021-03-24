@@ -218,7 +218,7 @@ export const useTabStyle = () => {
   const { variant, size, isFitted, orientation } = useContext(
     TabContext,
   );
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _variantStyle = variantStyle({ size, variant, theme, colorMode });
   const _orientationStyle = orientationStyle({ orientation });
 

@@ -37,7 +37,7 @@ const baseStyleProps = ({ colorMode, disabled, textDecoration }) => {
 };
 
 const Link = forwardRef(({ disabled, onClick, textDecoration, ...props }, ref) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   return (
     <PseudoBox
       as="a"

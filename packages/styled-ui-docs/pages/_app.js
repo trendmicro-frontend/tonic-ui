@@ -29,7 +29,7 @@ const customTheme = {
 };
 
 const Layout = ({ children }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { fontSizes, lineHeights } = useTheme();
   const backgroundColor = {
     light: 'white',

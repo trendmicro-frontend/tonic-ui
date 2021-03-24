@@ -7,7 +7,7 @@ import useTheme from '../useTheme';
 import { setColorWithOpacity } from '../theme/colors';
 
 const SelectableButton = ({ selected, ...props }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const activeColor = {
     dark: 'blue:40',
     light: 'blue:60',
@@ -48,7 +48,7 @@ const Pagination = (props, ref) => {
     showFirstButton: !!firstButton,
     showLastButton: !!lastButton,
   });
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   return (
     <React.Fragment>

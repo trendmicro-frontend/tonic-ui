@@ -7,7 +7,7 @@ const baseProps = {
 };
 
 const usePopoverContentStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const backgroundColor = {
     dark: 'gray:80',
@@ -31,7 +31,7 @@ const usePopoverContentStyle = () => {
 };
 
 const usePopoverHeaderStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = { dark: 'white:emphasis', light: 'black:primary' }[colorMode];
   return {
     ...baseProps,
@@ -48,7 +48,7 @@ const usePopoverHeaderStyle = () => {
 };
 
 const usePopoverBodyStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = { dark: 'white:primary', light: 'black:primary' }[colorMode];
   return {
     color,

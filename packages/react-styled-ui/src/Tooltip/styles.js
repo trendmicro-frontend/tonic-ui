@@ -12,7 +12,7 @@ const baseProps = {
 };
 
 const useTooltipStyle = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorModeStyle = {
     dark: {

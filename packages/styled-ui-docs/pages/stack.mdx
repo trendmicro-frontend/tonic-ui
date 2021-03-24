@@ -25,7 +25,7 @@ By default, each item is stacked vertically. Stack clones it's children and pass
 
 ```jsx noInline
 const Item = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const boxShadow = `${colorMode}.sm`;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
@@ -50,7 +50,7 @@ render(<Example />);
 
 ```jsx noInline
 const Item = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const boxShadow = `${colorMode}.sm`;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
@@ -75,7 +75,7 @@ render(<Example />);
 
 ```jsx noInline
 const Item = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const boxShadow = `${colorMode}.sm`;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
@@ -101,7 +101,7 @@ render(<Example />);
 
 ```jsx noInline
 const Item = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const boxShadow = `${colorMode}.sm`;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (

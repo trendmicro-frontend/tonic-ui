@@ -67,7 +67,7 @@ You can format the `Text` component by passing `fontSize`, `lineHeight`, or othe
 
 ```jsx
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const bg = colorMode === 'dark' ? 'gray:80' : 'gray:20';
 
   return (
@@ -103,7 +103,7 @@ function Example() {
 
 ```jsx noInline
 const TextBlock = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (

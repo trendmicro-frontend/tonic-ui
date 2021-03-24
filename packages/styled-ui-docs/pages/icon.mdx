@@ -129,7 +129,7 @@ const renderIconGroup = (iconSet, keyword, showCharCode, color) => {
 function Example() {
   const [keyword, setKeyword] = React.useState('');
   const [showCharCode, setShowCharCode] = React.useState(false);
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = {
     light: 'black:secondary',
     dark: 'white:secondary',

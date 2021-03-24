@@ -110,7 +110,7 @@ const useSkeletonStyle = ({
   animation,
   variant,
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const backgroundColor = {
     dark: 'gray:80',
     light: 'gray:20',

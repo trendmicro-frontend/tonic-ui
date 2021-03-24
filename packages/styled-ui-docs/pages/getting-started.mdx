@@ -95,7 +95,7 @@ import {
 import App from './App';
 
 const Layout = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const { fontSizes, lineHeights } = useTheme();
   const backgroundColor = colorStyle.background.primary;

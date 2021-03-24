@@ -4,7 +4,7 @@ import { ColorModeProvider, ThemeProvider, useColorMode, useTheme } from '@trend
 
 const useToast = () => {
   const theme = useTheme();
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const notify = useCallback(
     ({
       position = 'top',
