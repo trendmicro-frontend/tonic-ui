@@ -1,5 +1,6 @@
 import { get } from '@styled-system/core';
 import useColorMode from '../useColorMode';
+import useColorStyle from '../useColorStyle';
 import useTheme from '../useTheme';
 
 const defaultSize = 'auto';
@@ -97,6 +98,7 @@ const useModalCloseButtonStyle = () => {
 
 const useModalContentStyle = ({ size }) => {
   const { colorMode } = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     mx: 'auto',
     height: 'auto',
@@ -111,7 +113,7 @@ const useModalContentStyle = ({ size }) => {
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'gray:20',
-      boxShadow: 'light.lg',
+      boxShadow: colorStyle?.shadow?.thick,
     },
     dark: {
       color: 'white:primary',
@@ -119,7 +121,7 @@ const useModalContentStyle = ({ size }) => {
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'gray:80',
-      boxShadow: 'dark.lg',
+      boxShadow: colorStyle?.shadow?.thick,
     },
   }[colorMode];
   const sizeProps = getSizeProps(size);

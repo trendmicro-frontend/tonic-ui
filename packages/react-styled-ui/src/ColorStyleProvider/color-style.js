@@ -23,21 +23,25 @@ const colorStyle = {
     },
 
     // Shadow color
-    // Note: The shadow style props will be removed from 'styled-ui-theme'.
     shadow: {
-      sm: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
-      md: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
-      lg: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
+      // Tooltip, Popover
+      thin: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
+
+      // Menu
+      medium: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+
+      // Drawer, Modal
+      thick: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
     },
 
-    // Severity color: critical, high, medium, low, none
+    // Severity color
     severity: {
-      critical: 'red:60',
+      critical: 'magenta:60',
       high: 'red:50',
       medium: 'orange:50',
       low: 'yellow:50',
       safe: 'green:40',
-      info: 'blue:50',
+      info: 'gray:50',
       unknown: 'gray:50',
     },
 
@@ -85,21 +89,25 @@ const colorStyle = {
     },
 
     // Shadow color
-    // Note: The shadow style props will be removed from 'styled-ui-theme'.
     shadow: {
-      sm: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
-      md: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-      lg: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
+      // Tooltip, Popover
+      thin: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
+
+      // Menu
+      medium: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+
+      // Drawer, Modal
+      thick: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
     },
 
-    // Severity color: critical, high, medium, low, none
+    // Severity color
     severity: {
-      critical: 'red:60',
+      critical: 'magenta:60',
       high: 'red:60',
       medium: 'orange:50',
       low: 'yellow:50',
       safe: 'green:50',
-      info: 'blue:60',
+      info: 'gray:50',
       unknown: 'gray:50',
     },
 

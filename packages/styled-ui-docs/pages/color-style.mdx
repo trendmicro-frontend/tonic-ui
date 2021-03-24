@@ -1,12 +1,18 @@
 import {
   colorStyle,
+  DarkMode,
+  Divider,
+  Flex,
+  Icon,
+  LightMode,
+  Space,
   Stack,
   Text,
-  DarkMode,
-  LightMode,
 } from "@trendmicro/react-styled-ui";
 import CodeBlock from "../components/CodeBlock";
-import ColorStyleBlocks from '../components/ColorStyleBlocks';
+import ColorStyleBody from '../components/ColorStyleBody';
+import ColorStyleContent from '../components/ColorStyleContent';
+import ColorStyleHeader from '../components/ColorStyleHeader';
 import jsonPrettify from "../components/json-prettify";
 
 # Color Style
@@ -121,7 +127,9 @@ function Example() {
 };
 ```
 
-## Dark Color Values
+## Color Values
+
+### Dark color style
 
 <Box mb="6x">
   <CodeBlock>
@@ -129,46 +137,7 @@ function Example() {
   </CodeBlock>
 </Box>
 
-<DarkMode>
-  <Stack
-    direction="column"
-    shouldWrapChildren
-    spacing="6x"
-  >
-    <>
-      <Text fontSize="lg" mb="3x">
-        Text
-      </Text>
-      <ColorStyleBlocks colorType="text" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Background
-      </Text>
-      <ColorStyleBlocks colorType="background" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Shadow
-      </Text>
-      <ColorStyleBlocks colorType="shadow" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Severity
-      </Text>
-      <ColorStyleBlocks colorType="severity" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Chart - Classic
-      </Text>
-      <ColorStyleBlocks colorType="chart.classic.colors" />
-    </>
-  </Stack>
-</DarkMode>
-
-## Light Color Values
+### Light color style
 
 <Box mb="6x">
   <CodeBlock>
@@ -176,77 +145,192 @@ function Example() {
   </CodeBlock>
 </Box>
 
-<LightMode>
-  <Stack
-    direction="column"
-    shouldWrapChildren
-    spacing="6x"
-  >
-    <>
-      <Text fontSize="lg" mb="3x">
-        Text
-      </Text>
-      <ColorStyleBlocks colorType="text" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Background
-      </Text>
-      <ColorStyleBlocks colorType="background" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Shadow
-      </Text>
-      <ColorStyleBlocks colorType="shadow" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Severity
-      </Text>
-      <ColorStyleBlocks colorType="severity" />
-    </>
-    <>
-      <Text fontSize="lg" mb="3x">
-        Chart - Classic
-      </Text>
-      <ColorStyleBlocks colorType="chart.classic.colors" />
-    </>
-  </Stack>
-</LightMode>
-
-## Blindness Color Values
-
-Blindness color values are not defined in the color style system, you can replace `severity`, `chart`, and `gradient` with below values when necessary.
-
-<CodeBlock>
-  {jsonPrettify({
-    severity: {
-      high: 'magenta:60',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      safe: 'green:30',
-      none: 'gray:50',
-    },
-    chart: {
-      classic: {
-        colors: [
-          'gray:50',
-          'blue:30',
-          'green:30',
-          'orange:50',
-          'cyan:30',
-          'magenta:60',
-          'purple:50',
-          'teal:40',
-          'purple:30',
-          'cyan:70',
-          'yellow:50',
-        ],
-      },
-    },
-  })}
-</CodeBlock>
+<Stack
+  direction="column"
+  shouldWrapChildren
+>
+  <>
+    <Text fontSize="xl" my="6x">
+      Text Colors
+    </Text>
+    <DarkMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="moon" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Dark Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="text" />
+      </ColorStyleContent>
+    </DarkMode>
+    <LightMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="sun" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Light Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="text" />
+      </ColorStyleContent>
+    </LightMode>
+  </>
+  <>
+    <Text fontSize="xl" my="6x">
+      Background Colors
+    </Text>
+    <DarkMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="moon" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Dark Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="background" />
+      </ColorStyleContent>
+    </DarkMode>
+    <LightMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="sun" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Light Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="background" />
+      </ColorStyleContent>
+    </LightMode>
+  </>
+  <>
+    <Text fontSize="xl" my="6x">
+      Shadow Colors
+    </Text>
+    <DarkMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="moon" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Dark Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody
+          colorType="shadow"
+          gridTemplateColumns="1fr"
+        />
+      </ColorStyleContent>
+    </DarkMode>
+    <LightMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="sun" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Light Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody
+          colorType="shadow"
+          gridTemplateColumns="1fr"
+        />
+      </ColorStyleContent>
+    </LightMode>
+  </>
+  <>
+    <Text fontSize="xl" my="6x">
+      Severity Colors
+    </Text>
+    <DarkMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="moon" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Dark Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="severity" />
+      </ColorStyleContent>
+    </DarkMode>
+    <LightMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="sun" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Light Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="severity" />
+      </ColorStyleContent>
+    </LightMode>
+  </>
+  <>
+    <Text fontSize="xl" my="6x">
+      Chart Colors
+    </Text>
+    <DarkMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="moon" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Dark Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="chart.classic.colors" />
+      </ColorStyleContent>
+    </DarkMode>
+    <LightMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="sun" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Light Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="chart.classic.colors" />
+      </ColorStyleContent>
+    </LightMode>
+  </>
+</Stack>
 
 ## Gradient Color Values
 
@@ -256,11 +340,187 @@ Gradient color values are not defined in the color style system, you can set `gr
   {jsonPrettify({
     gradient: {
       severity: {
-        high: ['purple:60', 'magenta:60'],
-        medium: ['magenta:60', 'orange:50'],
+        high: ['purple:60', 'red:50'],
+        medium: ['red:50', 'orange:50'],
         low: ['orange:50', 'yellow:50'],
-        safe: ['teal:50', 'green:30'],
+        safe: ['teal:50', 'green:40'],
+      },
+      others: {
+        1: ['purple:50', 'magenta:40'],
+        2: ['purple:60', 'blue:50'],
+        3: ['blue:50', 'teal:40'],
+        4: ['cyan:40', 'teal:30'],
+        5: ['blue:60', 'teal:40'],
+        6: ['green:40', 'cyan:30'],
+        7: ['magenta:60', 'red:40'],
+        8: ['magenta:50', 'blue:60'],
       },
     },
   })}
 </CodeBlock>
+
+<ColorStyleContent>
+  <Stack direction="column" spacing="8x" shouldWrapChildren>
+    <>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Gradient > Severity
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          gradient: {
+            high: ['purple:60', 'red:50'],
+            medium: ['red:50', 'orange:50'],
+            low: ['orange:50', 'yellow:50'],
+            safe: ['teal:50', 'green:40'],
+          },
+        }}
+        colorType="gradient"
+      />
+    </>
+    <>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Gradient > Others
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          gradient: {
+            1: ['purple:50', 'magenta:40'],
+            2: ['purple:60', 'blue:50'],
+            3: ['blue:50', 'teal:40'],
+            4: ['cyan:40', 'teal:30'],
+            5: ['blue:60', 'teal:40'],
+            6: ['green:40', 'cyan:30'],
+            7: ['magenta:60', 'red:40'],
+            8: ['magenta:50', 'blue:60'],
+          },
+        }}
+        colorType="gradient"
+      />
+    </>
+  </Stack>
+</ColorStyleContent>
+
+## Blindness Color Values
+
+Blindness color values are not defined in the color style system, you can set `blindness` with below values when necessary.
+
+<CodeBlock>
+  {jsonPrettify({
+    blindness: {
+      severity: {
+        high: 'magenta:60',
+        medium: 'orange:50',
+        low: 'yellow:50',
+        safe: 'green:30',
+        info: 'gray:50',
+        none: 'gray:50',
+      },
+      chart: {
+        classic: {
+          colors: [
+            'gray:50',
+            'blue:30',
+            'green:30',
+            'orange:50',
+            'cyan:30',
+            'magenta:60',
+            'purple:50',
+            'teal:40',
+            'purple:30',
+            'cyan:70',
+            'yellow:50',
+          ],
+        },
+      },
+      gradient: {
+        severity: {
+          high: ['purple:60', 'magenta:60'],
+          medium: ['magenta:60', 'orange:50'],
+          low: ['orange:50', 'yellow:50'],
+          safe: ['teal:50', 'green:30'],
+        },
+      },
+    },
+  })}
+</CodeBlock>
+
+<ColorStyleContent>
+  <Stack direction="column" spacing="8x" shouldWrapChildren>
+    <>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Blindness > Severity
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          severity: {
+            high: 'magenta:60',
+            medium: 'orange:50',
+            low: 'yellow:50',
+            safe: 'green:30',
+            info: 'gray:50',
+            none: 'gray:50',
+          },
+        }}
+        colorType="severity"
+      />
+    </>
+    <>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Blineness > Chart
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          chart: {
+            classic: {
+              colors: [
+                'gray:50',
+                'blue:30',
+                'green:30',
+                'orange:50',
+                'cyan:30',
+                'magenta:60',
+                'purple:50',
+                'teal:40',
+                'purple:30',
+                'cyan:70',
+                'yellow:50',
+              ],
+            },
+          },
+        }}
+        colorType="chart.classic.colors"
+      />
+    </>
+    <>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Blindness > Gradient
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          gradient: {
+            high: ['purple:60', 'magenta:60'],
+            medium: ['magenta:60', 'orange:50'],
+            low: ['orange:50', 'yellow:50'],
+            safe: ['teal:50', 'green:30'],
+          },
+        }}
+        colorType="gradient"
+      />
+    </>
+  </Stack>
+</ColorStyleContent>
