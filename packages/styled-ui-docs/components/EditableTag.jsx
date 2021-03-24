@@ -17,7 +17,7 @@ const EditableTag = React.forwardRef((
   },
   ref,
 ) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const tagInputRef = React.useRef();
   const tagHiddenSpanRef = React.useRef();
   const { sizes } = useTheme();

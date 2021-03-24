@@ -26,7 +26,15 @@ import React from 'react';
 import { Button, useColorMode } from '@trendmicro/react-styled-ui';
 
 const App = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const [colorMode, setColorMode] = useColorMode();
+  const toggleColorMode = () => {
+    const nextColorMode = {
+      'dark': 'light',
+      'light': 'dark',
+    }[colorMode];
+    setColorMode(nextColorMode);
+  };
+
   return (
     <Button onClick={toggleColorMode}>
       Toggle Color Mode

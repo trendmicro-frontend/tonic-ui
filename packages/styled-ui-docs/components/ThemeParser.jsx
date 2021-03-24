@@ -7,7 +7,7 @@ import jsonPrettify from './json-prettify';
 const ThemeParser = ({ theme, mode, ...props }) => {
   const themes = useTheme();
   const indent = !!mode;
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _mode = mode ?? colorMode;
   let token = _get(colorStyle[_mode], theme) || themes[theme];
   if (!token) {

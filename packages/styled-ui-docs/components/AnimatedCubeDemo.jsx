@@ -9,7 +9,7 @@ const cubeSpin = keyframes`
 `;
 
 const AnimatedCubeDemo = ({ size = 128, ...rest }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const textShadow = colorMode === 'dark'
     ? `
       -1px -1px 2px rgba(0,0,0,.4),

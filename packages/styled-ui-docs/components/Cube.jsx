@@ -38,7 +38,7 @@ const CubeObject = (props) => {
 };
 
 const CubePlane = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const backgroundColor = colorMode === 'dark'
     ? 'rgba(255,255,255,.05)'
     : 'rgba(0,0,0,.05)';

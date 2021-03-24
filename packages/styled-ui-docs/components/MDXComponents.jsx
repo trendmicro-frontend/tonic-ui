@@ -32,7 +32,7 @@ const p = props => (
 );
 
 const H1 = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = mapColorModeToHeadingColor(colorMode);
   const borderColor = {
     light: 'gray:40', //FIX ME
@@ -57,7 +57,7 @@ const H1 = props => {
 };
 
 const H2 = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = mapColorModeToHeadingColor(colorMode);
   const borderColor = {
     light: 'gray:40', //FIX ME
@@ -82,7 +82,7 @@ const H2 = props => {
 };
 
 const H3 = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = mapColorModeToHeadingColor(colorMode);
 
   return (
@@ -100,7 +100,7 @@ const H3 = props => {
 };
 
 const H4 = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = mapColorModeToHeadingColor(colorMode);
 
   return (
@@ -117,7 +117,7 @@ const H4 = props => {
 };
 
 const H5 = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = mapColorModeToHeadingColor(colorMode);
 
   return (
@@ -135,7 +135,7 @@ const H5 = props => {
 };
 
 const H6 = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = mapColorModeToHeadingColor(colorMode);
 
   return (
@@ -228,7 +228,7 @@ const tr = props => (
 );
 
 const TH = ({ align, ...props }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const borderColor = mapColorModeToTableBorderColor(colorMode);
 
   return (
@@ -248,7 +248,7 @@ const TH = ({ align, ...props }) => {
 };
 
 const TD = ({ align, ...props }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const borderColor = mapColorModeToTableBorderColor(colorMode);
 
   return (

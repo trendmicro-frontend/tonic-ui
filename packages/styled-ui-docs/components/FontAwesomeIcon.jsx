@@ -34,7 +34,7 @@ export default React.forwardRef(({
   spinReverse,
   ...props
 }, ref) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = {
     light: '#666666',
     dark: '#bbbbbb',

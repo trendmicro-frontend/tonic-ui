@@ -61,7 +61,7 @@ const tmicons = tmicon.iconsets.map(group => {
 });
 
 const LiveCodePreview = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const borderColor = {
     light: 'gray:20', // FIXME
     dark: 'gray:70',
@@ -130,7 +130,7 @@ const CodeBlock = ({
   const handleCodeChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
   }, []);
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const themes = {
     light: codeBlockLight,
     dark: codeBlockDark,
