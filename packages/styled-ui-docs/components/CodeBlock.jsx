@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 import { mdx } from '@mdx-js/react';
-import * as CoreComponents from '@trendmicro/react-styled-ui';
+import * as styledUIComponents from '@trendmicro/react-styled-ui';
 import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
@@ -19,8 +19,9 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 import useToast from './useToast';
 
-const ThirdPartyComponents = {
+const thirdPartyComponents = {
   AutoSizer,
+  FontAwesomeIcon,
   Scrollbars,
   ReactBeautifulDND,
   ReactDND,
@@ -29,13 +30,19 @@ const ThirdPartyComponents = {
   update,
   ...ReactTable,
 };
-const CustomedComponents = {
+const customedComponents = {
   EditableTag,
 };
-const IconComponents = {
-  FontAwesomeIcon,
-};
-const { PseudoBox, Box, Flex, Button, Collapse, Icon, useColorMode, useClipboard } = CoreComponents;
+const {
+  Box,
+  Button,
+  Collapse,
+  Flex,
+  Icon,
+  PseudoBox,
+  useColorMode,
+  useClipboard,
+} = styledUIComponents;
 
 const liveEditorStyle = {
   fontSize: 14,
@@ -113,9 +120,9 @@ const CodeBlock = ({
   previewOnly = false,
 
   /**
-   * Default is expand or collapse (Default: `false`)
+   * Default is expand or collapse (Default: `true`)
    */
-  expanded = false,
+  expanded = true,
 
   className,
   children,
@@ -137,7 +144,8 @@ const CodeBlock = ({
   };
   const theme = themes[colorMode];
   const language = className && className.replace(/language-/, '');
-  const isCollapsible = liveEditorHeight > 84;
+  const headerHeight = 16;
+  const isCollapsible = liveEditorHeight > headerHeight;
 
   noInline = boolean(noInline);
 
@@ -188,11 +196,9 @@ const CodeBlock = ({
     code: editorCode,
     transformCode: code => code,
     scope: {
-      ...IconComponents,
-      ...CoreComponents,
-      ...ThirdPartyComponents,
-      ...CustomedComponents,
-      useToast,
+      ...styledUIComponents,
+      ...thirdPartyComponents,
+      EditableTag,
       Lorem: (props) => (
         <Lorem
           paragraphLowerBound={1}
@@ -202,6 +208,7 @@ const CodeBlock = ({
           {...props}
         />
       ),
+      useToast,
       css,
       mdx,
       tmicons,
@@ -231,7 +238,12 @@ const CodeBlock = ({
       )}
       <Box mt="4x" position="relative">
         {isEditable && (
-          <Flex justify="space-between" onClick={isCollapsible ? handleCollapse : undefined} {...useCodeBlockTitleStyle}>
+          <Flex
+            align="center"
+            justify="space-between"
+            onClick={isCollapsible ? handleCollapse : undefined}
+            {...useCodeBlockTitleStyle}
+          >
             EDITABLE EXAMPLE
             {isCollapsible && (
               <Icon
@@ -243,7 +255,7 @@ const CodeBlock = ({
         )}
         {(isEditable && isCollapsible) ? (
           <PseudoBox {...useCollapseBoxStyle}>
-            <Collapse startingHeight={84} isOpen={isExpanded}>
+            <Collapse startingHeight={headerHeight} isOpen={isExpanded}>
               <Box position="relative">
                 {
                   isExpanded && (
