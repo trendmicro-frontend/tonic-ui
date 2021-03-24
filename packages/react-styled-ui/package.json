@@ -2,13 +2,14 @@
   "name": "@trendmicro/react-styled-ui",
   "version": "0.13.1",
   "description": "React UI components built with Emotion and Styled System",
-  "main": "index.js",
+  "main": "dist/react-styled-ui.js",
+  "module": "dist/es/react-styled-ui.js",
   "publishConfig": {
     "access": "public",
     "directory": "build"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=cjs babel --root-mode upward src --out-dir build --ignore='**/*.test.js'",
+    "build": "cross-env PACKAGE_NAME=react-styled-ui INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.js",
     "clean": "del build dist",
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "eslint --ext .js,.jsx .",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "~10.1.0",
     "@emotion/jest": "~11.2.0",
+    "@rollup/plugin-node-resolve": "~11.2.0",
     "@storybook/addon-actions": "~5.3.19",
     "@storybook/addon-docs": "~5.3.19",
     "@storybook/addon-links": "~5.3.19",
@@ -51,7 +53,9 @@
     "jest": "~26.6.3",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-test-renderer": "^16.8.0"
+    "react-test-renderer": "^16.8.0",
+    "rollup": "~2.42.3",
+    "rollup-plugin-babel": "~4.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",
