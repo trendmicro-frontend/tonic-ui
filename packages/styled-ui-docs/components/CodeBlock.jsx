@@ -30,9 +30,6 @@ const thirdPartyComponents = {
   update,
   ...ReactTable,
 };
-const customedComponents = {
-  EditableTag,
-};
 const {
   Box,
   Button,
