@@ -4,14 +4,20 @@ Use the `ColorModeProvider` to use color mode in your application. The color mod
 
 ```jsx disabled
 import React from 'react';
-import { ThemeProvider, ColorModeProvider } from '@trendmicro/react-styled-ui';
+import {
+  ThemeProvider,
+  ColorModeProvider,
+  ColorStyleProvider,
+} from '@trendmicro/react-styled-ui';
 import App from './App';
 
 function Example({ children }) {
   return (
     <ThemeProvider>
       <ColorModeProvider value="dark">
-        <App />
+        <ColorStyleProvider>
+          <App />
+        </ColorStyleProvider>
       </ColorModeProvider>
     </ThemeProvider>
   );
