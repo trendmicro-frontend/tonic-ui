@@ -8,12 +8,12 @@ const ColorStyleContent = (props) => {
   const [colorMode] = useColorMode();
   const baseProps = {
     dark: {
-      bg: 'gray:100',
+      backgroundColor: 'gray:100',
       border: 1,
       borderColor: 'gray:70',
     },
     light: {
-      bg: 'white',
+      backgroundColor: 'white:emphasis',
       border: 1,
       borderColor: 'gray:20',
     },

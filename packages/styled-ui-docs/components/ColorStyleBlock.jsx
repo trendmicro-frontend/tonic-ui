@@ -19,29 +19,43 @@ const ColorStyleBlock = ({
   colorValues,
   ...props
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const primaryTextColor = colorStyle?.text?.primary;
   const secondaryTextColor = colorStyle?.text?.secondary;
-  const blockProps = {};
+  const blockStyle = (() => {
+    const style = {};
+    const containerBackgroundColor = {
+      dark: 'gray:100',
+      light: 'white:emphasis',
+    }[colorMode];
+    const borderColor = {
+      dark: 'gray:70',
+      light: 'gray:20',
+    }[colorMode];
 
-  if (colorType === 'gradient') {
-    const [from, to] = colorValues;
-    blockProps.background = `linear-gradient(45deg, ${from}, ${to})`;
-    blockProps.boxShadow = colorStyle?.shadow.medium;
-  } else if (colorType === 'shadow') {
-    blockProps.boxShadow = colorValues[0];
-  } else {
-    blockProps.backgroundColor = colorValues[0];
-    blockProps.boxShadow = colorStyle?.shadow.medium;
-  }
+    if (colorType === 'gradient') {
+      const [from, to] = colorValues;
+      style.background = `linear-gradient(45deg, ${from}, ${to})`;
+      return style;
+    }
 
-  if (colorMode === 'dark') {
-    blockProps.borderColor = 'gray:80';
-  }
-  if (colorMode === 'light') {
-    blockProps.borderColor = 'gray:20';
-  }
+    if (colorType === 'shadow') {
+      style.backgroundColor = {
+        dark: 'gray:90',
+        light: 'white',
+      }[colorMode];
+      style.boxShadow = colorValues[0];
+      return style;
+    }
+
+    style.backgroundColor = colorValues[0];
+    if (containerBackgroundColor === colorTokens[0]) {
+      style.borderColor = borderColor;
+    }
+
+    return style;
+  })();
 
   return (
     <Box>
@@ -52,7 +66,7 @@ const ColorStyleBlock = ({
         height={baseHeight}
         px="3x"
         mb="3x"
-        {...blockProps}
+        {...blockStyle}
       />
       <Box
         mb="2x"
