@@ -92,8 +92,7 @@ const ColorStyleBlock = ({
 
               return (
                 <Tag
-                  variant="outline"
-                  color={secondaryTextColor}
+                  variant="solid"
                   fontFamily="mono"
                   fontSize="sm"
                   lineHeight="sm"
