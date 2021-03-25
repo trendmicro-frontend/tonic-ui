@@ -46,7 +46,7 @@ const getSizeProps = (size) => {
 };
 
 const useDrawerCloseButtonStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { colors } = useTheme();
   const color = {
     dark: 'white:tertiary',
@@ -102,7 +102,7 @@ const useDrawerContentStyle = ({
   placement,
   size,
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     mx: 'auto',
@@ -169,7 +169,7 @@ const useDrawerBodyStyle = () => {
 };
 
 const useDrawerFooterStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { sizes, lineHeights } = useTheme();
   const borderColor = {
     dark: 'gray:80',

@@ -45,7 +45,7 @@ const Table = forwardRef((
 });
 
 const VerticalLine = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const isDark = colorMode === 'dark';
   return (
     <Box
@@ -58,7 +58,7 @@ const VerticalLine = (props) => {
   );
 };
 const HorizontalLine = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const isDark = colorMode === 'dark';
   return (
     <Box

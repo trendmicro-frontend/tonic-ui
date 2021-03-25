@@ -9,7 +9,7 @@ Add or remove shadows to elements with box-shadow utilities.
 
 ```jsx noInline
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   return (
     <Stack direction="row" spacing="6x" justifyContent="center">
       <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.sm`}>boxShadow=sm</Box>

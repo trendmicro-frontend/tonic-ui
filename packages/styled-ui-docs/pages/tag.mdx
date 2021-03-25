@@ -131,7 +131,7 @@ const EditableTag = React.forwardRef((
   },
   ref,
 ) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const tagInputRef = React.useRef();
   const tagHiddenSpanRef = React.useRef();
   const { sizes } = useTheme();
@@ -361,7 +361,7 @@ render(<Tags />);
 const useWrapperStyle = ({
   isFocused,
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   const borderColor = {
     dark: 'gray:60',
@@ -397,7 +397,7 @@ const useWrapperStyle = ({
 };
 
 const Tags = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const tagCreatorRef = React.useRef();
   const [inputValue, setInputValue] = React.useState('');
   const [tags, setTags] = React.useState([]);

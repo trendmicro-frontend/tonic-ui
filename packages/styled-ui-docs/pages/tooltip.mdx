@@ -48,7 +48,7 @@ If the children of Tooltip are focusable elements, Tooltip will show when you fo
 
 ```jsx
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const inputRef = React.useRef();
   const [menuItem, setMenuItem] = React.useState('hostname');
   const handleMenuClick = (event) => {

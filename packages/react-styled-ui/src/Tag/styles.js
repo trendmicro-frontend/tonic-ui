@@ -318,7 +318,7 @@ const baseProps = {
 
 const useTagStyle = ({ borderRadius, ...props }) => {
   const theme = useTheme();
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = { ...props, theme, colorMode };
   return {
     ...baseProps,

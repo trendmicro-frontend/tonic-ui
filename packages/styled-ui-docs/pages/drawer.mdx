@@ -30,7 +30,7 @@ Click the button below to toggle a drawer. The drawer will show up on either sid
 
 ```jsx noInline
 const SelectableButton = ({ selected, ...props }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { colors } = useTheme();
   const focusColor = colors['blue:60'];
   let _selectedColor = {
@@ -87,7 +87,7 @@ const useToggle = (defaultValue) => {
 };
 
 const Divider = (props) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const dividerColor = {
     dark: 'white:secondary',
     light: 'black:secondary',
@@ -104,7 +104,7 @@ const FormGroup = (props) => (
 );
 
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const iconColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',

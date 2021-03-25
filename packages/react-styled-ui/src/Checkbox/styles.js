@@ -172,7 +172,7 @@ const interactionProps = ({ color, colorMode }) => {
 };
 
 const useCheckboxStyle = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = { ...props, colorMode };
   return {
     ...baseProps,

@@ -179,7 +179,7 @@ const useSelectStyle = ({
   variant,
   multiple,
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = {
     colorMode,
     variant,
@@ -200,7 +200,7 @@ const useSelectStyle = ({
 };
 
 const useOptionStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const backgroundColor = {
     dark: 'gray:100',
     light: 'white',

@@ -14,7 +14,7 @@ import { ButtonGroup } from '@trendmicro/react-styled-ui';
 
 ```jsx noInline
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const dividerColor ={
     dark: 'gray:70',
     light: 'gray:30',
@@ -39,7 +39,7 @@ Use the `variant` prop to change the visual style of every button in a group. Yo
 
 ```jsx noInline
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const emphasisDividerColor ={
     dark: 'red:80',
     light: 'red:80',
@@ -119,7 +119,7 @@ Use the `size` prop to change the size of the `ButtonGroup`. You can set the val
 
 ```jsx noInline
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const defaultDividerColor ={
     dark: 'gray:70',
     light: 'gray:30',
@@ -255,7 +255,7 @@ Make a set of buttons appear vertically stacked rather than horizontally, by add
 
 ```jsx noInline
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const defaultDividerColor ={
     dark: 'gray:70',
     light: 'gray:30',
@@ -351,7 +351,7 @@ render(<Example />);
 
 ```jsx noInline
 const SelectableButton = ({ selected, selectedColor, ...props }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { colors } = useTheme();
   const focusColor = colors['blue:60'];
   let _selectedColor = selectedColor || {
@@ -396,7 +396,7 @@ const SelectableButton = ({ selected, selectedColor, ...props }) => {
 };
 
 function SwitchButton() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const emphasisDividerColor = {
     dark: 'red:80',
     light: 'red:80',

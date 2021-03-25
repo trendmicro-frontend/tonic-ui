@@ -1,10 +1,16 @@
 import React, { useCallback } from 'react';
 import toaster from 'toasted-notes';
-import { ColorModeProvider, ThemeProvider, useColorMode, useTheme } from '@trendmicro/react-styled-ui';
+import {
+  ColorModeProvider,
+  ColorStyleProvider,
+  ThemeProvider,
+  useColorMode,
+  useTheme,
+} from '@trendmicro/react-styled-ui';
 
 const useToast = () => {
   const theme = useTheme();
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const notify = useCallback(
     ({
       position = 'top',
@@ -24,7 +30,9 @@ const useToast = () => {
         ({ id, onClose }) => (
           <ThemeProvider theme={theme}>
             <ColorModeProvider value={colorMode}>
-              {render({ id, onClose, position, duration })}
+              <ColorStyleProvider>
+                {render({ id, onClose, position, duration })}
+              </ColorStyleProvider>
             </ColorModeProvider>
           </ThemeProvider>
         ),

@@ -3,7 +3,7 @@ import Text from '../Text';
 import useColorMode from '../useColorMode';
 
 const TextLabel = forwardRef((props, ref) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const colorProps = {
     dark: {
       color: 'white:secondary',

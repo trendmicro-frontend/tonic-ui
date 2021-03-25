@@ -55,7 +55,7 @@ const SearchInput = React.forwardRef((
   const inputRef = useRef();
   const combinedRef = useForkRef(inputRef, ref);
   const [rootProps, inputProps] = splitProps(rest);
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const primaryColor = {
     dark: 'white:primary',
     light: 'black:primary',

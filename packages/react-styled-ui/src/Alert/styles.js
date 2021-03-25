@@ -90,7 +90,7 @@ const getSeverityProps = ({ severity, ...props }) => {
 const useAlertRootStyle = ({
   severity,
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = {
     colorMode,
     severity,
@@ -121,7 +121,7 @@ const useAlertMessageStyle = () => {
 };
 
 const useAlertCloseButtonStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { colors } = useTheme();
   const color = {
     dark: 'black:tertiary',

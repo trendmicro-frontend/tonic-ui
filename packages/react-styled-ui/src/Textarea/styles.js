@@ -149,7 +149,7 @@ const getVariantProps = (props) => {
 const useTextareaStyle = ({
   variant,
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = {
     colorMode,
     variant,

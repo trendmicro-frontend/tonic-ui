@@ -4,7 +4,7 @@ import useColorMode from '../useColorMode';
 import useColorStyle from '../useColorStyle';
 
 export const useMenuListStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorModeStyle = {
     light: {
@@ -32,7 +32,7 @@ export const useMenuListStyle = () => {
 */
 
 export const useMenuGroupStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = {
     dark: 'white:secondary',
     light: 'black:secondary',
@@ -93,7 +93,7 @@ const menuItemProps = ({ colorMode }) => {
 
 export const useMenuItemStyle = () => {
   const theme = useTheme();
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const props = { theme, colorMode };
 
   return {

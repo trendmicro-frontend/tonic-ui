@@ -56,7 +56,7 @@ const useToastRootStyle = ({
   appearance,
 }) => {
   const theme = useTheme();
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = {
     theme,
     colorMode,
@@ -96,7 +96,7 @@ const useToastMessageStyle = () => {
 };
 
 const useToastCloseButtonStyle = () => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const { colors } = useTheme();
   const color = {
     dark: 'black:tertiary',

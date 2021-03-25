@@ -46,7 +46,7 @@ const menuButtonProps = ({ colorMode, color }) => {
 };
 
 const useMenuButtonStyle = props => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const theme = useTheme();
   const _props = { ...props, colorMode, theme, color: 'blue' };
 

@@ -197,7 +197,7 @@ While multiple `<Input />`s are supported visually, validation styles are only a
 
 ```jsx noInline
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const dividerColor ={
     dark: 'gray:70',
     light: 'gray:30',

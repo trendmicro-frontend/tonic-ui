@@ -9,7 +9,7 @@ const TableRow = forwardRef(({
   ...props
 }, ref) => {
   const { isHoverable } = useTableContext();
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const isDark = colorMode === 'dark';
   const bg = isDark ? 'white' : 'black';
   return (

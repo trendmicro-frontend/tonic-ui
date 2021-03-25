@@ -186,7 +186,7 @@ Add the `_firstChild` prop to style an element that is the first element among i
 
 ```jsx
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (
@@ -218,7 +218,7 @@ Add the `_lastChild` prop to style an element that is the last element among its
 
 ```jsx
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (
@@ -294,7 +294,7 @@ render(<Example />);
 
 ```jsx
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (
@@ -321,7 +321,7 @@ function Example() {
 
 ```jsx
 function Example() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
 
   return (

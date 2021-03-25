@@ -110,7 +110,7 @@ const useInputGroupAddonStyle = ({
   size,
   variant,
 }) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const _props = {
     colorMode,
     size,

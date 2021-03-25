@@ -92,6 +92,7 @@ const ColorStyleBlock = ({
 
               return (
                 <Tag
+                  key={colorToken}
                   variant="solid"
                   fontFamily="mono"
                   fontSize="sm"
@@ -110,6 +111,7 @@ const ColorStyleBlock = ({
           >
             {colorValues.map(colorValue => (
               <Text
+                key={colorValue}
                 color={secondaryTextColor}
                 fontFamily="mono"
                 fontSize="sm"

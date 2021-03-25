@@ -3,7 +3,7 @@ import Box from '../Box';
 import useColorMode from '../useColorMode';
 
 const ModalOverlay = forwardRef((props, ref) => {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const backgroundColor = {
     dark: 'rgba(0, 0, 0, .7)', // TBD
     light: 'rgba(0, 0, 0, .7)', // TBD: light mode is not defined yet

@@ -20,7 +20,7 @@ const publicUrl = process.env.PUBLIC_URL;
 const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
   const router = useRouter();
   const isRouteActive = href.replace('.', '') === router.pathname;
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const color = {
     light: 'gray:90', // FIXME
     dark: 'white:primary',
@@ -77,7 +77,7 @@ const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
 
 const SideNav = React.forwardRef((props, ref) => {
   const theme = useTheme();
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const backgroundColor = {
     light: 'white',
     dark: 'gray:90',
