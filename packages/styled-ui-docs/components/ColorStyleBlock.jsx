@@ -75,6 +75,7 @@ const ColorStyleBlock = ({
           color={primaryTextColor}
           fontSize="md"
           lineHeight="md"
+          fontWeight="semibold"
         >
           {colorLabel}
         </Text>
