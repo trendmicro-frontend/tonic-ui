@@ -51,6 +51,7 @@ const ColorStyleBlock = ({
 
     style.backgroundColor = colorValues[0];
     if (containerBackgroundColor === colorTokens[0]) {
+      style.border = 1;
       style.borderColor = borderColor;
     }
 
@@ -60,8 +61,6 @@ const ColorStyleBlock = ({
   return (
     <Box>
       <Box
-        border={1}
-        borderColor="transparent"
         maxWidth={baseWidth}
         height={baseHeight}
         px="3x"
