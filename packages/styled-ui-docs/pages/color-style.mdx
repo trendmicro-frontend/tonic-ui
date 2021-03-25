@@ -238,7 +238,7 @@ function Example() {
         </ColorStyleHeader>
         <ColorStyleBody
           colorType="shadow"
-          gridTemplateColumns="1fr"
+          templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
         />
       </ColorStyleContent>
     </DarkMode>
@@ -256,7 +256,7 @@ function Example() {
         </ColorStyleHeader>
         <ColorStyleBody
           colorType="shadow"
-          gridTemplateColumns="1fr"
+          templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
         />
       </ColorStyleContent>
     </LightMode>
@@ -379,6 +379,7 @@ Gradient color values are not defined in the color style system, you can set `gr
           },
         }}
         colorType="gradient"
+        templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
       />
     </>
     <>
@@ -402,6 +403,7 @@ Gradient color values are not defined in the color style system, you can set `gr
           },
         }}
         colorType="gradient"
+        templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
       />
     </>
   </Stack>
@@ -521,6 +523,7 @@ Blindness color values are not defined in the color style system, you can set `b
           },
         }}
         colorType="gradient"
+        templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
       />
     </>
   </Stack>
