@@ -10,7 +10,6 @@ import {
 } from 'ensure-type';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
-import _includes from 'lodash/includes';
 import React from 'react';
 import ColorStyleBlock from './ColorStyleBlock';
 
@@ -68,21 +67,12 @@ const ColorStyleBody = ({
         colorValues,
       };
     });
-  const rowGap = '8x';
-  const shouldExpandWidth = _includes([
-    'gradient',
-    'shadow',
-  ], colorType);
-  const columnGap = shouldExpandWidth ? '24x' : '12x';
-  const templateColumns = shouldExpandWidth
-    ? `repeat(auto-fit, minmax(${baseWidth}px, ${baseWidth * 2}px))`
-    : `repeat(auto-fit, ${baseWidth}px)`;
 
   return (
     <Grid
-      rowGap={rowGap}
-      columnGap={columnGap}
-      templateColumns={templateColumns}
+      rowGap="8x"
+      columnGap="12x"
+      templateColumns={`repeat(auto-fill, minmax(${baseWidth}px, 1fr))`}
       {...props}
     >
       {colorStyleBlocks.map(({ colorLabel, colorType, colorKey, colorTokens, colorValues }) => {

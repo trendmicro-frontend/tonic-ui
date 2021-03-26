@@ -2,7 +2,7 @@ const colorStyle = {
   dark: {
     // Text color
     text: {
-      emphasis: 'white:primary',
+      emphasis: 'white:emphasis',
       primary: 'white:primary',
       secondary: 'white:secondary',
       tertiary: 'white:tertiary',
