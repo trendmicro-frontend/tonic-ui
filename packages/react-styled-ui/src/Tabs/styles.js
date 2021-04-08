@@ -94,7 +94,11 @@ const lineStyle = ({ size, colorMode, theme }) => {
         color: _disabledColor,
         borderColor: _disabledBorderColor,
         backgroundColor: _disabledBackgroundColor
-      }
+      },
+      _focusSelected: {
+        borderColor: 'transparent',
+        borderBottomColor: _selectedBorderColor
+      },
     },
   };
 };
