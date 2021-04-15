@@ -94,7 +94,14 @@ const lineStyle = ({ size, colorMode, theme }) => {
         color: _disabledColor,
         borderColor: _disabledBorderColor,
         backgroundColor: _disabledBackgroundColor
-      }
+      },
+      _focusSelected: {
+        borderColor: 'transparent',
+        borderBottomColor: _selectedBorderColor
+      },
+      _focusActive: {
+        borderColor: _hoveredBorderColor,
+      },
     },
   };
 };
@@ -155,6 +162,10 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
       _focusSelected: {
         borderColor: _selectedBorder,
         zIndex: 3
+      },
+
+      _focusActive: {
+        borderColor: _hoveredBorderColor,
       },
 
       _disabled: {
