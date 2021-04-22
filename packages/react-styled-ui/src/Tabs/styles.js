@@ -153,7 +153,7 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
       },
 
       _focusSelected: {
-        borderColor: _focusBorderColor,
+        borderColor: _selectedBorder,
         zIndex: 3
       },
 

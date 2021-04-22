@@ -1,7 +1,7 @@
 # Tonic Styled UI
 
- [![contributors](https://img.shields.io/github/contributors/trendmicro-frontend/styled-ui)](https://img.shields.io/github/contributors/trendmicro-frontend/styled-ui)
-[![build](https://travis-ci.com/trendmicro-frontend/styled-ui.svg)](https://travis-ci.com/trendmicro-frontend/styled-ui)
+[![contributors](https://img.shields.io/github/contributors/trendmicro-frontend/styled-ui)](https://img.shields.io/github/contributors/trendmicro-frontend/styled-ui)
+[![circleci](https://circleci.com/gh/trendmicro-frontend/styled-ui.svg?style=svg)](https://circleci.com/gh/trendmicro-frontend/styled-ui)
 [![coverage](https://coveralls.io/repos/github/trendmicro-frontend/styled-ui/badge.svg)](https://coveralls.io/repos/github/trendmicro-frontend/styled-ui/badge.svg)
 [![downloads](https://img.shields.io/npm/dm/@trendmicro/react-styled-ui.svg?style=flat)](https://img.shields.io/npm/dm/@trendmicro/react-styled-ui.svg?style=flat)
 [![last commit](https://badgen.net/github/last-commit/trendmicro-frontend/styled-ui)](https://badgen.net/github/last-commit/trendmicro-frontend/styled-ui)
