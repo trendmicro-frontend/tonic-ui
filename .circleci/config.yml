@@ -99,13 +99,9 @@ jobs:
           command: |
             touch docs/.nojekyll
       - run:
-          name: Install gh-pages
-          command: |
-            yarn global add gh-pages
-      - run:
           name: Deploy docs to gh-pages branch
           command: |
-            gh-pages \
+            npx --yes -- gh-pages \
               --dist "docs" \
               --dotfiles \
               --message '[ci skip] deploy docs to gh-pages' \
@@ -162,8 +158,4 @@ jobs:
             git remote add origin ${STYLED_UI_DEMO_REPO_URL}
             git push -u --force ${STYLED_UI_DEMO_REPO_URL} gh-pages
             cd ..
-            npx --yes octokit-cli issues create-comment \
-              --body "Successfully deployed ${CI_COMMIT} to ${STYLED_UI_DEMO_URL}/pr-${CI_PULL_REQUEST_NUMBER}/" \
-              --owner "trendmicro-frontend" \
-              --repo "styled-ui" \
-              --issue_number ${CI_PULL_REQUEST_NUMBER}
+            npx --yes -- octokit-cli issues create-comment --owner trendmicro-frontend --repo styled-ui --issue_number ${CI_PULL_REQUEST_NUMBER} --body "Successfully deployed ${CI_COMMIT} to ${STYLED_UI_DEMO_URL}/pr-${CI_PULL_REQUEST_NUMBER}/"
