@@ -28,7 +28,6 @@ export const componentLinks = [
   'CSSBaseline',
   'Divider',
   'Drawer',
-  'Fade',
   'FlatButton',
   'Flex',
   'Grid',
