@@ -10,11 +10,21 @@ Add or remove shadows to elements with box-shadow utilities.
 ```jsx noInline
 function Example() {
   const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const bg = colorStyle.background.primary;
+  const color = colorStyle.text.primary;
+
   return (
     <Stack direction="row" spacing="6x" justifyContent="center">
-      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.sm`}>boxShadow=sm</Box>
-      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.md`}>boxShadow=md</Box>
-      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.lg`}>boxShadow=lg</Box>
+      <Flex width={256} height={128} color={color} bg={bg} boxShadow={colorStyle.shadow.thin} align="center" justify="center">
+        Thin
+      </Flex>
+      <Flex width={256} height={128} color={color} bg={bg} boxShadow={colorStyle.shadow.medium} align="center" justify="center">
+        Medium
+      </Flex>
+      <Flex width={256} height={128} color={color} bg={bg} boxShadow={colorStyle.shadow.thick} align="center" justify="center">
+        Thick
+      </Flex>
     </Stack>
   );
 }
