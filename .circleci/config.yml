@@ -63,6 +63,11 @@ jobs:
       - run:
           name: Build
           command: |
+            if [[ "${CI_BRANCH}" != "master" ]]; then
+              CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}
+              STYLED_UI_DEMO_REPO=styled-ui-demo
+              echo "PUBLIC_URL=/${STYLED_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/styled-ui-docs/.env.production
+            fi
             yarn build
       - run:
           name: Compress build artifacts
