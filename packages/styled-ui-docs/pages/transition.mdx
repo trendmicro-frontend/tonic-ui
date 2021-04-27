@@ -4,6 +4,7 @@
 
 ```js
 import {
+  Fade,
   Scale,
   Slide,
   SlideIn,
@@ -11,6 +12,42 @@ import {
 ```
 
 ## Usage
+
+### Fade transition
+
+```jsx noInline
+const SkeletonContent = (props) => (
+  <ModalContent p="4x" {...props}>
+    <Flex>
+      <Flex flex="none" mr="4x" align="center">
+        <Skeleton variant="circle" width="10x" height="10x" />
+      </Flex>
+      <Box flex="auto">
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </Box>
+    </Flex>
+  </ModalContent>
+);
+
+function Example() {
+  const { isOpen, onToggle } = useDisclosure();
+
+  return (
+    <>
+      <Button onClick={onToggle}>
+        Toggle
+      </Button>
+      <Fade in={isOpen}>
+        <SkeletonContent mt="4x" />
+      </Fade>
+    </>
+  );
+}
+
+render(<Example />);
+```
 
 ### Scale transition
 
@@ -39,9 +76,7 @@ function Example() {
         Toggle
       </Button>
       <Scale in={isOpen}>
-        {styles => (
-          <SkeletonContent mt="4x" {...styles} />
-        )}
+        <SkeletonContent mt="4x" />
       </Scale>
     </>
   );
@@ -162,9 +197,7 @@ function Example() {
         from={from}
         finalWidth="100%"
       >
-        {styles => (
-          <SkeletonContent mt="4x" {...styles} />
-        )}
+        <SkeletonContent mt="4x" />
       </Slide>
     </>
   );
@@ -200,9 +233,7 @@ function Example() {
         Toggle
       </Button>
       <SlideIn in={isOpen}>
-        {styles => (
-          <SkeletonContent mt="4x" {...styles} />
-        )}
+        <SkeletonContent mt="4x" />
       </SlideIn>
     </>
   );
@@ -213,12 +244,18 @@ render(<Example />);
 
 ## Props
 
+### Fade
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| in | boolean | | Toggle visibility with a transition effect. |
+| duration | number | 200 | The duration of the transition. |
+
 ### Scale
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | in | boolean | | Toggle visibility with a transition effect. |
-| children | function | | A single function-child that receives the styles and renders components. |
 | duration | number | 150 | The duration of the transition. |
 | initialScale | number | 0.97 | The initial zoom level. |
 
@@ -227,7 +264,6 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | in | boolean | | Toggle visibility with a transition effect. |
-| children | function | | A single function-child that receives the styles and renders components. |
 | duration | number | 250 | The duration of the transition. |
 | from | string | | One of: `'bottom'`, `'top'`, `'left'`, `'right'` |
 | finalHeight | string | 'auto' | |
@@ -238,6 +274,5 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | in | boolean | | Toggle visibility with a transition effect. |
-| children | function | | A single function-child that receives the styles and renders components. |
 | duration | number | 150 | The duration of the transition. |
-| offset | string | '10px' | The slide-in offset in pixel. |
+| offset | string \| number | '4x' | The slide-in offset. |
