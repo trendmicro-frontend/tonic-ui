@@ -1,6 +1,22 @@
 const colorStyle = {
   dark: {
-    // Text color
+    background: {
+      primary: 'gray:100',
+      secondary: 'gray:90',
+      tertiary: 'gray:80',
+      inverse: 'gray:10',
+      selected: 'blue:60',
+      marked: '#fce79e',
+    },
+
+    color: {
+      emphasis: 'white:emphasis',
+      primary: 'white:primary',
+      secondary: 'white:secondary',
+      tertiary: 'white:tertiary',
+      disabled: 'white:disabled',
+    },
+
     text: {
       emphasis: 'white:emphasis',
       primary: 'white:primary',
@@ -12,17 +28,6 @@ const colorStyle = {
       error: 'red:50',
     },
 
-    // Background color
-    background: {
-      primary: 'gray:100',
-      secondary: 'gray:90',
-      tertiary: 'gray:80',
-      inverse: 'gray:10',
-      selected: 'blue:60',
-      marked: '#fce79e',
-    },
-
-    // Shadow color
     shadow: {
       // Tooltip, Popover
       thin: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
@@ -34,7 +39,6 @@ const colorStyle = {
       thick: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
     },
 
-    // Severity color
     severity: {
       critical: 'magenta:60',
       high: 'red:50',
@@ -45,7 +49,6 @@ const colorStyle = {
       unknown: 'gray:50',
     },
 
-    // Chart color scheme
     // https://docs.appian.com/suite/help/20.2/Chart_Color_Scheme.html
     chart: {
       classic: {
@@ -66,7 +69,23 @@ const colorStyle = {
     },
   },
   light: {
-    // Text color
+    background: {
+      primary: 'white:emphasis',
+      secondary: 'gray:10',
+      tertiary: 'gray:20',
+      inverse: 'gray:70',
+      selected: 'blue:60',
+      marked: '#fce79e',
+    },
+
+    color: {
+      emphasis: 'black:emphasis',
+      primary: 'black:primary',
+      secondary: 'black:secondary',
+      tertiary: 'black:tertiary',
+      disabled: 'black:disabled',
+    },
+
     text: {
       emphasis: 'black:emphasis',
       primary: 'black:primary',
@@ -78,17 +97,6 @@ const colorStyle = {
       error: 'red:60',
     },
 
-    // Background color
-    background: {
-      primary: 'white:emphasis',
-      secondary: 'gray:10',
-      tertiary: 'gray:20',
-      inverse: 'gray:70',
-      selected: 'blue:60',
-      marked: '#fce79e',
-    },
-
-    // Shadow color
     shadow: {
       // Tooltip, Popover
       thin: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
@@ -100,7 +108,6 @@ const colorStyle = {
       thick: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
     },
 
-    // Severity color
     severity: {
       critical: 'magenta:60',
       high: 'red:60',
@@ -111,7 +118,6 @@ const colorStyle = {
       unknown: 'gray:50',
     },
 
-    // Chart color scheme
     // https://docs.appian.com/suite/help/20.2/Chart_Color_Scheme.html
     chart: {
       classic: {
