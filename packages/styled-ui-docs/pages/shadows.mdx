@@ -19,22 +19,28 @@ function Example() {
   const capitalizeFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1);
 
   return (
-    <Stack direction="row" spacing="6x" justifyContent="center">
-      {['thin', 'medium', 'thick'].map(key => (
-        <Flex
-          key={key}
-          width={256}
-          height={128}
-          backgroundColor={backgroundColor}
-          color={color}
-          boxShadow={colorStyle.shadow[key]}
-          align="center"
-          justify="center"
-        >
-          {capitalizeFirstLetter(key)}
-        </Flex>
-      ))}
-    </Stack>
+    <Box backgroundColor={backgroundColor} m="-1rem" p="4x">
+      <Stack
+        direction="row"
+        spacing="6x"
+        justifyContent="center"
+      >
+        {['thin', 'medium', 'thick'].map(key => (
+          <Flex
+            key={key}
+            width={256}
+            height={128}
+            backgroundColor={backgroundColor}
+            color={color}
+            boxShadow={colorStyle.shadow[key]}
+            align="center"
+            justify="center"
+          >
+            {capitalizeFirstLetter(key)}
+          </Flex>
+        ))}
+      </Stack>
+    </Box>
   );
 }
 
