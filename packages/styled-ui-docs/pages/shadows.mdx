@@ -11,20 +11,28 @@ Add or remove shadows to elements with box-shadow utilities.
 function Example() {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const bg = colorStyle.background.primary;
+  const backgroundColor = {
+    dark: 'gray:80',
+    light: 'white',
+  }[colorMode];
   const color = colorStyle.text.primary;
 
   return (
     <Stack direction="row" spacing="6x" justifyContent="center">
-      <Flex width={256} height={128} color={color} bg={bg} boxShadow={colorStyle.shadow.thin} align="center" justify="center">
-        Thin
-      </Flex>
-      <Flex width={256} height={128} color={color} bg={bg} boxShadow={colorStyle.shadow.medium} align="center" justify="center">
-        Medium
-      </Flex>
-      <Flex width={256} height={128} color={color} bg={bg} boxShadow={colorStyle.shadow.thick} align="center" justify="center">
-        Thick
-      </Flex>
+      {['Thin', 'Medium', 'Thick'].map(key => (
+        <Flex
+          key={key}
+          width={256}
+          height={128}
+          backgroundColor={backgroundColor}
+          color={color}
+          boxShadow={colorStyle.shadow.thin}
+          align="center"
+          justify="center"
+        >
+          {key}
+        </Flex>
+      ))}
     </Stack>
   );
 }
