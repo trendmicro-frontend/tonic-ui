@@ -462,6 +462,30 @@ render(<SortableTable />);
 
 ```jsx noInline
 function ResizableTable() {
+  const { colorMode } = useColorMode();
+  const hoveringStyle = {
+    'dark': {
+      borderRight: 1,
+      borderColor: 'gray:50',
+    },
+    'light': {
+      borderRight: 1,
+      borderColor: 'gray:70',
+    }
+  }[colorMode];
+  const resizingStyle = {
+    'dark': {
+      borderRight: 1,
+      borderColor: 'gray:50',
+      boxShadow: '4px 0px 0px 0px rgba(255, 255, 255, 0.1)',
+    },
+    'light': {
+      borderRight: 1,
+      borderColor: 'gray:70',
+      boxShadow: '4px 0px 0px 0px rgba(0, 0, 0, 0.1)',
+    },
+  }[colorMode];
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -502,6 +526,14 @@ function ResizableTable() {
     useResizeColumns,
   );
 
+  const [hoveredResizerId, setHoveredResizerId] = React.useState();
+  const handleEnterResizer = (cellId) => (e) => {
+    setHoveredResizerId(cellId);
+  };
+  const handleLeaveResizer = (e) => {
+    setHoveredResizerId(null);
+  };
+
   return (
     <Stack spacing="4x" shouldWrapChildren>
       <Button onClick={resetResizing}>Reset Resizing</Button>
@@ -511,29 +543,37 @@ function ResizableTable() {
         {...getTableProps()}
       >
         <TableHeader>
-          {headerGroups.map(headerGroup => (
-            <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <TableHeaderCell {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {/* Use column.getResizerProps to hook up the events correctly */}
-                  <Box
-                    {...column.getResizerProps()}
-                    display="inline-block"
-                    bg="blue:60"
-                    width="3x"
-                    height="100%"
-                    position="absolute"
-                    right="0"
-                    top="0"
-                    transform="translateX(50%)"
-                    zIndex={1}
-                    {...column.isResizing && { bg: "red:60" }}
-                  />
-                </TableHeaderCell>
-              ))}
-            </TableHeaderRow>
-          ))}
+          {headerGroups.map(headerGroup => {
+            return (
+              <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column, index) => {
+                  const cellId = column.id;
+                  const isLastChild = (index === headerGroup.headers.length - 1);
+                  return (
+                    <TableHeaderCell {...column.getHeaderProps()}>
+                      {column.render('Header')}
+                      {!isLastChild && (
+                        <Box
+                          {...column.getResizerProps()} // Use column.getResizerProps to hook up the events correctly
+                          display="inline-block"
+                          width="5px"
+                          height="calc(100% + 2px)" // 2px is border-bottom width of the table header
+                          position="absolute"
+                          right="-1px"
+                          top="0"
+                          zIndex={1}
+                          {...column.isResizing && resizingStyle}
+                          {...(hoveredResizerId === cellId) && hoveringStyle}
+                          onMouseEnter={handleEnterResizer(cellId)}
+                          onMouseLeave={handleLeaveResizer}
+                        />
+                      )}
+                    </TableHeaderCell>
+                  );
+                })}
+              </TableHeaderRow>
+            );
+          })}
         </TableHeader>
         <TableBody {...getTableBodyProps()}>
           {rows.map((row, i) => {
@@ -541,8 +581,31 @@ function ResizableTable() {
             return (
               <TableRow {...row.getRowProps()}>
                 {
-                  row.cells.map(cell => {
-                    return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                  row.cells.map((cell, index) => {
+                    const isResizing = cell.column.isResizing;
+                    const cellId = cell.column.id;
+                    const isLastChild = (index === row.cells.length - 1);
+                    return (
+                      <TableCell
+                      {...cell.getCellProps()}
+                      position="relative"
+                      >
+                        {cell.render('Cell')}
+                        {!isLastChild && (
+                          <Box
+                            display="inline-block"
+                            width="5px"
+                            height="calc(100% + 1px)" // 1px is border-bottom width of the table row
+                            position="absolute"
+                            right="-1px"
+                            top="0"
+                            zIndex={1}
+                            {...isResizing && resizingStyle}
+                            {...(hoveredResizerId === cellId) && hoveringStyle}
+                          />
+                        )}
+                      </TableCell>
+                    );
                   })
                 }
               </TableRow>
@@ -844,6 +907,24 @@ In this example, we use [`react-movable`](https://github.com/tajo/react-movable)
 
 ```jsx noInline
 function ReactMovableExample() {
+  const { colorMode } = useColorMode();
+  const tableProps = {
+    'dark': {
+      backgroundColor: 'gray:80',
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+    }
+  }[colorMode];
+  const rowProps = {
+    'dark': {
+      backgroundColor: 'gray:100',
+    },
+    'light': {
+      backgroundColor: 'white',
+    },
+  }[colorMode];
+
   const [items, setItems] = React.useState([
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
@@ -861,12 +942,15 @@ function ReactMovableExample() {
       }
       renderList={({ children, props, isDragged }) => (
         <Table
+          {...tableProps}
           style={{
-            cursor: isDragged ? 'grabbing' : undefined
+            cursor: isDragged ? 'grabbing' : undefined,
           }}
         >
           <TableHeader>
-            <TableHeaderRow>
+            <TableHeaderRow
+              {...rowProps}
+            >
               <TableHeaderCell>Event Type</TableHeaderCell>
               <TableHeaderCell>Affected Devices</TableHeaderCell>
               <TableHeaderCell>Detections</TableHeaderCell>
@@ -879,10 +963,10 @@ function ReactMovableExample() {
         const row = (
           <TableRow
             {...props}
+            {...rowProps}
             style={{
               ...props.style,
               cursor: isDragged ? 'grabbing' : 'grab',
-              backgroundColor: isDragged || isSelected ? '#8a8a8a' : 'inherit',
             }}
           >
             <TableCell>{value.eventType}</TableCell>
@@ -921,7 +1005,7 @@ const ItemTypes = {
   TR: 'tr',
 };
 
-const TR = ({ id, row, index, moveTr }) => {
+const TR = ({ id, row, index, moveTr, ...otherProps }) => {
   const ref = React.useRef(null);
   const [, drop] = ReactDND.useDrop({
     accept: ItemTypes.TR,
@@ -978,6 +1062,7 @@ const TR = ({ id, row, index, moveTr }) => {
 
   return (
     <TableRow
+      {...otherProps}
       ref={ref}
       style={{
         cursor: 'move',
@@ -991,7 +1076,7 @@ const TR = ({ id, row, index, moveTr }) => {
   );
 };
 
-const CustomDragLayer = () => {
+const CustomDragLayer = (props) => {
   const { itemType, isDragging, item, initialOffset, currentOffset, } = ReactDND.useDragLayer((monitor) => ({
     item: monitor.getItem(),
     itemType: monitor.getItemType(),
@@ -1031,11 +1116,7 @@ const CustomDragLayer = () => {
      return (
        <Box style={layerStyles}>
         <Box style={getItemStyles(initialOffset, currentOffset)}>
-          <TableRow
-            style={{
-              backgroundColor: '#8a8a8a',
-            }}
-          >
+          <TableRow {...props}>
             <TableCell>{row.eventType}</TableCell>
             <TableCell>{row.affectedDevices}</TableCell>
             <TableCell>{row.detections}</TableCell>
@@ -1066,10 +1147,32 @@ function ReactDNDExample() {
       ],
     }));
   }, [items]);
+  const { colorMode } = useColorMode();
+  const tableProps = {
+    'dark': {
+      backgroundColor: 'gray:80',
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+    }
+  }[colorMode];
+  const rowProps = {
+    'dark': {
+      backgroundColor: 'gray:100',
+    },
+    'light': {
+      backgroundColor: 'white',
+    },
+  }[colorMode];
+
   return (
-    <Table>
+    <Table
+     {...tableProps}
+    >
       <TableHeader>
-        <TableHeaderRow>
+        <TableHeaderRow
+           {...rowProps}
+        >
           <TableHeaderCell>Event Type</TableHeaderCell>
           <TableHeaderCell>Affected Devices</TableHeaderCell>
           <TableHeaderCell>Detections</TableHeaderCell>
@@ -1078,10 +1181,10 @@ function ReactDNDExample() {
       <TableBody>
         {
           items.map((item, i) => (
-            <TR key={item.id} index={i} id={item.id} row={item} moveTr={moveTr}/>
+            <TR {...rowProps} key={item.id} index={i} id={item.id} row={item} moveTr={moveTr}/>
           ))
         }
-        <CustomDragLayer />
+        <CustomDragLayer {...rowProps} />
       </TableBody>
     </Table>
   );
@@ -1102,16 +1205,24 @@ In this example, we use [`react-beautiful-dnd`](https://github.com/atlassian/rea
 
 
 ```jsx noInline
-const getItemStyle = ({ isDragging, isDropAnimating }, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-
-  // change background colour if dragging
-  background: isDragging ? "#8a8a8a" : "inherit",
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
+const getDraggingProps = () => {
+  const { colorMode } = useColorMode();
+  const { colors } = useTheme();
+  return {
+    'dark': {
+      backgroundColor: 'gray:80',
+      color: 'gray:30',
+      boxShadow: 'dark.md',
+      border: `1px solid ${colors['gray:60']}`,
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+      color: 'gray:80',
+      boxShadow: 'light.md',
+      border: `1px solid ${colors['gray:20']}`,
+    }
+  }[colorMode];
+};
 
 function BaseTable() {
   const columns = React.useMemo(() => [
@@ -1137,6 +1248,18 @@ function BaseTable() {
     { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
     { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
   ], []);
+
+  const { colorMode } = useColorMode();
+  const columnPlaceholderProps = {
+    'dark': {
+      backgroundColor: 'gray:90',
+      color: 'gray:50',
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+      color: 'gray:30',
+    }
+  }[colorMode];
 
   const {
     getTableProps,
@@ -1166,7 +1289,6 @@ function BaseTable() {
       return;
     }
   };
-
   const onDragUpdate = (dragUpdateObj, b) => {
     if(!dragUpdateObj.destination){
       return;
@@ -1182,7 +1304,6 @@ function BaseTable() {
       return;
     }
     const { clientHeight, clientWidth } = draggedDOM;
-
     const clientX = Array.from(draggedDOM.parentNode.children)
       .slice(0, destinationIndex)
       .reduce((total, curr) => {
@@ -1192,8 +1313,9 @@ function BaseTable() {
     setPlaceholderProps({
       clientHeight,
       clientWidth,
-      clientY: 0,
-      clientX: clientX
+      clientY: 2,
+      clientX: clientX,
+      content: draggedDOM.innerHTML,
     });
 
     const colOrder = [...currentColOrder.current];
@@ -1205,6 +1327,9 @@ function BaseTable() {
       setColumnOrder(colOrder);
     }
   };
+  const onDragStart = () => {
+    currentColOrder.current = allColumns.map(o => o.id);
+  };
 
   return (
     <Table {...getTableProps()}>
@@ -1212,9 +1337,7 @@ function BaseTable() {
         {headerGroups.map((headerGroup, index) => (
           <ReactBeautifulDND.DragDropContext
             key={index}
-            onDragStart={() => {
-              currentColOrder.current = allColumns.map(o => o.id);
-            }}
+            onDragStart={onDragStart}
             onDragUpdate={onDragUpdate}
             onDragEnd={onDragEnd}
           >
@@ -1237,15 +1360,14 @@ function BaseTable() {
                           return (
                             <TableHeaderCell
                               ref={provided.innerRef}
+                              userSelect="none" // some basic styles to make the items look a bit nicer
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               {...column.getHeaderProps()}
-                              style={{
-                                ...getItemStyle(
-                                  snapshot,
-                                  provided.draggableProps.style
-                                )
-                              }}
+                              {...snapshot.isDragging && getDraggingProps()}
+                              style={
+                                ...provided.draggableProps.style
+                              }
                             >
                               {column.render("Header")}
                             </TableHeaderCell>
@@ -1254,14 +1376,17 @@ function BaseTable() {
                       </ReactBeautifulDND.Draggable>
                     ))}
                     {droppableProvided.placeholder}
-                    <Box
+                    <TableHeaderCell
                       position="absolute"
                       top={placeholderProps.clientY}
                       left={placeholderProps.clientX}
                       height={placeholderProps.clientHeight}
-                      bg="gray:60"
                       width={placeholderProps.clientWidth}
-                    />
+                      display={!!placeholderProps.clientWidth ? 'block' : 'none' }
+                      {...columnPlaceholderProps}
+                    >
+                      { placeholderProps.content }
+                    </TableHeaderCell>
                   </TableHeaderRow>
                 );
               }}
