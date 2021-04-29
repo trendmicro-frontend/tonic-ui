@@ -1,10 +1,11 @@
 import {
   ensureArray,
   ensureFiniteNumber,
-  ensureString,
 } from 'ensure-type';
 
-const formatMs = ms => `${Math.round(ms)}ms`;
+const formatMs = ms => {
+  return (ms > 0) ? `${Math.round(ms)}ms` : '';
+};
 
 export const transitionDuration = {
   // most basic recommended timing
@@ -66,7 +67,7 @@ export const createTransitionStyle = (transitionProps = ['all'], options) => {
       transitionProp,
       typeof duration === 'string' ? duration : formatMs(duration),
       easing,
-      typeof delay === 'string' ? delay : (delay > 0 ? formatMs(delay) : undefined),
+      typeof delay === 'string' ? delay : formatMs(delay),
     ].filter(x => (x !== undefined && x !== null && x !== ''));
     return parts.join(' ');
   }).join(',');

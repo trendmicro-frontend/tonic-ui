@@ -7,6 +7,7 @@ import {
   createTransitionStyle,
 } from './transitions';
 import useForkRef from '../utils/useForkRef';
+import Box from '../Box';
 
 const variantStyle = {
   entering: {
@@ -39,35 +40,41 @@ const Fade = forwardRef((
   },
   ref,
 ) => {
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(ref, nodeRef);
+
   return (
     <Transition
-      nodeRef={ref}
+      nodeRef={nodeRef}
       appear={true}
       in={inProp}
       timeout={timeout}
       {...rest}
     >
       {(state, childProps) => {
-        const transitionPropStyle = variantStyle[state];
         const transitionProps = inProp
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
         const transitionStyle = createTransitionStyle(['opacity'], transitionProps);
 
         childProps.style = {
-          ...transitionPropStyle,
-          transition: transitionStyle,
+          opacity: 0,
           visibility: (state === 'exited' && !inProp) ? 'hidden' : undefined,
+          ...variantStyle[state],
+          transition: transitionStyle,
+          ...style,
           ...childProps.style,
         };
 
         if (typeof children === 'function') {
-          return children(state, childProps);
+          return children(state, { ref: combinedRef, ...childProps });
         }
 
-        return React.cloneElement(React.Children.only(children), {
-          ...childProps,
-        });
+        return (
+          <Box ref={combinedRef} {...childProps}>
+            {children}
+          </Box>
+        );
       }}
     </Transition>
   );
