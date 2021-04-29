@@ -10,12 +10,39 @@ Add or remove shadows to elements with box-shadow utilities.
 ```jsx noInline
 function Example() {
   const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const backgroundColor = {
+    dark: 'gray:80',
+    light: 'white',
+  }[colorMode];
+  const color = colorStyle.text.primary;
+  const capitalizeFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1);
+
   return (
-    <Stack direction="row" spacing="6x" justifyContent="center">
-      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.sm`}>boxShadow=sm</Box>
-      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.md`}>boxShadow=md</Box>
-      <Box width="56x" height="24x" p="2x" bg="gray:70" boxShadow={`${colorMode}.lg`}>boxShadow=lg</Box>
-    </Stack>
+    <Box backgroundColor={backgroundColor} m="-4x" p="8x">
+      <Stack
+        direction="row"
+        spacing="6x"
+        justifyContent="center"
+      >
+        {['thin', 'medium', 'thick'].map(key => (
+          <Flex
+            key={key}
+            width={256}
+            height={128}
+            backgroundColor={backgroundColor}
+            color={color}
+            boxShadow={colorStyle.shadow[key]}
+            align="center"
+            justify="center"
+          >
+            <Text fontSize="md" lineHeight="md">
+              {capitalizeFirstLetter(key)}
+            </Text>
+          </Flex>
+        ))}
+      </Stack>
+    </Box>
   );
 }
 
