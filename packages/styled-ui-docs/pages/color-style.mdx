@@ -34,26 +34,28 @@ const customColorStyle = {
   ...colorStyle,
    dark: {
     ...colorStyle.dark,
-    text: {
-      emphasis: 'white:primary',
+    color: {
+      emphasis: 'white:emphasis',
       primary: 'white:primary',
       secondary: 'white:secondary',
       tertiary: 'white:tertiary',
       disabled: 'white:disabled',
-      link: 'blue:40',
+      success: 'green:40',
+      info: 'blue:40',
       warning: 'orange:50',
       error: 'red:50',
     },
   },
   light: {
     ...colorStyle.light,
-    text: {
+    color: {
       emphasis: 'black:emphasis',
       primary: 'black:primary',
       secondary: 'black:secondary',
       tertiary: 'black:tertiary',
       disabled: 'black:disabled',
-      link: 'blue:60',
+      success: 'green:50',
+      info: 'blue:60',
       warning: 'orange:50',
       error: 'red:60',
     },
@@ -82,11 +84,11 @@ const { colors } = useTheme();
 
 console.log(colorMode);
 // => 'dark' / 'light'
-console.log(colorStyle.text.primary);
+console.log(colorStyle.color.primary);
 // => 'white:primary' / 'black:primary'
 console.log(colorStyle.background.primary);
 // => 'gray:100' / 'white:emphasis'
-console.log(colors[colorStyle.text.primary]);
+console.log(colors[colorStyle.color.primary]);
 // => 'rgba(255, 255, 255, .92)' / 'rgba(0, 0, 0, .92)'
 console.log(colors[colorStyle.background.primary]);
 // => '#151515' / 'rgba(255, 255, 255, 1.0)'
@@ -98,7 +100,7 @@ function Example() {
   const [colorStyle, setColorStyle] = useColorStyle({ colorMode });
   const [colorVariant, setColorVariant] = React.useState('primary');
   const backgroundColor = colorStyle.background[colorVariant];
-  const textColor = colorStyle.text[colorVariant];
+  const color = colorStyle.color[colorVariant];
   const changeColorVariant = (colorVariant) => (event) => {
     setColorVariant(colorVariant);
   };
@@ -119,7 +121,7 @@ function Example() {
         </Button>
       </Box>
       <Box backgroundColor={backgroundColor} p="4x">
-        <Text color={textColor} size="lg">
+        <Text color={color} size="lg">
           To change the color mode, click the <b>toggle color mode</b> button at the top right corner.
         </Text>
       </Box>
@@ -152,42 +154,7 @@ function Example() {
 >
   <>
     <Text fontSize="xl" my="6x">
-      Text Colors
-    </Text>
-    <DarkMode>
-      <ColorStyleContent>
-        <ColorStyleHeader>
-          <Flex align="center">
-            <Icon icon="moon" size="6x" color="yellow:50" />
-            <Space width="2x" />
-            <Text fontSize="lg" lineHeight="lg">
-              Dark Mode
-            </Text>
-          </Flex>
-          <Divider my="2x" />
-        </ColorStyleHeader>
-        <ColorStyleBody colorType="text" />
-      </ColorStyleContent>
-    </DarkMode>
-    <LightMode>
-      <ColorStyleContent>
-        <ColorStyleHeader>
-          <Flex align="center">
-            <Icon icon="sun" size="6x" color="yellow:50" />
-            <Space width="2x" />
-            <Text fontSize="lg" lineHeight="lg">
-              Light Mode
-            </Text>
-          </Flex>
-          <Divider my="2x" />
-        </ColorStyleHeader>
-        <ColorStyleBody colorType="text" />
-      </ColorStyleContent>
-    </LightMode>
-  </>
-  <>
-    <Text fontSize="xl" my="6x">
-      Background Colors
+      Background
     </Text>
     <DarkMode>
       <ColorStyleContent>
@@ -222,7 +189,77 @@ function Example() {
   </>
   <>
     <Text fontSize="xl" my="6x">
-      Shadow Colors
+      Color
+    </Text>
+    <DarkMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="moon" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Dark Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="color" />
+      </ColorStyleContent>
+    </DarkMode>
+    <LightMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="sun" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Light Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="color" />
+      </ColorStyleContent>
+    </LightMode>
+  </>
+  <>
+    <Text fontSize="xl" my="6x">
+      Text
+    </Text>
+    <DarkMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="moon" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Dark Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="text" />
+      </ColorStyleContent>
+    </DarkMode>
+    <LightMode>
+      <ColorStyleContent>
+        <ColorStyleHeader>
+          <Flex align="center">
+            <Icon icon="sun" size="6x" color="yellow:50" />
+            <Space width="2x" />
+            <Text fontSize="lg" lineHeight="lg">
+              Light Mode
+            </Text>
+          </Flex>
+          <Divider my="2x" />
+        </ColorStyleHeader>
+        <ColorStyleBody colorType="text" />
+      </ColorStyleContent>
+    </LightMode>
+  </>
+  <>
+    <Text fontSize="xl" my="6x">
+      Shadow
     </Text>
     <DarkMode>
       <ColorStyleContent>
@@ -263,7 +300,7 @@ function Example() {
   </>
   <>
     <Text fontSize="xl" my="6x">
-      Severity Colors
+      Severity
     </Text>
     <DarkMode>
       <ColorStyleContent>
@@ -298,7 +335,7 @@ function Example() {
   </>
   <>
     <Text fontSize="xl" my="6x">
-      Chart Colors
+      Chart
     </Text>
     <DarkMode>
       <ColorStyleContent>
