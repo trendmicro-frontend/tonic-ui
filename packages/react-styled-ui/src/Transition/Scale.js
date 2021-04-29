@@ -6,7 +6,7 @@ const AnimatedBox = animated(Box);
 
 const Scale = forwardRef((
   {
-    in: toggle,
+    in: isOpen,
     initialScale = 0.97,
     duration = 150,
     style,
@@ -17,7 +17,7 @@ const Scale = forwardRef((
 ) => {
   return (
     <Transition
-      items={!!toggle}
+      items={!!isOpen}
       config={{ duration }}
       from={{
         opacity: 0,

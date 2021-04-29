@@ -1,54 +1,73 @@
-import React, { forwardRef } from 'react';
-import { Transition, animated } from 'react-spring';
-import Box from '../Box';
+import React, { forwardRef, useRef } from 'react';
+import { Transition } from 'react-transition-group';
+import {
+  transitionDuration,
+  getEnterTransitionProps,
+  getExitTransitionProps,
+  createTransitionStyle,
+} from './transitions';
+import useForkRef from '../utils/useForkRef';
 
-const AnimatedBox = animated(Box);
+const variantStyle = {
+  entering: {
+    opacity: 0,
+  },
+  entered: {
+    opacity: 1,
+  },
+  exiting: {
+    opacity: 0,
+  },
+  exited: {
+    opacity: 0,
+  },
+};
+
+const defaultTimeout = {
+  enter: transitionDuration.enteringScreen,
+  exit: transitionDuration.leavingScreen,
+};
 
 const Fade = forwardRef((
   {
-    in: toggle,
-    show, // TODO: the show prop is deprecated and will be removed in the v1 release
-    duration = 200,
-    style,
+    in: inProp,
     children,
+    style,
+    timeout = defaultTimeout,
+    easing,
     ...rest
   },
   ref,
 ) => {
   return (
     <Transition
-      // TODO: the show prop is deprecated and will be removed in the v1 release
-      items={!!toggle || !!show}
-      config={{ duration }}
-      from={{
-        opacity: 0,
-      }}
-      enter={{
-        opacity: 1,
-      }}
-      leave={{
-        opacity: 0,
-      }}
+      nodeRef={ref}
+      appear={true}
+      in={inProp}
+      timeout={timeout}
       {...rest}
     >
-      {(transitionStyle, item) => {
-        if (!item) {
-          return null;
+      {(state, childProps) => {
+        const transitionPropStyle = variantStyle[state];
+        const transitionProps = inProp
+          ? getEnterTransitionProps({ style, timeout, easing })
+          : getExitTransitionProps({ style, timeout, easing });
+        const transitionStyle = createTransitionStyle(['opacity'], transitionProps);
+
+        childProps.style = {
+          ...transitionPropStyle,
+          transition: transitionStyle,
+          visibility: (state === 'exited' && !inProp) ? 'hidden' : undefined,
+          ...childProps.style,
+        };
+
+        if (typeof children === 'function') {
+          return children(state, childProps);
         }
 
-        return (
-          <AnimatedBox
-            ref={ref}
-            style={{
-              ...transitionStyle,
-              ...style,
-            }}
-            willChange="opacity"
-            {...rest}
-          >
-            {children}
-          </AnimatedBox>
-        );
+        return React.cloneElement(React.Children.only(children), {
+          ...childProps,
+        });
       }}
     </Transition>
   );

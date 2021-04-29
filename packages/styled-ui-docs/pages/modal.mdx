@@ -302,11 +302,8 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">ModalFooter</Text>
         </TextLabel>
       </FormGroup>
-      <Scale
-        in={isOpen}
-        duration={150}
-      >
-        {styles => (
+      <Fade in={isOpen} unmountOnExit>
+        {(state, childProps) => (
           <Modal
             ensureFocus={ensureFocus}
             autoFocus={autoFocus}
@@ -318,9 +315,9 @@ function Example() {
             size={size}
           >
             {isOverlayVisible && (
-              <ModalOverlay opacity={styles.opacity} />
+              <ModalOverlay opacity={childProps.style.opacity} />
             )}
-            <ModalContent {...styles}>
+            <ModalContent {...childProps}>
               {isHeaderVisible && (
                 <ModalHeader>
                   Create an Account
@@ -359,7 +356,7 @@ function Example() {
             </ModalContent>
           </Modal>
         )}
-      </Scale>
+      </Fade>
     </>
   );
 }
@@ -498,12 +495,10 @@ function Example() {
 
 The modal doesn't come with transitions by default. You can use the [`Transition`](./transition) components to provide simple transitions.
 
-When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the modal.
-
-#### Adding scale transition
+When using transitions, you have to set `in` to `true`, or the transition will not take effect when closing the modal.
 
 ```
-import { Scale } from '@trendmicro/react-styled-ui';
+import { Fade } from '@trendmicro/react-styled-ui';
 ```
 
 ```jsx
@@ -515,8 +510,8 @@ function Example() {
       <Button onClick={onOpen}>
         Launch modal
       </Button>
-      <Scale in={isOpen}>
-        {styles => (
+      <Fade in={isOpen} unmountOnExit>
+        {(state, childProps) => (
           <Modal
             ensureFocus
             autoFocus
@@ -526,8 +521,8 @@ function Example() {
             isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
           >
-            <ModalOverlay opacity={styles.opacity} />
-            <ModalContent {...styles}>
+            <ModalOverlay opacity={childProps.style.opacity} />
+            <ModalContent {...childProps}>
               <ModalHeader>
                 Modal Title
               </ModalHeader>
@@ -542,55 +537,7 @@ function Example() {
             </ModalContent>
           </Modal>
         )}
-      </Scale>
-    </>
-  );
-}
-```
-
-#### Adding slide-in transition
-
-```
-import { SlideIn } from '@trendmicro/react-styled-ui';
-```
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <>
-      <Button onClick={onOpen}>
-        Launch modal
-      </Button>
-      <SlideIn in={isOpen}>
-        {styles => (
-          <Modal
-            ensureFocus
-            autoFocus
-            closeOnEsc
-            closeOnOutsideClick
-            isCloseButtonVisible
-            isOpen={true} // Set to `true` if a transition is active
-            onClose={onClose}
-          >
-            <ModalOverlay opacity={styles.opacity} />
-            <ModalContent {...styles}>
-              <ModalHeader>
-                Modal Title
-              </ModalHeader>
-              <ModalBody>
-                <Lorem count={2} />
-              </ModalBody>
-              <ModalFooter>
-                <Button onClick={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        )}
-      </SlideIn>
+      </Fade>
     </>
   );
 }

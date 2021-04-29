@@ -11,7 +11,7 @@ function expOut(t) {
 
 const Slide = forwardRef((
   {
-    in: toggle,
+    in: isOpen,
     duration = 250,
     from,
     finalHeight = 'auto',
@@ -72,11 +72,9 @@ const Slide = forwardRef((
 
   const { offset, transform } = transitionOptions[from];
 
-  console.log('###', offset, transform(offset));
-
   return (
     <Transition
-      items={!!toggle}
+      items={!!isOpen}
       from={{
         opacity: 0,
         offset: offset,

@@ -7,7 +7,6 @@ import {
   Fade,
   Scale,
   Slide,
-  SlideIn,
 } from '@trendmicro/react-styled-ui';
 ```
 
@@ -39,7 +38,7 @@ function Example() {
       <Button onClick={onToggle}>
         Toggle
       </Button>
-      <Fade in={isOpen}>
+      <Fade in={isOpen} unmountOnExit>
         <SkeletonContent mt="4x" />
       </Fade>
     </>
@@ -206,42 +205,6 @@ function Example() {
 render(<Example />);
 ```
 
-### Slide in transition
-
-```jsx noInline
-const SkeletonContent = (props) => (
-  <ModalContent p="4x" {...props}>
-    <Flex>
-      <Flex flex="none" mr="4x" align="center">
-        <Skeleton variant="circle" width="10x" height="10x" />
-      </Flex>
-      <Box flex="auto">
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-      </Box>
-    </Flex>
-  </ModalContent>
-);
-
-function Example() {
-  const { isOpen, onToggle } = useDisclosure();
-
-  return (
-    <>
-      <Button onClick={onToggle}>
-        Toggle
-      </Button>
-      <SlideIn in={isOpen}>
-        <SkeletonContent mt="4x" />
-      </SlideIn>
-    </>
-  );
-}
-
-render(<Example />);
-```
-
 ## Props
 
 ### Fade
@@ -268,11 +231,3 @@ render(<Example />);
 | from | string | | One of: `'bottom'`, `'top'`, `'left'`, `'right'` |
 | finalHeight | string | 'auto' | |
 | finalWidth | string | | |
-
-### SlideIn
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| in | boolean | | Toggle visibility with a transition effect. |
-| duration | number | 150 | The duration of the transition. |
-| offset | string \| number | '4x' | The slide-in offset. |
