@@ -42,7 +42,8 @@ const pxSpace = (() => {
     const reducer = (acc, n) => {
       const k = `${n}${notation}`;
       const v = `${(value * n)}${spaceUnit}`.replace(/^0+/, ''); // omitting leading '0's
-      acc[k] = v;
+      acc[k] = v; // positive
+      acc[`-${k}`] = `-${v}`; // negative
       return acc;
     };
     const initialValue = {};
