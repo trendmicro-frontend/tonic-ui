@@ -18,10 +18,10 @@ const TabPanels = forwardRef(({ children, ...rest }, ref) => {
   } = useContext(TabContext);
 
   const validChildren = cleanChildren(children);
-
+  const isActiveManually = activateOnKeypress || isManual;
   const clones = validChildren.map((child, index) => {
     return cloneElement(child, {
-      isSelected: (activateOnKeypress || isManual) ? index === manualIndex : index === selectedIndex,
+      isSelected: isActiveManually ? index === manualIndex : index === selectedIndex,
       selectedPanelRef,
       id: `${id}-${index}`,
     });
