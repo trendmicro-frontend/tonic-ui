@@ -59,7 +59,7 @@ export const componentLinks = [
   'Toast',
   'ToggleSwitch',
   'Tooltip',
-  'Transition',
+  'Transitions',
 ];
 
 export const utilityLinks = [
