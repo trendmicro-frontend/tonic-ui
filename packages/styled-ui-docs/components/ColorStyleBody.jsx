@@ -31,7 +31,6 @@ const ColorStyleBody = ({
   const colorStyleOfType = _get(customColorStyle, colorType) ?? _get(colorStyle, colorType);
 
   { // TODO: remove this block in the v1 release
-
     // filter out deprecated keys
     if (colorType === 'background') {
       delete colorStyleOfType.selected;
