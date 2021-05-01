@@ -1,4 +1,8 @@
-import React, { forwardRef, useRef } from 'react';
+import React, {
+  forwardRef,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import { Transition } from 'react-transition-group';
 import {
   transitionDuration,
@@ -8,6 +12,7 @@ import {
 } from './transitions';
 import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
+import { reflow } from './utils';
 
 const transitionStateStyle = {
   entering: {
@@ -43,6 +48,13 @@ const Fade = forwardRef((
 ) => {
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
+
+  useLayoutEffect(() => {
+    if (inProp) {
+      const node = nodeRef.current;
+      reflow(node); // force reflow to make the transition work when animating appearance
+    }
+  }, [inProp]);
 
   return (
     <Transition
