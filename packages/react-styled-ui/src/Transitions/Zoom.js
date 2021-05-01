@@ -5,28 +5,34 @@ import React, {
 } from 'react';
 import { Transition } from 'react-transition-group';
 import {
-  transitionDuration,
+  createTransitionStyle,
   getEnterTransitionProps,
   getExitTransitionProps,
-  createTransitionStyle,
+  transitionDuration,
+  transitionEasing,
 } from './transitions';
 import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
 import { reflow } from './utils';
 
-const transitionStateStyle = {
+const stateVariant = {
   entering: {
-    opacity: 1,
+    transform: 'none',
   },
   entered: {
-    opacity: 1,
+    transform: 'none',
   },
   exiting: {
-    opacity: 0,
+    transform: 'scale(0)',
   },
   exited: {
-    opacity: 0,
+    transform: 'scale(0)',
   },
+};
+
+const defaultEasing = {
+  enter: transitionEasing.easeInOut,
+  exit: transitionEasing.easeInOut,
 };
 
 const defaultTimeout = {
@@ -34,11 +40,14 @@ const defaultTimeout = {
   exit: transitionDuration.leavingScreen,
 };
 
-const Fade = forwardRef((
+/**
+ * The Zoom transition can be used for the floating action buttons.
+ */
+const Zoom = forwardRef((
   {
     appear = true,
     children,
-    easing,
+    easing = defaultEasing,
     in: inProp,
     style,
     timeout = defaultTimeout,
@@ -68,9 +77,12 @@ const Fade = forwardRef((
         const transitionProps = inProp
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
-        const transition = createTransitionStyle('opacity', transitionProps);
+        const transition = createTransitionStyle('transform', transitionProps);
+        const variantStyle = (typeof stateVariant[state] === 'function')
+          ? stateVariant[state]({})
+          : stateVariant[state];
         const styleProps = {
-          ...transitionStateStyle[state],
+          ...variantStyle,
           transition,
           visibility: (state === 'exited' && !inProp) ? 'hidden' : undefined,
         };
@@ -101,6 +113,6 @@ const Fade = forwardRef((
   );
 });
 
-Fade.displayName = 'Fade';
+Zoom.displayName = 'Zoom';
 
-export default Fade;
+export default Zoom;

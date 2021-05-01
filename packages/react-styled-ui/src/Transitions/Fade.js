@@ -5,28 +5,34 @@ import React, {
 } from 'react';
 import { Transition } from 'react-transition-group';
 import {
-  transitionDuration,
+  createTransitionStyle,
   getEnterTransitionProps,
   getExitTransitionProps,
-  createTransitionStyle,
+  transitionDuration,
+  transitionEasing,
 } from './transitions';
 import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
 import { reflow } from './utils';
 
-const transitionStateStyle = {
+const stateVariant = {
   entering: {
-    transform: 'none',
+    opacity: 1,
   },
   entered: {
-    transform: 'none',
+    opacity: 1,
   },
   exiting: {
-    transform: 'scale(0)',
+    opacity: 0,
   },
   exited: {
-    transform: 'scale(0)',
+    opacity: 0,
   },
+};
+
+const defaultEasing = {
+  enter: transitionEasing.easeInOut,
+  exit: transitionEasing.easeInOut,
 };
 
 const defaultTimeout = {
@@ -34,11 +40,14 @@ const defaultTimeout = {
   exit: transitionDuration.leavingScreen,
 };
 
+/**
+ * The Fade transition can be used for the Modal component.
+ */
 const Fade = forwardRef((
   {
     appear = true,
     children,
-    easing,
+    easing = defaultEasing,
     in: inProp,
     style,
     timeout = defaultTimeout,
@@ -68,9 +77,12 @@ const Fade = forwardRef((
         const transitionProps = inProp
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
-        const transition = createTransitionStyle('transform', transitionProps);
+        const transition = createTransitionStyle('opacity', transitionProps);
+        const variantStyle = (typeof stateVariant[state] === 'function')
+          ? stateVariant[state]({})
+          : stateVariant[state];
         const styleProps = {
-          ...transitionStateStyle[state],
+          ...variantStyle,
           transition,
           visibility: (state === 'exited' && !inProp) ? 'hidden' : undefined,
         };

@@ -124,4 +124,4 @@ export * from './Modal';
 export * from './Popover';
 export * from './Select';
 export * from './Table';
-export * from './Transition';
+export * from './Transitions';
