@@ -2,9 +2,10 @@ import {
   ensureArray,
   ensureFiniteNumber,
 } from 'ensure-type';
-import {
-  formatMs,
-} from './utils';
+
+const formatMs = ms => {
+  return (ms > 0) ? `${Math.round(ms)}ms` : '';
+};
 
 export const transitionDuration = {
   // most basic recommended timing

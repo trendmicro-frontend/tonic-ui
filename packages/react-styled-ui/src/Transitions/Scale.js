@@ -11,9 +11,9 @@ import {
   getExitTransitionProps,
   transitionEasing,
 } from './transitions';
+import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
-import { reflow } from './utils';
 
 const stateVariant = {
   entering: {
