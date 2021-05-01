@@ -55,14 +55,14 @@ export const getExitTransitionProps = ({
   };
 };
 
-export const createTransitionStyle = (transitionProps = ['all'], options) => {
+export const createTransitionStyle = (props = ['all'], options) => {
   const {
     duration = transitionDuration.standard,
     easing = transitionEasing.easeInOut,
     delay = 0,
   } = { ...options };
 
-  return ensureArray(transitionProps).map(transitionProp => {
+  return ensureArray(props).map(transitionProp => {
     const parts = [
       transitionProp,
       typeof duration === 'string' ? duration : formatMs(duration),

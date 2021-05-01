@@ -11,16 +11,16 @@ import Box from '../Box';
 
 const transitionStateStyle = {
   entering: {
-    opacity: 1,
+    transform: 'none',
   },
   entered: {
-    opacity: 1,
+    transform: 'none',
   },
   exiting: {
-    opacity: 0,
+    transform: 'scale(0)',
   },
   exited: {
-    opacity: 0,
+    transform: 'scale(0)',
   },
 };
 
@@ -56,7 +56,7 @@ const Fade = forwardRef((
         const transitionProps = inProp
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
-        const transition = createTransitionStyle('opacity', transitionProps);
+        const transition = createTransitionStyle('transform', transitionProps);
         const styleProps = {
           ...transitionStateStyle[state],
           transition,
