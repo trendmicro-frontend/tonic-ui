@@ -15,19 +15,23 @@ import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
 
-const stateVariant = {
-  entering: {
-    opacity: 1,
-  },
-  entered: {
-    opacity: 1,
-  },
-  exiting: {
-    opacity: 0,
-  },
-  exited: {
-    opacity: 0,
-  },
+const mapStateToVariantStyle = (state, props) => {
+  const variantStyle = {
+    entering: {
+      opacity: 1,
+    },
+    entered: {
+      opacity: 1,
+    },
+    exiting: {
+      opacity: 0,
+    },
+    exited: {
+      opacity: 0,
+    },
+  }[state];
+
+  return (typeof variantStyle === 'function') ? variantStyle(props) : variantStyle;
 };
 
 const defaultEasing = {
@@ -78,9 +82,7 @@ const Fade = forwardRef((
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
         const transition = createTransitionStyle('opacity', transitionProps);
-        const variantStyle = (typeof stateVariant[state] === 'function')
-          ? stateVariant[state]({})
-          : stateVariant[state];
+        const variantStyle = mapStateToVariantStyle(state, {});
         const styleProps = {
           ...variantStyle,
           transition,

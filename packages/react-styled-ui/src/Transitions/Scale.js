@@ -15,29 +15,33 @@ import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
 
-const stateVariant = {
-  entering: {
-    transform: 'none',
-  },
-  entered: {
-    transform: 'none',
-  },
-  exiting: (props) => {
-    const [scaleX, scaleY] = ensureArray(props.initialScale);
-    return {
-      transform: (scaleY !== undefined)
-        ? `scale(${scaleX}, ${scaleY})`
-        : `scale(${scaleX})`,
-    };
-  },
-  exited: (props) => {
-    const [scaleX, scaleY] = ensureArray(props.initialScale);
-    return {
-      transform: (scaleY !== undefined)
-        ? `scale(${scaleX}, ${scaleY})`
-        : `scale(${scaleX})`,
-    };
-  },
+const mapStateToVariantStyle = (state, props) => {
+  const variantStyle = {
+    entering: {
+      transform: 'none',
+    },
+    entered: {
+      transform: 'none',
+    },
+    exiting: (props) => {
+      const [scaleX, scaleY] = ensureArray(props.initialScale);
+      return {
+        transform: (scaleY !== undefined)
+          ? `scale(${scaleX}, ${scaleY})`
+          : `scale(${scaleX})`,
+      };
+    },
+    exited: (props) => {
+      const [scaleX, scaleY] = ensureArray(props.initialScale);
+      return {
+        transform: (scaleY !== undefined)
+          ? `scale(${scaleX}, ${scaleY})`
+          : `scale(${scaleX})`,
+      };
+    },
+  }[state];
+
+  return (typeof variantStyle === 'function') ? variantStyle(props) : variantStyle;
 };
 
 const defaultEasing = {
@@ -94,9 +98,7 @@ const Scale = forwardRef((
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
         const transition = createTransitionStyle('transform', transitionProps);
-        const variantStyle = (typeof stateVariant[state] === 'function')
-          ? stateVariant[state]({ initialScale })
-          : stateVariant[state];
+        const variantStyle = mapStateToVariantStyle(state, { initialScale });
         const styleProps = {
           ...variantStyle,
           transition,
