@@ -100,7 +100,8 @@ const lineStyle = ({ size, colorMode, theme }) => {
         borderBottomColor: _selectedBorderColor
       },
       _focusActive: {
-        borderColor: _hoveredBorderColor,
+        borderColor: 'transparent',
+        borderBottomColor: _hoveredBorderColor,
       },
     },
   };
