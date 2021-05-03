@@ -1,118 +1,142 @@
-import React, { forwardRef } from 'react';
-import { Transition, animated } from 'react-spring';
+import React, {
+  forwardRef,
+  useLayoutEffect,
+  useRef,
+} from 'react';
+import { Transition } from 'react-transition-group';
+import {
+  createTransitionStyle,
+  getEnterTransitionProps,
+  getExitTransitionProps,
+  transitionDuration,
+  transitionEasing,
+} from './transitions';
+import reflow from '../utils/reflow';
+import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
 
-const AnimatedBox = animated(Box);
+const DIRECTION_LEFT = 'left';
+const DIRECTION_RIGHT = 'right';
+const DIRECTION_UP = 'up';
+const DIRECTION_DOWN = 'down';
 
-// Easing function from d3-ease: https://github.com/d3/d3-ease/blob/master/src/exp.js
-function expOut(t) {
-  return 1 - Math.pow(2, -10 * t);
-}
+const mapStateToVariantStyle = (state, props) => {
+  const variantStyle = {
+    entering: {
+      transform: 'none',
+    },
+    entered: {
+      transform: 'none',
+    },
+    exiting: (props) => ({
+      [DIRECTION_LEFT]: {
+        transform: 'translateX(100%)',
+      },
+      [DIRECTION_RIGHT]: {
+        transform: 'translateX(-100%)',
+      },
+      [DIRECTION_UP]: {
+        transform: 'translateY(100%)',
+      },
+      [DIRECTION_DOWN]: {
+        transform: 'translateY(-100%)',
+      },
+    }[props.direction]),
+    exited: (props) => ({
+      [DIRECTION_LEFT]: {
+        transform: 'translateX(100%)',
+      },
+      [DIRECTION_RIGHT]: {
+        transform: 'translateX(-100%)',
+      },
+      [DIRECTION_UP]: {
+        transform: 'translateY(100%)',
+      },
+      [DIRECTION_DOWN]: {
+        transform: 'translateY(-100%)',
+      },
+    }[props.direction]),
+  }[state];
 
+  return (typeof variantStyle === 'function') ? variantStyle(props) : variantStyle;
+};
+
+const defaultEasing = {
+  enter: transitionEasing.easeOut,
+  exit: transitionEasing.sharp,
+};
+
+const defaultTimeout = {
+  enter: transitionDuration.enteringScreen,
+  exit: transitionDuration.leavingScreen,
+};
+
+/**
+ * The Slide transition can be used for the Drawer component.
+ */
 const Slide = forwardRef((
   {
-    in: isOpen,
-    duration = 250,
-    from,
-    finalHeight = 'auto',
-    finalWidth,
-    style,
+    appear = true,
     children,
-    ...rest
+    direction = DIRECTION_DOWN,
+    easing = defaultEasing,
+    in: inProp,
+    style,
+    timeout = defaultTimeout,
+    ...other
   },
   ref,
 ) => {
-  const placements = {
-    bottom: {
-      maxWidth: '100vw',
-      height: finalHeight,
-      bottom: 0,
-      left: 0,
-      right: 0,
-    },
-    top: {
-      maxWidth: '100vw',
-      height: finalHeight,
-      top: 0,
-      left: 0,
-      right: 0,
-    },
-    left: {
-      ...(finalWidth && { maxWidth: finalWidth }),
-      maxHeight: '100vh',
-      left: 0,
-      top: 0,
-    },
-    right: {
-      ...(finalWidth && { maxWidth: finalWidth }),
-      maxHeight: '100vh',
-      right: 0,
-      top: 0,
-    },
-  };
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
 
-  const transitionOptions = {
-    bottom: {
-      offset: '100%',
-      transform: y => `translateY(${y})`,
-    },
-    top: {
-      offset: '-100%',
-      transform: y => `translateY(${y})`,
-    },
-    left: {
-      offset: '-100%',
-      transform: x => `translateX(${x})`,
-    },
-    right: {
-      offset: '100%',
-      transform: x => `translateX(${x})`,
-    },
-  };
-
-  const { offset, transform } = transitionOptions[from];
+  useLayoutEffect(() => {
+    if (inProp) {
+      const node = nodeRef.current;
+      reflow(node); // force reflow to make the transition work when animating appearance
+    }
+  }, [inProp]);
 
   return (
     <Transition
-      items={!!isOpen}
-      from={{
-        opacity: 0,
-        offset: offset,
-        transform: transform(offset),
-      }}
-      enter={{
-        opacity: 1,
-        offset: '0%',
-        transform: (from === 'top' || from === 'bottom') ? 'translateY(0)' : 'translateX(0)',
-      }}
-      leave={{
-        opacity: 0,
-        offset: offset,
-        transform: transform(offset),
-      }}
-      config={{
-        duration,
-        easing: expOut,
-      }}
+      appear={appear}
+      in={inProp}
+      nodeRef={nodeRef}
+      timeout={timeout}
+      {...other}
     >
-      {(transitionStyle, item) => {
-        if (!item) {
-          return null;
+      {(state, childProps) => {
+        const transitionProps = inProp
+          ? getEnterTransitionProps({ style, timeout, easing })
+          : getExitTransitionProps({ style, timeout, easing });
+        const transition = createTransitionStyle('transform', transitionProps);
+        const variantStyle = mapStateToVariantStyle(state, { direction });
+        const styleProps = {
+          ...variantStyle,
+          transition,
+          visibility: (state === 'exited' && !inProp) ? 'hidden' : undefined,
+        };
+
+        if (typeof children === 'function') {
+          return children(state, {
+            ref: combinedRef,
+            ...childProps,
+            style: {
+              ...styleProps,
+              ...style,
+            },
+          });
         }
 
         return (
-          <AnimatedBox
-            ref={ref}
-            style={{
-              ...transitionStyle,
-              ...style,
-            }}
-            {...placements[from]}
-            willChange="opacity, offset, transform"
-            {...rest}
+          <Box
+            ref={combinedRef}
+            {...childProps}
+            {...styleProps}
+            style={style}
           >
             {children}
-          </AnimatedBox>
+          </Box>
         );
       }}
     </Transition>
