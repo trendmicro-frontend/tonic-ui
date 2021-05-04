@@ -4,7 +4,14 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
 
 const Header = React.forwardRef((props, ref) => {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const [colorMode, setColorMode] = useColorMode();
+  const toggleColorMode = () => {
+    const nextColorMode = {
+      'dark': 'light',
+      'light': 'dark',
+    }[colorMode];
+    setColorMode(nextColorMode);
+  };
   const logoPath = {
     light: 'images/tonic-logo-light.svg',
     dark: 'images/tonic-logo-dark.svg',
@@ -21,6 +28,7 @@ const Header = React.forwardRef((props, ref) => {
     light: 'black:primary', // FIXME
     dark: 'white:emphasis',
   }[colorMode];
+
   return (
     <Box
       position="fixed"
