@@ -43,17 +43,6 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
       closeMenu();
     }
 
-    // Set focus based on first character
-    if (/^[a-z0-9_-]$/i.test(event.key)) {
-      event.stopPropagation();
-      event.preventDefault();
-      let foundNode = focusableItems.current.find(item => item.textContent.toLowerCase().startsWith(event.key));
-      if (foundNode) {
-        nextIndex = focusableItems.current.indexOf(foundNode);
-        focusAtIndex(nextIndex);
-      }
-    }
-
     onKeyDown && onKeyDown(event);
   };
 
