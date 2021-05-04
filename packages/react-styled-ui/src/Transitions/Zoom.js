@@ -13,7 +13,7 @@ import {
 } from './transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
-import Box from '../Box';
+import PseudoBox from '../PseudoBox';
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -101,14 +101,14 @@ const Zoom = forwardRef((
         }
 
         return (
-          <Box
+          <PseudoBox
             ref={combinedRef}
             {...childProps}
             {...styleProps}
             style={style}
           >
             {children}
-          </Box>
+          </PseudoBox>
         );
       }}
     </Transition>

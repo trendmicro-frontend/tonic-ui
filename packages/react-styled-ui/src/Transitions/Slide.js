@@ -13,7 +13,7 @@ import {
 } from './transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
-import Box from '../Box';
+import PseudoBox from '../PseudoBox';
 
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';
@@ -129,14 +129,14 @@ const Slide = forwardRef((
         }
 
         return (
-          <Box
+          <PseudoBox
             ref={combinedRef}
             {...childProps}
             {...styleProps}
             style={style}
           >
             {children}
-          </Box>
+          </PseudoBox>
         );
       }}
     </Transition>
