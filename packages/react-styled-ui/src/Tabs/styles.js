@@ -87,20 +87,17 @@ const lineStyle = ({ size, colorMode, theme }) => {
       },
       _focus: {
         px: `calc(${_px} - 2px)`,
-        borderWidth: tabProps.borderWidth,
-        borderColor: _focusBorderColor
+        borderBottomColor: _focusBorderColor
       },
       _disabled: {
         color: _disabledColor,
-        borderColor: _disabledBorderColor,
+        borderBottomColor: _disabledBorderColor,
         backgroundColor: _disabledBackgroundColor
       },
       _focusSelected: {
-        borderColor: 'transparent',
         borderBottomColor: _selectedBorderColor
       },
       _focusActive: {
-        borderColor: 'transparent',
         borderBottomColor: _hoveredBorderColor,
       },
     },
