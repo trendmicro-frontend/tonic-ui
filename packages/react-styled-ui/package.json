@@ -32,7 +32,6 @@
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
     "prop-types": "^15.6.0",
-    "react-animate-height": "2.x",
     "react-focus-lock": "2.3.x",
     "react-transition-group": "~4.4.1",
     "styled-system": "5.x"
