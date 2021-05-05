@@ -86,7 +86,6 @@ const lineStyle = ({ size, colorMode, theme }) => {
         borderBottomColor: _selectedBorderColor
       },
       _focus: {
-        px: `calc(${_px} - 2px)`,
         borderBottomColor: _focusBorderColor
       },
       _disabled: {
