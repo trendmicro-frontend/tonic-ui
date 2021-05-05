@@ -10,9 +10,9 @@ import React, {
 } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
-import Collapse from '../Collapse';
 import Icon from '../Icon';
 import PseudoBox from '../PseudoBox';
+import Collapse from '../Transitions/Collapse';
 import { createUniqueId } from '../utils/uniqueid';
 
 const uniqueId = createUniqueId();
@@ -180,7 +180,7 @@ const AccordionPanel = forwardRef((props, ref) => {
       id={panelId}
       aria-labelledby={headerId}
       aria-hidden={!isExpanded}
-      isOpen={isExpanded}
+      in={isExpanded}
       {...props}
     />
   );

@@ -4,9 +4,11 @@
 
 ```js
 import {
+  Collapse,
   Fade,
   Scale,
   Slide,
+  Zoom,
 } from '@trendmicro/react-styled-ui';
 ```
 
@@ -38,9 +40,9 @@ function Example() {
       <Button onClick={onToggle}>
         Toggle
       </Button>
-      <Collapse2 in={isOpen}>
+      <Fade in={isOpen} unmountOnExit>
         <SkeletonContent mt="4x" />
-      </Collapse2>
+      </Fade>
     </>
   );
 }

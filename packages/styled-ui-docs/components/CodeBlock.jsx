@@ -34,6 +34,7 @@ const {
   Box,
   Button,
   Collapse,
+  Fade,
   Flex,
   Icon,
   PseudoBox,
@@ -94,7 +95,7 @@ const CopyButton = props => (
     position="absolute"
     textTransform="uppercase"
     zIndex="1"
-    top="4x"
+    top="12x"
     right="4x"
     {...props}
   />
@@ -153,29 +154,23 @@ const CodeBlock = ({
   }
 
   const useCodeBlockTitleStyle = {
-    pt: '4x',
     px: '4x',
+    py: '3x',
+    _hover: {
+      color: {
+        light: 'black:primary',
+        dark: 'white:primary',
+      }[colorMode],
+    },
+    color: {
+      light: 'black:secondary',
+      dark: 'white:secondary',
+    }[colorMode],
     backgroundColor: {
       light: 'gray:10',
       dark: 'black:emphasis',
     }[colorMode],
     cursor: isCollapsible ? 'pointer' : 'default',
-  };
-
-  const useCollapseBoxStyle = {
-    position: 'relative',
-    __after: !isExpanded && {
-      content: '""',
-      position: 'absolute',
-      display: 'block',
-      width: '100%',
-      height: '5x',
-      bottom: '0',
-      background: {
-        light: 'linear-gradient(360deg, rgba(242, 242, 242, 0.6) 25%, rgba(242, 242, 242, 0) 83.33%)',
-        dark: 'linear-gradient(360deg, rgba(0, 0, 0, 0.6) 25%, rgba(0, 0, 0, 0) 83.33%)',
-      }[colorMode],
-    },
   };
 
   const useCollapseIconStyle = {
@@ -235,10 +230,12 @@ const CodeBlock = ({
       )}
       <Box mt="4x" position="relative">
         {isEditable && (
-          <Flex
-            align="center"
-            justify="space-between"
+          <PseudoBox
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
             onClick={isCollapsible ? handleCollapse : undefined}
+            userSelect="none"
             {...useCodeBlockTitleStyle}
           >
             EDITABLE EXAMPLE
@@ -248,12 +245,12 @@ const CodeBlock = ({
                 {...useCollapseIconStyle}
               />
             )}
-          </Flex>
+          </PseudoBox>
         )}
         {(isEditable && isCollapsible) ? (
-          <PseudoBox {...useCollapseBoxStyle}>
-            <Collapse startingHeight={headerHeight} isOpen={isExpanded}>
-              <Box position="relative">
+          <Fade in={isExpanded}>
+            <Collapse in={isExpanded}>
+              <Box>
                 {
                   isExpanded && (
                     <CopyButton onClick={onCopy}>
@@ -270,9 +267,9 @@ const CodeBlock = ({
                 </Box>
               </Box>
             </Collapse>
-          </PseudoBox>
+          </Fade>
         ) : (
-          <Box position="relative">
+          <Box>
             <CopyButton onClick={onCopy}>
               {hasCopied ? 'copied' : 'copy'}
             </CopyButton>
