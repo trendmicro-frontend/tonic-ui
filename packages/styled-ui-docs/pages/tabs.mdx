@@ -49,6 +49,32 @@ you can have tabs at the top, at the bottom, or both.
 </Tabs>
 ```
 
+## Accessing Internal state
+
+`<TabPanel>` provides access to one internal state:  `isActive`. Use the render prop pattern to access the internal states.
+
+```jsx
+<Tabs>
+  <TabList>
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>
+      <p>one!</p>
+    </TabPanel>
+    <TabPanel>
+      {({ isActive }) => {
+        if (isActive) {
+          return (<p>two!</p>);
+        }
+        return null;
+      }}
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
 ### Tab variants and color
 
 Tabs come in 3 different variants to style the tabs: `line`,`enclosed`, `unstyled`
@@ -163,6 +189,166 @@ to `unstyled`, and use the `_selected`, `_hover`, `_active` style props.
 </Tabs>
 ```
 
+### AutoSizer Table in the tab
+
+```jsx noInline
+function FullWidthTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      id: 'eventType',
+      accessor: 'eventType',
+      width: 'auto',
+    },
+    {
+      Header: 'Affected Devices',
+      id: 'affectedDevices',
+      accessor: 'affectedDevices',
+      width: 160,
+    },
+    {
+      Header: 'Detections',
+      id: 'detections',
+      accessor: 'detections',
+      width: '10%',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+  ], []);
+
+  const getCalculatedColumns = ({ initColumns, tableWidth }) => {
+    const columns = initColumns.map(column => {
+      let columnWidth = column.width;
+      if (typeof columnWidth === 'string') {
+        const lastChar = columnWidth.substr(columnWidth.length - 1);
+        if (lastChar === '%') {
+          columnWidth = tableWidth * (parseFloat(columnWidth) / 100);
+          return {
+            ...column,
+            width: columnWidth
+          };
+        }
+        if (columnWidth === 'auto') {
+          return {
+            ...column,
+            width: 0
+          };
+        }
+      }
+      return column;
+    });
+    const customWidthColumns = columns.filter(column => !!column.width);
+    const totalCustomWidth = customWidthColumns.reduce((accumulator, column) => accumulator + column.width, 0);
+    let defaultCellWidth = (tableWidth - totalCustomWidth) / (columns.length - customWidthColumns.length);
+    defaultCellWidth = defaultCellWidth <= 0 ? 150 : defaultCellWidth;
+    return columns.map(column => {
+      if (!!column.width) {
+        return column;
+      }
+      return {
+        ...column,
+        width: defaultCellWidth
+      };
+    });
+  };
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout,
+  );
+
+  return (
+    <AutoSizer>
+      {({ height, width }) => {
+        if (height === 0 || width === 0) {
+          return null;
+        }
+        const newColumns = getCalculatedColumns({ initColumns: columns, tableWidth: width });
+        return (
+          <Table
+            isHoverable
+            {...getTableProps()}
+          >
+            <TableHeader>
+              {headerGroups.map(headerGroup => (
+                <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => {
+                    const columnId = column.id;
+                    const _column = newColumns.filter(column => column.id === columnId);
+                    const _columnWidth = _column[0].width;
+                    return (
+                      <TableHeaderCell
+                        width={_columnWidth}
+                        {...column.getHeaderProps()}
+                      >
+                        {column.render('Header')}
+                      </TableHeaderCell>
+                    );
+                  })}
+                </TableHeaderRow>
+              ))}
+            </TableHeader>
+            <TableBody {...getTableBodyProps()}>
+              {rows.map((row, i) => {
+                prepareRow(row);
+                return (
+                  <TableRow {...row.getRowProps()}>
+                    {
+                      row.cells.map(cell => {
+                        const columnId = cell.column.id;
+                        const _column = newColumns.filter(column => column.id === columnId);
+                        const _columnWidth = _column[0].width;
+                        return (
+                          <TableCell
+                            width={_columnWidth}
+                            {...cell.getCellProps()}
+                          >
+                            {cell.render('Cell')}
+                          </TableCell>
+                        );
+                      })
+                    }
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        );
+      }}
+    </AutoSizer>
+  );
+}
+
+render(
+  <Tabs height="300px">
+    <TabList>
+      <Tab>Auto height Panel</Tab>
+      <Tab>Full height Panel</Tab>
+    </TabList>
+    <TabPanels height="calc(100% - 40px)">
+      <TabPanel border="1" borderColor="green" marginTop="1x" padding="1x">
+        Hi~~~
+      </TabPanel>
+      <TabPanel height="100%" border="1" borderColor="green" marginTop="1x" padding="1x">
+        <FullWidthTable />
+      </TabPanel>
+    </TabPanels>
+  </Tabs>
+);
+```
+
 ### Manually Activated Tabs
 
 By default, `Tabs` are activated automatically. This means when you use the
@@ -175,7 +361,7 @@ without activating the tabs. With focus on a specifc tab, users can activate a
 tab by pressing <kbd>Space</kbd> or <kbd>Enter</kbd>.
 
 ```jsx
-<Tabs activateOnKeypress variant="line">
+<Tabs isManual variant="line">
   <TabList>
     <Tab>One</Tab>
     <Tab>Two</Tab>
@@ -272,7 +458,8 @@ Tabs composes `Box` so you call pass all `Box` related props.
 | `onChange`     | `(index: number) => void`                                                         |              | The callback to update the active tab index.                                                                                    |
 | `index`        | `number`                                                                          |              | The controlled index of the tabs.                                                                                               |
 | `defaultIndex` | `number`                                                                          |              | The index of the initial active tab.                                                                                            |
-| `activateOnKeypress`     | `boolean`                                                                         |              | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` to active it |
+| `activateOnKeypress`     | `boolean`                                                               |              | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` or `Space` to active it. This is deprecated and will be removed in the v1 release |
+| `isManual`     | `boolean`                                                                         |              | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` or `Space` to active it |
 | `children`     | `React.ReactNode`                                                                 |              | The children of the switch.                                                                                                     |
 | `variant`      | `line`,`enclosed`, `unstyled`                                                     | `line`       | The visual style of the tab.                                                                                                    |
 | `orientation`  | `horizontal`, `vertical`                                                          | `horizontal` | The orientation of the tabs                                                                                                     |
@@ -283,3 +470,10 @@ Tabs composes `Box` so you call pass all `Box` related props.
 | Name         | Type      | Default | Description                         |
 | ------------ | --------- | ------- | ----------------------------------- |
 | `disabled`   | `boolean` |         | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+
+
+### TabPanel Props
+
+| Name         | Type      | Default | Description                         |
+| ------------ | --------- | ------- | ----------------------------------- |
+| children | React.ReactNode, (props: InternalState) => React.ReactNode | | The children of the `TabPanel`. |

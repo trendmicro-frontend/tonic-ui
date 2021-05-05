@@ -21,8 +21,8 @@ const ColorStyleBlock = ({
 }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const primaryTextColor = colorStyle?.text?.primary;
-  const secondaryTextColor = colorStyle?.text?.secondary;
+  const primaryTextColor = colorStyle?.color?.primary;
+  const secondaryTextColor = colorStyle?.color?.secondary;
   const blockStyle = (() => {
     const style = {};
     const containerBackgroundColor = {

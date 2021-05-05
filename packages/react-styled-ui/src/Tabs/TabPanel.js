@@ -22,7 +22,9 @@ const TabPanel = forwardRef(
         outline={0}
         {...rest}
       >
-        {children}
+        {typeof children === 'function'
+          ? children({ isActive: isSelected })
+          : children}
       </Box>
     );
   },

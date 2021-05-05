@@ -12,15 +12,16 @@ const TabPanels = forwardRef(({ children, ...rest }, ref) => {
     index: selectedIndex,
     selectedPanelRef,
     id,
-    activateOnKeypress,
+    activateOnKeypress, // TODO: activateOnKeypress is deprecated and will be removed in the v1 release
+    isManual,
     manualIndex,
   } = useContext(TabContext);
 
   const validChildren = cleanChildren(children);
-
+  const isActiveManually = activateOnKeypress || isManual;
   const clones = validChildren.map((child, index) => {
     return cloneElement(child, {
-      isSelected: activateOnKeypress ? index === manualIndex : index === selectedIndex,
+      isSelected: isActiveManually ? index === manualIndex : index === selectedIndex,
       selectedPanelRef,
       id: `${id}-${index}`,
     });

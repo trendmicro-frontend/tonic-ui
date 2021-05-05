@@ -14,7 +14,8 @@ const Tabs = forwardRef(
       onChange,
       index: controlledIndex,
       defaultIndex,
-      activateOnKeypress,
+      activateOnKeypress, // TODO: activateOnKeypress is deprecated and will be removed in the v1 release
+      isManual,
       variant = 'line',
       align = 'left',
       size = 'md',
@@ -26,9 +27,10 @@ const Tabs = forwardRef(
   ) => {
     const { current: isControlled } = useRef(controlledIndex != null);
     const selectedPanelRef = useRef();
+    const isActiveManually = activateOnKeypress || isManual;
 
     const getInitialIndex = () => {
-      if (!activateOnKeypress) {
+      if (!isActiveManually) {
         return defaultIndex || 0;
       } else {
         return controlledIndex || defaultIndex || 0;
@@ -36,7 +38,7 @@ const Tabs = forwardRef(
     };
 
     const getActualIdx = () => {
-      if (activateOnKeypress) {
+      if (isActiveManually) {
         return selectedIndex;
       } else {
         return isControlled ? controlledIndex : selectedIndex;
@@ -56,11 +58,11 @@ const Tabs = forwardRef(
         setSelectedIndex(index);
       }
 
-      if (isControlled && activateOnKeypress) {
+      if (isControlled && isActiveManually) {
         setSelectedIndex(index);
       }
 
-      if (!activateOnKeypress) {
+      if (!isActiveManually) {
         onChange && onChange(index);
       }
     };
@@ -70,7 +72,7 @@ const Tabs = forwardRef(
         setManualIndex(index);
       }
 
-      if (activateOnKeypress) {
+      if (isActiveManually) {
         onChange && onChange(index);
       }
     };
@@ -88,7 +90,8 @@ const Tabs = forwardRef(
       index: actualIdx,
       manualIndex: manualIdx,
       onManualTabChange,
-      activateOnKeypress,
+      activateOnKeypress, // TODO: activateOnKeypress is deprecated and will be removed in the v1 release
+      isManual,
       onChangeTab,
       selectedPanelRef,
       onFocusPanel,
