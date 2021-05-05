@@ -35,7 +35,6 @@ const {
   Button,
   Collapse,
   Fade,
-  Flex,
   Icon,
   PseudoBox,
   useColorMode,
