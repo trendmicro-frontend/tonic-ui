@@ -86,15 +86,19 @@ const lineStyle = ({ size, colorMode, theme }) => {
         borderBottomColor: _selectedBorderColor
       },
       _focus: {
-        px: `calc(${_px} - 2px)`,
-        borderWidth: tabProps.borderWidth,
-        borderColor: _focusBorderColor
+        borderBottomColor: _focusBorderColor
       },
       _disabled: {
         color: _disabledColor,
-        borderColor: _disabledBorderColor,
+        borderBottomColor: _disabledBorderColor,
         backgroundColor: _disabledBackgroundColor
-      }
+      },
+      _focusSelected: {
+        borderBottomColor: _selectedBorderColor
+      },
+      _focusActive: {
+        borderBottomColor: _hoveredBorderColor,
+      },
     },
   };
 };
@@ -155,6 +159,10 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
       _focusSelected: {
         borderColor: _selectedBorder,
         zIndex: 3
+      },
+
+      _focusActive: {
+        borderColor: _hoveredBorderColor,
       },
 
       _disabled: {
