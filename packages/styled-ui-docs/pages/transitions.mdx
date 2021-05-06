@@ -1,4 +1,6 @@
-# Transition
+# Transitions
+
+Trend Micro Styled UI provides some transition components (`Collapse`, `Fade`, `Scale`, `Slide`, `Zoom`) that can be used to add simple animations to your applications.
 
 ## Import
 
@@ -14,7 +16,9 @@ import {
 
 ## Usage
 
-### Fade transition
+### Collapse
+
+Expand vertically from the top of the children. The `collapsedHeight` property can be used to set the minimum height when collapsed.
 
 ```jsx noInline
 const SkeletonContent = (props) => (
@@ -37,12 +41,12 @@ function Example() {
 
   return (
     <>
-      <Button onClick={onToggle}>
+      <Button onClick={onToggle} mb="4x">
         Toggle
       </Button>
-      <Fade in={isOpen} unmountOnExit>
-        <SkeletonContent mt="4x" />
-      </Fade>
+      <Collapse in={isOpen} collapsedHeight={0}>
+        <SkeletonContent />
+      </Collapse>
     </>
   );
 }
