@@ -3,6 +3,7 @@ import {
   useColorMode,
   useTheme,
 } from '@trendmicro/react-styled-ui';
+import React from 'react';
 
 const SelectableButton = ({ selected, ...props }) => {
   const [colorMode] = useColorMode();

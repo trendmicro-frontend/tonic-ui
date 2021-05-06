@@ -3,7 +3,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@trendmicro/react-styled-ui';
-import SkeletonBody from './SkeletonBody';
+import React from 'react';
 
 const SkeletonContent = (props) => {
   const [colorMode] = useColorMode();

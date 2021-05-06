@@ -3,6 +3,7 @@ import {
   Flex,
   Skeleton,
 } from '@trendmicro/react-styled-ui';
+import React from 'react';
 
 const SkeletonBlock = (props) => (
   <Flex>
