@@ -17,6 +17,9 @@ import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
+import SelectableButton from './SelectableButton';
+import SkeletonBody from './SkeletonBody';
+import SkeletonContent from './SkeletonContent';
 import useToast from './useToast';
 
 const thirdPartyComponents = {
@@ -193,6 +196,9 @@ const CodeBlock = ({
       ...styledUIComponents,
       ...thirdPartyComponents,
       EditableTag,
+      SelectableButton,
+      SkeletonBody,
+      SkeletonContent,
       Lorem: (props) => (
         <Lorem
           paragraphLowerBound={1}

@@ -29,19 +29,6 @@ Below is a static modal example, including modal header (optional), modal body (
 You can also compose your modal components when customization is needed.
 
 ```jsx noInline
-const SkeletonContent = (props) => (
-  <Flex {...props}>
-    <Flex flex="none" mr="4x" align="center">
-      <Skeleton variant="circle" width="10x" height="10x" />
-    </Flex>
-    <Box flex="auto">
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-    </Box>
-  </Flex>
-);
-
 function Example() {
   return (
     <Stack direction="column" spacing="4x">
@@ -53,7 +40,7 @@ function Example() {
           <Text mb="4x">
             Modal body text goes here.
           </Text>
-          <SkeletonContent />
+          <SkeletonBody />
         </ModalBody>
         <ModalFooter>
           <Button variant="primary" minWidth="20x">Save Changes</Button>
@@ -66,7 +53,7 @@ function Example() {
           <Text mb="4x">
             Modal body text goes here.
           </Text>
-          <SkeletonContent />
+          <SkeletonBody />
         </ModalBody>
         <ModalFooter>
           <Button variant="primary" minWidth="20x">Save Changes</Button>
@@ -79,7 +66,7 @@ function Example() {
           <Text mb="4x">
             Modal body text goes here.
           </Text>
-          <SkeletonContent />
+          <SkeletonBody />
         </ModalBody>
       </ModalContent>
       <ModalContent ml={0} width={480}>
@@ -99,51 +86,6 @@ render(<Example />);
 Click the button below to toggle a modal. The modal will show up in the center of the screen.
 
 ```jsx noInline
-const SelectableButton = ({ selected, ...props }) => {
-  const [colorMode] = useColorMode();
-  const { colors } = useTheme();
-  const focusColor = colors['blue:60'];
-  let _selectedColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  _selectedColor = colors[_selectedColor];
-  const getSelectedProps = {
-    bg: _selectedColor,
-    borderColor: _selectedColor,
-    color: 'white:emphasis',
-    cursor: 'default',
-    pointerEvents: 'none',
-    zIndex: 1,
-    css: {
-      '&::before': {
-        backgroundColor: _selectedColor,
-      },
-      '&:focus': {
-        ':not(:active)': {
-          borderColor: focusColor,
-          boxShadow: `inset 0 0 0 1px ${focusColor}`,
-        },
-        '&::before': {
-          backgroundColor: focusColor,
-        },
-      }
-    },
-    _hover: {
-      bg: _selectedColor,
-    },
-    _active: {
-      bg: _selectedColor,
-    },
-  };
-  return (
-    <Button
-      {...(selected && getSelectedProps)}
-      {...props}
-    />
-  );
-};
-
 const useSelection = (defaultValue) => {
   const [value, setValue] = React.useState(defaultValue);
   const changeBy = (value) => () => setValue(value);
