@@ -73,18 +73,21 @@ const LiveCodePreview = props => {
 
   return (
     <Box
-      as={LivePreview}
-      fontFamily="base"
-      fontSize="sm"
-      lineHeight="sm"
-      mt="5x"
-      p="4x"
       border={1}
       borderColor={borderColor}
       borderRadius="sm"
-      whiteSpace="normal"
-      {...props}
-    />
+      p="4x"
+    >
+      <Box
+        as={LivePreview}
+        fontFamily="base"
+        fontSize="sm"
+        lineHeight="sm"
+        whiteSpace="normal"
+        overflow="hidden"
+        {...props}
+      />
+    </Box>
   );
 };
 
