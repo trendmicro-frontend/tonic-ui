@@ -1,7 +1,7 @@
 import { ensureArray } from 'ensure-type';
 import React, {
   forwardRef,
-  useLayoutEffect,
+  useEffect,
   useRef,
 } from 'react';
 import { Transition } from 'react-transition-group';
@@ -78,7 +78,7 @@ const Scale = forwardRef((
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (inProp) {
       const node = nodeRef.current;
       reflow(node); // force reflow to make the transition work when animating appearance
@@ -107,8 +107,8 @@ const Scale = forwardRef((
 
         if (typeof children === 'function') {
           return children(state, {
-            ref: combinedRef,
             ...childProps,
+            ref: combinedRef,
             style: {
               ...styleProps,
               ...style,

@@ -1,6 +1,7 @@
+import { ensureFiniteNumber } from 'ensure-type';
 import React, {
   forwardRef,
-  useLayoutEffect,
+  useEffect,
   useRef,
 } from 'react';
 import { Transition } from 'react-transition-group';
@@ -16,12 +17,6 @@ import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
 import PseudoBox from '../PseudoBox';
 
-/*
-const isPercentage = n => {
-  return (typeof n === 'string') && /^(\d+(\.\d+)?|\.\d+)%$/i.test(n);
-};
-*/
-
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
     entering: {
@@ -31,12 +26,11 @@ const mapStateToVariantStyle = (state, props) => {
       height: 'auto',
     },
     exiting: {
-      height: 0,
+      height: props.collapsedHeight || 0,
       overflow: 'hidden',
     },
     exited: {
-      height: 0,
-      overflow: 'hidden',
+      height: props.collapsedHeight || 0,
     },
   }[state];
 
@@ -49,8 +43,8 @@ const defaultEasing = {
 };
 
 const defaultTimeout = {
-  enter: transitionDuration.enteringScreen,
-  exit: transitionDuration.leavingScreen,
+  enter: transitionDuration.standard,
+  exit: transitionDuration.standard,
 };
 
 const Wrapper = forwardRef((props, ref) => <Box ref={ref} {...props} />);
@@ -62,6 +56,7 @@ const Collapse = forwardRef((
   {
     appear = true,
     children,
+    collapsedHeight = 0,
     easing = defaultEasing,
     in: inProp,
     style,
@@ -74,11 +69,9 @@ const Collapse = forwardRef((
   const combinedRef = useForkRef(nodeRef, ref);
   const wrapperRef = useRef(null);
 
-  useLayoutEffect(() => {
-    if (inProp) {
-      const node = nodeRef.current;
-      reflow(node); // force reflow to make the transition work when animating appearance
-    }
+  useEffect(() => {
+    const node = nodeRef.current;
+    reflow(node); // force reflow to make the transition work when animating appearance
   }, [inProp]);
 
   return (
@@ -94,17 +87,23 @@ const Collapse = forwardRef((
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
         const transition = createTransitionStyle('height', transitionProps);
-        const variantStyle = mapStateToVariantStyle(state, {});
+        const variantStyle = mapStateToVariantStyle(state, { collapsedHeight });
         const styleProps = {
           ...variantStyle,
           transition,
-          visibility: (state === 'exited' && !inProp) ? 'hidden' : undefined,
+          visibility: (state === 'exited' && !inProp && !collapsedHeight) ? 'hidden' : undefined,
         };
+        const isAnimationStart = (inProp && (state === 'entering'))
+          || (!inProp && (state === 'entering' || state === 'entered'));
+        const isAnimationEnd = (inProp && (state === 'entered'))
+          || (!inProp && (state === 'exited'));
 
         if (typeof children === 'function') {
           return children(state, {
-            ref: combinedRef,
             ...childProps,
+            ref: combinedRef,
+            isAnimationStart,
+            isAnimationEnd,
             style: {
               ...styleProps,
               ...style,
@@ -112,7 +111,7 @@ const Collapse = forwardRef((
           });
         }
 
-        if ((state === 'entering' && inProp) || (state === 'entered' && !inProp)) {
+        if (isAnimationStart) {
           const wrapper = wrapperRef.current;
           const contentHeight = wrapper?.offsetHeight;
           styleProps.height = contentHeight;

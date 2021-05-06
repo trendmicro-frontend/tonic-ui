@@ -1,6 +1,6 @@
 import React, {
   forwardRef,
-  useLayoutEffect,
+  useEffect,
   useRef,
 } from 'react';
 import { Transition } from 'react-transition-group';
@@ -62,7 +62,7 @@ const Fade = forwardRef((
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (inProp) {
       const node = nodeRef.current;
       reflow(node); // force reflow to make the transition work when animating appearance
@@ -91,8 +91,8 @@ const Fade = forwardRef((
 
         if (typeof children === 'function') {
           return children(state, {
-            ref: combinedRef,
             ...childProps,
+            ref: combinedRef,
             style: {
               ...styleProps,
               ...style,
