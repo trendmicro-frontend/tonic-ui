@@ -1,4 +1,3 @@
-import { ensureFiniteNumber } from 'ensure-type';
 import React, {
   forwardRef,
   useEffect,
@@ -93,10 +92,10 @@ const Collapse = forwardRef((
           transition,
           visibility: (state === 'exited' && !inProp && !collapsedHeight) ? 'hidden' : undefined,
         };
-        const isAnimationStart = (inProp && (state === 'entering'))
-          || (!inProp && (state === 'entering' || state === 'entered'));
-        const isAnimationEnd = (inProp && (state === 'entered'))
-          || (!inProp && (state === 'exited'));
+        const isAnimationStart = (inProp && (state === 'entering')) ||
+          (!inProp && (state === 'entering' || state === 'entered'));
+        const isAnimationEnd = (inProp && (state === 'entered')) ||
+          (!inProp && (state === 'exited'));
 
         if (typeof children === 'function') {
           return children(state, {
