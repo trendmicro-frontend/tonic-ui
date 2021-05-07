@@ -1,6 +1,6 @@
 # Transitions
 
-The Transition components use the `react-transition-group` package to perform animation effects and manage component states (including mounting and unmounting) over time.
+Transition helps make a UI expressive and easy to use. The Transition components use `react-transition-group` internally to perform animation effects and manage component states (including mounting and unmounting) over time.
 
 ## Import
 
@@ -14,17 +14,11 @@ import {
 } from '@trendmicro/react-styled-ui';
 ```
 
-* The Collapse transition can be used for the Accordion component.
-* The Fade transition can be used for the Modal component.
-* The Scale transition can be used for the Tooltip and Popover components.
-* The Slide transition can be used for the Drawer component.
-* The Zoom transition can be used for zooming in/out the displayed components.
-
 ## Usage
 
 ### Collapse
 
-Expand vertically from the top of the children. The `collapsedHeight` property can be used to set the minimum height when collapsed.
+Expand vertically from the top of the children. The `collapsedHeight` property can also be used to set the minimum height when collapsed.
 
 ```jsx
 function Example() {
@@ -169,13 +163,21 @@ function Example() {
 
 ## Props
 
+### Collapse
+
+The Collapse transition is used by the `Accordion` component. It uses `react-transition-group` internally.
+
 ### Fade
+
+The Fade transition is be used by the `Modal` component. It uses `react-transition-group` internally.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | in | boolean | | Toggle visibility with a transition effect. |
 
 ### Scale
+
+The Scale transition is be used by the `Tooltip` and `Popover` components. It uses `react-transition-group` internally.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -184,7 +186,13 @@ function Example() {
 
 ### Slide
 
+The Slide transition is used by the `Drawer` component. It uses `react-transition-group` internally.
+
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | in | boolean | | Toggle visibility with a transition effect. |
 | direction | string | | One of: `'up'`, `'down'`, `'left'`, `'right'` |
+
+### Zoom
+
+The Zoom transition is used for zooming in/out the displayed components. It uses `react-transition-group` internally.
