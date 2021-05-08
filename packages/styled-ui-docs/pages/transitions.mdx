@@ -163,9 +163,20 @@ function Example() {
 
 ## Props
 
+The timing functions are commonly called <i>easing functions</i>, and can be defined using a predefined keyword value, a stepping function, or a cubic Bezier curve.
+
 ### Collapse
 
 The Collapse transition is used by the `Accordion` component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | The content of the transition. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the `'exited'` state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.standard, exit: duration.standard } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the `'exited'` state. |
 
 ### Fade
 
@@ -173,7 +184,12 @@ The Fade transition is be used by the `Modal` component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| in | boolean | | Toggle visibility with a transition effect. |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | The content of the transition. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the `'exited'` state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the `'exited'` state. |
 
 ### Scale
 
@@ -181,8 +197,13 @@ The Scale transition is be used by the `Tooltip` and `Popover` components.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| in | boolean | | Toggle visibility with a transition effect. |
-| initialScale | number | 0.95 | The initial scale level. |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | The content of the transition. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeOut, exit: easing.easeIn } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| initialScale | number | 0.95 | The initial scale of the element. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the `'exited'` state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: 150, exit: 150 } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the `'exited'` state. |
 
 ### Slide
 
@@ -190,9 +211,23 @@ The Slide transition is used by the `Drawer` component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| in | boolean | | Toggle visibility with a transition effect. |
-| direction | string | | One of: `'up'`, `'down'`, `'left'`, `'right'` |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | The content of the transition. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeOut, exit: easing.sharp } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| direction | string | 'down' | One of: `'up'`, `'down'`, `'left'`, `'right'` |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the `'exited'` state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the `'exited'` state. |
 
 ### Zoom
 
 The Zoom transition is used for zooming in/out the displayed components.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | The content of the transition. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the `'exited'` state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the `'exited'` state. |
