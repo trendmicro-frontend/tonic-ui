@@ -171,7 +171,7 @@ The Collapse transition is used by the `Accordion` component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and child props, which can be used to apply context specific props to a component. |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and context specific props for a component. |
 | easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | in | boolean | | If `true`, the component will transition in. |
 | mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the `'exited'` state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
@@ -184,7 +184,7 @@ The Fade transition is be used by the `Modal` component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and child props, which can be used to apply context specific props to a component. |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and context specific props for a component. |
 | easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | in | boolean | | If `true`, the component will transition in. |
 | mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the `'exited'` state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
@@ -197,7 +197,7 @@ The Scale transition is be used by the `Tooltip` and `Popover` components.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and child props, which can be used to apply context specific props to a component. |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and context specific props for a component. |
 | easing | string \| { enter?: string, exit?: string } | { enter: easing.easeOut, exit: easing.easeIn } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | in | boolean | | If `true`, the component will transition in. |
 | initialScale | number | 0.95 | The initial scale of the element. |
@@ -211,7 +211,7 @@ The Slide transition is used by the `Drawer` component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and child props, which can be used to apply context specific props to a component. |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and context specific props for a component. |
 | easing | string \| { enter?: string, exit?: string } | { enter: easing.easeOut, exit: easing.sharp } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | direction | string | 'down' | One of: `'up'`, `'down'`, `'left'`, `'right'` |
 | in | boolean | | If `true`, the component will transition in. |
@@ -225,7 +225,7 @@ The Zoom transition is used for zooming in/out the displayed components.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and child props, which can be used to apply context specific props to a component. |
+| children | ReactNode \| (state, { ref, style, ...childProps }) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state (`'entering'`, `'entered'`, `'exiting'`, `'exited'`), ref, style, and context specific props for a component. |
 | easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | in | boolean | | If `true`, the component will transition in. |
 | mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the `'exited'` state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
