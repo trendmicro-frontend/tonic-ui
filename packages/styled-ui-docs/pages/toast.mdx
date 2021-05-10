@@ -161,7 +161,7 @@ const ToastWithAllTogether = ({ onClose }) => (
 const ToastLayout = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle?.shadow?.thin;
+  const boxShadow = colorStyle.shadow.thin;
 
   return (
     <Box
@@ -325,7 +325,7 @@ const ToastError = ({ onClose }) => (
 const ToastLayout = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle?.shadow?.thin;
+  const boxShadow = colorStyle.shadow.thin;
 
   return (
     <Box
@@ -442,7 +442,7 @@ const ToastWithoutIcon = ({ onClose }) => (
 const ToastLayout = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle?.shadow?.thin;
+  const boxShadow = colorStyle.shadow.thin;
 
   return (
     <Box
