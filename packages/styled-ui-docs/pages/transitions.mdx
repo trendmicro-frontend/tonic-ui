@@ -257,7 +257,7 @@ The Zoom transition is used for zooming in/out the displayed components.
 | timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the `'exited'` state. |
 
-### Overriding easing/timing function
+## Overriding Easing/Timing Function
 
 ```js
 <TransitionComponent
@@ -281,7 +281,7 @@ or
 />
 ```
 
-#### easing
+### easing
 
 The timing functions are commonly called <i>easing functions</i>, and can be defined using a predefined keyword value, a stepping function, or a cubic Bezier curve.
 
@@ -294,7 +294,7 @@ The following specifies the easing functions that are used internally transition
 | easing.easeIn | `'cubic-bezier(0.4, 0, 1, 1)'` | Objects leave the screen at full velocity. They do not decelerate when off-screen. |
 | easing.sharp | `'cubic-bezier(0.4, 0, 0.6, 1)'` | The sharp curve is used by objects that may return to the screen at any time. |
 
-#### timeout
+### timeout
 
 The duration for the transition, in milliseconds.
 
@@ -305,3 +305,7 @@ The following specifies the transition duration that are used internally in tran
 | duration.standard | 300 | This is the recommended timing for the most common transition. |
 | duration.enteringScreen | 225 | This is recommended when something is entering screen. |
 | duration.leavingScreen | 195 | This is recommended when something is leaving screen. |
+
+## Inheritance
+
+The props of the [Transition](https://reactcommunity.org/react-transition-group/transition/#Transition-props) component, from [react-transition-group](https://github.com/reactjs/react-transition-group), are also available. For more information, visit the [Transition](http://reactcommunity.org/react-transition-group/transition) documentation for detailed usage.
