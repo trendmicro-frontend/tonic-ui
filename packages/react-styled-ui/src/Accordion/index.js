@@ -13,6 +13,7 @@ import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
 import PseudoBox from '../PseudoBox';
 import Collapse from '../Transitions/Collapse';
+import Fade from '../Transitions/Fade';
 import { createUniqueId } from '../utils/uniqueid';
 
 const uniqueId = createUniqueId();
@@ -173,16 +174,18 @@ AccordionHeader.displayName = 'AccordionHeader';
 const AccordionPanel = forwardRef((props, ref) => {
   const { isExpanded, panelId, headerId } = useAccordionItemContext();
   return (
-    <Collapse
-      ref={ref}
-      data-accordion-panel=""
-      role="region"
-      id={panelId}
-      aria-labelledby={headerId}
-      aria-hidden={!isExpanded}
-      in={isExpanded}
-      {...props}
-    />
+    <Fade in={isExpanded}>
+      <Collapse
+        ref={ref}
+        data-accordion-panel=""
+        role="region"
+        id={panelId}
+        aria-labelledby={headerId}
+        aria-hidden={!isExpanded}
+        in={isExpanded}
+        {...props}
+      />
+    </Fade>
   );
 });
 
