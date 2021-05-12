@@ -232,64 +232,55 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">DrawerFooter</Text>
         </TextLabel>
       </FormGroup>
-      <Slide
-        in={isOpen}
-        duration={250}
-        from={placement}
-        finalHeight="100vh"
+      <Drawer
+        ensureFocus={ensureFocus}
+        autoFocus={autoFocus}
+        backdrop={backdrop}
+        isCloseButtonVisible={isCloseButtonVisible}
+        isOpen={isOpen}
+        closeOnEsc={closeOnEsc}
+        closeOnOutsideClick={closeOnOutsideClick}
+        onClose={onClose}
+        placement={placement}
+        size={size}
       >
-        {styles => (
-          <Drawer
-            ensureFocus={ensureFocus}
-            autoFocus={autoFocus}
-            backdrop={backdrop}
-            isCloseButtonVisible={isCloseButtonVisible}
-            isOpen={true} // Set to `true` if a transition is active
-            closeOnEsc={closeOnEsc}
-            closeOnOutsideClick={closeOnOutsideClick}
-            onClose={onClose}
-            placement={placement}
-            size={size}
-          >
-            {isOverlayVisible && (
-              <DrawerOverlay opacity={styles.opacity} />
-            )}
-            <DrawerContent {...styles}>
-              {isHeaderVisible && (
-                <DrawerHeader>
-                  Sign In
-                </DrawerHeader>
-              )}
-              {isBodyVisible && (
-                <DrawerBody>
-                  <Grid
-                    templateColumns="auto 1fr"
-                    rowGap="2x"
-                    columnGap="3x"
-                    alignItems="center"
-                  >
-                    <Icon icon="user" color={iconColor} />
-                    <Input placeholder="User name" />
-                    <Icon icon="lock" color={iconColor} />
-                    <Input type="password" placeholder="Password" />
-                  </Grid>
-                </DrawerBody>
-              )}
-              {isFooterVisible && (
-                <DrawerFooter>
-                  <Button variant="primary" onClick={onClose} minWidth="20x">
-                    OK
-                  </Button>
-                  <Space width="2x" />
-                  <Button onClick={onClose} minWidth="20x">
-                    Cancel
-                  </Button>
-                </DrawerFooter>
-              )}
-            </DrawerContent>
-          </Drawer>
+        {isOverlayVisible && (
+          <DrawerOverlay />
         )}
-      </Slide>
+        <DrawerContent>
+          {isHeaderVisible && (
+            <DrawerHeader>
+              Sign In
+            </DrawerHeader>
+          )}
+          {isBodyVisible && (
+            <DrawerBody>
+              <Grid
+                templateColumns="auto 1fr"
+                rowGap="2x"
+                columnGap="3x"
+                alignItems="center"
+              >
+                <Icon icon="user" color={iconColor} />
+                <Input placeholder="User name" />
+                <Icon icon="lock" color={iconColor} />
+                <Input type="password" placeholder="Password" />
+              </Grid>
+            </DrawerBody>
+          )}
+          {isFooterVisible && (
+            <DrawerFooter>
+              <Button variant="primary" onClick={onClose} minWidth="20x">
+                OK
+              </Button>
+              <Space width="2x" />
+              <Button onClick={onClose} minWidth="20x">
+                Cancel
+              </Button>
+            </DrawerFooter>
+          )}
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
@@ -406,65 +397,6 @@ function Example() {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </>
-  );
-}
-```
-
-### Transitions
-
-The drawer doesn't come with transitions by default. You can use the [`Transition`](./transition) components to provide simple transitions.
-
-When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the drawer.
-
-#### Adding slide transition
-
-```
-import { Slide } from '@trendmicro/react-styled-ui';
-```
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <>
-      <Button onClick={onOpen}>
-        Launch drawer
-      </Button>
-      <Slide
-        in={isOpen}
-        from="right"
-        finalHeight="100vh"
-      >
-        {styles => (
-          <Drawer
-            backdrop
-            isCloseButtonVisible
-            isOpen={true} // Set to `true` if a transition is active
-            closeOnEsc
-            closeOnOutsideClick
-            onClose={onClose}
-            placement="right"
-            size="sm"
-          >
-            <DrawerOverlay opacity={styles.opacity} />
-            <DrawerContent {...styles}>
-              <DrawerHeader>
-                Drawer Title
-              </DrawerHeader>
-              <DrawerBody>
-                <Lorem count={2} />
-              </DrawerBody>
-              <DrawerFooter>
-                <Button onClick={onClose}>
-                  Close
-                </Button>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
-        )}
-      </Slide>
     </>
   );
 }

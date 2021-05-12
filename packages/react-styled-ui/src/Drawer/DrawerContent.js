@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
+import Slide from '../Transitions/Slide';
 import useForkRef from '../utils/useForkRef';
 import { useDrawer } from './context';
 import {
@@ -19,32 +20,51 @@ const DrawerCloseButton = (props) => {
   );
 };
 
-const DrawerContentBackdrop = forwardRef((props, ref) => {
+const DrawerContentBackdrop = forwardRef(({
+  TransitionComponent = Slide,
+  ...props
+}, ref) => {
   const context = useDrawer(); // context might be an undefined value
   const {
+    isOpen,
+    placement,
     closeOnOutsideClick,
     onClose,
   } = { ...context };
+  const backdropStyleProps = {
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
+  const direction = {
+    'left': 'right',
+    'right': 'left',
+  }[placement];
 
   return (
-    <Box
-      position="fixed"
-      left={0}
-      top={0}
-      width="100%"
-      height="100%"
-      overflow="hidden"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      onClick={event => {
-        event.stopPropagation();
-        if (closeOnOutsideClick) {
-          (typeof onClose === 'function') && onClose(event);
-        }
-      }}
-      {...props}
-    />
+    <TransitionComponent in={isOpen} direction={direction}>
+      {(state, { ref, style }) => (
+        <Box
+          ref={ref}
+          onClick={event => {
+            event.stopPropagation();
+            if (closeOnOutsideClick) {
+              (typeof onClose === 'function') && onClose(event);
+            }
+          }}
+          {...backdropStyleProps}
+          {...style}
+          {...props}
+        />
+      )}
+    </TransitionComponent>
   );
 });
 
