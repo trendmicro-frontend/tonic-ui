@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
+import Fade from '../Transitions/Fade';
 import useForkRef from '../utils/useForkRef';
 import { useModal } from './context';
 import {
@@ -19,32 +20,45 @@ const ModalCloseButton = (props) => {
   );
 };
 
-const ModalContentBackdrop = forwardRef((props, ref) => {
+const ModalContentBackdrop = forwardRef(({
+  TransitionComponent = Fade,
+  ...props
+}, ref) => {
   const context = useModal(); // context might be an undefined value
   const {
+    isOpen,
     closeOnOutsideClick,
     onClose,
   } = { ...context };
+  const backdropStyleProps = {
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
 
   return (
-    <Box
-      position="fixed"
-      left={0}
-      top={0}
-      width="100%"
-      height="100%"
-      overflow="hidden"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      onClick={event => {
-        event.stopPropagation();
-        if (closeOnOutsideClick) {
-          (typeof onClose === 'function') && onClose(event);
-        }
-      }}
-      {...props}
-    />
+    <TransitionComponent in={isOpen}>
+      {(state, { ref, style }) => (
+        <Box
+          ref={ref}
+          onClick={event => {
+            event.stopPropagation();
+            if (closeOnOutsideClick) {
+              (typeof onClose === 'function') && onClose(event);
+            }
+          }}
+          {...backdropStyleProps}
+          {...style}
+          {...props}
+        />
+      )}
+    </TransitionComponent>
   );
 });
 

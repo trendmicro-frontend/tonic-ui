@@ -244,61 +244,57 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">ModalFooter</Text>
         </TextLabel>
       </FormGroup>
-      <Fade in={isOpen} unmountOnExit>
-        {(state, childProps) => (
-          <Modal
-            ensureFocus={ensureFocus}
-            autoFocus={autoFocus}
-            closeOnEsc={closeOnEsc}
-            closeOnOutsideClick={closeOnOutsideClick}
-            isCloseButtonVisible={isCloseButtonVisible}
-            isOpen={true} // Set to `true` if a transition is active
-            onClose={onClose}
-            size={size}
-          >
-            {isOverlayVisible && (
-              <ModalOverlay opacity={childProps.style.opacity} />
-            )}
-            <ModalContent {...childProps}>
-              {isHeaderVisible && (
-                <ModalHeader>
-                  Create an Account
-                </ModalHeader>
-              )}
-              {isBodyVisible && (
-                <ModalBody>
-                  <Grid
-                    templateColumns="auto 1fr"
-                    rowGap="2x"
-                    columnGap="3x"
-                    alignItems="center"
-                  >
-                    <Icon icon="user" color={iconColor} />
-                    <Input placeholder="User name" />
-                    <Icon icon="lock" color={iconColor} />
-                    <Input type="password" placeholder="Password" />
-                    <Box />
-                    <Input type="password" placeholder="Confirm password" />
-                    <Icon icon="email" color={iconColor} />
-                    <Input placeholder="Email address" />
-                  </Grid>
-                </ModalBody>
-              )}
-              {isFooterVisible && (
-                <ModalFooter>
-                  <Button variant="primary">
-                    Confirm
-                  </Button>
-                  <Space width="2x" />
-                  <Button onClick={onClose}>
-                    Cancel
-                  </Button>
-                </ModalFooter>
-              )}
-            </ModalContent>
-          </Modal>
+      <Modal
+        ensureFocus={ensureFocus}
+        autoFocus={autoFocus}
+        closeOnEsc={closeOnEsc}
+        closeOnOutsideClick={closeOnOutsideClick}
+        isCloseButtonVisible={isCloseButtonVisible}
+        isOpen={isOpen}
+        onClose={onClose}
+        size={size}
+      >
+        {isOverlayVisible && (
+          <ModalOverlay />
         )}
-      </Fade>
+        <ModalContent>
+          {isHeaderVisible && (
+            <ModalHeader>
+              Create an Account
+            </ModalHeader>
+          )}
+          {isBodyVisible && (
+            <ModalBody>
+              <Grid
+                templateColumns="auto 1fr"
+                rowGap="2x"
+                columnGap="3x"
+                alignItems="center"
+              >
+                <Icon icon="user" color={iconColor} />
+                <Input placeholder="User name" />
+                <Icon icon="lock" color={iconColor} />
+                <Input type="password" placeholder="Password" />
+                <Box />
+                <Input type="password" placeholder="Confirm password" />
+                <Icon icon="email" color={iconColor} />
+                <Input placeholder="Email address" />
+              </Grid>
+            </ModalBody>
+          )}
+          {isFooterVisible && (
+            <ModalFooter>
+              <Button variant="primary">
+                Confirm
+              </Button>
+              <Space width="2x" />
+              <Button onClick={onClose}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }
@@ -428,58 +424,6 @@ function Example() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
-  );
-}
-```
-
-### Transitions
-
-The modal doesn't come with transitions by default. You can use the [`Transition`](./transition) components to provide simple transitions.
-
-When using transitions, you have to set `in` to `true`, or the transition will not take effect when closing the modal.
-
-```
-import { Fade } from '@trendmicro/react-styled-ui';
-```
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <>
-      <Button onClick={onOpen}>
-        Launch modal
-      </Button>
-      <Fade in={isOpen} unmountOnExit>
-        {(state, childProps) => (
-          <Modal
-            ensureFocus
-            autoFocus
-            closeOnEsc
-            closeOnOutsideClick
-            isCloseButtonVisible
-            isOpen={true} // Set to `true` if a transition is active
-            onClose={onClose}
-          >
-            <ModalOverlay opacity={childProps.style.opacity} />
-            <ModalContent {...childProps}>
-              <ModalHeader>
-                Modal Title
-              </ModalHeader>
-              <ModalBody>
-                <Lorem count={2} />
-              </ModalBody>
-              <ModalFooter>
-                <Button onClick={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        )}
-      </Fade>
     </>
   );
 }
