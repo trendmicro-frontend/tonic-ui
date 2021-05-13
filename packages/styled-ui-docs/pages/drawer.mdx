@@ -53,9 +53,7 @@ const Divider = (props) => {
 };
 
 const FormGroup = (props) => (
-  <Box mb="4x">
-    <Flex display="inline-flex" {...props} />
-  </Box>
+  <Box mb="4x" {...props} />
 );
 
 function Example() {
@@ -65,7 +63,7 @@ function Example() {
     light: 'black:tertiary',
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [placement, changePlacementBy] = useSelection('right');
+  const [placement, changePlacementBy] = useSelection('left');
   const [ensureFocus, toggleEnsureFocus] = useToggle(false);
   const [autoFocus, toggleAutoFocus] = useToggle(false);
   const [backdrop, toggleBackdrop] = useToggle(true);
@@ -87,6 +85,11 @@ function Example() {
       </Box>
       <Divider />
       <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            placement
+          </TextLabel>
+        </Box>
         <ButtonGroup
           variant="secondary"
           css={{
@@ -108,6 +111,11 @@ function Example() {
         </ButtonGroup>
       </FormGroup>
       <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            size
+          </TextLabel>
+        </Box>
         <ButtonGroup
           variant="secondary"
           css={{
@@ -128,6 +136,7 @@ function Example() {
           ))}
         </ButtonGroup>
       </FormGroup>
+      <Space height="1x" />
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
@@ -306,7 +315,7 @@ render(<Example />);
 | closeOnEsc | boolean | false | If `true`, close the drawer when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the drawer when click outside of the drawer. Note that this value will not have any effect when `backdrop` is set to `true`. |
 | onClose | function | | Callback fired when the drawer closes. |
-| placement | string | 'right' | Change the placement of the drawer. One of: `'left'`, `'right'`, `'top'`, `'bottom'` |
+| placement | string | 'left' | Change the placement of the drawer. One of: `'left'`, `'right'`, `'top'`, `'bottom'` |
 | size | string | 'auto' | Change the size of the drawer. One of: `'auto'`, `'sm'`, `'md'`, `'lg'`, `'full'` |
 
 Use the `size` prop to change the size of the `Drawer`

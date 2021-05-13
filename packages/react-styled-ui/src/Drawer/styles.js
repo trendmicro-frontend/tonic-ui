@@ -3,7 +3,7 @@ import useColorMode from '../useColorMode';
 import useColorStyle from '../useColorStyle';
 import useTheme from '../useTheme';
 
-const defaultPlacement = 'right';
+const defaultPlacement = 'left';
 const defaultSize = 'auto';
 
 const getPlacementProps = (placement) => {

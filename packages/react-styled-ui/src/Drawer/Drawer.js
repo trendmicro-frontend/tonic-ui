@@ -12,7 +12,7 @@ const getMemoizedState = memoize(state => ({ ...state }));
 
 const Drawer = ({
   backdrop,
-  placement = 'right',
+  placement = 'left',
   size = 'auto',
   isOpen = false,
   isCloseButtonVisible = false,
