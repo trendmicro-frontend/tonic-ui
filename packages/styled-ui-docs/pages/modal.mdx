@@ -110,9 +110,7 @@ const Divider = (props) => {
 };
 
 const FormGroup = (props) => (
-  <Box mb="4x">
-    <Flex display="inline-flex" {...props} />
-  </Box>
+  <Box mb="4x" {...props} />
 );
 
 function Example() {
@@ -131,7 +129,7 @@ function Example() {
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
-  const [size, changeSizeBy] = useSelection('sm');
+  const [size, changeSizeBy] = useSelection('auto');
 
   return (
     <>
@@ -142,6 +140,11 @@ function Example() {
       </Box>
       <Divider />
       <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            size
+          </TextLabel>
+        </Box>
         <ButtonGroup
           variant="secondary"
           css={{
@@ -162,6 +165,7 @@ function Example() {
           ))}
         </ButtonGroup>
       </FormGroup>
+      <Space height="1x" />
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
@@ -302,60 +306,6 @@ function Example() {
 render(<Example />);
 ```
 
-### Sizes
-
-Use the `size` prop to change the size of the `Modal`. You can set the value to `auto`, `xs`, `sm`, `md`, `lg`, `xl`, or `full`.
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [size, setSize] = React.useState('auto');
-  const handleClickBy = nextSize => (e) => {
-    setSize(nextSize);
-    onOpen();
-  };
-
-  return (
-    <>
-      <Stack direction="row" spacing="3x" flexWrap="wrap" mt={-12}>
-        <Button onClick={handleClickBy('auto')} mt="3x">Auto width</Button>
-        <Button onClick={handleClickBy('xs')} mt="3x">Extra small width</Button>
-        <Button onClick={handleClickBy('sm')} mt="3x">Small width</Button>
-        <Button onClick={handleClickBy('md')} mt="3x">Medium width</Button>
-        <Button onClick={handleClickBy('lg')} mt="3x">Large width</Button>
-        <Button onClick={handleClickBy('xl')} mt="3x">Extra large width</Button>
-        <Button onClick={handleClickBy('full')} mt="3x">Full width</Button>
-      </Stack>
-      <Modal
-        ensureFocus
-        autoFocus
-        closeOnEsc
-        closeOnOutsideClick
-        isCloseButtonVisible
-        isOpen={isOpen}
-        onClose={onClose}
-        size={size}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            Modal Title
-          </ModalHeader>
-          <ModalBody>
-            <Lorem count={2} />
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
-  );
-}
-```
-
 ### Nested modals
 
 ```jsx
@@ -446,7 +396,7 @@ function Example() {
 | closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
 | onClose | function | | Callback fired when the modal closes. |
-| size | string | 'auto' | The size of the modal. One of: `'auto'`, `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |
+| size | string | 'auto' | Change the size of the modal. One of: `'auto'`, `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |
 
 ### ModalOverlay
 
