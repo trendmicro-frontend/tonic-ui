@@ -46,6 +46,8 @@ const DrawerContentBackdrop = forwardRef(({
   const direction = {
     'left': 'right',
     'right': 'left',
+    'top': 'down',
+    'bottom': 'up',
   }[placement];
 
   return (
