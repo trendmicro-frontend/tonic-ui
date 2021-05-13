@@ -120,6 +120,8 @@ function Example() {
     light: 'black:tertiary',
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [size, changeSizeBy] = useSelection('auto');
+  const [height, changeHeightBy] = useSelection('auto');
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
@@ -129,7 +131,6 @@ function Example() {
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
-  const [size, changeSizeBy] = useSelection('auto');
 
   return (
     <>
@@ -158,6 +159,32 @@ function Example() {
               key={value}
               selected={value === size}
               onClick={changeSizeBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectableButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            height
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['auto', '100%'].map(value => (
+            <SelectableButton
+              key={value}
+              selected={value === height}
+              onClick={changeHeightBy(value)}
               minWidth="15x"
             >
               {value}
@@ -261,7 +288,7 @@ function Example() {
         {isOverlayVisible && (
           <ModalOverlay />
         )}
-        <ModalContent>
+        <ModalContent height={height}>
           {isHeaderVisible && (
             <ModalHeader>
               Create an Account
