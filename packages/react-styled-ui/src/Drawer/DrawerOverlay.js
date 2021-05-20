@@ -1,13 +1,17 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import usePresence from '../Presence/usePresence';
 import Fade from '../Transitions/Fade';
 import useColorMode from '../useColorMode';
-import { useDrawer } from './context';
+import useDrawer from './useDrawer';
 
 const DrawerOverlay = forwardRef(({
   TransitionComponent = Fade,
   ...props
 }, ref) => {
+  const drawerContext = useDrawer(); // context might be an undefined value
+  const { isOpen } = { ...drawerContext };
+  const [, safeToRemove] = usePresence();
   const [colorMode] = useColorMode();
   const backgroundColor = {
     dark: 'rgba(0, 0, 0, .7)',
@@ -22,11 +26,13 @@ const DrawerOverlay = forwardRef(({
     backgroundColor: backgroundColor,
     zIndex: 'drawer',
   };
-  const context = useDrawer(); // context might be an undefined value
 
-  if (context) {
+  if (drawerContext) {
     return (
-      <TransitionComponent in={context?.isOpen}>
+      <TransitionComponent
+        in={isOpen}
+        onExited={safeToRemove}
+      >
         {(state, { ref, style }) => (
           <Box
             ref={ref}
