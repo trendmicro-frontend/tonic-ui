@@ -2,13 +2,14 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
+import usePresence from '../Presence/usePresence';
 import Fade from '../Transitions/Fade';
 import useForkRef from '../utils/useForkRef';
-import { useModal } from './context';
 import {
   useModalContentStyle,
   useModalCloseButtonStyle,
 } from './styles';
+import useModal from './useModal';
 
 const ModalCloseButton = (props) => {
   const closeButtonStyleProps = useModalCloseButtonStyle();
@@ -24,12 +25,13 @@ const ModalContentBackdrop = forwardRef(({
   TransitionComponent = Fade,
   ...props
 }, ref) => {
-  const context = useModal(); // context might be an undefined value
+  const modalContext = useModal(); // context might be an undefined value
   const {
     isOpen,
     closeOnOutsideClick,
     onClose,
-  } = { ...context };
+  } = { ...modalContext };
+  const [, safeToRemove] = usePresence();
   const backdropStyleProps = {
     position: 'fixed',
     left: 0,
@@ -43,7 +45,10 @@ const ModalContentBackdrop = forwardRef(({
   };
 
   return (
-    <TransitionComponent in={isOpen}>
+    <TransitionComponent
+      in={isOpen}
+      onExited={safeToRemove}
+    >
       {(state, { ref, style }) => (
         <Box
           ref={ref}
@@ -63,7 +68,7 @@ const ModalContentBackdrop = forwardRef(({
 });
 
 const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
-  const context = useModal(); // context might be an undefined value
+  const modalContext = useModal(); // context might be an undefined value
   const {
     closeOnEsc,
     isCloseButtonVisible,
@@ -72,7 +77,7 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
 
     // internal use only
     contentRef,
-  } = { ...context };
+  } = { ...modalContext };
   const combinedRef = useForkRef(ref, contentRef);
   const contentStyleProps = useModalContentStyle({ size });
 
@@ -109,9 +114,9 @@ const ModalContent = React.forwardRef(({
   zIndex = 'modal',
   ...props
 }, ref) => {
-  const context = useModal(); // context might be an undefined value
+  const modalContext = useModal(); // context might be an undefined value
 
-  if (!context) {
+  if (!modalContext) {
     return (
       <ModalContentFront ref={ref} {...props}>
         {children}

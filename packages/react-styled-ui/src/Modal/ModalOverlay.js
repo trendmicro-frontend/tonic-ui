@@ -1,13 +1,17 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import usePresence from '../Presence/usePresence';
 import Fade from '../Transitions/Fade';
 import useColorMode from '../useColorMode';
-import { useModal } from './context';
+import useModal from './useModal';
 
 const ModalOverlay = forwardRef(({
   TransitionComponent = Fade,
   ...props
 }, ref) => {
+  const modalContext = useModal(); // context might be an undefined value
+  const { isOpen } = { ...modalContext };
+  const [, safeToRemove] = usePresence();
   const [colorMode] = useColorMode();
   const backgroundColor = {
     dark: 'rgba(0, 0, 0, .7)',
@@ -22,11 +26,13 @@ const ModalOverlay = forwardRef(({
     backgroundColor: backgroundColor,
     zIndex: 'modal',
   };
-  const context = useModal(); // context might be an undefined value
 
-  if (context) {
+  if (modalContext) {
     return (
-      <TransitionComponent in={context?.isOpen}>
+      <TransitionComponent
+        in={isOpen}
+        onExited={safeToRemove}
+      >
         {(state, { ref, style }) => (
           <Box
             ref={ref}
