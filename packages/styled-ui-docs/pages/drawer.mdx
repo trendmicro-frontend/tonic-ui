@@ -65,7 +65,6 @@ function Example() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [placement, changePlacementBy] = useSelection('left');
   const [size, changeSizeBy] = useSelection('auto');
-  const [height, changeHeightBy] = useSelection('100%');
   const [ensureFocus, toggleEnsureFocus] = useToggle(false);
   const [autoFocus, toggleAutoFocus] = useToggle(false);
   const [backdrop, toggleBackdrop] = useToggle(true);
@@ -76,6 +75,7 @@ function Example() {
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
+  const height = (placement === 'left' || placement === 'right') ? '100%' : 'auto';
 
   return (
     <>
@@ -130,32 +130,6 @@ function Example() {
               key={value}
               selected={value === size}
               onClick={changeSizeBy(value)}
-              minWidth="15x"
-            >
-              {value}
-            </SelectableButton>
-          ))}
-        </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <Box mb="2x">
-          <TextLabel>
-            height
-          </TextLabel>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          css={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            }
-          }}
-        >
-          {['100%', 'auto'].map(value => (
-            <SelectableButton
-              key={value}
-              selected={value === height}
-              onClick={changeHeightBy(value)}
               minWidth="15x"
             >
               {value}
