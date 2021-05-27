@@ -512,6 +512,10 @@ const Tags = () => {
     setWrapperFocused(true);
   };
   const handleWrapperClick = (e) => {
+    const activeTag = tags.find((t) => t.isActive);
+    if (activeTag) {
+      return;
+    }
     tagCreatorRef.current.focus();
     setWrapperFocused(true);
   };
@@ -557,30 +561,27 @@ const Tags = () => {
             const errorMessage = tag.errorMessage;
             if (errorMessage) {
               return (
-                <EditableTag
-                  key={id}
-                  value={value}
-                  isInvalid={errorMessage.length > 0}
-                  onChange={handleTagChange(id)}
-                  onClick={handleTagClick(id)}
-                  onClose={handleTagClose(id)}
-                  onFocus={handleTagFocus}
-                >
-                  <Popover hideArrow trigger="hover">
+                <Popover key={id} hideArrow trigger="hover">
                     <PopoverTrigger>
-                      <Text>{value}</Text>
+                      <EditableTag
+                        isInvalid={errorMessage.length > 0}
+                        onChange={handleTagChange(id)}
+                        onClick={handleTagClick(id)}
+                        onClose={handleTagClose(id)}
+                        onFocus={handleTagFocus}
+                      >
+                        {value}
+                      </EditableTag>
                     </PopoverTrigger>
-                    <PopoverContent>
-                      <PopoverBody>{errorMessage}</PopoverBody>
-                    </PopoverContent>
-                  </Popover>
-                </EditableTag>
+                  <PopoverContent>
+                    <PopoverBody>{errorMessage}</PopoverBody>
+                  </PopoverContent>
+                </Popover>
               );
             }
             return (
               <EditableTag
                 key={id}
-                value={value}
                 isInvalid={errorMessage.length > 0}
                 onChange={handleTagChange(id)}
                 onClick={handleTagClick(id)}
