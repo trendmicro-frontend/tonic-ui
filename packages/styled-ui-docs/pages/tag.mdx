@@ -121,12 +121,13 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 ### Editable tag
 
 ```jsx noInline
+const noop = () => {};
 const EditableTag = React.forwardRef((
   {
-    value,
+    children,
     isInvalid,
-    onChange,
-    onClick,
+    onChange = noop,
+    onClick = noop,
     ...rest
   },
   ref,
@@ -200,9 +201,10 @@ const EditableTag = React.forwardRef((
         <InputBase
           ref={tagInputRef}
           minHeight="6x"
+          maxWidth="100%"
           mr="2x"
           mt={mt}
-          defaultValue={value}
+          defaultValue={children}
           onKeyUp={handleInputKeyUp}
           onBlur={handleInputBlur}
           onInput={resizeInput}
@@ -217,6 +219,7 @@ const EditableTag = React.forwardRef((
       isInvalid={isInvalid}
       mr="2x"
       mt={mt}
+      verticalAlign="top"
       onClick={handleTagClick}
       onKeyUp={handleTagKeyUp}
       cursor="pointer"
@@ -231,13 +234,22 @@ const EditableTag = React.forwardRef((
         }
       }}
       {...rest}
-    />
+    >
+      <Text
+        title={children}
+        maxWidth={120}
+        overflow="hidden"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+      >
+        {children}
+      </Text>
+    </Tag>
   );
 });
 
 render(
   <EditableTag
-    value="Sample Tag"
     onChange={() => console.log('Change the tag content.')}
     onClick={() => console.log('Click the tag.')}
     onClose={() => console.log('Close the tag.')}
@@ -501,6 +513,10 @@ const Tags = () => {
     setWrapperFocused(true);
   };
   const handleWrapperClick = (e) => {
+    const activeTag = tags.find((t) => t.isActive);
+    if (activeTag) {
+      return;
+    }
     tagCreatorRef.current.focus();
     setWrapperFocused(true);
   };
@@ -546,30 +562,27 @@ const Tags = () => {
             const errorMessage = tag.errorMessage;
             if (errorMessage) {
               return (
-                <EditableTag
-                  key={id}
-                  value={value}
-                  isInvalid={errorMessage.length > 0}
-                  onChange={handleTagChange(id)}
-                  onClick={handleTagClick(id)}
-                  onClose={handleTagClose(id)}
-                  onFocus={handleTagFocus}
-                >
-                  <Popover hideArrow trigger="hover">
+                <Popover key={id} hideArrow trigger="hover">
                     <PopoverTrigger>
-                      <Text>{value}</Text>
+                      <EditableTag
+                        isInvalid={errorMessage.length > 0}
+                        onChange={handleTagChange(id)}
+                        onClick={handleTagClick(id)}
+                        onClose={handleTagClose(id)}
+                        onFocus={handleTagFocus}
+                      >
+                        {value}
+                      </EditableTag>
                     </PopoverTrigger>
-                    <PopoverContent>
-                      <PopoverBody>{errorMessage}</PopoverBody>
-                    </PopoverContent>
-                  </Popover>
-                </EditableTag>
+                  <PopoverContent>
+                    <PopoverBody>{errorMessage}</PopoverBody>
+                  </PopoverContent>
+                </Popover>
               );
             }
             return (
               <EditableTag
                 key={id}
-                value={value}
                 isInvalid={errorMessage.length > 0}
                 onChange={handleTagChange(id)}
                 onClick={handleTagClick(id)}
