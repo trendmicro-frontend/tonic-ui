@@ -107,6 +107,7 @@ const EditableTag = React.forwardRef((
       isInvalid={isInvalid}
       mr="2x"
       mt={mt}
+      verticalAlign="top"
       onClick={handleTagClick}
       onKeyUp={handleTagKeyUp}
       cursor="pointer"
