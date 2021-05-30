@@ -20,7 +20,7 @@ const Popover = ({
   usePortal = true,
   returnFocusOnClose = true,
   trigger = 'click',
-  placement,
+  placement = 'bottom',
   children,
   hideArrow,
   skidding = 0,
