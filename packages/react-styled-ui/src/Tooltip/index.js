@@ -1,13 +1,31 @@
 import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
 import Popper, { PopperArrow } from '../Popper';
+import PseudoBox from '../PseudoBox';
+import Scale from '../Transitions/Scale';
 import VisuallyHidden from '../VisuallyHidden';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
 import wrapEvent from '../utils/wrapEvent';
 import useTooltipStyle from './styles';
 
+const mapPlacementToTransformOrigin = placement => ({
+  'top': 'bottom center',
+  'top-start': 'bottom left',
+  'top-end': 'bottom right',
+  'bottom': 'top center',
+  'bottom-start': 'top left',
+  'bottom-end': 'top right',
+  'left': 'right center',
+  'left-start': 'right top',
+  'left-end': 'right bottom',
+  'right': 'left center',
+  'right-start': 'left top',
+  'right-end': 'left bottom',
+}[placement]);
+
 const Tooltip = ({
+  TransitionComponent = Scale,
   label,
   'aria-label': ariaLabel,
   showDelay = 0,
@@ -135,16 +153,29 @@ const Tooltip = ({
         role={hasAriaLabel ? undefined : 'tooltip'}
         pointerEvents="none"
         arrowSize={arrowSize}
-        {...tooltipStyleProps}
         {...rest}
       >
-        {label}
-        {hasAriaLabel && (
-          <VisuallyHidden role="tooltip" id={tooltipId}>
-            {ariaLabel}
-          </VisuallyHidden>
-        )}
-        {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
+        <TransitionComponent in={isOpen}>
+          {(state, { ref, style }) => {
+            style.transformOrigin = mapPlacementToTransformOrigin(placement);
+
+            return (
+              <PseudoBox
+                ref={ref}
+                {...tooltipStyleProps}
+                {...style}
+              >
+                {label}
+                {hasAriaLabel && (
+                  <VisuallyHidden role="tooltip" id={tooltipId}>
+                    {ariaLabel}
+                  </VisuallyHidden>
+                )}
+                {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
+              </PseudoBox>
+            );
+          }}
+        </TransitionComponent>
       </Popper>
     </>
   );
