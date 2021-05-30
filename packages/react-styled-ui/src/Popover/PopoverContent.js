@@ -1,9 +1,11 @@
 import React from 'react';
+import splitProps from '../utils/splitProps';
 import wrapEvent from '../utils/wrapEvent';
-import { usePopover } from './context';
 import Popper, { PopperArrow } from '../Popper';
 import PseudoBox from '../PseudoBox';
 import Scale from '../Transitions/Scale';
+import { stylePropNames } from '../shared/styled-system';
+import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';
 
 const mapPlacementToTransformOrigin = placement => ({
@@ -114,6 +116,8 @@ const PopoverContent = ({
     }),
   };
 
+  const [styleProps, popperProps] = splitProps(props, stylePropNames);
+
   return (
     <Popper
       as="section"
@@ -131,7 +135,7 @@ const PopoverContent = ({
       aria-describedby={bodyId}
       {...roleProps}
       {...eventHandlers}
-      {...props}
+      {...popperProps}
     >
       <TransitionComponent in={isOpen}>
         {(state, { ref, style }) => {
@@ -142,6 +146,7 @@ const PopoverContent = ({
               ref={ref}
               {...contentStyleProps}
               {...style}
+              {...styleProps}
             >
               {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
               {children}

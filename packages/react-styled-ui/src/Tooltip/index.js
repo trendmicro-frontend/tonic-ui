@@ -4,8 +4,10 @@ import Popper, { PopperArrow } from '../Popper';
 import PseudoBox from '../PseudoBox';
 import Scale from '../Transitions/Scale';
 import VisuallyHidden from '../VisuallyHidden';
+import { stylePropNames } from '../shared/styled-system';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
+import splitProps from '../utils/splitProps';
 import wrapEvent from '../utils/wrapEvent';
 import useTooltipStyle from './styles';
 
@@ -40,7 +42,7 @@ const Tooltip = ({
   onOpen: onOpenProp,
   onClose: onCloseProp,
   arrowAt,
-  ...rest
+  ...props
 }) => {
   const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
@@ -138,6 +140,8 @@ const Tooltip = ({
     });
   }
 
+  const [styleProps, popperProps] = splitProps(props, stylePropNames);
+
   return (
     <>
       {decoratedChild}
@@ -153,7 +157,7 @@ const Tooltip = ({
         role={hasAriaLabel ? undefined : 'tooltip'}
         pointerEvents="none"
         arrowSize={arrowSize}
-        {...rest}
+        {...popperProps}
       >
         <TransitionComponent in={isOpen}>
           {(state, { ref, style }) => {
@@ -164,6 +168,7 @@ const Tooltip = ({
                 ref={ref}
                 {...tooltipStyleProps}
                 {...style}
+                {...styleProps}
               >
                 {label}
                 {hasAriaLabel && (
