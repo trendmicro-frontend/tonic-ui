@@ -67,7 +67,6 @@ const lineStyle = ({ size, colorMode, theme }) => {
   const _disabledColor = setColorWithOpacity(_color, 0.28);
   const _disabledBorderColor = 'transparent';
   const _disabledBackgroundColor = _disabledBorderColor;
-  const _px = tabSizes[size] ? theme.space[tabSizes[size].px] : theme.space[tabSizes.md.px];
   return {
     tabList: {
       borderBottomWidth: tabList.borderBottomWidth,
