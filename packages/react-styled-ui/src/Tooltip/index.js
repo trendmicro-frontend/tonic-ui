@@ -1,13 +1,11 @@
 import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
-import Popper, { PopperArrow } from '../Popper';
+import { Popper, PopperArrow } from '../Popper';
 import PseudoBox from '../PseudoBox';
 import Scale from '../Transitions/Scale';
 import VisuallyHidden from '../VisuallyHidden';
-import { stylePropNames } from '../shared/styled-system';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
-import splitProps from '../utils/splitProps';
 import wrapEvent from '../utils/wrapEvent';
 import useTooltipStyle from './styles';
 
@@ -27,7 +25,6 @@ const mapPlacementToTransformOrigin = placement => ({
 }[placement]);
 
 const Tooltip = ({
-  TransitionComponent = Scale,
   label,
   'aria-label': ariaLabel,
   showDelay = 0,
@@ -42,7 +39,13 @@ const Tooltip = ({
   onOpen: onOpenProp,
   onClose: onCloseProp,
   arrowAt,
-  ...props
+  PopperComponent = Popper,
+  PopperProps,
+  PopperArrowComponent = PopperArrow,
+  PopperArrowProps,
+  TransitionComponent = Scale,
+  TransitionProps,
+  ...rest
 }) => {
   const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
@@ -140,12 +143,10 @@ const Tooltip = ({
     });
   }
 
-  const [styleProps, popperProps] = splitProps(props, stylePropNames);
-
   return (
     <>
       {decoratedChild}
-      <Popper
+      <PopperComponent
         usePortal
         isOpen={_isOpen}
         data-popper-placement={placement}
@@ -157,18 +158,20 @@ const Tooltip = ({
         role={hasAriaLabel ? undefined : 'tooltip'}
         pointerEvents="none"
         arrowSize={arrowSize}
-        {...popperProps}
+        {...PopperProps}
       >
-        <TransitionComponent in={isOpen}>
-          {(state, { ref, style }) => {
-            style.transformOrigin = mapPlacementToTransformOrigin(placement);
-
+        <TransitionComponent
+          in={isOpen}
+          {...TransitionProps}
+        >
+          {(state, { ref, style: transitionStyle }) => {
             return (
               <PseudoBox
                 ref={ref}
                 {...tooltipStyleProps}
-                {...style}
-                {...styleProps}
+                {...transitionStyle}
+                transformOrigin={mapPlacementToTransformOrigin(placement)}
+                {...rest}
               >
                 {label}
                 {hasAriaLabel && (
@@ -176,12 +179,17 @@ const Tooltip = ({
                     {ariaLabel}
                   </VisuallyHidden>
                 )}
-                {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
+                {!hideArrow && (
+                  <PopperArrowComponent
+                    arrowAt={arrowAt}
+                    {...PopperArrowProps}
+                  />
+                )}
               </PseudoBox>
             );
           }}
         </TransitionComponent>
-      </Popper>
+      </PopperComponent>
     </>
   );
 };

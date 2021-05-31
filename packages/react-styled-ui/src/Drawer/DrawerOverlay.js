@@ -1,3 +1,4 @@
+import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import usePresence from '../Presence/usePresence';
@@ -7,7 +8,8 @@ import useDrawer from './useDrawer';
 
 const DrawerOverlay = forwardRef(({
   TransitionComponent = Fade,
-  ...props
+  TransitionProps,
+  ...rest
 }, ref) => {
   const drawerContext = useDrawer(); // context might be an undefined value
   const { isOpen } = { ...drawerContext };
@@ -31,14 +33,15 @@ const DrawerOverlay = forwardRef(({
     return (
       <TransitionComponent
         in={isOpen}
-        onExited={safeToRemove}
+        {...TransitionProps}
+        onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
       >
-        {(state, { ref, style }) => (
+        {(state, { ref, style: transitionStyle }) => (
           <Box
             ref={ref}
             {...overlayStyleProps}
-            {...style}
-            {...props}
+            {...transitionStyle}
+            {...rest}
           />
         )}
       </TransitionComponent>
@@ -46,7 +49,7 @@ const DrawerOverlay = forwardRef(({
   }
 
   return (
-    <Box ref={ref} {...overlayStyleProps} />
+    <Box ref={ref} {...overlayStyleProps} {...rest} />
   );
 });
 

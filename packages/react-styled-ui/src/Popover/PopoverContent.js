@@ -1,10 +1,8 @@
 import React from 'react';
-import splitProps from '../utils/splitProps';
 import wrapEvent from '../utils/wrapEvent';
-import Popper, { PopperArrow } from '../Popper';
+import { Popper, PopperArrow } from '../Popper';
 import PseudoBox from '../PseudoBox';
 import Scale from '../Transitions/Scale';
-import { stylePropNames } from '../shared/styled-system';
 import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';
 
@@ -24,7 +22,6 @@ const mapPlacementToTransformOrigin = placement => ({
 }[placement]);
 
 const PopoverContent = ({
-  TransitionComponent = Scale,
   onKeyDown,
   onBlur: onBlurProp,
   onMouseLeave,
@@ -32,7 +29,13 @@ const PopoverContent = ({
   onFocus,
   children,
   'aria-label': ariaLabel,
-  ...props
+  PopperComponent = Popper,
+  PopperProps,
+  PopperArrowComponent = PopperArrow,
+  PopperArrowProps,
+  TransitionComponent = Scale,
+  TransitionProps,
+  ...rest
 }) => {
   const {
     popoverRef,
@@ -116,10 +119,8 @@ const PopoverContent = ({
     }),
   };
 
-  const [styleProps, popperProps] = splitProps(props, stylePropNames);
-
   return (
-    <Popper
+    <PopperComponent
       as="section"
       usePortal={usePortal}
       isOpen={isOpen}
@@ -135,26 +136,33 @@ const PopoverContent = ({
       aria-describedby={bodyId}
       {...roleProps}
       {...eventHandlers}
-      {...popperProps}
+      {...PopperProps}
     >
-      <TransitionComponent in={isOpen}>
-        {(state, { ref, style }) => {
-          style.transformOrigin = mapPlacementToTransformOrigin(placement);
-
+      <TransitionComponent
+        in={isOpen}
+        {...TransitionProps}
+      >
+        {(state, { ref, style: transitionStyle }) => {
           return (
             <PseudoBox
               ref={ref}
               {...contentStyleProps}
-              {...style}
-              {...styleProps}
+              {...transitionStyle}
+              transformOrigin={mapPlacementToTransformOrigin(placement)}
+              {...rest}
             >
-              {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
+              {!hideArrow && (
+                <PopperArrowComponent
+                  arrowAt={arrowAt}
+                  {...PopperArrowProps}
+                />
+              )}
               {children}
             </PseudoBox>
           );
         }}
       </TransitionComponent>
-    </Popper>
+    </PopperComponent>
   );
 };
 

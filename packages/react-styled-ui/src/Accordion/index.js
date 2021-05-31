@@ -171,10 +171,17 @@ AccordionHeader.displayName = 'AccordionHeader';
 
 /////////////////////////////////////////////////////////////
 
-const AccordionPanel = forwardRef((props, ref) => {
+const AccordionPanel = forwardRef(({
+  TransitionComponent = Fade,
+  TransitionProps,
+  ...rest
+}, ref) => {
   const { isExpanded, panelId, headerId } = useAccordionItemContext();
   return (
-    <Fade in={isExpanded}>
+    <TransitionComponent
+      in={isExpanded}
+      {...TransitionProps}
+    >
       <Collapse
         ref={ref}
         data-accordion-panel=""
@@ -183,9 +190,9 @@ const AccordionPanel = forwardRef((props, ref) => {
         aria-labelledby={headerId}
         aria-hidden={!isExpanded}
         in={isExpanded}
-        {...props}
+        {...rest}
       />
-    </Fade>
+    </TransitionComponent>
   );
 });
 

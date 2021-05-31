@@ -1,3 +1,4 @@
+import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
@@ -22,8 +23,9 @@ const ModalCloseButton = (props) => {
 };
 
 const ModalContentBackdrop = forwardRef(({
-  TransitionComponent = Fade,
-  ...props
+  TransitionComponent,
+  TransitionProps,
+  ...rest
 }, ref) => {
   const modalContext = useModal(); // context might be an undefined value
   const {
@@ -47,9 +49,10 @@ const ModalContentBackdrop = forwardRef(({
   return (
     <TransitionComponent
       in={isOpen}
-      onExited={safeToRemove}
+      {...TransitionProps}
+      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
     >
-      {(state, { ref, style }) => (
+      {(state, { ref, style: transitionStyle }) => (
         <Box
           ref={ref}
           onClick={event => {
@@ -59,15 +62,15 @@ const ModalContentBackdrop = forwardRef(({
             }
           }}
           {...backdropStyleProps}
-          {...style}
-          {...props}
+          {...transitionStyle}
+          {...rest}
         />
       )}
     </TransitionComponent>
   );
 });
 
-const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
+const ModalContentFront = forwardRef(({ children, ...rest }, ref) => {
   const modalContext = useModal(); // context might be an undefined value
   const {
     closeOnEsc,
@@ -99,7 +102,7 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
         }
       }}
       {...contentStyleProps}
-      {...props}
+      {...rest}
     >
       {children}
       {!!isCloseButtonVisible && (
@@ -112,21 +115,27 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
 const ModalContent = React.forwardRef(({
   children,
   zIndex = 'modal',
-  ...props
+  TransitionComponent = Fade,
+  TransitionProps,
+  ...rest
 }, ref) => {
   const modalContext = useModal(); // context might be an undefined value
 
   if (!modalContext) {
     return (
-      <ModalContentFront ref={ref} {...props}>
+      <ModalContentFront ref={ref} {...rest}>
         {children}
       </ModalContentFront>
     );
   }
 
   return (
-    <ModalContentBackdrop zIndex={zIndex}>
-      <ModalContentFront ref={ref} {...props}>
+    <ModalContentBackdrop
+      TransitionComponent={TransitionComponent}
+      TransitionProps={TransitionProps}
+      zIndex={zIndex}
+    >
+      <ModalContentFront ref={ref} {...rest}>
         {children}
       </ModalContentFront>
     </ModalContentBackdrop>

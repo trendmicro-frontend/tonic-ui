@@ -1,5 +1,5 @@
 import React from 'react';
-import Popper from '../Popper';
+import { Popper } from '../Popper';
 import { useMenu } from './context';
 import { useMenuListStyle } from './styles';
 
