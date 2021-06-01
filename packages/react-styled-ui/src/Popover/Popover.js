@@ -25,7 +25,8 @@ const Popover = ({
   hideArrow,
   skidding = 0,
   distance = 4,
-  delay = 0,
+  enterDelay = 0,
+  leaveDelay = 0,
   closeOnBlur = true,
   closeOnEsc = true,
   onOpen: onOpenProp,
@@ -45,13 +46,6 @@ const Popover = ({
   const popoverRef = useRef();
 
   const _isOpen = isControlled ? isOpenProp : isOpen;
-
-  if (typeof delay === 'number') {
-    delay = {
-      show: delay,
-      hide: delay
-    };
-  }
 
   const onToggle = () => {
     if (!isControlled) {
@@ -137,7 +131,6 @@ const Popover = ({
    * skidding: displaces the popover (in pixels) along the reference element
    * distance: displaces the popover (in pixels) away from, or toward, the reference
    */
-
   const context = {
     popoverRef,
     anchorRef,
@@ -158,13 +151,14 @@ const Popover = ({
     hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
     skidding,
     distance,
-    delay,
+    enterDelay,
+    leaveDelay,
     setMouseCoordinate,
     nextToCursor,
     followCursor,
     mousePageX,
     mousePageY,
-    arrowAt
+    arrowAt,
   };
 
   return (

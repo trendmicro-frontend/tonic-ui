@@ -55,7 +55,7 @@ const PopoverContent = ({
     hideArrow,
     skidding,
     distance,
-    delay,
+    leaveDelay,
     nextToCursor,
     followCursor,
     mousePageX,
@@ -102,7 +102,7 @@ const PopoverContent = ({
       }),
       onMouseLeave: wrapEvent(onMouseLeave, () => {
         isHoveringRef.current = false;
-        setTimeout(onClose, delay.hide);
+        setTimeout(onClose, leaveDelay);
       }),
     };
 

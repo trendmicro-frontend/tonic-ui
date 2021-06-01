@@ -417,14 +417,14 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 | hideArrow | boolean | | If `true`, hide the arrow tip on the popover. |
 | skidding | number | 0 | Displaces the popover (in pixels) along the reference element. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#skidding-1) |
 | distance | number | 4 | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
-| delay | number or object | { show: 0, hide: 100 } | If `trigger` is hover, delay showing and hiding the popover (ms). Object structure is: `delay={{ show: 500, hide: 100 }}` |
+| enterDelay | number | 0 | The number of milliseconds to wait before showing the popover if `trigger` is hover. |
+| leaveDelay | number | 0 | The number of milliseconds to wait before hiding the popover if `trigger` is hover. |
 | usePortal | boolean | true | If `true`, the popover is displayed with a `Portal`. Rendering content inside a Portal allows the popover content to escape the physical bounds of its parent while still being positioned correctly relative to its target. |
 | onOpen | () => void | | A callback called when the popover opens. |
 | onClose | () => void | | A callback called when the popover closes. |
 | nextToCursor | boolean | | Popover will next to mouse cursor when mouse enter the reference. |
 | followCursor | boolean | | Popover will follow mouse cursor when mouse move on the reference. |
 | arrowAt | string | | The arrow is at the position of the popover. Possible values: `'left'`, `'right'`, `'top'`, `'bottom'` |
-
 
 ### PopoverTrigger
 
