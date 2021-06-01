@@ -178,8 +178,8 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 | children | ReactNode | | The `ReactNode` element to be used as the trigger of the tooltip. |
 | hideArrow | boolean | | If `true`, hide the arrow tip on the tooltip. |
 | arrowAt   | string | | The arrow is at the position of the popover. Possible values: `'left'`, `'right'`, `'top'`, `'bottom'` 
-| showDelay | number | | The delay in milliseconds for the tooltip to show. |
-| hideDelay | number | | The delay in milliseconds for the tooltip to hide. |
+| enterDelay | number | 100 | The number of milliseconds to wait before showing the tooltip. |
+| leaveDelay | number | 0 | The number of milliseconds to wait before hiding the tooltip. |
 | closeOnClick | boolean | | If `true`, hide the tooltip when the trigger is clicked. |
 | shouldWrapChildren | boolean | | If `true`, the tooltip will wrap its children with a `Box`. |
 | onOpen | function | | A callback called when the tooltip shows. |

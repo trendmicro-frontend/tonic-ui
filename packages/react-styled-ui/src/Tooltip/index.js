@@ -28,8 +28,8 @@ const mapPlacementToTransformOrigin = placement => ({
 const Tooltip = ({
   label,
   'aria-label': ariaLabel,
-  showDelay = 0,
-  hideDelay = 0,
+  enterDelay = 100,
+  leaveDelay = 0,
   placement = 'bottom',
   children,
   hideArrow,
@@ -57,12 +57,12 @@ const Tooltip = ({
   const exitTimeoutRef = useRef();
 
   const openWithDelay = () => {
-    enterTimeoutRef.current = setTimeout(onOpen, showDelay);
+    enterTimeoutRef.current = setTimeout(onOpen, enterDelay);
   };
 
   const closeWithDelay = () => {
     clearTimeout(enterTimeoutRef.current);
-    exitTimeoutRef.current = setTimeout(onClose, hideDelay);
+    exitTimeoutRef.current = setTimeout(onClose, leaveDelay);
   };
 
   const tooltipId = `tooltip-${useId()}`;
@@ -152,7 +152,9 @@ const Tooltip = ({
         isOpen={_isOpen}
         data-popper-placement={placement}
         placement={placement}
-        modifiers={{ offset: [0, 8] }}
+        modifiers={{
+          offset: [0, 8],
+        }}
         anchorEl={anchorRef.current}
         hideArrow={hideArrow}
         id={hasAriaLabel ? undefined : tooltipId}
