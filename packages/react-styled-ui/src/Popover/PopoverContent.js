@@ -1,3 +1,4 @@
+import chainedFunction from 'chained-function';
 import React from 'react';
 import wrapEvent from '../utils/wrapEvent';
 import { Popper, PopperArrow } from '../Popper';
@@ -131,37 +132,47 @@ const PopoverContent = ({
       id={popoverId}
       aria-hidden={!isOpen}
       arrowSize={`${arrowSize}px`}
-      modifiers={{ offset: [_skidding, _distance] }}
+      modifiers={{
+        offset: [_skidding, _distance],
+      }}
+      willUseTransition={true}
       aria-labelledby={headerId}
       aria-describedby={bodyId}
       {...roleProps}
       {...eventHandlers}
       {...PopperProps}
     >
-      <TransitionComponent
-        in={isOpen}
-        {...TransitionProps}
-      >
-        {(state, { ref, style: transitionStyle }) => {
-          return (
-            <PseudoBox
-              ref={ref}
-              {...contentStyleProps}
-              {...transitionStyle}
-              transformOrigin={mapPlacementToTransformOrigin(placement)}
-              {...rest}
-            >
-              {!hideArrow && (
-                <PopperArrowComponent
-                  arrowAt={arrowAt}
-                  {...PopperArrowProps}
-                />
-              )}
-              {children}
-            </PseudoBox>
-          );
-        }}
-      </TransitionComponent>
+      {({ placement, transition }) => {
+        const { in: inProp, onEnter, onExited } = { ...transition };
+        return (
+          <TransitionComponent
+            {...TransitionProps}
+            in={inProp}
+            onEnter={chainedFunction(onEnter, TransitionProps?.onEnter)}
+            onExited={chainedFunction(onExited, TransitionProps?.onExited)}
+          >
+            {(state, { ref, style: transitionStyle }) => {
+              return (
+                <PseudoBox
+                  ref={ref}
+                  {...contentStyleProps}
+                  {...transitionStyle}
+                  transformOrigin={mapPlacementToTransformOrigin(placement)}
+                  {...rest}
+                >
+                  {!hideArrow && (
+                    <PopperArrowComponent
+                      arrowAt={arrowAt}
+                      {...PopperArrowProps}
+                    />
+                  )}
+                  {children}
+                </PseudoBox>
+              );
+            }}
+          </TransitionComponent>
+        );
+      }}
     </PopperComponent>
   );
 };

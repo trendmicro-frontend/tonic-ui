@@ -1,3 +1,4 @@
+import chainedFunction from 'chained-function';
 import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
 import { Popper, PopperArrow } from '../Popper';
@@ -158,37 +159,45 @@ const Tooltip = ({
         role={hasAriaLabel ? undefined : 'tooltip'}
         pointerEvents="none"
         arrowSize={arrowSize}
+        willUseTransition={true}
         {...PopperProps}
       >
-        <TransitionComponent
-          in={isOpen}
-          {...TransitionProps}
-        >
-          {(state, { ref, style: transitionStyle }) => {
-            return (
-              <PseudoBox
-                ref={ref}
-                {...tooltipStyleProps}
-                {...transitionStyle}
-                transformOrigin={mapPlacementToTransformOrigin(placement)}
-                {...rest}
-              >
-                {label}
-                {hasAriaLabel && (
-                  <VisuallyHidden role="tooltip" id={tooltipId}>
-                    {ariaLabel}
-                  </VisuallyHidden>
-                )}
-                {!hideArrow && (
-                  <PopperArrowComponent
-                    arrowAt={arrowAt}
-                    {...PopperArrowProps}
-                  />
-                )}
-              </PseudoBox>
-            );
-          }}
-        </TransitionComponent>
+        {({ placement, transition }) => {
+          const { in: inProp, onEnter, onExited } = { ...transition };
+          return (
+            <TransitionComponent
+              {...TransitionProps}
+              in={inProp}
+              onEnter={chainedFunction(onEnter, TransitionProps?.onEnter)}
+              onExited={chainedFunction(onExited, TransitionProps?.onExited)}
+            >
+              {(state, { ref, style: transitionStyle }) => {
+                return (
+                  <PseudoBox
+                    ref={ref}
+                    {...tooltipStyleProps}
+                    {...transitionStyle}
+                    transformOrigin={mapPlacementToTransformOrigin(placement)}
+                    {...rest}
+                  >
+                    {label}
+                    {hasAriaLabel && (
+                      <VisuallyHidden role="tooltip" id={tooltipId}>
+                        {ariaLabel}
+                      </VisuallyHidden>
+                    )}
+                    {!hideArrow && (
+                      <PopperArrowComponent
+                        arrowAt={arrowAt}
+                        {...PopperArrowProps}
+                      />
+                    )}
+                  </PseudoBox>
+                );
+              }}
+            </TransitionComponent>
+          );
+        }}
       </PopperComponent>
     </>
   );
