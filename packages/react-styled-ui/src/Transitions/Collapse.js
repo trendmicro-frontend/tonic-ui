@@ -48,9 +48,6 @@ const defaultTimeout = {
 
 const Wrapper = forwardRef((props, ref) => <Box ref={ref} {...props} />);
 
-/**
- * The Collapse transition can be used for the floating action buttons.
- */
 const Collapse = forwardRef((
   {
     appear = true,
@@ -92,23 +89,22 @@ const Collapse = forwardRef((
           transition,
           visibility: (state === 'exited' && !inProp && !collapsedHeight) ? 'hidden' : undefined,
         };
-        const isAnimationStart = (inProp && (state === 'entering')) ||
-          (!inProp && (state === 'entering' || state === 'entered'));
-        const isAnimationEnd = (inProp && (state === 'entered')) ||
-          (!inProp && (state === 'exited'));
 
         if (typeof children === 'function') {
           return children(state, {
             ...childProps,
             ref: combinedRef,
-            isAnimationStart,
-            isAnimationEnd,
             style: {
               ...styleProps,
               ...style,
             },
           });
         }
+
+        const isAnimationStart = (inProp && (state === 'entering')) ||
+          (!inProp && (state === 'entering' || state === 'entered'));
+        //const isAnimationEnd = (inProp && (state === 'entered')) ||
+        //  (!inProp && (state === 'exited'));
 
         if (isAnimationStart) {
           const wrapper = wrapperRef.current;
