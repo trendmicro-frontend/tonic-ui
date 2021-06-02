@@ -3,7 +3,7 @@ import React from 'react';
 import wrapEvent from '../utils/wrapEvent';
 import { Popper, PopperArrow } from '../Popper';
 import PseudoBox from '../PseudoBox';
-import Scale from '../Transitions/Scale';
+import Grow from '../Transitions/Grow';
 import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';
 
@@ -34,7 +34,7 @@ const PopoverContent = ({
   PopperProps,
   PopperArrowComponent = PopperArrow,
   PopperArrowProps,
-  TransitionComponent = Scale,
+  TransitionComponent = Grow,
   TransitionProps,
   ...rest
 }) => {

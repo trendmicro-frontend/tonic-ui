@@ -3,7 +3,7 @@ import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
 import { Popper, PopperArrow } from '../Popper';
 import PseudoBox from '../PseudoBox';
-import Scale from '../Transitions/Scale';
+import Grow from '../Transitions/Grow';
 import VisuallyHidden from '../VisuallyHidden';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
@@ -44,7 +44,7 @@ const Tooltip = ({
   PopperProps,
   PopperArrowComponent = PopperArrow,
   PopperArrowProps,
-  TransitionComponent = Scale,
+  TransitionComponent = Grow,
   TransitionProps,
   ...rest
 }) => {
