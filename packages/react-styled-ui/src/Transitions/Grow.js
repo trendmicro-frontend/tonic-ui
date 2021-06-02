@@ -43,8 +43,8 @@ const mapStateToVariantStyle = (state, props) => {
 };
 
 const defaultEasing = {
-  enter: transitionEasing.easeOut,
-  exit: transitionEasing.easeIn,
+  enter: transitionEasing.easeInOut,
+  exit: transitionEasing.easeInOut,
 };
 
 const getAutoHeightDuration = height => {
@@ -69,6 +69,8 @@ const Grow = forwardRef((
   },
   ref,
 ) => {
+  const timer = useRef(null);
+  const autoTimeout = useRef(0);
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
 
@@ -79,12 +81,28 @@ const Grow = forwardRef((
     }
   }, [inProp]);
 
+  useEffect(() => {
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+        timer.current = null;
+      }
+    };
+  }, []);
+
+  const addEndListener = (next) => {
+    if (timeout === 'auto') {
+      timer.current = setTimeout(next, autoTimeout.current || 0);
+    }
+  };
+
   return (
     <Transition
       appear={appear}
       in={inProp}
       nodeRef={nodeRef}
-      timeout={timeout}
+      timeout={timeout === 'auto' ? null : timeout}
+      addEndListener={addEndListener}
       {...other}
     >
       {(state, childProps) => {
@@ -108,6 +126,8 @@ const Grow = forwardRef((
               : transitionProps.delay || (duration * 0.333),
           }),
         ].join(',');
+
+        autoTimeout.current = (timeout === 'auto') ? duration : 0;
 
         const variantStyle = mapStateToVariantStyle(state, {});
         const styleProps = {
