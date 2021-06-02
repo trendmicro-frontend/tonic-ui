@@ -27,6 +27,7 @@ import LightMode from './LightMode';
 import Link from './Link';
 import MenuButton from './MenuButton';
 import Pagination from './Pagination';
+import Presence from './Presence';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
@@ -52,6 +53,7 @@ import useColorMode from './useColorMode';
 import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure';
 import usePagination from './usePagination';
+import usePresence from './usePresence';
 import useTheme from './useTheme';
 import withTheme from './withTheme';
 
@@ -85,6 +87,7 @@ export {
   Link,
   MenuButton,
   Pagination,
+  Presence,
   PseudoBox,
   Radio,
   RadioGroup,
@@ -110,6 +113,7 @@ export {
   useColorStyle,
   useDisclosure,
   usePagination,
+  usePresence,
   useTheme,
   withTheme,
 };
@@ -120,6 +124,7 @@ export * from './Drawer';
 export * from './Menu';
 export * from './Modal';
 export * from './Popover';
+export * from './Popper';
 export * from './Select';
 export * from './Table';
 export * from './Transitions';

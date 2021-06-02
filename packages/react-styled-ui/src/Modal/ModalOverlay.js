@@ -1,10 +1,10 @@
 import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import usePresence from '../Presence/usePresence';
 import Fade from '../Transitions/Fade';
 import useColorMode from '../useColorMode';
 import useModal from './useModal';
+import usePresence from '../usePresence';
 
 const ModalOverlay = forwardRef(({
   TransitionComponent = Fade,

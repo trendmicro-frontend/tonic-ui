@@ -1,8 +1,5 @@
 import Presence from './Presence';
-import usePresence from './usePresence';
-
-export {
-  usePresence,
-};
+import { PresenceContext } from './context';
 
 export default Presence;
+export { PresenceContext };
