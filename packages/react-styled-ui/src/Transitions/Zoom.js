@@ -44,9 +44,6 @@ const defaultTimeout = {
   exit: transitionDuration.leavingScreen,
 };
 
-/**
- * The Zoom transition can be used for the floating action buttons.
- */
 const Zoom = forwardRef((
   {
     appear = true,

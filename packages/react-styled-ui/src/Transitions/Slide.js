@@ -71,9 +71,6 @@ const defaultTimeout = {
   exit: transitionDuration.leavingScreen,
 };
 
-/**
- * The Slide transition can be used for the Drawer component.
- */
 const Slide = forwardRef((
   {
     appear = true,

@@ -44,9 +44,6 @@ const defaultTimeout = {
   exit: transitionDuration.leavingScreen,
 };
 
-/**
- * The Fade transition can be used for the Modal component.
- */
 const Fade = forwardRef((
   {
     appear = true,

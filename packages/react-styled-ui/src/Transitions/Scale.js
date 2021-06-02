@@ -59,9 +59,6 @@ const defaultTimeout = {
   exit: 150,
 };
 
-/**
- * The Scale transition can be used for the Tooltip and Popover components.
- */
 const Scale = forwardRef((
   {
     appear = true,
