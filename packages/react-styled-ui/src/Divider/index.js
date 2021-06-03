@@ -5,6 +5,7 @@ import useColorMode from '../useColorMode';
 const Divider = forwardRef(({
   color,
   orientation = 'horizontal',
+  variant = 'solid',
   ...props
 }, ref) => {
   const [colorMode] = useColorMode();
@@ -17,10 +18,12 @@ const Divider = forwardRef(({
     vertical: {
       borderLeft: 1,
       borderLeftColor: dividerColor,
+      borderLeftStyle: variant,
     },
     horizontal: {
       borderBottom: 1,
       borderBottomColor: dividerColor,
+      borderBottomStyle: variant,
     },
   }[orientation];
 
