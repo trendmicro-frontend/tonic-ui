@@ -1,5 +1,5 @@
 import chainedFunction from 'chained-function';
-import React from 'react';
+import React, { useRef } from 'react';
 import wrapEvent from '../utils/wrapEvent';
 import { Popper, PopperArrow } from '../Popper';
 import PseudoBox from '../PseudoBox';
@@ -38,6 +38,7 @@ const PopoverContent = ({
   TransitionProps,
   ...rest
 }) => {
+  const nodeRef = useRef(null);
   const {
     popoverRef,
     anchorRef,
@@ -147,9 +148,24 @@ const PopoverContent = ({
         return (
           <TransitionComponent
             {...TransitionProps}
+            ref={nodeRef}
             in={inProp}
-            onEnter={chainedFunction(onEnter, TransitionProps?.onEnter)}
-            onExited={chainedFunction(onExited, TransitionProps?.onExited)}
+            onEnter={chainedFunction(
+              onEnter,
+              TransitionProps?.onEnter,
+              (event) => {
+                // set focus on the popover content
+                if (inProp && trigger === 'click') {
+                  requestAnimationFrame(() => {
+                    nodeRef.current && nodeRef.current.focus();
+                  });
+                }
+              }
+            )}
+            onExited={chainedFunction(
+              onExited,
+              TransitionProps?.onExited,
+            )}
           >
             {(state, { ref, style: transitionStyle }) => {
               return (
