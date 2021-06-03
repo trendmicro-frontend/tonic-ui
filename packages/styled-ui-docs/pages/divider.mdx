@@ -21,15 +21,21 @@ The `Divider` renders a thin line vertically or horizontally.
 Pass the `orientation` prop and set it to either `horizontal` or `vertical`.
 
 ```jsx
-<Divider orientation="horizontal" />
+<Stack direction="column" spacing="4x">
+  <Divider variand="solid" orientation="horizontal" />
+  <Divider variant="dashed" orientation="horizontal" />
+  <Divider variant="dotted" orientation="horizontal" />
+</Stack>
 ```
 
 If the vertical orientation is used, make sure that the parent element is assigned a height.
 
 ```jsx
-<Flex height="12x">
-  <Divider orientation="vertical" />
-</Flex>
+<Stack direction="row" spacing="4x" height="12x">
+  <Divider variant="solid" orientation="vertical" />
+  <Divider variant="dashed" orientation="vertical" />
+  <Divider variant="dotted" orientation="vertical" />
+</Stack>
 ```
 
 ## Composition
@@ -48,5 +54,6 @@ If the vertical orientation is used, make sure that the parent element is assign
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| orientation | string | 'horizontal' | The orientation of the divider. Acceptable values: `'horizontal'`, `'vertical'` |
+| variant | string | 'solid' | The variant of the divider style to use. One of: `'solid'`, `'dashed'`, `'dotted'` |
+| orientation | string | 'horizontal' | The orientation of the divider. One of: `'horizontal'`, `'vertical'` |
 
