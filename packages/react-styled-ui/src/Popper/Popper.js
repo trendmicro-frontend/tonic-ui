@@ -7,7 +7,6 @@ import React, {
   useCallback,
 } from 'react';
 import { createPopper } from '@popperjs/core';
-import chainedFunction from 'chained-function';
 import Portal from '../Portal';
 import PseudoBox from '../PseudoBox';
 import setRef from '../utils/setRef';
@@ -41,11 +40,9 @@ const Popper = forwardRef(({
   const popperRef = useRef(null);
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
   const handlePopperRefRef = useRef(handlePopperRef);
-
   useEnhancedEffect(() => {
     handlePopperRefRef.current = handlePopperRef;
   }, [handlePopperRef]);
-
   useImperativeHandle(popperRefProp, () => popperRef.current, []);
 
   const [exited, setExited] = useState(true);
@@ -81,16 +78,14 @@ const Popper = forwardRef(({
           name: 'handlePopperUpdate',
           enabled: true,
           phase: 'afterWrite',
-          fn() {
-            chainedFunction(
-              handlePopperUpdate,
-              popperOptions?.onUpdate
-            );
+          fn: ({ state }) => {
+            handlePopperUpdate(state);
           },
         }
       ],
       ...popperOptions,
     });
+
     handlePopperRefRef.current(popper);
   }, [anchorEl, isOpen, modifiers, placement, popperOptions]);
 
@@ -154,7 +149,7 @@ const Popper = forwardRef(({
     <Portal isDisabled={!usePortal} container={container}>
       <PseudoBox
         ref={handleRef}
-        pos="absolute"
+        position="absolute"
         css={getPopperArrowStyle({ arrowSize })}
         {...rest}
       >
