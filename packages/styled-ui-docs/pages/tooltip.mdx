@@ -44,6 +44,28 @@ If the children of Tooltip are focusable elements, Tooltip will show when you fo
 </Tooltip>
 ```
 
+### Customized tooltips
+
+```jsx
+<Tooltip
+  hideArrow
+  backgroundColor="gray:90"
+  color="white"
+  p="4x"
+  placement="right"
+  width="auto"
+  label={
+    <Stack direction="column">
+      <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
+      <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
+      <Text>{"It's very engaging. Right?"}</Text>
+    </Stack>
+  }
+>
+  <Button variant="ghost">HTML</Button>
+</Tooltip>
+```
+
 ### Tooltip with `Menu`
 
 ```jsx
