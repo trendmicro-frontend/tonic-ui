@@ -87,7 +87,6 @@ const LiveCodePreview = props => {
         fontSize="sm"
         lineHeight="sm"
         whiteSpace="normal"
-        overflow="hidden"
         {...props}
       />
     </Box>
