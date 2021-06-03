@@ -48,8 +48,8 @@ const ModalContentBackdrop = forwardRef(({
 
   return (
     <TransitionComponent
-      in={isOpen}
       {...TransitionProps}
+      in={isOpen}
       onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
     >
       {(state, { ref, style: transitionStyle }) => (

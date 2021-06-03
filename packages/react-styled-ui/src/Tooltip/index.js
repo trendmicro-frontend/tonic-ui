@@ -48,6 +48,7 @@ const Tooltip = ({
   TransitionProps,
   ...rest
 }) => {
+  const nodeRef = useRef(null);
   const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;
@@ -169,6 +170,7 @@ const Tooltip = ({
           return (
             <TransitionComponent
               {...TransitionProps}
+              ref={nodeRef}
               in={inProp}
               onEnter={chainedFunction(onEnter, TransitionProps?.onEnter)}
               onExited={chainedFunction(onExited, TransitionProps?.onExited)}

@@ -56,9 +56,9 @@ const DrawerContentBackdrop = forwardRef(({
 
   return (
     <TransitionComponent
+      {...TransitionProps}
       in={isOpen}
       direction={direction}
-      {...TransitionProps}
       onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
     >
       {(state, { ref, style: transitionStyle }) => (
