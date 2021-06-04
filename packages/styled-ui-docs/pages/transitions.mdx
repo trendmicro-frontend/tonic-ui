@@ -182,11 +182,6 @@ function Example() {
       </Flex>
       <ButtonGroup
         variant="secondary"
-        css={{
-          '> *:not(:first-of-type)': {
-            marginLeft: -1
-          }
-        }}
       >
         {['up', 'down', 'left', 'right'].map(value => {
           const changeDirection = changeDirectionBy(value);
