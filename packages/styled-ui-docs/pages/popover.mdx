@@ -409,7 +409,8 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 | defaultIsOpen | boolean | | If `true`, the popover is shown initially. |
 | initialFocusRef | React.Ref | | The `ref` of the element that should receive the focus status when the popover opens. |
 | trigger | string | 'click' | The interaction that triggers the popover. One of: `'click'`, `'hover'` |
-| placement | PopperJS.placement | 'bottom' | Position the popover relative to the trigger element as well as surrounding elements. Possible values: `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'` |
+| placement | PopperJS.placement | 'bottom' | Position the popover relative to the trigger element as well as surrounding elements. One of: `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'` |
+| arrowAt | string | | The position of the popover arrow. One of: `'left'`, `'right'`, `'top'`, `'bottom'` |
 | returnFocusOnClose | boolean | true | If `true`, the popover will return the focus status to the trigger when closing. |
 | closeOnBlur | boolean | true | If `true`, the popover will close when you use the tab key or click outside the popover dialog. |
 | closeOnEsc | boolean | true | If `true`, the popover will close when you press the `esc` key. |
@@ -424,7 +425,6 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 | onClose | () => void | | A callback called when the popover closes. |
 | nextToCursor | boolean | | Popover will next to mouse cursor when mouse enter the reference. |
 | followCursor | boolean | | Popover will follow mouse cursor when mouse move on the reference. |
-| arrowAt | string | | The arrow is at the position of the popover. Possible values: `'left'`, `'right'`, `'top'`, `'bottom'` |
 
 ### PopoverTrigger
 
@@ -432,7 +432,19 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 | :--- | :--- | :------ | :---------- |
 | shouldWrapChildren | boolean | | If `true`, the popover trigger will wrap its children with a `Box`. |
 
-### Other props
+### PopoverContent
 
-- `PopoverContent` is composed of [`PseudoBox`](./pseudobox). You can override the default styles with style props.
-- `PopoverHeader`, `PopoverFooter`,and `PopoverBody` are composed of [`Box`](./box).
+`PopoverContent` is composed of [`PseudoBox`](./pseudobox).
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | elementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| PopperArrowComponent | elementType | PopperArrow | The component used for the popover arrow. |
+| PopperArrowProps | object | | Props applied to the PopoverArrow component. |
+| TransitionComponent | elementType | Grow | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+
+### PopoverHeader / PopoverFooter / PopoverBody
+
+`PopoverHeader`, `PopoverFooter`,and `PopoverBody` are composed of [`Box`](./box).
