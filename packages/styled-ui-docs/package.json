@@ -49,7 +49,7 @@
     "react-live": "^2.2.2",
     "react-lorem-component": "^0.13.0",
     "react-movable": "^2.5.1",
-    "react-spring": "^9.1.2",
+    "react-spring": "^8.0.0",
     "react-table": "^7.5.2",
     "react-virtualized": "^9.21.2",
     "remark-emoji": "^2.1.0",
