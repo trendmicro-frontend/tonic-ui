@@ -11,7 +11,7 @@ For this component to work, it should have a sibling `input` and be contained in
 ```jsx
 <label>
   {/* This is the sibling input, it's visually hidden */}
-  <VisuallyHidden as="input" type="checkbox" defaultChecked />
+  <VisuallyHidden as="input" type="checkbox" defaultChecked={false} />
 
   {/* This is the control box with a check icon as children */}
   <ControlBox
@@ -38,7 +38,7 @@ For this component to work, it should have a sibling `input` and be contained in
 ```jsx
 <label>
   {/* This is the sibling input, it's visually hidden */}
-  <VisuallyHidden type="radio" as="input" />
+  <VisuallyHidden as="input" type="radio" defaultChecked={false} />
 
   {/* This is the control box with a circle as children */}
   <ControlBox
