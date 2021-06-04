@@ -123,6 +123,11 @@ function Minor() {
       </Flex>
       <ButtonGroup
         variant="secondary"
+        css={{
+          '> *:not(:first-of-type)': {
+            marginLeft: -1
+          }
+        }}
       >
         <Button
           disabled={prevPageDisabled}
@@ -180,6 +185,11 @@ function Minor() {
       </Flex>
       <ButtonGroup
         variant="secondary"
+        css={{
+          '> *:not(:first-of-type)': {
+            marginLeft: -1
+          }
+        }}
       >
         <Button
           disabled={prevPageDisabled}

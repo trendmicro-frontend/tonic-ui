@@ -21,19 +21,17 @@ const SelectableButton = ({ selected, ...props }) => {
     cursor: 'default',
     pointerEvents: 'none',
     zIndex: 1,
-    css: {
-      '&::before': {
-        backgroundColor: _selectedColor,
+    __before: {
+      backgroundColor: _selectedColor,
+    },
+    _focus: {
+      ':not(:active)': {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 1px ${focusColor}`,
       },
-      '&:focus': {
-        ':not(:active)': {
-          borderColor: focusColor,
-          boxShadow: `inset 0 0 0 1px ${focusColor}`,
-        },
-        '&::before': {
-          backgroundColor: focusColor,
-        },
-      }
+      '&::before': {
+        backgroundColor: focusColor,
+      },
     },
     _hover: {
       bg: _selectedColor,

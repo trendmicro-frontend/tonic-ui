@@ -93,6 +93,11 @@ function Example() {
         </Box>
         <ButtonGroup
           variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
         >
           {['left', 'right', 'top', 'bottom'].map(value => (
             <SelectableButton
@@ -114,6 +119,11 @@ function Example() {
         </Box>
         <ButtonGroup
           variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
         >
           {['auto', 'sm', 'md', 'lg', 'full'].map(value => (
             <SelectableButton
