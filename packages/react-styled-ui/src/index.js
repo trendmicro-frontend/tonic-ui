@@ -56,6 +56,7 @@ import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure';
 import usePagination from './usePagination';
 import useTheme from './useTheme';
+import useToast from './useToast';
 import withTheme from './withTheme';
 
 export {
@@ -117,6 +118,7 @@ export {
   useDisclosure,
   usePagination,
   useTheme,
+  useToast,
   withTheme,
 };
 
@@ -128,4 +130,5 @@ export * from './Modal';
 export * from './Popover';
 export * from './Select';
 export * from './Table';
+export * from './ToastProvider';
 export * from './Transition';
