@@ -3,7 +3,8 @@ import {
   ensureString,
 } from 'ensure-type';
 import memoize from 'micro-memoize';
-import React, { createPortal, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { canUseDOM } from '../utils/dom';
 import { createUniqueId } from '../utils/uniqueid';
 import { ToastContext } from './context';
@@ -37,12 +38,13 @@ const ToastProvider = ({
   defaultPlacement = 'top-right',
   container,
 }) => {
-  const [state, setState] = useState(
+  const [isHydrated, setIsHydrated] = useState(false); // false for initial render
+  const [state, setState] = useState(() => (
     defaultPlacements.reduce((acc, placement) => {
       acc[placement] = [];
       return acc;
     }, {})
-  );
+  ));
 
   /**
    * Close all toasts at once with the given placements, including the following:
@@ -226,6 +228,10 @@ const ToastProvider = ({
     updateToast,
   });
 
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   const portalTarget = canUseDOM()
     ? (container ?? document.body)
     : null;
@@ -241,7 +247,7 @@ const ToastProvider = ({
   return (
     <ToastContext.Provider value={context}>
       {children}
-      {createPortal((
+      {isHydrated && createPortal((
         Object.keys(state).map((placement) => {
           const toasts = ensureArray(state[placement]);
           return (
@@ -249,16 +255,17 @@ const ToastProvider = ({
               key={placement}
               placement={placement}
             >
-              {toasts.map(({
-                id,
-                content,
-              }) => (
+              {toasts.map((toast) => (
                 <ToastController
-                  key={id}
+                  key={toast.id}
                   autoDismiss={autoDismiss}
                   autoDismissTimeout={autoDismissTimeout}
                 >
-                  {content}
+                  {typeof toast.content === 'function'
+                    // TODO: toast context
+                    ? toast.content({ onClose: toast.onRequestRemove, placement: toast.placement })
+                    : toast.content
+                  }
                 </ToastController>
               ))}
             </ToastContainer>
