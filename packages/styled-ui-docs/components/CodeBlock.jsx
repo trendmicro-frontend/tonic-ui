@@ -17,7 +17,6 @@ import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
-import useToast from './useToast';
 
 const thirdPartyComponents = {
   AutoSizer,
@@ -205,7 +204,6 @@ const CodeBlock = ({
           {...props}
         />
       ),
-      useToast,
       css,
       mdx,
       tmicons,
