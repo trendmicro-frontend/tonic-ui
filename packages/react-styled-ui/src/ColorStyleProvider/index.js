@@ -26,4 +26,7 @@ const ColorStyleProvider = ({
 ColorStyleProvider.displayName = 'ColorStyleProvider';
 
 export default ColorStyleProvider;
-export { ColorStyleContext };
+export {
+  colorStyle,
+  ColorStyleContext,
+};
