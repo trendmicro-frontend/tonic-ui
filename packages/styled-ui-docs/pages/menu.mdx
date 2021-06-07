@@ -272,44 +272,44 @@ Add `skidding` or `distance` to customize menu offset position
 
 ### Menu Props
 
-| Name          | Type               | Default | Description                                                  |
-| ------------- | ------------------ | ------- | ------------------------------------------------------------ |
-| children      | React.ReactNode    |         | The children of the menu must be `MenuButton` or `MenuList`  |
-| isOpen        | boolean            |         | If `true`, the menu will be opened                           |
-| autoSelect    | boolean            | `false` | The menu will select the first enabled item when it opens, the trigger item must be `MenuButton`    |
-| closeOnBlur   | boolean            | `true`  | If `true`, the menu will close on outside click or blur      |
-| closeOnSelect | boolean            | `true`  | If `true`, the menu will close on menu item select           |
-| placement     | PopperJS.placement | `bottom-start` | The placement of the `MenuList`. One of: `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'`  |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The children of the menu must be `MenuButton` or `MenuList` |
+| isOpen | boolean | | If `true`, the menu will be opened |
+| autoSelect | boolean | `false` | The menu will select the first enabled item when it opens, the trigger item must be `MenuButton` |
+| closeOnBlur | boolean | `true` | If `true`, the menu will close on outside click or blur |
+| closeOnSelect | boolean | `true` | If `true`, the menu will close on menu item select |
+| placement | PopperJS.placement | `bottom-start` | The placement of the `MenuList`. One of: `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'` |
 
 ### MenuButton Props
 
-| Name      | Type                       |
-| --------- | -------------------------- |
-| children  | React.ReactNode            |
-| onClick   | React.MouseEventHandler    |
+| Name | Type |
+| :--- | :--- |
+| children | ReactNode |
+| onClick | React.MouseEventHandler |
 | onKeyDown | React.KeyboardEventHandler |
 
 ### MenuList Props
 
-| Name      | Type                    | Default        | Description                                                       |
-| --------- | ----------------------- | -------------- | ----------------------------------------------------------------- |
-| children  | React.ReactNode         |                | The content of the `MenuList`, should be the `MenuItem` component |
-| onClick   | React.MouseEventHandler |                | Function to be called when you click on the menu item             |
-| onBlur    | React.FocusEventHandler |                | Function to be called when you blur out of the menu list          |
-| skidding  | number                  | `0`            | Displaces the menu (in pixels) along the reference element. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#skidding-1)          |
-| distance  | number                  | `0`            | Displaces the menu (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1)  |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The content of the `MenuList`, should be the `MenuItem` component |
+| onClick | React.MouseEventHandler | | Function to be called when you click on the menu item |
+| onBlur | React.FocusEventHandler | | Function to be called when you blur out of the menu list |
+| skidding | number | `0` | Displaces the menu (in pixels) along the reference element. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#skidding-1) |
+| distance | number | `0` | Displaces the menu (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
 
 ### MenuItem Props
 
-| Name       | Type                                          | Description                                               |
-| ---------- | --------------------------------------------- | --------------------------------------------------------- |
-| disabled   | boolean                                       | If `true`, the menu item will be disabled                 |
-| onClick    | React.MouseEventHandler                       | Function that is called on click and enter/space keypress |
-| onKeyDown  | React.KeyboardEventHander                     | Function that is called on keydown                        |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | If `true`, the menu item will be disabled |
+| onClick | React.MouseEventHandler | Function that is called on click and enter/space keypress |
+| onKeyDown | React.KeyboardEventHander | Function that is called on keydown |
 
 ### MenuGroup Props
 
-| Name     | Type            | Description                   |
-| -------- | --------------- | ----------------------------- |
-| children | React.ReactNode | The content of the menu group, should be the `MenuItem` component |
-| title    | string          | The title of the menu group   |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | The content of the menu group, should be the `MenuItem` component |
+| title | string | The title of the menu group |

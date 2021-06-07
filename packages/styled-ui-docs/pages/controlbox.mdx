@@ -11,7 +11,7 @@ For this component to work, it should have a sibling `input` and be contained in
 ```jsx
 <label>
   {/* This is the sibling input, it's visually hidden */}
-  <VisuallyHidden as="input" type="checkbox" defaultChecked />
+  <VisuallyHidden as="input" type="checkbox" defaultChecked={false} />
 
   {/* This is the control box with a check icon as children */}
   <ControlBox
@@ -23,7 +23,7 @@ For this component to work, it should have a sibling `input` and be contained in
     _checked={{ bg: "green:50", color: "white", borderColor: "green:50" }}
     _focus={{ borderColor: "green:60", boxShadow: "rgba(66, 153, 225, 0.6) 0px 0px 0px 3px" }}
   >
-    <Icon icon="_core.check" size="4x" />
+    <Icon icon="check-s" size="4x" />
   </ControlBox>
 
   {/* You can pass additional text */}
@@ -38,7 +38,7 @@ For this component to work, it should have a sibling `input` and be contained in
 ```jsx
 <label>
   {/* This is the sibling input, it's visually hidden */}
-  <VisuallyHidden type="radio" as="input" />
+  <VisuallyHidden as="input" type="radio" defaultChecked={false} />
 
   {/* This is the control box with a circle as children */}
   <ControlBox
@@ -55,7 +55,7 @@ For this component to work, it should have a sibling `input` and be contained in
     _hover={{ borderColor: "gray:30" }}
     _disabled={{ opacity: "40%" }}
   >
-    <Box size="50%" bg="white" borderRadius="circle" />
+    <Icon icon="circle-o" size="4x" />
   </ControlBox>
 
   {/* You can pass additional text */}

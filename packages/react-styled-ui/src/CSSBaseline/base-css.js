@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import _get from 'lodash.get';
 
 const baseCSS = theme => {

@@ -44,6 +44,28 @@ If the children of Tooltip are focusable elements, Tooltip will show when you fo
 </Tooltip>
 ```
 
+### Customized tooltips
+
+```jsx
+<Tooltip
+  hideArrow
+  backgroundColor="gray:90"
+  color="white"
+  p="4x"
+  placement="right"
+  width="auto"
+  label={
+    <Stack direction="column">
+      <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
+      <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
+      <Text>{"It's very engaging. Right?"}</Text>
+    </Stack>
+  }
+>
+  <Button variant="ghost">HTML</Button>
+</Tooltip>
+```
+
 ### Tooltip with `Menu`
 
 ```jsx
@@ -172,7 +194,7 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 | :--- | :--- | :------ | :---------- |
 | isOpen | boolean | | If `true`, the tooltip is shown. |
 | defaultIsOpen | boolean | | If `true`, the tooltip is shown initially. |
-| label | string | | The label of the tooltip.|
+| label | string \| ReactNode | | The label of the tooltip.|
 | aria-label | string | | An alternate label for screen readers. |
 | placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'` |
 | children | ReactNode | | The `ReactNode` element to be used as the trigger of the tooltip. |
