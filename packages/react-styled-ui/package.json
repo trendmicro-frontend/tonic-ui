@@ -17,16 +17,15 @@
     "test": "jest"
   },
   "dependencies": {
-    "@emotion/core": "10.x",
-    "@emotion/is-prop-valid": "^0.8.6",
-    "@emotion/styled": "10.x",
+    "@emotion/is-prop-valid": "1.x",
+    "@emotion/react": "11.x",
+    "@emotion/styled": "11.x",
     "@popperjs/core": "^2.1.0",
     "@styled-system/css": "5.x",
     "@trendmicro/styled-ui-theme": "^0.13.0",
-    "@trendmicro/tmicon": "^1.19.0",
+    "@trendmicro/tmicon": "^1.21.0",
     "chained-function": "^0.5.0",
     "color": "3.x",
-    "emotion-theming": "10.x",
     "ensure-type": "1.x",
     "exenv": "1.2.x",
     "lodash.get": "4.x",
@@ -38,8 +37,8 @@
     "styled-system": "5.x"
   },
   "devDependencies": {
-    "@emotion/babel-preset-css-prop": "~10.1.0",
-    "@emotion/jest": "~11.2.0",
+    "@emotion/babel-preset-css-prop": "~11.2.0",
+    "@emotion/jest": "~11.3.0",
     "@storybook/addon-actions": "~5.3.19",
     "@storybook/addon-docs": "~5.3.19",
     "@storybook/addon-links": "~5.3.19",

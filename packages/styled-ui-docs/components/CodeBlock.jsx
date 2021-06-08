@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { mdx } from '@mdx-js/react';
 import * as styledUIComponents from '@trendmicro/react-styled-ui';
 import * as tmicon from '@trendmicro/tmicon';
