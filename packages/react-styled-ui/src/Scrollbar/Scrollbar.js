@@ -89,7 +89,6 @@ const Scrollbar = forwardRef((
       clientWidth = 0,
       clientHeight = 0
     } = viewRef.current || {};
-
     return {
       left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
       top: (scrollTop / (scrollHeight - clientHeight)) || 0,
@@ -101,12 +100,11 @@ const Scrollbar = forwardRef((
       clientHeight,
     };
   };
-  const update = useCallback(() => {
+  const update = () => {
     const scrollbarWidth = getScrollbarWidth();
     if (!scrollbarWidth) {
       return;
     }
-
     const values = getValues();
     const { scrollLeft, clientWidth, scrollWidth } = values;
     const trackHorizontalWidth = getInnerWidth(trackHorizontalRef.current);
@@ -122,8 +120,8 @@ const Scrollbar = forwardRef((
     thumbHorizontalRef.current.style.transform = `translateX(${thumbHorizontalX}px)`;
     thumbVerticalRef.current.style.height = `${thumbVerticalHeight}px`;
     thumbVerticalRef.current.style.transform = `translateY(${thumbVerticalY}px)`;
-  }, [getThumbHorizontalWidth, getThumbVerticalHeight]);
-  const getThumbHorizontalWidth = useCallback(() => {
+  };
+  const getThumbHorizontalWidth = () => {
     const { scrollWidth, clientWidth } = viewRef.current;
     const trackWidth = getInnerWidth(trackHorizontalRef.current);
     const width = Math.ceil(clientWidth / scrollWidth * trackWidth);
@@ -134,8 +132,8 @@ const Scrollbar = forwardRef((
       return thumbSize;
     }
     return Math.max(width, thumbMinSize);
-  }, [thumbSize, thumbMinSize]);
-  const getThumbVerticalHeight = useCallback(() => {
+  };
+  const getThumbVerticalHeight = () => {
     const { scrollHeight, clientHeight } = viewRef.current;
     const trackHeight = getInnerHeight(trackVerticalRef.current);
     const height = Math.ceil(clientHeight / scrollHeight * trackHeight);
@@ -146,8 +144,7 @@ const Scrollbar = forwardRef((
       return thumbSize;
     }
     return Math.max(height, thumbMinSize);
-  }, [thumbSize, thumbMinSize]);
-
+  };
   const hideTracks = () => {
     if (isDragging) {
       return;
@@ -224,11 +221,7 @@ const Scrollbar = forwardRef((
     if (onScroll) {
       onScroll(event);
     }
-    update(values => {
-      const { scrollLeft, scrollTop } = values;
-      setViewScrollLeft(scrollLeft);
-      setViewScrollTop(scrollTop);
-    });
+    update();
     detectScrolling();
   };
   /* End Scrolling Events */
@@ -339,6 +332,8 @@ const Scrollbar = forwardRef((
   };
   /* End Mouse Events */
 
+  scrollbarWidth = getScrollbarWidth();
+
   const context = {
     scrollbarWidth,
     autoHide,
@@ -349,9 +344,8 @@ const Scrollbar = forwardRef((
   };
 
   useEffect(() => {
-    scrollbarWidth = getScrollbarWidth();
     update();
-  }, [update]);
+  }, []);
 
   return (
     <Box
