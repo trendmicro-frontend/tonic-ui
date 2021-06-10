@@ -1,5 +1,7 @@
 import useColorMode from '../useColorMode';
 
+const styledScrollbarWidth = '8px';
+
 const useContainerStyle = props => ({
   position: 'relative',
   overflow: 'hidden',
@@ -54,7 +56,7 @@ const useTrackHorizontalStyle = props => {
   const trackAutoHeightStyle = useTrackAutoHeightStyle({ autoHideDuration });
   return {
     position: 'absolute',
-    height: 8,
+    height: styledScrollbarWidth,
     right: 0,
     bottom: 0,
     left: 0,
@@ -74,7 +76,7 @@ const useTrackVerticalStyle = props => {
   const trackAutoHeightStyle = useTrackAutoHeightStyle({ autoHideDuration });
   return {
     position: 'absolute',
-    width: 8,
+    width: styledScrollbarWidth,
     right: 0,
     bottom: 0,
     top: 0,

@@ -1,27 +1,39 @@
 # Scrollbar
 
+## Import
+
+```js
+import {
+  Scrollbar
+} from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+### Basic scrollbar in the `Menu`
+
 ```jsx noInline
 function ScrollView() {
   return (
-      <Menu>
-        <MenuButton>Select an option</MenuButton>
-        <MenuList width="100%">
-            <Scrollbar height={200}>
-              <MenuItem>List item 1</MenuItem>
-              <MenuItem>List item 2</MenuItem>
-              <MenuItem>List item 3</MenuItem>
-              <MenuItem>List item 4</MenuItem>
-              <MenuItem>List item 5</MenuItem>
-              <MenuItem>List item 6</MenuItem>
-              <MenuItem>List item 7</MenuItem>
-              <MenuItem>List item 8</MenuItem>
-              <MenuItem>List item 9</MenuItem>
-              <MenuItem>List item 10</MenuItem>
-              <MenuItem>List item 11</MenuItem>
-              <MenuItem>List item 12</MenuItem>
-            </Scrollbar>
-        </MenuList>
-      </Menu>
+    <Menu width="160px">
+      <MenuButton width="100%">Select an option</MenuButton>
+      <MenuList width="100%" height={200}>
+        <Scrollbar autoHide>
+          <MenuItem>List item 1</MenuItem>
+          <MenuItem>List item 2</MenuItem>
+          <MenuItem>List item 3</MenuItem>
+          <MenuItem>List item 4</MenuItem>
+          <MenuItem>List item 5</MenuItem>
+          <MenuItem>List item 6</MenuItem>
+          <MenuItem>List item 7</MenuItem>
+          <MenuItem>List item 8</MenuItem>
+          <MenuItem>List item 9</MenuItem>
+          <MenuItem>List item 10</MenuItem>
+          <MenuItem>List item 11</MenuItem>
+          <MenuItem>List item 12</MenuItem>
+        </Scrollbar>
+      </MenuList>
+    </Menu>
   );
 }
 

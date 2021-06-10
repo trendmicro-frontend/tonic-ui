@@ -13,37 +13,6 @@ import View from './View';
 
 let scrollbarWidth = false;
 
-const getScrollbarWidth = () => {
-  if (scrollbarWidth !== false) {
-    return scrollbarWidth;
-  }
-  if (typeof document !== 'undefined') {
-    const div = document.createElement('div');
-    div.style.width = '100px';
-    div.style.height = '100px';
-    div.style.position = 'absolute';
-    div.style.top = '-9999px';
-    div.style.overflow = 'scroll'; // forcing scrollbar to appear
-    div.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
-    document.body.appendChild(div);
-    scrollbarWidth = (div.offsetWidth - div.clientWidth);
-    document.body.removeChild(div);
-  }
-  return scrollbarWidth || 0;
-};
-
-const getInnerWidth = (el) => {
-  const { clientWidth } = el;
-  const { paddingLeft, paddingRight } = getComputedStyle(el);
-  return clientWidth - parseFloat(paddingLeft) - parseFloat(paddingRight);
-};
-
-const getInnerHeight = (el) => {
-  const { clientHeight } = el;
-  const { paddingTop, paddingBottom } = getComputedStyle(el);
-  return clientHeight - parseFloat(paddingTop) - parseFloat(paddingBottom);
-};
-
 const Scrollbar = forwardRef((
   {
     onScroll,
@@ -61,13 +30,15 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
-  const [viewScrollLeft, setViewScrollLeft] = useState(0);
-  const [viewScrollTop, setViewScrollTop] = useState(0);
-  const [lastViewScrollLeft, setLastViewScrollLeft] = useState(0);
-  const [lastViewScrollTop, setLastViewScrollTop] = useState(0);
-
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+  let hideTracksTimeout;
+  let viewScrollLeft = 0;
+  let viewScrollTop = 0;
+  let lastViewScrollLeft = 0;
+  let lastViewScrollTop = 0;
+  let isScrolling = false;
+  let isDragging = false;
+  let isTrackMouseOver = false;
+  let isViewMouseOver = false;
 
   const [prevPageX, setPrevPageX] = useState(0);
   const [prevPageY, setPrevPageY] = useState(0);
@@ -100,7 +71,7 @@ const Scrollbar = forwardRef((
       clientHeight,
     };
   };
-  const update = () => {
+  const update = (callback) => {
     const scrollbarWidth = getScrollbarWidth();
     if (!scrollbarWidth) {
       return;
@@ -120,6 +91,10 @@ const Scrollbar = forwardRef((
     thumbHorizontalRef.current.style.transform = `translateX(${thumbHorizontalX}px)`;
     thumbVerticalRef.current.style.height = `${thumbVerticalHeight}px`;
     thumbVerticalRef.current.style.transform = `translateY(${thumbVerticalY}px)`;
+
+    if (typeof callback === 'function') {
+      callback(values);
+    };
   };
   const getThumbHorizontalWidth = () => {
     const { scrollWidth, clientWidth } = viewRef.current;
@@ -152,7 +127,14 @@ const Scrollbar = forwardRef((
     if (isScrolling) {
       return;
     }
-    setTimeout(() => {
+    if (isTrackMouseOver) {
+      return;
+    }
+    if (isViewMouseOver) {
+      return;
+    }
+    clearTimeout(hideTracksTimeout);
+    hideTracksTimeout = setTimeout(() => {
       if (trackHorizontalRef.current) {
         trackHorizontalRef.current.style.opacity = 0;
       }
@@ -162,6 +144,7 @@ const Scrollbar = forwardRef((
     }, autoHideTimeout);
   };
   const showTracks = () => {
+    clearTimeout(hideTracksTimeout);
     if (trackHorizontalRef.current) {
       trackHorizontalRef.current.style.opacity = 1;
     }
@@ -205,23 +188,27 @@ const Scrollbar = forwardRef((
     if (isScrolling) {
       return;
     }
-    setIsScrolling(true);
+    isScrolling = true;
     handleScrollStart();
     const detectScrollingInterval = setInterval(() => {
       if (lastViewScrollLeft === viewScrollLeft && lastViewScrollTop === viewScrollTop) {
         clearInterval(detectScrollingInterval);
-        setIsScrolling(false);
+        isScrolling = false;
         handleScrollStop();
       }
-      setLastViewScrollLeft(viewScrollLeft);
-      setLastViewScrollTop(viewScrollTop);
+      lastViewScrollLeft = viewScrollLeft;
+      lastViewScrollTop = viewScrollTop;
     }, 100);
   };
   const handleScrollView = (event) => {
     if (onScroll) {
       onScroll(event);
     }
-    update();
+    update(values => {
+      const { scrollLeft, scrollTop } = values;
+      viewScrollLeft = scrollLeft;
+      viewScrollTop = scrollTop;
+    });
     detectScrolling();
   };
   /* End Scrolling Events */
@@ -266,13 +253,14 @@ const Scrollbar = forwardRef((
     document.removeEventListener('mouseup', handleDragEnd);
     document.onselectstart = undefined;
   };
-  const handleDragStart = (event) => {
-    event.stopPropagation();
-    setIsDragging(true);
+  const handleDragStart = () => {
+    isDragging = true;
     setupDragging();
   };
   const handleDragEnd = () => {
-    setIsDragging(false);
+    isDragging = false;
+    setPrevPageX(0);
+    setPrevPageY(0);
     teardownDragging();
     handleDragEndAutoHide();
   };
@@ -291,10 +279,20 @@ const Scrollbar = forwardRef((
     }
     hideTracks();
   };
+  const handleViewMouseEnter = () => {
+    isViewMouseOver = true;
+    handleTrackMouseEnterAutoShow();
+  };
+  const handleViewMouseLeave = () => {
+    isViewMouseOver = false;
+    handleTrackMouseLeaveAutoHide();
+  };
   const handleTrackMouseEnter = () => {
+    isTrackMouseOver = true;
     handleTrackMouseEnterAutoShow();
   };
   const handleTrackMouseLeave = () => {
+    isTrackMouseOver = false;
     handleTrackMouseLeaveAutoHide();
   };
   const handleHorizontalTrackMouseDown = (event) => {
@@ -315,7 +313,7 @@ const Scrollbar = forwardRef((
   };
   const handleHorizontalThumbMouseDown = (event) => {
     event.preventDefault();
-    handleDragStart(event);
+    event.stopPropagation();
     const { target, clientX } = event;
     const { offsetWidth } = target;
     const { left } = target.getBoundingClientRect();
@@ -323,12 +321,11 @@ const Scrollbar = forwardRef((
   };
   const handleVerticalThumbMouseDown = (event) => {
     event.preventDefault();
-    handleDragStart(event);
+    event.stopPropagation();
     const { target, clientY } = event;
     const { offsetHeight } = target;
     const { top } = target.getBoundingClientRect();
-    const newPrevPageY = offsetHeight - (clientY - top);
-    setPrevPageY(newPrevPageY);
+    setPrevPageY(offsetHeight - (clientY - top));
   };
   /* End Mouse Events */
 
@@ -347,6 +344,12 @@ const Scrollbar = forwardRef((
     update();
   }, []);
 
+  useEffect(() => {
+    if (prevPageX || prevPageY) {
+      handleDragStart();
+    }
+  }, [prevPageX, prevPageY]);
+
   return (
     <Box
       {...containerStyle}
@@ -356,12 +359,14 @@ const Scrollbar = forwardRef((
         <View
           ref={viewRef}
           onScroll={handleScrollView}
+          onMouseEnter={handleViewMouseEnter}
+          onMouseLeave={handleViewMouseLeave}
         >
           {children}
         </View>
         <HorizontalTrack
           ref={trackHorizontalRef}
-          onmMouseDown={handleHorizontalTrackMouseDown}
+          onMouseDown={handleHorizontalTrackMouseDown}
           onMouseEnter={handleTrackMouseEnter}
           onMouseLeave={handleTrackMouseLeave}
         >
@@ -385,6 +390,37 @@ const Scrollbar = forwardRef((
     </Box>
   );
 });
+
+const getScrollbarWidth = () => {
+  if (scrollbarWidth !== false) {
+    return scrollbarWidth;
+  }
+  if (typeof document !== 'undefined') {
+    const div = document.createElement('div');
+    div.style.width = '100px';
+    div.style.height = '100px';
+    div.style.position = 'absolute';
+    div.style.top = '-9999px';
+    div.style.overflow = 'scroll'; // forcing scrollbar to appear
+    div.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+    document.body.appendChild(div);
+    scrollbarWidth = (div.offsetWidth - div.clientWidth);
+    document.body.removeChild(div);
+  }
+  return scrollbarWidth || 0;
+};
+
+const getInnerWidth = (el) => {
+  const { clientWidth } = el;
+  const { paddingLeft, paddingRight } = getComputedStyle(el);
+  return clientWidth - parseFloat(paddingLeft) - parseFloat(paddingRight);
+};
+
+const getInnerHeight = (el) => {
+  const { clientHeight } = el;
+  const { paddingTop, paddingBottom } = getComputedStyle(el);
+  return clientHeight - parseFloat(paddingTop) - parseFloat(paddingBottom);
+};
 
 Scrollbar.displayName = 'Scrollbar';
 
