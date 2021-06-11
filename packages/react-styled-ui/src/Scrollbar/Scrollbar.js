@@ -1,21 +1,22 @@
 /* eslint-disable max-lines-per-function */
-import React, { forwardRef, useCallback, useState, useEffect, useRef } from 'react';
+import React, { forwardRef, useState, useEffect, useRef } from 'react';
 import Box from '../Box';
-import { ScrollbarContextProvider } from './context';
+import PseudoBox from '../PseudoBox';
 import {
   useContainerStyle,
+  useViewStyle,
+  useTrackHorizontalStyle,
+  useTrackVerticalStyle,
+  useThumbHorizontalStyle,
+  useThumbVerticalStyle,
 } from './styles';
-import HorizontalTrack from './HorizontalTrack';
-import HorizontalThumb from './HorizontalThumb';
-import VerticalTrack from './VerticalTrack';
-import VerticalThumb from './VerticalThumb';
-import View from './View';
 
 let scrollbarWidth = false;
 
 const Scrollbar = forwardRef((
   {
     onScroll,
+    onUpdate,
     autoHide = false,
     autoHideTimeout = 1000,
     autoHideDuration = 200,
@@ -24,6 +25,11 @@ const Scrollbar = forwardRef((
     autoHeight = false,
     autoHeightMin = 0,
     autoHeightMax = 200,
+    renderView = renderViewDefault,
+    renderTrackHorizontal = renderTrackHorizontalDefault,
+    renderTrackVertical = renderTrackVerticalDefault,
+    renderThumbHorizontal = renderThumbHorizontalDefault,
+    renderThumbVertical = renderThumbVerticalDefault,
     style,
     children,
     ...reset
@@ -50,6 +56,11 @@ const Scrollbar = forwardRef((
   const thumbVerticalRef = useRef(null);
 
   const containerStyle = useContainerStyle({ autoHeight, autoHeightMin, autoHeightMax, style });
+  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, autoHeightMin, autoHeightMax });
+  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, autoHide, autoHideDuration });
+  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, autoHide, autoHideDuration });
+  const thumbHorizontalStyle = useThumbHorizontalStyle();
+  const thumbVerticalStyle = useThumbVerticalStyle();
 
   const getValues = () => {
     const {
@@ -85,13 +96,21 @@ const Scrollbar = forwardRef((
     const trackVerticalHeight = getInnerHeight(trackVerticalRef.current);
     const thumbVerticalHeight = getThumbVerticalHeight();
     const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
-    trackHorizontalRef.current.style.visibility = scrollWidth > clientWidth ? 'visible' : 'hidden';
-    trackVerticalRef.current.style.visibility = scrollHeight > clientHeight ? 'visible' : 'hidden';
+    const hasHorizontalScrollbar = scrollWidth > clientWidth;
+    const hasVerticalScrollbar = scrollHeight > clientHeight;
+    trackHorizontalRef.current.style.visibility =  hasHorizontalScrollbar? 'visible' : 'hidden';
+    trackVerticalRef.current.style.visibility = hasVerticalScrollbar ? 'visible' : 'hidden';
     thumbHorizontalRef.current.style.width = `${thumbHorizontalWidth}px`;
     thumbHorizontalRef.current.style.transform = `translateX(${thumbHorizontalX}px)`;
     thumbVerticalRef.current.style.height = `${thumbVerticalHeight}px`;
     thumbVerticalRef.current.style.transform = `translateY(${thumbVerticalY}px)`;
 
+    if (typeof onUpdate === 'function') {
+      onUpdate({
+        hasHorizontalScrollbar,
+        hasVerticalScrollbar,
+      });
+    }
     if (typeof callback === 'function') {
       callback(values);
     };
@@ -331,15 +350,6 @@ const Scrollbar = forwardRef((
 
   scrollbarWidth = getScrollbarWidth();
 
-  const context = {
-    scrollbarWidth,
-    autoHide,
-    autoHideDuration,
-    autoHeight,
-    autoHeightMin,
-    autoHeightMax,
-  };
-
   useEffect(() => {
     update();
   }, []);
@@ -351,45 +361,76 @@ const Scrollbar = forwardRef((
   }, [prevPageX, prevPageY]);
 
   return (
-    <Box
+    <PseudoBox
+      ref={ref}
       {...containerStyle}
       {...reset}
     >
-      <ScrollbarContextProvider value={context}>
-        <View
-          ref={viewRef}
-          onScroll={handleScrollView}
-          onMouseEnter={handleViewMouseEnter}
-          onMouseLeave={handleViewMouseLeave}
-        >
-          {children}
-        </View>
-        <HorizontalTrack
-          ref={trackHorizontalRef}
-          onMouseDown={handleHorizontalTrackMouseDown}
-          onMouseEnter={handleTrackMouseEnter}
-          onMouseLeave={handleTrackMouseLeave}
-        >
-          <HorizontalThumb
-            ref={thumbHorizontalRef}
-            onMouseDown={handleHorizontalThumbMouseDown}
-          />
-        </HorizontalTrack>
-        <VerticalTrack
-          ref={trackVerticalRef}
-          onMouseDown={handleVerticalTrackMouseDown}
-          onMouseEnter={handleTrackMouseEnter}
-          onMouseLeave={handleTrackMouseLeave}
-        >
-          <VerticalThumb
-            ref={thumbVerticalRef}
-            onMouseDown={handleVerticalThumbMouseDown}
-          />
-        </VerticalTrack>
-      </ScrollbarContextProvider>
-    </Box>
+      {
+        renderView({
+          ref: viewRef,
+          children: children,
+          onScroll: handleScrollView,
+          onMouseEnter: handleViewMouseEnter,
+          onMouseLeave: handleViewMouseLeave,
+          ...viewStyle
+        })
+      }
+      {
+        renderTrackHorizontal({
+          ref: trackHorizontalRef,
+          children: (
+            renderThumbHorizontal({
+              ref: thumbHorizontalRef,
+              onMouseDown: handleHorizontalThumbMouseDown,
+              ...thumbHorizontalStyle
+            })
+          ),
+          onMouseDown: handleHorizontalTrackMouseDown,
+          onMouseEnter: handleTrackMouseEnter, 
+          onMouseLeave: handleTrackMouseLeave,
+          ...trackHorizontalStyle
+        })
+      }
+      {
+        renderTrackVertical({
+          ref: trackVerticalRef,
+          children: (
+            renderThumbVertical({
+              ref: thumbVerticalRef,
+              onMouseDown: handleVerticalThumbMouseDown,
+              ...thumbVerticalStyle
+            })
+          ),
+          onMouseDown: handleVerticalTrackMouseDown,
+          onMouseEnter: handleTrackMouseEnter,
+          onMouseLeave: handleTrackMouseLeave,
+          ...trackVerticalStyle
+        })
+      }
+    </PseudoBox>
   );
 });
+
+const renderViewDefault = (props) => {
+  return <Box {...props} />;
+}
+
+const renderTrackHorizontalDefault = (props) => {
+  return <Box {...props} />;
+}
+
+const renderTrackVerticalDefault = (props) => {
+  return <Box {...props} />;
+}
+
+const renderThumbHorizontalDefault = (props) => {
+  return <PseudoBox {...props} />;
+}
+
+const renderThumbVerticalDefault = (props) => {
+  return <PseudoBox {...props} />;
+}
 
 const getScrollbarWidth = () => {
   if (scrollbarWidth !== false) {

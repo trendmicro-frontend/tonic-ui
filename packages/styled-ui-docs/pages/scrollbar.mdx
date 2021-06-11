@@ -12,31 +12,167 @@ import {
 
 ### Basic scrollbar in the `Menu`
 
+```jsx
+<Menu width="160px">
+  <MenuButton width="100%">Select an option</MenuButton>
+  <MenuList width="100%" height={200}>
+    <Scrollbar autoHide>
+      <MenuItem>List item 1</MenuItem>
+      <MenuItem>List item 2</MenuItem>
+      <MenuItem>List item 3</MenuItem>
+      <MenuItem>List item 4</MenuItem>
+      <MenuItem>List item 5</MenuItem>
+      <MenuItem>List item 6</MenuItem>
+      <MenuItem>List item 7</MenuItem>
+      <MenuItem>List item 8</MenuItem>
+      <MenuItem>List item 9</MenuItem>
+      <MenuItem>List item 10</MenuItem>
+      <MenuItem>List item 11</MenuItem>
+      <MenuItem>List item 12</MenuItem>
+    </Scrollbar>
+  </MenuList>
+</Menu>
+```
+
+### in the `Table`
+
 ```jsx noInline
-function ScrollView() {
+function StickyTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      accessor: 'eventType',
+    },
+    {
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const tableHeaderRef = React.createRef();
+
+  const [showHorizontalScrollbar, setShowHorizontalScrollbar] = React.useState(0);
+  const [showVerticalScrollbar, setShowVerticalScrollbar] = React.useState(0);
+
+  const onScroll = (e) => {
+    const scrollLeft = e.target.scrollLeft;
+    if (!!tableHeaderRef && tableHeaderRef.current.scrollLeft !== scrollLeft) {
+      tableHeaderRef.current.scrollLeft = scrollLeft;
+    }
+  };
+
+  const onUpdate = ({ hasHorizontalScrollbar, hasVerticalScrollbar, ...props }) => {
+    if (showHorizontalScrollbar !== 0 && showHorizontalScrollbar !== 0) {
+      return;
+    }
+    setShowHorizontalScrollbar(hasHorizontalScrollbar);
+    setShowVerticalScrollbar(hasVerticalScrollbar);
+  };
+
+  const renderScrollView = props => {
+    return (
+      <Box
+        {...props}
+        right={showVerticalScrollbar ? "8px" : 0}
+        bottom={showHorizontalScrollbar ? "8px" : 0}
+      />
+    );
+  };
+
+  const renderScrollTrack = props => {
+    const [colorMode] = useColorMode();
+    const bgColor = {
+      dark: 'gray:70',
+      light: 'gray:70',
+    }[colorMode];
+    return (
+      <Box
+        {...props}
+        bg={bgColor}
+      />
+    );
+  };
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout,
+  );
+  
   return (
-    <Menu width="160px">
-      <MenuButton width="100%">Select an option</MenuButton>
-      <MenuList width="100%" height={200}>
-        <Scrollbar autoHide>
-          <MenuItem>List item 1</MenuItem>
-          <MenuItem>List item 2</MenuItem>
-          <MenuItem>List item 3</MenuItem>
-          <MenuItem>List item 4</MenuItem>
-          <MenuItem>List item 5</MenuItem>
-          <MenuItem>List item 6</MenuItem>
-          <MenuItem>List item 7</MenuItem>
-          <MenuItem>List item 8</MenuItem>
-          <MenuItem>List item 9</MenuItem>
-          <MenuItem>List item 10</MenuItem>
-          <MenuItem>List item 11</MenuItem>
-          <MenuItem>List item 12</MenuItem>
-        </Scrollbar>
-      </MenuList>
-    </Menu>
+    <Table
+      isHoverable
+      variant="outline"
+      width={400}
+      height={200}
+      {...getTableProps()}
+    >
+      <TableHeader ref={tableHeaderRef}>
+        {headerGroups.map(headerGroup => {
+          const { style, ...props } = headerGroup.getHeaderGroupProps();
+          let headerWidth = style.width;
+          if (showVerticalScrollbar) {
+            headerWidth = `calc(${style.width} + 8px)`; // 8px is scrollbar width
+          }
+          return (
+            <TableHeaderRow style={{...style, width: headerWidth}} {...props}>
+              {headerGroup.headers.map(column => (
+                <TableHeaderCell key={column.accessor} {...column.getHeaderProps()}>
+                  {column.render('Header')}
+                </TableHeaderCell>
+              ))}
+            </TableHeaderRow>
+          );
+        })}
+      </TableHeader>
+      <Scrollbar
+        renderView={renderScrollView}
+        renderTrackHorizontal={renderScrollTrack}
+        renderTrackVertical={renderScrollTrack}
+        onScroll={onScroll}
+        onUpdate={onUpdate}
+      >
+        <TableBody {...getTableBodyProps()}>
+          {rows.map((row, index) => {
+            prepareRow(row);
+            return (
+              <TableRow key={index} {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <TableCell key={cell.id} {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Scrollbar>
+    </Table>
   );
 }
 
-render(<ScrollView />);
+render(<StickyTable />);
 ```
-

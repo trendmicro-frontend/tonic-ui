@@ -47,11 +47,6 @@ const useTrackAutoHeightStyle = props => ({
 });
 
 const useTrackHorizontalStyle = props => {
-  const [colorMode] = useColorMode();
-  const bgColor = {
-    dark: 'gray:70',
-    light: 'gray:70',
-  }[colorMode];
   const { autoHide, scrollbarWidth, autoHideDuration } = props;
   const trackAutoHeightStyle = useTrackAutoHeightStyle({ autoHideDuration });
   return {
@@ -60,18 +55,12 @@ const useTrackHorizontalStyle = props => {
     right: 0,
     bottom: 0,
     left: 0,
-    bg: bgColor,
     ...(autoHide && trackAutoHeightStyle),
     ...(!scrollbarWidth && { display: 'none' }),
   };
 };
 
 const useTrackVerticalStyle = props => {
-  const [colorMode] = useColorMode();
-  const bgColor = {
-    dark: 'gray:70',
-    light: 'gray:70',
-  }[colorMode];
   const { autoHide, scrollbarWidth, autoHideDuration } = props;
   const trackAutoHeightStyle = useTrackAutoHeightStyle({ autoHideDuration });
   return {
@@ -80,7 +69,6 @@ const useTrackVerticalStyle = props => {
     right: 0,
     bottom: 0,
     top: 0,
-    bg: bgColor,
     ...(autoHide && trackAutoHeightStyle),
     ...(!scrollbarWidth && { display: 'none' }),
   };
