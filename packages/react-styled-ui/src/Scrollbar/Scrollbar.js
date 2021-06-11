@@ -98,7 +98,7 @@ const Scrollbar = forwardRef((
     const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
     const hasHorizontalScrollbar = scrollWidth > clientWidth;
     const hasVerticalScrollbar = scrollHeight > clientHeight;
-    trackHorizontalRef.current.style.visibility =  hasHorizontalScrollbar? 'visible' : 'hidden';
+    trackHorizontalRef.current.style.visibility = hasHorizontalScrollbar? 'visible' : 'hidden';
     trackVerticalRef.current.style.visibility = hasVerticalScrollbar ? 'visible' : 'hidden';
     thumbHorizontalRef.current.style.width = `${thumbHorizontalWidth}px`;
     thumbHorizontalRef.current.style.transform = `translateX(${thumbHorizontalX}px)`;
@@ -107,6 +107,7 @@ const Scrollbar = forwardRef((
 
     if (typeof onUpdate === 'function') {
       onUpdate({
+        values,
         hasHorizontalScrollbar,
         hasVerticalScrollbar,
       });
