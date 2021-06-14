@@ -182,7 +182,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (ToastNotification) => () => {
-    toast.notify(({ onClose, placement }) => {
+    toast(({ onClose, placement }) => {
       const styleProps = {
         'top-left': { mt: '2x', mx: '4x' },
         'top': { mt: '2x', mx: '4x' },
@@ -345,7 +345,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (ToastNotification) => () => {
-    toast.notify(({ onClose, placement }) => {
+    toast(({ onClose, placement }) => {
       const styleProps = {
         'top-left': { mt: '2x', mx: '4x' },
         'top': { mt: '2x', mx: '4x' },
@@ -461,7 +461,7 @@ const ToastLayout = (props) => {
 function Example() {
   const toast = useToast();
   const handleClickBy = (ToastNotification) => () => {
-    toast.notify(({ onClose, placement }) => {
+    toast(({ onClose, placement }) => {
       const styleProps = {
         'top-left': { mt: '2x', mx: '4x' },
         'top': { mt: '2x', mx: '4x' },
