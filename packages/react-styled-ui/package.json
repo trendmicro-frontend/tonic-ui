@@ -32,6 +32,7 @@
     "prop-types": "^15.6.0",
     "react-animate-height": "2.x",
     "react-focus-lock": "2.3.x",
+    "react-is": "^16.8.0",
     "react-spring": "8.x",
     "styled-system": "5.x"
   },
