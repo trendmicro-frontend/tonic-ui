@@ -5,6 +5,7 @@ import {
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { isElement, isValidElementType } from 'react-is';
 import { canUseDOM } from '../utils/dom';
 import { createUniqueId } from '../utils/uniqueid';
 import { ToastContext } from './context';
@@ -104,12 +105,40 @@ const ToastProvider = ({
     const id = options?.id ?? uniqueId();
     const placement = ensureString(options?.placement) ?? defaultPlacement;
     return {
-      id,
+      /**
+       * The element or component to render.
+       */
       content,
+
+      /**
+       * The toast's id
+       */
+      id,
+
+      /**
+       * The placement of the toast
+       */
       placement,
+
+      /**
+       * The duration of the toast
+       */
       duration: options?.duration,
+
+      /**
+       * Callback function to run side effects after the toast has closed
+       */
       onCloseComplete: options?.onCloseComplete,
+
+      /**
+       * Function that removes the toast from manager's state
+       */
       onRequestRemove: () => removeToast(id, placement),
+
+      /**
+       * Internally used to queue closing a toast.
+       * Should probably not be used by anyone else, but documented regardless.
+       */
       requestClose: false,
     };
   };
@@ -260,11 +289,17 @@ const ToastProvider = ({
                   requestClose={toast.requestClose}
                   duration={toast.duration}
                 >
-                  {typeof toast.content === 'function'
-                    // TODO: toast context
-                    ? toast.content({ onClose: toast.onRequestRemove, placement: toast.placement })
-                    : toast.content
-                  }
+                  {(() => {
+                    if (isElement(toast.content)) {
+                      return toast.content;
+                    }
+                    if (isValidElementType(toast.content)) {
+                      return (
+                        <toast.content id={toast.id} onClose={toast.onRequestRemove} placement={toast.placement} />
+                      );
+                    }
+                    return null;
+                  })()}
                 </ToastController>
               ))}
             </ToastContainer>
