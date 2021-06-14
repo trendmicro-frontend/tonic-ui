@@ -3,10 +3,15 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 
 const ToastContainer = forwardRef(({
+  hasToasts = false,
   placement,
   ...props
 }, ref) => {
   const styleProps = {
+    maxHeight: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    pointerEvents: hasToasts ? null : 'none',
     position: 'fixed',
     zIndex: 'toast',
   };
@@ -31,7 +36,11 @@ const ToastContainer = forwardRef(({
   }
 
   return (
-    <Box ref={ref} {...styleProps} {...props} />
+    <Box
+      ref={ref}
+      {...styleProps}
+      {...props}
+    />
   );
 });
 
