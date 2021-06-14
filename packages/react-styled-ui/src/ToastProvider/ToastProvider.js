@@ -32,8 +32,6 @@ const getToastPlacementByState = (state, id) => {
 };
 
 const ToastProvider = ({
-  autoDismiss = false,
-  autoDismissTimeout = 5000,
   children,
   defaultPlacement = 'top-right',
   container,
@@ -213,8 +211,6 @@ const ToastProvider = ({
   };
 
   const context = getMemoizedState({
-    autoDismiss,
-    autoDismissTimeout,
     defaultPlacement,
     state,
 
@@ -253,13 +249,16 @@ const ToastProvider = ({
           return (
             <ToastContainer
               key={placement}
+              hasToasts={toasts.length > 0}
               placement={placement}
             >
               {toasts.map((toast) => (
                 <ToastController
                   key={toast.id}
-                  autoDismiss={autoDismiss}
-                  autoDismissTimeout={autoDismissTimeout}
+                  placement={placement}
+                  onRequestRemove={toast.onRequestRemove}
+                  requestClose={toast.requestClose}
+                  duration={toast.duration}
                 >
                   {typeof toast.content === 'function'
                     // TODO: toast context
