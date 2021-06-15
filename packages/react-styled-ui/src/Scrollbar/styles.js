@@ -41,35 +41,35 @@ const useViewStyle = props => {
   };
 };
 
-const useTrackAutoHeightStyle = props => ({
-  transition: `opacity ${props.autoHideDuration}ms`,
+const useTrackAutoHideStyle = props => ({
+  transition: `opacity 200ms`,
   opacity: 0,
 });
 
 const useTrackHorizontalStyle = props => {
-  const { autoHide, scrollbarWidth, autoHideDuration } = props;
-  const trackAutoHeightStyle = useTrackAutoHeightStyle({ autoHideDuration });
+  const { autoHide, scrollbarWidth } = props;
+  const trackAutoHideStyle = useTrackAutoHideStyle();
   return {
     position: 'absolute',
     height: styledScrollbarWidth,
     right: 0,
     bottom: 0,
     left: 0,
-    ...(autoHide && trackAutoHeightStyle),
+    ...(autoHide && trackAutoHideStyle),
     ...(!scrollbarWidth && { display: 'none' }),
   };
 };
 
 const useTrackVerticalStyle = props => {
-  const { autoHide, scrollbarWidth, autoHideDuration } = props;
-  const trackAutoHeightStyle = useTrackAutoHeightStyle({ autoHideDuration });
+  const { autoHide, scrollbarWidth } = props;
+  const trackAutoHideStyle = useTrackAutoHideStyle();
   return {
     position: 'absolute',
     width: styledScrollbarWidth,
     right: 0,
     bottom: 0,
     top: 0,
-    ...(autoHide && trackAutoHeightStyle),
+    ...(autoHide && trackAutoHideStyle),
     ...(!scrollbarWidth && { display: 'none' }),
   };
 };
@@ -137,7 +137,7 @@ const useThumbVerticalStyle = props => {
 export {
   useContainerStyle,
   useViewStyle,
-  useTrackAutoHeightStyle,
+  useTrackAutoHideStyle,
   useTrackHorizontalStyle,
   useTrackVerticalStyle,
   useThumbHorizontalStyle,

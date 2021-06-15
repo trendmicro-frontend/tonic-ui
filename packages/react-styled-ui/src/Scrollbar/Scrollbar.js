@@ -18,8 +18,7 @@ const Scrollbar = forwardRef((
     onScroll,
     onUpdate,
     autoHide = false,
-    autoHideTimeout = 1000,
-    autoHideDuration = 200,
+    autoHideDelay = 1000,
     thumbSize,
     thumbMinSize = 30,
     autoHeight = false,
@@ -57,8 +56,8 @@ const Scrollbar = forwardRef((
 
   const containerStyle = useContainerStyle({ autoHeight, autoHeightMin, autoHeightMax, style });
   const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, autoHeightMin, autoHeightMax });
-  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, autoHide, autoHideDuration });
-  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, autoHide, autoHideDuration });
+  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, autoHide });
+  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, autoHide });
   const thumbHorizontalStyle = useThumbHorizontalStyle();
   const thumbVerticalStyle = useThumbVerticalStyle();
 
@@ -161,7 +160,7 @@ const Scrollbar = forwardRef((
       if (trackVerticalRef.current) {
         trackVerticalRef.current.style.opacity = 0;
       }
-    }, autoHideTimeout);
+    }, autoHideDelay);
   };
   const showTracks = () => {
     clearTimeout(hideTracksTimeout);

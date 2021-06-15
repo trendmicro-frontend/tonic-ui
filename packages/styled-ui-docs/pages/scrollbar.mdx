@@ -37,6 +37,48 @@ import {
 ### The scrollbar in the `Table`
 
 ```jsx noInline
+function CustomScrollbar({
+  showVerticalScrollbar,
+  showHorizontalScrollbar,
+  children,
+  ...props
+}) {
+  const renderScrollView = props => {
+    return (
+      <Box
+        {...props}
+        right={showVerticalScrollbar ? "8px" : 0}
+        bottom={showHorizontalScrollbar ? "8px" : 0}
+      />
+    );
+  };
+
+  const renderScrollTrack = props => {
+    const [colorMode] = useColorMode();
+    const bgColor = {
+      dark: 'gray:70',
+      light: 'gray:70',
+    }[colorMode];
+    return (
+      <Box
+        {...props}
+        bg={bgColor}
+      />
+    );
+  };
+
+  return (
+    <Scrollbar
+      renderView={renderScrollView}
+      renderTrackHorizontal={renderScrollTrack}
+      renderTrackVertical={renderScrollTrack}
+      {...props}
+    >
+      {children}
+    </Scrollbar>
+  );
+}
+
 function StickyTable() {
   const columns = React.useMemo(() => [
     {
@@ -69,7 +111,7 @@ function StickyTable() {
 
   const onScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
-    if (!!tableHeaderRef && tableHeaderRef.current.scrollLeft !== scrollLeft) {
+    if (tableHeaderRef.current && tableHeaderRef.current.scrollLeft !== scrollLeft) {
       tableHeaderRef.current.scrollLeft = scrollLeft;
     }
   };
@@ -80,30 +122,6 @@ function StickyTable() {
     }
     setShowHorizontalScrollbar(hasHorizontalScrollbar);
     setShowVerticalScrollbar(hasVerticalScrollbar);
-  };
-
-  const renderScrollView = props => {
-    return (
-      <Box
-        {...props}
-        right={showVerticalScrollbar ? "8px" : 0}
-        bottom={showHorizontalScrollbar ? "8px" : 0}
-      />
-    );
-  };
-
-  const renderScrollTrack = props => {
-    const [colorMode] = useColorMode();
-    const bgColor = {
-      dark: 'gray:70',
-      light: 'gray:70',
-    }[colorMode];
-    return (
-      <Box
-        {...props}
-        bg={bgColor}
-      />
-    );
   };
 
   const {
@@ -137,27 +155,27 @@ function StickyTable() {
           }
           return (
             <TableHeaderRow style={{...style, width: headerWidth}} {...props}>
-              {headerGroup.headers.map(column => (
+              {headerGroup.headers.map((column, index) => (
                 <TableHeaderCell
                   key={column.accessor}
-                  css={showVerticalScrollbar && {
-                    '&:last-of-type': {
-                      borderRight: 0,
-                    },
+                  {...(showVerticalScrollbar && index === headerGroup.headers.length - 1) && {
+                    borderRight: 0,
                   }}
                   {...column.getHeaderProps()}
                 >
                   {column.render('Header')}
                 </TableHeaderCell>
               ))}
+              {showVerticalScrollbar && (
+                <TableHeaderCell width="8px" padding={0} borderLeft={0} />
+              )}
             </TableHeaderRow>
           );
         })}
       </TableHeader>
-      <Scrollbar
-        renderView={renderScrollView}
-        renderTrackHorizontal={renderScrollTrack}
-        renderTrackVertical={renderScrollTrack}
+      <CustomScrollbar
+        showVerticalScrollbar
+        showHorizontalScrollbar
         onScroll={onScroll}
         onUpdate={onUpdate}
       >
@@ -177,7 +195,7 @@ function StickyTable() {
             );
           })}
         </TableBody>
-      </Scrollbar>
+      </CustomScrollbar>
     </Table>
   );
 }
@@ -228,24 +246,20 @@ function ShadowScrollbar(props) {
   );
 }
 
+function Lorem({ count }) {
+  const items = [];
+  for(let i = 0; i < count; i++) {
+    items.push(<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>);
+  }
+  return items;
+}
+
 render(
   <ShadowScrollbar height={300}>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    <Lorem count={12} />
   </ShadowScrollbar>
 );
 ```
-
 
 ## Props
 
@@ -254,13 +268,12 @@ render(
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | autoHide | boolean | false | Enable auto-hide mode. |
-| autoHideDuration | number | 200 | Duration for hide animation in ms. |
-| autoHideTimeout | number | 1000 | Hide delay in ms. |
+| autoHideDelay | number | 1000 | Hide delay in ms. |
 | autoHeight | boolean | false | Enable auto-height mode. |
 | autoHeightMax | number | 200 | Set a maximum height for auto-height mode. |
 | autoHeightMin | number | 0 | Set a minimum height for auto-height mode. |
 | onScroll | function | | Event handler. |
-| onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. Runs inside the animation frame. |
+| onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. |
 | renderView | function | | The element your content will be rendered in. |
 | renderTrackHorizontal | function | | Horizontal track element. |
 | renderTrackVertical | function | | Vertical track element. |
