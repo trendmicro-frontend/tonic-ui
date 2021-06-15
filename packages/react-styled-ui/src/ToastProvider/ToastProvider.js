@@ -6,6 +6,10 @@ import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { isElement, isValidElementType } from 'react-is';
+import {
+  Transition,
+  TransitionGroup,
+} from 'react-transition-group';
 import { canUseDOM } from '../utils/dom';
 import { createUniqueId } from '../utils/uniqueid';
 import { ToastContext } from './context';
@@ -46,59 +50,6 @@ const ToastProvider = ({
   ));
 
   /**
-   * Close all toasts at once with the given placements, including the following:
-   * • top
-   * • top-left
-   * • top-right
-   * • bottom
-   * • bottom-left
-   * • bottom-right
-   */
-  const closeAll = (options) => {
-    const placements = options?.placements
-      ? ensureArray(options?.placements)
-      : Object.keys(state);
-
-    setState((prevState) => {
-      return placements.reduce((acc, placement) => {
-        acc[placement] = ensureArray(prevState[placement]).map((toast) => ({
-          ...toast,
-          requestClose: true,
-        }));
-
-        return acc;
-      }, {});
-    });
-  };
-
-  /**
-   * Request to close a toast based on its id and placement
-   */
-  const closeToast = (id) => {
-    setState((prevState) => {
-      const placement = getToastPlacementByState(state, id);
-
-      if (!placement) {
-        return prevState;
-      }
-
-      return {
-        ...prevState,
-        [placement]: prevState[placement].map((toast) => {
-          if (toast.id !== id) {
-            return toast;
-          }
-
-          return {
-            ...toast,
-            requestClose: true,
-          };
-        }),
-      };
-    });
-  };
-
-  /**
    * Create properties for a new toast
    */
   const createToast = (content, options) => {
@@ -126,53 +77,66 @@ const ToastProvider = ({
       duration: options?.duration,
 
       /**
-       * Callback function to run side effects after the toast has closed
+       * Function that closes the toast from manager's state
        */
-      onCloseComplete: options?.onCloseComplete,
-
-      /**
-       * Function that removes the toast from manager's state
-       */
-      onRequestRemove: () => removeToast(id, placement),
-
-      /**
-       * Internally used to queue closing a toast.
-       * Should probably not be used by anyone else, but documented regardless.
-       */
-      requestClose: false,
+      onClose: () => close(id, placement),
     };
   };
 
   /**
-   * Find the toast that matches the id and return its placement and index
+   * Close a toast record at its placement
    */
-  const findToast = (id) => {
-    const placement = getToastPlacementByState(state, id);
-    const index = placement
-      ? state[placement].findIndex((toast) => toast.id === id)
-      : -1;
+  const close = (id, placement) => {
+    placement = placement ?? getToastPlacementByState(state, id);
 
-    return {
-      placement,
-      index,
-    };
+    setState((prevState) => ({
+      ...prevState,
+      [placement]: ensureArray(prevState[placement]).filter((toast) => toast.id !== id),
+    }));
   };
 
   /**
-   * Check if toasts are appeared to the user
+   * Close all toasts at once with the given placements, including the following:
+   * • top
+   * • top-left
+   * • top-right
+   * • bottom
+   * • bottom-left
+   * • bottom-right
    */
-  const hasToasts = () => {
-    const toasts = Object.values(state)
-      .reduce((acc, val) => acc.concat(val), []);
-    return toasts.length > 0;
+  const closeAll = (options) => {
+    const placements = options?.placements
+      ? ensureArray(options?.placements)
+      : Object.keys(state);
+
+    setState((prevState) => {
+      const nextState = placements.reduce((acc, placement) => {
+        acc[placement] = [];
+        return acc;
+      }, {});
+
+      return {
+        ...prevState,
+        ...nextState,
+      };
+    });
   };
 
   /**
-   * Check if a specific toast is still visible
+   * Find the first toast in the array that matches the provided id. Otherwise, `undefined` is returned if not found.
+   * If no values satisfy the testing function, undefined is returned.
    */
-  const isToastVisible = (id) => {
+  const find = (id) => {
     const placement = getToastPlacementByState(state, id);
-    return Boolean(placement);
+    return ensureArray(state[placement]).find((toast) => toast.id === id);
+  };
+
+  /**
+   * Find the first toast in the array that matches the provided id. Otherwise, -1 is returned if not found.
+   */
+  const findIndex = (id) => {
+    const placement = getToastPlacementByState(state, id);
+    return ensureArray(state[placement]).findIndex((toast) => toast.id === id);
   };
 
   /**
@@ -211,22 +175,13 @@ const ToastProvider = ({
   };
 
   /**
-   * Delete a toast record at its placement
-   */
-  const removeToast = (id, placement) => {
-    setState((prevState) => ({
-      ...prevState,
-      [placement]: prevState[placement].filter((toast) => toast.id !== id),
-    }));
-  };
-
-  /**
    * Update a specific toast with new options based on the given id
    */
-  const updateToast = (id, options) => {
+  const update = (id, options) => {
     setState((prevState) => {
       const nextState = { ...prevState };
-      const { placement, index } = findToast(id);
+      const placement = find(id)?.placement;
+      const index = findIndex(id);
 
       if (placement && index !== -1) {
         nextState[placement][index] = {
@@ -243,14 +198,12 @@ const ToastProvider = ({
     defaultPlacement,
     state,
 
-    closeAll,
-    closeToast,
-    findToast,
-    hasToasts,
-    isToastVisible,
+    find,
+    findIndex,
     notify,
-    removeToast,
-    updateToast,
+    close,
+    closeAll,
+    update,
   });
 
   useEffect(() => {
@@ -281,27 +234,44 @@ const ToastProvider = ({
               hasToasts={toasts.length > 0}
               placement={placement}
             >
-              {toasts.map((toast) => (
-                <ToastController
-                  key={toast.id}
-                  placement={placement}
-                  onRequestRemove={toast.onRequestRemove}
-                  requestClose={toast.requestClose}
-                  duration={toast.duration}
-                >
-                  {(() => {
-                    if (isElement(toast.content)) {
-                      return toast.content;
-                    }
-                    if (isValidElementType(toast.content)) {
+              <TransitionGroup component={null}>
+                {toasts.map((toast) => (
+                  <Transition
+                    key={toast.id}
+                    appear
+                    mountOnEnter
+                    timeout={220} // TODO: transition timeout
+                    unmountOnExit
+                  >
+                    {transitionState => {
+                      // TODO: transition state
                       return (
-                        <toast.content id={toast.id} onClose={toast.onRequestRemove} placement={toast.placement} />
+                        <ToastController
+                          key={toast.id}
+                          duration={toast.duration}
+                          onClose={toast.onClose}
+                        >
+                          {(() => {
+                            if (isElement(toast.content)) {
+                              return toast.content;
+                            }
+                            if (isValidElementType(toast.content)) {
+                              return (
+                                <toast.content
+                                  id={toast.id}
+                                  onClose={toast.onClose}
+                                  placement={toast.placement}
+                                />
+                              );
+                            }
+                            return null;
+                          })()}
+                        </ToastController>
                       );
-                    }
-                    return null;
-                  })()}
-                </ToastController>
-              ))}
+                    }}
+                  </Transition>
+                ))}
+              </TransitionGroup>
             </ToastContainer>
           );
         })
