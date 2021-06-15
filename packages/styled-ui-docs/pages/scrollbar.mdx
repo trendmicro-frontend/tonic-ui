@@ -10,7 +10,7 @@ import {
 
 ## Usage
 
-### Basic scrollbar in the `Menu`
+### The scrollbar in the `Menu`
 
 ```jsx
 <Menu width="160px">
@@ -34,7 +34,7 @@ import {
 </Menu>
 ```
 
-### in the `Table`
+### The scrollbar in the `Table`
 
 ```jsx noInline
 function StickyTable() {
@@ -138,7 +138,15 @@ function StickyTable() {
           return (
             <TableHeaderRow style={{...style, width: headerWidth}} {...props}>
               {headerGroup.headers.map(column => (
-                <TableHeaderCell key={column.accessor} {...column.getHeaderProps()}>
+                <TableHeaderCell
+                  key={column.accessor}
+                  css={showVerticalScrollbar && {
+                    '&:last-of-type': {
+                      borderRight: 0,
+                    },
+                  }}
+                  {...column.getHeaderProps()}
+                >
                   {column.render('Header')}
                 </TableHeaderCell>
               ))}
@@ -237,3 +245,26 @@ render(
   </ShadowScrollbar>
 );
 ```
+
+
+## Props
+
+`Scrollbar` composes the [`PseudoBox`](./pseudoBox) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| autoHide | boolean | false | Enable auto-hide mode. |
+| autoHideDuration | number | 200 | Duration for hide animation in ms. |
+| autoHideTimeout | number | 1000 | Hide delay in ms. |
+| autoHeight | boolean | false | Enable auto-height mode. |
+| autoHeightMax | number | 200 | Set a maximum height for auto-height mode. |
+| autoHeightMin | number | 0 | Set a minimum height for auto-height mode. |
+| onScroll | function | | Event handler. |
+| onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. Runs inside the animation frame. |
+| renderView | function | | The element your content will be rendered in. |
+| renderTrackHorizontal | function | | Horizontal track element. |
+| renderTrackVertical | function | | Vertical track element. |
+| renderThumbHorizontal | function | | Horizontal thumb element. |
+| renderThumbVertical | function | | Vertical thumb element. |
+| thumbMinSize | number | 30 | Minimal thumb size. |
+| thumbSize | number | | Set a fixed size for thumbs. |
