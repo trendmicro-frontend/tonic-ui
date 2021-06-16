@@ -17,7 +17,8 @@ const Scrollbar = forwardRef((
   {
     onScroll,
     onUpdate,
-    alwaysShow = false,
+    horizontalVisibility = 'auto',
+    verticalVisibility = 'auto',
     autoHideDelay = 1000,
     thumbSize,
     thumbMinSize = 30,
@@ -35,8 +36,8 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
-  const autoHide = !alwaysShow;
-  let hideTracksTimeout;
+  let hideHorizontalTrackTimeout;
+  let hideVerticalTrackTimeout;
   let viewScrollLeft = 0;
   let viewScrollTop = 0;
   let lastViewScrollLeft = 0;
@@ -57,8 +58,8 @@ const Scrollbar = forwardRef((
 
   const containerStyle = useContainerStyle({ autoHeight, autoHeightMin, autoHeightMax, style });
   const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, autoHeightMin, autoHeightMax });
-  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, autoHide });
-  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, autoHide });
+  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalVisibility });
+  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalVisibility });
   const thumbHorizontalStyle = useThumbHorizontalStyle();
   const thumbVerticalStyle = useThumbVerticalStyle();
 
@@ -140,6 +141,30 @@ const Scrollbar = forwardRef((
     }
     return Math.max(height, thumbMinSize);
   };
+  const hideHorizontalTrack = () => {
+    if (horizontalVisibility === true) {
+      return;
+    }
+
+    clearTimeout(hideHorizontalTrackTimeout);
+    hideHorizontalTrackTimeout = setTimeout(() => {
+      if (trackHorizontalRef.current) {
+        trackHorizontalRef.current.style.opacity = 0;
+      }
+    }, autoHideDelay);
+  };
+  const hideVerticalTrack = () => {
+    if (verticalVisibility === true) {
+      return;
+    }
+
+    clearTimeout(hideVerticalTrackTimeout);
+    hideVerticalTrackTimeout = setTimeout(() => {
+      if (trackVerticalRef.current) {
+        trackVerticalRef.current.style.opacity = 0;
+      }
+    }, autoHideDelay);
+  };
   const hideTracks = () => {
     if (isDragging) {
       return;
@@ -153,24 +178,31 @@ const Scrollbar = forwardRef((
     if (isViewMouseOver) {
       return;
     }
-    clearTimeout(hideTracksTimeout);
-    hideTracksTimeout = setTimeout(() => {
-      if (trackHorizontalRef.current) {
-        trackHorizontalRef.current.style.opacity = 0;
-      }
-      if (trackVerticalRef.current) {
-        trackVerticalRef.current.style.opacity = 0;
-      }
-    }, autoHideDelay);
+    hideHorizontalTrack();
+    hideVerticalTrack();
   };
-  const showTracks = () => {
-    clearTimeout(hideTracksTimeout);
+  const showHorizontalTrack = () => {
+    if (horizontalVisibility === false) {
+      return;
+    }
+
+    clearTimeout(hideHorizontalTrackTimeout);
     if (trackHorizontalRef.current) {
       trackHorizontalRef.current.style.opacity = 1;
     }
+  };
+  const showVerticalTrack = () => {
+    if (verticalVisibility === false) {
+      return;
+    }
+    clearTimeout(hideVerticalTrackTimeout);
     if (trackVerticalRef.current) {
       trackVerticalRef.current.style.opacity = 1;
     }
+  };
+  const showTracks = () => {
+    showHorizontalTrack();
+    showVerticalTrack();
   };
   const getScrollLeftForOffset = (offset) => {
     const { scrollWidth, clientWidth } = viewRef.current;
@@ -186,23 +218,25 @@ const Scrollbar = forwardRef((
   };
 
   /* Start Scrolling Events */
-  const handleScrollStartAutoShow = () => {
-    if (!autoHide) {
-      return;
-    }
-    showTracks();
+  const handleHorizontalScrollStartAutoShow = () => {
+    showHorizontalTrack();
   };
-  const handleScrollStopAutoHide = () => {
-    if (!autoHide) {
-      return;
-    }
-    hideTracks();
-  };
-  const handleScrollStop = () => {
-    handleScrollStopAutoHide();
+  const handleVerticalScrollStartAutoShow = () => {
+    showVerticalTrack();
   };
   const handleScrollStart = () => {
-    handleScrollStartAutoShow();
+    handleHorizontalScrollStartAutoShow();
+    handleVerticalScrollStartAutoShow();
+  };
+  const horizontalScrollStopAutoHide = () => {
+    hideHorizontalTrack();
+  };
+  const verticalScrollStopAutoHide = () => {
+    hideVerticalTrack();
+  };
+  const handleScrollStop = () => {
+    horizontalScrollStopAutoHide();
+    verticalScrollStopAutoHide();
   };
   const detectScrolling = () => {
     if (isScrolling) {
@@ -254,9 +288,6 @@ const Scrollbar = forwardRef((
     return false;
   };
   const handleDragEndAutoHide = () => {
-    if (!autoHide) {
-      return;
-    }
     hideTracks();
   };
   const setupDragging = () => {
@@ -288,15 +319,9 @@ const Scrollbar = forwardRef((
 
   /* Start Mouse Events */
   const handleTrackMouseEnterAutoShow = () => {
-    if (!autoHide) {
-      return;
-    }
     showTracks();
   };
   const handleTrackMouseLeaveAutoHide = () => {
-    if (!autoHide) {
-      return;
-    }
     hideTracks();
   };
   const handleViewMouseEnter = () => {
