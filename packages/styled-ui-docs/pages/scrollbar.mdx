@@ -16,7 +16,7 @@ import {
 <Menu width="160px">
   <MenuButton width="100%">Select an option</MenuButton>
   <MenuList width="100%" height={200}>
-    <Scrollbar autoHide>
+    <Scrollbar>
       <MenuItem>List item 1</MenuItem>
       <MenuItem>List item 2</MenuItem>
       <MenuItem>List item 3</MenuItem>
@@ -69,6 +69,7 @@ function CustomScrollbar({
 
   return (
     <Scrollbar
+      alwaysShow
       renderView={renderScrollView}
       renderTrackHorizontal={renderScrollTrack}
       renderTrackVertical={renderScrollTrack}
@@ -259,10 +260,10 @@ render(
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| autoHide | boolean | false | Enable auto-hide mode. |
+| alwaysShow | boolean | false | Enable always-show mode. |
 | autoHideDelay | number | 1000 | Hide delay in ms. |
 | autoHeight | boolean | false | Enable auto-height mode. |
-| autoHeightMax | number | 200 | Set a maximum height for auto-height mode. |
+| autoHeightMax | number | 200 | Set a maximum height for auto-height mode. default is `200px`. |
 | autoHeightMin | number | 0 | Set a minimum height for auto-height mode. |
 | onScroll | function | | Event handler. |
 | onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. |
@@ -271,5 +272,5 @@ render(
 | renderTrackVertical | function | | Vertical track element. |
 | renderThumbHorizontal | function | | Horizontal thumb element. |
 | renderThumbVertical | function | | Vertical thumb element. |
-| thumbMinSize | number | 30 | Minimal thumb size. |
+| thumbMinSize | number | 30 | Minimal thumb size. default is `30px`. |
 | thumbSize | number | | Set a fixed size for thumbs. |

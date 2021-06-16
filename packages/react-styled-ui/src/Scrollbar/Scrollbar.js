@@ -17,7 +17,7 @@ const Scrollbar = forwardRef((
   {
     onScroll,
     onUpdate,
-    autoHide = false,
+    alwaysShow = false,
     autoHideDelay = 1000,
     thumbSize,
     thumbMinSize = 30,
@@ -35,6 +35,7 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
+  const autoHide = !alwaysShow;
   let hideTracksTimeout;
   let viewScrollLeft = 0;
   let viewScrollTop = 0;
