@@ -307,7 +307,6 @@ const sizeProps = ({ size, isCloseButtonVisible, theme: { sizes } }) => {
 
 const baseProps = {
   alignItems: 'center',
-  verticalAlign: 'top',
   border: 1,
   borderColor: 'transparent',
   cursor: 'default',

@@ -1,53 +1,21 @@
 import isPropValid from '@emotion/is-prop-valid';
 import styled from '@emotion/styled';
-import {
-  background,
-  border,
-  color,
-  flexbox,
-  grid,
-  position,
-  shadow,
-  space,
-  typography,
-  compose,
-  system,
-} from 'styled-system';
-import config from '../shared/styled-system/config';
-import layout from '../shared/styled-system/layout';
-
-const styledSystemProps = compose(
-  background,
-  border,
-  color,
-  flexbox,
-  grid,
-  layout,
-  position,
-  shadow,
-  space,
-  typography,
-  system(config),
-);
+import { combinedStyleProps, stylePropMap } from '../shared/styled-system';
 
 const shouldForwardProp = (() => {
-  const omittedPropNames = [
-    ...styledSystemProps.propNames,
+  const omittedStylePropMap = {
+    ...stylePropMap,
 
     // The `as` prop is supported by Emotion
-    'as',
-  ];
-  const omittedPropMap = omittedPropNames
-    .reduce((acc, val) => {
-      acc[val] = true;
-      return acc;
-    }, {});
-  return prop => isPropValid(prop) && !omittedPropMap[prop];
+    'as': true,
+  };
+
+  return prop => isPropValid(prop) && !omittedStylePropMap[prop];
 })();
 
 const Box = styled('div', {
   shouldForwardProp,
-})(styledSystemProps);
+})(combinedStyleProps);
 
 Box.displayName = 'Box';
 

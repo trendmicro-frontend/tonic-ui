@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 import React, { useEffect, useRef, useState } from 'react';
 import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
