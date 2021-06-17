@@ -69,8 +69,7 @@ function CustomScrollbar({
 
   return (
     <Scrollbar
-      horizontalVisibility={true}
-      verticalVisibility={true}
+      scrollbarVisibility="visible"
       renderView={renderScrollView}
       renderHorizontalTrack={renderScrollTrack}
       renderVerticalTrack={renderScrollTrack}
@@ -261,11 +260,10 @@ render(
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| horizontalVisibility | string \| boolean | 'auto' | Acceptable values: `'auto'`, `true`, `false`. If `'auto'`, the horizontal scrollbar will auto show/hide. If `true`, the horizontal scrollbar always to show.  If `false`, the horizontal scrollbar always to hide. |
-| verticalVisibility | string \| boolean | 'auto' | Acceptable values: `'auto'`, `true`, `false`. If `'auto'`, the vertical scrollbar will auto show/hide. If `true`, the vertical scrollbar always to show.  If `false`, the vertical scrollbar always to hide. |
 | autoHideDelay | number | 1000 | Hide delay in ms. |
-| minHeight | number \| string | 'auto' | Set a maximum height (in pixels) for auto-height mode. |
 | maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not `'auto'`, activate auto height mode. |
+| minHeight | number \| string | 'auto' | Set a maximum height (in pixels) for auto-height mode. |
+| minThumbSize | number | 30 | Minimal thumb size in pixels. |
 | onScroll | function | | Event handler. |
 | onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. |
 | renderView | function | | The element your content will be rendered in. |
@@ -273,5 +271,5 @@ render(
 | renderHorizontalTrack | function | | Horizontal track element. |
 | renderVerticalThumb | function | | Vertical thumb element. |
 | renderVerticalTrack | function | | Vertical track element. |
-| minThumbSize | number | 30 | Minimal thumb size in pixels. |
+| scrollbarVisibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, the scrollbar will auto show/hide. If `'visible'`, the scrollbar always to show.  If `'hidden'`, the scrollbar always to hide. |
 | thumbSize | number | | Set a fixed size (in pixels) for thumbs. |

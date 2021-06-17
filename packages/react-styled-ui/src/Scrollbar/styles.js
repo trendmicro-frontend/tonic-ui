@@ -47,10 +47,10 @@ const useTrackAutoHideStyle = props => ({
 });
 
 const useTrackHorizontalStyle = props => {
-  const { horizontalVisibility, scrollbarWidth } = props;
+  const { horizontalScrollbarVisibility, scrollbarWidth } = props;
   const trackAutoHideStyle = useTrackAutoHideStyle();
-  const autoHide = horizontalVisibility === 'auto';
-  const alwaysHide = !scrollbarWidth || horizontalVisibility === false;
+  const autoHide = horizontalScrollbarVisibility === 'auto';
+  const alwaysHide = !scrollbarWidth || horizontalScrollbarVisibility === 'hidden';
   return {
     position: 'absolute',
     height: styledScrollbarWidth,
@@ -63,10 +63,10 @@ const useTrackHorizontalStyle = props => {
 };
 
 const useTrackVerticalStyle = props => {
-  const { verticalVisibility, scrollbarWidth } = props;
+  const { verticalScrollbarVisibility, scrollbarWidth } = props;
   const trackAutoHideStyle = useTrackAutoHideStyle();
-  const autoHide = verticalVisibility === 'auto';
-  const alwaysHide = !scrollbarWidth || verticalVisibility === false;
+  const autoHide = verticalScrollbarVisibility === 'auto';
+  const alwaysHide = !scrollbarWidth || verticalScrollbarVisibility === 'hidden';
   return {
     position: 'absolute',
     width: styledScrollbarWidth,

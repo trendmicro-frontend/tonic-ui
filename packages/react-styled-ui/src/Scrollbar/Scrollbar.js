@@ -17,8 +17,7 @@ const Scrollbar = forwardRef((
   {
     onScroll,
     onUpdate,
-    horizontalVisibility = 'auto',
-    verticalVisibility = 'auto',
+    scrollbarVisibility = 'auto',
     autoHideDelay = 1000,
     thumbSize,
     minThumbSize = 30,
@@ -36,6 +35,8 @@ const Scrollbar = forwardRef((
   ref,
 ) => {
   const autoHeight = (maxHeight !== 'auto');
+  const horizontalScrollbarVisibility = scrollbarVisibility;
+  const verticalScrollbarVisibility = scrollbarVisibility;
   let hideHorizontalTrackTimeout;
   let hideVerticalTrackTimeout;
   let viewScrollLeft = 0;
@@ -58,8 +59,8 @@ const Scrollbar = forwardRef((
 
   const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight, style });
   const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight });
-  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalVisibility });
-  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalVisibility });
+  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalScrollbarVisibility });
+  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalScrollbarVisibility });
   const thumbHorizontalStyle = useThumbHorizontalStyle();
   const thumbVerticalStyle = useThumbVerticalStyle();
 
@@ -142,7 +143,7 @@ const Scrollbar = forwardRef((
     return Math.max(height, minThumbSize);
   };
   const hideHorizontalTrack = () => {
-    if (horizontalVisibility === true) {
+    if (horizontalScrollbarVisibility === 'visible') {
       return;
     }
 
@@ -154,7 +155,7 @@ const Scrollbar = forwardRef((
     }, autoHideDelay);
   };
   const hideVerticalTrack = () => {
-    if (verticalVisibility === true) {
+    if (verticalScrollbarVisibility === 'visible') {
       return;
     }
 
@@ -182,7 +183,7 @@ const Scrollbar = forwardRef((
     hideVerticalTrack();
   };
   const showHorizontalTrack = () => {
-    if (horizontalVisibility === false) {
+    if (horizontalScrollbarVisibility === 'hidden') {
       return;
     }
 
@@ -192,7 +193,7 @@ const Scrollbar = forwardRef((
     }
   };
   const showVerticalTrack = () => {
-    if (verticalVisibility === false) {
+    if (verticalScrollbarVisibility === 'hidden') {
       return;
     }
     clearTimeout(hideVerticalTrackTimeout);
