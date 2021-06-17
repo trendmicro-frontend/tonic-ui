@@ -15,28 +15,29 @@ let scrollbarWidth = false;
 
 const Scrollbar = forwardRef((
   {
+    autoHideDelay = 1000,
+    children,
+    disabled,
+    maxHeight = 'auto',
+    minHeight = 'auto',
+    minThumbSize = 30,
     onScroll,
     onUpdate,
-    scrollbarVisibility = 'auto',
-    autoHideDelay = 1000,
-    thumbSize,
-    minThumbSize = 30,
-    minHeight = 'auto',
-    maxHeight = 'auto',
     renderView = renderViewDefault,
     renderHorizontalTrack = renderTrackHorizontalDefault,
     renderHorizontalThumb = renderThumbHorizontalDefault,
     renderVerticalTrack = renderTrackVerticalDefault,
     renderVerticalThumb = renderThumbVerticalDefault,
+    scrollbarVisibility = 'auto',
     style,
-    children,
+    thumbSize,
     ...reset
   },
   ref,
 ) => {
   const autoHeight = (maxHeight !== 'auto');
-  const horizontalScrollbarVisibility = scrollbarVisibility;
-  const verticalScrollbarVisibility = scrollbarVisibility;
+  const horizontalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
+  const verticalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
   let hideHorizontalTrackTimeout;
   let hideVerticalTrackTimeout;
   let viewScrollLeft = 0;
@@ -58,7 +59,7 @@ const Scrollbar = forwardRef((
   const thumbVerticalRef = useRef(null);
 
   const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight, style });
-  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight });
+  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled });
   const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalScrollbarVisibility });
   const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalScrollbarVisibility });
   const thumbHorizontalStyle = useThumbHorizontalStyle();
@@ -86,7 +87,7 @@ const Scrollbar = forwardRef((
   };
   const update = (callback) => {
     const scrollbarWidth = getScrollbarWidth();
-    if (!scrollbarWidth) {
+    if (!scrollbarWidth || disabled) {
       return;
     }
     const values = getValues();

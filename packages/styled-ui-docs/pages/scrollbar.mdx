@@ -107,8 +107,8 @@ function StickyTable() {
 
   const tableHeaderRef = React.createRef();
 
-  const [showHorizontalScrollbar, setShowHorizontalScrollbar] = React.useState(0);
-  const [showVerticalScrollbar, setShowVerticalScrollbar] = React.useState(0);
+  const [showHorizontalScrollbar, setShowHorizontalScrollbar] = React.useState(false);
+  const [showVerticalScrollbar, setShowVerticalScrollbar] = React.useState(false);
 
   const onScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
@@ -118,9 +118,6 @@ function StickyTable() {
   };
 
   const onUpdate = ({ hasHorizontalScrollbar, hasVerticalScrollbar, ...props }) => {
-    if (showHorizontalScrollbar !== 0 && showHorizontalScrollbar !== 0) {
-      return;
-    }
     setShowHorizontalScrollbar(hasHorizontalScrollbar);
     setShowVerticalScrollbar(hasVerticalScrollbar);
   };
@@ -261,6 +258,7 @@ render(
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | autoHideDelay | number | 1000 | Hide delay in ms. |
+| disabled | boolean | | If `true`, the overflow is clipped, and the rest of the content is hidden. |
 | maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not `'auto'`, activate auto height mode. |
 | minHeight | number \| string | 'auto' | Set a maximum height (in pixels) for auto-height mode. |
 | minThumbSize | number | 30 | Minimal thumb size in pixels. |

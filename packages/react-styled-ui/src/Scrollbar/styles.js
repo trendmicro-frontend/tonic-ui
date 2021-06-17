@@ -15,15 +15,14 @@ const useContainerStyle = props => ({
   ...props.style,
 });
 
-const useViewStyle = props => {
-  const { scrollbarWidth, autoHeight, minHeight, maxHeight } = props;
+const useViewStyle = ({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled }) => {
   return {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    overflow: 'scroll',
+    overflow: disabled ? 'hidden' : 'scroll',
     WebkitOverflowScrolling: 'touch',
     // Hide scrollbars by setting a negative margin
     marginRight: scrollbarWidth ? -scrollbarWidth : 0,
