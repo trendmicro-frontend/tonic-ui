@@ -15,6 +15,13 @@ import { createUniqueId } from '../utils/uniqueid';
 import { ToastContext } from './context';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
+import {
+  createTransitionStyle,
+  getEnterTransitionProps,
+  getExitTransitionProps,
+  transitionDuration,
+  transitionEasing,
+} from './transitions';
 
 const uniqueId = createUniqueId();
 
@@ -34,6 +41,40 @@ const getToastPlacementByState = (state, id) => {
     .reduce((acc, val) => acc.concat(val), [])
     .find((toast) => toast.id === id);
   return toast?.placement;
+};
+
+const mapStateToVariantStyle = (state, props) => {
+  const variantStyle = {
+    entering: {
+      opacity: 1,
+      transform: 'scale(1)',
+    },
+    entered: {
+      opacity: 1,
+      transform: 'scale(1)',
+    },
+    exiting: {
+      opacity: 0,
+      transform: 'scale(0.85)',
+      overflow: 'hidden',
+    },
+    exited: {
+      opacity: 0,
+      transform: 'scale(0.85)',
+    },
+  }[state];
+
+  return (typeof variantStyle === 'function') ? variantStyle(props) : variantStyle;
+};
+
+const easing = {
+  enter: transitionEasing.easeInOut,
+  exit: transitionEasing.easeInOut,
+};
+
+const timeout = {
+  enter: transitionDuration.enteringScreen,
+  exit: transitionDuration.leavingScreen,
 };
 
 const ToastProvider = ({
@@ -237,19 +278,32 @@ const ToastProvider = ({
               <TransitionGroup component={null}>
                 {toasts.map((toast) => (
                   <Transition
-                    key={toast.id}
                     appear
+                    key={toast.id}
                     mountOnEnter
-                    timeout={220} // TODO: transition timeout
+                    timeout={timeout}
                     unmountOnExit
                   >
-                    {transitionState => {
-                      // TODO: transition state
+                    {(transitionState, childProps) => {
+                      const transitionProps = (transitionState === 'entering' || transitionState === 'entered')
+                        ? getEnterTransitionProps({ timeout, easing })
+                        : getExitTransitionProps({ timeout, easing });
+                      const transition = createTransitionStyle(['opacity', 'transform'], transitionProps);
+                      const variantStyle = mapStateToVariantStyle(transitionState, { placement });
+                      const styleProps = {
+                        ...variantStyle,
+                        transition,
+                        visibility: (transitionState === 'exited') ? 'hidden' : undefined,
+                      };
+
                       return (
                         <ToastController
                           key={toast.id}
                           duration={toast.duration}
                           onClose={toast.onClose}
+                          transitionState={transitionState}
+                          {...childProps}
+                          {...styleProps}
                         >
                           {(() => {
                             if (isElement(toast.content)) {
