@@ -22,9 +22,8 @@ const Scrollbar = forwardRef((
     autoHideDelay = 1000,
     thumbSize,
     minThumbSize = 30,
-    autoHeight = false,
-    autoHeightMin = 0,
-    autoHeightMax = 200,
+    minHeight = 'auto',
+    maxHeight = 'auto',
     renderView = renderViewDefault,
     renderHorizontalTrack = renderTrackHorizontalDefault,
     renderHorizontalThumb = renderThumbHorizontalDefault,
@@ -36,6 +35,7 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
+  const autoHeight = (maxHeight !== 'auto');
   let hideHorizontalTrackTimeout;
   let hideVerticalTrackTimeout;
   let viewScrollLeft = 0;
@@ -56,8 +56,8 @@ const Scrollbar = forwardRef((
   const thumbHorizontalRef = useRef(null);
   const thumbVerticalRef = useRef(null);
 
-  const containerStyle = useContainerStyle({ autoHeight, autoHeightMin, autoHeightMax, style });
-  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, autoHeightMin, autoHeightMax });
+  const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight, style });
+  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight });
   const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalVisibility });
   const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalVisibility });
   const thumbHorizontalStyle = useThumbHorizontalStyle();

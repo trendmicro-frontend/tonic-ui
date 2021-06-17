@@ -9,14 +9,14 @@ const useContainerStyle = props => ({
   height: '100%',
   ...(props.autoHeight && {
     height: 'auto',
-    minHeight: props.autoHeightMin,
-    maxHeight: props.autoHeightMax
+    minHeight: props.minHeight,
+    maxHeight: props.maxHeight
   }),
   ...props.style,
 });
 
 const useViewStyle = props => {
-  const { scrollbarWidth, autoHeight, autoHeightMin, autoHeightMax } = props;
+  const { scrollbarWidth, autoHeight, minHeight, maxHeight } = props;
   return {
     position: 'absolute',
     top: 0,
@@ -35,8 +35,8 @@ const useViewStyle = props => {
       right: undefined,
       bottom: undefined,
       // Add scrollbarWidth to autoHeight in order to compensate negative margins
-      minHeight: typeof autoHeightMin === 'string' ? `calc(${autoHeightMin} + ${scrollbarWidth}px)` : autoHeightMin + scrollbarWidth,
-      maxHeight: typeof autoHeightMax === 'string' ? `calc(${autoHeightMax} + ${scrollbarWidth}px)` : autoHeightMax + scrollbarWidth
+      minHeight: typeof minHeight === 'string' ? `calc(${minHeight} + ${scrollbarWidth}px)` : minHeight + scrollbarWidth,
+      maxHeight: typeof maxHeight === 'string' ? `calc(${maxHeight} + ${scrollbarWidth}px)` : maxHeight + scrollbarWidth
     }),
   };
 };
