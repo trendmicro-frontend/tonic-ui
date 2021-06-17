@@ -72,8 +72,8 @@ function CustomScrollbar({
       horizontalVisibility={true}
       verticalVisibility={true}
       renderView={renderScrollView}
-      renderTrackHorizontal={renderScrollTrack}
-      renderTrackVertical={renderScrollTrack}
+      renderHorizontalTrack={renderScrollTrack}
+      renderVerticalTrack={renderScrollTrack}
       {...props}
     >
       {children}
@@ -270,9 +270,9 @@ render(
 | onScroll | function | | Event handler. |
 | onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. |
 | renderView | function | | The element your content will be rendered in. |
-| renderTrackHorizontal | function | | Horizontal track element. |
-| renderTrackVertical | function | | Vertical track element. |
-| renderThumbHorizontal | function | | Horizontal thumb element. |
-| renderThumbVertical | function | | Vertical thumb element. |
-| thumbMinSize | number | 30 | Minimal thumb size in pixels. |
+| renderHorizontalThumb | function | | Horizontal thumb element. |
+| renderHorizontalTrack | function | | Horizontal track element. |
+| renderVerticalThumb | function | | Vertical thumb element. |
+| renderVerticalTrack | function | | Vertical track element. |
+| minThumbSize | number | 30 | Minimal thumb size in pixels. |
 | thumbSize | number | | Set a fixed size (in pixels) for thumbs. |

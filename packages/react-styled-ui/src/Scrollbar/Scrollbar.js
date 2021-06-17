@@ -21,15 +21,15 @@ const Scrollbar = forwardRef((
     verticalVisibility = 'auto',
     autoHideDelay = 1000,
     thumbSize,
-    thumbMinSize = 30,
+    minThumbSize = 30,
     autoHeight = false,
     autoHeightMin = 0,
     autoHeightMax = 200,
     renderView = renderViewDefault,
-    renderTrackHorizontal = renderTrackHorizontalDefault,
-    renderTrackVertical = renderTrackVerticalDefault,
-    renderThumbHorizontal = renderThumbHorizontalDefault,
-    renderThumbVertical = renderThumbVerticalDefault,
+    renderHorizontalTrack = renderTrackHorizontalDefault,
+    renderHorizontalThumb = renderThumbHorizontalDefault,
+    renderVerticalTrack = renderTrackVerticalDefault,
+    renderVerticalThumb = renderThumbVerticalDefault,
     style,
     children,
     ...reset
@@ -127,7 +127,7 @@ const Scrollbar = forwardRef((
     if (thumbSize) {
       return thumbSize;
     }
-    return Math.max(width, thumbMinSize);
+    return Math.max(width, minThumbSize);
   };
   const getThumbVerticalHeight = () => {
     const { scrollHeight, clientHeight } = viewRef.current;
@@ -139,7 +139,7 @@ const Scrollbar = forwardRef((
     if (thumbSize) {
       return thumbSize;
     }
-    return Math.max(height, thumbMinSize);
+    return Math.max(height, minThumbSize);
   };
   const hideHorizontalTrack = () => {
     if (horizontalVisibility === true) {
@@ -403,10 +403,10 @@ const Scrollbar = forwardRef((
         })
       }
       {
-        renderTrackHorizontal({
+        renderHorizontalTrack({
           ref: trackHorizontalRef,
           children: (
-            renderThumbHorizontal({
+            renderHorizontalThumb({
               ref: thumbHorizontalRef,
               onMouseDown: handleHorizontalThumbMouseDown,
               ...thumbHorizontalStyle
@@ -419,10 +419,10 @@ const Scrollbar = forwardRef((
         })
       }
       {
-        renderTrackVertical({
+        renderVerticalTrack({
           ref: trackVerticalRef,
           children: (
-            renderThumbVertical({
+            renderVerticalThumb({
               ref: thumbVerticalRef,
               onMouseDown: handleVerticalThumbMouseDown,
               ...thumbVerticalStyle
