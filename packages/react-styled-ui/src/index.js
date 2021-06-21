@@ -32,6 +32,7 @@ import Pagination from './Pagination';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
+import Scrollbar from './Scrollbar';
 import SearchInput from './SearchInput';
 import Skeleton from './Skeleton';
 import Space from './Space';
@@ -92,6 +93,7 @@ export {
   PseudoBox,
   Radio,
   RadioGroup,
+  Scrollbar,
   SearchInput,
   Skeleton,
   Space,
