@@ -1,0 +1,273 @@
+# Scrollbar
+
+## Import
+
+```js
+import {
+  Scrollbar
+} from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+### The scrollbar in the `Menu`
+
+```jsx
+<Menu width="160px">
+  <MenuButton width="100%">Select an option</MenuButton>
+  <MenuList width="100%" height={200}>
+    <Scrollbar>
+      <MenuItem>List item 1</MenuItem>
+      <MenuItem>List item 2</MenuItem>
+      <MenuItem>List item 3</MenuItem>
+      <MenuItem>List item 4</MenuItem>
+      <MenuItem>List item 5</MenuItem>
+      <MenuItem>List item 6</MenuItem>
+      <MenuItem>List item 7</MenuItem>
+      <MenuItem>List item 8</MenuItem>
+      <MenuItem>List item 9</MenuItem>
+      <MenuItem>List item 10</MenuItem>
+      <MenuItem>List item 11</MenuItem>
+      <MenuItem>List item 12</MenuItem>
+    </Scrollbar>
+  </MenuList>
+</Menu>
+```
+
+### The scrollbar in the `Table`
+
+```jsx noInline
+function CustomScrollbar({
+  showVerticalScrollbar,
+  showHorizontalScrollbar,
+  children,
+  ...props
+}) {
+  const renderScrollView = props => {
+    return (
+      <Box
+        {...props}
+        right={showVerticalScrollbar ? "8px" : 0}
+        bottom={showHorizontalScrollbar ? "8px" : 0}
+      />
+    );
+  };
+
+  const renderScrollTrack = props => {
+    const [colorMode] = useColorMode();
+    const bgColor = {
+      dark: 'gray:70',
+      light: 'gray:70',
+    }[colorMode];
+    return (
+      <Box
+        {...props}
+        bg={bgColor}
+      />
+    );
+  };
+
+  return (
+    <Scrollbar
+      scrollbarVisibility="visible"
+      renderView={renderScrollView}
+      renderHorizontalTrack={renderScrollTrack}
+      renderVerticalTrack={renderScrollTrack}
+      {...props}
+    >
+      {children}
+    </Scrollbar>
+  );
+}
+
+function StickyTable() {
+  const columns = React.useMemo(() => [
+    {
+      Header: 'Event Type',
+      accessor: 'eventType',
+    },
+    {
+      Header: 'Affected Devices',
+      accessor: 'affectedDevices',
+    },
+    {
+      Header: 'Detections',
+      accessor: 'detections',
+    },
+  ], []);
+
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
+
+  const tableHeaderRef = React.createRef();
+
+  const [showHorizontalScrollbar, setShowHorizontalScrollbar] = React.useState(false);
+  const [showVerticalScrollbar, setShowVerticalScrollbar] = React.useState(false);
+
+  const onScroll = (e) => {
+    const scrollLeft = e.target.scrollLeft;
+    if (tableHeaderRef.current && tableHeaderRef.current.scrollLeft !== scrollLeft) {
+      tableHeaderRef.current.scrollLeft = scrollLeft;
+    }
+  };
+
+  const onUpdate = ({ hasHorizontalScrollbar, hasVerticalScrollbar, ...props }) => {
+    setShowHorizontalScrollbar(hasHorizontalScrollbar);
+    setShowVerticalScrollbar(hasVerticalScrollbar);
+  };
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout,
+  );
+  
+  return (
+    <Table
+      isHoverable
+      variant="outline"
+      width={400}
+      height={200}
+      {...getTableProps()}
+    >
+      <TableHeader ref={tableHeaderRef}>
+        {headerGroups.map(headerGroup => {
+          const { style, ...props } = headerGroup.getHeaderGroupProps();
+          let headerWidth = style.width;
+          if (showVerticalScrollbar) {
+            headerWidth = `calc(${style.width} + 8px)`; // 8px is scrollbar width
+          }
+          return (
+            <TableHeaderRow style={{...style, width: headerWidth}} {...props}>
+              {headerGroup.headers.map((column, index) => (
+                <TableHeaderCell
+                  key={column.accessor}
+                  {...(showVerticalScrollbar && index === headerGroup.headers.length - 1) && {
+                    borderRight: 0,
+                  }}
+                  {...column.getHeaderProps()}
+                >
+                  {column.render('Header')}
+                </TableHeaderCell>
+              ))}
+              {showVerticalScrollbar && (
+                <TableHeaderCell width="8px" padding={0} borderLeft={0} />
+              )}
+            </TableHeaderRow>
+          );
+        })}
+      </TableHeader>
+      <CustomScrollbar
+        showVerticalScrollbar
+        showHorizontalScrollbar
+        onScroll={onScroll}
+        onUpdate={onUpdate}
+      >
+        <TableBody {...getTableBodyProps()}>
+          {rows.map((row, index) => {
+            prepareRow(row);
+            return (
+              <TableRow key={index} {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <TableCell key={cell.id} {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </CustomScrollbar>
+    </Table>
+  );
+}
+
+render(<StickyTable />);
+```
+
+### ShadowScrollbar
+
+```jsx noInline
+function ShadowScrollbar(props) {
+  const shadowTopRef = React.useRef(null);
+  const shadowBottomRef = React.useRef(null);
+
+  const handleUpdate = ({ values }) => {
+    const { scrollTop, scrollHeight, clientHeight } = values;
+    const shadowTopOpacity = 1 / 20 * Math.min(scrollTop, 20);
+    const bottomScrollTop = scrollHeight - clientHeight;
+    const shadowBottomOpacity = 1 / 20 * (bottomScrollTop - Math.max(scrollTop, bottomScrollTop - 20));
+    shadowTopRef.current.style.opacity = shadowTopOpacity;
+    shadowBottomRef.current.style.opacity = shadowBottomOpacity;
+  };
+  return (
+    <Box position="relative">
+      <Scrollbar
+        onUpdate={handleUpdate}
+        {...props}
+      />
+      <Box
+        ref={shadowTopRef}
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        height="24px"
+        background="linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%)"
+      />
+      <Box
+        ref={shadowBottomRef}
+        position="absolute"
+        bottom="0"
+        left="0"
+        right="0"
+        height="24px"
+        background="linear-gradient(to top, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%)"
+      />
+    </Box>
+  );
+}
+
+render(
+  <ShadowScrollbar height={300}>
+    <Lorem count={12} />
+  </ShadowScrollbar>
+);
+```
+
+## Props
+
+`Scrollbar` composes the [`PseudoBox`](./pseudoBox) component. You can override the default styles with style props.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| autoHideDelay | number | 1000 | Hide delay in ms. |
+| disabled | boolean | | If `true`, the overflow is clipped, and the rest of the content is hidden. |
+| maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not `'auto'`, activate auto height mode. |
+| minHeight | number \| string | 'auto' | Set a maximum height (in pixels) for auto-height mode. |
+| minThumbSize | number | 30 | Minimal thumb size in pixels. |
+| onScroll | function | | Event handler. |
+| onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. |
+| renderView | function | | The element your content will be rendered in. |
+| renderHorizontalThumb | function | | Horizontal thumb element. |
+| renderHorizontalTrack | function | | Horizontal track element. |
+| renderVerticalThumb | function | | Vertical thumb element. |
+| renderVerticalTrack | function | | Vertical track element. |
+| scrollbarVisibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, the scrollbar will auto show/hide. If `'visible'`, the scrollbar always to show.  If `'hidden'`, the scrollbar always to hide. |
+| thumbSize | number | | Set a fixed size (in pixels) for thumbs. |
