@@ -1366,7 +1366,7 @@ function BaseTable() {
                               {...column.getHeaderProps()}
                               {...snapshot.isDragging && getDraggingProps()}
                               style={
-                                ...provided.draggableProps.style
+                                {...provided.draggableProps.style}
                               }
                             >
                               {column.render("Header")}
