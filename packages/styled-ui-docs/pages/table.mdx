@@ -306,7 +306,7 @@ function SelectableTable() {
               <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
             </Flex>
           ),
-          width: 41,
+          width: 48,
         },
         ...columns,
       ]);
@@ -328,8 +328,12 @@ function SelectableTable() {
         <TableBody {...getTableBodyProps()}>
           {rows.slice(0, 10).map((row, i) => {
             prepareRow(row);
+            const isChecked = Object.keys(selectedRowIds).indexOf(row.id) >= 0;
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                {...isChecked && { bg: 'rgba(255, 255, 255, 0.08)' }}
+              >
                 {row.cells.map(cell => {
                   return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
                 })}
@@ -411,7 +415,12 @@ function SortableTable() {
         {headerGroups.map(headerGroup => (
           <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <TableHeaderCell {...column.getHeaderProps(column.getSortByToggleProps())}>
+              <TableHeaderCell
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 <Box
                   display="inline-block"
                   overflow="hidden"
@@ -422,12 +431,14 @@ function SortableTable() {
                   {column.render('Header')}
                 </Box>
                 {column.isSorted && (
-                  <Box as="span">
+                  <>
                     <Space minWidth="1x" />
-                    {
-                      column.isSortedDesc ? <Icon icon="sort-down" size={20} /> : <Icon icon="sort-up" size={20} />
-                    }
-                  </Box>
+                    <Box as="span" verticalAlign="top">
+                      {
+                        column.isSortedDesc ? <Icon icon="sort-down" size={20} /> : <Icon icon="sort-up" size={20} />
+                      }
+                    </Box>
+                  </>
                 )}
               </TableHeaderCell>
             ))}
@@ -549,6 +560,7 @@ function ResizableTable() {
                 {headerGroup.headers.map((column, index) => {
                   const cellId = column.id;
                   const isLastChild = (index === headerGroup.headers.length - 1);
+                  const isResizing = column.isResizing;
                   return (
                     <TableHeaderCell {...column.getHeaderProps()}>
                       {column.render('Header')}
@@ -556,17 +568,23 @@ function ResizableTable() {
                         <Box
                           {...column.getResizerProps()} // Use column.getResizerProps to hook up the events correctly
                           display="inline-block"
-                          width="5px"
+                          width="8px"
                           height="calc(100% + 2px)" // 2px is border-bottom width of the table header
                           position="absolute"
-                          right="-1px"
+                          right="-8px"
                           top="0"
                           zIndex={1}
-                          {...column.isResizing && resizingStyle}
-                          {...(hoveredResizerId === cellId) && hoveringStyle}
                           onMouseEnter={handleEnterResizer(cellId)}
                           onMouseLeave={handleLeaveResizer}
-                        />
+                        >
+                          <Box
+                            width="4px"
+                            height="100%"
+                            marginLeft="-3px"
+                            {...(!isResizing && hoveredResizerId === cellId) && hoveringStyle}
+                            {...isResizing && resizingStyle}
+                          />
+                        </Box>
                       )}
                     </TableHeaderCell>
                   );
@@ -582,9 +600,9 @@ function ResizableTable() {
               <TableRow {...row.getRowProps()}>
                 {
                   row.cells.map((cell, index) => {
-                    const isResizing = cell.column.isResizing;
                     const cellId = cell.column.id;
                     const isLastChild = (index === row.cells.length - 1);
+                    const isResizing = cell.column.isResizing;
                     return (
                       <TableCell
                       {...cell.getCellProps()}
@@ -594,15 +612,21 @@ function ResizableTable() {
                         {!isLastChild && (
                           <Box
                             display="inline-block"
-                            width="5px"
+                            width="8px"
                             height="calc(100% + 1px)" // 1px is border-bottom width of the table row
                             position="absolute"
-                            right="-1px"
+                            right="-8px"
                             top="0"
                             zIndex={1}
-                            {...isResizing && resizingStyle}
-                            {...(hoveredResizerId === cellId) && hoveringStyle}
-                          />
+                          >
+                            <Box
+                              width="4px"
+                              height="100%"
+                              marginLeft="-3px"
+                              {...(!isResizing && hoveredResizerId === cellId) && hoveringStyle}
+                              {...isResizing && resizingStyle}
+                            />
+                          </Box>
                         )}
                       </TableCell>
                     );
@@ -1443,7 +1467,7 @@ render(<BaseTable />);
 
 ### TableHeaderCell
 
-`TableHeaderCell` composes the [`Box`](./box) component.
+`TableHeaderCell` composes the [`PseudoBox`](./pseudoBox) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -1459,7 +1483,7 @@ render(<BaseTable />);
 
 ###  TableCell
 
-`TableCell` composes the [`Box`](./box) component.
+`TableCell` composes the [`PseudoBox`](./pseudoBox) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
