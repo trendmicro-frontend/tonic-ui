@@ -20,7 +20,7 @@ const Scrollbar = forwardRef((
     disabled,
     maxHeight = 'auto',
     minHeight = 'auto',
-    minThumbSize = 30,
+    minThumbSize = 32,
     onScroll,
     onUpdate,
     renderView = renderViewDefault,
