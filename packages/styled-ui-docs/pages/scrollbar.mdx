@@ -10,6 +10,64 @@ import {
 
 ## Usage
 
+```jsx
+<Scrollbar height={120}>
+  <Lorem count={12} />
+</Scrollbar>
+```
+
+### Visibility
+
+Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`. You can set the value to `auto` (default), `visible`, or `hidden`.
+
+```jsx
+<Stack spacing="4x">
+  <Box>
+    <Text size="xl" marginBottom="2x">auto</Text>
+    <Scrollbar
+      height={120}
+      border={1}
+      borderColor="#424242"
+      scrollbarVisibility="auto"
+    >
+      <Lorem count={12} />
+    </Scrollbar>
+  </Box>
+  <Box>
+    <Text size="xl" marginBottom="2x">visible</Text>
+    <Scrollbar
+      height={120}
+      border={1}
+      borderColor="#424242"
+      scrollbarVisibility="visible"
+    >
+      <Lorem count={12} />
+    </Scrollbar>
+  </Box>
+  <Box>
+    <Text size="xl" marginBottom="2x">hidden</Text>
+    <Scrollbar
+      height={120}
+      border={1}
+      borderColor="#424242"
+      scrollbarVisibility="hidden"
+    >
+      <Lorem count={12} />
+    </Scrollbar>
+  </Box>
+</Stack>
+```
+
+### Disabled
+
+Use the `disabled` attribute, the overflow is clipped, and the rest of the content is hidden.
+
+```jsx
+<Scrollbar height={160} disabled>
+  <Lorem count={12} />
+</Scrollbar>
+```
+
 ### The scrollbar in the `Menu`
 
 ```jsx
@@ -138,7 +196,6 @@ function StickyTable() {
   
   return (
     <Table
-      isHoverable
       variant="outline"
       width={400}
       height={200}
@@ -201,7 +258,7 @@ function StickyTable() {
 render(<StickyTable />);
 ```
 
-### ShadowScrollbar
+### Shadow scrollbar
 
 ```jsx noInline
 function ShadowScrollbar(props) {
@@ -229,7 +286,7 @@ function ShadowScrollbar(props) {
         left="0"
         right="0"
         height="24px"
-        background="linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%)"
+        background="linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
       />
       <Box
         ref={shadowBottomRef}
@@ -238,7 +295,7 @@ function ShadowScrollbar(props) {
         left="0"
         right="0"
         height="24px"
-        background="linear-gradient(to top, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%)"
+        background="linear-gradient(to top, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
       />
     </Box>
   );
