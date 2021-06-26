@@ -21,8 +21,8 @@ import {
 Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`. You can set the value to `auto` (default), `visible`, or `hidden`.
 
 ```jsx
-<Stack spacing="4x">
-  <Box>
+<Flex>
+  <Box flex="auto" mr="4x">
     <Text size="xl" marginBottom="2x">auto</Text>
     <Scrollbar
       height={120}
@@ -30,10 +30,10 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       borderColor="#424242"
       scrollbarVisibility="auto"
     >
-      <Lorem count={12} />
+      <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
   </Box>
-  <Box>
+  <Box flex="auto" mr="4x">
     <Text size="xl" marginBottom="2x">visible</Text>
     <Scrollbar
       height={120}
@@ -41,10 +41,10 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       borderColor="#424242"
       scrollbarVisibility="visible"
     >
-      <Lorem count={12} />
+      <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
   </Box>
-  <Box>
+  <Box flex="auto" mr="4x">
     <Text size="xl" marginBottom="2x">hidden</Text>
     <Scrollbar
       height={120}
@@ -52,10 +52,10 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       borderColor="#424242"
       scrollbarVisibility="hidden"
     >
-      <Lorem count={12} />
+      <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
   </Box>
-</Stack>
+</Flex>
 ```
 
 ### Disabled
@@ -66,6 +66,98 @@ Use the `disabled` attribute, the overflow is clipped, and the rest of the conte
 <Scrollbar height={160} disabled>
   <Lorem count={12} />
 </Scrollbar>
+```
+
+### The minimal thumb size
+
+Use the `minThumbSize` attribute to set the minimal size (in pixels) for thumbs.
+
+```jsx
+function MinThumbSizeScroll() {
+  const [minThumbSize, setMinThumbSize] = React.useState('32');
+  const [dataRow, setDataRow] = React.useState('8');
+
+  return (
+    <>
+      <Box marginBottom="2x">
+        <Text marginBottom="1x">The minimal thumb size:</Text>
+        <RadioGroup onChange={e => setMinThumbSize(e.target.value)} value={minThumbSize}>
+          <Stack spacing="1x" shouldWrapChildren>
+            <Radio value="32">32px (default)</Radio>
+            <Radio value="16">16px (customization)</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      <Box marginBottom="2x">
+        <Text marginBottom="1x">Data row:</Text>
+        <RadioGroup onChange={e => setDataRow(e.target.value)} value={dataRow}>
+          <Stack spacing="1x" shouldWrapChildren>
+            <Radio value="8">8 rows</Radio>
+            <Radio value="24">24 rows</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      <Box>
+        <Text marginBottom="1x">Result:</Text>
+        <Scrollbar
+          height={120}
+          border={1}
+          borderColor="#424242"
+          scrollbarVisibility="visible"
+          minThumbSize={minThumbSize}
+        >
+          <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
+        </Scrollbar>
+      </Box>
+    </>
+  );
+}
+```
+
+### The fixed thumb size
+
+Use the `thumbSize` attribute to set a fixed size (in pixels) for thumbs.
+
+```jsx
+function FixedThumbSizeScroll() {
+  const [thumbSize, setThumbSize] = React.useState('-1');
+  const [dataRow, setDataRow] = React.useState('8');
+
+  return (
+    <>
+      <Box marginBottom="2x">
+        <Text marginBottom="1x">The fixed thumb size:</Text>
+        <RadioGroup onChange={e => setThumbSize(e.target.value)} value={thumbSize}>
+          <Stack spacing="1x" shouldWrapChildren>
+            <Radio value="-1">undefined (default)</Radio>
+            <Radio value="100">100px (customization)</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      <Box marginBottom="2x">
+        <Text marginBottom="1x">Data row:</Text>
+        <RadioGroup onChange={e => setDataRow(e.target.value)} value={dataRow}>
+          <Stack spacing="1x" shouldWrapChildren>
+            <Radio value="8">8 rows</Radio>
+            <Radio value="24">24 rows</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      <Box>
+        <Text marginBottom="1x">Result:</Text>
+        <Scrollbar
+          height={120}
+          border={1}
+          borderColor="#424242"
+          scrollbarVisibility="visible"
+          thumbSize={thumbSize === '-1' ? undefined : thumbSize}
+        >
+          <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
+        </Scrollbar>
+      </Box>
+    </>
+  );
+}
 ```
 
 ### The scrollbar in the `Menu`
@@ -93,6 +185,8 @@ Use the `disabled` attribute, the overflow is clipped, and the rest of the conte
 ```
 
 ### The scrollbar in the `Table`
+
+Use the `renderScrollView` and `renderScrollTrack` attributes to customize `Scrollbar` style.
 
 ```jsx noInline
 function CustomScrollbar({

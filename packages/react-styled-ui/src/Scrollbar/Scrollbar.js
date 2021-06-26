@@ -380,7 +380,7 @@ const Scrollbar = forwardRef((
 
   useEffect(() => {
     update();
-  }, []);
+  }, [minThumbSize, thumbSize, children]);
 
   useEffect(() => {
     if (prevPageX || prevPageY) {
