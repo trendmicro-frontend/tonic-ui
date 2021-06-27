@@ -1,10 +1,10 @@
 import memoize from 'micro-memoize';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
+import { ColorModeContext } from '../context';
 
 const initialColorMode = 'light';
 const getMemoizedState = memoize(state => ({ ...state }));
-const ColorModeContext = React.createContext();
 
 const ColorModeProvider = ({
   value = initialColorMode,
@@ -46,4 +46,3 @@ ColorModeProvider.propTypes = {
 ColorModeProvider.displayName = 'ColorModeProvider';
 
 export default ColorModeProvider;
-export { ColorModeContext };
