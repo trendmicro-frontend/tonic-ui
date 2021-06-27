@@ -1,4 +1,4 @@
-import { css, keyframes } from '@emotion/core';
+import { css, keyframes } from '@emotion/react';
 import _includes from 'lodash/includes';
 import useColorMode from '../useColorMode';
 

@@ -2,17 +2,20 @@ import {
   Box,
   InputBase,
   Tag,
+  Text,
   useColorMode,
   useTheme,
 } from '@trendmicro/react-styled-ui';
 import React from 'react';
 
+const noop = () => {};
+
 const EditableTag = React.forwardRef((
   {
-    value,
+    children,
     isInvalid,
-    onChange,
-    onClick,
+    onChange = noop,
+    onClick = noop,
     ...rest
   },
   ref,
@@ -86,9 +89,10 @@ const EditableTag = React.forwardRef((
         <InputBase
           ref={tagInputRef}
           minHeight="6x"
+          maxWidth="100%"
           mr="2x"
           mt={mt}
-          defaultValue={value}
+          defaultValue={children}
           onKeyUp={handleInputKeyUp}
           onBlur={handleInputBlur}
           onInput={resizeInput}
@@ -103,6 +107,7 @@ const EditableTag = React.forwardRef((
       isInvalid={isInvalid}
       mr="2x"
       mt={mt}
+      verticalAlign="top"
       onClick={handleTagClick}
       onKeyUp={handleTagKeyUp}
       cursor="pointer"
@@ -117,7 +122,17 @@ const EditableTag = React.forwardRef((
         }
       }}
       {...rest}
-    />
+    >
+      <Text
+        title={children}
+        maxWidth={120}
+        overflow="hidden"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+      >
+        {children}
+      </Text>
+    </Tag>
   );
 });
 
