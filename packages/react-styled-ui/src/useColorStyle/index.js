@@ -1,6 +1,6 @@
 import { ensurePlainObject } from 'ensure-type';
 import { useContext } from 'react';
-import { ColorStyleContext } from '../ColorStyleProvider';
+import { ColorStyleContext } from '../context';
 
 const useColorStyle = (options) => {
   const { colorMode } = { ...options };

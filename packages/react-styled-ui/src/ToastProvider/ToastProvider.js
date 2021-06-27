@@ -12,7 +12,7 @@ import {
 } from 'react-transition-group';
 import { canUseDOM } from '../utils/dom';
 import { createUniqueId } from '../utils/uniqueid';
-import { ToastContext } from './context';
+import { ToastContext } from '../context';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import {
@@ -21,7 +21,7 @@ import {
   getExitTransitionProps,
   transitionDuration,
   transitionEasing,
-} from './transitions';
+} from '../shared/transitions';
 
 const uniqueId = createUniqueId();
 
@@ -333,5 +333,7 @@ const ToastProvider = ({
     </ToastContext.Provider>
   );
 };
+
+ToastProvider.displayName = 'ToastProvider';
 
 export default ToastProvider;
