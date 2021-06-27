@@ -45,7 +45,7 @@ import Textarea from './Textarea';
 import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
 import Toast from './Toast';
-import ToastProvider from '../ToastProvider';
+import ToastProvider from './ToastProvider';
 import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
@@ -108,6 +108,7 @@ export {
   ThemeProvider,
   Tag,
   Toast,
+  ToastProvider,
   ToggleSwitch,
   Tooltip,
   VisuallyHidden,
