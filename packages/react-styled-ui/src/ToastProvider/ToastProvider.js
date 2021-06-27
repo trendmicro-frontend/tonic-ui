@@ -10,9 +10,9 @@ import {
   Transition,
   TransitionGroup,
 } from 'react-transition-group';
+import { ToastContext } from '../context';
 import { canUseDOM } from '../utils/dom';
 import { createUniqueId } from '../utils/uniqueid';
-import { ToastContext } from '../context';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import {
