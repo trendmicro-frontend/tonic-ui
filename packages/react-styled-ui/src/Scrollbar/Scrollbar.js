@@ -101,7 +101,7 @@ const Scrollbar = forwardRef((
     const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
     const hasHorizontalScrollbar = scrollWidth > clientWidth;
     const hasVerticalScrollbar = scrollHeight > clientHeight;
-    trackHorizontalRef.current.style.visibility = hasHorizontalScrollbar? 'visible' : 'hidden';
+    trackHorizontalRef.current.style.visibility = hasHorizontalScrollbar ? 'visible' : 'hidden';
     trackVerticalRef.current.style.visibility = hasVerticalScrollbar ? 'visible' : 'hidden';
     thumbHorizontalRef.current.style.width = `${thumbHorizontalWidth}px`;
     thumbHorizontalRef.current.style.transform = `translateX(${thumbHorizontalX}px)`;
@@ -117,7 +117,7 @@ const Scrollbar = forwardRef((
     }
     if (typeof callback === 'function') {
       callback(values);
-    };
+    }
   };
   const getThumbHorizontalWidth = () => {
     const { scrollWidth, clientWidth } = viewRef.current;
@@ -415,7 +415,7 @@ const Scrollbar = forwardRef((
             })
           ),
           onMouseDown: handleHorizontalTrackMouseDown,
-          onMouseEnter: handleTrackMouseEnter, 
+          onMouseEnter: handleTrackMouseEnter,
           onMouseLeave: handleTrackMouseLeave,
           ...trackHorizontalStyle
         })
@@ -442,23 +442,23 @@ const Scrollbar = forwardRef((
 
 const renderViewDefault = (props) => {
   return <Box {...props} />;
-}
+};
 
 const renderTrackHorizontalDefault = (props) => {
   return <Box {...props} />;
-}
+};
 
 const renderTrackVerticalDefault = (props) => {
   return <Box {...props} />;
-}
+};
 
 const renderThumbHorizontalDefault = (props) => {
   return <PseudoBox {...props} />;
-}
+};
 
 const renderThumbVerticalDefault = (props) => {
   return <PseudoBox {...props} />;
-}
+};
 
 const getScrollbarWidth = () => {
   if (scrollbarWidth !== false) {

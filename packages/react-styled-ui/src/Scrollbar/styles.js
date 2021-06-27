@@ -40,14 +40,8 @@ const useViewStyle = ({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabl
   };
 };
 
-const useTrackAutoHideStyle = props => ({
-  transition: `opacity 200ms`,
-  opacity: 0,
-});
-
 const useTrackHorizontalStyle = props => {
   const { horizontalScrollbarVisibility, scrollbarWidth } = props;
-  const trackAutoHideStyle = useTrackAutoHideStyle();
   const autoHide = horizontalScrollbarVisibility === 'auto';
   const alwaysHide = !scrollbarWidth || horizontalScrollbarVisibility === 'hidden';
   return {
@@ -56,14 +50,18 @@ const useTrackHorizontalStyle = props => {
     right: 0,
     bottom: 0,
     left: 0,
-    ...(autoHide && trackAutoHideStyle),
-    ...(alwaysHide && { display: 'none' }),
+    ...(autoHide && {
+      transition: 'opacity 200ms',
+      opacity: 0,
+    }),
+    ...(alwaysHide && {
+      display: 'none',
+    }),
   };
 };
 
 const useTrackVerticalStyle = props => {
   const { verticalScrollbarVisibility, scrollbarWidth } = props;
-  const trackAutoHideStyle = useTrackAutoHideStyle();
   const autoHide = verticalScrollbarVisibility === 'auto';
   const alwaysHide = !scrollbarWidth || verticalScrollbarVisibility === 'hidden';
   return {
@@ -72,8 +70,13 @@ const useTrackVerticalStyle = props => {
     right: 0,
     bottom: 0,
     top: 0,
-    ...(autoHide && trackAutoHideStyle),
-    ...(alwaysHide && { display: 'none' }),
+    ...(autoHide && {
+      transition: 'opacity 200ms',
+      opacity: 0,
+    }),
+    ...(alwaysHide && {
+      display: 'none',
+    }),
   };
 };
 
@@ -140,7 +143,6 @@ const useThumbVerticalStyle = props => {
 export {
   useContainerStyle,
   useViewStyle,
-  useTrackAutoHideStyle,
   useTrackHorizontalStyle,
   useTrackVerticalStyle,
   useThumbHorizontalStyle,
