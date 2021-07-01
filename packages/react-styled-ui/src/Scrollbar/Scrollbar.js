@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import React, { forwardRef, useState, useEffect, useRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
 import Box from '../Box';
 import PseudoBox from '../PseudoBox';
 import {
@@ -48,9 +48,8 @@ const Scrollbar = forwardRef((
   let isDragging = false;
   let isTrackMouseOver = false;
   let isViewMouseOver = false;
-
-  const [prevPageX, setPrevPageX] = useState(0);
-  const [prevPageY, setPrevPageY] = useState(0);
+  let prevPageX = 0;
+  let prevPageY = 0;
 
   const viewRef = useRef(null);
   const trackHorizontalRef = useRef(null);
@@ -85,7 +84,8 @@ const Scrollbar = forwardRef((
       clientHeight,
     };
   };
-  const update = (callback) => {
+
+  const update = useCallback((callback) => {
     const scrollbarWidth = getScrollbarWidth();
     if (!scrollbarWidth || disabled) {
       return;
@@ -93,11 +93,11 @@ const Scrollbar = forwardRef((
     const values = getValues();
     const { scrollLeft, clientWidth, scrollWidth } = values;
     const trackHorizontalWidth = getInnerWidth(trackHorizontalRef.current);
-    const thumbHorizontalWidth = getThumbHorizontalWidth();
+    const thumbHorizontalWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
     const thumbHorizontalX = scrollLeft / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
     const { scrollTop, clientHeight, scrollHeight } = values;
     const trackVerticalHeight = getInnerHeight(trackVerticalRef.current);
-    const thumbVerticalHeight = getThumbVerticalHeight();
+    const thumbVerticalHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
     const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
     const hasHorizontalScrollbar = scrollWidth > clientWidth;
     const hasVerticalScrollbar = scrollHeight > clientHeight;
@@ -118,8 +118,8 @@ const Scrollbar = forwardRef((
     if (typeof callback === 'function') {
       callback(values);
     }
-  };
-  const getThumbHorizontalWidth = () => {
+  }, [disabled, minThumbSize, thumbSize, getThumbHorizontalWidth, getThumbVerticalHeight, onUpdate]);
+  const getThumbHorizontalWidth = useCallback(({ minThumbSize, thumbSize }) => {
     const { scrollWidth, clientWidth } = viewRef.current;
     const trackWidth = getInnerWidth(trackHorizontalRef.current);
     const width = Math.ceil(clientWidth / scrollWidth * trackWidth);
@@ -130,8 +130,8 @@ const Scrollbar = forwardRef((
       return thumbSize;
     }
     return Math.max(width, minThumbSize);
-  };
-  const getThumbVerticalHeight = () => {
+  }, []);
+  const getThumbVerticalHeight = useCallback(({ minThumbSize, thumbSize }) => {
     const { scrollHeight, clientHeight } = viewRef.current;
     const trackHeight = getInnerHeight(trackVerticalRef.current);
     const height = Math.ceil(clientHeight / scrollHeight * trackHeight);
@@ -142,7 +142,8 @@ const Scrollbar = forwardRef((
       return thumbSize;
     }
     return Math.max(height, minThumbSize);
-  };
+  }, []);
+
   const hideHorizontalTrack = () => {
     if (horizontalScrollbarVisibility === 'visible') {
       return;
@@ -289,6 +290,17 @@ const Scrollbar = forwardRef((
     }
     return false;
   };
+  const handleDragStart = () => {
+    isDragging = true;
+    setupDragging();
+  };
+  const handleDragEnd = () => {
+    isDragging = false;
+    prevPageX = 0;
+    prevPageY = 0;
+    teardownDragging();
+    handleDragEndAutoHide();
+  };
   const handleDragEndAutoHide = () => {
     hideTracks();
   };
@@ -305,17 +317,6 @@ const Scrollbar = forwardRef((
     document.removeEventListener('mousemove', handleDrag);
     document.removeEventListener('mouseup', handleDragEnd);
     document.onselectstart = undefined;
-  };
-  const handleDragStart = () => {
-    isDragging = true;
-    setupDragging();
-  };
-  const handleDragEnd = () => {
-    isDragging = false;
-    setPrevPageX(0);
-    setPrevPageY(0);
-    teardownDragging();
-    handleDragEndAutoHide();
   };
   /* End Dragging Events */
 
@@ -361,32 +362,26 @@ const Scrollbar = forwardRef((
   const handleHorizontalThumbMouseDown = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    handleDragStart();
     const { target, clientX } = event;
     const { offsetWidth } = target;
     const { left } = target.getBoundingClientRect();
-    setPrevPageX(offsetWidth - (clientX - left));
+    prevPageX = offsetWidth - (clientX - left);
   };
   const handleVerticalThumbMouseDown = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    handleDragStart();
     const { target, clientY } = event;
     const { offsetHeight } = target;
     const { top } = target.getBoundingClientRect();
-    setPrevPageY(offsetHeight - (clientY - top));
+    prevPageY = offsetHeight - (clientY - top);
   };
   /* End Mouse Events */
 
-  scrollbarWidth = getScrollbarWidth();
-
   useEffect(() => {
     update();
-  }, [minThumbSize, thumbSize, children]);
-
-  useEffect(() => {
-    if (prevPageX || prevPageY) {
-      handleDragStart();
-    }
-  }, [prevPageX, prevPageY]);
+  }, [update, children]);
 
   return (
     <PseudoBox
