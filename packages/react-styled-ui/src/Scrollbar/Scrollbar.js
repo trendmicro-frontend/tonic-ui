@@ -15,7 +15,6 @@ let scrollbarWidth = false;
 
 const Scrollbar = forwardRef((
   {
-    autoHideDelay = 1000,
     children,
     disabled,
     maxHeight = 'auto',
@@ -154,7 +153,7 @@ const Scrollbar = forwardRef((
       if (trackHorizontalRef.current) {
         trackHorizontalRef.current.style.opacity = 0;
       }
-    }, autoHideDelay);
+    }, 0);
   };
   const hideVerticalTrack = () => {
     if (verticalScrollbarVisibility === 'visible') {
@@ -166,7 +165,7 @@ const Scrollbar = forwardRef((
       if (trackVerticalRef.current) {
         trackVerticalRef.current.style.opacity = 0;
       }
-    }, autoHideDelay);
+    }, 0);
   };
   const hideTracks = () => {
     if (isDragging) {
