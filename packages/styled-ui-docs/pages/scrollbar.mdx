@@ -74,26 +74,26 @@ Use the `minThumbSize` attribute to set the minimal size (in pixels) for thumbs.
 
 ```jsx
 function MinThumbSizeScroll() {
-  const [minThumbSize, setMinThumbSize] = React.useState('32');
-  const [dataRow, setDataRow] = React.useState('8');
+  const [minThumbSize, setMinThumbSize] = React.useState(32);
+  const [dataRow, setDataRow] = React.useState(8);
 
   return (
     <>
       <Box marginBottom="2x">
         <Text marginBottom="1x">The minimal thumb size:</Text>
-        <RadioGroup onChange={e => setMinThumbSize(e.target.value)} value={minThumbSize}>
+        <RadioGroup onChange={e => setMinThumbSize(Number(e.target.value))} value={minThumbSize}>
           <Stack spacing="1x" shouldWrapChildren>
-            <Radio value="32">32px (default)</Radio>
-            <Radio value="16">16px (customization)</Radio>
+            <Radio value={32}>32px (default)</Radio>
+            <Radio value={16}>16px (customization)</Radio>
           </Stack>
         </RadioGroup>
       </Box>
       <Box marginBottom="2x">
         <Text marginBottom="1x">Data row:</Text>
-        <RadioGroup onChange={e => setDataRow(e.target.value)} value={dataRow}>
+        <RadioGroup onChange={e => setDataRow(Number(e.target.value))} value={dataRow}>
           <Stack spacing="1x" shouldWrapChildren>
-            <Radio value="8">8 rows</Radio>
-            <Radio value="24">24 rows</Radio>
+            <Radio value={8}>8 rows</Radio>
+            <Radio value={24}>24 rows</Radio>
           </Stack>
         </RadioGroup>
       </Box>
@@ -120,26 +120,26 @@ Use the `thumbSize` attribute to set a fixed size (in pixels) for thumbs.
 
 ```jsx
 function FixedThumbSizeScroll() {
-  const [thumbSize, setThumbSize] = React.useState('-1');
-  const [dataRow, setDataRow] = React.useState('8');
+  const [thumbSize, setThumbSize] = React.useState(-1);
+  const [dataRow, setDataRow] = React.useState(8);
 
   return (
     <>
       <Box marginBottom="2x">
         <Text marginBottom="1x">The fixed thumb size:</Text>
-        <RadioGroup onChange={e => setThumbSize(e.target.value)} value={thumbSize}>
+        <RadioGroup onChange={e => setThumbSize(Number(e.target.value))} value={thumbSize}>
           <Stack spacing="1x" shouldWrapChildren>
-            <Radio value="-1">undefined (default)</Radio>
-            <Radio value="100">100px (customization)</Radio>
+            <Radio value={-1}>undefined (default)</Radio>
+            <Radio value={100}>100px (customization)</Radio>
           </Stack>
         </RadioGroup>
       </Box>
       <Box marginBottom="2x">
         <Text marginBottom="1x">Data row:</Text>
-        <RadioGroup onChange={e => setDataRow(e.target.value)} value={dataRow}>
+        <RadioGroup onChange={e => setDataRow(Number(e.target.value))} value={dataRow}>
           <Stack spacing="1x" shouldWrapChildren>
-            <Radio value="8">8 rows</Radio>
-            <Radio value="24">24 rows</Radio>
+            <Radio value={8}>8 rows</Radio>
+            <Radio value={24}>24 rows</Radio>
           </Stack>
         </RadioGroup>
       </Box>
@@ -150,7 +150,7 @@ function FixedThumbSizeScroll() {
           border={1}
           borderColor="#424242"
           scrollbarVisibility="visible"
-          thumbSize={thumbSize === '-1' ? undefined : thumbSize}
+          thumbSize={thumbSize === -1 ? undefined : thumbSize}
         >
           <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
         </Scrollbar>
@@ -409,7 +409,7 @@ render(
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | disabled | boolean | | If `true`, the overflow is clipped, and the rest of the content is hidden. |
-| maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not `'auto'`, activate auto height mode. |
+| maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not `'auto'`, activate auto-height mode. |
 | minHeight | number \| string | 'auto' | Set a maximum height (in pixels) for auto-height mode. |
 | minThumbSize | number | 32 | Minimal thumb size in pixels. |
 | onScroll | function | | Event handler. |
