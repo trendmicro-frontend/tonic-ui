@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
 import PseudoBox from '../PseudoBox';
 import {
@@ -37,18 +37,21 @@ const Scrollbar = forwardRef((
   const autoHeight = (maxHeight !== 'auto');
   const horizontalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
   const verticalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
-  let hideHorizontalTrackTimeout;
-  let hideVerticalTrackTimeout;
   let viewScrollLeft = 0;
   let viewScrollTop = 0;
   let lastViewScrollLeft = 0;
   let lastViewScrollTop = 0;
-  let isScrolling = false;
-  let isDragging = false;
-  let isTrackMouseOver = false;
-  let isViewMouseOver = false;
-  let prevPageX = 0;
-  let prevPageY = 0;
+
+  // For binding the `mousemove` and `mouseup` events to document, we use `useState` to store `startDragging` variable to trigger `useEffect`.
+  const [startDragging, setStartDragging] = useState(false);
+
+  // These variables are used to be the checked point to change DOM style directly (Do NOT need to re-render UI)
+  const isDraggingRef = useRef(false);
+  const isScrollingRef = useRef(false);
+  const isTrackMouseOverRef = useRef(false);
+  const isViewMouseOverRef = useRef(false);
+  const prevPageXRef = useRef(0);
+  const prevPageYRef = useRef(0);
 
   const viewRef = useRef(null);
   const trackHorizontalRef = useRef(null);
@@ -118,6 +121,7 @@ const Scrollbar = forwardRef((
       callback(values);
     }
   }, [disabled, minThumbSize, thumbSize, getThumbHorizontalWidth, getThumbVerticalHeight, onUpdate]);
+
   const getThumbHorizontalWidth = useCallback(({ minThumbSize, thumbSize }) => {
     const { scrollWidth, clientWidth } = viewRef.current;
     const trackWidth = getInnerWidth(trackHorizontalRef.current);
@@ -130,6 +134,7 @@ const Scrollbar = forwardRef((
     }
     return Math.max(width, minThumbSize);
   }, []);
+
   const getThumbVerticalHeight = useCallback(({ minThumbSize, thumbSize }) => {
     const { scrollHeight, clientHeight } = viewRef.current;
     const trackHeight = getInnerHeight(trackVerticalRef.current);
@@ -143,31 +148,31 @@ const Scrollbar = forwardRef((
     return Math.max(height, minThumbSize);
   }, []);
 
-  const hideHorizontalTrack = () => {
+  const hideHorizontalTrack = useCallback(() => {
     if (horizontalScrollbarVisibility === 'visible') {
       return;
     }
 
-    clearTimeout(hideHorizontalTrackTimeout);
-    hideHorizontalTrackTimeout = setTimeout(() => {
-      if (trackHorizontalRef.current) {
-        trackHorizontalRef.current.style.opacity = 0;
-      }
-    }, 0);
-  };
-  const hideVerticalTrack = () => {
+    if (trackHorizontalRef.current) {
+      trackHorizontalRef.current.style.opacity = 0;
+    }
+  }, [horizontalScrollbarVisibility]);
+
+  const hideVerticalTrack = useCallback(() => {
     if (verticalScrollbarVisibility === 'visible') {
       return;
     }
 
-    clearTimeout(hideVerticalTrackTimeout);
-    hideVerticalTrackTimeout = setTimeout(() => {
-      if (trackVerticalRef.current) {
-        trackVerticalRef.current.style.opacity = 0;
-      }
-    }, 0);
-  };
-  const hideTracks = () => {
+    if (trackVerticalRef.current) {
+      trackVerticalRef.current.style.opacity = 0;
+    }
+  }, [verticalScrollbarVisibility]);
+
+  const hideTracks = useCallback(() => {
+    const isDragging = isDraggingRef.current;
+    const isScrolling = isScrollingRef.current;
+    const isTrackMouseOver = isTrackMouseOverRef.current;
+    const isViewMouseOver = isViewMouseOverRef.current;
     if (isDragging) {
       return;
     }
@@ -182,74 +187,65 @@ const Scrollbar = forwardRef((
     }
     hideHorizontalTrack();
     hideVerticalTrack();
-  };
+  }, [hideHorizontalTrack, hideVerticalTrack]);
+
   const showHorizontalTrack = () => {
     if (horizontalScrollbarVisibility === 'hidden') {
       return;
     }
 
-    clearTimeout(hideHorizontalTrackTimeout);
     if (trackHorizontalRef.current) {
       trackHorizontalRef.current.style.opacity = 1;
     }
   };
+
   const showVerticalTrack = () => {
     if (verticalScrollbarVisibility === 'hidden') {
       return;
     }
-    clearTimeout(hideVerticalTrackTimeout);
+
     if (trackVerticalRef.current) {
       trackVerticalRef.current.style.opacity = 1;
     }
   };
+
   const showTracks = () => {
     showHorizontalTrack();
     showVerticalTrack();
   };
-  const getScrollLeftForOffset = (offset) => {
+
+  const getScrollLeftForOffset = useCallback((offset) => {
     const { scrollWidth, clientWidth } = viewRef.current;
     const trackWidth = getInnerWidth(trackHorizontalRef.current);
     const thumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
     return offset / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
-  };
-  const getScrollTopForOffset = (offset) => {
+  }, [minThumbSize, thumbSize, getThumbHorizontalWidth]);
+
+  const getScrollTopForOffset = useCallback((offset) => {
     const { scrollHeight, clientHeight } = viewRef.current;
     const trackHeight = getInnerHeight(trackVerticalRef.current);
     const thumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
     return offset / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
-  };
+  }, [minThumbSize, thumbSize, getThumbVerticalHeight]);
 
   /* Start Scrolling Events */
-  const handleHorizontalScrollStartAutoShow = () => {
-    showHorizontalTrack();
-  };
-  const handleVerticalScrollStartAutoShow = () => {
-    showVerticalTrack();
-  };
   const handleScrollStart = () => {
-    handleHorizontalScrollStartAutoShow();
-    handleVerticalScrollStartAutoShow();
-  };
-  const horizontalScrollStopAutoHide = () => {
-    hideHorizontalTrack();
-  };
-  const verticalScrollStopAutoHide = () => {
-    hideVerticalTrack();
+    showTracks();
   };
   const handleScrollStop = () => {
-    horizontalScrollStopAutoHide();
-    verticalScrollStopAutoHide();
+    hideTracks();
   };
   const detectScrolling = () => {
+    const isScrolling = isScrollingRef.current;
     if (isScrolling) {
       return;
     }
-    isScrolling = true;
+    isScrollingRef.current = true;
     handleScrollStart();
     const detectScrollingInterval = setInterval(() => {
       if (lastViewScrollLeft === viewScrollLeft && lastViewScrollTop === viewScrollTop) {
         clearInterval(detectScrollingInterval);
-        isScrolling = false;
+        isScrollingRef.current = false;
         handleScrollStop();
       }
       lastViewScrollLeft = viewScrollLeft;
@@ -270,7 +266,9 @@ const Scrollbar = forwardRef((
   /* End Scrolling Events */
 
   /* Start Dragging Events */
-  const handleDrag = (event) => {
+  const handleDrag = useCallback((event) => {
+    const prevPageX = prevPageXRef.current;
+    const prevPageY = prevPageYRef.current;
     if (prevPageX) {
       const { clientX } = event;
       const { left: trackLeft } = trackHorizontalRef.current.getBoundingClientRect();
@@ -288,59 +286,35 @@ const Scrollbar = forwardRef((
       viewRef.current.scrollTop = getScrollTopForOffset(offset);
     }
     return false;
-  };
+  }, [minThumbSize, thumbSize, getScrollLeftForOffset, getScrollTopForOffset, getThumbHorizontalWidth, getThumbVerticalHeight]);
   const handleDragStart = () => {
-    isDragging = true;
-    setupDragging();
+    setStartDragging(true);
+    isDraggingRef.current = true;
   };
-  const handleDragEnd = () => {
-    isDragging = false;
-    prevPageX = 0;
-    prevPageY = 0;
-    teardownDragging();
-    handleDragEndAutoHide();
-  };
-  const handleDragEndAutoHide = () => {
+  const handleDragEnd = useCallback(() => {
+    setStartDragging(false);
+    isDraggingRef.current = false;
+    prevPageXRef.current = 0;
+    prevPageYRef.current = 0;
     hideTracks();
-  };
-  const setupDragging = () => {
-    document.body.style['user-select'] = 'none';
-    document.addEventListener('mousemove', handleDrag);
-    document.addEventListener('mouseup', handleDragEnd);
-    document.onselectstart = () => {
-      return false;
-    };
-  };
-  const teardownDragging = () => {
-    document.body.style['user-select'] = '';
-    document.removeEventListener('mousemove', handleDrag);
-    document.removeEventListener('mouseup', handleDragEnd);
-    document.onselectstart = undefined;
-  };
-  /* End Dragging Events */
+  }, [hideTracks]);
 
   /* Start Mouse Events */
-  const handleTrackMouseEnterAutoShow = () => {
+  const handleViewMouseEnter = () => {
+    isViewMouseOverRef.current = true;
     showTracks();
   };
-  const handleTrackMouseLeaveAutoHide = () => {
+  const handleViewMouseLeave = () => {
+    isViewMouseOverRef.current = false;
     hideTracks();
   };
-  const handleViewMouseEnter = () => {
-    isViewMouseOver = true;
-    handleTrackMouseEnterAutoShow();
-  };
-  const handleViewMouseLeave = () => {
-    isViewMouseOver = false;
-    handleTrackMouseLeaveAutoHide();
-  };
   const handleTrackMouseEnter = () => {
-    isTrackMouseOver = true;
-    handleTrackMouseEnterAutoShow();
+    isTrackMouseOverRef.current = true;
+    showTracks();
   };
   const handleTrackMouseLeave = () => {
-    isTrackMouseOver = false;
-    handleTrackMouseLeaveAutoHide();
+    isTrackMouseOverRef.current = false;
+    hideTracks();
   };
   const handleHorizontalTrackMouseDown = (event) => {
     event.preventDefault();
@@ -365,7 +339,7 @@ const Scrollbar = forwardRef((
     const { target, clientX } = event;
     const { offsetWidth } = target;
     const { left } = target.getBoundingClientRect();
-    prevPageX = offsetWidth - (clientX - left);
+    prevPageXRef.current = offsetWidth - (clientX - left);
   };
   const handleVerticalThumbMouseDown = (event) => {
     event.preventDefault();
@@ -374,9 +348,32 @@ const Scrollbar = forwardRef((
     const { target, clientY } = event;
     const { offsetHeight } = target;
     const { top } = target.getBoundingClientRect();
-    prevPageY = offsetHeight - (clientY - top);
+    prevPageYRef.current = offsetHeight - (clientY - top);
   };
   /* End Mouse Events */
+
+  const setupDragging = useCallback(() => {
+    document.addEventListener('mousemove', handleDrag);
+    document.addEventListener('mouseup', handleDragEnd);
+  }, [handleDrag, handleDragEnd]);
+
+  const teardownDragging = useCallback(() => {
+    document.removeEventListener('mousemove', handleDrag);
+    document.removeEventListener('mouseup', handleDragEnd);
+  }, [handleDrag, handleDragEnd]);
+
+  useEffect(() => {
+    const isDragging = isDraggingRef.current;
+    if (isDragging) {
+      setupDragging();
+    }
+    if (!isDragging) {
+      teardownDragging();
+    }
+    return () => {
+      teardownDragging();
+    };
+  }, [startDragging, setupDragging, teardownDragging]);
 
   useEffect(() => {
     update();
