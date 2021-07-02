@@ -209,13 +209,13 @@ const Scrollbar = forwardRef((
   const getScrollLeftForOffset = (offset) => {
     const { scrollWidth, clientWidth } = viewRef.current;
     const trackWidth = getInnerWidth(trackHorizontalRef.current);
-    const thumbWidth = getThumbHorizontalWidth();
+    const thumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
     return offset / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
   };
   const getScrollTopForOffset = (offset) => {
     const { scrollHeight, clientHeight } = viewRef.current;
     const trackHeight = getInnerHeight(trackVerticalRef.current);
-    const thumbHeight = getThumbVerticalHeight();
+    const thumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
     return offset / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
   };
 
@@ -274,7 +274,7 @@ const Scrollbar = forwardRef((
     if (prevPageX) {
       const { clientX } = event;
       const { left: trackLeft } = trackHorizontalRef.current.getBoundingClientRect();
-      const thumbWidth = getThumbHorizontalWidth();
+      const thumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
       const clickPosition = thumbWidth - prevPageX;
       const offset = -trackLeft + clientX - clickPosition;
       viewRef.current.scrollLeft = getScrollLeftForOffset(offset);
@@ -282,7 +282,7 @@ const Scrollbar = forwardRef((
     if (prevPageY) {
       const { clientY } = event;
       const { top: trackTop } = trackVerticalRef.current.getBoundingClientRect();
-      const thumbHeight = getThumbVerticalHeight();
+      const thumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
       const clickPosition = thumbHeight - prevPageY;
       const offset = -trackTop + clientY - clickPosition;
       viewRef.current.scrollTop = getScrollTopForOffset(offset);
@@ -346,7 +346,7 @@ const Scrollbar = forwardRef((
     event.preventDefault();
     const { target, clientX } = event;
     const { left: targetLeft } = target.getBoundingClientRect();
-    const thumbWidth = getThumbHorizontalWidth();
+    const thumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
     const offset = Math.abs(targetLeft - clientX) - thumbWidth / 2;
     viewRef.current.scrollLeft = getScrollLeftForOffset(offset);
   };
@@ -354,7 +354,7 @@ const Scrollbar = forwardRef((
     event.preventDefault();
     const { target, clientY } = event;
     const { top: targetTop } = target.getBoundingClientRect();
-    const thumbHeight = getThumbVerticalHeight();
+    const thumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
     const offset = Math.abs(targetTop - clientY) - thumbHeight / 2;
     viewRef.current.scrollTop = getScrollTopForOffset(offset);
   };
