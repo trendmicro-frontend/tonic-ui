@@ -1,6 +1,5 @@
 /* eslint-disable max-lines-per-function */
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
-import Box from '../Box';
 import PseudoBox from '../PseudoBox';
 import {
   useContainerStyle,
@@ -10,8 +9,16 @@ import {
   useThumbHorizontalStyle,
   useThumbVerticalStyle,
 } from './styles';
-
-let scrollbarWidth = false;
+import getScrollbarWidth from './utils/getScrollbarWidth';
+import getInnerHeight from './utils/getInnerHeight';
+import getInnerWidth from './utils/getInnerWidth';
+import {
+  renderViewDefault,
+  renderTrackHorizontalDefault,
+  renderTrackVerticalDefault,
+  renderThumbHorizontalDefault,
+  renderThumbVerticalDefault,
+} from './renderDefaultElements';
 
 const Scrollbar = forwardRef((
   {
@@ -431,57 +438,6 @@ const Scrollbar = forwardRef((
     </PseudoBox>
   );
 });
-
-const renderViewDefault = (props) => {
-  return <Box {...props} />;
-};
-
-const renderTrackHorizontalDefault = (props) => {
-  return <Box {...props} />;
-};
-
-const renderTrackVerticalDefault = (props) => {
-  return <Box {...props} />;
-};
-
-const renderThumbHorizontalDefault = (props) => {
-  return <PseudoBox {...props} />;
-};
-
-const renderThumbVerticalDefault = (props) => {
-  return <PseudoBox {...props} />;
-};
-
-const getScrollbarWidth = () => {
-  if (scrollbarWidth !== false) {
-    return scrollbarWidth;
-  }
-  if (typeof document !== 'undefined') {
-    const div = document.createElement('div');
-    div.style.width = '100px';
-    div.style.height = '100px';
-    div.style.position = 'absolute';
-    div.style.top = '-9999px';
-    div.style.overflow = 'scroll'; // forcing scrollbar to appear
-    div.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
-    document.body.appendChild(div);
-    scrollbarWidth = (div.offsetWidth - div.clientWidth);
-    document.body.removeChild(div);
-  }
-  return scrollbarWidth || 0;
-};
-
-const getInnerWidth = (el) => {
-  const { clientWidth } = el;
-  const { paddingLeft, paddingRight } = getComputedStyle(el);
-  return clientWidth - parseFloat(paddingLeft) - parseFloat(paddingRight);
-};
-
-const getInnerHeight = (el) => {
-  const { clientHeight } = el;
-  const { paddingTop, paddingBottom } = getComputedStyle(el);
-  return clientHeight - parseFloat(paddingTop) - parseFloat(paddingBottom);
-};
 
 Scrollbar.displayName = 'Scrollbar';
 
