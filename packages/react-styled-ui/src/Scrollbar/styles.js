@@ -50,6 +50,7 @@ const useTrackHorizontalStyle = props => {
     right: 0,
     bottom: 0,
     left: 0,
+    visibility: 'hidden',
     ...(autoHide && {
       transition: 'opacity 200ms',
       opacity: 0,
@@ -70,6 +71,7 @@ const useTrackVerticalStyle = props => {
     right: 0,
     bottom: 0,
     top: 0,
+    visibility: 'hidden',
     ...(autoHide && {
       transition: 'opacity 200ms',
       opacity: 0,

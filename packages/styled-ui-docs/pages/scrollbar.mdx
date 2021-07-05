@@ -72,6 +72,8 @@ Use the `disabled` attribute, the overflow is clipped, and the rest of the conte
 
 Use the `minThumbSize` attribute to set the minimal size (in pixels) for thumbs.
 
+The thumbs size will be the original size if the original size > the minimal size. In other words, the thumbs size will be the minimal size if the original size < the minimal size.
+
 ```jsx
 function MinThumbSizeScroll() {
   const [minThumbSize, setMinThumbSize] = React.useState(32);

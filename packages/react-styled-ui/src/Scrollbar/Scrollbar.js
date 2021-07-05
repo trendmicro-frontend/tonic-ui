@@ -11,8 +11,6 @@ import {
   useThumbVerticalStyle,
 } from './styles';
 
-let scrollbarWidth = false;
-
 const Scrollbar = forwardRef((
   {
     children,
@@ -52,6 +50,7 @@ const Scrollbar = forwardRef((
   const isViewMouseOverRef = useRef(false);
   const prevPageXRef = useRef(0);
   const prevPageYRef = useRef(0);
+  const scrollbarWidthRef = useRef(false);
 
   const viewRef = useRef(null);
   const trackHorizontalRef = useRef(null);
@@ -59,6 +58,28 @@ const Scrollbar = forwardRef((
   const thumbHorizontalRef = useRef(null);
   const thumbVerticalRef = useRef(null);
 
+  const getScrollbarWidth = () => {
+    if (scrollbarWidthRef.current !== false) {
+      return scrollbarWidthRef.current;
+    }
+    let scrollbarWidth = 0;
+    if (typeof document !== 'undefined') {
+      const div = document.createElement('div');
+      div.style.width = '100px';
+      div.style.height = '100px';
+      div.style.position = 'absolute';
+      div.style.top = '-9999px';
+      div.style.overflow = 'scroll'; // forcing scrollbar to appear
+      div.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+      document.body.appendChild(div);
+      scrollbarWidth = (div.offsetWidth - div.clientWidth);
+      document.body.removeChild(div);
+    }
+    scrollbarWidthRef.current = scrollbarWidth;
+    return scrollbarWidth;
+  };
+
+  const scrollbarWidth = getScrollbarWidth();
   const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight, style });
   const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled });
   const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalScrollbarVisibility });
@@ -449,25 +470,6 @@ const renderThumbHorizontalDefault = (props) => {
 
 const renderThumbVerticalDefault = (props) => {
   return <PseudoBox {...props} />;
-};
-
-const getScrollbarWidth = () => {
-  if (scrollbarWidth !== false) {
-    return scrollbarWidth;
-  }
-  if (typeof document !== 'undefined') {
-    const div = document.createElement('div');
-    div.style.width = '100px';
-    div.style.height = '100px';
-    div.style.position = 'absolute';
-    div.style.top = '-9999px';
-    div.style.overflow = 'scroll'; // forcing scrollbar to appear
-    div.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
-    document.body.appendChild(div);
-    scrollbarWidth = (div.offsetWidth - div.clientWidth);
-    document.body.removeChild(div);
-  }
-  return scrollbarWidth || 0;
 };
 
 const getInnerWidth = (el) => {
