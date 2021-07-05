@@ -41,6 +41,7 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
+  const [isHydrated, setIsHydrated] = useState(false); // false for initial render
   const autoHeight = (maxHeight !== 'auto');
   const horizontalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
   const verticalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
@@ -68,7 +69,7 @@ const Scrollbar = forwardRef((
 
   const scrollbarWidth = getScrollbarWidth();
   const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight, style });
-  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled });
+  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled: (!isHydrated || disabled) });
   const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalScrollbarVisibility });
   const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalScrollbarVisibility });
   const thumbHorizontalStyle = useThumbHorizontalStyle();
@@ -369,6 +370,10 @@ const Scrollbar = forwardRef((
     document.removeEventListener('mousemove', handleDrag);
     document.removeEventListener('mouseup', handleDragEnd);
   }, [handleDrag, handleDragEnd]);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     const isDragging = isDraggingRef.current;
