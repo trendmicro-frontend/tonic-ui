@@ -42,9 +42,11 @@ const Scrollbar = forwardRef((
   ref,
 ) => {
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
+  disabled = (!isHydrated || disabled);
   const autoHeight = (maxHeight !== 'auto');
   const horizontalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
   const verticalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
+
   let viewScrollLeft = 0;
   let viewScrollTop = 0;
   let lastViewScrollLeft = 0;
@@ -53,27 +55,20 @@ const Scrollbar = forwardRef((
   // For binding the `mousemove` and `mouseup` events to document, we use `useState` to store `startDragging` variable to trigger `useEffect`.
   const [startDragging, setStartDragging] = useState(false);
 
-  // These variables are used to be the checked point to change DOM style directly (Do NOT need to re-render UI)
+  // These variables are used to be the checked point to change DOM element style directly (Do NOT need to re-render UI)
   const isDraggingRef = useRef(false);
   const isScrollingRef = useRef(false);
   const isTrackMouseOverRef = useRef(false);
   const isViewMouseOverRef = useRef(false);
   const prevPageXRef = useRef(0);
   const prevPageYRef = useRef(0);
+  const scrollbarWidthRef = useRef(false);
 
   const viewRef = useRef(null);
   const trackHorizontalRef = useRef(null);
   const trackVerticalRef = useRef(null);
   const thumbHorizontalRef = useRef(null);
   const thumbVerticalRef = useRef(null);
-
-  const scrollbarWidth = getScrollbarWidth();
-  const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight, style });
-  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled: (!isHydrated || disabled) });
-  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalScrollbarVisibility });
-  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalScrollbarVisibility });
-  const thumbHorizontalStyle = useThumbHorizontalStyle();
-  const thumbVerticalStyle = useThumbVerticalStyle();
 
   const getValues = () => {
     const {
@@ -361,36 +356,39 @@ const Scrollbar = forwardRef((
   };
   /* End Mouse Events */
 
-  const setupDragging = useCallback(() => {
-    document.addEventListener('mousemove', handleDrag);
-    document.addEventListener('mouseup', handleDragEnd);
-  }, [handleDrag, handleDragEnd]);
-
-  const teardownDragging = useCallback(() => {
-    document.removeEventListener('mousemove', handleDrag);
-    document.removeEventListener('mouseup', handleDragEnd);
-  }, [handleDrag, handleDragEnd]);
-
   useEffect(() => {
+    // `getScrollbarWidth` will access to DOM element, which is not safe for SSR. It's better to calculate the scrollbar width after the first render using the `useEffect` Hook.
+    scrollbarWidthRef.current = getScrollbarWidth();
     setIsHydrated(true);
   }, []);
 
   useEffect(() => {
     const isDragging = isDraggingRef.current;
     if (isDragging) {
-      setupDragging();
+      document.addEventListener('mousemove', handleDrag);
+      document.addEventListener('mouseup', handleDragEnd);
     }
     if (!isDragging) {
-      teardownDragging();
+      document.removeEventListener('mousemove', handleDrag);
+      document.removeEventListener('mouseup', handleDragEnd);
     }
     return () => {
-      teardownDragging();
+      document.removeEventListener('mousemove', handleDrag);
+      document.removeEventListener('mouseup', handleDragEnd);
     };
-  }, [startDragging, setupDragging, teardownDragging]);
+  }, [startDragging, handleDrag, handleDragEnd]);
 
   useEffect(() => {
     update();
   }, [update, children]);
+
+  const scrollbarWidth = scrollbarWidthRef.current;
+  const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight, style });
+  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled });
+  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalScrollbarVisibility });
+  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalScrollbarVisibility });
+  const thumbHorizontalStyle = useThumbHorizontalStyle();
+  const thumbVerticalStyle = useThumbVerticalStyle();
 
   return (
     <PseudoBox
