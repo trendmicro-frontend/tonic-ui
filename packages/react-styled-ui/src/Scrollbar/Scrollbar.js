@@ -336,13 +336,6 @@ const Scrollbar = forwardRef((
     const offset = Math.abs(targetTop - clientY) - thumbHeight / 2;
     viewRef.current.scrollTop = getScrollTopForOffset(offset);
   };
-  const handleVerticalTrackWheelScroll = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const deltaY = -1 * event.deltaY;
-    const currentTop = viewRef.current.scrollTop;
-    viewRef.current.scrollTop = currentTop - (deltaY * 2); // 2 = wheel speed
-  };
   const handleHorizontalThumbMouseDown = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -361,30 +354,47 @@ const Scrollbar = forwardRef((
     const { top } = target.getBoundingClientRect();
     prevPageYRef.current = offsetHeight - (clientY - top);
   };
-  const handleHorizontalTrackWheelScroll = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const deltaX = event.deltaX;
-    const currentLeft = viewRef.current.scrollLeft;
-    viewRef.current.scrollLeft = currentLeft + (deltaX * 2); // 2 = wheel speed
-  };
   /* End Mouse Events */
 
   useEffect(() => {
     // `getScrollbarWidth` will access to DOM element, which is not safe for SSR. It's better to calculate the scrollbar width after the first render using the `useEffect` Hook.
     scrollbarWidthRef.current = getScrollbarWidth();
     setIsHydrated(true);
+  }, []);
 
-    // `onwheel` event unable to preventDefault inside passive event listener due to target being treated as passive.
-    // To fix this issue, binding `onwheel` event with { passive: false }.
+  useEffect(() => {
+    /**
+     * https://developer.mozilla.org/en-US/docs/Web/API/Element/wheel_event
+     * Note: Don't confuse the wheel event with the scroll event. The default action of a wheel event is implementation-specific, and doesn't necessarily dispatch a scroll event. Even when it does, the delta* values in the wheel event don't necessarily reflect the content's scrolling direction. Therefore, do not rely on the wheel event's delta* properties to get the scrolling direction. Instead, detect value changes of scrollLeft and scrollTop of the target in the scroll event.
+     */
+    const handleVerticalTrackWheelScroll = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const deltaY = event.deltaY;
+      const currentTop = viewRef.current.scrollTop;
+      viewRef.current.scrollTop = currentTop + deltaY;
+    };
+    const handleHorizontalTrackWheelScroll = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      // Note: the delta* values don't reflect the scrolling direction, the event.deltaX is always zero when doing horizontal scroll
+      const deltaX = event.deltaX || event.deltaY;
+      const currentLeft = viewRef.current.scrollLeft;
+      viewRef.current.scrollLeft = currentLeft + deltaX;
+    };
+
+    /**
+     * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
+     * Set passive to false to indicate that the function specified by listener will call `preventDefault()`
+     */
     const verticalTrack = trackVerticalRef.current;
     const horizontalTrack = trackHorizontalRef.current;
-    verticalTrack.addEventListener('wheel', handleVerticalTrackWheelScroll, { passive: false });
-    horizontalTrack.addEventListener('wheel', handleHorizontalTrackWheelScroll, { passive: false });
+    verticalTrack?.addEventListener('wheel', handleVerticalTrackWheelScroll, { passive: false });
+    horizontalTrack?.addEventListener('wheel', handleHorizontalTrackWheelScroll, { passive: false });
 
     return () => {
-      verticalTrack.removeEventListener('wheel', handleVerticalTrackWheelScroll);
-      horizontalTrack.removeEventListener('wheel', handleHorizontalTrackWheelScroll);
+      verticalTrack?.removeEventListener('wheel', handleVerticalTrackWheelScroll);
+      horizontalTrack?.removeEventListener('wheel', handleHorizontalTrackWheelScroll);
     };
   }, []);
 
