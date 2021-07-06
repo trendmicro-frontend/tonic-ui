@@ -336,6 +336,13 @@ const Scrollbar = forwardRef((
     const offset = Math.abs(targetTop - clientY) - thumbHeight / 2;
     viewRef.current.scrollTop = getScrollTopForOffset(offset);
   };
+  const handleVerticalTrackWheelScroll = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const deltaY = -1 * event.deltaY;
+    const currentTop = viewRef.current.scrollTop;
+    viewRef.current.scrollTop = currentTop - (deltaY * 2); // 2 = wheel speed
+  };
   const handleHorizontalThumbMouseDown = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -354,12 +361,31 @@ const Scrollbar = forwardRef((
     const { top } = target.getBoundingClientRect();
     prevPageYRef.current = offsetHeight - (clientY - top);
   };
+  const handleHorizontalTrackWheelScroll = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const deltaX = event.deltaX;
+    const currentLeft = viewRef.current.scrollLeft;
+    viewRef.current.scrollLeft = currentLeft + (deltaX * 2); // 2 = wheel speed
+  };
   /* End Mouse Events */
 
   useEffect(() => {
     // `getScrollbarWidth` will access to DOM element, which is not safe for SSR. It's better to calculate the scrollbar width after the first render using the `useEffect` Hook.
     scrollbarWidthRef.current = getScrollbarWidth();
     setIsHydrated(true);
+
+    // `onwheel` event unable to preventDefault inside passive event listener due to target being treated as passive.
+    // To fix this issue, binding `onwheel` event with { passive: false }.
+    const verticalTrack = trackVerticalRef.current;
+    const horizontalTrack = trackHorizontalRef.current;
+    verticalTrack.addEventListener('wheel', handleVerticalTrackWheelScroll, { passive: false });
+    horizontalTrack.addEventListener('wheel', handleHorizontalTrackWheelScroll, { passive: false });
+
+    return () => {
+      verticalTrack.removeEventListener('wheel', handleVerticalTrackWheelScroll);
+      horizontalTrack.removeEventListener('wheel', handleHorizontalTrackWheelScroll);
+    };
   }, []);
 
   useEffect(() => {
