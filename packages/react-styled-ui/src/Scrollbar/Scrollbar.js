@@ -34,7 +34,7 @@ const Scrollbar = forwardRef((
     renderHorizontalThumb = renderThumbHorizontalDefault,
     renderVerticalTrack = renderTrackVerticalDefault,
     renderVerticalThumb = renderThumbVerticalDefault,
-    scrollbarVisibility = 'auto',
+    visibility = 'auto',
     style,
     thumbSize,
     ...reset
@@ -44,8 +44,8 @@ const Scrollbar = forwardRef((
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
   disabled = (!isHydrated || disabled);
   const autoHeight = (maxHeight !== 'auto');
-  const horizontalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
-  const verticalScrollbarVisibility = disabled ? 'hidden' : scrollbarVisibility;
+  const horizontalScrollbarVisibility = disabled ? 'hidden' : visibility;
+  const verticalScrollbarVisibility = disabled ? 'hidden' : visibility;
 
   let viewScrollLeft = 0;
   let viewScrollTop = 0;

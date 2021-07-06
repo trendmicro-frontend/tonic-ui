@@ -13,14 +13,19 @@ import {
 The scrollbar default is hidden until you hover the mouse pointer over the content.
 
 ```jsx
-<Scrollbar height={120} width={600}>
-  <Lorem count={12} style={{ whiteSpace: 'nowrap' }}  />
+<Scrollbar
+  height={160}
+  width={600}
+  border={1}
+  borderColor="#424242"
+>
+  <Lorem count={12} style={{ whiteSpace: 'nowrap', paddingLeft: '16px' }}  />
 </Scrollbar>
 ```
 
 ### Visibility
 
-Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`. You can set the value to `auto` (default), `visible`, or `hidden`.
+Use the `visibility` prop to change the visibility style of `Scrollbar`. You can set the value to `auto` (default), `visible`, or `hidden`.
 
 ```jsx
 <Flex>
@@ -30,7 +35,7 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       height={120}
       border={1}
       borderColor="#424242"
-      scrollbarVisibility="auto"
+      visibility="auto"
     >
       <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
@@ -41,7 +46,7 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       height={120}
       border={1}
       borderColor="#424242"
-      scrollbarVisibility="visible"
+      visibility="visible"
     >
       <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
@@ -52,7 +57,7 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       height={120}
       border={1}
       borderColor="#424242"
-      scrollbarVisibility="hidden"
+      visibility="hidden"
     >
       <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
@@ -107,7 +112,7 @@ function MinThumbSizeScroll() {
           height={120}
           border={1}
           borderColor="#424242"
-          scrollbarVisibility="visible"
+          visibility="visible"
           minThumbSize={minThumbSize}
         >
           <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
@@ -153,7 +158,7 @@ function FixedThumbSizeScroll() {
           height={120}
           border={1}
           borderColor="#424242"
-          scrollbarVisibility="visible"
+          visibility="visible"
           thumbSize={thumbSize === -1 ? undefined : thumbSize}
         >
           <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
@@ -164,7 +169,7 @@ function FixedThumbSizeScroll() {
 }
 ```
 
-### The scrollbar in the `Menu`
+### The scrollbar in `Menu`
 
 ```jsx
 <Menu width="160px">
@@ -188,7 +193,7 @@ function FixedThumbSizeScroll() {
 </Menu>
 ```
 
-### The scrollbar in the `Table`
+### The scrollbar in `Table`
 
 Use the `renderScrollView` and `renderScrollTrack` attributes to customize `Scrollbar` style.
 
@@ -225,7 +230,7 @@ function CustomScrollbar({
 
   return (
     <Scrollbar
-      scrollbarVisibility="visible"
+      visibility="visible"
       renderView={renderScrollView}
       renderHorizontalTrack={renderScrollTrack}
       renderVerticalTrack={renderScrollTrack}
@@ -423,5 +428,5 @@ render(
 | renderHorizontalTrack | function | | Horizontal track element. |
 | renderVerticalThumb | function | | Vertical thumb element. |
 | renderVerticalTrack | function | | Vertical track element. |
-| scrollbarVisibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, the scrollbar will auto show/hide. If `'visible'`, the scrollbar always to show.  If `'hidden'`, the scrollbar always to hide. |
 | thumbSize | number | | Set a fixed size (in pixels) for thumbs. |
+| visibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, the scrollbar will auto show/hide. If `'visible'`, the scrollbar always to show.  If `'hidden'`, the scrollbar always to hide. |
