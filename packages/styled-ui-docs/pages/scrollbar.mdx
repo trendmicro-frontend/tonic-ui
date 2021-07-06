@@ -13,14 +13,20 @@ import {
 The scrollbar default is hidden until you hover the mouse pointer over the content.
 
 ```jsx
-<Scrollbar height={120} width={600}>
-  <Lorem count={12} style={{ whiteSpace: 'nowrap' }}  />
+<Scrollbar
+  height={120}
+  width="50%"
+  border={1}
+  borderColor="#424242"
+  resize="both"
+>
+  <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }}  />
 </Scrollbar>
 ```
 
 ### Visibility
 
-Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`. You can set the value to `auto` (default), `visible`, or `hidden`.
+Use the `visibility` prop to change the visibility style of `Scrollbar`. You can set the value to `auto` (default), `visible`, or `hidden`.
 
 ```jsx
 <Flex>
@@ -30,7 +36,7 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       height={120}
       border={1}
       borderColor="#424242"
-      scrollbarVisibility="auto"
+      visibility="auto"
     >
       <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
@@ -41,7 +47,7 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       height={120}
       border={1}
       borderColor="#424242"
-      scrollbarVisibility="visible"
+      visibility="visible"
     >
       <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
@@ -52,7 +58,7 @@ Use the `scrollbarVisibility` prop to change the visibility style of `Scrollbar`
       height={120}
       border={1}
       borderColor="#424242"
-      scrollbarVisibility="hidden"
+      visibility="hidden"
     >
       <Lorem count={12} style={{ paddingLeft: '16px' }} />
     </Scrollbar>
@@ -107,7 +113,7 @@ function MinThumbSizeScroll() {
           height={120}
           border={1}
           borderColor="#424242"
-          scrollbarVisibility="visible"
+          visibility="visible"
           minThumbSize={minThumbSize}
         >
           <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
@@ -153,7 +159,7 @@ function FixedThumbSizeScroll() {
           height={120}
           border={1}
           borderColor="#424242"
-          scrollbarVisibility="visible"
+          visibility="visible"
           thumbSize={thumbSize === -1 ? undefined : thumbSize}
         >
           <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
@@ -225,7 +231,7 @@ function CustomScrollbar({
 
   return (
     <Scrollbar
-      scrollbarVisibility="visible"
+      visibility="visible"
       renderView={renderScrollView}
       renderHorizontalTrack={renderScrollTrack}
       renderVerticalTrack={renderScrollTrack}
