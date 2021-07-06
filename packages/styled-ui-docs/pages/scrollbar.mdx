@@ -14,12 +14,13 @@ The scrollbar default is hidden until you hover the mouse pointer over the conte
 
 ```jsx
 <Scrollbar
-  height={160}
-  width={600}
+  height={120}
+  width="50%"
   border={1}
   borderColor="#424242"
+  resize="both"
 >
-  <Lorem count={12} style={{ whiteSpace: 'nowrap', paddingLeft: '16px' }}  />
+  <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }}  />
 </Scrollbar>
 ```
 
@@ -32,7 +33,7 @@ Use the `visibility` prop to change the visibility style of `Scrollbar`. You can
   <Box flex="auto" mr="4x">
     <Text size="xl" marginBottom="2x">auto</Text>
     <Scrollbar
-      height={120}
+      height={160}
       border={1}
       borderColor="#424242"
       visibility="auto"
@@ -429,4 +430,4 @@ render(
 | renderVerticalThumb | function | | Vertical thumb element. |
 | renderVerticalTrack | function | | Vertical track element. |
 | thumbSize | number | | Set a fixed size (in pixels) for thumbs. |
-| visibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, the scrollbar will auto show/hide. If `'visible'`, the scrollbar always to show.  If `'hidden'`, the scrollbar always to hide. |
+| visibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, it will automatically show or hide the scrollbar on the container. If `'visible'`, the scrollbar is visible.  If `'hidden'`, the scrollbar is invisible. |
