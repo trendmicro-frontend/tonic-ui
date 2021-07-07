@@ -646,15 +646,58 @@ render(<ResizableTable />);
 
 ### Sticky table
 
-In this example, we use [`react-custom-scrollbars`](https://github.com/malte-wessel/react-custom-scrollbars) to display scrollbar.
+#### Sticky header
 
-`import { Scrollbars } from 'react-custom-scrollbars';`
-
+In this example, we make a table with fixed header and a scrollable content. we use [`Scrollbar`](./scrollbar) component to render scrollable table body.
 
 ```jsx noInline
+function CustomScrollbar({
+  showVerticalScrollbar,
+  showHorizontalScrollbar,
+  children,
+  ...props
+}) {
+  const renderScrollView = props => {
+    return (
+      <Box
+        {...props}
+        right={showVerticalScrollbar ? "8px" : 0}
+        bottom={showHorizontalScrollbar ? "8px" : 0}
+      />
+    );
+  };
+
+  const renderScrollTrack = props => {
+    const [colorMode] = useColorMode();
+    const bgColor = {
+      dark: 'gray:70',
+      light: 'gray:70',
+    }[colorMode];
+    return (
+      <Box
+        {...props}
+        bg={bgColor}
+      />
+    );
+  };
+
+  return (
+    <Scrollbar
+      visibility="visible"
+      renderView={renderScrollView}
+      renderHorizontalTrack={renderScrollTrack}
+      renderVerticalTrack={renderScrollTrack}
+      {...props}
+    >
+      {children}
+    </Scrollbar>
+  );
+}
+
 function StickyTable() {
-  const [colorMode] = useColorMode();
-  const scrollbarColor = colorMode === 'dark' ? 'white:tertiary' : 'black:tertiary';
+  const tableHeaderRef = React.createRef();
+  const [showHorizontalScrollbar, setShowHorizontalScrollbar] = React.useState(false);
+  const [showVerticalScrollbar, setShowVerticalScrollbar] = React.useState(false);
 
   const columns = React.useMemo(() => [
     {
@@ -680,8 +723,6 @@ function StickyTable() {
     { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
   ], []);
 
-  const tableHeaderRef = React.createRef();
-
   const onScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
     if (!!tableHeaderRef && tableHeaderRef.current.scrollLeft !== scrollLeft) {
@@ -689,14 +730,9 @@ function StickyTable() {
     }
   };
 
-  const renderThumb = props => {
-    return (
-      <Box
-        borderRadius="lg"
-        bg={scrollbarColor}
-        {...props}
-      />
-    );
+  const onUpdate = ({ hasHorizontalScrollbar, hasVerticalScrollbar, ...props }) => {
+    setShowHorizontalScrollbar(hasHorizontalScrollbar);
+    setShowVerticalScrollbar(hasVerticalScrollbar);
   };
 
   const {
@@ -722,21 +758,37 @@ function StickyTable() {
       {...getTableProps()}
     >
       <TableHeader ref={tableHeaderRef}>
-        {headerGroups.map(headerGroup => (
-          <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <TableHeaderCell {...column.getHeaderProps()}>
-                {column.render('Header')}
-              </TableHeaderCell>
-            ))}
-          </TableHeaderRow>
-        ))}
+        {headerGroups.map(headerGroup => {
+          const { style, ...props } = headerGroup.getHeaderGroupProps();
+          let headerWidth = style.width;
+          if (showVerticalScrollbar) {
+            headerWidth = `calc(${style.width} + 8px)`; // 8px is scrollbar width
+          }
+          return (
+            <TableHeaderRow style={{...style, width: headerWidth}} {...props}>
+              {headerGroup.headers.map((column, index) => (
+                <TableHeaderCell
+                  key={column.accessor}
+                  {...(showVerticalScrollbar && index === headerGroup.headers.length - 1) && {
+                    borderRight: 0,
+                  }}
+                  {...column.getHeaderProps()}
+                >
+                  {column.render('Header')}
+                </TableHeaderCell>
+              ))}
+              {showVerticalScrollbar && (
+                <TableHeaderCell width="8px" padding={0} borderLeft={0} />
+              )}
+            </TableHeaderRow>
+          );
+        })}
       </TableHeader>
-      <Scrollbars
-        universal
-        renderThumbHorizontal={renderThumb}
-        renderThumbVertical={renderThumb}
+      <CustomScrollbar
+        showVerticalScrollbar
+        showHorizontalScrollbar
         onScroll={onScroll}
+        onUpdate={onUpdate}
       >
         <TableBody {...getTableBodyProps()}>
           {rows.map((row, i) => {
@@ -754,7 +806,7 @@ function StickyTable() {
             );
           })}
         </TableBody>
-      </Scrollbars>
+      </CustomScrollbar>
     </Table>
   );
 }
