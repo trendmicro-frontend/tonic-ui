@@ -10,7 +10,167 @@ import {
 
 ## Usage
 
-### The scrollbar in the `Menu`
+The scrollbar default is hidden until you hover the mouse pointer over the content.
+
+```jsx
+<Scrollbar
+  height={160}
+  width="50%"
+  border={1}
+  borderColor="#424242"
+  resize="both"
+>
+  <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }}  />
+</Scrollbar>
+```
+
+### Visibility
+
+Use the `visibility` prop to change the visibility style of `Scrollbar`. You can set the value to `auto` (default), `visible`, or `hidden`.
+
+```jsx
+<Flex>
+  <Box flex="auto" mr="4x">
+    <Text size="xl" marginBottom="2x">auto</Text>
+    <Scrollbar
+      height={120}
+      border={1}
+      borderColor="#424242"
+      visibility="auto"
+    >
+      <Lorem count={12} style={{ paddingLeft: '16px' }} />
+    </Scrollbar>
+  </Box>
+  <Box flex="auto" mr="4x">
+    <Text size="xl" marginBottom="2x">visible</Text>
+    <Scrollbar
+      height={120}
+      border={1}
+      borderColor="#424242"
+      visibility="visible"
+    >
+      <Lorem count={12} style={{ paddingLeft: '16px' }} />
+    </Scrollbar>
+  </Box>
+  <Box flex="auto" mr="4x">
+    <Text size="xl" marginBottom="2x">hidden</Text>
+    <Scrollbar
+      height={120}
+      border={1}
+      borderColor="#424242"
+      visibility="hidden"
+    >
+      <Lorem count={12} style={{ paddingLeft: '16px' }} />
+    </Scrollbar>
+  </Box>
+</Flex>
+```
+
+### Disabled
+
+Use the `disabled` attribute, the overflow is clipped, and the rest of the content is hidden.
+
+```jsx
+<Scrollbar height={160} disabled>
+  <Lorem count={12} />
+</Scrollbar>
+```
+
+### The minimal thumb size
+
+Use the `minThumbSize` attribute to set the minimal size (in pixels) for thumbs.
+
+The thumbs size will be the original size if the original size > the minimal size. In other words, the thumbs size will be the minimal size if the original size < the minimal size.
+
+```jsx
+function MinThumbSizeScroll() {
+  const [minThumbSize, setMinThumbSize] = React.useState(32);
+  const [dataRow, setDataRow] = React.useState(8);
+
+  return (
+    <>
+      <Box marginBottom="2x">
+        <Text marginBottom="1x">The minimal thumb size:</Text>
+        <RadioGroup onChange={e => setMinThumbSize(Number(e.target.value))} value={minThumbSize}>
+          <Stack spacing="1x" shouldWrapChildren>
+            <Radio value={32}>32px (default)</Radio>
+            <Radio value={16}>16px (customization)</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      <Box marginBottom="2x">
+        <Text marginBottom="1x">Data row:</Text>
+        <RadioGroup onChange={e => setDataRow(Number(e.target.value))} value={dataRow}>
+          <Stack spacing="1x" shouldWrapChildren>
+            <Radio value={8}>8 rows</Radio>
+            <Radio value={24}>24 rows</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      <Box>
+        <Text marginBottom="1x">Result:</Text>
+        <Scrollbar
+          height={120}
+          border={1}
+          borderColor="#424242"
+          visibility="visible"
+          minThumbSize={minThumbSize}
+        >
+          <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
+        </Scrollbar>
+      </Box>
+    </>
+  );
+}
+```
+
+### The fixed thumb size
+
+Use the `thumbSize` attribute to set a fixed size (in pixels) for thumbs.
+
+```jsx
+function FixedThumbSizeScroll() {
+  const [thumbSize, setThumbSize] = React.useState(-1);
+  const [dataRow, setDataRow] = React.useState(8);
+
+  return (
+    <>
+      <Box marginBottom="2x">
+        <Text marginBottom="1x">The fixed thumb size:</Text>
+        <RadioGroup onChange={e => setThumbSize(Number(e.target.value))} value={thumbSize}>
+          <Stack spacing="1x" shouldWrapChildren>
+            <Radio value={-1}>undefined (default)</Radio>
+            <Radio value={100}>100px (customization)</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      <Box marginBottom="2x">
+        <Text marginBottom="1x">Data row:</Text>
+        <RadioGroup onChange={e => setDataRow(Number(e.target.value))} value={dataRow}>
+          <Stack spacing="1x" shouldWrapChildren>
+            <Radio value={8}>8 rows</Radio>
+            <Radio value={24}>24 rows</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      <Box>
+        <Text marginBottom="1x">Result:</Text>
+        <Scrollbar
+          height={120}
+          border={1}
+          borderColor="#424242"
+          visibility="visible"
+          thumbSize={thumbSize === -1 ? undefined : thumbSize}
+        >
+          <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
+        </Scrollbar>
+      </Box>
+    </>
+  );
+}
+```
+
+### The scrollbar in `Menu`
 
 ```jsx
 <Menu width="160px">
@@ -34,7 +194,9 @@ import {
 </Menu>
 ```
 
-### The scrollbar in the `Table`
+### The scrollbar in `Table`
+
+Use the `renderScrollView` and `renderScrollTrack` attributes to customize `Scrollbar` style.
 
 ```jsx noInline
 function CustomScrollbar({
@@ -69,7 +231,7 @@ function CustomScrollbar({
 
   return (
     <Scrollbar
-      scrollbarVisibility="visible"
+      visibility="visible"
       renderView={renderScrollView}
       renderHorizontalTrack={renderScrollTrack}
       renderVerticalTrack={renderScrollTrack}
@@ -138,7 +300,6 @@ function StickyTable() {
   
   return (
     <Table
-      isHoverable
       variant="outline"
       width={400}
       height={200}
@@ -201,7 +362,7 @@ function StickyTable() {
 render(<StickyTable />);
 ```
 
-### ShadowScrollbar
+### Shadow scrollbar
 
 ```jsx noInline
 function ShadowScrollbar(props) {
@@ -229,7 +390,7 @@ function ShadowScrollbar(props) {
         left="0"
         right="0"
         height="24px"
-        background="linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%)"
+        background="linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
       />
       <Box
         ref={shadowBottomRef}
@@ -238,7 +399,7 @@ function ShadowScrollbar(props) {
         left="0"
         right="0"
         height="24px"
-        background="linear-gradient(to top, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%)"
+        background="linear-gradient(to top, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
       />
     </Box>
   );
@@ -257,11 +418,10 @@ render(
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| autoHideDelay | number | 1000 | Hide delay in ms. |
 | disabled | boolean | | If `true`, the overflow is clipped, and the rest of the content is hidden. |
-| maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not `'auto'`, activate auto height mode. |
+| maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not `'auto'`, activate auto-height mode. |
 | minHeight | number \| string | 'auto' | Set a maximum height (in pixels) for auto-height mode. |
-| minThumbSize | number | 30 | Minimal thumb size in pixels. |
+| minThumbSize | number | 32 | Minimal thumb size in pixels. |
 | onScroll | function | | Event handler. |
 | onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. |
 | renderView | function | | The element your content will be rendered in. |
@@ -269,5 +429,5 @@ render(
 | renderHorizontalTrack | function | | Horizontal track element. |
 | renderVerticalThumb | function | | Vertical thumb element. |
 | renderVerticalTrack | function | | Vertical track element. |
-| scrollbarVisibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, the scrollbar will auto show/hide. If `'visible'`, the scrollbar always to show.  If `'hidden'`, the scrollbar always to hide. |
 | thumbSize | number | | Set a fixed size (in pixels) for thumbs. |
+| visibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, it will automatically show or hide the scrollbar on the container. If `'visible'`, the scrollbar is visible.  If `'hidden'`, the scrollbar is invisible. |
