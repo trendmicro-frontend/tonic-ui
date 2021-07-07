@@ -29,7 +29,6 @@ const ColorStyleBody = ({
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorStyleOfType = _get(customColorStyle, colorType) ?? _get(colorStyle, colorType);
-
   const colorStyleBlocks = Object.keys(colorStyleOfType)
     .map(colorKey => {
       const colorLabel = capitalizeFirstLetter(colorKey);

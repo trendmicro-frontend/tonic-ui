@@ -1,6 +1,6 @@
 /* eslint max-lines-per-function: 0 */
 
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 const normalizeCSS = theme => css`
 

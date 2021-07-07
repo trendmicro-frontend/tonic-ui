@@ -1,6 +1,6 @@
 {
   "name": "styled-ui-docs",
-  "version": "0.14.0",
+  "version": "0.15.1",
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production next build",
@@ -12,8 +12,8 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@emotion/core": "10.x",
-    "@emotion/styled": "10.x",
+    "@emotion/react": "11.x",
+    "@emotion/styled": "11.x",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
@@ -23,14 +23,14 @@
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@next/mdx": "^10.0.7",
-    "@trendmicro/react-styled-ui": "^0.14.0",
-    "@trendmicro/styled-ui-theme": "^0.12.0",
+    "@trendmicro/react-styled-ui": "^0.15.1",
+    "@trendmicro/styled-ui-theme": "^0.13.0",
     "@zeit/next-css": "^1.0.1",
     "boolean": "^3.0.1",
     "cross-env": "~7.0.3",
     "del-cli": "~3.0.1",
     "dotenv-flow": "~3.2.0",
-    "emotion-theming": "10.x",
+    "ensure-type": "1.x",
     "immutability-helper": "^3.1.1",
     "jest": "^26.6.3",
     "next": "^10.0.7",

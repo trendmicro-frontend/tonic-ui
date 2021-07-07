@@ -427,7 +427,7 @@ function Example() {
 ### Keyboard
 
 | Key                | Action                                                                     |
-| ------------------ | -------------------------------------------------------------------------- |
+| :----------------- | :------------------------------------------------------------------------- |
 | `ArrowLeft`        | Moves focus to the next tab                                                |
 | `ArrowUp`          | Moves focus to the previous tab                                            |
 | `Tab`              | When focus moves into the tab list, places focus on the active tab element |
@@ -438,7 +438,7 @@ function Example() {
 ### ARIA roles
 
 | Component | Aria               | Usage                                                                       |
-| --------- | ------------------ | --------------------------------------------------------------------------- |
+| :-------- | :----------------- | :-------------------------------------------------------------------------- |
 | Tab       | `role="tab"`       | Indicates that it's a tab                                                   |
 |           | `aria-selected`    | Set to `true` a tab is selected and all other Tabs have it set to `false`.  |
 |           | `aria-controls`    | Set to the `id` of its associated `TabPanel`                                |
@@ -453,26 +453,27 @@ function Example() {
 
 Tabs composes `Box` so you call pass all `Box` related props.
 
-| Name           | Type                                                                              | Default      | Description                                                                                                                     |
-| -------------- | --------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| `onChange`     | `(index: number) => void`                                                         |              | The callback to update the active tab index.                                                                                    |
-| `index`        | `number`                                                                          |              | The controlled index of the tabs.                                                                                               |
-| `defaultIndex` | `number`                                                                          |              | The index of the initial active tab.                                                                                            |
-| `isManual`     | `boolean`                                                                         |              | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` or `Space` to active it |
-| `children`     | `React.ReactNode`                                                                 |              | The children of the switch.                                                                                                     |
-| `variant`      | `line`,`enclosed`, `unstyled`                                                     | `line`       | The visual style of the tab.                                                                                                    |
-| `orientation`  | `horizontal`, `vertical`                                                          | `horizontal` | The orientation of the tabs                                                                                                     |
-| `isFitted`     | `boolean`                                                                         |              | If `true`, the tabs will stretch to fill the available space                                                                    |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `onChange` | `(index: number) => void` | | The callback to update the active tab index. |
+| `index` | `number` | | The controlled index of the tabs. |
+| `defaultIndex` | `number` | | The index of the initial active tab. |
+| `activateOnKeypress` | `boolean` | | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` or `Space` to active it. This is deprecated and will be removed in the v1 release |
+| `isManual` | `boolean` | | If `true`, keyboard navigation changes focus between tabs but doens't activate it. User will have to press `Enter` or `Space` to active it |
+| `children` | `ReactNode` | | The children of the switch. |
+| `variant` | `line`,`enclosed`, `unstyled` | `line` | The visual style of the tab. |
+| `orientation` | `horizontal`, `vertical` | `horizontal` | The orientation of the tabs |
+| `isFitted` | `boolean` | | If `true`, the tabs will stretch to fill the available space |
 
 ### Tab Props
 
-| Name         | Type      | Default | Description                         |
-| ------------ | --------- | ------- | ----------------------------------- |
-| `disabled`   | `boolean` |         | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| `disabled` | `boolean` | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 
 
 ### TabPanel Props
 
-| Name         | Type      | Default | Description                         |
-| ------------ | --------- | ------- | ----------------------------------- |
-| children | React.ReactNode, (props: InternalState) => React.ReactNode | | The children of the `TabPanel`. |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode, (props: InternalState) => ReactNode | | The children of the `TabPanel`. |

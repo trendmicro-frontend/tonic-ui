@@ -4,7 +4,6 @@ import {
   useColorStyle,
   useTheme,
 } from '@trendmicro/react-styled-ui';
-import _get from 'lodash/get';
 import React from 'react';
 import CodeBlock from './CodeBlock';
 import jsonPrettify from './json-prettify';

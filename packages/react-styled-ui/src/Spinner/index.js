@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
