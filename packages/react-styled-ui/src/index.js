@@ -25,6 +25,7 @@ import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
 import LightMode from './LightMode';
 import Link from './Link';
+import LinkButton from './LinkButton';
 import MenuButton from './MenuButton';
 import Pagination from './Pagination';
 import Presence from './Presence';
@@ -86,6 +87,7 @@ export {
   InputGroupPrepend,
   LightMode,
   Link,
+  LinkButton,
   MenuButton,
   Pagination,
   Presence,
