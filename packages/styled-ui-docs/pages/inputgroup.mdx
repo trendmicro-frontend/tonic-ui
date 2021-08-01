@@ -117,12 +117,10 @@ The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyl
 For an unstyled input group that doesn't have border and padding spaces, it is not necessary to place an `InputGroupPrepend` or `InputGroupAppend` on either side of an `Input`.
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <InputGroup variant="unstyled">
-    <InputGroupAddon pr="1x">@</InputGroupAddon>
-    <Input placeholder="Username" />
-  </InputGroup>
-</Stack>
+<InputGroup variant="unstyled">
+  <InputGroupAddon pr="1x">@</InputGroupAddon>
+  <Input placeholder="Username" />
+</InputGroup>
 ```
 
 ### Multiple add-ons
@@ -259,7 +257,7 @@ render(<Example />);
 
 ### InputGroup
 
-`InputGroup` composes the [`Box`](./box) component.
+`InputGroup` composes the [`PseudoBox`](./pseudobox) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
