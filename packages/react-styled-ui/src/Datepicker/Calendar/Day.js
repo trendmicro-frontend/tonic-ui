@@ -1,9 +1,10 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import {
-  Flex,
-  useColorMode,
-} from '@trendmicro/react-styled-ui';
+
+import Flex from '../../Flex';
+import useColorMode from '../../useColorMode';
+
 import {
   DAY_BACKGROUND_COLOR,
   DAY_FONT_COLOR,

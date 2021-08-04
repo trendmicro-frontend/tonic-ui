@@ -1,14 +1,14 @@
-import { 
+import React, {
   useState,
   useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Flex,
-  Grid,
-  useColorMode,
-  useColorStyle,
-} from '@trendmicro/react-styled-ui';
+
+import Flex from '../../Flex';
+import Grid from '../../Grid';
+import useColorMode from '../../useColorMode';
+import useColorStyle from '../../useColorStyle';
+
 import {
   DAY,
   DEFAULT_WEEK_ROW,
@@ -138,5 +138,7 @@ Calendar.defaultProps = {
   startDate: "",
   onSelect: () => {}
 };
+
+Calendar.displayName = 'Calendar';
 
 export default Calendar;

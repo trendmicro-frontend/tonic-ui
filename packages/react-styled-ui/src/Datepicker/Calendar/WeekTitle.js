@@ -1,4 +1,5 @@
-import { Flex } from "@trendmicro/react-styled-ui";
+import React from 'react';
+import Flex from '../../Flex';
 import { DAY } from './constants';
 
 const WeekTitle = () => (

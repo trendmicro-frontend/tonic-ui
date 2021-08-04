@@ -1,11 +1,12 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Flex,
-  Icon,
-} from "@trendmicro/react-styled-ui";
+
+import Box from '../../Box';
+import Button from '../../Button';
+import Flex from '../../Flex';
+import Icon from '../../Icon';
+
 import { MONTH } from './constants';
 
 const Controller = ({
