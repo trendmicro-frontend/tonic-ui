@@ -21,7 +21,7 @@ import {
   getMonthDays,
   getPrevMonthLastDate,
   isValidDate,
-} from './utils';
+} from '../utils';
 import Controller from './Controller';
 import Week from './Week';
 import WeekTitle from './WeekTitle';
