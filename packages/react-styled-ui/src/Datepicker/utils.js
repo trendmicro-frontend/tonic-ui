@@ -18,18 +18,16 @@ export const dateToStr = (rawDate, full = false) => {
   const newDate = dateToAry(rawDate);
   return newDate
     .map((item) => (full && item < 10 ? `0${item}` : item))
-    .join("-");
+    .join('-');
 };
 
 export const isValidDate = (dateStr) => !!new Date(dateStr).toJSON();
 
-export const isLeapYear = (checkYear) =>
-  new Date(checkYear, 1, FEB_OF_LEAP_YEAR).getDate() === FEB_OF_LEAP_YEAR;
+export const isLeapYear = (checkYear) => new Date(checkYear, 1, FEB_OF_LEAP_YEAR).getDate() === FEB_OF_LEAP_YEAR;
 
-export const getMonthDays = (year, month) =>
-  isLeapYear(year) && month === 2
-    ? FEB_OF_LEAP_YEAR
-    : MONTH_DAYS[month - 1];
+export const getMonthDays = (year, month) => (isLeapYear(year) && month === 2
+  ? FEB_OF_LEAP_YEAR
+  : MONTH_DAYS[month - 1]);
 
 export const getPrevMonthLastDate = (curDate) => {
   curDate.setDate(0);
@@ -44,14 +42,16 @@ export const getPrevMonthLastDate = (curDate) => {
  *
  * @see http://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
  */
- export const getTextWidth = (text, font) => {
-  if (typeof document === 'undefined') return 0;
+export const getTextWidth = (text, font) => {
+  if (typeof document === 'undefined') {
+    return 0;
+  }
   // if given, use cached canvas for better performance
   // else, create new canvas
-  var canvas = getTextWidth.canvas ||
+  let canvas = getTextWidth.canvas ||
     (getTextWidth.canvas = document.createElement('canvas')) || null;
-  var context = canvas.getContext('2d');
+  let context = canvas.getContext('2d');
   context.font = font;
-  var metrics = context.measureText(text);
+  let metrics = context.measureText(text);
   return metrics.width;
-}
+};

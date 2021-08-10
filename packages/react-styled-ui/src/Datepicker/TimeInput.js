@@ -13,18 +13,17 @@ const defaultVariant = 'outline';
 const DEFAULT_VALUE = '00';
 
 const TimeInput = ({
-    value,
-    isInvalid,
-    onChange = () => {},
-    ...rest
-  }) => {
+  value,
+  isInvalid,
+  onChange = () => {},
+  ...rest
+}) => {
   const SEPARATOR = ':';
   const initValAry = value?.split(SEPARATOR) || [
     DEFAULT_VALUE,
     DEFAULT_VALUE,
     DEFAULT_VALUE
   ];
-  const [initHour, initMinute, initSecond] = initValAry;
 
   const theme = useTheme();
   const font = `${theme.fontSizes.sm} ${theme.fonts.base}`;
@@ -34,6 +33,7 @@ const TimeInput = ({
   const minuteRef = useRef(null);
   const secondRef = useRef(null);
   const [valueAry, setValueAry] = useState(initValAry);
+  const [hourVal, minuteVal, secondVal] = initValAry;
 
   const inputErrorStyle = useInputErrorStyle();
   const errorStyle = isInvalid ? inputErrorStyle : {};
@@ -64,7 +64,7 @@ const TimeInput = ({
       <InputCell
         idx={0}
         ref={hourRef}
-        initVal={initHour}
+        val={hourVal}
         defaultVal={DEFAULT_VALUE}
         max={23}
         width={inputWidth}
@@ -75,7 +75,7 @@ const TimeInput = ({
       <InputCell
         idx={1}
         ref={minuteRef}
-        initVal={initMinute}
+        val={minuteVal}
         defaultVal={DEFAULT_VALUE}
         max={59}
         width={inputWidth}
@@ -87,7 +87,7 @@ const TimeInput = ({
       <InputCell
         idx={2}
         ref={secondRef}
-        initVal={initSecond}
+        val={secondVal}
         defaultVal={DEFAULT_VALUE}
         max={59}
         width={inputWidth}

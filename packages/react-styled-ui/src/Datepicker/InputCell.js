@@ -7,7 +7,7 @@ const InputCell = forwardRef(
   (
     {
       idx,
-      initVal,
+      val,
       defaultVal,
       max,
       min = 0,
@@ -20,7 +20,7 @@ const InputCell = forwardRef(
   ) => {
     const START_POSITION = 0;
     const END_POSITION = defaultVal.length;
-    const [value, setValue] = useState(initVal);
+    const [value, setValue] = useState(val);
     const [curPosition, setCurPosition] = useState(0);
     const [isRange, setIsRange] = useState(false);
 
@@ -38,11 +38,15 @@ const InputCell = forwardRef(
       onChangeCell(idx, value);
     }, [value]);
 
+    useEffect(() => {
+      setValue(val);
+    }, [val]);
+
     const formattedValue = (valueStr, isPadEnd = false) => {
       const PAD_STR = '0';
       const VAL_LEN = defaultVal.length;
       const trimValue = valueStr
-        .replace(/[^\d+]/g, "")
+        .replace(/[^\d+]/g, '')
         .slice(START_POSITION, END_POSITION);
       return isPadEnd
         ? trimValue.padEnd(VAL_LEN, PAD_STR)
@@ -61,7 +65,6 @@ const InputCell = forwardRef(
       const { value: inputValue, selectionStart } = e.target;
       const trimValue = formattedValue(inputValue, true);
       const isValid = +trimValue >= min && +trimValue <= max;
-
       if (isValid) {
         setValue(trimValue);
         setCurPosition(selectionStart);
@@ -81,21 +84,21 @@ const InputCell = forwardRef(
       const isEndIdx = selectionStart === END_POSITION;
 
       switch (key) {
-        case 'ArrowLeft':
-        case 'Backspace':
-          isStartIdx && prevRef && prevRef.current.focus();
-          break;
-        case 'ArrowRight':
-          isEndIdx && nextRef && nextRef.current.focus();
-          break;
-        case 'ArrowDown':
-          increaseValue();
-          break;
-          case 'ArrowUp':
-          decreaseValue();
-          break;
-        default:
-          break;
+      case 'ArrowLeft':
+      case 'Backspace':
+        isStartIdx && prevRef && prevRef.current.focus();
+        break;
+      case 'ArrowRight':
+        isEndIdx && nextRef && nextRef.current.focus();
+        break;
+      case 'ArrowDown':
+        increaseValue();
+        break;
+      case 'ArrowUp':
+        decreaseValue();
+        break;
+      default:
+        break;
       }
     };
 
@@ -119,6 +122,7 @@ const InputCell = forwardRef(
         onMouseEnter={() => document.body.addEventListener('wheel', cancelWheel, { passive: false })}
         onMouseLeave={() => document.body.removeEventListener('wheel', cancelWheel)}
         onWheel={onWheel}
+        textAlign="center"
         width={width}
         __selection={{
           color: 'white:primary',

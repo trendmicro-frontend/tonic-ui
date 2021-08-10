@@ -8,13 +8,13 @@ import useTheme from '../useTheme';
 
 import Calendar from './Calendar/Calendar';
 import InputCell from './InputCell';
-import { getTextWidth } from './utils';
+import { getTextWidth, dateToAry } from './utils';
 import { useInputErrorStyle, useIconStyle, useInputStyle } from './styles';
 
 const defaultSize = 'md';
 const defaultVariant = 'outline';
 
-const DEFAULT_YEAR = '1900';
+const DEFAULT_YEAR = '2020';
 const DEFAULT_DATE = '01';
 const DateInput = ({
   value,
@@ -25,13 +25,13 @@ const DateInput = ({
   const SEPARATOR = '-';
   const MAX_YEAR = String(new Date().getFullYear());
   const initValAry = value?.split(SEPARATOR) || [DEFAULT_YEAR, DEFAULT_DATE, DEFAULT_DATE];
-  const [initYear, initMonth, initDate] = initValAry;
 
   const yearRef = useRef(null);
   const monthRef = useRef(null);
   const dateRef = useRef(null);
   const [valueAry, setValueAry] = useState(initValAry);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [yearVal, monthVal, dateVal] = valueAry;
 
   const theme = useTheme();
   const font = `${theme.fontSizes.sm} ${theme.fonts.base}`;
@@ -57,11 +57,15 @@ const DateInput = ({
   };
 
   const onDateSelect = (date) => {
+    const dateAry = dateToAry(date).map(item => item
+      .toString()
+      .padStart(DEFAULT_DATE.length, 0));
     setShowCalendar(false);
+    setValueAry(dateAry);
   };
 
   return (
-    <Box position="relative">
+    <Box position="relative" zIndex="1">
       <InputGroup
         data-value={valueAry.join(SEPARATOR)}
         onClick={() => setShowCalendar(true)}
@@ -73,7 +77,7 @@ const DateInput = ({
         <InputCell
           idx={0}
           ref={yearRef}
-          initVal={initYear}
+          val={yearVal}
           defaultVal={DEFAULT_YEAR}
           max={MAX_YEAR}
           width={yearWidth}
@@ -84,7 +88,7 @@ const DateInput = ({
         <InputCell
           idx={1}
           ref={monthRef}
-          initVal={initMonth}
+          val={monthVal}
           defaultVal={DEFAULT_DATE}
           max={12}
           width={dateWidth}
@@ -96,7 +100,7 @@ const DateInput = ({
         <InputCell
           idx={2}
           ref={dateRef}
-          initVal={initDate}
+          val={dateVal}
           defaultVal={DEFAULT_DATE}
           max={31}
           width={dateWidth}
@@ -105,8 +109,12 @@ const DateInput = ({
         />
       </InputGroup>
       { showCalendar && (
-        <Box position="absolute" top="0" bottom="0">
-          <Calendar onSelect={onDateSelect} />
+        <Box
+          position="absolute"
+          top="8x"
+          bottom="0"
+        >
+          <Calendar startDate={valueAry.join('-')} onSelect={onDateSelect} />
         </Box>
       )}
     </Box>

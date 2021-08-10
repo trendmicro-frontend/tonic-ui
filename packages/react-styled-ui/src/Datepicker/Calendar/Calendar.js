@@ -71,7 +71,8 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
       days.push({
         year: prevYear,
         month: prevMonth,
-        date: i + prevMonthFirstRenderDate
+        date: i + prevMonthFirstRenderDate,
+        isToday: false
       });
     }
 
@@ -88,7 +89,8 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
       days.push({
         year: nextYear,
         month: nextMonth,
-        date: i + nextDate
+        date: i + nextDate,
+        isToday: false
       });
     }
     return days;
@@ -109,6 +111,7 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
       direction="column"
       px="6x"
       py="3x"
+      backgroundColor={colorStyle.background.primary}
       border="1px solid"
       borderColor={borderColor}
       borderRadius={3}
