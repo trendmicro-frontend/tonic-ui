@@ -81,6 +81,7 @@ import {
   ColorStyleProvider,
   CSSBaseline,
   ThemeProvider,
+  ToastProvider,
   useColorMode,
   useTheme,
 } from '@trendmicro/react-styled-ui';
@@ -121,10 +122,12 @@ const CustomApp = (props) => {
     <ThemeProvider>
       <ColorModeProvider value="dark">
         <ColorStyleProvider>
-          <CSSBaseline />
-          <Layout>
-            <App {...props} />
-          </Layout>
+          <ToastProvider>
+            <CSSBaseline />
+            <Layout>
+              <App {...props} />
+            </Layout>
+          </ToastProvider>
         </ColorStyleProvider>
       </ColorModeProvider>
     </ThemeProvider>
