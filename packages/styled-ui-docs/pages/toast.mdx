@@ -14,6 +14,33 @@ import {
 
 ## Usage
 
+Add `ToastProvider` to the root.
+
+```jsx disabled
+<ToastProvider>
+  <App />
+</ToastProvider>
+```
+
+For the Hook version, use the `useToast` Hook to get all the toast functions. See the <b>Toast API</b> section for detailed usage.
+
+```jsx disabled
+function Example() {
+  const toast = useToast();
+  const handleClick = () => {
+    toast(({ onClose, placement }) => (
+      <Box>toast</Box>
+    ));
+  };
+
+  return (
+    <Button onClick={handleClick}>
+      Trigger Toast
+    </Button>
+  );
+}
+```
+
 ### Layout
 
 * Increase the vertical padding space to `4x` (or `1rem`) for a multiline paragraph.
@@ -445,7 +472,7 @@ function Example() {
 render(<Example />);
 ```
 
-## Props
+## Toast Props
 
 A `Toast` element is composed of the [`Box`](./box) component. You can override the default styles using the style props.
 
@@ -455,3 +482,88 @@ A `Toast` element is composed of the [`Box`](./box) component. You can override 
 | onClose | function | | A callback called when the close button is clicked. |
 | appearance | string | 'none' | One of: `'none'`, `'success'`, `'info'`, `'warning'`, `'error'` |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
+
+## Toast API
+
+### toast(content, [options={}])
+
+Create a toast at the specified placement and return the ID.
+
+**Arguments**
+
+* `content` *(Function|string)*: The content to render.
+* `[options={}]` *(Object)*: The options object.
+* `[options.duration]` *(number)*: The duration that the toast should remain on the screen.
+* `[options.id]` *(string)*: A unique ID of the toast.
+* `[options.placement]` *(string)*: The placement of the toast.
+
+**Aliases**
+
+toast.notify(content, [options={}])
+
+**Returns**
+
+*(string)*: Returns the unique ID.
+
+### toast.find(id)
+
+Find the first toast in the array that matches the provided id. Otherwise, `undefined` is returned if not found.
+If no values satisfy the testing function, undefined is returned.
+
+**Arguments**
+
+* `id` *(string)*: The ID to find the toast.
+
+**Returns**
+
+*(Object)*: Returns the toast object.
+
+### toast.findIndex(id)
+
+Find the first toast in the array that matches the provided id. Otherwise, -1 is returned if not found.
+
+**Arguments**
+
+* `id` *(string)*: The ID to find the toast.
+
+**Returns**
+
+*(number)*: Returns the array index.
+
+### toast.close(id)
+
+Close a toast record at its placement.
+
+**Arguments**
+
+* `id` *(string)*: The ID to close the toast.
+
+**Returns**
+
+This method returns `undefined`.
+
+### toast.closeAll([options={}])
+
+Close all toasts at once with the given placements, including `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`.
+
+**Arguments**
+
+* `[options={}]` *(Object)*: The options object.
+* `[options.placements=[]]` *(Array)*: An array of toast placements.
+
+**Returns**
+
+This method returns `undefined`.
+
+### toast.update(id, [options={}])
+
+Update a specific toast with new options based on the given id
+
+**Arguments**
+
+* `id` *(string)*: The ID to update the toast.
+* `[options={}]` *(Object)*: The options object.
+
+**Returns**
+
+This method returns `undefined`.
