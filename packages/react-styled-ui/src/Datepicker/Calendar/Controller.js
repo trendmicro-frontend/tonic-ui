@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
 import Box from '../../Box';
 import Button from '../../Button';
@@ -10,45 +9,54 @@ import Icon from '../../Icon';
 import { MONTH } from './constants';
 
 const Controller = ({
-  chageRenderDate,
+  changeRenderDate,
   renderDate,
 }) => {
   const [showChangeYear, setShowChangeYear] = useState(false);
   const opacity = showChangeYear ? '1' : '0';
 
   return (
-    <Flex justify="space-between" mb="3x">
+    <Flex justify="space-between" align="center">
       <Button
         variant="ghost"
         type="button"
         aria-label="previous"
-        onClick={() => chageRenderDate({ changeMonth: -1 })}
+        width="8x"
+        onClick={() => changeRenderDate({ changeMonth: -1 })}
       >
         <Icon icon="angle-left" />
       </Button>
-      <Flex align='center'>
+      <Flex align="center" fontSize="md" transform="translateX(16px)">
         {MONTH[renderDate.month]}
         <Box
-          ml='2x'
-          style={{ cursor: 'pointer' }}
-          onMouseEnter={() => { setShowChangeYear(true) }}
-          onMouseLeave={() => { setShowChangeYear(false) }}
+          px="2x"
+          cursor="pointer"
+          onMouseEnter={() => {
+            setShowChangeYear(true);
+          }}
+          onMouseLeave={() => {
+            setShowChangeYear(false);
+          }}
         >
           {renderDate.year}
         </Box>
         <Flex
-          direction='column'
+          direction="column"
           style={{ opacity }}
-          onMouseEnter={() => { setShowChangeYear(true) }}
-          onMouseLeave={() => { setShowChangeYear(false) }}
+          onMouseEnter={() => {
+            setShowChangeYear(true);
+          }}
+          onMouseLeave={() => {
+            setShowChangeYear(false);
+          }}
         >
           <Button
             aria-label="change year"
             size="sm"
             type="button"
             variant="ghost"
-            width="16px"
-            onClick={() => chageRenderDate({ changeYear: -1 })}
+            width="4x"
+            onClick={() => changeRenderDate({ changeYear: -1 })}
           >
             <Icon icon="angle-up" />
           </Button>
@@ -57,8 +65,8 @@ const Controller = ({
             size="sm"
             type="button"
             variant="ghost"
-            width="16px"
-            onClick={() => chageRenderDate({ changeYear: 1 })}
+            width="4x"
+            onClick={() => changeRenderDate({ changeYear: 1 })}
           >
             <Icon icon="angle-down" />
           </Button>
@@ -67,16 +75,17 @@ const Controller = ({
       <Button
         variant="ghost"
         type="button"
-        onClick={() => chageRenderDate({ changeMonth: 1 })}
+        width="8x"
+        onClick={() => changeRenderDate({ changeMonth: 1 })}
       >
         <Icon icon="angle-right" />
       </Button>
     </Flex>
-  )
+  );
 };
 
 Controller.propTypes = {
-  chageRenderDate: PropTypes.func.isRequired,
+  changeRenderDate: PropTypes.func.isRequired,
   renderDate: PropTypes.object.isRequired,
 };
 

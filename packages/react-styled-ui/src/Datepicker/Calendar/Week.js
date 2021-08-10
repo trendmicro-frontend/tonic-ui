@@ -14,10 +14,12 @@ const Week = ({
         const dateInfoStr = Object.values(dateInfo).join('-');
         return (
           <Day
+            key={dateInfoStr}
             date={dateInfo.date}
             dateInfoStr={dateInfoStr}
             isSelected={selectedDateStr && selectedDateStr === dateInfoStr}
-            key={dateInfoStr}
+            isToday={isToday}
+            isThisMonth={renderDate.month === dateInfo.month}
             onSelectHandler={onSelectHandler}
           />
         );

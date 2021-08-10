@@ -35,9 +35,14 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
+  const borderColor = {
+    dark: 'gray:70',
+    light: 'gray:30'
+  }[colorMode];
+
   useEffect(() => {
     if (isValidDate(rawDate)) {
-      const formattedDateStr = rawDate.replace(/(-)0(\d{1})/g, "$1$2");
+      const formattedDateStr = rawDate.replace(/(-)0(\d{1})/g, '$1$2');
       setRenderDate(dateToObj(rawDate));
       setSelectedDateStr(formattedDateStr);
     }
@@ -75,7 +80,7 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
         year,
         month,
         date: i + 1,
-        isToday: todayAry.join("") === `${year}${month}${i + 1}`
+        isToday: todayAry.join('') === `${year}${month}${i + 1}`
       });
     }
 
@@ -89,10 +94,8 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
     return days;
   };
 
-  const chageRenderDate = ({ changeYear = 0, changeMonth = 0 }) => {
-    setRenderDate(({ year, month, date }) =>
-      dateToObj(new Date(year + changeYear, month - 1 + changeMonth, date))
-    );
+  const changeRenderDate = ({ changeYear = 0, changeMonth = 0 }) => {
+    setRenderDate(({ year, month, date }) => dateToObj(new Date(year + changeYear, month - 1 + changeMonth, date)));
   };
 
   const onSelectHandler = (dateStr) => {
@@ -106,12 +109,14 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
       direction="column"
       px="6x"
       py="3x"
-      border="1px solid #C9C9C9"
-      boxShadow={colorStyle.shadow.md}
+      border="1px solid"
+      borderColor={borderColor}
+      borderRadius={3}
+      boxShadow={colorStyle.shadow.medium}
       border-radius="3px"
     >
       <Controller
-        chageRenderDate={chageRenderDate}
+        changeRenderDate={changeRenderDate}
         renderDate={renderDate}
       />
       <Grid {...WEEK_CONFIG}>
@@ -135,7 +140,7 @@ Calendar.propTypes = {
 };
 
 Calendar.defaultProps = {
-  startDate: "",
+  startDate: '',
   onSelect: () => {}
 };
 

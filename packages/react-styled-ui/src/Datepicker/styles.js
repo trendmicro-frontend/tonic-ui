@@ -1,14 +1,5 @@
 import useColorMode from '../useColorMode';
 
-const colorProps = {
-  light: {
-    color: 'black:secondary'
-  },
-  dark: {
-    color: 'white:secondary'
-  }
-};
-
 const baseProps = {
   position: 'relative',
   width: 'auto',
@@ -150,7 +141,6 @@ const getSizeProps = (props) => {
 
   return sizes[size] ?? sizes[defaultSize];
 };
-
 const getVariantProps = (props) => {
   const { colorMode, variant } = props;
 
@@ -171,8 +161,13 @@ const getVariantProps = (props) => {
 
 const useIconStyle = (props) => {
   const [colorMode] = useColorMode();
+  const iconColor = {
+    light: 'black:secondary',
+    dark: 'white:secondary'
+  }[colorMode];
+
   return {
-    color: colorProps[colorMode]
+    color: iconColor
   };
 };
 
@@ -205,4 +200,8 @@ const useInputStyle = ({ size, variant }) => {
   };
 };
 
-export { useIconStyle, useInputErrorStyle, useInputStyle };
+export {
+  useIconStyle,
+  useInputErrorStyle,
+  useInputStyle
+};
