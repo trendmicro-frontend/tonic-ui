@@ -103,7 +103,7 @@ const ToastProvider = ({
       content,
 
       /**
-       * The toast's id
+       * The id of the toast
        */
       id,
 
@@ -118,7 +118,7 @@ const ToastProvider = ({
       duration: options?.duration,
 
       /**
-       * Function that closes the toast from manager's state
+       * Function that closes the toast
        */
       onClose: () => close(id, placement),
     };
@@ -216,23 +216,26 @@ const ToastProvider = ({
   };
 
   /**
-   * Update a specific toast with new options based on the given id
+   * Update a specific toast with new options based on the given id. Returns `true` if the toast exists, else `false`.
    */
   const update = (id, options) => {
+    const placement = find(id)?.placement;
+    const index = findIndex(id);
+
+    if (!placement || index === -1) {
+      return false;
+    }
+
     setState((prevState) => {
       const nextState = { ...prevState };
-      const placement = find(id)?.placement;
-      const index = findIndex(id);
-
-      if (placement && index !== -1) {
-        nextState[placement][index] = {
-          ...nextState[placement][index],
-          ...options,
-        };
-      }
-
+      nextState[placement][index] = {
+        ...nextState[placement][index],
+        ...options,
+      };
       return nextState;
     });
+
+    return true;
   };
 
   const context = getMemoizedState({
