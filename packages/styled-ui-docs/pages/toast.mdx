@@ -17,12 +17,12 @@ import {
 Add `ToastProvider` to the root.
 
 ```jsx disabled
-<ToastProvider>
+<ToastProvider defaultPlacement="top-right">
   <App />
 </ToastProvider>
 ```
 
-For the Hook version, use the `useToast` Hook to get all the toast functions. See the <b>Toast API</b> section for detailed usage.
+For the Hook version, use the `useToast` Hook to get all the methods, properties, and state. See the <b>useToast Hook</b> section for detailed usage.
 
 ```jsx disabled
 function Example() {
@@ -483,60 +483,43 @@ A `Toast` element is composed of the [`Box`](./box) component. You can override 
 | appearance | string | 'none' | One of: `'none'`, `'success'`, `'info'`, `'warning'`, `'error'` |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
 
-## Toast API
+## ToastProvider Props
 
-### toast(content, [options={}])
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| container | DOM element | | |
+| defaultPlacement | string | 'top-right' | Set the default placement to place toasts. One of: `'top'`, `'top-right'`, `'top-left'`, `'bottom'`, `'bottom-left'`, `'bottom-right'` |
 
-Create a toast at the specified placement and return the ID.
+## useToast Hook
 
-**Arguments**
+The useToast hook has the following signature:
 
-* `content` *(Function|string)*: The content to render.
-* `[options={}]` *(Object)*: The options object.
-* `[options.duration]` *(number)*: The duration that the toast should remain on the screen.
-* `[options.id]` *(string)*: A unique ID of the toast.
-* `[options.placement]` *(string)*: The placement of the toast.
+```js
+const {
+  // Methods
+  close,
+  closeAll,
+  find,
+  findIndex,
+  notify,
+  update,
 
-**Aliases**
+  // Properties
+  defaultPlacement,
 
-toast.notify(content, [options={}])
-
-**Returns**
-
-*(string)*: Returns the unique ID.
-
-### toast.find(id)
-
-Find the first toast in the array that matches the provided id. Otherwise, `undefined` is returned if not found.
-If no values satisfy the testing function, undefined is returned.
-
-**Arguments**
-
-* `id` *(string)*: The ID to find the toast.
-
-**Returns**
-
-*(Object)*: Returns the toast object.
-
-### toast.findIndex(id)
-
-Find the first toast in the array that matches the provided id. Otherwise, -1 is returned if not found.
-
-**Arguments**
-
-* `id` *(string)*: The ID to find the toast.
-
-**Returns**
-
-*(number)*: Returns the array index.
+  // State
+  state,
+} = useToast();
+```
 
 ### toast.close(id)
 
-Close a toast record at its placement.
+Close a toast at its placement.
 
 **Arguments**
 
-* `id` *(string)*: The ID to close the toast.
+* `id` *(string)*: The id to close the toast.
 
 **Returns**
 
@@ -549,21 +532,95 @@ Close all toasts at once with the given placements, including `top`, `top-left`,
 **Arguments**
 
 * `[options={}]` *(Object)*: The options object.
-* `[options.placements=[]]` *(Array)*: An array of toast placements.
+* `[options.placements=[]]` *(Array)*: An array of placements to close toasts.
 
 **Returns**
 
 This method returns `undefined`.
 
-### toast.update(id, [options={}])
+### toast.find(id)
 
-Update a specific toast with new options based on the given id
+Find the first toast in the array that matches the provided toast id. Otherwise, `undefined` is returned if not found.
+If no values satisfy the testing function, undefined is returned.
 
 **Arguments**
 
-* `id` *(string)*: The ID to update the toast.
-* `[options={}]` *(Object)*: The options object.
+* `id` *(string)*: The id to find the toast.
 
 **Returns**
 
-This method returns `undefined`.
+*(Object)*: Returns the toast object.
+
+### toast.findIndex(id)
+
+Find the first toast in the array that matches the provided toast id. Otherwise, -1 is returned if not found.
+
+**Arguments**
+
+* `id` *(string)*: The id to find the toast.
+
+**Returns**
+
+*(number)*: Returns the array index.
+
+### toast.notify(content, [options={}])
+
+Create a toast at the specified placement and return the toast id.
+
+**Arguments**
+
+* `content` *(Function|string)*: The content to render.
+* `[options={}]` *(Object)*: The options object.
+* `[options.duration]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen.
+* `[options.id]` *(string)*: A unique ID of the toast.
+* `[options.placement]` *(string)*: The placement of the toast.
+
+**Aliases**
+
+toast(content, [options={}])
+
+**Returns**
+
+*(string)*: Returns the toast id.
+
+### toast.update(id, [options={}])
+
+Update a specific toast with new options based on the given toast id.
+
+**Arguments**
+
+* `id` *(string)*: The id to update the toast.
+* `[options={}]` *(Object)*: The options object.
+* `[options.content]` *(Function|string)*: The content to render.
+* `[options.duration]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen.
+
+**Returns**
+
+Returns `true` if the toast exists, else `false`.
+
+### toast.defaultPlacement
+
+The default placement will be used to place toasts if the placement option is not explicitly specified when calling `toast.notify()`.
+
+### toast.state
+
+The toast state is a placement object, each placement contains an array of objects representing the current toasts.
+
+```js
+{
+  'top': [
+    {
+      content: ({ id, onClose, placement }) => <Toast />, // The element or component to render
+      id: 'generated-toast-id', // The id of the toast
+      placement: 'top', // The placement of the toast
+      duration: null, // The duration (in milliseconds) of the toast
+      onClose: () => toast.close(id, placement), // Function that closes the toast
+    },
+  ],
+  'top-left': [],
+  'top-right': [],
+  'bottom': [],
+  'bottom-left': [],
+  'bottom-right': [],
+}
+```
