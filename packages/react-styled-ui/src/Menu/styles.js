@@ -21,6 +21,7 @@ export const useMenuListStyle = () => {
     color: 'inherit',
     m: '0',
     p: '0',
+    py: '2x',
     ...colorModeStyle,
   };
 };
