@@ -37,7 +37,7 @@ const getSizeProps = (size) => {
       width: 672,
     },
     full: {
-      width: '100vw'
+      width: '100%',
     },
     auto: {
       width: 'auto',
