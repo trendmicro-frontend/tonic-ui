@@ -108,11 +108,9 @@ export const useMenuItemStyle = () => {
 | Styles for Divider
 |--------------------------------------------------
 */
-const menuItemDividerProps = () => {
-  return {
-    my: '2x'
-  }
-};
+const menuItemDividerProps = () => ({
+  my: '2x'
+});
 
 export const useMenuItemDividerStyle = () => {
   return {
