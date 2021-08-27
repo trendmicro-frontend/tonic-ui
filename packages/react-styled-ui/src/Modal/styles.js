@@ -112,7 +112,7 @@ const useModalContentStyle = ({ size }) => {
       bg: 'white',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'gray:20',
+      borderColor: 'gray:30',
       boxShadow: colorStyle?.shadow?.thick,
     },
     dark: {
@@ -136,7 +136,7 @@ const useModalContentStyle = ({ size }) => {
 const useModalHeaderStyle = () => {
   return {
     pt: '4x',
-    pb: '3x',
+    pb: '6x',
     pl: '6x',
     pr: '12x',
     position: 'relative',
@@ -155,6 +155,8 @@ const useModalBodyStyle = () => {
     height: 'auto',
     overflowY: 'auto',
     _firstOfType: {
+      // Sets the margin area on the top if it is the first child
+      // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
       marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
     },
   };
@@ -164,8 +166,8 @@ const useModalFooterStyle = () => {
   const [colorMode] = useColorMode();
   const { sizes, lineHeights } = useTheme();
   const borderColor = {
-    dark: 'gray:80',
-    light: 'gray:20', // TBD: light mode is not ready yet
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
 
   return {
@@ -176,6 +178,8 @@ const useModalFooterStyle = () => {
     borderTop: 1,
     borderTopColor: borderColor,
     _firstOfType: {
+      // Sets the margin area on the top if it is the first child
+      // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
       marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
     },
   };
