@@ -99,6 +99,23 @@ export const useMenuItemStyle = () => {
 
   return {
     ...baseProps(props),
-    ...menuItemProps(props),
+    ...menuItemProps(props)
+  };
+};
+
+/**
+|--------------------------------------------------
+| Styles for Divider
+|--------------------------------------------------
+*/
+const menuItemDividerProps = () => {
+  return {
+    my: '2x'
+  }
+};
+
+export const useMenuItemDividerStyle = () => {
+  return {
+    ...menuItemDividerProps()
   };
 };
