@@ -611,10 +611,10 @@ The toast state is a placement object, each placement contains an array of objec
   'top': [
     {
       content: ({ id, onClose, placement }) => <Toast />, // The element or component to render
-      id: 'generated-toast-id', // The id of the toast
+      id: '1', // A unique identifier that represents the toast
       placement: 'top', // The placement of the toast
       duration: null, // The duration (in milliseconds) of the toast
-      onClose: () => toast.close(id, placement), // Function that closes the toast
+      onClose: () => toast.close(id, placement), // The function that closes the toast
     },
   ],
   'top-left': [],
