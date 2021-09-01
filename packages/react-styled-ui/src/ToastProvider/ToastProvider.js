@@ -94,36 +94,26 @@ const ToastProvider = ({
   /**
    * Create properties for a new toast
    */
-  const createToast = (content, options) => {
+  const createToast = (message, options) => {
     const id = options?.id ?? uniqueId();
     const placement = ensureString(options?.placement ?? _placement);
     const duration = options?.duration;
     const onClose = () => close(id, placement);
 
     return {
-      /**
-       * The element or component to render.
-       */
-      content,
-
-      /**
-       * The id of the toast
-       */
+      // A unique identifier that represents the toast message
       id,
 
-      /**
-       * The placement of the toast
-       */
+      // The toast message to render
+      message,
+
+      // The placement of the toast
       placement,
 
-      /**
-       * The duration of the toast
-       */
+      // The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
       duration,
 
-      /**
-       * Function that closes the toast
-       */
+      // The function to close the toast
       onClose,
     };
   };
@@ -187,8 +177,8 @@ const ToastProvider = ({
   /**
    * Create a toast at the specified placement and return the id
    */
-  const notify = (content, options) => {
-    const toast = createToast(content, options);
+  const notify = (message, options) => {
+    const toast = createToast(message, options);
     const { placement, id } = toast;
 
     setState((prevState) => {
@@ -317,12 +307,12 @@ const ToastProvider = ({
                           {...styleProps}
                         >
                           {(() => {
-                            if (isElement(toast.content)) {
-                              return toast.content;
+                            if (isElement(toast.message)) {
+                              return toast.message;
                             }
-                            if (isValidElementType(toast.content)) {
+                            if (isValidElementType(toast.message)) {
                               return (
-                                <toast.content
+                                <toast.message
                                   id={toast.id}
                                   onClose={toast.onClose}
                                   placement={toast.placement}

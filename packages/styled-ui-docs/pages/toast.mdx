@@ -563,21 +563,21 @@ Find the first toast in the array that matches the provided toast id. Otherwise,
 
 *(number)*: Returns the array index.
 
-### toast.notify(content, [options={}])
+### toast.notify(message, [options={}])
 
 Create a toast at the specified placement and return the toast id.
 
 **Arguments**
 
-* `content` *(Function|string)*: The content to render.
+* `message` *(Function|string)*: The toast message to render.
 * `[options={}]` *(Object)*: The options object.
-* `[options.duration]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen.
+* `[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
 * `[options.id]` *(string)*: A unique ID of the toast.
 * `[options.placement]` *(string)*: The placement of the toast.
 
 **Aliases**
 
-toast(content, [options={}])
+toast(message, [options={}])
 
 **Returns**
 
@@ -591,8 +591,8 @@ Update a specific toast with new options based on the given toast id.
 
 * `id` *(string)*: The id to update the toast.
 * `[options={}]` *(Object)*: The options object.
-* `[options.content]` *(Function|string)*: The content to render.
-* `[options.duration]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen.
+* `[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
+* `[options.message]` *(Function|string)*: The toast message to render.
 
 **Returns**
 
@@ -610,11 +610,11 @@ The toast state is a placement object, each placement contains an array of objec
 {
   'top': [
     {
-      content: ({ id, onClose, placement }) => <Toast />, // The element or component to render
-      id: '1', // A unique identifier that represents the toast
+      id: '1', // A unique identifier that represents the toast message
+      message: ({ id, onClose, placement }) => <Toast />, // The toast message to render
       placement: 'top', // The placement of the toast
-      duration: null, // The duration (in milliseconds) of the toast
-      onClose: () => toast.close(id, placement), // The function that closes the toast
+      duration: null, // The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
+      onClose: () => toast.close(id, placement), // The function to close the toast
     },
   ],
   'top-left': [],
