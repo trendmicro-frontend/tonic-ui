@@ -17,7 +17,7 @@ import {
 Add `ToastProvider` to the root.
 
 ```jsx disabled
-<ToastProvider defaultPlacement="top-right">
+<ToastProvider placement="bottom-right">
   <App />
 </ToastProvider>
 ```
@@ -489,7 +489,7 @@ A `Toast` element is composed of the [`Box`](./box) component. You can override 
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
 | container | DOM element | | |
-| defaultPlacement | string | 'top-right' | Set the default placement to place toasts. One of: `'top'`, `'top-right'`, `'top-left'`, `'bottom'`, `'bottom-left'`, `'bottom-right'` |
+| placement | string | 'bottom-right' | Set the default placement to place toasts. One of: `'top'`, `'top-right'`, `'top-left'`, `'bottom'`, `'bottom-left'`, `'bottom-right'` |
 
 ## useToast Hook
 
@@ -506,7 +506,7 @@ const {
   update,
 
   // Properties
-  defaultPlacement,
+  placement,
 
   // State
   state,
@@ -598,9 +598,9 @@ Update a specific toast with new options based on the given toast id.
 
 Returns `true` if the toast exists, else `false`.
 
-### toast.defaultPlacement
+### toast.placement
 
-The default placement will be used to place toasts if the placement option is not explicitly specified when calling `toast.notify()`.
+Specify the placement to place the toast. The default placement will be used if the placement option is not explicitly specified.
 
 ### toast.state
 

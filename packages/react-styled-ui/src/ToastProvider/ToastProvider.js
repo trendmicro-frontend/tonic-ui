@@ -27,7 +27,8 @@ const uniqueId = createUniqueId();
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const defaultPlacements = [
+const defaultPlacement = 'bottom-right';
+const placements = [
   'bottom',
   'bottom-right',
   'bottom-left',
@@ -79,12 +80,12 @@ const timeout = {
 
 const ToastProvider = ({
   children,
-  defaultPlacement = 'top-right',
+  placement: _placement = defaultPlacement,
   container,
 }) => {
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
   const [state, setState] = useState(() => (
-    defaultPlacements.reduce((acc, placement) => {
+    placements.reduce((acc, placement) => {
       acc[placement] = [];
       return acc;
     }, {})
@@ -95,7 +96,10 @@ const ToastProvider = ({
    */
   const createToast = (content, options) => {
     const id = options?.id ?? uniqueId();
-    const placement = ensureString(options?.placement) ?? defaultPlacement;
+    const placement = ensureString(options?.placement ?? _placement);
+    const duration = options?.duration;
+    const onClose = () => close(id, placement);
+
     return {
       /**
        * The element or component to render.
@@ -115,12 +119,12 @@ const ToastProvider = ({
       /**
        * The duration of the toast
        */
-      duration: options?.duration,
+      duration,
 
       /**
        * Function that closes the toast
        */
-      onClose: () => close(id, placement),
+      onClose,
     };
   };
 
@@ -239,15 +243,19 @@ const ToastProvider = ({
   };
 
   const context = getMemoizedState({
-    defaultPlacement,
-    state,
-
+    // Methods
+    close,
+    closeAll,
     find,
     findIndex,
     notify,
-    close,
-    closeAll,
     update,
+
+    // Properties
+    placement: _placement,
+
+    // State
+    state,
   });
 
   useEffect(() => {
