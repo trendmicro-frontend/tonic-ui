@@ -21,6 +21,7 @@ export const useMenuListStyle = () => {
     color: 'inherit',
     m: '0',
     p: '0',
+    py: '2x',
     ...colorModeStyle,
   };
 };
@@ -98,6 +99,21 @@ export const useMenuItemStyle = () => {
 
   return {
     ...baseProps(props),
-    ...menuItemProps(props),
+    ...menuItemProps(props)
+  };
+};
+
+/**
+|--------------------------------------------------
+| Styles for Divider
+|--------------------------------------------------
+*/
+const menuItemDividerProps = () => ({
+  my: '2x'
+});
+
+export const useMenuItemDividerStyle = () => {
+  return {
+    ...menuItemDividerProps()
   };
 };

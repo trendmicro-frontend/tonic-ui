@@ -10,8 +10,8 @@ const Divider = forwardRef(({
 }, ref) => {
   const [colorMode] = useColorMode();
   const dividerColor = color || {
-    dark: 'white:disabled',
-    light: 'black:disabled',
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
 
   const borderProps = {

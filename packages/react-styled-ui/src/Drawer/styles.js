@@ -37,7 +37,7 @@ const getSizeProps = (size) => {
       width: 672,
     },
     full: {
-      width: '100vw'
+      width: '100%',
     },
     auto: {
       width: 'auto',
@@ -118,7 +118,7 @@ const useDrawerContentStyle = ({
       bg: 'white',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'gray:20',
+      borderColor: 'gray:30',
       boxShadow: colorStyle?.shadow?.thick,
     },
     dark: {
@@ -144,8 +144,8 @@ const useDrawerContentStyle = ({
 const useDrawerHeaderStyle = () => {
   return {
     pt: '4x',
-    pb: '3x',
-    pl: '6x',
+    pb: '6x',
+    pl: '4x',
     pr: '12x',
     position: 'relative',
     fontSize: 'xl',
@@ -157,33 +157,35 @@ const useDrawerBodyStyle = () => {
   const { sizes, lineHeights } = useTheme();
 
   return {
-    px: '6x',
+    px: '4x',
     pb: '6x',
     flex: 1,
     height: 'auto',
     overflowY: 'auto',
     _firstOfType: {
+      // Sets the margin area on the top if it is the first child
+      // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
       marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
     },
   };
 };
 
-const useDrawerFooterStyle = () => {
-  const [colorMode] = useColorMode();
+const useDrawerFooterStyle = ({
+  placement,
+}) => {
   const { sizes, lineHeights } = useTheme();
-  const borderColor = {
-    dark: 'gray:80',
-    light: 'gray:20', // TBD: light mode is not ready yet
-  }[colorMode];
 
   return {
     display: 'flex',
-    justifyContent: 'flex-end',
-    px: '6x',
-    py: '4x',
-    borderTop: 1,
-    borderTopColor: borderColor,
+    justifyContent: {
+      'right': 'flex-start',
+      'left': 'flex-end',
+    }[placement],
+    px: '4x',
+    pb: '4x',
     _firstOfType: {
+      // Sets the margin area on the top if it is the first child
+      // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
       marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
     },
   };
