@@ -28,22 +28,22 @@ import {
 <Table>
   <TableHeader>
     <TableHeaderRow>
-      <TableHeaderCell>Event Type</TableHeaderCell>
-      <TableHeaderCell>Detections</TableHeaderCell>
+      <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+      <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
     </TableHeaderRow>
   </TableHeader>
   <TableBody>
     <TableRow>
-      <TableCell>Virus/Malware</TableCell>
-      <TableCell>634</TableCell>
+      <TableCell width="240px">Virus/Malware</TableCell>
+      <TableCell width="136px" textAlign="right">634</TableCell>
     </TableRow>
     <TableRow>
-      <TableCell>Virus/Malware</TableCell>
-      <TableCell>778</TableCell>
+      <TableCell width="240px">Virus/Malware</TableCell>
+      <TableCell width="136px" textAlign="right">778</TableCell>
     </TableRow>
     <TableRow>
-      <TableCell>URL Filtering</TableCell>
-      <TableCell>598</TableCell>
+      <TableCell width="240px">URL Filtering</TableCell>
+      <TableCell width="136px" textAlign="right">598</TableCell>
     </TableRow>
   </TableBody>
 </Table>
@@ -59,26 +59,26 @@ Use the `variant` prop to change the visual style of the Table. You can set the 
 <Stack direction="row" spacing="4x">
   {["default", "outline"].map(variant => (
     <Stack key={variant} direction="column" spacing="4x" shouldWrapChildren>
-      <Text>{variant}</Text>
+      <Text size="xl">{variant}</Text>
       <Table variant={variant}>
         <TableHeader>
           <TableHeaderRow>
-            <TableHeaderCell>Event Type</TableHeaderCell>
-            <TableHeaderCell>Detections</TableHeaderCell>
+            <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+            <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
           </TableHeaderRow>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>Virus/Malware</TableCell>
-            <TableCell>634</TableCell>
+            <TableCell width="240px">Virus/Malware</TableCell>
+            <TableCell width="136px" textAlign="right">634</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Virus/Malware</TableCell>
-            <TableCell>778</TableCell>
+            <TableCell width="240px">Virus/Malware</TableCell>
+            <TableCell width="136px" textAlign="right">778</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>URL Filtering</TableCell>
-            <TableCell>598</TableCell>
+            <TableCell width="240px">URL Filtering</TableCell>
+            <TableCell width="136px" textAlign="right">598</TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -92,36 +92,94 @@ Use the `variant` prop to change the visual style of the Table. You can set the 
 Use the `size` prop to change the padding of the `<TableCell>`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="6x" shouldWrapChildren>
-  {["sm", "md", "lg"].map(size => (
-    <React.Fragment key={size}>
-      <Text>Size: {size}</Text>
-      <Space width="4x" />
-      <Table variant="outline" size={size}>
-        <TableHeader>
-          <TableHeaderRow>
-            <TableHeaderCell>Event Type</TableHeaderCell>
-            <TableHeaderCell>Detections</TableHeaderCell>
-          </TableHeaderRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>Virus/Malware</TableCell>
-            <TableCell>634</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Virus/Malware</TableCell>
-            <TableCell>778</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>URL Filtering</TableCell>
-            <TableCell>598</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </React.Fragment>
-  ))}
-</Stack>
+function Sample() {
+  const columns = React.useMemo(() => [
+    {
+      header: 'Event Type',
+      customedProps: {
+        width: 240,
+      },
+    },
+    {
+      header: 'Detections',
+      customedProps: {
+        width: 136,
+        textAlign: 'right',
+      },
+    },
+  ], []);
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', detections: 634 },
+    { id: 3, eventType: 'URL Filtering', detections: 598 },
+    { id: 4, eventType: 'Web Reputation', detections: 598 },
+    { id: 5, eventType: 'Network Virus', detections: 497 },
+    { id: 6, eventType: 'Application Control', detections: 0 }
+  ], []);
+  const shadowLeftRef = React.useRef(null);
+  const shadowRightRef = React.useRef(null);
+  const handleUpdate = ({ values }) => {
+    const { scrollLeft, scrollWidth, clientWidth } = values;
+    const shadowLeftOpacity = 1 / 20 * Math.min(scrollLeft, 20);
+    const rightScrollLeft = scrollWidth - clientWidth;
+    const shadowRightOpacity = 1 / 20 * (rightScrollLeft - Math.max(scrollLeft, rightScrollLeft - 20));
+    shadowLeftRef.current.style.opacity = shadowLeftOpacity;
+    shadowRightRef.current.style.opacity = shadowRightOpacity;
+  };
+  return (
+    <Box position="relative">
+      <Scrollbar onUpdate={handleUpdate} width="100%" height={248}>
+        <Flex>
+            {["sm", "md", "lg"].map(size => (
+              <Box flex="initial" mr="4x" key={size}>
+                <Text display="block" size="xl" mb="4x">Size: {size}</Text>
+                <Table variant="outline" size={size}>
+                  <TableHeader>
+                    <TableHeaderRow>
+                      <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+                      <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
+                    </TableHeaderRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell width="240px">Virus/Malware</TableCell>
+                      <TableCell width="136px" textAlign="right">634</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width="240px">Virus/Malware</TableCell>
+                      <TableCell width="136px" textAlign="right">778</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width="240px">URL Filtering</TableCell>
+                      <TableCell width="136px" textAlign="right">598</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            ))}
+        </Flex>
+      </Scrollbar>
+      <Box
+        ref={shadowLeftRef}
+        position="absolute"
+        top="0"
+        bottom="0"
+        left="0"
+        width="24px"
+        background="linear-gradient(to right, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
+      />
+      <Box
+        ref={shadowRightRef}
+        position="absolute"
+        top="0"
+        bottom="0"
+        right="0"
+        width="24px"
+        background="linear-gradient(to left, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
+      />
+    </Box>
+  );
+}
 ```
 
 ### Hoverable
@@ -132,22 +190,22 @@ Enable a hover state on TableRows.
 <Table isHoverable>
   <TableHeader>
     <TableHeaderRow>
-      <TableHeaderCell>Event Type</TableHeaderCell>
-      <TableHeaderCell>Detections</TableHeaderCell>
+      <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+      <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
     </TableHeaderRow>
   </TableHeader>
   <TableBody>
     <TableRow>
-      <TableCell>Virus/Malware</TableCell>
-      <TableCell>634</TableCell>
+      <TableCell width="240px">Virus/Malware</TableCell>
+      <TableCell width="136px" textAlign="right">634</TableCell>
     </TableRow>
     <TableRow>
-      <TableCell>Virus/Malware</TableCell>
-      <TableCell>778</TableCell>
+      <TableCell width="240px">Virus/Malware</TableCell>
+      <TableCell width="136px" textAlign="right">778</TableCell>
     </TableRow>
     <TableRow>
-      <TableCell>URL Filtering</TableCell>
-      <TableCell>598</TableCell>
+      <TableCell width="240px">URL Filtering</TableCell>
+      <TableCell width="136px" textAlign="right">598</TableCell>
     </TableRow>
   </TableBody>
 </Table>
@@ -167,14 +225,23 @@ function BaseTable() {
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 140,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -210,7 +277,12 @@ function BaseTable() {
         {headerGroups.map(headerGroup => (
           <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <TableHeaderCell {...column.getHeaderProps()}>{column.render('Header')}</TableHeaderCell>
+              <TableHeaderCell
+                {...column.getHeaderProps()}
+                {...column.customedProps}
+              >
+                {column.render('Header')}
+              </TableHeaderCell>
             ))}
           </TableHeaderRow>
         ))}
@@ -222,7 +294,13 @@ function BaseTable() {
             <TableRow {...row.getRowProps()}>
               {
                 row.cells.map(cell => {
-                  return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                  return (
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
+                      {cell.render('Cell')}
+                    </TableCell>);
                 })
               }
             </TableRow>
@@ -257,14 +335,23 @@ function SelectableTable() {
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 140,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -320,7 +407,12 @@ function SelectableTable() {
           {headerGroups.map(headerGroup => (
             <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <TableHeaderCell {...column.getHeaderProps()}>{column.render('Header')}</TableHeaderCell>
+                <TableHeaderCell
+                  {...column.getHeaderProps()}
+                  {...column.customedProps}
+                >
+                  {column.render('Header')}
+                </TableHeaderCell>
               ))}
             </TableHeaderRow>
           ))}
@@ -335,7 +427,14 @@ function SelectableTable() {
                 {...isChecked && { bg: 'rgba(255, 255, 255, 0.08)' }}
               >
                 {row.cells.map(cell => {
-                  return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
+                  return (
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
+                      {cell.render('Cell')}
+                    </TableCell>
+                  );
                 })}
               </TableRow>
             );
@@ -372,14 +471,25 @@ function SortableTable() {
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 176,
+      customedProps: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+      },
     },
   ], []);
 
@@ -417,29 +527,29 @@ function SortableTable() {
             {headerGroup.headers.map(column => (
               <TableHeaderCell
                 {...column.getHeaderProps(column.getSortByToggleProps())}
+                {...column.isSorted && {color: 'rgba(255, 255, 255, 1)'}}
                 _hover={{
                   bg: 'rgba(255, 255, 255, 0.12)'
                 }}
               >
-                <Box
-                  display="inline-block"
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  whiteSpace="nowrap"
-                  maxWidth={`calc(100% - ${(column.isSorted ? '24px' : '0px')})`}
+                <Flex
+                  alignItems="center"
+                  {...column.customedProps}
                 >
-                  {column.render('Header')}
-                </Box>
-                {column.isSorted && (
-                  <>
-                    <Space minWidth="1x" />
-                    <Box as="span" verticalAlign="top">
-                      {
-                        column.isSortedDesc ? <Icon icon="sort-down" size={20} /> : <Icon icon="sort-up" size={20} />
-                      }
-                    </Box>
-                  </>
-                )}
+                  <Box
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                  >
+                    {column.render('Header')}
+                  </Box>
+                  {column.isSorted && column.isSortedDesc && (
+                    <Icon icon="sort-down" size={20} ml="1x" />
+                  )}
+                  {column.isSorted && !column.isSortedDesc && (
+                    <Icon icon="sort-up" size={20}  ml="1x" />
+                  )}
+                </Flex>
               </TableHeaderCell>
             ))}
           </TableHeaderRow>
@@ -453,7 +563,12 @@ function SortableTable() {
               <TableRow {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
+                      {cell.render('Cell')}
+                    </TableCell>
                   );
                 })}
               </TableRow>
@@ -501,14 +616,25 @@ function ResizableTable() {
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 144,
+      customedProps: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+      },
     },
   ], []);
 
@@ -563,7 +689,14 @@ function ResizableTable() {
                   const isResizing = column.isResizing;
                   return (
                     <TableHeaderCell {...column.getHeaderProps()}>
-                      {column.render('Header')}
+                      <Flex alignItems="center" height="100%" {...column.customedProps}>
+                        <Box
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                        >
+                          {column.render('Header')}
+                        </Box>
+                      </Flex>
                       {!isLastChild && (
                         <Box
                           {...column.getResizerProps()} // Use column.getResizerProps to hook up the events correctly
@@ -605,10 +738,16 @@ function ResizableTable() {
                     const isResizing = cell.column.isResizing;
                     return (
                       <TableCell
-                      {...cell.getCellProps()}
-                      position="relative"
+                        {...cell.getCellProps()}
+                        {...cell.column.customedProps}
+                        position="relative"
                       >
-                        {cell.render('Cell')}
+                        <Box
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                        >
+                          {cell.render('Cell')}
+                        </Box>
                         {!isLastChild && (
                           <Box
                             display="inline-block"
@@ -703,14 +842,23 @@ function StickyTable() {
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 144,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -769,10 +917,11 @@ function StickyTable() {
               {headerGroup.headers.map((column, index) => (
                 <TableHeaderCell
                   key={column.accessor}
+                  {...column.getHeaderProps()}
+                  {...column.customedProps}
                   {...(showVerticalScrollbar && index === headerGroup.headers.length - 1) && {
                     borderRight: 0,
                   }}
-                  {...column.getHeaderProps()}
                 >
                   {column.render('Header')}
                 </TableHeaderCell>
@@ -797,7 +946,10 @@ function StickyTable() {
               <TableRow {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <TableCell {...cell.getCellProps()}>
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
                       {cell.render('Cell')}
                     </TableCell>
                   );
@@ -835,13 +987,19 @@ function FullWidthTable() {
       Header: 'Affected Devices',
       id: 'affectedDevices',
       accessor: 'affectedDevices',
-      width: 160,
+      width: 140,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       id: 'detections',
       accessor: 'detections',
       width: '10%',
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -928,6 +1086,7 @@ function FullWidthTable() {
                         <TableHeaderCell
                           width={_columnWidth}
                           {...column.getHeaderProps()}
+                          {...column.customedProps}
                         >
                           {column.render('Header')}
                         </TableHeaderCell>
@@ -950,6 +1109,7 @@ function FullWidthTable() {
                             <TableCell
                               width={_columnWidth}
                               {...cell.getCellProps()}
+                              {...cell.column.customedProps}
                             >
                               {cell.render('Cell')}
                             </TableCell>
@@ -1027,9 +1187,9 @@ function ReactMovableExample() {
             <TableHeaderRow
               {...rowProps}
             >
-              <TableHeaderCell>Event Type</TableHeaderCell>
-              <TableHeaderCell>Affected Devices</TableHeaderCell>
-              <TableHeaderCell>Detections</TableHeaderCell>
+              <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+              <TableHeaderCell width="140px" textAlign="right">Affected Devices</TableHeaderCell>
+              <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
             </TableHeaderRow>
           </TableHeader>
           <TableBody {...props}>{children}</TableBody>
@@ -1045,9 +1205,9 @@ function ReactMovableExample() {
               cursor: isDragged ? 'grabbing' : 'grab',
             }}
           >
-            <TableCell>{value.eventType}</TableCell>
-            <TableCell>{value.affectedDevices}</TableCell>
-            <TableCell>{value.detections}</TableCell>
+            <TableCell width="240px">{value.eventType}</TableCell>
+            <TableCell width="140px" textAlign="right">{value.affectedDevices}</TableCell>
+            <TableCell width="136px" textAlign="right">{value.detections}</TableCell>
           </TableRow>
         );
         return isDragged ? (
@@ -1145,9 +1305,9 @@ const TR = ({ id, row, index, moveTr, ...otherProps }) => {
         opacity: isDragging ? 0 : 1,
       }}
     >
-      <TableCell>{row.eventType}</TableCell>
-      <TableCell>{row.affectedDevices}</TableCell>
-      <TableCell>{row.detections}</TableCell>
+      <TableCell width="240px">{row.eventType}</TableCell>
+      <TableCell width="140px" textAlign="right">{row.affectedDevices}</TableCell>
+      <TableCell width="136px" textAlign="right">{row.detections}</TableCell>
     </TableRow>
   );
 };
@@ -1193,9 +1353,9 @@ const CustomDragLayer = (props) => {
        <Box style={layerStyles}>
         <Box style={getItemStyles(initialOffset, currentOffset)}>
           <TableRow {...props}>
-            <TableCell>{row.eventType}</TableCell>
-            <TableCell>{row.affectedDevices}</TableCell>
-            <TableCell>{row.detections}</TableCell>
+            <TableCell width="240px">{row.eventType}</TableCell>
+            <TableCell width="140px" textAlign="right">{row.affectedDevices}</TableCell>
+            <TableCell width="136px" textAlign="right">{row.detections}</TableCell>
           </TableRow>
         </Box>
       </Box>
@@ -1249,9 +1409,9 @@ function ReactDNDExample() {
         <TableHeaderRow
            {...rowProps}
         >
-          <TableHeaderCell>Event Type</TableHeaderCell>
-          <TableHeaderCell>Affected Devices</TableHeaderCell>
-          <TableHeaderCell>Detections</TableHeaderCell>
+          <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+          <TableHeaderCell width="140px" textAlign="right">Affected Devices</TableHeaderCell>
+          <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
         </TableHeaderRow>
       </TableHeader>
       <TableBody>
@@ -1281,38 +1441,28 @@ In this example, we use [`react-beautiful-dnd`](https://github.com/atlassian/rea
 
 
 ```jsx noInline
-const getDraggingProps = () => {
-  const { colorMode } = useColorMode();
-  const { colors } = useTheme();
-  return {
-    'dark': {
-      backgroundColor: 'gray:80',
-      color: 'gray:30',
-      boxShadow: 'dark.md',
-      border: `1px solid ${colors['gray:60']}`,
-    },
-    'light': {
-      backgroundColor: 'gray:10',
-      color: 'gray:80',
-      boxShadow: 'light.md',
-      border: `1px solid ${colors['gray:20']}`,
-    }
-  }[colorMode];
-};
-
-function BaseTable() {
+function ReorderColumnTable() {
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 144,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -1326,6 +1476,7 @@ function BaseTable() {
   ], []);
 
   const { colorMode } = useColorMode();
+  const { colors } = useTheme();
   const columnPlaceholderProps = {
     'dark': {
       backgroundColor: 'gray:90',
@@ -1334,6 +1485,20 @@ function BaseTable() {
     'light': {
       backgroundColor: 'gray:10',
       color: 'gray:30',
+    }
+  }[colorMode];
+  const columnDraggerProps = {
+    'dark': {
+      backgroundColor: 'gray:80',
+      color: 'gray:30',
+      boxShadow: 'dark.md',
+      border: `1px solid ${colors['gray:60']}`,
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+      color: 'gray:80',
+      boxShadow: 'light.md',
+      border: `1px solid ${colors['gray:20']}`,
     }
   }[colorMode];
 
@@ -1379,7 +1544,7 @@ function BaseTable() {
     if (!draggedDOM) {
       return;
     }
-    const { clientHeight, clientWidth } = draggedDOM;
+    const { clientHeight, clientWidth, offsetWidth } = draggedDOM;
     const clientX = Array.from(draggedDOM.parentNode.children)
       .slice(0, destinationIndex)
       .reduce((total, curr) => {
@@ -1388,7 +1553,7 @@ function BaseTable() {
 
     setPlaceholderProps({
       clientHeight,
-      clientWidth,
+      clientWidth: offsetWidth,
       clientY: 2,
       clientX: clientX,
       content: draggedDOM.innerHTML,
@@ -1417,7 +1582,7 @@ function BaseTable() {
             onDragUpdate={onDragUpdate}
             onDragEnd={onDragEnd}
           >
-            <ReactBeautifulDND.Droppable droppableId="droppable" direction="horizontal">
+            <ReactBeautifulDND.Droppable droppableId="droppable-table-header" direction="horizontal">
               {(droppableProvided, droppableSnapshot) => {
                 return (
                   <TableHeaderRow
@@ -1433,17 +1598,21 @@ function BaseTable() {
                         isDragDisabled={!column.accessor}
                       >
                         {(provided, snapshot) => {
+                          const { style: headerStyle, ...columnHeaderProps } = column.getHeaderProps();
+                          const columnHeaderStyle = {
+                            ...headerStyle,
+                            ...provided.draggableProps.style,
+                          };
                           return (
                             <TableHeaderCell
-                              ref={provided.innerRef}
-                              userSelect="none" // some basic styles to make the items look a bit nicer
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              {...column.getHeaderProps()}
-                              {...snapshot.isDragging && getDraggingProps()}
-                              style={
-                                {...provided.draggableProps.style}
-                              }
+                              {...columnHeaderProps}
+                              {...column.customedProps}
+                              {...snapshot.isDragging && columnDraggerProps}
+                              ref={provided.innerRef}
+                              userSelect="none"
+                              style={columnHeaderStyle}
                             >
                               {column.render("Header")}
                             </TableHeaderCell>
@@ -1477,7 +1646,14 @@ function BaseTable() {
             <TableRow {...row.getRowProps()}>
               {
                 row.cells.map(cell => {
-                  return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                  return (
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
+                      {cell.render('Cell')}
+                    </TableCell>
+                  );
                 })
               }
             </TableRow>
@@ -1493,7 +1669,7 @@ function BaseTable() {
 // which would result in client/server markup mismatches after multiple requests are rendered on the server.
 ReactBeautifulDND.resetServerContext();
 
-render(<BaseTable />);
+render(<ReorderColumnTable />);
 ```
 
 
