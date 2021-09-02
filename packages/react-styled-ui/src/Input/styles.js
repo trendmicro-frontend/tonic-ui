@@ -172,7 +172,7 @@ const getInputGroupCSS = ({
   const useNegativeMargin = (variant === 'outline' || variant === 'filled');
 
   return {
-    '&:not(:first-of-type)': {
+    '&:not(:first-child)': {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
     },
