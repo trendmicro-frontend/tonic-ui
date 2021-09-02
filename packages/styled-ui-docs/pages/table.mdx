@@ -93,29 +93,6 @@ Use the `size` prop to change the padding of the `<TableCell>`. You can set the 
 
 ```jsx
 function Sample() {
-  const columns = React.useMemo(() => [
-    {
-      header: 'Event Type',
-      customedProps: {
-        width: 240,
-      },
-    },
-    {
-      header: 'Detections',
-      customedProps: {
-        width: 136,
-        textAlign: 'right',
-      },
-    },
-  ], []);
-  const data = React.useMemo(() => [
-    { id: 1, eventType: 'Virus/Malware', detections: 634 },
-    { id: 2, eventType: 'Spyware/Grayware', detections: 634 },
-    { id: 3, eventType: 'URL Filtering', detections: 598 },
-    { id: 4, eventType: 'Web Reputation', detections: 598 },
-    { id: 5, eventType: 'Network Virus', detections: 497 },
-    { id: 6, eventType: 'Application Control', detections: 0 }
-  ], []);
   const shadowLeftRef = React.useRef(null);
   const shadowRightRef = React.useRef(null);
   const handleUpdate = ({ values }) => {
@@ -186,29 +163,46 @@ function Sample() {
 
 Enable a hover state on TableRows.
 
-```jsx
-<Table isHoverable>
-  <TableHeader>
-    <TableHeaderRow>
-      <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-      <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
-    </TableHeaderRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow>
-      <TableCell width="240px">Virus/Malware</TableCell>
-      <TableCell width="136px" textAlign="right">634</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell width="240px">Virus/Malware</TableCell>
-      <TableCell width="136px" textAlign="right">778</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell width="240px">URL Filtering</TableCell>
-      <TableCell width="136px" textAlign="right">598</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
+```jsx noInline
+const HoverableTableRow = (props) => {
+  return (
+    <TableRow
+      _hover={{
+        bg: 'rgba(255, 255, 255, 0.12)'
+      }}
+      {...props}
+    />
+  );
+};
+
+function HoverableTable() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableHeaderRow>
+          <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+          <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
+        </TableHeaderRow>
+      </TableHeader>
+      <TableBody>
+        <HoverableTableRow>
+          <TableCell width="240px">Virus/Malware</TableCell>
+          <TableCell width="136px" textAlign="right">634</TableCell>
+        </HoverableTableRow>
+        <HoverableTableRow>
+          <TableCell width="240px">Virus/Malware</TableCell>
+          <TableCell width="136px" textAlign="right">778</TableCell>
+        </HoverableTableRow>
+        <HoverableTableRow>
+          <TableCell width="240px">URL Filtering</TableCell>
+          <TableCell width="136px" textAlign="right">598</TableCell>
+        </HoverableTableRow>
+      </TableBody>
+    </Table>
+  );
+}
+
+render(<HoverableTable />);
 ```
 
 ## Custom tables
@@ -269,10 +263,7 @@ function BaseTable() {
   );
 
   return (
-    <Table
-      isHoverable
-      {...getTableProps()}
-    >
+    <Table {...getTableProps()}>
       <TableHeader>
         {headerGroups.map(headerGroup => (
           <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
@@ -291,7 +282,12 @@ function BaseTable() {
         {rows.map((row, i) => {
           prepareRow(row);
           return (
-            <TableRow {...row.getRowProps()}>
+            <TableRow
+              {...row.getRowProps()}
+              _hover={{
+                bg: 'rgba(255, 255, 255, 0.12)'
+              }}
+            >
               {
                 row.cells.map(cell => {
                   return (
@@ -402,7 +398,7 @@ function SelectableTable() {
 
   return (
     <>
-      <Table isHoverable {...getTableProps()}>
+      <Table {...getTableProps()}>
         <TableHeader>
           {headerGroups.map(headerGroup => (
             <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
@@ -425,6 +421,9 @@ function SelectableTable() {
               <TableRow
                 {...row.getRowProps()}
                 {...isChecked && { bg: 'rgba(255, 255, 255, 0.08)' }}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
               >
                 {row.cells.map(cell => {
                   return (
@@ -520,7 +519,7 @@ function SortableTable() {
   );
 
   return (
-    <Table isHoverable {...getTableProps()}>
+    <Table {...getTableProps()}>
       <TableHeader>
         {headerGroups.map(headerGroup => (
           <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
@@ -560,7 +559,12 @@ function SortableTable() {
           (row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 {row.cells.map(cell => {
                   return (
                     <TableCell
@@ -675,7 +679,6 @@ function ResizableTable() {
     <Stack spacing="4x" shouldWrapChildren>
       <Button onClick={resetResizing}>Reset Resizing</Button>
       <Table
-        isHoverable
         variant="outline"
         {...getTableProps()}
       >
@@ -730,7 +733,12 @@ function ResizableTable() {
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 {
                   row.cells.map((cell, index) => {
                     const cellId = cell.column.id;
@@ -899,7 +907,6 @@ function StickyTable() {
 
   return (
     <Table
-      isHoverable
       variant="outline"
       width={400}
       height={200}
@@ -943,7 +950,12 @@ function StickyTable() {
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 {row.cells.map(cell => {
                   return (
                     <TableCell
@@ -1071,10 +1083,7 @@ function FullWidthTable() {
           }
           const newColumns = getCalculatedColumns({ initColumns: columns, tableWidth: width });
           return (
-            <Table
-              isHoverable
-              {...getTableProps()}
-            >
+            <Table {...getTableProps()}>
               <TableHeader>
                 {headerGroups.map(headerGroup => (
                   <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
@@ -1099,7 +1108,12 @@ function FullWidthTable() {
                 {rows.map((row, i) => {
                   prepareRow(row);
                   return (
-                    <TableRow {...row.getRowProps()}>
+                    <TableRow
+                      {...row.getRowProps()}
+                      _hover={{
+                        bg: 'rgba(255, 255, 255, 0.12)'
+                      }}
+                    >
                       {
                         row.cells.map(cell => {
                           const columnId = cell.column.id;
@@ -1681,7 +1695,6 @@ render(<ReorderColumnTable />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isHoverable | boolean | | Enable a hover state on TableRows. |
 | size | string | 'md' | The size of TableCells. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'default' | The variant of the table style to use. One of: `'default'`, `'outline'` |
 
