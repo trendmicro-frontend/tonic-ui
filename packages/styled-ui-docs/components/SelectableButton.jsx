@@ -48,7 +48,7 @@ const SelectableButton = ({
     },
   };
   css = [
-    { ...(selected && getSelectedCSS)},
+    { ...(selected && getSelectedCSS) },
     { ...css }
   ];
   return (
