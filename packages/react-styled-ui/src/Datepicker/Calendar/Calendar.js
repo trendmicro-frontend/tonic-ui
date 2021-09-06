@@ -15,6 +15,7 @@ import {
   WEEK_CONFIG,
 } from './constants';
 import {
+  convertToDateObj,
   dateToAry,
   dateToObj,
   dateToStr,
@@ -55,7 +56,7 @@ const Calendar = ({ dateValue: rawDate, maxDate, minDate, onSelect }) => {
     const days = [];
     const daysLength = DEFAULT_WEEK_ROW * DAY.length;
     const curMonthDays = getMonthDays(year, month);
-    const curMonthFirstDay = new Date(`${year}-${month}-01`).getDay();
+    const curMonthFirstDay = convertToDateObj(`${year}-${month}-01`).getDay();
 
     const prevMonthRemainLength = curMonthFirstDay % 7;
     const prevMonthLastDate = getPrevMonthLastDate(new Date(year, month - 1));
@@ -105,7 +106,7 @@ const Calendar = ({ dateValue: rawDate, maxDate, minDate, onSelect }) => {
 
   const onSelectHandler = (dateStr) => {
     setSelectedDateStr(dateStr);
-    onSelect(new Date(dateStr));
+    onSelect(convertToDateObj(dateStr));
   };
 
   return (
