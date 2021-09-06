@@ -18,7 +18,78 @@ import {
 ```
 
 ```jsx
-<DateInput />
+<Calendar dateValue="2021-05-15" maxDate="2021-05-28" minDate="2021-05-12" />
+```
+
+```jsx
+<DateInput zIndex={10} />
+```
+
+```jsx noInline
+const CustomPeriod = () => {
+  const today = new Date();
+  const [startTimestamp, setStartTimestamp] = React.useState(null);
+  const [endTimestamp, setEndTimestamp] = React.useState(null);
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const bgStyle = {
+    dark: colorStyle.background.tertiary,
+    light: colorStyle.background.primary
+  }[colorMode];
+  const shadowStyle = colorStyle.shadow.medium;
+
+  const onChangeStartDate = ({ timestamp }) => {
+    setStartTimestamp(timestamp);
+  };
+
+  const onChangeEndDate = ({ timestamp }) => {
+    setEndTimestamp(timestamp);
+  };
+
+  return (
+    <Box width={320} p="3x" bg={bgStyle} boxShadow={shadowStyle}>
+      <Flex align="center" mb="6x">
+        <Icon icon="chevron-left" mr="3x"/>
+        <Text>Custom Period</Text>
+      </Flex>
+      <Stack spacing="3x" mb="3x">
+        <Flex align="center" justify="space-between">
+          <Text>From:</Text>
+          <Box>
+            <DateInput
+              zIndex={3}
+              dateValue={endTimestamp < startTimestamp ? endTimestamp : null}
+              maxDate={today}
+              onChange={onChangeStartDate}
+            />
+            <TimeInput />
+          </Box>
+        </Flex>
+        <Flex align="center" justify="space-between">
+          <Text>To:</Text>
+          <Box>
+            <DateInput
+              zIndex={2}
+              maxDate={today}
+              onChange={onChangeEndDate}
+            />
+            <TimeInput />
+          </Box>
+        </Flex>
+      </Stack>
+      <Stack direction="row" spacing="2x" justify="flex-end">
+        <Button variant="primary">Apply</Button>
+        <Button>Cancel</Button>
+      </Stack>
+    </Box>
+  );
+};
+
+render(<CustomPeriod />);
+```
+
+```jsx
+<DateInput disabled />
 ```
 
 ```jsx
