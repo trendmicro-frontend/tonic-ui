@@ -6,7 +6,8 @@ const getDaysColor = ({
   colorStyle,
   isSelected,
   isToday,
-  isThisMonth
+  isThisMonth,
+  isOutOfScope
 }) => {
   const colorProps = (({ isSelected, isToday, isThisMonth }) => {
     if (isToday && isThisMonth && !isSelected) {
@@ -18,7 +19,7 @@ const getDaysColor = ({
         light: 'white:primary'
       }[colorMode];
     }
-    if (!isThisMonth) {
+    if (!isThisMonth || isOutOfScope) {
       return colorStyle.text.tertiary;
     }
     return colorStyle.text.primary;
@@ -43,11 +44,11 @@ const getDaysColor = ({
   };
 };
 
-const useDaysStyle = ({ isSelected, isToday, isThisMonth }) => {
+const useDaysStyle = ({ isSelected, isToday, isThisMonth, isOutOfScope }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorProps = getDaysColor({
-    colorMode, colorStyle, isSelected, isToday, isThisMonth
+    colorMode, colorStyle, isSelected, isToday, isThisMonth, isOutOfScope
   });
 
   return {
@@ -55,7 +56,7 @@ const useDaysStyle = ({ isSelected, isToday, isThisMonth }) => {
     alignItems: 'center',
     justifyContent: 'center',
     height: '10x',
-    cursor: 'pointer',
+    cursor: isOutOfScope ? 'not-allowed' : 'pointer',
     ...colorProps,
   };
 };

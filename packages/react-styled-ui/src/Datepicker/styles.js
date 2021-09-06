@@ -196,12 +196,57 @@ const useInputStyle = ({ size, variant }) => {
   return {
     ...baseProps,
     ...sizeProps,
-    ...variantProps
+    ...variantProps,
   };
 };
+
+const useDateInputStyle = ({ zIndex }) => {
+  return {
+    zIndex,
+    position: 'relative',
+    display: 'inline-block'
+  };
+};
+
+const useDisabledStyle = ({ disabled }) => {
+  return disabled ? {
+    pointerEvent: 'none',
+    borderColor: 'gray:60',
+    cursor: 'not-allowed',
+    opacity: '.28'
+  } : {};
+};
+
+const useInputCellStyle = ({ width, disabled }) => {
+  return {
+    width,
+    textAlign: 'center',
+    cursor: disabled ? 'not-allowed' : 'auto',
+    __selection: {
+      color: 'white:primary',
+      backgroundColor: 'blue:60'
+    }
+  };
+};
+
+const getGroupCSS = () => ({
+  '&:not(:first-of-type)': {
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    marginLeft: -1
+  },
+  '&:not(:last-child)': {
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0
+  }
+});
 
 export {
   useIconStyle,
   useInputErrorStyle,
-  useInputStyle
+  useInputStyle,
+  useDateInputStyle,
+  useDisabledStyle,
+  useInputCellStyle,
+  getGroupCSS
 };

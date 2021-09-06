@@ -20,16 +20,19 @@ import {
   dateToStr,
   getMonthDays,
   getPrevMonthLastDate,
-  isValidDate,
+  getTimestamp,
+  isValidDate
 } from '../utils';
 import Controller from './Controller';
 import Week from './Week';
 import WeekTitle from './WeekTitle';
 
-const Calendar = ({ startDate: rawDate, onSelect }) => {
+const Calendar = ({ dateValue: rawDate, maxDate, minDate, onSelect }) => {
   const today = new Date();
   const todayAry = dateToAry(today);
   const initDate = isValidDate(rawDate) ? rawDate : today;
+  const maxTimestamp = isValidDate(maxDate) ? getTimestamp(maxDate) : 0;
+  const minTimestamp = isValidDate(minDate) ? getTimestamp(minDate) : 0;
   const [renderDate, setRenderDate] = useState(dateToObj(initDate));
   const [selectedDateStr, setSelectedDateStr] = useState(dateToStr(initDate));
   const [colorMode] = useColorMode();
@@ -121,6 +124,8 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
       <Controller
         changeRenderDate={changeRenderDate}
         renderDate={renderDate}
+        maxDate={maxDate}
+        minDate={minDate}
       />
       <Grid {...WEEK_CONFIG}>
         <WeekTitle />
@@ -131,6 +136,8 @@ const Calendar = ({ startDate: rawDate, onSelect }) => {
           renderDate={renderDate}
           selectedDateStr={selectedDateStr}
           onSelectHandler={onSelectHandler}
+          maxTimestamp={maxTimestamp}
+          minTimestamp={minTimestamp}
         />
       </Grid>
     </Flex>

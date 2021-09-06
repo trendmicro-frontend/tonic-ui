@@ -86,7 +86,7 @@ const Controller = ({
 
 Controller.propTypes = {
   changeRenderDate: PropTypes.func.isRequired,
-  renderDate: PropTypes.object.isRequired,
+  renderDate: PropTypes.object.isRequired
 };
 
 export default Controller;

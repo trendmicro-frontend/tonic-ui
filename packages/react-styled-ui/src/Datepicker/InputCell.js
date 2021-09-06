@@ -1,6 +1,8 @@
 import React, { useState, useEffect, forwardRef } from 'react';
 import InputBase from '../InputBase';
 
+import { useInputCellStyle } from './styles';
+
 const cancelWheel = (e) => e.preventDefault();
 
 const InputCell = forwardRef(
@@ -9,11 +11,14 @@ const InputCell = forwardRef(
       idx,
       val,
       defaultVal,
+      disabled,
       max,
       min = 0,
       width,
       nextRef = null,
       prevRef = null,
+      disableWheelEvent = false,
+      enterCallback,
       onChangeCell
     },
     ref
@@ -23,7 +28,7 @@ const InputCell = forwardRef(
     const [value, setValue] = useState(val);
     const [curPosition, setCurPosition] = useState(0);
     const [isRange, setIsRange] = useState(false);
-
+    const styleProps = useInputCellStyle({ width, disabled });
     useEffect(() => {
       if (curPosition === END_POSITION && nextRef) {
         nextRef.current.focus();
@@ -42,7 +47,7 @@ const InputCell = forwardRef(
       setValue(val);
     }, [val]);
 
-    const formattedValue = (valueStr, isPadEnd = false) => {
+    const normalizeValue = (valueStr, isPadEnd = false) => {
       const PAD_STR = '0';
       const VAL_LEN = defaultVal.length;
       const trimValue = valueStr
@@ -54,27 +59,28 @@ const InputCell = forwardRef(
     };
 
     const increaseValue = () => {
-      setValue(+value <= min ? `${max}` : formattedValue(`${+value - 1}`));
+      setValue(+value <= +min ? `${max}` : normalizeValue(`${+value - 1}`));
     };
 
     const decreaseValue = () => {
-      setValue(+value >= max ? defaultVal : formattedValue(`${+value + 1}`));
+      setValue(+value >= +max ? defaultVal : normalizeValue(`${+value + 1}`));
     };
 
     const onChange = (e) => {
       const { value: inputValue, selectionStart } = e.target;
-      const trimValue = formattedValue(inputValue, true);
-      const isValid = +trimValue >= min && +trimValue <= max;
+      const trimValue = normalizeValue(inputValue, true);
+      const isValid = +trimValue >= +min && +trimValue <= +max;
       if (isValid) {
         setValue(trimValue);
         setCurPosition(selectionStart);
         return;
       }
       if (!isValid && isRange) {
-        setValue(formattedValue(inputValue[0]));
+        setValue(normalizeValue(inputValue[0]));
         setCurPosition(END_POSITION);
         return;
       }
+      isRange && setIsRange(false);
       setCurPosition(selectionStart);
     };
     const onKeyDown = (e) => {
@@ -97,6 +103,9 @@ const InputCell = forwardRef(
       case 'ArrowUp':
         decreaseValue();
         break;
+      case 'Enter':
+        enterCallback && enterCallback();
+        break;
       default:
         break;
       }
@@ -108,6 +117,9 @@ const InputCell = forwardRef(
     };
 
     const onWheel = (e) => {
+      if (disableWheelEvent) {
+        return;
+      }
       const isUp = e.deltaY < 0;
       isUp ? increaseValue() : decreaseValue();
     };
@@ -116,18 +128,14 @@ const InputCell = forwardRef(
       <InputBase
         ref={ref}
         value={value}
+        disabled={disabled}
         onChange={onChange}
         onKeyDown={onKeyDown}
         onFocus={onFocus}
         onMouseEnter={() => document.body.addEventListener('wheel', cancelWheel, { passive: false })}
         onMouseLeave={() => document.body.removeEventListener('wheel', cancelWheel)}
         onWheel={onWheel}
-        textAlign="center"
-        width={width}
-        __selection={{
-          color: 'white:primary',
-          backgroundColor: 'blue:60'
-        }}
+        {...styleProps}
       />
     );
   }

@@ -6,20 +6,27 @@ import useTheme from '../useTheme';
 
 import InputCell from './InputCell';
 import { getTextWidth } from './utils';
-import { useInputErrorStyle, useIconStyle, useInputStyle } from './styles';
+import {
+  useInputErrorStyle,
+  useIconStyle,
+  useInputStyle,
+  useDisabledStyle,
+  getGroupCSS
+} from './styles';
 
 const defaultSize = 'md';
 const defaultVariant = 'outline';
 const DEFAULT_VALUE = '00';
 
 const TimeInput = ({
-  value,
+  dateValue,
   isInvalid,
+  disabled = false,
   onChange = () => {},
   ...rest
 }) => {
   const SEPARATOR = ':';
-  const initValAry = value?.split(SEPARATOR) || [
+  const initValAry = dateValue?.split(SEPARATOR) || [
     DEFAULT_VALUE,
     DEFAULT_VALUE,
     DEFAULT_VALUE
@@ -35,13 +42,14 @@ const TimeInput = ({
   const [valueAry, setValueAry] = useState(initValAry);
   const [hourVal, minuteVal, secondVal] = initValAry;
 
-  const inputErrorStyle = useInputErrorStyle();
-  const errorStyle = isInvalid ? inputErrorStyle : {};
-  const iconStyle = useIconStyle();
+  const inputErrorProps = useInputErrorStyle();
+  const errorProps = isInvalid ? inputErrorProps : {};
+  const iconProps = useIconStyle();
   const styleProps = useInputStyle({
     size: defaultSize,
     variant: defaultVariant
   });
+  const disabledProps = useDisabledStyle({ disabled });
 
   useEffect(() => {
     onChange(valueAry.join(SEPARATOR));
@@ -56,16 +64,19 @@ const TimeInput = ({
   return (
     <InputGroup
       data-value={valueAry.join(SEPARATOR)}
+      css={[getGroupCSS()]}
       {...styleProps}
-      {...errorStyle}
+      {...errorProps}
+      {...disabledProps}
       {...rest}
     >
-      <Icon icon="clock" {...iconStyle} mr="3x" />
+      <Icon icon="clock" {...iconProps} mr="3x" />
       <InputCell
         idx={0}
         ref={hourRef}
         val={hourVal}
         defaultVal={DEFAULT_VALUE}
+        disabled={disabled}
         max={23}
         width={inputWidth}
         nextRef={minuteRef}
@@ -77,6 +88,7 @@ const TimeInput = ({
         ref={minuteRef}
         val={minuteVal}
         defaultVal={DEFAULT_VALUE}
+        disabled={disabled}
         max={59}
         width={inputWidth}
         nextRef={secondRef}
@@ -89,6 +101,7 @@ const TimeInput = ({
         ref={secondRef}
         val={secondVal}
         defaultVal={DEFAULT_VALUE}
+        disabled={disabled}
         max={59}
         width={inputWidth}
         prevRef={minuteRef}

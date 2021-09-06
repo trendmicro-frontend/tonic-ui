@@ -11,13 +11,14 @@ const Day = ({
   isSelected,
   isToday,
   isThisMonth,
-  onSelectHandler,
+  isOutOfScope,
+  onSelectHandler
 }) => {
-  const styleProps = useDaysStyle({ isSelected, isToday, isThisMonth });
+  const styleProps = useDaysStyle({ isSelected, isToday, isThisMonth, isOutOfScope });
 
   return (
     <PseudoBox
-      onClick={() => onSelectHandler(dateInfoStr)}
+      onClick={() => !isOutOfScope && onSelectHandler(dateInfoStr)}
       {...styleProps}
     >
       {date}
@@ -30,6 +31,7 @@ Day.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   isToday: PropTypes.bool.isRequired,
   isThisMonth: PropTypes.bool.isRequired,
+  isOutOfScope: PropTypes.bool.isRequired,
   onSelectHandler: PropTypes.func.isRequired,
 };
 

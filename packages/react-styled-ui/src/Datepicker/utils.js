@@ -3,10 +3,30 @@ import {
   MONTH_DAYS,
 } from './Calendar/constants';
 
+import { SEPARATOR } from './constants';
+
+export const convertToDateObj = (data) => {
+  if (typeof data === 'string') {
+    // We didn't use date strings to create a Date object due to browser differences and inconsistencies
+    return new Date(...data.split(SEPARATOR).map((val, index) => (index === 1 ? +val - 1 : +val)));
+  }
+  if (typeof data === 'number') {
+    return new Date(data);
+  }
+  return data;
+};
+
 export const dateToAry = (rawDate) => {
-  const newDate = new Date(rawDate);
+  let newDate = convertToDateObj(rawDate);
+  if (!(newDate instanceof Date)) {
+    return [];
+  }
   const [month, date, year] = newDate.toLocaleDateString('en-US').split('/');
   return [+year, +month, +date];
+};
+
+export const dateToStrAry = (rawDate) => {
+  return dateToAry(rawDate).map((item) => (item < 10 ? `0${item}` : `${item}`));
 };
 
 export const dateToObj = (rawDate) => {
@@ -14,14 +34,16 @@ export const dateToObj = (rawDate) => {
   return { year, month, date };
 };
 
-export const dateToStr = (rawDate, full = false) => {
-  const newDate = dateToAry(rawDate);
-  return newDate
-    .map((item) => (full && item < 10 ? `0${item}` : item))
-    .join('-');
+export const dateToStr = (rawDate) => {
+  return dateToStrAry(rawDate).join('-');
 };
 
 export const isValidDate = (dateStr) => !!new Date(dateStr).toJSON();
+
+export const getTimestamp = (date) => {
+  const dateObj = convertToDateObj(date);
+  return dateObj.getTime();
+};
 
 export const isLeapYear = (checkYear) => new Date(checkYear, 1, FEB_OF_LEAP_YEAR).getDate() === FEB_OF_LEAP_YEAR;
 

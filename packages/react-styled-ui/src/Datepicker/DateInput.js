@@ -1,30 +1,44 @@
 import React, { useRef, useState, useEffect } from 'react';
-
 import Box from '../Box';
 import InputGroup from '../InputGroup';
 import Icon from '../Icon';
 import Text from '../Text';
 import useTheme from '../useTheme';
-
 import Calendar from './Calendar/Calendar';
 import InputCell from './InputCell';
-import { getTextWidth, dateToAry } from './utils';
-import { useInputErrorStyle, useIconStyle, useInputStyle } from './styles';
+import {
+  getTextWidth, dateToAry, dateToStrAry, convertToDateObj, getTimestamp
+} from './utils';
+import { SEPARATOR } from './constants';
+import {
+  useDateInputStyle,
+  useInputErrorStyle,
+  useIconStyle,
+  useInputStyle,
+  useDisabledStyle,
+  getGroupCSS
+} from './styles';
 
 const defaultSize = 'md';
 const defaultVariant = 'outline';
 
-const DEFAULT_YEAR = '2020';
-const DEFAULT_DATE = '01';
+const today = new Date();
+const [DEFAULT_YEAR, DEFAULT_MONTH, DEFAULT_DATE] = dateToStrAry(today);
+
 const DateInput = ({
-  value,
+  dateValue,
+  maxDate: maxValue,
+  minDate: minValue,
   isInvalid,
+  disabled = false,
+  zIndex = 1,
   onChange = () => {},
   ...rest
 }) => {
-  const SEPARATOR = '-';
-  const MAX_YEAR = String(new Date().getFullYear());
-  const initValAry = value?.split(SEPARATOR) || [DEFAULT_YEAR, DEFAULT_DATE, DEFAULT_DATE];
+  const [maxYear, maxMonth, maxDate] = dateToAry(maxValue);
+  const [minYear, minMonth, minDate] = dateToAry(minValue);
+
+  const initValAry = dateToStrAry(dateValue || today);
 
   const yearRef = useRef(null);
   const monthRef = useRef(null);
@@ -38,16 +52,23 @@ const DateInput = ({
   const yearWidth = Math.floor(getTextWidth('8888', font)) || 22;
   const dateWidth = Math.floor(getTextWidth('88', font)) || 11;
 
-  const inputErrorStyle = useInputErrorStyle();
-  const errorStyle = isInvalid ? inputErrorStyle : {};
-  const iconStyle = useIconStyle();
+  const stylePops = useDateInputStyle({ zIndex });
+  const inputErrorProps = useInputErrorStyle();
+  const errorProps = isInvalid ? inputErrorProps : {};
+  const iconProps = useIconStyle();
   const styleProps = useInputStyle({
     size: defaultSize,
     variant: defaultVariant
   });
+  const disabledProps = useDisabledStyle({ disabled });
 
   useEffect(() => {
-    onChange(valueAry.join(SEPARATOR));
+    const dateStr = valueAry.join(SEPARATOR);
+    onChange({
+      dateStr,
+      date: convertToDateObj(dateStr),
+      timestamp: getTimestamp(dateStr)
+    });
   });
 
   const onChangeCell = (targetIdx, value) => {
@@ -57,31 +78,43 @@ const DateInput = ({
   };
 
   const onDateSelect = (date) => {
-    const dateAry = dateToAry(date).map(item => item
-      .toString()
-      .padStart(DEFAULT_DATE.length, 0));
+    const dateAry = dateToStrAry(date);
     setShowCalendar(false);
     setValueAry(dateAry);
   };
 
+  const onDisableInput = (e) => {
+    if (disabled) {
+      return;
+    }
+    setShowCalendar(true);
+  };
+
   return (
-    <Box position="relative" zIndex="1">
+    <Box
+      {...stylePops}
+      {...disabledProps}
+      {...rest}
+    >
       <InputGroup
         data-value={valueAry.join(SEPARATOR)}
-        onClick={() => setShowCalendar(true)}
+        onClick={onDisableInput}
+        css={[getGroupCSS()]}
         {...styleProps}
-        {...errorStyle}
-        {...rest}
+        {...errorProps}
       >
-        <Icon icon="calendar" {...iconStyle} mr="3x" />
+        <Icon icon="calendar" {...iconProps} mr="3x" />
         <InputCell
           idx={0}
           ref={yearRef}
           val={yearVal}
           defaultVal={DEFAULT_YEAR}
-          max={MAX_YEAR}
+          disabled={disabled}
+          max={maxYear || DEFAULT_YEAR}
+          min={minYear || 1}
           width={yearWidth}
           nextRef={monthRef}
+          disableWheelEvent={true}
           onChangeCell={onChangeCell}
         />
         <Text as="span">{SEPARATOR}</Text>
@@ -89,11 +122,14 @@ const DateInput = ({
           idx={1}
           ref={monthRef}
           val={monthVal}
-          defaultVal={DEFAULT_DATE}
-          max={12}
+          defaultVal={DEFAULT_MONTH}
+          disabled={disabled}
+          max={maxMonth || 12}
+          min={minMonth || 1}
           width={dateWidth}
           nextRef={dateRef}
           prevRef={yearRef}
+          disableWheelEvent={true}
           onChangeCell={onChangeCell}
         />
         <Text as="span">{SEPARATOR}</Text>
@@ -102,9 +138,13 @@ const DateInput = ({
           ref={dateRef}
           val={dateVal}
           defaultVal={DEFAULT_DATE}
-          max={31}
+          disabled={disabled}
+          max={maxDate || 31}
+          min={minDate || 1}
           width={dateWidth}
           prevRef={monthRef}
+          disableWheelEvent={true}
+          enterCallback={() => setShowCalendar(false)}
           onChangeCell={onChangeCell}
         />
       </InputGroup>
@@ -114,7 +154,12 @@ const DateInput = ({
           top="8x"
           bottom="0"
         >
-          <Calendar startDate={valueAry.join('-')} onSelect={onDateSelect} />
+          <Calendar
+            startDate={valueAry.join('-')}
+            maxDate={maxValue}
+            minDate={minValue}
+            onSelect={onDateSelect}
+          />
         </Box>
       )}
     </Box>
