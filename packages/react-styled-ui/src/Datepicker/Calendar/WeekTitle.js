@@ -4,14 +4,14 @@ import { DAY } from './constants';
 
 const WeekTitle = () => (
   <>
-    {DAY.map((dayName, idx) => (
+    {DAY.map(({ id, name }) => (
       <Flex
         height="10x"
         align="center"
         justify="center"
-        key={`${dayName}${idx}`}
+        key={id}
       >
-        {dayName}
+        {name}
       </Flex>
     ))}
   </>

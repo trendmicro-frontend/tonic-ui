@@ -13,7 +13,28 @@ export const MONTH = {
   12: 'December'
 };
 
-export const DAY = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+export const DAY = [{
+  id: 'SUNDAY',
+  name: 'S',
+}, {
+  id: 'MONDAY',
+  name: 'M',
+}, {
+  id: 'TUESDAY',
+  name: 'T',
+}, {
+  id: 'WEDNESDAY',
+  name: 'W',
+}, {
+  id: 'THURSDAY',
+  name: 'T',
+}, {
+  id: 'FRIDAY',
+  name: 'F'
+}, {
+  id: 'SATURDAY',
+  name: 'S'
+}];
 
 export const MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
