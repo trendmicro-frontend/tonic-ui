@@ -140,4 +140,4 @@ export * from './Popper';
 export * from './Select';
 export * from './Table';
 export * from './Transition';
-export * from './DatePicker';
+export * from './Datepicker';
