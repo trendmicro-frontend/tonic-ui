@@ -7,7 +7,7 @@ import useTheme from '../useTheme';
 import Calendar from './Calendar/Calendar';
 import InputCell from './InputCell';
 import {
-  getTextWidth, dateToAry, dateToStrAry, convertToDateObj, getTimestamp
+  getTextWidth, dateToAry, dateToStrAry, convertToDateObj, getTimestamp, isValidDate
 } from './utils';
 import { SEPARATOR } from './constants';
 import {
@@ -26,7 +26,8 @@ const today = new Date();
 const [DEFAULT_YEAR, DEFAULT_MONTH, DEFAULT_DATE] = dateToStrAry(today);
 
 const DateInput = ({
-  dateValue,
+  defaultValue,
+  value: updatedValue,
   maxDate: maxValue,
   minDate: minValue,
   isInvalid,
@@ -38,7 +39,7 @@ const DateInput = ({
   const [maxYear, maxMonth, maxDate] = dateToAry(maxValue);
   const [minYear, minMonth, minDate] = dateToAry(minValue);
 
-  const initValAry = dateToStrAry(dateValue || today);
+  const initValAry = dateToStrAry(defaultValue || today);
 
   const yearRef = useRef(null);
   const monthRef = useRef(null);
@@ -63,13 +64,20 @@ const DateInput = ({
   const disabledProps = useDisabledStyle({ disabled });
 
   useEffect(() => {
-    const dateStr = valueAry.join(SEPARATOR);
-    onChange({
-      dateStr,
-      date: convertToDateObj(dateStr),
-      timestamp: getTimestamp(dateStr)
-    });
-  });
+    if (valueAry.every((val) => val > 0)) {
+      const dateStr = valueAry.join(SEPARATOR);
+      const date = convertToDateObj(dateStr);
+      const timestamp = getTimestamp(dateStr);
+
+      onChange({ dateStr, date, timestamp });
+    }
+  }, [valueAry]);
+
+  useEffect(() => {
+    if (!!updatedValue && isValidDate(updatedValue)) {
+      setValueAry(dateToStrAry(updatedValue));
+    }
+  }, [updatedValue]);
 
   const onChangeCell = (targetIdx, value) => {
     setValueAry(

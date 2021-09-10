@@ -28,11 +28,13 @@ import {
 ```jsx noInline
 const CustomPeriod = () => {
   const today = new Date();
-  const [startTimestamp, setStartTimestamp] = React.useState(null);
-  const [endTimestamp, setEndTimestamp] = React.useState(null);
+  const todayTimestamp = today.getTime();
+  const [currentFocus, setCurrentFocus] = React.useState(null);
+  const [startTimestamp, setStartTimestamp] = React.useState(todayTimestamp);
+  const [endTimestamp, setEndTimestamp] = React.useState(todayTimestamp);
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const bgStyle = {
+  const bgColor = {
     dark: colorStyle.background.tertiary,
     light: colorStyle.background.primary
   }[colorMode];
@@ -40,14 +42,19 @@ const CustomPeriod = () => {
 
   const onChangeStartDate = ({ timestamp }) => {
     setStartTimestamp(timestamp);
+    setCurrentFocus('from')
   };
 
   const onChangeEndDate = ({ timestamp }) => {
     setEndTimestamp(timestamp);
+    setCurrentFocus('to')
   };
 
+  const startValue = currentFocus === 'to' && startTimestamp > endTimestamp ? endTimestamp: null;
+  const endValue = currentFocus === 'from' && startTimestamp > endTimestamp ? startTimestamp : null;
+
   return (
-    <Box width={320} p="3x" bg={bgStyle} boxShadow={shadowStyle}>
+    <Box width={320} p="3x" bg={bgColor} boxShadow={shadowStyle}>
       <Flex align="center" mb="6x">
         <Icon icon="chevron-left" mr="3x"/>
         <Text>Custom Period</Text>
@@ -58,7 +65,7 @@ const CustomPeriod = () => {
           <Box>
             <DateInput
               zIndex={3}
-              dateValue={endTimestamp < startTimestamp ? endTimestamp : null}
+              value={startValue}
               maxDate={today}
               onChange={onChangeStartDate}
             />
@@ -70,6 +77,7 @@ const CustomPeriod = () => {
           <Box>
             <DateInput
               zIndex={2}
+              value={endValue}
               maxDate={today}
               onChange={onChangeEndDate}
             />
