@@ -64,14 +64,14 @@ const DateInput = ({
   const disabledProps = useDisabledStyle({ disabled });
 
   useEffect(() => {
-    if (valueAry.every((val) => val > 0)) {
+    if (valueAry.every((val) => val > 0) && onChange) {
       const dateStr = valueAry.join(SEPARATOR);
       const date = convertToDateObj(dateStr);
       const timestamp = getTimestamp(dateStr);
 
       onChange({ dateStr, date, timestamp });
     }
-  }, [valueAry]);
+  }, [onChange, valueAry]);
 
   useEffect(() => {
     if (!!updatedValue && isValidDate(updatedValue)) {
