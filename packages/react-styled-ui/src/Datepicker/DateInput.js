@@ -41,6 +41,7 @@ const DateInput = ({
 
   const initValAry = dateToStrAry(defaultValue || today);
 
+  const wrapperRef = useRef(null);
   const yearRef = useRef(null);
   const monthRef = useRef(null);
   const dateRef = useRef(null);
@@ -91,22 +92,31 @@ const DateInput = ({
     setValueAry(dateAry);
   };
 
-  const onDisableInput = (e) => {
+  const onOutsideClick = e => {
+    if (!wrapperRef.current.contains(e.target)) {
+      setShowCalendar(false);
+      document.removeEventListener('click', onOutsideClick, false);
+    }
+  };
+
+  const onClickInput = (e) => {
     if (disabled) {
       return;
     }
     setShowCalendar(true);
+    document.addEventListener('click', onOutsideClick, false);
   };
 
   return (
     <Box
+      ref={wrapperRef}
       {...stylePops}
       {...disabledProps}
       {...rest}
     >
       <InputGroup
         data-value={valueAry.join(SEPARATOR)}
-        onClick={onDisableInput}
+        onClick={onClickInput}
         css={[getGroupCSS()]}
         {...styleProps}
         {...errorProps}
