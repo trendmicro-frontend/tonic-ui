@@ -156,20 +156,19 @@ const DateInput = ({
           onChangeCell={onChangeCell}
         />
       </InputGroup>
-      { showCalendar && (
-        <Box
-          position="absolute"
-          top="8x"
-          bottom="0"
-        >
-          <Calendar
-            startDate={valueAry.join('-')}
-            maxDate={maxValue}
-            minDate={minValue}
-            onSelect={onDateSelect}
-          />
-        </Box>
-      )}
+      <Box
+        position="absolute"
+        display={showCalendar ? 'block' : 'none'}
+        top="8x"
+        bottom="0"
+      >
+        <Calendar
+          dateValue={valueAry.join('-')}
+          maxDate={maxValue}
+          minDate={minValue}
+          onSelect={onDateSelect}
+        />
+      </Box>
     </Box>
   );
 };
