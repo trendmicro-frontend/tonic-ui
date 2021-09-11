@@ -1,9 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Box from '../Box';
 import InputGroup from '../InputGroup';
 import Icon from '../Icon';
 import Text from '../Text';
 import useTheme from '../useTheme';
+import useOutsideClick from '../utils/useOutsideClick';
 import Calendar from './Calendar/Calendar';
 import InputCell from './InputCell';
 import {
@@ -46,7 +47,7 @@ const DateInput = ({
   const monthRef = useRef(null);
   const dateRef = useRef(null);
   const [valueAry, setValueAry] = useState(initValAry);
-  const [showCalendar, setShowCalendar] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [yearVal, monthVal, dateVal] = valueAry;
 
   const theme = useTheme();
@@ -63,6 +64,14 @@ const DateInput = ({
     variant: defaultVariant
   });
   const disabledProps = useDisabledStyle({ disabled });
+  const showCalendar = useCallback(() => {
+    setIsCalendarOpen(true);
+  }, [setIsCalendarOpen]);
+  const hideCalendar = useCallback(() => {
+    setIsCalendarOpen(false);
+  }, [setIsCalendarOpen]);
+
+  useOutsideClick(hideCalendar, wrapperRef);
 
   useEffect(() => {
     if (valueAry.every((val) => val > 0) && onChange) {
@@ -88,23 +97,15 @@ const DateInput = ({
 
   const onDateSelect = (date) => {
     const dateAry = dateToStrAry(date);
-    setShowCalendar(false);
+    hideCalendar();
     setValueAry(dateAry);
-  };
-
-  const onOutsideClick = e => {
-    if (!wrapperRef.current.contains(e.target)) {
-      setShowCalendar(false);
-      document.removeEventListener('click', onOutsideClick, false);
-    }
   };
 
   const onClickInput = (e) => {
     if (disabled) {
       return;
     }
-    setShowCalendar(true);
-    document.addEventListener('click', onOutsideClick, false);
+    showCalendar();
   };
 
   return (
@@ -162,13 +163,13 @@ const DateInput = ({
           width={dateWidth}
           prevRef={monthRef}
           disableWheelEvent={true}
-          enterCallback={() => setShowCalendar(false)}
+          enterCallback={hideCalendar}
           onChangeCell={onChangeCell}
         />
       </InputGroup>
       <Box
         position="absolute"
-        display={showCalendar ? 'block' : 'none'}
+        display={isCalendarOpen ? 'block' : 'none'}
         top="8x"
         bottom="0"
       >
