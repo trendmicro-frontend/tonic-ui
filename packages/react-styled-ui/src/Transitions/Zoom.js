@@ -10,7 +10,7 @@ import {
   getExitTransitionProps,
   transitionDuration,
   transitionEasing,
-} from './transitions';
+} from '../shared/transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 import PseudoBox from '../PseudoBox';
