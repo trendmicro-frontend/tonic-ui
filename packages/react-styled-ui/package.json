@@ -27,12 +27,12 @@
     "chained-function": "^0.5.0",
     "color": "3.x",
     "ensure-type": "1.x",
-    "exenv": "1.2.x",
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
     "prop-types": "^15.6.0",
     "react-focus-lock": "2.3.x",
-    "react-transition-group": "~4.4.1",
+    "react-is": "^16.8.0",
+    "react-transition-group": "^4.4.0",
     "styled-system": "5.x"
   },
   "devDependencies": {

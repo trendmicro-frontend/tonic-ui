@@ -207,7 +207,6 @@ const CodeBlock = ({
           {...props}
         />
       ),
-      useToast,
       css,
       mdx,
       tmicons,

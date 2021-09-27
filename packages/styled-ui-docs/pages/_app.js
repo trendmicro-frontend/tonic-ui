@@ -6,6 +6,7 @@ import {
   ColorStyleProvider,
   CSSBaseline,
   ThemeProvider,
+  ToastProvider,
   theme,
   useColorMode,
   useTheme,
@@ -106,12 +107,14 @@ const CustomApp = (props) => {
     <ThemeProvider theme={customTheme}>
       <ColorModeProvider value="dark">
         <ColorStyleProvider>
-          <CSSBaseline />
-          <MDXProvider components={MDXComponents}>
-            <Layout>
-              <App {...props} />
-            </Layout>
-          </MDXProvider>
+          <ToastProvider>
+            <CSSBaseline />
+            <MDXProvider components={MDXComponents}>
+              <Layout>
+                <App {...props} />
+              </Layout>
+            </MDXProvider>
+          </ToastProvider>
         </ColorStyleProvider>
       </ColorModeProvider>
     </ThemeProvider>
