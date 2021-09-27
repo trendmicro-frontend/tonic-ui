@@ -46,10 +46,11 @@ import Textarea from './Textarea';
 import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
 import Toast from './Toast';
+import ToastProvider from './ToastProvider';
 import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
-import colorStyle from './ColorStyleProvider/color-style';
+import colorStyle from './shared/color-style';
 import theme from './theme';
 import useClipboard from './useClipboard';
 import useColorMode from './useColorMode';
@@ -57,6 +58,7 @@ import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure';
 import usePagination from './usePagination';
 import useTheme from './useTheme';
+import useToast from './useToast';
 import withTheme from './withTheme';
 
 export {
@@ -108,6 +110,7 @@ export {
   ThemeProvider,
   Tag,
   Toast,
+  ToastProvider,
   ToggleSwitch,
   Tooltip,
   VisuallyHidden,
@@ -119,6 +122,7 @@ export {
   useDisclosure,
   usePagination,
   useTheme,
+  useToast,
   withTheme,
 };
 
