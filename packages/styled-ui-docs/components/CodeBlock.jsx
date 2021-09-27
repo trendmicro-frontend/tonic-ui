@@ -20,7 +20,6 @@ import EditableTag from './EditableTag';
 import SelectableButton from './SelectableButton';
 import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
-import useToast from './useToast';
 
 const thirdPartyComponents = {
   AutoSizer,
