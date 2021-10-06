@@ -241,7 +241,7 @@ const ToastProvider = ({
                     key={toast.id}
                     in={true}
                     collapsedHeight={0}
-                    unmountOnExit={false}
+                    unmountOnExit
                   >
                     <ToastController
                       duration={toast.duration}
