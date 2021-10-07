@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { isElement, isValidElementType } from 'react-is';
 import {
-  Transition,
   TransitionGroup,
 } from 'react-transition-group';
 import { ToastContext } from '../context';
@@ -15,13 +14,7 @@ import { canUseDOM } from '../utils/dom';
 import { createUniqueId } from '../utils/uniqueid';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionDuration,
-  transitionEasing,
-} from '../shared/transitions';
+import ToastTransition from './ToastTransition';
 
 const uniqueId = createUniqueId();
 
@@ -42,40 +35,6 @@ const getToastPlacementByState = (state, id) => {
     .reduce((acc, val) => acc.concat(val), [])
     .find((toast) => toast.id === id);
   return toast?.placement;
-};
-
-const mapStateToVariantStyle = (state, props) => {
-  const variantStyle = {
-    entering: {
-      opacity: 1,
-      transform: 'scale(1)',
-    },
-    entered: {
-      opacity: 1,
-      transform: 'scale(1)',
-    },
-    exiting: {
-      opacity: 0,
-      transform: 'scale(0.85)',
-      overflow: 'hidden',
-    },
-    exited: {
-      opacity: 0,
-      transform: 'scale(0.85)',
-    },
-  }[state];
-
-  return (typeof variantStyle === 'function') ? variantStyle(props) : variantStyle;
-};
-
-const easing = {
-  enter: transitionEasing.easeInOut,
-  exit: transitionEasing.easeInOut,
-};
-
-const timeout = {
-  enter: transitionDuration.enteringScreen,
-  exit: transitionDuration.leavingScreen,
 };
 
 const ToastProvider = ({
@@ -278,53 +237,33 @@ const ToastProvider = ({
             >
               <TransitionGroup component={null}>
                 {toasts.map((toast) => (
-                  <Transition
-                    appear
+                  <ToastTransition
                     key={toast.id}
-                    mountOnEnter
-                    timeout={timeout}
+                    in={true}
+                    collapsedHeight={0}
                     unmountOnExit
                   >
-                    {(transitionState, childProps) => {
-                      const transitionProps = (transitionState === 'entering' || transitionState === 'entered')
-                        ? getEnterTransitionProps({ timeout, easing })
-                        : getExitTransitionProps({ timeout, easing });
-                      const transition = createTransitionStyle(['opacity', 'transform'], transitionProps);
-                      const variantStyle = mapStateToVariantStyle(transitionState, { placement });
-                      const styleProps = {
-                        ...variantStyle,
-                        transition,
-                        visibility: (transitionState === 'exited') ? 'hidden' : undefined,
-                      };
-
-                      return (
-                        <ToastController
-                          key={toast.id}
-                          duration={toast.duration}
-                          onClose={toast.onClose}
-                          transitionState={transitionState}
-                          {...childProps}
-                          {...styleProps}
-                        >
-                          {(() => {
-                            if (isElement(toast.message)) {
-                              return toast.message;
-                            }
-                            if (isValidElementType(toast.message)) {
-                              return (
-                                <toast.message
-                                  id={toast.id}
-                                  onClose={toast.onClose}
-                                  placement={toast.placement}
-                                />
-                              );
-                            }
-                            return null;
-                          })()}
-                        </ToastController>
-                      );
-                    }}
-                  </Transition>
+                    <ToastController
+                      duration={toast.duration}
+                      onClose={toast.onClose}
+                    >
+                      {(() => {
+                        if (isElement(toast.message)) {
+                          return toast.message;
+                        }
+                        if (isValidElementType(toast.message)) {
+                          return (
+                            <toast.message
+                              id={toast.id}
+                              onClose={toast.onClose}
+                              placement={toast.placement}
+                            />
+                          );
+                        }
+                        return null;
+                      })()}
+                    </ToastController>
+                  </ToastTransition>
                 ))}
               </TransitionGroup>
             </ToastContainer>
