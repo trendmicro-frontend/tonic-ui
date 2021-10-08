@@ -30,6 +30,7 @@ import Link from './Link';
 import LinkButton from './LinkButton';
 import MenuButton from './MenuButton';
 import Pagination from './Pagination';
+import Portal from './Portal';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
@@ -94,6 +95,7 @@ export {
   LinkButton,
   MenuButton,
   Pagination,
+  Portal,
   PseudoBox,
   Radio,
   RadioGroup,
@@ -132,6 +134,7 @@ export * from './Drawer';
 export * from './Menu';
 export * from './Modal';
 export * from './Popover';
+export * from './Popper';
 export * from './Select';
 export * from './Table';
 export * from './Transition';
