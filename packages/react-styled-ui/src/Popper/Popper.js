@@ -19,155 +19,153 @@ function getAnchorEl(anchorEl) {
   return typeof anchorEl === 'function' ? anchorEl() : anchorEl;
 }
 
-const Popper = forwardRef(
-  (
-    {
-      anchorEl,
-      children,
-      gutter,
-      container,
-      usePortal = true,
-      unmountOnExit = true,
-      modifiers,
-      isOpen,
-      placement: initialPlacement = 'bottom',
-      popperOptions = {},
-      popperRef: popperRefProp,
-      willUseTransition = false,
-      arrowSize,
-      ...rest
+const Popper = forwardRef((
+  {
+    anchorEl,
+    children,
+    gutter,
+    container,
+    usePortal = true,
+    unmountOnExit = true,
+    modifiers,
+    isOpen,
+    placement: initialPlacement = 'bottom',
+    popperOptions = {},
+    popperRef: popperRefProp,
+    willUseTransition = false,
+    arrowSize,
+    ...rest
+  },
+  ref,
+) => {
+  const tooltipRef = useRef(null);
+  const ownRef = useForkRef(tooltipRef, ref);
+
+  const popperRef = useRef(null);
+  const handlePopperRef = useForkRef(popperRef, popperRefProp);
+  const handlePopperRefRef = useRef(handlePopperRef);
+
+  useEnhancedEffect(() => {
+    handlePopperRefRef.current = handlePopperRef;
+  }, [handlePopperRef]);
+
+  useImperativeHandle(popperRefProp, () => popperRef.current, []);
+
+  const [exited, setExited] = useState(true);
+
+  const [placement, setPlacement] = useState(initialPlacement);
+
+  const handleOpen = useCallback(() => {
+    const popperNode = tooltipRef.current;
+
+    if (!popperNode || !anchorEl || !isOpen) {
+      return;
+    }
+
+    const handlePopperUpdate = data => {
+      setPlacement(data.placement);
+    };
+    const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
+      placement: placement,
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: modifiers.offset
+          },
+        },
+        {
+          name: 'arrow',
+          options: {
+            padding: 12, // 12px from the edges of the popper
+          },
+        },
+        {
+          name: 'handlePopperUpdate',
+          enabled: true,
+          phase: 'afterWrite',
+          fn() {
+            chainedFunction(
+              handlePopperUpdate,
+              popperOptions.onUpdate
+            );
+          },
+        }
+      ],
+      ...popperOptions,
+    });
+    handlePopperRefRef.current(popper);
+  }, [anchorEl, isOpen, modifiers, placement, popperOptions]);
+
+  const handleRef = useCallback(
+    node => {
+      setRef(ownRef, node);
+      handleOpen();
     },
-    ref,
-  ) => {
-    const tooltipRef = useRef(null);
-    const ownRef = useForkRef(tooltipRef, ref);
+    [ownRef, handleOpen],
+  );
 
-    const popperRef = useRef(null);
-    const handlePopperRef = useForkRef(popperRef, popperRefProp);
-    const handlePopperRefRef = useRef(handlePopperRef);
+  const handleEnter = () => {
+    setExited(false);
+  };
 
-    useEnhancedEffect(() => {
-      handlePopperRefRef.current = handlePopperRef;
-    }, [handlePopperRef]);
+  const handleClose = () => {
+    if (!popperRef.current) {
+      return;
+    }
 
-    useImperativeHandle(popperRefProp, () => popperRef.current, []);
+    popperRef.current.destroy();
+    handlePopperRefRef.current(null);
+  };
 
-    const [exited, setExited] = useState(true);
+  const handleExited = () => {
+    setExited(true);
+    handleClose();
+  };
 
-    const [placement, setPlacement] = useState(initialPlacement);
+  useEffect(() => {
+    handleOpen();
+  }, [handleOpen]);
 
-    const handleOpen = useCallback(() => {
-      const popperNode = tooltipRef.current;
-
-      if (!popperNode || !anchorEl || !isOpen) {
-        return;
-      }
-
-      const handlePopperUpdate = data => {
-        setPlacement(data.placement);
-      };
-      const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
-        placement: placement,
-        modifiers: [
-          {
-            name: 'offset',
-            options: {
-              offset: modifiers.offset
-            },
-          },
-          {
-            name: 'arrow',
-            options: {
-              padding: 12, // 12px from the edges of the popper
-            },
-          },
-          {
-            name: 'handlePopperUpdate',
-            enabled: true,
-            phase: 'afterWrite',
-            fn() {
-              chainedFunction(
-                handlePopperUpdate,
-                popperOptions.onUpdate
-              );
-            },
-          }
-        ],
-        ...popperOptions,
-      });
-      handlePopperRefRef.current(popper);
-    }, [anchorEl, isOpen, modifiers, placement, popperOptions]);
-
-    const handleRef = useCallback(
-      node => {
-        setRef(ownRef, node);
-        handleOpen();
-      },
-      [ownRef, handleOpen],
-    );
-
-    const handleEnter = () => {
-      setExited(false);
-    };
-
-    const handleClose = () => {
-      if (!popperRef.current) {
-        return;
-      }
-
-      popperRef.current.destroy();
-      handlePopperRefRef.current(null);
-    };
-
-    const handleExited = () => {
-      setExited(true);
+  useEffect(() => {
+    return () => {
       handleClose();
     };
+  }, []);
 
-    useEffect(() => {
-      handleOpen();
-    }, [handleOpen]);
-
-    useEffect(() => {
-      return () => {
-        handleClose();
-      };
-    }, []);
-
-    useEffect(() => {
-      if (!isOpen && !willUseTransition) {
-        handleClose();
-      }
-    }, [isOpen, willUseTransition]);
-
-    if (unmountOnExit && !isOpen && (!willUseTransition || exited)) {
-      return null;
+  useEffect(() => {
+    if (!isOpen && !willUseTransition) {
+      handleClose();
     }
+  }, [isOpen, willUseTransition]);
 
-    const childProps = { placement };
+  if (unmountOnExit && !isOpen && (!willUseTransition || exited)) {
+    return null;
+  }
 
-    if (willUseTransition) {
-      childProps.transition = {
-        in: isOpen,
-        onEnter: handleEnter,
-        onExited: handleExited,
-      };
-    }
+  const childProps = { placement };
 
-    return (
-      <Portal isDisabled={!usePortal} container={container}>
-        <PseudoBox
-          ref={handleRef}
-          pos="absolute"
-          css={getPopperArrowStyle({ arrowSize })}
-          {...rest}
-        >
-          {typeof children === 'function' ? children(childProps) : children}
-        </PseudoBox>
-      </Portal>
-    );
-  },
-);
+  if (willUseTransition) {
+    childProps.transition = {
+      in: isOpen,
+      onEnter: handleEnter,
+      onExited: handleExited,
+    };
+  }
+
+  return (
+    <Portal isDisabled={!usePortal} container={container}>
+      <PseudoBox
+        ref={handleRef}
+        pos="absolute"
+        css={getPopperArrowStyle({ arrowSize })}
+        {...rest}
+      >
+        {typeof children === 'function' ? children(childProps) : children}
+      </PseudoBox>
+    </Portal>
+  );
+});
 
 Popper.displayName = 'Popper';
 
