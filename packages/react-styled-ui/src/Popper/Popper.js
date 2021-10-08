@@ -18,31 +18,35 @@ function getAnchorEl(anchorEl) {
   return typeof anchorEl === 'function' ? anchorEl() : anchorEl;
 }
 
-const Popper = forwardRef(({
-  anchorEl,
-  children,
-  gutter,
-  container,
-  usePortal = true,
-  unmountOnExit = true,
-  modifiers,
-  isOpen,
-  placement: initialPlacement = 'bottom',
-  popperOptions,
-  popperRef: popperRefProp,
-  willUseTransition = false,
-  arrowSize,
-  ...rest
-}, ref) => {
+const Popper = forwardRef((
+  {
+    anchorEl,
+    children,
+    gutter,
+    container,
+    usePortal = true,
+    unmountOnExit = true,
+    modifiers,
+    isOpen,
+    placement: initialPlacement = 'bottom',
+    popperOptions,
+    popperRef: popperRefProp,
+    willUseTransition = false,
+    arrowSize,
+    ...rest
+  },
+  ref,
+) => {
   const tooltipRef = useRef(null);
   const ownRef = useForkRef(tooltipRef, ref);
-
   const popperRef = useRef(null);
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
   const handlePopperRefRef = useRef(handlePopperRef);
+
   useEnhancedEffect(() => {
     handlePopperRefRef.current = handlePopperRef;
   }, [handlePopperRef]);
+
   useImperativeHandle(popperRefProp, () => popperRef.current, []);
 
   const [exited, setExited] = useState(true);

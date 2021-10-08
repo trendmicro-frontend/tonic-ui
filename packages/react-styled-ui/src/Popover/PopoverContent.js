@@ -1,9 +1,10 @@
 import chainedFunction from 'chained-function';
 import React, { useRef } from 'react';
-import wrapEvent from '../utils/wrapEvent';
-import { Popper, PopperArrow } from '../Popper';
+import Popper from '../Popper/Popper';
+import PopperArrow from '../Popper/PopperArrow';
 import PseudoBox from '../PseudoBox';
 import Grow from '../Transitions/Grow';
+import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';
 

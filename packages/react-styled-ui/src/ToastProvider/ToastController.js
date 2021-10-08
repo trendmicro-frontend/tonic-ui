@@ -1,14 +1,12 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import Box from '../Box';
 import useForkRef from '../utils/useForkRef';
 import useTimeout from '../utils/useTimeout';
-import reflow from '../utils/reflow';
 
 const ToastController = forwardRef(({
   children,
   duration = null,
   onClose,
-  transitionState,
   ...props
 }, ref) => {
   const nodeRef = useRef();
@@ -16,11 +14,6 @@ const ToastController = forwardRef(({
   const [delay, setDelay] = useState(duration);
   const onMouseEnter = () => setDelay(null);
   const onMouseLeave = () => setDelay(duration);
-
-  useEffect(() => {
-    const node = nodeRef.current;
-    reflow(node);
-  }, [transitionState]);
 
   useTimeout(onClose, delay);
 

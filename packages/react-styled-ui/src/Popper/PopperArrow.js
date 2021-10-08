@@ -1,10 +1,13 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 
-const PopperArrow = forwardRef(({
-  arrowAt,
-  ...rest
-}, ref) => {
+const PopperArrow = forwardRef((
+  {
+    arrowAt,
+    ...rest
+  },
+  ref,
+) => {
   const arrowPlacements = ['left', 'right', 'top', 'bottom'];
   if (arrowPlacements.includes(arrowAt)) {
     const arrowPlacementStyle = {
@@ -12,6 +15,7 @@ const PopperArrow = forwardRef(({
     };
     return (
       <Box
+        ref={ref}
         data-arrow-style=""
         role="presentation"
         {...arrowPlacementStyle}
@@ -22,6 +26,7 @@ const PopperArrow = forwardRef(({
 
   return (
     <Box
+      ref={ref}
       data-popper-arrow=""
       data-arrow-style=""
       role="presentation"

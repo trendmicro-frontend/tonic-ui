@@ -1,7 +1,8 @@
 import chainedFunction from 'chained-function';
 import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
-import { Popper, PopperArrow } from '../Popper';
+import Popper from '../Popper/Popper';
+import PopperArrow from '../Popper/PopperArrow';
 import PseudoBox from '../PseudoBox';
 import Grow from '../Transitions/Grow';
 import VisuallyHidden from '../VisuallyHidden';
