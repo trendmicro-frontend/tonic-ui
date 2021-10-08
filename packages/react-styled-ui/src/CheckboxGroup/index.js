@@ -1,5 +1,6 @@
+import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckboxGroupProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -13,26 +14,41 @@ const CheckboxGroup = ({
   variantColor,
   onChange,
 }) => {
-  const { current: isControlled } = useRef(valueProp != null);
-  const [values, setValues] = useState(defaultValue || []);
-  const _values = isControlled ? valueProp : values;
-  const _onChange = event => {
-    const { checked, value } = event.target;
-    let newValues;
-    if (checked) {
-      newValues = [..._values, value];
+  const [state, setState] = useState({
+    value: ensureArray(valueProp ?? defaultValue),
+  });
+  const handleChange = event => {
+    const checkbox = {
+      checked: event.target.checked,
+      value: event.target.value,
+    };
+    const nextValue = !!(checkbox.checked)
+      ? state.value.concat(checkbox.value)
+      : state.value.filter(v => (v !== checkbox.value));
+
+    if (valueProp !== undefined) {
+      setState({ value: ensureArray(valueProp) });
     } else {
-      newValues = _values.filter(val => val !== value);
+      setState({ value: nextValue });
     }
-    !isControlled && setValues(newValues);
-    onChange && onChange(newValues);
+
+    if (typeof onChange === 'function') {
+      onChange(nextValue, event);
+    }
   };
+
+  useEffect(() => {
+    if (valueProp !== undefined) {
+      setState({ value: ensureArray(valueProp) });
+    }
+  }, [valueProp]);
+
   const checkboxGroupState = getMemoizedState({
-    disabled: disabled,
-    onChange: _onChange,
-    size: size,
-    value: _values,
-    variantColor: variantColor,
+    disabled,
+    onChange: handleChange,
+    size,
+    value: state.value,
+    variantColor,
   });
 
   return (
