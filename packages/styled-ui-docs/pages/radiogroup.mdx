@@ -1,6 +1,6 @@
 # RadioGroup
 
-`RadioGroup` is used to group related radios.
+`RadioGroup` is used to group related radio buttons.
 
 ## Import
 
@@ -73,21 +73,21 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 
 ```jsx
 <Stack direction="column" spacing="4x" shouldWrapChildren>
-  <RadioGroup defaultValue="1" size="sm">
+  <RadioGroup size="sm" defaultValue="1">
     <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
-  <RadioGroup defaultValue="1" size="md">
+  <RadioGroup size="md" defaultValue="1">
     <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
-  <RadioGroup defaultValue="1" size="lg">
+  <RadioGroup size="lg" defaultValue="1">
     <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
@@ -97,18 +97,25 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 </Stack>
 ```
 
-### Attributes
-
-#### `disabled`
+### States
 
 ```jsx
-<RadioGroup defaultValue="1" disabled>
-  <Stack direction="row" spacing="3x">
-    <Radio value="1">Radio 1</Radio>
-    <Radio value="2">Radio 2</Radio>
-    <Radio value="3">Radio 3</Radio>
-  </Stack>
-</RadioGroup>
+<Stack direction="column" spacing="2x" shouldWrapChildren>
+  <RadioGroup defaultValue="1">
+    <Stack direction="row" spacing="3x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
+  </RadioGroup>
+  <RadioGroup disabled defaultValue="1">
+    <Stack direction="row" spacing="3x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
+  </RadioGroup>
+</Stack>
 ```
 
 ## Props
