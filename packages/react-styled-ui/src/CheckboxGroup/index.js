@@ -23,8 +23,8 @@ const CheckboxGroup = ({
       value: event.target.value,
     };
     const nextValue = !!(checkbox.checked)
-      ? state.value.concat(checkbox.value)
-      : state.value.filter(v => (v !== checkbox.value));
+      ? state.value.concat(ensureArray(checkbox.value)) // expect value to be neither null nor undefined
+      : state.value.filter(v => (v !== checkbox.value)); // filter out unchecked values
 
     if (valueProp !== undefined) {
       setState({ value: ensureArray(valueProp) });
