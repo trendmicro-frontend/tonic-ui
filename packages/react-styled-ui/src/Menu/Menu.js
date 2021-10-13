@@ -40,7 +40,7 @@ const Menu = ({
       focusableItems.current = menuRef.current ? focusables : [];
       initTabIndex();
     }
-  }, [_isOpen]);
+  }, [_isOpen, children]);
 
   const updateTabIndex = index => {
     if (focusableItems.current.length > 0) {
