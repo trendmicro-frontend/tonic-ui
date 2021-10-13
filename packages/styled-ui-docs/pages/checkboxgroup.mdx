@@ -119,6 +119,58 @@ Use the `size` prop to change the size of the `CheckboxGroup`. You can set the v
 </Stack>
 ```
 
+### Asynchronous data loading
+
+```jsx
+function Example() {
+  const [state, setState] = React.useState({
+    state: 'idle',
+    fruits: [],
+  });
+
+  const fetchData = React.useCallback(() => {
+    setState({ state: 'loading' });
+    setTimeout(() => {
+      setState({
+        state: 'success',
+        fruits: ['apple'],
+      });
+    }, 1000);
+  }, []);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return (
+    <>
+      <Box mb="4x">
+        <LinkButton onClick={() => fetchData()}>
+          <Flex align="center">
+            <Icon icon="redo" />
+            <Space width="2x" />
+            Reload
+          </Flex>
+        </LinkButton>
+      </Box>
+      <CheckboxGroup
+        value={state.fruits}
+        disabled={state.state === 'loading'}
+        onChange={(value) => {
+          setState({ fruits: value });
+        }}
+      >
+        <Stack direction="row" spacing="3x">
+          <Checkbox value="apple">Apple</Checkbox>
+          <Checkbox value="orange">Orange</Checkbox>
+          <Checkbox value="papaya">Papaya</Checkbox>
+        </Stack>
+      </CheckboxGroup>
+    </>
+  );
+}
+```
+
 ## Props
 
 | Name | Type | Default | Description |
