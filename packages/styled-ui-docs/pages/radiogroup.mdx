@@ -155,7 +155,9 @@ function Example() {
       <RadioGroup
         value={state.value}
         disabled={state.state === 'loading'}
-        onChange={value => setState(prevState => ({ ...prevState, value }))}
+        onChange={value => {
+          setState(prevState => ({ ...prevState, value }));
+        }}
       >
         <Stack spacing="1x" shouldWrapChildren>
           <Radio value={1}>First</Radio>
