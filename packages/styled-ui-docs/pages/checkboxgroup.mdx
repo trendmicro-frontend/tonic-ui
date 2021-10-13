@@ -129,7 +129,7 @@ function Example() {
   });
 
   const fetchData = React.useCallback(() => {
-    setState({ state: 'loading' });
+    setState(prevState => ({ ...prevState, state: 'loading' }));
     setTimeout(() => {
       setState({
         state: 'success',
@@ -156,8 +156,8 @@ function Example() {
       <CheckboxGroup
         value={state.fruits}
         disabled={state.state === 'loading'}
-        onChange={(value) => {
-          setState({ fruits: value });
+        onChange={value => {
+          setState(prevState => ({ ...prevState, value }));
         }}
       >
         <Stack direction="row" spacing="3x">
