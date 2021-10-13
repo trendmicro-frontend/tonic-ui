@@ -39,6 +39,7 @@ const Menu = ({
       let focusables = getFocusableElements(menuRef.current).filter(node => node.getAttribute('role') === 'menuitem');
       focusableItems.current = menuRef.current ? focusables : [];
       initTabIndex();
+      setActiveIndex(0);
     }
   }, [_isOpen, children]);
 
