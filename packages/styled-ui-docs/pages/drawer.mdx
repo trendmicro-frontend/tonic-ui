@@ -63,8 +63,8 @@ function Example() {
     light: 'black:tertiary',
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [placement, changePlacementBy] = useSelection('left');
-  const [size, changeSizeBy] = useSelection('auto');
+  const [placement, changePlacementBy] = useSelection('right');
+  const [size, changeSizeBy] = useSelection('sm');
   const [ensureFocus, toggleEnsureFocus] = useToggle(false);
   const [autoFocus, toggleAutoFocus] = useToggle(false);
   const [backdrop, toggleBackdrop] = useToggle(true);
@@ -75,6 +75,7 @@ function Example() {
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
+  const [isToastNotificationVisible, toggleIsToastNotificationVisible] = useToggle(false);
   const height = (placement === 'left' || placement === 'right') ? '100%' : 'auto';
 
   return (
@@ -218,28 +219,35 @@ function Example() {
             onChange={toggleIsOverlayVisible}
           />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">DrawerOverlay</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerOverlay</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isHeaderVisible} onChange={toggleIsHeaderVisible} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">DrawerHeader</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerHeader</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isBodyVisible} onChange={toggleIsBodyVisible} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">DrawerBody</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerBody</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isFooterVisible} onChange={toggleIsFooterVisible} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">DrawerFooter</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerFooter</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isToastNotificationVisible} onChange={toggleIsToastNotificationVisible} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle Toast</Text>
         </TextLabel>
       </FormGroup>
       <Drawer
@@ -260,28 +268,42 @@ function Example() {
         <DrawerContent height={height}>
           {isHeaderVisible && (
             <DrawerHeader>
-              Sign In
+              {size === 'auto' && <Text>Auto-sized Drawer Title</Text>}
+              {size === 'sm' && <Text>Small Drawer Title</Text>}
+              {size === 'md' && <Text>Medium Drawer Title</Text>}
+              {size === 'lg' && <Text>Large Drawer Title</Text>}
+              {size === 'full' && <Text>Full-width Drawer Title</Text>}
             </DrawerHeader>
           )}
+          <Flex
+            justify="center"
+            position="absolute"
+            left={0}
+            right={0}
+            margin="0 auto"
+            marginTop="12x"
+            minWidth={280}
+            maxWidth="80%"
+          >
+            <Fade in={isToastNotificationVisible}>
+              <Toast
+                appearance="warning"
+                isCloseButtonVisible
+                onClose={toggleIsToastNotificationVisible}
+              >
+                <Text>This is a warning toast notification.</Text>
+              </Toast>
+            </Fade>
+          </Flex>
           {isBodyVisible && (
             <DrawerBody>
-              <Grid
-                templateColumns="auto 1fr"
-                rowGap="2x"
-                columnGap="3x"
-                alignItems="center"
-              >
-                <Icon icon="user" color={iconColor} />
-                <Input placeholder="User name" />
-                <Icon icon="lock" color={iconColor} />
-                <Input type="password" placeholder="Password" />
-              </Grid>
+              Content
             </DrawerBody>
           )}
           {isFooterVisible && (
             <DrawerFooter>
               <Button variant="primary" onClick={onClose} minWidth="20x">
-                OK
+                Submit
               </Button>
               <Space width="2x" />
               <Button onClick={onClose} minWidth="20x">
