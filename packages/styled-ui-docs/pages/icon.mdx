@@ -13,7 +13,7 @@ import { Icon } from '@trendmicro/react-styled-ui';
 Use an icon by passing the `icon` prop. This `icon` property value must match an icon key defined in `theme.icons`. By default, the icon inherits the font size and color of its parent.
 
 ```jsx
-<Stack direction="row" spacing="1rem">
+<Stack direction="row" spacing="4x" alignItems="center">
   <Icon icon="face-smile-o" />
   <Icon icon="face-smile-o" size="6x" color="red:50" />
   <Icon icon="face-smile-o" size="8x" color="yellow:50" />
@@ -26,7 +26,7 @@ Use an icon by passing the `icon` prop. This `icon` property value must match an
 Use the `spin` prop to get any icon to rotate either in the clockwise (CW) or counterclockwise (CCW) direction.
 
 ```jsx
-<Stack direction="row" spacing="1rem">
+<Stack direction="row" spacing="4x">
   <Icon icon="spinner" size="6x" spin />
   <Icon icon="spinner" size="6x" spin animationDuration="4s" />
   <Icon icon="clock" size="6x" spin animationTimingFunction="steps(8)" />
@@ -117,9 +117,8 @@ const renderIconGroup = (iconSet, keyword, showCharCode, color) => {
       <Text fontSize={"2xl"}>{iconSet.group.name}</Text>    
     </FlexItem>
     {<Grid
-      gap={10}
+      gap="2x"
       templateColumns="repeat(auto-fill, minmax(300px, 1fr));"
-      gap=".5rem"
       p="4x"
       pl="6x"
       pr="4x"
@@ -140,7 +139,7 @@ const renderIconGroup = (iconSet, keyword, showCharCode, color) => {
             </Text>
           </FlexItem>
           }
-          <FlexItem flex="none" pb=".2rem">
+          <FlexItem flex="none" pb="1x">
             {icon.new && <Badge variantColor="green" badgeContent={"new"} />}
           </FlexItem>
         </Flex>
