@@ -14,12 +14,37 @@ Use an icon by passing the `icon` prop. This `icon` property value must match an
 
 ```jsx
 <Stack direction="row" spacing="1rem">
-  <Icon icon="face-smile-o"/>
-  <Icon icon="face-smile-o" size="6x" color="red:50"/>
-  <Icon icon="face-smile-o" size="8x" color="yellow:50"/>
-  <Icon icon="face-smile-o" size="12x" color="teal:40"/>
+  <Icon icon="face-smile-o" />
+  <Icon icon="face-smile-o" size="6x" color="red:50" />
+  <Icon icon="face-smile-o" size="8x" color="yellow:50" />
+  <Icon icon="face-smile-o" size="12x" color="teal:40" />
 </Stack>
 ```
+
+### Animating icons
+
+Use the `spin` prop to get any icon to rotate either in the clockwise (CW) or counterclockwise (CCW) direction.
+
+```jsx
+<Stack direction="row" spacing="1rem">
+  <Icon icon="spinner" size="6x" spin />
+  <Icon icon="spinner" size="6x" spin animationDuration="4s" />
+  <Icon icon="clock" size="6x" spin animationTimingFunction="steps(8)" />
+  <Icon icon="redo" size="6x" spin="cw" />
+  <Icon icon="undo" size="6x" spin="ccw" />
+</Stack>
+```
+
+The `animation` prop can be used to override default animation, it is a shorthand property for:
+
+• [animationName](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-name)<br/>
+• [animationDuration](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration)<br/>
+• [animationTimingFunction](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)<br/>
+• [animationDelay](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-delay)<br/>
+• [animationIterationCount](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-iteration-count)<br/>
+• [animationDirection](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-direction)<br/>
+• [animationFillMode](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode)<br/>
+• [animationPlayState](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-play-state)<br/>
 
 ## Adding custom icons
 
@@ -189,3 +214,4 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | icon | string | | The name of the icon. |
+| spin | boolean \| string | false | If `true` or `'cw'`, it will rotate in the clockwise direction. If `'ccw'`, it will rotate in the counterclockwise direction. Otherwise, no rotation occurs. |

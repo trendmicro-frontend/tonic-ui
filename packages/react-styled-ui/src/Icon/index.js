@@ -5,7 +5,7 @@ import React, { forwardRef } from 'react';
 import SVGIcon from '../SVGIcon';
 import useTheme from '../useTheme';
 
-const spinAnimation = keyframes`
+const cwSpin = keyframes`
   0% {
       transform: rotate(0deg)
   }
@@ -14,10 +14,19 @@ const spinAnimation = keyframes`
   }
 `;
 
+const ccwSpin = keyframes`
+  0% {
+      transform: rotate(0deg)
+  }
+  to {
+      transform: rotate(-1turn)
+  }
+`;
+
 const Icon = forwardRef((
   {
     icon,
-    spin,
+    spin = false,
     ...rest
   },
   ref
@@ -25,10 +34,16 @@ const Icon = forwardRef((
   const { icons = {} } = useTheme();
   const tmicon = _get(icons, [`tmicon-${icon}`]);
   const { path, ...restIconProps } = ensurePlainObject(_get(icons, icon, tmicon));
-  const styleProps = {};
-
-  if (spin) {
-    styleProps['animation'] = `${spinAnimation} 2s linear infinite`;
+  const styleProps = {
+    animation: (() => {
+      if (spin === 'ccw') {
+        return `${ccwSpin} 2s linear infinite`;
+      }
+      if (spin === 'cw' || spin === true) {
+        return `${cwSpin} 2s linear infinite`;
+      }
+      return undefined;
+    })(),
   };
 
   return (
