@@ -146,7 +146,7 @@ function Example() {
       <Box mb="4x">
         <LinkButton onClick={() => fetchData()}>
           <Flex align="center">
-            <Icon icon="redo" />
+            <Icon icon="redo" spin={state.state === 'loading'} />
             <Space width="2x" />
             Reload
           </Flex>
