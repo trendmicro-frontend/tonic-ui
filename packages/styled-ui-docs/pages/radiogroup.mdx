@@ -126,15 +126,22 @@ function Example() {
     state: 'idle',
     value: 0,
   });
-
+  const timerRef = React.useRef(null);
   const fetchData = React.useCallback(() => {
     setState(prevState => ({ ...prevState, state: 'loading' }));
-    setTimeout(() => {
-      setState(state => ({
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    timerRef.current = setTimeout(() => {
+      setState({
         state: 'success',
-        value: (state.value + 1) > 3 ? 1 : (state.value + 1),
-      }));
-    }, 1000);
+        fruits: ['apple'],
+      });
+
+      timerRef.current = null;
+    }, 2000);
   }, []);
 
   React.useEffect(() => {
