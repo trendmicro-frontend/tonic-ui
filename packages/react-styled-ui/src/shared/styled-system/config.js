@@ -15,6 +15,14 @@ const config = {
    * Animations
    */
   animation: true,
+  animationDelay: true,
+  animationDirection: true,
+  animationDuration: true,
+  animationFillMode: true,
+  animationIterationCount: true,
+  animationName: true,
+  animationPlayState: true,
+  animationTimingFunction: true,
 
   /**
    * Backgrounds and Borders
