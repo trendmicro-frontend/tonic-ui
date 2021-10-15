@@ -25,14 +25,34 @@ Use an icon by passing the `icon` prop. This `icon` property value must match an
 
 Use the `spin` prop to get any icon to rotate either in the clockwise (CW) or counterclockwise (CCW) direction.
 
-```jsx
-<Stack direction="row" spacing="4x">
-  <Icon icon="spinner" size="6x" spin />
-  <Icon icon="spinner" size="6x" spin animationDuration="4s" />
-  <Icon icon="clock" size="6x" spin animationTimingFunction="steps(8)" />
-  <Icon icon="redo" size="6x" spin="cw" />
-  <Icon icon="undo" size="6x" spin="ccw" />
-</Stack>
+```jsx noInline
+const useToggle = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const toggle = () => setValue(value => !value);
+  return [value, toggle, setValue];
+};
+
+function Example() {
+  const [checked, toggle] = useToggle(true);
+  const playState = checked ? 'running' : 'paused';
+
+  return (
+    <>
+      <Flex mb="4x">
+        <ToggleSwitch size="sm" checked={checked} onChange={toggle} /><Space width="4x" />Toggle animation
+      </Flex>
+      <Stack direction="row" spacing="4x">
+        <Icon icon="spinner" size="6x" spin animationPlayState={playState} />
+        <Icon icon="spinner" size="6x" spin animationDuration="4s" animationPlayState={playState} />
+        <Icon icon="clock" size="6x" spin animationPlayState={playState} animationTimingFunction="steps(8)" />
+        <Icon icon="redo" size="6x" spin="cw" animationPlayState={playState} />
+        <Icon icon="undo" size="6x" spin="ccw" animationPlayState={playState} />
+      </Stack>
+    </>
+  );
+}
+
+render(<Example />);
 ```
 
 The `animation` prop can be used to override default animation, it is a shorthand property for:
