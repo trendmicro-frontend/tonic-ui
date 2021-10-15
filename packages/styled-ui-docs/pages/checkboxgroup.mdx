@@ -127,15 +127,22 @@ function Example() {
     state: 'idle',
     fruits: [],
   });
-
+  const timerRef = React.useRef(null);
   const fetchData = React.useCallback(() => {
     setState(prevState => ({ ...prevState, state: 'loading' }));
-    setTimeout(() => {
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    timerRef.current = setTimeout(() => {
       setState({
         state: 'success',
         fruits: ['apple'],
       });
-    }, 1000);
+
+      timerRef.current = null;
+    }, 2000);
   }, []);
 
   React.useEffect(() => {
