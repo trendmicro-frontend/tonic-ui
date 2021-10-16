@@ -1,3 +1,4 @@
+import { ensureArray } from 'ensure-type';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Box from '../Box';
 import InputGroup from '../InputGroup';
@@ -23,12 +24,9 @@ import {
 const defaultSize = 'md';
 const defaultVariant = 'outline';
 
-const today = new Date();
-const [DEFAULT_YEAR, DEFAULT_MONTH, DEFAULT_DATE] = dateToStrAry(today);
-
 const DateInput = ({
   defaultValue,
-  value: updatedValue,
+  value: valueProp,
   maxDate: maxValue,
   minDate: minValue,
   isInvalid,
@@ -37,23 +35,25 @@ const DateInput = ({
   onChange = () => {},
   ...rest
 }) => {
+  const today = new Date();
+  const [currentYear, currentMonth, currentDay] = dateToStrAry(today);
   const [maxYear, maxMonth, maxDate] = dateToAry(maxValue);
   const [minYear, minMonth, minDate] = dateToAry(minValue);
-
-  const initValAry = dateToStrAry(defaultValue || today);
-
   const wrapperRef = useRef(null);
   const yearRef = useRef(null);
   const monthRef = useRef(null);
-  const dateRef = useRef(null);
-  const [valueAry, setValueAry] = useState(initValAry);
+  const dayRef = useRef(null);
+  const [state, setState] = useState({
+    value: dateToStrAry((valueProp ?? defaultValue) ?? today),
+  });
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [yearVal, monthVal, dateVal] = valueAry;
+  const [yearVal, monthVal, dayVal] = ensureArray(state.value);
 
   const theme = useTheme();
   const font = `${theme.fontSizes.sm} ${theme.fonts.base}`;
   const yearWidth = Math.floor(getTextWidth('8888', font)) || 22;
-  const dateWidth = Math.floor(getTextWidth('88', font)) || 11;
+  const monthWidth = Math.floor(getTextWidth('88', font)) || 11;
+  const dayWidth = Math.floor(getTextWidth('88', font)) || 11;
 
   const stylePops = useDateInputStyle({ zIndex });
   const inputErrorProps = useInputErrorStyle();
@@ -61,7 +61,7 @@ const DateInput = ({
   const iconProps = useIconStyle();
   const styleProps = useInputStyle({
     size: defaultSize,
-    variant: defaultVariant
+    variant: defaultVariant,
   });
   const disabledProps = useDisabledStyle({ disabled });
   const showCalendar = useCallback(() => {
@@ -71,34 +71,34 @@ const DateInput = ({
     setIsCalendarOpen(false);
   }, [setIsCalendarOpen]);
 
-  useOutsideClick(hideCalendar, wrapperRef);
+  useEffect(() => {
+    if ((valueProp !== undefined) && isValidDate(valueProp)) {
+      setState({ value: dateToStrAry(valueProp) });
+    }
+  }, [valueProp]);
 
   useEffect(() => {
-    if (valueAry.every((val) => val > 0) && onChange) {
-      const dateStr = valueAry.join(SEPARATOR);
+    if (ensureArray(state.value).every((val) => val > 0) && onChange) {
+      const dateStr = ensureArray(state.value).join(SEPARATOR);
       const date = convertToDateObj(dateStr);
       const timestamp = getTimestamp(dateStr);
 
-      onChange({ dateStr, date, timestamp });
+      onChange({ dateStr, date, timestamp }); // TODO: review props
     }
-  }, [onChange, valueAry]);
+  }, [onChange, state.value]);
 
-  useEffect(() => {
-    if (!!updatedValue && isValidDate(updatedValue)) {
-      setValueAry(dateToStrAry(updatedValue));
-    }
-  }, [updatedValue]);
+  useOutsideClick(hideCalendar, wrapperRef);
 
-  const onChangeCell = (targetIdx, value) => {
-    setValueAry(
-      valueAry.map((oriVal, idx) => (targetIdx === idx ? value : oriVal))
-    );
+  const onChangeCell = (targetIndex, value) => {
+    const nextValue = ensureArray(state.value)
+      .map((originalValue, index) => (targetIndex === index ? value : originalValue));
+
+    setState({ value: nextValue });
   };
 
   const onDateSelect = (date) => {
-    const dateAry = dateToStrAry(date);
     hideCalendar();
-    setValueAry(dateAry);
+    setState({ value: dateToStrAry(date) });
   };
 
   const onClickInput = (e) => {
@@ -116,7 +116,7 @@ const DateInput = ({
       {...rest}
     >
       <InputGroup
-        data-value={valueAry.join(SEPARATOR)}
+        data-value={ensureArray(state.value).join(SEPARATOR)}
         onClick={onClickInput}
         css={[getGroupCSS()]}
         {...styleProps}
@@ -127,9 +127,9 @@ const DateInput = ({
           idx={0}
           ref={yearRef}
           val={yearVal}
-          defaultVal={DEFAULT_YEAR}
+          defaultVal={currentYear}
           disabled={disabled}
-          max={maxYear || DEFAULT_YEAR}
+          max={maxYear || 9999}
           min={minYear || 1}
           width={yearWidth}
           nextRef={monthRef}
@@ -141,12 +141,12 @@ const DateInput = ({
           idx={1}
           ref={monthRef}
           val={monthVal}
-          defaultVal={DEFAULT_MONTH}
+          defaultVal={currentMonth}
           disabled={disabled}
           max={maxMonth || 12}
           min={minMonth || 1}
-          width={dateWidth}
-          nextRef={dateRef}
+          width={monthWidth}
+          nextRef={dayRef}
           prevRef={yearRef}
           disableWheelEvent={true}
           onChangeCell={onChangeCell}
@@ -154,13 +154,13 @@ const DateInput = ({
         <Text as="span">{SEPARATOR}</Text>
         <InputCell
           idx={2}
-          ref={dateRef}
-          val={dateVal}
-          defaultVal={DEFAULT_DATE}
+          ref={dayRef}
+          val={dayVal}
+          defaultVal={currentDay}
           disabled={disabled}
-          max={maxDate || 31}
+          max={maxDate || 31} // FIXME: update the max value in accordance with the selected year and month
           min={minDate || 1}
-          width={dateWidth}
+          width={dayWidth}
           prevRef={monthRef}
           disableWheelEvent={true}
           enterCallback={hideCalendar}
@@ -174,7 +174,7 @@ const DateInput = ({
         bottom="0"
       >
         <Calendar
-          dateValue={valueAry.join('-')}
+          dateValue={ensureArray(state.value).join('-')}
           maxDate={maxValue}
           minDate={minValue}
           onSelect={onDateSelect}
