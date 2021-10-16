@@ -3,7 +3,6 @@ import InputGroup from '../InputGroup';
 import Icon from '../Icon';
 import Text from '../Text';
 import useTheme from '../useTheme';
-
 import InputCell from './InputCell';
 import { getTextWidth } from './utils';
 import {
@@ -29,7 +28,7 @@ const TimeInput = ({
   const initValAry = dateValue?.split(SEPARATOR) || [
     DEFAULT_VALUE,
     DEFAULT_VALUE,
-    DEFAULT_VALUE
+    DEFAULT_VALUE,
   ];
 
   const theme = useTheme();

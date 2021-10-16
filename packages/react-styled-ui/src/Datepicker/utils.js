@@ -2,7 +2,6 @@ import {
   FEB_OF_LEAP_YEAR,
   MONTH_DAYS,
 } from './Calendar/constants';
-
 import { SEPARATOR } from './constants';
 
 export const convertToDateObj = (data) => {

@@ -5,65 +5,65 @@ const baseProps = {
   width: 'auto',
   display: 'inline-flex',
   alignItems: 'center',
-  transition: 'all .2s'
+  transition: 'all .2s',
 };
 
 const sizes = {
-  sm: {
+  'sm': {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
     px: 'calc(.75rem - 1px)', // 12px - 1px
-    py: '1px'
+    py: '1px',
   },
-  md: {
+  'md': {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
     px: 'calc(.75rem - 1px)', // 12px - 1px
-    py: 'calc(.375rem - 1px)' // 6px - 1px
+    py: 'calc(.375rem - 1px)', // 6px - 1px
   },
-  lg: {
+  'lg': {
     borderRadius: 'sm',
     fontSize: 'md',
     lineHeight: 'md',
     px: 'calc(.75rem - 1px)', // 12px - 1px
-    py: 'calc(.5625rem - 1px)' // 9px - 1px
-  }
+    py: 'calc(.5625rem - 1px)', // 9px - 1px
+  },
 };
 
 const getOutlinedStyle = ({ colorMode }) => {
   const backgroundColor = {
     dark: 'transparent',
-    light: 'white'
+    light: 'white',
   }[colorMode];
   const borderColor = {
     dark: 'gray:60',
-    light: 'gray:30'
+    light: 'gray:30',
   }[colorMode];
   const color = {
     dark: 'white:primary',
-    light: 'black:primary'
+    light: 'black:primary',
   }[colorMode];
   const hoverBorderColor = {
     dark: 'blue:50',
-    light: 'blue:50'
+    light: 'blue:50',
   }[colorMode];
   const focusBorderColor = {
     dark: 'blue:60',
-    light: 'blue:60'
+    light: 'blue:60',
   }[colorMode];
   const disabledBorderColor = {
     dark: 'gray:60',
-    light: 'gray:30'
+    light: 'gray:30',
   }[colorMode];
   const invalidBorderColor = {
     dark: 'red:50',
-    light: 'red:60'
+    light: 'red:60',
   }[colorMode];
   const placeholderColor = {
     dark: 'white:tertiary',
-    light: 'black:tertiary'
+    light: 'black:tertiary',
   }[colorMode];
 
   return {
@@ -75,29 +75,29 @@ const getOutlinedStyle = ({ colorMode }) => {
       borderColor: hoverBorderColor,
 
       // Use a higher z-index value to bring overlapping border to front when hovered
-      zIndex: 2
+      zIndex: 2,
     },
     _focus: {
       borderColor: focusBorderColor,
 
       // Bring overlapping border to front when focused
-      zIndex: 1
+      zIndex: 1,
     },
     _disabled: {
       borderColor: disabledBorderColor,
       cursor: 'not-allowed',
-      opacity: '.28'
+      opacity: '.28',
     },
     _valid: {
       // XXX - border color for valid input is not defined
     },
     _invalid: {
-      borderColor: invalidBorderColor
+      borderColor: invalidBorderColor,
     },
     __placeholder: {
       color: placeholderColor,
       // Override Firefox's unusual default opacity
-      opacity: 1
+      opacity: 1,
     }
   };
 };
@@ -105,23 +105,23 @@ const getOutlinedStyle = ({ colorMode }) => {
 const getFilledStyle = ({ colorMode }) => {
   const backgroundColor = {
     dark: 'gray:80',
-    light: 'gray:10'
+    light: 'gray:10',
   }[colorMode];
 
   return {
     ...getOutlinedStyle({ colorMode }),
-    backgroundColor
+    backgroundColor,
   };
 };
 
 const getUnstyledStyle = ({ colorMode }) => {
   const backgroundColor = {
     dark: 'transparent',
-    light: 'white'
+    light: 'white',
   }[colorMode];
   const color = {
     dark: 'white:primary',
-    light: 'black:primary'
+    light: 'black:primary',
   }[colorMode];
 
   return {
@@ -131,7 +131,7 @@ const getUnstyledStyle = ({ colorMode }) => {
     color,
     height: undefined,
     px: undefined,
-    py: undefined
+    py: undefined,
   };
 };
 
@@ -163,7 +163,7 @@ const useIconStyle = (props) => {
   const [colorMode] = useColorMode();
   const iconColor = {
     light: 'black:secondary',
-    dark: 'white:secondary'
+    dark: 'white:secondary',
   }[colorMode];
 
   return {
@@ -175,11 +175,11 @@ const useInputErrorStyle = (props) => {
   return {
     borderColor: 'red:50',
     _focus: {
-      borderColor: 'red:50'
+      borderColor: 'red:50',
     },
     _hover: {
-      borderColor: 'red:50'
-    }
+      borderColor: 'red:50',
+    },
   };
 };
 
@@ -188,7 +188,7 @@ const useInputStyle = ({ size, variant }) => {
   const _props = {
     colorMode,
     size,
-    variant
+    variant,
   };
   const sizeProps = getSizeProps(_props);
   const variantProps = getVariantProps(_props);
@@ -204,7 +204,7 @@ const useDateInputStyle = ({ zIndex }) => {
   return {
     zIndex,
     position: 'relative',
-    display: 'inline-block'
+    display: 'inline-block',
   };
 };
 
@@ -213,7 +213,7 @@ const useDisabledStyle = ({ disabled }) => {
     pointerEvent: 'none',
     borderColor: 'gray:60',
     cursor: 'not-allowed',
-    opacity: '.28'
+    opacity: '.28',
   } : {};
 };
 
@@ -224,7 +224,7 @@ const useInputCellStyle = ({ width, disabled }) => {
     cursor: disabled ? 'not-allowed' : 'auto',
     __selection: {
       color: 'white:primary',
-      backgroundColor: 'blue:60'
+      backgroundColor: 'blue:60',
     }
   };
 };
@@ -233,11 +233,11 @@ const getGroupCSS = () => ({
   '&:not(:first-of-type)': {
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
-    marginLeft: -1
+    marginLeft: -1,
   },
   '&:not(:last-child)': {
     borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
+    borderBottomRightRadius: 0,
   }
 });
 
@@ -248,5 +248,5 @@ export {
   useDateInputStyle,
   useDisabledStyle,
   useInputCellStyle,
-  getGroupCSS
+  getGroupCSS,
 };
