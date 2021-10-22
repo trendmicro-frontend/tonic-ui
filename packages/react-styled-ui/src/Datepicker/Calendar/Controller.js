@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Box from '../../Box';
 import Button from '../../Button';
+import ButtonBase from '../../ButtonBase';
 import Flex from '../../Flex';
 import Icon from '../../Icon';
 
@@ -50,7 +51,7 @@ const Controller = ({
             setShowChangeYear(false);
           }}
         >
-          <Button
+          <ButtonBase
             aria-label="change year"
             size="sm"
             type="button"
@@ -60,8 +61,8 @@ const Controller = ({
             {...iconActiveColor}
           >
             <Icon icon="angle-up" />
-          </Button>
-          <Button
+          </ButtonBase>
+          <ButtonBase
             aria-label="change year"
             size="sm"
             type="button"
@@ -71,7 +72,7 @@ const Controller = ({
             {...iconActiveColor}
           >
             <Icon icon="angle-down" />
-          </Button>
+          </ButtonBase>
         </Flex>
       </Flex>
       <Button
