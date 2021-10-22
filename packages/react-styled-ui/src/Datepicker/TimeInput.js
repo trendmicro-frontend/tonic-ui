@@ -21,6 +21,7 @@ const TimeInput = ({
   dateValue,
   isInvalid,
   disabled = false,
+  zIndex = 'auto',
   onChange = () => {},
   ...rest
 }) => {
@@ -64,6 +65,7 @@ const TimeInput = ({
     <InputGroup
       data-value={valueAry.join(SEPARATOR)}
       css={[getGroupCSS()]}
+      zIndex={zIndex}
       {...styleProps}
       {...errorProps}
       {...disabledProps}

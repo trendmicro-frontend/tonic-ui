@@ -61,6 +61,23 @@ const useDaysStyle = ({ isSelected, isToday, isThisMonth, isOutOfScope }) => {
   };
 };
 
+const useIconColor = ({ showChangeYear }) => {
+  const [colorMode] = useColorMode();
+  const activeColor = {
+    dark: 'blue:40',
+    light: 'blue:60'
+  }[colorMode];
+
+  return {
+    opacity: showChangeYear ? 1 : 0,
+    _active: {
+      color: activeColor
+    }
+  };
+};
+
+
 export {
+  useIconColor,
   useDaysStyle
 };

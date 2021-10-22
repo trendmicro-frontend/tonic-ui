@@ -7,13 +7,14 @@ import Flex from '../../Flex';
 import Icon from '../../Icon';
 
 import { MONTH } from './constants';
+import { useIconColor } from './styles';
 
 const Controller = ({
   changeRenderDate,
   renderDate,
 }) => {
   const [showChangeYear, setShowChangeYear] = useState(false);
-  const opacity = showChangeYear ? '1' : '0';
+  const iconActiveColor = useIconColor({ showChangeYear });
 
   return (
     <Flex justify="space-between" align="center">
@@ -42,7 +43,6 @@ const Controller = ({
         </Box>
         <Flex
           direction="column"
-          style={{ opacity }}
           onMouseEnter={() => {
             setShowChangeYear(true);
           }}
@@ -56,7 +56,8 @@ const Controller = ({
             type="button"
             variant="ghost"
             width="4x"
-            onClick={() => changeRenderDate({ changeYear: -1 })}
+            onClick={() => changeRenderDate({ changeYear: 1 })}
+            {...iconActiveColor}
           >
             <Icon icon="angle-up" />
           </Button>
@@ -66,7 +67,8 @@ const Controller = ({
             type="button"
             variant="ghost"
             width="4x"
-            onClick={() => changeRenderDate({ changeYear: 1 })}
+            onClick={() => changeRenderDate({ changeYear: -1 })}
+            {...iconActiveColor}
           >
             <Icon icon="angle-down" />
           </Button>
