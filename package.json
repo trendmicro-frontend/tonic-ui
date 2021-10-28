@@ -10,6 +10,7 @@
     "build": "lerna exec -- yarn build",
     "build:parallel": "lerna exec --parallel -- yarn build",
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
+    "eslint": "lerna exec -- yarn eslint",
     "release": "lerna publish",
     "pre-push": "lerna exec -- yarn pre-push",
     "test": "lerna exec -- yarn test"

@@ -6,8 +6,9 @@
     "build": "cross-env NODE_ENV=production next build",
     "clean": "del build docs",
     "dev": "next dev --hostname 0.0.0.0",
+    "eslint": "eslint --ext .js,.jsx,.mjs .",
     "postbuild": "next export --outdir docs && touch docs/.nojekyll",
-    "pre-push": "eslint --ext .js,.jsx .",
+    "pre-push": "yarn run eslint",
     "start": "next start",
     "test": "jest --passWithNoTests"
   },

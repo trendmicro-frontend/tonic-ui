@@ -10,8 +10,9 @@
   "scripts": {
     "build": "cross-env NODE_ENV=cjs babel --root-mode upward src --out-dir build --ignore='**/*.test.js'",
     "clean": "del build dist",
+    "eslint": "eslint --ext .js,.jsx,.mjs .",
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
-    "pre-push": "eslint src",
+    "pre-push": "yarn run eslint",
     "prepublish": "yarn run build",
     "test": "jest"
   },
