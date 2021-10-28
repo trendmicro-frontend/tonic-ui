@@ -50,8 +50,8 @@ const CustomPeriod = () => {
     setCurrentFocus('to')
   };
 
-  const startValue = currentFocus === 'to' && startTimestamp > endTimestamp ? endTimestamp: null;
-  const endValue = currentFocus === 'from' && startTimestamp > endTimestamp ? startTimestamp : null;
+  const startValue = currentFocus === 'to' && startTimestamp > endTimestamp ? endTimestamp: startTimestamp;
+  const endValue = currentFocus === 'from' && startTimestamp > endTimestamp ? startTimestamp : endTimestamp;
 
   return (
     <Box width={320} p="3x" bg={bgColor} boxShadow={shadowStyle}>
@@ -94,6 +94,163 @@ const CustomPeriod = () => {
 };
 
 render(<CustomPeriod />);
+```
+
+### Datetime menu
+```jsx noInline
+const TIME_PERIOD = [{
+    key: 'last24Hrs',
+    name: 'Last 24 hours',
+    icon: '',
+},
+{
+    key: 'last7Days',
+    name: 'Last 7 days',
+    icon: '',
+},
+{
+    key: 'last30Days',
+    name: 'Last 30 days',
+    icon: '',
+},
+{
+    key: 'last90Days',
+    name: 'Last 90 days',
+    icon: '',
+}, {
+    key: 'customPeriod',
+    name: 'Custom Period',
+    icon: 'angle-right',
+}];
+
+const TIME_PERIOD_KEY_NAME_MAPPING = TIME_PERIOD.reduce((accu, { key, name }) => {
+  accu[key] = name;
+  return accu;
+}, {});
+
+const CustomPeriod = ({ onClose, onSubmit }) => {
+  const today = new Date();
+  const todayTimestamp = today.getTime();
+  const [currentFocus, setCurrentFocus] = React.useState(null);
+  const [startTimestamp, setStartTimestamp] = React.useState(todayTimestamp);
+  const [endTimestamp, setEndTimestamp] = React.useState(todayTimestamp);
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const bgColor = {
+    dark: colorStyle.background.tertiary,
+    light: colorStyle.background.primary
+  }[colorMode];
+  const shadowStyle = colorStyle.shadow.medium;
+
+  const onChangeStartDate = ({ timestamp }) => {
+    setStartTimestamp(timestamp);
+    setCurrentFocus('from')
+  };
+
+  const onChangeEndDate = ({ timestamp }) => {
+    setEndTimestamp(timestamp);
+    setCurrentFocus('to')
+  };
+
+  const startValue = currentFocus === 'to' && startTimestamp > endTimestamp ? endTimestamp: startTimestamp;
+  const endValue = currentFocus === 'from' && startTimestamp > endTimestamp ? startTimestamp : endTimestamp;
+
+  return (
+    <Box width={320} p="3x" bg={bgColor} boxShadow={shadowStyle}>
+      <Flex align="center" mb="6x">
+        <Icon icon="chevron-left" mr="3x" onClick={onClose} />
+        <Text>Custom Period</Text>
+      </Flex>
+      <Stack spacing="3x" mb="3x">
+        <Flex align="center" justify="space-between">
+          <Text>From:</Text>
+          <Box>
+            <DateInput
+              zIndex={2}
+              value={startValue}
+              maxDate={today}
+              onChange={onChangeStartDate}
+            />
+            <TimeInput />
+          </Box>
+        </Flex>
+        <Flex align="center" justify="space-between">
+          <Text>To:</Text>
+          <Box>
+            <DateInput
+              zIndex={1}
+              value={endValue}
+              maxDate={today}
+              onChange={onChangeEndDate}
+            />
+            <TimeInput />
+          </Box>
+        </Flex>
+      </Stack>
+      <Stack direction="row" spacing="2x" justify="flex-end">
+        <Button onClick={() => onSubmit({ from: startTimestamp, to: endTimestamp })} variant="primary">Apply</Button>
+        <Button onClick={onClose}>Cancel</Button>
+      </Stack>
+    </Box>
+  );
+};
+
+const DatetimeMenu = () => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [timePeriod, setTimePeriod] = React.useState('');
+  const [isOpenMenu, setIsOpenMenu] = React.useState(false);
+  const [customPeriod, setCustomPeriod] = React.useState({})
+  const isShowCustomPeriod = timePeriod === 'customPeriod' && !Object.keys(customPeriod).length;
+
+  React.useEffect(() => {
+    if (!!timePeriod) {
+      setIsOpenMenu(false);
+    }
+  }, [timePeriod]);
+
+  const onChangeTimePeriod = (key) => {
+    setTimePeriod(key);
+  };
+
+  const onCloseCustomPeriod = () => {
+    setTimePeriod('');
+    setIsOpenMenu(true);
+  };
+
+  const onSubmitCustomPeriod = (customePeriod) => {
+    setCustomPeriod(customePeriod);
+  };
+
+  return (
+    <Menu isOpen={isOpenMenu}>
+      <MenuButton width={216} onClick={() => {
+        setIsOpenMenu(true);
+        setTimePeriod('');
+        setCustomPeriod({});
+      }}>
+        <Text color={colorStyle.color.secondary} mr="1x">Datected:</Text>
+        {TIME_PERIOD_KEY_NAME_MAPPING[timePeriod]}
+      </MenuButton>
+      { isShowCustomPeriod ? (
+        <CustomPeriod onClose={onCloseCustomPeriod} onSubmit={onSubmitCustomPeriod} />
+      ) : (
+        <MenuList overflow="auto" width={216}>
+          { TIME_PERIOD.map(({key, name, icon}) =>{
+            return (
+              <MenuItem key={key} value={key} justifyContent="space-between" onClick={() => onChangeTimePeriod(key)}>
+                {name}
+                {icon && <Icon icon={icon} /> }
+              </MenuItem>
+            )
+          }) }
+        </MenuList>
+      )}
+    </Menu>
+  )
+}
+
+render(<DatetimeMenu />);
 ```
 
 ```jsx
