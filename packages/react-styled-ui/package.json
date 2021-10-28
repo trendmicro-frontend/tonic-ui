@@ -20,7 +20,7 @@
     "@emotion/is-prop-valid": "1.x",
     "@emotion/react": "11.x",
     "@emotion/styled": "11.x",
-    "@popperjs/core": "^2.10.2",
+    "@popperjs/core": "2.x",
     "@styled-system/css": "5.x",
     "@trendmicro/styled-ui-theme": "^0.13.0",
     "@trendmicro/tmicon": "^1.21.0",
@@ -29,12 +29,12 @@
     "ensure-type": "1.x",
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
-    "prop-types": "^15.7.2",
+    "prop-types": "15.x",
     "react-animate-height": "2.x",
-    "react-focus-lock": "2.5.x",
-    "react-is": "^16.8.0",
+    "react-focus-lock": "2.x",
+    "react-is": "^16.8.0 || ^17",
     "react-spring": "8.x",
-    "react-transition-group": "^4.4.2",
+    "react-transition-group": "4.x",
     "styled-system": "5.x"
   },
   "devDependencies": {
@@ -66,13 +66,13 @@
     "eslint-plugin-react-hooks": "latest",
     "jest": "~27.3.1",
     "jest-extended": "^1.1.0",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "react-test-renderer": "^16.8.0"
+    "react": "^16.8.0 || ^17",
+    "react-dom": "^16.8.0 || ^17",
+    "react-test-renderer": "^16.8.0 || ^17"
   },
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^16.8.0 || ^17",
+    "react-dom": "^16.8.0 || ^17"
   },
   "jest": {
     "collectCoverage": true,
