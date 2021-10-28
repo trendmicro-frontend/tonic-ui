@@ -22,11 +22,11 @@ export default withPlugins([
   withMDX(),
   {
     env: {
-      PUBLIC_URL: process.env.PUBLIC_URL || '',
+      ASSET_PREFIX: process.env.ASSET_PREFIX,
       GA_TRACKING_ID: 'UA-187145735-1',
     },
     assetPrefix: process.env.ASSET_PREFIX,
     distDir: 'build',
     pageExtensions: ['js', 'jsx', 'md', 'mdx'],
-  }
+  },
 ]);

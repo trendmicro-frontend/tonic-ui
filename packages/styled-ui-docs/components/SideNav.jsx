@@ -5,6 +5,7 @@ import {
   useColorMode,
   useTheme,
 } from '@trendmicro/react-styled-ui';
+import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -15,7 +16,7 @@ import {
   utilityLinks,
 } from './nav-links';
 
-const publicUrl = process.env.PUBLIC_URL;
+const assetPrefix = ensureString(process.env.ASSET_PREFIX);
 
 const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
   const router = useRouter();
@@ -109,16 +110,16 @@ const SideNav = React.forwardRef((props, ref) => {
       {...props}
     >
       <Box>
-        <NavLink href={`${publicUrl}/getting-started`}>
+        <NavLink href={`${assetPrefix}/getting-started`}>
           Getting Started
         </NavLink>
-        <NavLink href={`${publicUrl}/color-mode`}>
+        <NavLink href={`${assetPrefix}/color-mode`}>
           Color Mode
         </NavLink>
-        <NavLink href={`${publicUrl}/color-style`}>
+        <NavLink href={`${assetPrefix}/color-style`}>
           Color Style
         </NavLink>
-        <NavLink href={`${publicUrl}/contributing`}>
+        <NavLink href={`${assetPrefix}/contributing`}>
           Contributing
         </NavLink>
       </Box>
@@ -133,7 +134,7 @@ const SideNav = React.forwardRef((props, ref) => {
           THEME
         </Text>
         {themeLinks.map(link => {
-          const url = `${publicUrl}/${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${assetPrefix}/${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -153,7 +154,7 @@ const SideNav = React.forwardRef((props, ref) => {
           BUILDING BLOCKS
         </Text>
         {buildingBlockLinks.map(link => {
-          const url = `${publicUrl}/${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${assetPrefix}/${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -173,7 +174,7 @@ const SideNav = React.forwardRef((props, ref) => {
           COMPONENTS
         </Text>
         {componentLinks.map(link => {
-          const url = `${publicUrl}/${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${assetPrefix}/${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -193,7 +194,7 @@ const SideNav = React.forwardRef((props, ref) => {
           UTILITIES
         </Text>
         {utilityLinks.map(link => {
-          const url = `${publicUrl}/${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${assetPrefix}/${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
