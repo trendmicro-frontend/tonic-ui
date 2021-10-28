@@ -101,7 +101,7 @@ const CustomApp = (props) => {
     return () => {
       router.events.off('routeChangeComplete', pageview);
     };
-  }, [router.events]);
+  }, [router]);
 
   return (
     <ThemeProvider theme={customTheme}>

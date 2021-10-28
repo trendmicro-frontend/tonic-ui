@@ -96,6 +96,7 @@ const SideNav = React.forwardRef((props, ref) => {
 
   return (
     <PseudoBox
+      ref={ref}
       position="fixed"
       top={top}
       left={0}

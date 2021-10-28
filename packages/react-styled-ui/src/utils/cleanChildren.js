@@ -1,4 +1,3 @@
-
 import { Children, isValidElement } from 'react';
 
 export default function cleanChildren (children) {

@@ -23,6 +23,7 @@ const Header = React.forwardRef((props, ref) => {
   }[colorMode];
   return (
     <Box
+      ref={ref}
       position="fixed"
       top={0}
       height="12x"
@@ -49,6 +50,7 @@ const Header = React.forwardRef((props, ref) => {
           color={fontColor}
         >
           <Image
+            alt=""
             src={logoPath}
             width={35}
             height={30}

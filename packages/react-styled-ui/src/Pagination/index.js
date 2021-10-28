@@ -51,7 +51,7 @@ const Pagination = (props, ref) => {
   const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   return (
-    <React.Fragment>
+    <>
       {items.map((item, index) => {
         let label;
         if (item.type === 'first') {
@@ -97,7 +97,7 @@ const Pagination = (props, ref) => {
           </SelectableButton>
         );
       })}
-    </React.Fragment>
+    </>
   );
 };
 
