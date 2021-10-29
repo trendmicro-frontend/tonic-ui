@@ -964,7 +964,8 @@ const TR = ({ id, row, index, moveTr }) => {
     },
   });
   const [{ isDragging }, drag, preview] = ReactDND.useDrag({
-    item: { type: ItemTypes.TR, id, index, row },
+    type: ItemTypes.TR,
+    item: { id, index, row },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
