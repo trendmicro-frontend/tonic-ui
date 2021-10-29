@@ -38,6 +38,7 @@ export const componentLinks = [
   'InputBase',
   'InputGroup',
   'Link',
+  'LinkButton',
   'Menu',
   'Modal',
   'Pagination',

@@ -1,6 +1,7 @@
 import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
-import Popper, { PopperArrow } from '../Popper';
+import Popper from '../Popper/Popper';
+import PopperArrow from '../Popper/PopperArrow';
 import VisuallyHidden from '../VisuallyHidden';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';

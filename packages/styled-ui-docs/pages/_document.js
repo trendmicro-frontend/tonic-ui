@@ -12,7 +12,6 @@ class CustomDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href="tonic-favicon-dark.ico" />
-          <link href="fonts/redacted/stylesheet.css" rel="stylesheet" type="text/css" />
         </Head>
         <body>
           <Main />

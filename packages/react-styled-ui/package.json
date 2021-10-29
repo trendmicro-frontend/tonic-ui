@@ -1,6 +1,6 @@
 {
   "name": "@trendmicro/react-styled-ui",
-  "version": "0.15.1",
+  "version": "0.19.0",
   "description": "React UI components built with Emotion and Styled System",
   "main": "dist/react-styled-ui.js",
   "module": "dist/es/react-styled-ui.js",
@@ -11,8 +11,9 @@
   "scripts": {
     "build": "cross-env PACKAGE_NAME=react-styled-ui INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.js",
     "clean": "del build dist",
+    "eslint": "eslint --ext .js,.jsx,.mjs .",
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
-    "pre-push": "eslint --ext .js,.jsx .",
+    "pre-push": "yarn run eslint",
     "prepublish": "yarn run build",
     "start-storybook": "start-storybook --config-dir .storybook --docs --port 8080",
     "test": "jest"
@@ -21,50 +22,65 @@
     "@emotion/is-prop-valid": "1.x",
     "@emotion/react": "11.x",
     "@emotion/styled": "11.x",
-    "@popperjs/core": "^2.1.0",
+    "@popperjs/core": "2.x",
     "@styled-system/css": "5.x",
     "@trendmicro/styled-ui-theme": "^0.13.0",
     "@trendmicro/tmicon": "^1.21.0",
     "chained-function": "^0.5.0",
-    "color": "3.x",
+    "color": "4.x",
     "ensure-type": "1.x",
-    "exenv": "1.2.x",
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
-    "prop-types": "^15.6.0",
+    "prop-types": "15.x",
     "react-animate-height": "2.x",
-    "react-focus-lock": "2.3.x",
+    "react-focus-lock": "2.x",
+    "react-is": "^16.8.0 || ^17",
     "react-spring": "8.x",
+    "react-transition-group": "4.x",
     "styled-system": "5.x"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/eslint-parser": "^7.0.0",
+    "@babel/eslint-plugin": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "@emotion/babel-preset-css-prop": "~11.2.0",
-    "@emotion/jest": "~11.3.0",
+    "@emotion/jest": "~11.5.0",
     "@rollup/plugin-node-resolve": "~11.2.0",
-    "@storybook/addon-actions": "~5.3.19",
-    "@storybook/addon-docs": "~5.3.19",
-    "@storybook/addon-links": "~5.3.19",
-    "@storybook/addons": "~5.3.19",
-    "@storybook/react": "~5.3.19",
+    "@storybook/addon-actions": "~6.3.12",
+    "@storybook/addon-docs": "~6.3.12",
+    "@storybook/addon-links": "~6.3.12",
+    "@storybook/addons": "~6.3.12",
+    "@storybook/react": "~6.3.12",
+    "@trendmicro/babel-config": "^1.0.2",
+    "babel-loader": "~8.2.3",
     "cpy-cli": "~3.1.1",
     "cross-env": "~7.0.3",
-    "del-cli": "~3.0.1",
-    "jest": "~26.6.3",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "react-test-renderer": "^16.8.0",
+    "del-cli": "~4.0.1",
+    "eslint": "^7.0.0",
+    "eslint-config-trendmicro": "^2.1.0",
+    "eslint-loader": "~4.0.2",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-jsx-a11y": "latest",
+    "eslint-plugin-react": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "jest": "~27.3.1",
+    "jest-extended": "^1.1.0",
+    "react": "^16.8.0 || ^17",
+    "react-dom": "^16.8.0 || ^17",
+    "react-test-renderer": "^16.8.0 || ^17",
     "rollup": "~2.42.3",
     "rollup-plugin-babel": "~4.4.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^16.8.0 || ^17",
+    "react-dom": "^16.8.0 || ^17"
   },
   "jest": {
-    "testMatch": [
-      "<rootDir>/src/**/*.test.js",
-      "<rootDir>/test/**/*.js"
-    ],
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.js"
     ],
@@ -72,6 +88,17 @@
       "lcov",
       "text",
       "html"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest.env-setup.js"
+    ],
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ],
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "<rootDir>/src/**/*.test.js",
+      "<rootDir>/test/**/*.js"
     ]
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",

@@ -1,5 +1,8 @@
+import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import config from '../shared/config';
+import { useId } from '../utils/autoId';
 import { CheckboxGroupProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -8,31 +11,53 @@ const CheckboxGroup = ({
   children,
   defaultValue,
   disabled,
+  name,
   size,
   value: valueProp,
   variantColor,
   onChange,
 }) => {
-  const { current: isControlled } = useRef(valueProp != null);
-  const [values, setValues] = useState(defaultValue || []);
-  const _values = isControlled ? valueProp : values;
-  const _onChange = event => {
-    const { checked, value } = event.target;
-    let newValues;
-    if (checked) {
-      newValues = [..._values, value];
-    } else {
-      newValues = _values.filter(val => val !== value);
+  const defaultId = useId();
+  name = name ?? `${config.name}:checkbox-${defaultId}`;
+
+  const [state, setState] = useState({
+    value: ensureArray(valueProp ?? defaultValue),
+  });
+
+  useEffect(() => {
+    if (valueProp !== undefined) {
+      setState({ value: ensureArray(valueProp) });
     }
-    !isControlled && setValues(newValues);
-    onChange && onChange(newValues);
+  }, [valueProp]);
+
+  const handleChange = event => {
+    const checkbox = {
+      checked: event.target.checked,
+      value: event.target.value,
+    };
+
+    const nextValue = !!(checkbox.checked)
+      ? state.value.concat(ensureArray(checkbox.value)) // expect value to be neither null nor undefined
+      : state.value.filter(v => (v !== checkbox.value)); // filter out unchecked values
+
+    if (valueProp !== undefined) {
+      setState({ value: ensureArray(valueProp) });
+    } else {
+      setState({ value: nextValue });
+    }
+
+    if (typeof onChange === 'function') {
+      onChange(nextValue, event);
+    }
   };
+
   const checkboxGroupState = getMemoizedState({
-    disabled: disabled,
-    onChange: _onChange,
-    size: size,
-    value: _values,
-    variantColor: variantColor,
+    disabled,
+    name,
+    onChange: handleChange,
+    size,
+    value: state.value,
+    variantColor,
   });
 
   return (

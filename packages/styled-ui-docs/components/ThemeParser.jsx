@@ -8,7 +8,9 @@ import React from 'react';
 import CodeBlock from './CodeBlock';
 import jsonPrettify from './json-prettify';
 
-const ThemeParser = ({ theme: themeKey, ...props }) => {
+const ThemeParser = ({
+  theme: themeKey,
+}) => {
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });

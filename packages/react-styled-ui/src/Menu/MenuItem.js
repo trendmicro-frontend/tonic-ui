@@ -4,7 +4,6 @@ import { useMenuItemStyle } from './styles';
 import PseudoBox from '../PseudoBox';
 import wrapEvent from '../utils/wrapEvent';
 
-
 const MenuItem = forwardRef(
   (
     {

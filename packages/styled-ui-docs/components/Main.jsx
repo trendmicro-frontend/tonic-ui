@@ -11,6 +11,7 @@ const Main = React.forwardRef(({ children, ...props }, ref) => {
 
   return (
     <Box
+      ref={ref}
       as="main"
       pt="3x"
       pb="6x"

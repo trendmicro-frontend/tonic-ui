@@ -36,7 +36,7 @@ test('the default export must have all properties defined in the theme object', 
 });
 
 test('absolute length units: px', () => {
-  const { 
+  const {
     borders,
     borderStyles,
     borderWidths,
@@ -68,7 +68,7 @@ test('absolute length units: px', () => {
     2: '2px',
   });
 
-  expect([ ...breakpoints ]).toEqual([
+  expect([...breakpoints]).toEqual([
     '320px',
     '640px',
     '1024px',
@@ -352,7 +352,7 @@ test('absolute length units: px', () => {
 });
 
 test('relative length units: rem', () => {
-  const { 
+  const {
     borders,
     borderStyles,
     borderWidths,
@@ -384,7 +384,7 @@ test('relative length units: rem', () => {
     2: '2px',
   });
 
-  expect([ ...breakpoints ]).toEqual([
+  expect([...breakpoints]).toEqual([
     '320px',
     '640px',
     '1024px',
