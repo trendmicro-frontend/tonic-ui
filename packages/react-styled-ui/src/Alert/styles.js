@@ -190,8 +190,8 @@ const getOutlineSuccessIconStyle = ({
   colorMode,
 }) => {
   const color = {
-    dark: 'green:50',
-    light: 'green:50',
+    dark: 'green:40',
+    light: 'green:40',
   }[colorMode];
 
   return {
@@ -203,8 +203,8 @@ const getOutlineInfoIconStyle = ({
   colorMode,
 }) => {
   const color = {
-    dark: 'blue:40',
-    light: 'blue:40',
+    dark: 'blue:50',
+    light: 'blue:50',
   }[colorMode];
 
   return {
@@ -229,8 +229,8 @@ const getOutlineErrorIconStyle = ({
   colorMode,
 }) => {
   const color = {
-    dark: 'red:40',
-    light: 'red:40',
+    dark: 'red:50',
+    light: 'red:50',
   }[colorMode];
 
   return {
