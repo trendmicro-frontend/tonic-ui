@@ -8,7 +8,7 @@ const Table = forwardRef((
   {
     variant = 'default',
     size = 'md',
-    isHoverable,
+    isHoverable, // TODO: isHoverable is deprecated and will be removed in the v1 release
     children,
     ...rest
   },
@@ -17,7 +17,7 @@ const Table = forwardRef((
   const minimalist = (variant === 'default');
   const context = {
     variant,
-    isHoverable,
+    isHoverable, // TODO: isHoverable is deprecated and will be removed in the v1 release
     size,
   };
 
