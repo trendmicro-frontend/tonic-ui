@@ -11,6 +11,7 @@ import {
   useAlertCloseButtonStyle,
 } from './styles';
 
+const defaultVariant = 'solid';
 const defaultSeverity = 'success';
 
 const getIconBySeverity = (severity) => {
@@ -46,6 +47,7 @@ const Alert = forwardRef((
   {
     isCloseButtonVisible,
     onClose,
+    variant = defaultVariant,
     severity = defaultSeverity,
     icon,
     children,
@@ -53,10 +55,10 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
-  const rootStyleProps = useAlertRootStyle({ severity });
-  const iconStyleProps = useAlertIconStyle({ severity });
+  const rootStyleProps = useAlertRootStyle({ variant, severity });
+  const iconStyleProps = useAlertIconStyle();
   const messageStyleProps = useAlertMessageStyle();
-  const closeButtonStyleProps = useAlertCloseButtonStyle();
+  const closeButtonStyleProps = useAlertCloseButtonStyle({ variant });
 
   if (typeof icon === 'string') {
     icon = (<Icon icon={icon} />);
