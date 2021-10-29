@@ -5,7 +5,7 @@ import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
 import {
-  useAlertRootStyle,
+  useAlertStyle,
   useAlertIconStyle,
   useAlertMessageStyle,
   useAlertCloseButtonStyle,
@@ -55,8 +55,8 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
-  const rootStyleProps = useAlertRootStyle({ variant, severity });
-  const iconStyleProps = useAlertIconStyle();
+  const styleProps = useAlertStyle({ variant, severity });
+  const iconStyleProps = useAlertIconStyle({ variant, severity });
   const messageStyleProps = useAlertMessageStyle();
   const closeButtonStyleProps = useAlertCloseButtonStyle({ variant });
 
@@ -72,7 +72,7 @@ const Alert = forwardRef((
       ref={ref}
       align="flex-start"
       justify="space-between"
-      {...rootStyleProps}
+      {...styleProps}
       {...rest}
     >
       {!!icon && (
