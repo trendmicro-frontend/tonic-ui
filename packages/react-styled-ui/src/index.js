@@ -30,6 +30,7 @@ import Link from './Link';
 import LinkButton from './LinkButton';
 import MenuButton from './MenuButton';
 import Pagination from './Pagination';
+import Portal from './Portal';
 import PseudoBox from './PseudoBox';
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
@@ -46,10 +47,11 @@ import Textarea from './Textarea';
 import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
 import Toast from './Toast';
+import ToastProvider from './ToastProvider';
 import ToggleSwitch from './ToggleSwitch';
 import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
-import colorStyle from './ColorStyleProvider/color-style';
+import colorStyle from './shared/color-style';
 import theme from './theme';
 import useClipboard from './useClipboard';
 import useColorMode from './useColorMode';
@@ -57,6 +59,7 @@ import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure';
 import usePagination from './usePagination';
 import useTheme from './useTheme';
+import useToast from './useToast';
 import withTheme from './withTheme';
 
 export {
@@ -92,6 +95,7 @@ export {
   LinkButton,
   MenuButton,
   Pagination,
+  Portal,
   PseudoBox,
   Radio,
   RadioGroup,
@@ -108,6 +112,7 @@ export {
   ThemeProvider,
   Tag,
   Toast,
+  ToastProvider,
   ToggleSwitch,
   Tooltip,
   VisuallyHidden,
@@ -119,6 +124,7 @@ export {
   useDisclosure,
   usePagination,
   useTheme,
+  useToast,
   withTheme,
 };
 
@@ -128,6 +134,7 @@ export * from './Drawer';
 export * from './Menu';
 export * from './Modal';
 export * from './Popover';
+export * from './Popper';
 export * from './Select';
 export * from './Table';
 export * from './Transition';

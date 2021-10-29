@@ -28,22 +28,22 @@ import {
 <Table>
   <TableHeader>
     <TableHeaderRow>
-      <TableHeaderCell>Event Type</TableHeaderCell>
-      <TableHeaderCell>Detections</TableHeaderCell>
+      <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+      <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
     </TableHeaderRow>
   </TableHeader>
   <TableBody>
     <TableRow>
-      <TableCell>Virus/Malware</TableCell>
-      <TableCell>634</TableCell>
+      <TableCell width="240px">Virus/Malware</TableCell>
+      <TableCell width="136px" textAlign="right">634</TableCell>
     </TableRow>
     <TableRow>
-      <TableCell>Virus/Malware</TableCell>
-      <TableCell>778</TableCell>
+      <TableCell width="240px">Virus/Malware</TableCell>
+      <TableCell width="136px" textAlign="right">778</TableCell>
     </TableRow>
     <TableRow>
-      <TableCell>URL Filtering</TableCell>
-      <TableCell>598</TableCell>
+      <TableCell width="240px">URL Filtering</TableCell>
+      <TableCell width="136px" textAlign="right">598</TableCell>
     </TableRow>
   </TableBody>
 </Table>
@@ -59,26 +59,26 @@ Use the `variant` prop to change the visual style of the Table. You can set the 
 <Stack direction="row" spacing="4x">
   {["default", "outline"].map(variant => (
     <Stack key={variant} direction="column" spacing="4x" shouldWrapChildren>
-      <Text>{variant}</Text>
+      <Text size="xl">{variant}</Text>
       <Table variant={variant}>
         <TableHeader>
           <TableHeaderRow>
-            <TableHeaderCell>Event Type</TableHeaderCell>
-            <TableHeaderCell>Detections</TableHeaderCell>
+            <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+            <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
           </TableHeaderRow>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>Virus/Malware</TableCell>
-            <TableCell>634</TableCell>
+            <TableCell width="240px">Virus/Malware</TableCell>
+            <TableCell width="136px" textAlign="right">634</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Virus/Malware</TableCell>
-            <TableCell>778</TableCell>
+            <TableCell width="240px">Virus/Malware</TableCell>
+            <TableCell width="136px" textAlign="right">778</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>URL Filtering</TableCell>
-            <TableCell>598</TableCell>
+            <TableCell width="240px">URL Filtering</TableCell>
+            <TableCell width="136px" textAlign="right">598</TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -92,65 +92,117 @@ Use the `variant` prop to change the visual style of the Table. You can set the 
 Use the `size` prop to change the padding of the `<TableCell>`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="6x" shouldWrapChildren>
-  {["sm", "md", "lg"].map(size => (
-    <React.Fragment key={size}>
-      <Text>Size: {size}</Text>
-      <Space width="4x" />
-      <Table variant="outline" size={size}>
-        <TableHeader>
-          <TableHeaderRow>
-            <TableHeaderCell>Event Type</TableHeaderCell>
-            <TableHeaderCell>Detections</TableHeaderCell>
-          </TableHeaderRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>Virus/Malware</TableCell>
-            <TableCell>634</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Virus/Malware</TableCell>
-            <TableCell>778</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>URL Filtering</TableCell>
-            <TableCell>598</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </React.Fragment>
-  ))}
-</Stack>
+function Sample() {
+  const shadowLeftRef = React.useRef(null);
+  const shadowRightRef = React.useRef(null);
+  const handleUpdate = ({ values }) => {
+    const { scrollLeft, scrollWidth, clientWidth } = values;
+    const shadowLeftOpacity = 1 / 20 * Math.min(scrollLeft, 20);
+    const rightScrollLeft = scrollWidth - clientWidth;
+    const shadowRightOpacity = 1 / 20 * (rightScrollLeft - Math.max(scrollLeft, rightScrollLeft - 20));
+    shadowLeftRef.current.style.opacity = shadowLeftOpacity;
+    shadowRightRef.current.style.opacity = shadowRightOpacity;
+  };
+  return (
+    <Box position="relative">
+      <Scrollbar onUpdate={handleUpdate} width="100%" height={248}>
+        <Flex>
+            {["sm", "md", "lg"].map(size => (
+              <Box flex="initial" mr="4x" key={size}>
+                <Text display="block" size="xl" mb="4x">Size: {size}</Text>
+                <Table variant="outline" size={size}>
+                  <TableHeader>
+                    <TableHeaderRow>
+                      <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+                      <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
+                    </TableHeaderRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell width="240px">Virus/Malware</TableCell>
+                      <TableCell width="136px" textAlign="right">634</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width="240px">Virus/Malware</TableCell>
+                      <TableCell width="136px" textAlign="right">778</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell width="240px">URL Filtering</TableCell>
+                      <TableCell width="136px" textAlign="right">598</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            ))}
+        </Flex>
+      </Scrollbar>
+      <Box
+        ref={shadowLeftRef}
+        position="absolute"
+        top="0"
+        bottom="0"
+        left="0"
+        width="24px"
+        background="linear-gradient(to right, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
+      />
+      <Box
+        ref={shadowRightRef}
+        position="absolute"
+        top="0"
+        bottom="0"
+        right="0"
+        width="24px"
+        background="linear-gradient(to left, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
+      />
+    </Box>
+  );
+}
 ```
 
 ### Hoverable
 
 Enable a hover state on TableRows.
 
-```jsx
-<Table isHoverable>
-  <TableHeader>
-    <TableHeaderRow>
-      <TableHeaderCell>Event Type</TableHeaderCell>
-      <TableHeaderCell>Detections</TableHeaderCell>
-    </TableHeaderRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow>
-      <TableCell>Virus/Malware</TableCell>
-      <TableCell>634</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell>Virus/Malware</TableCell>
-      <TableCell>778</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell>URL Filtering</TableCell>
-      <TableCell>598</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
+```jsx noInline
+const HoverableTableRow = (props) => {
+  return (
+    <TableRow
+      _hover={{
+        bg: 'rgba(255, 255, 255, 0.12)'
+      }}
+      {...props}
+    />
+  );
+};
+
+function HoverableTable() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableHeaderRow>
+          <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+          <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
+        </TableHeaderRow>
+      </TableHeader>
+      <TableBody>
+        <HoverableTableRow>
+          <TableCell width="240px">Virus/Malware</TableCell>
+          <TableCell width="136px" textAlign="right">634</TableCell>
+        </HoverableTableRow>
+        <HoverableTableRow>
+          <TableCell width="240px">Virus/Malware</TableCell>
+          <TableCell width="136px" textAlign="right">778</TableCell>
+        </HoverableTableRow>
+        <HoverableTableRow>
+          <TableCell width="240px">URL Filtering</TableCell>
+          <TableCell width="136px" textAlign="right">598</TableCell>
+        </HoverableTableRow>
+      </TableBody>
+    </Table>
+  );
+}
+
+render(<HoverableTable />);
 ```
 
 ## Custom tables
@@ -167,14 +219,23 @@ function BaseTable() {
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 140,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -202,15 +263,17 @@ function BaseTable() {
   );
 
   return (
-    <Table
-      isHoverable
-      {...getTableProps()}
-    >
+    <Table {...getTableProps()}>
       <TableHeader>
         {headerGroups.map(headerGroup => (
           <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <TableHeaderCell {...column.getHeaderProps()}>{column.render('Header')}</TableHeaderCell>
+              <TableHeaderCell
+                {...column.getHeaderProps()}
+                {...column.customedProps}
+              >
+                {column.render('Header')}
+              </TableHeaderCell>
             ))}
           </TableHeaderRow>
         ))}
@@ -219,10 +282,21 @@ function BaseTable() {
         {rows.map((row, i) => {
           prepareRow(row);
           return (
-            <TableRow {...row.getRowProps()}>
+            <TableRow
+              {...row.getRowProps()}
+              _hover={{
+                bg: 'rgba(255, 255, 255, 0.12)'
+              }}
+            >
               {
                 row.cells.map(cell => {
-                  return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                  return (
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
+                      {cell.render('Cell')}
+                    </TableCell>);
                 })
               }
             </TableRow>
@@ -257,14 +331,23 @@ function SelectableTable() {
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 140,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -306,7 +389,7 @@ function SelectableTable() {
               <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
             </Flex>
           ),
-          width: 41,
+          width: 48,
         },
         ...columns,
       ]);
@@ -315,12 +398,17 @@ function SelectableTable() {
 
   return (
     <>
-      <Table isHoverable {...getTableProps()}>
+      <Table {...getTableProps()}>
         <TableHeader>
           {headerGroups.map(headerGroup => (
             <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <TableHeaderCell {...column.getHeaderProps()}>{column.render('Header')}</TableHeaderCell>
+                <TableHeaderCell
+                  {...column.getHeaderProps()}
+                  {...column.customedProps}
+                >
+                  {column.render('Header')}
+                </TableHeaderCell>
               ))}
             </TableHeaderRow>
           ))}
@@ -328,10 +416,24 @@ function SelectableTable() {
         <TableBody {...getTableBodyProps()}>
           {rows.slice(0, 10).map((row, i) => {
             prepareRow(row);
+            const isChecked = Object.keys(selectedRowIds).indexOf(row.id) >= 0;
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                {...isChecked && { bg: 'rgba(255, 255, 255, 0.08)' }}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 {row.cells.map(cell => {
-                  return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
+                  return (
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
+                      {cell.render('Cell')}
+                    </TableCell>
+                  );
                 })}
               </TableRow>
             );
@@ -368,14 +470,25 @@ function SortableTable() {
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 176,
+      customedProps: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+      },
     },
   ], []);
 
@@ -406,29 +519,36 @@ function SortableTable() {
   );
 
   return (
-    <Table isHoverable {...getTableProps()}>
+    <Table {...getTableProps()}>
       <TableHeader>
         {headerGroups.map(headerGroup => (
           <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <TableHeaderCell {...column.getHeaderProps(column.getSortByToggleProps())}>
-                <Box
-                  display="inline-block"
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  whiteSpace="nowrap"
-                  maxWidth={`calc(100% - ${(column.isSorted ? '24px' : '0px')})`}
+              <TableHeaderCell
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                {...column.isSorted && {color: 'rgba(255, 255, 255, 1)'}}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
+                <Flex
+                  alignItems="center"
+                  {...column.customedProps}
                 >
-                  {column.render('Header')}
-                </Box>
-                {column.isSorted && (
-                  <Box as="span">
-                    <Space minWidth="1x" />
-                    {
-                      column.isSortedDesc ? <Icon icon="sort-down" size={20} /> : <Icon icon="sort-up" size={20} />
-                    }
+                  <Box
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                  >
+                    {column.render('Header')}
                   </Box>
-                )}
+                  {column.isSorted && column.isSortedDesc && (
+                    <Icon icon="sort-down" size={20} ml="1x" />
+                  )}
+                  {column.isSorted && !column.isSortedDesc && (
+                    <Icon icon="sort-up" size={20}  ml="1x" />
+                  )}
+                </Flex>
               </TableHeaderCell>
             ))}
           </TableHeaderRow>
@@ -439,10 +559,20 @@ function SortableTable() {
           (row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 {row.cells.map(cell => {
                   return (
-                    <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
+                      {cell.render('Cell')}
+                    </TableCell>
                   );
                 })}
               </TableRow>
@@ -462,18 +592,53 @@ render(<SortableTable />);
 
 ```jsx noInline
 function ResizableTable() {
+  const { colorMode } = useColorMode();
+  const hoveringStyle = {
+    'dark': {
+      borderRight: 1,
+      borderColor: 'gray:50',
+    },
+    'light': {
+      borderRight: 1,
+      borderColor: 'gray:70',
+    }
+  }[colorMode];
+  const resizingStyle = {
+    'dark': {
+      borderRight: 1,
+      borderColor: 'gray:50',
+      boxShadow: '4px 0px 0px 0px rgba(255, 255, 255, 0.12)',
+    },
+    'light': {
+      borderRight: 1,
+      borderColor: 'gray:70',
+      boxShadow: '4px 0px 0px 0px rgba(0, 0, 0, 0.12)',
+    },
+  }[colorMode];
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 144,
+      customedProps: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+      },
     },
   ], []);
 
@@ -502,47 +667,116 @@ function ResizableTable() {
     useResizeColumns,
   );
 
+  const [hoveredResizerId, setHoveredResizerId] = React.useState();
+  const handleEnterResizer = (cellId) => (e) => {
+    setHoveredResizerId(cellId);
+  };
+  const handleLeaveResizer = (e) => {
+    setHoveredResizerId(null);
+  };
+
   return (
     <Stack spacing="4x" shouldWrapChildren>
       <Button onClick={resetResizing}>Reset Resizing</Button>
       <Table
-        isHoverable
         variant="outline"
         {...getTableProps()}
       >
         <TableHeader>
-          {headerGroups.map(headerGroup => (
-            <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <TableHeaderCell {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {/* Use column.getResizerProps to hook up the events correctly */}
-                  <Box
-                    {...column.getResizerProps()}
-                    display="inline-block"
-                    bg="blue:60"
-                    width="3x"
-                    height="100%"
-                    position="absolute"
-                    right="0"
-                    top="0"
-                    transform="translateX(50%)"
-                    zIndex={1}
-                    {...column.isResizing && { bg: "red:60" }}
-                  />
-                </TableHeaderCell>
-              ))}
-            </TableHeaderRow>
-          ))}
+          {headerGroups.map(headerGroup => {
+            return (
+              <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column, index) => {
+                  const cellId = column.id;
+                  const isLastChild = (index === headerGroup.headers.length - 1);
+                  const isResizing = column.isResizing;
+                  return (
+                    <TableHeaderCell {...column.getHeaderProps()}>
+                      <Flex alignItems="center" height="100%" {...column.customedProps}>
+                        <Box
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                        >
+                          {column.render('Header')}
+                        </Box>
+                      </Flex>
+                      {!isLastChild && (
+                        <Box
+                          {...column.getResizerProps()} // Use column.getResizerProps to hook up the events correctly
+                          display="inline-block"
+                          width="8px"
+                          height="calc(100% + 2px)" // 2px is border-bottom width of the table header
+                          position="absolute"
+                          right="-8px"
+                          top="0"
+                          zIndex={1}
+                          onMouseEnter={handleEnterResizer(cellId)}
+                          onMouseLeave={handleLeaveResizer}
+                        >
+                          <Box
+                            width="4px"
+                            height="100%"
+                            marginLeft="-3px"
+                            {...(!isResizing && hoveredResizerId === cellId) && hoveringStyle}
+                            {...isResizing && resizingStyle}
+                          />
+                        </Box>
+                      )}
+                    </TableHeaderCell>
+                  );
+                })}
+              </TableHeaderRow>
+            );
+          })}
         </TableHeader>
         <TableBody {...getTableBodyProps()}>
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 {
-                  row.cells.map(cell => {
-                    return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                  row.cells.map((cell, index) => {
+                    const cellId = cell.column.id;
+                    const isLastChild = (index === row.cells.length - 1);
+                    const isResizing = cell.column.isResizing;
+                    return (
+                      <TableCell
+                        {...cell.getCellProps()}
+                        {...cell.column.customedProps}
+                        position="relative"
+                      >
+                        <Box
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                        >
+                          {cell.render('Cell')}
+                        </Box>
+                        {!isLastChild && (
+                          <Box
+                            display="inline-block"
+                            width="8px"
+                            height="calc(100% + 1px)" // 1px is border-bottom width of the table row
+                            position="absolute"
+                            right="-8px"
+                            top="0"
+                            zIndex={1}
+                          >
+                            <Box
+                              width="4px"
+                              height="100%"
+                              marginLeft="-3px"
+                              {...(!isResizing && hoveredResizerId === cellId) && hoveringStyle}
+                              {...isResizing && resizingStyle}
+                            />
+                          </Box>
+                        )}
+                      </TableCell>
+                    );
                   })
                 }
               </TableRow>
@@ -559,28 +793,80 @@ render(<ResizableTable />);
 
 ### Sticky table
 
-In this example, we use [`react-custom-scrollbars`](https://github.com/malte-wessel/react-custom-scrollbars) to display scrollbar.
+#### Sticky header
 
-`import { Scrollbars } from 'react-custom-scrollbars';`
-
+In this example, we make a table with fixed header and a scrollable content. we use [`Scrollbar`](./scrollbar) component to render scrollable table body.
 
 ```jsx noInline
+function CustomScrollbar({
+  showVerticalScrollbar,
+  showHorizontalScrollbar,
+  children,
+  ...props
+}) {
+  const renderScrollView = props => {
+    return (
+      <Box
+        {...props}
+        right={showVerticalScrollbar ? "8px" : 0}
+        bottom={showHorizontalScrollbar ? "8px" : 0}
+      />
+    );
+  };
+
+  const renderScrollTrack = props => {
+    const [colorMode] = useColorMode();
+    const bgColor = {
+      dark: 'gray:70',
+      light: 'gray:70',
+    }[colorMode];
+    return (
+      <Box
+        {...props}
+        bg={bgColor}
+      />
+    );
+  };
+
+  return (
+    <Scrollbar
+      visibility="visible"
+      renderView={renderScrollView}
+      renderHorizontalTrack={renderScrollTrack}
+      renderVerticalTrack={renderScrollTrack}
+      {...props}
+    >
+      {children}
+    </Scrollbar>
+  );
+}
+
 function StickyTable() {
-  const [colorMode] = useColorMode();
-  const scrollbarColor = colorMode === 'dark' ? 'white:tertiary' : 'black:tertiary';
+  const tableHeaderRef = React.createRef();
+  const [showHorizontalScrollbar, setShowHorizontalScrollbar] = React.useState(false);
+  const [showVerticalScrollbar, setShowVerticalScrollbar] = React.useState(false);
 
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 144,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -593,8 +879,6 @@ function StickyTable() {
     { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
   ], []);
 
-  const tableHeaderRef = React.createRef();
-
   const onScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
     if (!!tableHeaderRef && tableHeaderRef.current.scrollLeft !== scrollLeft) {
@@ -602,14 +886,9 @@ function StickyTable() {
     }
   };
 
-  const renderThumb = props => {
-    return (
-      <Box
-        borderRadius="lg"
-        bg={scrollbarColor}
-        {...props}
-      />
-    );
+  const onUpdate = ({ hasHorizontalScrollbar, hasVerticalScrollbar, ...props }) => {
+    setShowHorizontalScrollbar(hasHorizontalScrollbar);
+    setShowVerticalScrollbar(hasVerticalScrollbar);
   };
 
   const {
@@ -628,37 +907,61 @@ function StickyTable() {
 
   return (
     <Table
-      isHoverable
       variant="outline"
       width={400}
       height={200}
       {...getTableProps()}
     >
       <TableHeader ref={tableHeaderRef}>
-        {headerGroups.map(headerGroup => (
-          <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <TableHeaderCell {...column.getHeaderProps()}>
-                {column.render('Header')}
-              </TableHeaderCell>
-            ))}
-          </TableHeaderRow>
-        ))}
+        {headerGroups.map(headerGroup => {
+          const { style, ...props } = headerGroup.getHeaderGroupProps();
+          let headerWidth = style.width;
+          if (showVerticalScrollbar) {
+            headerWidth = `calc(${style.width} + 8px)`; // 8px is scrollbar width
+          }
+          return (
+            <TableHeaderRow style={{...style, width: headerWidth}} {...props}>
+              {headerGroup.headers.map((column, index) => (
+                <TableHeaderCell
+                  key={column.accessor}
+                  {...column.getHeaderProps()}
+                  {...column.customedProps}
+                  {...(showVerticalScrollbar && index === headerGroup.headers.length - 1) && {
+                    borderRight: 0,
+                  }}
+                >
+                  {column.render('Header')}
+                </TableHeaderCell>
+              ))}
+              {showVerticalScrollbar && (
+                <TableHeaderCell width="8px" padding={0} borderLeft={0} />
+              )}
+            </TableHeaderRow>
+          );
+        })}
       </TableHeader>
-      <Scrollbars
-        universal
-        renderThumbHorizontal={renderThumb}
-        renderThumbVertical={renderThumb}
+      <CustomScrollbar
+        showVerticalScrollbar
+        showHorizontalScrollbar
         onScroll={onScroll}
+        onUpdate={onUpdate}
       >
         <TableBody {...getTableBodyProps()}>
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 {row.cells.map(cell => {
                   return (
-                    <TableCell {...cell.getCellProps()}>
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
                       {cell.render('Cell')}
                     </TableCell>
                   );
@@ -667,7 +970,7 @@ function StickyTable() {
             );
           })}
         </TableBody>
-      </Scrollbars>
+      </CustomScrollbar>
     </Table>
   );
 }
@@ -696,13 +999,19 @@ function FullWidthTable() {
       Header: 'Affected Devices',
       id: 'affectedDevices',
       accessor: 'affectedDevices',
-      width: 160,
+      width: 140,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       id: 'detections',
       accessor: 'detections',
       width: '10%',
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -774,10 +1083,7 @@ function FullWidthTable() {
           }
           const newColumns = getCalculatedColumns({ initColumns: columns, tableWidth: width });
           return (
-            <Table
-              isHoverable
-              {...getTableProps()}
-            >
+            <Table {...getTableProps()}>
               <TableHeader>
                 {headerGroups.map(headerGroup => (
                   <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
@@ -789,6 +1095,7 @@ function FullWidthTable() {
                         <TableHeaderCell
                           width={_columnWidth}
                           {...column.getHeaderProps()}
+                          {...column.customedProps}
                         >
                           {column.render('Header')}
                         </TableHeaderCell>
@@ -801,7 +1108,12 @@ function FullWidthTable() {
                 {rows.map((row, i) => {
                   prepareRow(row);
                   return (
-                    <TableRow {...row.getRowProps()}>
+                    <TableRow
+                      {...row.getRowProps()}
+                      _hover={{
+                        bg: 'rgba(255, 255, 255, 0.12)'
+                      }}
+                    >
                       {
                         row.cells.map(cell => {
                           const columnId = cell.column.id;
@@ -811,6 +1123,7 @@ function FullWidthTable() {
                             <TableCell
                               width={_columnWidth}
                               {...cell.getCellProps()}
+                              {...cell.column.customedProps}
                             >
                               {cell.render('Cell')}
                             </TableCell>
@@ -844,6 +1157,24 @@ In this example, we use [`react-movable`](https://github.com/tajo/react-movable)
 
 ```jsx noInline
 function ReactMovableExample() {
+  const { colorMode } = useColorMode();
+  const tableProps = {
+    'dark': {
+      backgroundColor: 'gray:80',
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+    }
+  }[colorMode];
+  const rowProps = {
+    'dark': {
+      backgroundColor: 'gray:100',
+    },
+    'light': {
+      backgroundColor: 'white',
+    },
+  }[colorMode];
+
   const [items, setItems] = React.useState([
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
@@ -861,15 +1192,18 @@ function ReactMovableExample() {
       }
       renderList={({ children, props, isDragged }) => (
         <Table
+          {...tableProps}
           style={{
-            cursor: isDragged ? 'grabbing' : undefined
+            cursor: isDragged ? 'grabbing' : undefined,
           }}
         >
           <TableHeader>
-            <TableHeaderRow>
-              <TableHeaderCell>Event Type</TableHeaderCell>
-              <TableHeaderCell>Affected Devices</TableHeaderCell>
-              <TableHeaderCell>Detections</TableHeaderCell>
+            <TableHeaderRow
+              {...rowProps}
+            >
+              <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+              <TableHeaderCell width="140px" textAlign="right">Affected Devices</TableHeaderCell>
+              <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
             </TableHeaderRow>
           </TableHeader>
           <TableBody {...props}>{children}</TableBody>
@@ -879,15 +1213,15 @@ function ReactMovableExample() {
         const row = (
           <TableRow
             {...props}
+            {...rowProps}
             style={{
               ...props.style,
               cursor: isDragged ? 'grabbing' : 'grab',
-              backgroundColor: isDragged || isSelected ? '#8a8a8a' : 'inherit',
             }}
           >
-            <TableCell>{value.eventType}</TableCell>
-            <TableCell>{value.affectedDevices}</TableCell>
-            <TableCell>{value.detections}</TableCell>
+            <TableCell width="240px">{value.eventType}</TableCell>
+            <TableCell width="140px" textAlign="right">{value.affectedDevices}</TableCell>
+            <TableCell width="136px" textAlign="right">{value.detections}</TableCell>
           </TableRow>
         );
         return isDragged ? (
@@ -921,7 +1255,7 @@ const ItemTypes = {
   TR: 'tr',
 };
 
-const TR = ({ id, row, index, moveTr }) => {
+const TR = ({ id, row, index, moveTr, ...otherProps }) => {
   const ref = React.useRef(null);
   const [, drop] = ReactDND.useDrop({
     accept: ItemTypes.TR,
@@ -964,7 +1298,8 @@ const TR = ({ id, row, index, moveTr }) => {
     },
   });
   const [{ isDragging }, drag, preview] = ReactDND.useDrag({
-    item: { type: ItemTypes.TR, id, index, row },
+    type: ItemTypes.TR,
+    item: { id, index, row },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -978,20 +1313,21 @@ const TR = ({ id, row, index, moveTr }) => {
 
   return (
     <TableRow
+      {...otherProps}
       ref={ref}
       style={{
         cursor: 'move',
         opacity: isDragging ? 0 : 1,
       }}
     >
-      <TableCell>{row.eventType}</TableCell>
-      <TableCell>{row.affectedDevices}</TableCell>
-      <TableCell>{row.detections}</TableCell>
+      <TableCell width="240px">{row.eventType}</TableCell>
+      <TableCell width="140px" textAlign="right">{row.affectedDevices}</TableCell>
+      <TableCell width="136px" textAlign="right">{row.detections}</TableCell>
     </TableRow>
   );
 };
 
-const CustomDragLayer = () => {
+const CustomDragLayer = (props) => {
   const { itemType, isDragging, item, initialOffset, currentOffset, } = ReactDND.useDragLayer((monitor) => ({
     item: monitor.getItem(),
     itemType: monitor.getItemType(),
@@ -1031,14 +1367,10 @@ const CustomDragLayer = () => {
      return (
        <Box style={layerStyles}>
         <Box style={getItemStyles(initialOffset, currentOffset)}>
-          <TableRow
-            style={{
-              backgroundColor: '#8a8a8a',
-            }}
-          >
-            <TableCell>{row.eventType}</TableCell>
-            <TableCell>{row.affectedDevices}</TableCell>
-            <TableCell>{row.detections}</TableCell>
+          <TableRow {...props}>
+            <TableCell width="240px">{row.eventType}</TableCell>
+            <TableCell width="140px" textAlign="right">{row.affectedDevices}</TableCell>
+            <TableCell width="136px" textAlign="right">{row.detections}</TableCell>
           </TableRow>
         </Box>
       </Box>
@@ -1066,22 +1398,44 @@ function ReactDNDExample() {
       ],
     }));
   }, [items]);
+  const { colorMode } = useColorMode();
+  const tableProps = {
+    'dark': {
+      backgroundColor: 'gray:80',
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+    }
+  }[colorMode];
+  const rowProps = {
+    'dark': {
+      backgroundColor: 'gray:100',
+    },
+    'light': {
+      backgroundColor: 'white',
+    },
+  }[colorMode];
+
   return (
-    <Table>
+    <Table
+     {...tableProps}
+    >
       <TableHeader>
-        <TableHeaderRow>
-          <TableHeaderCell>Event Type</TableHeaderCell>
-          <TableHeaderCell>Affected Devices</TableHeaderCell>
-          <TableHeaderCell>Detections</TableHeaderCell>
+        <TableHeaderRow
+           {...rowProps}
+        >
+          <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+          <TableHeaderCell width="140px" textAlign="right">Affected Devices</TableHeaderCell>
+          <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
         </TableHeaderRow>
       </TableHeader>
       <TableBody>
         {
           items.map((item, i) => (
-            <TR key={item.id} index={i} id={item.id} row={item} moveTr={moveTr}/>
+            <TR {...rowProps} key={item.id} index={i} id={item.id} row={item} moveTr={moveTr}/>
           ))
         }
-        <CustomDragLayer />
+        <CustomDragLayer {...rowProps} />
       </TableBody>
     </Table>
   );
@@ -1102,30 +1456,28 @@ In this example, we use [`react-beautiful-dnd`](https://github.com/atlassian/rea
 
 
 ```jsx noInline
-const getItemStyle = ({ isDragging, isDropAnimating }, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-
-  // change background colour if dragging
-  background: isDragging ? "#8a8a8a" : "inherit",
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
-
-function BaseTable() {
+function ReorderColumnTable() {
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
       accessor: 'eventType',
+      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      width: 144,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      width: 136,
+      customedProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -1137,6 +1489,33 @@ function BaseTable() {
     { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
     { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
   ], []);
+
+  const { colorMode } = useColorMode();
+  const { colors } = useTheme();
+  const columnPlaceholderProps = {
+    'dark': {
+      backgroundColor: 'gray:90',
+      color: 'gray:50',
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+      color: 'gray:30',
+    }
+  }[colorMode];
+  const columnDraggerProps = {
+    'dark': {
+      backgroundColor: 'gray:80',
+      color: 'gray:30',
+      boxShadow: 'dark.md',
+      border: `1px solid ${colors['gray:60']}`,
+    },
+    'light': {
+      backgroundColor: 'gray:10',
+      color: 'gray:80',
+      boxShadow: 'light.md',
+      border: `1px solid ${colors['gray:20']}`,
+    }
+  }[colorMode];
 
   const {
     getTableProps,
@@ -1166,7 +1545,6 @@ function BaseTable() {
       return;
     }
   };
-
   const onDragUpdate = (dragUpdateObj, b) => {
     if(!dragUpdateObj.destination){
       return;
@@ -1181,8 +1559,7 @@ function BaseTable() {
     if (!draggedDOM) {
       return;
     }
-    const { clientHeight, clientWidth } = draggedDOM;
-
+    const { clientHeight, clientWidth, offsetWidth } = draggedDOM;
     const clientX = Array.from(draggedDOM.parentNode.children)
       .slice(0, destinationIndex)
       .reduce((total, curr) => {
@@ -1191,9 +1568,10 @@ function BaseTable() {
 
     setPlaceholderProps({
       clientHeight,
-      clientWidth,
-      clientY: 0,
-      clientX: clientX
+      clientWidth: offsetWidth,
+      clientY: 2,
+      clientX: clientX,
+      content: draggedDOM.innerHTML,
     });
 
     const colOrder = [...currentColOrder.current];
@@ -1205,6 +1583,9 @@ function BaseTable() {
       setColumnOrder(colOrder);
     }
   };
+  const onDragStart = () => {
+    currentColOrder.current = allColumns.map(o => o.id);
+  };
 
   return (
     <Table {...getTableProps()}>
@@ -1212,13 +1593,11 @@ function BaseTable() {
         {headerGroups.map((headerGroup, index) => (
           <ReactBeautifulDND.DragDropContext
             key={index}
-            onDragStart={() => {
-              currentColOrder.current = allColumns.map(o => o.id);
-            }}
+            onDragStart={onDragStart}
             onDragUpdate={onDragUpdate}
             onDragEnd={onDragEnd}
           >
-            <ReactBeautifulDND.Droppable droppableId="droppable" direction="horizontal">
+            <ReactBeautifulDND.Droppable droppableId="droppable-table-header" direction="horizontal">
               {(droppableProvided, droppableSnapshot) => {
                 return (
                   <TableHeaderRow
@@ -1234,18 +1613,21 @@ function BaseTable() {
                         isDragDisabled={!column.accessor}
                       >
                         {(provided, snapshot) => {
+                          const { style: headerStyle, ...columnHeaderProps } = column.getHeaderProps();
+                          const columnHeaderStyle = {
+                            ...headerStyle,
+                            ...provided.draggableProps.style,
+                          };
                           return (
                             <TableHeaderCell
-                              ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              {...column.getHeaderProps()}
-                              style={{
-                                ...getItemStyle(
-                                  snapshot,
-                                  provided.draggableProps.style
-                                )
-                              }}
+                              {...columnHeaderProps}
+                              {...column.customedProps}
+                              {...snapshot.isDragging && columnDraggerProps}
+                              ref={provided.innerRef}
+                              userSelect="none"
+                              style={columnHeaderStyle}
                             >
                               {column.render("Header")}
                             </TableHeaderCell>
@@ -1254,14 +1636,17 @@ function BaseTable() {
                       </ReactBeautifulDND.Draggable>
                     ))}
                     {droppableProvided.placeholder}
-                    <Box
+                    <TableHeaderCell
                       position="absolute"
                       top={placeholderProps.clientY}
                       left={placeholderProps.clientX}
                       height={placeholderProps.clientHeight}
-                      bg="gray:60"
                       width={placeholderProps.clientWidth}
-                    />
+                      display={!!placeholderProps.clientWidth ? 'block' : 'none' }
+                      {...columnPlaceholderProps}
+                    >
+                      { placeholderProps.content }
+                    </TableHeaderCell>
                   </TableHeaderRow>
                 );
               }}
@@ -1276,7 +1661,14 @@ function BaseTable() {
             <TableRow {...row.getRowProps()}>
               {
                 row.cells.map(cell => {
-                  return (<TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>);
+                  return (
+                    <TableCell
+                      {...cell.getCellProps()}
+                      {...cell.column.customedProps}
+                    >
+                      {cell.render('Cell')}
+                    </TableCell>
+                  );
                 })
               }
             </TableRow>
@@ -1292,7 +1684,7 @@ function BaseTable() {
 // which would result in client/server markup mismatches after multiple requests are rendered on the server.
 ReactBeautifulDND.resetServerContext();
 
-render(<BaseTable />);
+render(<ReorderColumnTable />);
 ```
 
 
@@ -1304,7 +1696,6 @@ render(<BaseTable />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isHoverable | boolean | | Enable a hover state on TableRows. |
 | size | string | 'md' | The size of TableCells. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'default' | The variant of the table style to use. One of: `'default'`, `'outline'` |
 
@@ -1318,7 +1709,7 @@ render(<BaseTable />);
 
 ### TableHeaderCell
 
-`TableHeaderCell` composes the [`Box`](./box) component.
+`TableHeaderCell` composes the [`PseudoBox`](./pseudoBox) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -1334,7 +1725,7 @@ render(<BaseTable />);
 
 ###  TableCell
 
-`TableCell` composes the [`Box`](./box) component.
+`TableCell` composes the [`PseudoBox`](./pseudoBox) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

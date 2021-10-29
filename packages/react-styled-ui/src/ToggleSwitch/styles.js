@@ -146,7 +146,6 @@ const switchThumbProps = ({
   };
 };
 
-
 const useToggleSwitchStyle = props => {
   const [colorMode] = useColorMode();
   const size = switchSizes[props.size] ?? switchSizes[defaultSize];
