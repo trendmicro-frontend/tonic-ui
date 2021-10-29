@@ -6,7 +6,7 @@ import {
 import React from 'react';
 
 const SkeletonBlock = (props) => (
-  <Flex>
+  <Flex {...props}>
     <Flex flex="none" mr="4x" align="center">
       <Skeleton variant="circle" width="10x" height="10x" />
     </Flex>
