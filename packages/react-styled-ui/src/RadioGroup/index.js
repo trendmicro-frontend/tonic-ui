@@ -1,5 +1,6 @@
 import memoize from 'micro-memoize';
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import { RadioGroupProvider } from './context';
 
@@ -15,27 +16,40 @@ const RadioGroup = ({
   variantColor,
   onChange,
 }) => {
-  const { current: isControlled } = useRef(valueProp != null);
-  const [value, setValue] = useState(defaultValue || null);
-  const _value = isControlled ? valueProp : value;
-  const _onChange = event => {
-    if (!isControlled) {
-      setValue(event.target.value);
+  const defaultId = useId();
+  name = name ?? `${config.name}:radio-${defaultId}`;
+
+  const [state, setState] = useState({
+    value: valueProp ?? defaultValue,
+  });
+
+  useEffect(() => {
+    if (valueProp !== undefined) {
+      setState({ value: valueProp });
     }
-    if (onChange) {
-      onChange(event, event.target.value);
+  }, [valueProp]);
+
+  const handleChange = event => {
+    const nextValue = event.target.value;
+
+    if (valueProp !== undefined) {
+      setState({ value: valueProp });
+    } else {
+      setState({ value: nextValue });
+    }
+
+    if (typeof onChange === 'function') {
+      onChange(nextValue, event);
     }
   };
-  // If no name is passed, we'll generate a random, unique name
-  const fallbackName = `radio-${useId()}`;
-  const _name = name || fallbackName;
+
   const radioGroupState = getMemoizedState({
-    disabled: disabled,
-    name: _name,
-    onChange: _onChange,
-    size: size,
-    value: _value,
-    variantColor: variantColor,
+    disabled,
+    name,
+    onChange: handleChange,
+    size,
+    value: state.value,
+    variantColor,
   });
 
   return (

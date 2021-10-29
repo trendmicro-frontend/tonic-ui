@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@1.1.3
+  browser-tools: circleci/browser-tools@1.2.1
 
 workflows:
   version: 2
@@ -30,7 +30,7 @@ workflows:
 jobs:
   build:
     docker:
-      - image: cimg/node:12.22-browsers
+      - image: cimg/node:14.17.6-browsers
     steps:
       - browser-tools/install-browser-tools
       - checkout
@@ -66,10 +66,10 @@ jobs:
             if [[ "${CI_BRANCH}" != "master" ]]; then
               CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}
               STYLED_UI_DEMO_REPO=styled-ui-demo
-              echo "PUBLIC_URL=/${STYLED_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/styled-ui-docs/.env.production
+              echo "ASSET_PREFIX=/${STYLED_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/styled-ui-docs/.env.production
             fi
             yarn build
-            yarn pre-push
+            yarn eslint
       - run:
           name: Compress build artifacts
           command: |

@@ -1,6 +1,6 @@
 # RadioGroup
 
-`RadioGroup` is used to group related radios.
+`RadioGroup` is used to group related radio buttons.
 
 ## Import
 
@@ -10,11 +10,26 @@ import { RadioGroup } from '@trendmicro/react-styled-ui';
 
 ### Usage
 
+#### Uncontrolled radio group
+
 ```jsx
-function RadioExample() {
-  const [value, setValue] = React.useState("2");
+<RadioGroup defaultValue="1">
+  <Stack spacing="1x" shouldWrapChildren>
+    <Radio value="1">First</Radio>
+    <Radio value="2">Second</Radio>
+    <Radio value="3">Third</Radio>
+  </Stack>
+</RadioGroup>
+```
+
+#### Controlled radio group
+
+```jsx
+function Example() {
+  const [value, setValue] = React.useState('1');
+
   return (
-    <RadioGroup onChange={e => setValue(e.target.value)} value={value}>
+    <RadioGroup value={value} onChange={value => setValue(value)}>
       <Stack spacing="1x" shouldWrapChildren>
         <Radio value="1">First</Radio>
         <Radio value="2">Second</Radio>
@@ -44,7 +59,7 @@ Make a set of radios appear horizontal stacked rather than vertically, by adding
 Use the `variantColor` prop to change the color scheme of the Radio. `variantColor` can be any color key with key `50`(hover), `60`(checked) that exist in the `theme.colors`.
 
 ```jsx
-<RadioGroup variantColor="green" defaultValue="2">
+<RadioGroup variantColor="green" defaultValue="1">
   <Stack direction="row" spacing="3x">
     <Radio value="1">Radio 1</Radio>
     <Radio value="2">Radio 2</Radio>
@@ -58,21 +73,21 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 
 ```jsx
 <Stack direction="column" spacing="4x" shouldWrapChildren>
-  <RadioGroup size="sm">
+  <RadioGroup size="sm" defaultValue="1">
     <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
-  <RadioGroup size="md">
+  <RadioGroup size="md" defaultValue="1">
     <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
-  <RadioGroup size="lg">
+  <RadioGroup size="lg" defaultValue="1">
     <Stack direction="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
@@ -83,14 +98,83 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 ```
 
 ### States
+
 ```jsx
-<RadioGroup defaultValue="1" disabled>
-  <Stack direction="row" spacing="3x">
-    <Radio value="1">Radio 1</Radio>
-    <Radio value="2">Radio 2</Radio>
-    <Radio value="3">Radio 3</Radio>
-  </Stack>
-</RadioGroup>
+<Stack direction="column" spacing="2x" shouldWrapChildren>
+  <RadioGroup defaultValue="1">
+    <Stack direction="row" spacing="3x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
+  </RadioGroup>
+  <RadioGroup disabled defaultValue="1">
+    <Stack direction="row" spacing="3x">
+      <Radio value="1">Radio 1</Radio>
+      <Radio value="2">Radio 2</Radio>
+      <Radio value="3">Radio 3</Radio>
+    </Stack>
+  </RadioGroup>
+</Stack>
+```
+
+### Asynchronous data loading
+
+```jsx
+function Example() {
+  const [state, setState] = React.useState({
+    state: 'idle',
+    value: 0,
+  });
+  const timerRef = React.useRef(null);
+  const fetchData = React.useCallback(() => {
+    setState(prevState => ({ ...prevState, state: 'loading' }));
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    timerRef.current = setTimeout(() => {
+      setState({
+        state: 'success',
+        fruits: ['apple'],
+      });
+
+      timerRef.current = null;
+    }, 2000);
+  }, []);
+
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return (
+    <>
+      <Box mb="4x">
+        <LinkButton onClick={() => fetchData()}>
+          <Flex align="center">
+            <Icon icon="redo" spin={true} animationPlayState={state.state === 'loading' ? 'running' : 'paused'} />
+            <Space width="2x" />
+            Reload
+          </Flex>
+        </LinkButton>
+      </Box>
+      <RadioGroup
+        value={state.value}
+        disabled={state.state === 'loading'}
+        onChange={value => {
+          setState(prevState => ({ ...prevState, value }));
+        }}
+      >
+        <Stack spacing="1x" shouldWrapChildren>
+          <Radio value={1}>First</Radio>
+          <Radio value={2}>Second</Radio>
+          <Radio value={3}>Third</Radio>
+        </Stack>
+      </RadioGroup>
+    </>
+  );
+}
 ```
 
 ## Props
@@ -104,4 +188,4 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 | size | string | 'md' | The size (width and height) of the radio. One of: `'sm'`, `'md'`, `'lg'` |
 | defaultValue | string \| number | | The default `input` element value. Use when the component is not controlled. |
 | children | ReactNode | | The children of the radio. |
-| onChange | function` | | A callback called when the state of the radio changes. |
+| onChange | function | | A callback called when the state of the radio changes. |

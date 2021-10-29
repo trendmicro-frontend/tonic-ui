@@ -53,6 +53,7 @@ const Checkbox = forwardRef(
     if (checkboxGroupContext) {
       const {
         disabled: checkboxGroupDisabled,
+        name: checkboxGroupName,
         size: checkboxGroupSize,
         value: checkboxGroupValue,
         variantColor: checkboxGroupVariantColor,
@@ -62,6 +63,7 @@ const Checkbox = forwardRef(
         checked = ensureArray(checkboxGroupValue).includes(value);
       }
       disabled = checkboxGroupDisabled || disabled;
+      name = checkboxGroupName ?? name;
       onChange = chainedFunction(
         onChange,
         checkboxGroupOnChange,

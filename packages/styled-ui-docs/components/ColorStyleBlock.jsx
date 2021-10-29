@@ -14,7 +14,7 @@ const baseHeight = 120;
 const ColorStyleBlock = ({
   colorLabel,
   colorType,
-  colorKey,
+  colorKey, // eslint-disable-line no-unused-vars
   colorTokens,
   colorValues,
   ...props
@@ -59,7 +59,7 @@ const ColorStyleBlock = ({
   })();
 
   return (
-    <Box>
+    <Box {...props}>
       <Box
         maxWidth={baseWidth}
         height={baseHeight}

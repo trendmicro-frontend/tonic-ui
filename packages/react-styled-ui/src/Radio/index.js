@@ -52,13 +52,13 @@ const Radio = forwardRef(
         checked = (radioGroupValue === value);
       }
       disabled = radioGroupDisabled || disabled;
+      name = radioGroupName ?? name;
       onChange = chainedFunction(
         onChange,
         radioGroupOnChange,
       );
       // - Use the inherited value from the radio group
       // - Fallback to the default value if the value is null or undefined
-      name = radioGroupName ?? name;
       size = (radioGroupSize ?? size) ?? defaultSize;
       variantColor = radioGroupVariantColor ?? variantColor;
     } else {

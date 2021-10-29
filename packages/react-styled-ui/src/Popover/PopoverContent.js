@@ -1,7 +1,8 @@
 import React from 'react';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
-import Popper, { PopperArrow } from '../Popper';
+import Popper from '../Popper/Popper';
+import PopperArrow from '../Popper/PopperArrow';
 import { usePopoverContentStyle } from './styles';
 
 const PopoverContent = ({
