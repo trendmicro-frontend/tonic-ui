@@ -290,10 +290,10 @@ const closeButtonSizes = {
   lg: '8x',
 };
 
-const sizeProps = ({ size, isCloseButtonVisible, theme: { sizes } }) => {
+const sizeProps = ({ size, isClosable, theme: { sizes } }) => {
   const space = sizes['1x'];
   const closeButtonSize = sizes[closeButtonSizes[size]];
-  const pr = isCloseButtonVisible
+  const pr = isClosable
     ? `calc(${space} + ${closeButtonSize})`
     : '2x';
   return {

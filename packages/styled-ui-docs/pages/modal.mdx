@@ -184,7 +184,7 @@ function Example() {
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
-  const [isCloseButtonVisible, toggleIsCloseButtonVisible] = useToggle(true);
+  const [isClosable, toggleIsClosable] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
@@ -245,7 +245,7 @@ function Example() {
         <TextLabel display="flex" alignItems="center">
           <Checkbox
             checked={closeOnEsc}
-            disabled={!isCloseButtonVisible && !closeOnOutsideClick}
+            disabled={!isClosable && !closeOnOutsideClick}
             onChange={toggleCloseOnEsc}
           />
           <Space width="2x" />
@@ -256,7 +256,7 @@ function Example() {
         <TextLabel display="flex" alignItems="center">
           <Checkbox
             checked={closeOnOutsideClick}
-            disabled={!isCloseButtonVisible && !closeOnEsc}
+            disabled={!isClosable && !closeOnEsc}
             onChange={toggleCloseOnOutsideClick}
           />
           <Space width="2x" />
@@ -266,12 +266,12 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
-            checked={isCloseButtonVisible}
+            checked={isClosable}
             disabled={!closeOnEsc && !closeOnOutsideClick}
-            onChange={toggleIsCloseButtonVisible}
+            onChange={toggleIsClosable}
           />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">isCloseButtonVisible</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
@@ -312,7 +312,7 @@ function Example() {
             autoFocus={autoFocus}
             closeOnEsc={closeOnEsc}
             closeOnOutsideClick={closeOnOutsideClick}
-            isCloseButtonVisible={isCloseButtonVisible}
+            isClosable={isClosable}
             isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
             size={size}
@@ -396,7 +396,7 @@ function Example() {
         autoFocus
         closeOnEsc
         closeOnOutsideClick
-        isCloseButtonVisible
+        isClosable
         isOpen={isOpen}
         onClose={onClose}
         size={size}
@@ -434,7 +434,7 @@ function Example() {
       <Modal
         closeOnEsc
         closeOnOutsideClick
-        isCloseButtonVisible
+        isClosable
         isOpen={isOpen}
         onClose={onClose}
         size="auto"
@@ -466,7 +466,7 @@ function Example() {
       <Modal
         closeOnEsc
         closeOnOutsideClick
-        isCloseButtonVisible
+        isClosable
         isOpen={isNestedOpen}
         onClose={onNestedClose}
       >
@@ -522,7 +522,7 @@ function Example() {
             autoFocus
             closeOnEsc
             closeOnOutsideClick
-            isCloseButtonVisible
+            isClosable
             isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
           >
@@ -570,7 +570,7 @@ function Example() {
             autoFocus
             closeOnEsc
             closeOnOutsideClick
-            isCloseButtonVisible
+            isClosable
             isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
           >
@@ -608,7 +608,7 @@ function Example() {
 | autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
 | finalFocusRef | React.ref | | The `ref` of element to receive focus when the modal closes. |
 | initialFocusRef | React.ref | | The `ref` of the element to receive focus when the modal opens. |
-| isCloseButtonVisible | boolean | false | If `true`, a close button will appear on the right side. |
+| isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | isOpen | boolean | false | If `true`, the modal is shown. |
 | closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |

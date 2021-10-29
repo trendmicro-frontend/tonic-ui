@@ -19,7 +19,8 @@ const Tag = forwardRef(
       variant = 'solid',
       variantColor = 'gray',
       isInvalid,
-      isCloseButtonVisible,
+      isClosable: _isClosable = false,
+      isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
       disabled,
       children,
       onClose,
@@ -27,12 +28,14 @@ const Tag = forwardRef(
     },
     ref,
   ) => {
+    const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+    const canFocus = isClosable;
     const tagStyleProps = useTagStyle({
       color: variantColor,
       size,
       variant,
-      canFocus: isCloseButtonVisible,
-      isCloseButtonVisible,
+      canFocus,
+      isClosable,
       borderRadius,
     });
 
@@ -48,7 +51,7 @@ const Tag = forwardRef(
         {...rest}
       >
         { children }
-        {!!isCloseButtonVisible && (
+        {!!isClosable && (
           <TagCloseButton
             borderRadius={borderRadius}
             size={size}
