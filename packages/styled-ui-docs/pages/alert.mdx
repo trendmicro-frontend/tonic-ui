@@ -37,31 +37,35 @@ The `outline` variant inverts the style of an alert, inheriting the currently ap
 The `severity` prop provides 4 different alert styles: `success`, `info`, `warning`, and `error`. Each of these styles provides a default icon and color.
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Alert variant="solid" severity="success">
-    <Text>This is a success alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="info">
-    <Text>This is an info alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="warning">
-    <Text>This is a warning alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="error">
-    <Text>This is an error alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="success">
-    <Text>This is a success alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="info">
-    <Text>This is an info alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="warning">
-    <Text>This is a warning alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="error">
-    <Text>This is an error alert.</Text>
-  </Alert>
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="success">
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="info">
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="warning">
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="error">
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="success">
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="info">
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="warning">
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="error">
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
 </Stack>
 ```
 
@@ -70,31 +74,35 @@ The `severity` prop provides 4 different alert styles: `success`, `info`, `warni
 Set `isCloseButtonVisible` to `true` to include a close button on the right-hand side of an alert.
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Alert variant="solid" severity="success" isCloseButtonVisible>
-    <Text>This is a success alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="info" isCloseButtonVisible>
-    <Text>This is an info alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="warning" isCloseButtonVisible>
-    <Text>This is a warning alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="error" isCloseButtonVisible>
-    <Text>This is an error alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="success" isCloseButtonVisible>
-    <Text>This is a success alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="info" isCloseButtonVisible>
-    <Text>This is an info alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="warning" isCloseButtonVisible>
-    <Text>This is a warning alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="error" isCloseButtonVisible>
-    <Text>This is an error alert.</Text>
-  </Alert>
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="success" isCloseButtonVisible>
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="info" isCloseButtonVisible>
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="warning" isCloseButtonVisible>
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="error" isCloseButtonVisible>
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="success" isCloseButtonVisible>
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="info" isCloseButtonVisible>
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="warning" isCloseButtonVisible>
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="error" isCloseButtonVisible>
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
 </Stack>
 ```
 
@@ -105,52 +113,71 @@ The `icon` prop allows you to override the default icon for the specified severi
 Setting the `icon` prop to `false` will remove the icon altogether.
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Alert variant="solid" severity="success" isCloseButtonVisible>
-    This is a success alert.
-  </Alert>
-  <Alert variant="solid" severity="success" icon="success" isCloseButtonVisible>
-    This is a success alert.
-  </Alert>
-  <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" color="gray:80" />} isCloseButtonVisible>
-    This is a success alert.
-  </Alert>
-  <Alert variant="solid" severity="success" icon={false} isCloseButtonVisible>
-    This is a success alert.
-  </Alert>
-  <Alert variant="outline" severity="success" isCloseButtonVisible>
-    This is a success alert.
-  </Alert>
-  <Alert variant="outline" severity="success" icon="success" isCloseButtonVisible>
-    This is a success alert.
-  </Alert>
-  <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" color="gray:50" />} isCloseButtonVisible>
-    This is a success alert.
-  </Alert>
-  <Alert variant="outline" severity="success" icon={false} isCloseButtonVisible>
-    This is a success alert.
-  </Alert>
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="success" isCloseButtonVisible>
+      This is a success alert.
+    </Alert>
+    <Alert variant="solid" severity="success" icon="success" isCloseButtonVisible>
+      This is a success alert.
+    </Alert>
+    <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" color="gray:80" />} isCloseButtonVisible>
+      This is a success alert.
+    </Alert>
+    <Alert variant="solid" severity="success" icon={false} isCloseButtonVisible>
+      This is a success alert.
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="success" isCloseButtonVisible>
+      This is a success alert.
+    </Alert>
+    <Alert variant="outline" severity="success" icon="success" isCloseButtonVisible>
+      This is a success alert.
+    </Alert>
+    <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" color="gray:50" />} isCloseButtonVisible>
+      This is a success alert.
+    </Alert>
+    <Alert variant="outline" severity="success" icon={false} isCloseButtonVisible>
+      This is a success alert.
+    </Alert>
+  </Stack>
 </Stack>
 ```
 
-### Multiline text
+### Action buttons
 
-```jsx noInline
-const Paragraph = (props) => (
-  <PseudoBox mb="1x" _lastChild={{ mb: 0 }} {...props} />
-);
+An alert can have an action button (such close). It is rendered after the message, at the end of the alert.
 
-function Example() {
-  return (
-    <Alert isCloseButtonVisible severity="info">
-      <Paragraph>This is the first paragraph.</Paragraph>
-      <Paragraph>This is the second paragraph.</Paragraph>
-      <Paragraph>This is the third paragraph.</Paragraph>
+```jsx
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="warning" isCloseButtonVisible>
+      <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
     </Alert>
-  );
-}
-
-render(<Example />);
+    <Alert variant="solid" severity="error" isCloseButtonVisible>
+      <Flex justify="space-between" mt={-1} mb={-2}>
+        <Text>Your license will expire in 7 days.</Text>
+        <FlatButton size="sm" variant="outline" variantColor="black:primary">
+          Action Button
+        </FlatButton>
+      </Flex>
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="warning" isCloseButtonVisible>
+      <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
+    </Alert>
+    <Alert variant="outline" severity="error" isCloseButtonVisible>
+      <Flex justify="space-between" mt={-1} mb={-2}>
+        <Text>Your license will expire in 7 days.</Text>
+        <Button size="sm" variant="secondary">
+          Action Button
+        </Button>
+      </Flex>
+    </Alert>
+  </Stack>
+</Stack>
 ```
 
 ### Formatted title
@@ -158,7 +185,7 @@ render(<Example />);
 You can use the `Text` component with `fontWeight` to display a formatted title above the content.
 
 ```jsx
-<Stack direction="column" spacing="4x">
+<Stack direction="column" spacing="2x">
   <Alert isCloseButtonVisible severity="success">
     <Box mb="1x">
       <Text fontWeight="bold">Success</Text>
@@ -194,27 +221,27 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
 </Stack>
 ```
 
-### Actions
+### Multiline text
 
-An alert can have an action button (such close). It is rendered after the message, at the end of the alert.
+```jsx noInline
+const Paragraph = (props) => (
+  <PseudoBox mb="1x" _lastChild={{ mb: 0 }} {...props} />
+);
 
-```jsx
-<Stack direction="column" spacing={1}>
-  <Alert isCloseButtonVisible severity="warning">
-    <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
-  </Alert>
-  <Alert isCloseButtonVisible severity="error">
-    <Flex justify="space-between" mt={-1} mb={-2}>
-      <Text>Your license will expire in 7 days.</Text>
-      <FlatButton size="sm" variant="outline" variantColor="black:primary">
-        Renew Now
-      </FlatButton>
-    </Flex>
-  </Alert>
-</Stack>
+function Example() {
+  return (
+    <Alert severity="warning" isCloseButtonVisible>
+      <Paragraph>This is the first paragraph.</Paragraph>
+      <Paragraph>This is the second paragraph.</Paragraph>
+      <Paragraph>This is the third paragraph.</Paragraph>
+    </Alert>
+  );
+}
+
+render(<Example />);
 ```
 
-### Transition
+### Transition effects
 
 You can use a transition component such as `Collapse` to give the appearance of a smooth transition.
 
