@@ -59,5 +59,4 @@ Week.defaultProps = {
   selectedDateStr: ''
 };
 
-
 export default Week;

@@ -76,7 +76,6 @@ const useIconColor = ({ showChangeYear }) => {
   };
 };
 
-
 export {
   useIconColor,
   useDaysStyle
