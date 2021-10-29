@@ -69,7 +69,7 @@ jobs:
               echo "ASSET_PREFIX=/${STYLED_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/styled-ui-docs/.env.production
             fi
             yarn build
-            yarn pre-push
+            yarn eslint
       - run:
           name: Compress build artifacts
           command: |
