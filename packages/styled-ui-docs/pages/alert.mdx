@@ -145,19 +145,24 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 </Stack>
 ```
 
-### Action buttons
+### Actions
 
-An alert can have an action button (such close). It is rendered after the message, at the end of the alert.
+An alert can have an action, such as a close or action button. It is rendered after the message, at the end of the alert.
+
+You can wrap components with a `Flex` and use `justify="space-between"` to evenly distribute items. The first item is at the start of the container while the last one is at the end.
 
 ```jsx
 <Stack direction="column" spacing="6x">
   <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="warning" isCloseButtonVisible>
-      <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
+    <Alert variant="solid" severity="warning">
+      <Flex justify="space-between">
+        <Text>This is a warning alert.</Text>
+        <LinkButton>Learn More</LinkButton>
+      </Flex>
     </Alert>
-    <Alert variant="solid" severity="error" isCloseButtonVisible>
+    <Alert variant="solid" severity="error">
       <Flex justify="space-between" mt={-1} mb={-2}>
-        <Text>Your license will expire in 7 days.</Text>
+        <Text>This is an error alert.</Text>
         <FlatButton size="sm" variant="outline" variantColor="black:primary">
           Action Button
         </FlatButton>
@@ -165,12 +170,15 @@ An alert can have an action button (such close). It is rendered after the messag
     </Alert>
   </Stack>
   <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="warning" isCloseButtonVisible>
-      <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
+    <Alert variant="outline" severity="warning">
+      <Flex justify="space-between">
+        <Text>This is a warning alert.</Text>
+        <LinkButton>Learn More</LinkButton>
+      </Flex>
     </Alert>
-    <Alert variant="outline" severity="error" isCloseButtonVisible>
+    <Alert variant="outline" severity="error">
       <Flex justify="space-between" mt={-1} mb={-2}>
-        <Text>Your license will expire in 7 days.</Text>
+        <Text>This is an error alert.</Text>
         <Button size="sm" variant="secondary">
           Action Button
         </Button>
