@@ -116,7 +116,7 @@ function Example() {
   const [backdrop, toggleBackdrop] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick, setCloseOnOutsideClick] = useToggle(true);
-  const [isCloseButtonVisible, toggleIsCloseButtonVisible] = useToggle(true);
+  const [isClosable, toggleIsClosable] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible, setIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
@@ -215,19 +215,19 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
-            checked={isCloseButtonVisible}
+            checked={isClosable}
             disabled={!closeOnEsc && !closeOnOutsideClick}
-            onChange={toggleIsCloseButtonVisible}
+            onChange={toggleIsClosable}
           />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">isCloseButtonVisible</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
             checked={closeOnEsc}
-            disabled={!isCloseButtonVisible && !closeOnOutsideClick}
+            disabled={!isClosable && !closeOnOutsideClick}
             onChange={toggleCloseOnEsc}
           />
           <Space width="2x" />
@@ -238,7 +238,7 @@ function Example() {
         <TextLabel display="flex" alignItems="center">
           <Checkbox
             checked={closeOnOutsideClick}
-            disabled={(!isCloseButtonVisible && !closeOnEsc) || !backdrop}
+            disabled={(!isClosable && !closeOnEsc) || !backdrop}
             onChange={toggleCloseOnOutsideClick}
           />
           <Space width="2x" />
@@ -288,7 +288,7 @@ function Example() {
             ensureFocus={ensureFocus}
             autoFocus={autoFocus}
             backdrop={backdrop}
-            isCloseButtonVisible={isCloseButtonVisible}
+            isClosable={isClosable}
             isOpen={true} // Set to `true` if a transition is active
             closeOnEsc={closeOnEsc}
             closeOnOutsideClick={closeOnOutsideClick}
@@ -375,7 +375,7 @@ function Example() {
         ensureFocus
         autoFocus
         backdrop
-        isCloseButtonVisible
+        isClosable
         isOpen={isOpen}
         closeOnEsc
         closeOnOutsideClick
@@ -429,7 +429,7 @@ function Example() {
         ensureFocus
         autoFocus
         backdrop
-        isCloseButtonVisible
+        isClosable
         isOpen={isOpen}
         closeOnEsc
         closeOnOutsideClick
@@ -485,7 +485,7 @@ function Example() {
         {styles => (
           <Drawer
             backdrop
-            isCloseButtonVisible
+            isClosable
             isOpen={true} // Set to `true` if a transition is active
             closeOnEsc
             closeOnOutsideClick
@@ -527,7 +527,7 @@ function Example() {
 | finalFocusRef | React.ref | | The `ref` of element to receive focus when the drawer closes. |
 | initialFocusRef | React.ref | | The `ref` of the element to receive focus when the drawer opens. |
 | isOpen | boolean | false | If `true`, the drawer is shown. |
-| isCloseButtonVisible | boolean | false | If `true`, a close button will appear on the right side. |
+| isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | closeOnEsc | boolean | false | If `true`, close the drawer when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the drawer when click outside of the drawer. Note that this value will not have any effect when `backdrop` is set to `true`. |
 | onClose | function | | Callback fired when the drawer closes. |

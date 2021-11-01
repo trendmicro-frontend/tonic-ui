@@ -44,7 +44,8 @@ const AlertCloseButton = (props) => (
 
 const Alert = forwardRef((
   {
-    isCloseButtonVisible,
+    isClosable: _isClosable = false,
+    isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
     onClose,
     severity = defaultSeverity,
     icon,
@@ -53,6 +54,7 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
+  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const rootStyleProps = useAlertRootStyle({ severity });
   const iconStyleProps = useAlertIconStyle({ severity });
   const messageStyleProps = useAlertMessageStyle();
@@ -84,7 +86,7 @@ const Alert = forwardRef((
       <AlertMessage {...messageStyleProps}>
         {children}
       </AlertMessage>
-      {!!isCloseButtonVisible && (
+      {!!isClosable && (
         <>
           <Space minWidth="4x" />
           <AlertCloseButton {...closeButtonStyleProps} onClick={onClose}>

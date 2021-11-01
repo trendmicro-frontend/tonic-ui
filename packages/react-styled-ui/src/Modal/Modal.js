@@ -13,7 +13,8 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const Modal = ({
   size = 'auto',
   isOpen = false,
-  isCloseButtonVisible = false,
+  isClosable: _isClosable = false,
+  isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
   closeOnEsc = false,
   closeOnOutsideClick = false,
   onClose,
@@ -24,12 +25,13 @@ const Modal = ({
   id,
   children,
 }) => {
+  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const defaultId = useId();
   const contentRef = useRef(null);
   const modalState = getMemoizedState({
     size,
     isOpen,
-    isCloseButtonVisible,
+    isClosable,
     closeOnEsc,
     closeOnOutsideClick,
     onClose,

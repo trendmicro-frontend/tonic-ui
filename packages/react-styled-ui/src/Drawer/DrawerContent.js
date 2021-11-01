@@ -52,7 +52,7 @@ const DrawerContentFront = forwardRef(({ children, ...props }, ref) => {
   const context = useDrawer(); // context might be an undefined value
   const {
     closeOnEsc,
-    isCloseButtonVisible,
+    isClosable,
     onClose,
     placement,
     size,
@@ -84,7 +84,7 @@ const DrawerContentFront = forwardRef(({ children, ...props }, ref) => {
       {...props}
     >
       {children}
-      {!!isCloseButtonVisible && (
+      {!!isClosable && (
         <DrawerCloseButton onClick={onClose} />
       )}
     </Box>

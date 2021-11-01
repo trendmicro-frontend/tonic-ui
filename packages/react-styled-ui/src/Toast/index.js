@@ -44,7 +44,8 @@ const ToastCloseButton = (props) => (
 
 const Toast = forwardRef((
   {
-    isCloseButtonVisible,
+    isClosable: _isClosable = false,
+    isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
     onClose,
     appearance = defaultAppearance,
     icon,
@@ -53,6 +54,7 @@ const Toast = forwardRef((
   },
   ref,
 ) => {
+  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const rootStyleProps = useToastRootStyle({ appearance });
   const iconStyleProps = useToastIconStyle({ appearance });
   const messageStyleProps = useToastMessageStyle();
@@ -84,7 +86,7 @@ const Toast = forwardRef((
       <ToastMessage {...messageStyleProps}>
         {children}
       </ToastMessage>
-      {!!isCloseButtonVisible && (
+      {!!isClosable && (
         <>
           <Space minWidth="4x" />
           <ToastCloseButton {...closeButtonStyleProps} onClick={onClose}>

@@ -52,7 +52,7 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
   const context = useModal(); // context might be an undefined value
   const {
     closeOnEsc,
-    isCloseButtonVisible,
+    isClosable,
     onClose,
     size,
 
@@ -83,7 +83,7 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
       {...props}
     >
       {children}
-      {!!isCloseButtonVisible && (
+      {!!isClosable && (
         <ModalCloseButton onClick={onClose} />
       )}
     </Box>
