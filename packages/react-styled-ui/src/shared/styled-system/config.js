@@ -16,6 +16,7 @@ const config = {
 
   // Containment
   contain: true,
+  containIntrinsicSize: true,
   contentVisibility: true,
 
   // Interactivity
