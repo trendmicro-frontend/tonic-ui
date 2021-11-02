@@ -62,7 +62,6 @@ const config = {
   textDecorationLine: true,
   textDecorationStyle: true,
   textDecorationThickness: true,
-  //textShadow: true, // styled-system
   textUnderlineOffset: true,
 
   // Transform
