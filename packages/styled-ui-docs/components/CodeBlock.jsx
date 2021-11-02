@@ -6,7 +6,6 @@ import { boolean } from 'boolean';
 import update from 'immutability-helper';
 import React, { useEffect, useCallback, useState, useRef } from 'react';
 import * as ReactBeautifulDND from 'react-beautiful-dnd';
-import { Scrollbars } from 'react-custom-scrollbars';
 import * as ReactDND from 'react-dnd';
 import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
@@ -21,7 +20,6 @@ import EditableTag from './EditableTag';
 const thirdPartyComponents = {
   AutoSizer,
   FontAwesomeIcon,
-  Scrollbars,
   ReactBeautifulDND,
   ReactDND,
   ReactDNDHtml5backend,

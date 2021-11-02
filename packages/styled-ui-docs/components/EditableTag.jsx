@@ -103,7 +103,7 @@ const EditableTag = React.forwardRef((
   return (
     <Tag
       ref={ref}
-      isCloseButtonVisible
+      isClosable
       isInvalid={isInvalid}
       mr="2x"
       mt={mt}

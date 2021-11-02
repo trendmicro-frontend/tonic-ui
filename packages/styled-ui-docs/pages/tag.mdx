@@ -106,161 +106,19 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 ```jsx
 <Stack spacing="4x">
   <Stack direction="row" spacing="4x" shouldWrapChildren>
-    <Tag isCloseButtonVisible>Normal</Tag>
-    <Tag isCloseButtonVisible disabled>Disabled</Tag>
-    <Tag isCloseButtonVisible isInvalid>Invalid</Tag>
+    <Tag isClosable>Normal</Tag>
+    <Tag isClosable disabled>Disabled</Tag>
+    <Tag isClosable isInvalid>Invalid</Tag>
   </Stack>
   <Stack direction="row" spacing="4x" shouldWrapChildren>
-    <Tag variant="outline" isCloseButtonVisible>Normal</Tag>
-    <Tag variant="outline" isCloseButtonVisible disabled>Disabled</Tag>
-    <Tag variant="outline" isCloseButtonVisible isInvalid>Invalid</Tag>
+    <Tag variant="outline" isClosable>Normal</Tag>
+    <Tag variant="outline" isClosable disabled>Disabled</Tag>
+    <Tag variant="outline" isClosable isInvalid>Invalid</Tag>
   </Stack>
 </Stack>
 ```
 
-### Editable tag
-
-```jsx noInline
-const noop = () => {};
-const EditableTag = React.forwardRef((
-  {
-    children,
-    isInvalid,
-    onChange = noop,
-    onClick = noop,
-    ...rest
-  },
-  ref,
-) => {
-  const [colorMode] = useColorMode();
-  const tagInputRef = React.useRef();
-  const tagHiddenSpanRef = React.useRef();
-  const { sizes } = useTheme();
-  const mt = `calc(${sizes['1x']} - 1px)`;
-  const [inputVisible, setInputVisible] = React.useState(false);
-  const handleInputVisible = () => setInputVisible(true);
-  const handleInputHidden = () => setInputVisible(false);
-  const handleInputBlur = (e) => {
-    onChange(e);
-    handleInputHidden();
-  };
-  const handleInputKeyUp = (e) => {
-    const keyCode = e.keyCode;
-    if (keyCode === 13) {
-      // Enter
-      onChange(e);
-      handleInputHidden();
-    }
-    if (keyCode === 27) {
-      // Esc
-      handleInputHidden();
-    }
-  };
-  const handleTagClick = (e) => {
-    e.stopPropagation();
-    onClick(e);
-    handleInputVisible();
-  };
-  const handleTagKeyUp = (e) => {
-    const keyCode = e.keyCode;
-    if (keyCode === 13) {
-      handleInputVisible();
-    }
-  };
-  const resizeInput = () => {
-    if (!tagInputRef.current) {
-      return;
-    }
-    const tagInput = tagInputRef.current;
-    const tagHiddenSpan = tagHiddenSpanRef.current;
-    tagHiddenSpan.textContent = tagInput.value;
-    tagInput.style.width = `${tagHiddenSpan.offsetWidth}px`;
-    tagInput.focus();
-  };
-
-  React.useEffect(() => {
-    resizeInput();
-  }, [inputVisible]);
-
-  const hoverInvalidBgColor = {
-    dark: 'red:50',
-    light: 'red:50',
-  }[colorMode];
-
-  if (inputVisible) {
-    return (
-      <>
-        <Box
-          as="span"
-          ref={tagHiddenSpanRef}
-          position="absolute"
-          height="0"
-          overflow="hidden"
-          whiteSpace="pre"
-        />
-        <InputBase
-          ref={tagInputRef}
-          minHeight="6x"
-          maxWidth="100%"
-          mr="2x"
-          mt={mt}
-          defaultValue={children}
-          onKeyUp={handleInputKeyUp}
-          onBlur={handleInputBlur}
-          onInput={resizeInput}
-        />
-      </>
-    );
-  }
-  return (
-    <Tag
-      ref={ref}
-      isCloseButtonVisible
-      isInvalid={isInvalid}
-      mr="2x"
-      mt={mt}
-      verticalAlign="top"
-      onClick={handleTagClick}
-      onKeyUp={handleTagKeyUp}
-      cursor="pointer"
-      {...isInvalid && {
-        _hover: {
-          '&:not(:focus)': {
-            bg: hoverInvalidBgColor,
-            '&::before': {
-              bg: hoverInvalidBgColor,
-            },
-          },
-        }
-      }}
-      {...rest}
-    >
-      <Text
-        title={children}
-        maxWidth={120}
-        overflow="hidden"
-        textOverflow="ellipsis"
-        whiteSpace="nowrap"
-      >
-        {children}
-      </Text>
-    </Tag>
-  );
-});
-
-render(
-  <EditableTag
-    onChange={() => console.log('Change the tag content.')}
-    onClick={() => console.log('Click the tag.')}
-    onClose={() => console.log('Close the tag.')}
-  >
-    Sample Tag
-  </EditableTag>
-);
-
-```
-
-### New tag
+### Add and edit tag
 
 ```jsx noInline
 function Tags() {
@@ -625,7 +483,7 @@ render(<Tags />);
 | :--- | :--- | :------ | :---------- |
 | disabled | boolean | | If `true`, the tag will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | isInvalid | boolean | | If `true`, the tag will indicate an error. You can style this state by passing the `_invalid` prop. |
-| isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
 | size | string | 'md' | The size of the tag component. One of: `'sm'`, `'md'`, `'lg'` |
 | variant | string | 'solid' | The variant style of the tag component. One of: `'solid'`, `'outline'` |

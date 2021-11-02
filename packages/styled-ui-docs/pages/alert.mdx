@@ -71,35 +71,35 @@ The `severity` prop provides 4 different alert styles: `success`, `info`, `warni
 
 ### With close button
 
-Set `isCloseButtonVisible` to `true` to include a close button on the right-hand side of an alert.
+Set `isClosable` to `true` to include a close button on the right-hand side of an alert.
 
 ```jsx
 <Stack direction="column" spacing="6x">
   <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="success" isCloseButtonVisible>
+    <Alert variant="solid" severity="success" isClosable>
       <Text>This is a success alert.</Text>
     </Alert>
-    <Alert variant="solid" severity="info" isCloseButtonVisible>
+    <Alert variant="solid" severity="info" isClosable>
       <Text>This is an info alert.</Text>
     </Alert>
-    <Alert variant="solid" severity="warning" isCloseButtonVisible>
+    <Alert variant="solid" severity="warning" isClosable>
       <Text>This is a warning alert.</Text>
     </Alert>
-    <Alert variant="solid" severity="error" isCloseButtonVisible>
+    <Alert variant="solid" severity="error" isClosable>
       <Text>This is an error alert.</Text>
     </Alert>
   </Stack>
   <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="success" isCloseButtonVisible>
+    <Alert variant="outline" severity="success" isClosable>
       <Text>This is a success alert.</Text>
     </Alert>
-    <Alert variant="outline" severity="info" isCloseButtonVisible>
+    <Alert variant="outline" severity="info" isClosable>
       <Text>This is an info alert.</Text>
     </Alert>
-    <Alert variant="outline" severity="warning" isCloseButtonVisible>
+    <Alert variant="outline" severity="warning" isClosable>
       <Text>This is a warning alert.</Text>
     </Alert>
-    <Alert variant="outline" severity="error" isCloseButtonVisible>
+    <Alert variant="outline" severity="error" isClosable>
       <Text>This is an error alert.</Text>
     </Alert>
   </Stack>
@@ -115,30 +115,30 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 ```jsx
 <Stack direction="column" spacing="6x">
   <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="success" isCloseButtonVisible>
+    <Alert variant="solid" severity="success" isClosable>
       This is a success alert.
     </Alert>
-    <Alert variant="solid" severity="success" icon="success" isCloseButtonVisible>
+    <Alert variant="solid" severity="success" icon="success" isClosable>
       This is a success alert.
     </Alert>
-    <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />} isCloseButtonVisible>
+    <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />} isClosable>
       This is a success alert.
     </Alert>
-    <Alert variant="solid" severity="success" icon={false} isCloseButtonVisible>
+    <Alert variant="solid" severity="success" icon={false} isClosable>
       This is a success alert.
     </Alert>
   </Stack>
   <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="success" isCloseButtonVisible>
+    <Alert variant="outline" severity="success" isClosable>
       This is a success alert.
     </Alert>
-    <Alert variant="outline" severity="success" icon="success" isCloseButtonVisible>
+    <Alert variant="outline" severity="success" icon="success" isClosable>
       This is a success alert.
     </Alert>
-    <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />} isCloseButtonVisible>
+    <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />} isClosable>
       This is a success alert.
     </Alert>
-    <Alert variant="outline" severity="success" icon={false} isCloseButtonVisible>
+    <Alert variant="outline" severity="success" icon={false} isClosable>
       This is a success alert.
     </Alert>
   </Stack>
@@ -194,7 +194,7 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
 
 ```jsx
 <Stack direction="column" spacing="2x">
-  <Alert isCloseButtonVisible severity="success">
+  <Alert isClosable severity="success">
     <Box mb="1x">
       <Text fontWeight="bold">Success</Text>
     </Box>
@@ -202,7 +202,7 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
       This is a success alert.
     </Text>
   </Alert>
-  <Alert isCloseButtonVisible severity="info">
+  <Alert isClosable severity="info">
     <Box mb="1x">
       <Text fontWeight="bold">Info</Text>
     </Box>
@@ -210,7 +210,7 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
       This is an info alert.
     </Text>
   </Alert>
-  <Alert isCloseButtonVisible severity="warning">
+  <Alert isClosable severity="warning">
     <Box mb="1x">
       <Text fontWeight="bold">Warning</Text>
     </Box>
@@ -218,7 +218,7 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
       This is a warning alert.
     </Text>
   </Alert>
-  <Alert isCloseButtonVisible severity="error">
+  <Alert isClosable severity="error">
     <Box mb="1x">
       <Text fontWeight="bold">Error</Text>
     </Box>
@@ -238,7 +238,7 @@ const Paragraph = (props) => (
 
 function Example() {
   return (
-    <Alert severity="warning" isCloseButtonVisible>
+    <Alert severity="warning" isClosable>
       <Paragraph>This is the first paragraph.</Paragraph>
       <Paragraph>This is the second paragraph.</Paragraph>
       <Paragraph>This is the third paragraph.</Paragraph>
@@ -262,7 +262,7 @@ function Example() {
   return (
     <>
       <Collapse isOpen={isOpen}>
-        <Alert isCloseButtonVisible severity="info" onClose={handleClose}>
+        <Alert isClosable severity="info" onClose={handleClose}>
           Click the close button on the right side.
         </Alert>
       </Collapse>
@@ -278,11 +278,9 @@ function Example() {
 
 ## Props
 
-`Alert` composes the [`Flex`](./flex) component.
-
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
 | variant | string | 'solid' | The variant to use. One of: `'solid'`, `'outline'` |
 | severity | string | 'success' | The severity level to use. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
