@@ -51,13 +51,13 @@ function Example() {
 
 ```jsx noInline
 const ToastSimple = ({ onClose }) => (
-  <Toast isCloseButtonVisible onClose={onClose}>
+  <Toast isClosable onClose={onClose}>
     <Text>This is a toast notification.</Text>
   </Toast>
 );
 
 const ToastWithIcon = ({ onClose }) => (
-  <Toast isCloseButtonVisible onClose={onClose} py="4x">
+  <Toast isClosable onClose={onClose} py="4x">
     <Flex align="flex-start">
       <Box
         bg="gray:40"
@@ -71,7 +71,7 @@ const ToastWithIcon = ({ onClose }) => (
 );
 
 const ToastWithTitle = ({ onClose }) => (
-  <Toast isCloseButtonVisible onClose={onClose} py="4x">
+  <Toast isClosable onClose={onClose} py="4x">
     <Box mb="2x">
       <Text fontWeight="bold">Notification Title</Text>
     </Box>
@@ -82,7 +82,7 @@ const ToastWithTitle = ({ onClose }) => (
 );
 
 const ToastWithActionButton = ({ onClose }) => (
-  <Toast isCloseButtonVisible onClose={onClose} py="4x">
+  <Toast isClosable onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -95,7 +95,7 @@ const ToastWithActionButton = ({ onClose }) => (
 );
 
 const ToastWithActionLink = ({ onClose }) => (
-  <Toast isCloseButtonVisible onClose={onClose} py="4x">
+  <Toast isClosable onClose={onClose} py="4x">
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
@@ -106,7 +106,7 @@ const ToastWithActionLink = ({ onClose }) => (
 );
 
 const ToastWithAllTogether = ({ onClose }) => (
-  <Toast isCloseButtonVisible onClose={onClose} py="4x">
+  <Toast isClosable onClose={onClose} py="4x">
     <Box mb="2x">
       <Text fontWeight="bold">Notification Title</Text>
     </Box>
@@ -252,7 +252,7 @@ You can control the appearance of a toast notification. If specified, the value 
 ```jsx noInline
 const ToastSuccess = ({ onClose }) => (
   <Toast
-    isCloseButtonVisible
+    isClosable
     onClose={onClose}
     appearance="success"
   >
@@ -262,7 +262,7 @@ const ToastSuccess = ({ onClose }) => (
 
 const ToastInfo = ({ onClose }) => (
   <Toast
-    isCloseButtonVisible
+    isClosable
     onClose={onClose}
     appearance="info"
   >
@@ -272,7 +272,7 @@ const ToastInfo = ({ onClose }) => (
 
 const ToastWarning = ({ onClose }) => (
   <Toast
-    isCloseButtonVisible
+    isClosable
     onClose={onClose}
     appearance="warning"
   >
@@ -282,7 +282,7 @@ const ToastWarning = ({ onClose }) => (
 
 const ToastError = ({ onClose }) => (
   <Toast
-    isCloseButtonVisible
+    isClosable
     onClose={onClose}
     appearance="error"
   >
@@ -365,7 +365,7 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 ```jsx noInline
 const ToastWithDefaultIcon = ({ onClose }) => (
   <Toast
-    isCloseButtonVisible
+    isClosable
     onClose={onClose}
     appearance="success"
   >
@@ -375,7 +375,7 @@ const ToastWithDefaultIcon = ({ onClose }) => (
 
 const ToastWithAnotherIcon = ({ onClose }) => (
   <Toast
-    isCloseButtonVisible
+    isClosable
     onClose={onClose}
     appearance="success"
     icon="success"
@@ -386,7 +386,7 @@ const ToastWithAnotherIcon = ({ onClose }) => (
 
 const ToastWithProprietaryIcon = ({ onClose }) => (
   <Toast
-    isCloseButtonVisible
+    isClosable
     onClose={onClose}
     appearance="success"
     icon={<Icon icon="check-circle-o" color="gray:80" />}
@@ -397,7 +397,7 @@ const ToastWithProprietaryIcon = ({ onClose }) => (
 
 const ToastWithoutIcon = ({ onClose }) => (
   <Toast
-    isCloseButtonVisible
+    isClosable
     onClose={onClose}
     appearance="success"
     icon={false}
@@ -472,18 +472,16 @@ function Example() {
 render(<Example />);
 ```
 
-## Toast Props
-
-A `Toast` element is composed of the [`Box`](./box) component. You can override the default styles using the style props.
+## Toast
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
 | appearance | string | 'none' | One of: `'none'`, `'success'`, `'info'`, `'warning'`, `'error'` |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
 
-## ToastProvider Props
+## ToastProvider
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

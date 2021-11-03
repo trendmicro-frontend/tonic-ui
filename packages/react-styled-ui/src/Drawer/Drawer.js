@@ -15,7 +15,8 @@ const Drawer = ({
   placement = 'right',
   size = 'auto',
   isOpen = false,
-  isCloseButtonVisible = false,
+  isClosable: _isClosable = false,
+  isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
   closeOnEsc = false,
   closeOnOutsideClick = false,
   onClose,
@@ -26,6 +27,7 @@ const Drawer = ({
   id,
   children,
 }) => {
+  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const defaultId = useId();
   const contentRef = useRef(null);
   const drawerState = getMemoizedState({
@@ -33,7 +35,7 @@ const Drawer = ({
     placement,
     size,
     isOpen,
-    isCloseButtonVisible,
+    isClosable,
     closeOnEsc,
     closeOnOutsideClick,
     onClose,

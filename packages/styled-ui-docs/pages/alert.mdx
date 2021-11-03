@@ -33,20 +33,20 @@ Alerts provide four severity levels, each with a distinctive icon and color.
 
 ### With close button
 
-Set `isCloseButtonVisible` to `true` to include a close button on the right-hand side of an alert.
+Set `isClosable` to `true` to include a close button on the right-hand side of an alert.
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Alert severity="success" isCloseButtonVisible>
+  <Alert severity="success" isClosable>
     <Text>This is a success alert.</Text>
   </Alert>
-  <Alert severity="info" isCloseButtonVisible>
+  <Alert severity="info" isClosable>
     <Text>This is an info alert.</Text>
   </Alert>
-  <Alert severity="warning" isCloseButtonVisible>
+  <Alert severity="warning" isClosable>
     <Text>This is a warning alert.</Text>
   </Alert>
-  <Alert severity="error" isCloseButtonVisible>
+  <Alert severity="error" isClosable>
     <Text>This is an error alert.</Text>
   </Alert>
 </Stack>
@@ -61,27 +61,27 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 ```jsx
 <Stack direction="column" spacing="4x">
   <Alert
-    isCloseButtonVisible
+    isClosable
     severity="success"
   >
     This is a success alert.
   </Alert>
   <Alert
-    isCloseButtonVisible
+    isClosable
     severity="success"
     icon="success"
   >
     This is a success alert.
   </Alert>
   <Alert
-    isCloseButtonVisible
+    isClosable
     severity="success"
     icon={<Icon icon="check-circle-o" color="gray:80" />}
   >
     This is a success alert.
   </Alert>
   <Alert
-    isCloseButtonVisible
+    isClosable
     severity="success"
     icon={false}
   >
@@ -99,7 +99,7 @@ const Paragraph = (props) => (
 
 function Example() {
   return (
-    <Alert isCloseButtonVisible severity="info">
+    <Alert isClosable severity="info">
       <Paragraph>This is the first paragraph.</Paragraph>
       <Paragraph>This is the second paragraph.</Paragraph>
       <Paragraph>This is the third paragraph.</Paragraph>
@@ -116,7 +116,7 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <Alert isCloseButtonVisible severity="success">
+  <Alert isClosable severity="success">
     <Box mb="1x">
       <Text fontWeight="bold">Success</Text>
     </Box>
@@ -124,7 +124,7 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
       This is a success alert.
     </Text>
   </Alert>
-  <Alert isCloseButtonVisible severity="info">
+  <Alert isClosable severity="info">
     <Box mb="1x">
       <Text fontWeight="bold">Info</Text>
     </Box>
@@ -132,7 +132,7 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
       This is an info alert.
     </Text>
   </Alert>
-  <Alert isCloseButtonVisible severity="warning">
+  <Alert isClosable severity="warning">
     <Box mb="1x">
       <Text fontWeight="bold">Warning</Text>
     </Box>
@@ -140,7 +140,7 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
       This is a warning alert.
     </Text>
   </Alert>
-  <Alert isCloseButtonVisible severity="error">
+  <Alert isClosable severity="error">
     <Box mb="1x">
       <Text fontWeight="bold">Error</Text>
     </Box>
@@ -157,10 +157,10 @@ An alert can have an action button (such close). It is rendered after the messag
 
 ```jsx
 <Stack direction="column" spacing={1}>
-  <Alert isCloseButtonVisible severity="warning">
+  <Alert isClosable severity="warning">
     <Text>Your browser is currently not supported. <Link>More Information</Link></Text>
   </Alert>
-  <Alert isCloseButtonVisible severity="error">
+  <Alert isClosable severity="error">
     <Flex justify="space-between" mt={-1} mb={-2}>
       <Text>Your license will expire in 7 days.</Text>
       <FlatButton size="sm" variant="outline" variantColor="black:primary">
@@ -184,7 +184,7 @@ function Example() {
   return (
     <>
       <Collapse isOpen={isOpen}>
-        <Alert isCloseButtonVisible severity="info" onClose={handleClose}>
+        <Alert isClosable severity="info" onClose={handleClose}>
           Click the close button on the right side.
         </Alert>
       </Collapse>
@@ -200,11 +200,9 @@ function Example() {
 
 ## Props
 
-`Alert` composes the [`Flex`](./flex) component.
-
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isCloseButtonVisible | boolean | | If `true`, a close button will appear on the right side. |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
 | severity | string | 'success' | The severity level of the alert. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |
