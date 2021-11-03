@@ -45,7 +45,7 @@ const AlertCloseButton = (props) => (
 const Alert = forwardRef((
   {
     isClosable: _isClosable = false,
-    isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
+    isCloseButtonVisible: LEGACY_isCloseButtonVisible, // eslint-disable-line camelcase
     onClose,
     severity = defaultSeverity,
     icon,
@@ -54,6 +54,10 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
+  if (LEGACY_isCloseButtonVisible !== undefined) {
+    console.warn('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
+  }
+
   const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const rootStyleProps = useAlertRootStyle({ severity });
   const iconStyleProps = useAlertIconStyle({ severity });

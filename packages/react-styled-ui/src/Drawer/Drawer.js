@@ -16,7 +16,7 @@ const Drawer = ({
   size = 'auto',
   isOpen = false,
   isClosable: _isClosable = false,
-  isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
+  isCloseButtonVisible: LEGACY_isCloseButtonVisible, // eslint-disable-line camelcase
   closeOnEsc = false,
   closeOnOutsideClick = false,
   onClose,
@@ -27,6 +27,10 @@ const Drawer = ({
   id,
   children,
 }) => {
+  if (LEGACY_isCloseButtonVisible !== undefined) {
+    console.warn('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
+  }
+
   const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const defaultId = useId();
   const contentRef = useRef(null);
