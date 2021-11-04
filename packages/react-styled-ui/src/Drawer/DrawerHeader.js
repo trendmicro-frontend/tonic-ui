@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import {
   useDrawerHeaderStyle,
 } from './styles';
@@ -8,7 +8,7 @@ const DrawerHeader = forwardRef((props, ref) => {
   const styleProps = useDrawerHeaderStyle();
 
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       {...styleProps}
       {...props}

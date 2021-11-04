@@ -75,7 +75,7 @@ const AnimatedCubeDemo = ({ size = 128, ...rest }) => {
             fontSize="lg"
             textShadow={textShadow}
           >
-            Styled UI
+            Tonic UI
           </Text>
         </Cube.Right>
       </Cube>

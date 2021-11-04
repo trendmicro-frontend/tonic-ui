@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import {
   useModalHeaderStyle,
 } from './styles';
@@ -8,7 +8,7 @@ const ModalHeader = forwardRef((props, ref) => {
   const styleProps = useModalHeaderStyle();
 
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       {...styleProps}
       {...props}

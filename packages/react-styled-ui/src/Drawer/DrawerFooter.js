@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import { useDrawer } from './context';
 import {
   useDrawerFooterStyle,
@@ -13,7 +13,7 @@ const DrawerFooter = forwardRef((props, ref) => {
   const styleProps = useDrawerFooterStyle({ placement });
 
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       {...styleProps}
       {...props}

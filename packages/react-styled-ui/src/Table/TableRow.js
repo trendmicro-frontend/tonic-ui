@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import { useTableContext } from './context';
@@ -14,7 +14,7 @@ const TableRow = forwardRef(({
   const isDark = colorMode === 'dark';
   const bg = isDark ? 'white' : 'black';
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       display="flex"
       _hover={{
@@ -23,7 +23,7 @@ const TableRow = forwardRef(({
       {...props}
     >
       { children }
-    </PseudoBox>
+    </Box>
   );
 });
 

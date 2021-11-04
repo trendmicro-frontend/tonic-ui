@@ -27,13 +27,13 @@ const thirdPartyComponents = {
   update,
   ...ReactTable,
 };
+
 const {
   Box,
   Button,
   Collapse,
   Flex,
   Icon,
-  PseudoBox,
   useColorMode,
   useClipboard,
 } = styledUIComponents;
@@ -247,7 +247,7 @@ const CodeBlock = ({
           </Flex>
         )}
         {(isEditable && isCollapsible) ? (
-          <PseudoBox {...useCollapseBoxStyle}>
+          <Box {...useCollapseBoxStyle}>
             <Collapse startingHeight={headerHeight} isOpen={isExpanded}>
               <Box position="relative">
                 {
@@ -266,7 +266,7 @@ const CodeBlock = ({
                 </Box>
               </Box>
             </Collapse>
-          </PseudoBox>
+          </Box>
         ) : (
           <Box position="relative">
             <CopyButton onClick={onCopy}>

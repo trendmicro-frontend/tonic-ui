@@ -31,7 +31,7 @@ import LinkButton from './LinkButton';
 import MenuButton from './MenuButton';
 import Pagination from './Pagination';
 import Portal from './Portal';
-import PseudoBox from './PseudoBox';
+import PseudoBox from './PseudoBox'; // deprecated
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
 import Scrollbar from './Scrollbar';
@@ -96,7 +96,7 @@ export {
   MenuButton,
   Pagination,
   Portal,
-  PseudoBox,
+  PseudoBox, // deprecated
   Radio,
   RadioGroup,
   Scrollbar,

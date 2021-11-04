@@ -9,7 +9,7 @@ import React, {
 import { createPopper } from '@popperjs/core';
 import chainedFunction from 'chained-function';
 import Portal from '../Portal';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import setRef from '../utils/setRef';
 import useForkRef from '../utils/useForkRef';
 import useEnhancedEffect from '../utils/useEnhancedEffect';
@@ -155,14 +155,14 @@ const Popper = forwardRef((
 
   return (
     <Portal isDisabled={!usePortal} container={container}>
-      <PseudoBox
+      <Box
         ref={handleRef}
         pos="absolute"
         css={getPopperArrowStyle({ arrowSize })}
         {...rest}
       >
         {typeof children === 'function' ? children(childProps) : children}
-      </PseudoBox>
+      </Box>
     </Portal>
   );
 });

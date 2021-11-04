@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
-import PseudoBox from '../PseudoBox';
 import VisuallyHidden from '../VisuallyHidden';
 import useToggleSwitchStyle from './styles';
 
@@ -39,7 +38,7 @@ const ToggleSwitch = forwardRef(
     });
 
     return (
-      <PseudoBox as="label" display="flex" {...rest}>
+      <Box as="label" display="flex" {...rest}>
         <VisuallyHidden
           as="input"
           type="checkbox"
@@ -90,7 +89,7 @@ const ToggleSwitch = forwardRef(
             />
           </Box>
         </ControlBox>
-      </PseudoBox>
+      </Box>
     );
   },
 );

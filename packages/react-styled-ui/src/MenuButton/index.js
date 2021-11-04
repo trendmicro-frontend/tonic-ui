@@ -2,13 +2,13 @@ import React, { forwardRef } from 'react';
 import { useMenu } from '../Menu/context';
 import Button from '../Button';
 import Icon from '../Icon';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import wrapEvent from '../utils/wrapEvent';
 import useForkRef from '../utils/useForkRef';
 import { useMenuButtonStyle, getIconWrapperProps } from './styles';
 
 const MenuButtonIcon = (props) => (
-  <PseudoBox {...props} />
+  <Box {...props} />
 );
 
 const MenuButton = forwardRef(

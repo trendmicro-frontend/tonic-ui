@@ -4,6 +4,7 @@ import React, {
   useRef,
 } from 'react';
 import { Transition } from 'react-transition-group';
+import Box from '../Box';
 import {
   createTransitionStyle,
   getEnterTransitionProps,
@@ -13,8 +14,6 @@ import {
 } from '../shared/transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
-import Box from '../Box';
-import PseudoBox from '../PseudoBox';
 
 const getScale = value => {
   return `scale(${value}, ${value ** 2})`;
@@ -136,7 +135,7 @@ const ToastTransition = forwardRef((
         }
 
         return (
-          <PseudoBox
+          <Box
             ref={combinedRef}
             {...childProps}
             {...styleProps}
@@ -145,7 +144,7 @@ const ToastTransition = forwardRef((
             <Wrapper ref={wrapperRef}>
               {children}
             </Wrapper>
-          </PseudoBox>
+          </Box>
         );
       }}
     </Transition>

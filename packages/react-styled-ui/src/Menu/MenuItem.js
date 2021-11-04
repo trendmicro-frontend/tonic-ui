@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { useMenu } from './context';
 import { useMenuItemStyle } from './styles';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import wrapEvent from '../utils/wrapEvent';
 
 const MenuItem = forwardRef(
@@ -25,7 +25,7 @@ const MenuItem = forwardRef(
     const styleProps = useMenuItemStyle();
 
     return (
-      <PseudoBox
+      <Box
         ref={ref}
         role={role}
         tabIndex={-1}

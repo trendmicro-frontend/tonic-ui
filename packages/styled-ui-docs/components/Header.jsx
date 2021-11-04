@@ -1,4 +1,11 @@
-import { Box, Flex, PseudoBox, Icon, Image, Text, useColorMode } from '@trendmicro/react-styled-ui';
+import {
+  Box,
+  Flex,
+  Icon,
+  Image,
+  Text,
+  useColorMode,
+} from '@trendmicro/react-styled-ui';
 import React from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
@@ -64,7 +71,7 @@ const Header = React.forwardRef((props, ref) => {
           align="center"
           px="4x"
         >
-          <PseudoBox
+          <Box
             as="a"
             _hover={{
               cursor: 'pointer',
@@ -78,12 +85,12 @@ const Header = React.forwardRef((props, ref) => {
             {colorMode === 'dark' && (
               <Icon icon="sun" size={24} />
             )}
-          </PseudoBox>
+          </Box>
           <Box
             display="inline-block"
             width="5x"
           />
-          <PseudoBox
+          <Box
             as="a"
             _hover={{
               cursor: 'pointer',
@@ -99,7 +106,7 @@ const Header = React.forwardRef((props, ref) => {
                 height: 24,
               }}
             />
-          </PseudoBox>
+          </Box>
         </Flex>
       </Flex>
     </Box>

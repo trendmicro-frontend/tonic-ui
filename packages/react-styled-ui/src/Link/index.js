@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import useColorMode from '../useColorMode';
 
 const baseStyleProps = ({ colorMode, disabled, textDecoration }) => {
@@ -39,7 +39,7 @@ const baseStyleProps = ({ colorMode, disabled, textDecoration }) => {
 const Link = forwardRef(({ disabled, onClick, textDecoration, ...props }, ref) => {
   const [colorMode] = useColorMode();
   return (
-    <PseudoBox
+    <Box
       as="a"
       ref={ref}
       aria-disabled={disabled}

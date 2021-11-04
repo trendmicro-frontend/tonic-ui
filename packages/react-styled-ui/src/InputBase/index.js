@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import { baseProps } from './styles';
 
 /**
@@ -15,7 +15,7 @@ const InputBase = forwardRef((
   const { disabled, readOnly, required, isInvalid } = rest;
 
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       as="input"
       aria-disabled={disabled}
@@ -26,7 +26,7 @@ const InputBase = forwardRef((
       {...rest}
     >
       {children}
-    </PseudoBox>
+    </Box>
   );
 });
 

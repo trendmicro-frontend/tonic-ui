@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import { useTableContext } from './context';
 import { useTableCellStyle } from './styles';
 
@@ -15,14 +15,14 @@ const TableCell = forwardRef(({
   });
 
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       width={width}
       {...tableCellStyle}
       {...props}
     >
       { children }
-    </PseudoBox>
+    </Box>
   );
 });
 

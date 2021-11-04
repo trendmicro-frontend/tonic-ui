@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 
-const SVGIconBase = styled(PseudoBox)`
+const SVGIconBase = styled(Box)`
   flex-shrink: 0;
   backface-visibility: hidden;
   &:not(:root) {
