@@ -1,19 +1,5 @@
 const config = {
-  /**
-   * SVG
-   */
-  fill: {
-    property: 'fill',
-    scale: 'colors',
-  },
-  stroke: {
-    property: 'stroke',
-    scale: 'colors',
-  },
-
-  /**
-   * Animations
-   */
+  // Animation
   animation: true,
   animationDelay: true,
   animationDirection: true,
@@ -24,74 +10,61 @@ const config = {
   animationPlayState: true,
   animationTimingFunction: true,
 
-  /**
-   * Backgrounds and Borders
-   */
+  // Background
   backgroundAttachment: true,
   backgroundClip: true,
 
-  /**
-   * Basic User Interface
-   */
+  // Containment
+  contain: true,
+  containIntrinsicSize: true,
+  contentVisibility: true,
+
+  // Interactivity
   appearance: true,
-  aspectRatio: true,
-  boxSizing: true,
   caretColor: true,
   cursor: true,
   outline: true,
+  outlineColor: true,
+  outlineOffset: true,
+  pointerEvents: true,
   resize: true,
-  textOverflow: true,
   userSelect: true,
 
-  /**
-   * Box Model
-   */
-  visibility: true,
-
-  /**
-   * Float
-   */
+  // Layout
+  aspectRatio: true,
+  boxSizing: true,
   float: true,
-
-  /**
-   * Images
-   */
   objectFit: true,
   objectPosition: true,
+  visibility: true,
 
-  /**
-   * Lists and Counters
-   */
+  // List
   listStyleImage: true,
   listStylePosition: true,
   listStyleType: true,
 
-  /**
-   * Pointer Events
-   */
-  pointerEvents: true,
+  // Performance
+  willChange: true,
 
-  /**
-   * Text
-   */
-  lineBreak: true,
-  overflowWrap: true,
-  textIndent: true,
-  textJustify: true,
-  textTransform: true,
-  whiteSpace: true,
-  wordBreak: true,
-  wordSpacing: true,
+  // SVG
+  fill: {
+    property: 'fill',
+    scale: 'colors',
+  },
+  stroke: {
+    property: 'stroke',
+    scale: 'colors',
+  },
 
-  /**
-   * Text Decoration
-   */
+  // Text decoration
   textDecoration: true,
-  textEmphasis: true,
+  textDecorationColor: true,
+  textDecorationLine: true,
+  textDecorationStyle: true,
+  textDecorationThickness: true,
+  textUnderlineOffset: true,
 
-  /**
-   * Transforms
-   */
+  // Transform
   backfaceVisibility: true,
   perspective: true,
   perspectiveOrigin: true,
@@ -100,19 +73,24 @@ const config = {
   transformOrigin: true,
   transformStyle: true,
 
-  /**
-   * Transitions
-   */
+  // Transition
   transition: true,
   transitionDelay: true,
   transitionDuration: true,
   transitionProperty: true,
   transitionTimingFunction: true,
 
-  /**
-   * Will Change
-   */
-  willChange: true,
+  // Typography
+  lineBreak: true,
+  overflowWrap: true,
+  textIndent: true,
+  textJustify: true,
+  textTransform: true,
+  textEmphasis: true,
+  textOverflow: true,
+  whiteSpace: true,
+  wordBreak: true,
+  wordSpacing: true,
 };
 
 export default config;
