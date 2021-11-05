@@ -2,7 +2,6 @@ import { keyframes } from '@emotion/react';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import PseudoBox from '../PseudoBox';
 import useColorMode from '../useColorMode';
 import { setColorWithOpacity } from '../theme/colors';
 
@@ -77,7 +76,7 @@ const Spinner = forwardRef(
       dark: setColorWithOpacity('white', 0.12),
     }[colorMode];
     return (
-      <PseudoBox
+      <Box
         position="relative"
         width={_width}
         __before={{
@@ -128,7 +127,7 @@ const Spinner = forwardRef(
             animation={`${dash} ${_dashSpeed}s ease-in-out infinite`}
           />
         </Box>
-      </PseudoBox>
+      </Box>
     );
   },
 );

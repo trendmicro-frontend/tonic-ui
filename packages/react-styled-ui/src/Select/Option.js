@@ -1,12 +1,12 @@
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import { useOptionStyle } from './styles';
 
 const Option = forwardRef((props, ref) => {
   const styleProps = useOptionStyle();
 
   return (
-    <PseudoBox
+    <Box
       as="option"
       {...styleProps}
       {...props}

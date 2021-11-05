@@ -1,6 +1,6 @@
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import { InputGroupProvider } from './context';
 import {
   baseProps,
@@ -24,13 +24,13 @@ const InputGroup = forwardRef((
 
   return (
     <InputGroupProvider value={inputGroupState}>
-      <PseudoBox
+      <Box
         ref={ref}
         {...styleProps}
         {...rest}
       >
         {children}
-      </PseudoBox>
+      </Box>
     </InputGroupProvider>
   );
 });

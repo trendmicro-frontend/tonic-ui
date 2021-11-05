@@ -407,7 +407,7 @@ const Tags = () => {
 
   return (
     <>
-      <PseudoBox
+      <Box
         {...wrapperStyle}
         role="presentation"
         aria-invalid={hasError}
@@ -466,7 +466,7 @@ const Tags = () => {
           onFocus={handleInputFocus}
           onPaste={handleInputPaste}
         />
-      </PseudoBox>
+      </Box>
       {hasError && (
         <Text color={invalidColor}>There are invalid entries.</Text>
       )}

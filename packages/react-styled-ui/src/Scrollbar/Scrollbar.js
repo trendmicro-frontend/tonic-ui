@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import {
   useContainerStyle,
   useViewStyle,
@@ -427,7 +427,7 @@ const Scrollbar = forwardRef((
   const thumbVerticalStyle = useThumbVerticalStyle();
 
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       {...containerStyle}
       {...reset}
@@ -474,7 +474,7 @@ const Scrollbar = forwardRef((
           ...trackVerticalStyle
         })
       }
-    </PseudoBox>
+    </Box>
   );
 });
 

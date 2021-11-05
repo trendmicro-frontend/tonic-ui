@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { useTagStyle, useTagCloseButtonStyle } from './styles';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 
 const TagCloseButton = ({ size, ...props }) => {
   const closeButtonStyleProps = useTagCloseButtonStyle({ size });
@@ -40,7 +40,7 @@ const Tag = forwardRef(
     });
 
     return (
-      <PseudoBox
+      <Box
         ref={ref}
         disabled={disabled}
         aria-disabled={disabled}
@@ -62,7 +62,7 @@ const Tag = forwardRef(
             <Icon icon="close-s" />
           </TagCloseButton>
         )}
-      </PseudoBox>
+      </Box>
     );
   },
 );

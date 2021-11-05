@@ -12,7 +12,6 @@ export const themeLinks = [
 export const buildingBlockLinks = [
   'Box',
   'ControlBox',
-  'PseudoBox',
 ];
 
 export const componentLinks = [

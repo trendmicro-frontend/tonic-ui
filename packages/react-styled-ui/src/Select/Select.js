@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import Icon from '../Icon';
-import PseudoBox from '../PseudoBox';
 import { getIconWrapperProps, useSelectStyle } from './styles';
 import splitProps from './split-props';
 
@@ -32,7 +31,7 @@ const Select = forwardRef((
       width="100%"
       {...rootProps}
     >
-      <PseudoBox
+      <Box
         ref={ref}
         as="select"
         aria-disabled={disabled}
@@ -44,14 +43,14 @@ const Select = forwardRef((
         {...selectProps}
       >
         {children}
-      </PseudoBox>
+      </Box>
       {!multiple && (
-        <PseudoBox
+        <Box
           aria-disabled={disabled}
           {...iconWrapperProps}
         >
           <Icon width="4x" icon="angle-down" />
-        </PseudoBox>
+        </Box>
       )}
     </Box>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { usePopover } from './context';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import { usePopoverHeaderStyle } from './styles';
 
 const PopoverHeader = props => {
@@ -8,7 +8,7 @@ const PopoverHeader = props => {
   const headerStyleProps = usePopoverHeaderStyle();
 
   return (
-    <PseudoBox
+    <Box
       as="header"
       id={headerId}
       {...headerStyleProps}

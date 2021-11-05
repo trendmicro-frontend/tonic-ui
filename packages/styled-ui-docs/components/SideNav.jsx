@@ -1,6 +1,5 @@
 import {
   Box,
-  PseudoBox,
   Text,
   useColorMode,
   useTheme,
@@ -48,7 +47,7 @@ const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
       passHref
       href={href}
     >
-      <PseudoBox
+      <Box
         ref={ref}
         as="a"
         color={color}
@@ -71,7 +70,7 @@ const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
         {...rest}
       >
         {children}
-      </PseudoBox>
+      </Box>
     </NextLink>
   );
 });
@@ -96,7 +95,7 @@ const SideNav = React.forwardRef((props, ref) => {
   const height = `calc(100vh - ${top})`;
 
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       position="fixed"
       top={top}
@@ -203,7 +202,7 @@ const SideNav = React.forwardRef((props, ref) => {
           );
         })}
       </Box>
-    </PseudoBox>
+    </Box>
   );
 });
 

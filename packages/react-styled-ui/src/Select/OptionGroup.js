@@ -1,12 +1,12 @@
 import React, { forwardRef } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import { useOptionGroupStyle } from './styles';
 
 const OptionGroup = forwardRef((props, ref) => {
   const styleProps = useOptionGroupStyle();
 
   return (
-    <PseudoBox
+    <Box
       as="optgroup"
       {...styleProps}
       {...props}

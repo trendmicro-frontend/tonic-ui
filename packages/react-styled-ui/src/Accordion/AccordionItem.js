@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useState } from 'react';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import config from '../shared/config';
 import { createUniqueId } from '../utils/uniqueid';
 import { AccordionItemProvider } from './context';
@@ -41,7 +41,7 @@ const AccordionItem = forwardRef((
         onToggle,
       }}
     >
-      <PseudoBox
+      <Box
         ref={ref}
         borderTopWidth="1px"
         _last={{ borderBottomWidth: '1px' }}
@@ -51,7 +51,7 @@ const AccordionItem = forwardRef((
         {typeof children === 'function'
           ? children({ isExpanded: _isExpanded, isDisabled })
           : children}
-      </PseudoBox>
+      </Box>
     </AccordionItemProvider>
   );
 });
