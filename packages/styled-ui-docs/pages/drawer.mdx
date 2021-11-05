@@ -104,6 +104,7 @@ const FormGroup = (props) => (
 );
 
 function Example() {
+  const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
   const iconColor = {
     dark: 'white:tertiary',
@@ -111,8 +112,8 @@ function Example() {
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [placement, changePlacementBy] = useSelection('right');
-  const [ensureFocus, toggleEnsureFocus] = useToggle(false);
-  const [autoFocus, toggleAutoFocus] = useToggle(false);
+  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
+  const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [backdrop, toggleBackdrop] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick, setCloseOnOutsideClick] = useToggle(true);
@@ -121,6 +122,7 @@ function Example() {
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
+  const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const [size, changeSizeBy] = useSelection('sm');
 
   return (
@@ -277,6 +279,13 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">DrawerFooter</Text>
         </TextLabel>
       </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isAlertVisible} onChange={toggleIsAlertVisible} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
+        </TextLabel>
+      </FormGroup>
       <Slide
         in={isOpen}
         duration={250}
@@ -288,6 +297,7 @@ function Example() {
             ensureFocus={ensureFocus}
             autoFocus={autoFocus}
             backdrop={backdrop}
+            initialFocusRef={initialFocusRef}
             isClosable={isClosable}
             isOpen={true} // Set to `true` if a transition is active
             closeOnEsc={closeOnEsc}
@@ -302,11 +312,19 @@ function Example() {
             <DrawerContent {...styles}>
               {isHeaderVisible && (
                 <DrawerHeader>
-                  Sign In
+                  Drawer Title
                 </DrawerHeader>
               )}
               {isBodyVisible && (
                 <DrawerBody>
+                  {isAlertVisible && (
+                    <Alert variant="outline" severity="info" mb="4x" isClosable onClose={() => toggleIsAlertVisible()}>
+                      <Text>This is an info alert</Text>
+                    </Alert>
+                  )}
+                  <Text mb="4x">
+                    You can put any elements you want here.
+                  </Text>
                   <Grid
                     templateColumns="auto 1fr"
                     rowGap="2x"
@@ -314,9 +332,9 @@ function Example() {
                     alignItems="center"
                   >
                     <Icon icon="user" color={iconColor} />
-                    <Input placeholder="User name" />
-                    <Icon icon="lock" color={iconColor} />
-                    <Input type="password" placeholder="Password" />
+                    <Input ref={initialFocusRef} placeholder="User name" />
+                    <Icon icon="email" color={iconColor} />
+                    <Input placeholder="Email address" />
                   </Grid>
                 </DrawerBody>
               )}
