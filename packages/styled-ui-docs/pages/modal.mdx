@@ -50,6 +50,9 @@ function Example() {
           Modal Title
         </ModalHeader>
         <ModalBody>
+          <Alert variant="outline" severity="warning" mb="4x">
+            <Text>This is a warning alert</Text>
+          </Alert>
           <Text mb="4x">
             Modal body text goes here.
           </Text>
@@ -174,6 +177,7 @@ const FormGroup = (props) => (
 );
 
 function Example() {
+  const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
   const iconColor = {
     dark: 'white:tertiary',
@@ -189,6 +193,7 @@ function Example() {
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
+  const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const [size, changeSizeBy] = useSelection('sm');
 
   return (
@@ -302,6 +307,13 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">ModalFooter</Text>
         </TextLabel>
       </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isAlertVisible} onChange={toggleIsAlertVisible} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
+        </TextLabel>
+      </FormGroup>
       <Scale
         in={isOpen}
         duration={150}
@@ -312,6 +324,7 @@ function Example() {
             autoFocus={autoFocus}
             closeOnEsc={closeOnEsc}
             closeOnOutsideClick={closeOnOutsideClick}
+            initialFocusRef={initialFocusRef}
             isClosable={isClosable}
             isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
@@ -323,11 +336,19 @@ function Example() {
             <ModalContent {...styles}>
               {isHeaderVisible && (
                 <ModalHeader>
-                  Create an Account
+                  Modal Title
                 </ModalHeader>
               )}
               {isBodyVisible && (
                 <ModalBody>
+                  {isAlertVisible && (
+                    <Alert variant="outline" severity="info" mb="4x" isClosable onClose={() => toggleIsAlertVisible()}>
+                      <Text>This is an info alert</Text>
+                    </Alert>
+                  )}
+                  <Text mb="4x">
+                    You can put any elements you want here.
+                  </Text>
                   <Grid
                     templateColumns="auto 1fr"
                     rowGap="2x"
@@ -335,11 +356,7 @@ function Example() {
                     alignItems="center"
                   >
                     <Icon icon="user" color={iconColor} />
-                    <Input placeholder="User name" />
-                    <Icon icon="lock" color={iconColor} />
-                    <Input type="password" placeholder="Password" />
-                    <Box />
-                    <Input type="password" placeholder="Confirm password" />
+                    <Input ref={initialFocusRef} placeholder="User name" />
                     <Icon icon="email" color={iconColor} />
                     <Input placeholder="Email address" />
                   </Grid>
@@ -348,7 +365,7 @@ function Example() {
               {isFooterVisible && (
                 <ModalFooter>
                   <Button variant="primary">
-                    Confirm
+                    OK
                   </Button>
                   <Space width="2x" />
                   <Button onClick={onClose}>
