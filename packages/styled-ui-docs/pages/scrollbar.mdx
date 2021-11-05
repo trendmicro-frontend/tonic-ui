@@ -91,7 +91,7 @@ function MinThumbSizeScroll() {
     <>
       <Box marginBottom="2x">
         <Text marginBottom="1x">The minimal thumb size:</Text>
-        <RadioGroup onChange={e => setMinThumbSize(Number(e.target.value))} value={minThumbSize}>
+        <RadioGroup onChange={value => setMinThumbSize(Number(value))} value={minThumbSize}>
           <Stack spacing="1x" shouldWrapChildren>
             <Radio value={32}>32px (default)</Radio>
             <Radio value={16}>16px (customization)</Radio>
@@ -100,7 +100,7 @@ function MinThumbSizeScroll() {
       </Box>
       <Box marginBottom="2x">
         <Text marginBottom="1x">Data row:</Text>
-        <RadioGroup onChange={e => setDataRow(Number(e.target.value))} value={dataRow}>
+        <RadioGroup onChange={value => setDataRow(Number(value))} value={dataRow}>
           <Stack spacing="1x" shouldWrapChildren>
             <Radio value={8}>8 rows</Radio>
             <Radio value={24}>24 rows</Radio>
@@ -137,7 +137,7 @@ function FixedThumbSizeScroll() {
     <>
       <Box marginBottom="2x">
         <Text marginBottom="1x">The fixed thumb size:</Text>
-        <RadioGroup onChange={e => setThumbSize(Number(e.target.value))} value={thumbSize}>
+        <RadioGroup onChange={value => setThumbSize(Number(value))} value={thumbSize}>
           <Stack spacing="1x" shouldWrapChildren>
             <Radio value={-1}>undefined (default)</Radio>
             <Radio value={100}>100px (customization)</Radio>
@@ -146,7 +146,7 @@ function FixedThumbSizeScroll() {
       </Box>
       <Box marginBottom="2x">
         <Text marginBottom="1x">Data row:</Text>
-        <RadioGroup onChange={e => setDataRow(Number(e.target.value))} value={dataRow}>
+        <RadioGroup onChange={value => setDataRow(Number(value))} value={dataRow}>
           <Stack spacing="1x" shouldWrapChildren>
             <Radio value={8}>8 rows</Radio>
             <Radio value={24}>24 rows</Radio>
