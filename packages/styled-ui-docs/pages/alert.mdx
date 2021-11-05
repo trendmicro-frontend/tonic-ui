@@ -12,29 +12,31 @@ import { Alert } from '@trendmicro/react-styled-ui';
 
 ### Variants
 
-You can use the `variant` prop to specify the visual style to use. The default variants come in 2 variations: `solid` and `outline`.
+You can use the `variant` prop to change the appearance of the alert. The variants come in two variations: `solid` and `outline`.
 
 #### Solid
 
+The `solid` variant is used to indicate an important message.
+
 ```jsx
 <Alert variant="solid" severity="info">
-  <Text>This is an info alert with the solid variant.</Text>
+  <Text>This is an important message.</Text>
 </Alert>
 ```
 
 #### Outline
 
-The `outline` variant inverts the style of an alert, inheriting the currently applied color to the text annd border, and making its background transparent.
+The `outline` variant is useful for displaying a contextual alert that is not a part of the primary flow of the application.
 
 ```jsx
 <Alert variant="outline" severity="info">
-  <Text>This is an info alert with the outline variant.</Text>
+  <Text>This is a contextual alert.</Text>
 </Alert>
 ```
 
 ### Severity levels
 
-The `severity` prop provides 4 different alert styles: `success`, `info`, `warning`, and `error`. Each of these styles provides a default icon and color.
+The `severity` prop can be used to specify the severity level of the alert. The severity levels are: `success`, `info`, `warning`, and `error`. The default severity level is `success`.
 
 ```jsx
 <Stack direction="column" spacing="6x">
@@ -69,48 +71,10 @@ The `severity` prop provides 4 different alert styles: `success`, `info`, `warni
 </Stack>
 ```
 
-### With close button
+### `icon` prop
 
-Set `isClosable` to `true` to include a close button on the right-hand side of an alert.
-
-```jsx
-<Stack direction="column" spacing="6x">
-  <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="success" isClosable>
-      <Text>This is a success alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="info" isClosable>
-      <Text>This is an info alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="warning" isClosable>
-      <Text>This is a warning alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="error" isClosable>
-      <Text>This is an error alert.</Text>
-    </Alert>
-  </Stack>
-  <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="success" isClosable>
-      <Text>This is a success alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="info" isClosable>
-      <Text>This is an info alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="warning" isClosable>
-      <Text>This is a warning alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="error" isClosable>
-      <Text>This is an error alert.</Text>
-    </Alert>
-  </Stack>
-</Stack>
-```
-
-### Icons
-
-The `icon` prop allows you to override the default icon for the specified severity.
-
-Setting the `icon` prop to `false` will remove the icon altogether.
+The `icon` prop allows you to specify an icon to be displayed in the alert.
+If not specified, the default icon will be used based on the `severity` prop.
 
 ```jsx
 <Stack direction="column" spacing="6x">
@@ -145,11 +109,48 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 </Stack>
 ```
 
-### Actions
+### `isClosable` prop
 
-An alert can have an action, such as a close or action button. It is rendered after the message, at the end of the alert.
+Set `isClosable` to `true` to make the alert closable. The default value is `false`.
 
-You can wrap components with a `Flex` and use `justify="space-between"` to evenly distribute items. The first item is at the start of the container while the last one is at the end.
+```jsx
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="success" isClosable>
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="info" isClosable>
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="warning" isClosable>
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="error" isClosable>
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="success" isClosable>
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="info" isClosable>
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="warning" isClosable>
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="error" isClosable>
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
+</Stack>
+```
+
+### Alert actions
+
+An alert action is a button or link to trigger an action. It is used to provide additional context to the user.
+
+The action button is usually aligned to the right of the alert. You can use `justifyContent` to align the action button to the right.
 
 ```jsx
 <Stack direction="column" spacing="6x">
@@ -188,9 +189,9 @@ You can wrap components with a `Flex` and use `justify="space-between"` to evenl
 </Stack>
 ```
 
-### Formatted title
+### Formatted text
 
-You can use the `Text` component with `fontWeight` to display a formatted title above the content.
+You can use the `Text` component to format text.
 
 ```jsx
 <Stack direction="column" spacing="2x">
@@ -229,29 +230,9 @@ You can use the `Text` component with `fontWeight` to display a formatted title 
 </Stack>
 ```
 
-### Multiline text
-
-```jsx noInline
-const Paragraph = (props) => (
-  <PseudoBox mb="1x" _lastChild={{ mb: 0 }} {...props} />
-);
-
-function Example() {
-  return (
-    <Alert severity="warning" isClosable>
-      <Paragraph>This is the first paragraph.</Paragraph>
-      <Paragraph>This is the second paragraph.</Paragraph>
-      <Paragraph>This is the third paragraph.</Paragraph>
-    </Alert>
-  );
-}
-
-render(<Example />);
-```
-
 ### Transition effects
 
-You can use a transition component such as `Collapse` to give the appearance of a smooth transition.
+To animate the alert, you can use a transition component to apply an animation effect.
 
 ```jsx
 function Example() {
