@@ -5,12 +5,13 @@ import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
 import {
-  useAlertRootStyle,
+  useAlertStyle,
   useAlertIconStyle,
   useAlertMessageStyle,
   useAlertCloseButtonStyle,
 } from './styles';
 
+const defaultVariant = 'solid';
 const defaultSeverity = 'success';
 
 const getIconBySeverity = (severity) => {
@@ -47,6 +48,7 @@ const Alert = forwardRef((
     isClosable: _isClosable = false,
     isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
     onClose,
+    variant = defaultVariant,
     severity = defaultSeverity,
     icon,
     children,
@@ -55,10 +57,10 @@ const Alert = forwardRef((
   ref,
 ) => {
   const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
-  const rootStyleProps = useAlertRootStyle({ severity });
-  const iconStyleProps = useAlertIconStyle({ severity });
+  const styleProps = useAlertStyle({ variant, severity });
+  const iconStyleProps = useAlertIconStyle({ variant, severity });
   const messageStyleProps = useAlertMessageStyle();
-  const closeButtonStyleProps = useAlertCloseButtonStyle();
+  const closeButtonStyleProps = useAlertCloseButtonStyle({ variant });
 
   if (typeof icon === 'string') {
     icon = (<Icon icon={icon} />);
@@ -72,7 +74,7 @@ const Alert = forwardRef((
       ref={ref}
       align="flex-start"
       justify="space-between"
-      {...rootStyleProps}
+      {...styleProps}
       {...rest}
     >
       {!!icon && (
