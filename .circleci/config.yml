@@ -13,13 +13,13 @@ workflows:
           filters:
             branches:
               ignore: gh-pages
-      - deploy-styled-ui-docs:
+      - deploy-tonic-ui-docs:
           requires:
             - build
           filters:
             branches:
               only: master
-      - deploy-styled-ui-demo:
+      - deploy-tonic-ui-demo:
           requires:
             - build
           filters:
@@ -65,15 +65,15 @@ jobs:
           command: |
             if [[ "${CI_BRANCH}" != "master" ]]; then
               CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}
-              STYLED_UI_DEMO_REPO=styled-ui-demo
-              echo "ASSET_PREFIX=/${STYLED_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/styled-ui-docs/.env.production
+              TONIC_UI_DEMO_REPO=tonic-ui-demo
+              echo "ASSET_PREFIX=/${TONIC_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/docs/.env.production
             fi
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --directory packages/styled-ui-docs docs
+            tar -zcvf ci.tar.gz --directory packages/docs docs
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
@@ -81,7 +81,7 @@ jobs:
           paths:
             - ci.tar.gz
 
-  deploy-styled-ui-docs:
+  deploy-tonic-ui-docs:
     docker:
       - image: cimg/node:12.22
     steps:
@@ -116,7 +116,7 @@ jobs:
               --message '[ci skip] deploy docs to gh-pages' \
               --no-history
 
-  deploy-styled-ui-demo:
+  deploy-tonic-ui-demo:
     docker:
       - image: cimg/node:12.22
     steps:
@@ -143,9 +143,9 @@ jobs:
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export STYLED_UI_DEMO_REPO=styled-ui-demo" >> $BASH_ENV
-            echo "export STYLED_UI_DEMO_REPO_URL=https://github.com/trendmicro-frontend/styled-ui-demo.git" >> $BASH_ENV
-            echo "export STYLED_UI_DEMO_URL=https://trendmicro-frontend.github.io/styled-ui-demo" >> $BASH_ENV
+            echo "export TONIC_UI_DEMO_REPO=tonic-ui-demo" >> $BASH_ENV
+            echo "export TONIC_UI_DEMO_REPO_URL=https://github.com/trendmicro-frontend/tonic-ui-demo.git" >> $BASH_ENV
+            echo "export TONIC_UI_DEMO_URL=https://trendmicro-frontend.github.io/tonic-ui-demo" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
@@ -153,8 +153,8 @@ jobs:
       - run:
           name: Deploy docs to gh-pages branch
           command: |
-            git clone ${STYLED_UI_DEMO_REPO_URL} .${STYLED_UI_DEMO_REPO}
-            cd .${STYLED_UI_DEMO_REPO}
+            git clone ${TONIC_UI_DEMO_REPO_URL} .${TONIC_UI_DEMO_REPO}
+            cd .${TONIC_UI_DEMO_REPO}
             git checkout gh-pages
             rm -rf .git
             rm -rf "pr-${CI_PULL_REQUEST_NUMBER}"
@@ -163,8 +163,8 @@ jobs:
             git init
             git checkout --orphan gh-pages
             git add .
-            git commit -m "Deploy pr-${CI_PULL_REQUEST_NUMBER} to ${STYLED_UI_DEMO_REPO_URL}"
-            git remote add origin ${STYLED_UI_DEMO_REPO_URL}
-            git push -u --force ${STYLED_UI_DEMO_REPO_URL} gh-pages
+            git commit -m "Deploy pr-${CI_PULL_REQUEST_NUMBER} to ${TONIC_UI_DEMO_REPO_URL}"
+            git remote add origin ${TONIC_UI_DEMO_REPO_URL}
+            git push -u --force ${TONIC_UI_DEMO_REPO_URL} gh-pages
             cd ..
-            npx --yes -- octokit-cli issues create-comment --owner trendmicro-frontend --repo styled-ui --issue_number ${CI_PULL_REQUEST_NUMBER} --body "Successfully deployed ${CI_COMMIT} to ${STYLED_UI_DEMO_URL}/pr-${CI_PULL_REQUEST_NUMBER}/"
+            npx --yes -- octokit-cli issues create-comment --owner trendmicro-frontend --repo tonic-ui --issue_number ${CI_PULL_REQUEST_NUMBER} --body "Successfully deployed ${CI_COMMIT} to ${TONIC_UI_DEMO_URL}/pr-${CI_PULL_REQUEST_NUMBER}/"

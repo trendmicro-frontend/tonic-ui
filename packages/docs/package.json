@@ -1,0 +1,98 @@
+{
+  "name": "styled-ui-docs",
+  "version": "0.20.0",
+  "private": true,
+  "scripts": {
+    "build": "cross-env NODE_ENV=production next build",
+    "clean": "del build docs",
+    "dev": "next dev --hostname 0.0.0.0",
+    "eslint": "eslint --ext .js,.jsx,.mjs .",
+    "postbuild": "next export --outdir docs && touch docs/.nojekyll",
+    "pre-push": "yarn run eslint",
+    "start": "next start",
+    "test": "jest --passWithNoTests"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/eslint-parser": "^7.0.0",
+    "@babel/eslint-plugin": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@emotion/babel-preset-css-prop": "~11.2.0",
+    "@emotion/jest": "~11.5.0",
+    "@emotion/react": "11.x",
+    "@emotion/styled": "11.x",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@fortawesome/free-regular-svg-icons": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.16",
+    "@mdx-js/loader": "^1.6.22",
+    "@mdx-js/mdx": "^1.6.22",
+    "@mdx-js/react": "^1.6.22",
+    "@next/mdx": "^12.0.1",
+    "@trendmicro/babel-config": "^1.0.2",
+    "@trendmicro/react-styled-ui": "^0.20.0",
+    "@trendmicro/styled-ui-theme": "^0.13.1",
+    "@zeit/next-css": "^1.0.1",
+    "boolean": "^3.1.4",
+    "cross-env": "~7.0.3",
+    "del-cli": "~4.0.1",
+    "dotenv-flow": "~3.2.0",
+    "ensure-type": "1.x",
+    "eslint": "^7.0.0",
+    "eslint-config-next": "^12.0.1",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-jsx-a11y": "latest",
+    "eslint-plugin-react": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "immutability-helper": "^3.1.1",
+    "jest": "^27.3.1",
+    "jest-extended": "^1.1.0",
+    "next": "^12.0.1",
+    "next-compose-plugins": "^2.2.1",
+    "node-emoji": "^1.11.0",
+    "prism-react-renderer": "^1.2.1",
+    "prop-types": "15.x",
+    "react": "^16.8.0 || ^17",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-dnd": "^14.0.4",
+    "react-dnd-html5-backend": "^14.0.2",
+    "react-dom": "^16.8.0 || ^17",
+    "react-ga": "^3.3.0",
+    "react-live": "^2.3.0",
+    "react-lorem-component": "^0.13.0",
+    "react-movable": "^2.5.4",
+    "react-table": "^7.7.0",
+    "react-virtualized": "^9.22.3",
+    "remark-emoji": "^3.0.1",
+    "remark-images": "^3.0.0",
+    "toasted-notes": "3.2.x",
+    "yiq": "^4.0.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "<rootDir>/components/**/*.{js,jsx}",
+      "<rootDir>/pages/**/*.{js,jsx}",
+      "<rootDir>/shared/**/*.js"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text",
+      "html"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest.env-setup.js"
+    ],
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ],
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/test/**/*.js"
+    ]
+  }
+}

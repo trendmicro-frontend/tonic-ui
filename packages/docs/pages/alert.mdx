@@ -1,0 +1,268 @@
+# Alert
+
+An alert is used to convey important information to the user through the use of contextual types, icons, and colors.
+
+## Import
+
+```js
+import { Alert } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+### Variants
+
+You can use the `variant` prop to change the appearance of the alert. The variants come in two variations: `solid` and `outline`.
+
+#### Solid
+
+The `solid` variant is used to indicate an important message.
+
+```jsx
+<Alert variant="solid" severity="info">
+  <Text>This is an important message.</Text>
+</Alert>
+```
+
+#### Outline
+
+The `outline` variant is useful for displaying a contextual alert that is not a part of the primary flow of the application.
+
+```jsx
+<Alert variant="outline" severity="info">
+  <Text>This is a contextual alert.</Text>
+</Alert>
+```
+
+### Severity levels
+
+The `severity` prop can be used to specify the severity level of the alert. The severity levels are: `success`, `info`, `warning`, and `error`. The default severity level is `success`.
+
+```jsx
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="success">
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="info">
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="warning">
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="error">
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="success">
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="info">
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="warning">
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="error">
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
+</Stack>
+```
+
+### `icon` prop
+
+The `icon` prop allows you to specify an icon to be displayed in the alert.
+If not specified, the default icon will be used based on the `severity` prop.
+
+```jsx
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="success" isClosable>
+      This is a success alert.
+    </Alert>
+    <Alert variant="solid" severity="success" icon="success" isClosable>
+      This is a success alert.
+    </Alert>
+    <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />} isClosable>
+      This is a success alert.
+    </Alert>
+    <Alert variant="solid" severity="success" icon={false} isClosable>
+      This is a success alert.
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="success" isClosable>
+      This is a success alert.
+    </Alert>
+    <Alert variant="outline" severity="success" icon="success" isClosable>
+      This is a success alert.
+    </Alert>
+    <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />} isClosable>
+      This is a success alert.
+    </Alert>
+    <Alert variant="outline" severity="success" icon={false} isClosable>
+      This is a success alert.
+    </Alert>
+  </Stack>
+</Stack>
+```
+
+### `isClosable` prop
+
+Set `isClosable` to `true` to make the alert closable. The default value is `false`.
+
+```jsx
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="success" isClosable>
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="info" isClosable>
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="warning" isClosable>
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="solid" severity="error" isClosable>
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="success" isClosable>
+      <Text>This is a success alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="info" isClosable>
+      <Text>This is an info alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="warning" isClosable>
+      <Text>This is a warning alert.</Text>
+    </Alert>
+    <Alert variant="outline" severity="error" isClosable>
+      <Text>This is an error alert.</Text>
+    </Alert>
+  </Stack>
+</Stack>
+```
+
+### Alert actions
+
+An alert action is a button or link to trigger an action. It is used to provide additional context to the user.
+
+The action button is usually aligned to the right of the alert. You can use `justifyContent` to align the action button to the right.
+
+```jsx
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
+    <Alert variant="solid" severity="warning">
+      <Flex justify="space-between">
+        <Text>This is a warning alert.</Text>
+        <LinkButton>Learn More</LinkButton>
+      </Flex>
+    </Alert>
+    <Alert variant="solid" severity="error">
+      <Flex justify="space-between" mt={-1} mb={-2}>
+        <Text>This is an error alert.</Text>
+        <FlatButton size="sm" variant="outline" variantColor="black:primary">
+          Action Button
+        </FlatButton>
+      </Flex>
+    </Alert>
+  </Stack>
+  <Stack direction="column" spacing="2x">
+    <Alert variant="outline" severity="warning">
+      <Flex justify="space-between">
+        <Text>This is a warning alert.</Text>
+        <LinkButton>Learn More</LinkButton>
+      </Flex>
+    </Alert>
+    <Alert variant="outline" severity="error">
+      <Flex justify="space-between" mt={-1} mb={-2}>
+        <Text>This is an error alert.</Text>
+        <Button size="sm" variant="secondary">
+          Action Button
+        </Button>
+      </Flex>
+    </Alert>
+  </Stack>
+</Stack>
+```
+
+### Formatted text
+
+You can use the `Text` component to format text.
+
+```jsx
+<Stack direction="column" spacing="2x">
+  <Alert isClosable severity="success">
+    <Box mb="1x">
+      <Text fontWeight="bold">Success</Text>
+    </Box>
+    <Text mr={-36}>
+      This is a success alert.
+    </Text>
+  </Alert>
+  <Alert isClosable severity="info">
+    <Box mb="1x">
+      <Text fontWeight="bold">Info</Text>
+    </Box>
+    <Text mr={-36}>
+      This is an info alert.
+    </Text>
+  </Alert>
+  <Alert isClosable severity="warning">
+    <Box mb="1x">
+      <Text fontWeight="bold">Warning</Text>
+    </Box>
+    <Text mr={-36}>
+      This is a warning alert.
+    </Text>
+  </Alert>
+  <Alert isClosable severity="error">
+    <Box mb="1x">
+      <Text fontWeight="bold">Error</Text>
+    </Box>
+    <Text mr={-36}>
+      This is an error alert.
+    </Text>
+  </Alert>
+</Stack>
+```
+
+### Transition effects
+
+To animate the alert, you can use a transition component to apply an animation effect.
+
+```jsx
+function Example() {
+  const [isOpen, setIsOpen] = React.useState(true);
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
+
+  return (
+    <>
+      <Collapse isOpen={isOpen}>
+        <Alert isClosable severity="info" onClose={handleClose}>
+          Click the close button on the right side.
+        </Alert>
+      </Collapse>
+      <Box mt="4x">
+        <Button onClick={handleOpen} disabled={isOpen}>
+          Reopen
+        </Button>
+      </Box>
+    </>
+  );
+}
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
+| variant | string | 'solid' | The variant to use. One of: `'solid'`, `'outline'` |
+| severity | string | 'success' | The severity level to use. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
+| icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |

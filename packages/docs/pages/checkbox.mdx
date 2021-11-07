@@ -1,0 +1,117 @@
+# Checkbox
+
+Use a `Checkbox` in forms when a user needs to select multiple values from a list of options.
+
+Since native HTML checkboxes are 100% accessible by default, a common [CSS technique](https://dev.to/lkopacz/create-custom-keyboard-accessible-checkboxes-2036) is used to style checkboxes.
+
+## Import
+
+```js
+import { Checkbox } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<Checkbox defaultChecked>Checkbox</Checkbox>
+```
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of the checkbox. `variantColor` can be any color key with key `50` (hover) or `60` (checked, active) that exist in `theme.colors`.
+
+```jsx
+<Stack direction="row" spacing="6x">
+  <Checkbox variantColor="red" defaultChecked>
+    Checkbox
+  </Checkbox>
+  <Checkbox variantColor="green" defaultChecked>
+    Checkbox
+  </Checkbox>
+  <Checkbox variantColor="purple" indeterminate>
+    Checkbox
+  </Checkbox>
+</Stack>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the checkbox. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="row" spacing="4x">
+  <Checkbox size="sm">Checkbox</Checkbox>
+  <Checkbox size="md">Checkbox</Checkbox>
+  <Checkbox size="lg">Checkbox</Checkbox>
+</Stack>
+```
+
+### States
+
+```jsx
+<Stack direction="row" spacing="6x" alignItems="center">
+  <Stack spacing="2x" alignItems="center">
+    <Checkbox>Checkbox</Checkbox>
+    <Checkbox disabled>Checkbox</Checkbox>
+  </Stack>
+  <Stack spacing="2x" alignItems="center">
+    <Checkbox defaultChecked>Checkbox</Checkbox>
+    <Checkbox disabled defaultChecked>Checkbox</Checkbox>
+  </Stack>
+  <Stack spacing="2x" alignItems="center">
+    <Checkbox indeterminate>Checkbox</Checkbox>
+    <Checkbox disabled indeterminate>Checkbox</Checkbox>
+  </Stack>
+</Stack>
+```
+
+### Indeterminate
+
+```jsx
+function IndeterminateExample() {
+  const [checkedItems, setCheckedItems] = React.useState([true, false]);
+  const allChecked = checkedItems.every(Boolean);
+  const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
+
+  return (
+    <>
+      <Checkbox
+        checked={allChecked}
+        indeterminate={isIndeterminate}
+        onChange={e => setCheckedItems([e.target.checked, e.target.checked])}
+        children="Parent Checkbox"
+      />
+      <Stack direction="column" pl="6x" mt="1x" spacing="1x" shouldWrapChildren>
+        <Checkbox
+          checked={checkedItems[0]}
+          onChange={e => setCheckedItems([e.target.checked, checkedItems[1]])}
+          children="Child Checkbox 1"
+        />
+        <Checkbox
+          checked={checkedItems[1]}
+          onChange={e => setCheckedItems([checkedItems[0], e.target.checked])}
+          children="Child Checkbox 2"
+        />
+      </Stack>
+    </>
+  );
+}
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| id | string | | The `id` attribute of the input field.  |
+| name | string | | The name of a input field in a checkbox. The name is useful for form submissions.  |
+| value | string \| number | | The value for checkbox input. This is the return value for form submissions. |
+| variantColor | string | | The color of the checkbox when it is selected. The color should be one of the color keys in the theme (for example, `'green'`, `'red'`) |
+| size | string | 'md' | The size (width and height) of the checkbox. Acceptable values: `'sm'`, `'md'`, `'lg'` |
+| defaultChecked | boolean | | If `true`, the checkbox will be selected initially. |
+| checked | boolean | | If `true`, the checkbox will be selected. Use onChange to update the state for a controlled component. |
+| disabled | boolean | | If `true`, the checkbox will be disabled. This sets `aria-disabled=true` and you can set this state by using the `_disabled` prop. |
+| indeterminate | boolean | | If `true`, the checkbox will be indeterminate. This only affects the icon shown inside the checkbox. |
+| children | ReactNode | | The children of the checkbox. |
+| onChange | function | | A callback called when the state is changed. |
+| onBlur | function | | A callback called when the checkbox loses focus. |
+| onFocus | function | | A callback called when the checkbox receives focus. |
