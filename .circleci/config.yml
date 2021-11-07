@@ -66,14 +66,14 @@ jobs:
             if [[ "${CI_BRANCH}" != "master" ]]; then
               CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}
               TONIC_UI_DEMO_REPO=tonic-ui-demo
-              echo "ASSET_PREFIX=/${TONIC_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/styled-ui-docs/.env.production
+              echo "ASSET_PREFIX=/${TONIC_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/docs/.env.production
             fi
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --directory packages/styled-ui-docs docs
+            tar -zcvf ci.tar.gz --directory packages/docs docs
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
