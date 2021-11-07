@@ -1,6 +1,6 @@
 {
-  "name": "styled-ui-monorepo",
-  "description": "A themeable UI component library built with Emotion and Styled System",
+  "name": "tonic-ui-monorepo",
+  "description": "Tonic UI is a themeable UI component library built on top of Emotion and Styled System.",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -16,14 +16,14 @@
     "test": "lerna exec -- yarn test"
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
-  "homepage": "https://github.com/trendmicro-frontend/styled-ui",
+  "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trendmicro-frontend/styled-ui.git"
+    "url": "git+https://github.com/trendmicro-frontend/tonic-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/trendmicro-frontend/styled-ui/issues"
+    "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "devDependencies": {
     "@commitlint/cli": "~9.1.1",

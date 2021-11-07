@@ -1,0 +1,236 @@
+# Pagination
+
+Pagination
+
+## Import
+
+```js
+import { Pagination } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<Pagination count={10} />
+```
+
+### Disable
+
+```jsx
+<Pagination count={10} disabled />
+```
+
+### Default page
+
+```jsx
+<Pagination count={10} defaultPage={5} />
+```
+
+### On page change
+
+```jsx
+<Pagination
+  count={10}
+  onChange={(event, value) => console.log(event, value)}
+/>
+```
+
+### Boundary count
+
+```jsx
+<Pagination count={20} boundaryCount={2} />
+```
+
+### Sibling count
+
+```jsx
+<Pagination
+  count={20}
+  siblingCount={2}
+  defaultPage={10}
+/>
+```
+
+### Full mode
+
+```jsx
+function Minor() {
+  const [page, setPage] = React.useState(3);
+  const totalPages = 20;
+
+  return (
+    <Flex>
+      <Flex mr="3x" alignItems="center">
+        <Text>
+          Total: 400
+        </Text>
+        <Divider orientation="vertical" height="6x" ml="3x" />
+        <Menu>
+          <MenuButton variant="ghost">10 per page</MenuButton>
+          <MenuList>
+            <MenuItem>10</MenuItem>
+            <MenuItem>50</MenuItem>
+            <MenuItem>100</MenuItem>
+          </MenuList>
+        </Menu>
+        <Divider orientation="vertical" height="6x" />
+      </Flex>
+      <Pagination count={totalPages} page={page} onChange={(_, value) => setPage(value)} />
+    </Flex>
+  );
+}
+```
+
+### Reduced mode
+
+```jsx
+function Minor() {
+  const [page, setPage] = React.useState(1);
+  const totalPages = 40;
+  const prevPageDisabled = (page <= 1);
+  const nextPageDisabled = (page >= totalPages);
+  const onInputChange = (e) => {
+    const value = e.target.value;
+    if (value <= 1) {
+      setPage(1);
+    } else if (value >= totalPages) {
+      setPage(totalPages);
+    } else if (!isNaN(value)) {
+      setPage(e.target.value);
+    }
+  }
+
+  return (
+    <Flex>
+      <Flex mr="3x" alignItems="center">
+        <Text>
+          Total: 400
+        </Text>
+        <Divider orientation="vertical" height="6x" ml="3x" />
+        <Menu>
+          <MenuButton variant="ghost">50 per page</MenuButton>
+          <MenuList>
+            <MenuItem>10</MenuItem>
+            <MenuItem>50</MenuItem>
+            <MenuItem>100</MenuItem>
+          </MenuList>
+        </Menu>
+        <Input width={32} px={0} textAlign="center" onChange={onInputChange} value={page} />
+        <Space width="2x" />
+        <Text>/</Text>
+        <Space width="2x" />
+        <Text>{totalPages}</Text>
+      </Flex>
+      <ButtonGroup
+        variant="secondary"
+        css={{
+          '> *:not(:first-of-type)': {
+            marginLeft: -1
+          }
+        }}
+      >
+        <Button
+          disabled={prevPageDisabled}
+          onClick={(event) => {
+            const prevPage = page > 1 ? page - 1 : page;
+            if (prevPage !== page) {
+              setPage(prevPage);
+            }
+          }}
+        >
+          <Icon icon="angle-left" />
+        </Button>
+        <Button
+          disabled={nextPageDisabled}
+          onClick={(event) => {
+            const nextPage = page < totalPages ? page + 1 : page;
+            if (nextPage !== page) {
+              setPage(nextPage);
+            }
+          }}
+        >
+          <Icon icon="angle-right" />
+        </Button>
+      </ButtonGroup>
+    </Flex>
+  );
+}
+```
+
+### Minor mode
+
+```jsx
+function Minor() {
+  const [page, setPage] = React.useState(1);
+  const totalPages = 40;
+  const prevPageDisabled = (page <= 1);
+  const nextPageDisabled = (page >= totalPages);
+
+  return (
+    <Flex>
+      <Flex mr="3x" alignItems="center">
+        <Text>
+          Total: 400
+        </Text>
+        <Divider orientation="vertical" height="6x" mx="3x" />
+        <Text>
+          100 per page
+        </Text>
+        <Divider orientation="vertical" height="6x" mx="3x" />
+        <Text>{page}</Text>
+        <Space width="2x" />
+        <Text>/</Text>
+        <Space width="2x" />
+        <Text>{totalPages}</Text>
+      </Flex>
+      <ButtonGroup
+        variant="secondary"
+        css={{
+          '> *:not(:first-of-type)': {
+            marginLeft: -1
+          }
+        }}
+      >
+        <Button
+          disabled={prevPageDisabled}
+          onClick={(event) => {
+            const prevPage = page > 1 ? page - 1 : page;
+            if (prevPage !== page) {
+              setPage(prevPage);
+            }
+          }}
+        >
+          <Icon icon="angle-left" />
+        </Button>
+        <Button
+          disabled={nextPageDisabled}
+          onClick={(event) => {
+            const nextPage = page < totalPages ? page + 1 : page;
+            if (nextPage !== page) {
+              setPage(nextPage);
+            }
+          }}
+        >
+          <Icon icon="angle-right" />
+        </Button>
+      </ButtonGroup>
+    </Flex>
+  );
+}
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| count | number | `1` | The total number of pages. |
+| disabled | boolean | `false` | If `true`, the pagination component will be disabled. |
+| defaultPage | number | `1` | The page selected by default when the component is uncontrolled. |
+| page | number | | The current page. when the component is controlled. |
+| prevLabel | string or react element | '<' | The previous button label |
+| nextLabel | string or react element | '>' | The next button label |
+| ellipsisLabel | string or react element | '...'| The next button label |
+| boundaryCount | number | `1` | Number of always visible pages at the beginning and end. |
+| siblingCount | number | `1` | Number of always visible pages before and after the current page. |
+| onChange | function | | Callback fired when the page is changed. <br /><br /> Signature: <br /> `function(event: object, page: number) => void` <br />event: The event source of the callback. <br />page: The page selected. |
+

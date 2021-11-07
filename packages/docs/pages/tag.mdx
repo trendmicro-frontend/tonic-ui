@@ -1,0 +1,490 @@
+# Tag
+
+`Tag` is used for items that need to be labeled, categorized, or organized using keywords that describe them.
+
+## Import
+
+```js
+import { Tag } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<Tag>Sample Tag</Tag>
+```
+
+### Variants
+
+Use the `variant` prop to change the visual style of the `Tag`. You can set the value to `solid`, `outline`.
+
+```jsx
+<Stack direction="row" spacing="2x" shouldWrapChildren>
+  <Tag variant="solid">Solid Tag</Tag>
+  <Tag variant="outline">Outline Tag</Tag>
+</Stack>
+```
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of the `Tag`. `variantColor` can be any color key that exist in the `theme.colors`.
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variantColor="gray">Gray</Tag>
+    <Tag variantColor="red">Red</Tag>
+    <Tag variantColor="magenta">Magenta</Tag>
+    <Tag variantColor="purple">Purple</Tag>
+    <Tag variantColor="blue">Blue</Tag>
+    <Tag variantColor="green">Green</Tag>
+    <Tag variantColor="teal">Teal</Tag>
+    <Tag variantColor="cyan">Cyan</Tag>
+  </Stack>
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variantColor="gray" borderRadius="lg">Gray</Tag>
+    <Tag variantColor="red" borderRadius="lg">Red</Tag>
+    <Tag variantColor="magenta" borderRadius="lg">Magenta</Tag>
+    <Tag variantColor="purple" borderRadius="lg">Purple</Tag>
+    <Tag variantColor="blue" borderRadius="lg">Blue</Tag>
+    <Tag variantColor="green" borderRadius="lg">Green</Tag>
+    <Tag variantColor="teal" borderRadius="lg">Teal</Tag>
+    <Tag variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  </Stack>
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variant="outline" variantColor="gray">Gray</Tag>
+    <Tag variant="outline" variantColor="red">Red</Tag>
+    <Tag variant="outline" variantColor="magenta">Magenta</Tag>
+    <Tag variant="outline" variantColor="purple">Purple</Tag>
+    <Tag variant="outline" variantColor="blue">Blue</Tag>
+    <Tag variant="outline" variantColor="green">Green</Tag>
+    <Tag variant="outline" variantColor="teal">Teal</Tag>
+    <Tag variant="outline" variantColor="cyan">Cyan</Tag>
+  </Stack>
+  <Stack direction="row" spacing="2x" shouldWrapChildren>
+    <Tag variant="outline" variantColor="gray" borderRadius="lg">Gray</Tag>
+    <Tag variant="outline" variantColor="red" borderRadius="lg">Red</Tag>
+    <Tag variant="outline" variantColor="magenta" borderRadius="lg">Magenta</Tag>
+    <Tag variant="outline" variantColor="purple" borderRadius="lg">Purple</Tag>
+    <Tag variant="outline" variantColor="blue" borderRadius="lg">Blue</Tag>
+    <Tag variant="outline" variantColor="green" borderRadius="lg">Green</Tag>
+    <Tag variant="outline" variantColor="teal" borderRadius="lg">Teal</Tag>
+    <Tag variant="outline" variantColor="cyan" borderRadius="lg">Cyan</Tag>
+  </Stack>
+</Stack>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the `Tag`. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack spacing="4x">
+  <Stack
+    align="center"
+    direction="row"
+    spacing="2x"
+  >
+    <Tag size="sm" variantColor="gray">Small</Tag>
+    <Tag size="md" variantColor="gray">Medium</Tag>
+    <Tag size="lg" variantColor="gray">Large</Tag>
+  </Stack>
+  <Stack
+    align="center"
+    direction="row"
+    spacing="2x"
+  >
+    <Tag size="sm" variant="outline" variantColor="gray">Small</Tag>
+    <Tag size="md" variant="outline" variantColor="gray">Medium</Tag>
+    <Tag size="lg" variant="outline" variantColor="gray">Large</Tag>
+  </Stack>
+</Stack>
+```
+
+### States
+
+```jsx
+<Stack spacing="4x">
+  <Stack direction="row" spacing="4x" shouldWrapChildren>
+    <Tag isClosable>Normal</Tag>
+    <Tag isClosable disabled>Disabled</Tag>
+    <Tag isClosable isInvalid>Invalid</Tag>
+  </Stack>
+  <Stack direction="row" spacing="4x" shouldWrapChildren>
+    <Tag variant="outline" isClosable>Normal</Tag>
+    <Tag variant="outline" isClosable disabled>Disabled</Tag>
+    <Tag variant="outline" isClosable isInvalid>Invalid</Tag>
+  </Stack>
+</Stack>
+```
+
+### Add and edit tag
+
+```jsx noInline
+function Tags() {
+  const [inputVisible, setInputVisible] = React.useState(false);
+  const [tags, setTags] = React.useState([]);
+  const handleInputVisible = () => setInputVisible(true);
+  const handleInputHidden = () => setInputVisible(false);
+  const handleInputBlur = (e) => {
+    e.stopPropagation();
+    const inputValue = e.target.value;
+    let newTags = tags;
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      newTags = [...tags, inputValue];
+    }
+    setTags(newTags);
+    handleInputHidden();
+  };
+  const handleInputKeyUp = (e) => {
+    const keyCode = e.keyCode;
+    if (keyCode === 13) {
+      const inputValue = e.target.value;
+      let newTags = tags;
+      if (inputValue && tags.indexOf(inputValue) === -1) {
+        newTags = [...tags, inputValue];
+      }
+      setTags(newTags);
+      handleInputHidden();
+    }
+
+    if (keyCode === 27) {
+      handleInputHidden();
+    }
+  };
+  const handleTagChange = (index) => (e) => {
+    const inputValue = e.target.value;
+    let newTags = tags;
+    newTags[index] = inputValue;
+    setTags([...newTags]);
+  };
+  const handleTagClose = (index) => (e) => {
+    e.stopPropagation();
+    tags.splice(index, 1);
+    setTags([...tags]);
+  };
+
+  return (
+    <Box>
+      {
+        tags.map((tag, i) => {
+          return (
+            <EditableTag
+              key={i}
+              onChange={handleTagChange(i)}
+              onClose={handleTagClose(i)}
+            >
+              {tag}
+            </EditableTag>
+          );
+        })
+      }
+      { !inputVisible && (
+        <Box
+          display="inline-flex"
+          alignItems="center"
+          borderRadius="sm"
+          border="1px dotted"
+          borderColor="gray:60"
+          width={92}
+          Height="6x"
+          py={2}
+          pl="2x"
+          pr="1x"
+          mt="1x"
+          onClick={handleInputVisible}
+        >
+          <Icon icon="add" color="white:tertiary" />
+          <Space width="2x" />
+          <Text
+            color="white:secondary"
+            fontSize="xs"
+            lineHeight="xs"
+          >
+            New Tag
+          </Text>
+        </Box>
+      )}
+      { inputVisible && (
+        <InputBase
+          autoFocus
+          minHeight="6x"
+          mt="1x"
+          onKeyUp={handleInputKeyUp}
+          onBlur={handleInputBlur}
+        />
+      )}
+    </Box>
+  );
+}
+
+render(<Tags />);
+```
+
+
+### With input
+
+- For duplicated entries, put both entries invalid, and hover the token to display error message.
+- When paste with text with delimiter, automatically convert to tags. Default delimiter: `,`, `;`
+
+```jsx noInline
+const useWrapperStyle = ({
+  isFocused,
+}) => {
+  const [colorMode] = useColorMode();
+  const { sizes } = useTheme();
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+  const invalidBorderColor = {
+    dark: 'red:50',
+    light: 'red:60',
+  }[colorMode];
+  const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+
+  const pxSpace = sizes['3x'];
+  const pbSpace = sizes['1x'];
+  const px = `calc(${pxSpace} - 1px)`;
+  const pb = `calc(${pbSpace} - 1px)`;
+
+  return {
+    backgroundColor: 'transparent',
+    borderRadius: 'sm',
+    fontSize: 'sm',
+    lineHeight: 'sm',
+    px: px,
+    pb: pb,
+    border: 1,
+    borderColor: isFocused ? focusBorderColor : borderColor,
+    _invalid: {
+      borderColor: invalidBorderColor,
+    },
+  };
+};
+
+const Tags = () => {
+  const [colorMode] = useColorMode();
+  const tagCreatorRef = React.useRef();
+  const [inputValue, setInputValue] = React.useState('');
+  const [tags, setTags] = React.useState([]);
+  const [placeholderVisible, setPlaceholderVisible] = React.useState(true);
+  const [isWrapperFocused, setWrapperFocused] = React.useState(false);
+  const checkTagAndGetMessage = ({ id, value }) => {
+    const isDuplicated = tags.find((t) => t.value === value && t.id !== id);
+    if (isDuplicated) {
+      return 'Duplicated entries';
+    }
+    return '';
+  };
+  const createTag = (value) => {
+    if (!value) {
+      return;
+    }
+    const newTag = {
+      id: new Date().getTime(),
+      value: value,
+      isActive: false,
+    };
+    const newTags = [...tags, newTag];
+    setTags(newTags);
+    setInputValue('');
+  };
+  const updateTag = ({ id, value }) => {
+    const newTags = [...tags];
+    let tag = newTags.find((t) => t.id === id);
+    tag.value = value || tag.value;
+    tag.isActive = false;
+    setTags(newTags);
+  };
+  const handleInputBlur = (e) => {
+    e.stopPropagation();
+    const value = e.target.value;
+    createTag(value);
+    setWrapperFocused(false);
+    if (tags.length === 0) {
+      setPlaceholderVisible(true);
+    }
+  };
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+  };
+  const handleInputFocus = (e) => {
+    setPlaceholderVisible(false);
+  };
+  const handleInputKeyUp = (e) => {
+    const keyCode = e.keyCode;
+    let value = e.target.value;
+    if (keyCode === 13) { // Enter
+      createTag(value);
+    }
+    if (keyCode === 186 || keyCode === 188) { // Semicolon(;) or Comma(,)
+      value = value.substring(0, value.length - 1);
+      createTag(value);
+    }
+    if (keyCode === 27) { // Esc
+      setInputValue('');
+    }
+  };
+  const handleInputPaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text');
+    let separatedValues = pastedData.split(
+      new RegExp([',', ';', '\n', '\r', '\r\n'].join('|'))
+    );
+    separatedValues = separatedValues.map((value, i) => {
+      return {
+        id: new Date().getTime() + i,
+        value: value.trim(),
+        isActive: false,
+      };
+    });
+    const newTags = [...tags, ...separatedValues];
+    setTags(newTags);
+    setInputValue('');
+  };
+  const handleTagChange = (tagId) => (e) => {
+    const value = e.target.value;
+    updateTag({ id: tagId, value });
+  };
+  const handleTagClick = (tagId) => (e) => {
+    const newTags = [...tags];
+    let tag = newTags.find((t) => t.id === tagId);
+    tag.isActive = true;
+    setTags(newTags);
+  };
+  const handleTagClose = (tagId) => (e) => {
+    e.stopPropagation();
+    const tag = tags.find((t) => t.id === tagId);
+    if (!tag) {
+      return;
+    }
+    const newTags = tags.filter((t) => t.id !== tagId);
+    setTags(newTags);
+    tagCreatorRef.current.focus();
+  };
+  const handleTagFocus = (e) => {
+    setWrapperFocused(true);
+  };
+  const handleWrapperClick = (e) => {
+    const activeTag = tags.find((t) => t.isActive);
+    if (activeTag) {
+      return;
+    }
+    tagCreatorRef.current.focus();
+    setWrapperFocused(true);
+  };
+
+  const wrapperStyle = useWrapperStyle({
+    isFocused: isWrapperFocused,
+  });
+  const placeholderColor = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const invalidColor = {
+    dark: 'red:60',
+    light: 'red:50',
+  }[colorMode];
+
+  const renderTags = tags.map((tag, i) => {
+    return {
+      ...tag,
+      errorMessage: checkTagAndGetMessage({ id: tag.id, value: tag.value }),
+    };
+  });
+  const invalidTags = renderTags.filter((t) => t.errorMessage.length > 0);
+  let hasError = false;
+  if (invalidTags.length > 1) {
+    hasError = true;
+  } else if (invalidTags.length === 1 && invalidTags[0].isActive === false) {
+    hasError = true;
+  }
+
+  return (
+    <>
+      <Box
+        {...wrapperStyle}
+        role="presentation"
+        aria-invalid={hasError}
+        onClick={handleWrapperClick}
+      >
+        {
+          renderTags.map((tag, i) => {
+            const id = tag.id;
+            const value = tag.value;
+            const errorMessage = tag.errorMessage;
+            if (errorMessage) {
+              return (
+                <Popover key={id} hideArrow trigger="hover">
+                    <PopoverTrigger>
+                      <EditableTag
+                        isInvalid={errorMessage.length > 0}
+                        onChange={handleTagChange(id)}
+                        onClick={handleTagClick(id)}
+                        onClose={handleTagClose(id)}
+                        onFocus={handleTagFocus}
+                      >
+                        {value}
+                      </EditableTag>
+                    </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverBody>{errorMessage}</PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              );
+            }
+            return (
+              <EditableTag
+                key={id}
+                isInvalid={errorMessage.length > 0}
+                onChange={handleTagChange(id)}
+                onClick={handleTagClick(id)}
+                onClose={handleTagClose(id)}
+                onFocus={handleTagFocus}
+              >
+                {value}
+              </EditableTag>
+            );
+          })
+        }
+        {placeholderVisible && (
+          <Text color={placeholderColor}>Placeholder text</Text>
+        )}
+        <InputBase
+          ref={tagCreatorRef}
+          minHeight="6x"
+          mt="1x"
+          value={inputValue}
+          onChange={handleInputChange}
+          onKeyUp={handleInputKeyUp}
+          onBlur={handleInputBlur}
+          onFocus={handleInputFocus}
+          onPaste={handleInputPaste}
+        />
+      </Box>
+      {hasError && (
+        <Text color={invalidColor}>There are invalid entries.</Text>
+      )}
+    </>
+  );
+};
+
+render(<Tags />);
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the tag will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| isInvalid | boolean | | If `true`, the tag will indicate an error. You can style this state by passing the `_invalid` prop. |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
+| size | string | 'md' | The size of the tag component. One of: `'sm'`, `'md'`, `'lg'` |
+| variant | string | 'solid' | The variant style of the tag component. One of: `'solid'`, `'outline'` |
+| variantColor | string | 'gray' | The color scheme of the tag variant. It must be a color key defined in `theme.colors`. |

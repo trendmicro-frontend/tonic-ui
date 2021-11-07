@@ -1,0 +1,554 @@
+import AnimatedCubeDemo from '../components/AnimatedCubeDemo';
+
+# Box
+
+The `Box` component serves as a wrapper component for most of the CSS utility needs. It allows you to control styles using [style props](https://styled-system.com/api) for building UI components with [Styled System](https://styled-system.com).
+
+<AnimatedCubeDemo />
+
+## Import
+
+```js
+import { Box } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<Box
+  backgroundColor="blue:50"
+  color="black:primary"
+  display="inline-block"
+  px="4x"
+  py="3x"
+  fontSize="xl"
+  lineHeight="xl"
+>
+  My component
+</Box>
+```
+
+### The `as` prop and custom component
+
+By default, the `Box` component renders a `div` element. There might be cases where you want to render a different element, you can use the `as` prop to do that.
+
+```jsx
+<Box
+  as="button"
+  backgroundColor="blue:70"
+  color="white:primary"
+  border="none"
+  borderRadius="sm"
+  cursor="pointer"
+  px="2x"
+  py="1x"
+>
+  Button
+</Box>
+```
+
+### Using pseudo props
+
+`Box` also provides useful props to style common CSS pseudo-class and pseudo-element selectors.
+
+A pseudo-class selector targets elements depending on their state rather than on information from the document tree. For example, the selector `:hover` matches when the user interacts with an element with a pointing device, but does not necessary activate it.
+
+A pseudo-element selector applies styles to parts of your document content in scenarios where there isn't a specific HTML element to select. For example, `::before` creates a <b>pseudo-element</b> that is the first child of the selected element. It is often used to add cosmetic content to an element with the `content` property.
+
+| Name | Selector |
+| :------- | :--- |
+| _active | `&:active` |
+| _checked | `&:checked` |
+| _disabled | `&:disabled` |
+| _empty | `&:empty` |
+| _enabled | `&:enabled` |
+| _firstChild | `&:first-child` |
+| _firstOfType | `&:first-of-type` |
+| _fullscreen | `&:fullscreen` |
+| _focus | `&:focus` |
+| _focusWithin | `&:focus-within` |
+| _hover | `&:hover` |
+| _indeterminate | `&:indeterminate` |
+| _invalid | `&:invalid` |
+| _lastChild | `&:last-child` |
+| _lastOfType | `&:last-of-type` |
+| _nthOfType | `&:nth-of-type()` |
+| _readOnly | `&:read-only` |
+| _visited | `&:visited` |
+| __after | `&::after` |
+| __backdrop | `&::backdrop` |
+| __before | `&::before` |
+| __cue | `&::cue` |
+| __firstLetter | `&::first-letter` |
+| __firstLine | `&::first-line` |
+| __placeholder | `&::placeholder` |
+| __selection | `&::selection` |
+
+#### `:hover`
+
+Add the `_hover` prop to apply style props on hover.
+
+```jsx
+<Box
+  as="button"
+  bg="blue:40"
+  color="white:primary"
+  py="2x"
+  px="3x"
+  border={0}
+  borderRadius="sm"
+  cursor="pointer"
+  _hover={{
+    bg: 'blue:50',
+    color: 'white:primary',
+  }}
+>
+  Hover Me
+</Box>
+```
+
+#### `:active`
+
+Add the `_active` prop to apply style props on active.
+
+```jsx
+<Box
+  as="button"
+  bg="blue:40"
+  color="white:primary"
+  py="2x"
+  px="3x"
+  border={0}
+  borderRadius="sm"
+  cursor="pointer"
+  _hover={{
+    bg: 'blue:50',
+    color: 'white:primary',
+  }}
+  _active={{
+    bg: 'blue:60',
+    color: 'white:primary',
+  }}
+>
+  Click Me
+</Box>
+```
+
+#### `:focus`
+
+Add the `_focus` prop to apply style props on focus.
+
+```jsx
+<Box
+  as="input"
+  placeholder="Click Me"
+  py="2x"
+  px="3x"
+  bg="gray:20"
+  border={1}
+  borderColor="transparent"
+  borderRadius="sm"
+  outline="none"
+  _focus={{
+    bg: 'white:primary',
+    boxShadow: '0 0 0 .2rem rgba(111, 155, 244, .5)',
+  }}
+/>
+```
+
+#### `:disabled`
+
+Add the `_disabled` prop to style an element which is disabled.
+
+```jsx
+<Stack direction="row" spacing=".5rem">
+  <Box
+    as="button"
+    bg="blue:40"
+    color="white:primary"
+    py="2x"
+    px="3x"
+    border={0}
+    borderRadius="sm"
+    cursor="pointer"
+    _hover={{
+      bg: 'blue:50',
+      color: 'white:primary',
+    }}
+    _active={{
+      bg: 'blue:60',
+      color: 'white:primary',
+    }}
+  >
+    Click Me
+  </Box>
+  <Box
+    as="button"
+    bg="blue:40"
+    color="white:primary"
+    py="2x"
+    px="3x"
+    border={0}
+    borderRadius="sm"
+    cursor="pointer"
+    disabled
+    _disabled={{
+      cursor: 'not-allowed',
+      bg: 'blue:40',
+      color: 'white:primary',
+      opacity: .6,
+    }}
+    _hover={{
+      bg: 'blue:50',
+      color: 'white:primary',
+    }}
+    _active={{
+      bg: 'blue:60',
+      color: 'white:primary',
+    }}
+  >
+    Click Me
+  </Box>
+</Stack>
+```
+
+#### `:visited`
+
+Add the `_visited` prop to style a visited link.
+
+```jsx
+<Stack direction="row" spacing=".5rem">
+  <Box
+    as="a"
+    href=""
+    color="blue:40"
+    fontWeight="semibold"
+    textDecoration="none"
+    _hover={{
+      textDecoration: 'underline',
+    }}
+  >
+    Normal link
+  </Box>
+  <Box
+    as="a"
+    href=""
+    color="blue:40"
+    fontWeight="semibold"
+    textDecoration="none"
+    _hover={{
+      textDecoration: 'underline',
+    }}
+    _visited={{
+      color: 'purple:60',
+    }}
+  >
+    Visited link
+  </Box>
+</Stack>
+```
+
+#### `:first-child`
+
+Add the `_firstChild` prop to style an element that is the first element among its siblings.
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+
+  return (
+    <Box border={1} borderColor={borderColor} borderRadius="sm">
+      {['One', 'Two', 'Three'].map(item => (
+        <Box
+          key={item}
+          py="2x"
+          px="3x"
+          borderTop={1}
+          borderTopColor={borderColor}
+          _firstChild={{
+            borderTopWidth: 0,
+            bg: 'blue:40',
+            color: 'white:primary',
+          }}
+        >
+          {item}
+        </Box>
+      ))}
+    </Box>
+  );
+}
+```
+
+#### `:last-child`
+
+Add the `_lastChild` prop to style an element that is the last element among its siblings.
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+
+  return (
+    <Box border={1} borderColor={borderColor} borderRadius="sm">
+      {['One', 'Two', 'Three'].map(item => (
+        <Box
+          key={item}
+          py="2x"
+          px="3x"
+          borderBottom={1}
+          borderBottomColor={borderColor}
+          _lastChild={{
+            borderBottomWidth: 0,
+            bg: 'blue:40',
+            color: 'white:primary',
+          }}
+        >
+          {item}
+        </Box>
+      ))}
+    </Box>
+  );
+}
+```
+
+#### `:nth-of-type()`
+
+Add the `_nthOfType` prop to match elements of a given type, based on their position among a group of siblings. The value can be represented as an array or an object in the following form:
+```
+// array
+_nthOfType={['2n+1', { color: 'red:40' }]
+
+// object
+_nthOfType={{ '2n+1': { color: 'red:40' }}
+```
+
+```jsx noInline
+const Paragraph = (props) => (
+  <Box
+    as="p"
+    _nthOfType={{
+      '1': {
+        fontWeight: 'bold'
+      },
+      '2n+1': {
+        color: 'red:40',
+      },
+      '2n': {
+        color: 'blue:40',
+      }
+    }}
+    {...props}
+  />
+);
+
+function Example() {
+  return (
+    <>
+      <Box>This element isn't counted.</Box>
+      <Paragraph>1st paragraph.</Paragraph>
+      <Paragraph>2nd paragraph.</Paragraph>
+      <Box>This element isn't counted.</Box>
+      <Paragraph>3rd paragraph.</Paragraph>
+      <Paragraph>4th paragraph.</Paragraph>
+    </>
+  )
+}
+
+render(<Example />);
+```
+
+#### `:nth-of-type(odd)`
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+
+  return (
+    <Box border={1} borderColor={borderColor} borderRadius="sm">
+      {['One', 'Two', 'Three', 'Four', 'Five'].map(item => (
+        <Box
+          key={item}
+          py="2x"
+          px="3x"
+          _nthOfType={['odd', {
+            bg: 'blue:40',
+            color: 'white:primary',
+          }]}
+        >
+          {item}
+        </Box>
+      ))}
+    </Box>
+  );
+}
+```
+
+#### `:nth-of-type(even)`
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+
+  return (
+    <Box border={1} borderColor={borderColor} borderRadius="sm">
+      {['One', 'Two', 'Three', 'Four', 'Five'].map(item => (
+        <Box
+          key={item}
+          py="2x"
+          px="3x"
+          _nthOfType={['even', {
+            bg: 'blue:40',
+            color: 'white:primary',
+          }]}
+        >
+          {item}
+        </Box>
+      ))}
+    </Box>
+  );
+}
+```
+
+## Examples
+
+Let's take a look at some examples of how to use `Box` to style elements.
+
+### Responsive layout
+
+```jsx noInline
+const Ellipsis = (props) => (
+  <Box whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" {...props} />
+);
+
+const Light = ({ on, ...rest }) => (
+  <Box
+    display="inline-block"
+    borderRadius="50%"
+    bg={on ? '#00ff00' : '#666'}
+    boxShadow={on ? '0 0 1px 2px rgba(0, 255, 0, .8)' : 'none'}
+    height={16}
+    width={16}
+    verticalAlign="middle"
+    {...rest}
+  />
+);
+
+function Example() {
+  const laneColor = {
+    1: '#389efc',
+    2: '#ff7332',
+    3: '#00b449',
+    4: '#fdf133',
+    5: '#fc74cf',
+  };
+
+  const players = [
+    { id: '240', lane: 1, name: 'Taiwan Leave System', laps: 2, raceTime: '01:20.592', gates: [1, 1, 1] },
+    { id: '339', lane: 2, name: '404 Not Found', laps: 2, raceTime: '01:24.036', gates: [1, 1, 1] },
+    { id: '003', lane: 3, name: 'ShowMeThe$$', laps: 2, raceTime: '01:37.890', gates: [1, 1, 0] },
+    { id: '207', lane: 4, name: 'Dragon Rider', laps: 1, raceTime: '00:49.211', gates: [1, 1, 0] },
+    { id: '456', lane: 5, name: 'BumbleBee', laps: 0, raceTime: '00:00.000', gates: [1, 1, 1] },
+  ];
+
+  return (
+    <Box position="relative" mx="auto">
+      {players.map((player, index) => (
+        <Box
+          key={player.id}
+          display="flex"
+          minWidth={360}
+        >
+          <Box
+            flexBasis="auto"
+            flexGrow={0}
+            minWidth=".5rem"
+            width=".5rem"
+            bg={laneColor[player.lane]}
+          />
+          <Box
+            bg={index % 2 ? 'gray:100' : 'gray:80'}
+            color="white:primary"
+            flexBasis={0}
+            flexGrow={1}
+            maxWidth="calc(100% - .5rem)"
+            py="2x"
+            px="6x"
+          >
+            <Box
+              display="flex"
+              alignItems="flex-end"
+            >
+              <Box
+                flexBasis={0}
+                flexGrow={1}
+                maxWidth="100%"
+              >
+                <Text
+                  color="#6fffff"
+                  fontWeight="bold"
+                  fontSize={['4xl', null, null, 48]}
+                  lineHeights={['4xl', null, null, '1.5']}
+                >
+                  {player.id}
+                </Text>
+              </Box>
+              <Box
+                flexBasis="auto"
+                flexGrow={0}
+                width="auto"
+              >
+                <Text
+                  fontSize={['3xl', null, null, '4xl']}
+                  lineHeight={['3xl', null, null, '4xl']}
+                >
+                  {player.laps} / {player.raceTime}
+                </Text>
+              </Box>
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              pt="2x"
+            >
+              <Box
+                flexBasis={0}
+                flexGrow={1}
+                maxWidth="100%"
+                width={0}
+              >
+                <Ellipsis>
+                  <Text
+                    fontSize={['2xl', null, null, '3xl']}
+                    lineHeight={['2xl', null, null, '3xl']}
+                  >
+                    {player.name}
+                  </Text>
+                </Ellipsis>
+              </Box>
+              <Box
+                flexBasis="auto"
+                flexGrow={0}
+                width="auto"
+                fontSize={['xl', null, null, '2xl']}
+                lineHeight={['xl', null, null, '2xl']}
+              >
+                <Light on={player.gates[0]} m="2x" />
+                <Text pr="2x">REC</Text>
+                <Light on={player.gates[1]} m="2x" />
+                <Text pr="2x">A</Text>
+                <Light on={player.gates[2]} m="2x" />
+                <Text pr="2x">B</Text>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
+render(<Example />);
+```
