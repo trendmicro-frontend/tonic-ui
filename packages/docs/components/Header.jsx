@@ -63,7 +63,7 @@ const Header = React.forwardRef((props, ref) => {
             height={30}
             marginRight="2x"
           />
-          <Text>Tonic Styled UI</Text>
+          <Text>Tonic UI</Text>
         </Box>
         <Flex
           flex="none"
