@@ -1,0 +1,43 @@
+# ButtonBase
+
+`ButtonBase` does not have appearance settings including default border, color, outline, and padding. It aims to be a simple building block for creating a button.
+
+## Import
+
+```js
+import { ButtonBase } from '@trendmicro/react-styled-ui';
+```
+
+## Usage
+
+```jsx
+<ButtonBase>Click Me</ButtonBase>
+```
+
+### Attributes
+
+Standard button attributes are supported, e.g., `type`, `disabled`, etc.
+
+#### `disabled`
+
+```jsx
+<ButtonBase
+  disabled
+  _disabled={{
+    opacity: 0.28, // dark: 0.28, light: 0.3
+    cursor: 'not-allowed',
+  }}
+>
+  Button is disabled
+</ButtonBase>
+```
+
+### Icon button
+
+See [IconButton](/iconbutton) for more information.
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
