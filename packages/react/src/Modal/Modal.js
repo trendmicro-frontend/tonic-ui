@@ -25,7 +25,7 @@ const Modal = ({
   id,
   children,
 }) => {
-  if (LEGACY_isCloseButtonVisible !== undefined) {
+  if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
     console.warn('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
   }
 

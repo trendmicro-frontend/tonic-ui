@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
 import { useTagStyle, useTagCloseButtonStyle } from './styles';
+import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
-import Box from '../Box';
 
 const TagCloseButton = ({ size, ...props }) => {
   const closeButtonStyleProps = useTagCloseButtonStyle({ size });
@@ -27,7 +27,7 @@ const Tag = forwardRef((
   },
   ref,
 ) => {
-  if (LEGACY_isCloseButtonVisible !== undefined) {
+  if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
     console.warn('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
   }
 
@@ -43,7 +43,7 @@ const Tag = forwardRef((
   });
 
   return (
-    <PseudoBox
+    <Box
       ref={ref}
       disabled={disabled}
       aria-disabled={disabled}
@@ -65,7 +65,7 @@ const Tag = forwardRef((
           <Icon icon="close-s" />
         </TagCloseButton>
       )}
-    </PseudoBox>
+    </Box>
   );
 });
 
