@@ -7,7 +7,7 @@ This component is currently not available in Tonic UI, however, you can write yo
 ## Usage
 
 ```jsx noInline
-const IconButton = (props) => {
+const IconButton = React.forwardRef((props, ref) => {
   const [colorMode] = useColorMode();
   const { colors } = useTheme();
   const color = {
@@ -26,13 +26,14 @@ const IconButton = (props) => {
 
   return (
     <ButtonBase
+      ref={ref}
       border={1}
       borderColor="transparent"
       color={color}
       transition="all .2s"
       lineHeight={1}
-      width="8x"
-      height="8x"
+      px="2x"
+      py="2x"
       _hover={{
         color: hoverColor,
       }}
@@ -55,7 +56,7 @@ const IconButton = (props) => {
       {...props}
     />
   );
-};
+});
 
 function Example() {
   return (
