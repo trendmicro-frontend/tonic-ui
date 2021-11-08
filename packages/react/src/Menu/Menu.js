@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useId } from '../utils/autoId';
 import getFocusableElements from '../utils/getFocusableElements';
-import { MenuContextProvider } from './context';
+import { MenuProvider } from './context';
 import usePrevious from '../utils/usePrevious';
 import Box from '../Box';
 
@@ -150,11 +150,11 @@ const Menu = ({
 
   return (
     <Box {...styleProps} {...props}>
-      <MenuContextProvider value={context}>
+      <MenuProvider value={context}>
         {typeof children === 'function'
           ? children({ isOpen: _isOpen, onClose: closeMenu })
           : children }
-      </MenuContextProvider>
+      </MenuProvider>
     </Box>
   );
 };

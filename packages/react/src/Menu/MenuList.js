@@ -1,7 +1,7 @@
 import React from 'react';
 import Popper from '../Popper/Popper';
-import { useMenu } from './context';
 import { useMenuListStyle } from './styles';
+import useMenu from './useMenu';
 
 const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
   const {
