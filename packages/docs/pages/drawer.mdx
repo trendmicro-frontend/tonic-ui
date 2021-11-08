@@ -57,6 +57,7 @@ const FormGroup = (props) => (
 );
 
 function Example() {
+  const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
   const iconColor = {
     dark: 'white:tertiary',
@@ -75,7 +76,7 @@ function Example() {
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
-  const [isToastNotificationVisible, toggleIsToastNotificationVisible] = useToggle(false);
+  const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const height = (placement === 'left' || placement === 'right') ? '100%' : 'auto';
 
   return (
@@ -245,19 +246,20 @@ function Example() {
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isToastNotificationVisible} onChange={toggleIsToastNotificationVisible} />
+          <Checkbox checked={isAlertVisible} onChange={toggleIsAlertVisible} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">Toggle Toast</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
         </TextLabel>
       </FormGroup>
       <Drawer
         ensureFocus={ensureFocus}
         autoFocus={autoFocus}
         backdrop={backdrop}
-        isClosable={isClosable}
-        isOpen={isOpen}
         closeOnEsc={closeOnEsc}
         closeOnOutsideClick={closeOnOutsideClick}
+        initialFocusRef={initialFocusRef}
+        isClosable={isClosable}
+        isOpen={isOpen}
         onClose={onClose}
         placement={placement}
         size={size}
@@ -275,29 +277,27 @@ function Example() {
               {size === 'full' && <Text>Full-width Drawer Title</Text>}
             </DrawerHeader>
           )}
-          <Flex
-            justify="center"
-            position="absolute"
-            left={0}
-            right={0}
-            margin="0 auto"
-            marginTop="12x"
-            minWidth={280}
-            maxWidth="80%"
-          >
-            <Fade in={isToastNotificationVisible}>
-              <Toast
-                appearance="warning"
-                isClosable
-                onClose={toggleIsToastNotificationVisible}
-              >
-                <Text>This is a warning toast notification.</Text>
-              </Toast>
-            </Fade>
-          </Flex>
           {isBodyVisible && (
             <DrawerBody>
-              You can put any elements you want here.
+              {isAlertVisible && (
+                <Alert variant="outline" severity="info" mb="4x" isClosable onClose={() => toggleIsAlertVisible()}>
+                  <Text>This is an info alert</Text>
+                </Alert>
+              )}
+              <Text mb="4x">
+                You can put any elements you want here.
+              </Text>
+              <Grid
+                templateColumns="auto 1fr"
+                rowGap="2x"
+                columnGap="3x"
+                alignItems="center"
+              >
+                <Icon icon="user" color={iconColor} />
+                <Input ref={initialFocusRef} placeholder="User name" />
+                <Icon icon="email" color={iconColor} />
+                <Input placeholder="Email address" />
+              </Grid>
             </DrawerBody>
           )}
           {isFooterVisible && (
