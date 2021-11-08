@@ -13,7 +13,7 @@ import Lorem from 'react-lorem-component';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
-import { codeBlockLight, codeBlockDark } from '../prism-themes/styled-ui';
+import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 
