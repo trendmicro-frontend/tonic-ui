@@ -3,7 +3,7 @@
 [![contributors](https://img.shields.io/github/contributors/trendmicro-frontend/tonic-ui)](https://img.shields.io/github/contributors/trendmicro-frontend/tonic-ui)
 [![circleci](https://circleci.com/gh/trendmicro-frontend/tonic-ui.svg?style=svg)](https://circleci.com/gh/trendmicro-frontend/tonic-ui)
 [![coverage](https://coveralls.io/repos/github/trendmicro-frontend/tonic-ui/badge.svg)](https://coveralls.io/repos/github/trendmicro-frontend/tonic-ui/badge.svg)
-[![downloads](https://img.shields.io/npm/dm/@trendmicro/react-tonic-ui.svg?style=flat)](https://img.shields.io/npm/dm/@trendmicro/react-tonic-ui.svg?style=flat)
+[![downloads](https://img.shields.io/npm/dm/@trendmicro/react-styled-ui.svg?style=flat)](https://img.shields.io/npm/dm/@trendmicro/react-styled-ui.svg?style=flat)
 [![last commit](https://badgen.net/github/last-commit/trendmicro-frontend/tonic-ui)](https://badgen.net/github/last-commit/trendmicro-frontend/tonic-ui)
 [![stars](https://badgen.net/github/stars/trendmicro-frontend/tonic-ui)](https://badgen.net/github/stars/trendmicro-frontend/tonic-ui)
 
