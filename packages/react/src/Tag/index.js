@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import { useTagStyle, useTagCloseButtonStyle } from './styles';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
@@ -27,9 +27,11 @@ const Tag = forwardRef((
   },
   ref,
 ) => {
-  if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
-    console.warn('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
-  }
+  useEffect(() => {
+    if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
+      console.error('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
+    }
+  }, []);
 
   const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const canFocus = isClosable;

@@ -1,6 +1,6 @@
 import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import Portal from '../Portal';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
@@ -27,9 +27,11 @@ const Drawer = ({
   id,
   children,
 }) => {
-  if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
-    console.warn('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
-  }
+  useEffect(() => {
+    if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
+      console.error('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
+    }
+  }, []);
 
   const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const defaultId = useId();
