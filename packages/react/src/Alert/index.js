@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
@@ -60,7 +60,7 @@ const Alert = forwardRef((
     if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
       console.error('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
     }
-  }, []);
+  }, [LEGACY_isCloseButtonVisible]); // eslint-disable-line camelcase
 
   const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const styleProps = useAlertStyle({ variant, severity });

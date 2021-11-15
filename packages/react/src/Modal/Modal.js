@@ -29,7 +29,7 @@ const Modal = ({
     if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
       console.error('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
     }
-  }, []);
+  }, [LEGACY_isCloseButtonVisible]); // eslint-disable-line camelcase
 
   const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const defaultId = useId();
