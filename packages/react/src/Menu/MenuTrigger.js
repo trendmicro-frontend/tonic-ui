@@ -92,6 +92,9 @@ const MenuTrigger = forwardRef((
   if (typeof children === 'function') {
     return children({
       getMenuTriggerProps,
+      isOpen,
+      openMenu,
+      closeMenu,
     });
   }
 
