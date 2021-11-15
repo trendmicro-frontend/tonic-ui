@@ -66,8 +66,8 @@ function Example() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [placement, changePlacementBy] = useSelection('right');
   const [size, changeSizeBy] = useSelection('sm');
-  const [ensureFocus, toggleEnsureFocus] = useToggle(false);
-  const [autoFocus, toggleAutoFocus] = useToggle(false);
+  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
+  const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [backdrop, toggleBackdrop] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick, setCloseOnOutsideClick] = useToggle(true);
@@ -270,11 +270,11 @@ function Example() {
         <DrawerContent height={height}>
           {isHeaderVisible && (
             <DrawerHeader>
-              {size === 'auto' && <Text>Auto-sized Drawer Title</Text>}
-              {size === 'sm' && <Text>Small Drawer Title</Text>}
-              {size === 'md' && <Text>Medium Drawer Title</Text>}
-              {size === 'lg' && <Text>Large Drawer Title</Text>}
-              {size === 'full' && <Text>Full-width Drawer Title</Text>}
+              {size === 'auto' && <Text>Auto-sized Drawer</Text>}
+              {size === 'sm' && <Text>Small Drawer</Text>}
+              {size === 'md' && <Text>Medium Drawer</Text>}
+              {size === 'lg' && <Text>Large Drawer</Text>}
+              {size === 'full' && <Text>Full-width Drawer</Text>}
             </DrawerHeader>
           )}
           {isBodyVisible && (

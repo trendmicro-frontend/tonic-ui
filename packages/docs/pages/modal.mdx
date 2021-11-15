@@ -124,7 +124,7 @@ function Example() {
     light: 'black:tertiary',
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [size, changeSizeBy] = useSelection('auto');
+  const [size, changeSizeBy] = useSelection('sm');
   const [height, changeHeightBy] = useSelection('auto');
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
@@ -304,7 +304,13 @@ function Example() {
         <ModalContent height={height}>
           {isHeaderVisible && (
             <ModalHeader>
-              Modal Title
+              {size === 'auto' && <Text>Auto-sized Modal</Text>}
+              {size === 'xs' && <Text>Extra Small Modal</Text>}
+              {size === 'sm' && <Text>Small Modal</Text>}
+              {size === 'md' && <Text>Medium Modal</Text>}
+              {size === 'lg' && <Text>Large Modal</Text>}
+              {size === 'xl' && <Text>Extra Large Modal</Text>}
+              {size === 'full' && <Text>Full-width Modal</Text>}
             </ModalHeader>
           )}
           {isBodyVisible && (
@@ -366,15 +372,15 @@ function Example() {
         isClosable
         isOpen={isOpen}
         onClose={onClose}
-        size="auto"
+        size="sm"
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Modal Title
+            Modal
           </ModalHeader>
           <ModalBody>
-            <Lorem count={2} />
+            Modal body text goes here.
           </ModalBody>
           <ModalFooter justifyContent="space-between">
             <Button
@@ -398,14 +404,15 @@ function Example() {
         isClosable
         isOpen={isNestedOpen}
         onClose={onNestedClose}
+        size="xs"
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Nested modal title
+            Nested Modal
           </ModalHeader>
           <ModalBody>
-            <Lorem count={1} />
+            Modal body text goes here.
           </ModalBody>
           <ModalFooter>
             <Button variant="primary" onClick={onNestedClose} minWidth="20x">
