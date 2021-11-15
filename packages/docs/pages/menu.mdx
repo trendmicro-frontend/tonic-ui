@@ -61,10 +61,7 @@ function Example() {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <MenuList
-          minWidth="200px"
-          whiteSpace="nowrap"
-        >
+        <MenuLists whiteSpace="nowrap">
           <MenuItem>
             <Icon icon="settings" mr="2x" />
             General
@@ -314,18 +311,20 @@ render(<Example />);
 To position the menu relative to the trigger, pass a `placement` prop to `Menu`. It can be one of the following values: `top-start`, `top`, `top-end`, `right-start`, `right`, `right-end`, `bottom-start`, `bottom`, `bottom-end`, `left-start`, `left`, `left-end`.
 
 ```jsx
-<Menu placement="top">
-  <MenuButton variant="secondary">
-    Select an option
-    <Space width="1x" />
-    <MenuIndicator />
-  </MenuButton>
-  <MenuList whiteSpace="nowrap">
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-  </MenuList>
-</Menu>
+<Box display="inline-block">
+  <Menu placement="top">
+    <MenuButton variant="secondary">
+      Select an option
+      <Space width="1x" />
+      <MenuIndicator />
+    </MenuButton>
+    <MenuList width="100%">
+      <MenuItem>List item</MenuItem>
+      <MenuItem>List item</MenuItem>
+      <MenuItem>List item</MenuItem>
+    </MenuList>
+  </Menu>
+</Box>
 ```
 
 You can also add `skidding` or `distance` props to `MenuList` to control the distance between the menu and the trigger.
@@ -337,7 +336,10 @@ You can also add `skidding` or `distance` props to `MenuList` to control the dis
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
-  <MenuList skidding={20} distance={8}>
+  <MenuList
+    distance={8}
+    skidding={20}
+  >
     <MenuItem>List item</MenuItem>
     <MenuItem>List item</MenuItem>
     <MenuItem>List item</MenuItem>
@@ -365,7 +367,7 @@ function menuWithCheckbox() {
         <Space width="1x" />
         <MenuIndicator />
       </MenuButton>
-      <MenuList>
+      <MenuList whiteSpace="nowrap">
         <CheckboxGroup size="sm" defaultValue={checkedItems}>
           <MenuItem><Checkbox value="host" onChange={e => handleChange(e)}>Endpoint name</Checkbox></MenuItem>
           <MenuItem><Checkbox value="ip" onChange={e => handleChange(e)}>IP address</Checkbox></MenuItem>
