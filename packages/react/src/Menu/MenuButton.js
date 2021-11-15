@@ -1,11 +1,6 @@
 import React, { forwardRef } from 'react';
 import Button from '../Button';
-import wrapEvent from '../utils/wrapEvent';
-import useForkRef from '../utils/useForkRef';
-import {
-  useMenuButtonStyle,
-} from './styles';
-import useMenu from './useMenu';
+import MenuTrigger from './MenuTrigger';
 
 const MenuButton = forwardRef((
   {
@@ -13,63 +8,27 @@ const MenuButton = forwardRef((
     onKeyDown,
     children,
     disabled,
-    variant = 'default',
-    ...rest
+    ...props
   },
   ref,
 ) => {
-  const {
-    isOpen,
-    focusOnLastItem,
-    focusOnFirstItem,
-    closeMenu,
-    menuId,
-    buttonId,
-    autoSelect,
-    openMenu,
-    buttonRef,
-  } = useMenu();
-  const menuButtonRef = useForkRef(buttonRef, ref);
-  const styleProps = useMenuButtonStyle();
-
   return (
-    <Button
-      aria-haspopup="menu"
-      aria-expanded={isOpen}
-      aria-controls={menuId}
-      data-active={isOpen}
-      aria-disabled={disabled}
+    <MenuTrigger
       disabled={disabled}
-      id={buttonId}
-      role="button"
-      ref={menuButtonRef}
-      onClick={wrapEvent(onClick, (event) => {
-        if (isOpen) {
-          closeMenu();
-        } else if (autoSelect) {
-          focusOnFirstItem();
-        } else {
-          event.preventDefault();
-          !disabled && openMenu();
-        }
-      })}
-      onKeyDown={wrapEvent(onKeyDown, event => {
-        if (event.key === 'ArrowDown') {
-          event.preventDefault();
-          focusOnFirstItem();
-        }
-
-        if (event.key === 'ArrowUp') {
-          event.preventDefault();
-          focusOnLastItem();
-        }
-      })}
-      variant={variant}
-      {...styleProps}
-      {...rest}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
     >
-      {children}
-    </Button>
+      {({ getMenuTriggerProps }) => {
+        return (
+          <Button
+            {...getMenuTriggerProps()}
+            {...props}
+          >
+            {children}
+          </Button>
+        );
+      }}
+    </MenuTrigger>
   );
 });
 

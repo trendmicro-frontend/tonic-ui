@@ -1,7 +1,10 @@
 import React, { forwardRef } from 'react';
-import ButtonBase from '../ButtonBase';
+import Box from '../Box';
 import wrapEvent from '../utils/wrapEvent';
 import useForkRef from '../utils/useForkRef';
+import {
+  useMenuTriggerStyle,
+} from './styles';
 import useMenu from './useMenu';
 
 const MenuTrigger = forwardRef((
@@ -10,59 +13,92 @@ const MenuTrigger = forwardRef((
     onKeyDown,
     children,
     disabled,
-    ...rest
+    ...props
   },
   ref,
 ) => {
+  const menuContext = useMenu();
   const {
     isOpen,
     focusOnLastItem,
     focusOnFirstItem,
     closeMenu,
     menuId,
-    buttonId,
+    menuTriggerId,
     autoSelect,
     openMenu,
-    buttonRef,
-  } = useMenu();
-  const menuButtonRef = useForkRef(buttonRef, ref);
+    menuTriggerRef,
+  } = menuContext;
+  const styleProps = useMenuTriggerStyle();
+  const combinedRef = useForkRef(menuTriggerRef, ref);
+  const handleClick = wrapEvent(onClick, (event) => {
+    // Don't handle `onClick` event when the `MenuTrigger` is disabled
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    if (isOpen) {
+      closeMenu();
+      return;
+    }
+
+    openMenu();
+
+    // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
+    autoSelect && focusOnFirstItem();
+  });
+  const handleKeyDown = wrapEvent(onKeyDown, event => {
+    // Don't handle `onKeyDown` event when the `MenuTrigger` is disabled
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      openMenu();
+
+      // Focus on the first item when the menu opens with the down arrow
+      focusOnFirstItem();
+      return;
+    }
+
+    if (event.key === 'ArrowUp') {
+      openMenu();
+
+      // Focus on the last item when the menu opens with the up arrow
+      focusOnLastItem();
+      return;
+    }
+  });
+
+  const getMenuTriggerProps = () => ({
+    'aria-active': isOpen,
+    'aria-controls': menuId,
+    'aria-disabled': disabled,
+    'aria-expanded': isOpen,
+    'aria-haspopup': 'menu',
+    disabled,
+    id: menuTriggerId,
+    onClick: handleClick,
+    onKeyDown: handleKeyDown,
+    ref: combinedRef,
+    role: 'button',
+    tabIndex: 0,
+    ...styleProps,
+    ...props,
+  });
+
+  if (typeof children === 'function') {
+    return children({
+      getMenuTriggerProps,
+    });
+  }
 
   return (
-    <ButtonBase
-      aria-haspopup="menu"
-      aria-expanded={isOpen}
-      aria-controls={menuId}
-      data-active={isOpen}
-      aria-disabled={disabled}
-      disabled={disabled}
-      id={buttonId}
-      role="button"
-      ref={menuButtonRef}
-      onClick={wrapEvent(onClick, (event) => {
-        if (isOpen) {
-          closeMenu();
-        } else if (autoSelect) {
-          focusOnFirstItem();
-        } else {
-          event.preventDefault();
-          !disabled && openMenu();
-        }
-      })}
-      onKeyDown={wrapEvent(onKeyDown, event => {
-        if (event.key === 'ArrowDown') {
-          event.preventDefault();
-          focusOnFirstItem();
-        }
-
-        if (event.key === 'ArrowUp') {
-          event.preventDefault();
-          focusOnLastItem();
-        }
-      })}
-      {...rest}
-    >
+    <Box {...getMenuTriggerProps()}>
       {children}
-    </ButtonBase>
+    </Box>
   );
 });
 

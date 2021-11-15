@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import { PopoverContextProvider } from './context';
 
@@ -87,7 +88,7 @@ const Popover = ({
     setMousePageY(event.pageY);
   };
 
-  const fallbackId = `popover-${useId()}`;
+  const fallbackId = `${config.name}:popover-${useId()}`;
   const popoverId = id || fallbackId;
 
   const headerId = `${popoverId}-header`;

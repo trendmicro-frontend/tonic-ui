@@ -6,6 +6,7 @@ import PopperArrow from '../Popper/PopperArrow';
 import PseudoBox from '../PseudoBox';
 import Grow from '../Transitions/Grow';
 import VisuallyHidden from '../VisuallyHidden';
+import config from '../shared/config';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
 import wrapEvent from '../utils/wrapEvent';
@@ -67,7 +68,7 @@ const Tooltip = ({
     exitTimeoutRef.current = setTimeout(onClose, leaveDelay);
   };
 
-  const tooltipId = `tooltip-${useId()}`;
+  const tooltipId = `${config.name}:tooltip-${useId()}`;
 
   const handleOpen = () => {
     if (!isControlled) {

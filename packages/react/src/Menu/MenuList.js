@@ -12,9 +12,9 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
     focusOnLastItem,
     closeMenu,
     focusableItems,
-    buttonRef,
+    menuTriggerRef,
     menuId,
-    buttonId,
+    menuTriggerId,
     menuRef,
     closeOnBlur,
     placement,
@@ -43,24 +43,27 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
       closeMenu();
     }
 
-    onKeyDown && onKeyDown(event);
+    if (typeof onKeyDown === 'function') {
+      onKeyDown(event);
+    }
   };
 
   // Close the menu on blur
   const handleBlur = event => {
     const target = event.relatedTarget || document.activeElement;
-    if (
-      closeOnBlur &&
-      isOpen &&
-      menuRef.current &&
-      buttonRef.current &&
-      !menuRef.current.contains(target) &&
-      !buttonRef.current.contains(target)
-    ) {
+    const isClickingOutside =
+      target &&
+      !(menuRef?.current?.contains(target)) &&
+      !(menuTriggerRef?.current?.contains(target));
+    const shouldCloseMenu = isOpen && closeOnBlur && isClickingOutside;
+
+    if (shouldCloseMenu) {
       closeMenu();
     }
 
-    onBlur && onBlur(event);
+    if (typeof onBlur === 'function') {
+      onBlur(event);
+    }
   };
 
   const styleProps = useMenuListStyle();
@@ -69,13 +72,13 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
     <Popper
       usePortal={false}
       isOpen={isOpen}
-      anchorEl={buttonRef.current}
+      anchorEl={menuTriggerRef.current}
       placement={placement}
       modifiers={{ offset: [skidding, distance] }}
       role="menu"
       ref={menuRef}
       id={menuId}
-      aria-labelledby={buttonId}
+      aria-labelledby={menuTriggerId}
       onKeyDown={handleKeyDown}
       onBlur={handleBlur}
       zIndex="dropdown"

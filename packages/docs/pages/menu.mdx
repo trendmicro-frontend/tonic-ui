@@ -172,19 +172,18 @@ render(<Example />);
 
 ### MenuTrigger
 
-
-### MenuButton
-
-`MenuButton` composes the `Button` component to provide a menu trigger without having to interact with the menu state. It must be a direct child of `Menu` to function properly.
-
-An indicator icon can be added to the `MenuButton` to indicate whether the menu is open or closed.
+`MenuTrigger` is the trigger that opens the menu when clicked. It is usually a button or link. An indicator can be added to the trigger to indicate the menu is open or closed.
 
 ```jsx
-<Flex>
+<Flex align="center">
   <Menu>
-    <MenuButton>
-      Settings
-    </MenuButton>
+    <MenuTrigger>
+      <Flex alignItems="center" userSelect="none">
+        <Icon icon="settings" />
+        <Space minWidth="2x" />
+        <Text>Settings</Text>
+      </Flex>
+    </MenuTrigger>
     <MenuList whiteSpace="nowrap">
       <MenuItem>
         <Icon icon="settings" mr="2x" />
@@ -200,11 +199,22 @@ An indicator icon can be added to the `MenuButton` to indicate whether the menu 
       </MenuItem>
     </MenuList>
   </Menu>
-  <Space width="2x" />
+  <Divider
+    variant="solid"
+    orientation="vertical"
+    height="5x"
+    mx="4x"
+  />
   <Menu>
-    <MenuButton variant="secondary">
-      Settings
-    </MenuButton>
+    <MenuTrigger>
+      <Flex alignItems="center" userSelect="none">
+        <Icon icon="settings" />
+        <Space minWidth="2x" />
+        <Text>Settings</Text>
+        <Space width="1x" />
+        <MenuIndicator />
+      </Flex>
+    </MenuTrigger>
     <MenuList whiteSpace="nowrap">
       <MenuItem>
         <Icon icon="settings" mr="2x" />
@@ -220,11 +230,27 @@ An indicator icon can be added to the `MenuButton` to indicate whether the menu 
       </MenuItem>
     </MenuList>
   </Menu>
-  <Space width="2x" />
+  <Divider
+    variant="solid"
+    orientation="vertical"
+    height="5x"
+    mx="4x"
+  />
   <Menu>
-    <MenuButton variant="ghost">
-      Settings
-    </MenuButton>
+    <MenuTrigger>
+      {({ getMenuTriggerProps }) => {
+        return (
+          <Button
+            {...getMenuTriggerProps()}
+            variant="secondary"
+          >
+            Settings
+            <Space width="2x" />
+            <MenuIndicator />
+          </Button>
+        );
+      }}
+    </MenuTrigger>
     <MenuList whiteSpace="nowrap">
       <MenuItem>
         <Icon icon="settings" mr="2x" />
@@ -243,20 +269,58 @@ An indicator icon can be added to the `MenuButton` to indicate whether the menu 
 </Flex>
 ```
 
+### MenuButton
+
+`MenuButton` composes `MenuTrigger` and `Button` to create a button that opens the menu. It's an useful alternative to `MenuTrigger` when the trigger is a button.
+
+```jsx disabled
+<MenuTrigger>
+  {({ getMenuTriggerProps }) => {
+    return (
+      <Button {...getMenuTriggerProps()}>
+        {children}
+      </Button>
+    );
+  }}
+</MenuTrigger>
+```
+
+```jsx
+<Menu>
+  <MenuButton>
+    Settings
+    <Space width="2x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList whiteSpace="nowrap">
+    <MenuItem>
+      <Icon icon="settings" mr="2x" />
+      General
+    </MenuItem>
+    <MenuItem>
+      <Icon icon="user-team" mr="2x" />
+      Accounts
+    </MenuItem>
+    <MenuItem>
+      <Icon icon="lock" mr="2x" />
+      Privacy
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
 ### Positioning
 
 To position the menu relative to the trigger, pass a `placement` prop to `Menu`. It can be one of the following values: `top-start`, `top`, `top-end`, `right-start`, `right`, `right-end`, `bottom-start`, `bottom`, `bottom-end`, `left-start`, `left`, `left-end`.
 
 ```jsx
-<Menu
-  placement="top"
-  display="inline-block"
->
-  <MenuButton>Select an option</MenuButton>
-  <MenuList
-    minWidth="100%"
-    whiteSpace="nowrap"
-  >
+<Menu placement="top">
+  <MenuButton variant="secondary">
+    Select an option
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList whiteSpace="nowrap">
     <MenuItem>List item</MenuItem>
     <MenuItem>List item</MenuItem>
     <MenuItem>List item</MenuItem>
@@ -268,7 +332,11 @@ You can also add `skidding` or `distance` props to `MenuList` to control the dis
 
 ```jsx
 <Menu>
-  <MenuButton>Select an option</MenuButton>
+  <MenuButton variant="secondary">
+    Select an option
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
   <MenuList skidding={20} distance={8}>
     <MenuItem>List item</MenuItem>
     <MenuItem>List item</MenuItem>
@@ -292,7 +360,11 @@ function menuWithCheckbox() {
   };
   return (
     <Menu closeOnSelect={false}>
-      <MenuButton>Select an option</MenuButton>
+      <MenuButton variant="secondary">
+        Select an option
+        <Space width="1x" />
+        <MenuIndicator />
+      </MenuButton>
       <MenuList>
         <CheckboxGroup size="sm" defaultValue={checkedItems}>
           <MenuItem><Checkbox value="host" onChange={e => handleChange(e)}>Endpoint name</Checkbox></MenuItem>

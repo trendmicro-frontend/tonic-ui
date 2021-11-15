@@ -95,42 +95,15 @@ const useMenuItemDividerStyle = () => {
   };
 };
 
-const useMenuButtonStyle = (props) => {
-  const [colorMode] = useColorMode();
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const activeBorderColor = hoverBorderColor;
-
+const useMenuTriggerStyle = () => {
   return {
-    justifyContent: 'left',
-    pr: 'calc(2rem - 1px)', // 32px - 1px
-    _hover: {
-      '&:not(:focus)': {
-        borderColor: hoverBorderColor,
-      },
-      zIndex: 2,
-    },
-    _active: {
-      '&:not(:focus)': {
-        borderColor: activeBorderColor,
-      },
-      bg: setColorWithOpacity('black', 0.12),
-    },
+    cursor: 'pointer',
   };
 };
 
-const useMenuIndicatorStyle = (props) => {
+const useMenuIndicatorStyle = () => {
   return {
     display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
-    pointerEvents: 'none',
-    pr: 'calc(.75rem - 1px)', // 12px - 1px
-    pl: '1x',
-    color: 'inherit',
     _disabled: {
       opacity: '.28',
     },
@@ -142,6 +115,6 @@ export {
   useMenuGroupStyle,
   useMenuItemStyle,
   useMenuItemDividerStyle,
-  useMenuButtonStyle,
+  useMenuTriggerStyle,
   useMenuIndicatorStyle,
 };
