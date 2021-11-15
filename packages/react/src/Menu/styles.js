@@ -126,9 +126,6 @@ const useMenuIndicatorStyle = (props) => {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    right: 0,
-    top: 0,
     height: '100%',
     pointerEvents: 'none',
     pr: 'calc(.75rem - 1px)', // 12px - 1px
