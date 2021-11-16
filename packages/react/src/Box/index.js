@@ -33,19 +33,15 @@ const createPseudoClassTransformFunction = name => prop => {
  * https://developer.mozilla.org/en-US/docs/Web/CSS/
  */
 
-const active = [
-  '&:active',
-  '&[data-active=true]'
-].join(',');
+const active = '&:active';
 const checked = [
   '&[aria-checked=true]',
   '&:checked',
 ].join(',');
 const selected = [
   '&[aria-selected=true]',
-  '&[data-selected=true]',
-  '&:active[data-selected=true]',
-  '&:hover[data-selected=true]',
+  '&:active[aria-selected=true]',
+  '&:hover[aria-selected=true]',
 ].join(',');
 const disabled = [
   '&[aria-disabled=true]',
@@ -68,7 +64,7 @@ const focus = '&:focus';
 const focusActive = '&:focus:active';
 const focusHover = '&:focus:hover';
 const focusWithin = '&:focus-within';
-const focusSelected = ['&[aria-selected=true]:focus', '&[data-selected=true]:focus'].join(',');
+const focusSelected = '&[aria-selected=true]:focus';
 const hover = '&:hover';
 const indeterminate = '&:indeterminate';
 const valid = [
