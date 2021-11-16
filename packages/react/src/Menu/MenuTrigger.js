@@ -73,7 +73,6 @@ const MenuTrigger = forwardRef((
   });
 
   const getMenuTriggerProps = () => ({
-    'aria-active': isOpen,
     'aria-controls': menuId,
     'aria-disabled': disabled,
     'aria-expanded': isOpen,
