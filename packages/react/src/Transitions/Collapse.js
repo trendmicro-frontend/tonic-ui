@@ -14,7 +14,6 @@ import {
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 import Box from '../Box';
-import Box from '../Box';
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
