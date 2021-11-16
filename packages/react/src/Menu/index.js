@@ -6,7 +6,6 @@ import MenuIndicator from './MenuIndicator';
 import MenuItem from './MenuItem';
 import MenuList from './MenuList';
 import MenuTrigger from './MenuTrigger';
-import useMenu from './useMenu';
 
 Menu.Button = MenuButton;
 Menu.Divider = MenuDivider;
@@ -25,7 +24,6 @@ export {
   MenuItem,
   MenuList,
   MenuTrigger,
-  useMenu,
 };
 
 export default Menu;

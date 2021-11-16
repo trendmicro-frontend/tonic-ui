@@ -2,7 +2,7 @@ import chainedFunction from 'chained-function';
 import React, { useRef } from 'react';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import Grow from '../Transitions/Grow';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
@@ -170,7 +170,7 @@ const PopoverContent = ({
           >
             {(state, { ref, style: transitionStyle }) => {
               return (
-                <PseudoBox
+                <Box
                   ref={ref}
                   {...contentStyleProps}
                   {...transitionStyle}
@@ -184,7 +184,7 @@ const PopoverContent = ({
                     />
                   )}
                   {children}
-                </PseudoBox>
+                </Box>
               );
             }}
           </TransitionComponent>

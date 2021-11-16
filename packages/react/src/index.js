@@ -140,7 +140,6 @@ export {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
-  useDrawer,
 } from './Drawer';
 export {
   Menu,
@@ -151,7 +150,6 @@ export {
   MenuItem,
   MenuList,
   MenuTrigger,
-  useMenu,
 } from './Menu';
 export {
   Modal,
@@ -160,7 +158,6 @@ export {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useModal,
 } from './Modal';
 export {
   Popover,

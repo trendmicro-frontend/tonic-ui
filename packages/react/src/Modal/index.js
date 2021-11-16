@@ -4,7 +4,6 @@ import ModalContent from './ModalContent';
 import ModalFooter from './ModalFooter';
 import ModalHeader from './ModalHeader';
 import ModalOverlay from './ModalOverlay';
-import useModal from './useModal';
 
 Modal.Body = ModalBody;
 Modal.Content = ModalContent;
@@ -19,7 +18,6 @@ export {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useModal,
 };
 
 export default Modal;

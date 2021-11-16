@@ -13,7 +13,7 @@ import {
 } from '../shared/transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 
 const getScale = value => {
   return `scale(${value}, ${value ** 2})`;
@@ -148,14 +148,14 @@ const Grow = forwardRef((
         }
 
         return (
-          <PseudoBox
+          <Box
             ref={combinedRef}
             {...childProps}
             {...styleProps}
             style={style}
           >
             {children}
-          </PseudoBox>
+          </Box>
         );
       }}
     </Transition>

@@ -3,7 +3,7 @@ import React, { cloneElement, useRef, Children } from 'react';
 import Box from '../Box';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 import Grow from '../Transitions/Grow';
 import VisuallyHidden from '../VisuallyHidden';
 import config from '../shared/config';
@@ -179,7 +179,7 @@ const Tooltip = ({
             >
               {(state, { ref, style: transitionStyle }) => {
                 return (
-                  <PseudoBox
+                  <Box
                     ref={ref}
                     {...tooltipStyleProps}
                     {...transitionStyle}
@@ -198,7 +198,7 @@ const Tooltip = ({
                         {...PopperArrowProps}
                       />
                     )}
-                  </PseudoBox>
+                  </Box>
                 );
               }}
             </TransitionComponent>

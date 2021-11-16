@@ -13,7 +13,7 @@ import {
 } from '../shared/transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
-import PseudoBox from '../PseudoBox';
+import Box from '../Box';
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -98,14 +98,14 @@ const Fade = forwardRef((
         }
 
         return (
-          <PseudoBox
+          <Box
             ref={combinedRef}
             {...childProps}
             {...styleProps}
             style={style}
           >
             {children}
-          </PseudoBox>
+          </Box>
         );
       }}
     </Transition>
