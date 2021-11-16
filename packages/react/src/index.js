@@ -126,13 +126,80 @@ export {
   withTheme,
 };
 
-export * from './Tabs';
-export * from './Accordion';
-export * from './Drawer';
-export * from './Menu';
-export * from './Modal';
-export * from './Popover';
-export * from './Popper';
-export * from './Select';
-export * from './Table';
-export * from './Transitions';
+export {
+  Accordion,
+  AccordionIcon,
+  AccordionItem,
+  AccordionHeader,
+  AccordionPanel,
+} from './Accordion';
+export {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  useDrawer,
+} from './Drawer';
+export {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuIndicator,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+  useMenu,
+} from './Menu';
+export {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useModal,
+} from './Modal';
+export {
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
+} from './Popover';
+export {
+  Popper,
+  PopperArrow,
+} from './Popper';
+export {
+  Select,
+  Option,
+  OptionGroup,
+} from './Select';
+export {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableHeaderRow,
+  TableRow,
+} from './Table';
+export {
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel,
+  TabPanels,
+} from './Tabs';
+export {
+  Collapse,
+  Fade,
+  Grow,
+  Scale,
+  Slide,
+  Zoom,
+} from './Transitions';

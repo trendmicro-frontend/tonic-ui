@@ -1,23 +1,25 @@
 import Modal from './Modal';
-import ModalOverlay from './ModalOverlay';
-import ModalContent from './ModalContent';
-import ModalHeader from './ModalHeader';
 import ModalBody from './ModalBody';
+import ModalContent from './ModalContent';
 import ModalFooter from './ModalFooter';
+import ModalHeader from './ModalHeader';
+import ModalOverlay from './ModalOverlay';
+import useModal from './useModal';
 
-Modal.Overlay = ModalOverlay;
-Modal.Content = ModalContent;
-Modal.Header = ModalHeader;
 Modal.Body = ModalBody;
+Modal.Content = ModalContent;
 Modal.Footer = ModalFooter;
+Modal.Header = ModalHeader;
+Modal.Overlay = ModalOverlay;
 
 export {
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useModal,
 };
 
 export default Modal;

@@ -1,29 +1,31 @@
 import Menu from './Menu';
 import MenuButton from './MenuButton';
-import MenuTrigger from './MenuTrigger';
-import MenuIndicator from './MenuIndicator';
-import MenuList from './MenuList';
-import MenuItem from './MenuItem';
-import MenuGroup from './MenuGroup';
 import MenuDivider from './MenuDivider';
+import MenuGroup from './MenuGroup';
+import MenuIndicator from './MenuIndicator';
+import MenuItem from './MenuItem';
+import MenuList from './MenuList';
+import MenuTrigger from './MenuTrigger';
+import useMenu from './useMenu';
 
 Menu.Button = MenuButton;
-Menu.Trigger = MenuTrigger;
-Menu.Indicator = MenuIndicator;
-Menu.List = MenuList;
-Menu.Item = MenuItem;
-Menu.Group = MenuGroup;
 Menu.Divider = MenuDivider;
+Menu.Group = MenuGroup;
+Menu.Indicator = MenuIndicator;
+Menu.Item = MenuItem;
+Menu.List = MenuList;
+Menu.Trigger = MenuTrigger;
 
 export {
   Menu,
   MenuButton,
-  MenuTrigger,
-  MenuIndicator,
-  MenuList,
-  MenuItem,
+  MenuDivider,
   MenuGroup,
-  MenuDivider
+  MenuIndicator,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+  useMenu,
 };
 
 export default Menu;

@@ -23,6 +23,7 @@ import {
   MenuItem,
   MenuGroup,
   MenuDivider,
+  useMenu,
 } from '@trendmicro/react-styled-ui';
 ```
 
@@ -61,7 +62,7 @@ function Example() {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <MenuLists whiteSpace="nowrap">
+        <MenuList whiteSpace="nowrap">
           <MenuItem>
             <Icon icon="settings" mr="2x" />
             General
