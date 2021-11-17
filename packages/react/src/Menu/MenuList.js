@@ -1,13 +1,10 @@
 import chainedFunction from 'chained-function';
 import React, { forwardRef, useRef } from 'react';
-import Box from '../Box';
 import Popper from '../Popper/Popper';
 import Collapse from '../Transitions/Collapse';
 import useForkRef from '../utils/useForkRef';
 import { useMenuListStyle } from './styles';
 import useMenu from './useMenu';
-
-const Wrapper = forwardRef((props, ref) => <Box ref={ref} {...props} />);
 
 const MenuList = forwardRef((
   {
@@ -22,7 +19,6 @@ const MenuList = forwardRef((
 ) => {
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
-  const wrapperRef = useRef(null);
   const {
     activeIndex: index,
     isOpen,
@@ -128,28 +124,7 @@ const MenuList = forwardRef((
               TransitionProps?.onExited,
             )}
           >
-            {(state, { ref, style: transitionStyle }) => {
-              const isAnimationStart = (inProp && (state === 'entering')) ||
-                (!inProp && (state === 'entering' || state === 'entered'));
-
-              if (isAnimationStart) {
-                const wrapper = wrapperRef.current;
-                const contentHeight = wrapper?.offsetHeight;
-                transitionStyle.height = contentHeight;
-                transitionStyle.overflow = 'hidden';
-              }
-
-              return (
-                <Box
-                  ref={ref}
-                  {...transitionStyle}
-                >
-                  <Wrapper ref={wrapperRef}>
-                    {children}
-                  </Wrapper>
-                </Box>
-              );
-            }}
+            {children}
           </TransitionComponent>
         );
       }}

@@ -109,6 +109,7 @@ const Collapse = forwardRef((
           const wrapper = wrapperRef.current;
           const contentHeight = wrapper?.offsetHeight;
           styleProps.height = contentHeight;
+          styleProps.overflow = 'hidden';
         }
 
         return (
