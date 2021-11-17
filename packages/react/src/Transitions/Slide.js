@@ -4,6 +4,7 @@ import React, {
   useRef,
 } from 'react';
 import { Transition } from 'react-transition-group';
+import Box from '../Box';
 import {
   createTransitionStyle,
   getEnterTransitionProps,
@@ -13,7 +14,6 @@ import {
 } from '../shared/transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
-import Box from '../Box';
 
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';

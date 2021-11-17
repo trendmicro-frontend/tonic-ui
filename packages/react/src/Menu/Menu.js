@@ -1,3 +1,4 @@
+import { ensureString } from 'ensure-type';
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '../Box';
 import config from '../shared/config';
@@ -5,6 +6,18 @@ import { useId } from '../utils/autoId';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuProvider } from './context';
 import usePrevious from '../utils/usePrevious';
+
+const mapPlacementToDirection = (placement) => {
+  const p0 = ensureString(placement).split('-')[0];
+  const direction = {
+    top: 'up',
+    bottom: 'down',
+    left: 'left',
+    right: 'right',
+  }[p0];
+
+  return direction;
+};
 
 const Menu = ({
   anchorEl,
@@ -31,6 +44,7 @@ const Menu = ({
   const focusableItems = useRef(null);
   const menuRef = useRef(null);
   const menuTriggerRef = useRef(null);
+  const direction = mapPlacementToDirection(placement);
 
   useEffect(() => {
     if (_isOpen && menuRef && menuRef.current) {
@@ -125,6 +139,7 @@ const Menu = ({
     closeMenu,
     closeOnBlur,
     closeOnSelect,
+    direction,
     focusAtIndex,
     focusOnFirstItem,
     focusOnLastItem,
@@ -147,7 +162,7 @@ const Menu = ({
         {...props}
       >
         {typeof children === 'function'
-          ? children({ isOpen: _isOpen, onClose: closeMenu })
+          ? children(context)
           : children}
       </Box>
     </MenuProvider>

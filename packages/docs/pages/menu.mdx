@@ -1,28 +1,28 @@
 # Menu
 
-A menu displays a list of options to the user. It appears when the user interacts with a button, link, or other control that triggers an action.
+A menu is used to display a list of options to the user. It appears when the user interacts with a button, link, or other control that triggers an action.
 
 ## Import
 
-- `Menu`: The Menu component provides context, state, and focus management for the menu.
-- `MenuButton`: A button that can be used to open a menu.
+- `Menu`: The component that provides the menu functionality.
 - `MenuTrigger`: The trigger that opens the menu. This is usually a button or link.
-- `MenuIndicator`: An indicator that appears next to the trigger. This is usually a chevron.
-- `MenuList`: The wrapper for the menu items. Must be a direct child of `Menu`.
-- `MenuItem`: The trigger that handles menu selection. Must be a direct child of a `MenuList`.
-- `MenuGroup`: A wrapper to group related menu items.
-- `MenuDivider`: A visual separator for menu items and groups.
+- `MenuIndicator`: An indicator that appears next to the trigger. This is usually a chevron or arrow.
+- `MenuButton`: A button that composes `MenuTrigger` and `Button` and is used to open the menu.
+- `MenuList`: A wrapper that contains the menu items. Must be a direct child of the `Menu` component.
+- `MenuItem`: The individual menu items. Must be a direct child of the `MenuList` component.
+- `MenuDivider`: A divider that separates menu items.
+- `MenuGroup`: A wrapper that groups related menu items.
 
 ```js
 import {
   Menu,
-  MenuButton,
   MenuTrigger,
   MenuIndicator,
+  MenuButton,
   MenuList,
   MenuItem,
-  MenuGroup,
   MenuDivider,
+  MenuGroup,
 } from '@trendmicro/react-styled-ui';
 ```
 
@@ -61,7 +61,7 @@ function Example() {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <MenuList whiteSpace="nowrap">
+        <MenuList>
           <MenuItem>
             <Icon icon="settings" mr="2x" />
             General
@@ -129,7 +129,7 @@ function Example() {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <MenuList whiteSpace="nowrap">
+        <MenuList>
           <MenuItem>
             Profile
           </MenuItem>
@@ -169,7 +169,7 @@ render(<Example />);
 
 ### MenuTrigger
 
-`MenuTrigger` is the trigger that opens the menu when clicked. It is usually a button or link. An indicator can be added to the trigger to indicate the menu is open or closed.
+`MenuTrigger` is the trigger that opens the menu when clicked. It is usually a button or link. The `MenuIndicator` can be added to the trigger to indicate the menu is open or closed.
 
 ```jsx
 <Flex align="center">
@@ -181,7 +181,7 @@ render(<Example />);
         <Text>Settings</Text>
       </Flex>
     </MenuTrigger>
-    <MenuList whiteSpace="nowrap">
+    <MenuList>
       <MenuItem>
         <Icon icon="settings" mr="2x" />
         General
@@ -212,7 +212,7 @@ render(<Example />);
         <MenuIndicator />
       </Flex>
     </MenuTrigger>
-    <MenuList whiteSpace="nowrap">
+    <MenuList>
       <MenuItem>
         <Icon icon="settings" mr="2x" />
         General
@@ -241,14 +241,14 @@ render(<Example />);
             {...getMenuTriggerProps()}
             variant="secondary"
           >
-            Settings
-            <Space width="2x" />
+            <Text>Settings</Text>
+            <Space width="1x" />
             <MenuIndicator />
           </Button>
         );
       }}
     </MenuTrigger>
-    <MenuList whiteSpace="nowrap">
+    <MenuList>
       <MenuItem>
         <Icon icon="settings" mr="2x" />
         General
@@ -284,12 +284,12 @@ render(<Example />);
 
 ```jsx
 <Menu>
-  <MenuButton>
-    Settings
-    <Space width="2x" />
+  <MenuButton variant="secondary" size="md">
+    <Text>Settings</Text>
+    <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
-  <MenuList whiteSpace="nowrap">
+  <MenuList>
     <MenuItem>
       <Icon icon="settings" mr="2x" />
       General
@@ -306,43 +306,221 @@ render(<Example />);
 </Menu>
 ```
 
-### Positioning
+### MenuIndicator
 
-To position the menu relative to the trigger, pass a `placement` prop to `Menu`. It can be one of the following values: `top-start`, `top`, `top-end`, `right-start`, `right`, `right-end`, `bottom-start`, `bottom`, `bottom-end`, `left-start`, `left`, `left-end`.
+`MenuIndicator` is an indicator that indicates the menu is open or closed.
 
 ```jsx
-<Box display="inline-block">
-  <Menu placement="top">
-    <MenuButton variant="secondary">
-      Select an option
-      <Space width="1x" />
-      <MenuIndicator />
-    </MenuButton>
-    <MenuList width="100%">
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-    </MenuList>
-  </Menu>
-</Box>
+<Menu>
+  <MenuButton variant="ghost" size="sm" px="1x">
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList>
+    <MenuItem>
+      <Icon icon="settings" mr="2x" />
+      General
+    </MenuItem>
+    <MenuItem>
+      <Icon icon="user-team" mr="2x" />
+      Accounts
+    </MenuItem>
+    <MenuItem>
+      <Icon icon="lock" mr="2x" />
+      Privacy
+    </MenuItem>
+  </MenuList>
+</Menu>
 ```
 
-You can also add `skidding` or `distance` props to `MenuList` to control the distance between the menu and the trigger.
+You can also customize the indicator by passing a component as children or a function as children that returns a component.
+
+```jsx
+<Menu placement="bottom-start">
+  {({ isOpen, direction }) => {
+    return (
+      <>
+        <MenuButton variant="secondary">
+          <MenuIndicator>
+            {({ ref, style: styleProps }) => {
+              // direction is either 'up', 'down', 'left' or 'right'
+              const icon = `arrow-${direction}`;
+              const transformAxis = (direction === 'up' || direction === 'down') ? 'Y' : 'X';
+              styleProps.transform = isOpen ? `scale${transformAxis}(-1)` : `scale${transformAxis}(1)`;
+
+              return (
+                <Icon
+                  ref={ref}
+                  icon={icon}
+                  {...styleProps}
+                />
+              );
+            }}
+          </MenuIndicator>
+        </MenuButton>
+        <MenuList>
+          <MenuItem>
+            <Icon icon="settings" mr="2x" />
+            General
+          </MenuItem>
+          <MenuItem>
+            <Icon icon="user-team" mr="2x" />
+            Accounts
+          </MenuItem>
+          <MenuItem>
+            <Icon icon="lock" mr="2x" />
+            Privacy
+          </MenuItem>
+        </MenuList>
+      </>
+    );
+  }}
+</Menu>
+```
+
+### Placement
+
+To position the menu relative to the trigger, pass a `placement` prop to `Menu`. It can be one of the following values:
+* `top-start` / `top` / `top-end`
+* `bottom-start` / `bottom` / `bottom-end`
+* `left-start` / `left` / `left-end`
+* `right-start` / `right` / `right-end`
+
+```jsx noInline
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const gridAreas = [
+  ['.', 'top-start', 'top', 'top-end', '.'],
+  ['left-start', '.', '.', '.', 'right-start'],
+  ['left', '.', 'center', '.', 'right'],
+  ['left-end', '.', '.', '.', 'right-end'],
+  ['.', 'bottom-start', 'bottom', 'bottom-end', '.'],
+];
+
+function Example() {
+  const [placement, changePlacementBy] = useSelection('bottom-start');
+  const gridTemplateAreas = gridAreas.map((row) => {
+    const rowString = '"' + row.join(' ') + '"';
+    return rowString;
+  }).join(' ');
+
+  return (
+    <Flex>
+      <Grid
+        templateAreas={gridTemplateAreas}
+        autoColumns="minmax(0, 1fr)"
+        autoFlow="row"
+        gap="2x"
+      >
+        {gridAreas.flat().map((value, key) => {
+          if (value === '.') {
+            return (<Box key={key} />);
+          }
+
+          if (value === 'center') {
+            return (
+              <Menu placement={placement}>
+                <MenuButton variant="secondary">
+                  <Text>Select an option</Text>
+                  <Space width="1x" />
+                  <MenuIndicator />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>
+                    <Icon icon="settings" mr="2x" />
+                    General
+                  </MenuItem>
+                  <MenuItem>
+                    <Icon icon="user-team" mr="2x" />
+                    Accounts
+                  </MenuItem>
+                  <MenuItem>
+                    <Icon icon="lock" mr="2x" />
+                    Privacy
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            );
+          }
+
+          const changePlacement = changePlacementBy(value);
+          const onClick = () => {
+            changePlacement();
+          };
+
+          return (
+            <SelectableButton
+              key={key}
+              selected={value === placement}
+              onClick={onClick}
+            >
+              {value}
+            </SelectableButton>
+          );
+        })}
+      </Grid>
+    </Flex>
+  );
+}
+
+render(<Example />);
+```
+
+### Distance
+
+The distance from the trigger to the menu can be controlled by passing a `distance` prop to `MenuList`. This value is specified in pixels.
 
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
-    Select an option
+    <Text>Select an option</Text>
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
-  <MenuList
-    distance={8}
-    skidding={20}
-  >
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
+  <MenuList distance={16}>
+    <MenuItem>
+      <Icon icon="settings" mr="2x" />
+      General
+    </MenuItem>
+    <MenuItem>
+      <Icon icon="user-team" mr="2x" />
+      Accounts
+    </MenuItem>
+    <MenuItem>
+      <Icon icon="lock" mr="2x" />
+      Privacy
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+### Skidding
+
+The offset of the menu along the trigger can be controlled by passing a `skidding` prop to `MenuList`. This value is specified in pixels.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Select an option</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList skidding={16}>
+    <MenuItem>
+      <Icon icon="settings" mr="2x" />
+      General
+    </MenuItem>
+    <MenuItem>
+      <Icon icon="user-team" mr="2x" />
+      Accounts
+    </MenuItem>
+    <MenuItem>
+      <Icon icon="lock" mr="2x" />
+      Privacy
+    </MenuItem>
   </MenuList>
 </Menu>
 ```
@@ -363,11 +541,11 @@ function menuWithCheckbox() {
   return (
     <Menu closeOnSelect={false}>
       <MenuButton variant="secondary">
-        Select an option
+        <Text>Select an option</Text>
         <Space width="1x" />
         <MenuIndicator />
       </MenuButton>
-      <MenuList whiteSpace="nowrap">
+      <MenuList>
         <CheckboxGroup size="sm" defaultValue={checkedItems}>
           <MenuItem><Checkbox value="host" onChange={e => handleChange(e)}>Endpoint name</Checkbox></MenuItem>
           <MenuItem><Checkbox value="ip" onChange={e => handleChange(e)}>IP address</Checkbox></MenuItem>
@@ -383,25 +561,12 @@ function menuWithCheckbox() {
 
 ### Keyboard Interaction
 
-| Key                | Action                                                                                                                                  |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `Enter` or `Space` | When `MenuButton` receives focus, opens the menu and places focus on the first menu item                                                |
-| `ArrowDown`        | When `MenuButton` receives focus, opens the menu and moves focus to the first menu item                                                 |
-| `ArrowUp`          | When `MenuButton` receives focus, opens the menu and moves focus to the last menu item                                                  |
-| `Escape`           | When the menu is open, closes the menu and sets focus to the `MenuButton`                                                               |
-
-### ARIA roles
-
-**For `MenuButton`:**
-
-- It has `role` set to `button`.
-- It has aria-haspopup set to either `menu`.
-- When the menu is displayed, `MenuButton` has `aria-expanded` set to `true`.
-- `MenuButton` has `aria-controls` set to the `id` of the `MenuList`.
-
-**For `MenuList`:**
-
-- It contains the `MenuItem` has role `menu`.
+| Key | Action |
+| :-- | :----- |
+| `Enter` or `Space` | When `MenuButton` receives focus, opens the menu and places focus on the first menu item |
+| `ArrowDown` | When `MenuButton` receives focus, opens the menu and moves focus to the first menu item |
+| `ArrowUp` | When `MenuButton` receives focus, opens the menu and moves focus to the last menu item |
+| `Escape` | When the menu is open, closes the menu and sets focus to the `MenuButton` |
 
 ## Props
 
@@ -441,8 +606,8 @@ function menuWithCheckbox() {
 | children | ReactNode | | The content of the `MenuList`, should be the `MenuItem` component |
 | onClick | React.MouseEventHandler | | Function to be called when you click on the menu item |
 | onBlur | React.FocusEventHandler | | Function to be called when you blur out of the menu list |
-| skidding | number | `0` | Displaces the menu (in pixels) along the reference element. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#skidding-1) |
-| distance | number | `0` | Displaces the menu (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
+| distance | number | `0` | The distance from the trigger to the menu. It is specified in pixels. |
+| skidding | number | `0` | The offset of the menu along the trigger. It is specified in pixels. |
 
 ### MenuItem
 

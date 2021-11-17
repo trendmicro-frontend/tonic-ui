@@ -1,47 +1,149 @@
-import { ensureString } from 'ensure-type';
-import React, { forwardRef } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useRef,
+} from 'react';
+import { Transition } from 'react-transition-group';
 import Box from '../Box';
 import Icon from '../Icon';
+import {
+  createTransitionStyle,
+  getEnterTransitionProps,
+  getExitTransitionProps,
+  transitionEasing,
+} from '../shared/transitions';
+import reflow from '../utils/reflow';
+import useForkRef from '../utils/useForkRef';
 import {
   useMenuIndicatorStyle,
 } from './styles';
 import useMenu from './useMenu';
 
+const mapDirectionToIconName = (direction) => {
+  const iconName = {
+    up: 'angle-up',
+    down: 'angle-down',
+    left: 'angle-left',
+    right: 'angle-right',
+  }[direction];
+
+  return iconName;
+};
+
+const mapStateToVariantStyle = (state, props) => {
+  const variantStyle = {
+    entering: (props) => ({
+      transform: {
+        up: 'rotate(180deg)',
+        down: 'rotate(-180deg)',
+      }[props.direction],
+    }),
+    entered: (props) => ({
+      transform: {
+        up: 'rotate(180deg)',
+        down: 'rotate(-180deg)',
+      }[props.direction],
+    }),
+    exiting: (props) => ({
+      transform: {
+        up: 'rotate(0deg)',
+        down: 'rotate(0deg)',
+      }[props.direction],
+    }),
+    exited: (props) => ({
+      transform: {
+        up: 'rotate(0deg)',
+        down: 'rotate(0deg)',
+      }[props.direction],
+    }),
+  }[state];
+
+  return (typeof variantStyle === 'function') ? variantStyle(props) : variantStyle;
+};
+
+const defaultEasing = {
+  enter: transitionEasing.easeOut,
+  exit: transitionEasing.easeOut,
+};
+
+const defaultTimeout = {
+  enter: 133,
+  exit: Math.floor(133 * 0.7),
+};
+
 const MenuIndicator = forwardRef((
   {
+    appear = true,
+    children,
     disabled,
-    ...props
+    easing = defaultEasing,
+    style,
+    timeout = defaultTimeout,
+    ...rest
   },
   ref,
 ) => {
   const {
     isOpen,
-    placement,
+    direction,
   } = useMenu();
-  const styleProps = useMenuIndicatorStyle();
-  const direction = ensureString(placement).split('-')[0];
-  const iconStyleProps = {
-    transform: {
-      top: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-      bottom: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)',
-    }[direction],
-    transition: 'transform 200ms ease-in-out', // FIXME
-  };
-  const iconName = {
-    top: 'angle-up',
-    bottom: 'angle-down',
-    right: 'angle-right',
-    left: 'angle-left',
-  }[direction];
+  const menuIndicatorStyleProps = useMenuIndicatorStyle();
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
+
+  useEffect(() => {
+    if (isOpen) {
+      const node = nodeRef.current;
+      reflow(node); // force reflow to make the transition work when animating appearance
+    }
+  }, [isOpen]);
 
   return (
-    <Box
-      aria-disabled={disabled}
-      {...styleProps}
-      {...props}
+    <Transition
+      appear={appear}
+      in={isOpen}
+      nodeRef={nodeRef}
+      timeout={timeout}
+      {...rest}
     >
-      <Icon width="4x" icon={iconName} {...iconStyleProps} />
-    </Box>
+      {(state, childProps) => {
+        const transitionProps = isOpen
+          ? getEnterTransitionProps({ style, timeout, easing })
+          : getExitTransitionProps({ style, timeout, easing });
+        const transition = createTransitionStyle('transform', transitionProps);
+        const variantStyle = mapStateToVariantStyle(state, { direction });
+        const styleProps = {
+          ...menuIndicatorStyleProps,
+          ...variantStyle,
+          'aria-disabled': disabled,
+          transition,
+        };
+
+        if (typeof children === 'function') {
+          return children({
+            ...childProps,
+            ref: combinedRef,
+            style: {
+              ...styleProps,
+              ...style,
+            },
+          });
+        }
+
+        const iconName = mapDirectionToIconName(direction);
+
+        return (
+          <Box
+            ref={combinedRef}
+            {...styleProps}
+            {...childProps}
+            style={style}
+          >
+            {children ?? <Icon width="4x" icon={iconName} />}
+          </Box>
+        );
+      }}
+    </Transition>
   );
 });
 

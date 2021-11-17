@@ -63,6 +63,7 @@ const Popper = forwardRef((
     const handlePopperUpdate = data => {
       setPlacement(data.placement);
     };
+
     const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
       placement: placement,
       modifiers: [
@@ -118,6 +119,10 @@ const Popper = forwardRef((
     setExited(true);
     handleClose();
   };
+
+  useEffect(() => {
+    setPlacement(initialPlacement);
+  }, [initialPlacement]);
 
   useEffect(() => {
     handleOpen();
