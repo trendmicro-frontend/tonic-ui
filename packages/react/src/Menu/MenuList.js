@@ -1,4 +1,8 @@
 import chainedFunction from 'chained-function';
+import {
+  ensureArray,
+  ensureFunction,
+} from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import Popper from '../Popper/Popper';
 import Collapse from '../Transitions/Collapse';
@@ -18,6 +22,7 @@ const MenuList = forwardRef((
 ) => {
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
+  const menuContext = useMenu(); // context might be an undefined value
   const {
     activeIndex: index,
     isOpen,
@@ -34,32 +39,30 @@ const MenuList = forwardRef((
     placement,
     onKeyDown,
     onBlur,
-  } = useMenu();
+  } = { ...menuContext };
 
   const handleKeyDown = event => {
-    const count = focusableItems.current.length;
+    const count = ensureArray(focusableItems?.current).length;
     let nextIndex;
     if (event.key === 'ArrowDown') {
       event.preventDefault();
       nextIndex = (index + 1) % count;
-      focusAtIndex(nextIndex);
+      ensureFunction(focusAtIndex)(nextIndex);
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
       nextIndex = (index - 1 + count) % count;
-      focusAtIndex(nextIndex);
+      ensureFunction(focusAtIndex)(nextIndex);
     } else if (event.key === 'Home') {
-      focusOnFirstItem();
+      ensureFunction(focusOnFirstItem)();
     } else if (event.key === 'End') {
-      focusOnLastItem();
+      ensureFunction(focusOnLastItem)();
     } else if (event.key === 'Tab') {
       event.preventDefault();
     } else if (event.key === 'Escape') {
-      closeMenu();
+      ensureFunction(closeMenu)();
     }
 
-    if (typeof onKeyDown === 'function') {
-      onKeyDown(event);
-    }
+    ensureFunction(onKeyDown)(event);
   };
 
   // Close the menu on blur
@@ -72,12 +75,10 @@ const MenuList = forwardRef((
     const shouldCloseMenu = isOpen && closeOnBlur && isClickingOutside;
 
     if (shouldCloseMenu) {
-      closeMenu();
+      ensureFunction(closeMenu)();
     }
 
-    if (typeof onBlur === 'function') {
-      onBlur(event);
-    }
+    ensureFunction(onBlur)(event);
   };
 
   const styleProps = useMenuListStyle();
@@ -86,7 +87,7 @@ const MenuList = forwardRef((
     <Popper
       usePortal={false}
       isOpen={isOpen}
-      anchorEl={menuTriggerRef.current}
+      anchorEl={menuTriggerRef?.current}
       placement={placement}
       modifiers={{ offset }}
       role="menu"

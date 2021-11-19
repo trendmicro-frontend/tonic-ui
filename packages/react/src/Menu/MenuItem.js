@@ -1,3 +1,4 @@
+import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import wrapEvent from '../utils/wrapEvent';
@@ -16,11 +17,11 @@ const MenuItem = forwardRef((
   },
   ref,
 ) => {
+  const menuContext = useMenu(); // context might be an undefined value
   const {
     closeOnSelect,
     closeMenu,
-  } = useMenu();
-
+  } = { ...menuContext };
   const styleProps = useMenuItemStyle();
 
   return (
@@ -37,7 +38,7 @@ const MenuItem = forwardRef((
           return;
         }
         if (closeOnSelect) {
-          closeMenu();
+          ensureFunction(closeMenu)();
         }
       })}
       onKeyDown={wrapEvent(onKeyDown, event => {
@@ -48,11 +49,11 @@ const MenuItem = forwardRef((
           event.preventDefault();
 
           if (onClick) {
-            onClick();
+            ensureFunction(onClick)();
           }
 
           if (closeOnSelect) {
-            closeMenu();
+            ensureFunction(closeMenu)();
           }
         }
       })}

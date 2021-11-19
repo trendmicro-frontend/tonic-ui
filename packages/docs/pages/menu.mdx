@@ -28,9 +28,35 @@ import {
 
 ## Usage
 
-### Basic menu
+### Basic menu structure
 
-A basic menu opens over the anchor element by default. The menu is closed when the user clicks outside of the menu.
+Below is a simple example that shows the basic menu structure.
+
+```jsx
+<>
+  <MenuItem>
+    <Icon icon="settings" mr="2x" />
+    <Text>General</Text>
+  </MenuItem>
+  <MenuItem>
+    <Icon icon="user-team" mr="2x" />
+    <Text>Accounts</Text>
+  </MenuItem>
+  <MenuItem>
+    <Icon icon="lock" mr="2x" />
+    <Text>Privacy</Text>
+  </MenuItem>
+  <MenuDivider />
+  <MenuItem disabled>
+    <Icon icon="undo" mr="2x" />
+    <Text>Restore Defaults</Text>
+  </MenuItem>
+</>
+```
+
+### Controlled menu
+
+The menu opens over the anchor element by default, and closes when the user clicks outside of the menu.
 
 ```jsx
 function Example() {
@@ -53,7 +79,7 @@ function Example() {
         aria-expanded={isOpen ? 'true' : undefined}
         onClick={handleClick}
       >
-        Settings
+        Options
       </Button>
       <Menu
         id="basic-menu"
@@ -63,21 +89,13 @@ function Example() {
       >
         <MenuList width="max-content">
           <MenuItem>
-            <Icon icon="settings" mr="2x" />
-            <Text>General</Text>
+            List item #1
           </MenuItem>
           <MenuItem>
-            <Icon icon="user-team" mr="2x" />
-            <Text>Accounts</Text>
+            List item #2
           </MenuItem>
           <MenuItem>
-            <Icon icon="lock" mr="2x" />
-            <Text>Privacy</Text>
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem disabled>
-            <Icon icon="undo" mr="2x" />
-            <Text>Restore Defaults</Text>
+            List item #3
           </MenuItem>
         </MenuList>
       </Menu>
@@ -94,24 +112,17 @@ function Example() {
 <Flex align="center">
   <Menu>
     <MenuTrigger>
-      <Flex alignItems="center" userSelect="none">
-        <Icon icon="settings" />
-        <Space minWidth="2x" />
-        <Text>Settings</Text>
-      </Flex>
+      <Text>Options</Text>
     </MenuTrigger>
-    <MenuList>
+    <MenuList width="max-content">
       <MenuItem>
-        <Icon icon="settings" mr="2x" />
-        General
+        List item #1
       </MenuItem>
       <MenuItem>
-        <Icon icon="user-team" mr="2x" />
-        Accounts
+        List item #2
       </MenuItem>
       <MenuItem>
-        <Icon icon="lock" mr="2x" />
-        Privacy
+        List item #3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -124,25 +135,20 @@ function Example() {
   <Menu>
     <MenuTrigger>
       <Flex alignItems="center" userSelect="none">
-        <Icon icon="settings" />
-        <Space minWidth="2x" />
-        <Text>Settings</Text>
+        <Text>Options</Text>
         <Space width="1x" />
         <MenuIndicator />
       </Flex>
     </MenuTrigger>
-    <MenuList>
+    <MenuList width="max-content">
       <MenuItem>
-        <Icon icon="settings" mr="2x" />
-        General
+        List item #1
       </MenuItem>
       <MenuItem>
-        <Icon icon="user-team" mr="2x" />
-        Accounts
+        List item #2
       </MenuItem>
       <MenuItem>
-        <Icon icon="lock" mr="2x" />
-        Privacy
+        List item #3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -160,25 +166,22 @@ function Example() {
             {...getMenuTriggerProps()}
             variant="secondary"
           >
-            <Text>Settings</Text>
+            <Text>Options</Text>
             <Space width="1x" />
             <MenuIndicator />
           </Button>
         );
       }}
     </MenuTrigger>
-    <MenuList>
+    <MenuList width="max-content">
       <MenuItem>
-        <Icon icon="settings" mr="2x" />
-        General
+        List item #1
       </MenuItem>
       <MenuItem>
-        <Icon icon="user-team" mr="2x" />
-        Accounts
+        List item #2
       </MenuItem>
       <MenuItem>
-        <Icon icon="lock" mr="2x" />
-        Privacy
+        List item #3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -190,36 +193,36 @@ function Example() {
 `MenuButton` composes `MenuTrigger` and `Button` to create a button that opens the menu. It's an useful alternative to `MenuTrigger` when the trigger is a button.
 
 ```jsx disabled
-<MenuTrigger>
-  {({ getMenuTriggerProps }) => {
-    return (
-      <Button {...getMenuTriggerProps()}>
+const MenuButton = (props) => (
+  <MenuTrigger>
+    {({ getMenuTriggerProps }) => (
+      <Button
+        {...getMenuTriggerProps()}
+        {...props}
+      >
         {children}
       </Button>
-    );
-  }}
-</MenuTrigger>
+    )}
+  </MenuTrigger>
+);
 ```
 
 ```jsx
 <Menu>
   <MenuButton variant="secondary" size="md">
-    <Text>Settings</Text>
+    <Text>Options</Text>
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
-  <MenuList>
+  <MenuList width="max-content">
     <MenuItem>
-      <Icon icon="settings" mr="2x" />
-      General
+      List item #1
     </MenuItem>
     <MenuItem>
-      <Icon icon="user-team" mr="2x" />
-      Accounts
+      List item #2
     </MenuItem>
     <MenuItem>
-      <Icon icon="lock" mr="2x" />
-      Privacy
+      List item #3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -234,18 +237,15 @@ function Example() {
   <MenuButton variant="ghost" size="sm" px="1x">
     <MenuIndicator />
   </MenuButton>
-  <MenuList>
+  <MenuList width="max-content">
     <MenuItem>
-      <Icon icon="settings" mr="2x" />
-      General
+      List item #1
     </MenuItem>
     <MenuItem>
-      <Icon icon="user-team" mr="2x" />
-      Accounts
+      List item #2
     </MenuItem>
     <MenuItem>
-      <Icon icon="lock" mr="2x" />
-      Privacy
+      List item #3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -270,24 +270,22 @@ You can also customize the indicator by passing a component as children or a fun
                 <Icon
                   ref={ref}
                   icon={icon}
+                  size="3x"
                   {...styleProps}
                 />
               );
             }}
           </MenuIndicator>
         </MenuButton>
-        <MenuList>
+        <MenuList width="max-content">
           <MenuItem>
-            <Icon icon="settings" mr="2x" />
-            General
+            List item #1
           </MenuItem>
           <MenuItem>
-            <Icon icon="user-team" mr="2x" />
-            Accounts
+            List item #2
           </MenuItem>
           <MenuItem>
-            <Icon icon="lock" mr="2x" />
-            Privacy
+            List item #3
           </MenuItem>
         </MenuList>
       </>
@@ -362,14 +360,14 @@ render(
 
 ### Menu sizing
 
-#### `width="100%"`
-
 To change the width of the menu, pass `width` prop to the `MenuList` component.
+
+#### `width="100%"`
 
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
-    <Text>Select an option</Text>
+    <Text>Long width options</Text>
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
@@ -394,7 +392,7 @@ By default, the menu items will wrap to the next line if the width of the trigge
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
-    <Text>Select an option</Text>
+    <Text>Options</Text>
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
@@ -460,22 +458,19 @@ function Example() {
               <Box key={key}>
                 <Menu placement={placement}>
                   <MenuButton variant="secondary">
-                    <Text>Select an option</Text>
+                    <Text>Options</Text>
                     <Space width="1x" />
                     <MenuIndicator />
                   </MenuButton>
-                  <MenuList>
+                  <MenuList width="max-content">
                     <MenuItem>
-                      <Icon icon="settings" mr="2x" />
-                      General
+                      List item #1
                     </MenuItem>
                     <MenuItem>
-                      <Icon icon="user-team" mr="2x" />
-                      Accounts
+                      List item #2
                     </MenuItem>
                     <MenuItem>
-                      <Icon icon="lock" mr="2x" />
-                      Privacy
+                      List item #3
                     </MenuItem>
                   </MenuList>
                 </Menu>
@@ -523,7 +518,7 @@ The second number, `distance`, controls the distance between the `MenuList` and 
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
-    <Text>Select an option</Text>
+    <Text>Options</Text>
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
@@ -532,18 +527,16 @@ The second number, `distance`, controls the distance between the `MenuList` and 
       16, // skidding
       8, // distance
     ]}
+    width="max-content"
   >
     <MenuItem>
-      <Icon icon="settings" mr="2x" />
-      General
+      List item #1
     </MenuItem>
     <MenuItem>
-      <Icon icon="user-team" mr="2x" />
-      Accounts
+      List item #2
     </MenuItem>
     <MenuItem>
-      <Icon icon="lock" mr="2x" />
-      Privacy
+      List item #3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -556,14 +549,14 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
-    <Text>Select an option</Text>
+    <Text>Options</Text>
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
   <MenuList
     maxHeight={200}
     overflow="auto"
-    width="100%"
+    width="max-content"
   >
     {Array.from({ length: 100 }).map((_, key) => (
       <MenuItem key={key}>
@@ -579,11 +572,11 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
-    <Text>Select an option</Text>
+    <Text>Options</Text>
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
-  <MenuList width="100%">
+  <MenuList width="max-content">
     <Scrollbar maxHeight={200}>
       {Array.from({ length: 100 }).map((_, key) => (
         <MenuItem key={key}>
@@ -611,7 +604,7 @@ function menuWithCheckbox() {
   return (
     <Menu closeOnSelect={false}>
       <MenuButton variant="secondary">
-        <Text>Select an option</Text>
+        <Text>Selected ({checkedItems.length})</Text>
         <Space width="1x" />
         <MenuIndicator />
       </MenuButton>

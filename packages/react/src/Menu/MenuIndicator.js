@@ -83,10 +83,11 @@ const MenuIndicator = forwardRef((
   },
   ref,
 ) => {
+  const menuContext = useMenu(); // context might be an undefined value
   const {
     isOpen,
     direction,
-  } = useMenu();
+  } = { ...menuContext };
   const menuIndicatorStyleProps = useMenuIndicatorStyle();
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);

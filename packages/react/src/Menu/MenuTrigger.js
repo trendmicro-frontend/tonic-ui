@@ -1,3 +1,4 @@
+import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import wrapEvent from '../utils/wrapEvent';
@@ -17,7 +18,7 @@ const MenuTrigger = forwardRef((
   },
   ref,
 ) => {
-  const menuContext = useMenu();
+  const menuContext = useMenu(); // context might be an undefined value
   const {
     isOpen,
     focusOnLastItem,
@@ -28,7 +29,7 @@ const MenuTrigger = forwardRef((
     autoSelect,
     openMenu,
     menuTriggerRef,
-  } = menuContext;
+  } = { ...menuContext };
   const styleProps = useMenuTriggerStyle();
   const combinedRef = useForkRef(menuTriggerRef, ref);
   const handleClick = wrapEvent(onClick, (event) => {
@@ -39,11 +40,11 @@ const MenuTrigger = forwardRef((
     }
 
     if (isOpen) {
-      closeMenu();
+      ensureFunction(closeMenu)();
       return;
     }
 
-    openMenu();
+    ensureFunction(openMenu)();
 
     // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
     autoSelect && focusOnFirstItem();
@@ -56,18 +57,18 @@ const MenuTrigger = forwardRef((
     }
 
     if (event.key === 'ArrowDown') {
-      openMenu();
+      ensureFunction(openMenu)();
 
       // Focus on the first item when the menu opens with the down arrow
-      focusOnFirstItem();
+      ensureFunction(focusOnFirstItem)();
       return;
     }
 
     if (event.key === 'ArrowUp') {
-      openMenu();
+      ensureFunction(openMenu)();
 
       // Focus on the last item when the menu opens with the up arrow
-      focusOnLastItem();
+      ensureFunction(focusOnLastItem)();
       return;
     }
   });

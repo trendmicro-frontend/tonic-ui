@@ -162,9 +162,7 @@ const Menu = ({
         display="inline-block"
         {...props}
       >
-        {typeof children === 'function'
-          ? children(context)
-          : children}
+        {(typeof children === 'function') ? children(context) : children}
       </Box>
     </MenuProvider>
   );
