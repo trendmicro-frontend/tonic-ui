@@ -61,110 +61,29 @@ function Example() {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <MenuList>
+        <MenuList width="max-content">
           <MenuItem>
             <Icon icon="settings" mr="2x" />
-            General
+            <Text>General</Text>
           </MenuItem>
           <MenuItem>
             <Icon icon="user-team" mr="2x" />
-            Accounts
+            <Text>Accounts</Text>
           </MenuItem>
           <MenuItem>
             <Icon icon="lock" mr="2x" />
-            Privacy
+            <Text>Privacy</Text>
           </MenuItem>
           <MenuDivider />
           <MenuItem disabled>
             <Icon icon="undo" mr="2x" />
-            Restore Defaults
+            <Text>Restore Defaults</Text>
           </MenuItem>
         </MenuList>
       </Menu>
     </>
   );
 }
-```
-
-### MenuGroup
-
-To group related menu items, wrap them in a `MenuGroup` and pass a `title` prop for the group title.
-
-```jsx noInline
-const Avatar = (props) => (
-  <Flex
-    p="1x"
-    borderRadius="50%"
-    alignItems="center"
-    justifyContent="center"
-    fontSize="xs"
-    lineHeight="1"
-    {...props}
-  />
-);
-
-function Example() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setIsOpen(!isOpen);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-    setIsOpen(false);
-  };
-
-  return (
-    <>
-      <ButtonBase
-        onClick={handleClick}
-      >
-        <Avatar color="white" bg="gray:50">
-          <Icon icon="user-team" size="5x" />
-        </Avatar>
-      </ButtonBase>
-      <Menu
-        anchorEl={anchorEl}
-        isOpen={isOpen}
-        onClose={handleClose}
-      >
-        <MenuList>
-          <MenuItem>
-            Profile
-          </MenuItem>
-          <MenuDivider />
-          <MenuGroup
-            title={(
-              <Flex justify="space-between">
-                <Text>Other profiles</Text>
-                <Space minWidth="10x" />
-                <ButtonBase title="Manage profiles">
-                  <Icon icon="settings" size="3x" />
-                </ButtonBase>
-              </Flex>
-            )}
-          >
-            <MenuItem px="4x">
-              <Avatar color="white" bg="blue:50" mr="2x">
-                JD
-              </Avatar>
-              John Doe
-            </MenuItem>
-            <MenuItem px="4x">
-              <Avatar color="white" bg="gray:50" mr="2x">
-                <Icon icon="user" size="3x" />
-              </Avatar>
-              Guest
-            </MenuItem>
-          </MenuGroup>
-        </MenuList>
-      </Menu>
-    </>
-  );
-}
-
-render(<Example />);
 ```
 
 ### MenuTrigger
@@ -377,6 +296,122 @@ You can also customize the indicator by passing a component as children or a fun
 </Menu>
 ```
 
+### MenuGroup
+
+To group related menu items, wrap them in a `MenuGroup` and pass a `title` prop for the group title.
+
+```jsx noInline
+const Avatar = (props) => (
+  <Flex
+    p="1x"
+    borderRadius="50%"
+    alignItems="center"
+    justifyContent="center"
+    fontSize="xs"
+    lineHeight="1"
+    {...props}
+  />
+);
+
+render(
+  <Menu>
+    <MenuTrigger>
+      <Avatar
+        bg="gray:50"
+        color="white:secondary"
+        _hover={{
+          color: 'white:primary',
+        }}
+      >
+        <Icon icon="user-team" size="5x" />
+      </Avatar>
+    </MenuTrigger>
+    <MenuList width="max-content">
+      <MenuItem>
+        <Text>Profile</Text>
+      </MenuItem>
+      <MenuDivider />
+      <MenuGroup
+        title={(
+          <Flex justify="space-between">
+            <Text>Other profiles</Text>
+            <Space minWidth="10x" />
+            <ButtonBase title="Manage profiles">
+              <Icon icon="settings" size="3x" />
+            </ButtonBase>
+          </Flex>
+        )}
+      >
+        <MenuItem px="4x">
+          <Avatar color="white" bg="blue:50" mr="2x">
+            JD
+          </Avatar>
+          John Doe
+        </MenuItem>
+        <MenuItem px="4x">
+          <Avatar color="white" bg="gray:50" mr="2x">
+            <Icon icon="user" size="3x" />
+          </Avatar>
+          Guest
+        </MenuItem>
+      </MenuGroup>
+    </MenuList>
+  </Menu>
+);
+```
+
+### Menu sizing
+
+#### `width="100%"`
+
+To change the width of the menu, pass `width` prop to the `MenuList` component.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Select an option</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList width="100%">
+    <MenuItem>
+      List item #1
+    </MenuItem>
+    <MenuItem>
+      List item #2
+    </MenuItem>
+    <MenuItem>
+      List item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+#### `width="max-content"`
+
+By default, the menu items will wrap to the next line if the width of the trigger is smaller than the width of the menu. You can pass `width="max-content"` to `MenuList` to prevent wrapping.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Select an option</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      This is a very long list item #1
+    </MenuItem>
+    <MenuItem>
+      This is a very long list item #2
+    </MenuItem>
+    <MenuItem>
+      This is a very long list item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
 ### Placement
 
 To position the menu relative to the trigger, pass a `placement` prop to `Menu`. It can be one of the following values:
@@ -422,27 +457,29 @@ function Example() {
 
           if (value === 'center') {
             return (
-              <Menu placement={placement}>
-                <MenuButton variant="secondary">
-                  <Text>Select an option</Text>
-                  <Space width="1x" />
-                  <MenuIndicator />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem>
-                    <Icon icon="settings" mr="2x" />
-                    General
-                  </MenuItem>
-                  <MenuItem>
-                    <Icon icon="user-team" mr="2x" />
-                    Accounts
-                  </MenuItem>
-                  <MenuItem>
-                    <Icon icon="lock" mr="2x" />
-                    Privacy
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+              <Box key={key}>
+                <Menu placement={placement}>
+                  <MenuButton variant="secondary">
+                    <Text>Select an option</Text>
+                    <Space width="1x" />
+                    <MenuIndicator />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem>
+                      <Icon icon="settings" mr="2x" />
+                      General
+                    </MenuItem>
+                    <MenuItem>
+                      <Icon icon="user-team" mr="2x" />
+                      Accounts
+                    </MenuItem>
+                    <MenuItem>
+                      <Icon icon="lock" mr="2x" />
+                      Privacy
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </Box>
             );
           }
 
@@ -452,13 +489,15 @@ function Example() {
           };
 
           return (
-            <SelectableButton
-              key={key}
-              selected={value === placement}
-              onClick={onClick}
-            >
-              {value}
-            </SelectableButton>
+            <Box key={key}>
+              <SelectableButton
+                selected={value === placement}
+                onClick={onClick}
+                width="100%"
+              >
+                {value}
+              </SelectableButton>
+            </Box>
           );
         })}
       </Grid>
@@ -469,9 +508,17 @@ function Example() {
 render(<Example />);
 ```
 
-### Distance
+### Offset
 
-The distance from the trigger to the menu can be controlled by passing a `distance` prop to `MenuList`. This value is specified in pixels.
+The basic offset accepts an array with two numbers in the form `[skidding, distance]`. It can be used to adjust the position of the menu relative to the trigger.
+
+**Skidding**
+
+The first number, `skidding`, displaces `MenuList` along the reference trigger. This value is specified in pixels.
+
+**Distance**
+
+The second number, `distance`, controls the distance between the `MenuList` and the reference trigger. This value is specified in pixels.
 
 ```jsx
 <Menu>
@@ -480,7 +527,12 @@ The distance from the trigger to the menu can be controlled by passing a `distan
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
-  <MenuList distance={16}>
+  <MenuList
+    offset={[
+      16, // skidding
+      8, // distance
+    ]}
+  >
     <MenuItem>
       <Icon icon="settings" mr="2x" />
       General
@@ -497,9 +549,9 @@ The distance from the trigger to the menu can be controlled by passing a `distan
 </Menu>
 ```
 
-### Skidding
+### Scrolling
 
-The offset of the menu along the trigger can be controlled by passing a `skidding` prop to `MenuList`. This value is specified in pixels.
+To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList`. The menu will become scrollable when the menu items exceed the height of the menu.
 
 ```jsx
 <Menu>
@@ -508,24 +560,42 @@ The offset of the menu along the trigger can be controlled by passing a `skiddin
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
-  <MenuList skidding={16}>
-    <MenuItem>
-      <Icon icon="settings" mr="2x" />
-      General
-    </MenuItem>
-    <MenuItem>
-      <Icon icon="user-team" mr="2x" />
-      Accounts
-    </MenuItem>
-    <MenuItem>
-      <Icon icon="lock" mr="2x" />
-      Privacy
-    </MenuItem>
+  <MenuList
+    maxHeight={200}
+    overflow="auto"
+    width="100%"
+  >
+    {Array.from({ length: 100 }).map((_, key) => (
+      <MenuItem key={key}>
+        List item #{key + 1}
+      </MenuItem>
+    ))}
   </MenuList>
 </Menu>
 ```
 
-### MenuItem with checkbox
+You can also use the `Scrollbar` component to override the default scrollbar.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Select an option</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList width="100%">
+    <Scrollbar maxHeight={200}>
+      {Array.from({ length: 100 }).map((_, key) => (
+        <MenuItem key={key}>
+          List item #{key + 1}
+        </MenuItem>
+      ))}
+    </Scrollbar>
+  </MenuList>
+</Menu>
+```
+
+### Input controls
 
 Set `closeOnSelect` to `false` to keep the menu open after selecting a menu item.
 
@@ -545,7 +615,7 @@ function menuWithCheckbox() {
         <Space width="1x" />
         <MenuIndicator />
       </MenuButton>
-      <MenuList>
+      <MenuList width="max-content">
         <CheckboxGroup size="sm" defaultValue={checkedItems}>
           <MenuItem><Checkbox value="host" onChange={e => handleChange(e)}>Endpoint name</Checkbox></MenuItem>
           <MenuItem><Checkbox value="ip" onChange={e => handleChange(e)}>IP address</Checkbox></MenuItem>
@@ -606,20 +676,19 @@ function menuWithCheckbox() {
 | children | ReactNode | | The content of the `MenuList`, should be the `MenuItem` component |
 | onClick | React.MouseEventHandler | | Function to be called when you click on the menu item |
 | onBlur | React.FocusEventHandler | | Function to be called when you blur out of the menu list |
-| distance | number | `0` | The distance from the trigger to the menu. It is specified in pixels. |
-| skidding | number | `0` | The offset of the menu along the trigger. It is specified in pixels. |
+| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
 
 ### MenuItem
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | If `true`, the menu item will be disabled |
-| onClick | React.MouseEventHandler | Function that is called on click and enter/space keypress |
-| onKeyDown | React.KeyboardEventHander | Function that is called on keydown |
+| disabled | boolean | | If `true`, the menu item will be disabled |
+| onClick | React.MouseEventHandler | | Function that is called on click and enter/space keypress |
+| onKeyDown | React.KeyboardEventHander | | Function that is called on keydown |
 
 ### MenuGroup
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | The content of the menu group, should be the `MenuItem` component |
-| title | string | The title of the menu group |
+| children | ReactNode | | The content of the menu group, should be the `MenuItem` component |
+| title | string | | The title of the menu group |

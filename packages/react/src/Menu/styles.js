@@ -35,7 +35,7 @@ const useMenuGroupStyle = () => {
   return {
     px: '3x',
     py: '2x',
-    color
+    color,
   };
 };
 

@@ -8,11 +8,10 @@ import useMenu from './useMenu';
 
 const MenuList = forwardRef((
   {
-    skidding = 0,
-    distance = 0,
     TransitionComponent = Collapse,
     TransitionProps,
     children,
+    offset,
     ...props
   },
   ref,
@@ -89,7 +88,7 @@ const MenuList = forwardRef((
       isOpen={isOpen}
       anchorEl={menuTriggerRef.current}
       placement={placement}
-      modifiers={{ offset: [skidding, distance] }}
+      modifiers={{ offset }}
       role="menu"
       ref={menuRef}
       id={menuId}

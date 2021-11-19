@@ -159,6 +159,7 @@ const Menu = ({
     <MenuProvider value={context}>
       <Box
         position="relative"
+        display="inline-block"
         {...props}
       >
         {typeof children === 'function'
