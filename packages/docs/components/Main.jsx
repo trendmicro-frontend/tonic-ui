@@ -32,4 +32,6 @@ const Main = React.forwardRef(({ children, ...props }, ref) => {
   );
 });
 
+Main.displayName = 'Main';
+
 export default Main;

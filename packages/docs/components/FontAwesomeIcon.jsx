@@ -5,7 +5,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useColorMode } from '@trendmicro/react-styled-ui';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 library.add(fab);
 library.add(far);
@@ -29,11 +29,14 @@ const spinReverseKeyframes = keyframes`
   }
 `;
 
-export default React.forwardRef(({
-  spin,
-  spinReverse,
-  ...props
-}, ref) => {
+const FontAwesome = forwardRef((
+  {
+    spin,
+    spinReverse,
+    ...rest
+  },
+  ref
+) => {
   const [colorMode] = useColorMode();
   const color = {
     light: '#666666',
@@ -56,9 +59,13 @@ export default React.forwardRef(({
               animation: ${spinReverseKeyframes} 2s infinite linear;
             `,
           )}
-          {...props}
+          {...rest}
         />
       )}
     </ClassNames>
   );
 });
+
+FontAwesome.displayName = 'FontAwesome';
+
+export default FontAwesome;

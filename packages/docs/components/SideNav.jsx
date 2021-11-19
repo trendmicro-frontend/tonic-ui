@@ -75,6 +75,8 @@ const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => {
   );
 });
 
+NavLink.displayName = 'NavLink';
+
 const SideNav = React.forwardRef((props, ref) => {
   const theme = useTheme();
   const [colorMode] = useColorMode();
@@ -205,5 +207,7 @@ const SideNav = React.forwardRef((props, ref) => {
     </Box>
   );
 });
+
+SideNav.displayName = 'SideNav';
 
 export default SideNav;

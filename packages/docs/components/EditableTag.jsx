@@ -136,4 +136,6 @@ const EditableTag = React.forwardRef((
   );
 });
 
+EditableTag.displayName = 'EditableTag';
+
 export default EditableTag;
