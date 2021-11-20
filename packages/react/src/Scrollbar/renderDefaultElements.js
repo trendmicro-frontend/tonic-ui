@@ -2,7 +2,19 @@ import React from 'react';
 import Box from '../Box';
 
 const renderViewDefault = (props) => {
-  return <Box {...props} />;
+  return (
+    <Box
+      css={{
+        // Hide the browser scrollbar
+        '::-webkit-scrollbar': { // Chrome, Safari and Opera
+          display: 'none',
+        },
+        '-ms-overflow-style': 'none', // IE and Edge
+        'scrollbar-width': 'none', // Firefox
+      }}
+      {...props}
+    />
+  );
 };
 
 const renderTrackHorizontalDefault = (props) => {
