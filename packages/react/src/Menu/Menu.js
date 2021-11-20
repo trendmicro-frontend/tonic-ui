@@ -12,8 +12,6 @@ const mapPlacementToDirection = (placement) => {
   const direction = {
     top: 'up',
     bottom: 'down',
-    left: 'left',
-    right: 'right',
   }[p0];
 
   return direction;
@@ -21,22 +19,22 @@ const mapPlacementToDirection = (placement) => {
 
 const Menu = ({
   anchorEl,
-  children,
-  isOpen: isOpenProp,
-  defaultIsOpen,
-  onOpen,
-  onClose,
   autoSelect = false,
+  children,
   closeOnBlur = true,
   closeOnSelect = true,
-  defaultActiveIndex,
-  placement = 'bottom-start',
-  onKeyDown,
+  defaultActiveIndex = -1,
+  defaultIsOpen = false,
+  isOpen: isOpenProp,
   onBlur,
+  onClose,
+  onKeyDown,
+  onOpen,
+  placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
   ...props
 }) => {
-  const [activeIndex, setActiveIndex] = useState(defaultActiveIndex || -1);
-  const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
+  const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
+  const [isOpen, setIsOpen] = useState(defaultIsOpen);
   const { current: isControlled } = useRef(isOpenProp != null);
   const _isOpen = isControlled ? isOpenProp : isOpen;
   const menuId = `${config.name}:menu-${useId()}`;

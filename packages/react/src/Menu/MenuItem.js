@@ -9,8 +9,6 @@ const MenuItem = forwardRef((
   {
     disabled,
     onClick,
-    onMouseLeave,
-    onMouseEnter,
     onKeyDown,
     role = 'menuitem',
     ...props
