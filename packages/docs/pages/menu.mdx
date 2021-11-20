@@ -91,10 +91,12 @@ function Example() {
         anchorEl={anchorEl}
         isOpen={isOpen}
         onClose={handleCloseMenu}
-        onClick={handleClickMenuItem}
         mr="2x"
       >
-        <MenuList width="max-content">
+        <MenuList
+          width="max-content"
+          onClick={handleClickMenuItem}
+        >
           <MenuItem value={1}>
             Item #1
           </MenuItem>
