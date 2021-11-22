@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import { Box, useColorMode } from '@trendmicro/react-styled-ui';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-const Main = React.forwardRef(({ children, ...props }, ref) => {
+const Main = forwardRef(({ children, ...props }, ref) => {
   const [colorMode] = useColorMode();
   const backgroundColor = {
     light: 'white',
@@ -31,5 +31,7 @@ const Main = React.forwardRef(({ children, ...props }, ref) => {
     </Box>
   );
 });
+
+Main.displayName = 'Main';
 
 export default Main;
