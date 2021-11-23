@@ -6,11 +6,11 @@ import {
   useColorMode,
   useTheme,
 } from '@trendmicro/react-styled-ui';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 const noop = () => {};
 
-const EditableTag = React.forwardRef((
+const EditableTag = forwardRef((
   {
     children,
     isInvalid,

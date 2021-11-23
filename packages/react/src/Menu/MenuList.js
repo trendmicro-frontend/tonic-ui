@@ -7,6 +7,7 @@ import React, { forwardRef, useRef } from 'react';
 import Popper from '../Popper/Popper';
 import Collapse from '../Transitions/Collapse';
 import useForkRef from '../utils/useForkRef';
+import wrapEvent from '../utils/wrapEvent';
 import { useMenuListStyle } from './styles';
 import useMenu from './useMenu';
 
@@ -16,7 +17,9 @@ const MenuList = forwardRef((
     TransitionProps,
     children,
     offset,
-    ...props
+    onBlur: onBlurProp,
+    onKeyDown: onKeyDownProp,
+    ...rest
   },
   ref,
 ) => {
@@ -85,21 +88,23 @@ const MenuList = forwardRef((
 
   return (
     <Popper
-      usePortal={false}
-      isOpen={isOpen}
       anchorEl={menuTriggerRef?.current}
-      placement={placement}
-      modifiers={{ offset }}
-      role="menu"
-      ref={menuRef}
-      id={menuId}
       aria-labelledby={menuTriggerId}
-      onKeyDown={handleKeyDown}
-      onBlur={handleBlur}
+      id={menuId}
+      isOpen={isOpen}
+      modifiers={{ offset }}
+      onBlur={wrapEvent(onBlurProp, handleBlur)}
+      onKeyDown={wrapEvent(onKeyDownProp, handleKeyDown)}
+      placement={placement}
+      ref={menuRef}
+      role="menu"
+      tabIndex={-1}
+      usePortal={false}
       willUseTransition={true}
       zIndex="dropdown"
-      tabIndex={-1}
-      _focus={{ outline: 0 }}
+      _focus={{
+        outline: 0,
+      }}
       {...styleProps}
       {...props}
     >

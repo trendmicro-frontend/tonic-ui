@@ -8,7 +8,7 @@ const focusableElementSelector = [
   'object',
   'select:not([disabled])',
   'textarea:not([disabled])',
-  '*[tabindex]:not([aria-disabled])',
+  '*[tabindex]:not([aria-disabled="true"])',
   '*[contenteditable]',
 ].join(',');
 
