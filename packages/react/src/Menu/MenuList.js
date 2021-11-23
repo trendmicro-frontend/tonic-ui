@@ -1,9 +1,16 @@
 import React from 'react';
 import Popper from '../Popper/Popper';
+import wrapEvent from '../utils/wrapEvent';
 import { useMenu } from './context';
 import { useMenuListStyle } from './styles';
 
-const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
+const MenuList = ({
+  skidding = 0,
+  distance = 0,
+  onBlur: onBlurProp,
+  onKeyDown: onKeyDownProp,
+  ...props
+}) => {
   const {
     activeIndex: index,
     isOpen,
@@ -76,8 +83,8 @@ const MenuList = ({ skidding = 0, distance = 0, ...props }) => {
       ref={menuRef}
       id={menuId}
       aria-labelledby={buttonId}
-      onKeyDown={handleKeyDown}
-      onBlur={handleBlur}
+      onBlur={wrapEvent(onBlurProp, handleBlur)}
+      onKeyDown={wrapEvent(onKeyDownProp, handleKeyDown)}
       zIndex="dropdown"
       tabIndex={-1}
       _focus={{ outline: 0 }}
