@@ -13,7 +13,7 @@ const Skeleton = forwardRef((
     animation,
     variant,
     css,
-    ...props
+    ...rest
   },
   ref
 ) => {
@@ -30,7 +30,7 @@ const Skeleton = forwardRef((
     <Box
       css={css}
       {...styleProps}
-      {...props}
+      {...rest}
     />
   );
 });

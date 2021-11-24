@@ -1,16 +1,19 @@
 import React, { forwardRef } from 'react';
 import Flex from '../Flex';
 
-const TableHeaderRow = forwardRef(({
-  children,
-  ...props
-}, ref) => {
+const TableHeaderRow = forwardRef((
+  {
+    children,
+    ...rest
+  },
+  ref,
+) => {
   return (
     <Flex
       ref={ref}
-      {...props}
+      {...rest}
     >
-      { children }
+      {children}
     </Flex>
   );
 });

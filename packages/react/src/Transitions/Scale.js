@@ -68,7 +68,7 @@ const Scale = forwardRef((
     initialScale = defaultInitialScale,
     style,
     timeout = defaultTimeout,
-    ...other
+    ...rest
   },
   ref,
 ) => {
@@ -88,7 +88,7 @@ const Scale = forwardRef((
       in={inProp}
       nodeRef={nodeRef}
       timeout={timeout}
-      {...other}
+      {...rest}
     >
       {(state, childProps) => {
         const transitionProps = inProp

@@ -4,10 +4,13 @@ import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import { useTableContext } from './context';
 
-const TableRow = forwardRef(({
-  children,
-  ...props
-}, ref) => {
+const TableRow = forwardRef((
+  {
+    children,
+    ...rest
+  },
+  ref,
+) => {
   // TODO: isHoverable is deprecated and will be removed in the v1 release
   const { isHoverable } = useTableContext();
   const [colorMode] = useColorMode();
@@ -20,9 +23,9 @@ const TableRow = forwardRef(({
       _hover={{
         backgroundColor: isHoverable ? setColorWithOpacity(bg, 0.12) : undefined
       }}
-      {...props}
+      {...rest}
     >
-      { children }
+      {children}
     </Box>
   );
 });

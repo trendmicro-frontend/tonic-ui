@@ -11,7 +11,7 @@ const MenuItem = forwardRef((
     onClick,
     onKeyDown,
     role = 'menuitem',
-    ...props
+    ...rest
   },
   ref,
 ) => {
@@ -56,7 +56,7 @@ const MenuItem = forwardRef((
         }
       })}
       {...styleProps}
-      {...props}
+      {...rest}
     />
   );
 });

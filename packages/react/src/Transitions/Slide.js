@@ -80,7 +80,7 @@ const Slide = forwardRef((
     in: inProp,
     style,
     timeout = defaultTimeout,
-    ...other
+    ...rest
   },
   ref,
 ) => {
@@ -100,7 +100,7 @@ const Slide = forwardRef((
       in={inProp}
       nodeRef={nodeRef}
       timeout={timeout}
-      {...other}
+      {...rest}
     >
       {(state, childProps) => {
         const transitionProps = inProp

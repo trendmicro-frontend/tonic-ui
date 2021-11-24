@@ -106,7 +106,7 @@ const MenuList = forwardRef((
         outline: 0,
       }}
       {...styleProps}
-      {...props}
+      {...rest}
     >
       {({ placement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };

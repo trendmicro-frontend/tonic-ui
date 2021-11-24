@@ -4,45 +4,18 @@ import Button from '../Button';
 import ButtonBase from '../ButtonBase';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
-import { setColorWithOpacity } from '../theme/colors';
+import { useSelectedButtonStyle } from './styles';
 
-const SelectableButton = ({ selected, ...props }) => {
-  const [colorMode] = useColorMode();
-  const activeColor = {
-    dark: 'blue:40',
-    light: 'blue:60',
-  }[colorMode];
-  const activeBgColor = {
-    dark: setColorWithOpacity('black', 0.12),
-    light: setColorWithOpacity('black', 0.08),
-  }[colorMode];
-  const activeBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const getSelectedProps = {
-    color: activeColor,
-    borderColor: activeBorderColor,
-    bg: activeBgColor,
-  };
-  return (
-    <Button
-      {...(selected && getSelectedProps)}
-      {...props}
-    />
-  );
-};
-
-const Pagination = (props, ref) => {
-  const {
-    ellipsisLabel = '...',
-    firstButton = false,
-    lastButton = false,
-    prevButton = '<',
-    nextButton = '>',
-  } = props;
+const Pagination = ({
+  ellipsisLabel = '...',
+  firstButton = false,
+  lastButton = false,
+  prevButton = '<',
+  nextButton = '>',
+  ...rest
+}) => {
   const { items } = usePagination({
-    ...props,
+    ...rest,
     hideNextButton: !nextButton,
     hidePrevButton: !prevButton,
     showFirstButton: !!firstButton,
@@ -50,6 +23,8 @@ const Pagination = (props, ref) => {
   });
   const [colorMode] = useColorMode();
   const { sizes } = useTheme();
+  const selectedButtonStyleProps = useSelectedButtonStyle();
+
   return (
     <>
       {items.map((item, index) => {
@@ -84,17 +59,20 @@ const Pagination = (props, ref) => {
         } else {
           label = item.page;
         }
+
         return (
-          <SelectableButton
-            key={`${item.page}-${item.type}`}
-            selected={item.selected}
+          <Button
+            aria-disabled={item.disabled}
+            aria-selected={item.selected}
             disabled={item.disabled}
-            variant="ghost"
+            key={`${item.page}-${item.type}`}
             onClick={item.onClick}
             transition="none"
+            variant="ghost"
+            {...(item.selected && selectedButtonStyleProps)}
           >
             {label}
-          </SelectableButton>
+          </Button>
         );
       })}
     </>

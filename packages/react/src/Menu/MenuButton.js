@@ -8,7 +8,7 @@ const MenuButton = forwardRef((
     onKeyDown,
     children,
     disabled,
-    ...props
+    ...rest
   },
   ref,
 ) => {
@@ -22,7 +22,7 @@ const MenuButton = forwardRef((
         return (
           <Button
             {...getMenuTriggerProps()}
-            {...props}
+            {...rest}
           >
             {children}
           </Button>

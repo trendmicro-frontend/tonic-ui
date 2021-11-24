@@ -57,7 +57,7 @@ const Spinner = forwardRef(
       strokeWidth,
       color,
       speed = 2,
-      ...props
+      ...rest
     },
     ref,
   ) => {
@@ -84,7 +84,7 @@ const Spinner = forwardRef(
           display: 'block',
           paddingTop: '100%',
         }}
-        {...props}
+        {...rest}
       >
         <Box
           as="svg"

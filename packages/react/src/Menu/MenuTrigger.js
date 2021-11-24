@@ -14,7 +14,7 @@ const MenuTrigger = forwardRef((
     onKeyDown,
     children,
     disabled,
-    ...props
+    ...rest
   },
   ref,
 ) => {
@@ -86,7 +86,7 @@ const MenuTrigger = forwardRef((
     role: 'button',
     tabIndex: 0,
     ...styleProps,
-    ...props,
+    ...rest,
   });
 
   if (typeof children === 'function') {

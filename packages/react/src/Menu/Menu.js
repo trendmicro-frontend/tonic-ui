@@ -31,7 +31,7 @@ const Menu = ({
   onKeyDown,
   onOpen,
   placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
-  ...props
+  ...rest
 }) => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
   const [isOpen, setIsOpen] = useState(defaultIsOpen);
@@ -158,7 +158,7 @@ const Menu = ({
       <Box
         position="relative"
         display="inline-block"
-        {...props}
+        {...rest}
       >
         {(typeof children === 'function') ? children(context) : children}
       </Box>

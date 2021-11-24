@@ -65,7 +65,7 @@ const Grow = forwardRef((
     in: inProp,
     style,
     timeout = 'auto',
-    ...other
+    ...rest
   },
   ref,
 ) => {
@@ -103,7 +103,7 @@ const Grow = forwardRef((
       nodeRef={nodeRef}
       timeout={timeout === 'auto' ? null : timeout}
       addEndListener={addEndListener}
-      {...other}
+      {...rest}
     >
       {(state, childProps) => {
         const node = nodeRef.current;
