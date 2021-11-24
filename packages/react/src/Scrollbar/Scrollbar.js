@@ -1,4 +1,5 @@
 /* eslint-disable max-lines-per-function */
+import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
 import {
@@ -29,23 +30,45 @@ const Scrollbar = forwardRef((
     minThumbSize = 32,
     onScroll,
     onUpdate,
+    visibility, // FIXME: visibility is deprecated (backward compatibility)
+    overflow = 'auto',
+    overflowX,
+    overflowY,
     renderView = renderViewDefault,
     renderHorizontalTrack = renderTrackHorizontalDefault,
     renderHorizontalThumb = renderThumbHorizontalDefault,
     renderVerticalTrack = renderTrackVerticalDefault,
     renderVerticalThumb = renderThumbVerticalDefault,
-    visibility = 'auto',
-    style,
     thumbSize,
-    ...reset
+    ...rest
   },
   ref,
 ) => {
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
   disabled = (!isHydrated || disabled);
   const autoHeight = (maxHeight !== 'auto');
-  const horizontalScrollbarVisibility = disabled ? 'hidden' : visibility;
-  const verticalScrollbarVisibility = disabled ? 'hidden' : visibility;
+
+  { // FIXME: visibility is deprecated (backward compatibility)
+    if (visibility === 'visible') {
+      console.error('Warning: `visibility="visible"` is deprecated. Use `overflow="scroll"` instead.');
+    } else if (visibility !== undefined) {
+      console.error('Warning: `visibility` is deprecated, use `overflow` instead');
+    }
+
+    overflowX = overflowX ?? (visibility ?? overflow);
+    overflowY = overflowY ?? (visibility ?? overflow);
+    if (overflowX === 'visible') {
+      overflowX = 'scroll';
+    }
+    if (overflowY === 'visible') {
+      overflowY = 'scroll';
+    }
+    overflowX = overflowX ?? 'auto';
+    overflowY = overflowY ?? 'auto';
+  }
+
+  const horizontalScrollbarVisibility = disabled ? 'hidden' : overflowX;
+  const verticalScrollbarVisibility = disabled ? 'hidden' : overflowY;
 
   let viewScrollLeft = 0;
   let viewScrollTop = 0;
@@ -80,8 +103,8 @@ const Scrollbar = forwardRef((
       clientHeight = 0
     } = viewRef.current || {};
     return {
-      left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
-      top: (scrollTop / (scrollHeight - clientHeight)) || 0,
+      left: ensureFiniteNumber(scrollLeft / (scrollWidth - clientWidth)),
+      top: ensureFiniteNumber(scrollTop / (scrollHeight - clientHeight)),
       scrollLeft,
       scrollTop,
       scrollWidth,
@@ -96,6 +119,7 @@ const Scrollbar = forwardRef((
     if (!scrollbarWidth || disabled) {
       return;
     }
+
     const values = getValues();
     const { scrollLeft, clientWidth, scrollWidth } = values;
     const trackHorizontalWidth = getInnerWidth(trackHorizontalRef.current);
@@ -105,10 +129,8 @@ const Scrollbar = forwardRef((
     const trackVerticalHeight = getInnerHeight(trackVerticalRef.current);
     const thumbVerticalHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
     const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
-    const hasHorizontalScrollbar = scrollWidth > clientWidth;
-    const hasVerticalScrollbar = scrollHeight > clientHeight;
-    trackHorizontalRef.current.style.visibility = hasHorizontalScrollbar ? 'visible' : 'hidden';
-    trackVerticalRef.current.style.visibility = hasVerticalScrollbar ? 'visible' : 'hidden';
+    trackHorizontalRef.current.style.visibility = (scrollWidth > clientWidth) ? 'visible' : 'hidden';
+    trackVerticalRef.current.style.visibility = (scrollHeight > clientHeight) ? 'visible' : 'hidden';
     thumbHorizontalRef.current.style.width = `${thumbHorizontalWidth}px`;
     thumbHorizontalRef.current.style.transform = `translateX(${thumbHorizontalX}px)`;
     thumbVerticalRef.current.style.height = `${thumbVerticalHeight}px`;
@@ -116,9 +138,10 @@ const Scrollbar = forwardRef((
 
     if (typeof onUpdate === 'function') {
       onUpdate({
-        values,
-        hasHorizontalScrollbar,
-        hasVerticalScrollbar,
+        values, // FIXME: deprecated (for backward compatibility)
+        hasHorizontalScrollbar: (scrollWidth > clientWidth), // FIXME: deprecated (for backward compatibility)
+        hasVerticalScrollbar: (scrollHeight > clientHeight), // FIXME: deprecated (for backward compatibility)
+        ...values,
       });
     }
     if (typeof callback === 'function') {
@@ -153,7 +176,7 @@ const Scrollbar = forwardRef((
   }, []);
 
   const hideHorizontalTrack = useCallback(() => {
-    if (horizontalScrollbarVisibility === 'visible') {
+    if (horizontalScrollbarVisibility === 'scroll') {
       return;
     }
 
@@ -163,7 +186,7 @@ const Scrollbar = forwardRef((
   }, [horizontalScrollbarVisibility]);
 
   const hideVerticalTrack = useCallback(() => {
-    if (verticalScrollbarVisibility === 'visible') {
+    if (verticalScrollbarVisibility === 'scroll') {
       return;
     }
 
@@ -419,8 +442,8 @@ const Scrollbar = forwardRef((
   }, [update, children]);
 
   const scrollbarWidth = scrollbarWidthRef.current;
-  const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight, style });
-  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled });
+  const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight });
+  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled, overflowX, overflowY });
   const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalScrollbarVisibility });
   const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalScrollbarVisibility });
   const thumbHorizontalStyle = useThumbHorizontalStyle();
@@ -430,7 +453,7 @@ const Scrollbar = forwardRef((
     <Box
       ref={ref}
       {...containerStyle}
-      {...reset}
+      {...rest}
     >
       {
         renderView({

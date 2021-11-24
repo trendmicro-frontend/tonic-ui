@@ -95,8 +95,8 @@ Use the `size` prop to change the padding of the `<TableCell>`. You can set the 
 function Sample() {
   const shadowLeftRef = React.useRef(null);
   const shadowRightRef = React.useRef(null);
-  const handleUpdate = ({ values }) => {
-    const { scrollLeft, scrollWidth, clientWidth } = values;
+  const handleUpdate = (props) => {
+    const { scrollLeft, scrollWidth, clientWidth } = props;
     const shadowLeftOpacity = 1 / 20 * Math.min(scrollLeft, 20);
     const rightScrollLeft = scrollWidth - clientWidth;
     const shadowRightOpacity = 1 / 20 * (rightScrollLeft - Math.max(scrollLeft, rightScrollLeft - 20));
@@ -830,7 +830,7 @@ function CustomScrollbar({
 
   return (
     <Scrollbar
-      visibility="visible"
+      overflow="scroll"
       renderView={renderScrollView}
       renderHorizontalTrack={renderScrollTrack}
       renderVerticalTrack={renderScrollTrack}
@@ -886,9 +886,13 @@ function StickyTable() {
     }
   };
 
-  const onUpdate = ({ hasHorizontalScrollbar, hasVerticalScrollbar, ...props }) => {
-    setShowHorizontalScrollbar(hasHorizontalScrollbar);
-    setShowVerticalScrollbar(hasVerticalScrollbar);
+  const onUpdate = (props) => {
+    const { scrollWidth, clientWidth, scrollHeight, clientHeight } = props;
+    const isHorizontalScrollbarVisible = (scrollWidth > clientWidth);
+    const isVerticalScrollbarVisible = (scrollHeight > clientHeight);
+
+    setShowHorizontalScrollbar(isHorizontalScrollbarVisible);
+    setShowVerticalScrollbar(isVerticalScrollbarVisible);
   };
 
   const {

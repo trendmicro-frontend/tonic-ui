@@ -18,49 +18,62 @@ The scrollbar default is hidden until you hover the mouse pointer over the conte
   width="50%"
   border={1}
   borderColor="#424242"
+  overflow="auto"
   resize="both"
 >
   <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }}  />
 </Scrollbar>
 ```
 
-### Visibility
+### Overflow
 
-Use the `visibility` prop to change the visibility style of `Scrollbar`. You can set the value to `auto` (default), `visible`, or `hidden`.
+Use the `overflow` prop to set the overflow of the content. You can set the value to `auto`, `scroll`, or `hidden`.
+
+* `auto`: The scrollbar will be shown if the content overflows and mouse is hovering over the content.
+* `scroll`: The scrollbar is always visible if the content overflows.
+* `hidden`: The scrollbar is never shown.
+
+Note: `overflowX` and `overflowY` are also available if you need to set the overflow on both X and Y axis.
 
 ```jsx
 <Flex>
   <Box flex="auto" mr="4x">
-    <Text size="xl" marginBottom="2x">auto</Text>
+    <Text size="xl" marginBottom="2x">
+      overflow="auto"
+    </Text>
     <Scrollbar
       height={120}
       border={1}
       borderColor="#424242"
-      visibility="auto"
+      overflow="auto"
     >
-      <Lorem count={12} style={{ paddingLeft: '16px' }} />
+      <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }} />
     </Scrollbar>
   </Box>
   <Box flex="auto" mr="4x">
-    <Text size="xl" marginBottom="2x">visible</Text>
+    <Text size="xl" marginBottom="2x">
+      overflow="scroll"
+    </Text>
     <Scrollbar
       height={120}
       border={1}
       borderColor="#424242"
-      visibility="visible"
+      overflow="scroll"
     >
-      <Lorem count={12} style={{ paddingLeft: '16px' }} />
+      <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }} />
     </Scrollbar>
   </Box>
   <Box flex="auto" mr="4x">
-    <Text size="xl" marginBottom="2x">hidden</Text>
+    <Text size="xl" marginBottom="2x">
+      overflow="hidden"
+    </Text>
     <Scrollbar
       height={120}
       border={1}
       borderColor="#424242"
-      visibility="hidden"
+      overflow="hidden"
     >
-      <Lorem count={12} style={{ paddingLeft: '16px' }} />
+      <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }} />
     </Scrollbar>
   </Box>
 </Flex>
@@ -113,7 +126,7 @@ function MinThumbSizeScroll() {
           height={120}
           border={1}
           borderColor="#424242"
-          visibility="visible"
+          overflow="scroll"
           minThumbSize={minThumbSize}
         >
           <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
@@ -159,7 +172,7 @@ function FixedThumbSizeScroll() {
           height={120}
           border={1}
           borderColor="#424242"
-          visibility="visible"
+          overflow="scroll"
           thumbSize={thumbSize === -1 ? undefined : thumbSize}
         >
           <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
@@ -231,7 +244,7 @@ function CustomScrollbar({
 
   return (
     <Scrollbar
-      visibility="visible"
+      overflow="scroll"
       renderView={renderScrollView}
       renderHorizontalTrack={renderScrollTrack}
       renderVerticalTrack={renderScrollTrack}
@@ -279,9 +292,13 @@ function StickyTable() {
     }
   };
 
-  const onUpdate = ({ hasHorizontalScrollbar, hasVerticalScrollbar, ...props }) => {
-    setShowHorizontalScrollbar(hasHorizontalScrollbar);
-    setShowVerticalScrollbar(hasVerticalScrollbar);
+  const onUpdate = (props) => {
+    const { scrollWidth, clientWidth, scrollHeight, clientHeight } = props;
+    const isHorizontalScrollbarVisible = (scrollWidth > clientWidth);
+    const isVerticalScrollbarVisible = (scrollHeight > clientHeight);
+
+    setShowHorizontalScrollbar(isHorizontalScrollbarVisible);
+    setShowVerticalScrollbar(isVerticalScrollbarVisible);
   };
 
   const {
@@ -417,15 +434,15 @@ render(
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | disabled | boolean | | If `true`, the overflow is clipped, and the rest of the content is hidden. |
-| maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not `'auto'`, activate auto-height mode. |
+| maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not 'auto', activate auto-height mode. |
 | minHeight | number \| string | 'auto' | Set a maximum height (in pixels) for auto-height mode. |
 | minThumbSize | number | 32 | Minimal thumb size in pixels. |
-| onScroll | function | | Event handler. |
-| onUpdate | function({ values, hasHorizontalScrollbar, hasVerticalScrollbar }) | | Called whenever the component is updated. |
+| onScroll | function | | Callback function that is called when the scrollbar is scrolled. |
+| onUpdate | function | | Callback function that is called when the scrollbar is updated. |
+| overflow | string | 'auto' | Set the overflow mode. One of: 'auto', 'scroll', 'hidden'. |
 | renderView | function | | The element your content will be rendered in. |
 | renderHorizontalThumb | function | | Horizontal thumb element. |
 | renderHorizontalTrack | function | | Horizontal track element. |
 | renderVerticalThumb | function | | Vertical thumb element. |
 | renderVerticalTrack | function | | Vertical track element. |
 | thumbSize | number | | Set a fixed size (in pixels) for thumbs. |
-| visibility | string | 'auto' | Acceptable values: `'auto'`, `'visible'`, `'hidden'`. If `'auto'`, it will automatically show or hide the scrollbar on the container. If `'visible'`, the scrollbar is visible.  If `'hidden'`, the scrollbar is invisible. |

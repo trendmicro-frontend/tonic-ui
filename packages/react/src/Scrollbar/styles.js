@@ -2,27 +2,39 @@ import useColorMode from '../useColorMode';
 
 const styledScrollbarWidth = '8px';
 
-const useContainerStyle = props => ({
+const useContainerStyle = ({
+  autoHeight,
+  minHeight,
+  maxHeight,
+}) => ({
   position: 'relative',
   overflow: 'hidden',
   width: '100%',
   height: '100%',
-  ...(props.autoHeight && {
+  ...(autoHeight && {
     height: 'auto',
-    minHeight: props.minHeight,
-    maxHeight: props.maxHeight
+    minHeight: minHeight,
+    maxHeight: maxHeight,
   }),
-  ...props.style,
 });
 
-const useViewStyle = ({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled }) => {
+const useViewStyle = ({
+  scrollbarWidth,
+  autoHeight,
+  minHeight,
+  maxHeight,
+  disabled,
+  overflowX,
+  overflowY,
+}) => {
   return {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    overflow: disabled ? 'hidden' : 'scroll',
+    overflowX: (disabled || overflowX === 'hidden') ? 'hidden' : 'scroll',
+    overflowY: (disabled || overflowY === 'hidden') ? 'hidden' : 'scroll',
     WebkitOverflowScrolling: 'touch',
     // Hide scrollbars by setting a negative margin
     marginRight: scrollbarWidth ? -scrollbarWidth : 0,
@@ -35,15 +47,18 @@ const useViewStyle = ({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabl
       bottom: undefined,
       // Add scrollbarWidth to autoHeight in order to compensate negative margins
       minHeight: typeof minHeight === 'string' ? `calc(${minHeight} + ${scrollbarWidth}px)` : minHeight + scrollbarWidth,
-      maxHeight: typeof maxHeight === 'string' ? `calc(${maxHeight} + ${scrollbarWidth}px)` : maxHeight + scrollbarWidth
+      maxHeight: typeof maxHeight === 'string' ? `calc(${maxHeight} + ${scrollbarWidth}px)` : maxHeight + scrollbarWidth,
     }),
   };
 };
 
-const useTrackHorizontalStyle = props => {
-  const { horizontalScrollbarVisibility, scrollbarWidth } = props;
+const useTrackHorizontalStyle = ({
+  scrollbarWidth,
+  horizontalScrollbarVisibility,
+}) => {
   const autoHide = horizontalScrollbarVisibility === 'auto';
   const alwaysHide = !scrollbarWidth || horizontalScrollbarVisibility === 'hidden';
+
   return {
     position: 'absolute',
     height: styledScrollbarWidth,
@@ -61,10 +76,13 @@ const useTrackHorizontalStyle = props => {
   };
 };
 
-const useTrackVerticalStyle = props => {
-  const { verticalScrollbarVisibility, scrollbarWidth } = props;
+const useTrackVerticalStyle = ({
+  scrollbarWidth,
+  verticalScrollbarVisibility,
+}) => {
   const autoHide = verticalScrollbarVisibility === 'auto';
   const alwaysHide = !scrollbarWidth || verticalScrollbarVisibility === 'hidden';
+
   return {
     position: 'absolute',
     width: styledScrollbarWidth,
