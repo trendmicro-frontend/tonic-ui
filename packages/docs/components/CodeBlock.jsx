@@ -9,7 +9,7 @@ import * as ReactBeautifulDND from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
 import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
-import Lorem from 'react-lorem-component';
+import { loremIpsum } from 'lorem-ipsum';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
@@ -193,15 +193,35 @@ const CodeBlock = ({
       ...styledUIComponents,
       ...thirdPartyComponents,
       EditableTag,
-      Lorem: (props) => (
-        <Lorem
-          paragraphLowerBound={1}
-          paragraphUpperBound={3}
-          sentenceLowerBound={3}
-          sentenceUpperBound={12}
-          {...props}
-        />
-      ),
+      Lorem: ({
+        count = 1,
+        ...rest
+      }) => {
+        const html = loremIpsum({
+          count,
+          units: 'paragraphs',
+          sentenceLowerBound: 5,
+          sentenceUpperBound: 15,
+          paragraphLowerBound: 3,
+          paragraphUpperBound: 7,
+          format: 'html',
+        });
+
+        return (
+          <Box
+            dangerouslySetInnerHTML={{ __html: html }}
+            css={{
+              '> *:first-child': {
+                marginTop: 0,
+              },
+              '> *:last-child': {
+                marginBottom: 0,
+              },
+            }}
+            {...rest}
+          />
+        );
+      },
       css,
       mdx,
       tmicons,

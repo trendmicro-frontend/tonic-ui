@@ -6,8 +6,9 @@ Install Tonic UI and its peer dependencies.
 npm install @trendmicro/react-styled-ui
 ```
 
-Create a theme object to include custom color, typography, and layout values.
-Styled UI comes with a default theme, so this step is optional.
+Optionally, yoiu can create a theme object and pass it to the `<ThemeProvider>` component.
+
+This step is not required if you are using the default theme.
 
 ```js
 // example base.js
@@ -29,7 +30,7 @@ export default {
 };
 ```
 
-You can also extend the theme to add your custom colors, fonts, etc.
+You can extend the theme object to add custom styles, including colors, fonts, and more.
 
 ```js
 import { theme } from '@trendmicro/react-styled-ui';
@@ -69,7 +70,7 @@ import { Button } from '@trendmicro/react-styled-ui';
 
 ## Recommended setup
 
-Sometimes you may need to apply base CSS styles to your application. Styled UI export a `CSSBaseline` that will normalize styles for a wide range of elements, which is based on the [normalize.css](https://github.com/necolas/normalize.css).
+Sometimes you may need to apply base CSS styles to your application. Tonic UI exports a `CSSBaseline` that is used to normalize styles for a wide range of elements, which is based on the [normalize.css](https://github.com/necolas/normalize.css).
 
 `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
