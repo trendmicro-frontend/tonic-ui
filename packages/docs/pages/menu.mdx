@@ -75,6 +75,10 @@ function Example() {
     const value = event.target.getAttribute('value');
     setSelectedValue(value);
   };
+  const handleMenuItemClick = (event) => {
+    const value = event.target.getAttribute('value');
+    console.log(`Menu item #${value} clicked`);
+  };
 
   return (
     <>
