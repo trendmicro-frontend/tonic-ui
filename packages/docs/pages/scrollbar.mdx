@@ -78,7 +78,7 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
 </Flex>
 ```
 
-### Disabled
+### Disabled scrollbar
 
 Use the `disabled` attribute, the overflow is clipped, and the rest of the content is hidden.
 
@@ -88,11 +88,13 @@ Use the `disabled` attribute, the overflow is clipped, and the rest of the conte
 </Scrollbar>
 ```
 
-### The minimal thumb size
+### Thumbs
 
-Use the `minThumbSize` attribute to set the minimal size (in pixels) for thumbs.
+#### Setting a minimum thumb size
 
-The thumbs size will be the original size if the original size > the minimal size. In other words, the thumbs size will be the minimal size if the original size < the minimal size.
+Use the `minThumbSize` attribute to set the minimum thumb size (in pixels).
+
+The thumb size will be set to the minimum thumb size if the thumb size is smaller than the minimum thumb size.
 
 ```jsx
 function MinThumbSizeScroll() {
@@ -136,9 +138,9 @@ function MinThumbSizeScroll() {
 }
 ```
 
-### The fixed thumb size
+#### Setting a fixed thumb size
 
-Use the `thumbSize` attribute to set a fixed size (in pixels) for thumbs.
+To set the fixed thumb size, use the `thumbSize` attribute.
 
 ```jsx
 function FixedThumbSizeScroll() {
