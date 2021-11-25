@@ -455,11 +455,14 @@ render(
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | | If `true`, the overflow is clipped, and the rest of the content is hidden. |
-| maxHeight | number \| string | 'auto' | Set a minimum height (in pixels) for auto-height mode. If `maxHeight` is not 'auto', activate auto-height mode. |
-| minHeight | number \| string | 'auto' | Set a maximum height (in pixels) for auto-height mode. |
-| minThumbSize | number | 32 | Minimal thumb size in pixels. |
-| onScroll | function | | Callback function that is called when the scrollbar is scrolled. |
-| onUpdate | function | | Callback function that is called when the scrollbar is updated. |
-| overflow | string | 'auto' | Set the overflow mode. One of: 'auto', 'scroll', 'hidden'. |
-| thumbSize | number | | Set a fixed size (in pixels) for thumbs. |
+| children | ReactNode \| function | | The content of the scrollbar. |
+| disabled | boolean | | Whether the scrollbar is disabled. |
+| maxHeight | number \| string | 'auto' | The maximum height of the scrollable content. If set to 'auto', the height will be calculated based on the content. |
+| minHeight | number \| string | 'auto' | The minimum height of the scrollable content. |
+| minThumbSize | number | 32 | The minimum size of the thumb in pixels. |
+| onScroll | function | | A callback function that is called when the scrollbar is scrolled. |
+| onUpdate | function | | A callback function that is called when the scrollbar is updated. |
+| overflow | string | 'auto' | The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| overflowX | string | | The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| thumbSize | number | | The size of the thumb in pixels. |
