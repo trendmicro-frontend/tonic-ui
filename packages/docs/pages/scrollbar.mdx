@@ -14,14 +14,13 @@ The scrollbar default is hidden until you hover the mouse pointer over the conte
 
 ```jsx
 <Scrollbar
-  height={160}
-  width="50%"
+  height={200}
   border={1}
   borderColor="#424242"
   overflow="auto"
   resize="both"
 >
-  <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }}  />
+  <Lorem count={10} px="4x" py="3x" />
 </Scrollbar>
 ```
 
@@ -42,12 +41,12 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
       overflow="auto"
     </Text>
     <Scrollbar
-      height={120}
+      height={150}
       border={1}
       borderColor="#424242"
       overflow="auto"
     >
-      <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }} />
+      <Lorem count={10} px="4x" py="3x" whiteSpace="nowrap" />
     </Scrollbar>
   </Box>
   <Box flex="auto" mr="4x">
@@ -55,12 +54,12 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
       overflow="scroll"
     </Text>
     <Scrollbar
-      height={120}
+      height={150}
       border={1}
       borderColor="#424242"
       overflow="scroll"
     >
-      <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }} />
+      <Lorem count={10} px="4x" py="3x" whiteSpace="nowrap" />
     </Scrollbar>
   </Box>
   <Box flex="auto" mr="4x">
@@ -68,12 +67,12 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
       overflow="hidden"
     </Text>
     <Scrollbar
-      height={120}
+      height={150}
       border={1}
       borderColor="#424242"
       overflow="hidden"
     >
-      <Lorem count={12} style={{ paddingLeft: '16px', whiteSpace: 'nowrap' }} />
+      <Lorem count={10} px="4x" py="3x" whiteSpace="nowrap" />
     </Scrollbar>
   </Box>
 </Flex>
@@ -85,7 +84,7 @@ Use the `disabled` attribute, the overflow is clipped, and the rest of the conte
 
 ```jsx
 <Scrollbar height={160} disabled>
-  <Lorem count={12} />
+  <Lorem count={10} px="4x" py="3x" />
 </Scrollbar>
 ```
 
@@ -129,7 +128,7 @@ function MinThumbSizeScroll() {
           overflow="scroll"
           minThumbSize={minThumbSize}
         >
-          <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
+          <Lorem count={dataRow} px="4x" py="3x" />
         </Scrollbar>
       </Box>
     </>
@@ -175,7 +174,7 @@ function FixedThumbSizeScroll() {
           overflow="scroll"
           thumbSize={thumbSize === -1 ? undefined : thumbSize}
         >
-          <Lorem count={dataRow} style={{ paddingLeft: '16px' }} />
+          <Lorem count={dataRow} px="4x" py="3x" />
         </Scrollbar>
       </Box>
     </>
@@ -183,7 +182,7 @@ function FixedThumbSizeScroll() {
 }
 ```
 
-### The scrollbar in `Menu`
+### Scrollable menu
 
 ```jsx
 <Menu width="160px">
@@ -207,55 +206,64 @@ function FixedThumbSizeScroll() {
 </Menu>
 ```
 
-### The scrollbar in `Table`
-
-Use the `renderScrollView` and `renderScrollTrack` attributes to customize `Scrollbar` style.
+### Scrollable table
 
 ```jsx noInline
-function CustomScrollbar({
-  showVerticalScrollbar,
-  showHorizontalScrollbar,
+const CustomScrollbar = ({
   children,
-  ...props
-}) {
-  const renderScrollView = props => {
-    return (
-      <Box
-        {...props}
-        right={showVerticalScrollbar ? "8px" : 0}
-        bottom={showHorizontalScrollbar ? "8px" : 0}
-      />
-    );
-  };
-
-  const renderScrollTrack = props => {
-    const [colorMode] = useColorMode();
-    const bgColor = {
-      dark: 'gray:70',
-      light: 'gray:70',
-    }[colorMode];
-    return (
-      <Box
-        {...props}
-        bg={bgColor}
-      />
-    );
-  };
+  ...rest
+}) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:70',
+  }[colorMode];
 
   return (
     <Scrollbar
-      overflow="scroll"
-      renderView={renderScrollView}
-      renderHorizontalTrack={renderScrollTrack}
-      renderVerticalTrack={renderScrollTrack}
-      {...props}
+      {...rest}
     >
-      {children}
+      {({
+        ScrollView,
+        HorizontalTrack,
+        VerticalTrack,
+        HorizontalThumb,
+        VerticalThumb,
+        getScrollViewProps,
+        getHorizontalTrackProps,
+        getVerticalTrackProps,
+        getHorizontalThumbProps,
+        getVerticalThumbProps,
+      }) => (
+        <>
+          <ScrollView {...getScrollViewProps()}>
+            {children}
+          </ScrollView>
+          <HorizontalTrack
+            {...getHorizontalTrackProps()}
+            backgroundColor={backgroundColor}
+          >
+            <HorizontalThumb {...getHorizontalThumbProps()} />
+          </HorizontalTrack>
+          <VerticalTrack
+            {...getVerticalTrackProps()}
+            backgroundColor={backgroundColor}
+          >
+            <VerticalThumb {...getVerticalThumbProps()} />
+          </VerticalTrack>
+        </>
+      )}
     </Scrollbar>
   );
-}
+};
 
-function StickyTable() {
+function ScrollableTable() {
+  const tableHeaderRef = React.createRef();
+  const [state, setState] = React.useState({
+    isHorizontalScrollbarVisible: false,
+    isVerticalScrollbarVisible: false,
+  });
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -264,10 +272,16 @@ function StickyTable() {
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
+      customProps: {
+        textAlign: 'right',
+      },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
+      customProps: {
+        textAlign: 'right',
+      },
     },
   ], []);
 
@@ -279,11 +293,6 @@ function StickyTable() {
     { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
     { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
   ], []);
-
-  const tableHeaderRef = React.createRef();
-
-  const [showHorizontalScrollbar, setShowHorizontalScrollbar] = React.useState(false);
-  const [showVerticalScrollbar, setShowVerticalScrollbar] = React.useState(false);
 
   const onScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
@@ -297,8 +306,10 @@ function StickyTable() {
     const isHorizontalScrollbarVisible = (scrollWidth > clientWidth);
     const isVerticalScrollbarVisible = (scrollHeight > clientHeight);
 
-    setShowHorizontalScrollbar(isHorizontalScrollbarVisible);
-    setShowVerticalScrollbar(isVerticalScrollbarVisible);
+    setState({
+      isHorizontalScrollbarVisible,
+      isVerticalScrollbarVisible,
+    });
   };
 
   const {
@@ -326,7 +337,7 @@ function StickyTable() {
         {headerGroups.map(headerGroup => {
           const { style, ...props } = headerGroup.getHeaderGroupProps();
           let headerWidth = style.width;
-          if (showVerticalScrollbar) {
+          if (state.isVerticalScrollbarVisible) {
             headerWidth = `calc(${style.width} + 8px)`; // 8px is scrollbar width
           }
           return (
@@ -334,24 +345,23 @@ function StickyTable() {
               {headerGroup.headers.map((column, index) => (
                 <TableHeaderCell
                   key={column.accessor}
-                  {...(showVerticalScrollbar && index === headerGroup.headers.length - 1) && {
+                  {...column.getHeaderProps()}
+                  {...column.customProps}
+                  {...(state.isVerticalScrollbarVisible && index === headerGroup.headers.length - 1) && {
                     borderRight: 0,
                   }}
-                  {...column.getHeaderProps()}
                 >
                   {column.render('Header')}
                 </TableHeaderCell>
               ))}
-              {showVerticalScrollbar && (
-                <TableHeaderCell width="8px" padding={0} borderLeft={0} />
+              {state.isVerticalScrollbarVisible && (
+                <TableHeaderCell width="2x" padding={0} borderLeft={0} />
               )}
             </TableHeaderRow>
           );
         })}
       </TableHeader>
       <CustomScrollbar
-        showVerticalScrollbar
-        showHorizontalScrollbar
         onScroll={onScroll}
         onUpdate={onUpdate}
       >
@@ -359,10 +369,20 @@ function StickyTable() {
           {rows.map((row, index) => {
             prepareRow(row);
             return (
-              <TableRow key={index} {...row.getRowProps()}>
+              <TableRow
+                {...row.getRowProps()}
+                key={index}
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.12)'
+                }}
+              >
                 {row.cells.map(cell => {
                   return (
-                    <TableCell key={cell.id} {...cell.getCellProps()}>
+                    <TableCell
+                      key={cell.id}
+                      {...cell.getCellProps()}
+                      {...cell.column.customProps}
+                    >
                       {cell.render('Cell')}
                     </TableCell>
                   );
@@ -376,24 +396,26 @@ function StickyTable() {
   );
 }
 
-render(<StickyTable />);
+render(<ScrollableTable />);
 ```
 
-### Shadow scrollbar
+### Scroll indicator
+
+The scroll indicator can visually indicate the current scroll position of the scrollable element, so that the user knows whether it can be scrolled further.
 
 ```jsx noInline
-function ShadowScrollbar(props) {
-  const shadowTopRef = React.useRef(null);
-  const shadowBottomRef = React.useRef(null);
-
+const ScrollbarWithIndicators = (props) => {
+  const topIndicatorRef = React.useRef(null);
+  const bottomIndicatorRef = React.useRef(null);
   const handleUpdate = ({ values }) => {
     const { scrollTop, scrollHeight, clientHeight } = values;
-    const shadowTopOpacity = 1 / 20 * Math.min(scrollTop, 20);
+    const topIndicatorOpacity = 1 / 20 * Math.min(scrollTop, 20);
     const bottomScrollTop = scrollHeight - clientHeight;
-    const shadowBottomOpacity = 1 / 20 * (bottomScrollTop - Math.max(scrollTop, bottomScrollTop - 20));
-    shadowTopRef.current.style.opacity = shadowTopOpacity;
-    shadowBottomRef.current.style.opacity = shadowBottomOpacity;
+    const bottomIndicatorOpacity = 1 / 20 * (bottomScrollTop - Math.max(scrollTop, bottomScrollTop - 20));
+    topIndicatorRef.current.style.opacity = topIndicatorOpacity;
+    bottomIndicatorRef.current.style.opacity = bottomIndicatorOpacity;
   };
+
   return (
     <Box position="relative">
       <Scrollbar
@@ -401,7 +423,7 @@ function ShadowScrollbar(props) {
         {...props}
       />
       <Box
-        ref={shadowTopRef}
+        ref={topIndicatorRef}
         position="absolute"
         top="0"
         left="0"
@@ -410,7 +432,7 @@ function ShadowScrollbar(props) {
         background="linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
       />
       <Box
-        ref={shadowBottomRef}
+        ref={bottomIndicatorRef}
         position="absolute"
         bottom="0"
         left="0"
@@ -423,9 +445,9 @@ function ShadowScrollbar(props) {
 }
 
 render(
-  <ShadowScrollbar height={300}>
-    <Lorem count={12} />
-  </ShadowScrollbar>
+  <ScrollbarWithIndicators height={300}>
+    <Lorem count={10} px="4x" py="3x" />
+  </ScrollbarWithIndicators>
 );
 ```
 
@@ -440,9 +462,4 @@ render(
 | onScroll | function | | Callback function that is called when the scrollbar is scrolled. |
 | onUpdate | function | | Callback function that is called when the scrollbar is updated. |
 | overflow | string | 'auto' | Set the overflow mode. One of: 'auto', 'scroll', 'hidden'. |
-| renderView | function | | The element your content will be rendered in. |
-| renderHorizontalThumb | function | | Horizontal thumb element. |
-| renderHorizontalTrack | function | | Horizontal track element. |
-| renderVerticalThumb | function | | Vertical thumb element. |
-| renderVerticalTrack | function | | Vertical track element. |
 | thumbSize | number | | Set a fixed size (in pixels) for thumbs. |

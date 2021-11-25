@@ -1,7 +1,5 @@
 import useColorMode from '../useColorMode';
 
-const styledScrollbarWidth = '8px';
-
 const useContainerStyle = ({
   autoHeight,
   minHeight,
@@ -13,13 +11,12 @@ const useContainerStyle = ({
   height: '100%',
   ...(autoHeight && {
     height: 'auto',
-    minHeight: minHeight,
-    maxHeight: maxHeight,
+    minHeight,
+    maxHeight,
   }),
 });
 
-const useViewStyle = ({
-  scrollbarWidth,
+const useScrollViewStyle = ({
   autoHeight,
   minHeight,
   maxHeight,
@@ -27,41 +24,40 @@ const useViewStyle = ({
   overflowX,
   overflowY,
 }) => {
-  return {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  const style = {
     overflowX: (disabled || overflowX === 'hidden') ? 'hidden' : 'scroll',
     overflowY: (disabled || overflowY === 'hidden') ? 'hidden' : 'scroll',
     WebkitOverflowScrolling: 'touch',
-    // Hide scrollbars by setting a negative margin
-    marginRight: scrollbarWidth ? -scrollbarWidth : 0,
-    marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
-    ...(autoHeight && {
+  };
+
+  if (autoHeight) {
+    return {
+      ...style,
       position: 'relative',
-      top: undefined,
-      left: undefined,
-      right: undefined,
-      bottom: undefined,
-      // Add scrollbarWidth to autoHeight in order to compensate negative margins
-      minHeight: typeof minHeight === 'string' ? `calc(${minHeight} + ${scrollbarWidth}px)` : minHeight + scrollbarWidth,
-      maxHeight: typeof maxHeight === 'string' ? `calc(${maxHeight} + ${scrollbarWidth}px)` : maxHeight + scrollbarWidth,
-    }),
+      minHeight,
+      maxHeight,
+    };
+  }
+
+  return {
+    ...style,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   };
 };
 
-const useTrackHorizontalStyle = ({
-  scrollbarWidth,
+const useHorizontalTrackStyle = ({
   horizontalScrollbarVisibility,
 }) => {
   const autoHide = horizontalScrollbarVisibility === 'auto';
-  const alwaysHide = !scrollbarWidth || horizontalScrollbarVisibility === 'hidden';
+  const alwaysHide = horizontalScrollbarVisibility === 'hidden';
 
   return {
     position: 'absolute',
-    height: styledScrollbarWidth,
+    height: '2x',
     right: 0,
     bottom: 0,
     left: 0,
@@ -76,16 +72,15 @@ const useTrackHorizontalStyle = ({
   };
 };
 
-const useTrackVerticalStyle = ({
-  scrollbarWidth,
+const useVerticalTrackStyle = ({
   verticalScrollbarVisibility,
 }) => {
   const autoHide = verticalScrollbarVisibility === 'auto';
-  const alwaysHide = !scrollbarWidth || verticalScrollbarVisibility === 'hidden';
+  const alwaysHide = verticalScrollbarVisibility === 'hidden';
 
   return {
     position: 'absolute',
-    width: styledScrollbarWidth,
+    width: '2x',
     right: 0,
     bottom: 0,
     top: 0,
@@ -100,7 +95,7 @@ const useTrackVerticalStyle = ({
   };
 };
 
-const useThumbHorizontalStyle = props => {
+const useHorizontalThumbStyle = props => {
   const [colorMode] = useColorMode();
   const bgColor = {
     dark: 'rgba(255, 255, 255, .28)',
@@ -130,7 +125,7 @@ const useThumbHorizontalStyle = props => {
   };
 };
 
-const useThumbVerticalStyle = props => {
+const useVerticalThumbStyle = props => {
   const [colorMode] = useColorMode();
   const bgColor = {
     dark: 'rgba(255, 255, 255, .28)',
@@ -162,9 +157,9 @@ const useThumbVerticalStyle = props => {
 
 export {
   useContainerStyle,
-  useViewStyle,
-  useTrackHorizontalStyle,
-  useTrackVerticalStyle,
-  useThumbHorizontalStyle,
-  useThumbVerticalStyle,
+  useScrollViewStyle,
+  useHorizontalTrackStyle,
+  useVerticalTrackStyle,
+  useHorizontalThumbStyle,
+  useVerticalThumbStyle,
 };

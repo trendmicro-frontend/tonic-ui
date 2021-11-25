@@ -1,25 +1,21 @@
-/* eslint-disable max-lines-per-function */
 import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
 import {
   useContainerStyle,
-  useViewStyle,
-  useTrackHorizontalStyle,
-  useTrackVerticalStyle,
-  useThumbHorizontalStyle,
-  useThumbVerticalStyle,
+  useScrollViewStyle,
+  useHorizontalTrackStyle,
+  useVerticalTrackStyle,
+  useHorizontalThumbStyle,
+  useVerticalThumbStyle,
 } from './styles';
-import getScrollbarWidth from './utils/getScrollbarWidth';
 import getInnerHeight from './utils/getInnerHeight';
 import getInnerWidth from './utils/getInnerWidth';
-import {
-  renderViewDefault,
-  renderTrackHorizontalDefault,
-  renderTrackVerticalDefault,
-  renderThumbHorizontalDefault,
-  renderThumbVerticalDefault,
-} from './renderDefaultElements';
+import ScrollView from './ScrollView';
+import HorizontalTrack from './HorizontalTrack';
+import VerticalTrack from './VerticalTrack';
+import HorizontalThumb from './HorizontalThumb';
+import VerticalThumb from './VerticalThumb';
 
 const Scrollbar = forwardRef((
   {
@@ -30,16 +26,11 @@ const Scrollbar = forwardRef((
     minThumbSize = 32,
     onScroll,
     onUpdate,
-    visibility, // FIXME: visibility is deprecated (backward compatibility)
     overflow = 'auto',
     overflowX,
     overflowY,
-    renderView = renderViewDefault,
-    renderHorizontalTrack = renderTrackHorizontalDefault,
-    renderHorizontalThumb = renderThumbHorizontalDefault,
-    renderVerticalTrack = renderTrackVerticalDefault,
-    renderVerticalThumb = renderThumbVerticalDefault,
     thumbSize,
+    visibility, // FIXME: visibility is deprecated (backward compatibility)
     ...rest
   },
   ref,
@@ -85,13 +76,12 @@ const Scrollbar = forwardRef((
   const isViewMouseOverRef = useRef(false);
   const prevPageXRef = useRef(0);
   const prevPageYRef = useRef(0);
-  const scrollbarWidthRef = useRef(false);
 
-  const viewRef = useRef(null);
-  const trackHorizontalRef = useRef(null);
-  const trackVerticalRef = useRef(null);
-  const thumbHorizontalRef = useRef(null);
-  const thumbVerticalRef = useRef(null);
+  const scrollViewRef = useRef(null);
+  const horizontalTrackRef = useRef(null);
+  const verticalTrackRef = useRef(null);
+  const horizontalThumbRef = useRef(null);
+  const verticalThumbRef = useRef(null);
 
   const getValues = () => {
     const {
@@ -101,7 +91,8 @@ const Scrollbar = forwardRef((
       scrollHeight = 0,
       clientWidth = 0,
       clientHeight = 0
-    } = viewRef.current || {};
+    } = scrollViewRef.current || {};
+
     return {
       left: ensureFiniteNumber(scrollLeft / (scrollWidth - clientWidth)),
       top: ensureFiniteNumber(scrollTop / (scrollHeight - clientHeight)),
@@ -115,26 +106,33 @@ const Scrollbar = forwardRef((
   };
 
   const update = useCallback((callback) => {
-    const scrollbarWidth = getScrollbarWidth();
-    if (!scrollbarWidth || disabled) {
+    if (disabled) {
+      return;
+    }
+
+    if (!horizontalTrackRef.current) {
+      return;
+    }
+
+    if (!verticalTrackRef.current) {
       return;
     }
 
     const values = getValues();
     const { scrollLeft, clientWidth, scrollWidth } = values;
-    const trackHorizontalWidth = getInnerWidth(trackHorizontalRef.current);
-    const thumbHorizontalWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
-    const thumbHorizontalX = scrollLeft / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
+    const horizontalTrackWidth = getInnerWidth(horizontalTrackRef.current);
+    const horizontalThumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
+    const horizontalThumbX = scrollLeft / (scrollWidth - clientWidth) * (horizontalTrackWidth - horizontalThumbWidth);
     const { scrollTop, clientHeight, scrollHeight } = values;
-    const trackVerticalHeight = getInnerHeight(trackVerticalRef.current);
-    const thumbVerticalHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
-    const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
-    trackHorizontalRef.current.style.visibility = (scrollWidth > clientWidth) ? 'visible' : 'hidden';
-    trackVerticalRef.current.style.visibility = (scrollHeight > clientHeight) ? 'visible' : 'hidden';
-    thumbHorizontalRef.current.style.width = `${thumbHorizontalWidth}px`;
-    thumbHorizontalRef.current.style.transform = `translateX(${thumbHorizontalX}px)`;
-    thumbVerticalRef.current.style.height = `${thumbVerticalHeight}px`;
-    thumbVerticalRef.current.style.transform = `translateY(${thumbVerticalY}px)`;
+    const verticalTrackHeight = getInnerHeight(verticalTrackRef.current);
+    const verticalThumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
+    const verticalThumbY = scrollTop / (scrollHeight - clientHeight) * (verticalTrackHeight - verticalThumbHeight);
+    horizontalTrackRef.current.style.visibility = (scrollWidth > clientWidth) ? 'visible' : 'hidden';
+    verticalTrackRef.current.style.visibility = (scrollHeight > clientHeight) ? 'visible' : 'hidden';
+    horizontalThumbRef.current.style.width = `${horizontalThumbWidth}px`;
+    horizontalThumbRef.current.style.transform = `translateX(${horizontalThumbX}px)`;
+    verticalThumbRef.current.style.height = `${verticalThumbHeight}px`;
+    verticalThumbRef.current.style.transform = `translateY(${verticalThumbY}px)`;
 
     if (typeof onUpdate === 'function') {
       onUpdate({
@@ -150,8 +148,8 @@ const Scrollbar = forwardRef((
   }, [disabled, minThumbSize, thumbSize, getThumbHorizontalWidth, getThumbVerticalHeight, onUpdate]);
 
   const getThumbHorizontalWidth = useCallback(({ minThumbSize, thumbSize }) => {
-    const { scrollWidth, clientWidth } = viewRef.current;
-    const trackWidth = getInnerWidth(trackHorizontalRef.current);
+    const { scrollWidth, clientWidth } = scrollViewRef.current;
+    const trackWidth = getInnerWidth(horizontalTrackRef.current);
     const width = Math.ceil(clientWidth / scrollWidth * trackWidth);
     if (trackWidth === width) {
       return 0;
@@ -163,8 +161,8 @@ const Scrollbar = forwardRef((
   }, []);
 
   const getThumbVerticalHeight = useCallback(({ minThumbSize, thumbSize }) => {
-    const { scrollHeight, clientHeight } = viewRef.current;
-    const trackHeight = getInnerHeight(trackVerticalRef.current);
+    const { scrollHeight, clientHeight } = scrollViewRef.current;
+    const trackHeight = getInnerHeight(verticalTrackRef.current);
     const height = Math.ceil(clientHeight / scrollHeight * trackHeight);
     if (trackHeight === height) {
       return 0;
@@ -180,8 +178,8 @@ const Scrollbar = forwardRef((
       return;
     }
 
-    if (trackHorizontalRef.current) {
-      trackHorizontalRef.current.style.opacity = 0;
+    if (horizontalTrackRef.current) {
+      horizontalTrackRef.current.style.opacity = 0;
     }
   }, [horizontalScrollbarVisibility]);
 
@@ -190,8 +188,8 @@ const Scrollbar = forwardRef((
       return;
     }
 
-    if (trackVerticalRef.current) {
-      trackVerticalRef.current.style.opacity = 0;
+    if (verticalTrackRef.current) {
+      verticalTrackRef.current.style.opacity = 0;
     }
   }, [verticalScrollbarVisibility]);
 
@@ -221,8 +219,8 @@ const Scrollbar = forwardRef((
       return;
     }
 
-    if (trackHorizontalRef.current) {
-      trackHorizontalRef.current.style.opacity = 1;
+    if (horizontalTrackRef.current) {
+      horizontalTrackRef.current.style.opacity = 1;
     }
   };
 
@@ -231,8 +229,8 @@ const Scrollbar = forwardRef((
       return;
     }
 
-    if (trackVerticalRef.current) {
-      trackVerticalRef.current.style.opacity = 1;
+    if (verticalTrackRef.current) {
+      verticalTrackRef.current.style.opacity = 1;
     }
   };
 
@@ -242,15 +240,15 @@ const Scrollbar = forwardRef((
   };
 
   const getScrollLeftForOffset = useCallback((offset) => {
-    const { scrollWidth, clientWidth } = viewRef.current;
-    const trackWidth = getInnerWidth(trackHorizontalRef.current);
+    const { scrollWidth, clientWidth } = scrollViewRef.current;
+    const trackWidth = getInnerWidth(horizontalTrackRef.current);
     const thumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
     return offset / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
   }, [minThumbSize, thumbSize, getThumbHorizontalWidth]);
 
   const getScrollTopForOffset = useCallback((offset) => {
-    const { scrollHeight, clientHeight } = viewRef.current;
-    const trackHeight = getInnerHeight(trackVerticalRef.current);
+    const { scrollHeight, clientHeight } = scrollViewRef.current;
+    const trackHeight = getInnerHeight(verticalTrackRef.current);
     const thumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
     return offset / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
   }, [minThumbSize, thumbSize, getThumbVerticalHeight]);
@@ -298,19 +296,19 @@ const Scrollbar = forwardRef((
     const prevPageY = prevPageYRef.current;
     if (prevPageX) {
       const { clientX } = event;
-      const { left: trackLeft } = trackHorizontalRef.current.getBoundingClientRect();
+      const { left: trackLeft } = horizontalTrackRef.current.getBoundingClientRect();
       const thumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
       const clickPosition = thumbWidth - prevPageX;
       const offset = -trackLeft + clientX - clickPosition;
-      viewRef.current.scrollLeft = getScrollLeftForOffset(offset);
+      scrollViewRef.current.scrollLeft = getScrollLeftForOffset(offset);
     }
     if (prevPageY) {
       const { clientY } = event;
-      const { top: trackTop } = trackVerticalRef.current.getBoundingClientRect();
+      const { top: trackTop } = verticalTrackRef.current.getBoundingClientRect();
       const thumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
       const clickPosition = thumbHeight - prevPageY;
       const offset = -trackTop + clientY - clickPosition;
-      viewRef.current.scrollTop = getScrollTopForOffset(offset);
+      scrollViewRef.current.scrollTop = getScrollTopForOffset(offset);
     }
     return false;
   }, [minThumbSize, thumbSize, getScrollLeftForOffset, getScrollTopForOffset, getThumbHorizontalWidth, getThumbVerticalHeight]);
@@ -349,7 +347,7 @@ const Scrollbar = forwardRef((
     const { left: targetLeft } = target.getBoundingClientRect();
     const thumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
     const offset = Math.abs(targetLeft - clientX) - thumbWidth / 2;
-    viewRef.current.scrollLeft = getScrollLeftForOffset(offset);
+    scrollViewRef.current.scrollLeft = getScrollLeftForOffset(offset);
   };
   const handleVerticalTrackMouseDown = (event) => {
     event.preventDefault();
@@ -357,7 +355,7 @@ const Scrollbar = forwardRef((
     const { top: targetTop } = target.getBoundingClientRect();
     const thumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
     const offset = Math.abs(targetTop - clientY) - thumbHeight / 2;
-    viewRef.current.scrollTop = getScrollTopForOffset(offset);
+    scrollViewRef.current.scrollTop = getScrollTopForOffset(offset);
   };
   const handleHorizontalThumbMouseDown = (event) => {
     event.preventDefault();
@@ -380,8 +378,6 @@ const Scrollbar = forwardRef((
   /* End Mouse Events */
 
   useEffect(() => {
-    // `getScrollbarWidth` will access to DOM element, which is not safe for SSR. It's better to calculate the scrollbar width after the first render using the `useEffect` Hook.
-    scrollbarWidthRef.current = getScrollbarWidth();
     setIsHydrated(true);
   }, []);
 
@@ -394,24 +390,24 @@ const Scrollbar = forwardRef((
       event.preventDefault();
       event.stopPropagation();
       const deltaY = event.deltaY;
-      const currentTop = viewRef.current.scrollTop;
-      viewRef.current.scrollTop = currentTop + deltaY;
+      const currentTop = scrollViewRef.current.scrollTop;
+      scrollViewRef.current.scrollTop = currentTop + deltaY;
     };
     const handleHorizontalTrackWheelScroll = (event) => {
       event.preventDefault();
       event.stopPropagation();
       // Note: the delta* values don't reflect the scrolling direction, the event.deltaX is always zero when doing horizontal scroll
       const deltaX = event.deltaX || event.deltaY;
-      const currentLeft = viewRef.current.scrollLeft;
-      viewRef.current.scrollLeft = currentLeft + deltaX;
+      const currentLeft = scrollViewRef.current.scrollLeft;
+      scrollViewRef.current.scrollLeft = currentLeft + deltaX;
     };
 
     /**
      * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
      * Set passive to false to indicate that the function specified by listener will call `preventDefault()`
      */
-    const verticalTrack = trackVerticalRef.current;
-    const horizontalTrack = trackHorizontalRef.current;
+    const verticalTrack = verticalTrackRef.current;
+    const horizontalTrack = horizontalTrackRef.current;
     verticalTrack?.addEventListener('wheel', handleVerticalTrackWheelScroll, { passive: false });
     horizontalTrack?.addEventListener('wheel', handleHorizontalTrackWheelScroll, { passive: false });
 
@@ -441,13 +437,82 @@ const Scrollbar = forwardRef((
     update();
   }, [update, children]);
 
-  const scrollbarWidth = scrollbarWidthRef.current;
   const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight });
-  const viewStyle = useViewStyle({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled, overflowX, overflowY });
-  const trackHorizontalStyle = useTrackHorizontalStyle({ scrollbarWidth, horizontalScrollbarVisibility });
-  const trackVerticalStyle = useTrackVerticalStyle({ scrollbarWidth, verticalScrollbarVisibility });
-  const thumbHorizontalStyle = useThumbHorizontalStyle();
-  const thumbVerticalStyle = useThumbVerticalStyle();
+  const scrollViewStyle = useScrollViewStyle({ autoHeight, minHeight, maxHeight, disabled, overflowX, overflowY });
+  const horizontalTrackStyle = useHorizontalTrackStyle({ horizontalScrollbarVisibility });
+  const verticalTrackStyle = useVerticalTrackStyle({ verticalScrollbarVisibility });
+  const horizontalThumbStyle = useHorizontalThumbStyle();
+  const verticalThumbStyle = useVerticalThumbStyle();
+
+  const getScrollViewProps = () => {
+    return {
+      ...scrollViewStyle,
+      ref: scrollViewRef,
+      onScroll: handleScrollView,
+      onMouseEnter: handleViewMouseEnter,
+      onMouseLeave: handleViewMouseLeave,
+      children,
+    };
+  };
+
+  const getHorizontalTrackProps = () => {
+    return {
+      ...horizontalTrackStyle,
+      ref: horizontalTrackRef,
+      onMouseDown: handleHorizontalTrackMouseDown,
+      onMouseEnter: handleTrackMouseEnter,
+      onMouseLeave: handleTrackMouseLeave,
+    };
+  };
+
+  const getHorizontalThumbProps = () => {
+    return {
+      ...horizontalThumbStyle,
+      ref: horizontalThumbRef,
+      onMouseDown: handleHorizontalThumbMouseDown,
+    };
+  };
+
+  const getVerticalTrackProps = () => {
+    return {
+      ...verticalTrackStyle,
+      ref: verticalTrackRef,
+      onMouseDown: handleVerticalTrackMouseDown,
+      onMouseEnter: handleTrackMouseEnter,
+      onMouseLeave: handleTrackMouseLeave,
+    };
+  };
+
+  const getVerticalThumbProps = () => {
+    return {
+      ...verticalThumbStyle,
+      ref: verticalThumbRef,
+      onMouseDown: handleVerticalThumbMouseDown,
+    };
+  };
+
+  if (typeof children === 'function') {
+    return (
+      <Box
+        ref={ref}
+        {...containerStyle}
+        {...rest}
+      >
+        {children({
+          ScrollView,
+          HorizontalTrack,
+          HorizontalThumb,
+          VerticalTrack,
+          VerticalThumb,
+          getScrollViewProps,
+          getHorizontalTrackProps,
+          getHorizontalThumbProps,
+          getVerticalTrackProps,
+          getVerticalThumbProps,
+        })}
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -455,48 +520,13 @@ const Scrollbar = forwardRef((
       {...containerStyle}
       {...rest}
     >
-      {
-        renderView({
-          ref: viewRef,
-          children: children,
-          onScroll: handleScrollView,
-          onMouseEnter: handleViewMouseEnter,
-          onMouseLeave: handleViewMouseLeave,
-          ...viewStyle
-        })
-      }
-      {
-        renderHorizontalTrack({
-          ref: trackHorizontalRef,
-          children: (
-            renderHorizontalThumb({
-              ref: thumbHorizontalRef,
-              onMouseDown: handleHorizontalThumbMouseDown,
-              ...thumbHorizontalStyle
-            })
-          ),
-          onMouseDown: handleHorizontalTrackMouseDown,
-          onMouseEnter: handleTrackMouseEnter,
-          onMouseLeave: handleTrackMouseLeave,
-          ...trackHorizontalStyle
-        })
-      }
-      {
-        renderVerticalTrack({
-          ref: trackVerticalRef,
-          children: (
-            renderVerticalThumb({
-              ref: thumbVerticalRef,
-              onMouseDown: handleVerticalThumbMouseDown,
-              ...thumbVerticalStyle
-            })
-          ),
-          onMouseDown: handleVerticalTrackMouseDown,
-          onMouseEnter: handleTrackMouseEnter,
-          onMouseLeave: handleTrackMouseLeave,
-          ...trackVerticalStyle
-        })
-      }
+      <ScrollView {...getScrollViewProps()} />
+      <HorizontalTrack {...getHorizontalTrackProps()}>
+        <HorizontalThumb {...getHorizontalThumbProps()} />
+      </HorizontalTrack>
+      <VerticalTrack {...getVerticalTrackProps()}>
+        <VerticalThumb {...getVerticalThumbProps()} />
+      </VerticalTrack>
     </Box>
   );
 });
