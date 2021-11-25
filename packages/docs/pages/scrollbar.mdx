@@ -78,16 +78,6 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
 </Flex>
 ```
 
-### Disabled scrollbar
-
-Use the `disabled` attribute, the overflow is clipped, and the rest of the content is hidden.
-
-```jsx
-<Scrollbar height={160} disabled>
-  <Lorem count={10} px="4x" py="3x" />
-</Scrollbar>
-```
-
 ### Thumbs
 
 #### Setting a minimum thumb size
@@ -449,7 +439,7 @@ const ScrollbarWithIndicators = (props) => {
 
 render(
   <ScrollbarWithIndicators height={300}>
-    <Lorem count={10} px="4x" py="3x" />
+    <Lorem count={10} />
   </ScrollbarWithIndicators>
 );
 ```
@@ -459,7 +449,6 @@ render(
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode \| function | | The content of the scrollbar. |
-| disabled | boolean | | Whether the scrollbar is disabled. |
 | maxHeight | number \| string | 'auto' | The maximum height of the scrollable content. If set to 'auto', the height will be calculated based on the content. |
 | minHeight | number \| string | 'auto' | The minimum height of the scrollable content. |
 | minThumbSize | number | 32 | The minimum size of the thumb in pixels. |

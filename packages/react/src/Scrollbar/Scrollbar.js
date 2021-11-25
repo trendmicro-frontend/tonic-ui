@@ -19,8 +19,9 @@ import VerticalThumb from './VerticalThumb';
 
 const Scrollbar = forwardRef((
   {
+    disabled, // FIXME: deprecated (remove in next major version)
+    visibility, // FIXME: deprecated (remove in next major version)
     children,
-    disabled,
     maxHeight = 'auto',
     minHeight = 'auto',
     minThumbSize = 32,
@@ -30,20 +31,28 @@ const Scrollbar = forwardRef((
     overflowX,
     overflowY,
     thumbSize,
-    visibility, // FIXME: visibility is deprecated (backward compatibility)
     ...rest
   },
   ref,
 ) => {
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
-  disabled = (!isHydrated || disabled);
   const autoHeight = (maxHeight !== 'auto');
 
-  { // FIXME: visibility is deprecated (backward compatibility)
+  { // Update overflow props
+    // TODO: remove `disabled` and `visibility` props in next major version
+    if (disabled !== undefined) {
+      console.error('Warning: `disabled` is deprecated, use `overflow="hidden"` instead.');
+    }
+
     if (visibility === 'visible') {
       console.error('Warning: `visibility="visible"` is deprecated. Use `overflow="scroll"` instead.');
     } else if (visibility !== undefined) {
-      console.error('Warning: `visibility` is deprecated, use `overflow` instead');
+      console.error('Warning: `visibility` is deprecated, use `overflow` instead.');
+    }
+
+    if (disabled === true) {
+      overflowX = 'hidden';
+      overflowY = 'hidden';
     }
 
     overflowX = overflowX ?? (visibility ?? overflow);
@@ -57,9 +66,6 @@ const Scrollbar = forwardRef((
     overflowX = overflowX ?? 'auto';
     overflowY = overflowY ?? 'auto';
   }
-
-  const horizontalScrollbarVisibility = disabled ? 'hidden' : overflowX;
-  const verticalScrollbarVisibility = disabled ? 'hidden' : overflowY;
 
   let viewScrollLeft = 0;
   let viewScrollTop = 0;
@@ -106,7 +112,7 @@ const Scrollbar = forwardRef((
   };
 
   const update = useCallback((callback) => {
-    if (disabled) {
+    if (!isHydrated) {
       return;
     }
 
@@ -145,7 +151,7 @@ const Scrollbar = forwardRef((
     if (typeof callback === 'function') {
       callback(values);
     }
-  }, [disabled, minThumbSize, thumbSize, getThumbHorizontalWidth, getThumbVerticalHeight, onUpdate]);
+  }, [isHydrated, onUpdate, minThumbSize, thumbSize]);
 
   const getThumbHorizontalWidth = useCallback(({ minThumbSize, thumbSize }) => {
     const { scrollWidth, clientWidth } = scrollViewRef.current;
@@ -174,24 +180,24 @@ const Scrollbar = forwardRef((
   }, []);
 
   const hideHorizontalTrack = useCallback(() => {
-    if (horizontalScrollbarVisibility === 'scroll') {
+    if (overflowX === 'scroll') {
       return;
     }
 
     if (horizontalTrackRef.current) {
       horizontalTrackRef.current.style.opacity = 0;
     }
-  }, [horizontalScrollbarVisibility]);
+  }, [overflowX]);
 
   const hideVerticalTrack = useCallback(() => {
-    if (verticalScrollbarVisibility === 'scroll') {
+    if (overflowY === 'scroll') {
       return;
     }
 
     if (verticalTrackRef.current) {
       verticalTrackRef.current.style.opacity = 0;
     }
-  }, [verticalScrollbarVisibility]);
+  }, [overflowY]);
 
   const hideTracks = useCallback(() => {
     const isDragging = isDraggingRef.current;
@@ -214,30 +220,30 @@ const Scrollbar = forwardRef((
     hideVerticalTrack();
   }, [hideHorizontalTrack, hideVerticalTrack]);
 
-  const showHorizontalTrack = () => {
-    if (horizontalScrollbarVisibility === 'hidden') {
+  const showHorizontalTrack = useCallback(() => {
+    if (overflowX === 'hidden') {
       return;
     }
 
     if (horizontalTrackRef.current) {
       horizontalTrackRef.current.style.opacity = 1;
     }
-  };
+  }, [overflowX]);
 
-  const showVerticalTrack = () => {
-    if (verticalScrollbarVisibility === 'hidden') {
+  const showVerticalTrack = useCallback(() => {
+    if (overflowY === 'hidden') {
       return;
     }
 
     if (verticalTrackRef.current) {
       verticalTrackRef.current.style.opacity = 1;
     }
-  };
+  }, [overflowY]);
 
-  const showTracks = () => {
+  const showTracks = useCallback(() => {
     showHorizontalTrack();
     showVerticalTrack();
-  };
+  }, [showHorizontalTrack, showVerticalTrack]);
 
   const getScrollLeftForOffset = useCallback((offset) => {
     const { scrollWidth, clientWidth } = scrollViewRef.current;
@@ -254,13 +260,15 @@ const Scrollbar = forwardRef((
   }, [minThumbSize, thumbSize, getThumbVerticalHeight]);
 
   /* Start Scrolling Events */
-  const handleScrollStart = () => {
+  const handleScrollStart = useCallback(() => {
     showTracks();
-  };
-  const handleScrollStop = () => {
+  }, [showTracks]);
+
+  const handleScrollStop = useCallback(() => {
     hideTracks();
-  };
-  const detectScrolling = () => {
+  }, [hideTracks]);
+
+  const detectScrolling = useCallback(() => {
     const isScrolling = isScrollingRef.current;
     if (isScrolling) {
       return;
@@ -276,8 +284,9 @@ const Scrollbar = forwardRef((
       lastViewScrollLeft = viewScrollLeft;
       lastViewScrollTop = viewScrollTop;
     }, 100);
-  };
-  const handleScrollView = (event) => {
+  }, [handleScrollStart, handleScrollStop]);
+
+  const handleScrollViewScroll = useCallback((event) => {
     if (onScroll) {
       onScroll(event);
     }
@@ -287,7 +296,7 @@ const Scrollbar = forwardRef((
       viewScrollTop = scrollTop;
     });
     detectScrolling();
-  };
+  }, [onScroll, update, detectScrolling]);
   /* End Scrolling Events */
 
   /* Start Dragging Events */
@@ -312,52 +321,60 @@ const Scrollbar = forwardRef((
     }
     return false;
   }, [minThumbSize, thumbSize, getScrollLeftForOffset, getScrollTopForOffset, getThumbHorizontalWidth, getThumbVerticalHeight]);
-  const handleDragStart = () => {
+
+  const handleDragStart = useCallback(() => {
     setStartDragging(true);
     isDraggingRef.current = true;
-  };
+  }, [setStartDragging]);
+
   const handleDragEnd = useCallback(() => {
     setStartDragging(false);
     isDraggingRef.current = false;
     prevPageXRef.current = 0;
     prevPageYRef.current = 0;
     hideTracks();
-  }, [hideTracks]);
+  }, [setStartDragging, hideTracks]);
 
   /* Start Mouse Events */
-  const handleViewMouseEnter = () => {
+  const handleScrollViewMouseEnter = useCallback(() => {
     isViewMouseOverRef.current = true;
     showTracks();
-  };
-  const handleViewMouseLeave = () => {
+  }, [showTracks]);
+
+  const handleScrollViewMouseLeave = useCallback(() => {
     isViewMouseOverRef.current = false;
     hideTracks();
-  };
-  const handleTrackMouseEnter = () => {
+  }, [hideTracks]);
+
+  const handleTrackMouseEnter = useCallback(() => {
     isTrackMouseOverRef.current = true;
     showTracks();
-  };
-  const handleTrackMouseLeave = () => {
+  }, [showTracks]);
+
+  const handleTrackMouseLeave = useCallback(() => {
     isTrackMouseOverRef.current = false;
     hideTracks();
-  };
-  const handleHorizontalTrackMouseDown = (event) => {
+  }, [hideTracks]);
+
+  const handleHorizontalTrackMouseDown = useCallback((event) => {
     event.preventDefault();
     const { target, clientX } = event;
     const { left: targetLeft } = target.getBoundingClientRect();
     const thumbWidth = getThumbHorizontalWidth({ minThumbSize, thumbSize });
     const offset = Math.abs(targetLeft - clientX) - thumbWidth / 2;
     scrollViewRef.current.scrollLeft = getScrollLeftForOffset(offset);
-  };
-  const handleVerticalTrackMouseDown = (event) => {
+  }, [minThumbSize, thumbSize, getScrollLeftForOffset, getThumbHorizontalWidth]);
+
+  const handleVerticalTrackMouseDown = useCallback((event) => {
     event.preventDefault();
     const { target, clientY } = event;
     const { top: targetTop } = target.getBoundingClientRect();
     const thumbHeight = getThumbVerticalHeight({ minThumbSize, thumbSize });
     const offset = Math.abs(targetTop - clientY) - thumbHeight / 2;
     scrollViewRef.current.scrollTop = getScrollTopForOffset(offset);
-  };
-  const handleHorizontalThumbMouseDown = (event) => {
+  }, [minThumbSize, thumbSize, getScrollTopForOffset, getThumbVerticalHeight]);
+
+  const handleHorizontalThumbMouseDown = useCallback((event) => {
     event.preventDefault();
     event.stopPropagation();
     handleDragStart();
@@ -365,8 +382,9 @@ const Scrollbar = forwardRef((
     const { offsetWidth } = target;
     const { left } = target.getBoundingClientRect();
     prevPageXRef.current = offsetWidth - (clientX - left);
-  };
-  const handleVerticalThumbMouseDown = (event) => {
+  }, [handleDragStart]);
+
+  const handleVerticalThumbMouseDown = useCallback((event) => {
     event.preventDefault();
     event.stopPropagation();
     handleDragStart();
@@ -374,7 +392,7 @@ const Scrollbar = forwardRef((
     const { offsetHeight } = target;
     const { top } = target.getBoundingClientRect();
     prevPageYRef.current = offsetHeight - (clientY - top);
-  };
+  }, [handleDragStart]);
   /* End Mouse Events */
 
   useEffect(() => {
@@ -438,9 +456,9 @@ const Scrollbar = forwardRef((
   }, [update, children]);
 
   const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight });
-  const scrollViewStyle = useScrollViewStyle({ autoHeight, minHeight, maxHeight, disabled, overflowX, overflowY });
-  const horizontalTrackStyle = useHorizontalTrackStyle({ horizontalScrollbarVisibility });
-  const verticalTrackStyle = useVerticalTrackStyle({ verticalScrollbarVisibility });
+  const scrollViewStyle = useScrollViewStyle({ autoHeight, minHeight, maxHeight, overflowX, overflowY });
+  const horizontalTrackStyle = useHorizontalTrackStyle({ overflowX });
+  const verticalTrackStyle = useVerticalTrackStyle({ overflowY });
   const horizontalThumbStyle = useHorizontalThumbStyle();
   const verticalThumbStyle = useVerticalThumbStyle();
 
@@ -448,9 +466,9 @@ const Scrollbar = forwardRef((
     return {
       ...scrollViewStyle,
       ref: scrollViewRef,
-      onScroll: handleScrollView,
-      onMouseEnter: handleViewMouseEnter,
-      onMouseLeave: handleViewMouseLeave,
+      onScroll: handleScrollViewScroll,
+      onMouseEnter: handleScrollViewMouseEnter,
+      onMouseLeave: handleScrollViewMouseLeave,
       children,
     };
   };

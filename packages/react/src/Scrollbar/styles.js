@@ -20,13 +20,12 @@ const useScrollViewStyle = ({
   autoHeight,
   minHeight,
   maxHeight,
-  disabled,
   overflowX,
   overflowY,
 }) => {
   const style = {
-    overflowX: (disabled || overflowX === 'hidden') ? 'hidden' : 'scroll',
-    overflowY: (disabled || overflowY === 'hidden') ? 'hidden' : 'scroll',
+    overflowX: (overflowX === 'hidden') ? 'hidden' : 'scroll',
+    overflowY: (overflowY === 'hidden') ? 'hidden' : 'scroll',
     WebkitOverflowScrolling: 'touch',
   };
 
@@ -50,10 +49,10 @@ const useScrollViewStyle = ({
 };
 
 const useHorizontalTrackStyle = ({
-  horizontalScrollbarVisibility,
+  overflowX,
 }) => {
-  const autoHide = horizontalScrollbarVisibility === 'auto';
-  const alwaysHide = horizontalScrollbarVisibility === 'hidden';
+  const autoHide = (overflowX === 'auto');
+  const alwaysHide = (overflowX === 'hidden');
 
   return {
     position: 'absolute',
@@ -73,10 +72,10 @@ const useHorizontalTrackStyle = ({
 };
 
 const useVerticalTrackStyle = ({
-  verticalScrollbarVisibility,
+  overflowY,
 }) => {
-  const autoHide = verticalScrollbarVisibility === 'auto';
-  const alwaysHide = verticalScrollbarVisibility === 'hidden';
+  const autoHide = (overflowY === 'auto');
+  const alwaysHide = (overflowY === 'hidden');
 
   return {
     position: 'absolute',
