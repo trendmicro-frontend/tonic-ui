@@ -6,11 +6,11 @@ import {
   Text,
   useColorMode,
 } from '@trendmicro/react-styled-ui';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
 
-const Header = React.forwardRef((props, ref) => {
+const Header = forwardRef((props, ref) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const logoPath = {
     light: 'images/tonic-logo-light.svg',
@@ -112,5 +112,7 @@ const Header = React.forwardRef((props, ref) => {
     </Box>
   );
 });
+
+Header.displayName = 'Header';
 
 export default Header;
