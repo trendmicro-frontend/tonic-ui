@@ -844,10 +844,8 @@ const CustomScrollbar = ({
 
 function ScrollableTable() {
   const tableHeaderRef = React.createRef();
-  const [state, setState] = React.useState({
-    isHorizontalScrollbarVisible: false,
-    isVerticalScrollbarVisible: false,
-  });
+  const [isHorizontalScrollbarVisible, setHorizontalScrollbarVisible] = React.useState(false);
+  const [isVerticalScrollbarVisible, setVerticalScrollbarVisible] = React.useState(false);
 
   const columns = React.useMemo(() => [
     {
@@ -888,13 +886,16 @@ function ScrollableTable() {
 
   const onUpdate = (props) => {
     const { scrollWidth, clientWidth, scrollHeight, clientHeight } = props;
-    const isHorizontalScrollbarVisible = (scrollWidth > clientWidth);
-    const isVerticalScrollbarVisible = (scrollHeight > clientHeight);
+    const _isHorizontalScrollbarVisible = (scrollWidth > clientWidth);
+    const _isVerticalScrollbarVisible = (scrollHeight > clientHeight);
 
-    setState({
-      isHorizontalScrollbarVisible,
-      isVerticalScrollbarVisible,
-    });
+    if (_isHorizontalScrollbarVisible !== isHorizontalScrollbarVisible) {
+      setHorizontalScrollbarVisible(_isHorizontalScrollbarVisible);
+    }
+
+    if (_isVerticalScrollbarVisible !== isVerticalScrollbarVisible) {
+      setVerticalScrollbarVisible(_isVerticalScrollbarVisible);
+    }
   };
 
   const {
@@ -922,7 +923,7 @@ function ScrollableTable() {
         {headerGroups.map(headerGroup => {
           const { style, ...props } = headerGroup.getHeaderGroupProps();
           let headerWidth = style.width;
-          if (state.isVerticalScrollbarVisible) {
+          if (isVerticalScrollbarVisible) {
             headerWidth = `calc(${style.width} + 8px)`; // 8px is scrollbar width
           }
           return (
@@ -932,14 +933,14 @@ function ScrollableTable() {
                   key={column.accessor}
                   {...column.getHeaderProps()}
                   {...column.customProps}
-                  {...(state.isVerticalScrollbarVisible && index === headerGroup.headers.length - 1) && {
+                  {...(isVerticalScrollbarVisible && index === headerGroup.headers.length - 1) && {
                     borderRight: 0,
                   }}
                 >
                   {column.render('Header')}
                 </TableHeaderCell>
               ))}
-              {state.isVerticalScrollbarVisible && (
+              {isVerticalScrollbarVisible && (
                 <TableHeaderCell width="2x" padding={0} borderLeft={0} />
               )}
             </TableHeaderRow>
