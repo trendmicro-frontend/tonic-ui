@@ -67,10 +67,10 @@ const Scrollbar = forwardRef((
     overflowY = overflowY ?? 'auto';
   }
 
-  let viewScrollLeft = 0;
-  let viewScrollTop = 0;
-  let lastViewScrollLeft = 0;
-  let lastViewScrollTop = 0;
+  const viewScrollLeftRef = useRef(0);
+  const viewScrollTopRef = useRef(0);
+  const lastViewScrollLeftRef = useRef(0);
+  const lastViewScrollTopRef = useRef(0);
 
   // For binding the `mousemove` and `mouseup` events to document, we use `useState` to store `startDragging` variable to trigger `useEffect`.
   const [startDragging, setStartDragging] = useState(false);
@@ -151,7 +151,7 @@ const Scrollbar = forwardRef((
     if (typeof callback === 'function') {
       callback(values);
     }
-  }, [isHydrated, onUpdate, minThumbSize, thumbSize]);
+  }, [getThumbHorizontalWidth, getThumbVerticalHeight, isHydrated, onUpdate, minThumbSize, thumbSize]);
 
   const getThumbHorizontalWidth = useCallback(({ minThumbSize, thumbSize }) => {
     const { scrollWidth, clientWidth } = scrollViewRef.current;
@@ -276,13 +276,13 @@ const Scrollbar = forwardRef((
     isScrollingRef.current = true;
     handleScrollStart();
     const detectScrollingInterval = setInterval(() => {
-      if (lastViewScrollLeft === viewScrollLeft && lastViewScrollTop === viewScrollTop) {
+      if (lastViewScrollLeftRef.current === viewScrollLeftRef.current && lastViewScrollTopRef.current === viewScrollTopRef.current) {
         clearInterval(detectScrollingInterval);
         isScrollingRef.current = false;
         handleScrollStop();
       }
-      lastViewScrollLeft = viewScrollLeft;
-      lastViewScrollTop = viewScrollTop;
+      lastViewScrollLeftRef.current = viewScrollLeftRef.current;
+      lastViewScrollTopRef.current = viewScrollTopRef.current;
     }, 100);
   }, [handleScrollStart, handleScrollStop]);
 
@@ -292,8 +292,8 @@ const Scrollbar = forwardRef((
     }
     update(values => {
       const { scrollLeft, scrollTop } = values;
-      viewScrollLeft = scrollLeft;
-      viewScrollTop = scrollTop;
+      viewScrollLeftRef.current = scrollLeft;
+      viewScrollTopRef.current = scrollTop;
     });
     detectScrolling();
   }, [onScroll, update, detectScrolling]);
