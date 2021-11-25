@@ -1,15 +1,15 @@
 {
-  "name": "@trendmicro/react-styled-ui",
-  "version": "0.20.0",
+  "name": "@tonic-ui/react",
+  "version": "1.0.0-alpha",
   "description": "React UI components built with Emotion and Styled System",
-  "main": "dist/react-styled-ui.js",
-  "module": "dist/es/react-styled-ui.js",
+  "main": "dist/tonic-ui.js",
+  "module": "dist/es/tonic-ui.js",
   "publishConfig": {
     "access": "public",
     "directory": "build"
   },
   "scripts": {
-    "build": "cross-env PACKAGE_NAME=react-styled-ui INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.js",
+    "build": "cross-env PACKAGE_NAME=tonic-ui INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.js",
     "clean": "del build dist",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",

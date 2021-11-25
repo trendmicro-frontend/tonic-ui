@@ -1,6 +1,6 @@
 {
-  "name": "styled-ui-docs",
-  "version": "0.20.0",
+  "name": "@tonic-ui/docs",
+  "version": "1.0.0-alpha",
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production next build",
