@@ -11,10 +11,12 @@ import {
 } from '@trendmicro/react-styled-ui';
 import App from './App';
 
+const initialColorMode = 'dark';
+
 function Example({ children }) {
   return (
     <ThemeProvider>
-      <ColorModeProvider value="dark">
+      <ColorModeProvider value={initialColorMode}>
         <ColorStyleProvider>
           <App />
         </ColorStyleProvider>
@@ -28,11 +30,12 @@ To handle color mode manually in your application, use the `useColorMode` Hook t
 
 ```jsx disabled
 // App.jsx
+import { css, Global } from '@emotion/react';
 import { Button, useColorMode } from '@trendmicro/react-styled-ui';
 import React from 'react';
 
 const App = () => {
-  const [colorMode, setColorMode] = useColorMode();
+  const [colorMode, setColorMode] = useColorMode(); // One of: 'dark', 'light'
   const toggleColorMode = () => {
     const nextColorMode = {
       'dark': 'light',
@@ -42,9 +45,18 @@ const App = () => {
   };
 
   return (
-    <Button onClick={toggleColorMode}>
-      Toggle Color Mode
-    </Button>
+    <>
+      <Global
+        styles={css`
+          html {
+            color-scheme: ${colorMode};
+          }
+        `}
+      />
+      <Button onClick={toggleColorMode}>
+        Toggle Color Mode
+      </Button>
+    </>
   );
 };
 ```

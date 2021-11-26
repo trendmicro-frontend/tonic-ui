@@ -48,6 +48,9 @@ const Layout = ({ children }) => {
     <>
       <Global
         styles={css`
+          html {
+            color-scheme: ${colorMode};
+          }
           body {
             font-size: ${fontSizes.sm};
             line-height: ${lineHeights.sm};

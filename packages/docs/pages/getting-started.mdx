@@ -90,7 +90,7 @@ import {
 import App from './App';
 
 const Layout = (props) => {
-  const [colorMode] = useColorMode();
+  const [colorMode] = useColorMode(); // One of: 'dark', 'light'
   const [colorStyle] = useColorStyle({ colorMode });
   const { fontSizes, lineHeights } = useTheme();
   const backgroundColor = colorStyle.background.primary;
@@ -100,6 +100,9 @@ const Layout = (props) => {
     <>
       <Global
         styles={css`
+          html {
+            color-scheme: ${colorMode};
+          }
           body {
             font-size: ${fontSizes.sm};
             line-height: ${lineHeights.sm};

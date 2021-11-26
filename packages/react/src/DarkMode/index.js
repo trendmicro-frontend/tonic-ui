@@ -4,7 +4,10 @@ import ColorModeProvider from '../ColorModeProvider';
 
 const DarkMode = (props) => (
   <ColorModeProvider value="dark">
-    <Box {...props} />
+    <Box
+      colorScheme="dark"
+      {...props}
+    />
   </ColorModeProvider>
 );
 
