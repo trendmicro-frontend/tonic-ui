@@ -1,4 +1,4 @@
-import { css, Global } from '@emotion/react';
+import { Global, css } from '@emotion/react';
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
@@ -48,6 +48,9 @@ const Layout = ({ children }) => {
     <>
       <Global
         styles={css`
+          :root {
+            color-scheme: ${colorMode};
+          }
           body {
             font-size: ${fontSizes.sm};
             line-height: ${lineHeights.sm};
