@@ -1,5 +1,7 @@
 # Color Modes
 
+### ColorModeProvider
+
 Use the `ColorModeProvider` to use color mode in your application. The color mode value can be one of `dark` or `light`. By default, the color mode is `light` if the value is not explicitly specified.
 
 ```jsx disabled
@@ -26,6 +28,8 @@ function Example({ children }) {
 }
 ```
 
+### useColorMode Hook
+
 To handle color mode manually in your application, use the `useColorMode` Hook to get current color mode or change the color mode.
 
 ```jsx disabled
@@ -48,7 +52,7 @@ const App = () => {
     <>
       <Global
         styles={css`
-          html {
+          :root {
             color-scheme: ${colorMode};
           }
         `}
@@ -61,19 +65,36 @@ const App = () => {
 };
 ```
 
-To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override the global color mode.
+### Color schemes
+
+To opt the entire page into the user's color scheme preferences declare `color-scheme` on the `:root` element.
+
+```jsx disabled
+<Global
+  styles={css`
+    :root {
+      color-scheme: dark;
+    }
+  `}
+/>
+```
+
+### DarkMode / LightMode
+
+To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override the global color mode and set the color scheme to `dark` or `light` respectively.
 
 ```jsx
 <Flex>
-  <LightMode bg="white" color="black:primary" px="4x" py="2x">
-    <Button variant="outline">
-      Light Mode
-    </Button>
-  </LightMode>
-  <DarkMode bg="gray:100" color="white:primary" px="4x" py="2x">
-    <Button variant="outline">
-      Dark Mode
-    </Button>
+  <DarkMode bg="gray:90" color="white:primary">
+    <Text px="4x" py="3x">
+      This is dark mode
+    </Text>
   </DarkMode>
+  <Space width="4x" />
+  <LightMode bg="gray:10" color="black:primary">
+    <Text px="4x" py="3x">
+      This is light mode
+    </Text>
+  </LightMode>
 </Flex>
 ```

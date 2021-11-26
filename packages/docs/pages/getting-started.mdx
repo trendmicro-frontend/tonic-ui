@@ -54,10 +54,15 @@ object as a prop.
 
 ```js
 import React from 'react';
+import { render } from 'react-dom';
 import { ThemeProvider } from '@trendmicro/react-styled-ui';
 
-// Use at the root of your app
-<ThemeProvider theme={customTheme}>{props.children}</ThemeProvider>;
+render(
+  <ThemeProvider theme={customTheme}>
+    {children}
+  </ThemeProvider>,
+  document.getElementById('root'),
+);
 ```
 
 ## Using components
@@ -75,7 +80,7 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI ex
 `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
 ```js
-import { css, Global } from '@emotion/react';
+import { Global, css } from '@emotion/react';
 import {
   Box,
   ColorModeProvider,
@@ -100,7 +105,7 @@ const Layout = (props) => {
     <>
       <Global
         styles={css`
-          html {
+          :root {
             color-scheme: ${colorMode};
           }
           body {
