@@ -280,8 +280,7 @@ const code = props => (
 
 const inlineCode = props => (
   <Code
-    fontSize="md"
-    lineHeight="md"
+    fontSize="85%"
     {...props}
   />
 );
