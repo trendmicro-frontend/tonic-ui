@@ -19,8 +19,14 @@ import VerticalThumb from './VerticalThumb';
 
 const Scrollbar = forwardRef((
   {
-    disabled, // FIXME: deprecated (remove in next major version)
-    visibility, // FIXME: deprecated (remove in next major version)
+    disabled, // deprecated (remove in next major version)
+    visibility, // deprecated (remove in next major version)
+    renderView, // deprecated (remove in next major version)
+    renderHorizontalTrack, // deprecated (remove in next major version)
+    renderHorizontalThumb, // deprecated (remove in next major version)
+    renderVerticalTrack, // deprecated (remove in next major version)
+    renderVerticalThumb, // deprecated (remove in next major version)
+
     children,
     maxHeight = 'auto',
     minHeight = 'auto',
@@ -38,18 +44,35 @@ const Scrollbar = forwardRef((
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
   const autoHeight = (maxHeight !== 'auto');
 
-  { // Update overflow props
-    // TODO: remove `disabled` and `visibility` props in next major version
+  useEffect(() => {
+    // Deprecation warning
     if (disabled !== undefined) {
       console.error('Warning: `disabled` is deprecated, use `overflow="hidden"` instead.');
     }
-
     if (visibility === 'visible') {
       console.error('Warning: `visibility="visible"` is deprecated. Use `overflow="scroll"` instead.');
     } else if (visibility !== undefined) {
-      console.error('Warning: `visibility` is deprecated, use `overflow` instead.');
+      console.error('The `visibility` prop is deprecated. Use `overflow` instead.');
     }
+    if (renderView !== undefined) {
+      console.error('The `renderView` prop is deprecated. Use children as a function to render the scroll view instead.');
+    }
+    if (renderHorizontalTrack !== undefined) {
+      console.error('The `renderHorizontalTrack` prop is deprecated. Use children as a function to render the horizontal track instead.');
+    }
+    if (renderHorizontalThumb !== undefined) {
+      console.error('The `renderHorizontalThumb` prop is deprecated. Use children as a function to render the horizontal thumb instead.');
+    }
+    if (renderVerticalTrack !== undefined) {
+      console.error('The `renderVerticalTrack` prop is deprecated. Use children as a function to render the vertical track instead.');
+    }
+    if (renderVerticalThumb !== undefined) {
+      console.error('The `renderVerticalThumb` prop is deprecated. Use children as a function to render the vertical thumb instead.');
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  { // Update overflow props
+    // TODO: remove `disabled` and `visibility` props in next major version
     if (disabled === true) {
       overflowX = 'hidden';
       overflowY = 'hidden';
