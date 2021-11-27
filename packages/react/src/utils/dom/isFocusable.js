@@ -1,18 +1,4 @@
-const selector = [
-  'a[href]',
-  'area[href]',
-  'audio[controls]',
-  'button:not([disabled])',
-  'embed',
-  'iframe',
-  'input:not([type="hidden"]):not([disabled])',
-  'object',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  'video[controls]',
-  '*[contenteditable]:not([contenteditable="false"]',
-  '*[tabindex]:not([aria-disabled="true"])',
-].join(',');
+import focusableSelector from './focusableSelector';
 
 const isVisible = (element) => {
   return (
@@ -24,7 +10,7 @@ const isVisible = (element) => {
 
 // Check whether the element is focusable
 const isFocusable = (element) => {
-  return isVisible(element) && element?.matches(selector);
+  return isVisible(element) && element?.matches(focusableSelector);
 };
 
 export default isFocusable;
