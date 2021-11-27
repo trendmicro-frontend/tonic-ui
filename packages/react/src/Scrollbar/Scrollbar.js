@@ -1,6 +1,7 @@
 import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
+import useForkRef from '../utils/useForkRef';
 import {
   useContainerStyle,
   useScrollViewStyle,
@@ -41,6 +42,8 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
   const autoHeight = (maxHeight !== 'auto');
 
@@ -474,9 +477,33 @@ const Scrollbar = forwardRef((
     };
   }, [startDragging, handleDrag, handleDragEnd]);
 
+  // Call update when children change
   useEffect(() => {
     update();
   }, [update, children]);
+
+  // Create a resize observer to detect when the scroll view is resized
+  const el = nodeRef?.current;
+  useEffect(() => {
+    if (typeof ResizeObserver !== 'function') {
+      // ResizeObserver is not supported
+      return;
+    }
+
+    if (!el) {
+      // No element to observe
+      return;
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      update();
+    });
+    observer.observe(el);
+
+    return () => { // eslint-disable-line consistent-return
+      observer.disconnect();
+    };
+  }, [update, el]);
 
   const containerStyle = useContainerStyle({ autoHeight, minHeight, maxHeight });
   const scrollViewStyle = useScrollViewStyle({ autoHeight, minHeight, maxHeight, overflowX, overflowY });
@@ -535,7 +562,7 @@ const Scrollbar = forwardRef((
   if (typeof children === 'function') {
     return (
       <Box
-        ref={ref}
+        ref={combinedRef}
         {...containerStyle}
         {...rest}
       >
@@ -557,7 +584,7 @@ const Scrollbar = forwardRef((
 
   return (
     <Box
-      ref={ref}
+      ref={combinedRef}
       {...containerStyle}
       {...rest}
     >
