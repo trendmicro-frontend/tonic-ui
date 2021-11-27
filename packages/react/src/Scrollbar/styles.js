@@ -1,23 +1,30 @@
 import useColorMode from '../useColorMode';
 
 const useContainerStyle = ({
-  autoHeight,
+  width,
+  height,
+  minWidth,
+  maxWidth,
   minHeight,
   maxHeight,
-}) => ({
-  position: 'relative',
-  overflow: 'hidden',
-  width: '100%',
-  height: '100%',
-  ...(autoHeight && {
-    height: 'auto',
+}) => {
+  return {
+    position: 'relative',
+    overflow: 'hidden',
+    width,
+    height,
+    minWidth,
+    maxWidth,
     minHeight,
     maxHeight,
-  }),
-});
+  };
+};
 
 const useScrollViewStyle = ({
-  autoHeight,
+  width,
+  height,
+  minWidth,
+  maxWidth,
   minHeight,
   maxHeight,
   overflowX,
@@ -29,12 +36,18 @@ const useScrollViewStyle = ({
     WebkitOverflowScrolling: 'touch',
   };
 
-  if (autoHeight) {
+  if (width === 'auto' || height === 'auto') {
     return {
       ...style,
       position: 'relative',
-      minHeight,
-      maxHeight,
+      ...(width === 'auto' && {
+        minWidth,
+        maxWidth,
+      }),
+      ...(height === 'auto' && {
+        minHeight,
+        maxHeight,
+      }),
     };
   }
 
@@ -51,9 +64,6 @@ const useScrollViewStyle = ({
 const useHorizontalTrackStyle = ({
   overflowX,
 }) => {
-  const autoHide = (overflowX === 'auto');
-  const alwaysHide = (overflowX === 'hidden');
-
   return {
     position: 'absolute',
     height: '2x',
@@ -61,11 +71,11 @@ const useHorizontalTrackStyle = ({
     bottom: 0,
     left: 0,
     visibility: 'hidden',
-    ...(autoHide && {
+    ...(overflowX === 'auto' && {
       transition: 'opacity 200ms',
       opacity: 0,
     }),
-    ...(alwaysHide && {
+    ...(overflowX === 'hidden' && {
       display: 'none',
     }),
   };
@@ -74,9 +84,6 @@ const useHorizontalTrackStyle = ({
 const useVerticalTrackStyle = ({
   overflowY,
 }) => {
-  const autoHide = (overflowY === 'auto');
-  const alwaysHide = (overflowY === 'hidden');
-
   return {
     position: 'absolute',
     width: '2x',
@@ -84,11 +91,11 @@ const useVerticalTrackStyle = ({
     bottom: 0,
     top: 0,
     visibility: 'hidden',
-    ...(autoHide && {
+    ...(overflowY === 'auto' && {
       transition: 'opacity 200ms',
       opacity: 0,
     }),
-    ...(alwaysHide && {
+    ...(overflowY === 'hidden' && {
       display: 'none',
     }),
   };
@@ -96,9 +103,9 @@ const useVerticalTrackStyle = ({
 
 const useHorizontalThumbStyle = props => {
   const [colorMode] = useColorMode();
-  const bgColor = {
-    dark: 'rgba(255, 255, 255, .28)',
-    light: 'rgba(255, 255, 255, .30)',
+  const backgroundColor = {
+    dark: 'white:disabled',
+    light: 'black:disabled',
   }[colorMode];
   const hoverBgColor = {
     dark: 'white:tertiary',
@@ -116,7 +123,7 @@ const useHorizontalThumbStyle = props => {
     borderRadius: 'inherit',
     border: 1,
     borderColor: 'transparent',
-    backgroundColor: bgColor,
+    backgroundColor,
     _hover: {
       borderColor: hoverBorderColor,
       backgroundColor: hoverBgColor,
@@ -126,9 +133,9 @@ const useHorizontalThumbStyle = props => {
 
 const useVerticalThumbStyle = props => {
   const [colorMode] = useColorMode();
-  const bgColor = {
-    dark: 'rgba(255, 255, 255, .28)',
-    light: 'rgba(255, 255, 255, .30)',
+  const backgroundColor = {
+    dark: 'white:disabled',
+    light: 'black:disabled',
   }[colorMode];
   const hoverBgColor = {
     dark: 'white:tertiary',
@@ -138,6 +145,7 @@ const useVerticalThumbStyle = props => {
     dark: 'white:secondary',
     light: 'black:secondary',
   }[colorMode];
+
   return {
     position: 'relative',
     display: 'block',
@@ -146,7 +154,7 @@ const useVerticalThumbStyle = props => {
     borderRadius: 'inherit',
     border: 1,
     borderColor: 'transparent',
-    backgroundColor: bgColor,
+    backgroundColor,
     _hover: {
       borderColor: hoverBorderColor,
       backgroundColor: hoverBgColor,
