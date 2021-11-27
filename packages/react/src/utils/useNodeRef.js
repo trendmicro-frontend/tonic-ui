@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { canUseDOM } from './dom';
+import canUseDOM from './dom/canUseDOM';
 
 const useNodeRef = ({
   isOpen,
   id,
-  container = canUseDOM() ? document.body : null,
+  container = canUseDOM ? document.body : null,
 }) => {
   const mountRef = useRef(
-    canUseDOM()
+    canUseDOM
       ? document.getElementById(id) || document.createElement('div')
       : null,
   );
@@ -15,7 +15,7 @@ const useNodeRef = ({
   useEffect(() => {
     let mountNode = mountRef.current;
 
-    if (isOpen && canUseDOM()) {
+    if (isOpen && canUseDOM) {
       mountRef.current.id = id;
       container.appendChild(mountRef.current);
     }
