@@ -1,5 +1,8 @@
 import canUseDOM from './canUseDOM';
 
+// https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition
+const DOCUMENT_POSITION_CONTAINED_BY = 16;
+
 const fallback = (context, node) => {
   if (node) {
     do {
@@ -23,7 +26,7 @@ const contains = (context, node) => {
   }
 
   if (context.compareDocumentPosition) {
-    return context === node || !!(context.compareDocumentPosition(node) & 16);
+    return context === node || !!(context.compareDocumentPosition(node) & DOCUMENT_POSITION_CONTAINED_BY); // eslint-disable-line no-bitwise
   }
 
   return fallback(context, node);
