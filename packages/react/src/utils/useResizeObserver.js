@@ -1,55 +1,60 @@
-import { ensurePlainObject } from 'ensure-type';
-import { useEffect, useRef, useState } from 'react';
+import {
+  ensurePlainObject,
+} from 'ensure-type';
+import { useEffect, useState } from 'react';
 import debounce from './debounce';
 
+/**
+ * The useResizeObserver Hook uses the ResizeObserver API to measure the size of a DOM element.
+ *
+ * @param {Ref} ref The ref to the element to observe.
+ * @param {options} [options] The options for the observer.
+ * @param {options.debounceWait = 100] [options.debounceWait = 100] The debounce wait time.
+ * @returns {object} The content rect for the observed element. Returns null if the element is not observed.
+ */
 const useResizeObserver = (ref, options) => {
-  const observerRef = useRef(null);
-  const [rect, setRect] = useState({});
+  const el = ref.current;
+  const [contentRect, setContentRect] = useState(null);
   const {
-    debounceTimeout = 200,
+    debounceWait = 100,
   } = ensurePlainObject(options);
 
   // Create resize observer on mount
   useEffect(() => {
     const isSupported = (typeof window !== 'undefined' && !!window.ResizeObserver);
-
     if (!isSupported) {
       console.error('ResizeObserver is not supported in this browser.');
-      return () => {
-      };
+      return;
+    }
+
+    if (!el) {
+      return;
     }
 
     const fn = debounce((entries) => {
-      const { bottom, height, left, right, top, width } = entries[0].contentRect;
-      setRect({ bottom, height, left, right, top, width });
-    }, debounceTimeout);
+      const {
+        bottom,
+        height,
+        left,
+        right,
+        top,
+        width,
+        x,
+        y,
+      } = ensurePlainObject(entries[0]?.contentRect);
+      setContentRect({ bottom, height, left, right, top, width, x, y });
+    }, debounceWait);
 
-    observerRef.current = new ResizeObserver(fn);
-
-    return () => {
-      fn.cancel();
-      observerRef.current.disconnect();
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Observe element
-  useEffect(() => {
-    const observer = observerRef.current;
-    const el = ref?.current;
-
-    if (!observer || !el) {
-      return () => {
-      };
-    }
-
+    const observer = new ResizeObserver(fn);
     observer.observe(el);
 
-    return () => {
-      observer.unobserve(el);
+    return () => { // eslint-disable-line consistent-return
+      fn.cancel();
+      observer.disconnect();
     };
-  });
+  }, [el, debounceWait]);
 
-  return rect;
+  return contentRect;
 };
 
 export default useResizeObserver;
