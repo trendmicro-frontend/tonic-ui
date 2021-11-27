@@ -5,7 +5,8 @@ const getInnerHeight = (el) => {
   let innerHeight = clientHeight;
 
   try {
-    const computedStyle = window.getComputedStyle(el);
+    const view = (el?.ownerDocument?.defaultView) ?? window;
+    const computedStyle = view?.getComputedStyle(el);
     const paddingTop = parseFloat(computedStyle?.paddingTop);
     const paddingBottom = parseFloat(computedStyle?.paddingBottom);
     innerHeight = ensureFiniteNumber(clientHeight - paddingTop - paddingBottom);

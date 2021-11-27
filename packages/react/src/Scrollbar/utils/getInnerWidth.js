@@ -5,7 +5,8 @@ const getInnerWidth = (el) => {
   let innerWidth = clientWidth;
 
   try {
-    const computedStyle = window.getComputedStyle(el);
+    const view = (el?.ownerDocument?.defaultView) ?? window;
+    const computedStyle = view?.getComputedStyle(el);
     const paddingLeft = parseFloat(computedStyle?.paddingLeft);
     const paddingRight = parseFloat(computedStyle?.paddingRight);
     innerWidth = ensureFiniteNumber(clientWidth - paddingLeft - paddingRight);
