@@ -1,5 +1,5 @@
-import canUseDOM from './dom/canUseDOM';
 import { useLayoutEffect, useEffect } from 'react';
+import canUseDOM from './dom/canUseDOM';
 
 const useIsomorphicLayoutEffect = (() => {
   return canUseDOM ? useLayoutEffect : useEffect;
