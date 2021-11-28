@@ -33,21 +33,17 @@ const useScrollViewStyle = ({
   const style = {
     overflowX: (overflowX === 'hidden') ? 'hidden' : 'scroll',
     overflowY: (overflowY === 'hidden') ? 'hidden' : 'scroll',
+    minWidth,
+    maxWidth,
+    minHeight,
+    maxHeight,
     WebkitOverflowScrolling: 'touch',
   };
 
-  if (width === 'auto' || height === 'auto') {
+  if (height === 'auto') {
     return {
       ...style,
       position: 'relative',
-      ...(width === 'auto' && {
-        minWidth,
-        maxWidth,
-      }),
-      ...(height === 'auto' && {
-        minHeight,
-        maxHeight,
-      }),
     };
   }
 
