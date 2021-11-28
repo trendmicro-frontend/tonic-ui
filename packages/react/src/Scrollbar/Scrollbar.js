@@ -1,4 +1,4 @@
-import { ensureFiniteNumber } from 'ensure-type';
+import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
 import useForkRef from '../utils/useForkRef';
@@ -92,6 +92,12 @@ const Scrollbar = forwardRef((
       overflowY = 'hidden';
     }
 
+    // TODO: remove `minThumbSize` prop in next major version
+    if (Number.isFinite(minThumbSize) && minThumbSize > 0) {
+      minThumbWidth = ensurePositiveFiniteNumber(minThumbSize);
+      minThumbHeight = ensurePositiveFiniteNumber(minThumbSize);
+    }
+
     overflowX = overflowX ?? (visibility ?? overflow);
     overflowY = overflowY ?? (visibility ?? overflow);
     if (overflowX === 'visible') {
@@ -137,8 +143,8 @@ const Scrollbar = forwardRef((
     } = scrollViewRef.current || {};
 
     return {
-      left: ensureFiniteNumber(scrollLeft / (scrollWidth - clientWidth)),
-      top: ensureFiniteNumber(scrollTop / (scrollHeight - clientHeight)),
+      left: ensurePositiveFiniteNumber(scrollLeft / (scrollWidth - clientWidth)),
+      top: ensurePositiveFiniteNumber(scrollTop / (scrollHeight - clientHeight)),
       scrollLeft,
       scrollTop,
       scrollWidth,
@@ -163,12 +169,12 @@ const Scrollbar = forwardRef((
 
     const values = getValues();
     const { scrollLeft, clientWidth, scrollWidth } = values;
-    const horizontalTrackWidth = getInnerWidth(horizontalTrackRef.current);
-    const horizontalThumbWidth = getHorizontalThumbWidth({ minThumbWidth });
+    const horizontalTrackWidth = getHorizontalTrackWidth();
+    const horizontalThumbWidth = getHorizontalThumbWidth();
     const horizontalThumbX = scrollLeft / (scrollWidth - clientWidth) * (horizontalTrackWidth - horizontalThumbWidth);
     const { scrollTop, clientHeight, scrollHeight } = values;
-    const verticalTrackHeight = getInnerHeight(verticalTrackRef.current);
-    const verticalThumbHeight = getVerticalThumbHeight({ minThumbHeight });
+    const verticalTrackHeight = getVerticalTrackHeight();
+    const verticalThumbHeight = getVerticalThumbHeight();
     const verticalThumbY = scrollTop / (scrollHeight - clientHeight) * (verticalTrackHeight - verticalThumbHeight);
     horizontalTrackRef.current.style.visibility = (scrollWidth > clientWidth) ? 'visible' : 'hidden';
     verticalTrackRef.current.style.visibility = (scrollHeight > clientHeight) ? 'visible' : 'hidden';
@@ -185,32 +191,55 @@ const Scrollbar = forwardRef((
         ...values,
       });
     }
+
     if (typeof callback === 'function') {
       callback(values);
     }
-  }, [getHorizontalThumbWidth, getVerticalThumbHeight, isHydrated, onUpdate, minThumbWidth, minThumbHeight]);
+  }, [getHorizontalTrackWidth, getHorizontalThumbWidth, getVerticalTrackHeight, getVerticalThumbHeight, isHydrated, onUpdate]);
 
-  const getHorizontalThumbWidth = useCallback(({ minThumbWidth }) => {
+  const getHorizontalTrackWidth = useCallback(() => {
+    if (!horizontalTrackRef.current) {
+      return 0;
+    }
+    const trackWidth = getInnerWidth(horizontalTrackRef.current);
+    return trackWidth;
+  }, []);
+
+  const getHorizontalThumbWidth = useCallback(() => {
     const { clientWidth, scrollWidth } = scrollViewRef.current;
     if (clientWidth === scrollWidth) {
       return 0;
     }
 
-    const trackWidth = getInnerWidth(horizontalTrackRef.current);
-    const thumbWidth = ensureFiniteNumber(Math.ceil((clientWidth / scrollWidth) * trackWidth));
-    return Math.max(ensureFiniteNumber(minThumbWidth), thumbWidth);
+    const trackWidth = getHorizontalTrackWidth();
+    const thumbWidth = Math.max(
+      ensurePositiveFiniteNumber(minThumbWidth),
+      ensurePositiveFiniteNumber(Math.ceil((clientWidth / scrollWidth) * trackWidth)),
+    );
+    return thumbWidth;
+  }, [getHorizontalTrackWidth, minThumbWidth]);
+
+  const getVerticalTrackHeight = useCallback(() => {
+    if (!verticalTrackRef.current) {
+      return 0;
+    }
+    const trackHeight = getInnerHeight(verticalTrackRef.current);
+    return trackHeight;
   }, []);
 
-  const getVerticalThumbHeight = useCallback(({ minThumbHeight }) => {
+  const getVerticalThumbHeight = useCallback(() => {
     const { clientHeight, scrollHeight } = scrollViewRef.current;
     if (clientHeight === scrollHeight) {
       return 0;
     }
 
-    const trackHeight = getInnerHeight(verticalTrackRef.current);
-    const thumbHeight = ensureFiniteNumber(Math.ceil((clientHeight / scrollHeight) * trackHeight));
-    return Math.max(ensureFiniteNumber(minThumbHeight), thumbHeight);
-  }, []);
+    const trackHeight = getVerticalTrackHeight();
+    const thumbHeight = Math.max(
+      ensurePositiveFiniteNumber(minThumbHeight),
+      ensurePositiveFiniteNumber(Math.ceil((clientHeight / scrollHeight) * trackHeight)),
+    );
+    return thumbHeight;
+  }, [getVerticalTrackHeight, minThumbHeight]);
 
   const hideHorizontalTrack = useCallback(() => {
     if (overflowX === 'scroll') {
@@ -280,56 +309,57 @@ const Scrollbar = forwardRef((
 
   const getScrollLeftByOffset = useCallback((offset) => {
     const { scrollWidth, clientWidth } = scrollViewRef.current;
-    const trackWidth = getInnerWidth(horizontalTrackRef.current);
-    const thumbWidth = getHorizontalThumbWidth({ minThumbWidth });
+    const trackWidth = getHorizontalTrackWidth();
+    const thumbWidth = getHorizontalThumbWidth();
     return offset / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
-  }, [minThumbWidth, getHorizontalThumbWidth]);
+  }, [getHorizontalTrackWidth, getHorizontalThumbWidth]);
 
   const getScrollTopByOffset = useCallback((offset) => {
     const { scrollHeight, clientHeight } = scrollViewRef.current;
-    const trackHeight = getInnerHeight(verticalTrackRef.current);
-    const thumbHeight = getVerticalThumbHeight({ minThumbHeight });
+    const trackHeight = getVerticalTrackHeight();
+    const thumbHeight = getVerticalThumbHeight();
     return offset / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
-  }, [minThumbHeight, getVerticalThumbHeight]);
+  }, [getVerticalTrackHeight, getVerticalThumbHeight]);
 
   /* Start Scrolling Events */
-  const handleScrollStart = useCallback(() => {
-    showTracks();
-  }, [showTracks]);
-
-  const handleScrollStop = useCallback(() => {
-    hideTracks();
-  }, [hideTracks]);
-
-  const detectScrolling = useCallback(() => {
-    const isScrolling = isScrollingRef.current;
-    if (isScrolling) {
-      return;
-    }
-    isScrollingRef.current = true;
-    handleScrollStart();
-    const detectScrollingInterval = setInterval(() => {
-      if (lastViewScrollLeftRef.current === viewScrollLeftRef.current && lastViewScrollTopRef.current === viewScrollTopRef.current) {
-        clearInterval(detectScrollingInterval);
-        isScrollingRef.current = false;
-        handleScrollStop();
-      }
-      lastViewScrollLeftRef.current = viewScrollLeftRef.current;
-      lastViewScrollTopRef.current = viewScrollTopRef.current;
-    }, 100);
-  }, [handleScrollStart, handleScrollStop]);
-
   const handleScrollViewScroll = useCallback((event) => {
-    if (onScroll) {
+    if (typeof onScroll === 'function') {
       onScroll(event);
     }
-    update(values => {
+
+    const updateCallback = (values) => {
       const { scrollLeft, scrollTop } = values;
       viewScrollLeftRef.current = scrollLeft;
       viewScrollTopRef.current = scrollTop;
-    });
-    detectScrolling();
-  }, [onScroll, update, detectScrolling]);
+    };
+    update(updateCallback);
+
+    // Detect whether the scrolling is in progress
+    if (isScrollingRef.current) {
+      return;
+    }
+
+    // Start scrolling
+    isScrollingRef.current = true;
+
+    // Show tracks
+    showTracks();
+
+    const detectScrollingInterval = setInterval(() => {
+      if (lastViewScrollLeftRef.current === viewScrollLeftRef.current && lastViewScrollTopRef.current === viewScrollTopRef.current) {
+        clearInterval(detectScrollingInterval);
+
+        // Stop scrolling
+        isScrollingRef.current = false;
+
+        // Hide tracks
+        hideTracks();
+      }
+
+      lastViewScrollLeftRef.current = viewScrollLeftRef.current;
+      lastViewScrollTopRef.current = viewScrollTopRef.current;
+    }, 100);
+  }, [onScroll, update, showTracks, hideTracks]);
   /* End Scrolling Events */
 
   /* Start Dragging Events */
@@ -339,7 +369,7 @@ const Scrollbar = forwardRef((
     if (prevPageX) {
       const { clientX } = event;
       const { left: trackLeft } = horizontalTrackRef.current.getBoundingClientRect();
-      const thumbWidth = getHorizontalThumbWidth({ minThumbWidth });
+      const thumbWidth = getHorizontalThumbWidth();
       const clickPosition = thumbWidth - prevPageX;
       const offset = -trackLeft + clientX - clickPosition;
       scrollViewRef.current.scrollLeft = getScrollLeftByOffset(offset);
@@ -347,13 +377,13 @@ const Scrollbar = forwardRef((
     if (prevPageY) {
       const { clientY } = event;
       const { top: trackTop } = verticalTrackRef.current.getBoundingClientRect();
-      const thumbHeight = getVerticalThumbHeight({ minThumbHeight });
+      const thumbHeight = getVerticalThumbHeight();
       const clickPosition = thumbHeight - prevPageY;
       const offset = -trackTop + clientY - clickPosition;
       scrollViewRef.current.scrollTop = getScrollTopByOffset(offset);
     }
     return false;
-  }, [minThumbWidth, minThumbHeight, getScrollLeftByOffset, getScrollTopByOffset, getHorizontalThumbWidth, getVerticalThumbHeight]);
+  }, [getHorizontalThumbWidth, getScrollLeftByOffset, getVerticalThumbHeight, getScrollTopByOffset]);
 
   const handleDragStart = useCallback(() => {
     setStartDragging(true);
@@ -393,19 +423,19 @@ const Scrollbar = forwardRef((
     event.preventDefault();
     const { target, clientX } = event;
     const { left: targetLeft } = target.getBoundingClientRect();
-    const thumbWidth = getHorizontalThumbWidth({ minThumbWidth });
+    const thumbWidth = getHorizontalThumbWidth();
     const offset = Math.abs(targetLeft - clientX) - thumbWidth / 2;
     scrollViewRef.current.scrollLeft = getScrollLeftByOffset(offset);
-  }, [minThumbWidth, getScrollLeftByOffset, getHorizontalThumbWidth]);
+  }, [getHorizontalThumbWidth, getScrollLeftByOffset]);
 
   const handleVerticalTrackMouseDown = useCallback((event) => {
     event.preventDefault();
     const { target, clientY } = event;
     const { top: targetTop } = target.getBoundingClientRect();
-    const thumbHeight = getVerticalThumbHeight({ minThumbHeight });
+    const thumbHeight = getVerticalThumbHeight();
     const offset = Math.abs(targetTop - clientY) - thumbHeight / 2;
     scrollViewRef.current.scrollTop = getScrollTopByOffset(offset);
-  }, [minThumbHeight, getScrollTopByOffset, getVerticalThumbHeight]);
+  }, [getVerticalThumbHeight, getScrollTopByOffset]);
 
   const handleHorizontalThumbMouseDown = useCallback((event) => {
     event.preventDefault();
