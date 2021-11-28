@@ -10,24 +10,74 @@ import {
 
 ## Usage
 
-The scrollbar default is hidden until you hover the mouse pointer over the content.
+The scrollbar is hidden by default. You can mouse over the scrollable content to show the scrollbar.
 
 ```jsx
 <Scrollbar
-  width="100%"
+  height={200}
+  border={1}
+  borderColor="#424242"
+>
+  <Lorem count={10} px="4x" py="3x" />
+</Scrollbar>
+```
+
+### Scroll direction
+
+The examples below illustrate the different scroll directions. You can try to resize the scrollable content to see how the scrollbar changes.
+
+#### Vertical scrolling
+
+To enable vertical scrolling, set the scrollbar height to a value less than the scrollable content height.
+
+```jsx
+<Scrollbar
+  width="50%"
+  height={200}
+  minHeight={100}
+  maxHeight={300}
+  border={1}
+  borderColor="#424242"
+  overflow="scroll"
+  resize="vertical"
+>
+  <Lorem count={10} px="4x" py="3x" />
+</Scrollbar>
+```
+
+### Horizontal scrolling
+
+To enable horizontal scrolling, set the scrollbar width to a value less than the scrollable content width.
+
+```jsx
+<Scrollbar
+  width="50%"
+  height="auto"
+  minWidth="10%"
+  maxWidth="100%"
+  border={1}
+  borderColor="#424242"
+  overflow="scroll"
+  resize="horizontal"
+>
+  <Lorem count={6} px="4x" py="3x" whiteSpace="nowrap" />
+</Scrollbar>
+```
+
+### Bidirectional scrolling
+
+```jsx
+<Scrollbar
+  width="50%"
   height={200}
   border={1}
   borderColor="#424242"
   overflow="scroll"
   resize="both"
 >
-  <Lorem count={10} px="4x" py="3x" />
+  <Lorem count={10} px="4x" py="3x" whiteSpace="nowrap" />
 </Scrollbar>
 ```
-
-### Adjust the scroll view
-
-TODO
 
 ### Overflow control
 
@@ -412,3 +462,7 @@ render(
 | overflow | string | 'auto' | The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | overflowX | string | | The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+
+## UI/UX Reference
+
+* [Bidirectional scrolling: what’s not to like?](https://adamsilver.io/blog/bidirectional-scrolling-whats-not-to-like/)
