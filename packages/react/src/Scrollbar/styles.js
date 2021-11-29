@@ -1,92 +1,107 @@
 import useColorMode from '../useColorMode';
 
-const styledScrollbarWidth = '8px';
-
-const useContainerStyle = props => ({
-  position: 'relative',
-  overflow: 'hidden',
-  width: '100%',
-  height: '100%',
-  ...(props.autoHeight && {
-    height: 'auto',
-    minHeight: props.minHeight,
-    maxHeight: props.maxHeight
-  }),
-  ...props.style,
-});
-
-const useViewStyle = ({ scrollbarWidth, autoHeight, minHeight, maxHeight, disabled }) => {
+const useContainerStyle = ({
+  width,
+  height,
+  minWidth,
+  maxWidth,
+  minHeight,
+  maxHeight,
+}) => {
   return {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: disabled ? 'hidden' : 'scroll',
+    position: 'relative',
+    overflow: 'hidden',
+    width,
+    height,
+    minWidth,
+    maxWidth,
+    minHeight,
+    maxHeight,
+  };
+};
+
+const useScrollViewStyle = ({
+  width,
+  height,
+  minWidth,
+  maxWidth,
+  minHeight,
+  maxHeight,
+  overflowX,
+  overflowY,
+}) => {
+  const style = {
+    overflowX: (overflowX === 'hidden') ? 'hidden' : 'scroll',
+    overflowY: (overflowY === 'hidden') ? 'hidden' : 'scroll',
+    minWidth,
+    maxWidth,
+    minHeight,
+    maxHeight,
     WebkitOverflowScrolling: 'touch',
-    // Hide scrollbars by setting a negative margin
-    marginRight: scrollbarWidth ? -scrollbarWidth : 0,
-    marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
-    ...(autoHeight && {
+  };
+
+  if (height === 'auto') {
+    return {
+      ...style,
       position: 'relative',
-      top: undefined,
-      left: undefined,
-      right: undefined,
-      bottom: undefined,
-      // Add scrollbarWidth to autoHeight in order to compensate negative margins
-      minHeight: typeof minHeight === 'string' ? `calc(${minHeight} + ${scrollbarWidth}px)` : minHeight + scrollbarWidth,
-      maxHeight: typeof maxHeight === 'string' ? `calc(${maxHeight} + ${scrollbarWidth}px)` : maxHeight + scrollbarWidth
-    }),
+    };
+  }
+
+  return {
+    ...style,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   };
 };
 
-const useTrackHorizontalStyle = props => {
-  const { horizontalScrollbarVisibility, scrollbarWidth } = props;
-  const autoHide = horizontalScrollbarVisibility === 'auto';
-  const alwaysHide = !scrollbarWidth || horizontalScrollbarVisibility === 'hidden';
+const useHorizontalTrackStyle = ({
+  overflowX,
+}) => {
   return {
     position: 'absolute',
-    height: styledScrollbarWidth,
+    height: '2x',
     right: 0,
     bottom: 0,
     left: 0,
     visibility: 'hidden',
-    ...(autoHide && {
+    ...(overflowX === 'auto' && {
       transition: 'opacity 200ms',
       opacity: 0,
     }),
-    ...(alwaysHide && {
+    ...(overflowX === 'hidden' && {
       display: 'none',
     }),
   };
 };
 
-const useTrackVerticalStyle = props => {
-  const { verticalScrollbarVisibility, scrollbarWidth } = props;
-  const autoHide = verticalScrollbarVisibility === 'auto';
-  const alwaysHide = !scrollbarWidth || verticalScrollbarVisibility === 'hidden';
+const useVerticalTrackStyle = ({
+  overflowY,
+}) => {
   return {
     position: 'absolute',
-    width: styledScrollbarWidth,
+    width: '2x',
     right: 0,
     bottom: 0,
     top: 0,
     visibility: 'hidden',
-    ...(autoHide && {
+    ...(overflowY === 'auto' && {
       transition: 'opacity 200ms',
       opacity: 0,
     }),
-    ...(alwaysHide && {
+    ...(overflowY === 'hidden' && {
       display: 'none',
     }),
   };
 };
 
-const useThumbHorizontalStyle = props => {
+const useHorizontalThumbStyle = props => {
   const [colorMode] = useColorMode();
-  const bgColor = {
-    dark: 'rgba(255, 255, 255, .28)',
-    light: 'rgba(255, 255, 255, .30)',
+  const backgroundColor = {
+    dark: 'white:disabled',
+    light: 'black:disabled',
   }[colorMode];
   const hoverBgColor = {
     dark: 'white:tertiary',
@@ -104,7 +119,7 @@ const useThumbHorizontalStyle = props => {
     borderRadius: 'inherit',
     border: 1,
     borderColor: 'transparent',
-    backgroundColor: bgColor,
+    backgroundColor,
     _hover: {
       borderColor: hoverBorderColor,
       backgroundColor: hoverBgColor,
@@ -112,11 +127,11 @@ const useThumbHorizontalStyle = props => {
   };
 };
 
-const useThumbVerticalStyle = props => {
+const useVerticalThumbStyle = props => {
   const [colorMode] = useColorMode();
-  const bgColor = {
-    dark: 'rgba(255, 255, 255, .28)',
-    light: 'rgba(255, 255, 255, .30)',
+  const backgroundColor = {
+    dark: 'white:disabled',
+    light: 'black:disabled',
   }[colorMode];
   const hoverBgColor = {
     dark: 'white:tertiary',
@@ -126,6 +141,7 @@ const useThumbVerticalStyle = props => {
     dark: 'white:secondary',
     light: 'black:secondary',
   }[colorMode];
+
   return {
     position: 'relative',
     display: 'block',
@@ -134,7 +150,7 @@ const useThumbVerticalStyle = props => {
     borderRadius: 'inherit',
     border: 1,
     borderColor: 'transparent',
-    backgroundColor: bgColor,
+    backgroundColor,
     _hover: {
       borderColor: hoverBorderColor,
       backgroundColor: hoverBgColor,
@@ -144,9 +160,9 @@ const useThumbVerticalStyle = props => {
 
 export {
   useContainerStyle,
-  useViewStyle,
-  useTrackHorizontalStyle,
-  useTrackVerticalStyle,
-  useThumbHorizontalStyle,
-  useThumbVerticalStyle,
+  useScrollViewStyle,
+  useHorizontalTrackStyle,
+  useVerticalTrackStyle,
+  useHorizontalThumbStyle,
+  useVerticalThumbStyle,
 };

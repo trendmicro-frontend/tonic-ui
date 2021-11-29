@@ -10,7 +10,7 @@ import {
   TransitionGroup,
 } from 'react-transition-group';
 import { ToastContext } from '../context';
-import { canUseDOM } from '../utils/dom';
+import canUseDOM from '../utils/dom/canUseDOM';
 import { createUniqueId } from '../utils/uniqueid';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
@@ -211,7 +211,7 @@ const ToastProvider = ({
     setIsHydrated(true);
   }, []);
 
-  const portalTarget = canUseDOM()
+  const portalTarget = canUseDOM
     ? (container ?? document.body)
     : null;
 

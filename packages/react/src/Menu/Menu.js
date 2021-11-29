@@ -30,7 +30,7 @@ const Menu = ({
   const menuId = `menu-${useId()}`;
   const buttonId = `menubutton-${useId()}`;
 
-  const focusableItems = useRef(null);
+  const focusableItems = useRef([]);
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
 

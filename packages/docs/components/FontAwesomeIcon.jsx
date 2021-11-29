@@ -3,9 +3,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
 import { useColorMode } from '@trendmicro/react-styled-ui';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 library.add(fab);
 library.add(far);
@@ -29,7 +29,7 @@ const spinReverseKeyframes = keyframes`
   }
 `;
 
-export default React.forwardRef(({
+const FontAwesomeIcon = forwardRef(({
   spin,
   spinReverse,
   ...props
@@ -43,7 +43,7 @@ export default React.forwardRef(({
   return (
     <ClassNames>
       {({ css, cx }) => (
-        <FontAwesomeIcon
+        <Icon
           ref={ref}
           className={cx(
             css`
@@ -62,3 +62,7 @@ export default React.forwardRef(({
     </ClassNames>
   );
 });
+
+FontAwesomeIcon.displayName = 'FontAwesomeIcon';
+
+export default FontAwesomeIcon;

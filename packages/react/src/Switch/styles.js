@@ -20,7 +20,7 @@ const switchSizes = {
   },
 };
 
-const baseProps = ({
+const baseStyle = ({
   variantColor,
   height,
   switchMaxWidth,
@@ -75,7 +75,7 @@ const baseProps = ({
   };
 };
 
-const switchSVGProps = ({
+const switchSVGStyle = ({
   switchMaxWidth,
   switchMaxHeight,
 }) => {
@@ -86,7 +86,7 @@ const switchSVGProps = ({
   };
 };
 
-const switchTrackHaloProps = ({
+const switchTrackHaloStyle = ({
   switchMaxWidth,
   switchMaxHeight,
 }) => {
@@ -99,7 +99,7 @@ const switchTrackHaloProps = ({
   };
 };
 
-const switchTrackBorderProps = ({
+const switchTrackBorderStyle = ({
   switchMaxWidth,
   switchMaxHeight,
 }) => {
@@ -112,7 +112,7 @@ const switchTrackBorderProps = ({
   };
 };
 
-const switchTrackProps = ({
+const switchTrackStyle = ({
   width,
   height,
   colorMode,
@@ -131,7 +131,7 @@ const switchTrackProps = ({
   };
 };
 
-const switchThumbProps = ({
+const switchThumbStyle = ({
   radius,
   switchMaxHeight,
 }) => {
@@ -146,7 +146,7 @@ const switchThumbProps = ({
   };
 };
 
-const useToggleSwitchStyle = props => {
+const useSwitchStyle = props => {
   const [colorMode] = useColorMode();
   const size = switchSizes[props.size] ?? switchSizes[defaultSize];
   const { width, height, radius } = size;
@@ -155,13 +155,15 @@ const useToggleSwitchStyle = props => {
   const _props = { ...props, colorMode, width, height, radius, switchMaxWidth, switchMaxHeight };
 
   return {
-    baseProps: baseProps(_props),
-    switchSVGProps: switchSVGProps(_props),
-    switchTrackHaloProps: switchTrackHaloProps(_props),
-    switchTrackBorderProps: switchTrackBorderProps(_props),
-    switchTrackProps: switchTrackProps(_props),
-    switchThumbProps: switchThumbProps(_props),
+    baseStyle: baseStyle(_props),
+    switchSVGStyle: switchSVGStyle(_props),
+    switchTrackHaloStyle: switchTrackHaloStyle(_props),
+    switchTrackBorderStyle: switchTrackBorderStyle(_props),
+    switchTrackStyle: switchTrackStyle(_props),
+    switchThumbStyle: switchThumbStyle(_props),
   };
 };
 
-export default useToggleSwitchStyle;
+export {
+  useSwitchStyle,
+};

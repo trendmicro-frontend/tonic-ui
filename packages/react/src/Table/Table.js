@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import Box from '../Box';
 import Flex from '../Flex';
 import useColorMode from '../useColorMode';
@@ -6,18 +6,23 @@ import { TableProvider } from './context';
 
 const Table = forwardRef((
   {
-    variant = 'default',
-    size = 'md',
-    isHoverable, // TODO: isHoverable is deprecated and will be removed in the v1 release
+    isHoverable, // deprecated
     children,
+    size = 'md',
+    variant = 'default',
     ...rest
   },
   ref,
 ) => {
+  useEffect(() => {
+    if (typeof isHoverable !== 'undefined') {
+      console.error('Warning: The `isHoverable` prop is deprecated. Pass a `_hover` prop on the `TableRow` instead.');
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const minimalist = (variant === 'default');
   const context = {
     variant,
-    isHoverable, // TODO: isHoverable is deprecated and will be removed in the v1 release
     size,
   };
 

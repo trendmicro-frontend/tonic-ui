@@ -9,23 +9,22 @@ import * as ReactBeautifulDND from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
 import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
-import Lorem from 'react-lorem-component';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
+import Lorem from './Lorem';
 
 const thirdPartyComponents = {
   AutoSizer,
-  FontAwesomeIcon,
   ReactBeautifulDND,
   ReactDND,
   ReactDNDHtml5backend,
   ReactMovable,
-  update,
-  ...ReactTable,
+  update, // XXX: rename to immutableUpdate
+  ...ReactTable, // XXX: rename to ReactTable.xxx
 };
 
 const {
@@ -192,16 +191,9 @@ const CodeBlock = ({
     scope: {
       ...styledUIComponents,
       ...thirdPartyComponents,
+      FontAwesomeIcon,
       EditableTag,
-      Lorem: (props) => (
-        <Lorem
-          paragraphLowerBound={1}
-          paragraphUpperBound={3}
-          sentenceLowerBound={3}
-          sentenceUpperBound={12}
-          {...props}
-        />
-      ),
+      Lorem,
       css,
       mdx,
       tmicons,
