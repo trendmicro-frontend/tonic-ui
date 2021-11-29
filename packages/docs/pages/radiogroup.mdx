@@ -124,7 +124,7 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 function Example() {
   const [state, setState] = React.useState({
     state: 'idle',
-    value: '0',
+    value: null,
   });
   const timerRef = React.useRef(null);
   const fetchData = React.useCallback(() => {
