@@ -124,7 +124,7 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 function Example() {
   const [state, setState] = React.useState({
     state: 'idle',
-    value: 0,
+    value: '0',
   });
   const timerRef = React.useRef(null);
   const fetchData = React.useCallback(() => {
@@ -137,7 +137,6 @@ function Example() {
     timerRef.current = setTimeout(() => {
       setState({
         state: 'success',
-        fruits: ['apple'],
       });
 
       timerRef.current = null;
@@ -167,9 +166,9 @@ function Example() {
         }}
       >
         <Stack spacing="1x" shouldWrapChildren>
-          <Radio value={1}>First</Radio>
-          <Radio value={2}>Second</Radio>
-          <Radio value={3}>Third</Radio>
+          <Radio value="1">First</Radio>
+          <Radio value="2">Second</Radio>
+          <Radio value="3">Third</Radio>
         </Stack>
       </RadioGroup>
     </>
