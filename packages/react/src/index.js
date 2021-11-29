@@ -41,6 +41,7 @@ import Space from './Space';
 import Spinner from './Spinner';
 import Stack from './Stack';
 import SVGIcon from './SVGIcon';
+import Switch from './Switch';
 import Tag from './Tag';
 import Text from './Text';
 import Textarea from './Textarea';
@@ -48,7 +49,7 @@ import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
 import Toast from './Toast';
 import ToastProvider from './ToastProvider';
-import ToggleSwitch from './ToggleSwitch';
+import ToggleSwitch from './ToggleSwitch'; // deprecated
 import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
 import colorStyle from './shared/color-style';
@@ -106,6 +107,7 @@ export {
   Spinner,
   Stack,
   SVGIcon,
+  Switch,
   Text,
   Textarea,
   TextLabel,
@@ -113,7 +115,7 @@ export {
   Tag,
   Toast,
   ToastProvider,
-  ToggleSwitch,
+  ToggleSwitch, // deprecated
   Tooltip,
   VisuallyHidden,
   colorStyle,

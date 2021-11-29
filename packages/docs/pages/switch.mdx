@@ -1,38 +1,37 @@
-# ToggleSwitch
+# Switch
 
-The `ToggleSwitch` component is used as an alternative for the [Checkbox](/checkbox)
-component, switch between enabled and disabled states.
+The `Switch` component is used as an alternative to the [Checkbox](/checkbox) component. You can use it to render a single option that can be turned on or off.
 
 ## Import
 
 ```js
-import { ToggleSwitch } from @trendmicro/react-styled-ui";
+import { Switch } from '@trendmicro/react-styled-ui';
 ```
 
 ## Usage
 
 ```jsx
 <Flex align="center">
-  <ToggleSwitch pr="1x" id="email-alerts" />
+  <Switch pr="1x" id="email-alerts" />
   <label htmlFor="email-alerts">Enable email alerts?</label>
 </Flex>
 ```
 
 ### Sizes
 
-Pass the `size` prop to change the size of the `ToggleSwitch`.
+Pass the `size` prop to change the size of the `Switch`.
 
 ```jsx
 <Flex align="center">
-  <ToggleSwitch size="sm" />
-  <ToggleSwitch size="md" />
-  <ToggleSwitch size="lg" />
+  <Switch size="sm" />
+  <Switch size="md" />
+  <Switch size="lg" />
 </Flex>
 ```
 
-### ToggleSwitch background color
+### Switch background color
 
-* Use the `variantColor` prop to change the checked background color of the `ToggleSwitch`. `variantColor` can be any color key with key `50`(hover), `60`(checked, focus) that exist in the `theme.colors`.
+* Use the `variantColor` prop to change the checked background color of the `Switch`. `variantColor` can be any color key with key `50`(hover), `60`(checked, focus) that exist in the `theme.colors`.
 
   > That means the `red:60` exists in the `theme.colors` then can use variantColor="red".
 
@@ -40,8 +39,8 @@ Pass the `size` prop to change the size of the `ToggleSwitch`.
 
 ```jsx
 <Flex align="center">
-  <ToggleSwitch defaultChecked variantColor="red" />
-  <ToggleSwitch defaultChecked size="lg" variantColor="green" />
+  <Switch defaultChecked variantColor="red" />
+  <Switch defaultChecked size="lg" variantColor="green" />
 </Flex>
 ```
 
