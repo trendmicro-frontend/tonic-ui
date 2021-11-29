@@ -53,6 +53,7 @@ export const componentLinks = [
   'Space',
   'Stack',
   'SVGIcon',
+  'Switch',
   'Table',
   'Tabs',
   'Tag',
@@ -60,7 +61,6 @@ export const componentLinks = [
   'Textarea',
   'TextLabel',
   'Toast',
-  'ToggleSwitch',
   'Tooltip',
   'Transition',
 ];
