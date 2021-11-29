@@ -25,8 +25,8 @@ const p = props => (
     mt={0}
     mb="4x"
     display="block"
-    fontSize="sm"
-    lineHeight="sm"
+    fontSize="md"
+    lineHeight="md"
     {...props}
   />
 );
@@ -193,7 +193,8 @@ const table = props => (
     mb="4x"
     display="block"
     width="100%"
-    fontSize="sm"
+    fontSize="md"
+    lineHeight="md"
     css={css`
       border-spacing: 0;
       border-collapse: collapse;
@@ -279,7 +280,7 @@ const code = props => (
 
 const inlineCode = props => (
   <Code
-    fontSize=".875em"
+    fontSize="85%"
     {...props}
   />
 );
