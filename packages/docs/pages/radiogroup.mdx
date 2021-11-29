@@ -124,11 +124,15 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 function Example() {
   const [state, setState] = React.useState({
     state: 'idle',
-    value: 0,
+    value: null,
   });
   const timerRef = React.useRef(null);
   const fetchData = React.useCallback(() => {
-    setState(prevState => ({ ...prevState, state: 'loading' }));
+    setState(prevState => ({
+      ...prevState,
+      state: 'loading',
+      value: null,
+    }));
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -137,7 +141,7 @@ function Example() {
     timerRef.current = setTimeout(() => {
       setState({
         state: 'success',
-        fruits: ['apple'],
+        value: '1',
       });
 
       timerRef.current = null;
@@ -162,14 +166,14 @@ function Example() {
       <RadioGroup
         value={state.value}
         disabled={state.state === 'loading'}
-        onChange={value => {
-          setState(prevState => ({ ...prevState, value }));
+        onChange={nextValue => {
+          setState(prevState => ({ ...prevState, value: nextValue }));
         }}
       >
         <Stack spacing="1x" shouldWrapChildren>
-          <Radio value={1}>First</Radio>
-          <Radio value={2}>Second</Radio>
-          <Radio value={3}>Third</Radio>
+          <Radio value="1">First</Radio>
+          <Radio value="2">Second</Radio>
+          <Radio value="3">Third</Radio>
         </Stack>
       </RadioGroup>
     </>
