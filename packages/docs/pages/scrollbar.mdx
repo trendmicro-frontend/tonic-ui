@@ -1,5 +1,7 @@
 # Scrollbar
 
+The `Scrollbar` component provides a consistent look and feel for scrollbars across multiple platforms and browsers.
+
 ## Import
 
 ```js
@@ -168,6 +170,62 @@ Use the `minThumbWidth` and `minThumbHeight` props to set the minimum size of th
     </Scrollbar>
   </Box>
 </Stack>
+```
+
+### Scroll indicator
+
+The scroll indicator can visually indicate the current scroll position of the scrollable element, so that the user knows whether it can be scrolled further.
+
+```jsx noInline
+const ShadowScrollbar = (props) => {
+  const topIndicatorRef = React.useRef(null);
+  const bottomIndicatorRef = React.useRef(null);
+  const handleUpdate = ({ values }) => {
+    const { scrollTop, scrollHeight, clientHeight } = values;
+    const topIndicatorOpacity = 1 / 20 * Math.min(scrollTop, 20);
+    const bottomScrollTop = scrollHeight - clientHeight;
+    const bottomIndicatorOpacity = 1 / 20 * (bottomScrollTop - Math.max(scrollTop, bottomScrollTop - 20));
+    topIndicatorRef.current.style.opacity = topIndicatorOpacity;
+    bottomIndicatorRef.current.style.opacity = bottomIndicatorOpacity;
+  };
+
+  return (
+    <Box position="relative">
+      <Scrollbar
+        onUpdate={handleUpdate}
+        {...props}
+      />
+      <Box
+        ref={topIndicatorRef}
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        height="24px"
+        background="linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
+      />
+      <Box
+        ref={bottomIndicatorRef}
+        position="absolute"
+        bottom="0"
+        left="0"
+        right="0"
+        height="24px"
+        background="linear-gradient(to top, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
+      />
+    </Box>
+  );
+}
+
+render(
+  <ShadowScrollbar
+    height={300}
+    border={1}
+    borderColor="#424242"
+  >
+    <Lorem count={10} px="4x" py="3x" />
+  </ShadowScrollbar>
+);
 ```
 
 ### Scrollable menu
@@ -386,62 +444,6 @@ function ScrollableTable() {
 }
 
 render(<ScrollableTable />);
-```
-
-### Scroll indicator
-
-The scroll indicator can visually indicate the current scroll position of the scrollable element, so that the user knows whether it can be scrolled further.
-
-```jsx noInline
-const ShadowScrollbar = (props) => {
-  const topIndicatorRef = React.useRef(null);
-  const bottomIndicatorRef = React.useRef(null);
-  const handleUpdate = ({ values }) => {
-    const { scrollTop, scrollHeight, clientHeight } = values;
-    const topIndicatorOpacity = 1 / 20 * Math.min(scrollTop, 20);
-    const bottomScrollTop = scrollHeight - clientHeight;
-    const bottomIndicatorOpacity = 1 / 20 * (bottomScrollTop - Math.max(scrollTop, bottomScrollTop - 20));
-    topIndicatorRef.current.style.opacity = topIndicatorOpacity;
-    bottomIndicatorRef.current.style.opacity = bottomIndicatorOpacity;
-  };
-
-  return (
-    <Box position="relative">
-      <Scrollbar
-        onUpdate={handleUpdate}
-        {...props}
-      />
-      <Box
-        ref={topIndicatorRef}
-        position="absolute"
-        top="0"
-        left="0"
-        right="0"
-        height="24px"
-        background="linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
-      />
-      <Box
-        ref={bottomIndicatorRef}
-        position="absolute"
-        bottom="0"
-        left="0"
-        right="0"
-        height="24px"
-        background="linear-gradient(to top, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
-      />
-    </Box>
-  );
-}
-
-render(
-  <ShadowScrollbar
-    height={300}
-    border={1}
-    borderColor="#424242"
-  >
-    <Lorem count={10} px="4x" py="3x" />
-  </ShadowScrollbar>
-);
 ```
 
 ## Props
