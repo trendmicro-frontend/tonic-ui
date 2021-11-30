@@ -1,9 +1,11 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
+import useEffectOnce from '../hooks/useEffectOnce';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import {
   useToastRootStyle,
   useToastIconStyle,
@@ -44,8 +46,8 @@ const ToastCloseButton = (props) => (
 
 const Toast = forwardRef((
   {
-    isClosable: _isClosable = false,
-    isCloseButtonVisible: LEGACY_isCloseButtonVisible, // eslint-disable-line camelcase
+    isCloseButtonVisible, // deprecated
+    isClosable = false,
     onClose,
     appearance = defaultAppearance,
     icon,
@@ -54,13 +56,16 @@ const Toast = forwardRef((
   },
   ref,
 ) => {
-  useEffect(() => {
-    if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
-      console.error('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
+  useEffectOnce(() => {
+    if (isCloseButtonVisible !== undefined) {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        alternative: 'isClosable',
+        willRemove: true,
+      });
     }
-  }, [LEGACY_isCloseButtonVisible]); // eslint-disable-line camelcase
+  });
 
-  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const rootStyleProps = useToastRootStyle({ appearance });
   const iconStyleProps = useToastIconStyle({ appearance });
   const messageStyleProps = useToastMessageStyle();

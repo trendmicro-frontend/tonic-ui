@@ -1,8 +1,10 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import { useTagStyle, useTagCloseButtonStyle } from './styles';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
+import useEffectOnce from '../hooks/useEffectOnce';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 
 const TagCloseButton = ({ size, ...props }) => {
   const closeButtonStyleProps = useTagCloseButtonStyle({ size });
@@ -13,13 +15,13 @@ const TagCloseButton = ({ size, ...props }) => {
 
 const Tag = forwardRef((
   {
+    isCloseButtonVisible, // deprecated
     borderRadius = 'sm',
     size = 'md',
     variant = 'solid',
     variantColor = 'gray',
     isInvalid,
-    isClosable: _isClosable = false,
-    isCloseButtonVisible: LEGACY_isCloseButtonVisible, // eslint-disable-line camelcase
+    isClosable = false,
     disabled,
     children,
     onClose,
@@ -27,13 +29,16 @@ const Tag = forwardRef((
   },
   ref,
 ) => {
-  useEffect(() => {
-    if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
-      console.error('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
+  useEffectOnce(() => {
+    if (isCloseButtonVisible !== undefined) {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        alternative: 'isClosable',
+        willRemove: true,
+      });
     }
-  }, [LEGACY_isCloseButtonVisible]); // eslint-disable-line camelcase
+  });
 
-  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const canFocus = isClosable;
   const tagStyleProps = useTagStyle({
     color: variantColor,

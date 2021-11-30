@@ -1,22 +1,24 @@
 import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import Portal from '../Portal';
+import useEffectOnce from '../hooks/useEffectOnce';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import useNodeRef from '../utils/useNodeRef';
 import getFocusableElements from '../utils/getFocusableElements';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { DrawerProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
 const Drawer = ({
+  isCloseButtonVisible, // deprecated
   backdrop,
   placement = 'right',
   size = 'auto',
   isOpen = false,
-  isClosable: _isClosable = false,
-  isCloseButtonVisible: LEGACY_isCloseButtonVisible, // eslint-disable-line camelcase
+  isClosable = false,
   closeOnEsc = false,
   closeOnOutsideClick = false,
   onClose,
@@ -27,13 +29,16 @@ const Drawer = ({
   id,
   children,
 }) => {
-  useEffect(() => {
-    if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
-      console.error('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
+  useEffectOnce(() => {
+    if (isCloseButtonVisible !== undefined) {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        alternative: 'isClosable',
+        willRemove: true,
+      });
     }
-  }, [LEGACY_isCloseButtonVisible]); // eslint-disable-line camelcase
+  });
 
-  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const defaultId = useId();
   const contentRef = useRef(null);
   const drawerState = getMemoizedState({

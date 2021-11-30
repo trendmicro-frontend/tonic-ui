@@ -1,9 +1,11 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Flex from '../Flex';
 import Icon from '../Icon';
 import Space from '../Space';
+import useEffectOnce from '../hooks/useEffectOnce';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import {
   useAlertStyle,
   useAlertIconStyle,
@@ -45,8 +47,8 @@ const AlertCloseButton = (props) => (
 
 const Alert = forwardRef((
   {
-    isClosable: _isClosable = false,
-    isCloseButtonVisible: LEGACY_isCloseButtonVisible, // eslint-disable-line camelcase
+    isCloseButtonVisible, // deprecated
+    isClosable = false,
     onClose,
     variant = defaultVariant,
     severity = defaultSeverity,
@@ -56,13 +58,16 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
-  useEffect(() => {
-    if (LEGACY_isCloseButtonVisible !== undefined) { // eslint-disable-line camelcase
-      console.error('Warning: isCloseButtonVisible is deprecated. Please use isClosable instead.');
+  useEffectOnce(() => {
+    if (isCloseButtonVisible !== undefined) {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        alternative: 'isClosable',
+        willRemove: true,
+      });
     }
-  }, [LEGACY_isCloseButtonVisible]); // eslint-disable-line camelcase
+  });
 
-  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const styleProps = useAlertStyle({ variant, severity });
   const iconStyleProps = useAlertIconStyle({ variant, severity });
   const messageStyleProps = useAlertMessageStyle();
