@@ -16,12 +16,13 @@ const Table = forwardRef((
 ) => {
   useEffect(() => {
     if (typeof isHoverable !== 'undefined') {
-      console.error('Warning: The `isHoverable` prop is deprecated. Pass a `_hover` prop on the `TableRow` instead.');
+      console.error('Warning: The `isHoverable` prop is deprecated and will be removed in next major release. Pass a `_hover` prop on the `TableRow` instead.');
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const minimalist = (variant === 'default');
   const context = {
+    isHoverable, // deprecated
     variant,
     size,
   };
