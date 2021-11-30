@@ -1,7 +1,9 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
 import Flex from '../Flex';
+import useEffectOnce from '../hooks/useEffectOnce';
 import useColorMode from '../useColorMode';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import { TableProvider } from './context';
 
 const Table = forwardRef((
@@ -14,11 +16,13 @@ const Table = forwardRef((
   },
   ref,
 ) => {
-  useEffect(() => {
-    if (typeof isHoverable !== 'undefined') {
-      console.error('Warning: The `isHoverable` prop is deprecated. Pass a `_hover` prop on the `TableRow` instead.');
+  useEffectOnce(() => {
+    if (isHoverable !== undefined) {
+      warnRemovedProps('isHoverable', {
+        message: 'Use the \'_hover\' prop on the \'TableRow\' component instead.',
+      });
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  });
 
   const minimalist = (variant === 'default');
   const context = {

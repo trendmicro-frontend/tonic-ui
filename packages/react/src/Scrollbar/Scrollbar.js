@@ -4,6 +4,7 @@ import Box from '../Box';
 import useEffectOnce from '../hooks/useEffectOnce';
 import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import {
   useContainerStyle,
   useScrollViewStyle,
@@ -23,14 +24,14 @@ import VerticalThumb from './VerticalThumb';
 const Scrollbar = forwardRef((
   {
     disabled, // deprecated (remove in next major version)
-    visibility, // deprecated (remove in next major version)
     minThumbSize, // deprecated (remove in next major version)
-    renderView, // deprecated (remove in next major version)
-    renderHorizontalTrack, // deprecated (remove in next major version)
-    renderHorizontalThumb, // deprecated (remove in next major version)
-    renderVerticalTrack, // deprecated (remove in next major version)
-    renderVerticalThumb, // deprecated (remove in next major version)
-    thumbSize, // deprecated (remove in next major version)
+    visibility, // deprecated (remove in next major version)
+    renderView, // removed
+    renderHorizontalTrack, // removed
+    renderHorizontalThumb, // removed
+    renderVerticalTrack, // removed
+    renderVerticalThumb, // removed
+    thumbSize, // removed
 
     children,
     width = '100%',
@@ -54,49 +55,54 @@ const Scrollbar = forwardRef((
     if (disabled !== undefined) {
       warnDeprecatedProps('disabled', {
         alternative: 'overflow="hidden"',
-      });
-    }
-    if (visibility === 'visible') {
-      warnDeprecatedProps('visibility="visible"', {
-        alternative: 'overflow="scroll"',
-      });
-    } else if (visibility !== undefined) {
-      warnDeprecatedProps('visibility', {
-        alternative: 'overflow',
-      });
-    }
-    if (renderView !== undefined) {
-      warnDeprecatedProps('renderView', {
-        message: 'Use children as a function to render the scroll view instead.',
-      });
-    }
-    if (renderHorizontalTrack !== undefined) {
-      warnDeprecatedProps('renderHorizontalTrack', {
-        message: 'Use children as a function to render the horizontal track instead.',
-      });
-    }
-    if (renderHorizontalThumb !== undefined) {
-      warnDeprecatedProps('renderHorizontalThumb', {
-        message: 'Use children as a function to render the horizontal thumb instead.',
-      });
-    }
-    if (renderVerticalTrack !== undefined) {
-      warnDeprecatedProps('renderVerticalTrack', {
-        message: 'Use children as a function to render the vertical track instead.',
-      });
-    }
-    if (renderVerticalThumb !== undefined) {
-      warnDeprecatedProps('renderVerticalThumb', {
-        message: 'Use children as a function to render the vertical thumb instead.',
-      });
-    }
-    if (thumbSize !== undefined) {
-      warnDeprecatedProps('thumbSize', {
-        alternative: ['minThumbWidth', 'minThumbHeight'],
+        willRemove: true,
       });
     }
     if (minThumbSize !== undefined) {
       warnDeprecatedProps('minThumbSize', {
+        alternative: ['minThumbWidth', 'minThumbHeight'],
+        willRemove: true,
+      });
+    }
+    if (visibility !== undefined) {
+      const deprecatedProps = (visibility === 'visible')
+        ? 'visibility="visible"'
+        : 'visibility';
+      const alternative = (visibility === 'visible')
+        ? 'overflow="scroll"'
+        : 'overflow';
+      warnDeprecatedProps(deprecatedProps, {
+        alternative,
+        willRemove: true,
+      });
+    }
+    if (renderView !== undefined) {
+      warnRemovedProps('renderView', {
+        message: 'Use children as a function to render the scroll view instead.',
+      });
+    }
+    if (renderHorizontalTrack !== undefined) {
+      warnRemovedProps('renderHorizontalTrack', {
+        message: 'Use children as a function to render the horizontal track instead.',
+      });
+    }
+    if (renderHorizontalThumb !== undefined) {
+      warnRemovedProps('renderHorizontalThumb', {
+        message: 'Use children as a function to render the horizontal thumb instead.',
+      });
+    }
+    if (renderVerticalTrack !== undefined) {
+      warnRemovedProps('renderVerticalTrack', {
+        message: 'Use children as a function to render the vertical track instead.',
+      });
+    }
+    if (renderVerticalThumb !== undefined) {
+      warnRemovedProps('renderVerticalThumb', {
+        message: 'Use children as a function to render the vertical thumb instead.',
+      });
+    }
+    if (thumbSize !== undefined) {
+      warnRemovedProps('thumbSize', {
         alternative: ['minThumbWidth', 'minThumbHeight'],
       });
     }
@@ -119,8 +125,8 @@ const Scrollbar = forwardRef((
       minThumbHeight = ensurePositiveFiniteNumber(minThumbSize);
     }
 
-    overflowX = overflowX ?? (visibility ?? overflow);
-    overflowY = overflowY ?? (visibility ?? overflow);
+    overflowX = overflowX ?? (visibility ?? overflow); // TODO: visibility is deprecated
+    overflowY = overflowY ?? (visibility ?? overflow); // TODO: visibility is deprecated
     if (overflowX === 'visible') {
       overflowX = 'scroll';
     }
