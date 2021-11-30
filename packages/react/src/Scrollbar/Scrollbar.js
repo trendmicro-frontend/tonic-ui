@@ -1,7 +1,9 @@
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
+import useEffectOnce from '../hooks/useEffectOnce';
 import useForkRef from '../utils/useForkRef';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import {
   useContainerStyle,
   useScrollViewStyle,
@@ -48,42 +50,61 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
+  useEffectOnce(() => {
+    if (disabled !== undefined) {
+      warnDeprecatedProps('disabled', {
+        alternative: 'overflow="hidden"',
+      });
+    }
+    if (visibility === 'visible') {
+      warnDeprecatedProps('visibility="visible"', {
+        alternative: 'overflow="scroll"',
+      });
+    } else if (visibility !== undefined) {
+      warnDeprecatedProps('visibility', {
+        alternative: 'overflow',
+      });
+    }
+    if (renderView !== undefined) {
+      warnDeprecatedProps('renderView', {
+        message: 'Use children as a function to render the scroll view instead.',
+      });
+    }
+    if (renderHorizontalTrack !== undefined) {
+      warnDeprecatedProps('renderHorizontalTrack', {
+        message: 'Use children as a function to render the horizontal track instead.',
+      });
+    }
+    if (renderHorizontalThumb !== undefined) {
+      warnDeprecatedProps('renderHorizontalThumb', {
+        message: 'Use children as a function to render the horizontal thumb instead.',
+      });
+    }
+    if (renderVerticalTrack !== undefined) {
+      warnDeprecatedProps('renderVerticalTrack', {
+        message: 'Use children as a function to render the vertical track instead.',
+      });
+    }
+    if (renderVerticalThumb !== undefined) {
+      warnDeprecatedProps('renderVerticalThumb', {
+        message: 'Use children as a function to render the vertical thumb instead.',
+      });
+    }
+    if (thumbSize !== undefined) {
+      warnDeprecatedProps('thumbSize', {
+        alternative: ['minThumbWidth', 'minThumbHeight'],
+      });
+    }
+    if (minThumbSize !== undefined) {
+      warnDeprecatedProps('minThumbSize', {
+        alternative: ['minThumbWidth', 'minThumbHeight'],
+      });
+    }
+  });
+
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
-
-  useEffect(() => {
-    // Deprecation warning
-    if (disabled !== undefined) {
-      console.error('Warning: `disabled` is deprecated, use `overflow="hidden"` instead.');
-    }
-    if (visibility === 'visible') {
-      console.error('Warning: `visibility="visible"` is deprecated. Use `overflow="scroll"` instead.');
-    } else if (visibility !== undefined) {
-      console.error('The `visibility` prop is deprecated. Use `overflow` instead.');
-    }
-    if (renderView !== undefined) {
-      console.error('The `renderView` prop is deprecated. Use children as a function to render the scroll view instead.');
-    }
-    if (renderHorizontalTrack !== undefined) {
-      console.error('The `renderHorizontalTrack` prop is deprecated. Use children as a function to render the horizontal track instead.');
-    }
-    if (renderHorizontalThumb !== undefined) {
-      console.error('The `renderHorizontalThumb` prop is deprecated. Use children as a function to render the horizontal thumb instead.');
-    }
-    if (renderVerticalTrack !== undefined) {
-      console.error('The `renderVerticalTrack` prop is deprecated. Use children as a function to render the vertical track instead.');
-    }
-    if (renderVerticalThumb !== undefined) {
-      console.error('The `renderVerticalThumb` prop is deprecated. Use children as a function to render the vertical thumb instead.');
-    }
-    if (thumbSize !== undefined) {
-      console.error('The `thumbSize` prop is deprecated. Use `minThumbWidth` and `minThumbHeight` instead.');
-    }
-    if (minThumbSize !== undefined) {
-      console.error('The `minThumbSize` prop is deprecated. Use `minThumbWidth` and `minThumbHeight` instead.');
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   { // Update overflow props
     // TODO: remove `disabled` and `visibility` props in next major version
