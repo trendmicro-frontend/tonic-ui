@@ -127,7 +127,7 @@ export {
   usePagination,
   useTheme,
   useToast,
-  withTheme,
+  withTheme, // deprecated
 };
 
 export * from './Tabs';
