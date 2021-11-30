@@ -1,10 +1,11 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
+import useEffectOnce from '../hooks/useEffectOnce';
 
 const PseudoBox = forwardRef((props, ref) => {
-  useEffect(() => {
-    console.error('Warning: PseudoBox is deprecated and will be removed in a future release. Please use the Box component instead.');
-  }, []);
+  useEffectOnce(() => {
+    console.error('Warning: The `PseudoBox` component is deprecated and will be removed in the next major release. Use the `Box` component instead.');
+  });
 
   return (
     <Box ref={ref} {...props} />

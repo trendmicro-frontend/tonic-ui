@@ -1,10 +1,11 @@
 import React, { forwardRef } from 'react';
 import Switch from '../Switch';
+import useEffectOnce from '../hooks/useEffectOnce';
 
 const ToggleSwitch = forwardRef((props, ref) => {
-  useEffect(() => {
-    console.error('Warning: ToggleSwitch is deprecated and will be removed in a future release. Please use the Switch component instead.');
-  }, []);
+  useEffectOnce(() => {
+    console.error('Warning: The `ToggleSwitch` component is deprecated and will be removed in the next major release. Use the `Switch` component instead.');
+  });
 
   return (
     <Switch ref={ref} {...props} />
