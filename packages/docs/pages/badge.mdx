@@ -75,43 +75,33 @@ import { Badge } from '@trendmicro/react-styled-ui';
 
 ### Badge color
 
-* Pass the `variantColor` prop to customize the color of the Badge. `variantColor`
-can be any **color key with key 60** that exists in the `theme.colors`.
-  > Thats mean the `green:60` exists in the `theme.colors` then can use variantColor="green".
-
-* [Learn more about theming](./theme).
+Use the `backgroundColor` prop to set the background color of the badge.
 
 ```jsx
 <Stack direction="row" spacing="4x">
-  <Badge badgeContent={1} />
-  <Badge variantColor="orange" badgeContent={2} />
-  <Badge variantColor="yellow" badgeContent={3} />
-  <Badge variantColor="green" badgeContent={4} />
-  <Badge variantColor="blue" badgeContent={5} />
-  <Badge variantColor="gray" badgeContent={6} />
-  <Badge variantColor="magenta" badgeContent={7} />
-  <Badge variantColor="purple" badgeContent={8} />
-  <Badge variantColor="teal" badgeContent={9} />
-  <Badge variantColor="cyan" badgeContent={10} />
+  <Badge backgroundColor="red:60" badgeContent={1} />
+  <Badge backgroundColor="orange:50" badgeContent={2} />
+  <Badge backgroundColor="yellow:50" badgeContent={3} />
+  <Badge backgroundColor="green:60" badgeContent={4} />
+  <Badge backgroundColor="blue:60" badgeContent={5} />
+  <Badge backgroundColor="gray:60" badgeContent={6} />
+  <Badge backgroundColor="magenta:60" badgeContent={7} />
+  <Badge backgroundColor="purple:60" badgeContent={8} />
+  <Badge backgroundColor="teal:60" badgeContent={9} />
+  <Badge backgroundColor="cyan:60" badgeContent={10} />
 </Stack>
 ```
 
-### Badge border color
+### Badge border
 
-* Pass the `borderColor` or `borderWidth` props to customize the border of the Badge. It only effect on wrapped children.
+Use `borderColor` and `borderWidth` to change the border color and width of the badge.
 
 ```jsx
 <Stack direction="row" spacing="6x" shouldWrapChildren>
-  <Badge badgeContent="5" borderColor="orange:50">
+  <Badge badgeContent="2" borderColor="orange:50" borderWidth={1}>
     <Icon icon="alert" />
   </Badge>
-  <Badge badgeContent="5">
-    <Icon icon="alert" borderColor="orange:50" borderWidth={3} />
-  </Badge>
-  <Badge badgeContent="5" borderColor="orange:50">
-    <Icon icon="alert" />
-  </Badge>
-  <Badge variant="dot" offset={[4, 2]} borderColor="orange:50" borderWidth={3}>
+  <Badge badgeContent="2" borderColor="orange:50" borderWidth={3}>
     <Icon icon="alert" />
   </Badge>
 </Stack>
@@ -121,7 +111,6 @@ can be any **color key with key 60** that exists in the `theme.colors`.
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | variant | string | 'badge' | 'badge' or 'dot'. |
-| variantColor | string | 'red' | The color scheme to use for the badge. It must be a color key defined in `theme.colors`. |
 | badgeContent | number\|string\|React Element  | | |
 | isHidden | boolean  | false | show badge content or not. |
 | offset | \[number, number\]  | - | Set offset of the badge. |
