@@ -11,7 +11,7 @@ import Portal from '../Portal';
 import Box from '../Box';
 import setRef from '../utils/setRef';
 import useForkRef from '../utils/useForkRef';
-import useEnhancedEffect from '../utils/useEnhancedEffect';
+import useIsomorphicLayoutEffect from '../utils/useIsomorphicLayoutEffect';
 import getPopperArrowStyle from './styles';
 
 function getAnchorEl(anchorEl) {
@@ -43,7 +43,7 @@ const Popper = forwardRef((
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
   const handlePopperRefRef = useRef(handlePopperRef);
 
-  useEnhancedEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     handlePopperRefRef.current = handlePopperRef;
   }, [handlePopperRef]);
 

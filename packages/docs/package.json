@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production next build",
-    "clean": "del build docs",
+    "clean": "del build dist",
     "dev": "next dev --hostname 0.0.0.0",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
-    "postbuild": "next export --outdir docs && touch docs/.nojekyll",
+    "postbuild": "next export --outdir dist/react",
     "pre-push": "yarn run eslint",
     "start": "next start",
     "test": "jest --passWithNoTests"

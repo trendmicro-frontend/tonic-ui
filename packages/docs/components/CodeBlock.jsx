@@ -9,26 +9,25 @@ import * as ReactBeautifulDND from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
 import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
-import { loremIpsum } from 'lorem-ipsum';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
+import Lorem from './Lorem';
 import SelectableButton from './SelectableButton';
 import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
 
 const thirdPartyComponents = {
   AutoSizer,
-  FontAwesomeIcon,
   ReactBeautifulDND,
   ReactDND,
   ReactDNDHtml5backend,
   ReactMovable,
-  update,
-  ...ReactTable,
+  update, // XXX: rename to immutableUpdate
+  ...ReactTable, // XXX: rename to ReactTable.xxx
 };
 
 const {
@@ -191,39 +190,12 @@ const CodeBlock = ({
     scope: {
       ...styledUIComponents,
       ...thirdPartyComponents,
+      FontAwesomeIcon,
       EditableTag,
+      Lorem,
       SelectableButton,
       SkeletonBody,
       SkeletonContent,
-      Lorem: ({
-        count = 1,
-        ...rest
-      }) => {
-        const html = loremIpsum({
-          count,
-          units: 'paragraphs',
-          sentenceLowerBound: 5,
-          sentenceUpperBound: 15,
-          paragraphLowerBound: 3,
-          paragraphUpperBound: 7,
-          format: 'html',
-        });
-
-        return (
-          <Box
-            dangerouslySetInnerHTML={{ __html: html }}
-            css={{
-              '> *:first-child': {
-                marginTop: 0,
-              },
-              '> *:last-child': {
-                marginBottom: 0,
-              },
-            }}
-            {...rest}
-          />
-        );
-      },
       css,
       mdx,
       tmicons,

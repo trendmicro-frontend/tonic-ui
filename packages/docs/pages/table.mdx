@@ -95,8 +95,8 @@ Use the `size` prop to change the padding of the `<TableCell>`. You can set the 
 function Sample() {
   const shadowLeftRef = React.useRef(null);
   const shadowRightRef = React.useRef(null);
-  const handleUpdate = ({ values }) => {
-    const { scrollLeft, scrollWidth, clientWidth } = values;
+  const handleUpdate = (props) => {
+    const { scrollLeft, scrollWidth, clientWidth } = props;
     const shadowLeftOpacity = 1 / 20 * Math.min(scrollLeft, 20);
     const rightScrollLeft = scrollWidth - clientWidth;
     const shadowRightOpacity = 1 / 20 * (rightScrollLeft - Math.max(scrollLeft, rightScrollLeft - 20));
@@ -225,7 +225,7 @@ function BaseTable() {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
       width: 140,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -233,7 +233,7 @@ function BaseTable() {
       Header: 'Detections',
       accessor: 'detections',
       width: 136,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -270,7 +270,7 @@ function BaseTable() {
             {headerGroup.headers.map(column => (
               <TableHeaderCell
                 {...column.getHeaderProps()}
-                {...column.customedProps}
+                {...column.customProps}
               >
                 {column.render('Header')}
               </TableHeaderCell>
@@ -293,7 +293,7 @@ function BaseTable() {
                   return (
                     <TableCell
                       {...cell.getCellProps()}
-                      {...cell.column.customedProps}
+                      {...cell.column.customProps}
                     >
                       {cell.render('Cell')}
                     </TableCell>);
@@ -337,7 +337,7 @@ function SelectableTable() {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
       width: 140,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -345,7 +345,7 @@ function SelectableTable() {
       Header: 'Detections',
       accessor: 'detections',
       width: 136,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -405,7 +405,7 @@ function SelectableTable() {
               {headerGroup.headers.map(column => (
                 <TableHeaderCell
                   {...column.getHeaderProps()}
-                  {...column.customedProps}
+                  {...column.customProps}
                 >
                   {column.render('Header')}
                 </TableHeaderCell>
@@ -429,7 +429,7 @@ function SelectableTable() {
                   return (
                     <TableCell
                       {...cell.getCellProps()}
-                      {...cell.column.customedProps}
+                      {...cell.column.customProps}
                     >
                       {cell.render('Cell')}
                     </TableCell>
@@ -476,7 +476,7 @@ function SortableTable() {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
       width: 176,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
         justifyContent: 'flex-end',
       },
@@ -485,7 +485,7 @@ function SortableTable() {
       Header: 'Detections',
       accessor: 'detections',
       width: 136,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
         justifyContent: 'flex-end',
       },
@@ -533,7 +533,7 @@ function SortableTable() {
               >
                 <Flex
                   alignItems="center"
-                  {...column.customedProps}
+                  {...column.customProps}
                 >
                   <Box
                     overflow="hidden"
@@ -569,7 +569,7 @@ function SortableTable() {
                   return (
                     <TableCell
                       {...cell.getCellProps()}
-                      {...cell.column.customedProps}
+                      {...cell.column.customProps}
                     >
                       {cell.render('Cell')}
                     </TableCell>
@@ -626,7 +626,7 @@ function ResizableTable() {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
       width: 144,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
         justifyContent: 'flex-end',
       },
@@ -635,7 +635,7 @@ function ResizableTable() {
       Header: 'Detections',
       accessor: 'detections',
       width: 136,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
         justifyContent: 'flex-end',
       },
@@ -692,7 +692,7 @@ function ResizableTable() {
                   const isResizing = column.isResizing;
                   return (
                     <TableHeaderCell {...column.getHeaderProps()}>
-                      <Flex alignItems="center" height="100%" {...column.customedProps}>
+                      <Flex alignItems="center" height="100%" {...column.customProps}>
                         <Box
                           overflow="hidden"
                           textOverflow="ellipsis"
@@ -747,7 +747,7 @@ function ResizableTable() {
                     return (
                       <TableCell
                         {...cell.getCellProps()}
-                        {...cell.column.customedProps}
+                        {...cell.column.customProps}
                         position="relative"
                       >
                         <Box
@@ -791,80 +791,78 @@ function ResizableTable() {
 render(<ResizableTable />);
 ```
 
-### Sticky table
-
-#### Sticky header
-
-In this example, we make a table with fixed header and a scrollable content. we use [`Scrollbar`](./scrollbar) component to render scrollable table body.
+### Scrollable table
 
 ```jsx noInline
-function CustomScrollbar({
-  showVerticalScrollbar,
-  showHorizontalScrollbar,
+const CustomScrollbar = ({
   children,
-  ...props
-}) {
-  const renderScrollView = props => {
-    return (
-      <Box
-        {...props}
-        right={showVerticalScrollbar ? "8px" : 0}
-        bottom={showHorizontalScrollbar ? "8px" : 0}
-      />
-    );
-  };
-
-  const renderScrollTrack = props => {
-    const [colorMode] = useColorMode();
-    const bgColor = {
-      dark: 'gray:70',
-      light: 'gray:70',
-    }[colorMode];
-    return (
-      <Box
-        {...props}
-        bg={bgColor}
-      />
-    );
-  };
-
-  return (
+  ...rest
+}) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {             
+    dark: 'gray:70',                         
+    light: 'gray:30',
+  }[colorMode];                                           
+                          
+  return ( 
     <Scrollbar
-      visibility="visible"
-      renderView={renderScrollView}
-      renderHorizontalTrack={renderScrollTrack}
-      renderVerticalTrack={renderScrollTrack}
-      {...props}
+      {...rest} 
     >
-      {children}
+      {({
+        ScrollView,
+        HorizontalTrack,
+        VerticalTrack,
+        HorizontalThumb,
+        VerticalThumb,
+        getScrollViewProps,
+        getHorizontalTrackProps,
+        getVerticalTrackProps,
+        getHorizontalThumbProps,
+        getVerticalThumbProps,
+      }) => (
+        <>
+          <ScrollView {...getScrollViewProps()}>
+            {children}
+          </ScrollView>
+          <HorizontalTrack
+            {...getHorizontalTrackProps()}
+            backgroundColor={backgroundColor}
+          >                                                                     
+            <HorizontalThumb {...getHorizontalThumbProps()} />
+          </HorizontalTrack>
+          <VerticalTrack
+            {...getVerticalTrackProps()}
+            backgroundColor={backgroundColor}
+          >
+            <VerticalThumb {...getVerticalThumbProps()} />
+          </VerticalTrack>
+        </>
+      )}
     </Scrollbar>
   );
 }
 
-function StickyTable() {
+function ScrollableTable() {
   const tableHeaderRef = React.createRef();
-  const [showHorizontalScrollbar, setShowHorizontalScrollbar] = React.useState(false);
-  const [showVerticalScrollbar, setShowVerticalScrollbar] = React.useState(false);
+  const [isHorizontalScrollbarVisible, setHorizontalScrollbarVisible] = React.useState(false);
+  const [isVerticalScrollbarVisible, setVerticalScrollbarVisible] = React.useState(false);
 
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
       accessor: 'eventType',
-      width: 240,
     },
     {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
-      width: 144,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
     {
       Header: 'Detections',
       accessor: 'detections',
-      width: 136,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -886,9 +884,18 @@ function StickyTable() {
     }
   };
 
-  const onUpdate = ({ hasHorizontalScrollbar, hasVerticalScrollbar, ...props }) => {
-    setShowHorizontalScrollbar(hasHorizontalScrollbar);
-    setShowVerticalScrollbar(hasVerticalScrollbar);
+  const onUpdate = (props) => {
+    const { scrollWidth, clientWidth, scrollHeight, clientHeight } = props;
+    const _isHorizontalScrollbarVisible = (scrollWidth > clientWidth);
+    const _isVerticalScrollbarVisible = (scrollHeight > clientHeight);
+
+    if (_isHorizontalScrollbarVisible !== isHorizontalScrollbarVisible) {
+      setHorizontalScrollbarVisible(_isHorizontalScrollbarVisible);
+    }
+
+    if (_isVerticalScrollbarVisible !== isVerticalScrollbarVisible) {
+      setVerticalScrollbarVisible(_isVerticalScrollbarVisible);
+    }
   };
 
   const {
@@ -916,7 +923,7 @@ function StickyTable() {
         {headerGroups.map(headerGroup => {
           const { style, ...props } = headerGroup.getHeaderGroupProps();
           let headerWidth = style.width;
-          if (showVerticalScrollbar) {
+          if (isVerticalScrollbarVisible) {
             headerWidth = `calc(${style.width} + 8px)`; // 8px is scrollbar width
           }
           return (
@@ -925,33 +932,32 @@ function StickyTable() {
                 <TableHeaderCell
                   key={column.accessor}
                   {...column.getHeaderProps()}
-                  {...column.customedProps}
-                  {...(showVerticalScrollbar && index === headerGroup.headers.length - 1) && {
+                  {...column.customProps}
+                  {...(isVerticalScrollbarVisible && index === headerGroup.headers.length - 1) && {
                     borderRight: 0,
                   }}
                 >
                   {column.render('Header')}
                 </TableHeaderCell>
               ))}
-              {showVerticalScrollbar && (
-                <TableHeaderCell width="8px" padding={0} borderLeft={0} />
+              {isVerticalScrollbarVisible && (
+                <TableHeaderCell width="2x" padding={0} borderLeft={0} />
               )}
             </TableHeaderRow>
           );
         })}
       </TableHeader>
       <CustomScrollbar
-        showVerticalScrollbar
-        showHorizontalScrollbar
         onScroll={onScroll}
         onUpdate={onUpdate}
       >
         <TableBody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
+          {rows.map((row, index) => {
             prepareRow(row);
             return (
               <TableRow
                 {...row.getRowProps()}
+                key={index}
                 _hover={{
                   bg: 'rgba(255, 255, 255, 0.12)'
                 }}
@@ -959,8 +965,9 @@ function StickyTable() {
                 {row.cells.map(cell => {
                   return (
                     <TableCell
+                      key={cell.id}
                       {...cell.getCellProps()}
-                      {...cell.column.customedProps}
+                      {...cell.column.customProps}
                     >
                       {cell.render('Cell')}
                     </TableCell>
@@ -975,7 +982,7 @@ function StickyTable() {
   );
 }
 
-render(<StickyTable />);
+render(<ScrollableTable />);
 ```
 
 
@@ -1000,7 +1007,7 @@ function FullWidthTable() {
       id: 'affectedDevices',
       accessor: 'affectedDevices',
       width: 140,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -1009,7 +1016,7 @@ function FullWidthTable() {
       id: 'detections',
       accessor: 'detections',
       width: '10%',
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -1095,7 +1102,7 @@ function FullWidthTable() {
                         <TableHeaderCell
                           width={_columnWidth}
                           {...column.getHeaderProps()}
-                          {...column.customedProps}
+                          {...column.customProps}
                         >
                           {column.render('Header')}
                         </TableHeaderCell>
@@ -1123,7 +1130,7 @@ function FullWidthTable() {
                             <TableCell
                               width={_columnWidth}
                               {...cell.getCellProps()}
-                              {...cell.column.customedProps}
+                              {...cell.column.customProps}
                             >
                               {cell.render('Cell')}
                             </TableCell>
@@ -1467,7 +1474,7 @@ function ReorderColumnTable() {
       Header: 'Affected Devices',
       accessor: 'affectedDevices',
       width: 144,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -1475,7 +1482,7 @@ function ReorderColumnTable() {
       Header: 'Detections',
       accessor: 'detections',
       width: 136,
-      customedProps: {
+      customProps: {
         textAlign: 'right',
       },
     },
@@ -1623,7 +1630,7 @@ function ReorderColumnTable() {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               {...columnHeaderProps}
-                              {...column.customedProps}
+                              {...column.customProps}
                               {...snapshot.isDragging && columnDraggerProps}
                               ref={provided.innerRef}
                               userSelect="none"
@@ -1664,7 +1671,7 @@ function ReorderColumnTable() {
                   return (
                     <TableCell
                       {...cell.getCellProps()}
-                      {...cell.column.customedProps}
+                      {...cell.column.customProps}
                     >
                       {cell.render('Cell')}
                     </TableCell>
