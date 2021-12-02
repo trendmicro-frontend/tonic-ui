@@ -9,34 +9,170 @@ workflows:
   version: 2
   build-n-deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore: gh-pages
-      - deploy-tonic-ui-docs:
-          requires:
-            - build
+      # The `build-master` job will run on all branches except `gh-pages` and will not run on tags.
+      - build-master:
           filters:
             branches:
               only: master
-      - deploy-tonic-ui-demo:
+      # The `deploy-master` job will run only on the `master` branch.
+      - deploy-master:
           requires:
-            - build
+            - build-master
           filters:
             branches:
-              ignore: master
+              only: master
+      # The `build-pr` job will run on all branches (except `gh-pages` and `master`) that have associated pull requests open.
+      - build-pr:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+                - master
+      # The `deploy-pr` job runs for all branches (except `gh-pages` and `master`) that have associated pull requests open.
+      - deploy-pr:
+          requires:
+            - build-pr
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+                - master
+      # The `build-tag` job will not run on all branches and will run only on the matched tags.
+      - build-tag:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only:
+                - /^styled-ui-docs.*/
+      # The `deploy-tag` job will not run on branches and will run on tags starting with 'styled-ui-docs'.
+      - deploy-tag:
+          requires:
+            - build-tag
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only:
+                - /^styled-ui-docs.*/
 
 # https://circleci.com/docs/2.0/executor-types/
 jobs:
-  build:
+  build-master:
     docker:
       - image: cimg/node:14.17.6-browsers
     steps:
       - browser-tools/install-browser-tools
       - checkout
       - run:
-          name: Setup environment variables
+          name: Setup environment
           command: |
+            echo "export CI_BRANCH=${CIRCLE_BRANCH}" >> $BASH_ENV
+            echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
+            echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
+            echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
+            echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+      - run:
+          name: Check package version
+          command: |
+            git --version
+            node --version
+            java --version
+            google-chrome --version
+            npm --version
+            yarn --version
+      - run:
+          name: Install packages
+          command: |
+            yarn
+            yarn list --silent react react-dom
+      - run:
+          name: Test
+          command: |
+            yarn test
+      - run:
+          name: Build
+          command: |
+            echo "ASSET_PREFIX=/tonic-ui/react/latest" > packages/docs/.env.production
+            yarn build
+            yarn eslint
+      - run:
+          name: Compress build artifacts
+          command: |
+            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory.
+          # This is a directory on the container which is taken to be the root directory of the workspace.
+          root: .
+          paths:
+            - ci.tar.gz
+
+  build-pr:
+    docker:
+      - image: cimg/node:14.17.6-browsers
+    steps:
+      - browser-tools/install-browser-tools
+      - checkout
+      - run:
+          name: Setup environment
+          command: |
+            echo "export CI_BRANCH=${CIRCLE_BRANCH}" >> $BASH_ENV
+            echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
+            echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
+            echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
+            echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
+            echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+      - run:
+          name: Check package version
+          command: |
+            git --version
+            node --version
+            java --version
+            google-chrome --version
+            npm --version
+            yarn --version
+      - run:
+          name: Install packages
+          command: |
+            yarn
+            yarn list --silent react react-dom
+      - run:
+          name: Test
+          command: |
+            yarn test
+      - run:
+          name: Build
+          command: |
+            echo "ASSET_PREFIX=/tonic-ui-demo/react/pr-${CI_PULL_REQUEST_NUMBER}" > packages/docs/.env.production
+            yarn build
+            yarn eslint
+      - run:
+          name: Compress build artifacts
+          command: |
+            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory.
+          # This is a directory on the container which is taken to be the root directory of the workspace.
+          root: .
+          paths:
+            - ci.tar.gz
+
+  build-tag:
+    docker:
+      - image: cimg/node:14.17.6-browsers
+    steps:
+      - browser-tools/install-browser-tools
+      - checkout
+      - run:
+          name: Setup environment
+          command: |
+            PACKAGE_VERSION=$(cat packages/docs/package.json \
+              | grep version \
+              | head -1 \
+              | awk -F: '{ print $2 }' \
+              | sed 's/[",]//g' \
+              | tr -d '[[:space:]]')
+            echo "export PACKAGE_VERSION=${PACKAGE_VERSION}" >> $BASH_ENV
             echo "export CI_BRANCH=${CIRCLE_BRANCH}" >> $BASH_ENV
             echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
@@ -63,17 +199,13 @@ jobs:
       - run:
           name: Build
           command: |
-            if [[ "${CI_BRANCH}" != "master" ]]; then
-              CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}
-              TONIC_UI_DEMO_REPO=tonic-ui-demo
-              echo "ASSET_PREFIX=/${TONIC_UI_DEMO_REPO}/pr-${CI_PULL_REQUEST_NUMBER}" > packages/docs/.env.production
-            fi
+            echo "ASSET_PREFIX=/tonic-ui/react/${PACKAGE_VERSION}" > packages/docs/.env.production
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --directory packages/docs docs
+            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
@@ -81,7 +213,7 @@ jobs:
           paths:
             - ci.tar.gz
 
-  deploy-tonic-ui-docs:
+  deploy-master:
     docker:
       - image: cimg/node:12.22
     steps:
@@ -92,7 +224,8 @@ jobs:
             git config --global user.name "ci-build"
             npm config set loglevel warn
             npm config set scripts-prepend-node-path auto
-      - checkout
+      - checkout:
+          path: tonic-ui
       - add_ssh_keys:
           fingerprints:
             - "92:e5:99:6a:e1:24:28:b6:fb:a4:33:9a:a1:b1:a7:c6"
@@ -100,23 +233,32 @@ jobs:
           # Must be absolute path or relative path from working_directory
           at: workspace
       - run:
+          name: Setup environment
+          command: |
+            echo "export CI_BRANCH=${CIRCLE_BRANCH}" >> $BASH_ENV
+            echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
+            echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
+            echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
+            echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
+            echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+      - run:
           name: Extract build artifacts
           command: |
-            tar zxvf workspace/ci.tar.gz
+            mkdir -p dist
+            tar -zxvf workspace/ci.tar.gz --directory dist
       - run:
-          name: Disable jekyll builds
+          name: Deploy to gh-pages
           command: |
-            touch docs/.nojekyll
-      - run:
-          name: Deploy docs to gh-pages branch
-          command: |
-            npx --yes -- gh-pages \
-              --dist "docs" \
-              --dotfiles \
-              --message '[ci skip] deploy docs to gh-pages' \
-              --no-history
+            cd tonic-ui
+            git checkout gh-pages
+            rm -rf react/latest
+            mkdir -p react/latest
+            cp -af ../dist/react/** react/latest/
+            git add react/latest
+            git commit -m "[CI] Deploy ${CI_COMMIT_SHORT} to gh-pages"
+            git push origin gh-pages
 
-  deploy-tonic-ui-demo:
+  deploy-pr:
     docker:
       - image: cimg/node:12.22
     steps:
@@ -127,7 +269,8 @@ jobs:
             git config --global user.name "ci-build"
             npm config set loglevel warn
             npm config set scripts-prepend-node-path auto
-      - checkout
+      - checkout:
+          path: tonic-ui
       - add_ssh_keys:
           fingerprints:
             - "73:b4:70:76:97:74:c2:f5:c9:bf:71:83:8c:a6:da:a6"
@@ -135,7 +278,7 @@ jobs:
           # Must be absolute path or relative path from working_directory
           at: workspace
       - run:
-          name: Setup environment variables
+          name: Setup environment
           command: |
             echo "export CI_BRANCH=${CIRCLE_BRANCH}" >> $BASH_ENV
             echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
@@ -149,22 +292,71 @@ jobs:
       - run:
           name: Extract build artifacts
           command: |
-            tar zxvf workspace/ci.tar.gz
+            mkdir -p dist
+            tar -zxvf workspace/ci.tar.gz --directory dist
       - run:
-          name: Deploy docs to gh-pages branch
+          name: Deploy to gh-pages
           command: |
-            git clone ${TONIC_UI_DEMO_REPO_URL} .${TONIC_UI_DEMO_REPO}
-            cd .${TONIC_UI_DEMO_REPO}
+            git clone ${TONIC_UI_DEMO_REPO_URL} ${TONIC_UI_DEMO_REPO}
+            cd ${TONIC_UI_DEMO_REPO}
             git checkout gh-pages
-            rm -rf .git
-            rm -rf "pr-${CI_PULL_REQUEST_NUMBER}"
-            mkdir -p "pr-${CI_PULL_REQUEST_NUMBER}"
-            cp -af ../docs/** "pr-${CI_PULL_REQUEST_NUMBER}/"
-            git init
-            git checkout --orphan gh-pages
-            git add .
+            rm -rf "react/pr-${CI_PULL_REQUEST_NUMBER}"
+            mkdir -p "react/pr-${CI_PULL_REQUEST_NUMBER}"
+            cp -af ../dist/react/** "react/pr-${CI_PULL_REQUEST_NUMBER}/"
+            git add "react/pr-${CI_PULL_REQUEST_NUMBER}"
             git commit -m "Deploy pr-${CI_PULL_REQUEST_NUMBER} to ${TONIC_UI_DEMO_REPO_URL}"
-            git remote add origin ${TONIC_UI_DEMO_REPO_URL}
-            git push -u --force ${TONIC_UI_DEMO_REPO_URL} gh-pages
+            git push -u ${TONIC_UI_DEMO_REPO_URL} gh-pages
             cd ..
-            npx --yes -- octokit-cli issues create-comment --owner trendmicro-frontend --repo tonic-ui --issue_number ${CI_PULL_REQUEST_NUMBER} --body "Successfully deployed ${CI_COMMIT} to ${TONIC_UI_DEMO_URL}/pr-${CI_PULL_REQUEST_NUMBER}/"
+            npx --yes -- octokit-cli issues create-comment --owner trendmicro-frontend --repo tonic-ui --issue_number ${CI_PULL_REQUEST_NUMBER} --body "Successfully deployed ${CI_COMMIT} to ${TONIC_UI_DEMO_URL}/react/pr-${CI_PULL_REQUEST_NUMBER}/"
+
+  deploy-tag:
+    docker:
+      - image: cimg/node:12.22
+    steps:
+      - run:
+          name: Configuration
+          command: |
+            git config --global user.email "no-reply@github.com"
+            git config --global user.name "ci-build"
+            npm config set loglevel warn
+            npm config set scripts-prepend-node-path auto
+      - checkout:
+          path: tonic-ui
+      - add_ssh_keys:
+          fingerprints:
+            - "92:e5:99:6a:e1:24:28:b6:fb:a4:33:9a:a1:b1:a7:c6"
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: workspace
+      - run:
+          name: Setup environment
+          command: |
+            PACKAGE_VERSION=$(cat tonic-ui/packages/docs/package.json \
+              | grep version \
+              | head -1 \
+              | awk -F: '{ print $2 }' \
+              | sed 's/[",]//g' \
+              | tr -d '[[:space:]]')
+            echo "export PACKAGE_VERSION=${PACKAGE_VERSION}" >> $BASH_ENV
+            echo "export CI_BRANCH=${CIRCLE_BRANCH}" >> $BASH_ENV
+            echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
+            echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
+            echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
+            echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
+            echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+      - run:
+          name: Extract build artifacts
+          command: |
+            mkdir -p dist
+            tar -zxvf workspace/ci.tar.gz --directory dist
+      - run:
+          name: Deploy to gh-pages
+          command: |
+            cd tonic-ui
+            git checkout gh-pages
+            rm -rf "react/${PACKAGE_VERSION}"
+            mkdir -p "react/${PACKAGE_VERSION}"
+            cp -af ../dist/react/** "react/${PACKAGE_VERSION}/"
+            git add "react/${PACKAGE_VERSION}"
+            git commit -m "[CI] Deploy '${PACKAGE_VERSION}' to 'gh-pages' (tag='${CI_TAG}')"
+            git push origin gh-pages
