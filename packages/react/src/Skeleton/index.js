@@ -28,6 +28,7 @@ const Skeleton = forwardRef((
 
   return (
     <Box
+      ref={ref}
       css={css}
       {...styleProps}
       {...props}

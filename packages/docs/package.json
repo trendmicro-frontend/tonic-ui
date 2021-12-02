@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production next build",
-    "clean": "del build docs",
+    "clean": "del build dist",
     "dev": "next dev --hostname 0.0.0.0",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
-    "postbuild": "next export --outdir docs && touch docs/.nojekyll",
+    "postbuild": "next export --outdir dist/react",
     "pre-push": "yarn run eslint",
     "start": "next start",
     "test": "jest --passWithNoTests"
@@ -51,6 +51,7 @@
     "immutability-helper": "^3.1.1",
     "jest": "^27.3.1",
     "jest-extended": "^1.1.0",
+    "lorem-ipsum": "^2.0.4",
     "next": "^12.0.1",
     "next-compose-plugins": "^2.2.1",
     "node-emoji": "^1.11.0",
@@ -63,7 +64,6 @@
     "react-dom": "^16.8.0 || ^17",
     "react-ga": "^3.3.0",
     "react-live": "^2.3.0",
-    "react-lorem-component": "^0.13.0",
     "react-movable": "^2.5.4",
     "react-table": "^7.7.0",
     "react-virtualized": "^9.22.3",

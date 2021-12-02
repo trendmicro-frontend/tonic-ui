@@ -35,10 +35,13 @@ import {
 function basicMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { isOpen, onClose, onToggle } = useDisclosure();
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     onToggle();
+  };
+  const handleMenuItemClick = (event) => {
+    const value = event.target.getAttribute('value');
+    console.log(`Menu item #${value} clicked`);
   };
 
   return (
@@ -49,10 +52,10 @@ function basicMenu() {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <MenuList>
-          <MenuItem>List item</MenuItem>
-          <MenuItem>List item</MenuItem>
-          <MenuItem>List item</MenuItem>
+        <MenuList onClick={handleMenuItemClick}>
+          <MenuItem value={1}>List item</MenuItem>
+          <MenuItem value={2}>List item</MenuItem>
+          <MenuItem valie={3}>List item</MenuItem>
         </MenuList>
       </Menu>
     </>

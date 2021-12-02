@@ -14,6 +14,9 @@ const config = {
   backgroundAttachment: true,
   backgroundClip: true,
 
+  // Color
+  colorScheme: true,
+
   // Containment
   contain: true,
   containIntrinsicSize: true,

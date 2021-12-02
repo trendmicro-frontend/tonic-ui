@@ -8,8 +8,7 @@ const TableRow = forwardRef(({
   children,
   ...props
 }, ref) => {
-  // TODO: isHoverable is deprecated and will be removed in the v1 release
-  const { isHoverable } = useTableContext();
+  const { isHoverable } = useTableContext(); // deprecated
   const [colorMode] = useColorMode();
   const isDark = colorMode === 'dark';
   const bg = isDark ? 'white' : 'black';
