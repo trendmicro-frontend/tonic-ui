@@ -1,58 +1,96 @@
 import React, { forwardRef } from 'react';
-import useBadgeStyle from './styles';
 import Box from '../Box';
+import useEffectOnce from '../hooks/useEffectOnce';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import {
+  useBadgeStyle,
+  useBadgeContentStyle,
+  useBadgeContentPlacementStyle,
+} from './styles';
 
-const Badge = forwardRef(
-  (
-    {
-      variant = 'badge',
-      variantColor = 'red',
-      badgeContent,
-      isHidden = false,
-      children,
-      offset,
-      dotSize = 8,
-      borderColor,
-      borderWidth = 1,
-      ...restProps
-    },
-    ref,
-  ) => {
-    const badgeBorderColor = borderColor ?? variantColor;
-    const badgeStyleProps = useBadgeStyle({
-      color: variantColor,
-      hasChildren: !!children,
-      showAsDot: variant === 'dot',
-      offset,
-      dotSize,
-      borderColor: badgeBorderColor,
-      borderWidth
-    });
+const Badge = forwardRef((
+  {
+    isHidden, // deprecated
+    variantColor, // deprecated
+    variant = 'solid',
+    badgeContent,
+    children,
+    placement = 'top-right',
+    //offset,
+    //dotSize = 8,
+    ...rest
+  },
+  ref,
+) => {
+  useEffectOnce(() => {
+    if (isHidden !== undefined) {
+      warnDeprecatedProps('isHidden', {
+        message: 'Use \'badgeContent={null}\' instead or do not pass the `badgeContent` prop.',
+        willRemove: true,
+      });
+    }
 
+    if (variant === 'badge') {
+      warnDeprecatedProps('variant="badge"', {
+        alternative: 'variant="solid"',
+        willRemove: true,
+      });
+    }
+
+    if (variantColor !== undefined) {
+      warnDeprecatedProps('variantColor', {
+        alternative: 'background',
+        willRemove: true,
+      });
+    }
+  });
+
+  { // map deprecated props to new props
+    if (isHidden) {
+      badgeContent = null;
+    }
+    if (variant === 'badge') {
+      variant = 'solid';
+    }
+    if (variantColor) {
+      rest.backgroundColor = rest.backgroundColor ?? variantColor;
+    }
+  }
+
+  const badgeStyle = useBadgeStyle();
+  const badgeContentStyle = useBadgeContentStyle({ variant });
+  const badgeContentPlacementStyle = useBadgeContentPlacementStyle({ placement });
+
+  if (!children && badgeContent) {
     return (
       <Box
-        as="span"
-        position="relative"
-        display="inline-block"
+        ref={ref}
+        {...badgeContentStyle}
+        {...rest}
       >
-        {children}
-        {!isHidden && (
-          <Box
-            ref={ref}
-            as="span"
-            fontWeight="normal"
-            borderRadius="sm"
-            whiteSpace="nowrap"
-            {...badgeStyleProps}
-            {...restProps}
-          >
-            {badgeContent}
-          </Box>
-        )}
+        {badgeContent}
       </Box>
     );
   }
-);
+
+  return (
+    <Box
+      {...badgeStyle}
+    >
+      {children}
+      {badgeContent && (
+        <Box
+          ref={ref}
+          {...badgeContentStyle}
+          {...badgeContentPlacementStyle}
+          {...rest}
+        >
+          {badgeContent}
+        </Box>
+      )}
+    </Box>
+  );
+});
 
 Badge.displayName = 'Badge';
 
