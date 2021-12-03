@@ -27,6 +27,7 @@ const getSolidBadgeContentStyle = ({
 
 const useBadgeStyle = () => {
   return {
+    display: 'inline-flex',
     position: 'relative',
     width: 'fit-content',
   };
