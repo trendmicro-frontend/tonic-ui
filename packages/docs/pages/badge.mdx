@@ -38,7 +38,7 @@ import { Badge } from '@trendmicro/react-styled-ui';
   <Badge
     badgeContent={<Text fontFamily="mono" fontSize="xs">999+</Text>}
   >
-    <Icon icon="alert" mt="1x" mr="2x" />
+    <Icon icon="alert" mr="2x" />
   </Badge>
   <Badge>
     <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
@@ -84,6 +84,7 @@ const OutlineBadge = React.forwardRef((props, ref) => {
     dark: 'white:primary',
     light: 'black:primary',
   }[colorMode];
+  const minWidth = '5x';
 
   return (
     <Badge
@@ -93,6 +94,7 @@ const OutlineBadge = React.forwardRef((props, ref) => {
       borderWidth={borderWidth}
       boxShadow={boxShadow}
       color={color}
+      minWidth={minWidth}
       {...props}
     />
   );
@@ -122,7 +124,7 @@ function Example() {
       <OutlineBadge
         badgeContent={<Text fontFamily="mono" fontSize="xs">999+</Text>}
       >
-        <Icon icon="alert" mt="1x" mr="2x" />
+        <Icon icon="alert" mr="2x" />
       </OutlineBadge>
       <OutlineBadge>
         <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
