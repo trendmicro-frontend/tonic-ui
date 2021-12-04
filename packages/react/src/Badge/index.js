@@ -1,7 +1,9 @@
+import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import useEffectOnce from '../hooks/useEffectOnce';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import {
   useBadgeStyle,
   useBadgeContentStyle,
@@ -12,12 +14,13 @@ const Badge = forwardRef((
   {
     isHidden, // deprecated
     variantColor, // deprecated
-    variant = 'solid',
-    badgeContent,
+    dotSize, // removed
+    offset, // removed
+    badgeContent: badgeContentProp,
     children,
-    placement = 'top-right',
-    //offset,
-    //dotSize = 8,
+    isInvisible: isInvisibleProp,
+    placement = 'top-right', // One of: 'top-left', 'top-right', 'bottom-left', 'bottom-right'
+    variant = 'solid',
     ...rest
   },
   ref,
@@ -25,7 +28,7 @@ const Badge = forwardRef((
   useEffectOnce(() => {
     if (isHidden !== undefined) {
       warnDeprecatedProps('isHidden', {
-        message: 'Use \'badgeContent={null}\' instead or do not pass the `badgeContent` prop.',
+        alternative: 'isInvisible',
         willRemove: true,
       });
     }
@@ -43,11 +46,23 @@ const Badge = forwardRef((
         willRemove: true,
       });
     }
+
+    if (dotSize !== undefined) {
+      warnRemovedProps('dotSize', {
+        alternative: ['width', 'height'],
+      });
+    }
+
+    if (offset !== undefined) {
+      warnRemovedProps('offset', {
+        alternative: ['left', 'top'],
+      });
+    }
   });
 
   { // map deprecated props to new props
-    if (isHidden) {
-      badgeContent = null;
+    if (isHidden !== undefined) {
+      isInvisibleProp = ensureBoolean(isHidden);
     }
     if (variant === 'badge') {
       variant = 'solid';
@@ -57,11 +72,19 @@ const Badge = forwardRef((
     }
   }
 
+  const badgeContent = (variant === 'dot') ? null : badgeContentProp;
+  const isInvisible = isInvisibleProp ?? (() => {
+    if ((badgeContent === null || badgeContent === undefined) && (variant !== 'dot')) {
+      return true;
+    }
+    return false;
+  })();
+
   const badgeStyle = useBadgeStyle();
   const badgeContentStyle = useBadgeContentStyle({ variant });
   const badgeContentPlacementStyle = useBadgeContentPlacementStyle({ placement });
 
-  if (!children && badgeContent) {
+  if (!children && !isInvisible) {
     return (
       <Box
         ref={ref}
@@ -78,7 +101,7 @@ const Badge = forwardRef((
       {...badgeStyle}
     >
       {children}
-      {badgeContent && (
+      {!isInvisible && (
         <Box
           ref={ref}
           {...badgeContentStyle}
