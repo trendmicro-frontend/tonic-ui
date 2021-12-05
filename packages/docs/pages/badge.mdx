@@ -215,6 +215,24 @@ function Example() {
 }
 ```
 
+### Size
+
+The size of the badge can be changed by passing the `width` and `height` props.
+
+```jsx
+<Stack direction="row" spacing="8x" shouldWrapChildren>
+  <Badge badgeContent={5} width="4x" height="4x" minWidth="4x" fontSize="xs">
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+  <Badge badgeContent={5} width="5x" height="5x" minWidth="5x" fontSize="sm">
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+  <Badge badgeContent={5} width="6x" height="6x" minWidth="6x" fontSize="md">
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+</Stack>
+```
+
 ### Customization
 
 You can customize the badge style by passing style props. See the following example to learn how to create a outline badge.
