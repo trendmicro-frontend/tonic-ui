@@ -12,6 +12,8 @@ import { Badge } from '@trendmicro/react-styled-ui';
 
 ### Basic badge
 
+To display the badge on the top-right corner of the wrapped component, specify the `badgeContent` prop with the desired content.
+
 ```jsx
 <Grid
   columnGap="8x"
@@ -78,15 +80,15 @@ Use `variant="dot"` to change a badge into a small dot. This can be used as a no
 
 ### Standalone badge
 
-The badge can be standalone when children is not provided. This can be useful for displaying a badge without a surrounding element.
+The badge can be used as a standalone component. This can be useful for displaying a badge without a surrounding element.
 
 ```jsx
 <Stack direction="row" spacing="8x" alignItems="center" shouldWrapChildren>
   <Badge variant="dot" />
-  <Badge badgeContent={0} />
-  <Badge badgeContent={5} />
-  <Badge badgeContent="99+" />
-  <Badge badgeContent={<Icon icon="virus" size="4x" />} px="1x" py="1x" />
+  <Badge variant="solid" badgeContent={0} />
+  <Badge variant="solid" badgeContent={5} />
+  <Badge variant="solid" badgeContent="99+" />
+  <Badge variant="solid" badgeContent={<Icon icon="virus" size="4x" />} px="1x" py="1x" />
 </Stack>
 ```
 
@@ -295,7 +297,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| badgeContent | node \| string | | The badge content. |
+| badgeContent | node \| number \| string | | The badge content. |
 | isInvisible | boolean | | Whether the badge is invisible. |
 | placement | string | 'top-right' | The placement of the badge. One of: 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
 | variant | string | 'solid' | One of: 'solid', 'dot' |
