@@ -1,9 +1,12 @@
-import { ensureBoolean } from 'ensure-type';
+import {
+  ensureArray,
+  ensureBoolean,
+} from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import useEffectOnce from '../hooks/useEffectOnce';
+import useTheme from '../useTheme';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
-import warnRemovedProps from '../utils/warnRemovedProps';
 import {
   useBadgeStyle,
   useBadgeContentStyle,
@@ -12,10 +15,11 @@ import {
 
 const Badge = forwardRef((
   {
-    isHidden, // deprecated
-    variantColor, // deprecated
-    dotSize, // removed
-    offset, // removed
+    dotSize: dotSizeProp, // deprecated
+    isHidden: isHiddenProp, // deprecated
+    offset: offsetProp, // deprecated
+    variantColor: variantColorProp, // deprecated
+
     badgeContent: badgeContentProp,
     children,
     isInvisible: isInvisibleProp,
@@ -25,10 +29,26 @@ const Badge = forwardRef((
   },
   ref,
 ) => {
+  const theme = useTheme();
+
   useEffectOnce(() => {
-    if (isHidden !== undefined) {
+    if (dotSizeProp !== undefined) {
+      warnDeprecatedProps('dotSize', {
+        alternative: ['width', 'height'],
+        willRemove: true,
+      });
+    }
+
+    if (isHiddenProp !== undefined) {
       warnDeprecatedProps('isHidden', {
         alternative: 'isInvisible',
+        willRemove: true,
+      });
+    }
+
+    if (offsetProp !== undefined) {
+      warnDeprecatedProps('offset', {
+        alternative: ['right', 'top'],
         willRemove: true,
       });
     }
@@ -40,34 +60,36 @@ const Badge = forwardRef((
       });
     }
 
-    if (variantColor !== undefined) {
+    if (variantColorProp !== undefined) {
       warnDeprecatedProps('variantColor', {
-        alternative: 'background',
+        alternative: 'backgroundColor',
         willRemove: true,
-      });
-    }
-
-    if (dotSize !== undefined) {
-      warnRemovedProps('dotSize', {
-        alternative: ['width', 'height'],
-      });
-    }
-
-    if (offset !== undefined) {
-      warnRemovedProps('offset', {
-        alternative: ['left', 'top'],
       });
     }
   });
 
   { // map deprecated props to new props
-    if (isHidden !== undefined) {
-      isInvisibleProp = ensureBoolean(isHidden);
+    if (variant === 'dot' && dotSizeProp !== undefined) {
+      rest.height = rest.height ?? dotSizeProp;
+      rest.width = rest.width ?? dotSizeProp;
+    }
+    if (isHiddenProp !== undefined) {
+      isInvisibleProp = ensureBoolean(isHiddenProp);
+    }
+    if (offsetProp !== undefined) {
+      const [offsetX, offsetY] = ensureArray(offsetProp);
+      if (offsetX !== undefined) {
+        rest.right = rest.right ?? offsetX;
+      }
+      if (offsetY !== undefined) {
+        rest.top = rest.top ?? offsetY;
+      }
     }
     if (variant === 'badge') {
       variant = 'solid';
     }
-    if (variantColor) {
+    if (variantColorProp !== undefined) {
+      const variantColor = theme?.colors?.[`${variantColorProp}:60`] ?? theme?.colors?.[`${variantColorProp}:50`] ?? variantColorProp;
       rest.backgroundColor = rest.backgroundColor ?? variantColor;
     }
   }
