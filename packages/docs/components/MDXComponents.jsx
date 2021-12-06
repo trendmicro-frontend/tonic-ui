@@ -5,7 +5,7 @@ import {
   Image,
   Link,
   useColorMode,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import Code from './Code';
 import CodeBlock from './CodeBlock';
 

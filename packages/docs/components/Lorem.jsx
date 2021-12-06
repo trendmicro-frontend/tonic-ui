@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import {
   Box,
   useColorMode,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 
 const Lorem = forwardRef((
   {

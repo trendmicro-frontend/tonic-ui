@@ -3,7 +3,7 @@ import {
   useTheme,
   useColorMode,
   useColorStyle,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import {
   ensureArray,
   ensureString,

@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, useTheme } from '@trendmicro/react-styled-ui';
+import { Box, Flex, Stack, useTheme } from '@tonic-ui/react';
 import {
   ensureString,
 } from 'ensure-type';

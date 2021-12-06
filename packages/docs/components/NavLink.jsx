@@ -1,7 +1,7 @@
 import {
   Box,
   useColorMode,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';

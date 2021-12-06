@@ -5,7 +5,7 @@ import {
   Image,
   Text,
   useColorMode,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';

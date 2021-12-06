@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Text } from '@trendmicro/react-styled-ui';
+import { Flex, Text } from '@tonic-ui/react';
 
 const Error = ({ statusCode }) => {
   const errorDescription = {

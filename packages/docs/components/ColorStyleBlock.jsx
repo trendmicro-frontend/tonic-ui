@@ -5,7 +5,7 @@ import {
   Text,
   useColorMode,
   useColorStyle,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import React from 'react';
 
 const baseWidth = 120;

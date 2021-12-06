@@ -3,7 +3,7 @@ import {
   useColorMode,
   useColorStyle,
   useTheme,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import React from 'react';
 import CodeBlock from './CodeBlock';
 import jsonPrettify from './json-prettify';

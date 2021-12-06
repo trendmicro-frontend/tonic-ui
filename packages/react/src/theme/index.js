@@ -1,4 +1,4 @@
-import defaultTheme from '@trendmicro/styled-ui-theme';
+import defaultTheme from '@tonic-ui/theme';
 import icons from './icons';
 
 const theme = {

@@ -24,7 +24,7 @@
     "@emotion/styled": "11.x",
     "@popperjs/core": "2.x",
     "@styled-system/css": "5.x",
-    "@trendmicro/styled-ui-theme": "^0.14.0",
+    "@tonic-ui/theme": "^1.0.0-alpha",
     "@trendmicro/tmicon": "^1.21.0",
     "chained-function": "^0.5.0",
     "color": "3.x",

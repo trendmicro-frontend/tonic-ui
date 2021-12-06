@@ -5,7 +5,7 @@ import {
   Text,
   useColorMode,
   useTheme,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 
 const noop = () => {};

@@ -3,7 +3,7 @@
 Install Tonic UI and its peer dependencies.
 
 ```bash
-npm install @trendmicro/react-styled-ui
+npm install @tonic-ui/react
 ```
 
 Optionally, yoiu can create a theme object and pass it to the `<ThemeProvider>` component.
@@ -33,7 +33,7 @@ export default {
 You can extend the theme object to add custom styles, including colors, fonts, and more.
 
 ```js
-import { theme } from '@trendmicro/react-styled-ui';
+import { theme } from '@tonic-ui/react';
 
 // Let's say you want to add custom colors
 const customTheme = {
@@ -55,7 +55,7 @@ object as a prop.
 ```js
 import React from 'react';
 import { render } from 'react-dom';
-import { ThemeProvider } from '@trendmicro/react-styled-ui';
+import { ThemeProvider } from '@tonic-ui/react';
 
 render(
   <ThemeProvider theme={customTheme}>
@@ -67,10 +67,10 @@ render(
 
 ## Using components
 
-Import components using named imports from `@trendmicro/react-styled-ui`, as shown below:
+Import components using named imports from `@tonic-ui/react`, as shown below:
 
 ```js
-import { Button } from '@trendmicro/react-styled-ui';
+import { Button } from '@tonic-ui/react';
 ```
 
 ## Recommended setup
@@ -90,7 +90,7 @@ import {
   ToastProvider,
   useColorMode,
   useTheme,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 
 import App from './App';
 

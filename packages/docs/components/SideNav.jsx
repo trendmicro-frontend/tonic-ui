@@ -3,7 +3,7 @@ import {
   Text,
   useColorMode,
   useTheme,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import NavLink from './NavLink';

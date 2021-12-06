@@ -1,7 +1,7 @@
 import {
   Box,
   useColorMode,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import React from 'react';
 
 const ColorStyleContent = (props) => {

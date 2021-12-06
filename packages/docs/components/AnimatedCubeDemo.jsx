@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/react';
-import { Box, Image, Stack, Text, Icon, useColorMode } from '@trendmicro/react-styled-ui';
+import { Box, Image, Stack, Text, Icon, useColorMode } from '@tonic-ui/react';
 import React from 'react';
 import Cube from './Cube';
 

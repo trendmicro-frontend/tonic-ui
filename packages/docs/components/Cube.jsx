@@ -1,4 +1,4 @@
-import { Box, useColorMode } from '@trendmicro/react-styled-ui';
+import { Box, useColorMode } from '@tonic-ui/react';
 import React, { useContext } from 'react';
 
 const CubeContext = React.createContext();

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { mdx } from '@mdx-js/react';
-import * as styledUIComponents from '@trendmicro/react-styled-ui';
+import * as styledUIComponents from '@tonic-ui/react';
 import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
