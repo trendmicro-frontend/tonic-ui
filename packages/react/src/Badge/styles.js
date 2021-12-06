@@ -11,10 +11,10 @@ const getSolidBadgeContentStyle = ({
   }[colorMode];
   const borderRadius = theme?.sizes?.['4x'];
   const boxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = theme?.colors?.[{
-    dark: 'gray:100',
+  const boxShadowColor = {
+    dark: theme?.colors?.['gray:100'],
     light: 'white',
-  }[colorMode]];
+  }[colorMode];
   const boxShadow = `0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`;
   const color = {
     dark: 'white:primary',
@@ -44,10 +44,10 @@ const getDotBadgeContentStyle = ({
   }[colorMode];
   const borderRadius = theme?.sizes?.['2x'];
   const boxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = theme?.colors?.[{
-    dark: 'gray:100',
+  const boxShadowColor = {
+    dark: theme?.colors?.['gray:100'],
     light: 'white',
-  }[colorMode]];
+  }[colorMode];
   const boxShadow = `0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`;
   const color = {
     dark: 'white:primary',
