@@ -10,120 +10,300 @@ import { Badge } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
-```jsx
-<Stack direction="column" spacing="4x" shouldWrapChildren>
-  <Stack direction="row" spacing="6x" shouldWrapChildren>
-    <Badge badgeContent="5+">
-      <Icon icon="alert" />
-    </Badge>
-    <Badge badgeContent="99+">
-      <Icon icon="alert" />
-    </Badge>
-    <Badge badgeContent="87">
-      <Icon icon="alert" />
-    </Badge>
-    <Badge variant="dot" offset={[4, 2]} borderColor="gray:100">
-      <Icon icon="alert" />
-    </Badge>
-    <Badge variant="dot" dotSize={6} offset={[4, 2]} borderColor="gray:100">
-      <Icon icon="alert" />
-    </Badge>
-    <Badge isHidden>
-      <Icon icon="alert" />
-    </Badge>
-    <Badge badgeContent={0}>
-      <Icon icon="alert" />
-    </Badge>
-    <Badge badgeContent="!">
-      <Icon icon="alert" />
-    </Badge>
-    <Badge badgeContent={<Text color="yellow:50">Text</Text>}>
-      <Icon icon="alert" />
-    </Badge>
-  </Stack>
-  <Stack direction="row" spacing="6x" shouldWrapChildren>
-    <Badge badgeContent="5+">
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-    <Badge badgeContent="99+">
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-    <Badge badgeContent="87">
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-    <Badge variant="dot" borderColor="gray:100">
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-    <Badge variant="dot" dotSize={6} borderColor="gray:100">
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-    <Badge isHidden>
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-    <Badge badgeContent={0}>
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-    <Badge badgeContent="!">
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-    <Badge badgeContent={<Text color="yellow:50">Text</Text>}>
-      <Skeleton variant="rect" width={42} height={42} />
-    </Badge>
-  </Stack>
-</Stack>
-```
+### Basic badge
 
-### Badge color
-
-* Pass the `variantColor` prop to customize the color of the Badge. `variantColor`
-can be any **color key with key 60** that exists in the `theme.colors`.
-  > Thats mean the `green:60` exists in the `theme.colors` then can use variantColor="green".
-
-* [Learn more about theming](./theme).
+To display the badge on the top-right corner of the wrapped component, specify the `badgeContent` prop with the desired content.
 
 ```jsx
-<Stack direction="row" spacing="4x">
-  <Badge badgeContent={1} />
-  <Badge variantColor="orange" badgeContent={2} />
-  <Badge variantColor="yellow" badgeContent={3} />
-  <Badge variantColor="green" badgeContent={4} />
-  <Badge variantColor="blue" badgeContent={5} />
-  <Badge variantColor="gray" badgeContent={6} />
-  <Badge variantColor="magenta" badgeContent={7} />
-  <Badge variantColor="purple" badgeContent={8} />
-  <Badge variantColor="teal" badgeContent={9} />
-  <Badge variantColor="cyan" badgeContent={10} />
-</Stack>
-```
-
-### Badge border color
-
-* Pass the `borderColor` or `borderWidth` props to customize the border of the Badge. It only effect on wrapped children.
-
-```jsx
-<Stack direction="row" spacing="6x" shouldWrapChildren>
-  <Badge badgeContent="5" borderColor="orange:50">
+<Grid
+  columnGap="8x"
+  justifyItems="center"
+  rowGap="8x"
+  templateColumns="repeat(5,1fr)"
+  width="min-content"
+>
+  <Badge>
     <Icon icon="alert" />
   </Badge>
-  <Badge badgeContent="5">
-    <Icon icon="alert" borderColor="orange:50" borderWidth={3} />
-  </Badge>
-  <Badge badgeContent="5" borderColor="orange:50">
+  <Badge badgeContent={0}>
     <Icon icon="alert" />
   </Badge>
-  <Badge variant="dot" offset={[4, 2]} borderColor="orange:50" borderWidth={3}>
+  <Badge badgeContent={5}>
+    <Icon icon="alert" />
+  </Badge>
+  <Badge badgeContent="99+">
+    <Icon icon="alert" />
+  </Badge>
+  <Badge
+    badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
+  >
+    <Icon icon="alert" />
+  </Badge>
+  <Badge>
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+  <Badge badgeContent={0}>
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+  <Badge badgeContent={5}>
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+  <Badge badgeContent="99+">
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+  <Badge
+    badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
+  >
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+</Grid>
+```
+
+### Dot badge
+
+Use `variant="dot"` to change a badge into a small dot. This can be used as a notification that something has changed without giving a count.
+
+```jsx
+<Stack direction="row" spacing="8x" shouldWrapChildren>
+  // Pass `isInvisible` to make it invisible
+  <Badge variant="dot" isInvisible>
+    <Icon icon="alert" />
+  </Badge>
+  <Badge variant="dot">
+    <Icon icon="alert" />
+  </Badge>
+  <Badge variant="dot" width="3x" height="3x">
     <Icon icon="alert" />
   </Badge>
 </Stack>
 ```
+
+### Standalone badge
+
+The badge can be used as a standalone component. This can be useful for displaying a badge without a surrounding element.
+
+```jsx
+<Stack direction="row" spacing="8x" alignItems="center">
+  <Badge variant="dot" />
+  <Badge variant="solid" badgeContent={0} />
+  <Badge variant="solid" badgeContent={5} />
+  <Badge variant="solid" badgeContent="99+" />
+  <Badge variant="solid" badgeContent={<Icon icon="virus" size="4x" />} height="6x" />
+</Stack>
+```
+
+### Badge alignment
+
+You can use the `placement` prop to move the badge to any corner of the wrapped element. The default placement is `top-right`. The `placement` prop can be one of `top-left`, `top-right`, `bottom-left`, `bottom-right`.
+
+```jsx
+<Grid
+  columnGap="8x"
+  rowGap="8x"
+  templateColumns="1fr 1fr"
+  width="min-content"
+>
+  <Badge placement="top-left" badgeContent={1}>
+    <Icon icon="alert" />
+  </Badge>
+  <Badge placement="top-right" badgeContent={1}>
+    <Icon icon="alert" />
+  </Badge>
+  <Badge placement="bottom-left" badgeContent={1}>
+    <Icon icon="alert" />
+  </Badge>
+  <Badge placement="bottom-right" badgeContent={1}>
+    <Icon icon="alert" />
+  </Badge>
+</Grid>
+```
+
+### Badge visibility
+
+The badge visibility can be controlled using the `isInvisible` prop.
+
+```jsx
+function Example() {
+  const [count, setCount] = React.useState(1);
+  const [isInvisible, setIsInvisible] = React.useState(false);
+
+  return (
+    <Stack direction="column" spacing="8x">
+      <Flex align="center">
+        <Box mr="8x">
+          <Badge badgeContent={count} isInvisible={!(count > 0)}>
+            <Icon icon="alert" />
+          </Badge>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+        >
+          <Button
+            aria-label="decrease"
+            onClick={() => {
+              setCount(Math.max(count - 1, 0));
+            }}
+          >
+            <Icon icon="minus" />
+          </Button>
+          <Button
+            aria-label="increase"
+            onClick={() => {
+              setCount(Math.max(count + 1, 0));
+            }}
+          >
+            <Icon icon="add" />
+          </Button>
+        </ButtonGroup>
+      </Flex>
+      <Flex alignItems="center">
+        <Box mr="8x">
+          <Badge
+            variant="dot"
+            isInvisible={isInvisible}
+          >
+            <Icon icon="alert" />
+          </Badge>
+        </Box>
+        <TextLabel cursor="pointer">
+          <Flex align="center">
+            <Switch
+              size="md"
+              checked={!isInvisible}
+              onChange={() => {
+                setIsInvisible(!isInvisible);
+              }}
+            />
+            <Space width="2x" />
+            <Text userSelect="none">Show Badge</Text>
+          </Flex>
+        </TextLabel>
+      </Flex>
+    </Stack>
+  );
+}
+```
+
+### Color
+
+The color of the badge can be changed by passing the `backgroundColor` prop. See the [colors](./colors) section to learn more about colors.
+
+```jsx
+function Example() {
+  const colors = [
+    'red:60',
+    'orange:50',
+    'yellow:50',
+    'green:60',
+    'blue:60',
+    'gray:60',
+    'magenta:60',
+    'purple:60',
+    'teal:60',
+    'cyan:60',
+  ];
+
+  return (
+    <Stack direction="row" spacing="8x" shouldWrapChildren>
+      {colors.map(color => (
+        <Badge key={color} backgroundColor={color} badgeContent={5}>
+          <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+        </Badge>
+      ))}
+    </Stack>
+  );
+}
+```
+
+### Size
+
+The size of the badge can be changed by passing the `height` and `minWidth` props.
+
+```jsx
+<Stack direction="row" spacing="8x" shouldWrapChildren>
+  <Badge badgeContent={5} height="4x" minWidth="4x" fontSize="xs">
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+  <Badge badgeContent={5} height="5x" minWidth="5x" fontSize="sm">
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+  <Badge badgeContent={5} height="6x" minWidth="6x" fontSize="md">
+    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+  </Badge>
+</Stack>
+```
+
+### Customization
+
+You can customize the badge style by passing style props. See the following example to learn how to create a outline badge.
+
+```jsx noInline
+const OutlineBadge = React.forwardRef((props, ref) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:100',
+    light: 'white',
+  }[colorMode];
+  const borderColor = {
+    dark: 'yellow:50',
+    light: 'yellow:50',
+  }[colorMode];
+  const borderStyle = 'solid';
+  const borderWidth = '2px';
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const height = '5x';
+  const minWidth = '5x';
+
+  return (
+    <Badge
+      ref={ref}
+      backgroundColor={backgroundColor}
+      borderColor={borderColor}
+      borderStyle={borderStyle}
+      borderWidth={borderWidth}
+      color={color}
+      height={height}
+      minWidth={minWidth}
+      {...props}
+    />
+  );
+});
+
+function Example() {
+  return (
+    <Grid
+      columnGap="8x"
+      justifyItems="center"
+      rowGap="8x"
+      templateColumns="repeat(3,1fr)"
+      width="min-content"
+    >
+      <OutlineBadge badgeContent={0}>
+        <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+      </OutlineBadge>
+      <OutlineBadge badgeContent="99+">
+        <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+      </OutlineBadge>
+      <OutlineBadge
+        badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
+      >
+        <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+      </OutlineBadge>
+    </Grid>
+  );
+}
+
+render(<Example />);
+```
+
 ## Props
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| variant | string | 'badge' | 'badge' or 'dot'. |
-| variantColor | string | 'red' | The color scheme to use for the badge. It must be a color key defined in `theme.colors`. |
-| badgeContent | number\|string\|React Element  | | |
-| isHidden | boolean  | false | show badge content or not. |
-| offset | \[number, number\]  | - | Set offset of the badge. |
-| borderColor | string  | value of `variantColor` | Set border color of the badge when overlap a children. |
-| borderWidth | number  | 1 | Set border width of the badge when overlap a children. |
+| badgeContent | node \| number \| string | | The badge content. |
+| isInvisible | boolean | | Whether the badge is invisible. |
+| placement | string | 'top-right' | The placement of the badge. One of: 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| variant | string | 'solid' | One of: 'solid', 'dot' |
