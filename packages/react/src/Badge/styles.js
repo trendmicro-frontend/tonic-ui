@@ -9,30 +9,27 @@ const getSolidBadgeContentStyle = ({
     dark: 'red:60',
     light: 'red:60',
   }[colorMode];
-  const borderColor = {
+  const borderRadius = theme?.sizes?.['4x'];
+  const boxShadowSpreadRadius = theme?.sizes?.['1q'];
+  const boxShadowColor = theme?.colors?.[{
     dark: 'gray:100',
     light: 'white',
-  }[colorMode];
-  const borderStyle = 'solid';
-  const borderWidth = theme?.sizes?.['1q'];
+  }[colorMode]];
+  const boxShadow = `0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`;
   const color = {
     dark: 'white:primary',
     light: 'white:primary',
   }[colorMode];
-  const fontSize = 'xs';
-  const offsetHeight = theme?.lineHeights?.[fontSize];
-  const clientHeight = `calc(${offsetHeight} - ${borderWidth} - ${borderWidth})`;
 
   return {
     backgroundColor,
-    borderColor,
-    borderRadius: offsetHeight,
-    borderStyle,
-    borderWidth,
+    borderRadius,
+    boxShadow,
     color,
-    fontSize,
-    lineHeight: clientHeight,
-    minWidth: offsetHeight,
+    fontSize: 'xs',
+    height: borderRadius,
+    lineHeight: '1',
+    minWidth: borderRadius,
     px: '1x',
   };
 };
@@ -45,29 +42,25 @@ const getDotBadgeContentStyle = ({
     dark: 'red:60',
     light: 'red:60',
   }[colorMode];
-  const borderColor = {
+  const borderRadius = theme?.sizes?.['2x'];
+  const boxShadowSpreadRadius = theme?.sizes?.['1q'];
+  const boxShadowColor = theme?.colors?.[{
     dark: 'gray:100',
     light: 'white',
-  }[colorMode];
-  const borderRadius = theme?.sizes?.['2x'];
-  const borderWidth = theme?.sizes?.['1q'];
-  const borderStyle = 'solid';
+  }[colorMode]];
+  const boxShadow = `0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`;
   const color = {
     dark: 'white:primary',
     light: 'white:primary',
   }[colorMode];
-  const height = borderRadius;
-  const width = borderRadius;
 
   return {
     backgroundColor,
-    borderColor,
     borderRadius,
-    borderStyle,
-    borderWidth,
+    boxShadow,
     color,
-    height,
-    width,
+    height: borderRadius,
+    width: borderRadius,
   };
 };
 
