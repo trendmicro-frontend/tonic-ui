@@ -59,8 +59,11 @@ const Alert = forwardRef((
   ref,
 ) => {
   useEffectOnce(() => {
+    const prefix = `${Alert.displayName}:`;
+
     if (isCloseButtonVisible !== undefined) {
       warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
         alternative: 'isClosable',
         willRemove: true,
       });

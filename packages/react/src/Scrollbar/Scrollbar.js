@@ -52,14 +52,18 @@ const Scrollbar = forwardRef((
   ref,
 ) => {
   useEffectOnce(() => {
+    const prefix = `${Scrollbar.displayName}:`;
+
     if (disabled !== undefined) {
       warnDeprecatedProps('disabled', {
+        prefix,
         alternative: 'overflow="hidden"',
         willRemove: true,
       });
     }
     if (minThumbSize !== undefined) {
       warnDeprecatedProps('minThumbSize', {
+        prefix,
         alternative: ['minThumbWidth', 'minThumbHeight'],
         willRemove: true,
       });
@@ -72,37 +76,44 @@ const Scrollbar = forwardRef((
         ? 'overflow="scroll"'
         : 'overflow';
       warnDeprecatedProps(deprecatedProps, {
+        prefix,
         alternative,
         willRemove: true,
       });
     }
     if (renderView !== undefined) {
       warnRemovedProps('renderView', {
+        prefix,
         message: 'Use children as a function to render the scroll view instead.',
       });
     }
     if (renderHorizontalTrack !== undefined) {
       warnRemovedProps('renderHorizontalTrack', {
+        prefix,
         message: 'Use children as a function to render the horizontal track instead.',
       });
     }
     if (renderHorizontalThumb !== undefined) {
       warnRemovedProps('renderHorizontalThumb', {
+        prefix,
         message: 'Use children as a function to render the horizontal thumb instead.',
       });
     }
     if (renderVerticalTrack !== undefined) {
       warnRemovedProps('renderVerticalTrack', {
+        prefix,
         message: 'Use children as a function to render the vertical track instead.',
       });
     }
     if (renderVerticalThumb !== undefined) {
       warnRemovedProps('renderVerticalThumb', {
+        prefix,
         message: 'Use children as a function to render the vertical thumb instead.',
       });
     }
     if (thumbSize !== undefined) {
       warnRemovedProps('thumbSize', {
+        prefix,
         alternative: ['minThumbWidth', 'minThumbHeight'],
       });
     }

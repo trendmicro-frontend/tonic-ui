@@ -17,8 +17,11 @@ const Table = forwardRef((
   ref,
 ) => {
   useEffectOnce(() => {
+    const prefix = `${Table.displayName}:`;
+
     if (isHoverable !== undefined) {
       warnRemovedProps('isHoverable', {
+        prefix,
         message: 'Use the \'_hover\' prop on the \'TableRow\' component instead.',
       });
     }

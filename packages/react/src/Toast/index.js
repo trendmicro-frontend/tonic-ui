@@ -57,8 +57,11 @@ const Toast = forwardRef((
   ref,
 ) => {
   useEffectOnce(() => {
+    const prefix = `${Toast.displayName}:`;
+
     if (isCloseButtonVisible !== undefined) {
       warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
         alternative: 'isClosable',
         willRemove: true,
       });

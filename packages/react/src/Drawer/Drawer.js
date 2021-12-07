@@ -30,8 +30,11 @@ const Drawer = ({
   children,
 }) => {
   useEffectOnce(() => {
+    const prefix = `${Drawer.displayName}:`;
+
     if (isCloseButtonVisible !== undefined) {
       warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
         alternative: 'isClosable',
         willRemove: true,
       });

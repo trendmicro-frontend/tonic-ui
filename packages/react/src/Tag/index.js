@@ -30,8 +30,11 @@ const Tag = forwardRef((
   ref,
 ) => {
   useEffectOnce(() => {
+    const prefix = `${Tag.displayName}:`;
+
     if (isCloseButtonVisible !== undefined) {
       warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
         alternative: 'isClosable',
         willRemove: true,
       });

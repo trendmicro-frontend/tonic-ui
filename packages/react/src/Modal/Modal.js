@@ -28,8 +28,11 @@ const Modal = ({
   children,
 }) => {
   useEffectOnce(() => {
+    const prefix = `${Modal.displayName}:`;
+
     if (isCloseButtonVisible !== undefined) {
       warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
         alternative: 'isClosable',
         willRemove: true,
       });
