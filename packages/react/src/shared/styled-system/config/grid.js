@@ -24,6 +24,6 @@ const config = {
   gridArea: true,
 };
 
-export const grid = system(config);
+const grid = system(config);
 
 export default grid;

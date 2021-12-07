@@ -7,7 +7,6 @@ const config = {
   justifyContent: true,
   flexWrap: true,
   flexDirection: true,
-  // item
   flex: true,
   flexGrow: true,
   flexShrink: true,
@@ -17,6 +16,6 @@ const config = {
   order: true,
 };
 
-export const flexbox = system(config);
+const flexbox = system(config);
 
-export default flexbox
+export default flexbox;

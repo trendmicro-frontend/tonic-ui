@@ -30,18 +30,17 @@ const config = {
   overflowY: true,
   display: true,
   verticalAlign: true,
+  aspectRatio: true,
+  boxSizing: true,
+  float: true,
+  objectFit: true,
+  objectPosition: true,
+  visibility: true,
 };
 
-config.w = {
-  property: 'width',
-  scale: 'sizes',
-};
+config.w = config.width;
+config.h = config.height;
 
-config.h = {
-  property: 'height',
-  scale: 'sizes',
-};
-
-export const layout = system(config);
+const layout = system(config);
 
 export default layout;

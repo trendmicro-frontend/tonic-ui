@@ -1,4 +1,4 @@
-import layout from '../../src/shared/styled-system/layout';
+import layout from '../../src/shared/styled-system/config/layout';
 
 describe('layout', () => {
   test('style props', () => {

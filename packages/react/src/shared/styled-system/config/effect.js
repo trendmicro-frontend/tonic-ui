@@ -1,16 +1,15 @@
 import { system } from '@styled-system/core';
 
 const config = {
+  backgroundBlendMode: true,
   boxShadow: {
     property: 'boxShadow',
     scale: 'shadows',
   },
-  textShadow: {
-    property: 'textShadow',
-    scale: 'shadows',
-  },
+  mixBlendMode: true,
+  opacity: true,
 };
 
-export const shadow = system(config);
+const effect = system(config);
 
-export default shadow;
+export default effect;

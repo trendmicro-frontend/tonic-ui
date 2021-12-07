@@ -23,8 +23,18 @@ const config = {
   },
   textAlign: true,
   fontStyle: true,
+  lineBreak: true,
+  overflowWrap: true,
+  textIndent: true,
+  textJustify: true,
+  textTransform: true,
+  textEmphasis: true,
+  textOverflow: true,
+  whiteSpace: true,
+  wordBreak: true,
+  wordSpacing: true,
 };
 
-export const typography = system(config);
+const typography = system(config);
 
 export default typography;
