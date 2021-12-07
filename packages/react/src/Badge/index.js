@@ -32,8 +32,11 @@ const Badge = forwardRef((
   const theme = useTheme();
 
   useEffectOnce(() => {
+    const prefix = `${Badge.displayName}:`;
+
     if (dotSizeProp !== undefined) {
       warnDeprecatedProps('dotSize', {
+        prefix,
         alternative: ['width', 'height'],
         willRemove: true,
       });
@@ -41,6 +44,7 @@ const Badge = forwardRef((
 
     if (isHiddenProp !== undefined) {
       warnDeprecatedProps('isHidden', {
+        prefix,
         alternative: 'isInvisible',
         willRemove: true,
       });
@@ -48,6 +52,7 @@ const Badge = forwardRef((
 
     if (offsetProp !== undefined) {
       warnDeprecatedProps('offset', {
+        prefix,
         alternative: ['right', 'top'],
         willRemove: true,
       });
@@ -55,6 +60,7 @@ const Badge = forwardRef((
 
     if (variant === 'badge') {
       warnDeprecatedProps('variant="badge"', {
+        prefix,
         alternative: 'variant="solid"',
         willRemove: true,
       });
@@ -62,6 +68,7 @@ const Badge = forwardRef((
 
     if (variantColorProp !== undefined) {
       warnDeprecatedProps('variantColor', {
+        prefix,
         alternative: 'backgroundColor',
         willRemove: true,
       });

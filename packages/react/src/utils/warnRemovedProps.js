@@ -15,6 +15,7 @@ const joinWords = (words) => {
 };
 
 const warnRemovedProps = (props, options) => {
+  const prefix = options?.prefix ?? 'Warning:';
   const alternative = ensureArray(options?.alternative);
   const message = ensureString(options?.message);
 
@@ -23,10 +24,10 @@ const warnRemovedProps = (props, options) => {
     return;
   }
 
-  const messages = [];
+  const messages = [prefix];
   const verb = (props.length > 1) ? 'are' : 'is';
 
-  messages.push(`Warning: ${joinWords(props)} ${verb} removed.`);
+  messages.push(`${joinWords(props)} ${verb} removed.`);
 
   if (alternative.length > 0) {
     messages.push(`Use ${joinWords(alternative)} instead.`);
