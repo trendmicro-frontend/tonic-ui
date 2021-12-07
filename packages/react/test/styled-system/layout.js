@@ -47,7 +47,7 @@ describe('layout', () => {
 
   test('responsive layout styles', () => {
     const style = layout({
-      width: [1, 1 / 2, 1 / 4],
+      width: ['100%', '50%', '25%'],
       minHeight: 32,
       maxWidth: 768,
     });
