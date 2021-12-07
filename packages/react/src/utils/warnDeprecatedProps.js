@@ -15,6 +15,7 @@ const joinWords = (words) => {
 };
 
 const warnDeprecatedProps = (props, options) => {
+  const prefix = options?.prefix ?? 'Warning:';
   const alternative = ensureArray(options?.alternative);
   const willRemove = ensureBoolean(options?.willRemove);
   const message = ensureString(options?.message);
@@ -24,13 +25,13 @@ const warnDeprecatedProps = (props, options) => {
     return;
   }
 
-  const messages = [];
+  const messages = [prefix];
   const verb = (props.length > 1) ? 'are' : 'is';
 
   if (willRemove) {
-    messages.push(`Warning: ${joinWords(props)} ${verb} deprecated and will be removed in the next major release.`);
+    messages.push(`${joinWords(props)} ${verb} deprecated and will be removed in the next major release.`);
   } else {
-    messages.push(`Warning: ${joinWords(props)} ${verb} deprecated.`);
+    messages.push(`${joinWords(props)} ${verb} deprecated.`);
   }
 
   if (alternative.length > 0) {
