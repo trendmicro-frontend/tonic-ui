@@ -1,19 +1,19 @@
 import { ensureArray } from 'ensure-type';
 import {
-  background,
-  border,
-  color,
-  flexbox,
-  grid,
-  position,
-  shadow,
-  space,
-  typography,
   compose,
   system,
 } from 'styled-system';
+import background from './background';
+import border from './border';
+import color from './color';
 import config from './config';
+import flexbox from './flexbox';
+import grid from './grid';
 import layout from './layout';
+import position from './position';
+import shadow from './shadow';
+import space from './space';
+import typography from './typography';
 
 export const combinedStyleProps = compose(
   background,

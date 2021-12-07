@@ -1,38 +1,11 @@
 import { system } from '@styled-system/core';
-import { getWidth } from './utils';
 
-/**
- * The layout utility includes style props for the following:
- * • `width` (or `w`)
- * • `height` (or `h`)
- * • `minWidth`
- * • `minHeight`
- * • `maxWidth`
- * • `maxHeight`
- * • `overflow`
- * • `overflowX`
- * • `overflowY`
- * • `display`
- * • `verticalAlign`
- *
- * See also: https://styled-system.com/api#layout
- */
 const config = {
   width: {
     property: 'width',
     scale: 'sizes',
-    transform: getWidth,
-  },
-  w: { // shorthand
-    property: 'width',
-    scale: 'sizes',
-    transform: getWidth,
   },
   height: {
-    property: 'height',
-    scale: 'sizes',
-  },
-  h: { // shorthand
     property: 'height',
     scale: 'sizes',
   },
@@ -59,6 +32,16 @@ const config = {
   verticalAlign: true,
 };
 
-const layout = system(config);
+config.w = {
+  property: 'width',
+  scale: 'sizes',
+};
+
+config.h = {
+  property: 'height',
+  scale: 'sizes',
+};
+
+export const layout = system(config);
 
 export default layout;
