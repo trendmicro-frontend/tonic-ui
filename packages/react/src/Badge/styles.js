@@ -42,7 +42,7 @@ const getDotBadgeContentStyle = ({
     dark: 'red:60',
     light: 'red:60',
   }[colorMode];
-  const borderRadius = theme?.sizes?.['2x'];
+  const borderRadius = 'circle';
   const boxShadowSpreadRadius = theme?.sizes?.['1q'];
   const boxShadowColor = {
     dark: theme?.colors?.['gray:100'],
@@ -53,14 +53,16 @@ const getDotBadgeContentStyle = ({
     dark: 'white:primary',
     light: 'white:primary',
   }[colorMode];
+  const height = theme?.sizes?.['2x'];
+  const width = theme?.sizes?.['2x'];
 
   return {
     backgroundColor,
     borderRadius,
     boxShadow,
     color,
-    height: borderRadius,
-    width: borderRadius,
+    height,
+    width,
   };
 };
 
