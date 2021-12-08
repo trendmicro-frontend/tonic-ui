@@ -1,4 +1,4 @@
-import { system } from '@styled-system/core';
+import system from '../core/system';
 
 const config = {
   alignItems: true,

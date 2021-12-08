@@ -1,6 +1,6 @@
-import css from '@styled-system/css';
 import React from 'react';
 import Box from '../Box';
+import css from '../shared/styled-system/css';
 
 const ControlBox = ({
   type = 'checkbox',

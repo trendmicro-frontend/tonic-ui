@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import isPropValid from '@emotion/is-prop-valid';
-import css from '@styled-system/css';
 import { combinedStyleProps, stylePropMap } from '../shared/styled-system';
+import css from '../shared/styled-system/css';
 
 const shouldForwardProp = (() => {
   const omittedStylePropMap = {

@@ -1,16 +1,15 @@
-import { system } from '@styled-system/core';
-import * as transform from '../utils/transform-functions';
+import system from '../core/system';
+import { border as borderTransform } from '../utils/transforms';
 
 const config = {
   border: {
     property: 'border',
     scale: 'borders',
-    transform: transform.border,
+    transform: borderTransform,
   },
   borderWidth: {
     property: 'borderWidth',
     scale: 'borderWidths',
-    transform: transform.borderWidth,
   },
   borderStyle: {
     property: 'borderStyle',
@@ -27,12 +26,11 @@ const config = {
   borderTop: {
     property: 'borderTop',
     scale: 'borders',
-    transform: transform.border,
+    transform: border,
   },
   borderTopWidth: {
     property: 'borderTopWidth',
     scale: 'borderWidths',
-    transform: transform.borderWidth,
   },
   borderTopStyle: {
     property: 'borderTopStyle',
@@ -53,12 +51,11 @@ const config = {
   borderRight: {
     property: 'borderRight',
     scale: 'borders',
-    transform: transform.border,
+    transform: borderTransform,
   },
   borderRightWidth: {
     property: 'borderRightWidth',
     scale: 'borderWidths',
-    transform: transform.borderWidth,
   },
   borderRightStyle: {
     property: 'borderRightStyle',
@@ -71,12 +68,11 @@ const config = {
   borderBottom: {
     property: 'borderBottom',
     scale: 'borders',
-    transform: transform.border,
+    transform: borderTransform,
   },
   borderBottomWidth: {
     property: 'borderBottomWidth',
     scale: 'borderWidths',
-    transform: transform.borderWidth,
   },
   borderBottomStyle: {
     property: 'borderBottomStyle',
@@ -97,12 +93,11 @@ const config = {
   borderLeft: {
     property: 'borderLeft',
     scale: 'borders',
-    transform: transform.border,
+    transform: borderTransform,
   },
   borderLeftWidth: {
     property: 'borderLeftWidth',
     scale: 'borderWidths',
-    transform: transform.borderWidth,
   },
   borderLeftStyle: {
     property: 'borderLeftStyle',
@@ -115,12 +110,12 @@ const config = {
   borderX: {
     properties: ['borderLeft', 'borderRight'],
     scale: 'borders',
-    transform: transform.border,
+    transform: borderTransform,
   },
   borderY: {
     properties: ['borderTop', 'borderBottom'],
     scale: 'borders',
-    transform: transform.border,
+    transform: borderTransform,
   },
 };
 

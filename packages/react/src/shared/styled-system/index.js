@@ -1,5 +1,4 @@
 import { ensureArray } from 'ensure-type';
-import { compose } from 'styled-system';
 import animation from './config/animation';
 import background from './config/background';
 import border from './config/border';
@@ -18,6 +17,7 @@ import textDecoration from './config/text-decoration';
 import transform from './config/transform';
 import transition from './config/transition';
 import typography from './config/typography';
+import compose from './core/compose';
 
 export const combinedStyleProps = compose(
   animation,

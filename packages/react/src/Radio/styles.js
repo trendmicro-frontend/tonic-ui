@@ -1,4 +1,4 @@
-import { get } from '@styled-system/core';
+import _get from 'lodash.get';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
@@ -56,7 +56,7 @@ const interactionProps = ({ color, colorMode, theme: { colors } }) => {
       borderColor: hoverBorderColor,
     },
     _focus: {
-      boxShadow: `0 0 0 2px ${get(colors, focusOutlineColor)}`,
+      boxShadow: `0 0 0 2px ${_get(colors, focusOutlineColor)}`,
     },
     _disabled: {
       borderColor: disabledBorderColor,

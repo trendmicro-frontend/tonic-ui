@@ -1,43 +1,43 @@
-import { system } from '@styled-system/core';
-import * as transform from '../utils/transform-functions';
+import system from '../core/system';
+import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
 const config = {
   margin: {
     property: 'margin',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
   marginTop: {
     property: 'marginTop',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
   marginRight: {
     property: 'marginRight',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
   marginBottom: {
     property: 'marginBottom',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
   marginLeft: {
     property: 'marginLeft',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
 };
 
 config.marginX = {
   properties: ['marginLeft', 'marginRight'],
   scale: 'space',
-  transform: transform.margin,
+  transform: positiveOrNegativeTransform,
 };
 config.marginY = {
   properties: ['marginTop', 'marginBottom'],
   scale: 'space',
-  transform: transform.margin,
+  transform: positiveOrNegativeTransform,
 };
 config.m = config.margin;
 config.mt = config.marginTop;

@@ -1,20 +1,32 @@
-import { system } from '@styled-system/core';
+import system from '../core/system';
 
 const config = {
   background: {
     property: 'background',
     scale: 'colors',
   },
-  backgroundAttachment: true,
-  backgroundClip: true,
+  backgroundAttachment: {
+    property: 'backgroundAttachment',
+  },
+  backgroundClip: {
+    property: 'backgroundClip',
+  },
   backgroundColor: {
     property: 'backgroundColor',
     scale: 'colors',
   },
-  backgroundImage: true,
-  backgroundPosition: true,
-  backgroundRepeat: true,
-  backgroundSize: true,
+  backgroundImage: {
+    property: 'backgroundImage',
+  },
+  backgroundPosition: {
+    property: 'backgroundPosition',
+  },
+  backgroundRepeat: {
+    property: 'backgroundRepeat',
+  },
+  backgroundSize: {
+    property: 'backgroundSize',
+  },
 };
 
 config.bg = config.background;

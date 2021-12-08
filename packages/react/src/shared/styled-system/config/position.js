@@ -1,5 +1,5 @@
-import { system } from '@styled-system/core';
-import * as transform from '../utils/transform-functions';
+import system from '../core/system';
+import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
 const config = {
   position: true,
@@ -10,22 +10,22 @@ const config = {
   top: {
     property: 'top',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
   right: {
     property: 'right',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
   bottom: {
     property: 'bottom',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
   left: {
     property: 'left',
     scale: 'space',
-    transform: transform.margin,
+    transform: positiveOrNegativeTransform,
   },
 };
 

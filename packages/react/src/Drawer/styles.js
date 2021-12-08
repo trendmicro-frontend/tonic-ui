@@ -1,4 +1,4 @@
-import { get } from '@styled-system/core';
+import _get from 'lodash.get';
 import useColorMode from '../useColorMode';
 import useColorStyle from '../useColorStyle';
 import useTheme from '../useTheme';
@@ -60,7 +60,7 @@ const useDrawerCloseButtonStyle = () => {
   const focusColor = color;
   const focusHoverColor = hoverColor;
   const focusActiveColor = activeColor;
-  const focusBorderColor = get(colors, 'blue:60');
+  const focusBorderColor = _get(colors, 'blue:60');
 
   return {
     position: 'absolute',
@@ -165,7 +165,7 @@ const useDrawerBodyStyle = () => {
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
+      marginTop: `calc(${_get(sizes, '4x')} + ${_get(lineHeights, 'xl')} + ${_get(sizes, '3x')})`,
     },
   };
 };
@@ -186,7 +186,7 @@ const useDrawerFooterStyle = ({
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${get(sizes, '4x')} + ${get(lineHeights, 'xl')} + ${get(sizes, '3x')})`,
+      marginTop: `calc(${_get(sizes, '4x')} + ${_get(lineHeights, 'xl')} + ${_get(sizes, '3x')})`,
     },
   };
 };
