@@ -27,7 +27,6 @@ const multiples = {
   marginY: ['marginTop', 'marginBottom'],
   paddingX: ['paddingLeft', 'paddingRight'],
   paddingY: ['paddingTop', 'paddingBottom'],
-  size: ['width', 'height'],
 };
 
 const scales = {
@@ -98,7 +97,6 @@ const scales = {
   minHeight: 'sizes',
   maxHeight: 'sizes',
   flexBasis: 'sizes',
-  size: 'sizes',
   // svg
   fill: 'colors',
   stroke: 'colors',

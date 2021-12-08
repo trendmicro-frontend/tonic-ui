@@ -1,16 +1,27 @@
 import system from '../core/system';
+import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
 const config = {
   textDecoration: true,
-  textDecorationColor: true,
+  textDecorationColor: {
+    property: 'textDecorationColor',
+    scale: 'colors',
+  },
   textDecorationLine: true,
   textDecorationStyle: true,
-  textDecorationThickness: true,
+  textDecorationThickness: {
+    property: 'textDecorationThickness',
+    scale: 'sizes',
+  },
   textShadow: {
     property: 'textShadow',
     scale: 'shadows',
   },
-  textUnderlineOffset: true,
+  textUnderlineOffset: {
+    property: 'textUnderlineOffset',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
 };
 
 const textDecoration = system(config);

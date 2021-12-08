@@ -8,44 +8,53 @@ test('returns border styles', () => {
 test('returns individual border styles', () => {
   const style = border({
     theme: {
-      borderWidths: { thin: 1 },
-      colors: { primary: 'red' },
-      borderStyles: { thick: 'solid' },
-      radii: { small: 5 },
+      sizes: {
+        '1q': '.0625rem',
+        '1h': '.125rem',
+        '1x': '.25rem',
+      },
+      colors: {
+        primary: 'red',
+      },
+      radii: {
+        small: 5,
+      },
     },
-    borderTopWidth: 'thin',
+    borderWidth: '1q',
+    borderTopWidth: '1q',
     borderTopColor: 'primary',
-    borderTopStyle: 'thick',
+    borderTopStyle: 'solid',
     borderTopLeftRadius: 'small',
     borderTopRightRadius: 'small',
-    borderBottomWidth: 'thin',
+    borderBottomWidth: '1q',
     borderBottomColor: 'primary',
-    borderBottomStyle: 'thick',
+    borderBottomStyle: 'solid',
     borderBottomLeftRadius: 'small',
     borderBottomRightRadius: 'small',
-    borderRightWidth: 'thin',
+    borderRightWidth: '1q',
     borderRightColor: 'primary',
-    borderRightStyle: 'thick',
-    borderLeftWidth: 'thin',
+    borderRightStyle: 'solid',
+    borderLeftWidth: '1q',
     borderLeftColor: 'primary',
-    borderLeftStyle: 'thick',
+    borderLeftStyle: 'solid',
   });
   expect(style).toEqual({
+    borderWidth: '.0625rem',
     borderTopColor: 'red',
-    borderTopWidth: 1,
+    borderTopWidth: '.0625rem',
     borderTopStyle: 'solid',
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     borderBottomColor: 'red',
-    borderBottomWidth: 1,
+    borderBottomWidth: '.0625rem',
     borderBottomStyle: 'solid',
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     borderRightColor: 'red',
-    borderRightWidth: 1,
+    borderRightWidth: '.0625rem',
     borderRightStyle: 'solid',
     borderLeftColor: 'red',
-    borderLeftWidth: 1,
+    borderLeftWidth: '.0625rem',
     borderLeftStyle: 'solid',
   });
 });
@@ -53,7 +62,9 @@ test('returns individual border styles', () => {
 test('returns border top and bottom radii', () => {
   const style = border({
     theme: {
-      radii: { small: 5 },
+      radii: {
+        small: 5,
+      },
     },
     borderTopLeftRadius: 'small',
     borderTopRightRadius: 'small',

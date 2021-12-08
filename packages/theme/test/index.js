@@ -4,8 +4,6 @@ import relativeRem from '../src/relative/rem';
 
 test('the default export must have all properties defined in the theme object', () => {
   expect(defaultTheme).toHaveProperty('borders');
-  expect(defaultTheme).toHaveProperty('borderStyles');
-  expect(defaultTheme).toHaveProperty('borderWidths');
   expect(defaultTheme).toHaveProperty('breakpoints');
   expect(defaultTheme).toHaveProperty('colors');
   expect(defaultTheme).toHaveProperty('fonts');
@@ -13,6 +11,7 @@ test('the default export must have all properties defined in the theme object', 
   expect(defaultTheme).toHaveProperty('fontWeights');
   expect(defaultTheme).toHaveProperty('letterSpacings');
   expect(defaultTheme).toHaveProperty('lineHeights');
+  expect(defaultTheme).toHaveProperty('outlines');
   expect(defaultTheme).toHaveProperty('radii');
   expect(defaultTheme).toHaveProperty('shadows');
   expect(defaultTheme).toHaveProperty('sizes');
@@ -23,8 +22,6 @@ test('the default export must have all properties defined in the theme object', 
 test('absolute length units: px', () => {
   const {
     borders,
-    borderStyles,
-    borderWidths,
     breakpoints,
     colors,
     fonts,
@@ -32,6 +29,7 @@ test('absolute length units: px', () => {
     fontWeights,
     letterSpacings,
     lineHeights,
+    outlines,
     radii,
     shadows,
     sizes,
@@ -40,10 +38,6 @@ test('absolute length units: px', () => {
   } = absolutePx;
 
   expect(borders).toEqual({});
-
-  expect(borderStyles).toEqual({});
-
-  expect(borderWidths).toEqual(space);
 
   expect([...breakpoints]).toEqual([
     '320px',
@@ -193,6 +187,8 @@ test('absolute length units: px', () => {
     '4xl': '40px',
   });
 
+  expect(outlines).toEqual({});
+
   expect(radii).toEqual({
     circle: '50%',
     none: 0,
@@ -285,8 +281,6 @@ test('absolute length units: px', () => {
 test('relative length units: rem', () => {
   const {
     borders,
-    borderStyles,
-    borderWidths,
     breakpoints,
     colors,
     fonts,
@@ -294,6 +288,7 @@ test('relative length units: rem', () => {
     fontWeights,
     letterSpacings,
     lineHeights,
+    outlines,
     radii,
     shadows,
     sizes,
@@ -302,10 +297,6 @@ test('relative length units: rem', () => {
   } = relativeRem;
 
   expect(borders).toEqual({});
-
-  expect(borderStyles).toEqual({});
-
-  expect(borderWidths).toEqual(space);
 
   expect([...breakpoints]).toEqual([
     '320px',
@@ -454,6 +445,8 @@ test('relative length units: rem', () => {
     '3xl': '2.25rem',
     '4xl': '2.5rem',
   });
+
+  expect(outlines).toEqual({});
 
   expect(radii).toEqual({
     circle: '50%',

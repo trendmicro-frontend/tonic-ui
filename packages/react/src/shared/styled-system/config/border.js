@@ -5,16 +5,13 @@ const config = {
   border: {
     property: 'border',
     scale: 'borders',
-    transform: borderTransform,
+    transform: borderTransform, // deprecated: backward compatibility
   },
   borderWidth: {
     property: 'borderWidth',
-    scale: 'borderWidths',
+    scale: 'sizes',
   },
-  borderStyle: {
-    property: 'borderStyle',
-    scale: 'borderStyles',
-  },
+  borderStyle: true,
   borderColor: {
     property: 'borderColor',
     scale: 'colors',
@@ -26,16 +23,13 @@ const config = {
   borderTop: {
     property: 'borderTop',
     scale: 'borders',
-    transform: border,
+    transform: borderTransform,
   },
   borderTopWidth: {
     property: 'borderTopWidth',
-    scale: 'borderWidths',
+    scale: 'sizes',
   },
-  borderTopStyle: {
-    property: 'borderTopStyle',
-    scale: 'borderStyles',
-  },
+  borderTopStyle: true,
   borderTopColor: {
     property: 'borderTopColor',
     scale: 'colors',
@@ -55,12 +49,9 @@ const config = {
   },
   borderRightWidth: {
     property: 'borderRightWidth',
-    scale: 'borderWidths',
+    scale: 'sizes',
   },
-  borderRightStyle: {
-    property: 'borderRightStyle',
-    scale: 'borderStyles',
-  },
+  borderRightStyle: true,
   borderRightColor: {
     property: 'borderRightColor',
     scale: 'colors',
@@ -72,12 +63,9 @@ const config = {
   },
   borderBottomWidth: {
     property: 'borderBottomWidth',
-    scale: 'borderWidths',
+    scale: 'sizes',
   },
-  borderBottomStyle: {
-    property: 'borderBottomStyle',
-    scale: 'borderStyles',
-  },
+  borderBottomStyle: true,
   borderBottomColor: {
     property: 'borderBottomColor',
     scale: 'colors',
@@ -97,12 +85,9 @@ const config = {
   },
   borderLeftWidth: {
     property: 'borderLeftWidth',
-    scale: 'borderWidths',
+    scale: 'sizes',
   },
-  borderLeftStyle: {
-    property: 'borderLeftStyle',
-    scale: 'borderStyles',
-  },
+  borderLeftStyle: true,
   borderLeftColor: {
     property: 'borderLeftColor',
     scale: 'colors',

@@ -7,12 +7,32 @@ export const border = (value, scale, props) => {
   }
 
   // `border="1x"` is a shorthand for `border=".25rem solid"` (or `border="4px solid"`)
-  const borderWidth = get(props?.theme?.borderWidths, value);
+  const borderWidth = get(props?.theme?.sizes, value);
   if (borderWidth !== undefined) {
     return `${borderWidth} solid`;
   }
 
   // `border={1}` is a shorthand for `border="1px solid"`
+  if (Number.isFinite(value)) {
+    return `${value}px solid`;
+  }
+
+  return value;
+};
+
+export const outline = (value, scale, props) => {
+  const outlineStyle = get(scale, value);
+  if (outlineStyle) {
+    return outlineStyle;
+  }
+
+  // `outline="1x"` is a shorthand for `outline=".25rem solid"` (or `outline="4px solid"`)
+  const outlineWidth = get(props?.theme?.sizes, value);
+  if (outlineWidth !== undefined) {
+    return `${outlineWidth} solid`;
+  }
+
+  // `outline={1}` is a shorthand for `outline="1px solid"`
   if (Number.isFinite(value)) {
     return `${value}px solid`;
   }

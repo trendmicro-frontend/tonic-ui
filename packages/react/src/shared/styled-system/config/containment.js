@@ -2,7 +2,10 @@ import system from '../core/system';
 
 const config = {
   contain: true,
-  containIntrinsicSize: true,
+  containIntrinsicSize: {
+    property: 'containIntrinsicSize',
+    scale: 'sizes',
+  },
   contentVisibility: true,
 };
 

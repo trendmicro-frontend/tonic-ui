@@ -11,6 +11,7 @@ import interactivity from './config/interactivity';
 import layout from './config/layout';
 import listStyle from './config/list-style';
 import margin from './config/margin';
+import outline from './config/outline';
 import padding from './config/padding';
 import position from './config/position';
 import textDecoration from './config/text-decoration';
@@ -32,6 +33,7 @@ export const combinedStyleProps = compose(
   layout,
   listStyle,
   margin,
+  outline,
   padding,
   position,
   textDecoration,

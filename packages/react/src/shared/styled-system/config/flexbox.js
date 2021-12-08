@@ -10,7 +10,10 @@ const config = {
   flex: true,
   flexGrow: true,
   flexShrink: true,
-  flexBasis: true,
+  flexBasis: {
+    property: 'flex-basis',
+    scale: 'sizes',
+  },
   justifySelf: true,
   alignSelf: true,
   order: true,

@@ -1,6 +1,4 @@
 import borders from '../foundations/borders';
-import borderStyles from '../foundations/borderStyles';
-import borderWidths from '../foundations/borderWidths';
 import breakpoints from '../foundations/breakpoints';
 import colors from '../foundations/colors';
 import fonts from '../foundations/fonts';
@@ -8,6 +6,7 @@ import fontSizes from '../foundations/fontSizes';
 import fontWeights from '../foundations/fontWeights';
 import letterSpacings from '../foundations/letterSpacings';
 import lineHeights from '../foundations/lineHeights';
+import outlines from '../foundations/outlines';
 import radii from '../foundations/radii';
 import shadows from '../foundations/shadows';
 import sizes from '../foundations/sizes';
@@ -19,8 +18,6 @@ const unitTokens = getUnitTokens('px');
 
 export default {
   borders,
-  borderStyles,
-  borderWidths: { ...borderWidths, ...unitTokens },
   breakpoints,
   colors,
   fonts,
@@ -39,8 +36,6 @@ export default {
   letterSpacings,
   lineHeights: {
     ...lineHeights,
-    normal: 'normal',
-    base: '1.5',
     xs: '18px',
     sm: '20px',
     md: '22px',
@@ -50,10 +45,9 @@ export default {
     '3xl': '36px',
     '4xl': '40px',
   },
+  outlines,
   radii: {
     ...radii,
-    circle: '50%',
-    none: 0,
     sm: '3px',
     md: '6px',
     lg: '12px',
