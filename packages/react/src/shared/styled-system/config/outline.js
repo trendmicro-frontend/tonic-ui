@@ -8,7 +8,7 @@ const config = {
   outline: {
     property: 'outline',
     scale: 'outlines',
-    transform: outlineTransform, // deprecated: backward compatibility
+    transform: outlineTransform, // deprecated
   },
   outlineColor: {
     property: 'outlineColor',

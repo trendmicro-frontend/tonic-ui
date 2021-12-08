@@ -4,54 +4,205 @@ import ThemeParser from "../components/ThemeParser";
 # Borders
 
 * `borders`
-* `borderStyles`
-* `borderWidths`
 * `radii` (`border-radius`)
 
 ## Border
 
-Defaults to an empty object.
+Tonic UI does not define the border property by default.
 
 <ThemeParser theme="borders" />
 
-## Border Style
+The width of the border can be either an explicit nonnegative `<length>` or a keyword. If it's a keyword, it must be one of the following values:
+* `thin`
+* `medium`
+* `thick`
 
-Defaults to an empty object.
+Note: Because the specification doesn't define the exact thickness denoted by each keyword, the precise result when using one of them is implementation-specific. Nevertheless, they always follow the pattern `thin ≤ medium ≤ thick`, and the values are constant within a single document.
 
-<ThemeParser theme="borderStyles" />
+### Nonnegative length
 
-## Border Width
+```jsx noInline
+const Block = (props) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:90',
+    light: 'gray:10',
+  }[colorMode];
+  return (
+    <Flex
+      width="32x"
+      height="12x"
+      alignItems="center"
+      justifyContent="center"
+      backgroundColor={backgroundColor}
+      {...props}
+    />
+  );
+};
 
-<ThemeParser theme="borderWidths" />
+function Example() {
+  return (
+    <Stack direction="row" spacing="6x">
+      <Block
+        borderWidth={1}
+        borderStyle="solid"
+        borderColor="gray:50"
+      >
+        border
+      </Block>
+      <Block
+        borderTopWidth="1x"
+        borderTopStyle="solid"
+        borderTopColor="gray:50"
+      >
+        borderTop
+      </Block>
+      <Block
+        borderRightWidth="1x"
+        borderRightStyle="solid"
+        borderRightColor="gray:50"
+      >
+        borderRight
+      </Block>
+      <Block
+        borderBottomWidth="1x"
+        borderBottomStyle="solid"
+        borderBottomColor="gray:50"
+      >
+        borderBottom
+      </Block>
+      <Block
+        borderLeftWidth="1x"
+        borderLeftStyle="solid"
+        borderLeftColor="gray:50"
+      >
+        borderLeft
+      </Block>
+    </Stack>
+  );
+}
 
-```jsx
-<Stack direction="column" spacing="8x" alignItems="center">
-  <Stack direction="row" spacing="6x">
-    <Box border={1} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-    <Box borderTop={1} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-    <Box borderRight={1} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-    <Box borderBottom={1} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-    <Box borderLeft={1} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-  </Stack>
-  <Stack direction="row" spacing="6x">
-    <Box border={2} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-    <Box borderTop={2} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-    <Box borderRight={2} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-    <Box borderBottom={2} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-    <Box borderLeft={2} borderColor="gray:40" width="32x" height="12x" bg="gray:80"/>
-  </Stack>
-</Stack>
+render(<Example />);
+```
+
+### Keyword
+
+```jsx noInline
+const Block = (props) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:90',
+    light: 'gray:10',
+  }[colorMode];
+  return (
+    <Flex
+      width="32x"
+      height="12x"
+      alignItems="center"
+      justifyContent="center"
+      backgroundColor={backgroundColor}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  return (
+    <Stack direction="row" spacing="6x">
+      <Block
+        borderWidth="thin"
+        borderStyle="solid"
+        borderColor="gray:50"
+      >
+        border
+      </Block>
+      <Block
+        borderTopWidth="thick"
+        borderTopStyle="solid"
+        borderTopColor="gray:50"
+      >
+        borderTop
+      </Block>
+      <Block
+        borderRightWidth="thick"
+        borderRightStyle="solid"
+        borderRightColor="gray:50"
+      >
+        borderRight
+      </Block>
+      <Block
+        borderBottomWidth="thick"
+        borderBottomStyle="solid"
+        borderBottomColor="gray:50"
+      >
+        borderBottom
+      </Block>
+      <Block
+        borderLeftWidth="thick"
+        borderLeftStyle="solid"
+        borderLeftColor="gray:50"
+      >
+        borderLeft
+      </Block>
+    </Stack>
+  );
+}
+
+render(<Example />);
 ```
 
 ## Border Radius
 
 <ThemeParser theme="radii" />
 
+### `borderRadius="circle"`
+
 ```jsx
-<Stack direction="row" spacing="6x" justifyContent="center">
-  <Box border={1} borderColor="gray:40" borderRadius="circle" width="18x" height="18x" bg="gray:80"/>
-  <Box border={1} borderColor="gray:40" borderRadius="sm" width="18x" height="18x" bg="gray:80"/>
-  <Box border={1} borderColor="gray:40" borderRadius="md" width="18x" height="18x" bg="gray:80"/>
-  <Box border={1} borderColor="gray:40" borderRadius="lg" width="18x" height="18x" bg="gray:80"/>
-</Stack>
+<Box
+  backgroundColor="gray:80"
+  border={1}
+  borderColor="gray:40"
+  borderRadius="circle"
+  width="18x"
+  height="18x"
+/>
+```
+
+### `borderRadius="sm"`
+
+```jsx
+<Box
+  backgroundColor="gray:80"
+  border={1}
+  borderColor="gray:40"
+  borderRadius="sm"
+  width="18x"
+  height="18x"
+/>
+```
+
+### `borderRadius="md"`
+
+```jsx
+<Box
+  backgroundColor="gray:80"
+  border={1}
+  borderColor="gray:40"
+  borderRadius="md"
+  width="18x"
+  height="18x"
+/>
+```
+
+### `borderRadius="lg"`
+
+```jsx
+<Box
+  backgroundColor="gray:80"
+  border={1}
+  borderColor="gray:40"
+  borderRadius="lg"
+  width="18x"
+  height="18x"
+/>
 ```

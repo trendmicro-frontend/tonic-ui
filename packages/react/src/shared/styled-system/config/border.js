@@ -5,7 +5,7 @@ const config = {
   border: {
     property: 'border',
     scale: 'borders',
-    transform: borderTransform, // deprecated: backward compatibility
+    transform: borderTransform, // deprecated
   },
   borderWidth: {
     property: 'borderWidth',
