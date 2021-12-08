@@ -11,7 +11,7 @@ const config = {
   flexGrow: true,
   flexShrink: true,
   flexBasis: {
-    property: 'flex-basis',
+    property: 'flexBasis',
     scale: 'sizes',
   },
   justifySelf: true,
