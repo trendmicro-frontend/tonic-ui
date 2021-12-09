@@ -59,8 +59,9 @@ const Block = (props) => {
     <Flex
       px="4x"
       py="3x"
-      alignItems="center"
+      alignItems="flex-start"
       justifyContent="center"
+      flexDirection="column"
       backgroundColor={backgroundColor}
       {...props}
     />
@@ -68,14 +69,17 @@ const Block = (props) => {
 };
 
 function Example() {
+  const theme = useTheme();
+  const outlineColor = 'gray:50';
   const outlineWidths = [1, 2, 3, 4, 5];
   const [outlineWidth, setOutlineWidth] = React.useState(outlineWidths[0]);
-  const outlineStyle = theme.outlines[outlineWidth] || outlineWidth;
+  const outlineValue = theme.outlines[outlineWidth] || outlineWidth;
+  const outlineColorValue = theme.colors[outlineColor] || outlineColor;
 
   return (
     <>
       <Flex align="center" mb="5x">
-        <TextLabel>Outline width:</TextLabel>
+        <TextLabel>outline =</TextLabel>
         <Space width="2x" />
         <Stack direction="row" spacing="2x">
           {outlineWidths.map((width) => (
@@ -94,7 +98,8 @@ function Example() {
           outline={outlineWidth}
           outlineColor="gray:50"
         >
-          outline="{outlineStyle}"
+          <Text>outline="{outlineValue}"</Text>
+          <Text>outlineColor="{outlineColorValue}"</Text>
         </Block>
       </Flex>
     </>
@@ -121,8 +126,9 @@ const Block = (props) => {
     <Flex
       px="4x"
       py="3x"
-      alignItems="center"
+      alignItems="flex-start"
       justifyContent="center"
+      flexDirection="column"
       backgroundColor={backgroundColor}
       {...props}
     />
@@ -131,14 +137,17 @@ const Block = (props) => {
 
 function Example() {
   const theme = useTheme();
+  const outlineColor = 'gray:50';
+  const outlineStyle = 'solid';
   const outlineWidths = ['thin', 'medium', 'thick'];
   const [outlineWidth, setOutlineWidth] = React.useState(outlineWidths[0]);
-  const outlineStyle = theme.outlines[outlineWidth] || outlineWidth;
+  const outlineValue = theme.outlines[outlineWidth] || outlineWidth;
+  const outlineColorValue = theme.colors[outlineColor] || outlineColor;
 
   return (
     <>
       <Flex align="center" mb="5x">
-        <TextLabel>Outline width:</TextLabel>
+        <TextLabel>outline =</TextLabel>
         <Space width="2x" />
         <Stack direction="row" spacing="2x">
           {outlineWidths.map((width) => (
@@ -155,10 +164,12 @@ function Example() {
       <Flex>
         <Block
           outline={outlineWidth}
-          outlineColor="gray:50"
-          outlineStyle="solid"
+          outlineColor={outlineColor}
+          outlineStyle={outlineStyle}
         >
-          outline="{outlineStyle}"
+          <Text>outline="{outlineValue}"</Text>
+          <Text>outlineColor="{outlineColorValue}"</Text>
+          <Text>outlineStyle="{outlineStyle}"</Text>
         </Block>
       </Flex>
     </>

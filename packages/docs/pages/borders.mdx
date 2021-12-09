@@ -58,8 +58,9 @@ const Block = (props) => {
     <Flex
       px="4x"
       py="3x"
-      alignItems="center"
+      alignItems="flex-start"
       justifyContent="center"
+      flexDirection="column"
       backgroundColor={backgroundColor}
       {...props}
     />
@@ -67,14 +68,17 @@ const Block = (props) => {
 };
 
 function Example() {
+  const theme = useTheme();
+  const borderColor = 'gray:50';
   const borderWidths = [1, 2, 3, 4, 5];
   const [borderWidth, setBorderWidth] = React.useState(borderWidths[0]);
-  const borderStyle = theme.borders[borderWidth] || borderWidth;
+  const borderValue = theme.borders[borderWidth] || borderWidth;
+  const borderColorValue = theme.colors[borderColor] || borderColor;
 
   return (
     <>
       <Flex align="center" mb="5x">
-        <TextLabel>Border width:</TextLabel>
+        <TextLabel>border =</TextLabel>
         <Space width="2x" />
         <Stack direction="row" spacing="2x">
           {borderWidths.map((width) => (
@@ -97,35 +101,40 @@ function Example() {
           <Box />
           <Block
             borderTop={borderWidth}
-            borderTopColor="gray:50"
+            borderTopColor={borderColor}
           >
-            borderTop="{borderStyle}"
+            <Text>borderTop="{borderValue}"</Text>
+            <Text>borderTopColor="{borderColorValue}"</Text>
           </Block>
           <Box />
           <Block
             borderLeft={borderWidth}
-            borderLeftColor="gray:50"
+            borderLeftColor={borderColor}
           >
-            borderLeft="{borderStyle}"
+            <Text>borderLeft="{borderValue}"</Text>
+            <Text>borderLeftColor="{borderColorValue}"</Text>
           </Block>
           <Block
             border={borderWidth}
-            borderColor="gray:50"
+            borderColor={borderColor}
           >
-            border="{borderStyle}"
+            <Text>border="{borderValue}"</Text>
+            <Text>borderColor="{borderColorValue}"</Text>
           </Block>
           <Block
             borderRight={borderWidth}
-            borderRightColor="gray:50"
+            borderRightColor={borderColor}
           >
-            borderRight="{borderStyle}"
+            <Text>borderRight="{borderValue}"</Text>
+            <Text>borderRightColor="{borderColorValue}"</Text>
           </Block>
           <Box />
           <Block
             borderBottom={borderWidth}
-            borderBottomColor="gray:50"
+            borderBottomColor={borderColor}
           >
-            borderBottom="{borderStyle}"
+            <Text>borderBottom="{borderValue}"</Text>
+            <Text>borderBottomColor="{borderColorValue}"</Text>
           </Block>
           <Box />
         </Grid>
@@ -154,8 +163,9 @@ const Block = (props) => {
     <Flex
       px="4x"
       py="3x"
-      alignItems="center"
+      alignItems="flex-start"
       justifyContent="center"
+      flexDirection="column"
       backgroundColor={backgroundColor}
       {...props}
     />
@@ -163,14 +173,18 @@ const Block = (props) => {
 };
 
 function Example() {
+  const theme = useTheme();
+  const borderColor = 'gray:50';
+  const borderStyle = 'solid';
   const borderWidths = ['thin', 'medium', 'thick'];
   const [borderWidth, setBorderWidth] = React.useState(borderWidths[0]);
-  const borderStyle = theme.borders[borderWidth] || borderWidth;
+  const borderValue = theme.borders[borderWidth] || borderWidth;
+  const borderColorValue = theme.colors[borderColor] || borderColor;
 
   return (
     <>
       <Flex align="center" mb="5x">
-        <TextLabel>Border width:</TextLabel>
+        <TextLabel>border =</TextLabel>
         <Space width="2x" />
         <Stack direction="row" spacing="2x">
           {borderWidths.map((width) => (
@@ -193,40 +207,50 @@ function Example() {
           <Box />
           <Block
             borderTop={borderWidth}
-            borderTopColor="gray:50"
-            borderTopStyle="solid"
+            borderTopColor={borderColor}
+            borderTopStyle={borderStyle}
           >
-            borderTop="{borderStyle}"
+            <Text>borderTop="{borderValue}"</Text>
+            <Text>borderTopColor="{borderColorValue}"</Text>
+            <Text>borderTopStyle="{borderStyle}"</Text>
           </Block>
           <Box />
           <Block
             borderLeft={borderWidth}
-            borderLeftColor="gray:50"
-            borderLeftStyle="solid"
+            borderLeftColor={borderColor}
+            borderLeftStyle={borderStyle}
           >
-            borderLeft="{borderStyle}"
+            <Text>borderLeft="{borderValue}"</Text>
+            <Text>borderLeftColor="{borderColorValue}"</Text>
+            <Text>borderLeftStyle="{borderStyle}"</Text>
           </Block>
           <Block
             border={borderWidth}
-            borderColor="gray:50"
-            borderStyle="solid"
+            borderColor={borderColor}
+            borderStyle={borderStyle}
           >
-            border="{borderStyle}"
+            <Text>border="{borderValue}"</Text>
+            <Text>borderColor="{borderColorValue}"</Text>
+            <Text>borderStyle="{borderStyle}"</Text>
           </Block>
           <Block
             borderRight={borderWidth}
-            borderRightColor="gray:50"
-            borderRightStyle="solid"
+            borderRightColor={borderColor}
+            borderRightStyle={borderStyle}
           >
-            borderRight="{borderStyle}"
+            <Text>borderRight="{borderValue}"</Text>
+            <Text>borderRightColor="{borderColorValue}"</Text>
+            <Text>borderRightStyle="{borderStyle}"</Text>
           </Block>
           <Box />
           <Block
             borderBottom={borderWidth}
-            borderBottomColor="gray:50"
-            borderBottomStyle="solid"
+            borderBottomColor={borderColor}
+            borderBottomStyle={borderStyle}
           >
-            borderBottom="{borderStyle}"
+            <Text>borderBottom="{borderValue}"</Text>
+            <Text>borderBottomColor="{borderColorValue}"</Text>
+            <Text>borderBottomStyle="{borderStyle}"</Text>
           </Block>
           <Box />
         </Grid>
