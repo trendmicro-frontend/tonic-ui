@@ -1,11 +1,9 @@
 import system from '../core/system';
-import { border as borderTransform } from '../utils/transforms';
 
 const config = {
   border: {
     property: 'border',
     scale: 'borders',
-    transform: borderTransform, // deprecated
   },
   borderWidth: {
     property: 'borderWidth',
@@ -23,7 +21,6 @@ const config = {
   borderTop: {
     property: 'borderTop',
     scale: 'borders',
-    transform: borderTransform,
   },
   borderTopWidth: {
     property: 'borderTopWidth',
@@ -45,7 +42,6 @@ const config = {
   borderRight: {
     property: 'borderRight',
     scale: 'borders',
-    transform: borderTransform,
   },
   borderRightWidth: {
     property: 'borderRightWidth',
@@ -59,7 +55,6 @@ const config = {
   borderBottom: {
     property: 'borderBottom',
     scale: 'borders',
-    transform: borderTransform,
   },
   borderBottomWidth: {
     property: 'borderBottomWidth',
@@ -81,7 +76,6 @@ const config = {
   borderLeft: {
     property: 'borderLeft',
     scale: 'borders',
-    transform: borderTransform,
   },
   borderLeftWidth: {
     property: 'borderLeftWidth',
@@ -95,12 +89,10 @@ const config = {
   borderX: {
     properties: ['borderLeft', 'borderRight'],
     scale: 'borders',
-    transform: borderTransform,
   },
   borderY: {
     properties: ['borderTop', 'borderBottom'],
     scale: 'borders',
-    transform: borderTransform,
   },
 };
 

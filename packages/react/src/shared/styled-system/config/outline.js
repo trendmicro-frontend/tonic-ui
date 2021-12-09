@@ -1,14 +1,10 @@
 import system from '../core/system';
-import {
-  outline as outlineTransform,
-  positiveOrNegative as positiveOrNegativeTransform,
-} from '../utils/transforms';
+import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
 const config = {
   outline: {
     property: 'outline',
     scale: 'outlines',
-    transform: outlineTransform, // deprecated
   },
   outlineColor: {
     property: 'outlineColor',
