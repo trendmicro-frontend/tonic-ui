@@ -6,6 +6,7 @@ import color from './config/color';
 import containment from './config/containment';
 import effect from './config/effect';
 import flexbox from './config/flexbox';
+import gap from './config/gap';
 import grid from './config/grid';
 import interactivity from './config/interactivity';
 import layout from './config/layout';
@@ -28,6 +29,7 @@ export const combinedStyleProps = compose(
   containment,
   effect,
   flexbox,
+  gap,
   grid,
   interactivity,
   layout,

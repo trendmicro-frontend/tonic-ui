@@ -3,15 +3,15 @@ import system from '../core/system';
 const config = {
   gridGap: {
     property: 'gridGap',
-    scale: 'space',
+    scale: 'sizes',
   },
   gridColumnGap: {
     property: 'gridColumnGap',
-    scale: 'space',
+    scale: 'sizes',
   },
   gridRowGap: {
     property: 'gridRowGap',
-    scale: 'space',
+    scale: 'sizes',
   },
   gridColumn: true,
   gridRow: true,

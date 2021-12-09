@@ -3,10 +3,6 @@ import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/tran
 
 const config = {
   position: true,
-  zIndex: {
-    property: 'zIndex',
-    scale: 'zIndices',
-  },
   top: {
     property: 'top',
     scale: 'space',
@@ -26,6 +22,10 @@ const config = {
     property: 'left',
     scale: 'space',
     transform: positiveOrNegativeTransform,
+  },
+  zIndex: {
+    property: 'zIndex',
+    scale: 'zIndices',
   },
 };
 

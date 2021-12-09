@@ -5,7 +5,27 @@ const defaultBreakpoints = [];
 const defaultTheme = {};
 
 const aliases = {
-  bg: 'backgroundColor',
+  /**
+   * background
+   */
+  bg: 'background',
+  bgAttachment: 'backgroundAttachment',
+  bgClip: 'backgroundClip',
+  bgColor: 'backgroundColor',
+  bgImage: 'backgroundImage',
+  bgPosition: 'backgroundPosition',
+  bgRepeat: 'backgroundRepeat',
+  bgSize: 'backgroundSize',
+
+  /**
+   * layout
+   */
+  w: 'width', // deprecated
+  h: 'height', // deprecated
+
+  /**
+   * margin
+   */
   m: 'margin',
   mt: 'marginTop',
   mr: 'marginRight',
@@ -13,6 +33,10 @@ const aliases = {
   ml: 'marginLeft',
   mx: 'marginX',
   my: 'marginY',
+
+  /**
+   * padding
+   */
   p: 'padding',
   pt: 'paddingTop',
   pr: 'paddingRight',
@@ -23,6 +47,8 @@ const aliases = {
 };
 
 const multiples = {
+  borderX: ['borderLeft', 'borderRight'],
+  borderY: ['borderTop', 'borderBottom'],
   marginX: ['marginLeft', 'marginRight'],
   marginY: ['marginTop', 'marginBottom'],
   paddingX: ['paddingLeft', 'paddingRight'],
@@ -30,9 +56,92 @@ const multiples = {
 };
 
 const scales = {
-  color: 'colors',
+  /**
+   * background
+   */
+  background: 'colors',
   backgroundColor: 'colors',
+
+  /**
+   * border
+   */
+  border: 'borders',
   borderColor: 'colors',
+  borderWidth: 'sizes',
+  borderTop: 'borders',
+  borderTopColor: 'colors',
+  borderTopWidth: 'sizes',
+  borderRight: 'borders',
+  borderRightColor: 'colors',
+  borderRightWidth: 'sizes',
+  borderBottom: 'borders',
+  borderBottomColor: 'colors',
+  borderBottomWidth: 'sizes',
+  borderLeft: 'borders',
+  borderLeftColor: 'colors',
+  borderLeftWidth: 'sizes',
+  borderX: 'borders',
+  borderY: 'borders',
+  borderRadius: 'radii',
+  borderTopRightRadius: 'radii',
+  borderTopLeftRadius: 'radii',
+  borderBottomRightRadius: 'radii',
+  borderBottomLeftRadius: 'radii',
+
+  /**
+   * color
+   */
+  color: 'colors',
+  fill: 'colors',
+  stroke: 'colors',
+
+  /**
+   * containment
+   */
+  containIntrinsicSize: 'sizes',
+
+  /**
+   * effect
+   */
+  boxShadow: 'shadows',
+
+  /**
+   * flexbox
+   */
+  flexBasis: 'sizes',
+
+  /**
+   * gap
+   */
+  gap: 'sizes',
+  columnGap: 'sizes',
+  rowGap: 'sizes',
+
+  /**
+   * grid
+   */
+  gridGap: 'sizes',
+  gridColumnGap: 'sizes',
+  gridRowGap: 'sizes',
+
+  /**
+   * interactivity
+   */
+  caretColor: 'colors',
+
+  /**
+   * layout
+   */
+  width: 'sizes',
+  height: 'sizes',
+  minWidth: 'sizes',
+  maxWidth: 'sizes',
+  minHeight: 'sizes',
+  maxHeight: 'sizes',
+
+  /**
+   * margin
+   */
   margin: 'space',
   marginTop: 'space',
   marginRight: 'space',
@@ -40,6 +149,17 @@ const scales = {
   marginLeft: 'space',
   marginX: 'space',
   marginY: 'space',
+
+  /**
+   * outline
+   */
+  outline: 'outlines',
+  outlineColor: 'colors',
+  outlineWidth: 'sizes',
+
+  /**
+   * padding
+   */
   padding: 'space',
   paddingTop: 'space',
   paddingRight: 'space',
@@ -47,59 +167,32 @@ const scales = {
   paddingLeft: 'space',
   paddingX: 'space',
   paddingY: 'space',
+
+  /**
+   * position
+   */
   top: 'space',
   right: 'space',
   bottom: 'space',
   left: 'space',
-  gridGap: 'space',
-  gridColumnGap: 'space',
-  gridRowGap: 'space',
-  gap: 'space',
-  columnGap: 'space',
-  rowGap: 'space',
+  zIndex: 'zIndices',
+
+  /**
+   * Text Decoration
+   */
+  textDecorationColor: 'colors',
+  textDecorationThickness: 'sizes',
+  textShadow: 'shadows',
+  textUnderlineOffset: 'space',
+
+  /**
+   * Typography
+   */
   fontFamily: 'fonts',
   fontSize: 'fontSizes',
   fontWeight: 'fontWeights',
-  lineHeight: 'lineHeights',
   letterSpacing: 'letterSpacings',
-  border: 'borders',
-  borderTop: 'borders',
-  borderRight: 'borders',
-  borderBottom: 'borders',
-  borderLeft: 'borders',
-  borderWidth: 'borderWidths',
-  borderStyle: 'borderStyles',
-  borderRadius: 'radii',
-  borderTopRightRadius: 'radii',
-  borderTopLeftRadius: 'radii',
-  borderBottomRightRadius: 'radii',
-  borderBottomLeftRadius: 'radii',
-  borderTopWidth: 'borderWidths',
-  borderTopColor: 'colors',
-  borderTopStyle: 'borderStyles',
-  borderBottomWidth: 'borderWidths',
-  borderBottomColor: 'colors',
-  borderBottomStyle: 'borderStyles',
-  borderLeftWidth: 'borderWidths',
-  borderLeftColor: 'colors',
-  borderLeftStyle: 'borderStyles',
-  borderRightWidth: 'borderWidths',
-  borderRightColor: 'colors',
-  borderRightStyle: 'borderStyles',
-  outlineColor: 'colors',
-  boxShadow: 'shadows',
-  textShadow: 'shadows',
-  zIndex: 'zIndices',
-  width: 'sizes',
-  minWidth: 'sizes',
-  maxWidth: 'sizes',
-  height: 'sizes',
-  minHeight: 'sizes',
-  maxHeight: 'sizes',
-  flexBasis: 'sizes',
-  // svg
-  fill: 'colors',
-  stroke: 'colors',
+  lineHeight: 'lineHeights',
 };
 
 const positiveOrNegative = (scale, value) => {

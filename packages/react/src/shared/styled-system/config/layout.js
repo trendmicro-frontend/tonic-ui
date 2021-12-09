@@ -38,8 +38,8 @@ const config = {
   visibility: true,
 };
 
-config.w = config.width;
-config.h = config.height;
+config.w = config.width; // deprecated
+config.h = config.height; // deprecated
 
 const layout = system(config);
 
