@@ -3,23 +3,49 @@ import ThemeParser from "../components/ThemeParser";
 
 # Borders
 
-* `borders`
-* `radii` (`border-radius`)
+<ThemeParser theme="borders" />
 
 ## Border
 
-Tonic UI does not define the border property by default.
+The border shorthand property sets all the border properties in one declaration.
 
-<ThemeParser theme="borders" />
+```
+/* style */
+border="solid"
 
-The width of the border can be either an explicit nonnegative `<length>` or a keyword. If it's a keyword, it must be one of the following values:
-* `thin`
-* `medium`
-* `thick`
+/* width | style */
+border="2px dotted"
 
-Note: Because the specification doesn't define the exact thickness denoted by each keyword, the precise result when using one of them is implementation-specific. Nevertheless, they always follow the pattern `thin ≤ medium ≤ thick`, and the values are constant within a single document.
+/* style | color */
+border="outset #f33"
+
+/* width | style | color */
+border="medium dashed green"
+
+/* Global values */
+border="inherit"
+border="initial"
+border="unset"
+```
+
+The `border` property may be specified using one, two, or three of the values listed below. The order of the value does not matter. See [border](https://developer.mozilla.org/en-US/docs/Web/CSS/border) in MDN for more details.
+
+Note: The border will be invisible if its style is not defined. This is because the style defaults to `none`.
+
+### Values
+
+`<border-color>`
+Sets the color of the border. Defaults to `currentcolor` if absent.
+
+`<border-style>`
+Sets the style of the border. Defaults to `none` if absent.
+
+`<border-width>`
+Sets the thickness of the border. Defaults to `medium` if absent.
 
 ### Nonnegative length
+
+If the border is a numeric value defined in the theme, the `solid` border style will be applied as a shorthand for the `borderWidth` and `borderStyle` properties.
 
 ```jsx noInline
 const Block = (props) => {
@@ -30,8 +56,8 @@ const Block = (props) => {
   }[colorMode];
   return (
     <Flex
-      width="32x"
-      height="12x"
+      px="4x"
+      py="3x"
       alignItems="center"
       justifyContent="center"
       backgroundColor={backgroundColor}
@@ -41,44 +67,70 @@ const Block = (props) => {
 };
 
 function Example() {
+  const borderWidths = [1, 2, 3, 4, 5];
+  const [borderWidth, setBorderWidth] = React.useState(borderWidths[0]);
+  const borderStyle = theme.borders[borderWidth] || borderWidth;
+
   return (
-    <Stack direction="row" spacing="6x">
-      <Block
-        borderWidth={1}
-        borderStyle="solid"
-        borderColor="gray:50"
-      >
-        border
-      </Block>
-      <Block
-        borderTopWidth="1x"
-        borderTopStyle="solid"
-        borderTopColor="gray:50"
-      >
-        borderTop
-      </Block>
-      <Block
-        borderRightWidth="1x"
-        borderRightStyle="solid"
-        borderRightColor="gray:50"
-      >
-        borderRight
-      </Block>
-      <Block
-        borderBottomWidth="1x"
-        borderBottomStyle="solid"
-        borderBottomColor="gray:50"
-      >
-        borderBottom
-      </Block>
-      <Block
-        borderLeftWidth="1x"
-        borderLeftStyle="solid"
-        borderLeftColor="gray:50"
-      >
-        borderLeft
-      </Block>
-    </Stack>
+    <>
+      <Flex align="center" mb="5x">
+        <TextLabel>Border width:</TextLabel>
+        <Space width="2x" />
+        <Stack direction="row" spacing="2x">
+          {borderWidths.map((width) => (
+            <Button
+              key={width}
+              onClick={() => setBorderWidth(width)}
+              variant={width === borderWidth ? 'primary' : 'secondary'}
+            >
+              <Text fontFamily="mono">{width}</Text>
+            </Button>
+          ))}
+        </Stack>
+      </Flex>
+      <Flex>
+        <Grid
+          templateColumns="1fr 1fr 1fr"
+          columnGap="6x"
+          rowGap="6x"
+        >
+          <Box />
+          <Block
+            borderTop={borderWidth}
+            borderTopColor="gray:50"
+          >
+            borderTop="{borderStyle}"
+          </Block>
+          <Box />
+          <Block
+            borderLeft={borderWidth}
+            borderLeftColor="gray:50"
+          >
+            borderLeft="{borderStyle}"
+          </Block>
+          <Block
+            border={borderWidth}
+            borderColor="gray:50"
+          >
+            border="{borderStyle}"
+          </Block>
+          <Block
+            borderRight={borderWidth}
+            borderRightColor="gray:50"
+          >
+            borderRight="{borderStyle}"
+          </Block>
+          <Box />
+          <Block
+            borderBottom={borderWidth}
+            borderBottomColor="gray:50"
+          >
+            borderBottom="{borderStyle}"
+          </Block>
+          <Box />
+        </Grid>
+      </Flex>
+    </>
   );
 }
 
@@ -87,6 +139,10 @@ render(<Example />);
 
 ### Keyword
 
+`thin`, `medium`, and `thick` are keywords that indicate the border width. You can use them in the `border` property, but you have to set the `borderStyle` property to `solid` as well.
+
+Note: Because the specification doesn't define the exact thickness denoted by each keyword, the precise result when using one of them is implementation-specific. Nevertheless, they always follow the pattern `thin ≤ medium ≤ thick`, and the values are constant within a single document.
+
 ```jsx noInline
 const Block = (props) => {
   const [colorMode] = useColorMode();
@@ -96,8 +152,8 @@ const Block = (props) => {
   }[colorMode];
   return (
     <Flex
-      width="32x"
-      height="12x"
+      px="4x"
+      py="3x"
       alignItems="center"
       justifyContent="center"
       backgroundColor={backgroundColor}
@@ -107,44 +163,75 @@ const Block = (props) => {
 };
 
 function Example() {
+  const borderWidths = ['thin', 'medium', 'thick'];
+  const [borderWidth, setBorderWidth] = React.useState(borderWidths[0]);
+  const borderStyle = theme.borders[borderWidth] || borderWidth;
+
   return (
-    <Stack direction="row" spacing="6x">
-      <Block
-        borderWidth="thin"
-        borderStyle="solid"
-        borderColor="gray:50"
-      >
-        border
-      </Block>
-      <Block
-        borderTopWidth="thick"
-        borderTopStyle="solid"
-        borderTopColor="gray:50"
-      >
-        borderTop
-      </Block>
-      <Block
-        borderRightWidth="thick"
-        borderRightStyle="solid"
-        borderRightColor="gray:50"
-      >
-        borderRight
-      </Block>
-      <Block
-        borderBottomWidth="thick"
-        borderBottomStyle="solid"
-        borderBottomColor="gray:50"
-      >
-        borderBottom
-      </Block>
-      <Block
-        borderLeftWidth="thick"
-        borderLeftStyle="solid"
-        borderLeftColor="gray:50"
-      >
-        borderLeft
-      </Block>
-    </Stack>
+    <>
+      <Flex align="center" mb="5x">
+        <TextLabel>Border width:</TextLabel>
+        <Space width="2x" />
+        <Stack direction="row" spacing="2x">
+          {borderWidths.map((width) => (
+            <Button
+              key={width}
+              onClick={() => setBorderWidth(width)}
+              variant={width === borderWidth ? 'primary' : 'secondary'}
+            >
+              <Text fontFamily="mono">{width}</Text>
+            </Button>
+          ))}
+        </Stack>
+      </Flex>
+      <Flex>
+        <Grid
+          templateColumns="1fr 1fr 1fr"
+          columnGap="6x"
+          rowGap="6x"
+        >
+          <Box />
+          <Block
+            borderTop={borderWidth}
+            borderTopColor="gray:50"
+            borderTopStyle="solid"
+          >
+            borderTop="{borderStyle}"
+          </Block>
+          <Box />
+          <Block
+            borderLeft={borderWidth}
+            borderLeftColor="gray:50"
+            borderLeftStyle="solid"
+          >
+            borderLeft="{borderStyle}"
+          </Block>
+          <Block
+            border={borderWidth}
+            borderColor="gray:50"
+            borderStyle="solid"
+          >
+            border="{borderStyle}"
+          </Block>
+          <Block
+            borderRight={borderWidth}
+            borderRightColor="gray:50"
+            borderRightStyle="solid"
+          >
+            borderRight="{borderStyle}"
+          </Block>
+          <Box />
+          <Block
+            borderBottom={borderWidth}
+            borderBottomColor="gray:50"
+            borderBottomStyle="solid"
+          >
+            borderBottom="{borderStyle}"
+          </Block>
+          <Box />
+        </Grid>
+      </Flex>
+    </>
   );
 }
 
@@ -206,3 +293,10 @@ render(<Example />);
   height="18x"
 />
 ```
+
+## Borders vs. outlines
+
+Borders and [outlines](./outlines) are very similar. However, outlines differ from borders in the following ways:
+
+* Outlines never take up space, as they are drawn outside of an element's content.
+* According to the spec, outlines don't have to be rectangular, although they usually are.
