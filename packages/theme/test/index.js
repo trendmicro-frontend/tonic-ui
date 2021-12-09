@@ -37,7 +37,13 @@ test('absolute length units: px', () => {
     zIndices,
   } = absolutePx;
 
-  expect(borders).toEqual({});
+  expect(borders).toEqual({
+    1: '1px solid',
+    2: '2px solid',
+    3: '3px solid',
+    4: '4px solid',
+    5: '5px solid',
+  });
 
   expect([...breakpoints]).toEqual([
     '320px',
@@ -187,7 +193,13 @@ test('absolute length units: px', () => {
     '4xl': '40px',
   });
 
-  expect(outlines).toEqual({});
+  expect(outlines).toEqual({
+    1: '1px solid',
+    2: '2px solid',
+    3: '3px solid',
+    4: '4px solid',
+    5: '5px solid',
+  });
 
   expect(radii).toEqual({
     circle: '50%',
@@ -296,7 +308,13 @@ test('relative length units: rem', () => {
     zIndices,
   } = relativeRem;
 
-  expect(borders).toEqual({});
+  expect(borders).toEqual({
+    1: '.0625rem solid',
+    2: '.125rem solid',
+    3: '.1875rem solid',
+    4: '.25rem solid',
+    5: '.3125rem solid',
+  });
 
   expect([...breakpoints]).toEqual([
     '320px',
@@ -446,7 +464,13 @@ test('relative length units: rem', () => {
     '4xl': '2.5rem',
   });
 
-  expect(outlines).toEqual({});
+  expect(outlines).toEqual({
+    1: '.0625rem solid',
+    2: '.125rem solid',
+    3: '.1875rem solid',
+    4: '.25rem solid',
+    5: '.3125rem solid',
+  });
 
   expect(radii).toEqual({
     circle: '50%',

@@ -17,7 +17,14 @@ import getUnitTokens from '../utils/getUnitTokens';
 const unitTokens = getUnitTokens('px');
 
 export default {
-  borders,
+  borders: {
+    ...borders,
+    1: '1px solid',
+    2: '2px solid',
+    3: '3px solid',
+    4: '4px solid',
+    5: '5px solid',
+  },
   breakpoints,
   colors,
   fonts,
@@ -45,7 +52,14 @@ export default {
     '3xl': '36px',
     '4xl': '40px',
   },
-  outlines,
+  outlines: {
+    ...outlines,
+    1: '1px solid',
+    2: '2px solid',
+    3: '3px solid',
+    4: '4px solid',
+    5: '5px solid',
+  },
   radii: {
     ...radii,
     sm: '3px',

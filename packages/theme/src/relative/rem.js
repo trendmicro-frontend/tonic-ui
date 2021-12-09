@@ -17,7 +17,14 @@ import getUnitTokens from '../utils/getUnitTokens';
 const unitTokens = getUnitTokens('rem');
 
 export default {
-  borders,
+  borders: {
+    ...borders,
+    1: '.0625rem solid',
+    2: '.125rem solid',
+    3: '.1875rem solid',
+    4: '.25rem solid',
+    5: '.3125rem solid',
+  },
   breakpoints,
   colors,
   fonts,
@@ -45,7 +52,14 @@ export default {
     '3xl': '2.25rem',
     '4xl': '2.5rem',
   },
-  outlines,
+  outlines: {
+    ...outlines,
+    1: '.0625rem solid',
+    2: '.125rem solid',
+    3: '.1875rem solid',
+    4: '.25rem solid',
+    5: '.3125rem solid',
+  },
   radii: {
     ...radii,
     sm: '.1875rem',
