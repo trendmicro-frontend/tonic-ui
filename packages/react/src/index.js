@@ -130,8 +130,8 @@ export {
   withTheme,
 };
 
-export * from './Tabs';
 export * from './Accordion';
+export * from './Datepicker';
 export * from './Drawer';
 export * from './Menu';
 export * from './Modal';
@@ -139,4 +139,5 @@ export * from './Popover';
 export * from './Popper';
 export * from './Select';
 export * from './Table';
+export * from './Tabs';
 export * from './Transition';

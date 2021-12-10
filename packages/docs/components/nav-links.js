@@ -25,6 +25,7 @@ export const componentLinks = [
   'CheckboxGroup',
   'Collapse',
   'CSSBaseline',
+  'Datepicker',
   'Divider',
   'Drawer',
   'Fade',
