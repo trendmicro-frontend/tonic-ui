@@ -2,6 +2,8 @@ import system from '../core/system';
 import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
 const config = {
+  direction: true,
+  textCombineUpright: true,
   textDecoration: true,
   textDecorationColor: {
     property: 'textDecorationColor',
@@ -13,6 +15,7 @@ const config = {
     property: 'textDecorationThickness',
     scale: 'sizes',
   },
+  textOrientation: true,
   textShadow: {
     property: 'textShadow',
     scale: 'shadows',
@@ -22,6 +25,7 @@ const config = {
     scale: 'space',
     transform: positiveOrNegativeTransform,
   },
+  writingMode: true,
 };
 
 const textDecoration = system(config);

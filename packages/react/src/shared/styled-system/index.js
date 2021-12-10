@@ -14,7 +14,7 @@ import margin from './config/margin';
 import outline from './config/outline';
 import padding from './config/padding';
 import position from './config/position';
-import textDecoration from './config/text-decoration';
+import text from './config/text';
 import transform from './config/transform';
 import transition from './config/transition';
 import typography from './config/typography';
@@ -36,7 +36,7 @@ export const combinedStyleProps = compose(
   outline,
   padding,
   position,
-  textDecoration,
+  text,
   transform,
   transition,
   typography,
