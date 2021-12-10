@@ -67,6 +67,8 @@ const cx = args => (props = {}) => {
 
     const sx = system.config[key];
     if (typeof sx !== 'function') {
+      // pass them through to the result for unknown props
+      result[key] = val;
       continue;
     }
 
