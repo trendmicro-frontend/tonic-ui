@@ -2,7 +2,6 @@ import system from '../core/system';
 import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
 const config = {
-  direction: true,
   textCombineUpright: true,
   textDecoration: true,
   textDecorationColor: {

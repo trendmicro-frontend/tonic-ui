@@ -15,7 +15,6 @@ test('returns text styles', () => {
         small: '0 -1px rgba(255, 255, 255, .25)',
       },
     },
-    direction: 'ltr',
     textCombineUpright: 'digits 4',
     textDecoration: 'underline dodgerblue',
     textDecorationColor: 'red',
@@ -28,7 +27,6 @@ test('returns text styles', () => {
     writingMode: 'vertical-rl',
   });
   expect(style).toEqual({
-    direction: 'ltr',
     textCombineUpright: 'digits 4',
     textDecoration: 'underline dodgerblue',
     textDecorationColor: 'red',
