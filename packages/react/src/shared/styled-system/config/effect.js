@@ -6,6 +6,7 @@ const config = {
     property: 'boxShadow',
     scale: 'shadows',
   },
+  filter: true,
   mixBlendMode: true,
   opacity: true,
 };
