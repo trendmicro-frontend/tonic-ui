@@ -3,6 +3,11 @@ import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/tran
 
 const config = {
   position: true,
+  inset: {
+    property: 'inset',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
   top: {
     property: 'top',
     scale: 'space',
