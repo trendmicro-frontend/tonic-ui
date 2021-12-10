@@ -6,14 +6,35 @@ const defaultTheme = {
 
 test('returns position styles', () => {
   const style = position({
+    inset: '4px 8px',
+    insetBlock: '3px 10px',
+    insetBlockEnd: '10px',
+    insetBlockStart: '3px',
+    insetInline: '3px 10px',
+    insetInlineEnd: '10px',
+    insetInlineStart: '3px',
     position: 'absolute',
     top: 0,
     right: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: 1000,
   });
   expect(style).toEqual({
+    inset: '4px 8px',
+    insetBlock: '3px 10px',
+    insetBlockEnd: '10px',
+    insetBlockStart: '3px',
+    insetInline: '3px 10px',
+    insetInlineEnd: '10px',
+    insetInlineStart: '3px',
     position: 'absolute',
+    inset: 4,
     top: 0,
     right: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: 1000,
   });
 });
 

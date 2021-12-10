@@ -171,6 +171,13 @@ const scales = {
   /**
    * position
    */
+  inset: 'space',
+  insetBlock: 'space',
+  insetBlockEnd: 'space',
+  insetBlockStart: 'space',
+  insetInline: 'space',
+  insetInlineEnd: 'space',
+  insetInlineStart: 'space',
   top: 'space',
   right: 'space',
   bottom: 'space',

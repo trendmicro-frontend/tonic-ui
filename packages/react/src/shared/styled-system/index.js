@@ -8,7 +8,7 @@ import effect from './config/effect';
 import flexbox from './config/flexbox';
 import gap from './config/gap';
 import grid from './config/grid';
-import image from '../config/image';
+import image from './config/image';
 import interactivity from './config/interactivity';
 import layout from './config/layout';
 import listStyle from './config/list-style';
