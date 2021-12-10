@@ -31,13 +31,34 @@ config.paddingY = {
   properties: ['paddingTop', 'paddingBottom'],
   scale: 'space',
 };
-config.p = config.padding;
-config.pt = config.paddingTop;
-config.pr = config.paddingRight;
-config.pb = config.paddingBottom;
-config.pl = config.paddingLeft;
-config.px = config.paddingX;
-config.py = config.paddingY;
+config.p = {
+  ...config.padding,
+  alias: 'padding',
+};
+config.pt = {
+  ...config.paddingTop,
+  alias: 'paddingTop',
+};
+config.pr = {
+  ...config.paddingRight,
+  alias: 'paddingRight',
+};
+config.pb = {
+  ...config.paddingBottom,
+  alias: 'paddingBottom',
+};
+config.pl = {
+  ...config.paddingLeft,
+  alias: 'paddingLeft',
+};
+config.px = {
+  ...config.paddingX,
+  alias: 'paddingX',
+};
+config.py = {
+  ...config.paddingY,
+  alias: 'paddingY',
+};
 
 const padding = system(config);
 

@@ -48,7 +48,7 @@ const createStyleFunction = ({
     return result;
   };
   sx.scale = scale;
-  sx.defaults = defaultScale;
+  sx.defaultScale = defaultScale;
   return sx;
 };
 

@@ -8,6 +8,8 @@ test('returns background styles', () => {
     backgroundColor: 'gold',
     backgroundImage: 'url(kitten.gif)',
     backgroundPosition: 'center',
+    backgroundPositionX: 'center',
+    backgroundPositionY: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
   });
@@ -18,6 +20,8 @@ test('returns background styles', () => {
     backgroundColor: 'gold',
     backgroundImage: 'url(kitten.gif)',
     backgroundPosition: 'center',
+    backgroundPositionX: 'center',
+    backgroundPositionY: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
   });
@@ -31,6 +35,8 @@ test('returns background styles using shorthand props', () => {
     bgColor: 'gold',
     bgImage: 'url(kitten.gif)',
     bgPosition: 'center',
+    bgPositionX: 'center',
+    bgPositionY: 'center',
     bgRepeat: 'no-repeat',
     bgSize: 'contain',
   });
@@ -41,6 +47,8 @@ test('returns background styles using shorthand props', () => {
     backgroundColor: 'gold',
     backgroundImage: 'url(kitten.gif)',
     backgroundPosition: 'center',
+    backgroundPositionX: 'center',
+    backgroundPositionY: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
   });

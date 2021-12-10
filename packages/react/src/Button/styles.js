@@ -1,4 +1,5 @@
 import _get from 'lodash.get';
+import { cx } from '../shared/styled-system';
 import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
@@ -335,7 +336,7 @@ const useButtonStyle = props => {
 };
 
 const getButtonGroupCSS = ({ useVertical }) => {
-  const horizontalCss = {
+  const horizontalCSS = cx({
     '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
@@ -344,8 +345,8 @@ const getButtonGroupCSS = ({ useVertical }) => {
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
     },
-  };
-  const verticalCss = {
+  });
+  const verticalCSS = cx({
     '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
@@ -354,8 +355,8 @@ const getButtonGroupCSS = ({ useVertical }) => {
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
     },
-  };
-  return useVertical ? verticalCss : horizontalCss;
+  });
+  return useVertical ? verticalCSS : horizontalCSS;
 };
 
 export {

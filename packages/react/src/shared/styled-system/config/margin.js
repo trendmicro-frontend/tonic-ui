@@ -5,7 +5,7 @@ const config = {
   margin: {
     property: 'margin',
     scale: 'space',
-    transform: positiveOrNegativeTransform,
+    transform: positiveOrNegativeTransform, // multi-value
   },
   marginTop: {
     property: 'marginTop',
@@ -39,13 +39,34 @@ config.marginY = {
   scale: 'space',
   transform: positiveOrNegativeTransform,
 };
-config.m = config.margin;
-config.mt = config.marginTop;
-config.mr = config.marginRight;
-config.mb = config.marginBottom;
-config.ml = config.marginLeft;
-config.mx = config.marginX;
-config.my = config.marginY;
+config.m = {
+  ...config.margin,
+  alias: 'margin',
+};
+config.mt = {
+  ...config.marginTop,
+  alias: 'marginTop',
+};
+config.mr = {
+  ...config.marginRight,
+  alias: 'marginRight',
+};
+config.mb = {
+  ...config.marginBottom,
+  alias: 'marginBottom',
+};
+config.ml = {
+  ...config.marginLeft,
+  alias: 'marginLeft',
+};
+config.mx = {
+  ...config.marginX,
+  alias: 'marginX',
+};
+config.my = {
+  ...config.marginY,
+  alias: 'marginY',
+};
 
 const margin = system(config);
 

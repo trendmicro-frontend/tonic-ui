@@ -38,8 +38,14 @@ const config = {
   visibility: true,
 };
 
-config.w = config.width; // deprecated
-config.h = config.height; // deprecated
+config.w = { // deprecated
+  ...config.width,
+  alias: 'width',
+};
+config.h = { // depre
+  ...config.height,
+  alias: 'height',
+};
 
 const layout = system(config);
 

@@ -29,7 +29,6 @@ test('returns position styles', () => {
     insetInlineEnd: '10px',
     insetInlineStart: '3px',
     position: 'absolute',
-    inset: 4,
     top: 0,
     right: 0,
     bottom: 0,

@@ -5,12 +5,12 @@ const config = {
   inset: {
     property: 'inset',
     scale: 'space',
-    transform: positiveOrNegativeTransform,
+    transform: positiveOrNegativeTransform, // multi-value
   },
   insetBlock: {
     property: 'insetBlock',
     scale: 'space',
-    transform: positiveOrNegativeTransform,
+    transform: positiveOrNegativeTransform, // multi-value
   },
   insetBlockEnd: {
     property: 'insetBlockEnd',
@@ -25,7 +25,7 @@ const config = {
   insetInline: {
     property: 'insetInline',
     scale: 'space',
-    transform: positiveOrNegativeTransform,
+    transform: positiveOrNegativeTransform, // multi-value
   },
   insetInlineEnd: {
     property: 'insetInlineEnd',

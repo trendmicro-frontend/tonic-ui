@@ -1,3 +1,4 @@
+import { cx } from '../shared/styled-system';
 import useColorMode from '../useColorMode';
 
 const baseProps = {
@@ -171,7 +172,7 @@ const getInputGroupCSS = ({
 }) => {
   const useNegativeMargin = (variant === 'outline' || variant === 'filled');
 
-  return {
+  return cx({
     '&:not(:first-child)': {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
@@ -184,7 +185,7 @@ const getInputGroupCSS = ({
     '&+&': {
       marginLeft: useNegativeMargin ? -1 : 0,
     },
-  };
+  });
 };
 
 const useInputStyle = ({

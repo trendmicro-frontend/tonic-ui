@@ -1,9 +1,14 @@
 import styled from '@emotion/styled';
 import isPropValid from '@emotion/is-prop-valid';
-import { combinedStyleProps, stylePropMap } from '../shared/styled-system';
-import css from '../shared/styled-system/css';
+import { ensureArray } from 'ensure-type';
+import { cx, system } from '../shared/styled-system';
 
 const shouldForwardProp = (() => {
+  const stylePropMap = ensureArray(system.propNames)
+    .reduce((acc, val) => {
+      acc[val] = true;
+      return acc;
+    }, {});
   const omittedStylePropMap = {
     ...stylePropMap,
 
@@ -104,7 +109,7 @@ const selection = '&::selection';
 
 const _Box = styled('div', {
   shouldForwardProp,
-})(combinedStyleProps);
+})(system);
 
 const Box = styled(_Box)(
   ({
@@ -149,7 +154,7 @@ const Box = styled(_Box)(
       rest = { ...rest, ...nthOfTypeFn(_nthOfType) };
     }
 
-    return css({
+    return cx({
       /**
        * Pseudo-classes must be declared in a specific order, as shown below:
        *

@@ -19,7 +19,7 @@ const createParser = config => {
 
       const sx = config[key];
       const raw = props[key];
-      const scale = get(props.theme, sx.scale, sx.defaults);
+      const scale = get(props.theme, sx.scale, sx.defaultScale);
 
       if (typeof raw === 'object') {
         cache.breakpoints = (!isCacheDisabled && cache.breakpoints) || get(props.theme, 'breakpoints', defaultBreakpoints);
