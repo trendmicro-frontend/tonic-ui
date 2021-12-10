@@ -1,3 +1,4 @@
+import { cx } from '../shared/styled-system';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 
@@ -40,7 +41,7 @@ const ControlBox = forwardRef((
   const indeterminate = `input[type=${type}][data-indeterminate=true] + &`;
 
   css = [
-    {
+    cx({
       [focus]: _focus,
       [hover]: _hover,
       [disabled]: _disabled,
@@ -63,7 +64,7 @@ const ControlBox = forwardRef((
         ..._indeterminate,
         '& > *': _indeterminateAndChild,
       },
-    },
+    }),
     { ...css },
   ];
 

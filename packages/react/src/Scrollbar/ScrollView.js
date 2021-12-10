@@ -1,3 +1,4 @@
+import { cx } from '../shared/styled-system';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 
@@ -9,7 +10,7 @@ const ScrollView = forwardRef((
   ref,
 ) => {
   css = [
-    { // Hide the browser scrollbar
+    cx({ // Hide the browser scrollbar
       // Chrome, Safari and Opera
       '::-webkit-scrollbar': {
         display: 'none',
@@ -18,7 +19,7 @@ const ScrollView = forwardRef((
       msOverflowStyle: 'none',
       // Firefox
       scrollbarWidth: 'none',
-    },
+    }),
     css
   ];
 
