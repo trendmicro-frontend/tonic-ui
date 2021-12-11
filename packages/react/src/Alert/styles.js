@@ -1,4 +1,4 @@
-import { get } from '@styled-system/core';
+import _get from 'lodash.get';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
@@ -425,7 +425,7 @@ const getSolidCloseButtonStyle = ({
   const focusColor = color;
   const focusHoverColor = hoverColor;
   const focusActiveColor = activeColor;
-  const focusBorderColor = get(theme?.colors, 'blue:60');
+  const focusBorderColor = _get(theme?.colors, 'blue:60');
 
   return {
     borderColor: 'transparent',
@@ -480,7 +480,7 @@ const getOutlineCloseButtonStyle = ({
   const focusColor = color;
   const focusHoverColor = hoverColor;
   const focusActiveColor = activeColor;
-  const focusBorderColor = get(theme?.colors, 'blue:60');
+  const focusBorderColor = _get(theme?.colors, 'blue:60');
 
   return {
     borderColor: 'transparent',

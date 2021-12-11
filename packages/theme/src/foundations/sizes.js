@@ -1,7 +1,3 @@
-import space from './space';
-
-const sizes = {
-  ...space,
-};
+const sizes = {};
 
 export default sizes;
