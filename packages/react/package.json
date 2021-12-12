@@ -1,6 +1,6 @@
 {
   "name": "@trendmicro/react-styled-ui",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "React UI components built with Emotion and Styled System",
   "main": "index.js",
   "publishConfig": {
@@ -22,7 +22,7 @@
     "@emotion/react": "11.x",
     "@emotion/styled": "11.x",
     "@popperjs/core": "2.x",
-    "@trendmicro/styled-ui-theme": "^0.14.0",
+    "@trendmicro/styled-ui-theme": "^0.15.0",
     "@trendmicro/tmicon": "^1.21.0",
     "chained-function": "^0.5.0",
     "color": "3.x",
