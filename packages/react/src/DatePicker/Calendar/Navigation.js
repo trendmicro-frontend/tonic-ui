@@ -6,7 +6,7 @@ import subMonths from 'date-fns/subMonths';
 import subYears from 'date-fns/subYears';
 import React, { forwardRef } from 'react';
 import Button from '../../Button';
-import Flex from '../../Flex';
+import Box from '../../Box';
 import Icon from '../../Icon';
 
 const Navigation = forwardRef((
@@ -24,8 +24,9 @@ const Navigation = forwardRef((
   ref,
 ) => {
   return (
-    <Flex
+    <Box
       ref={ref}
+      display="flex"
       {...rest}
     >
       <PreviousButton
@@ -45,7 +46,7 @@ const Navigation = forwardRef((
         view={view}
         setActiveStartDate={setActiveStartDate}
       />
-    </Flex>
+    </Box>
   );
 });
 
@@ -88,7 +89,7 @@ const Title = ({
     <Button
       variant="ghost"
       onClick={handleClick}
-      style={{ flexGrow: 1 }}
+      flexGrow={1}
     >
       { label }
     </Button>

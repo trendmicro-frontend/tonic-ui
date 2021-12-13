@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useState } from 'react';
-import Flex from '../Flex';
+import Box from '../Box';
 import Icon from '../Icon';
 import Input from '../Input';
 
@@ -30,19 +30,20 @@ const DateInput = forwardRef((
   };
 
   return (
-    <Flex
+    <Box
       display="inline-flex"
-      position="relative"
       alignItems="center"
+      position="relative"
     >
-      <Flex
-        align="center"
+      <Box
+        display="flex"
+        alignItems="center"
         position="absolute"
         left={0}
         px="3x"
       >
         <Icon icon="calendar" />
-      </Flex>
+      </Box>
       <Input
         ref={ref}
         value={value}
@@ -50,7 +51,7 @@ const DateInput = forwardRef((
         onChange={handleChange}
         {...rest}
       />
-    </Flex>
+    </Box>
   );
 });
 

@@ -1,13 +1,12 @@
 import React, { forwardRef, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
-import Flex from '../Flex';
+import useOutsideClick from '../hooks/useOutsideClick';
 import Icon from '../Icon';
 import Calendar from './Calendar';
 import DateInput from './DateInput';
 import {
   isDate,
-} from './shared/utils';
-import useOutsideClick from './useOutsideClick';
+} from './utils';
 
 const Datepicker = forwardRef((
   {
@@ -66,14 +65,14 @@ const Datepicker = forwardRef((
   }, [date]);
 
   return (
-    <Flex
+    <Box
       ref={wrapperRef}
       display="inline-flex"
-      position="relative"
       alignItems="center"
+      position="relative"
       {...rest}
     >
-      <Flex
+      <Box
         display="inline-flex"
         position="relative"
         alignItems="center"
@@ -95,7 +94,7 @@ const Datepicker = forwardRef((
             <Icon icon="warning-circle" mx="3x" color="red:50" />
           </Box>
         )}
-      </Flex>
+      </Box>
       { isCalendarOpen && (
         <Box
           position="absolute"
@@ -114,7 +113,7 @@ const Datepicker = forwardRef((
           />
         </Box>
       )}
-    </Flex>
+    </Box>
   );
 });
 

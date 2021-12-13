@@ -1,18 +1,19 @@
 import React, { forwardRef, useState } from 'react';
-import Flex from '../../Flex';
+import Box from '../../Box';
 import DecadeView from './DecadeView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import Navigation from './Navigation';
 import {
   toDate,
-} from '../shared/utils';
+} from '../utils';
 
 const Calendar = forwardRef((
   {
-    value, // string
     calendarStartDay = 0, // 0 = Sunday, 1 = Monday, ...
-    locale = 'en-CA',
+    children,
+    locale = 'en',
+    value, // string
     view = 'month', // one of 'month', 'year', 'decade'
     onChange: onClickDay,
     ...rest
@@ -23,11 +24,24 @@ const Calendar = forwardRef((
   const [currentView, setView] = useState(view);
   const [currentDate, setActiveStartDate] = useState(activeStartDate);
 
+  if (children) {
+    return (
+      <Box
+        ref={ref}
+        display="inline-flex"
+        flexDirection="column"
+        {...rest}
+      >
+        {children}
+      </Box>
+    );
+  }
+
   return (
-    <Flex
+    <Box
       ref={ref}
       display="inline-flex"
-      direction="column"
+      flexDirection="column"
       {...rest}
     >
       <Navigation
@@ -62,7 +76,7 @@ const Calendar = forwardRef((
           setView={setView}
         />
       )}
-    </Flex>
+    </Box>
   );
 });
 

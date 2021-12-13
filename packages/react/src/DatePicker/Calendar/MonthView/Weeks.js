@@ -7,7 +7,7 @@ import React, { forwardRef } from 'react';
 import Grid from '../../../Grid';
 import {
   dateFormatter,
-} from '../../shared/utils';
+} from '../../utils';
 import Week from './Week';
 
 const Weeks = forwardRef((
