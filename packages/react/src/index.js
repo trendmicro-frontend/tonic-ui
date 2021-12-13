@@ -1,4 +1,3 @@
-import Alert from './Alert';
 import Badge from './Badge';
 import Box from './Box';
 import Button from './Button';
@@ -63,7 +62,6 @@ import useToast from './useToast';
 import withTheme from './withTheme';
 
 export {
-  Alert,
   Badge,
   Box,
   Button,
@@ -135,6 +133,12 @@ export {
   AccordionHeader,
   AccordionPanel,
 } from './Accordion';
+export {
+  Alert,
+  AlertCloseButton,
+  AlertIcon,
+  AlertMessage,
+} from './Alert';
 export {
   Drawer,
   DrawerBody,

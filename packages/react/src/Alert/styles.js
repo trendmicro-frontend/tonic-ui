@@ -296,6 +296,9 @@ const useAlertStyle = ({
   const px = sizes['4x'];
   const py = `calc(${sizes['2x']} - ${borderWidth})`;
   const baseStyle = {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     borderColor: 'transparent',
     borderStyle: 'solid',
     borderWidth,
