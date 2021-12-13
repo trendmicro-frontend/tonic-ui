@@ -1,18 +1,26 @@
 import getDate from 'date-fns/getDate';
 import React, { forwardRef } from 'react';
-import Button from '../../../Button';
-import { useCellStyle } from '../../styles';
+import Box from '../../../Box';
+import { useClickableCellStyle } from '../../styles';
+import { dateFormatter } from '../../utils';
 
 const Day = forwardRef((
   {
     date,
+    isSelected,
+    isToday,
     locale,
     onClick,
     ...rest
   },
   ref,
 ) => {
-  const styleProps = useCellStyle({});
+  const styleProps = useClickableCellStyle({
+    isSelected,
+    isToday,
+  });
+  const title = dateFormatter({ date, locale });
+  const label = getDate(date);
   const handleClick = (e) => {
     if (typeof onClick !== 'function') {
       return;
@@ -21,15 +29,15 @@ const Day = forwardRef((
   };
 
   return (
-    <Button
+    <Box
       ref={ref}
-      variant="ghost"
+      title={title}
       onClick={handleClick}
       {...styleProps}
       {...rest}
     >
-      { getDate(date) }
-    </Button>
+      {label}
+    </Box>
   );
 });
 

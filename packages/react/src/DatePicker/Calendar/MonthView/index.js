@@ -8,6 +8,7 @@ const MonthView = forwardRef((
     activeStartDate,
     calendarStartDay,
     locale,
+    selectedDate,
 
     // handlers
     setActiveStartDate,
@@ -32,6 +33,7 @@ const MonthView = forwardRef((
         calendarStartDay={calendarStartDay}
         locale={locale}
         setActiveStartDate={setActiveStartDate}
+        selectedDate={selectedDate}
         onClickDay={onClickDay}
       />
     </Box>

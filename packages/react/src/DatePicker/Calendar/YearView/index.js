@@ -6,6 +6,7 @@ const YearView = forwardRef((
   {
     activeStartDate,
     locale,
+    selectedDate,
 
     // handlers
     setActiveStartDate,
@@ -28,6 +29,7 @@ const YearView = forwardRef((
       <Months
         activeStartDate={activeStartDate}
         locale={locale}
+        selectedDate={selectedDate}
         onClickMonth={handleClickMonth}
       />
     </Box>

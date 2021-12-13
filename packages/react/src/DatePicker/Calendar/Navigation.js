@@ -27,6 +27,9 @@ const Navigation = forwardRef((
     <Box
       ref={ref}
       display="flex"
+      width="100%"
+      py="1x"
+      mb="2x"
       {...rest}
     >
       <PreviousButton
@@ -88,8 +91,10 @@ const Title = ({
   return (
     <Button
       variant="ghost"
-      onClick={handleClick}
       flexGrow={1}
+      fontSize="md"
+      lineHeight="md"
+      onClick={handleClick}
     >
       { label }
     </Button>

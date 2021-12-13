@@ -4,6 +4,7 @@ import Years from './Years';
 const DecadeView = ({
   activeStartDate,
   locale,
+  selectedDate,
 
   // handlers
   setActiveStartDate,
@@ -18,6 +19,7 @@ const DecadeView = ({
     <Years
       date={activeStartDate}
       locale={locale}
+      selectedDate={selectedDate}
       onClickYear={handleClickYear}
     />
   );

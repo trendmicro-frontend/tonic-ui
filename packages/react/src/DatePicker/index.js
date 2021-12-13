@@ -1,14 +1,14 @@
-import Datepicker from './Datepicker';
+import DatePicker from './DatePicker';
 import Calendar from './Calendar';
 import DateInput from './DateInput';
 
-Datepicker.Calendar = Calendar;
-Datepicker.DateInput = DateInput;
+DatePicker.Calendar = Calendar;
+DatePicker.DateInput = DateInput;
 
 export {
-  Datepicker,
+  DatePicker,
   Calendar,
   DateInput,
 };
 
-export default Datepicker;
+export default DatePicker;

@@ -7,14 +7,19 @@ const Months = forwardRef((
   {
     activeStartDate,
     locale,
+    selectedDate,
     onClickMonth,
     ...reset
   },
   ref,
 ) => {
+  const today = (new Date()).toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+  const selectedMonth = selectedDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+
   const start = 0;
   const end = 11;
   const year = getYear(activeStartDate);
+
   const tiles = [];
   const dateTransform = (monthIndex) => {
     const date = new Date();
@@ -24,12 +29,16 @@ const Months = forwardRef((
   };
   for (let point = start; point <= end; point += 1) {
     const date = dateTransform(point);
+    const month = date.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
 
     tiles.push(
       <Month
         key={date.getTime()}
         date={date}
+        isSelected={month === selectedMonth}
+        isToday={month === today}
         locale={locale}
+        selectedDate={selectedDate}
         onClick={onClickMonth}
       />
     );

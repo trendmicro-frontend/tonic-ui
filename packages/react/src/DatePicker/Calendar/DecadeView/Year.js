@@ -1,20 +1,23 @@
 import React, { forwardRef } from 'react';
-import Button from '../../../Button';
-import {
-  useCellStyle,
-} from '../../styles';
+import Box from '../../../Box';
+import { useClickableCellStyle } from '../../styles';
 
 const Year = forwardRef((
   {
     date,
+    isSelected,
+    isToday,
     locale,
     onClick,
     ...rest
   },
   ref,
 ) => {
-  const styleProps = useCellStyle({});
-  const abbr = date.toLocaleDateString(locale, { year: 'numeric' });
+  const styleProps = useClickableCellStyle({
+    isSelected,
+    isToday,
+  });
+  const title = date.toLocaleDateString(locale, { year: 'numeric' });
   const label = date.toLocaleDateString(locale, { year: 'numeric' });
   const handleClick = (e) => {
     if (typeof onClick !== 'function') {
@@ -24,17 +27,15 @@ const Year = forwardRef((
   };
 
   return (
-    <Button
+    <Box
       ref={ref}
-      variant="ghost"
+      title={title}
       onClick={handleClick}
       {...styleProps}
       {...rest}
     >
-      <abbr aria-label={abbr}>
-        {label}
-      </abbr>
-    </Button>
+      {label}
+    </Box>
   );
 });
 

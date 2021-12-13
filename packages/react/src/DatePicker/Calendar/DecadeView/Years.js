@@ -6,9 +6,13 @@ import Year from './Year';
 const Years = ({
   date,
   locale,
+  selectedDate,
   onClickYear,
   ...rest
 }) => {
+  const today = (new Date()).toLocaleDateString(locale, { year: 'numeric' });
+  const selectedYear = selectedDate.toLocaleDateString(locale, { year: 'numeric' });
+
   const start = getYear(date);
   const end = start + 9;
   const dateTransform = (year) => {
@@ -20,10 +24,14 @@ const Years = ({
   const tiles = [];
   for (let point = start; point <= end; point += 1) {
     const date = dateTransform(point);
+    const year = date.toLocaleDateString(locale, { year: 'numeric' });
+
     tiles.push(
       <Year
         key={date.getTime()}
         date={date}
+        isSelected={year === selectedYear}
+        isToday={year === today}
         locale={locale}
         onClick={onClickYear}
       />

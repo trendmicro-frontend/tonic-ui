@@ -4,9 +4,8 @@ import DecadeView from './DecadeView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import Navigation from './Navigation';
-import {
-  toDate,
-} from '../utils';
+import { toDate } from '../utils';
+import { useCalendarStyle } from '../styles';
 
 const Calendar = forwardRef((
   {
@@ -21,15 +20,16 @@ const Calendar = forwardRef((
   ref,
 ) => {
   const activeStartDate = value ? toDate(value) : new Date();
+  const selectedDate = value ? toDate(value) : null;
   const [currentView, setView] = useState(view);
   const [currentDate, setActiveStartDate] = useState(activeStartDate);
+  const styleProps = useCalendarStyle();
 
   if (children) {
     return (
       <Box
         ref={ref}
-        display="inline-flex"
-        flexDirection="column"
+        {...styleProps}
         {...rest}
       >
         {children}
@@ -40,8 +40,7 @@ const Calendar = forwardRef((
   return (
     <Box
       ref={ref}
-      display="inline-flex"
-      flexDirection="column"
+      {...styleProps}
       {...rest}
     >
       <Navigation
@@ -57,6 +56,7 @@ const Calendar = forwardRef((
           calendarStartDay={calendarStartDay}
           locale={locale}
           setActiveStartDate={setActiveStartDate}
+          selectedDate={selectedDate}
           onClickDay={onClickDay}
         />
       )}
@@ -65,6 +65,7 @@ const Calendar = forwardRef((
           activeStartDate={currentDate}
           locale={locale}
           setActiveStartDate={setActiveStartDate}
+          selectedDate={selectedDate}
           setView={setView}
         />
       )}
@@ -73,6 +74,7 @@ const Calendar = forwardRef((
           activeStartDate={currentDate}
           locale={locale}
           setActiveStartDate={setActiveStartDate}
+          selectedDate={selectedDate}
           setView={setView}
         />
       )}

@@ -32,16 +32,15 @@ const Weekdays = forwardRef((
       {
         [0, 1, 2, 3, 4, 5, 6].map((offset) => {
           const day = addDays(startDateOfWeek, offset);
-          const abbr = day.toLocaleDateString(locale, { weekday: 'long' });
+          const title = day.toLocaleDateString(locale, { weekday: 'long' });
           const label = day.toLocaleDateString(locale, { weekday: 'short' });
           return (
             <Box
               key={offset}
+              title={title}
               {...styleProps}
             >
-              <abbr aria-label={abbr} title={abbr}>
-                { label }
-              </abbr>
+              { label }
             </Box>
           );
         })

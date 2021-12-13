@@ -5,9 +5,7 @@ import startOfMonth from 'date-fns/startOfMonth';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
 import Grid from '../../../Grid';
-import {
-  dateFormatter,
-} from '../../utils';
+import { dateFormatter } from '../../utils';
 import Week from './Week';
 
 const Weeks = forwardRef((
@@ -15,6 +13,7 @@ const Weeks = forwardRef((
     activeStartDate,
     calendarStartDay,
     locale,
+    selectedDate,
 
     // handlers
     setActiveStartDate,
@@ -50,6 +49,7 @@ const Weeks = forwardRef((
         activeStartDate={currentWeekStartDate}
         calendarStartDay={calendarStartDay}
         locale={locale}
+        selectedDate={selectedDate}
         onClickDay={handleClickDay}
       />
     );
