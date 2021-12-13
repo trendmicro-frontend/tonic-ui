@@ -47,7 +47,6 @@ const AlertIcon = forwardRef((
   return (
     <Box
       ref={ref}
-      display="flex"
       {...styleProps}
       {...rest}
     >

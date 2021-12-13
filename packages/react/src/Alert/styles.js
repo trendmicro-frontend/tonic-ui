@@ -379,6 +379,7 @@ const useAlertIconStyle = ({
     colorMode,
   };
   const iconStyle = {
+    display: 'flex',
     py: '1x',
     lineHeight: 1, // exactly the same height as the icon's height
   };
