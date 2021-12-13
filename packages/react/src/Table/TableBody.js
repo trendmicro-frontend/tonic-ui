@@ -1,20 +1,12 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 
-const TableBody = forwardRef((
-  {
-    children,
-    ...rest
-  },
-  ref,
-) => {
+const TableBody = forwardRef((props, ref) => {
   return (
     <Box
       ref={ref}
-      {...rest}
-    >
-      {children}
-    </Box>
+      {...props}
+    />
   );
 });
 
