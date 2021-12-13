@@ -1,8 +1,8 @@
 import React, { cloneElement, forwardRef, useContext, useRef } from 'react';
-import { TabContext } from './context';
-import Flex from '../Flex';
-import { useTabListStyle } from './styles';
+import Box from '../Box';
 import cleanChildren from '../utils/cleanChildren';
+import { TabContext } from './context';
+import { useTabListStyle } from './styles';
 
 const TabList = forwardRef((props, ref) => {
   const { children, onKeyDown, ...rest } = props;
@@ -100,16 +100,17 @@ const TabList = forwardRef((props, ref) => {
   });
 
   return (
-    <Flex
-      onKeyDown={handleKeyDown}
+    <Box
       ref={ref}
-      role="tablist"
       aria-orientation={orientation}
+      display="flex"
+      onKeyDown={handleKeyDown}
+      role="tablist"
       {...tabListStyleProps}
       {...rest}
     >
       {clones}
-    </Flex>
+    </Box>
   );
 });
 
