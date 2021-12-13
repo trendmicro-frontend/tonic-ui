@@ -1,7 +1,7 @@
 import { keyframes } from '@emotion/react';
 import React, { useEffect, useRef, useState } from 'react';
+import Box from '../Box';
 import ButtonBase from '../ButtonBase';
-import Flex from '../Flex';
 import Icon from '../Icon';
 import Input from '../Input';
 import useColorMode from '../useColorMode';
@@ -18,8 +18,9 @@ const spin = keyframes`
 `;
 
 const InputAdornmentPrepend = (props) => (
-  <Flex
-    align="center"
+  <Box
+    display="flex"
+    alignItems="center"
     position="absolute"
     left={0}
     height="100%"
@@ -31,8 +32,9 @@ const InputAdornmentPrepend = (props) => (
 );
 
 const InputAdornmentAppend = (props) => (
-  <Flex
-    align="center"
+  <Box
+    display="flex"
+    alignItems="center"
     position="absolute"
     right={0}
     height="100%"
@@ -95,7 +97,8 @@ const SearchInput = React.forwardRef((
   };
 
   return (
-    <Flex
+    <Box
+      display="flex"
       position="relative"
       transition="all .2s"
       {...rootProps}
@@ -139,7 +142,7 @@ const SearchInput = React.forwardRef((
           />
         )}
       </InputAdornmentAppend>
-    </Flex>
+    </Box>
   );
 });
 
