@@ -1,28 +1,31 @@
-import css from '@styled-system/css';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
+import { cx } from '../shared/styled-system';
 
-const ControlBox = ({
-  type = 'checkbox',
-  children,
-  _hover,
-  _disabled,
-  _focus,
-  _checked,
-  _indeterminate,
-  _child = { opacity: 0 },
-  _checkedAndChild = { opacity: 1 },
-  _checkedAndDisabled,
-  _checkedAndActive,
-  _checkedAndFocus,
-  _checkedAndHover,
-  _indeterminateAndChild = { opacity: 1 },
-  _indeterminateAndDisabled,
-  _indeterminateAndActive,
-  _indeterminateAndFocus,
-  _indeterminateAndHover,
-  ...rest
-}) => {
+const ControlBox = forwardRef((
+  {
+    css,
+    type = 'checkbox',
+    _hover,
+    _disabled,
+    _focus,
+    _checked,
+    _indeterminate,
+    _child = { opacity: 0 },
+    _checkedAndChild = { opacity: 1 },
+    _checkedAndDisabled,
+    _checkedAndActive,
+    _checkedAndFocus,
+    _checkedAndHover,
+    _indeterminateAndChild = { opacity: 1 },
+    _indeterminateAndDisabled,
+    _indeterminateAndActive,
+    _indeterminateAndFocus,
+    _indeterminateAndHover,
+    ...rest
+  },
+  ref,
+) => {
   const checkedAndDisabled = `input[type=${type}]:checked:disabled + &`;
   const checkedAndActive = `input[type=${type}]:checked:active:not(:disabled):not(:focus) + &`;
   const checkedAndHover = `input[type=${type}]:checked:hover:not(:disabled):not(:focus) + &`;
@@ -37,33 +40,38 @@ const ControlBox = ({
   const checked = `input[type=${type}]:checked + &`;
   const indeterminate = `input[type=${type}][data-indeterminate=true] + &`;
 
-  const style = css({
-    [focus]: _focus,
-    [hover]: _hover,
-    [disabled]: _disabled,
+  css = [
+    cx({
+      [focus]: _focus,
+      [hover]: _hover,
+      [disabled]: _disabled,
 
-    [checkedAndDisabled]: _checkedAndDisabled,
-    [checkedAndActive]: _checkedAndActive,
-    [checkedAndFocus]: _checkedAndFocus,
-    [checkedAndHover]: _checkedAndHover,
-    '& > *': _child,
-    [checked]: {
-      ..._checked,
-      '& > *': _checkedAndChild,
-    },
+      [checkedAndDisabled]: _checkedAndDisabled,
+      [checkedAndActive]: _checkedAndActive,
+      [checkedAndFocus]: _checkedAndFocus,
+      [checkedAndHover]: _checkedAndHover,
+      '& > *': _child,
+      [checked]: {
+        ..._checked,
+        '& > *': _checkedAndChild,
+      },
 
-    [indeterminateAndDisabled]: _indeterminateAndDisabled,
-    [indeterminateAndActive]: _indeterminateAndActive,
-    [indeterminateAndFocus]: _indeterminateAndFocus,
-    [indeterminateAndHover]: _indeterminateAndHover,
-    [indeterminate]: {
-      ..._indeterminate,
-      '& > *': _indeterminateAndChild,
-    },
-  });
+      [indeterminateAndDisabled]: _indeterminateAndDisabled,
+      [indeterminateAndActive]: _indeterminateAndActive,
+      [indeterminateAndFocus]: _indeterminateAndFocus,
+      [indeterminateAndHover]: _indeterminateAndHover,
+      [indeterminate]: {
+        ..._indeterminate,
+        '& > *': _indeterminateAndChild,
+      },
+    }),
+    { ...css },
+  ];
 
   return (
     <Box
+      ref={ref}
+      css={css}
       display="inline-flex"
       alignItems="center"
       justifyContent="center"
@@ -71,13 +79,10 @@ const ControlBox = ({
       flexShrink="0"
       aria-hidden={true}
       userSelect="none"
-      css={style}
       {...rest}
-    >
-      { children }
-    </Box>
+    />
   );
-};
+});
 
 ControlBox.displayName = 'ControlBox';
 
