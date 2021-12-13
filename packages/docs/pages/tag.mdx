@@ -19,7 +19,7 @@ import { Tag } from '@trendmicro/react-styled-ui';
 Use the `variant` prop to change the visual style of the `Tag`. You can set the value to `solid`, `outline`.
 
 ```jsx
-<Stack direction="row" spacing="2x" shouldWrapChildren>
+<Stack flexDirection="row" spacing="2x" shouldWrapChildren>
   <Tag variant="solid">Solid Tag</Tag>
   <Tag variant="outline">Outline Tag</Tag>
 </Stack>
@@ -31,7 +31,7 @@ Use the `variantColor` prop to change the color scheme of the `Tag`. `variantCol
 
 ```jsx
 <Stack spacing="4x">
-  <Stack direction="row" spacing="2x" shouldWrapChildren>
+  <Stack flexDirection="row" spacing="2x" shouldWrapChildren>
     <Tag variantColor="gray">Gray</Tag>
     <Tag variantColor="red">Red</Tag>
     <Tag variantColor="magenta">Magenta</Tag>
@@ -41,7 +41,7 @@ Use the `variantColor` prop to change the color scheme of the `Tag`. `variantCol
     <Tag variantColor="teal">Teal</Tag>
     <Tag variantColor="cyan">Cyan</Tag>
   </Stack>
-  <Stack direction="row" spacing="2x" shouldWrapChildren>
+  <Stack flexDirection="row" spacing="2x" shouldWrapChildren>
     <Tag variantColor="gray" borderRadius="lg">Gray</Tag>
     <Tag variantColor="red" borderRadius="lg">Red</Tag>
     <Tag variantColor="magenta" borderRadius="lg">Magenta</Tag>
@@ -51,7 +51,7 @@ Use the `variantColor` prop to change the color scheme of the `Tag`. `variantCol
     <Tag variantColor="teal" borderRadius="lg">Teal</Tag>
     <Tag variantColor="cyan" borderRadius="lg">Cyan</Tag>
   </Stack>
-  <Stack direction="row" spacing="2x" shouldWrapChildren>
+  <Stack flexDirection="row" spacing="2x" shouldWrapChildren>
     <Tag variant="outline" variantColor="gray">Gray</Tag>
     <Tag variant="outline" variantColor="red">Red</Tag>
     <Tag variant="outline" variantColor="magenta">Magenta</Tag>
@@ -61,7 +61,7 @@ Use the `variantColor` prop to change the color scheme of the `Tag`. `variantCol
     <Tag variant="outline" variantColor="teal">Teal</Tag>
     <Tag variant="outline" variantColor="cyan">Cyan</Tag>
   </Stack>
-  <Stack direction="row" spacing="2x" shouldWrapChildren>
+  <Stack flexDirection="row" spacing="2x" shouldWrapChildren>
     <Tag variant="outline" variantColor="gray" borderRadius="lg">Gray</Tag>
     <Tag variant="outline" variantColor="red" borderRadius="lg">Red</Tag>
     <Tag variant="outline" variantColor="magenta" borderRadius="lg">Magenta</Tag>
@@ -81,8 +81,8 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 ```jsx
 <Stack spacing="4x">
   <Stack
-    align="center"
-    direction="row"
+    alignItems="center"
+    flexDirection="row"
     spacing="2x"
   >
     <Tag size="sm" variantColor="gray">Small</Tag>
@@ -90,8 +90,8 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
     <Tag size="lg" variantColor="gray">Large</Tag>
   </Stack>
   <Stack
-    align="center"
-    direction="row"
+    alignItems="center"
+    flexDirection="row"
     spacing="2x"
   >
     <Tag size="sm" variant="outline" variantColor="gray">Small</Tag>
@@ -105,12 +105,12 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 
 ```jsx
 <Stack spacing="4x">
-  <Stack direction="row" spacing="4x" shouldWrapChildren>
+  <Stack flexDirection="row" spacing="4x" shouldWrapChildren>
     <Tag isClosable>Normal</Tag>
     <Tag isClosable disabled>Disabled</Tag>
     <Tag isClosable isInvalid>Invalid</Tag>
   </Stack>
-  <Stack direction="row" spacing="4x" shouldWrapChildren>
+  <Stack flexDirection="row" spacing="4x" shouldWrapChildren>
     <Tag variant="outline" isClosable>Normal</Tag>
     <Tag variant="outline" isClosable disabled>Disabled</Tag>
     <Tag variant="outline" isClosable isInvalid>Invalid</Tag>

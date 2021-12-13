@@ -58,7 +58,7 @@ const ToastSimple = ({ onClose }) => (
 
 const ToastWithIcon = ({ onClose }) => (
   <Toast isClosable onClose={onClose} py="4x">
-    <Flex align="flex-start">
+    <Flex alignItems="flex-start">
       <Box
         bg="gray:40"
         height={48}
@@ -86,7 +86,7 @@ const ToastWithActionButton = ({ onClose }) => (
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
-    <Flex justify="flex-end" mr={-36}>
+    <Flex justifyContent="flex-end" mr={-36}>
       <FlatButton variant="outline" color="black:primary" size="sm">
         Action Button
       </FlatButton>
@@ -99,7 +99,7 @@ const ToastWithActionLink = ({ onClose }) => (
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
-    <Flex justify="flex-end" mr={-36}>
+    <Flex justifyContent="flex-end" mr={-36}>
       <Link>Action Link</Link>
     </Flex>
   </Toast>
@@ -110,7 +110,7 @@ const ToastWithAllTogether = ({ onClose }) => (
     <Box mb="2x">
       <Text fontWeight="bold">Notification Title</Text>
     </Box>
-    <Flex align="flex-start" mb="6x">
+    <Flex alignItems="flex-start" mb="6x">
       <Box
         bg="gray:40"
         height={48}
@@ -119,7 +119,7 @@ const ToastWithAllTogether = ({ onClose }) => (
       <Space minWidth="4x" />
       <Text>This is a toast notification.</Text>
     </Flex>
-    <Flex justify="flex-end" mr={-36}>
+    <Flex justifyContent="flex-end" mr={-36}>
       <FlatButton variant="outline" color="black:primary" size="sm">
         Action Button
       </FlatButton>
@@ -170,7 +170,7 @@ function Example() {
 
   return (
     <>
-      <Stack direction="column" spacing="6x">
+      <Stack flexDirection="column" spacing="6x">
         <Box>
           <Button
             variant="secondary"
@@ -338,7 +338,7 @@ function Example() {
   ];
 
   return (
-    <Stack direction="column" spacing="6x">
+    <Stack flexDirection="column" spacing="6x">
       {toastComponents.map((ToastNotification, idx) => (
         <Box key={idx}>
           <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
@@ -454,7 +454,7 @@ function Example() {
   ];
 
   return (
-    <Stack direction="column" spacing="6x">
+    <Stack flexDirection="column" spacing="6x">
       {alertToasts.map((ToastNotification, idx) => (
         <Box key={idx}>
           <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>

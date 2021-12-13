@@ -64,7 +64,7 @@ To display the badge on the top-right corner of the wrapped component, specify t
 Use `variant="dot"` to change a badge into a small dot. This can be used as a notification that something has changed without giving a count.
 
 ```jsx
-<Stack direction="row" spacing="8x" shouldWrapChildren>
+<Stack flexDirection="row" spacing="8x" shouldWrapChildren>
   // Pass `isInvisible` to make it invisible
   <Badge variant="dot" isInvisible>
     <Icon icon="alert" />
@@ -83,7 +83,7 @@ Use `variant="dot"` to change a badge into a small dot. This can be used as a no
 The badge can be used as a standalone component. This can be useful for displaying a badge without a surrounding element.
 
 ```jsx
-<Stack direction="row" spacing="8x" alignItems="center">
+<Stack flexDirection="row" spacing="8x" alignItems="center">
   <Badge variant="dot" />
   <Badge variant="solid" badgeContent={0} />
   <Badge variant="solid" badgeContent={5} />
@@ -128,8 +128,8 @@ function Example() {
   const [isInvisible, setIsInvisible] = React.useState(false);
 
   return (
-    <Stack direction="column" spacing="8x">
-      <Flex align="center">
+    <Stack flexDirection="column" spacing="8x">
+      <Flex alignItems="center">
         <Box mr="8x">
           <Badge badgeContent={count} isInvisible={!(count > 0)}>
             <Icon icon="alert" />
@@ -166,7 +166,7 @@ function Example() {
           </Badge>
         </Box>
         <TextLabel cursor="pointer">
-          <Flex align="center">
+          <Flex alignItems="center">
             <Switch
               size="md"
               checked={!isInvisible}
@@ -204,7 +204,7 @@ function Example() {
   ];
 
   return (
-    <Stack direction="row" spacing="8x" shouldWrapChildren>
+    <Stack flexDirection="row" spacing="8x" shouldWrapChildren>
       {colors.map(color => (
         <Badge key={color} backgroundColor={color} badgeContent={5}>
           <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
@@ -220,7 +220,7 @@ function Example() {
 The size of the badge can be changed by passing the `height` and `minWidth` props.
 
 ```jsx
-<Stack direction="row" spacing="8x" shouldWrapChildren>
+<Stack flexDirection="row" spacing="8x" shouldWrapChildren>
   <Badge badgeContent={5} height="4x" minWidth="4x" fontSize="xs">
     <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
   </Badge>

@@ -23,7 +23,7 @@ import { Input } from '@trendmicro/react-styled-ui';
 Use the `size` prop to change the size of the `Input`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="4x">
+<Stack flexDirection="column" spacing="4x">
   <Box>
     <TextLabel mb="1x" size="sm">Label:</TextLabel>
     <Input size="sm" placeholder="Small size (24px)" />
@@ -118,7 +118,7 @@ The value of `list` is the id attribute of the `<datalist>` of autocomplete opti
 
 ```jsx
 <>
-  <Flex align="center">
+  <Flex alignItems="center">
     <TextLabel htmlFor="browser-choice" mr="2x">
       Choose a browser from the list:
     </TextLabel>
@@ -144,7 +144,7 @@ First, you may have to create your input adornment components for convenience. N
 ```jsx disabled
 const InputAdornmentPrepend = (props) => (
   <Flex
-    align="center"
+    alignItems="center"
     position="absolute"
     left={0}
     height="100%"
@@ -157,7 +157,7 @@ const InputAdornmentPrepend = (props) => (
 
 const InputAdornmentAppend = (props) => (
   <Flex
-    align="center"
+    alignItems="center"
     position="absolute"
     right={0}
     height="100%"
@@ -174,7 +174,7 @@ Take a look at the following examples:
 ```jsx noInline
 const InputAdornmentPrepend = (props) => (
   <Flex
-    align="center"
+    alignItems="center"
     position="absolute"
     left={0}
     px="3x"
@@ -186,7 +186,7 @@ const InputAdornmentPrepend = (props) => (
 
 const InputAdornmentAppend = (props) => (
   <Flex
-    align="center"
+    alignItems="center"
     position="absolute"
     right={0}
     px="3x"
@@ -208,7 +208,7 @@ function Example() {
   const inputType = view ? 'text' : 'password';
 
   return (
-    <Stack direction="column" spacing="4x">
+    <Stack flexDirection="column" spacing="4x">
       <Flex position="relative" alignItems="center">
         <InputAdornmentPrepend>
           <Icon icon="mobile" color={adornmentColor} />

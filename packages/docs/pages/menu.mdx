@@ -124,7 +124,7 @@ function Example() {
 `MenuTrigger` is the trigger that opens the menu when clicked. It is usually a button or link. The `MenuIndicator` can be added to the trigger to indicate the menu is open or closed.
 
 ```jsx
-<Flex align="center">
+<Flex alignItems="center">
   <Menu>
     <MenuTrigger>
       <Text>Options</Text>
@@ -345,7 +345,7 @@ render(
       <MenuDivider />
       <MenuGroup
         title={(
-          <Flex justify="space-between">
+          <Flex justifyContent="space-between">
             <Text>Other profiles</Text>
             <Space minWidth="10x" />
             <ButtonBase title="Manage profiles">

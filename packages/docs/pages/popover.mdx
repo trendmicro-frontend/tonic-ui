@@ -73,7 +73,7 @@ function WalkthroughPopover() {
           justifyContent="space-between"
         >
           <Link fontSize="sm">Learn more</Link>
-          <Stack direction="row" spacing="2x">
+          <Stack flexDirection="row" spacing="2x">
             <Button variant="primary">Setup Email</Button>
             <Button variant="default">
               Next
@@ -118,7 +118,7 @@ function InternalStateEx() {
             justifyContent="space-between"
           >
             <Link fontSize="sm">Learn more</Link>
-            <Stack direction="row" spacing="2x">
+            <Stack flexDirection="row" spacing="2x">
               <Button variant="primary">Submit</Button>
               <Button variant="default" onClick={onClose} ref={initRef}>
                 Cancel
@@ -227,7 +227,7 @@ If you quickly move your cursor to the popover content when it is open, `Popover
 ### Mouse tracking
 
 ```jsx
-<Stack shouldWrapChildren direction="row" spacing="2x">
+<Stack shouldWrapChildren flexDirection="row" spacing="2x">
   <Popover trigger="hover" nextToCursor>
     <PopoverTrigger>
       <Button>Next to cursor</Button>
@@ -254,8 +254,8 @@ Since `Popover` is controlled by PopperJS, you can change the placement of `Popo
 Although you may have specified the placement, `Popover` will try to reposition itself if there is not enough available space at the specified placement.
 
 ```jsx
-<Stack direction="column" spacing="2rem">
-  <Stack shouldWrapChildren direction="row" spacing="2rem">
+<Stack flexDirection="column" spacing="8x">
+  <Stack shouldWrapChildren flexDirection="row" spacing="8x">
     <Popover placement="top">
       <PopoverTrigger>
         <Button minWidth="32x">Top</Button>
@@ -284,7 +284,7 @@ Although you may have specified the placement, `Popover` will try to reposition 
       </PopoverContent>
     </Popover>
   </Stack>
-  <Stack shouldWrapChildren direction="row" spacing="2rem">
+  <Stack shouldWrapChildren flexDirection="row" spacing="8x">
     <Popover placement="right">
       <PopoverTrigger>
         <Button minWidth="32x">Right</Button>
@@ -313,7 +313,7 @@ Although you may have specified the placement, `Popover` will try to reposition 
       </PopoverContent>
     </Popover>
   </Stack>
-  <Stack shouldWrapChildren direction="row" spacing="2rem">
+  <Stack shouldWrapChildren flexDirection="row" spacing="8x">
     <Popover placement="bottom">
       <PopoverTrigger>
         <Button minWidth="32x">Bottom</Button>
@@ -342,7 +342,7 @@ Although you may have specified the placement, `Popover` will try to reposition 
       </PopoverContent>
     </Popover>
   </Stack>
-  <Stack shouldWrapChildren direction="row" spacing="2rem">
+  <Stack shouldWrapChildren flexDirection="row" spacing="8x">
     <Popover placement="left">
       <PopoverTrigger>
         <Button minWidth="32x">Left</Button>

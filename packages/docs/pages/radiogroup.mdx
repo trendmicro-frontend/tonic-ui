@@ -42,11 +42,11 @@ function Example() {
 
 ### Group orientation
 
-Make a set of radios appear horizontal stacked rather than vertically, by adding `direction="row"` to the `Stack` component.
+Make a set of radios appear horizontal stacked rather than vertically, by adding `flexDirection="row"` to the `Stack` component.
 
 ```jsx
 <RadioGroup defaultValue="1">
-  <Stack direction="row" spacing="3x">
+  <Stack flexDirection="row" spacing="3x">
     <Radio value="1">Radio 1</Radio>
     <Radio value="2">Radio 2</Radio>
     <Radio value="3">Radio 3</Radio>
@@ -60,7 +60,7 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 
 ```jsx
 <RadioGroup variantColor="green" defaultValue="1">
-  <Stack direction="row" spacing="3x">
+  <Stack flexDirection="row" spacing="3x">
     <Radio value="1">Radio 1</Radio>
     <Radio value="2">Radio 2</Radio>
   </Stack>
@@ -72,23 +72,23 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 Use the `size` prop to change the size of the `RadioGroup`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="4x" shouldWrapChildren>
+<Stack flexDirection="column" spacing="4x" shouldWrapChildren>
   <RadioGroup size="sm" defaultValue="1">
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
   <RadioGroup size="md" defaultValue="1">
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
   <RadioGroup size="lg" defaultValue="1">
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
@@ -100,16 +100,16 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 ### States
 
 ```jsx
-<Stack direction="column" spacing="2x" shouldWrapChildren>
+<Stack flexDirection="column" spacing="2x" shouldWrapChildren>
   <RadioGroup defaultValue="1">
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
     </Stack>
   </RadioGroup>
   <RadioGroup disabled defaultValue="1">
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Radio value="1">Radio 1</Radio>
       <Radio value="2">Radio 2</Radio>
       <Radio value="3">Radio 3</Radio>
@@ -156,7 +156,7 @@ function Example() {
     <>
       <Box mb="4x">
         <LinkButton onClick={() => fetchData()}>
-          <Flex align="center">
+          <Flex alignItems="center">
             <Icon icon="redo" spin={true} animationPlayState={state.state === 'loading' ? 'running' : 'paused'} />
             <Space width="2x" />
             Reload

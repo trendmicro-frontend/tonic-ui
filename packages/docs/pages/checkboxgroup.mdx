@@ -14,7 +14,7 @@ import { CheckboxGroup } from '@trendmicro/react-styled-ui';
 
 ```jsx
 <CheckboxGroup defaultValue={["apple"]}>
-  <Stack direction="column" spacing="1x" shouldWrapChildren>
+  <Stack flexDirection="column" spacing="1x" shouldWrapChildren>
     <Checkbox value="apple">Apple</Checkbox>
     <Checkbox value="orange">Orange</Checkbox>
     <Checkbox value="papaya">Papaya</Checkbox>
@@ -30,7 +30,7 @@ function Example() {
 
   return (
     <CheckboxGroup value={value} onChange={value => setValue(value)}>
-      <Stack direction="column" spacing="1x" shouldWrapChildren>
+      <Stack flexDirection="column" spacing="1x" shouldWrapChildren>
         <Checkbox value="apple">Apple</Checkbox>
         <Checkbox value="orange">Orange</Checkbox>
         <Checkbox value="papaya">Papaya</Checkbox>
@@ -42,11 +42,11 @@ function Example() {
 
 ### Group orientation
 
-Make a set of checkboxes appear horizontal stacked rather than vertically, by adding `direction="row"` to the `Stack` component.
+Make a set of checkboxes appear horizontal stacked rather than vertically, by adding `flexDirection="row"` to the `Stack` component.
 
 ```jsx
 <CheckboxGroup defaultValue={['apple']}>
-  <Stack direction="row" spacing="3x">
+  <Stack flexDirection="row" spacing="3x">
     <Checkbox value="apple">Apple</Checkbox>
     <Checkbox value="orange">Orange</Checkbox>
     <Checkbox value="papaya">Papaya</Checkbox>
@@ -60,7 +60,7 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 
 ```jsx
 <CheckboxGroup variantColor="green" defaultValue={['apple']}>
-  <Stack direction="row" spacing="3x">
+  <Stack flexDirection="row" spacing="3x">
     <Checkbox value="apple">Apple</Checkbox>
     <Checkbox value="orange">Orange</Checkbox>
     <Checkbox value="papaya">Papaya</Checkbox>
@@ -73,23 +73,23 @@ Use the `variantColor` prop to change the color scheme of the Radio. `variantCol
 Use the `size` prop to change the size of the `CheckboxGroup`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="1x" shouldWrapChildren>
+<Stack flexDirection="column" spacing="1x" shouldWrapChildren>
   <CheckboxGroup size="sm" defaultValue={['apple']}>
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Checkbox value="apple">Apple</Checkbox>
       <Checkbox value="orange">Orange</Checkbox>
       <Checkbox value="papaya">Papaya</Checkbox>
     </Stack>
   </CheckboxGroup>
   <CheckboxGroup size="md" defaultValue={['apple']}>
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Checkbox value="apple">Apple</Checkbox>
       <Checkbox value="orange">Orange</Checkbox>
       <Checkbox value="papaya">Papaya</Checkbox>
     </Stack>
   </CheckboxGroup>
   <CheckboxGroup size="lg" defaultValue={['apple']}>
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Checkbox value="apple">Apple</Checkbox>
       <Checkbox value="orange">Orange</Checkbox>
       <Checkbox value="papaya">Papaya</Checkbox>
@@ -101,16 +101,16 @@ Use the `size` prop to change the size of the `CheckboxGroup`. You can set the v
 ### States
 
 ```jsx
-<Stack direction="column" spacing="2x" shouldWrapChildren>
+<Stack flexDirection="column" spacing="2x" shouldWrapChildren>
   <CheckboxGroup defaultValue={['apple']}>
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Checkbox value="apple">Apple</Checkbox>
       <Checkbox value="orange">Orange</Checkbox>
       <Checkbox value="papaya">Papaya</Checkbox>
     </Stack>
   </CheckboxGroup>
   <CheckboxGroup disabled defaultValue={['apple']}>
-    <Stack direction="row" spacing="3x">
+    <Stack flexDirection="row" spacing="3x">
       <Checkbox value="apple">Apple</Checkbox>
       <Checkbox value="orange">Orange</Checkbox>
       <Checkbox value="papaya">Papaya</Checkbox>
@@ -153,7 +153,7 @@ function Example() {
     <>
       <Box mb="4x">
         <LinkButton onClick={() => fetchData()}>
-          <Flex align="center">
+          <Flex alignItems="center">
             <Icon icon="redo" spin={true} animationPlayState={state.state === 'loading' ? 'running' : 'paused'} />
             <Space width="2x" />
             Reload
@@ -167,7 +167,7 @@ function Example() {
           setState(prevState => ({ ...prevState, fruits: value }));
         }}
       >
-        <Stack direction="row" spacing="3x">
+        <Stack flexDirection="row" spacing="3x">
           <Checkbox value="apple">Apple</Checkbox>
           <Checkbox value="orange">Orange</Checkbox>
           <Checkbox value="papaya">Papaya</Checkbox>

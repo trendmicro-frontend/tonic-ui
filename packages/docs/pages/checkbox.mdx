@@ -21,7 +21,7 @@ import { Checkbox } from '@trendmicro/react-styled-ui';
 Use the `variantColor` prop to change the color scheme of the checkbox. `variantColor` can be any color key with key `50` (hover) or `60` (checked, active) that exist in `theme.colors`.
 
 ```jsx
-<Stack direction="row" spacing="6x">
+<Stack flexDirection="row" spacing="6x">
   <Checkbox variantColor="red" defaultChecked>
     Checkbox
   </Checkbox>
@@ -39,7 +39,7 @@ Use the `variantColor` prop to change the color scheme of the checkbox. `variant
 Use the `size` prop to change the size of the checkbox. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="row" spacing="4x">
+<Stack flexDirection="row" spacing="4x">
   <Checkbox size="sm">Checkbox</Checkbox>
   <Checkbox size="md">Checkbox</Checkbox>
   <Checkbox size="lg">Checkbox</Checkbox>
@@ -49,7 +49,7 @@ Use the `size` prop to change the size of the checkbox. You can set the value to
 ### States
 
 ```jsx
-<Stack direction="row" spacing="6x" alignItems="center">
+<Stack flexDirection="row" spacing="6x" alignItems="center">
   <Stack spacing="2x" alignItems="center">
     <Checkbox>Checkbox</Checkbox>
     <Checkbox disabled>Checkbox</Checkbox>
@@ -81,7 +81,7 @@ function IndeterminateExample() {
         onChange={e => setCheckedItems([e.target.checked, e.target.checked])}
         children="Parent Checkbox"
       />
-      <Stack direction="column" pl="6x" mt="1x" spacing="1x" shouldWrapChildren>
+      <Stack flexDirection="column" pl="6x" mt="1x" spacing="1x" shouldWrapChildren>
         <Checkbox
           checked={checkedItems[0]}
           onChange={e => setCheckedItems([e.target.checked, checkedItems[1]])}

@@ -13,7 +13,7 @@ import { Icon } from '@trendmicro/react-styled-ui';
 Use an icon by passing the `icon` prop. This `icon` property value must match an icon key defined in `theme.icons`. By default, the icon inherits the font size and color of its parent.
 
 ```jsx
-<Stack direction="row" spacing="4x" alignItems="center">
+<Stack flexDirection="row" spacing="4x" alignItems="center">
   <Icon icon="face-smile-o" />
   <Icon icon="face-smile-o" size="6x" color="red:50" />
   <Icon icon="face-smile-o" size="8x" color="yellow:50" />
@@ -41,7 +41,7 @@ function Example() {
       <Flex mb="4x">
         <Switch size="sm" checked={checked} onChange={toggle} /><Space width="4x" />Toggle animation
       </Flex>
-      <Stack direction="row" spacing="4x">
+      <Stack flexDirection="row" spacing="4x">
         <Icon icon="spinner" size="6x" spin animationPlayState={playState} />
         <Icon icon="spinner" size="6x" spin animationDuration="4s" animationPlayState={playState} />
         <Icon icon="clock" size="6x" spin animationPlayState={playState} animationTimingFunction="steps(8)" />
@@ -144,7 +144,7 @@ const renderIconGroup = (iconSet, keyword, showCharCode, color) => {
       pr="4x"
     >
       {iconSet.icons.map(icon => (
-        <Flex direction="row" align="center" pb={0} pr={0} overflow="hidden" key={icon.code}>
+        <Flex flexDirection="row" alignItems="center" pb={0} pr={0} overflow="hidden" key={icon.code}>
           <FlexItem flex="initial" pr="2x">
             <Icon icon={icon.name}/>
           </FlexItem>
@@ -193,7 +193,7 @@ function Example() {
 
   return (
     <>
-      <Flex direction="row" align="center" position="relative">
+      <Flex flexDirection="row" alignItems="center" position="relative">
         <Box pl="4x">
           <SearchInput
             fontSize="md"

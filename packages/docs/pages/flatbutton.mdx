@@ -17,7 +17,7 @@ import { FlatButton } from '@trendmicro/react-styled-ui';
 Use the `variant` prop to change the visual style of the Button. You can set the value to `solid`, `outline`.
 
 ```jsx
-<Stack direction="row" spacing="2x">
+<Stack flexDirection="row" spacing="2x">
   <FlatButton variant="solid">Solid Button</FlatButton>
   <FlatButton variant="outline">Outline Button</FlatButton>
 </Stack>
@@ -29,11 +29,11 @@ Use the `variantColor` prop to change the color scheme of the Button. `variantCo
 
 ```jsx
 <Stack spacing="4x">
-  <Stack direction="row" spacing="2x">
+  <Stack flexDirection="row" spacing="2x">
     <FlatButton variantColor="green">Button</FlatButton>
     <FlatButton variantColor="green:40">Button</FlatButton>
   </Stack>
-  <Stack direction="row" spacing="2x">
+  <Stack flexDirection="row" spacing="2x">
     <FlatButton variant="outline" variantColor="green">Button</FlatButton>
     <FlatButton variant="outline" variantColor="green:40">Button</FlatButton>
   </Stack>
@@ -46,12 +46,12 @@ Use the `size` prop to change the size of the `Button`. You can set the value to
 
 ```jsx
 <Stack spacing="4x">
-  <Stack direction="row" spacing="2x" alignItems="center">
+  <Stack flexDirection="row" spacing="2x" alignItems="center">
     <FlatButton size="sm">Small</FlatButton>
     <FlatButton size="md">Medium</FlatButton>
     <FlatButton size="lg">Large</FlatButton>
   </Stack>
-  <Stack direction="row" spacing="2x" alignItems="center">
+  <Stack flexDirection="row" spacing="2x" alignItems="center">
     <FlatButton variant="outline" size="sm">Small</FlatButton>
     <FlatButton variant="outline" size="md">Medium</FlatButton>
     <FlatButton variant="outline" size="lg">Large</FlatButton>
@@ -63,11 +63,11 @@ Use the `size` prop to change the size of the `Button`. You can set the value to
 
 ```jsx
 <Stack spacing="4x">
-  <Stack direction="row" spacing="2x">
+  <Stack flexDirection="row" spacing="2x">
     <FlatButton>Normal</FlatButton>
     <FlatButton disabled>Disabled</FlatButton>
   </Stack>
-  <Stack direction="row" spacing="2x">
+  <Stack flexDirection="row" spacing="2x">
     <FlatButton variant="outline">Normal</FlatButton>
     <FlatButton variant="outline" disabled>Disabled</FlatButton>
   </Stack>
