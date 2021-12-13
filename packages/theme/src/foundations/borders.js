@@ -1,7 +1,3 @@
-const borders = {
-  none: 0,
-  1: '1px solid',
-  2: '2px solid',
-};
+const borders = {};
 
 export default borders;
