@@ -44,7 +44,6 @@ import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
-import Toast from './Toast';
 import ToastProvider from './ToastProvider';
 import ToggleSwitch from './ToggleSwitch'; // deprecated
 import Tooltip from './Tooltip';
@@ -108,7 +107,6 @@ export {
   TextLabel,
   ThemeProvider,
   Tag,
-  Toast,
   ToastProvider,
   ToggleSwitch, // deprecated
   Tooltip,
@@ -198,6 +196,12 @@ export {
   TabPanel,
   TabPanels,
 } from './Tabs';
+export {
+  Toast,
+  ToastCloseButton,
+  ToastIcon,
+  ToastMessage,
+} from './Toast';
 export {
   Collapse,
   Fade,
