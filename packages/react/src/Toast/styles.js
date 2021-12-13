@@ -1,4 +1,4 @@
-import { get } from '@styled-system/core';
+import _get from 'lodash.get';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
@@ -22,25 +22,25 @@ const getAppearanceProps = ({
     success: {
       borderLeftColor: 'green:50',
       borderLeftStyle: 'solid',
-      borderLeftWidth: get(sizes, '1x'),
+      borderLeftWidth: _get(sizes, '1x'),
       pl: '3x',
     },
     info: {
       borderLeftColor: 'blue:50',
       borderLeftStyle: 'solid',
-      borderLeftWidth: get(sizes, '1x'),
+      borderLeftWidth: _get(sizes, '1x'),
       pl: '3x',
     },
     warning: {
       borderLeftColor: 'yellow:50',
       borderLeftStyle: 'solid',
-      borderLeftWidth: get(sizes, '1x'),
+      borderLeftWidth: _get(sizes, '1x'),
       pl: '3x',
     },
     error: {
       borderLeftColor: 'red:60',
       borderLeftStyle: 'solid',
-      borderLeftWidth: get(sizes, '1x'),
+      borderLeftWidth: _get(sizes, '1x'),
       pl: '3x',
     },
   }[appearance];
@@ -110,7 +110,7 @@ const useToastCloseButtonStyle = () => {
   const focusColor = color;
   const focusHoverColor = hoverColor;
   const focusActiveColor = activeColor;
-  const focusBorderColor = get(colors, 'blue:60');
+  const focusBorderColor = _get(colors, 'blue:60');
 
   return {
     border: 1,

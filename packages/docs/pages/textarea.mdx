@@ -32,13 +32,21 @@ function Example() {
 
   return (
     <>
-      <Text mb="2x">resize:</Text>
-      <Stack direction="row" spacing=".5rem" mb="4x">
-        <Button variant="outline" selected={resize === 'none'} onClick={() => setResize('none')}>none</Button>
-        <Button variant="outline" selected={resize === 'both'} onClick={() => setResize('both')}>both</Button>
-        <Button variant="outline" selected={resize === 'horizontal'} onClick={() => setResize('horizontal')}>horizontal</Button>
-        <Button variant="outline" selected={resize === 'vertical'} onClick={() => setResize('vertical')}>vertical</Button>
-      </Stack>
+      <Flex align="center" mb="5x">
+        <TextLabel>resize =</TextLabel>
+        <Space width="2x" />
+        <Stack direction="row" spacing="2x">
+          {['none', 'both', 'horizontal', 'vertical'].map(value => (
+            <Button
+              key={value}
+              variant={resize === value ? 'primary' : 'secondary'}
+              onClick={() => setResize(value)}
+            >
+              {value}
+            </Button>
+          ))}
+        </Stack>
+      </Flex>
       <Textarea
         defaultValue="Placeholder text"
         width="auto"
@@ -47,6 +55,7 @@ function Example() {
         cols="12"
         minLength={4}
         maxLength={16}
+        transition="none"
       />
     </>
   );
