@@ -68,7 +68,7 @@ const Header = forwardRef((props, ref) => {
         <Flex
           flex="none"
           width="auto"
-          align="center"
+          alignItems="center"
           px="4x"
         >
           <Box
