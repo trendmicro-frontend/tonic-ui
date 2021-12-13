@@ -2,6 +2,7 @@ export const themeLinks = [
   'Borders',
   'Breakpoints',
   'Colors',
+  'Outlines',
   'Positions',
   'Spacing',
   'Sizes',
