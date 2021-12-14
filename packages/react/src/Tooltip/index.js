@@ -47,7 +47,7 @@ const Tooltip = forwardRef((
   });
 
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
-  const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
+  const { isOpen, onClose, onOpen } = useDisclosure(false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;
 
