@@ -1,15 +1,29 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import Box from '../Box';
+import useEffectOnce from '../hooks/useEffectOnce';
 import useForkRef from '../utils/useForkRef';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import { usePopover } from './context';
 
 const PopoverTrigger = forwardRef((
   {
+    shouldWrapChildren, // removed
+
     children,
     ...rest
   },
   ref,
 ) => {
+  useEffectOnce(() => {
+    const prefix = `${PopoverTrigger.displayName}:`;
+
+    if (shouldWrapChildren !== undefined) {
+      warnRemovedProps('shouldWrapChildren', {
+        prefix,
+      });
+    }
+  });
+
   const {
     anchorRef,
     popoverId,
