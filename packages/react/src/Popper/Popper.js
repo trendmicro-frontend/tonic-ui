@@ -38,8 +38,8 @@ const Popper = forwardRef((
   },
   ref,
 ) => {
-  const tooltipRef = useRef(null);
-  const ownRef = useForkRef(tooltipRef, ref);
+  const nodeRef = useRef();
+  const combinedRef = useForkRef(nodeRef, ref);
 
   const popperRef = useRef(null);
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
@@ -56,7 +56,7 @@ const Popper = forwardRef((
   const [placement, setPlacement] = useState(initialPlacement);
 
   const handleOpen = useCallback(() => {
-    const popperNode = tooltipRef.current;
+    const popperNode = nodeRef.current;
 
     if (!popperNode || !anchorEl || !isOpen) {
       return;
@@ -99,10 +99,10 @@ const Popper = forwardRef((
 
   const handleRef = useCallback(
     node => {
-      setRef(ownRef, node);
+      setRef(combinedRef, node);
       handleOpen();
     },
-    [ownRef, handleOpen],
+    [combinedRef, handleOpen],
   );
 
   const handleEnter = () => {
