@@ -39,7 +39,7 @@ const Tooltip = forwardRef((
     }
 
     if (shouldWrapChildren !== undefined) {
-      warnRemovedProps('isHidden', {
+      warnRemovedProps('shouldWrapChildren', {
         prefix,
         message: 'Use children as a function to render the tooltip trigger instead.',
       });
