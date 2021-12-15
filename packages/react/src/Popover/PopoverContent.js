@@ -1,4 +1,5 @@
 import React from 'react';
+import useHydrated from '../hooks/useHydrated';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 import Popper from '../Popper/Popper';
@@ -12,9 +13,9 @@ const PopoverContent = ({
   onMouseEnter,
   onFocus,
   children,
-  'aria-label': ariaLabel,
   ...props
 }) => {
+  const isHydrated = useHydrated();
   const {
     popoverRef,
     anchorRef,
@@ -40,6 +41,7 @@ const PopoverContent = ({
     arrowAt,
   } = usePopover();
   const contentStyleProps = usePopoverContentStyle();
+
   const arrowSize = 12;
   let _skidding = skidding;
   let _distance = distance + 8; // Arrow height is 8px
@@ -97,21 +99,23 @@ const PopoverContent = ({
     }),
   };
 
+  if (!isHydrated) {
+    return null;
+  }
+
   return (
     <Popper
-      as="section"
+      aria-hidden={!isOpen}
+      aria-labelledby={headerId}
+      aria-describedby={bodyId}
       usePortal={usePortal}
       isOpen={isOpen}
       placement={placement}
-      aria-label={ariaLabel}
       anchorEl={anchorRef.current}
       ref={popoverRef}
       id={popoverId}
-      aria-hidden={!isOpen}
       arrowSize={`${arrowSize}px`}
       modifiers={{ offset: [_skidding, _distance] }}
-      aria-labelledby={headerId}
-      aria-describedby={bodyId}
       {...contentStyleProps}
       {...roleProps}
       {...eventHandlers}

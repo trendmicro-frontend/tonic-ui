@@ -33,4 +33,6 @@ const useTooltipStyle = props => {
   };
 };
 
-export default useTooltipStyle;
+export {
+  useTooltipStyle,
+};
