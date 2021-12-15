@@ -1,35 +1,63 @@
-import React, { cloneElement, useRef, Children } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import Box from '../Box';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
-import VisuallyHidden from '../VisuallyHidden';
+import useEffectOnce from '../hooks/useEffectOnce';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
-import wrapEvent from '../utils/wrapEvent';
-import useTooltipStyle from './styles';
+import useForkRef from '../utils/useForkRef';
+import warnRemovedProps from '../utils/warnRemovedProps';
+import { useTooltipStyle } from './styles';
 
-const Tooltip = ({
-  label,
-  'aria-label': ariaLabel,
-  showDelay = 0,
-  hideDelay = 0,
-  placement = 'bottom',
-  children,
-  hideArrow,
-  closeOnClick,
-  defaultIsOpen,
-  shouldWrapChildren,
-  isOpen: isControlledOpen,
-  onOpen: onOpenProp,
-  onClose: onCloseProp,
-  arrowAt,
-  ...rest
-}) => {
-  const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
+const Tooltip = forwardRef((
+  {
+    defaultIsOpen, // removed
+    shouldWrapChildren, // removed
+
+    label,
+    showDelay = 0,
+    hideDelay = 0,
+    placement = 'bottom',
+    children,
+    hideArrow,
+    closeOnClick,
+    isOpen: isControlledOpen,
+    onOpen: onOpenProp,
+    onClose: onCloseProp,
+    arrowAt,
+    ...rest
+  },
+  ref,
+) => {
+  useEffectOnce(() => {
+    const prefix = `${Tooltip.displayName}:`;
+
+    if (defaultIsOpen !== undefined) {
+      warnRemovedProps('defaultIsOpen', {
+        prefix,
+      });
+    }
+
+    if (shouldWrapChildren !== undefined && !shouldWrapChildren) {
+      warnRemovedProps('shouldWrapChildren', {
+        prefix,
+        message: 'Use Function as Child Component (FaCC) to render the tooltip trigger instead.',
+      });
+    }
+  });
+
+  const [isHydrated, setIsHydrated] = useState(false); // false for initial render
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  const { isOpen, onClose, onOpen } = useDisclosure(false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;
 
-  const anchorRef = useRef();
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
+
   const enterTimeoutRef = useRef();
   const exitTimeoutRef = useRef();
 
@@ -70,86 +98,61 @@ const Tooltip = ({
     }
   };
 
+  const anchorEl = nodeRef.current;
   const arrowSize = '6px';
-  const hasAriaLabel = ariaLabel != null;
   const tooltipStyleProps = useTooltipStyle();
+  const getTooltipTriggerProps = () => {
+    const tooltipTriggerStyleProps = {
+      display: 'inline-flex',
+    };
+    const eventHandlerProps = {
+      onMouseEnter: handleOpen,
+      onMouseLeave: handleClose,
+      onClick: handleClick,
+      onFocus: handleOpen,
+      onBlur: handleClose,
+    };
 
-  let decoratedChild = null;
-
-  if (typeof children === 'string' || shouldWrapChildren) {
-    decoratedChild = (
-      <Box
-        ref={anchorRef}
-        aria-describedby={_isOpen ? tooltipId : undefined}
-        display="inline-block"
-        tabIndex="0"
-        onMouseEnter={handleOpen}
-        onMouseLeave={handleClose}
-        onClick={handleClick}
-        onFocus={handleOpen}
-        onBlur={handleClose}
-      >
-        {children}
-      </Box>
-    );
-  } else {
-    const child = Children.only(children);
-    decoratedChild = cloneElement(child, {
-      ref: (node) => {
-        anchorRef.current = node;
-
-        if (child.ref === undefined || child.ref === null) {
-          return;
-        }
-
-        if (typeof child.ref === 'function') {
-          child.ref(anchorRef.current);
-          return;
-        }
-
-        if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
-          child.ref.current = anchorRef.current;
-          return;
-        }
-      },
+    return {
       'aria-describedby': _isOpen ? tooltipId : undefined,
-      onMouseEnter: wrapEvent(child.props.onMouseEnter, handleOpen),
-      onMouseLeave: wrapEvent(child.props.onMouseLeave, handleClose),
-      onClick: wrapEvent(child.props.onClick, handleClick),
-      onFocus: wrapEvent(child.props.onFocus, handleOpen),
-      onBlur: wrapEvent(child.props.onBlur, handleClose),
-    });
-  }
+      ref: combinedRef,
+      role: 'presentation',
+      ...tooltipTriggerStyleProps,
+      ...eventHandlerProps,
+    };
+  };
 
   return (
     <>
-      {decoratedChild}
-      <Popper
-        usePortal
-        isOpen={_isOpen}
-        data-popper-placement={placement}
-        placement={placement}
-        modifiers={{ offset: [0, 8] }}
-        anchorEl={anchorRef.current}
-        hideArrow={hideArrow}
-        id={hasAriaLabel ? undefined : tooltipId}
-        role={hasAriaLabel ? undefined : 'tooltip'}
-        pointerEvents="none"
-        arrowSize={arrowSize}
-        {...tooltipStyleProps}
-        {...rest}
-      >
-        {label}
-        {hasAriaLabel && (
-          <VisuallyHidden role="tooltip" id={tooltipId}>
-            {ariaLabel}
-          </VisuallyHidden>
-        )}
-        {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
-      </Popper>
+      {
+        (typeof children === 'function')
+          ? children({ getTooltipTriggerProps })
+          : (<Box {...getTooltipTriggerProps()}>{children}</Box>)
+      }
+      {isHydrated && (
+        <Popper
+          aria-hidden={!isOpen}
+          usePortal
+          isOpen={_isOpen}
+          data-popper-placement={placement}
+          placement={placement}
+          modifiers={{ offset: [0, 8] }}
+          anchorEl={anchorEl}
+          hideArrow={hideArrow}
+          id={tooltipId}
+          role="tooltip"
+          pointerEvents="none"
+          arrowSize={arrowSize}
+          {...tooltipStyleProps}
+          {...rest}
+        >
+          {label}
+          {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
+        </Popper>
+      )}
     </>
   );
-};
+});
 
 Tooltip.displayName = 'Tooltip';
 
