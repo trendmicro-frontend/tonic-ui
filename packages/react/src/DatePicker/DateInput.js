@@ -38,6 +38,7 @@ const DateInput = forwardRef((
       display="inline-flex"
       alignItems="center"
       position="relative"
+      width="128px"
     >
       <Box
         display="flex"
@@ -53,7 +54,6 @@ const DateInput = forwardRef((
         ref={ref}
         value={value}
         pl="10x"
-        px="3x"
         onChange={handleChange}
         {...rest}
       />

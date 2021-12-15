@@ -7,6 +7,7 @@ import { dateFormatter } from '../../utils';
 const Day = forwardRef((
   {
     date,
+    isOutOfScope,
     isSelected,
     isToday,
     locale,
@@ -16,6 +17,7 @@ const Day = forwardRef((
   ref,
 ) => {
   const styleProps = useClickableCellStyle({
+    isOutOfScope,
     isSelected,
     isToday,
   });

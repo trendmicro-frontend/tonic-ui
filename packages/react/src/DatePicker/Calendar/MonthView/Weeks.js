@@ -37,9 +37,13 @@ const Weeks = forwardRef((
   };
 
   const handleClickDay = (date) => {
+    setActiveStartDate(date);
+
+    if (typeof onClickDay !== 'function') {
+      return;
+    }
     const formattedValue = dateFormatter({ date, locale });
     onClickDay(formattedValue);
-    setActiveStartDate(date);
   };
 
   while (true) {

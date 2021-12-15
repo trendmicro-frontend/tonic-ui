@@ -24,21 +24,6 @@ const useCalendarStyle = () => {
   };
 };
 
-const useCellStyle = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
-  return {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '10x',
-    padding: '1x',
-    color: colorStyle.color.primary,
-    backgroundColor: 'transparent',
-  };
-};
-
 const useSelectedCellStyle = () => {
   const [colorMode] = useColorMode();
   const color = {
@@ -64,15 +49,10 @@ const useSelectedCellStyle = () => {
   };
 };
 
-const useClickableCellStyle = ({ isSelected, isToday, isOutOfScope }) => {
+const useCellStyle = ({ isOutOfScope, isToday }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const baseStyle = useCellStyle();
-  const hoverBgColor = {
-    dark: 'gray:80',
-    light: 'gray:50',
-  }[colorMode];
-  let color = baseStyle.color;
+  let color = colorStyle.color.primary;
   if (isOutOfScope) {
     color = colorStyle.color.tertiary;
   }
@@ -82,12 +62,29 @@ const useClickableCellStyle = ({ isSelected, isToday, isOutOfScope }) => {
       light: 'blue:40'
     }[colorMode];
   }
+  return {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '10x',
+    padding: '1x',
+    color: color,
+    backgroundColor: 'transparent',
+  };
+};
+
+const useClickableCellStyle = ({ isOutOfScope, isSelected, isToday }) => {
+  const [colorMode] = useColorMode();
+  const baseStyle = useCellStyle({ isOutOfScope, isToday });
+  const hoverBgColor = {
+    dark: 'gray:80',
+    light: 'gray:50',
+  }[colorMode];
   const selectedStyle = useSelectedCellStyle();
 
   return {
     ...baseStyle,
-    color: color,
-    cursor: isOutOfScope ? 'not-allowed' : 'pointer',
+    cursor: 'pointer',
     _hover: {
       backgroundColor: hoverBgColor,
     },

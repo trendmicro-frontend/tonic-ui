@@ -1,20 +1,31 @@
-# Date Picker
+# DatePicker
 
-`Datepicker` is used to select a date from a calendar or type in a date value manually. It is composed of `Calendar`, `DateInput`, and `TimeInput`.
+`Datepicker` is used to select a date from a calendar or type in a date value manually. It is composed of `Calendar`, `DateInput`.
 
 ## Import
 
 ```js
 import {
-  DatePicker,
   Calendar,
   DateInput,
+  DatePicker,
 } from '@trendmicro/react-styled-ui';
 ```
 ## Usage
 
+### Calendar
 ```jsx
-<DatePicker />
+<Calendar />
+```
+
+### DateInput
+```jsx
+<DateInput value="2021.12.15" />
+```
+
+### DatePicker
+```jsx
+<DatePicker value="2021-12-15" />
 ```
 
 ## Props
