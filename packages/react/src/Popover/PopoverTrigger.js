@@ -17,9 +17,10 @@ const PopoverTrigger = forwardRef((
   useEffectOnce(() => {
     const prefix = `${PopoverTrigger.displayName}:`;
 
-    if (shouldWrapChildren !== undefined) {
+    if (shouldWrapChildren !== undefined && !shouldWrapChildren) {
       warnRemovedProps('shouldWrapChildren', {
         prefix,
+        message: 'Use Function as Child Component (FaCC) to render the popover trigger instead.',
       });
     }
   });
