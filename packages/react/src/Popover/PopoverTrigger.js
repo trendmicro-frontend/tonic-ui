@@ -1,12 +1,30 @@
-import React, { Children, cloneElement, useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import Box from '../Box';
-import wrapEvent from '../utils/wrapEvent';
+import useEffectOnce from '../hooks/useEffectOnce';
+import useForkRef from '../utils/useForkRef';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import { usePopover } from './context';
 
-const PopoverTrigger = ({
-  children,
-  shouldWrapChildren,
-}) => {
+const PopoverTrigger = forwardRef((
+  {
+    shouldWrapChildren, // removed
+
+    children,
+    ...rest
+  },
+  ref,
+) => {
+  useEffectOnce(() => {
+    const prefix = `${PopoverTrigger.displayName}:`;
+
+    if (shouldWrapChildren !== undefined && !shouldWrapChildren) {
+      warnRemovedProps('shouldWrapChildren', {
+        prefix,
+        message: 'Use Function as Child Component (FaCC) to render the popover trigger instead.',
+      });
+    }
+  });
+
   const {
     anchorRef,
     popoverId,
@@ -21,8 +39,10 @@ const PopoverTrigger = ({
     nextToCursor,
     followCursor
   } = usePopover();
+  const combinedRef = useForkRef(ref, anchorRef);
   const openTimeout = useRef(null);
   const [enableMouseMove, setEnableMouseMove] = useState(true);
+
   const eventHandlerProps = {};
 
   if (trigger === 'click') {
@@ -67,58 +87,35 @@ const PopoverTrigger = ({
     };
   }
 
-  if (typeof children === 'string' || shouldWrapChildren) {
-    return (
-      <Box
-        ref={anchorRef}
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-        aria-controls={popoverId}
-        display="inline-block"
-        role="button"
-        tabIndex="0"
-        outline="0"
-        {...eventHandlerProps}
-      >
-        {children}
-      </Box>
-    );
+  const getPopoverTriggerProps = () => {
+    const popoverTriggerStyleProps = {
+      display: 'inline-flex',
+    };
+
+    return {
+      'aria-haspopup': 'dialog',
+      'aria-expanded': isOpen,
+      'aria-controls': popoverId,
+      ref: combinedRef,
+      role: 'button',
+      ...popoverTriggerStyleProps,
+      ...eventHandlerProps,
+    };
+  };
+
+  if (typeof children === 'function') {
+    return children({ getPopoverTriggerProps });
   }
 
-  const child = Children.only(children);
-
-  for (const [eventName, eventHandler] of Object.entries(eventHandlerProps)) {
-    const wrappedEventHandler = wrapEvent(child.props[eventName], eventHandler);
-    eventHandlerProps[eventName] = wrappedEventHandler;
-  }
-
-  return cloneElement(child, {
-    ref: (node) => {
-      anchorRef.current = node;
-
-      if (child.ref === undefined || child.ref === null) {
-        return;
-      }
-
-      if (typeof child.ref === 'function') {
-        child.ref(anchorRef.current);
-        return;
-      }
-
-      if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
-        child.ref.current = anchorRef.current;
-        return;
-      }
-    },
-    'aria-haspopup': 'dialog',
-    'aria-expanded': isOpen,
-    'aria-controls': popoverId,
-    role: 'button',
-    tabIndex: '0',
-    outline: '0',
-    ...eventHandlerProps,
-  });
-};
+  return (
+    <Box
+      {...getPopoverTriggerProps()}
+      {...rest}
+    >
+      {children}
+    </Box>
+  );
+});
 
 PopoverTrigger.displayName = 'PopoverTrigger';
 

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useEffectOnce from '../hooks/useEffectOnce';
 import { useId } from '../utils/autoId';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import { PopoverContextProvider } from './context';
 
 const usePrevious = (value) => {
@@ -13,10 +15,11 @@ const usePrevious = (value) => {
 };
 
 const Popover = ({
+  defaultIsOpen, // removed
+
   id,
   isOpen: isOpenProp,
   initialFocusRef,
-  defaultIsOpen,
   usePortal = true,
   returnFocusOnClose = true,
   trigger = 'click',
@@ -34,7 +37,17 @@ const Popover = ({
   followCursor,
   arrowAt,
 }) => {
-  const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
+  useEffectOnce(() => {
+    const prefix = `${Popover.displayName}:`;
+
+    if (defaultIsOpen !== undefined) {
+      warnRemovedProps('defaultIsOpen', {
+        prefix,
+      });
+    }
+  });
+
+  const [isOpen, setIsOpen] = useState(false);
   const [mousePageX, setMousePageX] = useState(0);
   const [mousePageY, setMousePageY] = useState(0);
   const { current: isControlled } = useRef(isOpenProp != null);
