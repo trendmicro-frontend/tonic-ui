@@ -42,6 +42,7 @@ const PopoverTrigger = forwardRef((
   const combinedRef = useForkRef(ref, anchorRef);
   const openTimeout = useRef(null);
   const [enableMouseMove, setEnableMouseMove] = useState(true);
+
   const eventHandlerProps = {};
 
   if (trigger === 'click') {
@@ -89,7 +90,6 @@ const PopoverTrigger = forwardRef((
   const getPopoverTriggerProps = () => {
     const popoverTriggerStyleProps = {
       display: 'inline-block',
-      outline: '0',
     };
 
     return {
@@ -98,7 +98,6 @@ const PopoverTrigger = forwardRef((
       'aria-controls': popoverId,
       ref: combinedRef,
       role: 'button',
-      tabIndex: '0',
       ...popoverTriggerStyleProps,
       ...eventHandlerProps,
     };
