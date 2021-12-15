@@ -1,4 +1,6 @@
-import focusableSelector from './focusableSelector';
+import getFocusableElementSelectors from './getFocusableElementSelectors';
+
+const focusableElementSelector = getFocusableElementSelectors().join(',');
 
 const isVisible = (element) => {
   return (
@@ -10,7 +12,7 @@ const isVisible = (element) => {
 
 // Check whether the element is focusable
 const isFocusable = (element) => {
-  return isVisible(element) && element?.matches(focusableSelector);
+  return isVisible(element) && element?.matches(focusableElementSelector);
 };
 
 export default isFocusable;

@@ -2,6 +2,7 @@ import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
 import useEffectOnce from '../hooks/useEffectOnce';
+import useHydrated from '../hooks/useHydrated';
 import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';
@@ -119,9 +120,9 @@ const Scrollbar = forwardRef((
     }
   });
 
+  const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
-  const [isHydrated, setIsHydrated] = useState(false); // false for initial render
 
   { // Update overflow props
     // TODO: remove `disabled` and `visibility` props in next major version
@@ -495,10 +496,6 @@ const Scrollbar = forwardRef((
     prevPageYRef.current = offsetHeight - (clientY - top);
   }, [handleDragStart]);
   /* End Mouse Events */
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   useEffect(() => {
     /**
