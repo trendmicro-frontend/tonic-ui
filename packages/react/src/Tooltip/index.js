@@ -103,7 +103,7 @@ const Tooltip = forwardRef((
   const tooltipStyleProps = useTooltipStyle();
   const getTooltipTriggerProps = () => {
     const tooltipTriggerStyleProps = {
-      display: 'inline-block',
+      display: 'inline-flex',
     };
     const eventHandlerProps = {
       onMouseEnter: handleOpen,
