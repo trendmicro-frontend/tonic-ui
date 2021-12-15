@@ -15,7 +15,9 @@ import { Tooltip } from '@trendmicro/react-styled-ui';
 If the `children` of Tooltip is a string, wrap within a `span` with `tabIndex` set to `0` to ensure accessibility requirements are met.
 
 ```jsx
-<Tooltip label="Hey, I'm here!">Hover me</Tooltip>
+<Tooltip label="Hey, I'm here!">
+  <Text tabIndex="0">Hover me</Text>
+</Tooltip>
 ```
 
 ### With an icon
