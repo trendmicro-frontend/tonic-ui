@@ -89,7 +89,7 @@ const PopoverTrigger = forwardRef((
 
   const getPopoverTriggerProps = () => {
     const popoverTriggerStyleProps = {
-      display: 'inline-block',
+      display: 'inline-flex',
     };
 
     return {
