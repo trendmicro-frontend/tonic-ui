@@ -84,31 +84,31 @@ const Scrollbar = forwardRef((
     if (renderView !== undefined) {
       warnRemovedProps('renderView', {
         prefix,
-        message: 'Use children as a function to render the scroll view instead.',
+        message: 'Use Function as Child Component (FaCC) to render the scroll view instead.',
       });
     }
     if (renderHorizontalTrack !== undefined) {
       warnRemovedProps('renderHorizontalTrack', {
         prefix,
-        message: 'Use children as a function to render the horizontal track instead.',
+        message: 'Use Function as Child Component (FaCC) to render the horizontal track instead.',
       });
     }
     if (renderHorizontalThumb !== undefined) {
       warnRemovedProps('renderHorizontalThumb', {
         prefix,
-        message: 'Use children as a function to render the horizontal thumb instead.',
+        message: 'Use Function as Child Component (FaCC) to render the horizontal thumb instead.',
       });
     }
     if (renderVerticalTrack !== undefined) {
       warnRemovedProps('renderVerticalTrack', {
         prefix,
-        message: 'Use children as a function to render the vertical track instead.',
+        message: 'Use Function as Child Component (FaCC) to render the vertical track instead.',
       });
     }
     if (renderVerticalThumb !== undefined) {
       warnRemovedProps('renderVerticalThumb', {
         prefix,
-        message: 'Use children as a function to render the vertical thumb instead.',
+        message: 'Use Function as Child Component (FaCC) to render the vertical thumb instead.',
       });
     }
     if (thumbSize !== undefined) {
