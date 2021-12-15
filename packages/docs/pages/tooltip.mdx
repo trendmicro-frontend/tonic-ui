@@ -12,10 +12,12 @@ import { Tooltip } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
-If the `children` of Tooltip is a string, wrap within a `span` with `tabIndex` set to `0` to ensure accessibility requirements are met.
+If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0" to make it focusable.
 
 ```jsx
-<Tooltip label="Hey, I'm here!">Hover me</Tooltip>
+<Tooltip label="Hey, I'm here!">
+  <Text tabIndex="0">Hover me</Text>
+</Tooltip>
 ```
 
 ### With an icon
@@ -192,10 +194,9 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | | | If the children is a function, it will be called with `{ getTooltipTriggerProps }` and the return value will be used as the trigger. |
 | isOpen | boolean | | If `true`, the tooltip is shown. |
-| defaultIsOpen | boolean | | If `true`, the tooltip is shown initially. |
 | label | string \| ReactNode | | The label of the tooltip.|
-| aria-label | string | | An alternate label for screen readers. |
 | placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | children | ReactNode | | The `ReactNode` element to be used as the trigger of the tooltip. |
 | hideArrow | boolean | | If `true`, hide the arrow tip on the tooltip. |
@@ -203,7 +204,6 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 | enterDelay | number | 100 | The number of milliseconds to wait before showing the tooltip. |
 | leaveDelay | number | 0 | The number of milliseconds to wait before hiding the tooltip. |
 | closeOnClick | boolean | | If `true`, hide the tooltip when the trigger is clicked. |
-| shouldWrapChildren | boolean | | If `true`, the tooltip will wrap its children with a `Box`. |
 | onOpen | function | | A callback called when the tooltip shows. |
 | onClose| function | | A callback called when the tooltip hides. |
 | TransitionComponent | elementType | Grow | The component used for the transition. |

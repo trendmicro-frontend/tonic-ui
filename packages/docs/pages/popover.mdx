@@ -406,7 +406,6 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | isOpen | boolean | | If `true`, the popover is shown. |
-| defaultIsOpen | boolean | | If `true`, the popover is shown initially. |
 | initialFocusRef | React.Ref | | The `ref` of the element that should receive the focus status when the popover opens. |
 | trigger | string | 'click' | The interaction that triggers the popover. One of: 'click', 'hover' |
 | placement | PopperJS.placement | 'bottom' | Position the popover relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
@@ -430,7 +429,7 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| shouldWrapChildren | boolean | | If `true`, the popover trigger will wrap its children with a `Box`. |
+| children | | | If the children is a function, it will be called with `{ getPopoverTriggerProps }` and the return value will be used as the trigger. |
 
 ### PopoverContent
 

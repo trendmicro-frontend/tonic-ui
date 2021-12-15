@@ -1,4 +1,4 @@
-const focusableSelector = [
+const focusableElementSelectors = [
   'a[href]',
   'area[href]',
   'audio[controls]',
@@ -12,6 +12,8 @@ const focusableSelector = [
   'video[controls]',
   '*[contenteditable]:not([contenteditable="false"]',
   '*[tabindex]:not([aria-disabled="true"])',
-].join(',');
+];
 
-export default focusableSelector;
+const getFocusableElementSelectors = () => focusableElementSelectors;
+
+export default getFocusableElementSelectors;

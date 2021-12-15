@@ -1,15 +1,18 @@
 import chainedFunction from 'chained-function';
-import React, { cloneElement, useRef, Children } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import Box from '../Box';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
 import Grow from '../Transitions/Grow';
-import VisuallyHidden from '../VisuallyHidden';
+import useEffectOnce from '../hooks/useEffectOnce';
+import useHydrated from '../hooks/useHydrated';
 import config from '../shared/config';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
-import wrapEvent from '../utils/wrapEvent';
-import useTooltipStyle from './styles';
+import useForkRef from '../utils/useForkRef';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import warnRemovedProps from '../utils/warnRemovedProps';
+import { useTooltipStyle } from './styles';
 
 const mapPlacementToTransformOrigin = placement => ({
   'top': 'bottom center',
@@ -26,35 +29,75 @@ const mapPlacementToTransformOrigin = placement => ({
   'right-end': 'left bottom',
 }[placement]);
 
-const Tooltip = ({
-  label,
-  'aria-label': ariaLabel,
-  enterDelay = 100,
-  leaveDelay = 0,
-  placement = 'bottom',
-  children,
-  hideArrow,
-  closeOnClick,
-  defaultIsOpen,
-  shouldWrapChildren,
-  isOpen: isControlledOpen,
-  onOpen: onOpenProp,
-  onClose: onCloseProp,
-  arrowAt,
-  PopperComponent = Popper,
-  PopperProps,
-  PopperArrowComponent = PopperArrow,
-  PopperArrowProps,
-  TransitionComponent = Grow,
-  TransitionProps,
-  ...rest
-}) => {
-  const nodeRef = useRef(null);
-  const { isOpen, onClose, onOpen } = useDisclosure(defaultIsOpen || false);
+const Tooltip = forwardRef((
+  {
+    showDelay, // deprecated
+    hideDelay, // deprecated
+    defaultIsOpen, // removed
+    shouldWrapChildren, // removed
+
+    label,
+    enterDelay = 100,
+    leaveDelay = 0,
+    placement = 'bottom',
+    children,
+    hideArrow,
+    closeOnClick,
+    isOpen: isControlledOpen,
+    onOpen: onOpenProp,
+    onClose: onCloseProp,
+    arrowAt,
+    PopperComponent = Popper,
+    PopperProps,
+    PopperArrowComponent = PopperArrow,
+    PopperArrowProps,
+    TransitionComponent = Grow,
+    TransitionProps,
+    ...rest
+  },
+  ref,
+) => {
+  useEffectOnce(() => {
+    const prefix = `${Tooltip.displayName}:`;
+
+    if (showDelay !== undefined) {
+      warnDeprecatedProps('showDelay', {
+        prefix,
+        alternative: 'enterDelay',
+        willRemove: true,
+      });
+    }
+
+    if (hideDelay !== undefined) {
+      warnDeprecatedProps('hideDelay', {
+        prefix,
+        alternative: 'leaveDelay',
+        willRemove: true,
+      });
+    }
+
+    if (defaultIsOpen !== undefined) {
+      warnRemovedProps('defaultIsOpen', {
+        prefix,
+      });
+    }
+
+    if (shouldWrapChildren !== undefined && !shouldWrapChildren) {
+      warnRemovedProps('shouldWrapChildren', {
+        prefix,
+        message: 'Use Function as Child Component (FaCC) to render the tooltip trigger instead.',
+      });
+    }
+  });
+
+  const isHydrated = useHydrated();
+  const { isOpen, onClose, onOpen } = useDisclosure(false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;
 
-  const anchorRef = useRef();
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
+
   const enterTimeoutRef = useRef();
   const exitTimeoutRef = useRef();
 
@@ -95,118 +138,93 @@ const Tooltip = ({
     }
   };
 
+  const anchorEl = nodeRef.current;
   const arrowSize = '6px';
-  const hasAriaLabel = ariaLabel != null;
   const tooltipStyleProps = useTooltipStyle();
+  const getTooltipTriggerProps = () => {
+    const tooltipTriggerStyleProps = {
+      display: 'inline-flex',
+    };
+    const eventHandlerProps = {
+      onMouseEnter: handleOpen,
+      onMouseLeave: handleClose,
+      onClick: handleClick,
+      onFocus: handleOpen,
+      onBlur: handleClose,
+    };
 
-  let decoratedChild = null;
-
-  if (typeof children === 'string' || shouldWrapChildren) {
-    decoratedChild = (
-      <Box
-        ref={anchorRef}
-        aria-describedby={_isOpen ? tooltipId : undefined}
-        display="inline-block"
-        tabIndex="0"
-        onMouseEnter={handleOpen}
-        onMouseLeave={handleClose}
-        onClick={handleClick}
-        onFocus={handleOpen}
-        onBlur={handleClose}
-      >
-        {children}
-      </Box>
-    );
-  } else {
-    const child = Children.only(children);
-    decoratedChild = cloneElement(child, {
-      ref: (node) => {
-        anchorRef.current = node;
-
-        if (child.ref === undefined || child.ref === null) {
-          return;
-        }
-
-        if (typeof child.ref === 'function') {
-          child.ref(anchorRef.current);
-          return;
-        }
-
-        if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
-          child.ref.current = anchorRef.current;
-          return;
-        }
-      },
+    return {
       'aria-describedby': _isOpen ? tooltipId : undefined,
-      onMouseEnter: wrapEvent(child.props.onMouseEnter, handleOpen),
-      onMouseLeave: wrapEvent(child.props.onMouseLeave, handleClose),
-      onClick: wrapEvent(child.props.onClick, handleClick),
-      onFocus: wrapEvent(child.props.onFocus, handleOpen),
-      onBlur: wrapEvent(child.props.onBlur, handleClose),
-    });
-  }
+      ref: combinedRef,
+      role: 'presentation',
+      ...tooltipTriggerStyleProps,
+      ...eventHandlerProps,
+    };
+  };
 
   return (
     <>
-      {decoratedChild}
-      <PopperComponent
-        usePortal
-        isOpen={_isOpen}
-        data-popper-placement={placement}
-        placement={placement}
-        modifiers={{
-          offset: [0, 8],
-        }}
-        anchorEl={anchorRef.current}
-        hideArrow={hideArrow}
-        id={hasAriaLabel ? undefined : tooltipId}
-        role={hasAriaLabel ? undefined : 'tooltip'}
-        pointerEvents="none"
-        arrowSize={arrowSize}
-        willUseTransition={true}
-        {...PopperProps}
-      >
-        {({ placement, transition }) => {
-          const { in: inProp, onEnter, onExited } = { ...transition };
-          return (
-            <TransitionComponent
-              {...TransitionProps}
-              ref={nodeRef}
-              in={inProp}
-              onEnter={chainedFunction(onEnter, TransitionProps?.onEnter)}
-              onExited={chainedFunction(onExited, TransitionProps?.onExited)}
-            >
-              {(state, { ref, style: transitionStyle }) => {
-                return (
-                  <Box
-                    ref={ref}
-                    {...tooltipStyleProps}
-                    {...transitionStyle}
-                    transformOrigin={mapPlacementToTransformOrigin(placement)}
-                    {...rest}
-                  >
-                    {label}
-                    {hasAriaLabel && (
-                      <VisuallyHidden role="tooltip" id={tooltipId}>
-                        {ariaLabel}
-                      </VisuallyHidden>
-                    )}
-                    {!hideArrow && (
-                      <PopperArrowComponent
-                        arrowAt={arrowAt}
-                        {...PopperArrowProps}
-                      />
-                    )}
-                  </Box>
-                );
-              }}
-            </TransitionComponent>
-          );
-        }}
-      </PopperComponent>
+      {
+        (typeof children === 'function')
+          ? children({ getTooltipTriggerProps })
+          : (<Box {...getTooltipTriggerProps()}>{children}</Box>)
+      }
+      {isHydrated && (
+        <PopperComponent
+          aria-hidden={!isOpen}
+          usePortal
+          isOpen={_isOpen}
+          data-popper-placement={placement}
+          placement={placement}
+          modifiers={{
+            offset: [0, 8],
+          }}
+          anchorEl={anchorEl}
+          hideArrow={hideArrow}
+          id={tooltipId}
+          role="tooltip"
+          pointerEvents="none"
+          arrowSize={arrowSize}
+          willUseTransition={true}
+          {...PopperProps}
+        >
+          {({ placement, transition }) => {
+            const { in: inProp, onEnter, onExited } = { ...transition };
+            return (
+              <TransitionComponent
+                {...TransitionProps}
+                ref={nodeRef}
+                in={inProp}
+                onEnter={chainedFunction(onEnter, TransitionProps?.onEnter)}
+                onExited={chainedFunction(onExited, TransitionProps?.onExited)}
+              >
+                {(state, { ref, style: transitionStyle }) => {
+                  return (
+                    <Box
+                      ref={ref}
+                      {...tooltipStyleProps}
+                      {...transitionStyle}
+                      transformOrigin={mapPlacementToTransformOrigin(placement)}
+                      {...rest}
+                    >
+                      {label}
+                      {!hideArrow && (
+                        <PopperArrowComponent
+                          arrowAt={arrowAt}
+                          {...PopperArrowProps}
+                        />
+                      )}
+                    </Box>
+                  );
+                }}
+              </TransitionComponent>
+            );
+          }}
+        </PopperComponent>
+      )}
     </>
   );
-};
+});
 
 Tooltip.displayName = 'Tooltip';
 

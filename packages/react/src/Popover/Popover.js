@@ -1,23 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useEffectOnce from '../hooks/useEffectOnce';
+import usePrevious from '../hooks/usePrevious';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import { PopoverContextProvider } from './context';
 
-const usePrevious = (value) => {
-  const ref = useRef();
-
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-
-  return ref.current;
-};
-
 const Popover = ({
+  defaultIsOpen, // removed
+
   id,
   isOpen: isOpenProp,
   initialFocusRef,
-  defaultIsOpen,
   usePortal = true,
   returnFocusOnClose = true,
   trigger = 'click',
@@ -36,7 +30,17 @@ const Popover = ({
   followCursor,
   arrowAt,
 }) => {
-  const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
+  useEffectOnce(() => {
+    const prefix = `${Popover.displayName}:`;
+
+    if (defaultIsOpen !== undefined) {
+      warnRemovedProps('defaultIsOpen', {
+        prefix,
+      });
+    }
+  });
+
+  const [isOpen, setIsOpen] = useState(false);
   const [mousePageX, setMousePageX] = useState(0);
   const [mousePageY, setMousePageY] = useState(0);
   const { current: isControlled } = useRef(isOpenProp != null);

@@ -4,6 +4,7 @@ import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
 import Box from '../Box';
 import Grow from '../Transitions/Grow';
+import useHydrated from '../hooks/useHydrated';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';
@@ -30,6 +31,7 @@ const PopoverContent = ({
   onMouseEnter,
   onFocus,
   children,
+
   'aria-label': ariaLabel,
   PopperComponent = Popper,
   PopperProps,
@@ -39,6 +41,7 @@ const PopoverContent = ({
   TransitionProps,
   ...rest
 }) => {
+  const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const {
     popoverRef,
@@ -65,6 +68,7 @@ const PopoverContent = ({
     arrowAt,
   } = usePopover();
   const contentStyleProps = usePopoverContentStyle();
+
   const arrowSize = 12;
   let _skidding = skidding;
   let _distance = distance + 8; // Arrow height is 8px
@@ -122,24 +126,27 @@ const PopoverContent = ({
     }),
   };
 
+  if (!isHydrated) {
+    return null;
+  }
+
   return (
     <PopperComponent
-      as="section"
+      aria-hidden={!isOpen}
+      aria-labelledby={headerId}
+      aria-describedby={bodyId}
       usePortal={usePortal}
       isOpen={isOpen}
       placement={placement}
-      aria-label={ariaLabel}
       anchorEl={anchorRef.current}
       ref={popoverRef}
       id={popoverId}
-      aria-hidden={!isOpen}
       arrowSize={`${arrowSize}px`}
       modifiers={{
         offset: [_skidding, _distance],
       }}
       willUseTransition={true}
-      aria-labelledby={headerId}
-      aria-describedby={bodyId}
+      {...contentStyleProps}
       {...roleProps}
       {...eventHandlers}
       {...PopperProps}

@@ -1,11 +1,11 @@
 import { ensureString } from 'ensure-type';
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '../Box';
+import usePrevious from '../hooks/usePrevious';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuProvider } from './context';
-import usePrevious from '../utils/usePrevious';
 
 const mapPlacementToDirection = (placement) => {
   const p0 = ensureString(placement).split('-')[0];
