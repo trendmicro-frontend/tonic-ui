@@ -12,7 +12,7 @@ import { Tooltip } from '@trendmicro/react-styled-ui';
 
 ## Usage
 
-If the `children` of Tooltip is a string, wrap within a `span` with `tabIndex` set to `0` to ensure accessibility requirements are met.
+If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0" to make it focusable.
 
 ```jsx
 <Tooltip label="Hey, I'm here!">
