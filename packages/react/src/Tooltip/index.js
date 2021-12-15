@@ -1,7 +1,8 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import Box from '../Box';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
+import useHydrated from '../hooks/useHydrated';
 import useEffectOnce from '../hooks/useEffectOnce';
 import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
@@ -46,11 +47,7 @@ const Tooltip = forwardRef((
     }
   });
 
-  const [isHydrated, setIsHydrated] = useState(false); // false for initial render
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
-
+  const isHydrated = useHydrated();
   const { isOpen, onClose, onOpen } = useDisclosure(false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;

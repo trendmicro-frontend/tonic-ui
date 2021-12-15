@@ -1,6 +1,7 @@
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
+import useHydrated from '../hooks/useHydrated';
 import useForkRef from '../utils/useForkRef';
 import {
   useContainerStyle,
@@ -50,7 +51,7 @@ const Scrollbar = forwardRef((
 ) => {
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
-  const [isHydrated, setIsHydrated] = useState(false); // false for initial render
+  const isHydrated = useHydrated();
 
   useEffect(() => {
     // Deprecation warning
@@ -457,10 +458,6 @@ const Scrollbar = forwardRef((
     prevPageYRef.current = offsetHeight - (clientY - top);
   }, [handleDragStart]);
   /* End Mouse Events */
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   useEffect(() => {
     /**
