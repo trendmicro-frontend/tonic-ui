@@ -10,6 +10,7 @@ import {
   TransitionGroup,
 } from 'react-transition-group';
 import { ToastContext } from '../context';
+import useHydrated from '../hooks/useHydrated';
 import canUseDOM from '../utils/dom/canUseDOM';
 import { createUniqueId } from '../utils/uniqueid';
 import ToastContainer from './ToastContainer';
@@ -42,7 +43,7 @@ const ToastProvider = ({
   placement: _placement = defaultPlacement,
   container,
 }) => {
-  const [isHydrated, setIsHydrated] = useState(false); // false for initial render
+  const isHydrated = useHydrated();
   const [state, setState] = useState(() => (
     placements.reduce((acc, placement) => {
       acc[placement] = [];
@@ -206,10 +207,6 @@ const ToastProvider = ({
     // State
     state,
   });
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   const portalTarget = canUseDOM
     ? (container ?? document.body)

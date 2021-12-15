@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import useHydrated from '../hooks/useHydrated';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 import Popper from '../Popper/Popper';
@@ -14,11 +15,7 @@ const PopoverContent = ({
   children,
   ...props
 }) => {
-  const [isHydrated, setIsHydrated] = useState(false); // false for initial render
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
-
+  const isHydrated = useHydrated();
   const {
     popoverRef,
     anchorRef,
