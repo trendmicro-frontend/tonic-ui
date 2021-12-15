@@ -8,7 +8,6 @@ const Month = forwardRef((
     isSelected,
     isToday,
     locale,
-    selectedDate,
     onClick,
     ...rest
   },

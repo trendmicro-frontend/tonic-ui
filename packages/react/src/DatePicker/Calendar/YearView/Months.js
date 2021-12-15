@@ -14,7 +14,7 @@ const Months = forwardRef((
   ref,
 ) => {
   const today = (new Date()).toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-  const selectedMonth = selectedDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+  const selectedMonth = selectedDate ? selectedDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' }) : null;
 
   const start = 0;
   const end = 11;
@@ -38,7 +38,6 @@ const Months = forwardRef((
         isSelected={month === selectedMonth}
         isToday={month === today}
         locale={locale}
-        selectedDate={selectedDate}
         onClick={onClickMonth}
       />
     );

@@ -11,7 +11,7 @@ const Years = ({
   ...rest
 }) => {
   const today = (new Date()).toLocaleDateString(locale, { year: 'numeric' });
-  const selectedYear = selectedDate.toLocaleDateString(locale, { year: 'numeric' });
+  const selectedYear = selectedDate ? selectedDate.toLocaleDateString(locale, { year: 'numeric' }) : null;
 
   const start = getYear(date);
   const end = start + 9;

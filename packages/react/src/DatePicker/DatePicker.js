@@ -4,9 +4,7 @@ import useOutsideClick from '../hooks/useOutsideClick';
 import Icon from '../Icon';
 import Calendar from './Calendar';
 import DateInput from './DateInput';
-import {
-  isDate,
-} from './utils';
+import { isDate } from './utils';
 
 const Datepicker = forwardRef((
   {
@@ -27,26 +25,23 @@ const Datepicker = forwardRef((
     }
     setIsInvalid(!isDate(value));
   };
-  const handleBlur = (event) => {
+  const handleDateInputChange = (event) => {
     const value = event.target.value;
-    verifyDate(value);
+    setDate(value);
   };
-
-  const handleClick = () => {
-    if (isInvalid) {
-      // To avoid changing the value do not work when the selected date is the same as previous date by calendar
-      setDate('');
+  const handleDateInputClick = () => {
+    if (!isCalendarOpen) {
+      setIsCalendarOpen(true);
     }
-    setIsCalendarOpen(true);
   };
-  const handleKeydown = event => {
-    if (event.key === 'Enter') {
-      const value = event.target.value;
-      verifyDate(value);
-    }
+  const handleDateInputKeydown = event => {
     if (isCalendarOpen) {
       setIsCalendarOpen(false);
     }
+  };
+  const handleCalendarChange = (value) => {
+    setIsCalendarOpen(false);
+    setDate(value);
   };
   const invalidInputStyle = {
     isInvalid: true,
@@ -74,21 +69,18 @@ const Datepicker = forwardRef((
     >
       <Box
         display="inline-flex"
-        position="relative"
         alignItems="center"
+        position="relative"
       >
-        <Box
-          onClick={handleClick}
-        >
-          <DateInput
-            disabled={disabled}
-            locale={locale}
-            value={date}
-            onBlur={handleBlur}
-            onKeyDown={handleKeydown}
-            {...isInvalid && invalidInputStyle}
-          />
-        </Box>
+        <DateInput
+          disabled={disabled}
+          locale={locale}
+          value={date}
+          onClick={handleDateInputClick}
+          onChange={handleDateInputChange}
+          onKeyDown={handleDateInputKeydown}
+          {...isInvalid && invalidInputStyle}
+        />
         {isInvalid && (
           <Box position="absolute" right={0}>
             <Icon icon="warning-circle" mx="3x" color="red:50" />
@@ -100,16 +92,11 @@ const Datepicker = forwardRef((
           position="absolute"
           top="8x"
           zIndex="popover"
-          bg="gray:90"
         >
           <Calendar
             value={date}
             locale={locale}
-            onChange={(v) => {
-              setIsCalendarOpen(false);
-              setDate(v);
-              verifyDate(value);
-            }}
+            onChange={handleCalendarChange}
           />
         </Box>
       )}

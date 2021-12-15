@@ -4,8 +4,11 @@ import DecadeView from './DecadeView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import Navigation from './Navigation';
-import { toDate } from '../utils';
 import { useCalendarStyle } from '../styles';
+import {
+  isDate,
+  toDate,
+} from '../utils';
 
 const Calendar = forwardRef((
   {
@@ -19,8 +22,8 @@ const Calendar = forwardRef((
   },
   ref,
 ) => {
-  const activeStartDate = value ? toDate(value) : new Date();
-  const selectedDate = value ? toDate(value) : null;
+  const activeStartDate = isDate(value) ? toDate(value) : new Date();
+  const selectedDate = isDate(value) ? toDate(value) : null;
   const [currentView, setView] = useState(view);
   const [currentDate, setActiveStartDate] = useState(activeStartDate);
   const styleProps = useCalendarStyle();

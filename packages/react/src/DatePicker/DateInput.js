@@ -2,6 +2,8 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import Box from '../Box';
 import Icon from '../Icon';
 import Input from '../Input';
+import useColorMode from '../useColorMode';
+import useColorStyle from '../useColorStyle';
 
 const DateInput = forwardRef((
   {
@@ -13,13 +15,6 @@ const DateInput = forwardRef((
   ref,
 ) => {
   const [value, setValue] = useState('');
-
-  useEffect(() => {
-    if (valueProp !== undefined) {
-      setValue(valueProp);
-    }
-  }, [valueProp]);
-
   const handleChange = event => {
     const nextValue = event.target.value;
     setValue(nextValue);
@@ -28,6 +23,15 @@ const DateInput = forwardRef((
       onChange(event);
     }
   };
+
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  useEffect(() => {
+    if (valueProp !== undefined) {
+      setValue(valueProp);
+    }
+  }, [valueProp]);
 
   return (
     <Box
@@ -41,13 +45,15 @@ const DateInput = forwardRef((
         position="absolute"
         left={0}
         px="3x"
+        zIndex={3} // The z-index value should be at least 3 for the prepeneded input adornment
       >
-        <Icon icon="calendar" />
+        <Icon icon="calendar" color={colorStyle.color.secondary} />
       </Box>
       <Input
         ref={ref}
         value={value}
-        px="10x"
+        pl="10x"
+        px="3x"
         onChange={handleChange}
         {...rest}
       />
