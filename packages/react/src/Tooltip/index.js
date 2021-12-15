@@ -38,10 +38,10 @@ const Tooltip = forwardRef((
       });
     }
 
-    if (shouldWrapChildren !== undefined) {
+    if (shouldWrapChildren !== undefined && !shouldWrapChildren) {
       warnRemovedProps('shouldWrapChildren', {
         prefix,
-        message: 'Use children as a function to render the tooltip trigger instead.',
+        message: 'Use Function as Child Component (FaCC) to render the tooltip trigger instead.',
       });
     }
   });
