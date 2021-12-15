@@ -3,7 +3,7 @@ import {
   ensureString,
 } from 'ensure-type';
 import memoize from 'micro-memoize';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { isElement, isValidElementType } from 'react-is';
 import {

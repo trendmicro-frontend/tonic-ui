@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import useHydrated from '../hooks/useHydrated';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
