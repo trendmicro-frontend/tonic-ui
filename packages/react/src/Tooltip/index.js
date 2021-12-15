@@ -47,6 +47,10 @@ const Tooltip = forwardRef((
   });
 
   const [isHydrated, setIsHydrated] = useState(false); // false for initial render
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   const { isOpen, onClose, onOpen } = useDisclosure(false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;
@@ -97,27 +101,24 @@ const Tooltip = forwardRef((
   const anchorEl = nodeRef.current;
   const arrowSize = '6px';
   const tooltipStyleProps = useTooltipStyle();
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
-
   const getTooltipTriggerProps = () => {
     const tooltipTriggerStyleProps = {
-      'aria-describedby': _isOpen ? tooltipId : undefined,
       display: 'inline-block',
-      role: 'presentation',
-      tabIndex: '0',
     };
-
-    return {
-      ...tooltipTriggerStyleProps,
+    const eventHandlerProps = {
       onMouseEnter: handleOpen,
       onMouseLeave: handleClose,
       onClick: handleClick,
       onFocus: handleOpen,
       onBlur: handleClose,
+    };
+
+    return {
+      'aria-describedby': _isOpen ? tooltipId : undefined,
       ref: combinedRef,
+      role: 'presentation',
+      ...tooltipTriggerStyleProps,
+      ...eventHandlerProps,
     };
   };
 
