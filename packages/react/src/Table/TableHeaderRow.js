@@ -1,17 +1,16 @@
 import React, { forwardRef } from 'react';
-import Flex from '../Flex';
+import Box from '../Box';
+import { useTableHeaderRowStyle } from './styles';
 
-const TableHeaderRow = forwardRef(({
-  children,
-  ...props
-}, ref) => {
+const TableHeaderRow = forwardRef((props, ref) => {
+  const styleProps = useTableHeaderRowStyle({});
+
   return (
-    <Flex
+    <Box
       ref={ref}
+      {...styleProps}
       {...props}
-    >
-      { children }
-    </Flex>
+    />
   );
 });
 

@@ -29,51 +29,6 @@ import {
 Click the button below to toggle a drawer. The drawer will show up on either side of the screen.
 
 ```jsx noInline
-const SelectableButton = ({ selected, ...props }) => {
-  const [colorMode] = useColorMode();
-  const { colors } = useTheme();
-  const focusColor = colors['blue:60'];
-  let _selectedColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  _selectedColor = colors[_selectedColor];
-  const getSelectedProps = {
-    bg: _selectedColor,
-    borderColor: _selectedColor,
-    color: 'white:emphasis',
-    cursor: 'default',
-    pointerEvents: 'none',
-    zIndex: 1,
-    css: {
-      '&::before': {
-        backgroundColor: _selectedColor,
-      },
-      '&:focus': {
-        ':not(:active)': {
-          borderColor: focusColor,
-          boxShadow: `inset 0 0 0 1px ${focusColor}`,
-        },
-        '&::before': {
-          backgroundColor: focusColor,
-        },
-      }
-    },
-    _hover: {
-      bg: _selectedColor,
-    },
-    _active: {
-      bg: _selectedColor,
-    },
-  };
-  return (
-    <Button
-      {...(selected && getSelectedProps)}
-      {...props}
-    />
-  );
-};
-
 const useSelection = (defaultValue) => {
   const [value, setValue] = React.useState(defaultValue);
   const changeBy = (value) => () => setValue(value);
@@ -98,9 +53,7 @@ const Divider = (props) => {
 };
 
 const FormGroup = (props) => (
-  <Box mb="4x">
-    <Flex display="inline-flex" {...props} />
-  </Box>
+  <Box mb="4x" {...props} />
 );
 
 function Example() {
@@ -112,6 +65,7 @@ function Example() {
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [placement, changePlacementBy] = useSelection('right');
+  const [size, changeSizeBy] = useSelection('sm');
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [backdrop, toggleBackdrop] = useToggle(true);
@@ -123,7 +77,7 @@ function Example() {
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
-  const [size, changeSizeBy] = useSelection('sm');
+  const height = (placement === 'left' || placement === 'right') ? '100%' : 'auto';
 
   return (
     <>
@@ -134,6 +88,11 @@ function Example() {
       </Box>
       <Divider />
       <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            placement
+          </TextLabel>
+        </Box>
         <ButtonGroup
           variant="secondary"
           css={{
@@ -142,7 +101,7 @@ function Example() {
             }
           }}
         >
-          {['left', 'right'].map(value => (
+          {['left', 'right', 'top', 'bottom'].map(value => (
             <SelectableButton
               key={value}
               selected={value === placement} 
@@ -155,6 +114,11 @@ function Example() {
         </ButtonGroup>
       </FormGroup>
       <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            size
+          </TextLabel>
+        </Box>
         <ButtonGroup
           variant="secondary"
           css={{
@@ -175,6 +139,7 @@ function Example() {
           ))}
         </ButtonGroup>
       </FormGroup>
+      <Space height="1x" />
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
@@ -255,28 +220,28 @@ function Example() {
             onChange={toggleIsOverlayVisible}
           />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">DrawerOverlay</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerOverlay</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isHeaderVisible} onChange={toggleIsHeaderVisible} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">DrawerHeader</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerHeader</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isBodyVisible} onChange={toggleIsBodyVisible} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">DrawerBody</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerBody</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isFooterVisible} onChange={toggleIsFooterVisible} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">DrawerFooter</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerFooter</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
@@ -286,251 +251,73 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
         </TextLabel>
       </FormGroup>
-      <Slide
-        in={isOpen}
-        duration={250}
-        from={placement}
-        finalHeight="100vh"
+      <Drawer
+        ensureFocus={ensureFocus}
+        autoFocus={autoFocus}
+        backdrop={backdrop}
+        closeOnEsc={closeOnEsc}
+        closeOnOutsideClick={closeOnOutsideClick}
+        initialFocusRef={initialFocusRef}
+        isClosable={isClosable}
+        isOpen={isOpen}
+        onClose={onClose}
+        placement={placement}
+        size={size}
       >
-        {styles => (
-          <Drawer
-            ensureFocus={ensureFocus}
-            autoFocus={autoFocus}
-            backdrop={backdrop}
-            initialFocusRef={initialFocusRef}
-            isClosable={isClosable}
-            isOpen={true} // Set to `true` if a transition is active
-            closeOnEsc={closeOnEsc}
-            closeOnOutsideClick={closeOnOutsideClick}
-            onClose={onClose}
-            placement={placement}
-            size={size}
-          >
-            {isOverlayVisible && (
-              <DrawerOverlay opacity={styles.opacity} />
-            )}
-            <DrawerContent {...styles}>
-              {isHeaderVisible && (
-                <DrawerHeader>
-                  Drawer Title
-                </DrawerHeader>
-              )}
-              {isBodyVisible && (
-                <DrawerBody>
-                  {isAlertVisible && (
-                    <Alert variant="outline" severity="info" mb="4x" isClosable onClose={() => toggleIsAlertVisible()}>
-                      <Text>This is an info alert</Text>
-                    </Alert>
-                  )}
-                  <Text mb="4x">
-                    You can put any elements you want here.
-                  </Text>
-                  <Grid
-                    templateColumns="auto 1fr"
-                    rowGap="2x"
-                    columnGap="3x"
-                    alignItems="center"
-                  >
-                    <Icon icon="user" color={iconColor} />
-                    <Input ref={initialFocusRef} placeholder="User name" />
-                    <Icon icon="email" color={iconColor} />
-                    <Input placeholder="Email address" />
-                  </Grid>
-                </DrawerBody>
-              )}
-              {isFooterVisible && (
-                <DrawerFooter>
-                  <Button variant="primary" onClick={onClose} minWidth="20x">
-                    OK
-                  </Button>
-                  <Space width="2x" />
-                  <Button onClick={onClose} minWidth="20x">
-                    Cancel
-                  </Button>
-                </DrawerFooter>
-              )}
-            </DrawerContent>
-          </Drawer>
+        {isOverlayVisible && (
+          <DrawerOverlay />
         )}
-      </Slide>
+        <DrawerContent height={height}>
+          {isHeaderVisible && (
+            <DrawerHeader>
+              {size === 'auto' && <Text>Auto-sized Drawer</Text>}
+              {size === 'sm' && <Text>Small Drawer</Text>}
+              {size === 'md' && <Text>Medium Drawer</Text>}
+              {size === 'lg' && <Text>Large Drawer</Text>}
+              {size === 'full' && <Text>Full-width Drawer</Text>}
+            </DrawerHeader>
+          )}
+          {isBodyVisible && (
+            <DrawerBody>
+              {isAlertVisible && (
+                <Alert variant="outline" severity="info" mb="4x" isClosable onClose={() => toggleIsAlertVisible()}>
+                  <Text>This is an info alert</Text>
+                </Alert>
+              )}
+              <Text mb="4x">
+                You can put any elements you want here.
+              </Text>
+              <Grid
+                templateColumns="auto 1fr"
+                rowGap="2x"
+                columnGap="3x"
+                alignItems="center"
+              >
+                <Icon icon="user" color={iconColor} />
+                <Input ref={initialFocusRef} placeholder="User name" />
+                <Icon icon="email" color={iconColor} />
+                <Input placeholder="Email address" />
+              </Grid>
+            </DrawerBody>
+          )}
+          {isFooterVisible && (
+            <DrawerFooter>
+              <Button variant="primary" onClick={onClose} minWidth="20x">
+                OK
+              </Button>
+              <Space width="2x" />
+              <Button onClick={onClose} minWidth="20x">
+                Cancel
+              </Button>
+            </DrawerFooter>
+          )}
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
 
 render(<Example />);
-```
-
-### Placements
-
-Use the `placement` prop to if you want to change the placement of the drawer. The value can be one of `right` (default) or `left`.
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [placement, setPlacement] = React.useState('right');
-  const handleClickBy = nextPlacement => (e) => {
-    setPlacement(nextPlacement);
-    onOpen();
-  };
-
-  return (
-    <>
-      <Stack direction="row" spacing="2x">
-        <Button onClick={handleClickBy('left')}>
-          <Flex align="center">
-            <Icon icon="chevron-right" mr="2x" />
-            Left
-          </Flex>
-        </Button>
-        <Button onClick={handleClickBy('right')}>
-          <Flex align="center">
-            <Icon icon="chevron-left" mr="2x" />
-            Right
-          </Flex>
-        </Button>
-      </Stack>
-      <Drawer
-        ensureFocus
-        autoFocus
-        backdrop
-        isClosable
-        isOpen={isOpen}
-        closeOnEsc
-        closeOnOutsideClick
-        onClose={onClose}
-        placement={placement}
-        size="sm"
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader>
-            Drawer Title
-          </DrawerHeader>
-          <DrawerBody>
-            <Lorem count={2} />
-          </DrawerBody>
-          <DrawerFooter>
-            <Button onClick={onClose}>
-              Close
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    </>
-  );
-}
-```
-
-### Sizes
-
-Use the `size` prop to change the size of the `Drawer`. You can set the value to `auto`, `sm`, `md`, `lg`, or `full`.
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [size, setSize] = React.useState('auto');
-  const handleClickBy = nextSize => (e) => {
-    setSize(nextSize);
-    onOpen();
-  };
-
-  return (
-    <>
-      <Stack direction="row" spacing="2x">
-        <Button onClick={handleClickBy('auto')}>Auto width</Button>
-        <Button onClick={handleClickBy('sm')}>Small width</Button>
-        <Button onClick={handleClickBy('md')}>Medium width</Button>
-        <Button onClick={handleClickBy('lg')}>Large width</Button>
-        <Button onClick={handleClickBy('full')}>Full width</Button>
-      </Stack>
-      <Drawer
-        ensureFocus
-        autoFocus
-        backdrop
-        isClosable
-        isOpen={isOpen}
-        closeOnEsc
-        closeOnOutsideClick
-        onClose={onClose}
-        size={size}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader>
-            Drawer Title
-          </DrawerHeader>
-          <DrawerBody>
-            <Lorem count={2} />
-          </DrawerBody>
-          <DrawerFooter>
-            <Button onClick={onClose}>
-              Close
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    </>
-  );
-}
-```
-
-### Transitions
-
-The drawer doesn't come with transitions by default. You can use the [`Transition`](./transition) components to provide simple transitions.
-
-When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the drawer.
-
-#### Adding slide transition
-
-```
-import { Slide } from '@trendmicro/react-styled-ui';
-```
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <>
-      <Button onClick={onOpen}>
-        Launch drawer
-      </Button>
-      <Slide
-        in={isOpen}
-        from="right"
-        finalHeight="100vh"
-      >
-        {styles => (
-          <Drawer
-            backdrop
-            isClosable
-            isOpen={true} // Set to `true` if a transition is active
-            closeOnEsc
-            closeOnOutsideClick
-            onClose={onClose}
-            placement="right"
-            size="sm"
-          >
-            <DrawerOverlay opacity={styles.opacity} />
-            <DrawerContent {...styles}>
-              <DrawerHeader>
-                Drawer Title
-              </DrawerHeader>
-              <DrawerBody>
-                <Lorem count={2} />
-              </DrawerBody>
-              <DrawerFooter>
-                <Button onClick={onClose}>
-                  Close
-                </Button>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
-        )}
-      </Slide>
-    </>
-  );
-}
 ```
 
 ## Props
@@ -549,15 +336,26 @@ function Example() {
 | closeOnEsc | boolean | false | If `true`, close the drawer when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the drawer when click outside of the drawer. Note that this value will not have any effect when `backdrop` is set to `true`. |
 | onClose | function | | Callback fired when the drawer closes. |
-| placement | string | 'right' | The placement of the drawer. One of: `'left'`, `'right'` |
-| size | string | 'auto' | The size of the drawer. One of: `'auto'`, `'sm'`, `'md'`, `'lg'`, `'full'` |
+| placement | string | 'left' | Change the placement of the drawer. One of: 'left', 'right', 'top', 'bottom' |
+| size | string | 'auto' | Change the size of the drawer. One of: 'auto', 'sm', 'md', 'lg', 'full' |
 
 ### DrawerOverlay
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| TransitionComponent | elementType | Fade | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+
 ### DrawerContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| TransitionComponent | elementType | Slide | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 
 ### DrawerHeader
 
 ### DrawerBody
 
 ### DrawerFooter
+

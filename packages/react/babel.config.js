@@ -11,6 +11,11 @@ module.exports = {
       'runtime': 'classic', // defaults to classic
       //'runtime': 'automatic', // for React 16.14.0, React 17 and higher that supports the new transform
     }],
+
+    /**
+     * https://emotion.sh/docs/@emotion/babel-preset-css-prop
+     * A Babel preset to automatically enable Emotion's css prop when using the classic JSX runtime. If you want to use the new JSX runtimes please do not use this preset but rather just include our @emotion/babel-plugin directly and follow instructions for configuring the new JSX runtimes here.
+     */
     '@emotion/babel-preset-css-prop',
   ],
 };

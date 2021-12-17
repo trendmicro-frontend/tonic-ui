@@ -1,17 +1,12 @@
 import React, { forwardRef } from 'react';
-import Flex from '../Flex';
-import { baseProps } from './styles';
+import Box from '../Box';
+import { useInputGroupAppendStyle } from './styles';
 
-const InputGroupAppend = forwardRef((
-  props,
-  ref,
-) => {
-  const styleProps = {
-    ...baseProps,
-  };
+const InputGroupAppend = forwardRef((props, ref) => {
+  const styleProps = useInputGroupAppendStyle();
 
   return (
-    <Flex
+    <Box
       ref={ref}
       {...styleProps}
       {...props}

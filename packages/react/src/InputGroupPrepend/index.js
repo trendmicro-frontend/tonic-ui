@@ -1,17 +1,12 @@
 import React, { forwardRef } from 'react';
-import Flex from '../Flex';
-import { baseProps } from './styles';
+import Box from '../Box';
+import { useInputGroupPrependStyle } from './styles';
 
-const InputGroupPrepend = forwardRef((
-  props,
-  ref,
-) => {
-  const styleProps = {
-    ...baseProps,
-  };
+const InputGroupPrepend = forwardRef((props, ref) => {
+  const styleProps = useInputGroupPrependStyle();
 
   return (
-    <Flex
+    <Box
       ref={ref}
       {...styleProps}
       {...props}

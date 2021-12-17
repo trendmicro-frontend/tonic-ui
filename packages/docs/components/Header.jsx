@@ -149,7 +149,7 @@ const Header = forwardRef((props, ref) => {
           display="flex"
           flex="none"
           width="auto"
-          align="center"
+          alignItems="center"
           px="4x"
         >
           <Box

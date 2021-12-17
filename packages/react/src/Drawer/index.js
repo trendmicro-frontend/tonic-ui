@@ -1,23 +1,23 @@
 import Drawer from './Drawer';
-import DrawerOverlay from './DrawerOverlay';
-import DrawerContent from './DrawerContent';
-import DrawerHeader from './DrawerHeader';
 import DrawerBody from './DrawerBody';
+import DrawerContent from './DrawerContent';
 import DrawerFooter from './DrawerFooter';
+import DrawerHeader from './DrawerHeader';
+import DrawerOverlay from './DrawerOverlay';
 
-Drawer.Overlay = DrawerOverlay;
-Drawer.Content = DrawerContent;
-Drawer.Header = DrawerHeader;
 Drawer.Body = DrawerBody;
+Drawer.Content = DrawerContent;
 Drawer.Footer = DrawerFooter;
+Drawer.Header = DrawerHeader;
+Drawer.Overlay = DrawerOverlay;
 
 export {
   Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerHeader,
   DrawerBody,
+  DrawerContent,
   DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
 };
 
 export default Drawer;

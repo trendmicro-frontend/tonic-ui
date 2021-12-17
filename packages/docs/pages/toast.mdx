@@ -58,7 +58,7 @@ const ToastSimple = ({ onClose }) => (
 
 const ToastWithIcon = ({ onClose }) => (
   <Toast isClosable onClose={onClose} py="4x">
-    <Flex align="flex-start">
+    <Flex alignItems="flex-start">
       <Box
         bg="gray:40"
         height={48}
@@ -86,7 +86,7 @@ const ToastWithActionButton = ({ onClose }) => (
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
-    <Flex justify="flex-end" mr={-36}>
+    <Flex justifyContent="flex-end" mr={-36}>
       <FlatButton variant="outline" color="black:primary" size="sm">
         Action Button
       </FlatButton>
@@ -99,7 +99,7 @@ const ToastWithActionLink = ({ onClose }) => (
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
-    <Flex justify="flex-end" mr={-36}>
+    <Flex justifyContent="flex-end" mr={-36}>
       <Link>Action Link</Link>
     </Flex>
   </Toast>
@@ -110,7 +110,7 @@ const ToastWithAllTogether = ({ onClose }) => (
     <Box mb="2x">
       <Text fontWeight="bold">Notification Title</Text>
     </Box>
-    <Flex align="flex-start" mb="6x">
+    <Flex alignItems="flex-start" mb="6x">
       <Box
         bg="gray:40"
         height={48}
@@ -119,7 +119,7 @@ const ToastWithAllTogether = ({ onClose }) => (
       <Space minWidth="4x" />
       <Text>This is a toast notification.</Text>
     </Flex>
-    <Flex justify="flex-end" mr={-36}>
+    <Flex justifyContent="flex-end" mr={-36}>
       <FlatButton variant="outline" color="black:primary" size="sm">
         Action Button
       </FlatButton>
@@ -378,7 +378,7 @@ const ToastWithAnotherIcon = ({ onClose }) => (
     isClosable
     onClose={onClose}
     appearance="success"
-    icon="success"
+    icon="check-circle-o"
   >
     This is a success toast alert.
   </Toast>
@@ -478,7 +478,7 @@ render(<Example />);
 | :--- | :--- | :------ | :---------- |
 | isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
-| appearance | string | 'none' | One of: `'none'`, `'success'`, `'info'`, `'warning'`, `'error'` |
+| appearance | string | 'none' | One of: 'none', 'success', 'info', 'warning', 'error' |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
 
 ## ToastProvider
@@ -487,7 +487,7 @@ render(<Example />);
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
 | container | DOM element | | |
-| placement | string | 'bottom-right' | Set the default placement to place toasts. One of: `'top'`, `'top-right'`, `'top-left'`, `'bottom'`, `'bottom-left'`, `'bottom-right'` |
+| placement | string | 'bottom-right' | Set the default placement to place toasts. One of: 'top', 'top-right', 'top-left', 'bottom', 'bottom-left', 'bottom-right' |
 
 ## useToast Hook
 

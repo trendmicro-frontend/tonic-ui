@@ -129,7 +129,7 @@ function Example() {
 
   return (
     <Stack direction="column" spacing="8x">
-      <Flex align="center">
+      <Flex alignItems="center">
         <Box mr="8x">
           <Badge badgeContent={count} isInvisible={!(count > 0)}>
             <Icon icon="alert" />
@@ -166,7 +166,7 @@ function Example() {
           </Badge>
         </Box>
         <TextLabel cursor="pointer">
-          <Flex align="center">
+          <Flex alignItems="center">
             <Switch
               size="md"
               checked={!isInvisible}

@@ -1,6 +1,5 @@
 import React, { forwardRef, useEffect } from 'react';
 import Box from '../Box';
-import Flex from '../Flex';
 import useColorMode from '../useColorMode';
 import { TableProvider } from './context';
 
@@ -29,11 +28,11 @@ const Table = forwardRef((
 
   return (
     <TableProvider value={context}>
-      <Flex
+      <Box
         ref={ref}
         display="inline-flex"
+        flexDirection="column"
         position="relative"
-        direction="column"
         {...rest}
       >
         { children }
@@ -45,7 +44,7 @@ const Table = forwardRef((
             <VerticalLine position="absolute" top="0" left="0" />
           </>
         )}
-      </Flex>
+      </Box>
     </TableProvider>
   );
 });

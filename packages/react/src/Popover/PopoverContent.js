@@ -1,10 +1,28 @@
-import React from 'react';
+import chainedFunction from 'chained-function';
+import React, { useRef } from 'react';
+import Popper from '../Popper/Popper';
+import PopperArrow from '../Popper/PopperArrow';
+import Box from '../Box';
+import Grow from '../Transitions/Grow';
 import useHydrated from '../hooks/useHydrated';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
-import Popper from '../Popper/Popper';
-import PopperArrow from '../Popper/PopperArrow';
 import { usePopoverContentStyle } from './styles';
+
+const mapPlacementToTransformOrigin = placement => ({
+  'top': 'bottom center',
+  'top-start': 'bottom left',
+  'top-end': 'bottom right',
+  'bottom': 'top center',
+  'bottom-start': 'top left',
+  'bottom-end': 'top right',
+  'left': 'right center',
+  'left-start': 'right top',
+  'left-end': 'right bottom',
+  'right': 'left center',
+  'right-start': 'left top',
+  'right-end': 'left bottom',
+}[placement]);
 
 const PopoverContent = ({
   onKeyDown,
@@ -13,9 +31,18 @@ const PopoverContent = ({
   onMouseEnter,
   onFocus,
   children,
-  ...props
+
+  'aria-label': ariaLabel,
+  PopperComponent = Popper,
+  PopperProps,
+  PopperArrowComponent = PopperArrow,
+  PopperArrowProps,
+  TransitionComponent = Grow,
+  TransitionProps,
+  ...rest
 }) => {
   const isHydrated = useHydrated();
+  const nodeRef = useRef(null);
   const {
     popoverRef,
     anchorRef,
@@ -33,7 +60,7 @@ const PopoverContent = ({
     hideArrow,
     skidding,
     distance,
-    delay,
+    leaveDelay,
     nextToCursor,
     followCursor,
     mousePageX,
@@ -81,7 +108,7 @@ const PopoverContent = ({
       }),
       onMouseLeave: wrapEvent(onMouseLeave, () => {
         isHoveringRef.current = false;
-        setTimeout(onClose, delay.hide);
+        setTimeout(onClose, leaveDelay);
       }),
     };
 
@@ -104,7 +131,7 @@ const PopoverContent = ({
   }
 
   return (
-    <Popper
+    <PopperComponent
       aria-hidden={!isOpen}
       aria-labelledby={headerId}
       aria-describedby={bodyId}
@@ -115,15 +142,61 @@ const PopoverContent = ({
       ref={popoverRef}
       id={popoverId}
       arrowSize={`${arrowSize}px`}
-      modifiers={{ offset: [_skidding, _distance] }}
-      {...contentStyleProps}
+      modifiers={{
+        offset: [_skidding, _distance],
+      }}
+      willUseTransition={true}
       {...roleProps}
       {...eventHandlers}
-      {...props}
+      {...PopperProps}
     >
-      {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
-      {children}
-    </Popper>
+      {({ placement, transition }) => {
+        const { in: inProp, onEnter, onExited } = { ...transition };
+        return (
+          <TransitionComponent
+            {...TransitionProps}
+            ref={nodeRef}
+            in={inProp}
+            onEnter={chainedFunction(
+              onEnter,
+              TransitionProps?.onEnter,
+              (event) => {
+                // set focus on the popover content
+                if (inProp && trigger === 'click') {
+                  requestAnimationFrame(() => {
+                    nodeRef.current && nodeRef.current.focus();
+                  });
+                }
+              }
+            )}
+            onExited={chainedFunction(
+              onExited,
+              TransitionProps?.onExited,
+            )}
+          >
+            {(state, { ref, style: transitionStyle }) => {
+              return (
+                <Box
+                  ref={ref}
+                  {...contentStyleProps}
+                  {...transitionStyle}
+                  transformOrigin={mapPlacementToTransformOrigin(placement)}
+                  {...rest}
+                >
+                  {!hideArrow && (
+                    <PopperArrowComponent
+                      arrowAt={arrowAt}
+                      {...PopperArrowProps}
+                    />
+                  )}
+                  {children}
+                </Box>
+              );
+            }}
+          </TransitionComponent>
+        );
+      }}
+    </PopperComponent>
   );
 };
 
