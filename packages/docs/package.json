@@ -1,13 +1,13 @@
 {
   "name": "styled-ui-docs",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production next build",
-    "clean": "del build dist",
-    "dev": "next dev --hostname 0.0.0.0",
-    "eslint": "eslint --ext .js,.jsx,.mjs .",
+    "build": ". ./tonic-ui.env && ./update-versions.sh && cross-env NODE_ENV=production next build",
     "postbuild": "next export --outdir dist/react",
+    "clean": "del build dist",
+    "dev": ". ./tonic-ui.env && ./update-versions.sh && next dev --hostname 0.0.0.0",
+    "eslint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "yarn run eslint",
     "start": "next start",
     "test": "jest --passWithNoTests"
@@ -34,7 +34,7 @@
     "@mdx-js/react": "^1.6.22",
     "@next/mdx": "^12.0.1",
     "@trendmicro/babel-config": "^1.0.2",
-    "@trendmicro/react-styled-ui": "^0.23.0",
+    "@trendmicro/react-styled-ui": "^0.24.0",
     "@trendmicro/styled-ui-theme": "^0.15.0",
     "@zeit/next-css": "^1.0.1",
     "boolean": "^3.1.4",
@@ -85,7 +85,7 @@
       "html"
     ],
     "setupFiles": [
-      "<rootDir>/jest.env-setup.js"
+      "<rootDir>/jest.setup.js"
     ],
     "setupFilesAfterEnv": [
       "jest-extended"
