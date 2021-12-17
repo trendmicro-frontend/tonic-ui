@@ -59,6 +59,9 @@ const SideNav = forwardRef((props, ref) => {
         <NavLink href={`${assetPrefix}/color-style`}>
           Color Style
         </NavLink>
+        <NavLink href={`${assetPrefix}/versions`}>
+          Versions
+        </NavLink>
         <NavLink href={`${assetPrefix}/contributing`}>
           Contributing
         </NavLink>

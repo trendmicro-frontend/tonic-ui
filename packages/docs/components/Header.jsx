@@ -1,16 +1,35 @@
 import {
   Box,
-  Flex,
   Icon,
   Image,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  Space,
   Text,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { useRouter } from 'next/router';
+import React, { forwardRef, useEffect, useState } from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
 
+const TONIC_UI_VERSION = {
+  [process.env.TONIC_UI_V0_RELEASE_VERSION]: {
+    label: `v${process.env.TONIC_UI_V0_RELEASE_VERSION}`,
+    url: process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION,
+  },
+  'latest': {
+    label: 'master branch',
+    url: process.env.TONIC_UI_MASTER_BRANCH_DOCUMENTATION,
+  },
+};
+
 const Header = forwardRef((props, ref) => {
+  const router = useRouter();
+  const [version, setVersion] = useState('Current');
   const { colorMode, toggleColorMode } = useColorMode();
   const logoPath = {
     light: 'images/tonic-logo-light.svg',
@@ -28,6 +47,31 @@ const Header = forwardRef((props, ref) => {
     light: 'black:primary', // FIXME
     dark: 'white:emphasis',
   }[colorMode];
+  const handleChooseVersion = (event) => {
+    const url = event.currentTarget.getAttribute('value');
+    if (url) {
+      window.location = url;
+    }
+  };
+  const handleViewAllVersions = () => {
+    router.push('/versions');
+  };
+
+  useEffect(() => {
+    /**
+     * ['tonic-ui', 'react', 'latest', 'getting-started']
+     * => version='latest'
+     *
+     * ['tonic-ui', 'react', 'pr-100', 'getting-started']
+     * => version='pr-100'
+     */
+    const arr = window.location.pathname.split('/').filter(Boolean);
+    const nextVersion = arr[2];
+    if (nextVersion && (version !== nextVersion)) {
+      setVersion(nextVersion);
+    }
+  }, [version]);
+
   return (
     <Box
       ref={ref}
@@ -41,7 +85,8 @@ const Header = forwardRef((props, ref) => {
       borderBottomColor={borderColor}
       {...props}
     >
-      <Flex
+      <Box
+        display="flex"
         position="relative"
         height="100%"
         alignItems="center"
@@ -65,7 +110,40 @@ const Header = forwardRef((props, ref) => {
           />
           <Text>Tonic UI</Text>
         </Box>
-        <Flex
+        <Box
+          display="flex"
+          flex="none"
+        >
+          <Menu>
+            <MenuButton>
+              {TONIC_UI_VERSION[version]?.label ?? version}
+            </MenuButton>
+            <MenuList>
+              {Object.entries(TONIC_UI_VERSION).map(([key, value]) => (
+                <MenuItem
+                  key={key}
+                  value={value?.url}
+                  whiteSpace="nowrap"
+                  onClick={handleChooseVersion}
+                >
+                  {(key === version)
+                    ? <><Text>{value?.label}</Text><Space width="2x" /><Text>✓</Text></>
+                    : <Text>{value?.label}</Text>
+                  }
+                </MenuItem>
+              ))}
+              <MenuDivider />
+              <MenuItem
+                whiteSpace="nowrap"
+                onClick={handleViewAllVersions}
+              >
+                <Text>View all versions</Text>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
+        <Box
+          display="flex"
           flex="none"
           width="auto"
           align="center"
@@ -107,8 +185,8 @@ const Header = forwardRef((props, ref) => {
               }}
             />
           </Box>
-        </Flex>
-      </Flex>
+        </Box>
+      </Box>
     </Box>
   );
 });
