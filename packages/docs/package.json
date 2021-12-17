@@ -3,11 +3,11 @@
   "version": "0.23.0",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production next build",
-    "clean": "del build dist",
-    "dev": "next dev --hostname 0.0.0.0",
-    "eslint": "eslint --ext .js,.jsx,.mjs .",
+    "build": ". ./tonic-ui.env && ./update-versions.sh && cross-env NODE_ENV=production next build",
     "postbuild": "next export --outdir dist/react",
+    "clean": "del build dist",
+    "dev": ". ./tonic-ui.env && ./update-versions.sh && next dev --hostname 0.0.0.0",
+    "eslint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "yarn run eslint",
     "start": "next start",
     "test": "jest --passWithNoTests"
@@ -85,7 +85,7 @@
       "html"
     ],
     "setupFiles": [
-      "<rootDir>/jest.env-setup.js"
+      "<rootDir>/jest.setup.js"
     ],
     "setupFilesAfterEnv": [
       "jest-extended"
