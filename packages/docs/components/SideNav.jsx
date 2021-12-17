@@ -14,7 +14,7 @@ import {
   utilityLinks,
 } from './nav-links';
 
-const assetPrefix = ensureString(process.env.ASSET_PREFIX);
+const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
 const SideNav = forwardRef((props, ref) => {
   const theme = useTheme();
@@ -50,19 +50,19 @@ const SideNav = forwardRef((props, ref) => {
       {...props}
     >
       <Box>
-        <NavLink href={`${assetPrefix}/getting-started`}>
+        <NavLink href={`${ASSET_PREFIX}/getting-started`}>
           Getting Started
         </NavLink>
-        <NavLink href={`${assetPrefix}/color-mode`}>
+        <NavLink href={`${ASSET_PREFIX}/color-mode`}>
           Color Mode
         </NavLink>
-        <NavLink href={`${assetPrefix}/color-style`}>
+        <NavLink href={`${ASSET_PREFIX}/color-style`}>
           Color Style
         </NavLink>
-        <NavLink href={`${assetPrefix}/versions`}>
+        <NavLink href={`${ASSET_PREFIX}/versions`}>
           Versions
         </NavLink>
-        <NavLink href={`${assetPrefix}/contributing`}>
+        <NavLink href={`${ASSET_PREFIX}/contributing`}>
           Contributing
         </NavLink>
       </Box>
@@ -77,7 +77,7 @@ const SideNav = forwardRef((props, ref) => {
           THEME
         </Text>
         {themeLinks.map(link => {
-          const url = `${assetPrefix}/${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${ASSET_PREFIX}/${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -97,7 +97,7 @@ const SideNav = forwardRef((props, ref) => {
           BUILDING BLOCKS
         </Text>
         {buildingBlockLinks.map(link => {
-          const url = `${assetPrefix}/${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${ASSET_PREFIX}/${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -117,7 +117,7 @@ const SideNav = forwardRef((props, ref) => {
           COMPONENTS
         </Text>
         {componentLinks.map(link => {
-          const url = `${assetPrefix}/${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${ASSET_PREFIX}/${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
@@ -137,7 +137,7 @@ const SideNav = forwardRef((props, ref) => {
           UTILITIES
         </Text>
         {utilityLinks.map(link => {
-          const url = `${assetPrefix}/${link.toLowerCase().split(' ').join('-')}`;
+          const url = `${ASSET_PREFIX}/${link.toLowerCase().split(' ').join('-')}`;
 
           return (
             <NavLink key={link} href={url}>
