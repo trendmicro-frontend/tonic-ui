@@ -146,7 +146,6 @@ const PopoverContent = ({
         offset: [_skidding, _distance],
       }}
       willUseTransition={true}
-      {...contentStyleProps}
       {...roleProps}
       {...eventHandlers}
       {...PopperProps}
