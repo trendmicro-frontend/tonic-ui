@@ -57,7 +57,7 @@ If the children of Tooltip are focusable elements, Tooltip will show when you fo
   placement="right"
   width="auto"
   label={
-    <Stack flexDirection="column">
+    <Stack direction="column">
       <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
       <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
       <Text>{"It's very engaging. Right?"}</Text>
@@ -142,8 +142,8 @@ function Example() {
 Using the `placement` prop you can adjust where your tooltip will be displayed.
 
 ```jsx
-<Stack flexDirection="column" spacing="8x">
-  <Stack shouldWrapChildren flexDirection="row" spacing="8x">
+<Stack direction="column" spacing="8x">
+  <Stack shouldWrapChildren direction="row" spacing="8x">
     <Tooltip label="Top" placement="top">
       <Button minWidth="32x">Top</Button>
     </Tooltip>
@@ -154,7 +154,7 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
       <Button minWidth="32x">Top-End</Button>
     </Tooltip>
   </Stack>
-  <Stack shouldWrapChildren flexDirection="row" spacing="8x">
+  <Stack shouldWrapChildren direction="row" spacing="8x">
     <Tooltip label="Right" placement="right">
       <Button minWidth="32x">Right</Button>
     </Tooltip>
@@ -165,7 +165,7 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
       <Button minWidth="32x">Right-End</Button>
     </Tooltip>
   </Stack>
-  <Stack shouldWrapChildren flexDirection="row" spacing="8x">
+  <Stack shouldWrapChildren direction="row" spacing="8x">
     <Tooltip label="Bottom" placement="bottom">
       <Button minWidth="32x">Bottom</Button>
     </Tooltip>
@@ -176,7 +176,7 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
       <Button minWidth="32x">Bottom-End</Button>
     </Tooltip>
   </Stack>
-  <Stack shouldWrapChildren flexDirection="row" spacing="8x">
+  <Stack shouldWrapChildren direction="row" spacing="8x">
     <Tooltip label="Left" placement="left">
       <Button minWidth="32x">Left</Button>
     </Tooltip>

@@ -170,7 +170,7 @@ function Example() {
 
   return (
     <>
-      <Stack flexDirection="column" spacing="6x">
+      <Stack direction="column" spacing="6x">
         <Box>
           <Button
             variant="secondary"
@@ -338,7 +338,7 @@ function Example() {
   ];
 
   return (
-    <Stack flexDirection="column" spacing="6x">
+    <Stack direction="column" spacing="6x">
       {toastComponents.map((ToastNotification, idx) => (
         <Box key={idx}>
           <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
@@ -454,7 +454,7 @@ function Example() {
   ];
 
   return (
-    <Stack flexDirection="column" spacing="6x">
+    <Stack direction="column" spacing="6x">
       {alertToasts.map((ToastNotification, idx) => (
         <Box key={idx}>
           <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>

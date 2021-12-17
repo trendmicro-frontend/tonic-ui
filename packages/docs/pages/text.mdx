@@ -15,7 +15,7 @@ import { Text } from '@trendmicro/react-styled-ui';
 Use the `size` prop to change the corresponding font size and line height. You can set the value to `4xl`, `3xl`, `2xl`, `xl`, `lg`, `md`, `sm`, or `xs`.
 
 ```jsx
-<Stack flexDirection="column" spacing="4x">
+<Stack direction="column" spacing="4x">
   <Text size="4xl">
     Four Extra Large (4XL)
   </Text>
@@ -48,7 +48,7 @@ Use the `size` prop to change the corresponding font size and line height. You c
 You can format the `Text` component by passing `size` prop and `fontWeight` to display a formatted Heading.
 
 ```jsx
-<Stack flexDirection="column" spacing="4x">
+<Stack direction="column" spacing="4x">
   <Text size="sm" fontWeight="semibold">Heading 1</Text>
   <Text size="md" fontWeight="semibold">Heading 2</Text>
   <Text size="lg" fontWeight="semibold">Heading 3</Text>
@@ -69,7 +69,7 @@ function Example() {
   const bg = colorMode === 'dark' ? 'gray:80' : 'gray:20';
 
   return (
-    <Stack flexDirection="column" spacing="4x">
+    <Stack direction="column" spacing="4x">
       <Text bg={bg} lineHeight="1" px="2x">
         This is exactly the same height as the font size
       </Text>
@@ -113,7 +113,7 @@ const TextBlock = (props) => {
 
 function Example() {
   return (
-    <Stack flexDirection="column" spacing="4x" shouldWrapChildren>
+    <Stack direction="column" spacing="4x" shouldWrapChildren>
       <TextBlock as="i">Italic</TextBlock>
       <TextBlock as="u">Underline</TextBlock>
       <TextBlock as="abbr">Abbreviation or acronym</TextBlock>

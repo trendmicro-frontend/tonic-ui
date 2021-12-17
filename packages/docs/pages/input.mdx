@@ -23,7 +23,7 @@ import { Input } from '@trendmicro/react-styled-ui';
 Use the `size` prop to change the size of the `Input`. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack flexDirection="column" spacing="4x">
+<Stack direction="column" spacing="4x">
   <Box>
     <TextLabel mb="1x" size="sm">Label:</TextLabel>
     <Input size="sm" placeholder="Small size (24px)" />
@@ -208,7 +208,7 @@ function Example() {
   const inputType = view ? 'text' : 'password';
 
   return (
-    <Stack flexDirection="column" spacing="4x">
+    <Stack direction="column" spacing="4x">
       <Flex position="relative" alignItems="center">
         <InputAdornmentPrepend>
           <Icon icon="mobile" color={adornmentColor} />

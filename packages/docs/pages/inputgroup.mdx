@@ -18,7 +18,7 @@ import {
 Use `InputGroup` to place an `InputGroupAddon` or `Button` on either side of an `Input`. You may also place one on both sides of an `Input`.
 
 ```jsx
-<Stack flexDirection="column" spacing="4x">
+<Stack direction="column" spacing="4x">
   <InputGroup>
     <InputGroupPrepend>
       <InputGroupAddon variant="filled">@</InputGroupAddon>
@@ -48,7 +48,7 @@ Use `InputGroup` to place an `InputGroupAddon` or `Button` on either side of an 
 Use the `size` prop to change the size of the input group. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack flexDirection="column" spacing="4x">
+<Stack direction="column" spacing="4x">
   <InputGroup size="sm">
     <InputGroupPrepend>
       <InputGroupAddon variant="filled">sm</InputGroupAddon>
@@ -77,7 +77,7 @@ The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyl
 #### `outline`
 
 ```jsx
-<Stack flexDirection="column" spacing="4x">
+<Stack direction="column" spacing="4x">
   <InputGroup variant="outline">
     <InputGroupPrepend>
       <InputGroupAddon>@</InputGroupAddon>
@@ -96,7 +96,7 @@ The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyl
 #### `filled`
 
 ```jsx
-<Stack flexDirection="column" spacing="4x">
+<Stack direction="column" spacing="4x">
   <InputGroup variant="filled">
     <InputGroupPrepend>
       <InputGroupAddon>@</InputGroupAddon>
@@ -128,7 +128,7 @@ For an unstyled input group that doesn't have border and padding spaces, it is n
 Multiple add-ons are supported and can be mixed with checkbox and radio input components.
 
 ```jsx
-<Stack flexDirection="column" spacing="4x">
+<Stack direction="column" spacing="4x">
   <InputGroup>
     <InputGroupPrepend>
       <InputGroupAddon variant="filled">$</InputGroupAddon>
@@ -202,7 +202,7 @@ function Example() {
   }[colorMode];
 
   return (
-    <Stack flexDirection="column" spacing="4x">
+    <Stack direction="column" spacing="4x">
       <InputGroup>
         <InputGroupPrepend>
           <Button variant="secondary">

@@ -19,7 +19,7 @@ import { Radio } from '@trendmicro/react-styled-ui';
 Use the `variantColor` prop to change the color scheme of a radio button. `variantColor` can be any color key with key `50` (hover) or `60` (checked) that exist in `theme.colors`.
 
 ```jsx
-<Stack flexDirection="row" spacing="3x">
+<Stack direction="row" spacing="3x">
   <Radio variantColor="red" defaultChecked>Radio</Radio>
   <Radio variantColor="green" defaultChecked>Radio</Radio>
 </Stack>
@@ -30,7 +30,7 @@ Use the `variantColor` prop to change the color scheme of a radio button. `varia
 Use the `size` prop to change the radio button size. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack flexDirection="column" spacing="1x" shouldWrapChildren>
+<Stack direction="column" spacing="1x" shouldWrapChildren>
   <Radio size="sm" name="1">Radio</Radio>
   <Radio size="md" name="1">Radio</Radio>
   <Radio size="lg" name="1">Radio</Radio>
@@ -40,7 +40,7 @@ Use the `size` prop to change the radio button size. You can set the value to `s
 ### States
 
 ```jsx
-<Stack flexDirection="row" spacing="3x">
+<Stack direction="row" spacing="3x">
   <Radio checked={false}>Radio</Radio>
   <Radio defaultChecked>Radio</Radio>
   <Radio disabled>Radio</Radio>

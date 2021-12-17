@@ -15,7 +15,7 @@ import { Skeleton } from '@trendmicro/react-styled-ui';
 This component provides 3 shape variants: `text`, `rect`, and `circle`.
 
 ```jsx
-<Stack display="inline-flex" flexDirection="column" spacing="4x">
+<Stack display="inline-flex" direction="column" spacing="4x">
   <Skeleton variant="text" />
   <Skeleton variant="rect" width={200} height={100} />
   <Skeleton variant="circle" width={40} height={40} />
@@ -27,7 +27,7 @@ This component provides 3 shape variants: `text`, `rect`, and `circle`.
 The animation is disabled by default. You can change the animation effect to `pulse` or `wave`.
 
 ```jsx
-<Stack flexDirection="column" spacing="4x" width={300}>
+<Stack direction="column" spacing="4x" width={300}>
   <Box>
     <Skeleton />
     <Skeleton animation="pulse" />
@@ -44,13 +44,13 @@ In addition to accepting `width` and `height` props, the component can also infe
 function Example() {
   return (
     <Flex>
-      <Stack flexDirection="column" spacing="4x" flex="none" width={300}>
+      <Stack direction="column" spacing="4x" flex="none" width={300}>
         <Text size="4xl"><Skeleton /></Text>
         <Text size="xl"><Skeleton /></Text>
         <Text><Skeleton /></Text>
       </Stack>
       <Space width="8x" flex="none" />
-      <Stack flexDirection="column" spacing="4x" flex="1">
+      <Stack direction="column" spacing="4x" flex="1">
         <Text size="4xl">Heading 8</Text>
         <Text size="xl">Heading 4</Text>
         <Text>body text</Text>

@@ -39,8 +39,8 @@ The `outline` variant is useful for displaying a contextual alert that is not a 
 The `severity` prop can be used to specify the severity level of the alert. The severity levels are: `success`, `info`, `warning`, and `error`. The default severity level is `success`.
 
 ```jsx
-<Stack flexDirection="column" spacing="6x">
-  <Stack flexDirection="column" spacing="2x">
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
     <Alert variant="solid" severity="success">
       <Text>This is a success alert.</Text>
     </Alert>
@@ -54,7 +54,7 @@ The `severity` prop can be used to specify the severity level of the alert. The 
       <Text>This is an error alert.</Text>
     </Alert>
   </Stack>
-  <Stack flexDirection="column" spacing="2x">
+  <Stack direction="column" spacing="2x">
     <Alert variant="outline" severity="success">
       <Text>This is a success alert.</Text>
     </Alert>
@@ -77,8 +77,8 @@ The `icon` prop allows you to specify an icon to be displayed in the alert.
 If not specified, the default icon will be used based on the `severity` prop.
 
 ```jsx
-<Stack flexDirection="column" spacing="6x">
-  <Stack flexDirection="column" spacing="2x">
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
     <Alert variant="solid" severity="success" isClosable>
       This is a success alert.
     </Alert>
@@ -92,7 +92,7 @@ If not specified, the default icon will be used based on the `severity` prop.
       This is a success alert.
     </Alert>
   </Stack>
-  <Stack flexDirection="column" spacing="2x">
+  <Stack direction="column" spacing="2x">
     <Alert variant="outline" severity="success" isClosable>
       This is a success alert.
     </Alert>
@@ -114,8 +114,8 @@ If not specified, the default icon will be used based on the `severity` prop.
 Set `isClosable` to `true` to make the alert closable. The default value is `false`.
 
 ```jsx
-<Stack flexDirection="column" spacing="6x">
-  <Stack flexDirection="column" spacing="2x">
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
     <Alert variant="solid" severity="success" isClosable>
       <Text>This is a success alert.</Text>
     </Alert>
@@ -129,7 +129,7 @@ Set `isClosable` to `true` to make the alert closable. The default value is `fal
       <Text>This is an error alert.</Text>
     </Alert>
   </Stack>
-  <Stack flexDirection="column" spacing="2x">
+  <Stack direction="column" spacing="2x">
     <Alert variant="outline" severity="success" isClosable>
       <Text>This is a success alert.</Text>
     </Alert>
@@ -153,8 +153,8 @@ An alert action is a button or link to trigger an action. It is used to provide 
 The action button is usually aligned to the right of the alert. You can use `justifyContent` to align the action button to the right.
 
 ```jsx
-<Stack flexDirection="column" spacing="6x">
-  <Stack flexDirection="column" spacing="2x">
+<Stack direction="column" spacing="6x">
+  <Stack direction="column" spacing="2x">
     <Alert variant="solid" severity="warning">
       <Flex justifyContent="space-between">
         <Text>This is a warning alert.</Text>
@@ -170,7 +170,7 @@ The action button is usually aligned to the right of the alert. You can use `jus
       </Flex>
     </Alert>
   </Stack>
-  <Stack flexDirection="column" spacing="2x">
+  <Stack direction="column" spacing="2x">
     <Alert variant="outline" severity="warning">
       <Flex justifyContent="space-between">
         <Text>This is a warning alert.</Text>
@@ -194,7 +194,7 @@ The action button is usually aligned to the right of the alert. You can use `jus
 You can use the `Text` component to format text.
 
 ```jsx
-<Stack flexDirection="column" spacing="2x">
+<Stack direction="column" spacing="2x">
   <Alert isClosable severity="success">
     <Box mb="1x">
       <Text fontWeight="bold">Success</Text>

@@ -56,9 +56,9 @@ Use the `variant` prop to change the visual style of the Table. You can set the 
 - `outline`: Adds borders on all sides of the table and cells.
 
 ```jsx
-<Stack flexDirection="row" spacing="4x">
+<Stack direction="row" spacing="4x">
   {["default", "outline"].map(variant => (
-    <Stack key={variant} flexDirection="column" spacing="4x" shouldWrapChildren>
+    <Stack key={variant} direction="column" spacing="4x" shouldWrapChildren>
       <Text size="xl">{variant}</Text>
       <Table variant={variant}>
         <TableHeader>
