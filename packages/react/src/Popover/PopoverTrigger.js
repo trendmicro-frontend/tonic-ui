@@ -40,7 +40,7 @@ const PopoverTrigger = forwardRef((
     nextToCursor,
     followCursor
   } = usePopover();
-  const combinedRef = useForkRef(ref, anchorRef);
+  const combinedRef = useForkRef(anchorRef, ref);
   const openTimeout = useRef(null);
   const [enableMouseMove, setEnableMouseMove] = useState(true);
 

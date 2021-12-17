@@ -10,7 +10,7 @@ const ToastController = forwardRef(({
   ...rest
 }, ref) => {
   const nodeRef = useRef();
-  const combinedRef = useForkRef(ref, nodeRef);
+  const combinedRef = useForkRef(nodeRef, ref);
   const [delay, setDelay] = useState(duration);
   const onMouseEnter = () => setDelay(null);
   const onMouseLeave = () => setDelay(duration);

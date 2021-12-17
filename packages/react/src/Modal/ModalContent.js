@@ -81,7 +81,7 @@ const ModalContentFront = forwardRef(({ children, ...rest }, ref) => {
     // internal use only
     contentRef,
   } = { ...modalContext };
-  const combinedRef = useForkRef(ref, contentRef);
+  const combinedRef = useForkRef(contentRef, ref);
   const contentStyleProps = useModalContentStyle({ size });
 
   return (
