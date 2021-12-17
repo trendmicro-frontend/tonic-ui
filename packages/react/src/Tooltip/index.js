@@ -90,13 +90,13 @@ const Tooltip = forwardRef((
     }
   });
 
+  const anchorRef = useRef(null);
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(anchorRef, ref);
   const isHydrated = useHydrated();
   const { isOpen, onClose, onOpen } = useDisclosure(false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;
-
-  const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
 
   const enterTimeoutRef = useRef();
   const exitTimeoutRef = useRef();
@@ -138,7 +138,6 @@ const Tooltip = forwardRef((
     }
   };
 
-  const anchorEl = nodeRef.current;
   const arrowSize = '6px';
   const tooltipStyleProps = useTooltipStyle();
   const getTooltipTriggerProps = () => {
@@ -179,7 +178,7 @@ const Tooltip = forwardRef((
           modifiers={{
             offset: [0, 8],
           }}
-          anchorEl={anchorEl}
+          anchorEl={anchorRef.current}
           hideArrow={hideArrow}
           id={tooltipId}
           role="tooltip"
