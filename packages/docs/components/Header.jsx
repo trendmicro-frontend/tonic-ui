@@ -16,6 +16,8 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
 
+const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
+
 const TONIC_UI_VERSION = {
   [process.env.TONIC_UI_V0_RELEASE_VERSION]: {
     label: `v${process.env.TONIC_UI_V0_RELEASE_VERSION}`,
@@ -54,7 +56,7 @@ const Header = forwardRef((props, ref) => {
     }
   };
   const handleViewAllVersions = () => {
-    router.push('/versions');
+    router.push(`${ASSET_PREFIX}/versions`);
   };
 
   useEffect(() => {
