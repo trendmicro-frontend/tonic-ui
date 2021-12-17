@@ -54,7 +54,7 @@ const Header = forwardRef((props, ref) => {
     }
   };
   const handleViewAllVersions = () => {
-    router.push('/versions');
+    router.push('versions');
   };
 
   useEffect(() => {
