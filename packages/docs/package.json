@@ -3,11 +3,13 @@
   "version": "0.23.0",
   "private": true,
   "scripts": {
+    "prebuild": "./update-versions.sh",
     "build": "cross-env NODE_ENV=production next build",
+    "postbuild": "next export --outdir dist/react",
     "clean": "del build dist",
+    "predev": "./update-versions.sh",
     "dev": "next dev --hostname 0.0.0.0",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
-    "postbuild": "next export --outdir dist/react",
     "pre-push": "yarn run eslint",
     "start": "next start",
     "test": "jest --passWithNoTests"
