@@ -2,7 +2,7 @@ import {
   Box,
   Flex,
   Skeleton,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import React from 'react';
 
 const SkeletonBlock = (props) => (

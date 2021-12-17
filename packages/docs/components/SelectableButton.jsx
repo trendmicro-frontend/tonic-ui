@@ -2,7 +2,7 @@ import {
   Button,
   useColorMode,
   useTheme,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import React from 'react';
 
 const SelectableButton = ({

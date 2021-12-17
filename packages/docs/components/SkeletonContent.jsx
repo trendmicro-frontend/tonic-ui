@@ -2,7 +2,7 @@ import {
   Box,
   useColorMode,
   useColorStyle,
-} from '@trendmicro/react-styled-ui';
+} from '@tonic-ui/react';
 import React from 'react';
 
 const SkeletonContent = (props) => {
