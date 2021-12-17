@@ -29,27 +29,6 @@ const ColorStyleBody = ({
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorStyleOfType = _get(customColorStyle, colorType) ?? _get(colorStyle, colorType);
-
-  { // TODO: remove this block in the v1 release
-    // filter out deprecated keys
-    if (colorType === 'background') {
-      delete colorStyleOfType.selected;
-      delete colorStyleOfType.marked;
-    }
-
-    // filter out deprecated keys
-    if (colorType === 'text') {
-      delete colorStyleOfType.emphasis;
-      delete colorStyleOfType.primary;
-      delete colorStyleOfType.secondary;
-      delete colorStyleOfType.tertiary;
-      delete colorStyleOfType.disabled;
-      delete colorStyleOfType.link;
-      delete colorStyleOfType.warning;
-      delete colorStyleOfType.error;
-    }
-  }
-
   const colorStyleBlocks = Object.keys(colorStyleOfType)
     .map(colorKey => {
       const colorLabel = capitalizeFirstLetter(colorKey);

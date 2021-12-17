@@ -2,6 +2,8 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import Icon from '../Icon';
 import Space from '../Space';
+import useEffectOnce from '../hooks/useEffectOnce';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import AlertCloseButton from './AlertCloseButton';
 import AlertIcon from './AlertIcon';
 import AlertMessage from './AlertMessage';
@@ -15,8 +17,8 @@ import {
 
 const Alert = forwardRef((
   {
-    isClosable: _isClosable = false,
-    isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
+    isCloseButtonVisible, // deprecated
+    isClosable = false,
     onClose,
     severity = defaultSeverity,
     variant = defaultVariant,
@@ -26,7 +28,19 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
-  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+  useEffectOnce(() => {
+    const prefix = `${Alert.displayName}:`;
+
+    if (isCloseButtonVisible !== undefined) {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
+        alternative: 'isClosable',
+        willRemove: true,
+      });
+    }
+  });
+
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const styleProps = useAlertStyle({ variant, severity });
 
   return (

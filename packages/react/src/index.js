@@ -121,7 +121,7 @@ export {
   usePresence,
   useTheme,
   useToast,
-  withTheme,
+  withTheme, // deprecated
 };
 
 export {

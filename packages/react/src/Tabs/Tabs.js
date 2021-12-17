@@ -1,19 +1,17 @@
-import React, {
-  forwardRef,
-  useState,
-  useRef
-} from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import { TabContext } from './context';
 import Box from '../Box';
+import useEffectOnce from '../hooks/useEffectOnce';
 import { useId } from '../utils/autoId';
+import warnRemovedProps from '../utils/warnRemovedProps';
 
 const Tabs = forwardRef((
   {
+    activateOnKeypress, // deprecated
     children,
     onChange,
     index: controlledIndex,
     defaultIndex,
-    activateOnKeypress, // TODO: activateOnKeypress is deprecated and will be removed in the v1 release
     isManual,
     variant = 'line',
     align = 'left',
@@ -24,12 +22,17 @@ const Tabs = forwardRef((
   },
   ref,
 ) => {
+  useEffectOnce(() => {
+    if (activateOnKeypress !== undefined) {
+      warnRemovedProps('activateOnKeypress');
+    }
+  });
+
   const { current: isControlled } = useRef(controlledIndex != null);
   const selectedPanelRef = useRef();
-  const isActiveManually = activateOnKeypress || isManual;
 
   const getInitialIndex = () => {
-    if (!isActiveManually) {
+    if (!isManual) {
       return defaultIndex || 0;
     } else {
       return controlledIndex || defaultIndex || 0;
@@ -37,7 +40,7 @@ const Tabs = forwardRef((
   };
 
   const getActualIdx = () => {
-    if (isActiveManually) {
+    if (isManual) {
       return selectedIndex;
     } else {
       return isControlled ? controlledIndex : selectedIndex;
@@ -57,11 +60,11 @@ const Tabs = forwardRef((
       setSelectedIndex(index);
     }
 
-    if (isControlled && isActiveManually) {
+    if (isControlled && isManual) {
       setSelectedIndex(index);
     }
 
-    if (!isActiveManually) {
+    if (!isManual) {
       onChange && onChange(index);
     }
   };
@@ -71,7 +74,7 @@ const Tabs = forwardRef((
       setManualIndex(index);
     }
 
-    if (isActiveManually) {
+    if (isManual) {
       onChange && onChange(index);
     }
   };
@@ -89,7 +92,6 @@ const Tabs = forwardRef((
     index: actualIdx,
     manualIndex: manualIdx,
     onManualTabChange,
-    activateOnKeypress, // TODO: activateOnKeypress is deprecated and will be removed in the v1 release
     isManual,
     onChangeTab,
     selectedPanelRef,

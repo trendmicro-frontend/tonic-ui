@@ -3,23 +3,25 @@ import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Portal from '../Portal';
 import Presence from '../Presence';
+import useEffectOnce from '../hooks/useEffectOnce';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import useNodeRef from '../utils/useNodeRef';
 import getFocusableElements from '../utils/getFocusableElements';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { DrawerProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
 const Drawer = ({
+  isCloseButtonVisible, // deprecated
+  isClosable = false,
   backdrop,
+  closeOnEsc = false,
+  closeOnOutsideClick = false,
   placement = 'left',
   size = 'auto',
   isOpen = false,
-  isClosable: _isClosable = false,
-  isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
-  closeOnEsc = false,
-  closeOnOutsideClick = false,
   onClose,
   initialFocusRef,
   finalFocusRef,
@@ -28,7 +30,19 @@ const Drawer = ({
   id,
   children,
 }) => {
-  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+  useEffectOnce(() => {
+    const prefix = `${Drawer.displayName}:`;
+
+    if (isCloseButtonVisible !== undefined) {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
+        alternative: 'isClosable',
+        willRemove: true,
+      });
+    }
+  });
+
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const [isMounted, setMounted] = useState(isOpen);
   const defaultId = useId();
   const contentRef = useRef(null);

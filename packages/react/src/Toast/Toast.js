@@ -2,6 +2,8 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import Icon from '../Icon';
 import Space from '../Space';
+import useEffectOnce from '../hooks/useEffectOnce';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import ToastCloseButton from './ToastCloseButton';
 import ToastIcon from './ToastIcon';
 import ToastMessage from './ToastMessage';
@@ -14,8 +16,8 @@ import {
 
 const Toast = forwardRef((
   {
-    isClosable: _isClosable = false,
-    isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
+    isCloseButtonVisible, // deprecated
+    isClosable = false,
     onClose,
     appearance = defaultAppearance,
     icon,
@@ -24,7 +26,19 @@ const Toast = forwardRef((
   },
   ref,
 ) => {
-  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+  useEffectOnce(() => {
+    const prefix = `${Toast.displayName}:`;
+
+    if (isCloseButtonVisible !== undefined) {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
+        alternative: 'isClosable',
+        willRemove: true,
+      });
+    }
+  });
+
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const styleProps = useToastStyle({ appearance });
 
   return (
