@@ -12,12 +12,12 @@ import { Flex } from '@trendmicro/react-styled-ui';
 
 Flex provides the following style shorthand props:
 
-| Shorthand Prop | Style Prop | CSS Property | Description |
-| :------------- | :--------- | :----------- | :---------- |
-| direction | flexDirection | [flex-direction](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) | Sets how flex items are placed in the flex container. |
-| wrap | flexWrap | [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) | Sets whether flex items are forced onto one line or can wrap onto multiple lines. |
-| align | alignItems | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | Sets the `align-self` value on all direct children as a group. |
-| justify | justifyContent | [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content) | Defines how the browser distributes space between and around content items along the main axis of a flex container. |
+| Style Prop | Shorthand Prop | CSS Property | Description |
+| :--------- | :------------- | :----------- | :---------- |
+| alignItems | align | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | Sets the `align-self` value on all direct children as a group. |
+| flexDirection | direction | [flex-direction](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) | Sets how flex items are placed in the flex container. |
+| flexWrap | wrap | [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) | Sets whether flex items are forced onto one line or can wrap onto multiple lines. |
+| justifyContent | justify | [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content) | Defines how the browser distributes space between and around content items along the main axis of a flex container. |
 
 ### Flex items
 
@@ -76,7 +76,7 @@ function Example() {
 render(<Example />);
 ```
 
-### The `direction` (`flexDirection`) property
+### The `flexDirection` property
 
 ```jsx noInline
 const FlexItem = (props) => (
@@ -88,16 +88,16 @@ function Example() {
 
   return (
     <>
-      <Stack direction="row" spacing=".5rem" mb="4x">
+      <Stack direction="row" spacing="2x" mb="4x">
         <Button variant="outline" onClick={() => setValue('row')}>row</Button>
         <Button variant="outline" onClick={() => setValue('row-reverse')}>row-reverse</Button>
         <Button variant="outline" onClick={() => setValue('column')}>column</Button>
         <Button variant="outline" onClick={() => setValue('column-reverse')}>column-reverse</Button>
       </Stack>
       <pre>
-        {`<Flex direction="${value}">`}
+        {`<Flex flexDirection="${value}">`}
       </pre>
-      <Flex direction={value} bg="gray:10" p="4x" pb={0} pr={0}>
+      <Flex flexDirection={value} bg="gray:10" p="4x" pb={0} pr={0}>
         <FlexItem flex="auto">One</FlexItem>
         <FlexItem flex="auto">Two</FlexItem>
         <FlexItem flex="auto">Three</FlexItem>
@@ -109,7 +109,7 @@ function Example() {
 render(<Example />);
 ```
 
-### The `wrap` (`flexWrap`) property
+### The `flexWrap` property
 
 ```jsx noInline
 const FlexItem = (props) => (
@@ -121,7 +121,7 @@ function Example() {
 
   return (
     <>
-      <Stack direction="row" spacing=".5rem" mb="4x">
+      <Stack direction="row" spacing="2x" mb="4x">
         <Button variant="outline" onClick={() => setValue('nowrap')}>nowrap</Button>
         <Button variant="outline" onClick={() => setValue('wrap')}>wrap</Button>
         <Button variant="outline" onClick={() => setValue('wrap-reverse')}>wrap-reverse</Button>
@@ -144,7 +144,7 @@ function Example() {
 render(<Example />);
 ```
 
-### The `align` (`alignItems`) property
+### The `alignItems` property
 
 ```jsx noInline
 const FlexItem = (props) => (
@@ -156,16 +156,16 @@ function Example() {
 
   return (
     <>
-      <Stack direction="row" spacing=".5rem" mb="4x">
+      <Stack direction="row" spacing="2x" mb="4x">
         <Button variant="outline" onClick={() => setValue('stretch')}>stretch</Button>
         <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
         <Button variant="outline" onClick={() => setValue('center')}>center</Button>
         <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
       </Stack>
       <pre>
-        {`<Flex align="${value}">`}
+        {`<Flex alignItems="${value}">`}
       </pre>
-      <Flex align={value} height={240} bg="gray:10" p="4x" pb={0} pr={0}>
+      <Flex alignItems={value} height={240} bg="gray:10" p="4x" pb={0} pr={0}>
         <FlexItem flex="auto">One</FlexItem>
         <FlexItem flex="auto">Two</FlexItem>
         <FlexItem flex="auto">Three</FlexItem>
@@ -177,7 +177,7 @@ function Example() {
 render(<Example />);
 ```
 
-### The `justify` (`justifyContent`) property
+### The `justifyContent` property
 
 ```jsx noInline
 const FlexItem = (props) => (
@@ -189,7 +189,7 @@ function Example() {
 
   return (
     <>
-      <Stack direction="row" spacing=".5rem" mb="4x">
+      <Stack direction="row" spacing="2x" mb="4x">
         <Button variant="outline" onClick={() => setValue('flex-start')}>flex-start</Button>
         <Button variant="outline" onClick={() => setValue('center')}>center</Button>
         <Button variant="outline" onClick={() => setValue('flex-end')}>flex-end</Button>
@@ -198,9 +198,9 @@ function Example() {
         <Button variant="outline" onClick={() => setValue('space-evenly')}>space-evenly</Button>
       </Stack>
       <pre>
-        {`<Flex justify="${value}">`}
+        {`<Flex justifyContent="${value}">`}
       </pre>
-      <Flex justify={value} bg="gray:10" p="4x" pb={0} pr={0}>
+      <Flex justifyContent={value} bg="gray:10" p="4x" pb={0} pr={0}>
         <FlexItem>One</FlexItem>
         <FlexItem>Two</FlexItem>
         <FlexItem>Three</FlexItem>

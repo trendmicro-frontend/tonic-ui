@@ -8,8 +8,8 @@ const Error = ({ statusCode }) => {
 
   return (
     <Flex
-      align="center"
-      justify="center"
+      alignItems="center"
+      justifyContent="center"
       height="100%"
     >
       <Text

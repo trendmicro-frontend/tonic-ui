@@ -2,11 +2,6 @@ import _get from 'lodash.get';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
 
-const baseProps = {
-  px: '4x',
-  py: '2x',
-};
-
 const getAppearanceProps = ({
   theme,
   colorMode,
@@ -52,7 +47,7 @@ const getAppearanceProps = ({
   };
 };
 
-const useToastRootStyle = ({
+const useToastStyle = ({
   appearance,
 }) => {
   const theme = useTheme();
@@ -65,7 +60,11 @@ const useToastRootStyle = ({
   const appearanceProps = getAppearanceProps(_props);
 
   return {
-    ...baseProps,
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    px: '4x',
+    py: '2x',
     ...appearanceProps,
   };
 };
@@ -81,6 +80,7 @@ const useToastIconStyle = ({
   }[appearance];
 
   return {
+    display: 'flex',
     color,
     py: '1x',
     lineHeight: 1, // exactly the same height as the icon's height
@@ -149,7 +149,7 @@ const useToastCloseButtonStyle = () => {
 };
 
 export {
-  useToastRootStyle,
+  useToastStyle,
   useToastIconStyle,
   useToastMessageStyle,
   useToastCloseButtonStyle,

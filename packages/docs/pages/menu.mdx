@@ -1,43 +1,79 @@
 # Menu
 
-An accessible dropdown menu for the common dropdown menu button design pattern.
-Menu uses roving tabIndex for focus management.
-
-<carbon-ad></carbon-ad>
+A menu is used to display a list of options to the user. It appears when the user interacts with a button, link, or other control that triggers an action.
 
 ## Import
 
-- `Menu`: The wrapper component that provides context, state, and focus
-  management.
-- `MenuList`: The wrapper for the menu items. Must be a direct child of `Menu`.
-- `MenuItem`: The trigger that handles menu selection. Must be a direct child of
-  a `MenuList`.
-- `MenuGroup`: A wrapper to group related menu items.
-- `MenuDivider`: A visual separator for menu items and groups.
-- `MenuButton`: The trigger for the menu list. Must be a direct child of `Menu`.
+- `Menu`: The component that provides the menu functionality.
+- `MenuTrigger`: The trigger that opens the menu. This is usually a button or link.
+- `MenuButton`: A button that composes `MenuTrigger` and `Button` and is used to open the menu.
+- `MenuIndicator`: An indicator that appears next to the trigger. This is usually a chevron or arrow.
+- `MenuList`: A wrapper that contains the menu items. Must be a direct child of the `Menu` component.
+- `MenuGroup`: A wrapper that groups related menu items.
+- `MenuItem`: The individual menu items. Must be a direct child of the `MenuList` component.
+- `MenuDivider`: A divider that separates menu items.
 
 ```js
 import {
   Menu,
-  MenuList,
-  MenuItem,
-  MenuGroup,
-  MenuDivider,
+  MenuTrigger,
   MenuButton,
+  MenuIndicator,
+  MenuList,
+  MenuGroup,
+  MenuItem,
+  MenuDivider,
 } from '@trendmicro/react-styled-ui';
 ```
 
 ## Usage
 
-### Basic menu with an anchor
+### Basic menu structure
+
+Below is a simple example that shows the basic menu structure.
 
 ```jsx
-function basicMenu() {
+<>
+  <MenuItem value="general">
+    <Icon icon="settings" mr="2x" />
+    <Text>General</Text>
+  </MenuItem>
+  <MenuItem value="accounts">
+    <Icon icon="user-team" mr="2x" />
+    <Text>Accounts</Text>
+  </MenuItem>
+  <MenuItem value="privacy">
+    <Icon icon="lock" mr="2x" />
+    <Text>Privacy</Text>
+  </MenuItem>
+  <MenuDivider />
+  <MenuItem disabled value="restore-defaults">
+    <Icon icon="undo" mr="2x" />
+    <Text>Restore Defaults</Text>
+  </MenuItem>
+</>
+```
+
+### Controlled menu
+
+The menu opens over the anchor element by default, and closes when the user clicks outside of the menu.
+
+```jsx
+function Example() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { isOpen, onClose, onToggle } = useDisclosure();
-  const handleClick = (event) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState(null);
+  const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
-    onToggle();
+    setIsOpen(!isOpen);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+    setIsOpen(false);
+  };
+  const handleClickMenuItem = (event) => {
+    const value = event.target.getAttribute('value');
+    setSelectedValue(value);
   };
   const handleMenuItemClick = (event) => {
     const value = event.target.getAttribute('value');
@@ -46,147 +82,534 @@ function basicMenu() {
 
   return (
     <>
-      <Button onClick={handleClick}>Select an option</Button>
+      <Button
+        aria-controls="basic-menu"
+        aria-haspopup="true"
+        aria-expanded={isOpen ? 'true' : undefined}
+        onClick={handleOpenMenu}
+      >
+        Options
+      </Button>
       <Menu
+        id="basic-menu"
         anchorEl={anchorEl}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={handleCloseMenu}
+        mr="2x"
       >
-        <MenuList onClick={handleMenuItemClick}>
-          <MenuItem value={1}>List item</MenuItem>
-          <MenuItem value={2}>List item</MenuItem>
-          <MenuItem valie={3}>List item</MenuItem>
+        <MenuList
+          width="max-content"
+          onClick={handleClickMenuItem}
+        >
+          <MenuItem value={1}>
+            Item #1
+          </MenuItem>
+          <MenuItem value={2}>
+            Item #2
+          </MenuItem>
+          <MenuItem value={3}>
+            Item #3
+          </MenuItem>
         </MenuList>
       </Menu>
+      <Space width="2x" />
+      <Text>Selected: {selectedValue}</Text>
     </>
   );
 }
 ```
 
-### Basic menu with `MenuButton`
+### MenuTrigger
+
+`MenuTrigger` is the trigger that opens the menu when clicked. It is usually a button or link. The `MenuIndicator` can be added to the trigger to indicate the menu is open or closed.
 
 ```jsx
-<Stack shouldWrapChildren spacing="2x">
+<Flex alignItems="center">
   <Menu>
-    <MenuButton>Select an option</MenuButton>
-    <MenuList maxHeight="200px" overflow="auto">
-      <MenuItem>List item 1</MenuItem>
-      <MenuItem>List item 2</MenuItem>
-      <MenuItem>List item 3</MenuItem>
-      <MenuItem>List item 4</MenuItem>
-      <MenuItem>List item 5</MenuItem>
-      <MenuItem>List item 6</MenuItem>
-      <MenuItem>List item 7</MenuItem>
-      <MenuItem>List item 8</MenuItem>
-      <MenuItem>List item 9</MenuItem>
-      <MenuItem>List item 10</MenuItem>
-      <MenuItem>List item 11</MenuItem>
-      <MenuItem>List item 12</MenuItem>
+    <MenuTrigger>
+      <Text>Options</Text>
+    </MenuTrigger>
+    <MenuList width="max-content">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
     </MenuList>
   </Menu>
+  <Divider
+    variant="solid"
+    orientation="vertical"
+    height="5x"
+    mx="4x"
+  />
   <Menu>
-    <MenuButton variant="ghost">Select an option</MenuButton>
-    <MenuList>
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
-      <MenuItem>List item</MenuItem>
+    <MenuTrigger>
+      <Flex alignItems="center" userSelect="none">
+        <Text>Options</Text>
+        <Space width="1x" />
+        <MenuIndicator />
+      </Flex>
+    </MenuTrigger>
+    <MenuList width="max-content">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
     </MenuList>
   </Menu>
-</Stack>
+  <Divider
+    variant="solid"
+    orientation="vertical"
+    height="5x"
+    mx="4x"
+  />
+  <Menu>
+    <MenuTrigger>
+      {({ getMenuTriggerProps }) => {
+        return (
+          <Button
+            {...getMenuTriggerProps()}
+            variant="secondary"
+          >
+            <Text>Options</Text>
+            <Space width="1x" />
+            <MenuIndicator />
+          </Button>
+        );
+      }}
+    </MenuTrigger>
+    <MenuList width="max-content">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+</Flex>
 ```
 
-### Group
+### MenuButton
+
+`MenuButton` composes `MenuTrigger` and `Button` to create a button that opens the menu. It's an useful alternative to `MenuTrigger` when the trigger is a button.
+
+```jsx disabled
+const MenuButton = (props) => (
+  <MenuTrigger>
+    {({ getMenuTriggerProps }) => (
+      <Button
+        {...getMenuTriggerProps()}
+        {...props}
+      >
+        {children}
+      </Button>
+    )}
+  </MenuTrigger>
+);
+```
 
 ```jsx
 <Menu>
-  <MenuButton>Select an option</MenuButton>
-  <MenuList>
-    <MenuGroup title="title1">
-      <MenuItem px="6x">List item</MenuItem>
-      <MenuItem px="6x">List item</MenuItem>
-      <MenuItem px="6x">List item</MenuItem>
-    </MenuGroup>
-    <MenuGroup title="title2">
-      <MenuItem px="6x">List item</MenuItem>
-      <MenuItem px="6x">List item</MenuItem>
-      <MenuItem px="6x">List item</MenuItem>
-    </MenuGroup>
+  <MenuButton variant="secondary" size="md">
+    <Text>Options</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
   </MenuList>
 </Menu>
 ```
 
-### Divider
+### MenuIndicator
+
+`MenuIndicator` is an indicator that indicates the menu is open or closed.
 
 ```jsx
 <Menu>
-  <MenuButton>Select an option</MenuButton>
-  <MenuList>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-    <MenuDivider />
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
+  <MenuButton variant="ghost" size="sm" px="1x">
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
   </MenuList>
 </Menu>
 ```
 
-### Disabled
-Add `disabled` property on `MenuItem`
+You can also customize the indicator by passing a component as children or a function as children that returns a component.
+
+```jsx
+<Menu placement="bottom-start">
+  {({ isOpen, direction }) => {
+    return (
+      <>
+        <MenuButton variant="secondary">
+          <MenuIndicator>
+            {({ ref, style: styleProps }) => {
+              // direction is either 'up' or 'down'
+              const icon = `arrow-${direction}`;
+              styleProps.transform = isOpen ? 'scaleY(-1)' : 'scaleY(1)';
+
+              return (
+                <Icon
+                  ref={ref}
+                  icon={icon}
+                  size="3x"
+                  {...styleProps}
+                />
+              );
+            }}
+          </MenuIndicator>
+        </MenuButton>
+        <MenuList width="max-content">
+          <MenuItem>
+            Item #1
+          </MenuItem>
+          <MenuItem>
+            Item #2
+          </MenuItem>
+          <MenuItem>
+            Item #3
+          </MenuItem>
+        </MenuList>
+      </>
+    );
+  }}
+</Menu>
+```
+
+### MenuGroup
+
+To group related menu items, wrap them in a `MenuGroup` and pass a `title` prop for the group title.
+
+```jsx noInline
+const Avatar = (props) => (
+  <Flex
+    p="1x"
+    borderRadius="50%"
+    alignItems="center"
+    justifyContent="center"
+    fontSize="xs"
+    lineHeight="1"
+    {...props}
+  />
+);
+
+render(
+  <Menu>
+    <MenuTrigger>
+      <Avatar
+        bg="gray:50"
+        color="white:secondary"
+        _hover={{
+          color: 'white:primary',
+        }}
+      >
+        <Icon icon="user-team" size="5x" />
+      </Avatar>
+    </MenuTrigger>
+    <MenuList width="max-content">
+      <MenuItem>
+        <Text>Profile</Text>
+      </MenuItem>
+      <MenuDivider />
+      <MenuGroup
+        title={(
+          <Flex justifyContent="space-between">
+            <Text>Other profiles</Text>
+            <Space minWidth="10x" />
+            <ButtonBase title="Manage profiles">
+              <Icon icon="settings" size="3x" />
+            </ButtonBase>
+          </Flex>
+        )}
+      >
+        <MenuItem px="4x">
+          <Avatar color="white" bg="blue:50" mr="2x">
+            JD
+          </Avatar>
+          John Doe
+        </MenuItem>
+        <MenuItem px="4x">
+          <Avatar color="white" bg="gray:50" mr="2x">
+            <Icon icon="user" size="3x" />
+          </Avatar>
+          Guest
+        </MenuItem>
+      </MenuGroup>
+    </MenuList>
+  </Menu>
+);
+```
+
+### Menu sizing
+
+To change the width of the menu, pass `width` prop to the `MenuList` component.
+
+#### `width="100%"`
 
 ```jsx
 <Menu>
-  <MenuButton>Select an option</MenuButton>
-  <MenuList>
-    <MenuItem>List item</MenuItem>
-    <MenuItem disabled>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
+  <MenuButton variant="secondary">
+    <Text>This is a very long menu button</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList width="100%">
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
   </MenuList>
 </Menu>
 ```
 
-### Set the minimum width of the `MenuList` to the width of the `MenuButton`
+#### `width="max-content"`
 
-```jsx
-<Menu display="inline-block">
-  <MenuButton>Select an option</MenuButton>
-  <MenuList minWidth="100%" whiteSpace="nowrap">
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-  </MenuList>
-</Menu>
-```
-
-### Menu with icon
+By default, the menu items will wrap to the next line if the width of the trigger is smaller than the width of the menu. You can pass `width="max-content"` to `MenuList` to prevent wrapping.
 
 ```jsx
 <Menu>
-  <MenuButton>Select an option</MenuButton>
-  <MenuList>
-    <MenuItem><Icon icon="delete" mr="2x"/>List item</MenuItem>
-    <MenuItem><Icon icon="edit" mr="2x"/>List item</MenuItem>
-    <MenuItem><Icon icon="share" mr="2x"/>List item</MenuItem>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      This is a very long menu item #1
+    </MenuItem>
+    <MenuItem>
+      This is a very long menu item #2
+    </MenuItem>
+    <MenuItem>
+      This is a very long menu item #3
+    </MenuItem>
   </MenuList>
 </Menu>
 ```
 
-### Dropup Menu
-Add the `placement` property with `top-start`
+### Placement
+
+To position the menu relative to the trigger, pass a `placement` prop to `Menu`.
+
+The value can be one of the following:
+* `top`
+* `top-start`
+* `top-end`
+* `bottom`
+* `bottom-start`
+* `bottom-end`
+
+```jsx noInline
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const gridAreas = [
+  ['top-start', 'top', 'top-end'],
+  ['.', '.', '.'],
+  ['.', 'center', '.'],
+  ['.', '.', '.'],
+  ['bottom-start', 'bottom', 'bottom-end'],
+];
+
+function Example() {
+  const [placement, changePlacementBy] = useSelection('bottom-start');
+  const gridTemplateAreas = gridAreas.map((row) => {
+    const rowString = '"' + row.join(' ') + '"';
+    return rowString;
+  }).join(' ');
+
+  return (
+    <Flex>
+      <Grid
+        templateAreas={gridTemplateAreas}
+        autoColumns="minmax(0, 1fr)"
+        autoFlow="row"
+        gap="2x"
+      >
+        {gridAreas.flat().map((value, key) => {
+          if (value === '.') {
+            return (<Box key={key} />);
+          }
+
+          if (value === 'center') {
+            return (
+              <Box key={key}>
+                <Menu placement={placement}>
+                  <MenuButton variant="secondary">
+                    <Text>Options</Text>
+                    <Space width="1x" />
+                    <MenuIndicator />
+                  </MenuButton>
+                  <MenuList width="max-content">
+                    <MenuItem>
+                      Item #1
+                    </MenuItem>
+                    <MenuItem>
+                      Item #2
+                    </MenuItem>
+                    <MenuItem>
+                      Item #3
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </Box>
+            );
+          }
+
+          const changePlacement = changePlacementBy(value);
+          const onClick = () => {
+            changePlacement();
+          };
+
+          return (
+            <Box key={key}>
+              <SelectableButton
+                selected={value === placement}
+                onClick={onClick}
+                width="100%"
+              >
+                {value}
+              </SelectableButton>
+            </Box>
+          );
+        })}
+      </Grid>
+    </Flex>
+  );
+}
+
+render(<Example />);
+```
+
+### Offset
+
+The basic offset accepts an array with two numbers in the form `[skidding, distance]`. It can be used to adjust the position of the menu relative to the trigger.
+
+**Skidding**
+
+The first number, `skidding`, displaces `MenuList` along the reference trigger. This value is specified in pixels.
+
+**Distance**
+
+The second number, `distance`, controls the distance between the `MenuList` and the reference trigger. This value is specified in pixels.
+
 ```jsx
-<Menu display="inline-block" placement="top-start">
-  <MenuButton>Select an option</MenuButton>
-  <MenuList minWidth="100%" whiteSpace="nowrap">
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList
+    offset={[
+      16, // skidding
+      8, // distance
+    ]}
+    width="max-content"
+  >
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
   </MenuList>
 </Menu>
 ```
 
-### Menu with checkbox
-Need to set `closeOnSelect` to `false` on `Menu`
+### Scrolling
+
+To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList`. The menu will become scrollable when the menu items exceed the height of the menu.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList
+    maxHeight={200}
+    overflow="auto"
+    width="max-content"
+  >
+    {Array.from({ length: 100 }).map((_, key) => (
+      <MenuItem key={key}>
+        Item #{key + 1}
+      </MenuItem>
+    ))}
+  </MenuList>
+</Menu>
+```
+
+You can also use the `Scrollbar` component to override the default scrollbar.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+    <Space width="1x" />
+    <MenuIndicator />
+  </MenuButton>
+  <MenuList width="max-content">
+    <Scrollbar maxHeight={200}>
+      {Array.from({ length: 100 }).map((_, key) => (
+        <MenuItem key={key}>
+          Item #{key + 1}
+        </MenuItem>
+      ))}
+    </Scrollbar>
+  </MenuList>
+</Menu>
+```
+
+### Input controls
+
+Set `closeOnSelect` to `false` to keep the menu open after selecting a menu item.
+
 ```jsx
 function menuWithCheckbox() {
   const [checkedItems, setCheckedItems] = React.useState(['host', 'ip']);
@@ -198,8 +621,12 @@ function menuWithCheckbox() {
   };
   return (
     <Menu closeOnSelect={false}>
-      <MenuButton>Select an option</MenuButton>
-      <MenuList>
+      <MenuButton variant="secondary">
+        <Text>Selected ({checkedItems.length})</Text>
+        <Space width="1x" />
+        <MenuIndicator />
+      </MenuButton>
+      <MenuList width="max-content">
         <CheckboxGroup size="sm" defaultValue={checkedItems}>
           <MenuItem><Checkbox value="host" onChange={e => handleChange(e)}>Endpoint name</Checkbox></MenuItem>
           <MenuItem><Checkbox value="ip" onChange={e => handleChange(e)}>IP address</Checkbox></MenuItem>
@@ -211,65 +638,15 @@ function menuWithCheckbox() {
 }
 ```
 
-### Menu with label inline
-
-```jsx
-function inlineLabelMenu() {
-  const [menuItem, setMenuItem] = React.useState('Name');
-
-  const handleClick = (event) => {
-    if (event.key === 'Enter' || event.type === 'click') {setMenuItem(event.target.innerHTML)}
-  };
-
-  return (
-    <Menu display="inline-block">
-      <MenuButton><Text color="white:secondary" mr="1x">Search by:</Text>{menuItem}</MenuButton>
-      <MenuList onClick={handleClick} minWidth="100%" whiteSpace="nowrap">
-        <MenuItem onKeyDown={handleClick}>Name</MenuItem>
-        <MenuItem onKeyDown={handleClick}>Address</MenuItem>
-        <MenuItem onKeyDown={handleClick}>Postcode</MenuItem>
-      </MenuList>
-    </Menu>
-  );
-}
-```
-
-### Offset position
-Add `skidding` or `distance` to customize menu offset position
-```jsx
-<Menu>
-  <MenuButton>Select an option</MenuButton>
-  <MenuList skidding={20} distance={8}>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-    <MenuItem>List item</MenuItem>
-  </MenuList>
-</Menu>
-```
-
 ## Accessibility
 
 ### Keyboard Interaction
 
-| Key                | Action                                                                                                                                  |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `Enter` or `Space` | When `MenuButton` receives focus, opens the menu and places focus on the first menu item                                                |
-| `ArrowDown`        | When `MenuButton` receives focus, opens the menu and moves focus to the first menu item                                                 |
-| `ArrowUp`          | When `MenuButton` receives focus, opens the menu and moves focus to the last menu item                                                  |
-| `Escape`           | When the menu is open, closes the menu and sets focus to the `MenuButton`                                                               |
-
-### ARIA roles
-
-**For `MenuButton`:**
-
-- It has `role` set to `button`.
-- It has aria-haspopup set to either `menu`.
-- When the menu is displayed, `MenuButton` has `aria-expanded` set to `true`.
-- `MenuButton` has `aria-controls` set to the `id` of the `MenuList`.
-
-**For `MenuList`:**
-
-- It contains the `MenuItem` has role `menu`.
+| Key | Action |
+| :-- | :----- |
+| `Enter` \| `Space` | When `MenuTrigger` or `MenuButton` is focused, opens the menu. |
+| `ArrowDown` \| `ArrowUp`| When `MenuList` is focused, moves the focus to the next menu item. |
+| `Escape` | When a menu item is focused, closes the menu and moves the focus to the trigger. |
 
 ## Props
 
@@ -277,42 +654,74 @@ Add `skidding` or `distance` to customize menu offset position
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | | The children of the menu must be `MenuButton` or `MenuList` |
-| isOpen | boolean | | If `true`, the menu will be opened |
-| autoSelect | boolean | `false` | The menu will select the first enabled item when it opens, the trigger item must be `MenuButton` |
-| closeOnBlur | boolean | `true` | If `true`, the menu will close on outside click or blur |
-| closeOnSelect | boolean | `true` | If `true`, the menu will close on menu item select |
-| placement | PopperJS.placement | `bottom-start` | The placement of the `MenuList`. One of: `'top'`, `'bottom'`, `'right'`, `'left'`, `'top-start'`, `'top-end'`, `'bottom-start'`, `'bottom-end'`, `'right-start'`, `'right-end'`, `'left-start'`, `'left-end'` |
+| anchorEl | `Element` | | The element to which the menu is attached. |
+| autoSelect | `boolean` | `true` | Whether to automatically select the first menu item when the menu is opened. |
+| children | `Node` | | The children must be composed by a `MenuList` and either one of `MenuTrigger` or `MenuButton`. |
+| closeOnBlur | `boolean` | `true` | Whether to close the menu when the user clicks outside of the menu. |
+| closeOnSelect | `boolean` | `true` | Whether to close the menu when the user selects a menu item. |
+| defaultActiveIndex | `number` | -1 | The index of the menu item to be selected by default. |
+| defaultIsOpen | `boolean` | `false` | Whether the menu is open by default. |
+| isOpen | `boolean` | | Whether the menu is open. |
+| onBlur | `function` | | Callback when the menu loses focus. |
+| onKeyDown | `function` | | Callback when the user presses a key. |
+| onOpen | `function` | | Callback when the menu is opened. |
+| onClick | `function` | | Callback when a menu item is clicked. |
+| onClose | `function` | | Callback when the menu is closed. |
+| placement | `string` | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+
+### MenuTrigger
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `Node` \| `function` | | |
+| disabled | `boolean` | | Whether the menu trigger is disabled. |
+| onClick | `function` | | Callback when the menu trigger is clicked. |
+| onKeyDown | `function` | | Callback when the user presses a key. |
 
 ### MenuButton
 
-| Name | Type |
-| :--- | :--- |
-| children | ReactNode |
-| onClick | React.MouseEventHandler |
-| onKeyDown | React.KeyboardEventHandler |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `Node` \| `function` | | |
+| disabled | `boolean` | | Whether the menu trigger is disabled. |
+| onClick | `function` | | Callback when the menu trigger is clicked. |
+| onKeyDown | `function` | | Callback when the user presses a key. |
+
+### MenuIndicator
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `Node` \| `function` | | |
+| disabled | `boolean` | | Whether the menu indicator is disabled. |
+| easing | `string` \| `{ enter?: string, exit?: string }` | { enter: easing.easeOut, exit: easing.easeOut } | The timing function to use for the animation. |
+| timeout | `number` \| `{ appear?: number, enter?: number, exit?: number }` | { enter: 133, exit: 93 } | The duration of the animation. |
 
 ### MenuList
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | | The content of the `MenuList`, should be the `MenuItem` component |
-| onClick | React.MouseEventHandler | | Function to be called when you click on the menu item |
-| onBlur | React.FocusEventHandler | | Function to be called when you blur out of the menu list |
-| skidding | number | `0` | Displaces the menu (in pixels) along the reference element. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#skidding-1) |
-| distance | number | `0` | Displaces the menu (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
-
-### MenuItem
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| disabled | boolean | If `true`, the menu item will be disabled |
-| onClick | React.MouseEventHandler | Function that is called on click and enter/space keypress |
-| onKeyDown | React.KeyboardEventHander | Function that is called on keydown |
+| children | `Node`| | |
+| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
+| TransitionComponent | `Component` | `Collapse` | The component used to transition the menu list in and out. |
+| TransitionProps | `object` | | Any transition props to be applied to the menu list. |
 
 ### MenuGroup
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | The content of the menu group, should be the `MenuItem` component |
-| title | string | The title of the menu group |
+| children | `Node`| | |
+| title | `string` | | The title of the menu group. |
+
+### MenuItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | `boolean` | | Whether the menu item is disabled. |
+| onClick | `function` | | Callback when the menu item is clicked. |
+| onKeyDown | `function` | | Callback when the user presses a key. |
+
+### MenuDivider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `Node` | | |

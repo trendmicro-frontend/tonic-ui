@@ -5,7 +5,7 @@ import { useAccordionItem } from './context';
 const AccordionHeader = forwardRef((
   {
     onClick,
-    ...props
+    ...rest
   },
   ref
 ) => {
@@ -32,7 +32,7 @@ const AccordionHeader = forwardRef((
       aria-controls={panelId}
       textAlign="left"
       cursor={isDisabled ? 'default' : 'pointer'}
-      {...props}
+      {...rest}
     />
   );
 });

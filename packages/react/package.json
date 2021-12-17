@@ -30,10 +30,8 @@
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
     "prop-types": "15.x",
-    "react-animate-height": "2.x",
     "react-focus-lock": "2.x",
     "react-is": "^16.8.0 || ^17",
-    "react-spring": "8.x",
     "react-transition-group": "4.x"
   },
   "devDependencies": {

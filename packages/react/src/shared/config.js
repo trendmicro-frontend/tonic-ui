@@ -1,5 +1,5 @@
 const config = {
-  name: 'react-styled-ui',
+  name: 'tonic-ui',
 };
 
 export default config;

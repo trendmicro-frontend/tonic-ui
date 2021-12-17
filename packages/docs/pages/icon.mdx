@@ -144,7 +144,7 @@ const renderIconGroup = (iconSet, keyword, showCharCode, color) => {
       pr="4x"
     >
       {iconSet.icons.map(icon => (
-        <Flex direction="row" align="center" pb={0} pr={0} overflow="hidden" key={icon.code}>
+        <Flex flexDirection="row" alignItems="center" pb={0} pr={0} overflow="hidden" key={icon.code}>
           <FlexItem flex="initial" pr="2x">
             <Icon icon={icon.name}/>
           </FlexItem>
@@ -193,7 +193,7 @@ function Example() {
 
   return (
     <>
-      <Flex direction="row" align="center" position="relative">
+      <Flex flexDirection="row" alignItems="center" position="relative">
         <Box pl="4x">
           <SearchInput
             fontSize="md"
@@ -231,4 +231,4 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | icon | string | | The name of the icon. |
-| spin | boolean \| string | false | If `true` or `'cw'`, it will rotate in the clockwise direction. If `'ccw'`, it will rotate in the counterclockwise direction. Otherwise, no rotation occurs. |
+| spin | boolean \| string | false | If `true` or 'cw', it will rotate in the clockwise direction. If 'ccw', it will rotate in the counterclockwise direction. Otherwise, no rotation occurs. |

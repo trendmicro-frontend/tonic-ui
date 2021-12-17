@@ -1,19 +1,16 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import { useTableHeaderStyle } from './styles';
 
-const TableHeader = forwardRef(({
-  children,
-  ...props
-}, ref) => {
+const TableHeader = forwardRef((props, ref) => {
+  const styleProps = useTableHeaderStyle({});
+
   return (
     <Box
       ref={ref}
-      overflow="hidden"
-      flex="0 0 auto"
+      {...styleProps}
       {...props}
-    >
-      { children }
-    </Box>
+    />
   );
 });
 

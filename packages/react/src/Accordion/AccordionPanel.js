@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
-import Collapse from '../Collapse';
+import Collapse from '../Transitions/Collapse';
+import Fade from '../Transitions/Fade';
 import { useAccordionItem } from './context';
 
 const AccordionPanel = forwardRef((props, ref) => {
@@ -10,16 +11,18 @@ const AccordionPanel = forwardRef((props, ref) => {
   } = useAccordionItem();
 
   return (
-    <Collapse
-      ref={ref}
-      data-accordion-panel=""
-      role="region"
-      id={panelId}
-      aria-labelledby={headerId}
-      aria-hidden={!isExpanded}
-      isOpen={isExpanded}
-      {...props}
-    />
+    <Fade in={isExpanded}>
+      <Collapse
+        ref={ref}
+        in={isExpanded}
+        data-accordion-panel=""
+        role="region"
+        id={panelId}
+        aria-labelledby={headerId}
+        aria-hidden={!isExpanded}
+        {...props}
+      />
+    </Fade>
   );
 });
 

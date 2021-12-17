@@ -16,6 +16,9 @@ import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 import Lorem from './Lorem';
+import SelectableButton from './SelectableButton';
+import SkeletonBody from './SkeletonBody';
+import SkeletonContent from './SkeletonContent';
 
 const thirdPartyComponents = {
   AutoSizer,
@@ -31,7 +34,7 @@ const {
   Box,
   Button,
   Collapse,
-  Flex,
+  Fade,
   Icon,
   useColorMode,
   useClipboard,
@@ -69,18 +72,20 @@ const LiveCodePreview = props => {
 
   return (
     <Box
-      as={LivePreview}
-      fontFamily="base"
-      fontSize="sm"
-      lineHeight="sm"
-      mt="5x"
-      p="4x"
       border={1}
       borderColor={borderColor}
       borderRadius="sm"
-      whiteSpace="normal"
-      {...props}
-    />
+      p="4x"
+    >
+      <Box
+        as={LivePreview}
+        fontFamily="base"
+        fontSize="sm"
+        lineHeight="sm"
+        whiteSpace="normal"
+        {...props}
+      />
+    </Box>
   );
 };
 
@@ -90,7 +95,7 @@ const CopyButton = props => (
     position="absolute"
     textTransform="uppercase"
     zIndex="1"
-    top="4x"
+    top="12x"
     right="4x"
     {...props}
   />
@@ -149,29 +154,23 @@ const CodeBlock = ({
   }
 
   const useCodeBlockTitleStyle = {
-    pt: '4x',
     px: '4x',
+    py: '3x',
+    _hover: {
+      color: {
+        light: 'black:primary',
+        dark: 'white:primary',
+      }[colorMode],
+    },
+    color: {
+      light: 'black:secondary',
+      dark: 'white:secondary',
+    }[colorMode],
     backgroundColor: {
       light: 'gray:10',
       dark: 'black:emphasis',
     }[colorMode],
     cursor: isCollapsible ? 'pointer' : 'default',
-  };
-
-  const useCollapseBoxStyle = {
-    position: 'relative',
-    __after: !isExpanded && {
-      content: '""',
-      position: 'absolute',
-      display: 'block',
-      width: '100%',
-      height: '5x',
-      bottom: '0',
-      background: {
-        light: 'linear-gradient(360deg, rgba(242, 242, 242, 0.6) 25%, rgba(242, 242, 242, 0) 83.33%)',
-        dark: 'linear-gradient(360deg, rgba(0, 0, 0, 0.6) 25%, rgba(0, 0, 0, 0) 83.33%)',
-      }[colorMode],
-    },
   };
 
   const useCollapseIconStyle = {
@@ -194,6 +193,9 @@ const CodeBlock = ({
       FontAwesomeIcon,
       EditableTag,
       Lorem,
+      SelectableButton,
+      SkeletonBody,
+      SkeletonContent,
       css,
       mdx,
       tmicons,
@@ -223,10 +225,12 @@ const CodeBlock = ({
       )}
       <Box mt="4x" position="relative">
         {isEditable && (
-          <Flex
-            align="center"
-            justify="space-between"
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
             onClick={isCollapsible ? handleCollapse : undefined}
+            userSelect="none"
             {...useCodeBlockTitleStyle}
           >
             EDITABLE EXAMPLE
@@ -236,12 +240,12 @@ const CodeBlock = ({
                 {...useCollapseIconStyle}
               />
             )}
-          </Flex>
+          </Box>
         )}
         {(isEditable && isCollapsible) ? (
-          <Box {...useCollapseBoxStyle}>
-            <Collapse startingHeight={headerHeight} isOpen={isExpanded}>
-              <Box position="relative">
+          <Fade in={isExpanded}>
+            <Collapse in={isExpanded}>
+              <Box>
                 {
                   isExpanded && (
                     <CopyButton onClick={onCopy}>
@@ -258,9 +262,9 @@ const CodeBlock = ({
                 </Box>
               </Box>
             </Collapse>
-          </Box>
+          </Fade>
         ) : (
-          <Box position="relative">
+          <Box>
             <CopyButton onClick={onCopy}>
               {hasCopied ? 'copied' : 'copy'}
             </CopyButton>

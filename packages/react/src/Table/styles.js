@@ -55,7 +55,29 @@ const useTableHeaderCellStyle = props => {
   };
 };
 
+const useTableHeaderRowStyle = props => {
+  return {
+    display: 'flex',
+  };
+};
+
+const useTableHeaderStyle = props => {
+  return {
+    overflow: 'hidden',
+    flex: '0 0 auto',
+  };
+};
+
+const useTableRowStyle = props => {
+  return {
+    display: 'flex',
+  };
+};
+
 export {
   useTableCellStyle,
-  useTableHeaderCellStyle
+  useTableHeaderCellStyle,
+  useTableHeaderRowStyle,
+  useTableHeaderStyle,
+  useTableRowStyle,
 };

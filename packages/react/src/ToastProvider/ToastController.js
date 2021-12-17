@@ -7,10 +7,10 @@ const ToastController = forwardRef(({
   children,
   duration = null,
   onClose,
-  ...props
+  ...rest
 }, ref) => {
   const nodeRef = useRef();
-  const combinedRef = useForkRef(ref, nodeRef);
+  const combinedRef = useForkRef(nodeRef, ref);
   const [delay, setDelay] = useState(duration);
   const onMouseEnter = () => setDelay(null);
   const onMouseLeave = () => setDelay(duration);
@@ -22,7 +22,7 @@ const ToastController = forwardRef(({
       ref={combinedRef}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      {...props}
+      {...rest}
     >
       {children}
     </Box>

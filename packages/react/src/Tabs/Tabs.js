@@ -1,8 +1,4 @@
-import React, {
-  forwardRef,
-  useState,
-  useRef,
-} from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import { TabContext } from './context';
 import Box from '../Box';
 import useEffectOnce from '../hooks/useEffectOnce';
@@ -22,7 +18,7 @@ const Tabs = forwardRef((
     size = 'md',
     orientation = 'horizontal',
     isFitted,
-    ...props
+    ...rest
   },
   ref,
 ) => {
@@ -109,7 +105,7 @@ const Tabs = forwardRef((
 
   return (
     <TabContext.Provider value={context}>
-      <Box ref={ref} {...props}>
+      <Box ref={ref} {...rest}>
         {children}
       </Box>
     </TabContext.Provider>

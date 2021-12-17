@@ -13,7 +13,7 @@ const Skeleton = forwardRef((
     animation,
     variant,
     css,
-    ...props
+    ...rest
   },
   ref
 ) => {
@@ -31,7 +31,7 @@ const Skeleton = forwardRef((
       ref={ref}
       css={css}
       {...styleProps}
-      {...props}
+      {...rest}
     />
   );
 });

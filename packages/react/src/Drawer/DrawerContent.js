@@ -1,13 +1,16 @@
+import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
+import Slide from '../Transitions/Slide';
+import usePresence from '../usePresence';
 import useForkRef from '../utils/useForkRef';
-import { useDrawer } from './context';
 import {
   useDrawerContentStyle,
   useDrawerCloseButtonStyle,
 } from './styles';
+import useDrawer from './useDrawer';
 
 const DrawerCloseButton = (props) => {
   const closeButtonStyleProps = useDrawerCloseButtonStyle();
@@ -19,37 +22,65 @@ const DrawerCloseButton = (props) => {
   );
 };
 
-const DrawerContentBackdrop = forwardRef((props, ref) => {
-  const context = useDrawer(); // context might be an undefined value
+const DrawerContentBackdrop = forwardRef(({
+  TransitionComponent,
+  TransitionProps,
+  ...rest
+}, ref) => {
+  const drawerContext = useDrawer(); // context might be an undefined value
   const {
+    isOpen,
+    placement,
     closeOnOutsideClick,
     onClose,
-  } = { ...context };
+  } = { ...drawerContext };
+  const [, safeToRemove] = usePresence();
+  const backdropStyleProps = {
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
+  const direction = {
+    'left': 'right',
+    'right': 'left',
+    'top': 'down',
+    'bottom': 'up',
+  }[placement];
 
   return (
-    <Box
-      position="fixed"
-      left={0}
-      top={0}
-      width="100%"
-      height="100%"
-      overflow="hidden"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      onClick={event => {
-        event.stopPropagation();
-        if (closeOnOutsideClick) {
-          (typeof onClose === 'function') && onClose(event);
-        }
-      }}
-      {...props}
-    />
+    <TransitionComponent
+      {...TransitionProps}
+      in={isOpen}
+      direction={direction}
+      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
+    >
+      {(state, { ref, style: transitionStyle }) => (
+        <Box
+          ref={ref}
+          onClick={event => {
+            event.stopPropagation();
+            if (closeOnOutsideClick) {
+              (typeof onClose === 'function') && onClose(event);
+            }
+          }}
+          {...backdropStyleProps}
+          {...transitionStyle}
+          {...rest}
+        />
+      )}
+    </TransitionComponent>
   );
 });
 
-const DrawerContentFront = forwardRef(({ children, ...props }, ref) => {
-  const context = useDrawer(); // context might be an undefined value
+const DrawerContentFront = forwardRef(({ children, ...rest }, ref) => {
+  const drawerContext = useDrawer(); // context might be an undefined value
   const {
     closeOnEsc,
     isClosable,
@@ -59,7 +90,7 @@ const DrawerContentFront = forwardRef(({ children, ...props }, ref) => {
 
     // internal use only
     contentRef,
-  } = { ...context };
+  } = { ...drawerContext };
   const combinedRef = useForkRef(ref, contentRef);
   const contentStyleProps = useDrawerContentStyle({ placement, size });
 
@@ -81,7 +112,7 @@ const DrawerContentFront = forwardRef(({ children, ...props }, ref) => {
         }
       }}
       {...contentStyleProps}
-      {...props}
+      {...rest}
     >
       {children}
       {!!isClosable && (
@@ -94,16 +125,18 @@ const DrawerContentFront = forwardRef(({ children, ...props }, ref) => {
 const DrawerContent = React.forwardRef(({
   children,
   zIndex = 'drawer',
-  ...props
+  TransitionComponent = Slide,
+  TransitionProps,
+  ...rest
 }, ref) => {
-  const context = useDrawer(); // context might be an undefined value
+  const drawerContext = useDrawer(); // context might be an undefined value
   const {
     backdrop,
-  } = { ...context };
+  } = { ...drawerContext };
 
-  if (!context) {
+  if (!drawerContext) {
     return (
-      <DrawerContentFront ref={ref} {...props}>
+      <DrawerContentFront ref={ref} {...rest}>
         {children}
       </DrawerContentFront>
     );
@@ -117,7 +150,7 @@ const DrawerContent = React.forwardRef(({
         zIndex={zIndex}
         top={0}
         height="100%"
-        {...props}
+        {...rest}
       >
         {children}
       </DrawerContentFront>
@@ -125,8 +158,12 @@ const DrawerContent = React.forwardRef(({
   }
 
   return (
-    <DrawerContentBackdrop zIndex={zIndex}>
-      <DrawerContentFront ref={ref} {...props}>
+    <DrawerContentBackdrop
+      TransitionComponent={TransitionComponent}
+      TransitionProps={TransitionProps}
+      zIndex={zIndex}
+    >
+      <DrawerContentFront ref={ref} {...rest}>
         {children}
       </DrawerContentFront>
     </DrawerContentBackdrop>
