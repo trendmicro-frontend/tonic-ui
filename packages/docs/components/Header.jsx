@@ -58,13 +58,19 @@ const Header = forwardRef((props, ref) => {
   };
 
   useEffect(() => {
+    /**
+     * ['tonic-ui', 'react', 'latest', 'getting-started']
+     * => version='latest'
+     *
+     * ['tonic-ui', 'react', 'pr-100', 'getting-started']
+     * => version='pr-100'
+     */
     const arr = window.location.pathname.split('/').filter(Boolean);
-    // => ['tonic-ui', 'react', 'latest', 'getting-started']
     const nextVersion = arr[2];
-    if (nextVersion && version !== nextVersion) {
+    if (nextVersion && (version !== nextVersion)) {
       setVersion(nextVersion);
     }
-  }, []);
+  }, [version]);
 
   return (
     <Box
