@@ -33,7 +33,14 @@ const TONIC_UI_VERSION = {
 const Header = forwardRef((props, ref) => {
   const router = useRouter();
   const [version, setVersion] = useState('Current');
-  const { colorMode, toggleColorMode } = useColorMode();
+  const [colorMode, setColorMode] = useColorMode();
+  const toggleColorMode = () => {
+    const nextColorMode = {
+      'dark': 'light',
+      'light': 'dark',
+    }[colorMode];
+    setColorMode(nextColorMode);
+  };
   const logoPath = {
     light: 'images/tonic-logo-light.svg',
     dark: 'images/tonic-logo-dark.svg',
@@ -50,12 +57,14 @@ const Header = forwardRef((props, ref) => {
     light: 'black:primary', // FIXME
     dark: 'white:emphasis',
   }[colorMode];
+
   const handleChooseVersion = (event) => {
     const url = event.currentTarget.getAttribute('value');
     if (url) {
       window.location = url;
     }
   };
+
   const handleViewAllVersions = () => {
     router.push(`${ASSET_PREFIX}/versions`);
   };
@@ -149,7 +158,7 @@ const Header = forwardRef((props, ref) => {
           display="flex"
           flex="none"
           width="auto"
-          align="center"
+          alignItems="center"
           px="4x"
         >
           <Box

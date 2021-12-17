@@ -72,7 +72,7 @@ The `<select>` element has some unique attributes you can use to control it, suc
 const FlexOption = ({ style, ...props }) => (
   <Flex
     as="option"
-    align="center"
+    alignItems="center"
     height="8x"
     px="3x"
     {...props}
@@ -119,7 +119,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| variant | string | 'outline' | The variant of the select style to use. One of: `'outline'`, `'filled'`, `'unstyled'` |
+| variant | string | 'outline' | The variant of the select style to use. One of: 'outline', 'filled', 'unstyled' |
 | disabled | boolean | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | isInvalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |
 

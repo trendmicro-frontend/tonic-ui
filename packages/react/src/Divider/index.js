@@ -6,7 +6,7 @@ const Divider = forwardRef(({
   color,
   orientation = 'horizontal',
   variant = 'solid',
-  ...props
+  ...rest
 }, ref) => {
   const [colorMode] = useColorMode();
   const dividerColor = color || {
@@ -31,7 +31,7 @@ const Divider = forwardRef(({
     <Box
       ref={ref}
       {...borderProps}
-      {...props}
+      {...rest}
     />
   );
 });

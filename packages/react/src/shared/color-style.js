@@ -5,8 +5,6 @@ const colorStyle = {
       secondary: 'gray:90',
       tertiary: 'gray:80',
       inverse: 'gray:10',
-      selected: 'blue:60', // TODO: will be replaced with text.selection in the v1 release
-      marked: '#fce79e', // TODO: will be replaced with text.highlight in the v1 release
     },
 
     color: {
@@ -24,16 +22,6 @@ const colorStyle = {
     text: {
       selection: 'blue:60',
       highlight: '#fce79e',
-
-      // TODO: the following properties are deprecated and will be removed in the v1 release
-      emphasis: 'white:emphasis',
-      primary: 'white:primary',
-      secondary: 'white:secondary',
-      tertiary: 'white:tertiary',
-      disabled: 'white:disabled',
-      link: 'blue:40',
-      warning: 'orange:50',
-      error: 'red:50',
     },
 
     shadow: {
@@ -82,8 +70,6 @@ const colorStyle = {
       secondary: 'gray:10',
       tertiary: 'gray:20',
       inverse: 'gray:70',
-      selected: 'blue:60', // TODO: will be replaced with text.selection in the v1 release
-      marked: '#fce79e', // TODO: will be replaced with text.highlight in the v1 release
     },
 
     color: {
@@ -101,16 +87,6 @@ const colorStyle = {
     text: {
       selection: 'blue:60',
       highlight: '#fce79e',
-
-      // TODO: the following properties are deprecated and will be removed in the v1 release
-      emphasis: 'black:emphasis',
-      primary: 'black:primary',
-      secondary: 'black:secondary',
-      tertiary: 'black:tertiary',
-      disabled: 'black:disabled',
-      link: 'blue:60',
-      warning: 'orange:50',
-      error: 'red:60',
     },
 
     shadow: {

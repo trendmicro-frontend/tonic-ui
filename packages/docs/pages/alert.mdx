@@ -156,13 +156,13 @@ The action button is usually aligned to the right of the alert. You can use `jus
 <Stack direction="column" spacing="6x">
   <Stack direction="column" spacing="2x">
     <Alert variant="solid" severity="warning">
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         <Text>This is a warning alert.</Text>
         <LinkButton>Learn More</LinkButton>
       </Flex>
     </Alert>
     <Alert variant="solid" severity="error">
-      <Flex justify="space-between" mt={-1} mb={-2}>
+      <Flex justifyContent="space-between" mt={-1} mb={-2}>
         <Text>This is an error alert.</Text>
         <FlatButton size="sm" variant="outline" variantColor="black:primary">
           Action Button
@@ -172,13 +172,13 @@ The action button is usually aligned to the right of the alert. You can use `jus
   </Stack>
   <Stack direction="column" spacing="2x">
     <Alert variant="outline" severity="warning">
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         <Text>This is a warning alert.</Text>
         <LinkButton>Learn More</LinkButton>
       </Flex>
     </Alert>
     <Alert variant="outline" severity="error">
-      <Flex justify="space-between" mt={-1} mb={-2}>
+      <Flex justifyContent="space-between" mt={-1} mb={-2}>
         <Text>This is an error alert.</Text>
         <Button size="sm" variant="secondary">
           Action Button
@@ -263,6 +263,6 @@ function Example() {
 | :--- | :--- | :------ | :---------- |
 | isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
-| variant | string | 'solid' | The variant to use. One of: `'solid'`, `'outline'` |
-| severity | string | 'success' | The severity level to use. One of: `'success'`, `'info'`, `'warning'`, `'error'` |
+| variant | string | 'solid' | The variant to use. One of: 'solid', 'outline' |
+| severity | string | 'success' | The severity level to use. One of: 'success', 'info', 'warning', 'error' |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |

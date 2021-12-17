@@ -31,7 +31,7 @@ expanding another.
 <Accordion>
   <AccordionItem>
     <AccordionHeader>
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         Section 1
         <AccordionIcon />
       </Flex>
@@ -44,7 +44,7 @@ expanding another.
   </AccordionItem>
   <AccordionItem>
     <AccordionHeader>
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         Section 2
         <AccordionIcon />
       </Flex>
@@ -71,7 +71,7 @@ If you pass this prop, ensure that the `index` or `defaultIndex` prop is an arra
 >
   <AccordionItem>
     <AccordionHeader>
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         Section 1
         <AccordionIcon />
       </Flex>
@@ -84,7 +84,7 @@ If you pass this prop, ensure that the `index` or `defaultIndex` prop is an arra
   </AccordionItem>
   <AccordionItem>
     <AccordionHeader>
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         Section 2
         <AccordionIcon />
       </Flex>
@@ -106,7 +106,7 @@ If you set `allowToggle` to true, any expanded item may be collapsed again.
 <Accordion allowToggle>
   <AccordionItem>
     <AccordionHeader>
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         Section 1
         <AccordionIcon />
       </Flex>
@@ -119,7 +119,7 @@ If you set `allowToggle` to true, any expanded item may be collapsed again.
   </AccordionItem>
   <AccordionItem>
     <AccordionHeader>
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         Section 2
         <AccordionIcon />
       </Flex>
@@ -147,7 +147,7 @@ The `AccordionItem` component has the render prop `isExpanded` set to `true` or 
         _active={{ bg: 'blue:80' }}
         p="3x"
       >
-        <Flex justify="space-between">
+        <Flex justifyContent="space-between">
           Click Me
           <AccordionIcon />
         </Flex>
@@ -171,7 +171,7 @@ render prop. It provides 2 internal state: `isDisabled and `isExpanded`.
 <Accordion allowMultiple>
   <AccordionItem>
     <AccordionHeader>
-      <Flex justify="space-between">
+      <Flex justifyContent="space-between">
         Section 1
         <AccordionIcon />
       </Flex>
@@ -186,7 +186,7 @@ render prop. It provides 2 internal state: `isDisabled and `isExpanded`.
     {({ isDisabled, isExpanded }) => (
       <>
         <AccordionHeader>
-          <Flex justify="space-between">
+          <Flex justifyContent="space-between">
             Section 2
             <Icon
               icon={isExpanded ? 'minus' : 'add'}

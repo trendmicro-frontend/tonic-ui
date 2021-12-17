@@ -8,14 +8,17 @@ const notLastChildStyle = {
   borderBottomRightRadius: 0,
 };
 
-const baseProps = {
-  mr: -1,
-  css: {
-    '& > *:first-of-type': notLastChildStyle,
-    '&:not(:first-of-type) > *:first-of-type': notFirstChildStyle,
-  },
+const useInputGroupPrependStyle = () => {
+  return {
+    display: 'flex',
+    mr: -1,
+    css: {
+      '& > *:first-of-type': notLastChildStyle,
+      '&:not(:first-of-type) > *:first-of-type': notFirstChildStyle,
+    },
+  };
 };
 
 export {
-  baseProps,
+  useInputGroupPrependStyle,
 };

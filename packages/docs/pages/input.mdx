@@ -118,7 +118,7 @@ The value of `list` is the id attribute of the `<datalist>` of autocomplete opti
 
 ```jsx
 <>
-  <Flex align="center">
+  <Flex alignItems="center">
     <TextLabel htmlFor="browser-choice" mr="2x">
       Choose a browser from the list:
     </TextLabel>
@@ -144,7 +144,7 @@ First, you may have to create your input adornment components for convenience. N
 ```jsx disabled
 const InputAdornmentPrepend = (props) => (
   <Flex
-    align="center"
+    alignItems="center"
     position="absolute"
     left={0}
     height="100%"
@@ -157,7 +157,7 @@ const InputAdornmentPrepend = (props) => (
 
 const InputAdornmentAppend = (props) => (
   <Flex
-    align="center"
+    alignItems="center"
     position="absolute"
     right={0}
     height="100%"
@@ -174,7 +174,7 @@ Take a look at the following examples:
 ```jsx noInline
 const InputAdornmentPrepend = (props) => (
   <Flex
-    align="center"
+    alignItems="center"
     position="absolute"
     left={0}
     px="3x"
@@ -186,7 +186,7 @@ const InputAdornmentPrepend = (props) => (
 
 const InputAdornmentAppend = (props) => (
   <Flex
-    align="center"
+    alignItems="center"
     position="absolute"
     right={0}
     px="3x"
@@ -317,8 +317,8 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| size | string | 'md' | The visual size of the `input` element. One of: `'sm'`, `'md'`, `'lg'` |
-| variant | string | 'outline' | The variant of the input style to use. One of: `'outline'`, `'filled'`, `'unstyled'` |
+| size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
 | disabled | boolean | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
 | isInvalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |

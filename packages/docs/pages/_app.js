@@ -60,8 +60,8 @@ const Layout = ({ children }) => {
       <Box
         backgroundColor={backgroundColor}
         color={fontColor}
-        fontSize="md"
-        lineHeight="md"
+        fontSize="sm"
+        lineHeight="sm"
       >
         <Header />
         <SideNav

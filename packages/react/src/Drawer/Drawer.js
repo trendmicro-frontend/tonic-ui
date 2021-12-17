@@ -1,24 +1,27 @@
 import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Portal from '../Portal';
+import Presence from '../Presence';
+import useEffectOnce from '../hooks/useEffectOnce';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import useNodeRef from '../utils/useNodeRef';
 import getFocusableElements from '../utils/getFocusableElements';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { DrawerProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
 const Drawer = ({
+  isCloseButtonVisible, // deprecated
+  isClosable = false,
   backdrop,
-  placement = 'right',
-  size = 'auto',
-  isOpen = false,
-  isClosable: _isClosable = false,
-  isCloseButtonVisible: LEGACY_isCloseButtonVisible = false, // eslint-disable-line camelcase
   closeOnEsc = false,
   closeOnOutsideClick = false,
+  placement = 'left',
+  size = 'auto',
+  isOpen = false,
   onClose,
   initialFocusRef,
   finalFocusRef,
@@ -27,7 +30,20 @@ const Drawer = ({
   id,
   children,
 }) => {
-  const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
+  useEffectOnce(() => {
+    const prefix = `${Drawer.displayName}:`;
+
+    if (isCloseButtonVisible !== undefined) {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
+        alternative: 'isClosable',
+        willRemove: true,
+      });
+    }
+  });
+
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+  const [isMounted, setMounted] = useState(isOpen);
   const defaultId = useId();
   const contentRef = useRef(null);
   const drawerState = getMemoizedState({
@@ -50,7 +66,7 @@ const Drawer = ({
   id = id ?? defaultId;
   const portalId = `${config.name}:portal-${id}`;
   const mountRef = useNodeRef({
-    isOpen,
+    isOpen: isMounted,
     id: portalId,
   });
 
@@ -84,24 +100,37 @@ const Drawer = ({
       }
     }
   }, [finalFocusRef]);
+  const onExitComplete = useCallback(() => {
+    setMounted(false);
+  }, [setMounted]);
 
-  if (!isOpen) {
-    return null;
-  }
+  useEffect(() => {
+    if (isOpen && !isMounted) {
+      setMounted(true);
+      return;
+    }
+  }, [isOpen, isMounted]);
 
   return (
     <DrawerProvider value={drawerState}>
-      <Portal container={mountRef.current}>
-        <FocusLock
-          disabled={!ensureFocus}
-          autoFocus={autoFocus}
-          returnFocus={returnFocus}
-          onActivation={onFocusLockActivation}
-          onDeactivation={onFocusLockDeactivation}
-        >
-          {children}
-        </FocusLock>
-      </Portal>
+      <Presence
+        isPresent={isOpen}
+        onExitComplete={onExitComplete}
+      >
+        {isMounted && (
+          <Portal container={mountRef.current}>
+            <FocusLock
+              disabled={!ensureFocus}
+              autoFocus={autoFocus}
+              returnFocus={returnFocus}
+              onActivation={onFocusLockActivation}
+              onDeactivation={onFocusLockDeactivation}
+            >
+              {children}
+            </FocusLock>
+          </Portal>
+        )}
+      </Presence>
     </DrawerProvider>
   );
 };

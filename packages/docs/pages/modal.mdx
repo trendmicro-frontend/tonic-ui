@@ -29,19 +29,6 @@ Below is a static modal example, including modal header (optional), modal body (
 You can also compose your modal components when customization is needed.
 
 ```jsx noInline
-const SkeletonContent = (props) => (
-  <Flex {...props}>
-    <Flex flex="none" mr="4x" align="center">
-      <Skeleton variant="circle" width="10x" height="10x" />
-    </Flex>
-    <Box flex="auto">
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-    </Box>
-  </Flex>
-);
-
 function Example() {
   return (
     <Stack direction="column" spacing="4x">
@@ -56,7 +43,7 @@ function Example() {
           <Text mb="4x">
             Modal body text goes here.
           </Text>
-          <SkeletonContent />
+          <SkeletonBody />
         </ModalBody>
         <ModalFooter>
           <Button variant="primary" minWidth="20x">Save Changes</Button>
@@ -69,7 +56,7 @@ function Example() {
           <Text mb="4x">
             Modal body text goes here.
           </Text>
-          <SkeletonContent />
+          <SkeletonBody />
         </ModalBody>
         <ModalFooter>
           <Button variant="primary" minWidth="20x">Save Changes</Button>
@@ -82,7 +69,7 @@ function Example() {
           <Text mb="4x">
             Modal body text goes here.
           </Text>
-          <SkeletonContent />
+          <SkeletonBody />
         </ModalBody>
       </ModalContent>
       <ModalContent ml={0} width={480}>
@@ -102,51 +89,6 @@ render(<Example />);
 Click the button below to toggle a modal. The modal will show up in the center of the screen.
 
 ```jsx noInline
-const SelectableButton = ({ selected, ...props }) => {
-  const [colorMode] = useColorMode();
-  const { colors } = useTheme();
-  const focusColor = colors['blue:60'];
-  let _selectedColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  _selectedColor = colors[_selectedColor];
-  const getSelectedProps = {
-    bg: _selectedColor,
-    borderColor: _selectedColor,
-    color: 'white:emphasis',
-    cursor: 'default',
-    pointerEvents: 'none',
-    zIndex: 1,
-    css: {
-      '&::before': {
-        backgroundColor: _selectedColor,
-      },
-      '&:focus': {
-        ':not(:active)': {
-          borderColor: focusColor,
-          boxShadow: `inset 0 0 0 1px ${focusColor}`,
-        },
-        '&::before': {
-          backgroundColor: focusColor,
-        },
-      }
-    },
-    _hover: {
-      bg: _selectedColor,
-    },
-    _active: {
-      bg: _selectedColor,
-    },
-  };
-  return (
-    <Button
-      {...(selected && getSelectedProps)}
-      {...props}
-    />
-  );
-};
-
 const useSelection = (defaultValue) => {
   const [value, setValue] = React.useState(defaultValue);
   const changeBy = (value) => () => setValue(value);
@@ -171,9 +113,7 @@ const Divider = (props) => {
 };
 
 const FormGroup = (props) => (
-  <Box mb="4x">
-    <Flex display="inline-flex" {...props} />
-  </Box>
+  <Box mb="4x" {...props} />
 );
 
 function Example() {
@@ -184,17 +124,18 @@ function Example() {
     light: 'black:tertiary',
   }[colorMode];
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [size, changeSizeBy] = useSelection('sm');
+  const [height, changeHeightBy] = useSelection('auto');
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
-  const [isClosable, toggleIsClosable] = useToggle(true);
+  const [isClosable, toggleIsCloseButtonVisible] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
-  const [size, changeSizeBy] = useSelection('sm');
 
   return (
     <>
@@ -205,6 +146,11 @@ function Example() {
       </Box>
       <Divider />
       <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            size
+          </TextLabel>
+        </Box>
         <ButtonGroup
           variant="secondary"
           css={{
@@ -225,6 +171,33 @@ function Example() {
           ))}
         </ButtonGroup>
       </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            height
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['auto', '100%'].map(value => (
+            <SelectableButton
+              key={value}
+              selected={value === height}
+              onClick={changeHeightBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectableButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <Space height="1x" />
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
@@ -273,7 +246,7 @@ function Example() {
           <Checkbox
             checked={isClosable}
             disabled={!closeOnEsc && !closeOnOutsideClick}
-            onChange={toggleIsClosable}
+            onChange={toggleIsCloseButtonVisible}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
@@ -314,128 +287,73 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
         </TextLabel>
       </FormGroup>
-      <Scale
-        in={isOpen}
-        duration={150}
-      >
-        {styles => (
-          <Modal
-            ensureFocus={ensureFocus}
-            autoFocus={autoFocus}
-            closeOnEsc={closeOnEsc}
-            closeOnOutsideClick={closeOnOutsideClick}
-            initialFocusRef={initialFocusRef}
-            isClosable={isClosable}
-            isOpen={true} // Set to `true` if a transition is active
-            onClose={onClose}
-            size={size}
-          >
-            {isOverlayVisible && (
-              <ModalOverlay opacity={styles.opacity} />
-            )}
-            <ModalContent {...styles}>
-              {isHeaderVisible && (
-                <ModalHeader>
-                  Modal Title
-                </ModalHeader>
-              )}
-              {isBodyVisible && (
-                <ModalBody>
-                  {isAlertVisible && (
-                    <Alert variant="outline" severity="info" mb="4x" isClosable onClose={() => toggleIsAlertVisible()}>
-                      <Text>This is an info alert</Text>
-                    </Alert>
-                  )}
-                  <Text mb="4x">
-                    You can put any elements you want here.
-                  </Text>
-                  <Grid
-                    templateColumns="auto 1fr"
-                    rowGap="2x"
-                    columnGap="3x"
-                    alignItems="center"
-                  >
-                    <Icon icon="user" color={iconColor} />
-                    <Input ref={initialFocusRef} placeholder="User name" />
-                    <Icon icon="email" color={iconColor} />
-                    <Input placeholder="Email address" />
-                  </Grid>
-                </ModalBody>
-              )}
-              {isFooterVisible && (
-                <ModalFooter>
-                  <Button variant="primary">
-                    OK
-                  </Button>
-                  <Space width="2x" />
-                  <Button onClick={onClose}>
-                    Cancel
-                  </Button>
-                </ModalFooter>
-              )}
-            </ModalContent>
-          </Modal>
-        )}
-      </Scale>
-    </>
-  );
-}
-
-render(<Example />);
-```
-
-### Sizes
-
-Use the `size` prop to change the size of the `Modal`. You can set the value to `auto`, `xs`, `sm`, `md`, `lg`, `xl`, or `full`.
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [size, setSize] = React.useState('auto');
-  const handleClickBy = nextSize => (e) => {
-    setSize(nextSize);
-    onOpen();
-  };
-
-  return (
-    <>
-      <Stack direction="row" spacing="3x" flexWrap="wrap" mt={-12}>
-        <Button onClick={handleClickBy('auto')} mt="3x">Auto width</Button>
-        <Button onClick={handleClickBy('xs')} mt="3x">Extra small width</Button>
-        <Button onClick={handleClickBy('sm')} mt="3x">Small width</Button>
-        <Button onClick={handleClickBy('md')} mt="3x">Medium width</Button>
-        <Button onClick={handleClickBy('lg')} mt="3x">Large width</Button>
-        <Button onClick={handleClickBy('xl')} mt="3x">Extra large width</Button>
-        <Button onClick={handleClickBy('full')} mt="3x">Full width</Button>
-      </Stack>
       <Modal
-        ensureFocus
-        autoFocus
-        closeOnEsc
-        closeOnOutsideClick
-        isClosable
+        ensureFocus={ensureFocus}
+        autoFocus={autoFocus}
+        closeOnEsc={closeOnEsc}
+        closeOnOutsideClick={closeOnOutsideClick}
+        initialFocusRef={initialFocusRef}
+        isClosable={isClosable}
         isOpen={isOpen}
         onClose={onClose}
         size={size}
       >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            Modal Title
-          </ModalHeader>
-          <ModalBody>
-            <Lorem count={2} />
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
+        {isOverlayVisible && (
+          <ModalOverlay />
+        )}
+        <ModalContent height={height}>
+          {isHeaderVisible && (
+            <ModalHeader>
+              {size === 'auto' && <Text>Auto-sized Modal</Text>}
+              {size === 'xs' && <Text>Extra Small Modal</Text>}
+              {size === 'sm' && <Text>Small Modal</Text>}
+              {size === 'md' && <Text>Medium Modal</Text>}
+              {size === 'lg' && <Text>Large Modal</Text>}
+              {size === 'xl' && <Text>Extra Large Modal</Text>}
+              {size === 'full' && <Text>Full-width Modal</Text>}
+            </ModalHeader>
+          )}
+          {isBodyVisible && (
+            <ModalBody>
+              {isAlertVisible && (
+                <Alert variant="outline" severity="info" mb="4x" isClosable onClose={() => toggleIsAlertVisible()}>
+                  <Text>This is an info alert</Text>
+                </Alert>
+              )}
+              <Text mb="4x">
+                You can put any elements you want here.
+              </Text>
+              <Grid
+                templateColumns="auto 1fr"
+                rowGap="2x"
+                columnGap="3x"
+                alignItems="center"
+              >
+                <Icon icon="user" color={iconColor} />
+                <Input ref={initialFocusRef} placeholder="User name" />
+                <Icon icon="email" color={iconColor} />
+                <Input placeholder="Email address" />
+              </Grid>
+            </ModalBody>
+          )}
+          {isFooterVisible && (
+            <ModalFooter>
+              <Button variant="primary">
+                OK
+              </Button>
+              <Space width="2x" />
+              <Button onClick={onClose}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          )}
         </ModalContent>
       </Modal>
     </>
   );
 }
+
+render(<Example />);
 ```
 
 ### Nested modals
@@ -454,15 +372,15 @@ function Example() {
         isClosable
         isOpen={isOpen}
         onClose={onClose}
-        size="auto"
+        size="sm"
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Modal Title
+            Modal
           </ModalHeader>
           <ModalBody>
-            <Lorem count={2} />
+            Modal body text goes here.
           </ModalBody>
           <ModalFooter justifyContent="space-between">
             <Button
@@ -486,14 +404,15 @@ function Example() {
         isClosable
         isOpen={isNestedOpen}
         onClose={onNestedClose}
+        size="xs"
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Nested modal title
+            Nested Modal
           </ModalHeader>
           <ModalBody>
-            <Lorem count={1} />
+            Modal body text goes here.
           </ModalBody>
           <ModalFooter>
             <Button variant="primary" onClick={onNestedClose} minWidth="20x">
@@ -506,108 +425,6 @@ function Example() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
-  );
-}
-```
-
-### Transitions
-
-The modal doesn't come with transitions by default. You can use the [`Transition`](./transition) components to provide simple transitions.
-
-When using transitions, you have to set `isOpen` to `true`, or the transition will not take effect when closing the modal.
-
-#### Adding scale transition
-
-```
-import { Scale } from '@tonic-ui/react';
-```
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <>
-      <Button onClick={onOpen}>
-        Launch modal
-      </Button>
-      <Scale in={isOpen}>
-        {styles => (
-          <Modal
-            ensureFocus
-            autoFocus
-            closeOnEsc
-            closeOnOutsideClick
-            isClosable
-            isOpen={true} // Set to `true` if a transition is active
-            onClose={onClose}
-          >
-            <ModalOverlay opacity={styles.opacity} />
-            <ModalContent {...styles}>
-              <ModalHeader>
-                Modal Title
-              </ModalHeader>
-              <ModalBody>
-                <Lorem count={2} />
-              </ModalBody>
-              <ModalFooter>
-                <Button onClick={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        )}
-      </Scale>
-    </>
-  );
-}
-```
-
-#### Adding slide-in transition
-
-```
-import { SlideIn } from '@tonic-ui/react';
-```
-
-```jsx
-function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <>
-      <Button onClick={onOpen}>
-        Launch modal
-      </Button>
-      <SlideIn in={isOpen}>
-        {styles => (
-          <Modal
-            ensureFocus
-            autoFocus
-            closeOnEsc
-            closeOnOutsideClick
-            isClosable
-            isOpen={true} // Set to `true` if a transition is active
-            onClose={onClose}
-          >
-            <ModalOverlay opacity={styles.opacity} />
-            <ModalContent {...styles}>
-              <ModalHeader>
-                Modal Title
-              </ModalHeader>
-              <ModalBody>
-                <Lorem count={2} />
-              </ModalBody>
-              <ModalFooter>
-                <Button onClick={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        )}
-      </SlideIn>
     </>
   );
 }
@@ -628,14 +445,25 @@ function Example() {
 | closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
 | onClose | function | | Callback fired when the modal closes. |
-| size | string | 'auto' | The size of the modal. One of: `'auto'`, `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |
+| size | string | 'auto' | Change the size of the modal. One of: 'auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full' |
 
 ### ModalOverlay
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| TransitionComponent | elementType | Fade | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+
 ### ModalContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| TransitionComponent | elementType | Fade | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 
 ### ModalHeader
 
 ### ModalBody
 
 ### ModalFooter
+

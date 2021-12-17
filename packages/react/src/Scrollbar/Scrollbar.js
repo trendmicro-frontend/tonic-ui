@@ -1,8 +1,11 @@
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
+import useEffectOnce from '../hooks/useEffectOnce';
 import useHydrated from '../hooks/useHydrated';
 import useForkRef from '../utils/useForkRef';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import {
   useContainerStyle,
   useScrollViewStyle,
@@ -22,14 +25,14 @@ import VerticalThumb from './VerticalThumb';
 const Scrollbar = forwardRef((
   {
     disabled, // deprecated (remove in next major version)
-    visibility, // deprecated (remove in next major version)
     minThumbSize, // deprecated (remove in next major version)
-    renderView, // deprecated (remove in next major version)
-    renderHorizontalTrack, // deprecated (remove in next major version)
-    renderHorizontalThumb, // deprecated (remove in next major version)
-    renderVerticalTrack, // deprecated (remove in next major version)
-    renderVerticalThumb, // deprecated (remove in next major version)
-    thumbSize, // deprecated (remove in next major version)
+    visibility, // deprecated (remove in next major version)
+    renderView, // removed
+    renderHorizontalTrack, // removed
+    renderHorizontalThumb, // removed
+    renderVerticalTrack, // removed
+    renderVerticalThumb, // removed
+    thumbSize, // removed
 
     children,
     width = '100%',
@@ -49,42 +52,77 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
-  const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
-  const isHydrated = useHydrated();
+  useEffectOnce(() => {
+    const prefix = `${Scrollbar.displayName}:`;
 
-  useEffect(() => {
-    // Deprecation warning
     if (disabled !== undefined) {
-      console.error('Warning: `disabled` is deprecated, use `overflow="hidden"` instead.');
-    }
-    if (visibility === 'visible') {
-      console.error('Warning: `visibility="visible"` is deprecated. Use `overflow="scroll"` instead.');
-    } else if (visibility !== undefined) {
-      console.error('The `visibility` prop is deprecated. Use `overflow` instead.');
-    }
-    if (renderView !== undefined) {
-      console.error('The `renderView` prop is deprecated. Use children as a function to render the scroll view instead.');
-    }
-    if (renderHorizontalTrack !== undefined) {
-      console.error('The `renderHorizontalTrack` prop is deprecated. Use children as a function to render the horizontal track instead.');
-    }
-    if (renderHorizontalThumb !== undefined) {
-      console.error('The `renderHorizontalThumb` prop is deprecated. Use children as a function to render the horizontal thumb instead.');
-    }
-    if (renderVerticalTrack !== undefined) {
-      console.error('The `renderVerticalTrack` prop is deprecated. Use children as a function to render the vertical track instead.');
-    }
-    if (renderVerticalThumb !== undefined) {
-      console.error('The `renderVerticalThumb` prop is deprecated. Use children as a function to render the vertical thumb instead.');
-    }
-    if (thumbSize !== undefined) {
-      console.error('The `thumbSize` prop is deprecated. Use `minThumbWidth` and `minThumbHeight` instead.');
+      warnDeprecatedProps('disabled', {
+        prefix,
+        alternative: 'overflow="hidden"',
+        willRemove: true,
+      });
     }
     if (minThumbSize !== undefined) {
-      console.error('The `minThumbSize` prop is deprecated. Use `minThumbWidth` and `minThumbHeight` instead.');
+      warnDeprecatedProps('minThumbSize', {
+        prefix,
+        alternative: ['minThumbWidth', 'minThumbHeight'],
+        willRemove: true,
+      });
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (visibility !== undefined) {
+      const deprecatedProps = (visibility === 'visible')
+        ? 'visibility="visible"'
+        : 'visibility';
+      const alternative = (visibility === 'visible')
+        ? 'overflow="scroll"'
+        : 'overflow';
+      warnDeprecatedProps(deprecatedProps, {
+        prefix,
+        alternative,
+        willRemove: true,
+      });
+    }
+    if (renderView !== undefined) {
+      warnRemovedProps('renderView', {
+        prefix,
+        message: 'Use Function as Child Component (FaCC) to render the scroll view instead.',
+      });
+    }
+    if (renderHorizontalTrack !== undefined) {
+      warnRemovedProps('renderHorizontalTrack', {
+        prefix,
+        message: 'Use Function as Child Component (FaCC) to render the horizontal track instead.',
+      });
+    }
+    if (renderHorizontalThumb !== undefined) {
+      warnRemovedProps('renderHorizontalThumb', {
+        prefix,
+        message: 'Use Function as Child Component (FaCC) to render the horizontal thumb instead.',
+      });
+    }
+    if (renderVerticalTrack !== undefined) {
+      warnRemovedProps('renderVerticalTrack', {
+        prefix,
+        message: 'Use Function as Child Component (FaCC) to render the vertical track instead.',
+      });
+    }
+    if (renderVerticalThumb !== undefined) {
+      warnRemovedProps('renderVerticalThumb', {
+        prefix,
+        message: 'Use Function as Child Component (FaCC) to render the vertical thumb instead.',
+      });
+    }
+    if (thumbSize !== undefined) {
+      warnRemovedProps('thumbSize', {
+        prefix,
+        alternative: ['minThumbWidth', 'minThumbHeight'],
+      });
+    }
+  });
+
+  const isHydrated = useHydrated();
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
 
   { // Update overflow props
     // TODO: remove `disabled` and `visibility` props in next major version
@@ -99,8 +137,8 @@ const Scrollbar = forwardRef((
       minThumbHeight = ensurePositiveFiniteNumber(minThumbSize);
     }
 
-    overflowX = overflowX ?? (visibility ?? overflow);
-    overflowY = overflowY ?? (visibility ?? overflow);
+    overflowX = overflowX ?? (visibility ?? overflow); // TODO: visibility is deprecated
+    overflowY = overflowY ?? (visibility ?? overflow); // TODO: visibility is deprecated
     if (overflowX === 'visible') {
       overflowX = 'scroll';
     }

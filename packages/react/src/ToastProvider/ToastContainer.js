@@ -5,7 +5,7 @@ import Box from '../Box';
 const ToastContainer = forwardRef(({
   hasToasts = false,
   placement,
-  ...props
+  ...rest
 }, ref) => {
   const styleProps = {
     boxSizing: 'border-box',
@@ -41,7 +41,7 @@ const ToastContainer = forwardRef(({
       ref={ref}
       data-toast-placement={placement}
       {...styleProps}
-      {...props}
+      {...rest}
     />
   );
 });

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import { useDrawer } from './context';
+import useDrawer from './useDrawer';
 import {
   useDrawerFooterStyle,
 } from './styles';

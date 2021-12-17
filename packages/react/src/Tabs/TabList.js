@@ -1,8 +1,8 @@
 import React, { cloneElement, forwardRef, useContext, useRef } from 'react';
-import { TabContext } from './context';
-import Flex from '../Flex';
-import { useTabListStyle } from './styles';
+import Box from '../Box';
 import cleanChildren from '../utils/cleanChildren';
+import { TabContext } from './context';
+import { useTabListStyle } from './styles';
 
 const TabList = forwardRef((props, ref) => {
   const { children, onKeyDown, ...rest } = props;
@@ -12,7 +12,6 @@ const TabList = forwardRef((props, ref) => {
     index: selectedIndex,
     manualIndex,
     onManualTabChange,
-    activateOnKeypress, // TODO: activateOnKeypress is deprecated and will be removed in the v1 release
     isManual,
     onChangeTab,
     onFocusPanel,
@@ -72,9 +71,7 @@ const TabList = forwardRef((props, ref) => {
   };
 
   const clones = validChildren.map((child, index) => {
-    const isActiveManually = activateOnKeypress || isManual;
-    let isSelected = isActiveManually ? index === manualIndex : index === selectedIndex;
-
+    const isSelected = isManual ? index === manualIndex : index === selectedIndex;
     const handleClick = (event) => {
       // Hack for Safari. Buttons don't receive focus on click on Safari
       // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
@@ -100,16 +97,17 @@ const TabList = forwardRef((props, ref) => {
   });
 
   return (
-    <Flex
-      onKeyDown={handleKeyDown}
+    <Box
       ref={ref}
-      role="tablist"
       aria-orientation={orientation}
+      display="flex"
+      onKeyDown={handleKeyDown}
+      role="tablist"
       {...tabListStyleProps}
       {...rest}
     >
       {clones}
-    </Flex>
+    </Box>
   );
 });
 

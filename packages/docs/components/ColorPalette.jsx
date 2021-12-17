@@ -15,7 +15,7 @@ const ColorPalette = ({ hue }) => {
     }, {});
 
   return (
-    <Flex align="center">
+    <Flex alignItems="center">
       <Stack direction="column">
         {Object.keys(colorTokens).map((token) => {
           const [hue, shade] = ensureString(token).split(':');
@@ -25,7 +25,7 @@ const ColorPalette = ({ hue }) => {
           return (
             <Flex
               key={token}
-              justify="space-between"
+              justifyContent="space-between"
               fontSize="sm"
               width="300px"
               height="12x"

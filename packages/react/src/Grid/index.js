@@ -15,7 +15,7 @@ const Grid = forwardRef((
     templateRows,
     templateColumns,
     templateAreas,
-    ...props
+    ...rest
   },
   ref,
 ) => (
@@ -34,7 +34,7 @@ const Grid = forwardRef((
     gridTemplateRows={templateRows}
     gridTemplateColumns={templateColumns}
     gridTemplateAreas={templateAreas}
-    {...props}
+    {...rest}
   />
 ));
 

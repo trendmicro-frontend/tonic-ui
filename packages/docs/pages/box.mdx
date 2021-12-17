@@ -161,7 +161,7 @@ Add the `_focus` prop to apply style props on focus.
 Add the `_disabled` prop to style an element which is disabled.
 
 ```jsx
-<Stack direction="row" spacing=".5rem">
+<Stack direction="row" spacing="2x">
   <Box
     as="button"
     bg="blue:40"
@@ -217,7 +217,7 @@ Add the `_disabled` prop to style an element which is disabled.
 Add the `_visited` prop to style a visited link.
 
 ```jsx
-<Stack direction="row" spacing=".5rem">
+<Stack direction="row" spacing="2x">
   <Box
     as="a"
     href=""
@@ -464,8 +464,8 @@ function Example() {
           <Box
             flexBasis="auto"
             flexGrow={0}
-            minWidth=".5rem"
-            width=".5rem"
+            minWidth="2x"
+            width="2x"
             bg={laneColor[player.lane]}
           />
           <Box

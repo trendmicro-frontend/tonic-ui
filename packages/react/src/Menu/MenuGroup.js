@@ -2,7 +2,14 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useMenuGroupStyle } from './styles';
 
-const MenuGroup = forwardRef(({ children, title, ...rest }, ref) => {
+const MenuGroup = forwardRef((
+  {
+    children,
+    title,
+    ...rest
+  },
+  ref,
+) => {
   const styleProps = useMenuGroupStyle();
 
   return (
@@ -11,6 +18,7 @@ const MenuGroup = forwardRef(({ children, title, ...rest }, ref) => {
         ref={ref}
         role="group"
         {...styleProps}
+        {...rest}
       >
         {title}
       </Box>

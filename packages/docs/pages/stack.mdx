@@ -12,7 +12,7 @@ import { Stack } from '@tonic-ui/react';
 
 By default, each item is stacked vertically. Stack clones it's children and passes the spacing to them using the margin property.
 
-| `direction` Prop | Item Spacing |
+| `flexDirection` Prop | Item Spacing |
 | :-------- | :------ |
 | column | `margin-bottom` |
 | column-reverse | `margin-top` |
@@ -34,7 +34,7 @@ const Item = (props) => {
 
 function Example() {
   return (
-    <Stack direction="column" spacing="1rem">
+    <Stack direction="column" spacing="4x">
       <Item>Item 1</Item>
       <Item>Item 2</Item>
       <Item>Item 3</Item>
@@ -60,7 +60,7 @@ const Item = (props) => {
 
 function Example() {
   return (
-    <Stack direction="column-reverse" spacing="1rem">
+    <Stack direction="column-reverse" spacing="4x">
       <Item>Item 1</Item>
       <Item>Item 2</Item>
       <Item>Item 3</Item>
@@ -86,7 +86,7 @@ const Item = (props) => {
 
 function Example() {
   return (
-    <Stack direction="row" spacing="1rem">
+    <Stack direction="row" spacing="4x">
       <Item>Item 1</Item>
       <Item>Item 2</Item>
       <Item>Item 3</Item>
@@ -113,7 +113,7 @@ const Item = (props) => {
 
 function Example() {
   return (
-    <Stack direction="row-reverse" spacing="1rem">
+    <Stack direction="row-reverse" spacing="4x">
       <Item>Item 1</Item>
       <Item>Item 2</Item>
       <Item>Item 3</Item>
@@ -128,6 +128,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| direction | string | 'column' | The direction to stack the items. One of: `'column'`, `'column-reverse'`, `'row'`, `'row-reverse'` |
+| direction | string | 'column' | The shorthand of `flexDirection`. |
+| flexDirection | string | 'column' | The direction to stack the items. One of: 'column', 'column-reverse', 'row', 'row-reverse' |
 | spacing | number \| string | 0 | The space between each stack item. |
 | shouldWrapChildren | boolean | false | If `true`, the children will be wrapped in a `Box` with `display: inline-block`, and the `Box` will take the `spacing` props. |

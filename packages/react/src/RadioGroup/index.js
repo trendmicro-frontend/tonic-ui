@@ -39,7 +39,7 @@ const RadioGroup = ({
     }
 
     if (typeof onChange === 'function') {
-      onChange(nextValue, event);
+      onChange(nextValue);
     }
   };
 

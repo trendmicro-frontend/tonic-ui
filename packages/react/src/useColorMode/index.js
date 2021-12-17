@@ -9,7 +9,6 @@ const useColorMode = () => {
   const {
     colorMode,
     setColorMode,
-    toggleColorMode, // TODO: toggleColorMode is deprecated and will be removed in the v1 release
   } = useContext(ColorModeContext);
 
   if (colorMode === undefined) {
@@ -17,11 +16,6 @@ const useColorMode = () => {
   }
 
   const value = [colorMode, setColorMode];
-
-  // TODO: returning object is deprecated and will be removed in the v1 release
-  value.colorMode = colorMode;
-  value.setColorMode = setColorMode;
-  value.toggleColorMode = toggleColorMode;
 
   return value;
 };

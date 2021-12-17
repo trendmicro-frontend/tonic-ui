@@ -81,7 +81,7 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 ```jsx
 <Stack spacing="4x">
   <Stack
-    align="center"
+    alignItems="center"
     direction="row"
     spacing="2x"
   >
@@ -90,7 +90,7 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
     <Tag size="lg" variantColor="gray">Large</Tag>
   </Stack>
   <Stack
-    align="center"
+    alignItems="center"
     direction="row"
     spacing="2x"
   >
@@ -485,6 +485,6 @@ render(<Tags />);
 | isInvalid | boolean | | If `true`, the tag will indicate an error. You can style this state by passing the `_invalid` prop. |
 | isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
-| size | string | 'md' | The size of the tag component. One of: `'sm'`, `'md'`, `'lg'` |
-| variant | string | 'solid' | The variant style of the tag component. One of: `'solid'`, `'outline'` |
+| size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
+| variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
 | variantColor | string | 'gray' | The color scheme of the tag variant. It must be a color key defined in `theme.colors`. |
