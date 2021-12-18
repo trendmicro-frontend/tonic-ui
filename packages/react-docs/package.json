@@ -1,5 +1,5 @@
 {
-  "name": "@tonic-ui/docs",
+  "name": "@tonic-ui/react-docs",
   "version": "1.0.0-alpha",
   "private": true,
   "scripts": {

@@ -44,7 +44,7 @@ workflows:
               ignore: /.*/
             tags:
               only:
-                - /^@tonic-ui\/docs.*/
+                - /^@tonic-ui\/react-docs.*/
       # The `deploy-tag` job will not run on all branches and will run only on the matched tags.
       - deploy-tag:
           requires:
@@ -54,7 +54,7 @@ workflows:
               ignore: /.*/
             tags:
               only:
-                - /^@tonic-ui\/docs.*/
+                - /^@tonic-ui\/react-docs.*/
 
 # https://circleci.com/docs/2.0/executor-types/
 jobs:
@@ -94,13 +94,13 @@ jobs:
       - run:
           name: Build
           command: |
-            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/docs/.env.production
+            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
+            tar -zcvf ci.tar.gz --dereference --directory packages/react-docs/dist react
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
@@ -145,13 +145,13 @@ jobs:
       - run:
           name: Build
           command: |
-            echo "ASSET_PREFIX=/tonic-ui-demo/react/${TONIC_UI_DOC_VERSION}" > packages/docs/.env.production
+            echo "ASSET_PREFIX=/tonic-ui-demo/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
+            tar -zcvf ci.tar.gz --dereference --directory packages/react-docs/dist react
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
@@ -168,7 +168,7 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            PACKAGE_VERSION=$(cat packages/docs/package.json \
+            PACKAGE_VERSION=$(cat packages/react-docs/package.json \
               | grep version \
               | head -1 \
               | awk -F: '{ print $2 }' \
@@ -202,13 +202,13 @@ jobs:
       - run:
           name: Build
           command: |
-            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/docs/.env.production
+            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
+            tar -zcvf ci.tar.gz --dereference --directory packages/react-docs/dist react
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
@@ -336,7 +336,7 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            PACKAGE_VERSION=$(cat tonic-ui/packages/docs/package.json \
+            PACKAGE_VERSION=$(cat tonic-ui/packages/react-docs/package.json \
               | grep version \
               | head -1 \
               | awk -F: '{ print $2 }' \
