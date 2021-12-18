@@ -13,27 +13,43 @@ import {
   useColorMode,
 } from '@trendmicro/react-styled-ui';
 import { useRouter } from 'next/router';
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef } from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
+const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
 
-const TONIC_UI_VERSION = {
-  [process.env.TONIC_UI_V0_RELEASE_VERSION]: {
-    label: `v${process.env.TONIC_UI_V0_RELEASE_VERSION}`,
-    url: process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION,
+const versionMap = {
+  [ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)]: {
+    label: `v${ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)}`,
+    url: ensureString(process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION),
   },
   'latest': {
     label: 'master branch',
-    url: process.env.TONIC_UI_MASTER_BRANCH_DOCUMENTATION,
+    url: ensureString(process.env.TONIC_UI_MASTER_BRANCH_DOCUMENTATION),
   },
 };
 
 const Header = forwardRef((props, ref) => {
   const router = useRouter();
-  const [version, setVersion] = useState('Current');
-  const { colorMode, toggleColorMode } = useColorMode();
+  const version = (() => {
+    if (TONIC_UI_DOC_VERSION) {
+      return TONIC_UI_DOC_VERSION;
+    }
+    if (process.env.NODE_ENV === 'development') {
+      return 'local build';
+    }
+    return '';
+  })();
+  const [colorMode, setColorMode] = useColorMode();
+  const toggleColorMode = () => {
+    const nextColorMode = {
+      'dark': 'light',
+      'light': 'dark',
+    }[colorMode];
+    setColorMode(nextColorMode);
+  };
   const logoPath = {
     light: 'images/tonic-logo-light.svg',
     dark: 'images/tonic-logo-dark.svg',
@@ -59,21 +75,6 @@ const Header = forwardRef((props, ref) => {
   const handleViewAllVersions = () => {
     router.push(`${ASSET_PREFIX}/versions`);
   };
-
-  useEffect(() => {
-    /**
-     * ['tonic-ui', 'react', 'latest', 'getting-started']
-     * => version='latest'
-     *
-     * ['tonic-ui', 'react', 'pr-100', 'getting-started']
-     * => version='pr-100'
-     */
-    const arr = window.location.pathname.split('/').filter(Boolean);
-    const nextVersion = arr[2];
-    if (nextVersion && (version !== nextVersion)) {
-      setVersion(nextVersion);
-    }
-  }, [version]);
 
   return (
     <Box
@@ -113,38 +114,40 @@ const Header = forwardRef((props, ref) => {
           />
           <Text>Tonic UI</Text>
         </Box>
-        <Box
-          display="flex"
-          flex="none"
-        >
-          <Menu>
-            <MenuButton>
-              {TONIC_UI_VERSION[version]?.label ?? version}
-            </MenuButton>
-            <MenuList>
-              {Object.entries(TONIC_UI_VERSION).map(([key, value]) => (
+        {version && (
+          <Box
+            display="flex"
+            flex="none"
+          >
+            <Menu>
+              <MenuButton>
+                {versionMap[version]?.label ?? version}
+              </MenuButton>
+              <MenuList>
+                {Object.entries(versionMap).map(([key, value]) => (
+                  <MenuItem
+                    key={key}
+                    value={value?.url}
+                    whiteSpace="nowrap"
+                    onClick={handleChooseVersion}
+                  >
+                    {(key === version)
+                      ? <><Text>{value?.label}</Text><Space width="2x" /><Text>✓</Text></>
+                      : <Text>{value?.label}</Text>
+                    }
+                  </MenuItem>
+                ))}
+                <MenuDivider />
                 <MenuItem
-                  key={key}
-                  value={value?.url}
                   whiteSpace="nowrap"
-                  onClick={handleChooseVersion}
+                  onClick={handleViewAllVersions}
                 >
-                  {(key === version)
-                    ? <><Text>{value?.label}</Text><Space width="2x" /><Text>✓</Text></>
-                    : <Text>{value?.label}</Text>
-                  }
+                  <Text>View all versions</Text>
                 </MenuItem>
-              ))}
-              <MenuDivider />
-              <MenuItem
-                whiteSpace="nowrap"
-                onClick={handleViewAllVersions}
-              >
-                <Text>View all versions</Text>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </Box>
+              </MenuList>
+            </Menu>
+          </Box>
+        )}
         <Box
           display="flex"
           flex="none"
