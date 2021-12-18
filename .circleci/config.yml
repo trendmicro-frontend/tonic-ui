@@ -28,6 +28,7 @@ workflows:
               ignore:
                 - gh-pages
                 - master
+                - v0
       # The `deploy-pr` job will run on all branches (except `gh-pages` and `master`) that have associated pull requests open.
       - deploy-pr:
           requires:
@@ -37,6 +38,7 @@ workflows:
               ignore:
                 - gh-pages
                 - master
+                - v0
       # The `build-tag` job will not run on all branches and will run only on the matched tags.
       - build-tag:
           filters:
