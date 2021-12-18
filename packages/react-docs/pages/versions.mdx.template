@@ -1,0 +1,80 @@
+import { Link, Table, TableBody, TableRow, TableCell } from '@tonic-ui/react';
+
+# Tonic UI Versions
+
+You can come back to this page and switch the version of the docs you're reading at any time.
+
+## Released Versions
+
+The most recent stable version (✓) is recommended for use in production.
+
+<Table>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        __TONIC_UI_V1_RELEASE_VERSION__
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V1_RELEASE_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V1_RELEASE_NOTES__">Release notes</Link>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        __TONIC_UI_V0_RELEASE_VERSION__ ✓
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V0_RELEASE_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V0_RELEASE_NOTES__">Release notes</Link>
+      </TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Latest Versions
+
+<Table>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        __TONIC_UI_MASTER_BRANCH_NAME__
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_MASTER_BRANCH_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_MASTER_BRANCH_SOURCE_CODE__">Source code</Link>
+      </TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Versioning Strategy
+
+Stability ensures that reusable components and libraries, tutorials, tools, and learned practices don't become obsolete unexpectedly.
+
+This document contains the practices and guidelines for versioning. Tonic UI follows [Semantic Versioning 2.0.0](https://semver.org/). The version numbers have three parts: `major.minor.patch`. The version number is incremented based on the level of change included in the release.
+
+* **Major releases** contain significant new features, some but minimal developer assistance is expected during the update. When updating to a new major release, you may need to run update scripts, refactor code, run additional tests, and learn new APIs.
+* **Minor releases** contain important new features. Minor releases are fully backward-compatible; no developer assistance is expected during update, but you can optionally modify your apps and libraries to begin using new APIs, features, and capabilities that were added in the release.
+* **Patch releases** are low risk, contain bug fixes and small new features. No developer assistance is expected during update.
+
+## Deprecation Practices
+
+Sometimes **"breaking changes"**, such as the removal of support for select APIs and features, are necessary.
+
+To make these transitions as easy as possible:
+
+* The number of breaking changes is minimized, and migration tools provided when possible.
+* The deprecation policy described below is followed, so that you have time to update your apps to the latest APIs and best practices.
+
+### Deprecation policy
+
+* Deprecated features are announced in the changelog, and when possible, with warnings at runtime.
+* When a deprecation is announced, recommended update path is provided.
+* Existing use of a stable API during the deprecation period is supported, so your code will keep working during that period.
+* Peer dependency updates (React) that require changes to your apps are only made in a major release.

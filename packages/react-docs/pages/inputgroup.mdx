@@ -1,0 +1,274 @@
+# InputGroup
+
+`InputGroup` is used to group related add-ons and inputs.
+
+## Import
+
+```js
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupAppend,
+  InputGroupPrepend,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+Use `InputGroup` to place an `InputGroupAddon` or `Button` on either side of an `Input`. You may also place one on both sides of an `Input`.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <InputGroup>
+    <InputGroupPrepend>
+      <InputGroupAddon variant="filled">@</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input placeholder="Username" />
+  </InputGroup>
+  <InputGroup>
+    <Input placeholder="Recipient's username" />
+    <InputGroupAppend>
+      <InputGroupAddon variant="filled">@example.com</InputGroupAddon>
+    </InputGroupAppend>
+  </InputGroup>
+  <InputGroup>
+    <InputGroupPrepend>
+      <InputGroupAddon variant="filled">$</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input placeholder="Recipient's username" />
+    <InputGroupAppend>
+      <InputGroupAddon variant="filled">.00</InputGroupAddon>
+    </InputGroupAppend>
+  </InputGroup>
+</Stack>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the input group. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <InputGroup size="sm">
+    <InputGroupPrepend>
+      <InputGroupAddon variant="filled">sm</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input placeholder="Small size (24px)" />
+  </InputGroup>
+  <InputGroup size="md">
+    <InputGroupPrepend>
+      <InputGroupAddon variant="filled">md</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input placeholder="Default size (32px)" />
+  </InputGroup>
+  <InputGroup size="lg">
+    <InputGroupPrepend>
+      <InputGroupAddon variant="filled">lg</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input placeholder="Large size (40px)" />
+  </InputGroup>
+</Stack>
+```
+
+### Variants
+
+The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <InputGroup variant="outline">
+    <InputGroupPrepend>
+      <InputGroupAddon>@</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input placeholder="Username" />
+  </InputGroup>
+  <InputGroup variant="outline">
+    <InputGroupPrepend>
+      <InputGroupAddon>@</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input variant="filled" placeholder="Username" />
+  </InputGroup>
+</Stack>
+```
+
+#### `filled`
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <InputGroup variant="filled">
+    <InputGroupPrepend>
+      <InputGroupAddon>@</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input variant="outline" placeholder="Username" />
+  </InputGroup>
+  <InputGroup variant="filled">
+    <InputGroupPrepend>
+      <InputGroupAddon>@</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input placeholder="Username" />
+  </InputGroup>
+</Stack>
+```
+
+#### `unstyled`
+
+For an unstyled input group that doesn't have border and padding spaces, it is not necessary to place an `InputGroupPrepend` or `InputGroupAppend` on either side of an `Input`.
+
+```jsx
+<InputGroup variant="unstyled">
+  <InputGroupAddon pr="1x">@</InputGroupAddon>
+  <Input placeholder="Username" />
+</InputGroup>
+```
+
+### Multiple add-ons
+
+Multiple add-ons are supported and can be mixed with checkbox and radio input components.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <InputGroup>
+    <InputGroupPrepend>
+      <InputGroupAddon variant="filled">$</InputGroupAddon>
+    </InputGroupPrepend>
+    <InputGroupPrepend>
+      <InputGroupAddon variant="filled">0.00</InputGroupAddon>
+    </InputGroupPrepend>
+    <Input />
+  </InputGroup>
+  <InputGroup>
+    <Input />
+    <InputGroupAppend>
+      <InputGroupAddon variant="filled">$</InputGroupAddon>
+    </InputGroupAppend>
+    <InputGroupAppend>
+      <InputGroupAddon variant="filled">0.00</InputGroupAddon>
+    </InputGroupAppend>
+  </InputGroup>
+</Stack>
+```
+
+### Multiple inputs
+
+While multiple `<Input />`s are supported visually, validation styles are only available for input groups with a single `<Input />`.
+
+```jsx
+<InputGroup>
+  <InputGroupPrepend>
+    <InputGroupAddon variant="filled" whiteSpace="nowrap">First and last name</InputGroupAddon>
+  </InputGroupPrepend>
+  <Input placeholder="First name" defaultValue="John" required />
+  <Input placeholder="Last name" defaultValue="Doe" required />
+</InputGroup>
+```
+
+### Date inputs
+
+```jsx
+<InputGroup variant="unstyled">
+  <Input
+    placeholder="YYYY"
+    borderBottom={1}
+    textAlign="center"
+    width="12x"
+  />
+  <Text px="2x">–</Text>
+  <Input
+    placeholder="MM"
+    borderBottom={1}
+    textAlign="center"
+    width="8x"
+  />
+  <Text px="2x">–</Text>
+  <Input
+    placeholder="DD"
+    borderBottom={1}
+    textAlign="center"
+    width="8x"
+  />
+</InputGroup>
+```
+
+### Button add-ons
+
+```jsx noInline
+function Example() {
+  const [colorMode] = useColorMode();
+  const dividerColor ={
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+
+  return (
+    <Stack direction="column" spacing="4x">
+      <InputGroup>
+        <InputGroupPrepend>
+          <Button variant="secondary">
+            Action
+          </Button>
+        </InputGroupPrepend>
+        <Input />
+      </InputGroup>
+      <InputGroup>
+        <Input />
+        <InputGroupAppend>
+          <Button variant="secondary">
+            Action
+          </Button>
+        </InputGroupAppend>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupPrepend>
+          <Button variant="secondary">
+            Host name
+            <Space width="1x" />
+            <Icon icon="angle-down" />
+          </Button>
+        </InputGroupPrepend>
+        <Input />
+        <InputGroupAppend>
+          <Button>
+            Action
+          </Button>
+        </InputGroupAppend>
+      </InputGroup>
+      <InputGroup>
+        <Input />
+        <ButtonGroup>
+          <Button borderRadius={0}>
+            Action
+          </Button>
+          <Divider orientation="vertical" color={dividerColor} />
+          <Button>
+            <Icon icon="settings" />
+          </Button>
+        </ButtonGroup>
+      </InputGroup>
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+### InputGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| size | string | 'md' | The relative size to the input group itself. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
+
+### InputGroupAddon
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| size | string | 'md' | The relative size to the input group itself. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
+
+### InputGroupAppend
+
+### InputGroupPrepend

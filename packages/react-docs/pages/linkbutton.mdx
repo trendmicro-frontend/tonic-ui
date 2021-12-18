@@ -1,0 +1,44 @@
+# LinkButton
+
+This component provides an element resembling an anchor that purely acts as a click target with no navigation as result. It can also be used inline in text.
+
+## Import
+
+```js
+import { LinkButton } from '@tonic-ui/react';
+```
+
+## Usage
+
+```jsx
+function Example() {
+  const [timeLeft, setTimeLeft] = React.useState(180);
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (timeLeft > 0) {
+        setTimeLeft(timeLeft - 1);
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [timeLeft]);
+  const handleClick = () => {
+    setTimeLeft(180);
+  };
+
+  return (
+    <Text>
+      If the email does not arrive in your inbox or spam folder, <LinkButton onClick={handleClick}>click here to resend ({timeLeft}s)</LinkButton>.
+    </Text>
+  );
+}
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the link button will be disabled. This sets `aria-disabled=true` and you can style this state by using the `_disabled` prop. |
+| onClick | function | | A callback called when the link button is clicked. |

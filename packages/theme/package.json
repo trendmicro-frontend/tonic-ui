@@ -1,6 +1,6 @@
 {
-  "name": "@trendmicro/styled-ui-theme",
-  "version": "0.15.0",
+  "name": "@tonic-ui/theme",
+  "version": "1.0.0-alpha",
   "description": "An extensible theming system for building UI component library with Styled System",
   "main": "index.js",
   "publishConfig": {
