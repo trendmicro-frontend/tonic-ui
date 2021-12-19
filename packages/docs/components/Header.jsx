@@ -21,13 +21,19 @@ const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
 
 const versionMap = {
+  /*
+  [ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)]: {
+    label: `v${ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)}`,
+    url: ensureString(process.env.TONIC_UI_V1_RELEASE_DOCUMENTATION),
+  },
+  */
   [ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)]: {
     label: `v${ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)}`,
     url: ensureString(process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION),
   },
   'latest': {
-    label: 'master branch',
-    url: ensureString(process.env.TONIC_UI_MASTER_BRANCH_DOCUMENTATION),
+    label: `${ensureString(process.env.TONIC_UI_DEFAULT_BRANCH)} branch`,
+    url: ensureString(process.env.TONIC_UI_DEFAULT_DOCUMENTATION),
   },
 };
 
