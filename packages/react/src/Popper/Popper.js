@@ -7,7 +7,6 @@ import React, {
   useCallback,
 } from 'react';
 import { createPopper } from '@popperjs/core';
-import chainedFunction from 'chained-function';
 import Portal from '../Portal';
 import Box from '../Box';
 import setRef from '../utils/setRef';
@@ -30,7 +29,7 @@ const Popper = forwardRef((
     modifiers,
     isOpen,
     placement: initialPlacement = 'bottom',
-    popperOptions = {},
+    popperOptions,
     popperRef: popperRefProp,
     willUseTransition = false,
     arrowSize,
@@ -38,9 +37,8 @@ const Popper = forwardRef((
   },
   ref,
 ) => {
-  const tooltipRef = useRef(null);
-  const ownRef = useForkRef(tooltipRef, ref);
-
+  const nodeRef = useRef();
+  const combinedRef = useForkRef(nodeRef, ref);
   const popperRef = useRef(null);
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
   const handlePopperRefRef = useRef(handlePopperRef);
@@ -56,7 +54,7 @@ const Popper = forwardRef((
   const [placement, setPlacement] = useState(initialPlacement);
 
   const handleOpen = useCallback(() => {
-    const popperNode = tooltipRef.current;
+    const popperNode = nodeRef.current;
 
     if (!popperNode || !anchorEl || !isOpen) {
       return;
@@ -65,6 +63,7 @@ const Popper = forwardRef((
     const handlePopperUpdate = data => {
       setPlacement(data.placement);
     };
+
     const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
       placement: placement,
       modifiers: [
@@ -84,25 +83,23 @@ const Popper = forwardRef((
           name: 'handlePopperUpdate',
           enabled: true,
           phase: 'afterWrite',
-          fn() {
-            chainedFunction(
-              handlePopperUpdate,
-              popperOptions.onUpdate
-            );
+          fn: ({ state }) => {
+            handlePopperUpdate(state);
           },
         }
       ],
       ...popperOptions,
     });
+
     handlePopperRefRef.current(popper);
   }, [anchorEl, isOpen, modifiers, placement, popperOptions]);
 
   const handleRef = useCallback(
     node => {
-      setRef(ownRef, node);
+      setRef(combinedRef, node);
       handleOpen();
     },
-    [ownRef, handleOpen],
+    [combinedRef, handleOpen],
   );
 
   const handleEnter = () => {
@@ -122,6 +119,10 @@ const Popper = forwardRef((
     setExited(true);
     handleClose();
   };
+
+  useEffect(() => {
+    setPlacement(initialPlacement);
+  }, [initialPlacement]);
 
   useEffect(() => {
     handleOpen();
@@ -157,7 +158,7 @@ const Popper = forwardRef((
     <Portal isDisabled={!usePortal} container={container}>
       <Box
         ref={handleRef}
-        pos="absolute"
+        position="absolute"
         css={getPopperArrowStyle({ arrowSize })}
         {...rest}
       >

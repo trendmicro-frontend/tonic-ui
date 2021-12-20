@@ -1,31 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useEffectOnce from '../hooks/useEffectOnce';
+import usePrevious from '../hooks/usePrevious';
+import config from '../shared/config';
 import { useId } from '../utils/autoId';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import { PopoverContextProvider } from './context';
 
-const usePrevious = (value) => {
-  const ref = useRef();
-
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-
-  return ref.current;
-};
-
 const Popover = ({
+  defaultIsOpen, // removed
+
   id,
   isOpen: isOpenProp,
   initialFocusRef,
-  defaultIsOpen,
   usePortal = true,
   returnFocusOnClose = true,
   trigger = 'click',
-  placement,
+  placement = 'bottom',
   children,
   hideArrow,
   skidding = 0,
   distance = 4,
-  delay = 0,
+  enterDelay = 0,
+  leaveDelay = 0,
   closeOnBlur = true,
   closeOnEsc = true,
   onOpen: onOpenProp,
@@ -34,7 +30,17 @@ const Popover = ({
   followCursor,
   arrowAt,
 }) => {
-  const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
+  useEffectOnce(() => {
+    const prefix = `${Popover.displayName}:`;
+
+    if (defaultIsOpen !== undefined) {
+      warnRemovedProps('defaultIsOpen', {
+        prefix,
+      });
+    }
+  });
+
+  const [isOpen, setIsOpen] = useState(false);
   const [mousePageX, setMousePageX] = useState(0);
   const [mousePageY, setMousePageY] = useState(0);
   const { current: isControlled } = useRef(isOpenProp != null);
@@ -45,13 +51,6 @@ const Popover = ({
   const popoverRef = useRef();
 
   const _isOpen = isControlled ? isOpenProp : isOpen;
-
-  if (typeof delay === 'number') {
-    delay = {
-      show: delay,
-      hide: delay
-    };
-  }
 
   const onToggle = () => {
     if (!isControlled) {
@@ -93,7 +92,7 @@ const Popover = ({
     setMousePageY(event.pageY);
   };
 
-  const fallbackId = `popover-${useId()}`;
+  const fallbackId = `${config.name}:popover-${useId()}`;
   const popoverId = id || fallbackId;
 
   const headerId = `${popoverId}-header`;
@@ -137,7 +136,6 @@ const Popover = ({
    * skidding: displaces the popover (in pixels) along the reference element
    * distance: displaces the popover (in pixels) away from, or toward, the reference
    */
-
   const context = {
     popoverRef,
     anchorRef,
@@ -158,13 +156,14 @@ const Popover = ({
     hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
     skidding,
     distance,
-    delay,
+    enterDelay,
+    leaveDelay,
     setMouseCoordinate,
     nextToCursor,
     followCursor,
     mousePageX,
     mousePageY,
-    arrowAt
+    arrowAt,
   };
 
   return (

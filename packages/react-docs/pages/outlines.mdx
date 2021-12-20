@@ -1,0 +1,187 @@
+import { Box, Stack } from "@tonic-ui/react";
+import ThemeParser from "../components/ThemeParser";
+
+# Outlines
+
+<ThemeParser theme="outlines" />
+
+## Outline
+
+The outline shorthand property sets all the outline properties in one declaration.
+
+```
+/* style */
+outline="solid"
+
+/* color | style */
+outline="#f66 dashed"
+
+/* style | width */
+outline="inset thick"
+
+/* color | style | width */
+outline="green solid 3px"
+
+/* Global values */
+outline="inherit"
+outline="initial"
+outline="revert"
+outline="unset"
+```
+
+The `outline` property may be specified using one, two, or three of the values listed below. The order of the value does not matter. See [outline](https://developer.mozilla.org/en-US/docs/Web/CSS/outline) in MDN for more details.
+
+Note: The outline will be invisible if its style is not defined. This is because the style defaults to `none`. A notable exception is `input` elements, which are given default styling by browsers.
+
+### Values
+
+`<outline-color>`
+Sets the color of the outline. Defaults to `currentcolor` if absent.
+
+`<outline-style>`
+Sets the style of the outline. Defaults to `none` if absent.
+
+`<outline-width>`
+Sets the thickness of the outline. Defaults to `medium` if absent.
+
+### Nonnegative length
+
+If the outline is a numeric value defined in the theme, the `solid` outline style will be applied as a shorthand for the `outlineWidth` and `outlineStyle` properties.
+
+```jsx noInline
+const Block = (props) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:90',
+    light: 'gray:10',
+  }[colorMode];
+  return (
+    <Flex
+      px="4x"
+      py="3x"
+      alignItems="flex-start"
+      justifyContent="center"
+      flexDirection="column"
+      backgroundColor={backgroundColor}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const theme = useTheme();
+  const outlineColor = 'gray:50';
+  const outlineWidths = [1, 2, 3, 4, 5];
+  const [outlineWidth, setOutlineWidth] = React.useState(outlineWidths[0]);
+  const outlineValue = theme.outlines[outlineWidth] || outlineWidth;
+  const outlineColorValue = theme.colors[outlineColor] || outlineColor;
+
+  return (
+    <>
+      <Flex alignItems="center" mb="5x">
+        <TextLabel>outline =</TextLabel>
+        <Space width="2x" />
+        <Stack direction="row" spacing="2x">
+          {outlineWidths.map((width) => (
+            <Button
+              key={width}
+              onClick={() => setOutlineWidth(width)}
+              variant={width === outlineWidth ? 'primary' : 'secondary'}
+            >
+              <Text fontFamily="mono">{width}</Text>
+            </Button>
+          ))}
+        </Stack>
+      </Flex>
+      <Flex>
+        <Block
+          outline={outlineWidth}
+          outlineColor="gray:50"
+        >
+          <Text>outline="{outlineValue}"</Text>
+          <Text>outlineColor="{outlineColorValue}"</Text>
+        </Block>
+      </Flex>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### Keyword
+
+`thin`, `medium`, and `thick` are keywords that indicate the outline width. You can use them in the `outline` property, but you have to set the `outlineStyle` property to `solid` as well.
+
+Note: Because the specification doesn't define the exact thickness denoted by each keyword, the precise result when using one of them is implementation-specific. Nevertheless, they always follow the pattern `thin ≤ medium ≤ thick`, and the values are constant within a single document.
+
+```jsx noInline
+const Block = (props) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:90',
+    light: 'gray:10',
+  }[colorMode];
+  return (
+    <Flex
+      px="4x"
+      py="3x"
+      alignItems="flex-start"
+      justifyContent="center"
+      flexDirection="column"
+      backgroundColor={backgroundColor}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const theme = useTheme();
+  const outlineColor = 'gray:50';
+  const outlineStyle = 'solid';
+  const outlineWidths = ['thin', 'medium', 'thick'];
+  const [outlineWidth, setOutlineWidth] = React.useState(outlineWidths[0]);
+  const outlineValue = theme.outlines[outlineWidth] || outlineWidth;
+  const outlineColorValue = theme.colors[outlineColor] || outlineColor;
+
+  return (
+    <>
+      <Flex alignItems="center" mb="5x">
+        <TextLabel>outline =</TextLabel>
+        <Space width="2x" />
+        <Stack direction="row" spacing="2x">
+          {outlineWidths.map((width) => (
+            <Button
+              key={width}
+              onClick={() => setOutlineWidth(width)}
+              variant={width === outlineWidth ? 'primary' : 'secondary'}
+            >
+              <Text fontFamily="mono">{width}</Text>
+            </Button>
+          ))}
+        </Stack>
+      </Flex>
+      <Flex>
+        <Block
+          outline={outlineWidth}
+          outlineColor={outlineColor}
+          outlineStyle={outlineStyle}
+        >
+          <Text>outline="{outlineValue}"</Text>
+          <Text>outlineColor="{outlineColorValue}"</Text>
+          <Text>outlineStyle="{outlineStyle}"</Text>
+        </Block>
+      </Flex>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+## Borders vs. outlines
+
+[Borders](./borders) and outlines are very similar. However, outlines differ from borders in the following ways:
+
+* Outlines never take up space, as they are drawn outside of an element's content.
+* According to the spec, outlines don't have to be rectangular, although they usually are.

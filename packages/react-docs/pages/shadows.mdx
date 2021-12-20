@@ -1,0 +1,50 @@
+import { Box, Stack } from "@tonic-ui/react";
+import ThemeParser from "../components/ThemeParser";
+
+# Shadows
+
+Add or remove shadows to elements with box-shadow utilities.
+
+<ThemeParser theme="shadows" />
+
+```jsx noInline
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const backgroundColor = {
+    dark: 'gray:80',
+    light: 'white',
+  }[colorMode];
+  const color = colorStyle.text.primary;
+  const capitalizeFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+  return (
+    <Box backgroundColor={backgroundColor} m="-4x" p="8x">
+      <Stack
+        direction="row"
+        spacing="6x"
+        justifyContent="center"
+      >
+        {['thin', 'medium', 'thick'].map(key => (
+          <Flex
+            key={key}
+            width={256}
+            height={128}
+            backgroundColor={backgroundColor}
+            color={color}
+            boxShadow={colorStyle.shadow[key]}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Text fontSize="md" lineHeight="md">
+              {capitalizeFirstLetter(key)}
+            </Text>
+          </Flex>
+        ))}
+      </Stack>
+    </Box>
+  );
+}
+
+render(<Example />);
+```

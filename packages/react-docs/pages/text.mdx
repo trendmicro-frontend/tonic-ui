@@ -1,0 +1,141 @@
+# Text
+
+`Text` is used for rendering text and paragraphs.
+
+## Import
+
+```js
+import { Text } from '@tonic-ui/react';
+```
+
+## Usage
+
+### Sizes
+
+Use the `size` prop to change the corresponding font size and line height. You can set the value to `4xl`, `3xl`, `2xl`, `xl`, `lg`, `md`, `sm`, or `xs`.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Text size="4xl">
+    Four Extra Large (4XL)
+  </Text>
+  <Text size="3xl">
+    Three Extra Large (3XL)
+  </Text>
+  <Text size="2xl">
+    Two Extra Large (2XL)
+  </Text>
+  <Text size="xl">
+    Extra Large (XL)
+  </Text>
+  <Text size="lg">
+    Large (LG)
+  </Text>
+  <Text size="md">
+    Medium (MD)
+  </Text>
+  <Text size="sm">
+    Small (SM)
+  </Text>
+  <Text size="xs">
+    Extra Small (XS)
+  </Text>
+</Stack>
+```
+
+### Heading text
+
+You can format the `Text` component by passing `size` prop and `fontWeight` to display a formatted Heading.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Text size="sm" fontWeight="semibold">Heading 1</Text>
+  <Text size="md" fontWeight="semibold">Heading 2</Text>
+  <Text size="lg" fontWeight="semibold">Heading 3</Text>
+  <Text size="xl" fontWeight="semibold">Heading 4</Text>
+  <Text size="2xl" fontWeight="semibold">Heading 5</Text>
+  <Text size="3xl" fontWeight="semibold">Heading 6</Text>
+  <Text size="4xl" fontWeight="semibold">Heading 7</Text>
+</Stack>
+```
+
+### Formatting text
+
+You can format the `Text` component by passing `fontSize`, `lineHeight`, or other style props.
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const bg = colorMode === 'dark' ? 'gray:80' : 'gray:20';
+
+  return (
+    <Stack direction="column" spacing="4x">
+      <Text bg={bg} lineHeight="1" px="2x">
+        This is exactly the same height as the font size
+      </Text>
+      <Text bg={bg} lineHeight="normal" px="2x">
+        A normal line height is about 20% larger than the font size
+      </Text>
+      <Text bg={bg} lineHeight="base" px="2x">
+        For accessibility concerns, use a minimum value of 1.5 for <code>line-height</code> for main paragraph content
+      </Text>
+    </Stack>
+  );
+}
+```
+
+### Text truncation
+
+```jsx
+<Text
+  overflow="hidden"
+  textOverflow="ellipsis"
+  whiteSpace="nowrap"
+  width="100%"
+>
+  Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
+</Text>
+```
+
+### The `as` prop
+
+```jsx noInline
+const TextBlock = (props) => {
+  const [colorMode] = useColorMode();
+  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
+
+  return (
+    <Box px="3x" py="2x" border={1} borderColor={borderColor}>
+      <Text {...props} />
+    </Box>
+  );
+};
+
+function Example() {
+  return (
+    <Stack direction="column" spacing="4x" shouldWrapChildren>
+      <TextBlock as="i">Italic</TextBlock>
+      <TextBlock as="u">Underline</TextBlock>
+      <TextBlock as="abbr">Abbreviation or acronym</TextBlock>
+      <TextBlock as="cite">Citation</TextBlock>
+      <TextBlock as="del">Deleted</TextBlock>
+      <TextBlock as="em">Emphasis</TextBlock>
+      <TextBlock as="ins">Inserted</TextBlock>
+      <TextBlock as="kbd">Ctrl + C</TextBlock>
+      <TextBlock as="mark">Highlighted</TextBlock>
+      <TextBlock as="s">Strikethrough</TextBlock>
+      <TextBlock as="samp">Sample</TextBlock>
+      <TextBlock as="sup">Superscript</TextBlock>
+      <TextBlock as="sub">Subscript</TextBlock>
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| size | string | | One of: '4xl', '3xl', '2xl', 'xl', 'lg', 'md', 'sm', 'xs' |

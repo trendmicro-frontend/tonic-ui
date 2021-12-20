@@ -1,7 +1,8 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import Box from '../Box';
-import Flex from '../Flex';
+import useEffectOnce from '../hooks/useEffectOnce';
 import useColorMode from '../useColorMode';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import { TableProvider } from './context';
 
 const Table = forwardRef((
@@ -14,26 +15,30 @@ const Table = forwardRef((
   },
   ref,
 ) => {
-  useEffect(() => {
-    if (typeof isHoverable !== 'undefined') {
-      console.error('Warning: The `isHoverable` prop is deprecated and will be removed in next major release. Pass a `_hover` prop on the `TableRow` instead.');
+  useEffectOnce(() => {
+    const prefix = `${Table.displayName}:`;
+
+    if (isHoverable !== undefined) {
+      warnRemovedProps('isHoverable', {
+        prefix,
+        message: 'Use the \'_hover\' prop on the \'TableRow\' component instead.',
+      });
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  });
 
   const minimalist = (variant === 'default');
   const context = {
-    isHoverable, // deprecated
     variant,
     size,
   };
 
   return (
     <TableProvider value={context}>
-      <Flex
+      <Box
         ref={ref}
         display="inline-flex"
+        flexDirection="column"
         position="relative"
-        direction="column"
         {...rest}
       >
         { children }
@@ -45,7 +50,7 @@ const Table = forwardRef((
             <VerticalLine position="absolute" top="0" left="0" />
           </>
         )}
-      </Flex>
+      </Box>
     </TableProvider>
   );
 });

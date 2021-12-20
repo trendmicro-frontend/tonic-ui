@@ -1,38 +1,48 @@
+import { ensureString } from 'ensure-type';
 import React, { useEffect, useRef, useState } from 'react';
+import Box from '../Box';
+import usePrevious from '../hooks/usePrevious';
+import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import getFocusableElements from '../utils/getFocusableElements';
-import { MenuContextProvider } from './context';
-import usePrevious from '../utils/usePrevious';
-import Box from '../Box';
+import { MenuProvider } from './context';
+
+const mapPlacementToDirection = (placement) => {
+  const p0 = ensureString(placement).split('-')[0];
+  const direction = {
+    top: 'up',
+    bottom: 'down',
+  }[p0];
+
+  return direction;
+};
 
 const Menu = ({
   anchorEl,
-  children,
-  isOpen: isOpenProp,
-  defaultIsOpen,
-  onOpen,
-  onClose,
   autoSelect = false,
+  children,
   closeOnBlur = true,
   closeOnSelect = true,
-  defaultActiveIndex,
-  placement = 'bottom-start',
-  onKeyDown,
+  defaultActiveIndex = -1,
+  defaultIsOpen = false,
+  isOpen: isOpenProp,
   onBlur,
-  ...props
+  onClose,
+  onKeyDown,
+  onOpen,
+  placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
+  ...rest
 }) => {
-  const [activeIndex, setActiveIndex] = useState(defaultActiveIndex || -1);
-  const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
+  const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
+  const [isOpen, setIsOpen] = useState(defaultIsOpen);
   const { current: isControlled } = useRef(isOpenProp != null);
-
   const _isOpen = isControlled ? isOpenProp : isOpen;
-
-  const menuId = `menu-${useId()}`;
-  const buttonId = `menubutton-${useId()}`;
-
+  const menuId = `${config.name}:menu-${useId()}`;
+  const menuTriggerId = `${config.name}:menu-trigger-${useId()}`;
   const focusableItems = useRef([]);
   const menuRef = useRef(null);
-  const buttonRef = useRef(null);
+  const menuTriggerRef = useRef(null);
+  const direction = mapPlacementToDirection(placement);
 
   useEffect(() => {
     if (_isOpen && menuRef && menuRef.current) {
@@ -75,17 +85,12 @@ const Menu = ({
       updateTabIndex(activeIndex);
     }
     if (activeIndex === -1 && !_isOpen && wasPreviouslyOpen) {
-      buttonRef.current && buttonRef.current.focus();
+      menuTriggerRef.current && menuTriggerRef.current.focus();
     }
     if (activeIndex === -1 && _isOpen) {
       menuRef.current && menuRef.current.focus();
     }
-  }, [activeIndex, _isOpen, buttonRef, menuRef, wasPreviouslyOpen]);
-
-  const focusOnFirstItem = () => {
-    openMenu();
-    setActiveIndex(0);
-  };
+  }, [activeIndex, _isOpen, menuTriggerRef, menuRef, wasPreviouslyOpen]);
 
   const openMenu = () => {
     if (!isControlled) {
@@ -101,8 +106,11 @@ const Menu = ({
     setActiveIndex(index);
   };
 
+  const focusOnFirstItem = () => {
+    setActiveIndex(0);
+  };
+
   const focusOnLastItem = () => {
-    openMenu();
     setActiveIndex(focusableItems.current.length - 1);
   };
 
@@ -120,42 +128,41 @@ const Menu = ({
   };
 
   if (anchorEl) {
-    buttonRef.current = anchorEl;
+    menuTriggerRef.current = anchorEl;
   }
 
   const context = {
     activeIndex,
-    isOpen: _isOpen,
-    focusAtIndex,
-    focusOnLastItem,
-    focusOnFirstItem,
-    closeMenu,
-    buttonRef,
-    menuRef,
-    focusableItems,
-    placement,
-    menuId,
-    buttonId,
-    openMenu,
     autoSelect,
-    closeOnSelect,
+    closeMenu,
     closeOnBlur,
+    closeOnSelect,
+    direction,
+    focusAtIndex,
+    focusOnFirstItem,
+    focusOnLastItem,
+    focusableItems,
+    isOpen: _isOpen,
     onKeyDown,
     onBlur,
-  };
-
-  const styleProps = {
-    position: 'relative',
+    openMenu,
+    placement,
+    menuId,
+    menuRef,
+    menuTriggerId,
+    menuTriggerRef,
   };
 
   return (
-    <Box {...styleProps} {...props}>
-      <MenuContextProvider value={context}>
-        {typeof children === 'function'
-          ? children({ isOpen: _isOpen, onClose: closeMenu })
-          : children }
-      </MenuContextProvider>
-    </Box>
+    <MenuProvider value={context}>
+      <Box
+        position="relative"
+        display="inline-block"
+        {...rest}
+      >
+        {(typeof children === 'function') ? children(context) : children}
+      </Box>
+    </MenuProvider>
   );
 };
 

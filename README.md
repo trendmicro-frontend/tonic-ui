@@ -11,10 +11,6 @@ Tonic UI is a themeable UI component library built on top of Emotion and Styled 
 
 ![image](https://user-images.githubusercontent.com/447801/82400545-254a1d80-9a8a-11ea-8ced-d5c22beedc99.png)
 
-### 🚧 Work In Progress 🚧
-
-**Please note that this is a work in progress and is subject to change without notice. You should constantly follow the changelog for all latest changes before the v1 release.**
-
 ## Features
 
 * A unified color theme provider that can easily switch between light and dark mode

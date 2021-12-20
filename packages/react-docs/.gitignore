@@ -1,0 +1,9 @@
+/build
+/coverage
+/dist
+
+# dotenv-flow
+/.env.local
+/.env.*.local
+
+/pages/versions.mdx

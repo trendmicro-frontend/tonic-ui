@@ -3,22 +3,40 @@ import useColorMode from '../useColorMode';
 import useColorStyle from '../useColorStyle';
 import useTheme from '../useTheme';
 
-const defaultPlacement = 'right';
+const defaultPlacement = 'left';
 const defaultSize = 'auto';
 
 const getPlacementProps = (placement) => {
   placement = placement ?? defaultPlacement;
 
   return {
-    right: {
-      right: 0,
-      top: 0,
-      height: '100vh',
-    },
     left: {
       left: 0,
+      right: 'auto',
       top: 0,
-      height: '100vh',
+      height: '100%',
+    },
+    right: {
+      left: 'auto',
+      right: 0,
+      top: 0,
+      height: '100%',
+    },
+    top: {
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 'auto',
+      height: 'auto',
+      maxHeight: '100%',
+    },
+    bottom: {
+      top: 'auto',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      height: 'auto',
+      maxHeight: '100%',
     },
   }[placement];
 };
@@ -107,7 +125,6 @@ const useDrawerContentStyle = ({
   const baseStyle = {
     mx: 'auto',
     height: 'auto',
-    maxHeight: '100vh',
     top: 0,
     display: 'flex',
     flexDirection: 'column',

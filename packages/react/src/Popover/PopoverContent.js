@@ -1,9 +1,28 @@
-import React from 'react';
-import wrapEvent from '../utils/wrapEvent';
-import { usePopover } from './context';
+import chainedFunction from 'chained-function';
+import React, { useRef } from 'react';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
+import Box from '../Box';
+import Grow from '../Transitions/Grow';
+import useHydrated from '../hooks/useHydrated';
+import wrapEvent from '../utils/wrapEvent';
+import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';
+
+const mapPlacementToTransformOrigin = placement => ({
+  'top': 'bottom center',
+  'top-start': 'bottom left',
+  'top-end': 'bottom right',
+  'bottom': 'top center',
+  'bottom-start': 'top left',
+  'bottom-end': 'top right',
+  'left': 'right center',
+  'left-start': 'right top',
+  'left-end': 'right bottom',
+  'right': 'left center',
+  'right-start': 'left top',
+  'right-end': 'left bottom',
+}[placement]);
 
 const PopoverContent = ({
   onKeyDown,
@@ -12,9 +31,18 @@ const PopoverContent = ({
   onMouseEnter,
   onFocus,
   children,
+
   'aria-label': ariaLabel,
-  ...props
+  PopperComponent = Popper,
+  PopperProps,
+  PopperArrowComponent = PopperArrow,
+  PopperArrowProps,
+  TransitionComponent = Grow,
+  TransitionProps,
+  ...rest
 }) => {
+  const isHydrated = useHydrated();
+  const nodeRef = useRef(null);
   const {
     popoverRef,
     anchorRef,
@@ -32,7 +60,7 @@ const PopoverContent = ({
     hideArrow,
     skidding,
     distance,
-    delay,
+    leaveDelay,
     nextToCursor,
     followCursor,
     mousePageX,
@@ -40,6 +68,7 @@ const PopoverContent = ({
     arrowAt,
   } = usePopover();
   const contentStyleProps = usePopoverContentStyle();
+
   const arrowSize = 12;
   let _skidding = skidding;
   let _distance = distance + 8; // Arrow height is 8px
@@ -79,7 +108,7 @@ const PopoverContent = ({
       }),
       onMouseLeave: wrapEvent(onMouseLeave, () => {
         isHoveringRef.current = false;
-        setTimeout(onClose, delay.hide);
+        setTimeout(onClose, leaveDelay);
       }),
     };
 
@@ -97,29 +126,77 @@ const PopoverContent = ({
     }),
   };
 
+  if (!isHydrated) {
+    return null;
+  }
+
   return (
-    <Popper
-      as="section"
+    <PopperComponent
+      aria-hidden={!isOpen}
+      aria-labelledby={headerId}
+      aria-describedby={bodyId}
       usePortal={usePortal}
       isOpen={isOpen}
       placement={placement}
-      aria-label={ariaLabel}
       anchorEl={anchorRef.current}
       ref={popoverRef}
       id={popoverId}
-      aria-hidden={!isOpen}
       arrowSize={`${arrowSize}px`}
-      modifiers={{ offset: [_skidding, _distance] }}
-      aria-labelledby={headerId}
-      aria-describedby={bodyId}
-      {...contentStyleProps}
+      modifiers={{
+        offset: [_skidding, _distance],
+      }}
+      willUseTransition={true}
       {...roleProps}
       {...eventHandlers}
-      {...props}
+      {...PopperProps}
     >
-      {!hideArrow && <PopperArrow arrowAt={arrowAt} />}
-      {children}
-    </Popper>
+      {({ placement, transition }) => {
+        const { in: inProp, onEnter, onExited } = { ...transition };
+        return (
+          <TransitionComponent
+            {...TransitionProps}
+            ref={nodeRef}
+            in={inProp}
+            onEnter={chainedFunction(
+              onEnter,
+              TransitionProps?.onEnter,
+              (event) => {
+                // set focus on the popover content
+                if (inProp && trigger === 'click') {
+                  requestAnimationFrame(() => {
+                    nodeRef.current && nodeRef.current.focus();
+                  });
+                }
+              }
+            )}
+            onExited={chainedFunction(
+              onExited,
+              TransitionProps?.onExited,
+            )}
+          >
+            {(state, { ref, style: transitionStyle }) => {
+              return (
+                <Box
+                  ref={ref}
+                  {...contentStyleProps}
+                  {...transitionStyle}
+                  transformOrigin={mapPlacementToTransformOrigin(placement)}
+                  {...rest}
+                >
+                  {!hideArrow && (
+                    <PopperArrowComponent
+                      arrowAt={arrowAt}
+                      {...PopperArrowProps}
+                    />
+                  )}
+                  {children}
+                </Box>
+              );
+            }}
+          </TransitionComponent>
+        );
+      }}
+    </PopperComponent>
   );
 };
 

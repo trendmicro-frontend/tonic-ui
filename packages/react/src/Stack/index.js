@@ -1,10 +1,10 @@
 import React from 'react';
-import Flex from '../Flex';
 import Box from '../Box';
 
 const Stack = ({
   children,
   direction = 'column',
+  flexDirection,
   spacing = 0,
   shouldWrapChildren,
   ...rest
@@ -14,8 +14,9 @@ const Stack = ({
     .filter(c => React.isValidElement(c));
 
   return (
-    <Flex
-      direction={direction}
+    <Box
+      display="flex"
+      flexDirection={flexDirection ?? direction}
       {...rest}
     >
       {validChildrenArray.map((child, index) => {
@@ -34,7 +35,7 @@ const Stack = ({
           'row-reverse': {
             'ml': isLastChild ? null : spacing,
           },
-        }[direction];
+        }[flexDirection ?? direction];
 
         if (shouldWrapChildren) {
           return (
@@ -50,7 +51,7 @@ const Stack = ({
 
         return React.cloneElement(child, spacingProps);
       })}
-    </Flex>
+    </Box>
   );
 };
 

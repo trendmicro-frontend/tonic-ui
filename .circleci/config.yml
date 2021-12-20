@@ -28,7 +28,8 @@ workflows:
               ignore:
                 - gh-pages
                 - master
-      # The `deploy-pr` job runs for all branches (except `gh-pages` and `master`) that have associated pull requests open.
+                - v0
+      # The `deploy-pr` job will run on all branches (except `gh-pages` and `master`) that have associated pull requests open.
       - deploy-pr:
           requires:
             - build-pr
@@ -37,6 +38,7 @@ workflows:
               ignore:
                 - gh-pages
                 - master
+                - v0
       # The `build-tag` job will not run on all branches and will run only on the matched tags.
       - build-tag:
           filters:
@@ -44,8 +46,8 @@ workflows:
               ignore: /.*/
             tags:
               only:
-                - /^styled-ui-docs.*/
-      # The `deploy-tag` job will not run on branches and will run on tags starting with 'styled-ui-docs'.
+                - /^@tonic-ui\/react-docs.*/
+      # The `deploy-tag` job will not run on all branches and will run only on the matched tags.
       - deploy-tag:
           requires:
             - build-tag
@@ -54,7 +56,7 @@ workflows:
               ignore: /.*/
             tags:
               only:
-                - /^styled-ui-docs.*/
+                - /^@tonic-ui\/react-docs.*/
 
 # https://circleci.com/docs/2.0/executor-types/
 jobs:
@@ -72,6 +74,7 @@ jobs:
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+            echo "export TONIC_UI_DOC_VERSION=latest" >> $BASH_ENV
       - run:
           name: Check package version
           command: |
@@ -93,13 +96,13 @@ jobs:
       - run:
           name: Build
           command: |
-            echo "ASSET_PREFIX=/tonic-ui/react/latest" > packages/docs/.env.production
+            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
+            tar -zcvf ci.tar.gz --dereference --directory packages/react-docs/dist react
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
@@ -122,6 +125,7 @@ jobs:
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+            echo "export TONIC_UI_DOC_VERSION=pr-${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
       - run:
           name: Check package version
           command: |
@@ -143,13 +147,13 @@ jobs:
       - run:
           name: Build
           command: |
-            echo "ASSET_PREFIX=/tonic-ui-demo/react/pr-${CI_PULL_REQUEST_NUMBER}" > packages/docs/.env.production
+            echo "ASSET_PREFIX=/tonic-ui-demo/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
+            tar -zcvf ci.tar.gz --dereference --directory packages/react-docs/dist react
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
@@ -166,7 +170,7 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            PACKAGE_VERSION=$(cat packages/docs/package.json \
+            PACKAGE_VERSION=$(cat packages/react-docs/package.json \
               | grep version \
               | head -1 \
               | awk -F: '{ print $2 }' \
@@ -178,6 +182,7 @@ jobs:
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+            echo "export TONIC_UI_DOC_VERSION=${PACKAGE_VERSION}" >> $BASH_ENV
       - run:
           name: Check package version
           command: |
@@ -199,13 +204,13 @@ jobs:
       - run:
           name: Build
           command: |
-            echo "ASSET_PREFIX=/tonic-ui/react/${PACKAGE_VERSION}" > packages/docs/.env.production
+            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
       - run:
           name: Compress build artifacts
           command: |
-            tar -zcvf ci.tar.gz --dereference --directory packages/docs/dist react
+            tar -zcvf ci.tar.gz --dereference --directory packages/react-docs/dist react
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory.
           # This is a directory on the container which is taken to be the root directory of the workspace.
@@ -241,6 +246,7 @@ jobs:
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+            echo "export TONIC_UI_DOC_VERSION=latest" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
@@ -251,11 +257,11 @@ jobs:
           command: |
             cd tonic-ui
             git checkout gh-pages
-            rm -rf react/latest
-            mkdir -p react/latest
-            cp -af ../dist/react/** react/latest/
-            git add react/latest
-            git commit -m "[CI] Deploy ${CI_COMMIT_SHORT} to gh-pages"
+            rm -rf "react/${TONIC_UI_DOC_VERSION}"
+            mkdir -p "react/${TONIC_UI_DOC_VERSION}"
+            cp -af ../dist/react/** "react/${TONIC_UI_DOC_VERSION}/"
+            git add "react/${TONIC_UI_DOC_VERSION}"
+            git commit -m "[CI] Deploy '${CI_COMMIT_SHORT}' to 'gh-pages'"
             git push origin gh-pages
 
   deploy-pr:
@@ -289,6 +295,7 @@ jobs:
             echo "export TONIC_UI_DEMO_REPO=tonic-ui-demo" >> $BASH_ENV
             echo "export TONIC_UI_DEMO_REPO_URL=https://github.com/trendmicro-frontend/tonic-ui-demo.git" >> $BASH_ENV
             echo "export TONIC_UI_DEMO_URL=https://trendmicro-frontend.github.io/tonic-ui-demo" >> $BASH_ENV
+            echo "export TONIC_UI_DOC_VERSION=pr-${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
@@ -300,14 +307,14 @@ jobs:
             git clone ${TONIC_UI_DEMO_REPO_URL} ${TONIC_UI_DEMO_REPO}
             cd ${TONIC_UI_DEMO_REPO}
             git checkout gh-pages
-            rm -rf "react/pr-${CI_PULL_REQUEST_NUMBER}"
-            mkdir -p "react/pr-${CI_PULL_REQUEST_NUMBER}"
-            cp -af ../dist/react/** "react/pr-${CI_PULL_REQUEST_NUMBER}/"
-            git add "react/pr-${CI_PULL_REQUEST_NUMBER}"
-            git commit -m "Deploy pr-${CI_PULL_REQUEST_NUMBER} to ${TONIC_UI_DEMO_REPO_URL}"
+            rm -rf "react/${TONIC_UI_DOC_VERSION}"
+            mkdir -p "react/${TONIC_UI_DOC_VERSION}"
+            cp -af ../dist/react/** "react/${TONIC_UI_DOC_VERSION}/"
+            git add "react/${TONIC_UI_DOC_VERSION}"
+            git commit -m "Deploy '${TONIC_UI_DOC_VERSION}' to '${TONIC_UI_DEMO_REPO_URL}'"
             git push -u ${TONIC_UI_DEMO_REPO_URL} gh-pages
             cd ..
-            npx --yes -- octokit-cli issues create-comment --owner trendmicro-frontend --repo tonic-ui --issue_number ${CI_PULL_REQUEST_NUMBER} --body "Successfully deployed ${CI_COMMIT} to ${TONIC_UI_DEMO_URL}/react/pr-${CI_PULL_REQUEST_NUMBER}/"
+            npx --yes -- octokit-cli issues create-comment --owner trendmicro-frontend --repo tonic-ui --issue_number ${CI_PULL_REQUEST_NUMBER} --body "Successfully deployed ${CI_COMMIT} to ${TONIC_UI_DEMO_URL}/react/${TONIC_UI_DOC_VERSION}/"
 
   deploy-tag:
     docker:
@@ -331,7 +338,7 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            PACKAGE_VERSION=$(cat tonic-ui/packages/docs/package.json \
+            PACKAGE_VERSION=$(cat tonic-ui/packages/react-docs/package.json \
               | grep version \
               | head -1 \
               | awk -F: '{ print $2 }' \
@@ -344,6 +351,7 @@ jobs:
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
+            echo "export TONIC_UI_DOC_VERSION=${PACKAGE_VERSION}" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
@@ -354,9 +362,9 @@ jobs:
           command: |
             cd tonic-ui
             git checkout gh-pages
-            rm -rf "react/${PACKAGE_VERSION}"
-            mkdir -p "react/${PACKAGE_VERSION}"
-            cp -af ../dist/react/** "react/${PACKAGE_VERSION}/"
-            git add "react/${PACKAGE_VERSION}"
-            git commit -m "[CI] Deploy '${PACKAGE_VERSION}' to 'gh-pages' (tag='${CI_TAG}')"
+            rm -rf "react/${TONIC_UI_DOC_VERSION}"
+            mkdir -p "react/${TONIC_UI_DOC_VERSION}"
+            cp -af ../dist/react/** "react/${TONIC_UI_DOC_VERSION}/"
+            git add "react/${TONIC_UI_DOC_VERSION}"
+            git commit -m "[CI] Deploy '${TONIC_UI_DOC_VERSION}' to 'gh-pages' (tag='${CI_TAG}')"
             git push origin gh-pages

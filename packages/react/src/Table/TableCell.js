@@ -3,11 +3,14 @@ import Box from '../Box';
 import { useTableContext } from './context';
 import { useTableCellStyle } from './styles';
 
-const TableCell = forwardRef(({
-  children,
-  width = 150,
-  ...props
-}, ref) => {
+const TableCell = forwardRef((
+  {
+    children,
+    width = 150,
+    ...rest
+  },
+  ref,
+) => {
   const { size, variant } = useTableContext();
   const tableCellStyle = useTableCellStyle({
     size,
@@ -19,7 +22,7 @@ const TableCell = forwardRef(({
       ref={ref}
       width={width}
       {...tableCellStyle}
-      {...props}
+      {...rest}
     >
       { children }
     </Box>
