@@ -1,5 +1,5 @@
 import chainedFunction from 'chained-function';
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import Box from '../Box';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
