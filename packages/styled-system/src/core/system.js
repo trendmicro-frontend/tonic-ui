@@ -1,6 +1,6 @@
 import ensureArray from '../utils/ensure-array';
 import get from '../utils/get';
-import createParser from './createParser';
+import parser from './parser';
 
 const getValue = (n, scale) => get(scale, n, n);
 
@@ -24,8 +24,7 @@ const system = (args = {}) => {
     config[key] = createStyleFunction(conf);
   });
 
-  const parser = createParser(config);
-  return parser;
+  return parser(config);
 };
 
 const createStyleFunction = ({

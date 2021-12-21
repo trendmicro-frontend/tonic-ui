@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import isPropValid from '@emotion/is-prop-valid';
+import { cx, system } from '@tonic-ui/styled-system';
 import { ensureArray } from 'ensure-type';
-import { cx, system } from '../shared/styled-system';
 
 const shouldForwardProp = (() => {
   const stylePropMap = ensureArray(system.propNames)

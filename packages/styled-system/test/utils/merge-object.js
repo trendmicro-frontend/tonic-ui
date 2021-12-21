@@ -1,4 +1,4 @@
-import mergeObject from '../merge-object';
+import mergeObject from '../../src/utils/merge-object';
 
 test('deeply merges', () => {
   const result = mergeObject(
