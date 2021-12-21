@@ -50,7 +50,6 @@ import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
 import colorStyle from './shared/color-style';
 import theme from './theme';
-import useClipboard from './useClipboard';
 import useColorMode from './useColorMode';
 import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure';
@@ -113,7 +112,6 @@ export {
   VisuallyHidden,
   colorStyle,
   theme,
-  useClipboard,
   useColorMode,
   useColorStyle,
   useDisclosure,
