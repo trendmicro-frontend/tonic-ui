@@ -1,15 +1,10 @@
+import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useEffect, useMemo } from 'react';
 import { createUniqueId } from '../utils/uniqueid';
 import useConstant from '../utils/useConstant';
 import { PresenceContext } from './context';
 
 const uniqueId = createUniqueId();
-
-const ensureFunction = x => {
-  return (typeof x === 'function')
-    ? x
-    : () => {};
-};
 
 const Presence = forwardRef(({
   children,
