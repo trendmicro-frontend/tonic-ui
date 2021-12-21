@@ -1,6 +1,11 @@
 import { useState, useCallback } from 'react';
+import useEffectOnce from '../hooks/useEffectOnce';
 
 const useDisclosure = defaultIsOpen => {
+  useEffectOnce(() => {
+    console.error('Warning: The `useDisclosure` Hook is deprecated and will be removed in the next major release.');
+  });
+
   const [isOpen, setIsOpen] = useState(Boolean(defaultIsOpen));
   const onClose = useCallback(() => setIsOpen(false), []);
   const onOpen = useCallback(() => setIsOpen(true), []);

@@ -1,5 +1,5 @@
 import chainedFunction from 'chained-function';
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import Box from '../Box';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
@@ -7,7 +7,6 @@ import Grow from '../Transitions/Grow';
 import useEffectOnce from '../hooks/useEffectOnce';
 import useHydrated from '../hooks/useHydrated';
 import config from '../shared/config';
-import useDisclosure from '../useDisclosure';
 import { useId } from '../utils/autoId';
 import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
@@ -94,7 +93,8 @@ const Tooltip = forwardRef((
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(anchorRef, ref);
   const isHydrated = useHydrated();
-  const { isOpen, onClose, onOpen } = useDisclosure(false);
+
+  const [isOpen, setIsOpen] = useState(false);
   const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
   const _isOpen = isControlled ? isControlledOpen : isOpen;
 
@@ -102,12 +102,16 @@ const Tooltip = forwardRef((
   const exitTimeoutRef = useRef();
 
   const openWithDelay = () => {
-    enterTimeoutRef.current = setTimeout(onOpen, enterDelay);
+    enterTimeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, enterDelay);
   };
 
   const closeWithDelay = () => {
     clearTimeout(enterTimeoutRef.current);
-    exitTimeoutRef.current = setTimeout(onClose, leaveDelay);
+    exitTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, leaveDelay);
   };
 
   const tooltipId = `${config.name}:tooltip-${useId()}`;

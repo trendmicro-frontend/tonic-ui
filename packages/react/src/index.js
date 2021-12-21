@@ -52,12 +52,12 @@ import colorStyle from './shared/color-style';
 import theme from './theme';
 import useColorMode from './useColorMode';
 import useColorStyle from './useColorStyle';
-import useDisclosure from './useDisclosure';
+import useDisclosure from './useDisclosure'; // deprecated
 import usePagination from './usePagination';
 import usePresence from './usePresence';
 import useTheme from './useTheme';
 import useToast from './useToast';
-import withTheme from './withTheme';
+import withTheme from './withTheme'; // deprecated
 
 export {
   Badge,
@@ -114,7 +114,7 @@ export {
   theme,
   useColorMode,
   useColorStyle,
-  useDisclosure,
+  useDisclosure, // deprecated
   usePagination,
   usePresence,
   useTheme,
