@@ -19,6 +19,7 @@ import Lorem from './Lorem';
 import SelectableButton from './SelectableButton';
 import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
+import useClipboard from './useClipboard';
 
 const thirdPartyComponents = {
   AutoSizer,
@@ -37,7 +38,6 @@ const {
   Fade,
   Icon,
   useColorMode,
-  useClipboard,
 } = styledUIComponents;
 
 const liveEditorStyle = {
