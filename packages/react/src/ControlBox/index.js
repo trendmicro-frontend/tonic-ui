@@ -1,6 +1,6 @@
+import { cx } from '@tonic-ui/styled-system';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import { cx } from '../shared/styled-system';
 
 const ControlBox = forwardRef((
   {

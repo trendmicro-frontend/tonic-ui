@@ -1,4 +1,4 @@
-import { cx } from '../shared/styled-system';
+import { cx } from '@tonic-ui/styled-system';
 import useColorMode from '../useColorMode';
 
 const baseProps = {

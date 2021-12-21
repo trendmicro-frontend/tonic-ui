@@ -1,4 +1,4 @@
-import system from '../system';
+import system from '../../src/core/system';
 
 const defaultBreakpoints = [40, 52, 64].map(n => n + 'em');
 

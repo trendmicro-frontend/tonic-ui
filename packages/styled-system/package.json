@@ -1,7 +1,7 @@
 {
-  "name": "@tonic-ui/theme",
+  "name": "@tonic-ui/styled-system",
   "version": "1.0.0-alpha",
-  "description": "The default theme package for Tonic UI components.",
+  "description": "The framework agnostic styling engine for Tonic UI.",
   "main": "index.js",
   "publishConfig": {
     "access": "public",
@@ -63,13 +63,13 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/trendmicro-frontend/tonic-ui.git",
-    "directory": "packages/theme"
+    "directory": "packages/styled-system"
   },
   "bugs": {
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "keywords": [
-    "theme",
+    "styled-system",
     "tonic-ui"
   ]
 }

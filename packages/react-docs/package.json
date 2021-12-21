@@ -1,6 +1,7 @@
 {
   "name": "@tonic-ui/react-docs",
   "version": "1.0.0-alpha",
+  "description": "A documentation site for React Tonic UI component library.",
   "private": true,
   "scripts": {
     "build": ". ./tonic-ui.env && ./update-versions.sh && cross-env NODE_ENV=production next build",

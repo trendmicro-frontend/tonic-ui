@@ -5,7 +5,7 @@ import sortObject from '../utils/sort-object';
 const defaultBreakpoints = [];
 const createMediaQuery = n => `@media screen and (min-width: ${n})`;
 
-const createParser = config => {
+const parser = config => {
   const cache = {};
   const parse = props => {
     let styles = {};
@@ -63,7 +63,7 @@ const createParser = config => {
   const keys = Object.keys(config).filter(k => k !== 'config');
   if (keys.length > 1) {
     keys.forEach(key => {
-      parse[key] = createParser({
+      parse[key] = parser({
         [key]: config[key],
       });
     });
@@ -114,4 +114,4 @@ const parseResponsiveObject = (breakpoints, sx, scale, raw, _props) => {
   return styles;
 };
 
-export default createParser;
+export default parser;

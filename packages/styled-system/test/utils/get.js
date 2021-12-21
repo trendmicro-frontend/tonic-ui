@@ -1,4 +1,4 @@
-import get from '../get';
+import get from '../../src/utils/get';
 
 test('returns a deeply nested value', () => {
   const a = get(

@@ -38,11 +38,11 @@ const config = {
   visibility: true,
 };
 
-config.w = { // deprecated
+config.w = {
   ...config.width,
   alias: 'width',
 };
-config.h = { // depre
+config.h = {
   ...config.height,
   alias: 'height',
 };

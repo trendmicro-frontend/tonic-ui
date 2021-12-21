@@ -1,5 +1,5 @@
-import compose from '../compose';
-import system from '../system';
+import compose from '../../src/core/compose';
+import system from '../../src/core/system';
 
 const color = system({
   color: true,
