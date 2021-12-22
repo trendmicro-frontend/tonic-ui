@@ -594,8 +594,8 @@ You can also use the `Scrollbar` component to override the default scrollbar.
     <Space width="1x" />
     <MenuIndicator />
   </MenuButton>
-  <MenuList width="max-content">
-    <Scrollbar maxHeight={200}>
+  <MenuList width="100%">
+    <Scrollbar height={200}>
       {Array.from({ length: 100 }).map((_, key) => (
         <MenuItem key={key}>
           Item #{key + 1}
