@@ -1,9 +1,9 @@
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { useTagStyle, useTagCloseButtonStyle } from './styles';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
-import useEffectOnce from '../hooks/useEffectOnce';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 
 const TagCloseButton = ({ size, ...props }) => {

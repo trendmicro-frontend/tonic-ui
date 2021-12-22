@@ -1,9 +1,9 @@
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Portal from '../Portal';
 import Presence from '../Presence';
-import useEffectOnce from '../hooks/useEffectOnce';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import useNodeRef from '../utils/useNodeRef';

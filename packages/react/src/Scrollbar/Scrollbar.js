@@ -1,8 +1,7 @@
+import { useEffectOnce, useHydrated } from '@tonic-ui/react-hooks';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import Box from '../Box';
-import useEffectOnce from '../hooks/useEffectOnce';
-import useHydrated from '../hooks/useHydrated';
 import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';

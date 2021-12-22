@@ -1,5 +1,5 @@
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import { useState, useCallback } from 'react';
-import useEffectOnce from '../hooks/useEffectOnce';
 
 const useDisclosure = defaultIsOpen => {
   useEffectOnce(() => {

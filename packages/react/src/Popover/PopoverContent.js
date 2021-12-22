@@ -1,10 +1,10 @@
+import { useHydrated } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
 import React, { useRef } from 'react';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
 import Box from '../Box';
 import Grow from '../Transitions/Grow';
-import useHydrated from '../hooks/useHydrated';
 import wrapEvent from '../utils/wrapEvent';
 import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';

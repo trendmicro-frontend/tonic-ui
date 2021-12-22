@@ -1,7 +1,7 @@
 {
-  "name": "@tonic-ui/react",
+  "name": "@tonic-ui/react-hooks",
   "version": "1.0.0-alpha",
-  "description": "React Tonic UI component library.",
+  "description": "A collection of React Hooks for Tonic UI components.",
   "main": "dist/index.js",
   "module": "dist/es/index.js",
   "publishConfig": {
@@ -18,23 +18,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@emotion/is-prop-valid": "1.x",
-    "@emotion/react": "11.x",
-    "@emotion/styled": "11.x",
-    "@popperjs/core": "2.x",
-    "@tonic-ui/react-hooks": "^1.0.0-alpha",
-    "@tonic-ui/styled-system": "^1.0.0-alpha",
-    "@tonic-ui/theme": "^1.0.0-alpha",
-    "@trendmicro/tmicon": "^1.21.0",
-    "chained-function": "^0.5.0",
-    "color": "3.x",
-    "ensure-type": "1.x",
-    "lodash.get": "4.x",
-    "micro-memoize": "4.x",
-    "prop-types": "15.x",
-    "react-focus-lock": "2.x",
-    "react-is": "^16.8.0 || ^17",
-    "react-transition-group": "4.x"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -44,7 +27,6 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@emotion/babel-preset-css-prop": "~11.2.0",
     "@emotion/jest": "~11.5.0",
     "@rollup/plugin-node-resolve": "~11.2.0",
     "@trendmicro/babel-config": "^1.0.2",
@@ -62,14 +44,12 @@
     "jest": "~27.3.1",
     "jest-extended": "^1.1.0",
     "react": "^16.8.0 || ^17",
-    "react-dom": "^16.8.0 || ^17",
     "react-test-renderer": "^16.8.0 || ^17",
     "rollup": "~2.42.3",
     "rollup-plugin-babel": "~4.4.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17",
-    "react-dom": "^16.8.0 || ^17"
+    "react": "^16.8.0 || ^17"
   },
   "jest": {
     "collectCoverage": true,
@@ -106,10 +86,8 @@
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "keywords": [
-    "components",
-    "emotion",
+    "hooks",
     "react",
-    "styled-system",
     "tonic-ui"
   ]
 }

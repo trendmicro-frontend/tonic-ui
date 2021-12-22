@@ -1,11 +1,10 @@
+import { useEffectOnce, useHydrated } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
 import React, { forwardRef, useRef, useState } from 'react';
 import Box from '../Box';
 import Popper from '../Popper/Popper';
 import PopperArrow from '../Popper/PopperArrow';
 import Grow from '../Transitions/Grow';
-import useEffectOnce from '../hooks/useEffectOnce';
-import useHydrated from '../hooks/useHydrated';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import useForkRef from '../utils/useForkRef';

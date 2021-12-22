@@ -1,6 +1,5 @@
+import { useEffectOnce, usePrevious } from '@tonic-ui/react-hooks';
 import React, { useEffect, useRef, useState } from 'react';
-import useEffectOnce from '../hooks/useEffectOnce';
-import usePrevious from '../hooks/usePrevious';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
 import warnRemovedProps from '../utils/warnRemovedProps';

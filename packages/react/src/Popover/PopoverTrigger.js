@@ -1,6 +1,6 @@
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useRef, useState } from 'react';
 import Box from '../Box';
-import useEffectOnce from '../hooks/useEffectOnce';
 import useForkRef from '../utils/useForkRef';
 import warnRemovedProps from '../utils/warnRemovedProps';
 import { usePopover } from './context';

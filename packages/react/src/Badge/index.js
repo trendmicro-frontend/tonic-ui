@@ -1,10 +1,10 @@
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import {
   ensureArray,
   ensureBoolean,
 } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import useEffectOnce from '../hooks/useEffectOnce';
 import useTheme from '../useTheme';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import {
