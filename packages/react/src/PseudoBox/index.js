@@ -1,6 +1,6 @@
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import useEffectOnce from '../hooks/useEffectOnce';
 
 const PseudoBox = forwardRef((props, ref) => {
   useEffectOnce(() => {

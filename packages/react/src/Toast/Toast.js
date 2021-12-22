@@ -1,8 +1,8 @@
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import Icon from '../Icon';
 import Space from '../Space';
-import useEffectOnce from '../hooks/useEffectOnce';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import ToastCloseButton from './ToastCloseButton';
 import ToastIcon from './ToastIcon';

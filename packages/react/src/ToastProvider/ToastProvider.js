@@ -1,3 +1,4 @@
+import { useHydrated } from '@tonic-ui/react-hooks';
 import {
   ensureArray,
   ensureString,
@@ -10,7 +11,6 @@ import {
   TransitionGroup,
 } from 'react-transition-group';
 import { ToastContext } from '../context';
-import useHydrated from '../hooks/useHydrated';
 import canUseDOM from '../utils/dom/canUseDOM';
 import { createUniqueId } from '../utils/uniqueid';
 import ToastContainer from './ToastContainer';

@@ -2,20 +2,19 @@
   "name": "@tonic-ui/react",
   "version": "1.0.0-alpha",
   "description": "React Tonic UI component library.",
-  "main": "dist/tonic-ui.js",
-  "module": "dist/es/tonic-ui.js",
+  "main": "dist/index.js",
+  "module": "dist/es/index.js",
   "publishConfig": {
     "access": "public",
     "directory": "build"
   },
   "scripts": {
-    "build": "cross-env PACKAGE_NAME=tonic-ui INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.js",
+    "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.js",
     "clean": "del build dist",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "yarn run eslint",
     "prepublish": "yarn run build",
-    "start-storybook": "start-storybook --config-dir .storybook --docs --port 8080",
     "test": "jest"
   },
   "dependencies": {
@@ -23,6 +22,7 @@
     "@emotion/react": "11.x",
     "@emotion/styled": "11.x",
     "@popperjs/core": "2.x",
+    "@tonic-ui/react-hooks": "^1.0.0-alpha",
     "@tonic-ui/styled-system": "^1.0.0-alpha",
     "@tonic-ui/theme": "^1.0.0-alpha",
     "@trendmicro/tmicon": "^1.21.0",
@@ -47,11 +47,6 @@
     "@emotion/babel-preset-css-prop": "~11.2.0",
     "@emotion/jest": "~11.5.0",
     "@rollup/plugin-node-resolve": "~11.2.0",
-    "@storybook/addon-actions": "~6.3.12",
-    "@storybook/addon-docs": "~6.3.12",
-    "@storybook/addon-links": "~6.3.12",
-    "@storybook/addons": "~6.3.12",
-    "@storybook/react": "~6.3.12",
     "@trendmicro/babel-config": "^1.0.2",
     "babel-loader": "~8.2.3",
     "cpy-cli": "~3.1.1",

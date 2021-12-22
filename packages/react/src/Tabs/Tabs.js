@@ -1,7 +1,7 @@
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useRef, useState } from 'react';
 import { TabContext } from './context';
 import Box from '../Box';
-import useEffectOnce from '../hooks/useEffectOnce';
 import { useId } from '../utils/autoId';
 import warnRemovedProps from '../utils/warnRemovedProps';
 
