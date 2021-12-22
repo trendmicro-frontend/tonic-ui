@@ -1,0 +1,93 @@
+{
+  "name": "@tonic-ui/react-hooks",
+  "version": "1.0.0-alpha",
+  "description": "A collection of React Hooks for Tonic UI components.",
+  "main": "dist/index.js",
+  "module": "dist/es/index.js",
+  "publishConfig": {
+    "access": "public",
+    "directory": "build"
+  },
+  "scripts": {
+    "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.js",
+    "clean": "del build dist",
+    "eslint": "eslint --ext .js,.jsx,.mjs .",
+    "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
+    "pre-push": "yarn run eslint",
+    "prepublish": "yarn run build",
+    "test": "jest"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/eslint-parser": "^7.0.0",
+    "@babel/eslint-plugin": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@emotion/jest": "~11.5.0",
+    "@rollup/plugin-node-resolve": "~11.2.0",
+    "@trendmicro/babel-config": "^1.0.2",
+    "babel-loader": "~8.2.3",
+    "cpy-cli": "~3.1.1",
+    "cross-env": "~7.0.3",
+    "del-cli": "~4.0.1",
+    "eslint": "^7.0.0",
+    "eslint-config-trendmicro": "^2.1.0",
+    "eslint-loader": "~4.0.2",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-jsx-a11y": "latest",
+    "eslint-plugin-react": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "jest": "~27.3.1",
+    "jest-extended": "^1.1.0",
+    "react": "^16.8.0 || ^17",
+    "react-test-renderer": "^16.8.0 || ^17",
+    "rollup": "~2.42.3",
+    "rollup-plugin-babel": "~4.4.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.js"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text",
+      "html"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest.env-setup.js"
+    ],
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ],
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "<rootDir>/src/**/*.test.js",
+      "<rootDir>/src/**/test/**/*.js",
+      "<rootDir>/test/**/*.js"
+    ]
+  },
+  "author": "Cheton Wu <cheton_wu@trendmicro.com>",
+  "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trendmicro-frontend/tonic-ui.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
+  },
+  "keywords": [
+    "hooks",
+    "react",
+    "tonic-ui"
+  ]
+}
