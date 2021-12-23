@@ -4,11 +4,9 @@ import babel from 'rollup-plugin-babel';
 
 const packageName = process.env.PACKAGE_NAME;
 
-const input = process.env.INPUT
-  || path.resolve(__dirname, 'src', 'index.js');
+const input = process.env.INPUT || path.resolve(__dirname, 'src', 'index.js');
 
-const outputDirectory = process.env.OUTPUT_DIRECTORY
-  || path.resolve(__dirname, 'dist');
+const outputDirectory = process.env.OUTPUT_DIRECTORY || path.resolve(__dirname, 'dist');
 
 const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
 
