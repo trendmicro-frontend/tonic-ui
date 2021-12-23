@@ -141,10 +141,10 @@ export {
   MenuButton,
   MenuDivider,
   MenuGroup,
-  MenuIndicator,
   MenuItem,
   MenuList,
-  MenuTrigger,
+  MenuToggle,
+  MenuToggleIndicator,
 } from './Menu';
 export {
   Modal,

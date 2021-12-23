@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import Button from '../Button';
-import MenuTrigger from './MenuTrigger';
+import MenuToggle from './MenuToggle';
 
 const MenuButton = forwardRef((
   {
@@ -13,22 +13,22 @@ const MenuButton = forwardRef((
   ref,
 ) => {
   return (
-    <MenuTrigger
+    <MenuToggle
       disabled={disabled}
       onClick={onClick}
       onKeyDown={onKeyDown}
     >
-      {({ getMenuTriggerProps }) => {
+      {({ getMenuToggleProps }) => {
         return (
           <Button
-            {...getMenuTriggerProps()}
+            {...getMenuToggleProps()}
             {...rest}
           >
             {children}
           </Button>
         );
       }}
-    </MenuTrigger>
+    </MenuToggle>
   );
 });
 

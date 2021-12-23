@@ -2,28 +2,28 @@ import Menu from './Menu';
 import MenuButton from './MenuButton';
 import MenuDivider from './MenuDivider';
 import MenuGroup from './MenuGroup';
-import MenuIndicator from './MenuIndicator';
 import MenuItem from './MenuItem';
 import MenuList from './MenuList';
-import MenuTrigger from './MenuTrigger';
+import MenuToggle from './MenuToggle';
+import MenuToggleIndicator from './MenuToggleIndicator';
 
 Menu.Button = MenuButton;
 Menu.Divider = MenuDivider;
 Menu.Group = MenuGroup;
-Menu.Indicator = MenuIndicator;
 Menu.Item = MenuItem;
 Menu.List = MenuList;
-Menu.Trigger = MenuTrigger;
+Menu.Toggle = MenuToggle;
+Menu.ToggleIndicator = MenuToggleIndicator;
 
 export {
   Menu,
   MenuButton,
   MenuDivider,
   MenuGroup,
-  MenuIndicator,
   MenuItem,
   MenuList,
-  MenuTrigger,
+  MenuToggle,
+  MenuToggleIndicator,
 };
 
 export default Menu;

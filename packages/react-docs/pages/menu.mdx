@@ -5,9 +5,9 @@ A menu is used to display a list of options to the user. It appears when the use
 ## Import
 
 - `Menu`: The component that provides the menu functionality.
-- `MenuTrigger`: The trigger that opens the menu. This is usually a button or link.
-- `MenuButton`: A button that composes `MenuTrigger` and `Button` and is used to open the menu.
-- `MenuIndicator`: An indicator that appears next to the trigger. This is usually a chevron or arrow.
+- `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
+- `MenuToggleIndicator`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
+- `MenuButton`: A button that composes `MenuToggle` and `Button` and is used to open the menu.
 - `MenuList`: A wrapper that contains the menu items. Must be a direct child of the `Menu` component.
 - `MenuGroup`: A wrapper that groups related menu items.
 - `MenuItem`: The individual menu items. Must be a direct child of the `MenuList` component.
@@ -16,9 +16,9 @@ A menu is used to display a list of options to the user. It appears when the use
 ```js
 import {
   Menu,
-  MenuTrigger,
   MenuButton,
-  MenuIndicator,
+  MenuToggle,
+  MenuToggleIndicator,
   MenuList,
   MenuGroup,
   MenuItem,
@@ -119,16 +119,16 @@ function Example() {
 }
 ```
 
-### MenuTrigger
+### MenuToggle
 
-`MenuTrigger` is the trigger that opens the menu when clicked. It is usually a button or link. The `MenuIndicator` can be added to the trigger to indicate the menu is open or closed.
+`MenuToggle` is a toggle that opens the menu when clicked. It is usually a button or link. The `MenuToggleIndicator` can be added to the toggle to indicate the menu is open or closed.
 
 ```jsx
 <Flex alignItems="center">
   <Menu>
-    <MenuTrigger>
+    <MenuToggle>
       <Text>Options</Text>
-    </MenuTrigger>
+    </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
         Item #1
@@ -148,13 +148,13 @@ function Example() {
     mx="4x"
   />
   <Menu>
-    <MenuTrigger>
+    <MenuToggle>
       <Flex alignItems="center" userSelect="none">
         <Text>Options</Text>
         <Space width="1x" />
-        <MenuIndicator />
+        <MenuToggleIndicator />
       </Flex>
-    </MenuTrigger>
+    </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
         Item #1
@@ -174,20 +174,20 @@ function Example() {
     mx="4x"
   />
   <Menu>
-    <MenuTrigger>
-      {({ getMenuTriggerProps }) => {
+    <MenuToggle>
+      {({ getMenuToggleProps }) => {
         return (
           <Button
-            {...getMenuTriggerProps()}
+            {...getMenuToggleProps()}
             variant="secondary"
           >
             <Text>Options</Text>
             <Space width="1x" />
-            <MenuIndicator />
+            <MenuToggleIndicator />
           </Button>
         );
       }}
-    </MenuTrigger>
+    </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
         Item #1
@@ -205,20 +205,20 @@ function Example() {
 
 ### MenuButton
 
-`MenuButton` composes `MenuTrigger` and `Button` to create a button that opens the menu. It's an useful alternative to `MenuTrigger` when the trigger is a button.
+`MenuButton` composes `MenuToggle` and `Button` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
 
 ```jsx disabled
 const MenuButton = (props) => (
-  <MenuTrigger>
-    {({ getMenuTriggerProps }) => (
+  <MenuToggle>
+    {({ getMenuToggleProps }) => (
       <Button
-        {...getMenuTriggerProps()}
+        {...getMenuToggleProps()}
         {...props}
       >
         {children}
       </Button>
     )}
-  </MenuTrigger>
+  </MenuToggle>
 );
 ```
 
@@ -227,7 +227,7 @@ const MenuButton = (props) => (
   <MenuButton variant="secondary" size="md">
     <Text>Options</Text>
     <Space width="1x" />
-    <MenuIndicator />
+    <MenuToggleIndicator />
   </MenuButton>
   <MenuList width="max-content">
     <MenuItem>
@@ -243,14 +243,14 @@ const MenuButton = (props) => (
 </Menu>
 ```
 
-### MenuIndicator
+### MenuToggleIndicator
 
-`MenuIndicator` is an indicator that indicates the menu is open or closed.
+`MenuToggleIndicator` is an indicator that indicates the menu is open or closed.
 
 ```jsx
 <Menu>
   <MenuButton variant="ghost" size="sm" px="1x">
-    <MenuIndicator />
+    <MenuToggleIndicator />
   </MenuButton>
   <MenuList width="max-content">
     <MenuItem>
@@ -274,7 +274,7 @@ You can also customize the indicator by passing a component as children or a fun
     return (
       <>
         <MenuButton variant="secondary">
-          <MenuIndicator>
+          <MenuToggleIndicator>
             {({ ref, style: styleProps }) => {
               // direction is either 'up' or 'down'
               const icon = `arrow-${direction}`;
@@ -289,7 +289,7 @@ You can also customize the indicator by passing a component as children or a fun
                 />
               );
             }}
-          </MenuIndicator>
+          </MenuToggleIndicator>
         </MenuButton>
         <MenuList width="max-content">
           <MenuItem>
@@ -327,7 +327,7 @@ const Avatar = (props) => (
 
 render(
   <Menu>
-    <MenuTrigger>
+    <MenuToggle>
       <Avatar
         bg="gray:50"
         color="white:secondary"
@@ -337,7 +337,7 @@ render(
       >
         <Icon icon="user-team" size="5x" />
       </Avatar>
-    </MenuTrigger>
+    </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
         <Text>Profile</Text>
@@ -383,7 +383,7 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
   <MenuButton variant="secondary">
     <Text>This is a very long menu button</Text>
     <Space width="1x" />
-    <MenuIndicator />
+    <MenuToggleIndicator />
   </MenuButton>
   <MenuList width="100%">
     <MenuItem>
@@ -401,14 +401,14 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
 
 #### `width="max-content"`
 
-By default, the menu items will wrap to the next line if the width of the trigger is smaller than the width of the menu. You can pass `width="max-content"` to `MenuList` to prevent wrapping.
+By default, the menu items will wrap to the next line if the width of the toggle is smaller than the width of the menu. You can pass `width="max-content"` to `MenuList` to prevent wrapping.
 
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
     <Text>Options</Text>
     <Space width="1x" />
-    <MenuIndicator />
+    <MenuToggleIndicator />
   </MenuButton>
   <MenuList width="max-content">
     <MenuItem>
@@ -426,7 +426,7 @@ By default, the menu items will wrap to the next line if the width of the trigge
 
 ### Placement
 
-To position the menu relative to the trigger, pass a `placement` prop to `Menu`.
+To position the menu relative to the toggle, pass a `placement` prop to `Menu`.
 
 The value can be one of the following:
 * `top`
@@ -478,7 +478,7 @@ function Example() {
                   <MenuButton variant="secondary">
                     <Text>Options</Text>
                     <Space width="1x" />
-                    <MenuIndicator />
+                    <MenuToggleIndicator />
                   </MenuButton>
                   <MenuList width="max-content">
                     <MenuItem>
@@ -523,22 +523,22 @@ render(<Example />);
 
 ### Offset
 
-The basic offset accepts an array with two numbers in the form `[skidding, distance]`. It can be used to adjust the position of the menu relative to the trigger.
+The basic offset accepts an array with two numbers in the form `[skidding, distance]`. It can be used to adjust the position of the menu relative to the toggle.
 
 **Skidding**
 
-The first number, `skidding`, displaces `MenuList` along the reference trigger. This value is specified in pixels.
+The first number, `skidding`, displaces `MenuList` along the reference toggle. This value is specified in pixels.
 
 **Distance**
 
-The second number, `distance`, controls the distance between the `MenuList` and the reference trigger. This value is specified in pixels.
+The second number, `distance`, controls the distance between the `MenuList` and the reference toggle. This value is specified in pixels.
 
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
     <Text>Options</Text>
     <Space width="1x" />
-    <MenuIndicator />
+    <MenuToggleIndicator />
   </MenuButton>
   <MenuList
     offset={[
@@ -569,7 +569,7 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
   <MenuButton variant="secondary">
     <Text>Options</Text>
     <Space width="1x" />
-    <MenuIndicator />
+    <MenuToggleIndicator />
   </MenuButton>
   <MenuList
     maxHeight={200}
@@ -592,7 +592,7 @@ You can also use the `Scrollbar` component to override the default scrollbar.
   <MenuButton variant="secondary">
     <Text>Options</Text>
     <Space width="1x" />
-    <MenuIndicator />
+    <MenuToggleIndicator />
   </MenuButton>
   <MenuList width="100%">
     <Scrollbar height={200}>
@@ -624,7 +624,7 @@ function menuWithCheckbox() {
       <MenuButton variant="secondary">
         <Text>Selected ({checkedItems.length})</Text>
         <Space width="1x" />
-        <MenuIndicator />
+        <MenuToggleIndicator />
       </MenuButton>
       <MenuList width="max-content">
         <CheckboxGroup size="sm" defaultValue={checkedItems}>
@@ -644,9 +644,9 @@ function menuWithCheckbox() {
 
 | Key | Action |
 | :-- | :----- |
-| `Enter` \| `Space` | When `MenuTrigger` or `MenuButton` is focused, opens the menu. |
+| `Enter` \| `Space` | When `MenuToggle` or `MenuButton` is focused, opens the menu. |
 | `ArrowDown` \| `ArrowUp`| When `MenuList` is focused, moves the focus to the next menu item. |
-| `Escape` | When a menu item is focused, closes the menu and moves the focus to the trigger. |
+| `Escape` | When a menu item is focused, closes the menu and moves the focus to the toggle. |
 
 ## Props
 
@@ -656,7 +656,7 @@ function menuWithCheckbox() {
 | :--- | :--- | :------ | :---------- |
 | anchorEl | `Element` | | The element to which the menu is attached. |
 | autoSelect | `boolean` | `true` | Whether to automatically select the first menu item when the menu is opened. |
-| children | `Node` | | The children must be composed by a `MenuList` and either one of `MenuTrigger` or `MenuButton`. |
+| children | `Node` | | The children must be composed by a `MenuList` and either one of `MenuToggle` or `MenuButton`. |
 | closeOnBlur | `boolean` | `true` | Whether to close the menu when the user clicks outside of the menu. |
 | closeOnSelect | `boolean` | `true` | Whether to close the menu when the user selects a menu item. |
 | defaultActiveIndex | `number` | -1 | The index of the menu item to be selected by default. |
@@ -669,25 +669,25 @@ function menuWithCheckbox() {
 | onClose | `function` | | Callback when the menu is closed. |
 | placement | `string` | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
 
-### MenuTrigger
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | `Node` \| `function` | | |
-| disabled | `boolean` | | Whether the menu trigger is disabled. |
-| onClick | `function` | | Callback when the menu trigger is clicked. |
-| onKeyDown | `function` | | Callback when the user presses a key. |
-
 ### MenuButton
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | `Node` \| `function` | | |
-| disabled | `boolean` | | Whether the menu trigger is disabled. |
-| onClick | `function` | | Callback when the menu trigger is clicked. |
+| disabled | `boolean` | | Whether the menu button is disabled. |
+| onClick | `function` | | Callback when the menu button is clicked. |
 | onKeyDown | `function` | | Callback when the user presses a key. |
 
-### MenuIndicator
+### MenuToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `Node` \| `function` | | |
+| disabled | `boolean` | | Whether the menu toggle is disabled. |
+| onClick | `function` | | Callback when the menu toggle is clicked. |
+| onKeyDown | `function` | | Callback when the user presses a key. |
+
+### MenuToggleIndicator
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

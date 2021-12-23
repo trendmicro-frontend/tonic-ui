@@ -95,13 +95,13 @@ const useMenuItemDividerStyle = () => {
   };
 };
 
-const useMenuTriggerStyle = () => {
+const useMenuToggleStyle = () => {
   return {
     cursor: 'pointer',
   };
 };
 
-const useMenuIndicatorStyle = () => {
+const useMenuToggleIndicatorStyle = () => {
   return {
     display: 'inline-flex',
     _disabled: {
@@ -115,6 +115,6 @@ export {
   useMenuGroupStyle,
   useMenuItemStyle,
   useMenuItemDividerStyle,
-  useMenuTriggerStyle,
-  useMenuIndicatorStyle,
+  useMenuToggleStyle,
+  useMenuToggleIndicatorStyle,
 };
