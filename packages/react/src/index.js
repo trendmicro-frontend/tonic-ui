@@ -123,6 +123,14 @@ export {
 };
 
 export {
+  Accordion,
+  AccordionBody,
+  AccordionCollapse,
+  AccordionHeader,
+  AccordionItem,
+  AccordionToggle,
+} from './Accordion';
+export {
   Alert,
   AlertCloseButton,
   AlertIcon,
