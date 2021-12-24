@@ -5,7 +5,6 @@ import ButtonBase from './ButtonBase';
 import ButtonGroup from './ButtonGroup';
 import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
-import ColorStyleProvider from './ColorStyleProvider';
 import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
 import DarkMode from './DarkMode';
@@ -47,7 +46,6 @@ import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
 import colorStyle from './shared/color-style';
 import theme from './theme';
-import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure'; // deprecated
 import usePagination from './usePagination';
 import useTheme from './useTheme';
@@ -61,7 +59,6 @@ export {
   ButtonGroup,
   Checkbox,
   CheckboxGroup,
-  ColorStyleProvider,
   ControlBox,
   CSSBaseline,
   DarkMode,
@@ -103,7 +100,6 @@ export {
   VisuallyHidden,
   colorStyle,
   theme,
-  useColorStyle,
   useDisclosure, // deprecated
   usePagination,
   useTheme,
@@ -120,6 +116,10 @@ export {
   ColorModeProvider,
   useColorMode,
 } from './ColorMode';
+export {
+  ColorStyleProvider,
+  useColorStyle,
+} from './ColorStyle';
 export {
   Drawer,
   DrawerBody,

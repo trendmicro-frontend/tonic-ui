@@ -2,7 +2,7 @@ import { ensurePlainObject } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useState } from 'react';
 import colorStyle from '../shared/color-style';
-import { ColorStyleContext } from '../context';
+import { ColorStyleContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 

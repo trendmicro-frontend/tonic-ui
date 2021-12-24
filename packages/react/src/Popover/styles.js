@@ -1,5 +1,5 @@
 import { useColorMode } from '../ColorMode';
-import useColorStyle from '../useColorStyle';
+import { useColorStyle } from '../ColorStyle';
 
 const baseProps = {
   fontSize: 'sm',

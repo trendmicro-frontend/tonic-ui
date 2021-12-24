@@ -1,10 +1,10 @@
 import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import Fade from '../Transitions/Fade';
 import { useColorMode } from '../ColorMode';
+import { usePresence } from '../Presence';
+import Fade from '../Transitions/Fade';
 import useDrawer from './useDrawer';
-import usePresence from '../usePresence';
 
 const DrawerOverlay = forwardRef(({
   TransitionComponent = Fade,

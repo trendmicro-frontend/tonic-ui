@@ -4,7 +4,7 @@ import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
 import Fade from '../Transitions/Fade';
-import usePresence from '../usePresence';
+import { usePresence } from '../Presence';
 import useForkRef from '../utils/useForkRef';
 import {
   useModalContentStyle,

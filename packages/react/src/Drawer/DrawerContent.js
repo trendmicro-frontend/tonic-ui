@@ -3,8 +3,8 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
+import { usePresence } from '../Presence';
 import Slide from '../Transitions/Slide';
-import usePresence from '../usePresence';
 import useForkRef from '../utils/useForkRef';
 import {
   useDrawerContentStyle,

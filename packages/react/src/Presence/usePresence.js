@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
-import { PresenceContext } from '../Presence';
 import { createUniqueId } from '../utils/uniqueid';
 import useConstant from '../utils/useConstant';
+import { PresenceContext } from './context';
 
 const uniqueId = createUniqueId();
 

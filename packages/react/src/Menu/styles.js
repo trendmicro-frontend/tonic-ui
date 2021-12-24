@@ -1,6 +1,6 @@
 import { setColorWithOpacity } from '../theme/colors';
 import { useColorMode } from '../ColorMode';
-import useColorStyle from '../useColorStyle';
+import { useColorStyle } from '../ColorStyle';
 
 const useMenuListStyle = () => {
   const [colorMode] = useColorMode();
