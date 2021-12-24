@@ -2,7 +2,7 @@ import { keyframes } from '@emotion/react';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 import { setColorWithOpacity } from '../theme/colors';
 
 const rotate = keyframes`

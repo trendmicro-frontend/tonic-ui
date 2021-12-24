@@ -1,5 +1,5 @@
 import { cx } from '@tonic-ui/styled-system';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 
 const baseProps = {
   position: 'relative',

@@ -1,4 +1,4 @@
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 
 const sizes = {
   lg: {

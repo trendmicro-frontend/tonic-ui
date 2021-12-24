@@ -1,4 +1,4 @@
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 
 const baseProps = {
   userSelect: 'none',

@@ -1,5 +1,5 @@
 import _get from 'lodash.get';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 import useColorStyle from '../useColorStyle';
 import useTheme from '../useTheme';
 

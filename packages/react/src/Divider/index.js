@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 
 const Divider = forwardRef(({
   color,

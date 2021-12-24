@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import _merge from 'lodash/merge';
 import { TabContext } from './context';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 import useTheme from '../useTheme';
 import { setColorWithOpacity } from '../theme/colors';
 

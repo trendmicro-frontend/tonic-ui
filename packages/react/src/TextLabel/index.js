@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import Text from '../Text';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 
 const TextLabel = forwardRef((props, ref) => {
   const [colorMode] = useColorMode();

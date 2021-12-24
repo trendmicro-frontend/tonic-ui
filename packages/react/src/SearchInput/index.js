@@ -4,7 +4,7 @@ import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
 import Input from '../Input';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 import useForkRef from '../utils/useForkRef';
 import splitProps from './split-props';
 

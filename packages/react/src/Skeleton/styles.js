@@ -1,6 +1,6 @@
 import { css, keyframes } from '@emotion/react';
 import _includes from 'lodash/includes';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 
 const pulse = keyframes`
   0% {

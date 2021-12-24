@@ -2,7 +2,7 @@ import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import Fade from '../Transitions/Fade';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 import useDrawer from './useDrawer';
 import usePresence from '../usePresence';
 

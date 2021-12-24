@@ -1,7 +1,7 @@
 import { cx } from '@tonic-ui/styled-system';
 import _get from 'lodash.get';
 import { setColorWithOpacity } from '../theme/colors';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../ColorMode';
 import useTheme from '../useTheme';
 
 // Default Button

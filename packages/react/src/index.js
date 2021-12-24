@@ -5,7 +5,6 @@ import ButtonBase from './ButtonBase';
 import ButtonGroup from './ButtonGroup';
 import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
-import ColorModeProvider from './ColorModeProvider';
 import ColorStyleProvider from './ColorStyleProvider';
 import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
@@ -50,7 +49,6 @@ import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
 import colorStyle from './shared/color-style';
 import theme from './theme';
-import useColorMode from './useColorMode';
 import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure'; // deprecated
 import usePagination from './usePagination';
@@ -67,7 +65,6 @@ export {
   ButtonGroup,
   Checkbox,
   CheckboxGroup,
-  ColorModeProvider,
   ColorStyleProvider,
   ControlBox,
   CSSBaseline,
@@ -112,7 +109,6 @@ export {
   VisuallyHidden,
   colorStyle,
   theme,
-  useColorMode,
   useColorStyle,
   useDisclosure, // deprecated
   usePagination,
@@ -128,6 +124,10 @@ export {
   AlertIcon,
   AlertMessage,
 } from './Alert';
+export {
+  ColorModeProvider,
+  useColorMode,
+} from './ColorMode';
 export {
   Drawer,
   DrawerBody,
