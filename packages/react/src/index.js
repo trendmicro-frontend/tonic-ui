@@ -26,7 +26,6 @@ import Link from './Link';
 import LinkButton from './LinkButton';
 import Pagination from './Pagination';
 import Portal from './Portal';
-import Presence from './Presence';
 import PseudoBox from './PseudoBox'; // deprecated
 import Radio from './Radio';
 import RadioGroup from './RadioGroup';
@@ -51,7 +50,6 @@ import theme from './theme';
 import useColorStyle from './useColorStyle';
 import useDisclosure from './useDisclosure'; // deprecated
 import usePagination from './usePagination';
-import usePresence from './usePresence';
 import useTheme from './useTheme';
 import withTheme from './withTheme'; // deprecated
 
@@ -84,7 +82,6 @@ export {
   LinkButton,
   Pagination,
   Portal,
-  Presence,
   PseudoBox, // deprecated
   Radio,
   RadioGroup,
@@ -109,7 +106,6 @@ export {
   useColorStyle,
   useDisclosure, // deprecated
   usePagination,
-  usePresence,
   useTheme,
   withTheme, // deprecated
 };
@@ -162,6 +158,10 @@ export {
   Popper,
   PopperArrow,
 } from './Popper';
+export {
+  Presence,
+  usePresence,
+} from './Presence';
 export {
   Select,
   Option,

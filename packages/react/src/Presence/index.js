@@ -1,5 +1,7 @@
 import Presence from './Presence';
-import { PresenceContext } from './context';
+import usePresence from './usePresence';
 
-export default Presence;
-export { PresenceContext };
+export {
+  Presence,
+  usePresence,
+};

@@ -1,3 +1,7 @@
 import { createContext } from 'react';
 
-export const PresenceContext = createContext();
+const PresenceContext = createContext();
+
+export {
+  PresenceContext,
+};
