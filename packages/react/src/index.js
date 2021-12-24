@@ -23,7 +23,6 @@ import InputGroupPrepend from './InputGroupPrepend';
 import LightMode from './LightMode';
 import Link from './Link';
 import LinkButton from './LinkButton';
-import Pagination from './Pagination';
 import Portal from './Portal';
 import PseudoBox from './PseudoBox'; // deprecated
 import Radio from './Radio';
@@ -47,7 +46,6 @@ import VisuallyHidden from './VisuallyHidden';
 import colorStyle from './shared/color-style';
 import theme from './theme';
 import useDisclosure from './useDisclosure'; // deprecated
-import usePagination from './usePagination';
 import useTheme from './useTheme';
 import withTheme from './withTheme'; // deprecated
 
@@ -77,7 +75,6 @@ export {
   LightMode,
   Link,
   LinkButton,
-  Pagination,
   Portal,
   PseudoBox, // deprecated
   Radio,
@@ -101,7 +98,6 @@ export {
   colorStyle,
   theme,
   useDisclosure, // deprecated
-  usePagination,
   useTheme,
   withTheme, // deprecated
 };
@@ -146,6 +142,10 @@ export {
   ModalHeader,
   ModalOverlay,
 } from './Modal';
+export {
+  Pagination,
+  usePagination,
+} from './Pagination';
 export {
   Popover,
   PopoverBody,
