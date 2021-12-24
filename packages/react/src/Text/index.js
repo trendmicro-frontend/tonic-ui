@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
 
 const Text = forwardRef((
   {

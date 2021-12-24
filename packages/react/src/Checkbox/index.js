@@ -5,7 +5,7 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useCheckboxGroup } from '../CheckboxGroup/context';
 import ControlBox from '../ControlBox';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
 import VisuallyHidden from '../VisuallyHidden';
 import IconCheck from './IconCheck';
 import IconMinus from './IconMinus';

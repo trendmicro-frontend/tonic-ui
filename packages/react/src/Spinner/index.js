@@ -3,7 +3,7 @@ import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import { useColorMode } from '../ColorMode';
-import { setColorWithOpacity } from '../theme/colors';
+import { setColorWithOpacity } from '../utils/colors';
 
 const rotate = keyframes`
   100% {

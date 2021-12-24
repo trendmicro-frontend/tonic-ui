@@ -1,7 +1,7 @@
 import _get from 'lodash.get';
 import { useColorMode } from '../ColorMode';
 import { useColorStyle } from '../ColorStyle';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
 
 const defaultPlacement = 'left';
 const defaultSize = 'auto';

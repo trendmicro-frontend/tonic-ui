@@ -1,7 +1,7 @@
+import { useConst } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useEffect, useMemo } from 'react';
 import { createUniqueId } from '../utils/uniqueid';
-import useConstant from '../utils/useConstant';
 import { PresenceContext } from './context';
 
 const uniqueId = createUniqueId();
@@ -11,8 +11,8 @@ const Presence = forwardRef(({
   isPresent,
   onExitComplete,
 }, ref) => {
-  const childCompleteMap = useConstant(() => new Map());
-  const id = useConstant(() => uniqueId());
+  const childCompleteMap = useConst(() => new Map());
+  const id = useConst(() => uniqueId());
 
   const context = useMemo(() => ({
     id,

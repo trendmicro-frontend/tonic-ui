@@ -11,7 +11,7 @@ import {
   getEnterTransitionProps,
   getExitTransitionProps,
   transitionEasing,
-} from '../shared/transitions';
+} from '../utils/transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 

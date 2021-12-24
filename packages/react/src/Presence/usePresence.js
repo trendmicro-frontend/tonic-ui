@@ -1,6 +1,6 @@
+import { useConst } from '@tonic-ui/react-hooks';
 import { useContext, useEffect } from 'react';
 import { createUniqueId } from '../utils/uniqueid';
-import useConstant from '../utils/useConstant';
 import { PresenceContext } from './context';
 
 const uniqueId = createUniqueId();
@@ -12,7 +12,7 @@ const ensureFunction = x => {
 };
 
 const usePresence = () => {
-  const id = useConstant(uniqueId);
+  const id = useConst(() => uniqueId());
 
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');

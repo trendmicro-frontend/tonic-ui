@@ -1,13 +1,13 @@
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import React from 'react';
-import theme from '../theme';
+import defaultTheme from '../shared/theme';
 
 const ThemeProvider = ({
-  theme: customTheme = theme,
+  theme = defaultTheme,
   children,
 }) => {
   return (
-    <EmotionThemeProvider theme={customTheme}>
+    <EmotionThemeProvider theme={theme}>
       {children}
     </EmotionThemeProvider>
   );

@@ -1,5 +1,5 @@
 import { useColorMode } from '../ColorMode';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
 
 const getSolidBadgeContentStyle = ({
   colorMode,

@@ -1,6 +1,6 @@
-import { setColorWithOpacity } from '../theme/colors';
 import { useColorMode } from '../ColorMode';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
+import { setColorWithOpacity } from '../utils/colors';
 
 const solidStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
   const undefinedColor = {

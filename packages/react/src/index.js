@@ -7,7 +7,6 @@ import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
 import ControlBox from './ControlBox';
 import CSSBaseline from './CSSBaseline';
-import DarkMode from './DarkMode';
 import Divider from './Divider';
 import FlatButton from './FlatButton';
 import Flex from './Flex';
@@ -20,7 +19,6 @@ import InputGroup from './InputGroup';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
-import LightMode from './LightMode';
 import Link from './Link';
 import LinkButton from './LinkButton';
 import Portal from './Portal';
@@ -39,15 +37,13 @@ import Tag from './Tag';
 import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
-import ThemeProvider from './ThemeProvider';
 import ToggleSwitch from './ToggleSwitch'; // deprecated
 import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
+
 import colorStyle from './shared/color-style';
-import theme from './theme';
+import theme from './shared/theme';
 import useDisclosure from './useDisclosure'; // deprecated
-import useTheme from './useTheme';
-import withTheme from './withTheme'; // deprecated
 
 export {
   Badge,
@@ -59,7 +55,6 @@ export {
   CheckboxGroup,
   ControlBox,
   CSSBaseline,
-  DarkMode,
   Divider,
   FlatButton,
   Flex,
@@ -72,7 +67,6 @@ export {
   InputGroupAddon,
   InputGroupAppend,
   InputGroupPrepend,
-  LightMode,
   Link,
   LinkButton,
   Portal,
@@ -90,7 +84,6 @@ export {
   Text,
   Textarea,
   TextLabel,
-  ThemeProvider,
   Tag,
   ToggleSwitch, // deprecated
   Tooltip,
@@ -98,8 +91,6 @@ export {
   colorStyle,
   theme,
   useDisclosure, // deprecated
-  useTheme,
-  withTheme, // deprecated
 };
 
 export {
@@ -110,6 +101,8 @@ export {
 } from './Alert';
 export {
   ColorModeProvider,
+  DarkMode,
+  LightMode,
   useColorMode,
 } from './ColorMode';
 export {
@@ -183,6 +176,11 @@ export {
   TabPanel,
   TabPanels,
 } from './Tabs';
+export {
+  ThemeProvider,
+  useTheme,
+  withTheme, // deprecated
+} from './Theme';
 export {
   Toast,
   ToastCloseButton,

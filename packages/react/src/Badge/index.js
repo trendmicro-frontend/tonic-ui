@@ -5,7 +5,7 @@ import {
 } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import {
   useBadgeStyle,

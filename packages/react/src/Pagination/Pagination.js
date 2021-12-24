@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../Button';
 import ButtonBase from '../ButtonBase';
 import { useColorMode } from '../ColorMode';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
 import { useSelectedButtonStyle } from './styles';
 import usePagination from './usePagination';
 

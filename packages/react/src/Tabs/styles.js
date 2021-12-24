@@ -1,9 +1,8 @@
 import { useContext } from 'react';
-import _merge from 'lodash/merge';
-import { TabContext } from './context';
 import { useColorMode } from '../ColorMode';
-import useTheme from '../useTheme';
-import { setColorWithOpacity } from '../theme/colors';
+import { useTheme } from '../Theme';
+import { setColorWithOpacity } from '../utils/colors';
+import { TabContext } from './context';
 
 const tabSizes = {
   sm: {
@@ -44,29 +43,16 @@ const tabList = {
   borderStyle: 'solid'
 };
 
-const statusProps = {
-  _focus: {
-    zIndex: '3'
-  },
-  _selected: {
-    cursor: 'default'
-  },
-  _disabled: {
-    cursor: 'not-allowed',
-    borderColor: 'transparent',
-  },
-};
-
 const lineStyle = ({ size, colorMode, theme }) => {
   const _color = { light: theme.colors['black:primary'], dark: theme.colors['white:emphasis'] }[colorMode];
   const _fontColor = setColorWithOpacity(_color, 0.6);
   const _hoveredBorderColor = 'gray:60';
   const _focusBorderColor = 'blue:60';
-  const _selectedFontColor = _color;
   const _selectedBorderColor = 'red:60';
-  const _disabledColor = setColorWithOpacity(_color, 0.28);
+  const _selectedFontColor = _color;
   const _disabledBorderColor = 'transparent';
-  const _disabledBackgroundColor = _disabledBorderColor;
+  const _disabledColor = setColorWithOpacity(_color, 0.28);
+
   return {
     tabList: {
       borderBottomWidth: tabList.borderBottomWidth,
@@ -78,19 +64,21 @@ const lineStyle = ({ size, colorMode, theme }) => {
       borderRightWidth: 0,
       mb: `-${tabProps.borderWidth}`,
       _hover: {
-        borderBottomColor: _hoveredBorderColor
+        borderBottomColor: _hoveredBorderColor,
       },
       _selected: {
+        borderBottomColor: _selectedBorderColor,
         color: _selectedFontColor,
-        borderBottomColor: _selectedBorderColor
+        cursor: 'default',
       },
       _focus: {
-        borderBottomColor: _focusBorderColor
+        borderBottomColor: _focusBorderColor,
+        zIndex: 3,
       },
       _disabled: {
-        color: _disabledColor,
         borderBottomColor: _disabledBorderColor,
-        backgroundColor: _disabledBackgroundColor
+        color: _disabledColor,
+        cursor: 'not-allowed',
       },
       _focusSelected: {
         borderBottomColor: _selectedBorderColor
@@ -117,6 +105,8 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
   const _selectedBorder = { light: 'gray:30', dark: 'gray:80' }[colorMode];
   const _fontColor = setColorWithOpacity(_color, 0.6);
   const _selectedFontColor = _color;
+  const _disabledBackgroundColor = _backgroundColor;
+  const _disabledBorderColor = _borderColor;
   const _disabledColor = setColorWithOpacity(_color, 0.28);
 
   return {
@@ -129,45 +119,41 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
       py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_borderWidth} * 2)) / 2)`,
       mr: '-1px',
       mb: '-1px',
-
       _selected: {
-        color: _selectedFontColor,
-        borderColor: _selectedBorder,
         backgroundColor: _selectedBg,
+        borderColor: _selectedBorder,
+        color: _selectedFontColor,
+        cursor: 'default',
         zIndex: 1
       },
-
       _hover: {
         borderColor: _hoveredBorderColor,
         backgroundColor: _hoveredBgColor,
         zIndex: 2
       },
-
       _focus: {
         borderColor: _focusBorderColor,
         borderWidth: _focusBorderWidth,
         px: `calc(${_px} - ${_focusBorderWidth})`,
         py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_focusBorderWidth} * 2)) / 2)`,
+        zIndex: 3,
       },
-
       _focusHover: {
         borderColor: _focusBorderColor,
         zIndex: 3
       },
-
       _focusSelected: {
         borderColor: _selectedBorder,
         zIndex: 3
       },
-
       _focusActive: {
         borderColor: _hoveredBorderColor,
       },
-
       _disabled: {
+        backgroundColor: _disabledBackgroundColor,
+        borderColor: _disabledBorderColor,
         color: _disabledColor,
-        backgroundColor: _backgroundColor,
-        borderColor: _borderColor
+        cursor: 'not-allowed',
       }
     }
   };
@@ -232,7 +218,7 @@ export const useTabStyle = () => {
   return {
     ...tabProps,
     ...(tabSizes[size] ? tabSizes[size] : tabSizes.md),
-    ..._merge(_variantStyle.tab, statusProps),
+    ...(_variantStyle && _variantStyle.tab),
     ...(_orientationStyle && _orientationStyle.tab),
     ...(isFitted && { flex: 1 }),
   };

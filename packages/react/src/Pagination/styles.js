@@ -1,5 +1,5 @@
-import { setColorWithOpacity } from '../theme/colors';
 import { useColorMode } from '../ColorMode';
+import { setColorWithOpacity } from '../utils/colors';
 
 const useSelectedButtonStyle = () => {
   const [colorMode] = useColorMode();

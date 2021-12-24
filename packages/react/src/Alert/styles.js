@@ -1,6 +1,6 @@
 import _get from 'lodash.get';
 import { useColorMode } from '../ColorMode';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
 
 const getSolidSuccessStyle = ({
   colorMode,

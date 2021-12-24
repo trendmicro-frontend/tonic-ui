@@ -1,13 +1,10 @@
 import React from 'react';
 import Box from '../Box';
-import { ColorModeProvider } from '../ColorMode';
+import ColorModeProvider from './ColorModeProvider';
 
 const LightMode = (props) => (
   <ColorModeProvider value="light">
-    <Box
-      colorScheme="light"
-      {...props}
-    />
+    <Box colorScheme="light" {...props} />
   </ColorModeProvider>
 );
 

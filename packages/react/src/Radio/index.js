@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react';
 import Box from '../Box';
 import ControlBox from '../ControlBox';
 import { useRadioGroup } from '../RadioGroup/context';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
 import VisuallyHidden from '../VisuallyHidden';
 import useRadioStyle from './styles';
 

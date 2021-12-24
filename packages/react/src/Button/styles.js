@@ -1,8 +1,8 @@
 import { cx } from '@tonic-ui/styled-system';
 import _get from 'lodash.get';
-import { setColorWithOpacity } from '../theme/colors';
 import { useColorMode } from '../ColorMode';
-import useTheme from '../useTheme';
+import { useTheme } from '../Theme';
+import { setColorWithOpacity } from '../utils/colors';
 
 // Default Button
 const defaultVariantProps = (props) => {
