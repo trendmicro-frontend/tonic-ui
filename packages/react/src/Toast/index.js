@@ -19,5 +19,3 @@ export {
   ToastTransition,
   useToast,
 };
-
-export default Toast;

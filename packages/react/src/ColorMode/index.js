@@ -1,2 +1,7 @@
-export ColorModeProvider from './ColorModeProvider';
-export useColorMode from './useColorMode';
+import ColorModeProvider from './ColorModeProvider';
+import useColorMode from './useColorMode';
+
+export {
+  ColorModeProvider,
+  useColorMode,
+};
