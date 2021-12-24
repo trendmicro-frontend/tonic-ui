@@ -34,9 +34,9 @@ const MenuList = forwardRef((
     focusOnLastItem,
     closeMenu,
     focusableItems,
-    menuTriggerRef,
+    menuToggleRef,
     menuId,
-    menuTriggerId,
+    menuToggleId,
     menuRef,
     closeOnBlur,
     placement,
@@ -74,7 +74,7 @@ const MenuList = forwardRef((
     const isClickingOutside =
       target &&
       !(menuRef?.current?.contains(target)) &&
-      !(menuTriggerRef?.current?.contains(target));
+      !(menuToggleRef?.current?.contains(target));
     const shouldCloseMenu = isOpen && closeOnBlur && isClickingOutside;
 
     if (shouldCloseMenu) {
@@ -88,8 +88,8 @@ const MenuList = forwardRef((
 
   return (
     <Popper
-      anchorEl={menuTriggerRef?.current}
-      aria-labelledby={menuTriggerId}
+      anchorEl={menuToggleRef?.current}
+      aria-labelledby={menuToggleId}
       id={menuId}
       isOpen={isOpen}
       modifiers={{ offset }}

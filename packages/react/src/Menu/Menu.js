@@ -38,10 +38,10 @@ const Menu = ({
   const { current: isControlled } = useRef(isOpenProp != null);
   const _isOpen = isControlled ? isOpenProp : isOpen;
   const menuId = `${config.name}:menu-${useId()}`;
-  const menuTriggerId = `${config.name}:menu-trigger-${useId()}`;
+  const menuToggleId = `${config.name}:menu-toggle-${useId()}`;
   const focusableItems = useRef([]);
   const menuRef = useRef(null);
-  const menuTriggerRef = useRef(null);
+  const menuToggleRef = useRef(null);
   const direction = mapPlacementToDirection(placement);
 
   useEffect(() => {
@@ -85,12 +85,12 @@ const Menu = ({
       updateTabIndex(activeIndex);
     }
     if (activeIndex === -1 && !_isOpen && wasPreviouslyOpen) {
-      menuTriggerRef.current && menuTriggerRef.current.focus();
+      menuToggleRef.current && menuToggleRef.current.focus();
     }
     if (activeIndex === -1 && _isOpen) {
       menuRef.current && menuRef.current.focus();
     }
-  }, [activeIndex, _isOpen, menuTriggerRef, menuRef, wasPreviouslyOpen]);
+  }, [activeIndex, _isOpen, menuToggleRef, menuRef, wasPreviouslyOpen]);
 
   const openMenu = () => {
     if (!isControlled) {
@@ -128,7 +128,7 @@ const Menu = ({
   };
 
   if (anchorEl) {
-    menuTriggerRef.current = anchorEl;
+    menuToggleRef.current = anchorEl;
   }
 
   const context = {
@@ -149,8 +149,8 @@ const Menu = ({
     placement,
     menuId,
     menuRef,
-    menuTriggerId,
-    menuTriggerRef,
+    menuToggleId,
+    menuToggleRef,
   };
 
   return (

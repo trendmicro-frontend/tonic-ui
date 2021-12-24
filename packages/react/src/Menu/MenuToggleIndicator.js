@@ -15,7 +15,7 @@ import {
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 import {
-  useMenuIndicatorStyle,
+  useMenuToggleIndicatorStyle,
 } from './styles';
 import useMenu from './useMenu';
 
@@ -71,7 +71,7 @@ const defaultTimeout = {
   exit: Math.floor(133 * 0.7),
 };
 
-const MenuIndicator = forwardRef((
+const MenuToggleIndicator = forwardRef((
   {
     appear = true,
     children,
@@ -88,7 +88,7 @@ const MenuIndicator = forwardRef((
     isOpen,
     direction,
   } = { ...menuContext };
-  const menuIndicatorStyleProps = useMenuIndicatorStyle();
+  const menuIndicatorStyleProps = useMenuToggleIndicatorStyle();
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
 
@@ -148,6 +148,6 @@ const MenuIndicator = forwardRef((
   );
 });
 
-MenuIndicator.displayName = 'MenuIndicator';
+MenuToggleIndicator.displayName = 'MenuToggleIndicator';
 
-export default MenuIndicator;
+export default MenuToggleIndicator;

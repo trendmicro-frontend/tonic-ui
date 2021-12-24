@@ -4,11 +4,11 @@ import Box from '../Box';
 import wrapEvent from '../utils/wrapEvent';
 import useForkRef from '../utils/useForkRef';
 import {
-  useMenuTriggerStyle,
+  useMenuToggleStyle,
 } from './styles';
 import useMenu from './useMenu';
 
-const MenuTrigger = forwardRef((
+const MenuToggle = forwardRef((
   {
     onClick,
     onKeyDown,
@@ -25,15 +25,15 @@ const MenuTrigger = forwardRef((
     focusOnFirstItem,
     closeMenu,
     menuId,
-    menuTriggerId,
+    menuToggleId,
     autoSelect,
     openMenu,
-    menuTriggerRef,
+    menuToggleRef,
   } = { ...menuContext };
-  const styleProps = useMenuTriggerStyle();
-  const combinedRef = useForkRef(menuTriggerRef, ref);
+  const styleProps = useMenuToggleStyle();
+  const combinedRef = useForkRef(menuToggleRef, ref);
   const handleClick = wrapEvent(onClick, (event) => {
-    // Don't handle `onClick` event when the `MenuTrigger` is disabled
+    // Don't handle `onClick` event when the `MenuToggle` is disabled
     if (disabled) {
       event.preventDefault();
       return;
@@ -50,7 +50,7 @@ const MenuTrigger = forwardRef((
     autoSelect && focusOnFirstItem();
   });
   const handleKeyDown = wrapEvent(onKeyDown, event => {
-    // Don't handle `onKeyDown` event when the `MenuTrigger` is disabled
+    // Don't handle `onKeyDown` event when the `MenuToggle` is disabled
     if (disabled) {
       event.preventDefault();
       return;
@@ -73,13 +73,13 @@ const MenuTrigger = forwardRef((
     }
   });
 
-  const getMenuTriggerProps = () => ({
+  const getMenuToggleProps = () => ({
     'aria-controls': menuId,
     'aria-disabled': disabled,
     'aria-expanded': isOpen,
     'aria-haspopup': 'menu',
     disabled,
-    id: menuTriggerId,
+    id: menuToggleId,
     onClick: handleClick,
     onKeyDown: handleKeyDown,
     ref: combinedRef,
@@ -91,7 +91,7 @@ const MenuTrigger = forwardRef((
 
   if (typeof children === 'function') {
     return children({
-      getMenuTriggerProps,
+      getMenuToggleProps,
       isOpen,
       openMenu,
       closeMenu,
@@ -99,12 +99,12 @@ const MenuTrigger = forwardRef((
   }
 
   return (
-    <Box {...getMenuTriggerProps()}>
+    <Box {...getMenuToggleProps()}>
       {children}
     </Box>
   );
 });
 
-MenuTrigger.displayName = 'MenuTrigger';
+MenuToggle.displayName = 'MenuToggle';
 
-export default MenuTrigger;
+export default MenuToggle;
