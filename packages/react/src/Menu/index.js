@@ -13,7 +13,7 @@ Menu.Group = MenuGroup;
 Menu.Item = MenuItem;
 Menu.List = MenuList;
 Menu.Toggle = MenuToggle;
-Menu.ToggleIndicator = MenuToggleIndicator;
+Menu.Toggle.Indicator = MenuToggleIndicator;
 
 export {
   Menu,
