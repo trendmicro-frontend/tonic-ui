@@ -10,12 +10,12 @@ import { isElement, isValidElementType } from 'react-is';
 import {
   TransitionGroup,
 } from 'react-transition-group';
-import { ToastContext } from '../context';
 import canUseDOM from '../utils/dom/canUseDOM';
 import { createUniqueId } from '../utils/uniqueid';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
+import { ToastContext } from './context';
 
 const uniqueId = createUniqueId();
 

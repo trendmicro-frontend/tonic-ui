@@ -43,7 +43,6 @@ import Text from './Text';
 import Textarea from './Textarea';
 import TextLabel from './TextLabel';
 import ThemeProvider from './ThemeProvider';
-import ToastProvider from './ToastProvider';
 import ToggleSwitch from './ToggleSwitch'; // deprecated
 import Tooltip from './Tooltip';
 import VisuallyHidden from './VisuallyHidden';
@@ -54,7 +53,6 @@ import useDisclosure from './useDisclosure'; // deprecated
 import usePagination from './usePagination';
 import usePresence from './usePresence';
 import useTheme from './useTheme';
-import useToast from './useToast';
 import withTheme from './withTheme'; // deprecated
 
 export {
@@ -103,7 +101,6 @@ export {
   TextLabel,
   ThemeProvider,
   Tag,
-  ToastProvider,
   ToggleSwitch, // deprecated
   Tooltip,
   VisuallyHidden,
@@ -114,7 +111,6 @@ export {
   usePagination,
   usePresence,
   useTheme,
-  useToast,
   withTheme, // deprecated
 };
 
@@ -190,8 +186,13 @@ export {
 export {
   Toast,
   ToastCloseButton,
+  ToastContainer,
+  ToastController,
   ToastIcon,
   ToastMessage,
+  ToastProvider,
+  ToastTransition,
+  useToast,
 } from './Toast';
 export {
   Collapse,
