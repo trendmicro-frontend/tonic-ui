@@ -3,7 +3,9 @@ import { useState, useCallback } from 'react';
 
 const useDisclosure = defaultIsOpen => {
   useEffectOnce(() => {
-    console.error('Warning: The `useDisclosure` Hook is deprecated and will be removed in the next major release.');
+    console.error(
+      'Warning: The `useDisclosure` Hook is deprecated and will be removed in the next major release. Use the `useToggle` Hook instead.\n\nSee https://trendmicro-frontend.github.io/tonic-ui/react/latest/hooks for more information.',
+    );
   });
 
   const [isOpen, setIsOpen] = useState(Boolean(defaultIsOpen));
