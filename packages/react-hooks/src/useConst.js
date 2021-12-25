@@ -1,7 +1,9 @@
 import { useRef } from 'react';
 
 /**
- * Creates a constant value over the lifecycle of a component.
+ * `useConst` is a custom Hook that creates a constant value over the lifecycle of a component.
+ * @param {any} value The value to create a constant for. If value is a function, it will be called to get the constant value.
+ * @returns {any} The constant value.
  */
 const useConst = (init) => {
   const ref = useRef(null);
