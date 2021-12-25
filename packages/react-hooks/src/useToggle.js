@@ -5,7 +5,7 @@ const defaultToggleFunction = (state, nextValue) => {
 };
 
 /**
- * `useToggle` is a custom hook that toggles between boolean values. It also accepts a toggle function that can be used to change the value.
+ * `useToggle` is a custom Hook that toggles between boolean values. It also accepts a toggle function that can be used to change the value.
  * @param {boolean} initialValue Initial value of the toggle.
  * @param {function} toggleFunction A toggle function.
  * @return {[boolean, function]} The current value and a function to toggle the value.
