@@ -95,12 +95,6 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
-const useToggle = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
-  const toggle = () => setValue(value => !value);
-  return [value, toggle];
-};
-
 const Divider = (props) => {
   const [colorMode] = useColorMode();
   const dividerColor = {
@@ -123,7 +117,7 @@ function Example() {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isOpen, toggleModal] = useToggle(false);
   const [size, changeSizeBy] = useSelection('sm');
   const [height, changeHeightBy] = useSelection('auto');
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
@@ -140,7 +134,7 @@ function Example() {
   return (
     <>
       <Box>
-        <Button onClick={onOpen}>
+        <Button onClick={() => toggleModal(true)}>
           Launch modal
         </Button>
       </Box>
@@ -202,7 +196,7 @@ function Example() {
         <TextLabel display="flex" alignItems="center">
           <Checkbox
             checked={ensureFocus}
-            onChange={toggleEnsureFocus}
+            onChange={() => toggleEnsureFocus()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
@@ -213,7 +207,7 @@ function Example() {
           <Checkbox
             checked={autoFocus}
             disabled={!ensureFocus}
-            onChange={toggleAutoFocus}
+            onChange={() => toggleAutoFocus()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">autoFocus</Text>
@@ -224,7 +218,7 @@ function Example() {
           <Checkbox
             checked={closeOnEsc}
             disabled={!isClosable && !closeOnOutsideClick}
-            onChange={toggleCloseOnEsc}
+            onChange={() => toggleCloseOnEsc()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">closeOnEsc</Text>
@@ -235,7 +229,7 @@ function Example() {
           <Checkbox
             checked={closeOnOutsideClick}
             disabled={!isClosable && !closeOnEsc}
-            onChange={toggleCloseOnOutsideClick}
+            onChange={() => toggleCloseOnOutsideClick()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">closeOnOutsideClick</Text>
@@ -246,7 +240,7 @@ function Example() {
           <Checkbox
             checked={isClosable}
             disabled={!closeOnEsc && !closeOnOutsideClick}
-            onChange={toggleIsCloseButtonVisible}
+            onChange={() => toggleIsCloseButtonVisible()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
@@ -254,35 +248,35 @@ function Example() {
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isOverlayVisible} onChange={toggleIsOverlayVisible} />
+          <Checkbox checked={isOverlayVisible} onChange={() => toggleIsOverlayVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ModalOverlay</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isHeaderVisible} onChange={toggleIsHeaderVisible} />
+          <Checkbox checked={isHeaderVisible} onChange={() => toggleIsHeaderVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ModalHeader</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isBodyVisible} onChange={toggleIsBodyVisible} />
+          <Checkbox checked={isBodyVisible} onChange={() => toggleIsBodyVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ModalBody</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isFooterVisible} onChange={toggleIsFooterVisible} />
+          <Checkbox checked={isFooterVisible} onChange={() => toggleIsFooterVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ModalFooter</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isAlertVisible} onChange={toggleIsAlertVisible} />
+          <Checkbox checked={isAlertVisible} onChange={() => toggleIsAlertVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
         </TextLabel>
@@ -295,7 +289,7 @@ function Example() {
         initialFocusRef={initialFocusRef}
         isClosable={isClosable}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => toggleModal(false)}
         size={size}
       >
         {isOverlayVisible && (
@@ -342,7 +336,7 @@ function Example() {
                 OK
               </Button>
               <Space width="2x" />
-              <Button onClick={onClose}>
+              <Button onClick={() => toggleModal(false)}>
                 Cancel
               </Button>
             </ModalFooter>
@@ -360,18 +354,18 @@ render(<Example />);
 
 ```jsx
 function Example() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isNestedOpen, onOpen: onNestedOpen, onClose: onNestedClose } = useDisclosure();
+  const [isOpen, toggleModal] = useToggle(false);
+  const [isNestedOpen, toggleNestedModal] = useToggle(false);
 
   return (
     <>
-      <Button onClick={onOpen}>Launch modal</Button>
+      <Button onClick={() => toggleModal(true)}>Launch modal</Button>
       <Modal
         closeOnEsc
         closeOnOutsideClick
         isClosable
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => toggleModal(false)}
         size="sm"
       >
         <ModalOverlay />
@@ -386,12 +380,12 @@ function Example() {
             <Button
               disabled={isNestedOpen}
               variant="primary"
-              onClick={onNestedOpen}
+              onClick={() => toggleNestedModal(true)}
             >
               Launch nested modal
             </Button>
             <Box>
-              <Button minWidth="20x" onClick={onClose}>
+              <Button minWidth="20x" onClick={() => toggleModal(false)}>
                 Close
               </Button>
             </Box>
@@ -403,7 +397,7 @@ function Example() {
         closeOnOutsideClick
         isClosable
         isOpen={isNestedOpen}
-        onClose={onNestedClose}
+        onClose={() => toggleNestedModal(false)}
         size="xs"
       >
         <ModalOverlay />
@@ -415,11 +409,11 @@ function Example() {
             Modal body text goes here.
           </ModalBody>
           <ModalFooter>
-            <Button variant="primary" onClick={onNestedClose} minWidth="20x">
+            <Button variant="primary" onClick={() => toggleNestedModal(false)} minWidth="20x">
               Yes
             </Button>
             <Space width="2x" />
-            <Button onClick={onNestedClose} minWidth="20x">
+            <Button onClick={() => toggleNestedModal(false)} minWidth="20x">
               No
             </Button>
           </ModalFooter>

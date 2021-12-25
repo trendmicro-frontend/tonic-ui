@@ -35,12 +35,6 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
-const useToggle = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
-  const toggle = () => setValue(value => !value);
-  return [value, toggle, setValue];
-};
-
 const Divider = (props) => {
   const [colorMode] = useColorMode();
   const dividerColor = {
@@ -63,16 +57,16 @@ function Example() {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isOpen, toggleDrawer] = useToggle(false);
   const [placement, changePlacementBy] = useSelection('right');
   const [size, changeSizeBy] = useSelection('sm');
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [backdrop, toggleBackdrop] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
-  const [closeOnOutsideClick, toggleCloseOnOutsideClick, setCloseOnOutsideClick] = useToggle(true);
+  const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
   const [isClosable, toggleIsClosable] = useToggle(true);
-  const [isOverlayVisible, toggleIsOverlayVisible, setIsOverlayVisible] = useToggle(true);
+  const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
@@ -82,7 +76,7 @@ function Example() {
   return (
     <>
       <Box>
-        <Button onClick={onOpen}>
+        <Button onClick={() => toggleDrawer(true)}>
           Launch drawer
         </Button>
       </Box>
@@ -144,7 +138,7 @@ function Example() {
         <TextLabel display="flex" alignItems="center">
           <Checkbox
             checked={ensureFocus}
-            onChange={toggleEnsureFocus}
+            onChange={() => toggleEnsureFocus()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
@@ -155,7 +149,7 @@ function Example() {
           <Checkbox
             checked={autoFocus}
             disabled={!ensureFocus}
-            onChange={toggleAutoFocus}
+            onChange={() => toggleAutoFocus()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">autoFocus</Text>
@@ -168,11 +162,11 @@ function Example() {
             onChange={(e) => {
               const nextBackdrop = !backdrop;
               if (!nextBackdrop) {
-                setCloseOnOutsideClick(false);
-                setIsOverlayVisible(false);
+                toggleCloseOnOutsideClick(false);
+                toggleIsOverlayVisible(false);
               }
 
-              toggleBackdrop(e);
+              toggleBackdrop();
             }}
           />
           <Space width="2x" />
@@ -184,7 +178,7 @@ function Example() {
           <Checkbox
             checked={isClosable}
             disabled={!closeOnEsc && !closeOnOutsideClick}
-            onChange={toggleIsClosable}
+            onChange={() => toggleIsClosable()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
@@ -195,7 +189,7 @@ function Example() {
           <Checkbox
             checked={closeOnEsc}
             disabled={!isClosable && !closeOnOutsideClick}
-            onChange={toggleCloseOnEsc}
+            onChange={() => toggleCloseOnEsc()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">closeOnEsc</Text>
@@ -206,7 +200,7 @@ function Example() {
           <Checkbox
             checked={closeOnOutsideClick}
             disabled={(!isClosable && !closeOnEsc) || !backdrop}
-            onChange={toggleCloseOnOutsideClick}
+            onChange={() => toggleCloseOnOutsideClick()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">closeOnOutsideClick</Text>
@@ -217,7 +211,7 @@ function Example() {
           <Checkbox
             checked={isOverlayVisible}
             disabled={!backdrop}
-            onChange={toggleIsOverlayVisible}
+            onChange={() => toggleIsOverlayVisible()}
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerOverlay</Text>
@@ -225,28 +219,28 @@ function Example() {
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isHeaderVisible} onChange={toggleIsHeaderVisible} />
+          <Checkbox checked={isHeaderVisible} onChange={() => toggleIsHeaderVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerHeader</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isBodyVisible} onChange={toggleIsBodyVisible} />
+          <Checkbox checked={isBodyVisible} onChange={() => toggleIsBodyVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerBody</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isFooterVisible} onChange={toggleIsFooterVisible} />
+          <Checkbox checked={isFooterVisible} onChange={() => toggleIsFooterVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerFooter</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isAlertVisible} onChange={toggleIsAlertVisible} />
+          <Checkbox checked={isAlertVisible} onChange={() => toggleIsAlertVisible()} />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
         </TextLabel>
@@ -260,7 +254,7 @@ function Example() {
         initialFocusRef={initialFocusRef}
         isClosable={isClosable}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => toggleDrawer(false)}
         placement={placement}
         size={size}
       >
@@ -302,11 +296,11 @@ function Example() {
           )}
           {isFooterVisible && (
             <DrawerFooter>
-              <Button variant="primary" onClick={onClose} minWidth="20x">
+              <Button variant="primary" onClick={() => toggleDrawer(false)} minWidth="20x">
                 OK
               </Button>
               <Space width="2x" />
-              <Button onClick={onClose} minWidth="20x">
+              <Button onClick={() => toggleDrawer(false)} minWidth="20x">
                 Cancel
               </Button>
             </DrawerFooter>

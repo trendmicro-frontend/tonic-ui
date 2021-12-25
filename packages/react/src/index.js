@@ -1,12 +1,6 @@
-import colorStyle from './shared/color-style';
-import theme from './shared/theme';
-import useDisclosure from './useDisclosure'; // deprecated
-
-export {
-  colorStyle,
-  theme,
-  useDisclosure, // deprecated
-};
+export useDisclosure from './deprecated/useDisclosure'; // deprecated
+export colorStyle from './shared/color-style';
+export theme from './shared/theme';
 
 export {
   Alert,

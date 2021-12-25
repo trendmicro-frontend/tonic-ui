@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { mdx } from '@mdx-js/react';
-import * as styledUIComponents from '@tonic-ui/react';
+import * as reactComponents from '@tonic-ui/react';
+import * as reactHooks from '@tonic-ui/react-hooks';
 import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
@@ -38,7 +39,7 @@ const {
   Fade,
   Icon,
   useColorMode,
-} = styledUIComponents;
+} = reactComponents;
 
 const liveEditorStyle = {
   fontSize: 14,
@@ -188,7 +189,8 @@ const CodeBlock = ({
     code: editorCode,
     transformCode: code => code,
     scope: {
-      ...styledUIComponents,
+      ...reactComponents,
+      ...reactHooks,
       ...thirdPartyComponents,
       FontAwesomeIcon,
       EditableTag,

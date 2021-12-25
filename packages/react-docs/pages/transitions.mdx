@@ -25,7 +25,7 @@ The `Collapse` transition is used to animate the height of a component. The `col
 
 ```jsx
 function Example() {
-  const { isOpen, onToggle } = useDisclosure();
+  const [isOpen, onToggle] = useToggle();
 
   return (
     <Stack
@@ -35,7 +35,7 @@ function Example() {
       shouldWrapChildren
     >
       <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={onToggle} size="sm" />
+        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
         <Space width="2x" />
         <Text>Show</Text>
       </Flex>
@@ -59,7 +59,7 @@ The `Fade` transition is used to animate the opacity of a component.
 
 ```jsx
 function Example() {
-  const { isOpen, onToggle } = useDisclosure();
+  const [isOpen, onToggle] = useToggle();
 
   return (
     <Stack
@@ -69,7 +69,7 @@ function Example() {
       shouldWrapChildren
     >
       <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={onToggle} size="sm" />
+        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
         <Space width="2x" />
         <Text>Show</Text>
       </Flex>
@@ -92,7 +92,7 @@ The `Grow` transition is used to animate the width and height of a component.
 
 ```jsx
 function Example() {
-  const { isOpen, onToggle } = useDisclosure();
+  const [isOpen, onToggle] = useToggle();
 
   return (
     <Stack
@@ -102,7 +102,7 @@ function Example() {
       shouldWrapChildren
     >
       <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={onToggle} size="sm" />
+        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
         <Space width="2x" />
         <Text>Show</Text>
       </Flex>
@@ -125,7 +125,7 @@ The `Scale` transition is used to animate the scale of a component.
 
 ```jsx
 function Example() {
-  const { isOpen, onToggle } = useDisclosure();
+  const [isOpen, onToggle] = useToggle();
 
   return (
     <Stack
@@ -135,7 +135,7 @@ function Example() {
       shouldWrapChildren
     >
       <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={onToggle} size="sm" />
+        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
         <Space width="2x" />
         <Text>Show</Text>
       </Flex>
@@ -165,7 +165,7 @@ const useSelection = (defaultValue) => {
 };
 
 function Example() {
-  const { isOpen, onClose, onToggle } = useDisclosure();
+  const [isOpen, onToggle] = useToggle();
   const [direction, changeDirectionBy] = useSelection('up');
 
   return (
@@ -176,7 +176,7 @@ function Example() {
       shouldWrapChildren
     >
       <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={onToggle} size="sm" />
+        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
         <Space width="2x" />
         <Text>Show</Text>
       </Flex>
@@ -192,7 +192,7 @@ function Example() {
           const changeDirection = changeDirectionBy(value);
           const onClick = () => {
             changeDirection();
-            onClose();
+            onToggle(false);
           };
 
           return (
@@ -231,7 +231,7 @@ The `Zoom` transition is used to zoom in and out of a component.
 
 ```jsx
 function Example() {
-  const { isOpen, onToggle } = useDisclosure();
+  const [isOpen, onToggle] = useToggle();
 
   return (
     <Stack
@@ -241,7 +241,7 @@ function Example() {
       shouldWrapChildren
     >
       <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={onToggle} size="sm" />
+        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
         <Space width="2x" />
         <Text>Show</Text>
       </Flex>
