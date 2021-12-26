@@ -19,7 +19,7 @@ import ReactGA from 'react-ga';
 import Header from '../components/Header';
 import Main from '../components/Main';
 import MDXComponents from '../components/MDXComponents';
-import SideNav from '../components/SideNav';
+import Sidebar from '../components/Sidebar';
 
 const assetPrefix = ensureString(process.env.ASSET_PREFIX);
 
@@ -64,7 +64,7 @@ const Layout = ({ children }) => {
         lineHeight="sm"
       >
         <Header />
-        <SideNav
+        <Sidebar
           display={['none', null, 'block']}
           maxWidth="20rem"
         />
@@ -86,7 +86,7 @@ const Layout = ({ children }) => {
 const CustomApp = (props) => {
   const router = useRouter();
   useEffect(() => {
-    router.pathname === '/' && router.push(`${assetPrefix}/getting-started`);
+    router.pathname === '/' && router.push(`${assetPrefix}/usage`);
   }, [router]);
 
   // https://github.com/vercel/next.js/blob/canary/examples/with-react-ga/pages/_app.js

@@ -1,36 +1,38 @@
-# Getting Started
+# Usage
 
-Install Tonic UI and its peer dependencies.
+## Quick Start
 
-```bash
-npm install @tonic-ui/react
-```
+For Tonic UI to work, you need to setup Provider components at the root of your application.
 
-Optionally, yoiu can create a theme object and pass it to the `<ThemeProvider>` component.
-
-This step is not required if you are using the default theme.
+Go to the root of your application and do the following:
 
 ```js
-// example base.js
-export default {
-  fonts: {
-    base: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif',
-    mono: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
-  };
-  fontSizes: {
-    xs: '.75rem',
-    sm: '.875rem',
-    md: '1rem',
-    lg: '1.125rem',
-    xl: '1.25rem',
-    '2xl': '1.5rem',
-    '3xl': '1.75rem',
-    '4xl': '2rem',
-  },
+import React from 'react';
+import {
+  Box,
+  ColorModeProvider,
+  ColorStyleProvider,
+  ThemeProvider,
+} from '@tonic-ui/react';
+
+const App = (props) => {
+  return (
+    <ThemeProvider>
+      <ColorModeProvider>
+        <ColorStyleProvider>
+          <Box {...props} />
+        </ColorStyleProvider>
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
 };
 ```
 
-You can extend the theme object to add custom styles, including colors, fonts, and more.
+### Extending the theme
+
+Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc.
+
+Override the theme object and pass it to the `<ThemeProvider>` component. This is not required if you are using the default theme.
 
 ```js
 import { theme } from '@tonic-ui/react';
@@ -49,28 +51,10 @@ const customTheme = {
 };
 ```
 
-Add the theme to your application with the `ThemeProvider`, passing in the theme
-object as a prop.
-
-```js
-import React from 'react';
-import { render } from 'react-dom';
-import { ThemeProvider } from '@tonic-ui/react';
-
-render(
-  <ThemeProvider theme={customTheme}>
-    {children}
-  </ThemeProvider>,
-  document.getElementById('root'),
-);
-```
-
-## Using components
-
-Import components using named imports from `@tonic-ui/react`, as shown below:
-
-```js
-import { Button } from '@tonic-ui/react';
+```jsx disabled
+<ThemeProvider theme={customTheme}>
+  {children}
+</ThemeProvider>
 ```
 
 ## Recommended setup
@@ -91,8 +75,6 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-
-import App from './App';
 
 const Layout = (props) => {
   const [colorMode] = useColorMode(); // One of: 'dark', 'light'
@@ -126,7 +108,7 @@ const Layout = (props) => {
   );
 };
 
-const CustomApp = (props) => {
+const App = (props) => {
   return (
     <ThemeProvider>
       <ColorModeProvider value="dark">
@@ -134,7 +116,7 @@ const CustomApp = (props) => {
           <ToastProvider>
             <CSSBaseline />
             <Layout>
-              <App {...props} />
+              <Box {...props} />
             </Layout>
           </ToastProvider>
         </ColorStyleProvider>
@@ -143,5 +125,5 @@ const CustomApp = (props) => {
   );
 };
 
-export default CustomApp;
+export default App;
 ```
