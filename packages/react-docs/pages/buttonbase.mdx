@@ -34,7 +34,70 @@ Standard button attributes are supported, e.g., `type`, `disabled`, etc.
 
 ### Icon button
 
-See [IconButton](/iconbutton) for more information.
+You can use `ButtonBase` to compose an icon button. An icon button is a button that contains only an icon.
+
+```jsx noInline
+const IconButton = React.forwardRef((props, ref) => {
+  const [colorMode] = useColorMode();
+  const { colors } = useTheme();
+  const color = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const activeColor = color;
+  const focusColor = color;
+  const focusHoverColor = hoverColor;
+  const focusActiveColor = activeColor;
+  const focusBorderColor = colors['blue:60'];
+
+  return (
+    <ButtonBase
+      ref={ref}
+      border={1}
+      borderColor="transparent"
+      color={color}
+      transition="all .2s"
+      lineHeight={1}
+      px="2x"
+      py="2x"
+      _hover={{
+        color: hoverColor,
+      }}
+      _active={{
+        color: activeColor,
+      }}
+      _focus={{
+        borderColor: focusBorderColor,
+        boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+        color: focusColor,
+      }}
+      _focusHover={{
+        color: focusHoverColor,
+      }}
+      _focusActive={{
+        borderColor: focusBorderColor,
+        boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+        color: focusActiveColor,
+      }}
+      {...props}
+    />
+  );
+});
+
+function Example() {
+  return (
+    <IconButton>
+      <Icon icon="close" />
+    </IconButton>
+  );
+}
+
+render(<Example />);
+```
 
 ## Props
 

@@ -30,7 +30,6 @@ export const componentLinks = [
   'Flex',
   'Grid',
   'Icon',
-  'IconButton',
   'Image',
   'Input',
   'InputBase',
