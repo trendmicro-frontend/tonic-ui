@@ -1,8 +1,20 @@
 # Usage
 
+Get started with React and Tonic UI in no time.
+
+You can use any of the components as demonstrated in the documentation. Please refer to each component's [demo page](button) to see how they work.
+
 ## Quick Start
 
-For Tonic UI to work, you need to setup Provider components at the root of your application.
+Here is a quick example to get you started:
+
+```jsx
+<Button variant="primary">
+  Button
+</Button>
+```
+
+For Tonic UI to work, you will need to setup Provider components at the root of your application.
 
 Go to the root of your application and do the following:
 
@@ -28,40 +40,11 @@ const App = (props) => {
 };
 ```
 
-### Extending the theme
+### CSSBaseline
 
-Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc.
+Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
-Override the theme object and pass it to the `<ThemeProvider>` component. This is not required if you are using the default theme.
-
-```js
-import { theme } from '@tonic-ui/react';
-
-// Let's say you want to add custom colors
-const customTheme = {
-  ...theme,
-  colors: {
-    ...theme.colors,
-    brand: {
-      90: "#1a365d",
-      80: "#153e75",
-      70: "#2a69ac",
-    },
-  },
-};
-```
-
-```jsx disabled
-<ThemeProvider theme={customTheme}>
-  {children}
-</ThemeProvider>
-```
-
-## Recommended setup
-
-Sometimes you may need to apply base CSS styles to your application. Tonic UI exports a `CSSBaseline` that is used to normalize styles for a wide range of elements, which is based on the [normalize.css](https://github.com/necolas/normalize.css).
-
-`CSSBaseline` is recommended to add at the root to ensure all components work correctly.
+See below for an example of building a Tonic UI application with `CSSBaseline`:
 
 ```js
 import { Global, css } from '@emotion/react';
@@ -127,3 +110,36 @@ const App = (props) => {
 
 export default App;
 ```
+
+### Extending the theme
+
+Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc.
+
+Override the theme object and pass it to the `<ThemeProvider>` component. This is not required if you are using the default theme.
+
+```js
+import { theme } from '@tonic-ui/react';
+
+// Let's say you want to add custom colors
+const customTheme = {
+  ...theme,
+  colors: {
+    ...theme.colors,
+    brand: {
+      90: "#1a365d",
+      80: "#153e75",
+      70: "#2a69ac",
+    },
+  },
+};
+```
+
+```jsx disabled
+<ThemeProvider theme={customTheme}>
+  {children}
+</ThemeProvider>
+```
+
+## Versioned Documentation
+
+This documentation always reflects the latest version of Tonic UI. You can find older versions of the documentation [here](versions).
