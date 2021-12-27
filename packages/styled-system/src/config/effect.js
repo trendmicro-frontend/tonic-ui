@@ -1,6 +1,7 @@
 import system from '../core/system';
 
 const config = {
+  backdropFilter: true,
   backgroundBlendMode: true,
   boxShadow: {
     property: 'boxShadow',
