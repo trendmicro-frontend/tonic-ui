@@ -6,7 +6,7 @@ import NextApp from 'next/app';
 import React from 'react';
 import Header from '../components/Header';
 import Main from '../components/Main';
-import SideNav from '../components/SideNav';
+import Sidebar from '../components/Sidebar';
 
 const DocsPage = (props) => {
   const [colorMode] = useColorMode();
@@ -26,12 +26,8 @@ const DocsPage = (props) => {
       fontSize="sm"
       lineHeight="sm"
     >
-      <Header
-        position="sticky"
-        top={0}
-        zIndex="fixed"
-      />
-      <SideNav
+      <Header />
+      <Sidebar
         display={['none', null, 'block']}
         maxWidth="20rem"
       />

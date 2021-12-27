@@ -1,3 +1,4 @@
+import Color from 'color';
 import { ensureString } from 'ensure-type';
 import {
   Box,
@@ -11,7 +12,10 @@ import {
   Space,
   Text,
   useColorMode,
+  useTheme,
 } from '@tonic-ui/react';
+import _get from 'lodash/get';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
@@ -19,6 +23,13 @@ import pkg from '../../../package.json';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
+
+const setColorOpacity = (color, opacity) => {
+  return Color(color)
+    .fade(1 - opacity)
+    .rgb()
+    .string();
+};
 
 const versionMap = {
   /*
@@ -48,6 +59,7 @@ const Header = forwardRef((props, ref) => {
     }
     return '';
   })();
+  const theme = useTheme();
   const [colorMode, setColorMode] = useColorMode();
   const toggleColorMode = () => {
     const nextColorMode = {
@@ -64,7 +76,7 @@ const Header = forwardRef((props, ref) => {
     light: 'white:emphasis', // FIXME
     dark: 'gray:90',
   }[colorMode];
-  const borderColor = {
+  const boxShadowColor = {
     light: 'gray:20', // FIXME
     dark: 'gray:70',
   }[colorMode];
@@ -84,17 +96,24 @@ const Header = forwardRef((props, ref) => {
     router.push(`${ASSET_PREFIX}/versions`);
   };
 
+  const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor]), 0.7);
+  const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor]), 0.5);
+
+  const canDisplayVersion = (router.pathname !== '/') && !!version;
+  
   return (
     <Box
+      as="header"
       ref={ref}
       position="fixed"
       top={0}
+      zIndex="fixed"
       height="12x"
       width="100%"
-      zIndex="fixed"
-      backgroundColor={backgroundColor}
-      borderBottom={1}
-      borderBottomColor={borderColor}
+      backdropFilter="blur(20px)"
+      backgroundColor={_backgroundColor}
+      boxShadow={`0px -1px 1px inset ${_boxShadowColor}`}
+      transition="all 0.2s"
       {...props}
     >
       <Box
@@ -103,26 +122,31 @@ const Header = forwardRef((props, ref) => {
         height="100%"
         alignItems="center"
       >
-        <Box
-          display="flex"
-          alignItems="center"
-          flex="auto"
-          fontSize="xl"
-          maxWidth="100%"
-          px="4x"
-          py="2x"
-          color={fontColor}
-        >
-          <Image
-            alt=""
-            src={logoPath}
-            width={35}
-            height={30}
-            marginRight="2x"
-          />
-          <Text>Tonic UI</Text>
-        </Box>
-        {version && (
+        <NextLink href={`${ASSET_PREFIX}/`} passHref>
+          <Box
+            as="a"
+            display="flex"
+            alignItems="center"
+            flex="auto"
+            fontSize="xl"
+            maxWidth="100%"
+            px="4x"
+            py="2x"
+            color={fontColor}
+            outline="none"
+            textDecoration="none"
+          >
+            <Image
+              alt=""
+              src={logoPath}
+              width={35}
+              height={30}
+              marginRight="2x"
+            />
+            <Text>Tonic UI</Text>
+          </Box>
+        </NextLink>
+        {canDisplayVersion && (
           <Box
             display="flex"
             flex="none"
