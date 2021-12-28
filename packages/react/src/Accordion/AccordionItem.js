@@ -16,6 +16,7 @@ const uniqueId = createUniqueId();
 const AccordionItem = forwardRef((
   {
     children,
+    disabled,
     id: idProp,
     isExpanded: isExpandedProp,
     defaultIsExpanded: defaultIsExpandedProp,
@@ -52,6 +53,7 @@ const AccordionItem = forwardRef((
   const context = getMemoizedState({
     variant: accordionContext?.variant,
     bodyId,
+    disabled,
     headerId,
     isExpanded,
     onToggle,

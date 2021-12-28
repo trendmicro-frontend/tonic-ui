@@ -6,34 +6,89 @@
 import {
   Accordion,
   AccordionItem,
-  AccordionHeader,
-  AccordionBody,
   AccordionToggle,
+  AccordionToggleIndicator,
   AccordionCollapse,
 } from '@tonic-ui/react';
 ```
 
 ## Usage
 
-```jsx
-<Accordion>
-  <AccordionItem>
-    <AccordionHeader>
-      Header
-    </AccordionHeader>
-    <AccordionBody>
-      Body
-    </AccordionBody>
-  </AccordionItem>
-  <AccordionItem>
-    <AccordionHeader>
-      Header
-    </AccordionHeader>
-    <AccordionBody>
-      Body
-    </AccordionBody>
-  </AccordionItem>
-</Accordion>
+```jsx noInline
+const AccordionHeader = () => {
+  // TODO
+};
+
+const AccordionBody = () => {
+  // TODO
+};
+
+function Example() {
+  return (
+    <Accordion>
+      <AccordionItem width="100%">
+        <AccordionToggle width="100%">
+          <Flex alignItems="center" justifyContent="space-between">
+            <Text>Accordion 1</Text>
+            <AccordionToggleIndicator />
+          </Flex>
+        </AccordionToggle>
+        <AccordionCollapse>
+          <Lorem count={2} px="4x" py="3x" />
+        </AccordionCollapse>
+      </AccordionItem>
+      <AccordionItem width="100%">
+        <AccordionToggle width="100%">
+          <Flex alignItems="center" justifyContent="space-between">
+            <Text>Accordion 2</Text>
+            <AccordionToggleIndicator />
+          </Flex>
+        </AccordionToggle>
+        <AccordionCollapse>
+          <Lorem count={2} px="4x" py="3x" />
+        </AccordionCollapse>
+      </AccordionItem>
+      <AccordionItem disabled width="100%">
+        <AccordionToggle width="100%">
+          <Flex alignItems="center" justifyContent="space-between">
+            <Text>Disabled Accordion</Text>
+            <AccordionToggleIndicator />
+          </Flex>
+        </AccordionToggle>
+        <AccordionCollapse>
+          <Lorem count={2} px="4x" py="3x" />
+        </AccordionCollapse>
+      </AccordionItem>
+    </Accordion>
+  );
+};
+
+render(<Example />);
 ```
 
 ## Props
+
+### Accordion
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+
+### AccordionItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+
+### AccordionToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+
+### AccordionToggleIndicator
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+
+### AccordionCollapse
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |

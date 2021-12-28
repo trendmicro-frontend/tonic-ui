@@ -129,6 +129,7 @@ export {
   AccordionHeader,
   AccordionItem,
   AccordionToggle,
+  AccordionToggleIndicator,
 } from './Accordion';
 export {
   Alert,
