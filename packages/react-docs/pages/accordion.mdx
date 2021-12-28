@@ -1,11 +1,18 @@
 # Accordion
 
+Accordion is a container that allows the user to toggle sections of related content.
+
 ## Import
+
+* `AccordionHeader` is composed of `AccordionToggle` and `AccordionToggleIndicator`
+* `AccordionBody` is composed of `AccordionCollapse`
 
 ```js
 import {
   Accordion,
   AccordionItem,
+  AccordionHeader,
+  AccordionBody,
   AccordionToggle,
   AccordionToggleIndicator,
   AccordionCollapse,
@@ -14,57 +21,54 @@ import {
 
 ## Usage
 
-```jsx noInline
-const AccordionHeader = () => {
-  // TODO
-};
+### Basic accordion
 
-const AccordionBody = () => {
-  // TODO
-};
-
-function Example() {
-  return (
-    <Accordion>
-      <AccordionItem width="100%">
-        <AccordionToggle width="100%">
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text>Accordion 1</Text>
-            <AccordionToggleIndicator />
-          </Flex>
-        </AccordionToggle>
-        <AccordionCollapse>
-          <Lorem count={2} px="4x" py="3x" />
-        </AccordionCollapse>
-      </AccordionItem>
-      <AccordionItem width="100%">
-        <AccordionToggle width="100%">
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text>Accordion 2</Text>
-            <AccordionToggleIndicator />
-          </Flex>
-        </AccordionToggle>
-        <AccordionCollapse>
-          <Lorem count={2} px="4x" py="3x" />
-        </AccordionCollapse>
-      </AccordionItem>
-      <AccordionItem disabled width="100%">
-        <AccordionToggle width="100%">
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text>Disabled Accordion</Text>
-            <AccordionToggleIndicator />
-          </Flex>
-        </AccordionToggle>
-        <AccordionCollapse>
-          <Lorem count={2} px="4x" py="3x" />
-        </AccordionCollapse>
-      </AccordionItem>
-    </Accordion>
-  );
-};
-
-render(<Example />);
+```jsx
+<Accordion rowGap={1}>
+  <AccordionItem>
+    <AccordionHeader>
+      <Text>
+        Accordion 1
+      </Text>
+    </AccordionHeader>
+    <AccordionBody>
+      <Lorem count={2} px="4x" py="3x" />
+    </AccordionBody>
+  </AccordionItem>
+  <AccordionItem>
+    <AccordionHeader>
+      <Text>
+        Accordion 2
+      </Text>
+    </AccordionHeader>
+    <AccordionBody>
+      <Lorem count={2} px="4x" py="3x" />
+    </AccordionBody>
+  </AccordionItem>
+  <AccordionItem disabled>
+    <AccordionHeader>
+      <Text>
+        Disabled Accordion
+      </Text>
+    </AccordionHeader>
+    <AccordionBody>
+      <Lorem count={2} px="4x" py="3x" />
+    </AccordionBody>
+  </AccordionItem>
+</Accordion>
 ```
+
+### Controlled accordion
+
+Extend the default behavior to create an accordion with controlled state.
+
+__TODO__
+
+### Customization
+
+Here is an example of how you can use `AccordionToggle`, `AccordionToggleIndicator`, and `AccordionCollapse` to customize the accordion.
+
+__TODO__
 
 ## Props
 

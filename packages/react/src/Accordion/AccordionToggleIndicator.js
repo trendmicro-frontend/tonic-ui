@@ -107,7 +107,7 @@ const AccordionToggleIndicator = forwardRef((
           });
         }
 
-        const iconName = 'angle-down';
+        const iconName = 'chevron-down';
 
         return (
           <Box
