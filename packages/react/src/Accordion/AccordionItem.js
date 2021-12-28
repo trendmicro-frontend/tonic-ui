@@ -35,7 +35,7 @@ const AccordionItem = forwardRef((
   useEffect(() => {
     const isControlled = (isExpandedProp !== undefined);
     if (isControlled) {
-      setIsExpanded(!isExpandedProp);
+      setIsExpanded(isExpandedProp);
     }
   }, [isExpandedProp]);
 

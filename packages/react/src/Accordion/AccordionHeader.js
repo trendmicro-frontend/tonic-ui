@@ -28,7 +28,7 @@ const AccordionHeader = forwardRef((
       {...rest}
     >
       {children}
-      <AccordionToggleIndicator />
+      <AccordionToggleIndicator ml="4x" />
     </AccordionToggle>
   );
 });

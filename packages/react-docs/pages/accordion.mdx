@@ -32,7 +32,7 @@ import {
       </Text>
     </AccordionHeader>
     <AccordionBody>
-      <Lorem count={2} px="4x" py="3x" />
+      <SkeletonBody px="4x" py="3x" />
     </AccordionBody>
   </AccordionItem>
   <AccordionItem>
@@ -42,7 +42,7 @@ import {
       </Text>
     </AccordionHeader>
     <AccordionBody>
-      <Lorem count={2} px="4x" py="3x" />
+      <SkeletonBody px="4x" py="3x" />
     </AccordionBody>
   </AccordionItem>
   <AccordionItem disabled>
@@ -52,7 +52,7 @@ import {
       </Text>
     </AccordionHeader>
     <AccordionBody>
-      <Lorem count={2} px="4x" py="3x" />
+      <SkeletonBody px="4x" py="3x" />
     </AccordionBody>
   </AccordionItem>
 </Accordion>
@@ -62,11 +62,180 @@ import {
 
 Extend the default behavior to create an accordion with controlled state.
 
-__TODO__
+```jsx
+function Example() {
+  const [expandedItem, setExpandedItem] = React.useState(null);
+  const handleToggle = item => ({ isExpanded }) => {
+    setExpandedItem(isExpanded ? item : null);
+  };
+
+  return (
+    <Accordion rowGap={1}>
+      <AccordionItem
+        isExpanded={expandedItem === 'item1'}
+        onToggle={handleToggle('item1')}
+      >
+        <AccordionHeader>
+          <Text>
+            Accordion 1
+          </Text>
+        </AccordionHeader>
+        <AccordionBody>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionBody>
+      </AccordionItem>
+      <AccordionItem
+        isExpanded={expandedItem === 'item2'}
+        onToggle={handleToggle('item2')}
+      >
+        <AccordionHeader>
+          <Text>
+            Accordion 2
+          </Text>
+        </AccordionHeader>
+        <AccordionBody>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionBody>
+      </AccordionItem>
+      <AccordionItem
+        disabled
+        isExpanded={expandedItem === 'item3'}
+        onToggle={handleToggle('item3')}
+      >
+        <AccordionHeader>
+          <Text>
+            Disabled Accordion
+          </Text>
+        </AccordionHeader>
+        <AccordionBody>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionBody>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```
 
 ### Customization
 
 Here is an example of how you can use `AccordionToggle`, `AccordionToggleIndicator`, and `AccordionCollapse` to customize the accordion.
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+  const itemStyleProps = {
+    border: 1,
+    borderColor,
+    borderStyle: 'solid',
+    borderBottomWidth: 0,
+    _lastOfType: {
+      borderBottomWidth: 1,
+    },
+  };
+  const toggleStyleProps = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: {
+      dark: 'gray:90',
+      light: 'white',
+    }[colorMode],
+    color: {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode],
+    px: '4x',
+    minHeight: '12x',
+    width: '100%',
+  };
+  const [expandedItem, setExpandedItem] = React.useState(null);
+  const handleToggle = item => ({ isExpanded }) => {
+    setExpandedItem(isExpanded ? item : null);
+  };
+
+  return (
+    <Accordion>
+      <AccordionItem
+        isExpanded={expandedItem === 'item1'}
+        onToggle={handleToggle('item1')}
+        {...itemStyleProps}
+      >
+        <AccordionToggle {...toggleStyleProps}>
+          <AccordionToggleIndicator>
+            {({ ref, style: styleProps }) => {
+              styleProps.transform = expandedItem === 'item1' ? 'rotate(0deg)' : 'rotate(-90deg)';
+              return (
+                <Icon ref={ref} icon="chevron-down" size="4x" {...styleProps} />
+              );
+            }}
+          </AccordionToggleIndicator>
+          <Space width="2x" />
+          <Text>
+            Collapsible Item #1
+          </Text>
+        </AccordionToggle>
+        <AccordionCollapse>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionCollapse>
+      </AccordionItem>
+      <AccordionItem
+        isExpanded={expandedItem === 'item2'}
+        onToggle={handleToggle('item2')}
+        {...itemStyleProps}
+      >
+        <AccordionToggle {...toggleStyleProps}>
+          <AccordionToggleIndicator>
+            {({ ref, style: styleProps }) => {
+              styleProps.transform = expandedItem === 'item2' ? 'rotate(0deg)' : 'rotate(-90deg)';
+              return (
+                <Icon ref={ref} icon="chevron-down" size="4x" {...styleProps} />
+              );
+            }}
+          </AccordionToggleIndicator>
+          <Space width="2x" />
+          <Text>
+            Collapsible Item #2
+          </Text>
+        </AccordionToggle>
+        <AccordionCollapse>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionCollapse>
+      </AccordionItem>
+      <AccordionItem
+        isExpanded={expandedItem === 'item3'}
+        onToggle={handleToggle('item3')}
+        {...itemStyleProps}
+      >
+        <AccordionToggle {...toggleStyleProps}>
+          <AccordionToggleIndicator>
+            {({ ref, style: styleProps }) => {
+              styleProps.transform = expandedItem === 'item3' ? 'rotate(0deg)' : 'rotate(-90deg)';
+              return (
+                <Icon ref={ref} icon="chevron-down" size="4x" {...styleProps} />
+              );
+            }}
+          </AccordionToggleIndicator>
+          <Space width="2x" />
+          <Text>
+            Collapsible Item #3
+          </Text>
+        </AccordionToggle>
+        <AccordionCollapse>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionCollapse>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```
+
+## Props
+
+### Accordion
 
 __TODO__
 

@@ -1,7 +1,7 @@
+import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
-import Collapse from '../Transitions/Collapse';
-import Fade from '../Transitions/Fade';
+import AccordionTransition from './AccordionTransition';
 import useAccordionItem from './useAccordionItem';
 
 const AccordionCollapse = forwardRef((props, ref) => {
@@ -13,16 +13,12 @@ const AccordionCollapse = forwardRef((props, ref) => {
     );
   }
 
-  const { isExpanded } = context;
-
   return (
-    <Fade in={isExpanded}>
-      <Collapse
-        in={isExpanded}
-        ref={ref}
-        {...props}
-      />
-    </Fade>
+    <AccordionTransition
+      in={context?.isExpanded}
+      ref={ref}
+      {...props}
+    />
   );
 });
 

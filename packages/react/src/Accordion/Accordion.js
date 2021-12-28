@@ -1,12 +1,19 @@
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
+import runIfFn from '../utils/runIfFn';
 import { AccordionContext } from './context';
 import { useAccordionStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const Accordion = forwardRef((props, ref) => {
+const Accordion = forwardRef((
+  {
+    children,
+    ...rest
+  },
+  ref,
+) => {
   const context = getMemoizedState({
     // TODO
   });
@@ -17,8 +24,10 @@ const Accordion = forwardRef((props, ref) => {
       <Box
         ref={ref}
         {...styleProps}
-        {...props}
-      />
+        {...rest}
+      >
+        {runIfFn(children, context)}
+      </Box>
     </AccordionContext.Provider>
   );
 });
