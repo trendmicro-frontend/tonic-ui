@@ -32,7 +32,7 @@ const Tag = forwardRef((
         willRemove: true,
       });
     }
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const canFocus = isClosable;

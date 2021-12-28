@@ -23,7 +23,7 @@ const PopoverTrigger = forwardRef((
         message: 'Use Function as Child Component (FaCC) to render the popover trigger instead.',
       });
     }
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   const {
     anchorRef,

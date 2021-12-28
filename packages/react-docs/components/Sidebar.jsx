@@ -1,8 +1,10 @@
 import {
   Box,
+  Icon,
+  Space,
   Text,
   useColorMode,
-  useTheme,
+  useColorStyle,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import React, { forwardRef } from 'react';
@@ -11,60 +13,83 @@ import { routes } from '../config/sidebar-routes';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
-const Sidebar = forwardRef((props, ref) => {
-  const theme = useTheme();
+const Sidebar = forwardRef((
+  {
+    onClick,
+    ...rest
+  },
+  ref,
+) => {
   const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const backgroundColor = {
     light: 'white',
     dark: 'gray:90',
   }[colorMode];
   const borderColor = {
-    light: 'gray:20', // FIXME
-    dark: 'gray:70', // FIXME
+    light: 'gray:20',
+    dark: 'gray:70',
   }[colorMode];
   const headingColor = {
     light: 'black:secondary',
     dark: 'white:secondary',
   }[colorMode];
-  const headingFontSize = 'xs';
-  const top = theme.sizes['12x'];
-  const height = `calc(100vh - ${top})`;
 
   return (
     <Box
+      as="nav"
       ref={ref}
-      position="fixed"
-      top={top}
-      left={0}
-      width="100%"
-      height={height}
       backgroundColor={backgroundColor}
       borderRight={1}
       borderRightColor={borderColor}
-      overflowY="auto"
-      {...props}
+      py="4x"
+      {...rest}
     >
-      {routes.map(({ title, routes }) => (
-        <Box key={title}>
-          <Text
-            fontSize={headingFontSize}
-            color={headingColor}
-            mt="4x"
+      {routes.map(({ title, icon, routes }) => (
+        <Box
+          key={title}
+          mb="4x"
+          whiteSpace="nowrap"
+        >
+          <Box
+            display="inline-flex"
+            alignItems="center"
+            px="3x"
             mb="2x"
-            pl="2x"
           >
-            {title}
-          </Text>
-          {routes.map(({ title, path }) => {
-            const key = title;
-            const url = `${ASSET_PREFIX}/${path}`;
+            <Icon
+              icon={icon}
+              color={colorStyle?.color?.tertiary}
+              size="4x"
+            />
+            <Space width="2x" />
+            <Text
+              color={headingColor}
+              fontSize="md"
+              lineHeight="md"
+              textTransform="uppercase"
+            >
+              {title}
+            </Text>
+          </Box>
+          <Box>
+            {routes.map(({ title, path }) => {
+              const key = title;
+              const url = `${ASSET_PREFIX}/${path}`;
 
-            return (
-              <NavLink key={key} href={url}>
-                {title}
-              </NavLink>
-            );
-          })}
+              return (
+                <NavLink
+                  key={key}
+                  href={url}
+                  onClick={onClick}
+                >
+                  <Text fontSize="sm" lineHeight="sm" ml="5x">
+                    {title}
+                  </Text>
+                </NavLink>
+              );
+            })}
+          </Box>
         </Box>
       ))}
     </Box>

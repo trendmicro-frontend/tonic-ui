@@ -40,7 +40,7 @@ const Drawer = ({
         willRemove: true,
       });
     }
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const [isMounted, setMounted] = useState(isOpen);

@@ -117,7 +117,7 @@ const Scrollbar = forwardRef((
         alternative: ['minThumbWidth', 'minThumbHeight'],
       });
     }
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);

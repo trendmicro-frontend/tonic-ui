@@ -73,7 +73,7 @@ const Badge = forwardRef((
         willRemove: true,
       });
     }
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   { // map deprecated props to new props
     if (variant === 'dot' && dotSizeProp !== undefined) {

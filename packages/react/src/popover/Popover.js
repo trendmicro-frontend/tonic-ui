@@ -37,7 +37,7 @@ const Popover = ({
         prefix,
       });
     }
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   const [isOpen, setIsOpen] = useState(false);
   const [mousePageX, setMousePageX] = useState(0);

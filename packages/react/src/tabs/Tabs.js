@@ -26,7 +26,7 @@ const Tabs = forwardRef((
     if (activateOnKeypress !== undefined) {
       warnRemovedProps('activateOnKeypress');
     }
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   const { current: isControlled } = useRef(controlledIndex != null);
   const selectedPanelRef = useRef();

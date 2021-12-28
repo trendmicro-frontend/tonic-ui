@@ -24,7 +24,7 @@ const Table = forwardRef((
         message: 'Use the \'_hover\' prop on the \'TableRow\' component instead.',
       });
     }
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   const minimalist = (variant === 'default');
   const context = {

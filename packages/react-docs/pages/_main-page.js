@@ -4,21 +4,23 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Checkbox,
   Divider,
   Icon,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupAppend,
+  InputGroupPrepend,
   Grid,
-  Link,
-  Menu,
   MenuDivider,
   MenuItem,
-  Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Pagination,
+  SearchInput,
   Space,
-  Stack,
   Switch,
   Tab,
   Tabs,
@@ -37,9 +39,9 @@ import {
 } from '@tonic-ui/react';
 import NextLink from 'next/link';
 import React from 'react';
+import FontAwesomeIcon from '../components/FontAwesomeIcon';
 import Header from '../components/Header';
-import FontAwesomeIcon from './FontAwesomeIcon';
-import SkeletonBody from './SkeletonBody';
+import SkeletonBody from '../components/SkeletonBody';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
@@ -89,28 +91,22 @@ const MainPage = (props) => {
           xl: '1280px',
           '2xl': '1680px',
         }}
-        height="calc(100vh - 120px)"
-        minHeight={500}
-        mt="12x"
-        pl="5x"
+        mt="20x"
+        px="6x"
         mx="auto"
       >
         <Box
           display="flex"
-          flexDirection="row"
-          flexWrap="nowrap"
-          width="100%"
-          height="100%"
+          flexDirection={{
+            _: 'column',
+            xl: 'row', // 1024px
+          }}
+          gap="8x"
           alignItems="center"
         >
-          <Box
-            flexBasis="50%"
-            flexGrow="0"
-            maxWidth="50%"
-          >
+          <Box flex="1">
             <Box
               mb="5x"
-              maxWidth={600}
             >
               <Text
                 fontSize="4rem"
@@ -122,7 +118,6 @@ const MainPage = (props) => {
             </Box>
             <Box
               mb="5x"
-              maxWidth={600}
             >
               <Text
                 color={colorStyle.color.tertiary}
@@ -179,20 +174,32 @@ const MainPage = (props) => {
             </Box>
           </Box>
           <Box
-            flexBasis="50%"
-            flexGrow="0"
-            maxWidth="50%"
+            flex="1"
             p="6x"
             backgroundColor="black"
+            width="100%"
           >
             <Grid
-              templateColumns="1fr 1fr"
+              templateColumns={{
+                sm: '1fr', // 320px
+                md: '1fr', // 640px
+                lg: '1fr', // 1024px
+                xl: '1fr 1fr', // 1280px
+              }}
               gap="6x"
             >
-              <Box>
-                <Box mb="6x">
+              <Box
+                display="flex"
+                flexDirection="column"
+                rowGap="6x"
+                whiteSpace="nowrap"
+              >
+                <Box>
                   <Tabs variant="enclosed">
                     <TabList>
+                      <Tab>
+                        Tonic UI
+                      </Tab>
                       <Tab>
                         React
                       </Tab>
@@ -205,40 +212,60 @@ const MainPage = (props) => {
                     </TabList>
                   </Tabs>
                 </Box>
-                <Box mb="6x">
-                  <Box display="inline-flex" alignItems="center">
-                    <Switch size="sm" defaultChecked={true} />
-                    <Space width="2x" />
+                <Box>
+                  <Box display="inline-flex" alignItems="center" columnGap="4x">
+                    <Checkbox defaultChecked={false} />
+                    <Checkbox defaultChecked={true} />
                     <Switch size="sm" defaultChecked={false} />
-                    <Space width="2x" />
+                    <Switch size="sm" defaultChecked={true} />
                     <Tag variant="solid">Solid Tag</Tag>
-                    <Space width="2x" />
                     <Tag variant="outline">Outline Tag</Tag>
                   </Box>
                 </Box>
-                <Box mb="6x">
-                  <Button variant="primary">Primary Button</Button>
-                  <Space width="2x" />
-                  <Button variant="secondary">Secondary Button</Button>
+                <Box>
+                  <Box display="inline-flex" alignItems="center" columnGap="4x">
+                    <Button variant="primary">Primary</Button>
+                    <Button variant="secondary">Secondary</Button>
+                    <ButtonGroup>
+                      <Button>
+                        <Icon icon="chart-area" />
+                      </Button>
+                      <Divider orientation="vertical" color={dividerColor} />
+                      <Button>
+                        <Icon icon="chart-bar" />
+                      </Button>
+                      <Divider orientation="vertical" color={dividerColor} />
+                      <Button>
+                        <Icon icon="chart-pie" />
+                      </Button>
+                    </ButtonGroup>
+                  </Box>
                 </Box>
-                <Box mb="6x">
-                  <ButtonGroup>
-                    <Button>
-                      <Icon icon="chart-area" />
-                    </Button>
-                    <Divider orientation="vertical" color={dividerColor} />
-                    <Button>
-                      <Icon icon="chart-bar" />
-                    </Button>
-                    <Divider orientation="vertical" color={dividerColor} />
-                    <Button>
-                      <Icon icon="chart-pie" />
-                    </Button>
-                  </ButtonGroup>
+                <Box>
+                  <InputGroup>
+                    <InputGroupPrepend>
+                      <InputGroupAddon variant="filled">@</InputGroupAddon>
+                    </InputGroupPrepend>
+                    <Input placeholder="Username" />
+                  </InputGroup>
+                </Box>
+                <Box>
+                  <InputGroup>
+                    <InputGroupPrepend>
+                      <InputGroupAddon variant="filled">$</InputGroupAddon>
+                    </InputGroupPrepend>
+                    <Input />
+                    <InputGroupAppend>
+                      <InputGroupAddon variant="filled">.00</InputGroupAddon>
+                    </InputGroupAppend>
+                  </InputGroup>
+                </Box>
+                <Box>
+                  <SearchInput placeholder="Search" />
                 </Box>
               </Box>
               <Box>
-                <ModalContent>
+                <ModalContent height="100%">
                   <ModalHeader>
                     Modal Title
                   </ModalHeader>

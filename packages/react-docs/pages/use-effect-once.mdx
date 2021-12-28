@@ -1,0 +1,49 @@
+# useEffectOnce
+
+A custom Hook that runs a callback at most once when a condition becomes true.
+
+### Hook
+
+```js
+import { useEffect, useRef } from 'react';
+
+const useEffectOnce = (callback, when) => {
+  const runOnceRef = useRef(false);
+  const callbackRef = useRef(callback);
+
+  callbackRef.current = callback;
+
+  useEffect(() => {
+    if (!when || runOnceRef.current) {
+      return;
+    }
+
+    (typeof callbackRef.current === 'function') && callbackRef.current();
+    runOnceRef.current = true;
+  }, [when]);
+};
+```
+
+### Example
+
+```jsx
+function App() {
+  const [clicked, setClicked] = React.useState(false);
+  const [touched, setTouched] = React.useState(false);
+
+  useEffectOnce(() => {
+    setTouched(true);
+  }, clicked);
+
+  return (
+    <>
+      <Box mb="4x">
+        {touched ? 'Touched' : 'Untouched'}
+      </Box>
+      <Button onClick={() => setClicked(true)}>
+        Click Me
+      </Button>
+    </>
+  );
+}
+```

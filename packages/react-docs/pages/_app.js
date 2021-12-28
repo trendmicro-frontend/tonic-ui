@@ -7,17 +7,13 @@ import {
   ToastProvider,
   theme,
 } from '@tonic-ui/react';
-import { ensureString } from 'ensure-type';
-import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
-import DocsPage from '../components/DocsPage';
 import GlobalStyles from '../components/GlobalStyles';
 import MDXComponents from '../components/MDXComponents';
-import MainPage from '../components/MainPage';
-
-const assetPrefix = ensureString(process.env.ASSET_PREFIX);
+import DocsPage from './_docs-page';
+import MainPage from './_main-page';
 
 const pageview = () => {
   ReactGA.set({ page: window.location.pathname });

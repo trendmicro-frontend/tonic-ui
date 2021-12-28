@@ -13,6 +13,7 @@ import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
+import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
@@ -20,7 +21,6 @@ import Lorem from './Lorem';
 import SelectableButton from './SelectableButton';
 import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
-import useClipboard from './useClipboard';
 
 const thirdPartyComponents = {
   AutoSizer,

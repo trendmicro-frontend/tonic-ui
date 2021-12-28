@@ -20,6 +20,7 @@ test('should match expected exports', () => {
     'Button',
     'ButtonBase',
     'ButtonGroup',
+    'ButtonLink',
     'useButtonGroup',
 
     // checkbox

@@ -1,6 +1,7 @@
 const routes = [
   {
     title: 'Getting Started',
+    icon: 'list-open',
     routes: [
       { title: 'Installation', path: 'installation' },
       { title: 'Usage', path: 'usage' },
@@ -10,6 +11,7 @@ const routes = [
   },
   {
     title: 'System',
+    icon: 'gavel',
     routes: [
       { title: 'Color Mode', path: 'color-mode' },
       { title: 'Color Style', path: 'color-style' },
@@ -26,6 +28,7 @@ const routes = [
   },
   {
     title: 'Components',
+    icon: 'widgets',
     routes: [
       { title: 'Box', path: 'box' },
       { title: 'ControlBox', path: 'controlbox' },
@@ -77,10 +80,12 @@ const routes = [
   },
   {
     title: 'Hooks',
+    icon: 'hook',
     routes: [
       { title: 'useConst', path: 'use-const' },
       { title: 'useEffectOnce', path: 'use-effect-once' },
       { title: 'useHydrated', path: 'use-hydrated' },
+      { title: 'useLatest', path: 'use-latest' },
       { title: 'usePrevious', path: 'use-previous' },
       { title: 'useToggle', path: 'use-toggle' },
     ],

@@ -2,6 +2,7 @@ import Color from 'color';
 import { ensureString } from 'ensure-type';
 import {
   Box,
+  Button,
   Icon,
   Image,
   Menu,
@@ -18,8 +19,9 @@ import _get from 'lodash/get';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';
-import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
+import useMediaQuery from '../hooks/useMediaQuery';
+import FontAwesomeIcon from './FontAwesomeIcon';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
@@ -48,7 +50,16 @@ const versionMap = {
   },
 };
 
-const Header = forwardRef((props, ref) => {
+const Header = forwardRef((
+  {
+    onToggle,
+    ...rest
+  },
+  ref,
+) => {
+  const matched = useMediaQuery(
+    '(min-width: 640px)',
+  );
   const router = useRouter();
   const version = (() => {
     if (TONIC_UI_DOC_VERSION) {
@@ -99,6 +110,7 @@ const Header = forwardRef((props, ref) => {
   const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor]), 0.7);
   const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor]), 0.5);
 
+  const canToggle = !matched && onToggle;
   const canDisplayVersion = (router.pathname !== '/') && !!version;
   
   return (
@@ -114,79 +126,96 @@ const Header = forwardRef((props, ref) => {
       backgroundColor={_backgroundColor}
       boxShadow={`0px -1px 1px inset ${_boxShadowColor}`}
       transition="all 0.2s"
-      {...props}
+      {...rest}
     >
       <Box
         display="flex"
         position="relative"
         height="100%"
         alignItems="center"
+        justifyContent="space-between"
       >
-        <NextLink href={`${ASSET_PREFIX}/`} passHref>
-          <Box
-            as="a"
-            display="flex"
-            alignItems="center"
-            flex="auto"
-            fontSize="xl"
-            maxWidth="100%"
-            px="4x"
-            py="2x"
-            color={fontColor}
-            outline="none"
-            textDecoration="none"
-          >
-            <Image
-              alt=""
-              src={logoPath}
-              width={35}
-              height={30}
-              marginRight="2x"
-            />
-            <Text>Tonic UI</Text>
-          </Box>
-        </NextLink>
-        {canDisplayVersion && (
-          <Box
-            display="flex"
-            flex="none"
-          >
-            <Menu>
-              <MenuButton>
-                {versionMap[version]?.label ?? version}
-              </MenuButton>
-              <MenuList>
-                {Object.entries(versionMap).map(([key, value]) => (
-                  <MenuItem
-                    key={key}
-                    value={value?.url}
-                    whiteSpace="nowrap"
-                    onClick={handleChooseVersion}
-                  >
-                    {(key === version)
-                      ? <><Text>{value?.label}</Text><Space width="2x" /><Text>✓</Text></>
-                      : <Text>{value?.label}</Text>
-                    }
-                  </MenuItem>
-                ))}
-                <MenuDivider />
-                <MenuItem
-                  whiteSpace="nowrap"
-                  onClick={handleViewAllVersions}
-                >
-                  <Text>View all versions</Text>
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Box>
-        )}
+        <Box>
+          {!canToggle && (
+            <NextLink href={`${ASSET_PREFIX}/`} passHref>
+              <Box
+                as="a"
+                display="flex"
+                alignItems="center"
+                flex="auto"
+                fontSize="xl"
+                maxWidth="100%"
+                px="4x"
+                py="2x"
+                color={fontColor}
+                outline="none"
+                textDecoration="none"
+              >
+                <Image
+                  alt=""
+                  src={logoPath}
+                  width={35}
+                  height={30}
+                  marginRight="2x"
+              />
+                <Text>Tonic UI</Text>
+              </Box>
+            </NextLink>
+          )}
+          {canToggle && (
+            <Box
+              display="flex"
+              flex="auto"
+              mx="4x"
+            >
+              <Button variant="secondary" onClick={onToggle}>
+                <Icon icon="menu" />
+              </Button>
+            </Box>
+          )}
+        </Box>
         <Box
           display="flex"
           flex="none"
           width="auto"
           alignItems="center"
+          columnGap="4x"
           px="4x"
         >
+          {canDisplayVersion && (
+            <Box
+              display="flex"
+              flex="none"
+            >
+              <Menu>
+                <MenuButton>
+                  {versionMap[version]?.label ?? version}
+                </MenuButton>
+                <MenuList>
+                  {Object.entries(versionMap).map(([key, value]) => (
+                    <MenuItem
+                      key={key}
+                      value={value?.url}
+                      whiteSpace="nowrap"
+                      onClick={handleChooseVersion}
+                    >
+                      {(key === version)
+                        ? <><Text>{value?.label}</Text><Space width="2x" /><Text>✓</Text></>
+                        : <Text>{value?.label}</Text>
+                      }
+                    </MenuItem>
+                  ))}
+                  <MenuDivider />
+                  <MenuItem
+                    whiteSpace="nowrap"
+                    onClick={handleViewAllVersions}
+                  >
+                    <Text>View all versions</Text>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
+          )}
           <Box
             as="a"
             _hover={{
@@ -202,10 +231,6 @@ const Header = forwardRef((props, ref) => {
               <Icon icon="sun" size={24} />
             )}
           </Box>
-          <Box
-            display="inline-block"
-            width="5x"
-          />
           <Box
             as="a"
             _hover={{

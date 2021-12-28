@@ -6,7 +6,7 @@ const useDisclosure = defaultIsOpen => {
     console.error(
       'Warning: The `useDisclosure` Hook is deprecated and will be removed in the next major release. Use the `useToggle` Hook instead.\n\nSee https://trendmicro-frontend.github.io/tonic-ui/react/latest/hooks for more information.',
     );
-  });
+  }, true); // TODO: check if `when` is true for each prop
 
   const [isOpen, setIsOpen] = useState(Boolean(defaultIsOpen));
   const onClose = useCallback(() => setIsOpen(false), []);
