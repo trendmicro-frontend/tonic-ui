@@ -6,4 +6,4 @@
 /.env.local
 /.env.*.local
 
-/pages/versions.mdx
+/pages/getting-started/versions.mdx

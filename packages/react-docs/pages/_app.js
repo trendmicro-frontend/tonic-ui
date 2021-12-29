@@ -1,19 +1,29 @@
 import { MDXProvider } from '@mdx-js/react';
 import {
+  Box,
   ColorModeProvider,
   ColorStyleProvider,
   CSSBaseline,
   ThemeProvider,
   ToastProvider,
   theme,
+  useColorMode,
+  useTheme,
 } from '@tonic-ui/react';
+import {
+  useToggle,
+} from '@tonic-ui/react-hooks';
+import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
+import Content from '../components/Content';
 import GlobalStyles from '../components/GlobalStyles';
+import Header from '../components/Header';
 import MDXComponents from '../components/MDXComponents';
-import Docs from '../layout/docs';
-import Main from '../layout/main';
+import Main from '../components/Main';
+import Sidebar from '../components/Sidebar';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 const pageview = () => {
   ReactGA.set({ page: window.location.pathname });
@@ -47,7 +57,7 @@ const App = (props) => {
     };
   }, [router]);
 
-  const Page = (router.pathname === '/') ? Main : Docs;
+  const Page = (router.pathname === '/') ? DefaultPage : DocsPage;
 
   return (
     <ThemeProvider theme={customTheme}>
@@ -63,6 +73,87 @@ const App = (props) => {
         </ColorStyleProvider>
       </ColorModeProvider>
     </ThemeProvider>
+  );
+};
+
+const DefaultPage = (props) => {
+  return (
+    <NextApp {...props} />
+  );
+};
+
+const DocsPage = (props) => {
+  const matched = useMediaQuery(
+    '(min-width: 640px)',
+  );
+  const [isSidebarVisible, toggleSidebar] = useToggle(matched ? true : false);
+  const theme = useTheme();
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    light: 'white',
+    dark: 'gray:100',
+  }[colorMode];
+  const fontColor = {
+    light: 'black:primary',
+    dark: 'white:primary',
+  }[colorMode];
+  const top = theme.sizes['12x'];
+  const height = `calc(100vh - ${top})`;
+  const handleCloseSidebar = () => {
+    if (isSidebarVisible) {
+      toggleSidebar(false);
+    }
+  };
+
+  return (
+    <Box
+      backgroundColor={backgroundColor}
+      color={fontColor}
+      fontSize="md"
+      lineHeight="md"
+    >
+      <Header
+        onToggle={() => {
+          toggleSidebar();
+        }}
+      />
+      <Main onClick={handleCloseSidebar}>
+        <Box display="flex">
+          <Sidebar
+            flexShrink={0}
+            width={{
+              sm: isSidebarVisible ? 250 : 0,
+              md: 250,
+            }}
+            willChange="width"
+            transition="width .3s ease-in-out"
+            height={height}
+            overflowY="auto"
+            overflowX="hidden"
+            position={{
+              sm: 'fixed',
+              md: 'sticky',
+            }}
+            mt={{
+              sm: 0,
+              md: top,
+            }}
+            top={top}
+            left={0}
+            zIndex={{
+              sm: 'fixed',
+              md: 'base',
+            }}
+            onClick={handleCloseSidebar}
+          />
+          <Box pt={top} width="100%">
+            <Content>
+              <NextApp {...props} />
+            </Content>
+          </Box>
+        </Box>
+      </Main>
+    </Box>
   );
 };
 

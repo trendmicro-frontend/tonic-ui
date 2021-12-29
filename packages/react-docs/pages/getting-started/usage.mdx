@@ -25,6 +25,7 @@ import {
   ColorModeProvider,
   ColorStyleProvider,
   ThemeProvider,
+  ToastProvider,
 } from '@tonic-ui/react';
 
 const App = (props) => {
@@ -32,7 +33,9 @@ const App = (props) => {
     <ThemeProvider>
       <ColorModeProvider>
         <ColorStyleProvider>
-          <Box {...props} />
+          <ToastProvider>
+            <Box {...props} />
+          </ToastProvider>
         </ColorStyleProvider>
       </ColorModeProvider>
     </ThemeProvider>

@@ -104,7 +104,7 @@ const Header = forwardRef((
   };
 
   const handleViewAllVersions = () => {
-    router.push(`${ASSET_PREFIX}/versions`);
+    router.push(`${ASSET_PREFIX}/getting-started/versions`);
   };
 
   const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor]), 0.7);

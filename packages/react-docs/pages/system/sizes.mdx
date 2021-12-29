@@ -1,11 +1,10 @@
 import { Box, Stack } from "@tonic-ui/react";
-import ThemeParser from "../components/ThemeParser";
+import ThemeParser from "../../components/ThemeParser";
 
-# Spacing
+# Sizes
+The `sizes` key allows you to customize the global sizing of components you build for your project. By default, these values can be referenced by the `width`, `height`, `maxWidth`, `minWidth`, `maxHeight`, and `minHeight` styles.
 
-The `space` key allows you to customize the global spacing and sizing scale for your project. By default, these spacing values can be referenced by the `padding`, `margin`, `top`, `left`, `right`, and `bottom` styles.
-
-<ThemeParser theme="space" />
+<ThemeParser theme="sizes" />
 
 By default, the values are proportional. Therefore, a `1x` spacing unit is equal to `0.25rem`, which translates to `4px` by default in common browsers.
 
@@ -39,19 +38,24 @@ By default, the values are proportional. Therefore, a `1x` spacing unit is equal
 | 56x | 14rem   | 224px | <Box bg="teal:50" h="4x" w="56x"/> |
 | 64x | 16rem   | 256px | <Box bg="teal:50" h="4x" w="64x"/> |
 
+## Width
+
 ```jsx
-<Stack direction="column" spacing="6x">
-  <Box>
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" mr="1x" />
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" />
-  </Box>
-  <Box>
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" mr="2x" />
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" />
-  </Box>
-  <Box>
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" mr="4x" />
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" />
-  </Box>
+<Stack direction="column" spacing="4x" alignItems="center">
+  <Box textAlign="center" width="40x" p="1x" fontSize="sm" bg="gray:70">Width 10rem(160px)</Box>
+  <Box textAlign="center" width="48x" p="1x" fontSize="sm" bg="gray:70">Width 12rem(192px)</Box>
+  <Box textAlign="center" width="56x" p="1x" fontSize="sm" bg="gray:70">Width 14rem(224px)</Box>
+  <Box textAlign="center" width="64x" p="1x" fontSize="sm" bg="gray:70">Width 16rem(256px)</Box>
+</Stack>
+```
+
+## Height
+
+```jsx
+<Stack direction="row" spacing="2x" justifyContent="center">
+  <Box width="48x" height="8x" p="2x" fontSize="sm" bg="gray:70">Height 2rem(32px)</Box>
+  <Box width="48x" height="16x" p="2x" fontSize="sm" bg="gray:70">Height 4rem(64px)</Box>
+  <Box width="48x" height="24x" p="2x" fontSize="sm" bg="gray:70">Height 6rem(96px)</Box>
+  <Box width="48x" height="32x" p="2x" fontSize="sm" bg="gray:70">Height 8rem(128px)</Box>
 </Stack>
 ```

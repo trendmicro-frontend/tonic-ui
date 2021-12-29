@@ -60,7 +60,7 @@ const Round = (props) => {
   );
 };
 
-const MainPage = (props) => {
+const DefaultPage = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const backgroundColor = {
@@ -136,7 +136,7 @@ const MainPage = (props) => {
                 templateColumns="1fr 1fr"
                 gap="4x"
               >
-                <NextLink href={`${ASSET_PREFIX}/usage`} passHref>
+                <NextLink href={`${ASSET_PREFIX}/getting-started`} passHref>
                   <Button
                     as="a"
                     textDecoration="none"
@@ -350,4 +350,4 @@ const MainPage = (props) => {
   );
 };
 
-export default MainPage;
+export default DefaultPage;

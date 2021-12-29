@@ -1,11 +1,11 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import AccordionCollapseTransition from './AccordionCollapseTransition';
+import { Collapse } from '../transitions';
 import useAccordionItem from './useAccordionItem';
 
 const AccordionCollapse = forwardRef((
   {
-    TransitionComponent = AccordionCollapseTransition,
+    TransitionComponent = Collapse,
     TransitionProps,
     ...rest
   },
