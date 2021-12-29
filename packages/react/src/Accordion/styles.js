@@ -29,8 +29,9 @@ const useAccordionHeaderStyle = ({ disabled }) => {
 
   return {
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'space-between',
+    columnGap: '4x',
     backgroundColor,
     borderColor: 'transparent',
     borderStyle: 'solid',
