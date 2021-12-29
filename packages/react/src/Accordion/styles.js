@@ -39,6 +39,12 @@ const useAccordionHeaderStyle = ({ disabled }) => {
     color: disabled ? disabledColor : color,
     px,
     py,
+  };
+};
+
+const useAccordionToggleStyle = ({ disabled }) => {
+  return {
+    cursor: disabled ? 'default' : 'pointer',
     width: '100%',
   };
 };
@@ -55,5 +61,6 @@ const useAccordionToggleIndicatorStyle = () => {
 export {
   useAccordionStyle,
   useAccordionHeaderStyle,
+  useAccordionToggleStyle,
   useAccordionToggleIndicatorStyle,
 };
