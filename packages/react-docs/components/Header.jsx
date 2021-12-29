@@ -79,9 +79,9 @@ const Header = forwardRef((
     }[colorMode];
     setColorMode(nextColorMode);
   };
-  const logoPath = {
-    light: 'images/tonic-logo-light.svg',
-    dark: 'images/tonic-logo-dark.svg',
+  const logo = {
+    light: 'tonic-logo-light.svg',
+    dark: 'tonic-logo-dark.svg',
   }[colorMode];
   const backgroundColor = {
     light: 'white:emphasis', // FIXME
@@ -153,7 +153,7 @@ const Header = forwardRef((
               >
                 <Image
                   alt=""
-                  src={logoPath}
+                  src={`${ASSET_PREFIX}/images/${logo}`}
                   width={35}
                   height={30}
                   marginRight="2x"

@@ -37,9 +37,9 @@ const Sidebar = forwardRef((
     light: 'black:primary', // FIXME
     dark: 'white:emphasis',
   }[colorMode];
-  const logoPath = {
-    light: 'images/tonic-logo-light.svg',
-    dark: 'images/tonic-logo-dark.svg',
+  const logo = {
+    light: 'tonic-logo-light.svg',
+    dark: 'tonic-logo-dark.svg',
   }[colorMode];
 
   return (
@@ -72,7 +72,7 @@ const Sidebar = forwardRef((
           >
             <Image
               alt=""
-              src={logoPath}
+              src={`${ASSET_PREFIX}/images/${logo}`}
               width={35}
               height={30}
               marginRight="2x"
