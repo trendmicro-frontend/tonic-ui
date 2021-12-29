@@ -1,12 +1,14 @@
 import {
   Box,
   Icon,
+  Image,
   Space,
   Text,
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
+import NextLink from 'next/link';
 import React, { forwardRef } from 'react';
 import NavLink from './NavLink';
 import { routes } from '../config/sidebar-routes';
@@ -15,6 +17,7 @@ const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
 const Sidebar = forwardRef((
   {
+    isMobileMode,
     onClick,
     ...rest
   },
@@ -30,6 +33,14 @@ const Sidebar = forwardRef((
     light: 'gray:20',
     dark: 'gray:70',
   }[colorMode];
+  const fontColor = {
+    light: 'black:primary', // FIXME
+    dark: 'white:emphasis',
+  }[colorMode];
+  const logoPath = {
+    light: 'images/tonic-logo-light.svg',
+    dark: 'images/tonic-logo-dark.svg',
+  }[colorMode];
 
   return (
     <Box
@@ -38,9 +49,38 @@ const Sidebar = forwardRef((
       backgroundColor={backgroundColor}
       borderRight={1}
       borderRightColor={borderColor}
-      py="4x"
+      pt={isMobileMode ? 0 : '4x'}
+      pb="4x"
       {...rest}
     >
+      {isMobileMode && (
+        <NextLink href={`${ASSET_PREFIX}/`} passHref>
+          <Box
+            as="a"
+            display="flex"
+            alignItems="center"
+            flex="auto"
+            fontSize="xl"
+            maxWidth="100%"
+            px="4x"
+            mt="4x"
+            mb="6x"
+            color={fontColor}
+            outline="none"
+            textDecoration="none"
+            whiteSpace="nowrap"
+          >
+            <Image
+              alt=""
+              src={logoPath}
+              width={35}
+              height={30}
+              marginRight="2x"
+          />
+            <Text>Tonic UI</Text>
+          </Box>
+        </NextLink>
+      )}
       {routes.map(({ title, icon, routes }) => (
         <Box
           key={title}

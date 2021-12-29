@@ -83,10 +83,12 @@ const DefaultPage = (props) => {
 };
 
 const DocsPage = (props) => {
-  const matched = useMediaQuery(
+  const isMediaQueryMatched = useMediaQuery(
     '(min-width: 640px)',
   );
-  const [isSidebarVisible, toggleSidebar] = useToggle(matched ? true : false);
+  const isDesktopMode = isMediaQueryMatched;
+  const isMobileMode = !isMediaQueryMatched;
+  const [isSidebarVisible, toggleSidebarVisible] = useToggle(isDesktopMode ? true : false);
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const backgroundColor = {
@@ -101,9 +103,44 @@ const DocsPage = (props) => {
   const height = `calc(100vh - ${top})`;
   const handleCloseSidebar = () => {
     if (isSidebarVisible) {
-      toggleSidebar(false);
+      toggleSidebarVisible(false);
     }
   };
+  const getSidebarStyleProps = () => {
+    return {
+      flexShrink: 0,
+      width: {
+        sm: isSidebarVisible ? 250 : 0,
+        md: 250,
+      },
+      willChange: 'width',
+      transition: isMobileMode ? 'width .3s ease-in-out' : 'none',
+      height,
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      position: {
+        sm: 'fixed',
+        md: 'sticky',
+      },
+      mt: {
+        sm: 0,
+        md: top,
+      },
+      top,
+      left: 0,
+      zIndex: {
+        sm: 'fixed',
+        md: 'base',
+      },
+    };
+  };
+
+  // Hide the sidebar when the media query updates
+  useEffect(() => {
+    if (isSidebarVisible) {
+      toggleSidebarVisible(false);
+    }
+  }, [isMediaQueryMatched]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box
@@ -114,37 +151,15 @@ const DocsPage = (props) => {
     >
       <Header
         onToggle={() => {
-          toggleSidebar();
+          toggleSidebarVisible();
         }}
       />
       <Main onClick={handleCloseSidebar}>
         <Box display="flex">
           <Sidebar
-            flexShrink={0}
-            width={{
-              sm: isSidebarVisible ? 250 : 0,
-              md: 250,
-            }}
-            willChange="width"
-            transition="width .3s ease-in-out"
-            height={height}
-            overflowY="auto"
-            overflowX="hidden"
-            position={{
-              sm: 'fixed',
-              md: 'sticky',
-            }}
-            mt={{
-              sm: 0,
-              md: top,
-            }}
-            top={top}
-            left={0}
-            zIndex={{
-              sm: 'fixed',
-              md: 'base',
-            }}
+            isMobileMode={isMobileMode}
             onClick={handleCloseSidebar}
+            {...getSidebarStyleProps()}
           />
           <Box pt={top} width="100%">
             <Content>

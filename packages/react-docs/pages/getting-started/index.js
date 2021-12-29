@@ -7,9 +7,10 @@ const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 export default () => {
   const router = useRouter();
 
+  // Mount only
   useEffect(() => {
     router.push(`${ASSET_PREFIX}/getting-started/usage`);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return null;
 };
