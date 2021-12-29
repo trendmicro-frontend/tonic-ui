@@ -670,73 +670,73 @@ function menuWithCheckbox() {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | anchorEl | `Element` | | The element to which the menu is attached. |
-| autoSelect | `boolean` | `true` | Whether to automatically select the first menu item when the menu is opened. |
-| children | `Node` | | The children must be composed by a `MenuList` and either one of `MenuToggle` or `MenuButton`. |
-| closeOnBlur | `boolean` | `true` | Whether to close the menu when the user clicks outside of the menu. |
-| closeOnSelect | `boolean` | `true` | Whether to close the menu when the user selects a menu item. |
-| defaultActiveIndex | `number` | -1 | The index of the menu item to be selected by default. |
-| defaultIsOpen | `boolean` | `false` | Whether the menu is open by default. |
-| isOpen | `boolean` | | Whether the menu is open. |
-| onBlur | `function` | | Callback when the menu loses focus. |
-| onKeyDown | `function` | | Callback when the user presses a key. |
-| onOpen | `function` | | Callback when the menu is opened. |
-| onClick | `function` | | Callback when a menu item is clicked. |
-| onClose | `function` | | Callback when the menu is closed. |
-| placement | `string` | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+| autoSelect | boolean | `true` | Whether to automatically select the first menu item when the menu is opened. |
+| children | ReactNode | | The children must be composed by a `MenuList` and either one of `MenuToggle` or `MenuButton`. |
+| closeOnBlur | boolean | `true` | Whether to close the menu when the user clicks outside of the menu. |
+| closeOnSelect | boolean | `true` | Whether to close the menu when the user selects a menu item. |
+| defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
+| defaultIsOpen | boolean | `false` | Whether the menu is open by default. |
+| isOpen | boolean | | Whether the menu is open. |
+| onBlur | function | | Callback when the menu loses focus. |
+| onKeyDown | function | | Callback when the user presses a key. |
+| onOpen | function | | Callback when the menu is opened. |
+| onClick | function | | Callback when a menu item is clicked. |
+| onClose | function | | Callback when the menu is closed. |
+| placement | string | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
 
 ### MenuButton
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | `Node` \| `function` | | |
-| disabled | `boolean` | | Whether the menu button is disabled. |
-| onClick | `function` | | Callback when the menu button is clicked. |
-| onKeyDown | `function` | | Callback when the user presses a key. |
+| children | ReactNode \| function | | |
+| disabled | boolean | | Whether the menu button is disabled. |
+| onClick | function | | Callback when the menu button is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
 
 ### MenuToggle
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | `Node` \| `function` | | |
-| disabled | `boolean` | | Whether the menu toggle is disabled. |
-| onClick | `function` | | Callback when the menu toggle is clicked. |
-| onKeyDown | `function` | | Callback when the user presses a key. |
+| children | ReactNode \| function | | |
+| disabled | boolean | | Whether the menu toggle is disabled. |
+| onClick | function | | Callback when the menu toggle is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
 
 ### MenuToggleIndicator
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | `Node` \| `function` | | |
-| disabled | `boolean` | | Whether the menu indicator is disabled. |
-| easing | `string` \| `{ enter?: string, exit?: string }` | { enter: easing.easeOut, exit: easing.easeOut } | The timing function to use for the animation. |
-| timeout | `number` \| `{ appear?: number, enter?: number, exit?: number }` | { enter: 133, exit: 93 } | The duration of the animation. |
+| children | ReactNode \| function | | |
+| disabled | boolean | | Whether the menu indicator is disabled. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeOut, exit: easing.easeOut } | The timing function to use for the animation. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: 133, exit: 93 } | The duration of the animation. |
 
 ### MenuList
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | `Node`| | |
+| children | ReactNode | | |
 | offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
-| TransitionComponent | `Component` | `Collapse` | The component used to transition the menu list in and out. |
-| TransitionProps | `object` | | Any transition props to be applied to the menu list. |
+| TransitionComponent | elementType | Collapse | The component used to transition the menu list in and out. |
+| TransitionProps | object | | Any transition props to be applied to the menu list. |
 
 ### MenuGroup
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | `Node`| | |
-| title | `string` | | The title of the menu group. |
+| children | ReactNode | | |
+| title | string | | The title of the menu group. |
 
 ### MenuItem
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | `boolean` | | Whether the menu item is disabled. |
-| onClick | `function` | | Callback when the menu item is clicked. |
-| onKeyDown | `function` | | Callback when the user presses a key. |
+| disabled | boolean | | Whether the menu item is disabled. |
+| onClick | function | | Callback when the menu item is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
 
 ### MenuDivider
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | `Node` | | |
+| children | ReactNode | | |
