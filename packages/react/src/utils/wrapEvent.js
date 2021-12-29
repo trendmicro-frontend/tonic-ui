@@ -1,7 +1,9 @@
+import { ensureFunction } from 'ensure-type';
+
 const wrapEvent = (theirHandler, ourHandler) => event => {
-  theirHandler && theirHandler(event);
+  ensureFunction(theirHandler)(event);
   if (!event.defaultPrevented) {
-    return ourHandler(event);
+    return ensureFunction(ourHandler)(event);
   }
   return '';
 };
