@@ -6,7 +6,11 @@ Unlike `React.useMemo`, this is guaranteed to always return the same value (and 
 
 If the value should ever change based on dependencies, use `React.useMemo` instead.
 
-### Hook
+## Import
+
+```js
+import { useConst } from '@tonic-ui/react-hooks';
+```
 
 ```js
 const useConst = (init) => {
@@ -20,7 +24,7 @@ const useConst = (init) => {
 };
 ```
 
-### Example
+## Usage
 
 ```jsx
 function App() {

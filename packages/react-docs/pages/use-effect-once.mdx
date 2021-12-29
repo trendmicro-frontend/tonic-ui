@@ -2,7 +2,11 @@
 
 A custom Hook that runs a callback at most once when a condition becomes true.
 
-### Hook
+## Import
+
+```js
+import { useEffectOnce } from '@tonic-ui/react-hooks';
+```
 
 ```js
 import { useEffect, useRef } from 'react';
@@ -24,7 +28,7 @@ const useEffectOnce = (callback, when) => {
 };
 ```
 
-### Example
+## Usage
 
 ```jsx
 function App() {

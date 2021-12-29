@@ -4,7 +4,11 @@ A custom Hook that returns the latest state as described in the React Hooks FAQ.
 
 This is mostly useful to get access to the latest value of some props or state inside an asynchronous callback, instead of that value at the time the callback was created from.
 
-### Hook
+## Import
+
+```js
+import { useLatest } from '@tonic-ui/react-hooks';
+```
 
 ```js
 import { useRef } from 'react';
@@ -16,7 +20,7 @@ const useLatest = (value) => {
 };
 ```
 
-### Example
+## Usage
 
 ```jsx
 function App() {
