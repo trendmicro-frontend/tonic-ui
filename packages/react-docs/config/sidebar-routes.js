@@ -32,6 +32,7 @@ const routes = [
     routes: [
       { title: 'Box', path: 'box' },
       { title: 'ControlBox', path: 'controlbox' },
+      { title: 'Accordion', path: 'accordion' },
       { title: 'Alert', path: 'alert' },
       { title: 'Badge', path: 'badge' },
       { title: 'Button', path: 'button' },
