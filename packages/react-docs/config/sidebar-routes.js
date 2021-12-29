@@ -13,6 +13,7 @@ const routes = [
     title: 'System',
     icon: 'gavel',
     routes: [
+      { title: 'Style Props 🚧', path: 'system/style-props' },
       { title: 'Borders', path: 'system/borders' },
       { title: 'Breakpoints', path: 'system/breakpoints' },
       { title: 'Color Mode', path: 'system/color-mode' },
@@ -80,7 +81,7 @@ const routes = [
 
       { title: 'NAVIGATION', heading: true },
       { title: 'Link', path: 'components/link' },
-      { title: 'ButtonLink', path: 'components/buttonlink' }, // TODO: 404
+      { title: 'ButtonLink 🚧', path: 'components/buttonlink' },
       { title: 'Menu', path: 'components/menu' },
       { title: 'Pagination', path: 'components/pagination' },
       { title: 'Tabs', path: 'components/tabs' },
