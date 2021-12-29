@@ -83,7 +83,11 @@ const Sidebar = forwardRef((
                   href={url}
                   onClick={onClick}
                 >
-                  <Text fontSize="sm" lineHeight="sm" ml="5x">
+                  <Text
+                    fontSize="md"
+                    lineHeight="md"
+                    ml="5x"
+                  >
                     {title}
                   </Text>
                 </NavLink>

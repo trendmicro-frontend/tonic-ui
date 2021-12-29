@@ -75,13 +75,17 @@ const MainPage = (props) => {
     light: 'black:primary',
     dark: 'white:primary',
   }[colorMode];
+  const docsFontSize = 'md';
+  const docsLineHeight = 'md';
+  const codeBlockFontSize = 'sm';
+  const codeBlockLineHeight = 'sm';
 
   return (
     <Box
       backgroundColor={backgroundColor}
       color={fontColor}
-      fontSize="sm"
-      lineHeight="sm"
+      fontSize={docsFontSize}
+      lineHeight={docsLineHeight}
       {...props}
     >
       <Header />
@@ -121,8 +125,6 @@ const MainPage = (props) => {
             >
               <Text
                 color={colorStyle.color.tertiary}
-                fontSize="md"
-                lineHeight="md"
               >
                 Tonic UI is a UI component library for React, built with Emotion and Styled System. It is designed to be easy to use and easy to customize.
               </Text>
@@ -178,6 +180,8 @@ const MainPage = (props) => {
             p="6x"
             backgroundColor="black"
             width="100%"
+            fontSize={codeBlockFontSize}
+            lineHeight={codeBlockLineHeight}
           >
             <Grid
               templateColumns={{

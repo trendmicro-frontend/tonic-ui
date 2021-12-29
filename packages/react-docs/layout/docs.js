@@ -41,8 +41,8 @@ const DocsPage = (props) => {
     <Box
       backgroundColor={backgroundColor}
       color={fontColor}
-      fontSize="sm"
-      lineHeight="sm"
+      fontSize="md"
+      lineHeight="md"
     >
       <Header
         onToggle={() => {
