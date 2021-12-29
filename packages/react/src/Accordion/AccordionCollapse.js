@@ -1,4 +1,3 @@
-import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import Box from '../Box';
 import AccordionTransition from './AccordionTransition';
