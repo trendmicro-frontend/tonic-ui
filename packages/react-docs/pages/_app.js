@@ -12,8 +12,8 @@ import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import GlobalStyles from '../components/GlobalStyles';
 import MDXComponents from '../components/MDXComponents';
-import DocsPage from './_docs-page';
-import MainPage from './_main-page';
+import Docs from '../layout/docs';
+import Main from '../layout/main';
 
 const pageview = () => {
   ReactGA.set({ page: window.location.pathname });
@@ -47,7 +47,7 @@ const App = (props) => {
     };
   }, [router]);
 
-  const Page = (router.pathname === '/') ? MainPage : DocsPage;
+  const Page = (router.pathname === '/') ? Main : Docs;
 
   return (
     <ThemeProvider theme={customTheme}>
