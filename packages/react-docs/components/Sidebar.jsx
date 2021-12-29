@@ -30,10 +30,6 @@ const Sidebar = forwardRef((
     light: 'gray:20',
     dark: 'gray:70',
   }[colorMode];
-  const headingColor = {
-    light: 'black:secondary',
-    dark: 'white:secondary',
-  }[colorMode];
 
   return (
     <Box
@@ -64,29 +60,50 @@ const Sidebar = forwardRef((
             />
             <Space width="2x" />
             <Text
-              color={headingColor}
-              fontSize="md"
-              lineHeight="md"
-              textTransform="uppercase"
+              color={colorStyle?.color?.primary}
+              fontSize="sm"
+              lineHeight="sm"
             >
               {title}
             </Text>
           </Box>
           <Box>
-            {routes.map(({ title, path }) => {
+            {routes.map(({ title, heading, path }) => {
               const key = title;
-              const url = `${ASSET_PREFIX}/${path}`;
+
+              if (heading) {
+                return (
+                  <Text
+                    key={key}
+                    color={colorStyle?.color?.tertiary}
+                    fontSize="xs"
+                    lineHeight="xs"
+                    pl="9x"
+                    mt="4x"
+                    mb="2x"
+                    textTransform="uppercase"
+                    letterSpacing="0.08rem"
+                    _firstOfType={{
+                      mt: 0,
+                    }}
+                  >
+                    {title}
+                  </Text>
+                );
+              }
 
               return (
                 <NavLink
                   key={key}
-                  href={url}
+                  href={`${ASSET_PREFIX}/${path}`}
                   onClick={onClick}
+                  px={0}
                 >
                   <Text
-                    fontSize="md"
-                    lineHeight="md"
-                    ml="5x"
+                    color={colorStyle?.color?.secondary}
+                    fontSize="sm"
+                    lineHeight="sm"
+                    pl="9x"
                   >
                     {title}
                   </Text>
