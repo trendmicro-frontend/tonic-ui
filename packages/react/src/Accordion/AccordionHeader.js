@@ -1,5 +1,6 @@
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
+import Box from '../Box';
 import AccordionToggle from './AccordionToggle';
 import AccordionToggleIndicator from './AccordionToggleIndicator';
 import useAccordionItem from './useAccordionItem';

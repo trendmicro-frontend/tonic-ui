@@ -237,31 +237,32 @@ function Example() {
 
 ### Accordion
 
-__TODO__
-
-## Props
-
-### Accordion
-
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | `ReactNode` \| `(context) => ReactNode` | | |
 
 ### AccordionItem
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | `ReactNode` \| `(context) => ReactNode` | | |
+| disabled | boolean | | Whether the accordion item is disabled. |
+| id | string | | The id of the accordion item. |
+| isExpanded | boolean | | Whether the accordion item is expanded. |
+| defaultIsExpanded | boolean | | Whether the accordion item is expanded by default. |
+| onToggle | function | | A callback that is called when the accordion item is toggled. |
 
 ### AccordionToggle
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| disabled | boolean | | Whether the accordion toggle is disabled. |
+| onClick | function | | A callback that is called when the accordion toggle is clicked. |
 
 ### AccordionToggleIndicator
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | `ReactNode` \| `({ ref, style, ...props }) => ReactNode` | | |
 
 ### AccordionCollapse
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
