@@ -1,8 +1,5 @@
 import { useRef } from 'react';
 
-/**
- * Creates a constant value over the lifecycle of a component.
- */
 const useConst = (init) => {
   const ref = useRef(null);
 
