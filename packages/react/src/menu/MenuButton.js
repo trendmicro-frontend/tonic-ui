@@ -1,6 +1,9 @@
 import React, { forwardRef } from 'react';
+import { Box } from '../box';
 import { Button } from '../button';
 import MenuToggle from './MenuToggle';
+import MenuToggleIndicator from './MenuToggleIndicator';
+import { useMenuButtonStyle } from './styles';
 
 const MenuButton = forwardRef((
   {
@@ -12,6 +15,8 @@ const MenuButton = forwardRef((
   },
   ref,
 ) => {
+  const styleProps = useMenuButtonStyle({});
+
   return (
     <MenuToggle
       disabled={disabled}
@@ -22,9 +27,15 @@ const MenuButton = forwardRef((
         return (
           <Button
             {...getMenuToggleProps()}
+            {...styleProps}
             {...rest}
           >
-            {children}
+            {children && (
+              <Box>
+                {children}
+              </Box>
+            )}
+            <MenuToggleIndicator />
           </Button>
         );
       }}

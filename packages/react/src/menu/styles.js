@@ -2,6 +2,15 @@ import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { setColorWithOpacity } from '../utils/colors';
 
+const useMenuButtonStyle = () => {
+  return {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    columnGap: '1x',
+  };
+};
+
 const useMenuListStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
@@ -111,6 +120,7 @@ const useMenuToggleIndicatorStyle = () => {
 };
 
 export {
+  useMenuButtonStyle,
   useMenuListStyle,
   useMenuGroupStyle,
   useMenuItemStyle,

@@ -5,7 +5,7 @@ A menu is used to display a list of options to the user. It appears when the use
 ## Import
 
 - `Menu`: The component that provides the menu functionality.
-- `MenuButton`: A button that composes `MenuToggle` and `Button` and is used to open the menu.
+- `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIndicator` to create a menu button.
 - `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
 - `MenuToggleIndicator`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
 - `MenuList`: A wrapper that contains the menu items. Must be a direct child of the `Menu` component.
@@ -205,42 +205,71 @@ function Example() {
 
 ### MenuButton
 
-`MenuButton` composes `MenuToggle` and `Button` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
+`MenuButton` composes `Button`, `MenuToggle`, and `MenuToggleIndicator` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
 
 ```jsx disabled
-const MenuButton = (props) => (
-  <MenuToggle>
-    {({ getMenuToggleProps }) => (
-      <Button
-        {...getMenuToggleProps()}
-        {...props}
-      >
-        {children}
-      </Button>
-    )}
-  </MenuToggle>
-);
+const MenuButton = (props) => {
+  const styleProps = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    columnGap: '1x',
+  };
+
+  return (
+    <MenuToggle>
+      {({ getMenuToggleProps }) => (
+        <Button
+          {...getMenuToggleProps()}
+          {...styleProps}
+          {...props}
+        >
+          {children && (
+            <Box>{children}</Box>
+          )}
+          <MenuToggleIndicator />
+        </Button>
+      )}
+    </MenuToggle>
+  );
+};
 ```
 
 ```jsx
-<Menu>
-  <MenuButton variant="secondary" size="md">
-    <Text>Options</Text>
-    <Space width="1x" />
-    <MenuToggleIndicator />
-  </MenuButton>
-  <MenuList width="max-content">
-    <MenuItem>
-      Item #1
-    </MenuItem>
-    <MenuItem>
-      Item #2
-    </MenuItem>
-    <MenuItem>
-      Item #3
-    </MenuItem>
-  </MenuList>
-</Menu>
+<Stack direction="column" spacing="4x">
+  <Menu>
+    <MenuButton variant="secondary" size="md" width={200}>
+      <Text>Options</Text>
+    </MenuButton>
+    <MenuList width="max-content">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+  <Menu width="100%">
+    <MenuButton variant="secondary" size="md" width="100%">
+      <Text>Options</Text>
+    </MenuButton>
+    <MenuList width="100%">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+</Stack>
 ```
 
 ### MenuToggleIndicator
@@ -249,9 +278,9 @@ const MenuButton = (props) => (
 
 ```jsx
 <Menu>
-  <MenuButton variant="ghost" size="sm" px="1x">
+  <MenuToggle>
     <MenuToggleIndicator />
-  </MenuButton>
+  </MenuToggle>
   <MenuList width="max-content">
     <MenuItem>
       Item #1
@@ -273,7 +302,7 @@ You can also customize the indicator by passing a component as children or a fun
   {({ isOpen, direction }) => {
     return (
       <>
-        <MenuButton variant="secondary">
+        <MenuToggle>
           <MenuToggleIndicator>
             {({ ref, style: styleProps }) => {
               // direction is either 'up' or 'down'
@@ -284,13 +313,13 @@ You can also customize the indicator by passing a component as children or a fun
                 <Icon
                   ref={ref}
                   icon={icon}
-                  size="3x"
+                  size="4x"
                   {...styleProps}
                 />
               );
             }}
           </MenuToggleIndicator>
-        </MenuButton>
+        </MenuToggle>
         <MenuList width="max-content">
           <MenuItem>
             Item #1
@@ -382,8 +411,6 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
 <Menu>
   <MenuButton variant="secondary">
     <Text>This is a very long menu button</Text>
-    <Space width="1x" />
-    <MenuToggleIndicator />
   </MenuButton>
   <MenuList width="100%">
     <MenuItem>
@@ -407,8 +434,6 @@ By default, the menu items will wrap to the next line if the width of the toggle
 <Menu>
   <MenuButton variant="secondary">
     <Text>Options</Text>
-    <Space width="1x" />
-    <MenuToggleIndicator />
   </MenuButton>
   <MenuList width="max-content">
     <MenuItem>
@@ -477,8 +502,6 @@ function Example() {
                 <Menu placement={placement}>
                   <MenuButton variant="secondary">
                     <Text>Options</Text>
-                    <Space width="1x" />
-                    <MenuToggleIndicator />
                   </MenuButton>
                   <MenuList width="max-content">
                     <MenuItem>
@@ -537,8 +560,6 @@ The second number, `distance`, controls the distance between the `MenuList` and 
 <Menu>
   <MenuButton variant="secondary">
     <Text>Options</Text>
-    <Space width="1x" />
-    <MenuToggleIndicator />
   </MenuButton>
   <MenuList
     offset={[
@@ -568,8 +589,6 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
 <Menu>
   <MenuButton variant="secondary">
     <Text>Options</Text>
-    <Space width="1x" />
-    <MenuToggleIndicator />
   </MenuButton>
   <MenuList
     maxHeight={200}
@@ -591,8 +610,6 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 <Menu>
   <MenuButton variant="secondary">
     <Text>Options</Text>
-    <Space width="1x" />
-    <MenuToggleIndicator />
   </MenuButton>
   <MenuList width="100%">
     <Scrollbar height={200}>
@@ -623,8 +640,6 @@ function menuWithCheckbox() {
     <Menu closeOnSelect={false}>
       <MenuButton variant="secondary">
         <Text>Selected ({checkedItems.length})</Text>
-        <Space width="1x" />
-        <MenuToggleIndicator />
       </MenuButton>
       <MenuList width="max-content">
         <CheckboxGroup size="sm" defaultValue={checkedItems}>
