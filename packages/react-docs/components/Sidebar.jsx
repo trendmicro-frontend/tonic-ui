@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionItem,
+  AccordionToggle,
+  AccordionToggleIcon,
+  AccordionCollapse,
   Box,
   Icon,
   Image,
@@ -82,78 +87,88 @@ const Sidebar = forwardRef((
           </Box>
         </NextLink>
       )}
-      {routes.map(({ title, icon, routes }) => (
-        <Box
-          key={title}
-          mb="4x"
-          whiteSpace="nowrap"
-        >
-          <Box
-            display="inline-flex"
-            alignItems="center"
-            px="3x"
-            mb="2x"
+      <Accordion>
+        {routes.map(({ title, icon, routes }) => (
+          <AccordionItem
+            key={title}
+            mb="4x"
+            whiteSpace="nowrap"
           >
-            <Icon
-              icon={icon}
-              color={colorStyle?.color?.tertiary}
-              size="4x"
-            />
-            <Space width="2x" />
-            <Text
-              color={colorStyle?.color?.primary}
-              fontSize="sm"
-              lineHeight="sm"
+            <AccordionToggle
+              display="inline-flex"
+              alignItems="center"
+              justifyContent="space-between"
+              px="3x"
+              mb="2x"
             >
-              {title}
-            </Text>
-          </Box>
-          <Box>
-            {routes.map(({ title, heading, path }) => {
-              const key = title;
-
-              if (heading) {
-                return (
-                  <Text
-                    key={key}
-                    color={colorStyle?.color?.tertiary}
-                    fontSize="xs"
-                    lineHeight="xs"
-                    pl="9x"
-                    mt="4x"
-                    mb="2x"
-                    textTransform="uppercase"
-                    letterSpacing="0.08rem"
-                    _firstOfType={{
-                      mt: 0,
-                    }}
-                  >
-                    {title}
-                  </Text>
-                );
-              }
-
-              return (
-                <NavLink
-                  key={key}
-                  href={`${ASSET_PREFIX}/${path}`}
-                  onClick={onClick}
-                  px={0}
+              <Box>
+                <Icon
+                  icon={icon}
+                  color={colorStyle?.color?.tertiary}
+                  size="4x"
+                />
+                <Space width="2x" />
+                <Text
+                  color={colorStyle?.color?.primary}
+                  fontSize="sm"
+                  lineHeight="sm"
                 >
-                  <Text
-                    color={colorStyle?.color?.secondary}
-                    fontSize="sm"
-                    lineHeight="sm"
-                    pl="9x"
+                  {title}
+                </Text>
+              </Box>
+              <AccordionToggleIcon />
+            </AccordionToggle>
+            <AccordionCollapse
+              TransitionProps={{
+                unmountOnExit: true,
+              }}
+            >
+              {routes.map(({ title, heading, path }) => {
+                const key = title;
+
+                if (heading) {
+                  return (
+                    <Text
+                      key={key}
+                      color={colorStyle?.color?.tertiary}
+                      fontSize="xs"
+                      lineHeight="xs"
+                      pl="9x"
+                      mt="4x"
+                      mb="2x"
+                      textTransform="uppercase"
+                      letterSpacing="0.08rem"
+                      _firstOfType={{
+                        mt: 0,
+                      }}
+                    >
+                      {title}
+                    </Text>
+                  );
+                }
+
+                return (
+                  <NavLink
+                    key={key}
+                    href={`${ASSET_PREFIX}/${path}`}
+                    onClick={onClick}
+                    px={0}
                   >
-                    {title}
-                  </Text>
-                </NavLink>
-              );
-            })}
-          </Box>
-        </Box>
-      ))}
+                    <Text
+                      color={colorStyle?.color?.secondary}
+                      fontSize="sm"
+                      lineHeight="sm"
+                      pl="9x"
+                    >
+                      {title}
+                    </Text>
+                  </NavLink>
+                );
+              })}
+            </AccordionCollapse>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </Box>
   );
 });
