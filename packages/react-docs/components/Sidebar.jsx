@@ -18,8 +18,6 @@ const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
 const Sidebar = forwardRef((
   {
-    isDesktopMode, // eslint-disable-line no-unused-vars
-    isMobileMode,
     onClick,
     ...rest
   },
@@ -52,11 +50,19 @@ const Sidebar = forwardRef((
       backgroundColor={backgroundColor}
       borderRight={1}
       borderRightColor={borderColor}
-      pt={isMobileMode ? 0 : '4x'}
+      pt={{
+        sm: 0,
+        md: '4x',
+      }}
       pb="4x"
       {...rest}
     >
-      {isMobileMode && (
+      <Box
+        display={{
+          sm: 'block',
+          md: 'none',
+        }}
+      >
         <NextLink
           href={`${ASSET_PREFIX}/`}
           passHref
@@ -86,14 +92,11 @@ const Sidebar = forwardRef((
             <Text>Tonic UI</Text>
           </Box>
         </NextLink>
-      )}
+      </Box>
       {routes.map(({ title, icon, path, routes }) => {
-        const pathname = `${ASSET_PREFIX}/${path}`;
-        const key = pathname;
-
         return (
           <Box
-            key={key}
+            key={`${ASSET_PREFIX}/${path}`}
             mb="4x"
             whiteSpace="nowrap"
           >
@@ -138,15 +141,17 @@ const Sidebar = forwardRef((
                 );
               }
 
-              const pathname = heading ? title : `${ASSET_PREFIX}/${path}`;
-              const key = pathname;
-              const isActive = ensureString(router.pathname).startsWith(pathname);
+              /**
+               * path = "getting-started/usage"
+               * router.pathname = "/getting-started/usage"
+               */
+              const isActive = ensureString(router.pathname) === ('/' + path);
 
               return (
                 <NavLink
-                  key={key}
+                  key={path}
                   isActive={isActive}
-                  href={pathname}
+                  href={`${ASSET_PREFIX}/${path}`}
                   onClick={onClick}
                   px={0}
                 >

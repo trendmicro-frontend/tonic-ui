@@ -11,10 +11,8 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import {
-  useHydrated,
   useToggle,
 } from '@tonic-ui/react-hooks';
-import { ensureBoolean } from 'ensure-type';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -85,13 +83,10 @@ const DefaultPage = (props) => {
 };
 
 const DocsPage = (props) => {
-  const isHydrated = useHydrated();
   const isMediaQueryMatched = useMediaQuery(
     '(min-width: 640px)',
   );
-  const isDesktopMode = ensureBoolean(isMediaQueryMatched);
-  const isMobileMode = ensureBoolean(!isMediaQueryMatched);
-  const [isSidebarVisible, toggleSidebarVisible] = useToggle(isDesktopMode ? true : false);
+  const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const backgroundColor = {
@@ -117,7 +112,10 @@ const DocsPage = (props) => {
         md: 250,
       },
       willChange: 'width',
-      transition: isMobileMode ? 'width .3s ease-in-out' : 'none',
+      transition: {
+        sm: 'width .3s ease-in-out',
+        md: 'none',
+      },
       height,
       overflowY: 'auto',
       overflowX: 'hidden',
@@ -145,10 +143,6 @@ const DocsPage = (props) => {
     }
   }, [isMediaQueryMatched]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!isHydrated) {
-    return null;
-  }
-
   return (
     <Box
       backgroundColor={backgroundColor}
@@ -157,8 +151,6 @@ const DocsPage = (props) => {
       lineHeight="md"
     >
       <Header
-        isDesktopMode={isDesktopMode}
-        isMobileMode={isMobileMode}
         onToggle={() => {
           toggleSidebarVisible();
         }}
@@ -166,8 +158,6 @@ const DocsPage = (props) => {
       <Main onClick={handleCloseSidebar}>
         <Box display="flex">
           <Sidebar
-            isDesktopMode={isDesktopMode}
-            isMobileMode={isMobileMode}
             onClick={handleCloseSidebar}
             {...getSidebarStyleProps()}
           />

@@ -51,8 +51,6 @@ const versionMap = {
 
 const Header = forwardRef((
   {
-    isDesktopMode,
-    isMobileMode,
     onToggle,
     ...rest
   },
@@ -131,7 +129,12 @@ const Header = forwardRef((
         justifyContent="space-between"
       >
         <Box>
-          {isMobileMode && (
+          <Box
+            display={{
+              sm: 'block',
+              md: 'none',
+            }}
+          >
             <Box
               display="flex"
               flex="auto"
@@ -141,8 +144,13 @@ const Header = forwardRef((
                 <Icon icon="menu" />
               </Button>
             </Box>
-          )}
-          {isDesktopMode && (
+          </Box>
+          <Box
+            display={{
+              sm: 'none',
+              md: 'block',
+            }}
+          >
             <NextLink href={`${ASSET_PREFIX}/`} passHref>
               <Box
                 as="a"
@@ -167,7 +175,7 @@ const Header = forwardRef((
                 <Text>Tonic UI</Text>
               </Box>
             </NextLink>
-          )}
+          </Box>
         </Box>
         <Box
           display="flex"
