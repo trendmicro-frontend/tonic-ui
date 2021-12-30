@@ -49,7 +49,7 @@ const useAccordionToggleStyle = ({ disabled }) => {
   };
 };
 
-const useAccordionToggleIndicatorStyle = () => {
+const useAccordionToggleIconStyle = () => {
   return {
     display: 'inline-flex',
     _disabled: {
@@ -62,5 +62,5 @@ export {
   useAccordionStyle,
   useAccordionHeaderStyle,
   useAccordionToggleStyle,
-  useAccordionToggleIndicatorStyle,
+  useAccordionToggleIconStyle,
 };

@@ -4,7 +4,7 @@ Accordion is a container that allows the user to toggle sections of related cont
 
 ## Import
 
-* `AccordionHeader` is composed of `AccordionToggle` and `AccordionToggleIndicator`
+* `AccordionHeader` is composed of `AccordionToggle` and `AccordionToggleIcon`
 * `AccordionBody` is composed of `AccordionCollapse`
 
 ```js
@@ -14,7 +14,7 @@ import {
   AccordionHeader,
   AccordionBody,
   AccordionToggle,
-  AccordionToggleIndicator,
+  AccordionToggleIcon,
   AccordionCollapse,
 } from '@tonic-ui/react';
 ```
@@ -120,7 +120,7 @@ function Example() {
 
 ### Customization
 
-If you don't like the default styles, you can use `AccordionToggle`, `AccordionToggleIndicator`, and `AccordionCollapse` to customize the accordion.
+If you don't like the default styles, you can use `AccordionToggle`, `AccordionToggleIcon`, and `AccordionCollapse` to customize the accordion.
 
 Here is an example of customizing the accordion:
 
@@ -136,15 +136,15 @@ function Example() {
   const handleToggle = item => ({ isExpanded }) => {
     setExpandedItem(isExpanded ? item : null);
   };
-  const renderToggleIndicator = item => (
-    <AccordionToggleIndicator>
+  const renderToggleIcon = item => (
+    <AccordionToggleIcon>
       {({ ref, style: styleProps }) => {
         styleProps.transform = (expandedItem === item) ? 'rotate(0deg)' : 'rotate(-90deg)';
         return (
           <Icon ref={ref} icon="chevron-down" size="4x" {...styleProps} />
         );
       }}
-    </AccordionToggleIndicator>
+    </AccordionToggleIcon>
   );
   const getAccordionItemProps = item => {
     const isExpanded = expandedItem === item;
@@ -202,7 +202,7 @@ function Example() {
           <AccordionToggle
             {...getAccordionToggleProps(item)}
           >
-            {renderToggleIndicator(item)}
+            {renderToggleIcon(item)}
             <Space width="2x" />
             <Text>
               Collapsible Item #{index + 1}
@@ -258,7 +258,7 @@ function Example() {
 | disabled | boolean | | Whether the accordion toggle is disabled. |
 | onClick | function | | A callback that is called when the accordion toggle is clicked. |
 
-### AccordionToggleIndicator
+### AccordionToggleIcon
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

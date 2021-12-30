@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Button } from '../button';
 import MenuToggle from './MenuToggle';
-import MenuToggleIndicator from './MenuToggleIndicator';
+import MenuToggleIcon from './MenuToggleIcon';
 import { useMenuButtonStyle } from './styles';
 
 const MenuButton = forwardRef((
@@ -35,7 +35,7 @@ const MenuButton = forwardRef((
                 {children}
               </Box>
             )}
-            <MenuToggleIndicator />
+            <MenuToggleIcon />
           </Button>
         );
       }}

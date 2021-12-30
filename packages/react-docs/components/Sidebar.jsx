@@ -17,7 +17,7 @@ const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
 const Sidebar = forwardRef((
   {
-    isDesktopMode,
+    isDesktopMode, // eslint-disable-line no-unused-vars
     isMobileMode,
     onClick,
     ...rest

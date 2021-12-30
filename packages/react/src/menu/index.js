@@ -5,7 +5,7 @@ import MenuGroup from './MenuGroup';
 import MenuItem from './MenuItem';
 import MenuList from './MenuList';
 import MenuToggle from './MenuToggle';
-import MenuToggleIndicator from './MenuToggleIndicator';
+import MenuToggleIcon from './MenuToggleIcon';
 
 Menu.Button = MenuButton;
 Menu.Divider = MenuDivider;
@@ -13,7 +13,7 @@ Menu.Group = MenuGroup;
 Menu.Item = MenuItem;
 Menu.List = MenuList;
 Menu.Toggle = MenuToggle;
-Menu.Toggle.Indicator = MenuToggleIndicator;
+Menu.Toggle.Icon = MenuToggleIcon;
 
 export {
   Menu,
@@ -23,7 +23,5 @@ export {
   MenuItem,
   MenuList,
   MenuToggle,
-  MenuToggleIndicator,
+  MenuToggleIcon,
 };
-
-export default Menu;

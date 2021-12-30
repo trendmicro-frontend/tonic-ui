@@ -1,34 +1,60 @@
-import { ensureBoolean } from 'ensure-type';
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useRef,
+} from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { Icon } from '../icon';
-import reflow from '../utils/reflow';
 import {
   createTransitionStyle,
   getEnterTransitionProps,
   getExitTransitionProps,
   transitionEasing,
 } from '../utils/transitions';
+import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 import {
-  useAccordionToggleIndicatorStyle,
+  useMenuToggleIconStyle,
 } from './styles';
-import useAccordionItem from './useAccordionItem';
+import useMenu from './useMenu';
+
+const mapDirectionToIconName = (direction) => {
+  const iconName = {
+    up: 'angle-up',
+    down: 'angle-down',
+    left: 'angle-left',
+    right: 'angle-right',
+  }[direction];
+
+  return iconName;
+};
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
     entering: (props) => ({
-      transform: 'rotate(-180deg)',
+      transform: {
+        up: 'rotate(180deg)',
+        down: 'rotate(-180deg)',
+      }[props.direction],
     }),
     entered: (props) => ({
-      transform: 'rotate(-180deg)',
+      transform: {
+        up: 'rotate(180deg)',
+        down: 'rotate(-180deg)',
+      }[props.direction],
     }),
     exiting: (props) => ({
-      transform: 'rotate(0deg)',
+      transform: {
+        up: 'rotate(0deg)',
+        down: 'rotate(0deg)',
+      }[props.direction],
     }),
     exited: (props) => ({
-      transform: 'rotate(0deg)',
+      transform: {
+        up: 'rotate(0deg)',
+        down: 'rotate(0deg)',
+      }[props.direction],
     }),
   }[state];
 
@@ -45,11 +71,11 @@ const defaultTimeout = {
   exit: Math.floor(133 * 0.7),
 };
 
-const AccordionToggleIndicator = forwardRef((
+const MenuToggleIcon = forwardRef((
   {
     appear = true,
     children,
-    disabled: disabledProp,
+    disabled,
     easing = defaultEasing,
     style,
     timeout = defaultTimeout,
@@ -57,36 +83,38 @@ const AccordionToggleIndicator = forwardRef((
   },
   ref,
 ) => {
-  const context = useAccordionItem(); // context might be an undefined value
-  const toggleIndicatorStyleProps = useAccordionToggleIndicatorStyle();
+  const menuContext = useMenu(); // context might be an undefined value
+  const {
+    isOpen,
+    direction,
+  } = { ...menuContext };
+  const menuIndicatorStyleProps = useMenuToggleIconStyle();
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
-  const disabled = ensureBoolean(disabledProp ?? context?.disabled);
-  const isExpanded = ensureBoolean(context?.isExpanded);
 
   useEffect(() => {
-    if (isExpanded) {
+    if (isOpen) {
       const node = nodeRef.current;
       reflow(node); // force reflow to make the transition work when animating appearance
     }
-  }, [isExpanded]);
+  }, [isOpen]);
 
   return (
     <Transition
       appear={appear}
-      in={isExpanded}
+      in={isOpen}
       nodeRef={nodeRef}
       timeout={timeout}
       {...rest}
     >
       {(state, childProps) => {
-        const transitionProps = isExpanded
+        const transitionProps = isOpen
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
         const transition = createTransitionStyle('transform', transitionProps);
-        const variantStyle = mapStateToVariantStyle(state, {});
+        const variantStyle = mapStateToVariantStyle(state, { direction });
         const styleProps = {
-          ...toggleIndicatorStyleProps,
+          ...menuIndicatorStyleProps,
           ...variantStyle,
           'aria-disabled': disabled,
           transition,
@@ -103,7 +131,7 @@ const AccordionToggleIndicator = forwardRef((
           });
         }
 
-        const iconName = 'chevron-down';
+        const iconName = mapDirectionToIconName(direction);
 
         return (
           <Box
@@ -120,6 +148,6 @@ const AccordionToggleIndicator = forwardRef((
   );
 });
 
-AccordionToggleIndicator.displayName = 'AccordionToggleIndicator';
+MenuToggleIcon.displayName = 'MenuToggleIcon';
 
-export default AccordionToggleIndicator;
+export default MenuToggleIcon;

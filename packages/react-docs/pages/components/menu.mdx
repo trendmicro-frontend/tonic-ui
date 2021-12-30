@@ -5,9 +5,9 @@ A menu is used to display a list of options to the user. It appears when the use
 ## Import
 
 - `Menu`: The component that provides the menu functionality.
-- `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIndicator` to create a menu button.
+- `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a menu button.
 - `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
-- `MenuToggleIndicator`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
+- `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
 - `MenuList`: A wrapper that contains the menu items. Must be a direct child of the `Menu` component.
 - `MenuGroup`: A wrapper that groups related menu items.
 - `MenuItem`: The individual menu items. Must be a direct child of the `MenuList` component.
@@ -18,7 +18,7 @@ import {
   Menu,
   MenuButton,
   MenuToggle,
-  MenuToggleIndicator,
+  MenuToggleIcon,
   MenuList,
   MenuGroup,
   MenuItem,
@@ -121,7 +121,7 @@ function Example() {
 
 ### MenuToggle
 
-`MenuToggle` is a toggle that opens the menu when clicked. It is usually a button or link. The `MenuToggleIndicator` can be added to the toggle to indicate the menu is open or closed.
+`MenuToggle` is a toggle that opens the menu when clicked. It is usually a button or link. The `MenuToggleIcon` can be added to the toggle to indicate the menu is open or closed.
 
 ```jsx
 <Flex alignItems="center">
@@ -152,7 +152,7 @@ function Example() {
       <Flex alignItems="center" userSelect="none">
         <Text>Options</Text>
         <Space width="1x" />
-        <MenuToggleIndicator />
+        <MenuToggleIcon />
       </Flex>
     </MenuToggle>
     <MenuList width="max-content">
@@ -183,7 +183,7 @@ function Example() {
           >
             <Text>Options</Text>
             <Space width="1x" />
-            <MenuToggleIndicator />
+            <MenuToggleIcon />
           </Button>
         );
       }}
@@ -205,7 +205,7 @@ function Example() {
 
 ### MenuButton
 
-`MenuButton` composes `Button`, `MenuToggle`, and `MenuToggleIndicator` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
+`MenuButton` composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
 
 ```jsx disabled
 const MenuButton = (props) => {
@@ -227,7 +227,7 @@ const MenuButton = (props) => {
           {children && (
             <Box>{children}</Box>
           )}
-          <MenuToggleIndicator />
+          <MenuToggleIcon />
         </Button>
       )}
     </MenuToggle>
@@ -272,14 +272,14 @@ const MenuButton = (props) => {
 </Stack>
 ```
 
-### MenuToggleIndicator
+### MenuToggleIcon
 
-`MenuToggleIndicator` is an indicator that indicates the menu is open or closed.
+`MenuToggleIcon` is an indicator that indicates the menu is open or closed.
 
 ```jsx
 <Menu>
   <MenuToggle>
-    <MenuToggleIndicator />
+    <MenuToggleIcon />
   </MenuToggle>
   <MenuList width="max-content">
     <MenuItem>
@@ -303,7 +303,7 @@ You can also customize the indicator by passing a component as children or a fun
     return (
       <>
         <MenuToggle>
-          <MenuToggleIndicator>
+          <MenuToggleIcon>
             {({ ref, style: styleProps }) => {
               // direction is either 'up' or 'down'
               const icon = `arrow-${direction}`;
@@ -318,7 +318,7 @@ You can also customize the indicator by passing a component as children or a fun
                 />
               );
             }}
-          </MenuToggleIndicator>
+          </MenuToggleIcon>
         </MenuToggle>
         <MenuList width="max-content">
           <MenuItem>
@@ -702,7 +702,7 @@ function menuWithCheckbox() {
 | onClick | function | | Callback when the menu toggle is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
 
-### MenuToggleIndicator
+### MenuToggleIcon
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

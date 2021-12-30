@@ -110,7 +110,7 @@ const useMenuToggleStyle = () => {
   };
 };
 
-const useMenuToggleIndicatorStyle = () => {
+const useMenuToggleIconStyle = () => {
   return {
     display: 'inline-flex',
     _disabled: {
@@ -126,5 +126,5 @@ export {
   useMenuItemStyle,
   useMenuItemDividerStyle,
   useMenuToggleStyle,
-  useMenuToggleIndicatorStyle,
+  useMenuToggleIconStyle,
 };

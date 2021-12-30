@@ -2,7 +2,7 @@ import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import AccordionToggle from './AccordionToggle';
-import AccordionToggleIndicator from './AccordionToggleIndicator';
+import AccordionToggleIcon from './AccordionToggleIcon';
 import useAccordionItem from './useAccordionItem';
 import { useAccordionHeaderStyle } from './styles';
 
@@ -31,7 +31,7 @@ const AccordionHeader = forwardRef((
       {children && (
         <Box>{children}</Box>
       )}
-      <AccordionToggleIndicator />
+      <AccordionToggleIcon />
     </AccordionToggle>
   );
 });
