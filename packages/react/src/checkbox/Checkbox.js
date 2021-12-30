@@ -114,8 +114,6 @@ const Checkbox = forwardRef((
       />
       <ControlBox
         type="checkbox"
-        width={_size}
-        height={_size}
         {...styleProps}
       >
         {/* This Box is for rendering background color of Checkbox which is focused. */}

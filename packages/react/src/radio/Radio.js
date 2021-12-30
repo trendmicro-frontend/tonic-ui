@@ -104,9 +104,9 @@ const Radio = forwardRef((
         {...styleProps}
       >
         <Box
-          bg="currentColor"
-          as="span"
+          backgroundColor="currentColor"
           borderRadius="circle"
+          display="inline-flex"
           width={iconSize}
           height={iconSize}
         />
