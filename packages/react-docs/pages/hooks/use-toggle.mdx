@@ -1,0 +1,38 @@
+# useToggle
+
+A custom Hook that toggles between boolean values. It also accepts a toggle function that can be used to change the value.
+
+## Import
+
+```js
+import { useToggle } from '@tonic-ui/react-hooks';
+```
+
+```js
+import { useReducer } from 'react';
+
+const defaultToggleFunction = (state, nextValue) => {
+  return (typeof nextValue === 'boolean') ? nextValue : !state;
+};
+
+const useToggle = (
+  initialValue = false,
+  toggleFunction = defaultToggleFunction,
+) => {
+  return useReducer(toggleFunction, initialValue);
+};
+```
+
+## Usage
+
+```jsx
+function Switch() {
+  const [value, toggleValue] = useToggle(false);
+
+  return (
+    <Button onClick={toggleValue}>
+      {value ? 'ON' : 'OFF'}
+    </Button>
+  );
+}
+```

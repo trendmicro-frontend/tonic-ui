@@ -1,0 +1,523 @@
+# Grid
+
+`Grid` is a [`Box`](box) with `display: grid` and comes with helpful style shorthand props.
+
+## Import
+
+```js
+import { Grid } from '@tonic-ui/react';
+```
+
+## Usage
+
+Grid provides the following style shorthand props:
+
+| Shorthand Prop | Style Prop | CSS Property | Description |
+| :------------- | :--------- | :----------- | ----------- |
+| gap | gridGap | [grid-gap](https://developer.mozilla.org/en-US/docs/Web/CSS/gap) | Sets the gaps (gutters) between rows and columns. It is a shorthand for `row-gap` and `column-gap`. |
+| rowGap | gridRowGap | [grid-row-gap](https://developer.mozilla.org/en-US/docs/Web/CSS/row-gap) | Sets the size of the gap (gutter) between an element's grid rows. |
+| columnGap | gridColumnGap | [grid-column-gap](https://developer.mozilla.org/en-US/docs/Web/CSS/column-gap) | Sets the size of the gap (gutter) between an element's columns. |
+| row | gridRow | [grid-row](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-row) | a shorthand property for `grid-row-start` and `grid-row-end`. |
+| column | gridColumn | [grid-column](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-column) | A shorthand property for `grid-column-start` and `grid-column-end`. |
+| area | gridArea | [grid-area](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-area) | A shorthand property for `grid-row-start`, `grid-column-start`, `grid-row-end` and `grid-column-end`. |
+| autoFlow | gridAutoFlow | [grid-auto-flow](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-flow) | Controls how the auto-placement algorithm works. |
+| autoRows | gridAutoRows | [grid-auto-rows](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-rows) | Specifies the size of an implicitly-created grid row track or pattern of tracks. |
+| autoColumns | gridAutoColumns | [grid-auto-columns](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-columns) | Specifies the size of an implicitly-created grid column track or pattern of tracks. |
+| templateRows | gridTemplateRows | [grid-template-rows](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-rows) | Defines the line names and track sizing functions of the grid rows. |
+| templateColumns | gridTemplateColumns | [grid-template-columns](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns) | Defines the line names and track sizing functions of the grid columns. |
+| templateAreas | gridTemplateAreas | [grid-template-areas](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-areas) | Specifies named grid areas. |
+
+### The `gap` (`gridGap`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('0');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('0')}>0</Button>
+        <Button variant="outline" onClick={() => setValue('10%')}>10%</Button>
+        <Button variant="outline" onClick={() => setValue('1rem')}>1rem</Button>
+        <Button variant="outline" onClick={() => setValue('10px 20px')}>10px 20px</Button>
+        <Button variant="outline" onClick={() => setValue('calc(20px + 10%)')}>calc(20px + 10%)</Button>
+      </Stack>
+      <pre>
+        {`<Grid gap="${value}">`}
+      </pre>
+      <Grid
+        gap={value}
+        templateColumns="1fr 1fr"
+        bg="gray:10"
+        p="4x"
+        transition="all .3s ease-in"
+      >
+        <GridItem>One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `rowGap` (`gridRowGap`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('0');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('0')}>0</Button>
+        <Button variant="outline" onClick={() => setValue('10%')}>10%</Button>
+        <Button variant="outline" onClick={() => setValue('1rem')}>1rem</Button>
+        <Button variant="outline" onClick={() => setValue('20px')}>20px</Button>
+      </Stack>
+      <pre>
+        {`<Grid rowGap="${value}">`}
+      </pre>
+      <Grid
+        rowGap={value}
+        templateColumns="1fr 1fr"
+        bg="gray:10"
+        p="4x"
+        transition="all .3s ease-in"
+      >
+        <GridItem>One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `columnGap` (`gridColumnGap`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('0');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('0')}>0</Button>
+        <Button variant="outline" onClick={() => setValue('10%')}>10%</Button>
+        <Button variant="outline" onClick={() => setValue('1rem')}>1rem</Button>
+        <Button variant="outline" onClick={() => setValue('20px')}>20px</Button>
+      </Stack>
+      <pre>
+        {`<Grid columnGap="${value}">`}
+      </pre>
+      <Grid
+        columnGap={value}
+        templateColumns="1fr 1fr"
+        bg="gray:10"
+        p="4x"
+        transition="all .3s ease-in"
+      >
+        <GridItem>One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `row` (`gridRow`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('1');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('1')}>1</Button>
+        <Button variant="outline" onClick={() => setValue('1 / 3')}>1 / 3</Button>
+        <Button variant="outline" onClick={() => setValue('2 / -1')}>2 / -1</Button>
+        <Button variant="outline" onClick={() => setValue('1 / span 2')}>1 / span 2</Button>
+      </Stack>
+      <Grid
+        templateRows="repeat(3,minmax(3rem,auto))"
+        templateColumns="1fr 1.5fr 1fr"
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem row={value} bg="blue:50" borderColor="blue:60">One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `column` (`gridColumn`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('1');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('1')}>1</Button>
+        <Button variant="outline" onClick={() => setValue('1 / 3')}>1 / 3</Button>
+        <Button variant="outline" onClick={() => setValue('2 / -1')}>2 / -1</Button>
+        <Button variant="outline" onClick={() => setValue('1 / span 2')}>1 / span 2</Button>
+      </Stack>
+      <Grid
+        templateRows="repeat(3,minmax(3rem,auto))"
+        templateColumns="1fr 1.5fr 1fr"
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem column={value} bg="blue:50" borderColor="blue:60">One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `area` (`gridArea`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('a');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('a')}>a</Button>
+        <Button variant="outline" onClick={() => setValue('b')}>b</Button>
+        <Button variant="outline" onClick={() => setValue('c')}>c</Button>
+        <Button variant="outline" onClick={() => setValue('2 / 1 / 2 / 4')}>2 / 1 / 2 / 4</Button>
+      </Stack>
+      <Grid
+        templateRows="repeat(3,minmax(3rem,auto))"
+        templateColumns="1fr 1fr 1fr"
+        templateAreas={`
+          "a a a"
+          "b c c"
+          "b c c"
+        `}
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem area={value}>Example</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `autoFlow` (`gridAutoFlow`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('row');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('row')}>row</Button>
+        <Button variant="outline" onClick={() => setValue('column')}>column</Button>
+        <Button variant="outline" onClick={() => setValue('row dense')}>row dense</Button>
+      </Stack>
+      <pre>
+        {`<Grid autoFlow="${value}">`}
+      </pre>
+      <Grid
+        autoFlow={value}
+        templateRows="repeat(3,minmax(3rem,auto))"
+        templateColumns="1fr 1fr 1fr"
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem column="auto/span 2">One</GridItem>
+        <GridItem column="auto/span 2">Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `autoRows` (`gridAutoRows`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('auto');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('auto')}>auto</Button>
+        <Button variant="outline" onClick={() => setValue('3rem')}>3rem</Button>
+        <Button variant="outline" onClick={() => setValue('min-content')}>min-content</Button>
+        <Button variant="outline" onClick={() => setValue('minmax(2rem, auto)')}>minmax(2rem, auto)</Button>
+      </Stack>
+      <pre>
+        {`<Grid autoRows="${value}">`}
+      </pre>
+      <Grid
+        autoRows={value}
+        templateColumns="1fr 1fr"
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem>One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem></GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `autoColumns` (`gridAutoColumns`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('auto');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('auto')}>auto</Button>
+        <Button variant="outline" onClick={() => setValue('1fr')}>1fr</Button>
+        <Button variant="outline" onClick={() => setValue('min-content')}>min-content</Button>
+        <Button variant="outline" onClick={() => setValue('minmax(3rem, auto)')}>minmax(3rem, auto)</Button>
+      </Stack>
+      <pre>
+        {`<Grid autoColumns="${value}">`}
+      </pre>
+      <Grid
+        autoColumns={value}
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem column="1/3">One</GridItem>
+        <GridItem column="2">Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `templateRows` (`gridTemplateRows`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('auto');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('auto')}>auto</Button>
+        <Button variant="outline" onClick={() => setValue('3rem 4rem 3rem')}>3rem 4rem 3rem</Button>
+        <Button variant="outline" onClick={() => setValue('1fr 2fr 1fr')}>1fr 2fr 1fr</Button>
+        <Button variant="outline" onClick={() => setValue('3rem auto minmax(3rem, 4rem)')}>3rem auto minmax(3rem, 4rem)</Button>
+      </Stack>
+      <pre>
+        {`<Grid templateRows="${value}">`}
+      </pre>
+      <Grid
+        templateRows={value}
+        templateColumns="1fr 1fr"
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem>One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `templateColumns` (`gridTemplateColumns`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('4rem 4rem');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('4rem 4rem')}>4rem 4rem</Button>
+        <Button variant="outline" onClick={() => setValue('1fr 4rem')}>1fr 4rem</Button>
+        <Button variant="outline" onClick={() => setValue('1fr auto')}>1fr auto</Button>
+        <Button variant="outline" onClick={() => setValue('1fr 2fr')}>1fr 2fr</Button>
+      </Stack>
+      <pre>
+        {`<Grid templateColumns="${value}">`}
+      </pre>
+      <Grid
+        templateColumns={value}
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem>One</GridItem>
+        <GridItem>Two</GridItem>
+        <GridItem>Three</GridItem>
+        <GridItem>Four</GridItem>
+        <GridItem>Five</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### The `templateAreas` (`gridTemplateAreas`) property
+
+```jsx noInline
+const GridItem = (props) => (
+  <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />
+);
+
+function Example() {
+  const [value, setValue] = React.useState('"a a a" "b c c" "b c c"');
+
+  return (
+    <>
+      <Stack direction="row" spacing="2x" mb="4x">
+        <Button variant="outline" onClick={() => setValue('"a a a" "b c c" "b c c"')}>
+          <Box fontFamily="mono" py="1x">
+            <Box>"a a a"</Box>
+            <Box>"b c c"</Box>
+            <Box>"b c c"</Box>
+          </Box>
+        </Button>
+        <Button variant="outline" onClick={() => setValue('"b b a" "b b c" "b b c"')}>
+          <Box fontFamily="mono" py="1x">
+            <Box>"b b a"</Box>
+            <Box>"b b c"</Box>
+            <Box>"b b c"</Box>
+          </Box>
+        </Button>
+        <Button variant="outline" onClick={() => setValue('"a a ." "a a ." ". b c"')}>
+          <Box fontFamily="mono" py="1x">
+            <Box>"a a ."</Box>
+            <Box>"a a ."</Box>
+            <Box>". b c"</Box>
+          </Box>
+        </Button>
+      </Stack>
+      <pre>
+        {`<Grid templateAreas=${JSON.stringify(value)}>`}
+      </pre>
+      <Grid
+        templateAreas={value}
+        templateRows="repeat(3,minmax(3rem,auto))"
+        templateColumns="1fr 1fr 1fr"
+        gap="2x"
+        bg="gray:10"
+        p="4x"
+      >
+        <GridItem area="a" bg="blue:50" borderColor="blue:60">One (a)</GridItem>
+        <GridItem area="b" bg="red:50" borderColor="red:60">Two (b)</GridItem>
+        <GridItem area="c" bg="teal:50" borderColor="teal:60">Three (c)</GridItem>
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```

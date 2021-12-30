@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { mdx } from '@mdx-js/react';
-import * as styledUIComponents from '@tonic-ui/react';
+import * as reactComponents from '@tonic-ui/react';
+import * as reactHooks from '@tonic-ui/react-hooks';
 import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
@@ -12,6 +13,7 @@ import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
+import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
@@ -19,7 +21,6 @@ import Lorem from './Lorem';
 import SelectableButton from './SelectableButton';
 import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
-import useClipboard from './useClipboard';
 
 const thirdPartyComponents = {
   AutoSizer,
@@ -38,7 +39,7 @@ const {
   Fade,
   Icon,
   useColorMode,
-} = styledUIComponents;
+} = reactComponents;
 
 const liveEditorStyle = {
   fontSize: 14,
@@ -188,7 +189,8 @@ const CodeBlock = ({
     code: editorCode,
     transformCode: code => code,
     scope: {
-      ...styledUIComponents,
+      ...reactComponents,
+      ...reactHooks,
       ...thirdPartyComponents,
       FontAwesomeIcon,
       EditableTag,

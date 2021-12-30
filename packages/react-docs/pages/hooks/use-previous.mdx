@@ -1,0 +1,43 @@
+# usePrevious
+
+A custom Hook that stores the previous state or props.
+
+## Import
+
+```js
+import { usePrevious } from '@tonic-ui/react-hooks';
+```
+
+```js
+import { useEffect, useRef } from 'react';
+
+const usePrevious = (value) => {
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+
+  return ref.current;
+};
+```
+
+## Usage
+
+```jsx
+function Counter() {
+  const [value, setValue] = React.useState(0);
+  const lastValue = usePrevious(value);
+
+  return (
+    <>
+      <Box mb="4x">
+        Current: {value} - Previous: {lastValue}
+      </Box>
+      <Button onClick={() => setValue(value + 1)}>
+        Click Me
+      </Button>
+    </>
+  );
+}
+```

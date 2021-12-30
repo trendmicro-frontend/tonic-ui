@@ -1,0 +1,30 @@
+import { Grid } from '@tonic-ui/react';
+import ColorPalette from '../../components/ColorPalette';
+import ThemeParser from '../../components/ThemeParser';
+
+# Colors
+
+Add a `theme.colors` object to provide colors for your project. By default these colors can be referenced by `color`, `borderColor`, and `backgroundColor`, `fill`, `stroke`, and styles.
+
+We recommend adding a palette that go from `10` (lightest color) to `100` (darkest color). You can use a name (such as Red 10 or Red 70) to indicate that Red 10 is a light red color and Red 70 is a dark red color.
+
+The color palette  is defined for both Light Theme and Dark Theme where `10` - `50` means to pass AA contrast with black text and  `60` - `100` means to pass AA contrast with white text.
+
+<ThemeParser theme="colors" />
+
+### Color palette
+
+<Grid
+  gap="6x"
+  templateColumns="repeat(auto-fit, 300px)"
+  mb="6x"
+>
+  <ColorPalette hue="red" />
+  <ColorPalette hue="magenta" />
+  <ColorPalette hue="purple" />
+  <ColorPalette hue="blue" />
+  <ColorPalette hue="green" />
+  <ColorPalette hue="teal" />
+  <ColorPalette hue="cyan" />
+  <ColorPalette hue="gray" />
+</Grid>

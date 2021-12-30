@@ -90,15 +90,12 @@ jobs:
             yarn
             yarn list --silent react react-dom
       - run:
-          name: Test
-          command: |
-            yarn test
-      - run:
-          name: Build
+          name: Build & Test
           command: |
             echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
+            yarn test
       - run:
           name: Compress build artifacts
           command: |
@@ -141,15 +138,12 @@ jobs:
             yarn
             yarn list --silent react react-dom
       - run:
-          name: Test
-          command: |
-            yarn test
-      - run:
-          name: Build
+          name: Build & Test
           command: |
             echo "ASSET_PREFIX=/tonic-ui-demo/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
+            yarn test
       - run:
           name: Compress build artifacts
           command: |
@@ -198,15 +192,12 @@ jobs:
             yarn
             yarn list --silent react react-dom
       - run:
-          name: Test
-          command: |
-            yarn test            
-      - run:
-          name: Build
+          name: Build & Test
           command: |
             echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
+            yarn test
       - run:
           name: Compress build artifacts
           command: |

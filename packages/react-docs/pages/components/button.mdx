@@ -1,0 +1,214 @@
+# Button
+
+`Button` is used to trigger an action or event, such as submitting a form, opening a [`Modal`](modal), canceling an action, or performing a delete operation.
+
+## Import
+
+```js
+import { Button } from '@tonic-ui/react';
+```
+
+## Usage
+
+```jsx
+<Button>Default Button</Button>
+```
+
+### Variants
+
+Use the `variant` prop to change the visual style of `Button`. You can set the value to `emphasis`, `primary`, `default`, `secondary`, or `ghost`.
+
+```jsx
+<Stack direction="row" spacing="2x">
+  <Button variant="emphasis">Emphasis Button</Button>
+  <Button variant="primary">Primary Button</Button>
+  <Button variant="default">Default Button</Button>
+  <Button variant="secondary">Secondary Button</Button>
+  <Button variant="ghost">Ghost Button</Button>
+</Stack>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <Button variant="primary" size="sm">Small</Button>
+    <Button variant="primary" size="md">Medium</Button>
+    <Button variant="primary" size="lg">Large</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <Button variant="secondary" size="sm">Small</Button>
+    <Button variant="secondary" size="md">Medium</Button>
+    <Button variant="secondary" size="lg">Large</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <Button variant="ghost" size="sm">Small</Button>
+    <Button variant="ghost" size="md">Medium</Button>
+    <Button variant="ghost" size="lg">Large</Button>
+  </Stack>
+</Stack>
+```
+
+### States
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <Button variant="primary">Normal</Button>
+    <Button variant="primary" disabled>Disabled</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <Button>Normal</Button>
+    <Button disabled>Disabled</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <Button variant="secondary">Normal</Button>
+    <Button variant="secondary" disabled>Disabled</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
+    <Button variant="ghost">Normal</Button>
+    <Button variant="ghost" disabled>Disabled</Button>
+  </Stack>
+</Stack>
+```
+
+### Button with icon
+
+Icon buttons are commonly used in toolbars. If required, you can add a label to icon buttons. You can use the [Space](space) component to add padding between the icon and the label.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Stack direction="row" spacing="2x">
+    <Button variant="primary" width="8x" height="8x" borderRadius="circle">
+      <Icon icon="add" />
+    </Button>
+    <Button variant="primary" width="8x" height="8x">
+      <Icon icon="add" />
+    </Button>
+    <Button variant="primary" borderRadius="2rem">
+      <Icon icon="settings" />
+      <Space width="2x" />
+      Settings
+    </Button>
+    <Button variant="primary">
+      <Icon icon="settings" />
+      <Space width="2x" />
+      Settings
+    </Button>
+    <Button variant="primary" borderRadius="2rem">
+      Next
+      <Space width="2x" />
+      <Icon icon="angle-right" />
+    </Button>
+    <Button variant="primary">
+      Next
+      <Space width="2x" />
+      <Icon icon="angle-right" />
+    </Button>
+  </Stack>
+  <Stack direction="row" spacing="2x">
+    <Button width="8x" height="8x" borderRadius="circle">
+      <Icon icon="add" />
+    </Button>
+    <Button width="8x" height="8x">
+      <Icon icon="add" />
+    </Button>
+    <Button borderRadius="2rem">
+      <Icon icon="settings" />
+      <Space width="2x" />
+      Settings
+    </Button>
+    <Button>
+      <Icon icon="settings" />
+      <Space width="2x" />
+      Settings
+    </Button>
+    <Button borderRadius="2rem">
+      Next
+      <Space width="2x" />
+      <Icon icon="angle-right" />
+    </Button>
+    <Button>
+      Next
+      <Space width="2x" />
+      <Icon icon="angle-right" />
+    </Button>
+  </Stack>
+  <Stack direction="row" spacing="2x">
+    <Button variant="secondary" width="8x" height="8x" borderRadius="circle">
+      <Icon icon="add" />
+    </Button>
+    <Button variant="secondary" width="8x" height="8x">
+      <Icon icon="add" />
+    </Button>
+    <Button variant="secondary" borderRadius="2rem">
+      <Icon icon="settings" />
+      <Space width="2x" />
+      Settings
+    </Button>
+    <Button variant="secondary">
+      <Icon icon="settings" />
+      <Space width="2x" />
+      Settings
+    </Button>
+    <Button variant="secondary" borderRadius="2rem">
+      Next
+      <Space width="2x" />
+      <Icon icon="angle-right" />
+    </Button>
+    <Button variant="secondary">
+      Next
+      <Space width="2x" />
+      <Icon icon="angle-right" />
+    </Button>
+  </Stack>
+  <Stack direction="row" spacing="2x">
+    <Button variant="ghost" width="8x" height="8x" borderRadius="circle">
+      <Icon icon="add" />
+    </Button>
+    <Button variant="ghost" width="8x" height="8x">
+      <Icon icon="add" />
+    </Button>
+    <Button variant="ghost" borderRadius="2rem">
+      <Icon icon="settings" />
+      <Space width="2x" />
+      Settings
+    </Button>
+    <Button variant="ghost">
+      <Icon icon="settings" />
+      <Space width="2x" />
+      Settings
+    </Button>
+    <Button variant="ghost" borderRadius="2rem">
+      Next
+      <Space width="2x" />
+      <Icon icon="angle-right" />
+    </Button>
+    <Button variant="ghost">
+      Next
+      <Space width="2x" />
+      <Icon icon="angle-right" />
+    </Button>
+  </Stack>
+</Stack>
+```
+
+## Custom Button
+
+To create a custom button, you can use the style props for the [ButtonBase](buttonbase) component.
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true`. You can style this state by using the `_disabled` prop. |
+| size | string | 'md' | The size of the button. Acceptable values: 'sm', 'md', 'lg' |
+| variant | string | 'default' | The variant of the button style to use. Acceptable values: 'emphasis', 'primary', 'default', 'secondary', 'ghost' |

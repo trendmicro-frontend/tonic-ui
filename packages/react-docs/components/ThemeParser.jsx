@@ -6,7 +6,7 @@ import {
 } from '@tonic-ui/react';
 import React from 'react';
 import CodeBlock from './CodeBlock';
-import jsonPrettify from './json-prettify';
+import jsonPrettify from '../utils/json-prettify';
 
 const ThemeParser = ({
   theme: themeKey,

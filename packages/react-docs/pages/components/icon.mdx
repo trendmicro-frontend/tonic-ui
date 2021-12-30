@@ -1,0 +1,234 @@
+# Icon
+
+`Icon` is used to render SVG icons in a more convenient way. You can extend icons by defining icon keys in `theme.icons`.
+
+## Import
+
+```js
+import { Icon } from '@tonic-ui/react';
+```
+
+## Usage
+
+Use an icon by passing the `icon` prop. This `icon` property value must match an icon key defined in `theme.icons`. By default, the icon inherits the font size and color of its parent.
+
+```jsx
+<Stack direction="row" spacing="4x" alignItems="center">
+  <Icon icon="face-smile-o" />
+  <Icon icon="face-smile-o" size="6x" color="red:50" />
+  <Icon icon="face-smile-o" size="8x" color="yellow:50" />
+  <Icon icon="face-smile-o" size="12x" color="teal:40" />
+</Stack>
+```
+
+### Animating icons
+
+Use the `spin` prop to get any icon to rotate either in the clockwise (CW) or counterclockwise (CCW) direction.
+
+```jsx noInline
+const useToggle = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const toggle = () => setValue(value => !value);
+  return [value, toggle, setValue];
+};
+
+function Example() {
+  const [checked, toggle] = useToggle(true);
+  const playState = checked ? 'running' : 'paused';
+
+  return (
+    <>
+      <Flex mb="4x">
+        <Switch size="sm" checked={checked} onChange={toggle} /><Space width="4x" />Toggle animation
+      </Flex>
+      <Stack direction="row" spacing="4x">
+        <Icon icon="spinner" size="6x" spin animationPlayState={playState} />
+        <Icon icon="spinner" size="6x" spin animationDuration="4s" animationPlayState={playState} />
+        <Icon icon="clock" size="6x" spin animationPlayState={playState} animationTimingFunction="steps(8)" />
+        <Icon icon="redo" size="6x" spin="cw" animationPlayState={playState} />
+        <Icon icon="undo" size="6x" spin="ccw" animationPlayState={playState} />
+      </Stack>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+The `animation` prop can be used to override default animation, it is a shorthand property for:
+
+• [animationName](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-name)<br/>
+• [animationDuration](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration)<br/>
+• [animationTimingFunction](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)<br/>
+• [animationDelay](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-delay)<br/>
+• [animationIterationCount](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-iteration-count)<br/>
+• [animationDirection](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-direction)<br/>
+• [animationFillMode](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode)<br/>
+• [animationPlayState](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-play-state)<br/>
+
+## Adding custom icons
+
+First, you have to add custom icons to the theme. Each icon must be an object containing `path` and optional style props passed to [SVGIcon](svgicon).
+
+```jsx disabled noInline
+const customIcons = {
+  icon1: {
+    path: (
+      <path fill="currentColor" d="..." />
+    ),
+  },
+  icon2: {
+    path: (
+      <g fill="currentColor">
+        <path d="..." />
+      </g>
+    ),
+
+    // optional style props
+    viewBox: '0 0 48 48',
+  },
+};
+
+const customTheme = {
+  ...theme,
+  icons: {
+    ...theme.icons,
+    ...customIcons,
+  },
+};
+```
+
+After that simply wrap your app into `ThemeProvider` component and pass your theme as a `theme` prop. Just like this:
+
+```jsx disabled noInline
+<ThemeProvider theme={customTheme}>
+  <App />
+</ThemeProvider>
+```
+
+Pass the icon name as a prop to the `<Icon>` component to render the SVG icon:
+
+```jsx disabled noInline
+<Icon icon="icon1" color="blue:50" />
+```
+
+### Search icons
+
+```jsx noInline
+const getIcons = (keyword) => tmicons.map(({ group, icons }) => {
+    const filteredIcons = icons.filter(({ iconset, name }) => (!keyword || name.indexOf(keyword) >= 0));
+    if (filteredIcons.length === 0) {
+      return null
+    }
+    return { group, icons: filteredIcons }
+  }
+);
+
+const FlexItem = (props) => (
+  <Box {...props} />
+);
+
+const renderIconGroup = (iconSet, keyword, showCharCode, color) => {
+  if(!iconSet) {
+    return null;
+  }
+  return (<Box key={iconSet.group.name}>
+    <FlexItem pt={iconSet.group.id !== 0 && '2x'}>
+      <Text fontSize={"2xl"}>{iconSet.group.name}</Text>    
+    </FlexItem>
+    {<Grid
+      gap="2x"
+      templateColumns="repeat(auto-fill, minmax(300px, 1fr));"
+      p="4x"
+      pl="6x"
+      pr="4x"
+    >
+      {iconSet.icons.map(icon => (
+        <Flex flexDirection="row" alignItems="center" pb={0} pr={0} overflow="hidden" key={icon.code}>
+          <FlexItem flex="initial" pr="2x">
+            <Icon icon={icon.name}/>
+          </FlexItem>
+          <FlexItem flex="none" pr="2x">
+            <Text display={"inline-block"} fontSize={"md"} color={color}>
+              {icon.name}
+            </Text>
+          </FlexItem>
+          {showCharCode && <FlexItem flex="none" pr="1x" color={color}>
+            <Text fontSize={"md"}>
+              {`(&#x${icon.code})`}
+            </Text>
+          </FlexItem>
+          }
+          <FlexItem flex="none" pb="1x">
+            {icon.new && <Badge backgroundColor="green" badgeContent={"new"} />}
+          </FlexItem>
+        </Flex>
+      ))}
+    </Grid>}
+  </Box>)
+}
+
+function Example() {
+  const [keyword, setKeyword] = React.useState('');
+  const [showCharCode, setShowCharCode] = React.useState(false);
+  const [colorMode] = useColorMode();
+  const color = {
+    light: 'black:secondary',
+    dark: 'white:secondary',
+  }[colorMode];
+
+  const onChange = (e) => {
+    const keyword = e.target.value;
+    setKeyword(keyword);
+  };
+
+  const onClearInput = (e) => {
+    const keyword = '';
+    setKeyword(keyword);
+  };
+
+  const onChecked = () => {
+    setShowCharCode(!showCharCode);
+  }
+
+  return (
+    <>
+      <Flex flexDirection="row" alignItems="center" position="relative">
+        <Box pl="4x">
+          <SearchInput
+            fontSize="md"
+            placeholder="Search"
+            onChange={onChange}
+            onClearInput={onClearInput}
+            width={430}
+          />
+        </Box>
+        <Box position="absolute" right="5px">
+          <Checkbox
+            size="md"
+            onChange={() => onChecked()}>
+            Display character codes
+          </Checkbox>
+        </Box>
+      </Flex>
+      <Grid
+        gap={0}
+        templateRows="1fr"
+        p="4x"
+        transition="all .3s ease-in"
+      >
+        {getIcons(keyword).map((iconSet) => renderIconGroup(iconSet, keyword, showCharCode, color))}
+      </Grid>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| icon | string | | The name of the icon. |
+| spin | boolean \| string | false | If `true` or 'cw', it will rotate in the clockwise direction. If 'ccw', it will rotate in the counterclockwise direction. Otherwise, no rotation occurs. |
