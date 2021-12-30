@@ -165,18 +165,30 @@ const interactionProps = ({ color, colorMode }) => {
   };
 };
 
-const useCheckboxStyle = props => {
+const useCheckboxStyle = ({
+  color,
+  indeterminate,
+  width,
+  height,
+}) => {
   const [colorMode] = useColorMode();
-  const _props = { ...props, colorMode };
   const baseStyle = {
     userSelect: 'none',
     border: 1,
+    position: 'relative',
     transition: 'background-color 120ms',
+    width,
+    height,
+    zIndex: 0,
   };
 
   return {
     ...baseStyle,
-    ...props.indeterminate ? { ...indeterminateProps(_props) } : { ...interactionProps(_props) },
+    ...(
+      indeterminate
+        ? indeterminateProps({ color, colorMode })
+        : interactionProps({ color, colorMode })
+    ),
   };
 };
 

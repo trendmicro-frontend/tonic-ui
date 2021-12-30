@@ -71,20 +71,25 @@ const interactionProps = ({ color, colorMode, theme: { colors } }) => {
   };
 };
 
-const useRadioStyle = props => {
+const useRadioStyle = ({
+  color,
+  width,
+  height,
+}) => {
   const theme = useTheme();
   const [colorMode] = useColorMode();
-  const _props = { ...props, colorMode, theme };
   const baseStyle = {
     userSelect: 'none',
     border: 1,
     borderRadius: 'circle',
     transition: 'background-color 120ms, box-shadow 250ms',
+    width,
+    height,
   };
 
   return {
     ...baseStyle,
-    ...interactionProps(_props),
+    ...interactionProps({ color, colorMode, theme }),
   };
 };
 

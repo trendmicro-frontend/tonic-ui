@@ -70,6 +70,8 @@ const Radio = forwardRef((
   const iconSize = `calc(${themeSize} / 2)`;
   const styleProps = useRadioStyle({
     color: variantColor,
+    width: _size,
+    height: _size,
   });
 
   return (
@@ -98,11 +100,8 @@ const Radio = forwardRef((
         disabled={disabled}
       />
       <ControlBox
-        {...styleProps}
         type="radio"
-        borderRadius="circle"
-        width={_size}
-        height={_size}
+        {...styleProps}
       >
         <Box
           bg="currentColor"

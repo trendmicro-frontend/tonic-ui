@@ -82,6 +82,8 @@ const Checkbox = forwardRef((
   const styleProps = useCheckboxStyle({
     color: variantColor,
     indeterminate,
+    width: _size,
+    height: _size,
   });
 
   return (
@@ -111,8 +113,7 @@ const Checkbox = forwardRef((
         data-indeterminate={indeterminate}
       />
       <ControlBox
-        zIndex="0"
-        position="relative"
+        type="checkbox"
         width={_size}
         height={_size}
         {...styleProps}
