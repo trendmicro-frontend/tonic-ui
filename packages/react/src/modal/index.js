@@ -19,5 +19,3 @@ export {
   ModalHeader,
   ModalOverlay,
 };
-
-export default Modal;

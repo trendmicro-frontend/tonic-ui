@@ -20,5 +20,3 @@ export {
   PopoverHeader,
   PopoverTrigger,
 };
-
-export default Popover;

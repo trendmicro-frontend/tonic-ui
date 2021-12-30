@@ -13,5 +13,3 @@ export {
   AlertIcon,
   AlertMessage,
 };
-
-export default Alert;

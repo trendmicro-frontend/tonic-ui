@@ -22,5 +22,3 @@ export {
   TableHeaderRow,
   TableRow,
 };
-
-export default Table;

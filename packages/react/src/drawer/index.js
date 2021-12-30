@@ -19,5 +19,3 @@ export {
   DrawerHeader,
   DrawerOverlay,
 };
-
-export default Drawer;

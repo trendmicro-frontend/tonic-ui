@@ -10,5 +10,3 @@ export {
   Option,
   OptionGroup,
 };
-
-export default Select;

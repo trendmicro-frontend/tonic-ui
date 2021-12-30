@@ -11,5 +11,3 @@ export {
   TabPanel,
   TabPanels,
 };
-
-export default Tabs;
