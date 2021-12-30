@@ -193,6 +193,7 @@ const Tooltip = forwardRef((
             const { in: inProp, onEnter, onExited } = { ...transition };
             return (
               <TransitionComponent
+                appear={true}
                 {...TransitionProps}
                 ref={nodeRef}
                 in={inProp}

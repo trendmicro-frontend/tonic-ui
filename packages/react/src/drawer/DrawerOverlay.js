@@ -32,6 +32,7 @@ const DrawerOverlay = forwardRef(({
   if (drawerContext) {
     return (
       <TransitionComponent
+        appear={true}
         {...TransitionProps}
         in={isOpen}
         onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}

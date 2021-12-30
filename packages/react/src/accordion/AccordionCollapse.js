@@ -21,6 +21,7 @@ const AccordionCollapse = forwardRef((
 
   return (
     <TransitionComponent
+      appear={false} // do not perform the enter transition when it first mounts
       {...TransitionProps}
       ref={ref}
       in={context?.isExpanded}

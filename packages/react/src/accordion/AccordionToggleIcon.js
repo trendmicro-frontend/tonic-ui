@@ -47,7 +47,7 @@ const defaultTimeout = {
 
 const AccordionToggleIcon = forwardRef((
   {
-    appear = true,
+    appear = false, // do not perform the enter transition when it first mounts
     children,
     disabled: disabledProp,
     easing = defaultEasing,

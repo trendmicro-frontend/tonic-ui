@@ -73,7 +73,7 @@ const defaultTimeout = {
 
 const Slide = forwardRef((
   {
-    appear = true,
+    appear = false, // do not perform the enter transition when it first mounts
     children,
     direction = DIRECTION_DOWN,
     easing = defaultEasing,

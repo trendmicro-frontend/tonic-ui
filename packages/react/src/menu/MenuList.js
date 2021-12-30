@@ -112,6 +112,7 @@ const MenuList = forwardRef((
         const { in: inProp, onEnter, onExited } = { ...transition };
         return (
           <TransitionComponent
+            appear={true}
             easing="linear"
             timeout={{
               enter: 133,

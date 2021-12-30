@@ -61,7 +61,7 @@ const defaultTimeout = {
 
 const Scale = forwardRef((
   {
-    appear = true,
+    appear = false, // do not perform the enter transition when it first mounts
     children,
     easing = defaultEasing,
     in: inProp,

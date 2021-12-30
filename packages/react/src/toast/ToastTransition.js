@@ -61,7 +61,7 @@ const Wrapper = forwardRef((props, ref) => <Box ref={ref} {...props} />);
 
 const ToastTransition = forwardRef((
   {
-    appear = true,
+    appear = false, // do not perform the enter transition when it first mounts
     children,
     collapsedHeight = 0,
     easing = defaultEasing,
