@@ -19,15 +19,21 @@ const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
     entering: {
       height: 'auto',
+      opacity: 1,
+      overflow: 'hidden',
     },
     entered: {
       height: 'auto',
+      opacity: 1,
     },
     exiting: {
       height: props.collapsedHeight || 0,
+      opacity: 0,
+      overflow: 'hidden',
     },
     exited: {
       height: props.collapsedHeight || 0,
+      opacity: 0,
     },
   }[state];
 
@@ -80,7 +86,7 @@ const Collapse = forwardRef((
         const transitionProps = inProp
           ? getEnterTransitionProps({ style, timeout, easing })
           : getExitTransitionProps({ style, timeout, easing });
-        const transition = createTransitionStyle('height', transitionProps);
+        const transition = createTransitionStyle(['height', 'opacity'], transitionProps);
         const variantStyle = mapStateToVariantStyle(state, { collapsedHeight });
         const styleProps = {
           ...variantStyle,
@@ -108,7 +114,6 @@ const Collapse = forwardRef((
           const wrapper = wrapperRef.current;
           const contentHeight = wrapper?.offsetHeight;
           styleProps.height = contentHeight;
-          styleProps.overflow = 'hidden';
         }
 
         return (

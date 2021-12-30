@@ -1,43 +1,36 @@
-import { ensureString } from 'ensure-type';
 import {
   Box,
   useColorMode,
+  useColorStyle,
 } from '@tonic-ui/react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';
 
 const NavLink = forwardRef((
   {
     href,
-    children,
+    isActive,
     ...rest
   },
   ref
 ) => {
-  const router = useRouter();
-  const isRouteActive = ensureString(router.pathname).endsWith(href);
   const [colorMode] = useColorMode();
-  const color = {
-    light: 'gray:90', // FIXME
-    dark: 'white:primary',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+  const color = colorStyle.color.secondary;
   const activeBackgroundColor = {
-    light: 'rgba(0, 0, 0, 0.1)', // FIXME
+    light: 'rgba(0, 0, 0, 0.1)',
     dark: 'rgba(255, 255, 255, 0.1)',
   }[colorMode];
-  const activeColor = {
-    light: 'inherit', // FIXME
-    dark: 'inherit',
-  }[colorMode];
+  const activeColor = colorStyle.color.primary;
   const hoverBackgroundColor = {
-    light: 'rgba(0, 0, 0, 0.12)', // FIXME
+    light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
   }[colorMode];
   const selectedBackgroundColor = {
-    light: 'rgba(0, 0, 0, 0.08)', // FIXME
+    light: 'rgba(0, 0, 0, 0.08)',
     dark: 'rgba(255, 255, 255, 0.08)',
   }[colorMode];
+  const selectedColor = colorStyle.color.emphasis;
 
   return (
     <NextLink
@@ -53,7 +46,7 @@ const NavLink = forwardRef((
         py="2x"
         fontSize="sm"
         textDecoration="none"
-        aria-selected={!!isRouteActive}
+        aria-selected={!!isActive}
         _active={{
           backgroundColor: activeBackgroundColor,
           color: activeColor,
@@ -63,11 +56,10 @@ const NavLink = forwardRef((
         }}
         _selected={{
           backgroundColor: selectedBackgroundColor,
+          color: selectedColor,
         }}
         {...rest}
-      >
-        {children}
-      </Box>
+      />
     </NextLink>
   );
 });

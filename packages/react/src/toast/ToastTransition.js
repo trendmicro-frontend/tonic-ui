@@ -33,8 +33,8 @@ const mapStateToVariantStyle = (state, props) => {
     },
     exiting: {
       height: props.collapsedHeight || 0,
-      overflow: 'hidden',
       opacity: 0,
+      overflow: 'hidden',
       transform: getScale(0.75),
     },
     exited: {

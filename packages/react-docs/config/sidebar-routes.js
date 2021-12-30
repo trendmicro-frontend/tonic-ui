@@ -2,6 +2,7 @@ const routes = [
   {
     title: 'Getting Started',
     icon: 'list-open',
+    path: 'getting-started',
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
@@ -13,6 +14,7 @@ const routes = [
   {
     title: 'System',
     icon: 'gavel',
+    path: 'system',
     routes: [
       { title: 'Style Props 🚧', path: 'system/style-props' },
       { title: 'Borders', path: 'system/borders' },
@@ -31,6 +33,7 @@ const routes = [
   {
     title: 'Components',
     icon: 'widgets',
+    path: 'components',
     routes: [
       { title: 'DATA DISPLAY', heading: true },
       { title: 'Accordion', path: 'components/accordion' },
@@ -100,6 +103,7 @@ const routes = [
   {
     title: 'Hooks',
     icon: 'hook',
+    path: 'hooks',
     routes: [
       { title: 'useConst', path: 'hooks/use-const' },
       { title: 'useEffectOnce', path: 'hooks/use-effect-once' },
