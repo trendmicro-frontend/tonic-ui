@@ -1,9 +1,4 @@
 import {
-  Accordion,
-  AccordionItem,
-  AccordionToggle,
-  AccordionToggleIcon,
-  AccordionCollapse,
   Box,
   Icon,
   Image,
@@ -92,98 +87,84 @@ const Sidebar = forwardRef((
           </Box>
         </NextLink>
       )}
-      <Accordion>
-        {routes.map(({ title, icon, path, routes }) => {
-          const pathname = `${ASSET_PREFIX}/${path}`;
-          const key = pathname;
+      {routes.map(({ title, icon, path, routes }) => {
+        const pathname = `${ASSET_PREFIX}/${path}`;
+        const key = pathname;
 
-          return (
-            <AccordionItem
-              key={key}
-              defaultIsExpanded={true}
-              mb="4x"
-              whiteSpace="nowrap"
+        return (
+          <Box
+            key={key}
+            mb="4x"
+            whiteSpace="nowrap"
+          >
+            <Box
+              alignItems="center"
+              px="3x"
+              mb="2x"
             >
-              <AccordionToggle
-                display="inline-flex"
-                alignItems="center"
-                justifyContent="space-between"
-                px="3x"
-                mb="2x"
+              <Icon
+                icon={icon}
+                color={colorStyle?.color?.tertiary}
+                size="4x"
+              />
+              <Space width="2x" />
+              <Text
+                color={colorStyle?.color?.primary}
+                fontSize="sm"
+                lineHeight="sm"
               >
-                <Box>
-                  <Icon
-                    icon={icon}
-                    color={colorStyle?.color?.tertiary}
-                    size="4x"
-                  />
-                  <Space width="2x" />
+                {title}
+              </Text>
+            </Box>
+            {routes.map(({ title, heading, path }) => {
+              if (heading) {
+                const key = title;
+
+                return (
                   <Text
-                    color={colorStyle?.color?.primary}
-                    fontSize="sm"
-                    lineHeight="sm"
+                    key={title}
+                    color={colorStyle?.color?.tertiary}
+                    fontSize="xs"
+                    lineHeight="xs"
+                    pl="9x"
+                    mt="4x"
+                    mb="2x"
+                    textTransform="uppercase"
+                    letterSpacing="0.08rem"
+                    _firstOfType={{
+                      mt: 0,
+                    }}
                   >
                     {title}
                   </Text>
-                </Box>
-                <AccordionToggleIcon />
-              </AccordionToggle>
-              <AccordionCollapse
-                TransitionProps={{
-                  unmountOnExit: true,
-                }}
-              >
-                {routes.map(({ title, heading, path }) => {
-                  if (heading) {
-                    const key = title;
+                );
+              }
 
-                    return (
-                      <Text
-                        key={title}
-                        color={colorStyle?.color?.tertiary}
-                        fontSize="xs"
-                        lineHeight="xs"
-                        pl="9x"
-                        mt="4x"
-                        mb="2x"
-                        textTransform="uppercase"
-                        letterSpacing="0.08rem"
-                        _firstOfType={{
-                          mt: 0,
-                        }}
-                      >
-                        {title}
-                      </Text>
-                    );
-                  }
+              const pathname = heading ? title : `${ASSET_PREFIX}/${path}`;
+              const key = pathname;
+              const isActive = ensureString(router.pathname).startsWith(pathname);
 
-                  const pathname = heading ? title : `${ASSET_PREFIX}/${path}`;
-                  const key = pathname;
-                  const isActive = ensureString(router.pathname).startsWith(pathname);
-
-                  return (
-                    <NavLink
-                      key={key}
-                      isActive={isActive}
-                      href={pathname}
-                      onClick={onClick}
-                      px={0}
-                    >
-                      <Text
-                        fontSize="sm"
-                        lineHeight="sm"
-                        pl="9x"
-                      >
-                        {title}
-                      </Text>
-                    </NavLink>
-                  );
-                })}
-              </AccordionCollapse>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
+              return (
+                <NavLink
+                  key={key}
+                  isActive={isActive}
+                  href={pathname}
+                  onClick={onClick}
+                  px={0}
+                >
+                  <Text
+                    fontSize="sm"
+                    lineHeight="sm"
+                    pl="9x"
+                  >
+                    {title}
+                  </Text>
+                </NavLink>
+              );
+            })}
+          </Box>
+        );
+      })}
     </Box>
   );
 });
