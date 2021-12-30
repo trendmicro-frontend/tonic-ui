@@ -95,12 +95,12 @@ const Sidebar = forwardRef((
       <Accordion>
         {routes.map(({ title, icon, path, routes }) => {
           const pathname = `${ASSET_PREFIX}/${path}`;
-          const isExpanded = ensureString(router.pathname).startsWith(pathname);
+          const key = pathname;
 
           return (
             <AccordionItem
-              defaultIsExpanded={isExpanded}
-              key={title}
+              key={key}
+              defaultIsExpanded={true}
               mb="4x"
               whiteSpace="nowrap"
             >
@@ -134,14 +134,12 @@ const Sidebar = forwardRef((
                 }}
               >
                 {routes.map(({ title, heading, path }) => {
-                  const key = title;
-                  const pathname = `${ASSET_PREFIX}/${path}`;
-                  const isActive = ensureString(router.pathname).endsWith(pathname);
-
                   if (heading) {
+                    const key = title;
+
                     return (
                       <Text
-                        key={key}
+                        key={title}
                         color={colorStyle?.color?.tertiary}
                         fontSize="xs"
                         lineHeight="xs"
@@ -158,6 +156,10 @@ const Sidebar = forwardRef((
                       </Text>
                     );
                   }
+
+                  const pathname = heading ? title : `${ASSET_PREFIX}/${path}`;
+                  const key = pathname;
+                  const isActive = ensureString(router.pathname).startsWith(pathname);
 
                   return (
                     <NavLink
