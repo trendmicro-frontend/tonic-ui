@@ -16,6 +16,7 @@ import margin from './config/margin';
 import outline from './config/outline';
 import padding from './config/padding';
 import position from './config/position';
+import shape from './config/shape';
 import text from './config/text';
 import transform from './config/transform';
 import transition from './config/transition';
@@ -39,6 +40,7 @@ const system = compose(
   outline,
   padding,
   position,
+  shape,
   text,
   transform,
   transition,

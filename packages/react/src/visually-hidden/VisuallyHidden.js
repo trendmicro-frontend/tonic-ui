@@ -5,15 +5,14 @@ const VisuallyHidden = forwardRef((props, ref) => {
   return (
     <Box
       ref={ref}
-      border={0}
-      clip="rect(0px, 0px, 0px, 0px)"
-      height={1}
-      width={1}
-      margin={-1}
-      padding={0}
-      overflow="hidden"
-      whiteSspace="nowrap"
       position="absolute"
+      width={1}
+      height={1}
+      padding={0}
+      border={0}
+      overflow="hidden"
+      clipPath="inset(50%)"
+      whiteSpace="nowrap"
       {...props}
     />
   );
