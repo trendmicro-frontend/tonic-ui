@@ -1,3 +1,4 @@
+import { ensureString } from 'ensure-type';
 import {
   Box,
   useColorMode,
@@ -15,7 +16,7 @@ const NavLink = forwardRef((
   ref
 ) => {
   const router = useRouter();
-  const isRouteActive = href.replace('.', '') === router.pathname;
+  const isRouteActive = ensureString(router.pathname).endsWith(href);
   const [colorMode] = useColorMode();
   const color = {
     light: 'gray:90', // FIXME
