@@ -118,8 +118,6 @@ const Sidebar = forwardRef((
             </Box>
             {routes.map(({ title, heading, path }) => {
               if (heading) {
-                const key = title;
-
                 return (
                   <Text
                     key={title}
