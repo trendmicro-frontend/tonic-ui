@@ -17,6 +17,7 @@ const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
 const Sidebar = forwardRef((
   {
+    isDesktopMode,
     isMobileMode,
     onClick,
     ...rest
@@ -34,8 +35,8 @@ const Sidebar = forwardRef((
     dark: 'gray:70',
   }[colorMode];
   const fontColor = {
-    light: 'black:primary', // FIXME
-    dark: 'white:emphasis',
+    light: 'black:primary',
+    dark: 'white:primary',
   }[colorMode];
   const logo = {
     light: 'tonic-logo-light.svg',

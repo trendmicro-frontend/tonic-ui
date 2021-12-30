@@ -5,6 +5,7 @@ const routes = [
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
+      { title: 'Migration From v0.x to v1 🚧', path: 'getting-started/migration-v0x' },
       { title: 'Versions', path: 'getting-started/versions' },
       { title: 'Contributing', path: 'getting-started/contributing' },
     ],

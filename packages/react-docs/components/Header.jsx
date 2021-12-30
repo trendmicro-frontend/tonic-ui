@@ -20,7 +20,6 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';
 import pkg from '../../../package.json';
-import useMediaQuery from '../hooks/useMediaQuery';
 import FontAwesomeIcon from './FontAwesomeIcon';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
@@ -52,14 +51,13 @@ const versionMap = {
 
 const Header = forwardRef((
   {
+    isDesktopMode,
+    isMobileMode,
     onToggle,
     ...rest
   },
   ref,
 ) => {
-  const matched = useMediaQuery(
-    '(min-width: 640px)',
-  );
   const router = useRouter();
   const version = (() => {
     if (TONIC_UI_DOC_VERSION) {
@@ -84,16 +82,16 @@ const Header = forwardRef((
     dark: 'tonic-logo-dark.svg',
   }[colorMode];
   const backgroundColor = {
-    light: 'white:emphasis', // FIXME
+    light: 'white',
     dark: 'gray:90',
   }[colorMode];
   const boxShadowColor = {
-    light: 'gray:20', // FIXME
+    light: 'gray:20',
     dark: 'gray:70',
   }[colorMode];
   const fontColor = {
-    light: 'black:primary', // FIXME
-    dark: 'white:emphasis',
+    light: 'black:primary',
+    dark: 'white:primary',
   }[colorMode];
 
   const handleChooseVersion = (event) => {
@@ -109,9 +107,6 @@ const Header = forwardRef((
 
   const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor]), 0.7);
   const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor]), 0.5);
-
-  const canToggle = !matched && onToggle;
-  const canDisplayVersion = (router.pathname !== '/') && !!version;
   
   return (
     <Box
@@ -136,7 +131,18 @@ const Header = forwardRef((
         justifyContent="space-between"
       >
         <Box>
-          {!canToggle && (
+          {isMobileMode && (
+            <Box
+              display="flex"
+              flex="auto"
+              mx="4x"
+            >
+              <Button variant="secondary" onClick={onToggle}>
+                <Icon icon="menu" />
+              </Button>
+            </Box>
+          )}
+          {isDesktopMode && (
             <NextLink href={`${ASSET_PREFIX}/`} passHref>
               <Box
                 as="a"
@@ -162,17 +168,6 @@ const Header = forwardRef((
               </Box>
             </NextLink>
           )}
-          {canToggle && (
-            <Box
-              display="flex"
-              flex="auto"
-              mx="4x"
-            >
-              <Button variant="secondary" onClick={onToggle}>
-                <Icon icon="menu" />
-              </Button>
-            </Box>
-          )}
         </Box>
         <Box
           display="flex"
@@ -182,40 +177,38 @@ const Header = forwardRef((
           columnGap="4x"
           px="4x"
         >
-          {canDisplayVersion && (
-            <Box
-              display="flex"
-              flex="none"
-            >
-              <Menu>
-                <MenuButton>
-                  {versionMap[version]?.label ?? version}
-                </MenuButton>
-                <MenuList>
-                  {Object.entries(versionMap).map(([key, value]) => (
-                    <MenuItem
-                      key={key}
-                      value={value?.url}
-                      whiteSpace="nowrap"
-                      onClick={handleChooseVersion}
-                    >
-                      {(key === version)
-                        ? <><Text>{value?.label}</Text><Space width="2x" /><Text>✓</Text></>
-                        : <Text>{value?.label}</Text>
-                      }
-                    </MenuItem>
-                  ))}
-                  <MenuDivider />
+          <Box
+            display="flex"
+            flex="none"
+          >
+            <Menu>
+              <MenuButton>
+                {versionMap[version]?.label ?? version}
+              </MenuButton>
+              <MenuList>
+                {Object.entries(versionMap).map(([key, value]) => (
                   <MenuItem
+                    key={key}
+                    value={value?.url}
                     whiteSpace="nowrap"
-                    onClick={handleViewAllVersions}
+                    onClick={handleChooseVersion}
                   >
-                    <Text>View all versions</Text>
+                    {(key === version)
+                      ? <><Text>{value?.label}</Text><Space width="2x" /><Text>✓</Text></>
+                      : <Text>{value?.label}</Text>
+                    }
                   </MenuItem>
-                </MenuList>
-              </Menu>
-            </Box>
-          )}
+                ))}
+                <MenuDivider />
+                <MenuItem
+                  whiteSpace="nowrap"
+                  onClick={handleViewAllVersions}
+                >
+                  <Text>View all versions</Text>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
           <Box
             as="a"
             _hover={{

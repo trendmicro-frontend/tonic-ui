@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
-export default () => {
+const root = () => {
   const router = useRouter();
 
   // Mount only
@@ -14,3 +14,5 @@ export default () => {
 
   return null;
 };
+
+export default root;

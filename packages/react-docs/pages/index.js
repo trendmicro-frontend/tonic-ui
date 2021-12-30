@@ -1,3 +1,4 @@
+import Color from 'color';
 import { ensureString } from 'ensure-type';
 import {
   Alert,
@@ -7,6 +8,7 @@ import {
   Checkbox,
   Divider,
   Icon,
+  Image,
   Input,
   InputGroup,
   InputGroupAddon,
@@ -36,28 +38,24 @@ import {
   Text,
   useColorMode,
   useColorStyle,
+  useTheme,
 } from '@tonic-ui/react';
+import _get from 'lodash/get';
 import NextLink from 'next/link';
-import React from 'react';
+import React, { forwardRef } from 'react';
+import pkg from '../../../package.json';
 import FontAwesomeIcon from '../components/FontAwesomeIcon';
-import Header from '../components/Header';
 import SkeletonBody from '../components/SkeletonBody';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
 const GITHUB_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 
-const Round = (props) => {
-  return (
-    <Box
-      borderWidth={1}
-      borderColor="gray:80"
-      borderStyle="solid"
-      borderRadius="lg"
-      height="fit-content"
-      {...props}
-    />
-  );
+const setColorOpacity = (color, opacity) => {
+  return Color(color)
+    .fade(1 - opacity)
+    .rgb()
+    .string();
 };
 
 const DefaultPage = (props) => {
@@ -66,6 +64,10 @@ const DefaultPage = (props) => {
   const backgroundColor = {
     light: 'white',
     dark: 'gray:100',
+  }[colorMode];
+  const codeBlockBackgroundColor = {
+    light: 'white',
+    dark: 'black',
   }[colorMode];
   const dividerColor = {
     dark: 'gray:70',
@@ -178,7 +180,8 @@ const DefaultPage = (props) => {
           <Box
             flex="1"
             p="6x"
-            backgroundColor="black"
+            backgroundColor={codeBlockBackgroundColor}
+            boxShadow={colorStyle.shadow.thick}
             width="100%"
             fontSize={codeBlockFontSize}
             lineHeight={codeBlockLineHeight}
@@ -349,5 +352,149 @@ const DefaultPage = (props) => {
     </Box>
   );
 };
+
+const Header = forwardRef((props, ref) => {
+  const theme = useTheme();
+  const [colorMode, setColorMode] = useColorMode();
+  const toggleColorMode = () => {
+    const nextColorMode = {
+      'dark': 'light',
+      'light': 'dark',
+    }[colorMode];
+    setColorMode(nextColorMode);
+  };
+  const logo = {
+    light: 'tonic-logo-light.svg',
+    dark: 'tonic-logo-dark.svg',
+  }[colorMode];
+  const backgroundColor = {
+    light: 'white:emphasis',
+    dark: 'gray:90',
+  }[colorMode];
+  const boxShadowColor = {
+    light: 'gray:20',
+    dark: 'gray:70',
+  }[colorMode];
+  const fontColor = {
+    light: 'black:primary',
+    dark: 'white:emphasis',
+  }[colorMode];
+  const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor]), 0.7);
+  const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor]), 0.5);
+  
+  return (
+    <Box
+      as="header"
+      ref={ref}
+      position="fixed"
+      top={0}
+      zIndex="fixed"
+      height="12x"
+      width="100%"
+      backdropFilter="blur(20px)"
+      backgroundColor={_backgroundColor}
+      boxShadow={`0px -1px 1px inset ${_boxShadowColor}`}
+      transition="all 0.2s"
+      {...props}
+    >
+      <Box
+        display="flex"
+        position="relative"
+        height="100%"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Box>
+          <NextLink href={`${ASSET_PREFIX}/`} passHref>
+            <Box
+              as="a"
+              display="flex"
+              alignItems="center"
+              flex="auto"
+              fontSize="xl"
+              maxWidth="100%"
+              px="4x"
+              py="2x"
+              color={fontColor}
+              outline="none"
+              textDecoration="none"
+            >
+              <Image
+                alt=""
+                src={`${ASSET_PREFIX}/images/${logo}`}
+                width={35}
+                height={30}
+                marginRight="2x"
+            />
+              <Text>Tonic UI</Text>
+            </Box>
+          </NextLink>
+        </Box>
+        <Box
+          display="flex"
+          flex="none"
+          width="auto"
+          alignItems="center"
+          columnGap="4x"
+          px="4x"
+        >
+          <Box
+            as="a"
+            _hover={{
+              cursor: 'pointer',
+            }}
+            onClick={toggleColorMode}
+            display="inline-flex"
+          >
+            {colorMode === 'light' && (
+              <Icon icon="moon" size={24} />
+            )}
+            {colorMode === 'dark' && (
+              <Icon icon="sun" size={24} />
+            )}
+          </Box>
+          <Box
+            as="a"
+            _hover={{
+              cursor: 'pointer',
+            }}
+            href={pkg.homepage}
+            target="_blank"
+            display="inline-flex"
+          >
+            <FontAwesomeIcon
+              icon={['fab', 'github']}
+              style={{
+                width: 24,
+                height: 24,
+              }}
+            />
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+});
+Header.displayName = 'Header';
+
+const Round = (props) => {
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+
+  return (
+    <Box
+      borderWidth={1}
+      borderColor={borderColor}
+      borderStyle="solid"
+      borderRadius="md"
+      height="fit-content"
+      {...props}
+    />
+  );
+};
+Round.displayName = 'Round';
 
 export default DefaultPage;
