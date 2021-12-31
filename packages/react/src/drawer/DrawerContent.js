@@ -56,6 +56,7 @@ const DrawerContentBackdrop = forwardRef(({
 
   return (
     <TransitionComponent
+      appear={true}
       {...TransitionProps}
       in={isOpen}
       direction={direction}

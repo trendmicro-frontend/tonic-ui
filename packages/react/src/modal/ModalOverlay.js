@@ -32,6 +32,7 @@ const ModalOverlay = forwardRef(({
   if (modalContext) {
     return (
       <TransitionComponent
+        appear={true}
         {...TransitionProps}
         in={isOpen}
         onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}

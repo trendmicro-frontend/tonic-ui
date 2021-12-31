@@ -27,7 +27,7 @@ To compose an accordion with default styles, you can use `Accordion`, `Accordion
 
 ```jsx
 <Accordion rowGap={1}>
-  <AccordionItem>
+  <AccordionItem defaultIsExpanded>
     <AccordionHeader>
       <Text>
         Accordion 1
@@ -66,7 +66,7 @@ Extend the default behavior to create an accordion with controlled state.
 
 ```jsx
 function Example() {
-  const [expandedItem, setExpandedItem] = React.useState(null);
+  const [expandedItem, setExpandedItem] = React.useState('item1');
   const handleToggle = item => ({ isExpanded }) => {
     setExpandedItem(isExpanded ? item : null);
   };
@@ -138,7 +138,7 @@ function Example() {
   };
   const renderToggleIcon = item => (
     <AccordionToggleIcon>
-      {({ ref, style: styleProps }) => {
+      {(state, { ref, style: styleProps }) => {
         styleProps.transform = (expandedItem === item) ? 'rotate(0deg)' : 'rotate(-90deg)';
         return (
           <Icon ref={ref} icon="chevron-down" size="4x" {...styleProps} />
@@ -262,7 +262,14 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | `ReactNode` \| `({ ref, style, ...props }) => ReactNode` | | |
+| appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
+| children | ReactNode \| (state, props) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| disabled | boolean | | Whether the accordion toggle icon is disabled. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
 
 ### AccordionCollapse
 
@@ -271,3 +278,4 @@ function Example() {
 | children | `ReactNode` | | |
 | TransitionComponent | ElementType | Collapse | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | false | |

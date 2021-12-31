@@ -26,7 +26,37 @@ import {
 } from '@tonic-ui/react';
 ```
 
-## Basic Usage
+## Usage
+
+### Controlled and uncontrolled popovers
+
+Pass `isOpen` to the `Popover` component to control the state of the popover.
+
+```jsx
+<Popover isOpen>
+  <PopoverTrigger>
+    <Button>Popover trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <Text>Popover (controlled)</Text>
+  </PopoverContent>
+</Popover>
+```
+
+Set `defaultIsOpen` to `true` to have the popover open by default.
+
+```jsx
+<Popover defaultIsOpen>
+  <PopoverTrigger>
+    <Button>Popover trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <Text>Popover (uncontrolled)</Text>
+  </PopoverContent>
+</Popover>
+```
+
+### Basic Usage
 
 When using this component, ensure the children passed to `PopoverTrigger` is focusable. `Popover` should be accessible and should allow users to access it using the tab key on a keyboard.
 
@@ -43,7 +73,7 @@ When using this component, ensure the children passed to `PopoverTrigger` is foc
   </PopoverContent>
 </Popover>
 ```
-## Focus an element when `Popover` opens
+### Focus an element when `Popover` opens
 
 By default, the focus status is to sent to `PopoverContent` when `Popover` opens. You can send the focus status to a specific element when it opens by passing the `initialFocusRef` prop.
 
@@ -86,7 +116,7 @@ function WalkthroughPopover() {
 }
 ```
 
-## Accessing Internal state
+### Accessing Internal state
 
 Tonic UI provides access to two internal states:  `isOpen` and `onClose`. Use the render prop pattern to access the internal states.
 
@@ -133,7 +163,7 @@ function InternalStateEx() {
 }
 ```
 
-## Controlled Usage
+### Controlled Usage
 
 You can control the opening and closing of `Popover` by passing the `isOpen` or `onClose` state.
 
@@ -176,9 +206,9 @@ function ControlledUsage() {
 }
 ```
 
-## Customizing Popover
+### Customization
 
-### Hide arrow
+#### Hide arrow
 
 ```jsx
 <Popover hideArrow>
@@ -192,7 +222,7 @@ function ControlledUsage() {
 </Popover>
 ```
 
-### Offset position
+#### Offset position
 
 ```jsx
 <Popover skidding={50} distance={0}>
@@ -206,7 +236,7 @@ function ControlledUsage() {
 </Popover>
 ```
 
-## Hover Trigger
+### Hover Trigger
 
 To show `Popover` when you mouse over or focus on the trigger, pass the prop `trigger` and set it to `hover`. When you focus on or mouse over the popover trigger, `Popover` will open.
 
@@ -247,7 +277,7 @@ If you quickly move your cursor to the popover content when it is open, `Popover
 </Stack>
 ```
 
-## Popover Placement
+### Popover Placement
 
 Since `Popover` is controlled by PopperJS, you can change the placement of `Popover` by passing the `placement` prop.
 
@@ -375,6 +405,7 @@ Although you may have specified the placement, `Popover` will try to reposition 
 ```
 
 ## Accessibility
+
 The word _"trigger"_ refers to the children of PopoverTrigger.
 
 ### Keyboard and focus
@@ -395,7 +426,7 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 - `PopoverContent` has `aria-labelledby` set to the `id` attribute of `PopoverHeader`.
 - `PopoverContent` has `aria-describedby` set to the `id` attribute of `PopoverBody`.
 - `PopoverContent` has `aria-hidden` set to `true` or `false` depending on the open/closed state of `Popover`.
-- The trigger has` aria-haspopup` set to `true` to denote that it triggers a popover.
+- The trigger has `aria-haspopup` set to `true` to denote that it triggers a popover.
 - The trigger has `aria-controls` set to the 'id' attribute of `PopoverContent` to associate the popover with the trigger.
 - The trigger has `aria-expanded` set to `true` or `false` depending on the open/closed state of the popover.
 
@@ -405,6 +436,7 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| defaultIsOpen | boolean | false | Whether the popover is open by default. |
 | isOpen | boolean | | If `true`, the popover is shown. |
 | initialFocusRef | React.Ref | | The `ref` of the element that should receive the focus status when the popover opens. |
 | trigger | string | 'click' | The interaction that triggers the popover. One of: 'click', 'hover' |
@@ -441,6 +473,7 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 | PopperArrowProps | object | | Props applied to the PopoverArrow component. |
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
 
 ### PopoverHeader
 
