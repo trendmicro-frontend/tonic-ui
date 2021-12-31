@@ -12,7 +12,37 @@ import { Tooltip } from '@tonic-ui/react';
 
 ## Usage
 
-If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0" to make it focusable.
+### Controlled and uncontrolled tooltips
+
+Pass `isOpen` to the `Tooltip` component to control the state of the tooltip.
+
+```jsx
+<Tooltip label="Tooltip (controlled)" isOpen>
+  <Text>Tooltip anchor</Text>
+</Tooltip>
+```
+
+Set `defaultIsOpen` to `true` to have the tooltip open by default.
+
+```jsx
+<Tooltip label="Tooltip (uncontrolled)" defaultIsOpen>
+  <Text>Tooltip anchor</Text>
+</Tooltip>
+```
+
+### Tooltip with focusable content
+
+If the children of Tooltip are focusable elements, Tooltip will show when you focus or hover on the a children element and will hide when you blur or move cursor out of the element.
+
+```jsx
+<Tooltip label="Search places" placement="top">
+  <Button>Button</Button>
+</Tooltip>
+```
+
+### Tooltip with non-focusable content
+
+If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0"` to make it focusable.
 
 ```jsx
 <Tooltip label="Hey, I'm here!">
@@ -20,7 +50,7 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 </Tooltip>
 ```
 
-### With an icon
+### Icon
 
 ```jsx
 <Tooltip label="Show calendar" placement="left">
@@ -36,17 +66,7 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 </Tooltip>
 ```
 
-### Tooltip with focusable content
-
-If the children of Tooltip are focusable elements, Tooltip will show when you focus or hover on the a children element and will hide when you blur or move cursor out of the element.
-
-```jsx
-<Tooltip label="Search places" placement="top">
-  <Button>Button</Button>
-</Tooltip>
-```
-
-### Customized tooltips
+### Customization
 
 ```jsx
 <Tooltip
@@ -88,22 +108,21 @@ function Example() {
       }
     }, 0);
   };
+  const buttonText = {
+    'hostname': 'Search by: Endpoint name',
+    'filename': 'Search by: File name',
+  }[menuItem];
 
   return (
     <InputGroup>
       <InputGroupPrepend>
         <Menu>
-          <MenuButton>
-            <Box
+          <MenuButton mr="4x">
+            <Text
               color={colorMode === 'dark' ? 'white:secondary' : 'black:secondary'}
-              mr="2x"
             >
-              Search by:
-            </Box>
-            {{
-              'hostname': 'Endpoint name',
-              'filename': 'File name',
-            }[menuItem]}
+              {buttonText}
+            </Text>
           </MenuButton>
           <MenuList
             onClick={handleMenuClick}
@@ -195,6 +214,7 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | | | If the children is a function, it will be called with `{ getTooltipTriggerProps }` and the return value will be used as the trigger. |
+| defaultIsOpen | boolean | false | Whether the tooltip is open by default. |
 | isOpen | boolean | | If `true`, the tooltip is shown. |
 | label | string \| ReactNode | | The label of the tooltip.|
 | placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
