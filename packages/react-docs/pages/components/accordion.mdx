@@ -27,7 +27,7 @@ To compose an accordion with default styles, you can use `Accordion`, `Accordion
 
 ```jsx
 <Accordion rowGap={1}>
-  <AccordionItem>
+  <AccordionItem defaultIsExpanded>
     <AccordionHeader>
       <Text>
         Accordion 1
@@ -66,7 +66,7 @@ Extend the default behavior to create an accordion with controlled state.
 
 ```jsx
 function Example() {
-  const [expandedItem, setExpandedItem] = React.useState(null);
+  const [expandedItem, setExpandedItem] = React.useState('item1');
   const handleToggle = item => ({ isExpanded }) => {
     setExpandedItem(isExpanded ? item : null);
   };
