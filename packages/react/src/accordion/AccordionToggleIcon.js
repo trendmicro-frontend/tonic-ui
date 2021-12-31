@@ -93,7 +93,7 @@ const AccordionToggleIcon = forwardRef((
         };
 
         if (typeof children === 'function') {
-          return children({
+          return children(state, {
             ...childProps,
             ref: combinedRef,
             style: {
