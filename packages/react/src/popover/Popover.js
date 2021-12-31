@@ -1,14 +1,12 @@
-import { useEffectOnce, usePrevious } from '@tonic-ui/react-hooks';
+import { usePrevious } from '@tonic-ui/react-hooks';
 import React, { useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
 import { useId } from '../utils/autoId';
-import warnRemovedProps from '../utils/warnRemovedProps';
 import { PopoverContextProvider } from './context';
 
 const Popover = ({
-  defaultIsOpen, // removed
-
   id,
+  defaultIsOpen = false,
   isOpen: isOpenProp,
   initialFocusRef,
   usePortal = true,
@@ -29,17 +27,7 @@ const Popover = ({
   followCursor,
   arrowAt,
 }) => {
-  useEffectOnce(() => {
-    const prefix = `${Popover.displayName}:`;
-
-    if (defaultIsOpen !== undefined) {
-      warnRemovedProps('defaultIsOpen', {
-        prefix,
-      });
-    }
-  }, true); // TODO: check if `when` is true for each prop
-
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(defaultIsOpen);
   const [mousePageX, setMousePageX] = useState(0);
   const [mousePageY, setMousePageY] = useState(0);
   const { current: isControlled } = useRef(isOpenProp != null);

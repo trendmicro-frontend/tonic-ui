@@ -30,7 +30,6 @@ const Tooltip = forwardRef((
   {
     showDelay, // deprecated
     hideDelay, // deprecated
-    defaultIsOpen, // removed
     shouldWrapChildren, // removed
 
     label,
@@ -40,7 +39,8 @@ const Tooltip = forwardRef((
     children,
     hideArrow,
     closeOnClick,
-    isOpen: isControlledOpen,
+    defaultIsOpen = false,
+    isOpen: isOpenProp,
     onOpen: onOpenProp,
     onClose: onCloseProp,
     arrowAt,
@@ -73,12 +73,6 @@ const Tooltip = forwardRef((
       });
     }
 
-    if (defaultIsOpen !== undefined) {
-      warnRemovedProps('defaultIsOpen', {
-        prefix,
-      });
-    }
-
     if (shouldWrapChildren !== undefined && !shouldWrapChildren) {
       warnRemovedProps('shouldWrapChildren', {
         prefix,
@@ -92,9 +86,9 @@ const Tooltip = forwardRef((
   const combinedRef = useForkRef(anchorRef, ref);
   const isHydrated = useHydrated();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const { current: isControlled } = useRef((isControlledOpen !== undefined) && (isControlledOpen !== null));
-  const _isOpen = isControlled ? isControlledOpen : isOpen;
+  const [isOpen, setIsOpen] = useState(defaultIsOpen);
+  const { current: isControlled } = useRef((isOpenProp !== undefined) && (isOpenProp !== null));
+  const _isOpen = isControlled ? isOpenProp : isOpen;
 
   const enterTimeoutRef = useRef();
   const exitTimeoutRef = useRef();
