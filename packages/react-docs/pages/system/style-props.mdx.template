@@ -1,0 +1,91 @@
+# Style Props
+
+Style props is a way to use CSS-in-JS styling technique to pass styles as props to style components without having to use a separate CSS file.
+
+In React, you can use inline styles to style components. However, this is not a good practice because it leads to maintainability issues and you can't specify inline styles for pseudo-elements.
+
+## Reference Table
+
+### Animation
+
+__animation__
+
+### Background
+
+__background__
+
+### Border
+
+__border__
+
+### Color
+
+__color__
+
+### Containment
+
+__containment__
+
+### Effect
+
+__effect__
+
+### Flexbox
+
+__flexbox__
+
+### Gap
+
+__gap__
+
+### Grid
+
+__grid__
+
+### Image
+
+__image__
+
+### Layout
+
+__layout__
+
+### List Style
+
+__list-style__
+
+### Margin
+
+__margin__
+
+### Outline
+
+__outline__
+
+### Padding
+
+__padding__
+
+### Position
+
+__position__
+
+### Shape
+
+__shape__
+
+### Text
+
+__text__
+
+### Transform
+
+__transform__
+
+### Transition
+
+__transition__
+
+### Typography
+
+__typography__

@@ -1,1 +1,322 @@
 # Style Props
+
+Style props is a way to use CSS-in-JS styling technique to pass styles as props to style components without having to use a separate CSS file.
+
+In React, you can use inline styles to style components. However, this is not a good practice because it leads to maintainability issues and you can't specify inline styles for pseudo-elements.
+
+## Reference Table
+
+### Animation
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `animation` | `animation` |  |
+| `animationDelay` | `animation-delay` |  |
+| `animationDirection` | `animation-direction` |  |
+| `animationDuration` | `animation-duration` |  |
+| `animationFillMode` | `animation-fill-mode` |  |
+| `animationIterationCount` | `animation-iteration-count` |  |
+| `animationName` | `animation-name` |  |
+| `animationPlayState` | `animation-play-state` |  |
+| `animationTimingFunction` | `animation-timing-function` |  |
+
+### Background
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `background` | `background` | [colors](colors) |
+| `backgroundAttachment` | `background-attachment` |  |
+| `backgroundClip` | `background-clip` |  |
+| `backgroundColor` | `background-color` | [colors](colors) |
+| `backgroundImage` | `background-image` |  |
+| `backgroundPosition` | `background-position` | [space](space) |
+| `backgroundPositionX` | `background-position-x` | [space](space) |
+| `backgroundPositionY` | `background-position-y` | [space](space) |
+| `backgroundRepeat` | `background-repeat` |  |
+| `backgroundSize` | `background-size` | [sizes](sizes) |
+| `bg` | `background` | [colors](colors) |
+| `bgAttachment` | `background-attachment` |  |
+| `bgClip` | `background-clip` |  |
+| `bgColor` | `background-color` | [colors](colors) |
+| `bgImage` | `background-image` |  |
+| `bgPosition` | `background-position` | [space](space) |
+| `bgPositionX` | `background-position-x` | [space](space) |
+| `bgPositionY` | `background-position-y` | [space](space) |
+| `bgRepeat` | `background-repeat` |  |
+| `bgSize` | `background-size` | [sizes](sizes) |
+
+### Border
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `border` | `border` | [borders](borders) |
+| `borderWidth` | `border-width` | [sizes](sizes) |
+| `borderStyle` | `border-style` |  |
+| `borderColor` | `border-color` | [colors](colors) |
+| `borderRadius` | `border-radius` | [radii](radii) |
+| `borderTop` | `border-top` | [borders](borders) |
+| `borderTopWidth` | `border-top-width` | [sizes](sizes) |
+| `borderTopStyle` | `border-top-style` |  |
+| `borderTopColor` | `border-top-color` | [colors](colors) |
+| `borderTopLeftRadius` | `border-top-left-radius` | [radii](radii) |
+| `borderTopRightRadius` | `border-top-right-radius` | [radii](radii) |
+| `borderRight` | `border-right` | [borders](borders) |
+| `borderRightWidth` | `border-right-width` | [sizes](sizes) |
+| `borderRightStyle` | `border-right-style` |  |
+| `borderRightColor` | `border-right-color` | [colors](colors) |
+| `borderBottom` | `border-bottom` | [borders](borders) |
+| `borderBottomWidth` | `border-bottom-width` | [sizes](sizes) |
+| `borderBottomStyle` | `border-bottom-style` |  |
+| `borderBottomColor` | `border-bottom-color` | [colors](colors) |
+| `borderBottomLeftRadius` | `border-bottom-left-radius` | [radii](radii) |
+| `borderBottomRightRadius` | `border-bottom-right-radius` | [radii](radii) |
+| `borderLeft` | `border-left` | [borders](borders) |
+| `borderLeftWidth` | `border-left-width` | [sizes](sizes) |
+| `borderLeftStyle` | `border-left-style` |  |
+| `borderLeftColor` | `border-left-color` | [colors](colors) |
+| `borderX` | `border-left`, `border-right` | [borders](borders) |
+| `borderY` | `border-top`, `border-bottom` | [borders](borders) |
+
+### Color
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `color` | `color` | [colors](colors) |
+| `colorScheme` | `color-scheme` |  |
+| `fill` | `fill` | [colors](colors) |
+| `stroke` | `stroke` | [colors](colors) |
+
+### Containment
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `contain` | `contain` |  |
+| `containIntrinsicSize` | `contain-intrinsic-size` | [sizes](sizes) |
+| `contentVisibility` | `content-visibility` |  |
+
+### Effect
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `backdropFilter` | `backdrop-filter` |  |
+| `backgroundBlendMode` | `background-blend-mode` |  |
+| `boxShadow` | `box-shadow` | [shadows](shadows) |
+| `filter` | `filter` |  |
+| `mixBlendMode` | `mix-blend-mode` |  |
+| `opacity` | `opacity` |  |
+
+### Flexbox
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `alignItems` | `align-items` |  |
+| `alignContent` | `align-content` |  |
+| `justifyItems` | `justify-items` |  |
+| `justifyContent` | `justify-content` |  |
+| `flexWrap` | `flex-wrap` |  |
+| `flexDirection` | `flex-direction` |  |
+| `flex` | `flex` |  |
+| `flexGrow` | `flex-grow` |  |
+| `flexShrink` | `flex-shrink` |  |
+| `flexBasis` | `flex-basis` | [sizes](sizes) |
+| `justifySelf` | `justify-self` |  |
+| `alignSelf` | `align-self` |  |
+| `order` | `order` |  |
+
+### Gap
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `gap` | `gap` | [sizes](sizes) |
+| `columnGap` | `column-gap` | [sizes](sizes) |
+| `rowGap` | `row-gap` | [sizes](sizes) |
+
+### Grid
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `gridGap` | `grid-gap` | [sizes](sizes) |
+| `gridColumnGap` | `grid-column-gap` | [sizes](sizes) |
+| `gridRowGap` | `grid-row-gap` | [sizes](sizes) |
+| `gridColumn` | `grid-column` |  |
+| `gridRow` | `grid-row` |  |
+| `gridAutoFlow` | `grid-auto-flow` |  |
+| `gridAutoColumns` | `grid-auto-columns` |  |
+| `gridAutoRows` | `grid-auto-rows` |  |
+| `gridTemplateColumns` | `grid-template-columns` |  |
+| `gridTemplateRows` | `grid-template-rows` |  |
+| `gridTemplateAreas` | `grid-template-areas` |  |
+| `gridArea` | `grid-area` |  |
+
+### Image
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `imageOrientation` | `image-orientation` |  |
+| `imageRendering` | `image-rendering` |  |
+
+### Layout
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `width` | `width` | [sizes](sizes) |
+| `height` | `height` | [sizes](sizes) |
+| `minWidth` | `min-width` | [sizes](sizes) |
+| `minHeight` | `min-height` | [sizes](sizes) |
+| `maxWidth` | `max-width` | [sizes](sizes) |
+| `maxHeight` | `max-height` | [sizes](sizes) |
+| `overflow` | `overflow` |  |
+| `overflowX` | `overflow-x` |  |
+| `overflowY` | `overflow-y` |  |
+| `display` | `display` |  |
+| `verticalAlign` | `vertical-align` |  |
+| `aspectRatio` | `aspect-ratio` |  |
+| `boxSizing` | `box-sizing` |  |
+| `float` | `float` |  |
+| `objectFit` | `object-fit` |  |
+| `objectPosition` | `object-position` |  |
+| `visibility` | `visibility` |  |
+| `w` | `width` | [sizes](sizes) |
+| `h` | `height` | [sizes](sizes) |
+
+### List Style
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `listStyleImage` | `list-style-image` |  |
+| `listStylePosition` | `list-style-position` |  |
+| `listStyleType` | `list-style-type` |  |
+
+### Margin
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `margin` | `margin` | [space](space) |
+| `marginTop` | `margin-top` | [space](space) |
+| `marginRight` | `margin-right` | [space](space) |
+| `marginBottom` | `margin-bottom` | [space](space) |
+| `marginLeft` | `margin-left` | [space](space) |
+| `marginX` | `margin-left`, `margin-right` | [space](space) |
+| `marginY` | `margin-top`, `margin-bottom` | [space](space) |
+| `m` | `margin` | [space](space) |
+| `mt` | `margin-top` | [space](space) |
+| `mr` | `margin-right` | [space](space) |
+| `mb` | `margin-bottom` | [space](space) |
+| `ml` | `margin-left` | [space](space) |
+| `mx` | `margin-left`, `margin-right` | [space](space) |
+| `my` | `margin-top`, `margin-bottom` | [space](space) |
+
+### Outline
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `outline` | `outline` | [outlines](outlines) |
+| `outlineColor` | `outline-color` | [colors](colors) |
+| `outlineOffset` | `outline-offset` | [space](space) |
+| `outlineWidth` | `outline-width` | [sizes](sizes) |
+| `outlineStyle` | `outline-style` |  |
+
+### Padding
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `padding` | `padding` | [space](space) |
+| `paddingTop` | `padding-top` | [space](space) |
+| `paddingRight` | `padding-right` | [space](space) |
+| `paddingBottom` | `padding-bottom` | [space](space) |
+| `paddingLeft` | `padding-left` | [space](space) |
+| `paddingX` | `padding-left`, `padding-right` | [space](space) |
+| `paddingY` | `padding-top`, `padding-bottom` | [space](space) |
+| `p` | `padding` | [space](space) |
+| `pt` | `padding-top` | [space](space) |
+| `pr` | `padding-right` | [space](space) |
+| `pb` | `padding-bottom` | [space](space) |
+| `pl` | `padding-left` | [space](space) |
+| `px` | `padding-left`, `padding-right` | [space](space) |
+| `py` | `padding-top`, `padding-bottom` | [space](space) |
+
+### Position
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `inset` | `inset` | [space](space) |
+| `insetBlock` | `inset-block` | [space](space) |
+| `insetBlockEnd` | `inset-block-end` | [space](space) |
+| `insetBlockStart` | `inset-block-start` | [space](space) |
+| `insetInline` | `inset-inline` | [space](space) |
+| `insetInlineEnd` | `inset-inline-end` | [space](space) |
+| `insetInlineStart` | `inset-inline-start` | [space](space) |
+| `position` | `position` |  |
+| `top` | `top` | [space](space) |
+| `right` | `right` | [space](space) |
+| `bottom` | `bottom` | [space](space) |
+| `left` | `left` | [space](space) |
+| `zIndex` | `z-index` | [zIndices](z-indices) |
+
+### Shape
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `clip` | `clip` |  |
+| `clipPath` | `clip-path` |  |
+| `mask` | `mask` |  |
+
+### Text
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `textCombineUpright` | `text-combine-upright` |  |
+| `textDecoration` | `text-decoration` |  |
+| `textDecorationColor` | `text-decoration-color` | [colors](colors) |
+| `textDecorationLine` | `text-decoration-line` |  |
+| `textDecorationStyle` | `text-decoration-style` |  |
+| `textDecorationThickness` | `text-decoration-thickness` | [sizes](sizes) |
+| `textOrientation` | `text-orientation` |  |
+| `textShadow` | `text-shadow` | [shadows](shadows) |
+| `textUnderlineOffset` | `text-underline-offset` | [space](space) |
+| `writingMode` | `writing-mode` |  |
+
+### Transform
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `backfaceVisibility` | `backface-visibility` |  |
+| `perspective` | `perspective` |  |
+| `perspectiveOrigin` | `perspective-origin` |  |
+| `transform` | `transform` |  |
+| `transformBox` | `transform-box` |  |
+| `transformOrigin` | `transform-origin` |  |
+| `transformStyle` | `transform-style` |  |
+
+### Transition
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `transition` | `transition` |  |
+| `transitionDelay` | `transition-delay` |  |
+| `transitionDuration` | `transition-duration` |  |
+| `transitionProperty` | `transition-property` |  |
+| `transitionTimingFunction` | `transition-timing-function` |  |
+| `willChange` | `will-change` |  |
+
+### Typography
+
+| Prop | CSS Property | Theme Key |
+| :-- | :-- | :-- |
+| `fontFamily` | `font-family` | [fonts](fonts) |
+| `fontSize` | `font-size` | [fontSizes](font-sizes) |
+| `fontStyle` | `font-style` |  |
+| `fontWeight` | `font-weight` | [fontWeights](font-weights) |
+| `letterSpacing` | `letter-spacing` | [letterSpacings](letter-spacings) |
+| `lineBreak` | `line-break` |  |
+| `lineHeight` | `line-height` | [lineHeights](line-heights) |
+| `overflowWrap` | `overflow-wrap` |  |
+| `textAlign` | `text-align` |  |
+| `textEmphasis` | `text-emphasis` |  |
+| `textIndent` | `text-indent` |  |
+| `textJustify` | `text-justify` |  |
+| `textOverflow` | `text-overflow` |  |
+| `textTransform` | `text-transform` |  |
+| `whiteSpace` | `white-space` |  |
+| `wordBreak` | `word-break` |  |
+| `wordSpacing` | `word-spacing` |  |

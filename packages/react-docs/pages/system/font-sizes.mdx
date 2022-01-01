@@ -1,0 +1,32 @@
+import { Box, Stack } from "@tonic-ui/react";
+import ThemeParser from "../../components/ThemeParser";
+
+# Font Sizes
+
+<ThemeParser theme="fontSizes" />
+
+| Name | Size     | Pixels |
+| :--- | :------  | :----- |
+| xs   | .75rem   | 12px   |
+| sm   | .875rem  | 14px   |
+| md   | 1rem     | 16px   |
+| lg   | 1.125rem | 18px   |
+| xl   | 1.25rem  | 20px   |
+| 2xl  | 1.5rem   | 24px   |
+| 3xl  | 1.75rem  | 28px   |
+| 4xl  | 1.2rem   | 32px   |
+
+## Examples
+
+```jsx
+<Stack direction="column" spacing="2x">
+  <Box fontSize="xs" lineHeight="xs">Font Size 12px</Box>
+  <Box fontSize="sm" lineHeight="sm">Font Size 14px</Box>
+  <Box fontSize="md" lineHeight="md">Font Size 16px</Box>
+  <Box fontSize="lg" lineHeight="lg">Font Size 18px</Box>
+  <Box fontSize="xl" lineHeight="xl">Font Size 20px</Box>
+  <Box fontSize="2xl" lineHeight="2xl">Font Size 24px</Box>
+  <Box fontSize="3xl" lineHeight="3xl">Font Size 28px</Box>
+  <Box fontSize="4xl" lineHeight="4xl">Font Size 32px</Box>
+</Stack>
+```

@@ -19,7 +19,6 @@ const system = (config, options) => {
       acc[key] = createStyleFunction({
         group,
         property: key,
-        scale: key,
       });
       return acc;
     }
