@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'grid';
 const config = {
   gridGap: {
     property: 'gridGap',
@@ -24,6 +25,6 @@ const config = {
   gridArea: true,
 };
 
-const grid = system(config);
+const grid = system(config, { group });
 
 export default grid;

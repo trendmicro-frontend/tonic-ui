@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'transform';
 const config = {
   backfaceVisibility: true,
   perspective: true,
@@ -10,6 +11,6 @@ const config = {
   transformStyle: true,
 };
 
-const transform = system(config);
+const transform = system(config, { group });
 
 export default transform;

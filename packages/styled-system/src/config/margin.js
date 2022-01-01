@@ -1,6 +1,7 @@
 import system from '../core/system';
 import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
+const group = 'margin';
 const config = {
   margin: {
     property: 'margin',
@@ -68,6 +69,6 @@ config.my = {
   alias: 'marginY',
 };
 
-const margin = system(config);
+const margin = system(config, { group });
 
 export default margin;

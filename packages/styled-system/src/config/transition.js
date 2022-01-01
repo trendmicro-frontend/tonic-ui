@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'transition';
 const config = {
   transition: true,
   transitionDelay: true,
@@ -9,6 +10,6 @@ const config = {
   willChange: true,
 };
 
-const transition = system(config);
+const transition = system(config, { group });
 
 export default transition;

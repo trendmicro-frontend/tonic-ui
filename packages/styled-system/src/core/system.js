@@ -4,35 +4,44 @@ import parser from './parser';
 
 const getValue = (n, scale) => get(scale, n, n);
 
-const system = (args = {}) => {
-  const config = {};
+const system = (config, options) => {
+  const group = options?.group;
+  const styleConfig = Object.keys({ ...config }).reduce((acc, key) => {
+    const value = config[key];
 
-  Object.keys(args).forEach(key => {
-    const conf = args[key];
-    if (conf === true) {
+    if (typeof value === 'function') {
+      acc[key] = value;
+      return acc;
+    }
+
+    if (value === true) {
       // shortcut definition
-      config[key] = createStyleFunction({
+      acc[key] = createStyleFunction({
+        group,
         property: key,
         scale: key,
       });
-      return;
+      return acc;
     }
-    if (typeof conf === 'function') {
-      config[key] = conf;
-      return;
-    }
-    config[key] = createStyleFunction(conf);
-  });
 
-  return parser(config);
+    acc[key] = createStyleFunction({
+      group,
+      ...value,
+    });
+    return acc;
+  }, {});
+
+  return parser(styleConfig);
 };
 
 const createStyleFunction = ({
+  group,
   properties,
   property,
+  alias,
   scale,
-  transform = getValue,
   defaultScale,
+  transform = getValue,
 }) => {
   properties = ensureArray(properties).concat(ensureArray(property));
 
@@ -46,6 +55,9 @@ const createStyleFunction = ({
     }
     return result;
   };
+  sx.group = group;
+  sx.originalProperties = properties;
+  sx.alias = alias;
   sx.scale = scale;
   sx.defaultScale = defaultScale;
   return sx;

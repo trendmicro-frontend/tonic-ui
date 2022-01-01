@@ -1,6 +1,7 @@
 import system from '../core/system';
 import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
+const group = 'position';
 const config = {
   inset: {
     property: 'inset',
@@ -64,6 +65,6 @@ const config = {
   },
 };
 
-const position = system(config);
+const position = system(config, { group });
 
 export default position;

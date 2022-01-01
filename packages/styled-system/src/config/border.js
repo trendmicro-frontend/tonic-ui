@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'border';
 const config = {
   border: {
     property: 'border',
@@ -96,6 +97,6 @@ const config = {
   },
 };
 
-const border = system(config);
+const border = system(config, { group });
 
 export default border;

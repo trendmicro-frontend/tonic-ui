@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'color';
 const config = {
   color: {
     property: 'color',
@@ -22,6 +23,6 @@ const config = {
   },
 };
 
-const color = system(config);
+const color = system(config, { group });
 
 export default color;

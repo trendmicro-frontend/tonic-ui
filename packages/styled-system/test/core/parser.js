@@ -8,7 +8,7 @@ const theme = {
     primary: 'rebeccapurple',
     secondary: 'papayawhip',
   },
-  fontSize: [0, 4, 8, 16],
+  fontSizes: [0, 4, 8, 16],
 };
 
 const parser = system({
@@ -16,7 +16,10 @@ const parser = system({
     property: 'color',
     scale: 'colors',
   },
-  fontSize: true,
+  fontSize: {
+    property: 'fontSize',
+    scale: 'fontSizes',
+  },
 });
 
 test('uses default breakpoints', () => {

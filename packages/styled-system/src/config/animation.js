@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'animation';
 const config = {
   animation: true,
   animationDelay: true,
@@ -12,6 +13,6 @@ const config = {
   animationTimingFunction: true,
 };
 
-const animation = system(config);
+const animation = system(config, { group });
 
 export default animation;

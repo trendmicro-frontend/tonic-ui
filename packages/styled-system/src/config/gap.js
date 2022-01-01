@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'gap';
 const config = {
   gap: {
     property: 'gap',
@@ -15,6 +16,6 @@ const config = {
   },
 };
 
-const gap = system(config);
+const gap = system(config, { group });
 
 export default gap;

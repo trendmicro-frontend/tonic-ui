@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'padding';
 const config = {
   padding: {
     property: 'padding',
@@ -60,6 +61,6 @@ config.py = {
   alias: 'paddingY',
 };
 
-const padding = system(config);
+const padding = system(config, { group });
 
 export default padding;

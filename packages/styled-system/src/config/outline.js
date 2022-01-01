@@ -1,6 +1,7 @@
 import system from '../core/system';
 import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
+const group = 'outline';
 const config = {
   outline: {
     property: 'outline',
@@ -22,6 +23,6 @@ const config = {
   outlineStyle: true,
 };
 
-const outline = system(config);
+const outline = system(config, { group });
 
 export default outline;

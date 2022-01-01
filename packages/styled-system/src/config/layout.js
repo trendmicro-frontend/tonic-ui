@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'layout';
 const config = {
   width: {
     property: 'width',
@@ -47,6 +48,6 @@ config.h = {
   alias: 'height',
 };
 
-const layout = system(config);
+const layout = system(config, { group });
 
 export default layout;
