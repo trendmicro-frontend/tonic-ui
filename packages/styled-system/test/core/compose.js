@@ -9,7 +9,10 @@ const color = system({
 });
 
 const fontSize = system({
-  fontSize: true,
+  fontSize: {
+    property: 'fontSize',
+    scale: 'fontSizes',
+  },
 });
 
 test('compose combines style parsers', () => {

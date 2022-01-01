@@ -1,6 +1,7 @@
 import system from '../core/system';
 import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
+const group = 'text';
 const config = {
   textCombineUpright: true,
   textDecoration: true,
@@ -27,6 +28,6 @@ const config = {
   writingMode: true,
 };
 
-const textDecoration = system(config);
+const textDecoration = system(config, { group });
 
 export default textDecoration;

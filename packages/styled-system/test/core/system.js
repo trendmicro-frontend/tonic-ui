@@ -177,7 +177,10 @@ test('returns a noop function with no arguments', () => {
 
 test('skips null values in arrays', () => {
   const parser = system({
-    fontSize: true,
+    fontSize: {
+      property: 'fontSize',
+      scale: 'fontSizes',
+    },
   });
   const style = parser({
     theme: {

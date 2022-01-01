@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'interactivity';
 const config = {
   appearance: true,
   caretColor: {
@@ -12,6 +13,6 @@ const config = {
   userSelect: true,
 };
 
-const interactivity = system(config);
+const interactivity = system(config, { group });
 
 export default interactivity;

@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'flexbox';
 const config = {
   alignItems: true,
   alignContent: true,
@@ -19,6 +20,6 @@ const config = {
   order: true,
 };
 
-const flexbox = system(config);
+const flexbox = system(config, { group });
 
 export default flexbox;

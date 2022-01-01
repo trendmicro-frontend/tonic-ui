@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'typography';
 const config = {
   fontFamily: {
     property: 'fontFamily',
@@ -35,6 +36,6 @@ const config = {
   wordSpacing: true,
 };
 
-const typography = system(config);
+const typography = system(config, { group });
 
 export default typography;

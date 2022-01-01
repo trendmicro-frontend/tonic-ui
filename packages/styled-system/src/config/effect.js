@@ -1,5 +1,6 @@
 import system from '../core/system';
 
+const group = 'effect';
 const config = {
   backdropFilter: true,
   backgroundBlendMode: true,
@@ -12,6 +13,6 @@ const config = {
   opacity: true,
 };
 
-const effect = system(config);
+const effect = system(config, { group });
 
 export default effect;

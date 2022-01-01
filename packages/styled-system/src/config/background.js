@@ -1,6 +1,7 @@
 import system from '../core/system';
 import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
+const group = 'background';
 const config = {
   background: {
     property: 'background',
@@ -84,6 +85,6 @@ config.bgSize = {
   alias: 'backgroundSize',
 };
 
-const background = system(config);
+const background = system(config, { group });
 
 export default background;
