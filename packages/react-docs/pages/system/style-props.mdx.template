@@ -2,9 +2,9 @@
 
 Style props is a way to use CSS-in-JS styling technique to pass styles as props to style components without having to use a separate CSS file.
 
-In React, you can use inline styles to style components. However, this is not a good practice because it leads to maintainability issues and you can't specify inline styles for pseudo-elements.
-
 ## Reference Table
+
+The followings are the reference table for style props. Each style prop corresponds to at least one CSS property, and some of them map to scales defined in the theme.
 
 ### Animation
 
