@@ -164,6 +164,7 @@ const DocsPage = (props) => {
           <Box
             pt={top}
             overflowX="auto"
+            width="100%"
           >
             <Content>
               <NextApp {...props} />
