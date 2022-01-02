@@ -1,7 +1,10 @@
 import { keyframes } from '@emotion/react';
 import { Box, Image, Stack, Text, Icon, useColorMode } from '@tonic-ui/react';
+import { ensureString } from 'ensure-type';
 import React from 'react';
 import Cube from './Cube';
+
+const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
 const cubeSpin = keyframes`
   from { transform: rotateY(360deg); }
@@ -35,7 +38,7 @@ const AnimatedCubeDemo = ({ size = 128, ...rest }) => {
         <Cube.Front
           backgroundColor="white"
         >
-          <Image alt="" src="images/Trend-Micro-Logo.svg" width="80%" />
+          <Image alt="" src={`${ASSET_PREFIX}/images/Trend-Micro-Logo.svg`} width="80%" />
         </Cube.Front>
         <Cube.Back>
           <Box
