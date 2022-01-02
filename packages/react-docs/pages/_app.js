@@ -161,7 +161,10 @@ const DocsPage = (props) => {
             onClick={handleCloseSidebar}
             {...getSidebarStyleProps()}
           />
-          <Box pt={top} width="100%">
+          <Box
+            pt={top}
+            overflowX="auto"
+          >
             <Content>
               <NextApp {...props} />
             </Content>

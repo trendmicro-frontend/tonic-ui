@@ -16,7 +16,6 @@ const Content = forwardRef((props, ref) => {
       `}
       py="3x"
       px="4x"
-      width="100%"
       {...props}
     />
   );
