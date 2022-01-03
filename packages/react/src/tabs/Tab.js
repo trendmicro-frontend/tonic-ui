@@ -6,7 +6,8 @@ import { useTabStyle } from './styles';
 
 const Tab = forwardRef((props, ref) => {
   const { isSelected, disabled, id, ...rest } = props;
-  const tabStyleProps = useTabStyle();
+  const tabStyleProps = useTabStyle({ isSelected });
+
   return (
     <ButtonBase
       ref={ref}

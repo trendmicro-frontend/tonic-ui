@@ -43,7 +43,7 @@ const tabList = {
   borderStyle: 'solid'
 };
 
-const lineStyle = ({ size, colorMode, theme }) => {
+const lineStyle = ({ isSelected, size, colorMode, theme }) => {
   const _color = { light: theme.colors['black:primary'], dark: theme.colors['white:emphasis'] }[colorMode];
   const _fontColor = setColorWithOpacity(_color, 0.6);
   const _hoveredBorderColor = 'gray:60';
@@ -64,33 +64,29 @@ const lineStyle = ({ size, colorMode, theme }) => {
       borderRightWidth: 0,
       mb: `-${tabProps.borderWidth}`,
       _hover: {
-        borderBottomColor: _hoveredBorderColor,
-      },
-      _selected: {
-        borderBottomColor: _selectedBorderColor,
-        color: _selectedFontColor,
-        cursor: 'default',
+        borderBottomColor: isSelected ? _selectedBorderColor : _hoveredBorderColor,
       },
       _focus: {
-        borderBottomColor: _focusBorderColor,
-        zIndex: 3,
+        borderBottomColor: isSelected ? _selectedBorderColor : _focusBorderColor,
+      },
+      _focusActive: {
+        borderBottomColor: _hoveredBorderColor,
       },
       _disabled: {
         borderBottomColor: _disabledBorderColor,
         color: _disabledColor,
         cursor: 'not-allowed',
       },
-      _focusSelected: {
-        borderBottomColor: _selectedBorderColor
-      },
-      _focusActive: {
-        borderBottomColor: _hoveredBorderColor,
+      _selected: {
+        borderBottomColor: _selectedBorderColor,
+        color: _selectedFontColor,
+        cursor: 'default',
       },
     },
   };
 };
 
-const enclosedStyle = ({ size, colorMode, theme }) => {
+const enclosedStyle = ({ isSelected, size, colorMode, theme }) => {
   const _borderWidth = '1px';
   const _focusBorderWidth = '2px';
   const _px = tabSizes[size] ? theme.space[tabSizes[size].px] : theme.space[tabSizes.md.px];
@@ -119,32 +115,18 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
       py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_borderWidth} * 2)) / 2)`,
       mr: '-1px',
       mb: '-1px',
-      _selected: {
-        backgroundColor: _selectedBg,
-        borderColor: _selectedBorder,
-        color: _selectedFontColor,
-        cursor: 'default',
-        zIndex: 1
-      },
       _hover: {
-        borderColor: _hoveredBorderColor,
+        borderColor: isSelected ? _selectedBorder : _hoveredBorderColor,
         backgroundColor: _hoveredBgColor,
-        zIndex: 2
       },
       _focus: {
-        borderColor: _focusBorderColor,
+        borderColor: isSelected ? _selectedBorder : _focusBorderColor,
         borderWidth: _focusBorderWidth,
         px: `calc(${_px} - ${_focusBorderWidth})`,
         py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_focusBorderWidth} * 2)) / 2)`,
-        zIndex: 3,
       },
       _focusHover: {
         borderColor: _focusBorderColor,
-        zIndex: 3
-      },
-      _focusSelected: {
-        borderColor: _selectedBorder,
-        zIndex: 3
       },
       _focusActive: {
         borderColor: _hoveredBorderColor,
@@ -154,7 +136,13 @@ const enclosedStyle = ({ size, colorMode, theme }) => {
         borderColor: _disabledBorderColor,
         color: _disabledColor,
         cursor: 'not-allowed',
-      }
+      },
+      _selected: {
+        backgroundColor: _selectedBg,
+        borderColor: _selectedBorder,
+        color: _selectedFontColor,
+        cursor: 'default',
+      },
     }
   };
 };
@@ -206,13 +194,13 @@ const orientationStyle = ({ align, orientation }) => {
   };
 };
 
-export const useTabStyle = () => {
+export const useTabStyle = ({ isSelected }) => {
   const theme = useTheme();
   const { variant, size, isFitted, orientation } = useContext(
     TabContext,
   );
   const [colorMode] = useColorMode();
-  const _variantStyle = variantStyle({ size, variant, theme, colorMode });
+  const _variantStyle = variantStyle({ isSelected, size, variant, theme, colorMode });
   const _orientationStyle = orientationStyle({ orientation });
 
   return {

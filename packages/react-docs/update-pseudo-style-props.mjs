@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import fs from 'fs';
-import { system } from '@tonic-ui/styled-system';
+import { pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/styled-system';
 import { ensureString } from 'ensure-type';
 import _ from 'lodash';
 
@@ -17,17 +17,18 @@ const kebabize = str => {
   }).join('');
 };
 
-const data = _.reduce(system.config, (result, value, key) => {
-  const sx = value;
-  if (sx.group != null) {
-    const item = {
-      prop: key,
-      originalProperties: sx.originalProperties.map(kebabize),
-      scale: sx.scale,
-      defaultScale: sx.defaultScale,
-    };
-    sx.alias && (item.alias = sx.alias);
-    (result[sx.group] || (result[sx.group] = [])).push(item);
+const list = {
+  'pseudo-class-selectors': pseudoClassSelector,
+  'pseudo-element-selectors': pseudoElementSelector,
+};
+
+const data = _.reduce(list, (result, selectorObject, key) => {
+  for (const [prop, sx] of Object.entries(selectorObject)) {
+    const items = sx({}).map(x => ({
+      prop,
+      selector: x[0],
+    }));
+    result[key] = (result[key] || (result[key] = [])).concat(items);
   }
   return result;
 }, {});
@@ -39,13 +40,12 @@ try {
     const pattern = new RegExp(`__${key}__`, 'g')
     const replacement = (() => {
       const arr = [
-        '| Prop | CSS Property | Theme Key |',
-        '| :-- | :-- | :-- |',
+        '| Prop | Selector |',
+        '| :--- | :------- |',
       ].concat(value.map(x => {
         const cells = [
           '`' + x.prop + '`',
-          '`' + x.originalProperties.join('`, `') + '`',
-          x.scale ? `[${x.scale}](${kebabize(x.scale)})` : '',
+          '`' + x.selector.split(',').join('` ,<br/>`') + '`',
         ];
         return '| ' + cells.join(' | ') + ' |';
       }));

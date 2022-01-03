@@ -44,7 +44,7 @@ const responsive = styles => theme => {
   return next;
 };
 
-const cx = args => (props = {}) => {
+const sx = args => (props = {}) => {
   const theme = {
     ...(props.theme || props),
   };
@@ -61,23 +61,23 @@ const cx = args => (props = {}) => {
     const val = typeof x === 'function' ? x(theme) : x;
 
     if (val && typeof val === 'object') {
-      result[key] = cx(val)(theme);
+      result[key] = sx(val)(theme);
       continue;
     }
 
-    const sx = system.config[key];
-    if (typeof sx !== 'function') {
+    const _sx = system.config[key];
+    if (typeof _sx !== 'function') {
       // pass them through to the result for unknown props
       result[key] = val;
       continue;
     }
 
-    const _scale = get(theme, sx.scale, sx.defaultScale);
+    const _scale = get(theme, _sx.scale, _sx.defaultScale);
     const _props = {
       ...styles,
       theme, // include "theme" in props
     };
-    const _result = sx(val, _scale, _props); // `sx` is a style function
+    const _result = _sx(val, _scale, _props); // `sx` is a style function
 
     result = {
       ...result,
@@ -88,4 +88,4 @@ const cx = args => (props = {}) => {
   return result;
 };
 
-export default cx;
+export default sx;
