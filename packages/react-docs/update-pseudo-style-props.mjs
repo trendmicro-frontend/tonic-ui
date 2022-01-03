@@ -2,20 +2,11 @@
 
 import fs from 'fs';
 import { pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/styled-system';
-import { ensureString } from 'ensure-type';
 import _ from 'lodash';
 
 const args = process.argv.slice(2);
 const source = args[0];
 const target = args[1];
-
-const kebabize = str => {
-  return ensureString(str).split('').map((letter, idx) => {
-    return (letter.toUpperCase() === letter)
-      ? `${idx !== 0 ? '-' : ''}${letter.toLowerCase()}`
-      : letter;
-  }).join('');
-};
 
 const list = {
   'pseudo-class-selectors': pseudoClassSelector,
