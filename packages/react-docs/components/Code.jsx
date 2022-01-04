@@ -1,24 +1,14 @@
-import { Box, useColorMode } from '@tonic-ui/react';
+import { Tag } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 
 const Code = forwardRef((props, ref) => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    light: 'gray:10', // FIXME
-    dark: 'gray:70',
-  }[colorMode];
-
   return (
-    <Box
+    <Tag
       ref={ref}
       as="code"
-      display="inline-block"
       fontFamily="mono"
-      fontSize="sm"
-      lineHeight="sm"
-      px="2x"
-      borderRadius="sm"
-      backgroundColor={backgroundColor}
+      fontSize="90%"
+      px=".375rem"
       {...props}
     />
   );

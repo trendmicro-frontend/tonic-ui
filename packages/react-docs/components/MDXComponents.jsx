@@ -287,10 +287,7 @@ const code = props => (
 );
 
 const inlineCode = props => (
-  <Code
-    fontSize="90%"
-    {...props}
-  />
+  <Code {...props} />
 );
 
 const hr = props => (

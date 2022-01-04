@@ -15,6 +15,7 @@ import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
+import Code from './Code';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 import IconButton from './IconButton';
@@ -165,8 +166,9 @@ const CodeBlock = ({
       ...reactComponents,
       ...reactHooks,
       ...thirdPartyComponents,
-      FontAwesomeIcon,
+      Code,
       EditableTag,
+      FontAwesomeIcon,
       Lorem,
       SelectableButton,
       SkeletonBody,
