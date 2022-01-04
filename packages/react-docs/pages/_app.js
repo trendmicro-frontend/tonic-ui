@@ -135,6 +135,7 @@ const DocsPage = (props) => {
         md: 250,
       },
       pt: headerHeight,
+      height: '100vh',
       width: {
         sm: '100%',
         md: 'calc(100% - 250px)',
