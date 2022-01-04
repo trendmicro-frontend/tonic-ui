@@ -1,0 +1,36 @@
+import { Box, Stack } from "@tonic-ui/react";
+import ThemeParser from "../../components/ThemeParser";
+
+# Line Heights
+
+<ThemeParser theme="lineHeights" />
+
+| Name | Line height   | Pixels |
+| ---- | ------------  | ------ |
+| xs   | 1.125rem      | 18px   |
+| sm   | 1.25rem       | 20px   |
+| md   | 1.375rem      | 22px   |
+| lg   | 1.5rem        | 24px   |
+| xl   | 1.75rem       | 28px   |
+| 2xl  | 2rem          | 32px   |
+| 3xl  | 2.25rem       | 36px   |
+| 4xl  | 2.5rem        | 40px   |
+
+## Examples
+
+```jsx
+<Stack direction="row" spacing="12x">
+  <Box width="324px" lineHeight="sm">
+    <Box>Line height 1.25rem</Box>
+    <Box>Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus.</Box>
+  </Box>
+  <Box width="324px" lineHeight="lg">
+    <Box>Line height 1.5rem</Box>
+    <Box>Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus.</Box>
+  </Box>
+  <Box width="324px" lineHeight="2xl">
+    <Box>Line height 2rem</Box>
+    <Box>Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus.</Box>
+  </Box>
+</Stack>
+```

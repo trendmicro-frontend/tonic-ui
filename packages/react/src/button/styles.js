@@ -1,4 +1,4 @@
-import { cx } from '@tonic-ui/styled-system';
+import { sx } from '@tonic-ui/styled-system';
 import _get from 'lodash.get';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
@@ -347,7 +347,7 @@ const useButtonBaseStyle = ({ disabled }) => {
 };
 
 const getButtonGroupCSS = ({ useVertical }) => {
-  const horizontalCSS = cx({
+  const horizontalCSS = sx({
     '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
@@ -357,7 +357,7 @@ const getButtonGroupCSS = ({ useVertical }) => {
       borderBottomRightRadius: 0,
     },
   });
-  const verticalCSS = cx({
+  const verticalCSS = sx({
     '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,

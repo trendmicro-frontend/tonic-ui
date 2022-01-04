@@ -103,8 +103,8 @@ const Header = forwardRef((
     router.push(`${ASSET_PREFIX}/getting-started/versions`);
   };
 
-  const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor]), 0.7);
-  const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor]), 0.5);
+  const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor], backgroundColor), 0.7);
+  const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor], boxShadowColor), 0.5);
   
   return (
     <Box
@@ -168,8 +168,7 @@ const Header = forwardRef((
                 <Image
                   alt=""
                   src={`${ASSET_PREFIX}/images/${logo}`}
-                  width={35}
-                  height={30}
+                  height="8x"
                   marginRight="2x"
               />
                 <Text>Tonic UI</Text>

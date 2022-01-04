@@ -1,4 +1,4 @@
-import { cx } from '@tonic-ui/styled-system';
+import { sx } from '@tonic-ui/styled-system';
 import React, { forwardRef } from 'react';
 import Box from './Box';
 
@@ -41,7 +41,7 @@ const ControlBox = forwardRef((
   const indeterminate = `input[type=${type}][data-indeterminate=true] + &`;
 
   css = [
-    cx({
+    sx({
       [focus]: _focus,
       [hover]: _hover,
       [disabled]: _disabled,

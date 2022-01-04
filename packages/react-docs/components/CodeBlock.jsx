@@ -5,7 +5,7 @@ import * as reactHooks from '@tonic-ui/react-hooks';
 import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
-import React, { useEffect, useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState } from 'react';
 import * as ReactBeautifulDND from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
 import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
@@ -17,6 +17,7 @@ import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
+import IconButton from './IconButton';
 import Lorem from './Lorem';
 import SelectableButton from './SelectableButton';
 import SkeletonBody from './SkeletonBody';
@@ -34,23 +35,29 @@ const thirdPartyComponents = {
 
 const {
   Box,
-  Button,
   Collapse,
   Fade,
   Icon,
+  Scrollbar,
+  Tooltip,
   useColorMode,
 } = reactComponents;
 
+const liveCodePreviewStyle = {
+  paddingLeft: '.5rem', // 1rem + .5rem = 1.5rem
+  paddingRight: '.5rem', // 1rem + .5rem = 1.5rem
+};
+
 const liveEditorStyle = {
+  fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
   fontSize: 14,
   overflowX: 'auto',
-  fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
 };
 
 const liveErrorStyle = {
-  fontFamily: 'Menlo, monospace',
+  fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
   fontSize: 14,
-  padding: '1rem',
+  padding: '1rem 1.5rem',
   overflowX: 'auto',
   color: 'white',
   backgroundColor: 'red',
@@ -67,7 +74,7 @@ const tmicons = tmicon.iconsets.map(group => {
 const LiveCodePreview = props => {
   const [colorMode] = useColorMode();
   const borderColor = {
-    light: 'gray:20', // FIXME
+    light: 'gray:30',
     dark: 'gray:70',
   }[colorMode];
 
@@ -78,29 +85,22 @@ const LiveCodePreview = props => {
       borderRadius="sm"
       p="4x"
     >
-      <Box
-        as={LivePreview}
-        fontFamily="base"
-        fontSize="sm"
-        lineHeight="sm"
-        whiteSpace="normal"
-        {...props}
-      />
+      <Scrollbar
+        height="auto"
+        overflowX="visible"
+      >
+        <Box
+          as={LivePreview}
+          fontFamily="base"
+          fontSize="sm"
+          lineHeight="sm"
+          whiteSpace="normal"
+          {...props}
+        />
+      </Scrollbar>
     </Box>
   );
 };
-
-const CopyButton = props => (
-  <Button
-    fontFamily="base"
-    position="absolute"
-    textTransform="uppercase"
-    zIndex="1"
-    top="12x"
-    right="4x"
-    {...props}
-  />
-);
 
 const CodeBlock = ({
   /**
@@ -119,32 +119,29 @@ const CodeBlock = ({
   previewOnly = false,
 
   /**
-   * Default is expand or collapse (Default: `true`)
+   * Default is expand or collapse (Default: `false`)
    */
-  expanded = true,
+  expanded: defaultExpanded = false,
 
   className,
   children,
   ...props
 }) => {
+  const [colorMode] = useColorMode();
   const [editorCode, setEditorCode] = useState(children.trim());
-  const { onCopy, hasCopied } = useClipboard(editorCode);
-  const [isExpanded, setIsExpanded] = React.useState(expanded);
-  const [liveEditorHeight, setLiveEditorHeight] = React.useState(false);
-  const handleCollapse = () => setIsExpanded(!isExpanded);
-  const liveEditorRef = useRef(null);
-  const handleCodeChange = useCallback(newCode => {
+  const {
+    onCopy: copySource,
+    hasCopied: hasCopiedSource,
+  } = useClipboard(editorCode);
+  const [isLiveEditorVisible, toggleLiveEditorVisibility] = reactHooks.useToggle(defaultExpanded);
+  const resetDemo = () => {
+    setEditorCode(children.trim());
+    toggleLiveEditorVisibility(false);
+  };
+  const handleLiveEditorChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
   }, []);
-  const [colorMode] = useColorMode();
-  const themes = {
-    light: codeBlockLight,
-    dark: codeBlockDark,
-  };
-  const theme = themes[colorMode];
   const language = className && className.replace(/language-/, '');
-  const headerHeight = 16;
-  const isCollapsible = liveEditorHeight > headerHeight;
 
   noInline = boolean(noInline);
 
@@ -154,35 +151,11 @@ const CodeBlock = ({
     disabled = (language !== 'jsx') || boolean(disabled);
   }
 
-  const useCodeBlockTitleStyle = {
-    px: '4x',
-    py: '3x',
-    _hover: {
-      color: {
-        light: 'black:primary',
-        dark: 'white:primary',
-      }[colorMode],
-    },
-    color: {
-      light: 'black:secondary',
-      dark: 'white:secondary',
-    }[colorMode],
-    backgroundColor: {
-      light: 'gray:10',
-      dark: 'black:emphasis',
-    }[colorMode],
-    cursor: isCollapsible ? 'pointer' : 'default',
-  };
-
-  const useCollapseIconStyle = {
-    transform: isExpanded ? 'rotate(180deg)' : null,
-    transition: 'transform 0.2s',
-    transformOrigin: 'center',
-    cursor: 'pointer',
-  };
-
   const liveProviderProps = {
-    theme,
+    theme: {
+      dark: codeBlockDark,
+      light: codeBlockLight,
+    }[colorMode],
     language,
     noInline,
     disabled,
@@ -206,83 +179,61 @@ const CodeBlock = ({
     ...props,
   };
 
-  useEffect(() => {
-    liveEditorRef.current && setLiveEditorHeight(liveEditorRef.current.clientHeight);
-  }, [liveEditorRef]);
-
   if (previewOnly) {
     return (
       <LiveProvider {...liveProviderProps}>
-        <LivePreview />
+        <LiveCodePreview style={liveCodePreviewStyle} />
       </LiveProvider>
     );
   }
 
   const isEditable = !disabled;
 
+  if (!isEditable) {
+    return (
+      <LiveProvider {...liveProviderProps}>
+        <LiveEditor
+          style={liveEditorStyle}
+          css={css`
+            & > textarea { outline: 0; }
+          `}
+        />
+      </LiveProvider>
+    );
+  }
+
   return (
     <LiveProvider {...liveProviderProps}>
-      {isEditable && (
-        <LiveCodePreview />
-      )}
-      <Box mt="4x" position="relative">
-        {isEditable && (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            onClick={isCollapsible ? handleCollapse : undefined}
-            userSelect="none"
-            {...useCodeBlockTitleStyle}
-          >
-            EDITABLE EXAMPLE
-            {isCollapsible && (
-              <Icon
-                icon="chevron-down"
-                {...useCollapseIconStyle}
-              />
-            )}
-          </Box>
-        )}
-        {(isEditable && isCollapsible) ? (
-          <Fade in={isExpanded}>
-            <Collapse in={isExpanded}>
-              <Box>
-                {
-                  isExpanded && (
-                    <CopyButton onClick={onCopy}>
-                      {hasCopied ? 'copied' : 'copy'}
-                    </CopyButton>
-                  )
-                }
-                <Box ref={liveEditorRef}>
-                  <LiveEditor
-                    onChange={handleCodeChange}
-                    padding={20}
-                    style={liveEditorStyle}
-                  />
-                </Box>
-              </Box>
-            </Collapse>
-          </Fade>
-        ) : (
-          <Box>
-            <CopyButton onClick={onCopy}>
-              {hasCopied ? 'copied' : 'copy'}
-            </CopyButton>
-            <Box ref={liveEditorRef}>
-              <LiveEditor
-                onChange={handleCodeChange}
-                padding={20}
-                style={liveEditorStyle}
-              />
-            </Box>
-          </Box>
-        )}
+      <LiveCodePreview style={liveCodePreviewStyle} />
+      <Box display="flex" justifyContent="flex-end">
+        <IconButton onClick={toggleLiveEditorVisibility}>
+          <Tooltip label={isLiveEditorVisible ? 'Hide the source' : 'Show the source'}>
+            <Icon icon="code" size={{ sm: '5x', md: '4x' }} />
+          </Tooltip>
+        </IconButton>
+        <IconButton onClick={copySource}>
+          <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
+            <Icon icon="file-copy-o" size={{ sm: '5x', md: '4x' }} />
+          </Tooltip>
+        </IconButton>
+        <IconButton onClick={resetDemo}>
+          <Tooltip label="Reset the demo">
+            <Icon icon="redo" size={{ sm: '5x', md: '4x' }} />
+          </Tooltip>
+        </IconButton>
       </Box>
-      {isEditable && (
-        <LiveError style={liveErrorStyle} />
-      )}
+      <Fade in={isLiveEditorVisible}>
+        <Collapse in={isLiveEditorVisible} unmountOnExit={true}>
+          <LiveEditor
+            onChange={handleLiveEditorChange}
+            style={liveEditorStyle}
+            css={css`
+              & > textarea { outline: 0; }
+            `}
+          />
+        </Collapse>
+      </Fade>
+      <LiveError style={liveErrorStyle} />
     </LiveProvider>
   );
 };

@@ -1,4 +1,4 @@
-import { cx } from '@tonic-ui/styled-system';
+import { sx } from '@tonic-ui/styled-system';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 
@@ -10,7 +10,7 @@ const ScrollView = forwardRef((
   ref,
 ) => {
   css = [
-    cx({ // Hide the browser scrollbar
+    sx({ // Hide the browser scrollbar
       // Chrome, Safari and Opera
       '::-webkit-scrollbar': {
         display: 'none',

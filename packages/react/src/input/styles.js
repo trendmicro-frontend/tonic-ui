@@ -1,4 +1,4 @@
-import { cx } from '@tonic-ui/styled-system';
+import { sx } from '@tonic-ui/styled-system';
 import { useColorMode } from '../color-mode';
 
 const getInputOutlinedStyle = ({
@@ -261,7 +261,7 @@ const getInputGroupCSS = ({
 }) => {
   const useNegativeMargin = (variant === 'outline' || variant === 'filled');
 
-  return cx({
+  return sx({
     '&:not(:first-child)': {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,

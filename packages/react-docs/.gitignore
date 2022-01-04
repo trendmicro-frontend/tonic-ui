@@ -5,5 +5,3 @@
 # dotenv-flow
 /.env.local
 /.env.*.local
-
-/pages/getting-started/versions.mdx

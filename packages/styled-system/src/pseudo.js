@@ -1,0 +1,129 @@
+const noop = () => {};
+
+const createSelectorFunction = (name) => {
+  if (Array.isArray(name)) {
+    name = name.join(',');
+  }
+  if (!name || typeof name !== 'string') {
+    return noop;
+  }
+
+  return (props) => {
+    const result = {};
+    if (props && typeof props === 'object') {
+      result[name] = props;
+    }
+    return Object.entries(result);
+  };
+};
+
+const createNthOfTypeSelectorFunction = (name) => {
+  if (Array.isArray(name)) {
+    name = name.join(',');
+  }
+  if (!name || typeof name !== 'string') {
+    return noop;
+  }
+
+  return (props) => {
+    const result = {};
+    if (props && typeof props === 'object') {
+      for (const [key, value] of Object.entries(props)) {
+        result[`${name}(${key})`] = value;
+      }
+    }
+    return Object.entries(result);
+  };
+};
+
+/**
+ * Pseudo-classes
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/
+ */
+const pseudoClassSelector = {
+  _active: createSelectorFunction([
+    '&:active',
+    '&[data-active]',
+  ]),
+  _checked: createSelectorFunction([
+    '&:checked',
+    '&[aria-checked=true]',
+    '&[data-checked]',
+  ]),
+  _disabled: createSelectorFunction([
+    '&:disabled',
+    '&:disabled:focus',
+    '&:disabled:hover',
+    '&[aria-disabled=true]',
+    '&[aria-disabled=true]:focus',
+    '&[aria-disabled=true]:hover',
+    '&[data-disabled]',
+  ]),
+  _empty: createSelectorFunction('&:empty'),
+  _enabled: createSelectorFunction([
+    '&:enabled',
+    '&:enabled:focus',
+    '&:enabled:hover',
+  ]),
+  _firstChild: createSelectorFunction('&:first-child'),
+  _firstOfType: createSelectorFunction('&:first-of-type'),
+  _fullscreen: createSelectorFunction('&:fullscreen'),
+  _focus: createSelectorFunction([
+    '&:focus',
+    '&[data-focus]',
+  ]),
+  _focusActive: createSelectorFunction('&:focus:active'),
+  _focusHover: createSelectorFunction('&:focus:hover'),
+  _focusWithin: createSelectorFunction('&:focus-within'),
+  _hover: createSelectorFunction([
+    '&:hover',
+    '&[data-hover]',
+  ]),
+  _indeterminate: createSelectorFunction([
+    '&:indeterminate',
+  ]),
+  _invalid: createSelectorFunction([
+    '&:invalid',
+    '&[aria-invalid=true]',
+  ]),
+  _lastChild: createSelectorFunction('&:last-child'),
+  _lastOfType: createSelectorFunction('&:last-of-type'),
+  _notFirstOfType: createSelectorFunction('&:not(:first-of-type)'),
+  _notLastOfType: createSelectorFunction('&:not(:last-of-type)'),
+  _nthOfType: createNthOfTypeSelectorFunction('&:nth-of-type'),
+  _readOnly: createSelectorFunction([
+    '&:read-only',
+    '&[aria-readonly=true]',
+    '&[data-readonly]',
+  ]),
+  _selected: createSelectorFunction([
+    '&[aria-selected=true]',
+    '&[data-selected]',
+  ]),
+  _valid: createSelectorFunction([
+    '&[aria-invalid=false]',
+    '&:valid',
+  ]),
+  _visited: createSelectorFunction('&:visited'),
+};
+
+/**
+ * Pseudo-elements
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/
+ */
+const pseudoElementSelector = {
+  __after: createSelectorFunction('&::after'),
+  __backdrop: createSelectorFunction('&::backdrop'),
+  __before: createSelectorFunction('&::before'),
+  __cue: createSelectorFunction('&::cue'),
+  __firstLetter: createSelectorFunction('&::first-letter'),
+  __firstLine: createSelectorFunction('&::first-line'),
+  __placeholder: createSelectorFunction('&::placeholder'),
+  __placeholderShown: createSelectorFunction('&::placeholder-shown'),
+  __selection: createSelectorFunction('&::selection'),
+};
+
+export {
+  pseudoClassSelector,
+  pseudoElementSelector,
+};

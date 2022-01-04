@@ -1,7 +1,3 @@
-import cx from './cx';
-import system from './system';
-
-export {
-  cx,
-  system,
-};
+export * from './pseudo';
+export sx from './sx';
+export system from './system';

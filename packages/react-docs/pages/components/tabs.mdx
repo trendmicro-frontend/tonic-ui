@@ -100,10 +100,9 @@ Tabs come in 3 different variants to style the tabs: `line`,`enclosed`, `unstyle
 </Tabs>
 ```
 
-### Make a Tab disabled
+### Disabled tabs
 
-When a `Tab` is disabled, it's skipped during keyboard navigation and it's not
-clickable.
+When a `Tab` is disabled, it is skipped during keyboard navigation and it is not clickable.
 
 ```jsx
 function Example() {
@@ -124,14 +123,16 @@ function Example() {
 }
 ```
 
-### Change the tabs alignment
+### Tab alignment
 
-You can change the alignment of the `TabList` by passing `align` prop. We
-support 3 sizes `left`, `center`, `right`.
+Pass `justifyContent` on the `TabList` to align the tabs to the left, center, or right.
+* `justifyContent="flex-start"` - Aligns the tabs to the left
+* `justifyContent="center"` - Aligns the tabs to the center
+* `justifyContent="flex-end"` - Aligns the tabs to the left
 
 ```jsx
-<Tabs alignItems="right" variant="enclosed">
-  <TabList>
+<Tabs variant="enclosed">
+  <TabList justifyContent="flex-end">
     <Tab>One</Tab>
     <Tab>Two</Tab>
   </TabList>

@@ -2,7 +2,6 @@ import { Box, Stack } from "@tonic-ui/react";
 import ThemeParser from "../../components/ThemeParser";
 
 # Sizes
-The `sizes` key allows you to customize the global sizing of components you build for your project. By default, these values can be referenced by the `width`, `height`, `maxWidth`, `minWidth`, `maxHeight`, and `minHeight` styles.
 
 <ThemeParser theme="sizes" />
 
@@ -38,10 +37,12 @@ By default, the values are proportional. Therefore, a `1x` spacing unit is equal
 | 56x | 14rem   | 224px | <Box bg="teal:50" h="4x" w="56x"/> |
 | 64x | 16rem   | 256px | <Box bg="teal:50" h="4x" w="64x"/> |
 
-## Width
+## Examples
+
+### Width
 
 ```jsx
-<Stack direction="column" spacing="4x" alignItems="center">
+<Stack direction="column" spacing="4x">
   <Box textAlign="center" width="40x" p="1x" fontSize="sm" bg="gray:70">Width 10rem(160px)</Box>
   <Box textAlign="center" width="48x" p="1x" fontSize="sm" bg="gray:70">Width 12rem(192px)</Box>
   <Box textAlign="center" width="56x" p="1x" fontSize="sm" bg="gray:70">Width 14rem(224px)</Box>
@@ -49,10 +50,10 @@ By default, the values are proportional. Therefore, a `1x` spacing unit is equal
 </Stack>
 ```
 
-## Height
+### Height
 
 ```jsx
-<Stack direction="row" spacing="2x" justifyContent="center">
+<Stack direction="row" spacing="2x">
   <Box width="48x" height="8x" p="2x" fontSize="sm" bg="gray:70">Height 2rem(32px)</Box>
   <Box width="48x" height="16x" p="2x" fontSize="sm" bg="gray:70">Height 4rem(64px)</Box>
   <Box width="48x" height="24x" p="2x" fontSize="sm" bg="gray:70">Height 6rem(96px)</Box>

@@ -97,8 +97,7 @@ const DocsPage = (props) => {
     light: 'black:primary',
     dark: 'white:primary',
   }[colorMode];
-  const top = theme.sizes['12x'];
-  const height = `calc(100vh - ${top})`;
+  const headerHeight = theme.sizes['12x'];
   const handleCloseSidebar = () => {
     if (isSidebarVisible) {
       toggleSidebarVisible(false);
@@ -116,22 +115,34 @@ const DocsPage = (props) => {
         sm: 'width .3s ease-in-out',
         md: 'none',
       },
-      height,
       overflowY: 'auto',
       overflowX: 'hidden',
-      position: {
-        sm: 'fixed',
-        md: 'sticky',
-      },
-      mt: {
+      position: 'fixed',
+      top: {
         sm: 0,
-        md: top,
+        md: headerHeight,
       },
-      top,
+      bottom: 0,
       left: 0,
-      zIndex: {
-        sm: 'fixed',
-        md: 'base',
+      zIndex: 'fixed',
+      whiteSpace: 'nowrap',
+    };
+  };
+  const getMainStyleProps = () => {
+    return {
+      ml: {
+        sm: 0,
+        md: 250,
+      },
+      pt: headerHeight,
+      width: {
+        sm: '100%',
+        md: 'calc(100% - 250px)',
+      },
+      willChange: 'width,margin',
+      transition: {
+        sm: 'width .3s ease-in-out, margin .3s ease-in-out',
+        md: 'none',
       },
     };
   };
@@ -155,18 +166,18 @@ const DocsPage = (props) => {
           toggleSidebarVisible();
         }}
       />
-      <Main onClick={handleCloseSidebar}>
-        <Box display="flex">
-          <Sidebar
-            onClick={handleCloseSidebar}
-            {...getSidebarStyleProps()}
-          />
-          <Box pt={top} width="100%">
-            <Content>
-              <NextApp {...props} />
-            </Content>
-          </Box>
-        </Box>
+      <Sidebar
+        onClick={handleCloseSidebar}
+        onClose={handleCloseSidebar}
+        {...getSidebarStyleProps()}
+      />
+      <Main
+        onClick={handleCloseSidebar}
+        {...getMainStyleProps()}
+      >
+        <Content>
+          <NextApp {...props} />
+        </Content>
       </Main>
     </Box>
   );
