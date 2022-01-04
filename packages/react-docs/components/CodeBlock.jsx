@@ -128,6 +128,8 @@ const CodeBlock = ({
   children,
   ...props
 }) => {
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
   const [colorMode] = useColorMode();
   const [editorCode, setEditorCode] = useState(children.trim());
   const {
@@ -138,6 +140,7 @@ const CodeBlock = ({
   const resetDemo = () => {
     setEditorCode(children.trim());
     toggleLiveEditorVisibility(false);
+    forceUpdate();
   };
   const handleLiveEditorChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
