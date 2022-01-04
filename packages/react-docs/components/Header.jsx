@@ -168,8 +168,7 @@ const Header = forwardRef((
                 <Image
                   alt=""
                   src={`${ASSET_PREFIX}/images/${logo}`}
-                  width={35}
-                  height={30}
+                  height="8x"
                   marginRight="2x"
               />
                 <Text>Tonic UI</Text>

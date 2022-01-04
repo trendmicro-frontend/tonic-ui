@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Icon,
   Image,
   Space,
@@ -11,6 +12,7 @@ import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';
+import IconButton from './IconButton';
 import NavLink from './NavLink';
 import { routes } from '../config/sidebar-routes';
 
@@ -19,6 +21,7 @@ const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 const Sidebar = forwardRef((
   {
     onClick,
+    onClose,
     ...rest
   },
   ref,
@@ -63,42 +66,52 @@ const Sidebar = forwardRef((
           md: 'none',
         }}
       >
-        <NextLink
-          href={`${ASSET_PREFIX}/`}
-          passHref
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          mb="4x"
         >
-          <Box
-            as="a"
-            display="flex"
-            alignItems="center"
-            flex="auto"
-            fontSize="xl"
-            maxWidth="100%"
-            px="4x"
-            mt="4x"
-            mb="6x"
-            color={fontColor}
-            outline="none"
-            textDecoration="none"
-            whiteSpace="nowrap"
-          >
-            <Image
-              alt=""
-              src={`${ASSET_PREFIX}/images/${logo}`}
-              width={35}
-              height={30}
-              marginRight="2x"
-          />
-            <Text>Tonic UI</Text>
+          <Box px="4x" py="2x">
+            <NextLink
+              href={`${ASSET_PREFIX}/`}
+              passHref
+            >
+              <Box
+                as="a"
+                display="flex"
+                alignItems="center"
+                flex="auto"
+                fontSize="xl"
+                maxWidth="100%"
+                color={fontColor}
+                outline="none"
+                textDecoration="none"
+              >
+                <Image
+                  alt=""
+                  src={`${ASSET_PREFIX}/images/${logo}`}
+                  height="8x"
+                  marginRight="2x"
+              />
+                <Text>Tonic UI</Text>
+              </Box>
+            </NextLink>
           </Box>
-        </NextLink>
+          <Box px="2x">
+            <IconButton onClick={onClose}>
+              <Icon icon="close" />
+            </IconButton>
+          </Box>
+        </Flex>
       </Box>
       {routes.map(({ title, icon, path, routes }) => {
         return (
           <Box
             key={`${ASSET_PREFIX}/${path}`}
             mb="4x"
-            whiteSpace="nowrap"
+            _lastOfType={{
+              mb: 0,
+            }}
           >
             <Box
               alignItems="center"

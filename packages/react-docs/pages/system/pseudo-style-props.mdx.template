@@ -4,18 +4,18 @@ Styling elements with [pseudo-classes](https://developer.mozilla.org/en-US/docs/
 
 ## Pseudo-Classes
 
-To style the element with `:hover` pseudo-class, you can use `_hover`.
+A CSS pseudo-class is a keyword added to a selector that specifies a special state of the selected element(s).
+
+For example, `:hover` can be used to change a button's color when the user's pointer hovers over it. You can use the `_hover` prop to achieve the same effect.
 
 ```jsx
-<Text
+<ButtonBase
   _hover={{ // same as ':hover'
     color: 'blue:50',
-    cursor: 'pointer',
-    textDecoration: 'underline',
   }}
 >
   Hover Me
-</Text>
+</ButtonBase>
 ```
 
 ### Reference Table
@@ -24,7 +24,9 @@ __pseudo-class-selectors__
 
 ## Pseudo-Elements
 
-To style the element with `::firstLine` pseudo-element, you can use `__firstLine`.
+A CSS pseudo-element is a keyword added to a selector that lets you style a specific part of the selected element(s).
+
+For example, `::first-line` can be used to change the font of the first line of a paragraph. You can use the `__first-line` prop to achieve the same effect.
 
 ```jsx
 <Text
@@ -33,9 +35,9 @@ To style the element with `::firstLine` pseudo-element, you can use `__firstLine
     textTransform: 'uppercase',
   }}
 >
-  This is line 1<br/>
-  This is line 2<br/>
-  This is line 3<br/>
+  <p>This is line 1</p>
+  <p>This is line 2</p>
+  <p>This is line 3</p>
 </Text>
 ```
 
