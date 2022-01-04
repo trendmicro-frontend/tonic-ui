@@ -1,0 +1,148 @@
+# Usage
+
+Get started with React and Tonic UI in no time.
+
+You can use any of the components as demonstrated in the documentation. Please refer to each component's [demo page](../components/button) to see how they work.
+
+## Quick Start
+
+Here is a quick example to get you started:
+
+```jsx
+<Button variant="primary">
+  Button
+</Button>
+```
+
+For Tonic UI to work, you will need to setup Provider components at the root of your application.
+
+Go to the root of your application and do the following:
+
+```js
+import React from 'react';
+import {
+  Box,
+  ColorModeProvider,
+  ColorStyleProvider,
+  ThemeProvider,
+  ToastProvider,
+} from '@tonic-ui/react';
+
+const App = (props) => {
+  return (
+    <ThemeProvider>
+      <ColorModeProvider>
+        <ColorStyleProvider>
+          <ToastProvider>
+            <Box {...props} />
+          </ToastProvider>
+        </ColorStyleProvider>
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+};
+```
+
+### CSSBaseline
+
+Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
+
+See below for an example of building a Tonic UI application with `CSSBaseline`:
+
+```js
+import { Global, css } from '@emotion/react';
+import {
+  Box,
+  ColorModeProvider,
+  ColorStyleProvider,
+  CSSBaseline,
+  ThemeProvider,
+  ToastProvider,
+  useColorMode,
+  useTheme,
+} from '@tonic-ui/react';
+
+const Layout = (props) => {
+  const [colorMode] = useColorMode(); // One of: 'dark', 'light'
+  const [colorStyle] = useColorStyle({ colorMode });
+  const { fontSizes, lineHeights } = useTheme();
+  const backgroundColor = colorStyle.background.primary;
+  const color = colorStyle.text.primary;
+
+  return (
+    <>
+      <Global
+        styles={css`
+          :root {
+            color-scheme: ${colorMode};
+          }
+          body {
+            font-size: ${fontSizes.sm};
+            line-height: ${lineHeights.sm};
+          }
+        `}
+      />
+      <Box
+        backgroundColor={backgroundColor}
+        color={color}
+        fontSize="sm"
+        lineHeight="sm"
+        height="100vh"
+        {...props}
+      />
+    </>
+  );
+};
+
+const App = (props) => {
+  return (
+    <ThemeProvider>
+      <ColorModeProvider value="dark">
+        <ColorStyleProvider>
+          <ToastProvider>
+            <CSSBaseline />
+            <Layout>
+              <Box {...props} />
+            </Layout>
+          </ToastProvider>
+        </ColorStyleProvider>
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+};
+
+export default App;
+```
+
+### Extending the theme
+
+Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc.
+
+Override the theme object and pass it to the `<ThemeProvider>` component. This is not required if you are using the default theme.
+
+```js
+import { theme } from '@tonic-ui/react';
+
+// Let's say you want to add custom colors
+const customTheme = {
+  ...theme,
+  colors: {
+    ...theme.colors,
+    brand: {
+      90: "#1a365d",
+      80: "#153e75",
+      70: "#2a69ac",
+    },
+  },
+};
+```
+
+```jsx disabled
+<ThemeProvider theme={customTheme}>
+  {children}
+</ThemeProvider>
+```
+
+## Versioned Documentation
+
+This documentation always reflects the latest version of Tonic UI. You can find older versions of the documentation [here](versions).

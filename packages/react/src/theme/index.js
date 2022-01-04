@@ -1,9 +1,9 @@
-import defaultTheme from '@tonic-ui/theme';
-import icons from './icons';
+import ThemeProvider from './ThemeProvider';
+import useTheme from './useTheme';
+import withTheme from './withTheme';
 
-const theme = {
-  ...defaultTheme,
-  icons,
+export {
+  ThemeProvider,
+  useTheme,
+  withTheme,
 };
-
-export default theme;

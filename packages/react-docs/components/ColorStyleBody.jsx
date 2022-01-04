@@ -31,7 +31,7 @@ const ColorStyleBody = ({
   const colorStyleOfType = _get(customColorStyle, colorType) ?? _get(colorStyle, colorType);
   const colorStyleBlocks = Object.keys(colorStyleOfType)
     .map(colorKey => {
-      const colorLabel = capitalizeFirstLetter(colorKey);
+      const colorLabel = Array.isArray(colorStyleOfType) ? '' : capitalizeFirstLetter(colorKey);
       const originalColorValue = _get(customColorStyle, `${colorType}.${colorKey}`) ?? _get(colorStyle, `${colorType}.${colorKey}`);
       const colorTokens = ensureArray(originalColorValue).map(x => {
         return _has(theme, ['colors', x]) ? x : null;

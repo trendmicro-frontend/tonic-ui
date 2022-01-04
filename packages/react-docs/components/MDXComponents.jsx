@@ -155,6 +155,8 @@ const H6 = props => {
 const Blockquote = props => (
   <Box
     as="blockquote"
+    fontSize="md"
+    lineHeight="md"
     mt={0}
     mb="4x"
     {...props}
@@ -164,6 +166,8 @@ const Blockquote = props => (
 const ul = props => (
   <Box
     as="ul"
+    fontSize="md"
+    lineHeight="md"
     mt={0}
     mb="4x"
     {...props}
@@ -173,6 +177,8 @@ const ul = props => (
 const ol = props => (
   <Box
     as="ol"
+    fontSize="md"
+    lineHeight="md"
     mt={0}
     mb="4x"
     {...props}
@@ -268,6 +274,8 @@ const TD = ({ align, ...props }) => {
 const pre = props => (
   <Box
     as="pre"
+    fontSize="md"
+    lineHeight="md"
     mt={0}
     mb="4x"
     {...props}
@@ -280,7 +288,7 @@ const code = props => (
 
 const inlineCode = props => (
   <Code
-    fontSize="85%"
+    fontSize="90%"
     {...props}
   />
 );

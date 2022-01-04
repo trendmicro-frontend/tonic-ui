@@ -1,4 +1,3 @@
-import { Global, css } from '@emotion/react';
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
@@ -11,17 +10,20 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import { ensureString } from 'ensure-type';
-import App from 'next/app';
+import {
+  useToggle,
+} from '@tonic-ui/react-hooks';
+import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
+import Content from '../components/Content';
+import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';
-import Main from '../components/Main';
 import MDXComponents from '../components/MDXComponents';
-import SideNav from '../components/SideNav';
-
-const assetPrefix = ensureString(process.env.ASSET_PREFIX);
+import Main from '../components/Main';
+import Sidebar from '../components/Sidebar';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 const pageview = () => {
   ReactGA.set({ page: window.location.pathname });
@@ -32,62 +34,8 @@ const customTheme = {
   ...theme,
 };
 
-const Layout = ({ children }) => {
-  const [colorMode] = useColorMode();
-  const { fontSizes, lineHeights } = useTheme();
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
-  }[colorMode];
-
-  return (
-    <>
-      <Global
-        styles={css`
-          :root {
-            color-scheme: ${colorMode};
-          }
-          body {
-            font-size: ${fontSizes.sm};
-            line-height: ${lineHeights.sm};
-          }
-        `}
-      />
-      <Box
-        backgroundColor={backgroundColor}
-        color={fontColor}
-        fontSize="sm"
-        lineHeight="sm"
-      >
-        <Header />
-        <SideNav
-          display={['none', null, 'block']}
-          maxWidth="20rem"
-        />
-        <Box
-          height="100vh"
-          pt="12x"
-        >
-          <Main
-            ml={[0, null, '20rem']}
-          >
-            {children}
-          </Main>
-        </Box>
-      </Box>
-    </>
-  );
-};
-
-const CustomApp = (props) => {
+const App = (props) => {
   const router = useRouter();
-  useEffect(() => {
-    router.pathname === '/' && router.push(`${assetPrefix}/getting-started`);
-  }, [router]);
 
   // https://github.com/vercel/next.js/blob/canary/examples/with-react-ga/pages/_app.js
   useEffect(() => {
@@ -109,16 +57,17 @@ const CustomApp = (props) => {
     };
   }, [router]);
 
+  const Page = (router.pathname === '/') ? DefaultPage : DocsPage;
+
   return (
     <ThemeProvider theme={customTheme}>
       <ColorModeProvider value="dark">
         <ColorStyleProvider>
           <ToastProvider>
-            <CSSBaseline />
             <MDXProvider components={MDXComponents}>
-              <Layout>
-                <App {...props} />
-              </Layout>
+              <CSSBaseline />
+              <GlobalStyles />
+              <Page {...props} />
             </MDXProvider>
           </ToastProvider>
         </ColorStyleProvider>
@@ -127,4 +76,111 @@ const CustomApp = (props) => {
   );
 };
 
-export default CustomApp;
+const DefaultPage = (props) => {
+  return (
+    <NextApp {...props} />
+  );
+};
+
+const DocsPage = (props) => {
+  const isMediaQueryMatched = useMediaQuery(
+    '(min-width: 640px)',
+  );
+  const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
+  const theme = useTheme();
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    light: 'white',
+    dark: 'gray:100',
+  }[colorMode];
+  const fontColor = {
+    light: 'black:primary',
+    dark: 'white:primary',
+  }[colorMode];
+  const headerHeight = theme.sizes['12x'];
+  const handleCloseSidebar = () => {
+    if (isSidebarVisible) {
+      toggleSidebarVisible(false);
+    }
+  };
+  const getSidebarStyleProps = () => {
+    return {
+      flexShrink: 0,
+      width: {
+        sm: isSidebarVisible ? 250 : 0,
+        md: 250,
+      },
+      willChange: 'width',
+      transition: {
+        sm: 'width .3s ease-in-out',
+        md: 'none',
+      },
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      position: 'fixed',
+      top: {
+        sm: 0,
+        md: headerHeight,
+      },
+      bottom: 0,
+      left: 0,
+      zIndex: 'fixed',
+      whiteSpace: 'nowrap',
+    };
+  };
+  const getMainStyleProps = () => {
+    return {
+      ml: {
+        sm: 0,
+        md: 250,
+      },
+      pt: headerHeight,
+      width: {
+        sm: '100%',
+        md: 'calc(100% - 250px)',
+      },
+      willChange: 'width,margin',
+      transition: {
+        sm: 'width .3s ease-in-out, margin .3s ease-in-out',
+        md: 'none',
+      },
+    };
+  };
+
+  // Hide the sidebar when the media query updates
+  useEffect(() => {
+    if (isSidebarVisible) {
+      toggleSidebarVisible(false);
+    }
+  }, [isMediaQueryMatched]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <Box
+      backgroundColor={backgroundColor}
+      color={fontColor}
+      fontSize="md"
+      lineHeight="md"
+    >
+      <Header
+        onToggle={() => {
+          toggleSidebarVisible();
+        }}
+      />
+      <Sidebar
+        onClick={handleCloseSidebar}
+        onClose={handleCloseSidebar}
+        {...getSidebarStyleProps()}
+      />
+      <Main
+        onClick={handleCloseSidebar}
+        {...getMainStyleProps()}
+      >
+        <Content>
+          <NextApp {...props} />
+        </Content>
+      </Main>
+    </Box>
+  );
+};
+
+export default App;

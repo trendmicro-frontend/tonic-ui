@@ -1,7 +1,7 @@
 {
   "name": "@tonic-ui/theme",
   "version": "1.0.0-alpha",
-  "description": "An extensible theming system for building UI component library with Styled System",
+  "description": "The default theme package for Tonic UI components.",
   "main": "index.js",
   "publishConfig": {
     "access": "public",
@@ -58,19 +58,18 @@
     ]
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
-  "homepage": "https://github.com/trendmicro-frontend/styled-ui",
+  "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/trendmicro-frontend/styled-ui.git",
-    "directory": "packages/styled-ui-theme"
+    "url": "https://github.com/trendmicro-frontend/tonic-ui.git",
+    "directory": "packages/theme"
   },
   "bugs": {
-    "url": "https://github.com/trendmicro-frontend/styled-ui/issues"
+    "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "keywords": [
-    "design-system",
-    "styled-system",
-    "theme"
+    "theme",
+    "tonic-ui"
   ]
 }

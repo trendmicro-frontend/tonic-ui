@@ -1,0 +1,747 @@
+# Menu
+
+A menu is used to display a list of options to the user. It appears when the user interacts with a button, link, or other control that triggers an action.
+
+## Import
+
+- `Menu`: The component that provides the menu functionality.
+- `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a menu button.
+- `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
+- `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
+- `MenuList`: A wrapper that contains the menu items. Must be a direct child of the `Menu` component.
+- `MenuGroup`: A wrapper that groups related menu items.
+- `MenuItem`: The individual menu items. Must be a direct child of the `MenuList` component.
+- `MenuDivider`: A divider that separates menu items.
+
+```js
+import {
+  Menu,
+  MenuButton,
+  MenuToggle,
+  MenuToggleIcon,
+  MenuList,
+  MenuGroup,
+  MenuItem,
+  MenuDivider,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic menu structure
+
+Below is a simple example that shows the basic menu structure.
+
+```jsx
+<>
+  <MenuItem value="general">
+    <Icon icon="settings" mr="2x" />
+    <Text>General</Text>
+  </MenuItem>
+  <MenuItem value="accounts">
+    <Icon icon="user-team" mr="2x" />
+    <Text>Accounts</Text>
+  </MenuItem>
+  <MenuItem value="privacy">
+    <Icon icon="lock" mr="2x" />
+    <Text>Privacy</Text>
+  </MenuItem>
+  <MenuDivider />
+  <MenuItem disabled value="restore-defaults">
+    <Icon icon="undo" mr="2x" />
+    <Text>Restore Defaults</Text>
+  </MenuItem>
+</>
+```
+
+### Controlled menu
+
+The menu opens over the anchor element by default, and closes when the user clicks outside of the menu.
+
+```jsx
+function Example() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState(null);
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+    setIsOpen(!isOpen);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+    setIsOpen(false);
+  };
+  const handleClickMenuItem = (event) => {
+    const value = event.target.getAttribute('value');
+    setSelectedValue(value);
+  };
+  const handleMenuItemClick = (event) => {
+    const value = event.target.getAttribute('value');
+    console.log(`Menu item #${value} clicked`);
+  };
+
+  return (
+    <>
+      <Button
+        aria-controls="basic-menu"
+        aria-haspopup="true"
+        aria-expanded={isOpen ? 'true' : undefined}
+        onClick={handleOpenMenu}
+      >
+        Options
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        isOpen={isOpen}
+        onClose={handleCloseMenu}
+        mr="2x"
+      >
+        <MenuList
+          width="max-content"
+          onClick={handleClickMenuItem}
+        >
+          <MenuItem value={1}>
+            Item #1
+          </MenuItem>
+          <MenuItem value={2}>
+            Item #2
+          </MenuItem>
+          <MenuItem value={3}>
+            Item #3
+          </MenuItem>
+        </MenuList>
+      </Menu>
+      <Space width="2x" />
+      <Text>Selected: {selectedValue}</Text>
+    </>
+  );
+}
+```
+
+### MenuToggle
+
+`MenuToggle` is a toggle that opens the menu when clicked. It is usually a button or link. The `MenuToggleIcon` can be added to the toggle to indicate the menu is open or closed.
+
+```jsx
+<Flex alignItems="center">
+  <Menu>
+    <MenuToggle>
+      <Text>Options</Text>
+    </MenuToggle>
+    <MenuList width="max-content">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+  <Divider
+    variant="solid"
+    orientation="vertical"
+    height="5x"
+    mx="4x"
+  />
+  <Menu>
+    <MenuToggle>
+      <Flex alignItems="center" userSelect="none">
+        <Text>Options</Text>
+        <Space width="1x" />
+        <MenuToggleIcon />
+      </Flex>
+    </MenuToggle>
+    <MenuList width="max-content">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+  <Divider
+    variant="solid"
+    orientation="vertical"
+    height="5x"
+    mx="4x"
+  />
+  <Menu>
+    <MenuToggle>
+      {({ getMenuToggleProps }) => {
+        return (
+          <Button
+            {...getMenuToggleProps()}
+            variant="secondary"
+          >
+            <Text>Options</Text>
+            <Space width="1x" />
+            <MenuToggleIcon />
+          </Button>
+        );
+      }}
+    </MenuToggle>
+    <MenuList width="max-content">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+</Flex>
+```
+
+### MenuButton
+
+`MenuButton` composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
+
+```jsx disabled
+const MenuButton = (props) => {
+  const styleProps = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    columnGap: '1x',
+  };
+
+  return (
+    <MenuToggle>
+      {({ getMenuToggleProps }) => (
+        <Button
+          {...getMenuToggleProps()}
+          {...styleProps}
+          {...props}
+        >
+          {children && (
+            <Box>{children}</Box>
+          )}
+          <MenuToggleIcon />
+        </Button>
+      )}
+    </MenuToggle>
+  );
+};
+```
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Menu>
+    <MenuButton variant="secondary" size="md" width={200}>
+      <Text>Options</Text>
+    </MenuButton>
+    <MenuList width="max-content">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+  <Menu>
+    <MenuButton variant="secondary" size="md" width="100%">
+      <Text>Options</Text>
+    </MenuButton>
+    <MenuList width="100%">
+      <MenuItem>
+        Item #1
+      </MenuItem>
+      <MenuItem>
+        Item #2
+      </MenuItem>
+      <MenuItem>
+        Item #3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+</Stack>
+```
+
+### MenuToggleIcon
+
+`MenuToggleIcon` is an indicator that indicates the menu is open or closed.
+
+```jsx
+<Menu>
+  <MenuToggle>
+    <MenuToggleIcon />
+  </MenuToggle>
+  <MenuList width="max-content">
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+You can also customize the indicator by passing a component as children or a function as children that returns a component.
+
+```jsx
+<Menu placement="bottom-start">
+  {({ isOpen, direction }) => {
+    return (
+      <>
+        <MenuToggle>
+          <MenuToggleIcon>
+            {(state, { ref, style: styleProps }) => {
+              // direction is either 'up' or 'down'
+              const icon = `arrow-${direction}`;
+              styleProps.transform = isOpen ? 'scaleY(-1)' : 'scaleY(1)';
+
+              return (
+                <Icon
+                  ref={ref}
+                  icon={icon}
+                  size="4x"
+                  {...styleProps}
+                />
+              );
+            }}
+          </MenuToggleIcon>
+        </MenuToggle>
+        <MenuList width="max-content">
+          <MenuItem>
+            Item #1
+          </MenuItem>
+          <MenuItem>
+            Item #2
+          </MenuItem>
+          <MenuItem>
+            Item #3
+          </MenuItem>
+        </MenuList>
+      </>
+    );
+  }}
+</Menu>
+```
+
+### MenuGroup
+
+To group related menu items, wrap them in a `MenuGroup` and pass a `title` prop for the group title.
+
+```jsx noInline
+const Avatar = (props) => (
+  <Flex
+    p="1x"
+    borderRadius="50%"
+    alignItems="center"
+    justifyContent="center"
+    fontSize="xs"
+    lineHeight="1"
+    {...props}
+  />
+);
+
+render(
+  <Menu>
+    <MenuToggle>
+      <Avatar
+        bg="gray:50"
+        color="white:secondary"
+        _hover={{
+          color: 'white:primary',
+        }}
+      >
+        <Icon icon="user-team" size="5x" />
+      </Avatar>
+    </MenuToggle>
+    <MenuList width="max-content">
+      <MenuItem>
+        <Text>Profile</Text>
+      </MenuItem>
+      <MenuDivider />
+      <MenuGroup
+        title={(
+          <Flex justifyContent="space-between">
+            <Text>Other profiles</Text>
+            <Space minWidth="10x" />
+            <ButtonBase title="Manage profiles">
+              <Icon icon="settings" size="3x" />
+            </ButtonBase>
+          </Flex>
+        )}
+      >
+        <MenuItem px="4x">
+          <Avatar color="white" bg="blue:50" mr="2x">
+            JD
+          </Avatar>
+          John Doe
+        </MenuItem>
+        <MenuItem px="4x">
+          <Avatar color="white" bg="gray:50" mr="2x">
+            <Icon icon="user" size="3x" />
+          </Avatar>
+          Guest
+        </MenuItem>
+      </MenuGroup>
+    </MenuList>
+  </Menu>
+);
+```
+
+### Menu sizing
+
+To change the width of the menu, pass `width` prop to the `MenuList` component.
+
+#### `width="100%"`
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>This is a very long menu button</Text>
+  </MenuButton>
+  <MenuList width="100%">
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+#### `width="max-content"`
+
+By default, the menu items will wrap to the next line if the width of the toggle is smaller than the width of the menu. You can pass `width="max-content"` to `MenuList` to prevent wrapping.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      This is a very long menu item #1
+    </MenuItem>
+    <MenuItem>
+      This is a very long menu item #2
+    </MenuItem>
+    <MenuItem>
+      This is a very long menu item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+### Placement
+
+To position the menu relative to the toggle, pass a `placement` prop to `Menu`.
+
+The value can be one of the following:
+* `top`
+* `top-start`
+* `top-end`
+* `bottom`
+* `bottom-start`
+* `bottom-end`
+
+```jsx noInline
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const gridAreas = [
+  ['top-start', 'top', 'top-end'],
+  ['.', '.', '.'],
+  ['.', 'center', '.'],
+  ['.', '.', '.'],
+  ['bottom-start', 'bottom', 'bottom-end'],
+];
+
+function Example() {
+  const [placement, changePlacementBy] = useSelection('bottom-start');
+  const gridTemplateAreas = gridAreas.map((row) => {
+    const rowString = '"' + row.join(' ') + '"';
+    return rowString;
+  }).join(' ');
+
+  return (
+    <Flex>
+      <Grid
+        templateAreas={gridTemplateAreas}
+        autoColumns="minmax(0, 1fr)"
+        autoFlow="row"
+        gap="2x"
+      >
+        {gridAreas.flat().map((value, key) => {
+          if (value === '.') {
+            return (<Box key={key} />);
+          }
+
+          if (value === 'center') {
+            return (
+              <Box key={key}>
+                <Menu placement={placement}>
+                  <MenuButton variant="secondary">
+                    <Text>Options</Text>
+                  </MenuButton>
+                  <MenuList width="max-content">
+                    <MenuItem>
+                      Item #1
+                    </MenuItem>
+                    <MenuItem>
+                      Item #2
+                    </MenuItem>
+                    <MenuItem>
+                      Item #3
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </Box>
+            );
+          }
+
+          const changePlacement = changePlacementBy(value);
+          const onClick = () => {
+            changePlacement();
+          };
+
+          return (
+            <Box key={key}>
+              <SelectableButton
+                selected={value === placement}
+                onClick={onClick}
+                width="100%"
+              >
+                {value}
+              </SelectableButton>
+            </Box>
+          );
+        })}
+      </Grid>
+    </Flex>
+  );
+}
+
+render(<Example />);
+```
+
+### Offset
+
+The basic offset accepts an array with two numbers in the form `[skidding, distance]`. It can be used to adjust the position of the menu relative to the toggle.
+
+**Skidding**
+
+The first number, `skidding`, displaces `MenuList` along the reference toggle. This value is specified in pixels.
+
+**Distance**
+
+The second number, `distance`, controls the distance between the `MenuList` and the reference toggle. This value is specified in pixels.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList
+    offset={[
+      16, // skidding
+      8, // distance
+    ]}
+    width="max-content"
+  >
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+### Scrolling
+
+To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList`. The menu will become scrollable when the menu items exceed the height of the menu.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList
+    maxHeight={200}
+    overflow="auto"
+    width="max-content"
+  >
+    {Array.from({ length: 100 }).map((_, key) => (
+      <MenuItem key={key}>
+        Item #{key + 1}
+      </MenuItem>
+    ))}
+  </MenuList>
+</Menu>
+```
+
+You can also use the `Scrollbar` component to override the default scrollbar.
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList width="100%">
+    <Scrollbar height={200}>
+      {Array.from({ length: 100 }).map((_, key) => (
+        <MenuItem key={key}>
+          Item #{key + 1}
+        </MenuItem>
+      ))}
+    </Scrollbar>
+  </MenuList>
+</Menu>
+```
+
+### Input controls
+
+Set `closeOnSelect` to `false` to keep the menu open after selecting a menu item.
+
+```jsx
+function menuWithCheckbox() {
+  const [checkedItems, setCheckedItems] = React.useState(['host', 'ip']);
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const items = [...checkedItems];
+    items.indexOf(value) === -1 ? items.push(value) : items.splice(items.indexOf(value), 1);
+    setCheckedItems(items);
+  };
+  return (
+    <Menu closeOnSelect={false}>
+      <MenuButton variant="secondary">
+        <Text>Selected ({checkedItems.length})</Text>
+      </MenuButton>
+      <MenuList width="max-content">
+        <CheckboxGroup size="sm" defaultValue={checkedItems}>
+          <MenuItem><Checkbox value="host" onChange={e => handleChange(e)}>Endpoint name</Checkbox></MenuItem>
+          <MenuItem><Checkbox value="ip" onChange={e => handleChange(e)}>IP address</Checkbox></MenuItem>
+          <MenuItem><Checkbox value="os" onChange={e => handleChange(e)}>Operating system</Checkbox></MenuItem>
+        </CheckboxGroup>
+      </MenuList>
+    </Menu>
+  );
+}
+```
+
+## Accessibility
+
+### Keyboard Interaction
+
+| Key | Action |
+| :-- | :----- |
+| `Enter` \| `Space` | When `MenuToggle` or `MenuButton` is focused, opens the menu. |
+| `ArrowDown` \| `ArrowUp`| When `MenuList` is focused, moves the focus to the next menu item. |
+| `Escape` | When a menu item is focused, closes the menu and moves the focus to the toggle. |
+
+## Props
+
+### Menu
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| anchorEl | `Element` | | The element to which the menu is attached. |
+| autoSelect | boolean | `true` | Whether to automatically select the first menu item when the menu is opened. |
+| children | ReactNode | | The children must be composed by a `MenuList` and either one of `MenuToggle` or `MenuButton`. |
+| closeOnBlur | boolean | `true` | Whether to close the menu when the user clicks outside of the menu. |
+| closeOnSelect | boolean | `true` | Whether to close the menu when the user selects a menu item. |
+| defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
+| defaultIsOpen | boolean | `false` | Whether the menu is open by default. |
+| isOpen | boolean | | Whether the menu is open. |
+| onBlur | function | | Callback when the menu loses focus. |
+| onKeyDown | function | | Callback when the user presses a key. |
+| onOpen | function | | Callback when the menu is opened. |
+| onClick | function | | Callback when a menu item is clicked. |
+| onClose | function | | Callback when the menu is closed. |
+| placement | string | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+
+### MenuButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| function | | |
+| disabled | boolean | | Whether the menu button is disabled. |
+| onClick | function | | Callback when the menu button is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| function | | |
+| disabled | boolean | | Whether the menu toggle is disabled. |
+| onClick | function | | Callback when the menu toggle is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuToggleIcon
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
+| children | ReactNode \| (state, props) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| disabled | boolean | | Whether the menu toggle icon is disabled. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
+
+### MenuList
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+
+### MenuGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| title | string | | The title of the menu group. |
+
+### MenuItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | Whether the menu item is disabled. |
+| onClick | function | | Callback when the menu item is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuDivider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

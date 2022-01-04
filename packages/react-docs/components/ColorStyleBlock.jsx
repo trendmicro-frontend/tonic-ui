@@ -64,20 +64,22 @@ const ColorStyleBlock = ({
         maxWidth={baseWidth}
         height={baseHeight}
         px="3x"
-        mb="3x"
+        mb="4x"
         {...blockStyle}
       />
       <Box
-        mb="2x"
+        mb="3x"
       >
-        <Text
-          color={primaryTextColor}
-          fontSize="md"
-          lineHeight="md"
-          fontWeight="semibold"
-        >
-          {colorLabel}
-        </Text>
+        {colorLabel && (
+          <Text
+            color={primaryTextColor}
+            fontSize="md"
+            lineHeight="md"
+            fontWeight="semibold"
+          >
+            {colorLabel}
+          </Text>
+        )}
       </Box>
       {colorTokens.length > 0 && (
         <>

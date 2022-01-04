@@ -1,6 +1,8 @@
+import Color from 'color';
 import { ensureString } from 'ensure-type';
 import {
   Box,
+  Button,
   Icon,
   Image,
   Menu,
@@ -11,14 +13,24 @@ import {
   Space,
   Text,
   useColorMode,
+  useTheme,
 } from '@tonic-ui/react';
+import _get from 'lodash/get';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';
-import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
+import FontAwesomeIcon from './FontAwesomeIcon';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
+
+const setColorOpacity = (color, opacity) => {
+  return Color(color)
+    .fade(1 - opacity)
+    .rgb()
+    .string();
+};
 
 const versionMap = {
   /*
@@ -37,7 +49,13 @@ const versionMap = {
   },
 };
 
-const Header = forwardRef((props, ref) => {
+const Header = forwardRef((
+  {
+    onToggle,
+    ...rest
+  },
+  ref,
+) => {
   const router = useRouter();
   const version = (() => {
     if (TONIC_UI_DOC_VERSION) {
@@ -48,6 +66,7 @@ const Header = forwardRef((props, ref) => {
     }
     return '';
   })();
+  const theme = useTheme();
   const [colorMode, setColorMode] = useColorMode();
   const toggleColorMode = () => {
     const nextColorMode = {
@@ -56,21 +75,21 @@ const Header = forwardRef((props, ref) => {
     }[colorMode];
     setColorMode(nextColorMode);
   };
-  const logoPath = {
-    light: 'images/tonic-logo-light.svg',
-    dark: 'images/tonic-logo-dark.svg',
+  const logo = {
+    light: 'tonic-logo-light.svg',
+    dark: 'tonic-logo-dark.svg',
   }[colorMode];
   const backgroundColor = {
-    light: 'white:emphasis', // FIXME
+    light: 'white',
     dark: 'gray:90',
   }[colorMode];
-  const borderColor = {
-    light: 'gray:20', // FIXME
+  const boxShadowColor = {
+    light: 'gray:20',
     dark: 'gray:70',
   }[colorMode];
   const fontColor = {
-    light: 'black:primary', // FIXME
-    dark: 'white:emphasis',
+    light: 'black:primary',
+    dark: 'white:primary',
   }[colorMode];
 
   const handleChooseVersion = (event) => {
@@ -81,48 +100,90 @@ const Header = forwardRef((props, ref) => {
   };
 
   const handleViewAllVersions = () => {
-    router.push(`${ASSET_PREFIX}/versions`);
+    router.push(`${ASSET_PREFIX}/getting-started/versions`);
   };
 
+  const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor], backgroundColor), 0.7);
+  const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor], boxShadowColor), 0.5);
+  
   return (
     <Box
+      as="header"
       ref={ref}
       position="fixed"
       top={0}
+      zIndex="fixed"
       height="12x"
       width="100%"
-      zIndex="fixed"
-      backgroundColor={backgroundColor}
-      borderBottom={1}
-      borderBottomColor={borderColor}
-      {...props}
+      backdropFilter="blur(20px)"
+      backgroundColor={_backgroundColor}
+      boxShadow={`0px -1px 1px inset ${_boxShadowColor}`}
+      transition="all 0.2s"
+      {...rest}
     >
       <Box
         display="flex"
         position="relative"
         height="100%"
         alignItems="center"
+        justifyContent="space-between"
       >
+        <Box>
+          <Box
+            display={{
+              sm: 'block',
+              md: 'none',
+            }}
+          >
+            <Box
+              display="flex"
+              flex="auto"
+              mx="4x"
+            >
+              <Button variant="secondary" onClick={onToggle}>
+                <Icon icon="menu" />
+              </Button>
+            </Box>
+          </Box>
+          <Box
+            display={{
+              sm: 'none',
+              md: 'block',
+            }}
+          >
+            <NextLink href={`${ASSET_PREFIX}/`} passHref>
+              <Box
+                as="a"
+                display="flex"
+                alignItems="center"
+                flex="auto"
+                fontSize="xl"
+                maxWidth="100%"
+                px="4x"
+                py="2x"
+                color={fontColor}
+                outline="none"
+                textDecoration="none"
+              >
+                <Image
+                  alt=""
+                  src={`${ASSET_PREFIX}/images/${logo}`}
+                  height="8x"
+                  marginRight="2x"
+              />
+                <Text>Tonic UI</Text>
+              </Box>
+            </NextLink>
+          </Box>
+        </Box>
         <Box
           display="flex"
+          flex="none"
+          width="auto"
           alignItems="center"
-          flex="auto"
-          fontSize="xl"
-          maxWidth="100%"
+          columnGap="4x"
           px="4x"
-          py="2x"
-          color={fontColor}
         >
-          <Image
-            alt=""
-            src={logoPath}
-            width={35}
-            height={30}
-            marginRight="2x"
-          />
-          <Text>Tonic UI</Text>
-        </Box>
-        {version && (
           <Box
             display="flex"
             flex="none"
@@ -155,14 +216,6 @@ const Header = forwardRef((props, ref) => {
               </MenuList>
             </Menu>
           </Box>
-        )}
-        <Box
-          display="flex"
-          flex="none"
-          width="auto"
-          alignItems="center"
-          px="4x"
-        >
           <Box
             as="a"
             _hover={{
@@ -178,10 +231,6 @@ const Header = forwardRef((props, ref) => {
               <Icon icon="sun" size={24} />
             )}
           </Box>
-          <Box
-            display="inline-block"
-            width="5x"
-          />
           <Box
             as="a"
             _hover={{

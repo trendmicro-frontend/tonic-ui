@@ -1,0 +1,100 @@
+# Color Mode
+
+### ColorModeProvider
+
+Use the `ColorModeProvider` to use color mode in your application. The color mode value can be one of `dark` or `light`. By default, the color mode is `light` if the value is not explicitly specified.
+
+```jsx disabled
+import React from 'react';
+import {
+  ThemeProvider,
+  ColorModeProvider,
+  ColorStyleProvider,
+} from '@tonic-ui/react';
+import App from './App';
+
+const initialColorMode = 'dark';
+
+function Example({ children }) {
+  return (
+    <ThemeProvider>
+      <ColorModeProvider value={initialColorMode}>
+        <ColorStyleProvider>
+          <App />
+        </ColorStyleProvider>
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+### useColorMode Hook
+
+To handle color mode manually in your application, use the `useColorMode` Hook to get current color mode or change the color mode.
+
+```jsx disabled
+// App.jsx
+import { css, Global } from '@emotion/react';
+import { Button, useColorMode } from '@tonic-ui/react';
+import React from 'react';
+
+const App = () => {
+  const [colorMode, setColorMode] = useColorMode(); // One of: 'dark', 'light'
+  const toggleColorMode = () => {
+    const nextColorMode = {
+      'dark': 'light',
+      'light': 'dark',
+    }[colorMode];
+    setColorMode(nextColorMode);
+  };
+
+  return (
+    <>
+      <Global
+        styles={css`
+          :root {
+            color-scheme: ${colorMode};
+          }
+        `}
+      />
+      <Button onClick={toggleColorMode}>
+        Toggle Color Mode
+      </Button>
+    </>
+  );
+};
+```
+
+### Color schemes
+
+To opt the entire page into the user's color scheme preferences declare `color-scheme` on the `:root` element.
+
+```jsx disabled
+<Global
+  styles={css`
+    :root {
+      color-scheme: dark;
+    }
+  `}
+/>
+```
+
+### DarkMode / LightMode
+
+To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override the global color mode and set the color scheme to `dark` or `light` respectively.
+
+```jsx
+<Flex>
+  <DarkMode bg="gray:90" color="white:primary">
+    <Text px="4x" py="3x">
+      This is dark mode
+    </Text>
+  </DarkMode>
+  <Space width="4x" />
+  <LightMode bg="gray:10" color="black:primary">
+    <Text px="4x" py="3x">
+      This is light mode
+    </Text>
+  </LightMode>
+</Flex>
+```

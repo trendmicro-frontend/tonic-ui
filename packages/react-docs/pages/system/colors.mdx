@@ -1,0 +1,26 @@
+import { Grid } from '@tonic-ui/react';
+import ColorPalette from '../../components/ColorPalette';
+import ThemeParser from '../../components/ThemeParser';
+
+# Colors
+
+<ThemeParser theme="colors" />
+
+## Color Palette
+
+The color palette is defined for both dark mode and light mode where `10` - `50` means to pass AA contrast with black text and `60` - `100` means to pass AA contrast with white text.
+
+<Grid
+  gap="6x"
+  templateColumns="repeat(auto-fit, 300px)"
+  mb="6x"
+>
+  <ColorPalette hue="red" />
+  <ColorPalette hue="magenta" />
+  <ColorPalette hue="purple" />
+  <ColorPalette hue="blue" />
+  <ColorPalette hue="green" />
+  <ColorPalette hue="teal" />
+  <ColorPalette hue="cyan" />
+  <ColorPalette hue="gray" />
+</Grid>

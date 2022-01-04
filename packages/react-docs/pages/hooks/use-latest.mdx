@@ -1,0 +1,51 @@
+# useLatest
+
+A custom Hook that returns the latest state as described in the React Hooks FAQ.
+
+This is mostly useful to get access to the latest value of some props or state inside an asynchronous callback, instead of that value at the time the callback was created from.
+
+## Import
+
+```js
+import { useLatest } from '@tonic-ui/react-hooks';
+```
+
+```js
+import { useRef } from 'react';
+
+const useLatest = (value) => {
+  const ref = useRef(value);
+  ref.current = value;
+  return ref;
+};
+```
+
+## Usage
+
+```jsx
+function App() {
+  const [count, setCount] = React.useState(0);
+  const latestCount = useLatest(count);
+
+  function handleAlertClick() {
+    setTimeout(() => {
+      alert(`Latest count value: ${latestCount.current}`);
+    }, 3000);
+  }
+
+  return (
+    <>
+      <Box mb="4x">
+        You clicked {count} times
+      </Box>
+      <Button onClick={handleAlertClick}>
+        Show Alert
+      </Button>
+      <Space width="2x" />
+      <Button onClick={() => setCount(count + 1)}>
+        Click Me
+      </Button>
+    </>
+  );
+};
+```

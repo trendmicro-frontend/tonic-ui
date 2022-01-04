@@ -1,0 +1,281 @@
+# Accordion
+
+Accordion is a container that allows the user to toggle sections of related content.
+
+## Import
+
+* `AccordionHeader` is composed of `AccordionToggle` and `AccordionToggleIcon`
+* `AccordionBody` is composed of `AccordionCollapse`
+
+```js
+import {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionBody,
+  AccordionToggle,
+  AccordionToggleIcon,
+  AccordionCollapse,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic accordion
+
+To compose an accordion with default styles, you can use `Accordion`, `AccordionItem`, `AccordionHeader`, and `AccordionBody` directly.
+
+```jsx
+<Accordion rowGap={1}>
+  <AccordionItem defaultIsExpanded>
+    <AccordionHeader>
+      <Text>
+        Accordion 1
+      </Text>
+    </AccordionHeader>
+    <AccordionBody>
+      <SkeletonBody px="4x" py="3x" />
+    </AccordionBody>
+  </AccordionItem>
+  <AccordionItem>
+    <AccordionHeader>
+      <Text>
+        Accordion 2
+      </Text>
+    </AccordionHeader>
+    <AccordionBody>
+      <SkeletonBody px="4x" py="3x" />
+    </AccordionBody>
+  </AccordionItem>
+  <AccordionItem disabled>
+    <AccordionHeader>
+      <Text>
+        Disabled Accordion
+      </Text>
+    </AccordionHeader>
+    <AccordionBody>
+      <SkeletonBody px="4x" py="3x" />
+    </AccordionBody>
+  </AccordionItem>
+</Accordion>
+```
+
+### Controlled accordion
+
+Extend the default behavior to create an accordion with controlled state.
+
+```jsx
+function Example() {
+  const [expandedItem, setExpandedItem] = React.useState('item1');
+  const handleToggle = item => ({ isExpanded }) => {
+    setExpandedItem(isExpanded ? item : null);
+  };
+
+  return (
+    <Accordion rowGap={1}>
+      <AccordionItem
+        isExpanded={expandedItem === 'item1'}
+        onToggle={handleToggle('item1')}
+      >
+        <AccordionHeader>
+          <Text>
+            Accordion 1
+          </Text>
+        </AccordionHeader>
+        <AccordionBody>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionBody>
+      </AccordionItem>
+      <AccordionItem
+        isExpanded={expandedItem === 'item2'}
+        onToggle={handleToggle('item2')}
+      >
+        <AccordionHeader>
+          <Text>
+            Accordion 2
+          </Text>
+        </AccordionHeader>
+        <AccordionBody>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionBody>
+      </AccordionItem>
+      <AccordionItem
+        disabled
+        isExpanded={expandedItem === 'item3'}
+        onToggle={handleToggle('item3')}
+      >
+        <AccordionHeader>
+          <Text>
+            Disabled Accordion
+          </Text>
+        </AccordionHeader>
+        <AccordionBody>
+          <SkeletonBody px="4x" py="3x" />
+        </AccordionBody>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```
+
+### Customization
+
+If you don't like the default styles, you can use `AccordionToggle`, `AccordionToggleIcon`, and `AccordionCollapse` to customize the accordion.
+
+Here is an example of customizing the accordion:
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const borderColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+  const [expandedItem, setExpandedItem] = React.useState(null);
+  const handleToggle = item => ({ isExpanded }) => {
+    setExpandedItem(isExpanded ? item : null);
+  };
+  const renderToggleIcon = item => (
+    <AccordionToggleIcon>
+      {(state, { ref, style: styleProps }) => {
+        styleProps.transform = (expandedItem === item) ? 'rotate(0deg)' : 'rotate(-90deg)';
+        return (
+          <Icon ref={ref} icon="chevron-down" size="4x" {...styleProps} />
+        );
+      }}
+    </AccordionToggleIcon>
+  );
+  const getAccordionItemProps = item => {
+    const isExpanded = expandedItem === item;
+    const itemStyleProps = {
+      border: 1,
+      borderColor,
+      borderStyle: 'solid',
+      borderBottomWidth: isExpanded ? 1 : 0,
+      transition: 'all .2s',
+      my: isExpanded ? '3x' : 0,
+      _firstOfType: {
+        mt: 0,
+      },
+      _lastOfType: {
+        mb: 0,
+        borderBottomWidth: 1,
+      },
+    };
+
+    return {
+      ...itemStyleProps,
+      isExpanded,
+      onToggle: handleToggle(item),
+    };
+  };
+  const getAccordionToggleProps = item => {
+    const toggleStyleProps = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      backgroundColor: {
+        dark: 'gray:90',
+        light: 'white',
+      }[colorMode],
+      color: {
+        dark: 'white:primary',
+        light: 'black:primary',
+      }[colorMode],
+      px: '4x',
+      minHeight: '12x',
+    };
+
+    return {
+      ...toggleStyleProps,
+    };
+  };
+
+  return (
+    <Accordion>
+      {['item1', 'item2', 'item3'].map((item, index) => (
+        <AccordionItem
+          key={item}
+          {...getAccordionItemProps(item)}
+        >
+          <AccordionToggle
+            {...getAccordionToggleProps(item)}
+          >
+            {renderToggleIcon(item)}
+            <Space width="2x" />
+            <Text>
+              Collapsible Item #{index + 1}
+            </Text>
+          </AccordionToggle>
+          <AccordionCollapse>
+            <SkeletonBody px="4x" py="3x" />
+          </AccordionCollapse>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  );
+}
+```
+
+## Props
+
+### Accordion
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `ReactNode` \| `(context) => ReactNode` | | |
+
+### AccordionItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `ReactNode` \| `(context) => ReactNode` | | |
+| disabled | boolean | | Whether the accordion item is disabled. |
+| id | string | | The id of the accordion item. |
+| isExpanded | boolean | | Whether the accordion item is expanded. |
+| defaultIsExpanded | boolean | | Whether the accordion item is expanded by default. |
+| onToggle | function | | A callback that is called when the accordion item is toggled. |
+
+### AccordionHeader
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `ReactNode` | | |
+| disabled | boolean | | Whether the accordion header is disabled. |
+
+### AccordionBody
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `ReactNode` | | |
+
+### AccordionToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `ReactNode` | | |
+| disabled | boolean | | Whether the accordion toggle is disabled. |
+| onClick | function | | A callback that is called when the accordion toggle is clicked. |
+
+### AccordionToggleIcon
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
+| children | ReactNode \| (state, props) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| disabled | boolean | | Whether the accordion toggle icon is disabled. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
+
+### AccordionCollapse
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | `ReactNode` | | |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | false | |
