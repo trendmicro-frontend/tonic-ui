@@ -126,6 +126,7 @@ const routes = [
       { title: 'useConst', path: 'hooks/use-const' },
       { title: 'useEffectOnce', path: 'hooks/use-effect-once' },
       { title: 'useHydrated', path: 'hooks/use-hydrated' },
+      { title: 'useIsomorphicEffect', path: 'hooks/use-isomorphic-effect' },
       { title: 'useLatest', path: 'hooks/use-latest' },
       { title: 'usePrevious', path: 'hooks/use-previous' },
       { title: 'useToggle', path: 'hooks/use-toggle' },
