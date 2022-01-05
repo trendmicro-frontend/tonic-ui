@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Portal } from '../portal';
 import { Presence } from '../presence';
 import config from '../shared/config';
-import { useId } from '../utils/autoId';
+import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
 import getFocusableElements from '../utils/getFocusableElements';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
@@ -27,7 +27,6 @@ const Drawer = ({
   finalFocusRef,
   ensureFocus = false,
   autoFocus = false,
-  id,
   children,
 }) => {
   useEffectOnce(() => {
@@ -44,7 +43,7 @@ const Drawer = ({
 
   isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const [isMounted, setMounted] = useState(isOpen);
-  const defaultId = useId();
+  const defaultId = useAutoId();
   const contentRef = useRef(null);
   const drawerState = getMemoizedState({
     backdrop,
@@ -63,8 +62,7 @@ const Drawer = ({
     contentRef,
   });
 
-  id = id ?? defaultId;
-  const portalId = `${config.name}:portal-${id}`;
+  const portalId = `${config.name}:Drawer-${defaultId}`;
   const mountRef = useNodeRef({
     isOpen: isMounted,
     id: portalId,

@@ -1,18 +1,10 @@
-import { useConst } from '@tonic-ui/react-hooks';
+import { ensureFunction } from 'ensure-type';
 import { useContext, useEffect } from 'react';
-import { createUniqueId } from '../utils/uniqueid';
+import useAutoId from '../utils/useAutoId';
 import { PresenceContext } from './context';
 
-const uniqueId = createUniqueId();
-
-const ensureFunction = x => {
-  return (typeof x === 'function')
-    ? x
-    : () => {};
-};
-
 const usePresence = () => {
-  const id = useConst(() => uniqueId());
+  const id = useAutoId();
 
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
@@ -24,7 +16,6 @@ const usePresence = () => {
   }
 
   const { isPresent, onExitComplete, register } = context;
-
   const safeToRemove = () => ensureFunction(onExitComplete)(id);
 
   useEffect(() => {

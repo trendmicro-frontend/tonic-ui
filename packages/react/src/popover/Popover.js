@@ -1,7 +1,7 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
 import React, { useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
-import { useId } from '../utils/autoId';
+import useAutoId from '../utils/useAutoId';
 import { PopoverContextProvider } from './context';
 
 const Popover = ({
@@ -79,7 +79,8 @@ const Popover = ({
     setMousePageY(event.pageY);
   };
 
-  const fallbackId = `${config.name}:popover-${useId()}`;
+  const defaultId = useAutoId();
+  const fallbackId = `${config.name}:Popover-${defaultId}`;
   const popoverId = id || fallbackId;
 
   const headerId = `${popoverId}-header`;
