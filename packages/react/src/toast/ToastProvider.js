@@ -11,13 +11,18 @@ import {
   TransitionGroup,
 } from 'react-transition-group';
 import canUseDOM from '../utils/dom/canUseDOM';
-import { createUniqueId } from '../utils/uniqueid';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
 import { ToastContext } from './context';
 
-const uniqueId = createUniqueId();
+const uniqueId = (() => {
+  let id = 0;
+  return () => {
+    id += 1;
+    return String(id);
+  };
+})();
 
 const getMemoizedState = memoize(state => ({ ...state }));
 

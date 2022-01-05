@@ -2,7 +2,7 @@ import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import config from '../shared/config';
-import { useId } from '../utils/autoId';
+import useAutoId from '../utils/useAutoId';
 import { CheckboxGroupContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -17,8 +17,8 @@ const CheckboxGroup = ({
   variantColor,
   onChange,
 }) => {
-  const defaultId = useId();
-  name = name ?? `${config.name}:checkbox-${defaultId}`;
+  const defaultId = useAutoId();
+  name = name ?? `${config.name}:CheckboxGroup-${defaultId}`;
 
   const [state, setState] = useState({
     value: ensureArray(valueProp ?? defaultValue),

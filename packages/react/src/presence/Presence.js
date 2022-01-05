@@ -1,10 +1,7 @@
 import { useConst } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useEffect, useMemo } from 'react';
-import { createUniqueId } from '../utils/uniqueid';
 import { PresenceContext } from './context';
-
-const uniqueId = createUniqueId();
 
 const Presence = forwardRef(({
   children,
@@ -12,10 +9,7 @@ const Presence = forwardRef(({
   onExitComplete,
 }, ref) => {
   const childCompleteMap = useConst(() => new Map());
-  const id = useConst(() => uniqueId());
-
   const context = useMemo(() => ({
-    id,
     isPresent,
     onExitComplete: (childId) => {
       childCompleteMap.set(childId, true /* isComplete */);
@@ -38,7 +32,7 @@ const Presence = forwardRef(({
         childCompleteMap.delete(childId);
       };
     },
-  }), [isPresent, onExitComplete, childCompleteMap, id]);
+  }), [isPresent, onExitComplete, childCompleteMap]);
 
   // Remove the component immediately if there's no components to fire exit transitions.
   useEffect(() => {

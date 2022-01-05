@@ -5,7 +5,7 @@ import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
-import { useId } from '../utils/autoId';
+import useAutoId from '../utils/useAutoId';
 import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';
@@ -106,7 +106,8 @@ const Tooltip = forwardRef((
     }, leaveDelay);
   };
 
-  const tooltipId = `${config.name}:tooltip-${useId()}`;
+  const defaultId = useAutoId();
+  const tooltipId = `${config.name}:Tooltip-${defaultId}`;
 
   const handleOpen = () => {
     if (!isControlled) {

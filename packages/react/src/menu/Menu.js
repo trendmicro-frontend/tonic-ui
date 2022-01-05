@@ -3,7 +3,7 @@ import { ensureString } from 'ensure-type';
 import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
-import { useId } from '../utils/autoId';
+import useAutoId from '../utils/useAutoId';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuProvider } from './context';
 
@@ -37,8 +37,9 @@ const Menu = ({
   const [isOpen, setIsOpen] = useState(defaultIsOpen);
   const { current: isControlled } = useRef(isOpenProp != null);
   const _isOpen = isControlled ? isOpenProp : isOpen;
-  const menuId = `${config.name}:menu-${useId()}`;
-  const menuToggleId = `${config.name}:menu-toggle-${useId()}`;
+  const defaultId = useAutoId();
+  const menuId = `${config.name}:Menu-${defaultId}`;
+  const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
   const focusableItems = useRef([]);
   const menuRef = useRef(null);
   const menuToggleRef = useRef(null);

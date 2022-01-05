@@ -1,23 +1,19 @@
-import { useConst } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import runIfFn from '../utils/runIfFn';
-import { createUniqueId } from '../utils/uniqueid';
+import useAutoId from '../utils/useAutoId';
 import { AccordionItemContext } from './context';
 import useAccordion from './useAccordion';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const uniqueId = createUniqueId();
-
 const AccordionItem = forwardRef((
   {
     children,
     disabled,
-    id: idProp,
     isExpanded: isExpandedProp,
     defaultIsExpanded: defaultIsExpandedProp,
     onToggle: onToggleProp,
@@ -26,10 +22,9 @@ const AccordionItem = forwardRef((
   ref,
 ) => {
   const accordionContext = useAccordion();
-  const id = useConst(() => uniqueId());
-  const itemId = idProp ?? `${config.name}:accordion-item-${id}`;
-  const headerId = `${itemId}-header`;
-  const bodyId = `${itemId}-body`;
+  const defaultId = useAutoId();
+  const headerId = `${config.name}:AccordionHeader-${defaultId}`;
+  const bodyId = `${config.name}:AccordionBody-${defaultId}`;
   const [isExpanded, setIsExpanded] = useState(isExpandedProp ?? defaultIsExpandedProp);
 
   useEffect(() => {
