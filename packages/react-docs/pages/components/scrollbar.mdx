@@ -34,10 +34,8 @@ To enable vertical scrolling, set the scrollbar height to a value less than the 
 
 ```jsx
 <Scrollbar
-  width="50%"
-  height={200}
   minHeight={100}
-  maxHeight={300}
+  maxHeight={200}
   border={1}
   borderColor="#424242"
   overflow="scroll"
@@ -53,8 +51,6 @@ To enable horizontal scrolling, set the scrollbar width to a value less than the
 
 ```jsx
 <Scrollbar
-  width="50%"
-  height="auto"
   minWidth="10%"
   maxWidth="100%"
   border={1}
@@ -70,7 +66,6 @@ To enable horizontal scrolling, set the scrollbar width to a value less than the
 
 ```jsx
 <Scrollbar
-  width="50%"
   height={200}
   border={1}
   borderColor="#424242"
@@ -451,8 +446,8 @@ render(<ScrollableTable />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode \| function | | The content of the scrollbar. |
-| width | number \| string | '100%' | The width of the scrollbar. If set to 'auto', you can constrain the width using the `minWidth` and `maxWidth` props. |
-| height | number \| string | '100%' | The height of the scrollbar. If set to 'auto', you can constrain the height using the `minHeight` and `maxHeight` props. |
+| width | number \| string | 'auto' | The width of the scrollbar. If set to 'auto', you can constrain the width using the `minWidth` and `maxWidth` props. |
+| height | number \| string | 'auto' | The height of the scrollbar. If set to 'auto', you can constrain the height using the `minHeight` and `maxHeight` props. |
 | minWidth | number \| string | | The minimum width of the scrollbar. |
 | maxWidth | number \| string | | The maximum width of the scrollbar. |
 | minHeight | number \| string | | The minimum height of the scrollbar. |
