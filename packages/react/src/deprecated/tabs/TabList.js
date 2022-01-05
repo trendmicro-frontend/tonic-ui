@@ -1,6 +1,6 @@
 import React, { cloneElement, forwardRef, useContext, useRef } from 'react';
-import { Box } from '../box';
-import cleanChildren from '../utils/cleanChildren';
+import { Box } from '../../box';
+import cleanChildren from './cleanChildren';
 import { TabContext } from './context';
 import { useTabListStyle } from './styles';
 
