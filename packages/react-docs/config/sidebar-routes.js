@@ -100,15 +100,9 @@ const routes = [
       { title: 'ButtonLink 🚧', path: 'components/buttonlink' },
       { title: 'Menu', path: 'components/menu' },
       { title: 'Pagination', path: 'components/pagination' },
-      { title: 'Tabs', path: 'components/tabs' },
+      //{ title: 'Tabs', path: 'components/tabs' }, // TODO
 
-      { title: 'TYPOGRAPHY', heading: true },
-      { title: 'Text', path: 'components/text' },
-      { title: 'TextLabel', path: 'components/textlabel' },
-
-      { title: 'UTILS', heading: true },
-      { title: 'CSSBaseline', path: 'components/cssbaseline' },
-      { title: 'Scrollbar', path: 'components/scrollbar' },
+      { title: 'TRANSITIONS', heading: true },
       { title: 'Transitions', path: 'components/transitions' },
       { title: 'Transitions / Collapse', path: 'components/transitions-collapse' },
       { title: 'Transitions / Fade', path: 'components/transitions-fade' },
@@ -116,6 +110,16 @@ const routes = [
       { title: 'Transitions / Scale', path: 'components/transitions-scale' },
       { title: 'Transitions / Slide', path: 'components/transitions-slide' },
       { title: 'Transitions / Zoom', path: 'components/transitions-zoom' },
+
+      { title: 'TYPOGRAPHY', heading: true },
+      { title: 'Text', path: 'components/text' },
+      { title: 'TextLabel', path: 'components/textlabel' },
+
+      { title: 'UTILS', heading: true },
+      { title: 'CSSBaseline', path: 'components/cssbaseline' },
+      { title: 'Presence 🚧', path: 'components/presence' },
+      { title: 'Scrollbar', path: 'components/scrollbar' },
+      { title: 'VisuallyHidden 🚧', path: 'components/visually-hidden' },
     ],
   },
   {
