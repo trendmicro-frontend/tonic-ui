@@ -39,14 +39,11 @@ const {
   Collapse,
   Fade,
   Icon,
-  Scrollbar,
   Tooltip,
   useColorMode,
 } = reactComponents;
 
 const liveCodePreviewStyle = {
-  paddingLeft: '.5rem', // 1rem + .5rem = 1.5rem
-  paddingRight: '.5rem', // 1rem + .5rem = 1.5rem
 };
 
 const liveEditorStyle = {
@@ -86,19 +83,14 @@ const LiveCodePreview = props => {
       borderRadius="sm"
       p="4x"
     >
-      <Scrollbar
-        height="auto"
-        overflowX="visible"
-      >
-        <Box
-          as={LivePreview}
-          fontFamily="base"
-          fontSize="sm"
-          lineHeight="sm"
-          whiteSpace="normal"
-          {...props}
-        />
-      </Scrollbar>
+      <Box
+        as={LivePreview}
+        fontFamily="base"
+        fontSize="sm"
+        lineHeight="sm"
+        whiteSpace="normal"
+        {...props}
+      />
     </Box>
   );
 };

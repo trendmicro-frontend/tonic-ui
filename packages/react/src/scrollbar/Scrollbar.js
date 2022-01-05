@@ -34,8 +34,8 @@ const Scrollbar = forwardRef((
     thumbSize, // removed
 
     children,
-    width = '100%',
-    height = '100%',
+    width = 'auto',
+    height = 'auto',
     minWidth,
     maxWidth,
     minHeight,
