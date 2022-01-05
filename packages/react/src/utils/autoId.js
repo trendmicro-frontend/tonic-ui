@@ -1,5 +1,5 @@
+import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
 import { useState, useEffect } from 'react';
-import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
 
 let serverHandoffComplete = false;
 let id = 0;
@@ -24,7 +24,7 @@ export const useId = (idFromProps) => {
 
   const [id, setId] = useState(initialId);
 
-  useIsomorphicLayoutEffect(() => {
+  useIsomorphicEffect(() => {
     if (id === null) {
       /*
        * Patch the ID after render. We do this in `useLayoutEffect` to avoid any

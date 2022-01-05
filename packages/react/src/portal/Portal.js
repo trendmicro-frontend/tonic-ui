@@ -1,8 +1,8 @@
+import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
 import { Children, cloneElement, useState, forwardRef } from 'react';
 import { findDOMNode, createPortal } from 'react-dom';
 import setRef from '../utils/setRef';
 import useForkRef from '../utils/useForkRef';
-import useIsomorphicLayoutEffect from '../utils/useIsomorphicLayoutEffect';
 
 function getContainer(container) {
   container = typeof container === 'function' ? container() : container;
@@ -13,13 +13,13 @@ const Portal = forwardRef(
   ({ children, container, isDisabled = false, onRendered }, ref) => {
     const [mountNode, setMountNode] = useState(null);
     const handleRef = useForkRef(children.ref, ref);
-    useIsomorphicLayoutEffect(() => {
+    useIsomorphicEffect(() => {
       if (!isDisabled) {
         setMountNode(getContainer(container) || document.body);
       }
     }, [container, isDisabled]);
 
-    useIsomorphicLayoutEffect(() => {
+    useIsomorphicEffect(() => {
       if (mountNode && !isDisabled) {
         setRef(ref, mountNode);
         return () => {
@@ -30,7 +30,7 @@ const Portal = forwardRef(
       return undefined;
     }, [ref, mountNode, isDisabled]);
 
-    useIsomorphicLayoutEffect(() => {
+    useIsomorphicEffect(() => {
       if (onRendered && (mountNode || isDisabled)) {
         onRendered();
       }

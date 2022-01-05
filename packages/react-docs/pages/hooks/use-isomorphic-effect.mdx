@@ -1,0 +1,32 @@
+# useIsomorphicEffect
+
+A custom Hook that resolves to `useEffect` when "window" is not in scope and `useLayoutEffect` in the browser.
+
+## Import
+
+```js
+import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
+```
+
+```js
+import { useEffect, useLayoutEffect } from 'react';
+
+const useIsomorphicEffect =
+  (typeof window === 'undefined') ? useEffect : useLayoutEffect;
+```
+
+## Usage
+
+```jsx
+function App() {
+  useIsomorphicEffect(() => {
+    console.log('useIsomorphicEffect executed');
+  }, []);
+
+  return (
+    <Text>
+      <Code>useIsomorphicEffect()</Code> resolves to <Code>{useIsomorphicEffect === React.useEffect ? 'useEffect()' : 'useLayoutEffect()'}</Code>
+    </Text>
+  );
+}
+```

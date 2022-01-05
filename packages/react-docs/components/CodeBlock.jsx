@@ -15,6 +15,7 @@ import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
+import Code from './Code';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 import IconButton from './IconButton';
@@ -127,6 +128,8 @@ const CodeBlock = ({
   children,
   ...props
 }) => {
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
   const [colorMode] = useColorMode();
   const [editorCode, setEditorCode] = useState(children.trim());
   const {
@@ -137,6 +140,7 @@ const CodeBlock = ({
   const resetDemo = () => {
     setEditorCode(children.trim());
     toggleLiveEditorVisibility(false);
+    forceUpdate();
   };
   const handleLiveEditorChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
@@ -165,8 +169,9 @@ const CodeBlock = ({
       ...reactComponents,
       ...reactHooks,
       ...thirdPartyComponents,
-      FontAwesomeIcon,
+      Code,
       EditableTag,
+      FontAwesomeIcon,
       Lorem,
       SelectableButton,
       SkeletonBody,
