@@ -42,6 +42,7 @@ const MenuList = forwardRef((
     placement,
     onKeyDown,
     onBlur,
+    usePortal,
   } = { ...menuContext };
 
   const handleKeyDown = event => {
@@ -99,7 +100,7 @@ const MenuList = forwardRef((
       ref={menuRef}
       role="menu"
       tabIndex={-1}
-      usePortal={false}
+      usePortal={usePortal}
       willUseTransition={true}
       zIndex="dropdown"
       _focus={{

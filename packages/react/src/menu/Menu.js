@@ -31,6 +31,7 @@ const Menu = ({
   onKeyDown,
   onOpen,
   placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
+  usePortal = true,
   ...rest
 }) => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
@@ -152,6 +153,7 @@ const Menu = ({
     menuRef,
     menuToggleId,
     menuToggleRef,
+    usePortal,
   };
 
   return (
