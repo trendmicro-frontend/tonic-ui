@@ -17,29 +17,26 @@ const sizes = {
 };
 
 const defaultSize = 'md';
+const defaultVariantColor = 'blue';
 
 const Checkbox = forwardRef((
   {
-    id,
-    name,
-    value,
-
-    defaultChecked,
     checked,
+    children,
+    defaultChecked,
     disabled,
-    readOnly,
-    indeterminate,
-
-    variantColor = 'blue',
-    size,
     iconColor,
-
+    id,
+    indeterminate,
+    name,
+    readOnly,
+    size,
+    value,
+    variantColor,
+    onBlur,
     onChange,
     onClick,
-    onBlur,
     onFocus,
-
-    children,
     ...rest
   },
   ref,
@@ -66,13 +63,13 @@ const Checkbox = forwardRef((
       onChange,
       checkboxGroupOnChange,
     );
-    // - Use the inherited value from the checkbox group
-    // - Fallback to the default value if the value is null or undefined
-    size = (checkboxGroupSize ?? size) ?? defaultSize;
-    variantColor = checkboxGroupVariantColor ?? variantColor;
+    // Use the default value if the value is null or undefined
+    size = (size ?? checkboxGroupSize) ?? defaultSize;
+    variantColor = (variantColor ?? checkboxGroupVariantColor) ?? defaultVariantColor;
   } else {
     // Use the default value if the value is null or undefined
     size = size ?? defaultSize;
+    variantColor = variantColor ?? defaultVariantColor;
   }
 
   const { sizes: themeSizes } = useTheme();
