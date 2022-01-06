@@ -346,7 +346,7 @@ const useButtonBaseStyle = ({ disabled }) => {
   };
 };
 
-const getButtonGroupCSS = ({ useVertical }) => {
+const getButtonGroupCSS = ({ orientation }) => {
   const horizontalCSS = sx({
     '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
@@ -367,7 +367,7 @@ const getButtonGroupCSS = ({ useVertical }) => {
       borderBottomRightRadius: 0,
     },
   });
-  return useVertical ? verticalCSS : horizontalCSS;
+  return (orientation === 'vertical') ? verticalCSS : horizontalCSS;
 };
 
 export {
