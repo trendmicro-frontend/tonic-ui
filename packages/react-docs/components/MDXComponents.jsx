@@ -157,8 +157,22 @@ const Blockquote = props => (
     as="blockquote"
     fontSize="md"
     lineHeight="md"
-    mt={0}
+    display="flex"
+    alignItems="center"
+    backgroundColor="#FEEBC8"
+    borderLeft={4}
+    borderLeftColor="orange:50"
+    borderRadius="sm"
+    color="black:primary"
+    mx={0}
     mb="4x"
+    px="4x"
+    py="3x"
+    css={css`
+      p {
+        margin-bottom: 0;
+      }
+    `}
     {...props}
   />
 );

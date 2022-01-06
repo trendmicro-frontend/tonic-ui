@@ -16,8 +16,6 @@ The first value in the array is the smallest breakpoint, and the last value is t
 | `xl` | `@media screen and (min-width: 1280px)` |
 | `2xl` | `@media screen and (min-width: 1680px)` |
 
-## Examples
-
 Try resizing your browser window to see the effect of the responsive styles.
 
 ```jsx
@@ -60,4 +58,44 @@ Try resizing your browser window to see the effect of the responsive styles.
     Double Extra Large Text
   </Box>
 </Box>
+```
+
+## Customizing Breakpoints
+
+For more control over the breakpoints, you can define custom breakpoints for your application.
+
+To do this, add a `breakpoints` array with additional aliases (e.g. `sm`, `md`, `lg`, `xl`, and `2xl`) to your theme.
+
+```js
+// 1. Import the theme
+import { ThemeProvider, theme } from '@tonic-ui/react';
+
+// 2. Update the breakpoints
+const breakpoints = [
+  '320px',
+  '768px',
+  '960px',
+  '1200px',
+  '1440px',
+];
+breakpoints.sm = breakpoints[0];
+breakpoints.md = breakpoints[1];
+breakpoints.lg = breakpoints[2];
+breakpoints.xl = breakpoints[3];
+breakpoints['2xl'] = breakpoints[4];
+
+// 3. Extend the theme
+const customTheme = {
+  ...theme,
+  breakpoints,
+};
+
+// 4. Pass the custom theme to the theme provider
+function App() {
+  return (
+    <ThemeProvider theme={customTheme}>
+      {children}
+    </ThemeProvider>
+  );
+}
 ```

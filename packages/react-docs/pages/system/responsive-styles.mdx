@@ -1,3 +1,238 @@
 # Responsive Styles
 
-TODO
+The responsive styles rely on the [breakpoints](breakpoints) defined in the theme configuration. The breakpoints are used to generate the media queries that make the theme responsive.
+
+| Breakpoint | Media Query |
+| :--------- | :---------- |
+| `sm` | `@media screen and (min-width: 320px)` |
+| `md` | `@media screen and (min-width: 640px)` |
+| `lg` | `@media screen and (min-width: 1024px)` |
+| `xl` | `@media screen and (min-width: 1280px)` |
+| `2xl` | `@media screen and (min-width: 1680px)` |
+
+To use the responsive styles, you can use either the array or object syntax.
+
+## Array Syntax
+
+Let's say you have a `Box` component that looks like this:
+
+```jsx disabled
+<Box backgroundColor="red:50" width="50%">
+  This is a box
+</Box>
+```
+
+To make the `width` responsive, you can use the array syntax as follows:
+
+```jsx disabled
+<Box backgroundColor="red:50" width={["25%","50%","75%","100%"]}>
+  This is a box
+</Box>
+```
+
+Here is how to interpret the array syntax:
+
+* On a `sm` breakpoint (`≥ 320px`), the `width` will be `25%`
+* On a `md` breakpoint (`≥ 640px`), the `width` will be `50%`
+* On a `lg` breakpoint (`≥ 1024px`), the `width` will be `75%`
+* On a `xl` breakpoint (`≥ 1280px`), the `width` will be `100%`
+
+> To skip certain breakpoints, you can pass `null` to any position in the array.
+
+## Object Syntax (Recommended)
+
+You can also use the object syntax to define responsive styles. It's also the recommended syntax to use the responsive styles.
+
+Let's say you have a `Text` component that looks like this:
+
+```jsx disabled
+<Text fontSize={32}>
+  This is a text
+</Text>
+```
+
+To make the `fontSize` responsive, you can use the object syntax as follows:
+
+```jsx disabled
+<Text fontSize={{ _: 24, md: 32, lg: 40, xl: 48 }}>
+  This is a text
+</Text>
+```
+
+Here is how to interpret the object syntax:
+
+* On a `sm` breakpoint (`≥ 320px`), the `fontSize` will be `24px`
+* On a `md` breakpoint (`≥ 640px`), the `fontSize` will be `32px`
+* On a `lg` breakpoint (`≥ 1024px`), the `fontSize` will be `40px`
+* On a `xl` breakpoint (`≥ 1280px`), the `fontSize` will be `48px`
+
+> You can use the `_` key to define a default value for all breakpoints.
+
+## Under the Hood
+
+Given the following example:
+
+```jsx disabled
+<Box width={{ _: '100%', sm: '50%', md: '25%' }}>
+  This is a box
+</Box>
+```
+
+It will generate the following CSS:
+
+```css
+.Box {
+  width: 100%;
+}
+
+@media screen and (min-width: 320px) {
+  .Box {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .Box {
+    width: 25%;
+  }
+}
+```
+
+## Demo
+
+Here is an actual example of the responsive styles in action:
+
+```jsx noInline
+const Ellipsis = (props) => (
+  <Box whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" {...props} />
+);
+
+const Light = ({ on, ...rest }) => (
+  <Box
+    display="inline-block"
+    borderRadius="50%"
+    bg={on ? '#00ff00' : '#666'}
+    boxShadow={on ? '0 0 1px 2px rgba(0, 255, 0, .8)' : 'none'}
+    height={16}
+    width={16}
+    verticalAlign="middle"
+    {...rest}
+  />
+);
+
+function Example() {
+  const laneColor = {
+    1: '#389efc',
+    2: '#ff7332',
+    3: '#00b449',
+    4: '#fdf133',
+    5: '#fc74cf',
+  };
+
+  const players = [
+    { id: '240', lane: 1, name: 'Taiwan Leave System', laps: 2, raceTime: '01:20.592', gates: [1, 1, 1] },
+    { id: '339', lane: 2, name: '404 Not Found', laps: 2, raceTime: '01:24.036', gates: [1, 1, 1] },
+    { id: '003', lane: 3, name: 'ShowMeThe$$', laps: 2, raceTime: '01:37.890', gates: [1, 1, 0] },
+    { id: '207', lane: 4, name: 'Dragon Rider', laps: 1, raceTime: '00:49.211', gates: [1, 1, 0] },
+    { id: '456', lane: 5, name: 'BumbleBee', laps: 0, raceTime: '00:00.000', gates: [1, 1, 1] },
+  ];
+
+  return (
+    <Box position="relative" mx="auto">
+      {players.map((player, index) => (
+        <Box
+          key={player.id}
+          display="flex"
+          minWidth={360}
+        >
+          <Box
+            flexBasis="auto"
+            flexGrow={0}
+            minWidth="2x"
+            width="2x"
+            bg={laneColor[player.lane]}
+          />
+          <Box
+            bg={index % 2 ? 'gray:100' : 'gray:80'}
+            color="white:primary"
+            flexBasis={0}
+            flexGrow={1}
+            maxWidth="calc(100% - .5rem)"
+            py="2x"
+            px="6x"
+          >
+            <Box
+              display="flex"
+              alignItems="flex-end"
+            >
+              <Box
+                flexBasis={0}
+                flexGrow={1}
+                maxWidth="100%"
+              >
+                <Text
+                  color="#6fffff"
+                  fontWeight="bold"
+                  fontSize={['4xl', null, null, 48]}
+                  lineHeights={['4xl', null, null, '1.5']}
+                >
+                  {player.id}
+                </Text>
+              </Box>
+              <Box
+                flexBasis="auto"
+                flexGrow={0}
+                width="auto"
+              >
+                <Text
+                  fontSize={['3xl', null, null, '4xl']}
+                  lineHeight={['3xl', null, null, '4xl']}
+                >
+                  {player.laps} / {player.raceTime}
+                </Text>
+              </Box>
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              pt="2x"
+            >
+              <Box
+                flexBasis={0}
+                flexGrow={1}
+                maxWidth="100%"
+                width={0}
+              >
+                <Ellipsis>
+                  <Text
+                    fontSize={['2xl', null, null, '3xl']}
+                    lineHeight={['2xl', null, null, '3xl']}
+                  >
+                    {player.name}
+                  </Text>
+                </Ellipsis>
+              </Box>
+              <Box
+                flexBasis="auto"
+                flexGrow={0}
+                width="auto"
+                fontSize={['xl', null, null, '2xl']}
+                lineHeight={['xl', null, null, '2xl']}
+              >
+                <Light on={player.gates[0]} m="2x" />
+                <Text pr="2x">REC</Text>
+                <Light on={player.gates[1]} m="2x" />
+                <Text pr="2x">A</Text>
+                <Light on={player.gates[2]} m="2x" />
+                <Text pr="2x">B</Text>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
+render(<Example />);
+```

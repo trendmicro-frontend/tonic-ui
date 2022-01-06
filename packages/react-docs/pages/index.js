@@ -88,6 +88,7 @@ const DefaultPage = (props) => {
       color={fontColor}
       fontSize={docsFontSize}
       lineHeight={docsLineHeight}
+      height="100vh"
       {...props}
     >
       <Header />
@@ -97,7 +98,7 @@ const DefaultPage = (props) => {
           xl: '1280px',
           '2xl': '1680px',
         }}
-        mt="20x"
+        pt="20x"
         px="6x"
         mx="auto"
       >

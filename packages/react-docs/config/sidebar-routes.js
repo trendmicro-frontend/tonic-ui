@@ -19,7 +19,7 @@ const routes = [
       { title: 'STYLED SYSTEM', heading: true },
       { title: 'Style Props', path: 'system/style-props' },
       { title: 'Pseudo Style Props', path: 'system/pseudo-style-props' },
-      { title: 'Responsive Styles 🚧', path: 'system/responsive-styles' },
+      { title: 'Responsive Styles', path: 'system/responsive-styles' },
 
       { title: 'COLORS', heading: true },
       { title: 'Color Mode', path: 'system/color-mode' },
