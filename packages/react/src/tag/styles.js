@@ -323,7 +323,7 @@ const useTagStyle = ({ borderRadius, ...props }) => {
     ...baseProps,
     __before: {
       content: '""',
-      display: 'inline-block',
+      display: 'inline-flex',
       borderRadius: borderRadius,
       zIndex: -1,
       position: 'absolute',

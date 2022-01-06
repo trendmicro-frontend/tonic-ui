@@ -206,7 +206,7 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
     color: 'white:emphasis',
     __before: {
       content: '""',
-      display: 'inline-block',
+      display: 'inline-flex',
       transition: 'all 150ms, background-color 250ms',
       borderRadius: innerRadius,
       zIndex: -1,

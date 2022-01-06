@@ -4,7 +4,7 @@ import { Box } from '../box';
 const Space = forwardRef((props, ref) => (
   <Box
     ref={ref}
-    display="inline-block"
+    display="inline-flex"
     {...props}
   />
 ));
