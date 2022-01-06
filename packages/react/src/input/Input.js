@@ -21,7 +21,6 @@ const Input = forwardRef((
       size: inputGroupSize,
       variant: inputGroupVariant,
     } = { ...inputGroupContext };
-
     // Use fallback values if values are null or undefined
     size = (size ?? inputGroupSize) ?? defaultSize;
     variant = (variant ?? inputGroupVariant) ?? defaultVariant;
