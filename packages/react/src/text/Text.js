@@ -19,7 +19,7 @@ const Text = forwardRef((
   return (
     <Box
       ref={ref}
-      display="inline-block"
+      display="inline-flex"
       fontFamily="base"
       {...sizeProps}
       {...rest}
