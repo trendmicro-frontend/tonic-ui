@@ -703,7 +703,7 @@ function ResizableTable() {
                       {!isLastChild && (
                         <Box
                           {...column.getResizerProps()} // Use column.getResizerProps to hook up the events correctly
-                          display="inline-block"
+                          display="inline-flex"
                           width="8px"
                           height="calc(100% + 2px)" // 2px is border-bottom width of the table header
                           position="absolute"
@@ -758,7 +758,7 @@ function ResizableTable() {
                         </Box>
                         {!isLastChild && (
                           <Box
-                            display="inline-block"
+                            display="inline-flex"
                             width="8px"
                             height="calc(100% + 1px)" // 1px is border-bottom width of the table row
                             position="absolute"
