@@ -70,6 +70,7 @@ const routes = [
       { title: 'ButtonGroup', path: 'components/buttongroup' },
       { title: 'Checkbox', path: 'components/checkbox' },
       { title: 'CheckboxGroup', path: 'components/checkboxgroup' },
+      { title: 'DatePicker', path: 'components/datepicker' },
       { title: 'FlatButton', path: 'components/flatbutton' },
       { title: 'Input', path: 'components/input' },
       { title: 'InputBase', path: 'components/inputbase' },

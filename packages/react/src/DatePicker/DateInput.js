@@ -1,9 +1,9 @@
 import React, { forwardRef, useEffect, useState } from 'react';
-import Box from '../Box';
-import Icon from '../Icon';
-import Input from '../Input';
-import useColorMode from '../useColorMode';
-import useColorStyle from '../useColorStyle';
+import { Box } from '../box';
+import { Icon } from '../icon';
+import { Input } from '../input';
+import { useColorMode } from '../color-mode';
+import { useColorStyle } from '../color-style';
 
 const DateInput = forwardRef((
   {

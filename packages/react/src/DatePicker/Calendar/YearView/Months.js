@@ -1,6 +1,6 @@
 import getYear from 'date-fns/getYear';
 import React, { forwardRef } from 'react';
-import Grid from '../../../Grid';
+import { Grid } from '../../../grid';
 import Month from './Month';
 
 const Months = forwardRef((

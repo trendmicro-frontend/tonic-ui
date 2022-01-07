@@ -5,9 +5,9 @@ import startOfYear from 'date-fns/startOfYear';
 import subMonths from 'date-fns/subMonths';
 import subYears from 'date-fns/subYears';
 import React, { forwardRef } from 'react';
-import Button from '../../Button';
-import Box from '../../Box';
-import Icon from '../../Icon';
+import { Button } from '../../button';
+import { Box } from '../../box';
+import { Icon } from '../../icon';
 
 const Navigation = forwardRef((
   {

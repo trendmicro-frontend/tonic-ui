@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import Box from '../../../Box';
+import { Box } from '../../../box';
 import Months from './Months';
 
 const YearView = forwardRef((

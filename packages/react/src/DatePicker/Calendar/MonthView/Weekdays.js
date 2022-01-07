@@ -1,8 +1,8 @@
 import addDays from 'date-fns/addDays';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
-import Box from '../../../Box';
-import Grid from '../../../Grid';
+import { Box } from '../../../box';
+import { Grid } from '../../../grid';
 import { useCellStyle } from '../../styles';
 
 const Weekdays = forwardRef((

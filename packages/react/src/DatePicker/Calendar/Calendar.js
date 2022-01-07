@@ -1,5 +1,5 @@
 import React, { forwardRef, useState } from 'react';
-import Box from '../../Box';
+import { Box } from '../../box';
 import DecadeView from './DecadeView';
 import MonthView from './MonthView';
 import YearView from './YearView';

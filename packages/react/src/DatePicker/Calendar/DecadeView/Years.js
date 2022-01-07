@@ -1,6 +1,6 @@
 import { getYear } from 'date-fns';
 import React from 'react';
-import Grid from '../../../Grid';
+import { Grid } from '../../../grid';
 import Year from './Year';
 
 const Years = ({

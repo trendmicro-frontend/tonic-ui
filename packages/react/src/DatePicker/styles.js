@@ -1,5 +1,5 @@
-import useColorStyle from '../useColorStyle';
-import useColorMode from '../useColorMode';
+import { useColorMode } from '../color-mode';
+import { useColorStyle } from '../color-style';
 
 const useCalendarStyle = () => {
   const [colorMode] = useColorMode();

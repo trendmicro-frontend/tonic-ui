@@ -4,7 +4,7 @@ import isSameMonth from 'date-fns/isSameMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
-import Grid from '../../../Grid';
+import { Grid } from '../../../grid';
 import { dateFormatter } from '../../utils';
 import Week from './Week';
 

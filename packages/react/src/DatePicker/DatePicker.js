@@ -1,7 +1,8 @@
 import React, { forwardRef, useEffect, useState, useRef } from 'react';
-import Box from '../Box';
+import { Box } from '../box';
+import { Icon } from '../icon';
 import useOutsideClick from '../hooks/useOutsideClick';
-import Icon from '../Icon';
+import useForkRef from '../utils/useForkRef';
 import Calendar from './Calendar';
 import DateInput from './DateInput';
 import { isDate } from './utils';
@@ -15,7 +16,8 @@ const Datepicker = forwardRef((
   },
   ref,
 ) => {
-  const wrapperRef = useRef(null);
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
   const [date, setDate] = useState(value);
@@ -52,7 +54,7 @@ const Datepicker = forwardRef((
     () => {
       setIsCalendarOpen(false);
     },
-    wrapperRef
+    nodeRef
   );
 
   useEffect(() => {
@@ -61,7 +63,7 @@ const Datepicker = forwardRef((
 
   return (
     <Box
-      ref={wrapperRef}
+      ref={combinedRef}
       display="inline-flex"
       alignItems="center"
       position="relative"

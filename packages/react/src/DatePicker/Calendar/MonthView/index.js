@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import Box from '../../../Box';
+import { Box } from '../../../box';
 import Weeks from './Weeks';
 import Weekdays from './Weekdays';
 
