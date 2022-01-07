@@ -65,7 +65,7 @@ const ControlBox = forwardRef((
         '& > *': _indeterminateAndChild,
       },
     }),
-    { ...css },
+    css,
   ];
 
   return (

@@ -3,6 +3,9 @@ import { Box } from '../box';
 import { useInputGroupAddonStyle } from './styles';
 import useInputGroup from './useInputGroup';
 
+const defaultSize = 'md';
+const defaultVariant = 'outline';
+
 const InputGroupAddon = forwardRef((
   {
     size,
@@ -12,18 +15,19 @@ const InputGroupAddon = forwardRef((
   ref,
 ) => {
   const inputGroupContext = useInputGroup();
-  if (!inputGroupContext) {
-    throw new Error('`InputGroupAddon` must be a descendant of a `InputGroup`.');
+  if (inputGroupContext) {
+    const {
+      size: inputGroupSize,
+      variant: inputGroupVariant,
+    } = { ...inputGroupContext };
+    // Use fallback values if values are null or undefined
+    size = (size ?? inputGroupSize) ?? defaultSize;
+    variant = (variant ?? inputGroupVariant) ?? defaultVariant;
+  } else {
+    // Use fallback values if values are null or undefined
+    size = size ?? defaultSize;
+    variant = variant ?? defaultVariant;
   }
-
-  const {
-    size: inputGroupSize,
-    variant: inputGroupVariant,
-  } = inputGroupContext;
-
-  // Use fallback values if values are null or undefined
-  size = size ?? inputGroupSize;
-  variant = variant ?? inputGroupVariant;
 
   const styleProps = useInputGroupAddonStyle({ size, variant });
 

@@ -14,6 +14,7 @@ const sizes = {
 };
 
 const defaultSize = 'md';
+const defaultVariantColor = 'blue';
 
 const Radio = forwardRef((
   {
@@ -25,7 +26,7 @@ const Radio = forwardRef((
     name,
     size,
     value,
-    variantColor = 'blue',
+    variantColor,
     onChange,
     onClick,
     onBlur,
@@ -55,13 +56,13 @@ const Radio = forwardRef((
       onChange,
       radioGroupOnChange,
     );
-    // - Use the inherited value from the radio group
-    // - Fallback to the default value if the value is null or undefined
-    size = (radioGroupSize ?? size) ?? defaultSize;
-    variantColor = radioGroupVariantColor ?? variantColor;
+    // Use the default value if the value is null or undefined
+    size = (size ?? radioGroupSize) ?? defaultSize;
+    variantColor = (variantColor ?? radioGroupVariantColor) ?? defaultVariantColor;
   } else {
     // Use the default value if the value is null or undefined
     size = size ?? defaultSize;
+    variantColor = variantColor ?? defaultVariantColor;
   }
 
   const { sizes: themeSizes } = useTheme();
