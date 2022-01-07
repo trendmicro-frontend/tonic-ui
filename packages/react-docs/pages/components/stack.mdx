@@ -10,17 +10,6 @@ import { Stack } from '@tonic-ui/react';
 
 ## Usage
 
-By default, each item is stacked vertically. Stack clones it's children and passes the spacing to them using the margin property.
-
-| `flexDirection` Prop | Item Spacing |
-| :-------- | :------ |
-| column | `margin-bottom` |
-| column-reverse | `margin-top` |
-| row | `margin-right` |
-| row-reverse | `margin-left` |
-
-### Vertically stacked items
-
 ```jsx noInline
 const Item = (props) => {
   const [colorMode] = useColorMode();
@@ -28,96 +17,122 @@ const Item = (props) => {
   const boxShadow = colorStyle.shadow.thin;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
-    <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
+    <Box
+      boxShadow={boxShadow}
+      border={1}
+      borderColor={borderColor}
+      p="2x"
+      {...props}
+    />
   );
 };
 
-function Example() {
-  return (
-    <Stack direction="column" spacing="4x">
-      <Item>Item 1</Item>
-      <Item>Item 2</Item>
-      <Item>Item 3</Item>
-    </Stack>
-  );
-}
+const FormGroup = (props) => (
+  <Box mb="4x" {...props} />
+);
 
-render(<Example />);
-```
-
-### Vertically stacked items in reverse order
-
-```jsx noInline
-const Item = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle.shadow.thin;
-  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
-  return (
-    <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
-  );
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
 };
 
 function Example() {
+  const [direction, changeDirectionBy] = useSelection('column');
+  const [flexWrap, changeFlexWrapBy] = useSelection('nowrap');
+  const [gap, toggleGap] = useToggle(false);
+  const [shouldWrapChildren, toggleShouldWrapChildren] = useToggle(false);
+
   return (
-    <Stack direction="column-reverse" spacing="4x">
-      <Item>Item 1</Item>
-      <Item>Item 2</Item>
-      <Item>Item 3</Item>
-    </Stack>
-  );
-}
-
-render(<Example />);
-```
-
-### Horizontally stacked items
-
-```jsx noInline
-const Item = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle.shadow.thin;
-  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
-  return (
-    <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
-  );
-};
-
-function Example() {
-  return (
-    <Stack direction="row" spacing="4x">
-      <Item>Item 1</Item>
-      <Item>Item 2</Item>
-      <Item>Item 3</Item>
-    </Stack>
-  );
-}
-
-render(<Example />);
-```
-
-
-### Horizontally stacked items in reverse order
-
-```jsx noInline
-const Item = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle.shadow.thin;
-  const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
-  return (
-    <Box p="2x" boxShadow={boxShadow} border={1} borderColor={borderColor} {...props} />
-  );
-};
-
-function Example() {
-  return (
-    <Stack direction="row-reverse" spacing="4x">
-      <Item>Item 1</Item>
-      <Item>Item 2</Item>
-      <Item>Item 3</Item>
-    </Stack>
+    <>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            direction
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['column', 'column-reverse', 'row', 'row-reverse'].map(value => (
+            <SelectableButton
+              key={value}
+              selected={value === direction}
+              onClick={changeDirectionBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectableButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            flexWrap
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['nowrap', 'wrap', 'wrap-reverse'].map(value => (
+            <SelectableButton
+              key={value}
+              selected={value === flexWrap}
+              onClick={changeFlexWrapBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectableButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={gap}
+            onChange={() => toggleGap()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">gap="4x"</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={shouldWrapChildren}
+            onChange={() => toggleShouldWrapChildren()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">shouldWrapChildren</Text>
+        </TextLabel>
+      </FormGroup>
+      <Divider mb="4x" />
+      <Stack
+        direction={direction}
+        flexWrap={flexWrap}
+        shouldWrapChildren={shouldWrapChildren}
+        gap={gap ? '4x' : undefined}
+        spacing="4x"
+      >
+        <Item>Stacked Item 1</Item>
+        <Item>Stacked Item 2</Item>
+        <Item>Stacked Item 3</Item>
+        <Item>Stacked Item 4</Item>
+        <Item>Stacked Item 5</Item>
+        <Item>Stacked Item 6</Item>
+      </Stack>
+    </>
   );
 }
 
@@ -130,5 +145,7 @@ render(<Example />);
 | :--- | :--- | :------ | :---------- |
 | direction | string | 'column' | The shorthand of `flexDirection`. |
 | flexDirection | string | 'column' | The direction to stack the items. One of: 'column', 'column-reverse', 'row', 'row-reverse' |
-| spacing | number \| string | 0 | The space between each stack item. |
-| shouldWrapChildren | boolean | false | If `true`, the children will be wrapped in a `Box` with `display: inline-block`, and the `Box` will take the `spacing` props. |
+| flexWrap | string | | Whether to wrap the items. One of: 'nowrap' (default), 'wrap', 'wrap-reverse' |
+| gap | number \| string | | Set the gap between rows and columns. It is useful when `flexWrap` is set to 'wrap' or 'wrap-reverse'. |
+| shouldWrapChildren | boolean | false | If `true`, each child will be wrapped in a `Box` with `display: inline-flex`. |
+| spacing | number \| string | 0 | The space between items based on the direction. |
