@@ -15,6 +15,9 @@ const GlobalStyles = () => {
         :root {
           color-scheme: ${colorMode};
         }
+        :focus:not(.focus-visible) {
+          outline: none;
+        }
         body {
           font-size: ${fontSizes.sm};
           line-height: ${lineHeights.sm};

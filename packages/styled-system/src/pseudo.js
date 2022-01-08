@@ -74,6 +74,7 @@ const pseudoClassSelector = {
   ]),
   _focusActive: createSelectorFunction('&:focus:active'),
   _focusHover: createSelectorFunction('&:focus:hover'),
+  _focusVisible: createSelectorFunction('&:focus-visible'),
   _focusWithin: createSelectorFunction('&:focus-within'),
   _hover: createSelectorFunction([
     '&:hover',
