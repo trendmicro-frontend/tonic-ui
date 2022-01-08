@@ -8,7 +8,7 @@
   ],
   "command": {
     "version": {
-      "allowBranch": "master",
+      "allowBranch": ["master","v0"],
       "changelog": true,
       "conventionalCommits": false,
       "message": "chore(release): publish"
