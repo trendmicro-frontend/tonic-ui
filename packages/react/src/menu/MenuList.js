@@ -12,6 +12,8 @@ import useMenu from './useMenu';
 
 const MenuList = forwardRef((
   {
+    PopperComponent = Popper,
+    PopperProps,
     TransitionComponent = Collapse,
     TransitionProps,
     children,
@@ -43,6 +45,22 @@ const MenuList = forwardRef((
     usePortal,
   } = { ...menuContext };
 
+  // Close the menu on blur
+  const handleBlur = event => {
+    const target = event.relatedTarget || document.activeElement;
+    const isClickingOutside =
+      target &&
+      !(menuRef?.current?.contains(target)) &&
+      !(menuToggleRef?.current?.contains(target));
+    const shouldCloseMenu = isOpen && closeOnBlur && isClickingOutside;
+
+    if (shouldCloseMenu) {
+      ensureFunction(closeMenu)();
+    }
+
+    ensureFunction(onBlur)(event);
+  };
+
   const handleKeyDown = event => {
     if (event.key === 'ArrowDown' || event.key === 'Tab') {
       event.preventDefault();
@@ -63,33 +81,20 @@ const MenuList = forwardRef((
     ensureFunction(onKeyDown)(event);
   };
 
-  // Close the menu on blur
-  const handleBlur = event => {
-    const target = event.relatedTarget || document.activeElement;
-    const isClickingOutside =
-      target &&
-      !(menuRef?.current?.contains(target)) &&
-      !(menuToggleRef?.current?.contains(target));
-    const shouldCloseMenu = isOpen && closeOnBlur && isClickingOutside;
-
-    if (shouldCloseMenu) {
-      ensureFunction(closeMenu)();
-    }
-
-    ensureFunction(onBlur)(event);
-  };
-
   const styleProps = useMenuListStyle();
 
+  const eventHandlers = {
+    onBlur: wrapEvent(onBlurProp, handleBlur),
+    onKeyDown: wrapEvent(onKeyDownProp, handleKeyDown),
+  };
+
   return (
-    <Popper
+    <PopperComponent
       anchorEl={menuToggleRef?.current}
       aria-labelledby={menuToggleId}
       id={menuId}
       isOpen={isOpen}
       modifiers={{ offset }}
-      onBlur={wrapEvent(onBlurProp, handleBlur)}
-      onKeyDown={wrapEvent(onKeyDownProp, handleKeyDown)}
       placement={placement}
       ref={menuRef}
       role="menu"
@@ -97,6 +102,8 @@ const MenuList = forwardRef((
       usePortal={usePortal}
       willUseTransition={true}
       {...styleProps}
+      {...eventHandlers}
+      {...PopperProps}
       {...rest}
     >
       {({ placement, transition }) => {
@@ -125,7 +132,7 @@ const MenuList = forwardRef((
           </TransitionComponent>
         );
       }}
-    </Popper>
+    </PopperComponent>
   );
 });
 
