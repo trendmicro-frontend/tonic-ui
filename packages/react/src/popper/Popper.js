@@ -88,6 +88,7 @@ const Popper = forwardRef((
           },
         }
       ],
+      strategy: 'absolute',
       ...popperOptions,
     });
 
