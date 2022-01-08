@@ -213,6 +213,13 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| PopperArrowComponent | ElementType | PopperArrow | The component used for the popover arrow. |
+| PopperArrowProps | object | | Props applied to the PopoverArrow component. |
+| TransitionComponent | ElementType | Grow | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
 | children | | | If the children is a function, it will be called with `{ getTooltipTriggerProps }` and the return value will be used as the trigger. |
 | defaultIsOpen | boolean | false | Whether the tooltip is open by default. |
 | isOpen | boolean | | If `true`, the tooltip is shown. |
@@ -226,6 +233,3 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 | closeOnClick | boolean | | If `true`, hide the tooltip when the trigger is clicked. |
 | onOpen | function | | A callback called when the tooltip shows. |
 | onClose| function | | A callback called when the tooltip hides. |
-| TransitionComponent | ElementType | Grow | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |

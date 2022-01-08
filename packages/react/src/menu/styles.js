@@ -2,6 +2,13 @@ import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { setColorWithOpacity } from '../utils/colors';
 
+const useMenuStyle = () => {
+  return {
+    position: 'relative',
+    display: 'inline-flex',
+  };
+};
+
 const useMenuButtonStyle = () => {
   return {
     display: 'inline-flex',
@@ -16,11 +23,11 @@ const useMenuListStyle = () => {
   const [colorStyle] = useColorStyle({ colorMode });
   const colorModeStyle = {
     light: {
-      bg: 'white',
+      backgroundColor: 'white',
       boxShadow: colorStyle?.shadow?.medium,
     },
     dark: {
-      bg: 'gray:80',
+      backgroundColor: 'gray:80',
       boxShadow: colorStyle?.shadow?.medium,
     },
   }[colorMode];
@@ -30,6 +37,10 @@ const useMenuListStyle = () => {
     m: '0',
     p: '0',
     py: '2x',
+    zIndex: 'dropdown',
+    _focus: {
+      outline: 'none',
+    },
     ...colorModeStyle,
   };
 };
@@ -50,11 +61,11 @@ const useMenuGroupStyle = () => {
 
 const useMenuItemStyle = () => {
   const [colorMode] = useColorMode();
-  const hoverBackground = {
+  const hoverBackgroundColor = {
     light: 'black:disabled',
     dark: setColorWithOpacity('white', 0.12),
   }[colorMode];
-  const activeBackground = {
+  const activeBackgroundColor = {
     light: 'gray:20',
     dark: setColorWithOpacity('white', 0.08),
   }[colorMode];
@@ -62,11 +73,11 @@ const useMenuItemStyle = () => {
     light: 'black:disabled',
     dark: 'white:disabled',
   }[colorMode];
-  const disabledBackground = {
+  const disabledBackgroundColor = {
     light: 'white',
     dark: 'gray:80',
   }[colorMode];
-  const focusBackground = activeBackground;
+  const focusBackgroundColor = activeBackgroundColor;
 
   return {
     flex: ' 0 0 auto',
@@ -81,17 +92,16 @@ const useMenuItemStyle = () => {
     textAlign: 'left',
     outline: 'none',
     _hover: {
-      bg: hoverBackground,
+      backgroundColor: hoverBackgroundColor,
     },
     _active: {
-      bg: activeBackground,
+      backgroundColor: activeBackgroundColor,
     },
     _focus: {
-      bg: focusBackground,
-      outline: 0,
+      backgroundColor: focusBackgroundColor,
     },
     _disabled: {
-      bg: disabledBackground,
+      backgroundColor: disabledBackgroundColor,
       color: disabledColor,
       cursor: 'not-allowed',
     },
@@ -107,6 +117,7 @@ const useMenuItemDividerStyle = () => {
 const useMenuToggleStyle = () => {
   return {
     cursor: 'pointer',
+    display: 'inline-flex',
   };
 };
 
@@ -120,6 +131,7 @@ const useMenuToggleIconStyle = () => {
 };
 
 export {
+  useMenuStyle,
   useMenuButtonStyle,
   useMenuListStyle,
   useMenuGroupStyle,

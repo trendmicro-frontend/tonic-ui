@@ -24,20 +24,18 @@ const mapPlacementToTransformOrigin = placement => ({
 }[placement]);
 
 const PopoverContent = ({
-  onKeyDown,
-  onBlur: onBlurProp,
-  onMouseLeave,
-  onMouseEnter,
-  onFocus,
-  children,
-
-  'aria-label': ariaLabel,
   PopperComponent = Popper,
   PopperProps,
   PopperArrowComponent = PopperArrow,
   PopperArrowProps,
   TransitionComponent = Grow,
   TransitionProps,
+  onKeyDown,
+  onBlur: onBlurProp,
+  onMouseLeave,
+  onMouseEnter,
+  onFocus,
+  children,
   ...rest
 }) => {
   const isHydrated = useHydrated();

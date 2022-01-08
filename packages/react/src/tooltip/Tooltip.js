@@ -28,6 +28,13 @@ const mapPlacementToTransformOrigin = placement => ({
 
 const Tooltip = forwardRef((
   {
+    PopperComponent = Popper,
+    PopperProps,
+    PopperArrowComponent = PopperArrow,
+    PopperArrowProps,
+    TransitionComponent = Grow,
+    TransitionProps,
+
     showDelay, // deprecated
     hideDelay, // deprecated
     shouldWrapChildren, // removed
@@ -44,12 +51,7 @@ const Tooltip = forwardRef((
     onOpen: onOpenProp,
     onClose: onCloseProp,
     arrowAt,
-    PopperComponent = Popper,
-    PopperProps,
-    PopperArrowComponent = PopperArrow,
-    PopperArrowProps,
-    TransitionComponent = Grow,
-    TransitionProps,
+    usePortal = true,
     ...rest
   },
   ref,
@@ -168,7 +170,7 @@ const Tooltip = forwardRef((
       {isHydrated && (
         <PopperComponent
           aria-hidden={!isOpen}
-          usePortal
+          usePortal={usePortal}
           isOpen={_isOpen}
           data-popper-placement={placement}
           placement={placement}

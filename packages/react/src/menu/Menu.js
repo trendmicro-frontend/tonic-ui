@@ -1,11 +1,12 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuProvider } from './context';
+import { useMenuStyle } from './styles';
 
 const mapPlacementToDirection = (placement) => {
   const p0 = ensureString(placement).split('-')[0];
@@ -17,81 +18,84 @@ const mapPlacementToDirection = (placement) => {
   return direction;
 };
 
-const Menu = ({
-  anchorEl,
-  autoSelect = false,
-  children,
-  closeOnBlur = true,
-  closeOnSelect = true,
-  defaultActiveIndex = -1,
-  defaultIsOpen = false,
-  isOpen: isOpenProp,
-  onBlur,
-  onClose,
-  onKeyDown,
-  onOpen,
-  placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
-  ...rest
-}) => {
+const Menu = forwardRef((
+  {
+    anchorEl,
+    autoSelect = false,
+    children,
+    closeOnBlur = true,
+    closeOnSelect = true,
+    defaultActiveIndex = -1,
+    defaultIsOpen = false,
+    isOpen: isOpenProp,
+    onBlur,
+    onClose,
+    onKeyDown,
+    onOpen,
+    placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
+    usePortal = false, // Pass `true` if you want to render the menu in a portal
+    ...rest
+  },
+  ref,
+) => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
   const [isOpen, setIsOpen] = useState(defaultIsOpen);
+  const [focusableElements, setFocusableElements] = useState([]);
   const { current: isControlled } = useRef(isOpenProp != null);
   const _isOpen = isControlled ? isOpenProp : isOpen;
   const defaultId = useAutoId();
   const menuId = `${config.name}:Menu-${defaultId}`;
   const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
-  const focusableItems = useRef([]);
   const menuRef = useRef(null);
   const menuToggleRef = useRef(null);
   const direction = mapPlacementToDirection(placement);
 
   useEffect(() => {
-    if (_isOpen && menuRef && menuRef.current) {
-      let focusables = getFocusableElements(menuRef.current).filter(node => node.getAttribute('role') === 'menuitem');
-      focusableItems.current = menuRef.current ? focusables : [];
-      initTabIndex();
+    if (_isOpen) {
+      // Use requestAnimationFrame to ensure that the menu is rendered before we try to focus on it.
+      requestAnimationFrame(() => {
+        const nextFocusableElements = getFocusableElements(menuRef?.current).filter(node => node.getAttribute('role') === 'menuitem');
+        setFocusableElements(nextFocusableElements);
+
+        // Init tab index
+        nextFocusableElements.forEach((node, index) => (index === 0) && node.setAttribute('tabindex', 0));
+      });
     }
   }, [_isOpen]);
-
-  const updateTabIndex = index => {
-    if (focusableItems.current.length > 0) {
-      let nodeAtIndex = focusableItems.current[index];
-      focusableItems.current.forEach(node => {
-        if (node !== nodeAtIndex) {
-          node.setAttribute('tabindex', -1);
-        }
-      });
-      nodeAtIndex.setAttribute('tabindex', 0);
-    }
-  };
-
-  const resetTabIndex = () => {
-    if (focusableItems.current) {
-      focusableItems.current.forEach(node => node.setAttribute('tabindex', -1));
-    }
-  };
-
-  const initTabIndex = () => {
-    focusableItems.current.forEach(
-      (node, index) => index === 0 && node.setAttribute('tabindex', 0),
-    );
-  };
 
   const wasPreviouslyOpen = usePrevious(_isOpen);
 
   useEffect(() => {
     if (activeIndex !== -1) {
-      focusableItems.current[activeIndex] &&
-        focusableItems.current[activeIndex].focus();
-      updateTabIndex(activeIndex);
+      // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
+      requestAnimationFrame(() => {
+        const el = focusableElements[activeIndex];
+        el && el.focus();
+
+        focusableElements.forEach((node, index) => {
+          if (index === activeIndex) {
+            node.setAttribute('tabindex', 0);
+          } else {
+            node.setAttribute('tabindex', -1);
+          }
+        });
+      });
     }
     if (activeIndex === -1 && !_isOpen && wasPreviouslyOpen) {
-      menuToggleRef.current && menuToggleRef.current.focus();
+      // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
+      requestAnimationFrame(() => {
+        const el = menuToggleRef.current;
+        el && el.focus();
+      });
     }
     if (activeIndex === -1 && _isOpen) {
-      menuRef.current && menuRef.current.focus();
+      // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
+      requestAnimationFrame(() => {
+        const el = menuRef.current;
+        el && el.focus();
+      });
     }
-  }, [activeIndex, _isOpen, menuToggleRef, menuRef, wasPreviouslyOpen]);
+  }, [_isOpen, activeIndex, focusableElements, menuRef, menuToggleRef, wasPreviouslyOpen]);
 
   const openMenu = () => {
     if (!isControlled) {
@@ -103,16 +107,30 @@ const Menu = ({
     }
   };
 
-  const focusAtIndex = index => {
-    setActiveIndex(index);
-  };
-
   const focusOnFirstItem = () => {
-    setActiveIndex(0);
+    if (focusableElements.length > 0) {
+      setActiveIndex(0);
+    }
   };
 
   const focusOnLastItem = () => {
-    setActiveIndex(focusableItems.current.length - 1);
+    if (focusableElements.length > 0) {
+      setActiveIndex(focusableElements.length - 1);
+    }
+  };
+
+  const focusOnNextItem = () => {
+    if (focusableElements.length > 0) {
+      const nextIndex = (activeIndex + 1) % focusableElements.length;
+      setActiveIndex(nextIndex);
+    }
+  };
+
+  const focusOnPreviousItem = () => {
+    if (focusableElements.length > 0) {
+      const prevIndex = (activeIndex - 1 + focusableElements.length) % focusableElements.length;
+      setActiveIndex(prevIndex);
+    }
   };
 
   const closeMenu = () => {
@@ -125,7 +143,9 @@ const Menu = ({
     }
 
     setActiveIndex(-1);
-    resetTabIndex();
+
+    // Reset tab index
+    focusableElements.forEach(node => node.setAttribute('tabindex', -1));
   };
 
   if (anchorEl) {
@@ -133,39 +153,41 @@ const Menu = ({
   }
 
   const context = {
-    activeIndex,
     autoSelect,
     closeMenu,
     closeOnBlur,
     closeOnSelect,
     direction,
-    focusAtIndex,
     focusOnFirstItem,
     focusOnLastItem,
-    focusableItems,
+    focusOnNextItem,
+    focusOnPreviousItem,
     isOpen: _isOpen,
-    onKeyDown,
     onBlur,
+    onKeyDown,
     openMenu,
     placement,
     menuId,
     menuRef,
     menuToggleId,
     menuToggleRef,
+    usePortal,
   };
+
+  const styleProps = useMenuStyle({});
 
   return (
     <MenuProvider value={context}>
       <Box
-        position="relative"
-        display="inline-flex"
+        ref={ref}
+        {...styleProps}
         {...rest}
       >
         {(typeof children === 'function') ? children(context) : children}
       </Box>
     </MenuProvider>
   );
-};
+});
 
 Menu.displayName = 'Menu';
 
