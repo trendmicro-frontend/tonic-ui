@@ -10,7 +10,7 @@ const focusableElementSelectors = [
   'select:not([disabled])',
   'textarea:not([disabled])',
   'video[controls]',
-  '*[contenteditable]:not([contenteditable="false"]',
+  '*[contenteditable]:not([contenteditable="false"])',
   '*[tabindex]:not([aria-disabled="true"])',
 ];
 
