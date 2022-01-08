@@ -584,7 +584,6 @@ The second number, `distance`, controls the distance between the `MenuList` and 
       16, // skidding
       8, // distance
     ]}
-    width="max-content"
   >
     <MenuItem>
       Item #1
@@ -611,7 +610,6 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
   <MenuList
     maxHeight={200}
     overflow="auto"
-    width="max-content"
   >
     {Array.from({ length: 100 }).map((_, key) => (
       <MenuItem key={key}>
@@ -669,7 +667,7 @@ function menuWithCheckbox() {
       <MenuButton variant="secondary">
         <Text>Selected ({checkedItems.length})</Text>
       </MenuButton>
-      <MenuList width="max-content">
+      <MenuList>
         <CheckboxGroup
           size="sm"
           value={checkedItems}
