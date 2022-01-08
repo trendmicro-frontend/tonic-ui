@@ -18,7 +18,7 @@ For Tonic UI to work, you will need to setup Provider components at the root of 
 
 Go to the root of your application and do the following:
 
-```js
+```jsx disabled
 import React from 'react';
 import {
   Box,
@@ -26,6 +26,8 @@ import {
   ColorStyleProvider,
   ThemeProvider,
   ToastProvider,
+  useColorMode,
+  useTheme,
 } from '@tonic-ui/react';
 
 const App = (props) => {
@@ -34,33 +36,15 @@ const App = (props) => {
       <ColorModeProvider>
         <ColorStyleProvider>
           <ToastProvider>
-            <Box {...props} />
+            <Layout>
+              <Box {...props} />
+            </Layout>
           </ToastProvider>
         </ColorStyleProvider>
       </ColorModeProvider>
     </ThemeProvider>
   );
 };
-```
-
-### CSSBaseline
-
-Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
-
-See below for an example of building a Tonic UI application with `CSSBaseline`:
-
-```js
-import { Global, css } from '@emotion/react';
-import {
-  Box,
-  ColorModeProvider,
-  ColorStyleProvider,
-  CSSBaseline,
-  ThemeProvider,
-  ToastProvider,
-  useColorMode,
-  useTheme,
-} from '@tonic-ui/react';
 
 const Layout = (props) => {
   const [colorMode] = useColorMode(); // One of: 'dark', 'light'
@@ -75,6 +59,9 @@ const Layout = (props) => {
         styles={css`
           :root {
             color-scheme: ${colorMode};
+          }
+          :focus:not(:focus-visible) {
+            outline: none;
           }
           body {
             font-size: ${fontSizes.sm};
@@ -93,25 +80,31 @@ const Layout = (props) => {
     </>
   );
 };
+```
 
-const App = (props) => {
-  return (
-    <ThemeProvider>
-      <ColorModeProvider value="dark">
-        <ColorStyleProvider>
-          <ToastProvider>
-            <CSSBaseline />
-            <Layout>
-              <Box {...props} />
-            </Layout>
-          </ToastProvider>
-        </ColorStyleProvider>
-      </ColorModeProvider>
-    </ThemeProvider>
-  );
-};
+> For the **`color-scheme`** CSS property, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme) for more information.
 
-export default App;
+> For the **`:focus-visible`** pseudo-class, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible) for more information.
+
+### CSSBaseline
+
+Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
+
+```js disabled
+import { CSSBaseline } from '@tonic-ui/react';
+```
+
+```jsx disabled
+<ThemeProvider>
+  <ColorModeProvider value="dark">
+    <ColorStyleProvider>
+      <ToastProvider>
+        <CSSBaseline />
+        <App />
+      </ToastProvider>
+    </ColorStyleProvider>
+  </ColorModeProvider>
+</ThemeProvider>
 ```
 
 ### Extending the theme
