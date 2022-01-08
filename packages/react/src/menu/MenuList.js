@@ -50,12 +50,16 @@ const MenuList = forwardRef((
     let nextIndex;
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      nextIndex = (index + 1) % count;
-      ensureFunction(focusAtIndex)(nextIndex);
+      if (count > 0) {
+        nextIndex = (index + 1) % count;
+        ensureFunction(focusAtIndex)(nextIndex);
+      }
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
-      nextIndex = (index - 1 + count) % count;
-      ensureFunction(focusAtIndex)(nextIndex);
+      if (count > 0) {
+        nextIndex = (index - 1 + count) % count;
+        ensureFunction(focusAtIndex)(nextIndex);
+      }
     } else if (event.key === 'Home') {
       ensureFunction(focusOnFirstItem)();
     } else if (event.key === 'End') {
