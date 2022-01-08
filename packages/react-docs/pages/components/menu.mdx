@@ -99,6 +99,7 @@ function Example() {
       >
         <MenuList
           onClick={handleClickMenuItem}
+          width="max-content"
         >
           <MenuItem value={1}>
             Item #1
@@ -128,7 +129,7 @@ function Example() {
     <MenuToggle>
       <Text>Options</Text>
     </MenuToggle>
-    <MenuList>
+    <MenuList width="max-content">
       <MenuItem>
         Item #1
       </MenuItem>
@@ -154,7 +155,7 @@ function Example() {
         <MenuToggleIcon />
       </Flex>
     </MenuToggle>
-    <MenuList>
+    <MenuList width="max-content">
       <MenuItem>
         Item #1
       </MenuItem>
@@ -187,7 +188,7 @@ function Example() {
         );
       }}
     </MenuToggle>
-    <MenuList>
+    <MenuList width="max-content">
       <MenuItem>
         Item #1
       </MenuItem>
@@ -235,40 +236,22 @@ const MenuButton = (props) => {
 ```
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Menu>
-    <MenuButton variant="secondary" size="md" width={200}>
-      <Text>Options</Text>
-    </MenuButton>
-    <MenuList>
-      <MenuItem>
-        Item #1
-      </MenuItem>
-      <MenuItem>
-        Item #2
-      </MenuItem>
-      <MenuItem>
-        Item #3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-  <Menu>
-    <MenuButton variant="secondary" size="md" width="100%">
-      <Text>Options</Text>
-    </MenuButton>
-    <MenuList>
-      <MenuItem>
-        Item #1
-      </MenuItem>
-      <MenuItem>
-        Item #2
-      </MenuItem>
-      <MenuItem>
-        Item #3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-</Stack>
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
 ```
 
 ### MenuToggleIcon
@@ -280,7 +263,7 @@ const MenuButton = (props) => {
   <MenuToggle>
     <MenuToggleIcon />
   </MenuToggle>
-  <MenuList>
+  <MenuList width="max-content">
     <MenuItem>
       Item #1
     </MenuItem>
@@ -319,7 +302,7 @@ You can also customize the indicator by passing a component as children or a fun
             }}
           </MenuToggleIcon>
         </MenuToggle>
-        <MenuList>
+        <MenuList width="max-content">
           <MenuItem>
             Item #1
           </MenuItem>
@@ -366,7 +349,7 @@ render(
         <Icon icon="user-team" size="5x" />
       </Avatar>
     </MenuToggle>
-    <MenuList>
+    <MenuList width="max-content">
       <MenuItem>
         <Text>Profile</Text>
       </MenuItem>
@@ -404,14 +387,14 @@ render(
 
 To change the width of the menu, pass `width` prop to the `MenuList` component.
 
-#### `width={240}`
+#### fixed width
 
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
     <Text>This is a very long menu button</Text>
   </MenuButton>
-  <MenuList width={240}>
+  <MenuList width={200}>
     <MenuItem>
       Item #1
     </MenuItem>
@@ -425,28 +408,30 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
 </Menu>
 ```
 
-#### `width="max-content"`
+#### full width
+
+Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `MenuList` to make the menu as wide as the content.
 
 ```jsx
-<Menu>
-  <MenuButton variant="secondary">
+<Menu display="block">
+  <MenuButton variant="secondary" width="100%">
     <Text>Options</Text>
   </MenuButton>
-  <MenuList width="max-content">
+  <MenuList width="100%">
     <MenuItem>
-      This is a very long menu item #1
+      Item #1
     </MenuItem>
     <MenuItem>
-      This is a very long menu item #2
+      Item #2
     </MenuItem>
     <MenuItem>
-      This is a very long menu item #3
+      Item #3
     </MenuItem>
   </MenuList>
 </Menu>
 ```
 
-#### `width="min-content"`
+#### `min-content`
 
 ```jsx
 <Menu>
@@ -462,6 +447,27 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
     </MenuItem>
     <MenuItem>
       Menu item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+#### `max-content`
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      This is a very long menu item #1
+    </MenuItem>
+    <MenuItem>
+      This is a very long menu item #2
+    </MenuItem>
+    <MenuItem>
+      This is a very long menu item #3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -518,10 +524,10 @@ function Example() {
             return (
               <Box key={key}>
                 <Menu placement={placement}>
-                  <MenuButton variant="secondary">
+                  <MenuButton variant="secondary" width={150}>
                     <Text>Options</Text>
                   </MenuButton>
-                  <MenuList width="max-content">
+                  <MenuList>
                     <MenuItem>
                       Item #1
                     </MenuItem>
@@ -603,13 +609,14 @@ The second number, `distance`, controls the distance between the `MenuList` and 
 To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList`. The menu will become scrollable when the menu items exceed the height of the menu.
 
 ```jsx
-<Menu>
-  <MenuButton variant="secondary">
+<Menu display="block">
+  <MenuButton variant="secondary" width={200}>
     <Text>Options</Text>
   </MenuButton>
   <MenuList
     maxHeight={200}
     overflow="auto"
+    width={200}
   >
     {Array.from({ length: 100 }).map((_, key) => (
       <MenuItem key={key}>
@@ -623,11 +630,11 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
 You can also use the `Scrollbar` component to override the default scrollbar.
 
 ```jsx
-<Menu>
-  <MenuButton variant="secondary">
+<Menu display="block">
+  <MenuButton variant="secondary" width={200}>
     <Text>Options</Text>
   </MenuButton>
-  <MenuList width={100}>
+  <MenuList width={200}>
     <Scrollbar height={200} overflowY="visible">
       {Array.from({ length: 100 }).map((_, key) => (
         <MenuItem key={key}>
@@ -667,7 +674,7 @@ function menuWithCheckbox() {
       <MenuButton variant="secondary">
         <Text>Selected ({checkedItems.length})</Text>
       </MenuButton>
-      <MenuList>
+      <MenuList width="max-content">
         <CheckboxGroup
           size="sm"
           value={checkedItems}
@@ -760,11 +767,13 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
 | TransitionComponent | ElementType | Collapse | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
 
 ### MenuGroup
 

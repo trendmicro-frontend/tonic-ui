@@ -1,10 +1,12 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import { Box } from '../box';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuProvider } from './context';
+import { useMenuStyle } from './styles';
 
 const mapPlacementToDirection = (placement) => {
   const p0 = ensureString(placement).split('-')[0];
@@ -16,23 +18,26 @@ const mapPlacementToDirection = (placement) => {
   return direction;
 };
 
-const Menu = ({
-  anchorEl,
-  autoSelect = false,
-  children,
-  closeOnBlur = true,
-  closeOnSelect = true,
-  defaultActiveIndex = -1,
-  defaultIsOpen = false,
-  isOpen: isOpenProp,
-  onBlur,
-  onClose,
-  onKeyDown,
-  onOpen,
-  placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
-  usePortal = true,
-  ...rest
-}) => {
+const Menu = forwardRef((
+  {
+    anchorEl,
+    autoSelect = false,
+    children,
+    closeOnBlur = true,
+    closeOnSelect = true,
+    defaultActiveIndex = -1,
+    defaultIsOpen = false,
+    isOpen: isOpenProp,
+    onBlur,
+    onClose,
+    onKeyDown,
+    onOpen,
+    placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
+    usePortal = false, // Pass `true` if you want to render the menu in a portal
+    ...rest
+  },
+  ref,
+) => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
   const [isOpen, setIsOpen] = useState(defaultIsOpen);
   const [focusableElements, setFocusableElements] = useState([]);
@@ -169,12 +174,20 @@ const Menu = ({
     usePortal,
   };
 
+  const styleProps = useMenuStyle({});
+
   return (
     <MenuProvider value={context}>
-      {(typeof children === 'function') ? children(context) : children}
+      <Box
+        ref={ref}
+        {...styleProps}
+        {...rest}
+      >
+        {(typeof children === 'function') ? children(context) : children}
+      </Box>
     </MenuProvider>
   );
-};
+});
 
 Menu.displayName = 'Menu';
 

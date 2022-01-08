@@ -2,6 +2,13 @@ import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { setColorWithOpacity } from '../utils/colors';
 
+const useMenuStyle = () => {
+  return {
+    position: 'relative',
+    display: 'inline-flex',
+  };
+};
+
 const useMenuButtonStyle = () => {
   return {
     display: 'inline-flex',
@@ -124,6 +131,7 @@ const useMenuToggleIconStyle = () => {
 };
 
 export {
+  useMenuStyle,
   useMenuButtonStyle,
   useMenuListStyle,
   useMenuGroupStyle,
