@@ -1,6 +1,5 @@
 import chainedFunction from 'chained-function';
 import {
-  ensureArray,
   ensureFunction,
 } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
@@ -27,45 +26,36 @@ const MenuList = forwardRef((
   const combinedRef = useForkRef(nodeRef, ref);
   const menuContext = useMenu(); // context might be an undefined value
   const {
-    activeIndex: index,
+    closeMenu,
+    closeOnBlur,
     isOpen,
-    focusAtIndex,
     focusOnFirstItem,
     focusOnLastItem,
-    closeMenu,
-    focusableItems,
-    menuToggleRef,
+    focusOnNextItem,
+    focusOnPreviousItem,
     menuId,
     menuToggleId,
+    menuToggleRef,
     menuRef,
-    closeOnBlur,
-    placement,
-    onKeyDown,
     onBlur,
+    onKeyDown,
+    placement,
     usePortal,
   } = { ...menuContext };
 
   const handleKeyDown = event => {
-    const count = ensureArray(focusableItems?.current).length;
-    let nextIndex;
-    if (event.key === 'ArrowDown') {
+    if (event.key === 'ArrowDown' || event.key === 'Tab') {
       event.preventDefault();
-      if (count > 0) {
-        nextIndex = (index + 1) % count;
-        ensureFunction(focusAtIndex)(nextIndex);
-      }
+      ensureFunction(focusOnNextItem)();
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
-      if (count > 0) {
-        nextIndex = (index - 1 + count) % count;
-        ensureFunction(focusAtIndex)(nextIndex);
-      }
+      ensureFunction(focusOnPreviousItem)();
     } else if (event.key === 'Home') {
+      event.preventDefault();
       ensureFunction(focusOnFirstItem)();
     } else if (event.key === 'End') {
-      ensureFunction(focusOnLastItem)();
-    } else if (event.key === 'Tab') {
       event.preventDefault();
+      ensureFunction(focusOnLastItem)();
     } else if (event.key === 'Escape') {
       ensureFunction(closeMenu)();
     }
@@ -106,10 +96,6 @@ const MenuList = forwardRef((
       tabIndex={-1}
       usePortal={usePortal}
       willUseTransition={true}
-      zIndex="dropdown"
-      _focus={{
-        outline: 0,
-      }}
       {...styleProps}
       {...rest}
     >

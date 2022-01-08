@@ -98,7 +98,6 @@ function Example() {
         mr="2x"
       >
         <MenuList
-          width="max-content"
           onClick={handleClickMenuItem}
         >
           <MenuItem value={1}>
@@ -129,7 +128,7 @@ function Example() {
     <MenuToggle>
       <Text>Options</Text>
     </MenuToggle>
-    <MenuList width="max-content">
+    <MenuList>
       <MenuItem>
         Item #1
       </MenuItem>
@@ -155,7 +154,7 @@ function Example() {
         <MenuToggleIcon />
       </Flex>
     </MenuToggle>
-    <MenuList width="max-content">
+    <MenuList>
       <MenuItem>
         Item #1
       </MenuItem>
@@ -188,7 +187,7 @@ function Example() {
         );
       }}
     </MenuToggle>
-    <MenuList width="max-content">
+    <MenuList>
       <MenuItem>
         Item #1
       </MenuItem>
@@ -241,7 +240,7 @@ const MenuButton = (props) => {
     <MenuButton variant="secondary" size="md" width={200}>
       <Text>Options</Text>
     </MenuButton>
-    <MenuList width="max-content">
+    <MenuList>
       <MenuItem>
         Item #1
       </MenuItem>
@@ -257,7 +256,7 @@ const MenuButton = (props) => {
     <MenuButton variant="secondary" size="md" width="100%">
       <Text>Options</Text>
     </MenuButton>
-    <MenuList width="100%">
+    <MenuList>
       <MenuItem>
         Item #1
       </MenuItem>
@@ -281,7 +280,7 @@ const MenuButton = (props) => {
   <MenuToggle>
     <MenuToggleIcon />
   </MenuToggle>
-  <MenuList width="max-content">
+  <MenuList>
     <MenuItem>
       Item #1
     </MenuItem>
@@ -320,7 +319,7 @@ You can also customize the indicator by passing a component as children or a fun
             }}
           </MenuToggleIcon>
         </MenuToggle>
-        <MenuList width="max-content">
+        <MenuList>
           <MenuItem>
             Item #1
           </MenuItem>
@@ -367,7 +366,7 @@ render(
         <Icon icon="user-team" size="5x" />
       </Avatar>
     </MenuToggle>
-    <MenuList width="max-content">
+    <MenuList>
       <MenuItem>
         <Text>Profile</Text>
       </MenuItem>
@@ -405,14 +404,14 @@ render(
 
 To change the width of the menu, pass `width` prop to the `MenuList` component.
 
-#### `width="100%"`
+#### `width={240}`
 
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
     <Text>This is a very long menu button</Text>
   </MenuButton>
-  <MenuList width="100%">
+  <MenuList width={240}>
     <MenuItem>
       Item #1
     </MenuItem>
@@ -428,8 +427,6 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
 
 #### `width="max-content"`
 
-By default, the menu items will wrap to the next line if the width of the toggle is smaller than the width of the menu. You can pass `width="max-content"` to `MenuList` to prevent wrapping.
-
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
@@ -444,6 +441,27 @@ By default, the menu items will wrap to the next line if the width of the toggle
     </MenuItem>
     <MenuItem>
       This is a very long menu item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+#### `width="min-content"`
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList width="min-content">
+    <MenuItem >
+      Menu item #1
+    </MenuItem>
+    <MenuItem>
+      Menu item #2
+    </MenuItem>
+    <MenuItem>
+      Menu item #3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -611,8 +629,8 @@ You can also use the `Scrollbar` component to override the default scrollbar.
   <MenuButton variant="secondary">
     <Text>Options</Text>
   </MenuButton>
-  <MenuList width="100%">
-    <Scrollbar height={200}>
+  <MenuList width={100}>
+    <Scrollbar height={200} overflowY="visible">
       {Array.from({ length: 100 }).map((_, key) => (
         <MenuItem key={key}>
           Item #{key + 1}
@@ -627,14 +645,24 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 
 Set `closeOnSelect` to `false` to keep the menu open after selecting a menu item.
 
+You can use arrow keys to navigate the menu, and press `Enter` or `Space` to select an item.
+
 ```jsx
 function menuWithCheckbox() {
   const [checkedItems, setCheckedItems] = React.useState(['host', 'ip']);
-  const handleChange = (e) => {
-    const value = e.target.value;
-    const items = [...checkedItems];
-    items.indexOf(value) === -1 ? items.push(value) : items.splice(items.indexOf(value), 1);
-    setCheckedItems(items);
+  const onCheckboxGroupChange = (value) => {
+    setCheckedItems(value);
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      const el = event.currentTarget.querySelector('input');
+      if (el) {
+        const value = el.value;
+        const items = [...checkedItems];
+        items.indexOf(value) === -1 ? items.push(value) : items.splice(items.indexOf(value), 1);
+        setCheckedItems(items);
+      }
+    }
   };
   return (
     <Menu closeOnSelect={false}>
@@ -642,10 +670,25 @@ function menuWithCheckbox() {
         <Text>Selected ({checkedItems.length})</Text>
       </MenuButton>
       <MenuList width="max-content">
-        <CheckboxGroup size="sm" defaultValue={checkedItems}>
-          <MenuItem><Checkbox value="host" onChange={e => handleChange(e)}>Endpoint name</Checkbox></MenuItem>
-          <MenuItem><Checkbox value="ip" onChange={e => handleChange(e)}>IP address</Checkbox></MenuItem>
-          <MenuItem><Checkbox value="os" onChange={e => handleChange(e)}>Operating system</Checkbox></MenuItem>
+        <CheckboxGroup
+          size="sm"
+          value={checkedItems}
+          onChange={onCheckboxGroupChange}
+        >
+          <MenuItem onKeyDown={handleKeyDown}>
+            <Checkbox value="host">
+              Endpoint name</Checkbox>
+          </MenuItem>
+          <MenuItem onKeyDown={handleKeyDown}>
+            <Checkbox value="ip">
+              IP address
+            </Checkbox>
+          </MenuItem>
+          <MenuItem onKeyDown={handleKeyDown}>
+            <Checkbox value="os">
+              Operating system
+            </Checkbox>
+          </MenuItem>
         </CheckboxGroup>
       </MenuList>
     </Menu>
@@ -669,9 +712,9 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| anchorEl | `Element` | | The element to which the menu is attached. |
+| anchorEl | ElementType | | The element to which the menu is attached. |
 | autoSelect | boolean | `true` | Whether to automatically select the first menu item when the menu is opened. |
-| children | ReactNode | | The children must be composed by a `MenuList` and either one of `MenuToggle` or `MenuButton`. |
+| children | ReactNode \| (context) => ReactNode | | |
 | closeOnBlur | boolean | `true` | Whether to close the menu when the user clicks outside of the menu. |
 | closeOnSelect | boolean | `true` | Whether to close the menu when the user selects a menu item. |
 | defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
@@ -688,7 +731,7 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| function | | |
+| children | ReactNode | | |
 | disabled | boolean | | Whether the menu button is disabled. |
 | onClick | function | | Callback when the menu button is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
@@ -697,7 +740,7 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| function | | |
+| children | ReactNode \| ({ getMenuToggleProps, isOpen, openMenu, closeMenu }) => ReactNode | | |
 | disabled | boolean | | Whether the menu toggle is disabled. |
 | onClick | function | | Callback when the menu toggle is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
