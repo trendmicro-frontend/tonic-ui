@@ -1,7 +1,6 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box } from '../box';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import getFocusableElements from '../utils/getFocusableElements';
