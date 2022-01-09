@@ -4,8 +4,8 @@
 
 ### 1. Update the dependencies
 
-* Rename the `@trendmicro/react-styled-ui` package to `@tonic-ui/react`.
-* Rename the `@trendmicro/styled-ui-theme` package to `@tonic-ui/theme`.
+* Rename the `@trendmicro/react-styled-ui` package to `@tonic-ui/react`
+* Rename the `@trendmicro/styled-ui-theme` package to `@tonic-ui/theme`
 
 ```diff
 "dependencies": {
@@ -20,11 +20,11 @@
 
 TODO
 
-### 3. Replace components
+### 3. Replace Components and Hooks
 
 #### PseudoBox
 
-`PseudoBox` is now deprecated and its props can now be passed to `Box` directly. Replace all `PseudoBox` components with `Box`.
+`PseudoBox` is deprecated and its props can now be passed to `Box` directly. Replace all `PseudoBox` components with `Box`.
 
 ```diff
 - <PseudoBox
@@ -38,7 +38,23 @@ TODO
 
 #### ToggleSwitch
 
-`ToggleSwitch` is now deprecated. Replace all `ToggleSwitch` components with `Switch`.
+`ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../components/switch) instead.
+
+```diff
+- <ToggleSwitch />
++ <Switch />
+```
+
+#### useDisclosure
+
+`useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../hooks/use-toggle) instead.
+
+```js
+const [value, toggleValue] = useToggle(false);
+toggleValue(); // toggle the value between true and false
+toggleValue(true); // set the value to true
+toggleValue(false); // set the value to false
+```
 
 ## System Updates
 
@@ -62,6 +78,17 @@ TODO
   -   },
     },
   }
+  ```
+
+  Use `useColorStyle` Hook to get the shadow value:
+
+  ```js
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  console.log(colorStyle.shadow.thin);
+  console.log(colorStyle.shadow.medium);
+  console.log(colorStyle.shadow.thick);
   ```
 
 ### Color style
@@ -107,6 +134,11 @@ TODO
 ### useColorMode
 
 * The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `{ colorMode, setColorMode, toggleColorMode }`
+
+  ```diff
+  - const { colorMode, setColorMode, toggleColorMode } = useColorMode();
+  + const [colorMode, setColorMode] = useColorMode();
+  ```
 
 ### withTheme
 
