@@ -204,3 +204,31 @@ test('supports non-array breakpoints', () => {
     },
   });
 });
+
+test('logical block start and end margins', () => {
+  const styles = margin({
+    theme: { ...defaultTheme },
+    marginBlock: 'auto',
+    marginBlockStart: '10px',
+    marginBlockEnd: '20px',
+  });
+  expect(styles).toEqual({
+    marginBlock: 'auto',
+    marginBlockStart: '10px',
+    marginBlockEnd: '20px',
+  });
+});
+
+test('logical inline start and end margins', () => {
+  const styles = margin({
+    theme: { ...defaultTheme },
+    marginInline: 'auto',
+    marginInlineStart: '10px',
+    marginInlineEnd: '20px',
+  });
+  expect(styles).toEqual({
+    marginInline: 'auto',
+    marginInlineStart: '10px',
+    marginInlineEnd: '20px',
+  });
+});

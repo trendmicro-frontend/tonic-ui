@@ -28,6 +28,36 @@ const config = {
     scale: 'space',
     transform: positiveOrNegativeTransform,
   },
+  marginBlock: {
+    property: 'marginBlock',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
+  marginBlockStart: {
+    property: 'marginBlockStart',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
+  marginBlockEnd: {
+    property: 'marginBlockEnd',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
+  marginInline: {
+    property: 'marginInline',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
+  marginInlineStart: {
+    property: 'marginInlineStart',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
+  marginInlineEnd: {
+    property: 'marginInlineEnd',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
 };
 
 config.marginX = {
