@@ -2,9 +2,21 @@ import ThemeParser from "../../components/ThemeParser";
 
 # Breakpoints
 
+## Design Tokens
+
 <ThemeParser theme="breakpoints" />
 
-To configure the default breakpoints used in responsive array values, add a breakpoints array to your theme. These values will be used to generate the media queries for responsive styles.
+The default breakpoints is an array of the following values:
+
+```js
+[
+  '320px', // sm
+  '640px', // md
+  '1024px', // lg
+  '1280px', // xl
+  '1680px', // 2xl
+]
+```
 
 The first value in the array is the smallest breakpoint, and the last value is the largest. You can also use `sm`, `md`, `lg`, `xl`, and `xxl` as breakpoint names to reference the breakpoints in the array.
 
@@ -15,6 +27,8 @@ The first value in the array is the smallest breakpoint, and the last value is t
 | `lg` | `@media screen and (min-width: 1024px)` |
 | `xl` | `@media screen and (min-width: 1280px)` |
 | `2xl` | `@media screen and (min-width: 1680px)` |
+
+## Examples
 
 Try resizing your browser window to see the effect of the responsive styles.
 
