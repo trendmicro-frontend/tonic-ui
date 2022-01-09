@@ -3,6 +3,8 @@ import ThemeParser from "../../components/ThemeParser";
 
 # Space
 
+## Design Tokens
+
 <ThemeParser theme="space" />
 
 By default, the values are proportional. Therefore, a `1x` spacing unit is equal to `0.25rem`, which translates to `4px` by default in common browsers.
@@ -40,18 +42,26 @@ By default, the values are proportional. Therefore, a `1x` spacing unit is equal
 ## Examples
 
 ```jsx
-<Stack direction="column" spacing="6x">
-  <Box>
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" mr="1x" />
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" />
-  </Box>
-  <Box>
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" mr="2x" />
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" />
-  </Box>
-  <Box>
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" mr="4x" />
-    <Box display="inline-block" width="18x" height="18x" bg="gray:70" />
-  </Box>
-</Stack>
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const backgroundColor = colorStyle.background.secondary;
+
+  return (
+    <Flex flexDirection="column" rowGap="4x">
+      <Flex columnGap="1x">
+        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+      </Flex>
+      <Flex columnGap="2x">
+        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+      </Flex>
+      <Flex columnGap="4x">
+        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+      </Flex>
+    </Flex>
+  );
+}
 ```

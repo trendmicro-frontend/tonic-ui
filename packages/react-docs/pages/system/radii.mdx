@@ -3,6 +3,8 @@ import ThemeParser from "../../components/ThemeParser";
 
 # Radii
 
+## Design Tokens
+
 <ThemeParser theme="radii" />
 
 ## Examples
@@ -10,51 +12,99 @@ import ThemeParser from "../../components/ThemeParser";
 ### `borderRadius="circle"`
 
 ```jsx
-<Box
-  backgroundColor="gray:80"
-  border={1}
-  borderColor="gray:40"
-  borderRadius="circle"
-  width="18x"
-  height="18x"
-/>
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+
+  return (
+    <Box
+      border={1}
+      borderColor={borderColor}
+      borderRadius="circle"
+      backgroundColor={colorStyle.background.secondary}
+      color={colorStyle.color.secondary}
+      width="18x"
+      height="18x"
+    />
+  );
+}
 ```
 
 ### `borderRadius="sm"`
 
 ```jsx
-<Box
-  backgroundColor="gray:80"
-  border={1}
-  borderColor="gray:40"
-  borderRadius="sm"
-  width="18x"
-  height="18x"
-/>
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+
+  return (
+    <Box
+      border={1}
+      borderColor={borderColor}
+      borderRadius="sm"
+      backgroundColor={colorStyle.background.secondary}
+      color={colorStyle.color.secondary}
+      width="18x"
+      height="18x"
+    />
+  );
+}
 ```
 
 ### `borderRadius="md"`
 
 ```jsx
-<Box
-  backgroundColor="gray:80"
-  border={1}
-  borderColor="gray:40"
-  borderRadius="md"
-  width="18x"
-  height="18x"
-/>
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+
+  return (
+    <Box
+      border={1}
+      borderColor={borderColor}
+      borderRadius="md"
+      backgroundColor={colorStyle.background.secondary}
+      color={colorStyle.color.secondary}
+      width="18x"
+      height="18x"
+    />
+  );
+}
 ```
 
 ### `borderRadius="lg"`
 
 ```jsx
-<Box
-  backgroundColor="gray:80"
-  border={1}
-  borderColor="gray:40"
-  borderRadius="lg"
-  width="18x"
-  height="18x"
-/>
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+
+  return (
+    <Box
+      border={1}
+      borderColor={borderColor}
+      borderRadius="lg"
+      backgroundColor={colorStyle.background.secondary}
+      color={colorStyle.color.secondary}
+      width="18x"
+      height="18x"
+    />
+  );
+}
 ```

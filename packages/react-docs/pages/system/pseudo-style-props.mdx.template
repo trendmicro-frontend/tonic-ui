@@ -29,16 +29,18 @@ A CSS pseudo-element is a keyword added to a selector that lets you style a spec
 For example, `::first-line` can be used to change the font of the first line of a paragraph. You can use the `__first-line` prop to achieve the same effect.
 
 ```jsx
-<Text
+<Box
   __firstLine={{ // same as '::first-line'
     color: 'blue:50',
     textTransform: 'uppercase',
   }}
 >
-  <p>This is line 1</p>
-  <p>This is line 2</p>
-  <p>This is line 3</p>
-</Text>
+  This is line 1
+  <br/>
+  This is line 2
+  <br/>
+  This is line 3
+</Box>
 ```
 
 ### Reference Table

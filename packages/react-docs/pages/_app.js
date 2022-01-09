@@ -7,7 +7,6 @@ import {
   ThemeProvider,
   ToastProvider,
   theme,
-  useColorMode,
   useTheme,
 } from '@tonic-ui/react';
 import {
@@ -88,15 +87,6 @@ const DocsPage = (props) => {
   );
   const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
   const theme = useTheme();
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
-  }[colorMode];
   const headerHeight = theme.sizes['12x'];
   const handleCloseSidebar = () => {
     if (isSidebarVisible) {
@@ -157,8 +147,6 @@ const DocsPage = (props) => {
 
   return (
     <Box
-      backgroundColor={backgroundColor}
-      color={fontColor}
       fontSize="md"
       lineHeight="md"
     >

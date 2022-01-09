@@ -3,6 +3,8 @@ import ThemeParser from "../../components/ThemeParser";
 
 # Sizes
 
+## Design Tokens
+
 <ThemeParser theme="sizes" />
 
 By default, the values are proportional. Therefore, a `1x` spacing unit is equal to `0.25rem`, which translates to `4px` by default in common browsers.
@@ -42,21 +44,37 @@ By default, the values are proportional. Therefore, a `1x` spacing unit is equal
 ### Width
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Box textAlign="center" width="40x" p="1x" fontSize="sm" bg="gray:70">Width 10rem(160px)</Box>
-  <Box textAlign="center" width="48x" p="1x" fontSize="sm" bg="gray:70">Width 12rem(192px)</Box>
-  <Box textAlign="center" width="56x" p="1x" fontSize="sm" bg="gray:70">Width 14rem(224px)</Box>
-  <Box textAlign="center" width="64x" p="1x" fontSize="sm" bg="gray:70">Width 16rem(256px)</Box>
-</Stack>
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const backgroundColor = colorStyle.background.secondary;
+  const color = colorStyle.color.secondary;
+
+  return (
+    <Flex flexDirection="column" rowGap="4x">
+      <Box width="32x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>width="32x"</Box>
+      <Box width="48x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>width="48x"</Box>
+      <Box width="64x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>width="64x"</Box>
+    </Flex>
+  );
+}
 ```
 
 ### Height
 
 ```jsx
-<Stack direction="row" spacing="2x">
-  <Box width="48x" height="8x" p="2x" fontSize="sm" bg="gray:70">Height 2rem(32px)</Box>
-  <Box width="48x" height="16x" p="2x" fontSize="sm" bg="gray:70">Height 4rem(64px)</Box>
-  <Box width="48x" height="24x" p="2x" fontSize="sm" bg="gray:70">Height 6rem(96px)</Box>
-  <Box width="48x" height="32x" p="2x" fontSize="sm" bg="gray:70">Height 8rem(128px)</Box>
-</Stack>
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const backgroundColor = colorStyle.background.secondary;
+  const color = colorStyle.color.secondary;
+
+  return (
+    <Flex flexDirection="row" columnGap="4x">
+      <Box height="24x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>height="24x"</Box>
+      <Box height="32x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>height="32x"</Box>
+      <Box height="40x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>height="40x"</Box>
+    </Flex>
+  );
+}
 ```

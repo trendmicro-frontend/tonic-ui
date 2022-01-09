@@ -3,6 +3,8 @@ import ThemeParser from "../../components/ThemeParser";
 
 # Borders
 
+## Design Tokens
+
 <ThemeParser theme="borders" />
 
 ## Examples
@@ -50,10 +52,8 @@ If the border is a numeric value defined in the theme, the `solid` border style 
 ```jsx noInline
 const Block = (props) => {
   const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:90',
-    light: 'gray:10',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+
   return (
     <Flex
       px="4x"
@@ -61,7 +61,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.secondary}
       {...props}
     />
   );
@@ -69,7 +69,11 @@ const Block = (props) => {
 
 function Example() {
   const theme = useTheme();
-  const borderColor = 'gray:50';
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
   const borderWidths = [1, 2, 3, 4, 5];
   const [borderWidth, setBorderWidth] = React.useState(borderWidths[0]);
   const borderValue = theme.borders[borderWidth] || borderWidth;
@@ -149,10 +153,8 @@ Note: Because the specification doesn't define the exact thickness denoted by ea
 ```jsx noInline
 const Block = (props) => {
   const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:90',
-    light: 'gray:10',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+
   return (
     <Flex
       px="4x"
@@ -160,7 +162,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.secondary}
       {...props}
     />
   );
@@ -168,7 +170,11 @@ const Block = (props) => {
 
 function Example() {
   const theme = useTheme();
-  const borderColor = 'gray:50';
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
   const borderStyle = 'solid';
   const borderWidths = ['thin', 'medium', 'thick'];
   const [borderWidth, setBorderWidth] = React.useState(borderWidths[0]);

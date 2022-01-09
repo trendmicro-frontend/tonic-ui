@@ -37,7 +37,7 @@ const ColorPalette = ({ hue }) => {
               color={color}
             >
               <Box>{`${hue.charAt(0).toUpperCase()}${hue.slice(1)}`} {shade}</Box>
-              <Box>{color}</Box>
+              <Box>{token}</Box>
             </Flex>
           );
         })}
