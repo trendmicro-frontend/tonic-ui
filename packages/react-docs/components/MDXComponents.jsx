@@ -22,11 +22,11 @@ const mapColorModeToTableBorderColor = (colorMode) => ({
 const p = props => (
   <Box
     as="p"
-    mt={0}
-    mb="4x"
     display="block"
     fontSize="md"
     lineHeight="md"
+    mt={0}
+    mb="4x"
     {...props}
   />
 );
