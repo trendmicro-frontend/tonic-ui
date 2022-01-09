@@ -1,3 +1,264 @@
 # Migration From v0.x to v1
 
+## Upgrade Steps
+
+### 1. Update the dependencies
+
+* Rename the `@trendmicro/react-styled-ui` package to `@tonic-ui/react`.
+* Rename the `@trendmicro/styled-ui-theme` package to `@tonic-ui/theme`.
+
+```diff
+"dependencies": {
+- "@trendmicro/react-styled-ui": "0.x",
+- "@trendmicro/styled-ui-theme": "0.x",
++ "@tonic-ui/react": "^1.0.0",
++ "@tonic-ui/theme": "^1.0.0"
+}
+```
+
+### 2. Update the ThemeProvider
+
 TODO
+
+### 3. Replace components
+
+#### PseudoBox
+
+`PseudoBox` is now deprecated and its props can now be passed to `Box` directly. Replace all `PseudoBox` components with `Box`.
+
+```diff
+- <PseudoBox
++ <Box
+    _hover={{ fontWeight: 'semibold' }}
+  >
+    Hover Me
+- </PseudoBox>
++ </Box>
+```
+
+#### ToggleSwitch
+
+`ToggleSwitch` is now deprecated. Replace all `ToggleSwitch` components with `Switch`.
+
+## System Updates
+
+### Theme
+
+* Removed dark and light shadows from the `theme.shadows` object in favor of `colorStyle.shadow`. See [shadows](../system/shadows) to learn more.
+
+  ```diff
+  {
+    shadows: {
+      none: 'none',
+  -   dark: {
+  -     sm: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
+  -     md: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+  -     lg: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
+  -   },
+  -   light: {
+  -     sm: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
+  -     md: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+  -     lg: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
+  -   },
+    },
+  }
+  ```
+
+### Color style
+
+* Moved `selected` and `marked` tokens from `background` to `text`.
+
+  ```diff
+  { // Dark mode
+    background: {
+      primary: 'gray:100',
+      secondary: 'gray:90',
+      tertiary: 'gray:80',
+      inverse: 'gray:10',
+  -   selected: 'blue:60', // replaced with text.selection in the v1 release
+  -   marked: '#fce79e', // replaced with text.highlight in the v1 release
+    },
+  + color: {
+  +   emphasis: 'white:emphasis',
+  +   primary: 'white:primary',
+  +   secondary: 'white:secondary',
+  +   tertiary: 'white:tertiary',
+  +   disabled: 'white:disabled',
+  +   success: 'green:40',
+  +   info: 'blue:40',
+  +   warning: 'orange:50',
+  +   error: 'red:50',
+  + },
+    text: {
+  -   emphasis: 'white:emphasis',
+  -   primary: 'white:primary',
+  -   secondary: 'white:secondary',
+  -   tertiary: 'white:tertiary',
+  -   disabled: 'white:disabled',
+  -   link: 'blue:40',
+  -   warning: 'orange:50',
+  -   error: 'red:50',
+      selection: 'blue:60',
+      highlight: '#fce79e',
+    },
+  }
+  ```
+
+### useColorMode
+
+* The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `{ colorMode, setColorMode, toggleColorMode }`
+
+### withTheme
+
+* `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
+
+## Component Updates
+
+### Accordion
+
+> The `Accordion` component was fullly reworked to be more declarative and to be more intuitive.
+
+#### `Accordion`
+
+* Removed `allowMultiple` and `allowToggle` props in favor of controling state from the parent
+* Removed `index` and `defaultIndex` props
+* Removed the `onChange` prop. Use `onToggle` on `AccordionItem` instead
+* Added `AccordionToggle`, `AccordionToggleIcon`, and `AccordionCollapse` components for unstyled toggle and collapse
+
+#### `AccordionItem`
+
+* Renamed the `isOpen` prop to `isExpanded`
+* Renamed the `defaultIsOpen` prop to `defaultIsExpanded`
+* Renamed the `onChange` prop to `onToggle`
+* Renamed the `isDisabled` prop to `disabled`
+
+### Alert
+
+#### `Alert`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+
+### Badge
+
+#### `Badge`
+
+* Changed the `dotSize` prop to `width` or `w` and `height` or `h`
+* Changed the `isHidden` prop to `isInvisible'
+* Changed the `offset` prop to `right` and `top
+* Changed the `variantColor` prop to `backgroundColor`
+* Renamed `variant="badge"` to `variant="solid"`
+
+### Drawer
+
+#### `Drawer`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+
+### Modal
+
+#### `Modal`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+
+### RadioGroup
+
+* Changed `onChange(value, event)` to `onChange(value)`
+
+### Scrollbar
+
+#### `Scrollbar`
+
+* Changed the `disabled` prop to `overflow="hidden"`
+* Changed the `minThumbSize` prop to `minThumbWidth` and `minThumbHeight`
+* Changed the `visibility` prop to `overflow`
+* Removed the `renderView` prop. Use Function as Child Component (FaCC) to render the scroll view instead.
+* Removed the `renderHorizontalTrack` prop. Use Function as Child Component (FaCC) to render the horizontal track instead.
+* Removed the `renderHorizontalThumb` prop. Use Function as Child Component (FaCC) to render the horizontal thumb instead.
+* Removed the `renderVerticalTrack` prop. Use Function as Child Component (FaCC) to render the vertical track instead.
+* Removed the `renderVerticalThumb` prop. Use Function as Child Component (FaCC) to render the vertical thumb instead.
+* Changed the `thumbSize` prop to `minThumbWidth` and `minThumbHeight`
+
+### Stack
+
+#### `Stack`
+
+* Removed the use of `cloneElement` in favor of the `gap`, `columnGap`, and `rowGap` props
+
+### Table
+
+#### `Table`
+
+* Removed the `isHoverable` prop. Use the `_hover` prop on the `TableRow` component instead.
+
+### Tabs
+
+> The `Tabs` component was temporarily removed from v1 alpha. It will be completely reworked and added back in the future.
+
+### Tag
+
+#### `Tag`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+
+### Toast
+
+#### `Toast`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+
+### Popover
+
+#### `Popover`
+
+* Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
+
+### Tooltip
+
+#### `Tooltip`
+
+* Renamed the `showDelay` prop to `enterDelay`
+* Renamed the `hideDelay` prop to `leaveDelay`
+* Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
+
+## Transition Updates
+
+The following components now have built-in transitions. Remember to remove all transitions from the following components:
+
+| Component | Composed Transition | The `appear` Prop |
+| :-- | :-- | :-- |
+| `AccordionCollapse` | `Collapse` | false |
+| `AccordionToggleIcon` | built-in | false |
+| `DrawerContent` | `Slide` | true |
+| `DrawerOverlay` | `Fade` | true |
+| `MenuList` | `Collapse` | true |
+| `MenuToggleIcon` | built-in | false |
+| `ModalContent` | `Fade` | true |
+| `ModalOverlay` | `Fade` | true |
+| `PopoverContent` | `Grow` | true |
+| `ToastTransition` | built-in | false |
+| `Tooltip` | `Grow` | false |
+
+For example, you don't need to manually add transitions to `ModalOverlay` and `ModalContent` because they already have built-in transitions.
+
+```diff
+- <Scale
+-   in={isOpen}
+-   duration={150}
+- >
+- {styles => (
+    <Modal
+      isClosable
+      isOpen={isOpen}
+    >
+-     <ModalOverlay opacity={styles.opacity} />
++     <ModalOverlay />
+-     <ModalContent {...styles}>
++     <ModalContent>
+        <ModalBody>
+          Modal body
+        <ModalBody>
+      </ModalContent>
+    </Modal>
+- )}
+- </Scale>
+```
