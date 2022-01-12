@@ -131,6 +131,9 @@ test('should match expected exports', () => {
     'Presence',
     'usePresence',
 
+    // provider
+    'TonicProvider',
+
     // radio
     'Radio',
     'RadioGroup',

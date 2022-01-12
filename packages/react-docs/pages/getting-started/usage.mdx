@@ -14,35 +14,51 @@ Here is a quick example to get you started:
 </Button>
 ```
 
-For Tonic UI to work, you will need to setup Provider components at the root of your application.
+## Setup Provider
+
+For Tonic UI to work, you will need to setup the `TonicProvder` at the root of your application.
 
 Go to the root of your application and do the following:
 
 ```jsx disabled
 import React from 'react';
+import { TonicProvider } from '@tonic-ui/react';
+
+function App({ children }) {
+  return (
+    <TonicProvider>
+      {children}
+    </TonicProvider>
+  );
+}
+```
+
+See below for a more complete example:
+
+```jsx disabled
+import React from 'react';
 import {
   Box,
-  ColorModeProvider,
-  ColorStyleProvider,
-  ThemeProvider,
-  ToastProvider,
+  TonicProvider,
+  ToastProvider, // optional
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
 
 const App = (props) => {
   return (
-    <ThemeProvider>
-      <ColorModeProvider>
-        <ColorStyleProvider>
-          <ToastProvider>
-            <Layout>
-              <Box {...props} />
-            </Layout>
-          </ToastProvider>
-        </ColorStyleProvider>
-      </ColorModeProvider>
-    </ThemeProvider>
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark', // One of: 'light', 'dark'
+      }}
+      useCSSBaseline={true}
+    >
+      <ToastProvider>
+        <Layout>
+          <Box {...props} />
+        </Layout>
+      </ToastProvider>
+    </TonicProvider>
   );
 };
 
@@ -90,21 +106,10 @@ const Layout = (props) => {
 
 Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
-```js disabled
-import { CSSBaseline } from '@tonic-ui/react';
-```
-
 ```jsx disabled
-<ThemeProvider>
-  <ColorModeProvider value="dark">
-    <ColorStyleProvider>
-      <ToastProvider>
-        <CSSBaseline />
-        <App />
-      </ToastProvider>
-    </ColorStyleProvider>
-  </ColorModeProvider>
-</ThemeProvider>
+<TonicProvider useCSSBaseline={true}>
+  <App />
+</TonicProvider>
 ```
 
 ### Extending the theme
@@ -131,9 +136,9 @@ const customTheme = {
 ```
 
 ```jsx disabled
-<ThemeProvider theme={customTheme}>
+<TonicProvider theme={customTheme}>
   {children}
-</ThemeProvider>
+</TonicProvider>
 ```
 
 ## Versioned Documentation

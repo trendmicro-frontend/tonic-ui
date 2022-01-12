@@ -1,19 +1,43 @@
 import { ensurePlainObject } from 'ensure-type';
 import memoize from 'micro-memoize';
-import React, { useState } from 'react';
-import colorStyle from '../shared/color-style';
+import React, { useCallback, useEffect, useState } from 'react';
+import defaultColorStyle from '../shared/color-style';
 import { ColorStyleContext } from './context';
+
+const ensureColorStyle = (colorStyle) => {
+  return ensurePlainObject(colorStyle);
+};
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
 const ColorStyleProvider = ({
-  value: customColorStyle = colorStyle,
   children,
+  defaultValue: defaultValueProp,
+  value: valueProp,
+  onChange: onChangeProp,
 }) => {
-  const [colorStyle, setColorStyle] = useState(ensurePlainObject(customColorStyle));
+  const [colorStyle, setColorStyle] = useState(ensureColorStyle(valueProp ?? (defaultValueProp ?? defaultColorStyle)));
+
+  useEffect(() => {
+    if (valueProp !== undefined) {
+      setColorStyle(ensureColorStyle(valueProp));
+    }
+  }, [valueProp]);
+
+  const onChange = useCallback((nextValue) => {
+    if (valueProp !== undefined) {
+      setColorStyle(ensureColorStyle(valueProp));
+    } else {
+      setColorStyle(ensureColorStyle(nextValue));
+    }
+    if (typeof onChangeProp === 'function') {
+      onChangeProp(nextValue); // Pass original value to the onChange callback
+    }
+  }, [valueProp, onChangeProp]);
+
   const colorStyleState = getMemoizedState({
     colorStyle,
-    setColorStyle,
+    onChange,
   });
 
   return (

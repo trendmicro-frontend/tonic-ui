@@ -1,12 +1,9 @@
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
-  ColorModeProvider,
-  ColorStyleProvider,
-  CSSBaseline,
-  ThemeProvider,
   ToastProvider,
-  theme,
+  TonicProvider,
+  colorStyle as defaultColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import {
@@ -27,10 +24,6 @@ import useMediaQuery from '../hooks/useMediaQuery';
 const pageview = () => {
   ReactGA.set({ page: window.location.pathname });
   ReactGA.pageview(window.location.pathname);
-};
-
-const customTheme = {
-  ...theme,
 };
 
 const App = (props) => {
@@ -59,19 +52,22 @@ const App = (props) => {
   const Page = (router.pathname === '/') ? DefaultPage : DocsPage;
 
   return (
-    <ThemeProvider theme={customTheme}>
-      <ColorModeProvider value="dark">
-        <ColorStyleProvider>
-          <ToastProvider>
-            <MDXProvider components={MDXComponents}>
-              <CSSBaseline />
-              <GlobalStyles />
-              <Page {...props} />
-            </MDXProvider>
-          </ToastProvider>
-        </ColorStyleProvider>
-      </ColorModeProvider>
-    </ThemeProvider>
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark',
+      }}
+      colorStyle={{
+        defaultValue: defaultColorStyle,
+      }}
+      useCSSBaseline
+    >
+      <ToastProvider>
+        <MDXProvider components={MDXComponents}>
+          <Page {...props} />
+          <GlobalStyles />
+        </MDXProvider>
+      </ToastProvider>
+    </TonicProvider>
   );
 };
 

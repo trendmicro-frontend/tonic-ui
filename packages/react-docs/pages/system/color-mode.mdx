@@ -1,36 +1,133 @@
 # Color Mode
 
-### ColorModeProvider
+Tonic UI comes with built-in support for managing color modes in your app.
 
-Use the `ColorModeProvider` to use color mode in your application. The color mode value can be one of `dark` or `light`. By default, the color mode is `light` if the value is not explicitly specified.
+## Setup
+
+By using `TonicProvider` at root of your application, it will add `ColorModeProvider` internally to provide the color mode context to all components. The default color mode is `light` if not specified.
+
+To get color mode workding correctly, you may have to pass `colorMode` config to `TonicProvider` with `defaultValue` set to `dark` or `light`.
 
 ```jsx disabled
 import React from 'react';
 import {
-  ThemeProvider,
-  ColorModeProvider,
-  ColorStyleProvider,
+  TonicProvider,
 } from '@tonic-ui/react';
-import App from './App';
 
-const initialColorMode = 'dark';
-
-function Example({ children }) {
+function App({ children }) {
   return (
-    <ThemeProvider>
-      <ColorModeProvider value={initialColorMode}>
-        <ColorStyleProvider>
-          <App />
-        </ColorStyleProvider>
-      </ColorModeProvider>
-    </ThemeProvider>
+    <TonicProvider
+      /**
+       * The `colorMode` config
+       * @param {'dark'|'light'} defaultValue
+       * @param {'dark'|'light'} value
+       * @param {function} onChange
+       * @param {boolean} useSystemColorMode
+       */
+      colorMode={{
+        defaultValue: 'dark',
+      }}
+    >
+      {children}
+    </ColorModeProvider>
   );
 }
 ```
 
+### The `colorMode` config
+
+The `colorMode` config has the following options:
+
+* `defaultValue`: The default value for the color mode. It can be `light` or `dark`. The default value is `light` if not specified.
+* `value`: The current value for the color mode. It can be `light` or `dark`.
+* `onChange(colorMode)`: A function that is called when the color mode is changed.
+* `useSystemColorMode`: A boolean that determines whether to use the system color mode.
+
+### Color scheme
+
+To opt the entire page into the user's color scheme preferences declare `color-scheme` on the `:root` element.
+
+```jsx disabled
+import { Global, css } from '@emotion/react';
+```
+
+```jsx disabled
+<Global
+  styles={css`
+    :root {
+      color-scheme: dark;
+    }
+  `}
+/>
+```
+
+## Examples
+
+### Use default color mode
+
+```jsx disabled
+<TonicProvider
+  colorMode={{
+    defaultValue: 'dark',
+  }}
+>
+  {children}
+</TonicProvider>
+```
+
+### Use system color mode
+
+This example uses the default color mode for the first render, and then switches to the system color mode for the rest of time.
+
+```jsx disabled
+<TonicProvider
+  colorMode={{
+    defaultValue: 'dark', // optional
+    useSystemColorMode: true, // If `true`, switch to system color mode after the first render.
+  }}
+>
+  {children}
+</TonicProvider>
+```
+
+### Controlled color mode
+
+```jsx disabled
+<TonicProvider
+  colorMode={{
+    value: 'dark',
+  }}
+>
+  {children}
+</TonicProvider>
+```
+
+### Controlled color mode with a toggle function
+
+```jsx disabled
+function App({ children }) {
+  const [colorMode, toggleColorMode] = useToggle();
+
+  return (
+    <TonicProvider
+      colorMode={{
+        value: colorMode,
+        onChange: toggleColorMode,
+      }}
+    >
+      {children}
+    </TonicProvider>
+  );
+}
+```
+
+## Managing Color Mode
+
+To manage color mode in your application, you can use the `useColorMode` hook.
+
 ### useColorMode Hook
 
-To handle color mode manually in your application, use the `useColorMode` Hook to get current color mode or change the color mode.
+`useColorMode` is a custom Hook that gives you access to the current color mode, and a function to change the color mode.
 
 ```jsx disabled
 // App.jsx
@@ -65,21 +162,7 @@ const App = () => {
 };
 ```
 
-### Color schemes
-
-To opt the entire page into the user's color scheme preferences declare `color-scheme` on the `:root` element.
-
-```jsx disabled
-<Global
-  styles={css`
-    :root {
-      color-scheme: dark;
-    }
-  `}
-/>
-```
-
-### DarkMode / LightMode
+## Forcing a Specific Color Mode
 
 To force a specific color mode, wrap your component in `LightMode` or `DarkMode`, it will override the global color mode and set the color scheme to `dark` or `light` respectively.
 
