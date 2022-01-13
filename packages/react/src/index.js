@@ -8,7 +8,7 @@ export * from './checkbox';
 export * from './color-mode';
 export * from './color-style';
 export * from './css-baseline';
-export * from './Datepicker';
+export * from './date-picker';
 export * from './divider';
 export * from './drawer';
 export * from './flat-button';
