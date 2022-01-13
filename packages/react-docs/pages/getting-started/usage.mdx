@@ -24,13 +24,18 @@ Go to the root of your application and do the following:
 import React from 'react';
 import { TonicProvider } from '@tonic-ui/react';
 
-function App({ children }) {
+const App = ({ children }) => {
   return (
-    <TonicProvider>
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark', // One of: 'light', 'dark'
+      }}
+      useCSSBaseline={true} // If `true`, apply CSS reset and base styles
+    >
       {children}
     </TonicProvider>
   );
-}
+};
 ```
 
 See below for a more complete example:
@@ -51,7 +56,7 @@ const App = (props) => {
       colorMode={{
         defaultValue: 'dark', // One of: 'light', 'dark'
       }}
-      useCSSBaseline={true}
+      useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <ToastProvider>
         <Layout>
@@ -111,6 +116,8 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI pr
   <App />
 </TonicProvider>
 ```
+
+> If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
 
 ### Extending the theme
 
