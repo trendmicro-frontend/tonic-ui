@@ -4,6 +4,7 @@ import { Box } from '../box';
 import { useColorMode } from '../color-mode';
 import warnRemovedProps from '../utils/warnRemovedProps';
 import { TableProvider } from './context';
+import { useTableStyle } from './styles';
 
 const Table = forwardRef((
   {
@@ -26,6 +27,7 @@ const Table = forwardRef((
     }
   }, true); // TODO: check if `when` is true for each prop
 
+  const styleProps = useTableStyle({});
   const minimalist = (variant === 'default');
   const context = {
     variant,
@@ -36,9 +38,7 @@ const Table = forwardRef((
     <TableProvider value={context}>
       <Box
         ref={ref}
-        display="inline-flex"
-        flexDirection="column"
-        position="relative"
+        {...styleProps}
         {...rest}
       >
         { children }
