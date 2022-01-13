@@ -10,6 +10,23 @@ const TonicProvider = ({
   theme,
   useCSSBaseline = false,
 }) => {
+  colorModeProps = colorModeProps ?? {};
+  colorStyleProps = colorStyleProps ?? {};
+
+  if (typeof colorModeProps !== 'object') {
+    console.error(
+      'TonicProvider: "colorMode" prop must be an object if provided.\n' +
+      'See https://trendmicro-frontend.github.io/tonic-ui for more information.'
+    );
+  }
+
+  if (typeof colorStyleProps !== 'object') {
+    console.error(
+      'TonicProvider: "colorStyle" prop must be an object if provided.\n' +
+      'See https://trendmicro-frontend.github.io/tonic-ui for more information.'
+    );
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <ColorModeProvider {...colorModeProps}>
