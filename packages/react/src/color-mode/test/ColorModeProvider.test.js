@@ -5,11 +5,22 @@ import React, { useState } from 'react';
 import ColorModeProvider from '../ColorModeProvider';
 import useColorMode from '../useColorMode';
 import * as colorModeUtils from '../utils';
-import TestComponent from './TestComponent';
 import './matchMedia.mock';
 
 const getToggleColorModeButton = () => {
   return screen.getByRole('button');
+};
+
+const TestApp = () => {
+  const [colorMode, setColorMode] = useColorMode();
+  const toggleColorMode = () => {
+    setColorMode(colorMode === 'light' ? 'dark' : 'light');
+  };
+  return (
+    <button type="button" onClick={toggleColorMode}>
+      {colorMode}
+    </button>
+  );
 };
 
 describe('<ColorModeProvider />', () => {
@@ -18,7 +29,7 @@ describe('<ColorModeProvider />', () => {
       <ColorModeProvider
         defaultValue="light"
       >
-        <TestComponent />
+        <TestApp />
       </ColorModeProvider>,
     );
 
@@ -41,7 +52,7 @@ describe('<ColorModeProvider />', () => {
         onChange={onChange}
         useSystemColorMode
       >
-        <TestComponent />
+        <TestApp />
       </ColorModeProvider>,
     );
 
