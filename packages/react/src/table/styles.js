@@ -32,6 +32,14 @@ const colorProps = {
 
 ////////////////////////////////////////////////////////////
 
+const useTableStyle = props => {
+  return {
+    display: 'inline-flex',
+    flexDirection: 'column',
+    position: 'relative',
+  };
+};
+
 const useTableCellStyle = props => {
   const [colorMode] = useColorMode();
   return {
@@ -75,6 +83,7 @@ const useTableRowStyle = props => {
 };
 
 export {
+  useTableStyle,
   useTableCellStyle,
   useTableHeaderCellStyle,
   useTableHeaderRowStyle,
