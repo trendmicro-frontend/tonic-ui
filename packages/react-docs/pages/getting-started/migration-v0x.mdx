@@ -16,9 +16,19 @@
 }
 ```
 
-### 2. Update the ThemeProvider
+### 2. Update the providers
 
-TODO
+A `TonicProvider` is provided by the `@tonic-ui/react` package. It includes the following providers:
+
+* **ThemeProvider**: Provides the theming context for all components.
+* **ColorModeProvider**: Provides color mode context to all components. [Learn more](../system/color-mode)
+* **ColorStyleProvider**: Provides the color style context to all components. [Learn more](../system/color-style)
+
+Optionally via prop:
+
+* **useCSSBaseline**: To omit the recommended `CSSBaseline`, pass `useCSSBaseline={false}`.
+
+> You can see [Getting Started](../getting-started/usage) to learn more about the providers.
 
 ### 3. Replace Components and Hooks
 
@@ -224,7 +234,7 @@ toggleValue(false); // set the value to false
 
 ### Tabs
 
-> The `Tabs` component was temporarily removed from v1 alpha. It will be completely reworked and added back in the future.
+> The `Tabs` component was temporarily removed from v1 alpha. It will be completely reworked and added back in the future.<br/><br/><strong>You have to consider whether you should upgrade to Tonic UI v1 alpha if this change will affect your code at the moment.</strong>
 
 ### Tag
 
@@ -270,27 +280,67 @@ The following components now have built-in transitions. Remember to remove all t
 | `ToastTransition` | built-in | false |
 | `Tooltip` | `Grow` | false |
 
-For example, you don't need to manually add transitions to `ModalOverlay` and `ModalContent` because they already have built-in transitions.
+> Learn more about [transitions](../components/transitions).
+
+* [Collapse](../components/transitions-collapse) - internally used in <b>Accordion</b> and <b>Menu</b>
+* [Fade](../components/transitions-fade) - internally used in <b>Modal</b>
+* [Grow](../components/transitions-grow) - internally used in <b>Popover</b> and <b>Tooltip</b>
+* [Scale](../components/transitions-scale)
+* [Slide](../components/transitions-slide) - internally used in <b>Drawer</b>
+* [Zoom](../components/transitions-zoom)
+
+### Drawer
+
+The `Drawer` component now has built-in transitions. Follow the diff below to remove transitions from the `Drawer` component:
+
+```diff
+- <Slide
+-  in={isOpen}
+-  duration={250}
+-  from={placement}
+-  finalHeight="100vh"
+- >
+-   {styles => (
+      <Drawer
+        isClosable
+        isOpen={isOpen}
+      >
+-       <DrawerOverlay opacity={styles.opacity} />
++       <DrawerOverlay />
+-       <DrawerContent {...styles}>
++       <DrawerContent>
+          <DrawerBody>
+            Drawer body
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+-   )}
+- </Slide>
+```
+
+### Modal
+
+The `Modal` component now has built-in transitions. Follow the diff below to remove transitions from the `Modal` component:
 
 ```diff
 - <Scale
 -   in={isOpen}
 -   duration={150}
 - >
-- {styles => (
-    <Modal
-      isClosable
-      isOpen={isOpen}
-    >
--     <ModalOverlay opacity={styles.opacity} />
-+     <ModalOverlay />
--     <ModalContent {...styles}>
-+     <ModalContent>
-        <ModalBody>
-          Modal body
-        <ModalBody>
-      </ModalContent>
-    </Modal>
-- )}
+-   {styles => (
+      <Modal
+        isClosable
+        isOpen={isOpen}
+      >
+-       <ModalOverlay opacity={styles.opacity} />
++       <ModalOverlay />
+-       <ModalContent {...styles}>
++       <ModalContent>
+          <ModalBody>
+            Modal body
+          <ModalBody>
+        </ModalContent>
+      </Modal>
+-   )}
 - </Scale>
 ```

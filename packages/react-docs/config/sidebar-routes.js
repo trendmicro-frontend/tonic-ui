@@ -104,12 +104,12 @@ const routes = [
 
       { title: 'TRANSITIONS', heading: true },
       { title: 'Transitions', path: 'components/transitions' },
-      { title: 'Transitions / Collapse', path: 'components/transitions-collapse' },
-      { title: 'Transitions / Fade', path: 'components/transitions-fade' },
-      { title: 'Transitions / Grow', path: 'components/transitions-grow' },
-      { title: 'Transitions / Scale', path: 'components/transitions-scale' },
-      { title: 'Transitions / Slide', path: 'components/transitions-slide' },
-      { title: 'Transitions / Zoom', path: 'components/transitions-zoom' },
+      { title: 'Transitions / Collapse', path: 'components/transitions/collapse' },
+      { title: 'Transitions / Fade', path: 'components/transitions/fade' },
+      { title: 'Transitions / Grow', path: 'components/transitions/grow' },
+      { title: 'Transitions / Scale', path: 'components/transitions/scale' },
+      { title: 'Transitions / Slide', path: 'components/transitions/slide' },
+      { title: 'Transitions / Zoom', path: 'components/transitions/zoom' },
 
       { title: 'TYPOGRAPHY', heading: true },
       { title: 'Text', path: 'components/text' },
