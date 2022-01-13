@@ -28,7 +28,7 @@ function App(props) {
   return (
     <TonicProvider
       colorMode={{
-        defaultValue: 'dark', // One of: 'light', 'dark'
+        defaultValue: 'dark', // One of: 'dark', 'light'
       }}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
@@ -45,7 +45,7 @@ import React from 'react';
 import {
   Box,
   TonicProvider,
-  ToastProvider, // optional
+  ToastProvider, // "ToastProvider" is only required if you want to use toast notification
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
@@ -54,7 +54,7 @@ function App(props) {
   return (
     <TonicProvider
       colorMode={{
-        defaultValue: 'dark', // One of: 'light', 'dark'
+        defaultValue: 'dark', // One of: 'dark', 'light'
       }}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
@@ -68,7 +68,7 @@ function App(props) {
 }
 
 function Layout(props) {
-  const [colorMode] = useColorMode(); // One of: 'dark', 'light'
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const { fontSizes, lineHeights } = useTheme();
   const backgroundColor = colorStyle.background.primary;
