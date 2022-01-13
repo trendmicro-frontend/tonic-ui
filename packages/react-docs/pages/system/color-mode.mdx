@@ -10,11 +10,9 @@ To get color mode workding correctly, you may have to pass `colorMode` config to
 
 ```jsx disabled
 import React from 'react';
-import {
-  TonicProvider,
-} from '@tonic-ui/react';
+import { Box, TonicProvider } from '@tonic-ui/react';
 
-function App({ children }) {
+function App(props) {
   return (
     <TonicProvider
       /**
@@ -28,10 +26,18 @@ function App({ children }) {
         defaultValue: 'dark',
       }}
     >
-      {children}
-    </ColorModeProvider>
+      <Box {...props} />
+    </TonicProvider>
   );
 }
+```
+
+The above setup is equivalent to:
+
+```jsx disabled
+<ColorModeProvider defaultValue="dark">
+  <Box {...props} />
+</ColorModeProvider>
 ```
 
 ### The `colorMode` config

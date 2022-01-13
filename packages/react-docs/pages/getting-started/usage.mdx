@@ -22,9 +22,9 @@ Go to the root of your application and do the following:
 
 ```jsx disabled
 import React from 'react';
-import { TonicProvider } from '@tonic-ui/react';
+import { Box, TonicProvider } from '@tonic-ui/react';
 
-const App = ({ children }) => {
+function App(props) {
   return (
     <TonicProvider
       colorMode={{
@@ -32,10 +32,10 @@ const App = ({ children }) => {
       }}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
-      {children}
+      <Box {...props} />
     </TonicProvider>
   );
-};
+}
 ```
 
 See below for a more complete example:
@@ -50,7 +50,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 
-const App = (props) => {
+function App(props) {
   return (
     <TonicProvider
       colorMode={{
@@ -65,9 +65,9 @@ const App = (props) => {
       </ToastProvider>
     </TonicProvider>
   );
-};
+}
 
-const Layout = (props) => {
+function Layout(props) {
   const [colorMode] = useColorMode(); // One of: 'dark', 'light'
   const [colorStyle] = useColorStyle({ colorMode });
   const { fontSizes, lineHeights } = useTheme();
@@ -100,7 +100,7 @@ const Layout = (props) => {
       />
     </>
   );
-};
+}
 ```
 
 > For the **`color-scheme`** CSS property, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme) for more information.

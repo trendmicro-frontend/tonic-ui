@@ -26,12 +26,9 @@ By using `TonicProvider` at root of your application, it will add `ColorStylePro
 
 ```jsx disabled
 import React from 'react';
-import {
-  TonicProvider,
-  colorStyle as defaultColorStyle,
-} from '@tonic-ui/react';
+import { Box, TonicProvider } from '@tonic-ui/react';
 
-function App({ children }) {
+function App(props) {
   return (
     <TonicProvider
       /**
@@ -41,13 +38,21 @@ function App({ children }) {
        * @param {function} onChange
        */
       colorStyle={{
-        defaultValue: defaultColorStyle, // Not required when using default color style
+        // You can omit color style settings if using the default values
       }}
     >
-      {children}
-    </ColorModeProvider>
+      <Box {...props} />
+    </TonicProvider>
   );
 }
+```
+
+The above setup is equivalent to:
+
+```jsx disabled
+<ColorStyleProvider>
+  <Box {...props} />
+</ColorStyleProvider>
 ```
 
 ### The `colorStyle` config
@@ -80,27 +85,24 @@ To override default color style, you can create a color style object in accordan
 
 ```jsx disabled
 import React from 'react';
-import {
-  TonicProvider,
-  colorStyle as defaultColorStyle,
-} from '@tonic-ui/react';
+import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
 
-function App({ children }) {
+function App(props) {
   return (
     <TonicProvider
       colorStyle={{
         value: customColorStyle,
       }}
     >
-      {children}
+      <Box {...props} />
     </TonicProvider>
   );
 }
 
 const customColorStyle = {
-  ...defaultColorStyle,
+  ...colorStyle,
    dark: {
-    ...defaultColorStyle.dark,
+    ...colorStyle.dark,
     color: {
       emphasis: 'white:emphasis',
       primary: 'white:primary',
@@ -114,7 +116,7 @@ const customColorStyle = {
     },
   },
   light: {
-    ...defaultColorStyle.light,
+    ...colorStyle.light,
     color: {
       emphasis: 'black:emphasis',
       primary: 'black:primary',
