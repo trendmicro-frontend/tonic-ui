@@ -14,40 +14,61 @@ Here is a quick example to get you started:
 </Button>
 ```
 
-For Tonic UI to work, you will need to setup Provider components at the root of your application.
+## Setup Provider
+
+For Tonic UI to work, you will need to setup the `TonicProvder` at the root of your application.
 
 Go to the root of your application and do the following:
 
 ```jsx disabled
 import React from 'react';
+import { Box, TonicProvider } from '@tonic-ui/react';
+
+function App(props) {
+  return (
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark', // One of: 'dark', 'light'
+      }}
+      useCSSBaseline={true} // If `true`, apply CSS reset and base styles
+    >
+      <Box {...props} />
+    </TonicProvider>
+  );
+}
+```
+
+See below for a more complete example:
+
+```jsx disabled
+import React from 'react';
 import {
   Box,
-  ColorModeProvider,
-  ColorStyleProvider,
-  ThemeProvider,
-  ToastProvider,
+  TonicProvider,
+  ToastProvider, // "ToastProvider" is only required if you want to use toast notification
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
 
-const App = (props) => {
+function App(props) {
   return (
-    <ThemeProvider>
-      <ColorModeProvider>
-        <ColorStyleProvider>
-          <ToastProvider>
-            <Layout>
-              <Box {...props} />
-            </Layout>
-          </ToastProvider>
-        </ColorStyleProvider>
-      </ColorModeProvider>
-    </ThemeProvider>
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark', // One of: 'dark', 'light'
+      }}
+      useCSSBaseline={true} // If `true`, apply CSS reset and base styles
+    >
+      <ToastProvider>
+        <Layout>
+          <Box {...props} />
+        </Layout>
+      </ToastProvider>
+    </TonicProvider>
   );
-};
+}
 
-const Layout = (props) => {
-  const [colorMode] = useColorMode(); // One of: 'dark', 'light'
+function Layout(props) {
+  const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const { fontSizes, lineHeights } = useTheme();
   const backgroundColor = colorStyle.background.primary;
@@ -79,8 +100,10 @@ const Layout = (props) => {
       />
     </>
   );
-};
+}
 ```
+
+> Learn more about [Color Mode](../system/color-mode) and [Color Style](../system/color-style) in the documentation.
 
 > For the **`color-scheme`** CSS property, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme) for more information.
 
@@ -90,22 +113,13 @@ const Layout = (props) => {
 
 Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
-```js disabled
-import { CSSBaseline } from '@tonic-ui/react';
+```jsx disabled
+<TonicProvider useCSSBaseline={true}>
+  <App />
+</TonicProvider>
 ```
 
-```jsx disabled
-<ThemeProvider>
-  <ColorModeProvider value="dark">
-    <ColorStyleProvider>
-      <ToastProvider>
-        <CSSBaseline />
-        <App />
-      </ToastProvider>
-    </ColorStyleProvider>
-  </ColorModeProvider>
-</ThemeProvider>
-```
+> If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
 
 ### Extending the theme
 
@@ -131,9 +145,9 @@ const customTheme = {
 ```
 
 ```jsx disabled
-<ThemeProvider theme={customTheme}>
+<TonicProvider theme={customTheme}>
   {children}
-</ThemeProvider>
+</TonicProvider>
 ```
 
 ## Versioned Documentation

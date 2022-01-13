@@ -24,6 +24,7 @@ export * from './popover';
 export * from './popper';
 export * from './portal';
 export * from './presence';
+export * from './provider';
 export * from './radio';
 export * from './search-input';
 export * from './scrollbar';
