@@ -7,40 +7,40 @@ import useColorStyle from '../useColorStyle';
 describe('<ColorStyleProvider />', () => {
   test('color style for dark mode', () => {
     const colorMode = 'dark';
-    const wrapper = ({ children }) => (
+    const WrapperComponent = ({ children }) => (
       <ColorStyleProvider defaultColorStyle={defaultColorStyle}>
         {children}
       </ColorStyleProvider>
     );
-    const { result } = renderHook(() => useColorStyle({ colorMode }), { wrapper });
+    const { result } = renderHook(() => useColorStyle({ colorMode }), { wrapper: WrapperComponent });
 
-    const [colorStyle, setColorStyle] = result.current;
+    const [colorStyle] = result.current;
     expect(colorStyle).toEqual(defaultColorStyle[colorMode]);
   });
 
   test('color style for light mode', () => {
     const colorMode = 'light';
-    const wrapper = ({ children }) => (
+    const WrapperComponent = ({ children }) => (
       <ColorStyleProvider defaultColorStyle={defaultColorStyle}>
         {children}
       </ColorStyleProvider>
     );
-    const { result } = renderHook(() => useColorStyle({ colorMode }), { wrapper });
+    const { result } = renderHook(() => useColorStyle({ colorMode }), { wrapper: WrapperComponent });
 
-    const [colorStyle, setColorStyle] = result.current;
+    const [colorStyle] = result.current;
     expect(colorStyle).toEqual(defaultColorStyle[colorMode]);
   });
 
   test('controlled color style cannot be changed', () => {
     const colorMode = 'dark';
-    const wrapper = ({ children }) => (
+    const WrapperComponent = ({ children }) => (
       <ColorStyleProvider
         value={defaultColorStyle}
       >
         {children}
       </ColorStyleProvider>
     );
-    const { result } = renderHook(() => useColorStyle({ colorMode }), { wrapper });
+    const { result } = renderHook(() => useColorStyle({ colorMode }), { wrapper: WrapperComponent });
 
     expect(result.current[0]).toEqual(defaultColorStyle[colorMode]);
 
@@ -61,7 +61,7 @@ describe('<ColorStyleProvider />', () => {
 
   test('change color style using the onChange callback', () => {
     const colorMode = 'dark';
-    const wrapper = ({ children }) => {
+    const WrapperComponent = ({ children }) => {
       const [colorStyle, setColorStyle] = useState(defaultColorStyle);
       return (
         <ColorStyleProvider
@@ -72,7 +72,7 @@ describe('<ColorStyleProvider />', () => {
         </ColorStyleProvider>
       );
     };
-    const { result } = renderHook(() => useColorStyle({ colorMode }), { wrapper });
+    const { result } = renderHook(() => useColorStyle({ colorMode }), { wrapper: WrapperComponent });
 
     expect(result.current[0]).toEqual(defaultColorStyle[colorMode]);
 

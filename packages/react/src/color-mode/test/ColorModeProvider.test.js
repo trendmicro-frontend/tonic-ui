@@ -52,24 +52,29 @@ describe('<ColorModeProvider />', () => {
   });
 
   test('controlled color mode cannot be changed', () => {
-    render(
-      <ColorModeProvider
-        value="dark"
-      >
-        <TestComponent />
-      </ColorModeProvider>,
-    );
+    const WrapperComponent = ({ children }) => {
+      return (
+        <ColorModeProvider
+          value="light"
+        >
+          {children}
+        </ColorModeProvider>
+      );
+    };
+    const { result } = renderHook(() => useColorMode(), { wrapper: WrapperComponent });
 
-    const button = screen.getByRole('button');
-    expect(button).toHaveTextContent('dark');
+    expect(result.current[0]).toEqual('light');
 
-    userEvent.click(button);
+    act(() => {
+      const setColorMode = result.current[1];
+      setColorMode('dark');
+    });
 
-    expect(button).toHaveTextContent('dark');
+    expect(result.current[0]).toEqual('light');
   });
 
   test('change color mode using the onChange callback', () => {
-    const wrapper = ({ children }) => {
+    const WrapperComponent = ({ children }) => {
       const [colorMode, setColorMode] = useState('light');
       return (
         <ColorModeProvider
@@ -80,7 +85,7 @@ describe('<ColorModeProvider />', () => {
         </ColorModeProvider>
       );
     };
-    const { result } = renderHook(() => useColorMode(), { wrapper });
+    const { result } = renderHook(() => useColorMode(), { wrapper: WrapperComponent });
 
     expect(result.current[0]).toEqual('light');
 
