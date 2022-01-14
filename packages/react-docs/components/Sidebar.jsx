@@ -113,7 +113,7 @@ const Sidebar = forwardRef((
               mb: 0,
             }}
           >
-            <Box
+            <Flex
               alignItems="center"
               px="3x"
               mb="2x"
@@ -131,7 +131,7 @@ const Sidebar = forwardRef((
               >
                 {title}
               </Text>
-            </Box>
+            </Flex>
             {routes.map(({ title, heading, path }) => {
               if (heading) {
                 return (

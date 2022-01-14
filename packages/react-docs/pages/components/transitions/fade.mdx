@@ -1,4 +1,4 @@
-# Transitions / Zoom
+# Transitions / Fade
 
 Transition helps make a UI expressive and easy to use.
 
@@ -8,48 +8,43 @@ The transition components use `react-transition-group` internally to perform ani
 
 ```js
 import {
-  Zoom,
+  Fade, // internally used in `Modal`
 } from '@tonic-ui/react';
 ```
 
 ## Usage
 
-### Zoom
+### Fade
 
-The `Zoom` transition is used to zoom in and out of a component.
+The `Fade` transition is used to animate the opacity of a component.
 
 ```jsx
 function Example() {
-  const [isOpen, onToggle] = useToggle();
+  const [isOpen, onToggle] = useToggle(false);
 
   return (
-    <Stack
-      direction="column"
-      spacing="4x"
-      overflow="hidden"
-      shouldWrapChildren
-    >
-      <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
+    <Flex direction="column" rowGap="4x">
+      <TextLabel display="inline-flex" alignItems="center">
+        <Switch checked={isOpen} onChange={() => onToggle()} size="md" />
         <Space width="2x" />
         <Text>Show</Text>
-      </Flex>
-      <Zoom
+      </TextLabel>
+      <Fade
         in={isOpen}
         unmountOnExit={false}
       >
         <SkeletonContent>
           <SkeletonBody />
         </SkeletonContent>
-      </Zoom>
-    </Stack>
+      </Fade>
+    </Flex>
   );
 }
 ```
 
 ## Props
 
-### Zoom
+### Fade
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

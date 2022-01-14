@@ -38,7 +38,7 @@ const Stack = ({
           return (
             <Box
               key={uniqueId()}
-              display="inline-block"
+              display="inline-flex"
             >
               {child}
             </Box>

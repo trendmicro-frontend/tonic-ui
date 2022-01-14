@@ -1,4 +1,4 @@
-# Transitions / Scale
+# Transitions / Collapse
 
 Transition helps make a UI expressive and easy to use.
 
@@ -8,57 +8,51 @@ The transition components use `react-transition-group` internally to perform ani
 
 ```js
 import {
-  Scale,
+  Collapse, // internally used in `Accordion` and `Menu`
 } from '@tonic-ui/react';
 ```
 
 ## Usage
 
-### Scale
+### Collapse
 
-The `Scale` transition is used to animate the scale of a component.
+The `Collapse` transition is used to animate the height of a component. The `collapsedHeight` prop is used to set the height of the component when it is collapsed.
 
 ```jsx
 function Example() {
-  const [isOpen, onToggle] = useToggle();
+  const [isOpen, onToggle] = useToggle(false);
 
   return (
-    <Stack
-      direction="column"
-      spacing="4x"
-      overflow="hidden"
-      shouldWrapChildren
-    >
-      <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
+    <Flex direction="column" rowGap="4x">
+      <TextLabel display="inline-flex" alignItems="center">
+        <Switch checked={isOpen} onChange={() => onToggle()} size="md" />
         <Space width="2x" />
         <Text>Show</Text>
-      </Flex>
-      <Scale
+      </TextLabel>
+      <Collapse
         in={isOpen}
+        collapsedHeight={0}
         unmountOnExit={false}
-        initialScale={[0.9, 0.9**2]}
       >
         <SkeletonContent>
           <SkeletonBody />
         </SkeletonContent>
-      </Scale>
-    </Stack>
+      </Collapse>
+    </Flex>
   );
 }
 ```
 
 ## Props
 
-### Scale
+### Collapse
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
 | children | ReactNode \| (state, props) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
-| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeOut, exit: easing.easeIn } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | in | boolean | | If `true`, the component will transition in. |
-| initialScale | number | 0.95 | The initial scale of the element. |
 | mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
-| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: 150, exit: 150 } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.standard, exit: duration.standard } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |

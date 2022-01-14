@@ -53,7 +53,7 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 ### Icon
 
 ```jsx
-<Tooltip label="Show calendar" placement="left">
+<Tooltip label="Show calendar" placement="right">
   <Icon cursor="pointer" icon="calendar" />
 </Tooltip>
 ```
@@ -61,7 +61,7 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 ### Hide the arrow
 
 ```jsx
-<Tooltip hideArrow label="Search places" placement="top">
+<Tooltip hideArrow label="Search places" placement="right">
   <Icon cursor="pointer" icon="search-o" />
 </Tooltip>
 ```
@@ -161,8 +161,8 @@ function Example() {
 Using the `placement` prop you can adjust where your tooltip will be displayed.
 
 ```jsx
-<Stack direction="column" spacing="8x">
-  <Stack shouldWrapChildren direction="row" spacing="8x">
+<Flex direction="column" rowGap="8x" alignItems="center">
+  <Flex direction="row" columnGap="8x">
     <Tooltip label="Top" placement="top">
       <Button minWidth="32x">Top</Button>
     </Tooltip>
@@ -172,8 +172,8 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
     <Tooltip label="Top end" placement="top-end">
       <Button minWidth="32x">Top-End</Button>
     </Tooltip>
-  </Stack>
-  <Stack shouldWrapChildren direction="row" spacing="8x">
+  </Flex>
+  <Flex direction="row" columnGap="8x">
     <Tooltip label="Right" placement="right">
       <Button minWidth="32x">Right</Button>
     </Tooltip>
@@ -183,8 +183,8 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
     <Tooltip label="Right end" placement="right-end">
       <Button minWidth="32x">Right-End</Button>
     </Tooltip>
-  </Stack>
-  <Stack shouldWrapChildren direction="row" spacing="8x">
+  </Flex>
+  <Flex direction="row" columnGap="8x">
     <Tooltip label="Bottom" placement="bottom">
       <Button minWidth="32x">Bottom</Button>
     </Tooltip>
@@ -194,8 +194,8 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
     <Tooltip label="Bottom end" placement="bottom-end">
       <Button minWidth="32x">Bottom-End</Button>
     </Tooltip>
-  </Stack>
-  <Stack shouldWrapChildren direction="row" spacing="8x">
+  </Flex>
+  <Flex direction="row" columnGap="8x">
     <Tooltip label="Left" placement="left">
       <Button minWidth="32x">Left</Button>
     </Tooltip>
@@ -205,8 +205,8 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
     <Tooltip label="Left end" placement="left-end">
       <Button minWidth="32x">Left-End</Button>
     </Tooltip>
-  </Stack>
-</Stack>
+  </Flex>
+</Flex>
 ```
 
 ## Props

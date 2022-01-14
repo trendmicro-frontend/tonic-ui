@@ -10,6 +10,8 @@ import { Stack } from '@tonic-ui/react';
 
 ## Usage
 
+Try resizing the browser window width as small as possible to see how `Stack` adapts to the available space.
+
 ```jsx noInline
 const Item = (props) => {
   const [colorMode] = useColorMode();
@@ -30,6 +32,14 @@ const Item = (props) => {
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
+
+const Note = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  return (
+    <Text color={colorStyle.color.tertiary} {...props} />
+  );
+};
 
 const useSelection = (defaultValue) => {
   const [value, setValue] = React.useState(defaultValue);
@@ -98,14 +108,21 @@ function Example() {
         </ButtonGroup>
       </FormGroup>
       <FormGroup>
-        <TextLabel display="flex" alignItems="center">
-          <Checkbox
-            checked={gap}
-            onChange={() => toggleGap()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">gap="4x"</Text>
+        <TextLabel>
+          <Flex alignItems="center">
+            <Checkbox
+              checked={gap}
+              onChange={() => toggleGap()}
+            />
+            <Space width="2x" />
+            <Text fontFamily="mono" whiteSpace="nowrap">
+              gap="4x"
+            </Text>
+          </Flex>
         </TextLabel>
+        <Note pl="6x" pt="1x">
+          Set 'direction="row"' and 'flexWrap="wrap"' to see the gap between rows.
+        </Note>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
@@ -114,7 +131,9 @@ function Example() {
             onChange={() => toggleShouldWrapChildren()}
           />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">shouldWrapChildren</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">
+            shouldWrapChildren
+          </Text>
         </TextLabel>
       </FormGroup>
       <Divider mb="4x" />

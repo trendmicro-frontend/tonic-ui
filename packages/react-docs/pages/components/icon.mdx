@@ -38,8 +38,10 @@ function Example() {
 
   return (
     <>
-      <Flex mb="4x">
-        <Switch size="sm" checked={checked} onChange={toggle} /><Space width="4x" />Toggle animation
+      <Flex mb="4x" alignItems="center">
+        <Switch size="md" checked={checked} onChange={toggle} />
+        <Space width="2x" />
+        <Text>Toggle animation</Text>
       </Flex>
       <Stack direction="row" spacing="4x">
         <Icon icon="spinner" size="6x" spin animationPlayState={playState} />

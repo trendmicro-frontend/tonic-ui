@@ -6,7 +6,7 @@ const routes = [
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
-      { title: 'Migration From v0.x to v1 🚧', path: 'getting-started/migration-v0x' },
+      { title: 'Migration From v0.x to v1', path: 'getting-started/migration-v0x' },
       { title: 'Versions', path: 'getting-started/versions' },
       { title: 'Contributing', path: 'getting-started/contributing' },
     ],
@@ -104,12 +104,12 @@ const routes = [
 
       { title: 'TRANSITIONS', heading: true },
       { title: 'Transitions', path: 'components/transitions' },
-      { title: 'Transitions / Collapse', path: 'components/transitions-collapse' },
-      { title: 'Transitions / Fade', path: 'components/transitions-fade' },
-      { title: 'Transitions / Grow', path: 'components/transitions-grow' },
-      { title: 'Transitions / Scale', path: 'components/transitions-scale' },
-      { title: 'Transitions / Slide', path: 'components/transitions-slide' },
-      { title: 'Transitions / Zoom', path: 'components/transitions-zoom' },
+      { title: 'Transitions / Collapse', path: 'components/transitions/collapse' },
+      { title: 'Transitions / Fade', path: 'components/transitions/fade' },
+      { title: 'Transitions / Grow', path: 'components/transitions/grow' },
+      { title: 'Transitions / Scale', path: 'components/transitions/scale' },
+      { title: 'Transitions / Slide', path: 'components/transitions/slide' },
+      { title: 'Transitions / Zoom', path: 'components/transitions/zoom' },
 
       { title: 'TYPOGRAPHY', heading: true },
       { title: 'Text', path: 'components/text' },
