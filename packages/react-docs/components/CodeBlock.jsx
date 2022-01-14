@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { mdx } from '@mdx-js/react';
 import * as reactComponents from '@tonic-ui/react';
-import * as reactLibComponents from '../../react-lab'; //'@tonic-ui/react-lib';
+import * as reactLibComponents from '@tonic-ui/react-lab';
 import * as reactHooks from '@tonic-ui/react-hooks';
 import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
