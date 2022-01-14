@@ -1,6 +1,6 @@
 # Migration From v0.x to v1
 
-This is the Tonic UI migration guide for upgrading from v0.x to v1. You have to consider whether you will do the upgrade if the breaking changes are not acceptable to you at the moment. A proper way for the migration is to make v0.x and v1 coexist for a while, then remove v0.x packages once you have finished the migration.
+⚠️ This is the Tonic UI migration guide for upgrading from v0.x to v1. You have to consider whether you will do the upgrade if the breaking changes are not acceptable to you at the moment. A proper way for the migration is to make v0.x and v1 coexist for a while, then remove v0.x packages once you have finished the migration.
 
 ## Upgrade Steps
 
@@ -64,7 +64,7 @@ Optionally via prop:
 
 ### 3. Replace deprecated components and Hooks
 
-#### PseudoBox
+#### `PseudoBox` 💣 (use `Box` instead)
 
 `PseudoBox` is deprecated and its props can now be passed to `Box` directly. Replace all `PseudoBox` components with `Box`.
 
@@ -78,7 +78,7 @@ Optionally via prop:
 + </Box>
 ```
 
-#### ToggleSwitch
+#### `ToggleSwitch` 💣 (use `Switch` instead)
 
 `ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../components/switch) instead.
 
@@ -87,7 +87,7 @@ Optionally via prop:
 + <Switch />
 ```
 
-#### useDisclosure
+#### `useDisclosure` 💣 (use `useToggle` instead)
 
 `useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../hooks/use-toggle) instead.
 
@@ -97,6 +97,10 @@ toggleValue(); // toggle the value between true and false
 toggleValue(true); // set the value to true
 toggleValue(false); // set the value to false
 ```
+
+#### withTheme 💣 (use `useTheme` instead)
+
+`withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
 
 ### 4. Examine breaking changes
 
@@ -110,7 +114,7 @@ The following components changed the `display` property internally. Check whethe
 | `Space` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
 | `Stack` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
 | `Tag` | `inline-block` | `inline-flex` | |
-| `Text` | `inline-block` | `block` | - To make inline text, use `<Text display="inline" />`<br/>- To make inline block text, use `<Text display="inline-block" />`<br/>- To make inline flex text, use `<Text display="inline-flex" />` |
+| `Text` | `inline-block` | `block` | It might affect the layout according to your usage<br/>- To make inline text, use `<Text display="inline" />`<br/>- To make inline block text, use `<Text display="inline-block" />`<br/>- To make inline flex text, use `<Text display="inline-flex" />`<br/>- Use `<Flex direction="row" />` or `<Flex direction="column" />` if you need to render multiple components in the same row or column. |
 
 ## System Updates
 
@@ -196,13 +200,9 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 + const [colorMode, setColorMode] = useColorMode();
 ```
 
-### withTheme
-
-`withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
-
 ## Component Updates
 
-### Accordion ✨
+### Accordion
 
 > 👉 The `Accordion` component was fullly reworked to be more declarative and to be more intuitive.
 
@@ -278,8 +278,9 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 
 * Removed the `isHoverable` prop. Use the `_hover` prop on the `TableRow` component instead.
 
-### Tabs 🚧
+### Tabs
 
+🚧 🚧 🚧
 > 👉 The `Tabs` component was temporarily removed from v1 alpha. It will be completely reworked and added back in the future.
 
 ### Tag
@@ -326,8 +327,7 @@ The following components now have built-in transitions. Remember to remove all t
 | `ToastTransition` | built-in | false |
 | `Tooltip` | `Grow` | false |
 
-> Learn more about [transitions](../components/transitions).
-
+* [Transitions](../components/transitions)
 * [Collapse](../components/transitions/collapse) - internally used in `Accordion` and `Menu`
 * [Fade](../components/transitions/fade) - internally used in `Modal`
 * [Grow](../components/transitions/grow) - internally used in `Popover` and `Tooltip`
