@@ -1,23 +1,15 @@
 import React, { forwardRef } from 'react';
-import { useColorMode } from '../color-mode';
 import Text from './Text';
+import { useTextLabelStyle } from './styles';
 
 const TextLabel = forwardRef((props, ref) => {
-  const [colorMode] = useColorMode();
-  const colorProps = {
-    dark: {
-      color: 'white:secondary',
-    },
-    light: {
-      color: 'black:secondary',
-    },
-  }[colorMode];
+  const styleProps = useTextLabelStyle();
 
   return (
     <Text
       as="label"
       ref={ref}
-      {...colorProps}
+      {...styleProps}
       {...props}
     />
   );

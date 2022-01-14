@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useTheme } from '../theme';
+import { useTextStyle } from './styles';
 
 const Text = forwardRef((
   {
@@ -9,19 +9,12 @@ const Text = forwardRef((
   },
   ref,
 ) => {
-  const { fontSizes } = useTheme();
-  const sizeProps = {};
-  if (size !== undefined && Object.prototype.hasOwnProperty.call(fontSizes, size)) {
-    sizeProps.fontSize = size;
-    sizeProps.lineHeight = size;
-  }
+  const styleProps = useTextStyle({ size });
 
   return (
     <Box
       ref={ref}
-      display="inline-flex"
-      fontFamily="base"
-      {...sizeProps}
+      {...styleProps}
       {...rest}
     />
   );
