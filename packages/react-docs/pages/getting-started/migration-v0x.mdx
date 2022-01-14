@@ -1,5 +1,7 @@
 # Migration From v0.x to v1
 
+This is the Tonic UI migration guide for upgrading from v0.x to v1. You have to consider whether you will do the upgrade if the breaking changes are not acceptable to you at the moment. A proper way for the migration is to make v0.x and v1 coexist for a while, then remove v0.x packages once you have finished the migration.
+
 ## Upgrade Steps
 
 ### 1. Update the dependencies
@@ -16,6 +18,19 @@
 }
 ```
 
+To make v0.x and v1 coexist, do the following:
+
+```diff
+"dependencies": {
+  "@trendmicro/react-styled-ui": "0.x",
+  "@trendmicro/styled-ui-theme": "0.x",
++ "@tonic-ui/react": "^1.0.0",
++ "@tonic-ui/theme": "^1.0.0"
+}
+```
+
+You can keep v0.x packages until you are ready to remove them.
+
 ### 2. Update the providers
 
 A `TonicProvider` is provided by the `@tonic-ui/react` package. It includes the following providers:
@@ -28,9 +43,26 @@ Optionally via prop:
 
 * **useCSSBaseline**: To omit the recommended `CSSBaseline`, pass `useCSSBaseline={false}`.
 
-> You can see [Getting Started](../getting-started/usage) to learn more about the providers.
+```diff
++ <TonicProvider
++   colorMode={{ defaultValue: 'dark' }}
++   useCSSBaseline={true}
++ >
+- <ThemeProvider>
+-   <ColorModeProvider value="dark">
+-     <ColorStyleProvider>
+-       <CSSBaseline />
+-       <App />
++   <App />
+-     </ColorStyleProvider>
+-   </ColorModeProvider>
+- </ThemeProvider>
++ </TonicProvider>
+```
 
-### 3. Replace Components and Hooks
+> See [Getting Started](../getting-started/usage) to learn more about the providers.
+
+### 3. Replace deprecated components and Hooks
 
 #### PseudoBox
 
@@ -66,93 +98,107 @@ toggleValue(true); // set the value to true
 toggleValue(false); // set the value to false
 ```
 
+### 4. Examine breaking changes
+
+The following components changed the `display` property internally. Check whether you have to do corresponding layout change.
+
+| Component | Previous | Current | Note |
+| :-------- | :------- | :------ | :--- |
+| `Button` | `inline-block` | `inline-flex` | |
+| `Menu` | `inline-block` | `inline-flex` | |
+| `SVGIcon` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
+| `Space` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
+| `Stack` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
+| `Tag` | `inline-block` | `inline-flex` | |
+| `Text` | `inline-block` | `block` | - To make inline text, use `<Text display="inline" />`<br/>- To make inline block text, use `<Text display="inline-block" />`<br/>- To make inline flex text, use `<Text display="inline-flex" />` |
+
 ## System Updates
 
 ### Theme
 
-* Removed dark and light shadows from the `theme.shadows` object in favor of `colorStyle.shadow`. See [shadows](../system/shadows) to learn more.
+Removed dark and light shadows from the `theme.shadows` object in favor of `colorStyle.shadow`. See [shadows](../system/shadows) to learn more.
 
-  ```diff
-  {
-    shadows: {
-      none: 'none',
-  -   dark: {
-  -     sm: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
-  -     md: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
-  -     lg: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
-  -   },
-  -   light: {
-  -     sm: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
-  -     md: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-  -     lg: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
-  -   },
-    },
-  }
-  ```
+```diff
+{
+  shadows: {
+    none: 'none',
+-   dark: {
+-     sm: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
+-     md: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+-     lg: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
+-   },
+-   light: {
+-     sm: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
+-     md: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+-     lg: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
+-   },
+  },
+}
+```
 
-  Use `useColorStyle` Hook to get the shadow value:
+You can use `useColorStyle` Hook to get the shadow value:
 
-  ```js
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+```js
+const [colorMode] = useColorMode();
+const [colorStyle] = useColorStyle({ colorMode });
 
-  console.log(colorStyle.shadow.thin);
-  console.log(colorStyle.shadow.medium);
-  console.log(colorStyle.shadow.thick);
-  ```
+console.log(colorStyle.shadow.thin);
+console.log(colorStyle.shadow.medium);
+console.log(colorStyle.shadow.thick);
+```
 
-### Color style
+### Color Style
 
-* Moved `selected` and `marked` tokens from `background` to `text`.
+Moved `selected` and `marked` tokens from `background` to `text`.
 
-  ```diff
-  { // Dark mode
-    background: {
-      primary: 'gray:100',
-      secondary: 'gray:90',
-      tertiary: 'gray:80',
-      inverse: 'gray:10',
-  -   selected: 'blue:60', // replaced with text.selection in the v1 release
-  -   marked: '#fce79e', // replaced with text.highlight in the v1 release
-    },
-  + color: {
-  +   emphasis: 'white:emphasis',
-  +   primary: 'white:primary',
-  +   secondary: 'white:secondary',
-  +   tertiary: 'white:tertiary',
-  +   disabled: 'white:disabled',
-  +   success: 'green:40',
-  +   info: 'blue:40',
-  +   warning: 'orange:50',
-  +   error: 'red:50',
-  + },
-    text: {
-  -   emphasis: 'white:emphasis',
-  -   primary: 'white:primary',
-  -   secondary: 'white:secondary',
-  -   tertiary: 'white:tertiary',
-  -   disabled: 'white:disabled',
-  -   link: 'blue:40',
-  -   warning: 'orange:50',
-  -   error: 'red:50',
-      selection: 'blue:60',
-      highlight: '#fce79e',
-    },
-  }
-  ```
+```diff
+{ // Dark mode
+  background: {
+    primary: 'gray:100',
+    secondary: 'gray:90',
+    tertiary: 'gray:80',
+    inverse: 'gray:10',
+-   selected: 'blue:60', // replaced with text.selection in the v1 release
+-   marked: '#fce79e', // replaced with text.highlight in the v1 release
+  },
++ color: {
++   emphasis: 'white:emphasis',
++   primary: 'white:primary',
++   secondary: 'white:secondary',
++   tertiary: 'white:tertiary',
++   disabled: 'white:disabled',
++   success: 'green:40',
++   info: 'blue:40',
++   warning: 'orange:50',
++   error: 'red:50',
++ },
+  text: {
+-   emphasis: 'white:emphasis',
+-   primary: 'white:primary',
+-   secondary: 'white:secondary',
+-   tertiary: 'white:tertiary',
+-   disabled: 'white:disabled',
+-   link: 'blue:40',
+-   warning: 'orange:50',
+-   error: 'red:50',
+    selection: 'blue:60',
+    highlight: '#fce79e',
+  },
+}
+```
 
-### useColorMode
+### useColorMode Hook
 
-* The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `{ colorMode, setColorMode, toggleColorMode }`
+The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `{ colorMode, setColorMode, toggleColorMode }`
 
-  ```diff
-  - const { colorMode, setColorMode, toggleColorMode } = useColorMode();
-  + const [colorMode, setColorMode] = useColorMode();
-  ```
+```diff
+- const { colorMode, setColorMode, toggleColorMode } = useColorMode();
++ const [colorMode, setColorMode] = useColorMode();
+```
 
 ### withTheme
 
-* `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
+`withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
 
 ## Component Updates
 
@@ -185,8 +231,8 @@ toggleValue(false); // set the value to false
 #### `Badge`
 
 * Changed the `dotSize` prop to `width` or `w` and `height` or `h`
-* Changed the `isHidden` prop to `isInvisible'
-* Changed the `offset` prop to `right` and `top
+* Changed the `isHidden` prop to `isInvisible`
+* Changed the `offset` prop to `right` and `top`
 * Changed the `variantColor` prop to `backgroundColor`
 * Renamed `variant="badge"` to `variant="solid"`
 
@@ -234,7 +280,7 @@ toggleValue(false); // set the value to false
 
 ### Tabs
 
-> The `Tabs` component was temporarily removed from v1 alpha. It will be completely reworked and added back in the future.<br/><br/><strong>You have to consider whether you should upgrade to Tonic UI v1 alpha if this change will affect your code at the moment.</strong>
+> The `Tabs` component was temporarily removed from v1 alpha. It will be completely reworked and added back in the future.
 
 ### Tag
 
@@ -282,16 +328,16 @@ The following components now have built-in transitions. Remember to remove all t
 
 > Learn more about [transitions](../components/transitions).
 
-* [Collapse](../components/transitions-collapse) - internally used in <b>Accordion</b> and <b>Menu</b>
-* [Fade](../components/transitions-fade) - internally used in <b>Modal</b>
-* [Grow](../components/transitions-grow) - internally used in <b>Popover</b> and <b>Tooltip</b>
-* [Scale](../components/transitions-scale)
-* [Slide](../components/transitions-slide) - internally used in <b>Drawer</b>
-* [Zoom](../components/transitions-zoom)
+* [Collapse](../components/transitions/collapse) - internally used in <b>Accordion</b> and <b>Menu</b>
+* [Fade](../components/transitions/fade) - internally used in <b>Modal</b>
+* [Grow](../components/transitions/grow) - internally used in <b>Popover</b> and <b>Tooltip</b>
+* [Scale](../components/transitions/scale)
+* [Slide](../components/transitions/slide) - internally used in <b>Drawer</b>
+* [Zoom](../components/transitions/zoom)
 
 ### Drawer
 
-The `Drawer` component now has built-in transitions. Follow the diff below to remove transitions from the `Drawer` component:
+The `Drawer` component now has built-in transitions. Follow the diff below to remove transitions if present.
 
 ```diff
 - <Slide
@@ -320,7 +366,7 @@ The `Drawer` component now has built-in transitions. Follow the diff below to re
 
 ### Modal
 
-The `Modal` component now has built-in transitions. Follow the diff below to remove transitions from the `Modal` component:
+The `Modal` component now has built-in transitions. Follow the diff below to remove transitions if present.
 
 ```diff
 - <Scale

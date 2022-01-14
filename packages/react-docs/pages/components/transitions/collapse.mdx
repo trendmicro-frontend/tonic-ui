@@ -20,20 +20,15 @@ The `Collapse` transition is used to animate the height of a component. The `col
 
 ```jsx
 function Example() {
-  const [isOpen, onToggle] = useToggle();
+  const [isOpen, onToggle] = useToggle(false);
 
   return (
-    <Stack
-      direction="column"
-      spacing="4x"
-      overflow="hidden"
-      shouldWrapChildren
-    >
-      <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
+    <Flex direction="column" rowGap="4x">
+      <TextLabel display="inline-flex" alignItems="center">
+        <Switch checked={isOpen} onChange={() => onToggle()} size="md" />
         <Space width="2x" />
         <Text>Show</Text>
-      </Flex>
+      </TextLabel>
       <Collapse
         in={isOpen}
         collapsedHeight={0}
@@ -43,7 +38,7 @@ function Example() {
           <SkeletonBody />
         </SkeletonContent>
       </Collapse>
-    </Stack>
+    </Flex>
   );
 }
 ```

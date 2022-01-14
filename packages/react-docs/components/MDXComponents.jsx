@@ -5,6 +5,7 @@ import {
   Image,
   Link,
   useColorMode,
+  useColorStyle,
 } from '@tonic-ui/react';
 import Code from './Code';
 import CodeBlock from './CodeBlock';
@@ -151,28 +152,41 @@ const H6 = props => {
   );
 };
 
-const Blockquote = props => (
-  <Box
-    as="blockquote"
-    fontSize="md"
-    lineHeight="md"
-    backgroundColor="#FEEBC8"
-    borderLeft={4}
-    borderLeftColor="orange:50"
-    borderRadius="sm"
-    color="black:primary"
-    mx={0}
-    mb="4x"
-    px="4x"
-    py="3x"
-    css={css`
-      p {
-        margin-bottom: 0;
-      }
-    `}
-    {...props}
-  />
-);
+const Blockquote = props => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const backgroundColor = {
+    light: 'white',
+    dark: 'gray:90',
+  }[colorMode];
+  const borderColor = {
+    light: 'gray:20',
+    dark: 'gray:60',
+  }[colorMode];
+
+  return (
+    <Box
+      as="blockquote"
+      fontSize="md"
+      lineHeight="md"
+      backgroundColor={backgroundColor}
+      borderLeft={4}
+      borderLeftColor={borderColor}
+      boxShadow={colorStyle.shadow.thin}
+      color={colorStyle.color.primary}
+      mx={0}
+      mb="4x"
+      px="4x"
+      py="3x"
+      css={css`
+        p {
+          margin-bottom: 0;
+        }
+      `}
+      {...props}
+    />
+  );
+};
 
 const ul = props => (
   <Box
@@ -208,7 +222,6 @@ const table = props => (
     as="table"
     mt={0}
     mb="4x"
-    width="100%"
     fontSize="md"
     lineHeight="md"
     css={css`
