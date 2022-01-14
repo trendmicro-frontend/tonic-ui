@@ -18,8 +18,8 @@ Latest version (v1) => https://trendmicro-frontend.github.io/tonic-ui/
 ## Features
 
 * A unified color theme provider that can easily switch between dark and light mode
-* Low barriers to customize UI components using building blocks
-* A standarized [styled system](https://github.com/trendmicro-frontend/tonic-ui/tree/tonic-ui-472/packages/styled-system)
+* Low barriers to customize UI components using building block components
+* A standarized [styled system](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/styled-system) and [theme](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/theme)
 
 ## Contributing
 
