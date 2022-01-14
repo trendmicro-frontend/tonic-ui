@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.js",
-    "clean": "del build dist",
+    "clean": "del build coverage dist",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "yarn run eslint",
