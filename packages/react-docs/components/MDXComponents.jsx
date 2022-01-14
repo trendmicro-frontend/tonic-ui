@@ -22,7 +22,6 @@ const mapColorModeToTableBorderColor = (colorMode) => ({
 const p = props => (
   <Box
     as="p"
-    display="block"
     fontSize="md"
     lineHeight="md"
     mt={0}
@@ -157,8 +156,6 @@ const Blockquote = props => (
     as="blockquote"
     fontSize="md"
     lineHeight="md"
-    display="flex"
-    alignItems="center"
     backgroundColor="#FEEBC8"
     borderLeft={4}
     borderLeftColor="orange:50"
@@ -211,7 +208,6 @@ const table = props => (
     as="table"
     mt={0}
     mb="4x"
-    display="block"
     width="100%"
     fontSize="md"
     lineHeight="md"
