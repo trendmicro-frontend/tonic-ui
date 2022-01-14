@@ -157,7 +157,7 @@ const Blockquote = props => {
   const [colorStyle] = useColorStyle({ colorMode });
   const backgroundColor = {
     light: 'white',
-    dark: 'gray:90',
+    dark: 'gray:80',
   }[colorMode];
   const borderColor = {
     light: 'gray:20',
