@@ -4,12 +4,12 @@ import React, { forwardRef } from 'react';
 const Code = forwardRef((props, ref) => {
   const [colorMode] = useColorMode();
   const color = {
-    light: 'black:secondary',
-    dark: 'white:secondary',
+    light: 'black:primary',
+    dark: 'white:primary',
   }[colorMode];
   const backgroundColor = {
-    light: 'rgba(175, 184, 193, 0.2)',
-    dark: 'rgba(99, 110, 123, 0.4)',
+    light: 'gray:20',
+    dark: 'gray:70',
   }[colorMode];
 
   return (
