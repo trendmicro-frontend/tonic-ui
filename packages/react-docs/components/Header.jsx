@@ -33,12 +33,10 @@ const setColorOpacity = (color, opacity) => {
 };
 
 const versionMap = {
-  /*
   [ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)]: {
     label: `v${ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)}`,
     url: ensureString(process.env.TONIC_UI_V1_RELEASE_DOCUMENTATION),
   },
-  */
   [ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)]: {
     label: `v${ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)}`,
     url: ensureString(process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION),
