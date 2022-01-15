@@ -64,8 +64,7 @@ const PopoverContent = ({
     mousePageY,
     arrowAt,
   } = usePopover();
-  const contentStyleProps = usePopoverContentStyle();
-
+  const styleProps = usePopoverContentStyle();
   const arrowSize = 12;
   let _skidding = skidding;
   let _distance = distance + 8; // Arrow height is 8px
@@ -144,6 +143,7 @@ const PopoverContent = ({
       unmountOnExit={true}
       usePortal={usePortal}
       willUseTransition={true}
+      zIndex="popover"
       {...roleProps}
       {...eventHandlers}
       {...PopperProps}
@@ -177,7 +177,7 @@ const PopoverContent = ({
               return (
                 <Box
                   ref={ref}
-                  {...contentStyleProps}
+                  {...styleProps}
                   {...transitionStyle}
                   transformOrigin={mapPlacementToTransformOrigin(placement)}
                   {...rest}

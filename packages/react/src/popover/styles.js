@@ -25,8 +25,9 @@ const usePopoverContentStyle = () => {
     flexDirection: 'column',
     borderRadius: 'sm',
     maxWidth: '288px',
-    zIndex: 'popover',
-    _focus: { outline: 0 }
+    _focus: {
+      outline: 0,
+    },
   };
 };
 
