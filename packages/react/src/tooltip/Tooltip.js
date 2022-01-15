@@ -185,6 +185,7 @@ const Tooltip = forwardRef((
           unmountOnExit={true}
           usePortal={usePortal}
           willUseTransition={true}
+          zIndex="tooltip"
           {...PopperProps}
         >
           {({ placement, transition }) => {
