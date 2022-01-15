@@ -33,7 +33,7 @@ const Menu = forwardRef((
     onKeyDown,
     onOpen,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
-    usePortal = false, // Pass `true` if you want to render the menu in a portal
+    usePortal = false, // Pass `true` if you want to render menu in a portal
     ...rest
   },
   ref,

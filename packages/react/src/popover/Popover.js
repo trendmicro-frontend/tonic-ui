@@ -9,7 +9,7 @@ const Popover = ({
   defaultIsOpen = false,
   isOpen: isOpenProp,
   initialFocusRef,
-  usePortal = true,
+  usePortal = false, // Pass `true` if you want to render popove in a portal
   returnFocusOnClose = true,
   trigger = 'click',
   placement = 'bottom',

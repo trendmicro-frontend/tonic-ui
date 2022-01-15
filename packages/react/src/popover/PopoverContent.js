@@ -132,7 +132,6 @@ const PopoverContent = ({
       aria-hidden={!isOpen}
       aria-labelledby={headerId}
       aria-describedby={bodyId}
-      usePortal={usePortal}
       isOpen={isOpen}
       placement={placement}
       anchorEl={anchorRef.current}
@@ -142,6 +141,8 @@ const PopoverContent = ({
       modifiers={{
         offset: [_skidding, _distance],
       }}
+      unmountOnExit={true}
+      usePortal={usePortal}
       willUseTransition={true}
       {...roleProps}
       {...eventHandlers}

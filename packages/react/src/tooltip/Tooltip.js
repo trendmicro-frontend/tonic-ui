@@ -51,7 +51,7 @@ const Tooltip = forwardRef((
     onOpen: onOpenProp,
     onClose: onCloseProp,
     arrowAt,
-    usePortal = true,
+    usePortal = false, // Pass `true` if you want to render tooltip in a portal
     ...rest
   },
   ref,
@@ -170,7 +170,6 @@ const Tooltip = forwardRef((
       {isHydrated && (
         <PopperComponent
           aria-hidden={!isOpen}
-          usePortal={usePortal}
           isOpen={_isOpen}
           data-popper-placement={placement}
           placement={placement}
@@ -183,6 +182,8 @@ const Tooltip = forwardRef((
           role="tooltip"
           pointerEvents="none"
           arrowSize={arrowSize}
+          unmountOnExit={true}
+          usePortal={usePortal}
           willUseTransition={true}
           {...PopperProps}
         >
