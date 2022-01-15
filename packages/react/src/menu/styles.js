@@ -37,7 +37,6 @@ const useMenuListStyle = () => {
     m: '0',
     p: '0',
     py: '2x',
-    zIndex: 'dropdown',
     _focus: {
       outline: 'none',
     },

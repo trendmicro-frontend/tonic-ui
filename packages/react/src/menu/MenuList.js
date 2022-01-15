@@ -102,6 +102,7 @@ const MenuList = forwardRef((
       unmountOnExit={true}
       usePortal={usePortal}
       willUseTransition={true}
+      zIndex="dropdown"
       {...styleProps}
       {...eventHandlers}
       {...PopperProps}
