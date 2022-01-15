@@ -63,13 +63,13 @@ When using this component, ensure the children passed to `PopoverTrigger` is foc
 **A11y:** When `Popover` opens, the focus status is sent to  `PopoverContent`. When `Popover` is closed, the focus status is returned to the trigger.
 
 ```jsx
-<Popover placement="right">
+<Popover>
   <PopoverTrigger>
     <Button>Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
-    <PopoverHeader>Confirmation!</PopoverHeader>
-    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+    <PopoverHeader>Popover Header</PopoverHeader>
+    <PopoverBody>Popover Body</PopoverBody>
   </PopoverContent>
 </Popover>
 ```
@@ -83,14 +83,13 @@ function WalkthroughPopover() {
   return (
     <Popover
       initialFocusRef={initialFocusRef}
-      placement="right"
     >
       <PopoverTrigger>
         <Link>Trigger</Link>
       </PopoverTrigger>
       <PopoverContent>
         <PopoverHeader>
-          Manage Your Channels
+          Popover Header
         </PopoverHeader>
         <PopoverBody>
           Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -126,7 +125,6 @@ function InternalStateEx() {
   return (
     <Popover
       initialFocusRef={initRef}
-      placement="right"
     >
     {({ isOpen, onClose }) => (
       <>
@@ -135,7 +133,7 @@ function InternalStateEx() {
         </PopoverTrigger>
         <PopoverContent>
           <PopoverHeader>
-            Manage Your Channels
+            Popover Header
           </PopoverHeader>
           <PopoverBody>
             Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -183,7 +181,6 @@ function ControlledUsage() {
         returnFocusOnClose={false}
         isOpen={isOpen}
         onClose={close}
-        placement="right"
         closeOnBlur={false}
       >
         <PopoverTrigger>
@@ -213,14 +210,12 @@ function ControlledUsage() {
 ```jsx
 <Popover
   hideArrow
-  placement="right"
 >
   <PopoverTrigger>
     <Button>Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
-    <PopoverHeader>Confirmation!</PopoverHeader>
-    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+    Popover
   </PopoverContent>
 </Popover>
 ```
@@ -231,14 +226,12 @@ function ControlledUsage() {
 <Popover
   skidding={50}
   distance={0}
-  placement="right"
 >
   <PopoverTrigger>
     <Button>Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
-    <PopoverHeader>Confirmation!</PopoverHeader>
-    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+    Popover
   </PopoverContent>
 </Popover>
 ```
@@ -252,15 +245,13 @@ If you quickly move your cursor to the popover content when it is open, `Popover
 ```jsx
 <Popover
   hideArrow
-  placement="right"
   trigger="hover"
 >
   <PopoverTrigger>
     <Icon icon="info" color="white:secondary" _hover={{ color: 'white:emphasis' }}/>
   </PopoverTrigger>
   <PopoverContent>
-    <PopoverHeader>Confirmation!</PopoverHeader>
-    <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
+    Popover
   </PopoverContent>
 </Popover>
 ```
@@ -274,7 +265,7 @@ If you quickly move your cursor to the popover content when it is open, `Popover
       <Button>Next to cursor</Button>
     </PopoverTrigger>
     <PopoverContent>
-      <PopoverBody>Lorem ipsum dolor sit amet</PopoverBody>
+      Popover
     </PopoverContent>
   </Popover>
   <Popover trigger="hover" followCursor>
@@ -282,7 +273,7 @@ If you quickly move your cursor to the popover content when it is open, `Popover
       <Button>Follow cursor</Button>
     </PopoverTrigger>
     <PopoverContent>
-      <PopoverBody>Lorem ipsum dolor sit amet</PopoverBody>
+      Popover
     </PopoverContent>
   </Popover>
 </Stack>
@@ -290,129 +281,37 @@ If you quickly move your cursor to the popover content when it is open, `Popover
 
 ### Popover Placement
 
-Since `Popover` is controlled by PopperJS, you can change the placement of `Popover` by passing the `placement` prop.
-
-Although you may have specified the placement, `Popover` will try to reposition itself if there is not enough available space at the specified placement.
+Use the `placement` prop to control the placement of the popover.
 
 ```jsx
-<Flex direction="column" rowGap="8x" alignItems="center">
-  <Flex direction="row" columnGap="8x">
-    <Popover placement="top">
-      <PopoverTrigger>
-        <Button minWidth="32x">Top</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover placement="top-start">
-      <PopoverTrigger>
-        <Button minWidth="32x">Top-Start</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover placement="top-end">
-      <PopoverTrigger>
-        <Button minWidth="32x">Top-End</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-  </Flex>
-  <Flex direction="row" columnGap="8x">
-    <Popover placement="right">
-      <PopoverTrigger>
-        <Button minWidth="32x">Right</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover placement="right-start">
-      <PopoverTrigger>
-        <Button minWidth="32x">Right-Start</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover placement="right-end">
-      <PopoverTrigger>
-        <Button minWidth="32x">Right-End</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-  </Flex>
-  <Flex direction="row" columnGap="8x">
-    <Popover placement="bottom">
-      <PopoverTrigger>
-        <Button minWidth="32x">Bottom</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover placement="bottom-start">
-      <PopoverTrigger>
-        <Button minWidth="32x">Bottom-Start</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover placement="bottom-end">
-      <PopoverTrigger>
-        <Button minWidth="32x">Bottom-End</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-  </Flex>
-  <Flex direction="row" columnGap="8x">
-    <Popover placement="left">
-      <PopoverTrigger>
-        <Button minWidth="32x">Left</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover placement="left-start">
-      <PopoverTrigger>
-        <Button minWidth="32x">Left-Start</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    <Popover placement="left-end">
-      <PopoverTrigger>
-        <Button minWidth="32x">Left-End</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Confirmation!</PopoverHeader>
-        <PopoverBody>Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</PopoverBody>
-      </PopoverContent>
-    </Popover>
-  </Flex>
-</Flex>
+<Box display="inline-block">
+  <Grid
+    templateColumns="repeat(3, minmax(84px,1fr))"
+    templateRows="repeat(4, 84px)"
+    gap="8x"
+  >
+    {['top-start', 'top', 'top-end',
+      'right-start', 'right', 'right-end',
+      'bottom-start', 'bottom', 'bottom-end',
+      'left-start', 'left', 'left-end'
+    ].map(placement => (
+      <Popover
+        key={placement}
+        placement={placement}
+        trigger="hover"
+      >
+        <PopoverTrigger>
+          <Button width="100%">
+            {placement}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          Popover
+        </PopoverContent>
+      </Popover>
+    ))}
+  </Grid>
+</Box>
 ```
 
 ## Accessibility
