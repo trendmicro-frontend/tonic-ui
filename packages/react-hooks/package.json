@@ -17,8 +17,6 @@
     "prepublish": "yarn run build",
     "test": "jest"
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -65,8 +63,7 @@
       "text",
       "html"
     ],
-    "setupFiles": [
-    ],
+    "setupFiles": [],
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
     ],

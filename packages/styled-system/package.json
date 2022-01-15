@@ -45,8 +45,7 @@
       "text",
       "html"
     ],
-    "setupFiles": [
-    ],
+    "setupFiles": [],
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
     ],
