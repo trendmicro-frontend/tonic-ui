@@ -30,12 +30,12 @@ const PopoverContent = ({
   PopperArrowProps,
   TransitionComponent = Grow,
   TransitionProps,
-  onKeyDown,
-  onBlur: onBlurProp,
-  onMouseLeave,
-  onMouseEnter,
-  onFocus,
   children,
+  onBlur: onBlurProp,
+  onFocus,
+  onKeyDown,
+  onMouseEnter,
+  onMouseLeave,
   ...rest
 }) => {
   const isHydrated = useHydrated();

@@ -95,8 +95,8 @@ const PopoverTrigger = forwardRef((
 
     return {
       'aria-haspopup': 'dialog',
-      'aria-expanded': isOpen,
       'aria-controls': popoverId,
+      'aria-expanded': isOpen,
       ref: combinedRef,
       role: 'button',
       ...popoverTriggerStyleProps,

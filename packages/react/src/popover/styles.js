@@ -1,11 +1,6 @@
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 
-const baseProps = {
-  fontSize: 'sm',
-  lineHeight: 'sm',
-};
-
 const usePopoverContentStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
@@ -13,12 +8,19 @@ const usePopoverContentStyle = () => {
     dark: 'gray:80',
     light: 'white',
   }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
 
   return {
     backgroundColor,
+    color,
     boxShadow: colorStyle?.shadow?.thin,
     tabIndex: '-1',
     borderWidth: 1,
+    fontSize: 'sm',
+    lineHeight: 'sm',
     p: '3x',
     position: 'relative',
     display: 'flex',
@@ -33,28 +35,31 @@ const usePopoverContentStyle = () => {
 
 const usePopoverHeaderStyle = () => {
   const [colorMode] = useColorMode();
-  const color = { dark: 'white:emphasis', light: 'black:primary' }[colorMode];
+  const borderColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+
   return {
-    ...baseProps,
     fontWeight: 'semibold',
-    color,
     __after: {
       content: '""',
       display: 'block',
       borderTop: 1,
-      borderColor: 'gray:60',
+      borderColor,
       my: '2x',
     },
   };
 };
 
 const usePopoverBodyStyle = () => {
-  const [colorMode] = useColorMode();
-  const color = { dark: 'white:primary', light: 'black:primary' }[colorMode];
   return {
-    color,
-    ...baseProps,
-    flex: '1'
+  };
+};
+
+const usePopoverFooterStyle = () => {
+  return {
+    pt: '4x',
   };
 };
 
@@ -62,4 +67,5 @@ export {
   usePopoverContentStyle,
   usePopoverHeaderStyle,
   usePopoverBodyStyle,
+  usePopoverFooterStyle,
 };
