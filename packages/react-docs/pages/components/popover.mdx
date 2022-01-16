@@ -325,64 +325,38 @@ Use the `placement` prop to control the placement of the popover.
 </Box>
 ```
 
-## Accessibility
-
-The word _"trigger"_ refers to the children of PopoverTrigger.
-
-### Keyboard and focus
-- When `Popover` is opened, the focus status is moved to `PopoverContent`. If `initialFocusRef` is set, then the focus status is moved to the element with the related reference (`ref`).
-- When `Popover` is closed, the focus status returns to the trigger. If you set `returnFocusOnClose` to `false`, the focus status will not return.
-- If trigger is set to `hover`:
-  - Focusing on or mousing over the trigger will open `Popover`.
-  - Blurring or mousing out of the trigger will close `Popover`. If you move your mouse into `PopoverContent`, `Popover` remains visible.
-- If trigger is set to `click`:
-  - Clicking the trigger or using the `Space` or `Enter` key when the focus status is on the trigger will open `Popover`.
-  - Clicking the trigger again will close `Popover`.
-- Hitting the `Esc` key while `Popover` is open and the focus status is within `PopoverContent` will close `Popover`. If you set `closeOnEsc` to `false`, `Popover` will not close.
-- Clicking outside or blurring out of `PopoverContent` closes `Popover`. If you set `closeOnBlur` to `false`, `Popover` will not close.
-
-### ARIA attributes
-
-- If the trigger is set to `click`, the role of the `PopoverContent` element is set to `dialog`. If the trigger is set to `hover`, the `PopoverContent` role is set to `tooltip`.
-- `PopoverContent` has `aria-labelledby` set to the `id` attribute of `PopoverHeader`.
-- `PopoverContent` has `aria-describedby` set to the `id` attribute of `PopoverBody`.
-- `PopoverContent` has `aria-hidden` set to `true` or `false` depending on the open/closed state of `Popover`.
-- The trigger has `aria-haspopup` set to `true` to denote that it triggers a popover.
-- The trigger has `aria-controls` set to the 'id' attribute of `PopoverContent` to associate the popover with the trigger.
-- The trigger has `aria-expanded` set to `true` or `false` depending on the open/closed state of the popover.
-
 ## Props
 
 ### Popover
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| defaultIsOpen | boolean | false | Whether the popover is open by default. |
-| isOpen | boolean | | If `true`, the popover is shown. |
-| initialFocusRef | React.Ref | | The `ref` of the element that should receive the focus status when the popover opens. |
-| trigger | string | 'click' | The interaction that triggers the popover. One of: 'click', 'hover' |
-| placement | PopperJS.placement | 'bottom' | Position the popover relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
-| arrowAt | string | | The position of the popover arrow. One of: 'left', 'right', 'top', 'bottom' |
-| returnFocusOnClose | boolean | true | If `true`, the popover will return the focus status to the trigger when closing. |
-| closeOnBlur | boolean | true | If `true`, the popover will close when you use the tab key or click outside the popover dialog. |
-| closeOnEsc | boolean | true | If `true`, the popover will close when you press the `esc` key. |
-| children | ReactNode, (props: InternalState) => ReactNode | | The children of the popover. |
-| hideArrow | boolean | | If `true`, hide the arrow tip on the popover. |
-| skidding | number | 0 | Displaces the popover (in pixels) along the reference element. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#skidding-1) |
+| arrowAt | string | | The position of the arrow. One of: 'left', 'right', 'top', 'bottom' |
+| children | ReactNode \| (context) => ReactNode | | |
+| closeOnBlur | boolean | true | If `true`, the popover will close when the user clicks outside of the popover. |
+| closeOnEsc | boolean | true | If `true`, the popover will close when you press the `Esc` key. |
+| defaultIsOpen | boolean | false | Whether the popover will be open by default. |
 | distance | number | 4 | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
 | enterDelay | number | 0 | The number of milliseconds to wait before showing the popover if `trigger` is hover. |
+| followCursor | boolean | | If `true`, the popover will follow the cursor. |
+| hideArrow | boolean | | If `true`, the arrow will not be displayed. |
+| id | string | | The id of the popover. |
+| initialFocusRef | React.Ref | | The reference of the element that will be focused when the popover opens. |
+| isOpen | boolean | | If `true`, the popover will be open. |
 | leaveDelay | number | 0 | The number of milliseconds to wait before hiding the popover if `trigger` is hover. |
-| usePortal | boolean | true | If `true`, the popover is displayed with a `Portal`. Rendering content inside a Portal allows the popover content to escape the physical bounds of its parent while still being positioned correctly relative to its target. |
-| onOpen | () => void | | A callback called when the popover opens. |
-| onClose | () => void | | A callback called when the popover closes. |
-| nextToCursor | boolean | | Popover will next to mouse cursor when mouse enter the reference. |
-| followCursor | boolean | | Popover will follow mouse cursor when mouse move on the reference. |
+| nextToCursor | boolean | | If `true`, the popover will be positioned next to the cursor. |
+| onClose | () => void | | Callback when the popover is closed. |
+| onOpen | () => void | | Callback when the popover is opened. |
+| placement | string | 'bottom' | The placement of the popover. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
+| returnFocusOnClose | boolean | true | If `true`, the popover will return the focus status to the trigger when closing. |
+| skidding | number | 0 | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
+| trigger | string | 'click' | The type of trigger. One of: 'click', 'hover' |
 
 ### PopoverTrigger
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | | | If the children is a function, it will be called with `{ getPopoverTriggerProps }` and the return value will be used as the trigger. |
+| children | ReactNode \| ({ getPopoverTriggerProps }) => ReactNode | | |
 
 ### PopoverContent
 
@@ -395,9 +369,65 @@ The word _"trigger"_ refers to the children of PopoverTrigger.
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+| onBlur | (event: FocusEvent) => void | | A callback called when the popover loses focus. |
+| onFocus | (event: FocusEvent) => void | | A callback called when the popover gains focus. |
+| onKeyDown | (event: KeyboardEvent) => void | | A callback called when the popover is pressed with any key. |
+| onMouseEnter | (event: MouseEvent) => void | | A callback called when the mouse enters the popover. |
+| onMouseLeave | (event: MouseEvent) => void | | A callback called when the mouse leaves the popover. |
 
 ### PopoverHeader
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### PopoverBody
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### PopoverFooter
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+## Accessibility
+
+### Keyboard and focus
+
+* When `Popover` is opened, the focus status is moved to `PopoverContent`. If `initialFocusRef` is set, then the focus status is moved to the element with the related reference (`ref`).
+
+* When `Popover` is closed, the focus status returns to the trigger. If you set `returnFocusOnClose` to `false`, the focus status will not return.
+
+* If `trigger` is set to `hover`:
+  - Focusing on or mousing over the trigger will open `Popover`.
+  - Blurring or mousing out of the trigger will close `Popover`. If you move your mouse into `PopoverContent`, `Popover` remains visible.
+
+* If `trigger` is set to `click`:
+  - Clicking the trigger or using the `Space` or `Enter` key when the focus status is on the trigger will open `Popover`.
+  - Clicking the trigger again will close `Popover`.
+
+* Hitting the `Esc` key while `Popover` is open and the focus status is within `PopoverContent` will close `Popover`. If you set `closeOnEsc` to `false`, `Popover` will not close.
+
+* Clicking outside or blurring out of `PopoverContent` closes `Popover`. If you set `closeOnBlur` to `false`, `Popover` will not close.
+
+### ARIA attributes
+
+* If the `trigger` is set to `click`, the `role` of the `PopoverContent` element is set to `dialog`.
+
+* If the `trigger` is set to `hover`, the `role` of the `PopoverContent` element is set to `tooltip`.
+
+* `PopoverContent` has `aria-labelledby` set to the `id` attribute of `PopoverHeader`.
+
+* `PopoverContent` has `aria-describedby` set to the `id` attribute of `PopoverBody`.
+
+* `PopoverContent` has `aria-hidden` set to `true` or `false` depending on the open/closed state of `Popover`.
+
+* The trigger has `aria-haspopup` set to `dialog` to denote the popup is a dialog.
+
+* The trigger has `aria-controls` set to the `id` attribute of `PopoverContent` to associate the popover with the trigger.
+
+* The trigger has `aria-expanded` set to `true` or `false` depending on the open/closed state of the popover.
