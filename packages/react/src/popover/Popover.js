@@ -5,27 +5,27 @@ import useAutoId from '../utils/useAutoId';
 import { PopoverContextProvider } from './context';
 
 const Popover = ({
-  id,
-  defaultIsOpen = false,
-  isOpen: isOpenProp,
-  initialFocusRef,
-  usePortal = true,
-  returnFocusOnClose = true,
-  trigger = 'click',
-  placement = 'bottom',
+  arrowAt,
   children,
-  hideArrow,
-  skidding = 0,
-  distance = 4,
-  enterDelay = 0,
-  leaveDelay = 0,
   closeOnBlur = true,
   closeOnEsc = true,
-  onOpen: onOpenProp,
-  onClose: onCloseProp,
-  nextToCursor,
+  defaultIsOpen = false,
+  distance = 4,
+  enterDelay = 0,
   followCursor,
-  arrowAt,
+  hideArrow,
+  id,
+  initialFocusRef,
+  isOpen: isOpenProp,
+  leaveDelay = 0,
+  nextToCursor,
+  onClose: onCloseProp,
+  onOpen: onOpenProp,
+  placement = 'bottom',
+  returnFocusOnClose = true,
+  skidding = 0,
+  trigger = 'click',
+  usePortal = false, // Pass `true` if you want to render popove in a portal
 }) => {
   const [isOpen, setIsOpen] = useState(defaultIsOpen);
   const [mousePageX, setMousePageX] = useState(0);
@@ -157,7 +157,7 @@ const Popover = ({
   return (
     <PopoverContextProvider value={context}>
       {typeof children === 'function'
-        ? children({ isOpen: _isOpen, onClose })
+        ? children(context)
         : children}
     </PopoverContextProvider>
   );

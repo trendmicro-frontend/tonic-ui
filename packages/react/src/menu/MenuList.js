@@ -99,8 +99,10 @@ const MenuList = forwardRef((
       ref={menuRef}
       role="menu"
       tabIndex={-1}
+      unmountOnExit={true}
       usePortal={usePortal}
       willUseTransition={true}
+      zIndex="dropdown"
       {...styleProps}
       {...eventHandlers}
       {...PopperProps}

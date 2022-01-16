@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { usePopover } from './context';
 import { usePopoverBodyStyle } from './styles';
 
-const PopoverBody = props => {
+const PopoverBody = forwardRef((props, ref) => {
   const { bodyId } = usePopover();
-  const bodyStyleProps = usePopoverBodyStyle();
+  const styleProps = usePopoverBodyStyle({});
+
   return (
     <Box
       id={bodyId}
-      {...bodyStyleProps}
+      ref={ref}
+      {...styleProps}
       {...props}
     />
   );
-};
+});
 
 PopoverBody.displayName = 'PopoverBody';
 

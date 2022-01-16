@@ -17,7 +17,7 @@ import { Tooltip } from '@tonic-ui/react';
 Pass `isOpen` to the `Tooltip` component to control the state of the tooltip.
 
 ```jsx
-<Tooltip label="Tooltip (controlled)" isOpen>
+<Tooltip label="This is a controlled tooltip" isOpen>
   <Text>Tooltip anchor</Text>
 </Tooltip>
 ```
@@ -25,7 +25,7 @@ Pass `isOpen` to the `Tooltip` component to control the state of the tooltip.
 Set `defaultIsOpen` to `true` to have the tooltip open by default.
 
 ```jsx
-<Tooltip label="Tooltip (uncontrolled)" defaultIsOpen>
+<Tooltip label="This is an uncontrolled tooltip" defaultIsOpen>
   <Text>Tooltip anchor</Text>
 </Tooltip>
 ```
@@ -35,7 +35,7 @@ Set `defaultIsOpen` to `true` to have the tooltip open by default.
 If the children of Tooltip are focusable elements, Tooltip will show when you focus or hover on the a children element and will hide when you blur or move cursor out of the element.
 
 ```jsx
-<Tooltip label="Search places" placement="top">
+<Tooltip label="Search places">
   <Button>Button</Button>
 </Tooltip>
 ```
@@ -53,7 +53,7 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 ### Icon
 
 ```jsx
-<Tooltip label="Show calendar" placement="right">
+<Tooltip label="Show calendar">
   <Icon cursor="pointer" icon="calendar" />
 </Tooltip>
 ```
@@ -61,7 +61,7 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 ### Hide the arrow
 
 ```jsx
-<Tooltip hideArrow label="Search places" placement="right">
+<Tooltip hideArrow label="Search places">
   <Icon cursor="pointer" icon="search-o" />
 </Tooltip>
 ```
@@ -74,7 +74,6 @@ If the tooltip anchor is not a focusable content, just like the text string, you
   backgroundColor="gray:90"
   color="white"
   p="4x"
-  placement="right"
   width="auto"
   label={
     <Stack direction="column">
@@ -137,8 +136,6 @@ function Example() {
         color="gray:20"
         px="2x"
         py="3x"
-        arrowAt="left"
-        placement="bottom-start"
         label="Use commas to separate multiple keywords"
       >
         <Input
@@ -158,55 +155,38 @@ function Example() {
 
 ## Placement
 
-Using the `placement` prop you can adjust where your tooltip will be displayed.
+Use the `placement` prop to control the placement of the tooltip.
+
+```jsx disabled
+<Tooltip label="Tooltip" placement="top">
+  Tooltip anchor
+</Tooltip>
+```
 
 ```jsx
-<Flex direction="column" rowGap="8x" alignItems="center">
-  <Flex direction="row" columnGap="8x">
-    <Tooltip label="Top" placement="top">
-      <Button minWidth="32x">Top</Button>
-    </Tooltip>
-    <Tooltip label="Top start" placement="top-start">
-      <Button minWidth="32x">Top-Start</Button>
-    </Tooltip>
-    <Tooltip label="Top end" placement="top-end">
-      <Button minWidth="32x">Top-End</Button>
-    </Tooltip>
-  </Flex>
-  <Flex direction="row" columnGap="8x">
-    <Tooltip label="Right" placement="right">
-      <Button minWidth="32x">Right</Button>
-    </Tooltip>
-    <Tooltip label="Right start" placement="right-start">
-      <Button minWidth="32x">Right-Start</Button>
-    </Tooltip>
-    <Tooltip label="Right end" placement="right-end">
-      <Button minWidth="32x">Right-End</Button>
-    </Tooltip>
-  </Flex>
-  <Flex direction="row" columnGap="8x">
-    <Tooltip label="Bottom" placement="bottom">
-      <Button minWidth="32x">Bottom</Button>
-    </Tooltip>
-    <Tooltip label="Bottom start" placement="bottom-start">
-      <Button minWidth="32x">Bottom-Start</Button>
-    </Tooltip>
-    <Tooltip label="Bottom end" placement="bottom-end">
-      <Button minWidth="32x">Bottom-End</Button>
-    </Tooltip>
-  </Flex>
-  <Flex direction="row" columnGap="8x">
-    <Tooltip label="Left" placement="left">
-      <Button minWidth="32x">Left</Button>
-    </Tooltip>
-    <Tooltip label="Left start" placement="left-start">
-      <Button minWidth="32x">Left-Start</Button>
-    </Tooltip>
-    <Tooltip label="Left end" placement="left-end">
-      <Button minWidth="32x">Left-End</Button>
-    </Tooltip>
-  </Flex>
-</Flex>
+<Box display="inline-block">
+  <Grid
+    templateColumns="repeat(3, minmax(80px,1fr))"
+    templateRows="repeat(4, 80px)"
+    gap="8x"
+  >
+    {['top-start', 'top', 'top-end',
+      'right-start', 'right', 'right-end',
+      'bottom-start', 'bottom', 'bottom-end',
+      'left-start', 'left', 'left-end'
+    ].map(placement => (
+      <Tooltip
+        key={placement}
+        label="Tooltip"
+        placement={placement}
+      >
+        <Button width="100%">
+          {placement}
+        </Button>
+      </Tooltip>
+    ))}
+  </Grid>
+</Box>
 ```
 
 ## Props
@@ -220,16 +200,15 @@ Using the `placement` prop you can adjust where your tooltip will be displayed.
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
-| children | | | If the children is a function, it will be called with `{ getTooltipTriggerProps }` and the return value will be used as the trigger. |
-| defaultIsOpen | boolean | false | Whether the tooltip is open by default. |
-| isOpen | boolean | | If `true`, the tooltip is shown. |
-| label | string \| ReactNode | | The label of the tooltip.|
-| placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
-| children | ReactNode | | The ReactNode element to be used as the trigger of the tooltip. |
+| arrowAt | string | | The position of the arrow. One of: 'left', 'right', 'top', 'bottom' |
+| children | ReactNode \| ({ getTooltipTriggerProps }) => ReactNode | | |
+| closeOnClick | boolean | | If `true`, close the tooltip when clicking on the anchor. |
+| defaultIsOpen | boolean | false | Whether the tooltip will be open by default. |
+| enterDelay | number | 100 | The delay in milliseconds before the tooltip appears. |
 | hideArrow | boolean | | If `true`, hide the arrow tip on the tooltip. |
-| arrowAt | string | | The position of the tooltip arrow. One of: 'left', 'right', 'top', 'bottom' |
-| enterDelay | number | 100 | The number of milliseconds to wait before showing the tooltip. |
-| leaveDelay | number | 0 | The number of milliseconds to wait before hiding the tooltip. |
-| closeOnClick | boolean | | If `true`, hide the tooltip when the trigger is clicked. |
-| onOpen | function | | A callback called when the tooltip shows. |
-| onClose| function | | A callback called when the tooltip hides. |
+| isOpen | boolean | | If `true`, show the tooltip. |
+| label | string \| ReactNode | | The tooltip label. |
+| leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |
+| onClose| function | | Callback fired when the tooltip is closed. |
+| onOpen | function | | Callback fired when the tooltip is opened. |
+| placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |

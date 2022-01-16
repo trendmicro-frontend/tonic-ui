@@ -81,7 +81,7 @@ function Example() {
   };
 
   return (
-    <>
+    <Flex columnGap="4x" alignItems="center">
       <Button
         aria-controls="basic-menu"
         aria-haspopup="true"
@@ -90,31 +90,31 @@ function Example() {
       >
         Options
       </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        isOpen={isOpen}
-        onClose={handleCloseMenu}
-        mr="2x"
-      >
-        <MenuList
-          onClick={handleClickMenuItem}
-          width="max-content"
-        >
-          <MenuItem value={1}>
-            Item #1
-          </MenuItem>
-          <MenuItem value={2}>
-            Item #2
-          </MenuItem>
-          <MenuItem value={3}>
-            Item #3
-          </MenuItem>
-        </MenuList>
-      </Menu>
-      <Space width="2x" />
       <Text>Selected: {selectedValue}</Text>
-    </>
+      {isOpen && (
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          isOpen={isOpen}
+          onClose={handleCloseMenu}
+        >
+          <MenuList
+            onClick={handleClickMenuItem}
+            width="max-content"
+          >
+            <MenuItem value={1}>
+              Item #1
+            </MenuItem>
+            <MenuItem value={2}>
+              Item #2
+            </MenuItem>
+            <MenuItem value={3}>
+              Item #3
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      )}
+    </Flex>
   );
 }
 ```

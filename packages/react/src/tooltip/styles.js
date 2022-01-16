@@ -1,19 +1,17 @@
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 
-const baseProps = {
-  px: '3x',
-  py: '1x',
-  borderRadius: 'sm',
-  fontWeight: 'normal',
-  fontSize: 'sm',
-  lineHeight: 'sm',
-  zIndex: 'tooltip',
-};
-
 const useTooltipStyle = props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
+  const baseStyle = {
+    px: '3x',
+    py: '1x',
+    borderRadius: 'sm',
+    fontWeight: 'normal',
+    fontSize: 'sm',
+    lineHeight: 'sm',
+  };
   const colorModeStyle = {
     dark: {
       backgroundColor: 'gray:10',
@@ -28,7 +26,7 @@ const useTooltipStyle = props => {
   }[colorMode];
 
   return {
-    ...baseProps,
+    ...baseStyle,
     ...colorModeStyle,
   };
 };
