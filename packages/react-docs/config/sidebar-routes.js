@@ -119,11 +119,11 @@ const routes = [
     ],
   },
   {
-    title: 'Libs',
+    title: 'Labs',
     icon: 'widgets',
     path: 'libs',
     routes: [
-      { title: 'DatePicker', path: 'components/datepicker' },
+      { title: 'DatePicker', path: 'labs/datepicker' },
     ],
   },
   {
