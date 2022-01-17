@@ -42,7 +42,6 @@ const MenuList = forwardRef((
     onBlur,
     onKeyDown,
     placement,
-    usePortal,
   } = { ...menuContext };
 
   // Close the menu on blur
@@ -100,7 +99,7 @@ const MenuList = forwardRef((
       role="menu"
       tabIndex={-1}
       unmountOnExit={true}
-      usePortal={usePortal}
+      usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
       willUseTransition={true}
       zIndex="dropdown"
       {...styleProps}
