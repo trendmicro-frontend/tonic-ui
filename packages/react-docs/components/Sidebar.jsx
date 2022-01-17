@@ -3,8 +3,6 @@ import {
   Flex,
   Icon,
   Image,
-  Link,
-  Space,
   Text,
   useColorMode,
   useColorStyle,
@@ -130,7 +128,7 @@ const Sidebar = forwardRef((
           </Box>
         </Flex>
       </Box>
-      {routes.map(({ title, url, icon, path, routes }) => {
+      {routes.map(({ title, icon, path, routes }) => {
         return (
           <Box
             key={`${ASSET_PREFIX}/${path}`}
