@@ -1,9 +1,9 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useRef, useState } from 'react';
 import { TabContext } from './context';
-import { Box } from '../box';
-import { useId } from '../utils/autoId';
-import warnRemovedProps from '../utils/warnRemovedProps';
+import { Box } from '../../box';
+import useAutoId from '../../utils/useAutoId';
+import warnRemovedProps from '../../utils/warnRemovedProps';
 
 const Tabs = forwardRef((
   {
@@ -85,10 +85,10 @@ const Tabs = forwardRef((
     }
   };
 
-  const id = useId();
+  const defaultId = useAutoId();
 
   const context = {
-    id,
+    id: defaultId,
     index: actualIdx,
     manualIndex: manualIdx,
     onManualTabChange,

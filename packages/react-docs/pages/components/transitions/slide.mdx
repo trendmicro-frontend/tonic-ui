@@ -26,21 +26,16 @@ const useSelection = (defaultValue) => {
 };
 
 function Example() {
-  const [isOpen, onToggle] = useToggle();
+  const [isOpen, onToggle] = useToggle(false);
   const [direction, changeDirectionBy] = useSelection('up');
 
   return (
-    <Stack
-      direction="column"
-      spacing="4x"
-      overflow="hidden"
-      shouldWrapChildren
-    >
-      <Flex as="label" display="inline-flex" alignItems="center" cursor="pointer" userSelect="none">
-        <ToggleSwitch checked={isOpen} onChange={() => onToggle()} size="sm" />
+    <Flex direction="column" rowGap="4x">
+      <TextLabel display="inline-flex" alignItems="center">
+        <Switch checked={isOpen} onChange={() => onToggle()} size="md" />
         <Space width="2x" />
         <Text>Show</Text>
-      </Flex>
+      </TextLabel>
       <ButtonGroup
         variant="secondary"
         css={{
@@ -79,7 +74,7 @@ function Example() {
           </SkeletonContent>
         </Slide>
       </Box>
-    </Stack>
+    </Flex>
   );
 }
 

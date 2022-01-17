@@ -16,6 +16,7 @@ import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
+import Code from './Code';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 import IconButton from './IconButton';
@@ -39,14 +40,11 @@ const {
   Collapse,
   Fade,
   Icon,
-  Scrollbar,
   Tooltip,
   useColorMode,
 } = reactComponents;
 
 const liveCodePreviewStyle = {
-  paddingLeft: '.5rem', // 1rem + .5rem = 1.5rem
-  paddingRight: '.5rem', // 1rem + .5rem = 1.5rem
 };
 
 const liveEditorStyle = {
@@ -86,19 +84,14 @@ const LiveCodePreview = props => {
       borderRadius="sm"
       p="4x"
     >
-      <Scrollbar
-        height="auto"
-        overflowX="visible"
-      >
-        <Box
-          as={LivePreview}
-          fontFamily="base"
-          fontSize="sm"
-          lineHeight="sm"
-          whiteSpace="normal"
-          {...props}
-        />
-      </Scrollbar>
+      <Box
+        as={LivePreview}
+        fontFamily="base"
+        fontSize="sm"
+        lineHeight="sm"
+        whiteSpace="normal"
+        {...props}
+      />
     </Box>
   );
 };
@@ -128,6 +121,8 @@ const CodeBlock = ({
   children,
   ...props
 }) => {
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
   const [colorMode] = useColorMode();
   const [editorCode, setEditorCode] = useState(children.trim());
   const {
@@ -138,6 +133,7 @@ const CodeBlock = ({
   const resetDemo = () => {
     setEditorCode(children.trim());
     toggleLiveEditorVisibility(false);
+    forceUpdate();
   };
   const handleLiveEditorChange = useCallback(newCode => {
     setEditorCode(newCode.trim());
@@ -167,8 +163,9 @@ const CodeBlock = ({
       ...reactLibComponents,
       ...reactHooks,
       ...thirdPartyComponents,
-      FontAwesomeIcon,
+      Code,
       EditableTag,
+      FontAwesomeIcon,
       Lorem,
       SelectableButton,
       SkeletonBody,

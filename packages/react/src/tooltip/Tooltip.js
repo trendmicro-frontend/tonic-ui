@@ -5,7 +5,7 @@ import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
-import { useId } from '../utils/autoId';
+import useAutoId from '../utils/useAutoId';
 import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';
@@ -31,25 +31,25 @@ const Tooltip = forwardRef((
     showDelay, // deprecated
     hideDelay, // deprecated
     shouldWrapChildren, // removed
-
-    label,
-    enterDelay = 100,
-    leaveDelay = 0,
-    placement = 'bottom',
-    children,
-    hideArrow,
-    closeOnClick,
-    defaultIsOpen = false,
-    isOpen: isOpenProp,
-    onOpen: onOpenProp,
-    onClose: onCloseProp,
-    arrowAt,
     PopperComponent = Popper,
     PopperProps,
     PopperArrowComponent = PopperArrow,
     PopperArrowProps,
     TransitionComponent = Grow,
     TransitionProps,
+    arrowAt,
+    children,
+    closeOnClick,
+    defaultIsOpen = false,
+    enterDelay = 100,
+    hideArrow,
+    isOpen: isOpenProp,
+    label,
+    leaveDelay = 0,
+    onClose: onCloseProp,
+    onOpen: onOpenProp,
+    placement = 'bottom',
+    usePortal = false, // Pass `true` if you want to render tooltip in a portal
     ...rest
   },
   ref,
@@ -106,7 +106,8 @@ const Tooltip = forwardRef((
     }, leaveDelay);
   };
 
-  const tooltipId = `${config.name}:tooltip-${useId()}`;
+  const defaultId = useAutoId();
+  const tooltipId = `${config.name}:Tooltip-${defaultId}`;
 
   const handleOpen = () => {
     if (!isControlled) {
@@ -167,7 +168,6 @@ const Tooltip = forwardRef((
       {isHydrated && (
         <PopperComponent
           aria-hidden={!isOpen}
-          usePortal
           isOpen={_isOpen}
           data-popper-placement={placement}
           placement={placement}
@@ -180,7 +180,10 @@ const Tooltip = forwardRef((
           role="tooltip"
           pointerEvents="none"
           arrowSize={arrowSize}
+          unmountOnExit={true}
+          usePortal={usePortal}
           willUseTransition={true}
+          zIndex="tooltip"
           {...PopperProps}
         >
           {({ placement, transition }) => {

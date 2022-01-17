@@ -1,13 +1,9 @@
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
-  ColorModeProvider,
-  ColorStyleProvider,
-  CSSBaseline,
-  ThemeProvider,
   ToastProvider,
-  theme,
-  useColorMode,
+  TonicProvider,
+  colorStyle as defaultColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import {
@@ -28,10 +24,6 @@ import useMediaQuery from '../hooks/useMediaQuery';
 const pageview = () => {
   ReactGA.set({ page: window.location.pathname });
   ReactGA.pageview(window.location.pathname);
-};
-
-const customTheme = {
-  ...theme,
 };
 
 const App = (props) => {
@@ -60,19 +52,22 @@ const App = (props) => {
   const Page = (router.pathname === '/') ? DefaultPage : DocsPage;
 
   return (
-    <ThemeProvider theme={customTheme}>
-      <ColorModeProvider value="dark">
-        <ColorStyleProvider>
-          <ToastProvider>
-            <MDXProvider components={MDXComponents}>
-              <CSSBaseline />
-              <GlobalStyles />
-              <Page {...props} />
-            </MDXProvider>
-          </ToastProvider>
-        </ColorStyleProvider>
-      </ColorModeProvider>
-    </ThemeProvider>
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark',
+      }}
+      colorStyle={{
+        defaultValue: defaultColorStyle,
+      }}
+      useCSSBaseline
+    >
+      <ToastProvider>
+        <MDXProvider components={MDXComponents}>
+          <Page {...props} />
+          <GlobalStyles />
+        </MDXProvider>
+      </ToastProvider>
+    </TonicProvider>
   );
 };
 
@@ -88,15 +83,6 @@ const DocsPage = (props) => {
   );
   const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
   const theme = useTheme();
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
-  }[colorMode];
   const headerHeight = theme.sizes['12x'];
   const handleCloseSidebar = () => {
     if (isSidebarVisible) {
@@ -135,6 +121,7 @@ const DocsPage = (props) => {
         md: 250,
       },
       pt: headerHeight,
+      height: '100vh',
       width: {
         sm: '100%',
         md: 'calc(100% - 250px)',
@@ -156,8 +143,6 @@ const DocsPage = (props) => {
 
   return (
     <Box
-      backgroundColor={backgroundColor}
-      color={fontColor}
       fontSize="md"
       lineHeight="md"
     >

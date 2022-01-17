@@ -206,7 +206,7 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
     color: 'white:emphasis',
     __before: {
       content: '""',
-      display: 'inline-block',
+      display: 'inline-flex',
       transition: 'all 150ms, background-color 250ms',
       borderRadius: innerRadius,
       zIndex: -1,
@@ -346,7 +346,7 @@ const useButtonBaseStyle = ({ disabled }) => {
   };
 };
 
-const getButtonGroupCSS = ({ useVertical }) => {
+const getButtonGroupCSS = ({ orientation }) => {
   const horizontalCSS = sx({
     '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
@@ -367,7 +367,7 @@ const getButtonGroupCSS = ({ useVertical }) => {
       borderBottomRightRadius: 0,
     },
   });
-  return useVertical ? verticalCSS : horizontalCSS;
+  return (orientation === 'vertical') ? verticalCSS : horizontalCSS;
 };
 
 export {

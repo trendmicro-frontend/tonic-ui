@@ -17,8 +17,6 @@
     "prepublish": "yarn run build",
     "test": "jest"
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -29,6 +27,10 @@
     "@babel/preset-react": "^7.0.0",
     "@emotion/jest": "~11.5.0",
     "@rollup/plugin-node-resolve": "~11.2.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^13.5.0",
     "@trendmicro/babel-config": "^1.0.2",
     "babel-loader": "~8.2.3",
     "cpy-cli": "~3.1.1",
@@ -61,16 +63,13 @@
       "text",
       "html"
     ],
-    "setupFiles": [
-      "<rootDir>/jest.env-setup.js"
-    ],
+    "setupFiles": [],
     "setupFilesAfterEnv": [
-      "jest-extended"
+      "<rootDir>/jest-setup.js"
     ],
     "testEnvironment": "jsdom",
     "testMatch": [
       "<rootDir>/src/**/*.test.js",
-      "<rootDir>/src/**/test/**/*.js",
       "<rootDir>/test/**/*.js"
     ]
   },

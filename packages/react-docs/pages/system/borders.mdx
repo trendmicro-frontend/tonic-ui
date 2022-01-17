@@ -3,6 +3,8 @@ import ThemeParser from "../../components/ThemeParser";
 
 # Borders
 
+## Design Tokens
+
 <ThemeParser theme="borders" />
 
 ## Examples
@@ -50,10 +52,8 @@ If the border is a numeric value defined in the theme, the `solid` border style 
 ```jsx noInline
 const Block = (props) => {
   const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:90',
-    light: 'gray:10',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+
   return (
     <Flex
       px="4x"
@@ -61,7 +61,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.secondary}
       {...props}
     />
   );
@@ -69,7 +69,11 @@ const Block = (props) => {
 
 function Example() {
   const theme = useTheme();
-  const borderColor = 'gray:50';
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
   const borderWidths = [1, 2, 3, 4, 5];
   const [borderWidth, setBorderWidth] = React.useState(borderWidths[0]);
   const borderValue = theme.borders[borderWidth] || borderWidth;
@@ -92,53 +96,47 @@ function Example() {
           ))}
         </Stack>
       </Flex>
-      <Flex>
-        <Grid
-          templateColumns="1fr 1fr 1fr"
-          columnGap="6x"
-          rowGap="6x"
+      <Grid
+        templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
+        columnGap="6x"
+        rowGap="6x"
+      >
+        <Block
+          border={borderWidth}
+          borderColor={borderColor}
         >
-          <Box />
-          <Block
-            borderTop={borderWidth}
-            borderTopColor={borderColor}
-          >
-            <Text>borderTop="{borderValue}"</Text>
-            <Text>borderTopColor="{borderColorValue}"</Text>
-          </Block>
-          <Box />
-          <Block
-            borderLeft={borderWidth}
-            borderLeftColor={borderColor}
-          >
-            <Text>borderLeft="{borderValue}"</Text>
-            <Text>borderLeftColor="{borderColorValue}"</Text>
-          </Block>
-          <Block
-            border={borderWidth}
-            borderColor={borderColor}
-          >
-            <Text>border="{borderValue}"</Text>
-            <Text>borderColor="{borderColorValue}"</Text>
-          </Block>
-          <Block
-            borderRight={borderWidth}
-            borderRightColor={borderColor}
-          >
-            <Text>borderRight="{borderValue}"</Text>
-            <Text>borderRightColor="{borderColorValue}"</Text>
-          </Block>
-          <Box />
-          <Block
-            borderBottom={borderWidth}
-            borderBottomColor={borderColor}
-          >
-            <Text>borderBottom="{borderValue}"</Text>
-            <Text>borderBottomColor="{borderColorValue}"</Text>
-          </Block>
-          <Box />
-        </Grid>
-      </Flex>
+          <Text>border="{borderValue}"</Text>
+          <Text>borderColor="{borderColorValue}"</Text>
+        </Block>
+        <Block
+          borderTop={borderWidth}
+          borderTopColor={borderColor}
+        >
+          <Text>borderTop="{borderValue}"</Text>
+          <Text>borderTopColor="{borderColorValue}"</Text>
+        </Block>
+        <Block
+          borderRight={borderWidth}
+          borderRightColor={borderColor}
+        >
+          <Text>borderRight="{borderValue}"</Text>
+          <Text>borderRightColor="{borderColorValue}"</Text>
+        </Block>
+        <Block
+          borderBottom={borderWidth}
+          borderBottomColor={borderColor}
+        >
+          <Text>borderBottom="{borderValue}"</Text>
+          <Text>borderBottomColor="{borderColorValue}"</Text>
+        </Block>
+        <Block
+          borderLeft={borderWidth}
+          borderLeftColor={borderColor}
+        >
+          <Text>borderLeft="{borderValue}"</Text>
+          <Text>borderLeftColor="{borderColorValue}"</Text>
+        </Block>
+      </Grid>
     </>
   );
 }
@@ -155,10 +153,8 @@ Note: Because the specification doesn't define the exact thickness denoted by ea
 ```jsx noInline
 const Block = (props) => {
   const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:90',
-    light: 'gray:10',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+
   return (
     <Flex
       px="4x"
@@ -166,7 +162,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.secondary}
       {...props}
     />
   );
@@ -174,7 +170,11 @@ const Block = (props) => {
 
 function Example() {
   const theme = useTheme();
-  const borderColor = 'gray:50';
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
   const borderStyle = 'solid';
   const borderWidths = ['thin', 'medium', 'thick'];
   const [borderWidth, setBorderWidth] = React.useState(borderWidths[0]);
@@ -198,63 +198,57 @@ function Example() {
           ))}
         </Stack>
       </Flex>
-      <Flex>
-        <Grid
-          templateColumns="1fr 1fr 1fr"
-          columnGap="6x"
-          rowGap="6x"
+      <Grid
+        templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
+        columnGap="6x"
+        rowGap="6x"
+      >
+        <Block
+          border={borderWidth}
+          borderColor={borderColor}
+          borderStyle={borderStyle}
         >
-          <Box />
-          <Block
-            borderTop={borderWidth}
-            borderTopColor={borderColor}
-            borderTopStyle={borderStyle}
-          >
-            <Text>borderTop="{borderValue}"</Text>
-            <Text>borderTopColor="{borderColorValue}"</Text>
-            <Text>borderTopStyle="{borderStyle}"</Text>
-          </Block>
-          <Box />
-          <Block
-            borderLeft={borderWidth}
-            borderLeftColor={borderColor}
-            borderLeftStyle={borderStyle}
-          >
-            <Text>borderLeft="{borderValue}"</Text>
-            <Text>borderLeftColor="{borderColorValue}"</Text>
-            <Text>borderLeftStyle="{borderStyle}"</Text>
-          </Block>
-          <Block
-            border={borderWidth}
-            borderColor={borderColor}
-            borderStyle={borderStyle}
-          >
-            <Text>border="{borderValue}"</Text>
-            <Text>borderColor="{borderColorValue}"</Text>
-            <Text>borderStyle="{borderStyle}"</Text>
-          </Block>
-          <Block
-            borderRight={borderWidth}
-            borderRightColor={borderColor}
-            borderRightStyle={borderStyle}
-          >
-            <Text>borderRight="{borderValue}"</Text>
-            <Text>borderRightColor="{borderColorValue}"</Text>
-            <Text>borderRightStyle="{borderStyle}"</Text>
-          </Block>
-          <Box />
-          <Block
-            borderBottom={borderWidth}
-            borderBottomColor={borderColor}
-            borderBottomStyle={borderStyle}
-          >
-            <Text>borderBottom="{borderValue}"</Text>
-            <Text>borderBottomColor="{borderColorValue}"</Text>
-            <Text>borderBottomStyle="{borderStyle}"</Text>
-          </Block>
-          <Box />
-        </Grid>
-      </Flex>
+          <Text>border="{borderValue}"</Text>
+          <Text>borderColor="{borderColorValue}"</Text>
+          <Text>borderStyle="{borderStyle}"</Text>
+        </Block>
+        <Block
+          borderTop={borderWidth}
+          borderTopColor={borderColor}
+          borderTopStyle={borderStyle}
+        >
+          <Text>borderTop="{borderValue}"</Text>
+          <Text>borderTopColor="{borderColorValue}"</Text>
+          <Text>borderTopStyle="{borderStyle}"</Text>
+        </Block>
+        <Block
+          borderRight={borderWidth}
+          borderRightColor={borderColor}
+          borderRightStyle={borderStyle}
+        >
+          <Text>borderRight="{borderValue}"</Text>
+          <Text>borderRightColor="{borderColorValue}"</Text>
+          <Text>borderRightStyle="{borderStyle}"</Text>
+        </Block>
+        <Block
+          borderBottom={borderWidth}
+          borderBottomColor={borderColor}
+          borderBottomStyle={borderStyle}
+        >
+          <Text>borderBottom="{borderValue}"</Text>
+          <Text>borderBottomColor="{borderColorValue}"</Text>
+          <Text>borderBottomStyle="{borderStyle}"</Text>
+        </Block>
+        <Block
+          borderLeft={borderWidth}
+          borderLeftColor={borderColor}
+          borderLeftStyle={borderStyle}
+        >
+          <Text>borderLeft="{borderValue}"</Text>
+          <Text>borderLeftColor="{borderColorValue}"</Text>
+          <Text>borderLeftStyle="{borderStyle}"</Text>
+        </Block>
+      </Grid>
     </>
   );
 }

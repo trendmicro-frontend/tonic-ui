@@ -1,7 +1,7 @@
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import config from '../shared/config';
-import { useId } from '../utils/autoId';
+import useAutoId from '../utils/useAutoId';
 import { RadioGroupContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -16,8 +16,8 @@ const RadioGroup = ({
   variantColor,
   onChange,
 }) => {
-  const defaultId = useId();
-  name = name ?? `${config.name}:radio-${defaultId}`;
+  const defaultId = useAutoId();
+  name = name ?? `${config.name}:RadioGroup-${defaultId}`;
 
   const [state, setState] = useState({
     value: valueProp ?? defaultValue,

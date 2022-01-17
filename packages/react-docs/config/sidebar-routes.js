@@ -6,7 +6,7 @@ const routes = [
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
-      { title: 'Migration From v0.x to v1 🚧', path: 'getting-started/migration-v0x' },
+      { title: 'Migration From v0.x to v1', path: 'getting-started/migration-v0x' },
       { title: 'Versions', path: 'getting-started/versions' },
       { title: 'Contributing', path: 'getting-started/contributing' },
     ],
@@ -19,7 +19,7 @@ const routes = [
       { title: 'STYLED SYSTEM', heading: true },
       { title: 'Style Props', path: 'system/style-props' },
       { title: 'Pseudo Style Props', path: 'system/pseudo-style-props' },
-      { title: 'Responsive Styles 🚧', path: 'system/responsive-styles' },
+      { title: 'Responsive Styles', path: 'system/responsive-styles' },
 
       { title: 'COLORS', heading: true },
       { title: 'Color Mode', path: 'system/color-mode' },
@@ -100,7 +100,16 @@ const routes = [
       { title: 'ButtonLink 🚧', path: 'components/buttonlink' },
       { title: 'Menu', path: 'components/menu' },
       { title: 'Pagination', path: 'components/pagination' },
-      { title: 'Tabs', path: 'components/tabs' },
+      //{ title: 'Tabs', path: 'components/tabs' }, // TODO
+
+      { title: 'TRANSITIONS', heading: true },
+      { title: 'Transitions', path: 'components/transitions' },
+      { title: 'Transitions / Collapse', path: 'components/transitions/collapse' },
+      { title: 'Transitions / Fade', path: 'components/transitions/fade' },
+      { title: 'Transitions / Grow', path: 'components/transitions/grow' },
+      { title: 'Transitions / Scale', path: 'components/transitions/scale' },
+      { title: 'Transitions / Slide', path: 'components/transitions/slide' },
+      { title: 'Transitions / Zoom', path: 'components/transitions/zoom' },
 
       { title: 'TYPOGRAPHY', heading: true },
       { title: 'Text', path: 'components/text' },
@@ -108,14 +117,9 @@ const routes = [
 
       { title: 'UTILS', heading: true },
       { title: 'CSSBaseline', path: 'components/cssbaseline' },
+      { title: 'Presence 🚧', path: 'components/presence' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
-      { title: 'Transitions', path: 'components/transitions' },
-      { title: 'Transitions / Collapse', path: 'components/transitions-collapse' },
-      { title: 'Transitions / Fade', path: 'components/transitions-fade' },
-      { title: 'Transitions / Grow', path: 'components/transitions-grow' },
-      { title: 'Transitions / Scale', path: 'components/transitions-scale' },
-      { title: 'Transitions / Slide', path: 'components/transitions-slide' },
-      { title: 'Transitions / Zoom', path: 'components/transitions-zoom' },
+      { title: 'VisuallyHidden 🚧', path: 'components/visually-hidden' },
     ],
   },
   {
@@ -134,6 +138,7 @@ const routes = [
       { title: 'useConst', path: 'hooks/use-const' },
       { title: 'useEffectOnce', path: 'hooks/use-effect-once' },
       { title: 'useHydrated', path: 'hooks/use-hydrated' },
+      { title: 'useIsomorphicEffect', path: 'hooks/use-isomorphic-effect' },
       { title: 'useLatest', path: 'hooks/use-latest' },
       { title: 'usePrevious', path: 'hooks/use-previous' },
       { title: 'useToggle', path: 'hooks/use-toggle' },

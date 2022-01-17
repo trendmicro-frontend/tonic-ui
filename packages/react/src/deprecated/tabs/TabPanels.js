@@ -3,9 +3,9 @@ import React, {
   forwardRef,
   useContext
 } from 'react';
+import { Box } from '../../box';
 import { TabContext } from './context';
-import cleanChildren from '../utils/cleanChildren';
-import { Box } from '../box';
+import cleanChildren from './cleanChildren';
 
 const TabPanels = forwardRef(({ children, ...rest }, ref) => {
   const {

@@ -19,34 +19,30 @@ const Button = forwardRef((
   ref,
 ) => {
   const buttonGroupContext = useButtonGroup();
-  let isInGroup = false;
-  let useVertical = false;
   if (buttonGroupContext) {
-    isInGroup = true;
     const {
       size: buttonGroupSize,
       variant: buttonGroupVariant,
       orientation,
     } = { ...buttonGroupContext };
-    useVertical = (orientation === 'vertical');
-    // - Use the inherited value from the button group
-    // - Fallback to the default value if the value is null or undefined
-    size = (buttonGroupSize ?? size) ?? defaultSize;
-    variant = (buttonGroupVariant ?? variant) ?? defaultVariant;
+    // Use fallback values if values are null or undefined
+    size = (size ?? buttonGroupSize) ?? defaultSize;
+    variant = (variant ?? buttonGroupVariant) ?? defaultVariant;
+    css = [
+      getButtonGroupCSS({ orientation }),
+      css,
+    ];
   } else {
     // Use the default value if the value is null or undefined
     size = size ?? defaultSize;
     variant = variant ?? defaultVariant;
   }
-  const buttonStyleProps = useButtonStyle({
+
+  const styleProps = useButtonStyle({
     size,
     variant,
     borderRadius,
   });
-  css = [
-    isInGroup && getButtonGroupCSS({ useVertical }),
-    { ...css }
-  ];
 
   return (
     <ButtonBase
@@ -55,7 +51,7 @@ const Button = forwardRef((
       type={type}
       borderRadius={borderRadius}
       css={css}
-      {...buttonStyleProps}
+      {...styleProps}
       {...rest}
     >
       { children }

@@ -81,7 +81,7 @@ function Example() {
   };
 
   return (
-    <>
+    <Flex columnGap="4x" alignItems="center">
       <Button
         aria-controls="basic-menu"
         aria-haspopup="true"
@@ -90,31 +90,31 @@ function Example() {
       >
         Options
       </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        isOpen={isOpen}
-        onClose={handleCloseMenu}
-        mr="2x"
-      >
-        <MenuList
-          width="max-content"
-          onClick={handleClickMenuItem}
-        >
-          <MenuItem value={1}>
-            Item #1
-          </MenuItem>
-          <MenuItem value={2}>
-            Item #2
-          </MenuItem>
-          <MenuItem value={3}>
-            Item #3
-          </MenuItem>
-        </MenuList>
-      </Menu>
-      <Space width="2x" />
       <Text>Selected: {selectedValue}</Text>
-    </>
+      {isOpen && (
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          isOpen={isOpen}
+          onClose={handleCloseMenu}
+        >
+          <MenuList
+            onClick={handleClickMenuItem}
+            width="max-content"
+          >
+            <MenuItem value={1}>
+              Item #1
+            </MenuItem>
+            <MenuItem value={2}>
+              Item #2
+            </MenuItem>
+            <MenuItem value={3}>
+              Item #3
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      )}
+    </Flex>
   );
 }
 ```
@@ -236,40 +236,22 @@ const MenuButton = (props) => {
 ```
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Menu>
-    <MenuButton variant="secondary" size="md" width={200}>
-      <Text>Options</Text>
-    </MenuButton>
-    <MenuList width="max-content">
-      <MenuItem>
-        Item #1
-      </MenuItem>
-      <MenuItem>
-        Item #2
-      </MenuItem>
-      <MenuItem>
-        Item #3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-  <Menu>
-    <MenuButton variant="secondary" size="md" width="100%">
-      <Text>Options</Text>
-    </MenuButton>
-    <MenuList width="100%">
-      <MenuItem>
-        Item #1
-      </MenuItem>
-      <MenuItem>
-        Item #2
-      </MenuItem>
-      <MenuItem>
-        Item #3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-</Stack>
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
 ```
 
 ### MenuToggleIcon
@@ -405,12 +387,35 @@ render(
 
 To change the width of the menu, pass `width` prop to the `MenuList` component.
 
-#### `width="100%"`
+#### fixed width
 
 ```jsx
 <Menu>
   <MenuButton variant="secondary">
     <Text>This is a very long menu button</Text>
+  </MenuButton>
+  <MenuList width={200}>
+    <MenuItem>
+      Item #1
+    </MenuItem>
+    <MenuItem>
+      Item #2
+    </MenuItem>
+    <MenuItem>
+      Item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+#### full width
+
+Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `MenuList` to make the menu as wide as the content.
+
+```jsx
+<Menu display="block">
+  <MenuButton variant="secondary" width="100%">
+    <Text>Options</Text>
   </MenuButton>
   <MenuList width="100%">
     <MenuItem>
@@ -426,9 +431,28 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
 </Menu>
 ```
 
-#### `width="max-content"`
+#### `min-content`
 
-By default, the menu items will wrap to the next line if the width of the toggle is smaller than the width of the menu. You can pass `width="max-content"` to `MenuList` to prevent wrapping.
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList width="min-content">
+    <MenuItem >
+      Menu item #1
+    </MenuItem>
+    <MenuItem>
+      Menu item #2
+    </MenuItem>
+    <MenuItem>
+      Menu item #3
+    </MenuItem>
+  </MenuList>
+</Menu>
+```
+
+#### `max-content`
 
 ```jsx
 <Menu>
@@ -500,10 +524,10 @@ function Example() {
             return (
               <Box key={key}>
                 <Menu placement={placement}>
-                  <MenuButton variant="secondary">
+                  <MenuButton variant="secondary" width={150}>
                     <Text>Options</Text>
                   </MenuButton>
-                  <MenuList width="max-content">
+                  <MenuList>
                     <MenuItem>
                       Item #1
                     </MenuItem>
@@ -566,7 +590,6 @@ The second number, `distance`, controls the distance between the `MenuList` and 
       16, // skidding
       8, // distance
     ]}
-    width="max-content"
   >
     <MenuItem>
       Item #1
@@ -586,14 +609,14 @@ The second number, `distance`, controls the distance between the `MenuList` and 
 To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList`. The menu will become scrollable when the menu items exceed the height of the menu.
 
 ```jsx
-<Menu>
-  <MenuButton variant="secondary">
+<Menu display="block">
+  <MenuButton variant="secondary" width={200}>
     <Text>Options</Text>
   </MenuButton>
   <MenuList
     maxHeight={200}
     overflow="auto"
-    width="max-content"
+    width={200}
   >
     {Array.from({ length: 100 }).map((_, key) => (
       <MenuItem key={key}>
@@ -607,12 +630,12 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
 You can also use the `Scrollbar` component to override the default scrollbar.
 
 ```jsx
-<Menu>
-  <MenuButton variant="secondary">
+<Menu display="block">
+  <MenuButton variant="secondary" width={200}>
     <Text>Options</Text>
   </MenuButton>
-  <MenuList width="100%">
-    <Scrollbar height={200}>
+  <MenuList width={200}>
+    <Scrollbar height={200} overflowY="visible">
       {Array.from({ length: 100 }).map((_, key) => (
         <MenuItem key={key}>
           Item #{key + 1}
@@ -627,14 +650,24 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 
 Set `closeOnSelect` to `false` to keep the menu open after selecting a menu item.
 
+You can use arrow keys to navigate the menu, and press `Enter` or `Space` to select an item.
+
 ```jsx
 function menuWithCheckbox() {
   const [checkedItems, setCheckedItems] = React.useState(['host', 'ip']);
-  const handleChange = (e) => {
-    const value = e.target.value;
-    const items = [...checkedItems];
-    items.indexOf(value) === -1 ? items.push(value) : items.splice(items.indexOf(value), 1);
-    setCheckedItems(items);
+  const onCheckboxGroupChange = (value) => {
+    setCheckedItems(value);
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      const el = event.currentTarget.querySelector('input');
+      if (el) {
+        const value = el.value;
+        const items = [...checkedItems];
+        items.indexOf(value) === -1 ? items.push(value) : items.splice(items.indexOf(value), 1);
+        setCheckedItems(items);
+      }
+    }
   };
   return (
     <Menu closeOnSelect={false}>
@@ -642,10 +675,25 @@ function menuWithCheckbox() {
         <Text>Selected ({checkedItems.length})</Text>
       </MenuButton>
       <MenuList width="max-content">
-        <CheckboxGroup size="sm" defaultValue={checkedItems}>
-          <MenuItem><Checkbox value="host" onChange={e => handleChange(e)}>Endpoint name</Checkbox></MenuItem>
-          <MenuItem><Checkbox value="ip" onChange={e => handleChange(e)}>IP address</Checkbox></MenuItem>
-          <MenuItem><Checkbox value="os" onChange={e => handleChange(e)}>Operating system</Checkbox></MenuItem>
+        <CheckboxGroup
+          size="sm"
+          value={checkedItems}
+          onChange={onCheckboxGroupChange}
+        >
+          <MenuItem onKeyDown={handleKeyDown}>
+            <Checkbox value="host">
+              Endpoint name</Checkbox>
+          </MenuItem>
+          <MenuItem onKeyDown={handleKeyDown}>
+            <Checkbox value="ip">
+              IP address
+            </Checkbox>
+          </MenuItem>
+          <MenuItem onKeyDown={handleKeyDown}>
+            <Checkbox value="os">
+              Operating system
+            </Checkbox>
+          </MenuItem>
         </CheckboxGroup>
       </MenuList>
     </Menu>
@@ -669,9 +717,9 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| anchorEl | `Element` | | The element to which the menu is attached. |
+| anchorEl | ElementType | | The element to which the menu is attached. |
 | autoSelect | boolean | `true` | Whether to automatically select the first menu item when the menu is opened. |
-| children | ReactNode | | The children must be composed by a `MenuList` and either one of `MenuToggle` or `MenuButton`. |
+| children | ReactNode \| (context) => ReactNode | | |
 | closeOnBlur | boolean | `true` | Whether to close the menu when the user clicks outside of the menu. |
 | closeOnSelect | boolean | `true` | Whether to close the menu when the user selects a menu item. |
 | defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
@@ -688,7 +736,7 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| function | | |
+| children | ReactNode | | |
 | disabled | boolean | | Whether the menu button is disabled. |
 | onClick | function | | Callback when the menu button is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
@@ -697,7 +745,7 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| function | | |
+| children | ReactNode \| ({ getMenuToggleProps, isOpen, openMenu, closeMenu }) => ReactNode | | |
 | disabled | boolean | | Whether the menu toggle is disabled. |
 | onClick | function | | Callback when the menu toggle is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
@@ -719,11 +767,13 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
 | TransitionComponent | ElementType | Collapse | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
 
 ### MenuGroup
 

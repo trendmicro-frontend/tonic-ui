@@ -3,11 +3,20 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
+import _get from 'lodash/get';
 import React from 'react';
 
 const GlobalStyles = () => {
   const [colorMode] = useColorMode();
-  const { fontSizes, lineHeights } = useTheme();
+  const theme = useTheme();
+  const backgroundColor = {
+    light: 'white',
+    dark: 'gray:100',
+  }[colorMode];
+  const color = {
+    light: 'black:primary',
+    dark: 'white:primary',
+  }[colorMode];
 
   return (
     <Global
@@ -15,9 +24,14 @@ const GlobalStyles = () => {
         :root {
           color-scheme: ${colorMode};
         }
+        :focus:not(.focus-visible) {
+          outline: none;
+        }
         body {
-          font-size: ${fontSizes.sm};
-          line-height: ${lineHeights.sm};
+          font-size: ${theme.fontSizes.sm};
+          line-height: ${theme.lineHeights.sm};
+          background-color: ${_get(theme, ['colors', backgroundColor], backgroundColor)};
+          color: ${_get(theme, ['colors', color], color)};
         }
       `}
     />

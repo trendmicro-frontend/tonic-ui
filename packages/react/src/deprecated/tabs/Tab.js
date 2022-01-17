@@ -1,7 +1,7 @@
 import React, {
   forwardRef
 } from 'react';
-import { ButtonBase } from '../button';
+import { ButtonBase } from '../../button';
 import { useTabStyle } from './styles';
 
 const Tab = forwardRef((props, ref) => {

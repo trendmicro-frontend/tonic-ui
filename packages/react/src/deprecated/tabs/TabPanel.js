@@ -1,8 +1,8 @@
 import React, {
   forwardRef
 } from 'react';
-import { Box } from '../box';
-import setRef from '../utils/setRef';
+import { Box } from '../../box';
+import setRef from '../../utils/setRef';
 
 const TabPanel = forwardRef(
   ({ children, isSelected, selectedPanelRef, id, ...rest }, ref) => {

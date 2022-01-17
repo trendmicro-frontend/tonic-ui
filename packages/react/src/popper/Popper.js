@@ -1,3 +1,5 @@
+import { createPopper } from '@popperjs/core';
+import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
 import React, {
   forwardRef,
   useEffect,
@@ -6,12 +8,10 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { createPopper } from '@popperjs/core';
 import { Portal } from '../portal';
 import { Box } from '../box';
 import setRef from '../utils/setRef';
 import useForkRef from '../utils/useForkRef';
-import useIsomorphicLayoutEffect from '../utils/useIsomorphicLayoutEffect';
 import getPopperArrowStyle from './styles';
 
 function getAnchorEl(anchorEl) {
@@ -24,13 +24,13 @@ const Popper = forwardRef((
     children,
     gutter,
     container,
-    usePortal = true,
-    unmountOnExit = true,
     modifiers,
     isOpen,
     placement: initialPlacement = 'bottom',
     popperOptions,
     popperRef: popperRefProp,
+    unmountOnExit = false,
+    usePortal = false,
     willUseTransition = false,
     arrowSize,
     ...rest
@@ -43,7 +43,7 @@ const Popper = forwardRef((
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
   const handlePopperRefRef = useRef(handlePopperRef);
 
-  useIsomorphicLayoutEffect(() => {
+  useIsomorphicEffect(() => {
     handlePopperRefRef.current = handlePopperRef;
   }, [handlePopperRef]);
 
@@ -88,6 +88,7 @@ const Popper = forwardRef((
           },
         }
       ],
+      strategy: 'absolute',
       ...popperOptions,
     });
 

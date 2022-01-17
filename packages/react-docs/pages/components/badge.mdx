@@ -16,6 +16,7 @@ To display the badge on the top-right corner of the wrapped component, specify t
 
 ```jsx
 <Grid
+  mt="2x"
   columnGap="8x"
   justifyItems="center"
   rowGap="8x"
@@ -64,7 +65,7 @@ To display the badge on the top-right corner of the wrapped component, specify t
 Use `variant="dot"` to change a badge into a small dot. This can be used as a notification that something has changed without giving a count.
 
 ```jsx
-<Stack direction="row" spacing="8x" shouldWrapChildren>
+<Stack mt="2x" direction="row" spacing="8x" shouldWrapChildren>
   // Pass `isInvisible` to make it invisible
   <Badge variant="dot" isInvisible>
     <Icon icon="alert" />
@@ -98,6 +99,7 @@ You can use the `placement` prop to move the badge to any corner of the wrapped 
 
 ```jsx
 <Grid
+  m="2x"
   columnGap="8x"
   rowGap="8x"
   templateColumns="1fr 1fr"
@@ -128,7 +130,7 @@ function Example() {
   const [isInvisible, setIsInvisible] = React.useState(false);
 
   return (
-    <Stack direction="column" spacing="8x">
+    <Stack mt="1x" direction="column" spacing="8x">
       <Flex alignItems="center">
         <Box mr="8x">
           <Badge badgeContent={count} isInvisible={!(count > 0)}>
@@ -204,13 +206,18 @@ function Example() {
   ];
 
   return (
-    <Stack direction="row" spacing="8x" shouldWrapChildren>
+    <Grid
+      mt="2x"
+      columnGap="8x"
+      rowGap="8x"
+      templateColumns="repeat(auto-fill, minmax(40px, 1fr))"
+    >
       {colors.map(color => (
         <Badge key={color} backgroundColor={color} badgeContent={5}>
           <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
         </Badge>
       ))}
-    </Stack>
+    </Grid>
   );
 }
 ```
@@ -220,7 +227,7 @@ function Example() {
 The size of the badge can be changed by passing the `height` and `minWidth` props.
 
 ```jsx
-<Stack direction="row" spacing="8x" shouldWrapChildren>
+<Stack mt="3x" direction="row" spacing="8x" shouldWrapChildren>
   <Badge badgeContent={5} height="4x" minWidth="4x" fontSize="xs">
     <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
   </Badge>
@@ -275,6 +282,7 @@ const OutlineBadge = React.forwardRef((props, ref) => {
 function Example() {
   return (
     <Grid
+      mt="3x"
       columnGap="8x"
       justifyItems="center"
       rowGap="8x"

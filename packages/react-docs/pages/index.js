@@ -2,11 +2,13 @@ import Color from 'color';
 import { ensureString } from 'ensure-type';
 import {
   Alert,
+  Badge,
   Box,
   Button,
   ButtonGroup,
   Checkbox,
   Divider,
+  Flex,
   Icon,
   Image,
   Input,
@@ -22,11 +24,9 @@ import {
   ModalFooter,
   ModalHeader,
   SearchInput,
+  Skeleton,
   Space,
   Switch,
-  Tab,
-  Tabs,
-  TabList,
   Table,
   TableBody,
   TableCell,
@@ -88,6 +88,7 @@ const DefaultPage = (props) => {
       color={fontColor}
       fontSize={docsFontSize}
       lineHeight={docsLineHeight}
+      height="100vh"
       {...props}
     >
       <Header />
@@ -97,7 +98,7 @@ const DefaultPage = (props) => {
           xl: '1280px',
           '2xl': '1680px',
         }}
-        mt="20x"
+        pt="20x"
         px="6x"
         mx="auto"
       >
@@ -201,38 +202,58 @@ const DefaultPage = (props) => {
                 rowGap="6x"
                 whiteSpace="nowrap"
               >
-                <Box>
-                  <Tabs variant="enclosed">
-                    <TabList>
-                      <Tab>
-                        Tonic UI
-                      </Tab>
-                      <Tab>
-                        React
-                      </Tab>
-                      <Tab>
-                        Styled System
-                      </Tab>
-                      <Tab>
-                        CSS-in-JS
-                      </Tab>
-                    </TabList>
-                  </Tabs>
-                </Box>
+                <Flex
+                  alignItems="center"
+                  columnGap="6x"
+                >
+                  <Badge variant="dot" isInvisible>
+                    <Icon icon="alert" />
+                  </Badge>
+                  <Badge variant="dot">
+                    <Icon icon="alert" />
+                  </Badge>
+                  <Badge variant="dot" width="3x" height="3x">
+                    <Icon icon="alert" />
+                  </Badge>
+                  <Badge badgeContent="99+">
+                    <Icon icon="alert" />
+                  </Badge>
+                  <Badge
+                    badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
+                  >
+                    <Icon icon="alert" />
+                  </Badge>
+                  <Badge badgeContent="99+">
+                    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+                  </Badge>
+                  <Badge
+                    badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
+                  >
+                    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+                  </Badge>
+                </Flex>
                 <Box>
                   <Box display="inline-flex" alignItems="center" columnGap="4x">
-                    <Checkbox defaultChecked={false} />
-                    <Checkbox defaultChecked={true} />
-                    <Switch size="sm" defaultChecked={false} />
-                    <Switch size="sm" defaultChecked={true} />
-                    <Tag variant="solid">Solid Tag</Tag>
-                    <Tag variant="outline">Outline Tag</Tag>
+                    <Flex columnGap="2x">
+                      <Checkbox defaultChecked={false} />
+                      <Checkbox defaultChecked={true} />
+                    </Flex>
+                    <Flex columnGap="2x">
+                      <Switch size="sm" defaultChecked={false} />
+                      <Switch size="sm" defaultChecked={true} />
+                    </Flex>
+                    <Flex columnGap="2x">
+                      <Tag variant="solid">Solid Tag</Tag>
+                      <Tag variant="outline">Outline Tag</Tag>
+                    </Flex>
                   </Box>
                 </Box>
                 <Box>
                   <Box display="inline-flex" alignItems="center" columnGap="4x">
-                    <Button variant="primary">Primary</Button>
-                    <Button variant="secondary">Secondary</Button>
+                    <Flex columnGap="2x">
+                      <Button variant="primary">Primary</Button>
+                      <Button variant="secondary">Secondary</Button>
+                    </Flex>
                     <ButtonGroup>
                       <Button>
                         <Icon icon="chart-area" />

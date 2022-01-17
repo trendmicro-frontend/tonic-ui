@@ -24,20 +24,18 @@ const mapPlacementToTransformOrigin = placement => ({
 }[placement]);
 
 const PopoverContent = ({
-  onKeyDown,
-  onBlur: onBlurProp,
-  onMouseLeave,
-  onMouseEnter,
-  onFocus,
-  children,
-
-  'aria-label': ariaLabel,
   PopperComponent = Popper,
   PopperProps,
   PopperArrowComponent = PopperArrow,
   PopperArrowProps,
   TransitionComponent = Grow,
   TransitionProps,
+  children,
+  onBlur: onBlurProp,
+  onFocus,
+  onKeyDown,
+  onMouseEnter,
+  onMouseLeave,
   ...rest
 }) => {
   const isHydrated = useHydrated();
@@ -66,8 +64,7 @@ const PopoverContent = ({
     mousePageY,
     arrowAt,
   } = usePopover();
-  const contentStyleProps = usePopoverContentStyle();
-
+  const styleProps = usePopoverContentStyle();
   const arrowSize = 12;
   let _skidding = skidding;
   let _distance = distance + 8; // Arrow height is 8px
@@ -134,7 +131,6 @@ const PopoverContent = ({
       aria-hidden={!isOpen}
       aria-labelledby={headerId}
       aria-describedby={bodyId}
-      usePortal={usePortal}
       isOpen={isOpen}
       placement={placement}
       anchorEl={anchorRef.current}
@@ -144,7 +140,10 @@ const PopoverContent = ({
       modifiers={{
         offset: [_skidding, _distance],
       }}
+      unmountOnExit={true}
+      usePortal={usePortal}
       willUseTransition={true}
+      zIndex="popover"
       {...roleProps}
       {...eventHandlers}
       {...PopperProps}
@@ -178,7 +177,7 @@ const PopoverContent = ({
               return (
                 <Box
                   ref={ref}
-                  {...contentStyleProps}
+                  {...styleProps}
                   {...transitionStyle}
                   transformOrigin={mapPlacementToTransformOrigin(placement)}
                   {...rest}

@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { usePopoverFooterStyle } from './styles';
 
-const PopoverFooter = props => (
-  <Box as="footer" pt="4x" {...props} />
-);
+const PopoverFooter = forwardRef((props, ref) => {
+  const styleProps = usePopoverFooterStyle({});
+
+  return (
+    <Box
+      as="footer"
+      ref={ref}
+      {...styleProps}
+      {...props}
+    />
+  );
+});
 
 PopoverFooter.displayName = 'PopoverFooter';
 

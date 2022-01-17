@@ -33,12 +33,10 @@ const setColorOpacity = (color, opacity) => {
 };
 
 const versionMap = {
-  /*
   [ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)]: {
     label: `v${ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)}`,
     url: ensureString(process.env.TONIC_UI_V1_RELEASE_DOCUMENTATION),
   },
-  */
   [ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)]: {
     label: `v${ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)}`,
     url: ensureString(process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION),
@@ -170,7 +168,7 @@ const Header = forwardRef((
                   src={`${ASSET_PREFIX}/images/${logo}`}
                   height="8x"
                   marginRight="2x"
-              />
+                />
                 <Text>Tonic UI</Text>
               </Box>
             </NextLink>
@@ -201,7 +199,7 @@ const Header = forwardRef((
                     onClick={handleChooseVersion}
                   >
                     {(key === version)
-                      ? <><Text>{value?.label}</Text><Space width="2x" /><Text>✓</Text></>
+                      ? <Text>{value?.label}<Space width="2x" />✓</Text>
                       : <Text>{value?.label}</Text>
                     }
                   </MenuItem>

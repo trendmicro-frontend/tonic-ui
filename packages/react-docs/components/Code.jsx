@@ -3,8 +3,12 @@ import React, { forwardRef } from 'react';
 
 const Code = forwardRef((props, ref) => {
   const [colorMode] = useColorMode();
+  const color = {
+    light: 'black:primary',
+    dark: 'white:primary',
+  }[colorMode];
   const backgroundColor = {
-    light: 'gray:10', // FIXME
+    light: 'gray:20',
     dark: 'gray:70',
   }[colorMode];
 
@@ -12,13 +16,14 @@ const Code = forwardRef((props, ref) => {
     <Box
       ref={ref}
       as="code"
-      display="inline-block"
-      fontFamily="mono"
-      fontSize="sm"
-      lineHeight="sm"
-      px="2x"
-      borderRadius="sm"
       backgroundColor={backgroundColor}
+      borderRadius={3}
+      color={color}
+      fontFamily="mono"
+      fontSize="90%"
+      lineHeight="1"
+      px={5}
+      py={2}
       {...props}
     />
   );

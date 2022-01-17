@@ -1,12 +1,12 @@
+import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
 import { useState, useEffect } from 'react';
-import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
 
 let serverHandoffComplete = false;
 let id = 0;
 const genId = () => ++id;
 
 /**
- * useId
+ * useAutoId
  *
  * Autogenerate IDs to facilitate WAI-ARIA and server rendering.
  *
@@ -15,16 +15,16 @@ const genId = () => ++id;
  * consistent values for SSR.
  *
  */
-export const useId = (idFromProps) => {
+const useAutoId = (idProp) => {
   /*
    * If this instance isn't part of the initial render, we don't have to do the
    * double render/patch-up dance. We can just generate the ID and return it.
    */
-  const initialId = idFromProps || (serverHandoffComplete ? genId() : null);
+  const initialId = idProp || (serverHandoffComplete ? genId() : null);
 
   const [id, setId] = useState(initialId);
 
-  useIsomorphicLayoutEffect(() => {
+  useIsomorphicEffect(() => {
     if (id === null) {
       /*
        * Patch the ID after render. We do this in `useLayoutEffect` to avoid any
@@ -40,7 +40,7 @@ export const useId = (idFromProps) => {
   useEffect(() => {
     if (serverHandoffComplete === false) {
       /*
-       * Flag all future uses of `useId` to skip the update dance. This is in
+       * Flag all future uses of `useAutoId` to skip the update dance. This is in
        * `useEffect` because it goes after `useLayoutEffect`, ensuring we don't
        * accidentally bail out of the patch-up dance prematurely.
        */
@@ -49,3 +49,5 @@ export const useId = (idFromProps) => {
   }, []);
   return id != null ? String(id) : undefined;
 };
+
+export default useAutoId;

@@ -3,6 +3,8 @@ import ThemeParser from "../../components/ThemeParser";
 
 # Outlines
 
+## Design Tokens
+
 <ThemeParser theme="outlines" />
 
 ## Examples
@@ -51,10 +53,8 @@ If the outline is a numeric value defined in the theme, the `solid` outline styl
 ```jsx noInline
 const Block = (props) => {
   const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:90',
-    light: 'gray:10',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+
   return (
     <Flex
       px="4x"
@@ -62,7 +62,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.secondary}
       {...props}
     />
   );
@@ -70,7 +70,11 @@ const Block = (props) => {
 
 function Example() {
   const theme = useTheme();
-  const outlineColor = 'gray:50';
+  const [colorMode] = useColorMode();
+  const outlineColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
   const outlineWidths = [1, 2, 3, 4, 5];
   const [outlineWidth, setOutlineWidth] = React.useState(outlineWidths[0]);
   const outlineValue = theme.outlines[outlineWidth] || outlineWidth;
@@ -96,7 +100,7 @@ function Example() {
       <Flex>
         <Block
           outline={outlineWidth}
-          outlineColor="gray:50"
+          outlineColor={outlineColor}
         >
           <Text>outline="{outlineValue}"</Text>
           <Text>outlineColor="{outlineColorValue}"</Text>
@@ -118,10 +122,8 @@ Note: Because the specification doesn't define the exact thickness denoted by ea
 ```jsx noInline
 const Block = (props) => {
   const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:90',
-    light: 'gray:10',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+
   return (
     <Flex
       px="4x"
@@ -129,7 +131,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.secondary}
       {...props}
     />
   );
@@ -137,7 +139,11 @@ const Block = (props) => {
 
 function Example() {
   const theme = useTheme();
-  const outlineColor = 'gray:50';
+  const [colorMode] = useColorMode();
+  const outlineColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
   const outlineStyle = 'solid';
   const outlineWidths = ['thin', 'medium', 'thick'];
   const [outlineWidth, setOutlineWidth] = React.useState(outlineWidths[0]);

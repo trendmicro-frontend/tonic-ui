@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { useColorMode } from '../color-mode';
-import { useTheme } from '../theme';
-import { setColorWithOpacity } from '../utils/colors';
+import { useColorMode } from '../../color-mode';
+import { useTheme } from '../../theme';
+import { setColorWithOpacity } from '../../utils/colors';
 import { TabContext } from './context';
 
 const tabSizes = {

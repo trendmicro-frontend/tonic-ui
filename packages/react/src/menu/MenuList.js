@@ -1,6 +1,5 @@
 import chainedFunction from 'chained-function';
 import {
-  ensureArray,
   ensureFunction,
 } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
@@ -13,6 +12,8 @@ import useMenu from './useMenu';
 
 const MenuList = forwardRef((
   {
+    PopperComponent = Popper,
+    PopperProps,
     TransitionComponent = Collapse,
     TransitionProps,
     children,
@@ -27,46 +28,22 @@ const MenuList = forwardRef((
   const combinedRef = useForkRef(nodeRef, ref);
   const menuContext = useMenu(); // context might be an undefined value
   const {
-    activeIndex: index,
+    closeMenu,
+    closeOnBlur,
     isOpen,
-    focusAtIndex,
     focusOnFirstItem,
     focusOnLastItem,
-    closeMenu,
-    focusableItems,
-    menuToggleRef,
+    focusOnNextItem,
+    focusOnPreviousItem,
     menuId,
     menuToggleId,
+    menuToggleRef,
     menuRef,
-    closeOnBlur,
-    placement,
-    onKeyDown,
     onBlur,
+    onKeyDown,
+    placement,
+    usePortal,
   } = { ...menuContext };
-
-  const handleKeyDown = event => {
-    const count = ensureArray(focusableItems?.current).length;
-    let nextIndex;
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      nextIndex = (index + 1) % count;
-      ensureFunction(focusAtIndex)(nextIndex);
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      nextIndex = (index - 1 + count) % count;
-      ensureFunction(focusAtIndex)(nextIndex);
-    } else if (event.key === 'Home') {
-      ensureFunction(focusOnFirstItem)();
-    } else if (event.key === 'End') {
-      ensureFunction(focusOnLastItem)();
-    } else if (event.key === 'Tab') {
-      event.preventDefault();
-    } else if (event.key === 'Escape') {
-      ensureFunction(closeMenu)();
-    }
-
-    ensureFunction(onKeyDown)(event);
-  };
 
   // Close the menu on blur
   const handleBlur = event => {
@@ -84,28 +61,51 @@ const MenuList = forwardRef((
     ensureFunction(onBlur)(event);
   };
 
+  const handleKeyDown = event => {
+    if (event.key === 'ArrowDown' || event.key === 'Tab') {
+      event.preventDefault();
+      ensureFunction(focusOnNextItem)();
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      ensureFunction(focusOnPreviousItem)();
+    } else if (event.key === 'Home') {
+      event.preventDefault();
+      ensureFunction(focusOnFirstItem)();
+    } else if (event.key === 'End') {
+      event.preventDefault();
+      ensureFunction(focusOnLastItem)();
+    } else if (event.key === 'Escape') {
+      ensureFunction(closeMenu)();
+    }
+
+    ensureFunction(onKeyDown)(event);
+  };
+
   const styleProps = useMenuListStyle();
 
+  const eventHandlers = {
+    onBlur: wrapEvent(onBlurProp, handleBlur),
+    onKeyDown: wrapEvent(onKeyDownProp, handleKeyDown),
+  };
+
   return (
-    <Popper
+    <PopperComponent
       anchorEl={menuToggleRef?.current}
       aria-labelledby={menuToggleId}
       id={menuId}
       isOpen={isOpen}
       modifiers={{ offset }}
-      onBlur={wrapEvent(onBlurProp, handleBlur)}
-      onKeyDown={wrapEvent(onKeyDownProp, handleKeyDown)}
       placement={placement}
       ref={menuRef}
       role="menu"
       tabIndex={-1}
-      usePortal={false}
+      unmountOnExit={true}
+      usePortal={usePortal}
       willUseTransition={true}
       zIndex="dropdown"
-      _focus={{
-        outline: 0,
-      }}
       {...styleProps}
+      {...eventHandlers}
+      {...PopperProps}
       {...rest}
     >
       {({ placement, transition }) => {
@@ -134,7 +134,7 @@ const MenuList = forwardRef((
           </TransitionComponent>
         );
       }}
-    </Popper>
+    </PopperComponent>
   );
 });
 
