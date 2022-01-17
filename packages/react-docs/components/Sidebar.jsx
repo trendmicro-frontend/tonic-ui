@@ -118,11 +118,17 @@ const Sidebar = forwardRef((
               px="3x"
               mb="2x"
             >
-              <Icon
-                icon={icon}
-                color={colorStyle?.color?.tertiary}
-                size="4x"
-              />
+              {(typeof icon === 'function')
+                ? icon({
+                    color: colorStyle?.color?.tertiary,
+                    size: '4x',
+                  })
+                : <Icon
+                    icon={icon}
+                    color={colorStyle?.color?.tertiary}
+                    size="4x"
+                  />
+              }
               <Space width="2x" />
               <Text
                 color={colorStyle?.color?.primary}
