@@ -3,9 +3,11 @@ import * as moduleExport from '../src';
 test('should match expected exports', () => {
   const exportedComponents = [
     // date-picker
-    'DatePicker',
     'Calendar',
     'DateInput',
+    'DatePicker',
+    'DatePickerPopper',
+    'DatePickerToggle',
   ];
 
   const exportedHooks = [
