@@ -5,17 +5,20 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState, useRef } from 'react';
+import useForkRef from '../../utils/useForkRef';
 
 const DateInput = forwardRef((
   {
-    locale,
+    locale = 'en',
     value: valueProp,
     onChange,
     ...rest
   },
   ref,
 ) => {
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
   const [value, setValue] = useState('');
   const handleChange = event => {
     const nextValue = event.target.value;
@@ -53,7 +56,7 @@ const DateInput = forwardRef((
         <Icon icon="calendar" color={colorStyle.color.secondary} />
       </Box>
       <Input
-        ref={ref}
+        ref={combinedRef}
         value={value}
         pl="10x"
         onChange={handleChange}

@@ -2,7 +2,7 @@ import {
   Box,
 } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
-import { useClickableCellStyle } from '../../styles';
+import { useClickableCellStyle } from '../styles';
 
 const Month = forwardRef((
   {

@@ -6,7 +6,7 @@ import DecadeView from './DecadeView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import Navigation from './Navigation';
-import { useCalendarStyle } from '../styles';
+import { useCalendarStyle } from './styles';
 import {
   isDate,
   toDate,

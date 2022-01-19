@@ -9,23 +9,85 @@ import {
   Calendar,
   DateInput,
   DatePicker,
+  DatePickerToggle,
+  DatePickerPopper,
 } from '@tonic-ui/react';
 ```
 ## Usage
 
-### Calendar
-```jsx
-<Calendar />
-```
-
-### DateInput
-```jsx
-<DateInput value="2021.12.15" />
-```
-
 ### DatePicker
 ```jsx
-<DatePicker value="2021-12-15" />
+function Example({
+  locale = 'en',
+  disabled,
+  date = '2021-12-15',
+}) {
+  const [isInvalid, setIsInvalid] = React.useState(false);
+  const [value, setValue] = React.useState(date);
+  const invalidInputStyle = {
+    isInvalid: true,
+    pr: '10x',
+  };
+  const isDate = (v) => {
+    const d = new Date(v);
+    return !Number.isNaN(d.getTime());
+  };
+  const verifyDate = (value) => {
+    if (!value) {
+      return;
+    }
+    setIsInvalid(!isDate(value));
+  };
+  const handleDateInputChange = (event) => {
+    const value = event.target.value;
+    setValue(value);
+  };
+  const handleCalendarChange = (value) => {
+    setValue(value);
+  };
+
+  React.useEffect(() => {
+    verifyDate(value);
+  }, [value]);
+
+  return (
+    <DatePicker>
+      <DatePickerToggle>
+        {({ getDatePickerToggleProps }) => {
+          return (
+            <Box
+              {...getDatePickerToggleProps()}
+              display="inline-flex"
+              alignItems="center"
+              justifyContent="space-between"
+              columnGap="1x"
+            >
+              <DateInput
+                disabled={disabled}
+                locale={locale}
+                value={value}
+                onChange={handleDateInputChange}
+                {...isInvalid && invalidInputStyle}
+              />
+              {isInvalid && (
+                <Box position="absolute" right={0}>
+                  <Icon icon="warning-circle" mx="3x" color="red:50" />
+                </Box>
+              )}
+            </Box>
+          );
+        }}
+      </DatePickerToggle>
+      <DatePickerPopper width="max-content">
+        <Calendar
+          value={value}
+          locale={locale}
+          onChange={handleCalendarChange}
+        />
+      </DatePickerPopper>
+    </DatePicker>
+  );
+}
 ```
 
 ## Props

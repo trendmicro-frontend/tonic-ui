@@ -5,7 +5,7 @@ import {
 import addDays from 'date-fns/addDays';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
-import { useCellStyle } from '../../styles';
+import { useCellStyle } from '../styles';
 
 const Weekdays = forwardRef((
   {

@@ -3,7 +3,7 @@ import {
 } from '@tonic-ui/react';
 import getDate from 'date-fns/getDate';
 import React, { forwardRef } from 'react';
-import { useClickableCellStyle } from '../../styles';
+import { useClickableCellStyle } from '../styles';
 import { dateFormatter } from '../../utils';
 
 const Day = forwardRef((
