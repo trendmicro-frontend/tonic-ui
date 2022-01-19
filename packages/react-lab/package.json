@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "@tonic-ui/react-lab",
   "version": "1.0.0-alpha",
   "description": "This package hosts the incubator components that are not yet ready to move to React Tonic UI component library.",
