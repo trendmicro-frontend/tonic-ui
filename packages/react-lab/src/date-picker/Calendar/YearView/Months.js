@@ -48,7 +48,7 @@ const Months = forwardRef((
   return (
     <Grid
       ref={ref}
-      templateColumns="repeat(3, 80px)"
+      templateColumns="repeat(3, 1fr)"
       templateRows="auto"
       {...reset}
     >
