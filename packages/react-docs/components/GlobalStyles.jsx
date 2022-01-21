@@ -1,9 +1,7 @@
 import { Global, css } from '@emotion/react';
 import {
-  useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import _get from 'lodash/get';
 import React from 'react';
 
 const GlobalStyles = () => {
