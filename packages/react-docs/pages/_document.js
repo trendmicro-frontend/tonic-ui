@@ -48,9 +48,10 @@ class CustomDocument extends Document {
                   }[colorMode],
                   'color-scheme': colorMode,
                 };
+                var rootPrefix = '--root-';
                 var rootStyle = '';
                 for (const [key, value] of Object.entries(customProperty)) {
-                  rootStyle += key + ':' + value + ';';
+                  rootStyle += (rootPrefix + key + ':' + value + ';');
                 }
 
                 document.head.insertAdjacentHTML('beforeend', '<style data-tonic-ui="true">:root{' + rootStyle + '}</style>');
