@@ -4,7 +4,6 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 class CustomDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
-    console.log('### getInitialProps', initialProps);
     return { ...initialProps };
   }
 
@@ -14,6 +13,7 @@ class CustomDocument extends Document {
         <Head>
           <link rel="shortcut icon" href="tonic-favicon-dark.ico" />
           <script
+            data-tonic-ui
             dangerouslySetInnerHTML={{
               __html: `
               (function (initialValue) {
@@ -36,6 +36,24 @@ class CustomDocument extends Document {
 
                 var root = document.documentElement;
                 root.style.setProperty('color-scheme', colorMode);
+
+                var customProperty = {
+                  'background-color': {
+                    light: 'white',
+                    dark: '#151515',
+                  }[colorMode],
+                  'color': {
+                    light: 'rgba(0, 0, 0, .92)',
+                    dark: 'rgba(255, 255, 255, .92)',
+                  }[colorMode],
+                  'color-scheme': colorMode,
+                };
+                var rootStyle = '';
+                for (const [key, value] of Object.entries(customProperty)) {
+                  rootStyle += key + ':' + value + ';';
+                }
+
+                document.head.insertAdjacentHTML('beforeend', '<style data-tonic-ui="true">:root{' + rootStyle + '}</style>');
               })('system');
               `,
             }}
