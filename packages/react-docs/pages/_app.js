@@ -11,7 +11,7 @@ import {
 } from '@tonic-ui/react-hooks';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactGA from 'react-ga';
 import Content from '../components/Content';
 import GlobalStyles from '../components/GlobalStyles';
@@ -27,7 +27,20 @@ const pageview = () => {
 };
 
 const App = (props) => {
+  const [initialColorMode, setColorMode] = useState('light');
   const router = useRouter();
+
+  useEffect(() => {
+    /**
+     * <html style="color-scheme: light;">
+     */
+    const root = document.documentElement;
+    const colorScheme = root.style.getPropertyValue('color-scheme');
+    if ((colorScheme === 'dark' || colorScheme === 'light') && (initialColorMode !== colorScheme)) {
+      setColorMode(colorScheme);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // https://github.com/vercel/next.js/blob/canary/examples/with-react-ga/pages/_app.js
   useEffect(() => {
@@ -53,8 +66,9 @@ const App = (props) => {
 
   return (
     <TonicProvider
+      key={initialColorMode} // Force re-render if color mode changes
       colorMode={{
-        defaultValue: 'dark',
+        defaultValue: initialColorMode,
       }}
       colorStyle={{
         defaultValue: defaultColorStyle,

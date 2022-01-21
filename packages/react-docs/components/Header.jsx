@@ -18,7 +18,7 @@ import {
 import _get from 'lodash/get';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import pkg from '../../../package.json';
 import FontAwesomeIcon from './FontAwesomeIcon';
 
@@ -47,6 +47,19 @@ const versionMap = {
   },
 };
 
+const usePersistedColorMode = (colorMode) => {
+  useEffect(() => {
+    // Note: See "pages/_document.js" for the color mode script.
+
+    // Set the color mode for the root element
+    const root = document.documentElement;
+    root.style.setProperty('color-scheme', colorMode);
+
+    // Persist the color mode in the localStorage
+    localStorage.setItem('tonic-ui-color-mode', colorMode);
+  }, [colorMode]);
+};
+
 const Header = forwardRef((
   {
     onToggle,
@@ -66,6 +79,8 @@ const Header = forwardRef((
   })();
   const theme = useTheme();
   const [colorMode, setColorMode] = useColorMode();
+  usePersistedColorMode(colorMode);
+
   const toggleColorMode = () => {
     const nextColorMode = {
       'dark': 'light',
