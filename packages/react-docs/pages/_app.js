@@ -27,7 +27,7 @@ const pageview = () => {
 };
 
 const App = (props) => {
-  const [initialColorMode, setColorMode] = useState('light');
+  const [initialColorMode, setColorMode] = useState('dark');
   const router = useRouter();
 
   useEffect(() => {
