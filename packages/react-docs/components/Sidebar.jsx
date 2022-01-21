@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionItem,
+  AccordionToggle,
+  AccordionToggleIcon,
+  AccordionCollapse,
   Box,
   Flex,
   Icon,
@@ -17,12 +22,16 @@ import { routes } from '../config/sidebar-routes';
 import useForkRef from '../hooks/useForkRef';
 
 const isElementInViewport = (el) => {
+  if (!el) {
+    return false;
+  }
+
   const rect = el.getBoundingClientRect();
   return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+    rect?.top >= 0 &&
+    rect?.left >= 0 &&
+    rect?.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
+    rect?.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
   );
 };
 
@@ -62,7 +71,7 @@ const Sidebar = forwardRef((
   useEffect(() => {
     const sidebar = nodeRef.current;
     const el = sidebar.querySelector(`[data-path="${currentPath}"]`);
-    if (!isElementInViewport(el)) {
+    if (el && !isElementInViewport(el)) {
       el.scrollIntoView({
         behavior: 'auto',
         block: 'center',
@@ -128,86 +137,108 @@ const Sidebar = forwardRef((
           </Box>
         </Flex>
       </Box>
-      {routes.map(({ title, icon, path, routes }) => {
-        return (
-          <Box
-            key={`${ASSET_PREFIX}/${path}`}
-            mb="4x"
-            _lastOfType={{
-              mb: 0,
-            }}
-          >
-            <Flex
-              alignItems="center"
-              columnGap="2x"
-              px="3x"
-              mb="2x"
+      <Accordion>
+        {routes.map(({ title, icon, path, routes }) => {
+          const isExpanded = currentPath.startsWith(path);
+
+          return (
+            <Box
+              key={path}
+              data-path={path}
+              mb="4x"
+              _lastOfType={{
+                mb: 0,
+              }}
             >
-              {(typeof icon === 'function')
-                ? icon({
-                    color: colorStyle?.color?.tertiary,
-                    size: '4x',
-                  })
-                : <Icon
-                    icon={icon}
-                    color={colorStyle?.color?.tertiary}
-                    size="4x"
-                  />
-              }
-              <Text
-                color={colorStyle?.color?.primary}
-                fontSize="sm"
-                lineHeight="sm"
+              <AccordionItem
+                defaultIsExpanded={isExpanded}
               >
-                {title}
-              </Text>
-            </Flex>
-            {routes.map(({ title, heading, path }) => {
-              if (heading) {
-                return (
-                  <Text
-                    key={title}
-                    color={colorStyle?.color?.tertiary}
-                    fontSize="xs"
-                    lineHeight="xs"
-                    pl="9x"
-                    mt="4x"
-                    mb="2x"
-                    textTransform="uppercase"
-                    letterSpacing="0.08rem"
-                    _firstOfType={{
-                      mt: 0,
-                    }}
+                <AccordionToggle>
+                  <Flex
+                    alignItems="center"
+                    justifyContent="space-between"
+                    px="3x"
                   >
-                    {title}
-                  </Text>
-                );
-              }
-
-              const isActive = (currentPath === path);
-
-              return (
-                <NavLink
-                  key={path}
-                  data-path={path}
-                  isActive={isActive}
-                  href={`${ASSET_PREFIX}/${path}`}
-                  onClick={onClick}
-                  px={0}
+                    <Flex
+                      alignItems="center"
+                      columnGap="2x"
+                    >
+                      {(typeof icon === 'function')
+                        ? icon({
+                            color: colorStyle?.color?.tertiary,
+                            size: '4x',
+                          })
+                        : <Icon
+                            icon={icon}
+                            color={colorStyle?.color?.tertiary}
+                            size="4x"
+                          />
+                      }
+                      <Text
+                        color={colorStyle?.color?.primary}
+                        fontSize="sm"
+                        lineHeight="sm"
+                      >
+                        {title}
+                      </Text>
+                    </Flex>
+                    <AccordionToggleIcon />
+                  </Flex>
+                </AccordionToggle>
+                <AccordionCollapse
+                  TransitionProps={{
+                    unmountOnExit: true,
+                  }}
                 >
-                  <Text
-                    fontSize="sm"
-                    lineHeight="sm"
-                    pl="9x"
-                  >
-                    {title}
-                  </Text>
-                </NavLink>
-              );
-            })}
-          </Box>
-        );
-      })}
+                  {routes.map(({ title, heading, path }) => {
+                    if (heading) {
+                      return (
+                        <Text
+                          key={title}
+                          color={colorStyle?.color?.tertiary}
+                          fontSize="xs"
+                          lineHeight="xs"
+                          pl="9x"
+                          mt="4x"
+                          mb="2x"
+                          textTransform="uppercase"
+                          letterSpacing="0.08rem"
+                          _firstOfType={{
+                            mt: 0,
+                          }}
+                        >
+                          {title}
+                        </Text>
+                      );
+                    }
+
+                    const isActive = (currentPath === path);
+
+                    return (
+                      <NavLink
+                        key={path}
+                        data-path={path}
+                        isActive={isActive}
+                        href={`${ASSET_PREFIX}/${path}`}
+                        onClick={onClick}
+                        px={0}
+                      >
+                        <Text
+                          fontSize="sm"
+                          lineHeight="sm"
+                          pl="9x"
+                        >
+                          {title}
+                        </Text>
+                      </NavLink>
+                    );
+                  })}
+                </AccordionCollapse>
+              </AccordionItem>
+            </Box>
+          );
+        })}
+      </Accordion>
     </Box>
   );
 });
