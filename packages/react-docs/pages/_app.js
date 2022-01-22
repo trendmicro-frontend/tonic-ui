@@ -27,7 +27,7 @@ const pageview = () => {
 };
 
 const App = (props) => {
-  const [initialColorMode, setColorMode] = useState('dark');
+  const [initialColorMode, setColorMode] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -61,6 +61,10 @@ const App = (props) => {
       router.events.off('routeChangeComplete', pageview);
     };
   }, [router]);
+
+  if (!initialColorMode) {
+    return null;
+  }
 
   const Page = (router.pathname === '/') ? DefaultPage : DocsPage;
 

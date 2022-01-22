@@ -36,25 +36,6 @@ class CustomDocument extends Document {
 
                 var root = document.documentElement;
                 root.style.setProperty('color-scheme', colorMode);
-
-                var customProperty = {
-                  'background-color': {
-                    light: 'white',
-                    dark: '#151515',
-                  }[colorMode],
-                  'color': {
-                    light: 'rgba(0, 0, 0, .92)',
-                    dark: 'rgba(255, 255, 255, .92)',
-                  }[colorMode],
-                  'color-scheme': colorMode,
-                };
-                var rootPrefix = '--root-';
-                var rootStyle = '';
-                for (const [key, value] of Object.entries(customProperty)) {
-                  rootStyle += (rootPrefix + key + ':' + value + ';');
-                }
-
-                document.head.insertAdjacentHTML('beforeend', '<style data-tonic-ui="true">:root{' + rootStyle + '}</style>');
               })('system');
               `,
             }}
