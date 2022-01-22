@@ -25,7 +25,6 @@ const Popover = ({
   returnFocusOnClose = true,
   skidding = 0,
   trigger = 'click',
-  usePortal = false, // Pass `true` if you want to render popove in a portal
 }) => {
   const [isOpen, setIsOpen] = useState(defaultIsOpen);
   const [mousePageX, setMousePageX] = useState(0);
@@ -114,16 +113,6 @@ const Popover = ({
     returnFocusOnClose,
   ]);
 
-  /**
-   * popoverRef: use the ref in the popover itself in PopoverContent
-   * anchorRef: use the ref in the popover trigger element
-   * placement: the directions of popover in PopoverContent
-   * initialFocusRef: the ref of the element that should receive focus when the popover opens
-   * isHoveringRef: use the ref to control the status of the trigger element or popover when the trigger event is 'hover'
-   * usePortal: rendering popover inside a Portal rather beside the trigger element
-   * skidding: displaces the popover (in pixels) along the reference element
-   * distance: displaces the popover (in pixels) away from, or toward, the reference
-   */
   const context = {
     popoverRef,
     anchorRef,
@@ -140,7 +129,6 @@ const Popover = ({
     closeOnEsc,
     initialFocusRef,
     isHoveringRef,
-    usePortal,
     hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
     skidding,
     distance,

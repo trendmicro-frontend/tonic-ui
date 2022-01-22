@@ -3,7 +3,6 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import _get from 'lodash/get';
 import React from 'react';
 
 const GlobalStyles = () => {
@@ -28,10 +27,10 @@ const GlobalStyles = () => {
           outline: none;
         }
         body {
+          background-color: ${backgroundColor};
+          color: ${color};
           font-size: ${theme.fontSizes.sm};
           line-height: ${theme.lineHeights.sm};
-          background-color: ${_get(theme, ['colors', backgroundColor], backgroundColor)};
-          color: ${_get(theme, ['colors', color], color)};
         }
       `}
     />

@@ -53,7 +53,6 @@ const PopoverContent = ({
     trigger,
     headerId,
     bodyId,
-    usePortal,
     hideArrow,
     skidding,
     distance,
@@ -141,7 +140,7 @@ const PopoverContent = ({
         offset: [_skidding, _distance],
       }}
       unmountOnExit={true}
-      usePortal={usePortal}
+      usePortal={false} // Pass `true` in `PopperProps` to render popover in a portal
       willUseTransition={true}
       zIndex="popover"
       {...roleProps}

@@ -20,6 +20,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';
 import pkg from '../../../package.json';
+import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from './FontAwesomeIcon';
 
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
@@ -66,12 +67,16 @@ const Header = forwardRef((
   })();
   const theme = useTheme();
   const [colorMode, setColorMode] = useColorMode();
+
   const toggleColorMode = () => {
     const nextColorMode = {
       'dark': 'light',
       'light': 'dark',
     }[colorMode];
+
     setColorMode(nextColorMode);
+
+    persistColorMode(nextColorMode);
   };
   const logo = {
     light: 'tonic-logo-light.svg',
