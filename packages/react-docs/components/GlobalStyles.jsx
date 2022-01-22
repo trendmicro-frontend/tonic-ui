@@ -17,13 +17,6 @@ const GlobalStyles = () => {
     dark: 'white:primary',
   }[colorMode];
 
-  /**
-   * The following custom properties are defined in "pages/_document.js"
-   * --root-background-color
-   * --root-color
-   * --root-color-scheme
-   */
-
   return (
     <Global
       styles={css`

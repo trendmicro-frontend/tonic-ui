@@ -224,7 +224,7 @@ const Header = forwardRef((
             _hover={{
               cursor: 'pointer',
             }}
-            onClick={() => toggleColorMode()}
+            onClick={toggleColorMode}
             display="inline-flex"
           >
             {colorMode === 'light' && (
