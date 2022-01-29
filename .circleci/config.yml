@@ -4,6 +4,7 @@ version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@1.2.1
+  codecov: codecov/codecov@3.1.1
 
 workflows:
   version: 2
@@ -96,6 +97,18 @@ jobs:
             yarn build
             yarn eslint
             yarn test
+      - codecov/upload:
+          file: ./packages/react/coverage/lcov.info
+          flags: react
+      - codecov/upload:
+          file: ./packages/react-hooks/coverage/lcov.info
+          flags: react-hooks
+      - codecov/upload:
+          file: ./packages/styled-system/coverage/lcov.info
+          flags: styled-system
+      - codecov/upload:
+          file: ./packages/theme/coverage/lcov.info
+          flags: theme
       - run:
           name: Compress build artifacts
           command: |
@@ -144,6 +157,18 @@ jobs:
             yarn build
             yarn eslint
             yarn test
+      - codecov/upload:
+          file: ./packages/react/coverage/lcov.info
+          flags: react
+      - codecov/upload:
+          file: ./packages/react-hooks/coverage/lcov.info
+          flags: react-hooks
+      - codecov/upload:
+          file: ./packages/styled-system/coverage/lcov.info
+          flags: styled-system
+      - codecov/upload:
+          file: ./packages/theme/coverage/lcov.info
+          flags: theme
       - run:
           name: Compress build artifacts
           command: |
@@ -198,6 +223,18 @@ jobs:
             yarn build
             yarn eslint
             yarn test
+      - codecov/upload:
+          file: ./packages/react/coverage/lcov.info
+          flags: react
+      - codecov/upload:
+          file: ./packages/react-hooks/coverage/lcov.info
+          flags: react-hooks
+      - codecov/upload:
+          file: ./packages/styled-system/coverage/lcov.info
+          flags: styled-system
+      - codecov/upload:
+          file: ./packages/theme/coverage/lcov.info
+          flags: theme
       - run:
           name: Compress build artifacts
           command: |
