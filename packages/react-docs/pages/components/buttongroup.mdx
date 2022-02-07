@@ -347,7 +347,7 @@ function Example() {
 render(<Example />);
 ```
 
-### States
+### Group states
 
 The following example shows the different states when composing a button group.
 
@@ -369,22 +369,6 @@ function Example() {
   const ghostDividerColor = {
     dark: 'gray:60',
     light: 'gray:20',
-  }[colorMode];
-  const emphasisSelectedBackgroundColor = {
-    dark: 'red:80',
-    light: 'red:80',
-  }[colorMode];
-  const primarySelectedBackgroundColor = {
-    dark: 'blue:80',
-    light: 'blue:80',
-  }[colorMode];
-  const defaultSelectedBackgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  const defaultSelectedBorderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
   }[colorMode];
 
   const icons = ['chart-pie', 'chart-line', 'chart-table', 'chart-bar'];
@@ -430,7 +414,6 @@ function Example() {
               disabled={index === lastIconIndex}
               onClick={handleClick1(key)}
               selected={activeButton1 === key}
-              selectedColor={emphasisSelectedBackgroundColor}
               width="8x"
             >
               <Icon icon={key} />
@@ -448,7 +431,6 @@ function Example() {
               disabled={index === lastIconIndex}
               onClick={handleClick2(key)}
               selected={activeButton2 === key}
-              selectedColor={primarySelectedBackgroundColor}
               width="8x"
             >
               <Icon icon={key} />
@@ -466,7 +448,6 @@ function Example() {
               disabled={index === lastIconIndex}
               onClick={handleClick3(key)}
               selected={activeButton3 === key}
-              selectedColor={defaultSelectedBackgroundColor}
               width="8x"
             >
               <Icon icon={key} />
@@ -488,11 +469,9 @@ function Example() {
         {icons.map((key, index) => (
           <React.Fragment key={key}>
             <SelectableButton
-              borderColor={defaultSelectedBorderColor}
               disabled={index === lastIconIndex}
               onClick={handleClick4(key)}
               selected={activeButton4 === key}
-              selectedColor={defaultSelectedBackgroundColor}
               width="8x"
             >
               <Icon icon={key} />
@@ -514,16 +493,12 @@ function Example() {
               disabled={index === lastIconIndex}
               onClick={handleClick5(key)}
               selected={activeButton5 === key}
-              selectedColor={defaultSelectedBackgroundColor}
               width="8x"
             >
               <Icon icon={key} />
             </SelectableButton>
             {(index !== lastIconIndex) && (
-              <Divider
-                orientation="vertical"
-                borderColor={activeButton5 === key ? 'transparent' : ghostDividerColor}
-              />
+              <Divider orientation="vertical" color={ghostDividerColor} />
             )}
           </React.Fragment>
         ))}
@@ -535,7 +510,6 @@ function Example() {
               disabled={index === lastIconIndex}
               onClick={handleClick6(key)}
               selected={activeButton6 === key}
-              selectedColor={defaultSelectedBackgroundColor}
               variant="ghost"
               width="8x"
             >
