@@ -154,14 +154,14 @@ function Example() {
           }}
         >
           {['auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full'].map(value => (
-            <SelectableButton
+            <SelectButton
               key={value}
-              selected={value === size}
+              isSelected={value === size}
               onClick={changeSizeBy(value)}
               minWidth="15x"
             >
               {value}
-            </SelectableButton>
+            </SelectButton>
           ))}
         </ButtonGroup>
       </FormGroup>
@@ -180,14 +180,14 @@ function Example() {
           }}
         >
           {['auto', '100%'].map(value => (
-            <SelectableButton
+            <SelectButton
               key={value}
-              selected={value === height}
+              isSelected={value === height}
               onClick={changeHeightBy(value)}
               minWidth="15x"
             >
               {value}
-            </SelectableButton>
+            </SelectButton>
           ))}
         </ButtonGroup>
       </FormGroup>

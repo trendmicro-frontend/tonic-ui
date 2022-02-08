@@ -410,14 +410,14 @@ function Example() {
       <ButtonGroup variant="emphasis">
         {icons.map((key, index) => (
           <React.Fragment key={key}>
-            <SelectableButton
+            <SelectButton
               disabled={index === lastIconIndex}
               onClick={handleClick1(key)}
-              selected={activeButton1 === key}
+              isSelected={activeButton1 === key}
               width="8x"
             >
               <Icon icon={key} />
-            </SelectableButton>
+            </SelectButton>
             {(index !== lastIconIndex) && (
               <Divider orientation="vertical" color={emphasisDividerColor} />
             )}
@@ -427,14 +427,14 @@ function Example() {
       <ButtonGroup variant="primary">
         {icons.map((key, index) => (
           <React.Fragment key={key}>
-            <SelectableButton
+            <SelectButton
               disabled={index === lastIconIndex}
               onClick={handleClick2(key)}
-              selected={activeButton2 === key}
+              isSelected={activeButton2 === key}
               width="8x"
             >
               <Icon icon={key} />
-            </SelectableButton>
+            </SelectButton>
             {(index !== lastIconIndex) && (
               <Divider orientation="vertical" color={primaryDividerColor} />
             )}
@@ -444,14 +444,14 @@ function Example() {
       <ButtonGroup variant="default">
         {icons.map((key, index) => (
           <React.Fragment key={key}>
-            <SelectableButton
+            <SelectButton
               disabled={index === lastIconIndex}
               onClick={handleClick3(key)}
-              selected={activeButton3 === key}
+              isSelected={activeButton3 === key}
               width="8x"
             >
               <Icon icon={key} />
-            </SelectableButton>
+            </SelectButton>
             {(index !== lastIconIndex) && (
               <Divider orientation="vertical" color={defaultDividerColor} />
             )}
@@ -468,14 +468,14 @@ function Example() {
       >
         {icons.map((key, index) => (
           <React.Fragment key={key}>
-            <SelectableButton
+            <SelectButton
               disabled={index === lastIconIndex}
               onClick={handleClick4(key)}
-              selected={activeButton4 === key}
+              isSelected={activeButton4 === key}
               width="8x"
             >
               <Icon icon={key} />
-            </SelectableButton>
+            </SelectButton>
           </React.Fragment>
         ))}
       </ButtonGroup>
@@ -489,14 +489,14 @@ function Example() {
       >
         {icons.map((key, index) => (
           <React.Fragment key={key}>
-            <SelectableButton
+            <SelectButton
               disabled={index === lastIconIndex}
               onClick={handleClick5(key)}
-              selected={activeButton5 === key}
+              isSelected={activeButton5 === key}
               width="8x"
             >
               <Icon icon={key} />
-            </SelectableButton>
+            </SelectButton>
             {(index !== lastIconIndex) && (
               <Divider orientation="vertical" color={ghostDividerColor} />
             )}
@@ -506,15 +506,15 @@ function Example() {
       <Flex>
         {icons.map((key, index) => (
           <React.Fragment key={key}>
-            <SelectableButton
+            <SelectButton
               disabled={index === lastIconIndex}
               onClick={handleClick6(key)}
-              selected={activeButton6 === key}
+              isSelected={activeButton6 === key}
               variant="ghost"
               width="8x"
             >
               <Icon icon={key} />
-            </SelectableButton>
+            </SelectButton>
           </React.Fragment>
         ))}
       </Flex>
