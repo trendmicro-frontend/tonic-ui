@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
+const _find = require('lodash.find');
+const github = require('octonode');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers')
+
 const argv = yargs(hideBin(process.argv))
   .option('login-user', {
     demandOption: true,
@@ -29,9 +32,7 @@ const argv = yargs(hideBin(process.argv))
     description: 'The comment to create or update',
   })
   .argv;
-
-const github = require('octonode');
-const _find = require('lodash.find');
+const commentWithLineBreaks = String(argv.comment || '').replace('\\n', '\n');
 const client = github.client(process.env.GH_TOKEN);
 const ghissue = client.issue(`${argv.owner}/${argv.repo}`, argv.issueNumber);
 
@@ -45,7 +46,7 @@ ghissue.comments((err, result) => {
   const comment = _find(comments, { user: { login: argv.loginUser } });
 
   if (!comment) {
-    ghissue.createComment({ body: argv.comment }, (err, result) => {
+    ghissue.createComment({ body: commentWithLineBreaks }, (err, result) => {
       if (err) {
         console.error(err);
         return;
@@ -53,7 +54,7 @@ ghissue.comments((err, result) => {
       console.log(result);
     });
   } else {
-    ghissue.updateComment(comment.id, { body: argv.comment }, (err, result) => {
+    ghissue.updateComment(comment.id, { body: commentWithLineBreaks }, (err, result) => {
       if (err) {
         console.error(err);
         return;
