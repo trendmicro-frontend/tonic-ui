@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "github-issue-comment-bot",
+  "version": "1.0.0",
+  "bin": "index.js",
+  "dependencies": {
+    "lodash.find": "^4.6.0",
+    "octonode": "^0.10.2",
+    "yargs": "^17.3.1"
+  }
+}

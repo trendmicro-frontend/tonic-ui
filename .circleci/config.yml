@@ -179,6 +179,7 @@ jobs:
           root: .
           paths:
             - ci.tar.gz
+            - ci-tools
 
   build-tag:
     docker:
@@ -342,7 +343,8 @@ jobs:
             git commit -m "Deploy '${TONIC_UI_DOC_VERSION}' to '${TONIC_UI_DEMO_REPO_URL}'"
             git push -u ${TONIC_UI_DEMO_REPO_URL} gh-pages
             cd ..
-            npx --yes -- octokit-cli issues create-comment --owner trendmicro-frontend --repo tonic-ui --issue_number ${CI_PULL_REQUEST_NUMBER} --body "Successfully deployed ${CI_COMMIT} to ${TONIC_UI_DEMO_URL}/react/${TONIC_UI_DOC_VERSION}/"
+            yarn add file:./workspace/ci-tools/github-issue-comment-bot
+            npx github-issue-comment-bot --login-user trendmicro-frontend-bot --owner trendmicro-frontend --repo tonic-ui --issue-number ${CI_PULL_REQUEST_NUMBER} --comment "## Tonic UI\n${CI_COMMIT} has been deployed to ${TONIC_UI_DEMO_URL}/react/${TONIC_UI_DOC_VERSION}/"
 
   deploy-tag:
     docker:
