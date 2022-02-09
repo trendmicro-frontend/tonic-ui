@@ -18,7 +18,7 @@ import {
 import _get from 'lodash/get';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import pkg from '../../../package.json';
 import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from './FontAwesomeIcon';
@@ -66,18 +66,12 @@ const Header = forwardRef((
     return '';
   })();
   const theme = useTheme();
-  const [colorMode, setColorMode] = useColorMode();
+  const [colorMode, toggleColorMode] = useColorMode();
 
-  const toggleColorMode = () => {
-    const nextColorMode = {
-      'dark': 'light',
-      'light': 'dark',
-    }[colorMode];
+  useEffect(() => {
+    persistColorMode(colorMode);
+  }, [colorMode]);
 
-    setColorMode(nextColorMode);
-
-    persistColorMode(nextColorMode);
-  };
   const logo = {
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
@@ -104,6 +98,10 @@ const Header = forwardRef((
 
   const handleViewAllVersions = () => {
     router.push(`${ASSET_PREFIX}/getting-started/versions`);
+  };
+
+  const handleChangeColorMode = () => {
+    toggleColorMode();
   };
 
   const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor], backgroundColor), 0.7);
@@ -224,7 +222,7 @@ const Header = forwardRef((
             _hover={{
               cursor: 'pointer',
             }}
-            onClick={toggleColorMode}
+            onClick={handleChangeColorMode}
             display="inline-flex"
           >
             {colorMode === 'light' && (
