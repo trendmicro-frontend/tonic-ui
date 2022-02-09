@@ -204,7 +204,7 @@ const Sidebar = forwardRef((
                           textTransform="uppercase"
                           letterSpacing="0.08rem"
                           _firstOfType={{
-                            mt: 0,
+                            mt: '2x',
                           }}
                         >
                           {title}

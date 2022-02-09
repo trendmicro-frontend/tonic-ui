@@ -347,7 +347,9 @@ function Example() {
 render(<Example />);
 ```
 
-### Button states
+### Group states
+
+The following example shows the different states when composing a button group.
 
 ```jsx
 function Example() {
@@ -369,21 +371,14 @@ function Example() {
     light: 'gray:20',
   }[colorMode];
 
-  const emphasisSelectedColor = {
-    dark: 'red:80',
-    light: 'red:80',
-  }[colorMode];
-  const primarySelectedColor = {
-    dark: 'blue:80',
-    light: 'blue:80',
-  }[colorMode];
-
-  const [activeButton1, setActiveButton1] = React.useState('emphasis-chart-line');
-  const [activeButton2, setActiveButton2] = React.useState('primary-chart-line');
-  const [activeButton3, setActiveButton3] = React.useState('default-chart-line');
-  const [activeButton4, setActiveButton4] = React.useState('secondary-chart-line');
-  const [activeButton5, setActiveButton5] = React.useState('ghost-chart-line');
-  const [activeButton6, setActiveButton6] = React.useState('no-divider-ghost-chart-line');
+  const icons = ['chart-pie', 'chart-line', 'chart-table', 'chart-bar'];
+  const lastIconIndex = icons.length - 1;
+  const [activeButton1, setActiveButton1] = React.useState('chart-pie');
+  const [activeButton2, setActiveButton2] = React.useState('chart-pie');
+  const [activeButton3, setActiveButton3] = React.useState('chart-pie');
+  const [activeButton4, setActiveButton4] = React.useState('chart-pie');
+  const [activeButton5, setActiveButton5] = React.useState('chart-pie');
+  const [activeButton6, setActiveButton6] = React.useState('chart-pie');
 
   const handleClick1 = (button) => (e) => {
     setActiveButton1(button);
@@ -413,66 +408,55 @@ function Example() {
   return (
     <Stack spacing="3x">
       <ButtonGroup variant="emphasis">
-        {
-          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
-            const activeKey = `emphasis-${key}`;
-            return (
-              <React.Fragment key={key}>
-                <SelectableButton
-                  width="8x"
-                  selectedColor={emphasisSelectedColor}
-                  selected={activeButton1 === activeKey}
-                  onClick={handleClick1(activeKey)}
-                >
-                  <Icon icon={key} />
-                </SelectableButton>
-                <Divider orientation="vertical" color={emphasisDividerColor} />
-              </React.Fragment>
-            );
-          })
-        }
-        <Button width="8x" disabled><Icon icon="chart-bar" /></Button>
+        {icons.map((key, index) => (
+          <React.Fragment key={key}>
+            <SelectButton
+              disabled={index === lastIconIndex}
+              onClick={handleClick1(key)}
+              isSelected={activeButton1 === key}
+              width="8x"
+            >
+              <Icon icon={key} />
+            </SelectButton>
+            {(index !== lastIconIndex) && (
+              <Divider orientation="vertical" color={emphasisDividerColor} />
+            )}
+          </React.Fragment>
+        ))}
       </ButtonGroup>
       <ButtonGroup variant="primary">
-        {
-          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
-            const activeKey = `primary-${key}`;
-            return (
-              <React.Fragment key={key}>
-                <SelectableButton
-                  width="8x"
-                  selectedColor={primarySelectedColor}
-                  selected={activeButton2 === activeKey}
-                  onClick={handleClick2(activeKey)}
-                >
-                  <Icon icon={key} />
-                </SelectableButton>
-                <Divider orientation="vertical" color={primaryDividerColor} />
-              </React.Fragment>
-            );
-          })
-        }
-        <Button width="8x" disabled><Icon icon="chart-bar" /></Button>
+        {icons.map((key, index) => (
+          <React.Fragment key={key}>
+            <SelectButton
+              disabled={index === lastIconIndex}
+              onClick={handleClick2(key)}
+              isSelected={activeButton2 === key}
+              width="8x"
+            >
+              <Icon icon={key} />
+            </SelectButton>
+            {(index !== lastIconIndex) && (
+              <Divider orientation="vertical" color={primaryDividerColor} />
+            )}
+          </React.Fragment>
+        ))}
       </ButtonGroup>
-      <ButtonGroup>
-        {
-          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
-            const activeKey = `default-${key}`;
-            return (
-              <React.Fragment key={key}>
-                <SelectableButton
-                  width="8x"
-                  selected={activeButton3 === activeKey}
-                  onClick={handleClick3(activeKey)}
-                >
-                  <Icon icon={key} />
-                </SelectableButton>
-                <Divider orientation="vertical" color={defaultDividerColor} />
-              </React.Fragment>
-            );
-          })
-        }
-        <Button width="8x" disabled><Icon icon="chart-bar" /></Button>
+      <ButtonGroup variant="default">
+        {icons.map((key, index) => (
+          <React.Fragment key={key}>
+            <SelectButton
+              disabled={index === lastIconIndex}
+              onClick={handleClick3(key)}
+              isSelected={activeButton3 === key}
+              width="8x"
+            >
+              <Icon icon={key} />
+            </SelectButton>
+            {(index !== lastIconIndex) && (
+              <Divider orientation="vertical" color={defaultDividerColor} />
+            )}
+          </React.Fragment>
+        ))}
       </ButtonGroup>
       <ButtonGroup
         variant="secondary"
@@ -482,22 +466,18 @@ function Example() {
           }
         }}
       >
-        {
-          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
-            const activeKey = `secondary-${key}`;
-            return (
-              <SelectableButton
-                key={key}
-                width="8x"
-                selected={activeButton4 === activeKey}
-                onClick={handleClick4(activeKey)}
-              >
-                <Icon icon={key} />
-              </SelectableButton>
-            );
-          })
-        }
-        <Button width="8x" disabled><Icon icon="chart-bar" /></Button>
+        {icons.map((key, index) => (
+          <React.Fragment key={key}>
+            <SelectButton
+              disabled={index === lastIconIndex}
+              onClick={handleClick4(key)}
+              isSelected={activeButton4 === key}
+              width="8x"
+            >
+              <Icon icon={key} />
+            </SelectButton>
+          </React.Fragment>
+        ))}
       </ButtonGroup>
       <ButtonGroup
         variant="ghost"
@@ -507,45 +487,37 @@ function Example() {
           }
         }}
       >
-        {
-          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
-            const activeKey = `ghost-${key}`;
-            return (
-              <React.Fragment key={key}>
-                <SelectableButton
-                  width="8x"
-                  selected={activeButton5 === activeKey}
-                  onClick={handleClick5(activeKey)}
-                >
-                  <Icon icon={key} />
-                </SelectableButton>
-                <Divider orientation="vertical" color={ghostDividerColor} />
-              </React.Fragment>
-            );
-          })
-        }
-        <Button width="8x" disabled><Icon icon="chart-bar" /></Button>
+        {icons.map((key, index) => (
+          <React.Fragment key={key}>
+            <SelectButton
+              disabled={index === lastIconIndex}
+              onClick={handleClick5(key)}
+              isSelected={activeButton5 === key}
+              width="8x"
+            >
+              <Icon icon={key} />
+            </SelectButton>
+            {(index !== lastIconIndex) && (
+              <Divider orientation="vertical" color={ghostDividerColor} />
+            )}
+          </React.Fragment>
+        ))}
       </ButtonGroup>
-      <Box>
-        {
-          ['chart-pie', 'chart-line', 'chart-table'].map((key, index) => {
-            const activeKey = `no-divider-ghost-${key}`;
-            return (
-              <React.Fragment key={key}>
-                <SelectableButton
-                  variant="ghost"
-                  width="8x"
-                  selected={activeButton6 === activeKey}
-                  onClick={handleClick6(activeKey)}
-                >
-                  <Icon icon={key} />
-                </SelectableButton>
-              </React.Fragment>
-            );
-          })
-        }
-        <Button variant="ghost" width="8x" disabled><Icon icon="chart-bar" /></Button>
-      </Box>
+      <Flex>
+        {icons.map((key, index) => (
+          <React.Fragment key={key}>
+            <SelectButton
+              disabled={index === lastIconIndex}
+              onClick={handleClick6(key)}
+              isSelected={activeButton6 === key}
+              variant="ghost"
+              width="8x"
+            >
+              <Icon icon={key} />
+            </SelectButton>
+          </React.Fragment>
+        ))}
+      </Flex>
     </Stack>
   );
 }
