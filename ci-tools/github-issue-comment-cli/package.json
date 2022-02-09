@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "github-issue-comment-bot",
+  "name": "github-issue-comment-cli",
   "version": "1.0.0",
   "bin": "index.js",
   "dependencies": {

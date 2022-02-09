@@ -32,7 +32,7 @@ const argv = yargs(hideBin(process.argv))
     description: 'The comment to create or update',
   })
   .argv;
-const commentWithLineBreaks = String(argv.comment || '').replace('\\n', '\n');
+const commentWithLineBreaks = String(argv.comment || '').replace(/\\n/g, '\n');
 const client = github.client(process.env.GH_TOKEN);
 const ghissue = client.issue(`${argv.owner}/${argv.repo}`, argv.issueNumber);
 
