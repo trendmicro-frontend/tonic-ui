@@ -49,7 +49,6 @@ const Tooltip = forwardRef((
     onClose: onCloseProp,
     onOpen: onOpenProp,
     placement = 'bottom',
-    usePortal = false, // Pass `true` if you want to render tooltip in a portal
     ...rest
   },
   ref,
@@ -181,7 +180,7 @@ const Tooltip = forwardRef((
           pointerEvents="none"
           arrowSize={arrowSize}
           unmountOnExit={true}
-          usePortal={usePortal}
+          usePortal={false} // Pass `true` in `PopperProps` to render tooltip in a portal
           willUseTransition={true}
           zIndex="tooltip"
           {...PopperProps}

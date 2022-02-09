@@ -44,6 +44,7 @@ import _get from 'lodash/get';
 import NextLink from 'next/link';
 import React, { forwardRef } from 'react';
 import pkg from '../../../package.json';
+import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from '../components/FontAwesomeIcon';
 import SkeletonBody from '../components/SkeletonBody';
 
@@ -382,7 +383,10 @@ const Header = forwardRef((props, ref) => {
       'dark': 'light',
       'light': 'dark',
     }[colorMode];
+
     setColorMode(nextColorMode);
+
+    persistColorMode(nextColorMode);
   };
   const logo = {
     light: 'tonic-logo-light.svg',

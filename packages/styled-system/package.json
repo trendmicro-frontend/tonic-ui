@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=cjs babel --root-mode upward src --out-dir build --ignore='**/*.test.js'",
-    "clean": "del build dist",
+    "clean": "del build coverage dist",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "yarn run eslint",

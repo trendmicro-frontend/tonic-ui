@@ -1,6 +1,12 @@
+import { Box, Text } from '@tonic-ui/react';
+
 # Migration From v0.x to v1
 
-⚠️ This is the Tonic UI migration guide for upgrading from v0.x to v1. You have to consider whether you will do the upgrade if the breaking changes are not acceptable to you at the moment. A proper way for the migration is to make v0.x and v1 coexist for a while, then remove v0.x packages once you have finished the migration.
+<Box mb="4x">
+  <Text fontSize="lg" lineHeight="lg">
+    ⚠️ This is the Tonic UI migration guide for upgrading from v0.x to v1. You have to consider whether you will do the upgrade if the breaking changes are not acceptable to you at the moment. A proper way for the migration is to make v0.x and v1 coexist for a while, then remove v0.x packages once you have finished the migration.
+  </Text>
+</Box>
 
 ## Upgrade Steps
 
@@ -13,8 +19,7 @@
 "dependencies": {
 - "@trendmicro/react-styled-ui": "0.x",
 - "@trendmicro/styled-ui-theme": "0.x",
-+ "@tonic-ui/react": "^1.0.0",
-+ "@tonic-ui/theme": "^1.0.0"
++ "@tonic-ui/react": "^1.0.0-alpha"
 }
 ```
 
@@ -24,8 +29,7 @@ To make v0.x and v1 coexist, do the following:
 "dependencies": {
   "@trendmicro/react-styled-ui": "0.x",
   "@trendmicro/styled-ui-theme": "0.x",
-+ "@tonic-ui/react": "^1.0.0",
-+ "@tonic-ui/theme": "^1.0.0"
++ "@tonic-ui/react": "^1.0.0-alpha"
 }
 ```
 

@@ -21,7 +21,7 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 import IconButton from './IconButton';
 import Lorem from './Lorem';
-import SelectableButton from './SelectableButton';
+import SelectButton from './SelectButton';
 import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
 
@@ -167,7 +167,7 @@ const CodeBlock = ({
       EditableTag,
       FontAwesomeIcon,
       Lorem,
-      SelectableButton,
+      SelectButton,
       SkeletonBody,
       SkeletonContent,
       css,
