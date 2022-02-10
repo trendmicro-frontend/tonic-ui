@@ -3,6 +3,7 @@ import _get from 'lodash.get';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import { setColorWithOpacity } from '../utils/colors';
+import { createTransitionStyle, transitionEasing } from '../utils/transitions';
 
 // Default Button
 const defaultVariantProps = (props) => {
@@ -207,7 +208,6 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
     __before: {
       content: '""',
       display: 'inline-flex',
-      transition: 'all 150ms, background-color 250ms',
       borderRadius: innerRadius,
       zIndex: -1,
       position: 'absolute',
@@ -317,13 +317,16 @@ const useButtonStyle = props => {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 250ms',
     appearance: 'none',
     userSelect: 'none',
     whiteSpace: 'nowrap',
     border: 1,
     zIndex: 0,
     position: 'relative',
+    transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], {
+      duration: 250,
+      easing: transitionEasing.easeInOut,
+    }),
   };
 
   return {
