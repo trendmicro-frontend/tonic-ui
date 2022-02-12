@@ -1,5 +1,5 @@
 import memoize from 'micro-memoize';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import noop from '../utils/noop';
 import { ColorModeContext } from './context';
 import canUseDOM from '../utils/dom/canUseDOM';
@@ -11,6 +11,14 @@ const ensureColorMode = (colorMode) => {
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
+const colorModeReducer = (state, nextValue) => {
+  if (nextValue === undefined) {
+    const colorMode = state;
+    return colorMode === 'dark' ? 'light' : 'dark';
+  }
+  return ensureColorMode(nextValue);
+};
+
 const ColorModeProvider = ({
   children,
   defaultValue: defaultValueProp,
@@ -19,19 +27,19 @@ const ColorModeProvider = ({
   useSystemColorMode,
 }) => {
   const defaultColorMode = (defaultValueProp === 'dark') ? 'dark' : 'light';
-  const [colorMode, setColorMode] = useState(ensureColorMode(valueProp ?? defaultColorMode));
+  const [colorMode, setColorMode] = useReducer(colorModeReducer, ensureColorMode(valueProp ?? defaultColorMode));
 
   useEffect(() => {
     if (valueProp !== undefined) {
-      setColorMode(ensureColorMode(valueProp));
+      setColorMode(valueProp);
     }
   }, [valueProp]);
 
   const onChange = useCallback((nextValue) => {
     if (valueProp !== undefined) {
-      setColorMode(ensureColorMode(valueProp));
+      setColorMode(valueProp);
     } else {
-      setColorMode(ensureColorMode(nextValue));
+      setColorMode(nextValue);
     }
     if (typeof onChangeProp === 'function') {
       onChangeProp(nextValue); // Pass original value to the onChange callback

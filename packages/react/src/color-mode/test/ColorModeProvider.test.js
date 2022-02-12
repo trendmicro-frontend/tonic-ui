@@ -7,37 +7,54 @@ import useColorMode from '../useColorMode';
 import * as colorModeUtils from '../utils';
 import './matchMedia.mock';
 
-const getToggleColorModeButton = () => {
-  return screen.getByRole('button');
-};
-
-const TestApp = () => {
-  const [colorMode, setColorMode] = useColorMode();
-  const toggleColorMode = () => {
-    setColorMode(colorMode === 'light' ? 'dark' : 'light');
-  };
-  return (
-    <button type="button" onClick={toggleColorMode}>
-      {colorMode}
-    </button>
-  );
-};
-
 describe('<ColorModeProvider />', () => {
-  test('toggle color mode', () => {
+  test('toggle color mode using a toggle button', () => {
+    const ToggleColorModeApp = () => {
+      const [colorMode, setColorMode] = useColorMode();
+      const toggleColorMode = () => {
+        setColorMode(colorMode === 'light' ? 'dark' : 'light');
+      };
+      return (
+        <button type="button" onClick={toggleColorMode}>
+          {colorMode}
+        </button>
+      );
+    };
+
     render(
       <ColorModeProvider
         defaultValue="light"
       >
-        <TestApp />
+        <ToggleColorModeApp />
       </ColorModeProvider>,
     );
 
-    expect(getToggleColorModeButton()).toHaveTextContent('light');
+    const toggleColorModeButton = screen.getByRole('button');
+    expect(toggleColorModeButton).toHaveTextContent('light');
+    userEvent.click(toggleColorModeButton);
+    expect(toggleColorModeButton).toHaveTextContent('dark');
+  });
 
-    userEvent.click(getToggleColorModeButton());
+  test('toggle color mode using the toggle function', () => {
+    const WrapperComponent = ({ children }) => {
+      return (
+        <ColorModeProvider
+          defaultValue="light"
+        >
+          {children}
+        </ColorModeProvider>
+      );
+    };
+    const { result } = renderHook(() => useColorMode(), { wrapper: WrapperComponent });
 
-    expect(getToggleColorModeButton()).toHaveTextContent('dark');
+    expect(result.current[0]).toEqual('light');
+
+    act(() => {
+      const toggleColorMode = result.current[1];
+      toggleColorMode();
+    });
+
+    expect(result.current[0]).toEqual('dark');
   });
 
   test('prefer useSystemColorMode over defaultValue', () => {
@@ -45,21 +62,23 @@ describe('<ColorModeProvider />', () => {
       .spyOn(colorModeUtils, 'getColorScheme')
       .mockReturnValueOnce('dark');
     const onChange = jest.fn();
-
-    render(
-      <ColorModeProvider
-        defaultValue="light"
-        onChange={onChange}
-        useSystemColorMode
-      >
-        <TestApp />
-      </ColorModeProvider>,
-    );
+    const WrapperComponent = ({ children }) => {
+      return (
+        <ColorModeProvider
+          defaultValue="light"
+          onChange={onChange}
+          useSystemColorMode
+        >
+          {children}
+        </ColorModeProvider>
+      );
+    };
+    const { result } = renderHook(() => useColorMode(), { wrapper: WrapperComponent });
 
     expect(getColorSchemeSpy).toHaveBeenCalledWith('light');
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith('dark');
-    expect(getToggleColorModeButton()).toHaveTextContent('dark');
+    expect(result.current[0]).toEqual('dark');
   });
 
   test('controlled color mode cannot be changed', () => {
