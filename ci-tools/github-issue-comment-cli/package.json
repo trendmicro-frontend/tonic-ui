@@ -2,7 +2,7 @@
   "private": true,
   "name": "github-issue-comment-cli",
   "version": "1.0.0",
-  "bin": "index.js",
+  "bin": "./bin/cli.js",
   "dependencies": {
     "lodash.find": "^4.6.0",
     "octonode": "^0.10.2",

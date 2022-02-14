@@ -1,6 +1,7 @@
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import { setColorWithOpacity } from '../utils/colors';
+import { createTransitionStyle, transitionEasing } from '../utils/transitions';
 
 // Solid Button
 const solidVariantProps = ({ color = 'gray', theme: { colors } }) => {
@@ -101,7 +102,10 @@ const baseProps = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'all 250ms',
+  transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], {
+    duration: 250,
+    easing: transitionEasing.easeInOut,
+  }),
   appearance: 'none',
   userSelect: 'none',
   verticalAlign: 'middle',
