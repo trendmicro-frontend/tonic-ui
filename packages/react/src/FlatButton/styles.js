@@ -1,3 +1,4 @@
+import { createTransitionStyle, transitionEasing } from '../shared/transitions';
 import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
@@ -101,7 +102,10 @@ const baseProps = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'all 250ms',
+  transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], {
+    duration: 250,
+    easing: transitionEasing.easeInOut,
+  }),
   appearance: 'none',
   userSelect: 'none',
   verticalAlign: 'middle',

@@ -1,5 +1,6 @@
 import _get from 'lodash.get';
 import { cx } from '../shared/styled-system';
+import { createTransitionStyle, transitionEasing } from '../shared/transitions';
 import { setColorWithOpacity } from '../theme/colors';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
@@ -207,7 +208,6 @@ const fillColorVariantProps = ({ borderRadius, color, colorMode, theme: { colors
     __before: {
       content: '""',
       display: 'inline-block',
-      transition: 'all 150ms, background-color 250ms',
       borderRadius: innerRadius,
       zIndex: -1,
       position: 'absolute',
@@ -313,7 +313,10 @@ const baseProps = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'all 250ms',
+  transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], {
+    duration: 250,
+    easing: transitionEasing.easeInOut,
+  }),
   appearance: 'none',
   userSelect: 'none',
   whiteSpace: 'nowrap',
