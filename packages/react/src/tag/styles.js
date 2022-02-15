@@ -11,7 +11,7 @@ const labelSizes = {
     fontSize: 'xs',
     lineHeight: 'xs',
     minHeight: '6x',
-    py: 2,
+    py: '1h',
   },
   lg: {
     fontSize: 'md',
