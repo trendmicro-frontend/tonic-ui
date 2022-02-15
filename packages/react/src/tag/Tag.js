@@ -9,10 +9,11 @@ import TagCloseButton from './TagCloseButton';
 const Tag = forwardRef((
   {
     isCloseButtonVisible, // deprecated
+    variantColor: variantColorProp, // deprecated
+
     borderRadius = 'sm',
     size = 'md',
     variant = 'solid',
-    variantColor = 'gray',
     isInvalid,
     isClosable = false,
     disabled,
@@ -32,17 +33,23 @@ const Tag = forwardRef((
         willRemove: true,
       });
     }
+
+    if (variantColorProp !== undefined) {
+      warnDeprecatedProps('variantColor', {
+        prefix,
+        alternative: 'backgroundColor',
+        willRemove: true,
+      });
+    }
   }, true); // TODO: check if `when` is true for each prop
 
   isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const canFocus = isClosable;
   const tagStyleProps = useTagStyle({
-    color: variantColor,
-    size,
-    variant,
     canFocus,
     isClosable,
-    borderRadius,
+    size,
+    variant,
   });
 
   return (
@@ -63,7 +70,7 @@ const Tag = forwardRef((
           borderRadius={borderRadius}
           disabled={disabled}
           onClick={onClose}
-          tabIndex="-1"
+          tabIndex="-1" // no focus on close button
         >
           <Icon icon="close-s" />
         </TagCloseButton>

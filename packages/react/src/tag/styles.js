@@ -1,268 +1,5 @@
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
-import { setColorWithOpacity } from '../utils/colors';
-
-const solidStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
-  const undefinedColor = {
-    dark: {
-      bg: `${color}:80`,
-      color: `${color}:20`,
-    },
-    light: {
-      bg: `${color}:80`,
-      color: `${color}:20`,
-    }
-  }[colorMode];
-  const solidColors = {
-    dark: {
-      gray: {
-        bg: 'gray:70',
-        color: 'gray:20'
-      },
-      red: {
-        bg: 'red:80',
-        color: 'red:20'
-      },
-      magenta: {
-        bg: 'magenta:80',
-        color: 'magenta:20'
-      },
-      purple: {
-        bg: 'purple:80',
-        color: 'purple:20'
-      },
-      blue: {
-        bg: 'blue:80',
-        color: 'blue:20'
-      },
-      green: {
-        bg: 'green:70',
-        color: 'green:20'
-      },
-      teal: {
-        bg: 'teal:70',
-        color: 'teal:20'
-      },
-      cyan: {
-        bg: 'cyan:70',
-        color: 'cyan:20'
-      },
-    },
-    light: {
-      gray: {
-        bg: 'gray:70',
-        color: 'gray:20'
-      },
-      red: {
-        bg: 'red:80',
-        color: 'red:20'
-      },
-      magenta: {
-        bg: 'magenta:80',
-        color: 'magenta:20'
-      },
-      purple: {
-        bg: 'purple:80',
-        color: 'purple:20'
-      },
-      blue: {
-        bg: 'blue:80',
-        color: 'blue:20'
-      },
-      green: {
-        bg: 'green:70',
-        color: 'green:20'
-      },
-      teal: {
-        bg: 'teal:70',
-        color: 'teal:20'
-      },
-      cyan: {
-        bg: 'cyan:70',
-        color: 'cyan:20'
-      },
-    }
-  }[colorMode];
-
-  const baseColors = solidColors[color] || undefinedColor;
-
-  const focusColor = {
-    dark: colors['blue:60'],
-    light: colors['blue:60'],
-  }[colorMode];
-  const disabledBgColor = {
-    dark: 'gray:70',
-    light: 'gray:70',
-  }[colorMode];
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
-  const invalidBgColor = {
-    dark: 'red:60',
-    light: 'red:60',
-  }[colorMode];
-  const invalidColor = {
-    dark: 'white:emphasis',
-    light: 'white:emphasis',
-  }[colorMode];
-
-  const styles = {
-    ...baseColors,
-    ...(canFocus) && {
-      _focus: {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 1px ${focusColor}`,
-        bg: 'inherit',
-        zIndex: 1,
-        '&::before': {
-          top: '2px',
-          bottom: '2px',
-          left: '2px',
-          right: '2px',
-          bg: baseColors.bg
-        },
-      },
-    },
-    _invalid: {
-      bg: invalidBgColor,
-      color: invalidColor,
-      ...(canFocus) && {
-        '&:focus': {
-          borderColor: focusColor,
-          boxShadow: `inset 0 0 0 1px ${focusColor}`,
-          bg: 'inherit',
-          '&::before': {
-            top: '2px',
-            bottom: '2px',
-            left: '2px',
-            right: '2px',
-            bg: invalidBgColor
-          },
-        },
-      },
-    },
-    _disabled: {
-      borderColor: 'transparent', // override focus style
-      boxShadow: 'none', // override focus style
-      bg: disabledBgColor,
-      '&::before': {
-        bg: 'inherit',
-      },
-      cursor: 'not-allowed',
-      opacity: disabledOpacity,
-    },
-  };
-  return styles;
-};
-
-const outlineStyle = ({ color, colorMode, canFocus, theme: { colors } }) => {
-  const undefinedColor = {
-    dark: {
-      borderColor: `${color}:50`,
-      color: `${color}:50`,
-    },
-    light: {
-      borderColor: `${color}:50`,
-      color: `${color}:50`,
-    }
-  }[colorMode];
-  const outlineColors = {
-    dark: {
-      gray: {
-        borderColor: 'gray:50',
-        color: 'gray:40'
-      },
-    },
-    light: {
-      gray: {
-        borderColor: 'gray:50',
-        color: 'gray:40'
-      },
-    }
-  }[colorMode];
-
-  const baseColors = outlineColors[color] || undefinedColor;
-
-  const focusColor = {
-    dark: colors['blue:60'],
-    light: colors['blue:60'],
-  }[colorMode];
-  const disabledBorderColor = {
-    dark: 'gray:70',
-    light: 'gray:70',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
-  const invalidBgColor = {
-    dark: 'red:60',
-    light: 'red:60',
-  }[colorMode];
-  const invalidColor = {
-    dark: 'white:emphasis',
-    light: 'white:emphasis',
-  }[colorMode];
-
-  const styles = {
-    ...baseColors,
-    ...(canFocus) && {
-      _focus: {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 1px ${focusColor}`,
-        zIndex: 1,
-      },
-    },
-    _invalid: {
-      borderColor: 'transparent',
-      bg: invalidBgColor,
-      color: invalidColor,
-      ...(canFocus) && {
-        '&:focus': {
-          borderColor: focusColor,
-          boxShadow: `inset 0 0 0 1px ${focusColor}`,
-          bg: 'inherit',
-          '&::before': {
-            top: '2px',
-            bottom: '2px',
-            left: '2px',
-            right: '2px',
-            bg: invalidBgColor
-          },
-        },
-      },
-    },
-    _disabled: {
-      borderColor: disabledBorderColor,
-      boxShadow: 'none',
-      color: disabledColor,
-      cursor: 'not-allowed',
-      opacity: disabledOpacity,
-    },
-  };
-
-  return styles;
-};
-
-const variantProps = props => {
-  const variant = props.variant;
-
-  switch (variant) {
-  case 'solid':
-    return solidStyle(props);
-  case 'outline':
-    return outlineStyle(props);
-  default:
-    return {};
-  }
-};
-
-////////////////////////////////////////////////////////////
 
 const labelSizes = {
   sm: {
@@ -274,13 +11,13 @@ const labelSizes = {
     fontSize: 'xs',
     lineHeight: 'xs',
     minHeight: '6x',
-    py: 2
+    py: 2,
   },
   lg: {
     fontSize: 'md',
     lineHeight: 'md',
     minHeight: '8x',
-    py: '1x'
+    py: '1x',
   },
 };
 
@@ -290,62 +27,260 @@ const closeButtonSizes = {
   lg: '8x',
 };
 
-const sizeProps = ({ size, isClosable, theme: { sizes } }) => {
-  const space = sizes['1x'];
-  const closeButtonSize = sizes[closeButtonSizes[size]];
-  const pr = isClosable
-    ? `calc(${space} + ${closeButtonSize})`
-    : '2x';
+const getSolidTagStyle = ({
+  canFocus,
+  colorMode,
+  theme,
+}) => {
+  // Normal
+  const backgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:20',
+  }[colorMode];
+  const color = {
+    dark: 'gray:20',
+    light: 'black:emphasis',
+  }[colorMode];
+  // Hover
+  const hoverBackgroundColor = {
+    dark: 'gray:60',
+    light: 'gray:10',
+  }[colorMode];
+  // Focus
+  const focusColor = {
+    dark: theme?.colors?.['blue:60'],
+    light: theme?.colors?.['blue:60'],
+  }[colorMode];
+  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
+  const boxShadowColor = {
+    dark: theme?.colors?.['black:emphasis'],
+    light: theme?.colors?.['white:emphasis'],
+  }[colorMode];
+  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
+  // Disable
+  const disabledOpacity = {
+    dark: 0.28,
+    light: 0.3,
+  }[colorMode];
+  // Invalid
+  const invalidBackgroundColor = {
+    dark: 'red:60',
+    light: 'red:20',
+  }[colorMode];
+  const hoverInvalidBackgroundColor = {
+    dark: 'red:50',
+    light: 'red:10',
+  }[colorMode];
+  const invalidColor = {
+    dark: 'white:emphasis',
+    light: 'red:100',
+  }[colorMode];
+
+  const tagStateStyle = {
+    _focus: {
+      '&:not([disabled])': {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
+      },
+    },
+    _hover: {
+      '&:not([disabled])': {
+        backgroundColor: hoverBackgroundColor,
+      },
+    },
+    _invalid: {
+      backgroundColor: invalidBackgroundColor,
+      color: invalidColor,
+      '&:not([disabled]):hover': {
+        backgroundColor: hoverInvalidBackgroundColor,
+        color: invalidColor,
+      },
+    },
+    _disabled: {
+      cursor: 'not-allowed',
+      opacity: disabledOpacity,
+    },
+  };
+
+  return {
+    backgroundColor,
+    color,
+    ...(canFocus && tagStateStyle),
+  };
+};
+
+const getOutlineTagStyle = ({
+  canFocus,
+  colorMode,
+  theme,
+}) => {
+  // Normal
+  const borderColor = {
+    dark: 'gray:40',
+    light: 'gray:60',
+  }[colorMode];
+  const color = {
+    dark: 'gray:40',
+    light: 'gray:60',
+  }[colorMode];
+  // Hover
+  const hoverBorderColor = {
+    dark: 'gray:30',
+    light: 'gray:50',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'gray:30',
+    light: 'gray:50',
+  }[colorMode];
+  // Focus
+  const focusColor = {
+    dark: theme?.colors?.['blue:60'],
+    light: theme?.colors?.['blue:60'],
+  }[colorMode];
+  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
+  const boxShadowColor = {
+    dark: theme?.colors?.['black:emphasis'],
+    light: theme?.colors?.['white:emphasis'],
+  }[colorMode];
+  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
+  // Disable
+  const disabledOpacity = {
+    dark: 0.28,
+    light: 0.3,
+  }[colorMode];
+  // Invalid
+  const invalidBackgroundColor = {
+    dark: 'red:60',
+    light: 'red:20',
+  }[colorMode];
+  const hoverInvalidBackgroundColor = {
+    dark: 'red:50',
+    light: 'red:10',
+  }[colorMode];
+  const invalidColor = {
+    dark: 'white:emphasis',
+    light: 'red:100',
+  }[colorMode];
+
+  const tagStateStyle = {
+    _focus: {
+      '&:not([disabled])': {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
+      },
+    },
+    _hover: {
+      '&:not([disabled])': {
+        borderColor: hoverBorderColor,
+        color: hoverColor,
+      },
+    },
+    _focusHover: {
+      '&:not([disabled])': {
+        borderColor: focusColor,
+        color: hoverColor,
+      },
+    },
+    _invalid: {
+      borderColor: invalidBackgroundColor,
+      backgroundColor: invalidBackgroundColor,
+      color: invalidColor,
+      '&:not([disabled]):hover': {
+        borderColor: hoverInvalidBackgroundColor,
+        backgroundColor: hoverInvalidBackgroundColor,
+        color: invalidColor,
+      },
+      '&:not([disabled]):focus': {
+        borderColor: focusColor,
+      },
+    },
+    _disabled: {
+      cursor: 'not-allowed',
+      opacity: disabledOpacity,
+    },
+  };
+
+  return {
+    borderColor,
+    color,
+    ...(canFocus && tagStateStyle),
+  };
+};
+
+const getSizeProps = ({
+  isClosable,
+  size,
+  theme,
+}) => {
+  const space = theme?.sizes?.['1x'];
+  const closeButtonSize = theme?.sizes?.[closeButtonSizes[size]];
   return {
     ...labelSizes[size],
     pl: '2x',
-    pr: pr,
+    pr: isClosable ? `calc(${space} + ${closeButtonSize})` : '2x',
   };
 };
 
-////////////////////////////////////////////////////////////
-
-const baseProps = {
-  alignItems: 'center',
-  border: 1,
-  borderColor: 'transparent',
-  cursor: 'default',
-  display: 'inline-flex',
-  position: 'relative',
-  outline: 'none',
-};
-
-const useTagStyle = ({ borderRadius, ...props }) => {
-  const theme = useTheme();
+const useTagStyle = ({
+  canFocus,
+  isClosable,
+  size,
+  variant,
+}) => {
   const [colorMode] = useColorMode();
-  const _props = { ...props, theme, colorMode };
+  const theme = useTheme();
+  const baseStyle = {
+    alignItems: 'center',
+    border: 1,
+    borderColor: 'transparent',
+    cursor: 'default',
+    display: 'inline-flex',
+    position: 'relative',
+    outline: 'none',
+  };
+  const variantStyle = {
+    'solid': getSolidTagStyle({
+      canFocus,
+      colorMode,
+      theme,
+    }),
+    'outline': getOutlineTagStyle({
+      canFocus,
+      colorMode,
+      theme,
+    }),
+  }[variant];
+  const sizeProps = getSizeProps({
+    isClosable,
+    size,
+    theme
+  });
+
   return {
-    ...baseProps,
-    __before: {
-      content: '""',
-      display: 'inline-flex',
-      borderRadius: borderRadius,
-      zIndex: -1,
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-    },
-    ...sizeProps(_props),
-    ...variantProps(_props),
+    ...baseStyle,
+    ...sizeProps,
+    ...variantStyle,
   };
 };
 
-////////////////////////////////////////////////////////////
-
-const useTagCloseButtonStyle = ({ size }) => {
-  const color = setColorWithOpacity('white', 0.6);
-  const hoverColor = 'white';
+const useTagCloseButtonStyle = ({
+  size,
+}) => {
+  const [colorMode] = useColorMode();
+  const color = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
   const activeColor = color;
+  const disabledColor = color;
   const _size = closeButtonSizes[size];
 
   return {
+    backgroundColor: 'transparent',
     position: 'absolute',
     right: 0,
     color: color,
@@ -359,9 +294,8 @@ const useTagCloseButtonStyle = ({ size }) => {
       color: activeColor,
     },
     _disabled: {
-      color: 'white',
+      color: disabledColor,
       cursor: 'not-allowed',
-      opacity: 0.28,
     },
   };
 };
