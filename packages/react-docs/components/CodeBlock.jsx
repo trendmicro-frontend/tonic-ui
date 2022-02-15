@@ -17,7 +17,6 @@ import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import Code from './Code';
 import FontAwesomeIcon from './FontAwesomeIcon';
-import EditableTag from './EditableTag';
 import IconButton from './IconButton';
 import Lorem from './Lorem';
 import SelectButton from './SelectButton';
@@ -162,7 +161,6 @@ const CodeBlock = ({
       ...reactHooks,
       ...thirdPartyComponents,
       Code,
-      EditableTag,
       FontAwesomeIcon,
       Lorem,
       SelectButton,
