@@ -190,8 +190,8 @@ const getOutlineTagStyle = ({
         backgroundColor: hoverInvalidBackgroundColor,
         color: invalidColor,
       },
-      '&:not([disabled]):focus': {
-        borderColor: focusColor,
+      '&:not([disabled]):focus:hover': {
+        color: invalidColor,
       },
     },
     _disabled: {
