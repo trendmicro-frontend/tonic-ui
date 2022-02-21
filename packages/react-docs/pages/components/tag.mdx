@@ -740,32 +740,10 @@ const Tags = () => {
             const id = tag.id;
             const value = tag.value;
             const error = tag.error;
-            if (error) {
-              return (
-                <Popover hideArrow key={id} trigger="hover">
-                  <PopoverTrigger verticalAlign="top">
-                    <TagEditor
-                      isInvalid
-                      mr="2x"
-                      mt="1x"
-                      tagId={id}
-                      onClick={handleTagEditorClick}
-                      onClose={handleTagEditorClose}
-                      onFocus={handleTagEditorFocus}
-                      onUpdate={updateTag}
-                    >
-                      {value}
-                    </TagEditor>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <PopoverBody>{error}</PopoverBody>
-                  </PopoverContent>
-                </Popover>
-              );
-            }
             return (
               <TagEditor
                 key={id}
+                isInvalid={!!error}
                 verticalAlign="top"
                 mr="2x"
                 mt="1x"
