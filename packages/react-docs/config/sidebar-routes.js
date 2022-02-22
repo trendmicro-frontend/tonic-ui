@@ -141,7 +141,7 @@ const routes = [
       { title: 'ButtonLink 🚧', path: 'components/buttonlink' },
       { title: 'Menu', path: 'components/menu' },
       { title: 'Pagination', path: 'components/pagination' },
-      //{ title: 'Tabs', path: 'components/tabs' }, // TODO
+      { title: 'Tabs', path: 'components/tabs' },
 
       { title: 'TRANSITIONS', heading: true },
       { title: 'Transitions', path: 'components/transitions' },
