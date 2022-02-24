@@ -9,7 +9,6 @@ import wrapEvent from '../utils/wrapEvent';
 import { useTabStyle } from './styles';
 import useTabs from './useTabs';
 
-const defaultVariant = 'default';
 const isIndexEqual = (index1, index2) => !isNullOrUndefined(index1) && !isNullOrUndefined(index2) && (index1 === index2);
 
 const Tab = forwardRef((
@@ -25,24 +24,20 @@ const Tab = forwardRef((
 ) => {
   const [index, setIndex] = useState(indexProp);
   const context = useTabs();
-  const isActive = isIndexEqual(index, context?.index);
   const registerTab = ensureFunction(context?.registerTab);
   const unregisterTab = ensureFunction(context?.unregisterTab);
   const tabId = `${config.name}:Tab-${index}`;
   const tabPanelId = `${config.name}:TabPanel-${index}`;
+  const disabled = disabledProp ?? context?.disabled;
+  const isActive = isIndexEqual(index, context?.index);
+  const variant = variantProp ?? context?.variant;
+  const styleProps = useTabStyle({ disabled, isActive, variant });
   const handleClick = wrapEvent(onClick, (event) => {
     if (isActive) {
       // Do not trigger onChange if the tab is already active
       return;
     }
     ensureFunction(context?.onChange)(index);
-  });
-  const disabled = disabledProp ?? context?.disabled;
-  const variant = (variantProp ?? context?.variant) ?? defaultVariant;
-  const styleProps = useTabStyle({
-    disabled,
-    isActive,
-    variant,
   });
 
   // Use useEffectOnce to ensure the tab is registered only on the first render
@@ -71,11 +66,11 @@ const Tab = forwardRef((
       id={tabId}
       onClick={handleClick}
       role="tab"
-      tabIndex={disabled ? -1 : 0}
+      tabIndex={disabled || isActive ? -1 : 0}
       {...styleProps}
       {...rest}
     >
-      {runIfFn(children, context)}
+      {runIfFn(children, { ...context, disabled, isActive, variant })}
     </ButtonBase>
   );
 });

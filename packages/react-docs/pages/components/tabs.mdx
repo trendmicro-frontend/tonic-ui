@@ -15,23 +15,325 @@ import {
 
 ## Usage
 
+### Basic tabs
+
+Here is a basic example of tabs.
+
 ```jsx
 <Tabs>
   <TabList>
-    <Tab>One</Tab>
-    <Tab>Two</Tab>
-    <Tab>Three</Tab>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
   </TabList>
-  <TabPanel>
-    <p>One</p>
-  </TabPanel>
-  <TabPanel>
-    <p>Two</p>
-  </TabPanel>
-  <TabPanel>
-    <p>Three</p>
-  </TabPanel>
+  <TabPanels px="3x" py="2x">
+    <TabPanel>
+      Tab Panel 1
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 2
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 3
+    </TabPanel>
+  </TabPanels>
 </Tabs>
+```
+
+> `TabList` and `TabPanels` are used to group the tabs and tab panels. If you don't need the tabs to be grouped, you can use `Tab` and `TabPanel` directly.<br/><br/>
+> ```jsx disabled
+<Tabs>
+  <Tab>TAB 1</Tab>
+  <Tab>TAB 2</Tab>
+  <Tab>TAB 3</Tab>
+  <TabPanel>Tab Panel 1</TabPanel>
+  <TabPanel>Tab Panel 2</TabPanel>
+  <TabPanel>Tab Panel 3</TabPanel>
+</Tabs>
+```
+
+### Indexed tabs
+
+You can explicitly set the index of the tab. The index is used to determine which tab is active. Set `defaultIndex` to the index of the tab you want to be active by default.
+
+```jsx
+<Tabs defaultIndex="tab1">
+  <TabList>
+    <Tab index="tab1">TAB 1</Tab>
+    <Tab index="tab2">TAB 2</Tab>
+    <Tab index="tab3">TAB 3</Tab>
+  </TabList>
+  <TabPanels px="3x" py="2x">
+    <TabPanel index="tab1">
+      Tab Panel 1
+    </TabPanel>
+    <TabPanel index="tab2">
+      Tab Panel 2
+    </TabPanel>
+    <TabPanel index="tab3">
+      Tab Panel 3
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+To programmatically change the active tab, you can use the `index` and `onChange` props to change the index of the selected tab in controlled mode.
+
+```jsx
+function Example() {
+  const [index, setIndex] = React.useState('tab1');
+
+  return (
+    <Tabs
+      index={index}
+      onChange={index => setIndex(index)}
+    >
+      <TabList>
+        <Tab index="tab1">TAB 1</Tab>
+        <Tab index="tab2">TAB 2</Tab>
+        <Tab index="tab3">TAB 3</Tab>
+      </TabList>
+      <TabPanels px="3x" py="2x">
+        <TabPanel index="tab1">
+          Tab Panel 1
+        </TabPanel>
+        <TabPanel index="tab2">
+          Tab Panel 2
+        </TabPanel>
+        <TabPanel index="tab3">
+          Tab Panel 3
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+}
+```
+
+### Variants
+
+Tabs comes in 3 variants: `default`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `default`
+
+```jsx
+<Tabs variant="default">
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+</Tabs>
+```
+
+#### `filled`
+
+```jsx
+<Tabs variant="filled">
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+</Tabs>
+```
+
+#### `unstyled`
+
+```jsx
+<Tabs variant="unstyled">
+  <TabList columnGap="3x">
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+</Tabs>
+```
+
+### Decorate tabs with a bottom border
+
+To decorate tabs with a bottom border, you can pass `__after` prop to `TabList` to render a bottom border.
+
+```jsx noInline
+const MyTabGroup = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  return (
+    <TabList
+      position="relative"
+      __after={{
+        content: '""',
+        borderBottom: 1,
+        borderBottomColor: colorStyle.divider,
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        ...props.__after,
+      }}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  return (
+    <Flex flexDirection="column" rowGap="3x">
+      <Box>
+        <TextLabel fontSize="lg" lineHeight="lg">
+          Left-aligned tabs
+        </TextLabel>
+        <Tabs>
+          <MyTabGroup justifyContent="flex-start">
+            <Tab>TAB 1</Tab>
+            <Tab>TAB 2</Tab>
+            <Tab>TAB 3</Tab>
+          </MyTabGroup>
+        </Tabs>
+      </Box>
+      <Box>
+        <TextLabel fontSize="lg" lineHeight="lg">
+          Centered tabs
+        </TextLabel>
+        <Tabs>
+          <MyTabGroup justifyContent="center">
+            <Tab>TAB 1</Tab>
+            <Tab>TAB 2</Tab>
+            <Tab>TAB 3</Tab>
+          </MyTabGroup>
+        </Tabs>
+      </Box>
+      <Box>
+        <TextLabel fontSize="lg" lineHeight="lg">
+          Right-aligned tabs
+        </TextLabel>
+        <Tabs>
+          <MyTabGroup justifyContent="flex-end">
+            <Tab>TAB 1</Tab>
+            <Tab>TAB 2</Tab>
+            <Tab>TAB 3</Tab>
+          </MyTabGroup>
+        </Tabs>
+      </Box>
+      <Box>
+        <TextLabel fontSize="lg" lineHeight="lg">
+          Full-width tabs
+        </TextLabel>
+        <Tabs>
+          <MyTabGroup>
+            <Tab width="100%">TAB 1</Tab>
+            <Tab width="100%">TAB 2</Tab>
+            <Tab width="100%">TAB 3</Tab>
+          </MyTabGroup>
+        </Tabs>
+      </Box>
+      <Box>
+        <TextLabel>Auto-sizing tabs</TextLabel>
+      </Box>
+      <Tabs>
+        <MyTabGroup display="inline-flex">
+          <Tab>TAB 1</Tab>
+          <Tab>TAB 2</Tab>
+          <Tab>TAB 3</Tab>
+        </MyTabGroup>
+      </Tabs>
+    </Flex>
+  );
+}
+
+render(<Example />);
+```
+
+### Customization
+
+The Tabs also come with an `unstyled` variant. It's useful for doing customizations.
+
+```jsx noInline
+const CustomTabList = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const styleProps = {
+    position: 'relative',
+    __after: {
+      content: '""',
+      borderBottom: 3,
+      borderBottomColor: colorStyle.background.tertiary,
+      position: 'absolute',
+      bottom: 0,
+      width: '100%',
+    },
+  };
+
+  return (
+    <TabList
+      {...styleProps}
+      {...props}
+    />
+  );
+};
+const CustomTab = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const styleProps = {
+    backgroundColor: colorStyle.background.primary,
+    border: 1,
+    borderColor: 'transparent',
+    color: colorStyle.color.secondary,
+    px: '3x',
+    py: '3x',
+    _disabled: {
+      color: colorStyle.color.disabled,
+      cursor: 'not-allowed',
+    },
+    _selected: {
+      backgroundColor: colorStyle.background.tertiary,
+      borderColor: colorStyle.background.tertiary,
+      borderTopLeftRadius: 'sm',
+      borderTopRightRadius: 'sm',
+      color: colorStyle.color.primary,
+    },
+  };
+
+  return (
+    <Tab
+      variant="unstyled"
+      {...styleProps}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  return (
+    <Tabs>
+      <CustomTabList>
+        <CustomTab>
+          TAB 1
+        </CustomTab>
+        <Divider orientation="vertical" alignSelf="center" height="6x" mx="1x" />
+        <CustomTab>
+          TAB 2
+        </CustomTab>
+        <Divider orientation="vertical" alignSelf="center" height="6x" mx="1x" />
+        <CustomTab>
+          TAB 3
+        </CustomTab>
+        <Divider orientation="vertical" alignSelf="center" height="6x" mx="1x" />
+      </CustomTabList>
+      <TabPanels px="3x" py="2x">
+        <TabPanel>
+          Tab Panel 1
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 2 
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 3
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+}
+
+render(<Example />);
 ```
 
 ## Props
@@ -52,6 +354,11 @@ import {
 | :--- | :--- | :------ | :---------- |
 
 ### TabPanel
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+
+### TabPanels
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

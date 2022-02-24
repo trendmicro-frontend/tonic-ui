@@ -2,22 +2,19 @@ import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useTabListStyle } from './styles';
 
-const defaultOrientation = 'horizontal';
-
 const TabList = forwardRef((
   {
-    orientation = defaultOrientation,
     ...rest
   },
   ref
 ) => {
-  const styleProps = useTabListStyle({ orientation });
+  const styleProps = useTabListStyle({});
 
   return (
     <Box
       ref={ref}
       aria-label="tabs"
-      aria-orientation={orientation}
+      aria-orientation="horizontal"
       role="tablist"
       {...styleProps}
       {...rest}

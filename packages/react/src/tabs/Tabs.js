@@ -12,13 +12,15 @@ const stateReducer = (prevState, nextState) => ({
   ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
 });
 
+const defaultVariant = 'default';
+
 const Tabs = ({
   children,
   defaultIndex = 0,
   disabled,
   index: indexProp,
   onChange,
-  variant = 'default',
+  variant = defaultVariant,
 }) => {
   const tabMap = useConst(() => new Map());
   const tabPanelMap = useConst(() => new Map());

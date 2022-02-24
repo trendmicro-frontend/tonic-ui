@@ -14,18 +14,20 @@ const TabPanel = forwardRef((
   {
     children,
     index: indexProp,
+    variant: variantProp,
     ...rest
   },
   ref,
 ) => {
   const [index, setIndex] = useState(indexProp);
   const context = useTabs();
-  const isActive = isIndexEqual(index, context?.index);
   const registerTabPanel = ensureFunction(context?.registerTabPanel);
   const unregisterTabPanel = ensureFunction(context?.unregisterTabPanel);
   const tabId = `${config.name}:Tab-${index}`;
   const tabPanelId = `${config.name}:TabPanel-${index}`;
-  const styleProps = useTabPanelStyle({ isActive });
+  const isActive = isIndexEqual(index, context?.index);
+  const variant = variantProp ?? context?.variant;
+  const styleProps = useTabPanelStyle({ isActive, variant });
 
   // Use useEffectOnce to ensure the tab panel is registered only on the first render
   useEffectOnce(() => {
@@ -55,7 +57,7 @@ const TabPanel = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {runIfFn(children, context)}
+      {runIfFn(children, { ...context, isActive, variant })}
     </Box>
   );
 });

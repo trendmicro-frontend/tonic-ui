@@ -180,6 +180,7 @@ test('should match expected exports', () => {
     'Tabs',
     'TabList',
     'TabPanel',
+    'TabPanels',
 
     // tag
     'Tag',
