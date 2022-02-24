@@ -19,6 +19,8 @@ const colorStyle = {
       error: 'red:50',
     },
 
+    divider: 'rgba(255, 255, 255, 0.12)',
+
     text: {
       selection: 'blue:60',
       highlight: '#fce79e',
@@ -83,6 +85,8 @@ const colorStyle = {
       warning: 'orange:50',
       error: 'red:60',
     },
+
+    divider: 'rgba(0, 0, 0, 0.12)',
 
     text: {
       selection: 'blue:60',
