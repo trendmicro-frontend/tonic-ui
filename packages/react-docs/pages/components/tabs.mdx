@@ -53,32 +53,9 @@ Here is a basic example of tabs.
 </Tabs>
 ```
 
-### Indexed tabs
+### Controlled and uncontrolled tabs
 
-You can explicitly set the index of the tab. The index is used to determine which tab is active. Set `defaultIndex` to the index of the tab you want to be active by default.
-
-```jsx
-<Tabs defaultIndex="tab1">
-  <TabList>
-    <Tab index="tab1">TAB 1</Tab>
-    <Tab index="tab2">TAB 2</Tab>
-    <Tab index="tab3">TAB 3</Tab>
-  </TabList>
-  <TabPanels px="3x" py="2x">
-    <TabPanel index="tab1">
-      Tab Panel 1
-    </TabPanel>
-    <TabPanel index="tab2">
-      Tab Panel 2
-    </TabPanel>
-    <TabPanel index="tab3">
-      Tab Panel 3
-    </TabPanel>
-  </TabPanels>
-</Tabs>
-```
-
-To programmatically change the active tab, you can use the `index` and `onChange` props to change the index of the selected tab in controlled mode.
+The `index` prop is used to control which tab is selected. The `onChange` callback returns the selected tab index whenever the user changes the tab. If you intend to control the tabs programmatically, use the `onChange` callback to update the `index` prop.
 
 ```jsx
 function Example() {
@@ -108,6 +85,29 @@ function Example() {
     </Tabs>
   );
 }
+```
+
+For uncontrolled tabs, you can use the `defaultIndex` prop to set the initial selected tab.
+
+```jsx
+<Tabs defaultIndex={0}>
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+  <TabPanels px="3x" py="2x">
+    <TabPanel>
+      Tab Panel 1
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 2
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 3
+    </TabPanel>
+  </TabPanels>
+</Tabs>
 ```
 
 ### Variants
