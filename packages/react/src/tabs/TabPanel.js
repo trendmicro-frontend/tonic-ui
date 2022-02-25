@@ -53,7 +53,7 @@ const TabPanel = forwardRef((
       id={tabPanelId}
       ref={ref}
       role="tabpanel"
-      tabIndex={-1}
+      tabIndex={0}
       {...styleProps}
       {...rest}
     >
