@@ -4,6 +4,7 @@ import { useTabListStyle } from './styles';
 
 const TabList = forwardRef((
   {
+    'aria-label': ariaLabel,
     ...rest
   },
   ref
@@ -13,7 +14,7 @@ const TabList = forwardRef((
   return (
     <Box
       ref={ref}
-      aria-label="tabs"
+      aria-label={ariaLabel}
       aria-orientation="horizontal"
       role="tablist"
       {...styleProps}
