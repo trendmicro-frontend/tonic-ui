@@ -2,17 +2,15 @@ import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useTagCloseButtonStyle } from './styles';
 
-const TagCloseButton = forwardRef((
-  {
-    size,
-    ...rest
-  },
-  ref,
-) => {
-  const closeButtonStyleProps = useTagCloseButtonStyle({ size });
+const TagCloseButton = forwardRef((props, ref) => {
+  const closeButtonStyleProps = useTagCloseButtonStyle();
 
   return (
-    <ButtonBase ref={ref} {...closeButtonStyleProps} {...rest} />
+    <ButtonBase
+      ref={ref}
+      {...closeButtonStyleProps}
+      {...props}
+    />
   );
 });
 

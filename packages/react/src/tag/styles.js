@@ -1,6 +1,15 @@
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
+const baseStyle = {
+  alignItems: 'center',
+  border: 1,
+  borderColor: 'transparent',
+  cursor: 'default',
+  display: 'inline-flex',
+  outline: 'none',
+};
+
 const labelSizes = {
   sm: {
     fontSize: 'xs',
@@ -21,14 +30,80 @@ const labelSizes = {
   },
 };
 
-const closeButtonSizes = {
-  sm: '4x',
-  md: '6x',
-  lg: '8x',
+const getSizeProps = ({
+  isClosable,
+  size,
+}) => {
+  return {
+    ...labelSizes[size],
+    pl: '2x',
+    pr: isClosable ? '1x' : '2x',
+  };
 };
 
+//---------------- Basic Tag ----------------//
 const getSolidTagStyle = ({
-  canFocus,
+  colorMode,
+}) => {
+  const backgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:20',
+  }[colorMode];
+  const color = {
+    dark: 'gray:20',
+    light: 'black:emphasis',
+  }[colorMode];
+
+  return {
+    backgroundColor,
+    color,
+  };
+};
+
+const getOutlineTagStyle = ({
+  colorMode,
+}) => {
+  const borderColor = {
+    dark: 'gray:40',
+    light: 'gray:60',
+  }[colorMode];
+  const color = {
+    dark: 'gray:40',
+    light: 'gray:60',
+  }[colorMode];
+
+  return {
+    borderColor,
+    color,
+  };
+};
+
+const useTagStyle = ({
+  size,
+  variant,
+}) => {
+  const [colorMode] = useColorMode();
+  const variantStyle = {
+    'solid': getSolidTagStyle({
+      colorMode,
+    }),
+    'outline': getOutlineTagStyle({
+      colorMode,
+    }),
+  }[variant];
+  const sizeProps = getSizeProps({
+    size,
+  });
+
+  return {
+    ...baseStyle,
+    ...sizeProps,
+    ...variantStyle,
+  };
+};
+
+//---------------- Editable Tag ----------------//
+const getSolidEditableTagStyle = ({
   colorMode,
   theme,
 }) => {
@@ -76,7 +151,9 @@ const getSolidTagStyle = ({
     light: 'red:100',
   }[colorMode];
 
-  const tagStateStyle = {
+  return {
+    backgroundColor,
+    color,
     _focus: {
       '&:not([disabled])': {
         borderColor: focusColor,
@@ -101,16 +178,9 @@ const getSolidTagStyle = ({
       opacity: disabledOpacity,
     },
   };
-
-  return {
-    backgroundColor,
-    color,
-    ...(canFocus && tagStateStyle),
-  };
 };
 
-const getOutlineTagStyle = ({
-  canFocus,
+const getOutlineEditableTagStyle = ({
   colorMode,
   theme,
 }) => {
@@ -162,7 +232,9 @@ const getOutlineTagStyle = ({
     light: 'red:100',
   }[colorMode];
 
-  const tagStateStyle = {
+  return {
+    borderColor,
+    color,
     _focus: {
       '&:not([disabled])': {
         borderColor: focusColor,
@@ -199,53 +271,21 @@ const getOutlineTagStyle = ({
       opacity: disabledOpacity,
     },
   };
-
-  return {
-    borderColor,
-    color,
-    ...(canFocus && tagStateStyle),
-  };
 };
 
-const getSizeProps = ({
-  isClosable,
-  size,
-  theme,
-}) => {
-  const space = theme?.sizes?.['1x'];
-  const closeButtonSize = theme?.sizes?.[closeButtonSizes[size]];
-  return {
-    ...labelSizes[size],
-    pl: '2x',
-    pr: isClosable ? `calc(${space} + ${closeButtonSize})` : '2x',
-  };
-};
-
-const useTagStyle = ({
-  canFocus,
+const useEditableTagStyle = ({
   isClosable,
   size,
   variant,
 }) => {
   const [colorMode] = useColorMode();
   const theme = useTheme();
-  const baseStyle = {
-    alignItems: 'center',
-    border: 1,
-    borderColor: 'transparent',
-    cursor: 'default',
-    display: 'inline-flex',
-    position: 'relative',
-    outline: 'none',
-  };
   const variantStyle = {
-    'solid': getSolidTagStyle({
-      canFocus,
+    'solid': getSolidEditableTagStyle({
       colorMode,
       theme,
     }),
-    'outline': getOutlineTagStyle({
-      canFocus,
+    'outline': getOutlineEditableTagStyle({
       colorMode,
       theme,
     }),
@@ -253,7 +293,6 @@ const useTagStyle = ({
   const sizeProps = getSizeProps({
     isClosable,
     size,
-    theme
   });
 
   return {
@@ -263,9 +302,7 @@ const useTagStyle = ({
   };
 };
 
-const useTagCloseButtonStyle = ({
-  size,
-}) => {
+const useTagCloseButtonStyle = () => {
   const [colorMode] = useColorMode();
   const color = {
     dark: 'white:tertiary',
@@ -277,16 +314,15 @@ const useTagCloseButtonStyle = ({
   }[colorMode];
   const activeColor = color;
   const disabledColor = color;
-  const _size = closeButtonSizes[size];
+  const _size = '4x';
 
   return {
     backgroundColor: 'transparent',
-    position: 'absolute',
-    right: 0,
     color: color,
     height: _size,
     width: _size,
     minWidth: _size, // ensure a minimum width for the close button
+    ml: '2x',
     _hover: {
       color: hoverColor,
     },
@@ -301,6 +337,7 @@ const useTagCloseButtonStyle = ({
 };
 
 export {
+  useEditableTagStyle,
   useTagStyle,
   useTagCloseButtonStyle,
 };

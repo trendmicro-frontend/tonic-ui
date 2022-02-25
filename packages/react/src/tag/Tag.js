@@ -1,35 +1,54 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
-import { useTagStyle } from './styles';
 import { Box } from '../box';
-import { Icon } from '../icon';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
-import TagCloseButton from './TagCloseButton';
+import { useTagStyle } from './styles';
 
-const Tag = forwardRef((
-  {
+const Tag = forwardRef((props, ref) => {
+  const {
+    isClosable, // deprecated
     isCloseButtonVisible, // deprecated
+    isInvalid, // deprecated
+    onClose, // deprecated
     variantColor: variantColorProp, // deprecated
 
     borderRadius = 'sm',
+    children,
     size = 'md',
     variant = 'solid',
-    isInvalid,
-    isClosable = false,
-    disabled,
-    children,
-    onClose,
-    ...rest
-  },
-  ref,
-) => {
+  } = props;
+
   useEffectOnce(() => {
     const prefix = `${Tag.displayName}:`;
+
+    if (isClosable !== undefined) {
+      warnDeprecatedProps('isClosable', {
+        prefix,
+        alternative: '<EditableTag isClosable />',
+        willRemove: true,
+      });
+    }
 
     if (isCloseButtonVisible !== undefined) {
       warnDeprecatedProps('isCloseButtonVisible', {
         prefix,
-        alternative: 'isClosable',
+        alternative: '<EditableTag isClosable />',
+        willRemove: true,
+      });
+    }
+
+    if (isInvalid !== undefined) {
+      warnDeprecatedProps('isInvalid', {
+        prefix,
+        alternative: '<EditableTag isInvalid />',
+        willRemove: true,
+      });
+    }
+
+    if (onClose !== undefined) {
+      warnDeprecatedProps('onClose', {
+        prefix,
+        alternative: '<EditableTag isClosable onClose={()=>{}} />',
         willRemove: true,
       });
     }
@@ -43,11 +62,7 @@ const Tag = forwardRef((
     }
   }, true); // TODO: check if `when` is true for each prop
 
-  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
-  const canFocus = isClosable;
   const tagStyleProps = useTagStyle({
-    canFocus,
-    isClosable,
     size,
     variant,
   });
@@ -55,26 +70,11 @@ const Tag = forwardRef((
   return (
     <Box
       ref={ref}
-      disabled={disabled}
-      aria-disabled={disabled}
-      aria-invalid={isInvalid}
       borderRadius={borderRadius}
-      tabIndex={disabled ? '-1' : '0'}
       {...tagStyleProps}
-      {...rest}
+      {...props}
     >
       { children }
-      {!!isClosable && (
-        <TagCloseButton
-          size={size}
-          borderRadius={borderRadius}
-          disabled={disabled}
-          onClick={onClose}
-          tabIndex="-1" // no focus on close button
-        >
-          <Icon icon="close-s" />
-        </TagCloseButton>
-      )}
     </Box>
   );
 });
