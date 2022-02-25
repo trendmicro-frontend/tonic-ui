@@ -3,7 +3,7 @@ import { useColorMode } from '../color-mode';
 
 const useTabStyle = ({
   disabled,
-  isActive,
+  isSelected,
   variant,
 }) => {
   const theme = useTheme();
@@ -12,7 +12,7 @@ const useTabStyle = ({
     if (disabled) {
       return 'not-allowed';
     }
-    if (isActive) {
+    if (isSelected) {
       return 'default';
     }
     return 'pointer';
@@ -57,15 +57,15 @@ const useTabStyle = ({
     }[colorMode];
 
     const getBorderColorStyleWithFallback = (fallbackBorderColor) => {
-      if (disabled && isActive) {
-        // Returns the selected border color if the tab is both disabled and active
+      if (disabled && isSelected) {
+        // Returns the selected border color if the tab is both disabled and selected
         return selectedBorderColor;
       }
       if (disabled) {
         // Returns the disabled border color if the tab is disabled
         return disabledBorderColor;
       }
-      if (isActive) {
+      if (isSelected) {
         // Returns the selected border color if the tab is selected
         return selectedBorderColor;
       }
@@ -78,7 +78,7 @@ const useTabStyle = ({
         // Returns the disabled color if the tab is disabled
         return disabledColor;
       }
-      if (isActive) {
+      if (isSelected) {
         // Returns the selected color if the tab is selected
         return selectedColor;
       }
@@ -193,7 +193,7 @@ const useTabStyle = ({
         // Returns the disabled background color if the tab is disabled
         return disabledBackgroundColor;
       }
-      if (isActive) {
+      if (isSelected) {
         // Returns the selected background color if the tab is selected
         return selectedBackgroundColor;
       }
@@ -202,15 +202,15 @@ const useTabStyle = ({
     };
 
     const getBorderColorStyleWithFallback = (fallbackBorderColor) => {
-      if (disabled && isActive) {
-        // Returns the selected border color if the tab is both disabled and active
+      if (disabled && isSelected) {
+        // Returns the selected border color if the tab is both disabled and selected
         return selectedBorderColor;
       }
       if (disabled) {
         // Returns the disabled border color if the tab is disabled
         return disabledBorderColor;
       }
-      if (isActive) {
+      if (isSelected) {
         // Returns the selected border color if the tab is selected
         return selectedBorderColor;
       }
@@ -223,7 +223,7 @@ const useTabStyle = ({
         // Returns the disabled color if the tab is disabled
         return disabledColor;
       }
-      if (isActive) {
+      if (isSelected) {
         // Returns the selected color if the tab is selected
         return selectedColor;
       }
@@ -281,7 +281,7 @@ const useTabListStyle = () => {
 };
 
 const useTabPanelStyle = ({
-  isActive,
+  isSelected,
   variant,
 }) => {
   return {};

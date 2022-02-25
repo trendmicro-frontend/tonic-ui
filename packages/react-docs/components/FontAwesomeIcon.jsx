@@ -37,21 +37,12 @@ const FontAwesomeIcon = forwardRef((
   },
   ref
 ) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    light: '#666666',
-    dark: '#bbbbbb',
-  }[colorMode];
-
   return (
     <ClassNames>
       {({ css, cx }) => (
         <FAIcon
           ref={ref}
           className={cx(
-            css`
-              color: ${color};
-            `,
             spin && css`
               animation: ${spinKeyframes} 2s infinite linear;
             `,

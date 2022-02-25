@@ -4,7 +4,6 @@ import React, { forwardRef, useState } from 'react';
 import { ButtonBase } from '../button';
 import config from '../shared/config';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
-import runIfFn from '../utils/runIfFn';
 import wrapEvent from '../utils/wrapEvent';
 import { useTabStyle } from './styles';
 import useTabs from './useTabs';
@@ -29,12 +28,12 @@ const Tab = forwardRef((
   const tabId = `${config.name}:Tab-${index}`;
   const tabPanelId = `${config.name}:TabPanel-${index}`;
   const disabled = disabledProp ?? context?.disabled;
-  const isActive = isIndexEqual(index, context?.index);
+  const isSelected = isIndexEqual(index, context?.index);
   const variant = variantProp ?? context?.variant;
-  const styleProps = useTabStyle({ disabled, isActive, variant });
+  const styleProps = useTabStyle({ disabled, isSelected, variant });
   const handleClick = wrapEvent(onClick, (event) => {
-    if (isActive) {
-      // Do not trigger onChange if the tab is already active
+    if (isSelected) {
+      // Do not trigger onChange if the tab is already selected
       return;
     }
     ensureFunction(context?.onChange)(index);
@@ -56,21 +55,32 @@ const Tab = forwardRef((
     };
   }, true);
 
+  const getTabProps = () => ({
+    'aria-controls': tabPanelId,
+    'aria-selected': isSelected,
+    'data-index': index,
+    disabled,
+    id: tabId,
+    onClick: handleClick,
+    ref,
+    role: 'tab',
+    tabIndex: (disabled || isSelected) ? -1 : 0,
+    ...styleProps,
+    ...rest,
+  });
+
+  if (typeof children === 'function') {
+    return children({
+      getTabProps,
+      disabled,
+      index,
+      variant,
+    });
+  }
+
   return (
-    <ButtonBase
-      ref={ref}
-      aria-controls={tabPanelId}
-      aria-selected={isActive}
-      data-index={index}
-      disabled={disabled}
-      id={tabId}
-      onClick={handleClick}
-      role="tab"
-      tabIndex={disabled || isActive ? -1 : 0}
-      {...styleProps}
-      {...rest}
-    >
-      {runIfFn(children, { ...context, disabled, isActive, variant })}
+    <ButtonBase {...getTabProps()}>
+      {children}
     </ButtonBase>
   );
 });

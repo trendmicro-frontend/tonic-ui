@@ -4,7 +4,6 @@ import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
-import runIfFn from '../utils/runIfFn';
 import useTabs from './useTabs';
 import { useTabPanelStyle } from './styles';
 
@@ -25,9 +24,9 @@ const TabPanel = forwardRef((
   const unregisterTabPanel = ensureFunction(context?.unregisterTabPanel);
   const tabId = `${config.name}:Tab-${index}`;
   const tabPanelId = `${config.name}:TabPanel-${index}`;
-  const isActive = isIndexEqual(index, context?.index);
+  const isSelected = isIndexEqual(index, context?.index);
   const variant = variantProp ?? context?.variant;
-  const styleProps = useTabPanelStyle({ isActive, variant });
+  const styleProps = useTabPanelStyle({ isSelected, variant });
 
   // Use useEffectOnce to ensure the tab panel is registered only on the first render
   useEffectOnce(() => {
@@ -45,19 +44,29 @@ const TabPanel = forwardRef((
     };
   }, true);
 
+  const getTabPanelProps = () => ({
+    'aria-hidden': !isSelected,
+    'aria-labelledby': tabId,
+    hidden: !isSelected,
+    id: tabPanelId,
+    ref,
+    role: 'tabpanel',
+    tabIndex: 0,
+    ...styleProps,
+    ...rest,
+  });
+
+  if (typeof children === 'function') {
+    return children({
+      getTabPanelProps,
+      index,
+      variant,
+    });
+  }
+
   return (
-    <Box
-      aria-hidden={!isActive}
-      aria-labelledby={tabId}
-      hidden={!isActive}
-      id={tabPanelId}
-      ref={ref}
-      role="tabpanel"
-      tabIndex={0}
-      {...styleProps}
-      {...rest}
-    >
-      {runIfFn(children, { ...context, isActive, variant })}
+    <Box {...getTabPanelProps()}>
+      {children}
     </Box>
   );
 });

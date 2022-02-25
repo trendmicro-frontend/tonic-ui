@@ -10,6 +10,7 @@ import {
   Tabs,
   TabList,
   TabPanel,
+  TabPanels,
 } from '@tonic-ui/react';
 ```
 
@@ -175,66 +176,80 @@ const MyTabGroup = (props) => {
 };
 
 function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   return (
-    <Flex flexDirection="column" rowGap="3x">
+    <Flex flexDirection="column" rowGap="4x">
       <Box>
-        <TextLabel fontSize="lg" lineHeight="lg">
-          Left-aligned tabs
-        </TextLabel>
-        <Tabs>
-          <MyTabGroup justifyContent="flex-start">
-            <Tab>TAB 1</Tab>
-            <Tab>TAB 2</Tab>
-            <Tab>TAB 3</Tab>
-          </MyTabGroup>
-        </Tabs>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Left-aligned
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup justifyContent="flex-start">
+              <Tab>TAB 1</Tab>
+              <Tab>TAB 2</Tab>
+              <Tab>TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
       </Box>
       <Box>
-        <TextLabel fontSize="lg" lineHeight="lg">
-          Centered tabs
-        </TextLabel>
-        <Tabs>
-          <MyTabGroup justifyContent="center">
-            <Tab>TAB 1</Tab>
-            <Tab>TAB 2</Tab>
-            <Tab>TAB 3</Tab>
-          </MyTabGroup>
-        </Tabs>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Centered
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup justifyContent="center">
+              <Tab>TAB 1</Tab>
+              <Tab>TAB 2</Tab>
+              <Tab>TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
       </Box>
       <Box>
-        <TextLabel fontSize="lg" lineHeight="lg">
-          Right-aligned tabs
-        </TextLabel>
-        <Tabs>
-          <MyTabGroup justifyContent="flex-end">
-            <Tab>TAB 1</Tab>
-            <Tab>TAB 2</Tab>
-            <Tab>TAB 3</Tab>
-          </MyTabGroup>
-        </Tabs>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Right-aligned
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup justifyContent="flex-end">
+              <Tab>TAB 1</Tab>
+              <Tab>TAB 2</Tab>
+              <Tab>TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
       </Box>
       <Box>
-        <TextLabel fontSize="lg" lineHeight="lg">
-          Full-width tabs
-        </TextLabel>
-        <Tabs>
-          <MyTabGroup>
-            <Tab width="100%">TAB 1</Tab>
-            <Tab width="100%">TAB 2</Tab>
-            <Tab width="100%">TAB 3</Tab>
-          </MyTabGroup>
-        </Tabs>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Full width
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup>
+              <Tab width="100%">TAB 1</Tab>
+              <Tab width="100%">TAB 2</Tab>
+              <Tab width="100%">TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
       </Box>
       <Box>
-        <TextLabel>Auto-sizing tabs</TextLabel>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Auto-sizing
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup display="inline-flex">
+              <Tab>TAB 1</Tab>
+              <Tab>TAB 2</Tab>
+              <Tab>TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
       </Box>
-      <Tabs>
-        <MyTabGroup display="inline-flex">
-          <Tab>TAB 1</Tab>
-          <Tab>TAB 2</Tab>
-          <Tab>TAB 3</Tab>
-        </MyTabGroup>
-      </Tabs>
     </Flex>
   );
 }
@@ -242,23 +257,71 @@ function Example() {
 render(<Example />);
 ```
 
+### Access the state of tabs
+
+Sometimes you need to access the state of tabs. For example, you may want to lazily load the content of a tab when that tab is selected.
+
+`Tabs`, `Tab`, and `TabPanel` components expose internal state using **Function as Children (FaCC)**. This is not a recommended approach, but it is useful for this use case.
+
+```jsx
+<Tabs defaultIndex={1}>
+  {({ index: selectedIndex }) => (
+    <>
+      <Box mb="2x">
+        TAB {selectedIndex} is selected
+      </Box>
+      <TabList>
+        {[1, 2, 3].map(tabIndex => (
+          <Tab key={tabIndex} index={tabIndex}>
+            {({ getTabProps, disabled, index, variant }) => {
+              return (
+                <ButtonBase {...getTabProps()}>
+                  TAB {index}
+                </ButtonBase>
+              );
+            }}
+          </Tab>
+        ))}
+      </TabList>
+      <TabPanels px="3x" py="2x">
+        {[1, 2, 3].map(tabPanelIndex => (
+          <TabPanel key={tabPanelIndex} index={tabPanelIndex}>
+            {({ getTabPanelProps, index, variant }) => {
+              return (
+                <Box {...getTabPanelProps()}>
+                  Tab Panel {index}
+                </Box>
+              );
+            }}
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </>
+  )}
+</Tabs>
+```
+
 ### Customization
 
-The Tabs also come with an `unstyled` variant. It's useful for doing customizations.
+Tabs also come with an `unstyled` variant. It's useful for doing customizations.
 
 ```jsx noInline
 const CustomTabList = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const styleProps = {
+    backgroundColor: colorStyle.background.primary,
+    pt: '1x',
+    pl: '1x',
     position: 'relative',
     __after: {
       content: '""',
-      borderBottom: 3,
-      borderBottomColor: colorStyle.background.tertiary,
+      borderBottom: 1,
+      borderBottomColor: colorStyle.divider,
       position: 'absolute',
       bottom: 0,
       width: '100%',
+      ...props.__after,
     },
   };
 
@@ -269,26 +332,45 @@ const CustomTabList = (props) => {
     />
   );
 };
+
 const CustomTab = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
+  const { colors } = useTheme();
+
   const styleProps = {
-    backgroundColor: colorStyle.background.primary,
+    backgroundColor: colorStyle.background.tertiary,
     border: 1,
-    borderColor: 'transparent',
+    borderColor: colorStyle.divider,
     color: colorStyle.color.secondary,
-    px: '3x',
+    px: '4x',
     py: '3x',
+    position: 'relative',
+    transition: 'all 0.2s',
+    zIndex: 1,
     _disabled: {
       color: colorStyle.color.disabled,
       cursor: 'not-allowed',
     },
-    _selected: {
-      backgroundColor: colorStyle.background.tertiary,
-      borderColor: colorStyle.background.tertiary,
-      borderTopLeftRadius: 'sm',
-      borderTopRightRadius: 'sm',
+    _hover: {
       color: colorStyle.color.primary,
+    },
+    _notLastOfType: {
+      borderRight: 'none',
+    },
+    _selected: {
+      borderBottomColor: colorStyle.background.primary,
+      background: colorStyle.background.primary,
+      color: colorStyle.color.primary,
+      '::before': {
+        content: '""',
+        position: 'absolute',
+        top: -1,
+        left: -1,
+        right: 0,
+        height: 3,
+        backgroundColor: '#2cc185',
+      },
     },
   };
 
@@ -302,31 +384,43 @@ const CustomTab = (props) => {
 };
 
 function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
   return (
     <Tabs>
       <CustomTabList>
         <CustomTab>
-          TAB 1
+          <FontAwesomeIcon icon="fa-solid fa-home" />
+          <Space width="2x" />
+          HOME
         </CustomTab>
-        <Divider orientation="vertical" alignSelf="center" height="6x" mx="1x" />
         <CustomTab>
-          TAB 2
+          <FontAwesomeIcon icon="fa-solid fa-boxes" />
+          <Space width="2x" />
+          INVENTORY
         </CustomTab>
-        <Divider orientation="vertical" alignSelf="center" height="6x" mx="1x" />
         <CustomTab>
-          TAB 3
+          <FontAwesomeIcon icon="fa-solid fa-cogs" />
+          <Space width="2x" />
+          SETTINGS
         </CustomTab>
-        <Divider orientation="vertical" alignSelf="center" height="6x" mx="1x" />
       </CustomTabList>
-      <TabPanels px="3x" py="2x">
+      <TabPanels px="4x" py="3x">
         <TabPanel>
-          Tab Panel 1
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+            1
+          </Text>
         </TabPanel>
         <TabPanel>
-          Tab Panel 2 
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+            2
+          </Text>
         </TabPanel>
         <TabPanel>
-          Tab Panel 3
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+            3
+          </Text>
         </TabPanel>
       </TabPanels>
     </Tabs>
@@ -342,26 +436,43 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | ReactNode \| ({ getTabProps, disabled, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `variant` prop is the variant of the tab. |
+| disabled | boolean | | Whether the tab is disabled. |
+| index | number \| string | | The index of the tab. An index number starting from 0 will be provided if not specified. |
+| onClick | (event) => void | | A callback for when the tab is clicked. |
+| variant | string | | The variant of the tab. |
 
 ### Tabs
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| defaultIndex | number \| string | 0 | The default index of the tab to be selected in uncontrolled mode. |
+| disabled | boolean | | Whether the tabs should be disabled. |
+| index | number \| string | | The index of the tab to be selected in controlled mode. |
+| onChange | (index: number\|string) => void | | A callback function that is called when the index changes. |
+| variant | string | 'default' | The variant of the tabs. One of: 'default', 'filled', 'unstyled' |
 
 ### TabList
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| aria-label | string | | A label for the tab list. |
+| children | ReactNode | | |
 
 ### TabPanel
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | ReactNode \| ({ getTabPanelProps, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `variant` prop is the variant of the tab panel. |
+| index | number \| string | | The index of the tab panel. An index number starting from 0 will be provided if not specified. |
+| variant | string | | The variant of the tab panel. |
 
 ### TabPanels
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
 
 ## Further Reading
 
