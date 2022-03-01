@@ -110,46 +110,6 @@ For uncontrolled tabs, you can use the `defaultIndex` prop to set the initial se
 </Tabs>
 ```
 
-### Tabs with dropdown menu
-
-The tab with the dropdown menu is usually the last tab. You can use `event.preventDefault()` to control whether the tab will be selected when the user clicks the dropdown menu.
-
-```jsx
-<Tabs variant="default">
-  <TabList>
-    <Tab>TAB 1</Tab>
-    <Tab>TAB 2</Tab>
-    <Tab
-      onClick={(event) => {
-        const value = event.target.getAttribute('value');
-        if (!value) {
-          event.preventDefault();
-          return;
-        }
-
-        console.log('Menu Item ' + value + ' clicked');
-      }}
-    >
-      <Menu>
-        <MenuToggle alignItems="center">
-          TAB 3
-          <Space width="1x" />
-          <MenuToggleIcon />
-        </MenuToggle>
-        <MenuList
-          offset={[-14, 10]}
-          width="max-content"
-        >
-          <MenuItem value={1}>Menu Item 1</MenuItem>
-          <MenuItem value={2}>Menu Item 2</MenuItem>
-          <MenuItem value={3}>Menu Item 3</MenuItem>
-        </MenuList>
-      </Menu>
-    </Tab>
-  </TabList>
-</Tabs>
-```
-
 ### Variants
 
 Tabs comes in 3 variants: `default`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
@@ -339,6 +299,291 @@ Sometimes you need to access the state of tabs. For example, you may want to laz
     </>
   )}
 </Tabs>
+```
+
+### Tabs with dropdown menu
+
+The tab with the dropdown menu is usually the last tab. You can use `event.preventDefault()` to control whether the tab will be selected when the user clicks the dropdown menu.
+
+```jsx
+<Tabs variant="default">
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab
+      onClick={(event) => {
+        const value = event.target.getAttribute('value');
+        if (!value) {
+          event.preventDefault();
+          return;
+        }
+
+        console.log('Menu Item ' + value + ' clicked');
+      }}
+    >
+      <Menu>
+        <MenuToggle alignItems="center">
+          TAB 3
+          <Space width="1x" />
+          <MenuToggleIcon />
+        </MenuToggle>
+        <MenuList
+          offset={[-14, 10]}
+          width="max-content"
+        >
+          <MenuItem value={1}>Menu Item 1</MenuItem>
+          <MenuItem value={2}>Menu Item 2</MenuItem>
+          <MenuItem value={3}>Menu Item 3</MenuItem>
+        </MenuList>
+      </Menu>
+    </Tab>
+  </TabList>
+</Tabs>
+```
+
+### Scrollable tabs
+
+```jsx noInline
+const easeInOutSin = (time) => {
+  return (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;
+};
+
+const animate = (property, element, to, options = {}, cb = () => {}) => {
+  const {
+    ease = easeInOutSin,
+    duration = 300, // standard
+  } = options;
+
+  let start = null;
+  const from = element[property];
+  let cancelled = false;
+
+  const cancel = () => {
+    cancelled = true;
+  };
+
+  const step = (timestamp) => {
+    if (cancelled) {
+      cb(new Error('Animation cancelled'));
+      return;
+    }
+
+    if (start === null) {
+      start = timestamp;
+    }
+    const time = Math.min(1, (timestamp - start) / duration);
+
+    element[property] = ease(time) * (to - from) + from;
+
+    if (time >= 1) {
+      requestAnimationFrame(() => {
+        cb(null);
+      });
+      return;
+    }
+
+    requestAnimationFrame(step);
+  };
+
+  if (from === to) {
+    cb(new Error('Element already at target position'));
+    return cancel;
+  }
+
+  requestAnimationFrame(step);
+  return cancel;
+};
+
+const debounce = (func, wait = 166) => {
+  let timeout;
+  function debounced(...args) {
+    const later = () => {
+      func.apply(this, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  }
+
+  debounced.clear = () => {
+    clearTimeout(timeout);
+  };
+
+  return debounced;
+}
+
+const IconButton = (props) => {
+  const [colorMode] = useColorMode();
+  return (
+    <ButtonBase
+      px="4x"
+      _disabled={{
+        opacity: {
+          dark: 0.28,
+          light: 0.3,
+        }[colorMode],
+      }}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const [colorMode] = useColorMode();
+  const orientation = 'horizontal';
+  const scrollStart = (orientation === 'vertical') ? 'scrollTop' : 'scrollLeft';
+  const clientSize = (orientation === 'vertical') ? 'clientHeight' : 'clientWidth';
+  const [displayScroll, setDisplayScroll] = React.useState({
+    start: false,
+    end: false,
+  });
+  const tabScrollerRef = React.useRef(null);
+  const tabListRef = React.useRef(null);
+  const scroll = (scrollValue, { animation = true } = {}) => {
+    if (animation) {
+      animate(scrollStart, tabScrollerRef.current, scrollValue, {
+        duration: 300,
+      });
+    } else {
+      tabScrollerRef.current[scrollStart] = scrollValue;
+    }
+  };
+  const moveTabsScroll = (delta) => {
+    let scrollValue = tabScrollerRef.current[scrollStart];
+    scrollValue += delta;
+    scroll(scrollValue);
+  };
+  const getScrollSize = () => {
+    const containerSize = tabScrollerRef.current[clientSize];
+    let totalSize = 0;
+    const children = Array.from(tabListRef.current.children);
+    for (let i = 0; i < children.length; i += 1) {
+      const tab = children[i];
+      if (totalSize + tab[clientSize] > containerSize) {
+        break;
+      }
+      totalSize += tab[clientSize];
+    }
+    return totalSize;
+  };
+  const handleScrollTabs = React.useMemo(() => {
+    return debounce(() => {
+      updateScrollButtonState();
+    }, Math.floor(1000 / 60));
+  }, [updateScrollButtonState]);
+  const handleStartScrollClick = () => {
+    moveTabsScroll(-1 * getScrollSize());
+  };
+  const handleEndScrollClick = () => {
+    moveTabsScroll(getScrollSize());
+  };
+  const updateScrollButtonState = React.useCallback(() => {
+    const { scrollTop, scrollHeight, clientHeight, scrollWidth, clientWidth } = tabScrollerRef.current;
+    let showStartScroll;
+    let showEndScroll;
+
+    if (orientation === 'vertical') {
+      showStartScroll = scrollTop > 1;
+      showEndScroll = scrollTop < scrollHeight - clientHeight - 1;
+    } else {
+      const scrollLeft = tabScrollerRef.current.scrollLeft;
+      // use 1 for the potential rounding error with browser zooms.
+      showStartScroll = scrollLeft > 1;
+      showEndScroll = scrollLeft < scrollWidth - clientWidth - 1;
+    }
+
+    if ((showStartScroll !== displayScroll.start) || (showEndScroll !== displayScroll.end)) {
+      setDisplayScroll({
+        start: showStartScroll,
+        end: showEndScroll,
+      });
+    }
+  }, []);
+
+  React.useEffect(() => {
+    return () => {
+      handleScrollTabs.clear();
+    };
+  }, [handleScrollTabs]);
+
+  React.useEffect(() => {
+    updateScrollButtonState();
+  }, []);
+
+  return (
+    <Tabs>
+      <Flex>
+        <IconButton
+          disabled={!displayScroll.start}
+          onClick={handleStartScrollClick}
+        >
+          <Icon icon="chevron-left" />
+        </IconButton>
+        <Box
+          ref={tabScrollerRef}
+          maxWidth={240}
+          overflowX="hidden"
+          whiteSpace="nowrap"
+          onScroll={handleScrollTabs}
+        >
+          <TabList
+            ref={tabListRef}
+          >
+            <Tab>TAB 1</Tab>
+            <Tab>TAB 2</Tab>
+            <Tab>TAB 3</Tab>
+            <Tab>TAB 4</Tab>
+            <Tab>TAB 5</Tab>
+            <Tab>TAB 6</Tab>
+            <Tab>TAB 7</Tab>
+            <Tab>TAB 8</Tab>
+            <Tab>TAB 9</Tab>
+            <Tab>TAB 10</Tab>
+          </TabList>
+        </Box>
+        <IconButton
+          disabled={!displayScroll.end}
+          onClick={handleEndScrollClick}
+        >
+          <Icon icon="chevron-right" />
+        </IconButton>
+      </Flex>
+      <TabPanels px="3x" py="2x">
+        <TabPanel>
+          Tab Panel 1
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 2
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 3
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 4
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 5
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 6
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 7
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 8
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 9
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 10
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+}
+
+render(<Example />);
 ```
 
 ### Customization
