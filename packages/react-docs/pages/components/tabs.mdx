@@ -110,6 +110,46 @@ For uncontrolled tabs, you can use the `defaultIndex` prop to set the initial se
 </Tabs>
 ```
 
+### Tabs with dropdown menu
+
+The tab with the dropdown menu is usually the last tab. You can use `event.preventDefault()` to control whether the tab will be selected when the user clicks the dropdown menu.
+
+```jsx
+<Tabs variant="default">
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab
+      onClick={(event) => {
+        const value = event.target.getAttribute('value');
+        if (!value) {
+          event.preventDefault();
+          return;
+        }
+
+        console.log('Menu Item ' + value + ' clicked');
+      }}
+    >
+      <Menu>
+        <MenuToggle alignItems="center">
+          TAB 3
+          <Space width="1x" />
+          <MenuToggleIcon />
+        </MenuToggle>
+        <MenuList
+          offset={[-14, 10]}
+          width="max-content"
+        >
+          <MenuItem value={1}>Menu Item 1</MenuItem>
+          <MenuItem value={2}>Menu Item 2</MenuItem>
+          <MenuItem value={3}>Menu Item 3</MenuItem>
+        </MenuList>
+      </Menu>
+    </Tab>
+  </TabList>
+</Tabs>
+```
+
 ### Variants
 
 Tabs comes in 3 variants: `default`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
