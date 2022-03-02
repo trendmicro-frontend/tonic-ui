@@ -5,7 +5,7 @@ import useConst from './useConst';
 import useEventCallback from './useEventCallback';
 
 describe('useEventCallback', () => {
-  test('xxx', () => {
+  test('`onChange` will be memoized event if `value` changes', () => {
     const App = () => {
       const [value, setValue] = useState('');
       // `onChange` will be memoized even if `value` changes
@@ -29,4 +29,3 @@ describe('useEventCallback', () => {
     userEvent.type(input, 'Hello');
   });
 });
-
