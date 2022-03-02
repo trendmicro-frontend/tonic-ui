@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useConst from './useConst';
 import useEventCallback from './useEventCallback';
 
@@ -17,7 +17,7 @@ describe('useEventCallback', () => {
 
       useEffect(() => {
         expect(onChange).toEqual(memoizedEventCallback);
-      }, [value]);
+      }, [value, onChange, memoizedEventCallback]);
 
       return (
         <input value={value} onChange={onChange} placeholder="Enter your text" />
