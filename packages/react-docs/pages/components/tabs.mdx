@@ -317,7 +317,6 @@ The tab with the dropdown menu is usually the last tab. You can use `event.preve
           event.preventDefault();
           return;
         }
-
         console.log('Menu Item ' + value + ' clicked');
       }}
     >
@@ -416,11 +415,14 @@ const IconButton = (props) => {
   const [colorStyle] = useColorStyle({ colorMode });
   return (
     <ButtonBase
-      px="4x"
-      color={colorStyle.color.primary}
+      px="2x"
+      color={colorStyle.color.secondary}
       tabIndex={0}
       _disabled={{
-        color: colorStyle.color.secondary,
+        color: colorStyle.color.disabled,
+      }}
+      _hover={{
+        color: colorStyle.color.primary,
       }}
       {...props}
     />
@@ -461,6 +463,59 @@ const EndScrollIndicator = React.forwardRef((props, ref) => (
   />
 ));
 
+const useDragToScroll = (ref, options) => {
+  const {
+    direction = 'both', // One of: 'vertical', 'horizontal', 'both'
+  } = { ...options };
+
+  const initialPosition = {
+    scrollTop: 0,
+    scrollLeft: 0,
+    mouseX: 0,
+    mouseY: 0,
+  };
+
+  const mouseMoveHandler = (event) => {
+    if (ref.current) {
+      const dx = event.clientX - initialPosition.mouseX;
+      const dy = event.clientY - initialPosition.mouseY;
+
+      if (direction !== 'horizontal') {
+        ref.current.scrollTop = initialPosition.scrollTop - dy;
+      }
+      if (direction !== 'vertical') {
+        ref.current.scrollLeft = initialPosition.scrollLeft - dx;
+      }
+    }
+  };
+
+  const mouseUpHandler = () => {
+    if (ref.current) {
+      ref.current.style.cursor = 'grab';
+      ref.current.style.removeProperty('user-select');
+    }
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+  };
+
+  const onMouseDown = (event) => {
+    if (ref.current) {
+      initialPosition.scrollLeft = ref.current.scrollLeft;
+      initialPosition.scrollTop = ref.current.scrollTop;
+      initialPosition.mouseX = event.clientX;
+      initialPosition.mouseY = event.clientY;
+    }
+
+    ref.current.style.cursor = 'grabbing';
+    ref.current.style.userSelect = 'none';
+
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+  };
+
+  return [onMouseDown];
+};
+
 function Example() {
   const startScrollIndicatorRef = React.useRef();
   const endScrollIndicatorRef = React.useRef();
@@ -474,6 +529,7 @@ function Example() {
   });
   const tabScrollerRef = React.useRef(null);
   const tabListRef = React.useRef(null);
+  const [handleDragToScrollTabs] = useDragToScroll(tabScrollerRef);
   const scroll = (scrollValue, { animation = true } = {}) => {
     if (animation) {
       animate(scrollStart, tabScrollerRef.current, scrollValue, {
@@ -537,17 +593,12 @@ function Example() {
   }, []);
   const updateIndicatorOpacity = () => {
     const { scrollLeft, scrollWidth, clientWidth } = tabScrollerRef.current;
-    // use 1 for the potential rounding error with browser zooms.
-    startScrollOpacity = 1 / 20 * Math.min(scrollLeft, 20);
-    endScrollOpacity = 1 / 20 * ((scrollWidth - clientWidth) - Math.max(scrollLeft, (scrollWidth - clientWidth - 20)));
-    console.log('###', startScrollOpacity, endScrollOpacity);
-
+    const startScrollOpacity = 1 / 20 * Math.min(scrollLeft, 20);
+    const endScrollOpacity = 1 / 20 * ((scrollWidth - clientWidth) - Math.max(scrollLeft, (scrollWidth - clientWidth - 20)));
     if (startScrollIndicatorRef.current) {
-      console.log('### startScrollIndicatorRef:', startScrollOpacity, startScrollIndicatorRef.current);
       startScrollIndicatorRef.current.style.opacity = startScrollOpacity;
     }
     if (endScrollIndicatorRef.current) {
-      console.log('### endScrollIndicatorRef:', endScrollOpacity, endScrollIndicatorRef.current);
       endScrollIndicatorRef.current.style.opacity = endScrollOpacity;
     }
   };
@@ -570,15 +621,16 @@ function Example() {
           disabled={!displayScroll.start}
           onClick={handleStartScrollClick}
         >
-          <Icon icon="chevron-left" />
+          <Icon icon="angle-left" />
         </IconButton>
         <StartScrollIndicator ref={startScrollIndicatorRef} />
         <Box
           ref={tabScrollerRef}
-          maxWidth={240}
+          maxWidth={280}
           overflowX="hidden"
           whiteSpace="nowrap"
           onScroll={handleScrollTabs}
+          onMouseDown={handleDragToScrollTabs}
         >
           <TabList
             ref={tabListRef}
@@ -600,7 +652,7 @@ function Example() {
           disabled={!displayScroll.end}
           onClick={handleEndScrollClick}
         >
-          <Icon icon="chevron-right" />
+          <Icon icon="angle-right" />
         </IconButton>
       </Flex>
       <TabPanels px="3x" py="2x">
