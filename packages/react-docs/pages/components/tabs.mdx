@@ -413,21 +413,57 @@ const debounce = (func, wait = 166) => {
 
 const IconButton = (props) => {
   const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   return (
     <ButtonBase
       px="4x"
+      color={colorStyle.color.primary}
+      tabIndex={0}
       _disabled={{
-        opacity: {
-          dark: 0.28,
-          light: 0.3,
-        }[colorMode],
+        color: colorStyle.color.secondary,
       }}
       {...props}
     />
   );
 };
 
+const StartScrollIndicator = React.forwardRef((props, ref) => (
+  <Box
+    ref={ref}
+    position="relative"
+    __after={{
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      width: '4x',
+      background: 'linear-gradient(to right, rgba(21, 21, 21, 1) 0%, rgba(21, 21, 21, 0) 100%)',
+    }}
+    {...props}
+  />
+));
+
+const EndScrollIndicator = React.forwardRef((props, ref) => (
+  <Box
+    ref={ref}
+    position="relative"
+    __after={{
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 0,
+      width: '4x',
+      background: 'linear-gradient(to left, rgba(21, 21, 21, 1) 0%, rgba(21, 21, 21, 0) 100%)',
+    }}
+    {...props}
+  />
+));
+
 function Example() {
+  const startScrollIndicatorRef = React.useRef();
+  const endScrollIndicatorRef = React.useRef();
   const [colorMode] = useColorMode();
   const orientation = 'horizontal';
   const scrollStart = (orientation === 'vertical') ? 'scrollTop' : 'scrollLeft';
@@ -468,6 +504,7 @@ function Example() {
   const handleScrollTabs = React.useMemo(() => {
     return debounce(() => {
       updateScrollButtonState();
+      updateIndicatorOpacity();
     }, Math.floor(1000 / 60));
   }, [updateScrollButtonState]);
   const handleStartScrollClick = () => {
@@ -477,15 +514,15 @@ function Example() {
     moveTabsScroll(getScrollSize());
   };
   const updateScrollButtonState = React.useCallback(() => {
-    const { scrollTop, scrollHeight, clientHeight, scrollWidth, clientWidth } = tabScrollerRef.current;
     let showStartScroll;
     let showEndScroll;
 
     if (orientation === 'vertical') {
+      const { scrollTop, scrollHeight, clientHeight } = tabScrollerRef.current;
       showStartScroll = scrollTop > 1;
       showEndScroll = scrollTop < scrollHeight - clientHeight - 1;
     } else {
-      const scrollLeft = tabScrollerRef.current.scrollLeft;
+      const { scrollLeft, scrollWidth, clientWidth } = tabScrollerRef.current;
       // use 1 for the potential rounding error with browser zooms.
       showStartScroll = scrollLeft > 1;
       showEndScroll = scrollLeft < scrollWidth - clientWidth - 1;
@@ -498,6 +535,22 @@ function Example() {
       });
     }
   }, []);
+  const updateIndicatorOpacity = () => {
+    const { scrollLeft, scrollWidth, clientWidth } = tabScrollerRef.current;
+    // use 1 for the potential rounding error with browser zooms.
+    startScrollOpacity = 1 / 20 * Math.min(scrollLeft, 20);
+    endScrollOpacity = 1 / 20 * ((scrollWidth - clientWidth) - Math.max(scrollLeft, (scrollWidth - clientWidth - 20)));
+    console.log('###', startScrollOpacity, endScrollOpacity);
+
+    if (startScrollIndicatorRef.current) {
+      console.log('### startScrollIndicatorRef:', startScrollOpacity, startScrollIndicatorRef.current);
+      startScrollIndicatorRef.current.style.opacity = startScrollOpacity;
+    }
+    if (endScrollIndicatorRef.current) {
+      console.log('### endScrollIndicatorRef:', endScrollOpacity, endScrollIndicatorRef.current);
+      endScrollIndicatorRef.current.style.opacity = endScrollOpacity;
+    }
+  };
 
   React.useEffect(() => {
     return () => {
@@ -507,6 +560,7 @@ function Example() {
 
   React.useEffect(() => {
     updateScrollButtonState();
+    updateIndicatorOpacity();
   }, []);
 
   return (
@@ -518,6 +572,7 @@ function Example() {
         >
           <Icon icon="chevron-left" />
         </IconButton>
+        <StartScrollIndicator ref={startScrollIndicatorRef} />
         <Box
           ref={tabScrollerRef}
           maxWidth={240}
@@ -540,6 +595,7 @@ function Example() {
             <Tab>TAB 10</Tab>
           </TabList>
         </Box>
+        <EndScrollIndicator ref={endScrollIndicatorRef} />
         <IconButton
           disabled={!displayScroll.end}
           onClick={handleEndScrollClick}
