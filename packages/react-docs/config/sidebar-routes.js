@@ -170,6 +170,7 @@ const routes = [
     routes: [
       { title: 'useConst', path: 'hooks/use-const' },
       { title: 'useEffectOnce', path: 'hooks/use-effect-once' },
+      { title: 'useEventCallback', path: 'hooks/use-event-callback' },
       { title: 'useHydrated', path: 'hooks/use-hydrated' },
       { title: 'useIsomorphicEffect', path: 'hooks/use-isomorphic-effect' },
       { title: 'useLatest', path: 'hooks/use-latest' },
