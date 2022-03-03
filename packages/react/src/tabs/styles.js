@@ -129,7 +129,7 @@ const useTabStyle = ({
     }[colorMode];
     const disabledBackgroundColor = {
       dark: 'gray:90',
-      light: 'gray:20',
+      light: 'gray:30',
     }[colorMode];
     const focusBackgroundColor = {
       dark: 'gray:90',
