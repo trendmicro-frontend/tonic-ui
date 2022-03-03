@@ -5,10 +5,9 @@ import useConst from './useConst';
 import useEventCallback from './useEventCallback';
 
 describe('useEventCallback', () => {
-  test('`onChange` will be memoized event if `value` changes', () => {
+  test('`onChange` will be memoized even if `value` changes', () => {
     const App = () => {
       const [value, setValue] = useState('');
-      // `onChange` will be memoized even if `value` changes
       const onChange = useEventCallback((event) => {
         const nextValue = event.target.value;
         setValue(nextValue);
