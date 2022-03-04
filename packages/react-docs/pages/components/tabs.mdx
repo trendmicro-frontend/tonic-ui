@@ -342,6 +342,10 @@ The tab with the dropdown menu is usually the last tab. You can use `event.preve
 
 ### Scrollable tabs
 
+Scrollable tabs are useful when the tab list is longer than the tab container. You can use the following code to create a scrollable tabs.
+
+> Note: This example teaches you how to create a scrollable tabs that supports drag-to-scroll behavior. Scrolling tabs is not yet supported in the current version of `@tonic-ui/react`.
+
 ```jsx noInline
 const easeInOutSin = (time) => {
   return (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;
@@ -468,52 +472,55 @@ const useDragToScroll = (ref, options) => {
     direction = 'both', // One of: 'vertical', 'horizontal', 'both'
   } = { ...options };
 
-  const initialPosition = {
+  const position = {
     scrollTop: 0,
     scrollLeft: 0,
     mouseX: 0,
     mouseY: 0,
   };
 
-  const mouseMoveHandler = (event) => {
-    if (ref.current) {
-      const dx = event.clientX - initialPosition.mouseX;
-      const dy = event.clientY - initialPosition.mouseY;
+  React.useEffect(() => {
+    const el = ref && ref.current;
+    if (!el) {
+      return;
+    }
 
+    const mouseMoveHandler = (event) => {
+      const dx = event.clientX - position.mouseX;
+      const dy = event.clientY - position.mouseY;
       if (direction !== 'horizontal') {
-        ref.current.scrollTop = initialPosition.scrollTop - dy;
+        el.scrollTop = position.scrollTop - dy;
       }
       if (direction !== 'vertical') {
-        ref.current.scrollLeft = initialPosition.scrollLeft - dx;
+        el.scrollLeft = position.scrollLeft - dx;
       }
+    };
+
+    const mouseUpHandler = () => {
+      el.style.cursor = 'grab';
+      el.style.removeProperty('user-select');
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    };
+
+    const onMouseDown = (event) => {
+      position.scrollLeft = el.scrollLeft;
+      position.scrollTop = el.scrollTop;
+      position.mouseX = event.clientX;
+      position.mouseY = event.clientY;
+      el.style.cursor = 'grabbing';
+      el.style.userSelect = 'none';
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    el.addEventListener('mousedown', onMouseDown);
+    return () => {
+      el.removeEventListener('mousedown', onMouseDown);
     }
-  };
+  }, [ref]);
 
-  const mouseUpHandler = () => {
-    if (ref.current) {
-      ref.current.style.cursor = 'grab';
-      ref.current.style.removeProperty('user-select');
-    }
-    document.removeEventListener('mousemove', mouseMoveHandler);
-    document.removeEventListener('mouseup', mouseUpHandler);
-  };
-
-  const onMouseDown = (event) => {
-    if (ref.current) {
-      initialPosition.scrollLeft = ref.current.scrollLeft;
-      initialPosition.scrollTop = ref.current.scrollTop;
-      initialPosition.mouseX = event.clientX;
-      initialPosition.mouseY = event.clientY;
-    }
-
-    ref.current.style.cursor = 'grabbing';
-    ref.current.style.userSelect = 'none';
-
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
-  };
-
-  return [onMouseDown];
+  return position;
 };
 
 function Example() {
@@ -529,7 +536,8 @@ function Example() {
   });
   const tabScrollerRef = React.useRef(null);
   const tabListRef = React.useRef(null);
-  const [handleDragToScrollTabs] = useDragToScroll(tabScrollerRef);
+  const position = useDragToScroll(tabScrollerRef);
+
   const scroll = (scrollValue, { animation = true } = {}) => {
     if (animation) {
       animate(scrollStart, tabScrollerRef.current, scrollValue, {
@@ -544,6 +552,7 @@ function Example() {
     scrollValue += delta;
     scroll(scrollValue);
   };
+  // TODO: use Intersection Observer API to get expected scroll position
   const getScrollSize = () => {
     const containerSize = tabScrollerRef.current[clientSize];
     let totalSize = 0;
@@ -560,7 +569,7 @@ function Example() {
   const handleScrollTabs = React.useMemo(() => {
     return debounce(() => {
       updateScrollButtonState();
-      updateIndicatorOpacity();
+      updateScrollIndicatorOpacity();
     }, Math.floor(1000 / 60));
   }, [updateScrollButtonState]);
   const handleStartScrollClick = () => {
@@ -591,7 +600,7 @@ function Example() {
       });
     }
   }, []);
-  const updateIndicatorOpacity = () => {
+  const updateScrollIndicatorOpacity = () => {
     const { scrollLeft, scrollWidth, clientWidth } = tabScrollerRef.current;
     const startScrollOpacity = 1 / 20 * Math.min(scrollLeft, 20);
     const endScrollOpacity = 1 / 20 * ((scrollWidth - clientWidth) - Math.max(scrollLeft, (scrollWidth - clientWidth - 20)));
@@ -611,7 +620,7 @@ function Example() {
 
   React.useEffect(() => {
     updateScrollButtonState();
-    updateIndicatorOpacity();
+    updateScrollIndicatorOpacity();
   }, []);
 
   return (
@@ -630,7 +639,6 @@ function Example() {
           overflowX="hidden"
           whiteSpace="nowrap"
           onScroll={handleScrollTabs}
-          onMouseDown={handleDragToScrollTabs}
         >
           <TabList
             ref={tabListRef}
