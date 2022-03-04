@@ -27,8 +27,8 @@ const GlobalStyles = () => {
           outline: none;
         }
         body {
-          background-color: ${backgroundColor};
-          color: ${color};
+          background-color: ${theme.colors[backgroundColor]};
+          color: ${theme.colors[color]};
           font-size: ${theme.fontSizes.sm};
           line-height: ${theme.lineHeights.sm};
         }
