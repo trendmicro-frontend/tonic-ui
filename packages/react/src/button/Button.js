@@ -41,7 +41,6 @@ const Button = forwardRef((
   const styleProps = useButtonStyle({
     size,
     variant,
-    borderRadius,
   });
 
   return (
