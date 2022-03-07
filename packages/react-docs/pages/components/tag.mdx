@@ -1,6 +1,6 @@
 # Tag
 
-`Tag` is used for items that need to be labeled, categorized, or organized using keywords that describe them. You can use [EditableTag](editabletag) component to implement a tag that can be edited.
+`Tag` is used for items that need to be labeled, categorized, or organized using keywords that describe them. You can use `EditableTag` component to implement a tag that can be edited.
 
 ## Import
 
@@ -253,19 +253,19 @@ const TagCreator = ({
 };
 
 const Tags = () => {
-  const [tags, setTags] = React.useState(['disabled', 'invalid']);
+  const [tags, setTags] = React.useState(['disabled', 'invalid', 'normal']);
   const handleTagCreate = (value) => {
     if (value && tags.indexOf(value) === -1) {
       setTags([...tags, value]);
     }
   };
-  const handleTagChange = ({ id, value }) => {
-    tags[id] = value;
+  const handleTagChange = (index) => ({ value }) => {
+    tags[index] = value;
     setTags([...tags]);
   };
-  const handleTagClose = (id) => (e) => {
+  const handleTagClose = (index) => (e) => {
     e.stopPropagation();
-    tags.splice(id, 1);
+    tags.splice(index, 1);
     setTags([...tags]);
   };
 
@@ -282,11 +282,11 @@ const Tags = () => {
             verticalAlign="top"
           >
             <EditableTag
-              tagId={i}
               title={value}
               disabled={value === 'disabled'}
               isInvalid={value === 'invalid'}
-              onChange={handleTagChange}
+              onChange={handleTagChange(i)}
+              onClose={handleTagClose(i)}
             >
               {value}
             </EditableTag>
@@ -301,7 +301,7 @@ const Tags = () => {
 render(<Tags />);
 ```
 
-### With placeholder
+### InputTag
 
 - For duplicated entries, put both entries invalid, and hover the token to display error message.
 - When paste with text with delimiter, automatically convert to tags. Default delimiter: `,`, `;`
@@ -569,7 +569,21 @@ render(<Tags />);
 
 ## Props
 
+### Tag
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
 | variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
+
+
+### EditableTag
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the tag will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| isInvalid | boolean | | If `true`, the tag will indicate an error. You can style this state by passing the `_invalid` prop. |
+| onClose | function | | A callback called when the close button is clicked. |
+| size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
+| index | number \| string | | The index of the tag. An index number starting from 0 will be provided if not specified. |
+| variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
+
+### TagCloseButton

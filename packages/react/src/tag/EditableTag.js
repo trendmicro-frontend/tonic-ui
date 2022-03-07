@@ -12,7 +12,6 @@ const EditableTag = forwardRef((
     disabled,
     isInvalid,
     size = 'md',
-    tagId,
     variant = 'solid',
 
     onChange,
@@ -25,7 +24,6 @@ const EditableTag = forwardRef((
 ) => {
   onChange = ensureFunction(onChange);
   onClick = ensureFunction(onClick);
-  onClose = ensureFunction(onClose);
 
   const tagInputRef = useRef();
   const tagHiddenSpanRef = useRef();
@@ -35,13 +33,13 @@ const EditableTag = forwardRef((
 
   // handle input events
   const handleInputBlur = (e) => {
-    onChange({ id: tagId, value: e.target.value });
+    onChange({ value: e.target.value });
     handleInputHidden();
   };
   const handleInputKeyUp = (e) => {
     const keyCode = e.keyCode;
     if (keyCode === 13) { // Enter
-      onChange({ id: tagId, value: e.target.value });
+      onChange({ value: e.target.value });
       handleInputHidden();
     }
     if (keyCode === 27) { // Esc
@@ -63,12 +61,9 @@ const EditableTag = forwardRef((
   const handleTagClick = (e) => {
     e.stopPropagation();
     handleInputVisible();
-    onClick(tagId);
+    onClick();
   };
-  const handleTagClose = (e) => {
-    e.stopPropagation();
-    onClose(tagId);
-  };
+  const handleTagClose = ensureFunction(onClose);
   const handleTagKeyUp = (e) => {
     const keyCode = e.keyCode;
     if (keyCode === 13) {
