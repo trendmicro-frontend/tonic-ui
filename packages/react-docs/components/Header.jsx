@@ -13,6 +13,7 @@ import {
   Space,
   Text,
   useColorMode,
+  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import _get from 'lodash/get';
@@ -55,6 +56,9 @@ const Header = forwardRef((
   },
   ref,
 ) => {
+  const theme = useTheme();
+  const [colorMode, toggleColorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const router = useRouter();
   const version = (() => {
     if (TONIC_UI_DOC_VERSION) {
@@ -65,8 +69,6 @@ const Header = forwardRef((
     }
     return '';
   })();
-  const theme = useTheme();
-  const [colorMode, toggleColorMode] = useColorMode();
 
   useEffect(() => {
     persistColorMode(colorMode);
@@ -219,8 +221,13 @@ const Header = forwardRef((
           </Box>
           <Box
             as="a"
+            color={colorStyle.color.secondary}
             _hover={{
+              color: colorStyle.color.primary,
               cursor: 'pointer',
+            }}
+            _visited={{
+              color: colorStyle.color.secondary,
             }}
             onClick={handleChangeColorMode}
             display="inline-flex"
@@ -234,8 +241,13 @@ const Header = forwardRef((
           </Box>
           <Box
             as="a"
+            color={colorStyle.color.secondary}
             _hover={{
+              color: colorStyle.color.primary,
               cursor: 'pointer',
+            }}
+            _visited={{
+              color: colorStyle.color.secondary,
             }}
             href={pkg.homepage}
             target="_blank"

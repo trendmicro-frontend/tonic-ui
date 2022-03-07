@@ -1,0 +1,100 @@
+# useEventCallback
+
+A custom Hook to do escape hatch optimization for event callbacks.
+
+https://dev.to/yelouafi/a-simple-rule-for-using-callbacks-in-react-4jah
+
+The general rule is: use `useEventCallback` when doing side effects, and use the built-in `useCallback` when doing render work.
+* `useEventCallback` is more suited for callbacks waiting for some external input, then changing the state of the applicationo.
+* `useCallback` is more suited for callbacks that output something into the external world. In fact `useCallback` is semantically really an alias for `useMemo` since we're treating functions here the same as the values we output from JSX.
+
+
+## Import
+
+```js
+import { useEventCallback } from '@tonic-ui/react-hooks';
+```
+
+```js
+import { useCallback, useRef } from 'react';
+import useIsomorphicEffect from './useIsomorphicEffect';
+
+/**
+ * @see https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
+ * @see https://github.com/facebook/react/issues/14099
+ */
+const useEventCallback = (fn, dependencies) => {
+  const ref = useRef(() => {
+    throw new Error('Cannot call an event handler while rendering.');
+  });
+
+  /**
+   * The useLayoutEffect function is triggered synchronously before the DOM mutations are painted.
+   * However, the useEffect function is called after the DOM mutations are painted.
+   */
+  useIsomorphicEffect(() => {
+    ref.current = fn;
+  }, [fn, ...(dependencies ?? [])]);
+
+  return useCallback((...args) => {
+    const callback = ref.current;
+    return callback(...args);
+  }, [ref]);
+};
+```
+
+## Usage
+
+Try typing some text in the input fields and see the difference between `useEventCallback` and `useCallback`.
+
+### useEventCallback
+
+```jsx
+function App() {
+  const [value, setValue] = React.useState('');
+  const onChange = useEventCallback((event) => {
+    const nextValue = event.target.value;
+    console.log(`prev=${value}, next=${nextValue}`);
+    setValue(nextValue);
+  }, [value]);
+  const prevOnChangeRef = React.useRef(onChange);
+  const invalidationCountRef = React.useRef(0);
+  if (prevOnChangeRef.current !== onChange) {
+    prevOnChangeRef.current = onChange;
+    invalidationCountRef.current++;
+  }
+
+  return (
+    <>
+      <Box mb="2x">"onChange" invalidation count: {invalidationCountRef.current}</Box>
+      <Input value={value} onChange={onChange} placeholder="Enter your text" />
+    </>
+  );
+}
+```
+
+### useCallback
+
+```jsx
+function App() {
+  const [value, setValue] = React.useState('');
+  const onChange = React.useCallback((event) => {
+    const nextValue = event.target.value;
+    console.log(`prev=${value}, next=${nextValue}`);
+    setValue(nextValue);
+  }, [value]);
+  const prevOnChangeRef = React.useRef(onChange);
+  const invalidationCountRef = React.useRef(0);
+  if (prevOnChangeRef.current !== onChange) {
+    prevOnChangeRef.current = onChange;
+    invalidationCountRef.current++;
+  }
+
+  return (
+    <>
+      <Box mb="2x">"onChange" invalidation count: {invalidationCountRef.current}</Box>
+      <Input value={value} onChange={onChange} placeholder="Enter your text" />
+    </>
+  );
+}
+```

@@ -19,7 +19,7 @@ const Drawer = ({
   backdrop,
   closeOnEsc = false,
   closeOnOutsideClick = false,
-  placement = 'left',
+  placement = 'right',
   size = 'auto',
   isOpen = false,
   onClose,

@@ -5,13 +5,15 @@ const useTextStyle = ({ size }) => {
   const { fontSizes, lineHeights } = useTheme();
 
   return {
+    display: 'block',
     fontFamily: 'base',
     fontSize: fontSizes?.[size],
     lineHeight: lineHeights?.[size],
   };
 };
 
-const useTextLabelStyle = () => {
+const useTextLabelStyle = ({ size }) => {
+  const textStyle = useTextStyle({ size });
   const [colorMode] = useColorMode();
   const color = {
     dark: 'white:secondary',
@@ -19,6 +21,7 @@ const useTextLabelStyle = () => {
   }[colorMode];
 
   return {
+    ...textStyle,
     color,
   };
 };

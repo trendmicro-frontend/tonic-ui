@@ -4,7 +4,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon as FAIcon } from '@fortawesome/react-fontawesome';
-import { useColorMode } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 
 library.add(fab);
@@ -37,21 +36,12 @@ const FontAwesomeIcon = forwardRef((
   },
   ref
 ) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    light: '#666666',
-    dark: '#bbbbbb',
-  }[colorMode];
-
   return (
     <ClassNames>
       {({ css, cx }) => (
         <FAIcon
           ref={ref}
           className={cx(
-            css`
-              color: ${color};
-            `,
             spin && css`
               animation: ${spinKeyframes} 2s infinite linear;
             `,

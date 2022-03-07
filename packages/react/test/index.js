@@ -176,11 +176,11 @@ test('should match expected exports', () => {
     'TableRow',
 
     // tabs
-    //'Tab', // TODO
-    //'Tabs', // TODO
-    //'TabList', // TODO
-    //'TabPanel', // TODO
-    //'TabPanels', // TODO
+    'Tab',
+    'Tabs',
+    'TabList',
+    'TabPanel',
+    'TabPanels',
 
     // tag
     'Tag',

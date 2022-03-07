@@ -213,6 +213,8 @@ const ol = props => (
 const li = props => (
   <Box
     as="li"
+    mt="1x"
+    mb="2x"
     {...props}
   />
 );
