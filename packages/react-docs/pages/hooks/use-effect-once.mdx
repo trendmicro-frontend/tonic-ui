@@ -1,6 +1,6 @@
 # useEffectOnce
 
-A custom Hook that runs a callback at most once when a condition becomes true.
+A modified version of the `useEffect` Hook that runs an effect only once.
 
 ## Import
 
@@ -9,22 +9,11 @@ import { useEffectOnce } from '@tonic-ui/react-hooks';
 ```
 
 ```js
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
-const useEffectOnce = (callback, when) => {
-  const runOnceRef = useRef(false);
-  const callbackRef = useRef(callback);
-
-  callbackRef.current = callback;
-
-  useEffect(() => {
-    if (!when || runOnceRef.current) {
-      return;
-    }
-
-    (typeof callbackRef.current === 'function') && callbackRef.current();
-    runOnceRef.current = true;
-  }, [when]);
+const useEffectOnce = (effect) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(effect, []);
 };
 ```
 
@@ -32,20 +21,21 @@ const useEffectOnce = (callback, when) => {
 
 ```jsx
 function App() {
-  const [clicked, setClicked] = React.useState(false);
-  const [touched, setTouched] = React.useState(false);
+  const [data, setData] = React.useState(0);
+
+  React.useEffect(() => {
+    console.log('useEffect is triggered when data changes', { data });
+  }, [data]);
 
   useEffectOnce(() => {
-    setTouched(true);
-  }, clicked);
+    console.log('useEffectOnce is triggered only once', { data });
+  });
 
   return (
     <>
-      <Box mb="4x">
-        {touched ? 'Touched' : 'Untouched'}
-      </Box>
-      <Button onClick={() => setClicked(true)}>
-        Click Me
+      <Box mb="2x">{data}</Box>
+      <Button onClick={() => setData(data => data + 1)}>
+        Update data
       </Button>
     </>
   );
