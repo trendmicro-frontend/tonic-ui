@@ -5,9 +5,12 @@ const baseStyle = {
   alignItems: 'center',
   border: 1,
   borderColor: 'transparent',
+  borderRadius: 'sm',
   cursor: 'default',
   display: 'inline-flex',
   outline: 'none',
+  pl: '2x',
+  pr: '2x',
 };
 
 const labelSizes = {
@@ -31,13 +34,10 @@ const labelSizes = {
 };
 
 const getSizeProps = ({
-  isClosable,
   size,
 }) => {
   return {
     ...labelSizes[size],
-    pl: '2x',
-    pr: isClosable ? '1x' : '2x',
   };
 };
 
@@ -84,16 +84,10 @@ const useTagStyle = ({
 }) => {
   const [colorMode] = useColorMode();
   const variantStyle = {
-    'solid': getSolidTagStyle({
-      colorMode,
-    }),
-    'outline': getOutlineTagStyle({
-      colorMode,
-    }),
+    'solid': getSolidTagStyle({ colorMode }),
+    'outline': getOutlineTagStyle({ colorMode }),
   }[variant];
-  const sizeProps = getSizeProps({
-    size,
-  });
+  const sizeProps = getSizeProps({ size });
 
   return {
     ...baseStyle,
@@ -274,7 +268,6 @@ const getOutlineEditableTagStyle = ({
 };
 
 const useEditableTagStyle = ({
-  isClosable,
   size,
   variant,
 }) => {
@@ -291,12 +284,12 @@ const useEditableTagStyle = ({
     }),
   }[variant];
   const sizeProps = getSizeProps({
-    isClosable,
     size,
   });
 
   return {
     ...baseStyle,
+    cursor: 'pointer', // override base style
     ...sizeProps,
     ...variantStyle,
   };
@@ -304,27 +297,36 @@ const useEditableTagStyle = ({
 
 const useTagCloseButtonStyle = () => {
   const [colorMode] = useColorMode();
+  const size = '4x';
+
+  // Normal
   const color = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
+  // Hover
   const hoverColor = {
     dark: 'white:emphasis',
     light: 'black:emphasis',
   }[colorMode];
+  // Active
   const activeColor = color;
+  // Focus
+  const focusColor = hoverColor;
+  // Disable
   const disabledColor = color;
-  const _size = '4x';
 
   return {
     backgroundColor: 'transparent',
     color: color,
-    height: _size,
-    width: _size,
-    minWidth: _size, // ensure a minimum width for the close button
-    ml: '2x',
+    height: size,
+    width: size,
+    minWidth: size, // ensure a minimum width for the close button
     _hover: {
       color: hoverColor,
+    },
+    _focus: {
+      color: focusColor,
     },
     _active: {
       color: activeColor,

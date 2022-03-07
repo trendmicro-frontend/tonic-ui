@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { Icon } from '../icon';
 import { useTagCloseButtonStyle } from './styles';
 
 const TagCloseButton = forwardRef((props, ref) => {
@@ -10,7 +11,9 @@ const TagCloseButton = forwardRef((props, ref) => {
       ref={ref}
       {...closeButtonStyleProps}
       {...props}
-    />
+    >
+      <Icon icon="close-s" />
+    </ButtonBase>
   );
 });
 

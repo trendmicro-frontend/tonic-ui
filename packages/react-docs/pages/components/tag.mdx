@@ -5,7 +5,11 @@
 ## Import
 
 ```js
-import { Tag } from '@tonic-ui/react';
+import {
+  Tag,
+  TagCloseButton,
+  EditableTag,
+} from '@tonic-ui/react';
 ```
 
 ## Usage
@@ -156,6 +160,8 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
     <Tag size="sm">Small</Tag>
     <Tag size="md">Medium</Tag>
     <Tag size="lg">Large</Tag>
+  </Stack>
+  <Stack direction="row" alignItems="center" spacing="2x">
     <Tag size="sm" borderRadius="lg">Small</Tag>
     <Tag size="md" borderRadius="lg">Medium</Tag>
     <Tag size="lg" borderRadius="32px">Large</Tag>
@@ -164,12 +170,402 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
     <Tag size="sm" variant="outline">Small</Tag>
     <Tag size="md" variant="outline">Medium</Tag>
     <Tag size="lg" variant="outline">Large</Tag>
+  </Stack>
+    <Stack direction="row" alignItems="center" spacing="2x">
     <Tag size="sm" variant="outline" borderRadius="lg">Small</Tag>
     <Tag size="md" variant="outline" borderRadius="lg">Medium</Tag>
     <Tag size="lg" variant="outline" borderRadius="32px">Large</Tag>
   </Stack>
 </Stack>
 ```
+
+### With close button
+
+```jsx
+<Tag>
+  Medium
+  <TagCloseButton ml="2x" onClick={()=> { alert('Click the button'); }} />
+</Tag>
+```
+
+## EditableTag
+
+```jsx noInline
+const TagCreator = ({
+  onCreate,
+  ...reset
+}) => {
+  const [colorMode] = useColorMode();
+  const color = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+
+  const [inputVisible, setInputVisible] = React.useState(false);
+  const handleInputVisible = () => setInputVisible(true);
+  const handleInputHidden = () => setInputVisible(false);
+  const handleInputBlur = (e) => {
+    e.stopPropagation();
+    const value = e.target.value;
+    onCreate(value);
+    handleInputHidden();
+  };
+  const handleInputKeyUp = (e) => {
+    const keyCode = e.keyCode;
+    if (keyCode === 13) { // Enter
+      const value = e.target.value;
+      onCreate(value);
+      handleInputHidden();
+    }
+    if (keyCode === 27) { // Escape
+      handleInputHidden();
+    }
+  };
+
+  if (inputVisible) {
+    return (
+      <InputBase
+        autoFocus
+        height="28px"
+        verticalAlign="top"
+        onKeyUp={handleInputKeyUp}
+        onBlur={handleInputBlur}
+      />
+    );
+  }
+
+  return (
+    <Box
+      display="inline-flex"
+      alignItems="center"
+      borderRadius="sm"
+      border="1px dotted"
+      borderColor={color}
+      py="1x"
+      px="2x"
+      onClick={handleInputVisible}
+    >
+      <Icon icon="add" color={color} />
+      <Space width="1x" />
+      <Text color={color} fontSize="xs" lineHeight="xs">Add</Text>
+    </Box>
+  );
+};
+
+const Tags = () => {
+  const [tags, setTags] = React.useState(['disabled', 'invalid']);
+  const handleTagCreate = (value) => {
+    if (value && tags.indexOf(value) === -1) {
+      setTags([...tags, value]);
+    }
+  };
+  const handleTagChange = ({ id, value }) => {
+    tags[id] = value;
+    setTags([...tags]);
+  };
+  const handleTagClose = (id) => (e) => {
+    e.stopPropagation();
+    tags.splice(id, 1);
+    setTags([...tags]);
+  };
+
+  return (
+    <>
+      {
+        tags.map((value, i) => (
+          <Box
+            key={i}
+            display="inline-flex"
+            mr="2x"
+            mt="1h"
+            minHeight="6x"
+            verticalAlign="top"
+          >
+            <EditableTag
+              tagId={i}
+              title={value}
+              disabled={value === 'disabled'}
+              isInvalid={value === 'invalid'}
+              onChange={handleTagChange}
+            >
+              {value}
+            </EditableTag>
+          </Box>
+        ))
+      }
+      <TagCreator onCreate={handleTagCreate} />
+    </>
+  );
+};
+
+render(<Tags />);
+```
+
+### With placeholder
+
+- For duplicated entries, put both entries invalid, and hover the token to display error message.
+- When paste with text with delimiter, automatically convert to tags. Default delimiter: `,`, `;`
+
+```jsx noInline
+const useWrapperStyle = ({
+  isFocused,
+}) => {
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+  const invalidBorderColor = {
+    dark: 'red:50',
+    light: 'red:60',
+  }[colorMode];
+  const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+
+  return {
+    backgroundColor: 'transparent',
+    borderRadius: 'sm',
+    fontSize: 'sm',
+    lineHeight: 'sm',
+    minHeight: '14x',
+    px: '3x',
+    pb: '1x',
+    border: 1,
+    borderColor: isFocused ? focusBorderColor : borderColor,
+    _invalid: {
+      borderColor: invalidBorderColor,
+    },
+  };
+};
+
+const TagCreator = React.forwardRef((
+  {
+    onBlur,
+    onCreate,
+    onFocus,
+    ...reset
+  },
+  ref
+) => {
+  const [inputValue, setInputValue] = React.useState('');
+
+  const createTags = (values) => {
+    onCreate(values);
+    setInputValue('');
+  };
+  const handleInputBlur = (e) => {
+    e.stopPropagation();
+    const value = e.target.value;
+    if (value) {
+      createTags([value]);
+    }
+    onBlur(e);
+  };
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+  };
+  const handleInputKeyUp = (e) => {
+    const keyCode = e.keyCode;
+    let value = e.target.value;
+    if (keyCode === 13) { // Enter
+      createTags([value]);
+    }
+    if (keyCode === 186 || keyCode === 188) { // Semicolon(;) or Comma(,)
+      value = value.substring(0, value.length - 1);
+      createTags([value]);
+    }
+    if (keyCode === 27) { // Esc
+      setInputValue('');
+    }
+  };
+  const handleInputPaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text');
+    const separatedValues = pastedData.split(
+      new RegExp([',', ';', '\n', '\r', '\r\n'].join('|'))
+    );
+    createTags(separatedValues);
+  };
+
+  return (
+    <InputBase
+      ref={ref}
+      minHeight="6x"
+      value={inputValue}
+      onBlur={handleInputBlur}
+      onChange={handleInputChange}
+      onFocus={onFocus}
+      onKeyUp={handleInputKeyUp}
+      onPaste={handleInputPaste}
+      {...reset}
+    />
+  );
+});
+
+const Tags = () => {
+  const [colorMode] = useColorMode();
+  const placeholderColor = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const invalidColor = {
+    dark: 'red:50',
+    light: 'red:60',
+  }[colorMode];
+
+  const [tags, setTags] = React.useState([]);
+  const [hasError, setHasError] = React.useState(false);
+  const tagCreatorRef = React.useRef();
+  const [placeholderVisible, setPlaceholderVisible] = React.useState(true);
+  const [isWrapperFocused, setWrapperFocused] = React.useState(false);
+
+  const verifyTag = ({ id, value }) => {
+    const isDuplicated = tags.find((t) => t.value === value && t.id !== id);
+    if (isDuplicated) {
+      return 'Duplicated entries';
+    }
+    return '';
+  };
+  const createTags = (values) => {
+    if (values.length === 0) {
+      return;
+    }
+    values = values.filter(value => {
+      if (value.trim() === '') {
+        return false; // skip
+      }
+      return true;
+    }).map((value, i) => {
+      const tagId = new Date().getTime() + i;
+      return {
+        id: tagId,
+        value: value,
+        isActive: false,
+        error: verifyTag({ id: tagId, value: value }),
+      };
+    });
+    const newTags = [...tags, ...values];
+    setTags(newTags);
+  };
+  const updateTag = ({ id, value }) => {
+    const newTags = [...tags];
+    const tag = newTags.find((t) => t.id === id);
+    tag.value = value || tag.value;
+    tag.isActive = false;
+    tag.error = verifyTag({ id, value });
+    setTags(newTags);
+  };
+
+  const handleTagCreatorBlur = () => {
+    setWrapperFocused(false);
+    if (tags.length === 0) {
+      setPlaceholderVisible(true);
+    }
+  };
+  const handleTagCreatorFocus = () => {
+    setPlaceholderVisible(false);
+  };
+
+  const handleTagClick = (tagId) => {
+    const newTags = [...tags];
+    let tag = newTags.find((t) => t.id === tagId);
+    tag.isActive = true;
+    setTags(newTags);
+  };
+  const handleTagClose = (tagId) => {
+    const tag = tags.find((t) => t.id === tagId);
+    if (!tag) {
+      return;
+    }
+    const newTags = tags.filter((t) => t.id !== tagId);
+    setTags(newTags);
+    tagCreatorRef.current.focus();
+  };
+  const handleTagFocus = () => {
+    setWrapperFocused(true);
+  };
+
+  const handleWrapperClick = (e) => {
+    const activeTag = tags.find((t) => t.isActive);
+    if (activeTag) {
+      return;
+    }
+    tagCreatorRef.current.focus();
+    setWrapperFocused(true);
+  };
+  const wrapperStyle = useWrapperStyle({
+    isFocused: isWrapperFocused,
+  });
+
+  React.useEffect(() => {
+    const invalidTags = tags.filter(t => t.error.length > 0);
+    if (invalidTags.length > 1) {
+      setHasError(true);
+    }
+    if (invalidTags.length === 1 && invalidTags[0].isActive === false) {
+      setHasError(true);
+    }
+    if (invalidTags.length === 0) {
+      setHasError(false);
+    }
+  }, [tags]);
+
+  return (
+    <>
+      <Box
+        {...wrapperStyle}
+        role="presentation"
+        aria-invalid={hasError}
+        onClick={handleWrapperClick}
+      >
+        {placeholderVisible && <Text mt="1x" color={placeholderColor}>Placeholder text</Text>}
+        {
+          tags.map(tag => {
+            const id = tag.id;
+            const value = tag.value;
+            const error = tag.error;
+            return (
+              <EditableTag
+                key={id}
+                tagId={id}  
+                title={value}
+                isInvalid={!!error}
+                verticalAlign="top"
+                mr="2x"
+                mt="1h"
+                maxWidth={120}
+                overflow="hidden"
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
+                onChange={updateTag}
+                onClick={handleTagClick}
+                onClose={handleTagClose}
+                onFocus={handleTagFocus}
+              >
+                {value}
+              </EditableTag>
+            );
+          })
+        }
+        <TagCreator
+          ref={tagCreatorRef}
+          mt="1x"
+          onBlur={handleTagCreatorBlur}
+          onCreate={createTags}
+          onFocus={handleTagCreatorFocus}
+        />
+      </Box>
+      {hasError && <Text color={invalidColor}>There are invalid entries.</Text>}
+    </>
+  );
+};
+
+render(<Tags />);
+```
+
 
 ## Props
 
