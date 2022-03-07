@@ -1,8 +1,10 @@
-import { useConst } from '@tonic-ui/react-hooks';
+import { useConst, useEffectOnce } from '@tonic-ui/react-hooks';
 import memoize from 'micro-memoize';
 import React, { useEffect, useReducer } from 'react';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
 import runIfFn from '../utils/runIfFn';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import warnRemovedProps from '../utils/warnRemovedProps';
 import { TabsContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -15,6 +17,11 @@ const stateReducer = (prevState, nextState) => ({
 const defaultVariant = 'default';
 
 const Tabs = ({
+  activateOnKeyPress, // removed
+  isFitted, // removed
+  isManual, // removed
+  orientation, // removed
+
   children,
   defaultIndex = 0,
   disabled,
@@ -22,6 +29,54 @@ const Tabs = ({
   onChange,
   variant = defaultVariant,
 }) => {
+  useEffectOnce(() => {
+    const prefix = `${Tabs.displayName}:`;
+
+    if (activateOnKeyPress !== undefined) {
+      warnRemovedProps('activateOnKeyPress', {
+        prefix,
+      });
+    }
+    if (isFitted !== undefined) {
+      warnRemovedProps('isFitted', {
+        prefix,
+      });
+    }
+    if (isManual !== undefined) {
+      warnRemovedProps('isManual', {
+        prefix,
+      });
+    }
+    if (orientation !== undefined) {
+      warnRemovedProps('orientation', {
+        prefix,
+      });
+    }
+    if (variant === 'line') {
+      warnDeprecatedProps('variant="line"', {
+        prefix,
+        alternative: 'variant="default"',
+        willRemove: true,
+      });
+    }
+    if (variant === 'enclosed') {
+      warnDeprecatedProps('variant="enclosed"', {
+        prefix,
+        alternative: 'variant="filled"',
+        willRemove: true,
+      });
+    }
+  }, true); // TODO: check if `when` is true for each prop
+
+  { // map deprecated props to new props
+    if (variant === 'line') {
+      variant = 'default';
+    }
+    if (variant === 'enclosed') {
+      variant = 'filled';
+    }
+  }
+
   const tabMap = useConst(() => new Map());
   const tabPanelMap = useConst(() => new Map());
   const [state, setState] = useReducer(stateReducer, {
