@@ -50,6 +50,7 @@ const Tabs = ({
     if (orientation !== undefined) {
       warnRemovedProps('orientation', {
         prefix,
+        message: 'Only horizontal orientation is supported by Tabs.',
       });
     }
     if (variant === 'line') {
