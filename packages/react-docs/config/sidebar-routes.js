@@ -174,6 +174,8 @@ const routes = [
       { title: 'useHydrated', path: 'hooks/use-hydrated' },
       { title: 'useIsomorphicEffect', path: 'hooks/use-isomorphic-effect' },
       { title: 'useLatest', path: 'hooks/use-latest' },
+      { title: 'useOnce', path: 'hooks/use-once' },
+      { title: 'useOnceWhen', path: 'hooks/use-once-when' },
       { title: 'usePrevious', path: 'hooks/use-previous' },
       { title: 'useToggle', path: 'hooks/use-toggle' },
     ],

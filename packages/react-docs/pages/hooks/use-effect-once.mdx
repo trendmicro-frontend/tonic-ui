@@ -21,21 +21,23 @@ const useEffectOnce = (effect) => {
 
 ```jsx
 function App() {
-  const [data, setData] = React.useState(0);
+  const [value, setValue] = React.useState(0);
 
   React.useEffect(() => {
-    console.log('useEffect is triggered when data changes', { data });
-  }, [data]);
+    console.log('useEffect is triggered when value changes', { value });
+  }, [value]);
 
   useEffectOnce(() => {
-    console.log('useEffectOnce is triggered only once', { data });
+    console.log('useEffectOnce is triggered only once', { value });
   });
 
   return (
     <>
-      <Box mb="2x">{data}</Box>
-      <Button onClick={() => setData(data => data + 1)}>
-        Update data
+      <Box mb="2x">
+        {value}
+      </Box>
+      <Button onClick={() => setValue(value => value + 1)}>
+        Click Me
       </Button>
     </>
   );
