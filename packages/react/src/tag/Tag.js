@@ -43,6 +43,7 @@ const Tag = forwardRef((
 
   isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const tagStyleProps = useTagStyle({
+    color: variantColor, // TODO: remove this line after deprecation
     size,
     variant,
   });

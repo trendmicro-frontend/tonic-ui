@@ -43,8 +43,92 @@ const getSizeProps = ({
 
 //---------------- Basic Tag ----------------//
 const getSolidTagStyle = ({
+  color: colorProp, // deprecated
   colorMode,
 }) => {
+  const undefinedColor = {
+    dark: {
+      backgroundColor: `${colorProp}:80`,
+      color: `${colorProp}:20`,
+    },
+    light: {
+      backgroundColor: `${colorProp}:80`,
+      color: `${colorProp}:20`,
+    }
+  }[colorMode];
+  const solidColors = {
+    dark: {
+      gray: {
+        backgroundColor: 'gray:70',
+        color: 'gray:20'
+      },
+      red: {
+        backgroundColor: 'red:80',
+        color: 'red:20'
+      },
+      magenta: {
+        backgroundColor: 'magenta:80',
+        color: 'magenta:20'
+      },
+      purple: {
+        backgroundColor: 'purple:80',
+        color: 'purple:20'
+      },
+      blue: {
+        backgroundColor: 'blue:80',
+        color: 'blue:20'
+      },
+      green: {
+        backgroundColor: 'green:70',
+        color: 'green:20'
+      },
+      teal: {
+        backgroundColor: 'teal:70',
+        color: 'teal:20'
+      },
+      cyan: {
+        backgroundColor: 'cyan:70',
+        color: 'cyan:20'
+      },
+    },
+    light: {
+      gray: {
+        backgroundColor: 'gray:70',
+        color: 'gray:20'
+      },
+      red: {
+        backgroundColor: 'red:80',
+        color: 'red:20'
+      },
+      magenta: {
+        backgroundColor: 'magenta:80',
+        color: 'magenta:20'
+      },
+      purple: {
+        backgroundColor: 'purple:80',
+        color: 'purple:20'
+      },
+      blue: {
+        backgroundColor: 'blue:80',
+        color: 'blue:20'
+      },
+      green: {
+        backgroundColor: 'green:70',
+        color: 'green:20'
+      },
+      teal: {
+        backgroundColor: 'teal:70',
+        color: 'teal:20'
+      },
+      cyan: {
+        backgroundColor: 'cyan:70',
+        color: 'cyan:20'
+      },
+    }
+  }[colorMode];
+
+  const baseColors = solidColors[colorProp] || undefinedColor;
+
   // Normal
   const backgroundColor = {
     dark: 'gray:70',
@@ -76,6 +160,7 @@ const getSolidTagStyle = ({
   return {
     backgroundColor,
     color,
+    ...(colorProp && baseColors),
     _invalid: {
       backgroundColor: invalidBackgroundColor,
       color: invalidColor,
@@ -92,8 +177,36 @@ const getSolidTagStyle = ({
 };
 
 const getOutlineTagStyle = ({
+  color: colorProp, // deprecated
   colorMode,
 }) => {
+  const undefinedColor = {
+    dark: {
+      borderColor: `${colorProp}:50`,
+      color: `${colorProp}:50`,
+    },
+    light: {
+      borderColor: `${colorProp}:50`,
+      color: `${colorProp}:50`,
+    }
+  }[colorMode];
+  const outlineColors = {
+    dark: {
+      gray: {
+        borderColor: 'gray:50',
+        color: 'gray:40'
+      },
+    },
+    light: {
+      gray: {
+        borderColor: 'gray:50',
+        color: 'gray:40'
+      },
+    }
+  }[colorMode];
+
+  const baseColors = outlineColors[colorProp] || undefinedColor;
+
   // Normal
   const borderColor = {
     dark: 'gray:40',
@@ -125,6 +238,7 @@ const getOutlineTagStyle = ({
   return {
     borderColor,
     color,
+    ...(colorProp && baseColors),
     _invalid: {
       borderColor: invalidBackgroundColor,
       backgroundColor: invalidBackgroundColor,
@@ -146,13 +260,14 @@ const getOutlineTagStyle = ({
 };
 
 const useTagStyle = ({
+  color, // deprecated
   size,
   variant,
 }) => {
   const [colorMode] = useColorMode();
   const variantStyle = {
-    'solid': getSolidTagStyle({ colorMode }),
-    'outline': getOutlineTagStyle({ colorMode }),
+    'solid': getSolidTagStyle({ color, colorMode }),
+    'outline': getOutlineTagStyle({ color, colorMode }),
   }[variant];
   const sizeProps = getSizeProps({ size });
 
