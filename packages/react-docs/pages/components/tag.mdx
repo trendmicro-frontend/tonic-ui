@@ -226,8 +226,7 @@ const TagCreator = ({
     return (
       <InputBase
         autoFocus
-        height="28px"
-        verticalAlign="top"
+        height="6x"
         onKeyUp={handleInputKeyUp}
         onBlur={handleInputBlur}
       />
@@ -238,10 +237,11 @@ const TagCreator = ({
     <Box
       display="inline-flex"
       alignItems="center"
-      borderRadius="sm"
       border="1px dotted"
       borderColor={color}
-      py="1x"
+      borderRadius="lg"
+      cursor="pointer"
+      py="2q"
       px="2x"
       onClick={handleInputVisible}
     >
@@ -264,7 +264,6 @@ const Tags = () => {
     setTags([...tags]);
   };
   const handleTagClose = (index) => (e) => {
-    e.stopPropagation();
     tags.splice(index, 1);
     setTags([...tags]);
   };
@@ -277,11 +276,11 @@ const Tags = () => {
             key={i}
             display="inline-flex"
             mr="2x"
-            mt="1h"
-            minHeight="6x"
             verticalAlign="top"
           >
             <EditableTag
+              variant="outline"
+              borderRadius="lg"
               title={value}
               disabled={value === 'disabled'}
               isInvalid={value === 'invalid'}
@@ -301,19 +300,28 @@ const Tags = () => {
 render(<Tags />);
 ```
 
-### InputTag
+### With input 
 
-- For duplicated entries, put both entries invalid, and hover the token to display error message.
+- For duplicate entries, put the warning message.
 - When paste with text with delimiter, automatically convert to tags. Default delimiter: `,`, `;`
+- Delete the item by clicking the close icon or pressing `backspace` button
 
 ```jsx noInline
 const useWrapperStyle = ({
   isFocused,
 }) => {
   const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'transparent',
+    light: 'white',
+  }[colorMode];
   const borderColor = {
     dark: 'gray:60',
     light: 'gray:30',
+  }[colorMode];
+  const hoverBorderColor = {
+    dark: 'blue:50',
+    light: 'blue:50',
   }[colorMode];
   const invalidBorderColor = {
     dark: 'red:50',
@@ -323,17 +331,33 @@ const useWrapperStyle = ({
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
+  const disabledBorderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+  const disabledOpacity = {
+    dark: 0.28,
+    light: 0.3,
+  }[colorMode];
 
   return {
-    backgroundColor: 'transparent',
+    backgroundColor,
+    border: 1,
+    borderColor: isFocused ? focusBorderColor : borderColor,
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
-    minHeight: '14x',
-    px: '3x',
-    pb: '1x',
-    border: 1,
-    borderColor: isFocused ? focusBorderColor : borderColor,
+    height: '9x',
+    px: 'calc(.75rem - 1px)', // 12px - 1px
+    py: 'calc(.375rem - 1px)', // 6px - 1px
+    _hover: {
+      borderColor: hoverBorderColor,
+    },
+    _disabled: {
+      borderColor: disabledBorderColor,
+      cursor: 'not-allowed',
+      opacity: disabledOpacity,
+    },
     _invalid: {
       borderColor: invalidBorderColor,
     },
@@ -344,7 +368,9 @@ const TagCreator = React.forwardRef((
   {
     onBlur,
     onCreate,
-    onFocus,
+    onChange,
+    onKeyUp,
+    onPaste,
     ...reset
   },
   ref
@@ -352,7 +378,9 @@ const TagCreator = React.forwardRef((
   const [inputValue, setInputValue] = React.useState('');
 
   const createTags = (values) => {
-    onCreate(values);
+    if (typeof onCreate === "function") {
+      onCreate(values);
+    }
     setInputValue('');
   };
   const handleInputBlur = (e) => {
@@ -361,11 +389,16 @@ const TagCreator = React.forwardRef((
     if (value) {
       createTags([value]);
     }
-    onBlur(e);
+    if (typeof onBlur === "function") {
+      onBlur(e);
+    }
   };
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
+    if (typeof onChange === "function") {
+      onChange(e);
+    }
   };
   const handleInputKeyUp = (e) => {
     const keyCode = e.keyCode;
@@ -380,6 +413,9 @@ const TagCreator = React.forwardRef((
     if (keyCode === 27) { // Esc
       setInputValue('');
     }
+    if (typeof onKeyUp === "function") {
+      onKeyUp(e);
+    }
   };
   const handleInputPaste = (e) => {
     e.preventDefault();
@@ -388,16 +424,17 @@ const TagCreator = React.forwardRef((
       new RegExp([',', ';', '\n', '\r', '\r\n'].join('|'))
     );
     createTags(separatedValues);
+    if (typeof onPaste === "function") {
+      onPaste(e);
+    }
   };
 
   return (
     <InputBase
       ref={ref}
-      minHeight="6x"
       value={inputValue}
       onBlur={handleInputBlur}
       onChange={handleInputChange}
-      onFocus={onFocus}
       onKeyUp={handleInputKeyUp}
       onPaste={handleInputPaste}
       {...reset}
@@ -416,9 +453,9 @@ const Tags = () => {
     light: 'red:60',
   }[colorMode];
 
+  const tagCreatorRef = React.useRef();
   const [tags, setTags] = React.useState([]);
   const [hasError, setHasError] = React.useState(false);
-  const tagCreatorRef = React.useRef();
   const [placeholderVisible, setPlaceholderVisible] = React.useState(true);
   const [isWrapperFocused, setWrapperFocused] = React.useState(false);
 
@@ -443,8 +480,6 @@ const Tags = () => {
       return {
         id: tagId,
         value: value,
-        isActive: false,
-        error: verifyTag({ id: tagId, value: value }),
       };
     });
     const newTags = [...tags, ...values];
@@ -454,8 +489,6 @@ const Tags = () => {
     const newTags = [...tags];
     const tag = newTags.find((t) => t.id === id);
     tag.value = value || tag.value;
-    tag.isActive = false;
-    tag.error = verifyTag({ id, value });
     setTags(newTags);
   };
 
@@ -466,46 +499,44 @@ const Tags = () => {
     }
   };
   const handleTagCreatorFocus = () => {
+    setWrapperFocused(true);
     setPlaceholderVisible(false);
   };
-
-  const handleTagClick = (tagId) => {
-    const newTags = [...tags];
-    let tag = newTags.find((t) => t.id === tagId);
-    tag.isActive = true;
-    setTags(newTags);
-  };
-  const handleTagClose = (tagId) => {
-    const tag = tags.find((t) => t.id === tagId);
-    if (!tag) {
-      return;
+  const handleTagCreatorKeyUp = (e) => {
+    const keyCode = e.keyCode;
+    const value = e.target.value;
+    if (keyCode == 8) { // Delete
+      if (!value && tags.length > 0) {
+        // remove last tag
+        tags.splice((tags.length-1), 1);
+        setTags([...tags]);
+      }
     }
+  };
+
+  const handleTagChange = (tagId) => ({ value }) => {
+    updateTag({ id: tagId, value });
+  };
+  const handleTagClose = (tagId) => (e) => {
     const newTags = tags.filter((t) => t.id !== tagId);
     setTags(newTags);
     tagCreatorRef.current.focus();
   };
-  const handleTagFocus = () => {
-    setWrapperFocused(true);
-  };
 
   const handleWrapperClick = (e) => {
-    const activeTag = tags.find((t) => t.isActive);
-    if (activeTag) {
-      return;
-    }
     tagCreatorRef.current.focus();
-    setWrapperFocused(true);
   };
   const wrapperStyle = useWrapperStyle({
     isFocused: isWrapperFocused,
   });
 
   React.useEffect(() => {
-    const invalidTags = tags.filter(t => t.error.length > 0);
-    if (invalidTags.length > 1) {
-      setHasError(true);
-    }
-    if (invalidTags.length === 1 && invalidTags[0].isActive === false) {
+    const invalidTags = tags.map((tag, i) => {
+      tag.error = verifyTag({ id: tag.id, value: tag.value });
+      return tag;
+    }).filter(t => t.error.length > 0);
+
+    if (invalidTags.length >= 1) {
       setHasError(true);
     }
     if (invalidTags.length === 0) {
@@ -516,46 +547,52 @@ const Tags = () => {
   return (
     <>
       <Box
-        {...wrapperStyle}
         role="presentation"
         aria-invalid={hasError}
         onClick={handleWrapperClick}
+        {...wrapperStyle}
       >
-        {placeholderVisible && <Text mt="1x" color={placeholderColor}>Placeholder text</Text>}
+        {placeholderVisible && (
+          <Text
+            display="inline-flex"
+            py="2q"
+            color={placeholderColor}
+          >
+            Placeholder text
+          </Text>
+        )}
         {
           tags.map(tag => {
             const id = tag.id;
             const value = tag.value;
             const error = tag.error;
             return (
-              <EditableTag
+              <Box
                 key={id}
-                tagId={id}  
-                title={value}
-                isInvalid={!!error}
-                verticalAlign="top"
+                display="inline-flex"
                 mr="2x"
-                mt="1h"
-                maxWidth={120}
-                overflow="hidden"
-                textOverflow="ellipsis"
-                whiteSpace="nowrap"
-                onChange={updateTag}
-                onClick={handleTagClick}
-                onClose={handleTagClose}
-                onFocus={handleTagFocus}
+                verticalAlign="top"
               >
-                {value}
-              </EditableTag>
+                <EditableTag
+                  title={value}
+                  isInvalid={!!error}
+                  onChange={handleTagChange(id)}
+                  onClose={handleTagClose(id)}
+                >
+                  {value}
+                </EditableTag>
+              </Box>
             );
           })
         }
         <TagCreator
           ref={tagCreatorRef}
-          mt="1x"
+          display="inline-flex"
+          height="6x"
           onBlur={handleTagCreatorBlur}
           onCreate={createTags}
           onFocus={handleTagCreatorFocus}
+          onKeyUp={handleTagCreatorKeyUp}
         />
       </Box>
       {hasError && <Text color={invalidColor}>There are invalid entries.</Text>}
@@ -583,7 +620,6 @@ render(<Tags />);
 | isInvalid | boolean | | If `true`, the tag will indicate an error. You can style this state by passing the `_invalid` prop. |
 | onClose | function | | A callback called when the close button is clicked. |
 | size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
-| index | number \| string | | The index of the tag. An index number starting from 0 will be provided if not specified. |
 | variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
 
 ### TagCloseButton

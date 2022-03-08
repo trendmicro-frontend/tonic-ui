@@ -24,6 +24,7 @@ const EditableTag = forwardRef((
 ) => {
   onChange = ensureFunction(onChange);
   onClick = ensureFunction(onClick);
+  onClose = ensureFunction(onClose);
 
   const tagInputRef = useRef();
   const tagHiddenSpanRef = useRef();
@@ -61,9 +62,12 @@ const EditableTag = forwardRef((
   const handleTagClick = (e) => {
     e.stopPropagation();
     handleInputVisible();
-    onClick();
+    onClick(e);
   };
-  const handleTagClose = ensureFunction(onClose);
+  const handleTagClose = (e) => {
+    e.stopPropagation();
+    onClose(e);
+  };
   const handleTagKeyUp = (e) => {
     const keyCode = e.keyCode;
     if (keyCode === 13) {
@@ -97,6 +101,7 @@ const EditableTag = forwardRef((
         <InputBase
           ref={tagInputRef}
           maxWidth="100%"
+          minHeight="6x"
           defaultValue={children}
           onBlur={handleInputBlur}
           onInput={handleInputResize}
@@ -108,6 +113,8 @@ const EditableTag = forwardRef((
 
   return (
     <Tag
+      variant={variant}
+      size={size}
       disabled={disabled}
       aria-disabled={disabled}
       aria-invalid={isInvalid}
