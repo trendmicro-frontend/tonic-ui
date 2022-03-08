@@ -169,11 +169,13 @@ const routes = [
     path: 'hooks',
     routes: [
       { title: 'useConst', path: 'hooks/use-const' },
+      { title: 'useCopyToClipboard', path: 'hooks/use-copy-to-clipboard' },
       { title: 'useEffectOnce', path: 'hooks/use-effect-once' },
       { title: 'useEventCallback', path: 'hooks/use-event-callback' },
       { title: 'useHydrated', path: 'hooks/use-hydrated' },
       { title: 'useIsomorphicEffect', path: 'hooks/use-isomorphic-effect' },
       { title: 'useLatest', path: 'hooks/use-latest' },
+      { title: 'useMediaQuery', path: 'hooks/use-media-query' },
       { title: 'useOnce', path: 'hooks/use-once' },
       { title: 'useOnceWhen', path: 'hooks/use-once-when' },
       { title: 'usePrevious', path: 'hooks/use-previous' },
