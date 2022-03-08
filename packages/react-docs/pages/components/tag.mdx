@@ -35,7 +35,7 @@ The color of the tag can be changed by passing the `backgroundColor`, `borderCol
 ```jsx
 function Example() {
   const [colorMode] = useColorMode();
-  const colors = {
+  const solidColors = {
     dark: [
       {
         label: 'Light gray',
@@ -121,27 +121,113 @@ function Example() {
       },
     ]
   }[colorMode];
+  const outlineColors = {
+    dark: [
+      {
+        label: 'Light gray',
+        borderColor: 'gray:40',
+        color: 'gray:40'
+      },
+      {
+        label: 'Red',
+        borderColor: 'red:50',
+        color: 'red:50'
+      },
+      {
+        label: 'Magenta',
+        borderColor: 'magenta:50',
+        color: 'magenta:50'
+      },
+      {
+        label: 'Purple',
+        borderColor: 'purple:50',
+        color: 'purple:50'
+      },
+      {
+        label: 'Blue',
+        borderColor: 'blue:50',
+        color: 'blue:50'
+      },
+      {
+        label: 'Green',
+        borderColor: 'green:50',
+        color: 'green:50'
+      },
+      {
+        label: 'Teal',
+        borderColor: 'teal:50',
+        color: 'teal:50'
+      },
+      {
+        label: 'Cyan',
+        borderColor: 'cyan:50',
+        color: 'cyan:50'
+      },
+    ],
+    light: [
+      {
+        label: 'Light gray',
+        borderColor: 'gray:60',
+        color: 'gray:60'
+      },
+      {
+        label: 'Red',
+        borderColor: 'red:60',
+        color: 'red:60'
+      },
+      {
+        label: 'Magenta',
+        borderColor: 'magenta:60',
+        color: 'magenta:60'
+      },
+      {
+        label: 'Purple',
+        borderColor: 'purple:50',
+        color: 'purple:50'
+      },
+      {
+        label: 'Blue',
+        borderColor: 'blue:60',
+        color: 'blue:60'
+      },
+      {
+        label: 'Green',
+        borderColor: 'green:60',
+        color: 'green:60'
+      },
+      {
+        label: 'Teal',
+        borderColor: 'teal:60',
+        color: 'teal:60'
+      },
+      {
+        label: 'Cyan',
+        borderColor: 'cyan:60',
+        color: 'cyan:60'
+      },
+    ]
+  }[colorMode];
 
   return (
     <Stack spacing="4x">
       <Stack direction="row" spacing="2x" shouldWrapChildren>
-        {colors.map(({ backgroundColor, color, label }, index) => (
+        {solidColors.map(({ backgroundColor, color, label }, index) => (
           <Tag key={label} backgroundColor={backgroundColor} color={color} variant="solid">{label}</Tag>
         ))}
       </Stack>
       <Stack direction="row" spacing="2x" shouldWrapChildren>
-        {colors.map(({ backgroundColor, color, label }, index) => (
+        {solidColors.map(({ backgroundColor, color, label }, index) => (
           <Tag key={label} backgroundColor={backgroundColor} color={color} variant="solid" borderRadius="lg">{label}</Tag>
         ))}
       </Stack>
       <Stack direction="row" spacing="2x" shouldWrapChildren>
-        {colors.map(({ backgroundColor, color, label }, index) => (
-          <Tag key={label} borderColor={backgroundColor} color={color} variant="outline">{label}</Tag>
+        {outlineColors.map(({ borderColor, color, label }, index) => (
+          <Tag key={label} borderColor={borderColor} color={color} variant="outline">{label}</Tag>
         ))}
       </Stack>
       <Stack direction="row" spacing="2x" shouldWrapChildren>
-        {colors.map(({ backgroundColor, color, label }, index) => (
-          <Tag key={label} borderColor={backgroundColor} color={color} variant="outline" borderRadius="lg">{label}</Tag>
+        {outlineColors.map(({ borderColor, color, label }, index) => (
+          <Tag key={label} borderColor={borderColor} color={color} variant="outline" borderRadius="lg">{label}</Tag>
         ))}
       </Stack>
     </Stack>
