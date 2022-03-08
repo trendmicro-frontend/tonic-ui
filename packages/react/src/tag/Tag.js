@@ -3,18 +3,19 @@ import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { useTagStyle } from './styles';
+import TagCloseButton from './TagCloseButton';
 
 const Tag = forwardRef((
   {
-    isClosable, // deprecated
     isCloseButtonVisible, // deprecated
     isInvalid, // deprecated
     variantColor, // deprecated
-    onClose, // deprecated
 
     children,
+    isClosable,
     size = 'md',
     variant = 'solid',
+    onClose,
     ...props
   },
   ref
@@ -22,16 +23,10 @@ const Tag = forwardRef((
   useEffectOnce(() => {
     const prefix = `${Tag.displayName}:`;
 
-    if (isClosable !== undefined) {
-      warnDeprecatedProps('isClosable', {
-        prefix,
-        willRemove: true,
-      });
-    }
-
     if (isCloseButtonVisible !== undefined) {
       warnDeprecatedProps('isCloseButtonVisible', {
         prefix,
+        alternative: 'isClosable',
         willRemove: true,
       });
     }
@@ -50,15 +45,9 @@ const Tag = forwardRef((
         willRemove: true,
       });
     }
-
-    if (onClose !== undefined) {
-      warnDeprecatedProps('onClose', {
-        prefix,
-        willRemove: true,
-      });
-    }
   }, true); // TODO: check if `when` is true for each prop
 
+  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   const tagStyleProps = useTagStyle({
     size,
     variant,
@@ -71,6 +60,9 @@ const Tag = forwardRef((
       {...props}
     >
       { children }
+      {!!isClosable && (
+        <TagCloseButton ml="2x" disabled={props.disabled} onClick={onClose} />
+      )}
     </Box>
   );
 });

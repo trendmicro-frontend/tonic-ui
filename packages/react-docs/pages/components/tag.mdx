@@ -7,7 +7,6 @@
 ```js
 import {
   Tag,
-  TagCloseButton,
   EditableTag,
 } from '@tonic-ui/react';
 ```
@@ -182,10 +181,28 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 ### With close button
 
 ```jsx
-<Tag>
-  Medium
-  <TagCloseButton ml="2x" onClick={()=> { alert('Click the button'); }} />
-</Tag>
+<Stack spacing="4x">
+  <Stack direction="row" alignItems="center" spacing="2x">
+    <Tag isClosable size="sm">Small</Tag>
+    <Tag isClosable size="md">Medium</Tag>
+    <Tag isClosable size="lg">Large</Tag>
+  </Stack>
+  <Stack direction="row" alignItems="center" spacing="2x">
+    <Tag isClosable size="sm" borderRadius="lg">Small</Tag>
+    <Tag isClosable size="md" borderRadius="lg">Medium</Tag>
+    <Tag isClosable size="lg" borderRadius="32px">Large</Tag>
+  </Stack>
+  <Stack direction="row" alignItems="center" spacing="2x">
+    <Tag isClosable size="sm" variant="outline">Small</Tag>
+    <Tag isClosable size="md" variant="outline">Medium</Tag>
+    <Tag isClosable size="lg" variant="outline">Large</Tag>
+  </Stack>
+    <Stack direction="row" alignItems="center" spacing="2x">
+    <Tag isClosable size="sm" variant="outline" borderRadius="lg">Small</Tag>
+    <Tag isClosable size="md" variant="outline" borderRadius="lg">Medium</Tag>
+    <Tag isClosable size="lg" variant="outline" borderRadius="32px">Large</Tag>
+  </Stack>
+</Stack>
 ```
 
 ## EditableTag

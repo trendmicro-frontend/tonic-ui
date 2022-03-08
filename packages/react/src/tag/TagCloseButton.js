@@ -12,7 +12,7 @@ const TagCloseButton = forwardRef((props, ref) => {
       {...closeButtonStyleProps}
       {...props}
     >
-      <Icon icon="close-s" />
+      <Icon icon="close-s" verticalAlign="top" />
     </ButtonBase>
   );
 });
