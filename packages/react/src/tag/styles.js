@@ -45,6 +45,7 @@ const getSizeProps = ({
 const getSolidTagStyle = ({
   colorMode,
 }) => {
+  // Normal
   const backgroundColor = {
     dark: 'gray:70',
     light: 'gray:20',
@@ -53,16 +54,47 @@ const getSolidTagStyle = ({
     dark: 'gray:20',
     light: 'black:emphasis',
   }[colorMode];
+  // Disable
+  const disabledOpacity = {
+    dark: 0.28,
+    light: 0.3,
+  }[colorMode];
+  // Invalid
+  const invalidBackgroundColor = {
+    dark: 'red:60',
+    light: 'red:20',
+  }[colorMode];
+  const hoverInvalidBackgroundColor = {
+    dark: 'red:50',
+    light: 'red:10',
+  }[colorMode];
+  const invalidColor = {
+    dark: 'white:emphasis',
+    light: 'red:100',
+  }[colorMode];
 
   return {
     backgroundColor,
     color,
+    _invalid: {
+      backgroundColor: invalidBackgroundColor,
+      color: invalidColor,
+      '&:not([disabled]):hover': {
+        backgroundColor: hoverInvalidBackgroundColor,
+        color: invalidColor,
+      },
+    },
+    _disabled: {
+      cursor: 'not-allowed',
+      opacity: disabledOpacity,
+    },
   };
 };
 
 const getOutlineTagStyle = ({
   colorMode,
 }) => {
+  // Normal
   const borderColor = {
     dark: 'gray:40',
     light: 'gray:60',
@@ -71,10 +103,45 @@ const getOutlineTagStyle = ({
     dark: 'gray:40',
     light: 'gray:60',
   }[colorMode];
+  // Disable
+  const disabledOpacity = {
+    dark: 0.28,
+    light: 0.3,
+  }[colorMode];
+  // Invalid
+  const invalidBackgroundColor = {
+    dark: 'red:60',
+    light: 'red:20',
+  }[colorMode];
+  const hoverInvalidBackgroundColor = {
+    dark: 'red:50',
+    light: 'red:10',
+  }[colorMode];
+  const invalidColor = {
+    dark: 'white:emphasis',
+    light: 'red:100',
+  }[colorMode];
 
   return {
     borderColor,
     color,
+    _invalid: {
+      borderColor: invalidBackgroundColor,
+      backgroundColor: invalidBackgroundColor,
+      color: invalidColor,
+      '&:not([disabled]):hover': {
+        borderColor: hoverInvalidBackgroundColor,
+        backgroundColor: hoverInvalidBackgroundColor,
+        color: invalidColor,
+      },
+      '&:not([disabled]):focus:hover': {
+        color: invalidColor,
+      },
+    },
+    _disabled: {
+      cursor: 'not-allowed',
+      opacity: disabledOpacity,
+    },
   };
 };
 
@@ -101,15 +168,6 @@ const getSolidEditableTagStyle = ({
   colorMode,
   theme,
 }) => {
-  // Normal
-  const backgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:20',
-  }[colorMode];
-  const color = {
-    dark: 'gray:20',
-    light: 'black:emphasis',
-  }[colorMode];
   // Hover
   const hoverBackgroundColor = {
     dark: 'gray:60',
@@ -126,28 +184,8 @@ const getSolidEditableTagStyle = ({
     light: theme?.colors?.['white:emphasis'],
   }[colorMode];
   const boxShadowSpreadRadius = theme?.sizes?.['2q'];
-  // Disable
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
-  // Invalid
-  const invalidBackgroundColor = {
-    dark: 'red:60',
-    light: 'red:20',
-  }[colorMode];
-  const hoverInvalidBackgroundColor = {
-    dark: 'red:50',
-    light: 'red:10',
-  }[colorMode];
-  const invalidColor = {
-    dark: 'white:emphasis',
-    light: 'red:100',
-  }[colorMode];
 
   return {
-    backgroundColor,
-    color,
     _focus: {
       '&:not([disabled])': {
         borderColor: focusColor,
@@ -159,18 +197,6 @@ const getSolidEditableTagStyle = ({
         backgroundColor: hoverBackgroundColor,
       },
     },
-    _invalid: {
-      backgroundColor: invalidBackgroundColor,
-      color: invalidColor,
-      '&:not([disabled]):hover': {
-        backgroundColor: hoverInvalidBackgroundColor,
-        color: invalidColor,
-      },
-    },
-    _disabled: {
-      cursor: 'not-allowed',
-      opacity: disabledOpacity,
-    },
   };
 };
 
@@ -178,15 +204,6 @@ const getOutlineEditableTagStyle = ({
   colorMode,
   theme,
 }) => {
-  // Normal
-  const borderColor = {
-    dark: 'gray:40',
-    light: 'gray:60',
-  }[colorMode];
-  const color = {
-    dark: 'gray:40',
-    light: 'gray:60',
-  }[colorMode];
   // Hover
   const hoverBorderColor = {
     dark: 'gray:30',
@@ -207,28 +224,8 @@ const getOutlineEditableTagStyle = ({
     light: theme?.colors?.['white:emphasis'],
   }[colorMode];
   const boxShadowSpreadRadius = theme?.sizes?.['2q'];
-  // Disable
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
-  // Invalid
-  const invalidBackgroundColor = {
-    dark: 'red:60',
-    light: 'red:20',
-  }[colorMode];
-  const hoverInvalidBackgroundColor = {
-    dark: 'red:50',
-    light: 'red:10',
-  }[colorMode];
-  const invalidColor = {
-    dark: 'white:emphasis',
-    light: 'red:100',
-  }[colorMode];
 
   return {
-    borderColor,
-    color,
     _focus: {
       '&:not([disabled])': {
         borderColor: focusColor,
@@ -247,23 +244,6 @@ const getOutlineEditableTagStyle = ({
         color: hoverColor,
       },
     },
-    _invalid: {
-      borderColor: invalidBackgroundColor,
-      backgroundColor: invalidBackgroundColor,
-      color: invalidColor,
-      '&:not([disabled]):hover': {
-        borderColor: hoverInvalidBackgroundColor,
-        backgroundColor: hoverInvalidBackgroundColor,
-        color: invalidColor,
-      },
-      '&:not([disabled]):focus:hover': {
-        color: invalidColor,
-      },
-    },
-    _disabled: {
-      cursor: 'not-allowed',
-      opacity: disabledOpacity,
-    },
   };
 };
 
@@ -273,6 +253,7 @@ const useEditableTagStyle = ({
 }) => {
   const [colorMode] = useColorMode();
   const theme = useTheme();
+  const baseStyle = useTagStyle({ size, variant });
   const variantStyle = {
     'solid': getSolidEditableTagStyle({
       colorMode,

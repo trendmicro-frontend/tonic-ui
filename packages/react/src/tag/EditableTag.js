@@ -10,7 +10,6 @@ const EditableTag = forwardRef((
   {
     children,
     disabled,
-    isInvalid,
     size = 'md',
     variant = 'solid',
 
@@ -116,8 +115,6 @@ const EditableTag = forwardRef((
       variant={variant}
       size={size}
       disabled={disabled}
-      aria-disabled={disabled}
-      aria-invalid={isInvalid}
       tabIndex={disabled ? '-1' : '0'}
       onClick={disabled ? undefined : handleTagClick}
       onFocus={disabled ? undefined : handleTagFocus}

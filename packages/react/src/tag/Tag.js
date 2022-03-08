@@ -8,11 +8,12 @@ import TagCloseButton from './TagCloseButton';
 const Tag = forwardRef((
   {
     isCloseButtonVisible, // deprecated
-    isInvalid, // deprecated
     variantColor, // deprecated
 
     children,
+    disabled,
     isClosable,
+    isInvalid,
     size = 'md',
     variant = 'solid',
     onClose,
@@ -27,13 +28,6 @@ const Tag = forwardRef((
       warnDeprecatedProps('isCloseButtonVisible', {
         prefix,
         alternative: 'isClosable',
-        willRemove: true,
-      });
-    }
-
-    if (isInvalid !== undefined) {
-      warnDeprecatedProps('isInvalid', {
-        prefix,
         willRemove: true,
       });
     }
@@ -56,12 +50,15 @@ const Tag = forwardRef((
   return (
     <Box
       ref={ref}
+      disabled={disabled}
+      aria-disabled={disabled}
+      aria-invalid={isInvalid}
       {...tagStyleProps}
       {...props}
     >
       { children }
       {!!isClosable && (
-        <TagCloseButton ml="2x" disabled={props.disabled} onClick={onClose} />
+        <TagCloseButton ml="2x" disabled={disabled} onClick={onClose} />
       )}
     </Box>
   );
