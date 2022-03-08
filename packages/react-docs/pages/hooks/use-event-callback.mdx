@@ -50,7 +50,7 @@ Try typing some text in the input fields and see the difference between `useEven
 ### useEventCallback
 
 ```jsx
-function App() {
+function Component() {
   const [value, setValue] = React.useState('');
   const onChange = useEventCallback((event) => {
     const nextValue = event.target.value;
@@ -76,7 +76,7 @@ function App() {
 ### useCallback
 
 ```jsx
-function App() {
+function Component() {
   const [value, setValue] = React.useState('');
   const onChange = React.useCallback((event) => {
     const nextValue = event.target.value;
