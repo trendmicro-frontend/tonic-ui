@@ -184,6 +184,7 @@ test('should match expected exports', () => {
 
     // tag
     'Tag',
+    'TagCloseButton',
     'EditableTag',
 
     // text
