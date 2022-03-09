@@ -22,9 +22,9 @@ describe('useConst', () => {
   });
 
   it('should return a constant value with a function initializer', () => {
-    const functionInitializer = jest.fn(() => Math.random());
+    const mockFunctionInitializer = jest.fn(() => Math.random());
     const TestComponent = () => {
-      const value = useConst(functionInitializer);
+      const value = useConst(mockFunctionInitializer);
       return <div>{value}</div>;
     };
     const { container, rerender } = render(<TestComponent />);
@@ -33,7 +33,7 @@ describe('useConst', () => {
     rerender(<TestComponent />);
     const secondValue = container.firstChild.textContent;
     expect(firstValue).toBe(secondValue);
-    expect(functionInitializer).toHaveBeenCalledTimes(1);
+    expect(mockFunctionInitializer).toHaveBeenCalledTimes(1);
   });
 
   it('works with a primitive initializer that returns undefined', () => {
@@ -51,9 +51,9 @@ describe('useConst', () => {
   });
 
   it('works with a function initializer that returns undefined', () => {
-    const functionInitializer = jest.fn(() => undefined);
+    const mockFunctionInitializer = jest.fn(() => undefined);
     const TestComponent = () => {
-      const value = useConst(functionInitializer);
+      const value = useConst(mockFunctionInitializer);
       return <div>{value}</div>;
     };
     const { container, rerender } = render(<TestComponent />);
@@ -62,6 +62,6 @@ describe('useConst', () => {
     rerender(<TestComponent />);
     const secondValue = container.firstChild.textContent;
     expect(firstValue).toBe(secondValue);
-    expect(functionInitializer).toHaveBeenCalledTimes(1);
+    expect(mockFunctionInitializer).toHaveBeenCalledTimes(1);
   });
 });
