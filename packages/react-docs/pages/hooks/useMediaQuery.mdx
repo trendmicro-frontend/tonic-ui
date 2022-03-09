@@ -13,26 +13,49 @@ import { useEffect, useState } from 'react';
 
 const noop = () => {};
 
-const useMediaQuery = (query) => {
-  const [match, setMatch] = useState(null);
+const getInitialState = (query, defaultValue) => {
+  if (defaultValue !== undefined) {
+    return defaultValue;
+  }
+
+  if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+    return window.matchMedia(query)?.matches;
+  }
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('[useMediaQuery] The default value should be defined for server-side rendering.');
+  }
+
+  return false;
+};
+
+const useMediaQuery = (query, defaultValue) => {
+  const [matches, setMatches] = useState(getInitialState(query, defaultValue));
 
   useEffect(() => {
-    const mediaQuery = window?.matchMedia(query);
-    if (!mediaQuery) {
+    let mounted = true;
+    const mql = window?.matchMedia?.(query);
+    const onChange = () => {
+      if (!mounted) {
+        return;
+      }
+      setMatches(!!mql.matches);
+    };
+
+    if (!mql) {
       return noop;
     }
 
-    const handler = () => {
-      setMatch(!!(mediaQuery.matches));
-    };
-    handler();
-    mediaQuery.addEventListener('change', handler);
+    mql.addEventListener('change', onChange);
+    setMatches(!!mql.matches);
+
     return () => {
-      mediaQuery.removeEventListener('change', handler);
+      mounted = false;
+      mql.removeEventListener('change', onChange);
     };
   }, [query]);
 
-  return match;
+  return matches;
 };
 ```
 

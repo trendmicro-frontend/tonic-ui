@@ -1,5 +1,4 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import React from 'react';
 import useCopyToClipboard from './useCopyToClipboard';
 
 describe('useCopyToClipboard', () => {
@@ -9,7 +8,10 @@ describe('useCopyToClipboard', () => {
   beforeEach(() => {
     let clipboardData = '';
     const mockClipboard = {
-      writeText: jest.fn(data => clipboardData = data),
+      writeText: jest.fn(data => {
+        clipboardData = data;
+        return Promise.resolve(clipboardData);
+      }),
       readText: jest.fn(() => clipboardData),
     };
     global.navigator.clipboard = mockClipboard;
@@ -27,7 +29,7 @@ describe('useCopyToClipboard', () => {
     expect(useCopyToClipboard).toBeDefined();
   });
 
-  it('should pass a value to copy to clipboard', async () => {
+  it('should copy a value to clipboard', async () => {
     const testValue = 'test';
     const { result } = renderHook(() => useCopyToClipboard());
     let [value, copyToClipboard] = result.current;
@@ -42,8 +44,8 @@ describe('useCopyToClipboard', () => {
     expect(value).toBe(testValue);
   });
 
-  it('should console error if clipboard is not supported', async () => {
-    // Make clipboard not supported
+  it('should console error if clipboard not supported', async () => {
+    // clipboard not supported
     global.navigator.clipboard = undefined;
 
     const testValue = 'test';
@@ -60,8 +62,10 @@ describe('useCopyToClipboard', () => {
   });
 
   it('should console error if clipboard write failed', async () => {
-    // Make clipboard write failed
-    global.navigator.clipboard.writeText = jest.fn(() => { throw new Error(); });
+    // clipboard write failed
+    global.navigator.clipboard.writeText = jest.fn(() => {
+      throw new Error();
+    });
 
     const testValue = 'test';
     const { result } = renderHook(() => useCopyToClipboard());
