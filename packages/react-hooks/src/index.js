@@ -1,6 +1,7 @@
 export useConst from './useConst';
 export useCopyToClipboard from './useCopyToClipboard';
 export useEffectOnce from './useEffectOnce';
+export useEffectOnceWhen from './useEffectOnceWhen';
 export useEventCallback from './useEventCallback';
 export useHydrated from './useHydrated';
 export useIsomorphicEffect from './useIsomorphicEffect';
