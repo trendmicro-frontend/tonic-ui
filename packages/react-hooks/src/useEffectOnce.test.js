@@ -6,7 +6,10 @@ const mockEffectCleanup = jest.fn();
 const mockEffectCallback = jest.fn().mockReturnValue(mockEffectCleanup);
 
 describe('useEffectOnce', () => {
-  beforeEach(() => jest.clearAllMocks());
+  beforeEach(() => {
+    // Clear mock function called times
+    jest.clearAllMocks();
+  });
 
   it('should be defined', () => {
     expect(useEffectOnce).toBeDefined();
