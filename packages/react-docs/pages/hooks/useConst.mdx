@@ -13,14 +13,19 @@ import { useConst } from '@tonic-ui/react-hooks';
 ```
 
 ```js
-const useConst = (init) => {
-  const ref = useRef(null);
+import { useRef } from 'react';
 
-  if (ref.current === null) {
-    ref.current = (typeof init === 'function') ? init() : init;
+const useConst = (init) => {
+  const ref = useRef();
+
+  if (ref.current === undefined) {
+    // Wrap the value in an object so that we can tell if it's initialized even if the initializer is undefined or returns undefined
+    ref.current = {
+      value: (typeof init === 'function') ? init() : init,
+    };
   }
 
-  return ref.current;
+  return ref?.current?.value;
 };
 ```
 
