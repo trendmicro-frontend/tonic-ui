@@ -5,17 +5,16 @@ const useMediaQuery = (query) => {
 
   useEffect(() => {
     const mediaQuery = window?.matchMedia(query);
-    if (!mediaQuery) {
-      return;
+    if (mediaQuery) {
+      const handler = () => {
+        setMatch(!!(mediaQuery.matches));
+      };
+      handler();
+      mediaQuery.addEventListener('change', handler);
+      return () => {
+        mediaQuery.removeEventListener('change', handler);
+      };
     }
-    const handler = () => {
-      setMatch(!!(mediaQuery.matches));
-    };
-    handler();
-    mediaQuery.addEventListener('change', handler);
-    return () => {
-      mediaQuery.removeEventListener('change', handler);
-    };
   }, [query]);
 
   return match;
