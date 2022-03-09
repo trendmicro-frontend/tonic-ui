@@ -45,6 +45,7 @@ const getSizeProps = ({
 const getSolidTagStyle = ({
   color: colorProp, // deprecated
   colorMode,
+  theme,
 }) => {
   const undefinedColor = {
     dark: {
@@ -138,6 +139,17 @@ const getSolidTagStyle = ({
     dark: 'gray:20',
     light: 'black:emphasis',
   }[colorMode];
+  // Focus
+  const focusColor = {
+    dark: theme?.colors?.['blue:60'],
+    light: theme?.colors?.['blue:60'],
+  }[colorMode];
+  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
+  const boxShadowColor = {
+    dark: theme?.colors?.['black:emphasis'],
+    light: theme?.colors?.['white:emphasis'],
+  }[colorMode];
+  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
   // Disable
   const disabledOpacity = {
     dark: 0.28,
@@ -148,10 +160,6 @@ const getSolidTagStyle = ({
     dark: 'red:60',
     light: 'red:20',
   }[colorMode];
-  const hoverInvalidBackgroundColor = {
-    dark: 'red:50',
-    light: 'red:10',
-  }[colorMode];
   const invalidColor = {
     dark: 'white:emphasis',
     light: 'red:100',
@@ -161,13 +169,15 @@ const getSolidTagStyle = ({
     backgroundColor,
     color,
     ...(colorProp && baseColors),
+    _focus: {
+      '&:not([disabled])': {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
+      },
+    },
     _invalid: {
       backgroundColor: invalidBackgroundColor,
       color: invalidColor,
-      '&:not([disabled]):hover': {
-        backgroundColor: hoverInvalidBackgroundColor,
-        color: invalidColor,
-      },
     },
     _disabled: {
       cursor: 'not-allowed',
@@ -179,6 +189,7 @@ const getSolidTagStyle = ({
 const getOutlineTagStyle = ({
   color: colorProp, // deprecated
   colorMode,
+  theme,
 }) => {
   const undefinedColor = {
     dark: {
@@ -216,6 +227,17 @@ const getOutlineTagStyle = ({
     dark: 'gray:40',
     light: 'gray:60',
   }[colorMode];
+  // Focus
+  const focusColor = {
+    dark: theme?.colors?.['blue:60'],
+    light: theme?.colors?.['blue:60'],
+  }[colorMode];
+  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
+  const boxShadowColor = {
+    dark: theme?.colors?.['black:emphasis'],
+    light: theme?.colors?.['white:emphasis'],
+  }[colorMode];
+  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
   // Disable
   const disabledOpacity = {
     dark: 0.28,
@@ -226,10 +248,6 @@ const getOutlineTagStyle = ({
     dark: 'red:60',
     light: 'red:20',
   }[colorMode];
-  const hoverInvalidBackgroundColor = {
-    dark: 'red:50',
-    light: 'red:10',
-  }[colorMode];
   const invalidColor = {
     dark: 'white:emphasis',
     light: 'red:100',
@@ -239,18 +257,16 @@ const getOutlineTagStyle = ({
     borderColor,
     color,
     ...(colorProp && baseColors),
+    _focus: {
+      '&:not([disabled])': {
+        borderColor: focusColor,
+        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
+      },
+    },
     _invalid: {
       borderColor: invalidBackgroundColor,
       backgroundColor: invalidBackgroundColor,
       color: invalidColor,
-      '&:not([disabled]):hover': {
-        borderColor: hoverInvalidBackgroundColor,
-        backgroundColor: hoverInvalidBackgroundColor,
-        color: invalidColor,
-      },
-      '&:not([disabled]):focus:hover': {
-        color: invalidColor,
-      },
     },
     _disabled: {
       cursor: 'not-allowed',
@@ -265,9 +281,10 @@ const useTagStyle = ({
   variant,
 }) => {
   const [colorMode] = useColorMode();
+  const theme = useTheme();
   const variantStyle = {
-    'solid': getSolidTagStyle({ color, colorMode }),
-    'outline': getOutlineTagStyle({ color, colorMode }),
+    'solid': getSolidTagStyle({ color, colorMode, theme }),
+    'outline': getOutlineTagStyle({ color, colorMode, theme }),
   }[variant];
   const sizeProps = getSizeProps({ size });
 
@@ -288,28 +305,32 @@ const getSolidEditableTagStyle = ({
     dark: 'gray:60',
     light: 'gray:10',
   }[colorMode];
-  // Focus
-  const focusColor = {
-    dark: theme?.colors?.['blue:60'],
-    light: theme?.colors?.['blue:60'],
+  // Invalid
+  const invalidBackgroundColor = {
+    dark: 'red:60',
+    light: 'red:20',
   }[colorMode];
-  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
-    dark: theme?.colors?.['black:emphasis'],
-    light: theme?.colors?.['white:emphasis'],
+  const hoverInvalidBackgroundColor = {
+    dark: 'red:50',
+    light: 'red:10',
   }[colorMode];
-  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
+  const invalidColor = {
+    dark: 'white:emphasis',
+    light: 'red:100',
+  }[colorMode];
 
   return {
-    _focus: {
-      '&:not([disabled])': {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
-      },
-    },
     _hover: {
       '&:not([disabled])': {
         backgroundColor: hoverBackgroundColor,
+      },
+    },
+    _invalid: {
+      backgroundColor: invalidBackgroundColor,
+      color: invalidColor,
+      '&:not([disabled]):hover': {
+        backgroundColor: hoverInvalidBackgroundColor,
+        color: invalidColor,
       },
     },
   };
@@ -319,6 +340,11 @@ const getOutlineEditableTagStyle = ({
   colorMode,
   theme,
 }) => {
+  // Focus
+  const focusColor = {
+    dark: theme?.colors?.['blue:60'],
+    light: theme?.colors?.['blue:60'],
+  }[colorMode];
   // Hover
   const hoverBorderColor = {
     dark: 'gray:30',
@@ -328,25 +354,21 @@ const getOutlineEditableTagStyle = ({
     dark: 'gray:30',
     light: 'gray:50',
   }[colorMode];
-  // Focus
-  const focusColor = {
-    dark: theme?.colors?.['blue:60'],
-    light: theme?.colors?.['blue:60'],
+  // Invalid
+  const invalidBackgroundColor = {
+    dark: 'red:60',
+    light: 'red:20',
   }[colorMode];
-  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
-    dark: theme?.colors?.['black:emphasis'],
-    light: theme?.colors?.['white:emphasis'],
+  const hoverInvalidBackgroundColor = {
+    dark: 'red:50',
+    light: 'red:10',
   }[colorMode];
-  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
+  const invalidColor = {
+    dark: 'white:emphasis',
+    light: 'red:100',
+  }[colorMode];
 
   return {
-    _focus: {
-      '&:not([disabled])': {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
-      },
-    },
     _hover: {
       '&:not([disabled])': {
         borderColor: hoverBorderColor,
@@ -357,6 +379,19 @@ const getOutlineEditableTagStyle = ({
       '&:not([disabled])': {
         borderColor: focusColor,
         color: hoverColor,
+      },
+    },
+    _invalid: {
+      borderColor: invalidBackgroundColor,
+      backgroundColor: invalidBackgroundColor,
+      color: invalidColor,
+      '&:not([disabled]):hover': {
+        borderColor: hoverInvalidBackgroundColor,
+        backgroundColor: hoverInvalidBackgroundColor,
+        color: invalidColor,
+      },
+      '&:not([disabled]):focus:hover': {
+        color: invalidColor,
       },
     },
   };

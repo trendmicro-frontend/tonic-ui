@@ -10,6 +10,7 @@ const EditableTag = forwardRef((
   {
     children,
     disabled,
+    isClosable = true,
     size = 'md',
     variant = 'solid',
 
@@ -27,20 +28,26 @@ const EditableTag = forwardRef((
 
   const tagInputRef = useRef();
   const tagHiddenSpanRef = useRef();
+  const [value, setValue] = useState(children);
   const [inputVisible, setInputVisible] = useState(false);
   const handleInputVisible = () => setInputVisible(true);
   const handleInputHidden = () => setInputVisible(false);
+  const updateTag = (inputValue) => {
+    setValue(inputValue);
+    onChange({ value: inputValue });
+    handleInputHidden();
+  };
 
   // handle input events
   const handleInputBlur = (e) => {
-    onChange({ value: e.target.value });
-    handleInputHidden();
+    const inputValue = e.target.value;
+    updateTag(inputValue);
   };
   const handleInputKeyUp = (e) => {
     const keyCode = e.keyCode;
     if (keyCode === 13) { // Enter
-      onChange({ value: e.target.value });
-      handleInputHidden();
+      const inputValue = e.target.value;
+      updateTag(inputValue);
     }
     if (keyCode === 27) { // Esc
       handleInputHidden();
@@ -101,7 +108,7 @@ const EditableTag = forwardRef((
           ref={tagInputRef}
           maxWidth="100%"
           minHeight="6x"
-          defaultValue={children}
+          defaultValue={value}
           onBlur={handleInputBlur}
           onInput={handleInputResize}
           onKeyUp={handleInputKeyUp}
@@ -129,14 +136,16 @@ const EditableTag = forwardRef((
         textOverflow="ellipsis"
         whiteSpace="nowrap"
       >
-        {children}
+        {value}
       </Box>
-      <TagCloseButton
-        disabled={disabled}
-        tabIndex="-1" // no focus on close button
-        ml="2x"
-        onClick={handleTagClose}
-      />
+      {isClosable && (
+        <TagCloseButton
+          disabled={disabled}
+          tabIndex="-1" // no focus on close button
+          ml="2x"
+          onClick={handleTagClose}
+        />
+      )}
     </Tag>
   );
 });
