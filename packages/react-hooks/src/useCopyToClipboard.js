@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useCopyToClipboard = () => {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState();
   const copy = async (text) => {
     if (!(navigator?.clipboard)) {
       console.error('Clipboard API is not supported in this environment.');
@@ -13,7 +13,7 @@ const useCopyToClipboard = () => {
       return true;
     } catch (error) {
       console.error('Clipboard write failed: ', error);
-      setValue(null);
+      setValue();
       return false;
     }
   };
