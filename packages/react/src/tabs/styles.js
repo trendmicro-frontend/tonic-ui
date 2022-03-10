@@ -87,6 +87,27 @@ const useTabStyle = ({
       return fallbackColor;
     };
 
+    const selectedPaddingXKey = {
+      'horizontal': 'px',
+      'vertical': 'pr',
+    }[orientation];
+    const selectedPaddingYKey = {
+      'horizontal': 'pt',
+      'vertical': 'py',
+    }[orientation];
+    const selectedBorderColorKey = {
+      'horizontal': 'borderBottomColor',
+      'vertical': 'borderLeftColor',
+    }[orientation];
+    const selectedBorderStyleKey = {
+      'horizontal': 'borderBottomStyle',
+      'vertical': 'borderLeftStyle',
+    }[orientation];
+    const selectedBorderWidthKey = {
+      'horizontal': 'borderBottomWidth',
+      'vertical': 'borderLeftWidth',
+    }[orientation];
+
     return {
       fontSize: 'sm',
       lineHeight: 'sm',
@@ -99,12 +120,12 @@ const useTabStyle = ({
       py: '2x',
       _hover: {
         border: 'none',
-        px: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1h']})`,
-        pt: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1h']})`,
-        borderBottomColor: getBorderColorStyleWithFallback(hoverBorderColor),
-        borderBottomStyle: 'solid',
-        borderBottomWidth: '1h',
+        [selectedBorderColorKey]: getBorderColorStyleWithFallback(hoverBorderColor),
+        [selectedBorderStyleKey]: 'solid',
+        [selectedBorderWidthKey]: '1h',
         color: getColorStyleWithFallback(hoverColor),
+        [selectedPaddingXKey]: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1h']})`,
+        [selectedPaddingYKey]: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1h']})`,
       },
       _focus: {
         borderColor: getBorderColorStyleWithFallback(focusBorderColor),
@@ -112,12 +133,12 @@ const useTabStyle = ({
       },
       _selected: {
         border: 'none',
-        px: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1h']})`,
-        pt: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1h']})`,
-        borderBottomColor: getBorderColorStyleWithFallback(selectedBorderColor),
-        borderBottomStyle: 'solid',
-        borderBottomWidth: '1h',
+        [selectedBorderColorKey]: getBorderColorStyleWithFallback(selectedBorderColor),
+        [selectedBorderStyleKey]: 'solid',
+        [selectedBorderWidthKey]: '1h',
         color: getColorStyleWithFallback(selectedColor),
+        [selectedPaddingXKey]: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1h']})`,
+        [selectedPaddingYKey]: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1h']})`,
       },
     };
   }
@@ -232,6 +253,11 @@ const useTabStyle = ({
       return fallbackColor;
     };
 
+    const siblingMarginKey = {
+      'horizontal': 'mr',
+      'vertical': 'mb',
+    }[orientation];
+
     return {
       fontSize: 'sm',
       lineHeight: 'sm',
@@ -243,7 +269,7 @@ const useTabStyle = ({
       cursor: getCursorStyle(),
       px: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1q']})`,
       py: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1q']})`,
-      mr: '-1q',
+      [siblingMarginKey]: '-1q',
       _hover: {
         backgroundColor: getBackgroundColorStyleWithFallback(hoverBackgroundColor),
         borderColor: getBorderColorStyleWithFallback(hoverBorderColor),
@@ -265,7 +291,7 @@ const useTabStyle = ({
         color: getColorStyleWithFallback(selectedColor),
       },
       _lastOfType: {
-        mr: 0,
+        [siblingMarginKey]: 0,
       },
     };
   }
@@ -278,12 +304,14 @@ const useTabStyle = ({
 const useTabListStyle = ({
   orientation,
 }) => {
+  const flexDirection = {
+    horizontal: 'row',
+    vertical: 'column',
+  }[orientation];
+
   return {
     display: 'flex',
-    flexDirection: {
-      'horizontal': 'row',
-      'vertical': 'column',
-    }[orientation],
+    flexDirection,
   };
 };
 
