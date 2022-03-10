@@ -1,4 +1,4 @@
-import { useConst, useEffectOnce } from '@tonic-ui/react-hooks';
+import { useConst, useOnceWhen } from '@tonic-ui/react-hooks';
 import memoize from 'micro-memoize';
 import React, { useEffect, useReducer } from 'react';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
@@ -29,47 +29,50 @@ const Tabs = ({
   onChange,
   variant = defaultVariant,
 }) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Tabs.displayName}:`;
 
-    if (activateOnKeyPress !== undefined) {
+    useOnceWhen(() => {
       warnRemovedProps('activateOnKeyPress', {
         prefix,
       });
-    }
-    if (isFitted !== undefined) {
+    }, (activateOnKeyPress !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('isFitted', {
         prefix,
       });
-    }
-    if (isManual !== undefined) {
+    }, (isFitted !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('isManual', {
         prefix,
       });
-    }
-    if (orientation !== undefined) {
+    }, (isManual !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('orientation', {
         prefix,
         message: 'Only horizontal orientation is supported by Tabs.',
       });
-    }
-    if (variant === 'line') {
+    }, (orientation !== undefined));
+
+    useOnceWhen(() => {
       warnDeprecatedProps('variant="line"', {
         prefix,
         alternative: 'variant="default"',
         willRemove: true,
       });
-    }
-    if (variant === 'enclosed') {
+    }, (variant === 'line'));
+
+    useOnceWhen(() => {
       warnDeprecatedProps('variant="enclosed"', {
         prefix,
         alternative: 'variant="filled"',
         willRemove: true,
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (variant === 'enclosed'));
 
-  { // map deprecated props to new props
     if (variant === 'line') {
       variant = 'default';
     }
