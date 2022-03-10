@@ -748,19 +748,18 @@ const CustomTabList = (props) => {
   );
 };
 
-const CustomTab = (props) => {
+const CustomTab = ({ children, ...rest }) => {
   const context = useTabs();
   const orientation = context.orientation;
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const { colors } = useTheme();
-  let styleProps = {
+  const baseStyle = {
     backgroundColor: colorStyle.background.primary,
     color: colorStyle.color.secondary,
     px: '4x',
     py: '3x',
     position: 'relative',
-    transition: 'all 0.2s',
     zIndex: 1,
     _disabled: {
       color: colorStyle.color.disabled,
@@ -772,8 +771,8 @@ const CustomTab = (props) => {
   };
 
   if (orientation === 'horizontal') {
-    styleProps = {
-      ...styleProps,
+    const styleProps = {
+      ...baseStyle,
       border: 1,
       borderColor: colorStyle.divider,
       _notLastOfType: {
@@ -794,11 +793,20 @@ const CustomTab = (props) => {
         },
       },
     };
+
+    return (
+      <Tab
+        {...styleProps}
+        {...rest}
+      >
+        {children}
+      </Tab>
+    );
   }
 
   if (orientation === 'vertical') {
-    styleProps = {
-      ...styleProps,
+    const styleProps = {
+      ...baseStyle,
       borderBottom: 1,
       borderBottomColor: colorStyle.divider,
       textAlign: 'left',
@@ -818,60 +826,99 @@ const CustomTab = (props) => {
         },
       },
     };
+
+    return (
+      <Tab
+        {...styleProps}
+        {...rest}
+      >
+        {({ getTabProps, index }) => (
+          <ButtonBase
+            {...getTabProps()}
+            pr="1x"
+          >
+            <Flex justifyContent="space-between">
+              <Box>{children}</Box>
+              <Icon icon="chevron-right" ml="4x" visibility={context.index === index ? 'visible' : 'hidden'} />
+            </Flex>
+          </ButtonBase>
+        )}
+      </Tab>
+    );
   }
 
-  return (
-    <Tab
-      {...styleProps}
-      {...props}
-    />
-  );
+  return null;
 };
 
 function Example() {
+  const [orientation, setOrientation] = React.useState('horizontal');
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
   return (
-    <Tabs
-      orientation="horizontal"
-      variant="unstyled"
-    >
-      <CustomTabList>
-        <CustomTab>
-          <FontAwesomeIcon icon="fa-solid fa-home" />
-          <Space width="2x" />
-          HOME
-        </CustomTab>
-        <CustomTab>
-          <FontAwesomeIcon icon="fa-solid fa-boxes" />
-          <Space width="2x" />
-          INVENTORY
-        </CustomTab>
-        <CustomTab>
-          <FontAwesomeIcon icon="fa-solid fa-cogs" />
-          <Space width="2x" />
-          SETTINGS
-        </CustomTab>
-      </CustomTabList>
-      <TabPanels px="4x" py="3x">
-        <TabPanel>
-          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-            1
-          </Text>
-        </TabPanel>
-        <TabPanel>
-          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-            2
-          </Text>
-        </TabPanel>
-        <TabPanel>
-          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-            3
-          </Text>
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+    <>
+      <Box mb="2x">
+        <TextLabel>
+          orientation
+        </TextLabel>
+      </Box>
+      <ButtonGroup>
+        <Button
+          onClick={() => setOrientation('horizontal')}
+          variant={orientation === 'horizontal' ? 'primary' : 'secondary'}
+        >
+          Horizontal
+        </Button>
+        <Button
+          onClick={() => setOrientation('vertical')}
+          variant={orientation === 'vertical' ? 'primary' : 'secondary'}
+        >
+          Vertical
+        </Button>
+      </ButtonGroup>
+      <Divider my="4x" />
+      <Tabs
+        orientation={orientation}
+        variant="unstyled"
+      >
+        <Flex flexDirection={orientation === 'horizontal' ? 'column' : 'row'}>
+          <CustomTabList>
+            <CustomTab>
+              <FontAwesomeIcon icon="fa-solid fa-home" />
+              <Space width="2x" />
+              HOME
+            </CustomTab>
+            <CustomTab>
+              <FontAwesomeIcon icon="fa-solid fa-boxes" />
+              <Space width="2x" />
+              INVENTORY
+            </CustomTab>
+            <CustomTab>
+              <FontAwesomeIcon icon="fa-solid fa-cogs" />
+              <Space width="2x" />
+              SETTINGS
+            </CustomTab>
+          </CustomTabList>
+          <TabPanels px="4x" py="3x">
+            <TabPanel>
+              <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+                1
+              </Text>
+            </TabPanel>
+            <TabPanel>
+              <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+                2
+              </Text>
+            </TabPanel>
+            <TabPanel>
+              <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+                3
+              </Text>
+            </TabPanel>
+          </TabPanels>
+        </Flex>
+      </Tabs>
+    </>
   );
 }
 
