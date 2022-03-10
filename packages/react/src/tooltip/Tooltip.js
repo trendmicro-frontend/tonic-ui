@@ -1,4 +1,4 @@
-import { useEffectOnce, useHydrated } from '@tonic-ui/react-hooks';
+import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
 import React, { forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
@@ -10,6 +10,8 @@ import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';
 import { useTooltipStyle } from './styles';
+
+const defaultPlacement = 'bottom';
 
 const mapPlacementToTransformOrigin = placement => ({
   'top': 'bottom center',
@@ -31,6 +33,7 @@ const Tooltip = forwardRef((
     showDelay, // deprecated
     hideDelay, // deprecated
     shouldWrapChildren, // removed
+
     PopperComponent = Popper,
     PopperProps,
     PopperArrowComponent = PopperArrow,
@@ -48,37 +51,37 @@ const Tooltip = forwardRef((
     leaveDelay = 0,
     onClose: onCloseProp,
     onOpen: onOpenProp,
-    placement = 'bottom',
+    placement = defaultPlacement,
     ...rest
   },
   ref,
 ) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Tooltip.displayName}:`;
 
-    if (showDelay !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('showDelay', {
         prefix,
         alternative: 'enterDelay',
         willRemove: true,
       });
-    }
+    }, (showDelay !== undefined));
 
-    if (hideDelay !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('hideDelay', {
         prefix,
         alternative: 'leaveDelay',
         willRemove: true,
       });
-    }
+    }, (hideDelay !== undefined));
 
-    if (shouldWrapChildren !== undefined && !shouldWrapChildren) {
+    useOnceWhen(() => {
       warnRemovedProps('shouldWrapChildren', {
         prefix,
         message: 'Use Function as Child Component (FaCC) to render the tooltip trigger instead.',
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (shouldWrapChildren !== undefined && !shouldWrapChildren));
+  }
 
   const anchorRef = useRef(null);
   const nodeRef = useRef(null);

@@ -12,22 +12,29 @@ If the value should ever change based on dependencies, use `React.useMemo` inste
 import { useConst } from '@tonic-ui/react-hooks';
 ```
 
-```js
-const useConst = (init) => {
-  const ref = useRef(null);
+### useConst
 
-  if (ref.current === null) {
-    ref.current = (typeof init === 'function') ? init() : init;
+```js
+import { useRef } from 'react';
+
+const useConst = (init) => {
+  const ref = useRef();
+
+  if (ref.current === undefined) {
+    // Wrap the value in an object so that we can tell if it's initialized even if the initializer is undefined or returns undefined
+    ref.current = {
+      value: (typeof init === 'function') ? init() : init,
+    };
   }
 
-  return ref.current;
+  return ref?.current?.value;
 };
 ```
 
 ## Usage
 
 ```jsx
-function App() {
+function Component() {
   const mountTime = useConst(() => new Date().toTimeString());
   const randomValue = useConst(Math.random());
 

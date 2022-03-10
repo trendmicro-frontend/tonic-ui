@@ -1,12 +1,10 @@
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useOnce } from '@tonic-ui/react-hooks';
 import { useState, useCallback } from 'react';
 
 const useDisclosure = defaultIsOpen => {
-  useEffectOnce(() => {
-    console.error(
-      'Warning: The `useDisclosure` Hook is deprecated and will be removed in the next major release. Use the `useToggle` Hook instead.\n\nSee https://trendmicro-frontend.github.io/tonic-ui/react/latest/hooks for more information.',
-    );
-  }, true); // TODO: check if `when` is true for each prop
+  useOnce(() => {
+    console.error('Warning: The `useDisclosure` Hook is deprecated and will be removed in the next major release. Use the `useToggle` Hook instead.\n\nSee https://trendmicro-frontend.github.io/tonic-ui/react/latest/hooks for more information.');
+  });
 
   const [isOpen, setIsOpen] = useState(Boolean(defaultIsOpen));
   const onClose = useCallback(() => setIsOpen(false), []);

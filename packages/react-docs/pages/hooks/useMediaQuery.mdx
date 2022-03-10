@@ -1,0 +1,129 @@
+# useMediaQuery
+
+A cusom Hook that listens for matches to a CSS media query. It allows the rendering of components based on whether the media query matches or not.
+
+## Import
+
+```js
+import { useMediaQuery } from '@tonic-ui/react-hooks';
+```
+
+### useMediaQuery
+
+```js
+import { useEffect, useState } from 'react';
+
+const noop = () => {};
+
+const getInitialState = (query, defaultValue) => {
+  if (defaultValue !== undefined) {
+    return defaultValue;
+  }
+
+  if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+    return window.matchMedia(query)?.matches;
+  }
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('[useMediaQuery] The default value should be defined for server-side rendering.');
+  }
+
+  return false;
+};
+
+const useMediaQuery = (query, defaultValue) => {
+  const [matches, setMatches] = useState(getInitialState(query, defaultValue));
+
+  useEffect(() => {
+    let mounted = true;
+    const mql = window?.matchMedia?.(query);
+    const onChange = () => {
+      if (!mounted) {
+        return;
+      }
+      setMatches(!!mql.matches);
+    };
+
+    if (!mql) {
+      return noop;
+    }
+
+    mql.addEventListener('change', onChange);
+    setMatches(!!mql.matches);
+
+    return () => {
+      mounted = false;
+      mql.removeEventListener('change', onChange);
+    };
+  }, [query]);
+
+  return matches;
+};
+```
+
+## Usage
+
+```jsx
+function Component() {
+  const x = (value) => JSON.stringify(value);
+  const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const notLessThan320 = useMediaQuery('(min-width: 320px)');
+  const notLessThan640 = useMediaQuery('(min-width: 640px)');
+  const notLessThan1024 = useMediaQuery('(min-width: 1024px)');
+  const notLessThan1280 = useMediaQuery('(min-width: 1280px)');
+  const notLessThan1680 = useMediaQuery('(min-width: 1680px)');
+
+  return (
+    <Table>
+      <TableHeader>
+        <TableHeaderRow>
+          <TableHeaderCell width={240}>
+            Media Query
+          </TableHeaderCell>
+          <TableHeaderCell>
+            Match Result
+          </TableHeaderCell>
+        </TableHeaderRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell width={240}>
+            <Tag fontFamily="mono">(prefers-color-scheme: dark)</Tag>
+          </TableCell>
+          <TableCell>{x(isDarkMode)}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell width={240}>
+            <Tag fontFamily="mono">(min-width:320px)</Tag>
+          </TableCell>
+          <TableCell>{x(notLessThan320)}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell width={240}>
+            <Tag fontFamily="mono">(min-width:640px)</Tag>
+          </TableCell>
+          <TableCell>{x(notLessThan640)}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell width={240}>
+            <Tag fontFamily="mono">(min-width:1024px)</Tag>
+          </TableCell>
+          <TableCell>{x(notLessThan1024)}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell width={240}>
+            <Tag fontFamily="mono">(min-width:1280px)</Tag>
+          </TableCell>
+          <TableCell>{x(notLessThan1280)}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell width={240}>
+            <Tag fontFamily="mono">(min-width:1680px)</Tag>
+          </TableCell>
+          <TableCell>{x(notLessThan1680)}</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  );
+}
+```

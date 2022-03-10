@@ -28,7 +28,7 @@ const TabPanel = forwardRef((
   const variant = variantProp ?? context?.variant;
   const styleProps = useTabPanelStyle({ isSelected, variant });
 
-  // Use useEffectOnce to ensure the tab panel is registered only on the first render
+  // Ensure the tab panel is registered only once at the first render
   useEffectOnce(() => {
     if (isNullOrUndefined(index)) {
       const newIndex = registerTabPanel();

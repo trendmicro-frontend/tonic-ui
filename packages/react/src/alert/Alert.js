@@ -1,4 +1,4 @@
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Icon } from '../icon';
@@ -28,19 +28,20 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Alert.displayName}:`;
 
-    if (isCloseButtonVisible !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('isCloseButtonVisible', {
         prefix,
         alternative: 'isClosable',
         willRemove: true,
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (isCloseButtonVisible !== undefined));
 
-  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+    isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+  }
+
   const styleProps = useAlertStyle({ variant, severity });
 
   return (
