@@ -1,4 +1,4 @@
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
 import {
   ensureArray,
   ensureBoolean,
@@ -31,51 +31,49 @@ const Badge = forwardRef((
 ) => {
   const theme = useTheme();
 
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Badge.displayName}:`;
 
-    if (dotSizeProp !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('dotSize', {
         prefix,
         alternative: ['width', 'height'],
         willRemove: true,
       });
-    }
+    }, (dotSizeProp !== undefined));
 
-    if (isHiddenProp !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('isHidden', {
         prefix,
         alternative: 'isInvisible',
         willRemove: true,
       });
-    }
+    }, (isHiddenProp !== undefined));
 
-    if (offsetProp !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('offset', {
         prefix,
         alternative: ['right', 'top'],
         willRemove: true,
       });
-    }
+    }, (offsetProp !== undefined));
 
-    if (variant === 'badge') {
+    useOnceWhen(() => {
       warnDeprecatedProps('variant="badge"', {
         prefix,
         alternative: 'variant="solid"',
         willRemove: true,
       });
-    }
+    }, (variant === 'badge'));
 
-    if (variantColorProp !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('variantColor', {
         prefix,
         alternative: 'backgroundColor',
         willRemove: true,
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (variantColorProp !== undefined));
 
-  { // map deprecated props to new props
     if (variant === 'dot' && dotSizeProp !== undefined) {
       rest.height = rest.height ?? dotSizeProp;
       rest.width = rest.width ?? dotSizeProp;

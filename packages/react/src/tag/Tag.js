@@ -1,4 +1,4 @@
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
@@ -21,27 +21,29 @@ const Tag = forwardRef((
   },
   ref
 ) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Tag.displayName}:`;
 
-    if (isCloseButtonVisible !== undefined) {
-      warnDeprecatedProps('isCloseButtonVisible', {
-        prefix,
-        alternative: 'isClosable',
-        willRemove: true,
-      });
-    }
-
-    if (variantColor !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('variantColor', {
         prefix,
         alternative: 'backgroundColor',
         willRemove: true,
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (variantColor !== undefined));
 
-  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+    useOnceWhen(() => {
+      warnDeprecatedProps('isCloseButtonVisible', {
+        prefix,
+        alternative: 'isClosable',
+        willRemove: true,
+      });
+    }, (isCloseButtonVisible !== undefined));
+
+    isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+  }
+
+  const canFocus = isClosable;
   const tagStyleProps = useTagStyle({
     color: variantColor, // TODO: remove this line after deprecation
     size,

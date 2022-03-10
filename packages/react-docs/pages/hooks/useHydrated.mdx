@@ -11,6 +11,8 @@ A custom Hook that returns a boolean indicating if the component is hydrated.
 import { useHydrated } from '@tonic-ui/react-hooks';
 ```
 
+### useHydrated
+
 ```js
 import { useEffect, useState } from 'react';
 
@@ -28,7 +30,7 @@ const useHydrated = () => {
 ## Usage
 
 ```jsx
-function App() {
+function Component() {
   const isHydrated = useHydrated();
 
   return (

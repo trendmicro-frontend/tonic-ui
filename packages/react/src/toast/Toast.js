@@ -1,4 +1,4 @@
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Icon } from '../icon';
@@ -17,6 +17,7 @@ import {
 const Toast = forwardRef((
   {
     isCloseButtonVisible, // deprecated
+
     isClosable = false,
     onClose,
     appearance = defaultAppearance,
@@ -26,19 +27,20 @@ const Toast = forwardRef((
   },
   ref,
 ) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Toast.displayName}:`;
 
-    if (isCloseButtonVisible !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('isCloseButtonVisible', {
         prefix,
         alternative: 'isClosable',
         willRemove: true,
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (isCloseButtonVisible !== undefined));
 
-  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+    isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+  }
+
   const styleProps = useToastStyle({ appearance });
 
   return (

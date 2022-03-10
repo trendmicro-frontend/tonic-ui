@@ -5,8 +5,12 @@ import useConst from './useConst';
 import useEventCallback from './useEventCallback';
 
 describe('useEventCallback', () => {
-  test('`onChange` will be memoized even if `value` changes', () => {
-    const App = () => {
+  it('should be defined', () => {
+    expect(useEventCallback).toBeDefined();
+  });
+
+  it('should return a memoized function even if value changes', () => {
+    const TestComponent = () => {
       const [value, setValue] = useState('');
       const onChange = useEventCallback((event) => {
         const nextValue = event.target.value;
@@ -23,8 +27,8 @@ describe('useEventCallback', () => {
       );
     };
 
-    const result = render(<App />);
-    const input = result.container.querySelector('input');
+    const { container } = render(<TestComponent />);
+    const input = container.querySelector('input');
     userEvent.type(input, 'Hello');
   });
 });

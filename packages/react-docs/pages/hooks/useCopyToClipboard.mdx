@@ -1,0 +1,77 @@
+# useCopyToClipboard
+
+A custom Hook that provides a `copy` method to copy text to the clipboard. If anything does not work, it will output an error message and the value will be set to `null`.
+
+## Import
+
+```js
+import { useCopyToClipboard } from '@tonic-ui/react-hooks';
+```
+
+### useCopyToClipboard
+
+```js
+import { useState } from 'react';
+
+const useCopyToClipboard = () => {
+  const [value, setValue] = useState();
+  const copy = async (text) => {
+    if (!(navigator?.clipboard)) {
+      console.error('Clipboard API is not supported in this environment.');
+      return false;
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      setValue(text);
+      return true;
+    } catch (error) {
+      console.error('Clipboard write failed: ', error);
+      setValue();
+      return false;
+    }
+  };
+
+  return [value, copy];
+};
+```
+
+## Usage
+
+```jsx
+function Component() {
+  const [buttonIsCopied, setButtonIsCopied] = React.useState(null);
+  const [linkIsCopied, setLinkIsCopied] = React.useState(null);
+  const [value, copy] = useCopyToClipboard();
+
+  return (
+    <>
+      <Flex columnGap="2x" mb="2x">
+        <Button
+          minWidth={120}
+          onClick={async function () {
+            const ok = await copy('https://github.com/trendmicro-frontend/tonic-ui')
+            setButtonIsCopied(!!ok);
+            setTimeout(() => setButtonIsCopied(null), 1000);
+          }}
+        >
+          {buttonIsCopied === null && 'Click to copy'}
+          {buttonIsCopied === true && 'Copied'}
+          {buttonIsCopied === false && 'Copy failed'}
+        </Button>
+        <LinkButton
+          onClick={async function () {
+            const ok = await copy('https://github.com/trendmicro-frontend/tonic-ui')
+            setLinkIsCopied(!!ok);
+            setTimeout(() => setLinkIsCopied(null), 1000);
+          }}
+        >
+          {linkIsCopied === null && 'Click to copy'}
+          {linkIsCopied === true && 'Copied'}
+          {linkIsCopied === false && 'Copy failed'}
+        </LinkButton>
+      </Flex>
+      <Text>Copied value: {value}</Text>
+    </>
+  );
+}
+```
