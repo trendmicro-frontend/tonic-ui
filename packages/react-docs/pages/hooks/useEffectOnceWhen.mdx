@@ -1,0 +1,58 @@
+# useEffectOnceWhen
+
+A custom Hook that fires a callback only once when a condition is met.
+
+## Import
+
+```js
+import { useEffectOnceWhen } from '@tonic-ui/react-hooks';
+```
+
+### useEffectOnceWhen
+
+```js
+import { useEffect, useRef } from 'react';
+
+const useEffectOnceWhen = (callback, when) => {
+  const runOnceRef = useRef(false);
+  const callbackRef = useRef(callback);
+
+  callbackRef.current = callback;
+
+  useEffect(() => {
+    if (!when || runOnceRef.current) {
+      return;
+    }
+    if (typeof callbackRef.current === 'function') {
+      callbackRef.current();
+    }
+    runOnceRef.current = true;
+  }, [when]);
+};
+```
+
+## Usage
+
+```jsx
+function Component() {
+  const [state, setState] = React.useState('idle');
+
+  useEffectOnceWhen(() => {
+    setTimeout(() => {
+      setState('loaded');
+    }, 3000); // Countdown for 3 seconds
+  }, (state === 'loading'));
+
+  return (
+    <>
+      {state === 'idle' && (
+        <Button onClick={() => setState('loading')}>
+          Click To Run
+        </Button>
+      )}
+      {state === 'loading' && 'Loading component (will be gone in 3 seconds)...'}
+      {state === 'loaded' && 'Component loaded!'}
+    </>
+  );
+}
+```

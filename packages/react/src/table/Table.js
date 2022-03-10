@@ -1,4 +1,4 @@
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useColorMode } from '../color-mode';
@@ -16,16 +16,16 @@ const Table = forwardRef((
   },
   ref,
 ) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Table.displayName}:`;
 
-    if (isHoverable !== undefined) {
+    useOnceWhen(() => {
       warnRemovedProps('isHoverable', {
         prefix,
         message: 'Use the \'_hover\' prop on the \'TableRow\' component instead.',
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (isHoverable !== undefined));
+  }
 
   const styleProps = useTableStyle({});
   const minimalist = (variant === 'default');

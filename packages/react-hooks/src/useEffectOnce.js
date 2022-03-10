@@ -1,19 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
-const useEffectOnce = (callback, when) => {
-  const runOnceRef = useRef(false);
-  const callbackRef = useRef(callback);
-
-  callbackRef.current = callback;
-
-  useEffect(() => {
-    if (!when || runOnceRef.current) {
-      return;
-    }
-
-    (typeof callbackRef.current === 'function') && callbackRef.current();
-    runOnceRef.current = true;
-  }, [when]);
+const useEffectOnce = (effect) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(effect, []);
 };
 
 export default useEffectOnce;

@@ -39,7 +39,7 @@ const Tab = forwardRef((
     ensureFunction(context?.onChange)(index);
   });
 
-  // Use useEffectOnce to ensure the tab is registered only on the first render
+  // Ensure the tab is registered only once at the first render
   useEffectOnce(() => {
     if (isNullOrUndefined(index)) {
       const newIndex = registerTab();
@@ -53,7 +53,7 @@ const Tab = forwardRef((
     return () => {
       unregisterTab(index);
     };
-  }, true);
+  });
 
   const getTabProps = () => ({
     'aria-controls': tabPanelId,

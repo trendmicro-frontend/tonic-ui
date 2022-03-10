@@ -15,6 +15,8 @@ The general rule is: use `useEventCallback` when doing side effects, and use the
 import { useEventCallback } from '@tonic-ui/react-hooks';
 ```
 
+### useEventCallback
+
 ```js
 import { useCallback, useRef } from 'react';
 import useIsomorphicEffect from './useIsomorphicEffect';
@@ -50,7 +52,7 @@ Try typing some text in the input fields and see the difference between `useEven
 ### useEventCallback
 
 ```jsx
-function App() {
+function Component() {
   const [value, setValue] = React.useState('');
   const onChange = useEventCallback((event) => {
     const nextValue = event.target.value;
@@ -76,7 +78,7 @@ function App() {
 ### useCallback
 
 ```jsx
-function App() {
+function Component() {
   const [value, setValue] = React.useState('');
   const onChange = React.useCallback((event) => {
     const nextValue = event.target.value;

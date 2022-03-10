@@ -1,4 +1,4 @@
-import { useEffectOnce, useHydrated } from '@tonic-ui/react-hooks';
+import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
@@ -51,24 +51,26 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Scrollbar.displayName}:`;
 
-    if (disabled !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('disabled', {
         prefix,
         alternative: 'overflow="hidden"',
         willRemove: true,
       });
-    }
-    if (minThumbSize !== undefined) {
+    }, (disabled !== undefined));
+
+    useOnceWhen(() => {
       warnDeprecatedProps('minThumbSize', {
         prefix,
         alternative: ['minThumbWidth', 'minThumbHeight'],
         willRemove: true,
       });
-    }
-    if (visibility !== undefined) {
+    }, (minThumbSize !== undefined));
+
+    useOnceWhen(() => {
       const deprecatedProps = (visibility === 'visible')
         ? 'visibility="visible"'
         : 'visibility';
@@ -80,50 +82,50 @@ const Scrollbar = forwardRef((
         alternative,
         willRemove: true,
       });
-    }
-    if (renderView !== undefined) {
+    }, (visibility !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('renderView', {
         prefix,
         message: 'Use Function as Child Component (FaCC) to render the scroll view instead.',
       });
-    }
-    if (renderHorizontalTrack !== undefined) {
+    }, (renderView !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('renderHorizontalTrack', {
         prefix,
         message: 'Use Function as Child Component (FaCC) to render the horizontal track instead.',
       });
-    }
-    if (renderHorizontalThumb !== undefined) {
+    }, (renderHorizontalTrack !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('renderHorizontalThumb', {
         prefix,
         message: 'Use Function as Child Component (FaCC) to render the horizontal thumb instead.',
       });
-    }
-    if (renderVerticalTrack !== undefined) {
+    }, (renderHorizontalThumb !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('renderVerticalTrack', {
         prefix,
         message: 'Use Function as Child Component (FaCC) to render the vertical track instead.',
       });
-    }
-    if (renderVerticalThumb !== undefined) {
+    }, (renderVerticalTrack !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('renderVerticalThumb', {
         prefix,
         message: 'Use Function as Child Component (FaCC) to render the vertical thumb instead.',
       });
-    }
-    if (thumbSize !== undefined) {
+    }, (renderVerticalThumb !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('thumbSize', {
         prefix,
         alternative: ['minThumbWidth', 'minThumbHeight'],
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (thumbSize !== undefined));
 
-  const isHydrated = useHydrated();
-  const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
-
-  { // Update overflow props
     // TODO: remove `disabled` and `visibility` props in next major version
     if (disabled === true) {
       overflowX = 'hidden';
@@ -147,6 +149,10 @@ const Scrollbar = forwardRef((
     overflowX = overflowX ?? 'auto';
     overflowY = overflowY ?? 'auto';
   }
+
+  const isHydrated = useHydrated();
+  const nodeRef = useRef(null);
+  const combinedRef = useForkRef(nodeRef, ref);
 
   const viewScrollLeftRef = useRef(0);
   const viewScrollTopRef = useRef(0);

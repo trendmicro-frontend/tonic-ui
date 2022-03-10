@@ -1,7 +1,10 @@
 import { withTheme } from '@emotion/react';
+import { useOnce } from '@tonic-ui/react-hooks';
 
 export default (...args) => {
-  console.error('Warning: `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.');
+  useOnce(() => {
+    console.error('Warning: `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.');
+  });
 
   return withTheme(...args);
 };
