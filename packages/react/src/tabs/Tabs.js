@@ -5,6 +5,7 @@ import isNullOrUndefined from '../utils/isNullOrUndefined';
 import runIfFn from '../utils/runIfFn';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';
+import { defaultOrientation, defaultVariant } from './constants';
 import { TabsContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -14,19 +15,17 @@ const stateReducer = (prevState, nextState) => ({
   ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
 });
 
-const defaultVariant = 'default';
-
 const Tabs = ({
   activateOnKeyPress, // removed
   isFitted, // removed
   isManual, // removed
-  orientation, // removed
 
   children,
   defaultIndex = 0,
   disabled,
   index: indexProp,
   onChange,
+  orientation = defaultOrientation,
   variant = defaultVariant,
 }) => {
   { // deprecation warning
@@ -49,13 +48,6 @@ const Tabs = ({
         prefix,
       });
     }, (isManual !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('orientation', {
-        prefix,
-        message: 'Only horizontal orientation is supported by Tabs.',
-      });
-    }, (orientation !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('variant="line"', {
@@ -129,6 +121,7 @@ const Tabs = ({
     disabled,
     index: state.index,
     onChange: handleChange,
+    orientation,
     variant,
     registerTab,
     registerTabPanel,

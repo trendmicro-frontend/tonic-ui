@@ -13,7 +13,6 @@ const TabPanel = forwardRef((
   {
     children,
     index: indexProp,
-    variant: variantProp,
     ...rest
   },
   ref,
@@ -25,8 +24,7 @@ const TabPanel = forwardRef((
   const tabId = `${config.name}:Tab-${index}`;
   const tabPanelId = `${config.name}:TabPanel-${index}`;
   const isSelected = isIndexEqual(index, context?.index);
-  const variant = variantProp ?? context?.variant;
-  const styleProps = useTabPanelStyle({ isSelected, variant });
+  const styleProps = useTabPanelStyle({ isSelected });
 
   // Ensure the tab panel is registered only once at the first render
   useEffectOnce(() => {
@@ -60,7 +58,6 @@ const TabPanel = forwardRef((
     return children({
       getTabPanelProps,
       index,
-      variant,
     });
   }
 

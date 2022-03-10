@@ -4,6 +4,7 @@ import { useColorMode } from '../color-mode';
 const useTabStyle = ({
   disabled,
   isSelected,
+  orientation,
   variant,
 }) => {
   const theme = useTheme();
@@ -274,15 +275,20 @@ const useTabStyle = ({
   };
 };
 
-const useTabListStyle = () => {
+const useTabListStyle = ({
+  orientation,
+}) => {
   return {
     display: 'flex',
+    flexDirection: {
+      'horizontal': 'row',
+      'vertical': 'column',
+    }[orientation],
   };
 };
 
 const useTabPanelStyle = ({
   isSelected,
-  variant,
 }) => {
   return {};
 };

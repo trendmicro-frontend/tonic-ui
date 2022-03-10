@@ -16,7 +16,6 @@ const Tab = forwardRef((
     disabled: disabledProp,
     index: indexProp,
     onClick,
-    variant: variantProp,
     ...rest
   },
   ref,
@@ -29,8 +28,9 @@ const Tab = forwardRef((
   const tabPanelId = `${config.name}:TabPanel-${index}`;
   const disabled = disabledProp ?? context?.disabled;
   const isSelected = isIndexEqual(index, context?.index);
-  const variant = variantProp ?? context?.variant;
-  const styleProps = useTabStyle({ disabled, isSelected, variant });
+  const orientation = context?.orientation;
+  const variant = context?.variant;
+  const styleProps = useTabStyle({ disabled, isSelected, orientation, variant });
   const handleClick = wrapEvent(onClick, (event) => {
     if (isSelected) {
       // Do not trigger onChange if the tab is already selected
@@ -74,7 +74,6 @@ const Tab = forwardRef((
       getTabProps,
       disabled,
       index,
-      variant,
     });
   }
 

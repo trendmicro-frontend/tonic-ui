@@ -11,6 +11,7 @@ import {
   TabList,
   TabPanel,
   TabPanels,
+  useTabs,
 } from '@tonic-ui/react';
 ```
 
@@ -708,23 +709,36 @@ Tabs also come with an `unstyled` variant. It's useful for doing customizations.
 
 ```jsx noInline
 const CustomTabList = (props) => {
+  const context = useTabs();
+  const orientation = context.orientation;
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const styleProps = {
+  let styleProps = {
     backgroundColor: colorStyle.background.primary,
-    pt: '1x',
-    pl: '1x',
     position: 'relative',
-    __after: {
-      content: '""',
-      borderBottom: 1,
-      borderBottomColor: colorStyle.divider,
-      position: 'absolute',
-      bottom: 0,
-      width: '100%',
-      ...props.__after,
-    },
   };
+
+  if (orientation === 'horizontal') {
+    styleProps = {
+      ...styleProps,
+      __after: {
+        content: '""',
+        borderBottom: 1,
+        borderBottomColor: colorStyle.divider,
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+      },
+    };
+  }
+
+  if (orientation === 'vertical') {
+    styleProps = {
+      ...styleProps,
+      display: 'inline-flex',
+      alignItems: 'flex-start',
+    };
+  }
 
   return (
     <TabList
@@ -735,14 +749,13 @@ const CustomTabList = (props) => {
 };
 
 const CustomTab = (props) => {
+  const context = useTabs();
+  const orientation = context.orientation;
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const { colors } = useTheme();
-
-  const styleProps = {
-    backgroundColor: colorStyle.background.tertiary,
-    border: 1,
-    borderColor: colorStyle.divider,
+  let styleProps = {
+    backgroundColor: colorStyle.background.primary,
     color: colorStyle.color.secondary,
     px: '4x',
     py: '3x',
@@ -756,28 +769,59 @@ const CustomTab = (props) => {
     _hover: {
       color: colorStyle.color.primary,
     },
-    _notLastOfType: {
-      borderRight: 'none',
-    },
-    _selected: {
-      borderBottomColor: colorStyle.background.primary,
-      background: colorStyle.background.primary,
-      color: colorStyle.color.primary,
-      '::before': {
-        content: '""',
-        position: 'absolute',
-        top: -1,
-        left: -1,
-        right: 0,
-        height: 3,
-        backgroundColor: '#2cc185',
-      },
-    },
   };
+
+  if (orientation === 'horizontal') {
+    styleProps = {
+      ...styleProps,
+      border: 1,
+      borderColor: colorStyle.divider,
+      _notLastOfType: {
+        borderRight: 'none',
+      },
+      _selected: {
+        borderBottomColor: 'transparent',
+        background: colorStyle.background.primary,
+        color: colorStyle.color.primary,
+        '::before': {
+          content: '""',
+          position: 'absolute',
+          top: -1,
+          left: -1,
+          right: 0,
+          height: 3,
+          backgroundColor: '#2cc185',
+        },
+      },
+    };
+  }
+
+  if (orientation === 'vertical') {
+    styleProps = {
+      ...styleProps,
+      borderBottom: 1,
+      borderBottomColor: colorStyle.divider,
+      textAlign: 'left',
+      width: '100%',
+      _selected: {
+        borderLeftColor: colorStyle.background.primary,
+        background: colorStyle.background.primary,
+        color: colorStyle.color.primary,
+        '::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          width: 3,
+          backgroundColor: '#2cc185',
+        },
+      },
+    };
+  }
 
   return (
     <Tab
-      variant="unstyled"
       {...styleProps}
       {...props}
     />
@@ -789,7 +833,10 @@ function Example() {
   const [colorStyle] = useColorStyle({ colorMode });
 
   return (
-    <Tabs>
+    <Tabs
+      orientation="horizontal"
+      variant="unstyled"
+    >
       <CustomTabList>
         <CustomTab>
           <FontAwesomeIcon icon="fa-solid fa-home" />
@@ -837,11 +884,10 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getTabProps, disabled, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `variant` prop is the variant of the tab. |
+| children | ReactNode \| ({ getTabProps, disabled, index }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab. |
 | disabled | boolean | | Whether the tab is disabled. |
 | index | number \| string | | The index of the tab. An index number starting from 0 will be provided if not specified. |
 | onClick | (event) => void | | A callback for when the tab is clicked. |
-| variant | string | | The variant of the tab. |
 
 ### Tabs
 
@@ -852,6 +898,7 @@ render(<Example />);
 | disabled | boolean | | Whether the tabs should be disabled. |
 | index | number \| string | | The index of the tab to be selected in controlled mode. |
 | onChange | (index: number\|string) => void | | A callback function that is called when the index changes. |
+| orientation | string | 'horizontal' | The orientation of the tabs. One of: 'horizontal', 'vertical' |
 | variant | string | 'default' | The variant of the tabs. One of: 'default', 'filled', 'unstyled' |
 
 ### TabList
@@ -865,9 +912,8 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getTabPanelProps, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `variant` prop is the variant of the tab panel. |
+| children | ReactNode \| ({ getTabPanelProps, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel. |
 | index | number \| string | | The index of the tab panel. An index number starting from 0 will be provided if not specified. |
-| variant | string | | The variant of the tab panel. |
 
 ### TabPanels
 
