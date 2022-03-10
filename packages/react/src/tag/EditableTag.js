@@ -2,15 +2,61 @@ import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { InputBase } from '../input';
+import { useTheme } from '../theme';
+import wrapEvent from '../utils/wrapEvent';
 import { useEditableTagStyle } from './styles';
 import Tag from './Tag';
 import TagCloseButton from './TagCloseButton';
+
+const AutosizeInput = ({
+  onInput: onInputProp,
+  ...props
+}) => {
+  const tagInputRef = useRef();
+  const tagHiddenSpanRef = useRef();
+
+  const handleInputResize = () => {
+    if (!tagInputRef.current) {
+      return;
+    }
+    const tagInput = tagInputRef.current;
+    const tagHiddenSpan = tagHiddenSpanRef.current;
+    tagHiddenSpan.textContent = tagInput.value;
+    tagInput.style.width = `${tagHiddenSpan.offsetWidth}px`;
+    tagInput.focus();
+  };
+
+  useEffect(() => {
+    handleInputResize();
+  }, []);
+
+  return (
+    <>
+      <Box
+        as="span"
+        ref={tagHiddenSpanRef}
+        position="absolute"
+        height="0"
+        overflow="hidden"
+        whiteSpace="pre"
+      />
+      <InputBase
+        ref={tagInputRef}
+        maxWidth="100%"
+        minHeight="6x"
+        onInput={wrapEvent(onInputProp, handleInputResize)}
+        {...props}
+      />
+    </>
+  );
+};
 
 const EditableTag = forwardRef((
   {
     children,
     disabled,
     isClosable = true,
+    labelMaxWidth = 0,
     size = 'md',
     variant = 'solid',
 
@@ -26,8 +72,6 @@ const EditableTag = forwardRef((
   onClick = ensureFunction(onClick);
   onClose = ensureFunction(onClose);
 
-  const tagInputRef = useRef();
-  const tagHiddenSpanRef = useRef();
   const [value, setValue] = useState(children);
   const [inputVisible, setInputVisible] = useState(false);
   const handleInputVisible = () => setInputVisible(true);
@@ -53,16 +97,6 @@ const EditableTag = forwardRef((
       handleInputHidden();
     }
   };
-  const handleInputResize = () => {
-    if (!tagInputRef.current) {
-      return;
-    }
-    const tagInput = tagInputRef.current;
-    const tagHiddenSpan = tagHiddenSpanRef.current;
-    tagHiddenSpan.textContent = tagInput.value;
-    tagInput.style.width = `${tagHiddenSpan.offsetWidth}px`;
-    tagInput.focus();
-  };
 
   // handle tag events
   const handleTagClick = (e) => {
@@ -87,33 +121,21 @@ const EditableTag = forwardRef((
     variant,
   });
 
-  useEffect(() => {
-    if (inputVisible) {
-      handleInputResize();
-    }
-  }, [inputVisible]);
+  const theme = useTheme();
+  const limitWidthStyle = {
+    maxWidth: `calc(${labelMaxWidth}px - ${isClosable ? theme?.sizes?.['5x'] : 0})`,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  };
 
   if (inputVisible) {
     return (
-      <>
-        <Box
-          as="span"
-          ref={tagHiddenSpanRef}
-          position="absolute"
-          height="0"
-          overflow="hidden"
-          whiteSpace="pre"
-        />
-        <InputBase
-          ref={tagInputRef}
-          maxWidth="100%"
-          minHeight="6x"
-          defaultValue={value}
-          onBlur={handleInputBlur}
-          onInput={handleInputResize}
-          onKeyUp={handleInputKeyUp}
-        />
-      </>
+      <AutosizeInput
+        defaultValue={value}
+        onBlur={handleInputBlur}
+        onKeyUp={handleInputKeyUp}
+      />
     );
   }
 
@@ -130,15 +152,12 @@ const EditableTag = forwardRef((
       {...props}
     >
       <Box
-        maxWidth={120}
         display="inline-block"
-        overflow="hidden"
-        textOverflow="ellipsis"
-        whiteSpace="nowrap"
+        {...(labelMaxWidth && limitWidthStyle)}
       >
         {value}
       </Box>
-      {isClosable && (
+      {!!isClosable && (
         <TagCloseButton
           disabled={disabled}
           tabIndex="-1" // no focus on close button

@@ -104,7 +104,7 @@ const TagCreator = ({
 const Tags = () => {
   const [tags, setTags] = React.useState(['disabled', 'invalid', 'normal']);
   const handleTagCreate = (value) => {
-    if (value && tags.indexOf(value) === -1) {
+    if (value) {
       setTags([...tags, value]);
     }
   };
@@ -118,31 +118,26 @@ const Tags = () => {
   };
 
   return (
-    <>
+    <Flex>
       {
         tags.map((value, i) => (
-          <Box
+          <EditableTag
             key={i}
-            display="inline-flex"
             mr="2x"
-            verticalAlign="top"
+            variant="outline"
+            borderRadius="lg"
+            title={value}
+            disabled={value === 'disabled'}
+            isInvalid={value === 'invalid'}
+            onChange={handleTagChange(i)}
+            onClose={handleTagClose(i)}
           >
-            <EditableTag
-              variant="outline"
-              borderRadius="lg"
-              title={value}
-              disabled={value === 'disabled'}
-              isInvalid={value === 'invalid'}
-              onChange={handleTagChange(i)}
-              onClose={handleTagClose(i)}
-            >
-              {value}
-            </EditableTag>
-          </Box>
+            {value}
+          </EditableTag>
         ))
       }
       <TagCreator onCreate={handleTagCreate} />
-    </>
+    </Flex>
   );
 };
 
@@ -398,6 +393,7 @@ const Tags = () => {
       <Box
         role="presentation"
         aria-invalid={hasError}
+        display="flex"
         onClick={handleWrapperClick}
         {...wrapperStyle}
       >
@@ -416,21 +412,16 @@ const Tags = () => {
             const value = tag.value;
             const error = tag.error;
             return (
-              <Box
+              <EditableTag
                 key={id}
-                display="inline-flex"
                 mr="2x"
-                verticalAlign="top"
+                title={value}
+                isInvalid={!!error}
+                onChange={handleTagChange(id)}
+                onClose={handleTagClose(id)}
               >
-                <EditableTag
-                  title={value}
-                  isInvalid={!!error}
-                  onChange={handleTagChange(id)}
-                  onClose={handleTagClose(id)}
-                >
-                  {value}
-                </EditableTag>
-              </Box>
+                {value}
+              </EditableTag>
             );
           })
         }
@@ -456,9 +447,11 @@ render(<Tags />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | string | | The content of the tag. |
 | disabled | boolean | | If `true`, the tag will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
 | isClosable | boolean | true | If `true`, a close button will appear on the right side. |
 | isInvalid | boolean | | If `true`, the tag will indicate an error. You can style this state by passing the `_invalid` prop. |
+| labelMaxWidth | number | 0 | The maximum width of the label. This value is specified in pixels. If > 0, the string will be clipped, display an ellipsis (...). |
 | onClose | function | | A callback called when the close button is clicked. |
 | size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
 | variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
