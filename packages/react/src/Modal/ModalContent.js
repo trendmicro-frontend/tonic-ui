@@ -90,6 +90,7 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
 });
 
 const ModalContent = React.forwardRef(({
+  backdropProps,
   children,
   zIndex = 'modal',
   ...props
@@ -105,7 +106,7 @@ const ModalContent = React.forwardRef(({
   }
 
   return (
-    <ModalContentBackdrop zIndex={zIndex}>
+    <ModalContentBackdrop zIndex={zIndex} {...backdropProps}>
       <ModalContentFront ref={ref} {...props}>
         {children}
       </ModalContentFront>
