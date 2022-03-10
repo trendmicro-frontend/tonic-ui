@@ -2,8 +2,6 @@
 
 `Tag` is used for items that need to be labeled, categorized, or organized using keywords that describe them.
 
-You can use [EditableTag](editabletag) component to implement a tag that can be edited.
-
 ## Import
 
 ```js
@@ -307,6 +305,22 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 </Stack>
 ```
 
+## Advanced usage
+
+> The advanced usage here is not part of the component library, and might be modified or removed without further notice. They are provided here to help you get started with writing your own tag components.
+
+### Example: InputTag
+
+`InputTag` is a component that is used to create a tag that can be used as a filter input. 
+
+To create a tag, enter a value into the input and press enter, a tag will be created and added to the list of tags. Copy and paste is also supported for tag creation by separating each tag with a comma (`,`) or a semi-colon (`;`) character. To delete a tag, click on the `x` icon or press the backspace key.
+
+> Check out the [source code](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/react-docs/components/InputTag) to learn how it works.
+
+```jsx
+<InputTag />
+```
+
 ## Props
 
 | Name | Type | Default | Description |
@@ -318,3 +332,5 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 | onClose | function | | A callback called when the close button is clicked. |
 | size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
 | variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
+
+

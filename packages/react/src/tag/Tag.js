@@ -58,7 +58,7 @@ const Tag = forwardRef((
       {...tagStyleProps}
       {...props}
     >
-      { children }
+      {children}
       {!!isClosable && (
         <TagCloseButton ml="2x" disabled={disabled} onClick={onClose} />
       )}

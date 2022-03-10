@@ -97,7 +97,6 @@ const routes = [
       { title: 'Popover', path: 'components/popover' },
       { title: 'Table', path: 'components/table' },
       { title: 'Tag', path: 'components/tag' },
-      { title: 'EditableTag', path: 'components/editabletag' },
       { title: 'Tooltip', path: 'components/tooltip' },
 
       { title: 'FEEDBACK', heading: true },

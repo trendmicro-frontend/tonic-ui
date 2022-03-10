@@ -18,6 +18,7 @@ import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import Code from './Code';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import IconButton from './IconButton';
+import InputTag from './InputTag';
 import Lorem from './Lorem';
 import SelectButton from './SelectButton';
 import SkeletonBody from './SkeletonBody';
@@ -162,6 +163,7 @@ const CodeBlock = ({
       ...thirdPartyComponents,
       Code,
       FontAwesomeIcon,
+      InputTag,
       Lorem,
       SelectButton,
       SkeletonBody,

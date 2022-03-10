@@ -1,55 +1,13 @@
+import {
+  Box,
+  Tag,
+  TagCloseButton,
+  useTheme,
+} from '@tonic-ui/react';
 import { ensureFunction } from 'ensure-type';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import { Box } from '../box';
-import { InputBase } from '../input';
-import { useTheme } from '../theme';
-import wrapEvent from '../utils/wrapEvent';
+import React, { forwardRef, useState } from 'react';
 import { useEditableTagStyle } from './styles';
-import Tag from './Tag';
-import TagCloseButton from './TagCloseButton';
-
-const AutosizeInput = ({
-  onInput: onInputProp,
-  ...props
-}) => {
-  const tagInputRef = useRef();
-  const tagHiddenSpanRef = useRef();
-
-  const handleInputResize = () => {
-    if (!tagInputRef.current) {
-      return;
-    }
-    const tagInput = tagInputRef.current;
-    const tagHiddenSpan = tagHiddenSpanRef.current;
-    tagHiddenSpan.textContent = tagInput.value;
-    tagInput.style.width = `${tagHiddenSpan.offsetWidth}px`;
-    tagInput.focus();
-  };
-
-  useEffect(() => {
-    handleInputResize();
-  }, []);
-
-  return (
-    <>
-      <Box
-        as="span"
-        ref={tagHiddenSpanRef}
-        position="absolute"
-        height="0"
-        overflow="hidden"
-        whiteSpace="pre"
-      />
-      <InputBase
-        ref={tagInputRef}
-        maxWidth="100%"
-        minHeight="6x"
-        onInput={wrapEvent(onInputProp, handleInputResize)}
-        {...props}
-      />
-    </>
-  );
-};
+import AutosizeInput from './AutosizeInput';
 
 const EditableTag = forwardRef((
   {
@@ -141,6 +99,7 @@ const EditableTag = forwardRef((
 
   return (
     <Tag
+      ref={ref}
       variant={variant}
       size={size}
       disabled={disabled}
