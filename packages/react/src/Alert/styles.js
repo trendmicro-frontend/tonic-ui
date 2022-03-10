@@ -6,8 +6,8 @@ const getSolidSuccessStyle = ({
   colorMode,
 }) => {
   const backgroundColor = {
-    dark: 'green:50',
-    light: 'green:50',
+    dark: 'green:40',
+    light: 'green:30',
   }[colorMode];
   const color = 'black:primary';
 
@@ -66,7 +66,7 @@ const getOutlineSuccessStyle = ({
   colorMode,
 }) => {
   const borderColor = {
-    dark: 'green:50',
+    dark: 'green:40',
     light: 'green:50',
   }[colorMode];
   const color = {
@@ -190,8 +190,8 @@ const getOutlineSuccessIconStyle = ({
   colorMode,
 }) => {
   const color = {
-    dark: 'green:40',
-    light: 'green:40',
+    dark: 'green:50',
+    light: 'green:60',
   }[colorMode];
 
   return {
