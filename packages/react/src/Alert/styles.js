@@ -6,8 +6,8 @@ const getSolidSuccessStyle = ({
   colorMode,
 }) => {
   const backgroundColor = {
-    dark: 'green:50',
-    light: 'green:50',
+    dark: 'green:40',
+    light: 'green:30',
   }[colorMode];
   const color = 'black:primary';
 
@@ -22,7 +22,7 @@ const getSolidInfoStyle = ({
 }) => {
   const backgroundColor = {
     dark: 'blue:40',
-    light: 'blue:40',
+    light: 'blue:30',
   }[colorMode];
   const color = 'black:primary';
 
@@ -52,7 +52,7 @@ const getSolidErrorStyle = ({
 }) => {
   const backgroundColor = {
     dark: 'red:40',
-    light: 'red:40',
+    light: 'red:30',
   }[colorMode];
   const color = 'black:primary';
 
@@ -66,7 +66,7 @@ const getOutlineSuccessStyle = ({
   colorMode,
 }) => {
   const borderColor = {
-    dark: 'green:50',
+    dark: 'green:40',
     light: 'green:50',
   }[colorMode];
   const color = {
@@ -85,7 +85,7 @@ const getOutlineInfoStyle = ({
 }) => {
   const borderColor = {
     dark: 'blue:40',
-    light: 'blue:40',
+    light: 'blue:50',
   }[colorMode];
   const color = {
     dark: 'white:primary',
@@ -190,8 +190,8 @@ const getOutlineSuccessIconStyle = ({
   colorMode,
 }) => {
   const color = {
-    dark: 'green:40',
-    light: 'green:40',
+    dark: 'green:50',
+    light: 'green:60',
   }[colorMode];
 
   return {
@@ -204,7 +204,7 @@ const getOutlineInfoIconStyle = ({
 }) => {
   const color = {
     dark: 'blue:50',
-    light: 'blue:50',
+    light: 'blue:60',
   }[colorMode];
 
   return {
@@ -230,7 +230,7 @@ const getOutlineErrorIconStyle = ({
 }) => {
   const color = {
     dark: 'red:50',
-    light: 'red:50',
+    light: 'red:60',
   }[colorMode];
 
   return {
