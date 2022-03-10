@@ -13,12 +13,13 @@ import {
   Space,
   Text,
   useColorMode,
+  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import _get from 'lodash/get';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import pkg from '../../../package.json';
 import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from './FontAwesomeIcon';
@@ -55,6 +56,9 @@ const Header = forwardRef((
   },
   ref,
 ) => {
+  const theme = useTheme();
+  const [colorMode, toggleColorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const router = useRouter();
   const version = (() => {
     if (TONIC_UI_DOC_VERSION) {
@@ -65,19 +69,11 @@ const Header = forwardRef((
     }
     return '';
   })();
-  const theme = useTheme();
-  const [colorMode, setColorMode] = useColorMode();
 
-  const toggleColorMode = () => {
-    const nextColorMode = {
-      'dark': 'light',
-      'light': 'dark',
-    }[colorMode];
+  useEffect(() => {
+    persistColorMode(colorMode);
+  }, [colorMode]);
 
-    setColorMode(nextColorMode);
-
-    persistColorMode(nextColorMode);
-  };
   const logo = {
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
@@ -104,6 +100,10 @@ const Header = forwardRef((
 
   const handleViewAllVersions = () => {
     router.push(`${ASSET_PREFIX}/getting-started/versions`);
+  };
+
+  const handleChangeColorMode = () => {
+    toggleColorMode();
   };
 
   const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor], backgroundColor), 0.7);
@@ -221,10 +221,15 @@ const Header = forwardRef((
           </Box>
           <Box
             as="a"
+            color={colorStyle.color.secondary}
             _hover={{
+              color: colorStyle.color.primary,
               cursor: 'pointer',
             }}
-            onClick={toggleColorMode}
+            _visited={{
+              color: colorStyle.color.secondary,
+            }}
+            onClick={handleChangeColorMode}
             display="inline-flex"
           >
             {colorMode === 'light' && (
@@ -236,8 +241,13 @@ const Header = forwardRef((
           </Box>
           <Box
             as="a"
+            color={colorStyle.color.secondary}
             _hover={{
+              color: colorStyle.color.primary,
               cursor: 'pointer',
+            }}
+            _visited={{
+              color: colorStyle.color.secondary,
             }}
             href={pkg.homepage}
             target="_blank"

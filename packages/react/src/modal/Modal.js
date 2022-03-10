@@ -1,4 +1,4 @@
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -27,19 +27,20 @@ const Modal = ({
   autoFocus = false,
   children,
 }) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${Modal.displayName}:`;
 
-    if (isCloseButtonVisible !== undefined) {
+    useOnceWhen(() => {
       warnDeprecatedProps('isCloseButtonVisible', {
         prefix,
         alternative: 'isClosable',
         willRemove: true,
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (isCloseButtonVisible !== undefined));
 
-  isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+    isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+  }
+
   const [isMounted, setMounted] = useState(isOpen);
   const defaultId = useAutoId();
   const contentRef = useRef(null);

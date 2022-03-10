@@ -1,0 +1,919 @@
+# Tabs
+
+Tabs is used to group and display a set of related elements.
+
+## Import
+
+```js
+import {
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel,
+  TabPanels,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic tabs
+
+Here is a basic example of tabs.
+
+```jsx
+<Tabs>
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+  <TabPanels px="3x" py="2x">
+    <TabPanel>
+      Tab Panel 1
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 2
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 3
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+> `TabList` and `TabPanels` are used to group the tabs and tab panels. If you don't need the tabs to be grouped, you can use `Tab` and `TabPanel` directly.<br/><br/>
+> ```jsx disabled
+<Tabs>
+  <Tab>TAB 1</Tab>
+  <Tab>TAB 2</Tab>
+  <Tab>TAB 3</Tab>
+  <TabPanel>Tab Panel 1</TabPanel>
+  <TabPanel>Tab Panel 2</TabPanel>
+  <TabPanel>Tab Panel 3</TabPanel>
+</Tabs>
+```
+
+### Controlled and uncontrolled tabs
+
+The `index` prop is used to control which tab is selected. The `onChange` callback returns the selected tab index whenever the user changes the tab. If you intend to control the tabs programmatically, use the `onChange` callback to update the `index` prop.
+
+```jsx
+function Example() {
+  const [index, setIndex] = React.useState('tab1');
+
+  return (
+    <Tabs
+      index={index}
+      onChange={index => setIndex(index)}
+    >
+      <TabList>
+        <Tab index="tab1">TAB 1</Tab>
+        <Tab index="tab2">TAB 2</Tab>
+        <Tab index="tab3">TAB 3</Tab>
+      </TabList>
+      <TabPanels px="3x" py="2x">
+        <TabPanel index="tab1">
+          Tab Panel 1
+        </TabPanel>
+        <TabPanel index="tab2">
+          Tab Panel 2
+        </TabPanel>
+        <TabPanel index="tab3">
+          Tab Panel 3
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+}
+```
+
+For uncontrolled tabs, you can use the `defaultIndex` prop to set the initial selected tab.
+
+```jsx
+<Tabs defaultIndex={0}>
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+  <TabPanels px="3x" py="2x">
+    <TabPanel>
+      Tab Panel 1
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 2
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 3
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+### Variants
+
+Tabs comes in 3 variants: `default`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `default`
+
+```jsx
+<Tabs variant="default">
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+</Tabs>
+```
+
+#### `filled`
+
+```jsx
+<Tabs variant="filled">
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+</Tabs>
+```
+
+#### `unstyled`
+
+```jsx
+<Tabs variant="unstyled">
+  <TabList columnGap="3x">
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+</Tabs>
+```
+
+### Decorate tabs with a bottom border
+
+To decorate tabs with a bottom border, you can pass `__after` prop to `TabList` to render a bottom border.
+
+```jsx noInline
+const MyTabGroup = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  return (
+    <TabList
+      position="relative"
+      __after={{
+        content: '""',
+        borderBottom: 1,
+        borderBottomColor: colorStyle.divider,
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        ...props.__after,
+      }}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  return (
+    <Flex flexDirection="column" rowGap="4x">
+      <Box>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Left-aligned
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup justifyContent="flex-start">
+              <Tab>TAB 1</Tab>
+              <Tab>TAB 2</Tab>
+              <Tab>TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
+      </Box>
+      <Box>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Centered
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup justifyContent="center">
+              <Tab>TAB 1</Tab>
+              <Tab>TAB 2</Tab>
+              <Tab>TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
+      </Box>
+      <Box>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Right-aligned
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup justifyContent="flex-end">
+              <Tab>TAB 1</Tab>
+              <Tab>TAB 2</Tab>
+              <Tab>TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
+      </Box>
+      <Box>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Full width
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup>
+              <Tab width="100%">TAB 1</Tab>
+              <Tab width="100%">TAB 2</Tab>
+              <Tab width="100%">TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
+      </Box>
+      <Box>
+        <Text fontSize="lg" lineHeight="lg" mb="2x">
+          Auto-sizing
+        </Text>
+        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+          <Tabs>
+            <MyTabGroup display="inline-flex">
+              <Tab>TAB 1</Tab>
+              <Tab>TAB 2</Tab>
+              <Tab>TAB 3</Tab>
+            </MyTabGroup>
+          </Tabs>
+        </Box>
+      </Box>
+    </Flex>
+  );
+}
+
+render(<Example />);
+```
+
+### Access the state of tabs
+
+Sometimes you need to access the state of tabs. For example, you may want to lazily load the content of a tab when that tab is selected.
+
+`Tabs`, `Tab`, and `TabPanel` components expose internal state using **Function as Children (FaCC)**. This is not a recommended approach, but it is useful for this use case.
+
+```jsx
+<Tabs defaultIndex={1}>
+  {({ index: selectedIndex }) => (
+    <>
+      <Box mb="2x">
+        TAB {selectedIndex} is selected
+      </Box>
+      <TabList>
+        {[1, 2, 3].map(tabIndex => (
+          <Tab key={tabIndex} index={tabIndex}>
+            {({ getTabProps, disabled, index, variant }) => {
+              return (
+                <ButtonBase {...getTabProps()}>
+                  TAB {index}
+                </ButtonBase>
+              );
+            }}
+          </Tab>
+        ))}
+      </TabList>
+      <TabPanels px="3x" py="2x">
+        {[1, 2, 3].map(tabPanelIndex => (
+          <TabPanel key={tabPanelIndex} index={tabPanelIndex}>
+            {({ getTabPanelProps, index, variant }) => {
+              return (
+                <Box {...getTabPanelProps()}>
+                  Tab Panel {index}
+                </Box>
+              );
+            }}
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </>
+  )}
+</Tabs>
+```
+
+### Tabs with dropdown menu
+
+The tab with the dropdown menu is usually the last tab. You can use `event.preventDefault()` to control whether the tab will be selected when the user clicks the dropdown menu.
+
+```jsx
+<Tabs variant="default">
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab
+      onClick={(event) => {
+        const value = event.target.getAttribute('value');
+        if (!value) {
+          event.preventDefault();
+          return;
+        }
+        console.log('Menu Item ' + value + ' clicked');
+      }}
+    >
+      <Menu>
+        <MenuToggle alignItems="center">
+          TAB 3
+          <Space width="1x" />
+          <MenuToggleIcon />
+        </MenuToggle>
+        <MenuList
+          offset={[-14, 10]}
+          width="max-content"
+        >
+          <MenuItem value={1}>Menu Item 1</MenuItem>
+          <MenuItem value={2}>Menu Item 2</MenuItem>
+          <MenuItem value={3}>Menu Item 3</MenuItem>
+        </MenuList>
+      </Menu>
+    </Tab>
+  </TabList>
+</Tabs>
+```
+
+### Scrollable tabs
+
+Scrollable tabs are useful when the tab list is longer than the tab container. You can use the following code to create a scrollable tabs.
+
+> Note: This example teaches you how to create a scrollable tabs that supports drag-to-scroll behavior. Scrolling tabs is not yet supported in the current version of `@tonic-ui/react`.
+
+```jsx noInline
+const easeInOutSin = (time) => {
+  return (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;
+};
+
+const animate = (property, element, to, options = {}, cb = () => {}) => {
+  const {
+    ease = easeInOutSin,
+    duration = 300, // standard
+  } = options;
+
+  let start = null;
+  const from = element[property];
+  let cancelled = false;
+
+  const cancel = () => {
+    cancelled = true;
+  };
+
+  const step = (timestamp) => {
+    if (cancelled) {
+      cb(new Error('Animation cancelled'));
+      return;
+    }
+
+    if (start === null) {
+      start = timestamp;
+    }
+    const time = Math.min(1, (timestamp - start) / duration);
+
+    element[property] = ease(time) * (to - from) + from;
+
+    if (time >= 1) {
+      requestAnimationFrame(() => {
+        cb(null);
+      });
+      return;
+    }
+
+    requestAnimationFrame(step);
+  };
+
+  if (from === to) {
+    cb(new Error('Element already at target position'));
+    return cancel;
+  }
+
+  requestAnimationFrame(step);
+  return cancel;
+};
+
+const debounce = (func, wait = 166) => {
+  let timeout;
+  function debounced(...args) {
+    const later = () => {
+      func.apply(this, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  }
+
+  debounced.clear = () => {
+    clearTimeout(timeout);
+  };
+
+  return debounced;
+}
+
+const IconButton = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  return (
+    <ButtonBase
+      px="2x"
+      color={colorStyle.color.secondary}
+      tabIndex={0}
+      _disabled={{
+        color: colorStyle.color.disabled,
+      }}
+      _hover={{
+        color: colorStyle.color.primary,
+      }}
+      {...props}
+    />
+  );
+};
+
+const StartScrollIndicator = React.forwardRef((props, ref) => (
+  <Box
+    ref={ref}
+    position="relative"
+    __after={{
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      width: '4x',
+      background: 'linear-gradient(to right, rgba(21, 21, 21, 1) 0%, rgba(21, 21, 21, 0) 100%)',
+    }}
+    {...props}
+  />
+));
+
+const EndScrollIndicator = React.forwardRef((props, ref) => (
+  <Box
+    ref={ref}
+    position="relative"
+    __after={{
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 0,
+      width: '4x',
+      background: 'linear-gradient(to left, rgba(21, 21, 21, 1) 0%, rgba(21, 21, 21, 0) 100%)',
+    }}
+    {...props}
+  />
+));
+
+const useDragToScroll = (ref, options) => {
+  const {
+    direction = 'both', // One of: 'vertical', 'horizontal', 'both'
+  } = { ...options };
+
+  const position = {
+    scrollTop: 0,
+    scrollLeft: 0,
+    mouseX: 0,
+    mouseY: 0,
+  };
+
+  React.useEffect(() => {
+    const el = ref && ref.current;
+    if (!el) {
+      return;
+    }
+
+    const mouseMoveHandler = (event) => {
+      const dx = event.clientX - position.mouseX;
+      const dy = event.clientY - position.mouseY;
+      if (direction !== 'horizontal') {
+        el.scrollTop = position.scrollTop - dy;
+      }
+      if (direction !== 'vertical') {
+        el.scrollLeft = position.scrollLeft - dx;
+      }
+    };
+
+    const mouseUpHandler = () => {
+      el.style.cursor = 'grab';
+      el.style.removeProperty('user-select');
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    };
+
+    const onMouseDown = (event) => {
+      position.scrollLeft = el.scrollLeft;
+      position.scrollTop = el.scrollTop;
+      position.mouseX = event.clientX;
+      position.mouseY = event.clientY;
+      el.style.cursor = 'grabbing';
+      el.style.userSelect = 'none';
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    el.addEventListener('mousedown', onMouseDown);
+    return () => {
+      el.removeEventListener('mousedown', onMouseDown);
+    }
+  }, [ref]);
+
+  return position;
+};
+
+function Example() {
+  const startScrollIndicatorRef = React.useRef();
+  const endScrollIndicatorRef = React.useRef();
+  const [colorMode] = useColorMode();
+  const orientation = 'horizontal';
+  const scrollStart = (orientation === 'vertical') ? 'scrollTop' : 'scrollLeft';
+  const clientSize = (orientation === 'vertical') ? 'clientHeight' : 'clientWidth';
+  const [displayScroll, setDisplayScroll] = React.useState({
+    start: false,
+    end: false,
+  });
+  const tabScrollerRef = React.useRef(null);
+  const tabListRef = React.useRef(null);
+  const position = useDragToScroll(tabScrollerRef);
+
+  const scroll = (scrollValue, { animation = true } = {}) => {
+    if (animation) {
+      animate(scrollStart, tabScrollerRef.current, scrollValue, {
+        duration: 300,
+      });
+    } else {
+      tabScrollerRef.current[scrollStart] = scrollValue;
+    }
+  };
+  const moveTabsScroll = (delta) => {
+    let scrollValue = tabScrollerRef.current[scrollStart];
+    scrollValue += delta;
+    scroll(scrollValue);
+  };
+  // TODO: use Intersection Observer API to get expected scroll position
+  const getScrollSize = () => {
+    const containerSize = tabScrollerRef.current[clientSize];
+    let totalSize = 0;
+    const children = Array.from(tabListRef.current.children);
+    for (let i = 0; i < children.length; i += 1) {
+      const tab = children[i];
+      if (totalSize + tab[clientSize] > containerSize) {
+        break;
+      }
+      totalSize += tab[clientSize];
+    }
+    return totalSize;
+  };
+  const handleScrollTabs = React.useMemo(() => {
+    return debounce(() => {
+      updateScrollButtonState();
+      updateScrollIndicatorOpacity();
+    }, Math.floor(1000 / 60));
+  }, [updateScrollButtonState]);
+  const handleStartScrollClick = () => {
+    moveTabsScroll(-1 * getScrollSize());
+  };
+  const handleEndScrollClick = () => {
+    moveTabsScroll(getScrollSize());
+  };
+  const updateScrollButtonState = React.useCallback(() => {
+    let showStartScroll;
+    let showEndScroll;
+
+    if (orientation === 'vertical') {
+      const { scrollTop, scrollHeight, clientHeight } = tabScrollerRef.current;
+      showStartScroll = scrollTop > 1;
+      showEndScroll = scrollTop < scrollHeight - clientHeight - 1;
+    } else {
+      const { scrollLeft, scrollWidth, clientWidth } = tabScrollerRef.current;
+      // use 1 for the potential rounding error with browser zooms.
+      showStartScroll = scrollLeft > 1;
+      showEndScroll = scrollLeft < scrollWidth - clientWidth - 1;
+    }
+
+    if ((showStartScroll !== displayScroll.start) || (showEndScroll !== displayScroll.end)) {
+      setDisplayScroll({
+        start: showStartScroll,
+        end: showEndScroll,
+      });
+    }
+  }, []);
+  const updateScrollIndicatorOpacity = () => {
+    const { scrollLeft, scrollWidth, clientWidth } = tabScrollerRef.current;
+    const startScrollOpacity = 1 / 20 * Math.min(scrollLeft, 20);
+    const endScrollOpacity = 1 / 20 * ((scrollWidth - clientWidth) - Math.max(scrollLeft, (scrollWidth - clientWidth - 20)));
+    if (startScrollIndicatorRef.current) {
+      startScrollIndicatorRef.current.style.opacity = startScrollOpacity;
+    }
+    if (endScrollIndicatorRef.current) {
+      endScrollIndicatorRef.current.style.opacity = endScrollOpacity;
+    }
+  };
+
+  React.useEffect(() => {
+    return () => {
+      handleScrollTabs.clear();
+    };
+  }, [handleScrollTabs]);
+
+  React.useEffect(() => {
+    updateScrollButtonState();
+    updateScrollIndicatorOpacity();
+  }, []);
+
+  return (
+    <Tabs>
+      <Flex>
+        <IconButton
+          disabled={!displayScroll.start}
+          onClick={handleStartScrollClick}
+        >
+          <Icon icon="angle-left" />
+        </IconButton>
+        <StartScrollIndicator ref={startScrollIndicatorRef} />
+        <Box
+          ref={tabScrollerRef}
+          maxWidth={280}
+          overflowX="hidden"
+          whiteSpace="nowrap"
+          onScroll={handleScrollTabs}
+        >
+          <TabList
+            ref={tabListRef}
+          >
+            <Tab>TAB 1</Tab>
+            <Tab>TAB 2</Tab>
+            <Tab>TAB 3</Tab>
+            <Tab>TAB 4</Tab>
+            <Tab>TAB 5</Tab>
+            <Tab>TAB 6</Tab>
+            <Tab>TAB 7</Tab>
+            <Tab>TAB 8</Tab>
+            <Tab>TAB 9</Tab>
+            <Tab>TAB 10</Tab>
+          </TabList>
+        </Box>
+        <EndScrollIndicator ref={endScrollIndicatorRef} />
+        <IconButton
+          disabled={!displayScroll.end}
+          onClick={handleEndScrollClick}
+        >
+          <Icon icon="angle-right" />
+        </IconButton>
+      </Flex>
+      <TabPanels px="3x" py="2x">
+        <TabPanel>
+          Tab Panel 1
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 2
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 3
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 4
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 5
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 6
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 7
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 8
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 9
+        </TabPanel>
+        <TabPanel>
+          Tab Panel 10
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+}
+
+render(<Example />);
+```
+
+### Customization
+
+Tabs also come with an `unstyled` variant. It's useful for doing customizations.
+
+```jsx noInline
+const CustomTabList = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const styleProps = {
+    backgroundColor: colorStyle.background.primary,
+    pt: '1x',
+    pl: '1x',
+    position: 'relative',
+    __after: {
+      content: '""',
+      borderBottom: 1,
+      borderBottomColor: colorStyle.divider,
+      position: 'absolute',
+      bottom: 0,
+      width: '100%',
+      ...props.__after,
+    },
+  };
+
+  return (
+    <TabList
+      {...styleProps}
+      {...props}
+    />
+  );
+};
+
+const CustomTab = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const { colors } = useTheme();
+
+  const styleProps = {
+    backgroundColor: colorStyle.background.tertiary,
+    border: 1,
+    borderColor: colorStyle.divider,
+    color: colorStyle.color.secondary,
+    px: '4x',
+    py: '3x',
+    position: 'relative',
+    transition: 'all 0.2s',
+    zIndex: 1,
+    _disabled: {
+      color: colorStyle.color.disabled,
+      cursor: 'not-allowed',
+    },
+    _hover: {
+      color: colorStyle.color.primary,
+    },
+    _notLastOfType: {
+      borderRight: 'none',
+    },
+    _selected: {
+      borderBottomColor: colorStyle.background.primary,
+      background: colorStyle.background.primary,
+      color: colorStyle.color.primary,
+      '::before': {
+        content: '""',
+        position: 'absolute',
+        top: -1,
+        left: -1,
+        right: 0,
+        height: 3,
+        backgroundColor: '#2cc185',
+      },
+    },
+  };
+
+  return (
+    <Tab
+      variant="unstyled"
+      {...styleProps}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Tabs>
+      <CustomTabList>
+        <CustomTab>
+          <FontAwesomeIcon icon="fa-solid fa-home" />
+          <Space width="2x" />
+          HOME
+        </CustomTab>
+        <CustomTab>
+          <FontAwesomeIcon icon="fa-solid fa-boxes" />
+          <Space width="2x" />
+          INVENTORY
+        </CustomTab>
+        <CustomTab>
+          <FontAwesomeIcon icon="fa-solid fa-cogs" />
+          <Space width="2x" />
+          SETTINGS
+        </CustomTab>
+      </CustomTabList>
+      <TabPanels px="4x" py="3x">
+        <TabPanel>
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+            1
+          </Text>
+        </TabPanel>
+        <TabPanel>
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+            2
+          </Text>
+        </TabPanel>
+        <TabPanel>
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+            3
+          </Text>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+### Tab
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| ({ getTabProps, disabled, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `variant` prop is the variant of the tab. |
+| disabled | boolean | | Whether the tab is disabled. |
+| index | number \| string | | The index of the tab. An index number starting from 0 will be provided if not specified. |
+| onClick | (event) => void | | A callback for when the tab is clicked. |
+| variant | string | | The variant of the tab. |
+
+### Tabs
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| defaultIndex | number \| string | 0 | The default index of the tab to be selected in uncontrolled mode. |
+| disabled | boolean | | Whether the tabs should be disabled. |
+| index | number \| string | | The index of the tab to be selected in controlled mode. |
+| onChange | (index: number\|string) => void | | A callback function that is called when the index changes. |
+| variant | string | 'default' | The variant of the tabs. One of: 'default', 'filled', 'unstyled' |
+
+### TabList
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| aria-label | string | | A label for the tab list. |
+| children | ReactNode | | |
+
+### TabPanel
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| ({ getTabPanelProps, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `variant` prop is the variant of the tab panel. |
+| index | number \| string | | The index of the tab panel. An index number starting from 0 will be provided if not specified. |
+| variant | string | | The variant of the tab panel. |
+
+### TabPanels
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+## Further Reading
+
+### [ARIA: tab role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
+
+  > This example combines the role `tab` with `tablist` and elements with `tabpanel` to create an interactive group of tabbed content. Here we are enclosing our group of content in a `div`, with our `tablist` having an `aria-label` which labels it for assistive technology. Each `tab` is a `button` with the attributes previously mentioned. The first `tab` has both `tabindex="0"` and `aria-selected="true"` applied. These two attributes must always be coordinated as such—so when another tab is selected, it will then have `tabindex="0"` and `aria-selected="true"` applied. All unselected tabs must have `aria-selected="false"` and `tabindex="-1"`.<br/><br/>
+  > All of the `tabpanel` elements have `tabindex="0"` to make them tabbable, and all but the currently active one have the `hidden` attribute. The `hidden` attribute will be removed when a `tabpanel` becomes visible with JavaScript. There is some basic styling applied that restyles the buttons and changes the `z-index` of `tab` elements to give the illusion of it connecting to the `tabpanel` for active elements, and the illusion that inactive elements are behind the active `tabpanel`.<br/><br/>
+  > ```js
+  <div class="tabs">
+    <div role="tablist" aria-label="Sample Tabs">
+      <button role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0">
+        First Tab
+      </button>
+      <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1">
+        Second Tab
+      </button>
+      <button role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" tabindex="-1">
+        Third Tab
+      </button>
+    </div>
+    <div id="panel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
+      <p>Content for the first panel</p>
+    </div>
+    <div id="panel-2" role="tabpanel" tabindex="0" aria-labelledby="tab-2" hidden>
+      <p>Content for the second panel</p>
+    </div>
+    <div id="panel-3" role="tabpanel" tabindex="0" aria-labelledby="tab-3" hidden>
+      <p>Content for the third panel</p>
+    </div>
+  </div>
+  ```
+
+### [WAI-ARIA Roles, States, and Properties](https://www.w3.org/TR/wai-aria-practices/#tabpanel)
+
+* The element that serves as the container for the set of tabs has role `tablist`.
+* Each element that serves as a tab has role `tab` and is contained within the element with role `tablist`.
+* Each element that contains the content panel for a `tab` has role `tabpanel`.
+* If the tab list has a visible label, the element with role `tablist` has `aria-labelledby` set to a value that refers to the labelling element. Otherwise, the `tablist` element has a label provided by `aria-label`.
+* Each element with role `tab` has the property `aria-controls` referring to its associated `tabpanel` element.
+* The active `tab` element has the state `aria-selected` set to `true` and all other `tab` elements have it set to `false`.
+* Each element with role `tabpanel` has the property `aria-labelledby` referring to its associated `tab` element.
+* If a `tab` element has a popup menu, it has the property `aria-haspopup` set to either `menu` or `true`.
+* If the `tablist` element is vertically oriented, it has the property `aria-orientation` set to `vertical`. The default value of `aria-orientation` for a `tablist` element is `horizontal`.

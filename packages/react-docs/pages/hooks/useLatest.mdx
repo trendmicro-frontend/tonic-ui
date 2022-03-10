@@ -1,6 +1,6 @@
 # useLatest
 
-A custom Hook that returns the latest state as described in the React Hooks FAQ.
+A custom Hook that returns a ref with the latest value after each update.
 
 This is mostly useful to get access to the latest value of some props or state inside an asynchronous callback, instead of that value at the time the callback was created from.
 
@@ -9,6 +9,8 @@ This is mostly useful to get access to the latest value of some props or state i
 ```js
 import { useLatest } from '@tonic-ui/react-hooks';
 ```
+
+### useLatest
 
 ```js
 import { useRef } from 'react';
@@ -23,7 +25,7 @@ const useLatest = (value) => {
 ## Usage
 
 ```jsx
-function App() {
+function Component() {
   const [countdownMode, setCountdownMode] = React.useState(false);
   const timeoutRef = React.useRef(null);
   const [count, setCount] = React.useState(0);

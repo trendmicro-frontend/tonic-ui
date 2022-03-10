@@ -1,4 +1,4 @@
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
 import useForkRef from '../utils/useForkRef';
@@ -14,16 +14,16 @@ const PopoverTrigger = forwardRef((
   },
   ref,
 ) => {
-  useEffectOnce(() => {
+  { // deprecation warning
     const prefix = `${PopoverTrigger.displayName}:`;
 
-    if (shouldWrapChildren !== undefined && !shouldWrapChildren) {
+    useOnceWhen(() => {
       warnRemovedProps('shouldWrapChildren', {
         prefix,
         message: 'Use Function as Child Component (FaCC) to render the popover trigger instead.',
       });
-    }
-  }, true); // TODO: check if `when` is true for each prop
+    }, (shouldWrapChildren !== undefined && !shouldWrapChildren));
+  }
 
   const {
     anchorRef,
