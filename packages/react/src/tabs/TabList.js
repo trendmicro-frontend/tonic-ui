@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useTabListStyle } from './styles';
+import useTabs from './useTabs';
 
 const TabList = forwardRef((
   {
@@ -9,13 +10,15 @@ const TabList = forwardRef((
   },
   ref
 ) => {
-  const styleProps = useTabListStyle({});
+  const context = useTabs();
+  const orientation = context?.orientation;
+  const styleProps = useTabListStyle({ orientation });
 
   return (
     <Box
       ref={ref}
       aria-label={ariaLabel}
-      aria-orientation="horizontal"
+      aria-orientation={orientation}
       role="tablist"
       {...styleProps}
       {...rest}

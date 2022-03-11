@@ -3,8 +3,9 @@ import { ensureString } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
-import useAutoId from '../utils/useAutoId';
 import getFocusableElements from '../utils/getFocusableElements';
+import runIfFn from '../utils/runIfFn';
+import useAutoId from '../utils/useAutoId';
 import { MenuProvider } from './context';
 import { useMenuStyle } from './styles';
 
@@ -181,7 +182,7 @@ const Menu = forwardRef((
         {...styleProps}
         {...rest}
       >
-        {(typeof children === 'function') ? children(context) : children}
+        {runIfFn(children, context)}
       </Box>
     </MenuProvider>
   );
