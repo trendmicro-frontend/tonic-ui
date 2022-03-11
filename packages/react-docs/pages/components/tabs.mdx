@@ -116,24 +116,54 @@ For uncontrolled tabs, you can use the `defaultIndex` prop to set the initial se
 Tabs can either be `horizontal` or `vertical`. Pass the `orientation` prop to the `Tabs` component to change the orientation.
 
 ```jsx
-<Tabs orientation="vertical">
-  <TabList>
-    <Tab>TAB 1</Tab>
-    <Tab>TAB 2</Tab>
-    <Tab>TAB 3</Tab>
-  </TabList>
-  <TabPanels px="3x" py="2x">
-    <TabPanel>
-      Tab Panel 1
-    </TabPanel>
-    <TabPanel>
-      Tab Panel 2
-    </TabPanel>
-    <TabPanel>
-      Tab Panel 3
-    </TabPanel>
-  </TabPanels>
-</Tabs>
+function Example() {
+  const [orientation, setOrientation] = React.useState('horizontal');
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <>
+      <Box mb="2x">
+        <TextLabel>
+          orientation
+        </TextLabel>
+      </Box>
+      <ButtonGroup>
+        <Button
+          onClick={() => setOrientation('horizontal')}
+          variant={orientation === 'horizontal' ? 'primary' : 'secondary'}
+        >
+          Horizontal
+        </Button>
+        <Button
+          onClick={() => setOrientation('vertical')}
+          variant={orientation === 'vertical' ? 'primary' : 'secondary'}
+        >
+          Vertical
+        </Button>
+      </ButtonGroup>
+      <Divider my="4x" />
+      <Tabs orientation={orientation}>
+        <TabList>
+          <Tab>TAB 1</Tab>
+          <Tab>TAB 2</Tab>
+          <Tab>TAB 3</Tab>
+        </TabList>
+        <TabPanels px="3x" py="2x">
+          <TabPanel>
+            Tab Panel 1
+          </TabPanel>
+          <TabPanel>
+            Tab Panel 2
+          </TabPanel>
+          <TabPanel>
+            Tab Panel 3
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </>
+  );
+}
 ```
 
 ### Variants
