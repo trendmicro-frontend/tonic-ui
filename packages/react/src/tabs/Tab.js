@@ -4,6 +4,7 @@ import React, { forwardRef, useState } from 'react';
 import { ButtonBase } from '../button';
 import config from '../shared/config';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import wrapEvent from '../utils/wrapEvent';
 import { useTabStyle } from './styles';
 import useTabs from './useTabs';
@@ -69,12 +70,32 @@ const Tab = forwardRef((
     ...rest,
   });
 
-  if (typeof children === 'function') {
-    return children({
-      getTabProps,
-      disabled,
-      index,
+  const tabContext = {
+    getTabProps,
+    disabled,
+    index,
+    isSelected,
+  };
+
+  { // deprecation warning
+    const prefix = `${Tab.displayName}:`;
+
+    Object.defineProperties(tabContext, {
+      isActive: {
+        get: () => {
+          warnDeprecatedProps('isActive', {
+            prefix,
+            alternative: 'isSelected',
+            willRemove: true,
+          });
+          return isSelected;
+        },
+      },
     });
+  }
+
+  if (typeof children === 'function') {
+    return children(tabContext);
   }
 
   return (

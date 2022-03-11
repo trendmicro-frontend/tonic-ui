@@ -882,14 +882,14 @@ const CustomTab = ({ children, ...rest }) => {
         {...styleProps}
         {...rest}
       >
-        {({ getTabProps, index }) => (
+        {({ getTabProps, index, isSelected }) => (
           <ButtonBase
             {...getTabProps()}
             pr="1x"
           >
             <Flex justifyContent="space-between">
               <Box>{children}</Box>
-              <Icon icon="chevron-right" ml="4x" visibility={context.index === index ? 'visible' : 'hidden'} />
+              <Icon icon="chevron-right" ml="4x" visibility={isSelected ? 'visible' : 'hidden'} />
             </Flex>
           </ButtonBase>
         )}
@@ -979,7 +979,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getTabProps, disabled, index }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab. |
+| children | ReactNode \| ({ getTabProps, disabled, index, isSelected }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `isSelected` prop is a boolean value indicating whether the tab is selected. |
 | disabled | boolean | | Whether the tab is disabled. |
 | index | number \| string | | The index of the tab. An index number starting from 0 will be provided if not specified. |
 | onClick | (event) => void | | A callback for when the tab is clicked. |
@@ -1007,7 +1007,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getTabPanelProps, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel. |
+| children | ReactNode \| ({ getTabPanelProps, index, isSelected }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `isSelected` prop is a boolean value indicating whether the corresponding tab is selected. |
 | index | number \| string | | The index of the tab panel. An index number starting from 0 will be provided if not specified. |
 
 ### TabPanels

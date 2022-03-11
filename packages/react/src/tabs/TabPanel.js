@@ -4,6 +4,7 @@ import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import useTabs from './useTabs';
 import { useTabPanelStyle } from './styles';
 
@@ -54,11 +55,31 @@ const TabPanel = forwardRef((
     ...rest,
   });
 
-  if (typeof children === 'function') {
-    return children({
-      getTabPanelProps,
-      index,
+  const tabPanelContext = {
+    getTabPanelProps,
+    index,
+    isSelected,
+  };
+
+  { // deprecation warning
+    const prefix = `${TabPanel.displayName}:`;
+
+    Object.defineProperties(tabPanelContext, {
+      isActive: {
+        get: () => {
+          warnDeprecatedProps('isActive', {
+            prefix,
+            alternative: 'isSelected',
+            willRemove: true,
+          });
+          return isSelected;
+        },
+      },
     });
+  }
+
+  if (typeof children === 'function') {
+    return children(tabPanelContext);
   }
 
   return (
