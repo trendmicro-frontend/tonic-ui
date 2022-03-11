@@ -1,29 +1,36 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
-import { useTagStyle } from './styles';
 import { Box } from '../box';
-import { Icon } from '../icon';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import { useTagStyle } from './styles';
 import TagCloseButton from './TagCloseButton';
 
 const Tag = forwardRef((
   {
     isCloseButtonVisible, // deprecated
-    borderRadius = 'sm',
+    variantColor, // deprecated
+
+    children,
+    disabled,
+    isClosable,
+    isInvalid,
     size = 'md',
     variant = 'solid',
-    variantColor = 'gray',
-    isInvalid,
-    isClosable = false,
-    disabled,
-    children,
     onClose,
-    ...rest
+    ...props
   },
-  ref,
+  ref
 ) => {
   { // deprecation warning
     const prefix = `${Tag.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('variantColor', {
+        prefix,
+        alternative: 'backgroundColor',
+        willRemove: true,
+      });
+    }, (variantColor !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('isCloseButtonVisible', {
@@ -36,14 +43,10 @@ const Tag = forwardRef((
     isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   }
 
-  const canFocus = isClosable;
   const tagStyleProps = useTagStyle({
-    color: variantColor,
+    color: variantColor, // TODO: remove this line after deprecation
     size,
     variant,
-    canFocus,
-    isClosable,
-    borderRadius,
   });
 
   return (
@@ -52,22 +55,12 @@ const Tag = forwardRef((
       disabled={disabled}
       aria-disabled={disabled}
       aria-invalid={isInvalid}
-      borderRadius={borderRadius}
-      tabIndex={disabled ? '-1' : '0'}
       {...tagStyleProps}
-      {...rest}
+      {...props}
     >
-      { children }
+      {children}
       {!!isClosable && (
-        <TagCloseButton
-          size={size}
-          borderRadius={borderRadius}
-          disabled={disabled}
-          onClick={onClose}
-          tabIndex="-1"
-        >
-          <Icon icon="close-s" />
-        </TagCloseButton>
+        <TagCloseButton ml="2x" disabled={disabled} onClick={onClose} />
       )}
     </Box>
   );
