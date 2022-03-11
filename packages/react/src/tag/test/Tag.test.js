@@ -4,11 +4,16 @@ import { DarkMode } from '../../color-mode';
 import Tag from '../Tag';
 
 describe('Tag', () => {
+  const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => {});
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   it('should output deprecation warning message when using the "variantColor" prop', () => {
-    const consoleErrorSpy = jest.spyOn(global.console, 'error');
     render(
       <DarkMode>
-        <Tag variantColor="red">Sample Tag</Tag>
+        <Tag variantColor="red">Test Tag</Tag>
       </DarkMode>
     );
 
@@ -20,10 +25,10 @@ describe('Tag', () => {
   it('will change tag color', () => {
     const { getByText } = render(
       <DarkMode>
-        <Tag backgroundColor="#b80003" color="#fcc3c4">Sample Tag</Tag>
+        <Tag backgroundColor="#b80003" color="#fcc3c4">Test Tag</Tag>
       </DarkMode>
     );
 
-    expect(getByText('Sample Tag')).toHaveStyle('background-color: #b80003; color: #fcc3c4;');
+    expect(getByText('Test Tag')).toHaveStyle('background-color: #b80003; color: #fcc3c4;');
   });
 });
