@@ -1,12 +1,14 @@
 import { useConst, useOnceWhen } from '@tonic-ui/react-hooks';
 import memoize from 'micro-memoize';
-import React, { useEffect, useReducer } from 'react';
+import React, { forwardRef, useEffect, useReducer } from 'react';
+import { Box } from '../box';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
 import runIfFn from '../utils/runIfFn';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';
 import { defaultOrientation, defaultVariant } from './constants';
 import { TabsContext } from './context';
+import { useTabsStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -15,19 +17,23 @@ const stateReducer = (prevState, nextState) => ({
   ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
 });
 
-const Tabs = ({
-  activateOnKeyPress, // removed
-  isFitted, // removed
-  isManual, // removed
+const Tabs = forwardRef((
+  {
+    activateOnKeyPress, // removed
+    isFitted, // removed
+    isManual, // removed
 
-  children,
-  defaultIndex = 0,
-  disabled,
-  index: indexProp,
-  onChange,
-  orientation = defaultOrientation,
-  variant = defaultVariant,
-}) => {
+    children,
+    defaultIndex = 0,
+    disabled,
+    index: indexProp,
+    onChange,
+    orientation = defaultOrientation,
+    variant = defaultVariant,
+    ...rest
+  },
+  ref,
+) => {
   { // deprecation warning
     const prefix = `${Tabs.displayName}:`;
 
@@ -129,12 +135,20 @@ const Tabs = ({
     unregisterTabPanel,
   });
 
+  const styleProps = useTabsStyle({ orientation });
+
   return (
     <TabsContext.Provider value={context}>
-      {runIfFn(children, context)}
+      <Box
+        ref={ref}
+        {...styleProps}
+        {...rest}
+      >
+        {runIfFn(children, context)}
+      </Box>
     </TabsContext.Provider>
   );
-};
+});
 
 Tabs.displayName = 'Tabs';
 

@@ -301,12 +301,26 @@ const useTabStyle = ({
   };
 };
 
+const useTabsStyle = ({
+  orientation,
+}) => {
+  const flexDirection = {
+    'horizontal': 'column',
+    'vertical': 'row',
+  }[orientation];
+
+  return {
+    display: 'flex',
+    flexDirection,
+  };
+};
+
 const useTabListStyle = ({
   orientation,
 }) => {
   const flexDirection = {
-    horizontal: 'row',
-    vertical: 'column',
+    'horizontal': 'row',
+    'vertical': 'column',
   }[orientation];
 
   return {
@@ -323,6 +337,7 @@ const useTabPanelStyle = ({
 
 export {
   useTabStyle,
+  useTabsStyle,
   useTabListStyle,
   useTabPanelStyle,
 };

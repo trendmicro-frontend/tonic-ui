@@ -111,6 +111,31 @@ For uncontrolled tabs, you can use the `defaultIndex` prop to set the initial se
 </Tabs>
 ```
 
+### Orientation
+
+Tabs can either be `horizontal` or `vertical`. Pass the `orientation` prop to the `Tabs` component to change the orientation.
+
+```jsx
+<Tabs orientation="vertical">
+  <TabList>
+    <Tab>TAB 1</Tab>
+    <Tab>TAB 2</Tab>
+    <Tab>TAB 3</Tab>
+  </TabList>
+  <TabPanels px="3x" py="2x">
+    <TabPanel>
+      Tab Panel 1
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 2
+    </TabPanel>
+    <TabPanel>
+      Tab Panel 3
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
 ### Variants
 
 Tabs comes in 3 variants: `default`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
@@ -735,7 +760,6 @@ const CustomTabList = (props) => {
   if (orientation === 'vertical') {
     styleProps = {
       ...styleProps,
-      display: 'inline-flex',
       alignItems: 'flex-start',
     };
   }
@@ -881,42 +905,40 @@ function Example() {
         orientation={orientation}
         variant="unstyled"
       >
-        <Flex flexDirection={orientation === 'horizontal' ? 'column' : 'row'}>
-          <CustomTabList>
-            <CustomTab>
-              <FontAwesomeIcon icon="fa-solid fa-home" />
-              <Space width="2x" />
-              HOME
-            </CustomTab>
-            <CustomTab>
-              <FontAwesomeIcon icon="fa-solid fa-boxes" />
-              <Space width="2x" />
-              INVENTORY
-            </CustomTab>
-            <CustomTab>
-              <FontAwesomeIcon icon="fa-solid fa-cogs" />
-              <Space width="2x" />
-              SETTINGS
-            </CustomTab>
-          </CustomTabList>
-          <TabPanels px="4x" py="3x">
-            <TabPanel>
-              <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+        <CustomTabList>
+          <CustomTab>
+            <FontAwesomeIcon icon="fa-solid fa-home" />
+            <Space width="2x" />
+            HOME
+          </CustomTab>
+          <CustomTab>
+            <FontAwesomeIcon icon="fa-solid fa-boxes" />
+            <Space width="2x" />
+            INVENTORY
+          </CustomTab>
+          <CustomTab>
+            <FontAwesomeIcon icon="fa-solid fa-cogs" />
+            <Space width="2x" />
+            SETTINGS
+          </CustomTab>
+        </CustomTabList>
+        <TabPanels px="4x" py="3x">
+          <TabPanel>
+            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
                 1
-              </Text>
-            </TabPanel>
-            <TabPanel>
-              <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-                2
-              </Text>
-            </TabPanel>
-            <TabPanel>
-              <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-                3
-              </Text>
-            </TabPanel>
-          </TabPanels>
-        </Flex>
+            </Text>
+          </TabPanel>
+          <TabPanel>
+            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+              2
+            </Text>
+          </TabPanel>
+          <TabPanel>
+            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+              3
+            </Text>
+          </TabPanel>
+        </TabPanels>
       </Tabs>
     </>
   );
