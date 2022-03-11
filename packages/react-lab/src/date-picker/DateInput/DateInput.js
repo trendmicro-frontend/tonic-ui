@@ -7,6 +7,7 @@ import {
 } from '@tonic-ui/react';
 import React, { forwardRef, useEffect, useState, useRef } from 'react';
 import useForkRef from '../../utils/useForkRef';
+import { dateFormatter } from '../utils';
 
 const DateInput = forwardRef((
   {
@@ -34,9 +35,10 @@ const DateInput = forwardRef((
 
   useEffect(() => {
     if (valueProp !== undefined) {
-      setValue(valueProp);
+      const date = dateFormatter({ date: valueProp, locale });
+      setValue(date);
     }
-  }, [valueProp]);
+  }, [valueProp, locale]);
 
   return (
     <Box

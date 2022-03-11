@@ -55,13 +55,7 @@ function Example({
       <DatePickerToggle>
         {({ getDatePickerToggleProps }) => {
           return (
-            <Box
-              {...getDatePickerToggleProps()}
-              display="inline-flex"
-              alignItems="center"
-              justifyContent="space-between"
-              columnGap="1x"
-            >
+            <Box {...getDatePickerToggleProps()}>
               <DateInput
                 disabled={disabled}
                 locale={locale}
@@ -70,7 +64,7 @@ function Example({
                 {...isInvalid && invalidInputStyle}
               />
               {isInvalid && (
-                <Box position="absolute" right={0}>
+                <Box position="absolute" right={0} top="1x">
                   <Icon icon="warning-circle" mx="3x" color="red:50" />
                 </Box>
               )}
@@ -80,8 +74,8 @@ function Example({
       </DatePickerToggle>
       <DatePickerPopper width="max-content">
         <Calendar
-          value={value}
           locale={locale}
+          value={value}
           onChange={handleCalendarChange}
         />
       </DatePickerPopper>
