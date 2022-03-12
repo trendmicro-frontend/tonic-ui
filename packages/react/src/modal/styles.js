@@ -5,44 +5,6 @@ import { useTheme } from '../theme';
 
 const defaultSize = 'auto';
 
-const getSizeProps = (size) => {
-  size = size ?? defaultSize;
-
-  return {
-    xs: {
-      width: 352,
-      minHeight: 240,
-      maxHeight: '80vh',
-    },
-    sm: {
-      width: 512,
-      minHeight: 320,
-      maxHeight: '80vh',
-    },
-    md: {
-      width: 672,
-      minHeight: 320,
-      maxHeight: '80vh',
-    },
-    lg: {
-      width: 832,
-      minHeight: 320,
-      maxHeight: '80vh',
-    },
-    xl: {
-      width: 992,
-      minHeight: 320,
-      maxHeight: '80vh',
-    },
-    full: {
-      maxWidth: '100%'
-    },
-    auto: {
-      width: 'auto',
-    },
-  }[size];
-};
-
 const useModalCloseButtonStyle = () => {
   const [colorMode] = useColorMode();
   const { colors } = useTheme();
@@ -96,15 +58,17 @@ const useModalCloseButtonStyle = () => {
   };
 };
 
-const useModalContentStyle = ({ size }) => {
+const useModalContentStyle = ({
+  scrollBehavior,
+  size = defaultSize,
+}) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     mx: 'auto',
-    height: 'auto',
-    top: 0,
     display: 'flex',
     flexDirection: 'column',
+    zIndex: 'modal',
   };
   const colorModeStyle = {
     light: {
@@ -124,12 +88,77 @@ const useModalContentStyle = ({ size }) => {
       boxShadow: colorStyle?.shadow?.thick,
     },
   }[colorMode];
-  const sizeProps = getSizeProps(size);
+  const sizeStyle = {
+    xs: {
+      width: 352,
+      minHeight: 240,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    sm: {
+      width: 512,
+      minHeight: 320,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    md: {
+      width: 672,
+      minHeight: 320,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    lg: {
+      width: 832,
+      minHeight: 320,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    xl: {
+      width: 992,
+      minHeight: 320,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    full: {
+      maxWidth: scrollBehavior === 'inside' ? '100vw' : undefined,
+      maxHeight: scrollBehavior === 'inside' ? '100vh' : undefined,
+
+      /**
+       * Autoprefixer will compile it to:
+       *
+       * ```css
+       * min-height: -webkit-fill-available;
+       * min-height: -moz-available;
+       * min-height: fill-available;
+       * min-height: stretch;
+       * ```
+       */
+      minHeight: 'stretch',
+    },
+    auto: {
+      width: 'auto',
+      height: 'auto',
+      maxWidth: scrollBehavior === 'inside' ? '100vw' : undefined,
+      maxHeight: scrollBehavior === 'inside' ? '100vh' : undefined,
+    },
+  }[size];
 
   return {
     ...baseStyle,
     ...colorModeStyle,
-    ...sizeProps,
+    ...sizeStyle,
+  };
+};
+
+const useModalContentBackdropStyle = ({
+  scrollBehavior,
+}) => {
+  return {
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: (scrollBehavior === 'inside') ? 'center' : 'flex-start',
+    overflow: (scrollBehavior === 'inside') ? 'hidden' : 'auto',
+    zIndex: 'modal',
   };
 };
 
@@ -145,7 +174,9 @@ const useModalHeaderStyle = () => {
   };
 };
 
-const useModalBodyStyle = () => {
+const useModalBodyStyle = ({
+  scrollBehavior,
+}) => {
   const { sizes, lineHeights } = useTheme();
 
   return {
@@ -188,6 +219,7 @@ const useModalFooterStyle = () => {
 export {
   useModalCloseButtonStyle,
   useModalContentStyle,
+  useModalContentBackdropStyle,
   useModalHeaderStyle,
   useModalBodyStyle,
   useModalFooterStyle,

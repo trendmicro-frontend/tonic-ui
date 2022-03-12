@@ -8,6 +8,7 @@ import { Fade } from '../transitions';
 import useForkRef from '../utils/useForkRef';
 import {
   useModalContentStyle,
+  useModalContentBackdropStyle,
   useModalCloseButtonStyle,
 } from './styles';
 import useModal from './useModal';
@@ -29,21 +30,13 @@ const ModalContentBackdrop = forwardRef(({
 }, ref) => {
   const modalContext = useModal(); // context might be an undefined value
   const {
-    isOpen,
     closeOnOutsideClick,
+    isOpen,
     onClose,
+    scrollBehavior,
   } = { ...modalContext };
   const [, safeToRemove] = usePresence();
-  const backdropStyleProps = {
-    position: 'fixed',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
+  const styleProps = useModalContentBackdropStyle({ scrollBehavior });
 
   return (
     <TransitionComponent
@@ -61,7 +54,7 @@ const ModalContentBackdrop = forwardRef(({
               (typeof onClose === 'function') && onClose(event);
             }
           }}
-          {...backdropStyleProps}
+          {...styleProps}
           {...transitionStyle}
           {...rest}
         />
@@ -76,13 +69,14 @@ const ModalContentFront = forwardRef(({ children, ...rest }, ref) => {
     closeOnEsc,
     isClosable,
     onClose,
+    scrollBehavior,
     size,
 
     // internal use only
     contentRef,
   } = { ...modalContext };
   const combinedRef = useForkRef(contentRef, ref);
-  const contentStyleProps = useModalContentStyle({ size });
+  const styleProps = useModalContentStyle({ scrollBehavior, size });
 
   return (
     <Box
@@ -101,7 +95,7 @@ const ModalContentFront = forwardRef(({ children, ...rest }, ref) => {
           }
         }
       }}
-      {...contentStyleProps}
+      {...styleProps}
       {...rest}
     >
       {children}
@@ -114,7 +108,6 @@ const ModalContentFront = forwardRef(({ children, ...rest }, ref) => {
 
 const ModalContent = React.forwardRef(({
   children,
-  zIndex = 'modal',
   TransitionComponent = Fade,
   TransitionProps,
   ...rest
@@ -133,7 +126,6 @@ const ModalContent = React.forwardRef(({
     <ModalContentBackdrop
       TransitionComponent={TransitionComponent}
       TransitionProps={TransitionProps}
-      zIndex={zIndex}
     >
       <ModalContentFront ref={ref} {...rest}>
         {children}

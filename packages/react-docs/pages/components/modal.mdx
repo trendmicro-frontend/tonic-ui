@@ -95,19 +95,12 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
-const Divider = (props) => {
-  const [colorMode] = useColorMode();
-  const dividerColor = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-  return (
-    <Box mb="4x" pb="4x" borderBottom={1} borderBottomColor={dividerColor} {...props} />
-  );
-};
-
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
+);
+
+const Code = (props) => (
+  <Tag fontSize="90%" lineHeight="1" fontFamily="mono" {...props} />
 );
 
 function Example() {
@@ -119,7 +112,10 @@ function Example() {
   }[colorMode];
   const [isOpen, toggleModal] = useToggle(false);
   const [size, changeSizeBy] = useSelection('sm');
-  const [height, changeHeightBy] = useSelection('auto');
+  const [scrollBehavior, changeScrollBehaviorBy] = useSelection('inside');
+  const [height, changeHeightBy] = useSelection('default');
+  const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
+  const [enableModalOverflowBehavior, toggleModalOverflowBehavior] = useToggle(true);
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
@@ -138,7 +134,7 @@ function Example() {
           Launch modal
         </Button>
       </Box>
-      <Divider />
+      <Divider my="4x" />
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
@@ -168,6 +164,32 @@ function Example() {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
+            scrollBehavior
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['inside', 'outside'].map(value => (
+            <SelectButton
+              key={value}
+              isSelected={value === scrollBehavior}
+              onClick={changeScrollBehaviorBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
             height
           </TextLabel>
         </Box>
@@ -179,7 +201,7 @@ function Example() {
             }
           }}
         >
-          {['auto', '100%'].map(value => (
+          {['default', '100%'].map(value => (
             <SelectButton
               key={value}
               isSelected={value === height}
@@ -191,7 +213,39 @@ function Example() {
           ))}
         </ButtonGroup>
       </FormGroup>
-      <Space height="1x" />
+      <Divider my="4x" />
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableBodyScrollLock}
+            onChange={() => toggleBodyScrollLock()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" fontSize="md" lineHeight="md">
+            Enable body scroll lock
+          </Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableModalOverflowBehavior}
+            onChange={() => toggleModalOverflowBehavior()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" fontSize="md" lineHeight="md">
+            Enable modal overflow behavior
+          </Text>
+        </TextLabel>
+        <Text ml="6x" fontSize="md" lineHeight="md">
+          <Text>If the content of the modal is too large to fit in the viewport, you can use the <Code>scrollBehavior</Code> prop to control how scrolling should behave.</Text>
+          <ul>
+            <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
+            <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will set the vertical alignment to the top and will scroll within the viewport.</li>
+          </ul>
+        </Text>
+      </FormGroup>
+      <Divider my="4x" />
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
@@ -246,6 +300,7 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
       </FormGroup>
+      <Divider my="4x" />
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isOverlayVisible} onChange={() => toggleIsOverlayVisible()} />
@@ -282,8 +337,8 @@ function Example() {
         </TextLabel>
       </FormGroup>
       <Modal
-        ensureFocus={ensureFocus}
         autoFocus={autoFocus}
+        ensureFocus={ensureFocus}
         closeOnEsc={closeOnEsc}
         closeOnOutsideClick={closeOnOutsideClick}
         initialFocusRef={initialFocusRef}
@@ -291,11 +346,21 @@ function Example() {
         isOpen={isOpen}
         onClose={() => toggleModal(false)}
         size={size}
+        scrollBehavior={scrollBehavior}
       >
+        {enableBodyScrollLock && (
+          <Global
+            styles={css`
+              body {
+                overflow: hidden;
+              }
+            `}
+          />
+        )}
         {isOverlayVisible && (
           <ModalOverlay />
         )}
-        <ModalContent height={height}>
+        <ModalContent height={height !== 'default' ? height : undefined}>
           {isHeaderVisible && (
             <ModalHeader>
               {size === 'auto' && <Text>Auto-sized Modal</Text>}
@@ -322,11 +387,13 @@ function Example() {
                 rowGap="2x"
                 columnGap="3x"
                 alignItems="center"
+                mb="4x"
               >
                 <Icon icon="user" color={iconColor} />
                 <Input ref={initialFocusRef} placeholder="User name" />
                 <Icon icon="email" color={iconColor} />
                 <Input placeholder="Email address" />
+                <Box minHeight={enableModalOverflowBehavior ? 1500 : undefined} />
               </Grid>
             </ModalBody>
           )}
@@ -430,16 +497,18 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Modal` descendants, which does not allow the focus to escape while open. |
 | autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
+| children | ReactNode | | |
+| closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
+| closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
+| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Modal` descendants, which does not allow the focus to escape while open. |
 | finalFocusRef | React.ref | | The `ref` of element to receive focus when the modal closes. |
 | initialFocusRef | React.ref | | The `ref` of the element to receive focus when the modal opens. |
 | isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | isOpen | boolean | false | If `true`, the modal is shown. |
-| closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
-| closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
 | onClose | function | | Callback fired when the modal closes. |
 | size | string | 'auto' | Change the size of the modal. One of: 'auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full' |
+| scrollBehavior | string | 'inside' | Control the scroll behavior of the modal if the content overflows. One of: 'inside', 'outside' |
 
 ### ModalOverlay
 
@@ -448,6 +517,7 @@ function Example() {
 | TransitionComponent | ElementType | Fade | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
 
 ### ModalContent
 
@@ -456,10 +526,22 @@ function Example() {
 | TransitionComponent | ElementType | Fade | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
 
 ### ModalHeader
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### ModalBody
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
 
 ### ModalFooter
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
