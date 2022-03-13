@@ -157,7 +157,7 @@ const useModalContentBackdropStyle = ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: (scrollBehavior === 'inside') ? 'center' : 'flex-start',
-    overflow: (scrollBehavior === 'inside') ? 'hidden' : 'auto',
+    overflow: (scrollBehavior === 'inside') ? undefined : 'auto',
     zIndex: 'modal',
   };
 };

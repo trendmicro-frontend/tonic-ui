@@ -136,6 +136,38 @@ function Example() {
       </Box>
       <Divider my="4x" />
       <FormGroup>
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableBodyScrollLock}
+            onChange={() => toggleBodyScrollLock()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" fontSize="md" lineHeight="md">
+            Enable body scroll lock
+          </Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableModalOverflowBehavior}
+            onChange={() => toggleModalOverflowBehavior()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" fontSize="md" lineHeight="md">
+            Enable modal overflow behavior
+          </Text>
+        </TextLabel>
+        <Text ml="6x" fontSize="md" lineHeight="md">
+          <Text>If the content of the modal is too large to fit in the viewport, you can use the <Code>scrollBehavior</Code> prop to control how scrolling should behave.</Text>
+          <ul>
+            <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
+            <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will set the vertical alignment to the top and will scroll within the viewport.</li>
+          </ul>
+        </Text>
+      </FormGroup>
+      <Divider my="4x" />
+      <FormGroup>
         <Box mb="2x">
           <TextLabel>
             size
@@ -212,38 +244,6 @@ function Example() {
             </SelectButton>
           ))}
         </ButtonGroup>
-      </FormGroup>
-      <Divider my="4x" />
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center" mb="3x">
-          <Checkbox
-            checked={enableBodyScrollLock}
-            onChange={() => toggleBodyScrollLock()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" fontSize="md" lineHeight="md">
-            Enable body scroll lock
-          </Text>
-        </TextLabel>
-      </FormGroup>
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center" mb="3x">
-          <Checkbox
-            checked={enableModalOverflowBehavior}
-            onChange={() => toggleModalOverflowBehavior()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" fontSize="md" lineHeight="md">
-            Enable modal overflow behavior
-          </Text>
-        </TextLabel>
-        <Text ml="6x" fontSize="md" lineHeight="md">
-          <Text>If the content of the modal is too large to fit in the viewport, you can use the <Code>scrollBehavior</Code> prop to control how scrolling should behave.</Text>
-          <ul>
-            <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
-            <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will set the vertical alignment to the top and will scroll within the viewport.</li>
-          </ul>
-        </Text>
       </FormGroup>
       <Divider my="4x" />
       <FormGroup>
@@ -393,8 +393,14 @@ function Example() {
                 <Input ref={initialFocusRef} placeholder="User name" />
                 <Icon icon="email" color={iconColor} />
                 <Input placeholder="Email address" />
-                <Box minHeight={enableModalOverflowBehavior ? 1500 : undefined} />
               </Grid>
+              <Box minHeight={enableModalOverflowBehavior ? 1500 : undefined} />
+              <RadioGroup defaultValue="1">
+                <Stack direction="row" spacing="3x">
+                  <Radio value="1">Radio 1</Radio>
+                  <Radio value="2">Radio 2</Radio>
+                </Stack>
+              </RadioGroup>
             </ModalBody>
           )}
           {isFooterVisible && (
