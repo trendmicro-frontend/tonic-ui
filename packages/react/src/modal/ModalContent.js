@@ -113,6 +113,7 @@ const ModalContentFront = forwardRef(({ children, ...rest }, ref) => {
 });
 
 const ModalContent = React.forwardRef(({
+  backdropProps,
   children,
   zIndex = 'modal',
   TransitionComponent = Fade,
@@ -134,6 +135,7 @@ const ModalContent = React.forwardRef(({
       TransitionComponent={TransitionComponent}
       TransitionProps={TransitionProps}
       zIndex={zIndex}
+      {...backdropProps}
     >
       <ModalContentFront ref={ref} {...rest}>
         {children}
