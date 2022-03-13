@@ -22,7 +22,7 @@ const ModalCloseButton = (props) => {
   );
 };
 
-const ModalContentBackdrop = forwardRef(({
+const ModalContentContainer = forwardRef(({
   TransitionComponent,
   TransitionProps,
   ...rest
@@ -34,7 +34,7 @@ const ModalContentBackdrop = forwardRef(({
     onClose,
   } = { ...modalContext };
   const [, safeToRemove] = usePresence();
-  const backdropStyleProps = {
+  const styleProps = {
     position: 'fixed',
     left: 0,
     right: 0,
@@ -43,6 +43,7 @@ const ModalContentBackdrop = forwardRef(({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 'modal',
   };
 
   return (
@@ -61,7 +62,7 @@ const ModalContentBackdrop = forwardRef(({
               (typeof onClose === 'function') && onClose(event);
             }
           }}
-          {...backdropStyleProps}
+          {...styleProps}
           {...transitionStyle}
           {...rest}
         />
@@ -113,11 +114,11 @@ const ModalContentFront = forwardRef(({ children, ...rest }, ref) => {
 });
 
 const ModalContent = React.forwardRef(({
-  backdropProps,
-  children,
-  zIndex = 'modal',
+  ContainerComponent = ModalContentContainer,
+  ContainerProps,
   TransitionComponent = Fade,
   TransitionProps,
+  children,
   ...rest
 }, ref) => {
   const modalContext = useModal(); // context might be an undefined value
@@ -131,16 +132,15 @@ const ModalContent = React.forwardRef(({
   }
 
   return (
-    <ModalContentBackdrop
+    <ContainerComponent
       TransitionComponent={TransitionComponent}
       TransitionProps={TransitionProps}
-      zIndex={zIndex}
-      {...backdropProps}
+      {...ContainerProps}
     >
       <ModalContentFront ref={ref} {...rest}>
         {children}
       </ModalContentFront>
-    </ModalContentBackdrop>
+    </ContainerComponent>
   );
 });
 
