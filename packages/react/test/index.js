@@ -13,7 +13,7 @@ test('should match expected exports', () => {
 
     // alert
     'Alert',
-    'AlertCloseButton',
+    'AlertCloseButton', // internal use only
     'AlertIcon',
     'AlertMessage',
 
@@ -103,10 +103,13 @@ test('should match expected exports', () => {
     // modal
     'Modal',
     'ModalBody',
+    'ModalCloseButton', // internal use only
+    'ModalContainer', // internal use only
     'ModalContent',
     'ModalFooter',
     'ModalHeader',
     'ModalOverlay',
+    'useModal',
 
     // pagination
     'Pagination',
@@ -185,7 +188,7 @@ test('should match expected exports', () => {
 
     // tag
     'Tag',
-    'TagCloseButton',
+    'TagCloseButton', // internal use only
 
     // text
     'Text',
@@ -201,13 +204,13 @@ test('should match expected exports', () => {
 
     // toast
     'Toast',
-    'ToastCloseButton',
-    'ToastContainer',
-    'ToastController',
-    'ToastIcon',
-    'ToastMessage',
+    'ToastCloseButton', // internal use only
+    'ToastContainer', // internal use only
+    'ToastController', // internal use only
+    'ToastIcon', // internal use only
+    'ToastMessage', // internal use only
     'ToastProvider',
-    'ToastTransition',
+    'ToastTransition', // internal use only
     'useToast',
 
     // tooltip
