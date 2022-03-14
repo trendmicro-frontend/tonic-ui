@@ -112,7 +112,7 @@ const modalWithBodyScrollLockCode = `
   <ModalOverlay />
   <ModalContent />
 </Modal>
-`;
+`.trim();
 
 function Example() {
   const initialFocusRef = React.useRef();
@@ -339,13 +339,13 @@ function Example() {
           <Text mb="2x">
             Enable this option will increase the content height to overflow the viewport and make the content scrollable.
           </Text>
-          <Text>
+          <Text mb="2x">
             You can use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
           </Text>
-          <ul>
+          <Box as="ul" my="2x">
             <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
             <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
-          </ul>
+          </Box>
         </Box>
       </FormGroup>
       <FormGroup>
@@ -356,16 +356,37 @@ function Example() {
           />
           <Space width="2x" />
           <Text>
-            Enable body scroll lock
+            Enable body scroll locking
           </Text>
         </TextLabel>
         <Box ml="6x">
-          <Text mb="2x">
-            When setting <Code>scrollBehavior="outside"</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the modal is open. Body scroll locking is currently not available with default setup, you can use <Code>{`import { Global } from '@emotion/react';`}</Code> to dynamically inject the global style as shown below:
-          </Text>
-          <pre>
+          <Box mb="4x">
+            <Text mb="2x">
+              When setting <Code>scrollBehavior="outside"</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the modal is open.
+            </Text>
+            <Text mb="2x">
+              <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
+            </Text>
+          </Box>
+          <Box
+            backgroundColor={colorStyle.background.secondary}
+            fontFamily="mono"
+            px="3x"
+            py="2x"
+            mb="4x"
+            whiteSpace="pre"
+          >
+            {`import { Global } from '@emotion/react'`}
+          </Box>
+          <Box
+            backgroundColor={colorStyle.background.secondary}
+            fontFamily="mono"
+            px="3x"
+            py="2x"
+            whiteSpace="pre"
+          >
             {modalWithBodyScrollLockCode}
-          </pre>
+          </Box>
         </Box>
       </FormGroup>
       <Modal
