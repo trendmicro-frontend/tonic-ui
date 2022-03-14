@@ -58,6 +58,21 @@ const useModalCloseButtonStyle = () => {
   };
 };
 
+const useModalContainerStyle = () => {
+  return {
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'auto',
+    zIndex: 'modal',
+  };
+};
+
 const useModalContentStyle = ({
   scrollBehavior,
   size = defaultSize,
@@ -68,6 +83,7 @@ const useModalContentStyle = ({
     mx: 'auto',
     display: 'flex',
     flexDirection: 'column',
+    overflow: 'clip', // Set overflow to clip to forbid all scrolling for modal content
     zIndex: 'modal',
   };
   const colorModeStyle = {
@@ -145,26 +161,6 @@ const useModalContentStyle = ({
   };
 };
 
-const useModalContentBackdropStyle = ({
-  scrollBehavior,
-}) => {
-  return {
-    position: 'fixed',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    /**
-     * Set `overflow` to `undefined` if `scrollBehavior` is set to `inside`, or it will cause an unexpected behavior of modal position change when a re-render occurs.
-     */
-    overflow: (scrollBehavior === 'inside') ? undefined : 'auto',
-    zIndex: 'modal',
-  };
-};
-
 const useModalHeaderStyle = () => {
   return {
     pt: '4x',
@@ -221,8 +217,8 @@ const useModalFooterStyle = () => {
 
 export {
   useModalCloseButtonStyle,
+  useModalContainerStyle,
   useModalContentStyle,
-  useModalContentBackdropStyle,
   useModalHeaderStyle,
   useModalBodyStyle,
   useModalFooterStyle,
