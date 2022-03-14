@@ -100,10 +100,6 @@ const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
-const Code = (props) => (
-  <Tag fontSize="90%" lineHeight="1" fontFamily="mono" {...props} />
-);
-
 const modalWithBodyScrollLockCode = `
 <Modal>
   <Global
@@ -338,29 +334,6 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center" mb="3x">
           <Checkbox
-            checked={enableBodyScrollLock}
-            onChange={() => toggleBodyScrollLock()}
-          />
-          <Space width="2x" />
-          <Text>
-            Enable body scroll lock
-          </Text>
-        </TextLabel>
-        <Box ml="6x">
-          <Text mb="2x">
-            When setting `scrollBehavior` to `outside`, the **body scroll lock** should be used to prevent the user from scrolling the page while the modal is open.
-          </Text>
-          <Text>
-            You can use <Code>{`import { Global } from '@emotion/react';`}</Code> and dynamically inject the global style as shown below:
-          </Text>
-          <pre>
-            {modalWithBodyScrollLockCode}
-          </pre>
-        </Box>
-      </FormGroup>
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center" mb="3x">
-          <Checkbox
             checked={enableModalOverflowBehavior}
             onChange={() => toggleModalOverflowBehavior()}
           />
@@ -380,6 +353,26 @@ function Example() {
             <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
             <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
           </ul>
+        </Box>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableBodyScrollLock}
+            onChange={() => toggleBodyScrollLock()}
+          />
+          <Space width="2x" />
+          <Text>
+            Enable body scroll lock
+          </Text>
+        </TextLabel>
+        <Box ml="6x">
+          <Text mb="2x">
+            When setting <Code>scrollBehavior="outside"</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the modal is open. Body scroll locking is currently not available with default setup, you can use <Code>{`import { Global } from '@emotion/react';`}</Code> to dynamically inject the global style as shown below:
+          </Text>
+          <pre>
+            {modalWithBodyScrollLockCode}
+          </pre>
         </Box>
       </FormGroup>
       <Modal
