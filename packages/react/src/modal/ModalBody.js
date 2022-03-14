@@ -3,9 +3,14 @@ import { Box } from '../box';
 import {
   useModalBodyStyle,
 } from './styles';
+import useModal from './useModal';
 
 const ModalBody = forwardRef((props, ref) => {
-  const styleProps = useModalBodyStyle();
+  const modalContext = useModal(); // context might be an undefined value
+  const {
+    scrollBehavior,
+  } = { ...modalContext };
+  const styleProps = useModalBodyStyle({ scrollBehavior });
 
   return (
     <Box

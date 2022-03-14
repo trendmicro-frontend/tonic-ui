@@ -3,5 +3,5 @@ import TagCloseButton from './TagCloseButton';
 
 export {
   Tag,
-  TagCloseButton,
+  TagCloseButton, // internal use only
 };

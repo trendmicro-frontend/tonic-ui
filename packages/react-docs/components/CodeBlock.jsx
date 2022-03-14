@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { Global, css } from '@emotion/react';
 import { mdx } from '@mdx-js/react';
 import * as reactComponents from '@tonic-ui/react';
 import * as reactHooks from '@tonic-ui/react-hooks';
@@ -168,6 +168,7 @@ const CodeBlock = ({
       SelectButton,
       SkeletonBody,
       SkeletonContent,
+      Global,
       css,
       mdx,
       tmicons,

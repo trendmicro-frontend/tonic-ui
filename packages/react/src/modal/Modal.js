@@ -13,10 +13,12 @@ import { ModalProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
+const defaultSize = 'auto';
+const defaultScrollBehavior = 'inside';
+
 const Modal = ({
   isCloseButtonVisible, // deprecated
   isClosable = false,
-  size = 'auto',
   isOpen = false,
   closeOnEsc = false,
   closeOnOutsideClick = false,
@@ -26,6 +28,8 @@ const Modal = ({
   ensureFocus = false,
   autoFocus = false,
   children,
+  size = defaultSize,
+  scrollBehavior = defaultScrollBehavior,
 }) => {
   { // deprecation warning
     const prefix = `${Modal.displayName}:`;
@@ -45,7 +49,6 @@ const Modal = ({
   const defaultId = useAutoId();
   const contentRef = useRef(null);
   const modalState = getMemoizedState({
-    size,
     isOpen,
     isClosable,
     closeOnEsc,
@@ -54,6 +57,8 @@ const Modal = ({
     initialFocusRef,
     finalFocusRef,
     autoFocus,
+    size,
+    scrollBehavior,
 
     // internal use only
     contentRef,

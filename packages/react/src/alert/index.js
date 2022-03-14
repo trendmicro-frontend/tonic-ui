@@ -9,7 +9,7 @@ Alert.Message = AlertMessage;
 
 export {
   Alert,
-  AlertCloseButton,
-  AlertIcon,
-  AlertMessage,
+  AlertCloseButton, // internal use only
+  AlertIcon, // internal use only
+  AlertMessage, // internal use only
 };
