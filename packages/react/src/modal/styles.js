@@ -156,7 +156,10 @@ const useModalContentBackdropStyle = ({
     bottom: 0,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: (scrollBehavior === 'inside') ? 'center' : 'flex-start',
+    alignItems: 'center',
+    /**
+     * Set `overflow` to `undefined` if `scrollBehavior` is set to `inside`, or it will cause an unexpected behavior of modal position change when a re-render occurs.
+     */
     overflow: (scrollBehavior === 'inside') ? undefined : 'auto',
     zIndex: 'modal',
   };
