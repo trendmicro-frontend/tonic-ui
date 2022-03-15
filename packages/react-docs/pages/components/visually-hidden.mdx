@@ -1,1 +1,26 @@
 # VisuallyHidden
+
+`VisuallyHidden` is a technique that addresses accessibility concerns. It visually hides the content of the element, but keep it readable for screen readers.
+
+## Import
+
+```js
+import { VisuallyHidden } from '@tonic-ui/react';
+```
+
+## Usage
+
+```jsx
+<Button variant="secondary">
+  <VisuallyHidden>
+    Checkmark
+  </VisuallyHidden>
+  <Icon icon="check" />
+</Button>
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

@@ -1,1 +1,29 @@
 # ButtonLink
+
+This component provides an element resembling a button that purely acts as a link with a different style.
+
+## Import
+
+```js
+import { ButtonLink } from '@tonic-ui/react';
+```
+
+## Usage
+
+```jsx
+<ButtonLink
+  href="https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started"
+  textDecoration="none"
+  variant="default"
+>
+  Get Started <Icon icon="angle-right" />
+</ButtonLink>
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| disabled | boolean | | If `true`, the button link will be disabled. This sets `aria-disabled=true` and you can style this state by using the `_disabled` prop. |
+| onClick | function | | A callback called when the button link is clicked. |
