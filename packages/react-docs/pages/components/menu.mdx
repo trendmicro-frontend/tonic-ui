@@ -701,6 +701,133 @@ function menuWithCheckbox() {
 }
 ```
 
+### Customization
+
+#### Date range picker
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [value, setValue] = React.useState('1d');
+  const [isCalendarVisible, setIsCalendarVisible] = React.useState(false);
+  const handleMenuItemClick = (event) => {
+    const value = event.target.getAttribute('value');
+
+    if (value === 'custom') {
+      event.preventDefault();
+
+      if (!isCalendarVisible) {
+        setIsCalendarVisible(true);
+      }
+      return;
+    }
+
+    setValue(value);
+
+    if (isCalendarVisible) {
+      setIsCalendarVisible(false);
+    }
+  };
+  const mapValueToLabel = (value) => {
+    if (value === 'custom') {
+      return 'Custom range';
+    }
+
+    return {
+      '1d': 'Last 24 hours',
+      '7d': 'Last 7 days',
+      '14d': 'Last 14 days',
+    }[value];
+  };
+
+  React.useEffect(() => {
+    if (value === 'custom' && !isCalendarVisible) {
+      setIsCalendarVisible(true);
+    }
+  }, [value, isCalendarVisible]);
+
+  return (
+    <Menu
+      onClose={() => {
+        if (isCalendarVisible) {
+          setIsCalendarVisible(false);
+        }
+      }}
+    >
+      {({ closeMenu }) => (
+        <>
+          <MenuButton variant="secondary">
+            <Text>{mapValueToLabel(value)}</Text>
+          </MenuButton>
+          <MenuList width="max-content">
+            {isCalendarVisible && (
+              <Box
+                backgroundColor={colorStyle.background.secondary}
+                position="absolute"
+                left="100%"
+                top={0}
+                px="4x"
+                py="3x"
+                minHeight="100%"
+                border={1}
+                borderColor={colorStyle.divider}
+              >
+                <Skeleton variant="text" mb="2x" />
+                <Skeleton variant="rect" width={200} height={100} />
+                <Divider my="4x" />
+                <Flex justifyContent="flex-end">
+                  <Grid
+                    templateColumns="1fr 1fr"
+                    columnGap="2x"
+                  >
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        closeMenu();
+                        if (value !== 'custom') {
+                          setValue('custom');
+                        }
+                      }}
+                    >
+                      OK
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        closeMenu();
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
+                </Flex>
+              </Box>
+            )}
+            {['1d', '7d', '14d'].map(value => (
+              <MenuItem
+                key={value}
+                value={value}
+                onClick={handleMenuItemClick}
+              >
+                {mapValueToLabel(value)}
+              </MenuItem>
+            ))}
+            <MenuDivider />
+            <MenuItem
+              value="custom"
+              onClick={handleMenuItemClick}
+            >
+              Custom range...
+            </MenuItem>
+          </MenuList>
+        </>
+      )}
+    </Menu>
+  );
+}
+```
+
 ## Accessibility
 
 ### Keyboard Interaction
