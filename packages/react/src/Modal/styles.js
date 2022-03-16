@@ -96,15 +96,18 @@ const useModalCloseButtonStyle = () => {
   };
 };
 
-const useModalContentStyle = ({ size }) => {
+const useModalContentStyle = ({
+  scrollBehavior,
+  size = defaultSize,
+}) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     mx: 'auto',
-    height: 'auto',
-    top: 0,
     display: 'flex',
     flexDirection: 'column',
+    overflow: 'clip', // Set overflow to clip to forbid all scrolling for modal content
+    zIndex: 'modal',
   };
   const colorModeStyle = {
     light: {
@@ -124,12 +127,60 @@ const useModalContentStyle = ({ size }) => {
       boxShadow: colorStyle?.shadow?.thick,
     },
   }[colorMode];
-  const sizeProps = getSizeProps(size);
+  const sizeStyle = {
+    xs: {
+      width: 352,
+      minHeight: 240,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    sm: {
+      width: 512,
+      minHeight: 320,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    md: {
+      width: 672,
+      minHeight: 320,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    lg: {
+      width: 832,
+      minHeight: 320,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    xl: {
+      width: 992,
+      minHeight: 320,
+      maxHeight: scrollBehavior === 'inside' ? '80vh' : undefined,
+    },
+    full: {
+      maxWidth: scrollBehavior === 'inside' ? '100vw' : undefined,
+      maxHeight: scrollBehavior === 'inside' ? '100vh' : undefined,
+
+      /**
+       * Autoprefixer will compile it to:
+       *
+       * ```css
+       * min-height: -webkit-fill-available;
+       * min-height: -moz-available;
+       * min-height: fill-available;
+       * min-height: stretch;
+       * ```
+       */
+      minHeight: 'stretch',
+    },
+    auto: {
+      width: 'auto',
+      height: 'auto',
+      maxWidth: scrollBehavior === 'inside' ? '100vw' : undefined,
+      maxHeight: scrollBehavior === 'inside' ? '100vh' : undefined,
+    },
+  }[size];
 
   return {
     ...baseStyle,
     ...colorModeStyle,
-    ...sizeProps,
+    ...sizeStyle,
   };
 };
 
@@ -145,7 +196,9 @@ const useModalHeaderStyle = () => {
   };
 };
 
-const useModalBodyStyle = () => {
+const useModalBodyStyle = ({
+  scrollBehavior,
+}) => {
   const { sizes, lineHeights } = useTheme();
 
   return {
@@ -153,7 +206,7 @@ const useModalBodyStyle = () => {
     pb: '6x',
     flex: 1,
     height: 'auto',
-    overflowY: 'auto',
+    overflowY: scrollBehavior === 'inside' ? 'auto' : undefined,
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)

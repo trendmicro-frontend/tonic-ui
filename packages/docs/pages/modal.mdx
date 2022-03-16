@@ -159,26 +159,28 @@ const useToggle = (defaultValue) => {
   return [value, toggle];
 };
 
-const Divider = (props) => {
-  const [colorMode] = useColorMode();
-  const dividerColor = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-  return (
-    <Box mb="4x" pb="4x" borderBottom={1} borderBottomColor={dividerColor} {...props} />
-  );
-};
-
 const FormGroup = (props) => (
-  <Box mb="4x">
-    <Flex display="inline-flex" {...props} />
-  </Box>
+  <Box mb="4x" {...props} />
 );
+
+const modalWithBodyScrollLockCode = `
+<Modal>
+  <Global
+    styles={css\`
+      body {
+        overflow: hidden;
+      }
+    \`}
+  />
+  <ModalOverlay />
+  <ModalContent />
+</Modal>
+`.trim();
 
 function Example() {
   const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const iconColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
@@ -195,6 +197,10 @@ function Example() {
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const [size, changeSizeBy] = useSelection('sm');
+  const [scrollBehavior, changeScrollBehaviorBy] = useSelection('inside');
+  const [height, changeHeightBy] = useSelection('default');
+  const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
+  const [enableModalOverflowBehavior, toggleModalOverflowBehavior] = useToggle(true);
 
   return (
     <>
@@ -203,8 +209,18 @@ function Example() {
           Launch modal
         </Button>
       </Box>
-      <Divider />
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Modal props
+        </Text>
+      </Box>
       <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            size
+          </TextLabel>
+        </Box>
         <ButtonGroup
           variant="secondary"
           css={{
@@ -218,6 +234,58 @@ function Example() {
               key={value}
               selected={value === size}
               onClick={changeSizeBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectableButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            scrollBehavior
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['inside', 'outside'].map(value => (
+            <SelectableButton
+              key={value}
+              selected={value === scrollBehavior}
+              onClick={changeScrollBehaviorBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectableButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            height
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['default', '100%'].map(value => (
+            <SelectableButton
+              key={value}
+              selected={value === height}
+              onClick={changeHeightBy(value)}
               minWidth="15x"
             >
               {value}
@@ -279,6 +347,12 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
       </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Modal composition
+        </Text>
+      </Box>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isOverlayVisible} onChange={toggleIsOverlayVisible} />
@@ -314,6 +388,77 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
         </TextLabel>
       </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Extra modal setup
+        </Text>
+      </Box>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableModalOverflowBehavior}
+            onChange={() => toggleModalOverflowBehavior()}
+          />
+          <Space width="2x" />
+          <Text>
+            Enable modal overflow behavior to make scrollbar visible
+          </Text>
+        </TextLabel>
+        <Box ml="6x">
+          <Text mb="2x">
+            Enable this option will increase the content height to overflow the viewport and make the content scrollable.
+          </Text>
+          <Text mb="2x">
+            You can use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
+          </Text>
+          <Box as="ul" my="2x">
+            <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
+            <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
+          </Box>
+        </Box>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableBodyScrollLock}
+            onChange={() => toggleBodyScrollLock()}
+          />
+          <Space width="2x" />
+          <Text>
+            Enable body scroll locking
+          </Text>
+        </TextLabel>
+        <Box ml="6x">
+          <Box mb="4x">
+            <Text mb="2x">
+              When setting <Code>scrollBehavior="outside"</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the modal is open.
+            </Text>
+            <Text mb="2x">
+              <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
+            </Text>
+          </Box>
+          <Box
+            backgroundColor={colorStyle.background.secondary}
+            fontFamily="mono"
+            px="3x"
+            py="2x"
+            mb="4x"
+            whiteSpace="pre"
+          >
+            {`import { Global } from '@emotion/react'`}
+          </Box>
+          <Box
+            backgroundColor={colorStyle.background.secondary}
+            fontFamily="mono"
+            px="3x"
+            py="2x"
+            whiteSpace="pre"
+          >
+            {modalWithBodyScrollLockCode}
+          </Box>
+        </Box>
+      </FormGroup>
       <Scale
         in={isOpen}
         duration={150}
@@ -329,11 +474,24 @@ function Example() {
             isOpen={true} // Set to `true` if a transition is active
             onClose={onClose}
             size={size}
+            scrollBehavior={scrollBehavior}
           >
+            {enableBodyScrollLock && (
+              <Global
+                styles={css`
+                  body {
+                    overflow: hidden;
+                  }
+                `}
+              />
+            )}
             {isOverlayVisible && (
               <ModalOverlay opacity={styles.opacity} />
             )}
-            <ModalContent {...styles}>
+            <ModalContent
+              {...styles}
+              height={height !== 'default' ? height : undefined}
+            >
               {isHeaderVisible && (
                 <ModalHeader>
                   Modal Title
@@ -354,12 +512,32 @@ function Example() {
                     rowGap="2x"
                     columnGap="3x"
                     alignItems="center"
+                    mb="4x"
                   >
                     <Icon icon="user" color={iconColor} />
                     <Input ref={initialFocusRef} placeholder="User name" />
                     <Icon icon="email" color={iconColor} />
                     <Input placeholder="Email address" />
                   </Grid>
+                  {enableModalOverflowBehavior && (
+                    <Box
+                      backgroundColor={colorStyle.background.tertiary}
+                      mb="4x"
+                      minHeight={1000}
+                      px="3x"
+                      py="2x"
+                    >
+                      <Text>
+                        This is a very long content that will overflow the modal
+                      </Text>
+                    </Box>
+                  )}
+                  <RadioGroup defaultValue="1">
+                    <Stack direction="row" spacing="3x">
+                      <Radio value="1">Radio 1</Radio>
+                      <Radio value="2">Radio 2</Radio>
+                    </Stack>
+                  </RadioGroup>
                 </ModalBody>
               )}
               {isFooterVisible && (
@@ -629,13 +807,34 @@ function Example() {
 | closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
 | onClose | function | | Callback fired when the modal closes. |
 | size | string | 'auto' | The size of the modal. One of: `'auto'`, `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'full'` |
+| scrollBehavior | string | 'inside' | Control the scroll behavior of the modal if the content overflows. One of: 'inside', 'outside' |
 
 ### ModalOverlay
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### ModalContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
 
 ### ModalHeader
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### ModalBody
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### ModalFooter
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

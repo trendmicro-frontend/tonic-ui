@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import Box from '../Box';
 import ButtonBase from '../ButtonBase';
 import Icon from '../Icon';
@@ -24,10 +24,60 @@ const ModalContentBackdrop = forwardRef((props, ref) => {
   const {
     closeOnOutsideClick,
     onClose,
+    scrollBehavior,
+    contentRef, // internal use only
   } = { ...context };
+  const containerRef = useRef();
+  const combinedRef = useForkRef(containerRef, ref);
+
+  useEffect(() => {
+    const viewport = window?.visualViewport;
+    const updateVerticalAlignment = () => {
+      const el = containerRef?.current;
+      if (!el) {
+        return;
+      }
+
+      // When the scroll behavior is set to `inside`, we have to detect whether the content overflows the container.
+      // * If it does overflow, set `alignItems` to `flex-start` to make the container scrollable from the top.
+      // * If it doesn't overflow, remove the `alignItems` CSS property to vertically align the container to its original position (e.g. `center`).
+      if (scrollBehavior === 'inside') {
+        const containerHeight = el.offsetHeight;
+        const contentHeight = contentRef?.current?.clientHeight;
+        if (contentHeight > containerHeight) {
+          el.style.alignItems = 'flex-start';
+        } else {
+          el.style.alignItems = '';
+        }
+        return;
+      }
+
+      // When the scroll behavior is set to `outside`, we have to detect whether the container overflows the viewport.
+      // * If it does overflow, set `alignItems` to `flex-start` to make the container scrollable from the top.
+      // * If it doesn't overflow, remove the `alignItems` CSS property to vertically align the container to its original position (e.g. `center`).
+      if (scrollBehavior === 'outside') {
+        const viewportHeight = viewport?.height;
+        const containerScrollHeight = el.scrollHeight;
+        if (containerScrollHeight > viewportHeight) {
+          el.style.alignItems = 'flex-start';
+        } else {
+          el.style.alignItems = '';
+        }
+        return;
+      }
+    };
+
+    updateVerticalAlignment();
+    viewport?.addEventListener?.('resize', updateVerticalAlignment);
+
+    return () => {
+      viewport?.removeEventListener?.('resize', updateVerticalAlignment);
+    };
+  }, [scrollBehavior, contentRef]);
 
   return (
     <Box
+      ref={combinedRef}
       position="fixed"
       left={0}
       right={0}
@@ -36,6 +86,8 @@ const ModalContentBackdrop = forwardRef((props, ref) => {
       display="flex"
       justifyContent="center"
       alignItems="center"
+      overflow="auto"
+      zIndex="modal"
       onClick={event => {
         event.stopPropagation();
         if (closeOnOutsideClick) {
@@ -53,13 +105,12 @@ const ModalContentFront = forwardRef(({ children, ...props }, ref) => {
     closeOnEsc,
     isClosable,
     onClose,
+    scrollBehavior,
     size,
-
-    // internal use only
-    contentRef,
+    contentRef, // internal use only
   } = { ...context };
   const combinedRef = useForkRef(ref, contentRef);
-  const contentStyleProps = useModalContentStyle({ size });
+  const contentStyleProps = useModalContentStyle({ scrollBehavior, size });
 
   return (
     <Box

@@ -10,6 +10,8 @@ import { ModalProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
+const defaultScrollBehavior = 'inside';
+
 const Modal = ({
   size = 'auto',
   isOpen = false,
@@ -24,6 +26,7 @@ const Modal = ({
   autoFocus = false,
   id,
   children,
+  scrollBehavior = defaultScrollBehavior,
 }) => {
   const isClosable = _isClosable || LEGACY_isCloseButtonVisible; // eslint-disable-line camelcase
   const defaultId = useId();
@@ -38,6 +41,7 @@ const Modal = ({
     initialFocusRef,
     finalFocusRef,
     autoFocus,
+    scrollBehavior,
 
     // internal use only
     contentRef,

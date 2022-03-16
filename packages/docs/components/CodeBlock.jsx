@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { Global, css } from '@emotion/react';
 import { mdx } from '@mdx-js/react';
 import * as styledUIComponents from '@trendmicro/react-styled-ui';
 import * as tmicon from '@trendmicro/tmicon';
@@ -13,12 +13,15 @@ import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { AutoSizer } from 'react-virtualized';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
+import Code from './Code';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import EditableTag from './EditableTag';
 import Lorem from './Lorem';
 
 const thirdPartyComponents = {
   AutoSizer,
+  Code,
+  Global,
   ReactBeautifulDND,
   ReactDND,
   ReactDNDHtml5backend,
