@@ -9,11 +9,14 @@ import {
 } from './styles';
 import useModal from './useModal';
 
-const ModalContainer = forwardRef(({
-  TransitionComponent = Fade,
-  TransitionProps,
-  ...rest
-}, ref) => {
+const ModalContainer = forwardRef((
+  {
+    TransitionComponent = Fade,
+    TransitionProps,
+    ...rest
+  },
+  ref,
+) => {
   const modalContext = useModal(); // context might be an undefined value
   const {
     closeOnOutsideClick,
