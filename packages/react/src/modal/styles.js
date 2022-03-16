@@ -183,7 +183,7 @@ const useModalBodyStyle = ({
     pb: '6x',
     flex: 1,
     height: 'auto',
-    overflowY: 'auto',
+    overflowY: scrollBehavior === 'inside' ? 'auto' : undefined,
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
