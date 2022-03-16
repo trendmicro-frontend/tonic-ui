@@ -1,5 +1,7 @@
 import Drawer from './Drawer';
 import DrawerBody from './DrawerBody';
+import DrawerCloseButton from './DrawerCloseButton';
+import DrawerContainer from './DrawerContainer';
 import DrawerContent from './DrawerContent';
 import DrawerFooter from './DrawerFooter';
 import DrawerHeader from './DrawerHeader';
@@ -14,6 +16,8 @@ Drawer.Overlay = DrawerOverlay;
 export {
   Drawer,
   DrawerBody,
+  DrawerCloseButton, // internal use only
+  DrawerContainer, // internal use only
   DrawerContent,
   DrawerFooter,
   DrawerHeader,

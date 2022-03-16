@@ -59,7 +59,7 @@ function Example() {
   }[colorMode];
   const [isOpen, toggleDrawer] = useToggle(false);
   const [placement, changePlacementBy] = useSelection('right');
-  const [size, changeSizeBy] = useSelection('sm');
+  const [size, changeSizeBy] = useSelection('auto');
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [backdrop, toggleBackdrop] = useToggle(true);
@@ -71,7 +71,6 @@ function Example() {
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
-  const height = (placement === 'left' || placement === 'right') ? '100%' : 'auto';
 
   return (
     <>
@@ -261,7 +260,7 @@ function Example() {
         {isOverlayVisible && (
           <DrawerOverlay />
         )}
-        <DrawerContent height={height}>
+        <DrawerContent>
           {isHeaderVisible && (
             <DrawerHeader>
               {size === 'auto' && <Text>Auto-sized Drawer</Text>}
