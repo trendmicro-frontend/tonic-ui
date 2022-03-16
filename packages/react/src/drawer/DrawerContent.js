@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { ButtonBase } from '../button';
 import { Icon } from '../icon';
-import { usePresence } from '../presence';
+import { useAnimatePresence } from '../utils/animate-presence';
 import { Slide } from '../transitions';
 import useForkRef from '../utils/useForkRef';
 import {
@@ -34,7 +34,7 @@ const DrawerContentBackdrop = forwardRef(({
     closeOnOutsideClick,
     onClose,
   } = { ...drawerContext };
-  const [, safeToRemove] = usePresence();
+  const [, safeToRemove] = useAnimatePresence();
   const backdropStyleProps = {
     position: 'fixed',
     left: 0,

@@ -138,7 +138,7 @@ const routes = [
 
       { title: 'NAVIGATION', heading: true },
       { title: 'Link', path: 'components/link' },
-      { title: 'ButtonLink 🚧', path: 'components/buttonlink' },
+      { title: 'ButtonLink', path: 'components/buttonlink' },
       { title: 'Menu', path: 'components/menu' },
       { title: 'Pagination', path: 'components/pagination' },
       { title: 'Tabs', path: 'components/tabs' },
@@ -156,11 +156,10 @@ const routes = [
       { title: 'Text', path: 'components/text' },
       { title: 'TextLabel', path: 'components/textlabel' },
 
-      { title: 'UTILS', heading: true },
+      { title: 'UTILITIES', heading: true },
       { title: 'CSSBaseline', path: 'components/cssbaseline' },
-      { title: 'Presence 🚧', path: 'components/presence' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
-      { title: 'VisuallyHidden 🚧', path: 'components/visually-hidden' },
+      { title: 'VisuallyHidden', path: 'components/visually-hidden' },
     ],
   },
   {
