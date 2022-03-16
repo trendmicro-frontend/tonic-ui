@@ -146,6 +146,7 @@ const useModalContentStyle = ({
        * ```
        */
       minHeight: 'stretch',
+      width: '100%',
     },
     auto: {
       width: 'auto',
