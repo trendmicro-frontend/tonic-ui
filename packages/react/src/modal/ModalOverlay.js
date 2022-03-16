@@ -2,7 +2,7 @@ import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useColorMode } from '../color-mode';
-import { usePresence } from '../presence';
+import { useAnimatePresence } from '../utils/animate-presence';
 import { Fade } from '../transitions';
 import useModal from './useModal';
 
@@ -13,7 +13,7 @@ const ModalOverlay = forwardRef(({
 }, ref) => {
   const modalContext = useModal(); // context might be an undefined value
   const { isOpen } = { ...modalContext };
-  const [, safeToRemove] = usePresence();
+  const [, safeToRemove] = useAnimatePresence();
   const [colorMode] = useColorMode();
   const backgroundColor = {
     dark: 'rgba(0, 0, 0, .7)',

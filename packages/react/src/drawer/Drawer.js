@@ -3,7 +3,7 @@ import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Portal } from '../portal';
-import { Presence } from '../presence';
+import { AnimatePresence } from '../utils/animate-presence';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
@@ -112,8 +112,8 @@ const Drawer = ({
 
   return (
     <DrawerProvider value={drawerState}>
-      <Presence
-        isPresent={isOpen}
+      <AnimatePresence
+        in={isOpen}
         onExitComplete={onExitComplete}
       >
         {isMounted && (
@@ -129,7 +129,7 @@ const Drawer = ({
             </FocusLock>
           </Portal>
         )}
-      </Presence>
+      </AnimatePresence>
     </DrawerProvider>
   );
 };

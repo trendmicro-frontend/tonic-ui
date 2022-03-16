@@ -1,16 +1,16 @@
 import { useConst } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useEffect, useMemo } from 'react';
-import { PresenceContext } from './context';
+import { AnimatePresenceContext } from './context';
 
-const Presence = forwardRef(({
+const AnimatePresence = forwardRef(({
   children,
-  isPresent,
+  in: inProp,
   onExitComplete,
 }, ref) => {
   const childCompleteMap = useConst(() => new Map());
   const context = useMemo(() => ({
-    isPresent,
+    in: inProp,
     onExitComplete: (childId) => {
       childCompleteMap.set(childId, true /* isComplete */);
 
@@ -32,20 +32,20 @@ const Presence = forwardRef(({
         childCompleteMap.delete(childId);
       };
     },
-  }), [isPresent, onExitComplete, childCompleteMap]);
+  }), [inProp, onExitComplete, childCompleteMap]);
 
   // Remove the component immediately if there's no components to fire exit transitions.
   useEffect(() => {
-    if (!isPresent && childCompleteMap.size === 0) {
+    if (!inProp && childCompleteMap.size === 0) {
       onExitComplete();
     }
-  }, [isPresent, onExitComplete, childCompleteMap]);
+  }, [inProp, onExitComplete, childCompleteMap]);
 
   return (
-    <PresenceContext.Provider value={context}>
+    <AnimatePresenceContext.Provider value={context}>
       {children}
-    </PresenceContext.Provider>
+    </AnimatePresenceContext.Provider>
   );
 });
 
-export default Presence;
+export default AnimatePresence;

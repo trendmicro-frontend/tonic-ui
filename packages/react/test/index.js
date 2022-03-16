@@ -130,10 +130,6 @@ test('should match expected exports', () => {
     // portal
     'Portal',
 
-    // presence
-    'Presence',
-    'usePresence',
-
     // provider
     'TonicProvider',
 

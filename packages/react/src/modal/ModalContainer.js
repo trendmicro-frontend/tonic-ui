@@ -1,7 +1,7 @@
 import chainedFunction from 'chained-function';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Box } from '../box';
-import { usePresence } from '../presence';
+import { useAnimatePresence } from '../utils/animate-presence';
 import { Fade } from '../transitions';
 import useForkRef from '../utils/useForkRef';
 import {
@@ -24,7 +24,7 @@ const ModalContainer = forwardRef(({
   } = { ...modalContext };
   const containerRef = useRef();
   const combinedRef = useForkRef(containerRef, ref);
-  const [, safeToRemove] = usePresence();
+  const [, safeToRemove] = useAnimatePresence();
   const styleProps = useModalContainerStyle();
 
   useEffect(() => {
