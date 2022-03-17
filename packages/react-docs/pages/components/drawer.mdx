@@ -21,6 +21,7 @@ import {
   DrawerHeader,
   DrawerBody,
   DrawerFooter,
+  useDrawer,
 } from '@tonic-ui/react';
 ```
 
@@ -76,6 +77,7 @@ function Example() {
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
+  const [enableDrawerOverflowBehavior, toggleDrawerOverflowBehavior] = useToggle(true);
 
   return (
     <>
@@ -261,6 +263,23 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center" mb="3x">
           <Checkbox
+            checked={enableDrawerOverflowBehavior}
+            onChange={() => toggleDrawerOverflowBehavior()}
+          />
+          <Space width="2x" />
+          <Text>
+            Enable drawer overflow behavior to make scrollbar visible
+          </Text>
+        </TextLabel>
+        <Box ml="6x">
+          <Text mb="2x">
+            Enable this option will increase the content height to overflow the viewport and make the <Code>DrawerBody</Code> scrollable.
+          </Text>
+        </Box>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
             checked={enableBodyScrollLock}
             onChange={() => toggleBodyScrollLock()}
           />
@@ -272,7 +291,7 @@ function Example() {
         <Box ml="6x">
           <Box mb="4x">
             <Text mb="2x">
-              When setting <Code>scrollBehavior="outside"</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the drawer is open.
+              You can use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the drawer is open.
             </Text>
             <Text mb="2x">
               <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
@@ -349,12 +368,32 @@ function Example() {
                 rowGap="2x"
                 columnGap="3x"
                 alignItems="center"
+                mb="4x"
               >
                 <Icon icon="user" color={iconColor} />
                 <Input ref={initialFocusRef} placeholder="User name" />
                 <Icon icon="email" color={iconColor} />
                 <Input placeholder="Email address" />
               </Grid>
+              {enableDrawerOverflowBehavior && (
+                <Box
+                  backgroundColor={colorStyle.background.tertiary}
+                  mb="4x"
+                  minHeight={1000}
+                  px="3x"
+                  py="2x"
+                >
+                  <Text>
+                    This is a very long content that will overflow the modal
+                  </Text>
+                </Box>
+              )}
+              <RadioGroup defaultValue="1">
+                <Stack direction="row" spacing="3x">
+                  <Radio value="1">Radio 1</Radio>
+                  <Radio value="2">Radio 2</Radio>
+                </Stack>
+              </RadioGroup>
             </DrawerBody>
           )}
           {isFooterVisible && (

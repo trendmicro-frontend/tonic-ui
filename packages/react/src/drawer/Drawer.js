@@ -13,21 +13,24 @@ import { DrawerProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
+const defaultPlacement = 'right';
+const defaultSize = 'auto';
+
 const Drawer = ({
   isCloseButtonVisible, // deprecated
-  isClosable = false,
-  backdrop,
+  autoFocus = false,
+  backdrop = false,
+  children,
   closeOnEsc = false,
   closeOnOutsideClick = false,
-  placement = 'right',
-  size = 'auto',
+  ensureFocus = false,
+  finalFocusRef,
+  initialFocusRef,
+  isClosable = false,
   isOpen = false,
   onClose,
-  initialFocusRef,
-  finalFocusRef,
-  ensureFocus = false,
-  autoFocus = false,
-  children,
+  placement = defaultPlacement,
+  size = defaultSize,
 }) => {
   { // deprecation warning
     const prefix = `${Drawer.displayName}:`;
@@ -47,20 +50,20 @@ const Drawer = ({
   const defaultId = useAutoId();
   const contentRef = useRef(null);
   const drawerState = getMemoizedState({
+    autoFocus,
     backdrop,
-    placement,
-    size,
-    isOpen,
-    isClosable,
     closeOnEsc,
     closeOnOutsideClick,
-    onClose,
-    initialFocusRef,
+    ensureFocus,
     finalFocusRef,
-    autoFocus,
-
-    // internal use only
-    contentRef,
+    initialFocusRef,
+    isClosable,
+    isOpen,
+    onClose,
+    placement,
+    size,
+    contentRef, // internal use only
+    scrollBehavior: 'inside', // internal use only (only 'inside' is supported by Drawer)
   });
 
   const portalId = `${config.name}:Drawer-${defaultId}`;

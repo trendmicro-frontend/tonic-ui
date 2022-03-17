@@ -3,9 +3,15 @@ import { Box } from '../box';
 import {
   useDrawerBodyStyle,
 } from './styles';
+import useDrawer from './useDrawer';
 
 const DrawerBody = forwardRef((props, ref) => {
-  const styleProps = useDrawerBodyStyle();
+  const drawerContext = useDrawer(); // context might be an undefined value
+  const {
+    scrollBehavior, // internal use only
+  } = { ...drawerContext };
+  const styleProps = useDrawerBodyStyle({ scrollBehavior });
+
   return (
     <Box
       ref={ref}

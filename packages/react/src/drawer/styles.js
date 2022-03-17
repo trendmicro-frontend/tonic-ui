@@ -108,10 +108,10 @@ const useDrawerContainerStyle = ({
 };
 
 const useDrawerContentStyle = ({
-  backdrop,
   placement = defaultPlacement,
   size = defaultSize,
 }) => {
+  const isLeftOrRight = (placement === 'left' || placement === 'right');
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
@@ -141,22 +141,22 @@ const useDrawerContentStyle = ({
   }[colorMode];
   const sizeStyle = {
     sm: {
-      width: (placement === 'left' || placement === 'right') ? 336 : '100%',
-      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%',
-      minHeight: (placement === 'top' || placement === 'bottom') ? 320 : undefined,
-      maxHeight: (placement === 'top' || placement === 'bottom') ? '80vh' : undefined,
+      width: isLeftOrRight ? 336 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
     },
     md: {
-      width: (placement === 'left' || placement === 'right') ? 504 : '100%',
-      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%',
-      minHeight: (placement === 'top' || placement === 'bottom') ? 320 : undefined,
-      maxHeight: (placement === 'top' || placement === 'bottom') ? '80vh' : undefined,
+      width: isLeftOrRight ? 504 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
     },
     lg: {
-      width: (placement === 'left' || placement === 'right') ? 672 : '100%',
-      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%',
-      minHeight: (placement === 'top' || placement === 'bottom') ? 320 : undefined,
-      maxHeight: (placement === 'top' || placement === 'bottom') ? '80vh' : undefined,
+      width: isLeftOrRight ? 672 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
     },
     full: {
       width: '100%',
@@ -165,8 +165,8 @@ const useDrawerContentStyle = ({
       maxHeight: '100vh',
     },
     auto: {
-      width: (placement === 'left' || placement === 'right') ? 'auto' : '100%',
-      height: (placement === 'top' || placement === 'bottom') ? 'auto' : '100%',
+      width: isLeftOrRight ? 'auto' : '100%',
+      height: isLeftOrRight ? '100%' : 'auto',
       maxWidth: '100vw',
       maxHeight: '100vh',
     },
@@ -191,7 +191,9 @@ const useDrawerHeaderStyle = () => {
   };
 };
 
-const useDrawerBodyStyle = () => {
+const useDrawerBodyStyle = ({
+  scrollBehavior, // No default value if not specified
+}) => {
   const { sizes, lineHeights } = useTheme();
 
   return {
@@ -199,7 +201,7 @@ const useDrawerBodyStyle = () => {
     pb: '6x',
     flex: 1,
     height: 'auto',
-    overflowY: 'auto',
+    overflowY: scrollBehavior === 'inside' ? 'auto' : undefined,
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
@@ -209,7 +211,7 @@ const useDrawerBodyStyle = () => {
 };
 
 const useDrawerFooterStyle = ({
-  placement,
+  placement = defaultPlacement,
 }) => {
   const { sizes, lineHeights } = useTheme();
 
@@ -220,7 +222,7 @@ const useDrawerFooterStyle = ({
       'left': 'flex-end',
     }[placement],
     px: '4x',
-    pb: '4x',
+    py: '4x',
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)

@@ -3,7 +3,6 @@ import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useAnimatePresence } from '../utils/animate-presence';
 import { Slide } from '../transitions';
-//import useForkRef from '../utils/useForkRef';
 import {
   useDrawerContainerStyle,
 } from './styles';
@@ -24,10 +23,9 @@ const DrawerContainer = forwardRef((
     isOpen,
     onClose,
     placement,
+    contentRef, // internal use only
   } = { ...drawerContext };
   const [, safeToRemove] = useAnimatePresence();
-  //const containerRef = React.useRef();
-  //const combinedRef = useForkRef(containerRef, ref);
   const styleProps = useDrawerContainerStyle({ backdrop, placement });
   const transitionDirection = {
     'left': 'right',

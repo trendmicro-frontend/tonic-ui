@@ -6,6 +6,7 @@ import DrawerContent from './DrawerContent';
 import DrawerFooter from './DrawerFooter';
 import DrawerHeader from './DrawerHeader';
 import DrawerOverlay from './DrawerOverlay';
+import useDrawer from './useDrawer';
 
 Drawer.Body = DrawerBody;
 Drawer.Content = DrawerContent;
@@ -22,4 +23,5 @@ export {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
+  useDrawer,
 };
