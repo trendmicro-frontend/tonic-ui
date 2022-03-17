@@ -85,7 +85,6 @@ const useModalContentStyle = ({
     flexDirection: 'column',
     overflow: 'clip', // Set overflow to clip to forbid all scrolling for modal content
     position: 'relative',
-    zIndex: 'modal',
   };
   const colorModeStyle = {
     light: {
