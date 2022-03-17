@@ -142,27 +142,33 @@ const useDrawerContentStyle = ({
   const sizeStyle = {
     sm: {
       width: (placement === 'left' || placement === 'right') ? 336 : '100%',
-      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%', // TODO: initial height for top and bottom placement
+      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%',
+      minHeight: (placement === 'top' || placement === 'bottom') ? 320 : undefined,
+      maxHeight: (placement === 'top' || placement === 'bottom') ? '80vh' : undefined,
     },
     md: {
       width: (placement === 'left' || placement === 'right') ? 504 : '100%',
-      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%', // TODO: initial height for top and bottom placement
+      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%',
+      minHeight: (placement === 'top' || placement === 'bottom') ? 320 : undefined,
+      maxHeight: (placement === 'top' || placement === 'bottom') ? '80vh' : undefined,
     },
     lg: {
       width: (placement === 'left' || placement === 'right') ? 672 : '100%',
-      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%', // TODO: initial height for top and bottom placement
+      height: (placement === 'top' || placement === 'bottom') ? undefined : '100%',
+      minHeight: (placement === 'top' || placement === 'bottom') ? 320 : undefined,
+      maxHeight: (placement === 'top' || placement === 'bottom') ? '80vh' : undefined,
     },
     full: {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
       width: '100%',
       height: '100%',
-    },
-    auto: {
       maxWidth: '100vw',
       maxHeight: '100vh',
+    },
+    auto: {
       width: (placement === 'left' || placement === 'right') ? 'auto' : '100%',
       height: (placement === 'top' || placement === 'bottom') ? 'auto' : '100%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
     },
   }[size];
 
