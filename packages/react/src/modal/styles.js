@@ -74,7 +74,7 @@ const useModalContainerStyle = () => {
 };
 
 const useModalContentStyle = ({
-  scrollBehavior,
+  scrollBehavior, // No default value if not specified
   size = defaultSize,
 }) => {
   const [colorMode] = useColorMode();
@@ -176,7 +176,7 @@ const useModalHeaderStyle = () => {
 };
 
 const useModalBodyStyle = ({
-  scrollBehavior,
+  scrollBehavior, // No default value if not specified
 }) => {
   const { sizes, lineHeights } = useTheme();
 

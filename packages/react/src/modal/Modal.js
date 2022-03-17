@@ -13,23 +13,23 @@ import { ModalProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const defaultSize = 'auto';
 const defaultScrollBehavior = 'inside';
+const defaultSize = 'auto';
 
 const Modal = ({
   isCloseButtonVisible, // deprecated
-  isClosable = false,
-  isOpen = false,
-  closeOnEsc = false,
-  closeOnOutsideClick = false,
-  onClose,
-  initialFocusRef,
-  finalFocusRef,
-  ensureFocus = false,
   autoFocus = false,
   children,
-  size = defaultSize,
+  closeOnEsc = false,
+  closeOnOutsideClick = false,
+  ensureFocus = false,
+  finalFocusRef,
+  initialFocusRef,
+  isClosable = false,
+  isOpen = false,
+  onClose,
   scrollBehavior = defaultScrollBehavior,
+  size = defaultSize,
 }) => {
   { // deprecation warning
     const prefix = `${Modal.displayName}:`;
@@ -49,19 +49,18 @@ const Modal = ({
   const defaultId = useAutoId();
   const contentRef = useRef(null);
   const modalState = getMemoizedState({
-    isOpen,
-    isClosable,
+    autoFocus,
     closeOnEsc,
     closeOnOutsideClick,
-    onClose,
-    initialFocusRef,
+    ensureFocus,
     finalFocusRef,
-    autoFocus,
-    size,
+    initialFocusRef,
+    isClosable,
+    isOpen,
+    onClose,
     scrollBehavior,
-
-    // internal use only
-    contentRef,
+    size,
+    contentRef, // internal use only
   });
 
   const portalId = `${config.name}:Modal-${defaultId}`;

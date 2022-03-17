@@ -155,32 +155,6 @@ function Example() {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
-            size
-          </TextLabel>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          css={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            }
-          }}
-        >
-          {['auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full'].map(value => (
-            <SelectButton
-              key={value}
-              isSelected={value === size}
-              onClick={changeSizeBy(value)}
-              minWidth="15x"
-            >
-              {value}
-            </SelectButton>
-          ))}
-        </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <Box mb="2x">
-          <TextLabel>
             scrollBehavior
           </TextLabel>
         </Box>
@@ -197,6 +171,32 @@ function Example() {
               key={value}
               isSelected={value === scrollBehavior}
               onClick={changeScrollBehaviorBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            size
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full'].map(value => (
+            <SelectButton
+              key={value}
+              isSelected={value === size}
+              onClick={changeSizeBy(value)}
               minWidth="15x"
             >
               {value}
@@ -398,8 +398,8 @@ function Example() {
         isClosable={isClosable}
         isOpen={isOpen}
         onClose={() => toggleModal(false)}
-        size={size}
         scrollBehavior={scrollBehavior}
+        size={size}
       >
         {enableBodyScrollLock && (
           <Global
