@@ -398,13 +398,17 @@ function Example() {
           )}
           {isFooterVisible && (
             <DrawerFooter>
-              <Button variant="primary" onClick={() => toggleDrawer(false)} minWidth="20x">
-                OK
-              </Button>
-              <Space width="2x" />
-              <Button onClick={() => toggleDrawer(false)} minWidth="20x">
-                Cancel
-              </Button>
+              <Grid
+                templateColumns="1fr 1fr"
+                columnGap="2x"
+              >
+                <Button variant="primary" onClick={() => toggleDrawer(false)}>
+                  OK
+                </Button>
+                <Button onClick={() => toggleDrawer(false)}>
+                  Cancel
+                </Button>
+              </Grid>
             </DrawerFooter>
           )}
         </DrawerContent>
