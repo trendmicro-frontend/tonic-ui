@@ -125,7 +125,7 @@ function Example() {
   const [isOpen, toggleModal] = useToggle(false);
   const [size, changeSizeBy] = useSelection('auto');
   const [scrollBehavior, changeScrollBehaviorBy] = useSelection('inside');
-  const [height, changeHeightBy] = useSelection('default');
+  const [minHeight, changeMinHeightBy] = useSelection('default');
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
@@ -138,6 +138,11 @@ function Example() {
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
   const [enableModalOverflowBehavior, toggleModalOverflowBehavior] = useToggle(true);
+  const modalContentStyleProps = {};
+
+  if (minHeight !== 'default') {
+    modalContentStyleProps.minHeight = minHeight;
+  }
 
   return (
     <>
@@ -207,7 +212,7 @@ function Example() {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
-            height
+            minHeight
           </TextLabel>
         </Box>
         <ButtonGroup
@@ -218,11 +223,11 @@ function Example() {
             }
           }}
         >
-          {['default', '100%'].map(value => (
+          {['default', 'calc(100vh - 6rem)', '100%'].map(value => (
             <SelectButton
               key={value}
-              isSelected={value === height}
-              onClick={changeHeightBy(value)}
+              isSelected={value === minHeight}
+              onClick={changeMinHeightBy(value)}
               minWidth="15x"
             >
               {value}
@@ -413,7 +418,7 @@ function Example() {
         {isOverlayVisible && (
           <ModalOverlay />
         )}
-        <ModalContent height={height !== 'default' ? height : undefined}>
+        <ModalContent {...modalContentStyleProps}>
           {isHeaderVisible && (
             <ModalHeader>
               {size === 'auto' && <Text>Auto-sized Modal</Text>}
@@ -432,51 +437,57 @@ function Example() {
                   <Text>This is an info alert</Text>
                 </Alert>
               )}
-              <Text mb="4x">
-                You can put any elements you want here.
-              </Text>
-              <Grid
-                templateColumns="auto 1fr"
-                rowGap="2x"
-                columnGap="3x"
-                alignItems="center"
-                mb="4x"
-              >
-                <Icon icon="user" color={iconColor} />
-                <Input ref={initialFocusRef} placeholder="User name" />
-                <Icon icon="email" color={iconColor} />
-                <Input placeholder="Email address" />
-              </Grid>
-              {enableModalOverflowBehavior && (
-                <Box
-                  backgroundColor={colorStyle.background.tertiary}
-                  mb="4x"
-                  minHeight={1000}
-                  px="3x"
-                  py="2x"
-                >
-                  <Text>
-                    This is a very long content that will overflow the modal
-                  </Text>
-                </Box>
-              )}
-              <RadioGroup defaultValue="1">
-                <Stack direction="row" spacing="3x">
-                  <Radio value="1">Radio 1</Radio>
-                  <Radio value="2">Radio 2</Radio>
-                </Stack>
-              </RadioGroup>
+              <Tabs>
+                <TabList>
+                  <Tab>Tab 1</Tab>
+                  <Tab>Tab 2</Tab>
+                </TabList>
+                <TabPanels px="3x" py="3x">
+                  <TabPanel>
+                    <SkeletonBody mb="4x" />
+                    <Grid
+                      templateColumns="auto 1fr"
+                      rowGap="2x"
+                      columnGap="3x"
+                      alignItems="center"
+                      mb="4x"
+                    >
+                      <Icon icon="user" color={iconColor} />
+                      <Input ref={initialFocusRef} placeholder="User name" />
+                      <Icon icon="email" color={iconColor} />
+                      <Input placeholder="Email address" />
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel>
+                    <Box
+                      backgroundColor={colorStyle.background.tertiary}
+                      mb="4x"
+                      minHeight={1000}
+                      px="3x"
+                      py="2x"
+                    >
+                      <Text>
+                        This is a very long content that will overflow the modal
+                      </Text>
+                    </Box>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
             </ModalBody>
           )}
           {isFooterVisible && (
             <ModalFooter>
-              <Button variant="primary">
-                OK
-              </Button>
-              <Space width="2x" />
-              <Button onClick={() => toggleModal(false)}>
-                Cancel
-              </Button>
+              <Grid
+                templateColumns="1fr 1fr"
+                columnGap="2x"
+              >
+                <Button variant="primary">
+                  OK
+                </Button>
+                <Button onClick={() => toggleModal(false)}>
+                  Cancel
+                </Button>
+              </Grid>
             </ModalFooter>
           )}
         </ModalContent>
@@ -527,7 +538,7 @@ function Example() {
               Launch nested modal
             </Button>
             <Box>
-              <Button minWidth="20x" onClick={() => toggleModal(false)}>
+              <Button onClick={() => toggleModal(false)} minWidth="20x">
                 Close
               </Button>
             </Box>
@@ -550,11 +561,10 @@ function Example() {
           <ModalBody>
             Modal body text goes here.
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter columnGap="2x">
             <Button variant="primary" onClick={() => toggleNestedModal(false)} minWidth="20x">
               Yes
             </Button>
-            <Space width="2x" />
             <Button onClick={() => toggleNestedModal(false)} minWidth="20x">
               No
             </Button>
