@@ -35,24 +35,28 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
-const Divider = (props) => {
-  const [colorMode] = useColorMode();
-  const dividerColor = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-  return (
-    <Box mb="4x" pb="4x" borderBottom={1} borderBottomColor={dividerColor} {...props} />
-  );
-};
-
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
+const drawerWithBodyScrollLockCode = `
+<Drawer>
+  <Global
+    styles={css\`
+      body {
+        overflow: hidden;
+      }
+    \`}
+  />
+  <DrawerOverlay />
+  <DrawerContent />
+</Drawer>
+`.trim();
+
 function Example() {
   const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const iconColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
@@ -60,17 +64,18 @@ function Example() {
   const [isOpen, toggleDrawer] = useToggle(false);
   const [placement, changePlacementBy] = useSelection('right');
   const [size, changeSizeBy] = useSelection('auto');
-  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [backdrop, toggleBackdrop] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
+  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [isClosable, toggleIsClosable] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
+  const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
 
   return (
     <>
@@ -79,7 +84,12 @@ function Example() {
           Launch drawer
         </Button>
       </Box>
-      <Divider />
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Drawer props
+        </Text>
+      </Box>
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
@@ -131,17 +141,6 @@ function Example() {
             </SelectButton>
           ))}
         </ButtonGroup>
-      </FormGroup>
-      <Space height="1x" />
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center">
-          <Checkbox
-            checked={ensureFocus}
-            onChange={() => toggleEnsureFocus()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
-        </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
@@ -208,48 +207,104 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
+            checked={ensureFocus}
+            onChange={() => toggleEnsureFocus()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
+        </TextLabel>
+      </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Drawer composition
+        </Text>
+      </Box>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
             checked={isOverlayVisible}
             disabled={!backdrop}
             onChange={() => toggleIsOverlayVisible()}
           />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerOverlay</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">DrawerOverlay</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isHeaderVisible} onChange={() => toggleIsHeaderVisible()} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerHeader</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">DrawerHeader</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isBodyVisible} onChange={() => toggleIsBodyVisible()} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerBody</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">DrawerBody</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isFooterVisible} onChange={() => toggleIsFooterVisible()} />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">Toggle DrawerFooter</Text>
+          <Text fontFamily="mono" whiteSpace="nowrap">DrawerFooter</Text>
         </TextLabel>
       </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Extra drawer setup
+        </Text>
+      </Box>
       <FormGroup>
-        <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isAlertVisible} onChange={() => toggleIsAlertVisible()} />
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableBodyScrollLock}
+            onChange={() => toggleBodyScrollLock()}
+          />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
+          <Text>
+            Enable body scroll locking
+          </Text>
         </TextLabel>
+        <Box ml="6x">
+          <Box mb="4x">
+            <Text mb="2x">
+              When setting <Code>scrollBehavior="outside"</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the drawer is open.
+            </Text>
+            <Text mb="2x">
+              <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
+            </Text>
+          </Box>
+          <Box
+            backgroundColor={colorStyle.background.secondary}
+            fontFamily="mono"
+            px="3x"
+            py="2x"
+            mb="4x"
+            whiteSpace="pre"
+          >
+            {`import { Global } from '@emotion/react'`}
+          </Box>
+          <Box
+            backgroundColor={colorStyle.background.secondary}
+            fontFamily="mono"
+            px="3x"
+            py="2x"
+            whiteSpace="pre"
+          >
+            {drawerWithBodyScrollLockCode}
+          </Box>
+        </Box>
       </FormGroup>
       <Drawer
-        ensureFocus={ensureFocus}
         autoFocus={autoFocus}
         backdrop={backdrop}
         closeOnEsc={closeOnEsc}
         closeOnOutsideClick={closeOnOutsideClick}
+        ensureFocus={ensureFocus}
         initialFocusRef={initialFocusRef}
         isClosable={isClosable}
         isOpen={isOpen}
@@ -257,6 +312,15 @@ function Example() {
         placement={placement}
         size={size}
       >
+        {enableBodyScrollLock && (
+          <Global
+            styles={css`
+              body {
+                overflow: hidden;
+              }
+            `}
+          />
+        )}
         {isOverlayVisible && (
           <DrawerOverlay />
         )}
@@ -319,17 +383,18 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Drawer` descendants, which does not allow the focus to escape while open. |
 | autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
 | backdrop | boolean | false | If `true`, it will wrap components with a backdrop to provide a click area for dismissing when clicking outside the drawer. |
-| finalFocusRef | React.ref | | The `ref` of element to receive focus when the drawer closes. |
-| initialFocusRef | React.ref | | The `ref` of the element to receive focus when the drawer opens. |
-| isOpen | boolean | false | If `true`, the drawer is shown. |
-| isClosable | boolean | false | If `true`, a close button will appear on the right side. |
+| children | ReactNode | | |
 | closeOnEsc | boolean | false | If `true`, close the drawer when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the drawer when click outside of the drawer. Note that this value will not have any effect when `backdrop` is set to `true`. |
+| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Drawer` descendants, which does not allow the focus to escape while open. |
+| finalFocusRef | React.ref | | The `ref` of element to receive focus when the drawer closes. |
+| initialFocusRef | React.ref | | The `ref` of the element to receive focus when the drawer opens. |
+| isClosable | boolean | false | If `true`, a close button will appear on the right side. |
+| isOpen | boolean | false | If `true`, the drawer is shown. |
 | onClose | function | | Callback fired when the drawer closes. |
-| placement | string | 'left' | Change the placement of the drawer. One of: 'left', 'right', 'top', 'bottom' |
+| placement | string | 'right' | Change the placement of the drawer. One of: 'left', 'right', 'top', 'bottom' |
 | size | string | 'auto' | Change the size of the drawer. One of: 'auto', 'sm', 'md', 'lg', 'full' |
 
 ### DrawerOverlay
@@ -339,6 +404,7 @@ render(<Example />);
 | TransitionComponent | ElementType | Fade | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
 
 ### DrawerContent
 
@@ -347,10 +413,22 @@ render(<Example />);
 | TransitionComponent | ElementType | Slide | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
 
 ### DrawerHeader
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### DrawerBody
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
 
 ### DrawerFooter
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
