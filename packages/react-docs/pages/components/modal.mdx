@@ -90,17 +90,39 @@ render(<Example />);
 Click the button below to toggle a modal. The modal will show up in the center of the screen.
 
 ```jsx noInline
-const useSelection = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
-  const changeBy = (value) => () => setValue(value);
-  return [value, changeBy];
+const CodeBlock = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.secondary}
+      border={1}
+      borderColor={colorStyle.divider}
+      fontFamily="mono"
+      py="3x"
+      px="3x"
+      whiteSpace="pre"
+      {...props}
+    />
+  );
 };
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
-const modalWithBodyScrollLockCode = `
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const bodyScrollLockCode = `
+// import
+import { Global } from '@emotion/react';
+
+// example
 <Modal>
   <Global
     styles={css\`
@@ -118,14 +140,12 @@ function Example() {
   const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const iconColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const iconColor = colorStyle.color.tertiary;
   const [isOpen, toggleModal] = useToggle(false);
   const [size, changeSizeBy] = useSelection('auto');
   const [scrollBehavior, changeScrollBehaviorBy] = useSelection('inside');
-  const [minHeight, changeMinHeightBy] = useSelection('default');
+  const [initialContentHeight, changeInitialContentHeightBy] = useSelection('default');
+  const [topBottomMargins, changeTopBottomMarginsBy] = useSelection('default');
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
@@ -137,11 +157,27 @@ function Example() {
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
-  const [enableModalOverflowBehavior, toggleModalOverflowBehavior] = useToggle(true);
-  const modalContentStyleProps = {};
+  const contentStyleProps = {};
 
-  if (minHeight !== 'default') {
-    modalContentStyleProps.minHeight = minHeight;
+  if (size !== 'full') {
+    if (scrollBehavior === 'inside') {
+      if (initialContentHeight !== 'default') {
+        contentStyleProps.height = initialContentHeight;
+      }
+      if (topBottomMargins !== 'default') {
+        contentStyleProps.maxHeight = 'calc(100% - 2 * ' + topBottomMargins + ')';
+      }
+    }
+
+    if (scrollBehavior === 'outside') {
+      if (initialContentHeight !== 'default') {
+        contentStyleProps.minHeight = initialContentHeight;
+      }
+      if (topBottomMargins !== 'default') {
+        contentStyleProps.marginTop = topBottomMargins;
+        contentStyleProps.marginBottom = topBottomMargins;
+      }
+    }
   }
 
   return (
@@ -159,9 +195,26 @@ function Example() {
       </Box>
       <FormGroup>
         <Box mb="2x">
-          <TextLabel>
-            scrollBehavior
-          </TextLabel>
+          <Tooltip
+            placement="left"
+            label={(
+              <>
+                <Text mb="2x">
+                  Use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
+                </Text>
+                <Box as="ul" my="2x">
+                  <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
+                  <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
+                </Box>
+              </>
+            )}
+          >
+              <TextLabel display="flex" alignItems="center">
+                scrollBehavior
+                <Space width="2x" />
+                <Icon icon="info-o" />
+              </TextLabel>
+          </Tooltip>
         </Box>
         <ButtonGroup
           variant="secondary"
@@ -202,32 +255,6 @@ function Example() {
               key={value}
               isSelected={value === size}
               onClick={changeSizeBy(value)}
-              minWidth="15x"
-            >
-              {value}
-            </SelectButton>
-          ))}
-        </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <Box mb="2x">
-          <TextLabel>
-            minHeight
-          </TextLabel>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          css={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            }
-          }}
-        >
-          {['default', 'calc(100vh - 6rem)', '100%'].map(value => (
-            <SelectButton
-              key={value}
-              isSelected={value === minHeight}
-              onClick={changeMinHeightBy(value)}
               minWidth="15x"
             >
               {value}
@@ -292,6 +319,76 @@ function Example() {
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
+          ModalContent props
+        </Text>
+      </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Initial content height
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['default', 'stretch'].map(value => (
+            <SelectButton
+              disabled={size === 'full'}
+              key={value}
+              isSelected={value === initialContentHeight}
+              onClick={changeInitialContentHeightBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Top and bottom margins
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['default', '3rem'].map(value => (
+            <SelectButton
+              disabled={size === 'full'}
+              key={value}
+              isSelected={value === topBottomMargins}
+              onClick={changeTopBottomMarginsBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Pass below props to ModalContent for settings initial height and vertical margins. Note that the props are different when <Code>scrollBehavior</Code> changes.
+          </TextLabel>
+        </Box>
+        <CodeBlock>
+          {`${JSON.stringify(contentStyleProps, null, 2)}`}
+        </CodeBlock>
+      </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
           Modal composition
         </Text>
       </Box>
@@ -332,30 +429,6 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center" mb="3x">
           <Checkbox
-            checked={enableModalOverflowBehavior}
-            onChange={() => toggleModalOverflowBehavior()}
-          />
-          <Space width="2x" />
-          <Text>
-            Enable modal overflow behavior to make scrollbar visible
-          </Text>
-        </TextLabel>
-        <Box ml="6x">
-          <Text mb="2x">
-            Enable this option will increase the content height to overflow the viewport and make the content scrollable.
-          </Text>
-          <Text mb="2x">
-            You can use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
-          </Text>
-          <Box as="ul" my="2x">
-            <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
-            <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
-          </Box>
-        </Box>
-      </FormGroup>
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center" mb="3x">
-          <Checkbox
             checked={enableBodyScrollLock}
             onChange={() => toggleBodyScrollLock()}
           />
@@ -373,25 +446,9 @@ function Example() {
               <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
             </Text>
           </Box>
-          <Box
-            backgroundColor={colorStyle.background.secondary}
-            fontFamily="mono"
-            px="3x"
-            py="2x"
-            mb="4x"
-            whiteSpace="pre"
-          >
-            {`import { Global } from '@emotion/react'`}
-          </Box>
-          <Box
-            backgroundColor={colorStyle.background.secondary}
-            fontFamily="mono"
-            px="3x"
-            py="2x"
-            whiteSpace="pre"
-          >
-            {modalWithBodyScrollLockCode}
-          </Box>
+          <CodeBlock>
+            {bodyScrollLockCode}
+          </CodeBlock>
         </Box>
       </FormGroup>
       <Modal
@@ -418,7 +475,7 @@ function Example() {
         {isOverlayVisible && (
           <ModalOverlay />
         )}
-        <ModalContent {...modalContentStyleProps}>
+        <ModalContent {...contentStyleProps}>
           {isHeaderVisible && (
             <ModalHeader>
               {size === 'auto' && <Text>Auto-sized Modal</Text>}
