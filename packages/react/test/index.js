@@ -62,6 +62,7 @@ test('should match expected exports', () => {
     'DrawerFooter',
     'DrawerHeader',
     'DrawerOverlay',
+    'useDrawer',
 
     // flat-button
     'FlatButton',
