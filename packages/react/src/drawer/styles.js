@@ -119,7 +119,6 @@ const useDrawerContentStyle = ({
     flexDirection: 'column',
     overflow: 'clip', // Set overflow to clip to forbid all scrolling for drawer content
     position: 'relative',
-    zIndex: 'drawer',
   };
   const colorModeStyle = {
     light: {
