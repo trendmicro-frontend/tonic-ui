@@ -30,17 +30,39 @@ import {
 Click the button below to toggle a drawer. The drawer will show up on either side of the screen.
 
 ```jsx noInline
-const useSelection = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
-  const changeBy = (value) => () => setValue(value);
-  return [value, changeBy];
+const CodeBlock = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.secondary}
+      border={1}
+      borderColor={colorStyle.divider}
+      fontFamily="mono"
+      py="3x"
+      px="3x"
+      whiteSpace="pre"
+      {...props}
+    />
+  );
 };
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
-const drawerWithBodyScrollLockCode = `
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const bodyScrollLockCode = `
+// import
+import { Global } from '@emotion/react';
+
+// example
 <Drawer>
   <Global
     styles={css\`
@@ -58,10 +80,7 @@ function Example() {
   const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const iconColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const iconColor = colorStyle.color.tertiary;
   const [isOpen, toggleDrawer] = useToggle(false);
   const [placement, changePlacementBy] = useSelection('right');
   const [size, changeSizeBy] = useSelection('auto');
@@ -76,8 +95,8 @@ function Example() {
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
-  const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
   const [enableDrawerOverflowBehavior, toggleDrawerOverflowBehavior] = useToggle(true);
+  const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
 
   return (
     <>
@@ -176,17 +195,6 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
-            checked={isClosable}
-            disabled={!closeOnEsc && !closeOnOutsideClick}
-            onChange={() => toggleIsClosable()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
-        </TextLabel>
-      </FormGroup>
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center">
-          <Checkbox
             checked={closeOnEsc}
             disabled={!isClosable && !closeOnOutsideClick}
             onChange={() => toggleCloseOnEsc()}
@@ -214,6 +222,17 @@ function Example() {
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={isClosable}
+            disabled={!closeOnEsc && !closeOnOutsideClick}
+            onChange={() => toggleIsClosable()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
       </FormGroup>
       <Divider my="4x" />
@@ -297,25 +316,9 @@ function Example() {
               <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
             </Text>
           </Box>
-          <Box
-            backgroundColor={colorStyle.background.secondary}
-            fontFamily="mono"
-            px="3x"
-            py="2x"
-            mb="4x"
-            whiteSpace="pre"
-          >
-            {`import { Global } from '@emotion/react'`}
-          </Box>
-          <Box
-            backgroundColor={colorStyle.background.secondary}
-            fontFamily="mono"
-            px="3x"
-            py="2x"
-            whiteSpace="pre"
-          >
-            {drawerWithBodyScrollLockCode}
-          </Box>
+          <CodeBlock>
+            {bodyScrollLockCode}
+          </CodeBlock>
         </Box>
       </FormGroup>
       <Drawer
