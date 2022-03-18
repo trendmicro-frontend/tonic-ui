@@ -23,7 +23,6 @@ const DrawerContainer = forwardRef((
     isOpen,
     onClose,
     placement,
-    contentRef, // internal use only
   } = { ...drawerContext };
   const [, safeToRemove] = useAnimatePresence();
   const styleProps = useDrawerContainerStyle({ backdrop, placement });
