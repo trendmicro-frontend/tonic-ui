@@ -499,11 +499,11 @@ function Example() {
                 </Alert>
               )}
               <Tabs>
-                <TabList>
+                <TabList mb="4x">
                   <Tab>Tab 1</Tab>
                   <Tab>Tab 2</Tab>
                 </TabList>
-                <TabPanels px="3x" py="3x">
+                <TabPanels>
                   <TabPanel>
                     <SkeletonBody mb="4x" />
                     <Grid
@@ -522,7 +522,6 @@ function Example() {
                   <TabPanel>
                     <Box
                       backgroundColor={colorStyle.background.tertiary}
-                      mb="4x"
                       minHeight={1000}
                       px="3x"
                       py="2x"

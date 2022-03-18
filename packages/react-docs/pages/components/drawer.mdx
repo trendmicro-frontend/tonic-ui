@@ -72,7 +72,11 @@ import { Global } from '@emotion/react';
     \`}
   />
   <DrawerOverlay />
-  <DrawerContent />
+  <DrawerContent>
+    <DrawerHeader />
+    <DrawerBody />
+    <DrawerFooter />
+  </DrawerContent>
 </Drawer>
 `.trim();
 
@@ -95,7 +99,6 @@ function Example() {
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
-  const [enableDrawerOverflowBehavior, toggleDrawerOverflowBehavior] = useToggle(true);
   const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
 
   return (
@@ -282,23 +285,6 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center" mb="3x">
           <Checkbox
-            checked={enableDrawerOverflowBehavior}
-            onChange={() => toggleDrawerOverflowBehavior()}
-          />
-          <Space width="2x" />
-          <Text>
-            Enable drawer overflow behavior to make scrollbar visible
-          </Text>
-        </TextLabel>
-        <Box ml="6x">
-          <Text mb="2x">
-            Enable this option will increase the content height to overflow the viewport and make the <Code>DrawerBody</Code> scrollable.
-          </Text>
-        </Box>
-      </FormGroup>
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center" mb="3x">
-          <Checkbox
             checked={enableBodyScrollLock}
             onChange={() => toggleBodyScrollLock()}
           />
@@ -363,40 +349,41 @@ function Example() {
                   <Text>This is an info alert</Text>
                 </Alert>
               )}
-              <Text mb="4x">
-                You can put any elements you want here.
-              </Text>
-              <Grid
-                templateColumns="auto 1fr"
-                rowGap="2x"
-                columnGap="3x"
-                alignItems="center"
-                mb="4x"
-              >
-                <Icon icon="user" color={iconColor} />
-                <Input ref={initialFocusRef} placeholder="User name" />
-                <Icon icon="email" color={iconColor} />
-                <Input placeholder="Email address" />
-              </Grid>
-              {enableDrawerOverflowBehavior && (
-                <Box
-                  backgroundColor={colorStyle.background.tertiary}
-                  mb="4x"
-                  minHeight={1000}
-                  px="3x"
-                  py="2x"
-                >
-                  <Text>
-                    This is a very long content that will overflow the modal
-                  </Text>
-                </Box>
-              )}
-              <RadioGroup defaultValue="1">
-                <Stack direction="row" spacing="3x">
-                  <Radio value="1">Radio 1</Radio>
-                  <Radio value="2">Radio 2</Radio>
-                </Stack>
-              </RadioGroup>
+              <Tabs>
+                <TabList mb="4x">
+                  <Tab>Tab 1</Tab>
+                  <Tab>Tab 2</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel>
+                    <SkeletonBody mb="4x" />
+                    <Grid
+                      templateColumns="auto 1fr"
+                      rowGap="2x"
+                      columnGap="3x"
+                      alignItems="center"
+                      mb="4x"
+                    >
+                      <Icon icon="user" color={iconColor} />
+                      <Input ref={initialFocusRef} placeholder="User name" />
+                      <Icon icon="email" color={iconColor} />
+                      <Input placeholder="Email address" />
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel>
+                    <Box
+                      backgroundColor={colorStyle.background.tertiary}
+                      minHeight={1000}
+                      px="3x"
+                      py="2x"
+                    >
+                      <Text>
+                        This is a very long content that will overflow the modal
+                      </Text>
+                    </Box>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
             </DrawerBody>
           )}
           {isFooterVisible && (
