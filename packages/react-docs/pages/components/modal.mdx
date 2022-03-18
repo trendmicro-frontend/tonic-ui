@@ -383,7 +383,7 @@ function Example() {
           </TextLabel>
         </Box>
         <CodeBlock>
-          {`${JSON.stringify(contentStyleProps, null, 2)}`}
+          {`const contentStyleProps = ${JSON.stringify(contentStyleProps, null, 2)};\n\n// Pass style as props\n<ModalContent {...contentStyleProps}>\n  {children}\n</ModalContent>`}
         </CodeBlock>
       </FormGroup>
       <Divider my="4x" />
