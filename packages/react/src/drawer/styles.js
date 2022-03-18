@@ -3,7 +3,7 @@ import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { useTheme } from '../theme';
 
-const defaultPlacement = 'left';
+const defaultPlacement = 'right';
 const defaultSize = 'auto';
 
 const useDrawerCloseButtonStyle = () => {
