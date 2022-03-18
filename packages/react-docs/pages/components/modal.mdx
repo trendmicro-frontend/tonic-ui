@@ -90,17 +90,39 @@ render(<Example />);
 Click the button below to toggle a modal. The modal will show up in the center of the screen.
 
 ```jsx noInline
-const useSelection = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
-  const changeBy = (value) => () => setValue(value);
-  return [value, changeBy];
+const CodeBlock = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.secondary}
+      border={1}
+      borderColor={colorStyle.divider}
+      fontFamily="mono"
+      py="3x"
+      px="3x"
+      whiteSpace="pre"
+      {...props}
+    />
+  );
 };
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
-const modalWithBodyScrollLockCode = `
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const bodyScrollLockCode = `
+// import
+import { Global } from '@emotion/react';
+
+// example
 <Modal>
   <Global
     styles={css\`
@@ -110,7 +132,11 @@ const modalWithBodyScrollLockCode = `
     \`}
   />
   <ModalOverlay />
-  <ModalContent />
+  <ModalContent>
+    <ModalHeader />
+    <ModalBody />
+    <ModalFooter />
+  </ModalContent>
 </Modal>
 `.trim();
 
@@ -118,26 +144,45 @@ function Example() {
   const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const iconColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const iconColor = colorStyle.color.tertiary;
   const [isOpen, toggleModal] = useToggle(false);
-  const [size, changeSizeBy] = useSelection('sm');
+  const [size, changeSizeBy] = useSelection('auto');
   const [scrollBehavior, changeScrollBehaviorBy] = useSelection('inside');
-  const [height, changeHeightBy] = useSelection('default');
-  const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
-  const [enableModalOverflowBehavior, toggleModalOverflowBehavior] = useToggle(true);
-  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
+  const [initialContentHeight, changeInitialContentHeightBy] = useSelection('default');
+  const [topBottomMargins, changeTopBottomMarginsBy] = useSelection('default');
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
+  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [isClosable, toggleIsCloseButtonVisible] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
+  const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
+  const contentStyleProps = {};
+
+  if (size !== 'full') {
+    if (scrollBehavior === 'inside') {
+      if (initialContentHeight !== 'default') {
+        contentStyleProps.height = initialContentHeight;
+      }
+      if (topBottomMargins !== 'default') {
+        contentStyleProps.maxHeight = 'calc(100% - 2 * ' + topBottomMargins + ')';
+      }
+    }
+
+    if (scrollBehavior === 'outside') {
+      if (initialContentHeight !== 'default') {
+        contentStyleProps.minHeight = initialContentHeight;
+      }
+      if (topBottomMargins !== 'default') {
+        contentStyleProps.marginTop = topBottomMargins;
+        contentStyleProps.marginBottom = topBottomMargins;
+      }
+    }
+  }
 
   return (
     <>
@@ -152,6 +197,49 @@ function Example() {
           Modal props
         </Text>
       </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <Tooltip
+            placement="left"
+            label={(
+              <>
+                <Text mb="2x">
+                  Use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
+                </Text>
+                <Box as="ul" my="2x">
+                  <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
+                  <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
+                </Box>
+              </>
+            )}
+          >
+              <TextLabel display="flex" alignItems="center">
+                scrollBehavior
+                <Space width="2x" />
+                <Icon icon="info-o" />
+              </TextLabel>
+          </Tooltip>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['inside', 'outside'].map(value => (
+            <SelectButton
+              key={value}
+              isSelected={value === scrollBehavior}
+              onClick={changeScrollBehaviorBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
@@ -177,68 +265,6 @@ function Example() {
             </SelectButton>
           ))}
         </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <Box mb="2x">
-          <TextLabel>
-            scrollBehavior
-          </TextLabel>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          css={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            }
-          }}
-        >
-          {['inside', 'outside'].map(value => (
-            <SelectButton
-              key={value}
-              isSelected={value === scrollBehavior}
-              onClick={changeScrollBehaviorBy(value)}
-              minWidth="15x"
-            >
-              {value}
-            </SelectButton>
-          ))}
-        </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <Box mb="2x">
-          <TextLabel>
-            height
-          </TextLabel>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          css={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            }
-          }}
-        >
-          {['default', '100%'].map(value => (
-            <SelectButton
-              key={value}
-              isSelected={value === height}
-              onClick={changeHeightBy(value)}
-              minWidth="15x"
-            >
-              {value}
-            </SelectButton>
-          ))}
-        </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center">
-          <Checkbox
-            checked={ensureFocus}
-            onChange={() => toggleEnsureFocus()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
-        </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
@@ -276,6 +302,16 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
+            checked={ensureFocus}
+            onChange={() => toggleEnsureFocus()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
             checked={isClosable}
             disabled={!closeOnEsc && !closeOnOutsideClick}
             onChange={() => toggleIsCloseButtonVisible()}
@@ -283,6 +319,76 @@ function Example() {
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
+      </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          ModalContent props
+        </Text>
+      </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Initial content height
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['default', 'stretch'].map(value => (
+            <SelectButton
+              disabled={size === 'full'}
+              key={value}
+              isSelected={value === initialContentHeight}
+              onClick={changeInitialContentHeightBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Top and bottom margins
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['default', '3rem'].map(value => (
+            <SelectButton
+              disabled={size === 'full'}
+              key={value}
+              isSelected={value === topBottomMargins}
+              onClick={changeTopBottomMarginsBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Pass below props to ModalContent for settings initial height and vertical margins. Note that the props are different when <Code>scrollBehavior</Code> changes.
+          </TextLabel>
+        </Box>
+        <CodeBlock>
+          {`const contentStyleProps = ${JSON.stringify(contentStyleProps, null, 2)};\n\n// example\n<Modal scrollBehavior="${scrollBehavior}">\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
+        </CodeBlock>
       </FormGroup>
       <Divider my="4x" />
       <Box mb="4x">
@@ -327,30 +433,6 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center" mb="3x">
           <Checkbox
-            checked={enableModalOverflowBehavior}
-            onChange={() => toggleModalOverflowBehavior()}
-          />
-          <Space width="2x" />
-          <Text>
-            Enable modal overflow behavior to make scrollbar visible
-          </Text>
-        </TextLabel>
-        <Box ml="6x">
-          <Text mb="2x">
-            Enable this option will increase the content height to overflow the viewport and make the content scrollable.
-          </Text>
-          <Text mb="2x">
-            You can use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
-          </Text>
-          <Box as="ul" my="2x">
-            <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
-            <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
-          </Box>
-        </Box>
-      </FormGroup>
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center" mb="3x">
-          <Checkbox
             checked={enableBodyScrollLock}
             onChange={() => toggleBodyScrollLock()}
           />
@@ -368,25 +450,9 @@ function Example() {
               <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
             </Text>
           </Box>
-          <Box
-            backgroundColor={colorStyle.background.secondary}
-            fontFamily="mono"
-            px="3x"
-            py="2x"
-            mb="4x"
-            whiteSpace="pre"
-          >
-            {`import { Global } from '@emotion/react'`}
-          </Box>
-          <Box
-            backgroundColor={colorStyle.background.secondary}
-            fontFamily="mono"
-            px="3x"
-            py="2x"
-            whiteSpace="pre"
-          >
-            {modalWithBodyScrollLockCode}
-          </Box>
+          <CodeBlock>
+            {bodyScrollLockCode}
+          </CodeBlock>
         </Box>
       </FormGroup>
       <Modal
@@ -398,8 +464,8 @@ function Example() {
         isClosable={isClosable}
         isOpen={isOpen}
         onClose={() => toggleModal(false)}
-        size={size}
         scrollBehavior={scrollBehavior}
+        size={size}
       >
         {enableBodyScrollLock && (
           <Global
@@ -413,7 +479,7 @@ function Example() {
         {isOverlayVisible && (
           <ModalOverlay />
         )}
-        <ModalContent height={height !== 'default' ? height : undefined}>
+        <ModalContent {...contentStyleProps}>
           {isHeaderVisible && (
             <ModalHeader>
               {size === 'auto' && <Text>Auto-sized Modal</Text>}
@@ -432,51 +498,57 @@ function Example() {
                   <Text>This is an info alert</Text>
                 </Alert>
               )}
-              <Text mb="4x">
-                You can put any elements you want here.
-              </Text>
-              <Grid
-                templateColumns="auto 1fr"
-                rowGap="2x"
-                columnGap="3x"
-                alignItems="center"
-                mb="4x"
-              >
-                <Icon icon="user" color={iconColor} />
-                <Input ref={initialFocusRef} placeholder="User name" />
-                <Icon icon="email" color={iconColor} />
-                <Input placeholder="Email address" />
-              </Grid>
-              {enableModalOverflowBehavior && (
-                <Box
-                  backgroundColor={colorStyle.background.tertiary}
-                  mb="4x"
-                  minHeight={1000}
-                  px="3x"
-                  py="2x"
-                >
-                  <Text>
-                    This is a very long content that will overflow the modal
-                  </Text>
-                </Box>
-              )}
-              <RadioGroup defaultValue="1">
-                <Stack direction="row" spacing="3x">
-                  <Radio value="1">Radio 1</Radio>
-                  <Radio value="2">Radio 2</Radio>
-                </Stack>
-              </RadioGroup>
+              <Tabs>
+                <TabList>
+                  <Tab>Tab 1</Tab>
+                  <Tab>Tab 2</Tab>
+                </TabList>
+                <TabPanels px="3x" py="3x">
+                  <TabPanel>
+                    <SkeletonBody mb="4x" />
+                    <Grid
+                      templateColumns="auto 1fr"
+                      rowGap="2x"
+                      columnGap="3x"
+                      alignItems="center"
+                      mb="4x"
+                    >
+                      <Icon icon="user" color={iconColor} />
+                      <Input ref={initialFocusRef} placeholder="User name" />
+                      <Icon icon="email" color={iconColor} />
+                      <Input placeholder="Email address" />
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel>
+                    <Box
+                      backgroundColor={colorStyle.background.tertiary}
+                      mb="4x"
+                      minHeight={1000}
+                      px="3x"
+                      py="2x"
+                    >
+                      <Text>
+                        This is a very long content that will overflow the modal
+                      </Text>
+                    </Box>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
             </ModalBody>
           )}
           {isFooterVisible && (
             <ModalFooter>
-              <Button variant="primary">
-                OK
-              </Button>
-              <Space width="2x" />
-              <Button onClick={() => toggleModal(false)}>
-                Cancel
-              </Button>
+              <Grid
+                templateColumns="1fr 1fr"
+                columnGap="2x"
+              >
+                <Button variant="primary">
+                  OK
+                </Button>
+                <Button onClick={() => toggleModal(false)}>
+                  Cancel
+                </Button>
+              </Grid>
             </ModalFooter>
           )}
         </ModalContent>
@@ -527,7 +599,7 @@ function Example() {
               Launch nested modal
             </Button>
             <Box>
-              <Button minWidth="20x" onClick={() => toggleModal(false)}>
+              <Button onClick={() => toggleModal(false)} minWidth="20x">
                 Close
               </Button>
             </Box>
@@ -550,11 +622,10 @@ function Example() {
           <ModalBody>
             Modal body text goes here.
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter columnGap="2x">
             <Button variant="primary" onClick={() => toggleNestedModal(false)} minWidth="20x">
               Yes
             </Button>
-            <Space width="2x" />
             <Button onClick={() => toggleNestedModal(false)} minWidth="20x">
               No
             </Button>

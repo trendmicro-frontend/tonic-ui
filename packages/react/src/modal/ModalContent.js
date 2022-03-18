@@ -9,7 +9,13 @@ import {
 } from './styles';
 import useModal from './useModal';
 
-const ModalContentBase = forwardRef(({ children, ...rest }, ref) => {
+const ModalContentBase = forwardRef((
+  {
+    children,
+    ...rest
+  },
+  ref
+) => {
   const modalContext = useModal(); // context might be an undefined value
   const {
     closeOnEsc,
@@ -27,9 +33,6 @@ const ModalContentBase = forwardRef(({ children, ...rest }, ref) => {
       ref={combinedRef}
       role="dialog"
       tabIndex={-1}
-      outline={0}
-      position="relative"
-      width="100%"
       onClick={event => event.stopPropagation()}
       onKeyDown={event => {
         if (event.key === 'Escape') {
@@ -50,11 +53,14 @@ const ModalContentBase = forwardRef(({ children, ...rest }, ref) => {
   );
 });
 
-const ModalContent = React.forwardRef(({
-  TransitionComponent = Fade,
-  TransitionProps,
-  ...rest
-}, ref) => {
+const ModalContent = React.forwardRef((
+  {
+    TransitionComponent = Fade,
+    TransitionProps,
+    ...rest
+  },
+  ref,
+) => {
   const modalContext = useModal(); // context might be an undefined value
 
   if (!modalContext) {
