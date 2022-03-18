@@ -9,11 +9,14 @@ import {
 } from './styles';
 import useModal from './useModal';
 
-const ModalContainer = forwardRef(({
-  TransitionComponent = Fade,
-  TransitionProps,
-  ...rest
-}, ref) => {
+const ModalContainer = forwardRef((
+  {
+    TransitionComponent = Fade,
+    TransitionProps,
+    ...rest
+  },
+  ref,
+) => {
   const modalContext = useModal(); // context might be an undefined value
   const {
     closeOnOutsideClick,
@@ -28,7 +31,6 @@ const ModalContainer = forwardRef(({
   const styleProps = useModalContainerStyle();
 
   useEffect(() => {
-    const viewport = window?.visualViewport;
     const updateVerticalAlignment = () => {
       const el = containerRef?.current;
       if (!el) {
@@ -53,7 +55,7 @@ const ModalContainer = forwardRef(({
       // * If it does overflow, set `alignItems` to `flex-start` to make the container scrollable from the top.
       // * If it doesn't overflow, remove the `alignItems` CSS property to vertically align the container to its original position (e.g. `center`).
       if (scrollBehavior === 'outside') {
-        const viewportHeight = viewport?.height;
+        const viewportHeight = window?.visualViewport?.height;
         const containerScrollHeight = el.scrollHeight;
         if (containerScrollHeight > viewportHeight) {
           el.style.alignItems = 'flex-start';
@@ -65,10 +67,21 @@ const ModalContainer = forwardRef(({
     };
 
     updateVerticalAlignment();
-    viewport?.addEventListener?.('resize', updateVerticalAlignment);
+
+    const observer = (() => {
+      if (!(window?.ResizeObserver)) {
+        return null;
+      }
+
+      return new ResizeObserver(() => {
+        updateVerticalAlignment();
+      });
+    })();
+
+    observer?.observe?.(containerRef.current);
 
     return () => {
-      viewport?.removeEventListener?.('resize', updateVerticalAlignment);
+      observer?.disconnect?.();
     };
   }, [scrollBehavior, contentRef]);
 

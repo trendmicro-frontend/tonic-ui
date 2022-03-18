@@ -74,7 +74,7 @@ const useModalContainerStyle = () => {
 };
 
 const useModalContentStyle = ({
-  scrollBehavior,
+  scrollBehavior, // No default value if not specified
   size = defaultSize,
 }) => {
   const [colorMode] = useColorMode();
@@ -84,6 +84,7 @@ const useModalContentStyle = ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'clip', // Set overflow to clip to forbid all scrolling for modal content
+    position: 'relative',
   };
   const colorModeStyle = {
     light: {
@@ -144,6 +145,7 @@ const useModalContentStyle = ({
        * ```
        */
       minHeight: 'stretch',
+      width: '100%',
     },
     auto: {
       width: 'auto',
@@ -173,7 +175,7 @@ const useModalHeaderStyle = () => {
 };
 
 const useModalBodyStyle = ({
-  scrollBehavior,
+  scrollBehavior, // No default value if not specified
 }) => {
   const { sizes, lineHeights } = useTheme();
 
@@ -182,7 +184,7 @@ const useModalBodyStyle = ({
     pb: '6x',
     flex: 1,
     height: 'auto',
-    overflowY: 'auto',
+    overflowY: scrollBehavior === 'inside' ? 'auto' : undefined,
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
