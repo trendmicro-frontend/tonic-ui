@@ -56,10 +56,13 @@ test('should match expected exports', () => {
     // drawer
     'Drawer',
     'DrawerBody',
+    'DrawerCloseButton',
+    'DrawerContainer',
     'DrawerContent',
     'DrawerFooter',
     'DrawerHeader',
     'DrawerOverlay',
+    'useDrawer',
 
     // flat-button
     'FlatButton',
