@@ -31,7 +31,6 @@ const ModalContentBackdrop = forwardRef((props, ref) => {
   const combinedRef = useForkRef(containerRef, ref);
 
   useEffect(() => {
-    const viewport = window?.visualViewport;
     const updateVerticalAlignment = () => {
       const el = containerRef?.current;
       if (!el) {
@@ -56,7 +55,7 @@ const ModalContentBackdrop = forwardRef((props, ref) => {
       // * If it does overflow, set `alignItems` to `flex-start` to make the container scrollable from the top.
       // * If it doesn't overflow, remove the `alignItems` CSS property to vertically align the container to its original position (e.g. `center`).
       if (scrollBehavior === 'outside') {
-        const viewportHeight = viewport?.height;
+        const viewportHeight = window?.visualViewport?.height;
         const containerScrollHeight = el.scrollHeight;
         if (containerScrollHeight > viewportHeight) {
           el.style.alignItems = 'flex-start';
@@ -68,10 +67,21 @@ const ModalContentBackdrop = forwardRef((props, ref) => {
     };
 
     updateVerticalAlignment();
-    viewport?.addEventListener?.('resize', updateVerticalAlignment);
+
+    const observer = (() => {
+      if (!(window?.ResizeObserver)) {
+        return null;
+      }
+
+      return new ResizeObserver(() => {
+        updateVerticalAlignment();
+      });
+    })();
+
+    observer?.observe?.(containerRef.current);
 
     return () => {
-      viewport?.removeEventListener?.('resize', updateVerticalAlignment);
+      observer?.disconnect?.();
     };
   }, [scrollBehavior, contentRef]);
 
