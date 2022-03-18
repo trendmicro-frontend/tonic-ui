@@ -11,9 +11,11 @@
     "build:parallel": "lerna exec --parallel -- yarn build",
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
     "eslint": "lerna exec -- yarn eslint",
-    "release": "lerna publish",
     "pre-push": "lerna exec -- yarn pre-push",
-    "test": "lerna exec -- yarn test"
+    "test": "lerna exec -- yarn test",
+    "lerna-publish": "lerna publish",
+    "lerna-publish-from-git": "lerna publish from-git",
+    "lerna-publish-from-package": "lerna publish from-package"
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
