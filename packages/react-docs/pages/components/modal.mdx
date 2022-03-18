@@ -132,7 +132,11 @@ import { Global } from '@emotion/react';
     \`}
   />
   <ModalOverlay />
-  <ModalContent />
+  <ModalContent>
+    <ModalHeader />
+    <ModalBody />
+    <ModalFooter />
+  </ModalContent>
 </Modal>
 `.trim();
 
@@ -383,7 +387,7 @@ function Example() {
           </TextLabel>
         </Box>
         <CodeBlock>
-          {`const contentStyleProps = ${JSON.stringify(contentStyleProps, null, 2)};\n\n// Pass style as props\n<ModalContent {...contentStyleProps}>\n  {children}\n</ModalContent>`}
+          {`const contentStyleProps = ${JSON.stringify(contentStyleProps, null, 2)};\n\n// example\n<Modal scrollBehavior="${scrollBehavior}">\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
         </CodeBlock>
       </FormGroup>
       <Divider my="4x" />
