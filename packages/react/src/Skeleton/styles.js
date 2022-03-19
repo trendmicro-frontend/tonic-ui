@@ -1,5 +1,4 @@
 import { css, keyframes } from '@emotion/react';
-import _includes from 'lodash/includes';
 import useColorMode from '../useColorMode';
 
 const pulse = keyframes`
@@ -121,7 +120,7 @@ const useSkeletonStyle = ({
   const variantProps = getVariantProps(_props);
 
   const builtinAnimationTypes = ['pulse', 'wave'];
-  if (_includes(builtinAnimationTypes, animation)) {
+  if (builtinAnimationTypes.includes(animation)) {
     animation = undefined;
   }
 
