@@ -37,13 +37,14 @@ const ModalContainer = forwardRef((
         return;
       }
 
-      // When the scroll behavior is set to `inside`, we have to detect whether the content overflows the container.
+      // For inside scrolling, detect whether the content overflows the container.
       // * If it does overflow, set `alignItems` to `flex-start` to make the container scrollable from the top.
       // * If it doesn't overflow, remove the `alignItems` CSS property to vertically align the container to its original position (e.g. `center`).
       if (scrollBehavior === 'inside') {
-        const containerHeight = el.offsetHeight;
-        const contentHeight = contentRef?.current?.clientHeight;
-        if (contentHeight > containerHeight) {
+        const contentOffsetHeight = contentRef?.current?.offsetHeight;
+        const containerOffsetHeight = el.offsetHeight;
+        const isOverflowing = (contentOffsetHeight > containerOffsetHeight);
+        if (isOverflowing) {
           el.style.alignItems = 'flex-start';
         } else {
           el.style.alignItems = '';
@@ -51,13 +52,16 @@ const ModalContainer = forwardRef((
         return;
       }
 
-      // When the scroll behavior is set to `outside`, we have to detect whether the container overflows the viewport.
+      // For outside scrolling, detect whether the content overflows the container or the container overflows the viewport.
       // * If it does overflow, set `alignItems` to `flex-start` to make the container scrollable from the top.
       // * If it doesn't overflow, remove the `alignItems` CSS property to vertically align the container to its original position (e.g. `center`).
       if (scrollBehavior === 'outside') {
-        const viewportHeight = window?.visualViewport?.height;
+        const contentOffsetHeight = contentRef?.current?.offsetHeight;
+        const containerOffsetHeight = el.offsetHeight;
         const containerScrollHeight = el.scrollHeight;
-        if (containerScrollHeight > viewportHeight) {
+        const viewportHeight = window?.visualViewport?.height;
+        const isOverflowing = (contentOffsetHeight > containerOffsetHeight) || (containerScrollHeight > viewportHeight);
+        if (isOverflowing) {
           el.style.alignItems = 'flex-start';
         } else {
           el.style.alignItems = '';
