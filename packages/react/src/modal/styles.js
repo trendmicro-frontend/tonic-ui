@@ -66,8 +66,6 @@ const useModalContainerStyle = () => {
     top: 0,
     bottom: 0,
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     overflow: 'auto',
     zIndex: 'modal',
   };
