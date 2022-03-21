@@ -1,5 +1,7 @@
 import chainedFunction from 'chained-function';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
+import { isValidElementType } from 'react-is';
+import { Box } from '../box';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
 import useForkRef from '../utils/useForkRef';
@@ -26,6 +28,35 @@ const ModalContainer = forwardRef((
   const combinedRef = useForkRef(containerRef, ref);
   const [, safeToRemove] = useAnimatePresence();
   const styleProps = useModalContainerStyle();
+  const containerProps = {
+    ref: combinedRef,
+    onClick: (event) => {
+      event.stopPropagation();
+      if (closeOnOutsideClick) {
+        (typeof onClose === 'function') && onClose(event);
+      }
+    },
+    ...styleProps,
+    ...rest,
+  };
+
+  /**
+   * Check whether modal transition is disabled
+   */
+  const isTransitionDisabled = !isValidElementType(TransitionComponent);
+
+  useEffect(() => {
+    const shouldManuallyRemove = isTransitionDisabled && (isOpen === false) && (typeof safeToRemove === 'function');
+    if (shouldManuallyRemove) {
+      safeToRemove();
+    }
+  }, [isTransitionDisabled, isOpen, safeToRemove]);
+
+  if (isTransitionDisabled) {
+    return (
+      <Box {...containerProps} />
+    );
+  }
 
   return (
     <TransitionComponent
@@ -33,15 +64,7 @@ const ModalContainer = forwardRef((
       {...TransitionProps}
       in={isOpen}
       onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
-      ref={combinedRef}
-      onClick={event => {
-        event.stopPropagation();
-        if (closeOnOutsideClick) {
-          (typeof onClose === 'function') && onClose(event);
-        }
-      }}
-      {...styleProps}
-      {...rest}
+      {...containerProps}
     />
   );
 });

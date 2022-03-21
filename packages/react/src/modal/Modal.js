@@ -135,9 +135,9 @@ const Modal = forwardRef((
               onDeactivation={onFocusLockDeactivation}
             >
               <ModalContainer
-                ref={ref}
                 TransitionComponent={TransitionComponent}
                 TransitionProps={TransitionProps}
+                ref={ref}
                 {...rest}
               />
             </FocusLock>
