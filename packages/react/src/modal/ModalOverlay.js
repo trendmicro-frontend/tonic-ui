@@ -1,6 +1,8 @@
+import chainedFunction from 'chained-function';
 import { ensurePositiveNumber } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
-import { Box } from '../box';
+import { Fade } from '../transitions';
+import { useAnimatePresence } from '../utils/animate-presence';
 import getComputedStyle from '../utils/dom/getComputedStyle';
 import useForkRef from '../utils/useForkRef';
 import {
@@ -8,9 +10,18 @@ import {
 } from './styles';
 import useModal from './useModal';
 
-const ModalOverlay = forwardRef((props, ref) => {
+const ModalOverlay = forwardRef((
+  {
+    TransitionComponent = Fade,
+    TransitionProps,
+    ...rest
+  },
+  ref,
+) => {
+  const [, safeToRemove] = useAnimatePresence();
   const modalContext = useModal(); // context might be an undefined value
   const {
+    isOpen,
     scrollBehavior,
     containerRef, // internal use only
     contentRef, // internal use only
@@ -18,6 +29,11 @@ const ModalOverlay = forwardRef((props, ref) => {
   const overlayRef = useRef();
   const combinedRef = useForkRef(overlayRef, ref);
   const styleProps = useModalOverlayStyle();
+  const overlayProps = {
+    ref: combinedRef,
+    ...styleProps,
+    ...rest,
+  };
 
   useEffect(() => {
     const updateVerticalAlignment = () => {
@@ -69,10 +85,12 @@ const ModalOverlay = forwardRef((props, ref) => {
   }, [scrollBehavior, containerRef, contentRef]);
 
   return (
-    <Box
-      ref={combinedRef}
-      {...styleProps}
-      {...props}
+    <TransitionComponent
+      appear={!!modalContext}
+      {...TransitionProps}
+      {...overlayProps}
+      in={modalContext ? isOpen : true}
+      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
     />
   );
 });

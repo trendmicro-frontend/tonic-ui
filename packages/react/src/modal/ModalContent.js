@@ -1,5 +1,7 @@
+import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
-import { Box } from '../box';
+import { Fade } from '../transitions';
+import { useAnimatePresence } from '../utils/animate-presence';
 import useForkRef from '../utils/useForkRef';
 import ModalCloseButton from './ModalCloseButton';
 import {
@@ -9,15 +11,19 @@ import useModal from './useModal';
 
 const ModalContent = forwardRef((
   {
+    TransitionComponent = Fade,
+    TransitionProps,
     children,
     ...rest
   },
   ref,
 ) => {
+  const [, safeToRemove] = useAnimatePresence();
   const modalContext = useModal(); // context might be an undefined value
   const {
     closeOnEsc,
     isClosable,
+    isOpen,
     onClose,
     scrollBehavior,
     size,
@@ -25,29 +31,36 @@ const ModalContent = forwardRef((
   } = { ...modalContext };
   const combinedRef = useForkRef(contentRef, ref);
   const styleProps = useModalContentStyle({ scrollBehavior, size });
+  const contentProps = {
+    ref: combinedRef,
+    role: 'dialog',
+    tabIndex: -1,
+    onClick: event => event.stopPropagation(),
+    onKeyDown: event => {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        if (closeOnEsc) {
+          (typeof onClose === 'function') && onClose(event);
+        }
+      }
+    },
+    ...styleProps,
+    ...rest,
+  };
 
   return (
-    <Box
-      ref={combinedRef}
-      role="dialog"
-      tabIndex={-1}
-      onClick={event => event.stopPropagation()}
-      onKeyDown={event => {
-        if (event.key === 'Escape') {
-          event.stopPropagation();
-          if (closeOnEsc) {
-            (typeof onClose === 'function') && onClose(event);
-          }
-        }
-      }}
-      {...styleProps}
-      {...rest}
+    <TransitionComponent
+      appear={!!modalContext}
+      {...TransitionProps}
+      {...contentProps}
+      in={modalContext ? isOpen : true}
+      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
     >
       {children}
       {!!isClosable && (
         <ModalCloseButton onClick={onClose} />
       )}
-    </Box>
+    </TransitionComponent>
   );
 });
 

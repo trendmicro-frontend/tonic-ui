@@ -3,7 +3,6 @@ import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import { Portal } from '../portal';
-import { Fade } from '../transitions';
 import { AnimatePresence } from '../utils/animate-presence';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
@@ -20,10 +19,9 @@ const defaultSize = 'auto';
 
 const Modal = forwardRef((
   {
-    TransitionComponent = Fade,
-    TransitionProps,
     isCloseButtonVisible, // deprecated
     autoFocus = false,
+    children,
     closeOnEsc = false,
     closeOnOutsideClick = false,
     ensureFocus = false,
@@ -135,11 +133,11 @@ const Modal = forwardRef((
               onDeactivation={onFocusLockDeactivation}
             >
               <ModalContainer
-                TransitionComponent={TransitionComponent}
-                TransitionProps={TransitionProps}
                 ref={ref}
                 {...rest}
-              />
+              >
+                {children}
+              </ModalContainer>
             </FocusLock>
           </Portal>
         )}
