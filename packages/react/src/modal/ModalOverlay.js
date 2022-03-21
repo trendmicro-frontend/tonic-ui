@@ -27,9 +27,16 @@ const ModalOverlay = forwardRef((props, ref) => {
       }
 
       const computedContainerStyle = (containerRef?.current) && getComputedStyle(containerRef?.current);
+      const paddingX = ensurePositiveNumber(parseFloat(computedContainerStyle?.paddingLeft) + parseFloat(computedContainerStyle?.paddingRight));
       const paddingY = ensurePositiveNumber(parseFloat(computedContainerStyle?.paddingTop) + parseFloat(computedContainerStyle?.paddingBottom));
+      const computedScrollWidth = contentRef?.current?.offsetWidth + paddingX;
       const computedScrollHeight = contentRef?.current?.offsetHeight + paddingY;
 
+      if (computedScrollWidth > containerRef?.current?.offsetWidth) {
+        el.style.width = `${computedScrollWidth}px`;
+      } else {
+        el.style.width = '';
+      }
       if (computedScrollHeight > containerRef?.current?.offsetHeight) {
         el.style.height = `${computedScrollHeight}px`;
       } else {
