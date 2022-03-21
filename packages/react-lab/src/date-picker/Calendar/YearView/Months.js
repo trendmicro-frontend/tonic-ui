@@ -1,46 +1,43 @@
-import {
-  Grid,
-} from '@tonic-ui/react';
+import { Grid } from '@tonic-ui/react';
 import getYear from 'date-fns/getYear';
+import isSameMonth from 'date-fns/isSameMonth';
 import React, { forwardRef } from 'react';
 import Month from './Month';
 
+const dateTransform = (year, monthIndex) => {
+  const date = new Date();
+  date.setFullYear(year, monthIndex, 1);
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+
 const Months = forwardRef((
   {
-    activeStartDate,
+    activeDate,
     locale,
     selectedDate,
-    onClickMonth,
-    ...reset
+    setActiveDate,
+    setView,
+    ...props
   },
   ref,
 ) => {
-  const today = (new Date()).toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-  const selectedMonth = selectedDate ? selectedDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' }) : null;
-
+  const today = new Date();
   const start = 0;
   const end = 11;
-  const year = getYear(activeStartDate);
-
+  const year = getYear(activeDate);
   const tiles = [];
-  const dateTransform = (monthIndex) => {
-    const date = new Date();
-    date.setFullYear(year, monthIndex, 1);
-    date.setHours(0, 0, 0, 0);
-    return date;
-  };
   for (let point = start; point <= end; point += 1) {
-    const date = dateTransform(point);
-    const month = date.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-
+    const startDateOfMonth = dateTransform(year, point);
     tiles.push(
       <Month
-        key={date.getTime()}
-        date={date}
-        isSelected={month === selectedMonth}
-        isToday={month === today}
+        key={startDateOfMonth.getTime()}
+        activeDate={startDateOfMonth}
+        isSelected={isSameMonth(startDateOfMonth, selectedDate)}
+        isToday={isSameMonth(startDateOfMonth, today)}
         locale={locale}
-        onClick={onClickMonth}
+        setActiveDate={setActiveDate}
+        setView={setView}
       />
     );
   }
@@ -48,9 +45,9 @@ const Months = forwardRef((
   return (
     <Grid
       ref={ref}
-      templateColumns="repeat(3, 1fr)"
+      templateColumns="repeat(4, 1fr)"
       templateRows="auto"
-      {...reset}
+      {...props}
     >
       { tiles}
     </Grid>

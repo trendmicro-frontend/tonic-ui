@@ -1,31 +1,34 @@
-import {
-  Box,
-} from '@tonic-ui/react';
+import { Box } from '@tonic-ui/react';
+import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { useClickableCellStyle } from '../styles';
 
 const Year = forwardRef((
   {
-    date,
+    activeDate,
     isSelected,
     isToday,
+    isOutOfScope,
     locale,
-    onClick,
-    ...rest
+    setActiveDate,
+    setView,
+    ...props
   },
   ref,
 ) => {
+  setActiveDate = ensureFunction(setActiveDate);
+  setView = ensureFunction(setView);
+
   const styleProps = useClickableCellStyle({
+    isOutOfScope,
     isSelected,
     isToday,
   });
-  const title = date.toLocaleDateString(locale, { year: 'numeric' });
-  const label = date.toLocaleDateString(locale, { year: 'numeric' });
+  const title = activeDate.toLocaleDateString(locale, { year: 'numeric' });
+  const label = activeDate.toLocaleDateString(locale, { year: 'numeric' });
   const handleClick = (e) => {
-    if (typeof onClick !== 'function') {
-      return;
-    }
-    onClick(date);
+    setActiveDate(activeDate);
+    setView('year');
   };
 
   return (
@@ -34,7 +37,7 @@ const Year = forwardRef((
       title={title}
       onClick={handleClick}
       {...styleProps}
-      {...rest}
+      {...props}
     >
       {label}
     </Box>

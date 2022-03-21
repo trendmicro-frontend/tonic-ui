@@ -5,40 +5,30 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { forwardRef, useEffect, useState, useRef } from 'react';
+import { ensureFunction } from 'ensure-type';
+import React, { forwardRef, useRef } from 'react'; //, useEffect
 import useForkRef from '../../utils/useForkRef';
-import { dateFormatter } from '../utils';
 
 const DateInput = forwardRef((
   {
     locale = 'en',
-    value: valueProp,
+    value,
     onChange,
-    ...rest
+    ...props
   },
   ref,
 ) => {
+  onChange = ensureFunction(onChange);
+
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
-  const [value, setValue] = useState('');
   const handleChange = event => {
-    const nextValue = event.target.value;
-    setValue(nextValue);
-
     if (typeof onChange === 'function') {
       onChange(event);
     }
   };
-
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
-  useEffect(() => {
-    if (valueProp !== undefined) {
-      const date = dateFormatter({ date: valueProp, locale });
-      setValue(date);
-    }
-  }, [valueProp, locale]);
 
   return (
     <Box
@@ -62,7 +52,7 @@ const DateInput = forwardRef((
         value={value}
         pl="10x"
         onChange={handleChange}
-        {...rest}
+        {...props}
       />
     </Box>
   );

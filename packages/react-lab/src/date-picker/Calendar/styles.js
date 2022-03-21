@@ -14,15 +14,17 @@ const useCalendarStyle = () => {
   return {
     display: 'inline-flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
+    justifyContent: 'stretch',
+    minWidth: '328px',
+    minHeight: '308px',
     backgroundColor: colorStyle.background.secondary,
     border: 1,
     borderColor: borderColor,
     borderRadius: 'sm',
     boxShadow: colorStyle.shadow.medium,
-    px: '5x',
-    py: '4x',
+    px: '6x',
+    py: '3x',
   };
 };
 

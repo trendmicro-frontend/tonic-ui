@@ -1,6 +1,6 @@
 import {
   Button,
-  Box,
+  Flex,
   Icon,
 } from '@tonic-ui/react';
 import addMonths from 'date-fns/addMonths';
@@ -13,53 +13,48 @@ import React, { forwardRef } from 'react';
 
 const Navigation = forwardRef((
   {
-    activeStartDate,
+    activeDate,
     locale,
     view,
-
-    // handlers
-    setActiveStartDate,
+    setActiveDate,
     setView,
-
-    ...rest
+    ...props
   },
   ref,
 ) => {
   return (
-    <Box
+    <Flex
       ref={ref}
-      display="flex"
-      width="100%"
-      py="1x"
-      mb="2x"
-      {...rest}
+      flex="none"
+      mb="3x"
+      {...props}
     >
       <PreviousButton
-        activeStartDate={activeStartDate}
+        activeDate={activeDate}
         view={view}
-        setActiveStartDate={setActiveStartDate}
+        setActiveDate={setActiveDate}
       />
       <Title
-        activeStartDate={activeStartDate}
+        activeDate={activeDate}
         locale={locale}
         view={view}
-        setActiveStartDate={setActiveStartDate}
+        setActiveDate={setActiveDate}
         setView={setView}
       />
       <NextButton
-        activeStartDate={activeStartDate}
+        activeDate={activeDate}
         view={view}
-        setActiveStartDate={setActiveStartDate}
+        setActiveDate={setActiveDate}
       />
-    </Box>
+    </Flex>
   );
 });
 
 const Title = ({
-  activeStartDate,
+  activeDate,
   locale,
   view,
-  setActiveStartDate,
+  setActiveDate,
   setView,
 }) => {
   const label = ((date) => {
@@ -75,19 +70,19 @@ const Title = ({
       return date.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
     }
     throw new Error(`Invalid view: ${view}.`);
-  })(activeStartDate);
+  })(activeDate);
 
   const views = ['decade', 'year', 'month'];
   const handleClick = (e) => {
     const nextViewIndex = views.indexOf(view) - 1;
     const nextView = views[nextViewIndex < 0 ? 0 : nextViewIndex];
     const nextActiveStartDate = {
-      'decade': startOfYear(activeStartDate),
-      'year': startOfYear(activeStartDate),
-      'month': startOfMonth(activeStartDate),
+      'decade': startOfYear(activeDate),
+      'year': startOfYear(activeDate),
+      'month': startOfMonth(activeDate),
     }[nextView];
     setView(nextView);
-    setActiveStartDate(nextActiveStartDate);
+    setActiveDate(nextActiveStartDate);
   };
 
   return (
@@ -104,17 +99,17 @@ const Title = ({
 };
 
 const PreviousButton = ({
-  activeStartDate,
+  activeDate,
   view,
-  setActiveStartDate,
+  setActiveDate,
 }) => {
   const handleClick = (e) => {
     const nextActiveStartDate = {
-      'decade': subYears(activeStartDate, 10),
-      'year': subYears(activeStartDate, 1),
-      'month': subMonths(activeStartDate, 1),
+      'decade': subYears(activeDate, 10),
+      'year': subYears(activeDate, 1),
+      'month': subMonths(activeDate, 1),
     }[view];
-    setActiveStartDate(nextActiveStartDate);
+    setActiveDate(nextActiveStartDate);
   };
 
   return (
@@ -129,17 +124,17 @@ const PreviousButton = ({
 };
 
 const NextButton = ({
-  activeStartDate,
+  activeDate,
   view,
-  setActiveStartDate,
+  setActiveDate,
 }) => {
   const handleClick = (e) => {
     const nextActiveStartDate = {
-      'decade': addYears(activeStartDate, 10),
-      'year': addYears(activeStartDate, 1),
-      'month': addMonths(activeStartDate, 1),
+      'decade': addYears(activeDate, 10),
+      'year': addYears(activeDate, 1),
+      'month': addMonths(activeDate, 1),
     }[view];
-    setActiveStartDate(nextActiveStartDate);
+    setActiveDate(nextActiveStartDate);
   };
 
   return (

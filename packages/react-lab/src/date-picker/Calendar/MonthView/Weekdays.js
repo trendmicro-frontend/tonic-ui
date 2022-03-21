@@ -9,15 +9,15 @@ import { useCellStyle } from '../styles';
 
 const Weekdays = forwardRef((
   {
-    activeStartDate,
+    activeDate,
     calendarStartDay,
     locale,
-    ...rest
+    ...props
   },
   ref,
 ) => {
   const startDateOfWeek = startOfWeek(
-    activeStartDate,
+    activeDate,
     {
       weekStartsOn: calendarStartDay,
     }
@@ -29,7 +29,7 @@ const Weekdays = forwardRef((
       ref={ref}
       templateColumns="repeat(7, 40px)"
       templateRows="auto"
-      {...rest}
+      {...props}
     >
       {
         [0, 1, 2, 3, 4, 5, 6].map((offset) => {

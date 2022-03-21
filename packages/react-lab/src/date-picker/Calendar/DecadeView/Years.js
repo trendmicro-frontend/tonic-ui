@@ -1,50 +1,50 @@
-import {
-  Grid,
-} from '@tonic-ui/react';
+import { Grid } from '@tonic-ui/react';
 import { getYear } from 'date-fns';
+import isSameYear from 'date-fns/isSameYear';
 import React from 'react';
 import Year from './Year';
 
+const dateTransform = (year) => {
+  const date = new Date();
+  date.setFullYear(year, 0, 1);
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+
 const Years = ({
-  date,
+  activeDate,
   locale,
   selectedDate,
-  onClickYear,
-  ...rest
+  setActiveDate,
+  setView,
+  ...props
 }) => {
-  const today = (new Date()).toLocaleDateString(locale, { year: 'numeric' });
-  const selectedYear = selectedDate ? selectedDate.toLocaleDateString(locale, { year: 'numeric' }) : null;
-
-  const start = getYear(date);
-  const end = start + 9;
-  const dateTransform = (year) => {
-    const date = new Date();
-    date.setFullYear(year, 0, 1);
-    date.setHours(0, 0, 0, 0);
-    return date;
-  };
+  const today = new Date();
+  const activeYear = getYear(activeDate);
+  const start = activeYear - 1;
+  const end = start + 11;
   const tiles = [];
   for (let point = start; point <= end; point += 1) {
     const date = dateTransform(point);
-    const year = date.toLocaleDateString(locale, { year: 'numeric' });
-
     tiles.push(
       <Year
         key={date.getTime()}
-        date={date}
-        isSelected={year === selectedYear}
-        isToday={year === today}
+        activeDate={date}
+        isSelected={isSameYear(date, selectedDate)}
+        isToday={isSameYear(date, today)}
+        isOutOfScope={point < activeYear || point > (activeYear + 9)}
         locale={locale}
-        onClick={onClickYear}
+        setActiveDate={setActiveDate}
+        setView={setView}
       />
     );
   }
 
   return (
     <Grid
-      templateColumns="repeat(3, 80px)"
+      templateColumns="repeat(4, 80px)"
       templateRows="auto"
-      {...rest}
+      {...props}
     >
       { tiles}
     </Grid>

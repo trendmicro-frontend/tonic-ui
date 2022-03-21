@@ -1,29 +1,34 @@
-import React from 'react';
+import { Box } from '@tonic-ui/react';
+import React, { forwardRef } from 'react';
 import Years from './Years';
 
-const DecadeView = ({
-  activeStartDate,
-  locale,
-  selectedDate,
-
-  // handlers
-  setActiveStartDate,
-  setView,
-}) => {
-  const handleClickYear = (date) => {
-    setActiveStartDate(date);
-    setView('year');
-  };
-
+const DecadeView = forwardRef((
+  {
+    activeDate,
+    locale,
+    selectedDate,
+    setActiveDate,
+    setView,
+    ...props
+  },
+  ref
+) => {
   return (
-    <Years
-      date={activeStartDate}
-      locale={locale}
-      selectedDate={selectedDate}
-      onClickYear={handleClickYear}
-    />
+    <Box
+      ref={ref}
+      flex="auto"
+      {...props}
+    >
+      <Years
+        activeDate={activeDate}
+        locale={locale}
+        selectedDate={selectedDate}
+        setActiveDate={setActiveDate}
+        setView={setView}
+      />
+    </Box>
   );
-};
+});
 
 DecadeView.displayName = 'DecadeView';
 

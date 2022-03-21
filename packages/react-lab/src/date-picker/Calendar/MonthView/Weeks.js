@@ -1,68 +1,60 @@
-import {
-  Grid,
-} from '@tonic-ui/react';
+import { Grid } from '@tonic-ui/react';
+import { ensureFunction } from 'ensure-type';
 import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import isSameMonth from 'date-fns/isSameMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
-import { dateFormatter } from '../../utils';
 import Week from './Week';
+
+const isWeekInMonth = (startDateOfWeek, activeDate) => {
+  const endDateOfWeek = addDays(startDateOfWeek, 6);
+  return isSameMonth(startDateOfWeek, activeDate) || isSameMonth(endDateOfWeek, activeDate);
+};
 
 const Weeks = forwardRef((
   {
-    activeStartDate,
+    activeDate,
     calendarStartDay,
     locale,
     selectedDate,
 
     // handlers
-    setActiveStartDate,
+    setActiveDate,
     onClickDay,
 
-    ...rest
+    ...props
   },
   ref,
 ) => {
+  setActiveDate = ensureFunction(setActiveDate);
+  onClickDay = ensureFunction(onClickDay);
+
   const weeks = [];
-  let currentWeekStartDate = startOfWeek(
-    startOfMonth(activeStartDate),
+  let startDateOfWeek = startOfWeek(
+    startOfMonth(activeDate),
     {
       weekStartsOn: calendarStartDay,
     }
   );
 
-  const isWeekInMonth = (startDateOfWeek) => {
-    const endDateOfWeek = addDays(startDateOfWeek, 6);
-    return isSameMonth(startDateOfWeek, activeStartDate) || isSameMonth(endDateOfWeek, activeStartDate);
-  };
-
-  const handleClickDay = (date) => {
-    setActiveStartDate(date);
-
-    if (typeof onClickDay !== 'function') {
-      return;
-    }
-    const formattedValue = dateFormatter({ date, locale });
-    onClickDay(formattedValue);
-  };
-
   while (true) {
     weeks.push(
       <Week
-        key={currentWeekStartDate.getTime()}
-        activeStartDate={currentWeekStartDate}
-        calendarStartDay={calendarStartDay}
+        key={startDateOfWeek.getTime()}
+        activeDate={activeDate}
         locale={locale}
+        onClickDay={onClickDay}
         selectedDate={selectedDate}
-        onClickDay={handleClickDay}
+        setActiveDate={setActiveDate}
+        startDateOfWeek={startDateOfWeek}
       />
     );
 
-    currentWeekStartDate = addWeeks(currentWeekStartDate, 1);
+    startDateOfWeek = addWeeks(startDateOfWeek, 1);
 
-    if (!isWeekInMonth(currentWeekStartDate)) {
+    if (!isWeekInMonth(startDateOfWeek, activeDate)) {
       break;
     }
   }
@@ -72,7 +64,7 @@ const Weeks = forwardRef((
       ref={ref}
       templateColumns="repeat(7, 40px)"
       templateRows="auto"
-      {...rest}
+      {...props}
     >
       { weeks }
     </Grid>

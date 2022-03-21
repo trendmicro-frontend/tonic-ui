@@ -8,6 +8,7 @@ import useDatePicker from './useDatePicker';
 
 const DatePickerToggle = forwardRef((
   {
+    onBlur,
     onClick,
     onKeyDown,
     children,
@@ -25,24 +26,34 @@ const DatePickerToggle = forwardRef((
     isOpen,
     openDatePicker,
   } = { ...datePickerContext };
+
   const styleProps = useDatePickerToggleStyle();
   const combinedRef = useForkRef(datePickerToggleRef, ref);
+  const handleBlur = wrapEvent(onBlur, event => {
+    // Don't handle `onBlur` event when the `DatePickerToggle` is disabled
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+    if (isOpen) {
+      ensureFunction(closeDatePicker)();
+    }
+  });
+
   const handleClick = wrapEvent(onClick, (event) => {
-    // Don't handle `onClick` event when the `MenuToggle` is disabled
+    // Don't handle `onClick` event when the `DatePickerToggle` is disabled
     if (disabled) {
       event.preventDefault();
       return;
     }
 
-    if (isOpen) {
-      ensureFunction(closeDatePicker)();
-      return;
+    if (!isOpen) {
+      openDatePicker();
     }
-
-    ensureFunction(openDatePicker)();
   });
+
   const handleKeyDown = wrapEvent(onKeyDown, event => {
-    // Don't handle `onKeyDown` event when the `MenuToggle` is disabled
+    // Don't handle `onKeyDown` event when the `DatePickerToggle` is disabled
     if (disabled) {
       event.preventDefault();
       return;
@@ -57,6 +68,11 @@ const DatePickerToggle = forwardRef((
       ensureFunction(openDatePicker)();
       return;
     }
+
+    if (event.key === 'Escape') {
+      ensureFunction(closeDatePicker)();
+      return;
+    }
   });
 
   const getDatePickerToggleProps = () => ({
@@ -66,6 +82,7 @@ const DatePickerToggle = forwardRef((
     'aria-haspopup': 'datepicker',
     disabled,
     id: datePickerToggleId,
+    onBlur: handleBlur,
     onClick: handleClick,
     onKeyDown: handleKeyDown,
     ref: combinedRef,

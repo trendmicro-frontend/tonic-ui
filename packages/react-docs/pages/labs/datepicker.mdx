@@ -23,6 +23,7 @@ function Example({
   date = '2021-12-15',
 }) {
   const [isInvalid, setIsInvalid] = React.useState(false);
+  const [isOpenCalendar, setIsOpenCalendar] = React.useState(false);
   const [value, setValue] = React.useState(date);
   const invalidInputStyle = {
     isInvalid: true,
@@ -44,6 +45,7 @@ function Example({
   };
   const handleCalendarChange = (value) => {
     setValue(value);
+    setIsOpenCalendar(false);
   };
 
   React.useEffect(() => {
@@ -51,16 +53,20 @@ function Example({
   }, [value]);
 
   return (
-    <DatePicker>
-      <DatePickerToggle>
+    <DatePicker
+      isOpen={isOpenCalendar}
+      onOpen={() => setIsOpenCalendar(true)}
+      onClose={() => setIsOpenCalendar(false)}
+    >
+      <DatePickerToggle disabled={disabled}>
         {({ getDatePickerToggleProps }) => {
           return (
-            <Box {...getDatePickerToggleProps()}>
+            <Box>
               <DateInput
-                disabled={disabled}
                 locale={locale}
                 value={value}
                 onChange={handleDateInputChange}
+                 {...getDatePickerToggleProps()}
                 {...isInvalid && invalidInputStyle}
               />
               {isInvalid && (

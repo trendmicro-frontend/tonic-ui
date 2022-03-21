@@ -3,10 +3,8 @@ import {
   Popper,
 } from '@tonic-ui/react';
 import chainedFunction from 'chained-function';
-import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import useForkRef from '../utils/useForkRef';
-import wrapEvent from '../utils/wrapEvent';
 import { useDatePickerPopperStyle } from './styles';
 import useDatePicker from './useDatePicker';
 
@@ -18,8 +16,6 @@ const DatePickerList = forwardRef((
     TransitionProps,
     children,
     offset,
-    onBlur: onBlurProp,
-    onKeyDown: onKeyDownProp,
     ...rest
   },
   ref,
@@ -28,49 +24,16 @@ const DatePickerList = forwardRef((
   const combinedRef = useForkRef(nodeRef, ref);
   const datePickerContext = useDatePicker(); // context might be an undefined value
   const {
-    closeDatePicker,
-    closeOnBlur,
     datePickerId,
     datePickerToggleId,
     datePickerToggleRef,
     datePickerRef,
     isOpen,
-    onBlur,
-    onKeyDown,
     placement,
     usePortal,
   } = { ...datePickerContext };
 
-  // Close the menu on blur
-  const handleBlur = event => {
-    const target = event.relatedTarget || document.activeElement;
-    const isClickingOutside =
-      target &&
-      !(datePickerRef?.current?.contains(target)) &&
-      !(datePickerToggleRef?.current?.contains(target));
-    const shouldCloseMenu = isOpen && closeOnBlur && isClickingOutside;
-
-    if (shouldCloseMenu) {
-      ensureFunction(closeDatePicker)();
-    }
-
-    ensureFunction(onBlur)(event);
-  };
-
-  const handleKeyDown = event => {
-    if (event.key === 'Escape') {
-      ensureFunction(closeDatePicker)();
-    }
-
-    ensureFunction(onKeyDown)(event);
-  };
-
   const styleProps = useDatePickerPopperStyle();
-
-  const eventHandlers = {
-    onBlur: wrapEvent(onBlurProp, handleBlur),
-    onKeyDown: wrapEvent(onKeyDownProp, handleKeyDown),
-  };
 
   return (
     <PopperComponent
@@ -88,7 +51,6 @@ const DatePickerList = forwardRef((
       willUseTransition={true}
       zIndex="dropdown"
       {...styleProps}
-      {...eventHandlers}
       {...PopperProps}
       {...rest}
     >

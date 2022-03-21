@@ -1,7 +1,7 @@
-import {
-  Box,
-} from '@tonic-ui/react';
-import React, { forwardRef, useState } from 'react';
+import isSameMonth from 'date-fns/isSameMonth';
+import isSameYear from 'date-fns/isSameYear';
+import { Box } from '@tonic-ui/react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import DecadeView from './DecadeView';
 import MonthView from './MonthView';
 import YearView from './YearView';
@@ -20,22 +20,29 @@ const Calendar = forwardRef((
     value, // string
     view = 'month', // one of 'month', 'year', 'decade'
     onChange: onClickDay,
-    ...rest
+    ...props
   },
   ref,
 ) => {
-  const activeStartDate = isDate(value) ? toDate(value) : new Date();
+  const currentDate = isDate(value) ? toDate(value) : new Date();
   const selectedDate = isDate(value) ? toDate(value) : null;
   const [currentView, setView] = useState(view);
-  const [currentDate, setActiveStartDate] = useState(activeStartDate);
+  const [activeDate, setActiveDate] = useState(currentDate);
   const styleProps = useCalendarStyle();
+
+  useEffect(() => {
+    // Dynamically change the calendar view
+    if (selectedDate && (!isSameYear(selectedDate, activeDate) || !isSameMonth(selectedDate, activeDate))) {
+      setActiveDate(selectedDate);
+    }
+  }, [selectedDate, activeDate]);
 
   if (children) {
     return (
       <Box
         ref={ref}
         {...styleProps}
-        {...rest}
+        {...props}
       >
         {children}
       </Box>
@@ -46,40 +53,40 @@ const Calendar = forwardRef((
     <Box
       ref={ref}
       {...styleProps}
-      {...rest}
+      {...props}
     >
       <Navigation
-        activeStartDate={currentDate}
+        activeDate={activeDate}
         locale={locale}
-        view={currentView}
+        setActiveDate={setActiveDate}
         setView={setView}
-        setActiveStartDate={setActiveStartDate}
+        view={currentView}
       />
       { currentView === 'month' && (
         <MonthView
-          activeStartDate={currentDate}
-          calendarStartDay={calendarStartDay}
+          activeDate={activeDate}
           locale={locale}
-          setActiveStartDate={setActiveStartDate}
           selectedDate={selectedDate}
+          setActiveDate={setActiveDate}
+          calendarStartDay={calendarStartDay}
           onClickDay={onClickDay}
         />
       )}
       { currentView === 'year' && (
         <YearView
-          activeStartDate={currentDate}
+          activeDate={activeDate}
           locale={locale}
-          setActiveStartDate={setActiveStartDate}
           selectedDate={selectedDate}
+          setActiveDate={setActiveDate}
           setView={setView}
         />
       )}
       { currentView === 'decade' && (
         <DecadeView
-          activeStartDate={currentDate}
+          activeDate={activeDate}
           locale={locale}
-          setActiveStartDate={setActiveStartDate}
           selectedDate={selectedDate}
+          setActiveDate={setActiveDate}
           setView={setView}
         />
       )}

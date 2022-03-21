@@ -1,38 +1,30 @@
-import {
-  Box,
-} from '@tonic-ui/react';
+import { Box } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 import Months from './Months';
 
 const YearView = forwardRef((
   {
-    activeStartDate,
+    activeDate,
     locale,
     selectedDate,
-
-    // handlers
-    setActiveStartDate,
+    setActiveDate,
     setView,
-
-    ...rest
+    ...props
   },
   ref
 ) => {
-  const handleClickMonth = (date) => {
-    setActiveStartDate(date);
-    setView('month');
-  };
-
   return (
     <Box
       ref={ref}
-      {...rest}
+      flex="auto"
+      {...props}
     >
       <Months
-        activeStartDate={activeStartDate}
+        activeDate={activeDate}
         locale={locale}
         selectedDate={selectedDate}
-        onClickMonth={handleClickMonth}
+        setActiveDate={setActiveDate}
+        setView={setView}
       />
     </Box>
   );
