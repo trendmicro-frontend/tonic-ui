@@ -378,7 +378,7 @@ function Example() {
           </TextLabel>
         </Box>
         <CodeBlock>
-          {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal scrollBehavior="${scrollBehavior}" {...modalStyleProps}>\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
+          {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal\n  scrollBehavior="${scrollBehavior}"\n  {...modalStyleProps}\n>\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
         </CodeBlock>
       </FormGroup>
       <Divider my="4x" />
@@ -447,6 +447,7 @@ function Example() {
         </Box>
       </FormGroup>
       <Modal
+        TransitionComponent={null}
         autoFocus={autoFocus}
         ensureFocus={ensureFocus}
         closeOnEsc={closeOnEsc}
@@ -516,7 +517,7 @@ function Example() {
                   <TabPanel>
                     <Box
                       backgroundColor={colorStyle.background.tertiary}
-                      minHeight={500}
+                      minHeight={1000}
                       px="3x"
                       py="2x"
                     >
