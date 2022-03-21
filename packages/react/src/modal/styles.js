@@ -78,8 +78,6 @@ const useModalContentStyle = ({
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
-    // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
-    margin: 'auto', // Use the `margin: auto` technique to center the content
     display: 'flex',
     flexDirection: 'column',
     overflow: 'clip', // Set overflow to clip to forbid all scrolling for modal content
@@ -103,6 +101,10 @@ const useModalContentStyle = ({
       boxShadow: colorStyle?.shadow?.thick,
     },
   }[colorMode];
+  const placementStyle = {
+    // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
+    margin: 'auto', // Use the `margin: auto` technique to center the content
+  };
   const sizeStyle = {
     xs: {
       width: 352,
@@ -157,6 +159,7 @@ const useModalContentStyle = ({
   return {
     ...baseStyle,
     ...colorModeStyle,
+    ...placementStyle,
     ...sizeStyle,
   };
 };
