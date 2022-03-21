@@ -1,62 +1,39 @@
-import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useAnimatePresence } from '../utils/animate-presence';
-import { Slide } from '../transitions';
+import useForkRef from '../utils/useForkRef';
 import {
   useDrawerContainerStyle,
 } from './styles';
 import useDrawer from './useDrawer';
 
-const DrawerContainer = forwardRef((
-  {
-    TransitionComponent = Slide,
-    TransitionProps,
-    ...rest
-  },
-  ref,
-) => {
+const DrawerContainer = forwardRef((props, ref) => {
   const drawerContext = useDrawer(); // context might be an undefined value
   const {
     backdrop,
     closeOnOutsideClick,
-    isOpen,
     onClose,
     placement,
+    containerRef, // internal use only
   } = { ...drawerContext };
-  const [, safeToRemove] = useAnimatePresence();
+  const combinedRef = useForkRef(containerRef, ref);
   const styleProps = useDrawerContainerStyle({ backdrop, placement });
-  const transitionDirection = {
-    'left': 'right',
-    'right': 'left',
-    'top': 'down',
-    'bottom': 'up',
-  }[placement];
+  const containerProps = {
+    ref: combinedRef,
+    onClick: (event) => {
+      event.stopPropagation();
+      if (closeOnOutsideClick) {
+        (typeof onClose === 'function') && onClose(event);
+      }
+    },
+    ...styleProps,
+    ...props,
+  };
 
   return (
-    <TransitionComponent
-      appear={true}
-      {...TransitionProps}
-      in={isOpen}
-      direction={transitionDirection}
-      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
-    >
-      {(state, { ref, style: transitionStyle }) => (
-        <Box
-          ref={ref}
-          onClick={event => {
-            event.stopPropagation();
-            if (closeOnOutsideClick) {
-              (typeof onClose === 'function') && onClose(event);
-            }
-          }}
-          {...styleProps}
-          {...transitionStyle}
-          {...rest}
-        />
-      )}
-    </TransitionComponent>
+    <Box {...containerProps} />
   );
 });
+
+DrawerContainer.displayName = 'DrawerContainer';
 
 export default DrawerContainer;

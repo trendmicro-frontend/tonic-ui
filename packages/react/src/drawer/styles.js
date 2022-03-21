@@ -69,39 +69,30 @@ const useDrawerContainerStyle = ({
       right: 0,
       bottom: backdrop ? 0 : undefined,
       left: 0,
-      alignItems: 'flex-start',
-      justifyContent: 'center',
     },
     right: {
       top: 0,
       right: 0,
       bottom: 0,
       left: backdrop ? 0 : undefined,
-      alignItems: 'center',
-      justifyContent: 'flex-end',
     },
     bottom: {
       top: backdrop ? 0 : undefined,
       right: 0,
       bottom: 0,
       left: 0,
-      alignItems: 'flex-end',
-      justifyContent: 'center',
     },
     left: {
       top: 0,
       right: backdrop ? 0 : undefined,
       bottom: 0,
       left: 0,
-      alignItems: 'center',
-      justifyContent: 'flex-start',
     },
   }[placement];
 
   return {
     position: 'fixed',
     display: 'flex',
-    overflow: 'auto',
     zIndex: 'drawer',
     ...placementStyle,
   };
@@ -138,6 +129,25 @@ const useDrawerContentStyle = ({
       boxShadow: colorStyle?.shadow?.thick,
     },
   }[colorMode];
+  const placementStyle = {
+    // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
+    top: {
+      margin: 'auto',
+      marginTop: 0,
+    },
+    right: {
+      margin: 'auto',
+      marginRight: 0,
+    },
+    bottom: {
+      margin: 'auto',
+      marginBottom: 0,
+    },
+    left: {
+      margin: 'auto',
+      marginLeft: 0,
+    },
+  }[placement];
   const sizeStyle = {
     sm: {
       width: isLeftOrRight ? 336 : '100%',
@@ -174,19 +184,8 @@ const useDrawerContentStyle = ({
   return {
     ...baseStyle,
     ...colorModeStyle,
+    ...placementStyle,
     ...sizeStyle,
-  };
-};
-
-const useDrawerHeaderStyle = () => {
-  return {
-    pt: '4x',
-    pb: '6x',
-    pl: '4x',
-    pr: '12x',
-    position: 'relative',
-    fontSize: 'xl',
-    lineHeight: 'xl',
   };
 };
 
@@ -230,11 +229,41 @@ const useDrawerFooterStyle = ({
   };
 };
 
+const useDrawerHeaderStyle = () => {
+  return {
+    pt: '4x',
+    pb: '6x',
+    pl: '4x',
+    pr: '12x',
+    position: 'relative',
+    fontSize: 'xl',
+    lineHeight: 'xl',
+  };
+};
+
+const useDrawerOverlayStyle = () => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'rgba(0, 0, 0, .7)',
+    light: 'rgba(0, 0, 0, .7)',
+  }[colorMode];
+
+  return {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor,
+  };
+};
+
 export {
   useDrawerCloseButtonStyle,
   useDrawerContainerStyle,
   useDrawerContentStyle,
-  useDrawerHeaderStyle,
   useDrawerBodyStyle,
   useDrawerFooterStyle,
+  useDrawerHeaderStyle,
+  useDrawerOverlayStyle,
 };

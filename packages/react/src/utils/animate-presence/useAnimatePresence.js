@@ -11,16 +11,16 @@ const useAnimatePresence = () => {
   }
 
   const context = useContext(AnimatePresenceContext);
-  if (context === undefined) {
-    throw new Error('The `useAnimatePresence` hook must be called from a descendent of the `AnimatePresence`.');
-  }
-
-  const { in: inProp, onExitComplete, register } = context;
+  const { in: inProp, onExitComplete, register } = { ...context };
   const safeToRemove = () => ensureFunction(onExitComplete)(id);
 
   useEffect(() => {
     return ensureFunction(register)(id);
   }, [id, register]);
+
+  if (context === undefined) {
+    return [null, null];
+  }
 
   return (!inProp && onExitComplete)
     ? [false, safeToRemove]

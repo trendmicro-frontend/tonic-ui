@@ -1,9 +1,11 @@
 import chainedFunction from 'chained-function';
-import React, { forwardRef } from 'react';
-import { Box } from '../box';
-import { useColorMode } from '../color-mode';
+import React, { forwardRef, useRef } from 'react';
 import { useAnimatePresence } from '../utils/animate-presence';
+import useForkRef from '../utils/useForkRef';
 import { Fade } from '../transitions';
+import {
+  useDrawerOverlayStyle,
+} from './styles';
 import useDrawer from './useDrawer';
 
 const DrawerOverlay = forwardRef(({
@@ -12,45 +14,27 @@ const DrawerOverlay = forwardRef(({
   ...rest
 }, ref) => {
   const drawerContext = useDrawer(); // context might be an undefined value
-  const { isOpen } = { ...drawerContext };
+  const {
+    isOpen,
+  } = { ...drawerContext };
   const [, safeToRemove] = useAnimatePresence();
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(0, 0, 0, .7)',
-    light: 'rgba(0, 0, 0, .7)', // TBD: light mode is not defined yet
-  }[colorMode];
-  const overlayStyleProps = {
-    position: 'fixed',
-    left: 0,
-    top: 0,
-    width: '100vw',
-    height: '100vh',
-    backgroundColor: backgroundColor,
-    zIndex: 'drawer',
+  const overlayRef = useRef();
+  const combinedRef = useForkRef(overlayRef, ref);
+  const styleProps = useDrawerOverlayStyle();
+  const overlayProps = {
+    ref: combinedRef,
+    ...styleProps,
+    ...rest,
   };
 
-  if (drawerContext) {
-    return (
-      <TransitionComponent
-        appear={true}
-        {...TransitionProps}
-        in={isOpen}
-        onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
-      >
-        {(state, { ref, style: transitionStyle }) => (
-          <Box
-            ref={ref}
-            {...overlayStyleProps}
-            {...transitionStyle}
-            {...rest}
-          />
-        )}
-      </TransitionComponent>
-    );
-  }
-
   return (
-    <Box ref={ref} {...overlayStyleProps} {...rest} />
+    <TransitionComponent
+      appear={!!drawerContext}
+      {...TransitionProps}
+      {...overlayProps}
+      in={drawerContext ? isOpen : true}
+      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
+    />
   );
 });
 
