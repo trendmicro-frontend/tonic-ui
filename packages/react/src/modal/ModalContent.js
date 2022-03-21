@@ -1,20 +1,18 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { Fade } from '../transitions';
 import useForkRef from '../utils/useForkRef';
 import ModalCloseButton from './ModalCloseButton';
-import ModalContainer from './ModalContainer';
 import {
   useModalContentStyle,
 } from './styles';
 import useModal from './useModal';
 
-const ModalContentBase = forwardRef((
+const ModalContent = forwardRef((
   {
     children,
     ...rest
   },
-  ref
+  ref,
 ) => {
   const modalContext = useModal(); // context might be an undefined value
   const {
@@ -50,32 +48,6 @@ const ModalContentBase = forwardRef((
         <ModalCloseButton onClick={onClose} />
       )}
     </Box>
-  );
-});
-
-const ModalContent = React.forwardRef((
-  {
-    TransitionComponent = Fade,
-    TransitionProps,
-    ...rest
-  },
-  ref,
-) => {
-  const modalContext = useModal(); // context might be an undefined value
-
-  if (!modalContext) {
-    return (
-      <ModalContentBase ref={ref} {...rest} />
-    );
-  }
-
-  return (
-    <ModalContainer
-      TransitionComponent={TransitionComponent}
-      TransitionProps={TransitionProps}
-    >
-      <ModalContentBase ref={ref} {...rest} />
-    </ModalContainer>
   );
 });
 

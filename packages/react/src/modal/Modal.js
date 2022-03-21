@@ -1,14 +1,16 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import FocusLock from 'react-focus-lock/dist/cjs';
 import { Portal } from '../portal';
+import { Fade } from '../transitions';
 import { AnimatePresence } from '../utils/animate-presence';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
 import getFocusableElements from '../utils/getFocusableElements';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import ModalContainer from './ModalContainer';
 import { ModalProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -16,21 +18,26 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const defaultScrollBehavior = 'inside';
 const defaultSize = 'auto';
 
-const Modal = ({
-  isCloseButtonVisible, // deprecated
-  autoFocus = false,
-  children,
-  closeOnEsc = false,
-  closeOnOutsideClick = false,
-  ensureFocus = false,
-  finalFocusRef,
-  initialFocusRef,
-  isClosable = false,
-  isOpen = false,
-  onClose,
-  scrollBehavior = defaultScrollBehavior,
-  size = defaultSize,
-}) => {
+const Modal = forwardRef((
+  {
+    TransitionComponent = Fade,
+    TransitionProps,
+    isCloseButtonVisible, // deprecated
+    autoFocus = false,
+    closeOnEsc = false,
+    closeOnOutsideClick = false,
+    ensureFocus = false,
+    finalFocusRef,
+    initialFocusRef,
+    isClosable = false,
+    isOpen = false,
+    onClose,
+    scrollBehavior = defaultScrollBehavior,
+    size = defaultSize,
+    ...rest
+  },
+  ref,
+) => {
   { // deprecation warning
     const prefix = `${Modal.displayName}:`;
 
@@ -47,7 +54,8 @@ const Modal = ({
 
   const [isMounted, setMounted] = useState(isOpen);
   const defaultId = useAutoId();
-  const contentRef = useRef(null);
+  const containerRef = useRef();
+  const contentRef = useRef();
   const modalState = getMemoizedState({
     autoFocus,
     closeOnEsc,
@@ -60,6 +68,7 @@ const Modal = ({
     onClose,
     scrollBehavior,
     size,
+    containerRef, // internal use only
     contentRef, // internal use only
   });
 
@@ -125,14 +134,19 @@ const Modal = ({
               onActivation={onFocusLockActivation}
               onDeactivation={onFocusLockDeactivation}
             >
-              {children}
+              <ModalContainer
+                ref={ref}
+                TransitionComponent={TransitionComponent}
+                TransitionProps={TransitionProps}
+                {...rest}
+              />
             </FocusLock>
           </Portal>
         )}
       </AnimatePresence>
     </ModalProvider>
   );
-};
+});
 
 Modal.displayName = 'Modal';
 

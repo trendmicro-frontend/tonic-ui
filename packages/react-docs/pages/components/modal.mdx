@@ -149,7 +149,7 @@ function Example() {
   const [size, changeSizeBy] = useSelection('auto');
   const [scrollBehavior, changeScrollBehaviorBy] = useSelection('inside');
   const [initialContentHeight, changeInitialContentHeightBy] = useSelection('default');
-  const [topBottomMargins, changeTopBottomMarginsBy] = useSelection('default');
+  const [verticalPadding, changeVerticalPaddingBy] = useSelection('default');
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
@@ -161,26 +161,17 @@ function Example() {
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
-  const contentStyleProps = {};
+  const modalStyleProps = {};
+  const modalContentStyleProps = {};
 
   if (size !== 'full') {
-    if (scrollBehavior === 'inside') {
-      if (initialContentHeight !== 'default') {
-        contentStyleProps.height = initialContentHeight;
-      }
-      if (topBottomMargins !== 'default') {
-        contentStyleProps.maxHeight = 'calc(100% - 2 * ' + topBottomMargins + ')';
-      }
+    if (verticalPadding !== 'default') {
+      modalStyleProps.py = verticalPadding;
     }
 
-    if (scrollBehavior === 'outside') {
-      if (initialContentHeight !== 'default') {
-        contentStyleProps.minHeight = initialContentHeight;
-      }
-      if (topBottomMargins !== 'default') {
-        contentStyleProps.marginTop = topBottomMargins;
-        contentStyleProps.marginBottom = topBottomMargins;
-      }
+    if (initialContentHeight !== 'default') {
+      const propKey = (scrollBehavior === 'inside') ? 'height' : 'minHeight';
+      modalContentStyleProps[propKey] = initialContentHeight;
     }
   }
 
@@ -323,7 +314,7 @@ function Example() {
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
-          ModalContent props
+          Modal style props
         </Text>
       </Box>
       <FormGroup>
@@ -356,7 +347,7 @@ function Example() {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
-            Top and bottom margins
+            Vertical padding
           </TextLabel>
         </Box>
         <ButtonGroup
@@ -371,8 +362,8 @@ function Example() {
             <SelectButton
               disabled={size === 'full'}
               key={value}
-              isSelected={value === topBottomMargins}
-              onClick={changeTopBottomMarginsBy(value)}
+              isSelected={value === verticalPadding}
+              onClick={changeVerticalPaddingBy(value)}
               minWidth="15x"
             >
               {value}
@@ -387,7 +378,7 @@ function Example() {
           </TextLabel>
         </Box>
         <CodeBlock>
-          {`const contentStyleProps = ${JSON.stringify(contentStyleProps, null, 2)};\n\n// example\n<Modal scrollBehavior="${scrollBehavior}">\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
+          {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal scrollBehavior="${scrollBehavior}" {...modalStyleProps}>\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
         </CodeBlock>
       </FormGroup>
       <Divider my="4x" />
@@ -466,6 +457,7 @@ function Example() {
         onClose={() => toggleModal(false)}
         scrollBehavior={scrollBehavior}
         size={size}
+        {...modalStyleProps}
       >
         {enableBodyScrollLock && (
           <Global
@@ -479,7 +471,9 @@ function Example() {
         {isOverlayVisible && (
           <ModalOverlay />
         )}
-        <ModalContent {...contentStyleProps}>
+        <ModalContent
+          {...modalContentStyleProps}
+        >
           {isHeaderVisible && (
             <ModalHeader>
               {size === 'auto' && <Text>Auto-sized Modal</Text>}
@@ -522,7 +516,7 @@ function Example() {
                   <TabPanel>
                     <Box
                       backgroundColor={colorStyle.background.tertiary}
-                      minHeight={1000}
+                      minHeight={500}
                       px="3x"
                       py="2x"
                     >
@@ -642,6 +636,9 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| TransitionComponent | ElementType | Fade | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
 | autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
 | children | ReactNode | | |
 | closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
@@ -659,18 +656,12 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| TransitionComponent | ElementType | Fade | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
 
 ### ModalContent
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| TransitionComponent | ElementType | Fade | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
 
 ### ModalHeader

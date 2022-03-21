@@ -1,8 +1,7 @@
 import chainedFunction from 'chained-function';
-import React, { forwardRef, useEffect, useRef } from 'react';
-import { Box } from '../box';
-import { useAnimatePresence } from '../utils/animate-presence';
+import React, { forwardRef } from 'react';
 import { Fade } from '../transitions';
+import { useAnimatePresence } from '../utils/animate-presence';
 import useForkRef from '../utils/useForkRef';
 import {
   useModalContainerStyle,
@@ -22,72 +21,11 @@ const ModalContainer = forwardRef((
     closeOnOutsideClick,
     isOpen,
     onClose,
-    scrollBehavior,
-    contentRef, // internal use only
+    containerRef, // internal use only
   } = { ...modalContext };
-  const containerRef = useRef();
   const combinedRef = useForkRef(containerRef, ref);
   const [, safeToRemove] = useAnimatePresence();
   const styleProps = useModalContainerStyle();
-
-  useEffect(() => {
-    const updateVerticalAlignment = () => {
-      const el = containerRef?.current;
-      if (!el) {
-        return;
-      }
-
-      // For inside scrolling, detect whether the content overflows the container.
-      // * If it does overflow, set `alignItems` to `flex-start` to make the container scrollable from the top.
-      // * If it doesn't overflow, remove the `alignItems` CSS property to vertically align the container to its original position (e.g. `center`).
-      if (scrollBehavior === 'inside') {
-        const contentOffsetHeight = contentRef?.current?.offsetHeight;
-        const containerOffsetHeight = el.offsetHeight;
-        const isOverflowing = (contentOffsetHeight > containerOffsetHeight);
-        if (isOverflowing) {
-          el.style.alignItems = 'flex-start';
-        } else {
-          el.style.alignItems = '';
-        }
-        return;
-      }
-
-      // For outside scrolling, detect whether the content overflows the container or the container overflows the viewport.
-      // * If it does overflow, set `alignItems` to `flex-start` to make the container scrollable from the top.
-      // * If it doesn't overflow, remove the `alignItems` CSS property to vertically align the container to its original position (e.g. `center`).
-      if (scrollBehavior === 'outside') {
-        const contentOffsetHeight = contentRef?.current?.offsetHeight;
-        const containerOffsetHeight = el.offsetHeight;
-        const containerScrollHeight = el.scrollHeight;
-        const viewportHeight = window?.visualViewport?.height;
-        const isOverflowing = (contentOffsetHeight > containerOffsetHeight) || (containerScrollHeight > viewportHeight);
-        if (isOverflowing) {
-          el.style.alignItems = 'flex-start';
-        } else {
-          el.style.alignItems = '';
-        }
-        return;
-      }
-    };
-
-    updateVerticalAlignment();
-
-    const observer = (() => {
-      if (!(window?.ResizeObserver)) {
-        return null;
-      }
-
-      return new ResizeObserver(() => {
-        updateVerticalAlignment();
-      });
-    })();
-
-    observer?.observe?.(containerRef.current);
-
-    return () => {
-      observer?.disconnect?.();
-    };
-  }, [scrollBehavior, contentRef]);
 
   return (
     <TransitionComponent
@@ -95,22 +33,16 @@ const ModalContainer = forwardRef((
       {...TransitionProps}
       in={isOpen}
       onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
-    >
-      {(state, { ref, style: transitionStyle }) => (
-        <Box
-          ref={combinedRef}
-          onClick={event => {
-            event.stopPropagation();
-            if (closeOnOutsideClick) {
-              (typeof onClose === 'function') && onClose(event);
-            }
-          }}
-          {...styleProps}
-          {...transitionStyle}
-          {...rest}
-        />
-      )}
-    </TransitionComponent>
+      ref={combinedRef}
+      onClick={event => {
+        event.stopPropagation();
+        if (closeOnOutsideClick) {
+          (typeof onClose === 'function') && onClose(event);
+        }
+      }}
+      {...styleProps}
+      {...rest}
+    />
   );
 });
 
