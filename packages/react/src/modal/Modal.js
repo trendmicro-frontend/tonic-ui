@@ -3,11 +3,12 @@ import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import { Portal } from '../portal';
-import { AnimatePresence } from '../utils/animate-presence';
 import config from '../shared/config';
+import { AnimatePresence } from '../utils/animate-presence';
+import getFocusableElements from '../utils/getFocusableElements';
+import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
-import getFocusableElements from '../utils/getFocusableElements';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import ModalContainer from './ModalContainer';
 import { ModalProvider } from './context';
@@ -54,7 +55,7 @@ const Modal = forwardRef((
   const defaultId = useAutoId();
   const containerRef = useRef();
   const contentRef = useRef();
-  const modalState = getMemoizedState({
+  const context = getMemoizedState({
     autoFocus,
     closeOnEsc,
     closeOnOutsideClick,
@@ -119,7 +120,7 @@ const Modal = forwardRef((
   }, [isOpen, isMounted]);
 
   return (
-    <ModalProvider value={modalState}>
+    <ModalProvider value={context}>
       <AnimatePresence
         in={isOpen}
         onExitComplete={onExitComplete}
@@ -137,7 +138,7 @@ const Modal = forwardRef((
                 ref={ref}
                 {...rest}
               >
-                {children}
+                {runIfFn(children, context)}
               </ModalContainer>
             </FocusLock>
           </Portal>

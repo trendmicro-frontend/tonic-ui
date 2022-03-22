@@ -10,6 +10,8 @@ test('should match expected exports', () => {
     'AccordionItem',
     'AccordionToggle',
     'AccordionToggleIcon',
+    'useAccordion',
+    'useAccordionItem',
 
     // alert
     'Alert',
@@ -102,6 +104,7 @@ test('should match expected exports', () => {
     'MenuList',
     'MenuToggle',
     'MenuToggleIcon',
+    'useMenu',
 
     // modal
     'Modal',

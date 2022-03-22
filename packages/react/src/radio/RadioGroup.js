@@ -1,6 +1,7 @@
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import config from '../shared/config';
+import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import { RadioGroupContext } from './context';
 
@@ -43,7 +44,7 @@ const RadioGroup = ({
     }
   };
 
-  const radioGroupState = getMemoizedState({
+  const context = getMemoizedState({
     disabled,
     name,
     onChange: handleChange,
@@ -53,8 +54,8 @@ const RadioGroup = ({
   });
 
   return (
-    <RadioGroupContext.Provider value={radioGroupState}>
-      { children }
+    <RadioGroupContext.Provider value={context}>
+      {runIfFn(children, context)}
     </RadioGroupContext.Provider>
   );
 };
