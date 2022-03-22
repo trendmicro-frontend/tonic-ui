@@ -54,8 +54,6 @@ const DrawerContent = forwardRef((
     'bottom': 'up',
   }[placement];
 
-  console.log('### transitionDirection', transitionDirection, placement);
-
   return (
     <TransitionComponent
       appear={!!drawerContext}
