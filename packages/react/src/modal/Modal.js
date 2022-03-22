@@ -68,6 +68,7 @@ const Modal = forwardRef((
     size,
     containerRef, // internal use only
     contentRef, // internal use only
+    placement: 'center', // internal use only (only 'center' is supported by Modal)
   });
 
   const portalId = `${config.name}:Modal-${defaultId}`;

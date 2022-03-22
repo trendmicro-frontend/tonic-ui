@@ -72,6 +72,7 @@ const useModalContainerStyle = () => {
 };
 
 const useModalContentStyle = ({
+  placement, // No default value if not specified
   scrollBehavior, // No default value if not specified
   size = defaultSize,
 }) => {
@@ -102,9 +103,11 @@ const useModalContentStyle = ({
     },
   }[colorMode];
   const placementStyle = {
-    // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
-    margin: 'auto', // Use the `margin: auto` technique to center the content
-  };
+    'center': {
+      // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
+      margin: 'auto', // Use the `margin: auto` technique to center the content
+    },
+  }[placement];
   const sizeStyle = {
     xs: {
       width: 352,

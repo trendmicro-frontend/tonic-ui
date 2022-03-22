@@ -28,9 +28,10 @@ const ModalContent = forwardRef((
     scrollBehavior,
     size,
     contentRef, // internal use only
+    placement, // internal use only
   } = { ...modalContext };
   const combinedRef = useForkRef(contentRef, ref);
-  const styleProps = useModalContentStyle({ scrollBehavior, size });
+  const styleProps = useModalContentStyle({ placement, scrollBehavior, size });
   const contentProps = {
     ref: combinedRef,
     role: 'dialog',
