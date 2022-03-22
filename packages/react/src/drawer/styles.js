@@ -6,6 +6,153 @@ import { useTheme } from '../theme';
 const defaultPlacement = 'right';
 const defaultSize = 'auto';
 
+const useDrawerContainerStyle = ({
+  backdrop,
+  placement = defaultPlacement,
+}) => {
+  const placementStyle = {
+    top: {
+      top: 0,
+      right: 0,
+      bottom: backdrop ? 0 : undefined,
+      left: 0,
+    },
+    right: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: backdrop ? 0 : undefined,
+    },
+    bottom: {
+      top: backdrop ? 0 : undefined,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    },
+    left: {
+      top: 0,
+      right: backdrop ? 0 : undefined,
+      bottom: 0,
+      left: 0,
+    },
+  }[placement];
+
+  return {
+    position: 'fixed',
+    display: 'flex',
+    zIndex: 'drawer',
+    ...placementStyle,
+  };
+};
+
+const useDrawerOverlayStyle = () => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'rgba(0, 0, 0, .7)',
+    light: 'rgba(0, 0, 0, .7)',
+  }[colorMode];
+
+  return {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor,
+  };
+};
+
+const useDrawerContentStyle = ({
+  placement = defaultPlacement,
+  size = defaultSize,
+}) => {
+  const isLeftOrRight = (placement === 'left' || placement === 'right');
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const baseStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'clip', // Set overflow to clip to forbid all scrolling for drawer content
+    position: 'relative',
+  };
+  const colorModeStyle = {
+    light: {
+      color: 'black:primary',
+      bg: 'white',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: 'gray:30',
+      boxShadow: colorStyle?.shadow?.thick,
+    },
+    dark: {
+      color: 'white:primary',
+      bg: 'gray:90',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: 'gray:80',
+      boxShadow: colorStyle?.shadow?.thick,
+    },
+  }[colorMode];
+  const placementStyle = {
+    // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
+    top: {
+      margin: 'auto',
+      marginTop: 0,
+    },
+    right: {
+      margin: 'auto',
+      marginRight: 0,
+    },
+    bottom: {
+      margin: 'auto',
+      marginBottom: 0,
+    },
+    left: {
+      margin: 'auto',
+      marginLeft: 0,
+    },
+  }[placement];
+  const sizeStyle = {
+    sm: {
+      width: isLeftOrRight ? 336 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
+    },
+    md: {
+      width: isLeftOrRight ? 504 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
+    },
+    lg: {
+      width: isLeftOrRight ? 672 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
+    },
+    full: {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    },
+    auto: {
+      width: isLeftOrRight ? 'auto' : '100%',
+      height: isLeftOrRight ? '100%' : 'auto',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    },
+  }[size];
+
+  return {
+    ...baseStyle,
+    ...colorModeStyle,
+    ...placementStyle,
+    ...sizeStyle,
+  };
+};
+
 const useDrawerCloseButtonStyle = () => {
   const [colorMode] = useColorMode();
   const { colors } = useTheme();
@@ -56,125 +203,6 @@ const useDrawerCloseButtonStyle = () => {
       boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
       color: focusActiveColor,
     },
-  };
-};
-
-const useDrawerContainerStyle = ({
-  backdrop,
-  placement = defaultPlacement,
-}) => {
-  const placementStyle = {
-    top: {
-      top: 0,
-      right: 0,
-      bottom: backdrop ? 0 : undefined,
-      left: 0,
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-    },
-    right: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: backdrop ? 0 : undefined,
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-    },
-    bottom: {
-      top: backdrop ? 0 : undefined,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-    },
-    left: {
-      top: 0,
-      right: backdrop ? 0 : undefined,
-      bottom: 0,
-      left: 0,
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-    },
-  }[placement];
-
-  return {
-    position: 'fixed',
-    display: 'flex',
-    overflow: 'auto',
-    zIndex: 'drawer',
-    ...placementStyle,
-  };
-};
-
-const useDrawerContentStyle = ({
-  placement = defaultPlacement,
-  size = defaultSize,
-}) => {
-  const isLeftOrRight = (placement === 'left' || placement === 'right');
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const baseStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'clip', // Set overflow to clip to forbid all scrolling for drawer content
-    position: 'relative',
-  };
-  const colorModeStyle = {
-    light: {
-      color: 'black:primary',
-      bg: 'white',
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: 'gray:30',
-      boxShadow: colorStyle?.shadow?.thick,
-    },
-    dark: {
-      color: 'white:primary',
-      bg: 'gray:90',
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: 'gray:80',
-      boxShadow: colorStyle?.shadow?.thick,
-    },
-  }[colorMode];
-  const sizeStyle = {
-    sm: {
-      width: isLeftOrRight ? 336 : '100%',
-      height: isLeftOrRight ? '100%' : undefined,
-      minHeight: isLeftOrRight ? undefined : 320,
-      maxHeight: isLeftOrRight ? undefined : '80vh',
-    },
-    md: {
-      width: isLeftOrRight ? 504 : '100%',
-      height: isLeftOrRight ? '100%' : undefined,
-      minHeight: isLeftOrRight ? undefined : 320,
-      maxHeight: isLeftOrRight ? undefined : '80vh',
-    },
-    lg: {
-      width: isLeftOrRight ? 672 : '100%',
-      height: isLeftOrRight ? '100%' : undefined,
-      minHeight: isLeftOrRight ? undefined : 320,
-      maxHeight: isLeftOrRight ? undefined : '80vh',
-    },
-    full: {
-      width: '100%',
-      height: '100%',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-    },
-    auto: {
-      width: isLeftOrRight ? 'auto' : '100%',
-      height: isLeftOrRight ? '100%' : 'auto',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-    },
-  }[size];
-
-  return {
-    ...baseStyle,
-    ...colorModeStyle,
-    ...sizeStyle,
   };
 };
 
@@ -231,10 +259,11 @@ const useDrawerFooterStyle = ({
 };
 
 export {
+  useDrawerBodyStyle,
   useDrawerCloseButtonStyle,
   useDrawerContainerStyle,
   useDrawerContentStyle,
-  useDrawerHeaderStyle,
-  useDrawerBodyStyle,
   useDrawerFooterStyle,
+  useDrawerHeaderStyle,
+  useDrawerOverlayStyle,
 };

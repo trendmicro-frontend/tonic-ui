@@ -1,7 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';
 import config from '../shared/config';
@@ -9,6 +9,7 @@ import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
 import getFocusableElements from '../utils/getFocusableElements';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import DrawerContainer from './DrawerContainer';
 import { DrawerProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -16,22 +17,26 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const defaultPlacement = 'right';
 const defaultSize = 'auto';
 
-const Drawer = ({
-  isCloseButtonVisible, // deprecated
-  autoFocus = false,
-  backdrop = false,
-  children,
-  closeOnEsc = false,
-  closeOnOutsideClick = false,
-  ensureFocus = false,
-  finalFocusRef,
-  initialFocusRef,
-  isClosable = false,
-  isOpen = false,
-  onClose,
-  placement = defaultPlacement,
-  size = defaultSize,
-}) => {
+const Drawer = forwardRef((
+  {
+    isCloseButtonVisible, // deprecated
+    autoFocus = false,
+    backdrop = false,
+    children,
+    closeOnEsc = false,
+    closeOnOutsideClick = false,
+    ensureFocus = false,
+    finalFocusRef,
+    initialFocusRef,
+    isClosable = false,
+    isOpen = false,
+    onClose,
+    placement = defaultPlacement,
+    size = defaultSize,
+    ...rest
+  },
+  ref,
+) => {
   { // deprecation warning
     const prefix = `${Drawer.displayName}:`;
 
@@ -48,6 +53,7 @@ const Drawer = ({
 
   const [isMounted, setMounted] = useState(isOpen);
   const defaultId = useAutoId();
+  const containerRef = useRef();
   const contentRef = useRef(null);
   const drawerState = getMemoizedState({
     autoFocus,
@@ -62,6 +68,7 @@ const Drawer = ({
     onClose,
     placement,
     size,
+    containerRef, // internal use only
     contentRef, // internal use only
     scrollBehavior: 'inside', // internal use only (only 'inside' is supported by Drawer)
   });
@@ -128,14 +135,19 @@ const Drawer = ({
               onActivation={onFocusLockActivation}
               onDeactivation={onFocusLockDeactivation}
             >
-              {children}
+              <DrawerContainer
+                ref={ref}
+                {...rest}
+              >
+                {children}
+              </DrawerContainer>
             </FocusLock>
           </Portal>
         )}
       </AnimatePresence>
     </DrawerProvider>
   );
-};
+});
 
 Drawer.displayName = 'Drawer';
 
