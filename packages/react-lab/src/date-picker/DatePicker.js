@@ -1,6 +1,7 @@
 import { Box } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import useOutsideClick from '../hooks/useOutsideClick';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import useForkRef from '../utils/useForkRef';
@@ -84,6 +85,12 @@ const DatePicker = forwardRef((
   };
 
   const styleProps = useDatePickerStyle({});
+
+  useOutsideClick(() => {
+    if (_isOpen) {
+      closeDatePicker();
+    }
+  }, nodeRef);
 
   return (
     <DatePickerProvider value={context}>
