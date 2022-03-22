@@ -6,59 +6,6 @@ import { useTheme } from '../theme';
 const defaultPlacement = 'right';
 const defaultSize = 'auto';
 
-const useDrawerCloseButtonStyle = () => {
-  const [colorMode] = useColorMode();
-  const { colors } = useTheme();
-  const color = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const hoverColor = {
-    dark: 'white:emphasis',
-    light: 'black:primary',
-  }[colorMode];
-  const activeColor = color;
-  const focusColor = color;
-  const focusHoverColor = hoverColor;
-  const focusActiveColor = activeColor;
-  const focusBorderColor = _get(colors, 'blue:60');
-
-  return {
-    position: 'absolute',
-    top: '2x',
-    right: '2x',
-    border: 1,
-    borderColor: 'transparent',
-    color: color,
-    transition: 'all .2s',
-    lineHeight: 1,
-    height: '8x',
-    width: '8x',
-    minWidth: '8x', // ensure a minimum width for the close button
-    px: 0,
-    py: 0,
-    _hover: {
-      color: hoverColor,
-    },
-    _active: {
-      color: activeColor,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusColor,
-    },
-    _focusHover: {
-      color: focusHoverColor,
-    },
-    _focusActive: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusActiveColor,
-    },
-  };
-};
-
 const useDrawerContainerStyle = ({
   backdrop,
   placement = defaultPlacement,
@@ -95,6 +42,23 @@ const useDrawerContainerStyle = ({
     display: 'flex',
     zIndex: 'drawer',
     ...placementStyle,
+  };
+};
+
+const useDrawerOverlayStyle = () => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'rgba(0, 0, 0, .7)',
+    light: 'rgba(0, 0, 0, .7)',
+  }[colorMode];
+
+  return {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor,
   };
 };
 
@@ -189,6 +153,71 @@ const useDrawerContentStyle = ({
   };
 };
 
+const useDrawerCloseButtonStyle = () => {
+  const [colorMode] = useColorMode();
+  const { colors } = useTheme();
+  const color = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'white:emphasis',
+    light: 'black:primary',
+  }[colorMode];
+  const activeColor = color;
+  const focusColor = color;
+  const focusHoverColor = hoverColor;
+  const focusActiveColor = activeColor;
+  const focusBorderColor = _get(colors, 'blue:60');
+
+  return {
+    position: 'absolute',
+    top: '2x',
+    right: '2x',
+    border: 1,
+    borderColor: 'transparent',
+    color: color,
+    transition: 'all .2s',
+    lineHeight: 1,
+    height: '8x',
+    width: '8x',
+    minWidth: '8x', // ensure a minimum width for the close button
+    px: 0,
+    py: 0,
+    _hover: {
+      color: hoverColor,
+    },
+    _active: {
+      color: activeColor,
+    },
+    _focus: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusColor,
+    },
+    _focusHover: {
+      color: focusHoverColor,
+    },
+    _focusActive: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusActiveColor,
+    },
+  };
+};
+
+const useDrawerHeaderStyle = () => {
+  return {
+    pt: '4x',
+    pb: '6x',
+    pl: '4x',
+    pr: '12x',
+    position: 'relative',
+    fontSize: 'xl',
+    lineHeight: 'xl',
+  };
+};
+
 const useDrawerBodyStyle = ({
   scrollBehavior, // No default value if not specified
 }) => {
@@ -229,40 +258,11 @@ const useDrawerFooterStyle = ({
   };
 };
 
-const useDrawerHeaderStyle = () => {
-  return {
-    pt: '4x',
-    pb: '6x',
-    pl: '4x',
-    pr: '12x',
-    position: 'relative',
-    fontSize: 'xl',
-    lineHeight: 'xl',
-  };
-};
-
-const useDrawerOverlayStyle = () => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(0, 0, 0, .7)',
-    light: 'rgba(0, 0, 0, .7)',
-  }[colorMode];
-
-  return {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor,
-  };
-};
-
 export {
+  useDrawerBodyStyle,
   useDrawerCloseButtonStyle,
   useDrawerContainerStyle,
   useDrawerContentStyle,
-  useDrawerBodyStyle,
   useDrawerFooterStyle,
   useDrawerHeaderStyle,
   useDrawerOverlayStyle,

@@ -5,59 +5,6 @@ import { useTheme } from '../theme';
 
 const defaultSize = 'auto';
 
-const useModalCloseButtonStyle = () => {
-  const [colorMode] = useColorMode();
-  const { colors } = useTheme();
-  const color = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const hoverColor = {
-    dark: 'white:emphasis',
-    light: 'black:primary',
-  }[colorMode];
-  const activeColor = color;
-  const focusColor = color;
-  const focusHoverColor = hoverColor;
-  const focusActiveColor = activeColor;
-  const focusBorderColor = _get(colors, 'blue:60');
-
-  return {
-    position: 'absolute',
-    top: '2x',
-    right: '2x',
-    border: 1,
-    borderColor: 'transparent',
-    color: color,
-    transition: 'all .2s',
-    lineHeight: 1,
-    height: '8x',
-    width: '8x',
-    minWidth: '8x', // ensure a minimum width for the close button
-    px: 0,
-    py: 0,
-    _hover: {
-      color: hoverColor,
-    },
-    _active: {
-      color: activeColor,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusColor,
-    },
-    _focusHover: {
-      color: focusHoverColor,
-    },
-    _focusActive: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusActiveColor,
-    },
-  };
-};
-
 const useModalContainerStyle = () => {
   return {
     position: 'fixed',
@@ -68,6 +15,23 @@ const useModalContainerStyle = () => {
     display: 'flex',
     overflow: 'auto',
     zIndex: 'modal',
+  };
+};
+
+const useModalOverlayStyle = () => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'rgba(0, 0, 0, .7)',
+    light: 'rgba(0, 0, 0, .7)',
+  }[colorMode];
+
+  return {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor,
   };
 };
 
@@ -167,6 +131,71 @@ const useModalContentStyle = ({
   };
 };
 
+const useModalCloseButtonStyle = () => {
+  const [colorMode] = useColorMode();
+  const { colors } = useTheme();
+  const color = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'white:emphasis',
+    light: 'black:primary',
+  }[colorMode];
+  const activeColor = color;
+  const focusColor = color;
+  const focusHoverColor = hoverColor;
+  const focusActiveColor = activeColor;
+  const focusBorderColor = _get(colors, 'blue:60');
+
+  return {
+    position: 'absolute',
+    top: '2x',
+    right: '2x',
+    border: 1,
+    borderColor: 'transparent',
+    color: color,
+    transition: 'all .2s',
+    lineHeight: 1,
+    height: '8x',
+    width: '8x',
+    minWidth: '8x', // ensure a minimum width for the close button
+    px: 0,
+    py: 0,
+    _hover: {
+      color: hoverColor,
+    },
+    _active: {
+      color: activeColor,
+    },
+    _focus: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusColor,
+    },
+    _focusHover: {
+      color: focusHoverColor,
+    },
+    _focusActive: {
+      borderColor: focusBorderColor,
+      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
+      color: focusActiveColor,
+    },
+  };
+};
+
+const useModalHeaderStyle = () => {
+  return {
+    pt: '4x',
+    pb: '6x',
+    pl: '6x',
+    pr: '12x',
+    position: 'relative',
+    fontSize: 'xl',
+    lineHeight: 'xl',
+  };
+};
+
 const useModalBodyStyle = ({
   scrollBehavior, // No default value if not specified
 }) => {
@@ -209,40 +238,11 @@ const useModalFooterStyle = () => {
   };
 };
 
-const useModalHeaderStyle = () => {
-  return {
-    pt: '4x',
-    pb: '6x',
-    pl: '6x',
-    pr: '12x',
-    position: 'relative',
-    fontSize: 'xl',
-    lineHeight: 'xl',
-  };
-};
-
-const useModalOverlayStyle = () => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(0, 0, 0, .7)',
-    light: 'rgba(0, 0, 0, .7)',
-  }[colorMode];
-
-  return {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor,
-  };
-};
-
 export {
+  useModalBodyStyle,
   useModalCloseButtonStyle,
   useModalContainerStyle,
   useModalContentStyle,
-  useModalBodyStyle,
   useModalFooterStyle,
   useModalHeaderStyle,
   useModalOverlayStyle,
