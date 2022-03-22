@@ -1,81 +1,67 @@
+import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
-import { Box } from '../box';
 import { Fade } from '../transitions';
+import { useAnimatePresence } from '../utils/animate-presence';
 import useForkRef from '../utils/useForkRef';
 import ModalCloseButton from './ModalCloseButton';
-import ModalContainer from './ModalContainer';
 import {
   useModalContentStyle,
 } from './styles';
 import useModal from './useModal';
 
-const ModalContentBase = forwardRef((
+const ModalContent = forwardRef((
   {
+    TransitionComponent = Fade,
+    TransitionProps,
     children,
     ...rest
   },
-  ref
+  ref,
 ) => {
+  const [, safeToRemove] = useAnimatePresence();
   const modalContext = useModal(); // context might be an undefined value
   const {
     closeOnEsc,
     isClosable,
+    isOpen,
     onClose,
     scrollBehavior,
     size,
     contentRef, // internal use only
+    placement, // internal use only
   } = { ...modalContext };
   const combinedRef = useForkRef(contentRef, ref);
-  const styleProps = useModalContentStyle({ scrollBehavior, size });
+  const styleProps = useModalContentStyle({ placement, scrollBehavior, size });
+  const contentProps = {
+    ref: combinedRef,
+    role: 'dialog',
+    tabIndex: -1,
+    onClick: event => event.stopPropagation(),
+    onKeyDown: event => {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        if (closeOnEsc) {
+          (typeof onClose === 'function') && onClose(event);
+        }
+      }
+    },
+    ...styleProps,
+    ...rest,
+  };
 
   return (
-    <Box
-      ref={combinedRef}
-      role="dialog"
-      tabIndex={-1}
-      onClick={event => event.stopPropagation()}
-      onKeyDown={event => {
-        if (event.key === 'Escape') {
-          event.stopPropagation();
-          if (closeOnEsc) {
-            (typeof onClose === 'function') && onClose(event);
-          }
-        }
-      }}
-      {...styleProps}
-      {...rest}
+    <TransitionComponent
+      appear={!!modalContext}
+      {...TransitionProps}
+      {...contentProps}
+      in={modalContext ? isOpen : true}
+      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
     >
       {children}
       {!!isClosable && (
         <ModalCloseButton onClick={onClose} />
       )}
-    </Box>
-  );
-});
-
-const ModalContent = React.forwardRef((
-  {
-    TransitionComponent = Fade,
-    TransitionProps,
-    ...rest
-  },
-  ref,
-) => {
-  const modalContext = useModal(); // context might be an undefined value
-
-  if (!modalContext) {
-    return (
-      <ModalContentBase ref={ref} {...rest} />
-    );
-  }
-
-  return (
-    <ModalContainer
-      TransitionComponent={TransitionComponent}
-      TransitionProps={TransitionProps}
-    >
-      <ModalContentBase ref={ref} {...rest} />
-    </ModalContainer>
+    </TransitionComponent>
   );
 });
 

@@ -66,21 +66,19 @@ const useModalContainerStyle = () => {
     top: 0,
     bottom: 0,
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     overflow: 'auto',
     zIndex: 'modal',
   };
 };
 
 const useModalContentStyle = ({
+  placement, // No default value if not specified
   scrollBehavior, // No default value if not specified
   size = defaultSize,
 }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
-    mx: 'auto',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'clip', // Set overflow to clip to forbid all scrolling for modal content
@@ -104,6 +102,12 @@ const useModalContentStyle = ({
       boxShadow: colorStyle?.shadow?.thick,
     },
   }[colorMode];
+  const placementStyle = {
+    'center': {
+      // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
+      margin: 'auto', // Use the `margin: auto` technique to center the content
+    },
+  }[placement];
   const sizeStyle = {
     xs: {
       width: 352,
@@ -158,19 +162,8 @@ const useModalContentStyle = ({
   return {
     ...baseStyle,
     ...colorModeStyle,
+    ...placementStyle,
     ...sizeStyle,
-  };
-};
-
-const useModalHeaderStyle = () => {
-  return {
-    pt: '4x',
-    pb: '6x',
-    pl: '6x',
-    pr: '12x',
-    position: 'relative',
-    fontSize: 'xl',
-    lineHeight: 'xl',
   };
 };
 
@@ -216,11 +209,41 @@ const useModalFooterStyle = () => {
   };
 };
 
+const useModalHeaderStyle = () => {
+  return {
+    pt: '4x',
+    pb: '6x',
+    pl: '6x',
+    pr: '12x',
+    position: 'relative',
+    fontSize: 'xl',
+    lineHeight: 'xl',
+  };
+};
+
+const useModalOverlayStyle = () => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'rgba(0, 0, 0, .7)',
+    light: 'rgba(0, 0, 0, .7)',
+  }[colorMode];
+
+  return {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor,
+  };
+};
+
 export {
   useModalCloseButtonStyle,
   useModalContainerStyle,
   useModalContentStyle,
-  useModalHeaderStyle,
   useModalBodyStyle,
   useModalFooterStyle,
+  useModalHeaderStyle,
+  useModalOverlayStyle,
 };

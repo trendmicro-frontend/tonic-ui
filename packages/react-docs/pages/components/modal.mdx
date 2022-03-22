@@ -33,7 +33,7 @@ You can also compose your modal components when customization is needed.
 function Example() {
   return (
     <Stack direction="column" spacing="4x">
-      <ModalContent ml={0} width={480}>
+      <ModalContent width={480}>
         <ModalHeader>
           Modal Title
         </ModalHeader>
@@ -52,7 +52,7 @@ function Example() {
           <Button minWidth="20x">Cancel</Button>
         </ModalFooter>
       </ModalContent>
-      <ModalContent ml={0} width={480}>
+      <ModalContent width={480}>
         <ModalBody>
           <Text mb="4x">
             Modal body text goes here.
@@ -65,7 +65,7 @@ function Example() {
           <Button minWidth="20x">Cancel</Button>
         </ModalFooter>
       </ModalContent>
-      <ModalContent ml={0} width={480}>
+      <ModalContent width={480}>
         <ModalBody>
           <Text mb="4x">
             Modal body text goes here.
@@ -73,7 +73,7 @@ function Example() {
           <SkeletonBody />
         </ModalBody>
       </ModalContent>
-      <ModalContent ml={0} width={480}>
+      <ModalContent width={480}>
         <Box px="4x" py="4x">
           You can create a custom modal with any sort of content.
         </Box>
@@ -149,7 +149,7 @@ function Example() {
   const [size, changeSizeBy] = useSelection('auto');
   const [scrollBehavior, changeScrollBehaviorBy] = useSelection('inside');
   const [initialContentHeight, changeInitialContentHeightBy] = useSelection('default');
-  const [topBottomMargins, changeTopBottomMarginsBy] = useSelection('default');
+  const [verticalPadding, changeVerticalPaddingBy] = useSelection('default');
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
@@ -161,26 +161,17 @@ function Example() {
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
   const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
-  const contentStyleProps = {};
+  const modalStyleProps = {};
+  const modalContentStyleProps = {};
 
   if (size !== 'full') {
-    if (scrollBehavior === 'inside') {
-      if (initialContentHeight !== 'default') {
-        contentStyleProps.height = initialContentHeight;
-      }
-      if (topBottomMargins !== 'default') {
-        contentStyleProps.maxHeight = 'calc(100% - 2 * ' + topBottomMargins + ')';
-      }
+    if (verticalPadding !== 'default') {
+      modalStyleProps.py = verticalPadding;
     }
 
-    if (scrollBehavior === 'outside') {
-      if (initialContentHeight !== 'default') {
-        contentStyleProps.minHeight = initialContentHeight;
-      }
-      if (topBottomMargins !== 'default') {
-        contentStyleProps.marginTop = topBottomMargins;
-        contentStyleProps.marginBottom = topBottomMargins;
-      }
+    if (initialContentHeight !== 'default') {
+      const propKey = (scrollBehavior === 'inside') ? 'height' : 'minHeight';
+      modalContentStyleProps[propKey] = initialContentHeight;
     }
   }
 
@@ -323,7 +314,7 @@ function Example() {
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
-          ModalContent props
+          Modal style props
         </Text>
       </Box>
       <FormGroup>
@@ -356,7 +347,7 @@ function Example() {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
-            Top and bottom margins
+            Vertical padding
           </TextLabel>
         </Box>
         <ButtonGroup
@@ -371,8 +362,8 @@ function Example() {
             <SelectButton
               disabled={size === 'full'}
               key={value}
-              isSelected={value === topBottomMargins}
-              onClick={changeTopBottomMarginsBy(value)}
+              isSelected={value === verticalPadding}
+              onClick={changeVerticalPaddingBy(value)}
               minWidth="15x"
             >
               {value}
@@ -387,7 +378,7 @@ function Example() {
           </TextLabel>
         </Box>
         <CodeBlock>
-          {`const contentStyleProps = ${JSON.stringify(contentStyleProps, null, 2)};\n\n// example\n<Modal scrollBehavior="${scrollBehavior}">\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
+          {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal\n  scrollBehavior="${scrollBehavior}"\n  {...modalStyleProps}\n>\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
         </CodeBlock>
       </FormGroup>
       <Divider my="4x" />
@@ -456,6 +447,7 @@ function Example() {
         </Box>
       </FormGroup>
       <Modal
+        TransitionComponent={null}
         autoFocus={autoFocus}
         ensureFocus={ensureFocus}
         closeOnEsc={closeOnEsc}
@@ -466,6 +458,7 @@ function Example() {
         onClose={() => toggleModal(false)}
         scrollBehavior={scrollBehavior}
         size={size}
+        {...modalStyleProps}
       >
         {enableBodyScrollLock && (
           <Global
@@ -479,7 +472,9 @@ function Example() {
         {isOverlayVisible && (
           <ModalOverlay />
         )}
-        <ModalContent {...contentStyleProps}>
+        <ModalContent
+          {...modalContentStyleProps}
+        >
           {isHeaderVisible && (
             <ModalHeader>
               {size === 'auto' && <Text>Auto-sized Modal</Text>}
