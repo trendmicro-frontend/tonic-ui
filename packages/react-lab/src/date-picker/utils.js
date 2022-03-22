@@ -1,7 +1,8 @@
+import format from 'date-fns/format';
+
 const dateFormatter = ({
   date,
-  format = { day: 'numeric', month: 'numeric', year: 'numeric' },
-  locale,
+  dateFormat = 'yyyy-MM-dd',
 }) => {
   if (!date) {
     return '';
@@ -10,7 +11,7 @@ const dateFormatter = ({
     date = toDate(date);
   }
   if (isDate(date)) {
-    return date.toLocaleDateString(locale, format);
+    return format(date, dateFormat);
   }
   return '';
 };

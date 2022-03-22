@@ -6,7 +6,7 @@ import Day from './Day';
 
 const Week = ({
   activeDate,
-  locale,
+  dateFormat,
   selectedDate,
   setActiveDate,
   startDateOfWeek,
@@ -24,7 +24,7 @@ const Week = ({
         <Day
           key={date.getTime()}
           date={date}
-          locale={locale}
+          dateFormat={dateFormat}
           isOutOfScope={isOutOfScope}
           isSelected={isSelected}
           isToday={isToday}

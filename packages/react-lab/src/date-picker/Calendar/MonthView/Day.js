@@ -8,10 +8,10 @@ import { dateFormatter } from '../../utils';
 const Day = forwardRef((
   {
     date,
+    dateFormat,
     isOutOfScope,
     isSelected,
     isToday,
-    locale,
     setActiveDate,
     onClick,
     ...props
@@ -25,10 +25,10 @@ const Day = forwardRef((
     isSelected,
     isToday,
   });
-  const title = dateFormatter({ date, locale });
+  const title = dateFormatter({ date, dateFormat });
   const label = getDate(date);
   const handleClick = (e) => {
-    const formattedValue = dateFormatter({ date, locale });
+    const formattedValue = dateFormatter({ date, dateFormat });
     onClick(formattedValue);
     setActiveDate(date);
   };

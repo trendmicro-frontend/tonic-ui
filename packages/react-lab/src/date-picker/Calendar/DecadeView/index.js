@@ -5,7 +5,6 @@ import Years from './Years';
 const DecadeView = forwardRef((
   {
     activeDate,
-    locale,
     selectedDate,
     setActiveDate,
     setView,
@@ -21,7 +20,6 @@ const DecadeView = forwardRef((
     >
       <Years
         activeDate={activeDate}
-        locale={locale}
         selectedDate={selectedDate}
         setActiveDate={setActiveDate}
         setView={setView}

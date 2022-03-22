@@ -14,7 +14,6 @@ const dateTransform = (year, monthIndex) => {
 const Months = forwardRef((
   {
     activeDate,
-    locale,
     selectedDate,
     setActiveDate,
     setView,
@@ -35,7 +34,6 @@ const Months = forwardRef((
         activeDate={startDateOfMonth}
         isSelected={isSameMonth(startDateOfMonth, selectedDate)}
         isToday={isSameMonth(startDateOfMonth, today)}
-        locale={locale}
         setActiveDate={setActiveDate}
         setView={setView}
       />

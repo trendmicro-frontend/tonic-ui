@@ -13,7 +13,6 @@ const dateTransform = (year) => {
 
 const Years = ({
   activeDate,
-  locale,
   selectedDate,
   setActiveDate,
   setView,
@@ -33,7 +32,6 @@ const Years = ({
         isSelected={isSameYear(date, selectedDate)}
         isToday={isSameYear(date, today)}
         isOutOfScope={point < activeYear || point > (activeYear + 9)}
-        locale={locale}
         setActiveDate={setActiveDate}
         setView={setView}
       />

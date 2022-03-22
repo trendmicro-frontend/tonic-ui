@@ -5,7 +5,6 @@ import Months from './Months';
 const YearView = forwardRef((
   {
     activeDate,
-    locale,
     selectedDate,
     setActiveDate,
     setView,
@@ -21,7 +20,6 @@ const YearView = forwardRef((
     >
       <Months
         activeDate={activeDate}
-        locale={locale}
         selectedDate={selectedDate}
         setActiveDate={setActiveDate}
         setView={setView}

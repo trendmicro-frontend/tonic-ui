@@ -1,4 +1,5 @@
 import { Box } from '@tonic-ui/react';
+import format from 'date-fns/format';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { useClickableCellStyle } from '../styles';
@@ -8,7 +9,6 @@ const Month = forwardRef((
     activeDate,
     isSelected,
     isToday,
-    locale,
     setActiveDate,
     setView,
     ...props
@@ -22,8 +22,8 @@ const Month = forwardRef((
     isSelected,
     isToday,
   });
-  const title = activeDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-  const label = activeDate.toLocaleDateString(locale, { month: 'short' });
+  const title = format(activeDate, 'LLLL yyyy');
+  const label = format(activeDate, 'LLL');
   const handleClick = (e) => {
     setActiveDate(activeDate);
     setView('month');

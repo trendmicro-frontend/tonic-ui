@@ -1,6 +1,7 @@
+import { Box } from '@tonic-ui/react';
+import { usePrevious } from '@tonic-ui/react-hooks';
 import isSameMonth from 'date-fns/isSameMonth';
 import isSameYear from 'date-fns/isSameYear';
-import { Box } from '@tonic-ui/react';
 import React, { forwardRef, useEffect, useState } from 'react';
 import DecadeView from './DecadeView';
 import MonthView from './MonthView';
@@ -16,7 +17,7 @@ const Calendar = forwardRef((
   {
     calendarStartDay = 0, // 0 = Sunday, 1 = Monday, ...
     children,
-    locale = 'en',
+    dateFormat = 'yyyy-MM-dd',
     value, // string
     view = 'month', // one of 'month', 'year', 'decade'
     onChange: onClickDay,
@@ -29,10 +30,15 @@ const Calendar = forwardRef((
   const [currentView, setView] = useState(view);
   const [activeDate, setActiveDate] = useState(currentDate);
   const styleProps = useCalendarStyle();
+  const previouslyValue = usePrevious(value);
 
   useEffect(() => {
     // Dynamically change the calendar view
-    if (selectedDate && (!isSameYear(selectedDate, activeDate) || !isSameMonth(selectedDate, activeDate))) {
+    if (
+      value !== previouslyValue
+      && !!selectedDate
+      && (!isSameYear(selectedDate, activeDate) || !isSameMonth(selectedDate, activeDate))
+    ) {
       setActiveDate(selectedDate);
     }
   }, [selectedDate, activeDate]);
@@ -57,7 +63,6 @@ const Calendar = forwardRef((
     >
       <Navigation
         activeDate={activeDate}
-        locale={locale}
         setActiveDate={setActiveDate}
         setView={setView}
         view={currentView}
@@ -65,7 +70,6 @@ const Calendar = forwardRef((
       { currentView === 'month' && (
         <MonthView
           activeDate={activeDate}
-          locale={locale}
           selectedDate={selectedDate}
           setActiveDate={setActiveDate}
           calendarStartDay={calendarStartDay}
@@ -75,7 +79,6 @@ const Calendar = forwardRef((
       { currentView === 'year' && (
         <YearView
           activeDate={activeDate}
-          locale={locale}
           selectedDate={selectedDate}
           setActiveDate={setActiveDate}
           setView={setView}
@@ -84,7 +87,6 @@ const Calendar = forwardRef((
       { currentView === 'decade' && (
         <DecadeView
           activeDate={activeDate}
-          locale={locale}
           selectedDate={selectedDate}
           setActiveDate={setActiveDate}
           setView={setView}

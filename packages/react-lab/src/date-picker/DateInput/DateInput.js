@@ -11,7 +11,6 @@ import useForkRef from '../../utils/useForkRef';
 
 const DateInput = forwardRef((
   {
-    locale = 'en',
     value,
     onChange,
     ...props

@@ -5,6 +5,7 @@ import {
 } from '@tonic-ui/react';
 import addMonths from 'date-fns/addMonths';
 import addYears from 'date-fns/addYears';
+import format from 'date-fns/format';
 import startOfMonth from 'date-fns/startOfMonth';
 import startOfYear from 'date-fns/startOfYear';
 import subMonths from 'date-fns/subMonths';
@@ -14,7 +15,6 @@ import React, { forwardRef } from 'react';
 const Navigation = forwardRef((
   {
     activeDate,
-    locale,
     view,
     setActiveDate,
     setView,
@@ -36,7 +36,6 @@ const Navigation = forwardRef((
       />
       <Title
         activeDate={activeDate}
-        locale={locale}
         view={view}
         setActiveDate={setActiveDate}
         setView={setView}
@@ -52,22 +51,21 @@ const Navigation = forwardRef((
 
 const Title = ({
   activeDate,
-  locale,
   view,
   setActiveDate,
   setView,
 }) => {
   const label = ((date) => {
     if (view === 'decade') {
-      const startYear = date.toLocaleDateString(locale, { year: 'numeric' });
-      const endYear = addYears(date, 9).toLocaleDateString(locale, { year: 'numeric' });
+      const startYear = format(date, 'yyyy');
+      const endYear = format(addYears(date, 9), 'yyyy');
       return `${startYear} - ${endYear}`;
     }
     if (view === 'year') {
-      return date.toLocaleDateString(locale, { year: 'numeric' });
+      return format(date, 'yyyy');
     }
     if (view === 'month') {
-      return date.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+      return format(date, 'LLL yyyy');
     }
     throw new Error(`Invalid view: ${view}.`);
   })(activeDate);
@@ -104,12 +102,12 @@ const PreviousButton = ({
   setActiveDate,
 }) => {
   const handleClick = (e) => {
-    const nextActiveStartDate = {
+    const nextActiveDate = {
       'decade': subYears(activeDate, 10),
       'year': subYears(activeDate, 1),
       'month': subMonths(activeDate, 1),
     }[view];
-    setActiveDate(nextActiveStartDate);
+    setActiveDate(nextActiveDate);
   };
 
   return (
@@ -129,12 +127,12 @@ const NextButton = ({
   setActiveDate,
 }) => {
   const handleClick = (e) => {
-    const nextActiveStartDate = {
+    const nextActiveDate = {
       'decade': addYears(activeDate, 10),
       'year': addYears(activeDate, 1),
       'month': addMonths(activeDate, 1),
     }[view];
-    setActiveDate(nextActiveStartDate);
+    setActiveDate(nextActiveDate);
   };
 
   return (

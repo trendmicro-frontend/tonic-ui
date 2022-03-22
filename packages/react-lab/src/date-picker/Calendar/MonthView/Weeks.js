@@ -17,7 +17,7 @@ const Weeks = forwardRef((
   {
     activeDate,
     calendarStartDay,
-    locale,
+    dateFormat,
     selectedDate,
 
     // handlers
@@ -44,7 +44,7 @@ const Weeks = forwardRef((
       <Week
         key={startDateOfWeek.getTime()}
         activeDate={activeDate}
-        locale={locale}
+        dateFormat={dateFormat}
         onClickDay={onClickDay}
         selectedDate={selectedDate}
         setActiveDate={setActiveDate}
