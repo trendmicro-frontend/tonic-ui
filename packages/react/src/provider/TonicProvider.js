@@ -1,3 +1,4 @@
+import React from 'react';
 import { ThemeProvider } from '../theme';
 import { ColorModeProvider } from '../color-mode';
 import { ColorStyleProvider } from '../color-style';

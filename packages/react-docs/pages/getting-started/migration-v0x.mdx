@@ -119,6 +119,7 @@ The following components changed the `display` property internally. Check whethe
 | `Stack` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
 | `Tag` | `inline-block` | `inline-flex` | |
 | `Text` | `inline-block` | `block` | It might affect the layout according to your usage<br/>- To make inline text, use `<Text display="inline" />`<br/>- To make inline block text, use `<Text display="inline-block" />`<br/>- To make inline flex text, use `<Text display="inline-flex" />`<br/>- Use `<Flex direction="row" />` or `<Flex direction="column" />` if you need to render multiple components in the same row or column. |
+| `TextLabel` | `inline` | `block` | It might affect the layout according to your usage<br/>- To make inline text, use `<TextLabel display="inline" />`<br/>- To make inline block text, use `<TextLabel display="inline-block" />`<br/>- To make inline flex text, use `<TextLabel display="inline-flex" />`<br/>- Use `<Flex direction="row" />` or `<Flex direction="column" />` if you need to render multiple components in the same row or column. |
 
 ## System Updates
 
@@ -284,8 +285,19 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 
 ### Tabs
 
-🚧 🚧 🚧
-> 👉 The `Tabs` component was temporarily removed from v1 alpha. It will be completely reworked and added back in the future.
+#### `Tabs`
+
+* Removed `activateOnKeyPress`, `isFitted`, and `isManual` props
+* Renamed `variant="line"` to `variant="default"`
+* Renamed `variant="enclosed"` to `variant="filled"`
+
+#### `Tab`
+
+* Renamed the `isActive` prop to `isSelected`
+
+#### `TabPanel`
+
+* Renamed the `isActive` prop to `isSelected`
 
 ### Tag
 

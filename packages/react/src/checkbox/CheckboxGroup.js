@@ -2,6 +2,7 @@ import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import config from '../shared/config';
+import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import { CheckboxGroupContext } from './context';
 
@@ -51,7 +52,7 @@ const CheckboxGroup = ({
     }
   };
 
-  const checkboxGroupState = getMemoizedState({
+  const context = getMemoizedState({
     disabled,
     name,
     onChange: handleChange,
@@ -61,8 +62,8 @@ const CheckboxGroup = ({
   });
 
   return (
-    <CheckboxGroupContext.Provider value={checkboxGroupState}>
-      { children }
+    <CheckboxGroupContext.Provider value={context}>
+      {runIfFn(children, context)}
     </CheckboxGroupContext.Provider>
   );
 };

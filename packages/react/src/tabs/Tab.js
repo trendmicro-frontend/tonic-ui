@@ -4,6 +4,7 @@ import React, { forwardRef, useState } from 'react';
 import { ButtonBase } from '../button';
 import config from '../shared/config';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import wrapEvent from '../utils/wrapEvent';
 import { useTabStyle } from './styles';
 import useTabs from './useTabs';
@@ -16,7 +17,6 @@ const Tab = forwardRef((
     disabled: disabledProp,
     index: indexProp,
     onClick,
-    variant: variantProp,
     ...rest
   },
   ref,
@@ -29,8 +29,9 @@ const Tab = forwardRef((
   const tabPanelId = `${config.name}:TabPanel-${index}`;
   const disabled = disabledProp ?? context?.disabled;
   const isSelected = isIndexEqual(index, context?.index);
-  const variant = variantProp ?? context?.variant;
-  const styleProps = useTabStyle({ disabled, isSelected, variant });
+  const orientation = context?.orientation;
+  const variant = context?.variant;
+  const styleProps = useTabStyle({ disabled, isSelected, orientation, variant });
   const handleClick = wrapEvent(onClick, (event) => {
     if (isSelected) {
       // Do not trigger onChange if the tab is already selected
@@ -69,13 +70,32 @@ const Tab = forwardRef((
     ...rest,
   });
 
-  if (typeof children === 'function') {
-    return children({
-      getTabProps,
-      disabled,
-      index,
-      variant,
+  const tabContext = {
+    getTabProps,
+    disabled,
+    index,
+    isSelected,
+  };
+
+  { // deprecation warning
+    const prefix = `${Tab.displayName}:`;
+
+    Object.defineProperties(tabContext, {
+      isActive: {
+        get: () => {
+          warnDeprecatedProps('isActive', {
+            prefix,
+            alternative: 'isSelected',
+            willRemove: true,
+          });
+          return isSelected;
+        },
+      },
     });
+  }
+
+  if (typeof children === 'function') {
+    return children(tabContext);
   }
 
   return (

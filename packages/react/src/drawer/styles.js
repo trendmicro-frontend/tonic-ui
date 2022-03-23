@@ -3,64 +3,154 @@ import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { useTheme } from '../theme';
 
-const defaultPlacement = 'left';
+const defaultPlacement = 'right';
 const defaultSize = 'auto';
 
-const getPlacementProps = (placement) => {
-  placement = placement ?? defaultPlacement;
-
-  return {
-    left: {
-      left: 0,
-      right: 'auto',
-      top: 0,
-      height: '100%',
-    },
-    right: {
-      left: 'auto',
-      right: 0,
-      top: 0,
-      height: '100%',
-    },
+const useDrawerContainerStyle = ({
+  backdrop,
+  placement = defaultPlacement,
+}) => {
+  const placementStyle = {
     top: {
       top: 0,
-      left: 0,
       right: 0,
-      bottom: 'auto',
-      height: 'auto',
-      maxHeight: '100%',
-    },
-    bottom: {
-      top: 'auto',
+      bottom: backdrop ? 0 : undefined,
       left: 0,
+    },
+    right: {
+      top: 0,
       right: 0,
       bottom: 0,
-      height: 'auto',
-      maxHeight: '100%',
+      left: backdrop ? 0 : undefined,
+    },
+    bottom: {
+      top: backdrop ? 0 : undefined,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    },
+    left: {
+      top: 0,
+      right: backdrop ? 0 : undefined,
+      bottom: 0,
+      left: 0,
     },
   }[placement];
-};
-
-const getSizeProps = (size) => {
-  size = size ?? defaultSize;
 
   return {
+    position: 'fixed',
+    display: 'flex',
+    zIndex: 'drawer',
+    ...placementStyle,
+  };
+};
+
+const useDrawerOverlayStyle = () => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'rgba(0, 0, 0, .7)',
+    light: 'rgba(0, 0, 0, .7)',
+  }[colorMode];
+
+  return {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor,
+  };
+};
+
+const useDrawerContentStyle = ({
+  placement = defaultPlacement,
+  size = defaultSize,
+}) => {
+  const isLeftOrRight = (placement === 'left' || placement === 'right');
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const baseStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'clip', // Set overflow to clip to forbid all scrolling for drawer content
+    position: 'relative',
+  };
+  const colorModeStyle = {
+    light: {
+      color: 'black:primary',
+      bg: 'white',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: 'gray:30',
+      boxShadow: colorStyle?.shadow?.thick,
+    },
+    dark: {
+      color: 'white:primary',
+      bg: 'gray:90',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: 'gray:80',
+      boxShadow: colorStyle?.shadow?.thick,
+    },
+  }[colorMode];
+  const placementStyle = {
+    // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
+    top: {
+      margin: 'auto',
+      marginTop: 0,
+    },
+    right: {
+      margin: 'auto',
+      marginRight: 0,
+    },
+    bottom: {
+      margin: 'auto',
+      marginBottom: 0,
+    },
+    left: {
+      margin: 'auto',
+      marginLeft: 0,
+    },
+  }[placement];
+  const sizeStyle = {
     sm: {
-      width: 336,
+      width: isLeftOrRight ? 336 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
     },
     md: {
-      width: 504,
+      width: isLeftOrRight ? 504 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
     },
     lg: {
-      width: 672,
+      width: isLeftOrRight ? 672 : '100%',
+      height: isLeftOrRight ? '100%' : undefined,
+      minHeight: isLeftOrRight ? undefined : 320,
+      maxHeight: isLeftOrRight ? undefined : '80vh',
     },
     full: {
       width: '100%',
+      height: '100%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
     },
     auto: {
-      width: 'auto',
+      width: isLeftOrRight ? 'auto' : '100%',
+      height: isLeftOrRight ? '100%' : 'auto',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
     },
   }[size];
+
+  return {
+    ...baseStyle,
+    ...colorModeStyle,
+    ...placementStyle,
+    ...sizeStyle,
+  };
 };
 
 const useDrawerCloseButtonStyle = () => {
@@ -116,48 +206,6 @@ const useDrawerCloseButtonStyle = () => {
   };
 };
 
-const useDrawerContentStyle = ({
-  placement,
-  size,
-}) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const baseStyle = {
-    mx: 'auto',
-    height: 'auto',
-    top: 0,
-    display: 'flex',
-    flexDirection: 'column',
-  };
-  const colorModeStyle = {
-    light: {
-      color: 'black:primary',
-      bg: 'white',
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: 'gray:30',
-      boxShadow: colorStyle?.shadow?.thick,
-    },
-    dark: {
-      color: 'white:primary',
-      bg: 'gray:90',
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: 'gray:80',
-      boxShadow: colorStyle?.shadow?.thick,
-    },
-  }[colorMode];
-  const placementProps = getPlacementProps(placement);
-  const sizeProps = getSizeProps(size);
-
-  return {
-    ...baseStyle,
-    ...colorModeStyle,
-    ...placementProps,
-    ...sizeProps,
-  };
-};
-
 const useDrawerHeaderStyle = () => {
   return {
     pt: '4x',
@@ -170,7 +218,9 @@ const useDrawerHeaderStyle = () => {
   };
 };
 
-const useDrawerBodyStyle = () => {
+const useDrawerBodyStyle = ({
+  scrollBehavior, // No default value if not specified
+}) => {
   const { sizes, lineHeights } = useTheme();
 
   return {
@@ -178,7 +228,7 @@ const useDrawerBodyStyle = () => {
     pb: '6x',
     flex: 1,
     height: 'auto',
-    overflowY: 'auto',
+    overflowY: scrollBehavior === 'inside' ? 'auto' : undefined,
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
@@ -188,7 +238,7 @@ const useDrawerBodyStyle = () => {
 };
 
 const useDrawerFooterStyle = ({
-  placement,
+  placement = defaultPlacement,
 }) => {
   const { sizes, lineHeights } = useTheme();
 
@@ -199,7 +249,7 @@ const useDrawerFooterStyle = ({
       'left': 'flex-end',
     }[placement],
     px: '4x',
-    pb: '4x',
+    py: '4x',
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
@@ -209,9 +259,11 @@ const useDrawerFooterStyle = ({
 };
 
 export {
-  useDrawerCloseButtonStyle,
-  useDrawerContentStyle,
-  useDrawerHeaderStyle,
   useDrawerBodyStyle,
+  useDrawerCloseButtonStyle,
+  useDrawerContainerStyle,
+  useDrawerContentStyle,
   useDrawerFooterStyle,
+  useDrawerHeaderStyle,
+  useDrawerOverlayStyle,
 };

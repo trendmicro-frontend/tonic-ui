@@ -10,12 +10,12 @@ import useToast from './useToast';
 
 export {
   Toast,
-  ToastCloseButton,
-  ToastContainer,
-  ToastController,
-  ToastIcon,
-  ToastMessage,
+  ToastCloseButton, // internal use only
+  ToastContainer, // internal use only
+  ToastController, // internal use only
+  ToastIcon, // internal use only
+  ToastMessage, // internal use only
   ToastProvider,
-  ToastTransition,
+  ToastTransition, // internal use only
   useToast,
 };

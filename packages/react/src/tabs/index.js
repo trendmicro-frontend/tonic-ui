@@ -3,6 +3,7 @@ import Tabs from './Tabs';
 import TabList from './TabList';
 import TabPanel from './TabPanel';
 import TabPanels from './TabPanels';
+import useTabs from './useTabs';
 
 export {
   Tab,
@@ -10,4 +11,5 @@ export {
   TabList,
   TabPanel,
   TabPanels,
+  useTabs,
 };

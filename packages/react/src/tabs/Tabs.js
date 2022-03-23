@@ -1,9 +1,14 @@
-import { useConst } from '@tonic-ui/react-hooks';
+import { useConst, useOnceWhen } from '@tonic-ui/react-hooks';
 import memoize from 'micro-memoize';
-import React, { useEffect, useReducer } from 'react';
+import React, { forwardRef, useEffect, useReducer } from 'react';
+import { Box } from '../box';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
 import runIfFn from '../utils/runIfFn';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
+import warnRemovedProps from '../utils/warnRemovedProps';
+import { defaultOrientation, defaultVariant } from './constants';
 import { TabsContext } from './context';
+import { useTabsStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -12,16 +17,68 @@ const stateReducer = (prevState, nextState) => ({
   ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
 });
 
-const defaultVariant = 'default';
+const Tabs = forwardRef((
+  {
+    activateOnKeyPress, // removed
+    isFitted, // removed
+    isManual, // removed
 
-const Tabs = ({
-  children,
-  defaultIndex = 0,
-  disabled,
-  index: indexProp,
-  onChange,
-  variant = defaultVariant,
-}) => {
+    children,
+    defaultIndex = 0,
+    disabled,
+    index: indexProp,
+    onChange,
+    orientation = defaultOrientation,
+    variant = defaultVariant,
+    ...rest
+  },
+  ref,
+) => {
+  { // deprecation warning
+    const prefix = `${Tabs.displayName}:`;
+
+    useOnceWhen(() => {
+      warnRemovedProps('activateOnKeyPress', {
+        prefix,
+      });
+    }, (activateOnKeyPress !== undefined));
+
+    useOnceWhen(() => {
+      warnRemovedProps('isFitted', {
+        prefix,
+      });
+    }, (isFitted !== undefined));
+
+    useOnceWhen(() => {
+      warnRemovedProps('isManual', {
+        prefix,
+      });
+    }, (isManual !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('variant="line"', {
+        prefix,
+        alternative: 'variant="default"',
+        willRemove: true,
+      });
+    }, (variant === 'line'));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('variant="enclosed"', {
+        prefix,
+        alternative: 'variant="filled"',
+        willRemove: true,
+      });
+    }, (variant === 'enclosed'));
+
+    if (variant === 'line') {
+      variant = 'default';
+    }
+    if (variant === 'enclosed') {
+      variant = 'filled';
+    }
+  }
+
   const tabMap = useConst(() => new Map());
   const tabPanelMap = useConst(() => new Map());
   const [state, setState] = useReducer(stateReducer, {
@@ -70,6 +127,7 @@ const Tabs = ({
     disabled,
     index: state.index,
     onChange: handleChange,
+    orientation,
     variant,
     registerTab,
     registerTabPanel,
@@ -77,12 +135,20 @@ const Tabs = ({
     unregisterTabPanel,
   });
 
+  const styleProps = useTabsStyle({ orientation });
+
   return (
     <TabsContext.Provider value={context}>
-      {runIfFn(children, context)}
+      <Box
+        ref={ref}
+        {...styleProps}
+        {...rest}
+      >
+        {runIfFn(children, context)}
+      </Box>
     </TabsContext.Provider>
   );
-};
+});
 
 Tabs.displayName = 'Tabs';
 
