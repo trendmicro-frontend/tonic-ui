@@ -67,7 +67,7 @@ test('should match expected exports', () => {
     'useDrawer',
 
     // flat-button
-    'FlatButton',
+    'FlatButton', // deprecated
 
     // flex
     'Flex',

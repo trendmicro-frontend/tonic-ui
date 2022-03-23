@@ -68,6 +68,49 @@ Optionally via prop:
 
 ### 3. Replace deprecated components and Hooks
 
+#### `FlatButton` 💣 (use `Button` or `ButtonBase` instead)
+
+`FlatButton` is deprecated and will be removed in the next major release. Use [Button](../components/button) or [ButtonBase](../components/buttonbase) instead.
+
+```diff
+- <FlatButton variant="solid"/>
++ <Button variant="default"/>
+```
+
+```diff
+- <FlatButton variant="outline"/>
++ <Button variant="secondary"/>
+```
+
+For alert or toast notifications, you may use the code below to replace the deprecated `FlatButton` while rendering action buttons on a bright background:
+
+```js
+const ActionButton = forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={{
+      '&:active': {
+        color: 'black',
+      },
+      '&:focus': {
+        color: 'black',
+      },
+      '&:hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black',
+      },
+      '&:hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    }}
+    {...props}
+  />
+));
+```
+
 #### `PseudoBox` 💣 (use `Box` instead)
 
 `PseudoBox` is deprecated and its props can now be passed to `Box` directly. Replace all `PseudoBox` components with `Box`.
