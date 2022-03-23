@@ -7,14 +7,14 @@ import { useCellStyle } from '../styles';
 
 const Weekdays = forwardRef((
   {
-    calendarValue,
+    activeDate,
     calendarStartDay,
     ...props
   },
   ref,
 ) => {
   const startDateOfWeek = startOfWeek(
-    calendarValue,
+    activeDate,
     {
       weekStartsOn: calendarStartDay,
     }

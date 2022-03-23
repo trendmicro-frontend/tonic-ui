@@ -43,7 +43,7 @@ const Calendar = forwardRef((
     if (isValueChange) {
       setCalendarValue(inputDate);
     }
-  }, [value, previouslyValue, inputDate, activeDate]);
+  }, [value, previouslyValue, inputDate, activeDate, setActiveDate, setCalendarValue]);
 
   if (children) {
     return (
@@ -75,7 +75,6 @@ const Calendar = forwardRef((
           calendarValue={calendarValue}
           dateFormat={dateFormat}
           setActiveDate={setActiveDate}
-          setCalendarValue={setCalendarValue}
           calendarStartDay={calendarStartDay}
           onClickDay={onClickDay}
         />

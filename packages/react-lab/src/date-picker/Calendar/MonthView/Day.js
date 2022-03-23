@@ -13,7 +13,6 @@ const Day = forwardRef((
     isSelected,
     isToday,
     setActiveDate,
-    setCalendarValue,
     onClick,
     ...props
   },
@@ -32,7 +31,6 @@ const Day = forwardRef((
     const formattedValue = dateFormatter({ date, dateFormat });
     onClick(formattedValue);
     setActiveDate(date);
-    setCalendarValue(date);
   };
 
   return (

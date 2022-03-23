@@ -12,7 +12,6 @@ const MonthView = forwardRef((
 
     // handlers
     setActiveDate,
-    setCalendarValue,
     onClickDay,
 
     ...props
@@ -26,7 +25,7 @@ const MonthView = forwardRef((
       {...props}
     >
       <Weekdays
-        calendarValue={calendarValue}
+        activeDate={activeDate}
         calendarStartDay={calendarStartDay}
       />
       <Weeks
@@ -35,7 +34,6 @@ const MonthView = forwardRef((
         calendarValue={calendarValue}
         dateFormat={dateFormat}
         setActiveDate={setActiveDate}
-        setCalendarValue={setCalendarValue}
         onClickDay={onClickDay}
       />
     </Box>

@@ -5,7 +5,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { forwardRef, useRef } from 'react'; //, useEffect
+import React, { forwardRef, useRef } from 'react';
 import useForkRef from '../../utils/useForkRef';
 
 const DateInput = forwardRef((

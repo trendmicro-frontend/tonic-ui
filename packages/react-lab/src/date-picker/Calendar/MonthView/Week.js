@@ -9,7 +9,6 @@ const Week = ({
   calendarValue,
   dateFormat,
   setActiveDate,
-  setCalendarValue,
   startDateOfWeek,
   onClickDay,
 }) => {
@@ -30,7 +29,6 @@ const Week = ({
           isSelected={isSelected}
           isToday={isToday}
           setActiveDate={setActiveDate}
-          setCalendarValue={setCalendarValue}
           onClick={onClickDay}
         />
       );
