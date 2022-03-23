@@ -3,11 +3,12 @@ import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Portal } from '../portal';
-import { AnimatePresence } from '../utils/animate-presence';
 import config from '../shared/config';
+import { AnimatePresence } from '../utils/animate-presence';
+import getFocusableElements from '../utils/getFocusableElements';
+import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
-import getFocusableElements from '../utils/getFocusableElements';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import DrawerContainer from './DrawerContainer';
 import { DrawerProvider } from './context';
@@ -55,7 +56,7 @@ const Drawer = forwardRef((
   const defaultId = useAutoId();
   const containerRef = useRef();
   const contentRef = useRef(null);
-  const drawerState = getMemoizedState({
+  const context = getMemoizedState({
     autoFocus,
     backdrop,
     closeOnEsc,
@@ -121,7 +122,7 @@ const Drawer = forwardRef((
   }, [isOpen, isMounted]);
 
   return (
-    <DrawerProvider value={drawerState}>
+    <DrawerProvider value={context}>
       <AnimatePresence
         in={isOpen}
         onExitComplete={onExitComplete}
@@ -139,7 +140,7 @@ const Drawer = forwardRef((
                 ref={ref}
                 {...rest}
               >
-                {children}
+                {runIfFn(children, context)}
               </DrawerContainer>
             </FocusLock>
           </Portal>

@@ -719,7 +719,7 @@ function menuWithCheckbox() {
 | :--- | :--- | :------ | :---------- |
 | anchorEl | ElementType | | The element to which the menu is attached. |
 | autoSelect | boolean | `true` | Whether to automatically select the first menu item when the menu is opened. |
-| children | ReactNode \| (context) => ReactNode | | |
+| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
 | closeOnBlur | boolean | `true` | Whether to close the menu when the user clicks outside of the menu. |
 | closeOnSelect | boolean | `true` | Whether to close the menu when the user selects a menu item. |
 | defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |

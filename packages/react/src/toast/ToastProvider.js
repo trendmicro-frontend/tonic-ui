@@ -11,6 +11,7 @@ import {
   TransitionGroup,
 } from 'react-transition-group';
 import canUseDOM from '../utils/dom/canUseDOM';
+import runIfFn from '../utils/runIfFn';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
@@ -220,14 +221,14 @@ const ToastProvider = ({
   if (!portalTarget) {
     return (
       <ToastContext.Provider value={context}>
-        {children}
+        {runIfFn(children, context)}
       </ToastContext.Provider>
     );
   }
 
   return (
     <ToastContext.Provider value={context}>
-      {children}
+      {runIfFn(children, context)}
       {isHydrated && createPortal((
         Object.keys(state).map((placement) => {
           const toasts = ensureArray(state[placement]);
