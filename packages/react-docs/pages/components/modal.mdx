@@ -19,6 +19,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  useModal,
 } from '@tonic-ui/react';
 ```
 
@@ -32,7 +33,7 @@ You can also compose your modal components when customization is needed.
 function Example() {
   return (
     <Stack direction="column" spacing="4x">
-      <ModalContent ml={0} width={480}>
+      <ModalContent width={480}>
         <ModalHeader>
           Modal Title
         </ModalHeader>
@@ -51,7 +52,7 @@ function Example() {
           <Button minWidth="20x">Cancel</Button>
         </ModalFooter>
       </ModalContent>
-      <ModalContent ml={0} width={480}>
+      <ModalContent width={480}>
         <ModalBody>
           <Text mb="4x">
             Modal body text goes here.
@@ -64,7 +65,7 @@ function Example() {
           <Button minWidth="20x">Cancel</Button>
         </ModalFooter>
       </ModalContent>
-      <ModalContent ml={0} width={480}>
+      <ModalContent width={480}>
         <ModalBody>
           <Text mb="4x">
             Modal body text goes here.
@@ -72,7 +73,7 @@ function Example() {
           <SkeletonBody />
         </ModalBody>
       </ModalContent>
-      <ModalContent ml={0} width={480}>
+      <ModalContent width={480}>
         <Box px="4x" py="4x">
           You can create a custom modal with any sort of content.
         </Box>
@@ -89,20 +90,21 @@ render(<Example />);
 Click the button below to toggle a modal. The modal will show up in the center of the screen.
 
 ```jsx noInline
-const useSelection = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
-  const changeBy = (value) => () => setValue(value);
-  return [value, changeBy];
-};
-
-const Divider = (props) => {
+const CodeBlock = (props) => {
   const [colorMode] = useColorMode();
-  const dividerColor = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+
   return (
-    <Box mb="4x" pb="4x" borderBottom={1} borderBottomColor={dividerColor} {...props} />
+    <Box
+      backgroundColor={colorStyle.background.secondary}
+      border={1}
+      borderColor={colorStyle.divider}
+      fontFamily="mono"
+      py="3x"
+      px="3x"
+      whiteSpace="pre"
+      {...props}
+    />
   );
 };
 
@@ -110,26 +112,68 @@ const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const bodyScrollLockCode = `
+// import
+import { Global } from '@emotion/react';
+
+// example
+<Modal>
+  <Global
+    styles={css\`
+      body {
+        overflow: hidden;
+      }
+    \`}
+  />
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader />
+    <ModalBody />
+    <ModalFooter />
+  </ModalContent>
+</Modal>
+`.trim();
+
 function Example() {
   const initialFocusRef = React.useRef();
   const [colorMode] = useColorMode();
-  const iconColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+  const iconColor = colorStyle.color.tertiary;
   const [isOpen, toggleModal] = useToggle(false);
-  const [size, changeSizeBy] = useSelection('sm');
-  const [height, changeHeightBy] = useSelection('auto');
-  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
+  const [size, changeSizeBy] = useSelection('auto');
+  const [scrollBehavior, changeScrollBehaviorBy] = useSelection('inside');
+  const [initialContentHeight, changeInitialContentHeightBy] = useSelection('default');
+  const [verticalPadding, changeVerticalPaddingBy] = useSelection('default');
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
+  const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [isClosable, toggleIsCloseButtonVisible] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
   const [isFooterVisible, toggleIsFooterVisible] = useToggle(true);
   const [isAlertVisible, toggleIsAlertVisible] = useToggle(true);
+  const [enableBodyScrollLock, toggleBodyScrollLock] = useToggle(true);
+  const modalStyleProps = {};
+  const modalContentStyleProps = {};
+
+  if (size !== 'full') {
+    if (verticalPadding !== 'default') {
+      modalStyleProps.py = verticalPadding;
+    }
+
+    if (initialContentHeight !== 'default') {
+      const propKey = (scrollBehavior === 'inside') ? 'height' : 'minHeight';
+      modalContentStyleProps[propKey] = initialContentHeight;
+    }
+  }
 
   return (
     <>
@@ -138,7 +182,55 @@ function Example() {
           Launch modal
         </Button>
       </Box>
-      <Divider />
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Modal props
+        </Text>
+      </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <Tooltip
+            placement="left"
+            label={(
+              <>
+                <Text mb="2x">
+                  Use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
+                </Text>
+                <Box as="ul" my="2x">
+                  <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
+                  <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
+                </Box>
+              </>
+            )}
+          >
+              <TextLabel display="flex" alignItems="center">
+                scrollBehavior
+                <Space width="2x" />
+                <Icon icon="info-o" />
+              </TextLabel>
+          </Tooltip>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['inside', 'outside'].map(value => (
+            <SelectButton
+              key={value}
+              isSelected={value === scrollBehavior}
+              onClick={changeScrollBehaviorBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
@@ -164,43 +256,6 @@ function Example() {
             </SelectButton>
           ))}
         </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <Box mb="2x">
-          <TextLabel>
-            height
-          </TextLabel>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          css={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            }
-          }}
-        >
-          {['auto', '100%'].map(value => (
-            <SelectButton
-              key={value}
-              isSelected={value === height}
-              onClick={changeHeightBy(value)}
-              minWidth="15x"
-            >
-              {value}
-            </SelectButton>
-          ))}
-        </ButtonGroup>
-      </FormGroup>
-      <Space height="1x" />
-      <FormGroup>
-        <TextLabel display="flex" alignItems="center">
-          <Checkbox
-            checked={ensureFocus}
-            onChange={() => toggleEnsureFocus()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
-        </TextLabel>
       </FormGroup>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
@@ -238,6 +293,16 @@ function Example() {
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox
+            checked={ensureFocus}
+            onChange={() => toggleEnsureFocus()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">ensureFocus</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
             checked={isClosable}
             disabled={!closeOnEsc && !closeOnOutsideClick}
             onChange={() => toggleIsCloseButtonVisible()}
@@ -246,6 +311,82 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
       </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Modal style props
+        </Text>
+      </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Initial content height
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['default', 'stretch'].map(value => (
+            <SelectButton
+              disabled={size === 'full'}
+              key={value}
+              isSelected={value === initialContentHeight}
+              onClick={changeInitialContentHeightBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Vertical padding
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['default', '3rem'].map(value => (
+            <SelectButton
+              disabled={size === 'full'}
+              key={value}
+              isSelected={value === verticalPadding}
+              onClick={changeVerticalPaddingBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </SelectButton>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Pass below props to ModalContent for settings initial height and vertical margins. Note that the props are different when <Code>scrollBehavior</Code> changes.
+          </TextLabel>
+        </Box>
+        <CodeBlock>
+          {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal\n  scrollBehavior="${scrollBehavior}"\n  {...modalStyleProps}\n>\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
+        </CodeBlock>
+      </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Modal composition
+        </Text>
+      </Box>
       <FormGroup>
         <TextLabel display="flex" alignItems="center">
           <Checkbox checked={isOverlayVisible} onChange={() => toggleIsOverlayVisible()} />
@@ -274,28 +415,66 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">ModalFooter</Text>
         </TextLabel>
       </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Extra modal setup
+        </Text>
+      </Box>
       <FormGroup>
-        <TextLabel display="flex" alignItems="center">
-          <Checkbox checked={isAlertVisible} onChange={() => toggleIsAlertVisible()} />
+        <TextLabel display="flex" alignItems="center" mb="3x">
+          <Checkbox
+            checked={enableBodyScrollLock}
+            onChange={() => toggleBodyScrollLock()}
+          />
           <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">Alert</Text>
+          <Text>
+            Enable body scroll locking
+          </Text>
         </TextLabel>
+        <Box ml="6x">
+          <Box mb="4x">
+            <Text mb="2x">
+              When setting <Code>scrollBehavior="outside"</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the modal is open.
+            </Text>
+            <Text mb="2x">
+              <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
+            </Text>
+          </Box>
+          <CodeBlock>
+            {bodyScrollLockCode}
+          </CodeBlock>
+        </Box>
       </FormGroup>
       <Modal
-        ensureFocus={ensureFocus}
+        TransitionComponent={null}
         autoFocus={autoFocus}
+        ensureFocus={ensureFocus}
         closeOnEsc={closeOnEsc}
         closeOnOutsideClick={closeOnOutsideClick}
         initialFocusRef={initialFocusRef}
         isClosable={isClosable}
         isOpen={isOpen}
         onClose={() => toggleModal(false)}
+        scrollBehavior={scrollBehavior}
         size={size}
+        {...modalStyleProps}
       >
+        {enableBodyScrollLock && (
+          <Global
+            styles={css`
+              body {
+                overflow: hidden;
+              }
+            `}
+          />
+        )}
         {isOverlayVisible && (
           <ModalOverlay />
         )}
-        <ModalContent height={height}>
+        <ModalContent
+          {...modalContentStyleProps}
+        >
           {isHeaderVisible && (
             <ModalHeader>
               {size === 'auto' && <Text>Auto-sized Modal</Text>}
@@ -314,31 +493,56 @@ function Example() {
                   <Text>This is an info alert</Text>
                 </Alert>
               )}
-              <Text mb="4x">
-                You can put any elements you want here.
-              </Text>
-              <Grid
-                templateColumns="auto 1fr"
-                rowGap="2x"
-                columnGap="3x"
-                alignItems="center"
-              >
-                <Icon icon="user" color={iconColor} />
-                <Input ref={initialFocusRef} placeholder="User name" />
-                <Icon icon="email" color={iconColor} />
-                <Input placeholder="Email address" />
-              </Grid>
+              <Tabs>
+                <TabList mb="4x">
+                  <Tab>Tab 1</Tab>
+                  <Tab>Tab 2</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel>
+                    <SkeletonBody mb="4x" />
+                    <Grid
+                      templateColumns="auto 1fr"
+                      rowGap="2x"
+                      columnGap="3x"
+                      alignItems="center"
+                      mb="4x"
+                    >
+                      <Icon icon="user" color={iconColor} />
+                      <Input ref={initialFocusRef} placeholder="User name" />
+                      <Icon icon="email" color={iconColor} />
+                      <Input placeholder="Email address" />
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel>
+                    <Box
+                      backgroundColor={colorStyle.background.tertiary}
+                      minHeight={1000}
+                      px="3x"
+                      py="2x"
+                    >
+                      <Text>
+                        This is a very long content that will overflow the modal
+                      </Text>
+                    </Box>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
             </ModalBody>
           )}
           {isFooterVisible && (
             <ModalFooter>
-              <Button variant="primary">
-                OK
-              </Button>
-              <Space width="2x" />
-              <Button onClick={() => toggleModal(false)}>
-                Cancel
-              </Button>
+              <Grid
+                templateColumns="1fr 1fr"
+                columnGap="2x"
+              >
+                <Button variant="primary">
+                  OK
+                </Button>
+                <Button onClick={() => toggleModal(false)}>
+                  Cancel
+                </Button>
+              </Grid>
             </ModalFooter>
           )}
         </ModalContent>
@@ -350,7 +554,11 @@ function Example() {
 render(<Example />);
 ```
 
-### Nested modals
+### Nested modal
+
+For some use cases, you may want to open a nested modal which is positioned relative to the parent modal, especially when a confirmation is needed.
+
+You can use the `useToggle` Hook to control modal visibility.
 
 ```jsx
 function Example() {
@@ -385,7 +593,7 @@ function Example() {
               Launch nested modal
             </Button>
             <Box>
-              <Button minWidth="20x" onClick={() => toggleModal(false)}>
+              <Button onClick={() => toggleModal(false)} minWidth="20x">
                 Close
               </Button>
             </Box>
@@ -408,11 +616,10 @@ function Example() {
           <ModalBody>
             Modal body text goes here.
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter columnGap="2x">
             <Button variant="primary" onClick={() => toggleNestedModal(false)} minWidth="20x">
               Yes
             </Button>
-            <Space width="2x" />
             <Button onClick={() => toggleNestedModal(false)} minWidth="20x">
               No
             </Button>
@@ -430,16 +637,18 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Modal` descendants, which does not allow the focus to escape while open. |
 | autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
+| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
+| closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
+| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Modal` descendants, which does not allow the focus to escape while open. |
 | finalFocusRef | React.ref | | The `ref` of element to receive focus when the modal closes. |
 | initialFocusRef | React.ref | | The `ref` of the element to receive focus when the modal opens. |
 | isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | isOpen | boolean | false | If `true`, the modal is shown. |
-| closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
-| closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
 | onClose | function | | Callback fired when the modal closes. |
 | size | string | 'auto' | Change the size of the modal. One of: 'auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full' |
+| scrollBehavior | string | 'inside' | Control the scroll behavior of the modal if the content overflows. One of: 'inside', 'outside' |
 
 ### ModalOverlay
 
@@ -448,6 +657,7 @@ function Example() {
 | TransitionComponent | ElementType | Fade | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
 
 ### ModalContent
 
@@ -456,10 +666,22 @@ function Example() {
 | TransitionComponent | ElementType | Fade | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
 
 ### ModalHeader
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### ModalBody
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
 
 ### ModalFooter
 
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

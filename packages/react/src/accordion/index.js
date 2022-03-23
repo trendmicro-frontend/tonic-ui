@@ -5,6 +5,8 @@ import AccordionHeader from './AccordionHeader';
 import AccordionItem from './AccordionItem';
 import AccordionToggle from './AccordionToggle';
 import AccordionToggleIcon from './AccordionToggleIcon';
+import useAccordion from './useAccordion';
+import useAccordionItem from './useAccordionItem';
 
 Accordion.Body = AccordionBody;
 Accordion.Collapse = AccordionCollapse;
@@ -21,4 +23,6 @@ export {
   AccordionItem,
   AccordionToggle,
   AccordionToggleIcon,
+  useAccordion,
+  useAccordionItem,
 };

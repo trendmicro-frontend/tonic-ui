@@ -185,11 +185,11 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| name | string | | The name used to reference the value of the control. If you don't provide this prop, it falls back to a randomly generated name. |
-| value | string \| number | | The value to be used in the radio input. This is the value that will be returned on form submission. |
-| disabled | boolean | false | If `true`, all radios will be disabled. |
-| variantColor | string | | The color of the radio when it's checked. This should be one of the color keys in the theme (e.g. 'green', 'red'). |
-| size | string | 'md' | The size (width and height) of the radio. One of: 'sm', 'md', 'lg' |
+| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
 | defaultValue | string \| number | | The default `input` element value. Use when the component is not controlled. |
-| children | ReactNode | | The children of the radio. |
+| disabled | boolean | false | If `true`, all radios will be disabled. |
+| name | string | | The name used to reference the value of the control. If you don't provide this prop, it falls back to a randomly generated name. |
 | onChange | function | | A callback called when the state of the radio changes. |
+| size | string | 'md' | The size (width and height) of the radio. One of: 'sm', 'md', 'lg' |
+| value | string \| number | | The value to be used in the radio input. This is the value that will be returned on form submission. |
+| variantColor | string | | The color of the radio when it's checked. This should be one of the color keys in the theme (e.g. 'green', 'red'). |

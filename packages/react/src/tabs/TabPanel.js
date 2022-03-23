@@ -4,6 +4,7 @@ import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import useTabs from './useTabs';
 import { useTabPanelStyle } from './styles';
 
@@ -13,7 +14,6 @@ const TabPanel = forwardRef((
   {
     children,
     index: indexProp,
-    variant: variantProp,
     ...rest
   },
   ref,
@@ -25,8 +25,7 @@ const TabPanel = forwardRef((
   const tabId = `${config.name}:Tab-${index}`;
   const tabPanelId = `${config.name}:TabPanel-${index}`;
   const isSelected = isIndexEqual(index, context?.index);
-  const variant = variantProp ?? context?.variant;
-  const styleProps = useTabPanelStyle({ isSelected, variant });
+  const styleProps = useTabPanelStyle({ isSelected });
 
   // Ensure the tab panel is registered only once at the first render
   useEffectOnce(() => {
@@ -56,12 +55,31 @@ const TabPanel = forwardRef((
     ...rest,
   });
 
-  if (typeof children === 'function') {
-    return children({
-      getTabPanelProps,
-      index,
-      variant,
+  const tabPanelContext = {
+    getTabPanelProps,
+    index,
+    isSelected,
+  };
+
+  { // deprecation warning
+    const prefix = `${TabPanel.displayName}:`;
+
+    Object.defineProperties(tabPanelContext, {
+      isActive: {
+        get: () => {
+          warnDeprecatedProps('isActive', {
+            prefix,
+            alternative: 'isSelected',
+            willRemove: true,
+          });
+          return isSelected;
+        },
+      },
     });
+  }
+
+  if (typeof children === 'function') {
+    return children(tabPanelContext);
   }
 
   return (

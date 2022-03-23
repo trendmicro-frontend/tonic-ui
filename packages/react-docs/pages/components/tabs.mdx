@@ -11,6 +11,7 @@ import {
   TabList,
   TabPanel,
   TabPanels,
+  useTabs,
 } from '@tonic-ui/react';
 ```
 
@@ -110,49 +111,100 @@ For uncontrolled tabs, you can use the `defaultIndex` prop to set the initial se
 </Tabs>
 ```
 
-### Variants
+### Orientation and variants
 
-Tabs comes in 3 variants: `default`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+Tabs can either be oriented horizontally or vertically, and can also be styled with different variants.
 
-#### `default`
-
-```jsx
-<Tabs variant="default">
-  <TabList>
-    <Tab>TAB 1</Tab>
-    <Tab>TAB 2</Tab>
-    <Tab>TAB 3</Tab>
-  </TabList>
-</Tabs>
-```
-
-#### `filled`
+* Use the `orientation` prop to set the orientation of the tabs. It accepts `horizontal` and `vertical` as values.
+* Use the `variant` prop to set the variant of the tabs. It accepts `default`, `filled`, and `unstyled` as values.
 
 ```jsx
-<Tabs variant="filled">
-  <TabList>
-    <Tab>TAB 1</Tab>
-    <Tab>TAB 2</Tab>
-    <Tab>TAB 3</Tab>
-  </TabList>
-</Tabs>
+function Example() {
+  const [orientation, setOrientation] = React.useState('horizontal');
+  const [variant, setVariant] = React.useState('default');
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <>
+      <Box mb="4x">
+        <Box mb="2x">
+          <TextLabel>
+            orientation
+          </TextLabel>
+        </Box>
+        <ButtonGroup>
+          <Button
+            onClick={() => setOrientation('horizontal')}
+            variant={orientation === 'horizontal' ? 'primary' : 'secondary'}
+          >
+            horizontal
+          </Button>
+          <Button
+            onClick={() => setOrientation('vertical')}
+            variant={orientation === 'vertical' ? 'primary' : 'secondary'}
+          >
+            vertical
+          </Button>
+        </ButtonGroup>
+      </Box>
+      <Box mb="4x">
+        <Box mb="2x">
+          <TextLabel>
+            variant
+          </TextLabel>
+        </Box>
+        <ButtonGroup>
+          <Button
+            onClick={() => setVariant('default')}
+            variant={variant === 'default' ? 'primary' : 'secondary'}
+          >
+            default
+          </Button>
+          <Button
+            onClick={() => setVariant('filled')}
+            variant={variant === 'filled' ? 'primary' : 'secondary'}
+          >
+            filled
+          </Button>
+          <Button
+            onClick={() => setVariant('unstyled')}
+            variant={variant === 'unstyled' ? 'primary' : 'secondary'}
+          >
+            unstyled
+          </Button>
+        </ButtonGroup>
+      </Box>
+      <Divider mb="4x" />
+      <Tabs
+        orientation={orientation}
+        variant={variant}
+      >
+        <TabList>
+          <Tab>TAB 1</Tab>
+          <Tab>TAB 2</Tab>
+          <Tab>TAB 3</Tab>
+        </TabList>
+        <TabPanels px="3x" py="2x">
+          <TabPanel>
+            Tab Panel 1
+          </TabPanel>
+          <TabPanel>
+            Tab Panel 2
+          </TabPanel>
+          <TabPanel>
+            Tab Panel 3
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </>
+  );
+}
 ```
 
-#### `unstyled`
+### Decorate horizontal tabs with a bottom border
 
-```jsx
-<Tabs variant="unstyled">
-  <TabList columnGap="3x">
-    <Tab>TAB 1</Tab>
-    <Tab>TAB 2</Tab>
-    <Tab>TAB 3</Tab>
-  </TabList>
-</Tabs>
-```
-
-### Decorate tabs with a bottom border
-
-To decorate tabs with a bottom border, you can pass `__after` prop to `TabList` to render a bottom border.
+To decorate horizontal tabs with a bottom border, you can pass `__after` prop to `TabList` to render a bottom border.
 
 ```jsx noInline
 const MyTabGroup = (props) => {
@@ -344,7 +396,7 @@ The tab with the dropdown menu is usually the last tab. You can use `event.preve
 
 Scrollable tabs are useful when the tab list is longer than the tab container. You can use the following code to create a scrollable tabs.
 
-> Note: This example teaches you how to create a scrollable tabs that supports drag-to-scroll behavior. Scrolling tabs is not yet supported in the current version of `@tonic-ui/react`.
+> This example teaches you how to create a scrollable tabs that supports drag-to-scroll behavior. Scrolling tabs is currently not part of this component library.
 
 ```jsx noInline
 const easeInOutSin = (time) => {
@@ -708,23 +760,35 @@ Tabs also come with an `unstyled` variant. It's useful for doing customizations.
 
 ```jsx noInline
 const CustomTabList = (props) => {
+  const context = useTabs();
+  const orientation = context.orientation;
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const styleProps = {
+  let styleProps = {
     backgroundColor: colorStyle.background.primary,
-    pt: '1x',
-    pl: '1x',
     position: 'relative',
-    __after: {
-      content: '""',
-      borderBottom: 1,
-      borderBottomColor: colorStyle.divider,
-      position: 'absolute',
-      bottom: 0,
-      width: '100%',
-      ...props.__after,
-    },
   };
+
+  if (orientation === 'horizontal') {
+    styleProps = {
+      ...styleProps,
+      __after: {
+        content: '""',
+        borderBottom: 1,
+        borderBottomColor: colorStyle.divider,
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+      },
+    };
+  }
+
+  if (orientation === 'vertical') {
+    styleProps = {
+      ...styleProps,
+      alignItems: 'flex-start',
+    };
+  }
 
   return (
     <TabList
@@ -734,20 +798,18 @@ const CustomTabList = (props) => {
   );
 };
 
-const CustomTab = (props) => {
+const CustomTab = ({ children, ...rest }) => {
+  const context = useTabs();
+  const orientation = context.orientation;
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const { colors } = useTheme();
-
-  const styleProps = {
-    backgroundColor: colorStyle.background.tertiary,
-    border: 1,
-    borderColor: colorStyle.divider,
+  const baseStyle = {
+    backgroundColor: colorStyle.background.primary,
     color: colorStyle.color.secondary,
     px: '4x',
     py: '3x',
     position: 'relative',
-    transition: 'all 0.2s',
     zIndex: 1,
     _disabled: {
       color: colorStyle.color.disabled,
@@ -756,75 +818,155 @@ const CustomTab = (props) => {
     _hover: {
       color: colorStyle.color.primary,
     },
-    _notLastOfType: {
-      borderRight: 'none',
-    },
-    _selected: {
-      borderBottomColor: colorStyle.background.primary,
-      background: colorStyle.background.primary,
-      color: colorStyle.color.primary,
-      '::before': {
-        content: '""',
-        position: 'absolute',
-        top: -1,
-        left: -1,
-        right: 0,
-        height: 3,
-        backgroundColor: '#2cc185',
-      },
-    },
   };
 
-  return (
-    <Tab
-      variant="unstyled"
-      {...styleProps}
-      {...props}
-    />
-  );
+  if (orientation === 'horizontal') {
+    const styleProps = {
+      ...baseStyle,
+      border: 1,
+      borderColor: colorStyle.divider,
+      _notLastOfType: {
+        borderRight: 'none',
+      },
+      _selected: {
+        borderBottomColor: 'transparent',
+        background: colorStyle.background.primary,
+        color: colorStyle.color.primary,
+        '::before': {
+          content: '""',
+          position: 'absolute',
+          top: -1,
+          left: -1,
+          right: 0,
+          height: 3,
+          backgroundColor: '#2cc185',
+        },
+      },
+    };
+
+    return (
+      <Tab
+        {...styleProps}
+        {...rest}
+      >
+        {children}
+      </Tab>
+    );
+  }
+
+  if (orientation === 'vertical') {
+    const styleProps = {
+      ...baseStyle,
+      borderBottom: 1,
+      borderBottomColor: colorStyle.divider,
+      textAlign: 'left',
+      width: '100%',
+      _selected: {
+        borderLeftColor: colorStyle.background.primary,
+        background: colorStyle.background.primary,
+        color: colorStyle.color.primary,
+        '::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          width: 3,
+          backgroundColor: '#2cc185',
+        },
+      },
+    };
+
+    return (
+      <Tab
+        {...styleProps}
+        {...rest}
+      >
+        {({ getTabProps, index, isSelected }) => (
+          <ButtonBase
+            {...getTabProps()}
+            pr="1x"
+          >
+            <Flex justifyContent="space-between">
+              <Box>{children}</Box>
+              <Icon icon="chevron-right" ml="4x" visibility={isSelected ? 'visible' : 'hidden'} />
+            </Flex>
+          </ButtonBase>
+        )}
+      </Tab>
+    );
+  }
+
+  return null;
 };
 
 function Example() {
+  const [orientation, setOrientation] = React.useState('horizontal');
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
   return (
-    <Tabs>
-      <CustomTabList>
-        <CustomTab>
-          <FontAwesomeIcon icon="fa-solid fa-home" />
-          <Space width="2x" />
-          HOME
-        </CustomTab>
-        <CustomTab>
-          <FontAwesomeIcon icon="fa-solid fa-boxes" />
-          <Space width="2x" />
-          INVENTORY
-        </CustomTab>
-        <CustomTab>
-          <FontAwesomeIcon icon="fa-solid fa-cogs" />
-          <Space width="2x" />
-          SETTINGS
-        </CustomTab>
-      </CustomTabList>
-      <TabPanels px="4x" py="3x">
-        <TabPanel>
-          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-            1
-          </Text>
-        </TabPanel>
-        <TabPanel>
-          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-            2
-          </Text>
-        </TabPanel>
-        <TabPanel>
-          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-            3
-          </Text>
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+    <>
+      <Box mb="2x">
+        <TextLabel>
+          orientation
+        </TextLabel>
+      </Box>
+      <ButtonGroup>
+        <Button
+          onClick={() => setOrientation('horizontal')}
+          variant={orientation === 'horizontal' ? 'primary' : 'secondary'}
+        >
+          Horizontal
+        </Button>
+        <Button
+          onClick={() => setOrientation('vertical')}
+          variant={orientation === 'vertical' ? 'primary' : 'secondary'}
+        >
+          Vertical
+        </Button>
+      </ButtonGroup>
+      <Divider my="4x" />
+      <Tabs
+        orientation={orientation}
+        variant="unstyled"
+      >
+        <CustomTabList>
+          <CustomTab>
+            <FontAwesomeIcon icon="fa-solid fa-home" />
+            <Space width="2x" />
+            HOME
+          </CustomTab>
+          <CustomTab>
+            <FontAwesomeIcon icon="fa-solid fa-boxes" />
+            <Space width="2x" />
+            INVENTORY
+          </CustomTab>
+          <CustomTab>
+            <FontAwesomeIcon icon="fa-solid fa-cogs" />
+            <Space width="2x" />
+            SETTINGS
+          </CustomTab>
+        </CustomTabList>
+        <TabPanels px="4x" py="3x">
+          <TabPanel>
+            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+                1
+            </Text>
+          </TabPanel>
+          <TabPanel>
+            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+              2
+            </Text>
+          </TabPanel>
+          <TabPanel>
+            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+              3
+            </Text>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </>
   );
 }
 
@@ -837,11 +979,10 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getTabProps, disabled, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `variant` prop is the variant of the tab. |
+| children | ReactNode \| ({ getTabProps, disabled, index, isSelected }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `isSelected` prop is a boolean value indicating whether the tab is selected. |
 | disabled | boolean | | Whether the tab is disabled. |
 | index | number \| string | | The index of the tab. An index number starting from 0 will be provided if not specified. |
 | onClick | (event) => void | | A callback for when the tab is clicked. |
-| variant | string | | The variant of the tab. |
 
 ### Tabs
 
@@ -852,6 +993,7 @@ render(<Example />);
 | disabled | boolean | | Whether the tabs should be disabled. |
 | index | number \| string | | The index of the tab to be selected in controlled mode. |
 | onChange | (index: number\|string) => void | | A callback function that is called when the index changes. |
+| orientation | string | 'horizontal' | The orientation of the tabs. One of: 'horizontal', 'vertical' |
 | variant | string | 'default' | The variant of the tabs. One of: 'default', 'filled', 'unstyled' |
 
 ### TabList
@@ -865,9 +1007,8 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getTabPanelProps, index, variant }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `variant` prop is the variant of the tab panel. |
+| children | ReactNode \| ({ getTabPanelProps, index, isSelected }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `isSelected` prop is a boolean value indicating whether the corresponding tab is selected. |
 | index | number \| string | | The index of the tab panel. An index number starting from 0 will be provided if not specified. |
-| variant | string | | The variant of the tab panel. |
 
 ### TabPanels
 

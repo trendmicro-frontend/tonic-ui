@@ -6,6 +6,7 @@ import MenuItem from './MenuItem';
 import MenuList from './MenuList';
 import MenuToggle from './MenuToggle';
 import MenuToggleIcon from './MenuToggleIcon';
+import useMenu from './useMenu';
 
 Menu.Button = MenuButton;
 Menu.Divider = MenuDivider;
@@ -24,4 +25,5 @@ export {
   MenuList,
   MenuToggle,
   MenuToggleIcon,
+  useMenu,
 };

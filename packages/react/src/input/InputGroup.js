@@ -1,6 +1,7 @@
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import runIfFn from '../utils/runIfFn';
 import { InputGroupContext } from './context';
 import { useInputGroupStyle } from './styles';
 
@@ -15,17 +16,17 @@ const InputGroup = forwardRef((
   },
   ref
 ) => {
-  const inputGroupState = getMemoizedState({ size, variant });
+  const context = getMemoizedState({ size, variant });
   const styleProps = useInputGroupStyle();
 
   return (
-    <InputGroupContext.Provider value={inputGroupState}>
+    <InputGroupContext.Provider value={context}>
       <Box
         ref={ref}
         {...styleProps}
         {...rest}
       >
-        {children}
+        {runIfFn(children, context)}
       </Box>
     </InputGroupContext.Provider>
   );

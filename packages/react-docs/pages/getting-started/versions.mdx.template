@@ -12,7 +12,7 @@ The most recent stable version (✓) is recommended for use in production.
   <TableBody>
     <TableRow>
       <TableCell>
-        __TONIC_UI_V1_RELEASE_VERSION__
+        __TONIC_UI_V1_RELEASE_VERSION__ ✓
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_V1_RELEASE_DOCUMENTATION__">Documentation</Link>
@@ -23,7 +23,7 @@ The most recent stable version (✓) is recommended for use in production.
     </TableRow>
     <TableRow>
       <TableCell>
-        __TONIC_UI_V0_RELEASE_VERSION__ ✓
+        __TONIC_UI_V0_RELEASE_VERSION__
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_V0_RELEASE_DOCUMENTATION__">Documentation</Link>
