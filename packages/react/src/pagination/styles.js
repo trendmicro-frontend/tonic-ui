@@ -1,11 +1,10 @@
 import { useColorMode } from '../color-mode';
-import { setColorWithOpacity } from '../utils/colors';
 
 const useSelectedButtonStyle = () => {
   const [colorMode] = useColorMode();
   const backgroundColor = {
-    dark: setColorWithOpacity('black', 0.12),
-    light: setColorWithOpacity('black', 0.08),
+    dark: 'rgba(0, 0, 0, 0.12)',
+    light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
   const borderColor = {
     dark: 'blue:50',

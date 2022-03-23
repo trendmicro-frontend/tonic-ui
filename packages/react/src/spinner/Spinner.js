@@ -3,7 +3,6 @@ import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useColorMode } from '../color-mode';
-import { setColorWithOpacity } from '../utils/colors';
 
 const rotate = keyframes`
   100% {
@@ -72,8 +71,8 @@ const Spinner = forwardRef(
     /***** full circle color *****/
     const [colorMode] = useColorMode();
     const _secondCircleColor = {
-      light: setColorWithOpacity('black', 0.12),
-      dark: setColorWithOpacity('white', 0.12),
+      light: 'rgba(0, 0, 0, 0.12)',
+      dark: 'rgba(255, 255, 255, 0.12)',
     }[colorMode];
     return (
       <Box

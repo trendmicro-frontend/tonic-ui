@@ -8,7 +8,7 @@ const solidVariantProps = ({ color = 'gray', theme: { colors } }) => {
   const outerBorderColor = colors['blue:60'];
   const _color = colors[color] || color;
   const styles = {
-    bg: color,
+    backgroundColor: color,
     borderColor: 'transparent',
     color: 'white:emphasis',
     _focus: {
@@ -16,13 +16,13 @@ const solidVariantProps = ({ color = 'gray', theme: { colors } }) => {
       boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
     },
     _hover: {
-      bg: setColorWithOpacity(_color, 0.60),
+      backgroundColor: setColorWithOpacity(_color, 0.60),
     },
     _active: {
-      bg: setColorWithOpacity(_color, 0.60),
+      backgroundColor: setColorWithOpacity(_color, 0.60),
     },
     _disabled: {
-      bg: 'gray:60',
+      backgroundColor: 'gray:60',
       cursor: 'not-allowed',
       opacity: 0.28,
     },
@@ -43,10 +43,10 @@ const outlineVariantProps = ({ color = 'gray', theme: { colors } }) => {
       boxShadow: `inset 0 0 0 1px ${outerBorderColor}`,
     },
     _hover: {
-      bg: setColorWithOpacity('black', 0.12),
+      backgroundColor: 'rgba(0, 0, 0, 0.12)',
     },
     _active: {
-      bg: setColorWithOpacity('black', 0.12),
+      backgroundColor: 'rgba(0, 0, 0, 0.12)',
     },
     _disabled: {
       borderColor: 'gray:60',

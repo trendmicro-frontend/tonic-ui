@@ -1,6 +1,5 @@
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
-import { setColorWithOpacity } from '../utils/colors';
 
 const useMenuStyle = () => {
   return {
@@ -62,11 +61,11 @@ const useMenuItemStyle = () => {
   const [colorMode] = useColorMode();
   const hoverBackgroundColor = {
     light: 'black:disabled',
-    dark: setColorWithOpacity('white', 0.12),
+    dark: 'rgba(255, 255, 255, 0.12)',
   }[colorMode];
   const activeBackgroundColor = {
     light: 'gray:20',
-    dark: setColorWithOpacity('white', 0.08),
+    dark: 'rgba(255, 255, 255, 0.08)',
   }[colorMode];
   const disabledColor = {
     light: 'black:disabled',
