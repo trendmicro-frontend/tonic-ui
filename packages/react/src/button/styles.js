@@ -1,11 +1,10 @@
 import { sx } from '@tonic-ui/styled-system';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
-import { setColorWithOpacity } from '../utils/colors';
 import { createTransitionStyle, transitionEasing } from '../utils/transitions';
 
 //---------------- Default Button ----------------//
-const defaultVariantProps = ({
+const defaultVariantStyle = ({
   colorMode,
   theme,
 }) => {
@@ -83,7 +82,7 @@ const defaultVariantProps = ({
 };
 
 //---------------- Secondary Button ----------------//
-const secondaryVariantProps = ({
+const secondaryVariantStyle = ({
   colorMode,
   theme,
 }) => {
@@ -107,8 +106,8 @@ const secondaryVariantProps = ({
   }[colorMode];
   // Active
   const activeBackgroundColor = {
-    dark: setColorWithOpacity('black', 0.12),
-    light: setColorWithOpacity('black', 0.08),
+    dark: 'rgba(0, 0, 0, 0.12)',
+    light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
   const activeBorderColor = hoverBorderColor;
   const activeColor = hoverColor;
@@ -163,26 +162,26 @@ const secondaryVariantProps = ({
 };
 
 //---------------- Ghost Button ----------------//
-const ghostVariantProps = ({
+const ghostVariantStyle = ({
   colorMode,
   theme,
 }) => {
-  const secondaryProps = secondaryVariantProps({
+  const secondaryVariantStyle = secondaryVariantStyle({
     colorMode,
     theme,
   });
   return {
-    ...secondaryProps,
+    ...secondaryVariantStyle,
     borderColor: 'transparent',
     _disabled: {
-      ...secondaryProps._disabled,
+      ...secondaryVariantStyle._disabled,
       borderColor: 'transparent',
     },
   };
 };
 
 //---------------- Emphasis / Primary Button ----------------//
-const fillColorVariantProps = ({
+const fillColorVariantStyle = ({
   color,
   colorMode,
   theme,
@@ -256,7 +255,11 @@ const fillColorVariantProps = ({
   };
 };
 
-const useButtonStyle = ({ size, variant }) => {
+const useButtonStyle = ({
+  orientation, // No default value if not specified
+  size,
+  variant,
+}) => {
   const [colorMode] = useColorMode();
   const theme = useTheme();
   const borderWidth = theme?.sizes?.['1q'];
@@ -268,14 +271,36 @@ const useButtonStyle = ({ size, variant }) => {
     userSelect: 'none',
     whiteSpace: 'nowrap',
     border: 1,
-    //zIndex: 0,
+    borderRadius: 'sm',
     px: `calc(${theme?.sizes?.['3x']} - ${borderWidth})`,
     transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], {
       duration: 250,
       easing: transitionEasing.easeInOut,
     }),
   };
-  const sizeProps = {
+  const orientationStyle = {
+    'horizontal': {
+      _notFirstOfType: {
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+      },
+      _notLastOfType: {
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+      },
+    },
+    'vertical': {
+      _notFirstOfType: {
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+      },
+      _notLastOfType: {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      },
+    },
+  }[orientation];
+  const sizeStyle = {
     lg: {
       minHeight: '10x',
       fontSize: 'md',
@@ -293,16 +318,17 @@ const useButtonStyle = ({ size, variant }) => {
     },
   }[size];
   const variantStyle = {
-    'secondary': secondaryVariantProps({ colorMode, theme }),
-    'ghost': ghostVariantProps({ colorMode, theme }),
-    'emphasis': fillColorVariantProps({ color: 'red', colorMode, theme }),
-    'primary': fillColorVariantProps({ color: 'blue', colorMode, theme }),
-    'default': defaultVariantProps({ colorMode, theme }),
+    'secondary': secondaryVariantStyle({ colorMode, theme }),
+    'ghost': ghostVariantStyle({ colorMode, theme }),
+    'emphasis': fillColorVariantStyle({ color: 'red', colorMode, theme }),
+    'primary': fillColorVariantStyle({ color: 'blue', colorMode, theme }),
+    'default': defaultVariantStyle({ colorMode, theme }),
   }[variant];
 
   return {
     ...baseStyle,
-    ...sizeProps,
+    ...orientationStyle,
+    ...sizeStyle,
     ...variantStyle,
   };
 };
@@ -320,32 +346,24 @@ const useButtonBaseStyle = ({ disabled }) => {
   };
 };
 
-const getButtonGroupCSS = ({ orientation }) => {
-  const horizontalCSS = sx({
-    '&:not(:first-of-type)': {
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
+const useButtonGroupStyle = ({ orientation }) => {
+  const orientationStyle = {
+    vertical: {
+      flexDirection: 'column',
     },
-    '&:not(:last-of-type)': {
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
+    horizontal: {
+      flexDirection: 'row',
     },
-  });
-  const verticalCSS = sx({
-    '&:not(:first-of-type)': {
-      borderTopLeftRadius: 0,
-      borderTopRightRadius: 0,
-    },
-    '&:not(:last-of-type)': {
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-  });
-  return (orientation === 'vertical') ? verticalCSS : horizontalCSS;
+  }[orientation];
+
+  return {
+    display: 'inline-flex',
+    ...orientationStyle,
+  };
 };
 
 export {
-  getButtonGroupCSS,
   useButtonStyle,
   useButtonBaseStyle,
+  useButtonGroupStyle,
 };

@@ -1,37 +1,33 @@
 import React, { forwardRef } from 'react';
 import ButtonBase from './ButtonBase';
-import { getButtonGroupCSS, useButtonStyle } from './styles';
+import { useButtonStyle } from './styles';
 import useButtonGroup from './useButtonGroup';
 
 const defaultSize = 'md';
 const defaultVariant = 'default';
+const defaultOrientation = 'horizontal';
 
 const Button = forwardRef((
   {
-    type = 'button',
-    borderRadius = 'sm',
     size,
     variant,
-    children,
-    css,
     ...rest
   },
   ref,
 ) => {
+  let orientation; // orientation for ButtonGroup
+
   const buttonGroupContext = useButtonGroup();
   if (buttonGroupContext) {
     const {
       size: buttonGroupSize,
       variant: buttonGroupVariant,
-      orientation,
+      orientation: buttonGroupOrientation,
     } = { ...buttonGroupContext };
     // Use fallback values if values are null or undefined
     size = (size ?? buttonGroupSize) ?? defaultSize;
     variant = (variant ?? buttonGroupVariant) ?? defaultVariant;
-    css = [
-      getButtonGroupCSS({ orientation }),
-      css,
-    ];
+    orientation = (orientation ?? buttonGroupOrientation) ?? defaultOrientation;
   } else {
     // Use the default value if the value is null or undefined
     size = size ?? defaultSize;
@@ -39,6 +35,7 @@ const Button = forwardRef((
   }
 
   const styleProps = useButtonStyle({
+    orientation, // No default value if not specified
     size,
     variant,
   });
@@ -47,14 +44,10 @@ const Button = forwardRef((
     <ButtonBase
       ref={ref}
       as="button"
-      type={type}
-      borderRadius={borderRadius}
-      css={css}
+      type="button"
       {...styleProps}
       {...rest}
-    >
-      { children }
-    </ButtonBase>
+    />
   );
 });
 
