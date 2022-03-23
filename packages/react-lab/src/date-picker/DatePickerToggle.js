@@ -8,10 +8,10 @@ import useDatePicker from './useDatePicker';
 
 const DatePickerToggle = forwardRef((
   {
-    onClick,
-    onKeyDown,
     children,
     disabled,
+    onClick,
+    onKeyDown,
     ...rest
   },
   ref,

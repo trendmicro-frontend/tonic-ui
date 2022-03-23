@@ -6,9 +6,10 @@ import Day from './Day';
 
 const Week = ({
   activeDate,
+  calendarValue,
   dateFormat,
-  selectedDate,
   setActiveDate,
+  setCalendarValue,
   startDateOfWeek,
   onClickDay,
 }) => {
@@ -17,7 +18,7 @@ const Week = ({
   return (
     [0, 1, 2, 3, 4, 5, 6].map((offset) => {
       const date = addDays(startDateOfWeek, offset);
-      const isSelected = isSameDay(date, selectedDate);
+      const isSelected = isSameDay(date, calendarValue);
       const isToday = isSameDay(date, today);
       const isOutOfScope = !isSameMonth(date, activeDate);
       return (
@@ -29,6 +30,7 @@ const Week = ({
           isSelected={isSelected}
           isToday={isToday}
           setActiveDate={setActiveDate}
+          setCalendarValue={setCalendarValue}
           onClick={onClickDay}
         />
       );

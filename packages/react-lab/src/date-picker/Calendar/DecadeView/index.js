@@ -5,7 +5,7 @@ import Years from './Years';
 const DecadeView = forwardRef((
   {
     activeDate,
-    selectedDate,
+    calendarValue,
     setActiveDate,
     setView,
     ...props
@@ -20,7 +20,7 @@ const DecadeView = forwardRef((
     >
       <Years
         activeDate={activeDate}
-        selectedDate={selectedDate}
+        calendarValue={calendarValue}
         setActiveDate={setActiveDate}
         setView={setView}
       />

@@ -13,7 +13,7 @@ const dateTransform = (year) => {
 
 const Years = ({
   activeDate,
-  selectedDate,
+  calendarValue,
   setActiveDate,
   setView,
   ...props
@@ -29,7 +29,7 @@ const Years = ({
       <Year
         key={date.getTime()}
         activeDate={date}
-        isSelected={isSameYear(date, selectedDate)}
+        isSelected={isSameYear(date, calendarValue)}
         isToday={isSameYear(date, today)}
         isOutOfScope={point < activeYear || point > (activeYear + 9)}
         setActiveDate={setActiveDate}

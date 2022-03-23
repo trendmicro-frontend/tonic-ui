@@ -1,4 +1,5 @@
 import { Box } from '@tonic-ui/react';
+import { usePrevious } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import useOutsideClick from '../hooks/useOutsideClick';
@@ -26,7 +27,6 @@ const DatePicker = forwardRef((
     onClose,
     onOpen,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
-    usePortal = false, // Pass `true` if you want to render menu in a portal
     ...rest
   },
   ref,
@@ -42,14 +42,17 @@ const DatePicker = forwardRef((
   const datePickerRef = useRef(null);
   const datePickerToggleRef = useRef(null);
   const direction = mapPlacementToDirection(placement);
+  const wasPreviouslyOpen = usePrevious(_isOpen);
 
   useEffect(() => {
-    // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
-    requestAnimationFrame(() => {
-      const el = datePickerToggleRef.current;
-      el && el.focus();
-    });
-  }, [datePickerToggleRef]);
+    if (!_isOpen && wasPreviouslyOpen) {
+      // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
+      requestAnimationFrame(() => {
+        const el = datePickerToggleRef.current;
+        el && el.focus();
+      });
+    }
+  }, [_isOpen, wasPreviouslyOpen, datePickerToggleRef]);
 
   const openDatePicker = () => {
     if (!isControlled) {
@@ -81,7 +84,6 @@ const DatePicker = forwardRef((
     isOpen: _isOpen,
     openDatePicker,
     placement,
-    usePortal,
   };
 
   const styleProps = useDatePickerStyle({});

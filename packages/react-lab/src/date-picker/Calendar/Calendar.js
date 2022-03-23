@@ -18,7 +18,7 @@ const Calendar = forwardRef((
     calendarStartDay = 0, // 0 = Sunday, 1 = Monday, ...
     children,
     dateFormat = 'yyyy-MM-dd',
-    value, // string
+    value = new Date(),
     view = 'month', // one of 'month', 'year', 'decade'
     onChange: onClickDay,
     ...props
@@ -26,22 +26,24 @@ const Calendar = forwardRef((
   ref,
 ) => {
   const currentDate = isDate(value) ? toDate(value) : new Date();
-  const selectedDate = isDate(value) ? toDate(value) : null;
+  const inputDate = isDate(value) ? toDate(value) : null;
   const [currentView, setView] = useState(view);
   const [activeDate, setActiveDate] = useState(currentDate);
+  const [calendarValue, setCalendarValue] = useState(inputDate);
   const styleProps = useCalendarStyle();
   const previouslyValue = usePrevious(value);
 
   useEffect(() => {
     // Dynamically change the calendar view
-    if (
-      value !== previouslyValue
-      && !!selectedDate
-      && (!isSameYear(selectedDate, activeDate) || !isSameMonth(selectedDate, activeDate))
-    ) {
-      setActiveDate(selectedDate);
+    const isValueChange = !!inputDate && value !== previouslyValue;
+    const needToChangeView = !isSameYear(inputDate, activeDate) || !isSameMonth(inputDate, activeDate);
+    if (isValueChange && needToChangeView) {
+      setActiveDate(inputDate);
     }
-  }, [selectedDate, activeDate]);
+    if (isValueChange) {
+      setCalendarValue(inputDate);
+    }
+  }, [value, previouslyValue, inputDate, activeDate]);
 
   if (children) {
     return (
@@ -70,8 +72,10 @@ const Calendar = forwardRef((
       { currentView === 'month' && (
         <MonthView
           activeDate={activeDate}
-          selectedDate={selectedDate}
+          calendarValue={calendarValue}
+          dateFormat={dateFormat}
           setActiveDate={setActiveDate}
+          setCalendarValue={setCalendarValue}
           calendarStartDay={calendarStartDay}
           onClickDay={onClickDay}
         />
@@ -79,7 +83,7 @@ const Calendar = forwardRef((
       { currentView === 'year' && (
         <YearView
           activeDate={activeDate}
-          selectedDate={selectedDate}
+          calendarValue={calendarValue}
           setActiveDate={setActiveDate}
           setView={setView}
         />
@@ -87,7 +91,7 @@ const Calendar = forwardRef((
       { currentView === 'decade' && (
         <DecadeView
           activeDate={activeDate}
-          selectedDate={selectedDate}
+          calendarValue={calendarValue}
           setActiveDate={setActiveDate}
           setView={setView}
         />

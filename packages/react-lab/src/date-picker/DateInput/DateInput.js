@@ -5,36 +5,24 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react'; //, useEffect
 import useForkRef from '../../utils/useForkRef';
 
 const DateInput = forwardRef((
-  {
-    value,
-    onChange,
-    ...props
-  },
-  ref,
+  props,
+  ref
 ) => {
-  onChange = ensureFunction(onChange);
-
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
-  const handleChange = event => {
-    if (typeof onChange === 'function') {
-      onChange(event);
-    }
-  };
 
   return (
     <Box
       display="inline-flex"
       alignItems="center"
       position="relative"
-      width="128px"
+      minWidth="128px"
     >
       <Box
         display="flex"
@@ -48,9 +36,7 @@ const DateInput = forwardRef((
       </Box>
       <Input
         ref={combinedRef}
-        value={value}
         pl="10x"
-        onChange={handleChange}
         {...props}
       />
     </Box>

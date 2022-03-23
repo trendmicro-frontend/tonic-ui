@@ -13,14 +13,87 @@ import {
   DatePickerPopper,
 } from '@tonic-ui/react';
 ```
+
 ## Usage
+
+### Calendar
+```jsx
+<Calendar
+  value={new Date()}
+  onChange={(date) => console.log(date)}
+/>
+```
+
+#### Calendar start day
+
+Use the `calendarStartDay` prop to chage the first day of the calendar week. for example, 0 = Sunday, 1 = Monday.
+
+```jsx
+<Stack direction="row" spacing="4x">
+  <Stack direction="column" spacing="4x" shouldWrapChildren>
+    <Text size="lg">calendarStartDay={0} (default)</Text>
+    <Calendar />
+  </Stack>
+  <Stack direction="column" spacing="4x" shouldWrapChildren>
+    <Text size="lg">calendarStartDay={3}</Text>
+    <Calendar calendarStartDay={3} />
+  </Stack>
+</Stack>
+```
+
+#### Date format
+
+Use the `dateFormat` prop to chage The format of date. Format of the string is based on Unicode Technical Standard #35: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table.
+
+```jsx
+function Example() {
+  const [value1, setValue1] = React.useState("2022.03.22");
+  const [value2, setValue2] = React.useState("2022.03.22");
+  return (
+    <Stack direction="row" spacing="4x">
+      <Stack direction="column" spacing="4x" shouldWrapChildren>
+        <Text size="lg">dateFormat="yyyy-MM-dd" (default)</Text>
+        <Calendar
+          value={value1}
+          onChange={value => setValue1(value)}
+        />
+        <Box>Date: {value1}</Box>
+      </Stack>
+      <Stack direction="column" spacing="4x" shouldWrapChildren>
+        <Text size="lg">dateFormat="yyyy.MM.dd"</Text>
+        <Calendar
+          dateFormat="yyyy.MM.dd"
+          value= {value2}
+          onChange={value => setValue2(value)}
+        />
+        <Box>Date: {value2} </Box>
+      </Stack>
+    </Stack>
+  );
+}
+```
+
+#### View
+
+Use the `view` prop to change the view of the `Calendar`. You can set the value to `month`, `year`, or `decade`.
+
+```jsx
+<Stack direction="row" spacing="4x">
+  {["month", "year", "decade"].map(view => (
+    <Stack key={view} direction="column" spacing="4x" shouldWrapChildren>
+      <Text size="lg">view="{view}"</Text>
+      <Calendar view={view} />
+    </Stack>
+  ))}
+</Stack>
+```
 
 ### DatePicker
 ```jsx
 function Example({
-  locale = 'en',
-  disabled,
   date = '2021-12-15',
+  dateFormat = 'yyyy-MM-dd',
+  disabled,
 }) {
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [isOpenCalendar, setIsOpenCalendar] = React.useState(false);
@@ -59,14 +132,14 @@ function Example({
       onClose={() => setIsOpenCalendar(false)}
     >
       <DatePickerToggle disabled={disabled}>
-        {({ getDatePickerToggleProps }) => {
+        {({ getDatePickerToggleProps, disabled }) => {
           return (
             <Box>
               <DateInput
-                locale={locale}
                 value={value}
+                disabled={disabled}
                 onChange={handleDateInputChange}
-                 {...getDatePickerToggleProps()}
+                {...getDatePickerToggleProps()}
                 {...isInvalid && invalidInputStyle}
               />
               {isInvalid && (
@@ -80,7 +153,6 @@ function Example({
       </DatePickerToggle>
       <DatePickerPopper width="max-content">
         <Calendar
-          locale={locale}
           value={value}
           onChange={handleCalendarChange}
         />
@@ -90,5 +162,280 @@ function Example({
 }
 ```
 
+#### with menu
+```jsx noInline
+const XDatePicker = ({
+  value: date,
+  dateFormat,
+  disabled,
+}) => {
+  const [isInvalid, setIsInvalid] = React.useState(false);
+  const [isOpenCalendar, setIsOpenCalendar] = React.useState(false);
+  const [value, setValue] = React.useState(date);
+  const invalidInputStyle = {
+    isInvalid: true,
+    pr: '10x',
+  };
+  const isDate = (v) => {
+    const d = new Date(v);
+    return !Number.isNaN(d.getTime());
+  };
+  const verifyDate = (value) => {
+    if (!value) {
+      return;
+    }
+    setIsInvalid(!isDate(value));
+  };
+  const handleDateInputChange = (event) => {
+    const value = event.target.value;
+    setValue(value);
+  };
+  const handleCalendarChange = (value) => {
+    setValue(value);
+    setIsOpenCalendar(false);
+  };
+
+  React.useEffect(() => {
+    verifyDate(value);
+  }, [value]);
+
+  return (
+    <DatePicker
+      isOpen={isOpenCalendar}
+      onOpen={() => setIsOpenCalendar(true)}
+      onClose={() => setIsOpenCalendar(false)}
+    >
+      <DatePickerToggle disabled={disabled}>
+        {({ getDatePickerToggleProps, disabled }) => {
+          return (
+            <Box>
+              <DateInput
+                value={value}
+                disabled={disabled}
+                onChange={handleDateInputChange}
+                {...getDatePickerToggleProps()}
+                {...isInvalid && invalidInputStyle}
+              />
+              {isInvalid && (
+                <Box position="absolute" right={0} top="1x">
+                  <Icon icon="warning-circle" mx="3x" color="red:50" />
+                </Box>
+              )}
+            </Box>
+          );
+        }}
+      </DatePickerToggle>
+      <DatePickerPopper width="max-content">
+        <Calendar
+          value={value}
+          onChange={handleCalendarChange}
+        />
+      </DatePickerPopper>
+    </DatePicker>
+  );
+};
+
+const TimeInput = React.forwardRef((
+  props,
+  ref
+) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      display="inline-flex"
+      alignItems="center"
+      position="relative"
+      minWidth="128px"
+    >
+      <Box
+        display="flex"
+        alignItems="center"
+        position="absolute"
+        left={0}
+        px="3x"
+        zIndex={3} // The z-index value should be at least 3 for the prepeneded input adornment
+      >
+        <Icon icon="clock" color={colorStyle.color.secondary} />
+      </Box>
+      <Input
+        ref={ref}
+        pl="10x"
+        {...props}
+      />
+    </Box>
+  );
+});
+
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [value, setValue] = React.useState('1d');
+  const [isCalendarVisible, setIsCalendarVisible] = React.useState(false);
+  const handleMenuItemClick = (event) => {
+    const value = event.target.getAttribute('value');
+    if (value === 'custom') {
+      event.preventDefault();
+      if (!isCalendarVisible) {
+        setIsCalendarVisible(true);
+      }
+      return;
+    }
+    setValue(value);
+    if (isCalendarVisible) {
+      setIsCalendarVisible(false);
+    }
+  };
+  const mapValueToLabel = (value) => {
+    if (value === 'custom') {
+      return 'Custom range';
+    }
+    return {
+      '1d': 'Last 24 hours',
+      '7d': 'Last 7 days',
+      '14d': 'Last 14 days',
+    }[value];
+  };
+  React.useEffect(() => {
+    if (value === 'custom' && !isCalendarVisible) {
+      setIsCalendarVisible(true);
+    }
+  }, [value, isCalendarVisible]);
+  return (
+    <Menu
+      onClose={() => {
+        if (isCalendarVisible) {
+          setIsCalendarVisible(false);
+        }
+      }}
+    >
+      {({ closeMenu }) => (
+        <>
+          <MenuButton variant="secondary">
+            <Text>{mapValueToLabel(value)}</Text>
+          </MenuButton>
+          <MenuList width="max-content">
+            {isCalendarVisible && (
+              <Box
+                backgroundColor={colorStyle.background.secondary}
+                position="absolute"
+                left="100%"
+                top={0}
+                px="4x"
+                py="3x"
+                minHeight="100%"
+                border={1}
+                borderColor={colorStyle.divider}
+              >
+                <Flex alignItems="center">
+                  <Text width="64px">From:</Text>
+                  <XDatePicker value="2022-07-01" />
+                  <TimeInput value="00:00:00" />
+                </Flex>
+                <Flex alignItems="center">
+                  <Text width="64px">To:</Text>
+                  <XDatePicker value="2022-07-07" />
+                  <TimeInput value="59:59:59" />
+                </Flex>
+                <Divider my="4x" />
+                <Flex justifyContent="flex-end">
+                  <Grid
+                    templateColumns="1fr 1fr"
+                    columnGap="2x"
+                  >
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        closeMenu();
+                        if (value !== 'custom') {
+                          setValue('custom');
+                        }
+                      }}
+                    >
+                      Apply
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        closeMenu();
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
+                </Flex>
+              </Box>
+            )}
+            {['1d', '7d', '14d'].map(value => (
+              <MenuItem
+                key={value}
+                value={value}
+                onClick={handleMenuItemClick}
+              >
+                {mapValueToLabel(value)}
+              </MenuItem>
+            ))}
+            <MenuDivider />
+            <MenuItem
+              value="custom"
+              onClick={handleMenuItemClick}
+            >
+              Custom range...
+            </MenuItem>
+          </MenuList>
+        </>
+      )}
+    </Menu>
+  );
+}
+
+render(<Example />);
+```
+
+## Accessibility
+
+### Keyboard Interaction
+
+| Key | Action |
+| :-- | :----- |
+| `ArrowDown` \| `ArrowUp` | When `DatePickerToggle` is focused, opens the date picker. |
+| `Escape` | When `DatePickerToggle` is focused, closes the date picker and moves the focus to the toggle. |
+
 ## Props
 
+### Calendar
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| calendarStartDay | number | 0 | Set the first day of the calendar week. for example, 0 = Sunday, 1 = Monday. |
+| children | ReactNode | | |
+| dateFormat | string | 'yyyy-MM-dd' | The format of date. Format of the string is based on Unicode Technical Standard #35: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table |
+| value | string \| date | new Date() | The value for calendar. |
+| view | string | 'month' | The calendar view. one of: 'month', 'year', 'decade' |
+| onChange | function | | Callback when the date is clicked. |
+
+### DateInput
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+
+### DatePicker
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| (context) => ReactNode | | |
+| defaultIsOpen | boolean | `false` | Whether the date picker is open by default. |
+| isOpen | boolean | | Whether the date picker is open. |
+| onClose | function | | Callback when the date picker is closed. |
+| onOpen | function | | Callback when the date picker is opened. |
+| placement | string | 'bottom-start' | The placement of the date picker. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+
+### DatePickerToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| ({ getDatePickerToggleProps, isOpen, openDatePicker, closeDatePicker }) => ReactNode | | |
+| disabled | boolean | | Whether the date picker toggle is disabled. |
+| onClick | function | | Callback when the date picker toggle is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |

@@ -30,7 +30,6 @@ const DatePickerList = forwardRef((
     datePickerRef,
     isOpen,
     placement,
-    usePortal,
   } = { ...datePickerContext };
 
   const styleProps = useDatePickerPopperStyle();
@@ -47,7 +46,6 @@ const DatePickerList = forwardRef((
       role="menu"
       tabIndex={-1}
       unmountOnExit={true}
-      usePortal={usePortal}
       willUseTransition={true}
       zIndex="dropdown"
       {...styleProps}

@@ -14,7 +14,7 @@ const dateTransform = (year, monthIndex) => {
 const Months = forwardRef((
   {
     activeDate,
-    selectedDate,
+    calendarValue,
     setActiveDate,
     setView,
     ...props
@@ -32,7 +32,7 @@ const Months = forwardRef((
       <Month
         key={startDateOfMonth.getTime()}
         activeDate={startDateOfMonth}
-        isSelected={isSameMonth(startDateOfMonth, selectedDate)}
+        isSelected={isSameMonth(startDateOfMonth, calendarValue)}
         isToday={isSameMonth(startDateOfMonth, today)}
         setActiveDate={setActiveDate}
         setView={setView}
