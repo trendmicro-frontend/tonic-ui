@@ -1,4 +1,3 @@
-import { sx } from '@tonic-ui/styled-system';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import { createTransitionStyle, transitionEasing } from '../utils/transitions';
@@ -166,15 +165,16 @@ const ghostVariantStyle = ({
   colorMode,
   theme,
 }) => {
-  const secondaryVariantStyle = secondaryVariantStyle({
+  const style = secondaryVariantStyle({
     colorMode,
     theme,
   });
+
   return {
-    ...secondaryVariantStyle,
+    ...style,
     borderColor: 'transparent',
     _disabled: {
-      ...secondaryVariantStyle._disabled,
+      ...style._disabled,
       borderColor: 'transparent',
     },
   };

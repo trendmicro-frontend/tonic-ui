@@ -27,13 +27,6 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
 
-const setColorOpacity = (color, opacity) => {
-  return Color(color)
-    .fade(1 - opacity)
-    .rgb()
-    .string();
-};
-
 const versionMap = {
   [ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)]: {
     label: `v${ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)}`,
@@ -56,7 +49,6 @@ const Header = forwardRef((
   },
   ref,
 ) => {
-  const theme = useTheme();
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const router = useRouter();
@@ -83,8 +75,8 @@ const Header = forwardRef((
     dark: 'gray:90',
   }[colorMode];
   const boxShadowColor = {
-    light: 'gray:20',
-    dark: 'gray:70',
+    light: 'rgba(0, 0, 0, 0.12)',
+    dark: 'rgba(255, 255, 255, 0.12)',
   }[colorMode];
   const fontColor = {
     light: 'black:primary',
@@ -102,13 +94,6 @@ const Header = forwardRef((
     router.push(`${ASSET_PREFIX}/getting-started/versions`);
   };
 
-  const handleChangeColorMode = () => {
-    toggleColorMode();
-  };
-
-  const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor], backgroundColor), 0.7);
-  const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor], boxShadowColor), 0.5);
-  
   return (
     <Box
       as="header"
@@ -119,8 +104,8 @@ const Header = forwardRef((
       height="12x"
       width="100%"
       backdropFilter="blur(20px)"
-      backgroundColor={_backgroundColor}
-      boxShadow={`0px -1px 1px inset ${_boxShadowColor}`}
+      backgroundColor={backgroundColor}
+      boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
       transition="all 0.2s"
       {...rest}
     >
@@ -229,7 +214,7 @@ const Header = forwardRef((
             _visited={{
               color: colorStyle.color.secondary,
             }}
-            onClick={handleChangeColorMode}
+            onClick={toggleColorMode}
             display="inline-flex"
           >
             {colorMode === 'light' && (
