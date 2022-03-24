@@ -10,7 +10,7 @@ const FlatButton = forwardRef((
   ref,
 ) => {
   useOnce(() => {
-    console.error('Warning: `FlatButton` is deprecated and will be removed in the next major release. Please use `Button` or `ButtonBase` instead.');
+    console.error('Warning: `FlatButton` is deprecated and will be removed in the next major release. Please use `Button` or `ButtonBase` instead.\n\nSee https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v0x for more information.');
   });
 
   const variant = {
