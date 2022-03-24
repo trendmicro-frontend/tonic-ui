@@ -68,9 +68,52 @@ Optionally via prop:
 
 ### 3. Replace deprecated components and Hooks
 
+#### `FlatButton` 💣 (use `Button` or `ButtonBase` instead)
+
+`FlatButton` is deprecated and will be removed in the next major release. Use [Button](../components/button) or [ButtonBase](../components/buttonbase) instead.
+
+```diff
+- <FlatButton variant="solid"/>
++ <Button variant="default"/>
+```
+
+```diff
+- <FlatButton variant="outline"/>
++ <Button variant="secondary"/>
+```
+
+For alert or toast notifications, you may use the code below to replace the deprecated `FlatButton` while rendering action buttons on a bright background:
+
+```js
+const ActionButton = forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={{
+      '&:active': {
+        color: 'black',
+      },
+      '&:focus': {
+        color: 'black',
+      },
+      '&:hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black',
+      },
+      '&:hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    }}
+    {...props}
+  />
+));
+```
+
 #### `PseudoBox` 💣 (use `Box` instead)
 
-`PseudoBox` is deprecated and its props can now be passed to `Box` directly. Replace all `PseudoBox` components with `Box`.
+`PseudoBox` is deprecated and its props can now be passed to `Box` directly. Use [Box](../components/box) instead.
 
 ```diff
 - <PseudoBox
@@ -105,6 +148,10 @@ toggleValue(false); // set the value to false
 #### withTheme 💣 (use `useTheme` instead)
 
 `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
+
+```js
+const theme = useTheme();
+```
 
 ### 4. Examine breaking changes
 
@@ -209,8 +256,6 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 
 ### Accordion
 
-> 👉 The `Accordion` component was fullly reworked to be more declarative and to be more intuitive.
-
 #### `Accordion`
 
 * Removed `allowMultiple` and `allowToggle` props in favor of controling state from the parent
@@ -246,12 +291,16 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 #### `Drawer`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
+* Added `scrollBehavior` prop to control the scroll behavior of the drawer
+* Added support for passing style props to `Drawer`
 
 ### Modal
 
 #### `Modal`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
+* Added `scrollBehavior` prop to control the scroll behavior of the modal
+* Added support for passing style props to `Modal`
 
 ### RadioGroup
 
