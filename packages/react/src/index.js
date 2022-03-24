@@ -10,7 +10,6 @@ export * from './color-style';
 export * from './css-baseline';
 export * from './divider';
 export * from './drawer';
-export * from './flat-button';
 export * from './flex';
 export * from './grid';
 export * from './icon';
@@ -44,9 +43,10 @@ export * from './tooltip';
 export * from './transitions';
 export * from './visually-hidden';
 
-// hooks
-export useDisclosure from './deprecated/useDisclosure'; // deprecated
-
 // settings
 export colorStyle from './shared/color-style';
 export theme from './shared/theme';
+
+// deprecated
+export FlatButton from './deprecated/FlatButton';
+export useDisclosure from './deprecated/useDisclosure';
