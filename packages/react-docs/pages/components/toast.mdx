@@ -50,29 +50,30 @@ function Example() {
 * Apply vertical margin space with `6x` (or `1.5rem`) between the end of the content and the action button (or action link).
 
 ```jsx noInline
-const ActionButton = (props) => (
+const ActionButton = React.forwardRef((props, ref) => (
   <Button
+    ref={ref}
     variant="secondary"
     borderColor="black:primary"
     color="black:primary"
-    css={{
-      '&:active': {
-        color: 'black',
+    css={sx({
+      ':active': {
+        color: 'black:primary',
       },
-      '&:focus': {
-        color: 'black',
+      ':focus': {
+        color: 'black:primary',
       },
-      '&:hover': {
+      ':hover': {
         background: 'rgba(0, 0, 0, 0.12)',
-        color: 'black',
+        color: 'black:primary',
       },
-      '&:hover:not(:focus)': {
+      ':hover:not(:focus)': {
         boxShadow: 'none',
       },
-    }}
+    })}
     {...props}
   />
-);
+));
 
 const ToastSimple = ({ onClose }) => (
   <Toast isClosable onClose={onClose}>

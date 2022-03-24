@@ -99,6 +99,87 @@ function Example() {
 render(<Example />);
 ```
 
+### Notification action button
+
+To perform an action on an alert or toast notification, you can use `ButtonBase` to compose an action button using style props, or override `Button` with the `css` prop to customize the appearance.
+
+```js
+// import
+import { sx } from '@tonic-ui/styled-system';
+
+// example
+const ActionButton = forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={sx({
+      ':active': {
+        color: 'black:primary',
+      },
+      ':focus': {
+        color: 'black:primary',
+      },
+      ':hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black:primary',
+      },
+      ':hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    })}
+    {...props}
+  />
+));
+```
+
+> `sx` is a utility function provided by `@tonic-ui/styled-system` that can specify style prop value with theme tokens when using the `css` prop on a styled component.
+
+```jsx noInline
+const ActionButton = React.forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={sx({
+      ':active': {
+        color: 'black:primary',
+      },
+      ':focus': {
+        color: 'black:primary',
+      },
+      ':hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black:primary',
+      },
+      ':hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    })}
+    {...props}
+  />
+));
+
+function Example() {
+  return (
+    <Alert variant="solid" severity="error" isClosable>
+      <Flex justifyContent="space-between">
+        <Text>
+          This is an alert notification with an action button.
+        </Text>
+        <ActionButton size="sm">
+          Action Button
+        </ActionButton>
+      </Flex>
+    </Alert>
+  );
+}
+
+render(<Example />);
+```
+
 ## Props
 
 | Name | Type | Default | Description |

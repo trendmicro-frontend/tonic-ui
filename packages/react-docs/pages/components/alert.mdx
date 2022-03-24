@@ -153,29 +153,30 @@ An alert action is a button or link to trigger an action. It is used to provide 
 The action button is usually aligned to the right of the alert. You can use `justifyContent` to align the action button to the right.
 
 ```jsx noInline
-const ActionButton = (props) => (
+const ActionButton = React.forwardRef((props, ref) => (
   <Button
+    ref={ref}
     variant="secondary"
     borderColor="black:primary"
     color="black:primary"
-    css={{
-      '&:active': {
-        color: 'black',
+    css={sx({
+      ':active': {
+        color: 'black:primary',
       },
-      '&:focus': {
-        color: 'black',
+      ':focus': {
+        color: 'black:primary',
       },
-      '&:hover': {
+      ':hover': {
         background: 'rgba(0, 0, 0, 0.12)',
-        color: 'black',
+        color: 'black:primary',
       },
-      '&:hover:not(:focus)': {
+      ':hover:not(:focus)': {
         boxShadow: 'none',
       },
-    }}
+    })}
     {...props}
   />
-);
+));
 
 function Example() {
   return (
