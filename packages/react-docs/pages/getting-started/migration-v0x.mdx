@@ -113,7 +113,7 @@ const ActionButton = forwardRef((props, ref) => (
 
 #### `PseudoBox` 💣 (use `Box` instead)
 
-`PseudoBox` is deprecated and its props can now be passed to `Box` directly. Replace all `PseudoBox` components with `Box`.
+`PseudoBox` is deprecated and its props can now be passed to `Box` directly. Use [Box](../components/box) instead.
 
 ```diff
 - <PseudoBox
@@ -148,6 +148,10 @@ toggleValue(false); // set the value to false
 #### withTheme 💣 (use `useTheme` instead)
 
 `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
+
+```js
+const theme = useTheme();
+```
 
 ### 4. Examine breaking changes
 
@@ -252,8 +256,6 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 
 ### Accordion
 
-> 👉 The `Accordion` component was fullly reworked to be more declarative and to be more intuitive.
-
 #### `Accordion`
 
 * Removed `allowMultiple` and `allowToggle` props in favor of controling state from the parent
@@ -289,12 +291,16 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 #### `Drawer`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
+* Added `scrollBehavior` prop to control the scroll behavior of the drawer
+* Added support for passing style props to `Drawer`
 
 ### Modal
 
 #### `Modal`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
+* Added `scrollBehavior` prop to control the scroll behavior of the modal
+* Added support for passing style props to `Modal`
 
 ### RadioGroup
 
