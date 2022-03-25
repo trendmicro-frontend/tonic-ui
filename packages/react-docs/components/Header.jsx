@@ -1,4 +1,3 @@
-import Color from 'color';
 import { ensureString } from 'ensure-type';
 import {
   Box,
@@ -14,9 +13,7 @@ import {
   Text,
   useColorMode,
   useColorStyle,
-  useTheme,
 } from '@tonic-ui/react';
-import _get from 'lodash/get';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef, useEffect } from 'react';
