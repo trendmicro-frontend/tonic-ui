@@ -1,27 +1,20 @@
 import { useColorMode } from '../color-mode';
 
-const useSelectedButtonStyle = () => {
+const usePaginationButtonStyle = () => {
   const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(0, 0, 0, 0.12)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
-  const borderColor = {
+  const selectedBorderColor = {
     dark: 'blue:50',
     light: 'blue:50',
   }[colorMode];
-  const color = {
-    dark: 'blue:40',
-    light: 'blue:60',
-  }[colorMode];
 
   return {
-    backgroundColor,
-    borderColor,
-    color,
+    transition: 'none',
+    _selected: {
+      borderColor: selectedBorderColor,
+    },
   };
 };
 
 export {
-  useSelectedButtonStyle,
+  usePaginationButtonStyle,
 };
