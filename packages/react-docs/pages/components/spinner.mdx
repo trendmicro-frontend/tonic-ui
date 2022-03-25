@@ -14,69 +14,58 @@ import { Spinner } from '@tonic-ui/react';
 <Spinner />
 ```
 
-### Colors
-
-```jsx
-<Stack direction="row" spacing="6x">
-  <Spinner color="red:50" />
-  <Spinner color="red" />
-  <Spinner color="cyan" />
-  <Spinner color="rgba(255, 167, 196, 1)" />
-  <Spinner color="#8f41e9" />
-</Stack>
-```
-
 ### Sizes
 
-Use the `size` prop to change the size of a spinner. You can set the value to `xs`, `sm`, `md`, `lg`, or `xs`. The corresponding stroke width is listed below:
+You can use the `size` prop to change the size of the spinner. Each size has a cooresponding dimension and stroke width as shown below. If the `size` prop is not provided, it will default to `md`.
 
-| Size | Stroke Width |
-| :---- | :------------- |
-| xs | 2px |
-| sm | 2px |
-| md | 4px |
-| lg | 4px |
-| xl | 4px |
+| Size | Dimension (px) | Outer Radius (px) | Stroke Width (px) |
+| :--- | :------------- | :---------------- | :---------------- |
+| xs | 16 x 16 | 8 | 2 |
+| sm | 32 x 32 | 16 | 2 |
+| md | 48 x 48 | 24 | 4 |
+| lg | 64 x 64 | 32 | 4 |
+| xl | 80 x 80 | 40 | 4 |
 
 ```jsx
-<Stack direction="row" spacing="6x">
+<Flex alignItems="center" columnGap="6x">
   <Spinner size="xs" />
   <Spinner size="sm" />
   <Spinner size="md" />
   <Spinner size="lg" />
   <Spinner size="xl" />
-</Stack>
+</Flex>
 ```
 
-### StrokeWidth
+### Customization
+
+The following props are provided for customization:
+* `lineColor` - The line color of the spinner. Set `lineColor` to `none` or `transparet` to remove the line.
+* `lineWidth` - The line width of the spinner.
+* `trackColor` - The track color of the spinner. Set `trackColor` to `none` or `transparent` to remove the track.
+* `trackWidth` - The track width of the spinner.
 
 ```jsx
-<Stack direction="row" spacing="6x">
-  <Spinner strokeWidth={1} />
-  <Spinner strokeWidth={2} />
-  <Spinner strokeWidth={3} />
-  <Spinner strokeWidth={5} />
-  <Spinner strokeWidth={10} />
-</Stack>
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const trackColor = colorStyle.divider;
+
+  return (
+    <Flex alignItems="center" columnGap="6x">
+      <Spinner lineColor="red:50" lineColor="transparent" />
+      <Spinner lineColor="red:50" trackColor="transparent" />
+      <Spinner lineColor="red:50" lineWidth={6} trackColor={trackColor} trackWidth={6} />
+    </Flex>
+  );
+}
 ```
-
-### Speed
-
-```jsx
-<Stack direction="row" spacing="6x">
-  <Spinner speed={2.5} />
-  <Spinner speed={3} />
-  <Spinner speed={3.5} />
-  <Spinner speed={4} />
-</Stack>
-```
-
 
 ## Props
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| size | string | 'md' | The size of the spinner. Acceptable values: 'xl', 'lg', 'md', 'sm', 'xs'. |
-| color | string | 'blue:60' | The color of the spinner. |
-| strokeWidth | number | | Set the stroke width for the spinner. |
-| speed | float | 2 | Set the spinning speed for the spinner. |
+| size | string | 'md' | The size of the spinner. One of: 'xl', 'lg', 'md', 'sm', 'xs'. |
+| lineColor | string | 'blue:60' | The line color of the spinner. |
+| lineWidth | number | | The line tickness of the spinner. |
+| trackColor | string | 'rgba(255, 255, 255, .12)' `dark`<br/>'rgba(0, 0, 0, .12)' `light`| The track color of the spinner. |
+| trackWidth | number | | The track tickness of the spinner. |
