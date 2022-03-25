@@ -211,7 +211,7 @@ const Header = forwardRef((
             _visited={{
               color: colorStyle.color.secondary,
             }}
-            onClick={toggleColorMode}
+            onClick={() => toggleColorMode()}
             display="inline-flex"
           >
             {colorMode === 'light' && (
