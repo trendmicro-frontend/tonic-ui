@@ -522,6 +522,7 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| size | string | 'md' | The size for all buttons in the group. Acceptable values: 'sm', 'md', 'lg' |
-| variant | string | 'default' | The variant of all buttons in the group. Acceptable values: 'emphasis', 'primary', 'default', 'secondary', 'ghost' |
-| orientation | string | 'horizontal' | The orientation of the Buttons. Acceptable values: 'horizontal', 'vertical' |
+| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| orientation | string | 'horizontal' | The orientation of the button group. One of: 'horizontal', 'vertical' |
+| size | string | 'md' | The size of the button group. One of: 'sm', 'md', 'lg' |
+| variant | string | 'default' | The variant of the button group. One of: 'emphasis', 'primary', 'default', 'secondary', 'ghost' |

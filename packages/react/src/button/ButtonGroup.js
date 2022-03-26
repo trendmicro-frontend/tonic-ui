@@ -1,38 +1,37 @@
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import runIfFn from '../utils/runIfFn';
 import { ButtonGroupContext } from './context';
+import { useButtonGroupStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
+
+const defaultOrientation = 'horizontal';
+const defaultSize = 'md';
+const defaultVariant = 'default';
 
 const ButtonGroup = forwardRef((
   {
     children,
-    size = 'md',
-    variant = 'default',
-    orientation = 'horizontal',
+    orientation = defaultOrientation,
+    size = defaultSize,
+    variant = defaultVariant,
     ...rest
   },
   ref
 ) => {
-  const buttonGroupState = getMemoizedState({ size, variant, orientation });
-  const orientationProps = {
-    vertical: {
-      flexDirection: 'column',
-    },
-    horizontal: {
-      flexDirection: 'row',
-    },
-  }[orientation];
+  const styleProps = useButtonGroupStyle({ orientation });
+  const context = getMemoizedState({ orientation, size, variant });
+
   return (
-    <ButtonGroupContext.Provider value={buttonGroupState}>
+    <ButtonGroupContext.Provider value={context}>
       <Box
         ref={ref}
-        display="inline-flex"
-        {...orientationProps}
+        {...styleProps}
         {...rest}
       >
-        {children}
+        {runIfFn(children, context)}
       </Box>
     </ButtonGroupContext.Provider>
   );

@@ -1,4 +1,3 @@
-import Color from 'color';
 import { ensureString } from 'ensure-type';
 import {
   Alert,
@@ -38,11 +37,9 @@ import {
   Text,
   useColorMode,
   useColorStyle,
-  useTheme,
 } from '@tonic-ui/react';
-import _get from 'lodash/get';
 import NextLink from 'next/link';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import pkg from '../../../package.json';
 import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from '../components/FontAwesomeIcon';
@@ -51,13 +48,6 @@ import SkeletonBody from '../components/SkeletonBody';
 const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
 
 const GITHUB_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
-
-const setColorOpacity = (color, opacity) => {
-  return Color(color)
-    .fade(1 - opacity)
-    .rgb()
-    .string();
-};
 
 const DefaultPage = (props) => {
   const [colorMode] = useColorMode();
@@ -376,36 +366,28 @@ const DefaultPage = (props) => {
 };
 
 const Header = forwardRef((props, ref) => {
-  const theme = useTheme();
-  const [colorMode, setColorMode] = useColorMode();
-  const toggleColorMode = () => {
-    const nextColorMode = {
-      'dark': 'light',
-      'light': 'dark',
-    }[colorMode];
-
-    setColorMode(nextColorMode);
-
-    persistColorMode(nextColorMode);
-  };
+  const [colorMode, toggleColorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const logo = {
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
   }[colorMode];
   const backgroundColor = {
-    light: 'white:emphasis',
+    light: 'white',
     dark: 'gray:90',
   }[colorMode];
   const boxShadowColor = {
-    light: 'gray:20',
-    dark: 'gray:70',
+    light: 'rgba(0, 0, 0, 0.12)',
+    dark: 'rgba(255, 255, 255, 0.12)',
   }[colorMode];
   const fontColor = {
     light: 'black:primary',
-    dark: 'white:emphasis',
+    dark: 'white:primary',
   }[colorMode];
-  const _backgroundColor = setColorOpacity(_get(theme, ['colors', backgroundColor]), 0.7);
-  const _boxShadowColor = setColorOpacity(_get(theme, ['colors', boxShadowColor]), 0.5);
+
+  useEffect(() => {
+    persistColorMode(colorMode);
+  }, [colorMode]);
   
   return (
     <Box
@@ -417,8 +399,8 @@ const Header = forwardRef((props, ref) => {
       height="12x"
       width="100%"
       backdropFilter="blur(20px)"
-      backgroundColor={_backgroundColor}
-      boxShadow={`0px -1px 1px inset ${_boxShadowColor}`}
+      backgroundColor={backgroundColor}
+      boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
       transition="all 0.2s"
       {...props}
     >
@@ -468,7 +450,7 @@ const Header = forwardRef((props, ref) => {
             _hover={{
               cursor: 'pointer',
             }}
-            onClick={toggleColorMode}
+            onClick={() => toggleColorMode()}
             display="inline-flex"
           >
             {colorMode === 'light' && (
@@ -480,8 +462,13 @@ const Header = forwardRef((props, ref) => {
           </Box>
           <Box
             as="a"
+            color={colorStyle.color.secondary}
             _hover={{
+              color: colorStyle.color.primary,
               cursor: 'pointer',
+            }}
+            _visited={{
+              color: colorStyle.color.secondary,
             }}
             href={pkg.homepage}
             target="_blank"
@@ -494,6 +481,8 @@ const Header = forwardRef((props, ref) => {
                 height: 24,
               }}
             />
+            <Space width="2x" />
+            <Text>GitHub</Text>
           </Box>
         </Box>
       </Box>

@@ -40,7 +40,6 @@
     "@trendmicro/babel-config": "^1.0.2",
     "@zeit/next-css": "^1.0.1",
     "boolean": "^3.1.4",
-    "color": "3.x",
     "cross-env": "~7.0.3",
     "del-cli": "~4.0.1",
     "dotenv-flow": "~3.2.0",
