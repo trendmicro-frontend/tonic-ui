@@ -70,14 +70,14 @@ function Example() {
           }}
         >
           {['column', 'column-reverse', 'row', 'row-reverse'].map(value => (
-            <SelectButton
+            <Button
               key={value}
-              isSelected={value === direction}
+              selected={value === direction}
               onClick={changeDirectionBy(value)}
               minWidth="15x"
             >
               {value}
-            </SelectButton>
+            </Button>
           ))}
         </ButtonGroup>
       </FormGroup>
@@ -96,14 +96,14 @@ function Example() {
           }}
         >
           {['nowrap', 'wrap', 'wrap-reverse'].map(value => (
-            <SelectButton
+            <Button
               key={value}
-              isSelected={value === flexWrap}
+              selected={value === flexWrap}
               onClick={changeFlexWrapBy(value)}
               minWidth="15x"
             >
               {value}
-            </SelectButton>
+            </Button>
           ))}
         </ButtonGroup>
       </FormGroup>

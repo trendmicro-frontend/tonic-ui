@@ -19,13 +19,13 @@ import { Button } from '@tonic-ui/react';
 Use the `variant` prop to change the visual style of `Button`. You can set the value to `emphasis`, `primary`, `default`, `secondary`, or `ghost`.
 
 ```jsx
-<Stack direction="row" spacing="2x">
+<Flex columnGap="2x">
   <Button variant="emphasis">Emphasis Button</Button>
   <Button variant="primary">Primary Button</Button>
   <Button variant="default">Default Button</Button>
   <Button variant="secondary">Secondary Button</Button>
   <Button variant="ghost">Ghost Button</Button>
-</Stack>
+</Flex>
 ```
 
 ### Sizes
@@ -62,19 +62,28 @@ Use the `size` prop to change the size of the button. You can set the value to `
 ```jsx
 <Stack direction="column" spacing="4x">
   <Stack direction="row" spacing="2x" alignItems="center">
+    <Button variant="emphasis">Normal</Button>
+    <Button variant="emphasis" selected>Selected</Button>
+    <Button variant="emphasis" disabled>Disabled</Button>
+  </Stack>
+  <Stack direction="row" spacing="2x" alignItems="center">
     <Button variant="primary">Normal</Button>
+    <Button variant="primary" selected>Selected</Button>
     <Button variant="primary" disabled>Disabled</Button>
   </Stack>
   <Stack direction="row" spacing="2x" alignItems="center">
-    <Button>Normal</Button>
-    <Button disabled>Disabled</Button>
+    <Button variant="default">Normal</Button>
+    <Button variant="default" selected>Selected</Button>
+    <Button variant="default" disabled>Disabled</Button>
   </Stack>
   <Stack direction="row" spacing="2x" alignItems="center">
     <Button variant="secondary">Normal</Button>
+    <Button variant="secondary" selected>Selected</Button>
     <Button variant="secondary" disabled>Disabled</Button>
   </Stack>
   <Stack direction="row" spacing="2x" alignItems="center">
     <Button variant="ghost">Normal</Button>
+    <Button variant="ghost" selected>Selected</Button>
     <Button variant="ghost" disabled>Disabled</Button>
   </Stack>
 </Stack>
@@ -209,6 +218,7 @@ To create a custom button, you can use the style props for the [ButtonBase](butt
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true`. You can style this state by using the `_disabled` prop. |
+| disabled | boolean | | If `true`, the button will have a `disabled` attribute and not respond to user interactions.<br />You can pass the `_disabled` style prop to customize the visual appearance of the disabled state. |
+| selected | boolean | | If `true`, the button will have a `tabIndex="-1"` attribute and will not receive pointer events (i.e. `pointer-events: none;`).<br />You can pass the `_selected` style prop to customize the visual appearance of the selected state. |
 | size | string | 'md' | The size of the button. Acceptable values: 'sm', 'md', 'lg' |
 | variant | string | 'default' | The variant of the button style to use. Acceptable values: 'emphasis', 'primary', 'default', 'secondary', 'ghost' |

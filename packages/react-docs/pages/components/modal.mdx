@@ -220,14 +220,14 @@ function Example() {
           }}
         >
           {['inside', 'outside'].map(value => (
-            <SelectButton
+            <Button
               key={value}
-              isSelected={value === scrollBehavior}
+              selected={value === scrollBehavior}
               onClick={changeScrollBehaviorBy(value)}
               minWidth="15x"
             >
               {value}
-            </SelectButton>
+            </Button>
           ))}
         </ButtonGroup>
       </FormGroup>
@@ -246,14 +246,14 @@ function Example() {
           }}
         >
           {['auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full'].map(value => (
-            <SelectButton
+            <Button
               key={value}
-              isSelected={value === size}
+              selected={value === size}
               onClick={changeSizeBy(value)}
               minWidth="15x"
             >
               {value}
-            </SelectButton>
+            </Button>
           ))}
         </ButtonGroup>
       </FormGroup>
@@ -332,15 +332,15 @@ function Example() {
           }}
         >
           {['default', 'stretch'].map(value => (
-            <SelectButton
+            <Button
               disabled={size === 'full'}
               key={value}
-              isSelected={value === initialContentHeight}
+              selected={value === initialContentHeight}
               onClick={changeInitialContentHeightBy(value)}
               minWidth="15x"
             >
               {value}
-            </SelectButton>
+            </Button>
           ))}
         </ButtonGroup>
       </FormGroup>
@@ -359,15 +359,15 @@ function Example() {
           }}
         >
           {['default', '3rem'].map(value => (
-            <SelectButton
+            <Button
               disabled={size === 'full'}
               key={value}
-              isSelected={value === verticalPadding}
+              selected={value === verticalPadding}
               onClick={changeVerticalPaddingBy(value)}
               minWidth="15x"
             >
               {value}
-            </SelectButton>
+            </Button>
           ))}
         </ButtonGroup>
       </FormGroup>
