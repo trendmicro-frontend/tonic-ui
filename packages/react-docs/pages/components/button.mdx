@@ -68,9 +68,9 @@ You can pass `disabled` or `selected` props to change the visual state of the bu
     columnGap="2x"
     rowGap="4x"
   >
-    <Text textAlign="center">Normal</Text>
-    <Text textAlign="center">Disabled</Text>
-    <Text textAlign="center">Selected</Text>
+    <TextLabel textAlign="center">Normal</TextLabel>
+    <TextLabel textAlign="center">Disabled</TextLabel>
+    <TextLabel textAlign="center">Selected</TextLabel>
     <Button variant="emphasis">Emphasis</Button>
     <Button variant="emphasis" disabled>Emphasis</Button>
     <Button variant="emphasis" selected>Emphasis</Button>
@@ -172,125 +172,109 @@ function Example() {
 }
 ```
 
-### Button with icon
+### Icons
 
-Icon buttons are commonly used in toolbars. If required, you can add a label to icon buttons. You can use the [Space](space) component to add padding between the icon and the label.
+Icons are commonly used in toolbar buttons. You can use the `columnGap` style prop or the [Space](space) component to adjust the spacing between the icon and the label.
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Stack direction="row" spacing="2x">
+<Flex direction="column" rowGap="4x">
+  <Flex columnGap="4x">
     <Button variant="primary" width="8x" height="8x" borderRadius="circle">
       <Icon icon="add" />
     </Button>
     <Button variant="primary" width="8x" height="8x">
       <Icon icon="add" />
     </Button>
-    <Button variant="primary" borderRadius="2rem">
+    <Button variant="primary" borderRadius="2rem" columnGap="2x">
       <Icon icon="settings" />
-      <Space width="2x" />
       Settings
     </Button>
-    <Button variant="primary">
+    <Button variant="primary" columnGap="2x">
       <Icon icon="settings" />
-      <Space width="2x" />
       Settings
     </Button>
-    <Button variant="primary" borderRadius="2rem">
+    <Button variant="primary" borderRadius="2rem" columnGap="2x">
       Next
-      <Space width="2x" />
       <Icon icon="angle-right" />
     </Button>
-    <Button variant="primary">
+    <Button variant="primary" columnGap="2x">
       Next
-      <Space width="2x" />
       <Icon icon="angle-right" />
     </Button>
-  </Stack>
-  <Stack direction="row" spacing="2x">
+  </Flex>
+  <Flex columnGap="4x">
     <Button width="8x" height="8x" borderRadius="circle">
       <Icon icon="add" />
     </Button>
     <Button width="8x" height="8x">
       <Icon icon="add" />
     </Button>
-    <Button borderRadius="2rem">
+    <Button borderRadius="2rem"  columnGap="2x">
       <Icon icon="settings" />
-      <Space width="2x" />
       Settings
     </Button>
-    <Button>
+    <Button columnGap="2x">
       <Icon icon="settings" />
-      <Space width="2x" />
       Settings
     </Button>
-    <Button borderRadius="2rem">
+    <Button borderRadius="2rem" columnGap="2x">
       Next
-      <Space width="2x" />
       <Icon icon="angle-right" />
     </Button>
-    <Button>
+    <Button columnGap="2x">
       Next
-      <Space width="2x" />
       <Icon icon="angle-right" />
     </Button>
-  </Stack>
-  <Stack direction="row" spacing="2x">
+  </Flex>
+  <Flex columnGap="4x">
     <Button variant="secondary" width="8x" height="8x" borderRadius="circle">
       <Icon icon="add" />
     </Button>
     <Button variant="secondary" width="8x" height="8x">
       <Icon icon="add" />
     </Button>
-    <Button variant="secondary" borderRadius="2rem">
+    <Button variant="secondary" borderRadius="2rem" columnGap="2x">
       <Icon icon="settings" />
-      <Space width="2x" />
       Settings
     </Button>
-    <Button variant="secondary">
+    <Button variant="secondary" columnGap="2x">
       <Icon icon="settings" />
-      <Space width="2x" />
       Settings
     </Button>
-    <Button variant="secondary" borderRadius="2rem">
+    <Button variant="secondary" borderRadius="2rem" columnGap="2x">
       Next
-      <Space width="2x" />
       <Icon icon="angle-right" />
     </Button>
-    <Button variant="secondary">
+    <Button variant="secondary" columnGap="2x">
       Next
-      <Space width="2x" />
       <Icon icon="angle-right" />
     </Button>
-  </Stack>
-  <Stack direction="row" spacing="2x">
+  </Flex>
+  <Flex columnGap="4x">
     <Button variant="ghost" width="8x" height="8x" borderRadius="circle">
       <Icon icon="add" />
     </Button>
     <Button variant="ghost" width="8x" height="8x">
       <Icon icon="add" />
     </Button>
-    <Button variant="ghost" borderRadius="2rem">
+    <Button variant="ghost" borderRadius="2rem" columnGap="2x">
       <Icon icon="settings" />
-      <Space width="2x" />
       Settings
     </Button>
-    <Button variant="ghost">
+    <Button variant="ghost" columnGap="2x">
       <Icon icon="settings" />
-      <Space width="2x" />
       Settings
     </Button>
-    <Button variant="ghost" borderRadius="2rem">
+    <Button variant="ghost" borderRadius="2rem" columnGap="2x">
       Next
-      <Space width="2x" />
       <Icon icon="angle-right" />
     </Button>
-    <Button variant="ghost">
+    <Button variant="ghost" columnGap="2x">
       Next
-      <Space width="2x" />
       <Icon icon="angle-right" />
     </Button>
-  </Stack>
-</Stack>
+  </Flex>
+</Flex>
 ```
 
 ## Custom Button

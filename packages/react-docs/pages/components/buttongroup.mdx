@@ -349,7 +349,9 @@ render(<Example />);
 
 ### Group states
 
-The following example shows the different states when composing a button group.
+The following example shows different states (i.e. normal, disabled, and selected states) when composing a group of buttons.
+* Use the `disabled` prop to make the `Button` appear disabled.
+* Use the `selected` prop to make the `Button` appear selected.
 
 ```jsx
 function Example() {
@@ -412,114 +414,144 @@ function Example() {
   };
 
   return (
-    <Stack spacing="3x">
-      <ButtonGroup variant="emphasis">
-        {icons.map((key, index) => (
-          <React.Fragment key={key}>
-            <Button
-              disabled={index === lastIconIndex}
-              selected={activeButton1 === key}
-              onClick={handleClick1(key)}
-              width="8x"
-            >
-              <Icon icon={key} />
-            </Button>
-            {(index !== lastIconIndex) && (
-              <Divider orientation="vertical" color={emphasisDividerColor} />
-            )}
-          </React.Fragment>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup variant="primary">
-        {icons.map((key, index) => (
-          <React.Fragment key={key}>
-            <Button
-              disabled={index === lastIconIndex}
-              selected={activeButton2 === key}
-              onClick={handleClick2(key)}
-              width="8x"
-            >
-              <Icon icon={key} />
-            </Button>
-            {(index !== lastIconIndex) && (
-              <Divider orientation="vertical" color={primaryDividerColor} />
-            )}
-          </React.Fragment>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup variant="default">
-        {icons.map((key, index) => (
-          <React.Fragment key={key}>
-            <Button
-              disabled={index === lastIconIndex}
-              selected={activeButton3 === key}
-              onClick={handleClick3(key)}
-              width="8x"
-            >
-              <Icon icon={key} />
-            </Button>
-            {(index !== lastIconIndex) && (
-              <Divider orientation="vertical" color={defaultDividerColor} />
-            )}
-          </React.Fragment>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup
-        variant="secondary"
-        css={{
-          '> *:not(:first-of-type)': {
-            marginLeft: -1
-          }
-        }}
-      >
-        {icons.map((key, index) => (
-          <React.Fragment key={key}>
-            <Button
-              disabled={index === lastIconIndex}
-              selected={activeButton4 === key}
-              onClick={handleClick4(key)}
-              width="8x"
-            >
-              <Icon icon={key} />
-            </Button>
-          </React.Fragment>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup
-        variant="ghost"
-      >
-        {icons.map((key, index) => (
-          <React.Fragment key={key}>
-            <Button
-              disabled={index === lastIconIndex}
-              selected={activeButton5 === key}
-              onClick={handleClick5(key)}
-              width="8x"
-            >
-              <Icon icon={key} />
-            </Button>
-            {(index !== lastIconIndex) && (
-              <Divider orientation="vertical" color={ghostDividerColor} />
-            )}
-          </React.Fragment>
-        ))}
-      </ButtonGroup>
-      <Flex>
-        {icons.map((key, index) => (
-          <React.Fragment key={key}>
-            <Button
-              disabled={index === lastIconIndex}
-              selected={activeButton6 === key}
-              onClick={handleClick6(key)}
-              variant="ghost"
-              width="8x"
-            >
-              <Icon icon={key} />
-            </Button>
-          </React.Fragment>
-        ))}
-      </Flex>
-    </Stack>
+    <Flex direction="column" rowGap="4x">
+      <Box>
+        <TextLabel mb="2x">
+          Emphasis
+        </TextLabel>
+        <ButtonGroup variant="emphasis">
+          {icons.map((key, index) => (
+            <React.Fragment key={key}>
+              <Button
+                disabled={index === lastIconIndex}
+                selected={activeButton1 === key}
+                onClick={handleClick1(key)}
+                width="8x"
+              >
+                <Icon icon={key} />
+              </Button>
+              {(index !== lastIconIndex) && (
+                <Divider orientation="vertical" color={emphasisDividerColor} />
+              )}
+            </React.Fragment>
+          ))}
+        </ButtonGroup>
+      </Box>
+      <Box>
+        <TextLabel mb="2x">
+          Primary
+        </TextLabel>
+        <ButtonGroup variant="primary">
+          {icons.map((key, index) => (
+            <React.Fragment key={key}>
+              <Button
+                disabled={index === lastIconIndex}
+                selected={activeButton2 === key}
+                onClick={handleClick2(key)}
+                width="8x"
+              >
+                <Icon icon={key} />
+              </Button>
+              {(index !== lastIconIndex) && (
+                <Divider orientation="vertical" color={primaryDividerColor} />
+              )}
+            </React.Fragment>
+          ))}
+        </ButtonGroup>
+      </Box>
+      <Box>
+        <TextLabel mb="2x">
+          Default
+        </TextLabel>
+        <ButtonGroup variant="default">
+          {icons.map((key, index) => (
+            <React.Fragment key={key}>
+              <Button
+                disabled={index === lastIconIndex}
+                selected={activeButton3 === key}
+                onClick={handleClick3(key)}
+                width="8x"
+              >
+                <Icon icon={key} />
+              </Button>
+              {(index !== lastIconIndex) && (
+                <Divider orientation="vertical" color={defaultDividerColor} />
+              )}
+            </React.Fragment>
+          ))}
+        </ButtonGroup>
+      </Box>
+      <Box>
+        <TextLabel mb="2x">
+          Secondary
+        </TextLabel>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {icons.map((key, index) => (
+            <React.Fragment key={key}>
+              <Button
+                disabled={index === lastIconIndex}
+                selected={activeButton4 === key}
+                onClick={handleClick4(key)}
+                width="8x"
+              >
+                <Icon icon={key} />
+              </Button>
+            </React.Fragment>
+          ))}
+        </ButtonGroup>
+      </Box>
+      <Box>
+        <TextLabel mb="2x">
+          Ghost
+        </TextLabel>
+        <ButtonGroup
+          variant="ghost"
+        >
+          {icons.map((key, index) => (
+            <React.Fragment key={key}>
+              <Button
+                disabled={index === lastIconIndex}
+                selected={activeButton5 === key}
+                onClick={handleClick5(key)}
+                width="8x"
+              >
+                <Icon icon={key} />
+              </Button>
+              {(index !== lastIconIndex) && (
+                <Divider orientation="vertical" color={ghostDividerColor} />
+              )}
+            </React.Fragment>
+          ))}
+        </ButtonGroup>
+      </Box>
+      <Box>
+        <TextLabel mb="2x">
+          Ghost (w/o ButtonGroup)
+        </TextLabel>
+        <Flex>
+          {icons.map((key, index) => (
+            <React.Fragment key={key}>
+              <Button
+                disabled={index === lastIconIndex}
+                selected={activeButton6 === key}
+                onClick={handleClick6(key)}
+                variant="ghost"
+                width="8x"
+              >
+                <Icon icon={key} />
+              </Button>
+            </React.Fragment>
+          ))}
+        </Flex>
+      </Box>
+    </Flex>
   );
 }
 ```

@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import isNullOrUndefined from '../utils/isNullOrUndefined';
 import ButtonBase from './ButtonBase';
 import { useButtonStyle } from './styles';
 import useButtonGroup from './useButtonGroup';
