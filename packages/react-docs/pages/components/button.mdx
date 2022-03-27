@@ -19,7 +19,7 @@ import { Button } from '@tonic-ui/react';
 Use the `variant` prop to change the visual style of `Button`. You can set the value to `emphasis`, `primary`, `default`, `secondary`, or `ghost`.
 
 ```jsx
-<Flex columnGap="2x">
+<Flex display="inline-flex" direction="column" rowGap="4x">
   <Button variant="emphasis">Emphasis Button</Button>
   <Button variant="primary">Primary Button</Button>
   <Button variant="default">Default Button</Button>
@@ -59,34 +59,69 @@ Use the `size` prop to change the size of the button. You can set the value to `
 
 ### States
 
+You can pass `disabled` or `selected` props to change the visual state of the button. In either case, the button will not receive pointer events, and will not be reachable via sequential keyboard navigation.
+
 ```jsx
-<Stack direction="column" spacing="4x">
-  <Stack direction="row" spacing="2x" alignItems="center">
-    <Button variant="emphasis">Normal</Button>
-    <Button variant="emphasis" selected>Selected</Button>
-    <Button variant="emphasis" disabled>Disabled</Button>
-  </Stack>
-  <Stack direction="row" spacing="2x" alignItems="center">
-    <Button variant="primary">Normal</Button>
-    <Button variant="primary" selected>Selected</Button>
-    <Button variant="primary" disabled>Disabled</Button>
-  </Stack>
-  <Stack direction="row" spacing="2x" alignItems="center">
-    <Button variant="default">Normal</Button>
-    <Button variant="default" selected>Selected</Button>
-    <Button variant="default" disabled>Disabled</Button>
-  </Stack>
-  <Stack direction="row" spacing="2x" alignItems="center">
-    <Button variant="secondary">Normal</Button>
-    <Button variant="secondary" selected>Selected</Button>
-    <Button variant="secondary" disabled>Disabled</Button>
-  </Stack>
-  <Stack direction="row" spacing="2x" alignItems="center">
-    <Button variant="ghost">Normal</Button>
-    <Button variant="ghost" selected>Selected</Button>
-    <Button variant="ghost" disabled>Disabled</Button>
-  </Stack>
-</Stack>
+<Flex>
+  <Grid
+    templateColumns="1fr 1fr 1fr"
+    columnGap="2x"
+    rowGap="4x"
+  >
+    <Text textAlign="center">Normal</Text>
+    <Text textAlign="center">Disabled</Text>
+    <Text textAlign="center">Selected</Text>
+    <Button variant="emphasis">Emphasis</Button>
+    <Button variant="emphasis" disabled>Emphasis</Button>
+    <Button variant="emphasis" selected>Emphasis</Button>
+    <Button variant="primary">Primary</Button>
+    <Button variant="primary" disabled>Primary</Button>
+    <Button variant="primary" selected>Primary</Button>
+    <Button variant="default">Default</Button>
+    <Button variant="default" disabled>Default</Button>
+    <Button variant="default" selected>Default</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="secondary" disabled>Secondary</Button>
+    <Button variant="secondary" selected>Secondary</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="ghost" disabled>Ghost</Button>
+    <Button variant="ghost" selected>Ghost</Button>
+  </Grid>
+</Flex>
+```
+
+#### Disabled state
+
+If the `disabled` prop is set (or set to `true`), the button will have a `disabled` attribute and not respond to user interactions.
+
+To customize the visual appearance of the disabled state, pass the `_disabled` style prop to override the default style.
+
+```jsx disabled
+<Button
+  disabled
+  _disabled={{
+    // Customize the visual appearance of the disabled state
+  }}
+>
+  Button (disabled)
+</Button>
+```
+
+#### Selected state
+
+If the `selected` prop is set (or set to `true`), the button will have a `tabIndex="-1"` attribute and will not receive pointer events (i.e. `pointer-events: none;`).
+
+To customize the visual appearance of the selected state, pass the `_selected` style prop to override the default style.
+
+```jsx disabled
+<Button
+  selected
+  _selected={{
+    // Customize the visual appearance of the selected state
+  }}
+>
+  Button (selected)
+</Button>
 ```
 
 ### Button with icon
