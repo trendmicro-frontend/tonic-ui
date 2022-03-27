@@ -38,8 +38,8 @@ const Button = forwardRef((
   }
 
   const attributes = {
-    'aria-disabled': !isNullOrUndefined(disabled) && !!disabled,
-    'aria-selected': !isNullOrUndefined(selected) && !!selected,
+    'aria-disabled': disabled,
+    'aria-selected': selected,
     type: 'button',
 
     // Disable the button if "disabled" is true
@@ -49,7 +49,7 @@ const Button = forwardRef((
      * For button in the disabled state, just keep "pointer-events" and "tabIndex" as is.
      * For button in the selected state, set both "pointer-events: none" and "tabIndex: -1" to prevent the button receiving focus through sequential keyboard navigation.
      */
-    tabIndex: !!selected ? -1 : undefined,
+    tabIndex: selected ? -1 : undefined,
   };
 
   const styleProps = useButtonStyle({
