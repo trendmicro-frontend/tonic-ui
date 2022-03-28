@@ -68,14 +68,14 @@ const CheckboxGroup = ({
     }
 
     if (typeof onChange === 'function') {
-      { // deprecation warning
-        const prefix = `${CheckboxGroup.displayName}:`;
-        const proxiedEvent = attachProxyOnce(event, () => {
-          console.error(
-            `${prefix} `onChange(value, event)` is deprecated and will be changed in the next major release. Please use `onChange(value)` instead.`,
-          );
-        });
-      }
+      // deprecation warning
+      const prefix = `${CheckboxGroup.displayName}:`;
+      const proxiedEvent = attachProxyOnce(event, () => {
+        console.error(
+          `${prefix} `onChange(value, event)` is deprecated and will be changed in the next major release. Please use `onChange(value)` instead.`,
+        );
+      });
+
       onChange(nextValue, proxiedEvent);
     }
   };
