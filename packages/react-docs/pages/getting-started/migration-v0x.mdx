@@ -254,31 +254,25 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 
 ## Component Updates
 
-### Accordion
-
-#### `Accordion`
+### `Accordion`
 
 * Removed `allowMultiple` and `allowToggle` props in favor of controling state from the parent
 * Removed `index` and `defaultIndex` props
 * Removed the `onChange` prop. Use `onToggle` on `AccordionItem` instead
 * Added `AccordionToggle`, `AccordionToggleIcon`, and `AccordionCollapse` components for unstyled toggle and collapse
 
-#### `AccordionItem`
+### `AccordionItem`
 
 * Renamed the `isOpen` prop to `isExpanded`
 * Renamed the `defaultIsOpen` prop to `defaultIsExpanded`
 * Renamed the `onChange` prop to `onToggle`
 * Renamed the `isDisabled` prop to `disabled`
 
-### Alert
-
-#### `Alert`
+### `Alert`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
 
-### Badge
-
-#### `Badge`
+### `Badge`
 
 * Changed the `dotSize` prop to `width` or `w` and `height` or `h`
 * Changed the `isHidden` prop to `isInvisible`
@@ -286,29 +280,31 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 * Changed the `variantColor` prop to `backgroundColor`
 * Renamed `variant="badge"` to `variant="solid"`
 
-### Drawer
+### `CheckboxGroup`
 
-#### `Drawer`
+* Changed `onChange(value, event)` to `onChange(value)`
+
+### `Drawer`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
 * Added `scrollBehavior` prop to control the scroll behavior of the drawer
 * Added support for passing style props to `Drawer`
 
-### Modal
-
-#### `Modal`
+### `Modal`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
 * Added `scrollBehavior` prop to control the scroll behavior of the modal
 * Added support for passing style props to `Modal`
 
-### RadioGroup
+### `Popover`
+
+* Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
+
+### `RadioGroup`
 
 * Changed `onChange(value, event)` to `onChange(value)`
 
-### Scrollbar
-
-#### `Scrollbar`
+### `Scrollbar`
 
 * Changed the `disabled` prop to `overflow="hidden"`
 * Changed the `minThumbSize` prop to `minThumbWidth` and `minThumbHeight`
@@ -320,63 +316,43 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 * Removed the `renderVerticalThumb` prop. Use Function as Child Component (FaCC) to render the vertical thumb instead.
 * Changed the `thumbSize` prop to `minThumbWidth` and `minThumbHeight`
 
-### Spinner
-
-#### `Spinner`
+### `Spinner`
 
 * Renamed the `color` prop to `lineColor`
 * Renamed the `strokeWidth` prop to `lineWidth` and `trackWidth`
 * Remove the `speed` prop
 
-### Stack
-
-#### `Stack`
+### `Stack`
 
 * Removed the use of `cloneElement` in favor of the `gap`, `columnGap`, and `rowGap` props
 
-### Table
+### `Tab`
 
-#### `Table`
+* Renamed the `isActive` prop to `isSelected`
 
-* Removed the `isHoverable` prop. Use the `_hover` prop on the `TableRow` component instead.
-
-### Tabs
-
-#### `Tabs`
+### `Tabs`
 
 * Removed `activateOnKeyPress`, `isFitted`, and `isManual` props
 * Renamed `variant="line"` to `variant="default"`
 * Renamed `variant="enclosed"` to `variant="filled"`
 
-#### `Tab`
+### `TabPanel`
 
 * Renamed the `isActive` prop to `isSelected`
 
-#### `TabPanel`
+### `Table`
 
-* Renamed the `isActive` prop to `isSelected`
+* Removed the `isHoverable` prop. Use the `_hover` prop on the `TableRow` component instead.
 
-### Tag
-
-#### `Tag`
+### `Tag`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
 
-### Toast
-
-#### `Toast`
+### `Toast`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
 
-### Popover
-
-#### `Popover`
-
-* Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
-
-### Tooltip
-
-#### `Tooltip`
+### `Tooltip`
 
 * Renamed the `showDelay` prop to `enterDelay`
 * Renamed the `hideDelay` prop to `leaveDelay`
