@@ -264,6 +264,69 @@ You can use the `Text` component to format text.
 </Stack>
 ```
 
+### Pagination
+
+For some use cases, you may want to display a list of alerts using pagination to reduce the number of visible alerts on the screen.
+
+```jsx noInline
+const alerts = [
+  { variant: 'solid', severity: 'success', icon: 'check-circle-o', message: 'This is a success alert' },
+  { variant: 'solid', severity: 'info', icon: 'info', message: 'This is an info alert' },
+  { variant: 'solid', severity: 'warning', icon: 'warning-triangle', message: 'This is a warning alert' },
+  { variant: 'solid', severity: 'error', icon: 'error', message: 'This is an error alert' },
+];
+const pageMin = alerts.length > 0 ? 1 : 0;
+const pageMax = alerts.length > 0 ? alerts.length : 0;
+
+const IconButton = (props) => (
+  <ButtonBase
+    color="black:secondary"
+    _disabled={{
+      color: 'black:disabled',
+    }}
+    _hover={{
+      color: 'black:primary',
+    }}
+    {...props}
+  />
+);
+
+function Example() {
+  const [page, setPage] = React.useState(pageMin);
+  const alert = alerts[page - 1] || {};
+
+  return (
+    <Alert
+      variant={alert.variant}
+      severity={alert.severity}
+      icon={alert.icon}
+      isClosable
+    >
+      <Flex justifyContent="space-between">
+        <Text>{alert.message}</Text>
+        <Flex columnGap="2x" alignItems="center">
+          <IconButton
+            disabled={page <= pageMin}
+            onClick={() => setPage(Math.max(pageMin, page - 1))}
+          >
+            <Icon icon="chevron-up" />
+          </IconButton>
+          <Text>{page}/{pageMax}</Text>
+          <IconButton
+            disabled={page >= pageMax}
+            onClick={() => setPage(Math.min(pageMax, page + 1))}
+          >
+            <Icon icon="chevron-down" />
+          </IconButton>
+        </Flex>
+      </Flex>
+    </Alert>
+  );
+}
+
+render(<Example />);
+```
+
 ### Transition effects
 
 To animate the alert, you can use a transition component to apply an animation effect.
