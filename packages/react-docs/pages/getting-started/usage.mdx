@@ -122,7 +122,7 @@ function Layout(props) {
 
 > For the **`:focus-visible`** pseudo-class, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible) for more information.
 
-### CSSBaseline
+## CSSBaseline
 
 Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
@@ -134,11 +134,11 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI pr
 
 > If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
 
-### Extending the color style
+## Extending the Color Style
 
 Optionally, you can extend the color style by providing a custom color style. This is not required if you are using the default color style.
 
-#### 1. Customizing the color style
+### 1. Customizing the color style
 
 To override default color style, you can create a color style object according to the color mode, and pass the object to `TonicProvider` with either the `value` or the `defaultValue` property.
 
@@ -165,7 +165,7 @@ const customColorStyle = {
 };
 ```
 
-#### 2. Setting up the provider
+### 2. Setting up the provider
 
 ```jsx disabled
 <TonicProvider
@@ -181,7 +181,7 @@ const customColorStyle = {
 </TonicProvider>
 ```
 
-#### 3. Using the color style
+### 3. Using the color style
 
 ```jsx disabled
 const [colorMode] = useColorMode();
@@ -190,11 +190,11 @@ const headerStyle = colorStyle?.component?.header;
 const sidebarStyle = colorStyle?.component?.sidebar;
 ```
 
-### Extending the theme
+## Extending the Theme
 
 Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc. This is not required if you are using the default theme.
 
-#### 1. Overriding the theme
+### 1. Overriding the theme
 
 Override the theme object and pass it to the `<ThemeProvider>` component.
 
@@ -215,7 +215,7 @@ const customTheme = {
 };
 ```
 
-#### 2. Setting up the provider
+### 2. Setting up the provider
 
 ```jsx disabled
 <TonicProvider theme={customTheme}>
@@ -223,7 +223,7 @@ const customTheme = {
 </TonicProvider>
 ```
 
-#### 3. Using the theme
+### 3. Using the theme
 
 ```jsx disabled
 const theme = useTheme();
