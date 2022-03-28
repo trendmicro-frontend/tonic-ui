@@ -59,7 +59,7 @@ Use the `size` prop to change the size of the button. You can set the value to `
 
 ### States
 
-You can pass `disabled` or `selected` props to change the visual state of the button. In either case, the button will not receive pointer events, and will not be reachable via sequential keyboard navigation.
+You can make buttons look inactive or active by adding the `disabled` or `selected` prop. In either case, the button will not be clickable in disabled or selected state.
 
 ```jsx
 <Flex>
@@ -134,7 +134,7 @@ function Example() {
 
 #### Selected state
 
-If the `selected` prop is set (or set to `true`), the button will have a `pointer-events: none` style and a `tabIndex="-1"` attribute. This will prevent the button from receiving pointer events and will not be reachable via sequential keyboard navigation.
+If the `selected` prop is set (or set to `true`), the button will have both `pointer-events: none` style and `tabindex="-1"` attribute. This will prevent the button from receiving pointer events and will not be reachable via sequential keyboard navigation.
 
 ```
 // DOM element
