@@ -22,13 +22,20 @@ Go to the root of your application and do the following:
 
 ```jsx disabled
 import React from 'react';
-import { Box, TonicProvider } from '@tonic-ui/react';
+import {
+  Box,
+  TonicProvider,
+  colorStyle, // [optional] It's required only when you want to customize the color style
+} from '@tonic-ui/react';
 
 function App(props) {
   return (
     <TonicProvider
       colorMode={{
         defaultValue: 'dark', // One of: 'dark', 'light'
+      }}
+      colorStyle={{
+        defaultValue: colorStyle, // Custom color style
       }}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
@@ -44,8 +51,9 @@ See below for a more complete example:
 import React from 'react';
 import {
   Box,
+  ToastProvider, // [optional] It's required only when you want to use toast notification globally
   TonicProvider,
-  ToastProvider, // "ToastProvider" is only required if you want to use toast notification
+  colorStyle, // [optional] It's required only when you want to customize the color style
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
@@ -55,6 +63,9 @@ function App(props) {
     <TonicProvider
       colorMode={{
         defaultValue: 'dark', // One of: 'dark', 'light'
+      }}
+      colorStyle={{
+        defaultValue: colorStyle, // Custom color style
       }}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
@@ -103,7 +114,9 @@ function Layout(props) {
 }
 ```
 
-> Learn more about [Color Mode](../system/color-mode) and [Color Style](../system/color-style) in the documentation.
+> Learn more about [Color Mode](../components/color-mode) in the documentation.
+
+> Learn more about [Color Style](../components/color-style) in the documentation.
 
 > For the **`color-scheme`** CSS property, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme) for more information.
 
@@ -121,16 +134,74 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI pr
 
 > If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
 
+### Extending the color style
+
+Optionally, you can extend the color style by providing a custom color style. This is not required if you are using the default color style.
+
+#### 1. Customizing the color style
+
+To override default color style, you can create a color style object according to the color mode, and pass the object to `TonicProvider` with either the `value` or the `defaultValue` property.
+
+```js
+import { colorStyle } from '@tonic-ui/react';
+
+// Let's say you want to define color style for your components
+const customColorStyle = {
+  ...colorStyle,
+  dark: {
+    ...colorStyle.dark,
+    component: {
+      header: {},
+      sidebar: {},
+    },
+  },
+  light: {
+    ...colorStyle.light,
+    component: {
+      header: {},
+      sidebar: {},
+    },
+  },
+};
+```
+
+#### 2. Setting up the provider
+
+```jsx disabled
+<TonicProvider
+  colorMode={{
+    defaultValue: 'dark',
+  }}
+  colorStyle={{
+    defaultValue: customColorStyle,
+  }}
+  useCSSBaseline={true}
+>
+  {children}
+</TonicProvider>
+```
+
+#### 3. Using the color style
+
+```jsx disabled
+const [colorMode] = useColorMode();
+const [colorStyle] = useColorStyle({ colorMode });
+const headerStyle = colorStyle?.component?.header;
+const sidebarStyle = colorStyle?.component?.sidebar;
+```
+
 ### Extending the theme
 
-Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc.
+Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc. This is not required if you are using the default theme.
 
-Override the theme object and pass it to the `<ThemeProvider>` component. This is not required if you are using the default theme.
+#### 1. Overriding the theme
+
+Override the theme object and pass it to the `<ThemeProvider>` component.
 
 ```js
 import { theme } from '@tonic-ui/react';
 
-// Let's say you want to add custom colors
+// Let's say you want to add more colors
 const customTheme = {
   ...theme,
   colors: {
@@ -144,10 +215,19 @@ const customTheme = {
 };
 ```
 
+#### 2. Setting up the provider
+
 ```jsx disabled
 <TonicProvider theme={customTheme}>
   {children}
 </TonicProvider>
+```
+
+#### 3. Using the theme
+
+```jsx disabled
+const theme = useTheme();
+const brandColor = theme?.colors?.brand?.[90];
 ```
 
 ## Versioned Documentation
