@@ -268,34 +268,36 @@ You can use the `Text` component to format text.
 
 ```jsx noInline
 const alerts = [
-  { variant: 'success', message: 'This is a success alert' },
-  { variant: 'info', message: 'This is an info alert' },
-  { variant: 'warning', message: 'This is a warning alert' },
-  { variant: 'error', message: 'This is an error alert' },
+  { variant: 'solid', severity: 'success', icon: 'check-circle-o', message: 'This is a success alert' },
+  { variant: 'solid', severity: 'info', icon: 'info', message: 'This is an info alert' },
+  { variant: 'solid', severity: 'warning', icon: 'warning-triangle', message: 'This is a warning alert' },
+  { variant: 'solid', severity: 'error', icon: 'error', message: 'This is an error alert' },
 ];
 const pageMin = alerts.length > 0 ? 1 : 0;
 const pageMax = alerts.length > 0 ? alerts.length : 0;
 
+const IconButton = (props) => (
+  <ButtonBase
+    color="black:secondary"
+    _disabled={{
+      color: 'black:disabled',
+    }}
+    _hover={{
+      color: 'black:primary',
+    }}
+    {...props}
+  />
+);
+
 function Example() {
   const [page, setPage] = React.useState(pageMin);
-  const IconButton = (props) => (
-    <ButtonBase
-      color="black:secondary"
-      _disabled={{
-        color: "black:disabled",
-      }}
-      _hover={{
-        color: "black:primary",
-      }}
-      {...props}
-    />
-  );
   const alert = alerts[page - 1] || {};
 
   return (
     <Alert
-      variant="solid"
-      severity={alert.variant}
+      variant={alert.variant}
+      severity={alert.severity}
+      icon={alert.icon}
       isClosable
     >
       <Flex justifyContent="space-between">
