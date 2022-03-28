@@ -550,13 +550,13 @@ function Example() {
 
           return (
             <Box key={key}>
-              <SelectButton
-                isSelected={value === placement}
+              <Button
+                selected={value === placement}
                 onClick={onClick}
                 width="100%"
               >
                 {value}
-              </SelectButton>
+              </Button>
             </Box>
           );
         })}

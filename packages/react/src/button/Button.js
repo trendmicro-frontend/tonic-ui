@@ -9,6 +9,8 @@ const defaultOrientation = 'horizontal';
 
 const Button = forwardRef((
   {
+    disabled,
+    selected,
     size,
     variant,
     ...rest
@@ -34,6 +36,21 @@ const Button = forwardRef((
     variant = variant ?? defaultVariant;
   }
 
+  const attributes = {
+    'aria-disabled': disabled,
+    'aria-selected': selected,
+    type: 'button',
+
+    // Disable the button if "disabled" is true
+    disabled,
+
+    /**
+     * For button in the disabled state, just keep "pointer-events" and "tabIndex" as is.
+     * For button in the selected state, set both "pointer-events: none" and "tabIndex: -1" to prevent the button receiving focus through sequential keyboard navigation.
+     */
+    tabIndex: selected ? -1 : undefined,
+  };
+
   const styleProps = useButtonStyle({
     orientation, // No default value if not specified
     size,
@@ -44,7 +61,7 @@ const Button = forwardRef((
     <ButtonBase
       ref={ref}
       as="button"
-      type="button"
+      {...attributes}
       {...styleProps}
       {...rest}
     />

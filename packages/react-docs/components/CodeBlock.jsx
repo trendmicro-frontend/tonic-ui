@@ -21,7 +21,6 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import IconButton from './IconButton';
 import InputTag from './InputTag';
 import Lorem from './Lorem';
-import SelectButton from './SelectButton';
 import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
 
@@ -166,7 +165,6 @@ const CodeBlock = ({
       FontAwesomeIcon,
       InputTag,
       Lorem,
-      SelectButton,
       SkeletonBody,
       SkeletonContent,
       Global, // from '@emotion/react'

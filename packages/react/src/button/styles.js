@@ -14,7 +14,7 @@ const defaultVariantStyle = ({
   }[colorMode];
   const color = {
     dark: 'white:emphasis',
-    light: 'black:primary',
+    light: 'black:emphasis',
   }[colorMode];
   // Hover
   const hoverBackgroundColor = {
@@ -28,15 +28,19 @@ const defaultVariantStyle = ({
   }[colorMode];
   // Focus
   const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+  const focusBoxShadowOuterColor = {
     dark: theme?.colors?.['blue:60'],
     light: theme?.colors?.['blue:60'],
   }[colorMode];
-  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
+  const focusBoxShadowOuterSpreadRadius = theme?.sizes?.['1q'];
+  const focusBoxShadowInnerColor = {
     dark: theme?.colors?.['black:emphasis'],
     light: theme?.colors?.['white:emphasis'],
   }[colorMode];
-  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
+  const focusBoxShadowInnerSpreadRadius = theme?.sizes?.['2q'];
   // Disabled
   const disabledBackgroundColor = {
     dark: 'gray:60',
@@ -44,11 +48,20 @@ const defaultVariantStyle = ({
   }[colorMode];
   const disabledColor = {
     dark: 'white:emphasis',
-    light: 'black:primary',
+    light: 'black:emphasis',
   }[colorMode];
   const disabledOpacity = {
     dark: 0.28,
     light: 0.3,
+  }[colorMode];
+  // Selected
+  const selectedBackgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const selectedColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
   }[colorMode];
 
   return {
@@ -58,7 +71,7 @@ const defaultVariantStyle = ({
     _focus: {
       ':not(:active)': {
         borderColor: focusBorderColor,
-        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusBorderColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
+        boxShadow: `inset 0 0 0 ${focusBoxShadowOuterSpreadRadius} ${focusBoxShadowOuterColor}, inset 0 0 0 ${focusBoxShadowInnerSpreadRadius} ${focusBoxShadowInnerColor}`,
       },
       // Bring overlapping border to front when focused
       zIndex: 1,
@@ -76,6 +89,11 @@ const defaultVariantStyle = ({
       color: disabledColor,
       cursor: 'not-allowed',
       opacity: disabledOpacity,
+    },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+      color: selectedColor,
+      pointerEvents: 'none', // Do not react to mouse events when selected
     },
   };
 };
@@ -112,6 +130,10 @@ const secondaryVariantStyle = ({
   const activeColor = hoverColor;
   // Focus
   const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+  const focusBoxShadowColor = {
     dark: theme?.colors?.['blue:60'],
     light: theme?.colors?.['blue:60'],
   }[colorMode];
@@ -121,20 +143,29 @@ const secondaryVariantStyle = ({
   const disabledBorderColor = borderColor;
   const disabledColor = {
     dark: 'white:emphasis',
-    light: 'black:primary',
+    light: 'black:emphasis',
   }[colorMode];
   const disabledOpacity = {
     dark: 0.28,
     light: 0.3,
+  }[colorMode];
+  // Selected
+  const selectedBackgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const selectedColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
   }[colorMode];
 
   return {
     borderColor,
     color,
     _focus: {
-      color: focusColor,
       borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusBorderColor}`,
+      boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusBoxShadowColor}`,
+      color: focusColor,
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
@@ -147,15 +178,20 @@ const secondaryVariantStyle = ({
       zIndex: 2,
     },
     _active: {
-      color: activeColor,
       borderColor: activeBorderColor,
       backgroundColor: activeBackgroundColor,
+      color: activeColor,
     },
     _disabled: {
-      color: disabledColor,
       borderColor: disabledBorderColor,
+      color: disabledColor,
       cursor: 'not-allowed',
       opacity: disabledOpacity,
+    },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+      color: selectedColor,
+      pointerEvents: 'none', // Do not react to mouse events when selected
     },
   };
 };
@@ -169,6 +205,19 @@ const ghostVariantStyle = ({
     colorMode,
     theme,
   });
+  // Selected
+  const selectedBackgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const selectedBorderColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const selectedColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
 
   return {
     ...style,
@@ -176,30 +225,41 @@ const ghostVariantStyle = ({
     _disabled: {
       ...style._disabled,
       borderColor: 'transparent',
+      cursor: 'not-allowed',
+    },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+      borderColor: selectedBorderColor,
+      color: selectedColor,
+      pointerEvents: 'none', // Do not react to mouse events when selected
     },
   };
 };
 
 //---------------- Emphasis / Primary Button ----------------//
 const fillColorVariantStyle = ({
-  color,
+  color: colorProp,
   colorMode,
   theme,
 }) => {
   // Normal
   const backgroundColor = {
-    dark: `${color}:60`,
-    light: `${color}:60`,
+    dark: `${colorProp}:60`,
+    light: `${colorProp}:60`,
+  }[colorMode];
+  const color = {
+    dark: 'white:emphasis',
+    light: 'white:emphasis',
   }[colorMode];
   // Hover
   const hoverBackgroundColor = {
-    dark: `${color}:50`,
-    light: `${color}:50`,
+    dark: `${colorProp}:50`,
+    light: `${colorProp}:50`,
   }[colorMode];
   // Active
   const activeBackgroundColor = {
-    dark: `${color}:70`,
-    light: `${color}:70`,
+    dark: `${colorProp}:70`,
+    light: `${colorProp}:70`,
   }[colorMode];
   // Focus
   const focusBorderColor = {
@@ -219,17 +279,26 @@ const fillColorVariantStyle = ({
   }[colorMode];
   const disabledColor = {
     dark: 'white:emphasis',
-    light: 'black:primary',
+    light: 'black:emphasis',
   }[colorMode];
   const disabledOpacity = {
     dark: 0.28,
     light: 0.3,
   }[colorMode];
+  // Selected
+  const selectedBackgroundColor = {
+    dark: `${colorProp}:80`,
+    light: `${colorProp}:80`,
+  }[colorMode];
+  const selectedColor = {
+    dark: 'white:emphasis',
+    light: 'white:emphasis',
+  }[colorMode];
 
   return {
     backgroundColor,
     borderColor: 'transparent',
-    color: 'white:emphasis',
+    color,
     _focus: {
       ':not(:active)': {
         borderColor: focusBorderColor,
@@ -251,6 +320,11 @@ const fillColorVariantStyle = ({
       color: disabledColor,
       cursor: 'not-allowed',
       opacity: disabledOpacity,
+    },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+      color: selectedColor,
+      pointerEvents: 'none', // Do not react to mouse events when selected
     },
   };
 };
