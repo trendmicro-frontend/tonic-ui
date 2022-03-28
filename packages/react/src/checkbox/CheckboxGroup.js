@@ -8,6 +8,26 @@ import { CheckboxGroupContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
+const attachProxyOnce = (() => {
+  let called = false;
+  return (target, fn) => {
+    if (called) {
+      return target;
+    }
+
+    const handler = {
+      get: (...args) => {
+        if (!called) {
+          fn?.();
+          called = true;
+        }
+        return Reflect.get(...args);
+      }
+    };
+    return new Proxy(target, handler);
+  };
+})();
+
 const CheckboxGroup = ({
   children,
   defaultValue,
@@ -48,7 +68,15 @@ const CheckboxGroup = ({
     }
 
     if (typeof onChange === 'function') {
-      onChange(nextValue);
+      { // deprecation warning
+        const prefix = `${CheckboxGroup.displayName}:`;
+        const proxiedEvent = attachProxyOnce(event, () => {
+          console.error(
+            `${prefix} `onChange(value, event)` is deprecated and will be changed in the next major release. Please use `onChange(value)` instead.`,
+          );
+        });
+      }
+      onChange(nextValue, proxiedEvent);
     }
   };
 
