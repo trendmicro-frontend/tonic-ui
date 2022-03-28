@@ -72,7 +72,7 @@ const CheckboxGroup = ({
       const prefix = `${CheckboxGroup.displayName}:`;
       const proxiedEvent = attachProxyOnce(event, () => {
         console.error(
-          `${prefix} `onChange(value, event)` is deprecated and will be changed in the next major release. Please use `onChange(value)` instead.`,
+          `${prefix} "onChange(value, event)" is deprecated and will be changed in the next major release. Please use "onChange(value)" instead.`,
         );
       });
 
