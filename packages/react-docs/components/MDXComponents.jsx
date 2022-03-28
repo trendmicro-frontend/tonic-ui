@@ -24,7 +24,7 @@ const p = props => (
   <Box
     as="p"
     fontSize="md"
-    lineHeight="md"
+    lineHeight="lg"
     mt={0}
     mb="4x"
     {...props}
@@ -168,7 +168,7 @@ const Blockquote = props => {
     <Box
       as="blockquote"
       fontSize="md"
-      lineHeight="md"
+      lineHeight="lg"
       backgroundColor={backgroundColor}
       borderLeft={4}
       borderLeftColor={borderColor}
@@ -192,7 +192,7 @@ const ul = props => (
   <Box
     as="ul"
     fontSize="md"
-    lineHeight="md"
+    lineHeight="lg"
     mt={0}
     mb="4x"
     {...props}
@@ -203,7 +203,7 @@ const ol = props => (
   <Box
     as="ol"
     fontSize="md"
-    lineHeight="md"
+    lineHeight="lg"
     mt={0}
     mb="4x"
     {...props}
@@ -225,7 +225,7 @@ const table = props => (
     mt={0}
     mb="4x"
     fontSize="md"
-    lineHeight="md"
+    lineHeight="lg"
     css={css`
       border-spacing: 0;
       border-collapse: collapse;
@@ -300,7 +300,7 @@ const pre = props => (
   <Box
     as="pre"
     fontSize="md"
-    lineHeight="md"
+    lineHeight="lg"
     mt={0}
     mb="4x"
     {...props}
