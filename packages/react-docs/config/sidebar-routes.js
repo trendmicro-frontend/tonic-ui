@@ -20,6 +20,7 @@ const routes = [
     icon: 'gavel',
     path: 'styled-system',
     routes: [
+      { title: 'Getting Started', path: 'styled-system' },
       { title: 'Style Props', path: 'styled-system/style-props' },
       { title: 'Pseudo Style Props', path: 'styled-system/pseudo-style-props' },
       { title: 'Responsive Styles', path: 'styled-system/responsive-styles' },
@@ -63,6 +64,7 @@ const routes = [
     },
     path: 'theme',
     routes: [
+      { title: 'Getting Started', path: 'theme' },
       { title: 'Borders', path: 'theme/borders' },
       { title: 'Breakpoints', path: 'theme/breakpoints' },
       { title: 'Colors', path: 'theme/colors' },
@@ -84,6 +86,7 @@ const routes = [
     icon: 'widgets',
     path: 'components',
     routes: [
+      { title: 'Getting Started', path: 'components' },
       { title: 'COLORS', heading: true },
       { title: 'Color Mode', path: 'components/color-mode' },
       { title: 'Color Style', path: 'components/color-style' },
@@ -166,6 +169,7 @@ const routes = [
     icon: 'hook',
     path: 'hooks',
     routes: [
+      { title: 'Getting Started', path: 'hooks' },
       { title: 'useConst', path: 'hooks/useConst' },
       { title: 'useCopyToClipboard', path: 'hooks/useCopyToClipboard' },
       { title: 'useEffectOnce', path: 'hooks/useEffectOnce' },
