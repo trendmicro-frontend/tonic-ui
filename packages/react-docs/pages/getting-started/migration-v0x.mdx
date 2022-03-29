@@ -68,9 +68,9 @@ Optionally via prop:
 
 ### 3. Replace deprecated components and Hooks
 
-#### `FlatButton` 💣 (use `Button` or `ButtonBase` instead)
+#### FlatButton component
 
-`FlatButton` is deprecated and will be removed in the next major release. Use [Button](../components/button) or [ButtonBase](../components/buttonbase) instead.
+💣 `FlatButton` is deprecated and will be removed in the next major release. Use [Button](../components/button) or [ButtonBase](../components/buttonbase) instead.
 
 ```diff
 - <FlatButton variant="solid"/>
@@ -111,9 +111,9 @@ const ActionButton = forwardRef((props, ref) => (
 ));
 ```
 
-#### `PseudoBox` 💣 (use `Box` instead)
+#### PseudoBox component
 
-`PseudoBox` is deprecated and its props can now be passed to `Box` directly. Use [Box](../components/box) instead.
+💣 `PseudoBox` is deprecated and its props can now be passed to `Box` directly. Use [Box](../components/box) instead.
 
 ```diff
 - <PseudoBox
@@ -125,18 +125,18 @@ const ActionButton = forwardRef((props, ref) => (
 + </Box>
 ```
 
-#### `ToggleSwitch` 💣 (use `Switch` instead)
+#### ToggleSwitch component
 
-`ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../components/switch) instead.
+💣 `ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../components/switch) instead.
 
 ```diff
 - <ToggleSwitch />
 + <Switch />
 ```
 
-#### `useDisclosure` 💣 (use `useToggle` instead)
+#### useDisclosure Hook
 
-`useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../hooks/use-toggle) instead.
+💣 `useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../hooks/use-toggle) instead.
 
 ```js
 const [value, toggleValue] = useToggle(false);
@@ -145,9 +145,9 @@ toggleValue(true); // set the value to true
 toggleValue(false); // set the value to false
 ```
 
-#### withTheme 💣 (use `useTheme` instead)
+#### withTheme HoC
 
-`withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
+💣 `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
 
 ```js
 const theme = useTheme();
