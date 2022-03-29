@@ -45,7 +45,7 @@ try {
         const cells = [
           '`' + x.prop + '`',
           '`' + x.originalProperties.join('`, `') + '`',
-          x.scale ? `[${x.scale}](${kebabize(x.scale)})` : '',
+          x.scale ? `[${x.scale}](../theme/${kebabize(x.scale)})` : '',
         ];
         return '| ' + cells.join(' | ') + ' |';
       }));
