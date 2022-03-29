@@ -15,7 +15,6 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import React, { forwardRef, useEffect } from 'react';
 import pkg from '../../../package.json';
 import persistColorMode from '../utils/persist-color-mode';
@@ -48,7 +47,6 @@ const Header = forwardRef((
 ) => {
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const router = useRouter();
   const version = (() => {
     if (TONIC_UI_DOC_VERSION) {
       return TONIC_UI_DOC_VERSION;
@@ -79,17 +77,6 @@ const Header = forwardRef((
     light: 'black:primary',
     dark: 'white:primary',
   }[colorMode];
-
-  const handleChooseVersion = (event) => {
-    const url = event.currentTarget.getAttribute('value');
-    if (url) {
-      window.location = url;
-    }
-  };
-
-  const handleViewAllVersions = () => {
-    router.push(`${ASSET_PREFIX}/getting-started/versions`);
-  };
 
   return (
     <Box
@@ -181,22 +168,23 @@ const Header = forwardRef((
                 {Object.entries(versionMap).map(([key, value]) => (
                   <MenuItem
                     key={key}
-                    value={value?.url}
+                    as="a"
+                    href={value?.url}
                     whiteSpace="nowrap"
-                    onClick={handleChooseVersion}
                   >
                     {(key === version)
-                      ? <Text>{value?.label}<Space width="2x" />✓</Text>
-                      : <Text>{value?.label}</Text>
+                      ? <>{value?.label}<Space width="2x" />✓</>
+                      : value?.label
                     }
                   </MenuItem>
                 ))}
                 <MenuDivider />
                 <MenuItem
+                  as="a"
+                  href={`${ASSET_PREFIX}/getting-started/versions`}
                   whiteSpace="nowrap"
-                  onClick={handleViewAllVersions}
                 >
-                  <Text>View all versions</Text>
+                  View all versions
                 </MenuItem>
               </MenuList>
             </Menu>
