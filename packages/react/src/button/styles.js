@@ -1,11 +1,9 @@
-import { sx } from '@tonic-ui/styled-system';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
-import { setColorWithOpacity } from '../utils/colors';
 import { createTransitionStyle, transitionEasing } from '../utils/transitions';
 
 //---------------- Default Button ----------------//
-const defaultVariantProps = ({
+const defaultVariantStyle = ({
   colorMode,
   theme,
 }) => {
@@ -16,7 +14,7 @@ const defaultVariantProps = ({
   }[colorMode];
   const color = {
     dark: 'white:emphasis',
-    light: 'black:primary',
+    light: 'black:emphasis',
   }[colorMode];
   // Hover
   const hoverBackgroundColor = {
@@ -30,15 +28,19 @@ const defaultVariantProps = ({
   }[colorMode];
   // Focus
   const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+  const focusBoxShadowOuterColor = {
     dark: theme?.colors?.['blue:60'],
     light: theme?.colors?.['blue:60'],
   }[colorMode];
-  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
+  const focusBoxShadowOuterSpreadRadius = theme?.sizes?.['1q'];
+  const focusBoxShadowInnerColor = {
     dark: theme?.colors?.['black:emphasis'],
     light: theme?.colors?.['white:emphasis'],
   }[colorMode];
-  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
+  const focusBoxShadowInnerSpreadRadius = theme?.sizes?.['2q'];
   // Disabled
   const disabledBackgroundColor = {
     dark: 'gray:60',
@@ -46,11 +48,20 @@ const defaultVariantProps = ({
   }[colorMode];
   const disabledColor = {
     dark: 'white:emphasis',
-    light: 'black:primary',
+    light: 'black:emphasis',
   }[colorMode];
   const disabledOpacity = {
     dark: 0.28,
     light: 0.3,
+  }[colorMode];
+  // Selected
+  const selectedBackgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const selectedColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
   }[colorMode];
 
   return {
@@ -60,7 +71,7 @@ const defaultVariantProps = ({
     _focus: {
       ':not(:active)': {
         borderColor: focusBorderColor,
-        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusBorderColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
+        boxShadow: `inset 0 0 0 ${focusBoxShadowOuterSpreadRadius} ${focusBoxShadowOuterColor}, inset 0 0 0 ${focusBoxShadowInnerSpreadRadius} ${focusBoxShadowInnerColor}`,
       },
       // Bring overlapping border to front when focused
       zIndex: 1,
@@ -79,11 +90,16 @@ const defaultVariantProps = ({
       cursor: 'not-allowed',
       opacity: disabledOpacity,
     },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+      color: selectedColor,
+      pointerEvents: 'none', // Do not react to mouse events when selected
+    },
   };
 };
 
 //---------------- Secondary Button ----------------//
-const secondaryVariantProps = ({
+const secondaryVariantStyle = ({
   colorMode,
   theme,
 }) => {
@@ -107,13 +123,17 @@ const secondaryVariantProps = ({
   }[colorMode];
   // Active
   const activeBackgroundColor = {
-    dark: setColorWithOpacity('black', 0.12),
-    light: setColorWithOpacity('black', 0.08),
+    dark: 'rgba(0, 0, 0, 0.12)',
+    light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
   const activeBorderColor = hoverBorderColor;
   const activeColor = hoverColor;
   // Focus
   const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+  const focusBoxShadowColor = {
     dark: theme?.colors?.['blue:60'],
     light: theme?.colors?.['blue:60'],
   }[colorMode];
@@ -123,20 +143,29 @@ const secondaryVariantProps = ({
   const disabledBorderColor = borderColor;
   const disabledColor = {
     dark: 'white:emphasis',
-    light: 'black:primary',
+    light: 'black:emphasis',
   }[colorMode];
   const disabledOpacity = {
     dark: 0.28,
     light: 0.3,
+  }[colorMode];
+  // Selected
+  const selectedBackgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const selectedColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
   }[colorMode];
 
   return {
     borderColor,
     color,
     _focus: {
-      color: focusColor,
       borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusBorderColor}`,
+      boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusBoxShadowColor}`,
+      color: focusColor,
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
@@ -149,58 +178,88 @@ const secondaryVariantProps = ({
       zIndex: 2,
     },
     _active: {
-      color: activeColor,
       borderColor: activeBorderColor,
       backgroundColor: activeBackgroundColor,
+      color: activeColor,
     },
     _disabled: {
-      color: disabledColor,
       borderColor: disabledBorderColor,
+      color: disabledColor,
       cursor: 'not-allowed',
       opacity: disabledOpacity,
+    },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+      color: selectedColor,
+      pointerEvents: 'none', // Do not react to mouse events when selected
     },
   };
 };
 
 //---------------- Ghost Button ----------------//
-const ghostVariantProps = ({
+const ghostVariantStyle = ({
   colorMode,
   theme,
 }) => {
-  const secondaryProps = secondaryVariantProps({
+  const style = secondaryVariantStyle({
     colorMode,
     theme,
   });
+  // Selected
+  const selectedBackgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const selectedBorderColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const selectedColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+
   return {
-    ...secondaryProps,
+    ...style,
     borderColor: 'transparent',
     _disabled: {
-      ...secondaryProps._disabled,
+      ...style._disabled,
       borderColor: 'transparent',
+      cursor: 'not-allowed',
+    },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+      borderColor: selectedBorderColor,
+      color: selectedColor,
+      pointerEvents: 'none', // Do not react to mouse events when selected
     },
   };
 };
 
 //---------------- Emphasis / Primary Button ----------------//
-const fillColorVariantProps = ({
-  color,
+const fillColorVariantStyle = ({
+  color: colorProp,
   colorMode,
   theme,
 }) => {
   // Normal
   const backgroundColor = {
-    dark: `${color}:60`,
-    light: `${color}:60`,
+    dark: `${colorProp}:60`,
+    light: `${colorProp}:60`,
+  }[colorMode];
+  const color = {
+    dark: 'white:emphasis',
+    light: 'white:emphasis',
   }[colorMode];
   // Hover
   const hoverBackgroundColor = {
-    dark: `${color}:50`,
-    light: `${color}:50`,
+    dark: `${colorProp}:50`,
+    light: `${colorProp}:50`,
   }[colorMode];
   // Active
   const activeBackgroundColor = {
-    dark: `${color}:70`,
-    light: `${color}:70`,
+    dark: `${colorProp}:70`,
+    light: `${colorProp}:70`,
   }[colorMode];
   // Focus
   const focusBorderColor = {
@@ -220,17 +279,26 @@ const fillColorVariantProps = ({
   }[colorMode];
   const disabledColor = {
     dark: 'white:emphasis',
-    light: 'black:primary',
+    light: 'black:emphasis',
   }[colorMode];
   const disabledOpacity = {
     dark: 0.28,
     light: 0.3,
   }[colorMode];
+  // Selected
+  const selectedBackgroundColor = {
+    dark: `${colorProp}:80`,
+    light: `${colorProp}:80`,
+  }[colorMode];
+  const selectedColor = {
+    dark: 'white:emphasis',
+    light: 'white:emphasis',
+  }[colorMode];
 
   return {
     backgroundColor,
     borderColor: 'transparent',
-    color: 'white:emphasis',
+    color,
     _focus: {
       ':not(:active)': {
         borderColor: focusBorderColor,
@@ -253,10 +321,19 @@ const fillColorVariantProps = ({
       cursor: 'not-allowed',
       opacity: disabledOpacity,
     },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+      color: selectedColor,
+      pointerEvents: 'none', // Do not react to mouse events when selected
+    },
   };
 };
 
-const useButtonStyle = ({ size, variant }) => {
+const useButtonStyle = ({
+  orientation, // No default value if not specified
+  size,
+  variant,
+}) => {
   const [colorMode] = useColorMode();
   const theme = useTheme();
   const borderWidth = theme?.sizes?.['1q'];
@@ -268,14 +345,36 @@ const useButtonStyle = ({ size, variant }) => {
     userSelect: 'none',
     whiteSpace: 'nowrap',
     border: 1,
-    //zIndex: 0,
+    borderRadius: 'sm',
     px: `calc(${theme?.sizes?.['3x']} - ${borderWidth})`,
     transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], {
       duration: 250,
       easing: transitionEasing.easeInOut,
     }),
   };
-  const sizeProps = {
+  const orientationStyle = {
+    'horizontal': {
+      _notFirstOfType: {
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+      },
+      _notLastOfType: {
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+      },
+    },
+    'vertical': {
+      _notFirstOfType: {
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+      },
+      _notLastOfType: {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      },
+    },
+  }[orientation];
+  const sizeStyle = {
     lg: {
       minHeight: '10x',
       fontSize: 'md',
@@ -293,16 +392,17 @@ const useButtonStyle = ({ size, variant }) => {
     },
   }[size];
   const variantStyle = {
-    'secondary': secondaryVariantProps({ colorMode, theme }),
-    'ghost': ghostVariantProps({ colorMode, theme }),
-    'emphasis': fillColorVariantProps({ color: 'red', colorMode, theme }),
-    'primary': fillColorVariantProps({ color: 'blue', colorMode, theme }),
-    'default': defaultVariantProps({ colorMode, theme }),
+    'secondary': secondaryVariantStyle({ colorMode, theme }),
+    'ghost': ghostVariantStyle({ colorMode, theme }),
+    'emphasis': fillColorVariantStyle({ color: 'red', colorMode, theme }),
+    'primary': fillColorVariantStyle({ color: 'blue', colorMode, theme }),
+    'default': defaultVariantStyle({ colorMode, theme }),
   }[variant];
 
   return {
     ...baseStyle,
-    ...sizeProps,
+    ...orientationStyle,
+    ...sizeStyle,
     ...variantStyle,
   };
 };
@@ -320,32 +420,24 @@ const useButtonBaseStyle = ({ disabled }) => {
   };
 };
 
-const getButtonGroupCSS = ({ orientation }) => {
-  const horizontalCSS = sx({
-    '&:not(:first-of-type)': {
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
+const useButtonGroupStyle = ({ orientation }) => {
+  const orientationStyle = {
+    vertical: {
+      flexDirection: 'column',
     },
-    '&:not(:last-of-type)': {
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
+    horizontal: {
+      flexDirection: 'row',
     },
-  });
-  const verticalCSS = sx({
-    '&:not(:first-of-type)': {
-      borderTopLeftRadius: 0,
-      borderTopRightRadius: 0,
-    },
-    '&:not(:last-of-type)': {
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-  });
-  return (orientation === 'vertical') ? verticalCSS : horizontalCSS;
+  }[orientation];
+
+  return {
+    display: 'inline-flex',
+    ...orientationStyle,
+  };
 };
 
 export {
-  getButtonGroupCSS,
   useButtonStyle,
   useButtonBaseStyle,
+  useButtonGroupStyle,
 };

@@ -52,14 +52,14 @@ function Example() {
           };
 
           return (
-            <SelectButton
+            <Button
               key={value}
-              isSelected={value === direction}
+              selected={value === direction}
               onClick={onClick}
               minWidth="15x"
             >
               {value}
-            </SelectButton>
+            </Button>
           );
         })}
       </ButtonGroup>

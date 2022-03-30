@@ -19,7 +19,7 @@ import { Box, Text } from '@tonic-ui/react';
 "dependencies": {
 - "@trendmicro/react-styled-ui": "0.x",
 - "@trendmicro/styled-ui-theme": "0.x",
-+ "@tonic-ui/react": "^1.0.0-alpha"
++ "@tonic-ui/react": "^1.0.0"
 }
 ```
 
@@ -29,7 +29,7 @@ To make v0.x and v1 coexist, do the following:
 "dependencies": {
   "@trendmicro/react-styled-ui": "0.x",
   "@trendmicro/styled-ui-theme": "0.x",
-+ "@tonic-ui/react": "^1.0.0-alpha"
++ "@tonic-ui/react": "^1.0.0"
 }
 ```
 
@@ -40,8 +40,8 @@ You can keep v0.x packages until you are ready to remove them.
 A `TonicProvider` is provided by the `@tonic-ui/react` package. It includes the following providers:
 
 * **ThemeProvider**: Provides the theming context for all components.
-* **ColorModeProvider**: Provides color mode context to all components. [Learn more](../system/color-mode)
-* **ColorStyleProvider**: Provides the color style context to all components. [Learn more](../system/color-style)
+* **ColorModeProvider**: Provides color mode context to all components. [Learn more](../components/color-mode)
+* **ColorStyleProvider**: Provides the color style context to all components. [Learn more](../components/color-style)
 
 Optionally via prop:
 
@@ -68,9 +68,52 @@ Optionally via prop:
 
 ### 3. Replace deprecated components and Hooks
 
-#### `PseudoBox` 💣 (use `Box` instead)
+#### FlatButton component
 
-`PseudoBox` is deprecated and its props can now be passed to `Box` directly. Replace all `PseudoBox` components with `Box`.
+💣 `FlatButton` is deprecated and will be removed in the next major release. Use [Button](../components/button) or [ButtonBase](../components/buttonbase) instead.
+
+```diff
+- <FlatButton variant="solid"/>
++ <Button variant="default"/>
+```
+
+```diff
+- <FlatButton variant="outline"/>
++ <Button variant="secondary"/>
+```
+
+For alert or toast notifications, you may use the code below to replace the deprecated `FlatButton` while rendering action buttons on a bright background:
+
+```js
+const ActionButton = forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={{
+      '&:active': {
+        color: 'black',
+      },
+      '&:focus': {
+        color: 'black',
+      },
+      '&:hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black',
+      },
+      '&:hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    }}
+    {...props}
+  />
+));
+```
+
+#### PseudoBox component
+
+💣 `PseudoBox` is deprecated and its props can now be passed to `Box` directly. Use [Box](../components/box) instead.
 
 ```diff
 - <PseudoBox
@@ -82,18 +125,18 @@ Optionally via prop:
 + </Box>
 ```
 
-#### `ToggleSwitch` 💣 (use `Switch` instead)
+#### ToggleSwitch component
 
-`ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../components/switch) instead.
+💣 `ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../components/switch) instead.
 
 ```diff
 - <ToggleSwitch />
 + <Switch />
 ```
 
-#### `useDisclosure` 💣 (use `useToggle` instead)
+#### useDisclosure Hook
 
-`useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../hooks/use-toggle) instead.
+💣 `useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../hooks/use-toggle) instead.
 
 ```js
 const [value, toggleValue] = useToggle(false);
@@ -102,9 +145,13 @@ toggleValue(true); // set the value to true
 toggleValue(false); // set the value to false
 ```
 
-#### withTheme 💣 (use `useTheme` instead)
+#### withTheme HoC
 
-`withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
+💣 `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
+
+```js
+const theme = useTheme();
+```
 
 ### 4. Examine breaking changes
 
@@ -125,7 +172,7 @@ The following components changed the `display` property internally. Check whethe
 
 ### Theme
 
-Removed dark and light shadows from the `theme.shadows` object in favor of `colorStyle.shadow`. See [shadows](../system/shadows) to learn more.
+Removed dark and light shadows from the `theme.shadows` object in favor of `colorStyle.shadow`. See [shadows](../theme/shadows) to learn more.
 
 ```diff
 {
@@ -207,33 +254,25 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 
 ## Component Updates
 
-### Accordion
-
-> 👉 The `Accordion` component was fullly reworked to be more declarative and to be more intuitive.
-
-#### `Accordion`
+### `Accordion`
 
 * Removed `allowMultiple` and `allowToggle` props in favor of controling state from the parent
 * Removed `index` and `defaultIndex` props
 * Removed the `onChange` prop. Use `onToggle` on `AccordionItem` instead
 * Added `AccordionToggle`, `AccordionToggleIcon`, and `AccordionCollapse` components for unstyled toggle and collapse
 
-#### `AccordionItem`
+### `AccordionItem`
 
 * Renamed the `isOpen` prop to `isExpanded`
 * Renamed the `defaultIsOpen` prop to `defaultIsExpanded`
 * Renamed the `onChange` prop to `onToggle`
 * Renamed the `isDisabled` prop to `disabled`
 
-### Alert
-
-#### `Alert`
+### `Alert`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
 
-### Badge
-
-#### `Badge`
+### `Badge`
 
 * Changed the `dotSize` prop to `width` or `w` and `height` or `h`
 * Changed the `isHidden` prop to `isInvisible`
@@ -241,25 +280,31 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 * Changed the `variantColor` prop to `backgroundColor`
 * Renamed `variant="badge"` to `variant="solid"`
 
-### Drawer
-
-#### `Drawer`
-
-* Renamed the `isCloseButtonVisible` prop to `isClosable`
-
-### Modal
-
-#### `Modal`
-
-* Renamed the `isCloseButtonVisible` prop to `isClosable`
-
-### RadioGroup
+### `CheckboxGroup`
 
 * Changed `onChange(value, event)` to `onChange(value)`
 
-### Scrollbar
+### `Drawer`
 
-#### `Scrollbar`
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+* Added `scrollBehavior` prop to control the scroll behavior of the drawer
+* Added support for passing style props to `Drawer`
+
+### `Modal`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+* Added `scrollBehavior` prop to control the scroll behavior of the modal
+* Added support for passing style props to `Modal`
+
+### `Popover`
+
+* Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
+
+### `RadioGroup`
+
+* Changed `onChange(value, event)` to `onChange(value)`
+
+### `Scrollbar`
 
 * Changed the `disabled` prop to `overflow="hidden"`
 * Changed the `minThumbSize` prop to `minThumbWidth` and `minThumbHeight`
@@ -271,55 +316,43 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 * Removed the `renderVerticalThumb` prop. Use Function as Child Component (FaCC) to render the vertical thumb instead.
 * Changed the `thumbSize` prop to `minThumbWidth` and `minThumbHeight`
 
-### Stack
+### `Spinner`
 
-#### `Stack`
+* Renamed the `color` prop to `lineColor`
+* Renamed the `strokeWidth` prop to `lineWidth` and `trackWidth`
+* Remove the `speed` prop
+
+### `Stack`
 
 * Removed the use of `cloneElement` in favor of the `gap`, `columnGap`, and `rowGap` props
 
-### Table
+### `Tab`
 
-#### `Table`
+* Renamed the `isActive` prop to `isSelected`
 
-* Removed the `isHoverable` prop. Use the `_hover` prop on the `TableRow` component instead.
-
-### Tabs
-
-#### `Tabs`
+### `Tabs`
 
 * Removed `activateOnKeyPress`, `isFitted`, and `isManual` props
 * Renamed `variant="line"` to `variant="default"`
 * Renamed `variant="enclosed"` to `variant="filled"`
 
-#### `Tab`
+### `TabPanel`
 
 * Renamed the `isActive` prop to `isSelected`
 
-#### `TabPanel`
+### `Table`
 
-* Renamed the `isActive` prop to `isSelected`
+* Removed the `isHoverable` prop. Use the `_hover` prop on the `TableRow` component instead.
 
-### Tag
-
-#### `Tag`
+### `Tag`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
 
-### Toast
-
-#### `Toast`
+### `Toast`
 
 * Renamed the `isCloseButtonVisible` prop to `isClosable`
 
-### Popover
-
-#### `Popover`
-
-* Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
-
-### Tooltip
-
-#### `Tooltip`
+### `Tooltip`
 
 * Renamed the `showDelay` prop to `enterDelay`
 * Renamed the `hideDelay` prop to `leaveDelay`

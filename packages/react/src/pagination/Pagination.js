@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, ButtonBase } from '../button';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
-import { useSelectedButtonStyle } from './styles';
+import { usePaginationButtonStyle } from './styles';
 import usePagination from './usePagination';
 
 const Pagination = ({
@@ -22,7 +22,7 @@ const Pagination = ({
   });
   const [colorMode] = useColorMode();
   const { sizes } = useTheme();
-  const selectedButtonStyleProps = useSelectedButtonStyle();
+  const paginationButtonStyleProps = usePaginationButtonStyle();
 
   return (
     <>
@@ -61,14 +61,13 @@ const Pagination = ({
 
         return (
           <Button
+            variant="ghost"
             aria-disabled={item.disabled}
             aria-selected={item.selected}
             disabled={item.disabled}
             key={`${item.page}-${item.type}`}
             onClick={item.onClick}
-            transition="none"
-            variant="ghost"
-            {...(item.selected && selectedButtonStyleProps)}
+            {...paginationButtonStyleProps}
           >
             {label}
           </Button>

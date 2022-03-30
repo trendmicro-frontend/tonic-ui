@@ -32,20 +32,10 @@ The most recent stable version (✓) is recommended for use in production.
         <Link href="__TONIC_UI_V0_RELEASE_NOTES__">Release notes</Link>
       </TableCell>
     </TableRow>
-    <TableRow>
-      <TableCell>
-        __TONIC_UI_V0_BRANCH__
-      </TableCell>
-      <TableCell>
-        <Link href="__TONIC_UI_V0_UNRELEASED_DOCUMENTATION__">Documentation</Link>
-      </TableCell>
-      <TableCell>
-      </TableCell>
-    </TableRow>
   </TableBody>
 </Table>
 
-## Latest Versions
+## Unreleased Changes
 
 <Table>
   <TableBody>
@@ -58,6 +48,17 @@ The most recent stable version (✓) is recommended for use in production.
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_DEFAULT_SOURCE_CODE__">Source code</Link>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        __TONIC_UI_V0_BRANCH__ branch
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V0_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V0_SOURCE_CODE__">Source code</Link>
       </TableCell>
     </TableRow>
   </TableBody>

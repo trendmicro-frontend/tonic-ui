@@ -57,7 +57,8 @@ export const getExitTransitionProps = ({
   };
 };
 
-export const createTransitionStyle = (props = ['all'], options) => {
+export const createTransitionStyle = (props, options) => {
+  props = props ?? ['all'];
   const {
     duration = transitionDuration.standard,
     easing = transitionEasing.easeInOut,
