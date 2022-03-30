@@ -50,6 +50,31 @@ function Example() {
 * Apply vertical margin space with `6x` (or `1.5rem`) between the end of the content and the action button (or action link).
 
 ```jsx noInline
+const ActionButton = React.forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={sx({
+      ':active': {
+        color: 'black:primary',
+      },
+      ':focus': {
+        color: 'black:primary',
+      },
+      ':hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black:primary',
+      },
+      ':hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    })}
+    {...props}
+  />
+));
+
 const ToastSimple = ({ onClose }) => (
   <Toast isClosable onClose={onClose}>
     <Text>This is a toast notification.</Text>
@@ -75,7 +100,7 @@ const ToastWithTitle = ({ onClose }) => (
     <Box mb="2x">
       <Text fontWeight="bold">Notification Title</Text>
     </Box>
-    <Box mr={-36}>
+    <Box mr="-9x">
       <Text>This is a toast notification.</Text>
     </Box>
   </Toast>
@@ -86,10 +111,13 @@ const ToastWithActionButton = ({ onClose }) => (
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
-    <Flex justifyContent="flex-end" mr={-36}>
-      <FlatButton variant="outline" color="black:primary" size="sm">
+    <Flex justifyContent="flex-end" mr="-9x">
+      <ActionButton
+        // See above for the ActionButton component
+        size="sm"
+      >
         Action Button
-      </FlatButton>
+      </ActionButton>
     </Flex>
   </Toast>
 );
@@ -99,7 +127,7 @@ const ToastWithActionLink = ({ onClose }) => (
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
-    <Flex justifyContent="flex-end" mr={-36}>
+    <Flex justifyContent="flex-end" mr="-9x">
       <Link>Action Link</Link>
     </Flex>
   </Toast>
@@ -119,10 +147,13 @@ const ToastWithAllTogether = ({ onClose }) => (
       <Space minWidth="4x" />
       <Text>This is a toast notification.</Text>
     </Flex>
-    <Flex justifyContent="flex-end" mr={-36}>
-      <FlatButton variant="outline" color="black:primary" size="sm">
+    <Flex justifyContent="flex-end" mr="-9x">
+      <ActionButton
+        // See above for the ActionButton component
+        size="sm"
+      >
         Action Button
-      </FlatButton>
+      </ActionButton>
     </Flex>
   </Toast>
 );

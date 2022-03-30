@@ -15,7 +15,8 @@
     "test": "lerna exec -- yarn test",
     "lerna-publish": "lerna publish",
     "lerna-publish-from-git": "lerna publish from-git",
-    "lerna-publish-from-package": "lerna publish from-package"
+    "lerna-publish-from-package": "lerna publish from-package",
+    "prepare": "husky install"
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
@@ -28,9 +29,9 @@
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "devDependencies": {
-    "@commitlint/cli": "~9.1.1",
-    "@commitlint/config-conventional": "~9.1.1",
-    "husky": "~5.1.1",
-    "lerna": "~3.22.1"
+    "@commitlint/cli": "16.x",
+    "@commitlint/config-conventional": "16.x",
+    "husky": "7.x",
+    "lerna": "4.x"
   }
 }

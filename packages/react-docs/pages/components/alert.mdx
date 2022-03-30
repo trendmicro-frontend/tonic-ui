@@ -152,41 +152,75 @@ An alert action is a button or link to trigger an action. It is used to provide 
 
 The action button is usually aligned to the right of the alert. You can use `justifyContent` to align the action button to the right.
 
-```jsx
-<Stack direction="column" spacing="6x">
-  <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="warning">
-      <Flex justifyContent="space-between">
-        <Text>This is a warning alert.</Text>
-        <LinkButton>Learn More</LinkButton>
-      </Flex>
-    </Alert>
-    <Alert variant="solid" severity="error">
-      <Flex justifyContent="space-between" mt={-1} mb={-2}>
-        <Text>This is an error alert.</Text>
-        <FlatButton size="sm" variant="outline" variantColor="black:primary">
-          Action Button
-        </FlatButton>
-      </Flex>
-    </Alert>
-  </Stack>
-  <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="warning">
-      <Flex justifyContent="space-between">
-        <Text>This is a warning alert.</Text>
-        <LinkButton>Learn More</LinkButton>
-      </Flex>
-    </Alert>
-    <Alert variant="outline" severity="error">
-      <Flex justifyContent="space-between" mt={-1} mb={-2}>
-        <Text>This is an error alert.</Text>
-        <Button size="sm" variant="secondary">
-          Action Button
-        </Button>
-      </Flex>
-    </Alert>
-  </Stack>
-</Stack>
+```jsx noInline
+const ActionButton = React.forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={sx({
+      ':active': {
+        color: 'black:primary',
+      },
+      ':focus': {
+        color: 'black:primary',
+      },
+      ':hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black:primary',
+      },
+      ':hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    })}
+    {...props}
+  />
+));
+
+function Example() {
+  return (
+    <Stack direction="column" spacing="6x">
+      <Stack direction="column" spacing="2x">
+        <Alert variant="solid" severity="warning">
+          <Flex justifyContent="space-between">
+            <Text>This is a warning alert.</Text>
+            <LinkButton>Learn More</LinkButton>
+          </Flex>
+        </Alert>
+        <Alert variant="solid" severity="error">
+          <Flex justifyContent="space-between" mt={-1} mb={-2}>
+            <Text>This is an error alert.</Text>
+            <ActionButton
+              // See above for the ActionButton component
+              size="sm"
+            >
+              Action Button
+            </ActionButton>
+          </Flex>
+        </Alert>
+      </Stack>
+      <Stack direction="column" spacing="2x">
+        <Alert variant="outline" severity="warning">
+          <Flex justifyContent="space-between">
+            <Text>This is a warning alert.</Text>
+            <LinkButton>Learn More</LinkButton>
+          </Flex>
+        </Alert>
+        <Alert variant="outline" severity="error">
+          <Flex justifyContent="space-between" mt={-1} mb={-2}>
+            <Text>This is an error alert.</Text>
+            <Button size="sm" variant="secondary">
+              Action Button
+            </Button>
+          </Flex>
+        </Alert>
+      </Stack>
+    </Stack>
+  );
+}
+
+render(<Example />);
 ```
 
 ### Formatted text
@@ -228,6 +262,69 @@ You can use the `Text` component to format text.
     </Text>
   </Alert>
 </Stack>
+```
+
+### Pagination
+
+For some use cases, you may want to display a list of alerts using pagination to reduce the number of visible alerts on the screen.
+
+```jsx noInline
+const alerts = [
+  { variant: 'solid', severity: 'success', icon: 'check-circle-o', message: 'This is a success alert' },
+  { variant: 'solid', severity: 'info', icon: 'info', message: 'This is an info alert' },
+  { variant: 'solid', severity: 'warning', icon: 'warning-triangle', message: 'This is a warning alert' },
+  { variant: 'solid', severity: 'error', icon: 'error', message: 'This is an error alert' },
+];
+const pageMin = alerts.length > 0 ? 1 : 0;
+const pageMax = alerts.length > 0 ? alerts.length : 0;
+
+const IconButton = (props) => (
+  <ButtonBase
+    color="black:secondary"
+    _disabled={{
+      color: 'black:disabled',
+    }}
+    _hover={{
+      color: 'black:primary',
+    }}
+    {...props}
+  />
+);
+
+function Example() {
+  const [page, setPage] = React.useState(pageMin);
+  const alert = alerts[page - 1] || {};
+
+  return (
+    <Alert
+      variant={alert.variant}
+      severity={alert.severity}
+      icon={alert.icon}
+      isClosable
+    >
+      <Flex justifyContent="space-between">
+        <Text>{alert.message}</Text>
+        <Flex columnGap="2x" alignItems="center">
+          <IconButton
+            disabled={page <= pageMin}
+            onClick={() => setPage(Math.max(pageMin, page - 1))}
+          >
+            <Icon icon="chevron-up" />
+          </IconButton>
+          <Text>{page}/{pageMax}</Text>
+          <IconButton
+            disabled={page >= pageMax}
+            onClick={() => setPage(Math.min(pageMax, page + 1))}
+          >
+            <Icon icon="chevron-down" />
+          </IconButton>
+        </Flex>
+      </Flex>
+    </Alert>
+  );
+}
+
+render(<Example />);
 ```
 
 ### Transition effects

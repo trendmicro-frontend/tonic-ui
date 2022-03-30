@@ -1,6 +1,6 @@
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
-import { setColorWithOpacity } from '../utils/colors';
+import { useTheme } from '../theme';
 
 const useMenuStyle = () => {
   return {
@@ -59,50 +59,56 @@ const useMenuGroupStyle = () => {
 };
 
 const useMenuItemStyle = () => {
+  const theme = useTheme();
   const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    light: 'black:disabled',
-    dark: setColorWithOpacity('white', 0.12),
+  const color = {
+    light: 'black:primary',
+    dark: 'white:primary',
   }[colorMode];
-  const activeBackgroundColor = {
-    light: 'gray:20',
-    dark: setColorWithOpacity('white', 0.08),
+  const hoverBackgroundColor = {
+    light: 'rgba(0, 0, 0, 0.12)',
+    dark: 'rgba(255, 255, 255, 0.12)',
+  }[colorMode];
+  const focusBorderColor = {
+    light: 'blue:60',
+    dark: 'blue:60',
   }[colorMode];
   const disabledColor = {
     light: 'black:disabled',
     dark: 'white:disabled',
   }[colorMode];
-  const disabledBackgroundColor = {
+  const selectedBackgroundColor = {
     light: 'white',
-    dark: 'gray:80',
+    dark: 'rgba(255, 255, 255, 0.08)',
   }[colorMode];
-  const focusBackgroundColor = activeBackgroundColor;
 
   return {
-    flex: ' 0 0 auto',
-    userSelect: 'none',
-    px: '3x',
-    py: '2x',
-    color: 'inherit',
+    color: color,
     cursor: 'pointer',
     display: 'flex',
     textDecoration: 'none',
     alignItems: 'center',
     textAlign: 'left',
     outline: 'none',
+    px: '3x',
+    py: '2x',
+    userSelect: 'none',
+    _disabled: {
+      color: disabledColor,
+      cursor: 'not-allowed',
+    },
+    _focus: {
+      borderColor: focusBorderColor,
+      borderStyle: 'solid',
+      borderWidth: '1h',
+      px: `calc(${theme?.space['3x']} - ${theme?.space['1h']})`,
+      py: `calc(${theme?.space['2x']} - ${theme?.space['1h']})`,
+    },
     _hover: {
       backgroundColor: hoverBackgroundColor,
     },
-    _active: {
-      backgroundColor: activeBackgroundColor,
-    },
-    _focus: {
-      backgroundColor: focusBackgroundColor,
-    },
-    _disabled: {
-      backgroundColor: disabledBackgroundColor,
-      color: disabledColor,
-      cursor: 'not-allowed',
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
     },
   };
 };

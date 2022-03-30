@@ -6,41 +6,58 @@ For this component to work, it should have a sibling `input` and be contained in
 
 ## Usage
 
-#### Creating a custom checkbox component
+### Creating a custom checkbox
 
 ```jsx
-<label>
-  {/* This is the sibling input, it's visually hidden */}
-  <VisuallyHidden as="input" type="checkbox" defaultChecked={false} />
-
-  {/* This is the control box with a check icon as children */}
+<Flex
+  as="label"
+  alignItems="center"
+>
+  <VisuallyHidden
+    as="input"
+    type="checkbox"
+    defaultChecked={false}
+  />
   <ControlBox
     border="1"
     borderRadius="sm"
     width="6x"
     height="6x"
     verticalAlign="middle"
-    _checked={{ bg: "green:50", color: "white", borderColor: "green:50" }}
-    _focus={{ borderColor: "green:60", boxShadow: "rgba(66, 153, 225, 0.6) 0px 0px 0px 3px" }}
+    _checked={{
+      backgroundColor: 'green:50',
+      borderColor: 'green:50',
+      color: 'white',
+    }}
+    _focus={{
+      borderColor: 'green:60',
+      boxShadow: 'rgba(66, 153, 225, 0.6) 0px 0px 0px 3px',
+    }}
+    _disabled={{
+      opacity: '.3',
+    }}
   >
     <Icon icon="check-s" size="4x" />
   </ControlBox>
-
-  {/* You can pass additional text */}
-  <Text ml="2x" userSelect="none">
-    Label text
+  <Space width="2x" />
+  <Text userSelect="none">
+    Checkbox
   </Text>
-</label>
+</Flex>
 ```
 
-#### Creating a custom radio component
+### Creating a custom radio button
 
 ```jsx
-<label>
-  {/* This is the sibling input, it's visually hidden */}
-  <VisuallyHidden as="input" type="radio" defaultChecked={false} />
-
-  {/* This is the control box with a circle as children */}
+<Flex
+  as="label"
+  alignItems="center"
+>
+  <VisuallyHidden
+    as="input"
+    type="radio"
+    defaultChecked={false}
+  />
   <ControlBox
     type="radio"
     border="2"
@@ -50,19 +67,27 @@ For this component to work, it should have a sibling `input` and be contained in
     width="6x"
     height="6x"
     verticalAlign="middle"
-    _checked={{ bg: "green:50", borderColor: "green:50" }}
-    _focus={{ boxShadow: "rgba(66, 153, 225, 0.6) 0px 0px 0px 3px" }}
-    _hover={{ borderColor: "gray:30" }}
-    _disabled={{ opacity: "40%" }}
+    _checked={{
+      backgroundColor: 'green:50',
+      borderColor: 'green:50',
+    }}
+    _focus={{
+      boxShadow: 'rgba(66, 153, 225, 0.6) 0px 0px 0px 3px',
+    }}
+    _hover={{
+      borderColor: 'gray:30',
+    }}
+    _disabled={{
+      opacity: '.3',
+    }}
   >
     <Icon icon="circle-o" size="4x" />
   </ControlBox>
-
-  {/* You can pass additional text */}
-  <Text ml="2x">
-    Label text
+  <Space width="2x" />
+  <Text userSelect="none">
+    Radio Button
   </Text>
-</label>
+</Flex>
 ```
 
 ## Props
