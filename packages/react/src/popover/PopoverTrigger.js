@@ -63,14 +63,14 @@ const PopoverTrigger = forwardRef((
       }
     };
     eventHandlerProps.onBlur = onClose;
-    eventHandlerProps.onMouseEnter = (event) => {
+    eventHandlerProps.onPointerEnter = (event) => {
       isHoveringRef.current = true;
       openTimeout.current = setTimeout(() => {
         setEnableMouseMove(followCursor);
         onOpen();
       }, enterDelay || ((nextToCursor || followCursor) && 500));
     };
-    eventHandlerProps.onMouseLeave = (event) => {
+    eventHandlerProps.onPointerLeave = (event) => {
       isHoveringRef.current = false;
       setEnableMouseMove(true);
       if (openTimeout.current) {
@@ -83,7 +83,7 @@ const PopoverTrigger = forwardRef((
         }
       }, leaveDelay || 100); // keep opening popover when cursor quick move from trigger element to popover.
     };
-    eventHandlerProps.onMouseMove = (event) => {
+    eventHandlerProps.onPointerMove = (event) => {
       (enableMouseMove || followCursor) && setMouseCoordinate(event);
     };
   }
