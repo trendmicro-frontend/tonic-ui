@@ -11,17 +11,20 @@ import startOfYear from 'date-fns/startOfYear';
 import subMonths from 'date-fns/subMonths';
 import subYears from 'date-fns/subYears';
 import React, { forwardRef } from 'react';
+import useCalendar from './useCalendar';
 
 const Navigation = forwardRef((
-  {
+  props,
+  ref,
+) => {
+  const calendarContext = useCalendar();
+  const {
     activeDate,
     view,
     setActiveDate,
     setView,
-    ...props
-  },
-  ref,
-) => {
+  } = { ...calendarContext };
+
   return (
     <Flex
       ref={ref}

@@ -3,16 +3,19 @@ import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
+import useCalendar from '../useCalendar';
 import { useCellStyle } from '../styles';
 
 const Weekdays = forwardRef((
-  {
-    activeDate,
-    calendarStartDay,
-    ...props
-  },
+  props,
   ref,
 ) => {
+  const calendarContext = useCalendar();
+  const {
+    activeDate,
+    calendarStartDay,
+  } = { ...calendarContext };
+
   const startDateOfWeek = startOfWeek(
     activeDate,
     {

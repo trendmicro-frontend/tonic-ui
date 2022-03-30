@@ -17,11 +17,9 @@ import {
 ## Usage
 
 ### Calendar
+
 ```jsx
-<Calendar
-  value={new Date()}
-  onChange={(date) => console.log(date)}
-/>
+<Calendar defaultValue="2022-03-29" onChange={value => console.log(value)} />
 ```
 
 #### Calendar start day
@@ -43,7 +41,7 @@ Use the `calendarStartDay` prop to chage the first day of the calendar week. for
 
 #### Date format
 
-Use the `dateFormat` prop to chage The format of date. Format of the string is based on Unicode Technical Standard #35: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table.
+Use the `dateFormat` prop to change The format of date. Format of the string is based on Unicode Technical Standard #35: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table.
 
 ```jsx
 function Example() {
@@ -73,22 +71,8 @@ function Example() {
 }
 ```
 
-#### View
-
-Use the `view` prop to change the view of the `Calendar`. You can set the value to `month`, `year`, or `decade`.
-
-```jsx
-<Stack direction="row" spacing="4x">
-  {["month", "year", "decade"].map(view => (
-    <Stack key={view} direction="column" spacing="4x" shouldWrapChildren>
-      <Text size="lg">view="{view}"</Text>
-      <Calendar view={view} />
-    </Stack>
-  ))}
-</Stack>
-```
-
 ### DatePicker
+
 ```jsx
 function Example({
   date = '2021-12-15',
@@ -98,10 +82,6 @@ function Example({
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [isOpenCalendar, setIsOpenCalendar] = React.useState(false);
   const [value, setValue] = React.useState(date);
-  const invalidInputStyle = {
-    isInvalid: true,
-    pr: '10x',
-  };
   const isDate = (v) => {
     const d = new Date(v);
     return !Number.isNaN(d.getTime());
@@ -138,13 +118,14 @@ function Example({
               <DateInput
                 value={value}
                 disabled={disabled}
+                isInvalid={isInvalid}
                 onChange={handleDateInputChange}
+                width="128px"
                 {...getDatePickerToggleProps()}
-                {...isInvalid && invalidInputStyle}
               />
               {isInvalid && (
-                <Box position="absolute" right={0} top="1x">
-                  <Icon icon="warning-circle" mx="3x" color="red:50" />
+                <Box position="absolute" right="-20px" top="1x">
+                  <Icon icon="warning-circle" color="red:50" />
                 </Box>
               )}
             </Box>
@@ -162,22 +143,19 @@ function Example({
 }
 ```
 
-#### with menu
+#### Date range picker
 ```jsx noInline
-const XDatePicker = ({
-  value: date,
+const CustomDatePicker = ({
+  value: valueProp,
   dateFormat,
   disabled,
+  onChange,
 }) => {
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [isOpenCalendar, setIsOpenCalendar] = React.useState(false);
-  const [value, setValue] = React.useState(date);
-  const invalidInputStyle = {
-    isInvalid: true,
-    pr: '10x',
-  };
-  const isDate = (v) => {
-    const d = new Date(v);
+  const [value, setValue] = React.useState(valueProp);
+  const isDate = (value) => {
+    const d = new Date(value);
     return !Number.isNaN(d.getTime());
   };
   const verifyDate = (value) => {
@@ -188,9 +166,11 @@ const XDatePicker = ({
   };
   const handleDateInputChange = (event) => {
     const value = event.target.value;
+    onChange(value);
     setValue(value);
   };
   const handleCalendarChange = (value) => {
+    onChange(value);
     setValue(value);
     setIsOpenCalendar(false);
   };
@@ -212,13 +192,16 @@ const XDatePicker = ({
               <DateInput
                 value={value}
                 disabled={disabled}
+                isInvalid={isInvalid}
                 onChange={handleDateInputChange}
+                width="136px"
+                borderTopRightRadius="0"
+                borderBottomRightRadius="0"
                 {...getDatePickerToggleProps()}
-                {...isInvalid && invalidInputStyle}
               />
               {isInvalid && (
-                <Box position="absolute" right={0} top="1x">
-                  <Icon icon="warning-circle" mx="3x" color="red:50" />
+                <Box position="absolute" right="-20px" top="1x">
+                  <Icon icon="warning-circle" color="red:50" />
                 </Box>
               )}
             </Box>
@@ -241,13 +224,12 @@ const TimeInput = React.forwardRef((
 ) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-
   return (
     <Box
       display="inline-flex"
       alignItems="center"
       position="relative"
-      minWidth="128px"
+      width="128px"
     >
       <Box
         display="flex"
@@ -262,17 +244,40 @@ const TimeInput = React.forwardRef((
       <Input
         ref={ref}
         pl="10x"
+        ml="-1px"
+        borderTopLeftRadius="0"
+        borderBottomLeftRadius="0"
         {...props}
       />
     </Box>
   );
 });
 
+const padTo2Digits = (num) => {
+  return num.toString().padStart(2, '0');
+};
+
+const formatDate = (date) => {
+  return (
+    [
+      date.getFullYear(),
+      padTo2Digits(date.getMonth() + 1),
+      padTo2Digits(date.getDate()),
+    ].join('-')
+  );
+}
+
 function Example() {
+  const today = new Date();
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const [value, setValue] = React.useState('1d');
+  const [startDate, setStartDate] = React.useState(formatDate(today));
+  const [endDate, setEndDate] = React.useState(formatDate(today));
+  const [startTime, setStartTime] = React.useState("00:00:00");
+  const [endTime, setEndTime] = React.useState("23:59:59");
   const [isCalendarVisible, setIsCalendarVisible] = React.useState(false);
+
   const handleMenuItemClick = (event) => {
     const value = event.target.getAttribute('value');
     if (value === 'custom') {
@@ -287,6 +292,20 @@ function Example() {
       setIsCalendarVisible(false);
     }
   };
+  const handleStartDateChange = (value) => {
+    setStartDate(value);
+  };
+  const handleEndDateChange = (value) => {
+    setEndDate(value);
+  };
+  const handleStartTimeChange = (e) => {
+    const value = e.target.value;
+    setStartTime(value);
+  };
+  const handleEndTimeChange = (e) => {
+    const value = e.target.value;
+    setEndTime(value);
+  };
   const mapValueToLabel = (value) => {
     if (value === 'custom') {
       return 'Custom range';
@@ -297,96 +316,128 @@ function Example() {
       '14d': 'Last 14 days',
     }[value];
   };
+  const geTimeRange = (value) => {
+    if (['1d', '7d', '14d', 'custom'].indexOf(value) < 0) {
+      return null;
+    }
+
+    if (value === 'custom') {
+      return `${startDate} ${startTime} ~ ${endDate} ${endTime}`;
+    }
+
+    const now = new Date();
+    let date;
+
+    if (value === '1d') {
+      date = new Date(now.setDate(now.getDate() - 1));
+    }
+    if (value === '7d') {
+      date = new Date(now.setDate(now.getDate() - 7));
+    }
+    if (value === '14d') {
+      date = new Date(now.setDate(now.getDate() - 14));
+    }
+
+    return `${formatDate(date)} 00:00:00 ~ ${formatDate(now)} 23:59:59`;
+  };
+
   React.useEffect(() => {
     if (value === 'custom' && !isCalendarVisible) {
       setIsCalendarVisible(true);
     }
   }, [value, isCalendarVisible]);
+
   return (
-    <Menu
-      onClose={() => {
-        if (isCalendarVisible) {
-          setIsCalendarVisible(false);
-        }
-      }}
-    >
-      {({ closeMenu }) => (
-        <>
-          <MenuButton variant="secondary">
-            <Text>{mapValueToLabel(value)}</Text>
-          </MenuButton>
-          <MenuList width="max-content">
-            {isCalendarVisible && (
-              <Box
-                backgroundColor={colorStyle.background.secondary}
-                position="absolute"
-                left="100%"
-                top={0}
-                px="4x"
-                py="3x"
-                minHeight="100%"
-                border={1}
-                borderColor={colorStyle.divider}
-              >
-                <Flex alignItems="center">
-                  <Text width="64px">From:</Text>
-                  <XDatePicker value="2022-07-01" />
-                  <TimeInput defaultValue="00:00:00" />
-                </Flex>
-                <Flex alignItems="center">
-                  <Text width="64px">To:</Text>
-                  <XDatePicker value="2022-07-07" />
-                  <TimeInput defaultValue="59:59:59" />
-                </Flex>
-                <Divider my="4x" />
-                <Flex justifyContent="flex-end">
-                  <Grid
-                    templateColumns="1fr 1fr"
-                    columnGap="2x"
-                  >
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        closeMenu();
-                        if (value !== 'custom') {
-                          setValue('custom');
-                        }
-                      }}
+    <>
+      <Menu
+        onClose={() => {
+          if (isCalendarVisible) {
+            setIsCalendarVisible(false);
+          }
+        }}
+      >
+        {({ closeMenu }) => (
+          <>
+            <MenuButton variant="secondary">
+              <Text>{mapValueToLabel(value)}</Text>
+            </MenuButton>
+            <MenuList width="max-content">
+              {isCalendarVisible && (
+                <Box
+                  backgroundColor={colorStyle.background.secondary}
+                  position="absolute"
+                  left="100%"
+                  top={0}
+                  px="4x"
+                  py="3x"
+                  minHeight="100%"
+                  border={1}
+                  borderColor={colorStyle.divider}
+                >
+                  <Flex alignItems="center">
+                    <Text width="64px">From:</Text>
+                    <CustomDatePicker value={startDate} onChange={handleStartDateChange} />
+                    <TimeInput value={startTime} onChange={handleStartTimeChange} />
+                  </Flex>
+                  <Space height="3x" />
+                  <Flex alignItems="center">
+                    <Text width="64px">To:</Text>
+                    <CustomDatePicker value={endDate} onChange={handleEndDateChange} />
+                    <TimeInput value={endTime} onChange={handleEndTimeChange} />
+                  </Flex>
+                  <Space height="3x" />
+                  <Flex justifyContent="flex-end">
+                    <Grid
+                      templateColumns="1fr 1fr"
+                      columnGap="2x"
                     >
-                      Apply
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        closeMenu();
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </Grid>
-                </Flex>
-              </Box>
-            )}
-            {['1d', '7d', '14d'].map(value => (
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          closeMenu();
+                          if (value !== 'custom') {
+                            setValue('custom');
+                          }
+                        }}
+                      >
+                        Apply
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          closeMenu();
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </Grid>
+                  </Flex>
+                </Box>
+              )}
+              {['1d', '7d', '14d'].map(value => (
+                <MenuItem
+                  key={value}
+                  value={value}
+                  onClick={handleMenuItemClick}
+                >
+                  {mapValueToLabel(value)}
+                </MenuItem>
+              ))}
+              <MenuDivider />
               <MenuItem
-                key={value}
-                value={value}
+                value="custom"
                 onClick={handleMenuItemClick}
               >
-                {mapValueToLabel(value)}
+                Custom Period
+                <Space width="2x" />
+                <Icon icon="angle-right" />
               </MenuItem>
-            ))}
-            <MenuDivider />
-            <MenuItem
-              value="custom"
-              onClick={handleMenuItemClick}
-            >
-              Custom range...
-            </MenuItem>
-          </MenuList>
-        </>
-      )}
-    </Menu>
+            </MenuList>
+          </>
+        )}
+      </Menu>
+      <Box mt="3x">The time range: { geTimeRange(value) }</Box>
+    </>
   );
 }
 
@@ -409,10 +460,10 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | calendarStartDay | number | 0 | Set the first day of the calendar week. for example, 0 = Sunday, 1 = Monday. |
-| children | ReactNode | | |
+| children | ReactNode \| ({ getCalendarProps, view, chageView }) => ReactNode | | |
 | dateFormat | string | 'yyyy-MM-dd' | The format of date. Format of the string is based on Unicode Technical Standard #35: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table |
-| value | string \| date | new Date() | The value for calendar. |
-| view | string | 'month' | The calendar view. one of: 'month', 'year', 'decade' |
+| defaultValue | string | | The default value. Use when the component is not controlled. |
+| value | string | | The value for calendar. |
 | onChange | function | | Callback when the date is clicked. |
 
 ### DateInput

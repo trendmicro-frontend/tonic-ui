@@ -22,7 +22,6 @@ const DateInput = forwardRef((
       display="inline-flex"
       alignItems="center"
       position="relative"
-      minWidth="128px"
     >
       <Box
         display="flex"

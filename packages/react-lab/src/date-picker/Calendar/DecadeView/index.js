@@ -3,13 +3,7 @@ import React, { forwardRef } from 'react';
 import Years from './Years';
 
 const DecadeView = forwardRef((
-  {
-    activeDate,
-    calendarValue,
-    setActiveDate,
-    setView,
-    ...props
-  },
+  props,
   ref
 ) => {
   return (
@@ -18,12 +12,7 @@ const DecadeView = forwardRef((
       flex="auto"
       {...props}
     >
-      <Years
-        activeDate={activeDate}
-        calendarValue={calendarValue}
-        setActiveDate={setActiveDate}
-        setView={setView}
-      />
+      <Years />
     </Box>
   );
 });

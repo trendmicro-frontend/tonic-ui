@@ -2,6 +2,7 @@ import { Grid } from '@tonic-ui/react';
 import getYear from 'date-fns/getYear';
 import isSameMonth from 'date-fns/isSameMonth';
 import React, { forwardRef } from 'react';
+import useCalendar from '../useCalendar';
 import Month from './Month';
 
 const dateTransform = (year, monthIndex) => {
@@ -12,15 +13,14 @@ const dateTransform = (year, monthIndex) => {
 };
 
 const Months = forwardRef((
-  {
-    activeDate,
-    calendarValue,
-    setActiveDate,
-    setView,
-    ...props
-  },
+  props,
   ref,
 ) => {
+  const calendarContext = useCalendar();
+  const {
+    activeDate,
+    calendarDate,
+  } = { ...calendarContext };
   const today = new Date();
   const start = 0;
   const end = 11;
@@ -31,11 +31,9 @@ const Months = forwardRef((
     tiles.push(
       <Month
         key={startDateOfMonth.getTime()}
-        activeDate={startDateOfMonth}
-        isSelected={isSameMonth(startDateOfMonth, calendarValue)}
+        date={startDateOfMonth}
+        isSelected={isSameMonth(startDateOfMonth, calendarDate)}
         isToday={isSameMonth(startDateOfMonth, today)}
-        setActiveDate={setActiveDate}
-        setView={setView}
       />
     );
   }
@@ -43,8 +41,9 @@ const Months = forwardRef((
   return (
     <Grid
       ref={ref}
+      alignItems="center"
       templateColumns="repeat(4, 1fr)"
-      templateRows="auto"
+      templateRows="repeat(3, 80px)"
       {...props}
     >
       { tiles}

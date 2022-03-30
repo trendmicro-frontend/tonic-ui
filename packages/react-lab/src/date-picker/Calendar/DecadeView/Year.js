@@ -1,8 +1,8 @@
 import { Box } from '@tonic-ui/react';
 import format from 'date-fns/format';
-import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { useClickableCellStyle } from '../styles';
+import useCalendar from '../useCalendar';
 
 const Year = forwardRef((
   {
@@ -10,14 +10,15 @@ const Year = forwardRef((
     isSelected,
     isToday,
     isOutOfScope,
-    setActiveDate,
-    setView,
     ...props
   },
   ref,
 ) => {
-  setActiveDate = ensureFunction(setActiveDate);
-  setView = ensureFunction(setView);
+  const calendarContext = useCalendar();
+  const {
+    setActiveDate,
+    setView,
+  } = { ...calendarContext };
 
   const styleProps = useClickableCellStyle({
     isOutOfScope,

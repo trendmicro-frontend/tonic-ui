@@ -3,13 +3,7 @@ import React, { forwardRef } from 'react';
 import Months from './Months';
 
 const YearView = forwardRef((
-  {
-    activeDate,
-    calendarValue,
-    setActiveDate,
-    setView,
-    ...props
-  },
+  props,
   ref
 ) => {
   return (
@@ -18,12 +12,7 @@ const YearView = forwardRef((
       flex="auto"
       {...props}
     >
-      <Months
-        activeDate={activeDate}
-        calendarValue={calendarValue}
-        setActiveDate={setActiveDate}
-        setView={setView}
-      />
+      <Months />
     </Box>
   );
 });

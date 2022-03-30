@@ -1,7 +1,8 @@
 import { Grid } from '@tonic-ui/react';
 import { getYear } from 'date-fns';
 import isSameYear from 'date-fns/isSameYear';
-import React from 'react';
+import React, { forwardRef } from 'react';
+import useCalendar from '../useCalendar';
 import Year from './Year';
 
 const dateTransform = (year) => {
@@ -11,13 +12,16 @@ const dateTransform = (year) => {
   return date;
 };
 
-const Years = ({
-  activeDate,
-  calendarValue,
-  setActiveDate,
-  setView,
-  ...props
-}) => {
+const Years = forwardRef((
+  props,
+  ref
+) => {
+  const calendarContext = useCalendar();
+  const {
+    activeDate,
+    calendarDate,
+  } = { ...calendarContext };
+
   const today = new Date();
   const activeYear = getYear(activeDate);
   const start = activeYear - 1;
@@ -29,25 +33,25 @@ const Years = ({
       <Year
         key={date.getTime()}
         activeDate={date}
-        isSelected={isSameYear(date, calendarValue)}
+        isSelected={isSameYear(date, calendarDate)}
         isToday={isSameYear(date, today)}
         isOutOfScope={point < activeYear || point > (activeYear + 9)}
-        setActiveDate={setActiveDate}
-        setView={setView}
       />
     );
   }
 
   return (
     <Grid
+      ref={ref}
+      alignItems="center"
       templateColumns="repeat(4, 80px)"
-      templateRows="auto"
+      templateRows="repeat(3, 80px)"
       {...props}
     >
       { tiles}
     </Grid>
   );
-};
+});
 
 Years.displayName = 'Years';
 

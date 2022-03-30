@@ -2,100 +2,96 @@ import { Box } from '@tonic-ui/react';
 import { usePrevious } from '@tonic-ui/react-hooks';
 import isSameMonth from 'date-fns/isSameMonth';
 import isSameYear from 'date-fns/isSameYear';
+import { ensureFunction } from 'ensure-type';
+import memoize from 'micro-memoize';
 import React, { forwardRef, useEffect, useState } from 'react';
+import { isDate, toDate } from '../utils';
+import { CalendarProvider } from './context';
 import DecadeView from './DecadeView';
 import MonthView from './MonthView';
 import YearView from './YearView';
 import Navigation from './Navigation';
 import { useCalendarStyle } from './styles';
-import {
-  isDate,
-  toDate,
-} from '../utils';
+
+const defaultView = 'month'; // one of 'month', 'year', 'decade'
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const Calendar = forwardRef((
   {
     calendarStartDay = 0, // 0 = Sunday, 1 = Monday, ...
     children,
     dateFormat = 'yyyy-MM-dd',
-    value = new Date(),
-    view = 'month', // one of 'month', 'year', 'decade'
+    defaultValue: defaultValueProp,
+    value: valueProp,
     onChange: onClickDay,
-    ...props
+    ...rest
   },
   ref,
 ) => {
-  const currentDate = isDate(value) ? toDate(value) : new Date();
-  const inputDate = isDate(value) ? toDate(value) : null;
-  const [currentView, setView] = useState(view);
-  const [activeDate, setActiveDate] = useState(currentDate);
-  const [calendarValue, setCalendarValue] = useState(inputDate);
-  const styleProps = useCalendarStyle();
+  onClickDay = ensureFunction(onClickDay);
+
+  const [value, setValue] = useState(valueProp ?? defaultValueProp);
+  const calendarDate = isDate(value) ? toDate(value) : null;
+  const [activeDate, setActiveDate] = useState(calendarDate ?? new Date());
+  const [view, setView] = useState(defaultView);
   const previouslyValue = usePrevious(value);
+  const styleProps = useCalendarStyle();
+
+  useEffect(() => {
+    const isControlled = (valueProp !== undefined);
+    if (isControlled) {
+      setValue(valueProp);
+    }
+  }, [valueProp]);
 
   useEffect(() => {
     // Dynamically change the calendar view
-    const isValueChange = !!inputDate && value !== previouslyValue;
-    const needToChangeView = !isSameYear(inputDate, activeDate) || !isSameMonth(inputDate, activeDate);
+    const isValueChange = !!value && value !== previouslyValue;
+    const newActiveDate = toDate(value);
+    const needToChangeView = isDate(value) && (!isSameYear(newActiveDate, activeDate) || !isSameMonth(newActiveDate, activeDate));
     if (isValueChange && needToChangeView) {
-      setActiveDate(inputDate);
+      setActiveDate(newActiveDate);
     }
-    if (isValueChange) {
-      setCalendarValue(inputDate);
-    }
-  }, [value, previouslyValue, inputDate, activeDate, setActiveDate, setCalendarValue]);
+  }, [value, previouslyValue, activeDate, setActiveDate]);
 
-  if (children) {
-    return (
-      <Box
-        ref={ref}
-        {...styleProps}
-        {...props}
-      >
-        {children}
-      </Box>
-    );
+  const context = getMemoizedState({
+    activeDate,
+    setActiveDate,
+    view,
+    setView,
+    calendarStartDay,
+    calendarDate: calendarDate,
+    dateFormat,
+    onClickDay,
+  });
+
+  if (typeof children === 'function') {
+    return children({
+      getCalendarProps: styleProps,
+      view,
+      chageView: setView,
+    });
   }
 
   return (
-    <Box
-      ref={ref}
-      {...styleProps}
-      {...props}
-    >
-      <Navigation
-        activeDate={activeDate}
-        setActiveDate={setActiveDate}
-        setView={setView}
-        view={currentView}
-      />
-      { currentView === 'month' && (
-        <MonthView
-          activeDate={activeDate}
-          calendarValue={calendarValue}
-          dateFormat={dateFormat}
-          setActiveDate={setActiveDate}
-          calendarStartDay={calendarStartDay}
-          onClickDay={onClickDay}
-        />
-      )}
-      { currentView === 'year' && (
-        <YearView
-          activeDate={activeDate}
-          calendarValue={calendarValue}
-          setActiveDate={setActiveDate}
-          setView={setView}
-        />
-      )}
-      { currentView === 'decade' && (
-        <DecadeView
-          activeDate={activeDate}
-          calendarValue={calendarValue}
-          setActiveDate={setActiveDate}
-          setView={setView}
-        />
-      )}
-    </Box>
+    <CalendarProvider value={context}>
+      <Box
+        ref={ref}
+        {...styleProps}
+        {...rest}
+      >
+        <Navigation />
+        { view === 'month' && (
+          <MonthView />
+        )}
+        { view === 'year' && (
+          <YearView />
+        )}
+        { view === 'decade' && (
+          <DecadeView />
+        )}
+      </Box>
+    </CalendarProvider>
   );
 });
 

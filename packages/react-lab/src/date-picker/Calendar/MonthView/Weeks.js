@@ -1,11 +1,11 @@
 import { Grid } from '@tonic-ui/react';
-import { ensureFunction } from 'ensure-type';
 import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import isSameMonth from 'date-fns/isSameMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
+import useCalendar from '../useCalendar';
 import Week from './Week';
 
 const isWeekInMonth = (startDateOfWeek, activeDate) => {
@@ -14,22 +14,14 @@ const isWeekInMonth = (startDateOfWeek, activeDate) => {
 };
 
 const Weeks = forwardRef((
-  {
-    activeDate,
-    calendarStartDay,
-    calendarValue,
-    dateFormat,
-
-    // handlers
-    setActiveDate,
-    onClickDay,
-
-    ...props
-  },
+  props,
   ref,
 ) => {
-  setActiveDate = ensureFunction(setActiveDate);
-  onClickDay = ensureFunction(onClickDay);
+  const calendarContext = useCalendar();
+  const {
+    activeDate,
+    calendarStartDay,
+  } = { ...calendarContext };
 
   const weeks = [];
   let startDateOfWeek = startOfWeek(
@@ -43,11 +35,6 @@ const Weeks = forwardRef((
     weeks.push(
       <Week
         key={startDateOfWeek.getTime()}
-        activeDate={activeDate}
-        dateFormat={dateFormat}
-        onClickDay={onClickDay}
-        calendarValue={calendarValue}
-        setActiveDate={setActiveDate}
         startDateOfWeek={startDateOfWeek}
       />
     );

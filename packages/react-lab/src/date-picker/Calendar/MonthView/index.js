@@ -4,18 +4,7 @@ import Weeks from './Weeks';
 import Weekdays from './Weekdays';
 
 const MonthView = forwardRef((
-  {
-    activeDate,
-    calendarStartDay,
-    calendarValue,
-    dateFormat,
-
-    // handlers
-    setActiveDate,
-    onClickDay,
-
-    ...props
-  },
+  props,
   ref
 ) => {
   return (
@@ -24,18 +13,8 @@ const MonthView = forwardRef((
       flex="auto"
       {...props}
     >
-      <Weekdays
-        activeDate={activeDate}
-        calendarStartDay={calendarStartDay}
-      />
-      <Weeks
-        activeDate={activeDate}
-        calendarStartDay={calendarStartDay}
-        calendarValue={calendarValue}
-        dateFormat={dateFormat}
-        setActiveDate={setActiveDate}
-        onClickDay={onClickDay}
-      />
+      <Weekdays />
+      <Weeks />
     </Box>
   );
 });

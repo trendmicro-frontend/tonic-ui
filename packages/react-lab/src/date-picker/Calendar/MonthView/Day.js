@@ -1,24 +1,26 @@
 import { Box } from '@tonic-ui/react';
-import { ensureFunction } from 'ensure-type';
 import getDate from 'date-fns/getDate';
 import React, { forwardRef } from 'react';
-import { useClickableCellStyle } from '../styles';
 import { dateFormatter } from '../../utils';
+import { useClickableCellStyle } from '../styles';
+import useCalendar from '../useCalendar';
 
 const Day = forwardRef((
   {
     date,
-    dateFormat,
     isOutOfScope,
     isSelected,
     isToday,
-    setActiveDate,
-    onClick,
     ...props
   },
   ref,
 ) => {
-  onClick = ensureFunction(onClick);
+  const calendarContext = useCalendar();
+  const {
+    dateFormat,
+    onClickDay,
+    setActiveDate,
+  } = { ...calendarContext };
 
   const styleProps = useClickableCellStyle({
     isOutOfScope,
@@ -29,7 +31,7 @@ const Day = forwardRef((
   const label = getDate(date);
   const handleClick = (e) => {
     const formattedValue = dateFormatter({ date, dateFormat });
-    onClick(formattedValue);
+    onClickDay(formattedValue);
     setActiveDate(date);
   };
 
