@@ -19,7 +19,7 @@ const Months = forwardRef((
   const calendarContext = useCalendar();
   const {
     activeDate,
-    calendarDate,
+    inputDate,
   } = { ...calendarContext };
   const today = new Date();
   const start = 0;
@@ -32,7 +32,7 @@ const Months = forwardRef((
       <Month
         key={startDateOfMonth.getTime()}
         date={startDateOfMonth}
-        isSelected={isSameMonth(startDateOfMonth, calendarDate)}
+        isSelected={isSameMonth(startDateOfMonth, inputDate)}
         isToday={isSameMonth(startDateOfMonth, today)}
       />
     );

@@ -19,7 +19,7 @@ const Years = forwardRef((
   const calendarContext = useCalendar();
   const {
     activeDate,
-    calendarDate,
+    inputDate,
   } = { ...calendarContext };
 
   const today = new Date();
@@ -32,8 +32,8 @@ const Years = forwardRef((
     tiles.push(
       <Year
         key={date.getTime()}
-        activeDate={date}
-        isSelected={isSameYear(date, calendarDate)}
+        date={date}
+        isSelected={isSameYear(date, inputDate)}
         isToday={isSameYear(date, today)}
         isOutOfScope={point < activeYear || point > (activeYear + 9)}
       />
@@ -44,7 +44,7 @@ const Years = forwardRef((
     <Grid
       ref={ref}
       alignItems="center"
-      templateColumns="repeat(4, 80px)"
+      templateColumns="repeat(4, 1fr)"
       templateRows="repeat(3, 80px)"
       {...props}
     >

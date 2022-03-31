@@ -8,7 +8,7 @@ import useForkRef from '../utils/useForkRef';
 import { useDatePickerPopperStyle } from './styles';
 import useDatePicker from './useDatePicker';
 
-const DatePickerList = forwardRef((
+const DatePickerPopper = forwardRef((
   {
     PopperComponent = Popper,
     PopperProps,
@@ -82,6 +82,6 @@ const DatePickerList = forwardRef((
   );
 });
 
-DatePickerList.displayName = 'DatePickerList';
+DatePickerPopper.displayName = 'DatePickerPopper';
 
-export default DatePickerList;
+export default DatePickerPopper;

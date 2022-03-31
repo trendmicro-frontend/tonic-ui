@@ -6,7 +6,7 @@ import useCalendar from '../useCalendar';
 
 const Year = forwardRef((
   {
-    activeDate,
+    date,
     isSelected,
     isToday,
     isOutOfScope,
@@ -25,10 +25,10 @@ const Year = forwardRef((
     isSelected,
     isToday,
   });
-  const title = format(activeDate, 'yyyy');
-  const label = format(activeDate, 'yyyy');
+  const title = format(date, 'yyyy');
+  const label = format(date, 'yyyy');
   const handleClick = (e) => {
-    setActiveDate(activeDate);
+    setActiveDate(date);
     setView('year');
   };
 

@@ -4,6 +4,12 @@
 
 ## Import
 
+- `DatePicker`: The component that provides the date picker functionality.
+- `DatePickerToggle`: The toggle that opens the date picker.
+- `DatePickerPopper`: A wrapper that contains the calendar. Must be a direct child of the `DatePicker` component.
+- `Calendar`: The calendar component.
+- `DateInput`: The input component.
+
 ```js
 import {
   Calendar,
@@ -72,6 +78,8 @@ function Example() {
 ```
 
 ### DatePicker
+
+Use the `DatePicker` component to display a calendar and allow the user to select a date.
 
 ```jsx
 function Example({
@@ -144,6 +152,7 @@ function Example({
 ```
 
 #### Date range picker
+
 ```jsx noInline
 const CustomDatePicker = ({
   value: valueProp,
@@ -265,7 +274,7 @@ const formatDate = (date) => {
       padTo2Digits(date.getDate()),
     ].join('-')
   );
-}
+};
 
 function Example() {
   const today = new Date();
@@ -460,7 +469,7 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | calendarStartDay | number | 0 | Set the first day of the calendar week. for example, 0 = Sunday, 1 = Monday. |
-| children | ReactNode \| ({ getCalendarProps, view, chageView }) => ReactNode | | |
+| children | ReactNode \| ({ getCalendarProps, ...context }) => ReactNode | | |
 | dateFormat | string | 'yyyy-MM-dd' | The format of date. Format of the string is based on Unicode Technical Standard #35: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table |
 | defaultValue | string | | The default value. Use when the component is not controlled. |
 | value | string | | The value for calendar. |
@@ -490,3 +499,15 @@ render(<Example />);
 | disabled | boolean | | Whether the date picker toggle is disabled. |
 | onClick | function | | Callback when the date picker toggle is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
+
+### DatePickerPopper
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the calendar. |

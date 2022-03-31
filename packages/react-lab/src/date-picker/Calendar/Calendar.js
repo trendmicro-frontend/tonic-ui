@@ -31,8 +31,8 @@ const Calendar = forwardRef((
   onClickDay = ensureFunction(onClickDay);
 
   const [value, setValue] = useState(valueProp ?? defaultValueProp);
-  const calendarDate = isDate(value) ? toDate(value) : null;
-  const [activeDate, setActiveDate] = useState(calendarDate ?? new Date());
+  const inputDate = isDate(value) ? toDate(value) : null;
+  const [activeDate, setActiveDate] = useState(inputDate ?? new Date());
   const [view, setView] = useState(defaultView);
   const previouslyValue = usePrevious(value);
   const styleProps = useCalendarStyle();
@@ -60,7 +60,7 @@ const Calendar = forwardRef((
     view,
     setView,
     calendarStartDay,
-    calendarDate: calendarDate,
+    inputDate,
     dateFormat,
     onClickDay,
   });
@@ -68,8 +68,7 @@ const Calendar = forwardRef((
   if (typeof children === 'function') {
     return children({
       getCalendarProps: styleProps,
-      view,
-      chageView: setView,
+      ...context
     });
   }
 
