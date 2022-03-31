@@ -276,6 +276,19 @@ const formatDate = (date) => {
   );
 };
 
+const formatTime = (date) => {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return (
+    [
+      padTo2Digits(hours),
+      padTo2Digits(minutes),
+      padTo2Digits(seconds),
+    ].join(':')
+  );
+};
+
 function Example() {
   const today = new Date();
   const [colorMode] = useColorMode();
@@ -336,7 +349,6 @@ function Example() {
 
     const now = new Date();
     let date;
-
     if (value === '1d') {
       date = new Date(now.setDate(now.getDate() - 1));
     }
@@ -347,7 +359,7 @@ function Example() {
       date = new Date(now.setDate(now.getDate() - 14));
     }
 
-    return `${formatDate(date)} 00:00:00 ~ ${formatDate(now)} 23:59:59`;
+    return `${formatDate(date)} ${formatTime(date)} ~ ${formatDate(new Date())} ${formatTime(new Date())}`;
   };
 
   React.useEffect(() => {
