@@ -1,13 +1,13 @@
 import {
+  Box,
   Button,
   Flex,
   Icon,
+  Text,
 } from '@tonic-ui/react';
 import addMonths from 'date-fns/addMonths';
 import addYears from 'date-fns/addYears';
 import format from 'date-fns/format';
-import startOfMonth from 'date-fns/startOfMonth';
-import startOfYear from 'date-fns/startOfYear';
 import subMonths from 'date-fns/subMonths';
 import subYears from 'date-fns/subYears';
 import React, { forwardRef } from 'react';
@@ -16,6 +16,8 @@ import {
   useNavigationStyle,
   useNavigationTitleStyle,
   useNavigationMonthButtonStyle,
+  useNavigationYearButtonStyle,
+  useNavigationYearButtonWrapperStyle,
 } from './styles';
 
 const Navigation = forwardRef((
@@ -25,9 +27,25 @@ const Navigation = forwardRef((
   const calendarContext = useCalendar();
   const {
     activeDate,
-    view,
     setState,
   } = { ...calendarContext };
+
+  const handlePreviousYearClick = () => {
+    const nextActiveDate = subYears(activeDate, 1);
+    setState({ activeDate: nextActiveDate });
+  };
+  const handleNextYearClick = () => {
+    const nextActiveDate = addYears(activeDate, 1);
+    setState({ activeDate: nextActiveDate });
+  };
+  const handlePreviousMonthClick = () => {
+    const nextActiveDate = subMonths(activeDate, 1);
+    setState({ activeDate: nextActiveDate });
+  };
+  const handleNextMonthClick = () => {
+    const nextActiveDate = addMonths(activeDate, 1);
+    setState({ activeDate: nextActiveDate });
+  };
 
   const styleProps = useNavigationStyle();
 
@@ -37,93 +55,62 @@ const Navigation = forwardRef((
       {...styleProps}
       {...props}
     >
-      <PreviousButton
-        activeDate={activeDate}
-        view={view}
-        setState={setState}
-      />
+      <PreviousMonthButton onClick={handlePreviousMonthClick} />
       <Title
         activeDate={activeDate}
-        view={view}
-        setState={setState}
+        onPreviousYearClick={handlePreviousYearClick}
+        onNextYearClick={handleNextYearClick}
       />
-      <NextButton
-        activeDate={activeDate}
-        view={view}
-        setState={setState}
-      />
+      <NextMonthButton onClick={handleNextMonthClick} />
     </Flex>
   );
 });
 
 const Title = ({
   activeDate,
-  view,
-  setState,
+  onPreviousYearClick,
+  onNextYearClick,
 }) => {
-  const label = ((date) => {
-    if (view === 'decade') {
-      const startYear = format(date, 'yyyy');
-      const endYear = format(addYears(date, 9), 'yyyy');
-      return `${startYear} - ${endYear}`;
-    }
-    if (view === 'year') {
-      return format(date, 'yyyy');
-    }
-    if (view === 'month') {
-      return format(date, 'LLL yyyy');
-    }
-    throw new Error(`Invalid view: ${view}.`);
-  })(activeDate);
-
-  const views = ['decade', 'year', 'month'];
-  const handleClick = (e) => {
-    const nextViewIndex = views.indexOf(view) - 1;
-    const nextView = views[nextViewIndex < 0 ? 0 : nextViewIndex];
-    const nextActiveStartDate = {
-      'decade': startOfYear(activeDate),
-      'year': startOfYear(activeDate),
-      'month': startOfMonth(activeDate),
-    }[nextView];
-    setState({
-      activeDate: nextActiveStartDate,
-      view: nextView,
-    });
-  };
-
-  const styleProps = useNavigationTitleStyle();
+  const titleStyleProps = useNavigationTitleStyle();
+  const yearButtonStyleProps = useNavigationYearButtonStyle();
+  const yearButtonWrapperStyleProps = useNavigationYearButtonWrapperStyle();
 
   return (
-    <Button
-      variant="ghost"
-      onClick={handleClick}
-      {...styleProps}
+    <Box
+      {...titleStyleProps}
     >
-      {label}
-    </Button>
+      <Text>{format(activeDate, 'LLL yyyy')}</Text>
+      <Box
+        {...yearButtonWrapperStyleProps}
+      >
+        <Button
+          variant="ghost"
+          onClick={onPreviousYearClick}
+          {...yearButtonStyleProps}
+        >
+          <Icon icon="angle-up" />
+        </Button>
+        <Button
+          variant="ghost"
+          onClick={onNextYearClick}
+          {...yearButtonStyleProps}
+        >
+          <Icon icon="angle-down" />
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
-const PreviousButton = ({
-  activeDate,
-  view,
-  setState,
+const PreviousMonthButton = ({
+  onClick,
 }) => {
-  const handleClick = (e) => {
-    const nextActiveDate = {
-      'decade': subYears(activeDate, 10),
-      'year': subYears(activeDate, 1),
-      'month': subMonths(activeDate, 1),
-    }[view];
-    setState({ activeDate: nextActiveDate });
-  };
-
   const styleProps = useNavigationMonthButtonStyle();
 
   return (
     <Button
       variant="ghost"
-      onClick={handleClick}
+      onClick={onClick}
       {...styleProps}
     >
       <Icon icon="angle-left" />
@@ -131,26 +118,15 @@ const PreviousButton = ({
   );
 };
 
-const NextButton = ({
-  activeDate,
-  view,
-  setState,
+const NextMonthButton = ({
+  onClick,
 }) => {
-  const handleClick = (e) => {
-    const nextActiveDate = {
-      'decade': addYears(activeDate, 10),
-      'year': addYears(activeDate, 1),
-      'month': addMonths(activeDate, 1),
-    }[view];
-    setState({ activeDate: nextActiveDate });
-  };
-
   const styleProps = useNavigationMonthButtonStyle();
 
   return (
     <Button
       variant="ghost"
-      onClick={handleClick}
+      onClick={onClick}
       {...styleProps}
     >
       <Icon icon="angle-right" />

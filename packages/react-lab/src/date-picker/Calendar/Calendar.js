@@ -7,13 +7,9 @@ import isValidDate from 'date-fns/isValid';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useEffect, useReducer } from 'react';
 import { CalendarProvider } from './context';
-import DecadeView from './DecadeView';
 import MonthView from './MonthView';
-import YearView from './YearView';
 import Navigation from './Navigation';
 import { useCalendarStyle } from './styles';
-
-const defaultView = 'month'; // one of 'month', 'year', 'decade'
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -41,7 +37,6 @@ const Calendar = forwardRef((
   const [state, setState] = useReducer(stateReducer, {
     activeDate: isValidDate(inputDate) ? inputDate : new Date(),
     value: value,
-    view: defaultView,
   });
   const previouslyValue = usePrevious(state.value);
   const styleProps = useCalendarStyle();
@@ -78,7 +73,6 @@ const Calendar = forwardRef((
     onChange: handleChange,
     setState,
     value: state.value,
-    view: state.view,
   });
 
   return (
@@ -89,15 +83,7 @@ const Calendar = forwardRef((
         {...rest}
       >
         <Navigation />
-        { state.view === 'month' && (
-          <MonthView />
-        )}
-        { state.view === 'year' && (
-          <YearView />
-        )}
-        { state.view === 'decade' && (
-          <DecadeView />
-        )}
+        <MonthView />
       </Box>
     </CalendarProvider>
   );

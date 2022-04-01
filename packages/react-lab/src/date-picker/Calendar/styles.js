@@ -38,14 +38,57 @@ const useNavigationStyle = () => {
 const useNavigationTitleStyle = () => {
   return {
     flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontSize: 'md',
     lineHeight: 'md',
+    _hover: {
+      '> *': {
+        opacity: 1,
+        visibility: 'visible',
+      },
+    },
+  };
+};
+
+const useNavigationYearButtonWrapperStyle = () => {
+  return {
+    display: 'inline-flex',
+    flexDirection: 'column',
+    ml: '2x',
+    opacity: 0,
+    visibility: 'hidden',
+  };
+};
+
+const useNavigationYearButtonStyle = () => {
+  const [colorMode] = useColorMode();
+  const hoverColor = {
+    dark: 'blue:40',
+    light: 'blue:60',
+  }[colorMode];
+  const activeColor = hoverColor;
+  return {
+    minHeight: 'auto',
+    px: 0,
+    width: '4x',
+    height: '4x',
+    _hover: {
+      borderColor: 'transparent',
+      color: hoverColor,
+    },
+    _active: {
+      borderColor: 'transparent',
+      color: activeColor,
+    },
   };
 };
 
 const useNavigationMonthButtonStyle = () => {
   return {
     width: '8x',
+    height: '8x',
   };
 };
 
@@ -119,6 +162,8 @@ export {
   useCalendarStyle,
   useNavigationStyle,
   useNavigationTitleStyle,
+  useNavigationYearButtonStyle,
+  useNavigationYearButtonWrapperStyle,
   useNavigationMonthButtonStyle,
   useMonthViewStyle,
   useCellStyle,
