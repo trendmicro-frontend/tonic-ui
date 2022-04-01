@@ -11,14 +11,14 @@ const Day = forwardRef((
     isOutOfScope,
     isSelected,
     isToday,
-    ...props
+    ...rest
   },
   ref,
 ) => {
   const calendarContext = useCalendar();
   const {
     dateFormat,
-    onClickDay,
+    onChange,
     setState,
   } = { ...calendarContext };
 
@@ -32,16 +32,17 @@ const Day = forwardRef((
   const label = getDate(date);
   const handleClick = (e) => {
     setState({ activeDate: date });
-    onClickDay(formattedValue);
+    onChange(formattedValue);
   };
 
   return (
     <Box
       ref={ref}
       title={title}
+      aria-selected={isSelected}
       onClick={handleClick}
       {...styleProps}
-      {...props}
+      {...rest}
     >
       {label}
     </Box>

@@ -1,5 +1,6 @@
 import { Box } from '@tonic-ui/react';
 import { usePrevious } from '@tonic-ui/react-hooks';
+import { ensureFunction } from 'ensure-type';
 import isSameMonth from 'date-fns/isSameMonth';
 import isSameYear from 'date-fns/isSameYear';
 import isValidDate from 'date-fns/isValid';
@@ -33,6 +34,8 @@ const Calendar = forwardRef((
   },
   ref,
 ) => {
+  onChange = ensureFunction(onChange);
+
   const value = valueProp ?? defaultValue;
   const inputDate = new Date(value);
   const [state, setState] = useReducer(stateReducer, {
@@ -48,10 +51,7 @@ const Calendar = forwardRef((
     } else {
       setState({ value: value });
     }
-
-    if (typeof onChange === 'function') {
-      onChange(value);
-    }
+    onChange(value);
   };
 
   useEffect(() => {
@@ -75,18 +75,11 @@ const Calendar = forwardRef((
     activeDate: state.activeDate,
     calendarStartDay,
     dateFormat,
-    onClickDay: handleChange,
+    onChange: handleChange,
     setState,
     value: state.value,
     view: state.view,
   });
-
-  if (typeof children === 'function') {
-    return children({
-      getCalendarProps: styleProps,
-      ...context
-    });
-  }
 
   return (
     <CalendarProvider value={context}>

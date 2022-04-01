@@ -37,6 +37,7 @@ const Year = forwardRef((
     <Box
       ref={ref}
       title={title}
+      aria-selected={isSelected}
       onClick={handleClick}
       {...styleProps}
       {...props}

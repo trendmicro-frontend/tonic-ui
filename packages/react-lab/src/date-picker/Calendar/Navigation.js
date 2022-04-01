@@ -12,6 +12,11 @@ import subMonths from 'date-fns/subMonths';
 import subYears from 'date-fns/subYears';
 import React, { forwardRef } from 'react';
 import useCalendar from './useCalendar';
+import {
+  useNavigationStyle,
+  useNavigationTitleStyle,
+  useNavigationMonthButtonStyle,
+} from './styles';
 
 const Navigation = forwardRef((
   props,
@@ -24,11 +29,12 @@ const Navigation = forwardRef((
     setState,
   } = { ...calendarContext };
 
+  const styleProps = useNavigationStyle();
+
   return (
     <Flex
       ref={ref}
-      flex="none"
-      mb="3x"
+      {...styleProps}
       {...props}
     >
       <PreviousButton
@@ -85,15 +91,15 @@ const Title = ({
     });
   };
 
+  const styleProps = useNavigationTitleStyle();
+
   return (
     <Button
       variant="ghost"
-      flexGrow={1}
-      fontSize="md"
-      lineHeight="md"
       onClick={handleClick}
+      {...styleProps}
     >
-      { label }
+      {label}
     </Button>
   );
 };
@@ -112,11 +118,13 @@ const PreviousButton = ({
     setState({ activeDate: nextActiveDate });
   };
 
+  const styleProps = useNavigationMonthButtonStyle();
+
   return (
     <Button
       variant="ghost"
-      width="8x"
       onClick={handleClick}
+      {...styleProps}
     >
       <Icon icon="angle-left" />
     </Button>
@@ -137,11 +145,13 @@ const NextButton = ({
     setState({ activeDate: nextActiveDate });
   };
 
+  const styleProps = useNavigationMonthButtonStyle();
+
   return (
     <Button
       variant="ghost"
-      width="8x"
       onClick={handleClick}
+      {...styleProps}
     >
       <Icon icon="angle-right" />
     </Button>

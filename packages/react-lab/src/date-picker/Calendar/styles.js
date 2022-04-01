@@ -28,28 +28,30 @@ const useCalendarStyle = () => {
   };
 };
 
-const useSelectedCellStyle = () => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:primary',
-    light: 'white:primary'
-  }[colorMode];
-  const bgColor = {
-    dark: 'blue:60',
-    light: 'blue:60'
-  }[colorMode];
-  const hoverBgColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-
+const useNavigationStyle = () => {
   return {
-    color,
-    backgroundColor: bgColor,
-    _hover: {
-      color,
-      backgroundColor: hoverBgColor,
-    }
+    flex: 'none',
+    mb: '3x',
+  };
+};
+
+const useNavigationTitleStyle = () => {
+  return {
+    flexGrow: 1,
+    fontSize: 'md',
+    lineHeight: 'md',
+  };
+};
+
+const useNavigationMonthButtonStyle = () => {
+  return {
+    width: '8x',
+  };
+};
+
+const useMonthViewStyle = () => {
+  return {
+    flex: 'auto',
   };
 };
 
@@ -80,24 +82,45 @@ const useCellStyle = ({ isOutOfScope, isToday }) => {
 const useClickableCellStyle = ({ isOutOfScope, isSelected, isToday }) => {
   const [colorMode] = useColorMode();
   const baseStyle = useCellStyle({ isOutOfScope, isToday });
-  const hoverBgColor = {
+  const hoverBackgroundColor = {
     dark: 'gray:80',
     light: 'gray:50',
   }[colorMode];
-  const selectedStyle = useSelectedCellStyle();
+  const selectedColor = {
+    dark: 'white:primary',
+    light: 'white:primary'
+  }[colorMode];
+  const selectedBackgroundColor = {
+    dark: 'blue:60',
+    light: 'blue:60'
+  }[colorMode];
+  const selectedHoverBackgroundColor = {
+    dark: 'blue:50',
+    light: 'blue:50',
+  }[colorMode];
 
   return {
     ...baseStyle,
     cursor: 'pointer',
     _hover: {
-      backgroundColor: hoverBgColor,
+      backgroundColor: hoverBackgroundColor,
     },
-    ...isSelected && { ...selectedStyle }
+    _selected: {
+      color: selectedColor,
+      backgroundColor: selectedBackgroundColor,
+      '&:hover': {
+        backgroundColor: selectedHoverBackgroundColor,
+      },
+    }
   };
 };
 
 export {
   useCalendarStyle,
+  useNavigationStyle,
+  useNavigationTitleStyle,
+  useNavigationMonthButtonStyle,
+  useMonthViewStyle,
   useCellStyle,
   useClickableCellStyle,
 };

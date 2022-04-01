@@ -2,40 +2,39 @@ import {
   Box,
   Icon,
   Input,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import React, { forwardRef, useRef } from 'react';
 import useForkRef from '../../utils/useForkRef';
+import {
+  useDateInputWrapperStyle,
+  useDateInputIconWrapperStyle,
+  useDateInputIconStyle,
+  useDateInputStyle,
+} from './styles';
 
 const DateInput = forwardRef((
   props,
   ref
 ) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
+  const wraooerStyleProps = useDateInputWrapperStyle();
+  const iconWrapperStyleProps = useDateInputIconWrapperStyle();
+  const iconProps = useDateInputIconStyle();
+  const inputStyleProps = useDateInputStyle();
 
   return (
     <Box
-      display="inline-flex"
-      alignItems="center"
-      position="relative"
+      {...wraooerStyleProps}
     >
       <Box
-        display="flex"
-        alignItems="center"
-        position="absolute"
-        left={0}
-        px="3x"
-        zIndex={3} // The z-index value should be at least 3 for the prepeneded input adornment
+        {...iconWrapperStyleProps}
       >
-        <Icon icon="calendar" color={colorStyle.color.secondary} />
+        <Icon icon="calendar" {...iconProps} />
       </Box>
       <Input
         ref={combinedRef}
-        pl="10x"
+        {...inputStyleProps}
         {...props}
       />
     </Box>

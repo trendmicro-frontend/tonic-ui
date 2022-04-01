@@ -48,7 +48,7 @@ const Years = forwardRef((
       templateRows="repeat(3, 80px)"
       {...props}
     >
-      { tiles}
+      {tiles}
     </Grid>
   );
 });

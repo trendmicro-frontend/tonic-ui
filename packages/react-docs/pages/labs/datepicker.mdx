@@ -122,21 +122,14 @@ function Example({
       <DatePickerToggle disabled={disabled}>
         {({ getDatePickerToggleProps, disabled }) => {
           return (
-            <Box>
-              <DateInput
-                value={value}
-                disabled={disabled}
-                isInvalid={isInvalid}
-                onChange={handleDateInputChange}
-                width="128px"
-                {...getDatePickerToggleProps()}
-              />
-              {isInvalid && (
-                <Box position="absolute" right="-20px" top="1x">
-                  <Icon icon="warning-circle" color="red:50" />
-                </Box>
-              )}
-            </Box>
+            <DateInput
+              value={value}
+              disabled={disabled}
+              isInvalid={isInvalid}
+              onChange={handleDateInputChange}
+              width="128px"
+              {...getDatePickerToggleProps()}
+            />
           );
         }}
       </DatePickerToggle>
@@ -197,23 +190,16 @@ const CustomDatePicker = ({
       <DatePickerToggle disabled={disabled}>
         {({ getDatePickerToggleProps, disabled }) => {
           return (
-            <Box>
-              <DateInput
-                value={value}
-                disabled={disabled}
-                isInvalid={isInvalid}
-                onChange={handleDateInputChange}
-                width="136px"
-                borderTopRightRadius="0"
-                borderBottomRightRadius="0"
-                {...getDatePickerToggleProps()}
-              />
-              {isInvalid && (
-                <Box position="absolute" right="-20px" top="1x">
-                  <Icon icon="warning-circle" color="red:50" />
-                </Box>
-              )}
-            </Box>
+            <DateInput
+              value={value}
+              disabled={disabled}
+              isInvalid={isInvalid}
+              onChange={handleDateInputChange}
+              width="136px"
+              borderTopRightRadius="0"
+              borderBottomRightRadius="0"
+              {...getDatePickerToggleProps()}
+            />
           );
         }}
       </DatePickerToggle>
