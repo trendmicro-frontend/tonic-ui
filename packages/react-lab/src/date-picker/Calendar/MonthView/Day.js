@@ -1,7 +1,7 @@
 import { Box } from '@tonic-ui/react';
+import format from 'date-fns/format';
 import getDate from 'date-fns/getDate';
 import React, { forwardRef } from 'react';
-import { dateFormatter } from '../../utils';
 import { useClickableCellStyle } from '../styles';
 import useCalendar from '../useCalendar';
 
@@ -19,7 +19,7 @@ const Day = forwardRef((
   const {
     dateFormat,
     onClickDay,
-    setActiveDate,
+    setState,
   } = { ...calendarContext };
 
   const styleProps = useClickableCellStyle({
@@ -27,12 +27,12 @@ const Day = forwardRef((
     isSelected,
     isToday,
   });
-  const title = dateFormatter({ date, dateFormat });
+  const formattedValue = format(date, dateFormat);
+  const title = formattedValue;
   const label = getDate(date);
   const handleClick = (e) => {
-    const formattedValue = dateFormatter({ date, dateFormat });
+    setState({ activeDate: date });
     onClickDay(formattedValue);
-    setActiveDate(date);
   };
 
   return (

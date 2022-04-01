@@ -1,5 +1,5 @@
 import { Grid } from '@tonic-ui/react';
-import { getYear } from 'date-fns';
+import getYear from 'date-fns/getYear';
 import isSameYear from 'date-fns/isSameYear';
 import React, { forwardRef } from 'react';
 import useCalendar from '../useCalendar';
@@ -19,9 +19,9 @@ const Years = forwardRef((
   const calendarContext = useCalendar();
   const {
     activeDate,
-    inputDate,
+    value,
   } = { ...calendarContext };
-
+  const inputDate = new Date(value);
   const today = new Date();
   const activeYear = getYear(activeDate);
   const start = activeYear - 1;

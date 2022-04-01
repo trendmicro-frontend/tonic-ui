@@ -19,8 +19,9 @@ const Months = forwardRef((
   const calendarContext = useCalendar();
   const {
     activeDate,
-    inputDate,
+    value,
   } = { ...calendarContext };
+  const inputDate = new Date(value);
   const today = new Date();
   const start = 0;
   const end = 11;

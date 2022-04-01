@@ -11,9 +11,9 @@ const Week = ({
   const calendarContext = useCalendar();
   const {
     activeDate,
-    inputDate,
+    value
   } = { ...calendarContext };
-
+  const inputDate = new Date(value);
   const today = new Date();
 
   return (

@@ -16,8 +16,7 @@ const Year = forwardRef((
 ) => {
   const calendarContext = useCalendar();
   const {
-    setActiveDate,
-    setView,
+    setState,
   } = { ...calendarContext };
 
   const styleProps = useClickableCellStyle({
@@ -28,8 +27,10 @@ const Year = forwardRef((
   const title = format(date, 'yyyy');
   const label = format(date, 'yyyy');
   const handleClick = (e) => {
-    setActiveDate(date);
-    setView('year');
+    setState({
+      activeDate: date,
+      view: 'year',
+    });
   };
 
   return (

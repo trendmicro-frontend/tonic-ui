@@ -2,10 +2,9 @@ import { Box } from '@tonic-ui/react';
 import { usePrevious } from '@tonic-ui/react-hooks';
 import isSameMonth from 'date-fns/isSameMonth';
 import isSameYear from 'date-fns/isSameYear';
-import { ensureFunction } from 'ensure-type';
+import isValidDate from 'date-fns/isValid';
 import memoize from 'micro-memoize';
-import React, { forwardRef, useEffect, useState } from 'react';
-import { isDate, toDate } from '../utils';
+import React, { forwardRef, useEffect, useReducer } from 'react';
 import { CalendarProvider } from './context';
 import DecadeView from './DecadeView';
 import MonthView from './MonthView';
@@ -14,55 +13,72 @@ import Navigation from './Navigation';
 import { useCalendarStyle } from './styles';
 
 const defaultView = 'month'; // one of 'month', 'year', 'decade'
+
 const getMemoizedState = memoize(state => ({ ...state }));
+
+const stateReducer = (prevState, nextState) => ({
+  ...prevState,
+  ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
+});
 
 const Calendar = forwardRef((
   {
     calendarStartDay = 0, // 0 = Sunday, 1 = Monday, ...
     children,
     dateFormat = 'yyyy-MM-dd',
-    defaultValue: defaultValueProp,
+    defaultValue,
     value: valueProp,
-    onChange: onClickDay,
+    onChange,
     ...rest
   },
   ref,
 ) => {
-  onClickDay = ensureFunction(onClickDay);
-
-  const [value, setValue] = useState(valueProp ?? defaultValueProp);
-  const inputDate = isDate(value) ? toDate(value) : null;
-  const [activeDate, setActiveDate] = useState(inputDate ?? new Date());
-  const [view, setView] = useState(defaultView);
-  const previouslyValue = usePrevious(value);
+  const value = valueProp ?? defaultValue;
+  const inputDate = new Date(value);
+  const [state, setState] = useReducer(stateReducer, {
+    activeDate: isValidDate(inputDate) ? inputDate : new Date(),
+    value: value,
+    view: defaultView,
+  });
+  const previouslyValue = usePrevious(state.value);
   const styleProps = useCalendarStyle();
+  const handleChange = (value) => {
+    if (valueProp !== undefined) {
+      setState({ value: valueProp });
+    } else {
+      setState({ value: value });
+    }
+
+    if (typeof onChange === 'function') {
+      onChange(value);
+    }
+  };
 
   useEffect(() => {
-    const isControlled = (valueProp !== undefined);
-    if (isControlled) {
-      setValue(valueProp);
+    if (valueProp !== undefined) {
+      setState({ value: valueProp });
     }
   }, [valueProp]);
 
   useEffect(() => {
     // Dynamically change the calendar view
-    const isValueChange = !!value && value !== previouslyValue;
-    const newActiveDate = toDate(value);
-    const needToChangeView = isDate(value) && (!isSameYear(newActiveDate, activeDate) || !isSameMonth(newActiveDate, activeDate));
+    const isValueChange = !!state.value && state.value !== previouslyValue;
+    const currentActiveDate = state.activeDate;
+    const newActiveDate = new Date(state.value);
+    const needToChangeView = isValidDate(newActiveDate) && (!isSameYear(newActiveDate, currentActiveDate) || !isSameMonth(newActiveDate, currentActiveDate));
     if (isValueChange && needToChangeView) {
-      setActiveDate(newActiveDate);
+      setState({ activeDate: newActiveDate });
     }
-  }, [value, previouslyValue, activeDate, setActiveDate]);
+  }, [state.value, previouslyValue, state.activeDate]);
 
   const context = getMemoizedState({
-    activeDate,
-    setActiveDate,
-    view,
-    setView,
+    activeDate: state.activeDate,
     calendarStartDay,
-    inputDate,
     dateFormat,
-    onClickDay,
+    onClickDay: handleChange,
+    setState,
+    value: state.value,
+    view: state.view,
   });
 
   if (typeof children === 'function') {
@@ -80,13 +96,13 @@ const Calendar = forwardRef((
         {...rest}
       >
         <Navigation />
-        { view === 'month' && (
+        { state.view === 'month' && (
           <MonthView />
         )}
-        { view === 'year' && (
+        { state.view === 'year' && (
           <YearView />
         )}
-        { view === 'decade' && (
+        { state.view === 'decade' && (
           <DecadeView />
         )}
       </Box>

@@ -21,8 +21,7 @@ const Navigation = forwardRef((
   const {
     activeDate,
     view,
-    setActiveDate,
-    setView,
+    setState,
   } = { ...calendarContext };
 
   return (
@@ -35,18 +34,17 @@ const Navigation = forwardRef((
       <PreviousButton
         activeDate={activeDate}
         view={view}
-        setActiveDate={setActiveDate}
+        setState={setState}
       />
       <Title
         activeDate={activeDate}
         view={view}
-        setActiveDate={setActiveDate}
-        setView={setView}
+        setState={setState}
       />
       <NextButton
         activeDate={activeDate}
         view={view}
-        setActiveDate={setActiveDate}
+        setState={setState}
       />
     </Flex>
   );
@@ -55,8 +53,7 @@ const Navigation = forwardRef((
 const Title = ({
   activeDate,
   view,
-  setActiveDate,
-  setView,
+  setState,
 }) => {
   const label = ((date) => {
     if (view === 'decade') {
@@ -82,8 +79,10 @@ const Title = ({
       'year': startOfYear(activeDate),
       'month': startOfMonth(activeDate),
     }[nextView];
-    setView(nextView);
-    setActiveDate(nextActiveStartDate);
+    setState({
+      activeDate: nextActiveStartDate,
+      view: nextView,
+    });
   };
 
   return (
@@ -102,7 +101,7 @@ const Title = ({
 const PreviousButton = ({
   activeDate,
   view,
-  setActiveDate,
+  setState,
 }) => {
   const handleClick = (e) => {
     const nextActiveDate = {
@@ -110,7 +109,7 @@ const PreviousButton = ({
       'year': subYears(activeDate, 1),
       'month': subMonths(activeDate, 1),
     }[view];
-    setActiveDate(nextActiveDate);
+    setState({ activeDate: nextActiveDate });
   };
 
   return (
@@ -127,7 +126,7 @@ const PreviousButton = ({
 const NextButton = ({
   activeDate,
   view,
-  setActiveDate,
+  setState,
 }) => {
   const handleClick = (e) => {
     const nextActiveDate = {
@@ -135,7 +134,7 @@ const NextButton = ({
       'year': addYears(activeDate, 1),
       'month': addMonths(activeDate, 1),
     }[view];
-    setActiveDate(nextActiveDate);
+    setState({ activeDate: nextActiveDate });
   };
 
   return (
