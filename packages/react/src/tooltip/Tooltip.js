@@ -157,6 +157,7 @@ const Tooltip = forwardRef((
       role: 'presentation',
       ...tooltipTriggerStyleProps,
       ...eventHandlerProps,
+      ...rest,
     };
   };
 
@@ -206,7 +207,6 @@ const Tooltip = forwardRef((
                       {...tooltipStyleProps}
                       {...transitionStyle}
                       transformOrigin={mapPlacementToTransformOrigin(placement)}
-                      {...rest}
                     >
                       {label}
                       {!hideArrow && (
