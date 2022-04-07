@@ -1,6 +1,7 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
 import React, { useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
+import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import { PopoverContextProvider } from './context';
 
@@ -144,9 +145,7 @@ const Popover = ({
 
   return (
     <PopoverContextProvider value={context}>
-      {typeof children === 'function'
-        ? children(context)
-        : children}
+      {runIfFn(children, context)}
     </PopoverContextProvider>
   );
 };
