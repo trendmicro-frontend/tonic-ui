@@ -52,7 +52,9 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 
 ### Tooltip with ellipsis text
 
-Text that is longer than the container width will be truncated and a tooltip will be displayed.
+Text that overflows the container will be truncated and an ellipsis will be added. A tooltip will be shown when you hover or focus on the ellipsis text.
+
+Try minimizing the width of the container to see how it behaves.
 
 ```jsx noInline
 const EllipsisText = (props) => (
@@ -64,38 +66,73 @@ const EllipsisText = (props) => (
   />
 );
 
-function Example() {
-  return (
-    <Flex
-      direction="column"
-      rowGap="4x"
-    >
-      <Box maxWidth={240}>
-        <Tooltip
-          label="This is a very long text string that will be truncated"
-        >
-          <EllipsisText>
-            This is a very long text string that will be truncated
-          </EllipsisText>
-        </Tooltip>
-      </Box>
-      <Box maxWidth={240}>
-        <Tooltip
-          label="This is a very long text string that will be truncated"
-        >
-          <Flex alignItems="center" columnGap="2x">
-            <Icon icon="menu" />
-            <EllipsisText>
-              This is a very long text string that will be truncated
-            </EllipsisText>
-          </Flex>
-        </Tooltip>
-      </Box>
-    </Flex>
-  );
-}
+render(() => {
+  const [isOpen, toggleIsOpen] = useToggle();
+  const handlePointerEnter = React.useCallback((e) => {
+    const isOverflow = e.currentTarget.scrollWidth > e.currentTarget.clientWidth;
+    isOverflow && toggleIsOpen(true);
+  }, [toggleIsOpen]);
+  const handlePointerLeave = React.useCallback((e) => {
+    toggleIsOpen(false);
+  }, [toggleIsOpen]);
 
-render(<Example />);
+  return (
+    <Box>
+      <Tooltip
+        isOpen={isOpen}
+        label="This is a very long text string that might be truncated when exceeding the container width"
+      >
+        <EllipsisText
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+        >
+          This is a very long text string that might be truncated when exceeding the container width
+        </EllipsisText>
+      </Tooltip>
+    </Box>
+  );
+});
+```
+
+```jsx noInline
+const EllipsisText = (props) => (
+  <Text
+    overflow="hidden"
+    textOverflow="ellipsis"
+    whiteSpace="nowrap"
+    {...props}
+  />
+);
+
+render(() => {
+  const [isOpen, toggleIsOpen] = useToggle();
+  const handlePointerEnter = React.useCallback((e) => {
+    const isOverflow = e.currentTarget.scrollWidth > e.currentTarget.clientWidth;
+    isOverflow && toggleIsOpen(true);
+  }, [toggleIsOpen]);
+  const handlePointerLeave = React.useCallback((e) => {
+    toggleIsOpen(false);
+  }, [toggleIsOpen]);
+
+  return (
+    <Box>
+      <Tooltip
+        isOpen={isOpen}
+        label="This is a very long text string that might be truncated when exceeding the container width"
+      >
+        <Flex alignItems="center" columnGap="2x">
+          <Icon icon="menu" />
+          <EllipsisText
+            onPointerEnter={handlePointerEnter}
+            onPointerLeave={handlePointerLeave}
+          >
+            This is a very long text string that might be truncated when exceeding the container width
+          </EllipsisText>
+        </Flex>
+      </Tooltip>
+    </Box>
+  );
+});
 ```
 
 ### Icon
