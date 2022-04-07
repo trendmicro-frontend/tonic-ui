@@ -140,9 +140,6 @@ const Tooltip = forwardRef((
   const arrowSize = '6px';
   const tooltipStyleProps = useTooltipStyle();
   const getTooltipTriggerProps = () => {
-    const tooltipTriggerStyleProps = {
-      display: 'inline-flex',
-    };
     const eventHandlerProps = {
       onMouseEnter: handleOpen,
       onMouseLeave: handleClose,
@@ -155,9 +152,7 @@ const Tooltip = forwardRef((
       'aria-describedby': _isOpen ? tooltipId : undefined,
       ref: combinedRef,
       role: 'presentation',
-      ...tooltipTriggerStyleProps,
       ...eventHandlerProps,
-      ...rest,
     };
   };
 
@@ -207,6 +202,7 @@ const Tooltip = forwardRef((
                       {...tooltipStyleProps}
                       {...transitionStyle}
                       transformOrigin={mapPlacementToTransformOrigin(placement)}
+                      {...rest}
                     >
                       {label}
                       {!hideArrow && (

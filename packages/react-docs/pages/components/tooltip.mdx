@@ -54,40 +54,48 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 
 Text that is longer than the container width will be truncated and a tooltip will be displayed.
 
-```jsx
-<Flex
-  direction="column"
-  rowGap="4x"
->
-  <Box maxWidth={240}>
-    <Tooltip
-      label="This is a very long text string that will be truncated"
-      display="block"
-      whiteSpace="nowrap"
-      textOverflow="ellipsis"
-      overflow="hidden"
+```jsx noInline
+const EllipsisText = (props) => (
+  <Text
+    overflow="hidden"
+    textOverflow="ellipsis"
+    whiteSpace="nowrap"
+    {...props}
+  />
+);
+
+function Example() {
+  return (
+    <Flex
+      direction="column"
+      rowGap="4x"
     >
-      This is a very long text string that will be truncated
-    </Tooltip>
-  </Box>
-  <Box maxWidth={240}>
-    <Tooltip
-      label="This is a very long text string that will be truncated"
-      display="block"
-      whiteSpace="nowrap"
-    >
-      <Flex alignItems="center" columnGap="2x">
-        <Icon icon="menu" />
-        <Text
-          textOverflow="ellipsis"
-          overflow="hidden"
+      <Box maxWidth={240}>
+        <Tooltip
+          label="This is a very long text string that will be truncated"
         >
-          This is a very long text string that will be truncated
-        </Text>
-      </Flex>
-    </Tooltip>
-  </Box>
-</Flex>
+          <EllipsisText>
+            This is a very long text string that will be truncated
+          </EllipsisText>
+        </Tooltip>
+      </Box>
+      <Box maxWidth={240}>
+        <Tooltip
+          label="This is a very long text string that will be truncated"
+        >
+          <Flex alignItems="center" columnGap="2x">
+            <Icon icon="menu" />
+            <EllipsisText>
+              This is a very long text string that will be truncated
+            </EllipsisText>
+          </Flex>
+        </Tooltip>
+      </Box>
+    </Flex>
+  );
+}
+
+render(<Example />);
 ```
 
 ### Icon
@@ -128,6 +136,7 @@ Text that is longer than the container width will be truncated and a tooltip wil
 ```jsx
 function Example() {
   const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const inputRef = React.useRef();
   const [menuItem, setMenuItem] = React.useState('hostname');
   const handleMenuClick = (event) => {
@@ -168,11 +177,11 @@ function Example() {
         </Menu>
       </InputGroupPrepend>
       <Tooltip
-        backgroundColor="gray:80"
-        color="gray:20"
+        label="Use commas to separate multiple keywords"
+        backgroundColor={colorStyle.background.secondary}
+        color={colorStyle.color.primary}
         px="2x"
         py="3x"
-        label="Use commas to separate multiple keywords"
       >
         <Input
           ref={inputRef}
