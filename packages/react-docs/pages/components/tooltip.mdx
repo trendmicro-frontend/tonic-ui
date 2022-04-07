@@ -50,6 +50,46 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 </Tooltip>
 ```
 
+### Tooltip with ellipsis text
+
+Text that is longer than the container width will be truncated and a tooltip will be displayed.
+
+```jsx
+<Flex
+  direction="column"
+  rowGap="4x"
+>
+  <Box maxWidth={240}>
+    <Tooltip
+      label="This is a very long text string that will be truncated"
+      display="block"
+      whiteSpace="nowrap"
+      textOverflow="ellipsis"
+      overflow="hidden"
+    >
+      This is a very long text string that will be truncated
+    </Tooltip>
+  </Box>
+  <Box maxWidth={240}>
+    <Tooltip
+      label="This is a very long text string that will be truncated"
+      display="block"
+      whiteSpace="nowrap"
+    >
+      <Flex alignItems="center" columnGap="2x">
+        <Icon icon="menu" />
+        <Text
+          textOverflow="ellipsis"
+          overflow="hidden"
+        >
+          This is a very long text string that will be truncated
+        </Text>
+      </Flex>
+    </Tooltip>
+  </Box>
+</Flex>
+```
+
 ### Icon
 
 ```jsx
@@ -71,17 +111,13 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 ```jsx
 <Tooltip
   hideArrow
-  backgroundColor="gray:90"
-  color="white"
-  p="4x"
-  width="auto"
-  label={
-    <Stack direction="column">
+  label={(
+    <Flex direction="column">
       <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
       <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
       <Text>{"It's very engaging. Right?"}</Text>
-    </Stack>
-  }
+    </Flex>
+  )}
 >
   <Button variant="ghost">HTML</Button>
 </Tooltip>
