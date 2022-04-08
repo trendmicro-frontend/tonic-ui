@@ -178,49 +178,6 @@ render(() => {
 });
 ```
 
-### With an icon
-
-```jsx
-<Tooltip label="Show calendar">
-  <Icon cursor="pointer" icon="calendar" />
-</Tooltip>
-```
-
-### Hide the arrow
-
-```jsx
-<Tooltip hideArrow label="Search places">
-  <Icon cursor="pointer" icon="search-o" />
-</Tooltip>
-```
-
-### Disabled tooltip
-
-If the children of the tooltip is a focusable element, the tooltip will show when you focus or hover on the element, and will hide when you blur or move cursor out of the element.
-
-```jsx
-<Tooltip label="This is a tooltip">
-  <Button>Button</Button>
-</Tooltip>
-```
-
-### Customization
-
-```jsx
-<Tooltip
-  hideArrow
-  label={(
-    <Flex direction="column">
-      <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
-      <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
-      <Text>{"It's very engaging. Right?"}</Text>
-    </Flex>
-  )}
->
-  <Button variant="ghost">HTML</Button>
-</Tooltip>
-```
-
 ### Tooltip with `Menu`
 
 ```jsx
@@ -288,7 +245,50 @@ function Example() {
 }
 ```
 
-## Placement
+### With an icon
+
+```jsx
+<Tooltip label="Show calendar">
+  <Icon cursor="pointer" icon="calendar" />
+</Tooltip>
+```
+
+### Hide the arrow
+
+```jsx
+<Tooltip hideArrow label="Search places">
+  <Icon cursor="pointer" icon="search-o" />
+</Tooltip>
+```
+
+### Disabled tooltip
+
+If the children of the tooltip is a focusable element, the tooltip will show when you focus or hover on the element, and will hide when you blur or move cursor out of the element.
+
+```jsx
+<Tooltip label="This is a tooltip">
+  <Button>Button</Button>
+</Tooltip>
+```
+
+### Customization
+
+```jsx
+<Tooltip
+  hideArrow
+  label={(
+    <Flex direction="column">
+      <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
+      <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
+      <Text>{"It's very engaging. Right?"}</Text>
+    </Flex>
+  )}
+>
+  <Button variant="ghost">HTML</Button>
+</Tooltip>
+```
+
+### Placement
 
 Use the `placement` prop to control the placement of the tooltip.
 
