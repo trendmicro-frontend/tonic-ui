@@ -12,7 +12,7 @@ describe('useEventListener', () => {
     const callback = jest.fn();
     const TestComponent = () => {
       const ref = useRef(null);
-      useEventListener('click', callback, ref.current);
+      useEventListener(() => ref.current, 'click', callback);
       return (
         <button type="button" ref={ref}>
           Click Me

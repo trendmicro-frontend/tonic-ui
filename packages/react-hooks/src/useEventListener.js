@@ -13,25 +13,29 @@ const runIfFn = (valueOrFn, ...args) => {
 };
 
 const useEventListener = (
+  target,
   eventName,
   eventHandler,
-  element,
   options,
 ) => {
   const eventListener = useEventCallback(eventHandler);
 
   useEffect(() => {
-    const targetElement = runIfFn(element) ?? document;
-    if (!(targetElement && targetElement.addEventListener)) {
+    if (!eventHandler) {
       return noop;
     }
 
-    targetElement.addEventListener(eventName, eventListener, options);
+    const eventTarget = runIfFn(target);
+    const isEventListenerSupported = (typeof eventTarget?.addEventListener === 'function') && (typeof eventTarget?.removeEventListener === 'function');
+    if (!isEventListenerSupported) {
+      return noop;
+    }
 
+    eventTarget.addEventListener(eventName, eventListener, options);
     return () => {
-      targetElement.removeEventListener(eventName, eventListener, options);
+      eventTarget.removeEventListener(eventName, eventListener, options);
     };
-  }, [element, eventName, eventListener, options]);
+  }, [target, eventName, eventHandler, eventListener, options]);
 };
 
 export default useEventListener;

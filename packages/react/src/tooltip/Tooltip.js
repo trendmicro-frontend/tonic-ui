@@ -5,6 +5,7 @@ import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
+import ownerDocument from '../utils/dom/ownerDocument';
 import { mergeRefs } from '../utils/refs';
 import useAutoId from '../utils/useAutoId';
 import useForkRef from '../utils/useForkRef';
@@ -149,10 +150,10 @@ const Tooltip = forwardRef((
   }, [closeOnClick, handleClose]);
   const handleFocus = handleOpen;
   const handleKeyDown = useCallback((event) => {
-    if (closeOnEsc && event.key === 'Escape') {
+    if (_isOpen && closeOnEsc && event.key === 'Escape') {
       handleClose();
     }
-  }, [closeOnEsc, handleClose]);
+  }, [_isOpen, closeOnEsc, handleClose]);
   const handleMouseDown = useCallback(() => {
     if (closeOnMouseDown) {
       handleClose();
@@ -161,14 +162,22 @@ const Tooltip = forwardRef((
   const handleMouseEnter = handleOpen;
   const handleMouseLeave = handleClose;
 
-  useEventListener('keydown', closeOnEsc ? handleKeyDown : undefined);
+  useEventListener(
+    () => ownerDocument(anchorRef.current),
+    'keydown',
+    closeOnEsc ? handleKeyDown : undefined,
+  );
 
   /**
    * This allows for catching the "mouseleave" event when the tooltip trigger is disabled.
    * There is currently a known issue in React regarding the onMouseLeave polyfill.
    * @see https://github.com/facebook/react/issues/11972
    */
-  useEventListener('mouseleave', handleMouseLeave, () => anchorRef.current);
+  useEventListener(
+    () => anchorRef.current,
+    'mouseleave',
+    handleMouseLeave,
+  );
 
   useEffect(() => {
     return () => {
