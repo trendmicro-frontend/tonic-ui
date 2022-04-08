@@ -13,30 +13,25 @@ const runIfFn = (valueOrFn, ...args) => {
 };
 
 const useEventListener = (
-  event, // the event name
-  handler, // the event handler function to execute
-  env, // the DOM environment to execute against (defaults to `document`)
-  options // the event listener options
+  eventName,
+  eventHandler,
+  element,
+  options,
 ) => {
-  const listener = useEventCallback(handler);
+  const eventListener = useEventCallback(eventHandler);
 
   useEffect(() => {
-    const node = runIfFn(env) ?? document;
-
-    if (!handler) {
+    const targetElement = runIfFn(element) ?? document;
+    if (!(targetElement && targetElement.addEventListener)) {
       return noop;
     }
 
-    node.addEventListener(event, listener, options);
-    return () => {
-      node.removeEventListener(event, listener, options);
-    };
-  }, [event, env, options, listener, handler]);
+    targetElement.addEventListener(eventName, eventListener, options);
 
-  return () => {
-    const node = runIfFn(env) ?? document;
-    node.removeEventListener(event, listener, options);
-  };
+    return () => {
+      targetElement.removeEventListener(eventName, eventListener, options);
+    };
+  }, [element, eventName, eventListener, options]);
 };
 
 export default useEventListener;
