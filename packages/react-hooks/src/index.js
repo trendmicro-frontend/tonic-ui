@@ -3,6 +3,7 @@ export useCopyToClipboard from './useCopyToClipboard';
 export useEffectOnce from './useEffectOnce';
 export useEffectOnceWhen from './useEffectOnceWhen';
 export useEventCallback from './useEventCallback';
+export useEventListener from './useEventListener';
 export useHydrated from './useHydrated';
 export useIsomorphicEffect from './useIsomorphicEffect';
 export useLatest from './useLatest';
