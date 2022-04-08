@@ -1,6 +1,6 @@
-import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
+import { useEventListener, useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
-import React, { cloneElement, forwardRef, useRef, useState } from 'react';
+import React, { cloneElement, forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import config from '../shared/config';
@@ -9,7 +9,6 @@ import { mergeRefs } from '../utils/refs';
 import useAutoId from '../utils/useAutoId';
 import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
-import warnRemovedProps from '../utils/warnRemovedProps';
 import wrapEvent from '../utils/wrapEvent';
 import { useTooltipStyle } from './styles';
 
@@ -43,8 +42,11 @@ const Tooltip = forwardRef((
     TransitionProps,
     arrowAt,
     children,
-    closeOnClick,
+    closeOnClick = false,
+    closeOnEsc = false,
+    closeOnMouseDown = false,
     defaultIsOpen = false,
+    disabled,
     enterDelay = 100,
     hideArrow,
     isOpen: isOpenProp,
@@ -76,13 +78,6 @@ const Tooltip = forwardRef((
         willRemove: true,
       });
     }, (hideDelay !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('shouldWrapChildren', {
-        prefix,
-        message: 'Use Function as Child Component (FaCC) to render the tooltip trigger instead.',
-      });
-    }, (shouldWrapChildren !== undefined && !shouldWrapChildren));
   }
 
   const anchorRef = useRef(null);
@@ -97,23 +92,36 @@ const Tooltip = forwardRef((
   const enterTimeoutRef = useRef();
   const exitTimeoutRef = useRef();
 
-  const openWithDelay = () => {
+  const openWithDelay = useCallback(() => {
+    if (disabled) {
+      return;
+    }
+
     enterTimeoutRef.current = setTimeout(() => {
       setIsOpen(true);
+      enterTimeoutRef.current = null;
     }, enterDelay);
-  };
+  }, [disabled, enterDelay]);
 
-  const closeWithDelay = () => {
-    clearTimeout(enterTimeoutRef.current);
+  const closeWithDelay = useCallback(() => {
+    if (enterTimeoutRef.current) {
+      clearTimeout(enterTimeoutRef.current);
+      enterTimeoutRef.current = null;
+    }
     exitTimeoutRef.current = setTimeout(() => {
       setIsOpen(false);
+      exitTimeoutRef.current = null;
     }, leaveDelay);
-  };
+  }, [leaveDelay]);
 
   const defaultId = useAutoId();
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
+    if (disabled) {
+      return;
+    }
+
     if (!isControlled) {
       openWithDelay();
     }
@@ -121,9 +129,9 @@ const Tooltip = forwardRef((
     if (onOpenProp) {
       onOpenProp();
     }
-  };
+  }, [disabled, isControlled, onOpenProp, openWithDelay]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (!isControlled) {
       closeWithDelay();
     }
@@ -131,23 +139,59 @@ const Tooltip = forwardRef((
     if (onCloseProp) {
       onCloseProp();
     }
-  };
+  }, [isControlled, onCloseProp, closeWithDelay]);
 
-  const handleClick = () => {
+  const handleBlur = handleClose;
+  const handleClick = useCallback(() => {
     if (closeOnClick) {
       handleClose();
     }
-  };
+  }, [closeOnClick, handleClose]);
+  const handleFocus = handleOpen;
+  const handleKeyDown = useCallback((event) => {
+    if (closeOnEsc && event.key === 'Escape') {
+      handleClose();
+    }
+  }, [closeOnEsc, handleClose]);
+  const handleMouseDown = useCallback(() => {
+    if (closeOnMouseDown) {
+      handleClose();
+    }
+  }, [closeOnMouseDown, handleClose]);
+  const handleMouseEnter = handleOpen;
+  const handleMouseLeave = handleClose;
+
+  useEventListener('keydown', closeOnEsc ? handleKeyDown : undefined);
+
+  /**
+   * This allows for catching the "mouseleave" event when the tooltip trigger is disabled.
+   * There is currently a known issue in React regarding the onMouseLeave polyfill.
+   * @see https://github.com/facebook/react/issues/11972
+   */
+  useEventListener('mouseleave', handleMouseLeave, () => anchorRef.current);
+
+  useEffect(() => {
+    return () => {
+      if (enterTimeoutRef.current) {
+        clearTimeout(enterTimeoutRef.current);
+        enterTimeoutRef.current = null;
+      }
+      if (exitTimeoutRef.current) {
+        clearTimeout(exitTimeoutRef.current);
+        exitTimeoutRef.current = null;
+      }
+    };
+  }, []);
 
   const arrowSize = '6px';
   const tooltipStyleProps = useTooltipStyle();
   const getTooltipTriggerProps = (ownProps = {}, ownRef = null) => {
     const eventHandlerProps = {
-      onPointerEnter: wrapEvent(ownProps?.onPointerEnter, handleOpen),
-      onPointerLeave: wrapEvent(ownProps?.onPointerLeave, handleClose),
-      onFocus: wrapEvent(ownProps?.onFocus, handleOpen),
-      onBlur: wrapEvent(ownProps?.onBlur, handleClose),
+      onBlur: wrapEvent(ownProps?.onBlur, handleBlur),
       onClick: wrapEvent(ownProps?.onClick, handleClick),
+      onFocus: wrapEvent(ownProps?.onFocus, handleFocus),
+      onMouseDown: wrapEvent(ownProps?.onMouseDown, handleMouseDown),
+      onMouseEnter: wrapEvent(ownProps?.onMouseEnter, handleMouseEnter),
     };
 
     return {
@@ -163,6 +207,7 @@ const Tooltip = forwardRef((
       return (
         <Box
           display="inline-flex"
+          tabIndex={0}
           {...getTooltipTriggerProps()}
         >
           {children}
@@ -174,6 +219,13 @@ const Tooltip = forwardRef((
     const child = React.Children.only(children);
     return cloneElement(child, getTooltipTriggerProps(child?.props, child?.ref));
   })();
+
+  // Simply return the children if the `label` is empty
+  if (!label) {
+    return (
+      <>{children}</>
+    );
+  }
 
   return (
     <>
