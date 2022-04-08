@@ -8,6 +8,7 @@ test('should match expected exports', () => {
     'DatePicker',
     'DatePickerPopper',
     'DatePickerToggle',
+    'TimeInput',
   ];
 
   const exportedHooks = [
