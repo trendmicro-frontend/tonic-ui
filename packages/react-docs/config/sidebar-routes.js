@@ -175,6 +175,7 @@ const routes = [
       { title: 'useEffectOnce', path: 'hooks/useEffectOnce' },
       { title: 'useEffectOnceWhen', path: 'hooks/useEffectOnceWhen' },
       { title: 'useEventCallback', path: 'hooks/useEventCallback' },
+      { title: 'useEventListener', path: 'hooks/useEventListener' },
       { title: 'useHydrated', path: 'hooks/useHydrated' },
       { title: 'useIsomorphicEffect', path: 'hooks/useIsomorphicEffect' },
       { title: 'useLatest', path: 'hooks/useLatest' },
