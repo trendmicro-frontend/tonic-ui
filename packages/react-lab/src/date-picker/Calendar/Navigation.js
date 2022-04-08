@@ -27,24 +27,24 @@ const Navigation = forwardRef((
   const calendarContext = useCalendar();
   const {
     activeDate,
-    setState,
+    setActiveDate,
   } = { ...calendarContext };
 
   const handlePreviousYearClick = () => {
     const nextActiveDate = subYears(activeDate, 1);
-    setState({ activeDate: nextActiveDate });
+    setActiveDate(nextActiveDate);
   };
   const handleNextYearClick = () => {
     const nextActiveDate = addYears(activeDate, 1);
-    setState({ activeDate: nextActiveDate });
+    setActiveDate(nextActiveDate);
   };
   const handlePreviousMonthClick = () => {
     const nextActiveDate = subMonths(activeDate, 1);
-    setState({ activeDate: nextActiveDate });
+    setActiveDate(nextActiveDate);
   };
   const handleNextMonthClick = () => {
     const nextActiveDate = addMonths(activeDate, 1);
-    setState({ activeDate: nextActiveDate });
+    setActiveDate(nextActiveDate);
   };
 
   const styleProps = useNavigationStyle();

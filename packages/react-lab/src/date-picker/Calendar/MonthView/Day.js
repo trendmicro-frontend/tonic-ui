@@ -19,7 +19,7 @@ const Day = forwardRef((
   const {
     dateFormat,
     onChange,
-    setState,
+    setActiveDate,
   } = { ...calendarContext };
 
   const styleProps = useClickableCellStyle({
@@ -31,7 +31,7 @@ const Day = forwardRef((
   const title = formattedValue;
   const label = getDate(date);
   const handleClick = (e) => {
-    setState({ activeDate: date });
+    setActiveDate(date);
     onChange(formattedValue);
   };
 

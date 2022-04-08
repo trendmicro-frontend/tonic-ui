@@ -5,18 +5,13 @@ import isSameMonth from 'date-fns/isSameMonth';
 import isSameYear from 'date-fns/isSameYear';
 import isValidDate from 'date-fns/isValid';
 import memoize from 'micro-memoize';
-import React, { forwardRef, useEffect, useReducer } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { CalendarProvider } from './context';
 import MonthView from './MonthView';
 import Navigation from './Navigation';
 import { useCalendarStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
-
-const stateReducer = (prevState, nextState) => ({
-  ...prevState,
-  ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
-});
 
 const Calendar = forwardRef((
   {
@@ -32,47 +27,44 @@ const Calendar = forwardRef((
 ) => {
   onChange = ensureFunction(onChange);
 
-  const value = valueProp ?? defaultValue;
+  const [value, setValue] = useState(valueProp ?? defaultValue);
   const inputDate = new Date(value);
-  const [state, setState] = useReducer(stateReducer, {
-    activeDate: isValidDate(inputDate) ? inputDate : new Date(),
-    value: value,
-  });
-  const previouslyValue = usePrevious(state.value);
+  const [activeDate, setActiveDate] = useState(isValidDate(inputDate) ? inputDate : new Date());
+  const previouslyValue = usePrevious(value);
   const styleProps = useCalendarStyle();
   const handleChange = (value) => {
     if (valueProp !== undefined) {
-      setState({ value: valueProp });
+      setValue(valueProp);
     } else {
-      setState({ value: value });
+      setValue(value);
     }
     onChange(value);
   };
 
   useEffect(() => {
     if (valueProp !== undefined) {
-      setState({ value: valueProp });
+      setValue(valueProp);
     }
   }, [valueProp]);
 
   useEffect(() => {
     // Dynamically change the calendar view
-    const isValueChange = !!state.value && state.value !== previouslyValue;
-    const currentActiveDate = state.activeDate;
-    const newActiveDate = new Date(state.value);
+    const isValueChange = !!value && value !== previouslyValue;
+    const currentActiveDate = activeDate;
+    const newActiveDate = new Date(value);
     const needToChangeView = isValidDate(newActiveDate) && (!isSameYear(newActiveDate, currentActiveDate) || !isSameMonth(newActiveDate, currentActiveDate));
     if (isValueChange && needToChangeView) {
-      setState({ activeDate: newActiveDate });
+      setActiveDate(newActiveDate);
     }
-  }, [state.value, previouslyValue, state.activeDate]);
+  }, [value, previouslyValue, activeDate]);
 
   const context = getMemoizedState({
-    activeDate: state.activeDate,
+    activeDate: activeDate,
     calendarStartDay,
     dateFormat,
     onChange: handleChange,
-    setState,
-    value: state.value,
+    setActiveDate,
+    value,
   });
 
   return (
