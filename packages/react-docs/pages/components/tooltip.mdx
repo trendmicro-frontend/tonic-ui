@@ -18,7 +18,7 @@ Pass `isOpen` to the `Tooltip` component to control the state of the tooltip.
 
 ```jsx
 <Tooltip label="This is a controlled tooltip" isOpen>
-  <Text>Tooltip anchor</Text>
+  <Text display="inline-block">Tooltip anchor</Text>
 </Tooltip>
 ```
 
@@ -26,27 +26,70 @@ Set `defaultIsOpen` to `true` to have the tooltip open by default.
 
 ```jsx
 <Tooltip label="This is an uncontrolled tooltip" defaultIsOpen>
-  <Text>Tooltip anchor</Text>
+  <Text display="inline-block">Tooltip anchor</Text>
+</Tooltip>
+```
+
+### Tooltip around non-element children
+
+By default, you have to pass a single React element child to the `Tooltip` component.
+
+```jsx disabled
+<Tooltip label="This is a tooltip">
+  <Text display="inline-block">This is the text content</Text>
+</Tooltip>
+```
+
+If you need to pass more than one child element or non-element children, pass the `shouldWrapChildren` prop or wrap them in `Box` component.
+
+```jsx disabled
+<Tooltip label="This is a tooltip" shouldWrapChildren>
+  This is the text content
+</Tooltip>
+```
+
+```jsx
+<Tooltip label="This is a tooltip" shouldWrapChildren>
+  <Icon icon="menu" height="5x" mr="2x" />
+  <Text>This is the text content</Text>
 </Tooltip>
 ```
 
 ### Tooltip with focusable content
 
-If the children of Tooltip are focusable elements, Tooltip will show when you focus or hover on the a children element and will hide when you blur or move cursor out of the element.
+If the children of the tooltip is a focusable element, the tooltip will show when you focus or hover on the element, and will hide when you blur or move cursor out of the element.
 
 ```jsx
-<Tooltip label="Search places">
+<Tooltip label="This is a tooltip">
   <Button>Button</Button>
 </Tooltip>
 ```
 
 ### Tooltip with non-focusable content
 
-If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0"` to make it focusable.
+If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0"` to make it tabbable.
 
 ```jsx
-<Tooltip label="Hey, I'm here!">
-  <Text tabIndex="0">Hover me</Text>
+<Tooltip label="This is a tooltip">
+  <Text display="inline-block" tabIndex="0">This is the text content</Text>
+</Tooltip>
+```
+
+### Tooltip around disabled button
+
+By default the `Tooltip` will be shown when it is around a disabled `Button`.
+
+```jsx
+<Tooltip label="This is a tooltip">
+  <Button disabled>Button</Button>
+</Tooltip>
+```
+
+You can set `isOpen` to `false` to prevent the tooltip from showing.
+
+```jsx
+<Tooltip label="This is a tooltip" isOpen={false}>
+  <Button disabled>Button</Button>
 </Tooltip>
 ```
 
@@ -135,7 +178,7 @@ render(() => {
 });
 ```
 
-### Icon
+### With an icon
 
 ```jsx
 <Tooltip label="Show calendar">
@@ -148,6 +191,16 @@ render(() => {
 ```jsx
 <Tooltip hideArrow label="Search places">
   <Icon cursor="pointer" icon="search-o" />
+</Tooltip>
+```
+
+### Disabled tooltip
+
+If the children of the tooltip is a focusable element, the tooltip will show when you focus or hover on the element, and will hide when you blur or move cursor out of the element.
+
+```jsx
+<Tooltip label="This is a tooltip">
+  <Button>Button</Button>
 </Tooltip>
 ```
 
@@ -294,3 +347,4 @@ Use the `placement` prop to control the placement of the tooltip.
 | onClose| function | | Callback fired when the tooltip is closed. |
 | onOpen | function | | Callback fired when the tooltip is opened. |
 | placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
+| shouldWrapChildren | boolean | false | If `true`, the tooltip will be wrapped in a `Box` component. Otherwise, you have to ensure tooltip has only one child node. |

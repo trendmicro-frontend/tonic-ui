@@ -1,14 +1,16 @@
 import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { cloneElement, forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
+import { mergeRefs } from '../utils/refs';
 import useAutoId from '../utils/useAutoId';
 import useForkRef from '../utils/useForkRef';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';
+import wrapEvent from '../utils/wrapEvent';
 import { useTooltipStyle } from './styles';
 
 const defaultPlacement = 'bottom';
@@ -32,7 +34,6 @@ const Tooltip = forwardRef((
   {
     showDelay, // deprecated
     hideDelay, // deprecated
-    shouldWrapChildren, // removed
 
     PopperComponent = Popper,
     PopperProps,
@@ -52,6 +53,7 @@ const Tooltip = forwardRef((
     onClose: onCloseProp,
     onOpen: onOpenProp,
     placement = defaultPlacement,
+    shouldWrapChildren = false,
     ...rest
   },
   ref,
@@ -133,36 +135,49 @@ const Tooltip = forwardRef((
 
   const handleClick = () => {
     if (closeOnClick) {
-      closeWithDelay();
+      handleClose();
     }
   };
 
   const arrowSize = '6px';
   const tooltipStyleProps = useTooltipStyle();
-  const getTooltipTriggerProps = () => {
+  const getTooltipTriggerProps = (ownProps = {}, ownRef = null) => {
     const eventHandlerProps = {
-      onMouseEnter: handleOpen,
-      onMouseLeave: handleClose,
-      onClick: handleClick,
-      onFocus: handleOpen,
-      onBlur: handleClose,
+      onPointerEnter: wrapEvent(ownProps?.onPointerEnter, handleOpen),
+      onPointerLeave: wrapEvent(ownProps?.onPointerLeave, handleClose),
+      onFocus: wrapEvent(ownProps?.onFocus, handleOpen),
+      onBlur: wrapEvent(ownProps?.onBlur, handleClose),
+      onClick: wrapEvent(ownProps?.onClick, handleClick),
     };
 
     return {
+      ...ownProps,
       'aria-describedby': _isOpen ? tooltipId : undefined,
-      ref: combinedRef,
-      role: 'presentation',
+      ref: mergeRefs(combinedRef, ownRef),
       ...eventHandlerProps,
     };
   };
 
+  const trigger = (() => {
+    if (shouldWrapChildren) {
+      return (
+        <Box
+          display="inline-flex"
+          {...getTooltipTriggerProps()}
+        >
+          {children}
+        </Box>
+      );
+    }
+
+    // Ensure tooltip has only one child node
+    const child = React.Children.only(children);
+    return cloneElement(child, getTooltipTriggerProps(child?.props, child?.ref));
+  })();
+
   return (
     <>
-      {
-        (typeof children === 'function')
-          ? children({ getTooltipTriggerProps })
-          : (<Box {...getTooltipTriggerProps()}>{children}</Box>)
-      }
+      {(typeof children === 'function') ? children({ getTooltipTriggerProps }) : trigger}
       {isHydrated && (
         <PopperComponent
           aria-hidden={!isOpen}
