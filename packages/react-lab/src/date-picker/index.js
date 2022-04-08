@@ -3,6 +3,7 @@ import DatePickerPopper from './DatePickerPopper';
 import DatePickerToggle from './DatePickerToggle';
 import Calendar from './Calendar';
 import DateInput from './DateInput';
+import TimeInput from './TimeInput';
 
 DatePicker.Calendar = Calendar;
 DatePicker.DateInput = DateInput;
@@ -15,6 +16,7 @@ export {
   DatePicker,
   DatePickerPopper,
   DatePickerToggle,
+  TimeInput,
 };
 
 export default DatePicker;

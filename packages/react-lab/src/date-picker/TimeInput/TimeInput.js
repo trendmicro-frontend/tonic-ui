@@ -6,22 +6,22 @@ import {
 import React, { forwardRef, useRef } from 'react';
 import useForkRef from '../../utils/useForkRef';
 import {
-  useDateInputWrapperStyle,
-  useDateInputIconWrapperStyle,
-  useDateInputIconStyle,
-  useDateInputStyle,
+  useTimeInputWrapperStyle,
+  useTimeInputIconWrapperStyle,
+  useTimeInputIconStyle,
+  useTimeInputStyle,
 } from './styles';
 
-const DateInput = forwardRef((
+const TimeInput = forwardRef((
   props,
   ref
 ) => {
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
-  const wrapperStyleProps = useDateInputWrapperStyle();
-  const iconWrapperStyleProps = useDateInputIconWrapperStyle();
-  const iconProps = useDateInputIconStyle();
-  const inputStyleProps = useDateInputStyle();
+  const wrapperStyleProps = useTimeInputWrapperStyle();
+  const iconWrapperStyleProps = useTimeInputIconWrapperStyle();
+  const iconProps = useTimeInputIconStyle();
+  const inputStyleProps = useTimeInputStyle();
 
   return (
     <Box
@@ -30,7 +30,7 @@ const DateInput = forwardRef((
       <Box
         {...iconWrapperStyleProps}
       >
-        <Icon icon="calendar" {...iconProps} />
+        <Icon icon="clock" {...iconProps} />
       </Box>
       <Input
         ref={combinedRef}
@@ -41,6 +41,6 @@ const DateInput = forwardRef((
   );
 });
 
-DateInput.displayName = 'DateInput';
+TimeInput.displayName = 'TimeInput';
 
-export default DateInput;
+export default TimeInput;
