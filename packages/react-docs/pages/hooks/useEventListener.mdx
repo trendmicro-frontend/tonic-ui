@@ -53,7 +53,7 @@ function Component() {
   const buttonRef = React.useRef(null);
 
   const onScroll = (event) => {
-    console.log('page scrolled', event);
+    console.log('document scrolled', event);
   };
 
   const onClick = (event) => {
@@ -67,7 +67,7 @@ function Component() {
   useEventListener('click', onClick, buttonRef.current);
 
   return (
-    <Button ref={btnRef}>
+    <Button ref={buttonRef}>
       Click Me
     </Button>
   );
