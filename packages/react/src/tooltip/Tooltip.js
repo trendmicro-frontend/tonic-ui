@@ -119,7 +119,8 @@ const Tooltip = forwardRef((
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
 
   const handleOpen = useCallback(() => {
-    if (disabled) {
+    // The tooltip will not open if it is disabled or empty
+    if (disabled || !label) {
       return;
     }
 
@@ -192,7 +193,7 @@ const Tooltip = forwardRef((
     };
   }, []);
 
-  const arrowSize = '6px';
+  const arrowSize = '6px'; // FIXME: this should be a theme value
   const tooltipStyleProps = useTooltipStyle();
   const getTooltipTriggerProps = (ownProps = {}, ownRef = null) => {
     const eventHandlerProps = {
@@ -229,16 +230,12 @@ const Tooltip = forwardRef((
     return cloneElement(child, getTooltipTriggerProps(child?.props, child?.ref));
   })();
 
-  // Simply return the children if the `label` is empty
-  if (!label) {
-    return (
-      <>{children}</>
-    );
-  }
-
   return (
     <>
-      {(typeof children === 'function') ? children({ getTooltipTriggerProps }) : trigger}
+      {(typeof children === 'function')
+        ? children({ getTooltipTriggerProps })
+        : trigger
+      }
       {isHydrated && (
         <PopperComponent
           aria-hidden={!isOpen}
