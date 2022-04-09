@@ -94,15 +94,11 @@ const Tooltip = forwardRef((
   const exitTimeoutRef = useRef();
 
   const openWithDelay = useCallback(() => {
-    if (disabled) {
-      return;
-    }
-
     enterTimeoutRef.current = setTimeout(() => {
       setIsOpen(true);
       enterTimeoutRef.current = null;
     }, enterDelay);
-  }, [disabled, enterDelay]);
+  }, [enterDelay]);
 
   const closeWithDelay = useCallback(() => {
     if (enterTimeoutRef.current) {
@@ -131,7 +127,7 @@ const Tooltip = forwardRef((
     if (onOpenProp) {
       onOpenProp();
     }
-  }, [disabled, isControlled, onOpenProp, openWithDelay]);
+  }, [disabled, label, isControlled, onOpenProp, openWithDelay]);
 
   const handleClose = useCallback(() => {
     if (!isControlled) {
@@ -232,10 +228,7 @@ const Tooltip = forwardRef((
 
   return (
     <>
-      {(typeof children === 'function')
-        ? children({ getTooltipTriggerProps })
-        : trigger
-      }
+      {(typeof children === 'function') ? children({ getTooltipTriggerProps }) : trigger}
       {isHydrated && (
         <PopperComponent
           aria-hidden={!isOpen}
