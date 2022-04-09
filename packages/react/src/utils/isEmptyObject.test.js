@@ -1,3 +1,4 @@
+/* eslint-disable */
 import isEmptyObject from './isEmptyObject';
 import noop from './noop';
 

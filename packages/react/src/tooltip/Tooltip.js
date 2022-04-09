@@ -90,11 +90,11 @@ const Tooltip = forwardRef((
   const combinedRef = useForkRef(anchorRef, ref);
   const isHydrated = useHydrated();
   const canDisplayTooltip = (
-    !disabled
-    && !isBlankString(label) // '', ' ', '\t\r\n'
-    && !isEmptyArray(label) // []
-    && !isEmptyObject(label) // {}
-    && !isNullOrUndefined(label) // null or undefined
+    !disabled &&
+    !isBlankString(label) && // '', ' ', '\t\r\n'
+    !isEmptyArray(label) && // []
+    !isEmptyObject(label) && // {}
+    !isNullOrUndefined(label) // null or undefined
   );
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
 

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import isEmptyArray from './isEmptyArray';
 import noop from './noop';
 
