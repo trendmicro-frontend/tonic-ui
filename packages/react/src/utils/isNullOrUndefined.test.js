@@ -1,4 +1,5 @@
 import isNullOrUndefined from './isNullOrUndefined';
+import noop from './noop';
 
 describe('Check whether a value is null or undefined', () => {
   it('should return true', () => {
@@ -13,7 +14,7 @@ describe('Check whether a value is null or undefined', () => {
     expect(isNullOrUndefined([])).toBe(false);
     expect(isNullOrUndefined({})).toBe(false);
     expect(isNullOrUndefined(0)).toBe(false);
-    expect(isNullOrUndefined(function(){})).toBe(false); // eslint-disable-line
+    expect(isNullOrUndefined(noop)).toBe(false); // eslint-disable-line
     expect(isNullOrUndefined('')).toBe(false);
     expect(isNullOrUndefined('    ')).toBe(false);
     expect(isNullOrUndefined('\r\t\n ')).toBe(false);

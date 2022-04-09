@@ -6,6 +6,8 @@ import { Popper, PopperArrow } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
 import isBlankString from '../utils/isBlankString';
+import isEmptyArray from '../utils/isEmptyArray';
+import isEmptyObject from '../utils/isEmptyObject';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
 import ownerDocument from '../utils/dom/ownerDocument';
 import { mergeRefs } from '../utils/refs';
@@ -88,9 +90,11 @@ const Tooltip = forwardRef((
   const combinedRef = useForkRef(anchorRef, ref);
   const isHydrated = useHydrated();
   const canDisplayTooltip = (
-    !disabled // tooltip is not disabled
-    && !isBlankString(label) // tooltip is not a blank string (e.g. '' or ' ')
-    && !isNullOrUndefined(label) // tooltip is not null or undefined
+    !disabled
+    && !isBlankString(label) // '', ' ', '\t\r\n'
+    && !isEmptyArray(label) // []
+    && !isEmptyObject(label) // {}
+    && !isNullOrUndefined(label) // null or undefined
   );
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
 

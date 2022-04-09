@@ -76,9 +76,11 @@ Tooltip is uncontrolled by default. You can set `defaultIsOpen` to `true` to hav
 
 ### Hide the tooltip
 
-To hide the tooltip, you can pass a blank or empty string to the `label` prop, or pass the `disabled` prop.
+To hide the tooltip, you can pass an empty value to the `label` prop or use the `disabled` prop.
 
-#### Using the `label` prop
+#### Use the `label` prop to hide the tooltip
+
+> Empty values include `null`, `undefined`, `''` (empty string), `' '` (blank string), `[]`, and `{}`.
 
 ```jsx
 <Tooltip label="">
@@ -86,7 +88,7 @@ To hide the tooltip, you can pass a blank or empty string to the `label` prop, o
 </Tooltip>
 ```
 
-#### Using the `disabled` prop
+#### Use the `disabled` prop to hide the tooltip
 
 ```jsx
 <Tooltip label="Search" disabled>
