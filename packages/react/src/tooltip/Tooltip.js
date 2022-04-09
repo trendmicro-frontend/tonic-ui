@@ -5,6 +5,8 @@ import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
+import isBlankString from '../utils/isBlankString';
+import isNullOrUndefined from '../utils/isNullOrUndefined';
 import ownerDocument from '../utils/dom/ownerDocument';
 import { mergeRefs } from '../utils/refs';
 import useAutoId from '../utils/useAutoId';
@@ -85,10 +87,19 @@ const Tooltip = forwardRef((
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(anchorRef, ref);
   const isHydrated = useHydrated();
+  const canDisplayTooltip = (
+    !disabled // tooltip is not disabled
+    && !isBlankString(label) // tooltip is not a blank string (e.g. '' or ' ')
+    && !isNullOrUndefined(label) // tooltip is not null or undefined
+  );
+  const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
 
-  const [isOpen, setIsOpen] = useState(defaultIsOpen);
-  const { current: isControlled } = useRef((isOpenProp !== undefined) && (isOpenProp !== null));
-  const _isOpen = isControlled ? isOpenProp : isOpen;
+  useEffect(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (isControlled) {
+      setIsOpen(isOpenProp);
+    }
+  }, [isOpenProp]);
 
   const enterTimeoutRef = useRef();
   const exitTimeoutRef = useRef();
@@ -115,29 +126,30 @@ const Tooltip = forwardRef((
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
 
   const handleOpen = useCallback(() => {
-    // The tooltip will not open if it is disabled or empty
-    if (disabled || !label) {
+    if (!canDisplayTooltip) {
       return;
     }
 
+    const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       openWithDelay();
     }
 
-    if (onOpenProp) {
+    if (typeof onOpenProp === 'function') {
       onOpenProp();
     }
-  }, [disabled, label, isControlled, onOpenProp, openWithDelay]);
+  }, [canDisplayTooltip, isOpenProp, onOpenProp, openWithDelay]);
 
   const handleClose = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       closeWithDelay();
     }
 
-    if (onCloseProp) {
+    if (typeof onCloseProp === 'function') {
       onCloseProp();
     }
-  }, [isControlled, onCloseProp, closeWithDelay]);
+  }, [isOpenProp, onCloseProp, closeWithDelay]);
 
   const handleBlur = handleClose;
   const handleClick = useCallback(() => {
@@ -147,10 +159,10 @@ const Tooltip = forwardRef((
   }, [closeOnClick, handleClose]);
   const handleFocus = handleOpen;
   const handleKeyDown = useCallback((event) => {
-    if (_isOpen && closeOnEsc && event.key === 'Escape') {
+    if (isOpen && closeOnEsc && event.key === 'Escape') {
       handleClose();
     }
-  }, [_isOpen, closeOnEsc, handleClose]);
+  }, [isOpen, closeOnEsc, handleClose]);
   const handleMouseDown = useCallback(() => {
     if (closeOnMouseDown) {
       handleClose();
@@ -202,7 +214,7 @@ const Tooltip = forwardRef((
 
     return {
       ...ownProps,
-      'aria-describedby': _isOpen ? tooltipId : undefined,
+      'aria-describedby': isOpen ? tooltipId : undefined,
       ref: mergeRefs(combinedRef, ownRef),
       ...eventHandlerProps,
     };
@@ -229,10 +241,10 @@ const Tooltip = forwardRef((
   return (
     <>
       {(typeof children === 'function') ? children({ getTooltipTriggerProps }) : trigger}
-      {isHydrated && (
+      {(isHydrated && canDisplayTooltip) && (
         <PopperComponent
           aria-hidden={!isOpen}
-          isOpen={_isOpen}
+          isOpen={isOpen}
           data-popper-placement={placement}
           placement={placement}
           modifiers={{
