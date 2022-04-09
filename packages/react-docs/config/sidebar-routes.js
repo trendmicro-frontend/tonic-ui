@@ -157,6 +157,7 @@ const routes = [
       { title: 'TYPOGRAPHY', heading: true },
       { title: 'Text', path: 'components/text' },
       { title: 'TextLabel', path: 'components/textlabel' },
+      { title: 'Truncate', path: 'components/truncate' },
 
       { title: 'UTILITIES', heading: true },
       { title: 'CSSBaseline', path: 'components/cssbaseline' },
