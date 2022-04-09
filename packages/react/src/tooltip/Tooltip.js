@@ -202,22 +202,34 @@ const Tooltip = forwardRef((
 
   const arrowSize = '6px'; // FIXME: this should be a theme value
   const tooltipStyleProps = useTooltipStyle();
-  const getTooltipTriggerProps = (ownProps = {}, ownRef = null) => {
-    const eventHandlerProps = {
-      onBlur: wrapEvent(ownProps?.onBlur, handleBlur),
-      onClick: wrapEvent(ownProps?.onClick, handleClick),
-      onFocus: wrapEvent(ownProps?.onFocus, handleFocus),
-      onMouseDown: wrapEvent(ownProps?.onMouseDown, handleMouseDown),
-      onMouseEnter: wrapEvent(ownProps?.onMouseEnter, handleMouseEnter),
-    };
+  const getTooltipTriggerProps = useCallback(
+    (ownProps = {}, ownRef = null) => {
+      const eventHandlerProps = {
+        onBlur: wrapEvent(ownProps?.onBlur, handleBlur),
+        onClick: wrapEvent(ownProps?.onClick, handleClick),
+        onFocus: wrapEvent(ownProps?.onFocus, handleFocus),
+        onMouseDown: wrapEvent(ownProps?.onMouseDown, handleMouseDown),
+        onMouseEnter: wrapEvent(ownProps?.onMouseEnter, handleMouseEnter),
+      };
 
-    return {
-      ...ownProps,
-      'aria-describedby': isOpen ? tooltipId : undefined,
-      ref: mergeRefs(combinedRef, ownRef),
-      ...eventHandlerProps,
-    };
-  };
+      return {
+        ...ownProps,
+        'aria-describedby': isOpen ? tooltipId : undefined,
+        ref: mergeRefs(combinedRef, ownRef),
+        ...eventHandlerProps,
+      };
+    },
+    [
+      handleBlur,
+      handleClick,
+      handleFocus,
+      handleMouseDown,
+      handleMouseEnter,
+      isOpen,
+      tooltipId,
+      combinedRef,
+    ],
+  );
 
   const trigger = (() => {
     if (shouldWrapChildren) {
