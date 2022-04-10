@@ -5,6 +5,7 @@ import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import { Grow } from '../transitions';
 import isBlankString from '../utils/isBlankString';
+import isEmptyArray from '../utils/isEmptyArray';
 import { useTooltipContentStyle } from './styles';
 import useTooltip from './useTooltip';
 
@@ -31,6 +32,7 @@ const TooltipContent = forwardRef((
     PopperArrowProps,
     TransitionComponent = Grow,
     TransitionProps,
+    children,
     ...rest
   },
   ref,
@@ -43,7 +45,6 @@ const TooltipContent = forwardRef((
     disabled,
     hideArrow,
     isOpen,
-    label,
     placement,
     tooltipId,
   } = useTooltip();
@@ -54,12 +55,12 @@ const TooltipContent = forwardRef((
     return null;
   }
 
-  const canDisplayTooltip = (
-    !disabled && // not disabled
-    !!label && // truthy value check
-    !isBlankString(label) // not blank string
-  );
-  if (!canDisplayTooltip) {
+  if (disabled) {
+    return null;
+  }
+
+  if (!children || isBlankString(children) || isEmptyArray(children)) {
+    // TOOD: Objects are not valid as a React child
     return null;
   }
 
@@ -104,7 +105,7 @@ const TooltipContent = forwardRef((
                   transformOrigin={mapPlacementToTransformOrigin(placement)}
                   {...rest}
                 >
-                  {label}
+                  {children}
                   {!hideArrow && (
                     <PopperArrowComponent
                       arrowAt={arrowAt}

@@ -148,7 +148,6 @@ const Tooltip = forwardRef((
     enterDelay,
     hideArrow,
     isOpen,
-    label,
     leaveDelay,
     onClose: handleClose,
     onOpen: handleOpen,
@@ -170,7 +169,9 @@ const Tooltip = forwardRef((
         PopperArrowProps={PopperArrowProps}
         TransitionComponent={TransitionComponent}
         TransitionProps={TransitionProps}
-      />
+      >
+        {label}
+      </TooltipContent>
     </TooltipProvider>
   );
 });
