@@ -148,85 +148,73 @@ Text that overflows the container will be truncated and an ellipsis will be adde
 
 Try minimizing the width of the container to see how it behaves.
 
-```jsx noInline
-const EllipsisText = React.forwardRef((props, ref) => (
-  <Text
-    ref={ref}
-    overflow="hidden"
-    textOverflow="ellipsis"
-    whiteSpace="nowrap"
-    {...props}
-  />
-));
-
-render(() => {
+```jsx
+function Example() {
+  const textRef = React.useRef();
   const [isOpen, toggleIsOpen] = useToggle();
-  const handlePointerEnter = React.useCallback((e) => {
-    const isOverflow = e.currentTarget.scrollWidth > e.currentTarget.clientWidth;
-    isOverflow && toggleIsOpen(true);
-  }, [toggleIsOpen]);
-  const handlePointerLeave = React.useCallback((e) => {
-    toggleIsOpen(false);
-  }, [toggleIsOpen]);
+  useEventListener(
+    () => textRef.current,
+    'mouseenter', // It can be either 'mouseenter' or 'pointerenter'
+    React.useCallback((event) => {
+      const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
+      isOverflowing && toggleIsOpen(true);
+    }, [toggleIsOpen]),
+  );
+  useEventListener(
+    () => textRef.current,
+    'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
+    React.useCallback((event) => {
+      toggleIsOpen(false);
+    }, [toggleIsOpen]),
+  );
 
   return (
-    <Box>
-      <Tooltip
-        isOpen={isOpen}
-        label="This is a very long text string that might be truncated when exceeding the container width"
-      >
-        <EllipsisText
-          onPointerEnter={handlePointerEnter}
-          onPointerLeave={handlePointerLeave}
-        >
-          This is a very long text string that might be truncated when exceeding the container width
-        </EllipsisText>
-      </Tooltip>
-    </Box>
+    <Tooltip
+      isOpen={isOpen}
+      label="This is a very long text string that might be truncated when exceeding the container width"
+    >
+      <Truncate ref={textRef}>
+        This is a very long text string that might be truncated when exceeding the container width
+      </Truncate>
+    </Tooltip>
   );
-});
+}
 ```
 
-```jsx noInline
-const EllipsisText = React.forwardRef((props, ref) => (
-  <Text
-    ref={ref}
-    overflow="hidden"
-    textOverflow="ellipsis"
-    whiteSpace="nowrap"
-    {...props}
-  />
-));
-
-render(() => {
+```jsx
+function Example() {
+  const textRef = React.useRef();
   const [isOpen, toggleIsOpen] = useToggle();
-  const handlePointerEnter = React.useCallback((e) => {
-    const isOverflow = e.currentTarget.scrollWidth > e.currentTarget.clientWidth;
-    isOverflow && toggleIsOpen(true);
-  }, [toggleIsOpen]);
-  const handlePointerLeave = React.useCallback((e) => {
-    toggleIsOpen(false);
-  }, [toggleIsOpen]);
+  useEventListener(
+    () => textRef.current,
+    'mouseenter', // It can be either 'mouseenter' or 'pointerenter'
+    React.useCallback((event) => {
+      const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
+      isOverflowing && toggleIsOpen(true);
+    }, [toggleIsOpen]),
+  );
+  useEventListener(
+    () => textRef.current,
+    'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
+    React.useCallback((event) => {
+      toggleIsOpen(false);
+    }, [toggleIsOpen]),
+  );
 
   return (
-    <Box>
-      <Tooltip
-        isOpen={isOpen}
-        label="This is a very long text string that might be truncated when exceeding the container width"
-      >
-        <Flex alignItems="center" columnGap="2x">
-          <Icon icon="menu" />
-          <EllipsisText
-            onPointerEnter={handlePointerEnter}
-            onPointerLeave={handlePointerLeave}
-          >
-            This is a very long text string that might be truncated when exceeding the container width
-          </EllipsisText>
-        </Flex>
-      </Tooltip>
-    </Box>
+    <Tooltip
+      isOpen={isOpen}
+      label="This is a very long text string that might be truncated when exceeding the container width"
+    >
+      <Flex alignItems="center" columnGap="2x">
+        <Icon icon="menu" />
+        <Truncate ref={textRef}>
+          This is a very long text string that might be truncated when exceeding the container width
+        </Truncate>
+      </Flex>
+    </Tooltip>
   );
-});
+}
 ```
 
 ### Tooltip with `Menu`

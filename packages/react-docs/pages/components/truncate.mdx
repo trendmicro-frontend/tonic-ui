@@ -85,14 +85,23 @@ You can wrap `Truncate` with a `Tooltip` to display the full text in a tooltip w
 
 ```jsx
 function Example() {
+  const textRef = React.useRef();
   const [isOpen, toggleIsOpen] = useToggle();
-  const handlePointerEnter = React.useCallback((e) => {
-    const isOverflowing = e.currentTarget.scrollWidth > e.currentTarget.clientWidth;
-    isOverflowing && toggleIsOpen(true);
-  }, [toggleIsOpen]);
-  const handlePointerLeave = React.useCallback((e) => {
-    toggleIsOpen(false);
-  }, [toggleIsOpen]);
+  useEventListener(
+    () => textRef.current,
+    'mouseenter', // It can be either 'mouseleave' or 'pointerleave'
+    React.useCallback((event) => {
+      const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
+      isOverflowing && toggleIsOpen(true);
+    }, [toggleIsOpen]),
+  );
+  useEventListener(
+    () => textRef.current,
+    'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
+    React.useCallback((event) => {
+      toggleIsOpen(false);
+    }, [toggleIsOpen]),
+  );
 
   return (
     <Box maxWidth={240}>
@@ -100,10 +109,7 @@ function Example() {
         isOpen={isOpen}
         label="This is a very long text that will be truncated"
       >
-        <Truncate
-          onPointerEnter={handlePointerEnter}
-          onPointerLeave={handlePointerLeave}
-        >
+        <Truncate ref={textRef}>
           This is a very long text that will be truncated
         </Truncate>
       </Tooltip>
