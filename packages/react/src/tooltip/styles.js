@@ -3,7 +3,7 @@ import { useColorStyle } from '../color-style';
 
 const useTooltipTriggerStyle = () => {
   return {
-    display: 'inline-flex',
+    // The tooltip trigger style will be passed to the wrapper element when the "shouldWrapChildren" prop is set to true
   };
 };
 

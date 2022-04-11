@@ -226,6 +226,9 @@ test('should match expected exports', () => {
     'Slide',
     'Zoom',
 
+    // truncate
+    'Truncate',
+
     // visually-hidden
     'VisuallyHidden',
   ];
