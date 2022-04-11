@@ -22,12 +22,12 @@ Truncate will prevent text that overflows the container from wrapping.
 </Box>
 ```
 
-You can also set the maximum width of the truncated text with the `maxWidth` prop.
+You can also set the width of the truncated text with the `width` prop.
 
 ```jsx
 <Truncate
   title="This is a very long text that will be truncated"
-  maxWidth={240}
+  width={240}
 >
   This is a very long text that will be truncated
 </Truncate>
@@ -51,9 +51,9 @@ function Example() {
       >
         <Truncate
           title="This is a very long text that will be truncated"
-          maxWidth={240}
+          width={240}
           _hover={{
-            maxWidth: 'max-content',
+            width: 'max-content',
           }}
         >
           This is a very long text that will be truncated
@@ -104,7 +104,7 @@ function Example() {
   );
 
   return (
-    <Box maxWidth={240}>
+    <Box width={240}>
       <Tooltip
         isOpen={isOpen}
         label="This is a very long text that will be truncated"
