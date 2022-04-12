@@ -48,41 +48,45 @@ const Popover = ({
   const enterTimeoutRef = useRef();
   const leaveTimeoutRef = useRef();
 
-  const openWithDelay = useCallback((delay) => {
+  const openWithDelay = useCallback((callback, delay) => {
     if (leaveTimeoutRef.current) {
       clearTimeout(leaveTimeoutRef.current);
       leaveTimeoutRef.current = undefined;
     }
     if (delay > 0) {
       enterTimeoutRef.current = setTimeout(() => {
-        setIsOpen(true);
         enterTimeoutRef.current = undefined;
+        setIsOpen(true);
+        (typeof callback === 'function') && callback();
       }, enterDelay);
     } else {
       setIsOpen(true);
+      (typeof callback === 'function') && callback();
     }
   }, [enterDelay]);
 
-  const closeWithDelay = useCallback((delay) => {
+  const closeWithDelay = useCallback((callback, delay) => {
     if (enterTimeoutRef.current) {
       clearTimeout(enterTimeoutRef.current);
       enterTimeoutRef.current = undefined;
     }
     if (delay > 0) {
       leaveTimeoutRef.current = setTimeout(() => {
-        setIsOpen(false);
         leaveTimeoutRef.current = undefined;
+        setIsOpen(false);
+        (typeof callback === 'function') && callback();
       }, leaveDelay);
     } else {
       setIsOpen(false);
+      (typeof callback === 'function') && callback();
     }
   }, [leaveDelay]);
 
-  const onOpen = useCallback(() => {
+  const onOpen = useCallback((callback) => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       const delay = (trigger === 'hover') ? enterDelay : 0;
-      openWithDelay(delay);
+      openWithDelay(callback, delay);
     }
 
     if (typeof onOpenProp === 'function') {
@@ -90,11 +94,11 @@ const Popover = ({
     }
   }, [isOpenProp, onOpenProp, trigger, enterDelay, openWithDelay]);
 
-  const onClose = useCallback(() => {
+  const onClose = useCallback((callback) => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       const delay = (trigger === 'hover') ? leaveDelay : 0;
-      closeWithDelay(delay);
+      closeWithDelay(callback, delay);
     }
 
     if (typeof onCloseProp === 'function') {

@@ -1,5 +1,5 @@
 import { useEventListener } from '@tonic-ui/react-hooks';
-import React, { cloneElement, forwardRef, useCallback, useState } from 'react';
+import React, { cloneElement, forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
 import useForkRef from '../utils/useForkRef';
@@ -29,6 +29,7 @@ const PopoverTrigger = forwardRef((
   const combinedRef = useForkRef(popoverTriggerRef, ref);
   const styleProps = usePopoverTriggerStyle();
   const [enableMouseMove, setEnableMouseMove] = useState(true);
+  const mouseLeaveTimeoutRef = useRef();
 
   const clickTriggerHandler = {
     onClick: useCallback((event) => {
@@ -55,13 +56,20 @@ const PopoverTrigger = forwardRef((
     }, [onClose]),
     onMouseEnter: useCallback((event) => {
       isHoveringRef.current = true;
-      setEnableMouseMove(followCursor);
-      onOpen();
+      setEnableMouseMove(true); // track mouse movement
+      onOpen(() => {
+        setEnableMouseMove(followCursor); // after the enter delay, track mouse movement only if "followCursor" is true
+      });
     }, [followCursor, isHoveringRef, onOpen]),
     onMouseLeave: useCallback((event) => {
       isHoveringRef.current = false;
       setEnableMouseMove(true);
-      setTimeout(() => {
+      if (mouseLeaveTimeoutRef.current) {
+        clearTimeout(mouseLeaveTimeoutRef.current);
+        mouseLeaveTimeoutRef.current = undefined;
+      }
+      mouseLeaveTimeoutRef.current = setTimeout(() => {
+        mouseLeaveTimeoutRef.current = undefined;
         if (isHoveringRef.current === false) {
           onClose();
         }
