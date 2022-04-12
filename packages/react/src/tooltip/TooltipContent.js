@@ -40,13 +40,13 @@ const TooltipContent = forwardRef((
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const {
-    anchorRef,
     arrowAt,
     disabled,
     hideArrow,
     isOpen,
     placement,
     tooltipId,
+    tooltipTriggerRef,
   } = useTooltip();
   const arrowSize = '6px'; // FIXME: this should be a theme value
   const styleProps = useTooltipContentStyle();
@@ -73,7 +73,7 @@ const TooltipContent = forwardRef((
       modifiers={{
         offset: [0, 8],
       }}
-      anchorEl={anchorRef.current}
+      anchorEl={tooltipTriggerRef.current}
       hideArrow={hideArrow}
       id={tooltipId}
       role="tooltip"

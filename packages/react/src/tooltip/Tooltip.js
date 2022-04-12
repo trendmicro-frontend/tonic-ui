@@ -69,7 +69,7 @@ const Tooltip = forwardRef((
     }, (hideDelay !== undefined));
   }
 
-  const anchorRef = useRef(null);
+  const tooltipTriggerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
 
   useEffect(() => {
@@ -80,79 +80,91 @@ const Tooltip = forwardRef((
   }, [isOpenProp]);
 
   const enterTimeoutRef = useRef();
-  const exitTimeoutRef = useRef();
+  const leaveTimeoutRef = useRef();
 
-  const openWithDelay = useCallback(() => {
-    enterTimeoutRef.current = setTimeout(() => {
+  const openWithDelay = useCallback((delay) => {
+    if (leaveTimeoutRef.current) {
+      clearTimeout(leaveTimeoutRef.current);
+      leaveTimeoutRef.current = undefined;
+    }
+    if (delay > 0) {
+      enterTimeoutRef.current = setTimeout(() => {
+        setIsOpen(true);
+        enterTimeoutRef.current = undefined;
+      }, enterDelay);
+    } else {
       setIsOpen(true);
-      enterTimeoutRef.current = null;
-    }, enterDelay);
+    }
   }, [enterDelay]);
 
-  const closeWithDelay = useCallback(() => {
+  const closeWithDelay = useCallback((delay) => {
     if (enterTimeoutRef.current) {
       clearTimeout(enterTimeoutRef.current);
-      enterTimeoutRef.current = null;
+      enterTimeoutRef.current = undefined;
     }
-    exitTimeoutRef.current = setTimeout(() => {
+    if (delay > 0) {
+      leaveTimeoutRef.current = setTimeout(() => {
+        setIsOpen(false);
+        leaveTimeoutRef.current = undefined;
+      }, leaveDelay);
+    } else {
       setIsOpen(false);
-      exitTimeoutRef.current = null;
-    }, leaveDelay);
+    }
   }, [leaveDelay]);
 
   const defaultId = useAutoId();
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
 
-  const handleOpen = useCallback(() => {
+  const onOpen = useCallback(() => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
-      openWithDelay();
+      const delay = enterDelay;
+      openWithDelay(delay);
     }
 
     if (typeof onOpenProp === 'function') {
       onOpenProp();
     }
-  }, [isOpenProp, onOpenProp, openWithDelay]);
+  }, [isOpenProp, onOpenProp, openWithDelay, enterDelay]);
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
-      closeWithDelay();
+      const delay = leaveDelay;
+      closeWithDelay(delay);
     }
 
     if (typeof onCloseProp === 'function') {
       onCloseProp();
     }
-  }, [isOpenProp, onCloseProp, closeWithDelay]);
+  }, [isOpenProp, onCloseProp, closeWithDelay, leaveDelay]);
 
   useEffect(() => {
     return () => {
       if (enterTimeoutRef.current) {
         clearTimeout(enterTimeoutRef.current);
-        enterTimeoutRef.current = null;
+        enterTimeoutRef.current = undefined;
       }
-      if (exitTimeoutRef.current) {
-        clearTimeout(exitTimeoutRef.current);
-        exitTimeoutRef.current = null;
+      if (leaveTimeoutRef.current) {
+        clearTimeout(leaveTimeoutRef.current);
+        leaveTimeoutRef.current = undefined;
       }
     };
   }, []);
 
   const context = getMemoizedState({
-    anchorRef,
     arrowAt,
     closeOnClick,
     closeOnEsc,
     closeOnMouseDown,
     disabled,
-    enterDelay,
     hideArrow,
     isOpen,
-    leaveDelay,
-    onClose: handleClose,
-    onOpen: handleOpen,
+    onClose,
+    onOpen,
     placement,
     tooltipId,
+    tooltipTriggerRef,
   });
 
   return (
