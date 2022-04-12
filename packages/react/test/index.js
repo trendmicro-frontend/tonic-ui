@@ -128,6 +128,7 @@ test('should match expected exports', () => {
     'PopoverFooter',
     'PopoverHeader',
     'PopoverTrigger',
+    'usePopover',
 
     // popper
     'Popper',

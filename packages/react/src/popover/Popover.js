@@ -1,9 +1,12 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
-import React, { useEffect, useRef, useState } from 'react';
+import memoize from 'micro-memoize';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
 import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
-import { PopoverContextProvider } from './context';
+import { PopoverProvider } from './context';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const Popover = ({
   arrowAt,
@@ -12,7 +15,7 @@ const Popover = ({
   closeOnEsc = true,
   defaultIsOpen = false,
   distance = 4,
-  enterDelay = 0,
+  enterDelay = 100,
   followCursor,
   hideArrow,
   id,
@@ -27,126 +30,170 @@ const Popover = ({
   skidding = 0,
   trigger = 'click',
 }) => {
-  const [isOpen, setIsOpen] = useState(defaultIsOpen);
+  const popoverTriggerRef = useRef();
+  const popoverContentRef = useRef();
+  const isHoveringRef = useRef();
   const [mousePageX, setMousePageX] = useState(0);
   const [mousePageY, setMousePageY] = useState(0);
-  const { current: isControlled } = useRef(isOpenProp != null);
+  const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
+  const prevIsOpen = usePrevious(isOpen);
 
-  const isHoveringRef = useRef();
-
-  const anchorRef = useRef();
-  const popoverRef = useRef();
-
-  const _isOpen = isControlled ? isOpenProp : isOpen;
-
-  const onToggle = () => {
-    if (!isControlled) {
-      setIsOpen(!_isOpen);
+  useEffect(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (isControlled) {
+      setIsOpen(isOpenProp);
     }
+  }, [isOpenProp]);
 
-    if (!_isOpen) {
-      onOpenProp && onOpenProp();
+  const enterTimeoutRef = useRef();
+  const leaveTimeoutRef = useRef();
+
+  const openWithDelay = useCallback((delay) => {
+    if (leaveTimeoutRef.current) {
+      clearTimeout(leaveTimeoutRef.current);
+      leaveTimeoutRef.current = undefined;
+    }
+    if (delay > 0) {
+      enterTimeoutRef.current = setTimeout(() => {
+        setIsOpen(true);
+        enterTimeoutRef.current = undefined;
+      }, enterDelay);
     } else {
-      onCloseProp && onCloseProp();
+      setIsOpen(true);
     }
-  };
+  }, [enterDelay]);
 
-  const onOpen = () => {
-    !isControlled && setIsOpen(true);
-    onOpenProp && onOpenProp();
-  };
+  const closeWithDelay = useCallback((delay) => {
+    if (enterTimeoutRef.current) {
+      clearTimeout(enterTimeoutRef.current);
+      enterTimeoutRef.current = undefined;
+    }
+    if (delay > 0) {
+      leaveTimeoutRef.current = setTimeout(() => {
+        setIsOpen(false);
+        leaveTimeoutRef.current = undefined;
+      }, leaveDelay);
+    } else {
+      setIsOpen(false);
+    }
+  }, [leaveDelay]);
 
-  const onClose = () => {
-    !isControlled && setIsOpen(false);
-    onCloseProp && onCloseProp();
-  };
+  const onOpen = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (!isControlled) {
+      const delay = (trigger === 'hover') ? enterDelay : 0;
+      openWithDelay(delay);
+    }
 
-  const handleBlur = event => {
-    if (
-      _isOpen &&
-      closeOnBlur &&
-      popoverRef.current &&
-      anchorRef.current &&
-      !popoverRef.current.contains(event.relatedTarget) &&
-      !anchorRef.current.contains(event.relatedTarget)
-    ) {
+    if (typeof onOpenProp === 'function') {
+      onOpenProp();
+    }
+  }, [isOpenProp, onOpenProp, trigger, enterDelay, openWithDelay]);
+
+  const onClose = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (!isControlled) {
+      const delay = (trigger === 'hover') ? leaveDelay : 0;
+      closeWithDelay(delay);
+    }
+
+    if (typeof onCloseProp === 'function') {
+      onCloseProp();
+    }
+  }, [isOpenProp, onCloseProp, trigger, leaveDelay, closeWithDelay]);
+
+  const onBlur = useCallback((event) => {
+    const relatedTarget = event.relatedTarget;
+    const triggerEl = popoverTriggerRef.current;
+    const contentEl = popoverContentRef.current;
+    const isOutsideTrigger = !(triggerEl?.contains?.(relatedTarget));
+    const isOutsideContent = !(contentEl?.contains?.(relatedTarget));
+
+    if (isOpen && closeOnBlur && isOutsideTrigger && isOutsideContent) {
       onClose();
     }
-  };
+  }, [isOpen, closeOnBlur, onClose, popoverTriggerRef, popoverContentRef]);
 
-  const setMouseCoordinate = event => {
+  const setMouseCoordinate = useCallback((event) => {
     setMousePageX(event.pageX);
     setMousePageY(event.pageY);
-  };
+  }, []);
 
   const defaultId = useAutoId();
   const fallbackId = `${config.name}:Popover-${defaultId}`;
   const popoverId = id || fallbackId;
-
-  const headerId = `${popoverId}-header`;
-  const bodyId = `${popoverId}-body`;
-
-  const prevIsOpen = usePrevious(_isOpen);
+  const popoverHeaderId = `${popoverId}-header`;
+  const popoverBodyId = `${popoverId}-body`;
 
   useEffect(() => {
-    if (_isOpen && trigger === 'click') {
+    if (isOpen && trigger === 'click') {
       requestAnimationFrame(() => {
         if (initialFocusRef && initialFocusRef.current) {
           initialFocusRef.current.focus();
-        } else if (popoverRef.current) {
-          popoverRef.current.focus();
+        } else if (popoverContentRef.current) {
+          popoverContentRef.current.focus();
         }
       });
     }
 
-    if (!_isOpen && prevIsOpen && trigger === 'click' && returnFocusOnClose) {
-      if (anchorRef.current) {
-        anchorRef.current.focus();
+    if (!isOpen && prevIsOpen && trigger === 'click' && returnFocusOnClose) {
+      if (popoverTriggerRef.current) {
+        popoverTriggerRef.current.focus();
       }
     }
   }, [
-    _isOpen,
-    popoverRef,
+    isOpen,
+    popoverContentRef,
     initialFocusRef,
     trigger,
-    anchorRef,
+    popoverTriggerRef,
     prevIsOpen,
     returnFocusOnClose,
   ]);
 
-  const context = {
-    popoverRef,
-    anchorRef,
-    headerId,
-    bodyId,
-    popoverId,
-    placement: (nextToCursor || followCursor) ? 'bottom-start' : placement,
-    onOpen,
-    onClose,
-    onToggle,
-    trigger,
-    isOpen: _isOpen,
-    onBlur: handleBlur,
+  useEffect(() => {
+    return () => {
+      if (enterTimeoutRef.current) {
+        clearTimeout(enterTimeoutRef.current);
+        enterTimeoutRef.current = undefined;
+      }
+      if (leaveTimeoutRef.current) {
+        clearTimeout(leaveTimeoutRef.current);
+        leaveTimeoutRef.current = undefined;
+      }
+    };
+  }, []);
+
+  const context = getMemoizedState({
+    arrowAt,
     closeOnEsc,
+    distance,
+    followCursor,
+    hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
     initialFocusRef,
     isHoveringRef,
-    hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
-    skidding,
-    distance,
-    enterDelay,
-    leaveDelay,
-    setMouseCoordinate,
-    nextToCursor,
-    followCursor,
+    isOpen,
     mousePageX,
     mousePageY,
-    arrowAt,
-  };
+    nextToCursor,
+    onBlur,
+    onClose,
+    onOpen,
+    placement: (nextToCursor || followCursor) ? 'bottom-start' : placement,
+    popoverId,
+    popoverBodyId,
+    popoverContentRef,
+    popoverHeaderId,
+    popoverTriggerRef,
+    setMouseCoordinate,
+    skidding,
+    trigger,
+  });
 
   return (
-    <PopoverContextProvider value={context}>
+    <PopoverProvider value={context}>
       {runIfFn(children, context)}
-    </PopoverContextProvider>
+    </PopoverProvider>
   );
 };
 

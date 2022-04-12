@@ -4,6 +4,7 @@ import PopoverContent from './PopoverContent';
 import PopoverFooter from './PopoverFooter';
 import PopoverHeader from './PopoverHeader';
 import PopoverTrigger from './PopoverTrigger';
+import usePopover from './usePopover';
 
 Popover.Header = PopoverHeader;
 Popover.Body = PopoverBody;
@@ -19,4 +20,5 @@ export {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
+  usePopover,
 };

@@ -23,6 +23,7 @@ import {
   PopoverHeader,
   PopoverBody,
   PopoverFooter,
+  usePopover,
 } from '@tonic-ui/react';
 ```
 
@@ -337,7 +338,7 @@ Use the `placement` prop to control the placement of the popover.
 | closeOnEsc | boolean | true | If `true`, the popover will close when you press the `Esc` key. |
 | defaultIsOpen | boolean | false | Whether the popover will be open by default. |
 | distance | number | 4 | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
-| enterDelay | number | 0 | The number of milliseconds to wait before showing the popover if `trigger` is hover. |
+| enterDelay | number | 100 | The number of milliseconds to wait before showing the popover if `trigger` is hover. |
 | followCursor | boolean | | If `true`, the popover will follow the cursor. |
 | hideArrow | boolean | | If `true`, the arrow will not be displayed. |
 | id | string | | The id of the popover. |

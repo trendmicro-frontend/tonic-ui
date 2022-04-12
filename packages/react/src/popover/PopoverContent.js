@@ -5,8 +5,8 @@ import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import { Grow } from '../transitions';
 import wrapEvent from '../utils/wrapEvent';
-import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';
+import usePopover from './usePopover';
 
 const mapPlacementToTransformOrigin = placement => ({
   'top': 'bottom center',
@@ -41,8 +41,8 @@ const PopoverContent = ({
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const {
-    popoverRef,
-    anchorRef,
+    popoverContentRef,
+    popoverTriggerRef,
     placement,
     popoverId,
     isOpen,
@@ -51,12 +51,11 @@ const PopoverContent = ({
     onClose,
     isHoveringRef,
     trigger,
-    headerId,
-    bodyId,
+    popoverBodyId,
+    popoverHeaderId,
     hideArrow,
     skidding,
     distance,
-    leaveDelay,
     nextToCursor,
     followCursor,
     mousePageX,
@@ -88,10 +87,10 @@ const PopoverContent = ({
     return getOffset(element.offsetParent, relativeTop) + (relativeTop ? element.offsetTop : element.offsetLeft);
   };
 
-  if ((nextToCursor || followCursor) && anchorRef.current) {
-    const { offsetHeight } = anchorRef.current;
-    const offsetLeft = getOffset(anchorRef.current);
-    const offsetTop = getOffset(anchorRef.current, true);
+  if ((nextToCursor || followCursor) && popoverTriggerRef.current) {
+    const { offsetHeight } = popoverTriggerRef.current;
+    const offsetLeft = getOffset(popoverTriggerRef.current);
+    const offsetTop = getOffset(popoverTriggerRef.current, true);
     _skidding = mousePageX - offsetLeft + 8; // 8px is a estimated value of cursor
     _distance = -8 + (mousePageY - offsetTop - offsetHeight) + 24; // 24px is a estimated value of cursor
   }
@@ -103,7 +102,7 @@ const PopoverContent = ({
       }),
       onMouseLeave: wrapEvent(onMouseLeave, () => {
         isHoveringRef.current = false;
-        setTimeout(onClose, leaveDelay);
+        onClose();
       }),
     };
 
@@ -127,13 +126,13 @@ const PopoverContent = ({
 
   return (
     <PopperComponent
+      aria-describedby={popoverBodyId}
       aria-hidden={!isOpen}
-      aria-labelledby={headerId}
-      aria-describedby={bodyId}
+      aria-labelledby={popoverHeaderId}
       isOpen={isOpen}
       placement={placement}
-      anchorEl={anchorRef.current}
-      ref={popoverRef}
+      anchorEl={popoverTriggerRef.current}
+      ref={popoverContentRef}
       id={popoverId}
       arrowSize={`${arrowSize}px`}
       modifiers={{

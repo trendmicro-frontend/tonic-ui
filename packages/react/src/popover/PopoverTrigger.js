@@ -1,121 +1,153 @@
-import { useOnceWhen } from '@tonic-ui/react-hooks';
-import React, { forwardRef, useRef, useState } from 'react';
+import { useEventListener } from '@tonic-ui/react-hooks';
+import React, { cloneElement, forwardRef, useCallback, useState } from 'react';
 import { Box } from '../box';
+import { mergeRefs } from '../utils/refs';
 import useForkRef from '../utils/useForkRef';
-import warnRemovedProps from '../utils/warnRemovedProps';
-import { usePopover } from './context';
+import wrapEvent from '../utils/wrapEvent';
+import { usePopoverTriggerStyle } from './styles';
+import usePopover from './usePopover';
 
 const PopoverTrigger = forwardRef((
   {
-    shouldWrapChildren, // removed
-
     children,
+    shouldWrapChildren = false,
     ...rest
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${PopoverTrigger.displayName}:`;
-
-    useOnceWhen(() => {
-      warnRemovedProps('shouldWrapChildren', {
-        prefix,
-        message: 'Use Function as Child Component (FaCC) to render the popover trigger instead.',
-      });
-    }, (shouldWrapChildren !== undefined && !shouldWrapChildren));
-  }
-
   const {
-    anchorRef,
-    popoverId,
-    onToggle,
-    trigger,
-    onOpen,
+    followCursor,
+    isHoveringRef,
     isOpen,
     onClose,
-    isHoveringRef,
-    enterDelay,
-    leaveDelay,
+    onOpen,
+    popoverId,
+    popoverTriggerRef,
     setMouseCoordinate,
-    nextToCursor,
-    followCursor
+    trigger,
   } = usePopover();
-  const combinedRef = useForkRef(anchorRef, ref);
-  const openTimeout = useRef(null);
+  const combinedRef = useForkRef(popoverTriggerRef, ref);
+  const styleProps = usePopoverTriggerStyle();
   const [enableMouseMove, setEnableMouseMove] = useState(true);
 
-  const eventHandlerProps = {};
-
-  if (trigger === 'click') {
-    eventHandlerProps.onClick = onToggle;
-    eventHandlerProps.onKeyDown = (event) => {
-      if (event.key === 'Enter') {
-        setTimeout(onOpen, enterDelay);
-      }
-    };
-  }
-
-  if (trigger === 'hover') {
-    eventHandlerProps.onFocus = onOpen;
-    eventHandlerProps.onKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setTimeout(onClose, leaveDelay);
-      }
-    };
-    eventHandlerProps.onBlur = onClose;
-    eventHandlerProps.onMouseEnter = (event) => {
-      isHoveringRef.current = true;
-      openTimeout.current = setTimeout(() => {
-        setEnableMouseMove(followCursor);
+  const clickTriggerHandler = {
+    onClick: useCallback((event) => {
+      if (isOpen) {
+        onClose();
+      } else {
         onOpen();
-      }, enterDelay || ((nextToCursor || followCursor) && 500));
-    };
-    eventHandlerProps.onMouseLeave = (event) => {
+      }
+    }, [isOpen, onClose, onOpen]),
+    onKeyDown: useCallback((event) => {
+      if (event.key === 'Enter') {
+        onOpen();
+      }
+    }, [onOpen]),
+  };
+
+  const hoverTriggerHandler = {
+    onBlur: onClose,
+    onFocus: onOpen,
+    onKeyDown: useCallback((event) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }, [onClose]),
+    onMouseEnter: useCallback((event) => {
+      isHoveringRef.current = true;
+      setEnableMouseMove(followCursor);
+      onOpen();
+    }, [followCursor, isHoveringRef, onOpen]),
+    onMouseLeave: useCallback((event) => {
       isHoveringRef.current = false;
       setEnableMouseMove(true);
-      if (openTimeout.current) {
-        clearTimeout(openTimeout.current);
-        openTimeout.current = null;
-      }
       setTimeout(() => {
         if (isHoveringRef.current === false) {
           onClose();
         }
-      }, leaveDelay || 100); // keep opening popover when cursor quick move from trigger element to popover.
-    };
-    eventHandlerProps.onMouseMove = (event) => {
-      (enableMouseMove || followCursor) && setMouseCoordinate(event);
-    };
-  }
-
-  const getPopoverTriggerProps = () => {
-    const popoverTriggerStyleProps = {
-      display: 'inline-flex',
-    };
-
-    return {
-      'aria-haspopup': 'dialog',
-      'aria-controls': popoverId,
-      'aria-expanded': isOpen,
-      ref: combinedRef,
-      role: 'button',
-      ...popoverTriggerStyleProps,
-      ...eventHandlerProps,
-    };
+      }, 100); // XXX: keep opening popover when cursor quick move from trigger element to popover.
+    }, [isHoveringRef, onClose]),
+    onMouseMove: useCallback((event) => {
+      if (enableMouseMove || followCursor) {
+        setMouseCoordinate(event);
+      }
+    }, [enableMouseMove, followCursor, setMouseCoordinate]),
   };
+
+  /**
+   * This allows for catching the "mouseleave" event when the popover trigger is disabled.
+   * There is currently a known issue in React regarding the onMouseLeave polyfill.
+   * @see https://github.com/facebook/react/issues/11972
+   */
+  useEventListener(
+    () => popoverTriggerRef.current,
+    'mouseleave',
+    trigger === 'hover' ? hoverTriggerHandler.onMouseLeave : undefined,
+  );
+
+  const getPopoverTriggerProps = useCallback(
+    (ownProps = {}, ownRef = null) => {
+      const eventHandlerProps = {
+        'click': {
+          onClick: clickTriggerHandler.onClick,
+          onKeyDown: clickTriggerHandler.onKeyDown,
+        },
+        'hover': {
+          onBlur: wrapEvent(ownProps?.onBlur, hoverTriggerHandler.onBlur),
+          onFocus: wrapEvent(ownProps?.onFocus, hoverTriggerHandler.onFocus),
+          onKeyDown: wrapEvent(ownProps?.onKeyDown, hoverTriggerHandler.onKeyDown),
+          onMouseEnter: wrapEvent(ownProps?.onMouseEnter, hoverTriggerHandler.onMouseEnter),
+          onMouseMove: wrapEvent(ownProps?.onMouseMove, hoverTriggerHandler.onMouseMove),
+        },
+      }[trigger];
+
+      return {
+        ...ownProps,
+        'aria-haspopup': 'dialog',
+        'aria-controls': popoverId,
+        'aria-expanded': isOpen,
+        ref: mergeRefs(combinedRef, ownRef),
+        ...eventHandlerProps,
+      };
+    },
+    [
+      clickTriggerHandler.onClick,
+      clickTriggerHandler.onKeyDown,
+      hoverTriggerHandler.onBlur,
+      hoverTriggerHandler.onFocus,
+      hoverTriggerHandler.onKeyDown,
+      hoverTriggerHandler.onMouseEnter,
+      hoverTriggerHandler.onMouseMove,
+      combinedRef,
+      isOpen,
+      popoverId,
+      trigger,
+    ],
+  );
 
   if (typeof children === 'function') {
     return children({ getPopoverTriggerProps });
   }
 
-  return (
-    <Box
-      {...getPopoverTriggerProps()}
-      {...rest}
-    >
-      {children}
-    </Box>
-  );
+  if (shouldWrapChildren) {
+    const popoverTriggerProps = getPopoverTriggerProps();
+
+    return (
+      <Box
+        {...popoverTriggerProps}
+        {...styleProps}
+        {...rest}
+      >
+        {children}
+      </Box>
+    );
+  }
+
+  // Ensure popover has only one child node
+  const child = React.Children.only(children);
+  const popoverTriggerProps = getPopoverTriggerProps(child?.props, child?.ref);
+
+  return cloneElement(child, popoverTriggerProps);
 });
 
 PopoverTrigger.displayName = 'PopoverTrigger';
