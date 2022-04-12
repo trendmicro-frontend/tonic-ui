@@ -41,6 +41,7 @@ export * from './theme';
 export * from './toast';
 export * from './tooltip';
 export * from './transitions';
+export * from './truncate';
 export * from './visually-hidden';
 
 // settings

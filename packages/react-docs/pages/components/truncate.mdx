@@ -1,0 +1,125 @@
+# Truncate
+
+The `Truncate` component will shorten text with an ellipsis. Always add a `title` attribute to the truncated element so the full text can be displayed in a tooltip.
+
+## Import
+
+```js
+import { Truncate } from '@tonic-ui/react';
+```
+
+## Usage
+
+### Default example
+
+Truncate will prevent text that overflows the container from wrapping.
+
+```jsx
+<Box width={240}>
+  <Truncate title="This is a very long text that will be truncated">
+    This is a very long text that will be truncated
+  </Truncate>
+</Box>
+```
+
+You can also set the width of the truncated text with the `width` prop.
+
+```jsx
+<Truncate
+  title="This is a very long text that will be truncated"
+  width={240}
+>
+  This is a very long text that will be truncated
+</Truncate>
+```
+
+### Expandable example
+
+You can use the `_hover` prop to control how to expand the truncated text on hover.
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Flex direction="column" rowGap="3x">
+      <Box
+        backgroundColor={colorStyle.background.secondary}
+        px="3x"
+        py="2x"
+      >
+        <Truncate
+          title="This is a very long text that will be truncated"
+          width={240}
+          _hover={{
+            width: 'max-content',
+          }}
+        >
+          This is a very long text that will be truncated
+        </Truncate>
+      </Box>
+      <Box
+        backgroundColor={colorStyle.background.secondary}
+        px="3x"
+        py="2x"
+        width={240}
+      >
+        <Truncate
+          title="This is a very long text that will be truncated"
+          _hover={{
+            overflow: 'visible',
+          }}
+        >
+          This is a very long text that will be truncated
+        </Truncate>
+      </Box>
+    </Flex>
+  );
+}
+```
+
+### Tooltip example
+
+You can wrap `Truncate` with a `Tooltip` to display the full text in a tooltip when the text is truncated.
+
+```jsx
+function Example() {
+  const textRef = React.useRef();
+  const [isOpen, toggleIsOpen] = useToggle();
+  useEventListener(
+    () => textRef.current,
+    'mouseenter', // It can be either 'mouseleave' or 'pointerleave'
+    React.useCallback((event) => {
+      const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
+      isOverflowing && toggleIsOpen(true);
+    }, [toggleIsOpen]),
+  );
+  useEventListener(
+    () => textRef.current,
+    'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
+    React.useCallback((event) => {
+      toggleIsOpen(false);
+    }, [toggleIsOpen]),
+  );
+
+  return (
+    <Box width={240}>
+      <Tooltip
+        isOpen={isOpen}
+        label="This is a very long text that will be truncated"
+      >
+        <Truncate ref={textRef}>
+          This is a very long text that will be truncated
+        </Truncate>
+      </Tooltip>
+    </Box>
+  );
+}
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

@@ -157,6 +157,7 @@ const routes = [
       { title: 'TYPOGRAPHY', heading: true },
       { title: 'Text', path: 'components/text' },
       { title: 'TextLabel', path: 'components/textlabel' },
+      { title: 'Truncate', path: 'components/truncate' },
 
       { title: 'UTILITIES', heading: true },
       { title: 'CSSBaseline', path: 'components/cssbaseline' },
@@ -175,6 +176,7 @@ const routes = [
       { title: 'useEffectOnce', path: 'hooks/useEffectOnce' },
       { title: 'useEffectOnceWhen', path: 'hooks/useEffectOnceWhen' },
       { title: 'useEventCallback', path: 'hooks/useEventCallback' },
+      { title: 'useEventListener', path: 'hooks/useEventListener' },
       { title: 'useHydrated', path: 'hooks/useHydrated' },
       { title: 'useIsomorphicEffect', path: 'hooks/useIsomorphicEffect' },
       { title: 'useLatest', path: 'hooks/useLatest' },

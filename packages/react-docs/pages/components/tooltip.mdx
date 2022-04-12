@@ -12,79 +12,209 @@ import { Tooltip } from '@tonic-ui/react';
 
 ## Usage
 
-### Controlled and uncontrolled tooltips
+By default, you have to pass a single React element child to the `Tooltip` component.
+
+```jsx disabled
+<Tooltip label="This is a tooltip">
+  <Text display="inline-block">This is the text content</Text>
+</Tooltip>
+```
+
+If you need to pass more than one child element or non-element children, wrap them in an element or pass the `shouldWrapChildren` prop.
+
+```jsx disabled
+<Tooltip label="This is a tooltip">
+  <>This is the text content</>
+</Tooltip>
+
+<Tooltip label="This is a tooltip" shouldWrapChildren>
+  This is the text content
+</Tooltip>
+
+<Tooltip label="This is a tooltip" shouldWrapChildren>
+  <Icon icon="menu" height="5x" mr="2x" />
+  <Text>This is the text content</Text>
+</Tooltip>
+```
+
+### Controlled tooltip
 
 Pass `isOpen` to the `Tooltip` component to control the state of the tooltip.
 
 ```jsx
-<Tooltip label="This is a controlled tooltip" isOpen>
-  <Text>Tooltip anchor</Text>
+function Example() {
+  const [on, toggle] = useToggle(false);
+
+  return (
+    <>
+      <Box mb="4x">
+        <Switch checked={on} onChange={toggle} />
+      </Box>
+      <Tooltip
+        label="This is a controlled tooltip"
+        isOpen={on}
+      >
+        <Text display="inline-block">This is the text content</Text>
+      </Tooltip>
+    </>
+  );
+}
+```
+
+### Uncontrolled tooltip
+
+Tooltip is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the tooltip open for the first render.
+
+```jsx
+<Tooltip
+  label="This is an uncontrolled tooltip"
+  defaultIsOpen={true}
+>
+  <Text display="inline-block">This is the text content</Text>
 </Tooltip>
 ```
 
-Set `defaultIsOpen` to `true` to have the tooltip open by default.
+### Hide the tooltip
+
+To hide the tooltip, you can pass an empty value (i.e. `!value`) to the `label` prop or use the `disabled` prop.
+
+#### Use the `label` prop to hide the tooltip
 
 ```jsx
-<Tooltip label="This is an uncontrolled tooltip" defaultIsOpen>
-  <Text>Tooltip anchor</Text>
+<Tooltip label="">
+  <Icon icon="search-o" />
+</Tooltip>
+```
+
+#### Use the `disabled` prop to hide the tooltip
+
+```jsx
+<Tooltip label="Search" disabled>
+  <Icon icon="search-o" />
+</Tooltip>
+```
+
+### Hide the arrow of the tooltip
+
+Pass `hideArrow` to the `Tooltip` component to hide the arrow of the tooltip.
+
+```jsx
+<Tooltip label="Search" hideArrow>
+  <Icon icon="search-o" />
+</Tooltip>
+```
+
+### Tooltip around disabled button
+
+By default the `Tooltip` is not shown when it is around a disabled `Button`.
+
+```jsx
+<Tooltip label="This is a tooltip">
+  <Button disabled>Button</Button>
+</Tooltip>
+```
+
+To show the `Tooltip` on a disabled `Button`, pass the `shouldWrapChildren` prop.
+
+```jsx
+<Tooltip label="This is a tooltip" shouldWrapChildren>
+  <Button disabled>Button</Button>
 </Tooltip>
 ```
 
 ### Tooltip with focusable content
 
-If the children of Tooltip are focusable elements, Tooltip will show when you focus or hover on the a children element and will hide when you blur or move cursor out of the element.
+If the children of the tooltip is a focusable element, the tooltip will show when you focus or hover on the element, and will hide when you blur or move cursor out of the element.
 
 ```jsx
-<Tooltip label="Search places">
+<Tooltip label="This is a tooltip">
   <Button>Button</Button>
 </Tooltip>
 ```
 
 ### Tooltip with non-focusable content
 
-If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0"` to make it focusable.
+If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0"` to make it tabbable.
 
 ```jsx
-<Tooltip label="Hey, I'm here!">
-  <Text tabIndex="0">Hover me</Text>
+<Tooltip label="This is a tooltip">
+  <Text display="inline-block" tabIndex="0">This is the text content</Text>
 </Tooltip>
 ```
 
-### Icon
+### Tooltip with ellipsis text
+
+Text that overflows the container will be truncated and an ellipsis will be added. A tooltip will be shown when you hover or focus on the ellipsis text.
+
+Try minimizing the width of the container to see how it behaves.
 
 ```jsx
-<Tooltip label="Show calendar">
-  <Icon cursor="pointer" icon="calendar" />
-</Tooltip>
+function Example() {
+  const textRef = React.useRef();
+  const [isOpen, toggleIsOpen] = useToggle();
+  useEventListener(
+    () => textRef.current,
+    'mouseenter', // It can be either 'mouseenter' or 'pointerenter'
+    React.useCallback((event) => {
+      const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
+      isOverflowing && toggleIsOpen(true);
+    }, [toggleIsOpen]),
+  );
+  useEventListener(
+    () => textRef.current,
+    'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
+    React.useCallback((event) => {
+      toggleIsOpen(false);
+    }, [toggleIsOpen]),
+  );
+
+  return (
+    <Tooltip
+      isOpen={isOpen}
+      label="This is a very long text string that might be truncated when exceeding the container width"
+    >
+      <Truncate ref={textRef}>
+        This is a very long text string that might be truncated when exceeding the container width
+      </Truncate>
+    </Tooltip>
+  );
+}
 ```
 
-### Hide the arrow
-
 ```jsx
-<Tooltip hideArrow label="Search places">
-  <Icon cursor="pointer" icon="search-o" />
-</Tooltip>
-```
+function Example() {
+  const textRef = React.useRef();
+  const [isOpen, toggleIsOpen] = useToggle();
+  useEventListener(
+    () => textRef.current,
+    'mouseenter', // It can be either 'mouseenter' or 'pointerenter'
+    React.useCallback((event) => {
+      const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
+      isOverflowing && toggleIsOpen(true);
+    }, [toggleIsOpen]),
+  );
+  useEventListener(
+    () => textRef.current,
+    'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
+    React.useCallback((event) => {
+      toggleIsOpen(false);
+    }, [toggleIsOpen]),
+  );
 
-### Customization
-
-```jsx
-<Tooltip
-  hideArrow
-  backgroundColor="gray:90"
-  color="white"
-  p="4x"
-  width="auto"
-  label={
-    <Stack direction="column">
-      <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
-      <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
-      <Text>{"It's very engaging. Right?"}</Text>
-    </Stack>
-  }
->
-  <Button variant="ghost">HTML</Button>
-</Tooltip>
+  return (
+    <Tooltip
+      isOpen={isOpen}
+      label="This is a very long text string that might be truncated when exceeding the container width"
+    >
+      <Flex alignItems="center" columnGap="2x">
+        <Icon icon="menu" />
+        <Truncate ref={textRef}>
+          This is a very long text string that might be truncated when exceeding the container width
+        </Truncate>
+      </Flex>
+    </Tooltip>
+  );
+}
 ```
 
 ### Tooltip with `Menu`
@@ -92,6 +222,7 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 ```jsx
 function Example() {
   const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const inputRef = React.useRef();
   const [menuItem, setMenuItem] = React.useState('hostname');
   const handleMenuClick = (event) => {
@@ -132,11 +263,11 @@ function Example() {
         </Menu>
       </InputGroupPrepend>
       <Tooltip
-        backgroundColor="gray:80"
-        color="gray:20"
+        label="Use commas to separate multiple keywords"
+        backgroundColor={colorStyle.background.secondary}
+        color={colorStyle.color.primary}
         px="2x"
         py="3x"
-        label="Use commas to separate multiple keywords"
       >
         <Input
           ref={inputRef}
@@ -153,7 +284,26 @@ function Example() {
 }
 ```
 
-## Placement
+### Customization
+
+```jsx
+<Tooltip
+  hideArrow
+  label={(
+    <Flex direction="column">
+      <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
+      <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
+      <Text>{"It's very engaging. Right?"}</Text>
+    </Flex>
+  )}
+>
+  <Text display="inline-block">
+    Hover Me
+  </Text>
+</Tooltip>
+```
+
+### Placement
 
 Use the `placement` prop to control the placement of the tooltip.
 
@@ -202,13 +352,17 @@ Use the `placement` prop to control the placement of the tooltip.
 | TransitionProps.appear | boolean | true | |
 | arrowAt | string | | The position of the arrow. One of: 'left', 'right', 'top', 'bottom' |
 | children | ReactNode \| ({ getTooltipTriggerProps }) => ReactNode | | |
-| closeOnClick | boolean | | If `true`, close the tooltip when clicking on the anchor. |
+| closeOnClick | boolean | false | If `true`, close the tooltip on click. |
+| closeOnEsc | boolean | false | If `true`, close the tooltip when pressing the escape key. |
+| closeOnMouseDown | boolean | false | If `true`, close the tooltip while the mouse is down. |
 | defaultIsOpen | boolean | false | Whether the tooltip will be open by default. |
+| disabled | boolean | | If `true`, the tooltip will not display. |
 | enterDelay | number | 100 | The delay in milliseconds before the tooltip appears. |
 | hideArrow | boolean | | If `true`, hide the arrow tip on the tooltip. |
 | isOpen | boolean | | If `true`, show the tooltip. |
-| label | string \| ReactNode | | The tooltip label. |
+| label | string \| ReactNode | | If the tooltip label is a blank or empty string, the tooltip will not display. |
 | leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |
 | onClose| function | | Callback fired when the tooltip is closed. |
 | onOpen | function | | Callback fired when the tooltip is opened. |
 | placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
+| shouldWrapChildren | boolean | false | If `true`, the tooltip will be wrapped in a `Box` component. Otherwise, you have to ensure tooltip has only one child node. |

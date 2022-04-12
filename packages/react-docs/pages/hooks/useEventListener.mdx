@@ -1,0 +1,89 @@
+# useEventListener
+
+A custom Hook to manage browser event listeners.
+
+## Import
+
+```js
+import { useEventListener } from '@tonic-ui/react-hooks';
+```
+
+### useEventListener
+
+```js
+import { useEffect } from 'react';
+import useEventCallback from './useEventCallback';
+
+// TODO: move to '@tonic-ui/utils'
+const noop = () => {};
+
+// TODO: move to '@tonic-ui/utils'
+const runIfFn = (valueOrFn, ...args) => {
+  if (typeof valueOrFn === 'function') {
+    return valueOrFn(...args);
+  }
+  return valueOrFn;
+};
+
+const useEventListener = (
+  target,
+  eventName,
+  eventHandler,
+  options,
+) => {
+  const eventListener = useEventCallback(eventHandler);
+
+  useEffect(() => {
+    if (!eventHandler) {
+      return noop;
+    }
+
+    const eventTarget = runIfFn(target);
+    const isEventListenerSupported = (typeof eventTarget?.addEventListener === 'function') && (typeof eventTarget?.removeEventListener === 'function');
+    if (!isEventListenerSupported) {
+      return noop;
+    }
+
+    eventTarget.addEventListener(eventName, eventListener, options);
+    return () => {
+      eventTarget.removeEventListener(eventName, eventListener, options);
+    };
+  }, [target, eventName, eventHandler, eventListener, options]);
+};
+```
+
+## Usage
+
+```jsx
+function Component() {
+  const buttonRef = React.useRef(null);
+
+  const onScroll = (event) => {
+    console.log('document scrolled', event);
+  };
+
+  const onClick = (event) => {
+    console.log('button clicked', event);
+  };
+
+  // example with document based event
+  useEventListener(
+    () => (buttonRef.current.ownerDocument || document),
+    'scroll',
+    onScroll,
+  );
+
+  // example with element based event
+  useEventListener(
+    () => buttonRef.current,
+    'click',
+    onClick,
+  );
+
+  return (
+    <Button ref={buttonRef}>
+      Click Me
+    </Button>
+  );
+}
+```

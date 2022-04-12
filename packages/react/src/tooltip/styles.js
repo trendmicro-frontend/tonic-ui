@@ -1,7 +1,13 @@
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 
-const useTooltipStyle = props => {
+const useTooltipTriggerStyle = () => {
+  return {
+    // The tooltip trigger style will be passed to the wrapper element when the "shouldWrapChildren" prop is set to true
+  };
+};
+
+const useTooltipContentStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
@@ -32,5 +38,6 @@ const useTooltipStyle = props => {
 };
 
 export {
-  useTooltipStyle,
+  useTooltipTriggerStyle,
+  useTooltipContentStyle,
 };
