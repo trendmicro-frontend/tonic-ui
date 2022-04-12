@@ -117,9 +117,11 @@ By default the `Tooltip` is not shown when it is around a disabled `Button`.
 To show the `Tooltip` on a disabled `Button`, pass the `shouldWrapChildren` prop.
 
 ```jsx
-<Tooltip label="This is a tooltip" shouldWrapChildren>
-  <Button disabled>Button</Button>
-</Tooltip>
+<Flex>
+  <Tooltip label="This is a tooltip" shouldWrapChildren>
+    <Button disabled>Button</Button>
+  </Tooltip>
+</Flex>
 ```
 
 ### Tooltip with focusable content
