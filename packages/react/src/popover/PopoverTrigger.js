@@ -101,8 +101,8 @@ const PopoverTrigger = forwardRef((
     (ownProps = {}, ownRef = null) => {
       const eventHandlerProps = {
         'click': {
-          onClick: clickTriggerHandler.onClick,
-          onKeyDown: clickTriggerHandler.onKeyDown,
+          onClick: wrapEvent(ownProps?.onClick, clickTriggerHandler.onClick),
+          onKeyDown: wrapEvent(ownProps?.onKeyDown, clickTriggerHandler.onKeyDown),
         },
         'hover': {
           onBlur: wrapEvent(ownProps?.onBlur, hoverTriggerHandler.onBlur),
