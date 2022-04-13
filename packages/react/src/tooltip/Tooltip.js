@@ -82,44 +82,45 @@ const Tooltip = forwardRef((
   const enterTimeoutRef = useRef();
   const leaveTimeoutRef = useRef();
 
-  const openWithDelay = useCallback((delay) => {
+  const openWithDelay = useCallback((callback, delay) => {
     if (leaveTimeoutRef.current) {
       clearTimeout(leaveTimeoutRef.current);
       leaveTimeoutRef.current = undefined;
     }
     if (delay > 0) {
       enterTimeoutRef.current = setTimeout(() => {
-        setIsOpen(true);
         enterTimeoutRef.current = undefined;
-      }, enterDelay);
+        setIsOpen(true);
+        (typeof callback === 'function') && callback();
+      }, delay);
     } else {
       setIsOpen(true);
+      (typeof callback === 'function') && callback();
     }
-  }, [enterDelay]);
+  }, []);
 
-  const closeWithDelay = useCallback((delay) => {
+  const closeWithDelay = useCallback((callback, delay) => {
     if (enterTimeoutRef.current) {
       clearTimeout(enterTimeoutRef.current);
       enterTimeoutRef.current = undefined;
     }
     if (delay > 0) {
       leaveTimeoutRef.current = setTimeout(() => {
-        setIsOpen(false);
         leaveTimeoutRef.current = undefined;
-      }, leaveDelay);
+        setIsOpen(false);
+        (typeof callback === 'function') && callback();
+      }, delay);
     } else {
       setIsOpen(false);
+      (typeof callback === 'function') && callback();
     }
-  }, [leaveDelay]);
+  }, []);
 
-  const defaultId = useAutoId();
-  const tooltipId = `${config.name}:Tooltip-${defaultId}`;
-
-  const onOpen = useCallback(() => {
+  const onOpen = useCallback((callback) => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       const delay = enterDelay;
-      openWithDelay(delay);
+      openWithDelay(callback, delay);
     }
 
     if (typeof onOpenProp === 'function') {
@@ -127,11 +128,11 @@ const Tooltip = forwardRef((
     }
   }, [isOpenProp, onOpenProp, openWithDelay, enterDelay]);
 
-  const onClose = useCallback(() => {
+  const onClose = useCallback((callback) => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       const delay = leaveDelay;
-      closeWithDelay(delay);
+      closeWithDelay(callback, delay);
     }
 
     if (typeof onCloseProp === 'function') {
@@ -151,6 +152,9 @@ const Tooltip = forwardRef((
       }
     };
   }, []);
+
+  const defaultId = useAutoId();
+  const tooltipId = `${config.name}:Tooltip-${defaultId}`;
 
   const context = getMemoizedState({
     arrowAt,

@@ -28,13 +28,17 @@ const TooltipTrigger = forwardRef((
   } = useTooltip();
   const combinedRef = useForkRef(tooltipTriggerRef, ref);
   const styleProps = useTooltipTriggerStyle();
-  const handleBlur = onClose;
+  const handleBlur = useCallback(() => {
+    onClose();
+  }, [onClose]);
   const handleClick = useCallback(() => {
     if (closeOnClick) {
       onClose();
     }
   }, [closeOnClick, onClose]);
-  const handleFocus = onOpen;
+  const handleFocus = useCallback((event) => {
+    onOpen();
+  }, [onOpen]);
   const handleKeyDown = useCallback((event) => {
     if (isOpen && closeOnEsc && event.key === 'Escape') {
       onClose();
@@ -45,8 +49,12 @@ const TooltipTrigger = forwardRef((
       onClose();
     }
   }, [closeOnMouseDown, onClose]);
-  const handleMouseEnter = onOpen;
-  const handleMouseLeave = onClose;
+  const handleMouseEnter = useCallback(() => {
+    onOpen();
+  }, [onOpen]);
+  const handleMouseLeave = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
   useEventListener(
     () => ownerDocument(tooltipTriggerRef.current),

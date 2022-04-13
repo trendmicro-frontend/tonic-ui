@@ -47,8 +47,12 @@ const PopoverTrigger = forwardRef((
   };
 
   const hoverTriggerHandler = {
-    onBlur: onClose,
-    onFocus: onOpen,
+    onBlur: useCallback((event) => {
+      onClose();
+    }, [onClose]),
+    onFocus: useCallback((event) => {
+      onOpen();
+    }, [onOpen]),
     onKeyDown: useCallback((event) => {
       if (event.key === 'Escape') {
         onClose();
@@ -57,7 +61,7 @@ const PopoverTrigger = forwardRef((
     onMouseEnter: useCallback((event) => {
       isHoveringRef.current = true;
       setEnableMouseMove(true); // track mouse movement
-      onOpen(() => {
+      onOpen(() => { // callback
         setEnableMouseMove(followCursor); // after the enter delay, track mouse movement only if "followCursor" is true
       });
     }, [followCursor, isHoveringRef, onOpen]),

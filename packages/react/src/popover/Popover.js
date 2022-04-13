@@ -58,12 +58,12 @@ const Popover = ({
         enterTimeoutRef.current = undefined;
         setIsOpen(true);
         (typeof callback === 'function') && callback();
-      }, enterDelay);
+      }, delay);
     } else {
       setIsOpen(true);
       (typeof callback === 'function') && callback();
     }
-  }, [enterDelay]);
+  }, []);
 
   const closeWithDelay = useCallback((callback, delay) => {
     if (enterTimeoutRef.current) {
@@ -75,12 +75,12 @@ const Popover = ({
         leaveTimeoutRef.current = undefined;
         setIsOpen(false);
         (typeof callback === 'function') && callback();
-      }, leaveDelay);
+      }, delay);
     } else {
       setIsOpen(false);
       (typeof callback === 'function') && callback();
     }
-  }, [leaveDelay]);
+  }, []);
 
   const onOpen = useCallback((callback) => {
     const isControlled = (isOpenProp !== undefined);
@@ -123,12 +123,6 @@ const Popover = ({
     setMousePageY(event.pageY);
   }, []);
 
-  const defaultId = useAutoId();
-  const fallbackId = `${config.name}:Popover-${defaultId}`;
-  const popoverId = id || fallbackId;
-  const popoverHeaderId = `${popoverId}-header`;
-  const popoverBodyId = `${popoverId}-body`;
-
   useEffect(() => {
     if (isOpen && trigger === 'click') {
       requestAnimationFrame(() => {
@@ -167,6 +161,12 @@ const Popover = ({
       }
     };
   }, []);
+
+  const defaultId = useAutoId();
+  const fallbackId = `${config.name}:Popover-${defaultId}`;
+  const popoverId = id || fallbackId;
+  const popoverHeaderId = `${popoverId}-header`;
+  const popoverBodyId = `${popoverId}-body`;
 
   const context = getMemoizedState({
     arrowAt,
