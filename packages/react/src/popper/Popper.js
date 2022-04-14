@@ -18,6 +18,8 @@ function getAnchorEl(anchorEl) {
   return typeof anchorEl === 'function' ? anchorEl() : anchorEl;
 }
 
+const defaultPlacement = 'bottom-start';
+
 const Popper = forwardRef((
   {
     anchorEl,
@@ -26,7 +28,7 @@ const Popper = forwardRef((
     container,
     modifiers,
     isOpen,
-    placement: initialPlacement = 'bottom',
+    placement: placementProp,
     popperOptions,
     popperRef: popperRefProp,
     unmountOnExit = false,
@@ -42,6 +44,15 @@ const Popper = forwardRef((
   const popperRef = useRef(null);
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
   const handlePopperRefRef = useRef(handlePopperRef);
+  const [exited, setExited] = useState(true);
+  const [placement, setPlacement] = useState(placementProp ?? defaultPlacement);
+
+  useEffect(() => {
+    const isControlled = (placementProp !== undefined);
+    if (isControlled) {
+      setPlacement(placementProp);
+    }
+  }, [placementProp]);
 
   useIsomorphicEffect(() => {
     handlePopperRefRef.current = handlePopperRef;
@@ -49,20 +60,12 @@ const Popper = forwardRef((
 
   useImperativeHandle(popperRefProp, () => popperRef.current, []);
 
-  const [exited, setExited] = useState(true);
-
-  const [placement, setPlacement] = useState(initialPlacement);
-
   const handleOpen = useCallback(() => {
     const popperNode = nodeRef.current;
 
     if (!popperNode || !anchorEl || !isOpen) {
       return;
     }
-
-    const handlePopperUpdate = data => {
-      setPlacement(data.placement);
-    };
 
     const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
       placement: placement,
@@ -84,7 +87,15 @@ const Popper = forwardRef((
           enabled: true,
           phase: 'afterWrite',
           fn: ({ state }) => {
-            handlePopperUpdate(state);
+            const isControlled = (placementProp !== undefined);
+            if (isControlled) {
+              return;
+            }
+
+            const nextPlacement = state?.placement;
+            if (nextPlacement && (nextPlacement !== placement)) {
+              setPlacement(nextPlacement);
+            }
           },
         }
       ],
@@ -93,7 +104,7 @@ const Popper = forwardRef((
     });
 
     handlePopperRefRef.current(popper);
-  }, [anchorEl, isOpen, modifiers, placement, popperOptions]);
+  }, [anchorEl, isOpen, modifiers, placement, placementProp, popperOptions]);
 
   const handleRef = useCallback(
     node => {
@@ -120,10 +131,6 @@ const Popper = forwardRef((
     setExited(true);
     handleClose();
   };
-
-  useEffect(() => {
-    setPlacement(initialPlacement);
-  }, [initialPlacement]);
 
   useEffect(() => {
     handleOpen();
