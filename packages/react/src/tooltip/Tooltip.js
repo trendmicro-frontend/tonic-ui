@@ -32,8 +32,8 @@ const Tooltip = forwardRef((
     hideDelay, // deprecated
     arrowAt,
     children,
-    closeOnClick = false,
-    closeOnEsc = false,
+    closeOnClick = true,
+    closeOnEsc = true,
     closeOnMouseDown = false,
     defaultIsOpen = false,
     disabled,
