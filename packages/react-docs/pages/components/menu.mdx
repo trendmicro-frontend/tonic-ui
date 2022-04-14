@@ -568,29 +568,29 @@ function Example() {
 render(<Example />);
 ```
 
-### Offset
+### Change menu position
 
-The basic offset accepts an array with two numbers in the form `[skidding, distance]`. It can be used to adjust the position of the menu relative to the toggle.
+The `offset` prop can be used to change the menu position. It accepts an array with two numbers in the form of `[skidding, distance]`.
 
 **Skidding**
 
-The first number, `skidding`, displaces `MenuList` along the reference toggle. This value is specified in pixels.
+The first number, `skidding`, displaces the menu along the toggle. This value is specified in pixels.
 
 **Distance**
 
-The second number, `distance`, controls the distance between the `MenuList` and the reference toggle. This value is specified in pixels.
+The second number, `distance`, controls the distance between the menu and the toggle. This value is specified in pixels.
 
 ```jsx
-<Menu>
+<Menu
+  offset={[
+    16, // skidding
+    8, // distance
+  ]}
+>
   <MenuButton variant="secondary">
     <Text>Options</Text>
   </MenuButton>
-  <MenuList
-    offset={[
-      16, // skidding
-      8, // distance
-    ]}
-  >
+  <MenuList>
     <MenuItem>
       Item #1
     </MenuItem>
@@ -725,6 +725,7 @@ function menuWithCheckbox() {
 | defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
 | defaultIsOpen | boolean | `false` | Whether the menu is open by default. |
 | isOpen | boolean | | Whether the menu is open. |
+| offset | [skidding, distance] | [0, 0] | The skidding and distance of the menu. |
 | onBlur | function | | Callback when the menu loses focus. |
 | onKeyDown | function | | Callback when the user presses a key. |
 | onOpen | function | | Callback when the menu is opened. |
@@ -773,7 +774,6 @@ function menuWithCheckbox() {
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
-| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the menu list |
 
 ### MenuGroup
 

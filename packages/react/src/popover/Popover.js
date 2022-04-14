@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
 import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { PopoverProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -24,14 +25,35 @@ const Popover = ({
   isOpen: isOpenProp,
   leaveDelay = 0,
   nextToCursor,
-  offset: offsetProp,
+  offset,
   onClose: onCloseProp,
   onOpen: onOpenProp,
   placement = 'bottom',
   returnFocusOnClose = true,
   trigger = 'click',
 }) => {
-  const offset = offsetProp ?? [skidding, distance]; // XXX: deprecation
+  { // deprecation warning
+    const prefix = `${Popover.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('skidding', {
+        prefix,
+        alternative: 'offset={[skidding, distance]}',
+        willRemove: true,
+      });
+    }, (skidding !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('distance', {
+        prefix,
+        alternative: 'offset={[skidding, distance]}',
+        willRemove: true,
+      });
+    }, (distance !== undefined));
+
+    offset = offset ?? [skidding, distance];
+  }
+
   const popoverTriggerRef = useRef();
   const popoverContentRef = useRef();
   const isHoveringRef = useRef();

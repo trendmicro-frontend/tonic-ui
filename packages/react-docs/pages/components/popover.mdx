@@ -223,10 +223,22 @@ function Example() {
 
 ### Change popover position
 
+The `offset` prop can be used to change the popover position. It accepts an array with two numbers in the form of `[skidding, distance]`.
+
+**Skidding**
+
+The first number, `skidding`, displaces the `PopoverContent` along the `PopoverToggle`. This value is specified in pixels.
+
+**Distance**
+
+The second number, `distance`, controls the distance between the `PopoverContent` and the `PopoverToggle`. This value is specified in pixels.
+
 ```jsx
 <Popover
-  skidding={50}
-  distance={0}
+  offset={{
+    skidding: 24,
+    distance: 12,
+  }}
 >
   <PopoverTrigger>
     <Button>Trigger</Button>
@@ -387,7 +399,6 @@ Use the `placement` prop to control the placement of the popover.
 | closeOnBlur | boolean | true | If `true`, the popover will close when the user clicks outside of the popover. |
 | closeOnEsc | boolean | true | If `true`, the popover will close when you press the `Esc` key. |
 | defaultIsOpen | boolean | false | Whether the popover will be open by default. |
-| distance | number | 4 | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
 | enterDelay | number | 100 | The number of milliseconds to wait before showing the popover if `trigger` is hover. |
 | followCursor | boolean | | If `true`, the popover will follow the cursor. |
 | hideArrow | boolean | | If `true`, the arrow will not be displayed. |
@@ -396,11 +407,11 @@ Use the `placement` prop to control the placement of the popover.
 | isOpen | boolean | | If `true`, the popover will be open. |
 | leaveDelay | number | 0 | The number of milliseconds to wait before hiding the popover if `trigger` is hover. |
 | nextToCursor | boolean | | If `true`, the popover will be positioned next to the cursor. |
+| offset | [skidding, distance] | [0, 12] | The skidding and distance of the popover. |
 | onClose | () => void | | Callback when the popover is closed. |
 | onOpen | () => void | | Callback when the popover is opened. |
 | placement | string | 'bottom' | The placement of the popover. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | returnFocusOnClose | boolean | true | If `true`, the popover will return the focus status to the trigger when closing. |
-| skidding | number | 0 | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
 | trigger | string | 'click' | The type of trigger. One of: 'click', 'hover' |
 
 ### PopoverTrigger
