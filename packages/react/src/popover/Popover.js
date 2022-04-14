@@ -6,12 +6,13 @@ import useAutoId from '../utils/useAutoId';
 import { PopoverContextProvider } from './context';
 
 const Popover = ({
+  distance, // deprecated
+  skidding, // deprecated
   arrowAt,
   children,
   closeOnBlur = true,
   closeOnEsc = true,
   defaultIsOpen = false,
-  distance = 4,
   enterDelay = 0,
   followCursor,
   hideArrow,
@@ -20,13 +21,14 @@ const Popover = ({
   isOpen: isOpenProp,
   leaveDelay = 0,
   nextToCursor,
+  offset: offsetProp,
   onClose: onCloseProp,
   onOpen: onOpenProp,
   placement = 'bottom',
   returnFocusOnClose = true,
-  skidding = 0,
   trigger = 'click',
 }) => {
+  const offset = offsetProp ?? [skidding, distance]; // XXX: deprecation
   const [isOpen, setIsOpen] = useState(defaultIsOpen);
   const [mousePageX, setMousePageX] = useState(0);
   const [mousePageY, setMousePageY] = useState(0);
@@ -131,8 +133,7 @@ const Popover = ({
     initialFocusRef,
     isHoveringRef,
     hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
-    skidding,
-    distance,
+    offset,
     enterDelay,
     leaveDelay,
     setMouseCoordinate,

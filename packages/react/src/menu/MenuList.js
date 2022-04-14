@@ -1,8 +1,9 @@
 import chainedFunction from 'chained-function';
 import {
+  ensureArray,
   ensureFunction,
 } from 'ensure-type';
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import useForkRef from '../utils/useForkRef';
@@ -87,13 +88,29 @@ const MenuList = forwardRef((
     onKeyDown: wrapEvent(onKeyDownProp, handleKeyDown),
   };
 
+  const [
+    skidding = 0,
+    distance = 0,
+  ] = ensureArray(offset);
+  const popperModifiers = useMemo(() => {
+    const modifiers = [
+      { // https://popper.js.org/docs/v2/modifiers/offset/
+        name: 'offset',
+        options: {
+          offset: [skidding, distance],
+        },
+      },
+    ];
+    return modifiers;
+  }, [skidding, distance]);
+
   return (
     <PopperComponent
-      anchorEl={menuToggleRef?.current}
       aria-labelledby={menuToggleId}
+      anchorEl={menuToggleRef?.current}
       id={menuId}
       isOpen={isOpen}
-      modifiers={{ offset }}
+      modifiers={popperModifiers}
       placement={placement}
       ref={menuRef}
       role="menu"
