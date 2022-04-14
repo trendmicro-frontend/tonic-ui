@@ -23,18 +23,17 @@ const defaultPlacement = 'bottom-start';
 const Popper = forwardRef((
   {
     anchorEl,
+    arrowSize,
     children,
-    gutter,
     container,
-    modifiers,
+    gutter,
     isOpen,
+    modifiers,
     placement: placementProp,
-    popperOptions,
     popperRef: popperRefProp,
     unmountOnExit = false,
     usePortal = false,
     willUseTransition = false,
-    arrowSize,
     ...rest
   },
   ref,
@@ -70,17 +69,15 @@ const Popper = forwardRef((
     const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
       placement: placement,
       modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: modifiers.offset
-          },
-        },
-        {
+        { // https://popper.js.org/docs/v2/modifiers/arrow/
           name: 'arrow',
           options: {
             padding: 12, // 12px from the edges of the popper
           },
+        },
+        { // https://popper.js.org/docs/v2/modifiers/flip/
+          name: 'flip',
+          enabled: false, // No flip
         },
         {
           name: 'handlePopperUpdate',
@@ -97,14 +94,14 @@ const Popper = forwardRef((
               setPlacement(nextPlacement);
             }
           },
-        }
+        },
+        ...modifiers,
       ],
       strategy: 'absolute',
-      ...popperOptions,
     });
 
     handlePopperRefRef.current(popper);
-  }, [anchorEl, isOpen, modifiers, placement, placementProp, popperOptions]);
+  }, [anchorEl, isOpen, modifiers, placement, placementProp]);
 
   const handleRef = useCallback(
     node => {
