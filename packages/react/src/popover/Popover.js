@@ -1,4 +1,4 @@
-import { usePrevious } from '@tonic-ui/react-hooks';
+import { useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
@@ -191,7 +191,6 @@ const Popover = ({
   const popoverId = id || fallbackId;
   const popoverHeaderId = `${popoverId}-header`;
   const popoverBodyId = `${popoverId}-body`;
-
   const context = getMemoizedState({
     arrowAt,
     closeOnEsc,

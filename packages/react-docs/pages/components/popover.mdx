@@ -234,12 +234,7 @@ The first number, `skidding`, displaces the `PopoverContent` along the `PopoverT
 The second number, `distance`, controls the distance between the `PopoverContent` and the `PopoverToggle`. This value is specified in pixels.
 
 ```jsx
-<Popover
-  offset={{
-    skidding: 24,
-    distance: 12,
-  }}
->
+<Popover offset={[24, 12]}>
   <PopoverTrigger>
     <Button>Trigger</Button>
   </PopoverTrigger>
