@@ -9,12 +9,13 @@ import { PopoverProvider } from './context';
 const getMemoizedState = memoize(state => ({ ...state }));
 
 const Popover = ({
+  distance, // deprecated
+  skidding, // deprecated
   arrowAt,
   children,
   closeOnBlur = true,
   closeOnEsc = true,
   defaultIsOpen = false,
-  distance = 4,
   enterDelay = 100,
   followCursor,
   hideArrow,
@@ -23,13 +24,14 @@ const Popover = ({
   isOpen: isOpenProp,
   leaveDelay = 0,
   nextToCursor,
+  offset: offsetProp,
   onClose: onCloseProp,
   onOpen: onOpenProp,
   placement = 'bottom',
   returnFocusOnClose = true,
-  skidding = 0,
   trigger = 'click',
 }) => {
+  const offset = offsetProp ?? [skidding, distance]; // XXX: deprecation
   const popoverTriggerRef = useRef();
   const popoverContentRef = useRef();
   const isHoveringRef = useRef();
@@ -171,7 +173,6 @@ const Popover = ({
   const context = getMemoizedState({
     arrowAt,
     closeOnEsc,
-    distance,
     followCursor,
     hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
     initialFocusRef,
@@ -180,6 +181,7 @@ const Popover = ({
     mousePageX,
     mousePageY,
     nextToCursor,
+    offset,
     onBlur,
     onClose,
     onOpen,

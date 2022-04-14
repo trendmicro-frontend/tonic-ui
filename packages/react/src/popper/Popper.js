@@ -18,21 +18,22 @@ function getAnchorEl(anchorEl) {
   return typeof anchorEl === 'function' ? anchorEl() : anchorEl;
 }
 
+const defaultPlacement = 'bottom-start';
+
 const Popper = forwardRef((
   {
     anchorEl,
+    arrowSize,
     children,
-    gutter,
     container,
-    modifiers,
+    gutter,
     isOpen,
-    placement: initialPlacement = 'bottom',
-    popperOptions,
+    modifiers,
+    placement: placementProp,
     popperRef: popperRefProp,
     unmountOnExit = false,
     usePortal = false,
     willUseTransition = false,
-    arrowSize,
     ...rest
   },
   ref,
@@ -42,16 +43,21 @@ const Popper = forwardRef((
   const popperRef = useRef(null);
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
   const handlePopperRefRef = useRef(handlePopperRef);
+  const [exited, setExited] = useState(true);
+  const [placement, setPlacement] = useState(placementProp ?? defaultPlacement);
+
+  useEffect(() => {
+    const isControlled = (placementProp !== undefined);
+    if (isControlled) {
+      setPlacement(placementProp);
+    }
+  }, [placementProp]);
 
   useIsomorphicEffect(() => {
     handlePopperRefRef.current = handlePopperRef;
   }, [handlePopperRef]);
 
   useImperativeHandle(popperRefProp, () => popperRef.current, []);
-
-  const [exited, setExited] = useState(true);
-
-  const [placement, setPlacement] = useState(initialPlacement);
 
   const handleOpen = useCallback(() => {
     const popperNode = nodeRef.current;
@@ -60,40 +66,42 @@ const Popper = forwardRef((
       return;
     }
 
-    const handlePopperUpdate = data => {
-      setPlacement(data.placement);
-    };
-
     const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
       placement: placement,
       modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: modifiers.offset
-          },
-        },
-        {
+        { // https://popper.js.org/docs/v2/modifiers/arrow/
           name: 'arrow',
           options: {
             padding: 12, // 12px from the edges of the popper
           },
+        },
+        { // https://popper.js.org/docs/v2/modifiers/flip/
+          name: 'flip',
+          enabled: false, // No flip
         },
         {
           name: 'handlePopperUpdate',
           enabled: true,
           phase: 'afterWrite',
           fn: ({ state }) => {
-            handlePopperUpdate(state);
+            const isControlled = (placementProp !== undefined);
+            if (isControlled) {
+              return;
+            }
+
+            const nextPlacement = state?.placement;
+            if (nextPlacement && (nextPlacement !== placement)) {
+              setPlacement(nextPlacement);
+            }
           },
-        }
+        },
+        ...modifiers,
       ],
       strategy: 'absolute',
-      ...popperOptions,
     });
 
     handlePopperRefRef.current(popper);
-  }, [anchorEl, isOpen, modifiers, placement, popperOptions]);
+  }, [anchorEl, isOpen, modifiers, placement, placementProp]);
 
   const handleRef = useCallback(
     node => {
@@ -120,10 +128,6 @@ const Popper = forwardRef((
     setExited(true);
     handleClose();
   };
-
-  useEffect(() => {
-    setPlacement(initialPlacement);
-  }, [initialPlacement]);
 
   useEffect(() => {
     handleOpen();

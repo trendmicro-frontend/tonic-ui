@@ -1,6 +1,7 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
-import React, { forwardRef, useRef } from 'react';
+import { ensureArray } from 'ensure-type';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import { Grow } from '../transitions';
@@ -44,11 +45,31 @@ const TooltipContent = forwardRef((
     disabled,
     hideArrow,
     isOpen,
+    offset,
     placement,
     tooltipId,
     tooltipTriggerRef,
   } = useTooltip();
-  const arrowSize = '6px'; // FIXME: this should be a theme value
+  /**
+   * Arrow width = Math.sqrt(6^2 + 6^2) = 8.49
+   * Arrow height = Math.sqrt(6^2 + 6^2) / 2 = 4.24
+   */
+  const arrowSize = '6px'; // FIXME: Must be a theme token
+  const [
+    skidding = 0,
+    distance = 8,
+  ] = ensureArray(offset);
+  const popperModifiers = useMemo(() => {
+    const modifiers = [
+      { // https://popper.js.org/docs/v2/modifiers/offset/
+        name: 'offset',
+        options: {
+          offset: [skidding, distance],
+        },
+      },
+    ];
+    return modifiers;
+  }, [skidding, distance]);
   const styleProps = useTooltipContentStyle();
 
   if (!isHydrated) {
@@ -67,18 +88,16 @@ const TooltipContent = forwardRef((
   return (
     <PopperComponent
       aria-hidden={!isOpen}
-      isOpen={isOpen}
       data-popper-placement={placement}
-      placement={placement}
-      modifiers={{
-        offset: [0, 8],
-      }}
       anchorEl={tooltipTriggerRef.current}
+      arrowSize={arrowSize}
       hideArrow={hideArrow}
       id={tooltipId}
-      role="tooltip"
+      isOpen={isOpen}
+      modifiers={popperModifiers}
+      placement={placement}
       pointerEvents="none"
-      arrowSize={arrowSize}
+      role="tooltip"
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render tooltip in a portal
       willUseTransition={true}
