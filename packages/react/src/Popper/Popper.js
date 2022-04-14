@@ -83,17 +83,21 @@ const Popper = forwardRef((
     const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
       placement: placement,
       modifiers: [
-        {
+        { // https://popper.js.org/docs/v2/modifiers/offset/
           name: 'offset',
           options: {
             offset: modifiers.offset
           },
         },
-        {
+        { // https://popper.js.org/docs/v2/modifiers/arrow/
           name: 'arrow',
           options: {
             padding: 12, // 12px from the edges of the popper
           },
+        },
+        { // https://popper.js.org/docs/v2/modifiers/flip/
+          name: 'flip',
+          enabled: false, // No flip
         },
         {
           name: 'handlePopperUpdate',
