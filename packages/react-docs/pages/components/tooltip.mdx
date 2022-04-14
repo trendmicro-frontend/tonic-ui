@@ -16,7 +16,7 @@ By default, you have to pass a single React element child to the `Tooltip` compo
 
 ```jsx disabled
 <Tooltip label="This is a tooltip">
-  <Text display="inline-block">This is the text content</Text>
+  <Text display="inline-block">Text content</Text>
 </Tooltip>
 ```
 
@@ -24,20 +24,20 @@ If you need to pass more than one child element or non-element children, wrap th
 
 ```jsx disabled
 <Tooltip label="This is a tooltip">
-  <>This is the text content</>
+  <Text display="inline-block">Text content</Text>
 </Tooltip>
 
 <Tooltip label="This is a tooltip" shouldWrapChildren>
-  This is the text content
+  Text content
 </Tooltip>
 
 <Tooltip label="This is a tooltip" shouldWrapChildren>
   <Icon icon="menu" height="5x" mr="2x" />
-  <Text>This is the text content</Text>
+  <Text display="inline-block">Text content</Text>
 </Tooltip>
 ```
 
-### Controlled tooltip
+### Controlled usage
 
 Pass `isOpen` to the `Tooltip` component to control the state of the tooltip.
 
@@ -54,23 +54,23 @@ function Example() {
         label="This is a controlled tooltip"
         isOpen={on}
       >
-        <Text display="inline-block">This is the text content</Text>
+        <Text display="inline-block">Text content</Text>
       </Tooltip>
     </>
   );
 }
 ```
 
-### Uncontrolled tooltip
+### Uncontrolled usage
 
 Tooltip is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the tooltip open for the first render.
 
 ```jsx
 <Tooltip
   label="This is an uncontrolled tooltip"
-  defaultIsOpen={true}
+  defaultIsOpen={false}
 >
-  <Text display="inline-block">This is the text content</Text>
+  <Text display="inline-block">Text content</Text>
 </Tooltip>
 ```
 
@@ -140,7 +140,7 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 
 ```jsx
 <Tooltip label="This is a tooltip">
-  <Text display="inline-block" tabIndex="0">This is the text content</Text>
+  <Text display="inline-block" tabIndex="0">Text content</Text>
 </Tooltip>
 ```
 
