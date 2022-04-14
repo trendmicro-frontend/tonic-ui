@@ -19,6 +19,8 @@ function getAnchorEl(anchorEl) {
   return typeof anchorEl === 'function' ? anchorEl() : anchorEl;
 }
 
+const defaultPlacement = 'bottom-start';
+
 const Popper = forwardRef((
   {
     anchorEl,
@@ -29,7 +31,7 @@ const Popper = forwardRef((
     unmountOnExit = true,
     modifiers,
     isOpen,
-    placement: initialPlacement = 'bottom',
+    placement: placementProp,
     popperOptions = {},
     popperRef: popperRefProp,
     willUseTransition = false,
@@ -44,16 +46,21 @@ const Popper = forwardRef((
   const popperRef = useRef(null);
   const handlePopperRef = useForkRef(popperRef, popperRefProp);
   const handlePopperRefRef = useRef(handlePopperRef);
+  const [exited, setExited] = useState(true);
+  const [placement, setPlacement] = useState(placementProp ?? defaultPlacement);
+
+  useEffect(() => {
+    const isControlled = (placementProp !== undefined);
+    if (isControlled) {
+      setPlacement(placementProp);
+    }
+  }, [placementProp]);
 
   useIsomorphicLayoutEffect(() => {
     handlePopperRefRef.current = handlePopperRef;
   }, [handlePopperRef]);
 
   useImperativeHandle(popperRefProp, () => popperRef.current, []);
-
-  const [exited, setExited] = useState(true);
-
-  const [placement, setPlacement] = useState(initialPlacement);
 
   const handleOpen = useCallback(() => {
     const popperNode = nodeRef.current;
@@ -63,7 +70,15 @@ const Popper = forwardRef((
     }
 
     const handlePopperUpdate = data => {
-      setPlacement(data.placement);
+      const isControlled = (placementProp !== undefined);
+      if (isControlled) {
+        return;
+      }
+
+      const nextPlacement = data?.placement;
+      if (nextPlacement && (nextPlacement !== placement)) {
+        setPlacement(nextPlacement);
+      }
     };
     const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
       placement: placement,
@@ -95,7 +110,7 @@ const Popper = forwardRef((
       ...popperOptions,
     });
     handlePopperRefRef.current(popper);
-  }, [anchorEl, isOpen, modifiers, placement, popperOptions]);
+  }, [anchorEl, isOpen, modifiers, placement, placementProp, popperOptions]);
 
   const handleRef = useCallback(
     node => {
