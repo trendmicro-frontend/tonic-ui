@@ -1,6 +1,6 @@
 # @tonic-ui/react-lab
 
-This package hosts the incubator components that are not yet ready to move to React Tonic UI component library.
+This package hosts the incubator components that are not yet ready to move to the core.
 
 ## Installation
 

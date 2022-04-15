@@ -1,20 +1,18 @@
 import DatePicker from './DatePicker';
-import DatePickerPopper from './DatePickerPopper';
+import DatePickerContent from './DatePickerContent';
 import DatePickerToggle from './DatePickerToggle';
 import Calendar from './Calendar';
 import DateInput from './DateInput';
 import TimeInput from './TimeInput';
 
-DatePicker.Calendar = Calendar;
-DatePicker.DateInput = DateInput;
-DatePicker.Popper = DatePickerPopper;
+DatePicker.Content = DatePickerContent;
 DatePicker.Toggle = DatePickerToggle;
 
 export {
   Calendar,
   DateInput,
   DatePicker,
-  DatePickerPopper,
+  DatePickerContent,
   DatePickerToggle,
   TimeInput,
 };

@@ -188,11 +188,11 @@ const routes = [
     ],
   },
   {
-    title: 'React Labs',
+    title: 'React Lab',
     icon: 'widgets',
-    path: 'labs',
+    path: 'lab',
     routes: [
-      { title: 'DatePicker', path: 'labs/datepicker' },
+      { title: 'DatePicker', path: 'lab/DatePicker' },
     ],
   },
 ];

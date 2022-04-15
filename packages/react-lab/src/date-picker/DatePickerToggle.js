@@ -83,9 +83,6 @@ const DatePickerToggle = forwardRef((
   if (typeof children === 'function') {
     return children({
       getDatePickerToggleProps,
-      isOpen,
-      openDatePicker,
-      closeDatePicker,
     });
   }
 

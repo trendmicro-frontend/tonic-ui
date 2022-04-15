@@ -10,7 +10,7 @@ const useDatePickerStyle = () => {
   };
 };
 
-const useDatePickerPopperStyle = () => {
+const useDatePickerContentStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorModeStyle = {
@@ -44,6 +44,6 @@ const useDatePickerToggleStyle = () => {
 
 export {
   useDatePickerStyle,
-  useDatePickerPopperStyle,
+  useDatePickerContentStyle,
   useDatePickerToggleStyle,
 };

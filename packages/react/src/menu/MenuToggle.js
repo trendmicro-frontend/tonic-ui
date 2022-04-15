@@ -92,9 +92,6 @@ const MenuToggle = forwardRef((
   if (typeof children === 'function') {
     return children({
       getMenuToggleProps,
-      isOpen,
-      openMenu,
-      closeMenu,
     });
   }
 

@@ -5,10 +5,10 @@ import {
 import chainedFunction from 'chained-function';
 import React, { forwardRef, useRef } from 'react';
 import useForkRef from '../utils/useForkRef';
-import { useDatePickerPopperStyle } from './styles';
+import { useDatePickerContentStyle } from './styles';
 import useDatePicker from './useDatePicker';
 
-const DatePickerPopper = forwardRef((
+const DatePickerContent = forwardRef((
   {
     PopperComponent = Popper,
     PopperProps,
@@ -32,7 +32,7 @@ const DatePickerPopper = forwardRef((
     placement,
   } = { ...datePickerContext };
 
-  const styleProps = useDatePickerPopperStyle();
+  const styleProps = useDatePickerContentStyle();
 
   return (
     <PopperComponent
@@ -82,6 +82,6 @@ const DatePickerPopper = forwardRef((
   );
 });
 
-DatePickerPopper.displayName = 'DatePickerPopper';
+DatePickerContent.displayName = 'DatePickerContent';
 
-export default DatePickerPopper;
+export default DatePickerContent;

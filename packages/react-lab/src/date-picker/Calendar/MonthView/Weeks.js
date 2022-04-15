@@ -20,14 +20,14 @@ const Weeks = forwardRef((
   const calendarContext = useCalendar();
   const {
     activeDate,
-    calendarStartDay,
+    weekStartDay,
   } = { ...calendarContext };
 
   const weeks = [];
   let startDateOfWeek = startOfWeek(
     startOfMonth(activeDate),
     {
-      weekStartsOn: calendarStartDay,
+      weekStartsOn: weekStartDay,
     }
   );
 

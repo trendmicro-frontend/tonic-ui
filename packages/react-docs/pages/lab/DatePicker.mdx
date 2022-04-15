@@ -4,10 +4,10 @@
 
 ## Import
 
+- `Calendar`: The calendar component.
 - `DatePicker`: The component that provides the date picker functionality.
 - `DatePickerToggle`: The toggle that opens the date picker.
-- `DatePickerPopper`: A wrapper that contains the calendar. Must be a direct child of the `DatePicker` component.
-- `Calendar`: The calendar component.
+- `DatePickerContent`: A wrapper that contains the calendar.
 - `DateInput`: The input component with `calendar` icon.
 - `TimeInput`: The input component with `clock` icon.
 
@@ -17,7 +17,7 @@ import {
   DateInput,
   DatePicker,
   DatePickerToggle,
-  DatePickerPopper,
+  DatePickerContent,
   TimeInput,
 } from '@tonic-ui/react';
 ```
@@ -27,29 +27,31 @@ import {
 ### Calendar
 
 ```jsx
-<Calendar defaultValue="2022-03-29" onChange={value => console.log(value)} />
+<Calendar />
 ```
 
 #### Calendar start day
 
-Use the `calendarStartDay` prop to chage the first day of the calendar week. for example, 0 = Sunday, 1 = Monday.
+Use the `weekStartDay` prop to chage the first day of the calendar week. for example, 0 = Sunday, 1 = Monday.
 
 ```jsx
 <Stack direction="row" spacing="4x">
   <Stack direction="column" spacing="4x" shouldWrapChildren>
-    <Text size="lg">calendarStartDay={0} (default)</Text>
+    <Text size="lg">weekStartDay={0} (default)</Text>
     <Calendar />
   </Stack>
   <Stack direction="column" spacing="4x" shouldWrapChildren>
-    <Text size="lg">calendarStartDay={3}</Text>
-    <Calendar calendarStartDay={3} />
+    <Text size="lg">weekStartDay={1}</Text>
+    <Calendar weekStartDay={1} />
   </Stack>
 </Stack>
 ```
 
 #### Date format
 
-Use the `dateFormat` prop to change The format of date. Format of the string is based on Unicode Technical Standard #35: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table.
+Use the `dateFormat` prop to change the date format.
+
+See https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table for a full list of date format symbols.
 
 ```jsx
 function Example() {
@@ -81,17 +83,16 @@ function Example() {
 
 ### DatePicker
 
-Use the `DatePicker` component to display a calendar and allow the user to select a date.
+`DatePicker` is used to select a date from a calendar or type in a date value manually. It is composed of `DateInput` and `Calendar`.
 
 ```jsx
-function Example({
-  date = '2021-12-15',
-  dateFormat = 'yyyy-MM-dd',
-  disabled,
-}) {
+function Example() {
+  const dateFormat = 'yyyy-MM-dd';
+  const now = new Date();
+  const dateOfToday = now.toISOString().slice(0, 10);
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [isOpenCalendar, setIsOpenCalendar] = React.useState(false);
-  const [value, setValue] = React.useState(date);
+  const [value, setValue] = React.useState(dateOfToday);
   const isValidDate = (value) => {
     const pattern = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
     return !!String(value).match(pattern);
@@ -111,12 +112,11 @@ function Example({
       onOpen={() => setIsOpenCalendar(true)}
       onClose={() => setIsOpenCalendar(false)}
     >
-      <DatePickerToggle disabled={disabled}>
-        {({ getDatePickerToggleProps, disabled }) => {
+      <DatePickerToggle>
+        {({ getDatePickerToggleProps }) => {
           return (
             <DateInput
               dateFormat={dateFormat}
-              disabled={disabled}
               isInvalid={!isValidDate(value)}
               value={value}
               onChange={handleDateInputChange}
@@ -126,13 +126,13 @@ function Example({
           );
         }}
       </DatePickerToggle>
-      <DatePickerPopper width="max-content">
+      <DatePickerContent width="max-content">
         <Calendar
           dateFormat={dateFormat}
           value={value}
           onChange={handleCalendarChange}
         />
-      </DatePickerPopper>
+      </DatePickerContent>
     </DatePicker>
   );
 }
@@ -189,12 +189,12 @@ const CustomDateInput = ({
           );
         }}
       </DatePickerToggle>
-      <DatePickerPopper width="max-content">
+      <DatePickerContent width="max-content">
         <Calendar
           value={value}
           onChange={handleCalendarChange}
         />
-      </DatePickerPopper>
+      </DatePickerContent>
     </DatePicker>
   );
 };
@@ -513,32 +513,18 @@ function Example() {
 render(<Example />);
 ```
 
-## Accessibility
-
-### Keyboard Interaction
-
-| Key | Action |
-| :-- | :----- |
-| `ArrowDown` \| `ArrowUp` | When `DatePickerToggle` is focused, opens the date picker. |
-| `Escape` | When `DatePickerToggle` is focused, closes the date picker and moves the focus to the toggle. |
-
 ## Props
 
 ### Calendar
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| calendarStartDay | number | 0 | Set the first day of the calendar week. for example, 0 = Sunday, 1 = Monday. |
+| weekStartDay | number | 0 | Set the first day of the calendar week. for example, 0 = Sunday, 1 = Monday. |
 | children | ReactNode \| ({ getCalendarProps, ...context }) => ReactNode | | |
 | dateFormat | string | 'yyyy-MM-dd' | The format of date. Format of the string is based on Unicode Technical Standard #35: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table |
 | defaultValue | string | | The default value. Use when the component is not controlled. |
 | value | string | | The value for calendar. |
 | onChange | function | | Callback when the date is clicked. |
-
-### DateInput
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
 
 ### DatePicker
 
@@ -555,12 +541,12 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getDatePickerToggleProps, isOpen, openDatePicker, closeDatePicker }) => ReactNode | | |
+| children | ReactNode \| ({ getDatePickerToggleProps }) => ReactNode | | |
 | disabled | boolean | | Whether the date picker toggle is disabled. |
 | onClick | function | | Callback when the date picker toggle is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
 
-### DatePickerPopper
+### DatePickerContent
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -570,7 +556,11 @@ render(<Example />);
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
-| offset | [skidding, distance] | [0, 0] | To control the distance and skidding of the calendar. |
+
+### DateInput
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
 
 ### TimeInput
 

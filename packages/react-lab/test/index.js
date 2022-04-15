@@ -6,24 +6,14 @@ test('should match expected exports', () => {
     'Calendar',
     'DateInput',
     'DatePicker',
-    'DatePickerPopper',
+    'DatePickerContent',
     'DatePickerToggle',
     'TimeInput',
-  ];
-
-  const exportedHooks = [
-    // hooks
-  ];
-
-  const exportedSettings = [
-    // settings
   ];
 
   const receivedExports = Object.keys(moduleExport);
   const expectedExports = [
     ...exportedComponents,
-    ...exportedHooks,
-    ...exportedSettings,
   ];
 
   expect(receivedExports.sort()).toEqual(expectedExports.sort());
