@@ -1,6 +1,7 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import memoize from 'micro-memoize';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import getFocusableElements from '../utils/getFocusableElements';
@@ -8,6 +9,8 @@ import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import { MenuProvider } from './context';
 import { useMenuStyle } from './styles';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const mapPlacementToDirection = (placement) => {
   const p0 = ensureString(placement).split('-')[0];
@@ -29,29 +32,32 @@ const Menu = forwardRef((
     defaultActiveIndex = -1,
     defaultIsOpen = false,
     isOpen: isOpenProp,
+    offset,
     onBlur,
-    onClose,
+    onClose: onCloseProp,
     onKeyDown,
-    onOpen,
+    onOpen: onOpenProp,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
     ...rest
   },
   ref,
 ) => {
-  const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
-  const [isOpen, setIsOpen] = useState(defaultIsOpen);
-  const [focusableElements, setFocusableElements] = useState([]);
-  const { current: isControlled } = useRef(isOpenProp != null);
-  const _isOpen = isControlled ? isOpenProp : isOpen;
-  const defaultId = useAutoId();
-  const menuId = `${config.name}:Menu-${defaultId}`;
-  const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
   const menuRef = useRef(null);
   const menuToggleRef = useRef(null);
-  const direction = mapPlacementToDirection(placement);
+  const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
+  const [focusableElements, setFocusableElements] = useState([]);
+  const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
+  const prevIsOpen = usePrevious(isOpen);
 
   useEffect(() => {
-    if (_isOpen) {
+    const isControlled = (isOpenProp !== undefined);
+    if (isControlled) {
+      setIsOpen(isOpenProp);
+    }
+  }, [isOpenProp]);
+
+  useEffect(() => {
+    if (isOpen) {
       // Use requestAnimationFrame to ensure that the menu is rendered before we try to focus on it.
       requestAnimationFrame(() => {
         const nextFocusableElements = getFocusableElements(menuRef?.current).filter(node => node.getAttribute('role') === 'menuitem');
@@ -61,9 +67,7 @@ const Menu = forwardRef((
         nextFocusableElements.forEach((node, index) => (index === 0) && node.setAttribute('tabindex', 0));
       });
     }
-  }, [_isOpen]);
-
-  const wasPreviouslyOpen = usePrevious(_isOpen);
+  }, [isOpen]);
 
   useEffect(() => {
     if (activeIndex !== -1) {
@@ -81,78 +85,84 @@ const Menu = forwardRef((
         });
       });
     }
-    if (activeIndex === -1 && !_isOpen && wasPreviouslyOpen) {
+    if (activeIndex === -1 && !isOpen && prevIsOpen) {
       // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
       requestAnimationFrame(() => {
         const el = menuToggleRef.current;
         el && el.focus();
       });
     }
-    if (activeIndex === -1 && _isOpen) {
+    if (activeIndex === -1 && isOpen) {
       // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
       requestAnimationFrame(() => {
         const el = menuRef.current;
         el && el.focus();
       });
     }
-  }, [_isOpen, activeIndex, focusableElements, menuRef, menuToggleRef, wasPreviouslyOpen]);
+  }, [isOpen, activeIndex, focusableElements, menuRef, menuToggleRef, prevIsOpen]);
 
-  const openMenu = () => {
+  const openMenu = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       setIsOpen(true);
     }
 
-    if (onOpen) {
-      onOpen();
+    if (typeof onOpenProp === 'function') {
+      onOpenProp();
     }
-  };
+  }, [isOpenProp, onOpenProp]);
 
-  const focusOnFirstItem = () => {
+  const focusOnFirstItem = useCallback(() => {
     if (focusableElements.length > 0) {
       setActiveIndex(0);
     }
-  };
+  }, [focusableElements]);
 
-  const focusOnLastItem = () => {
+  const focusOnLastItem = useCallback(() => {
     if (focusableElements.length > 0) {
       setActiveIndex(focusableElements.length - 1);
     }
-  };
+  }, [focusableElements]);
 
-  const focusOnNextItem = () => {
+  const focusOnNextItem = useCallback(() => {
     if (focusableElements.length > 0) {
       const nextIndex = (activeIndex + 1) % focusableElements.length;
       setActiveIndex(nextIndex);
     }
-  };
+  }, [activeIndex, focusableElements]);
 
-  const focusOnPreviousItem = () => {
+  const focusOnPreviousItem = useCallback(() => {
     if (focusableElements.length > 0) {
       const prevIndex = (activeIndex - 1 + focusableElements.length) % focusableElements.length;
       setActiveIndex(prevIndex);
     }
-  };
+  }, [activeIndex, focusableElements]);
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       setIsOpen(false);
     }
 
-    if (onClose) {
-      onClose();
+    if (typeof onCloseProp === 'function') {
+      onCloseProp();
     }
 
     setActiveIndex(-1);
 
     // Reset tab index
     focusableElements.forEach(node => node.setAttribute('tabindex', -1));
-  };
+  }, [focusableElements, isOpenProp, onCloseProp]);
 
   if (anchorEl) {
     menuToggleRef.current = anchorEl;
   }
 
-  const context = {
+  const defaultId = useAutoId();
+  const menuId = `${config.name}:Menu-${defaultId}`;
+  const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
+  const direction = mapPlacementToDirection(placement);
+  const context = getMemoizedState({
     autoSelect,
     closeMenu,
     closeOnBlur,
@@ -162,7 +172,8 @@ const Menu = forwardRef((
     focusOnLastItem,
     focusOnNextItem,
     focusOnPreviousItem,
-    isOpen: _isOpen,
+    isOpen,
+    offset,
     onBlur,
     onKeyDown,
     openMenu,
@@ -171,8 +182,7 @@ const Menu = forwardRef((
     menuRef,
     menuToggleId,
     menuToggleRef,
-  };
-
+  });
   const styleProps = useMenuStyle({});
 
   return (

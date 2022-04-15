@@ -41,7 +41,6 @@ const TooltipContent = forwardRef((
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const {
-    anchorRef,
     arrowAt,
     disabled,
     hideArrow,
@@ -49,6 +48,7 @@ const TooltipContent = forwardRef((
     offset,
     placement,
     tooltipId,
+    tooltipTriggerRef,
   } = useTooltip();
   /**
    * Arrow width = Math.sqrt(6^2 + 6^2) = 8.49
@@ -89,7 +89,7 @@ const TooltipContent = forwardRef((
     <PopperComponent
       aria-hidden={!isOpen}
       data-popper-placement={placement}
-      anchorEl={anchorRef.current}
+      anchorEl={tooltipTriggerRef.current}
       arrowSize={arrowSize}
       hideArrow={hideArrow}
       id={tooltipId}

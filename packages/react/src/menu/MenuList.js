@@ -18,7 +18,6 @@ const MenuList = forwardRef((
     TransitionComponent = Collapse,
     TransitionProps,
     children,
-    offset,
     onBlur: onBlurProp,
     onKeyDown: onKeyDownProp,
     ...rest
@@ -40,6 +39,7 @@ const MenuList = forwardRef((
     menuToggleId,
     menuToggleRef,
     menuRef,
+    offset,
     onBlur,
     onKeyDown,
     placement,

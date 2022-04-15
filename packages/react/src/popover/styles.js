@@ -1,6 +1,12 @@
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 
+const usePopoverTriggerStyle = () => {
+  return {
+    // The popover trigger style will be passed to the wrapper element when the "shouldWrapChildren" prop is set to true
+  };
+};
+
 const usePopoverContentStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
@@ -64,6 +70,7 @@ const usePopoverFooterStyle = () => {
 };
 
 export {
+  usePopoverTriggerStyle,
   usePopoverContentStyle,
   usePopoverHeaderStyle,
   usePopoverBodyStyle,

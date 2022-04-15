@@ -134,7 +134,6 @@ const Tabs = forwardRef((
     unregisterTab,
     unregisterTabPanel,
   });
-
   const styleProps = useTabsStyle({ orientation });
 
   return (

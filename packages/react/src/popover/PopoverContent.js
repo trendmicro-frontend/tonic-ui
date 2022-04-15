@@ -6,8 +6,8 @@ import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import { Grow } from '../transitions';
 import wrapEvent from '../utils/wrapEvent';
-import { usePopover } from './context';
 import { usePopoverContentStyle } from './styles';
+import usePopover from './usePopover';
 
 const mapPlacementToTransformOrigin = placement => ({
   'top': 'bottom center',
@@ -49,8 +49,8 @@ const PopoverContent = ({
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const {
-    popoverRef,
-    anchorRef,
+    popoverContentRef,
+    popoverTriggerRef,
     placement,
     popoverId,
     isOpen,
@@ -59,11 +59,10 @@ const PopoverContent = ({
     onClose,
     isHoveringRef,
     trigger,
-    headerId,
-    bodyId,
+    popoverBodyId,
+    popoverHeaderId,
     hideArrow,
     offset,
-    leaveDelay,
     nextToCursor,
     followCursor,
     mousePageX,
@@ -85,7 +84,7 @@ const PopoverContent = ({
     };
   }
 
-  const popoverTriggerEl = anchorRef.current;
+  const popoverTriggerEl = popoverTriggerRef.current;
   /**
    * Arrow width = Math.sqrt(12^2 + 12^2) = 16.97
    * Arrow height = Math.sqrt(12^2 + 12^2) / 2 = 8.49
@@ -128,7 +127,7 @@ const PopoverContent = ({
       }),
       onMouseLeave: wrapEvent(onMouseLeave, () => {
         isHoveringRef.current = false;
-        setTimeout(onClose, leaveDelay);
+        onClose();
       }),
     };
 
@@ -152,16 +151,16 @@ const PopoverContent = ({
 
   return (
     <PopperComponent
+      aria-describedby={popoverBodyId}
       aria-hidden={!isOpen}
-      aria-labelledby={headerId}
-      aria-describedby={bodyId}
-      anchorEl={anchorRef.current}
+      aria-labelledby={popoverHeaderId}
+      anchorEl={popoverTriggerRef.current}
       arrowSize={arrowSize}
       id={popoverId}
       isOpen={isOpen}
       modifiers={popperModifiers}
       placement={placement}
-      ref={popoverRef}
+      ref={popoverContentRef}
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render popover in a portal
       willUseTransition={true}
