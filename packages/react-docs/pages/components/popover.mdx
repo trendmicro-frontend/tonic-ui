@@ -134,7 +134,7 @@ function Example() {
       initialFocusRef={initialFocusRef}
     >
       <PopoverTrigger>
-        <Link>Trigger</Link>
+        <Button>Trigger</Button>
       </PopoverTrigger>
       <PopoverContent>
         <PopoverHeader>
@@ -173,35 +173,27 @@ If required, you can set `returnFocusOnClose` to `false` to prevent `Popover` fr
 ```jsx
 function Example() {
   const [on, toggle] = useToggle(false);
-  const open = () => toggle(true);
-  const close = () => toggle(false);
 
   return (
-    <Flex columnGap="2x">
-      <Button onClick={open}>
-        Click Me
-      </Button>
+    <>
+      <Box mb="4x">
+        <Switch checked={on} onChange={toggle} />
+      </Box>
       <Popover
         isOpen={on}
-        onClose={close}
+        placement="bottom"
         returnFocusOnClose={false}
       >
         <PopoverTrigger>
-          <Button variant="primary">Trigger</Button>
+          <Button onClick={toggle}>
+            Trigger
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <PopoverHeader>
-            At least 8 characters consisting of:
-          </PopoverHeader>
-          <PopoverBody>
-            <ul>
-              <li>Alphanumeric characters (A-Z, a-z, 0-9) with both upper and lower case letters and number characters.</li>
-              <li>At least one special character</li>
-            </ul>
-          </PopoverBody>
+          Popover
         </PopoverContent>
       </Popover>
-    </Flex>
+    </>
   );
 }
 ```
