@@ -23,46 +23,15 @@ import {
   PopoverHeader,
   PopoverBody,
   PopoverFooter,
+  usePopover,
 } from '@tonic-ui/react';
 ```
 
 ## Usage
 
-### Controlled and uncontrolled popovers
+To create an accessible popover, it should allow users to access it using the tab key on a keyboard. When it opens, the focus status will be set to `PopoverContent`. When it closes, the focus status will return to `PopoverTrigger`.
 
-Pass `isOpen` to the `Popover` component to control the state of the popover.
-
-```jsx
-<Popover isOpen>
-  <PopoverTrigger>
-    <Button>Popover trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    <Text>This is a controlled popover</Text>
-  </PopoverContent>
-</Popover>
-```
-
-Set `defaultIsOpen` to `true` to have the popover open by default.
-
-```jsx
-<Popover defaultIsOpen>
-  <PopoverTrigger>
-    <Button>Popover trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    <Text>This is an uncontrolled popover</Text>
-  </PopoverContent>
-</Popover>
-```
-
-### Basic Usage
-
-When using this component, ensure the children passed to `PopoverTrigger` is focusable. `Popover` should be accessible and should allow users to access it using the tab key on a keyboard.
-
-**A11y:** When `Popover` opens, the focus status is sent to  `PopoverContent`. When `Popover` is closed, the focus status is returned to the trigger.
-
-```jsx
+```jsx disabled
 <Popover>
   <PopoverTrigger>
     <Button>Trigger</Button>
@@ -70,22 +39,102 @@ When using this component, ensure the children passed to `PopoverTrigger` is foc
   <PopoverContent>
     <PopoverHeader>Popover Header</PopoverHeader>
     <PopoverBody>Popover Body</PopoverBody>
+    <PopoverFooter>Popover Footer</PopoverFooter>
   </PopoverContent>
 </Popover>
 ```
-### Focus an element when `Popover` opens
 
-By default, the focus status is to sent to `PopoverContent` when `Popover` opens. You can send the focus status to a specific element when it opens by passing the `initialFocusRef` prop.
+By default, you have to pass a single React element child to the `PopoverTrigger` component.
+
+```jsx disabled
+<PopoverTrigger>
+  <Button>Trigger</Button>
+</PopoverTrigger>
+```
+
+If you need to pass more than one child element or non-element children, wrap them in an element or pass the `shouldWrapChildren` prop.
+
+```jsx disabled
+<PopoverTrigger>
+  <Text display="inline-block">Text content</Text>
+</PopoverTrigger>
+```
+
+```jsx disabled
+<PopoverTrigger shouldWrapChildren>
+  Text content
+</PopoverTrigger>
+```
+
+```jsx disabled
+<PopoverTrigger shouldWrapChildren>
+  <Icon icon="menu" height="5x" mr="2x" />
+  <Text display="inline-block">Text content</Text>
+</Popover>
+```
+
+### Controlled usage
+
+Pass `isOpen` to the `Popover` component to control the state of the popover.
 
 ```jsx
-function WalkthroughPopover() {
+function Example() {
+  const [on, toggle] = useToggle(false);
+
+  return (
+    <>
+      <Flex mb="4x">
+        <Switch checked={on} onChange={toggle} />
+      </Flex>
+      <Popover
+        isOpen={on}
+        placement="bottom"
+      >
+        <PopoverTrigger>
+          <Button onClick={toggle}>
+            Trigger
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <Text>This is a controlled popover</Text>
+        </PopoverContent>
+      </Popover>
+    </>
+  );
+}
+```
+
+### Uncontrolled usage
+
+Popover is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the popover open for the first render.
+
+```jsx
+<Popover defaultIsOpen={false}>
+  <PopoverTrigger>
+    <Button>Trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <Text>This is an uncontrolled popover</Text>
+  </PopoverContent>
+</Popover>
+```
+
+### Focus control
+
+#### Focus an element when popover opens
+
+The focus status will send to `PopoverContent` when `Popover` opens. You can send the focus status to a specific element when it opens by passing the `initialFocusRef` prop.
+
+```jsx
+function Example() {
   const initialFocusRef = React.useRef();
+
   return (
     <Popover
       initialFocusRef={initialFocusRef}
     >
       <PopoverTrigger>
-        <Link>Trigger</Link>
+        <Button>Trigger</Button>
       </PopoverTrigger>
       <PopoverContent>
         <PopoverHeader>
@@ -115,87 +164,33 @@ function WalkthroughPopover() {
 }
 ```
 
-### Accessing Internal state
+#### Focus an element when popover closes
 
-Tonic UI provides access to two internal states:  `isOpen` and `onClose`. Use the render prop pattern to access the internal states.
+The focus status will send to `PopoverTrigger` when `Popover` closes. You can send the focus status to a specific element when it closes by passing the `finalFocusRef` prop.
 
-```jsx
-function InternalStateEx() {
-  const initRef = React.useRef();
-  return (
-    <Popover
-      initialFocusRef={initRef}
-    >
-    {({ isOpen, onClose }) => (
-      <>
-        <PopoverTrigger>
-          <Button>Click to {isOpen ? "close" : "open"}</Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverHeader>
-            Popover Header
-          </PopoverHeader>
-          <PopoverBody>
-            Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            <Input mt="3x" placeholder="Placeholder text" />
-          </PopoverBody>
-          <PopoverFooter
-            border="0"
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Link fontSize="sm">Learn more</Link>
-            <Stack direction="row" spacing="2x">
-              <Button variant="primary">Submit</Button>
-              <Button variant="default" onClick={onClose} ref={initRef}>
-                Cancel
-              </Button>
-            </Stack>
-          </PopoverFooter>
-        </PopoverContent>
-      </>
-    )}
-    </Popover>
-  );
-}
-```
-
-### Controlled Usage
-
-You can control the opening and closing of `Popover` by passing the `isOpen` or `onClose` state.
-
-If required, you can set `returnFocusOnClose` to `false` to prevent Popver from returning the focus status to the children of `PopoverTrigger`.
+If required, you can set `returnFocusOnClose` to `false` to prevent `Popover` from returning the focus status to `PopoverTrigger`.
 
 ```jsx
-function ControlledUsage() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const open = () => setIsOpen(!isOpen);
-  const close = () => setIsOpen(false);
+function Example() {
+  const [on, toggle] = useToggle(false);
+
   return (
     <>
-      <Button mr={5} onClick={open}>
-        Trigger
-      </Button>
+      <Flex mb="4x">
+        <Switch checked={on} onChange={toggle} />
+      </Flex>
       <Popover
+        isOpen={on}
+        placement="bottom"
         returnFocusOnClose={false}
-        isOpen={isOpen}
-        onClose={close}
-        closeOnBlur={false}
       >
         <PopoverTrigger>
-          <Button variant="primary">Popover Target</Button>
+          <Button onClick={toggle}>
+            Trigger
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <PopoverHeader>
-            At least 8 characters consisting of:
-          </PopoverHeader>
-          <PopoverBody>
-            <ul>
-              <li>Alphanumeric characters (A-Z, a-z, 0-9) with both upper and lower case letters and number characters.</li>
-              <li>At least one special character</li>
-            </ul>
-          </PopoverBody>
+          Popover
         </PopoverContent>
       </Popover>
     </>
@@ -203,9 +198,7 @@ function ControlledUsage() {
 }
 ```
 
-### Customization
-
-#### Hide arrow
+### Hide the arrow of the popover
 
 ```jsx
 <Popover
@@ -220,13 +213,20 @@ function ControlledUsage() {
 </Popover>
 ```
 
-#### Offset position
+### Change popover position
+
+The `offset` prop can be used to change the popover position. It accepts an array with two numbers in the form of `[skidding, distance]`.
+
+**Skidding**
+
+The first number, `skidding`, displaces the `PopoverContent` along the `PopoverToggle`. This value is specified in pixels.
+
+**Distance**
+
+The second number, `distance`, controls the distance between the `PopoverContent` and the `PopoverToggle`. This value is specified in pixels.
 
 ```jsx
-<Popover
-  skidding={50}
-  distance={0}
->
+<Popover offset={[24, 12]}>
   <PopoverTrigger>
     <Button>Trigger</Button>
   </PopoverTrigger>
@@ -236,11 +236,52 @@ function ControlledUsage() {
 </Popover>
 ```
 
-### Hover Trigger
+### Context API
 
-To show `Popover` when you mouse over or focus on the trigger, pass the prop `trigger` and set it to `hover`. When you focus on or mouse over the popover trigger, `Popover` will open.
+To access the internal state of the popover, you can use the Function as Child Component (FaCC) pattern or use the `usePopover` hook.
 
-If you quickly move your cursor to the popover content when it is open, `Popover` will remain open until you move away the cursor.
+```jsx
+<Popover>
+  {({ isOpen, onClose }) => (
+    <>
+      <PopoverTrigger>
+        <Button>Trigger</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>
+          Popover Header
+        </PopoverHeader>
+        <PopoverBody>
+          Popover Body
+        </PopoverBody>
+        <PopoverFooter>
+          <Flex
+            justifyContent="space-between"
+            columnGap="4x"
+          >
+            <Link fontSize="sm">Learn more</Link>
+            <Grid
+              templateColumns="1fr 1fr"
+              columnGap="2x"
+            >
+              <Button variant="primary">Submit</Button>
+              <Button variant="default" onClick={onClose}>
+                Cancel
+              </Button>
+            </Grid>
+          </Flex>
+        </PopoverFooter>
+      </PopoverContent>
+    </>
+  )}
+</Popover>
+```
+
+### Trigger the popover on hover
+
+To trigger the popover on hover, you can set the `trigger` prop to `"hover"`.
+
+You can quickly move the cursor from `PopoverTrigger` to `PopoverContent` when the `Popover` is open. `Popover` will remain open until the cursor move away from `PopoverContent`.
 
 ```jsx
 <Popover
@@ -248,7 +289,7 @@ If you quickly move your cursor to the popover content when it is open, `Popover
   trigger="hover"
 >
   <PopoverTrigger>
-    <Icon icon="info" color="white:secondary" _hover={{ color: 'white:emphasis' }}/>
+    <Text display="inline-block">Hover Me</Text>
   </PopoverTrigger>
   <PopoverContent>
     Popover
@@ -256,35 +297,44 @@ If you quickly move your cursor to the popover content when it is open, `Popover
 </Popover>
 ```
 
-### Mouse tracking
+When the trigger is set to `"hover"`, you can pass `nextToCursor` or `followCursor` to `Popover` to control the position of the popover.
+
+#### `nextToCursor` prop
+
+The `nextToCursor` prop will set the popover position next to the cursor.
 
 ```jsx
-<Stack shouldWrapChildren direction="row" spacing="2x">
-  <Popover trigger="hover" nextToCursor>
-    <PopoverTrigger>
-      <Button>Next to cursor</Button>
-    </PopoverTrigger>
-    <PopoverContent>
-      Popover
-    </PopoverContent>
-  </Popover>
-  <Popover trigger="hover" followCursor>
-    <PopoverTrigger>
-      <Button>Follow cursor</Button>
-    </PopoverTrigger>
-    <PopoverContent>
-      Popover
-    </PopoverContent>
-  </Popover>
-</Stack>
+<Popover trigger="hover" nextToCursor>
+  <PopoverTrigger>
+    <Button>Trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    Popover
+  </PopoverContent>
+</Popover>
 ```
 
-### Popover Placement
+#### `followCursor` prop
+
+The `followCursor` prop will set the popover position to follow the cursor when it moves.
+
+```jsx
+<Popover trigger="hover" followCursor>
+  <PopoverTrigger>
+    <Button>Trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    Popover
+  </PopoverContent>
+</Popover>
+```
+
+### Placement
 
 Use the `placement` prop to control the placement of the popover.
 
 ```jsx disabled
-<Popover placement="top">
+<Popover placement="top" trigger="hover">
   <PopoverTrigger>
     <LinkButton>Trigger</LinkButton>
   </PopoverTrigger>
@@ -336,8 +386,7 @@ Use the `placement` prop to control the placement of the popover.
 | closeOnBlur | boolean | true | If `true`, the popover will close when the user clicks outside of the popover. |
 | closeOnEsc | boolean | true | If `true`, the popover will close when you press the `Esc` key. |
 | defaultIsOpen | boolean | false | Whether the popover will be open by default. |
-| distance | number | 4 | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
-| enterDelay | number | 0 | The number of milliseconds to wait before showing the popover if `trigger` is hover. |
+| enterDelay | number | 100 | The number of milliseconds to wait before showing the popover if `trigger` is hover. |
 | followCursor | boolean | | If `true`, the popover will follow the cursor. |
 | hideArrow | boolean | | If `true`, the arrow will not be displayed. |
 | id | string | | The id of the popover. |
@@ -345,11 +394,11 @@ Use the `placement` prop to control the placement of the popover.
 | isOpen | boolean | | If `true`, the popover will be open. |
 | leaveDelay | number | 0 | The number of milliseconds to wait before hiding the popover if `trigger` is hover. |
 | nextToCursor | boolean | | If `true`, the popover will be positioned next to the cursor. |
+| offset | [skidding, distance] | [0, 12] | The skidding and distance of the popover. |
 | onClose | () => void | | Callback when the popover is closed. |
 | onOpen | () => void | | Callback when the popover is opened. |
 | placement | string | 'bottom' | The placement of the popover. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | returnFocusOnClose | boolean | true | If `true`, the popover will return the focus status to the trigger when closing. |
-| skidding | number | 0 | Displaces the popover (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
 | trigger | string | 'click' | The type of trigger. One of: 'click', 'hover' |
 
 ### PopoverTrigger

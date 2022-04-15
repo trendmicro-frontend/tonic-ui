@@ -1,16 +1,18 @@
 import React, { forwardRef } from 'react';
-import { usePopover } from './context';
 import { Box } from '../box';
 import { usePopoverHeaderStyle } from './styles';
+import usePopover from './usePopover';
 
 const PopoverHeader = forwardRef((props, ref) => {
-  const { headerId } = usePopover();
+  const {
+    popoverHeaderId,
+  } = usePopover();
   const styleProps = usePopoverHeaderStyle({});
 
   return (
     <Box
       as="header"
-      id={headerId}
+      id={popoverHeaderId}
       ref={ref}
       {...styleProps}
       {...props}

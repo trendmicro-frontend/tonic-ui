@@ -372,14 +372,13 @@ The tab with the dropdown menu is usually the last tab. You can use `event.preve
         console.log('Menu Item ' + value + ' clicked');
       }}
     >
-      <Menu>
+      <Menu offset={[-14, 10]}>
         <MenuToggle alignItems="center">
           TAB 3
           <Space width="1x" />
           <MenuToggleIcon />
         </MenuToggle>
         <MenuList
-          offset={[-14, 10]}
           width="max-content"
         >
           <MenuItem value={1}>Menu Item 1</MenuItem>

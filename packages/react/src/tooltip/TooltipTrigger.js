@@ -17,7 +17,6 @@ const TooltipTrigger = forwardRef((
   ref,
 ) => {
   const {
-    anchorRef,
     closeOnClick,
     closeOnEsc,
     closeOnMouseDown,
@@ -25,16 +24,21 @@ const TooltipTrigger = forwardRef((
     onClose,
     onOpen,
     tooltipId,
+    tooltipTriggerRef,
   } = useTooltip();
-  const combinedRef = useForkRef(anchorRef, ref);
+  const combinedRef = useForkRef(tooltipTriggerRef, ref);
   const styleProps = useTooltipTriggerStyle();
-  const handleBlur = onClose;
+  const handleBlur = useCallback(() => {
+    onClose();
+  }, [onClose]);
   const handleClick = useCallback(() => {
     if (closeOnClick) {
       onClose();
     }
   }, [closeOnClick, onClose]);
-  const handleFocus = onOpen;
+  const handleFocus = useCallback((event) => {
+    onOpen();
+  }, [onOpen]);
   const handleKeyDown = useCallback((event) => {
     if (isOpen && closeOnEsc && event.key === 'Escape') {
       onClose();
@@ -45,11 +49,15 @@ const TooltipTrigger = forwardRef((
       onClose();
     }
   }, [closeOnMouseDown, onClose]);
-  const handleMouseEnter = onOpen;
-  const handleMouseLeave = onClose;
+  const handleMouseEnter = useCallback(() => {
+    onOpen();
+  }, [onOpen]);
+  const handleMouseLeave = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
   useEventListener(
-    () => ownerDocument(anchorRef.current),
+    () => ownerDocument(tooltipTriggerRef.current),
     'keydown',
     closeOnEsc ? handleKeyDown : undefined,
   );
@@ -60,7 +68,7 @@ const TooltipTrigger = forwardRef((
    * @see https://github.com/facebook/react/issues/11972
    */
   useEventListener(
-    () => anchorRef.current,
+    () => tooltipTriggerRef.current,
     'mouseleave',
     handleMouseLeave,
   );
