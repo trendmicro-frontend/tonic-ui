@@ -6,17 +6,19 @@ A menu is used to display a list of options to the user. It appears when the use
 
 - `Menu`: The component that provides the menu functionality.
 - `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a menu button.
+- `MenuContent`: An unstyled component that provides the menu content.
 - `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
 - `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
-- `MenuList`: A wrapper that contains the menu items. Must be a direct child of the `Menu` component.
-- `MenuGroup`: A wrapper that groups related menu items.
-- `MenuItem`: The individual menu items. Must be a direct child of the `MenuList` component.
+- `MenuList`: A styled `MenuContent` that wraps the menu items.
+- `MenuGroup`: A component that groups menu items.
+- `MenuItem`: The individual menu items.
 - `MenuDivider`: A divider that separates menu items.
 
 ```js
 import {
   Menu,
   MenuButton,
+  MenuContent,
   MenuToggle,
   MenuToggleIcon,
   MenuList,
@@ -736,6 +738,17 @@ function menuWithCheckbox() {
 | disabled | boolean | | Whether the menu button is disabled. |
 | onClick | function | | Callback when the menu button is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
 
 ### MenuToggle
 

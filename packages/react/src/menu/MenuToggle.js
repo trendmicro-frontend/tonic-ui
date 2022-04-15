@@ -10,8 +10,8 @@ import useMenu from './useMenu';
 
 const MenuToggle = forwardRef((
   {
-    onClick,
-    onKeyDown,
+    onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
     children,
     disabled,
     ...rest
@@ -20,19 +20,19 @@ const MenuToggle = forwardRef((
 ) => {
   const menuContext = useMenu(); // context might be an undefined value
   const {
-    isOpen,
+    autoSelect,
     focusOnLastItem,
     focusOnFirstItem,
-    closeMenu,
+    isOpen,
     menuId,
     menuToggleId,
-    autoSelect,
-    openMenu,
     menuToggleRef,
+    onClose: closeMenu,
+    onOpen: openMenu,
   } = { ...menuContext };
   const styleProps = useMenuToggleStyle();
   const combinedRef = useForkRef(menuToggleRef, ref);
-  const handleClick = wrapEvent(onClick, (event) => {
+  const handleClick = wrapEvent(onClickProp, (event) => {
     // Don't handle `onClick` event when the `MenuToggle` is disabled
     if (disabled) {
       event.preventDefault();
@@ -49,7 +49,7 @@ const MenuToggle = forwardRef((
     // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
     autoSelect && focusOnFirstItem();
   });
-  const handleKeyDown = wrapEvent(onKeyDown, event => {
+  const handleKeyDown = wrapEvent(onKeyDownProp, event => {
     // Don't handle `onKeyDown` event when the `MenuToggle` is disabled
     if (disabled) {
       event.preventDefault();
