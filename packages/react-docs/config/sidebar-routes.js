@@ -192,10 +192,11 @@ const routes = [
     icon: 'widgets',
     path: 'lab',
     routes: [
-      { title: 'DATE & TIME', heading: true },
-      { title: 'Calendar', path: 'lab/Calendar' },
-      { title: 'DatePicker', path: 'lab/DatePicker' },
-      { title: 'Native Pickers', path: 'lab/native-pickers' },
+      { title: 'Getting Started', path: 'lab' },
+      { title: 'DATE & TIME PICKERS', heading: true },
+      { title: 'Overview', path: 'lab/date-time-pickers' },
+      { title: 'Calendar', path: 'lab/date-time-pickers/Calendar' },
+      { title: 'DatePicker', path: 'lab/date-time-pickers/DatePicker' },
     ],
   },
 ];

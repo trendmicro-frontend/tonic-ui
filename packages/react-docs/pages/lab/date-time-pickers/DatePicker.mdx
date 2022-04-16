@@ -19,13 +19,17 @@ import {
   onChange={(nextValue) => {
     setValue(nextValue);
   }}
-  renderInput={({ error, inputProps }) => (
-    <DateInput
-      {...inputProps}
-      isInvalid={!!error}
-      placeholder="yyyy-MM-dd"
-    />
-  )}
+  renderInput={({ error, inputProps }) => {
+    const isInvalid = !!inputProps.value && error;
+    return (
+      <DateInput
+        {...inputProps}
+        isInvalid={isInvalid}
+        placeholder="yyyy-MM-dd"
+        readOnly
+      />
+    );
+  }}
 />
 ```
 

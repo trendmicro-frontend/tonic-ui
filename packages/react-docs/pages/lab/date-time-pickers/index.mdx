@@ -1,0 +1,58 @@
+# Date and Time Pickers
+
+Date and Time pickers allow the user to select a date and/or time from a pre-determined set of values.
+
+## Components
+
+```jsx
+<>
+  <TextLabel mb="1x">Date Picker</TextLabel>
+  <DatePicker
+    dateFormat="yyyy-MM-dd"
+    defaultValue={new Date()}
+    renderInput={({ error, inputProps }) => {
+      const isInvalid = !!inputProps.value && error;
+      return (
+        <DateInput
+          {...inputProps}
+          isInvalid={isInvalid}
+          placeholder="yyyy-MM-dd"
+        />
+      );
+    }}
+  />
+</>
+```
+
+## Native Pickers
+
+Native pickers are supported by modern browsers. The supported input types are: `date`, `datetime-local`, `month`, `time`, and `week`.
+
+```jsx
+<Flex
+  display="inline-flex"
+  direction="column"
+  rowGap="4x"
+>
+  <Box>
+    <TextLabel mb="1x">date</TextLabel>
+    <Input type="date" />
+  </Box>
+  <Box>
+    <TextLabel mb="1x">time</TextLabel>
+    <Input type="time" />
+  </Box>
+  <Box>
+    <TextLabel mb="1x">datetime-local</TextLabel>
+    <Input type="datetime-local" />
+  </Box>
+  <Box>
+    <TextLabel mb="1x">month</TextLabel>
+    <Input type="month" />
+  </Box>
+  <Box>
+    <TextLabel mb="1x">week</TextLabel>
+    <Input type="week" />
+  </Box>
+</Flex>
+```
