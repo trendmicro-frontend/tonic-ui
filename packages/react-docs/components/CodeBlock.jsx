@@ -6,6 +6,7 @@ import * as reactLabComponents from '@tonic-ui/react-lab';
 import * as reactHooks from '@tonic-ui/react-hooks';
 import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
+import * as dateFns from 'date-fns'
 import update from 'immutability-helper';
 import React, { useCallback, useState } from 'react';
 import * as ReactBeautifulDND from 'react-beautiful-dnd';
@@ -31,6 +32,7 @@ const thirdPartyComponents = {
   ReactDND,
   ReactDNDHtml5backend,
   ReactMovable,
+  dateFns,
   update, // XXX: rename to immutableUpdate
   ...ReactTable, // XXX: rename to ReactTable.xxx
 };

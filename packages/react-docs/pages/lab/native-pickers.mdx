@@ -1,0 +1,25 @@
+# Native Pickers
+
+Native pickers are supported by modern browsers. The supported input types are: `date`, `datetime-local`, `month`, `time`, and `week`.
+
+```jsx
+<Flex>
+  <Grid
+    alignItems="center"
+    templateColumns="auto 1fr"
+    columnGap="6x"
+    rowGap="3x"
+  >
+    <TextLabel>date</TextLabel>
+    <Input type="date" />
+    <TextLabel>time</TextLabel>
+    <Input type="time" />
+    <TextLabel>datetime-local</TextLabel>
+    <Input type="datetime-local" />
+    <TextLabel>month</TextLabel>
+    <Input type="month" />
+    <TextLabel>week</TextLabel>
+    <Input type="week" />
+  </Grid>
+</Flex>
+```

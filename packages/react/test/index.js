@@ -98,6 +98,7 @@ test('should match expected exports', () => {
     // menu
     'Menu',
     'MenuButton',
+    'MenuContent',
     'MenuDivider',
     'MenuGroup',
     'MenuItem',

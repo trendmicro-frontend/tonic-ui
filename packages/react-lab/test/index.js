@@ -2,12 +2,10 @@ import * as moduleExport from '../src';
 
 test('should match expected exports', () => {
   const exportedComponents = [
-    // date-picker
+    // date-time
     'Calendar',
     'DateInput',
     'DatePicker',
-    'DatePickerContent',
-    'DatePickerToggle',
     'TimeInput',
   ];
 

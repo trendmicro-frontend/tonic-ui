@@ -13,13 +13,13 @@ const Weekdays = forwardRef((
   const calendarContext = useCalendar();
   const {
     activeDate,
-    weekStartDay,
+    firstDayOfWeek,
   } = { ...calendarContext };
 
   const startDateOfWeek = startOfWeek(
     activeDate,
     {
-      weekStartsOn: weekStartDay,
+      weekStartsOn: firstDayOfWeek,
     }
   );
   const styleProps = useCellStyle({});

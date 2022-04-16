@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-lab",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "This package hosts the incubator components that are not yet ready to move to the core.",
   "main": "dist/index.js",
   "module": "dist/es/index.js",

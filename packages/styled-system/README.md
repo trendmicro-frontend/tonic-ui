@@ -5,11 +5,9 @@ The framework agnostic styling engine for Tonic UI.
 ## Installation
 
 ```sh
-npm i @tonic-ui/styled-system
-```
+// with npm
+npm install @tonic-ui/styled-system
 
-or
-
-```sh
+// with yarn
 yarn add @tonic-ui/styled-system
 ```

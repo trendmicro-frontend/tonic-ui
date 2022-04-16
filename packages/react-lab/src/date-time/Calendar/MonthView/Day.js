@@ -27,18 +27,16 @@ const Day = forwardRef((
     isSelected,
     isToday,
   });
-  const formattedValue = format(date, dateFormat);
-  const title = formattedValue;
   const label = getDate(date);
   const handleClick = (e) => {
     setActiveDate(date);
-    onChange(formattedValue);
+    onChange(date);
   };
 
   return (
     <Box
       ref={ref}
-      title={title}
+      title={format(date, dateFormat)}
       aria-selected={isSelected}
       onClick={handleClick}
       {...styleProps}
