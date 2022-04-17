@@ -135,121 +135,6 @@ The value of `list` is the id attribute of the `<datalist>` of autocomplete opti
 </>
 ```
 
-### Adornments
-
-Input adornments can be used to add a prefix, a suffix or an action to an input. For instance, you can use an icon button to hide or reveal the password.
-
-First, you may have to create your input adornment components for convenience. Note that you must use the `z-index` value as mentioned below.
-
-```jsx disabled
-const InputAdornmentPrepend = (props) => (
-  <Flex
-    alignItems="center"
-    position="absolute"
-    left={0}
-    height="100%"
-    px="3x"
-    // The z-index value should be at least 3 for the prepeneded input adornment
-    zIndex={3}
-    {...props}
-  />
-);
-
-const InputAdornmentAppend = (props) => (
-  <Flex
-    alignItems="center"
-    position="absolute"
-    right={0}
-    height="100%"
-    px="3x"
-    // The z-index value should be at least 2 for the appended input adornment
-    zIndex={2}
-    {...props}
-  />
-);
-```
-
-Take a look at the following examples:
-
-```jsx noInline
-const InputAdornmentPrepend = (props) => (
-  <Flex
-    alignItems="center"
-    position="absolute"
-    left={0}
-    px="3x"
-    // The z-index value should be at least 3 for the prepeneded input adornment
-    zIndex={3}
-    {...props}
-  />
-);
-
-const InputAdornmentAppend = (props) => (
-  <Flex
-    alignItems="center"
-    position="absolute"
-    right={0}
-    px="3x"
-    // The z-index value should be at least 2 for the appended input adornment
-    zIndex={2}
-    {...props}
-  />
-);
-
-function Example() {
-  const [view, setView] = React.useState(false);
-  const toggleView = () => setView(view => !view);
-  const [colorMode] = useColorMode();
-  const adornmentColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const adornmentIconName = view ? 'view' : 'view-off';
-  const inputType = view ? 'text' : 'password';
-
-  return (
-    <Stack direction="column" spacing="4x">
-      <Flex position="relative" alignItems="center">
-        <InputAdornmentPrepend>
-          <Icon icon="mobile" color={adornmentColor} />
-        </InputAdornmentPrepend>
-        <Input
-          placeholder="Mobile phone number"
-          px="10x"
-        />
-      </Flex>
-      <Flex position="relative" alignItems="center">
-        <InputAdornmentPrepend>
-          <Text width="4x" textAlign="center" color={adornmentColor}>$</Text>
-        </InputAdornmentPrepend>
-        <Input
-          placeholder="Enter the amount"
-          px="10x"
-        />
-        <InputAdornmentAppend>
-          <Icon icon="check" color="green:50" />
-        </InputAdornmentAppend>
-      </Flex>
-      <Flex position="relative" alignItems="center">
-        <Input
-          type={inputType}
-          defaultValue="Revealed Password"
-          placeholder="Password"
-          pr="10x"
-        />
-        <InputAdornmentAppend>
-          <ButtonBase onClick={toggleView}>
-            <Icon icon={adornmentIconName} color={adornmentColor} />
-          </ButtonBase>
-        </InputAdornmentAppend>
-      </Flex>
-    </Stack>
-  );
-}
-
-render(<Example />);
-```
-
 ### Validation
 
 Use the `isInvalid` attribute to indicate that the value entered into an input field does not conform to the format expected by the application. `isInvalid` can also be used to indicate that a required field has not been filled in.
@@ -314,6 +199,8 @@ render(<Example />);
 ```
 
 ## Props
+
+### Input
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

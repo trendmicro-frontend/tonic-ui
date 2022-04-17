@@ -8,27 +8,19 @@ const defaultVariant = 'outline';
 
 const InputGroupAddon = forwardRef((
   {
-    size,
-    variant,
+    size: sizeProp,
+    variant: variantProp,
     ...rest
   },
   ref,
 ) => {
   const inputGroupContext = useInputGroup();
-  if (inputGroupContext) {
-    const {
-      size: inputGroupSize,
-      variant: inputGroupVariant,
-    } = { ...inputGroupContext };
-    // Use fallback values if values are null or undefined
-    size = (size ?? inputGroupSize) ?? defaultSize;
-    variant = (variant ?? inputGroupVariant) ?? defaultVariant;
-  } else {
-    // Use fallback values if values are null or undefined
-    size = size ?? defaultSize;
-    variant = variant ?? defaultVariant;
-  }
-
+  const {
+    size: inputGroupSize,
+    variant: inputGroupVariant,
+  } = { ...inputGroupContext };
+  const size = (sizeProp ?? inputGroupSize) ?? defaultSize;
+  const variant = (variantProp ?? inputGroupVariant) ?? defaultVariant;
   const styleProps = useInputGroupAddonStyle({ size, variant });
 
   return (

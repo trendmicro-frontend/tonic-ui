@@ -1,16 +1,15 @@
 import React, { forwardRef } from 'react';
-import InputBase from './InputBase';
-import { getInputGroupCSS, useInputStyle } from './styles';
+import { Box } from '../box';
+import { useInputAdornmentStyle } from './styles';
 import useInputGroup from './useInputGroup';
 
 const defaultSize = 'md';
 const defaultVariant = 'outline';
 
-const Input = forwardRef((
+const InputAdornment = forwardRef((
   {
     size: sizeProp,
     variant: variantProp,
-    css: cssProp,
     ...rest
   },
   ref,
@@ -22,20 +21,17 @@ const Input = forwardRef((
   } = { ...inputGroupContext };
   const size = (sizeProp ?? inputGroupSize) ?? defaultSize;
   const variant = (variantProp ?? inputGroupVariant) ?? defaultVariant;
-  const css = inputGroupContext ? [getInputGroupCSS({ variant }), cssProp] : cssProp;
-  const styleProps = useInputStyle({ size, variant });
+  const styleProps = useInputAdornmentStyle({ size, variant });
 
   return (
-    <InputBase
+    <Box
       ref={ref}
-      as="input"
-      css={css}
       {...styleProps}
       {...rest}
     />
   );
 });
 
-Input.displayName = 'Input';
+InputAdornment.displayName = 'InputAdornment';
 
-export default Input;
+export default InputAdornment;

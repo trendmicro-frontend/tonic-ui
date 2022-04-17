@@ -41,6 +41,7 @@ const getInputOutlinedStyle = ({
     backgroundColor,
     border: 1,
     borderColor,
+    borderRadius: 'sm',
     color,
     _hover: {
       borderColor: hoverBorderColor,
@@ -104,45 +105,51 @@ const getInputUnstyledStyle = ({
     border: 0,
     borderRadius: 0,
     color,
-    height: undefined,
-    px: undefined,
-    py: undefined,
   };
 };
 
-const getInputSizeStyle = (props) => {
-  const { size } = props;
+const getInputSizeStyle = ({
+  size,
+  variant,
+}) => {
   const defaultSize = 'md';
   const sizes = {
     'sm': {
-      borderRadius: 'sm',
       fontSize: 'sm',
       lineHeight: 'sm',
-      px: 'calc(.75rem - 1px)', // 12px - 1px
-      py: '1px',
+      px: '3x',
+      py: '1q', // (24px - 2px - 20px) / 2 = 1px
+      width: '100%',
     },
     'md': {
-      borderRadius: 'sm',
       fontSize: 'sm',
       lineHeight: 'sm',
-      px: 'calc(.75rem - 1px)', // 12px - 1px
-      py: 'calc(.375rem - 1px)', // 6px - 1px
+      px: '3x',
+      py: '5q', // (32px - 2px - 20px) / 2 = 5px
+      width: '100%',
     },
     'lg': {
-      borderRadius: 'sm',
       fontSize: 'md',
       lineHeight: 'md',
-      px: 'calc(.75rem - 1px)', // 12px - 1px
-      py: 'calc(.5625rem - 1px)', // 9px - 1px
+      px: '3x',
+      py: '8q', // (40px - 2px - 22px) / 2 = 8px
+      width: '100%',
     },
   };
+  const sizeStyle = sizes[size] ?? sizes[defaultSize];
 
-  return sizes[size] ?? sizes[defaultSize];
+  if (variant === 'unstyled') {
+    sizeStyle.px = undefined;
+    sizeStyle.py = undefined;
+  }
+
+  return sizeStyle;
 };
 
-const getInputVariantStyle = (props) => {
-  const { colorMode, variant } = props;
-
+const getInputVariantStyle = ({
+  colorMode,
+  variant,
+}) => {
   if (variant === 'outline') {
     return getInputOutlinedStyle({ colorMode });
   }
@@ -156,6 +163,37 @@ const getInputVariantStyle = (props) => {
   }
 
   return {};
+};
+
+const getInputAdornmentSizeStyle = ({
+  size,
+  variant,
+}) => {
+  const defaultSize = 'md';
+  const sizes = {
+    'sm': {
+      fontSize: 'sm',
+      lineHeight: 'sm',
+      px: '3x',
+    },
+    'md': {
+      fontSize: 'sm',
+      lineHeight: 'sm',
+      px: '3x',
+    },
+    'lg': {
+      fontSize: 'md',
+      lineHeight: 'md',
+      px: '3x',
+    },
+  };
+  const sizeStyle = sizes[size] ?? sizes[defaultSize];
+
+  if (variant === 'unstyled') {
+    sizeStyle.px = undefined;
+  }
+
+  return sizeStyle;
 };
 
 const getInputGroupAddonOutlinedStyle = ({
@@ -173,6 +211,7 @@ const getInputGroupAddonOutlinedStyle = ({
   return {
     border: 1,
     borderColor,
+    borderRadius: 'sm',
     color,
   };
 };
@@ -200,47 +239,50 @@ const getInputGroupAddonUnstyledStyle = ({
   }[colorMode];
 
   return {
-    color,
     border: 0,
     borderRadius: 0,
-    px: undefined,
-    py: undefined,
+    color,
   };
 };
 
-const getInputGroupAddonSizeStyle = (props) => {
-  const { size } = props;
+const getInputGroupAddonSizeStyle = ({
+  size,
+  variant,
+}) => {
   const defaultSize = 'md';
   const sizes = {
     'sm': {
-      borderRadius: 'sm',
       fontSize: 'sm',
       lineHeight: 'sm',
+      px: '3x',
       height: '6x',
-      px: 'calc(.75rem - 1px)', // 12px - 1px
     },
     'md': {
-      borderRadius: 'sm',
       fontSize: 'sm',
       lineHeight: 'sm',
+      px: '3x',
       height: '8x',
-      px: 'calc(.75rem - 1px)', // 12px - 1px
     },
     'lg': {
-      borderRadius: 'sm',
       fontSize: 'md',
       lineHeight: 'md',
+      px: '3x',
       height: '10x',
-      px: 'calc(.75rem - 1px)', // 12px - 1px
     },
   };
+  const sizeStyle = sizes[size] ?? sizes[defaultSize];
 
-  return sizes[size] ?? sizes[defaultSize];
+  if (variant === 'unstyled') {
+    sizeStyle.px = undefined;
+  }
+
+  return sizeStyle;
 };
 
-const getInputGroupAddonVariantStyle = (props) => {
-  const { colorMode, variant } = props;
-
+const getInputGroupAddonVariantStyle = ({
+  colorMode,
+  variant,
+}) => {
   if (variant === 'outline') {
     return getInputGroupAddonOutlinedStyle({ colorMode });
   }
@@ -254,6 +296,55 @@ const getInputGroupAddonVariantStyle = (props) => {
   }
 
   return {};
+};
+
+const useInputStyle = ({
+  size,
+  variant,
+}) => {
+  const [colorMode] = useColorMode();
+  const baseStyle = {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'all .2s',
+  };
+  const sizeStyle = getInputSizeStyle({ size, variant });
+  const variantStyle = getInputVariantStyle({ colorMode, variant });
+
+  return {
+    ...baseStyle,
+    ...sizeStyle,
+    ...variantStyle,
+  };
+};
+
+const useInputAdornmentStyle = ({
+  size,
+  variant,
+}) => {
+  const baseStyle = {
+    display: 'flex',
+    alignItems: 'center',
+  };
+  const sizeStyle = getInputAdornmentSizeStyle({ size, variant });
+
+  return {
+    ...baseStyle,
+    ...sizeStyle,
+  };
+};
+
+const useInputBaseStyle = () => {
+  return {
+    appearance: 'none',
+    backgroundColor: 'inherit',
+    border: 'none',
+    color: 'inherit',
+    lineHeight: 1,
+    outline: 0,
+    padding: 0,
+  };
 };
 
 const getInputGroupCSS = ({
@@ -277,46 +368,6 @@ const getInputGroupCSS = ({
   });
 };
 
-const useInputStyle = ({
-  size,
-  variant,
-}) => {
-  const [colorMode] = useColorMode();
-  const _props = {
-    colorMode,
-    size,
-    variant,
-  };
-  const baseStyle = {
-    position: 'relative',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    transition: 'all .2s',
-  };
-  const sizeStyle = getInputSizeStyle(_props);
-  const variantStyle = getInputVariantStyle(_props);
-
-  return {
-    ...baseStyle,
-    ...sizeStyle,
-    ...variantStyle,
-  };
-};
-
-const useInputBaseStyle = () => {
-  return {
-    appearance: 'none',
-    backgroundColor: 'inherit',
-    border: 'none',
-    color: 'inherit',
-    lineHeight: 1,
-    outline: 0,
-    padding: 0,
-    width: 'auto',
-  };
-};
-
 const useInputGroupStyle = () => {
   return {
     position: 'relative',
@@ -332,19 +383,14 @@ const useInputGroupAddonStyle = ({
   variant,
 }) => {
   const [colorMode] = useColorMode();
-  const _props = {
-    colorMode,
-    size,
-    variant,
-  };
   const baseStyle = {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
     outline: 0,
   };
-  const sizeStyle = getInputGroupAddonSizeStyle(_props);
-  const variantStyle = getInputGroupAddonVariantStyle(_props);
+  const sizeStyle = getInputGroupAddonSizeStyle({ size, variant });
+  const variantStyle = getInputGroupAddonVariantStyle({ colorMode, variant });
 
   return {
     ...baseStyle,
@@ -353,54 +399,106 @@ const useInputGroupAddonStyle = ({
   };
 };
 
-const useInputGroupAppendStyle = () => {
+const getInputGroupAppendCSS = () => {
   const notFirstChildStyle = {
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   };
-
   const notLastChildStyle = {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
   };
 
+  return sx({
+    '& > *:first-of-type': notFirstChildStyle,
+    '&:not(:last-child) > *:first-of-type': notLastChildStyle,
+  });
+};
+
+const useInputGroupAppendStyle = () => {
   return {
     display: 'flex',
     ml: -1,
-    css: {
-      '& > *:first-of-type': notFirstChildStyle,
-      '&:not(:last-child) > *:first-of-type': notLastChildStyle,
-    }
   };
 };
 
-const useInputGroupPrependStyle = () => {
+const getInputGroupPrependCSS = () => {
   const notFirstChildStyle = {
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   };
-
   const notLastChildStyle = {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
   };
 
+  return sx({
+    '& > *:first-of-type': notLastChildStyle,
+    '&:not(:first-of-type) > *:first-of-type': notFirstChildStyle,
+  });
+};
+
+const useInputGroupPrependStyle = () => {
   return {
     display: 'flex',
     mr: -1,
-    css: {
-      '& > *:first-of-type': notLastChildStyle,
-      '&:not(:first-of-type) > *:first-of-type': notFirstChildStyle,
-    },
+  };
+};
+
+const useInputRootBaseStyle = ({
+  variant,
+}) => {
+  const [colorMode] = useColorMode();
+  const baseStyle = {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'all .2s',
+  };
+  const variantStyle = getInputVariantStyle({ colorMode, variant });
+
+  return {
+    ...baseStyle,
+    ...variantStyle,
+  };
+};
+
+const useInputRootInputStyle = ({
+  size,
+  variant,
+  startAdornment,
+  endAdornment,
+}) => {
+  const sizeStyle = getInputSizeStyle({ size, variant });
+
+  if (startAdornment && endAdornment) {
+    sizeStyle.px = undefined;
+  }
+  if (startAdornment && !endAdornment) {
+    sizeStyle.pr = sizeStyle.px;
+    sizeStyle.px = undefined;
+  }
+  if (!startAdornment && endAdornment) {
+    sizeStyle.pl = sizeStyle.px;
+    sizeStyle.px = undefined;
+  }
+
+  return {
+    ...sizeStyle,
   };
 };
 
 export {
   getInputGroupCSS,
+  getInputGroupAppendCSS,
+  getInputGroupPrependCSS,
   useInputStyle,
+  useInputAdornmentStyle,
   useInputBaseStyle,
   useInputGroupStyle,
   useInputGroupAddonStyle,
   useInputGroupAppendStyle,
   useInputGroupPrependStyle,
+  useInputRootBaseStyle,
+  useInputRootInputStyle,
 };

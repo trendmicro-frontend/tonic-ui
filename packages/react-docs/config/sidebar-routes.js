@@ -117,6 +117,7 @@ const routes = [
       { title: 'Input', path: 'components/input' },
       { title: 'InputBase', path: 'components/inputbase' },
       { title: 'InputGroup', path: 'components/inputgroup' },
+      { title: 'InputRoot', path: 'components/inputroot' },
       { title: 'LinkButton', path: 'components/linkbutton' },
       { title: 'Radio', path: 'components/radio' },
       { title: 'RadioGroup', path: 'components/radiogroup' },
