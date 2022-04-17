@@ -336,7 +336,6 @@ const useButtonStyle = ({
 }) => {
   const [colorMode] = useColorMode();
   const theme = useTheme();
-  const borderWidth = theme?.sizes?.['1q'];
   const baseStyle = {
     display: 'inline-flex',
     alignItems: 'center',
@@ -346,7 +345,7 @@ const useButtonStyle = ({
     whiteSpace: 'nowrap',
     border: 1,
     borderRadius: 'sm',
-    px: `calc(${theme?.sizes?.['3x']} - ${borderWidth})`,
+    px: '3x',
     transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], {
       duration: 250,
       easing: transitionEasing.easeInOut,

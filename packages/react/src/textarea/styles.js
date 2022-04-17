@@ -2,7 +2,6 @@ import { useColorMode } from '../color-mode';
 
 const baseProps = {
   position: 'relative',
-  width: '100%',
   display: 'flex',
   alignItems: 'center',
   transition: 'all .2s',
@@ -14,9 +13,10 @@ const sizes = {
     fontSize: 'sm',
     lineHeight: 'sm',
     minHeight: '9x', // 6px (top) + 20px + 10px (bottom) = 36px
-    px: 'calc(.75rem - 1px)', // 12px - 1px
+    px: '3x',
     pt: 'calc(.375rem - 1px)', // 6px - 1px
     pb: 'calc(.625rem - 1px)', // 10px - 1px
+    width: '100%',
   },
 };
 
