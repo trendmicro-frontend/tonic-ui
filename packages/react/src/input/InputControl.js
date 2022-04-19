@@ -1,21 +1,22 @@
-import React, { forwardRef, useCallback, useRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import useForkRef from '../utils/useForkRef';
 import InputBase from './InputBase';
-import { getInputGroupCSS, useInputRootBaseStyle, useInputRootInputStyle } from './styles';
+import { getInputGroupCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
 import useInputGroup from './useInputGroup';
 
 const defaultSize = 'md';
 const defaultVariant = 'outline';
 
-const InputRoot = forwardRef((
+const InputControl = forwardRef((
   {
-    // Input (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+    // InputBase (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
     autoComplete: autoCompleteProp,
     autoFocus: autoFocusProp,
     checked: checkedProp,
     defaultValue: defaultValueProp,
     disabled: disabledProp,
+    error: errorProp,
     id: idProp,
     list: listProp,
     max: maxProp,
@@ -44,7 +45,6 @@ const InputRoot = forwardRef((
     inputComponent: InputComponent = InputBase,
     inputProps,
     inputRef: inputRefProp,
-    isInvalid,
     size: sizeProp,
     startAdornment,
     variant: variantProp,
@@ -54,6 +54,8 @@ const InputRoot = forwardRef((
 ) => {
   const inputRef = useRef();
   const combinedInputRef = useForkRef(inputRefProp, inputRef);
+  const [focused, setFocused] = useState(false);
+  const [valid, setValid] = useState();
   const inputGroupContext = useInputGroup();
   const {
     size: inputGroupSize,
@@ -61,9 +63,15 @@ const InputRoot = forwardRef((
   } = { ...inputGroupContext };
   const size = (sizeProp ?? inputGroupSize) ?? defaultSize;
   const variant = (variantProp ?? inputGroupVariant) ?? defaultVariant;
-  const baseStyleProps = useInputRootBaseStyle({ variant });
-  const inputStyleProps = useInputRootInputStyle({ size, variant, startAdornment, endAdornment });
+  const inputState = {
+    disabled: disabledProp,
+    focused,
+    valid: valid && !errorProp,
+  };
+  const baseStyleProps = useInputControlBaseStyle({ inputState, variant });
+  const inputStyleProps = useInputControlInputStyle({ inputState, size, variant, startAdornment, endAdornment });
   const css = inputGroupContext ? [getInputGroupCSS({ variant }), cssProp] : cssProp;
+
   const handleClick = useCallback((event) => {
     if (inputRef.current && event.currentTarget === event.target) {
       inputRef.current.focus();
@@ -84,6 +92,8 @@ const InputRoot = forwardRef((
     if (typeof inputProps?.onBlur === 'function') {
       inputProps?.onBlur(event);
     }
+
+    setFocused(false);
   }, [onBlurProp, inputProps]);
 
   const handleChange = useCallback((event) => {
@@ -102,7 +112,41 @@ const InputRoot = forwardRef((
     if (typeof inputProps?.onFocus === 'function') {
       inputProps?.onFocus(event);
     }
+
+    setFocused(true);
   }, [onFocusProp, inputProps]);
+
+  // The blur won't fire when the disabled state is set on a focused input.
+  // We need to set the focused state to false and call the onBlur callback manually.
+  useEffect(() => {
+    if (disabledProp && focused) {
+      setFocused(false);
+      handleBlur();
+    }
+  }, [disabledProp, focused, handleBlur]);
+
+  // Observe the validity of the input
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'value') {
+          const nextValid = mutation.target?.validity?.valid;
+          if (nextValid !== valid) {
+            setValid(nextValid);
+          }
+        }
+      });
+    });
+
+    observer.observe(inputRef.current, {
+      attributes: true,
+      attributeFilter: ['value'],
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [valid]);
 
   const getInputProps = () => ({
     autoComplete: autoCompleteProp,
@@ -110,6 +154,7 @@ const InputRoot = forwardRef((
     checked: checkedProp,
     defaultValue: defaultValueProp,
     disabled: disabledProp,
+    error: errorProp,
     id: idProp,
     list: listProp,
     max: maxProp,
@@ -149,6 +194,6 @@ const InputRoot = forwardRef((
   );
 });
 
-InputRoot.displayName = 'InputRoot';
+InputControl.displayName = 'InputControl';
 
-export default InputRoot;
+export default InputControl;

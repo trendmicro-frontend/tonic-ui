@@ -1,6 +1,10 @@
 import { sx } from '@tonic-ui/styled-system';
 import { useColorMode } from '../color-mode';
 
+/**
+ * Input
+ */
+
 const getInputOutlinedStyle = ({
   colorMode,
 }) => {
@@ -36,6 +40,32 @@ const getInputOutlinedStyle = ({
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
+  const _disabledStyle = {
+    borderColor: disabledBorderColor,
+    cursor: 'not-allowed',
+    opacity: '.28',
+  };
+  const _focusStyle = {
+    borderColor: focusBorderColor,
+    // Bring overlapping border to front when focused
+    zIndex: 1,
+  };
+  const _hoverStyle = {
+    borderColor: hoverBorderColor,
+    // Use a higher z-index value to bring overlapping border to front when hovered
+    zIndex: 2,
+  };
+  const _invalidStyle = {
+    borderColor: invalidBorderColor,
+  };
+  const _validStyle = {
+    // XXX - border color for valid input is not defined
+  };
+  const __placeholderStyle = {
+    color: placeholderColor,
+    // Override Firefox's unusual default opacity
+    opacity: 1,
+  };
 
   return {
     backgroundColor,
@@ -43,34 +73,12 @@ const getInputOutlinedStyle = ({
     borderColor,
     borderRadius: 'sm',
     color,
-    _hover: {
-      borderColor: hoverBorderColor,
-
-      // Use a higher z-index value to bring overlapping border to front when hovered
-      zIndex: 2,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-
-      // Bring overlapping border to front when focused
-      zIndex: 1,
-    },
-    _disabled: {
-      borderColor: disabledBorderColor,
-      cursor: 'not-allowed',
-      opacity: '.28',
-    },
-    _valid: {
-      // XXX - border color for valid input is not defined
-    },
-    _invalid: {
-      borderColor: invalidBorderColor,
-    },
-    __placeholder: {
-      color: placeholderColor,
-      // Override Firefox's unusual default opacity
-      opacity: 1,
-    },
+    _disabled: _disabledStyle,
+    _focus: _focusStyle,
+    _hover: _hoverStyle,
+    _invalid: _invalidStyle,
+    _valid: _validStyle,
+    __placeholder: __placeholderStyle,
   };
 };
 
@@ -165,9 +173,182 @@ const getInputVariantStyle = ({
   return {};
 };
 
-const getInputAdornmentSizeStyle = ({
+/**
+ * InputControl
+ */
+
+const getInputControlOutlinedStyle = ({
+  colorMode,
+  inputState,
+}) => {
+  const backgroundColor = {
+    dark: 'transparent',
+    light: 'white',
+  }[colorMode];
+  const borderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const hoverBorderColor = {
+    dark: 'blue:50',
+    light: 'blue:50',
+  }[colorMode];
+  const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+  const disabledBorderColor = {
+    dark: 'gray:60',
+    light: 'gray:30',
+  }[colorMode];
+  const invalidBorderColor = {
+    dark: 'red:50',
+    light: 'red:60',
+  }[colorMode];
+  const placeholderColor = {
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
+  }[colorMode];
+  const _disabledStyle = {
+    borderColor: disabledBorderColor,
+    cursor: 'not-allowed',
+    opacity: '.28',
+  };
+  const _focusStyle = {
+    borderColor: focusBorderColor,
+    // Bring overlapping border to front when focused
+    zIndex: 1,
+  };
+  const _hoverStyle = {
+    borderColor: hoverBorderColor,
+    // Use a higher z-index value to bring overlapping border to front when hovered
+    zIndex: 2,
+  };
+  const _invalidStyle = {
+    borderColor: invalidBorderColor,
+  };
+  const _validStyle = {
+    // XXX - border color for valid input is not defined
+  };
+  const __placeholderStyle = {
+    color: placeholderColor,
+    // Override Firefox's unusual default opacity
+    opacity: 1,
+  };
+
+  const inputStateStyle = (() => {
+    const { disabled, focused, valid } = { ...inputState };
+
+    if ((disabled !== undefined) && (!!disabled)) {
+      return {
+        _disabled: undefined,
+        _focus: undefined,
+        _hover: undefined,
+        _invalid: undefined,
+        _valid: undefined,
+        ..._disabledStyle,
+      };
+    }
+
+    return {
+      ...((focused !== undefined) && focused && _focusStyle),
+      ...((valid !== undefined) && (valid ? _validStyle : _invalidStyle)),
+    };
+  })();
+
+  return {
+    backgroundColor,
+    border: 1,
+    borderColor,
+    borderRadius: 'sm',
+    color,
+    _disabled: _disabledStyle,
+    _focus: _focusStyle,
+    _hover: _hoverStyle,
+    _invalid: _invalidStyle,
+    _valid: _validStyle,
+    __placeholder: __placeholderStyle,
+
+    // This may override _disabled, _focus, _hover, _invalid, _valid when necessary
+    ...inputStateStyle,
+  };
+};
+
+const getInputControlFilledStyle = ({
+  colorMode,
+  inputState,
+}) => {
+  const backgroundColor = {
+    dark: 'gray:80',
+    light: 'gray:10',
+  }[colorMode];
+
+  return {
+    ...getInputControlOutlinedStyle({ colorMode, inputState }),
+    backgroundColor,
+  };
+};
+
+const getInputControlUnstyledStyle = ({
+  colorMode,
+  inputState,
+}) => {
+  const backgroundColor = {
+    dark: 'transparent',
+    light: 'white',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+
+  return {
+    backgroundColor,
+    border: 0,
+    borderRadius: 0,
+    color,
+  };
+};
+
+const getInputControlSizeStyle = ({
   size,
   variant,
+}) => {
+  return getInputSizeStyle({
+    size,
+    variant,
+  });
+};
+
+const getInputControlVariantStyle = ({
+  colorMode,
+  inputState,
+  variant,
+}) => {
+  if (variant === 'outline') {
+    return getInputControlOutlinedStyle({ colorMode, inputState });
+  }
+
+  if (variant === 'filled') {
+    return getInputControlFilledStyle({ colorMode, inputState });
+  }
+
+  if (variant === 'unstyled') {
+    return getInputControlUnstyledStyle({ colorMode, inputState });
+  }
+
+  return {};
+};
+
+/**
+ * InputAdornment
+ */
+const getInputAdornmentSizeStyle = ({
+  size,
 }) => {
   const defaultSize = 'md';
   const sizes = {
@@ -189,12 +370,12 @@ const getInputAdornmentSizeStyle = ({
   };
   const sizeStyle = sizes[size] ?? sizes[defaultSize];
 
-  if (variant === 'unstyled') {
-    sizeStyle.px = undefined;
-  }
-
   return sizeStyle;
 };
+
+/**
+ * InputGroup
+ */
 
 const getInputGroupAddonOutlinedStyle = ({
   colorMode,
@@ -321,13 +502,12 @@ const useInputStyle = ({
 
 const useInputAdornmentStyle = ({
   size,
-  variant,
 }) => {
   const baseStyle = {
     display: 'flex',
     alignItems: 'center',
   };
-  const sizeStyle = getInputAdornmentSizeStyle({ size, variant });
+  const sizeStyle = getInputAdornmentSizeStyle({ size });
 
   return {
     ...baseStyle,
@@ -445,7 +625,8 @@ const useInputGroupPrependStyle = () => {
   };
 };
 
-const useInputRootBaseStyle = ({
+const useInputControlBaseStyle = ({
+  inputState,
   variant,
 }) => {
   const [colorMode] = useColorMode();
@@ -455,7 +636,7 @@ const useInputRootBaseStyle = ({
     alignItems: 'center',
     transition: 'all .2s',
   };
-  const variantStyle = getInputVariantStyle({ colorMode, variant });
+  const variantStyle = getInputControlVariantStyle({ colorMode, inputState, variant });
 
   return {
     ...baseStyle,
@@ -463,13 +644,17 @@ const useInputRootBaseStyle = ({
   };
 };
 
-const useInputRootInputStyle = ({
+const useInputControlInputStyle = ({
+  inputState,
   size,
   variant,
   startAdornment,
   endAdornment,
 }) => {
-  const sizeStyle = getInputSizeStyle({ size, variant });
+  const baseStyle = {
+    cursor: inputState?.disabled ? 'not-allowed' : undefined,
+  };
+  const sizeStyle = getInputControlSizeStyle({ size, variant });
 
   if (startAdornment && endAdornment) {
     sizeStyle.px = undefined;
@@ -484,6 +669,7 @@ const useInputRootInputStyle = ({
   }
 
   return {
+    ...baseStyle,
     ...sizeStyle,
   };
 };
@@ -499,6 +685,6 @@ export {
   useInputGroupAddonStyle,
   useInputGroupAppendStyle,
   useInputGroupPrependStyle,
-  useInputRootBaseStyle,
-  useInputRootInputStyle,
+  useInputControlBaseStyle,
+  useInputControlInputStyle,
 };

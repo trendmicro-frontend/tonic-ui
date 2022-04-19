@@ -268,12 +268,12 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
   <Stack direction="row" spacing="4x" shouldWrapChildren>
     <Tag>Normal</Tag>
     <Tag disabled>Disabled</Tag>
-    <Tag isInvalid>Invalid</Tag>
+    <Tag error>Error</Tag>
   </Stack>
   <Stack direction="row" spacing="4x" shouldWrapChildren>
     <Tag variant="outline">Normal</Tag>
     <Tag variant="outline" disabled>Disabled</Tag>
-    <Tag variant="outline" isInvalid>Invalid</Tag>
+    <Tag variant="outline" error>Error</Tag>
   </Stack>
 </Stack>
 ```
@@ -326,11 +326,9 @@ To create a tag, enter a value into the input and press enter, a tag will be cre
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| disabled | boolean | | If `true`, the tag will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| disabled | boolean | | If `true`, the tag will be disabled. |
+| error | boolean | | If `true`, the tag will display an error state. |
 | isClosable | boolean | | If `true`, a close button will appear on the right side. |
-| isInvalid | boolean | | If `true`, the tag will indicate an error. You can style this state by passing the `_invalid` prop. |
 | onClose | function | | A callback called when the close button is clicked. |
 | size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
 | variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
-
-

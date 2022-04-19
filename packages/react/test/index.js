@@ -86,11 +86,11 @@ test('should match expected exports', () => {
     'Input',
     'InputAdornment',
     'InputBase',
+    'InputControl',
     'InputGroup',
     'InputGroupAddon',
     'InputGroupAppend',
     'InputGroupPrepend',
-    'InputRoot',
     'useInputGroup',
 
     // link

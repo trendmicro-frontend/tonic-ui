@@ -1,5 +1,7 @@
+import { useOnceWhen } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { useInputBaseStyle } from './styles';
 
 /**
@@ -7,22 +9,41 @@ import { useInputBaseStyle } from './styles';
  */
 const InputBase = forwardRef((
   {
+    isInvalid, // deprecated
+
     children,
+    error,
     ...rest
   },
   ref,
 ) => {
-  const { disabled, readOnly, required, isInvalid } = rest;
+  { // deprecation warning
+    const prefix = `${InputBase.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('isInvalid', {
+        prefix,
+        alternative: 'error',
+        willRemove: true,
+      });
+    }, (isInvalid !== undefined));
+
+    error = error || isInvalid; // TODO: remove this line after deprecation
+  }
+
+  const ariaProps = {
+    'aria-disabled': rest.disabled,
+    'aria-invalid': error,
+    'aria-readonly': rest.readOnly,
+    'aria-required': rest.required,
+  };
   const styleProps = useInputBaseStyle();
 
   return (
     <Box
-      ref={ref}
       as="input"
-      aria-disabled={disabled}
-      aria-readonly={readOnly}
-      aria-required={required}
-      aria-invalid={isInvalid}
+      ref={ref}
+      {...ariaProps}
       {...styleProps}
       {...rest}
     >
