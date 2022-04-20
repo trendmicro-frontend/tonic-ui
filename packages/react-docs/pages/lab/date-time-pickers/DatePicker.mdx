@@ -20,13 +20,19 @@ import {
     setValue(nextValue);
   }}
   renderInput={({ error, inputProps }) => {
-    const isInvalid = !!inputProps.value && error;
+    const _error = !!inputProps.value && error;
+
     return (
-      <DateInput
+      <InputControl
         {...inputProps}
-        isInvalid={isInvalid}
+        error={_error}
         placeholder="yyyy-MM-dd"
         readOnly
+        startAdornment={(
+          <InputAdornment>
+            <Icon icon="calendar" />
+          </InputAdornment>
+        )}
       />
     );
   }}
@@ -80,16 +86,22 @@ render(() => {
         onChange={setValue}
         value={value}
         renderInput={({ error, inputProps }) => {
-          const isInvalid = !!inputProps.value && error;
+          const _error = !!inputProps.value && error;
+
           return (
             <Box>
-              <DateInput
+              <InputControl
                 {...inputProps}
-                isInvalid={isInvalid}
+                error={_error}
                 placeholder={dateFormat}
                 readOnly={readOnly}
+                startAdornment={(
+                  <InputAdornment>
+                    <Icon icon="calendar" />
+                  </InputAdornment>
+                )}
               />
-              {isInvalid && (
+              {_error && (
                 <Text mt="1x" color="red:50">Invalid date</Text>
               )}
             </Box>
@@ -196,16 +208,22 @@ const CustomDateInput = ({
       value={value}
       onChange={handleChange}
       renderInput={({ error, inputProps }) => {
-        const isInvalid = !!inputProps.value && error;
+        const _error = !!inputProps.value && error;
+
         return (
-          <DateInput
+          <InputControl
             {...inputProps}
             readOnly
-            isInvalid={isInvalid}
+            error={_error}
             placeholder={dateFormat}
             borderTopRightRadius={0}
             borderBottomRightRadius={0}
             width={130}
+            startAdornment={(
+              <InputAdornment>
+                <Icon icon="calendar" />
+              </InputAdornment>
+            )}
           />
         );
       }}
@@ -223,11 +241,16 @@ const CustomTimeInput = ({
     onChange(value);
   };
   return (
-    <TimeInput
+    <InputControl
       onChange={handleTimeInputChange}
       width={110}
       borderTopLeftRadius={0}
       borderBottomLeftRadius={0}
+      startAdornment={(
+        <InputAdornment>
+          <Icon icon="clock" />
+        </InputAdornment>
+      )}
       {...rest}
     />
   );

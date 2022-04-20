@@ -11,12 +11,18 @@ Date and Time pickers allow the user to select a date and/or time from a pre-det
     dateFormat="yyyy-MM-dd"
     defaultValue={new Date()}
     renderInput={({ error, inputProps }) => {
-      const isInvalid = !!inputProps.value && error;
+      const _error = !!inputProps.value && error;
+
       return (
-        <DateInput
+        <InputControl
           {...inputProps}
-          isInvalid={isInvalid}
+          error={_error}
           placeholder="yyyy-MM-dd"
+          startAdornment={(
+            <InputAdornment>
+              <Icon icon="calendar" />
+            </InputAdornment>
+          )}
         />
       );
     }}

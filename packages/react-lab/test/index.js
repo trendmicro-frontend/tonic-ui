@@ -4,9 +4,7 @@ test('should match expected exports', () => {
   const exportedComponents = [
     // date-time-pickers
     'Calendar',
-    'DateInput',
     'DatePicker',
-    'TimeInput',
   ];
 
   const receivedExports = Object.keys(moduleExport);
