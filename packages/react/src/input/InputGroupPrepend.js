@@ -1,15 +1,23 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useInputGroupPrependStyle } from './styles';
+import { getInputGroupPrependCSS, useInputGroupPrependStyle } from './styles';
 
-const InputGroupPrepend = forwardRef((props, ref) => {
+const InputGroupPrepend = forwardRef((
+  {
+    css: cssProp,
+    ...rest
+  },
+  ref,
+) => {
+  const css = [getInputGroupPrependCSS(), cssProp];
   const styleProps = useInputGroupPrependStyle();
 
   return (
     <Box
       ref={ref}
+      css={css}
       {...styleProps}
-      {...props}
+      {...rest}
     />
   );
 });

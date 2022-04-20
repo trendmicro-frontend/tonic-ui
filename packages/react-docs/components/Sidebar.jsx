@@ -190,7 +190,7 @@ const Sidebar = forwardRef((
                     unmountOnExit: true,
                   }}
                 >
-                  {routes.map(({ title, heading, path }) => {
+                  {routes.map(({ heading, title, path, render }) => {
                     if (heading) {
                       return (
                         <Text
@@ -221,15 +221,24 @@ const Sidebar = forwardRef((
                         isActive={isActive}
                         href={`${ASSET_PREFIX}/${path}`}
                         onClick={onClick}
-                        px={0}
+                        pl={0}
+                        px="3x"
                       >
-                        <Text
-                          fontSize="sm"
-                          lineHeight="sm"
-                          pl="9x"
+                        <Flex
+                          columnGap="2x"
+                          alignItems="center"
+                          justifyContent="space-between"
+                          width="100%"
                         >
-                          {title}
-                        </Text>
+                          <Text
+                            fontSize="sm"
+                            lineHeight="sm"
+                            pl="9x"
+                          >
+                            {title}
+                          </Text>
+                          {(typeof render === 'function') && render()}
+                        </Flex>
                       </NavLink>
                     );
                   })}

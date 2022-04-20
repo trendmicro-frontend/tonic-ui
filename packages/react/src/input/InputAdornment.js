@@ -1,15 +1,13 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useInputGroupAddonStyle } from './styles';
+import { useInputAdornmentStyle } from './styles';
 import useInputGroup from './useInputGroup';
 
 const defaultSize = 'md';
-const defaultVariant = 'outline';
 
-const InputGroupAddon = forwardRef((
+const InputAdornment = forwardRef((
   {
     size: sizeProp,
-    variant: variantProp,
     ...rest
   },
   ref,
@@ -17,11 +15,9 @@ const InputGroupAddon = forwardRef((
   const inputGroupContext = useInputGroup();
   const {
     size: inputGroupSize,
-    variant: inputGroupVariant,
   } = { ...inputGroupContext };
   const size = (sizeProp ?? inputGroupSize) ?? defaultSize;
-  const variant = (variantProp ?? inputGroupVariant) ?? defaultVariant;
-  const styleProps = useInputGroupAddonStyle({ size, variant });
+  const styleProps = useInputAdornmentStyle({ size });
 
   return (
     <Box
@@ -32,6 +28,6 @@ const InputGroupAddon = forwardRef((
   );
 });
 
-InputGroupAddon.displayName = 'InputGroupAddon';
+InputAdornment.displayName = 'InputAdornment';
 
-export default InputGroupAddon;
+export default InputAdornment;

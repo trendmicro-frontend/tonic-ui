@@ -84,7 +84,9 @@ test('should match expected exports', () => {
 
     // input
     'Input',
+    'InputAdornment',
     'InputBase',
+    'InputControl',
     'InputGroup',
     'InputGroupAddon',
     'InputGroupAppend',

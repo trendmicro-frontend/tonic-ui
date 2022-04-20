@@ -48,7 +48,7 @@ const Pagination = ({
               _disabled={{
                 opacity: ellipsisOpacity
               }}
-              px={`calc(${space} - 1px)`}
+              px={space}
             >
               {ellipsisLabel}
             </ButtonBase>

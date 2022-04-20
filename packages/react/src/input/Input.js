@@ -8,32 +8,21 @@ const defaultVariant = 'outline';
 
 const Input = forwardRef((
   {
-    size,
-    variant,
-    css,
+    size: sizeProp,
+    variant: variantProp,
+    css: cssProp,
     ...rest
   },
   ref,
 ) => {
   const inputGroupContext = useInputGroup();
-  if (inputGroupContext) {
-    const {
-      size: inputGroupSize,
-      variant: inputGroupVariant,
-    } = { ...inputGroupContext };
-    // Use fallback values if values are null or undefined
-    size = (size ?? inputGroupSize) ?? defaultSize;
-    variant = (variant ?? inputGroupVariant) ?? defaultVariant;
-    css = [
-      getInputGroupCSS({ variant }),
-      css,
-    ];
-  } else {
-    // Use fallback values if values are null or undefined
-    size = size ?? defaultSize;
-    variant = variant ?? defaultVariant;
-  }
-
+  const {
+    size: inputGroupSize,
+    variant: inputGroupVariant,
+  } = { ...inputGroupContext };
+  const size = (sizeProp ?? inputGroupSize) ?? defaultSize;
+  const variant = (variantProp ?? inputGroupVariant) ?? defaultVariant;
+  const css = inputGroupContext ? [getInputGroupCSS({ variant }), cssProp] : cssProp;
   const styleProps = useInputStyle({ size, variant });
 
   return (

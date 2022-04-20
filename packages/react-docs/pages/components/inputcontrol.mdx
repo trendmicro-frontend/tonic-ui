@@ -1,0 +1,234 @@
+# InputControl
+
+`InputControl` is built on top of the native `Input` with the same appearance and behavior, except that it allows you to customize the input in a more convenient way. For example, input adornments can be added to the start, end, or both sides of the input.
+
+See the [Input](input) component for more information about the native input.
+
+## Import
+
+```js
+import {
+  InputAdornment,
+  InputControl,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+```jsx noInline
+const FormGroup = (props) => (
+  <Box mb="4x" {...props} />
+);
+
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+render(() => {
+  const [size, changeSizeBy] = useSelection('md');
+  const [variant, changeVariantBy] = useSelection('outline');
+  const [disabled, toggleDisabled] = useToggle(false);
+  const [error, toggleError] = useToggle(false);
+  const [readOnly, toggleReadOnly] = useToggle(false);
+  const [required, toggleRequired] = useToggle(false);
+
+  return (
+    <>
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          InputControl props
+        </Text>
+      </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            size
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['sm', 'md', 'lg'].map(value => (
+            <Button
+              key={value}
+              selected={value === size}
+              onClick={changeSizeBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            variant
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['outline', 'filled', 'unstyled'].map(value => (
+            <Button
+              key={value}
+              selected={value === variant}
+              onClick={changeVariantBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={disabled}
+            onChange={() => toggleDisabled()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">disabled</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={error}
+            onChange={() => toggleError()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">error</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={readOnly}
+            onChange={() => toggleReadOnly()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">readOnly</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={required}
+            onChange={() => toggleRequired()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">required</Text>
+        </TextLabel>
+      </FormGroup>
+      <Divider my="4x" />
+      <InputControl
+        placeholder="Placeholder text"
+        disabled={disabled}
+        error={error}
+        readOnly={readOnly}
+        required={required}
+        size={size}
+        variant={variant}
+      />
+    </>
+  );
+});
+```
+
+### Input adornments
+
+The main way to prepend or append an input adornment is to use the `InputAdornment` component. This can be used to add a prefix, a suffix, or an action to an input. For instance, you can use an icon button to hide or reveal the password.
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [view, setView] = React.useState(false);
+  const toggleView = () => setView(view => !view);
+  const iconColor = colorStyle.color.tertiary;
+  const inputType = view ? 'text' : 'password';
+
+  return (
+    <Flex direction="column" rowGap="4x">
+      <InputControl
+        placeholder="Mobile phone number"
+        startAdornment={(
+          <InputAdornment>
+            <Icon icon="mobile" color={iconColor} />
+          </InputAdornment>
+        )}
+      />
+      <InputControl
+        placeholder="yyyy-MM-dd"
+        defaultValue={new Date().toISOString().substr(0, 10)}
+        startAdornment={(
+          <InputAdornment>
+            <Icon icon="calendar" color={iconColor} />
+          </InputAdornment>
+        )}
+      />
+      <InputControl
+        placeholder="Enter the amount"
+        startAdornment={(
+          <InputAdornment>
+            <Text width="4x" textAlign="center" color={iconColor}>$</Text>
+          </InputAdornment>
+        )}
+        endAdornment={(
+          <InputAdornment>
+            <Icon icon="check" color="green:50" />
+          </InputAdornment>
+        )}
+      />
+      <InputControl
+        type={view ? 'text' : 'password'}
+        defaultValue="Revealed Password"
+        placeholder="Password"
+        endAdornment={(
+          <InputAdornment>
+            <ButtonBase onClick={toggleView}>
+              <Icon
+                icon={view ? 'view' : 'view-off'}
+                color={iconColor}
+              />
+            </ButtonBase>
+          </InputAdornment>
+        )}
+      />
+    </Flex>
+  );
+}
+```
+
+## Props
+
+### InputAdornment
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### InputControl
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the user cannot interact with the control. |
+| error | boolean | | If `true`, the input will display an error state. |
+| endAdornment | ReactNode | | End `InputAdornment` for this component. |
+| inputRef | ReactRef | | A ref object to access the input element. |
+| size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
+| startAdornment | ReactNode | | Start `InputAdornment` for this component. |
