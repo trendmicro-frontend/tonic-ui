@@ -2,32 +2,47 @@
 
 Date and Time pickers allow the user to select a date and/or time from a pre-determined set of values.
 
-## Components
+## Pickers
 
-```jsx
-<>
-  <TextLabel mb="1x">Date Picker</TextLabel>
-  <DatePicker
-    dateFormat="yyyy-MM-dd"
-    defaultValue={new Date()}
-    renderInput={({ error, inputProps }) => {
-      const _error = !!inputProps.value && error;
+```jsx noInline
+// DateInput
+const DateInput = React.forwardRef((props, ref) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
 
-      return (
-        <InputControl
-          {...inputProps}
-          error={_error}
-          placeholder="yyyy-MM-dd"
-          startAdornment={(
-            <InputAdornment>
-              <Icon icon="calendar" />
-            </InputAdornment>
-          )}
-        />
-      );
-    }}
-  />
-</>
+  return (
+    <InputControl
+      ref={ref}
+      startAdornment={(
+        <InputAdornment color={colorStyle.color.secondary}>
+          <Icon icon="calendar" />
+        </InputAdornment>
+      )}
+      {...props}
+    />
+  );
+});
+
+render(() => (
+  <>
+    <TextLabel mb="1x">Date Picker</TextLabel>
+    <DatePicker
+      dateFormat="yyyy-MM-dd"
+      defaultValue={new Date()}
+      renderInput={({ error, inputProps }) => {
+        const _error = !!inputProps.value && error;
+
+        return (
+          <DateInput
+            {...inputProps}
+            error={_error}
+            placeholder="yyyy-MM-dd"
+          />
+        );
+      }}
+    />
+  </>
+));
 ```
 
 ## Native Pickers

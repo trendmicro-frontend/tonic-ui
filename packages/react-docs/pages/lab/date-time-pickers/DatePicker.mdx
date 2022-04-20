@@ -10,7 +10,9 @@ import {
 } from '@tonic-ui/react-lab';
 ```
 
-## Usage
+## Overview
+
+The following example demonstrates a simple example of the `DatePicker` component.
 
 ```jsx disabled
 <DatePicker
@@ -19,25 +21,43 @@ import {
   onChange={(nextValue) => {
     setValue(nextValue);
   }}
-  renderInput={({ error, inputProps }) => {
-    const _error = !!inputProps.value && error;
-
-    return (
-      <InputControl
-        {...inputProps}
-        error={_error}
-        placeholder="yyyy-MM-dd"
-        readOnly
-        startAdornment={(
-          <InputAdornment>
-            <Icon icon="calendar" />
-          </InputAdornment>
-        )}
-      />
-    );
-  }}
+  renderInput={({ error, inputProps }) => (
+    <DateInput
+      {...inputProps}
+      placeholder="yyyy-MM-dd"
+      error={!!inputProps.value && error}
+      readOnly
+    />
+  )}
 />
 ```
+
+Note that the `DateInput` component is currently not provided by the `@tonic-ui/react-lab` package. You have to write your own or refer to the following code to [get started](../components/inputcontrol).
+
+```jsx disabled
+// import
+import { InputControl, InputAdornment } from '@tonic-ui/react';
+
+// DateInput
+const DateInput = React.forwardRef((props, ref) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <InputControl
+      ref={ref}
+      startAdornment={(
+        <InputAdornment color={colorStyle.color.secondary}>
+          <Icon icon="calendar" />
+        </InputAdornment>
+      )}
+      {...props}
+    />
+  );
+});
+```
+
+## Usage
 
 ```jsx noInline
 const FormGroup = (props) => (
@@ -67,6 +87,23 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
+const DateInput = React.forwardRef((props, ref) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <InputControl
+      ref={ref}
+      startAdornment={(
+        <InputAdornment color={colorStyle.color.secondary}>
+          <Icon icon="calendar" />
+        </InputAdornment>
+      )}
+      {...props}
+    />
+  );
+});
+
 render(() => {
   const [value, setValue] = React.useState();
   const [dateFormat, changeDateFormatBy] = useSelection(dateFormatOptions[0]);
@@ -90,16 +127,11 @@ render(() => {
 
           return (
             <Box>
-              <InputControl
+              <DateInput
                 {...inputProps}
                 error={_error}
                 placeholder={dateFormat}
                 readOnly={readOnly}
-                startAdornment={(
-                  <InputAdornment>
-                    <Icon icon="calendar" />
-                  </InputAdornment>
-                )}
               />
               {_error && (
                 <Text mt="1x" color="red:50">Invalid date</Text>
@@ -196,6 +228,8 @@ const CustomDateInput = ({
   onChange,
   ...rest
 }) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const [value, setValue] = React.useState(defaultValue);
   const handleChange = (value) => {
     setValue(value);
@@ -220,7 +254,7 @@ const CustomDateInput = ({
             borderBottomRightRadius={0}
             width={130}
             startAdornment={(
-              <InputAdornment>
+              <InputAdornment color={colorStyle.color.secondary}>
                 <Icon icon="calendar" />
               </InputAdornment>
             )}
@@ -236,10 +270,13 @@ const CustomTimeInput = ({
   onChange,
   ...rest
 }) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const handleTimeInputChange = (event) => {
     const value = event.target.value;
     onChange(value);
   };
+
   return (
     <InputControl
       onChange={handleTimeInputChange}
@@ -247,7 +284,7 @@ const CustomTimeInput = ({
       borderTopLeftRadius={0}
       borderBottomLeftRadius={0}
       startAdornment={(
-        <InputAdornment>
+        <InputAdornment color={colorStyle.color.secondary}>
           <Icon icon="clock" />
         </InputAdornment>
       )}
