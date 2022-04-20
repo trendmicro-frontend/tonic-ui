@@ -338,10 +338,10 @@ function Example() {
           key={item}
           py="2x"
           px="3x"
-          _nthOfType={['odd', {
+          _nthOfType={{'odd': {
             bg: 'blue:40',
             color: 'white:primary',
-          }]}
+          }}}
         >
           {item}
         </Box>
@@ -365,10 +365,10 @@ function Example() {
           key={item}
           py="2x"
           px="3x"
-          _nthOfType={['even', {
+          _nthOfType={{'even': {
             bg: 'blue:40',
             color: 'white:primary',
-          }]}
+          }}}
         >
           {item}
         </Box>
