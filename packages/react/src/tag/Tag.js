@@ -8,16 +8,16 @@ import TagCloseButton from './TagCloseButton';
 const Tag = forwardRef((
   {
     isCloseButtonVisible, // deprecated
+    isInvalid, // deprecated
     variantColor, // deprecated
 
     children,
-    disabled,
+    error,
     isClosable,
-    isInvalid,
     size = 'md',
     variant = 'solid',
     onClose,
-    ...props
+    ...rest
   },
   ref
 ) => {
@@ -40,10 +40,23 @@ const Tag = forwardRef((
       });
     }, (isCloseButtonVisible !== undefined));
 
+    useOnceWhen(() => {
+      warnDeprecatedProps('isInvalid', {
+        prefix,
+        alternative: 'error',
+        willRemove: true,
+      });
+    }, (isInvalid !== undefined));
+
     isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
+    error = error || isInvalid; // TODO: remove this line after deprecation
   }
 
-  const tagStyleProps = useTagStyle({
+  const ariaProps = {
+    'aria-disabled': rest.disabled,
+    'aria-invalid': error,
+  };
+  const styleProps = useTagStyle({
     color: variantColor, // TODO: remove this line after deprecation
     size,
     variant,
@@ -52,15 +65,17 @@ const Tag = forwardRef((
   return (
     <Box
       ref={ref}
-      disabled={disabled}
-      aria-disabled={disabled}
-      aria-invalid={isInvalid}
-      {...tagStyleProps}
-      {...props}
+      {...ariaProps}
+      {...styleProps}
+      {...rest}
     >
       {children}
       {!!isClosable && (
-        <TagCloseButton ml="2x" disabled={disabled} onClick={onClose} />
+        <TagCloseButton
+          ml="2x"
+          disabled={rest.disabled}
+          onClick={onClose}
+        />
       )}
     </Box>
   );

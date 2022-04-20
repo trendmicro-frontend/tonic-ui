@@ -114,9 +114,9 @@ General form input attributes are supported, such as `disabled`, `readOnly`, `re
 
 ### Validation
 
-Use the `isInvalid` attribute to indicate that the value entered into an input field does not conform to the format expected by the application. `isInvalid` can also be used to indicate that a required field has not been filled in.
+Use the `error` prop to indicate that the value entered into an input field does not conform to the format expected by the application. It can also be used to indicate that a required field has not been filled in.
 
-Set `isInvalid` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
+Set `error` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
 
 ```jsx noInline
 const InlineError = (props) => (
@@ -128,14 +128,7 @@ const MultilineInputField = ({
   onChange,
   ...props
 }) => {
-  const isInvalid = (value === '');
-  let invalidTextareaStyle = {};
-  if (isInvalid) {
-    invalidTextareaStyle = {
-      isInvalid: true,
-      pr: '10x',
-    };
-  }
+  const error = (value === '');
 
   return (
     <>
@@ -146,16 +139,17 @@ const MultilineInputField = ({
           placeholder="Placeholder text"
           value={value}
           onChange={onChange}
-          {...invalidTextareaStyle}
+          error={error}
+          pr={error ? '10x' : undefined}
         />
-        {isInvalid && (
+        {error && (
           <Box position="absolute" right={0} top=".375rem">
             <Icon icon="warning-circle" mx="3x" color="red:50" />
           </Box>
         )}
       </Flex>
       <Box>
-        {isInvalid && (
+        {error && (
           <InlineError>This is a required field.</InlineError>
         )}
       </Box>
@@ -187,6 +181,6 @@ render(<Example />);
 | minLength | number | | Specifies a minimum length that is considered valid. |
 | resize | string | | One of: 'none', 'both', 'horizontal', 'vertical' |
 | variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
-| disabled | boolean | | If `true`, the user cannot interact with the control. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |
+| disabled | boolean | | If `true`, the user cannot interact with the control. |
+| error | boolean | | If `true`, the textarea will display an error state. |
 | readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
-| isInvalid | boolean | | If `true`, the input will indicate an error. You can style this state by passing the `_invalid` prop. |

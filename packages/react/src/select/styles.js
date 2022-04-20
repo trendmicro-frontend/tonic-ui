@@ -7,7 +7,6 @@ const baseProps = {
   outline: 0,
   padding: 0,
   position: 'relative',
-  width: '100%',
   display: 'flex',
   alignItems: 'center',
   transition: 'all .2s',
@@ -18,9 +17,10 @@ const sizes = {
     borderRadius: 'sm',
     fontSize: 'sm',
     lineHeight: 'sm',
-    pl: 'calc(.75rem - 1px)', // 12px - 1px
-    pr: 'calc(2rem - 1px)', // 32px - 1px
+    pl: '3x',
+    pr: '8x',
     py: 'calc(.375rem - 1px)', // 6px - 1px
+    width: '100%',
   },
 };
 
@@ -143,7 +143,7 @@ const getIconWrapperProps = () => {
     height: '100%',
     pointerEvents: 'none',
     color: 'inherit',
-    pr: 'calc(.75rem - 1px)', // 12px - 1px
+    pr: '3x',
     pl: '1x',
     _disabled: {
       opacity: '.28',
