@@ -1,6 +1,15 @@
 import {
+  Icon,
   SVGIcon,
+  Text,
+  Tooltip,
 } from '@tonic-ui/react';
+
+const Subtitle = (props) => {
+  return (
+    <Text {...props} />
+  );
+};
 
 const routes = [
   {
@@ -109,23 +118,92 @@ const routes = [
       { title: 'Toast', path: 'components/toast' },
 
       { title: 'FORMS', heading: true },
-      { title: 'Button', path: 'components/button' },
-      { title: 'ButtonBase', path: 'components/buttonbase' },
+      {
+        title: 'Button',
+        path: 'components/button',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
+      {
+        title: 'ButtonBase',
+        path: 'components/buttonbase',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'ButtonGroup', path: 'components/buttongroup' },
       { title: 'Checkbox', path: 'components/checkbox' },
       { title: 'CheckboxGroup', path: 'components/checkboxgroup' },
-      { title: 'Input', path: 'components/input' },
-      { title: 'InputBase', path: 'components/inputbase' },
+      {
+        title: 'Input',
+        path: 'components/input',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
+      {
+        title: 'InputBase',
+        path: 'components/inputbase',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'InputControl', path: 'components/inputcontrol' },
       { title: 'InputGroup', path: 'components/inputgroup' },
-      { title: 'LinkButton', path: 'components/linkbutton' },
+      {
+        title: 'LinkButton',
+        path: 'components/linkbutton',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'Radio', path: 'components/radio' },
       { title: 'RadioGroup', path: 'components/radiogroup' },
       { title: 'SearchInput', path: 'components/searchinput' },
-      { title: 'Select', path: 'components/select' },
+      {
+        title: 'Select',
+        path: 'components/select',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: select`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'Switch', path: 'components/switch' },
-      { title: 'Textarea', path: 'components/textarea' },
-
+      {
+        title: 'Textarea',
+        path: 'components/textarea',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: textarea`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'LAYOUT', heading: true },
       { title: 'Box', path: 'components/box' },
       { title: 'ControlBox', path: 'components/controlbox' },
@@ -135,13 +213,62 @@ const routes = [
       { title: 'Stack', path: 'components/stack' },
 
       { title: 'MEDIA AND ICONS', heading: true },
-      { title: 'Icon', path: 'components/icon' },
-      { title: 'Image', path: 'components/image' },
-      { title: 'SVGIcon', path: 'components/svgicon' },
-
+      {
+        title: 'Icon',
+        path: 'components/icon',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: svg`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
+      {
+        title: 'Image',
+        path: 'components/image',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: img`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
+      {
+        title: 'SVGIcon',
+        path: 'components/svgicon',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: svg`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'NAVIGATION', heading: true },
-      { title: 'Link', path: 'components/link' },
-      { title: 'ButtonLink', path: 'components/buttonlink' },
+      {
+        title: 'Link',
+        path: 'components/link',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: a`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
+      {
+        title: 'ButtonLink',
+        path: 'components/buttonlink',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: a`}</Subtitle>}>
+              <Icon icon="code" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'Menu', path: 'components/menu' },
       { title: 'Pagination', path: 'components/pagination' },
       { title: 'Tabs', path: 'components/tabs' },
