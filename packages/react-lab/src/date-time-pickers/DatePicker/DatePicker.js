@@ -89,6 +89,7 @@ const DatePicker = forwardRef((
               const error = !isValid(value);
               const inputProps = {
                 ...getMenuToggleProps(),
+                cursor: undefined, // Remove cursor style
                 onBlur: handleDateInputBlur,
                 onChange: handleDateInputChange,
                 value: inputValue,
