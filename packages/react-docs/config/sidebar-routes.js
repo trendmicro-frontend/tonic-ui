@@ -124,7 +124,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -135,7 +135,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -149,7 +149,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -160,7 +160,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -173,7 +173,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -187,7 +187,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: select`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -199,7 +199,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: textarea`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -219,7 +219,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: svg`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -230,7 +230,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: img`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -241,7 +241,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: svg`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -253,7 +253,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: a`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
@@ -264,7 +264,7 @@ const routes = [
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: a`}</Subtitle>}>
-              <Icon icon="code" />
+              <Icon icon="code" cursor="default" />
             </Tooltip>
           );
         },
