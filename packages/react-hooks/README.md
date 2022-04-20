@@ -5,11 +5,9 @@ A collection of React Hooks for Tonic UI components.
 ## Installation
 
 ```sh
-npm i @tonic-ui/react-hooks
-```
+// with npm
+npm install @tonic-ui/react-hooks
 
-or
-
-```sh
+// with yarn
 yarn add @tonic-ui/react-hooks
 ```

@@ -1,0 +1,636 @@
+# DatePicker
+
+`DatePicker` let the user select a date from the calendar.
+
+## Import
+
+```js
+import {
+  DatePicker,
+} from '@tonic-ui/react-lab';
+```
+
+## Overview
+
+The following example demonstrates a simple example of the `DatePicker` component.
+
+```jsx disabled
+<DatePicker
+  dateFormat="yyyy-MM-dd"
+  value={value}
+  onChange={(nextValue) => {
+    setValue(nextValue);
+  }}
+  renderInput={({ error, inputProps }) => (
+    <DateInput
+      {...inputProps}
+      placeholder="yyyy-MM-dd"
+      error={!!inputProps.value && error}
+      readOnly
+    />
+  )}
+/>
+```
+
+Note that the `DateInput` component is currently not provided by the `@tonic-ui/react-lab` package. You have to write your own or refer to the following code to [get started](../components/inputcontrol).
+
+```jsx disabled
+// import
+import { InputControl, InputAdornment } from '@tonic-ui/react';
+
+// DateInput
+const DateInput = React.forwardRef((props, ref) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <InputControl
+      ref={ref}
+      startAdornment={(
+        <InputAdornment color={colorStyle.color.secondary}>
+          <Icon icon="calendar" />
+        </InputAdornment>
+      )}
+      {...props}
+    />
+  );
+});
+```
+
+## Usage
+
+```jsx noInline
+const FormGroup = (props) => (
+  <Box mb="4x" {...props} />
+);
+
+const dateFormatOptions = [
+  'yyyy-MM-dd', // ISO 8601
+  'MM/dd/yyyy', // USA
+  'dd.MM.yyyy', // Worldwide
+  'yyyy/MM/dd', // East Asia
+];
+
+const firstDayOfWeekOptions = [
+  0, // Sunday
+  1, // Monday
+  2, // Tuesday
+  3, // Wednesday
+  4, // Thursday
+  5, // Friday
+  6, // Saturday
+];
+
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+const DateInput = React.forwardRef((props, ref) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <InputControl
+      ref={ref}
+      startAdornment={(
+        <InputAdornment color={colorStyle.color.secondary}>
+          <Icon icon="calendar" />
+        </InputAdornment>
+      )}
+      {...props}
+    />
+  );
+});
+
+render(() => {
+  const [value, setValue] = React.useState();
+  const [dateFormat, changeDateFormatBy] = useSelection(dateFormatOptions[0]);
+  const [firstDayOfWeek, changeWeekStartDayBy] = useSelection(0);
+  const [readOnly, toggleReadOnly] = useToggle(true);
+
+  return (
+    <>
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Selected date: {value ? dateFns.format(value, dateFormat) : null}
+        </Text>
+      </Box>
+      <DatePicker
+        dateFormat={dateFormat}
+        firstDayOfWeek={firstDayOfWeek}
+        onChange={setValue}
+        value={value}
+        renderInput={({ error, inputProps }) => {
+          const _error = !!inputProps.value && error;
+
+          return (
+            <Box>
+              <DateInput
+                {...inputProps}
+                error={_error}
+                placeholder={dateFormat}
+                readOnly={readOnly}
+              />
+              {_error && (
+                <Text mt="1x" color="red:50">Invalid date</Text>
+              )}
+            </Box>
+          );
+        }}
+      />
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          DatePicker props
+        </Text>
+      </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            dateFormat
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {dateFormatOptions.map(value => (
+            <Button
+              key={value}
+              selected={value === dateFormat}
+              onClick={changeDateFormatBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            firstDayOfWeek
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {[0, 1, 2, 3, 4, 5, 6].map(value => (
+            <Button
+              key={value}
+              selected={value === firstDayOfWeek}
+              onClick={changeWeekStartDayBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Input props
+        </Text>
+      </Box>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={readOnly}
+            onChange={toggleReadOnly}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">readOnly</Text>
+        </TextLabel>
+      </FormGroup>
+    </>
+  );
+});
+```
+
+### Date time range picker
+
+```jsx noInline
+const CustomDateInput = ({
+  dateFormat = 'yyyy-MM-dd',
+  defaultValue,
+  onChange,
+  ...rest
+}) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [value, setValue] = React.useState(defaultValue);
+  const handleChange = (value) => {
+    setValue(value);
+    onChange(value);
+  };
+
+  return (
+    <DatePicker
+      dateFormat={dateFormat}
+      value={value}
+      onChange={handleChange}
+      renderInput={({ error, inputProps }) => {
+        const _error = !!inputProps.value && error;
+
+        return (
+          <InputControl
+            {...inputProps}
+            readOnly
+            error={_error}
+            placeholder={dateFormat}
+            borderTopRightRadius={0}
+            borderBottomRightRadius={0}
+            width={130}
+            startAdornment={(
+              <InputAdornment color={colorStyle.color.secondary}>
+                <Icon icon="calendar" />
+              </InputAdornment>
+            )}
+          />
+        );
+      }}
+      {...rest}
+    />
+  );
+};
+
+const CustomTimeInput = ({
+  onChange,
+  ...rest
+}) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const handleTimeInputChange = (event) => {
+    const value = event.target.value;
+    onChange(value);
+  };
+
+  return (
+    <InputControl
+      onChange={handleTimeInputChange}
+      width={110}
+      borderTopLeftRadius={0}
+      borderBottomLeftRadius={0}
+      startAdornment={(
+        <InputAdornment color={colorStyle.color.secondary}>
+          <Icon icon="clock" />
+        </InputAdornment>
+      )}
+      {...rest}
+    />
+  );
+};
+
+const DateTimePicker = ({
+  startDate: startDateProp,
+  startTime: startTimeProp,
+  endDate: endDateProp,
+  endTime: endTimeProp,
+  onApply,
+  onClose,
+}) => {
+  const dateFormat = 'yyyy-MM-dd';
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [startDate, setStartDate] = React.useState(startDateProp);
+  const [startTime, setStartTime] = React.useState(startTimeProp);
+  const [endDate, setEndDate] = React.useState(endDateProp);
+  const [endTime, setEndTime] = React.useState(endTimeProp);
+  const [isInvalid, setIsInvalid] = React.useState(false);
+  const isValidDate = (value) => {
+    if (value instanceof Date) {
+      return !!value.getTime();
+    }
+    // The date format is "yyyy-MM-dd"
+    const pattern = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+    return !!String(value).match(pattern);
+  };
+  const isValidTime = (value) => {
+    // The time format is "HH:mm:ss"
+    const pattern = /^(?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$/;
+    return !!String(value).match(pattern);
+  };
+  const handleStartDateChange = (value) => {
+    setStartDate(value);
+  };
+  const handleEndDateChange = (value) => {
+    setEndDate(value);
+  };
+  const handleStartTimeChange = (value) => {
+    setStartTime(value);
+  };
+  const handleEndTimeChange = (value) => {
+    setEndTime(value);
+  };
+  const handleApplyClick = () => {
+    onApply({
+      startDate,
+      startTime,
+      endDate,
+      endTime,
+    });
+  };
+
+  React.useEffect(() => {
+    const isValidStartDate = isValidDate(startDate);
+    const isValidStartTime = isValidTime(startTime);
+    const isValidEndDate = isValidDate(endDate);
+    const isValidEndTime = isValidTime(endTime);
+
+    if (!(isValidStartDate && isValidEndDate && isValidStartTime && isValidEndTime)) {
+      setIsInvalid(true);
+      return;
+    }
+
+    // if the end datetime is the earlier than the start datetime, then set the end datetime to the start datetime
+    if ((Date.parse(`${formatDate(endDate)} ${endTime}`)).valueOf() < (Date.parse(`${formatDate(startDate)} ${startTime}`)).valueOf()){
+      setEndDate(startDate);
+      setEndTime('23:59:59');
+    } else {
+      setIsInvalid(false);
+    }
+  }, [startDate, startTime, endDate, endTime]);
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.tertiary}
+      position="absolute"
+      left="100%"
+      top={0}
+      px="3x"
+      py="3x"
+      borderLeft={1}
+      borderColor={colorStyle.divider}
+    >
+      <Flex
+        alignItems="center"
+        columnGap="3x"
+        mb="6x"
+      >
+        <Icon
+          icon="chevron-left"
+          color={colorStyle.color.secondary}
+        />
+        <Text fontSize="md" lineHeight="md">
+          Custom Period
+        </Text>
+      </Flex>
+      <Grid
+        templateColumns="auto 1fr"
+        alignItems="center"
+        rowGap="3x"
+        mb="3x"
+      >
+        <Text minWidth="16x">
+          From:
+        </Text>
+        <Flex>
+          <CustomDateInput
+            dateFormat={dateFormat}
+            isInvalid={!isValidDate(startDate)}
+            defaultValue={startDate}
+            onChange={handleStartDateChange}
+          />
+          <CustomTimeInput
+            isInvalid={!isValidTime(startTime)}
+            defaultValue={startTime}
+            onChange={handleStartTimeChange}
+          />
+        </Flex>
+        <Text minWidth="16x">
+          To:
+        </Text>
+        <Flex>
+          <CustomDateInput
+            dateFormat={dateFormat}
+            isInvalid={!isValidDate(endDate)}
+            value={endDate}
+            onChange={handleEndDateChange}
+          />
+          <CustomTimeInput
+            isInvalid={!isValidTime(endTime)}
+            value={endTime}
+            onChange={handleEndTimeChange}
+          />
+        </Flex>
+      </Grid>
+      <Flex justifyContent="flex-end">
+        <Grid templateColumns="1fr 1fr" columnGap="2x">
+          <Button
+            variant="primary"
+            disabled={isInvalid}
+            onClick={handleApplyClick}
+          >
+            Apply
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
+        </Grid>
+      </Flex>
+    </Box>
+  );
+};
+
+const stateReducer = (prevState, nextState) => ({
+  ...prevState,
+  ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
+});
+
+const padTo2Digits = (num) => {
+  return num.toString().padStart(2, '0');
+};
+
+const formatDate = (date) => {
+  return (
+    [
+      date.getFullYear(),
+      padTo2Digits(date.getMonth() + 1),
+      padTo2Digits(date.getDate()),
+    ].join('-')
+  );
+};
+
+const formatTime = (date) => {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return (
+    [
+      padTo2Digits(hours),
+      padTo2Digits(minutes),
+      padTo2Digits(seconds),
+    ].join(':')
+  );
+};
+
+function Example() {
+  const dateFormat = 'yyyy-MM-dd';
+  const today = new Date();
+  const [state, setState] = React.useReducer(stateReducer, {
+    value: '1d',
+    isDateTimePickerVisible: false,
+    startDate: today,
+    startTime: '00:00:00',
+    endDate: today,
+    endTime: '23:59:59',
+  });
+  const handleMenuItemClick = (event) => {
+    const value = event.currentTarget.getAttribute('value');
+    if (value === 'custom') {
+      event.preventDefault();
+      if (!state.isDateTimePickerVisible) {
+        setState({
+          isDateTimePickerVisible: true,
+        });
+      }
+      return;
+    }
+
+    setState({
+      value,
+      isDateTimePickerVisible: false,
+    });
+  };
+  const mapValueToLabel = (value) => {
+    if (value === 'custom') {
+      return 'Custom range';
+    }
+    return {
+      '1d': 'Last 24 hours',
+      '7d': 'Last 7 days',
+      '30d': 'Last 30 days',
+      '90d': 'Last 90 days',
+    }[value];
+  };
+  const dateTimeRange = (() => {
+    const value = state.value;
+
+    if (value === 'custom') {
+      return [
+        `${formatDate(state.startDate)} ${state.startTime}`,
+        `${formatDate(state.endDate)} ${state.endTime}`,
+      ];
+    }
+
+    const days = parseInt(value, 10);
+    if (days > 0) {
+      const now = new Date();
+      const date = new Date(now.setDate(now.getDate() - days));
+      return [
+        `${formatDate(date)} ${formatTime(date)}`,
+        `${formatDate(new Date())} ${formatTime(new Date())}`,
+      ];
+    }
+
+    return [];
+  })();
+
+  React.useEffect(() => {
+    if (state.value === 'custom' && !state.isDateTimePickerVisible) {
+      setState({
+        isDateTimePickerVisible: true,
+      });
+    }
+  }, [state.value, state.isDateTimePickerVisible]);
+
+  return (
+    <>
+      <Flex mb="3x">
+        <TextLabel>Date & time range:</TextLabel>
+        <Space width="3x" />
+        <Text>{dateTimeRange[0]}</Text>
+        <Text px="1x">to</Text>
+        <Text>{dateTimeRange[1]}</Text>
+      </Flex>
+      <Menu
+        onClose={() => {
+          if (state.isDateTimePickerVisible) {
+            setState({ isDateTimePickerVisible: false });
+          }
+        }}
+      >
+        {({ closeMenu }) => (
+          <>
+            <MenuButton variant="secondary">
+              <Text>{mapValueToLabel(state.value)}</Text>
+            </MenuButton>
+            <MenuList width="max-content">
+              {state.isDateTimePickerVisible && (
+                <DateTimePicker
+                  dateFormat={dateFormat}
+                  startDate={state.startDate}
+                  startTime={state.startTime}
+                  endDate={state.endDate}
+                  endTime={state.endTime}
+                  onApply={({ startDate, startTime, endDate, endTime }) => {
+                    closeMenu();
+                    setState({
+                      value: 'custom',
+                      startDate,
+                      startTime,
+                      endDate,
+                      endTime,
+                    });
+                  }}
+                  onClose={() => {
+                    closeMenu();
+                  }}
+                />
+              )}
+              {['1d', '7d', '30d', '90d'].map(value => (
+                <MenuItem
+                  key={value}
+                  value={value}
+                  onClick={handleMenuItemClick}
+                >
+                  {mapValueToLabel(value)}
+                </MenuItem>
+              ))}
+              <MenuItem
+                value="custom"
+                onClick={handleMenuItemClick}
+              >
+                Custom Period
+                <Space width="2x" />
+                <Icon icon="angle-right" />
+              </MenuItem>
+            </MenuList>
+          </>
+        )}
+      </Menu>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+## Props
+
+### DatePicker
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| dateFormat | string | 'yyyy-MM-dd' | The default date format is ISO 8601. <br/>'yyyy' = year<br/>'MM' = month<br/>'dd' = day |
+| defaultValue | Date \| string | | The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `dateFormat`. |
+| value | Date \| string | | The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `dateFormat`. |
+| firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
+| onChange | (value) => void | | The callback function when the date is changed. The value is a `Date` object for the selected date. |
+| renderInput | ({ error, inputProps }) => ReactNode | | A function that renders the date input. |
+| value | Date \| string | | The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `dateFormat`. |

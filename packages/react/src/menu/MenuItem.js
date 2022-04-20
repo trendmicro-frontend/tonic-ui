@@ -18,7 +18,7 @@ const MenuItem = forwardRef((
   const menuContext = useMenu(); // context might be an undefined value
   const {
     closeOnSelect,
-    closeMenu,
+    onClose: closeMenu,
   } = { ...menuContext };
   const styleProps = useMenuItemStyle();
 

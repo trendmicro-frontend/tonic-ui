@@ -33,9 +33,9 @@ const Menu = forwardRef((
     defaultIsOpen = false,
     isOpen: isOpenProp,
     offset,
-    onBlur,
+    onBlur: onBlurProp,
     onClose: onCloseProp,
-    onKeyDown,
+    onKeyDown: onKeyDownProp,
     onOpen: onOpenProp,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
     ...rest
@@ -101,7 +101,7 @@ const Menu = forwardRef((
     }
   }, [isOpen, activeIndex, focusableElements, menuRef, menuToggleRef, prevIsOpen]);
 
-  const openMenu = useCallback(() => {
+  const onOpen = useCallback(() => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       setIsOpen(true);
@@ -138,7 +138,7 @@ const Menu = forwardRef((
     }
   }, [activeIndex, focusableElements]);
 
-  const closeMenu = useCallback(() => {
+  const onClose = useCallback(() => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
       setIsOpen(false);
@@ -163,8 +163,9 @@ const Menu = forwardRef((
   const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
   const direction = mapPlacementToDirection(placement);
   const context = getMemoizedState({
+    closeMenu: onClose, // FIXME: `closeMenu` is deprecated and will be removed in a future release
+    openMenu: onOpen, // FIXME: `openMenu` is deprecated and will be removed in a future release
     autoSelect,
-    closeMenu,
     closeOnBlur,
     closeOnSelect,
     direction,
@@ -174,9 +175,10 @@ const Menu = forwardRef((
     focusOnPreviousItem,
     isOpen,
     offset,
-    onBlur,
-    onKeyDown,
-    openMenu,
+    onBlur: onBlurProp,
+    onClose,
+    onKeyDown: onKeyDownProp,
+    onOpen,
     placement,
     menuId,
     menuRef,

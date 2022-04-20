@@ -1,7 +1,7 @@
 {
-  "name": "@tonic-ui/react-hooks",
-  "version": "1.1.0",
-  "description": "A collection of React Hooks for Tonic UI components.",
+  "name": "@tonic-ui/react-lab",
+  "version": "0.1.0",
+  "description": "This package hosts the incubator components that are not yet ready to move to the core.",
   "main": "dist/index.js",
   "module": "dist/es/index.js",
   "publishConfig": {
@@ -18,6 +18,14 @@
     "prepublish": "yarn run build",
     "test": "jest"
   },
+  "dependencies": {
+    "@tonic-ui/react": "^1.1.0",
+    "@tonic-ui/react-hooks": "^1.1.0",
+    "chained-function": "^0.5.0",
+    "date-fns": "2.x",
+    "ensure-type": "1.x",
+    "micro-memoize": "4.x"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -26,6 +34,7 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
     "@emotion/jest": "^11.8.0",
     "@rollup/plugin-node-resolve": "^13.1.3",
     "@testing-library/jest-dom": "^5.16.3",
@@ -47,6 +56,7 @@
     "jest": "^27.5.1",
     "jest-extended": "^2.0.0",
     "react": "^16.8.0 || ^17",
+    "react-dom": "^16.8.0 || ^17",
     "react-test-renderer": "^16.8.0 || ^17",
     "rollup": "^2.70.1",
     "rollup-plugin-babel": "^4.4.0"
@@ -80,13 +90,13 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/trendmicro-frontend/tonic-ui.git",
-    "directory": "packages/react-hooks"
+    "directory": "packages/react-lab"
   },
   "bugs": {
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "keywords": [
-    "hooks",
+    "lab",
     "react",
     "tonic-ui"
   ]

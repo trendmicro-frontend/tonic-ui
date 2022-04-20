@@ -5,11 +5,9 @@ React Tonic UI component library.
 ## Installation
 
 ```sh
-npm i @tonic-ui/react
-```
+// with npm
+npm install @tonic-ui/react
 
-or
-
-```sh
+// with yarn
 yarn add @tonic-ui/react
 ```

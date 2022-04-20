@@ -18,6 +18,12 @@ const useMenuButtonStyle = () => {
   };
 };
 
+const useMenuContentStyle = () => {
+  return {
+    // No style for menu content
+  };
+};
+
 const useMenuListStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
@@ -138,6 +144,7 @@ const useMenuToggleIconStyle = () => {
 export {
   useMenuStyle,
   useMenuButtonStyle,
+  useMenuContentStyle,
   useMenuListStyle,
   useMenuGroupStyle,
   useMenuItemStyle,

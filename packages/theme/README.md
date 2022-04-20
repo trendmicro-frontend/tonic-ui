@@ -5,11 +5,9 @@ The default theme package for Tonic UI components.
 ## Installation
 
 ```sh
-npm i @tonic-ui/theme
-```
+// with npm
+npm install @tonic-ui/theme
 
-or
-
-```sh
+// with yarn
 yarn add @tonic-ui/theme
 ```
