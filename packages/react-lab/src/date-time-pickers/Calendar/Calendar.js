@@ -10,8 +10,17 @@ import { CalendarProvider } from './context';
 import MonthView from './MonthView';
 import Navigation from './Navigation';
 import { useCalendarStyle } from './styles';
+import { validateDate } from './validation';
 
 const getMemoizedState = memoize(state => ({ ...state }));
+
+const mapValueToDate = (value) => {
+  if (isNullOrUndefined(value)) {
+    return null;
+  }
+  const date = new Date(value);
+  return isValid(date) ? date : null;
+};
 
 const Calendar = forwardRef((
   {
@@ -20,26 +29,31 @@ const Calendar = forwardRef((
     defaultDate: defaultDateProp,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday, ...
     onChange: onChangeProp,
+    onError: onErrorProp,
     ...rest
   },
   ref,
 ) => {
   const initialDate = useConst(() => {
     const value = dateProp ?? defaultDateProp;
-    if (isNullOrUndefined(value)) {
-      return null;
-    }
-    const date = new Date(value);
-    return isValid(date) ? date : null;
+    return mapValueToDate(value);
   });
   const initialActiveDate = useConst(() => {
     const today = new Date();
     // Return initial date if it is valid, otherwise return today
     return isValid(initialDate) ? initialDate : today;
   });
-  const [date, setDate] = useState(initialDate);
-  const prevDate = usePrevious(date);
   const [activeDate, setActiveDate] = useState(initialActiveDate);
+  const [date, setDate] = useState(initialDate);
+  const previousDate = usePrevious(date);
+  const validationError = validateDate(date, {});
+  const previousValidationError = usePrevious(validationError);
+
+  useEffect(() => {
+    if (validationError !== previousValidationError) {
+      onErrorProp?.(validationError, date);
+    }
+  }, [date, onErrorProp, previousValidationError, validationError]);
 
   useEffect(() => {
     const isControlled = (dateProp !== undefined);
@@ -50,14 +64,14 @@ const Calendar = forwardRef((
   }, [dateProp]);
 
   useEffect(() => {
-    const isDateChanged = !!date && (date !== prevDate);
+    const isDateChanged = !!date && (date !== previousDate);
     const nextActiveDate = new Date(date);
     const isSameYearAndMonth = isSameYear(activeDate, nextActiveDate) && isSameMonth(activeDate, nextActiveDate);
     const willChangeView = isValid(nextActiveDate) && !isSameYearAndMonth;
     if (isDateChanged && willChangeView) {
       setActiveDate(nextActiveDate);
     }
-  }, [date, prevDate, activeDate]);
+  }, [date, previousDate, activeDate]);
 
   const onChange = useCallback((nextDate) => {
     const isControlled = (dateProp !== undefined);
@@ -65,9 +79,7 @@ const Calendar = forwardRef((
       setDate(nextDate);
     }
 
-    if (typeof onChangeProp === 'function') {
-      onChangeProp(nextDate);
-    }
+    onChangeProp?.(nextDate);
   }, [dateProp, onChangeProp]);
 
   const context = getMemoizedState({

@@ -13,7 +13,7 @@ import Calendar from '../Calendar';
 /**
  * Convert a value to a Date object in accordance with the format string.
  */
-const mapValueToDate = (value, formatString, referenceDate = new Date()) => {
+const mapFormattedValueToDate = (value, formatString, referenceDate = new Date()) => {
   return (typeof value === 'string')
     ? parse(value, formatString, referenceDate)
     : new Date(value);
@@ -33,7 +33,7 @@ const DatePicker = forwardRef((
   ref,
 ) => {
   const initialValue = useConst(() => {
-    return mapValueToDate(valueProp ?? defaultValueProp, inputFormat);
+    return mapFormattedValueToDate(valueProp ?? defaultValueProp, inputFormat);
   });
   const [value, setValue] = useState(initialValue);
   const [inputValue, setInputValue] = useState(isValid(value) ? format(value, inputFormat) : '');
@@ -41,7 +41,7 @@ const DatePicker = forwardRef((
   useEffect(() => {
     const isControlled = (valueProp !== undefined);
     if (isControlled) {
-      const nextValue = mapValueToDate(valueProp, inputFormat);
+      const nextValue = mapFormattedValueToDate(valueProp, inputFormat);
       setValue(nextValue);
 
       // Update input value
@@ -67,7 +67,7 @@ const DatePicker = forwardRef((
 
   const handleDateInputBlur = useCallback(() => {
     if (!!inputValue) {
-      const nextValue = mapValueToDate(inputValue, inputFormat);
+      const nextValue = mapFormattedValueToDate(inputValue, inputFormat);
       setValue(nextValue);
     }
   }, [inputFormat, inputValue]);
