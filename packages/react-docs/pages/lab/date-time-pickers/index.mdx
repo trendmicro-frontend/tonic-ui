@@ -27,8 +27,8 @@ render(() => (
   <>
     <TextLabel mb="1x">Date Picker</TextLabel>
     <DatePicker
-      dateFormat="yyyy-MM-dd"
       defaultValue={new Date()}
+      inputFormat="yyyy-MM-dd"
       renderInput={({ error, inputProps }) => {
         const _error = !!inputProps.value && error;
 

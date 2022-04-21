@@ -16,11 +16,11 @@ The following example demonstrates a simple example of the `DatePicker` componen
 
 ```jsx disabled
 <DatePicker
-  inputFormat="yyyy-MM-dd"
   value={value}
   onChange={(nextValue) => {
     setValue(nextValue);
   }}
+  inputFormat="yyyy-MM-dd"
   renderInput={({ error, inputProps }) => (
     <DateInput
       {...inputProps}
@@ -118,10 +118,10 @@ render(() => {
         </Text>
       </Box>
       <DatePicker
-        inputFormat={inputFormat}
         firstDayOfWeek={firstDayOfWeek}
         onChange={setValue}
         value={value}
+        inputFormat={inputFormat}
         renderInput={({ error, inputProps }) => {
           const _error = !!inputProps.value && error;
 
@@ -238,9 +238,9 @@ const CustomDateInput = ({
 
   return (
     <DatePicker
-      inputFormat={inputFormat}
       value={value}
       onChange={handleChange}
+      inputFormat={inputFormat}
       renderInput={({ error, inputProps }) => {
         const _error = !!inputProps.value && error;
 
