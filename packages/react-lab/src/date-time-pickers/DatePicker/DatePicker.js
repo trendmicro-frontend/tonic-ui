@@ -22,9 +22,9 @@ const mapValueToDate = (value, formatString, referenceDate = new Date()) => {
 const DatePicker = forwardRef((
   {
     children, // not used
-    dateFormat = 'yyyy-MM-dd',
     defaultValue: defaultValueProp,
     firstDayOfWeek,
+    inputFormat = 'yyyy-MM-dd',
     onChange: onChangeProp,
     renderInput,
     value: valueProp,
@@ -33,22 +33,22 @@ const DatePicker = forwardRef((
   ref,
 ) => {
   const initialValue = useConst(() => {
-    return mapValueToDate(valueProp ?? defaultValueProp, dateFormat);
+    return mapValueToDate(valueProp ?? defaultValueProp, inputFormat);
   });
   const [value, setValue] = useState(initialValue);
-  const [inputValue, setInputValue] = useState(isValid(value) ? format(value, dateFormat) : '');
+  const [inputValue, setInputValue] = useState(isValid(value) ? format(value, inputFormat) : '');
 
   useEffect(() => {
     const isControlled = (valueProp !== undefined);
     if (isControlled) {
-      const nextValue = mapValueToDate(valueProp, dateFormat);
+      const nextValue = mapValueToDate(valueProp, inputFormat);
       setValue(nextValue);
 
       // Update input value
-      const inputValue = isValid(nextValue) ? format(nextValue, dateFormat) : '';
+      const inputValue = isValid(nextValue) ? format(nextValue, inputFormat) : '';
       setInputValue(inputValue);
     }
-  }, [dateFormat, valueProp]);
+  }, [inputFormat, valueProp]);
 
   const onChange = useCallback((nextValue) => {
     const isControlled = (valueProp !== undefined);
@@ -56,21 +56,21 @@ const DatePicker = forwardRef((
       setValue(nextValue);
 
       // Update input value
-      const inputValue = isValid(nextValue) ? format(nextValue, dateFormat) : '';
+      const inputValue = isValid(nextValue) ? format(nextValue, inputFormat) : '';
       setInputValue(inputValue);
     }
 
     if (typeof onChangeProp === 'function') {
       onChangeProp(nextValue);
     }
-  }, [dateFormat, valueProp, onChangeProp]);
+  }, [inputFormat, valueProp, onChangeProp]);
 
   const handleDateInputBlur = useCallback(() => {
     if (!!inputValue) {
-      const nextValue = mapValueToDate(inputValue, dateFormat);
+      const nextValue = mapValueToDate(inputValue, inputFormat);
       setValue(nextValue);
     }
-  }, [dateFormat, inputValue]);
+  }, [inputFormat, inputValue]);
 
   const handleDateInputChange = useCallback((event) => {
     const inputValue = event.target.value;
@@ -98,6 +98,10 @@ const DatePicker = forwardRef((
               // Remove "onKeyDown" from inputProps
               delete inputProps.onKeyDown;
 
+              if (typeof renderInput !== 'function') {
+                return null;
+              }
+
               return renderInput({
                 error,
                 inputProps,
@@ -107,13 +111,12 @@ const DatePicker = forwardRef((
           </MenuToggle>
           <MenuContent>
             <Calendar
-              dateFormat={dateFormat}
+              date={value}
               firstDayOfWeek={firstDayOfWeek}
               onChange={(nextValue) => {
                 onChange(nextValue);
                 onClose();
               }}
-              value={value}
             />
           </MenuContent>
         </>
