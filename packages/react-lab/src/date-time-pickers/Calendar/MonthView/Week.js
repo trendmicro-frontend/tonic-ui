@@ -11,13 +11,13 @@ const Week = ({
   const calendarContext = useCalendar();
   const {
     activeDate,
-    value
+    date: selectedDate,
   } = { ...calendarContext };
 
   return (
     [0, 1, 2, 3, 4, 5, 6].map((offset) => {
       const date = addDays(startDateOfWeek, offset);
-      const isSelected = isSameDay(date, new Date(value));
+      const isSelected = isSameDay(date, new Date(selectedDate));
       const isToday = isSameDay(date, new Date());
       const isOutOfScope = !isSameMonth(date, activeDate);
 

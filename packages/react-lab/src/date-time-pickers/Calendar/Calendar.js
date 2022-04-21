@@ -3,9 +3,9 @@ import { useConst, usePrevious } from '@tonic-ui/react-hooks';
 import isSameMonth from 'date-fns/isSameMonth';
 import isSameYear from 'date-fns/isSameYear';
 import isValid from 'date-fns/isValid';
-import parse from 'date-fns/parse';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
+import isNullOrUndefined from '../../utils/isNullOrUndefined';
 import { CalendarProvider } from './context';
 import MonthView from './MonthView';
 import Navigation from './Navigation';
@@ -13,77 +13,69 @@ import { useCalendarStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const defaultDateFormat = 'yyyy-MM-dd';
-
-/**
- * Convert a value to a Date object in accordance with the format string.
- */
-const mapValueToDate = (value, formatString, referenceDate = new Date()) => {
-  return (typeof value === 'string')
-    ? parse(value, formatString, referenceDate)
-    : new Date(value);
-};
-
 const Calendar = forwardRef((
   {
     children, // not used
-    dateFormat = defaultDateFormat,
-    defaultValue: defaultValueProp,
+    date: dateProp,
+    defaultDate: defaultDateProp,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday, ...
     onChange: onChangeProp,
-    value: valueProp,
     ...rest
   },
   ref,
 ) => {
-  const initialValue = useConst(() => {
-    return mapValueToDate(valueProp ?? defaultValueProp, dateFormat);
+  const initialDate = useConst(() => {
+    const value = dateProp ?? defaultDateProp;
+    if (isNullOrUndefined(value)) {
+      return null;
+    }
+    const date = new Date(value);
+    return isValid(date) ? date : null;
   });
   const initialActiveDate = useConst(() => {
     const today = new Date();
-    // Return initial value if it is valid, otherwise return current date
-    return isValid(initialValue) ? initialValue : today;
+    // Return initial date if it is valid, otherwise return today
+    return isValid(initialDate) ? initialDate : today;
   });
-  const [value, setValue] = useState(initialValue);
-  const prevValue = usePrevious(value);
+  const [date, setDate] = useState(initialDate);
+  const prevDate = usePrevious(date);
   const [activeDate, setActiveDate] = useState(initialActiveDate);
 
   useEffect(() => {
-    const isControlled = (valueProp !== undefined);
+    const isControlled = (dateProp !== undefined);
     if (isControlled) {
-      const nextValue = mapValueToDate(valueProp, dateFormat);
-      setValue(nextValue);
+      const nextDate = dateProp;
+      setDate(nextDate);
     }
-  }, [dateFormat, valueProp]);
+  }, [dateProp]);
 
   useEffect(() => {
-    const isValueChanged = !!value && (value !== prevValue);
-    const nextActiveDate = new Date(value);
+    const isDateChanged = !!date && (date !== prevDate);
+    const nextActiveDate = new Date(date);
     const isSameYearAndMonth = isSameYear(activeDate, nextActiveDate) && isSameMonth(activeDate, nextActiveDate);
     const willChangeView = isValid(nextActiveDate) && !isSameYearAndMonth;
-    if (isValueChanged && willChangeView) {
+    if (isDateChanged && willChangeView) {
       setActiveDate(nextActiveDate);
     }
-  }, [value, prevValue, activeDate]);
+  }, [date, prevDate, activeDate]);
 
-  const onChange = useCallback((nextValue) => {
-    const isControlled = (valueProp !== undefined);
+  const onChange = useCallback((nextDate) => {
+    const isControlled = (dateProp !== undefined);
     if (!isControlled) {
-      setValue(nextValue);
+      setDate(nextDate);
     }
 
     if (typeof onChangeProp === 'function') {
-      onChangeProp(nextValue);
+      onChangeProp(nextDate);
     }
-  }, [valueProp, onChangeProp]);
+  }, [dateProp, onChangeProp]);
 
   const context = getMemoizedState({
     activeDate,
-    dateFormat,
+    date,
     firstDayOfWeek,
     onChange,
     setActiveDate,
-    value,
   });
   const styleProps = useCalendarStyle();
 

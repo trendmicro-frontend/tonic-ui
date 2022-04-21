@@ -15,13 +15,6 @@ const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
-const dateFormatOptions = [
-  'yyyy-MM-dd', // ISO 8601
-  'MM/dd/yyyy', // USA
-  'dd.MM.yyyy', // Worldwide
-  'yyyy/MM/dd', // East Asia
-];
-
 const firstDayOfWeekOptions = [
   0, // Sunday
   1, // Monday
@@ -39,22 +32,21 @@ const useSelection = (defaultValue) => {
 };
 
 render(() => {
-  const [value, setValue] = React.useState();
-  const [dateFormat, changeDateFormatBy] = useSelection(dateFormatOptions[0]);
+  const today = useConst(() => new Date());
+  const [date, setDate] = React.useState(today);
   const [firstDayOfWeek, changeWeekStartDayBy] = useSelection(0);
 
   return (
     <>
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
-          Selected date: {value ? dateFns.format(value, dateFormat) : null}
+          Selected date: {dateFns.format(today, 'yyyy-MM-dd')}
         </Text>
       </Box>
       <Calendar
-        dateFormat={dateFormat}
-        onChange={setValue}
-        value={value}
+        date={date}
         firstDayOfWeek={firstDayOfWeek}
+        onChange={setDate}
       />
       <Divider my="4x" />
       <Box mb="4x">
@@ -62,32 +54,6 @@ render(() => {
           Calendar props
         </Text>
       </Box>
-      <FormGroup>
-        <Box mb="2x">
-          <TextLabel>
-            dateFormat
-          </TextLabel>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          css={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            }
-          }}
-        >
-          {dateFormatOptions.map(value => (
-            <Button
-              key={value}
-              selected={value === dateFormat}
-              onClick={changeDateFormatBy(value)}
-              minWidth="15x"
-            >
-              {value}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </FormGroup>
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
@@ -125,8 +91,7 @@ render(() => {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| dateFormat | string | 'yyyy-MM-dd' | The default date format is ISO 8601. <br/>'yyyy' = year<br/>'MM' = month<br/>'dd' = day |
-| defaultValue | Date \| string | | The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `dateFormat`. |
+| date | Date | | The selected date. |
+| defaultDate | Date | | The default selected date. |
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
 | onChange | (value) => void | | The callback function when the date is changed. The value is a `Date` object for the selected date. |
-| value | Date \| string | | The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `dateFormat`. |

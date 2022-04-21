@@ -1,5 +1,4 @@
 import { Box } from '@tonic-ui/react';
-import format from 'date-fns/format';
 import getDate from 'date-fns/getDate';
 import React, { forwardRef } from 'react';
 import { useClickableCellStyle } from '../styles';
@@ -17,7 +16,6 @@ const Day = forwardRef((
 ) => {
   const calendarContext = useCalendar();
   const {
-    dateFormat,
     onChange,
     setActiveDate,
   } = { ...calendarContext };
@@ -36,7 +34,6 @@ const Day = forwardRef((
   return (
     <Box
       ref={ref}
-      title={format(date, dateFormat)}
       aria-selected={isSelected}
       onClick={handleClick}
       {...styleProps}
