@@ -1,8 +1,3 @@
-import {
-  useColorMode,
-  useColorStyle,
-} from '@tonic-ui/react';
-
 const useMenuStyle = () => {
   return {
     position: 'relative',
@@ -16,32 +11,6 @@ const useMenuContentStyle = () => {
   };
 };
 
-const useMenuListStyle = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const colorModeStyle = {
-    light: {
-      backgroundColor: 'white',
-      boxShadow: colorStyle?.shadow?.medium,
-    },
-    dark: {
-      backgroundColor: 'gray:80',
-      boxShadow: colorStyle?.shadow?.medium,
-    },
-  }[colorMode];
-
-  return {
-    color: 'inherit',
-    m: '0',
-    p: '0',
-    py: '2x',
-    _focus: {
-      outline: 'none',
-    },
-    ...colorModeStyle,
-  };
-};
-
 const useMenuToggleStyle = () => {
   return {
     cursor: 'pointer',
@@ -52,6 +21,5 @@ const useMenuToggleStyle = () => {
 export {
   useMenuStyle,
   useMenuContentStyle,
-  useMenuListStyle,
   useMenuToggleStyle,
 };
