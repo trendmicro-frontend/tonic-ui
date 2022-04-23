@@ -7,10 +7,10 @@ import {
 import React, { forwardRef, useMemo, useRef } from 'react';
 import useForkRef from '../../utils/useForkRef';
 import wrapEvent from '../../utils/wrapEvent';
-import { useMenuContentStyle } from './styles';
-import useMenu from './useMenu';
+import { useDatePickerContentStyle } from './styles';
+import useDatePicker from './useDatePicker';
 
-const MenuContent = forwardRef((
+const DatePickerContent = forwardRef((
   {
     PopperComponent = Popper,
     PopperProps,
@@ -25,45 +25,39 @@ const MenuContent = forwardRef((
 ) => {
   const nodeRef = useRef(null);
   const combinedRef = useForkRef(nodeRef, ref);
-  const menuContext = useMenu(); // context might be an undefined value
+  const datePickerContext = useDatePicker(); // context might be an undefined value
   const {
     isOpen,
-    menuId,
-    menuToggleId,
-    menuToggleRef,
-    menuRef,
+    datePickerContentId,
+    datePickerContentRef,
+    datePickerToggleId,
+    datePickerToggleRef,
     offset,
-    onBlur,
     onClose,
-    onKeyDown,
     placement,
-  } = { ...menuContext };
+  } = { ...datePickerContext };
 
-  // Close the menu on blur
+  // Close the date picker on blur
   const handleBlur = event => {
     const target = event.relatedTarget || document.activeElement;
     const isClickingOutside =
       target &&
-      !(menuRef?.current?.contains(target)) &&
-      !(menuToggleRef?.current?.contains(target));
-    const shouldCloseMenu = isOpen && isClickingOutside;
+      !(datePickerContentRef?.current?.contains(target)) &&
+      !(datePickerToggleRef?.current?.contains(target));
+    const shouldCloseDatePicker = isOpen && isClickingOutside;
 
-    if (shouldCloseMenu) {
+    if (shouldCloseDatePicker) {
       ensureFunction(onClose)();
     }
-
-    ensureFunction(onBlur)(event);
   };
 
   const handleKeyDown = event => {
     if (event.key === 'Escape') {
       ensureFunction(onClose)();
     }
-
-    ensureFunction(onKeyDown)(event);
   };
 
-  const styleProps = useMenuContentStyle();
+  const styleProps = useDatePickerContentStyle();
 
   const eventHandlers = {
     onBlur: wrapEvent(onBlurProp, handleBlur),
@@ -88,17 +82,17 @@ const MenuContent = forwardRef((
 
   return (
     <PopperComponent
-      aria-labelledby={menuToggleId}
-      anchorEl={menuToggleRef?.current}
-      id={menuId}
+      aria-labelledby={datePickerToggleId}
+      anchorEl={datePickerToggleRef?.current}
+      id={datePickerContentId}
       isOpen={isOpen}
       modifiers={popperModifiers}
       placement={placement}
-      ref={menuRef}
+      ref={datePickerContentRef}
       role="menu"
       tabIndex={-1}
       unmountOnExit={true}
-      usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
+      usePortal={false} // Pass `true` in `PopperProps` to render content in a portal
       willUseTransition={true}
       zIndex="dropdown"
       {...styleProps}
@@ -136,6 +130,6 @@ const MenuContent = forwardRef((
   );
 });
 
-MenuContent.displayName = 'MenuContent';
+DatePickerContent.displayName = 'DatePickerContent';
 
-export default MenuContent;
+export default DatePickerContent;

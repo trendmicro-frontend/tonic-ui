@@ -4,11 +4,11 @@ import React, { forwardRef, useCallback } from 'react';
 import wrapEvent from '../../utils/wrapEvent';
 import useForkRef from '../../utils/useForkRef';
 import {
-  useMenuToggleStyle,
+  useDatePickerToggleStyle,
 } from './styles';
-import useMenu from './useMenu';
+import useDatePicker from './useDatePicker';
 
-const MenuToggle = forwardRef((
+const DatePickerToggle = forwardRef((
   {
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
@@ -18,19 +18,19 @@ const MenuToggle = forwardRef((
   },
   ref,
 ) => {
-  const menuContext = useMenu(); // context might be an undefined value
+  const datePickerContext = useDatePicker(); // context might be an undefined value
   const {
     isOpen,
-    menuId,
-    menuToggleId,
-    menuToggleRef,
+    datePickerContentId,
+    datePickerToggleId,
+    datePickerToggleRef,
     onClose,
     onOpen,
-  } = { ...menuContext };
-  const styleProps = useMenuToggleStyle();
-  const combinedRef = useForkRef(menuToggleRef, ref);
+  } = { ...datePickerContext };
+  const styleProps = useDatePickerToggleStyle();
+  const combinedRef = useForkRef(datePickerToggleRef, ref);
   const handleClick = wrapEvent(onClickProp, useCallback((event) => {
-    // Don't handle `onClick` event when the `MenuToggle` is disabled
+    // Don't handle `onClick` event when the `DatePickerToggle` is disabled
     if (disabled) {
       event.preventDefault();
       return;
@@ -40,7 +40,7 @@ const MenuToggle = forwardRef((
   }, [disabled, isOpen, onOpen]));
 
   const handleKeyDown = wrapEvent(onKeyDownProp, useCallback((event) => {
-    // Don't handle `onKeyDown` event when the `MenuToggle` is disabled
+    // Don't handle `onKeyDown` event when the `DatePickerToggle` is disabled
     if (disabled) {
       event.preventDefault();
       return;
@@ -52,13 +52,13 @@ const MenuToggle = forwardRef((
     }
   }, [disabled, isOpen, onClose]));
 
-  const getMenuToggleProps = () => ({
-    'aria-controls': menuId,
+  const getDatePickerToggleProps = () => ({
+    'aria-controls': datePickerContentId,
     'aria-disabled': disabled,
     'aria-expanded': isOpen,
     'aria-haspopup': 'menu',
     disabled,
-    id: menuToggleId,
+    id: datePickerToggleId,
     onClick: handleClick,
     onKeyDown: handleKeyDown,
     ref: combinedRef,
@@ -70,17 +70,17 @@ const MenuToggle = forwardRef((
 
   if (typeof children === 'function') {
     return children({
-      getMenuToggleProps,
+      getDatePickerToggleProps,
     });
   }
 
   return (
-    <Box {...getMenuToggleProps()}>
+    <Box {...getDatePickerToggleProps()}>
       {children}
     </Box>
   );
 });
 
-MenuToggle.displayName = 'MenuToggle';
+DatePickerToggle.displayName = 'DatePickerToggle';
 
-export default MenuToggle;
+export default DatePickerToggle;

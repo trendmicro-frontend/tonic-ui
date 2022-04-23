@@ -1,16 +1,24 @@
+import { Box } from '@tonic-ui/react';
 import { useConst, useEventCallback, usePrevious, useToggle } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
 import format from 'date-fns/format';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
+import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import Menu from './Menu';
-import MenuContent from './MenuContent';
-import MenuToggle from './MenuToggle';
 import isNullOrUndefined from '../../utils/isNullOrUndefined';
+import useAutoId from '../../utils/useAutoId';
 import useForkRef from '../../utils/useForkRef';
 import Calendar from '../Calendar';
+import DatePickerContent from './DatePickerContent';
+import DatePickerToggle from './DatePickerToggle';
+import { DatePickerProvider } from './context';
+import { useDatePickerStyle } from './styles';
 import useOutsideClick from './useOutsideClick';
+
+const name = '@tonic-ui/react-lab'; // XXX
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 /**
  * Convert a value to a Date object in accordance with the format string.
@@ -41,14 +49,18 @@ const DatePicker = forwardRef((
     defaultValue: defaultValueProp,
     firstDayOfWeek,
     inputFormat = 'yyyy-MM-dd',
+    offset,
     onChange: onChangeProp,
     onError: onErrorProp,
+    placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
     renderInput,
     value: valueProp,
     ...rest
   },
   ref,
 ) => {
+  const datePickerContentRef = useRef(null);
+  const datePickerToggleRef = useRef(null);
   const initialValue = useConst(() => {
     return mapFormattedValueToDate(valueProp ?? defaultValueProp, inputFormat);
   });
@@ -134,51 +146,67 @@ const DatePicker = forwardRef((
     onOpen();
   }, [onOpen]);
 
+  const defaultId = useAutoId();
+  const datePickerContentId = `${name}:DatePickerContent-${defaultId}`;
+  const datePickerToggleId = `${name}:DatePickerToggle-${defaultId}`;
+  const context = getMemoizedState({
+    isOpen,
+    offset,
+    onClose,
+    onOpen,
+    placement,
+    datePickerContentId,
+    datePickerContentRef,
+    datePickerToggleId,
+    datePickerToggleRef,
+  });
+  const styleProps = useDatePickerStyle({});
+
   return (
-    <Menu
-      ref={combinedRef}
-      {...rest}
-      isOpen={isOpen}
-      onClose={onClose}
-      onOpen={onOpen}
-    >
-      <MenuToggle>
-        {({ getMenuToggleProps }) => {
-          const error = !isValid(mapFormattedValueToDate(value, inputFormat));
-          const menuToggleProps = getMenuToggleProps();
-          const inputProps = {
-            ...menuToggleProps,
-            cursor: undefined, // Remove cursor style
-            onChange: chainedFunction(
-              handleDateInputChange,
-              menuToggleProps?.onChange,
-            ),
-            onFocus: chainedFunction(
-              handleDateInputFocus,
-              menuToggleProps?.onFocus,
-            ),
-            value: inputValue,
-          };
+    <DatePickerProvider value={context}>
+      <Box
+        ref={combinedRef}
+        {...styleProps}
+        {...rest}
+      >
+        <DatePickerToggle>
+          {({ getDatePickerToggleProps }) => {
+            const error = !isValid(mapFormattedValueToDate(value, inputFormat));
+            const datePickerToggleProps = getDatePickerToggleProps();
+            const inputProps = {
+              ...datePickerToggleProps,
+              cursor: undefined, // Remove cursor style
+              onChange: chainedFunction(
+                handleDateInputChange,
+                datePickerToggleProps?.onChange,
+              ),
+              onFocus: chainedFunction(
+                handleDateInputFocus,
+                datePickerToggleProps?.onFocus,
+              ),
+              value: inputValue,
+            };
 
-          if (typeof renderInput !== 'function') {
-            return null;
-          }
+            if (typeof renderInput !== 'function') {
+              return null;
+            }
 
-          return renderInput({
-            error,
-            inputProps,
-          });
-        }}
-      </MenuToggle>
-      <MenuContent>
-        <Calendar
-          date={mapFormattedValueToDate(value, inputFormat)}
-          firstDayOfWeek={firstDayOfWeek}
-          onChange={onCalendarChange}
-          onError={onCalendarError}
-        />
-      </MenuContent>
-    </Menu>
+            return renderInput({
+              error,
+              inputProps,
+            });
+          }}
+        </DatePickerToggle>
+        <DatePickerContent>
+          <Calendar
+            date={mapFormattedValueToDate(value, inputFormat)}
+            firstDayOfWeek={firstDayOfWeek}
+            onChange={onCalendarChange}
+            onError={onCalendarError}
+          />
+        </DatePickerContent>
+      </Box>
+    </DatePickerProvider>
   );
 });
 

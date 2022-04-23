@@ -1,17 +1,17 @@
-const useMenuStyle = () => {
+const useDatePickerStyle = () => {
   return {
     position: 'relative',
     display: 'inline-flex',
   };
 };
 
-const useMenuContentStyle = () => {
+const useDatePickerContentStyle = () => {
   return {
-    // No style for menu content
+    // No style for the content
   };
 };
 
-const useMenuToggleStyle = () => {
+const useDatePickerToggleStyle = () => {
   return {
     cursor: 'pointer',
     display: 'inline-flex',
@@ -19,7 +19,7 @@ const useMenuToggleStyle = () => {
 };
 
 export {
-  useMenuStyle,
-  useMenuContentStyle,
-  useMenuToggleStyle,
+  useDatePickerStyle,
+  useDatePickerContentStyle,
+  useDatePickerToggleStyle,
 };

@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 
-const MenuContext = createContext();
+const DatePickerContext = createContext();
 
-const MenuProvider = MenuContext.Provider;
+const DatePickerProvider = DatePickerContext.Provider;
 
 export {
-  MenuContext,
-  MenuProvider,
+  DatePickerContext,
+  DatePickerProvider,
 };
