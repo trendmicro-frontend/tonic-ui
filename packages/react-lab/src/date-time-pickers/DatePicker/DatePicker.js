@@ -7,6 +7,7 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import Menu from './Menu';
 import MenuContent from './MenuContent';
 import MenuToggle from './MenuToggle';
+import isNullOrUndefined from '../../utils/isNullOrUndefined';
 import useForkRef from '../../utils/useForkRef';
 import Calendar from '../Calendar';
 import useOutsideClick from './useOutsideClick';
@@ -21,6 +22,10 @@ const mapFormattedValueToDate = (value, formatString, referenceDate = new Date()
     } catch (e) {
       return new Date(''); // Invalid Date
     }
+  }
+
+  if (isNullOrUndefined(value)) {
+    return null;
   }
 
   if (value instanceof Date) {
@@ -50,6 +55,7 @@ const DatePicker = forwardRef((
   const [value, setValue] = useState(initialValue);
   const [inputValue, setInputValue] = useState(isValid(value) ? format(value, inputFormat) : '');
   const [isOpen, toggleIsOpen] = useToggle(false);
+  const previousIsOpen = usePrevious(isOpen);
   const nodeRef = useRef();
   const combinedRef = useForkRef(nodeRef, ref);
   const previousInputFormat = usePrevious(inputFormat);
@@ -62,20 +68,30 @@ const DatePicker = forwardRef((
 
   useOutsideClick(onClose, nodeRef);
 
+  // Check if the value prop has changed
   useEffect(() => {
     const isControlled = (valueProp !== undefined);
     if (isControlled) {
       const nextValue = mapFormattedValueToDate(valueProp, inputFormat);
       setValue(nextValue);
-    }
-  }, [valueProp, inputFormat]);
 
+      // Update input value when the date picker is not open
+      if (!isOpen) {
+        // Keep original input value if the date picker is previously open
+        const fallbackInputValue = previousIsOpen ? inputValue : '';
+        const nextInputValue = isValid(nextValue) ? format(nextValue, inputFormat) : fallbackInputValue;
+        setInputValue(nextInputValue);
+      }
+    }
+  }, [valueProp, inputFormat, inputValue, isOpen, previousIsOpen]);
+
+  // Check if the input format has changed
   useEffect(() => {
-    if (previousInputFormat !== inputFormat) {
+    if (inputFormat !== previousInputFormat) {
       const nextInputValue = isValid(value) ? format(value, inputFormat) : '';
       setInputValue(nextInputValue);
     }
-  }, [value, inputFormat, previousInputFormat]);
+  }, [isOpen, value, inputFormat, previousInputFormat]);
 
   const onCalendarChange = useCallback((nextDate) => {
     const isControlled = (valueProp !== undefined);
