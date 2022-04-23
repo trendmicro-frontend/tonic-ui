@@ -1,22 +1,33 @@
-import {
-  Menu,
-  MenuContent,
-  MenuToggle,
-} from '@tonic-ui/react';
-import { useConst } from '@tonic-ui/react-hooks';
+import { useConst, useEventCallback, usePrevious, useToggle } from '@tonic-ui/react-hooks';
+import chainedFunction from 'chained-function';
 import format from 'date-fns/format';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
-import React, { forwardRef, useCallback, useEffect, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import Menu from './Menu';
+import MenuContent from './MenuContent';
+import MenuToggle from './MenuToggle';
+import useForkRef from '../../utils/useForkRef';
 import Calendar from '../Calendar';
+import useOutsideClick from './useOutsideClick';
 
 /**
  * Convert a value to a Date object in accordance with the format string.
  */
 const mapFormattedValueToDate = (value, formatString, referenceDate = new Date()) => {
-  return (typeof value === 'string')
-    ? parse(value, formatString, referenceDate)
-    : new Date(value);
+  if (typeof value === 'string') {
+    try {
+      return parse(value, formatString, referenceDate);
+    } catch (e) {
+      return new Date(''); // Invalid Date
+    }
+  }
+
+  if (value instanceof Date) {
+    return value;
+  }
+
+  return new Date(value);
 };
 
 const DatePicker = forwardRef((
@@ -26,6 +37,7 @@ const DatePicker = forwardRef((
     firstDayOfWeek,
     inputFormat = 'yyyy-MM-dd',
     onChange: onChangeProp,
+    onError: onErrorProp,
     renderInput,
     value: valueProp,
     ...rest
@@ -37,27 +49,64 @@ const DatePicker = forwardRef((
   });
   const [value, setValue] = useState(initialValue);
   const [inputValue, setInputValue] = useState(isValid(value) ? format(value, inputFormat) : '');
+  const [isOpen, toggleIsOpen] = useToggle(false);
+  const nodeRef = useRef();
+  const combinedRef = useForkRef(nodeRef, ref);
+  const previousInputFormat = usePrevious(inputFormat);
+  const onOpen = useEventCallback(() => {
+    !isOpen && toggleIsOpen(true);
+  }, [isOpen]);
+  const onClose = useEventCallback(() => {
+    isOpen && toggleIsOpen(false);
+  }, [isOpen]);
+
+  useOutsideClick(onClose, nodeRef);
 
   useEffect(() => {
     const isControlled = (valueProp !== undefined);
     if (isControlled) {
       const nextValue = mapFormattedValueToDate(valueProp, inputFormat);
       setValue(nextValue);
-
-      // Update input value
-      const inputValue = isValid(nextValue) ? format(nextValue, inputFormat) : '';
-      setInputValue(inputValue);
     }
-  }, [inputFormat, valueProp]);
+  }, [valueProp, inputFormat]);
 
-  const onChange = useCallback((nextValue) => {
+  useEffect(() => {
+    if (previousInputFormat !== inputFormat) {
+      const nextInputValue = isValid(value) ? format(value, inputFormat) : '';
+      setInputValue(nextInputValue);
+    }
+  }, [value, inputFormat, previousInputFormat]);
+
+  const onCalendarChange = useCallback((nextDate) => {
     const isControlled = (valueProp !== undefined);
     if (!isControlled) {
-      setValue(nextValue);
+      setValue(nextDate);
+    }
 
-      // Update input value
-      const inputValue = isValid(nextValue) ? format(nextValue, inputFormat) : '';
-      setInputValue(inputValue);
+    if (isValid(nextDate)) {
+      setInputValue(format(nextDate, inputFormat));
+    }
+
+    if (typeof onChangeProp === 'function') {
+      onChangeProp(nextDate);
+    }
+  }, [valueProp, inputFormat, onChangeProp]);
+
+  const onCalendarError = useCallback((error, value) => {
+    if (typeof onErrorProp === 'function') {
+      onErrorProp(error, value);
+    }
+  }, [onErrorProp]);
+
+  const handleDateInputChange = useCallback((event) => {
+    const inputValue = event.target.value;
+    setInputValue(inputValue);
+
+    const nextValue = mapFormattedValueToDate(inputValue, inputFormat);
+    const isControlled = (valueProp !== undefined);
+
+    if (!isControlled) {
+      setValue(nextValue);
     }
 
     if (typeof onChangeProp === 'function') {
@@ -65,62 +114,54 @@ const DatePicker = forwardRef((
     }
   }, [inputFormat, valueProp, onChangeProp]);
 
-  const handleDateInputBlur = useCallback(() => {
-    if (!!inputValue) {
-      const nextValue = mapFormattedValueToDate(inputValue, inputFormat);
-      setValue(nextValue);
-    }
-  }, [inputFormat, inputValue]);
-
-  const handleDateInputChange = useCallback((event) => {
-    const inputValue = event.target.value;
-    setInputValue(inputValue);
-  }, []);
+  const handleDateInputFocus = useCallback((event) => {
+    onOpen();
+  }, [onOpen]);
 
   return (
     <Menu
-      ref={ref}
+      ref={combinedRef}
       {...rest}
+      isOpen={isOpen}
+      onClose={onClose}
+      onOpen={onOpen}
     >
-      {({ onClose }) => (
-        <>
-          <MenuToggle>
-            {({ getMenuToggleProps }) => {
-              const error = !isValid(value);
-              const inputProps = {
-                ...getMenuToggleProps(),
-                cursor: undefined, // Remove cursor style
-                onBlur: handleDateInputBlur,
-                onChange: handleDateInputChange,
-                value: inputValue,
-              };
+      <MenuToggle>
+        {({ getMenuToggleProps }) => {
+          const error = !isValid(mapFormattedValueToDate(value, inputFormat));
+          const menuToggleProps = getMenuToggleProps();
+          const inputProps = {
+            ...menuToggleProps,
+            cursor: undefined, // Remove cursor style
+            onChange: chainedFunction(
+              handleDateInputChange,
+              menuToggleProps?.onChange,
+            ),
+            onFocus: chainedFunction(
+              handleDateInputFocus,
+              menuToggleProps?.onFocus,
+            ),
+            value: inputValue,
+          };
 
-              // Remove "onKeyDown" from inputProps
-              delete inputProps.onKeyDown;
+          if (typeof renderInput !== 'function') {
+            return null;
+          }
 
-              if (typeof renderInput !== 'function') {
-                return null;
-              }
-
-              return renderInput({
-                error,
-                inputProps,
-                inputValue,
-              });
-            }}
-          </MenuToggle>
-          <MenuContent>
-            <Calendar
-              date={value}
-              firstDayOfWeek={firstDayOfWeek}
-              onChange={(nextValue) => {
-                onChange(nextValue);
-                onClose();
-              }}
-            />
-          </MenuContent>
-        </>
-      )}
+          return renderInput({
+            error,
+            inputProps,
+          });
+        }}
+      </MenuToggle>
+      <MenuContent>
+        <Calendar
+          date={mapFormattedValueToDate(value, inputFormat)}
+          firstDayOfWeek={firstDayOfWeek}
+          onChange={onCalendarChange}
+          onError={onCalendarError}
+        />
+      </MenuContent>
     </Menu>
   );
 });

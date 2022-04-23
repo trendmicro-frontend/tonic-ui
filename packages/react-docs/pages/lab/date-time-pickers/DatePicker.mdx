@@ -105,35 +105,40 @@ const DateInput = React.forwardRef((props, ref) => {
 });
 
 render(() => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState(new Date(''));
   const [inputFormat, changeInputFormatBy] = useSelection(inputFormats[0]);
   const [firstDayOfWeek, changeWeekStartDayBy] = useSelection(0);
-  const [readOnly, toggleReadOnly] = useToggle(true);
+  const [readOnly, toggleReadOnly] = useToggle(false);
 
   return (
     <>
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
-          Selected date: {value ? dateFns.format(value, inputFormat) : null}
+          Selected date: {dateFns.isValid(value) ? dateFns.format(value, inputFormat) : ''}
         </Text>
       </Box>
       <DatePicker
         firstDayOfWeek={firstDayOfWeek}
-        onChange={setValue}
+        onChange={(nextValue) => {
+          console.log('onChange:', nextValue);
+          setValue(nextValue);
+        }}
+        onError={(error, value) => {
+          console.log('onError:', error, value);
+        }}
         value={value}
         inputFormat={inputFormat}
         renderInput={({ error, inputProps }) => {
-          const _error = !!inputProps.value && error;
-
+          console.log('renderInput:', error, inputProps);
           return (
             <Box>
               <DateInput
                 {...inputProps}
-                error={_error}
+                error={error}
                 placeholder={inputFormat}
                 readOnly={readOnly}
               />
-              {_error && (
+              {error && (
                 <Text mt="1x" color="red:50">Invalid date</Text>
               )}
             </Box>
@@ -630,6 +635,6 @@ render(<Example />);
 | defaultValue | Date \| string | | The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`. |
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
 | inputFormat | string | 'yyyy-MM-dd' | The default date format is ISO 8601. <br/>'yyyy' = year<br/>'MM' = month<br/>'dd' = day |
-| onChange | (value) => void | | The callback function when the date is changed. The value is a `Date` object for the selected date. |
+| onChange | (value) => void | | A callback called when the date is changed. The value is a `Date` object for the selected date. |
 | renderInput | ({ error, inputProps }) => ReactNode | | A function that renders the date input. |
 | value | Date \| string | | The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`. |
