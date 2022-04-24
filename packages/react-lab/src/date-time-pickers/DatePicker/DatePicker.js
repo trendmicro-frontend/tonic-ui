@@ -126,7 +126,7 @@ const DatePicker = forwardRef((
     }
   }, [onErrorProp]);
 
-  const handleDateInputChange = useCallback((event) => {
+  const handleDateInputChange = useEventCallback((event) => {
     const inputValue = event.target.value;
     setInputValue(inputValue);
 
@@ -142,7 +142,7 @@ const DatePicker = forwardRef((
     }
   }, [inputFormat, valueProp, onChangeProp]);
 
-  const handleDateInputFocus = useCallback((event) => {
+  const handleDateInputFocus = useEventCallback((event) => {
     onOpen();
   }, [onOpen]);
 

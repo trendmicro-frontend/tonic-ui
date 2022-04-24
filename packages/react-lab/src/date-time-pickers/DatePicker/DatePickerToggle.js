@@ -1,5 +1,4 @@
 import { Box } from '@tonic-ui/react';
-import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useCallback } from 'react';
 import wrapEvent from '../../utils/wrapEvent';
 import useForkRef from '../../utils/useForkRef';
@@ -10,20 +9,20 @@ import useDatePicker from './useDatePicker';
 
 const DatePickerToggle = forwardRef((
   {
-    onClick: onClickProp,
-    onKeyDown: onKeyDownProp,
     children,
     disabled,
+    onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
     ...rest
   },
   ref,
 ) => {
   const datePickerContext = useDatePicker(); // context might be an undefined value
   const {
-    isOpen,
     datePickerContentId,
     datePickerToggleId,
     datePickerToggleRef,
+    isOpen,
     onClose,
     onOpen,
   } = { ...datePickerContext };
@@ -36,8 +35,8 @@ const DatePickerToggle = forwardRef((
       return;
     }
 
-    !isOpen && ensureFunction(onOpen)();
-  }, [disabled, isOpen, onOpen]));
+    onOpen?.();
+  }, [disabled, onOpen]));
 
   const handleKeyDown = wrapEvent(onKeyDownProp, useCallback((event) => {
     // Don't handle `onKeyDown` event when the `DatePickerToggle` is disabled
@@ -46,11 +45,16 @@ const DatePickerToggle = forwardRef((
       return;
     }
 
-    if (event.key === 'Escape') {
-      isOpen && ensureFunction(onClose)();
+    if (event.key === 'Enter') {
+      onOpen?.();
       return;
     }
-  }, [disabled, isOpen, onClose]));
+
+    if (event.key === 'Escape') {
+      onClose?.();
+      return;
+    }
+  }, [disabled, onClose, onOpen]));
 
   const getDatePickerToggleProps = () => ({
     'aria-controls': datePickerContentId,

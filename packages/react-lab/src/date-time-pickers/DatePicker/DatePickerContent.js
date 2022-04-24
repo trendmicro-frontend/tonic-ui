@@ -1,4 +1,5 @@
 import { Popper, Collapse } from '@tonic-ui/react';
+import { useEventCallback } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
 import {
   ensureArray,
@@ -17,7 +18,6 @@ const DatePickerContent = forwardRef((
     TransitionComponent = Collapse,
     TransitionProps,
     children,
-    onBlur: onBlurProp,
     onKeyDown: onKeyDownProp,
     ...rest
   },
@@ -37,30 +37,15 @@ const DatePickerContent = forwardRef((
     placement,
   } = { ...datePickerContext };
 
-  // Close the date picker on blur
-  const handleBlur = event => {
-    const target = event.relatedTarget || document.activeElement;
-    const isClickingOutside =
-      target &&
-      !(datePickerContentRef?.current?.contains(target)) &&
-      !(datePickerToggleRef?.current?.contains(target));
-    const shouldCloseDatePicker = isOpen && isClickingOutside;
-
-    if (shouldCloseDatePicker) {
-      ensureFunction(onClose)();
-    }
-  };
-
-  const handleKeyDown = event => {
+  const handleKeyDown = useEventCallback((event) => {
     if (event.key === 'Escape') {
       ensureFunction(onClose)();
     }
-  };
+  }, [onClose]);
 
   const styleProps = useDatePickerContentStyle();
 
   const eventHandlers = {
-    onBlur: wrapEvent(onBlurProp, handleBlur),
     onKeyDown: wrapEvent(onKeyDownProp, handleKeyDown),
   };
 
