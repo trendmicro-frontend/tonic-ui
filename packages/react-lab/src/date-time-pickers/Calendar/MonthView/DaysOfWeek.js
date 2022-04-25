@@ -4,25 +4,21 @@ import format from 'date-fns/format';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
 import useCalendar from '../useCalendar';
-import { useCellStyle } from '../styles';
+import { useDaysOfWeekStyle } from '../styles';
 
-const Weekdays = forwardRef((
-  props,
-  ref,
-) => {
+const DaysOfWeek = forwardRef((props, ref) => {
   const calendarContext = useCalendar();
   const {
     activeDate,
     firstDayOfWeek,
   } = { ...calendarContext };
-
   const startDateOfWeek = startOfWeek(
     activeDate,
     {
       weekStartsOn: firstDayOfWeek,
     }
   );
-  const styleProps = useCellStyle({});
+  const styleProps = useDaysOfWeekStyle();
 
   return (
     <Grid
@@ -42,7 +38,7 @@ const Weekdays = forwardRef((
               title={title}
               {...styleProps}
             >
-              { label }
+              {label}
             </Box>
           );
         })
@@ -51,6 +47,6 @@ const Weekdays = forwardRef((
   );
 });
 
-Weekdays.displayName = 'Weekdays';
+DaysOfWeek.displayName = 'DaysOfWeek';
 
-export default Weekdays;
+export default DaysOfWeek;

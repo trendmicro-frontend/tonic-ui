@@ -1,8 +1,11 @@
 import { Box } from '@tonic-ui/react';
 import { useConst, usePrevious } from '@tonic-ui/react-hooks';
+import endOfDay from 'date-fns/endOfDay';
+import isDate from 'date-fns/isDate';
 import isSameMonth from 'date-fns/isSameMonth';
 import isSameYear from 'date-fns/isSameYear';
 import isValid from 'date-fns/isValid';
+import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import isNullOrUndefined from '../../utils/isNullOrUndefined';
@@ -19,7 +22,17 @@ const mapValueToDate = (value) => {
     return null;
   }
   const date = new Date(value);
-  return isValid(date) ? date : null;
+  return (isDate(date) && isValid(date)) ? date : null;
+};
+
+const mapValueToStartOfDay = (value) => {
+  const date = mapValueToDate(value);
+  return (isDate(date) && isValid(date)) ? startOfDay(date) : null;
+};
+
+const mapValueToEndOfDay = (value) => {
+  const date = mapValueToDate(value);
+  return (isDate(date) && isValid(date)) ? endOfDay(date) : null;
 };
 
 const Calendar = forwardRef((
@@ -28,6 +41,8 @@ const Calendar = forwardRef((
     date: dateProp,
     defaultDate: defaultDateProp,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday, ...
+    maxDate: maxDateProp,
+    minDate: minDateProp,
     onChange: onChangeProp,
     onError: onErrorProp,
     ...rest
@@ -39,14 +54,16 @@ const Calendar = forwardRef((
     return mapValueToDate(value);
   });
   const initialActiveDate = useConst(() => {
-    const today = new Date();
+    const today = mapValueToStartOfDay(new Date());
     // Return initial date if it is valid, otherwise return today
     return isValid(initialDate) ? initialDate : today;
   });
   const [activeDate, setActiveDate] = useState(initialActiveDate);
   const [date, setDate] = useState(initialDate);
   const previousDate = usePrevious(date);
-  const validationError = validateDate(date, {});
+  const maxDate = mapValueToEndOfDay(maxDateProp);
+  const minDate = mapValueToStartOfDay(minDateProp);
+  const validationError = validateDate(date, { maxDate, minDate });
   const previousValidationError = usePrevious(validationError);
 
   useEffect(() => {
@@ -86,6 +103,8 @@ const Calendar = forwardRef((
     activeDate,
     date,
     firstDayOfWeek,
+    maxDate,
+    minDate,
     onChange,
     setActiveDate,
   });

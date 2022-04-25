@@ -1,41 +1,57 @@
+import { useEventCallback } from '@tonic-ui/react-hooks';
 import { Box } from '@tonic-ui/react';
 import getDate from 'date-fns/getDate';
+import isAfter from 'date-fns/isAfter';
+import isBefore from 'date-fns/isBefore';
+import isSameDay from 'date-fns/isSameDay';
+import isSameMonth from 'date-fns/isSameMonth';
 import React, { forwardRef } from 'react';
-import { useClickableCellStyle } from '../styles';
+import { useDayStyle } from '../styles';
 import useCalendar from '../useCalendar';
 
 const Day = forwardRef((
   {
     date,
-    isOutOfScope,
-    isSelected,
-    isToday,
     ...rest
   },
   ref,
 ) => {
   const calendarContext = useCalendar();
   const {
+    activeDate,
+    date: selectedDate,
+    maxDate,
+    minDate,
     onChange,
     setActiveDate,
   } = { ...calendarContext };
-
-  const styleProps = useClickableCellStyle({
-    isOutOfScope,
-    isSelected,
+  const isSelectable = (() => {
+    if (minDate && isBefore(date, minDate)) {
+      return false;
+    }
+    if (maxDate && isAfter(date, maxDate)) {
+      return false;
+    }
+    return true;
+  })();
+  const isSelected = isSameDay(date, new Date(selectedDate));
+  const isToday = isSameDay(date, new Date());
+  const styleProps = useDayStyle({
+    isSameMonth: isSameMonth(date, activeDate),
+    isSelectable,
     isToday,
   });
   const label = getDate(date);
-  const handleClick = (e) => {
+  const handleClick = useEventCallback((e) => {
     setActiveDate(date);
     onChange(date);
-  };
+  }, [date, setActiveDate, onChange]);
 
   return (
     <Box
       ref={ref}
       aria-selected={isSelected}
-      onClick={handleClick}
+      onClick={isSelectable ? handleClick : undefined}
       {...styleProps}
       {...rest}
     >

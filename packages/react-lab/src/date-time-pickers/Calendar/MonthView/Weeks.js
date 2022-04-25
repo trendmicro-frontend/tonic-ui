@@ -53,7 +53,7 @@ const Weeks = forwardRef((
       templateRows="auto"
       {...props}
     >
-      { weeks }
+      {weeks}
     </Grid>
   );
 });

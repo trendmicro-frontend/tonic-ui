@@ -1,8 +1,8 @@
 import { Box } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 import { useMonthViewStyle } from '../styles';
+import DaysOfWeek from './DaysOfWeek';
 import Weeks from './Weeks';
-import Weekdays from './Weekdays';
 
 const MonthView = forwardRef((
   props,
@@ -15,7 +15,7 @@ const MonthView = forwardRef((
       {...styleProps}
       {...props}
     >
-      <Weekdays />
+      <DaysOfWeek />
       <Weeks />
     </Box>
   );

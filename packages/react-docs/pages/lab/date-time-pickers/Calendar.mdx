@@ -41,8 +41,12 @@ render(() => {
   const today = useConst(() => new Date());
   const [dateSelection, changeDateSelectionBy] = useSelection('today');
   const [date, setDate] = React.useState(mapDateSelectionToDateObject(dateSelection));
+  const [maxDate, setMaxDate] = React.useState('');
+  const [minDate, setMinDate] = React.useState('');
   const [error, setError] = React.useState(null);
   const [firstDayOfWeek, changeWeekStartDayBy] = useSelection(0);
+  const dateFormat = 'yyyy-MM-dd';
+  const displayDate = dateFns.isValid(date) ? dateFns.format(date, dateFormat) : '';
 
   React.useEffect(() => {
     setDate(mapDateSelectionToDateObject(dateSelection));
@@ -58,23 +62,21 @@ render(() => {
           <Text color="red:50">{error}</Text>
         )}
         {!error && (
-          <Text>{dateFns.isValid(date) && dateFns.format(date, 'yyyy-MM-dd')}</Text>
+          <Text>{displayDate}</Text>
         )}
       </Flex>
       <Calendar
         date={date}
         firstDayOfWeek={firstDayOfWeek}
+        maxDate={maxDate ? new Date(maxDate) : undefined}
+        minDate={minDate ? new Date(minDate) : undefined}
         onChange={(nextDate) => {
           console.log('onChange:', nextDate);
           setDate(nextDate);
         }}
         onError={(error, value) => {
           console.log('onError:', error);
-          if (error) {
-            setError(error);
-          } else {
-            setError(null);
-          }
+          setError(error);
         }}
       />
       <Divider my="4x" />
@@ -110,6 +112,32 @@ render(() => {
             </Button>
           ))}
         </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            minDate={minDate ? `{new Date('${minDate}'}}` : ''}
+          </TextLabel>
+        </Box>
+        <Input
+          type="date"
+          value={minDate}
+          onChange={(e) => setMinDate(e.target.value)}
+          width="auto"
+        />
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            maxDate={maxDate ? `{new Date('${maxDate}'}}` : ''}
+          </TextLabel>
+        </Box>
+        <Input
+          type="date"
+          value={maxDate}
+          onChange={(e) => setMaxDate(e.target.value)}
+          width="auto"
+        />
       </FormGroup>
       <FormGroup>
         <Box mb="2x">
@@ -151,5 +179,7 @@ render(() => {
 | date | Date | | The selected date. |
 | defaultDate | Date | | The default selected date. |
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
+| minDate | Date | | The minimum date that can be selected. |
+| maxDate | Date | | The maximum date that can be selected. |
 | onChange | (value) => void | | A callback called when the selected date changes. The value is a `Date` object for the selected date. |
 | onError | (error, value) => void | | An error-first callback called when the date validation returns an error (or the date is valid after error). The error is a string and the value is a `Date` object for the selected date. |
