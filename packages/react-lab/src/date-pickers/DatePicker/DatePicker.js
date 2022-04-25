@@ -13,7 +13,7 @@ import isNullOrUndefined from '../../utils/isNullOrUndefined';
 import useAutoId from '../../utils/useAutoId';
 import useForkRef from '../../utils/useForkRef';
 import Calendar from '../Calendar';
-import { validateDate } from '../Calendar/validation';
+import { validateDate } from '../validation';
 import DatePickerContent from './DatePickerContent';
 import DatePickerToggle from './DatePickerToggle';
 import { DatePickerProvider } from './context';

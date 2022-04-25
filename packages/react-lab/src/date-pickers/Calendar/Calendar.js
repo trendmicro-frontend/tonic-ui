@@ -9,11 +9,11 @@ import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import isNullOrUndefined from '../../utils/isNullOrUndefined';
+import { validateDate } from '../validation';
 import { CalendarProvider } from './context';
 import MonthView from './MonthView';
 import Navigation from './Navigation';
 import { useCalendarStyle } from './styles';
-import { validateDate } from './validation';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 

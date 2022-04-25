@@ -332,10 +332,10 @@ const routes = [
     path: 'lab',
     routes: [
       { title: 'Getting Started', path: 'lab' },
-      { title: 'DATE & TIME PICKERS', heading: true },
-      { title: 'Overview', path: 'lab/date-time-pickers' },
-      { title: 'Calendar', path: 'lab/date-time-pickers/Calendar' },
-      { title: 'DatePicker', path: 'lab/date-time-pickers/DatePicker' },
+      { title: 'DATE PICKERS', heading: true },
+      { title: 'Overview', path: 'lab/date-pickers' },
+      { title: 'Calendar', path: 'lab/date-pickers/Calendar' },
+      { title: 'DatePicker', path: 'lab/date-pickers/DatePicker' },
     ],
   },
 ];
