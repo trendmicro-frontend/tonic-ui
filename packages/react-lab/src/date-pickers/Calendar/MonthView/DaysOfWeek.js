@@ -1,6 +1,5 @@
 import { Box, Grid } from '@tonic-ui/react';
 import addDays from 'date-fns/addDays';
-import format from 'date-fns/format';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
 import useCalendar from '../useCalendar';
@@ -11,13 +10,11 @@ const DaysOfWeek = forwardRef((props, ref) => {
   const {
     activeDate,
     firstDayOfWeek,
+    formatDate,
   } = { ...calendarContext };
-  const startDateOfWeek = startOfWeek(
-    activeDate,
-    {
-      weekStartsOn: firstDayOfWeek,
-    }
-  );
+  const startDateOfWeek = startOfWeek(activeDate, {
+    weekStartsOn: firstDayOfWeek,
+  });
   const styleProps = useDaysOfWeekStyle();
 
   return (
@@ -30,8 +27,8 @@ const DaysOfWeek = forwardRef((props, ref) => {
       {
         [0, 1, 2, 3, 4, 5, 6].map((offset) => {
           const day = addDays(startDateOfWeek, offset);
-          const title = format(day, 'EEEE');
-          const label = format(day, 'EEEEEE');
+          const title = formatDate(day, 'EEEE');
+          const label = formatDate(day, 'EEEEEE');
           return (
             <Box
               key={offset}

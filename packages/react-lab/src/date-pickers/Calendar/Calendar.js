@@ -1,6 +1,7 @@
 import { Box } from '@tonic-ui/react';
 import { useConst, usePrevious } from '@tonic-ui/react-hooks';
 import endOfDay from 'date-fns/endOfDay';
+import format from 'date-fns/format';
 import isDate from 'date-fns/isDate';
 import isSameMonth from 'date-fns/isSameMonth';
 import isSameYear from 'date-fns/isSameYear';
@@ -41,6 +42,7 @@ const Calendar = forwardRef((
     date: dateProp,
     defaultDate: defaultDateProp,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday, ...
+    formatDate: formatDateProp,
     maxDate: maxDateProp,
     minDate: minDateProp,
     onChange: onChangeProp,
@@ -62,6 +64,15 @@ const Calendar = forwardRef((
   const [activeDate, setActiveDate] = useState(initialActiveDate);
   const [date, setDate] = useState(initialDate);
   const previousDate = usePrevious(date);
+  const formatDate = useCallback((_date, _format, _options) => {
+    if (!_date) {
+      return null;
+    }
+    if (typeof formatDateProp === 'function') {
+      return formatDateProp(_date, _format, _options);
+    }
+    return format(_date, _format, _options);
+  }, [formatDateProp]);
   const maxDate = mapValueToEndOfDay(maxDateProp);
   const minDate = mapValueToStartOfDay(minDateProp);
   const validationError = validateDate(date, { maxDate, minDate, shouldDisableDate });
@@ -104,6 +115,7 @@ const Calendar = forwardRef((
     activeDate,
     date,
     firstDayOfWeek,
+    formatDate,
     maxDate,
     minDate,
     onChange,

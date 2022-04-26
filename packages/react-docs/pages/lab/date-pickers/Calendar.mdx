@@ -52,12 +52,17 @@ render(() => {
   const [date, setDate] = React.useState(mapDateOptionToDateObject(dateOption));
   const [maxDate, setMaxDate] = React.useState('');
   const [minDate, setMinDate] = React.useState('');
+  const [locale, setLocale] = React.useState('enUS');
   const [error, setError] = React.useState();
   const [dateOption, changeDateOptionBy] = useSelection('none');
   const [firstDayOfWeek, changeFirstDayOfWeekBy] = useSelection(0);
   const [shouldDisableDateOption, changeShouldDisableDateOptionBy] = useSelection('none');
   const dateFormat = 'yyyy-MM-dd';
   const displayDate = dateFns.isValid(date) ? dateFns.format(date, dateFormat) : '';
+  const onChangeLocale = (event) => {
+    const value = event.target.getAttribute('value');
+    setLocale(value);
+  };
 
   React.useEffect(() => {
     setDate(mapDateOptionToDateObject(dateOption));
@@ -79,6 +84,12 @@ render(() => {
       <Calendar
         date={date}
         firstDayOfWeek={firstDayOfWeek}
+        formatDate={(date, format) => {
+          const options = {
+            locale: locale && dateFnsLocale[locale],
+          };
+          return dateFns.format(date, format, options);
+        }}
         maxDate={maxDate ? new Date(maxDate) : undefined}
         minDate={minDate ? new Date(minDate) : undefined}
         onChange={(nextDate) => {
@@ -90,7 +101,6 @@ render(() => {
           setError(error);
         }}
         shouldDisableDate={(date) => {
-          console.log('shouldDisableDate:', date, shouldDisableDateOption);
           if (shouldDisableDateOption === 'weekdays') {
             return disableWeekdays(date);
           }
@@ -101,6 +111,30 @@ render(() => {
         }}
       />
       <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Locale
+        </Text>
+      </Box>
+      <FormGroup>
+        <Menu>
+          <MenuButton>
+            {locale && dateFnsLocale[locale].code}
+          </MenuButton>
+          <MenuList
+            onClick={onChangeLocale}
+            maxHeight={240}
+            width="max-content"
+            overflowY="auto"
+          >
+            {Object.keys(dateFnsLocale).map((locale) => (
+              <MenuItem key={locale} value={locale}>
+                {dateFnsLocale[locale].code}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
+      </FormGroup>
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
           Calendar props
@@ -234,6 +268,7 @@ render(() => {
 | date | Date | | The selected date. |
 | defaultDate | Date | | The default selected date. |
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
+| formatDate | function | | A callback called to return the formatted date string in the given format.<br/><br/><b>Signature</b><br/>`function(date, format, options) => void`<br/>_date_: The original date.<br/>_format_: The string of [format tokens](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table).<br/>_options_: An object with options. |
 | minDate | Date | | The minimum date that can be selected. |
 | maxDate | Date | | The maximum date that can be selected. |
 | onChange | function | | A callback called when the value (the selected date) changes.<br/><br/><b>Signature:</b><br/>`function(value) => void`<br/>_value_: The selected date. |

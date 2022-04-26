@@ -30,15 +30,16 @@ const useCalendarStyle = () => {
 
 const useNavigationStyle = () => {
   return {
+    display: 'flex',
     flex: 'none',
     mb: '3x',
   };
 };
 
-const useNavigationTitleStyle = () => {
+const useNavigationCurrentMonthYearStyle = () => {
   return {
-    flexGrow: 1,
     display: 'flex',
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 'md',
@@ -52,13 +53,10 @@ const useNavigationTitleStyle = () => {
   };
 };
 
-const useNavigationYearButtonWrapperStyle = () => {
+const useNavigationMonthButtonStyle = () => {
   return {
-    display: 'inline-flex',
-    flexDirection: 'column',
-    ml: '2x',
-    opacity: 0,
-    visibility: 'hidden',
+    width: '8x',
+    height: '8x',
   };
 };
 
@@ -85,10 +83,13 @@ const useNavigationYearButtonStyle = () => {
   };
 };
 
-const useNavigationMonthButtonStyle = () => {
+const useNavigationYearButtonGroupStyle = () => {
   return {
-    width: '8x',
-    height: '8x',
+    display: 'inline-flex',
+    flexDirection: 'column',
+    ml: '2x',
+    opacity: 0,
+    visibility: 'hidden',
   };
 };
 
@@ -181,10 +182,10 @@ const useDaysOfWeekStyle = () => {
 export {
   useCalendarStyle,
   useNavigationStyle,
-  useNavigationTitleStyle,
-  useNavigationYearButtonStyle,
-  useNavigationYearButtonWrapperStyle,
+  useNavigationCurrentMonthYearStyle,
   useNavigationMonthButtonStyle,
+  useNavigationYearButtonStyle,
+  useNavigationYearButtonGroupStyle,
   useMonthViewStyle,
   useDayStyle,
   useDaysOfWeekStyle,
