@@ -4,7 +4,7 @@ import isValid from 'date-fns/isValid';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
 
 const validateDate = (value, props) => {
-  const { maxDate, minDate } = { ...props };
+  const { maxDate, minDate, shouldDisableDate } = { ...props };
 
   if (isNullOrUndefined(value)) {
     return undefined; // not selected
@@ -20,15 +20,19 @@ const validateDate = (value, props) => {
   }
 
   if (maxDate && minDate && (isBefore(date, minDate) || isAfter(date, maxDate))) {
-    return '"date" must not be before "minDate" or after "maxDate"';
+    return 'Invalid date range';
   }
 
   if (maxDate && isAfter(date, maxDate)) {
-    return '"date" must not be after "maxDate"';
+    return 'Invalid date range';
   }
 
   if (minDate && isBefore(date, minDate)) {
-    return '"date" must not be before "minDate"';
+    return 'Invalid date range';
+  }
+
+  if (shouldDisableDate?.(date) === true) {
+    return 'Disabled date';
   }
 
   return undefined;

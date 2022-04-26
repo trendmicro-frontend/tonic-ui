@@ -31,26 +31,37 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
-const mapDateSelectionToDateObject = (dateSelection) => ({
-  'today': new Date(),
+const mapDateOptionToDateObject = (dateOption) => ({
   'none': null,
+  'today': new Date(),
   'invalid': new Date(''),
-}[dateSelection]);
+}[dateOption]);
+
+const disableWeekdays = (date) => {
+  const day = date.getDay();
+  return (day > 0) && (day < 6);
+};
+
+const disableWeekends = (date) => {
+  const day = date.getDay();
+  return (day === 0) || (day === 6);
+};
 
 render(() => {
   const today = useConst(() => new Date());
-  const [dateSelection, changeDateSelectionBy] = useSelection('today');
-  const [date, setDate] = React.useState(mapDateSelectionToDateObject(dateSelection));
+  const [date, setDate] = React.useState(mapDateOptionToDateObject(dateOption));
   const [maxDate, setMaxDate] = React.useState('');
   const [minDate, setMinDate] = React.useState('');
   const [error, setError] = React.useState();
-  const [firstDayOfWeek, changeWeekStartDayBy] = useSelection(0);
+  const [dateOption, changeDateOptionBy] = useSelection('none');
+  const [firstDayOfWeek, changeFirstDayOfWeekBy] = useSelection(0);
+  const [shouldDisableDateOption, changeShouldDisableDateOptionBy] = useSelection('none');
   const dateFormat = 'yyyy-MM-dd';
   const displayDate = dateFns.isValid(date) ? dateFns.format(date, dateFormat) : '';
 
   React.useEffect(() => {
-    setDate(mapDateSelectionToDateObject(dateSelection));
-  }, [dateSelection]);
+    setDate(mapDateOptionToDateObject(dateOption));
+  }, [dateOption]);
 
   return (
     <>
@@ -78,6 +89,16 @@ render(() => {
           console.log('onError:', error);
           setError(error);
         }}
+        shouldDisableDate={(date) => {
+          console.log('shouldDisableDate:', date, shouldDisableDateOption);
+          if (shouldDisableDateOption === 'weekdays') {
+            return disableWeekdays(date);
+          }
+          if (shouldDisableDateOption === 'weekends') {
+            return disableWeekends(date);
+          }
+          return false;
+        }}
       />
       <Divider my="4x" />
       <Box mb="4x">
@@ -88,9 +109,7 @@ render(() => {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
-            {dateSelection === 'today' && `date={new Date()}`}
-            {dateSelection === 'none' && `date={null}`}
-            {dateSelection === 'invalid' && `date={new Date('')}`}
+            firstDayOfWeek
           </TextLabel>
         </Box>
         <ButtonGroup
@@ -101,14 +120,46 @@ render(() => {
             }
           }}
         >
-          {['today', 'none', 'invalid'].map(value => (
+          {[0, 1, 2, 3, 4, 5, 6].map(value => (
             <Button
               key={value}
-              selected={value === dateSelection}
-              onClick={changeDateSelectionBy(value)}
+              selected={value === firstDayOfWeek}
+              onClick={changeFirstDayOfWeekBy(value)}
               minWidth="15x"
             >
               {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            {dateOption === 'none' && `date={null}`}
+            {dateOption === 'today' && `date={new Date()}`}
+            {dateOption === 'invalid' && `date={new Date('')}`}
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['none', 'today', 'invalid'].map(value => (
+            <Button
+              key={value}
+              selected={value === dateOption}
+              onClick={changeDateOptionBy(value)}
+              minWidth="15x"
+            >
+              {{
+                'none': 'None',
+                'today': 'Today',
+                'invalid': 'Invalid Date',
+              }[value]}
             </Button>
           ))}
         </ButtonGroup>
@@ -142,7 +193,7 @@ render(() => {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
-            firstDayOfWeek
+            shouldDisableDate
           </TextLabel>
         </Box>
         <ButtonGroup
@@ -153,14 +204,18 @@ render(() => {
             }
           }}
         >
-          {[0, 1, 2, 3, 4, 5, 6].map(value => (
+          {['none', 'weekdays', 'weekends'].map(value => (
             <Button
               key={value}
-              selected={value === firstDayOfWeek}
-              onClick={changeWeekStartDayBy(value)}
+              selected={value === shouldDisableDateOption}
+              onClick={changeShouldDisableDateOptionBy(value)}
               minWidth="15x"
             >
-              {value}
+              {{
+                'none': 'None',
+                'weekdays': 'Disable Weekdays',
+                'weekends': 'Disable Weekends',
+              }[value]}
             </Button>
           ))}
         </ButtonGroup>
@@ -181,5 +236,6 @@ render(() => {
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
 | minDate | Date | | The minimum date that can be selected. |
 | maxDate | Date | | The maximum date that can be selected. |
-| onChange | (value) => void | | A callback called when the selected date changes. The value is a `Date` object for the selected date. |
-| onError | (error, value) => void | | An error-first callback called when the date validation returns an error (or the date is valid after error). The error is a string and the value is a `Date` object for the selected date. |
+| onChange | function | | A callback called when the value (the selected date) changes.<br/><br/><b>Signature:</b><br/>`function(value) => void`<br/>_value_: The selected date. |
+| onError | function | | An error-first callback called when the date validation returns an error (or the date is valid after error).<br/><br/><b>Signature</b><br/>`function(error, value) => void`<br/>_error_: The error message. It will be `undefined` if the date is valid after error.<br/>_value_: The selected date. |
+| shouldDisableDate | function | | Disable specific date.<br/><br/><b>Signature:</b><br/>`function(date) => boolean`<br/>_date_: The date to check.<br/>_returns (boolean)_: Return `true` if the date will be disabled. |

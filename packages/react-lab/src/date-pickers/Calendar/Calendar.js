@@ -45,6 +45,7 @@ const Calendar = forwardRef((
     minDate: minDateProp,
     onChange: onChangeProp,
     onError: onErrorProp,
+    shouldDisableDate,
     ...rest
   },
   ref,
@@ -63,7 +64,7 @@ const Calendar = forwardRef((
   const previousDate = usePrevious(date);
   const maxDate = mapValueToEndOfDay(maxDateProp);
   const minDate = mapValueToStartOfDay(minDateProp);
-  const validationError = validateDate(date, { maxDate, minDate });
+  const validationError = validateDate(date, { maxDate, minDate, shouldDisableDate });
   const previousValidationError = usePrevious(validationError);
 
   useEffect(() => {
@@ -107,6 +108,7 @@ const Calendar = forwardRef((
     minDate,
     onChange,
     setActiveDate,
+    shouldDisableDate,
   });
   const styleProps = useCalendarStyle();
 

@@ -78,6 +78,7 @@ const DatePicker = forwardRef((
     onError: onErrorProp,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
     renderInput,
+    shouldDisableDate,
     value: valueProp,
     ...rest
   },
@@ -134,7 +135,7 @@ const DatePicker = forwardRef((
 
   // Perform validation check
   useEffect(() => {
-    const validationError = validateDate(value, { maxDate, minDate });
+    const validationError = validateDate(value, { maxDate, minDate, shouldDisableDate });
     if (error !== validationError) {
       setError(validationError);
       if (typeof onErrorProp === 'function') {
@@ -243,6 +244,7 @@ const DatePicker = forwardRef((
             maxDate={maxDate}
             onChange={onCalendarChange}
             onError={onCalendarError}
+            shouldDisableDate={shouldDisableDate}
           />
         </DatePickerContent>
       </Box>

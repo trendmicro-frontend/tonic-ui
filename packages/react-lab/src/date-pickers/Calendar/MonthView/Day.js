@@ -24,12 +24,16 @@ const Day = forwardRef((
     minDate,
     onChange,
     setActiveDate,
+    shouldDisableDate,
   } = { ...calendarContext };
   const isSelectable = (() => {
     if (minDate && isBefore(date, minDate)) {
       return false;
     }
     if (maxDate && isAfter(date, maxDate)) {
+      return false;
+    }
+    if (shouldDisableDate?.(date)) {
       return false;
     }
     return true;
