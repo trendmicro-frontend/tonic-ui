@@ -63,6 +63,24 @@ const DateInput = React.forwardRef((props, ref) => {
 ## Usage
 
 ```jsx noInline
+const CodeBlock = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.secondary}
+      border={1}
+      borderColor={colorStyle.divider}
+      fontFamily="mono"
+      py="3x"
+      px="3x"
+      whiteSpace="pre"
+      {...props}
+    />
+  );
+};
+
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
@@ -136,6 +154,11 @@ render(() => {
   const [value, setValue] = React.useState(mapDateOptionToDateObject(dateOption));
   const [error, setError] = React.useState();
   const displayDate = dateFns.isValid(value) ? dateFns.format(value, inputFormat) : '';
+  const [locale, setLocale] = React.useState('enUS');
+  const onChangeLocale = (event) => {
+    const value = event.target.getAttribute('value');
+    setLocale(value);
+  };
 
   React.useEffect(() => {
     setValue(mapDateOptionToDateObject(dateOption));
@@ -143,19 +166,30 @@ render(() => {
 
   return (
     <>
-      <Flex mb="4x" columnGap="2x">
-        <Text>
-          Selected date:
-        </Text>
-        {error && (
-          <Text color="red:50">{error}</Text>
-        )}
-        {!error && (
-          <Text>{displayDate}</Text>
-        )}
-      </Flex>
+      <FormGroup>
+        <Flex
+          alignItems="center"
+          columnGap="2x"
+        >
+          <TextLabel>
+            Selected date:
+          </TextLabel>
+          {error && (
+            <Text color="red:50">{error}</Text>
+          )}
+          {!error && (
+            <Text>{displayDate}</Text>
+          )}
+        </Flex>
+      </FormGroup>
       <DatePicker
         firstDayOfWeek={firstDayOfWeek}
+        formatDate={(date, format) => {
+          const options = {
+            locale: locale && dateFnsLocale[locale],
+          };
+          return dateFns.format(date, format, options);
+        }}
         maxDate={maxDate ? new Date(maxDate) : undefined}
         minDate={minDate ? new Date(minDate) : undefined}
         onChange={(nextValue) => {
@@ -195,6 +229,60 @@ render(() => {
           );
         }}
       />
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Localization
+        </Text>
+      </Box>
+      <FormGroup>
+        <Flex
+          alignItems="center"
+          columnGap="2x"
+        >
+          <TextLabel>
+            Locale:
+          </TextLabel>
+          <Menu>
+            <MenuButton variant="secondary" minWidth={100}>
+              {locale && dateFnsLocale[locale].code}
+            </MenuButton>
+            <MenuList
+              onClick={(event) => {
+                const value = event.target.getAttribute('value');
+                setLocale(value);
+              }}
+              maxHeight={240}
+              minWidth={100}
+              overflowY="auto"
+            >
+              {Object.keys(dateFnsLocale).map((locale) => (
+                <MenuItem key={locale} value={locale}>
+                  {dateFnsLocale[locale].code}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+          <LinkButton onClick={() => setLocale('enUS')}>
+            Reset
+          </LinkButton>
+        </Flex>
+      </FormGroup>
+      <Flex
+        direction="column"
+        mb="4x"
+        rowGap="3x"
+      >
+        <TextLabel>
+          You can use the <Code>formatDate</Code> prop to return a formatted date string in the given format and locale.
+        </TextLabel>
+        <CodeBlock>
+          {`// format\nimport format from 'date-fns/format';\n\n// locale\nimport enLocale from 'date-fns/locale/en-US'; // English (United States)\nimport deLocale from 'date-fns/locale/de'; // Deutsch\nimport esLocale from 'date-fns/locale/es'; // Español\nimport frLocale from 'date-fns/locale/fr'; // Français\nimport itLocale from 'date-fns/locale/it'; // Italiano\nimport jaLocale from 'date-fns/locale/ja'; // 日本語\nimport koLocale from 'date-fns/locale/ko'; // 한국어\nimport zhCNLocale from 'date-fns/locale/zh-CN'; // 简体中文\nimport zhTWLocale from 'date-fns/locale/zh-TW'; // 繁體中文`}
+        </CodeBlock>
+        <CodeBlock>
+          {`// DatePicker component\nformatDate={(date, format, options) => {\n  return format(date, format, { locale: enLocale });\n}}`}
+        </CodeBlock>
+      </Flex>
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
@@ -772,6 +860,7 @@ render(<Example />);
 | :--- | :--- | :------ | :---------- |
 | defaultValue | Date \| string | | The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`. |
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
+| formatDate | function | | A callback called to return the formatted date string in the given format.<br/><br/><b>Signature</b><br/>`function(date, format, options) => void`<br/>_date_: The original date.<br/>_format_: The string of [format tokens](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table).<br/>_options_: An object with options. |
 | inputFormat | string | 'yyyy-MM-dd' | The default date format is ISO 8601 (`yyyy-MM-dd`). You can change the input format in accordance with the locale. The input value will be parsed to a `Date` object with `dd` as day, `MM` as month, and `yyyy` as year. |
 | offset | [skidding, distance] | [0, 0] | The skidding and distance of the date picker. |
 | minDate | Date | | The minimum date that can be selected. |

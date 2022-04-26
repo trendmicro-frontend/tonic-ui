@@ -1,6 +1,5 @@
-import { useEventCallback } from '@tonic-ui/react-hooks';
 import { Box } from '@tonic-ui/react';
-import getDate from 'date-fns/getDate';
+import { useEventCallback } from '@tonic-ui/react-hooks';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
@@ -20,6 +19,7 @@ const Day = forwardRef((
   const {
     activeDate,
     date: selectedDate,
+    formatDate,
     maxDate,
     minDate,
     onChange,
@@ -45,7 +45,6 @@ const Day = forwardRef((
     isSelectable,
     isToday,
   });
-  const label = getDate(date);
   const handleClick = useEventCallback((e) => {
     setActiveDate(date);
     onChange(date);
@@ -59,7 +58,7 @@ const Day = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {label}
+      {formatDate(date, 'd')}
     </Box>
   );
 });

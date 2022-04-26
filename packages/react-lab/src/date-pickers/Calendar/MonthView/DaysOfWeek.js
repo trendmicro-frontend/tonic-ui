@@ -27,15 +27,13 @@ const DaysOfWeek = forwardRef((props, ref) => {
       {
         [0, 1, 2, 3, 4, 5, 6].map((offset) => {
           const day = addDays(startDateOfWeek, offset);
-          const title = formatDate(day, 'EEEE');
-          const label = formatDate(day, 'EEEEEE');
           return (
             <Box
               key={offset}
-              title={title}
+              title={formatDate(day, 'EEEE')}
               {...styleProps}
             >
-              {label}
+              {formatDate(day, 'EEEEEE')}
             </Box>
           );
         })

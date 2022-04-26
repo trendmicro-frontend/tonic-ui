@@ -70,6 +70,7 @@ const DatePicker = forwardRef((
     children, // not used
     defaultValue: defaultValueProp,
     firstDayOfWeek,
+    formatDate,
     inputFormat = 'yyyy-MM-dd',
     offset,
     minDate: minDateProp,
@@ -240,6 +241,7 @@ const DatePicker = forwardRef((
           <Calendar
             date={mapFormattedValueToDate(value, inputFormat)}
             firstDayOfWeek={firstDayOfWeek}
+            formatDate={formatDate}
             minDate={minDate}
             maxDate={maxDate}
             onChange={onCalendarChange}
