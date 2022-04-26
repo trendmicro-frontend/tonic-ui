@@ -142,7 +142,7 @@ const DatePicker = forwardRef((
         onErrorProp(validationError, value);
       }
     }
-  }, [error, value, minDate, maxDate, onErrorProp]);
+  }, [error, value, minDate, maxDate, shouldDisableDate, onErrorProp]);
 
   const onCalendarChange = useCallback((nextDate) => {
     const isControlled = (valueProp !== undefined);
