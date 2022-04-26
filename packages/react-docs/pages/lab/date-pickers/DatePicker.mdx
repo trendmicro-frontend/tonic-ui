@@ -16,16 +16,19 @@ The following example demonstrates a simple example of the `DatePicker` componen
 
 ```jsx disabled
 <DatePicker
-  dateFormat="yyyy-MM-dd"
+  inputFormat="yyyy-MM-dd"
   value={value}
   onChange={(nextValue) => {
     setValue(nextValue);
   }}
+  onError={(error, value) => {
+    console.log(error, value);
+  }}
   renderInput={({ error, inputProps }) => (
     <DateInput
       {...inputProps}
+      error={error}
       placeholder="yyyy-MM-dd"
-      error={!!inputProps.value && error}
       readOnly
     />
   )}
@@ -60,11 +63,29 @@ const DateInput = React.forwardRef((props, ref) => {
 ## Usage
 
 ```jsx noInline
+const CodeBlock = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.secondary}
+      border={1}
+      borderColor={colorStyle.divider}
+      fontFamily="mono"
+      py="3x"
+      px="3x"
+      whiteSpace="pre"
+      {...props}
+    />
+  );
+};
+
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
-const dateFormatOptions = [
+const inputFormats = [
   'yyyy-MM-dd', // ISO 8601
   'MM/dd/yyyy', // USA
   'dd.MM.yyyy', // Worldwide
@@ -104,36 +125,104 @@ const DateInput = React.forwardRef((props, ref) => {
   );
 });
 
+const mapDateOptionToDateObject = (dateOption) => ({
+  'none': null,
+  'today': new Date(),
+  'invalid': new Date(''),
+}[dateOption]);
+
+const disableWeekdays = (date) => {
+  const day = date.getDay();
+  return (day > 0) && (day < 6);
+};
+
+const disableWeekends = (date) => {
+  const day = date.getDay();
+  return (day === 0) || (day === 6);
+};
+
 render(() => {
-  const [value, setValue] = React.useState();
-  const [dateFormat, changeDateFormatBy] = useSelection(dateFormatOptions[0]);
-  const [firstDayOfWeek, changeWeekStartDayBy] = useSelection(0);
-  const [readOnly, toggleReadOnly] = useToggle(true);
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [maxDate, setMaxDate] = React.useState('');
+  const [minDate, setMinDate] = React.useState('');
+  const [dateOption, changeDateOptionBy] = useSelection('none');
+  const [firstDayOfWeek, changeFirstDayOfWeekBy] = useSelection(0);
+  const [inputFormat, changeInputFormatBy] = useSelection(inputFormats[0]);
+  const [shouldDisableDateOption, changeShouldDisableDateOptionBy] = useSelection('none');
+  const [readOnly, toggleReadOnly] = useToggle(false);
+  const [value, setValue] = React.useState(mapDateOptionToDateObject(dateOption));
+  const [error, setError] = React.useState();
+  const displayDate = dateFns.isValid(value) ? dateFns.format(value, inputFormat) : '';
+  const [locale, setLocale] = React.useState('enUS');
+  const onChangeLocale = (event) => {
+    const value = event.target.getAttribute('value');
+    setLocale(value);
+  };
+
+  React.useEffect(() => {
+    setValue(mapDateOptionToDateObject(dateOption));
+  }, [dateOption]);
 
   return (
     <>
-      <Box mb="4x">
-        <Text fontSize="lg" lineHeight="lg">
-          Selected date: {value ? dateFns.format(value, dateFormat) : null}
-        </Text>
-      </Box>
+      <FormGroup>
+        <Flex
+          alignItems="center"
+          columnGap="2x"
+        >
+          <TextLabel>
+            Selected date:
+          </TextLabel>
+          {error && (
+            <Text color="red:50">{error}</Text>
+          )}
+          {!error && (
+            <Text>{displayDate}</Text>
+          )}
+        </Flex>
+      </FormGroup>
       <DatePicker
-        dateFormat={dateFormat}
         firstDayOfWeek={firstDayOfWeek}
-        onChange={setValue}
+        formatDate={(date, format) => {
+          const options = {
+            locale: locale && dateFnsLocale[locale],
+          };
+          return dateFns.format(date, format, options);
+        }}
+        maxDate={maxDate ? new Date(maxDate) : undefined}
+        minDate={minDate ? new Date(minDate) : undefined}
+        onChange={(nextValue) => {
+          console.log('onChange:', nextValue);
+          setValue(nextValue);
+        }}
+        onError={(error, value) => {
+          console.log('onError:', error, value);
+          setError(error);
+        }}
+        shouldDisableDate={(date) => {
+          console.log('shouldDisableDate:', date, shouldDisableDateOption);
+          if (shouldDisableDateOption === 'weekdays') {
+            return disableWeekdays(date);
+          }
+          if (shouldDisableDateOption === 'weekends') {
+            return disableWeekends(date);
+          }
+          return false;
+        }}
         value={value}
-        renderInput={({ error, inputProps }) => {
-          const _error = !!inputProps.value && error;
-
+        inputFormat={inputFormat}
+        renderInput={({ error: inputError, inputProps }) => {
+          console.log('renderInput:', inputError, inputProps);
           return (
             <Box>
               <DateInput
                 {...inputProps}
-                error={_error}
-                placeholder={dateFormat}
+                error={inputError}
+                placeholder={inputFormat}
                 readOnly={readOnly}
               />
-              {_error && (
+              {inputError && (
                 <Text mt="1x" color="red:50">Invalid date</Text>
               )}
             </Box>
@@ -143,35 +232,63 @@ render(() => {
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
-          DatePicker props
+          Localization
         </Text>
       </Box>
       <FormGroup>
-        <Box mb="2x">
-          <TextLabel>
-            dateFormat
-          </TextLabel>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          css={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            }
-          }}
+        <Flex
+          alignItems="center"
+          columnGap="2x"
         >
-          {dateFormatOptions.map(value => (
-            <Button
-              key={value}
-              selected={value === dateFormat}
-              onClick={changeDateFormatBy(value)}
-              minWidth="15x"
+          <TextLabel>
+            Locale:
+          </TextLabel>
+          <Menu>
+            <MenuButton variant="secondary" minWidth={100}>
+              {locale && dateFnsLocale[locale].code}
+            </MenuButton>
+            <MenuList
+              onClick={(event) => {
+                const value = event.target.getAttribute('value');
+                setLocale(value);
+              }}
+              maxHeight={240}
+              minWidth={100}
+              overflowY="auto"
             >
-              {value}
-            </Button>
-          ))}
-        </ButtonGroup>
+              {Object.keys(dateFnsLocale).map((locale) => (
+                <MenuItem key={locale} value={locale}>
+                  {dateFnsLocale[locale].code}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+          <LinkButton onClick={() => setLocale('enUS')}>
+            Reset
+          </LinkButton>
+        </Flex>
       </FormGroup>
+      <Flex
+        direction="column"
+        mb="4x"
+        rowGap="3x"
+      >
+        <TextLabel>
+          You can use the <Code>formatDate</Code> prop to return a formatted date string in the given format and locale.
+        </TextLabel>
+        <CodeBlock>
+          {`// format\nimport format from 'date-fns/format';\n\n// locale\nimport enLocale from 'date-fns/locale/en-US'; // English (United States)\nimport deLocale from 'date-fns/locale/de'; // Deutsch\nimport esLocale from 'date-fns/locale/es'; // Español\nimport frLocale from 'date-fns/locale/fr'; // Français\nimport itLocale from 'date-fns/locale/it'; // Italiano\nimport jaLocale from 'date-fns/locale/ja'; // 日本語\nimport koLocale from 'date-fns/locale/ko'; // 한국어\nimport zhCNLocale from 'date-fns/locale/zh-CN'; // 简体中文\nimport zhTWLocale from 'date-fns/locale/zh-TW'; // 繁體中文`}
+        </CodeBlock>
+        <CodeBlock>
+          {`// DatePicker component\nformatDate={(date, format, options) => {\n  return format(date, format, { locale: enLocale });\n}}`}
+        </CodeBlock>
+      </Flex>
+      <Divider my="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          DatePicker props
+        </Text>
+      </Box>
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
@@ -190,7 +307,121 @@ render(() => {
             <Button
               key={value}
               selected={value === firstDayOfWeek}
-              onClick={changeWeekStartDayBy(value)}
+              onClick={changeFirstDayOfWeekBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            {dateOption === 'none' && `value={null}`}
+            {dateOption === 'today' && `value={new Date()}`}
+            {dateOption === 'invalid' && `value={new Date('')}`}
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['none', 'today', 'invalid'].map(value => (
+            <Button
+              key={value}
+              selected={value === dateOption}
+              onClick={changeDateOptionBy(value)}
+              minWidth="15x"
+            >
+              {{
+                'none': 'None',
+                'today': 'Today',
+                'invalid': 'Invalid Date',
+              }[value]}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            minDate={minDate ? `{new Date('${minDate}'}}` : ''}
+          </TextLabel>
+        </Box>
+        <Input
+          type="date"
+          value={minDate}
+          onChange={(e) => setMinDate(e.target.value)}
+          width="auto"
+        />
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            maxDate={maxDate ? `{new Date('${maxDate}'}}` : ''}
+          </TextLabel>
+        </Box>
+        <Input
+          type="date"
+          value={maxDate}
+          onChange={(e) => setMaxDate(e.target.value)}
+          width="auto"
+        />
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            shouldDisableDate
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['none', 'weekdays', 'weekends'].map(value => (
+            <Button
+              key={value}
+              selected={value === shouldDisableDateOption}
+              onClick={changeShouldDisableDateOptionBy(value)}
+              minWidth="15x"
+            >
+              {{
+                'none': 'None',
+                'weekdays': 'Disable Weekdays',
+                'weekends': 'Disable Weekends',
+              }[value]}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            inputFormat
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {inputFormats.map(value => (
+            <Button
+              key={value}
+              selected={value === inputFormat}
+              onClick={changeInputFormatBy(value)}
               minWidth="15x"
             >
               {value}
@@ -201,7 +432,7 @@ render(() => {
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
-          Input props
+          DateInput props
         </Text>
       </Box>
       <FormGroup>
@@ -223,7 +454,7 @@ render(() => {
 
 ```jsx noInline
 const CustomDateInput = ({
-  dateFormat = 'yyyy-MM-dd',
+  inputFormat = 'yyyy-MM-dd',
   defaultValue,
   onChange,
   ...rest
@@ -238,9 +469,9 @@ const CustomDateInput = ({
 
   return (
     <DatePicker
-      dateFormat={dateFormat}
       value={value}
       onChange={handleChange}
+      inputFormat={inputFormat}
       renderInput={({ error, inputProps }) => {
         const _error = !!inputProps.value && error;
 
@@ -249,7 +480,7 @@ const CustomDateInput = ({
             {...inputProps}
             readOnly
             error={_error}
-            placeholder={dateFormat}
+            placeholder={inputFormat}
             borderTopRightRadius={0}
             borderBottomRightRadius={0}
             width={130}
@@ -301,7 +532,7 @@ const DateTimePicker = ({
   onApply,
   onClose,
 }) => {
-  const dateFormat = 'yyyy-MM-dd';
+  const inputFormat = 'yyyy-MM-dd';
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const [startDate, setStartDate] = React.useState(startDateProp);
@@ -398,7 +629,7 @@ const DateTimePicker = ({
         </Text>
         <Flex>
           <CustomDateInput
-            dateFormat={dateFormat}
+            inputFormat={inputFormat}
             isInvalid={!isValidDate(startDate)}
             defaultValue={startDate}
             onChange={handleStartDateChange}
@@ -414,7 +645,7 @@ const DateTimePicker = ({
         </Text>
         <Flex>
           <CustomDateInput
-            dateFormat={dateFormat}
+            inputFormat={inputFormat}
             isInvalid={!isValidDate(endDate)}
             value={endDate}
             onChange={handleEndDateChange}
@@ -480,7 +711,7 @@ const formatTime = (date) => {
 };
 
 function Example() {
-  const dateFormat = 'yyyy-MM-dd';
+  const inputFormat = 'yyyy-MM-dd';
   const today = new Date();
   const [state, setState] = React.useReducer(stateReducer, {
     value: '1d',
@@ -573,7 +804,7 @@ function Example() {
             <MenuList width="max-content">
               {state.isDateTimePickerVisible && (
                 <DateTimePicker
-                  dateFormat={dateFormat}
+                  inputFormat={inputFormat}
                   startDate={state.startDate}
                   startTime={state.startTime}
                   endDate={state.endDate}
@@ -627,10 +858,16 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| dateFormat | string | 'yyyy-MM-dd' | The default date format is ISO 8601. <br/>'yyyy' = year<br/>'MM' = month<br/>'dd' = day |
-| defaultValue | Date \| string | | The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `dateFormat`. |
-| value | Date \| string | | The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `dateFormat`. |
+| defaultValue | Date \| string | | The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`. |
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
-| onChange | (value) => void | | The callback function when the date is changed. The value is a `Date` object for the selected date. |
-| renderInput | ({ error, inputProps }) => ReactNode | | A function that renders the date input. |
-| value | Date \| string | | The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `dateFormat`. |
+| formatDate | function | | A callback called to return the formatted date string in the given format.<br/><br/><b>Signature</b><br/>`function(date, format, options) => void`<br/>_date_: The original date.<br/>_format_: The string of [format tokens](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table).<br/>_options_: An object with options. |
+| inputFormat | string | 'yyyy-MM-dd' | The default date format is ISO 8601 (`yyyy-MM-dd`). You can change the input format in accordance with the locale. The input value will be parsed to a `Date` object with `dd` as day, `MM` as month, and `yyyy` as year. |
+| offset | [skidding, distance] | [0, 0] | The skidding and distance of the date picker. |
+| minDate | Date | | The minimum date that can be selected. |
+| maxDate | Date | | The maximum date that can be selected. |
+| onChange | function | | A callback called when the value (the selected date) changes.<br/><br/><b>Signature:</b><br/>`function(value) => void`<br/>_value_: The selected date. |
+| onError | function | | An error-first callback called when the date validation returns an error (or the date is valid after error).<br/><br/><b>Signature</b><br/>`function(error, value) => void`<br/>_error_: The error message. It will be `undefined` if the date is valid after error.<br/>_value_: The selected date. |
+| placement | string | 'bottom-start' | The placement of the date picker. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+| renderInput | function | | The `renderInput` prop allows you to customize the rendered input.<br/>The `props` argument of this render prop contains props of [InputControl](../../components/inputcontrol) that you need to forward.<br/><br/><b>Signature:</b><br/>`function(props) => ReactNode`<br/>_props_: The props of the input.<br/>_returns (ReactNode)_: The node to render as the input. |
+| shouldDisableDate | function | | Disable specific date.<br/><br/><b>Signature:</b><br/>`function(date) => boolean`<br/>_date_: The date to check.<br/>_returns (boolean)_: Return `true` if the date will be disabled. |
+| value | Date \| string | | The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`. |

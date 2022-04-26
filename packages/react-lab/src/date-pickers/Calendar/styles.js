@@ -30,15 +30,16 @@ const useCalendarStyle = () => {
 
 const useNavigationStyle = () => {
   return {
+    display: 'flex',
     flex: 'none',
     mb: '3x',
   };
 };
 
-const useNavigationTitleStyle = () => {
+const useNavigationCurrentMonthYearStyle = () => {
   return {
-    flexGrow: 1,
     display: 'flex',
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 'md',
@@ -52,13 +53,10 @@ const useNavigationTitleStyle = () => {
   };
 };
 
-const useNavigationYearButtonWrapperStyle = () => {
+const useNavigationMonthButtonStyle = () => {
   return {
-    display: 'inline-flex',
-    flexDirection: 'column',
-    ml: '2x',
-    opacity: 0,
-    visibility: 'hidden',
+    width: '8x',
+    height: '8x',
   };
 };
 
@@ -85,10 +83,13 @@ const useNavigationYearButtonStyle = () => {
   };
 };
 
-const useNavigationMonthButtonStyle = () => {
+const useNavigationYearButtonGroupStyle = () => {
   return {
-    width: '8x',
-    height: '8x',
+    display: 'inline-flex',
+    flexDirection: 'column',
+    ml: '2x',
+    opacity: 0,
+    visibility: 'hidden',
   };
 };
 
@@ -98,33 +99,29 @@ const useMonthViewStyle = () => {
   };
 };
 
-const useCellStyle = ({ isOutOfScope, isToday }) => {
+const useDayStyle = ({
+  isSameMonth,
+  isSelectable,
+  isToday,
+}) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  let color = colorStyle.color.primary;
-  if (isOutOfScope) {
-    color = colorStyle.color.tertiary;
-  }
-  if (isToday) {
-    color = {
-      dark: 'blue:40',
-      light: 'blue:40'
-    }[colorMode];
-  }
-  return {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '10x',
-    padding: '1x',
-    color: color,
-    backgroundColor: 'transparent',
-  };
-};
-
-const useClickableCellStyle = ({ isOutOfScope, isSelected, isToday }) => {
-  const [colorMode] = useColorMode();
-  const baseStyle = useCellStyle({ isOutOfScope, isToday });
+  const color = (() => {
+    if (isToday) {
+      const todayColor = {
+        dark: 'blue:40',
+        light: 'blue:40',
+      }[colorMode];
+      return todayColor;
+    }
+    if (!isSelectable) {
+      return colorStyle?.color?.disabled;
+    }
+    if (!isSameMonth) {
+      return colorStyle?.color?.tertiary;
+    }
+    return colorStyle?.color?.primary;
+  })();
   const hoverBackgroundColor = {
     dark: 'gray:80',
     light: 'gray:50',
@@ -141,31 +138,55 @@ const useClickableCellStyle = ({ isOutOfScope, isSelected, isToday }) => {
     dark: 'blue:50',
     light: 'blue:50',
   }[colorMode];
+  const baseStyle = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '10x',
+    color,
+    cursor: isSelectable ? 'pointer' : 'default',
+    _hover: {
+      backgroundColor: isSelectable ? hoverBackgroundColor : undefined,
+    },
+  };
 
   return {
     ...baseStyle,
-    cursor: 'pointer',
-    _hover: {
-      backgroundColor: hoverBackgroundColor,
-    },
     _selected: {
       color: selectedColor,
       backgroundColor: selectedBackgroundColor,
       '&:hover': {
         backgroundColor: selectedHoverBackgroundColor,
       },
-    }
+    },
+  };
+};
+
+const useDaysOfWeekStyle = () => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const baseStyle = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '10x',
+    color: colorStyle?.color?.primary,
+    cursor: 'default',
+  };
+
+  return {
+    ...baseStyle,
   };
 };
 
 export {
   useCalendarStyle,
   useNavigationStyle,
-  useNavigationTitleStyle,
-  useNavigationYearButtonStyle,
-  useNavigationYearButtonWrapperStyle,
+  useNavigationCurrentMonthYearStyle,
   useNavigationMonthButtonStyle,
+  useNavigationYearButtonStyle,
+  useNavigationYearButtonGroupStyle,
   useMonthViewStyle,
-  useCellStyle,
-  useClickableCellStyle,
+  useDayStyle,
+  useDaysOfWeekStyle,
 };

@@ -1,8 +1,6 @@
-# Date and Time Pickers
+# Date Pickers
 
-Date and Time pickers allow the user to select a date and/or time from a pre-determined set of values.
-
-## Pickers
+Date pickers allow the user to select dates from a pre-determined set of values.
 
 ```jsx noInline
 // DateInput
@@ -27,8 +25,8 @@ render(() => (
   <>
     <TextLabel mb="1x">Date Picker</TextLabel>
     <DatePicker
-      dateFormat="yyyy-MM-dd"
       defaultValue={new Date()}
+      inputFormat="yyyy-MM-dd"
       renderInput={({ error, inputProps }) => {
         const _error = !!inputProps.value && error;
 

@@ -1,2 +1,2 @@
 // components
-export * from './date-time-pickers';
+export * from './date-pickers';

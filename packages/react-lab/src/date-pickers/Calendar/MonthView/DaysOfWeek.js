@@ -1,28 +1,21 @@
 import { Box, Grid } from '@tonic-ui/react';
 import addDays from 'date-fns/addDays';
-import format from 'date-fns/format';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
 import useCalendar from '../useCalendar';
-import { useCellStyle } from '../styles';
+import { useDaysOfWeekStyle } from '../styles';
 
-const Weekdays = forwardRef((
-  props,
-  ref,
-) => {
+const DaysOfWeek = forwardRef((props, ref) => {
   const calendarContext = useCalendar();
   const {
     activeDate,
     firstDayOfWeek,
+    formatDate,
   } = { ...calendarContext };
-
-  const startDateOfWeek = startOfWeek(
-    activeDate,
-    {
-      weekStartsOn: firstDayOfWeek,
-    }
-  );
-  const styleProps = useCellStyle({});
+  const startDateOfWeek = startOfWeek(activeDate, {
+    weekStartsOn: firstDayOfWeek,
+  });
+  const styleProps = useDaysOfWeekStyle();
 
   return (
     <Grid
@@ -34,15 +27,13 @@ const Weekdays = forwardRef((
       {
         [0, 1, 2, 3, 4, 5, 6].map((offset) => {
           const day = addDays(startDateOfWeek, offset);
-          const title = format(day, 'EEEE');
-          const label = format(day, 'EEEEEE');
           return (
             <Box
               key={offset}
-              title={title}
+              title={formatDate(day, 'EEEE')}
               {...styleProps}
             >
-              { label }
+              {formatDate(day, 'EEEEEE')}
             </Box>
           );
         })
@@ -51,6 +42,6 @@ const Weekdays = forwardRef((
   );
 });
 
-Weekdays.displayName = 'Weekdays';
+DaysOfWeek.displayName = 'DaysOfWeek';
 
-export default Weekdays;
+export default DaysOfWeek;

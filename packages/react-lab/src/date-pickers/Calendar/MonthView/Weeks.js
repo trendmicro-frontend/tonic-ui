@@ -22,29 +22,21 @@ const Weeks = forwardRef((
     activeDate,
     firstDayOfWeek,
   } = { ...calendarContext };
-
   const weeks = [];
-  let startDateOfWeek = startOfWeek(
-    startOfMonth(activeDate),
-    {
-      weekStartsOn: firstDayOfWeek,
-    }
-  );
+  let startDateOfWeek = startOfWeek(startOfMonth(activeDate), {
+    weekStartsOn: firstDayOfWeek,
+  });
 
-  while (true) {
-    weeks.push(
+  do {
+    const week = (
       <Week
         key={startDateOfWeek.getTime()}
         startDateOfWeek={startDateOfWeek}
       />
     );
-
+    weeks.push(week);
     startDateOfWeek = addWeeks(startDateOfWeek, 1);
-
-    if (!isWeekInMonth(startDateOfWeek, activeDate)) {
-      break;
-    }
-  }
+  } while (isWeekInMonth(startDateOfWeek, activeDate));
 
   return (
     <Grid
@@ -53,7 +45,7 @@ const Weeks = forwardRef((
       templateRows="auto"
       {...props}
     >
-      { weeks }
+      {weeks}
     </Grid>
   );
 });
