@@ -19,8 +19,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@tonic-ui/react": "^1.1.0",
-    "@tonic-ui/react-hooks": "^1.1.0",
+    "@tonic-ui/react": "^1.2.0",
+    "@tonic-ui/react-hooks": "^1.1.1",
     "chained-function": "^0.5.0",
     "date-fns": "2.x",
     "ensure-type": "1.x",
