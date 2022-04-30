@@ -19,6 +19,12 @@ const getInitialState = (query, defaultValue) => {
   return false;
 };
 
+/**
+ * A cusom Hook that listens for matches to a CSS media query. It allows the rendering of components based on whether the media query matches or not.
+ *
+ * @param {string} query - The media query to match against.
+ * @param {boolean} defaultValue - The default value to return if the media query is not matched.
+ */
 const useMediaQuery = (query, defaultValue) => {
   const [matches, setMatches] = useState(getInitialState(query, defaultValue));
 

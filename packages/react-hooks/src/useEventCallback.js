@@ -2,6 +2,10 @@ import { useCallback, useRef } from 'react';
 import useIsomorphicEffect from './useIsomorphicEffect';
 
 /**
+ * A custom Hook to do escape hatch optimization for event callbacks.
+ * @param {function} fn - The function to be called.
+ * @param {Array} dependencies - The dependencies of the function.
+ * @returns {function} The returned function.
  * @see https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
  * @see https://github.com/facebook/react/issues/14099
  */

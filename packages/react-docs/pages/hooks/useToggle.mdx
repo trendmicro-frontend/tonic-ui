@@ -8,23 +8,6 @@ A custom Hook that toggles between boolean values. It also accepts a toggle func
 import { useToggle } from '@tonic-ui/react-hooks';
 ```
 
-### useToggle
-
-```js
-import { useReducer } from 'react';
-
-const defaultToggleFunction = (state, nextValue) => {
-  return (typeof nextValue === 'boolean') ? nextValue : !state;
-};
-
-const useToggle = (
-  initialValue = false,
-  toggleFunction = defaultToggleFunction,
-) => {
-  return useReducer(toggleFunction, initialValue);
-};
-```
-
 ## Usage
 
 ```jsx
