@@ -8,48 +8,30 @@ The general rule is: use `useEventCallback` when doing side effects, and use the
 * `useEventCallback` is more suited for callbacks waiting for some external input, then changing the state of the applicationo.
 * `useCallback` is more suited for callbacks that output something into the external world. In fact `useCallback` is semantically really an alias for `useMemo` since we're treating functions here the same as the values we output from JSX.
 
-
-## Import
-
 ```js
+// import
 import { useEventCallback } from '@tonic-ui/react-hooks';
+
+// usage
+const memoizedCallback = useEventCallback(fn, dependencies);
 ```
 
-### useEventCallback
+### Parameters
 
-```js
-import { useCallback, useRef } from 'react';
-import useIsomorphicEffect from './useIsomorphicEffect';
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| fn | (...rest: any[]) => void | | The function to be called. |
+| dependencies? | any[] | | The dependencies of the function. |
 
-/**
- * @see https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
- * @see https://github.com/facebook/react/issues/14099
- */
-const useEventCallback = (fn, dependencies) => {
-  const ref = useRef(() => {
-    throw new Error('Cannot call an event handler while rendering.');
-  });
+### Returns
 
-  /**
-   * The useLayoutEffect function is triggered synchronously before the DOM mutations are painted.
-   * However, the useEffect function is called after the DOM mutations are painted.
-   */
-  useIsomorphicEffect(() => {
-    ref.current = fn;
-  }, [fn, ...(dependencies ?? [])]);
+Returns a memoized version of the event callback.
 
-  return useCallback((...args) => {
-    const callback = ref.current;
-    return callback(...args);
-  }, [ref]);
-};
-```
-
-## Usage
+### Example
 
 Try typing some text in the input fields and see the difference between `useEventCallback` and `useCallback`.
 
-### useEventCallback
+#### useEventCallback
 
 ```jsx
 function Component() {
@@ -75,7 +57,7 @@ function Component() {
 }
 ```
 
-### useCallback
+#### useCallback
 
 ```jsx
 function Component() {

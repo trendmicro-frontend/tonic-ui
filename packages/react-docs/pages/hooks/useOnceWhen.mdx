@@ -2,29 +2,22 @@
 
 A custom Hook that runs a callback at most once when a condition becomes true.
 
-## Import
-
 ```js
+// import
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+
+// usage
+useOnceWhen(callback, when);
 ```
 
-### useOnceWhen
+### Parameters
 
-```js
-import { useRef } from 'react';
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| callback | () => void | | The callback to run. |
+| when | boolean | false | The condition to run the callback. |
 
-const useOnceWhen = (callback, when = false) => {
-  const ref = useRef(false);
-  if (when && !ref.current) {
-    if (typeof callback === 'function') {
-      callback();
-    }
-    ref.current = true;
-  }
-};
-```
-
-## Usage
+### Example
 
 ```jsx
 function Component() {

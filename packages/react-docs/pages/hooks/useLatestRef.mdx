@@ -1,35 +1,35 @@
-# useLatest
+# useLatestRef
 
-A custom Hook that returns a ref with the latest value after each update.
+A custom Hook that returns a ref object with the latest value.
 
 This is mostly useful to get access to the latest value of some props or state inside an asynchronous callback, instead of that value at the time the callback was created from.
 
-## Import
-
 ```js
-import { useLatest } from '@tonic-ui/react-hooks';
+// import
+import { useLatestRef } from '@tonic-ui/react-hooks';
+
+// usage
+const ref = useLatestRef(value);
 ```
 
-### useLatest
+### Parameters
 
-```js
-import { useRef } from 'react';
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| value | any | | The latest value. |
 
-const useLatest = (value) => {
-  const ref = useRef(value);
-  ref.current = value;
-  return ref;
-};
-```
+### Returns
 
-## Usage
+Returns a ref object with the `current` property set to the latest value.
+
+### Example
 
 ```jsx
 function Component() {
   const [countdownMode, setCountdownMode] = React.useState(false);
   const timeoutRef = React.useRef(null);
   const [count, setCount] = React.useState(0);
-  const latestCount = useLatest(count);
+  const latestRef = useLatestRef(count);
 
   function handleAlertClick() {
     if (timeoutRef.current) {
@@ -37,7 +37,7 @@ function Component() {
       timeoutRef.current = null;
     }
     timeoutRef.current = setTimeout(() => {
-      alert(`Latest count value: ${latestCount.current}`);
+      alert(`Latest count value: ${latestRef.current}`);
       timeoutRef.current = null;
       setCountdownMode(false);
     }, 3000);

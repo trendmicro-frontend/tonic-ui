@@ -1,14 +1,14 @@
 import { renderHook } from '@testing-library/react-hooks';
-import useLatest from './useLatest';
+import useLatestRef from './useLatestRef';
 
-describe('useLatest', () => {
+describe('useLatestRef', () => {
   it('should be defined', () => {
-    expect(useLatest).toBeDefined();
+    expect(useLatestRef).toBeDefined();
   });
 
   it('should return a ref with the latest value for the initial render', () => {
     const { result } = renderHook(
-      ({ value }) => useLatest(value),
+      ({ value }) => useLatestRef(value),
       {
         initialProps: {
           value: 0,
@@ -20,7 +20,7 @@ describe('useLatest', () => {
 
   it('should always return a ref with the latest value after each update', () => {
     const { result, rerender } = renderHook(
-      ({ value }) => useLatest(value),
+      ({ value }) => useLatestRef(value),
       {
         initialProps: {
           value: 0,

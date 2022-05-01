@@ -2,23 +2,21 @@
 
 A custom Hook that runs a callback at most once.
 
-## Import
-
 ```js
+// import
 import { useOnce } from '@tonic-ui/react-hooks';
+
+// usage
+useOnce(callback);
 ```
 
-### useOnce
+### Parameters
 
-```js
-import useOnceWhen from './useOnceWhen';
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| callback | () => void | | The callback to run. |
 
-const useOnce = (callback) => {
-  useOnceWhen(callback, true);
-};
-```
-
-## Usage
+### Example
 
 ```jsx
 function Component() {

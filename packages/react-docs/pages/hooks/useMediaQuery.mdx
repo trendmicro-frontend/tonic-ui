@@ -2,66 +2,26 @@
 
 A cusom Hook that listens for matches to a CSS media query. It allows the rendering of components based on whether the media query matches or not.
 
-## Import
-
 ```js
+// import
 import { useMediaQuery } from '@tonic-ui/react-hooks';
+
+// usage
+const isMatched = useMediaQuery(query, defaultValue);
 ```
 
-### useMediaQuery
+### Parameters
 
-```js
-import { useEffect, useState } from 'react';
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| query | string | | The media query to match against. |
+| defaultValue | boolean | false | The default value to return if the media query is not matched. |
 
-const noop = () => {};
+### Returns
 
-const getInitialState = (query, defaultValue) => {
-  if (defaultValue !== undefined) {
-    return defaultValue;
-  }
+Returns a boolean value indicating whether the media query matches or not.
 
-  if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
-    return window.matchMedia(query)?.matches;
-  }
-
-  if (process.env.NODE_ENV !== 'production') {
-    console.warn('[useMediaQuery] The default value should be defined for server-side rendering.');
-  }
-
-  return false;
-};
-
-const useMediaQuery = (query, defaultValue) => {
-  const [matches, setMatches] = useState(getInitialState(query, defaultValue));
-
-  useEffect(() => {
-    let mounted = true;
-    const mql = window?.matchMedia?.(query);
-    const onChange = () => {
-      if (!mounted) {
-        return;
-      }
-      setMatches(!!mql.matches);
-    };
-
-    if (!mql) {
-      return noop;
-    }
-
-    mql.addEventListener('change', onChange);
-    setMatches(!!mql.matches);
-
-    return () => {
-      mounted = false;
-      mql.removeEventListener('change', onChange);
-    };
-  }, [query]);
-
-  return matches;
-};
-```
-
-## Usage
+### Example
 
 ```jsx
 function Component() {

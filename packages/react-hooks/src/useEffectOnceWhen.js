@@ -1,17 +1,23 @@
 import { useEffect, useRef } from 'react';
 
-const useEffectOnceWhen = (callback, when) => {
+/**
+ * A custom Hook similar to `useEffectOnce`, but only runs once when a condition is met.
+ *
+ * @param {function} effect - The effect to run.
+ * @param {boolean} when - The condition to run the effect.
+ */
+const useEffectOnceWhen = (effect, when) => {
   const runOnceRef = useRef(false);
-  const callbackRef = useRef(callback);
+  const effectRef = useRef(effect);
 
-  callbackRef.current = callback;
+  effectRef.current = effect;
 
   useEffect(() => {
     if (!when || runOnceRef.current) {
       return;
     }
-    if (typeof callbackRef.current === 'function') {
-      callbackRef.current();
+    if (typeof effectRef.current === 'function') {
+      effectRef.current();
     }
     runOnceRef.current = true;
   }, [when]);

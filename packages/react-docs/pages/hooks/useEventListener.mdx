@@ -2,57 +2,25 @@
 
 A custom Hook to manage browser event listeners.
 
-## Import
 
 ```js
+// import
 import { useEventListener } from '@tonic-ui/react-hooks';
+
+// usage
+useEventListener(target, eventName, eventHandler, [options]);
 ```
 
-### useEventListener
+### Parameters
 
-```js
-import { useEffect } from 'react';
-import useEventCallback from './useEventCallback';
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| target | HTMLElement | | The target element to attach the event listener to. |
+| eventName | string | | The name of the event to listen for. |
+| eventHandler | (event: MouseEvent) => void | | The event handler to call when the event is fired. |
+| options? | object | | Optional options to pass to the event handler. |
 
-// TODO: move to '@tonic-ui/utils'
-const noop = () => {};
-
-// TODO: move to '@tonic-ui/utils'
-const runIfFn = (valueOrFn, ...args) => {
-  if (typeof valueOrFn === 'function') {
-    return valueOrFn(...args);
-  }
-  return valueOrFn;
-};
-
-const useEventListener = (
-  target,
-  eventName,
-  eventHandler,
-  options,
-) => {
-  const eventListener = useEventCallback(eventHandler);
-
-  useEffect(() => {
-    if (!eventHandler) {
-      return noop;
-    }
-
-    const eventTarget = runIfFn(target);
-    const isEventListenerSupported = (typeof eventTarget?.addEventListener === 'function') && (typeof eventTarget?.removeEventListener === 'function');
-    if (!isEventListenerSupported) {
-      return noop;
-    }
-
-    eventTarget.addEventListener(eventName, eventListener, options);
-    return () => {
-      eventTarget.removeEventListener(eventName, eventListener, options);
-    };
-  }, [target, eventName, eventHandler, eventListener, options]);
-};
-```
-
-## Usage
+### Example
 
 ```jsx
 function Component() {
