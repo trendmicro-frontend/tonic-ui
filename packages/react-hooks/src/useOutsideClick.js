@@ -7,14 +7,14 @@ const noop = () => {};
 // TODO: move to '@tonic-ui/utils'
 const ownerDocument = (node) => (node?.ownerDocument || document);
 
-const defaultEvents = ['mouseup', 'touchend'];
+const defaultEvents = ['mousedown', 'touchstart'];
 
 /**
  * Checks if a click happened outside a Ref. Handy for dropdowns, modals and popups etc.
  *
- * @param {React.RefObject} ref - A ref object to check if the click happened outside of it.
- * @param {function} handler - The handler to call if the click happened outside of the ref.
- * @param {(boolean|Array<string>)} [events] - The events to listen to. If `false` is given, it will not listen to any events. Defaults to `['mouseup', 'touchend']`.
+ * @param {React.RefObject} ref - A ref to the element to check if the click happened outside.
+ * @param {function} handler - A function to call if the click happened outside the ref.
+ * @param {Array<string>} [events] - An array of events to listen to. If `events` is empty, the hook will not listen to any events.
  */
 const useOutsideClick = (
   ref,

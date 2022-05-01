@@ -2,13 +2,19 @@
 
 A custom Hook that checks if a click happened outside a Ref. Handy for dropdowns, modals and popups etc.
 
-## Import
-
 ```js
-import { useOutsideClick } from '@tonic-ui/react-hooks';
+useOutsideClick(ref, handler, [events]);
 ```
 
-## Usage
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| ref | React.RefObject | | A ref to the element to check if the click happened outside. |
+| handler | function | | A function to call if the click happened outside the ref. |
+| events | Array<string\> | ['mousedown', 'touchstart'] | An array of events to listen to. If `events` is empty, the hook will not listen to any events. |
+
+### Example
 
 ```jsx noInline
 const CodeBlock = (props) => {
@@ -33,21 +39,22 @@ const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
-const pointerUpEvents = ['mouseup', 'touchend'];
 const pointerDownEvents = ['mousedown', 'touchstart'];
+const pointerUpEvents = ['mouseup', 'touchend'];
 
 render(() => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const [eventOption, setEventOption] = React.useState('pointerUp');
+  const [eventOption, setEventOption] = React.useState('pointerDown');
   const ref = React.useRef();
   const handler = React.useCallback(() => {
     console.log('Clicked outside');
   }, []);
   const events = {
-    'pointerUp': pointerUpEvents,
     'pointerDown': pointerDownEvents,
+    'pointerUp': pointerUpEvents,
   }[eventOption];
+
   useOutsideClick(ref, handler, events || false);
 
   return (
@@ -68,11 +75,11 @@ render(() => {
           onChange={setEventOption}
         >
           <Flex direction="column" rowGap="2x">
-            <Radio value="pointerUp">
-              Listen to pointer up events (default)
-            </Radio>
             <Radio value="pointerDown">
-              Listen to pointer down events
+              Listen to pointer down events (default)
+            </Radio>
+            <Radio value="pointerUp">
+              Listen to pointer up events
             </Radio>
             <Radio value="none">
               No event listeners
@@ -80,14 +87,14 @@ render(() => {
           </Flex>
         </RadioGroup>
       </FormGroup>
-      {eventOption === 'pointerUp' && (
-        <CodeBlock>
-          {`useOutsideClick(ref, handler, [${pointerUpEvents.map(x => `'${x}'`).join(', ')}]);`}
-        </CodeBlock>
-      )}
       {eventOption === 'pointerDown' && (
         <CodeBlock>
           {`useOutsideClick(ref, handler, [${pointerDownEvents.map(x => `'${x}'`).join(', ')}]);`}
+        </CodeBlock>
+      )}
+      {eventOption === 'pointerUp' && (
+        <CodeBlock>
+          {`useOutsideClick(ref, handler, [${pointerUpEvents.map(x => `'${x}'`).join(', ')}]);`}
         </CodeBlock>
       )}
       {eventOption === 'none' && (

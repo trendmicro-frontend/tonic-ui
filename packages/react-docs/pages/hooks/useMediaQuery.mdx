@@ -2,13 +2,22 @@
 
 A cusom Hook that listens for matches to a CSS media query. It allows the rendering of components based on whether the media query matches or not.
 
-## Import
-
 ```js
-import { useMediaQuery } from '@tonic-ui/react-hooks';
+const isMatched = useMediaQuery(query, defaultValue);
 ```
 
-## Usage
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| query | string | | The media query to match against. |
+| defaultValue | boolean | false | The default value to return if the media query is not matched. |
+
+### Returns
+
+Returns a boolean value indicating whether the media query matches or not.
+
+### Example
 
 ```jsx
 function Component() {

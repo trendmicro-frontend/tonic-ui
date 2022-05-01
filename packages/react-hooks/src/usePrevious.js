@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 /**
  * A custom Hook that stores the previous state or props.
  *
- * @param {any} value - A new value to update the previous value with.
+ * @param {any} value - The value to update the previous value with.
  * @returns {any} The previous value.
  */
 const usePrevious = (value) => {

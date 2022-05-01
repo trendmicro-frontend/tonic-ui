@@ -2,13 +2,24 @@
 
 A custom Hook that toggles between boolean values. It also accepts a toggle function that can be used to change the value.
 
-## Import
-
 ```js
-import { useToggle } from '@tonic-ui/react-hooks';
+const [value, toggleValue] = useToggle(initialValue, [toggleReducer]);
 ```
 
-## Usage
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| initialValue | boolean | | The initial value of the toggle. |
+| toggleReducer | function(state, nextValue) => nextState | | An optional reducer function that can be used to determine the next value. |
+
+### Returns
+
+Returns an array with the current value and a function to toggle the value.
+
+If a boolean value is explicitly passed to the toggle function, it will be used instead of negating the current value.
+
+### Example
 
 ```jsx
 function Switch() {

@@ -1,16 +1,24 @@
 # useLatestRef
 
-A custom Hook that returns a ref with the latest value.
+A custom Hook that returns a ref object with the latest value.
 
 This is mostly useful to get access to the latest value of some props or state inside an asynchronous callback, instead of that value at the time the callback was created from.
 
-## Import
-
 ```js
-import { useLatestRef } from '@tonic-ui/react-hooks';
+const ref = useLatestRef(value);
 ```
 
-## Usage
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| value | any | | The latest value. |
+
+### Returns
+
+Returns a ref object with the `current` property set to the latest value.
+
+### Example
 
 ```jsx
 function Component() {

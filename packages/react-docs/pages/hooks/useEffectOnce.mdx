@@ -2,13 +2,17 @@
 
 A modified version of the `useEffect` Hook that runs an effect only once.
 
-## Import
-
 ```js
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+useEffectOnce(effect);
 ```
 
-## Usage
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| effect | function | | The effect to run. |
+
+### Example
 
 ```jsx
 function Component() {

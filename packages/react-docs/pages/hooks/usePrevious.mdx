@@ -2,13 +2,21 @@
 
 A custom Hook that stores the previous state or props.
 
-## Import
-
 ```js
-import { usePrevious } from '@tonic-ui/react-hooks';
+const previousValue = usePrevious(value);
 ```
 
-## Usage
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| value | any | | The value to update the previous value with. |
+
+### Returns
+
+Returns the previous value.
+
+### Example
 
 ```jsx
 function Counter() {

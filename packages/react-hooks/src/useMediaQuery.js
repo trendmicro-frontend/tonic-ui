@@ -24,6 +24,7 @@ const getInitialState = (query, defaultValue) => {
  *
  * @param {string} query - The media query to match against.
  * @param {boolean} defaultValue - The default value to return if the media query is not matched.
+ * @return {boolean} Returns a boolean value indicating whether the media query matches or not.
  */
 const useMediaQuery = (query, defaultValue) => {
   const [matches, setMatches] = useState(getInitialState(query, defaultValue));

@@ -2,16 +2,17 @@
 
 A custom Hook that returns a boolean indicating if the component is hydrated.
 
-- When doing Server-Side Rendering (SSR), the result will always be `false`.
-- When doing Client-Side Rendering (CSR), the result will always be `false` on the first render, and `true` on subsequent renders.
-
-## Import
-
 ```js
-import { useHydrated } from '@tonic-ui/react-hooks';
+const isHydrated = useHydrated();
 ```
 
-## Usage
+### Returns
+
+Returns a boolean indicating if the component is hydrated.
+* When doing Server-Side Rendering (SSR), the result will always be `false`.
+* When doing Client-Side Rendering (CSR), the result will always be `false` on the first render, and `true` on subsequent renders.
+
+## Example
 
 ```jsx
 function Component() {

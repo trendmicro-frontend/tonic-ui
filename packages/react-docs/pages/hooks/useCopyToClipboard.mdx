@@ -2,13 +2,15 @@
 
 A custom Hook that provides a `copy` method to copy text to the clipboard. If anything does not work, it will output an error message and the value will be set to `null`.
 
-## Import
-
 ```js
-import { useCopyToClipboard } from '@tonic-ui/react-hooks';
+const [value, copy] = useCopyToClipboard();
 ```
 
-## Usage
+### Returns
+
+Returns an array with the value and the copy function.
+
+### Example
 
 ```jsx
 function Component() {

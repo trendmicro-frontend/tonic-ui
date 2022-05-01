@@ -6,13 +6,21 @@ Unlike `React.useMemo`, this is guaranteed to always return the same value (and 
 
 If the value should ever change based on dependencies, use `React.useMemo` instead.
 
-## Import
-
 ```js
-import { useConst } from '@tonic-ui/react-hooks';
+const value = useConst(initialValue);
 ```
 
-## Usage
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| initialValue | * \| function | | Initial value, or function to get the initial value. Similar to `useState`, only the value/function passed in the first time this is called is respected. |
+
+### Returns
+
+The value. This is the same value that is returned by the initializer.
+
+### Example
 
 ```jsx
 function Component() {

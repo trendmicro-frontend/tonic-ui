@@ -8,18 +8,26 @@ The general rule is: use `useEventCallback` when doing side effects, and use the
 * `useEventCallback` is more suited for callbacks waiting for some external input, then changing the state of the applicationo.
 * `useCallback` is more suited for callbacks that output something into the external world. In fact `useCallback` is semantically really an alias for `useMemo` since we're treating functions here the same as the values we output from JSX.
 
-
-## Import
-
 ```js
-import { useEventCallback } from '@tonic-ui/react-hooks';
+const memoizedCallback = useEventCallback(fn, dependencies);
 ```
 
-## Usage
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| fn | function | | The function to be called. |
+| dependencies | array | | The dependencies of the function. |
+
+### Returns
+
+Returns a memoized version of the event callback.
+
+### Example
 
 Try typing some text in the input fields and see the difference between `useEventCallback` and `useCallback`.
 
-### useEventCallback
+#### useEventCallback
 
 ```jsx
 function Component() {
@@ -45,7 +53,7 @@ function Component() {
 }
 ```
 
-### useCallback
+#### useCallback
 
 ```jsx
 function Component() {

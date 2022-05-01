@@ -18,7 +18,7 @@ const runIfFn = (valueOrFn, ...args) => {
  * @param {HTMLElement} target - The target element to attach the event listener to.
  * @param {string} eventName - The name of the event to listen for.
  * @param {function} eventHandler - The event handler to call when the event is fired.
- * @param {object} [options={}] - Optional options to pass to the event handler.
+ * @param {object} [options] - Optional options to pass to the event handler.
  */
 const useEventListener = (
   target,

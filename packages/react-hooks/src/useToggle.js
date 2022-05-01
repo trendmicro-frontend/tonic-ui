@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 
-const defaultToggleFunction = (state, nextValue) => {
+const defaultToggleReducer = (state, nextValue) => {
   return (typeof nextValue === 'boolean') ? nextValue : !state;
 };
 
@@ -8,14 +8,14 @@ const defaultToggleFunction = (state, nextValue) => {
  * A custom Hook that toggles between boolean values. It also accepts a toggle function that can be used to change the value.
  *
  * @param {boolean} initialValue - The initial value of the toggle.
- * @param {function} [toggleFunction] - A reducer function that can be used to determine the next value.
- * @returns {boolean} The current value of the toggle.
+ * @param {function} [toggleReducer] - An optional reducer function that can be used to determine the next value.
+ * @returns {[boolean, function]} Returns an array with the current value and a function to toggle the value.
  */
 const useToggle = (
   initialValue = false,
-  toggleFunction = defaultToggleFunction,
+  toggleReducer = defaultToggleReducer,
 ) => {
-  return useReducer(toggleFunction, initialValue);
+  return useReducer(toggleReducer, initialValue);
 };
 
 export default useToggle;
