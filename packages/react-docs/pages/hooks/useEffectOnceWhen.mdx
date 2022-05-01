@@ -3,6 +3,10 @@
 A custom Hook similar to `useEffectOnce`, but only runs once when a condition is met.
 
 ```js
+// import
+import { useEffectOnceWhen } from '@tonic-ui/react-hooks';
+
+// usage
 useEffectOnceWhen(effect, when);
 ```
 
@@ -10,8 +14,8 @@ useEffectOnceWhen(effect, when);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| effect | function | | The effect to run. |
-| when | boolean | | The condition to run the effect. |
+| effect | () => void | | The effect to run. |
+| when | boolean | false | The condition to run the effect. |
 
 ### Example
 

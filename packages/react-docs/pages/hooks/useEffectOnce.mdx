@@ -3,6 +3,10 @@
 A modified version of the `useEffect` Hook that runs an effect only once.
 
 ```js
+// import
+import { useEffectOnce } from '@tonic-ui/react-hooks';
+
+// usage
 useEffectOnce(effect);
 ```
 
@@ -10,7 +14,7 @@ useEffectOnce(effect);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| effect | function | | The effect to run. |
+| effect | () => void | | The effect to run. |
 
 ### Example
 

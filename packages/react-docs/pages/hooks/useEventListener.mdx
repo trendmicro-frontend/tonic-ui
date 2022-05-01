@@ -4,6 +4,10 @@ A custom Hook to manage browser event listeners.
 
 
 ```js
+// import
+import { useEventListener } from '@tonic-ui/react-hooks';
+
+// usage
 useEventListener(target, eventName, eventHandler, [options]);
 ```
 
@@ -13,8 +17,8 @@ useEventListener(target, eventName, eventHandler, [options]);
 | :--- | :--- | :------ | :---------- |
 | target | HTMLElement | | The target element to attach the event listener to. |
 | eventName | string | | The name of the event to listen for. |
-| eventHandler | function | | The event handler to call when the event is fired. |
-| options | object | | Optional options to pass to the event handler. |
+| eventHandler | (event: MouseEvent) => void | | The event handler to call when the event is fired. |
+| options? | object | | Optional options to pass to the event handler. |
 
 ### Example
 

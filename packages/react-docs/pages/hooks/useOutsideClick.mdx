@@ -3,6 +3,10 @@
 A custom Hook that checks if a click happened outside a Ref. Handy for dropdowns, modals and popups etc.
 
 ```js
+// import
+import { useOutsideClick } from '@tonic-ui/react-hooks';
+
+// usage
 useOutsideClick(ref, handler, [events]);
 ```
 
@@ -10,9 +14,9 @@ useOutsideClick(ref, handler, [events]);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| ref | React.RefObject | | A ref to the element to check if the click happened outside. |
-| handler | function | | A function to call if the click happened outside the ref. |
-| events | Array<string\> | ['mousedown', 'touchstart'] | An array of events to listen to. If `events` is empty, the hook will not listen to any events. |
+| ref | RefObject | | A ref to the element to check if the click happened outside. |
+| handler | (event: MouseEvent) => void | | A function to call if the click happened outside the ref. |
+| events? | string[] | ['mousedown', 'touchstart'] | An optional array of events to listen to. If `events` is empty, the hook will not listen to any events. |
 
 ### Example
 
@@ -89,7 +93,7 @@ render(() => {
       </FormGroup>
       {eventOption === 'pointerDown' && (
         <CodeBlock>
-          {`useOutsideClick(ref, handler, [${pointerDownEvents.map(x => `'${x}'`).join(', ')}]);`}
+          {`useOutsideClick(ref, handler, [${pointerDownEvents.map(x => `'${x}'`).join(', ')}]); // or "useOutsideClick(ref, handler)"`}
         </CodeBlock>
       )}
       {eventOption === 'pointerUp' && (

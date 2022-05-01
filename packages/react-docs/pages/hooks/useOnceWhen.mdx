@@ -3,6 +3,10 @@
 A custom Hook that runs a callback at most once when a condition becomes true.
 
 ```js
+// import
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+
+// usage
 useOnceWhen(callback, when);
 ```
 
@@ -10,8 +14,8 @@ useOnceWhen(callback, when);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| callback | function | | The callback to run. |
-| when | boolean | | The condition to run the callback. |
+| callback | () => void | | The callback to run. |
+| when | boolean | false | The condition to run the callback. |
 
 ### Example
 

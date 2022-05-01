@@ -3,6 +3,10 @@
 A custom Hook that toggles between boolean values. It also accepts a toggle function that can be used to change the value.
 
 ```js
+// import
+import { useToggle } from '@tonic-ui/react-hooks';
+
+// usage
 const [value, toggleValue] = useToggle(initialValue, [toggleReducer]);
 ```
 
@@ -11,13 +15,26 @@ const [value, toggleValue] = useToggle(initialValue, [toggleReducer]);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | initialValue | boolean | | The initial value of the toggle. |
-| toggleReducer | function(state, nextValue) => nextState | | An optional reducer function that can be used to determine the next value. |
+| toggleReducer? | (state: boolean, nextValue: boolean) => boolean | | An optional reducer function that can be used to determine the next value. |
 
 ### Returns
 
 Returns an array with the current value and a function to toggle the value.
 
 If a boolean value is explicitly passed to the toggle function, it will be used instead of negating the current value.
+
+```js
+const defaultToggleReducer = (state, nextValue) => {
+  return (typeof nextValue === 'boolean') ? nextValue : !state;
+};
+```
+
+| Toggle Function | Previous Value | Next Value |
+| :-------------- | :------------- | :--------- |
+| toggle()<br/>toggle(event: MouseEvent) | true | false |
+| toggle()<br/>toggle(event: MouseEvent) | false | true |
+| toggle(false) | true \| false | false |
+| toggle(true) | true \| false | true |
 
 ### Example
 
