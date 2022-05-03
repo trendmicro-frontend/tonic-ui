@@ -186,6 +186,7 @@ const Tooltip = forwardRef((
         PopperArrowProps={PopperArrowProps}
         TransitionComponent={TransitionComponent}
         TransitionProps={TransitionProps}
+        {...rest}
       >
         {label}
       </TooltipContent>
