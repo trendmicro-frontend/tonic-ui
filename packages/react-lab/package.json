@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-lab",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This package hosts the incubator components that are not yet ready to move to the core.",
   "main": "dist/index.js",
   "module": "dist/es/index.js",
@@ -19,7 +19,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@tonic-ui/react": "^1.2.1",
+    "@tonic-ui/react": "^1.2.2",
     "@tonic-ui/react-hooks": "^1.2.0",
     "chained-function": "^0.5.0",
     "date-fns": "2.x",
