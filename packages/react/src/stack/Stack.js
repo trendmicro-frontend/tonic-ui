@@ -1,55 +1,53 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import StackItem from './StackItem';
 import { useStackStyle } from './styles';
 
 const defaultDirection = 'column';
 
-const uniqueId = (() => {
-  let id = 0;
-  return () => {
-    id += 1;
-    return String(id);
-  };
-})();
+const Stack = forwardRef((
+  {
+    children,
+    direction: directionProp,
+    flexDirection: flexDirectionProp,
+    shouldWrapChildren,
+    spacing = 0,
+    ...rest
+  },
+  ref,
+) => {
+  const direction = (flexDirectionProp ?? directionProp) ?? defaultDirection;
+  const styleProps = useStackStyle({ direction, spacing });
 
-const Stack = ({
-  children,
-  direction,
-  flexDirection,
-  shouldWrapChildren,
-  spacing = 0,
-  ...rest
-}) => {
-  const validChildrenArray = React.Children
+  // Filter only the valid children of a component, and ignore any nullish or falsy child.
+  const validChildren = React.Children
     .toArray(children)
     .filter(c => React.isValidElement(c));
 
-  direction = (flexDirection ?? direction) ?? defaultDirection;
+  let clones = validChildren;
+  if (shouldWrapChildren) {
+    clones = validChildren.map((child, index) => {
+      // Use the provided child key, otherwise use the index as fallback
+      const key = (typeof child.key !== 'undefined') ? child.key : index;
 
-  const styleProps = useStackStyle({ direction, spacing });
+      return (
+        <StackItem key={key}>
+          {child}
+        </StackItem>
+      );
+    });
+  }
 
   return (
     <Box
+      ref={ref}
       {...styleProps}
       {...rest}
     >
-      {validChildrenArray.map((child, index) => {
-        if (shouldWrapChildren) {
-          return (
-            <Box
-              key={uniqueId()}
-              display="inline-flex"
-            >
-              {child}
-            </Box>
-          );
-        }
-
-        return child;
-      })}
+      {clones}
     </Box>
   );
-};
+});
 
 Stack.displayName = 'Stack';
 

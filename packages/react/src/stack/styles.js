@@ -14,6 +14,13 @@ const useStackStyle = ({
   };
 };
 
+const useStackItemStyle = () => {
+  return {
+    display: 'inline-block',
+  };
+};
+
 export {
   useStackStyle,
+  useStackItemStyle,
 };
