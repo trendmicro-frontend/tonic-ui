@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "React Tonic UI component library.",
   "main": "dist/index.js",
   "module": "dist/es/index.js",
@@ -24,7 +24,7 @@
     "@emotion/styled": "11.x",
     "@popperjs/core": "2.x",
     "@tonic-ui/react-hooks": "^1.2.0",
-    "@tonic-ui/styled-system": "^1.1.0",
+    "@tonic-ui/styled-system": "^1.2.0",
     "@tonic-ui/theme": "^1.1.0",
     "@trendmicro/tmicon": "^1.21.0",
     "chained-function": "^0.5.0",
