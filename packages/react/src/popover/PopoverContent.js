@@ -57,7 +57,7 @@ const PopoverContent = ({
     onBlur,
     closeOnEsc,
     onClose,
-    isHoveringRef,
+    isHoveringContentRef,
     trigger,
     popoverBodyId,
     popoverHeaderId,
@@ -123,10 +123,10 @@ const PopoverContent = ({
   if (trigger === 'hover') {
     eventHandlers = {
       onMouseEnter: wrapEvent(onMouseEnter, () => {
-        isHoveringRef.current = true;
+        isHoveringContentRef.current = true;
       }),
       onMouseLeave: wrapEvent(onMouseLeave, () => {
-        isHoveringRef.current = false;
+        isHoveringContentRef.current = false;
         onClose();
       }),
     };

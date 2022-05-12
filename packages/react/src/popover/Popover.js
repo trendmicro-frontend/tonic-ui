@@ -56,7 +56,8 @@ const Popover = ({
 
   const popoverTriggerRef = useRef();
   const popoverContentRef = useRef();
-  const isHoveringRef = useRef();
+  const isHoveringContentRef = useRef();
+  const isHoveringTriggerRef = useRef();
   const [mousePageX, setMousePageX] = useState(0);
   const [mousePageY, setMousePageY] = useState(0);
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
@@ -197,7 +198,8 @@ const Popover = ({
     followCursor,
     hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
     initialFocusRef,
-    isHoveringRef,
+    isHoveringContentRef,
+    isHoveringTriggerRef,
     isOpen,
     mousePageX,
     mousePageY,
