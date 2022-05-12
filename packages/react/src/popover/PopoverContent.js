@@ -58,6 +58,7 @@ const PopoverContent = ({
     closeOnEsc,
     onClose,
     isHoveringContentRef,
+    isHoveringTriggerRef,
     trigger,
     popoverBodyId,
     popoverHeaderId,
@@ -70,6 +71,7 @@ const PopoverContent = ({
     arrowAt,
   } = usePopover();
   const styleProps = usePopoverContentStyle();
+  const mouseLeaveTimeoutRef = useRef();
   let eventHandlers = {};
   let roleProps = {};
 
@@ -124,10 +126,25 @@ const PopoverContent = ({
     eventHandlers = {
       onMouseEnter: wrapEvent(onMouseEnter, () => {
         isHoveringContentRef.current = true;
+
+        if (mouseLeaveTimeoutRef.current) {
+          clearTimeout(mouseLeaveTimeoutRef.current);
+          mouseLeaveTimeoutRef.current = undefined;
+        }
       }),
       onMouseLeave: wrapEvent(onMouseLeave, () => {
         isHoveringContentRef.current = false;
-        onClose();
+
+        if (mouseLeaveTimeoutRef.current) {
+          clearTimeout(mouseLeaveTimeoutRef.current);
+          mouseLeaveTimeoutRef.current = undefined;
+        }
+        mouseLeaveTimeoutRef.current = setTimeout(() => {
+          mouseLeaveTimeoutRef.current = undefined;
+          if (!isHoveringContentRef.current && !isHoveringTriggerRef.current) {
+            onClose();
+          }
+        }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
       }),
     };
 
