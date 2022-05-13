@@ -148,11 +148,11 @@ const Menu = forwardRef((
       onCloseProp();
     }
 
-    setActiveIndex(-1);
+    setActiveIndex(defaultActiveIndex);
 
     // Reset tab index
     focusableElements.forEach(node => node.setAttribute('tabindex', -1));
-  }, [focusableElements, isOpenProp, onCloseProp]);
+  }, [focusableElements, isOpenProp, onCloseProp, defaultActiveIndex]);
 
   if (anchorEl) {
     menuToggleRef.current = anchorEl;
