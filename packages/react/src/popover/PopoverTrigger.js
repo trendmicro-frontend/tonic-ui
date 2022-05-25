@@ -117,6 +117,7 @@ const PopoverTrigger = forwardRef((
           onKeyDown: wrapEvent(ownProps?.onKeyDown, hoverTriggerHandler.onKeyDown),
           onMouseEnter: wrapEvent(ownProps?.onMouseEnter, hoverTriggerHandler.onMouseEnter),
           onMouseMove: wrapEvent(ownProps?.onMouseMove, hoverTriggerHandler.onMouseMove),
+          onMouseLeave: wrapEvent(ownProps?.onMouseLeave, hoverTriggerHandler.onMouseLeave),
         },
       }[trigger];
 
@@ -137,6 +138,7 @@ const PopoverTrigger = forwardRef((
       hoverTriggerHandler.onKeyDown,
       hoverTriggerHandler.onMouseEnter,
       hoverTriggerHandler.onMouseMove,
+      hoverTriggerHandler.onMouseLeave,
       combinedRef,
       isOpen,
       popoverId,
