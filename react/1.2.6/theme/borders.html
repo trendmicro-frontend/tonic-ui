@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="next-head-count" content="2"/><link rel="shortcut icon" href="tonic-favicon-dark.ico"/><script data-tonic-ui="true">
+              (function (initialValue) {
+                var mql = window.matchMedia('(prefers-color-scheme: dark)');
+                var systemPreference = mql.matches ? 'dark' : 'light';
+                var persistedPreference;
+
+                try {
+                  persistedPreference = localStorage.getItem('tonic-ui-color-mode');
+                } catch (e) {
+                  console.log('Tonic UI: localStorage is not available. Color mode persistence might not work properly in this environment.');
+                }
+
+                var colorMode;
+                if (persistedPreference) {
+                  colorMode = persistedPreference;
+                } else {
+                  colorMode = initialValue === 'system' ? systemPreference : initialValue;
+                }
+
+                var root = document.documentElement;
+                root.style.setProperty('color-scheme', colorMode);
+              })('system');
+              </script><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/tonic-ui/react/1.2.6/_next/static/chunks/polyfills-5cd94c89d3acac5f.js"></script><script src="/tonic-ui/react/1.2.6/_next/static/chunks/webpack-55d9c84c110ddf53.js" defer=""></script><script src="/tonic-ui/react/1.2.6/_next/static/chunks/framework-a00f1794213a39e4.js" defer=""></script><script src="/tonic-ui/react/1.2.6/_next/static/chunks/main-8237f63d74dd9ed5.js" defer=""></script><script src="/tonic-ui/react/1.2.6/_next/static/chunks/pages/_app-d6f3194c2e805899.js" defer=""></script><script src="/tonic-ui/react/1.2.6/_next/static/chunks/pages/theme/borders-cb29146c866bbc20.js" defer=""></script><script src="/tonic-ui/react/1.2.6/_next/static/gXSYcHYznJqIUbNBYEO3n/_buildManifest.js" defer=""></script><script src="/tonic-ui/react/1.2.6/_next/static/gXSYcHYznJqIUbNBYEO3n/_ssgManifest.js" defer=""></script><script src="/tonic-ui/react/1.2.6/_next/static/gXSYcHYznJqIUbNBYEO3n/_middlewareManifest.js" defer=""></script></head><body><div id="__next" data-reactroot=""></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/theme/borders","query":{},"buildId":"gXSYcHYznJqIUbNBYEO3n","assetPrefix":"/tonic-ui/react/1.2.6","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>
