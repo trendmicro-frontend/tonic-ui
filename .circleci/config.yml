@@ -47,7 +47,7 @@ workflows:
               ignore: /.*/
             tags:
               only:
-                - /^@tonic-ui\/react-docs.*/
+                - /^@tonic-ui\/react@.*/
       # The `deploy-tag` job will not run on all branches and will run only on the matched tags.
       - deploy-tag:
           requires:
@@ -57,7 +57,7 @@ workflows:
               ignore: /.*/
             tags:
               only:
-                - /^@tonic-ui\/react-docs.*/
+                - /^@tonic-ui\/react@.*/
 
 # https://circleci.com/docs/2.0/executor-types/
 jobs:
@@ -190,7 +190,7 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            PACKAGE_VERSION=$(cat packages/react-docs/package.json \
+            PACKAGE_VERSION=$(cat packages/react/package.json \
               | grep version \
               | head -1 \
               | awk -F: '{ print $2 }' \
@@ -369,7 +369,7 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            PACKAGE_VERSION=$(cat tonic-ui/packages/react-docs/package.json \
+            PACKAGE_VERSION=$(cat tonic-ui/packages/react/package.json \
               | grep version \
               | head -1 \
               | awk -F: '{ print $2 }' \
