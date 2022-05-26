@@ -81,6 +81,7 @@ const TooltipTrigger = forwardRef((
         onFocus: wrapEvent(ownProps?.onFocus, handleFocus),
         onMouseDown: wrapEvent(ownProps?.onMouseDown, handleMouseDown),
         onMouseEnter: wrapEvent(ownProps?.onMouseEnter, handleMouseEnter),
+        onMouseLeave: wrapEvent(ownProps?.onMouseLeave, handleMouseLeave),
       };
 
       return {
@@ -96,6 +97,7 @@ const TooltipTrigger = forwardRef((
       handleFocus,
       handleMouseDown,
       handleMouseEnter,
+      handleMouseLeave,
       isOpen,
       tooltipId,
       combinedRef,
