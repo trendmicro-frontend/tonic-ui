@@ -39,6 +39,7 @@ const useMenuListStyle = () => {
   }[colorMode];
 
   return {
+    ...colorModeStyle,
     color: 'inherit',
     m: '0',
     p: '0',
@@ -46,7 +47,6 @@ const useMenuListStyle = () => {
     _focus: {
       outline: 'none',
     },
-    ...colorModeStyle,
   };
 };
 
@@ -141,6 +141,42 @@ const useMenuToggleIconStyle = () => {
   };
 };
 
+const useSubMenuStyle = () => {
+  return {
+    position: 'relative',
+  };
+};
+
+const useSubMenuListStyle = ({ isHovered }) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const colorModeStyle = {
+    light: {
+      backgroundColor: 'white',
+      boxShadow: colorStyle?.shadow?.medium,
+    },
+    dark: {
+      backgroundColor: 'gray:80',
+      boxShadow: colorStyle?.shadow?.medium,
+    },
+  }[colorMode];
+
+  return {
+    ...colorModeStyle,
+    color: 'inherit',
+    display: isHovered ? 'block' : 'none',
+    m: '0',
+    p: '0',
+    py: '2x',
+    position: 'absolute',
+    top: 0,
+    left: '100%',
+    _focus: {
+      outline: 'none',
+    },
+  };
+};
+
 export {
   useMenuStyle,
   useMenuButtonStyle,
@@ -151,4 +187,6 @@ export {
   useMenuItemDividerStyle,
   useMenuToggleStyle,
   useMenuToggleIconStyle,
+  useSubMenuStyle,
+  useSubMenuListStyle,
 };

@@ -13,6 +13,8 @@ A menu is used to display a list of options to the user. It appears when the use
 - `MenuGroup`: A component that groups menu items.
 - `MenuItem`: The individual menu items.
 - `MenuDivider`: A divider that separates menu items.
+- `SubMenu`: The component that provides the submenu functionality.
+- `SubMenuList`: A submenu content that wraps the submenu items.
 
 ```js
 import {
@@ -25,6 +27,8 @@ import {
   MenuGroup,
   MenuItem,
   MenuDivider,
+  SubMenu,
+  SubMenuList,
 } from '@tonic-ui/react';
 ```
 
@@ -35,7 +39,10 @@ import {
 Below is a simple example that shows the basic menu structure.
 
 ```jsx
-<>
+<Flex
+  display="inline-flex"
+  flexDirection="column"
+>
   <MenuItem value="general">
     <Icon icon="settings" mr="2x" />
     <Text>General</Text>
@@ -53,17 +60,80 @@ Below is a simple example that shows the basic menu structure.
     <Icon icon="undo" mr="2x" />
     <Text>Restore Defaults</Text>
   </MenuItem>
-</>
+</Flex>
+```
+
+### Cascading submenus
+
+The following example shows a menu with cascading submenus.
+
+```jsx
+<Flex
+  display="inline-flex"
+  flexDirection="column"
+>
+  <MenuItem>
+    List item
+  </MenuItem>
+  <MenuItem>
+    List item
+  </MenuItem>
+  <MenuDivider />
+  <SubMenu>
+    <MenuItem>
+      <Flex
+        alignItems="center"
+        columnGap="2x"
+        justifyContent="space-between"
+        width="100%"
+      >
+        <Text>Submenu</Text>
+        <Icon icon="angle-right" />
+      </Flex>
+    </MenuItem>
+    <SubMenuList width="max-content">
+      <MenuItem>
+        List item
+      </MenuItem>
+      <MenuItem>
+        List item
+      </MenuItem>
+      <SubMenu>
+        <MenuItem>
+          <Flex
+            alignItems="center"
+            columnGap="2x"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <Text>Submenu</Text>
+            <Icon icon="angle-right" />
+          </Flex>
+        </MenuItem>
+        <SubMenuList width="max-content">
+          <MenuItem>
+            List item
+          </MenuItem>
+          <MenuItem>
+            List item
+          </MenuItem>
+        </SubMenuList>
+      </SubMenu>
+    </SubMenuList>
+  </SubMenu>
+</Flex>
 ```
 
 ### Controlled menu
 
 The menu opens over the anchor element by default, and closes when the user clicks outside of the menu.
 
-```jsx
-function Example() {
+```jsx noInline
+render(() => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const [selectedValue, setSelectedValue] = React.useState(null);
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -79,7 +149,7 @@ function Example() {
   };
   const handleMenuItemClick = (event) => {
     const value = event.target.getAttribute('value');
-    console.log(`Menu item #${value} clicked`);
+    console.log(`List item ${value} clicked`);
   };
 
   return (
@@ -105,20 +175,39 @@ function Example() {
             width="max-content"
           >
             <MenuItem value={1}>
-              Item #1
+              List item 1
             </MenuItem>
             <MenuItem value={2}>
-              Item #2
+              List item 2
             </MenuItem>
-            <MenuItem value={3}>
-              Item #3
-            </MenuItem>
+            <MenuDivider />
+            <SubMenu>
+              <MenuItem>
+                <Flex
+                  alignItems="center"
+                  columnGap="2x"
+                  justifyContent="space-between"
+                  width="100%"
+                >
+                  Submenu
+                  <Icon icon="angle-right" />
+                </Flex>
+              </MenuItem>
+              <SubMenuList width="max-content">
+                <MenuItem value={3}>
+                  List item 3
+                </MenuItem>
+                <MenuItem value={4}>
+                  List item 4
+                </MenuItem>
+              </SubMenuList>
+            </SubMenu>
           </MenuList>
         </Menu>
       )}
     </Flex>
   );
-}
+});
 ```
 
 ### MenuToggle
@@ -133,13 +222,13 @@ function Example() {
     </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
-        Item #1
+        List item 1
       </MenuItem>
       <MenuItem>
-        Item #2
+        List item 2
       </MenuItem>
       <MenuItem>
-        Item #3
+        List item 3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -159,13 +248,13 @@ function Example() {
     </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
-        Item #1
+        List item 1
       </MenuItem>
       <MenuItem>
-        Item #2
+        List item 2
       </MenuItem>
       <MenuItem>
-        Item #3
+        List item 3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -192,13 +281,13 @@ function Example() {
     </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
-        Item #1
+        List item 1
       </MenuItem>
       <MenuItem>
-        Item #2
+        List item 2
       </MenuItem>
       <MenuItem>
-        Item #3
+        List item 3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -244,13 +333,13 @@ const MenuButton = (props) => {
   </MenuButton>
   <MenuList width="max-content">
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -267,13 +356,13 @@ const MenuButton = (props) => {
   </MenuToggle>
   <MenuList width="max-content">
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -306,13 +395,13 @@ You can also customize the indicator by passing a component as children or a fun
         </MenuToggle>
         <MenuList width="max-content">
           <MenuItem>
-            Item #1
+            List item 1
           </MenuItem>
           <MenuItem>
-            Item #2
+            List item 2
           </MenuItem>
           <MenuItem>
-            Item #3
+            List item 3
           </MenuItem>
         </MenuList>
       </>
@@ -398,13 +487,13 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
   </MenuButton>
   <MenuList width={200}>
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -421,13 +510,13 @@ Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `
   </MenuButton>
   <MenuList width="100%">
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -442,13 +531,13 @@ Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `
   </MenuButton>
   <MenuList width="min-content">
     <MenuItem >
-      Menu item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Menu item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Menu item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -463,13 +552,13 @@ Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `
   </MenuButton>
   <MenuList width="max-content">
     <MenuItem>
-      This is a very long menu item #1
+      This is a very long list item 1
     </MenuItem>
     <MenuItem>
-      This is a very long menu item #2
+      This is a very long list item 2
     </MenuItem>
     <MenuItem>
-      This is a very long menu item #3
+      This is a very long list item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -531,13 +620,13 @@ function Example() {
                   </MenuButton>
                   <MenuList>
                     <MenuItem>
-                      Item #1
+                      List item 1
                     </MenuItem>
                     <MenuItem>
-                      Item #2
+                      List item 2
                     </MenuItem>
                     <MenuItem>
-                      Item #3
+                      List item 3
                     </MenuItem>
                   </MenuList>
                 </Menu>
@@ -589,13 +678,13 @@ The second number, `distance`, controls the distance between the menu and the to
   </MenuButton>
   <MenuList>
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -617,7 +706,7 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
   >
     {Array.from({ length: 100 }).map((_, key) => (
       <MenuItem key={key}>
-        Item #{key + 1}
+        List item {key + 1}
       </MenuItem>
     ))}
   </MenuList>
@@ -635,7 +724,7 @@ You can also use the `Scrollbar` component to override the default scrollbar.
     <Scrollbar height={200} overflowY="visible">
       {Array.from({ length: 100 }).map((_, key) => (
         <MenuItem key={key}>
-          Item #{key + 1}
+          List item {key + 1}
         </MenuItem>
       ))}
     </Scrollbar>
