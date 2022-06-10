@@ -57,13 +57,11 @@ const Switch = forwardRef((
         <Box
           as="svg"
           data-switch
-          data-toggle-svg // deprecated attribute
           {...switchSVGStyle}
         >
           <Box
             as="rect"
             data-switch-track-halo
-            data-toggle-switch-track-halo // deprecated attribute
             x="0"
             y="0"
             {...switchTrackHaloStyle}
@@ -71,7 +69,6 @@ const Switch = forwardRef((
           <Box
             as="rect"
             data-switch-track-border
-            data-toggle-switch-track-border // deprecated attribute
             x="2"
             y="2"
             {...switchTrackBorderStyle}
@@ -79,7 +76,6 @@ const Switch = forwardRef((
           <Box
             as="rect"
             data-switch-track
-            data-toggle-switch-track // deprecated attribute
             x="3"
             y="3"
             {...switchTrackStyle}
@@ -87,7 +83,6 @@ const Switch = forwardRef((
           <Box
             as="circle"
             data-switch-thumb
-            data-toggle-switch-thumb // deprecated attribute
             {...switchThumbStyle}
           />
         </Box>
