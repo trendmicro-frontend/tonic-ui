@@ -31,46 +31,49 @@ const baseStyle = ({
     dark: `${variantColor}:60`,
     light: `${variantColor}:40`,
   }[colorMode];
-
   const checkedAndHoverColor = {
     dark: `${variantColor}:50`,
     light: `${variantColor}:30`,
+  }[colorMode];
+  const trackBorderColor = {
+    dark: 'black',
+    light: 'white',
   }[colorMode];
 
   return {
     width: switchMaxWidth,
     height: switchMaxHeight,
     _child: {
-      opacity: 1
+      opacity: 1,
     },
     _hover: {
       '[data-toggle-svg] [data-toggle-switch-track]': {
-        fill: 'gray:50'
+        fill: 'gray:50',
       },
     },
     _focus: {
       '[data-toggle-svg] [data-toggle-switch-track-halo]': {
-        fill: focusAndCheckedColor
+        fill: focusAndCheckedColor,
       },
       '[data-toggle-svg] [data-toggle-switch-track-border]': {
-        fill: 'black'
+        fill: trackBorderColor,
       }
     },
     _checked: {
       '[data-toggle-svg] [data-toggle-switch-track]': {
-        fill: focusAndCheckedColor
+        fill: focusAndCheckedColor,
       },
       '[data-toggle-svg] [data-toggle-switch-thumb]': {
-        transform: `translateX(${height}px)`
+        transform: `translateX(${height}px)`,
       },
     },
     _checkedAndHover: {
       '[data-toggle-svg] [data-toggle-switch-track]': {
-        fill: checkedAndHoverColor
+        fill: checkedAndHoverColor,
       },
     },
     _disabled: {
-      opacity: 0.28
+      opacity: 0.28,
     }
   };
 };
