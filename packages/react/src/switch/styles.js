@@ -31,46 +31,49 @@ const baseStyle = ({
     dark: `${variantColor}:60`,
     light: `${variantColor}:40`,
   }[colorMode];
-
   const checkedAndHoverColor = {
     dark: `${variantColor}:50`,
     light: `${variantColor}:30`,
+  }[colorMode];
+  const trackBorderColor = {
+    dark: 'black',
+    light: 'white',
   }[colorMode];
 
   return {
     width: switchMaxWidth,
     height: switchMaxHeight,
     _child: {
-      opacity: 1
+      opacity: 1,
     },
     _hover: {
-      '[data-toggle-svg] [data-toggle-switch-track]': {
-        fill: 'gray:50'
+      '[data-switch] [data-switch-track]': {
+        fill: 'gray:50',
       },
     },
     _focus: {
-      '[data-toggle-svg] [data-toggle-switch-track-halo]': {
-        fill: focusAndCheckedColor
+      '[data-switch] [data-switch-track-halo]': {
+        fill: focusAndCheckedColor,
       },
-      '[data-toggle-svg] [data-toggle-switch-track-border]': {
-        fill: 'black'
+      '[data-switch] [data-switch-track-border]': {
+        fill: trackBorderColor,
       }
     },
     _checked: {
-      '[data-toggle-svg] [data-toggle-switch-track]': {
-        fill: focusAndCheckedColor
+      '[data-switch] [data-switch-track]': {
+        fill: focusAndCheckedColor,
       },
-      '[data-toggle-svg] [data-toggle-switch-thumb]': {
-        transform: `translateX(${height}px)`
+      '[data-switch] [data-switch-thumb]': {
+        transform: `translateX(${height}px)`,
       },
     },
     _checkedAndHover: {
-      '[data-toggle-svg] [data-toggle-switch-track]': {
-        fill: checkedAndHoverColor
+      '[data-switch] [data-switch-track]': {
+        fill: checkedAndHoverColor,
       },
     },
     _disabled: {
-      opacity: 0.28
+      opacity: 0.28,
     }
   };
 };

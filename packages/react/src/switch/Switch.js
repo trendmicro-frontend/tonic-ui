@@ -56,33 +56,33 @@ const Switch = forwardRef((
       <ControlBox {...baseStyle}>
         <Box
           as="svg"
-          data-toggle-svg
+          data-switch
           {...switchSVGStyle}
         >
           <Box
             as="rect"
-            data-toggle-switch-track-halo
+            data-switch-track-halo
             x="0"
             y="0"
             {...switchTrackHaloStyle}
           />
           <Box
             as="rect"
-            data-toggle-switch-track-border
+            data-switch-track-border
             x="2"
             y="2"
             {...switchTrackBorderStyle}
           />
           <Box
             as="rect"
-            data-toggle-switch-track
+            data-switch-track
             x="3"
             y="3"
             {...switchTrackStyle}
           />
           <Box
             as="circle"
-            data-toggle-switch-thumb
+            data-switch-thumb
             {...switchThumbStyle}
           />
         </Box>
