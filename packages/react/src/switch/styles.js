@@ -47,28 +47,28 @@ const baseStyle = ({
       opacity: 1,
     },
     _hover: {
-      '[data-toggle-svg] [data-toggle-switch-track]': {
+      '[data-switch] [data-switch-track]': {
         fill: 'gray:50',
       },
     },
     _focus: {
-      '[data-toggle-svg] [data-toggle-switch-track-halo]': {
+      '[data-switch] [data-switch-track-halo]': {
         fill: focusAndCheckedColor,
       },
-      '[data-toggle-svg] [data-toggle-switch-track-border]': {
+      '[data-switch] [data-switch-track-border]': {
         fill: trackBorderColor,
       }
     },
     _checked: {
-      '[data-toggle-svg] [data-toggle-switch-track]': {
+      '[data-switch] [data-switch-track]': {
         fill: focusAndCheckedColor,
       },
-      '[data-toggle-svg] [data-toggle-switch-thumb]': {
+      '[data-switch] [data-switch-thumb]': {
         transform: `translateX(${height}px)`,
       },
     },
     _checkedAndHover: {
-      '[data-toggle-svg] [data-toggle-switch-track]': {
+      '[data-switch] [data-switch-track]': {
         fill: checkedAndHoverColor,
       },
     },
