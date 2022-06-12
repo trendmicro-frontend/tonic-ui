@@ -69,58 +69,116 @@ The following example shows a menu with cascading submenus.
 
 ```jsx
 <Flex
-  display="inline-flex"
-  flexDirection="column"
+  justify="space-between"
 >
-  <MenuItem>
-    List item
-  </MenuItem>
-  <MenuItem>
-    List item
-  </MenuItem>
-  <MenuDivider />
-  <SubMenu>
+  <Flex
+    flexDirection="column"
+  >
     <MenuItem>
-      <Flex
-        alignItems="center"
-        columnGap="2x"
-        justifyContent="space-between"
-        width="100%"
-      >
-        <Text>Submenu</Text>
-        <Icon icon="angle-right" />
-      </Flex>
+      <Text>List item</Text>
     </MenuItem>
-    <SubMenuList width="max-content">
+    <MenuItem>
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuDivider />
+    <SubMenu>
       <MenuItem>
-        List item
+        <Flex
+          alignItems="center"
+          columnGap="2x"
+          justifyContent="space-between"
+          width="100%"
+        >
+          <Text>Submenu</Text>
+          <Icon icon="angle-right" />
+        </Flex>
       </MenuItem>
-      <MenuItem>
-        List item
-      </MenuItem>
-      <SubMenu>
+      <SubMenuList width="max-content">
         <MenuItem>
-          <Flex
-            alignItems="center"
-            columnGap="2x"
-            justifyContent="space-between"
-            width="100%"
-          >
-            <Text>Submenu</Text>
-            <Icon icon="angle-right" />
-          </Flex>
+          <Text>List item</Text>
         </MenuItem>
-        <SubMenuList width="max-content">
+        <MenuItem>
+          <Text>List item</Text>
+        </MenuItem>
+        <SubMenu>
           <MenuItem>
-            List item
+            <Flex
+              alignItems="center"
+              columnGap="2x"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Text>Submenu</Text>
+              <Icon icon="angle-right" />
+            </Flex>
           </MenuItem>
+          <SubMenuList width="max-content">
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+          </SubMenuList>
+        </SubMenu>
+      </SubMenuList>
+    </SubMenu>
+  </Flex>
+  <Flex
+    flexDirection="column"
+  >
+    <MenuItem pl="8x">
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuItem pl="8x">
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuDivider />
+    <SubMenu placement="left-start">
+      <MenuItem>
+        <Flex
+          alignItems="center"
+          columnGap="2x"
+          justifyContent="space-between"
+          width="100%"
+        >
+          <Icon icon="angle-left" />
+          <Text>Submenu</Text>
+        </Flex>
+      </MenuItem>
+      <SubMenuList width="max-content">
+        <MenuItem pl="9x">
+          <Text>List item</Text>
+        </MenuItem>
+        <MenuItem pl="9x">
+          <Text>List item</Text>
+        </MenuItem>
+        <SubMenu placement="left-start">
           <MenuItem>
-            List item
+            <Flex
+              alignItems="center"
+              columnGap="2x"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Icon icon="angle-left" />
+              <Text>Submenu</Text>
+            </Flex>
           </MenuItem>
-        </SubMenuList>
-      </SubMenu>
-    </SubMenuList>
-  </SubMenu>
+          <SubMenuList
+            width="max-content"
+          >
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+          </SubMenuList>
+        </SubMenu>
+      </SubMenuList>
+    </SubMenu>
+  </Flex>
 </Flex>
 ```
 
@@ -888,6 +946,19 @@ function menuWithCheckbox() {
 | onKeyDown | function | | Callback when the user presses a key. |
 
 ### MenuDivider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### SubMenu
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| placement | string | 'right-start' | The placement of the submenu. One of: 'right-start', 'right-end', 'left-start', 'left-end' |
+
+### SubMenuList
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

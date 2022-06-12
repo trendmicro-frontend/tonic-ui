@@ -11,6 +11,7 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const SubMenu = forwardRef((
   {
     children,
+    placement = 'right-start', // One of: 'right-start', 'right-end', 'left-start', 'left-end'
     ...rest
   },
   ref,
@@ -25,6 +26,7 @@ const SubMenu = forwardRef((
   const styleProps = useSubMenuStyle();
   const context = getMemoizedState({
     isHovered,
+    placement,
   });
 
   return (

@@ -147,7 +147,10 @@ const useSubMenuStyle = () => {
   };
 };
 
-const useSubMenuListStyle = ({ isHovered }) => {
+const useSubMenuListStyle = ({
+  isHovered,
+  placement,
+}) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorModeStyle = {
@@ -160,17 +163,40 @@ const useSubMenuListStyle = ({ isHovered }) => {
       boxShadow: colorStyle?.shadow?.medium,
     },
   }[colorMode];
+  const mapPlacementToStyle = (placement) => {
+    return {
+      'right-start': {
+        position: 'absolute',
+        top: 0,
+        left: '100%',
+      },
+      'right-end': {
+        position: 'absolute',
+        bottom: 0,
+        left: '100%',
+      },
+      'left-start': {
+        position: 'absolute',
+        top: 0,
+        right: '100%',
+      },
+      'left-end': {
+        position: 'absolute',
+        bottom: 0,
+        right: '100%',
+      },
+    }[placement];
+  };
+  const placementStyle = mapPlacementToStyle(placement) ?? mapPlacementToStyle('right-start');
 
   return {
     ...colorModeStyle,
+    ...placementStyle,
     color: 'inherit',
     display: isHovered ? 'block' : 'none',
     m: '0',
     p: '0',
     py: '2x',
-    position: 'absolute',
-    top: 0,
-    left: '100%',
     _focus: {
       outline: 'none',
     },

@@ -5,8 +5,8 @@ import useSubMenu from './useSubMenu';
 
 const SubMenuList = forwardRef((props, ref) => {
   const subMenuContext = useSubMenu(); // context might be an undefined value
-  const { isHovered } = { ...subMenuContext };
-  const styleProps = useSubMenuListStyle({ isHovered });
+  const { isHovered, placement } = { ...subMenuContext };
+  const styleProps = useSubMenuListStyle({ isHovered, placement });
 
   return (
     <Box
