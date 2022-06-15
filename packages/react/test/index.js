@@ -107,10 +107,10 @@ test('should match expected exports', () => {
     'MenuList',
     'MenuToggle',
     'MenuToggleIcon',
-    'SubMenu',
-    'SubMenuList',
+    'Submenu',
+    'SubmenuList',
     'useMenu',
-    'useSubMenu',
+    'useSubmenu',
 
     // modal
     'Modal',

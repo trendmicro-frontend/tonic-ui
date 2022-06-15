@@ -141,13 +141,13 @@ const useMenuToggleIconStyle = () => {
   };
 };
 
-const useSubMenuStyle = () => {
+const useSubmenuStyle = () => {
   return {
     position: 'relative',
   };
 };
 
-const useSubMenuListStyle = ({
+const useSubmenuListStyle = ({
   isHovered,
   placement,
 }) => {
@@ -213,6 +213,6 @@ export {
   useMenuItemDividerStyle,
   useMenuToggleStyle,
   useMenuToggleIconStyle,
-  useSubMenuStyle,
-  useSubMenuListStyle,
+  useSubmenuStyle,
+  useSubmenuListStyle,
 };

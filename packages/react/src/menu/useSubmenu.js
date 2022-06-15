@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { SubMenuContext } from './context';
+import { SubmenuContext } from './context';
 
-const useSubMenu = () => {
+const useSubmenu = () => {
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
 
-  const context = useContext(SubMenuContext);
+  const context = useContext(SubmenuContext);
   return context;
 };
 
-export default useSubMenu;
+export default useSubmenu;

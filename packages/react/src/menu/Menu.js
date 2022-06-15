@@ -60,7 +60,9 @@ const Menu = forwardRef((
     if (isOpen) {
       // Use requestAnimationFrame to ensure that the menu is rendered before we try to focus on it.
       requestAnimationFrame(() => {
-        const nextFocusableElements = getFocusableElements(menuRef?.current).filter(node => node.getAttribute('role') === 'menuitem');
+        const nextFocusableElements = getFocusableElements(menuRef?.current)
+          .filter(node => node.getAttribute('role') === 'menuitem');
+
         setFocusableElements(nextFocusableElements);
 
         // Init tab index

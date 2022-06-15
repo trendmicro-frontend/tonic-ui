@@ -7,10 +7,10 @@ import MenuItem from './MenuItem';
 import MenuList from './MenuList';
 import MenuToggle from './MenuToggle';
 import MenuToggleIcon from './MenuToggleIcon';
-import SubMenu from './SubMenu';
-import SubMenuList from './SubMenuList';
+import Submenu from './Submenu';
+import SubmenuList from './SubmenuList';
 import useMenu from './useMenu';
-import useSubMenu from './useSubMenu';
+import useSubmenu from './useSubmenu';
 
 Menu.Button = MenuButton;
 Menu.Content = MenuContent;
@@ -21,7 +21,7 @@ Menu.List = MenuList;
 Menu.Toggle = MenuToggle;
 Menu.Toggle.Icon = MenuToggleIcon;
 
-SubMenu.List = SubMenuList;
+Submenu.List = SubmenuList;
 
 export {
   Menu,
@@ -33,8 +33,8 @@ export {
   MenuList,
   MenuToggle,
   MenuToggleIcon,
-  SubMenu,
-  SubMenuList,
+  Submenu,
+  SubmenuList,
   useMenu,
-  useSubMenu,
+  useSubmenu,
 };

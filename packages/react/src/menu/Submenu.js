@@ -2,13 +2,15 @@ import { useEventCallback } from '@tonic-ui/react-hooks';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import config from '../shared/config';
 import runIfFn from '../utils/runIfFn';
-import { SubMenuProvider } from './context';
-import { useSubMenuStyle } from './styles';
+import useAutoId from '../utils/useAutoId';
+import { SubmenuProvider } from './context';
+import { useSubmenuStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const SubMenu = forwardRef((
+const Submenu = forwardRef((
   {
     children,
     placement = 'right-start', // One of: 'right-start', 'right-end', 'left-start', 'left-end'
@@ -23,14 +25,17 @@ const SubMenu = forwardRef((
   const onMouseLeave = useEventCallback((event) => {
     setIsHovered(false);
   });
-  const styleProps = useSubMenuStyle();
+  const defaultId = useAutoId();
+  const submenuId = `${config.name}:Submenu-${defaultId}`;
+  const styleProps = useSubmenuStyle();
   const context = getMemoizedState({
     isHovered,
     placement,
+    submenuId,
   });
 
   return (
-    <SubMenuProvider value={context}>
+    <SubmenuProvider value={context}>
       <Box
         ref={ref}
         onMouseEnter={onMouseEnter}
@@ -40,10 +45,10 @@ const SubMenu = forwardRef((
       >
         {runIfFn(children, context)}
       </Box>
-    </SubMenuProvider>
+    </SubmenuProvider>
   );
 });
 
-SubMenu.displayName = 'SubMenu';
+Submenu.displayName = 'Submenu';
 
-export default SubMenu;
+export default Submenu;

@@ -13,8 +13,8 @@ A menu is used to display a list of options to the user. It appears when the use
 - `MenuGroup`: A component that groups menu items.
 - `MenuItem`: The individual menu items.
 - `MenuDivider`: A divider that separates menu items.
-- `SubMenu`: The component that provides the submenu functionality.
-- `SubMenuList`: A submenu content that wraps the submenu items.
+- `Submenu`: The component that provides the submenu functionality.
+- `SubmenuList`: A submenu content that wraps the submenu items.
 
 ```js
 import {
@@ -27,8 +27,8 @@ import {
   MenuGroup,
   MenuItem,
   MenuDivider,
-  SubMenu,
-  SubMenuList,
+  Submenu,
+  SubmenuList,
 } from '@tonic-ui/react';
 ```
 
@@ -81,7 +81,7 @@ The following example shows a menu with cascading submenus.
       <Text>List item</Text>
     </MenuItem>
     <MenuDivider />
-    <SubMenu>
+    <Submenu>
       <MenuItem>
         <Flex
           alignItems="center"
@@ -93,14 +93,14 @@ The following example shows a menu with cascading submenus.
           <Icon icon="angle-right" />
         </Flex>
       </MenuItem>
-      <SubMenuList width="max-content">
+      <SubmenuList width="max-content">
         <MenuItem>
           <Text>List item</Text>
         </MenuItem>
         <MenuItem>
           <Text>List item</Text>
         </MenuItem>
-        <SubMenu>
+        <Submenu>
           <MenuItem>
             <Flex
               alignItems="center"
@@ -112,17 +112,17 @@ The following example shows a menu with cascading submenus.
               <Icon icon="angle-right" />
             </Flex>
           </MenuItem>
-          <SubMenuList width="max-content">
+          <SubmenuList width="max-content">
             <MenuItem>
               <Text>List item</Text>
             </MenuItem>
             <MenuItem>
               <Text>List item</Text>
             </MenuItem>
-          </SubMenuList>
-        </SubMenu>
-      </SubMenuList>
-    </SubMenu>
+          </SubmenuList>
+        </Submenu>
+      </SubmenuList>
+    </Submenu>
   </Flex>
   <Flex
     flexDirection="column"
@@ -134,7 +134,7 @@ The following example shows a menu with cascading submenus.
       <Text>List item</Text>
     </MenuItem>
     <MenuDivider />
-    <SubMenu placement="left-start">
+    <Submenu placement="left-start">
       <MenuItem>
         <Flex
           alignItems="center"
@@ -146,14 +146,14 @@ The following example shows a menu with cascading submenus.
           <Text>Submenu</Text>
         </Flex>
       </MenuItem>
-      <SubMenuList width="max-content">
+      <SubmenuList width="max-content">
         <MenuItem pl="9x">
           <Text>List item</Text>
         </MenuItem>
         <MenuItem pl="9x">
           <Text>List item</Text>
         </MenuItem>
-        <SubMenu placement="left-start">
+        <Submenu placement="left-start">
           <MenuItem>
             <Flex
               alignItems="center"
@@ -165,7 +165,7 @@ The following example shows a menu with cascading submenus.
               <Text>Submenu</Text>
             </Flex>
           </MenuItem>
-          <SubMenuList
+          <SubmenuList
             width="max-content"
           >
             <MenuItem>
@@ -174,10 +174,10 @@ The following example shows a menu with cascading submenus.
             <MenuItem>
               <Text>List item</Text>
             </MenuItem>
-          </SubMenuList>
-        </SubMenu>
-      </SubMenuList>
-    </SubMenu>
+          </SubmenuList>
+        </Submenu>
+      </SubmenuList>
+    </Submenu>
   </Flex>
 </Flex>
 ```
@@ -239,7 +239,7 @@ render(() => {
               List item 2
             </MenuItem>
             <MenuDivider />
-            <SubMenu>
+            <Submenu>
               <MenuItem>
                 <Flex
                   alignItems="center"
@@ -251,15 +251,15 @@ render(() => {
                   <Icon icon="angle-right" />
                 </Flex>
               </MenuItem>
-              <SubMenuList width="max-content">
+              <SubmenuList width="max-content">
                 <MenuItem value={3}>
                   List item 3
                 </MenuItem>
                 <MenuItem value={4}>
                   List item 4
                 </MenuItem>
-              </SubMenuList>
-            </SubMenu>
+              </SubmenuList>
+            </Submenu>
           </MenuList>
         </Menu>
       )}
@@ -951,14 +951,14 @@ function menuWithCheckbox() {
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
 
-### SubMenu
+### Submenu
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
 | placement | string | 'right-start' | The placement of the submenu. One of: 'right-start', 'right-end', 'left-start', 'left-end' |
 
-### SubMenuList
+### SubmenuList
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

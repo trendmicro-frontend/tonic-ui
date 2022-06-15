@@ -3,12 +3,12 @@ import { createContext } from 'react';
 const MenuContext = createContext();
 const MenuProvider = MenuContext.Provider;
 
-const SubMenuContext = createContext();
-const SubMenuProvider = SubMenuContext.Provider;
+const SubmenuContext = createContext();
+const SubmenuProvider = SubmenuContext.Provider;
 
 export {
   MenuContext,
   MenuProvider,
-  SubMenuContext,
-  SubMenuProvider,
+  SubmenuContext,
+  SubmenuProvider,
 };
