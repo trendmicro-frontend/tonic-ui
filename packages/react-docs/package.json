@@ -37,6 +37,7 @@
     "@next/mdx": "^12.1.2",
     "@tonic-ui/react": "^1.2.7",
     "@tonic-ui/react-hooks": "^1.2.0",
+    "@tonic-ui/react-lab": "^0.1.6",
     "@tonic-ui/theme": "^1.1.0",
     "@trendmicro/babel-config": "^1.0.2",
     "@zeit/next-css": "^1.0.1",
