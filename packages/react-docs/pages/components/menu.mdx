@@ -7,24 +7,32 @@ A menu is used to display a list of options to the user. It appears when the use
 - `Menu`: The component that provides the menu functionality.
 - `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a menu button.
 - `MenuContent`: An unstyled component that provides the menu content.
-- `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
-- `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
-- `MenuList`: A styled `MenuContent` that wraps the menu items.
+- `MenuDivider`: A divider that separates menu items.
 - `MenuGroup`: A component that groups menu items.
 - `MenuItem`: The individual menu items.
-- `MenuDivider`: A divider that separates menu items.
+- `MenuList`: A styled `MenuContent` that wraps the menu items.
+- `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
+- `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
+- `Submenu`: The component that provides the submenu functionality.
+- `SubmenuList`: The list of menu items that appear in the submenu.
+- `SubmenuToggle`: The toggle that opens the submenu when the menu item is hovered over.
 
 ```js
 import {
   Menu,
   MenuButton,
   MenuContent,
-  MenuToggle,
-  MenuToggleIcon,
-  MenuList,
+  MenuDivider,
   MenuGroup,
   MenuItem,
-  MenuDivider,
+  MenuList,
+  MenuToggle,
+  MenuToggleIcon,
+  Submenu,
+  SubmenuList,
+  SubmenuToggle,
+  useMenu,
+  useSubmenu,
 } from '@tonic-ui/react';
 ```
 
@@ -35,7 +43,10 @@ import {
 Below is a simple example that shows the basic menu structure.
 
 ```jsx
-<>
+<Flex
+  display="inline-flex"
+  flexDirection="column"
+>
   <MenuItem value="general">
     <Icon icon="settings" mr="2x" />
     <Text>General</Text>
@@ -53,17 +64,146 @@ Below is a simple example that shows the basic menu structure.
     <Icon icon="undo" mr="2x" />
     <Text>Restore Defaults</Text>
   </MenuItem>
-</>
+</Flex>
+```
+
+### Cascading submenus
+
+The following example shows a menu with cascading submenus.
+
+```jsx
+<Flex
+  justify="space-between"
+>
+  <Flex
+    flexDirection="column"
+  >
+    <MenuItem>
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuItem>
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuDivider />
+    <Submenu>
+      <SubmenuToggle>
+        <MenuItem>
+          <Flex
+            alignItems="center"
+            columnGap="2x"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <Text>Submenu</Text>
+            <Icon icon="angle-right" />
+          </Flex>
+        </MenuItem>
+      </SubmenuToggle>
+      <SubmenuList width="max-content">
+        <MenuItem>
+          <Text>List item</Text>
+        </MenuItem>
+        <MenuItem>
+          <Text>List item</Text>
+        </MenuItem>
+        <Submenu>
+          <SubmenuToggle>
+            <MenuItem>
+              <Flex
+                alignItems="center"
+                columnGap="2x"
+                justifyContent="space-between"
+                width="100%"
+              >
+                <Text>Submenu</Text>
+                <Icon icon="angle-right" />
+              </Flex>
+            </MenuItem>
+          </SubmenuToggle>
+          <SubmenuList width="max-content">
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+          </SubmenuList>
+        </Submenu>
+      </SubmenuList>
+    </Submenu>
+  </Flex>
+  <Flex
+    flexDirection="column"
+  >
+    <MenuItem pl="9x">
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuItem pl="9x">
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuDivider />
+    <Submenu placement="left-start">
+      <SubmenuToggle>
+        <MenuItem>
+          <Flex
+            alignItems="center"
+            columnGap="2x"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <Icon icon="angle-left" />
+            <Text>Submenu</Text>
+          </Flex>
+        </MenuItem>
+      </SubmenuToggle>
+      <SubmenuList width="max-content">
+        <MenuItem pl="9x">
+          <Text>List item</Text>
+        </MenuItem>
+        <MenuItem pl="9x">
+          <Text>List item</Text>
+        </MenuItem>
+        <Submenu placement="left-start">
+          <SubmenuToggle>
+            <MenuItem>
+              <Flex
+                alignItems="center"
+                columnGap="2x"
+                justifyContent="space-between"
+                width="100%"
+              >
+                <Icon icon="angle-left" />
+                <Text>Submenu</Text>
+              </Flex>
+            </MenuItem>
+          </SubmenuToggle>
+          <SubmenuList
+            width="max-content"
+          >
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+          </SubmenuList>
+        </Submenu>
+      </SubmenuList>
+    </Submenu>
+  </Flex>
+</Flex>
 ```
 
 ### Controlled menu
 
 The menu opens over the anchor element by default, and closes when the user clicks outside of the menu.
 
-```jsx
-function Example() {
+```jsx noInline
+render(() => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
   const [selectedValue, setSelectedValue] = React.useState(null);
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -79,7 +219,7 @@ function Example() {
   };
   const handleMenuItemClick = (event) => {
     const value = event.target.getAttribute('value');
-    console.log(`Menu item #${value} clicked`);
+    console.log(`List item ${value} clicked`);
   };
 
   return (
@@ -105,20 +245,41 @@ function Example() {
             width="max-content"
           >
             <MenuItem value={1}>
-              Item #1
+              List item 1
             </MenuItem>
             <MenuItem value={2}>
-              Item #2
+              List item 2
             </MenuItem>
-            <MenuItem value={3}>
-              Item #3
-            </MenuItem>
+            <MenuDivider />
+            <Submenu>
+              <SubmenuToggle>
+                <MenuItem>
+                  <Flex
+                    alignItems="center"
+                    columnGap="2x"
+                    justifyContent="space-between"
+                    width="100%"
+                  >
+                    Submenu
+                    <Icon icon="angle-right" />
+                  </Flex>
+                </MenuItem>
+              </SubmenuToggle>
+              <SubmenuList width="max-content">
+                <MenuItem value={3}>
+                  List item 3
+                </MenuItem>
+                <MenuItem value={4}>
+                  List item 4
+                </MenuItem>
+              </SubmenuList>
+            </Submenu>
           </MenuList>
         </Menu>
       )}
     </Flex>
   );
-}
+});
 ```
 
 ### MenuToggle
@@ -133,13 +294,13 @@ function Example() {
     </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
-        Item #1
+        List item 1
       </MenuItem>
       <MenuItem>
-        Item #2
+        List item 2
       </MenuItem>
       <MenuItem>
-        Item #3
+        List item 3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -159,13 +320,13 @@ function Example() {
     </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
-        Item #1
+        List item 1
       </MenuItem>
       <MenuItem>
-        Item #2
+        List item 2
       </MenuItem>
       <MenuItem>
-        Item #3
+        List item 3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -192,13 +353,13 @@ function Example() {
     </MenuToggle>
     <MenuList width="max-content">
       <MenuItem>
-        Item #1
+        List item 1
       </MenuItem>
       <MenuItem>
-        Item #2
+        List item 2
       </MenuItem>
       <MenuItem>
-        Item #3
+        List item 3
       </MenuItem>
     </MenuList>
   </Menu>
@@ -244,13 +405,13 @@ const MenuButton = (props) => {
   </MenuButton>
   <MenuList width="max-content">
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -267,13 +428,13 @@ const MenuButton = (props) => {
   </MenuToggle>
   <MenuList width="max-content">
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -306,13 +467,13 @@ You can also customize the indicator by passing a component as children or a fun
         </MenuToggle>
         <MenuList width="max-content">
           <MenuItem>
-            Item #1
+            List item 1
           </MenuItem>
           <MenuItem>
-            Item #2
+            List item 2
           </MenuItem>
           <MenuItem>
-            Item #3
+            List item 3
           </MenuItem>
         </MenuList>
       </>
@@ -398,13 +559,13 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
   </MenuButton>
   <MenuList width={200}>
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -421,13 +582,13 @@ Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `
   </MenuButton>
   <MenuList width="100%">
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -442,13 +603,13 @@ Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `
   </MenuButton>
   <MenuList width="min-content">
     <MenuItem >
-      Menu item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Menu item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Menu item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -463,13 +624,13 @@ Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `
   </MenuButton>
   <MenuList width="max-content">
     <MenuItem>
-      This is a very long menu item #1
+      This is a very long list item 1
     </MenuItem>
     <MenuItem>
-      This is a very long menu item #2
+      This is a very long list item 2
     </MenuItem>
     <MenuItem>
-      This is a very long menu item #3
+      This is a very long list item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -531,13 +692,13 @@ function Example() {
                   </MenuButton>
                   <MenuList>
                     <MenuItem>
-                      Item #1
+                      List item 1
                     </MenuItem>
                     <MenuItem>
-                      Item #2
+                      List item 2
                     </MenuItem>
                     <MenuItem>
-                      Item #3
+                      List item 3
                     </MenuItem>
                   </MenuList>
                 </Menu>
@@ -589,13 +750,13 @@ The second number, `distance`, controls the distance between the menu and the to
   </MenuButton>
   <MenuList>
     <MenuItem>
-      Item #1
+      List item 1
     </MenuItem>
     <MenuItem>
-      Item #2
+      List item 2
     </MenuItem>
     <MenuItem>
-      Item #3
+      List item 3
     </MenuItem>
   </MenuList>
 </Menu>
@@ -617,7 +778,7 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
   >
     {Array.from({ length: 100 }).map((_, key) => (
       <MenuItem key={key}>
-        Item #{key + 1}
+        List item {key + 1}
       </MenuItem>
     ))}
   </MenuList>
@@ -635,7 +796,7 @@ You can also use the `Scrollbar` component to override the default scrollbar.
     <Scrollbar height={200} overflowY="visible">
       {Array.from({ length: 100 }).map((_, key) => (
         <MenuItem key={key}>
-          Item #{key + 1}
+          List item {key + 1}
         </MenuItem>
       ))}
     </Scrollbar>
@@ -724,10 +885,10 @@ function menuWithCheckbox() {
 | isOpen | boolean | | Whether the menu is open. |
 | offset | [skidding, distance] | [0, 0] | The skidding and distance of the menu. |
 | onBlur | function | | Callback when the menu loses focus. |
-| onKeyDown | function | | Callback when the user presses a key. |
-| onOpen | function | | Callback when the menu is opened. |
 | onClick | function | | Callback when a menu item is clicked. |
 | onClose | function | | Callback when the menu is closed. |
+| onKeyDown | function | | Callback when the user presses a key. |
+| onOpen | function | | Callback when the menu is opened. |
 | placement | string | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
 
 ### MenuButton
@@ -740,6 +901,38 @@ function menuWithCheckbox() {
 | onKeyDown | function | | Callback when the user presses a key. |
 
 ### MenuContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+
+### MenuDivider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### MenuGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| title | string | | The title of the menu group. |
+
+### MenuItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | Whether the menu item is disabled. |
+| onClick | function | | Callback when the menu item is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuList
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -772,34 +965,26 @@ function menuWithCheckbox() {
 | timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
 
-### MenuList
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| PopperComponent | ElementType | Popper | The component used for the popover. |
-| PopperProps | object | | Props applied to the Popper component. |
-| TransitionComponent | ElementType | Collapse | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |
-| children | ReactNode | | |
-
-### MenuGroup
+### Submenu
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| title | string | | The title of the menu group. |
+| defaultIsOpen | boolean | `false` | Whether the submenu is open by default. |
+| isOpen | boolean | | Whether the submenu is open. |
+| onClose | function | | Callback when the submenu is closed. |
+| onOpen | function | | Callback when the submenu is opened. |
+| placement | string | 'right-start' | The placement of the submenu. One of: 'right-start', 'right-end', 'left-start', 'left-end' |
 
-### MenuItem
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| disabled | boolean | | Whether the menu item is disabled. |
-| onClick | function | | Callback when the menu item is clicked. |
-| onKeyDown | function | | Callback when the user presses a key. |
-
-### MenuDivider
+### SubmenuList
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
+
+### SubmenuToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| ({ getSubmenuToggleProps }) => ReactNode | | |
+| disabled | boolean | | Whether the submenu toggle is disabled. |
