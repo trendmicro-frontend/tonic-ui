@@ -1,6 +1,5 @@
-import { useEventCallback } from '@tonic-ui/react-hooks';
 import memoize from 'micro-memoize';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import runIfFn from '../utils/runIfFn';
@@ -13,33 +12,72 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const Submenu = forwardRef((
   {
     children,
+    defaultIsOpen = false,
+    isOpen: isOpenProp,
+    onClose: onCloseProp,
+    onOpen: onOpenProp,
     placement = 'right-start', // One of: 'right-start', 'right-end', 'left-start', 'left-end'
     ...rest
   },
   ref,
 ) => {
-  const [isHovered, setIsHovered] = React.useState(false);
-  const onMouseEnter = useEventCallback((event) => {
-    setIsHovered(true);
-  });
-  const onMouseLeave = useEventCallback((event) => {
-    setIsHovered(false);
-  });
+  const submenuRef = useRef(null);
+  const submenuToggleRef = useRef(null);
+  const isHoveringSubmenuListRef = useRef();
+  const isHoveringSubmenuToggleRef = useRef();
+  const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
+
+  useEffect(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (isControlled) {
+      setIsOpen(isOpenProp);
+    }
+  }, [isOpenProp]);
+
+  const onClose = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (!isControlled) {
+      setIsOpen(false);
+    }
+
+    if (typeof onCloseProp === 'function') {
+      onCloseProp();
+    }
+  }, [isOpenProp, onCloseProp]);
+
+  const onOpen = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (!isControlled) {
+      setIsOpen(true);
+    }
+
+    if (typeof onOpenProp === 'function') {
+      onOpenProp();
+    }
+  }, [isOpenProp, onOpenProp]);
+
   const defaultId = useAutoId();
   const submenuId = `${config.name}:Submenu-${defaultId}`;
+  const submenuToggleId = `${config.name}:SubmenuToggle-${defaultId}`;
   const styleProps = useSubmenuStyle();
+
   const context = getMemoizedState({
-    isHovered,
+    isHoveringSubmenuListRef,
+    isHoveringSubmenuToggleRef,
+    isOpen,
+    onClose,
+    onOpen,
     placement,
     submenuId,
+    submenuRef,
+    submenuToggleId,
+    submenuToggleRef,
   });
 
   return (
     <SubmenuProvider value={context}>
       <Box
         ref={ref}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         {...styleProps}
         {...rest}
       >

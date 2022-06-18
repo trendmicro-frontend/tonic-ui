@@ -10,10 +10,10 @@ import useMenu from './useMenu';
 
 const MenuToggle = forwardRef((
   {
-    onClick: onClickProp,
-    onKeyDown: onKeyDownProp,
     children,
     disabled,
+    onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
     ...rest
   },
   ref,
@@ -30,8 +30,8 @@ const MenuToggle = forwardRef((
     onClose: closeMenu,
     onOpen: openMenu,
   } = { ...menuContext };
-  const styleProps = useMenuToggleStyle();
   const combinedRef = useForkRef(menuToggleRef, ref);
+  const styleProps = useMenuToggleStyle();
   const handleClick = wrapEvent(onClickProp, (event) => {
     // Don't handle `onClick` event when the `MenuToggle` is disabled
     if (disabled) {

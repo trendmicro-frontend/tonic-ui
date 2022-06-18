@@ -7,14 +7,15 @@ A menu is used to display a list of options to the user. It appears when the use
 - `Menu`: The component that provides the menu functionality.
 - `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a menu button.
 - `MenuContent`: An unstyled component that provides the menu content.
-- `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
-- `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
-- `MenuList`: A styled `MenuContent` that wraps the menu items.
+- `MenuDivider`: A divider that separates menu items.
 - `MenuGroup`: A component that groups menu items.
 - `MenuItem`: The individual menu items.
-- `MenuDivider`: A divider that separates menu items.
+- `MenuList`: A styled `MenuContent` that wraps the menu items.
+- `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
+- `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
 - `Submenu`: The component that provides the submenu functionality.
 - `SubmenuList`: A submenu content that wraps the submenu items.
+- `SubmenuToggle`: The toggle that opens the submenu. This is usually a menu item.
 
 ```js
 import {
@@ -28,7 +29,10 @@ import {
   MenuItem,
   MenuDivider,
   Submenu,
+  SubmenuToggle,
   SubmenuList,
+  useMenu,
+  useSubmenu,
 } from '@tonic-ui/react';
 ```
 
@@ -82,17 +86,19 @@ The following example shows a menu with cascading submenus.
     </MenuItem>
     <MenuDivider />
     <Submenu>
-      <MenuItem>
-        <Flex
-          alignItems="center"
-          columnGap="2x"
-          justifyContent="space-between"
-          width="100%"
-        >
-          <Text>Submenu</Text>
-          <Icon icon="angle-right" />
-        </Flex>
-      </MenuItem>
+      <SubmenuToggle>
+        <MenuItem>
+          <Flex
+            alignItems="center"
+            columnGap="2x"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <Text>Submenu</Text>
+            <Icon icon="angle-right" />
+          </Flex>
+        </MenuItem>
+      </SubmenuToggle>
       <SubmenuList width="max-content">
         <MenuItem>
           <Text>List item</Text>
@@ -101,17 +107,19 @@ The following example shows a menu with cascading submenus.
           <Text>List item</Text>
         </MenuItem>
         <Submenu>
-          <MenuItem>
-            <Flex
-              alignItems="center"
-              columnGap="2x"
-              justifyContent="space-between"
-              width="100%"
-            >
-              <Text>Submenu</Text>
-              <Icon icon="angle-right" />
-            </Flex>
-          </MenuItem>
+          <SubmenuToggle>
+            <MenuItem>
+              <Flex
+                alignItems="center"
+                columnGap="2x"
+                justifyContent="space-between"
+                width="100%"
+              >
+                <Text>Submenu</Text>
+                <Icon icon="angle-right" />
+              </Flex>
+            </MenuItem>
+          </SubmenuToggle>
           <SubmenuList width="max-content">
             <MenuItem>
               <Text>List item</Text>
@@ -135,17 +143,19 @@ The following example shows a menu with cascading submenus.
     </MenuItem>
     <MenuDivider />
     <Submenu placement="left-start">
-      <MenuItem>
-        <Flex
-          alignItems="center"
-          columnGap="2x"
-          justifyContent="space-between"
-          width="100%"
-        >
-          <Icon icon="angle-left" />
-          <Text>Submenu</Text>
-        </Flex>
-      </MenuItem>
+      <SubmenuToggle>
+        <MenuItem>
+          <Flex
+            alignItems="center"
+            columnGap="2x"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <Icon icon="angle-left" />
+            <Text>Submenu</Text>
+          </Flex>
+        </MenuItem>
+      </SubmenuToggle>
       <SubmenuList width="max-content">
         <MenuItem pl="9x">
           <Text>List item</Text>
@@ -154,17 +164,19 @@ The following example shows a menu with cascading submenus.
           <Text>List item</Text>
         </MenuItem>
         <Submenu placement="left-start">
-          <MenuItem>
-            <Flex
-              alignItems="center"
-              columnGap="2x"
-              justifyContent="space-between"
-              width="100%"
-            >
-              <Icon icon="angle-left" />
-              <Text>Submenu</Text>
-            </Flex>
-          </MenuItem>
+          <SubmenuToggle>
+            <MenuItem>
+              <Flex
+                alignItems="center"
+                columnGap="2x"
+                justifyContent="space-between"
+                width="100%"
+              >
+                <Icon icon="angle-left" />
+                <Text>Submenu</Text>
+              </Flex>
+            </MenuItem>
+          </SubmenuToggle>
           <SubmenuList
             width="max-content"
           >
@@ -240,17 +252,19 @@ render(() => {
             </MenuItem>
             <MenuDivider />
             <Submenu>
-              <MenuItem>
-                <Flex
-                  alignItems="center"
-                  columnGap="2x"
-                  justifyContent="space-between"
-                  width="100%"
-                >
-                  Submenu
-                  <Icon icon="angle-right" />
-                </Flex>
-              </MenuItem>
+              <SubmenuToggle>
+                <MenuItem>
+                  <Flex
+                    alignItems="center"
+                    columnGap="2x"
+                    justifyContent="space-between"
+                    width="100%"
+                  >
+                    Submenu
+                    <Icon icon="angle-right" />
+                  </Flex>
+                </MenuItem>
+              </SubmenuToggle>
               <SubmenuList width="max-content">
                 <MenuItem value={3}>
                   List item 3
@@ -897,6 +911,38 @@ function menuWithCheckbox() {
 | TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
 
+### MenuDivider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### MenuGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| title | string | | The title of the menu group. |
+
+### MenuItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | Whether the menu item is disabled. |
+| onClick | function | | Callback when the menu item is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuList
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+
 ### MenuToggle
 
 | Name | Type | Default | Description |
@@ -919,43 +965,13 @@ function menuWithCheckbox() {
 | timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
 
-### MenuList
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| PopperComponent | ElementType | Popper | The component used for the popover. |
-| PopperProps | object | | Props applied to the Popper component. |
-| TransitionComponent | ElementType | Collapse | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |
-| children | ReactNode | | |
-
-### MenuGroup
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-| title | string | | The title of the menu group. |
-
-### MenuItem
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| disabled | boolean | | Whether the menu item is disabled. |
-| onClick | function | | Callback when the menu item is clicked. |
-| onKeyDown | function | | Callback when the user presses a key. |
-
-### MenuDivider
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-
 ### Submenu
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
+| defaultIsOpen | boolean | `false` | Whether the submenu is open by default. |
+| isOpen | boolean | | Whether the submenu is open. |
 | placement | string | 'right-start' | The placement of the submenu. One of: 'right-start', 'right-end', 'left-start', 'left-end' |
 
 ### SubmenuList
@@ -963,3 +979,10 @@ function menuWithCheckbox() {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
+
+### SubmenuToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| ({ getSubmenuToggleProps }) => ReactNode | | |
+| disabled | boolean | | Whether the submenu toggle is disabled. |

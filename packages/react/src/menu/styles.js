@@ -148,7 +148,7 @@ const useSubmenuStyle = () => {
 };
 
 const useSubmenuListStyle = ({
-  isHovered,
+  isOpen,
   placement,
 }) => {
   const [colorMode] = useColorMode();
@@ -193,13 +193,20 @@ const useSubmenuListStyle = ({
     ...colorModeStyle,
     ...placementStyle,
     color: 'inherit',
-    display: isHovered ? 'block' : 'none',
+    display: isOpen ? 'block' : 'none',
     m: '0',
     p: '0',
     py: '2x',
     _focus: {
       outline: 'none',
     },
+  };
+};
+
+const useSubmenuToggleStyle = () => {
+  return {
+    cursor: 'pointer',
+    display: 'inline-flex',
   };
 };
 
@@ -215,4 +222,5 @@ export {
   useMenuToggleIconStyle,
   useSubmenuStyle,
   useSubmenuListStyle,
+  useSubmenuToggleStyle,
 };
