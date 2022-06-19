@@ -84,6 +84,7 @@
       "text",
       "html"
     ],
+    "modulePathIgnorePatterns": ["<rootDir>/build"],
     "setupFiles": [],
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
