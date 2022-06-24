@@ -10,7 +10,7 @@ import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
 import update from 'immutability-helper';
 import React, { useCallback, useState } from 'react';
-import * as ReactBeautifulDND from 'react-beautiful-dnd';
+import * as rbd from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
 import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
@@ -29,7 +29,7 @@ import SkeletonContent from './SkeletonContent';
 
 const thirdPartyComponents = {
   AutoSizer,
-  ReactBeautifulDND,
+  rbd,
   ReactDND,
   ReactDNDHtml5backend,
   ReactMovable,

@@ -353,7 +353,7 @@ Sometimes you need to access the state of tabs. For example, you may want to laz
 </Tabs>
 ```
 
-### Tabs with dropdown menu
+### Tabs with dropdown menus
 
 The tab with the dropdown menu is usually the last tab. You can use `event.preventDefault()` to control whether the tab will be selected when the user clicks the dropdown menu.
 
@@ -389,6 +389,147 @@ The tab with the dropdown menu is usually the last tab. You can use `event.preve
     </Tab>
   </TabList>
 </Tabs>
+```
+
+### Draggable tabs with dropdown menus
+
+Use [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd) to make tabs draggable.
+
+```jsx noInline
+// a little function to help us with reordering the result
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+};
+
+render(() => {
+  const [items, setItems] = React.useState([
+    {
+      id: 'tab-1',
+      label: 'TAB 1',
+      content: 'TAB 1',
+      dropdown: {
+        items: [
+          { id: 'menuitem-1', label: 'Menu Item 1' },
+          { id: 'menuitem-2', label: 'Menu Item 2' },
+          { id: 'menuitem-3', label: 'Menu Item 3' },
+        ],
+      },
+    },
+    {
+      id: 'tab-2',
+      label: 'TAB 2',
+      content: 'TAB 2',
+    },
+    {
+      id: 'tab-3',
+      label: 'TAB 3',
+      content: 'TAB 3',
+    },
+  ]);
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const nextItems = reorder(items, result.source.index, result.destination.index);
+    setItems(nextItems);
+  };
+
+  return (
+    <Tabs
+      orientation="horizontal"
+    >
+      <rbd.DragDropContext
+        onDragEnd={onDragEnd}
+      >
+        <rbd.Droppable
+          droppableId="droppable"
+          direction="horizontal"
+        >
+          {(droppableProvided, droppableSnapshot) => (
+            <TabList
+              ref={droppableProvided.innerRef}
+              {...droppableProvided.droppableProps}
+            >
+              {items.map((item, index) => (
+                <rbd.Draggable
+                  key={item.id}
+                  draggableId={item.id}
+                  index={index}
+                >
+                  {(draggableProvided, draggableSnapshot) => (
+                    <Box
+                      ref={draggableProvided.innerRef}
+                      {...draggableProvided.draggableProps}
+                      {...draggableProvided.dragHandleProps}
+                      style={{
+                        ...draggableProvided.draggableProps.style,
+                      }}
+                    >
+                      {!item.dropdown && (
+                        <Tab
+                          as={Box}
+                          index={index}
+                        >
+                          {item.label}
+                        </Tab>
+                      )}
+                      {item.dropdown && (
+                        <Tab
+                          as={Box}
+                          onClick={(event) => {
+                            const value = event.target.getAttribute('value');
+                            if (!value) {
+                              event.preventDefault();
+                              return;
+                            }
+                            console.log('Menu Item ' + value + ' clicked');
+                          }}
+                        >
+                          <Menu offset={[-14, 10]}>
+                            <MenuToggle alignItems="center">
+                              {item.label}
+                              <Space width="1x" />
+                              <MenuToggleIcon />
+                            </MenuToggle>
+                            <MenuList
+                              width="max-content"
+                            >
+                              {item.dropdown.items.map(x => (
+                                <MenuItem key={x.id} value={x.id}>
+                                  {x.label}
+                                </MenuItem>
+                              ))}
+                            </MenuList>
+                          </Menu>
+                        </Tab>
+                      )}
+                    </Box>
+                  )}
+                </rbd.Draggable>
+              ))}
+              {droppableProvided.placeholder}
+            </TabList>
+          )}
+        </rbd.Droppable>
+      </rbd.DragDropContext>
+      <TabPanels px="3x" py="2x">
+        {items.map((item, index) => (
+          <TabPanel
+            key={item.id}
+            index={index}
+          >
+            {item.content}
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </Tabs>
+  );
+});
 ```
 
 ### Scrollable tabs
