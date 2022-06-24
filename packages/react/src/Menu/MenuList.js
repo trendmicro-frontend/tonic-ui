@@ -1,8 +1,8 @@
 import React from 'react';
 import Popper from '../Popper/Popper';
 import wrapEvent from '../utils/wrapEvent';
-import { useMenu } from './context';
 import { useMenuListStyle } from './styles';
+import useMenu from './useMenu';
 
 const MenuList = ({
   skidding = 0,
@@ -11,6 +11,7 @@ const MenuList = ({
   onKeyDown: onKeyDownProp,
   ...props
 }) => {
+  const menuContext = useMenu(); // context might be an undefined value
   const {
     activeIndex: index,
     isOpen,
@@ -27,7 +28,7 @@ const MenuList = ({
     placement,
     onKeyDown,
     onBlur,
-  } = useMenu();
+  } = { ...menuContext };
 
   const handleKeyDown = event => {
     const count = focusableItems.current.length;

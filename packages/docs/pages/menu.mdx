@@ -15,6 +15,9 @@ Menu uses roving tabIndex for focus management.
 - `MenuGroup`: A wrapper to group related menu items.
 - `MenuDivider`: A visual separator for menu items and groups.
 - `MenuButton`: The trigger for the menu list. Must be a direct child of `Menu`.
+- `Submenu`: The component that provides the submenu functionality.
+- `SubmenuList`: The list of menu items that appear in the submenu.
+- `SubmenuToggle`: The toggle that opens the submenu when the menu item is hovered over.
 
 ```js
 import {
@@ -24,6 +27,11 @@ import {
   MenuGroup,
   MenuDivider,
   MenuButton,
+  Submenu,
+  SubmenuList,
+  SubmenuToggle,
+  useMenu,
+  useSubmenu,
 } from '@trendmicro/react-styled-ui';
 ```
 
@@ -93,6 +101,133 @@ function basicMenu() {
     </MenuList>
   </Menu>
 </Stack>
+```
+
+### Cascading submenus
+
+The following example shows a menu with cascading submenus.
+
+```jsx
+<Flex
+  justify="space-between"
+>
+  <Flex
+    flexDirection="column"
+  >
+    <MenuItem>
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuItem>
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuDivider />
+    <Submenu>
+      <SubmenuToggle>
+        <MenuItem>
+          <Flex
+            alignItems="center"
+            columnGap="2x"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <Text>Submenu</Text>
+            <Icon icon="angle-right" />
+          </Flex>
+        </MenuItem>
+      </SubmenuToggle>
+      <SubmenuList width="max-content">
+        <MenuItem>
+          <Text>List item</Text>
+        </MenuItem>
+        <MenuItem>
+          <Text>List item</Text>
+        </MenuItem>
+        <Submenu>
+          <SubmenuToggle>
+            <MenuItem>
+              <Flex
+                alignItems="center"
+                columnGap="2x"
+                justifyContent="space-between"
+                width="100%"
+              >
+                <Text>Submenu</Text>
+                <Icon icon="angle-right" />
+              </Flex>
+            </MenuItem>
+          </SubmenuToggle>
+          <SubmenuList width="max-content">
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+          </SubmenuList>
+        </Submenu>
+      </SubmenuList>
+    </Submenu>
+  </Flex>
+  <Flex
+    flexDirection="column"
+  >
+    <MenuItem pl="9x">
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuItem pl="9x">
+      <Text>List item</Text>
+    </MenuItem>
+    <MenuDivider />
+    <Submenu placement="left-start">
+      <SubmenuToggle>
+        <MenuItem>
+          <Flex
+            alignItems="center"
+            columnGap="2x"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <Icon icon="angle-left" />
+            <Text>Submenu</Text>
+          </Flex>
+        </MenuItem>
+      </SubmenuToggle>
+      <SubmenuList width="max-content">
+        <MenuItem pl="9x">
+          <Text>List item</Text>
+        </MenuItem>
+        <MenuItem pl="9x">
+          <Text>List item</Text>
+        </MenuItem>
+        <Submenu placement="left-start">
+          <SubmenuToggle>
+            <MenuItem>
+              <Flex
+                alignItems="center"
+                columnGap="2x"
+                justifyContent="space-between"
+                width="100%"
+              >
+                <Icon icon="angle-left" />
+                <Text>Submenu</Text>
+              </Flex>
+            </MenuItem>
+          </SubmenuToggle>
+          <SubmenuList
+            width="max-content"
+          >
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+          </SubmenuList>
+        </Submenu>
+      </SubmenuList>
+    </Submenu>
+  </Flex>
+</Flex>
 ```
 
 ### Group
@@ -316,3 +451,27 @@ Add `skidding` or `distance` to customize menu offset position
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | The content of the menu group, should be the `MenuItem` component |
 | title | string | The title of the menu group |
+
+### Submenu
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| defaultIsOpen | boolean | `false` | Whether the submenu is open by default. |
+| isOpen | boolean | | Whether the submenu is open. |
+| onClose | function | | Callback when the submenu is closed. |
+| onOpen | function | | Callback when the submenu is opened. |
+| placement | string | 'right-start' | The placement of the submenu. One of: 'right-start', 'right-end', 'left-start', 'left-end' |
+
+### SubmenuList
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### SubmenuToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| ({ getSubmenuToggleProps }) => ReactNode | | |
+| disabled | boolean | | Whether the submenu toggle is disabled. |
