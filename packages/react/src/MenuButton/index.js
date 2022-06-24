@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
-import { useMenu } from '../Menu/context';
 import Button from '../Button';
 import Icon from '../Icon';
 import Box from '../Box';
+import useMenu from '../Menu/useMenu';
 import wrapEvent from '../utils/wrapEvent';
 import useForkRef from '../utils/useForkRef';
 import { useMenuButtonStyle, getIconWrapperProps } from './styles';

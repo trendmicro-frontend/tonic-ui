@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
-import { useMenu } from './context';
-import { useMenuItemStyle } from './styles';
 import Box from '../Box';
 import wrapEvent from '../utils/wrapEvent';
+import { useMenuItemStyle } from './styles';
+import useMenu from './useMenu';
 
 const MenuItem = forwardRef(
   (
@@ -17,10 +17,11 @@ const MenuItem = forwardRef(
     },
     ref,
   ) => {
+    const menuContext = useMenu(); // context might be an undefined value
     const {
       closeOnSelect,
       closeMenu,
-    } = useMenu();
+    } = { ...menuContext };
 
     const styleProps = useMenuItemStyle();
 

@@ -117,3 +117,78 @@ export const useMenuItemDividerStyle = () => {
     ...menuItemDividerProps()
   };
 };
+
+/**
+|--------------------------------------------------
+| Styles for Submenu
+|--------------------------------------------------
+*/
+export const useSubmenuStyle = () => {
+  return {
+    position: 'relative',
+  };
+};
+
+export const useSubmenuListStyle = ({
+  isOpen,
+  placement,
+}) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const colorModeStyle = {
+    light: {
+      backgroundColor: 'white',
+      boxShadow: colorStyle?.shadow?.medium,
+    },
+    dark: {
+      backgroundColor: 'gray:80',
+      boxShadow: colorStyle?.shadow?.medium,
+    },
+  }[colorMode];
+  const mapPlacementToStyle = (placement) => {
+    return {
+      'right-start': {
+        position: 'absolute',
+        top: 0,
+        left: '100%',
+      },
+      'right-end': {
+        position: 'absolute',
+        bottom: 0,
+        left: '100%',
+      },
+      'left-start': {
+        position: 'absolute',
+        top: 0,
+        right: '100%',
+      },
+      'left-end': {
+        position: 'absolute',
+        bottom: 0,
+        right: '100%',
+      },
+    }[placement];
+  };
+  const placementStyle = mapPlacementToStyle(placement) ?? mapPlacementToStyle('right-start');
+
+  return {
+    ...colorModeStyle,
+    ...placementStyle,
+    color: 'inherit',
+    display: isOpen ? 'block' : 'none',
+    m: '0',
+    p: '0',
+    py: '2x',
+    zIndex: 'dropdown',
+    _focus: {
+      outline: 'none',
+    },
+  };
+};
+
+export const useSubmenuToggleStyle = () => {
+  return {
+    cursor: 'pointer',
+    display: 'inline-flex',
+  };
+};
