@@ -5,7 +5,7 @@ import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import update from 'immutability-helper';
 import React, { useEffect, useCallback, useState, useRef } from 'react';
-import * as ReactBeautifulDND from 'react-beautiful-dnd';
+import * as rbd from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
 import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
@@ -22,7 +22,7 @@ const thirdPartyComponents = {
   AutoSizer,
   Code,
   Global,
-  ReactBeautifulDND,
+  rbd,
   ReactDND,
   ReactDNDHtml5backend,
   ReactMovable,

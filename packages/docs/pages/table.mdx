@@ -1598,13 +1598,13 @@ function ReorderColumnTable() {
     <Table {...getTableProps()}>
       <TableHeader>
         {headerGroups.map((headerGroup, index) => (
-          <ReactBeautifulDND.DragDropContext
+          <rbd.DragDropContext
             key={index}
             onDragStart={onDragStart}
             onDragUpdate={onDragUpdate}
             onDragEnd={onDragEnd}
           >
-            <ReactBeautifulDND.Droppable droppableId="droppable-table-header" direction="horizontal">
+            <rbd.Droppable droppableId="droppable-table-header" direction="horizontal">
               {(droppableProvided, droppableSnapshot) => {
                 return (
                   <TableHeaderRow
@@ -1613,7 +1613,7 @@ function ReorderColumnTable() {
                     {...headerGroup.getHeaderGroupProps()}
                   >
                     {headerGroup.headers.map((column, index) => (
-                      <ReactBeautifulDND.Draggable
+                      <rbd.Draggable
                         key={column.id}
                         draggableId={column.id}
                         index={index}
@@ -1640,7 +1640,7 @@ function ReorderColumnTable() {
                             </TableHeaderCell>
                           );
                         }}
-                      </ReactBeautifulDND.Draggable>
+                      </rbd.Draggable>
                     ))}
                     {droppableProvided.placeholder}
                     <TableHeaderCell
@@ -1657,8 +1657,8 @@ function ReorderColumnTable() {
                   </TableHeaderRow>
                 );
               }}
-            </ReactBeautifulDND.Droppable>
-          </ReactBeautifulDND.DragDropContext>
+            </rbd.Droppable>
+          </rbd.DragDropContext>
         ))}
       </TableHeader>
       <TableBody {...getTableBodyProps()}>
@@ -1689,7 +1689,7 @@ function ReorderColumnTable() {
 // The resetServerContext function should be used when server side rendering (SSR).
 // It ensures context state does not persist across multiple renders on the server
 // which would result in client/server markup mismatches after multiple requests are rendered on the server.
-ReactBeautifulDND.resetServerContext();
+rbd.resetServerContext();
 
 render(<ReorderColumnTable />);
 ```
