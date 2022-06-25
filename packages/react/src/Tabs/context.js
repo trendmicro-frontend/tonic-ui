@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
-const TabContext = createContext();
+const TabsContext = createContext();
 
 export {
-  TabContext
+  TabsContext,
 };

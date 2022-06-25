@@ -1,242 +1,343 @@
-import { useContext } from 'react';
-import { TabContext } from './context';
 import useColorMode from '../useColorMode';
 import useTheme from '../useTheme';
-import { setColorWithOpacity } from '../theme/colors';
 
-const tabSizes = {
-  sm: {
-    height: '10x',
-    fontSize: 'xs',
-    lineHeight: 'xs',
-    py: '1x',
-    px: '3x',
-  },
-  md: {
-    height: '10x',
-    fontSize: 'sm',
-    lineHeight: 'sm',
-    px: '3x',
-    py: '2x'
-  },
-  lg: {
-    height: '10x',
-    fontSize: '1.15rem',
-    padding: '0.75rem 1rem',
-  },
-};
-
-const tabProps = {
-  display: 'flex',
-  cursor: 'pointer',
-  borderStyle: 'solid',
-  borderColor: 'transparent',
-  borderWidth: '2px',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
-const tabList = {
-  borderWidth: 0,
-  borderBottomWidth: tabProps.borderWidth,
-  borderColor: 'transparent',
-  borderStyle: 'solid'
-};
-
-const lineStyle = ({ size, colorMode, theme }) => {
-  const _color = { light: theme.colors['black:primary'], dark: theme.colors['white:emphasis'] }[colorMode];
-  const _fontColor = setColorWithOpacity(_color, 0.6);
-  const _hoveredBorderColor = 'gray:60';
-  const _focusBorderColor = 'blue:60';
-  const _selectedFontColor = _color;
-  const _selectedBorderColor = 'red:60';
-  const _disabledColor = setColorWithOpacity(_color, 0.28);
-  const _disabledBorderColor = 'transparent';
-  const _disabledBackgroundColor = _disabledBorderColor;
-  return {
-    tabList: {
-      borderBottomWidth: tabList.borderBottomWidth,
-      borderColor: 'transparent',
-    },
-    tab: {
-      color: _fontColor,
-      borderLeftWidth: 0,
-      borderRightWidth: 0,
-      mb: `-${tabProps.borderWidth}`,
-      _hover: {
-        borderBottomColor: _hoveredBorderColor
-      },
-      _selected: {
-        color: _selectedFontColor,
-        cursor: 'default',
-        borderBottomColor: _selectedBorderColor
-      },
-      _focus: {
-        borderBottomColor: _focusBorderColor,
-        zIndex: '3'
-      },
-      _disabled: {
-        color: _disabledColor,
-        cursor: 'not-allowed',
-        borderColor: 'transparent',
-        borderBottomColor: _disabledBorderColor,
-        backgroundColor: _disabledBackgroundColor
-      },
-      _focusSelected: {
-        borderBottomColor: _selectedBorderColor
-      },
-      _focusActive: {
-        borderBottomColor: _hoveredBorderColor,
-      },
-    },
-  };
-};
-
-const enclosedStyle = ({ size, colorMode, theme }) => {
-  const _borderWidth = '1px';
-  const _focusBorderWidth = '2px';
-  const _px = tabSizes[size] ? theme.space[tabSizes[size].px] : theme.space[tabSizes.md.px];
-  const _lineHeight = tabSizes[size] ? theme.lineHeights[tabSizes[size].lineHeight] : theme.lineHeights[tabSizes.md.lineHeight];
-  const _color = { light: theme.colors['black:primary'], dark: theme.colors['white:emphasis'] }[colorMode];
-  const _backgroundColor = { light: 'gray:20', dark: 'gray:90' }[colorMode];
-  const _borderColor = { light: 'gray:30', dark: 'gray:80' }[colorMode];
-  const _hoveredBorderColor = { light: 'gray:30', dark: 'gray:70' }[colorMode];
-  const _hoveredBgColor = { light: 'gray:10', dark: 'gray:70' }[colorMode];
-  const _focusBorderColor = { light: 'blue:60', dark: 'blue:60' }[colorMode];
-  const _selectedBg = { light: 'white:emphasis', dark: 'gray:80' }[colorMode];
-  const _selectedBorder = { light: 'gray:30', dark: 'gray:80' }[colorMode];
-  const _fontColor = setColorWithOpacity(_color, 0.6);
-  const _selectedFontColor = _color;
-  const _disabledColor = setColorWithOpacity(_color, 0.28);
-
-  return {
-    tab: {
-      color: _fontColor,
-      borderWidth: _borderWidth,
-      borderColor: _borderColor,
-      backgroundColor: _backgroundColor,
-      px: `calc(${_px} - ${_borderWidth})`,
-      py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_borderWidth} * 2)) / 2)`,
-      mr: '-1px',
-      mb: '-1px',
-
-      _selected: {
-        color: _selectedFontColor,
-        borderColor: _selectedBorder,
-        backgroundColor: _selectedBg,
-        zIndex: 1
-      },
-
-      _hover: {
-        borderColor: _hoveredBorderColor,
-        backgroundColor: _hoveredBgColor,
-        zIndex: 2
-      },
-
-      _focus: {
-        borderColor: _focusBorderColor,
-        borderWidth: _focusBorderWidth,
-        px: `calc(${_px} - ${_focusBorderWidth})`,
-        py: `calc((${theme.space[tabSizes[size].height]} - ${_lineHeight} - (${_focusBorderWidth} * 2)) / 2)`,
-      },
-
-      _focusHover: {
-        borderColor: _focusBorderColor,
-        zIndex: 3
-      },
-
-      _focusSelected: {
-        borderColor: _selectedBorder,
-        zIndex: 3
-      },
-
-      _focusActive: {
-        borderColor: _hoveredBorderColor,
-      },
-
-      _disabled: {
-        color: _disabledColor,
-        backgroundColor: _backgroundColor,
-        borderColor: _borderColor
-      }
-    }
-  };
-};
-
-const variantStyle = props => {
-  switch (props.variant) {
-  case 'line':
-    return lineStyle(props);
-  case 'enclosed':
-    return enclosedStyle(props);
-  default:
-    return {};
-  }
-};
-
-const orientationStyle = ({ align, orientation }) => {
-  const alignments = {
-    right: 'flex-end',
-    center: 'center',
-    left: 'flex-start',
-  };
-
-  let tabListStyle;
-  let tabStyle;
-
-  if (orientation === 'horizontal') {
-    tabListStyle = {
-      alignItems: 'center',
-      justifyContent: alignments[align],
-      maxWidth: 'full',
-    };
-
-    tabStyle = {
-      height: '100%',
-    };
-  }
-
-  if (orientation === 'vertical') {
-    tabListStyle = { flexDirection: 'column' };
-
-    tabStyle = {
-      width: '100%',
-    };
-  }
-
-  return {
-    tabList: tabListStyle,
-    tab: tabStyle,
-  };
-};
-
-export const useTabStyle = () => {
+const useTabStyle = ({
+  disabled,
+  isSelected,
+  orientation,
+  variant,
+}) => {
   const theme = useTheme();
-  const { variant, size, isFitted, orientation } = useContext(
-    TabContext,
-  );
   const [colorMode] = useColorMode();
-  const _variantStyle = variantStyle({ size, variant, theme, colorMode });
-  const _orientationStyle = orientationStyle({ orientation });
+  const getCursorStyle = () => {
+    if (disabled) {
+      return 'not-allowed';
+    }
+    if (isSelected) {
+      return 'default';
+    }
+    return 'pointer';
+  };
+
+  if (variant === 'default') {
+    // border color
+    const disabledBorderColor = 'transparent';
+    const focusBorderColor = {
+      dark: 'blue:60',
+      light: 'blue:60',
+    }[colorMode];
+    const hoverBorderColor = {
+      dark: 'gray:60',
+      light: 'gray:60',
+    }[colorMode];
+    const selectedBorderColor = {
+      dark: 'red:60',
+      light: 'red:60',
+    }[colorMode];
+
+    // color
+    const color = {
+      dark: 'white:secondary',
+      light: 'black:secondary',
+    }[colorMode];
+    const disabledColor = {
+      dark: 'white:disabled',
+      light: 'black:disabled',
+    }[colorMode];
+    const focusColor = {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode];
+    const hoverColor = {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode];
+    const selectedColor = {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode];
+
+    const getBorderColorStyleWithFallback = (fallbackBorderColor) => {
+      if (disabled && isSelected) {
+        // Returns the selected border color if the tab is both disabled and selected
+        return selectedBorderColor;
+      }
+      if (disabled) {
+        // Returns the disabled border color if the tab is disabled
+        return disabledBorderColor;
+      }
+      if (isSelected) {
+        // Returns the selected border color if the tab is selected
+        return selectedBorderColor;
+      }
+      // Returns the fallback border color
+      return fallbackBorderColor;
+    };
+
+    const getColorStyleWithFallback = (fallbackColor) => {
+      if (disabled) {
+        // Returns the disabled color if the tab is disabled
+        return disabledColor;
+      }
+      if (isSelected) {
+        // Returns the selected color if the tab is selected
+        return selectedColor;
+      }
+      // Returns the fallback color
+      return fallbackColor;
+    };
+
+    const selectedPaddingXKey = {
+      'horizontal': 'px',
+      'vertical': 'pr',
+    }[orientation];
+    const selectedPaddingYKey = {
+      'horizontal': 'pt',
+      'vertical': 'py',
+    }[orientation];
+    const selectedBorderColorKey = {
+      'horizontal': 'borderBottomColor',
+      'vertical': 'borderLeftColor',
+    }[orientation];
+    const selectedBorderStyleKey = {
+      'horizontal': 'borderBottomStyle',
+      'vertical': 'borderLeftStyle',
+    }[orientation];
+    const selectedBorderWidthKey = {
+      'horizontal': 'borderBottomWidth',
+      'vertical': 'borderLeftWidth',
+    }[orientation];
+
+    return {
+      fontSize: 'sm',
+      lineHeight: 'sm',
+      borderColor: 'transparent',
+      borderStyle: 'solid',
+      borderWidth: '1h',
+      color: getColorStyleWithFallback(color),
+      cursor: getCursorStyle(),
+      px: '3x',
+      py: '2x',
+      _hover: {
+        border: 'none',
+        [selectedBorderColorKey]: getBorderColorStyleWithFallback(hoverBorderColor),
+        [selectedBorderStyleKey]: 'solid',
+        [selectedBorderWidthKey]: '1h',
+        color: getColorStyleWithFallback(hoverColor),
+        [selectedPaddingXKey]: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1h']})`,
+        [selectedPaddingYKey]: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1h']})`,
+      },
+      _focus: {
+        borderColor: getBorderColorStyleWithFallback(focusBorderColor),
+        color: getColorStyleWithFallback(focusColor),
+      },
+      _selected: {
+        border: 'none',
+        [selectedBorderColorKey]: getBorderColorStyleWithFallback(selectedBorderColor),
+        [selectedBorderStyleKey]: 'solid',
+        [selectedBorderWidthKey]: '1h',
+        color: getColorStyleWithFallback(selectedColor),
+        [selectedPaddingXKey]: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1h']})`,
+        [selectedPaddingYKey]: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1h']})`,
+      },
+    };
+  }
+
+  if (variant === 'filled') {
+    // background color
+    const backgroundColor = {
+      dark: 'gray:90',
+      light: 'gray:30',
+    }[colorMode];
+    const disabledBackgroundColor = {
+      dark: 'gray:90',
+      light: 'gray:30',
+    }[colorMode];
+    const focusBackgroundColor = {
+      dark: 'gray:90',
+      light: 'gray:20',
+    }[colorMode];
+    const hoverBackgroundColor = {
+      dark: 'gray:70',
+      light: 'gray:10',
+    }[colorMode];
+    const selectedBackgroundColor = {
+      dark: 'gray:80',
+      light: 'gray:20',
+    }[colorMode];
+
+    // border color
+    const borderColor = {
+      dark: 'gray:80',
+      light: 'gray:20',
+    }[colorMode];
+    const disabledBorderColor = {
+      dark: 'gray:80',
+      light: 'gray:20',
+    }[colorMode];
+    const focusBorderColor = {
+      dark: 'blue:60',
+      light: 'blue:60',
+    }[colorMode];
+    const hoverBorderColor = {
+      dark: 'gray:70',
+      light: 'gray:20',
+    }[colorMode];
+    const selectedBorderColor = {
+      dark: 'gray:80',
+      light: 'gray:20',
+    }[colorMode];
+
+    // color
+    const color = {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode];
+    const disabledColor = {
+      dark: 'white:disabled',
+      light: 'black:disabled',
+    }[colorMode];
+    const focusColor = {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode];
+    const hoverColor = {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode];
+    const selectedColor = {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode];
+
+    const getBackgroundColorStyleWithFallback = (fallbackBackgroundColor) => {
+      if (disabled) {
+        // Returns the disabled background color if the tab is disabled
+        return disabledBackgroundColor;
+      }
+      if (isSelected) {
+        // Returns the selected background color if the tab is selected
+        return selectedBackgroundColor;
+      }
+      // Returns the fallback color
+      return fallbackBackgroundColor;
+    };
+
+    const getBorderColorStyleWithFallback = (fallbackBorderColor) => {
+      if (disabled && isSelected) {
+        // Returns the selected border color if the tab is both disabled and selected
+        return selectedBorderColor;
+      }
+      if (disabled) {
+        // Returns the disabled border color if the tab is disabled
+        return disabledBorderColor;
+      }
+      if (isSelected) {
+        // Returns the selected border color if the tab is selected
+        return selectedBorderColor;
+      }
+      // Returns the fallback border color
+      return fallbackBorderColor;
+    };
+
+    const getColorStyleWithFallback = (fallbackColor) => {
+      if (disabled) {
+        // Returns the disabled color if the tab is disabled
+        return disabledColor;
+      }
+      if (isSelected) {
+        // Returns the selected color if the tab is selected
+        return selectedColor;
+      }
+      // Returns the fallback color
+      return fallbackColor;
+    };
+
+    const siblingMarginKey = {
+      'horizontal': 'mr',
+      'vertical': 'mb',
+    }[orientation];
+
+    return {
+      fontSize: 'sm',
+      lineHeight: 'sm',
+      backgroundColor: getBackgroundColorStyleWithFallback(backgroundColor),
+      borderColor: getBorderColorStyleWithFallback(borderColor),
+      borderStyle: 'solid',
+      borderWidth: '1q',
+      color: getColorStyleWithFallback(color),
+      cursor: getCursorStyle(),
+      px: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1q']})`,
+      py: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1q']})`,
+      [siblingMarginKey]: '-1q',
+      _hover: {
+        backgroundColor: getBackgroundColorStyleWithFallback(hoverBackgroundColor),
+        borderColor: getBorderColorStyleWithFallback(hoverBorderColor),
+        color: getColorStyleWithFallback(hoverColor),
+      },
+      _focus: {
+        backgroundColor: getBackgroundColorStyleWithFallback(focusBackgroundColor),
+        borderColor: getBorderColorStyleWithFallback(focusBorderColor),
+        borderStyle: 'solid',
+        borderWidth: '1h',
+        color: getColorStyleWithFallback(focusColor),
+        px: '3x',
+        py: '2x',
+        zIndex: 1,
+      },
+      _selected: {
+        backgroundColor: getBackgroundColorStyleWithFallback(selectedBackgroundColor),
+        borderColor: getBorderColorStyleWithFallback(selectedBorderColor),
+        color: getColorStyleWithFallback(selectedColor),
+      },
+      _lastOfType: {
+        [siblingMarginKey]: 0,
+      },
+    };
+  }
 
   return {
-    ...tabProps,
-    ...(tabSizes[size] ? tabSizes[size] : tabSizes.md),
-    ..._variantStyle.tab,
-    ...(_orientationStyle && _orientationStyle.tab),
-    ...(isFitted && { flex: 1 }),
+    cursor: getCursorStyle(),
   };
 };
 
-export const useTabListStyle = () => {
-  const theme = useTheme();
-  const { size, variant, align, orientation } = useContext(TabContext);
-  const _variantStyle = variantStyle({ size, variant, theme });
-  const _orientationStyle = orientationStyle({ align, orientation });
+const useTabsStyle = ({
+  orientation,
+}) => {
+  const flexDirection = {
+    'horizontal': 'column',
+    'vertical': 'row',
+  }[orientation];
 
   return {
-    ...tabList,
-    ...(_variantStyle && _variantStyle.tabList),
-    ...(_orientationStyle && _orientationStyle.tabList),
+    display: 'flex',
+    flexDirection,
   };
+};
+
+const useTabListStyle = ({
+  orientation,
+}) => {
+  const flexDirection = {
+    'horizontal': 'row',
+    'vertical': 'column',
+  }[orientation];
+
+  return {
+    display: 'flex',
+    flexDirection,
+  };
+};
+
+const useTabPanelStyle = ({
+  isSelected,
+}) => {
+  return {};
+};
+
+export {
+  useTabStyle,
+  useTabsStyle,
+  useTabListStyle,
+  useTabPanelStyle,
 };
