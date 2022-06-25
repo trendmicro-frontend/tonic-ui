@@ -30,9 +30,6 @@ const MenuToggle = forwardRef((
     closeMenu,
     openMenu,
   } = { ...menuContext };
-
-  console.log('## MenuToggle:', isOpen, menuId, menuToggleId, menuToggleRef, closeMenu, openMenu);
-
   const combinedRef = useForkRef(menuToggleRef, ref);
   const styleProps = useMenuToggleStyle();
   const handleClick = wrapEvent(onClickProp, (event) => {
