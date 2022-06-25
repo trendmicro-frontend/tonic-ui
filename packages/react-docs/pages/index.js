@@ -108,7 +108,7 @@ const DefaultPage = (props) => {
             >
               <Text
                 fontSize="4rem"
-                fontWeight="800"
+                fontWeight="semibold"
                 lineHeight="1.25"
               >
                 Start building with Tonic UI today!
