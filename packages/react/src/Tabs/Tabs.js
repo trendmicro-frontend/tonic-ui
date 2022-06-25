@@ -47,6 +47,7 @@ const Tabs = forwardRef((
     useOnceWhen(() => {
       warnRemovedProps('isFitted', {
         prefix,
+        alternative: '<Tab flex="auto" />',
       });
     }, (isFitted !== undefined));
 
@@ -60,7 +61,6 @@ const Tabs = forwardRef((
       warnDeprecatedProps('variant="line"', {
         prefix,
         alternative: 'variant="default"',
-        willRemove: true,
       });
     }, (variant === 'line'));
 
@@ -68,7 +68,6 @@ const Tabs = forwardRef((
       warnDeprecatedProps('variant="enclosed"', {
         prefix,
         alternative: 'variant="filled"',
-        willRemove: true,
       });
     }, (variant === 'enclosed'));
 
