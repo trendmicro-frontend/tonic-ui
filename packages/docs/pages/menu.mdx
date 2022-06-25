@@ -7,14 +7,14 @@ Menu uses roving tabIndex for focus management.
 
 ## Import
 
-- `Menu`: The wrapper component that provides context, state, and focus
-  management.
-- `MenuList`: The wrapper for the menu items. Must be a direct child of `Menu`.
-- `MenuItem`: The trigger that handles menu selection. Must be a direct child of
-  a `MenuList`.
-- `MenuGroup`: A wrapper to group related menu items.
-- `MenuDivider`: A visual separator for menu items and groups.
-- `MenuButton`: The trigger for the menu list. Must be a direct child of `Menu`.
+- `Menu`: The component that provides the menu functionality.
+- `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a menu button.
+- `MenuDivider`: A divider that separates menu items.
+- `MenuGroup`: A component that groups menu items.
+- `MenuItem`: The individual menu items.
+- `MenuList`: A styled `MenuContent` that wraps the menu items.
+- `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
+- `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
 - `Submenu`: The component that provides the submenu functionality.
 - `SubmenuList`: The list of menu items that appear in the submenu.
 - `SubmenuToggle`: The toggle that opens the submenu when the menu item is hovered over.
@@ -22,11 +22,13 @@ Menu uses roving tabIndex for focus management.
 ```js
 import {
   Menu,
-  MenuList,
-  MenuItem,
-  MenuGroup,
-  MenuDivider,
   MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  MenuToggle,
+  MenuToggleIcon,
   Submenu,
   SubmenuList,
   SubmenuToggle,
@@ -427,6 +429,27 @@ Add `skidding` or `distance` to customize menu offset position
 | onClick | React.MouseEventHandler |
 | onKeyDown | React.KeyboardEventHandler |
 
+### MenuDivider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### MenuGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | The content of the menu group, should be the `MenuItem` component |
+| title | string | The title of the menu group |
+
+### MenuItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | If `true`, the menu item will be disabled |
+| onClick | React.MouseEventHandler | Function that is called on click and enter/space keypress |
+| onKeyDown | React.KeyboardEventHander | Function that is called on keydown |
+
 ### MenuList
 
 | Name | Type | Default | Description |
@@ -437,20 +460,27 @@ Add `skidding` or `distance` to customize menu offset position
 | skidding | number | `0` | Displaces the menu (in pixels) along the reference element. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#skidding-1) |
 | distance | number | `0` | Displaces the menu (in pixels) away from, or toward, the reference. Used by [`popper.js`](https://popper.js.org/docs/v2/modifiers/offset/#distance-1) |
 
-### MenuItem
+### MenuToggle
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | If `true`, the menu item will be disabled |
-| onClick | React.MouseEventHandler | Function that is called on click and enter/space keypress |
-| onKeyDown | React.KeyboardEventHander | Function that is called on keydown |
+| children | ReactNode \| ({ getMenuToggleProps }) => ReactNode | | |
+| disabled | boolean | | Whether the menu toggle is disabled. |
+| onClick | function | | Callback when the menu toggle is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
 
-### MenuGroup
+### MenuToggleIcon
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | The content of the menu group, should be the `MenuItem` component |
-| title | string | The title of the menu group |
+| appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
+| children | ReactNode \| (state, props) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| disabled | boolean | | Whether the menu toggle icon is disabled. |
+| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
 
 ### Submenu
 

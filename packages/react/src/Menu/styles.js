@@ -3,6 +3,31 @@ import useTheme from '../useTheme';
 import useColorMode from '../useColorMode';
 import useColorStyle from '../useColorStyle';
 
+export const useMenuButtonStyle = () => {
+  return {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    columnGap: '1x',
+  };
+};
+
+export const useMenuToggleStyle = () => {
+  return {
+    cursor: 'pointer',
+    display: 'inline-flex',
+  };
+};
+
+export const useMenuToggleIconStyle = () => {
+  return {
+    display: 'inline-flex',
+    _disabled: {
+      opacity: '.28',
+    },
+  };
+};
+
 export const useMenuListStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });

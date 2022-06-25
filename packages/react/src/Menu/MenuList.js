@@ -20,7 +20,7 @@ const MenuList = ({
     focusOnLastItem,
     closeMenu,
     focusableItems,
-    buttonRef,
+    menuToggleRef,
     menuId,
     buttonId,
     menuRef,
@@ -61,9 +61,9 @@ const MenuList = ({
       closeOnBlur &&
       isOpen &&
       menuRef.current &&
-      buttonRef.current &&
+      menuToggleRef.current &&
       !menuRef.current.contains(target) &&
-      !buttonRef.current.contains(target)
+      !menuToggleRef.current.contains(target)
     ) {
       closeMenu();
     }
@@ -77,7 +77,7 @@ const MenuList = ({
     <Popper
       usePortal={false}
       isOpen={isOpen}
-      anchorEl={buttonRef.current}
+      anchorEl={menuToggleRef.current}
       placement={placement}
       modifiers={{ offset: [skidding, distance] }}
       role="menu"
