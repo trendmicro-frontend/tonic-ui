@@ -1,28 +1,37 @@
 import Menu from './Menu';
-import MenuList from './MenuList';
-import MenuItem from './MenuItem';
-import MenuGroup from './MenuGroup';
+import MenuButton from './MenuButton';
 import MenuDivider from './MenuDivider';
+import MenuGroup from './MenuGroup';
+import MenuItem from './MenuItem';
+import MenuList from './MenuList';
+import MenuToggle from './MenuToggle';
+import MenuToggleIcon from './MenuToggleIcon';
 import Submenu from './Submenu';
 import SubmenuList from './SubmenuList';
 import SubmenuToggle from './SubmenuToggle';
 import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
 
-Menu.List = MenuList;
-Menu.Item = MenuItem;
-Menu.Group = MenuGroup;
+Menu.Button = MenuButton;
 Menu.Divider = MenuDivider;
+Menu.Group = MenuGroup;
+Menu.Item = MenuItem;
+Menu.List = MenuList;
+Menu.Toggle = MenuToggle;
+Menu.Toggle.Icon = MenuToggleIcon;
 
 Submenu.List = SubmenuList;
 Submenu.Toggle = SubmenuToggle;
 
 export {
   Menu,
-  MenuList,
-  MenuItem,
-  MenuGroup,
+  MenuButton,
   MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  MenuToggle,
+  MenuToggleIcon,
   Submenu,
   SubmenuList,
   SubmenuToggle,

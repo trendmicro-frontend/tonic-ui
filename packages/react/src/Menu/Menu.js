@@ -1,9 +1,20 @@
+import { ensureString } from 'ensure-type';
 import React, { useEffect, useRef, useState } from 'react';
 import { useId } from '../utils/autoId';
 import getFocusableElements from '../utils/getFocusableElements';
 import { MenuProvider } from './context';
 import usePrevious from '../utils/usePrevious';
 import Box from '../Box';
+
+const mapPlacementToDirection = (placement) => {
+  const p0 = ensureString(placement).split('-')[0];
+  const direction = {
+    top: 'up',
+    bottom: 'down',
+  }[p0];
+
+  return direction;
+};
 
 const Menu = ({
   anchorEl,
@@ -28,11 +39,12 @@ const Menu = ({
   const _isOpen = isControlled ? isOpenProp : isOpen;
 
   const menuId = `menu-${useId()}`;
+  const menuToggleId = `menutoggle-${useId()}`;
   const buttonId = `menubutton-${useId()}`;
 
   const focusableItems = useRef([]);
   const menuRef = useRef(null);
-  const buttonRef = useRef(null);
+  const menuToggleRef = useRef(null);
 
   useEffect(() => {
     if (_isOpen && menuRef && menuRef.current) {
@@ -75,12 +87,12 @@ const Menu = ({
       updateTabIndex(activeIndex);
     }
     if (activeIndex === -1 && !_isOpen && wasPreviouslyOpen) {
-      buttonRef.current && buttonRef.current.focus();
+      menuToggleRef.current && menuToggleRef.current.focus();
     }
     if (activeIndex === -1 && _isOpen) {
       menuRef.current && menuRef.current.focus();
     }
-  }, [activeIndex, _isOpen, buttonRef, menuRef, wasPreviouslyOpen]);
+  }, [activeIndex, _isOpen, menuToggleRef, menuRef, wasPreviouslyOpen]);
 
   const focusOnFirstItem = () => {
     openMenu();
@@ -120,9 +132,10 @@ const Menu = ({
   };
 
   if (anchorEl) {
-    buttonRef.current = anchorEl;
+    menuToggleRef.current = anchorEl;
   }
 
+  const direction = mapPlacementToDirection(placement);
   const context = {
     activeIndex,
     isOpen: _isOpen,
@@ -130,11 +143,13 @@ const Menu = ({
     focusOnLastItem,
     focusOnFirstItem,
     closeMenu,
-    buttonRef,
-    menuRef,
     focusableItems,
     placement,
+    direction,
+    menuRef,
     menuId,
+    menuToggleId,
+    menuToggleRef,
     buttonId,
     openMenu,
     autoSelect,

@@ -28,7 +28,6 @@ import InputGroupPrepend from './InputGroupPrepend';
 import LightMode from './LightMode';
 import Link from './Link';
 import LinkButton from './LinkButton';
-import MenuButton from './MenuButton';
 import Pagination from './Pagination';
 import Portal from './Portal';
 import PseudoBox from './PseudoBox'; // deprecated
@@ -94,7 +93,6 @@ export {
   LightMode,
   Link,
   LinkButton,
-  MenuButton,
   Pagination,
   Portal,
   PseudoBox, // deprecated
