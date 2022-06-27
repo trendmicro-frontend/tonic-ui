@@ -1,12 +1,14 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import {
+  warnDeprecatedProps,
+} from '@tonic-ui/utils';
+import {
   ensureArray,
   ensureBoolean,
 } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useTheme } from '../theme';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import {
   useBadgeStyle,
   useBadgeContentStyle,

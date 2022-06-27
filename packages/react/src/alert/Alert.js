@@ -1,9 +1,11 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+import {
+  warnDeprecatedProps,
+} from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Icon } from '../icon';
 import { Space } from '../space';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import AlertCloseButton from './AlertCloseButton';
 import AlertIcon from './AlertIcon';
 import AlertMessage from './AlertMessage';

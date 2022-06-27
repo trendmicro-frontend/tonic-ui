@@ -1,4 +1,7 @@
-import { createTransitionStyle, transitionEasing } from '@tonic-ui/utils';
+import {
+  createTransitionStyle,
+  transitionEasing,
+} from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 

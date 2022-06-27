@@ -1,4 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+import {
+  warnDeprecatedProps,
+} from '@tonic-ui/utils';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
@@ -9,7 +12,6 @@ import getFocusableElements from '../utils/getFocusableElements';
 import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import DrawerContainer from './DrawerContainer';
 import { DrawerProvider } from './context';
 
