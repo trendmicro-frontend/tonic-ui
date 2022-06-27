@@ -116,6 +116,8 @@ const useTabStyle = ({
       borderWidth: '1h',
       color: getColorStyleWithFallback(color),
       cursor: getCursorStyle(),
+      display: 'flex',
+      alignItems: 'center',
       px: '3x',
       py: '2x',
       _hover: {
@@ -267,6 +269,8 @@ const useTabStyle = ({
       borderWidth: '1q',
       color: getColorStyleWithFallback(color),
       cursor: getCursorStyle(),
+      display: 'flex',
+      alignItems: 'center',
       px: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1q']})`,
       py: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1q']})`,
       [siblingMarginKey]: '-1q',
@@ -298,6 +302,8 @@ const useTabStyle = ({
 
   return {
     cursor: getCursorStyle(),
+    display: 'flex',
+    alignItems: 'center',
   };
 };
 
