@@ -1,5 +1,6 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import {
+  runIfFn,
   warnDeprecatedProps,
 } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
@@ -9,7 +10,6 @@ import { Portal } from '../portal';
 import config from '../shared/config';
 import { AnimatePresence } from '../utils/animate-presence';
 import getFocusableElements from '../utils/getFocusableElements';
-import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
 import ModalContainer from './ModalContainer';

@@ -1,5 +1,8 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
 import {
+  runIfFn,
+} from '@tonic-ui/utils';
+import {
   ensureArray,
   ensureString,
 } from 'ensure-type';
@@ -11,7 +14,6 @@ import {
   TransitionGroup,
 } from 'react-transition-group';
 import canUseDOM from '../utils/dom/canUseDOM';
-import runIfFn from '../utils/runIfFn';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';

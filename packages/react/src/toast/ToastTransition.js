@@ -2,6 +2,7 @@ import {
   createTransitionStyle,
   getEnterTransitionProps,
   getExitTransitionProps,
+  reflow,
   transitionDuration,
   transitionEasing,
 } from '@tonic-ui/utils';
@@ -12,7 +13,6 @@ import React, {
 } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 
 const getScale = value => {

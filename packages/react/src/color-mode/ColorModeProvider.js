@@ -1,6 +1,8 @@
+import {
+  noop,
+} from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useReducer } from 'react';
-import noop from '../utils/noop';
 import { ColorModeContext } from './context';
 import canUseDOM from '../utils/dom/canUseDOM';
 import { getColorScheme, colorSchemeQuery } from './utils';

@@ -1,11 +1,13 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
+import {
+  runIfFn,
+} from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import getFocusableElements from '../utils/getFocusableElements';
-import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import { MenuProvider } from './context';
 import { useMenuStyle } from './styles';

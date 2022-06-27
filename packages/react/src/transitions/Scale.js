@@ -2,6 +2,7 @@ import {
   createTransitionStyle,
   getEnterTransitionProps,
   getExitTransitionProps,
+  reflow,
   transitionEasing,
 } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
@@ -12,7 +13,6 @@ import React, {
 } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 
 const mapStateToVariantStyle = (state, props) => {

@@ -1,8 +1,10 @@
+import {
+  runIfFn,
+} from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
-import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import { SubmenuProvider } from './context';
 import { useSubmenuStyle } from './styles';
