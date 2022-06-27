@@ -1,10 +1,10 @@
 import {
+  canUseDOM,
   noop,
 } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { ColorModeContext } from './context';
-import canUseDOM from '../utils/dom/canUseDOM';
 import { getColorScheme, colorSchemeQuery } from './utils';
 
 const ensureColorMode = (colorMode) => {
@@ -56,7 +56,7 @@ const ColorModeProvider = ({
     if (!useSystemColorMode) {
       return noop;
     }
-    if (!canUseDOM) {
+    if (!canUseDOM()) {
       return noop;
     }
 

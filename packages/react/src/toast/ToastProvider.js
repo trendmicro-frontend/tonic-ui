@@ -1,5 +1,6 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
 import {
+  canUseDOM,
   runIfFn,
 } from '@tonic-ui/utils';
 import {
@@ -13,7 +14,6 @@ import { isElement, isValidElementType } from 'react-is';
 import {
   TransitionGroup,
 } from 'react-transition-group';
-import canUseDOM from '../utils/dom/canUseDOM';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
@@ -216,7 +216,7 @@ const ToastProvider = ({
     state,
   });
 
-  const portalTarget = canUseDOM
+  const portalTarget = canUseDOM()
     ? (container ?? document.body)
     : null;
 

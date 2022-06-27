@@ -1,5 +1,6 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
 import {
+  getAllFocusable,
   runIfFn,
 } from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
@@ -7,7 +8,6 @@ import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
-import getFocusableElements from '../utils/getFocusableElements';
 import useAutoId from '../utils/useAutoId';
 import { MenuProvider } from './context';
 import { useMenuStyle } from './styles';
@@ -62,7 +62,7 @@ const Menu = forwardRef((
     if (isOpen) {
       // Use requestAnimationFrame to ensure that the menu is rendered before we try to focus on it.
       requestAnimationFrame(() => {
-        const nextFocusableElements = getFocusableElements(menuRef?.current)
+        const nextFocusableElements = getAllFocusable(menuRef?.current)
           .filter(node => node.getAttribute('role') === 'menuitem');
 
         setFocusableElements(nextFocusableElements);

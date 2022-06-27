@@ -1,10 +1,10 @@
 import { useEventListener } from '@tonic-ui/react-hooks';
 import {
   callAllEventHandlers,
+  getOwnerDocument,
 } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useCallback } from 'react';
 import { Box } from '../box';
-import ownerDocument from '../utils/dom/ownerDocument';
 import { mergeRefs } from '../utils/refs';
 import useForkRef from '../utils/useForkRef';
 import { useTooltipTriggerStyle } from './styles';
@@ -59,7 +59,7 @@ const TooltipTrigger = forwardRef((
   }, [onClose]);
 
   useEventListener(
-    () => ownerDocument(tooltipTriggerRef.current),
+    () => getOwnerDocument(tooltipTriggerRef.current),
     'keydown',
     closeOnEsc ? handleKeyDown : undefined,
   );

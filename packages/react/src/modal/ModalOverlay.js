@@ -1,9 +1,11 @@
+import {
+  getComputedStyle,
+} from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
 import { ensurePositiveNumber } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
-import getComputedStyle from '../utils/dom/getComputedStyle';
 import useForkRef from '../utils/useForkRef';
 import {
   useModalOverlayStyle,

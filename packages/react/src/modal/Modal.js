@@ -1,5 +1,6 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import {
+  getAllFocusable,
   runIfFn,
   warnDeprecatedProps,
 } from '@tonic-ui/utils';
@@ -9,7 +10,6 @@ import FocusLock from 'react-focus-lock/dist/cjs';
 import { Portal } from '../portal';
 import config from '../shared/config';
 import { AnimatePresence } from '../utils/animate-presence';
-import getFocusableElements from '../utils/getFocusableElements';
 import useAutoId from '../utils/useAutoId';
 import useNodeRef from '../utils/useNodeRef';
 import ModalContainer from './ModalContainer';
@@ -92,7 +92,7 @@ const Modal = forwardRef((
 
     if (contentRef.current) {
       const el = contentRef.current;
-      const focusableElements = getFocusableElements(el);
+      const focusableElements = getAllFocusable(el);
       if (focusableElements.length > 0) {
         return;
       }

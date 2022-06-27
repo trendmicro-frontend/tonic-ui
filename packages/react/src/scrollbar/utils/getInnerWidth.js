@@ -1,5 +1,7 @@
+import {
+  getComputedStyle,
+} from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
-import getComputedStyle from '../../utils/dom/getComputedStyle';
 
 const getInnerWidth = (el) => {
   const clientWidth = parseFloat(el?.clientWidth) || 0;
