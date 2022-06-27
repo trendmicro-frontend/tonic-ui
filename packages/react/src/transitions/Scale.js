@@ -1,3 +1,9 @@
+import {
+  createTransitionStyle,
+  getEnterTransitionProps,
+  getExitTransitionProps,
+  transitionEasing,
+} from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, {
   forwardRef,
@@ -6,12 +12,6 @@ import React, {
 } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionEasing,
-} from '../utils/transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 

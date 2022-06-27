@@ -1,3 +1,9 @@
+import {
+  createTransitionStyle,
+  getEnterTransitionProps,
+  getExitTransitionProps,
+  transitionEasing,
+} from '@tonic-ui/utils';
 import React, {
   forwardRef,
   useEffect,
@@ -6,12 +12,6 @@ import React, {
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { Icon } from '../icon';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionEasing,
-} from '../utils/transitions';
 import reflow from '../utils/reflow';
 import useForkRef from '../utils/useForkRef';
 import {

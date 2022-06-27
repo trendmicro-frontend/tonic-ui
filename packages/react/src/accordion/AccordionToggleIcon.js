@@ -1,15 +1,15 @@
+import {
+  createTransitionStyle,
+  getEnterTransitionProps,
+  getExitTransitionProps,
+  transitionEasing,
+} from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { Icon } from '../icon';
 import reflow from '../utils/reflow';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionEasing,
-} from '../utils/transitions';
 import useForkRef from '../utils/useForkRef';
 import {
   useAccordionToggleIconStyle,
