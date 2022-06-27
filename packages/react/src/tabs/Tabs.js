@@ -1,8 +1,8 @@
 import { useConst, useOnceWhen } from '@tonic-ui/react-hooks';
+import { isNullOrUndefined } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useEffect, useReducer } from 'react';
 import { Box } from '../box';
-import isNullOrUndefined from '../utils/isNullOrUndefined';
 import runIfFn from '../utils/runIfFn';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import warnRemovedProps from '../utils/warnRemovedProps';

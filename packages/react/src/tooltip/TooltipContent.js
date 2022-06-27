@@ -1,12 +1,14 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
+import {
+  isBlankString,
+  isEmptyArray,
+} from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import { Grow } from '../transitions';
-import isBlankString from '../utils/isBlankString';
-import isEmptyArray from '../utils/isEmptyArray';
 import { useTooltipContentStyle } from './styles';
 import useTooltip from './useTooltip';
 
