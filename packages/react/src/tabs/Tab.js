@@ -1,7 +1,7 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
-import { ButtonBase } from '../button';
+import { Box } from '../box';
 import config from '../shared/config';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
@@ -99,9 +99,9 @@ const Tab = forwardRef((
   }
 
   return (
-    <ButtonBase {...getTabProps()}>
+    <Box {...getTabProps()}>
       {children}
-    </ButtonBase>
+    </Box>
   );
 });
 
