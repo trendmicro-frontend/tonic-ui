@@ -1,6 +1,6 @@
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
-import ButtonBase from '../ButtonBase';
+import Box from '../Box';
 import useEffectOnce from '../hooks/useEffectOnce';
 import config from '../shared/config';
 import isNullOrUndefined from '../utils/isNullOrUndefined';
@@ -99,9 +99,9 @@ const Tab = forwardRef((
   }
 
   return (
-    <ButtonBase {...getTabProps()}>
+    <Box {...getTabProps()}>
       {children}
-    </ButtonBase>
+    </Box>
   );
 });
 
