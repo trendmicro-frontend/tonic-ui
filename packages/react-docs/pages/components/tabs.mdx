@@ -327,9 +327,9 @@ Sometimes you need to access the state of tabs. For example, you may want to laz
           <Tab key={tabIndex} index={tabIndex}>
             {({ getTabProps, disabled, index, variant }) => {
               return (
-                <ButtonBase {...getTabProps()}>
+                <Box {...getTabProps()}>
                   TAB {index}
-                </ButtonBase>
+                </Box>
               );
             }}
           </Tab>
@@ -1023,7 +1023,7 @@ const CustomTab = ({ children, ...rest }) => {
         {...rest}
       >
         {({ getTabProps, index, isSelected }) => (
-          <ButtonBase
+          <Box
             {...getTabProps()}
             pr="1x"
           >
@@ -1031,7 +1031,7 @@ const CustomTab = ({ children, ...rest }) => {
               <Box>{children}</Box>
               <Icon icon="chevron-right" ml="4x" visibility={isSelected ? 'visible' : 'hidden'} />
             </Flex>
-          </ButtonBase>
+          </Box>
         )}
       </Tab>
     );
