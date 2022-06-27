@@ -1,7 +1,7 @@
+import { isNullOrUndefined } from '@tonic-ui/utils';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isValid from 'date-fns/isValid';
-import isNullOrUndefined from '../utils/isNullOrUndefined';
 
 const validateDate = (value, props) => {
   const { maxDate, minDate, shouldDisableDate } = { ...props };

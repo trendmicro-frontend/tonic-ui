@@ -1,11 +1,13 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
-import { isNullOrUndefined } from '@tonic-ui/utils';
+import {
+  callAllEventHandlers,
+  isNullOrUndefined,
+} from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
 import warnDeprecatedProps from '../utils/warnDeprecatedProps';
-import wrapEvent from '../utils/wrapEvent';
 import { useTabStyle } from './styles';
 import useTabs from './useTabs';
 
@@ -32,7 +34,7 @@ const Tab = forwardRef((
   const orientation = context?.orientation;
   const variant = context?.variant;
   const styleProps = useTabStyle({ disabled, isSelected, orientation, variant });
-  const handleClick = wrapEvent(onClick, (event) => {
+  const handleClick = callAllEventHandlers(onClick, (event) => {
     if (isSelected) {
       // Do not trigger onChange if the tab is already selected
       return;

@@ -1,6 +1,8 @@
 import { Box } from '@tonic-ui/react';
+import {
+  callAllEventHandlers,
+} from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
-import wrapEvent from '../../utils/wrapEvent';
 import useForkRef from '../../utils/useForkRef';
 import {
   useDatePickerToggleStyle,
@@ -28,7 +30,7 @@ const DatePickerToggle = forwardRef((
   } = { ...datePickerContext };
   const styleProps = useDatePickerToggleStyle();
   const combinedRef = useForkRef(datePickerToggleRef, ref);
-  const handleClick = wrapEvent(onClickProp, useCallback((event) => {
+  const handleClick = callAllEventHandlers(onClickProp, useCallback((event) => {
     // Don't handle `onClick` event when the `DatePickerToggle` is disabled
     if (disabled) {
       event.preventDefault();
@@ -38,7 +40,7 @@ const DatePickerToggle = forwardRef((
     onOpen?.();
   }, [disabled, onOpen]));
 
-  const handleKeyDown = wrapEvent(onKeyDownProp, useCallback((event) => {
+  const handleKeyDown = callAllEventHandlers(onKeyDownProp, useCallback((event) => {
     // Don't handle `onKeyDown` event when the `DatePickerToggle` is disabled
     if (disabled) {
       event.preventDefault();

@@ -1,7 +1,9 @@
+import {
+  callAllEventHandlers,
+} from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import wrapEvent from '../utils/wrapEvent';
 import { useMenuItemStyle } from './styles';
 import useMenu from './useMenu';
 
@@ -29,7 +31,7 @@ const MenuItem = forwardRef((
       tabIndex={-1}
       disabled={disabled}
       aria-disabled={disabled}
-      onClick={wrapEvent(onClick, event => {
+      onClick={callAllEventHandlers(onClick, event => {
         if (disabled) {
           event.stopPropagation();
           event.preventDefault();
@@ -39,7 +41,7 @@ const MenuItem = forwardRef((
           ensureFunction(closeMenu)();
         }
       })}
-      onKeyDown={wrapEvent(onKeyDown, event => {
+      onKeyDown={callAllEventHandlers(onKeyDown, event => {
         if (disabled) {
           return;
         }

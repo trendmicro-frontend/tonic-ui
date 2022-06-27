@@ -1,3 +1,6 @@
+import {
+  callAllEventHandlers,
+} from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
 import {
   ensureArray,
@@ -7,7 +10,6 @@ import React, { forwardRef, useMemo, useRef } from 'react';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import useForkRef from '../utils/useForkRef';
-import wrapEvent from '../utils/wrapEvent';
 import { useMenuContentStyle } from './styles';
 import useMenu from './useMenu';
 
@@ -84,8 +86,8 @@ const MenuContent = forwardRef((
   const styleProps = useMenuContentStyle();
 
   const eventHandlers = {
-    onBlur: wrapEvent(onBlurProp, handleBlur),
-    onKeyDown: wrapEvent(onKeyDownProp, handleKeyDown),
+    onBlur: callAllEventHandlers(onBlurProp, handleBlur),
+    onKeyDown: callAllEventHandlers(onKeyDownProp, handleKeyDown),
   };
 
   const [

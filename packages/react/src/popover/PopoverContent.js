@@ -1,11 +1,13 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
+import {
+  callAllEventHandlers,
+} from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
 import { ensureArray } from 'ensure-type';
 import React, { useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import { Grow } from '../transitions';
-import wrapEvent from '../utils/wrapEvent';
 import { usePopoverContentStyle } from './styles';
 import usePopover from './usePopover';
 
@@ -77,7 +79,7 @@ const PopoverContent = ({
 
   if (trigger === 'click') {
     eventHandlers = {
-      onBlur: wrapEvent(onBlurProp, onBlur),
+      onBlur: callAllEventHandlers(onBlurProp, onBlur),
     };
 
     roleProps = {
@@ -124,7 +126,7 @@ const PopoverContent = ({
 
   if (trigger === 'hover') {
     eventHandlers = {
-      onMouseEnter: wrapEvent(onMouseEnter, () => {
+      onMouseEnter: callAllEventHandlers(onMouseEnter, () => {
         isHoveringContentRef.current = true;
 
         if (mouseLeaveTimeoutRef.current) {
@@ -132,7 +134,7 @@ const PopoverContent = ({
           mouseLeaveTimeoutRef.current = undefined;
         }
       }),
-      onMouseLeave: wrapEvent(onMouseLeave, () => {
+      onMouseLeave: callAllEventHandlers(onMouseLeave, () => {
         isHoveringContentRef.current = false;
 
         if (mouseLeaveTimeoutRef.current) {
@@ -155,7 +157,7 @@ const PopoverContent = ({
 
   eventHandlers = {
     ...eventHandlers,
-    onKeyDown: wrapEvent(onKeyDown, event => {
+    onKeyDown: callAllEventHandlers(onKeyDown, event => {
       if (event.key === 'Escape' && closeOnEsc) {
         onClose && onClose();
       }
