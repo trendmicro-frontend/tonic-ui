@@ -1,16 +1,15 @@
 import { createPopper } from '@popperjs/core';
-import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, {
   forwardRef,
   useEffect,
   useRef,
-  useImperativeHandle,
   useState,
   useCallback,
 } from 'react';
 import { Portal } from '../portal';
 import { Box } from '../box';
-import setRef from '../utils/setRef';
+import { assignRef } from '../utils/refs';
 import useForkRef from '../utils/useForkRef';
 import getPopperArrowStyle from './styles';
 
@@ -41,8 +40,7 @@ const Popper = forwardRef((
   const nodeRef = useRef();
   const combinedRef = useForkRef(nodeRef, ref);
   const popperRef = useRef(null);
-  const handlePopperRef = useForkRef(popperRef, popperRefProp);
-  const handlePopperRefRef = useRef(handlePopperRef);
+  const combinedPopperRef = useForkRef(popperRef, popperRefProp);
   const [exited, setExited] = useState(true);
   const [placement, setPlacement] = useState(placementProp ?? defaultPlacement);
 
@@ -53,20 +51,20 @@ const Popper = forwardRef((
     }
   }, [placementProp]);
 
-  useIsomorphicEffect(() => {
-    handlePopperRefRef.current = handlePopperRef;
-  }, [handlePopperRef]);
-
-  useImperativeHandle(popperRefProp, () => popperRef.current, []);
-
   const handleOpen = useCallback(() => {
-    const popperNode = nodeRef.current;
-
-    if (!popperNode || !anchorEl || !isOpen) {
+    if (popperRef.current) {
       return;
     }
 
-    const popper = createPopper(getAnchorEl(anchorEl), popperNode, {
+    if (!nodeRef.current) {
+      return;
+    }
+
+    if (!anchorEl) {
+      return;
+    }
+
+    const popper = createPopper(getAnchorEl(anchorEl), nodeRef.current, {
       placement: placement,
       modifiers: [
         { // https://popper.js.org/docs/v2/modifiers/arrow/
@@ -100,50 +98,49 @@ const Popper = forwardRef((
       strategy: 'absolute',
     });
 
-    handlePopperRefRef.current(popper);
-  }, [anchorEl, isOpen, modifiers, placement, placementProp]);
+    assignRef(combinedPopperRef, popper);
 
-  const handleRef = useCallback(
-    node => {
-      setRef(combinedRef, node);
-      handleOpen();
-    },
-    [combinedRef, handleOpen],
-  );
+    if (popperRef.current !== popper) {
+      const prefix = `${Popper.displayName}:`;
+      console.error(
+        `${prefix} An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
+      );
+    }
+  }, [anchorEl, modifiers, placement, placementProp, combinedPopperRef]);
 
-  const handleEnter = () => {
-    setExited(false);
-  };
-
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (!popperRef.current) {
       return;
     }
 
     popperRef.current.destroy();
-    handlePopperRefRef.current(null);
-  };
+    assignRef(combinedPopperRef, null);
 
-  const handleExited = () => {
-    setExited(true);
-    handleClose();
-  };
-
-  useEffect(() => {
-    handleOpen();
-  }, [handleOpen]);
+    if (popperRef.current !== null) {
+      const prefix = `${Popper.displayName}:`;
+      console.error(
+        `${prefix} An unexpected error occurred. The "popperRef" is not set to null as expected.`,
+      );
+    }
+  }, [popperRef, combinedPopperRef]);
 
   useEffect(() => {
+    if (isOpen) {
+      handleOpen();
+      return;
+    }
+
+    if (!isOpen && !willUseTransition) {
+      handleClose();
+      return;
+    }
+  }, [isOpen, willUseTransition, handleOpen, handleClose]);
+
+  useEffectOnce(() => {
     return () => {
       handleClose();
     };
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen && !willUseTransition) {
-      handleClose();
-    }
-  }, [isOpen, willUseTransition]);
+  });
 
   if (unmountOnExit && !isOpen && (!willUseTransition || exited)) {
     return null;
@@ -154,15 +151,20 @@ const Popper = forwardRef((
   if (willUseTransition) {
     childProps.transition = {
       in: isOpen,
-      onEnter: handleEnter,
-      onExited: handleExited,
+      onEnter: () => {
+        setExited(false);
+      },
+      onExited: () => {
+        setExited(true);
+        handleClose();
+      },
     };
   }
 
   return (
     <Portal isDisabled={!usePortal} container={container}>
       <Box
-        ref={handleRef}
+        ref={combinedRef}
         position="absolute"
         css={getPopperArrowStyle({ arrowSize })}
         {...rest}
