@@ -1,6 +1,6 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import useMergeRefs from '../utils/useMergeRefs';
 import {
   useDrawerContainerStyle,
 } from './styles';

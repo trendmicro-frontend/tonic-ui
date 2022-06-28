@@ -1,6 +1,6 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
-import useMergeRefs from '../utils/useMergeRefs';
 import InputBase from './InputBase';
 import { getInputGroupCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
 import useInputGroup from './useInputGroup';

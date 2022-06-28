@@ -1,11 +1,11 @@
 import { keyframes } from '@emotion/react';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { ButtonBase } from '../button';
 import { useColorMode } from '../color-mode';
 import { Icon } from '../icon';
 import { Input } from '../input';
-import useMergeRefs from '../utils/useMergeRefs';
 import splitProps from './split-props';
 
 const spin = keyframes`

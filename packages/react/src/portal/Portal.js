@@ -1,8 +1,7 @@
-import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
+import { useIsomorphicEffect, useMergeRefs } from '@tonic-ui/react-hooks';
 import { Children, cloneElement, useState, forwardRef } from 'react';
 import { findDOMNode, createPortal } from 'react-dom'; // FIXME: React 18 compatibility
 import { assignRef } from '../utils/refs';
-import useMergeRefs from '../utils/useMergeRefs';
 
 function getContainer(container) {
   container = typeof container === 'function' ? container() : container;

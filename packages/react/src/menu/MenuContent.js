@@ -1,15 +1,10 @@
-import {
-  callAllEventHandlers,
-} from '@tonic-ui/utils';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { callAllEventHandlers } from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
-import {
-  ensureArray,
-  ensureFunction,
-} from 'ensure-type';
+import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
-import useMergeRefs from '../utils/useMergeRefs';
 import { useMenuContentStyle } from './styles';
 import useMenu from './useMenu';
 

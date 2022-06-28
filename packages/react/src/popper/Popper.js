@@ -1,16 +1,9 @@
 import { createPopper } from '@popperjs/core';
-import { useEffectOnce } from '@tonic-ui/react-hooks';
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-} from 'react';
+import { useEffectOnce, useMergeRefs } from '@tonic-ui/react-hooks';
+import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { Portal } from '../portal';
 import { Box } from '../box';
 import { assignRef } from '../utils/refs';
-import useMergeRefs from '../utils/useMergeRefs';
 import getPopperArrowStyle from './styles';
 
 function getAnchorEl(anchorEl) {

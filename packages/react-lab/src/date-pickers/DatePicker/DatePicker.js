@@ -1,5 +1,5 @@
 import { Box } from '@tonic-ui/react';
-import { useConst, useEventCallback, usePrevious, useToggle } from '@tonic-ui/react-hooks';
+import { useConst, useEventCallback, useMergeRefs, usePrevious, useToggle } from '@tonic-ui/react-hooks';
 import { isNullOrUndefined } from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
 import format from 'date-fns/format';
@@ -11,7 +11,6 @@ import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import useAutoId from '../../utils/useAutoId';
-import useMergeRefs from '../../utils/useMergeRefs';
 import Calendar from '../Calendar';
 import { validateDate } from '../validation';
 import DatePickerContent from './DatePickerContent';

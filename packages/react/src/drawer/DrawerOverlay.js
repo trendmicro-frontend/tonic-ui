@@ -1,7 +1,7 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
 import React, { forwardRef, useRef } from 'react';
 import { useAnimatePresence } from '../utils/animate-presence';
-import useMergeRefs from '../utils/useMergeRefs';
 import { Fade } from '../transitions';
 import {
   useDrawerOverlayStyle,

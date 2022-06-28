@@ -1,11 +1,8 @@
-import { useEventListener } from '@tonic-ui/react-hooks';
-import {
-  callAllEventHandlers,
-} from '@tonic-ui/utils';
+import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
+import { callAllEventHandlers } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
-import useMergeRefs from '../utils/useMergeRefs';
 import { usePopoverTriggerStyle } from './styles';
 import usePopover from './usePopover';
 

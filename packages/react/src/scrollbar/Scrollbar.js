@@ -1,12 +1,8 @@
-import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
-import {
-  warnDeprecatedProps,
-  warnRemovedProps,
-} from '@tonic-ui/utils';
+import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
-import useMergeRefs from '../utils/useMergeRefs';
 import {
   useContainerStyle,
   useScrollViewStyle,

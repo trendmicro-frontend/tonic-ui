@@ -1,9 +1,7 @@
-import {
-  callAllEventHandlers,
-} from '@tonic-ui/utils';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { callAllEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
-import useMergeRefs from '../utils/useMergeRefs';
 import { useSubmenuListStyle } from './styles';
 import useSubmenu from './useSubmenu';
 

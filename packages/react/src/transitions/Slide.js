@@ -1,19 +1,8 @@
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  reflow,
-  transitionDuration,
-  transitionEasing,
-} from '@tonic-ui/utils';
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-} from 'react';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionDuration, transitionEasing } from '@tonic-ui/utils';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import useMergeRefs from '../utils/useMergeRefs';
 
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';

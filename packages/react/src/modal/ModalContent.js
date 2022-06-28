@@ -1,8 +1,8 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
-import useMergeRefs from '../utils/useMergeRefs';
 import ModalCloseButton from './ModalCloseButton';
 import {
   useModalContentStyle,
