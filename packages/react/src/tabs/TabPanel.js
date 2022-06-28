@@ -43,7 +43,7 @@ const TabPanel = forwardRef((
     return () => {
       unregisterTabPanel(index);
     };
-  }, true);
+  });
 
   const getTabPanelProps = () => ({
     'aria-hidden': !isSelected,
