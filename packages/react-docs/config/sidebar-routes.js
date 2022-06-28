@@ -309,6 +309,7 @@ const routes = [
       { title: 'useIsomorphicEffect', path: 'hooks/useIsomorphicEffect' },
       { title: 'useLatestRef', path: 'hooks/useLatestRef' },
       { title: 'useMediaQuery', path: 'hooks/useMediaQuery' },
+      { title: 'useMergeRefs', path: 'hooks/useMergeRefs' },
       { title: 'useOnce', path: 'hooks/useOnce' },
       { title: 'useOnceWhen', path: 'hooks/useOnceWhen' },
       { title: 'useOutsideClick', path: 'hooks/useOutsideClick' },
