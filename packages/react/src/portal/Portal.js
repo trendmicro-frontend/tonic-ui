@@ -1,7 +1,7 @@
 import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
 import { Children, cloneElement, useState, forwardRef } from 'react';
-import { findDOMNode, createPortal } from 'react-dom';
-import setRef from '../utils/setRef';
+import { findDOMNode, createPortal } from 'react-dom'; // FIXME: React 18 compatibility
+import { assignRef } from '../utils/refs';
 import useForkRef from '../utils/useForkRef';
 
 function getContainer(container) {
@@ -21,9 +21,9 @@ const Portal = forwardRef(
 
     useIsomorphicEffect(() => {
       if (mountNode && !isDisabled) {
-        setRef(ref, mountNode);
+        assignRef(ref, mountNode);
         return () => {
-          setRef(ref, null);
+          assignRef(ref, null);
         };
       }
 
