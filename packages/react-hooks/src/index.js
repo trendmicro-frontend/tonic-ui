@@ -9,6 +9,7 @@ export useIsomorphicEffect from './useIsomorphicEffect';
 export useLatest from './deprecated/useLatest'; // deprected: replaced by useLatestRef
 export useLatestRef from './useLatestRef';
 export useMediaQuery from './useMediaQuery';
+export useMergeRefs from './useMergeRefs';
 export useOnce from './useOnce';
 export useOnceWhen from './useOnceWhen';
 export useOutsideClick from './useOutsideClick';

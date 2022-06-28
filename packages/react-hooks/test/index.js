@@ -14,6 +14,7 @@ test('should match expected exports', () => {
     'useLatest', // deprecated: replaced by useLatestRef
     'useLatestRef',
     'useMediaQuery',
+    'useMergeRefs',
     'useOnce',
     'useOnceWhen',
     'useOutsideClick',
