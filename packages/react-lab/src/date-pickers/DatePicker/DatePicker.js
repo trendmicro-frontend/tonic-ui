@@ -1,5 +1,5 @@
 import { Box } from '@tonic-ui/react';
-import { useConst, useEventCallback, useMergeRefs, usePrevious, useToggle } from '@tonic-ui/react-hooks';
+import { useConst, useEventCallback, useMergeRefs, useOutsideClick, usePrevious, useToggle } from '@tonic-ui/react-hooks';
 import { isNullOrUndefined } from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
 import format from 'date-fns/format';
@@ -17,7 +17,6 @@ import DatePickerContent from './DatePickerContent';
 import DatePickerToggle from './DatePickerToggle';
 import { DatePickerProvider } from './context';
 import { useDatePickerStyle } from './styles';
-import useOutsideClick from './useOutsideClick';
 
 const name = '@tonic-ui/react-lab'; // XXX
 
@@ -106,7 +105,7 @@ const DatePicker = forwardRef((
     isOpen && toggleIsOpen(false);
   }, [isOpen]);
 
-  useOutsideClick(onClose, nodeRef);
+  useOutsideClick(nodeRef, onClose);
 
   // Check if the value prop has changed
   useEffect(() => {
