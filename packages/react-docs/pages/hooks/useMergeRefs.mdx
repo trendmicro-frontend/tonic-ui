@@ -1,0 +1,53 @@
+# useMergeRefs
+
+A custom Hook that merges React refs into a single memoized function.
+
+```js
+// import
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+
+// usage
+const refs = useMergeRefs(ref1, ref2);
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| ...refs | RefObject | | The refs to merge. |
+
+### Returns
+
+Returns a single function that can be used to set multiple refs.
+
+## Example
+
+```jsx noInline
+const Component = React.forwardRef(function Component(props, ref) {
+  const internalRef = React.useRef();
+  const refs = useMergeRefs(internalRef, ref);
+
+  React.useEffect(() => {
+    console.log('ref.current:', ref.current);
+    console.log('internalRef.current:', internalRef.current);
+  }, []);
+
+  return (
+    <Box ref={refs} {...props}>
+      A component with multiple refs
+    </Box>
+  );
+});
+
+render(() => {
+  const externalRef = React.useRef();
+
+  React.useEffect(() => {
+    console.log('externalRef.current:', externalRef.current);
+  }, []);
+
+  return (
+    <Component ref={externalRef} />
+  );
+});
+```
