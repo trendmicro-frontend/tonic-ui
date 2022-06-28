@@ -13,7 +13,7 @@ import React, {
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { Icon } from '../icon';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import {
   useMenuToggleIconStyle,
 } from './styles';
@@ -90,7 +90,7 @@ const MenuToggleIcon = forwardRef((
   } = { ...menuContext };
   const menuIndicatorStyleProps = useMenuToggleIconStyle();
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
 
   useEffect(() => {
     if (isOpen) {

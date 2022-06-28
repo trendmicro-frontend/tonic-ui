@@ -2,7 +2,7 @@ import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import ModalCloseButton from './ModalCloseButton';
 import {
   useModalContentStyle,
@@ -30,7 +30,7 @@ const ModalContent = forwardRef((
     contentRef, // internal use only
     placement, // internal use only
   } = { ...modalContext };
-  const combinedRef = useForkRef(contentRef, ref);
+  const combinedRef = useMergeRefs(contentRef, ref);
   const styleProps = useModalContentStyle({ placement, scrollBehavior, size });
   const contentProps = {
     ref: combinedRef,

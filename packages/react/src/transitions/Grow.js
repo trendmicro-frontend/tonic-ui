@@ -13,7 +13,7 @@ import React, {
 } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 
 const getScale = value => {
   return `scale(${value}, ${value ** 2})`;
@@ -72,7 +72,7 @@ const Grow = forwardRef((
   const timer = useRef(null);
   const autoTimeout = useRef(0);
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
 
   useEffect(() => {
     if (inProp) {

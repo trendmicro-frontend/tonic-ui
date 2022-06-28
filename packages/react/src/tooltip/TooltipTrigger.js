@@ -6,7 +6,7 @@ import {
 import React, { cloneElement, forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import { useTooltipTriggerStyle } from './styles';
 import useTooltip from './useTooltip';
 
@@ -28,7 +28,7 @@ const TooltipTrigger = forwardRef((
     tooltipId,
     tooltipTriggerRef,
   } = useTooltip();
-  const combinedRef = useForkRef(tooltipTriggerRef, ref);
+  const combinedRef = useMergeRefs(tooltipTriggerRef, ref);
   const styleProps = useTooltipTriggerStyle();
   const handleBlur = useCallback(() => {
     onClose();

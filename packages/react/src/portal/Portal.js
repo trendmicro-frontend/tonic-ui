@@ -2,7 +2,7 @@ import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
 import { Children, cloneElement, useState, forwardRef } from 'react';
 import { findDOMNode, createPortal } from 'react-dom'; // FIXME: React 18 compatibility
 import { assignRef } from '../utils/refs';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 
 function getContainer(container) {
   container = typeof container === 'function' ? container() : container;
@@ -12,7 +12,7 @@ function getContainer(container) {
 const Portal = forwardRef(
   ({ children, container, isDisabled = false, onRendered }, ref) => {
     const [mountNode, setMountNode] = useState(null);
-    const handleRef = useForkRef(children.ref, ref);
+    const handleRef = useMergeRefs(children.ref, ref);
     useIsomorphicEffect(() => {
       if (!isDisabled) {
         setMountNode(getContainer(container) || document.body);

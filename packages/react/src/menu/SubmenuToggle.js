@@ -4,7 +4,7 @@ import {
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import {
   useSubmenuToggleStyle,
 } from './styles';
@@ -32,7 +32,7 @@ const SubmenuToggle = forwardRef((
     submenuToggleId,
     submenuToggleRef,
   } = { ...submenuContext };
-  const combinedRef = useForkRef(submenuToggleRef, ref);
+  const combinedRef = useMergeRefs(submenuToggleRef, ref);
   const styleProps = useSubmenuToggleStyle();
   const handleMouseEnter = callAllEventHandlers(onMouseEnterProp, (event) => {
     if (disabled) {

@@ -4,7 +4,7 @@ import {
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import {
   useMenuToggleStyle,
 } from './styles';
@@ -32,7 +32,7 @@ const MenuToggle = forwardRef((
     onClose: closeMenu,
     onOpen: openMenu,
   } = { ...menuContext };
-  const combinedRef = useForkRef(menuToggleRef, ref);
+  const combinedRef = useMergeRefs(menuToggleRef, ref);
   const styleProps = useMenuToggleStyle();
   const handleClick = callAllEventHandlers(onClickProp, (event) => {
     // Don't handle `onClick` event when the `MenuToggle` is disabled

@@ -11,7 +11,7 @@ import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import useAutoId from '../../utils/useAutoId';
-import useForkRef from '../../utils/useForkRef';
+import useMergeRefs from '../../utils/useMergeRefs';
 import Calendar from '../Calendar';
 import { validateDate } from '../validation';
 import DatePickerContent from './DatePickerContent';
@@ -98,7 +98,7 @@ const DatePicker = forwardRef((
   const [isOpen, toggleIsOpen] = useToggle(false);
   const previousIsOpen = usePrevious(isOpen);
   const nodeRef = useRef();
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const previousInputFormat = usePrevious(inputFormat);
   const onOpen = useEventCallback(() => {
     !isOpen && toggleIsOpen(true);

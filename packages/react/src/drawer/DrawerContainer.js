@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import {
   useDrawerContainerStyle,
 } from './styles';
@@ -15,7 +15,7 @@ const DrawerContainer = forwardRef((props, ref) => {
     placement,
     containerRef, // internal use only
   } = { ...drawerContext };
-  const combinedRef = useForkRef(containerRef, ref);
+  const combinedRef = useMergeRefs(containerRef, ref);
   const styleProps = useDrawerContainerStyle({ backdrop, placement });
   const containerProps = {
     ref: combinedRef,

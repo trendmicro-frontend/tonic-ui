@@ -3,7 +3,7 @@ import {
   callAllEventHandlers,
 } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
-import useForkRef from '../../utils/useForkRef';
+import useMergeRefs from '../../utils/useMergeRefs';
 import {
   useDatePickerToggleStyle,
 } from './styles';
@@ -29,7 +29,7 @@ const DatePickerToggle = forwardRef((
     onOpen,
   } = { ...datePickerContext };
   const styleProps = useDatePickerToggleStyle();
-  const combinedRef = useForkRef(datePickerToggleRef, ref);
+  const combinedRef = useMergeRefs(datePickerToggleRef, ref);
   const handleClick = callAllEventHandlers(onClickProp, useCallback((event) => {
     // Don't handle `onClick` event when the `DatePickerToggle` is disabled
     if (disabled) {

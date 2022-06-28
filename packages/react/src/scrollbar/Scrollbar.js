@@ -6,7 +6,7 @@ import {
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import {
   useContainerStyle,
   useScrollViewStyle,
@@ -154,7 +154,7 @@ const Scrollbar = forwardRef((
 
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
 
   const viewScrollLeftRef = useRef(0);
   const viewScrollTopRef = useRef(0);

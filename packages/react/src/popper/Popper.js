@@ -10,7 +10,7 @@ import React, {
 import { Portal } from '../portal';
 import { Box } from '../box';
 import { assignRef } from '../utils/refs';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import getPopperArrowStyle from './styles';
 
 function getAnchorEl(anchorEl) {
@@ -38,9 +38,9 @@ const Popper = forwardRef((
   ref,
 ) => {
   const nodeRef = useRef();
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const popperRef = useRef(null);
-  const combinedPopperRef = useForkRef(popperRef, popperRefProp);
+  const combinedPopperRef = useMergeRefs(popperRef, popperRefProp);
   const [exited, setExited] = useState(true);
   const [placement, setPlacement] = useState(placementProp ?? defaultPlacement);
 

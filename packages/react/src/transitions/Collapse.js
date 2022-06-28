@@ -13,7 +13,7 @@ import React, {
 } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -66,7 +66,7 @@ const Collapse = forwardRef((
   ref,
 ) => {
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const wrapperRef = useRef(null);
 
   useEffect(() => {

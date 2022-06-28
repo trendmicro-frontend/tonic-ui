@@ -5,7 +5,7 @@ import {
 import React, { cloneElement, forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import { usePopoverTriggerStyle } from './styles';
 import usePopover from './usePopover';
 
@@ -29,7 +29,7 @@ const PopoverTrigger = forwardRef((
     setMouseCoordinate,
     trigger,
   } = usePopover();
-  const combinedRef = useForkRef(popoverTriggerRef, ref);
+  const combinedRef = useMergeRefs(popoverTriggerRef, ref);
   const styleProps = usePopoverTriggerStyle();
   const [enableMouseMove, setEnableMouseMove] = useState(true);
   const mouseLeaveTimeoutRef = useRef();

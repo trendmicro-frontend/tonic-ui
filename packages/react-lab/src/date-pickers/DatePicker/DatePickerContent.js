@@ -9,7 +9,7 @@ import {
   ensureFunction,
 } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
-import useForkRef from '../../utils/useForkRef';
+import useMergeRefs from '../../utils/useMergeRefs';
 import { useDatePickerContentStyle } from './styles';
 import useDatePicker from './useDatePicker';
 
@@ -26,7 +26,7 @@ const DatePickerContent = forwardRef((
   ref,
 ) => {
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const datePickerContext = useDatePicker(); // context might be an undefined value
   const {
     isOpen,

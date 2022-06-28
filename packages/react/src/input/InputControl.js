@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import InputBase from './InputBase';
 import { getInputGroupCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
 import useInputGroup from './useInputGroup';
@@ -53,7 +53,7 @@ const InputControl = forwardRef((
   ref,
 ) => {
   const inputRef = useRef();
-  const combinedInputRef = useForkRef(inputRefProp, inputRef);
+  const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
   const [focused, setFocused] = useState(false);
   const [valid, setValid] = useState();
   const inputGroupContext = useInputGroup();

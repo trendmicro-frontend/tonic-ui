@@ -6,7 +6,7 @@ import { ensurePositiveNumber } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import {
   useModalOverlayStyle,
 } from './styles';
@@ -29,7 +29,7 @@ const ModalOverlay = forwardRef((
     contentRef, // internal use only
   } = { ...modalContext };
   const overlayRef = useRef();
-  const combinedRef = useForkRef(overlayRef, ref);
+  const combinedRef = useMergeRefs(overlayRef, ref);
   const styleProps = useModalOverlayStyle();
   const overlayProps = {
     ref: combinedRef,

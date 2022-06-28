@@ -1,7 +1,7 @@
 import chainedFunction from 'chained-function';
 import React, { forwardRef, useRef } from 'react';
 import { useAnimatePresence } from '../utils/animate-presence';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import { Fade } from '../transitions';
 import {
   useDrawerOverlayStyle,
@@ -19,7 +19,7 @@ const DrawerOverlay = forwardRef(({
   } = { ...drawerContext };
   const [, safeToRemove] = useAnimatePresence();
   const overlayRef = useRef();
-  const combinedRef = useForkRef(overlayRef, ref);
+  const combinedRef = useMergeRefs(overlayRef, ref);
   const styleProps = useDrawerOverlayStyle();
   const overlayProps = {
     ref: combinedRef,

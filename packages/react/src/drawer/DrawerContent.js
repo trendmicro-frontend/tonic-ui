@@ -2,7 +2,7 @@ import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import { Slide } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import DrawerCloseButton from './DrawerCloseButton';
 import {
   useDrawerContentStyle,
@@ -29,7 +29,7 @@ const DrawerContent = forwardRef((
     size,
     contentRef, // internal use only
   } = { ...drawerContext };
-  const combinedRef = useForkRef(contentRef, ref);
+  const combinedRef = useMergeRefs(contentRef, ref);
   const styleProps = useDrawerContentStyle({ placement, size });
   const contentProps = {
     ref: combinedRef,

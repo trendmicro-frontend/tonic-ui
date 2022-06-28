@@ -3,7 +3,7 @@ import {
 } from '@tonic-ui/utils';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import { useSubmenuListStyle } from './styles';
 import useSubmenu from './useSubmenu';
 
@@ -27,7 +27,7 @@ const SubmenuList = forwardRef((
     submenuRef,
     submenuToggleId,
   } = { ...submenuContext };
-  const combinedRef = useForkRef(submenuRef, ref);
+  const combinedRef = useMergeRefs(submenuRef, ref);
   const styleProps = useSubmenuListStyle({ isOpen, placement });
   const onMouseEnter = callAllEventHandlers(onMouseEnterProp, () => {
     isHoveringSubmenuListRef.current = true;

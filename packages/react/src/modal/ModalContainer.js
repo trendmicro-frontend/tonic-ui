@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import {
   useModalContainerStyle,
 } from './styles';
@@ -13,7 +13,7 @@ const ModalContainer = forwardRef((props, ref) => {
     onClose,
     containerRef, // internal use only
   } = { ...modalContext };
-  const combinedRef = useForkRef(containerRef, ref);
+  const combinedRef = useMergeRefs(containerRef, ref);
   const styleProps = useModalContainerStyle();
   const containerProps = {
     ref: combinedRef,

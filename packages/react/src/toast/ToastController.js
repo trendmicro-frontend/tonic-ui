@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import useTimeout from '../utils/useTimeout';
 
 const ToastController = forwardRef(({
@@ -10,7 +10,7 @@ const ToastController = forwardRef(({
   ...rest
 }, ref) => {
   const nodeRef = useRef();
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const [delay, setDelay] = useState(duration);
   const onMouseEnter = () => setDelay(null);
   const onMouseLeave = () => setDelay(duration);

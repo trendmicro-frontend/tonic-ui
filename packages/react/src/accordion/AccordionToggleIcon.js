@@ -10,7 +10,7 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { Icon } from '../icon';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import {
   useAccordionToggleIconStyle,
 } from './styles';
@@ -60,7 +60,7 @@ const AccordionToggleIcon = forwardRef((
   const context = useAccordionItem(); // context might be an undefined value
   const iconStyleProps = useAccordionToggleIconStyle();
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const disabled = ensureBoolean(disabledProp ?? context?.disabled);
   const isExpanded = ensureBoolean(context?.isExpanded);
 

@@ -9,7 +9,7 @@ import {
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
-import useForkRef from '../utils/useForkRef';
+import useMergeRefs from '../utils/useMergeRefs';
 import { useMenuContentStyle } from './styles';
 import useMenu from './useMenu';
 
@@ -27,7 +27,7 @@ const MenuContent = forwardRef((
   ref,
 ) => {
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const menuContext = useMenu(); // context might be an undefined value
   const {
     closeOnBlur,
