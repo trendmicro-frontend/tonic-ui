@@ -1,7 +1,8 @@
+import { ensureString } from 'ensure-type';
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-const BASE_PATH = process.env.BASE_PATH;
+const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 class CustomDocument extends Document {
   static async getInitialProps(ctx) {

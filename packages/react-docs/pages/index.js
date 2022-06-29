@@ -1,4 +1,3 @@
-import { ensureString } from 'ensure-type';
 import {
   Alert,
   Badge,
@@ -38,6 +37,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useEffect } from 'react';
 import pkg from '../../../package.json';
