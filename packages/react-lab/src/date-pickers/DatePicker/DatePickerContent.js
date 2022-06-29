@@ -1,6 +1,6 @@
 import { Popper, Collapse } from '@tonic-ui/react';
 import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAllEventHandlers } from '@tonic-ui/utils';
+import { callEventHandlers } from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
@@ -42,7 +42,7 @@ const DatePickerContent = forwardRef((
   const styleProps = useDatePickerContentStyle();
 
   const eventHandlers = {
-    onKeyDown: callAllEventHandlers(onKeyDownProp, handleKeyDown),
+    onKeyDown: callEventHandlers(onKeyDownProp, handleKeyDown),
   };
 
   const [

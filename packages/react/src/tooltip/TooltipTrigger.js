@@ -1,5 +1,5 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAllEventHandlers, getOwnerDocument } from '@tonic-ui/utils';
+import { callEventHandlers, getOwnerDocument } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
@@ -74,12 +74,12 @@ const TooltipTrigger = forwardRef((
   const getTooltipTriggerProps = useCallback(
     (ownProps = {}, ownRef = null) => {
       const eventHandlerProps = {
-        onBlur: callAllEventHandlers(ownProps?.onBlur, handleBlur),
-        onClick: callAllEventHandlers(ownProps?.onClick, handleClick),
-        onFocus: callAllEventHandlers(ownProps?.onFocus, handleFocus),
-        onMouseDown: callAllEventHandlers(ownProps?.onMouseDown, handleMouseDown),
-        onMouseEnter: callAllEventHandlers(ownProps?.onMouseEnter, handleMouseEnter),
-        onMouseLeave: callAllEventHandlers(ownProps?.onMouseLeave, handleMouseLeave),
+        onBlur: callEventHandlers(ownProps?.onBlur, handleBlur),
+        onClick: callEventHandlers(ownProps?.onClick, handleClick),
+        onFocus: callEventHandlers(ownProps?.onFocus, handleFocus),
+        onMouseDown: callEventHandlers(ownProps?.onMouseDown, handleMouseDown),
+        onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, handleMouseEnter),
+        onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, handleMouseLeave),
       };
 
       return {

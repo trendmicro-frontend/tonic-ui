@@ -1,6 +1,6 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
 import {
-  callAllEventHandlers,
+  callEventHandlers,
 } from '@tonic-ui/utils';
 import chainedFunction from 'chained-function';
 import { ensureArray } from 'ensure-type';
@@ -79,7 +79,7 @@ const PopoverContent = ({
 
   if (trigger === 'click') {
     eventHandlers = {
-      onBlur: callAllEventHandlers(onBlurProp, onBlur),
+      onBlur: callEventHandlers(onBlurProp, onBlur),
     };
 
     roleProps = {
@@ -126,7 +126,7 @@ const PopoverContent = ({
 
   if (trigger === 'hover') {
     eventHandlers = {
-      onMouseEnter: callAllEventHandlers(onMouseEnter, () => {
+      onMouseEnter: callEventHandlers(onMouseEnter, () => {
         isHoveringContentRef.current = true;
 
         if (mouseLeaveTimeoutRef.current) {
@@ -134,7 +134,7 @@ const PopoverContent = ({
           mouseLeaveTimeoutRef.current = undefined;
         }
       }),
-      onMouseLeave: callAllEventHandlers(onMouseLeave, () => {
+      onMouseLeave: callEventHandlers(onMouseLeave, () => {
         isHoveringContentRef.current = false;
 
         if (mouseLeaveTimeoutRef.current) {
@@ -157,7 +157,7 @@ const PopoverContent = ({
 
   eventHandlers = {
     ...eventHandlers,
-    onKeyDown: callAllEventHandlers(onKeyDown, event => {
+    onKeyDown: callEventHandlers(onKeyDown, event => {
       if (event.key === 'Escape' && closeOnEsc) {
         onClose && onClose();
       }

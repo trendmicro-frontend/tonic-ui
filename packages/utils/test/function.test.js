@@ -1,6 +1,6 @@
 import {
   callAll,
-  callAllEventHandlers,
+  callEventHandlers,
   noop,
   runIfFn,
 } from '../src';
@@ -34,7 +34,7 @@ it('should process all event handlers if preventDefault is not called anywhere',
     },
     defaultPrevented: false,
   };
-  callAllEventHandlers(fn1, fn2, fn3)(event);
+  callEventHandlers(fn1, fn2, fn3)(event);
   expect(fn1).toHaveBeenCalled();
   expect(fn2).toHaveBeenCalled();
   expect(fn3).not.toHaveBeenCalled();

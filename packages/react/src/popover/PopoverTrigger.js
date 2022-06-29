@@ -1,5 +1,5 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAllEventHandlers } from '@tonic-ui/utils';
+import { callEventHandlers } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
@@ -107,16 +107,16 @@ const PopoverTrigger = forwardRef((
     (ownProps = {}, ownRef = null) => {
       const eventHandlerProps = {
         'click': {
-          onClick: callAllEventHandlers(ownProps?.onClick, clickTriggerHandler.onClick),
-          onKeyDown: callAllEventHandlers(ownProps?.onKeyDown, clickTriggerHandler.onKeyDown),
+          onClick: callEventHandlers(ownProps?.onClick, clickTriggerHandler.onClick),
+          onKeyDown: callEventHandlers(ownProps?.onKeyDown, clickTriggerHandler.onKeyDown),
         },
         'hover': {
-          onBlur: callAllEventHandlers(ownProps?.onBlur, hoverTriggerHandler.onBlur),
-          onFocus: callAllEventHandlers(ownProps?.onFocus, hoverTriggerHandler.onFocus),
-          onKeyDown: callAllEventHandlers(ownProps?.onKeyDown, hoverTriggerHandler.onKeyDown),
-          onMouseEnter: callAllEventHandlers(ownProps?.onMouseEnter, hoverTriggerHandler.onMouseEnter),
-          onMouseMove: callAllEventHandlers(ownProps?.onMouseMove, hoverTriggerHandler.onMouseMove),
-          onMouseLeave: callAllEventHandlers(ownProps?.onMouseLeave, hoverTriggerHandler.onMouseLeave),
+          onBlur: callEventHandlers(ownProps?.onBlur, hoverTriggerHandler.onBlur),
+          onFocus: callEventHandlers(ownProps?.onFocus, hoverTriggerHandler.onFocus),
+          onKeyDown: callEventHandlers(ownProps?.onKeyDown, hoverTriggerHandler.onKeyDown),
+          onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, hoverTriggerHandler.onMouseEnter),
+          onMouseMove: callEventHandlers(ownProps?.onMouseMove, hoverTriggerHandler.onMouseMove),
+          onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, hoverTriggerHandler.onMouseLeave),
         },
       }[trigger];
 

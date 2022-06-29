@@ -29,7 +29,7 @@ test('should match expected exports', () => {
 
     // function
     'callAll',
-    'callAllEventHandlers',
+    'callEventHandlers',
     'noop',
     'once',
     'runIfFn',

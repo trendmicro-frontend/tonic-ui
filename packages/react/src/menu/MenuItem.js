@@ -1,5 +1,5 @@
 import {
-  callAllEventHandlers,
+  callEventHandlers,
 } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
@@ -31,7 +31,7 @@ const MenuItem = forwardRef((
       tabIndex={-1}
       disabled={disabled}
       aria-disabled={disabled}
-      onClick={callAllEventHandlers(onClick, event => {
+      onClick={callEventHandlers(onClick, event => {
         if (disabled) {
           event.stopPropagation();
           event.preventDefault();
@@ -41,7 +41,7 @@ const MenuItem = forwardRef((
           ensureFunction(closeMenu)();
         }
       })}
-      onKeyDown={callAllEventHandlers(onKeyDown, event => {
+      onKeyDown={callEventHandlers(onKeyDown, event => {
         if (disabled) {
           return;
         }

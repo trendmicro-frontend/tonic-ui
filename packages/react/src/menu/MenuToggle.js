@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAllEventHandlers } from '@tonic-ui/utils';
+import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -32,7 +32,7 @@ const MenuToggle = forwardRef((
   } = { ...menuContext };
   const combinedRef = useMergeRefs(menuToggleRef, ref);
   const styleProps = useMenuToggleStyle();
-  const handleClick = callAllEventHandlers(onClickProp, (event) => {
+  const handleClick = callEventHandlers(onClickProp, (event) => {
     // Don't handle `onClick` event when the `MenuToggle` is disabled
     if (disabled) {
       event.preventDefault();
@@ -49,7 +49,7 @@ const MenuToggle = forwardRef((
     // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
     autoSelect && focusOnFirstItem();
   });
-  const handleKeyDown = callAllEventHandlers(onKeyDownProp, event => {
+  const handleKeyDown = callEventHandlers(onKeyDownProp, event => {
     // Don't handle `onKeyDown` event when the `MenuToggle` is disabled
     if (disabled) {
       event.preventDefault();

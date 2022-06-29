@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAllEventHandlers } from '@tonic-ui/utils';
+import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
 import { useSubmenuListStyle } from './styles';
@@ -27,7 +27,7 @@ const SubmenuList = forwardRef((
   } = { ...submenuContext };
   const combinedRef = useMergeRefs(submenuRef, ref);
   const styleProps = useSubmenuListStyle({ isOpen, placement });
-  const onMouseEnter = callAllEventHandlers(onMouseEnterProp, () => {
+  const onMouseEnter = callEventHandlers(onMouseEnterProp, () => {
     isHoveringSubmenuListRef.current = true;
 
     if (mouseLeaveTimeoutRef.current) {
@@ -35,7 +35,7 @@ const SubmenuList = forwardRef((
       mouseLeaveTimeoutRef.current = undefined;
     }
   });
-  const onMouseLeave = callAllEventHandlers(onMouseLeaveProp, () => {
+  const onMouseLeave = callEventHandlers(onMouseLeaveProp, () => {
     isHoveringSubmenuListRef.current = false;
 
     if (mouseLeaveTimeoutRef.current) {

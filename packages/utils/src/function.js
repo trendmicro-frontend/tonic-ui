@@ -22,7 +22,7 @@ export const callAll = (...fns) => {
   };
 };
 
-export const callAllEventHandlers = (...fns) => {
+export const callEventHandlers = (...fns) => {
   return function mergedFn(event) {
     fns.some((fn) => {
       fn?.(event);

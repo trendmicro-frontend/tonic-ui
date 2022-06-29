@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAllEventHandlers } from '@tonic-ui/utils';
+import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
@@ -32,7 +32,7 @@ const SubmenuToggle = forwardRef((
   } = { ...submenuContext };
   const combinedRef = useMergeRefs(submenuToggleRef, ref);
   const styleProps = useSubmenuToggleStyle();
-  const handleMouseEnter = callAllEventHandlers(onMouseEnterProp, (event) => {
+  const handleMouseEnter = callEventHandlers(onMouseEnterProp, (event) => {
     if (disabled) {
       event.preventDefault();
       return;
@@ -46,7 +46,7 @@ const SubmenuToggle = forwardRef((
 
     ensureFunction(openSubmenu)();
   });
-  const handleMouseLeave = callAllEventHandlers(onMouseLeaveProp, (event) => {
+  const handleMouseLeave = callEventHandlers(onMouseLeaveProp, (event) => {
     if (disabled) {
       event.preventDefault();
       return;
