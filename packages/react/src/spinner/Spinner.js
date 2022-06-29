@@ -1,8 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
-import warnRemovedProps from '../utils/warnRemovedProps';
 import {
   useSpinnerStyle,
   useSpinnerSVGBaseStyle,

@@ -1,6 +1,6 @@
+import { createTransitionStyle, transitionEasing } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
-import { createTransitionStyle, transitionEasing } from '../utils/transitions';
 
 //---------------- Default Button ----------------//
 const defaultVariantStyle = ({

@@ -1,11 +1,11 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Popper, PopperArrow } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
 import useAutoId from '../utils/useAutoId';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
 import { TooltipProvider } from './context';

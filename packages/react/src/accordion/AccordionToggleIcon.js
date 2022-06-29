@@ -1,16 +1,10 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { Icon } from '../icon';
-import reflow from '../utils/reflow';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionEasing,
-} from '../utils/transitions';
-import useForkRef from '../utils/useForkRef';
 import {
   useAccordionToggleIconStyle,
 } from './styles';
@@ -60,7 +54,7 @@ const AccordionToggleIcon = forwardRef((
   const context = useAccordionItem(); // context might be an undefined value
   const iconStyleProps = useAccordionToggleIconStyle();
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const disabled = ensureBoolean(disabledProp ?? context?.disabled);
   const isExpanded = ensureBoolean(context?.isExpanded);
 

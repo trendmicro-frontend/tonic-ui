@@ -1,7 +1,7 @@
+import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import runIfFn from '../utils/runIfFn';
 import { InputGroupContext } from './context';
 import { useInputGroupStyle } from './styles';
 

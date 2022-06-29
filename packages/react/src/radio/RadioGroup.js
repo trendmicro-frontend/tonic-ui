@@ -1,7 +1,7 @@
+import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import config from '../shared/config';
-import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import { RadioGroupContext } from './context';
 

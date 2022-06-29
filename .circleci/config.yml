@@ -93,7 +93,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
             yarn test
@@ -104,11 +104,17 @@ jobs:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
       - codecov/upload:
+          file: ./packages/react-lab/coverage/lcov.info
+          flags: react-lab
+      - codecov/upload:
           file: ./packages/styled-system/coverage/lcov.info
           flags: styled-system
       - codecov/upload:
           file: ./packages/theme/coverage/lcov.info
           flags: theme
+      - codecov/upload:
+          file: ./packages/utils/coverage/lcov.info
+          flags: utils
       - run:
           name: Compress build artifacts
           command: |
@@ -153,7 +159,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "ASSET_PREFIX=/tonic-ui-demo/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui-demo/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
             yarn test
@@ -164,11 +170,17 @@ jobs:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
       - codecov/upload:
+          file: ./packages/react-lab/coverage/lcov.info
+          flags: react-lab
+      - codecov/upload:
           file: ./packages/styled-system/coverage/lcov.info
           flags: styled-system
       - codecov/upload:
           file: ./packages/theme/coverage/lcov.info
           flags: theme
+      - codecov/upload:
+          file: ./packages/utils/coverage/lcov.info
+          flags: utils
       - run:
           name: Compress build artifacts
           command: |
@@ -220,7 +232,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
             yarn test
@@ -231,11 +243,17 @@ jobs:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
       - codecov/upload:
+          file: ./packages/react-lab/coverage/lcov.info
+          flags: react-lab
+      - codecov/upload:
           file: ./packages/styled-system/coverage/lcov.info
           flags: styled-system
       - codecov/upload:
           file: ./packages/theme/coverage/lcov.info
           flags: theme
+      - codecov/upload:
+          file: ./packages/utils/coverage/lcov.info
+          flags: utils
       - run:
           name: Compress build artifacts
           command: |

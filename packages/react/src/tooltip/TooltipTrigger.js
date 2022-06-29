@@ -1,10 +1,8 @@
-import { useEventListener } from '@tonic-ui/react-hooks';
+import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
+import { callEventHandlers, getOwnerDocument } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useCallback } from 'react';
 import { Box } from '../box';
-import ownerDocument from '../utils/dom/ownerDocument';
 import { mergeRefs } from '../utils/refs';
-import useForkRef from '../utils/useForkRef';
-import wrapEvent from '../utils/wrapEvent';
 import { useTooltipTriggerStyle } from './styles';
 import useTooltip from './useTooltip';
 
@@ -26,7 +24,7 @@ const TooltipTrigger = forwardRef((
     tooltipId,
     tooltipTriggerRef,
   } = useTooltip();
-  const combinedRef = useForkRef(tooltipTriggerRef, ref);
+  const combinedRef = useMergeRefs(tooltipTriggerRef, ref);
   const styleProps = useTooltipTriggerStyle();
   const handleBlur = useCallback(() => {
     onClose();
@@ -57,7 +55,7 @@ const TooltipTrigger = forwardRef((
   }, [onClose]);
 
   useEventListener(
-    () => ownerDocument(tooltipTriggerRef.current),
+    () => getOwnerDocument(tooltipTriggerRef.current),
     'keydown',
     closeOnEsc ? handleKeyDown : undefined,
   );
@@ -76,12 +74,12 @@ const TooltipTrigger = forwardRef((
   const getTooltipTriggerProps = useCallback(
     (ownProps = {}, ownRef = null) => {
       const eventHandlerProps = {
-        onBlur: wrapEvent(ownProps?.onBlur, handleBlur),
-        onClick: wrapEvent(ownProps?.onClick, handleClick),
-        onFocus: wrapEvent(ownProps?.onFocus, handleFocus),
-        onMouseDown: wrapEvent(ownProps?.onMouseDown, handleMouseDown),
-        onMouseEnter: wrapEvent(ownProps?.onMouseEnter, handleMouseEnter),
-        onMouseLeave: wrapEvent(ownProps?.onMouseLeave, handleMouseLeave),
+        onBlur: callEventHandlers(ownProps?.onBlur, handleBlur),
+        onClick: callEventHandlers(ownProps?.onClick, handleClick),
+        onFocus: callEventHandlers(ownProps?.onFocus, handleFocus),
+        onMouseDown: callEventHandlers(ownProps?.onMouseDown, handleMouseDown),
+        onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, handleMouseEnter),
+        onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, handleMouseLeave),
       };
 
       return {

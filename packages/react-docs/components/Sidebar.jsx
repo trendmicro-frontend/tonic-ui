@@ -35,7 +35,7 @@ const isElementInViewport = (el) => {
   );
 };
 
-const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
+const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 const Sidebar = forwardRef((
   {
@@ -106,7 +106,7 @@ const Sidebar = forwardRef((
         >
           <Box px="4x" py="2x">
             <NextLink
-              href={`${ASSET_PREFIX}/`}
+              href={`/`}
               passHref
             >
               <Box
@@ -122,7 +122,7 @@ const Sidebar = forwardRef((
               >
                 <Image
                   alt=""
-                  src={`${ASSET_PREFIX}/images/${logo}`}
+                  src={`${BASE_PATH}/images/${logo}`}
                   height="8x"
                   marginRight="2x"
               />
@@ -219,7 +219,7 @@ const Sidebar = forwardRef((
                         key={path}
                         data-path={path}
                         isActive={isActive}
-                        href={`${ASSET_PREFIX}/${path}`}
+                        href={`/${path}`}
                         onClick={onClick}
                         pl={0}
                         px="3x"

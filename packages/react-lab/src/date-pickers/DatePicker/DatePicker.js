@@ -1,6 +1,6 @@
 import { Box } from '@tonic-ui/react';
-import { useConst, useEventCallback, usePrevious, useToggle } from '@tonic-ui/react-hooks';
-import chainedFunction from 'chained-function';
+import { useConst, useEventCallback, useMergeRefs, useOutsideClick, usePrevious, useToggle } from '@tonic-ui/react-hooks';
+import { callEventHandlers, isNullOrUndefined } from '@tonic-ui/utils';
 import format from 'date-fns/format';
 import endOfDay from 'date-fns/endOfDay';
 import isDate from 'date-fns/isDate';
@@ -9,16 +9,13 @@ import parse from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import isNullOrUndefined from '../../utils/isNullOrUndefined';
 import useAutoId from '../../utils/useAutoId';
-import useForkRef from '../../utils/useForkRef';
 import Calendar from '../Calendar';
 import { validateDate } from '../validation';
 import DatePickerContent from './DatePickerContent';
 import DatePickerToggle from './DatePickerToggle';
 import { DatePickerProvider } from './context';
 import { useDatePickerStyle } from './styles';
-import useOutsideClick from './useOutsideClick';
 
 const name = '@tonic-ui/react-lab'; // XXX
 
@@ -98,7 +95,7 @@ const DatePicker = forwardRef((
   const [isOpen, toggleIsOpen] = useToggle(false);
   const previousIsOpen = usePrevious(isOpen);
   const nodeRef = useRef();
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const previousInputFormat = usePrevious(inputFormat);
   const onOpen = useEventCallback(() => {
     !isOpen && toggleIsOpen(true);
@@ -107,7 +104,7 @@ const DatePicker = forwardRef((
     isOpen && toggleIsOpen(false);
   }, [isOpen]);
 
-  useOutsideClick(onClose, nodeRef);
+  useOutsideClick(nodeRef, onClose);
 
   // Check if the value prop has changed
   useEffect(() => {
@@ -216,11 +213,11 @@ const DatePicker = forwardRef((
             const inputProps = {
               ...datePickerToggleProps,
               cursor: undefined, // Remove cursor style
-              onChange: chainedFunction(
+              onChange: callEventHandlers(
                 handleDateInputChange,
                 datePickerToggleProps?.onChange,
               ),
-              onFocus: chainedFunction(
+              onFocus: callEventHandlers(
                 handleDateInputFocus,
                 datePickerToggleProps?.onFocus,
               ),

@@ -16,7 +16,7 @@
     "postbuild": "cpy {dist,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "yarn --silent run package-name && yarn run build && yarn run eslint && yarn run test",
     "prepublish": "yarn run build",
-    "test": "jest"
+    "test": "jest --maxWorkers=2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -64,6 +64,7 @@
       "text",
       "html"
     ],
+    "modulePathIgnorePatterns": ["<rootDir>/build"],
     "setupFiles": [],
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"

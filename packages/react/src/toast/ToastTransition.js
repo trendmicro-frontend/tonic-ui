@@ -1,19 +1,8 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-} from 'react';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionDuration, transitionEasing } from '@tonic-ui/utils';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionDuration,
-  transitionEasing,
-} from '../utils/transitions';
-import reflow from '../utils/reflow';
-import useForkRef from '../utils/useForkRef';
 
 const getScale = value => {
   return `scale(${value}, ${value ** 2})`;
@@ -73,7 +62,7 @@ const ToastTransition = forwardRef((
   ref,
 ) => {
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const wrapperRef = useRef(null);
 
   useEffect(() => {

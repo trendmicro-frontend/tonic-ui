@@ -1,7 +1,7 @@
-import chainedFunction from 'chained-function';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { callAll } from '@tonic-ui/utils';
 import React, { forwardRef, useRef } from 'react';
 import { useAnimatePresence } from '../utils/animate-presence';
-import useForkRef from '../utils/useForkRef';
 import { Fade } from '../transitions';
 import {
   useDrawerOverlayStyle,
@@ -19,7 +19,7 @@ const DrawerOverlay = forwardRef(({
   } = { ...drawerContext };
   const [, safeToRemove] = useAnimatePresence();
   const overlayRef = useRef();
-  const combinedRef = useForkRef(overlayRef, ref);
+  const combinedRef = useMergeRefs(overlayRef, ref);
   const styleProps = useDrawerOverlayStyle();
   const overlayProps = {
     ref: combinedRef,
@@ -33,7 +33,7 @@ const DrawerOverlay = forwardRef(({
       {...TransitionProps}
       {...overlayProps}
       in={drawerContext ? isOpen : true}
-      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
+      onExited={callAll(safeToRemove, TransitionProps?.onExited)}
     />
   );
 });

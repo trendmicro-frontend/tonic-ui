@@ -1,10 +1,9 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { isNullOrUndefined, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';
 import config from '../shared/config';
-import isNullOrUndefined from '../utils/isNullOrUndefined';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import useTabs from './useTabs';
 import { useTabPanelStyle } from './styles';
 
@@ -41,7 +40,7 @@ const TabPanel = forwardRef((
     return () => {
       unregisterTabPanel(index);
     };
-  }, true);
+  });
 
   const getTabPanelProps = () => ({
     'aria-hidden': !isSelected,

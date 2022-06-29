@@ -1,11 +1,10 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
-import chainedFunction from 'chained-function';
+import { callAll, callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
 import { Grow } from '../transitions';
-import wrapEvent from '../utils/wrapEvent';
 import { usePopoverContentStyle } from './styles';
 import usePopover from './usePopover';
 
@@ -77,7 +76,7 @@ const PopoverContent = ({
 
   if (trigger === 'click') {
     eventHandlers = {
-      onBlur: wrapEvent(onBlurProp, onBlur),
+      onBlur: callEventHandlers(onBlurProp, onBlur),
     };
 
     roleProps = {
@@ -124,7 +123,7 @@ const PopoverContent = ({
 
   if (trigger === 'hover') {
     eventHandlers = {
-      onMouseEnter: wrapEvent(onMouseEnter, () => {
+      onMouseEnter: callEventHandlers(onMouseEnter, () => {
         isHoveringContentRef.current = true;
 
         if (mouseLeaveTimeoutRef.current) {
@@ -132,7 +131,7 @@ const PopoverContent = ({
           mouseLeaveTimeoutRef.current = undefined;
         }
       }),
-      onMouseLeave: wrapEvent(onMouseLeave, () => {
+      onMouseLeave: callEventHandlers(onMouseLeave, () => {
         isHoveringContentRef.current = false;
 
         if (mouseLeaveTimeoutRef.current) {
@@ -155,7 +154,7 @@ const PopoverContent = ({
 
   eventHandlers = {
     ...eventHandlers,
-    onKeyDown: wrapEvent(onKeyDown, event => {
+    onKeyDown: callEventHandlers(onKeyDown, event => {
       if (event.key === 'Escape' && closeOnEsc) {
         onClose && onClose();
       }
@@ -194,7 +193,7 @@ const PopoverContent = ({
             {...TransitionProps}
             ref={nodeRef}
             in={inProp}
-            onEnter={chainedFunction(
+            onEnter={callAll(
               onEnter,
               TransitionProps?.onEnter,
               (event) => {
@@ -206,7 +205,7 @@ const PopoverContent = ({
                 }
               }
             )}
-            onExited={chainedFunction(
+            onExited={callAll(
               onExited,
               TransitionProps?.onExited,
             )}

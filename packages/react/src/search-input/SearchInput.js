@@ -1,11 +1,11 @@
 import { keyframes } from '@emotion/react';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { ButtonBase } from '../button';
 import { useColorMode } from '../color-mode';
 import { Icon } from '../icon';
 import { Input } from '../input';
-import useForkRef from '../utils/useForkRef';
 import splitProps from './split-props';
 
 const spin = keyframes`
@@ -55,7 +55,7 @@ const SearchInput = React.forwardRef((
   ref
 ) => {
   const inputRef = useRef();
-  const combinedRef = useForkRef(inputRef, ref);
+  const combinedRef = useMergeRefs(inputRef, ref);
   const [rootProps, inputProps] = splitProps(rest);
   const [colorMode] = useColorMode();
   const primaryColor = {

@@ -1,8 +1,8 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Icon } from '../icon';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { getIconWrapperProps, useSelectStyle } from './styles';
 import splitProps from './split-props';
 

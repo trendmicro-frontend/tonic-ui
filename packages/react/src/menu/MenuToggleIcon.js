@@ -1,19 +1,9 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-} from 'react';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { Icon } from '../icon';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionEasing,
-} from '../utils/transitions';
-import reflow from '../utils/reflow';
-import useForkRef from '../utils/useForkRef';
 import {
   useMenuToggleIconStyle,
 } from './styles';
@@ -90,7 +80,7 @@ const MenuToggleIcon = forwardRef((
   } = { ...menuContext };
   const menuIndicatorStyleProps = useMenuToggleIconStyle();
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
 
   useEffect(() => {
     if (isOpen) {

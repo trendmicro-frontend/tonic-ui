@@ -1,8 +1,8 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnRemovedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useColorMode } from '../color-mode';
-import warnRemovedProps from '../utils/warnRemovedProps';
 import { TableProvider } from './context';
 import { useTableStyle } from './styles';
 

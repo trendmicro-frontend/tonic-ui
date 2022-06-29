@@ -1,7 +1,4 @@
-import {
-  ensureArray,
-  ensureFiniteNumber,
-} from 'ensure-type';
+import { ensureArray, ensureFiniteNumber } from 'ensure-type';
 
 const formatMs = ms => {
   return (ms > 0) ? `${Math.round(ms)}ms` : '';

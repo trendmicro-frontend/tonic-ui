@@ -1,7 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { useInputBaseStyle } from './styles';
 
 /**

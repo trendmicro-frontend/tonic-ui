@@ -1,19 +1,9 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionEasing,
-} from '../utils/transitions';
-import reflow from '../utils/reflow';
-import useForkRef from '../utils/useForkRef';
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -73,7 +63,7 @@ const Scale = forwardRef((
   ref,
 ) => {
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
 
   useEffect(() => {
     if (inProp) {

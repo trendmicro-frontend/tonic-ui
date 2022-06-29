@@ -1,9 +1,8 @@
-import { useEventListener } from '@tonic-ui/react-hooks';
+import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
+import { callEventHandlers } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
-import useForkRef from '../utils/useForkRef';
-import wrapEvent from '../utils/wrapEvent';
 import { usePopoverTriggerStyle } from './styles';
 import usePopover from './usePopover';
 
@@ -27,7 +26,7 @@ const PopoverTrigger = forwardRef((
     setMouseCoordinate,
     trigger,
   } = usePopover();
-  const combinedRef = useForkRef(popoverTriggerRef, ref);
+  const combinedRef = useMergeRefs(popoverTriggerRef, ref);
   const styleProps = usePopoverTriggerStyle();
   const [enableMouseMove, setEnableMouseMove] = useState(true);
   const mouseLeaveTimeoutRef = useRef();
@@ -108,16 +107,16 @@ const PopoverTrigger = forwardRef((
     (ownProps = {}, ownRef = null) => {
       const eventHandlerProps = {
         'click': {
-          onClick: wrapEvent(ownProps?.onClick, clickTriggerHandler.onClick),
-          onKeyDown: wrapEvent(ownProps?.onKeyDown, clickTriggerHandler.onKeyDown),
+          onClick: callEventHandlers(ownProps?.onClick, clickTriggerHandler.onClick),
+          onKeyDown: callEventHandlers(ownProps?.onKeyDown, clickTriggerHandler.onKeyDown),
         },
         'hover': {
-          onBlur: wrapEvent(ownProps?.onBlur, hoverTriggerHandler.onBlur),
-          onFocus: wrapEvent(ownProps?.onFocus, hoverTriggerHandler.onFocus),
-          onKeyDown: wrapEvent(ownProps?.onKeyDown, hoverTriggerHandler.onKeyDown),
-          onMouseEnter: wrapEvent(ownProps?.onMouseEnter, hoverTriggerHandler.onMouseEnter),
-          onMouseMove: wrapEvent(ownProps?.onMouseMove, hoverTriggerHandler.onMouseMove),
-          onMouseLeave: wrapEvent(ownProps?.onMouseLeave, hoverTriggerHandler.onMouseLeave),
+          onBlur: callEventHandlers(ownProps?.onBlur, hoverTriggerHandler.onBlur),
+          onFocus: callEventHandlers(ownProps?.onFocus, hoverTriggerHandler.onFocus),
+          onKeyDown: callEventHandlers(ownProps?.onKeyDown, hoverTriggerHandler.onKeyDown),
+          onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, hoverTriggerHandler.onMouseEnter),
+          onMouseMove: callEventHandlers(ownProps?.onMouseMove, hoverTriggerHandler.onMouseMove),
+          onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, hoverTriggerHandler.onMouseLeave),
         },
       }[trigger];
 

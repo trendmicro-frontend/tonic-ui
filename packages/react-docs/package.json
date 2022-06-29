@@ -12,7 +12,7 @@
     "postbuild": "next export --outdir dist/react",
     "pre-push": "yarn --silent run package-name && yarn run eslint && yarn run test",
     "start": "next start",
-    "test": "jest --passWithNoTests"
+    "test": "jest --maxWorkers=2 --passWithNoTests"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -88,6 +88,7 @@
       "text",
       "html"
     ],
+    "modulePathIgnorePatterns": ["<rootDir>/build"],
     "setupFiles": [],
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"

@@ -1,19 +1,8 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-} from 'react';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionDuration, transitionEasing } from '@tonic-ui/utils';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import {
-  createTransitionStyle,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionDuration,
-  transitionEasing,
-} from '../utils/transitions';
-import reflow from '../utils/reflow';
-import useForkRef from '../utils/useForkRef';
 
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';
@@ -85,7 +74,7 @@ const Slide = forwardRef((
   ref,
 ) => {
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
 
   useEffect(() => {
     if (inProp) {

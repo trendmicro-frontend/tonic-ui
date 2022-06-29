@@ -1,5 +1,5 @@
+import { callAll } from '@tonic-ui/utils';
 import _get from 'lodash.get';
-import chainedFunction from 'chained-function';
 import React, { forwardRef } from 'react';
 import { Box, ControlBox } from '../box';
 import { useTheme } from '../theme';
@@ -52,7 +52,7 @@ const Radio = forwardRef((
     }
     disabled = radioGroupDisabled || disabled;
     name = radioGroupName ?? name;
-    onChange = chainedFunction(
+    onChange = callAll(
       onChange,
       radioGroupOnChange,
     );

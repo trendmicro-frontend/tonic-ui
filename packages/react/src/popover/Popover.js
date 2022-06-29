@@ -1,10 +1,9 @@
 import { useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
+import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
-import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
-import warnDeprecatedProps from '../utils/warnDeprecatedProps';
 import { PopoverProvider } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));

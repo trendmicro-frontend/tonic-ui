@@ -1,8 +1,8 @@
+import { runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import config from '../shared/config';
-import runIfFn from '../utils/runIfFn';
 import useAutoId from '../utils/useAutoId';
 import { CheckboxGroupContext } from './context';
 

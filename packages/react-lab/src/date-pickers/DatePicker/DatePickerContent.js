@@ -1,13 +1,8 @@
-import { Popper, Collapse } from '@tonic-ui/react';
-import { useEventCallback } from '@tonic-ui/react-hooks';
-import chainedFunction from 'chained-function';
-import {
-  ensureArray,
-  ensureFunction,
-} from 'ensure-type';
+import { Collapse, Popper } from '@tonic-ui/react';
+import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
+import { callAll, callEventHandlers } from '@tonic-ui/utils';
+import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
-import useForkRef from '../../utils/useForkRef';
-import wrapEvent from '../../utils/wrapEvent';
 import { useDatePickerContentStyle } from './styles';
 import useDatePicker from './useDatePicker';
 
@@ -24,7 +19,7 @@ const DatePickerContent = forwardRef((
   ref,
 ) => {
   const nodeRef = useRef(null);
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const datePickerContext = useDatePicker(); // context might be an undefined value
   const {
     isOpen,
@@ -46,7 +41,7 @@ const DatePickerContent = forwardRef((
   const styleProps = useDatePickerContentStyle();
 
   const eventHandlers = {
-    onKeyDown: wrapEvent(onKeyDownProp, handleKeyDown),
+    onKeyDown: callEventHandlers(onKeyDownProp, handleKeyDown),
   };
 
   const [
@@ -98,11 +93,11 @@ const DatePickerContent = forwardRef((
             {...TransitionProps}
             ref={combinedRef}
             in={inProp}
-            onEnter={chainedFunction(
+            onEnter={callAll(
               onEnter,
               TransitionProps?.onEnter,
             )}
-            onExited={chainedFunction(
+            onExited={callAll(
               onExited,
               TransitionProps?.onExited,
             )}

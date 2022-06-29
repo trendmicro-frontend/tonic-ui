@@ -1,8 +1,8 @@
-import chainedFunction from 'chained-function';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { callAll } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Slide } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
-import useForkRef from '../utils/useForkRef';
 import DrawerCloseButton from './DrawerCloseButton';
 import {
   useDrawerContentStyle,
@@ -29,7 +29,7 @@ const DrawerContent = forwardRef((
     size,
     contentRef, // internal use only
   } = { ...drawerContext };
-  const combinedRef = useForkRef(contentRef, ref);
+  const combinedRef = useMergeRefs(contentRef, ref);
   const styleProps = useDrawerContentStyle({ placement, size });
   const contentProps = {
     ref: combinedRef,
@@ -61,7 +61,7 @@ const DrawerContent = forwardRef((
       {...contentProps}
       in={drawerContext ? isOpen : true}
       direction={transitionDirection}
-      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
+      onExited={callAll(safeToRemove, TransitionProps?.onExited)}
     >
       {children}
       {!!isClosable && (

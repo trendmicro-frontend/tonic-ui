@@ -1,7 +1,7 @@
+import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
-import wrapEvent from '../utils/wrapEvent';
 import useAccordionItem from './useAccordionItem';
 import { useAccordionToggleStyle } from './styles';
 
@@ -21,7 +21,7 @@ const AccordionToggle = forwardRef((
     <ButtonBase
       ref={ref}
       disabled={disabled}
-      onClick={wrapEvent(onClickProp, context?.onToggle)}
+      onClick={callEventHandlers(onClickProp, context?.onToggle)}
       {...styleProps}
       {...rest}
     />
