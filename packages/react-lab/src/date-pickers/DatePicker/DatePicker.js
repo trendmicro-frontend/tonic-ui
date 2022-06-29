@@ -1,7 +1,6 @@
 import { Box } from '@tonic-ui/react';
 import { useConst, useEventCallback, useMergeRefs, useOutsideClick, usePrevious, useToggle } from '@tonic-ui/react-hooks';
-import { isNullOrUndefined } from '@tonic-ui/utils';
-import chainedFunction from 'chained-function';
+import { callEventHandlers, isNullOrUndefined } from '@tonic-ui/utils';
 import format from 'date-fns/format';
 import endOfDay from 'date-fns/endOfDay';
 import isDate from 'date-fns/isDate';
@@ -214,11 +213,11 @@ const DatePicker = forwardRef((
             const inputProps = {
               ...datePickerToggleProps,
               cursor: undefined, // Remove cursor style
-              onChange: chainedFunction(
+              onChange: callEventHandlers(
                 handleDateInputChange,
                 datePickerToggleProps?.onChange,
               ),
-              onFocus: chainedFunction(
+              onFocus: callEventHandlers(
                 handleDateInputFocus,
                 datePickerToggleProps?.onFocus,
               ),

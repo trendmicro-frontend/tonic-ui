@@ -28,7 +28,6 @@
     "@tonic-ui/theme": "^1.1.0",
     "@tonic-ui/utils": "^1.0.0",
     "@trendmicro/tmicon": "^1.21.0",
-    "chained-function": "^0.5.0",
     "ensure-type": "1.x",
     "lodash.get": "4.x",
     "micro-memoize": "4.x",

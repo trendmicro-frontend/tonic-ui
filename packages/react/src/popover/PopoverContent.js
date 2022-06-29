@@ -1,8 +1,5 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
-import {
-  callEventHandlers,
-} from '@tonic-ui/utils';
-import chainedFunction from 'chained-function';
+import { callAll, callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { useMemo, useRef } from 'react';
 import { Box } from '../box';
@@ -196,7 +193,7 @@ const PopoverContent = ({
             {...TransitionProps}
             ref={nodeRef}
             in={inProp}
-            onEnter={chainedFunction(
+            onEnter={callAll(
               onEnter,
               TransitionProps?.onEnter,
               (event) => {
@@ -208,7 +205,7 @@ const PopoverContent = ({
                 }
               }
             )}
-            onExited={chainedFunction(
+            onExited={callAll(
               onExited,
               TransitionProps?.onExited,
             )}

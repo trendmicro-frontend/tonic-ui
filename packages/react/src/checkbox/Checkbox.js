@@ -1,4 +1,4 @@
-import chainedFunction from 'chained-function';
+import { callAll } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import _get from 'lodash.get';
 import React, { forwardRef } from 'react';
@@ -59,7 +59,7 @@ const Checkbox = forwardRef((
     }
     disabled = checkboxGroupDisabled || disabled;
     name = checkboxGroupName ?? name;
-    onChange = chainedFunction(
+    onChange = callAll(
       onChange,
       checkboxGroupOnChange,
     );

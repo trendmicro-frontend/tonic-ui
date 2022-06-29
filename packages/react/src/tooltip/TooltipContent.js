@@ -1,9 +1,5 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
-import {
-  isBlankString,
-  isEmptyArray,
-} from '@tonic-ui/utils';
-import chainedFunction from 'chained-function';
+import { callAll, isBlankString, isEmptyArray } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
@@ -114,8 +110,8 @@ const TooltipContent = forwardRef((
             {...TransitionProps}
             ref={nodeRef}
             in={inProp}
-            onEnter={chainedFunction(onEnter, TransitionProps?.onEnter)}
-            onExited={chainedFunction(onExited, TransitionProps?.onExited)}
+            onEnter={callAll(onEnter, TransitionProps?.onEnter)}
+            onExited={callAll(onExited, TransitionProps?.onExited)}
           >
             {(state, { ref, style: transitionStyle }) => {
               return (

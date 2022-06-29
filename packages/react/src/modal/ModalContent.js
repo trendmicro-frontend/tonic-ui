@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import chainedFunction from 'chained-function';
+import { callAll } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
@@ -55,7 +55,7 @@ const ModalContent = forwardRef((
       {...TransitionProps}
       {...contentProps}
       in={modalContext ? isOpen : true}
-      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
+      onExited={callAll(safeToRemove, TransitionProps?.onExited)}
     >
       {children}
       {!!isClosable && (

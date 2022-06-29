@@ -1,6 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { getComputedStyle } from '@tonic-ui/utils';
-import chainedFunction from 'chained-function';
+import { callAll, getComputedStyle } from '@tonic-ui/utils';
 import { ensurePositiveNumber } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Fade } from '../transitions';
@@ -90,7 +89,7 @@ const ModalOverlay = forwardRef((
       {...TransitionProps}
       {...overlayProps}
       in={modalContext ? isOpen : true}
-      onExited={chainedFunction(safeToRemove, TransitionProps?.onExited)}
+      onExited={callAll(safeToRemove, TransitionProps?.onExited)}
     />
   );
 });

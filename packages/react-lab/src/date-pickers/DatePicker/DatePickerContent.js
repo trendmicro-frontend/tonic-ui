@@ -1,7 +1,6 @@
 import { Popper, Collapse } from '@tonic-ui/react';
 import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callEventHandlers } from '@tonic-ui/utils';
-import chainedFunction from 'chained-function';
+import { callAll, callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { useDatePickerContentStyle } from './styles';
@@ -94,11 +93,11 @@ const DatePickerContent = forwardRef((
             {...TransitionProps}
             ref={combinedRef}
             in={inProp}
-            onEnter={chainedFunction(
+            onEnter={callAll(
               onEnter,
               TransitionProps?.onEnter,
             )}
-            onExited={chainedFunction(
+            onExited={callAll(
               onExited,
               TransitionProps?.onExited,
             )}
