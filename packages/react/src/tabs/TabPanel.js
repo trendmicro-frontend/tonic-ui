@@ -1,8 +1,5 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
-import {
-  isNullOrUndefined,
-  warnDeprecatedProps,
-} from '@tonic-ui/utils';
+import { isNullOrUndefined, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';

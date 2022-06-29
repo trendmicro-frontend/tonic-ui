@@ -1,8 +1,5 @@
 import { usePrevious } from '@tonic-ui/react-hooks';
-import {
-  getAllFocusable,
-  runIfFn,
-} from '@tonic-ui/utils';
+import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';

@@ -1,6 +1,4 @@
-import {
-  callEventHandlers,
-} from '@tonic-ui/utils';
+import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';

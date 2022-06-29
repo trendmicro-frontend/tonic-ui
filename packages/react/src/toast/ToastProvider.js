@@ -1,12 +1,6 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
-import {
-  canUseDOM,
-  runIfFn,
-} from '@tonic-ui/utils';
-import {
-  ensureArray,
-  ensureString,
-} from 'ensure-type';
+import { canUseDOM, runIfFn } from '@tonic-ui/utils';
+import { ensureArray, ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';

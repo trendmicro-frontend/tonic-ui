@@ -1,6 +1,4 @@
-import {
-  callEventHandlers,
-} from '@tonic-ui/utils';
+import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';

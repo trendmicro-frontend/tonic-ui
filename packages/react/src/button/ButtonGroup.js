@@ -1,6 +1,4 @@
-import {
-  runIfFn,
-} from '@tonic-ui/utils';
+import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';

@@ -1,6 +1,4 @@
-import {
-  getComputedStyle,
-} from '@tonic-ui/utils';
+import { getComputedStyle } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
 
 const getInnerHeight = (el) => {

@@ -1,6 +1,4 @@
-import {
-  canUseDOM,
-} from '@tonic-ui/utils';
+import { canUseDOM } from '@tonic-ui/utils';
 import { useEffect, useRef } from 'react';
 
 const useNodeRef = ({

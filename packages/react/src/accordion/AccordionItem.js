@@ -1,6 +1,4 @@
-import {
-  runIfFn,
-} from '@tonic-ui/utils';
+import { runIfFn } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';

@@ -1,4 +1,4 @@
-import { Popper, Collapse } from '@tonic-ui/react';
+import { Collapse, Popper } from '@tonic-ui/react';
 import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';

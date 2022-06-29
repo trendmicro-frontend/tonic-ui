@@ -1,6 +1,4 @@
-import {
-  runIfFn,
-} from '@tonic-ui/utils';
+import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import config from '../shared/config';

@@ -1,9 +1,4 @@
-import {
-  Box,
-  Button,
-  Icon,
-  Text,
-} from '@tonic-ui/react';
+import { Box, Button, Icon, Text } from '@tonic-ui/react';
 import { useEventCallback } from '@tonic-ui/react-hooks';
 import addMonths from 'date-fns/addMonths';
 import addYears from 'date-fns/addYears';
