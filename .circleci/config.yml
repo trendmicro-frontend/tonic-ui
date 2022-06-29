@@ -93,7 +93,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
             yarn test
@@ -159,7 +159,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "ASSET_PREFIX=/tonic-ui-demo/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui-demo/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
             yarn test
@@ -232,7 +232,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "ASSET_PREFIX=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui/react/${TONIC_UI_DOC_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn eslint
             yarn test

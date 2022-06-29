@@ -20,7 +20,7 @@ import pkg from '../../../package.json';
 import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from './FontAwesomeIcon';
 
-const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
+const BASE_PATH = ensureString(process.env.BASE_PATH);
 const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
 
 const versionMap = {
@@ -123,7 +123,7 @@ const Header = forwardRef((
               md: 'block',
             }}
           >
-            <NextLink href={`${ASSET_PREFIX}/`} passHref>
+            <NextLink href={`/`} passHref>
               <Box
                 as="a"
                 display="flex"
@@ -139,7 +139,7 @@ const Header = forwardRef((
               >
                 <Image
                   alt=""
-                  src={`${ASSET_PREFIX}/images/${logo}`}
+                  src={`${BASE_PATH}/images/${logo}`}
                   height="8x"
                   marginRight="2x"
                 />
@@ -181,7 +181,7 @@ const Header = forwardRef((
                 <MenuDivider />
                 <MenuItem
                   as="a"
-                  href={`${ASSET_PREFIX}/getting-started/versions`}
+                  href={`${BASE_PATH}/getting-started/versions`}
                   whiteSpace="nowrap"
                 >
                   View all versions

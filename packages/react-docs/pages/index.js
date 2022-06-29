@@ -45,7 +45,7 @@ import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from '../components/FontAwesomeIcon';
 import SkeletonBody from '../components/SkeletonBody';
 
-const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
+const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 const GITHUB_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 
@@ -130,7 +130,7 @@ const DefaultPage = (props) => {
                 templateColumns="1fr 1fr"
                 gap="4x"
               >
-                <NextLink href={`${ASSET_PREFIX}/getting-started`} passHref>
+                <NextLink href={`/getting-started`} passHref>
                   <Button
                     as="a"
                     textDecoration="none"
@@ -412,7 +412,7 @@ const Header = forwardRef((props, ref) => {
         justifyContent="space-between"
       >
         <Box>
-          <NextLink href={`${ASSET_PREFIX}/`} passHref>
+          <NextLink href={`/`} passHref>
             <Box
               as="a"
               display="flex"
@@ -428,7 +428,7 @@ const Header = forwardRef((props, ref) => {
             >
               <Image
                 alt=""
-                src={`${ASSET_PREFIX}/images/${logo}`}
+                src={`${BASE_PATH}/images/${logo}`}
                 width={35}
                 height={30}
                 marginRight="2x"

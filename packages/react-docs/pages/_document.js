@@ -1,7 +1,7 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-const ASSET_PREFIX = process.env.ASSET_PREFIX;
+const BASE_PATH = process.env.BASE_PATH;
 
 class CustomDocument extends Document {
   static async getInitialProps(ctx) {
@@ -13,7 +13,7 @@ class CustomDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="shortcut icon" href={`${ASSET_PREFIX}/tonic-favicon-dark.ico`} />
+          <link rel="shortcut icon" href={`${BASE_PATH}/tonic-favicon-dark.ico`} />
           <script
             data-tonic-ui
             dangerouslySetInnerHTML={{
