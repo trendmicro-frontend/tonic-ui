@@ -22,7 +22,7 @@ export default withPlugins([
   withMDX(),
   {
     env: {
-      ASSET_PREFIX: process.env.ASSET_PREFIX,
+      BASE_PATH: process.env.BASE_PATH,
       GA_TRACKING_ID: 'UA-187145735-1',
       // see `.circleci/config.yml`
       TONIC_UI_DOC_VERSION: process.env.TONIC_UI_DOC_VERSION,
@@ -47,6 +47,7 @@ export default withPlugins([
       TONIC_UI_DEFAULT_DOCUMENTATION: process.env.TONIC_UI_DEFAULT_DOCUMENTATION,
       TONIC_UI_DEFAULT_SOURCE_CODE: process.env.TONIC_UI_DEFAULT_SOURCE_CODE,
     },
+    basePath: process.env.BASE_PATH,
     assetPrefix: process.env.ASSET_PREFIX,
     distDir: 'build',
     pageExtensions: ['js', 'jsx', 'md', 'mdx'],

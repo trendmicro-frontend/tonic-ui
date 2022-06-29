@@ -1,7 +1,10 @@
 import { keyframes } from '@emotion/react';
 import { Box, Image, Stack, Text, Icon, useColorMode } from '@trendmicro/react-styled-ui';
+import { ensureString } from 'ensure-type';
 import React from 'react';
 import Cube from './Cube';
+
+const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 const cubeSpin = keyframes`
   from { transform: rotateY(360deg); }
@@ -35,7 +38,7 @@ const AnimatedCubeDemo = ({ size = 128, ...rest }) => {
         <Cube.Front
           backgroundColor="white"
         >
-          <Image alt="" src="images/Trend-Micro-Logo.svg" width="80%" />
+          <Image alt="" src={`${BASE_PATH}/images/Trend-Micro-Logo.svg`} width="80%" />
         </Cube.Front>
         <Cube.Back>
           <Box

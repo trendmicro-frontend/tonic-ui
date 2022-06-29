@@ -11,7 +11,6 @@ import {
   useColorMode,
   useTheme,
 } from '@trendmicro/react-styled-ui';
-import { ensureString } from 'ensure-type';
 import App from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -20,8 +19,6 @@ import Header from '../components/Header';
 import Main from '../components/Main';
 import MDXComponents from '../components/MDXComponents';
 import SideNav from '../components/SideNav';
-
-const assetPrefix = ensureString(process.env.ASSET_PREFIX);
 
 const pageview = () => {
   ReactGA.set({ page: window.location.pathname });
@@ -86,7 +83,7 @@ const Layout = ({ children }) => {
 const CustomApp = (props) => {
   const router = useRouter();
   useEffect(() => {
-    router.pathname === '/' && router.push(`${assetPrefix}/getting-started`);
+    router.pathname === '/' && router.push(`/getting-started`);
   }, [router]);
 
   // https://github.com/vercel/next.js/blob/canary/examples/with-react-ga/pages/_app.js

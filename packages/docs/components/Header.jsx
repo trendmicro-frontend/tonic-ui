@@ -1,4 +1,3 @@
-import { ensureString } from 'ensure-type';
 import {
   Box,
   Icon,
@@ -12,12 +11,13 @@ import {
   Text,
   useColorMode,
 } from '@trendmicro/react-styled-ui';
+import { ensureString } from 'ensure-type';
 import { useRouter } from 'next/router';
 import React, { forwardRef } from 'react';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import pkg from '../../../package.json';
 
-const ASSET_PREFIX = ensureString(process.env.ASSET_PREFIX);
+const BASE_PATH = ensureString(process.env.BASE_PATH);
 const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
 
 const versionMap = {
@@ -57,8 +57,8 @@ const Header = forwardRef((props, ref) => {
     setColorMode(nextColorMode);
   };
   const logoPath = {
-    light: 'images/tonic-logo-light.svg',
-    dark: 'images/tonic-logo-dark.svg',
+    light: `${BASE_PATH}/images/tonic-logo-light.svg`,
+    dark: `${BASE_PATH}/images/tonic-logo-dark.svg`,
   }[colorMode];
   const backgroundColor = {
     light: 'white:emphasis', // FIXME
@@ -79,7 +79,7 @@ const Header = forwardRef((props, ref) => {
     }
   };
   const handleViewAllVersions = () => {
-    router.push(`${ASSET_PREFIX}/versions`);
+    router.push(`/versions`);
   };
 
   return (
