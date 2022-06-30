@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/styled-system",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "The framework agnostic styling engine for Tonic UI.",
   "main": "index.js",
   "publishConfig": {
@@ -46,7 +46,9 @@
       "text",
       "html"
     ],
-    "modulePathIgnorePatterns": ["<rootDir>/build"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build"
+    ],
     "setupFiles": [],
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"

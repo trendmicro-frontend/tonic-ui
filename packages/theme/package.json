@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/theme",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "The default theme package for Tonic UI components.",
   "main": "index.js",
   "publishConfig": {
@@ -46,7 +46,9 @@
       "text",
       "html"
     ],
-    "modulePathIgnorePatterns": ["<rootDir>/build"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build"
+    ],
     "setupFiles": [],
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
