@@ -89,7 +89,9 @@ const pseudoClassSelector = {
   ]),
   _lastChild: createSelectorFunction('&:last-child'),
   _lastOfType: createSelectorFunction('&:last-of-type'),
+  _notFirstChild: createSelectorFunction('&:not(:first-child)'),
   _notFirstOfType: createSelectorFunction('&:not(:first-of-type)'),
+  _notLastChild: createSelectorFunction('&:not(:last-child)'),
   _notLastOfType: createSelectorFunction('&:not(:last-of-type)'),
   _nthOfType: createNthOfTypeSelectorFunction('&:nth-of-type'),
   _readOnly: createSelectorFunction([
