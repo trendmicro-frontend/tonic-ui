@@ -37,7 +37,8 @@
     "eslint-plugin-jsx-a11y": "latest",
     "eslint-plugin-react": "latest",
     "eslint-plugin-react-hooks": "latest",
-    "jest": "^27.5.1"
+    "jest": "^28.0.0",
+    "jest-environment-jsdom": "^28.0.0"
   },
   "jest": {
     "collectCoverage": true,
