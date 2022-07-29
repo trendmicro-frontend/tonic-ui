@@ -155,7 +155,15 @@ const Popper = forwardRef((
   }
 
   return (
-    <Portal isDisabled={!usePortal} container={container}>
+    <Portal
+      isDisabled={!usePortal}
+      container={container}
+      onRender={() => {
+        if (isOpen) {
+          handleOpen();
+        }
+      }}
+    >
       <Box
         ref={combinedRef}
         position="absolute"
