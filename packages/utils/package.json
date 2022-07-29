@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Common utilities for various Tonic UI components and packages.",
   "main": "index.js",
   "publishConfig": {

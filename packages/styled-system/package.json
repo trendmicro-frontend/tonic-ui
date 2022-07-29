@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/styled-system",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "The framework agnostic styling engine for Tonic UI.",
   "main": "index.js",
   "publishConfig": {
