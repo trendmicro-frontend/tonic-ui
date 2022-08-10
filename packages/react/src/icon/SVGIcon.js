@@ -4,7 +4,6 @@ import { Box } from '../box';
 
 const SVGIconBase = styled(Box)`
   flex-shrink: 0;
-  backface-visibility: hidden;
   &:not(:root) {
     overflow: hidden;
   }
