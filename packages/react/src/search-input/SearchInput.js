@@ -1,77 +1,31 @@
-import { keyframes } from '@emotion/react';
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import React, { useEffect, useRef, useState } from 'react';
-import { Box } from '../box';
-import { ButtonBase } from '../button';
-import { useColorMode } from '../color-mode';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from '../icon';
-import { Input } from '../input';
-import splitProps from './split-props';
-
-const spin = keyframes`
-  0% {
-    transform: rotate(0eg);
-  }
-  100% {
-    transform: rotate(359deg);
-  }
-`;
-
-const InputAdornmentPrepend = (props) => (
-  <Box
-    display="flex"
-    alignItems="center"
-    position="absolute"
-    left={0}
-    height="100%"
-    px="3x"
-    // The z-index value should be at least 3 for the prepeneded input adornment
-    zIndex={3}
-    {...props}
-  />
-);
-
-const InputAdornmentAppend = (props) => (
-  <Box
-    display="flex"
-    alignItems="center"
-    position="absolute"
-    right={0}
-    height="100%"
-    px="3x"
-    // The z-index value should be at least 2 for the appended input adornment
-    zIndex={2}
-    {...props}
-  />
-);
+import { InputControl, InputAdornment } from '../input';
+import { Spinner } from '../spinner';
+import SearchInputCloseButton from './SearchInputCloseButton';
 
 const SearchInput = React.forwardRef((
   {
+    disabled,
     isLoading,
-    onChange,
-    onClearInput,
+    onChange: onChangeProp,
+    onClearInput: onClearInputProp,
+    readOnly,
+    size,
     ...rest
   },
   ref
 ) => {
   const inputRef = useRef();
   const combinedRef = useMergeRefs(inputRef, ref);
-  const [rootProps, inputProps] = splitProps(rest);
-  const [colorMode] = useColorMode();
-  const primaryColor = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const tertiaryColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const canClearInput = !disabled && !readOnly;
+  const [isClearable, setIsClearable] = useState(canClearInput && !!(rest.value ?? rest.defaultValue));
+  const inputValue = String(inputRef.current?.value ?? '');
 
-  const [isClearable, setIsClearable] = useState(!!(rest.value ?? rest.defaultValue));
-  const refValue = String(inputRef.current?.value ?? '');
   useEffect(() => {
-    setIsClearable(refValue.length > 0);
-  }, [refValue, setIsClearable]);
+    setIsClearable(canClearInput && inputValue.length > 0);
+  }, [canClearInput, setIsClearable, inputValue]);
 
   const iconState = (() => {
     if (isLoading) {
@@ -83,7 +37,7 @@ const SearchInput = React.forwardRef((
     return null;
   })();
 
-  const handleClickClearButton = (e) => {
+  const onClearInput = useCallback((e) => {
     if (iconState !== 'clearable') {
       return;
     }
@@ -91,58 +45,54 @@ const SearchInput = React.forwardRef((
     inputRef.current.value = '';
     setIsClearable(false);
 
-    if (typeof onClearInput === 'function') {
-      onClearInput(e);
+    if (typeof onClearInputProp === 'function') {
+      onClearInputProp(e);
     }
-  };
+  }, [iconState, onClearInputProp]);
+
+  const onChange = useCallback((e) => {
+    const value = String(e.target.value ?? '');
+    setIsClearable(value.length > 0);
+
+    if (typeof onChangeProp === 'function') {
+      onChangeProp(e);
+    }
+  }, [onChangeProp]);
+
+  const startAdornment = (
+    <InputAdornment>
+      <Icon icon="search-o" />
+    </InputAdornment>
+  );
+
+  const endAdornment = (
+    <InputAdornment>
+      {iconState === 'clearable' && (
+        <SearchInputCloseButton
+          disabled={disabled}
+          onClick={onClearInput}
+          size={size}
+        >
+          <Icon icon="close-s" />
+        </SearchInputCloseButton>
+      )}
+      {iconState === 'loading' && (
+        <Spinner size="xs" />
+      )}
+    </InputAdornment>
+  );
 
   return (
-    <Box
-      display="flex"
-      position="relative"
-      transition="all .2s"
-      {...rootProps}
-    >
-      <InputAdornmentPrepend
-        color={tertiaryColor}
-      >
-        <Icon icon="search-o" />
-      </InputAdornmentPrepend>
-      <Input
-        ref={combinedRef}
-        pl="10x"
-        pr="10x"
-        onChange={(e) => {
-          const value = String(e.target.value ?? '');
-          setIsClearable(value.length > 0);
-
-          if (typeof onChange === 'function') {
-            onChange(e);
-          }
-        }}
-        {...inputProps}
-      />
-      <InputAdornmentAppend
-        color={tertiaryColor}
-      >
-        {iconState === 'clearable' && (
-          <ButtonBase
-            _hover={{
-              color: primaryColor,
-            }}
-            onClick={handleClickClearButton}
-          >
-            <Icon icon="close-s" />
-          </ButtonBase>
-        )}
-        {iconState === 'loading' && (
-          <Icon
-            icon="spinner"
-            animation={`${spin} 2s infinite linear`}
-          />
-        )}
-      </InputAdornmentAppend>
-    </Box>
+    <InputControl
+      inputRef={combinedRef}
+      disabled={disabled}
+      endAdornment={endAdornment}
+      onChange={onChange}
+      readOnly={readOnly}
+      size={size}
+      startAdornment={startAdornment}
+      {...rest}
+    />
   );
 });
 
