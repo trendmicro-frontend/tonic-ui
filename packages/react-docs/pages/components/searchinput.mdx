@@ -110,13 +110,14 @@ function Example() {
         onKeyPress={onKeyPress}
         width={inputWidth}
         inputProps={{
-          cursor: isLoading ? 'progress' : undefined,
           textOverflow: 'ellipsis',
         }}
-        cursor={isLoading ? 'progress' : undefined}
       />
       <Box mt="4x">
-        <Button disabled={!keyword} onClick={handleClickSearch}>
+        <Button
+          disabled={!keyword}
+          onClick={handleClickSearch}
+        >
           Search
         </Button>
       </Box>
