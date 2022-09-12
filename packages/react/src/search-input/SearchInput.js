@@ -8,11 +8,13 @@ import SearchInputCloseButton from './SearchInputCloseButton';
 const SearchInput = React.forwardRef((
   {
     disabled,
+    endAdornment: endAdornmentProp,
     isLoading,
     onChange: onChangeProp,
     onClearInput: onClearInputProp,
     readOnly,
     size,
+    startAdornment: startAdornmentProp,
     ...rest
   },
   ref
@@ -86,11 +88,11 @@ const SearchInput = React.forwardRef((
     <InputControl
       inputRef={combinedRef}
       disabled={disabled}
-      endAdornment={endAdornment}
+      endAdornment={endAdornmentProp !== undefined ? endAdornmentProp : endAdornment}
       onChange={onChange}
       readOnly={readOnly}
       size={size}
-      startAdornment={startAdornment}
+      startAdornment={startAdornmentProp !== undefined ? startAdornmentProp : startAdornment}
       {...rest}
     />
   );
