@@ -189,9 +189,11 @@ function Example() {
       }[placement];
 
       return (
-        <ToastLayout {...styleProps}>
-          <ToastNotification onClose={onClose} />
-        </ToastLayout>
+        <Box {...styleProps}>
+          <ToastLayout>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        </Box>
       );
     }, {
       placement: 'bottom-right',
@@ -352,9 +354,11 @@ function Example() {
       }[placement];
 
       return (
-        <ToastLayout {...styleProps}>
-          <ToastNotification onClose={onClose} />
-        </ToastLayout>
+        <Box {...styleProps}>
+          <ToastLayout>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        </Box>
       );
     }, {
       placement: 'bottom-right',
@@ -468,9 +472,11 @@ function Example() {
       }[placement];
 
       return (
-        <ToastLayout {...styleProps}>
-          <ToastNotification onClose={onClose} />
-        </ToastLayout>
+        <Box {...styleProps}>
+          <ToastLayout>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        </Box>
       );
     }, {
       placement: 'bottom-right',
