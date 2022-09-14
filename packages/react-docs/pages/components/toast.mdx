@@ -497,11 +497,9 @@ function Example() {
           <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
             Show
           </Button>
-          <Box mt="4x">
-            <ToastLayout>
-              <ToastNotification />
-            </ToastLayout>
-          </Box>
+          <ToastLayout mt="4x">
+            <ToastNotification />
+          </ToastLayout>
         </Box>
       ))}
     </Stack>
