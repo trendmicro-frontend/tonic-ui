@@ -441,8 +441,8 @@ function Example() {
       }[placement];
 
       return (
-        <Box>
-          <ToastLayout {...styleProps}>
+        <Box {...styleProps}>
+          <ToastLayout>
             <ToastNotification onClose={onClose} />
           </ToastLayout>
         </Box>
