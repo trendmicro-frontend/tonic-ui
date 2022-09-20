@@ -10,18 +10,34 @@ import { SearchInput } from '@tonic-ui/react';
 
 ```jsx
 <Stack direction="column" spacing="4x">
-  <SearchInput placeholder="Search" />
-  <SearchInput placeholder="Search" defaultValue="John Doe" />
   <SearchInput
     placeholder="Search"
-    defaultValue="John Doe"
+  />
+  <SearchInput
+    placeholder="Search"
+    defaultValue="Regular"
+  />
+  <SearchInput
+    placeholder="Search"
+    defaultValue="Read Only"
     readOnly
+  />
+  <SearchInput
+    placeholder="Search"
+    defaultValue="Disabled"
+    disabled
+  />
+  <SearchInput
+    placeholder="Search"
+    defaultValue="Loading"
     isLoading
   />
   <SearchInput
     placeholder="Search"
     defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis. Etiam vestibulum lorem vel urna tempor, eu fermentum odio aliquam. Aliquam consequat urna vitae ipsum pulvinar, in blandit purus eleifend."
-    textOverflow="ellipsis"
+    inputProps={{
+      textOverflow: 'ellipsis',
+    }}
   />
 </Stack>
 ```
@@ -45,7 +61,7 @@ function Example() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 3000);
   };
   const onChange = (e) => {
     const keyword = e.target.value;
@@ -54,6 +70,7 @@ function Example() {
   const onClearInput = (e) => {
     const keyword = '';
     setKeyword(keyword);
+    ref.current.focus();
   };
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -92,10 +109,15 @@ function Example() {
         }}
         onKeyPress={onKeyPress}
         width={inputWidth}
-        textOverflow="ellipsis"
+        inputProps={{
+          textOverflow: 'ellipsis',
+        }}
       />
       <Box mt="4x">
-        <Button disabled={!keyword} onClick={handleClickSearch}>
+        <Button
+          disabled={!keyword}
+          onClick={handleClickSearch}
+        >
           Search
         </Button>
       </Box>
@@ -124,7 +146,7 @@ The `SearchInput` component comes in 3 variants: `outline`, `filled`, and `unsty
 <Stack direction="column" spacing="4x">
   <SearchInput variant="outline" placeholder="Search" />
   <SearchInput variant="filled" placeholder="Search" />
-  <SearchInput variant="unstyled" placeholder="Search" />
+  <SearchInput variant="unstyled" placeholder="Search" height="8x" />
 </Stack>
 ```
 
@@ -137,7 +159,7 @@ Standard input attributes are supported, e.g., `disabled`, `readOnly`, `required
 ```jsx
 <Stack directin="column" spacing="4x">
   <SearchInput disabled placeholder="Placeholder text" />
-  <SearchInput disabled placeholder="Placeholder text" defaultValue="Disabled" />
+  <SearchInput disabled placeholder="Placeholder text" defaultValue="Disabled input" />
 </Stack>
 ```
 
@@ -146,7 +168,7 @@ Standard input attributes are supported, e.g., `disabled`, `readOnly`, `required
 ```jsx
 <Stack directin="column" spacing="4x">
   <SearchInput readOnly placeholder="Placeholder text" />
-  <SearchInput readOnly placeholder="Placeholder text" defaultValue="Read-only" />
+  <SearchInput readOnly placeholder="Placeholder text" defaultValue="Read-only input" />
 </Stack>
 ```
 
