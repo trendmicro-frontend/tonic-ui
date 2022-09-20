@@ -23,7 +23,7 @@ const GlobalStyles = () => {
         :root {
           color-scheme: ${colorMode};
         }
-        :focus:not(.focus-visible) {
+        :focus:not(:focus-visible) {
           outline: none;
         }
         body {

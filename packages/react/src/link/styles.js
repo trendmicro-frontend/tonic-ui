@@ -15,7 +15,6 @@ const useLinkStyle = ({
   return {
     color,
     cursor: 'pointer',
-    outline: 'none',
     textDecoration: textDecoration ?? 'none',
     display: 'inline-flex',
     alignItems: 'center',
