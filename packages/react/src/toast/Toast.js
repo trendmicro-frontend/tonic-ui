@@ -14,6 +14,23 @@ import {
   useToastStyle,
 } from './styles';
 
+const getIconByAppearance = (appearance) => {
+  const iconName = {
+    success: 'success',
+    info: 'info',
+    warning: 'warning-triangle',
+    error: 'error',
+  }[appearance];
+
+  if (!iconName) {
+    return null;
+  }
+
+  return (
+    <Icon icon={`${iconName}`} />
+  );
+};
+
 const Toast = forwardRef((
   {
     isCloseButtonVisible, // deprecated
@@ -43,6 +60,13 @@ const Toast = forwardRef((
 
   const styleProps = useToastStyle({ appearance });
 
+  if (typeof icon === 'string') {
+    icon = (<Icon icon={icon} />);
+  }
+  if (typeof icon === 'undefined') {
+    icon = getIconByAppearance(appearance);
+  }
+
   return (
     <Box
       ref={ref}
@@ -53,8 +77,9 @@ const Toast = forwardRef((
         <>
           <ToastIcon
             appearance={appearance}
-            icon={icon}
-          />
+          >
+            {icon}
+          </ToastIcon>
           <Space minWidth="2x" />
         </>
       )}
