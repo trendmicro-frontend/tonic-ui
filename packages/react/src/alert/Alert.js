@@ -15,6 +15,23 @@ import {
   useAlertStyle,
 } from './styles';
 
+const getIconBySeverity = (severity) => {
+  const iconName = {
+    success: 'success',
+    info: 'info',
+    warning: 'warning-triangle',
+    error: 'error',
+  }[severity];
+
+  if (!iconName) {
+    return null;
+  }
+
+  return (
+    <Icon icon={`${iconName}`} />
+  );
+};
+
 const Alert = forwardRef((
   {
     isCloseButtonVisible, // deprecated
@@ -44,6 +61,13 @@ const Alert = forwardRef((
 
   const styleProps = useAlertStyle({ variant, severity });
 
+  if (typeof icon === 'string') {
+    icon = (<Icon icon={icon} />);
+  }
+  if (typeof icon === 'undefined') {
+    icon = getIconBySeverity(severity);
+  }
+
   return (
     <Box
       ref={ref}
@@ -53,10 +77,11 @@ const Alert = forwardRef((
       {!!icon && (
         <>
           <AlertIcon
-            icon={icon}
-            variant={variant}
             severity={severity}
-          />
+            variant={variant}
+          >
+            {icon}
+          </AlertIcon>
           <Space minWidth="2x" />
         </>
       )}
