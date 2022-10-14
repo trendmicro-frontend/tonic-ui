@@ -4,10 +4,7 @@ import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import { Portal } from '../portal';
-import config from '../shared/config';
 import { AnimatePresence } from '../utils/animate-presence';
-import useAutoId from '../utils/useAutoId';
-import useNodeRef from '../utils/useNodeRef';
 import ModalContainer from './ModalContainer';
 import { ModalProvider } from './context';
 
@@ -29,6 +26,7 @@ const Modal = forwardRef((
     isClosable = false,
     isOpen = false,
     onClose,
+    portalProps,
     scrollBehavior = defaultScrollBehavior,
     size = defaultSize,
     ...rest
@@ -50,7 +48,6 @@ const Modal = forwardRef((
   }
 
   const [isMounted, setMounted] = useState(isOpen);
-  const defaultId = useAutoId();
   const containerRef = useRef();
   const contentRef = useRef();
   const context = getMemoizedState({
@@ -68,12 +65,6 @@ const Modal = forwardRef((
     containerRef, // internal use only
     contentRef, // internal use only
     placement: 'center', // internal use only (only 'center' is supported by Modal)
-  });
-
-  const portalId = `${config.name}:Modal-${defaultId}`;
-  const mountRef = useNodeRef({
-    isOpen: isMounted,
-    id: portalId,
   });
 
   const returnFocus = !finalFocusRef;
@@ -124,7 +115,9 @@ const Modal = forwardRef((
         onExitComplete={onExitComplete}
       >
         {isMounted && (
-          <Portal container={mountRef.current}>
+          <Portal
+            {...portalProps}
+          >
             <FocusLock
               disabled={!ensureFocus}
               autoFocus={autoFocus}
