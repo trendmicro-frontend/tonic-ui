@@ -1,57 +1,80 @@
-import { useIsomorphicEffect, useMergeRefs } from '@tonic-ui/react-hooks';
-import { Children, cloneElement, useState, forwardRef } from 'react';
-import { findDOMNode, createPortal } from 'react-dom'; // FIXME: React 18 compatibility
-import { assignRef } from '../utils/refs';
+import { useIsomorphicEffect, useOnceWhen } from '@tonic-ui/react-hooks';
+import { canUseDOM, getOwnerDocument, noop, warnRemovedProps } from '@tonic-ui/utils';
+import { useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { Box } from '../box';
 
-function getContainer(container) {
-  container = typeof container === 'function' ? container() : container;
-  return findDOMNode(container);
-}
+const Portal = ({
+  isDisabled, // deprecated
+  onRender, // deprecated
 
-const Portal = forwardRef((
-  {
-    children,
-    container,
-    isDisabled = false,
-    onRender,
-  },
-  ref,
-) => {
-  const [mountNode, setMountNode] = useState(null);
-  const handleRef = useMergeRefs(children.ref, ref);
+  children,
+  containerRef,
+}) => {
+  { // deprecation warning
+    const prefix = `${Portal.displayName}:`;
 
-  useIsomorphicEffect(() => {
-    if (!isDisabled) {
-      setMountNode(getContainer(container) || document.body);
-    }
-  }, [container, isDisabled]);
+    useOnceWhen(() => {
+      warnRemovedProps('isDisabled', {
+        prefix,
+      });
+    }, (isDisabled !== undefined));
 
-  useIsomorphicEffect(() => {
-    if (mountNode && !isDisabled) {
-      assignRef(ref, mountNode);
-      return () => {
-        assignRef(ref, null);
-      };
-    }
-
-    return undefined;
-  }, [ref, mountNode, isDisabled]);
-
-  useIsomorphicEffect(() => {
-    if ((typeof onRender === 'function') && (mountNode || isDisabled)) {
-      onRender();
-    }
-  }, [onRender, mountNode, isDisabled]);
-
-  if (isDisabled) {
-    Children.only(children);
-    return cloneElement(children, {
-      ref: handleRef,
-    });
+    useOnceWhen(() => {
+      warnRemovedProps('onRender', {
+        prefix,
+      });
+    }, (onRender !== undefined));
   }
 
-  return mountNode ? createPortal(children, mountNode) : mountNode;
-});
+  const [tempNode, setTempNode] = useState(null);
+  const portalRef = useRef(null);
+  const [, forceUpdate] = useState({});
+
+  useIsomorphicEffect(() => {
+    forceUpdate({});
+  }, []);
+
+  useIsomorphicEffect(() => {
+    if (!tempNode) {
+      return noop;
+    }
+
+    const doc = getOwnerDocument(tempNode);
+    const containerEl = containerRef?.current;
+    const host = containerEl ?? (canUseDOM() ? doc.body : undefined);
+    if (!host) {
+      return noop;
+    }
+
+    portalRef.current = doc.createElement('div');
+
+    host.appendChild(portalRef.current);
+    forceUpdate({});
+
+    const portalNode = portalRef.current;
+
+    return () => {
+      if (host.contains(portalNode)) {
+        host.removeChild(portalNode);
+      }
+    };
+  }, [tempNode]);
+
+  if (!portalRef.current) {
+    return (
+      <Box
+        ref={(node) => {
+          if (node) {
+            setTempNode(node);
+          }
+        }}
+      />
+    );
+  }
+
+  return createPortal(children, portalRef.current);
+};
 
 Portal.displayName = 'Portal';
 
