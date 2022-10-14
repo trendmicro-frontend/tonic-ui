@@ -15,7 +15,7 @@ const defaultPlacement = 'bottom-start';
 
 const Popper = forwardRef((
   {
-    container: containerProp, // deprecated
+    container, // deprecated
 
     anchorEl, // TODO: rename to referenceRef in a future release
     arrowSize,
@@ -41,7 +41,7 @@ const Popper = forwardRef((
         prefix,
         alternative: 'portalProps',
       });
-    }, (containerProp !== undefined));
+    }, (container !== undefined));
   }
 
   const nodeRef = useRef();
