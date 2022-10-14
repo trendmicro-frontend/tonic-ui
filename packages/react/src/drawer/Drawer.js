@@ -4,10 +4,7 @@ import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Portal } from '../portal';
-import config from '../shared/config';
 import { AnimatePresence } from '../utils/animate-presence';
-import useAutoId from '../utils/useAutoId';
-import useNodeRef from '../utils/useNodeRef';
 import DrawerContainer from './DrawerContainer';
 import { DrawerProvider } from './context';
 
@@ -31,6 +28,7 @@ const Drawer = forwardRef((
     isOpen = false,
     onClose,
     placement = defaultPlacement,
+    portalProps,
     size = defaultSize,
     ...rest
   },
@@ -51,7 +49,6 @@ const Drawer = forwardRef((
   }
 
   const [isMounted, setMounted] = useState(isOpen);
-  const defaultId = useAutoId();
   const containerRef = useRef();
   const contentRef = useRef(null);
   const context = getMemoizedState({
@@ -70,12 +67,6 @@ const Drawer = forwardRef((
     containerRef, // internal use only
     contentRef, // internal use only
     scrollBehavior: 'inside', // internal use only (only 'inside' is supported by Drawer)
-  });
-
-  const portalId = `${config.name}:Drawer-${defaultId}`;
-  const mountRef = useNodeRef({
-    isOpen: isMounted,
-    id: portalId,
   });
 
   const returnFocus = !finalFocusRef;
@@ -126,7 +117,9 @@ const Drawer = forwardRef((
         onExitComplete={onExitComplete}
       >
         {isMounted && (
-          <Portal container={mountRef.current}>
+          <Portal
+            {...portalProps}
+          >
             <FocusLock
               disabled={!ensureFocus}
               autoFocus={autoFocus}

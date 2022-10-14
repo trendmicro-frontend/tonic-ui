@@ -1,5 +1,6 @@
 import { createPopper } from '@popperjs/core';
-import { useEffectOnce, useMergeRefs } from '@tonic-ui/react-hooks';
+import { useEffectOnce, useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnRemovedProps } from '@tonic-ui/utils';
 import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { Portal } from '../portal';
 import { Box } from '../box';
@@ -14,15 +15,17 @@ const defaultPlacement = 'bottom-start';
 
 const Popper = forwardRef((
   {
-    anchorEl,
+    container, // deprecated
+
+    anchorEl, // TODO: rename to referenceRef in a future release
     arrowSize,
     children,
-    container,
     gutter,
     isOpen,
     modifiers,
     placement: placementProp,
     popperRef: popperRefProp,
+    portalProps,
     unmountOnExit = false,
     usePortal = false,
     willUseTransition = false,
@@ -30,10 +33,19 @@ const Popper = forwardRef((
   },
   ref,
 ) => {
+  { // deprecation warning
+    const prefix = `${Popper.displayName}:`;
+
+    useOnceWhen(() => {
+      warnRemovedProps('container', {
+        prefix,
+        alternative: 'portalProps',
+      });
+    }, (container !== undefined));
+  }
+
   const nodeRef = useRef();
-  const combinedRef = useMergeRefs(nodeRef, ref);
-  const popperRef = useRef(null);
-  const combinedPopperRef = useMergeRefs(popperRef, popperRefProp);
+  const popperRef = useRef(null); // popper instance
   const [exited, setExited] = useState(true);
   const [placement, setPlacement] = useState(placementProp ?? defaultPlacement);
 
@@ -44,20 +56,15 @@ const Popper = forwardRef((
     }
   }, [placementProp]);
 
-  const handleOpen = useCallback(() => {
-    if (popperRef.current) {
+  const setupPopper = useCallback(() => {
+    if (!anchorEl || !nodeRef.current) {
       return;
     }
 
-    if (!nodeRef.current) {
-      return;
-    }
+    // Destroy existing popper instance and create a new one
+    popperRef.current?.destroy?.();
 
-    if (!anchorEl) {
-      return;
-    }
-
-    const popper = createPopper(getAnchorEl(anchorEl), nodeRef.current, {
+    const popperInstance = createPopper(getAnchorEl(anchorEl), nodeRef.current, {
       placement: placement,
       modifiers: [
         { // https://popper.js.org/docs/v2/modifiers/arrow/
@@ -91,23 +98,26 @@ const Popper = forwardRef((
       strategy: 'absolute',
     });
 
-    assignRef(combinedPopperRef, popper);
+    // Force update one-time to fix any positioning issues
+    popperInstance.forceUpdate();
 
-    if (popperRef.current !== popper) {
+    assignRef(popperRef, popperInstance);
+    assignRef(popperRefProp, popperInstance);
+
+    if (popperRef.current !== popperInstance) {
       const prefix = `${Popper.displayName}:`;
       console.error(
         `${prefix} An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
       );
     }
-  }, [anchorEl, modifiers, placement, placementProp, combinedPopperRef]);
+  }, [anchorEl, modifiers, placement, placementProp, popperRefProp]);
 
-  const handleClose = useCallback(() => {
-    if (!popperRef.current) {
-      return;
-    }
+  const cleanupPopper = useCallback(() => {
+    // Destroy popper instance
+    popperRef.current?.destroy?.();
 
-    popperRef.current.destroy();
-    assignRef(combinedPopperRef, null);
+    assignRef(popperRef, null);
+    assignRef(popperRefProp, null);
 
     if (popperRef.current !== null) {
       const prefix = `${Popper.displayName}:`;
@@ -115,25 +125,19 @@ const Popper = forwardRef((
         `${prefix} An unexpected error occurred. The "popperRef" is not set to null as expected.`,
       );
     }
-  }, [popperRef, combinedPopperRef]);
-
-  useEffect(() => {
-    if (isOpen) {
-      handleOpen();
-      return;
-    }
-
-    if (!isOpen && !willUseTransition) {
-      handleClose();
-      return;
-    }
-  }, [isOpen, willUseTransition, handleOpen, handleClose]);
+  }, [popperRefProp]);
 
   useEffectOnce(() => {
     return () => {
-      handleClose();
+      cleanupPopper();
     };
   });
+
+  const refUpdater = useCallback((node) => {
+    assignRef(nodeRef, node);
+    assignRef(ref, node);
+    setupPopper();
+  }, [setupPopper, ref]);
 
   if (unmountOnExit && !isOpen && (!willUseTransition || exited)) {
     return null;
@@ -149,31 +153,31 @@ const Popper = forwardRef((
       },
       onExited: () => {
         setExited(true);
-        handleClose();
+        cleanupPopper();
       },
     };
   }
 
-  return (
-    <Portal
-      isDisabled={!usePortal}
-      container={container}
-      onRender={() => {
-        if (isOpen) {
-          handleOpen();
-        }
-      }}
+  const _children = (
+    <Box
+      ref={refUpdater}
+      position="absolute"
+      css={getPopperArrowStyle({ arrowSize })}
+      {...rest}
     >
-      <Box
-        ref={combinedRef}
-        position="absolute"
-        css={getPopperArrowStyle({ arrowSize })}
-        {...rest}
-      >
-        {typeof children === 'function' ? children(childProps) : children}
-      </Box>
-    </Portal>
+      {typeof children === 'function' ? children(childProps) : children}
+    </Box>
   );
+
+  if (usePortal) {
+    return (
+      <Portal {...portalProps}>
+        {_children}
+      </Portal>
+    );
+  }
+
+  return _children;
 });
 
 Popper.displayName = 'Popper';
