@@ -6,7 +6,7 @@ import FocusLock from 'react-focus-lock/dist/cjs';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';
 import ModalContainer from './ModalContainer';
-import { ModalProvider } from './context';
+import { ModalContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -109,7 +109,7 @@ const Modal = forwardRef((
   }, [isOpen, isMounted]);
 
   return (
-    <ModalProvider value={context}>
+    <ModalContext.Provider value={context}>
       <AnimatePresence
         in={isOpen}
         onExitComplete={onExitComplete}
@@ -135,7 +135,7 @@ const Modal = forwardRef((
           </Portal>
         )}
       </AnimatePresence>
-    </ModalProvider>
+    </ModalContext.Provider>
   );
 });
 

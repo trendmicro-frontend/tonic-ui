@@ -4,7 +4,7 @@ import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
-import { PopoverProvider } from './context';
+import { PopoverContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -219,9 +219,9 @@ const Popover = ({
   });
 
   return (
-    <PopoverProvider value={context}>
+    <PopoverContext.Provider value={context}>
       {runIfFn(children, context)}
-    </PopoverProvider>
+    </PopoverContext.Provider>
   );
 };
 

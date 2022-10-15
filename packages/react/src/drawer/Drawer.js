@@ -1,12 +1,12 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
-import FocusLock from 'react-focus-lock/dist/cjs';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import FocusLock from 'react-focus-lock/dist/cjs';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';
 import DrawerContainer from './DrawerContainer';
-import { DrawerProvider } from './context';
+import { DrawerContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -111,7 +111,7 @@ const Drawer = forwardRef((
   }, [isOpen, isMounted]);
 
   return (
-    <DrawerProvider value={context}>
+    <DrawerContext.Provider value={context}>
       <AnimatePresence
         in={isOpen}
         onExitComplete={onExitComplete}
@@ -137,7 +137,7 @@ const Drawer = forwardRef((
           </Portal>
         )}
       </AnimatePresence>
-    </DrawerProvider>
+    </DrawerContext.Provider>
   );
 });
 

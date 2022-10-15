@@ -8,7 +8,7 @@ import { Grow } from '../transitions';
 import useAutoId from '../utils/useAutoId';
 import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
-import { TooltipProvider } from './context';
+import { TooltipContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -173,7 +173,7 @@ const Tooltip = forwardRef((
   });
 
   return (
-    <TooltipProvider value={context}>
+    <TooltipContext.Provider value={context}>
       <TooltipTrigger
         shouldWrapChildren={shouldWrapChildren}
       >
@@ -190,7 +190,7 @@ const Tooltip = forwardRef((
       >
         {label}
       </TooltipContent>
-    </TooltipProvider>
+    </TooltipContext.Provider>
   );
 });
 
