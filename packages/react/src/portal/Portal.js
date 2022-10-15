@@ -5,8 +5,9 @@ import { createPortal } from 'react-dom';
 import { Box } from '../box';
 
 const Portal = ({
-  isDisabled, // deprecated
-  onRender, // deprecated
+  container: DEPRECATED_container, // deprecated
+  isDisabled: DEPRECATED_isDisabled, // deprecated
+  onRender: DEPRECATED_onRender, // deprecated
 
   children,
   containerRef,
@@ -15,16 +16,23 @@ const Portal = ({
     const prefix = `${Portal.displayName}:`;
 
     useOnceWhen(() => {
+      warnRemovedProps('container', {
+        prefix,
+        alternative: 'containerRef',
+      });
+    }, (DEPRECATED_container !== undefined));
+
+    useOnceWhen(() => {
       warnRemovedProps('isDisabled', {
         prefix,
       });
-    }, (isDisabled !== undefined));
+    }, (DEPRECATED_isDisabled !== undefined));
 
     useOnceWhen(() => {
       warnRemovedProps('onRender', {
         prefix,
       });
-    }, (onRender !== undefined));
+    }, (DEPRECATED_onRender !== undefined));
   }
 
   const [tempNode, setTempNode] = useState(null);
