@@ -1,0 +1,100 @@
+# Portal
+
+A declarative component that allows you to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+
+## Import
+
+```js
+import { Portal } from '@tonic-ui/react';
+```
+
+## Usage
+
+Portal is used to transport any component or element to the end of the document body, and renders the children into it. This is useful for components that need to be rendered above other elements, such as drawers, modals, popovers, etc.
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <>
+      <Portal>
+        <VisuallyHidden>
+          <Box bg={colorStyle.background.tertiary} px="3x" py="2x">
+            Portal - This is transported to the end of the document body
+          </Box>
+        </VisuallyHidden>
+      </Portal>
+      <Box bg={colorStyle.background.secondary} px="3x" py="2x">
+        I'm the container
+      </Box>
+    </>
+  );
+}
+```
+
+### Using a custom container
+
+Pass the `containerRef` prop and its value to the `ref` of the container that you want to render the children into.
+
+```jsx
+function Example() {
+  const ref = React.useRef();
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <>
+      <Portal containerRef={ref}>
+        <Box bg={colorStyle.background.tertiary} px="3x" py="2x">
+          Portal - This is transported to the container
+        </Box>
+      </Portal>
+      <Flex flexDirection="column" rowGap="2x">
+        <Box ref={ref} bg={colorStyle.background.secondary} px="3x" py="2x">
+          I'm the container
+        </Box>
+      </Flex>
+    </>
+  );
+}
+```
+
+### Nested portals
+
+You can nest portals inside a portal. Pass `appendToParentPortal={true}` to the nested portal to append the children to the container of the parent portal.
+
+```jsx
+function Example() {
+  const ref = React.useRef();
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <>
+      <Portal containerRef={ref}>
+        <Box bg={colorStyle.background.tertiary} px="3x" py="2x" mb="2x">
+          Parent portal - This is transported to the container
+          <Portal appendToParentPortal={true}>
+            <Box bg={colorStyle.background.tertiary} px="3x" py="2x" mb="2x">
+              Child portal - This is attached to its parent portal
+            </Box>
+          </Portal>
+        </Box>
+      </Portal>
+      <Box ref={ref} bg={colorStyle.background.secondary} px="3x" py="2x">
+        I'm the container
+      </Box>
+    </>
+  );
+}
+```
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| appendToParentPortal | boolean | false | If `true`, the portal will check if it is within a parent portal and append itself to the parent's portal node. |
+| children | ReactNode | | |
+| containerRef | RefObject | | The `ref` to the component where the portal will be rendered. |

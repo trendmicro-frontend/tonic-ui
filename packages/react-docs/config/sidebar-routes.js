@@ -289,6 +289,7 @@ const routes = [
 
       { title: 'UTILITIES', heading: true },
       { title: 'CSSBaseline', path: 'components/cssbaseline' },
+      { title: 'Portal', path: 'components/portal' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
       { title: 'VisuallyHidden', path: 'components/visually-hidden' },
     ],
