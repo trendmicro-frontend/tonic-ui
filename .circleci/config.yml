@@ -63,7 +63,7 @@ workflows:
 jobs:
   build-master:
     docker:
-      - image: cimg/node:14.17.6-browsers
+      - image: cimg/node:14.20-browsers
     steps:
       - browser-tools/install-browser-tools
       - checkout
@@ -128,7 +128,7 @@ jobs:
 
   build-pr:
     docker:
-      - image: cimg/node:14.17.6-browsers
+      - image: cimg/node:14.20-browsers
     steps:
       - browser-tools/install-browser-tools
       - checkout
@@ -195,7 +195,7 @@ jobs:
 
   build-tag:
     docker:
-      - image: cimg/node:14.17.6-browsers
+      - image: cimg/node:14.20-browsers
     steps:
       - browser-tools/install-browser-tools
       - checkout
@@ -267,7 +267,7 @@ jobs:
 
   deploy-master:
     docker:
-      - image: cimg/node:12.22
+      - image: cimg/node:14.20
     steps:
       - run:
           name: Configuration
@@ -313,7 +313,7 @@ jobs:
 
   deploy-pr:
     docker:
-      - image: cimg/node:12.22
+      - image: cimg/node:14.20
     steps:
       - run:
           name: Configuration
@@ -367,7 +367,7 @@ jobs:
 
   deploy-tag:
     docker:
-      - image: cimg/node:12.22
+      - image: cimg/node:14.20
     steps:
       - run:
           name: Configuration
