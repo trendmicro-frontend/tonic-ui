@@ -4,6 +4,31 @@ import { Link, Table, TableBody, TableRow, TableCell } from '@tonic-ui/react';
 
 You can come back to this page and switch the version of the docs you're reading at any time.
 
+## React Versions
+
+Here are the React versions used in the docs:
+
+<Table>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        React
+      </TableCell>
+      <TableCell>
+        {React.version}
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        ReactDOM
+      </TableCell>
+      <TableCell>
+        {ReactDOM.version}
+      </TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
 ## Released Versions
 
 The most recent stable version (✓) is recommended for use in production.
