@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useTableContext } from './context';
 import { useTableHeaderCellStyle } from './styles';
+import useTable from './useTable';
 
 const TableHeaderCell = forwardRef((
   {
@@ -11,7 +11,7 @@ const TableHeaderCell = forwardRef((
   },
   ref
 ) => {
-  const { size, variant } = useTableContext();
+  const { size, variant } = useTable();
   const tableHeaderCellStyle = useTableHeaderCellStyle({
     size,
     variant,

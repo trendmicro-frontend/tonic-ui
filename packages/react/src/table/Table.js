@@ -1,10 +1,13 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnRemovedProps } from '@tonic-ui/utils';
+import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useColorMode } from '../color-mode';
-import { TableProvider } from './context';
+import { TableContext } from './context';
 import { useTableStyle } from './styles';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const Table = forwardRef((
   {
@@ -29,13 +32,13 @@ const Table = forwardRef((
 
   const styleProps = useTableStyle({});
   const minimalist = (variant === 'default');
-  const context = {
+  const context = getMemoizedState({
     variant,
     size,
-  };
+  });
 
   return (
-    <TableProvider value={context}>
+    <TableContext.Provider value={context}>
       <Box
         ref={ref}
         {...styleProps}
@@ -51,7 +54,7 @@ const Table = forwardRef((
           </>
         )}
       </Box>
-    </TableProvider>
+    </TableContext.Provider>
   );
 });
 

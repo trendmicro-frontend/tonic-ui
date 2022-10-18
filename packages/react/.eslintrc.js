@@ -11,6 +11,7 @@ module.exports = {
     'react-hooks',
   ],
   rules: {
+    'camelcase': ['error', { 'allow': ['^DEPRECATED_'] }],
     'react/function-component-definition': 0,
     'react/prop-types': 0,
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks

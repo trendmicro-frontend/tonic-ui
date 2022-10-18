@@ -4,7 +4,7 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { Box } from '../box';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
-import { SubmenuProvider } from './context';
+import { SubmenuContext } from './context';
 import { useSubmenuStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -75,7 +75,7 @@ const Submenu = forwardRef((
   });
 
   return (
-    <SubmenuProvider value={context}>
+    <SubmenuContext.Provider value={context}>
       <Box
         ref={ref}
         {...styleProps}
@@ -83,7 +83,7 @@ const Submenu = forwardRef((
       >
         {runIfFn(children, context)}
       </Box>
-    </SubmenuProvider>
+    </SubmenuContext.Provider>
   );
 });
 

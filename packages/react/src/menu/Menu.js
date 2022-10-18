@@ -6,7 +6,7 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { Box } from '../box';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
-import { MenuProvider } from './context';
+import { MenuContext } from './context';
 import { useMenuStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -189,7 +189,7 @@ const Menu = forwardRef((
   const styleProps = useMenuStyle({});
 
   return (
-    <MenuProvider value={context}>
+    <MenuContext.Provider value={context}>
       <Box
         ref={ref}
         {...styleProps}
@@ -197,7 +197,7 @@ const Menu = forwardRef((
       >
         {runIfFn(children, context)}
       </Box>
-    </MenuProvider>
+    </MenuContext.Provider>
   );
 });
 
