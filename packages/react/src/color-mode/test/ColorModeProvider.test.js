@@ -1,5 +1,4 @@
-import { render, screen } from '@testing-library/react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { act, render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 import ColorModeProvider from '../ColorModeProvider';
@@ -8,7 +7,7 @@ import * as colorModeUtils from '../utils';
 import './matchMedia.mock';
 
 describe('<ColorModeProvider />', () => {
-  test('toggle color mode using a toggle button', () => {
+  test('toggle color mode using a toggle button', async () => {
     const ToggleColorModeApp = () => {
       const [colorMode, setColorMode] = useColorMode();
       const toggleColorMode = () => {
@@ -31,7 +30,7 @@ describe('<ColorModeProvider />', () => {
 
     const toggleColorModeButton = screen.getByRole('button');
     expect(toggleColorModeButton).toHaveTextContent('light');
-    userEvent.click(toggleColorModeButton);
+    await userEvent.click(toggleColorModeButton);
     expect(toggleColorModeButton).toHaveTextContent('dark');
   });
 

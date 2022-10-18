@@ -8,7 +8,7 @@ describe('useEventListener', () => {
     expect(useEventListener).toBeDefined();
   });
 
-  it('should trigger the callback when an event is fired', () => {
+  it('should trigger the callback when an event is fired', async () => {
     const callback = jest.fn();
     const TestComponent = () => {
       const ref = useRef(null);
@@ -20,11 +20,11 @@ describe('useEventListener', () => {
       );
     };
     render(<TestComponent />);
-    userEvent.click(screen.getByText('Click Me'));
+    await userEvent.click(screen.getByText('Click Me'));
     expect(callback).toHaveBeenCalled();
   });
 
-  it('should not trigger the callback if `eventHandler` is not provided', () => {
+  it('should not trigger the callback if `eventHandler` is not provided', async () => {
     const callback = jest.fn();
     const TestComponent = () => {
       const ref = useRef(null);
@@ -36,11 +36,11 @@ describe('useEventListener', () => {
       );
     };
     render(<TestComponent />);
-    userEvent.click(screen.getByText('Click Me'));
+    await userEvent.click(screen.getByText('Click Me'));
     expect(callback).not.toHaveBeenCalled();
   });
 
-  it('should not trigger the callback if `addEventListener()` and `removeEventListener()` are not present', () => {
+  it('should not trigger the callback if `addEventListener()` and `removeEventListener()` are not present', async () => {
     const callback = jest.fn();
     const TestComponent = () => {
       const ref = useRef(null);
@@ -56,7 +56,7 @@ describe('useEventListener', () => {
       );
     };
     render(<TestComponent />);
-    userEvent.click(screen.getByText('Click Me'));
+    await userEvent.click(screen.getByText('Click Me'));
     expect(callback).not.toHaveBeenCalled();
   });
 });

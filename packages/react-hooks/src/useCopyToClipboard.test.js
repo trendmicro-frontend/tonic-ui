@@ -1,8 +1,7 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import useCopyToClipboard from './useCopyToClipboard';
 
 describe('useCopyToClipboard', () => {
-  const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => {});
   const originalClipboard = global.navigator.clipboard;
 
   beforeEach(() => {
@@ -18,7 +17,8 @@ describe('useCopyToClipboard', () => {
   });
 
   afterEach(() => {
-    consoleErrorSpy.mockRestore();
+    // restore the spy created with spyOn
+    jest.restoreAllMocks();
   });
 
   afterAll(() => {
@@ -34,10 +34,11 @@ describe('useCopyToClipboard', () => {
     const { result } = renderHook(() => useCopyToClipboard());
     let [value, copyToClipboard] = result.current;
     expect(value).toBeUndefined();
-    await act(async () => {
-      const ok = await copyToClipboard(testValue);
-      expect(ok).toBe(true);
+    const ok = await act(async () => {
+      const value = await copyToClipboard(testValue);
+      return value;
     });
+    expect(ok).toBe(true);
     expect(global.navigator.clipboard.writeText).toHaveBeenCalledTimes(1);
     expect(global.navigator.clipboard.writeText).toHaveBeenCalledWith(testValue);
     [value] = result.current;
@@ -45,6 +46,10 @@ describe('useCopyToClipboard', () => {
   });
 
   it('should console error if clipboard not supported', async () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     // clipboard not supported
     global.navigator.clipboard = undefined;
 
@@ -52,16 +57,21 @@ describe('useCopyToClipboard', () => {
     const { result } = renderHook(() => useCopyToClipboard());
     let [value, copyToClipboard] = result.current;
     expect(value).toBeUndefined();
-    await act(async () => {
-      const ok = await copyToClipboard(testValue);
-      expect(ok).toBe(false);
+    const ok = await act(async () => {
+      const value = await copyToClipboard(testValue);
+      return value;
     });
+    expect(ok).toBe(false);
     expect(consoleErrorSpy).toBeCalled();
     [value] = result.current;
     expect(value).toBeUndefined();
   });
 
   it('should console error if clipboard write failed', async () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     // clipboard write failed
     global.navigator.clipboard.writeText = jest.fn(() => {
       throw new Error();

@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import React, { useState } from 'react';
 import defaultColorStyle from '../../shared/color-style';
 import ColorStyleProvider from '../ColorStyleProvider';
