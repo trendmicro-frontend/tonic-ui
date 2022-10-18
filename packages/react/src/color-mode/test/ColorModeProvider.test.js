@@ -1,6 +1,6 @@
 import { act, render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ColorModeProvider from '../ColorModeProvider';
 import useColorMode from '../useColorMode';
 import * as colorModeUtils from '../utils';
@@ -10,9 +10,9 @@ describe('<ColorModeProvider />', () => {
   test('toggle color mode using a toggle button', async () => {
     const ToggleColorModeApp = () => {
       const [colorMode, setColorMode] = useColorMode();
-      const toggleColorMode = () => {
+      const toggleColorMode = useCallback(() => {
         setColorMode(colorMode === 'light' ? 'dark' : 'light');
-      };
+      }, [colorMode, setColorMode]);
       return (
         <button type="button" onClick={toggleColorMode}>
           {colorMode}

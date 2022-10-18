@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import React, { useCallback } from 'react';
 import LightMode from '../LightMode';
 import useColorMode from '../useColorMode';
 
 const TestApp = () => {
   const [colorMode, setColorMode] = useColorMode();
-  const toggleColorMode = () => {
+  const toggleColorMode = useCallback(() => {
     setColorMode(colorMode === 'light' ? 'dark' : 'light');
-  };
+  }, [colorMode, setColorMode]);
   return (
     <button type="button" onClick={toggleColorMode}>
       {colorMode}

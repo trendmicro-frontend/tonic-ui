@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { useLinkStyle } from './styles';
 
@@ -15,13 +15,14 @@ const Link = forwardRef((
     disabled,
     textDecoration,
   });
+  const preventDefaultCallback = useCallback((event) => event.preventDefault(), []);
 
   return (
     <Box
       as="a"
       ref={ref}
       aria-disabled={disabled}
-      onClick={disabled ? event => event.preventDefault() : onClick}
+      onClick={disabled ? preventDefaultCallback : onClick}
       {...styleProps}
       {...rest}
     />
