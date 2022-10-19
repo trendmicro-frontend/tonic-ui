@@ -6,6 +6,11 @@ All contributions are welcome. You can submit a pull request on GitHub or raise 
 
 Please note that the project is in an early stage and the API is subject to change. We expect to have a stable API in the near future.
 
+## Perequisites
+
+* Use Node.js 14 at least to build the project.
+* Run `yarn set version stable` to ensure you are using the latest stable version of Yarn.
+
 ## Getting Started
 
 * Fork the Tonic UI repository on GitHub.
