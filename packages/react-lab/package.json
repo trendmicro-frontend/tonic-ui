@@ -83,8 +83,7 @@
     ],
     "testEnvironment": "jsdom",
     "testMatch": [
-      "<rootDir>/src/**/*.test.js",
-      "<rootDir>/test/**/*.js"
+      "<rootDir>/**/__tests__/**/*.js"
     ]
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",

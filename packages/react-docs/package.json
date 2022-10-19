@@ -96,7 +96,7 @@
     ],
     "testEnvironment": "node",
     "testMatch": [
-      "<rootDir>/test/**/*.js"
+      "<rootDir>/**/__tests__/**/*.js"
     ]
   }
 }
