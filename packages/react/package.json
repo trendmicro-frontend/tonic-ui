@@ -67,7 +67,7 @@
     "react": "^16.8.0 || ^17 || ^18",
     "react-dom": "^16.8.0 || ^17 || ^18",
     "react-test-renderer": "^16.8.0 || ^17 || ^18",
-    "rollup": "^2",
+    "rollup": "^3",
     "rollup-plugin-babel": "^4.4.0"
   },
   "peerDependencies": {

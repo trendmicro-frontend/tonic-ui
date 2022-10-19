@@ -25,7 +25,10 @@ export default [
     output: {
       file: path.join(outputDirectory, `${packageName}.cjs.js`),
       format: 'cjs',
-      exports: 'auto',
+
+      // https://rollupjs.org/guide/en/#changed-defaults
+      // https://rollupjs.org/guide/en/#outputinterop
+      interop: 'auto',
     },
     external: isExternal,
     plugins: [
