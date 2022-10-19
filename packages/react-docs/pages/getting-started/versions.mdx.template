@@ -1,29 +1,58 @@
-import { Link, Table, TableBody, TableRow, TableCell } from '@tonic-ui/react';
+import ReactDOM from 'react-dom';
+import { Link, Table, TableHeader, TableBody, TableRow, TableCell, Tag, Text } from '@tonic-ui/react';
 
 # Tonic UI Versions
 
 You can come back to this page and switch the version of the docs you're reading at any time.
 
-## React Versions
-
-Here are the React versions used in the docs:
+## Current Versions
 
 <Table>
+  <TableHeader>
+    <TableRow>
+      <TableCell>
+        Package Name
+      </TableCell>
+      <TableCell>
+        Package Version
+      </TableCell>
+    </TableRow>
+  </TableHeader>
   <TableBody>
     <TableRow>
       <TableCell>
-        React
+        <Tag size="lg" whiteSpace="nowrap">
+          @tonic-ui/react
+        </Tag>
       </TableCell>
       <TableCell>
-        {React.version}
+        <Text whiteSpace="nowrap">
+          __TONIC_UI_REACT_VERSION__
+        </Text>
       </TableCell>
     </TableRow>
     <TableRow>
       <TableCell>
-        ReactDOM
+        <Tag size="lg" whiteSpace="nowrap">
+          react
+        </Tag>
       </TableCell>
       <TableCell>
-        {ReactDOM.version}
+        <Text whiteSpace="nowrap">
+          {React.version}
+        </Text>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <Tag size="lg" whiteSpace="nowrap">
+          react-dom
+        </Tag>
+      </TableCell>
+      <TableCell>
+        <Text whiteSpace="nowrap">
+          {ReactDOM.version}
+        </Text>
       </TableCell>
     </TableRow>
   </TableBody>
