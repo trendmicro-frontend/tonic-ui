@@ -23,7 +23,7 @@ export default [
   {
     input,
     output: {
-      file: path.join(outputDirectory, `${packageName}.js`),
+      file: path.join(outputDirectory, `${packageName}.cjs.js`),
       format: 'cjs',
       exports: 'auto',
     },
@@ -36,7 +36,7 @@ export default [
   {
     input,
     output: {
-      file: path.join(outputDirectory, 'es', `${packageName}.js`),
+      file: path.join(outputDirectory, `${packageName}.esm.js`),
       format: 'esm',
     },
     external: isExternal,

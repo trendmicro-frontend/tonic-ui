@@ -2,8 +2,8 @@
   "name": "@tonic-ui/react-lab",
   "version": "0.4.0",
   "description": "This package hosts the incubator components that are not yet ready to move to the core.",
-  "main": "dist/index.js",
-  "module": "dist/es/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "publishConfig": {
     "access": "public",
     "directory": "build"
