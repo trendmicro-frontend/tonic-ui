@@ -24,7 +24,7 @@ const nextConfig = {
     BASE_PATH: process.env.BASE_PATH,
     GA_TRACKING_ID: 'UA-187145735-1',
     // see `.circleci/config.yml`
-    TONIC_UI_DOC_VERSION: process.env.TONIC_UI_DOC_VERSION,
+    TONIC_UI_REACT_VERSION: process.env.TONIC_UI_REACT_VERSION,
     // v1
     TONIC_UI_V1_BRANCH: process.env.TONIC_UI_V1_BRANCH,
     TONIC_UI_V1_DOCUMENTATION: process.env.TONIC_UI_V1_DOCUMENTATION,

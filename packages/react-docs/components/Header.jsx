@@ -21,7 +21,7 @@ import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from './FontAwesomeIcon';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
-const TONIC_UI_DOC_VERSION = ensureString(process.env.TONIC_UI_DOC_VERSION);
+const TONIC_UI_REACT_VERSION = ensureString(process.env.TONIC_UI_REACT_VERSION);
 
 const versionMap = {
   [ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)]: {
@@ -48,8 +48,8 @@ const Header = forwardRef((
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const version = (() => {
-    if (TONIC_UI_DOC_VERSION) {
-      return TONIC_UI_DOC_VERSION;
+    if (TONIC_UI_REACT_VERSION) {
+      return TONIC_UI_REACT_VERSION;
     }
     if (process.env.NODE_ENV === 'development') {
       return 'local build';
