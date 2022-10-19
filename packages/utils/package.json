@@ -2,17 +2,18 @@
   "name": "@tonic-ui/utils",
   "version": "1.0.1",
   "description": "Common utilities for various Tonic UI components and packages.",
-  "main": "index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "publishConfig": {
     "access": "public",
     "directory": "build"
   },
   "scripts": {
-    "build": "babel --root-mode upward src --out-dir build --ignore='**/__tests__/*'",
-    "clean": "del build coverage",
+    "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.mjs",
+    "clean": "del build coverage dist",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
     "package-name": "echo -e \"\\e[1;33m$npm_package_name\\e[0m\"",
-    "postbuild": "cpy {LICENSE,README.md,.npmignore,package.json} build",
+    "postbuild": "cpy {dist,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "yarn --silent run package-name && yarn run build && yarn run eslint && yarn run test",
     "prepublish": "yarn run build",
     "test": "jest --maxWorkers=2"
@@ -27,6 +28,7 @@
     "@babel/eslint-plugin": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
     "@trendmicro/babel-config": "^1.0.2",
     "cpy-cli": "^4.2.0",
     "cross-env": "^7.0.3",
@@ -38,7 +40,9 @@
     "eslint-plugin-react": "latest",
     "eslint-plugin-react-hooks": "latest",
     "jest": "^29.0.0",
-    "jest-environment-jsdom": "^29.0.0"
+    "jest-environment-jsdom": "^29.0.0",
+    "rollup": "^3",
+    "rollup-plugin-babel": "^4.4.0"
   },
   "jest": {
     "collectCoverage": true,

@@ -1,3 +1,6 @@
-import defaultTheme from './relative/rem';
+import createTheme from './createTheme';
 
-export default defaultTheme;
+const theme = createTheme('rem');
+
+export { createTheme };
+export default theme;
