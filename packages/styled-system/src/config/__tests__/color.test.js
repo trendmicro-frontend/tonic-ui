@@ -1,4 +1,4 @@
-import color from './color';
+import color from '../color';
 
 test('returns colors styles', () => {
   const style = color({

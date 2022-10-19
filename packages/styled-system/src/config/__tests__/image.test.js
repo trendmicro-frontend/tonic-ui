@@ -1,4 +1,4 @@
-import image from './image';
+import image from '../image';
 
 test('returns images styles', () => {
   const style = image({

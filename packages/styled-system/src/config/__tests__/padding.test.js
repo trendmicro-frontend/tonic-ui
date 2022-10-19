@@ -1,4 +1,4 @@
-import padding from './padding';
+import padding from '../padding';
 
 const defaultTheme = {
   breakpoints: [40, 52, 64].map(n => n + 'em'),

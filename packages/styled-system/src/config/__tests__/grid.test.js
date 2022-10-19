@@ -1,4 +1,4 @@
-import grid from './grid';
+import grid from '../grid';
 
 test('returns grid styles', () => {
   const style = grid({

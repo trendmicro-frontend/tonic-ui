@@ -1,4 +1,4 @@
-import scroll from './scroll';
+import scroll from '../scroll';
 
 test('returns style objects', () => {
   const styles = scroll({

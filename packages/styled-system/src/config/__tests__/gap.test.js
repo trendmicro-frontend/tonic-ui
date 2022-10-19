@@ -1,4 +1,4 @@
-import gap from './gap';
+import gap from '../gap';
 
 test('returns gap styles', () => {
   const style = gap({

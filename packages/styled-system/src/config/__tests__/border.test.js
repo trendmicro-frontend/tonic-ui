@@ -1,4 +1,4 @@
-import border from './border';
+import border from '../border';
 
 test('returns border styles', () => {
   const style = border({ border: '1px solid gold' });

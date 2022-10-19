@@ -1,4 +1,4 @@
-import text from './text';
+import text from '../text';
 
 test('returns text styles', () => {
   const style = text({

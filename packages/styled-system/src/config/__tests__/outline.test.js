@@ -1,4 +1,4 @@
-import outline from './outline';
+import outline from '../outline';
 
 test('returns outline styles', () => {
   const style = outline({

@@ -1,4 +1,4 @@
-import background from './background';
+import background from '../background';
 
 test('returns background styles', () => {
   const style = background({

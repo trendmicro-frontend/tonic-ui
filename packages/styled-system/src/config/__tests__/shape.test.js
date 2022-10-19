@@ -1,4 +1,4 @@
-import shape from './shape';
+import shape from '../shape';
 
 test('returns shape styles', () => {
   const style = shape({

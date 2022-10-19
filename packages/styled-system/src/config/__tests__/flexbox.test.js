@@ -1,4 +1,4 @@
-import flexbox from './flexbox';
+import flexbox from '../flexbox';
 
 test('returns flexbox styles', () => {
   const style = flexbox({

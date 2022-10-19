@@ -1,4 +1,4 @@
-import effect from './effect';
+import effect from '../effect';
 
 test('returns effect styles', () => {
   const style = effect({

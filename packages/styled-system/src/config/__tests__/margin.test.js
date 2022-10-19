@@ -1,4 +1,4 @@
-import margin from './margin';
+import margin from '../margin';
 
 const defaultTheme = {
   breakpoints: [40, 52, 64].map(n => n + 'em'),

@@ -1,4 +1,4 @@
-import layout from './layout';
+import layout from '../layout';
 
 const defaultTheme = {
   breakpoints: [40, 52, 64].map(n => n + 'em'),
