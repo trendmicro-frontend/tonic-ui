@@ -29,6 +29,14 @@ export default [
       // https://rollupjs.org/guide/en/#changed-defaults
       // https://rollupjs.org/guide/en/#outputinterop
       interop: 'auto',
+
+      // The `@tonic-ui/theme` package mixed default and named exports. See `output.exports` for more info.
+      //
+      // https://rollupjs.org/guide/en/#outputexports
+      // As with regular entry points, files that mix default and named exports will produce warnings.
+      // You can avoid the warnings by forcing all files to use named export mode via output.exports: "named".
+      // In that case, the default export needs to be accessed via the .default property of the export.
+      exports: 'named',
     },
     external: isExternal,
     plugins: [
