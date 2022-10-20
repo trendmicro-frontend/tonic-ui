@@ -28,6 +28,7 @@
     "@babel/eslint-plugin": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@trendmicro/babel-config": "^1.0.2",
     "cpy-cli": "^4.2.0",
@@ -41,8 +42,7 @@
     "eslint-plugin-react-hooks": "latest",
     "jest": "^29.0.0",
     "jest-environment-jsdom": "^29.0.0",
-    "rollup": "^3",
-    "rollup-plugin-babel": "^4.4.0"
+    "rollup": "^3"
   },
   "jest": {
     "collectCoverage": true,

@@ -1,6 +1,6 @@
 import path from 'path';
-import resolve from '@rollup/plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
+import { babel } from '@rollup/plugin-babel';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const packageName = process.env.PACKAGE_NAME;
 
@@ -9,15 +9,6 @@ const input = process.env.INPUT || path.resolve(__dirname, 'src', 'index.js');
 const outputDirectory = process.env.OUTPUT_DIRECTORY || path.resolve(__dirname, 'dist');
 
 const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
-
-const getBabelOptions = ({ useESModules }) => ({
-  rootMode: 'upward',
-  exclude: '**/node_modules/**',
-  runtimeHelpers: true,
-  plugins: [
-    ['@babel/transform-runtime', { useESModules }],
-  ],
-});
 
 export default [
   {
@@ -32,8 +23,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      resolve(),
-      babel(getBabelOptions({ useESModules: false })),
+      nodeResolve(),
+      babel({ babelHelpers: 'bundled' }),
     ],
   },
   {
@@ -44,8 +35,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      resolve(),
-      babel(getBabelOptions({ useESModules: true })),
+      nodeResolve(),
+      babel({ babelHelpers: 'bundled' }),
     ],
   }
 ];

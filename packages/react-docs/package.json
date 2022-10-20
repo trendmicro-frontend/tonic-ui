@@ -4,9 +4,9 @@
   "version": "1.6.0",
   "description": "A documentation site for React Tonic UI component library.",
   "scripts": {
-    "build": ". ./tonic-ui.env && ./update-docs.sh && cross-env NODE_ENV=production next build",
+    "build": "bash -c '. ./tonic-ui.env && ./update-docs.sh && cross-env NODE_ENV=production next build'",
     "clean": "del build coverage dist",
-    "dev": ". ./tonic-ui.env && ./update-docs.sh && next dev --hostname 0.0.0.0",
+    "dev": "bash -c '. ./tonic-ui.env && ./update-docs.sh && next dev --hostname 0.0.0.0'",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
     "package-name": "echo -e \"\\e[1;33m$npm_package_name\\e[0m\"",
     "postbuild": "next export --outdir dist/react",
@@ -22,6 +22,7 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
     "@emotion/babel-preset-css-prop": "^11.10.0",
     "@emotion/jest": "^11.10.0",
     "@emotion/react": "11.x",
@@ -38,6 +39,7 @@
     "@tonic-ui/react": "^1.6.0",
     "@tonic-ui/react-hooks": "^1.3.1",
     "@tonic-ui/react-lab": "^0.4.0",
+    "@tonic-ui/styled-system": "^1.2.2",
     "@tonic-ui/theme": "^1.1.2",
     "@trendmicro/babel-config": "^1.0.2",
     "boolean": "^3.2.0",
@@ -72,7 +74,6 @@
     "react-virtualized": "^9.22.3",
     "remark-emoji": "^3.0.2",
     "remark-images": "^3.1.0",
-    "toasted-notes": "3.2.x",
     "yiq": "^4.0.0"
   },
   "jest": {
