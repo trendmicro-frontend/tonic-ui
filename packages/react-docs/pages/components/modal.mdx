@@ -191,7 +191,7 @@ function Example() {
       <FormGroup>
         <Box mb="2x">
           <Tooltip
-            placement="left"
+            placement="right"
             label={(
               <>
                 <Text mb="2x">
@@ -204,10 +204,11 @@ function Example() {
               </>
             )}
           >
-            <TextLabel display="flex" alignItems="center">
-              scrollBehavior
-              <Space width="2x" />
-              <Icon icon="info-o" />
+            <TextLabel display="inline-block">
+              <Flex alignItems="center" columnGap="2x">
+                scrollBehavior
+                <Icon icon="info-o" />
+              </Flex>
             </TextLabel>
           </Tooltip>
         </Box>
