@@ -67,13 +67,13 @@ const disableWeekends = (date) => {
 
 render(() => {
   const today = useConst(() => new Date());
-  const [date, setDate] = React.useState(mapDateOptionToDateObject(dateOption));
-  const [locale, setLocale] = React.useState('enUS');
-  const [maxDate, setMaxDate] = React.useState('');
-  const [minDate, setMinDate] = React.useState('');
   const [error, setError] = React.useState();
-  const [dateOption, changeDateOptionBy] = useSelection('none');
+  const [locale, setLocale] = React.useState('enUS');
   const [firstDayOfWeek, changeFirstDayOfWeekBy] = useSelection(0);
+  const [dateOption, changeDateOptionBy] = useSelection('none');
+  const [date, setDate] = React.useState(mapDateOptionToDateObject(dateOption));
+  const [minDate, setMinDate] = React.useState('');
+  const [maxDate, setMaxDate] = React.useState('');
   const [shouldDisableDateOption, changeShouldDisableDateOptionBy] = useSelection('none');
   const dateFormat = 'yyyy-MM-dd';
   const displayDate = dateFns.isValid(date) ? dateFns.format(date, dateFormat) : '';
