@@ -739,11 +739,13 @@ function Example() {
       tabScrollerRef.current[scrollStart] = scrollValue;
     }
   };
+
   const moveTabsScroll = (delta) => {
     let scrollValue = tabScrollerRef.current[scrollStart];
     scrollValue += delta;
     scroll(scrollValue);
   };
+
   // TODO: use Intersection Observer API to get expected scroll position
   const getScrollSize = () => {
     const containerSize = tabScrollerRef.current[clientSize];
@@ -758,18 +760,15 @@ function Example() {
     }
     return totalSize;
   };
-  const handleScrollTabs = React.useMemo(() => {
-    return debounce(() => {
-      updateScrollButtonState();
-      updateScrollIndicatorOpacity();
-    }, Math.floor(1000 / 60));
-  }, [updateScrollButtonState]);
+
   const handleStartScrollClick = () => {
     moveTabsScroll(-1 * getScrollSize());
   };
+
   const handleEndScrollClick = () => {
     moveTabsScroll(getScrollSize());
   };
+
   const updateScrollButtonState = React.useCallback(() => {
     let showStartScroll;
     let showEndScroll;
@@ -792,6 +791,7 @@ function Example() {
       });
     }
   }, []);
+
   const updateScrollIndicatorOpacity = () => {
     const { scrollLeft, scrollWidth, clientWidth } = tabScrollerRef.current;
     const startScrollOpacity = 1 / 20 * Math.min(scrollLeft, 20);
@@ -803,6 +803,13 @@ function Example() {
       endScrollIndicatorRef.current.style.opacity = endScrollOpacity;
     }
   };
+
+  const handleScrollTabs = React.useMemo(() => {
+    return debounce(() => {
+      updateScrollButtonState();
+      updateScrollIndicatorOpacity();
+    }, Math.floor(1000 / 60));
+  }, [updateScrollButtonState]);
 
   React.useEffect(() => {
     return () => {

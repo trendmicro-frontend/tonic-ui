@@ -11,7 +11,7 @@ module.exports = {
     'react-hooks',
   ],
   rules: {
-    'react/function-component-definition': 0,
+    'react/jsx-no-bind': 2,
     'react/prop-types': 0,
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
     'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies

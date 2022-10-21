@@ -291,7 +291,7 @@ const routes = [
       { title: 'CSSBaseline', path: 'components/cssbaseline' },
       { title: 'Portal', path: 'components/portal' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
-      { title: 'VisuallyHidden', path: 'components/visually-hidden' },
+      { title: 'VisuallyHidden', path: 'components/visuallyhidden' },
     ],
   },
   {
@@ -337,8 +337,8 @@ const routes = [
       { title: 'Getting Started', path: 'lab' },
       { title: 'DATE PICKERS', heading: true },
       { title: 'Overview', path: 'lab/date-pickers' },
-      { title: 'Calendar', path: 'lab/date-pickers/Calendar' },
-      { title: 'DatePicker', path: 'lab/date-pickers/DatePicker' },
+      { title: 'Calendar', path: 'lab/date-pickers/calendar' },
+      { title: 'DatePicker', path: 'lab/date-pickers/datepicker' },
     ],
   },
 ];

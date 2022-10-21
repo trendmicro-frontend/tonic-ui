@@ -26,12 +26,6 @@ Use an icon by passing the `icon` prop. This `icon` property value must match an
 Use the `spin` prop to get any icon to rotate either in the clockwise (CW) or counterclockwise (CCW) direction.
 
 ```jsx noInline
-const useToggle = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
-  const toggle = () => setValue(value => !value);
-  return [value, toggle, setValue];
-};
-
 function Example() {
   const [checked, toggle] = useToggle(true);
   const playState = checked ? 'running' : 'paused';

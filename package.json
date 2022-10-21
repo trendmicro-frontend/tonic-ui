@@ -29,9 +29,9 @@
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "devDependencies": {
-    "@commitlint/cli": "16.x",
-    "@commitlint/config-conventional": "16.x",
-    "husky": "7.x",
-    "lerna": "4.x"
+    "@commitlint/cli": "17.x",
+    "@commitlint/config-conventional": "17.x",
+    "husky": "8.x",
+    "lerna": "6.x"
   }
 }

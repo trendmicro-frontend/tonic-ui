@@ -35,11 +35,11 @@ const definition = {
   },
 };
 
-const getUnitTokens = (unit = 'rem') => {
+const getUnitTokens = (unit) => {
   const config = {
     'px': definition.px,
     'rem': definition.rem,
-  }[unit];
+  }[unit] ?? {};
 
   let accumulatedResult = {};
 
