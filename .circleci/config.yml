@@ -89,7 +89,6 @@ jobs:
           name: Install packages
           command: |
             yarn
-            yarn list --silent react react-dom
       - run:
           name: Build & Test
           command: |
@@ -155,7 +154,6 @@ jobs:
           name: Install packages
           command: |
             yarn
-            yarn list --silent react react-dom
       - run:
           name: Build & Test
           command: |
@@ -228,7 +226,6 @@ jobs:
           name: Install packages
           command: |
             yarn
-            yarn list --silent react react-dom
       - run:
           name: Build & Test
           command: |
