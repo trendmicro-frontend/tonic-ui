@@ -124,18 +124,21 @@ const _px = (theme) => {
     4: '4px solid',
     5: '5px solid',
   };
+
   _theme.radii = {
     ..._theme.radii,
     sm: '3px',
     md: '6px',
     lg: '12px',
   };
+
   _theme.sizes = {
-    ...sizes,
+    ..._theme.sizes,
     ...unitTokens,
   };
+
   _theme.space = {
-    ...space,
+    ..._theme.space,
     ...unitTokens,
   };
 
