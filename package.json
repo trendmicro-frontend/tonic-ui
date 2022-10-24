@@ -6,9 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "postinstall": "lerna bootstrap --use-workspaces",
     "build": "lerna exec -- yarn build",
-    "build:parallel": "lerna exec --parallel -- yarn build",
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
     "eslint": "lerna exec -- yarn eslint",
     "pre-push": "lerna exec -- yarn pre-push",
@@ -33,5 +31,6 @@
     "@commitlint/config-conventional": "17.x",
     "husky": "8.x",
     "lerna": "6.x"
-  }
+  },
+  "packageManager": "yarn@3.2.4"
 }
