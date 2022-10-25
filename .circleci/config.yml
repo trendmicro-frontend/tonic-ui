@@ -98,7 +98,8 @@ jobs:
       - run:
           name: Install packages
           command: |
-            yarn
+            yarn up
+            yarn install
       - run:
           name: Build & Test
           command: |
@@ -163,7 +164,8 @@ jobs:
       - run:
           name: Install packages
           command: |
-            yarn
+            yarn up
+            yarn install
       - run:
           name: Build & Test
           command: |
@@ -235,7 +237,8 @@ jobs:
       - run:
           name: Install packages
           command: |
-            yarn
+            yarn up
+            yarn install
       - run:
           name: Build & Test
           command: |
