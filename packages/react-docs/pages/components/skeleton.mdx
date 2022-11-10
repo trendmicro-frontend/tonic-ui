@@ -26,34 +26,95 @@ This component provides 3 shape variants: `text`, `rect`, and `circle`.
 
 The animation is disabled by default. You can change the animation effect to `pulse` or `wave`.
 
-```jsx
-<Stack direction="column" spacing="4x" width={300}>
-  <Box>
-    <Skeleton />
-    <Skeleton animation="pulse" />
-    <Skeleton animation="wave" />
-  </Box>
-</Stack>
+```jsx noInline
+const FormGroup = (props) => (
+  <Box mb="4x" {...props} />
+);
+
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
+
+render(() => {
+  const [animation, changeAnimationBy] = useSelection('none');
+
+  return (
+    <>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            animation
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['none', 'pulse', 'wave'].map(value => (
+            <Button
+              key={value}
+              selected={value === animation}
+              onClick={changeAnimationBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <Divider my="4x" />
+      <Stack direction="column" spacing="10x">
+        <Stack direction="column" spacing="4x">
+          <Skeleton animation={animation} width={160} />
+          <Skeleton animation={animation} width={240} />
+          <Skeleton animation={animation} width={240} />
+        </Stack>
+        <Stack direction="column" spacing="4x">
+          <Skeleton animation={animation} width={160} />
+          <Skeleton animation={animation} width={240} />
+          <Skeleton animation={animation} width={240} />
+        </Stack>
+        <Stack direction="column" spacing="4x">
+          <Skeleton animation={animation} width={160} />
+          <Skeleton animation={animation} width={240} />
+          <Skeleton animation={animation} width={240} />
+        </Stack>
+      </Stack>
+    </>
+  );
+});
 ```
 
 ### Inferring dimensions
 
-In addition to accepting `width` and `height` props, the component can also infer the dimensions.
+You can use `height="60%"` and `transform="translateY(40%)"` to infer dimensions of the skeleton. 
 
 ```jsx
 function Example() {
   return (
     <Flex>
       <Stack direction="column" spacing="4x" flex="none" width={300}>
-        <Text size="4xl"><Skeleton /></Text>
-        <Text size="xl"><Skeleton /></Text>
-        <Text><Skeleton /></Text>
+        <Text size="4xl">
+          <Skeleton height="60%" transform="translateY(40%)" />
+        </Text>
+        <Text size="xl">
+          <Skeleton height="60%" transform="translateY(40%)" />
+        </Text>
+        <Text size="sm">
+          <Skeleton height="60%" transform="translateY(40%)" />
+        </Text>
       </Stack>
       <Space width="8x" flex="none" />
       <Stack direction="column" spacing="4x" flex="1">
         <Text size="4xl">Heading 8</Text>
         <Text size="xl">Heading 4</Text>
-        <Text>body text</Text>
+        <Text size="sm">body text</Text>
       </Stack>
     </Flex>
   );

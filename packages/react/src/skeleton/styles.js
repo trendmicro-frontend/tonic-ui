@@ -1,4 +1,4 @@
-import { css, keyframes } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import { useColorMode } from '../color-mode';
 
 const pulse = keyframes`
@@ -25,81 +25,60 @@ const wave = keyframes`
   }
 `;
 
-// eslint-disable-next-line consistent-return
-const getAnimationCSS = (animation) => {
+const getAnimationProps = ({ animation, colorMode }) => {
   if (animation === 'pulse') {
-    return css`
-      animation: ${pulse} 1.5s ease-in-out .5s infinite;
-    `;
+    return {
+      animation: `${pulse} 1.5s ease-in-out .5s infinite`,
+    };
   }
 
   if (animation === 'wave') {
-    return css`
-      overflow: hidden;
-      position: relative;
-      &::after {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        content: "";
-        animation: ${wave} 1.6s linear .5s infinite;
-        transform: translateX(-100%);
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .08), transparent);
-      }
-    `;
+    const opacity = {
+      dark: 0.08,
+      light: 0.32,
+    }[colorMode];
+
+    return {
+      overflow: 'hidden',
+      position: 'relative',
+      __after: {
+        position: 'absolute',
+        inset: 0,
+        content: '""',
+        animation: `${wave} 1.6s linear .5s infinite`,
+        transform: 'translateX(-100%)',
+        background: 'linear-gradient(90deg, transparent, #FFFFFF, transparent)',
+        opacity,
+      },
+    };
   }
-};
 
-// eslint-disable-next-line consistent-return
-const getVariantCSS = (variant) => {
-  if (variant === 'text') {
-    return css`
-      :empty::before {
-        content: "\\00a0";
-      }
-    `;
-  }
-};
-
-const baseProps = {
-  display: 'block',
-  height: '5x',
-};
-
-const getTextStyle = () => {
   return {
-    height: 'auto',
-    transform: 'scale(1, .6)',
-    borderRadius: 'sm',
-    transformOrigin: '0 60%',
+    animation,
   };
 };
 
-const getRectStyle = () => {
-  return { /* empty */ };
-};
-
-const getCircleStyle = () => {
-  return {
-    borderRadius: '50%',
-  };
-};
-
-const getVariantProps = (props) => {
-  const { variant } = props;
-
+const getVariantProps = ({ variant }) => {
   if (variant === 'text') {
-    return getTextStyle();
+    return {
+      height: '3x',
+      borderRadius: 'sm',
+      _empty: {
+        '::before': {
+          content: '"\\00a0"',
+        },
+      },
+    };
   }
 
   if (variant === 'rect') {
-    return getRectStyle();
+    return {}; // empty
   }
 
   if (variant === 'circle') {
-    return getCircleStyle();
+    return {
+      borderRadius: '50%',
+    };
   }
 
   return {};
@@ -111,29 +90,20 @@ const useSkeletonStyle = ({
 }) => {
   const [colorMode] = useColorMode();
   const backgroundColor = {
-    dark: 'gray:80',
-    light: 'gray:20',
+    dark: 'rgba(255, 255, 255, 0.08)',
+    light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
-  const _props = {
-    variant,
-  };
-  const variantProps = getVariantProps(_props);
-
-  const builtinAnimationTypes = ['pulse', 'wave'];
-  if (builtinAnimationTypes.includes(animation)) {
-    animation = undefined;
-  }
+  const animationProps = getAnimationProps({ animation, colorMode });
+  const variantProps = getVariantProps({ variant });
 
   return {
-    ...baseProps,
-    animation,
+    display: 'block',
     backgroundColor,
+    ...animationProps,
     ...variantProps,
   };
 };
 
 export {
-  getAnimationCSS,
-  getVariantCSS,
   useSkeletonStyle,
 };
