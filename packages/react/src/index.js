@@ -22,6 +22,7 @@ export * from './pagination';
 export * from './popover';
 export * from './popper';
 export * from './portal';
+export * from './progress';
 export * from './provider';
 export * from './radio';
 export * from './search-input';

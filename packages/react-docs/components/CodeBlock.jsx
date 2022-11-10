@@ -4,6 +4,7 @@ import { sx } from '@tonic-ui/styled-system';
 import * as reactComponents from '@tonic-ui/react';
 import * as reactLabComponents from '@tonic-ui/react-lab';
 import * as reactHooks from '@tonic-ui/react-hooks';
+import * as utils from '@tonic-ui/utils';
 import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import * as dateFns from 'date-fns'
@@ -166,6 +167,7 @@ const CodeBlock = ({
       ...reactComponents,
       ...reactLabComponents,
       ...reactHooks,
+      ...utils,
       ...thirdPartyComponents,
       Code,
       FontAwesomeIcon,
