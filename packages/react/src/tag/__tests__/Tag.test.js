@@ -1,6 +1,6 @@
-import { render } from '@testing-library/react';
+import { render } from '@tonic-ui/react/test-utils/render';
+import { Tag } from '@tonic-ui/react/src';
 import React from 'react';
-import { DarkMode, Tag } from '../..';
 
 describe('Tag', () => {
   const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => {});
@@ -11,9 +11,7 @@ describe('Tag', () => {
 
   it('should output deprecation warning message when using the "variantColor" prop', () => {
     render(
-      <DarkMode>
-        <Tag variantColor="red">Test Tag</Tag>
-      </DarkMode>
+      <Tag variantColor="red">Test Tag</Tag>
     );
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
@@ -23,9 +21,7 @@ describe('Tag', () => {
 
   it('will change tag color', () => {
     const { getByText } = render(
-      <DarkMode>
-        <Tag backgroundColor="#b80003" color="#fcc3c4">Test Tag</Tag>
-      </DarkMode>
+      <Tag backgroundColor="#b80003" color="#fcc3c4">Test Tag</Tag>
     );
 
     expect(getByText('Test Tag')).toHaveStyle('background-color: #b80003; color: #fcc3c4;');
