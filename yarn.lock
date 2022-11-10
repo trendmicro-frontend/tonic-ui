@@ -4078,7 +4078,7 @@ __metadata:
     date-fns: 2.x
     del-cli: ^5.0.0
     dotenv-flow: ^3.2.0
-    ensure-type: 1.x
+    ensure-type: ^1.5.1
     eslint: ^8.25.0
     eslint-config-next: ^12.3.1
     eslint-plugin-import: latest
@@ -4173,7 +4173,7 @@ __metadata:
     cross-env: ^7.0.3
     date-fns: 2.x
     del-cli: ^5.0.0
-    ensure-type: 1.x
+    ensure-type: ^1.5.1
     eslint: ^8.25.0
     eslint-config-trendmicro: ^3.0.0
     eslint-plugin-import: latest
@@ -4221,11 +4221,11 @@ __metadata:
     "@tonic-ui/theme": ^1.2.1
     "@tonic-ui/utils": ^1.1.1
     "@trendmicro/babel-config": ^1.0.2
-    "@trendmicro/tmicon": ^1.30.0
+    "@trendmicro/tmicon": 1.x
     cpy-cli: ^4.2.0
     cross-env: ^7.0.3
     del-cli: ^5.0.0
-    ensure-type: 1.x
+    ensure-type: ^1.5.1
     eslint: ^8.25.0
     eslint-config-trendmicro: ^3.0.0
     eslint-plugin-import: latest
@@ -4322,7 +4322,7 @@ __metadata:
     cpy-cli: ^4.2.0
     cross-env: ^7.0.3
     del-cli: ^5.0.0
-    ensure-type: 1.x
+    ensure-type: ^1.5.1
     eslint: ^8.25.0
     eslint-config-trendmicro: ^3.0.0
     eslint-plugin-import: latest
@@ -4368,7 +4368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trendmicro/tmicon@npm:^1.30.0":
+"@trendmicro/tmicon@npm:1.x":
   version: 1.30.0
   resolution: "@trendmicro/tmicon@npm:1.30.0"
   checksum: 66970ec4e7eca1b928ccd14dc8203d8782a82cfdb9eaffdca40986e5c574e4e37cef41b6ab42d27e5c360b48c9e16b9011a310be7795f2e1e4d52e78883c95bb
@@ -6784,7 +6784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ensure-type@npm:1.x":
+"ensure-type@npm:^1.5.1":
   version: 1.5.1
   resolution: "ensure-type@npm:1.5.1"
   checksum: 98d190440ef8f5c78ae00dcfdc07efc46020e9fedeaba485cd29ed7505f3e674a2551919c20095c5bb1a3da9fe73ad4a344771d7a268d608ee9b575fd054c69d
