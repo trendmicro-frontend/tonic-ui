@@ -28,7 +28,7 @@
     "@tonic-ui/theme": "^1.2.1",
     "@tonic-ui/utils": "^1.1.1",
     "@trendmicro/tmicon": "1.x",
-    "ensure-type": "1.x",
+    "ensure-type": "^1.5.1",
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
     "react-focus-lock": "2.x",
