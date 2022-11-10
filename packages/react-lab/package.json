@@ -23,7 +23,7 @@
     "@tonic-ui/react-hooks": "^1.4.1",
     "@tonic-ui/utils": "^1.1.1",
     "date-fns": "2.x",
-    "ensure-type": "1.x",
+    "ensure-type": "^1.5.1",
     "micro-memoize": "4.x"
   },
   "devDependencies": {

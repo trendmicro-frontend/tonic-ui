@@ -45,7 +45,7 @@
     "date-fns": "2.x",
     "del-cli": "^5.0.0",
     "dotenv-flow": "^3.2.0",
-    "ensure-type": "1.x",
+    "ensure-type": "^1.5.1",
     "eslint": "^8.25.0",
     "eslint-config-next": "^12.3.1",
     "eslint-plugin-import": "latest",
