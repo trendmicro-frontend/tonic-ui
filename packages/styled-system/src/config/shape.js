@@ -1,10 +1,18 @@
 import system from '../core/system';
+import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
+/**
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Shapes
+ */
 const group = 'shape';
 const config = {
-  clip: true,
-  clipPath: true,
-  mask: true,
+  shapeImageThreshold: true,
+  shapeMargin: {
+    property: 'shapeMargin',
+    scale: 'space',
+    transform: positiveOrNegativeTransform, // multi-value
+  },
+  shapeOutside: true,
 };
 
 const shape = system(config, { group });

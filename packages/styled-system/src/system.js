@@ -13,6 +13,7 @@ import interactivity from './config/interactivity';
 import layout from './config/layout';
 import listStyle from './config/list-style';
 import margin from './config/margin';
+import masking from './config/masking';
 import outline from './config/outline';
 import padding from './config/padding';
 import position from './config/position';
@@ -38,6 +39,7 @@ const system = compose(
   layout,
   listStyle,
   margin,
+  masking,
   outline,
   padding,
   position,
