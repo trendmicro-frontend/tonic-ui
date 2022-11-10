@@ -8,7 +8,8 @@ BODY='{"head":''"'${PR_BRANCH}'"'',"base":"master","title":"ci: weekly lockfile 
 
 git checkout $MAIN_BRANCH
 git checkout -b $PR_BRANCH
-yarn up
+rm -f yarn.lock # remove yarn.lock file instead of using "yarn up" to ensure that the lockfile is generated from scratch
+yarn install
 git add yarn.lock
 git commit -m "ci: weekly lockfile maintenance"
 git push --set-upstream origin $PR_BRANCH
