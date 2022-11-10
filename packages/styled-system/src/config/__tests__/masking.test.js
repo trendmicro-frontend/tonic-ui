@@ -1,0 +1,46 @@
+import masking from '../masking';
+
+test('returns masking styles', () => {
+  const style = masking({
+    clip: 'rect(1px, 10em, 3rem, 2ch)',
+    clipPath: 'rect(1px, 10em, 3rem, 2ch)',
+    mask: 'url(masks.svg#star) repeat-x',
+    maskClip: 'border-box',
+    maskComposite: 'add',
+    maskImage: 'none',
+    maskMode: 'match-source',
+    maskOrigin: 'border-box',
+    maskPosition: 'center',
+    maskRepeat: 'repeat',
+    maskSize: 'auto',
+    maskBorder: 'url("border-mask.png") 25 / 35px / 12px space alpha',
+    maskBorderMode: 'alpha',
+    maskBorderOutset: 0,
+    maskBorderRepeat: 'stretch',
+    maskBorderSlice: 0,
+    maskBorderSource: 'none',
+    maskBorderWidth: 'auto',
+    maskType: 'luminance',
+  });
+  expect(style).toEqual({
+    clip: 'rect(1px, 10em, 3rem, 2ch)',
+    clipPath: 'rect(1px, 10em, 3rem, 2ch)',
+    mask: 'url(masks.svg#star) repeat-x',
+    maskClip: 'border-box',
+    maskComposite: 'add',
+    maskImage: 'none',
+    maskMode: 'match-source',
+    maskOrigin: 'border-box',
+    maskPosition: 'center',
+    maskRepeat: 'repeat',
+    maskSize: 'auto',
+    maskBorder: 'url("border-mask.png") 25 / 35px / 12px space alpha',
+    maskBorderMode: 'alpha',
+    maskBorderOutset: 0,
+    maskBorderRepeat: 'stretch',
+    maskBorderSlice: 0,
+    maskBorderSource: 'none',
+    maskBorderWidth: 'auto',
+    maskType: 'luminance',
+  });
+});
