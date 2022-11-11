@@ -29,11 +29,7 @@ const waveKeyframe = keyframes`
 const getAnimationProps = ({ animation, colorMode }) => {
   if (animation === 'pulse') {
     return {
-<<<<<<< HEAD
       animation: `${pulseKeyframe} 1.5s ease-in-out .5s infinite`,
-=======
-      animation: `${pulse} 1.5s ease-in-out .5s infinite`,
->>>>>>> 411e3a43 (feat: rework Skeleton component)
     };
   }
 
@@ -42,12 +38,11 @@ const getAnimationProps = ({ animation, colorMode }) => {
       dark: 0.08,
       light: 0.32,
     }[colorMode];
-<<<<<<< HEAD
     const colors = [
       'transparent',
       `rgba(255, 255, 255, ${opacity})`,
       'transparent',
-    ].join(',');
+    ];
 
     return {
       position: 'relative',
@@ -59,20 +54,6 @@ const getAnimationProps = ({ animation, colorMode }) => {
         position: 'absolute',
         inset: 0,
         transform: 'translateX(-100%)', // Avoid flash during server-side hydration
-=======
-
-    return {
-      overflow: 'hidden',
-      position: 'relative',
-      __after: {
-        position: 'absolute',
-        inset: 0,
-        content: '""',
-        animation: `${wave} 1.6s linear .5s infinite`,
-        transform: 'translateX(-100%)',
-        background: 'linear-gradient(90deg, transparent, #FFFFFF, transparent)',
-        opacity,
->>>>>>> 411e3a43 (feat: rework Skeleton component)
       },
     };
   }
