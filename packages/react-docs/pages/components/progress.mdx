@@ -5,8 +5,6 @@ Progress indicators inform users about the status of ongoing processes, such as 
 - **Determinate** indicators display how long an operation will take.
 - **Indeterminate** indicators visualize an unspecified wait time.
 
-The animations of the components rely on CSS as much as possible to work even before the JavaScript is loaded.
-
 ## Import
 
 ```js
@@ -108,7 +106,7 @@ render(() => {
         </ButtonGroup>
       </FormGroup>
       <Divider mb="4x" />
-      <Flex alignItems="center" minHeight="5x">
+      <Flex alignItems="center" columnGap="3x" minHeight="5x">
         <Box width={320}>
           <LinearProgress
             variant={variant}
@@ -117,7 +115,7 @@ render(() => {
           />
         </Box>
         {variant === 'determinate' && (
-          <TextLabel minWidth="9x" ml="2x">
+          <TextLabel>
             {progress}%
           </TextLabel>
         )}
@@ -131,26 +129,55 @@ render(() => {
 
 You can use the `color` prop to change the color of the progress bar. The default color is `blue:60`.
 
-The color can be a valid CSS color name, a color token from the theme, or an array of colors to create a linear gradient.
-
-#### Linear indeterminate
+It accepts a valid CSS background color/image, a color token from the theme, or an array of colors to create a linear gradient.
 
 ```jsx
-<Stack width={320} spacing="4x">
-  <LinearProgress variant="indeterminate" color="blue:60" />
-  <LinearProgress variant="indeterminate" color="teal:40" />
-  <LinearProgress variant="indeterminate" color={['blue:60', 'teal:40']} />
-</Stack>
-```
-
-#### Linear determinate
-
-```jsx
-<Stack width={320} spacing="4x">
-  <LinearProgress variant="determinate" color="blue:60" value={25} />
-  <LinearProgress variant="determinate" color="teal:40" value={50} />
-  <LinearProgress variant="determinate" color={['blue:60', 'teal:40']} value={75} />
-  <LinearProgress variant="determinate" color={['blue:60', 'teal:40']} value={100} />
+<Stack spacing="4x">
+  <TextLabel>Indeterminate</Text>
+  <LinearProgress size="md" variant="indeterminate" color="blue:60" width={320} />
+  <LinearProgress size="md" variant="indeterminate" color="teal:40" width={320} />
+  <Divider />
+  <TextLabel>Determinate</Text>
+  <Flex alignItems="center" columnGap="3x">
+    <LinearProgress size="md" variant="determinate" value={25} color="blue:60" width={320}/>
+    <TextLabel>25%</TextLabel>
+  </Flex>
+  <Flex alignItems="center" columnGap="3x">
+    <LinearProgress size="md" variant="determinate" value={50} color="teal:40" width={320} />
+    <TextLabel>50%</TextLabel>
+  </Flex>
+  <Divider />
+  <TextLabel>Linear gradient</Text>
+  <Flex alignItems="center" columnGap="2x">
+    <Box backgroundColor="blue:60" px="2x" py="1x" color="white:primary">
+      blue:60
+    </Box>
+    <Box backgroundColor="teal:40" px="2x" py="1x" color="black:primary">
+      teal:40
+    </Box>
+  </Flex>
+  <Flex alignItems="center" columnGap="3x">
+    <LinearProgress
+      size="md"
+      variant="determinate"
+      value={75}
+      color={['blue:60', 'teal:40']}
+      width={320}
+    />
+    <TextLabel>75%</TextLabel>
+  </Flex>
+  <Divider />
+  <TextLabel>Linear gradient with wave light</Text>
+  <Flex alignItems="center" columnGap="3x">
+    <LinearProgress
+      size="md"
+      variant="determinate"
+      value={100}
+      color="linear-gradient(90deg, rgba(255, 255, 255, 0) 6.03%, rgba(255, 255, 255, 0.12) 16.32%, rgba(255, 255, 255, 0.12) 42.22%, rgba(255, 255, 255, 0) 60.67%), linear-gradient(90deg, #1E5EDE, #04CAA1)"
+      width={320}
+    />
+    <TextLabel>100%</TextLabel>
+  </Flex>
 </Stack>
 ```
 
@@ -160,7 +187,7 @@ The color can be a valid CSS color name, a color token from the theme, or an arr
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| color | string \| string[] | 'blue:60' | The color of the progress bar. It can be a valid CSS color name, a color token from the theme, or an array of colors to create a linear gradient. |
+| color | string \| string[] | 'blue:60' | The color of the progress bar. It accepts a valid CSS background color/image, a color token from the theme, or an array of colors to create a linear gradient. |
 | min | numbner | 0 | The minimum value of the progress. |
 | max | number | 100 | The maximum value of the progress. |
 | size | string | 'sm' | The size of the progress bar. One of: 'xs', 'sm', 'md', 'lg' |
