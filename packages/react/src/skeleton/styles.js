@@ -76,7 +76,7 @@ const getVariantProps = ({ variant }) => {
     };
   }
 
-  if (variant === 'rect') {
+  if (variant === 'rectangle') {
     return {}; // empty
   }
 
