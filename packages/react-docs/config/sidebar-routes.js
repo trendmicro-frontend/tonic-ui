@@ -113,6 +113,7 @@ const routes = [
 
       { title: 'FEEDBACK', heading: true },
       { title: 'Alert', path: 'components/alert' },
+      { title: 'Progress', path: 'components/progress' },
       { title: 'Skeleton', path: 'components/skeleton' },
       { title: 'Spinner', path: 'components/spinner' },
       { title: 'Toast', path: 'components/toast' },

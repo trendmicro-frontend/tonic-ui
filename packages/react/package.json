@@ -62,6 +62,7 @@
     "eslint-plugin-react": "latest",
     "eslint-plugin-react-hooks": "latest",
     "jest": "^29.0.0",
+    "jest-axe": "^7.0.0",
     "jest-environment-jsdom": "^29.0.0",
     "jest-extended": "^3.1.0",
     "react": "^16.8.0 || ^17 || ^18",

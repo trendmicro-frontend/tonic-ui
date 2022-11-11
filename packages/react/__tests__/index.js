@@ -144,6 +144,9 @@ test('should match expected exports', () => {
     // portal
     'Portal',
 
+    // progress
+    'LinearProgress',
+
     // provider
     'TonicProvider',
 

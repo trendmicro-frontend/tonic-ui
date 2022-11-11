@@ -443,4 +443,4 @@ jobs:
             - "92:e5:99:6a:e1:24:28:b6:fb:a4:33:9a:a1:b1:a7:c6"
       - run:
           command: |
-            ./scripts/lockfile-maintenance.sh
+            ./scripts/ci-lockfile-maintenance.sh

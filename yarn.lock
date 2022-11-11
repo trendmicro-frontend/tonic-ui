@@ -4067,9 +4067,9 @@ __metadata:
     "@mdx-js/mdx": ^1.6.22
     "@mdx-js/react": ^1.6.22
     "@next/mdx": ^12.3.1
-    "@tonic-ui/react": ^1.7.1
+    "@tonic-ui/react": ^1.7.2
     "@tonic-ui/react-hooks": ^1.4.1
-    "@tonic-ui/react-lab": ^0.5.1
+    "@tonic-ui/react-lab": ^0.5.2
     "@tonic-ui/styled-system": ^1.3.1
     "@tonic-ui/theme": ^1.2.1
     "@trendmicro/babel-config": ^1.0.2
@@ -4148,7 +4148,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-lab@^0.5.1, @tonic-ui/react-lab@workspace:packages/react-lab":
+"@tonic-ui/react-lab@^0.5.2, @tonic-ui/react-lab@workspace:packages/react-lab":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-lab@workspace:packages/react-lab"
   dependencies:
@@ -4165,9 +4165,9 @@ __metadata:
     "@rollup/plugin-node-resolve": ^15.0.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
-    "@tonic-ui/react": ^1.7.1
+    "@tonic-ui/react": ^1.7.2
     "@tonic-ui/react-hooks": ^1.4.1
-    "@tonic-ui/utils": ^1.1.1
+    "@tonic-ui/utils": ^1.1.2
     "@trendmicro/babel-config": ^1.0.2
     cpy-cli: ^4.2.0
     cross-env: ^7.0.3
@@ -4193,7 +4193,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react@^1.7.1, @tonic-ui/react@workspace:packages/react":
+"@tonic-ui/react@^1.7.2, @tonic-ui/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react@workspace:packages/react"
   dependencies:
@@ -4219,7 +4219,7 @@ __metadata:
     "@tonic-ui/react-hooks": ^1.4.1
     "@tonic-ui/styled-system": ^1.3.1
     "@tonic-ui/theme": ^1.2.1
-    "@tonic-ui/utils": ^1.1.1
+    "@tonic-ui/utils": ^1.1.2
     "@trendmicro/babel-config": ^1.0.2
     "@trendmicro/tmicon": 1.x
     cpy-cli: ^4.2.0
@@ -4233,6 +4233,7 @@ __metadata:
     eslint-plugin-react: latest
     eslint-plugin-react-hooks: latest
     jest: ^29.0.0
+    jest-axe: ^7.0.0
     jest-environment-jsdom: ^29.0.0
     jest-extended: ^3.1.0
     lodash.get: 4.x
@@ -4306,7 +4307,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/utils@^1.1.1, @tonic-ui/utils@workspace:packages/utils":
+"@tonic-ui/utils@^1.1.2, @tonic-ui/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/utils@workspace:packages/utils"
   dependencies:
@@ -5170,7 +5171,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.4.3":
+"axe-core@npm:4.5.1, axe-core@npm:^4.4.3":
   version: 4.5.1
   resolution: "axe-core@npm:4.5.1"
   checksum: db90c6b41483e9c3452393933072fe0b8c2221e6d9b96ae0e6a03a4ce1e4c35bec539c92e9b6fcd63c4acf6678ad3c3ca7f5ab1d884210d157867cc54acd4f6a
@@ -5629,6 +5630,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chalk@npm:4.1.2, chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.1":
+  version: 4.1.2
+  resolution: "chalk@npm:4.1.2"
+  dependencies:
+    ansi-styles: ^4.1.0
+    supports-color: ^7.1.0
+  checksum: fe75c9d5c76a7a98d45495b91b2172fa3b7a09e0cc9370e5c8feb1c567b85c4288e2b3fded7cfdd7359ac28d6b3844feb8b82b8686842e93d23c827c417e83fc
+  languageName: node
+  linkType: hard
+
 "chalk@npm:^2.0.0":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
@@ -5647,16 +5658,6 @@ __metadata:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: 8e3ddf3981c4da405ddbd7d9c8d91944ddf6e33d6837756979f7840a29272a69a5189ecae0ff84006750d6d1e92368d413335eab4db5476db6e6703a1d1e0505
-  languageName: node
-  linkType: hard
-
-"chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.1":
-  version: 4.1.2
-  resolution: "chalk@npm:4.1.2"
-  dependencies:
-    ansi-styles: ^4.1.0
-    supports-color: ^7.1.0
-  checksum: fe75c9d5c76a7a98d45495b91b2172fa3b7a09e0cc9370e5c8feb1c567b85c4288e2b3fded7cfdd7359ac28d6b3844feb8b82b8686842e93d23c827c417e83fc
   languageName: node
   linkType: hard
 
@@ -8989,6 +8990,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-axe@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "jest-axe@npm:7.0.0"
+  dependencies:
+    axe-core: 4.5.1
+    chalk: 4.1.2
+    jest-matcher-utils: 29.2.2
+    lodash.merge: 4.6.2
+  checksum: 7865f376d60e34659f6e93a077ef581a7d69afa6f0746e00f9143b05580f2656fb6501fa91c1be9c60e93d29d8935eeb46fcd20e6dbdd9757ff675e2a3d42330
+  languageName: node
+  linkType: hard
+
 "jest-changed-files@npm:^29.2.0":
   version: 29.2.0
   resolution: "jest-changed-files@npm:29.2.0"
@@ -9091,7 +9104,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^29.0.0, jest-diff@npm:^29.3.1":
+"jest-diff@npm:^29.0.0, jest-diff@npm:^29.2.1, jest-diff@npm:^29.3.1":
   version: 29.3.1
   resolution: "jest-diff@npm:29.3.1"
   dependencies:
@@ -9209,6 +9222,18 @@ __metadata:
     jest-get-type: ^29.2.0
     pretty-format: ^29.3.1
   checksum: 0dd8ed31ae0b5a3d14f13f567ca8567f2663dd2d540d1e55511d3b3fd7f80a1d075392179674ebe9fab9be0b73678bf4d2f8bbbc0f4bdd52b9815259194da559
+  languageName: node
+  linkType: hard
+
+"jest-matcher-utils@npm:29.2.2":
+  version: 29.2.2
+  resolution: "jest-matcher-utils@npm:29.2.2"
+  dependencies:
+    chalk: ^4.0.0
+    jest-diff: ^29.2.1
+    jest-get-type: ^29.2.0
+    pretty-format: ^29.2.1
+  checksum: 97ef2638ab826c25f84bfedea231cef091820ae0876ba316922da81145e950d2b9d2057d3645813b5ee880bb975ed4f22e228dda5d0d26a20715e575b675357d
   languageName: node
   linkType: hard
 
@@ -9891,7 +9916,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.merge@npm:^4.6.2":
+"lodash.merge@npm:4.6.2, lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: ad580b4bdbb7ca1f7abf7e1bce63a9a0b98e370cf40194b03380a46b4ed799c9573029599caebc1b14e3f24b111aef72b96674a56cfa105e0f5ac70546cdc005
@@ -11428,7 +11453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^29.0.0, pretty-format@npm:^29.3.1":
+"pretty-format@npm:^29.0.0, pretty-format@npm:^29.2.1, pretty-format@npm:^29.3.1":
   version: 29.3.1
   resolution: "pretty-format@npm:29.3.1"
   dependencies:

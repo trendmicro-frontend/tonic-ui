@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { LightMode, useColorMode } from '@tonic-ui/react/src';
 import React, { useCallback } from 'react';
-import { LightMode, useColorMode } from '../..';
 
 const TestApp = () => {
   const [colorMode, setColorMode] = useColorMode();
