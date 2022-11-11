@@ -1,7 +1,7 @@
 import { keyframes } from '@emotion/react';
 import { useColorMode } from '../color-mode';
 
-const pulse = keyframes`
+const pulseKeyframe = keyframes`
   0% {
     opacity: 1;
   }
@@ -13,11 +13,12 @@ const pulse = keyframes`
   }
 `;
 
-const wave = keyframes`
+const waveKeyframe = keyframes`
   0% {
     transform: translateX(-100%);
   }
-  60% {
+  50% {
+    // +0.5s of delay between each loop
     transform: translateX(100%);
   }
   100% {
@@ -28,7 +29,7 @@ const wave = keyframes`
 const getAnimationProps = ({ animation, colorMode }) => {
   if (animation === 'pulse') {
     return {
-      animation: `${pulse} 1.5s ease-in-out .5s infinite`,
+      animation: `${pulseKeyframe} 1.5s ease-in-out .5s infinite`,
     };
   }
 
@@ -37,18 +38,22 @@ const getAnimationProps = ({ animation, colorMode }) => {
       dark: 0.08,
       light: 0.32,
     }[colorMode];
+    const colors = [
+      'transparent',
+      `rgba(255, 255, 255, ${opacity})`,
+      'transparent',
+    ].join(',');
 
     return {
-      overflow: 'hidden',
       position: 'relative',
+      overflow: 'hidden',
       __after: {
+        animation: `${waveKeyframe} 1.6s linear .5s infinite`,
+        background: `linear-gradient(90deg,${colors.join(',')})`,
+        content: '""',
         position: 'absolute',
         inset: 0,
-        content: '""',
-        animation: `${wave} 1.6s linear .5s infinite`,
-        transform: 'translateX(-100%)',
-        background: 'linear-gradient(90deg, transparent, #FFFFFF, transparent)',
-        opacity,
+        transform: 'translateX(-100%)', // Avoid flash during server-side hydration
       },
     };
   }
