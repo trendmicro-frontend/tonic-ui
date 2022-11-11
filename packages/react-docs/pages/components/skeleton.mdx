@@ -10,21 +10,33 @@ import { Skeleton } from '@tonic-ui/react';
 
 ## Usage
 
+The component is designed to be used when the data for your component might not be immediately available. For instance:
+
+```jsx disabled
+{image
+  ? <Image src={image} width={240} height={180} />
+  : <Skeleton variant="rect" width={240} height={120} />
+}
+```
+
 ### Variants
 
-This component provides 3 shape variants: `text`, `rect`, and `circle`.
+The component supports 3 shape variants:
+* `text` (default) represents a single line of text.
+* `rect` and `circle` represent a rectangle and a circle respectively.
 
 ```jsx
-<Stack display="inline-flex" direction="column" spacing="4x">
+<Stack direction="column" spacing="4x" width={240}>
   <Skeleton variant="text" />
-  <Skeleton variant="rect" width={200} height={100} />
   <Skeleton variant="circle" width={40} height={40} />
+  <Skeleton variant="rect" width={240} height={80} />
+  <Skeleton variant="rect" width={240} height={80} borderRadius="sm" />
 </Stack>
 ```
 
 ### Animations
 
-The animation is disabled by default. You can change the animation effect to `pulse` or `wave`.
+By default, the animation is disabled. You can enable animation by setting the `animation` prop to `wave` or `pulse`.
 
 ```jsx noInline
 const FormGroup = (props) => (
@@ -69,56 +81,83 @@ render(() => {
         </ButtonGroup>
       </FormGroup>
       <Divider my="4x" />
-      <Stack direction="column" spacing="10x">
-        <Stack direction="column" spacing="4x">
-          <Skeleton animation={animation} width={160} />
-          <Skeleton animation={animation} width={240} />
-          <Skeleton animation={animation} width={240} />
-        </Stack>
-        <Stack direction="column" spacing="4x">
-          <Skeleton animation={animation} width={160} />
-          <Skeleton animation={animation} width={240} />
-          <Skeleton animation={animation} width={240} />
-        </Stack>
-        <Stack direction="column" spacing="4x">
-          <Skeleton animation={animation} width={160} />
-          <Skeleton animation={animation} width={240} />
-          <Skeleton animation={animation} width={240} />
-        </Stack>
+      <Stack direction="column" spacing="4x">
+        <Skeleton animation={animation} width={160} />
+        <Skeleton animation={animation} width={240} />
+        <Skeleton animation={animation} width={240} />
       </Stack>
     </>
   );
 });
 ```
 
-### Inferring dimensions
+### Color
 
-You can use `height="60%"` and `transform="translateY(40%)"` to infer dimensions of the skeleton. 
+The color of the component can be customized by changing its `backgroundColor` prop. This is especially useful when on a dark background.
 
 ```jsx
-function Example() {
-  return (
-    <Flex>
-      <Stack direction="column" spacing="4x" flex="none" width={300}>
-        <Text size="4xl">
-          <Skeleton height="60%" transform="translateY(40%)" />
-        </Text>
-        <Text size="xl">
-          <Skeleton height="60%" transform="translateY(40%)" />
-        </Text>
-        <Text size="sm">
-          <Skeleton height="60%" transform="translateY(40%)" />
-        </Text>
+<Box display="inline-block" backgroundColor="gray:100" p="6x">
+  <Skeleton
+    variant="rect"
+    width={240}
+    height={120}
+    backgroundColor="gray:90"
+    animation="pulse"
+  />
+</Box>
+```
+
+### More examples
+
+```jsx
+<ModalContent width="max(320px, 50%)">
+  <ModalHeader>
+    Modal Title
+  </ModalHeader>
+  <ModalBody>
+    <Stack direction="column" spacing="10x">
+      <Stack direction="column" spacing="4x">
+        <Skeleton animation="pulse" width="80%" />
+        <Skeleton animation="pulse" />
+        <Skeleton animation="pulse" />
       </Stack>
-      <Space width="8x" flex="none" />
-      <Stack direction="column" spacing="4x" flex="1">
-        <Text size="4xl">Heading 8</Text>
-        <Text size="xl">Heading 4</Text>
-        <Text size="sm">body text</Text>
+      <Stack direction="column" spacing="4x">
+        <Skeleton animation="pulse" width="80%" />
+        <Skeleton animation="pulse" />
+        <Skeleton animation="pulse" />
       </Stack>
+      <Stack direction="column" spacing="4x">
+        <Skeleton animation="pulse" width="80%" />
+        <Skeleton animation="pulse" />
+        <Skeleton animation="pulse" />
+      </Stack>
+    </Stack>
+  </ModalBody>
+  <ModalFooter>
+    <Grid
+      templateColumns="1fr 1fr"
+      columnGap="2x"
+    >
+      <Button disabled>OK</Button>
+      <Button disabled>Cancel</Button>
+    </Grid>
+  </ModalFooter>
+</ModalContent>
+```
+
+```jsx
+<Stack direction="column" width="max(320px, 50%)">
+  <Flex alignItems="center" columnGap="5x" backgroundColor="gray:90" p="4x">
+    <Flex flex="none">
+      <Skeleton variant="circle" animation="wave" width={40} height={40} />
     </Flex>
-  );
-}
+    <Stack direction="column" spacing="4x" flex="auto">
+      <Skeleton variant="text" animation="wave" />
+      <Skeleton variant="text" animation="wave" />
+    </Stack>
+  </Flex>
+  <Skeleton variant="rect" animation="wave" height={160} />
+</Stack>
 ```
 
 ## Props
