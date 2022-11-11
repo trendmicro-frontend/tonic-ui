@@ -15,7 +15,7 @@ import {
 } from '@tonic-ui/react';
 ```
 
-## Linear Progress
+## Linear
 
 ```jsx noInline
 const FormGroup = (props) => (
@@ -40,10 +40,10 @@ render(() => {
         if (oldProgress === 100) {
           return 0;
         }
-        const diff = Math.round(Math.random() * 5);
+        const diff = 5 + Math.round(Math.random() * 5);
         return Math.min(oldProgress + diff, 100);
       });
-    }, 250);
+    }, 200);
 
     return () => {
       clearInterval(timer);
@@ -109,7 +109,7 @@ render(() => {
       </FormGroup>
       <Divider mb="4x" />
       <Flex alignItems="center" minHeight="5x">
-        <Box width="100%">
+        <Box width={320}>
           <LinearProgress
             variant={variant}
             size={size}
@@ -117,7 +117,7 @@ render(() => {
           />
         </Box>
         {variant === 'determinate' && (
-          <TextLabel minWidth="9x" textAlign="right" ml="1x">
+          <TextLabel minWidth="9x" ml="2x">
             {progress}%
           </TextLabel>
         )}
@@ -127,12 +127,40 @@ render(() => {
 });
 ```
 
+### Linear color
+
+You can use the `color` prop to change the color of the progress bar. The default color is `blue:60`.
+
+The color can be a valid CSS color name, a color token from the theme, or an array of colors to create a linear gradient.
+
+#### Linear indeterminate
+
+```jsx
+<Stack width={320} spacing="4x">
+  <LinearProgress variant="indeterminate" color="blue:60" />
+  <LinearProgress variant="indeterminate" color="teal:40" />
+  <LinearProgress variant="indeterminate" color={['blue:60', 'teal:40']} />
+</Stack>
+```
+
+#### Linear determinate
+
+```jsx
+<Stack width={320} spacing="4x">
+  <LinearProgress variant="determinate" color="blue:60" value={25} />
+  <LinearProgress variant="determinate" color="teal:40" value={50} />
+  <LinearProgress variant="determinate" color={['blue:60', 'teal:40']} value={75} />
+  <LinearProgress variant="determinate" color={['blue:60', 'teal:40']} value={100} />
+</Stack>
+```
+
 ## Props
 
 ### LinearProgress
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| color | string \| string[] | 'blue:60' | The color of the progress bar. It can be a valid CSS color name, a color token from the theme, or an array of colors to create a linear gradient. |
 | min | numbner | 0 | The minimum value of the progress. |
 | max | number | 100 | The maximum value of the progress. |
 | size | string | 'sm' | The size of the progress bar. One of: 'xs', 'sm', 'md', 'lg' |

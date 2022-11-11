@@ -1,9 +1,10 @@
 import { keyframes } from '@emotion/react';
 import { createTransitionStyle } from '@tonic-ui/utils';
+import { ensureArray } from 'ensure-type';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
-const progress = keyframes`
+const indeterminateProgressAnimation = keyframes`
   0% {
     left: -40%;
     right: 100%;
@@ -18,7 +19,7 @@ const progress = keyframes`
   }
 `;
 
-const useLinearProgressRootStyle = ({ size }) => {
+const useLinearProgressStyle = ({ size }) => {
   const [colorMode] = useColorMode();
   const backgroundColor = {
     dark: 'rgba(255, 255, 255, 0.12)',
@@ -39,32 +40,36 @@ const useLinearProgressRootStyle = ({ size }) => {
   };
 };
 
-const useLinearProgressIndicatorStyle = ({ variant }) => {
+const useLinearProgressBarStyle = ({ variant, color }) => {
   const theme = useTheme();
+  const colors = ensureArray(color)
+    .map(c => {
+      // "blue"          => "blue"
+      // "blue:60"       => "#1e5ede"
+      // "black"         => "black"
+      // "black:primary" => "rgba(0, 0, 0, .92)"
+      return theme?.colors?.[c] ?? c;
+    });
 
   if (variant === 'determinate') {
-    const startColor = theme?.colors?.['blue:60'];
-    const endColor = theme?.colors?.['teal:40'];
     return {
       position: 'absolute',
       inset: 0,
-      background: `linear-gradient(90deg, ${startColor} 0%, ${endColor} 100%)`,
+      background: (colors.length > 1)
+        ? `linear-gradient(90deg,${colors.join(',')})`
+        : colors[0],
       transition: createTransitionStyle('all', { duration: 200, easing: 'linear' }),
     };
   }
 
   if (variant === 'indeterminate') {
-    const startColor = theme?.colors?.['blue:60'];
-    const endColor = theme?.colors?.['blue:60'];
     return {
       position: 'absolute',
       inset: 0,
-      animation: `${progress} 1.6s linear .5s infinite`,
-      background: [
-        'linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent)',
-        `linear-gradient(90deg, ${startColor}, ${endColor})`,
-      ].join(','),
-      width: 'auto',
+      animation: `${indeterminateProgressAnimation} 1.6s linear .5s infinite`,
+      background: (colors.length > 1)
+        ? `linear-gradient(90deg,${colors.join(',')})`
+        : colors[0],
       transition: createTransitionStyle('all', { duration: 200, easing: 'linear' }),
     };
   }
@@ -73,6 +78,6 @@ const useLinearProgressIndicatorStyle = ({ variant }) => {
 };
 
 export {
-  useLinearProgressRootStyle,
-  useLinearProgressIndicatorStyle,
+  useLinearProgressStyle,
+  useLinearProgressBarStyle,
 };

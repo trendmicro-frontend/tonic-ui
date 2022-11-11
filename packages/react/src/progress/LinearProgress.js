@@ -2,8 +2,8 @@ import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import {
-  useLinearProgressRootStyle,
-  useLinearProgressIndicatorStyle,
+  useLinearProgressStyle,
+  useLinearProgressBarStyle,
 } from './styles';
 
 const defaultSize = 'sm';
@@ -11,6 +11,9 @@ const defaultVariant = 'indeterminate';
 
 const LinearProgress = forwardRef((
   {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    color = 'blue:60',
     min = 0,
     max = 100,
     size = defaultSize,
@@ -20,15 +23,16 @@ const LinearProgress = forwardRef((
   },
   ref,
 ) => {
-  const rootStyleProps = useLinearProgressRootStyle({ size });
-  const indicatorStyleProps = useLinearProgressIndicatorStyle({ variant });
-  const rootProps = {
+  const progressStyleProps = useLinearProgressStyle({ size });
+  const progressbarStyleProps = useLinearProgressBarStyle({ color, variant });
+  const progressbarProps = {
     'aria-valuemin': min,
     'aria-valuemax': max,
     'aria-valuenow': (variant === 'determinate') ? value : undefined,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
     role: 'progressbar',
   };
-  const indicatorProps = {};
 
   if (variant === 'determinate') {
     if ((process.env.NODE_ENV !== 'production') && (value === undefined)) {
@@ -36,8 +40,8 @@ const LinearProgress = forwardRef((
     }
 
     const scale = (ensureFiniteNumber(value) - min) / (max - min);
-    indicatorProps.style = {
-      ...indicatorProps.style,
+    progressbarProps.style = {
+      ...progressbarProps.style,
       clipPath: `inset(0 ${(1 - scale) * 100}% 0 0)`,
     };
   }
@@ -45,13 +49,12 @@ const LinearProgress = forwardRef((
   return (
     <Box
       ref={ref}
-      {...rootStyleProps}
-      {...rootProps}
+      {...progressStyleProps}
       {...rest}
     >
       <Box
-        {...indicatorStyleProps}
-        {...indicatorProps}
+        {...progressbarStyleProps}
+        {...progressbarProps}
       />
     </Box>
   );
