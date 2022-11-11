@@ -148,7 +148,12 @@ It accepts a valid CSS background color/image, a color token from the theme, or 
   </Flex>
   <Divider />
   <TextLabel>Linear gradient</Text>
-  <Flex alignItems="center" columnGap="2x">
+  <Flex
+    alignItems="center"
+    columnGap="2x"
+    justifyContent="space-between"
+    width={320}
+  >
     <Box backgroundColor="blue:60" px="2x" py="1x" color="white:primary">
       blue:60
     </Box>
@@ -191,5 +196,5 @@ It accepts a valid CSS background color/image, a color token from the theme, or 
 | min | numbner | 0 | The minimum value of the progress. |
 | max | number | 100 | The maximum value of the progress. |
 | size | string | 'sm' | The size of the progress bar. One of: 'xs', 'sm', 'md', 'lg' |
-| variant | string | 'indeterminate' | The variant to use. Use indeterminate when there is no progress value. Use determinate when a progress value is defined. One of: 'indeterminate', 'determinate' |
+| variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use indeterminate when there is no progress value.<br />• Use determinate when a progress value is defined. |
 | value | number |  | The value of the progress indicator for the determinate variant. |
