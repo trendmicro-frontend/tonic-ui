@@ -1,8 +1,8 @@
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import {
-  getAnimationCSS,
-  getVariantCSS,
   useSkeletonStyle,
 } from './styles';
 
@@ -12,24 +12,34 @@ const Skeleton = forwardRef((
   {
     animation,
     variant,
-    css,
     ...rest
   },
   ref
 ) => {
+  { // deprecation warning
+    const prefix = `${Skeleton.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('variant="rect"', {
+        prefix,
+        alternative: 'variant="rectangle"',
+        willRemove: true,
+      });
+    }, (variant === 'rect'));
+
+    if (variant === 'rect') {
+      variant = 'rectangle';
+    }
+  }
+
   // Use fallback values if values are null or undefined
   variant = variant ?? defaultVariant;
-  css = [
-    getAnimationCSS(animation),
-    getVariantCSS(variant),
-    css,
-  ];
+
   const styleProps = useSkeletonStyle({ animation, variant });
 
   return (
     <Box
       ref={ref}
-      css={css}
       {...styleProps}
       {...rest}
     />
