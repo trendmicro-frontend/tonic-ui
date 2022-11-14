@@ -1,15 +1,14 @@
 #!/bin/sh
 
 MAIN_BRANCH=master
-PR_BRANCH=feat/lockfile-maintenance-ci-job-$(date +"%m-%d-%Y")
+PR_BRANCH=ci/regular-lockfile-maintenance-$(date +"%m-%d-%Y")
 OWNER=trendmicro-frontend
 REPO=tonic-ui
 BODY='{"head":''"'${PR_BRANCH}'"'',"base":"master","title":"ci: regular lockfile maintenance"}'
 
 git checkout $MAIN_BRANCH
 git checkout -b $PR_BRANCH
-rm -f yarn.lock # remove yarn.lock file instead of using "yarn up" to ensure that the lockfile is generated from scratch
-yarn install
+yarn up
 git add yarn.lock
 git commit -m "ci: regular lockfile maintenance"
 git push --set-upstream origin $PR_BRANCH
