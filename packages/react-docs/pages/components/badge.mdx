@@ -41,21 +41,21 @@ To display the badge on the top-right corner of the wrapped component, specify t
     <Icon icon="alert" />
   </Badge>
   <Badge>
-    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
   </Badge>
   <Badge badgeContent={0}>
-    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
   </Badge>
   <Badge badgeContent={5}>
-    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
   </Badge>
   <Badge badgeContent="99+">
-    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
   </Badge>
   <Badge
     badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
   >
-    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
   </Badge>
 </Grid>
 ```
@@ -214,7 +214,7 @@ function Example() {
     >
       {colors.map(color => (
         <Badge key={color} backgroundColor={color} badgeContent={5}>
-          <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+          <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
         </Badge>
       ))}
     </Grid>
@@ -229,13 +229,13 @@ The size of the badge can be changed by passing the `height` and `minWidth` prop
 ```jsx
 <Stack mt="3x" direction="row" spacing="8x" shouldWrapChildren>
   <Badge badgeContent={5} height="4x" minWidth="4x" fontSize="xs">
-    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
   </Badge>
   <Badge badgeContent={5} height="5x" minWidth="5x" fontSize="sm">
-    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
   </Badge>
   <Badge badgeContent={5} height="6x" minWidth="6x" fontSize="md">
-    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
   </Badge>
 </Stack>
 ```
@@ -290,15 +290,15 @@ function Example() {
       width="min-content"
     >
       <OutlineBadge badgeContent={0}>
-        <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+        <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
       </OutlineBadge>
       <OutlineBadge badgeContent="99+">
-        <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+        <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
       </OutlineBadge>
       <OutlineBadge
         badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
       >
-        <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+        <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
       </OutlineBadge>
     </Grid>
   );

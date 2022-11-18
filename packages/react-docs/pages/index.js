@@ -215,12 +215,12 @@ const DefaultPage = (props) => {
                     <Icon icon="alert" />
                   </Badge>
                   <Badge badgeContent="99+">
-                    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+                    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
                   </Badge>
                   <Badge
                     badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
                   >
-                    <Skeleton variant="rect" borderRadius="sm" width="8x" height="8x" />
+                    <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
                   </Badge>
                 </Flex>
                 <Box>
