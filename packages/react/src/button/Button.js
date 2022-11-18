@@ -38,7 +38,8 @@ const Button = forwardRef((
 
   const attributes = {
     'aria-disabled': disabled,
-    'aria-selected': selected,
+    'aria-selected': selected ? true : undefined,
+    'data-selected': selected ? true : undefined,
     type: 'button',
 
     // Disable the button if "disabled" is true

@@ -56,8 +56,9 @@ const Tab = forwardRef((
 
   const getTabProps = () => ({
     'aria-controls': tabPanelId,
-    'aria-selected': isSelected,
+    'aria-selected': isSelected ? true : undefined,
     'data-index': index,
+    'data-selected': isSelected ? true : undefined,
     disabled,
     id: tabId,
     onClick: handleClick,
