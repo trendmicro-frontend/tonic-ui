@@ -1,95 +1,128 @@
 # Pagination
 
-Pagination
+The `Pagination` component enables the user to select a specific page from a range of pages.
 
 ## Import
 
 ```js
-import { Pagination } from '@tonic-ui/react';
+import {
+  Pagination,
+  PaginationItem,
+  usePagination,
+} from '@tonic-ui/react';
 ```
 
 ## Usage
 
-```jsx
-<Pagination count={10} />
-```
-
-### Disable
+### Basic pagination
 
 ```jsx
-<Pagination count={10} disabled />
+<Stack spacing="4x">
+  <Pagination count={10} />
+  <Pagination count={10} defaultPage={4} />
+  <Pagination count={10} disabled />
+</Stack>
 ```
 
-### Default page
+### Pagination buttons
+
+You can optionally enable or disable first-page, last-page, previous-page, and next-page buttons.
 
 ```jsx
-<Pagination count={10} defaultPage={5} />
+<Stack spacing="4x">
+  <Pagination
+    count={10}
+  />
+  <Pagination
+    count={10}
+    defaultPage={5}
+    boundaryCount={0}
+    slot={{ first: true, last: true }}
+  />
+  <Pagination
+    count={10}
+    slot={{ previous: false, next: false }}
+  />
+</Stack>
 ```
 
-### On page change
+### Customize the control icons
+
+It's possible to customize the control icons for the start-ellipsis, end-ellipsis, first-page, last-page, previous-page, and next-page buttons.
 
 ```jsx
 <Pagination
   count={10}
-  onChange={(event, value) => console.log(event, value)}
+  renderItem={(props) => {
+    if (props.type === 'start-ellipsis' || props.type === 'end-ellipsis') {
+      return (
+        <Text mx="2x">...</Text>
+      );
+    }
+
+    return (
+      <PaginationItem
+        slot={{
+          previous: <Icon icon="chevron-left" />,
+          next: <Icon icon="chevron-right" />,
+        }}
+        {...props}
+      />
+    );
+  }}
 />
 ```
 
-### Boundary count
+### Pagination ranges
+
+You can specify how many numbers to display either side of current page with the `siblingCount` prop, and adjacent to the start and end page number with the `boundaryCount` prop.
 
 ```jsx
-<Pagination count={20} boundaryCount={2} />
+<Stack spacing="4x">
+  <Pagination count={11} defaultPage={6} />
+  <Pagination count={11} defaultPage={6} boundaryCount={0} />
+  <Pagination count={11} defaultPage={6} siblingCount={0} />
+  <Pagination count={11} defaultPage={6} boundaryCount={0} siblingCount={0} />
+  <Pagination count={11} defaultPage={6} boundaryCount={2} siblingCount={0} />
+  <Pagination count={15} defaultPage={8} boundaryCount={2} siblingCount={2} />
+</Stack>
 ```
 
-### Sibling count
+### Controlled pagination
 
 ```jsx
-<Pagination
-  count={20}
-  siblingCount={2}
-  defaultPage={10}
-/>
-```
-
-### Full mode
-
-```jsx
-function Minor() {
-  const [page, setPage] = React.useState(3);
-  const totalPages = 20;
+function Example() {
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   return (
-    <Flex>
-      <Flex mr="3x" alignItems="center">
-        <Text>
-          Total: 400
-        </Text>
-        <Divider orientation="vertical" height="6x" ml="3x" />
-        <Menu>
-          <MenuButton variant="ghost">10 per page</MenuButton>
-          <MenuList>
-            <MenuItem>10</MenuItem>
-            <MenuItem>50</MenuItem>
-            <MenuItem>100</MenuItem>
-          </MenuList>
-        </Menu>
-        <Divider orientation="vertical" height="6x" />
-      </Flex>
-      <Pagination count={totalPages} page={page} onChange={(_, value) => setPage(value)} />
-    </Flex>
+    <Stack spacing="4x">
+      <Text>Page: {page}</Text>
+      <Pagination count={10} page={page} onChange={handleChange} />
+    </>
   );
 }
 ```
 
-### Reduced mode
+### Table pagination
+
+The `Pagination` component is designed to paginate a list of arbitrary items when infinite loading isn't used. For the pagination of a large set of tabular data, you should use the `TablePagination` component as illustrated below.
 
 ```jsx
-function Minor() {
+function Example() {
+  const totalRecords = 400;
   const [page, setPage] = React.useState(1);
-  const totalPages = 40;
-  const prevPageDisabled = (page <= 1);
-  const nextPageDisabled = (page >= totalPages);
-  const onInputChange = (e) => {
+  const [perPage, setPerPage] = React.useState(10);
+  const totalPages = Math.ceil(totalRecords / perPage);
+  const selectPerPage = (value) => {
+    setPage(1);
+    setPerPage(value);
+  };
+  const isPrevPageDisabled = (page <= 1);
+  const isNextPageDisabled = (page >= totalPages);
+  const handleInputChange = (e) => {
     const value = e.target.value;
     if (value <= 1) {
       setPage(1);
@@ -98,139 +131,188 @@ function Minor() {
     } else if (!isNaN(value)) {
       setPage(e.target.value);
     }
-  }
+  };
 
   return (
-    <Flex>
-      <Flex mr="3x" alignItems="center">
-        <Text>
-          Total: 400
+    <Stack spacing="4x">
+      <Flex alignItems="center">
+        <Text mr="3x">
+          Total: {totalRecords}
         </Text>
-        <Divider orientation="vertical" height="6x" ml="3x" />
+        <Divider orientation="vertical" height="6x" />
         <Menu>
-          <MenuButton variant="ghost">50 per page</MenuButton>
+          <MenuButton variant="ghost">{perPage} per page</MenuButton>
           <MenuList>
-            <MenuItem>10</MenuItem>
-            <MenuItem>50</MenuItem>
-            <MenuItem>100</MenuItem>
+            <MenuItem onClick={() => selectPerPage(10)}>10</MenuItem>
+            <MenuItem onClick={() => selectPerPage(50)}>50</MenuItem>
+            <MenuItem onClick={() => selectPerPage(100)}>100</MenuItem>
           </MenuList>
         </Menu>
-        <Input width={32} px={0} textAlign="center" onChange={onInputChange} value={page} />
+        <Divider orientation="vertical" height="6x" />
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={(_, value) => setPage(value)}
+        />
+      </Flex>
+      <Flex alignItems="center">
+        <Text mr="3x">
+          Total: {totalRecords}
+        </Text>
+        <Divider orientation="vertical" height="6x" />
+        <Menu>
+          <MenuButton variant="ghost">{perPage} per page</MenuButton>
+          <MenuList>
+            <MenuItem onClick={() => selectPerPage(10)}>10</MenuItem>
+            <MenuItem onClick={() => selectPerPage(50)}>50</MenuItem>
+            <MenuItem onClick={() => selectPerPage(100)}>100</MenuItem>
+          </MenuList>
+        </Menu>
+        <Divider orientation="vertical" height="6x" />
+        <Space width="2x" />
+        <Input width={32} px={0} textAlign="center" onChange={handleInputChange} value={page} />
         <Space width="2x" />
         <Text>/</Text>
         <Space width="2x" />
         <Text>{totalPages}</Text>
-      </Flex>
-      <ButtonGroup
-        variant="secondary"
-        css={{
-          '> *:not(:first-of-type)': {
-            marginLeft: -1
-          }
-        }}
-      >
-        <Button
-          disabled={prevPageDisabled}
-          onClick={(event) => {
-            const prevPage = page > 1 ? page - 1 : page;
-            if (prevPage !== page) {
-              setPage(prevPage);
-            }
-          }}
-        >
-          <Icon icon="angle-left" />
-        </Button>
-        <Button
-          disabled={nextPageDisabled}
-          onClick={(event) => {
-            const nextPage = page < totalPages ? page + 1 : page;
-            if (nextPage !== page) {
-              setPage(nextPage);
-            }
-          }}
-        >
-          <Icon icon="angle-right" />
-        </Button>
-      </ButtonGroup>
-    </Flex>
-  );
-}
-```
-
-### Minor mode
-
-```jsx
-function Minor() {
-  const [page, setPage] = React.useState(1);
-  const totalPages = 40;
-  const prevPageDisabled = (page <= 1);
-  const nextPageDisabled = (page >= totalPages);
-
-  return (
-    <Flex>
-      <Flex mr="3x" alignItems="center">
-        <Text>
-          Total: 400
-        </Text>
-        <Divider orientation="vertical" height="6x" mx="3x" />
-        <Text>
-          100 per page
-        </Text>
-        <Divider orientation="vertical" height="6x" mx="3x" />
-        <Text>{page}</Text>
         <Space width="2x" />
-        <Text>/</Text>
-        <Space width="2x" />
-        <Text>{totalPages}</Text>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          <Button
+            width="8x"
+            disabled={isPrevPageDisabled}
+            onClick={(event) => {
+              const prevPage = page > 1 ? page - 1 : page;
+              if (prevPage !== page) {
+                setPage(prevPage);
+              }
+            }}
+          >
+            <Icon icon="angle-left" />
+          </Button>
+          <Button
+            width="8x"
+            disabled={isNextPageDisabled}
+            onClick={(event) => {
+              const nextPage = page < totalPages ? page + 1 : page;
+              if (nextPage !== page) {
+                setPage(nextPage);
+              }
+            }}
+          >
+            <Icon icon="angle-right" />
+          </Button>
+        </ButtonGroup>
       </Flex>
-      <ButtonGroup
-        variant="secondary"
-        css={{
-          '> *:not(:first-of-type)': {
-            marginLeft: -1
-          }
-        }}
-      >
-        <Button
-          disabled={prevPageDisabled}
-          onClick={(event) => {
-            const prevPage = page > 1 ? page - 1 : page;
-            if (prevPage !== page) {
-              setPage(prevPage);
-            }
-          }}
-        >
-          <Icon icon="angle-left" />
-        </Button>
-        <Button
-          disabled={nextPageDisabled}
-          onClick={(event) => {
-            const nextPage = page < totalPages ? page + 1 : page;
-            if (nextPage !== page) {
-              setPage(nextPage);
-            }
-          }}
-        >
-          <Icon icon="angle-right" />
-        </Button>
-      </ButtonGroup>
-    </Flex>
+    </Stack>
   );
 }
 ```
 
 ## Props
 
+### Pagination
+
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| count | number | `1` | The total number of pages. |
-| disabled | boolean | `false` | If `true`, the pagination component will be disabled. |
-| defaultPage | number | `1` | The page selected by default when the component is uncontrolled. |
-| page | number | | The current page. when the component is controlled. |
-| prevLabel | string or react element | '<' | The previous button label |
-| nextLabel | string or react element | '>' | The next button label |
-| ellipsisLabel | string or react element | '...'| The next button label |
-| boundaryCount | number | `1` | Number of always visible pages at the beginning and end. |
-| siblingCount | number | `1` | Number of always visible pages before and after the current page. |
+| boundaryCount | number | 1 | Number of always visible pages at the beginning and end. |
+| count | number | 1 | Total number of pages. |
+| defaultPage | number | 1 | The page selected by default when the component is uncontrolled. |
+| disabled | boolean | false | If `true`, the component is disabled. |
 | onChange | function | | Callback fired when the page is changed. <br /><br /> Signature: <br /> `function(event: object, page: number) => void` <br />event: The event source of the callback. <br />page: The page selected. |
+| page | number | | The current page. |
+| renderItem | function | `(props) => <PaginationItem {...props} />` | Render the item.<br /><br />Signature: <br /> `function(props) => ReactNode` <br />props: The props to spread on a `PaginationItem`. |
+| siblingCount | number | 1 | Number of always visible pages before and after the current page. |
+| slot | `{ first?: boolean, last?: boolean, previous?: boolean, next?: boolean }` | `{ first: false, last: false, previous: true, next: true }` | Whether to render the first-page, last-page, previous-page, and next-page buttons. |
 
+### PaginationItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | false | If `true`, the component is disabled. |
+| page | number | | The current page number. |
+| selected | boolean | false | If `true`, the pagination item is selected. |
+| slot | `{ 'start-ellipsis'?: ReactNode, 'end-ellipsis'?: ReactNode, first?: ReactNode, previous?: ReactNode, next?: ReactNode, last?: ReactNode }` | `{ 'start-ellipsis': <Icon icon="more-horiz" />, 'end-ellipsis': <Icon icon="more-horiz" />, first: <Icon icon="collapse-left" />, previous: <Icon icon="angle-left" />, next: <Icon icon="angle-right" />, last: <Icon icon="collapse-right" /> }` | |
+| type | string | 'page' | The type of the pagination item. |
+| variant | string | 'ghost' | The variant to use. |
+
+
+## `usePagination`
+
+The `usePagination` Hook is provided for advanced customization use cases. It accepts almost the same options as the `Pagination` component except for the props related to JSX rendering. The `Pagination` component is built on top of this Hook.
+
+```jsx disabled
+// usage
+const { items } = usePagination({ count: 10 });
+```
+
+### Returns
+
+Returns an object with the pagination items.
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| boundaryCount | number | 1 | Number of always visible pages at the beginning and end. |
+| count | number | 1 | Total number of pages. |
+| defaultPage | number | 1 | The page selected by default when the component is uncontrolled. |
+| disabled | boolean | false | If `true`, the component is disabled. |
+| onChange | function | | Callback fired when the page is changed. <br /><br /> Signature: <br /> `function(event: object, page: number) => void` <br />event: The event source of the callback. <br />page: The page selected. |
+| page | number | | The current page. |
+| siblingCount | number | 1 | Number of always visible pages before and after the current page. |
+| slot | `{ first?: boolean, last?: boolean, previous?: boolean, next?: boolean }` | `{ first: false, last: false, previous: true, next: true }` | Whether to render the first-page, last-page, previous-page, and next-page buttons. |
+
+### Example
+
+```jsx
+function Example() {
+  const { items } = usePagination({
+    count: 10,
+    slot: {
+      first: true,
+      previous: true,
+      next: true,
+      last: true,
+    },
+  });
+
+  return (
+    <Box as="nav">
+      <Flex alignItems="center" columnGap="2x">
+        {items.map(({ page, type, selected, ...item }, index) => {
+          let children = null;
+
+          if (type === 'start-ellipsis' || type === 'end-ellipsis') {
+            children = '…';
+          } else if (type === 'page') {
+            children = (
+              <Button selected={selected} {...item}>
+                {page}
+              </Button>
+            );
+          } else {
+            children = (
+              <Button {...item}>
+                {type}
+              </Button>
+            );
+          }
+
+          return (
+            <React.Fragment key={index}>
+              {children}
+            </React.Fragment>
+          );
+        })}
+      </Flex>
+    </Box>
+  );
+}
+```

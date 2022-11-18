@@ -9,7 +9,7 @@ import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
-import update from 'immutability-helper';
+import immutableUpdate from 'immutability-helper';
 import React, { useCallback, useState } from 'react';
 import * as rbd from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
@@ -17,7 +17,7 @@ import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
-import { AutoSizer } from 'react-virtualized';
+import * as ReactVirtualized from 'react-virtualized';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import Code from './Code';
@@ -29,15 +29,15 @@ import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
 
 const thirdPartyComponents = {
-  AutoSizer,
   rbd,
   ReactDND,
   ReactDNDHtml5backend,
   ReactMovable,
   dateFns,
   dateFnsLocale,
-  update, // XXX: rename to immutableUpdate
-  ...ReactTable, // XXX: rename to ReactTable.xxx
+  ReactTable,
+  ReactVirtualized,
+  immutableUpdate,
 };
 
 const {

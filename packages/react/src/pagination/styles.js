@@ -1,6 +1,13 @@
 import { useColorMode } from '../color-mode';
 
-const usePaginationButtonStyle = () => {
+const usePaginationStyle = () => {
+  return {
+    display: 'flex',
+    alignItems: 'center',
+  };
+};
+
+const usePaginationItemStyle = () => {
   const [colorMode] = useColorMode();
   const selectedBorderColor = {
     dark: 'blue:50',
@@ -8,7 +15,7 @@ const usePaginationButtonStyle = () => {
   }[colorMode];
 
   return {
-    transition: 'none',
+    transition: 'none', // avoid unwanted transition effects on buttons
     _selected: {
       borderColor: selectedBorderColor,
     },
@@ -16,5 +23,6 @@ const usePaginationButtonStyle = () => {
 };
 
 export {
-  usePaginationButtonStyle,
+  usePaginationStyle,
+  usePaginationItemStyle,
 };
