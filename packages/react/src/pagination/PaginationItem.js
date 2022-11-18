@@ -14,8 +14,22 @@ const defaultSlot = {
   last: <Icon icon="collapse-right" />,
 };
 
+const getAriaLabel = ({ type, page, selected }) => {
+  if (type === 'start-ellipsis' || type === 'end-ellipsis') {
+    return `Go to page ${page}`;
+  }
+  if (type === 'page' && !selected) {
+    return `Go to page ${page}`;
+  }
+  if (type === 'page' && selected) {
+    return `Page ${page}`;
+  }
+  return `Go to ${type} page`;
+};
+
 const PaginationItem = forwardRef((
   {
+    'aria-label': ariaLabel,
     disabled = false,
     type = 'page',
     page,
@@ -37,7 +51,7 @@ const PaginationItem = forwardRef((
       ref={ref}
       aria-current={selected ? 'true' : undefined}
       aria-disabled={disabled}
-      aria-selected={selected}
+      aria-label={ariaLabel ?? getAriaLabel({ type, page, selected })}
       disabled={disabled}
       variant={variant}
       {...styleProps}
