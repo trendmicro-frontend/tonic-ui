@@ -52,6 +52,7 @@ const PaginationItem = forwardRef((
       aria-current={selected ? 'true' : undefined}
       aria-disabled={disabled}
       aria-label={ariaLabel ?? getAriaLabel({ type, page, selected })}
+      data-selected={selected}
       disabled={disabled}
       variant={variant}
       {...styleProps}
