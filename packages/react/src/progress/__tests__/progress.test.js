@@ -18,7 +18,12 @@ describe('LinearProgress', () => {
 
   it('should have the proper aria and role attributes', () => {
     const { getByRole, rerender } = render(
-      <LinearProgress aria-label="usage" size="sm" variant="determinate" value={20} />
+      <LinearProgress
+        aria-label="usage"
+        size="sm"
+        variant="determinate"
+        value={20}
+      />
     );
 
     let progress = getByRole('progressbar');

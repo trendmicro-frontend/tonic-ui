@@ -12,7 +12,7 @@ describe('Pagination', () => {
   });
 
   it('should have the "aria-current" attribute on the current page', () => {
-    const { container, getAllByRole } = render(
+    const { getAllByRole } = render(
       <Pagination count={3} page={1} />
     );
 
@@ -58,7 +58,7 @@ describe('Pagination', () => {
         count={5}
         page={3}
         slot={{ first: true, last: true }}
-        renderItem={(item) => (
+        renderItem={(item) => ( // eslint-disable-line react/jsx-no-bind
           <PaginationItem {...item} data-testid={item.type} />
         )}
       />
@@ -90,7 +90,7 @@ describe('Pagination', () => {
         count={11}
         defaultPage={6}
         boundaryCount={0}
-        renderItem={(item) => (
+        renderItem={(item) => ( // eslint-disable-line react/jsx-no-bind
           <PaginationItem {...item} data-testid={item.type} />
         )}
       />
@@ -118,7 +118,7 @@ describe('Pagination', () => {
         count={11}
         defaultPage={6}
         siblingCount={0}
-        renderItem={(item) => (
+        renderItem={(item) => ( // eslint-disable-line react/jsx-no-bind
           <PaginationItem {...item} data-testid={item.type} />
         )}
       />
