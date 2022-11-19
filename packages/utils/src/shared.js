@@ -14,7 +14,9 @@ const _joinWords = (words) => {
   return `'${words.slice(0, -1).join('\', \'')}', and '${words.slice(-1)}'`;
 };
 
-export const ariaAttr = (condition) => condition ? true : undefined;
+export const ariaAttr = (condition) => {
+  return condition ? true : undefined;
+};
 
 export const callAll = (...fns) => {
   return function mergedFn(...args) {
@@ -33,7 +35,9 @@ export const callEventHandlers = (...fns) => {
   };
 };
 
-export const dataAttr = (condition) => condition ? '' : undefined;
+export const dataAttr = (condition) => {
+  return condition ? '' : undefined;
+};
 
 export const isFunction = (value) => typeof value === 'function';
 
