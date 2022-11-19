@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { useToggle } from '..';
+import { useToggle } from '@tonic-ui/react-hooks/src';
 
 describe('useToggle', () => {
   it('should be defined', () => {

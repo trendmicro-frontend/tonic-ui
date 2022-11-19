@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useEffect, useState } from 'react';
-import { useConst, useEventCallback } from '..';
+import { useConst, useEventCallback } from '@tonic-ui/react-hooks/src';
 
 describe('useEventCallback', () => {
   it('should be defined', () => {

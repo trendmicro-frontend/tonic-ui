@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import { useConst } from '..';
+import { useConst } from '@tonic-ui/react-hooks/src';
 
 describe('useConst', () => {
   it('should be defined', () => {

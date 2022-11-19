@@ -1,4 +1,4 @@
-import * as moduleExport from '../src';
+import * as moduleExport from '@tonic-ui/react-lab/src';
 
 test('should match expected exports', () => {
   const exportedComponents = [

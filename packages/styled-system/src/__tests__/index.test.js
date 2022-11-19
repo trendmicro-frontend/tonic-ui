@@ -1,4 +1,4 @@
-import * as moduleExport from '..';
+import * as moduleExport from '@tonic-ui/styled-system/src';
 
 test('should match expected exports', () => {
   const receivedExports = Object.keys(moduleExport);
