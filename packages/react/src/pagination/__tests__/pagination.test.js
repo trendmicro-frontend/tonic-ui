@@ -28,7 +28,7 @@ describe('Pagination', () => {
     expect(pageItems.length).toBe(5);
     expect(pageItem0).not.toHaveAttribute('aria-current');
     expect(pageItem1).toHaveAttribute('aria-current', 'true');
-    expect(pageItem1).toHaveAttribute('data-selected', 'true');
+    expect(pageItem1).toHaveAttribute('data-selected', '');
     expect(pageItem2).not.toHaveAttribute('aria-current');
     expect(pageItem3).not.toHaveAttribute('aria-current');
     expect(pageItem4).not.toHaveAttribute('aria-current');
