@@ -4,7 +4,7 @@ import { LinearProgress } from '@tonic-ui/react/src';
 import * as React from 'react';
 
 describe('LinearProgress', () => {
-  it('should render correctly', async () => {
+  it('renders correctly', async () => {
     const { container } = render(
       <>
         <LinearProgress aria-label="usage" size="xs" value={20} />
@@ -14,6 +14,7 @@ describe('LinearProgress', () => {
       </>
     );
     await testA11y(container);
+    expect(container).toMatchSnapshot();
   });
 
   it('should have the proper aria and role attributes', () => {
