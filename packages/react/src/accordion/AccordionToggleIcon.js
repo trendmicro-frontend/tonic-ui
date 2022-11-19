@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
+import { ariaAttr, createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
@@ -82,7 +82,7 @@ const AccordionToggleIcon = forwardRef((
         const styleProps = {
           ...iconStyleProps,
           ...variantStyle,
-          'aria-disabled': disabled,
+          'aria-disabled': ariaAttr(disabled),
           transition,
         };
 

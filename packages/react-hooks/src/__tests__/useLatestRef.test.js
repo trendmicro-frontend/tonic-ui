@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useLatestRef } from '..';
+import { useLatestRef } from '@tonic-ui/react-hooks/src';
 
 describe('useLatestRef', () => {
   it('should be defined', () => {

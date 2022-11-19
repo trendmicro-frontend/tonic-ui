@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import React, { forwardRef, useRef } from 'react';
-import { useMergeRefs } from '..';
+import { useMergeRefs } from '@tonic-ui/react-hooks/src';
 
 describe('useMergeRefs', () => {
   const TestComponent = forwardRef((props, ref) => {

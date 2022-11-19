@@ -1,5 +1,5 @@
-import defaultExport, * as moduleExport from '..';
-import { createTheme } from '..';
+import defaultExport, * as moduleExport from '@tonic-ui/theme/src';
+import { createTheme } from '@tonic-ui/theme/src';
 
 test('should match expected exports', () => {
   const receivedExports = Object.keys(moduleExport);

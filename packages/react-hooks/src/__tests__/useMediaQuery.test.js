@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useMediaQuery } from '..';
+import { useMediaQuery } from '@tonic-ui/react-hooks/src';
 
 const createMockMediaMatcher = (matches) => (query) => ({
   matches: matches[query] ?? false,

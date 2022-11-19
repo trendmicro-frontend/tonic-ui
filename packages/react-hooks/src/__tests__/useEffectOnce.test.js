@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useEffectOnce } from '..';
+import { useEffectOnce } from '@tonic-ui/react-hooks/src';
 
 const mockEffectCleanup = jest.fn();
 const mockEffectCallback = jest.fn().mockReturnValue(mockEffectCleanup);

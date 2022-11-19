@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { useState } from 'react';
-import { usePrevious } from '..';
+import { usePrevious } from '@tonic-ui/react-hooks/src';
 
 describe('usePrevious', () => {
   it('should be defined', () => {

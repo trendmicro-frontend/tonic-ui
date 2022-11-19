@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 
@@ -23,7 +24,7 @@ const SVGIcon = forwardRef((
 ) => {
   return (
     <SVGIconBase
-      aria-hidden={true}
+      aria-hidden={ariaAttr(true)}
       ref={ref}
       as="svg"
       width={size}

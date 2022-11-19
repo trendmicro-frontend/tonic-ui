@@ -1,4 +1,4 @@
-import * as moduleExport from '..';
+import * as moduleExport from '@tonic-ui/utils/src';
 
 test('should match expected exports', () => {
   const receivedExports = Object.keys(moduleExport);
@@ -27,9 +27,12 @@ test('should match expected exports', () => {
     // dom-query
     'getAllFocusable',
 
-    // function
+    // shared
+    'ariaAttr',
     'callAll',
     'callEventHandlers',
+    'dataAttr',
+    'isFunction',
     'noop',
     'once',
     'runIfFn',

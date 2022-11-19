@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callEventHandlers } from '@tonic-ui/utils';
+import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
@@ -67,8 +67,8 @@ const SubmenuToggle = forwardRef((
 
   const getSubmenuToggleProps = () => ({
     'aria-controls': submenuId,
-    'aria-disabled': disabled,
-    'aria-expanded': isOpen,
+    'aria-disabled': ariaAttr(disabled),
+    'aria-expanded': ariaAttr(isOpen),
     'aria-haspopup': 'menu',
     disabled,
     id: submenuToggleId,
