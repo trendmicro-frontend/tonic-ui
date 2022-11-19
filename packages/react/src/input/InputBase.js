@@ -1,5 +1,5 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps } from '@tonic-ui/utils';
+import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useInputBaseStyle } from './styles';
@@ -33,7 +33,7 @@ const InputBase = forwardRef((
 
   const ariaProps = {
     'aria-disabled': rest.disabled,
-    'aria-invalid': error,
+    'aria-invalid': ariaAttr(error),
     'aria-readonly': rest.readOnly,
     'aria-required': rest.required,
   };

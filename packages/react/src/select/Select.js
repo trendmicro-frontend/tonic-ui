@@ -1,5 +1,5 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps } from '@tonic-ui/utils';
+import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Icon } from '../icon';
@@ -40,7 +40,7 @@ const Select = forwardRef((
 
   const ariaProps = {
     'aria-disabled': rest.disabled,
-    'aria-invalid': error,
+    'aria-invalid': ariaAttr(error),
     'aria-required': rest.required,
   };
   const multiple = rest.multiple;
