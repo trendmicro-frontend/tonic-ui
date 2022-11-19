@@ -1,5 +1,5 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
-import { callAll, callEventHandlers } from '@tonic-ui/utils';
+import { ariaAttr, callAll, callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { useMemo, useRef } from 'react';
 import { Box } from '../box';
@@ -168,7 +168,7 @@ const PopoverContent = ({
   return (
     <PopperComponent
       aria-describedby={popoverBodyId}
-      aria-hidden={!isOpen}
+      aria-hidden={ariaAttr(!isOpen)}
       aria-labelledby={popoverHeaderId}
       anchorEl={popoverTriggerRef.current}
       arrowSize={arrowSize}

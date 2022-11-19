@@ -1,4 +1,5 @@
 import { sx } from '@tonic-ui/styled-system';
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import Box from './Box';
 
@@ -77,7 +78,7 @@ const ControlBox = forwardRef((
       justifyContent="center"
       transition="all 120ms"
       flexShrink="0"
-      aria-hidden={true}
+      aria-hidden={ariaAttr(true)}
       userSelect="none"
       {...rest}
     />

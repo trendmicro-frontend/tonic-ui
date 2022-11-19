@@ -1,5 +1,5 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
-import { callAll, isBlankString, isEmptyArray } from '@tonic-ui/utils';
+import { ariaAttr, callAll, isBlankString, isEmptyArray } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
@@ -85,7 +85,7 @@ const TooltipContent = forwardRef((
 
   return (
     <PopperComponent
-      aria-hidden={!isOpen}
+      aria-hidden={ariaAttr(!isOpen)}
       data-popper-placement={placement}
       anchorEl={tooltipTriggerRef.current}
       arrowSize={arrowSize}
