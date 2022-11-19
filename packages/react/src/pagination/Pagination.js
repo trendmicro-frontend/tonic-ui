@@ -63,7 +63,7 @@ const Pagination = ({
         return (
           <Button
             variant="ghost"
-            aria-disabled={item.disabled}
+            aria-disabled={ariaAttr(item.disabled)}
             aria-selected={ariaAttr(item.selected)}
             disabled={item.disabled}
             key={`${item.page}-${item.type}`}

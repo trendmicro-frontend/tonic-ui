@@ -32,7 +32,7 @@ const InputBase = forwardRef((
   }
 
   const ariaProps = {
-    'aria-disabled': rest.disabled,
+    'aria-disabled': ariaAttr(rest.disabled),
     'aria-invalid': ariaAttr(error),
     'aria-readonly': ariaAttr(rest.readOnly),
     'aria-required': ariaAttr(rest.required),

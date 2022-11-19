@@ -1,3 +1,4 @@
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useButtonBaseStyle } from './styles';
@@ -18,10 +19,10 @@ const ButtonBase = forwardRef((
   return (
     <Box
       ref={ref}
+      aria-disabled={ariaAttr(disabled)}
       as="button"
       type="button"
       disabled={disabled}
-      aria-disabled={disabled}
       {...styleProps}
       {...rest}
     >

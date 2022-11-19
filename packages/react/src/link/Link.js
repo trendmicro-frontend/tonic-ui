@@ -1,3 +1,4 @@
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { useLinkStyle } from './styles';
@@ -21,7 +22,7 @@ const Link = forwardRef((
     <Box
       as="a"
       ref={ref}
-      aria-disabled={disabled}
+      aria-disabled={ariaAttr(disabled)}
       onClick={disabled ? preventDefaultCallback : onClick}
       {...styleProps}
       {...rest}

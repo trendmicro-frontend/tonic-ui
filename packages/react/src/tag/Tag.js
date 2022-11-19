@@ -53,7 +53,7 @@ const Tag = forwardRef((
   }
 
   const ariaProps = {
-    'aria-disabled': rest.disabled,
+    'aria-disabled': ariaAttr(rest.disabled),
     'aria-invalid': ariaAttr(error),
   };
   const styleProps = useTagStyle({

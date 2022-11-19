@@ -39,7 +39,7 @@ const Select = forwardRef((
   const iconWrapperProps = getIconWrapperProps();
 
   const ariaProps = {
-    'aria-disabled': rest.disabled,
+    'aria-disabled': ariaAttr(rest.disabled),
     'aria-invalid': ariaAttr(error),
     'aria-required': ariaAttr(rest.required),
   };
@@ -67,7 +67,7 @@ const Select = forwardRef((
       </Box>
       {!multiple && (
         <Box
-          aria-disabled={rest.disabled}
+          aria-disabled={ariaAttr(rest.disabled)}
           disabled={rest.disabled}
           {...iconWrapperProps}
         >
