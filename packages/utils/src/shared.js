@@ -14,6 +14,8 @@ const _joinWords = (words) => {
   return `'${words.slice(0, -1).join('\', \'')}', and '${words.slice(-1)}'`;
 };
 
+export const ariaAttr = (condition) => condition ? true : undefined;
+
 export const callAll = (...fns) => {
   return function mergedFn(...args) {
     fns.forEach((fn) => {
@@ -31,6 +33,10 @@ export const callEventHandlers = (...fns) => {
   };
 };
 
+export const dataAttr = (condition) => condition ? '' : undefined;
+
+export const isFunction = (value) => typeof value === 'function';
+
 export const noop = () => {};
 
 export const once = (fn) => {
@@ -46,10 +52,7 @@ export const once = (fn) => {
 };
 
 export const runIfFn = (valueOrFn, ...args) => {
-  if (typeof valueOrFn === 'function') {
-    return valueOrFn(...args);
-  }
-  return valueOrFn;
+  return isFunction(valueOrFn) ? valueOrFn(...args) : valueOrFn;
 };
 
 export const warnDeprecatedProps = (props, options) => {

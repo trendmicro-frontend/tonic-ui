@@ -6,7 +6,7 @@ import {
   isNullOrUndefined,
   isWhitespace,
   noop,
-} from '..';
+} from '@tonic-ui/utils/src';
 
 describe('Check whether the value is a blank string', () => {
   it('should return true', () => {

@@ -3,7 +3,7 @@ import {
   getOwnerDocument,
   getOwnerWindow,
   normalizeKeyboardEventKey,
-} from '..';
+} from '@tonic-ui/utils/src';
 
 test('should get window object', () => {
   expect(getOwnerWindow()).toBe(window);

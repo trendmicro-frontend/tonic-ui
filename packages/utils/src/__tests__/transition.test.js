@@ -4,7 +4,7 @@ import {
   getExitTransitionProps,
   transitionDuration,
   transitionEasing,
-} from '..';
+} from '@tonic-ui/utils/src';
 
 const defaultEasing = {
   enter: transitionEasing.easeInOut,
