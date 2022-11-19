@@ -1,3 +1,4 @@
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import ButtonBase from './ButtonBase';
 import { useButtonStyle } from './styles';
@@ -37,8 +38,8 @@ const Button = forwardRef((
   }
 
   const attributes = {
-    'aria-disabled': disabled,
-    'aria-selected': selected,
+    'aria-disabled': ariaAttr(disabled),
+    'aria-selected': ariaAttr(selected),
     type: 'button',
 
     // Disable the button if "disabled" is true

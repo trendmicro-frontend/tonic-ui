@@ -1,5 +1,5 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps } from '@tonic-ui/utils';
+import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Icon } from '../icon';
@@ -39,9 +39,9 @@ const Select = forwardRef((
   const iconWrapperProps = getIconWrapperProps();
 
   const ariaProps = {
-    'aria-disabled': rest.disabled,
-    'aria-invalid': error,
-    'aria-required': rest.required,
+    'aria-disabled': ariaAttr(rest.disabled),
+    'aria-invalid': ariaAttr(error),
+    'aria-required': ariaAttr(rest.required),
   };
   const multiple = rest.multiple;
   const styleProps = useSelectStyle({
@@ -67,7 +67,7 @@ const Select = forwardRef((
       </Box>
       {!multiple && (
         <Box
-          aria-disabled={rest.disabled}
+          aria-disabled={ariaAttr(rest.disabled)}
           disabled={rest.disabled}
           {...iconWrapperProps}
         >

@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { useCopyToClipboard } from '..';
+import { useCopyToClipboard } from '@tonic-ui/react-hooks/src';
 
 describe('useCopyToClipboard', () => {
   const originalClipboard = global.navigator.clipboard;

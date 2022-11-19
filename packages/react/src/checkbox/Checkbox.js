@@ -1,4 +1,4 @@
-import { callAll } from '@tonic-ui/utils';
+import { callAll, dataAttr } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import _get from 'lodash.get';
 import React, { forwardRef } from 'react';
@@ -107,7 +107,7 @@ const Checkbox = forwardRef((
         checked={checked}
         disabled={disabled}
         readOnly={readOnly}
-        data-indeterminate={indeterminate}
+        data-indeterminate={dataAttr(indeterminate)}
       />
       <ControlBox
         type="checkbox"

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useRef } from 'react';
-import { useEventListener } from '..';
+import { useEventListener } from '@tonic-ui/react-hooks/src';
 
 describe('useEventListener', () => {
   it('should be defined', () => {

@@ -1,4 +1,4 @@
-import { callEventHandlers } from '@tonic-ui/utils';
+import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -28,7 +28,7 @@ const MenuItem = forwardRef((
       role={role}
       tabIndex={-1}
       disabled={disabled}
-      aria-disabled={disabled}
+      aria-disabled={ariaAttr(disabled)}
       onClick={callEventHandlers(onClick, event => {
         if (disabled) {
           event.stopPropagation();

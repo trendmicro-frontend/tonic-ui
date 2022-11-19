@@ -1,4 +1,5 @@
 import { sx } from '@tonic-ui/styled-system';
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import Box from './Box';
 
@@ -26,19 +27,19 @@ const ControlBox = forwardRef((
   },
   ref,
 ) => {
+  const checked = `input[type=${type}]:checked + &`;
   const checkedAndDisabled = `input[type=${type}]:checked:disabled + &`;
   const checkedAndActive = `input[type=${type}]:checked:active:not(:disabled):not(:focus) + &`;
   const checkedAndHover = `input[type=${type}]:checked:hover:not(:disabled):not(:focus) + &`;
   const checkedAndFocus = `input[type=${type}]:checked:focus + &`;
-  const indeterminateAndDisabled = `input[type=${type}][data-indeterminate=true]:disabled + &`;
-  const indeterminateAndActive = `input[type=${type}][data-indeterminate=true]:active:not(:disabled):not(:focus) + &`;
-  const indeterminateAndHover = `input[type=${type}][data-indeterminate=true]:hover:not(:disabled):not(:focus) + &`;
-  const indeterminateAndFocus = `input[type=${type}][data-indeterminate=true]:focus + &`;
   const disabled = `input[type=${type}]:disabled + &`;
   const focus = `input[type=${type}]:focus + &`;
   const hover = `input[type=${type}]:hover:not(:disabled):not(:checked):not(:focus) + &`;
-  const checked = `input[type=${type}]:checked + &`;
-  const indeterminate = `input[type=${type}][data-indeterminate=true] + &`;
+  const indeterminate = `input[type=${type}][data-indeterminate] + &`;
+  const indeterminateAndDisabled = `input[type=${type}][data-indeterminate]:disabled + &`;
+  const indeterminateAndActive = `input[type=${type}][data-indeterminate]:active:not(:disabled):not(:focus) + &`;
+  const indeterminateAndHover = `input[type=${type}][data-indeterminate]:hover:not(:disabled):not(:focus) + &`;
+  const indeterminateAndFocus = `input[type=${type}][data-indeterminate]:focus + &`;
 
   css = [
     sx({
@@ -77,7 +78,7 @@ const ControlBox = forwardRef((
       justifyContent="center"
       transition="all 120ms"
       flexShrink="0"
-      aria-hidden={true}
+      aria-hidden={ariaAttr(true)}
       userSelect="none"
       {...rest}
     />

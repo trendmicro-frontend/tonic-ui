@@ -1,4 +1,4 @@
-import * as moduleExport from '../src';
+import * as moduleExport from '@tonic-ui/react-hooks/src';
 
 test('should match expected exports', () => {
   const receivedExports = Object.keys(moduleExport);

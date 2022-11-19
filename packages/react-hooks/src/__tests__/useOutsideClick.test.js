@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useRef } from 'react';
-import { useOutsideClick } from '..';
+import { useOutsideClick } from '@tonic-ui/react-hooks/src';
 
 const TestComponent = ({ onClickOutside, events }) => {
   const ref = useRef();

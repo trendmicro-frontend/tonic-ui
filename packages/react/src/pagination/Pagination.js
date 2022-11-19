@@ -1,3 +1,4 @@
+import { ariaAttr } from '@tonic-ui/utils';
 import React from 'react';
 import { Button, ButtonBase } from '../button';
 import { useColorMode } from '../color-mode';
@@ -62,8 +63,8 @@ const Pagination = ({
         return (
           <Button
             variant="ghost"
-            aria-disabled={item.disabled}
-            aria-selected={item.selected}
+            aria-disabled={ariaAttr(item.disabled)}
+            aria-selected={ariaAttr(item.selected)}
             disabled={item.disabled}
             key={`${item.page}-${item.type}`}
             onClick={item.onClick}

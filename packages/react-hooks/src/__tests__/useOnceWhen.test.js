@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { useRef, useState } from 'react';
-import { useOnceWhen } from '..';
+import { useOnceWhen } from '@tonic-ui/react-hooks/src';
 
 describe('useOnceWhen', () => {
   const useTestHook = () => {

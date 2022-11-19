@@ -1,5 +1,5 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
-import { isNullOrUndefined, warnDeprecatedProps } from '@tonic-ui/utils';
+import { ariaAttr, isNullOrUndefined, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';
@@ -43,7 +43,7 @@ const TabPanel = forwardRef((
   });
 
   const getTabPanelProps = () => ({
-    'aria-hidden': !isSelected,
+    'aria-hidden': ariaAttr(!isSelected),
     'aria-labelledby': tabId,
     hidden: !isSelected,
     id: tabPanelId,

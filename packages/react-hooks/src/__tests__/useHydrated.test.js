@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useHydrated } from '..';
+import { useHydrated } from '@tonic-ui/react-hooks/src';
 
 describe('useHydrated', () => {
   it('should be defined', () => {
