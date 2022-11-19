@@ -32,7 +32,7 @@
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
     "react-focus-lock": "2.x",
-    "react-is": "^16.8.0 || ^17 || ^18",
+    "react-is": "^16.14.0 || ^17 || ^18",
     "react-transition-group": "4.x"
   },
   "devDependencies": {
@@ -43,7 +43,7 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@emotion/babel-preset-css-prop": "^11.10.0",
+    "@emotion/babel-plugin": "^11.10.0",
     "@emotion/jest": "^11.10.0",
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
@@ -65,14 +65,14 @@
     "jest-axe": "^7.0.0",
     "jest-environment-jsdom": "^29.0.0",
     "jest-extended": "^3.1.0",
-    "react": "^16.8.0 || ^17 || ^18",
-    "react-dom": "^16.8.0 || ^17 || ^18",
-    "react-test-renderer": "^16.8.0 || ^17 || ^18",
+    "react": "^16.14.0 || ^17 || ^18",
+    "react-dom": "^16.14.0 || ^17 || ^18",
+    "react-test-renderer": "^16.14.0 || ^17 || ^18",
     "rollup": "^3"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17 || ^18",
-    "react-dom": "^16.8.0 || ^17 || ^18"
+    "react": "^16.14.0 || ^17 || ^18",
+    "react-dom": "^16.14.0 || ^17 || ^18"
   },
   "jest": {
     "collectCoverage": true,
@@ -90,6 +90,9 @@
     "setupFiles": [],
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
+    ],
+    "snapshotSerializers": [
+      "@emotion/jest/serializer"
     ],
     "testEnvironment": "jsdom",
     "testMatch": [

@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LinearProgress renders correctly 1`] = `
+@keyframes animation-0 {
+  0% {
+    left: -40%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -40%;
+  }
+
+  100% {
+    left: 100%;
+    right: -40%;
+  }
+}
+
+.emotion-0 {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.12);
+  height: .125rem;
+}
+
+.emotion-2 {
+  position: absolute;
+  inset: 0;
+  -webkit-animation: animation-0 1.6s linear .5s infinite;
+  animation: animation-0 1.6s linear .5s infinite;
+  background: #1e5ede;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+
+.emotion-4 {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.12);
+  height: .25rem;
+}
+
+.emotion-8 {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.12);
+  height: .5rem;
+}
+
+.emotion-12 {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.12);
+  height: .75rem;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    <div
+      aria-label="usage"
+      aria-valuemax="100"
+      aria-valuemin="0"
+      class="emotion-2 emotion-1"
+      role="progressbar"
+    />
+  </div>
+  <div
+    class="emotion-4 emotion-1"
+  >
+    <div
+      aria-label="usage"
+      aria-valuemax="100"
+      aria-valuemin="0"
+      class="emotion-2 emotion-1"
+      role="progressbar"
+    />
+  </div>
+  <div
+    class="emotion-8 emotion-1"
+  >
+    <div
+      aria-label="usage"
+      aria-valuemax="100"
+      aria-valuemin="0"
+      class="emotion-2 emotion-1"
+      role="progressbar"
+    />
+  </div>
+  <div
+    class="emotion-12 emotion-1"
+  >
+    <div
+      aria-label="usage"
+      aria-valuemax="100"
+      aria-valuemin="0"
+      class="emotion-2 emotion-1"
+      role="progressbar"
+    />
+  </div>
+</div>
+`;
