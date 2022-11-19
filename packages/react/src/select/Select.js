@@ -41,7 +41,7 @@ const Select = forwardRef((
   const ariaProps = {
     'aria-disabled': rest.disabled,
     'aria-invalid': ariaAttr(error),
-    'aria-required': rest.required,
+    'aria-required': ariaAttr(rest.required),
   };
   const multiple = rest.multiple;
   const styleProps = useSelectStyle({
