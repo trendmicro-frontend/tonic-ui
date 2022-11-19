@@ -34,7 +34,7 @@ const InputBase = forwardRef((
   const ariaProps = {
     'aria-disabled': rest.disabled,
     'aria-invalid': ariaAttr(error),
-    'aria-readonly': rest.readOnly,
+    'aria-readonly': ariaAttr(rest.readOnly),
     'aria-required': ariaAttr(rest.required),
   };
   const styleProps = useInputBaseStyle();
