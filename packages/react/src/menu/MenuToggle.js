@@ -76,7 +76,7 @@ const MenuToggle = forwardRef((
   const getMenuToggleProps = () => ({
     'aria-controls': menuId,
     'aria-disabled': ariaAttr(disabled),
-    'aria-expanded': isOpen,
+    'aria-expanded': ariaAttr(isOpen),
     'aria-haspopup': 'menu',
     disabled,
     id: menuToggleId,

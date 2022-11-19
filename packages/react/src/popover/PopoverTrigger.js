@@ -1,5 +1,5 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callEventHandlers } from '@tonic-ui/utils';
+import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
@@ -124,7 +124,7 @@ const PopoverTrigger = forwardRef((
         ...ownProps,
         'aria-haspopup': 'dialog',
         'aria-controls': popoverId,
-        'aria-expanded': isOpen,
+        'aria-expanded': ariaAttr(isOpen),
         ref: mergeRefs(combinedRef, ownRef),
         ...eventHandlerProps,
       };

@@ -68,7 +68,7 @@ const SubmenuToggle = forwardRef((
   const getSubmenuToggleProps = () => ({
     'aria-controls': submenuId,
     'aria-disabled': ariaAttr(disabled),
-    'aria-expanded': isOpen,
+    'aria-expanded': ariaAttr(isOpen),
     'aria-haspopup': 'menu',
     disabled,
     id: submenuToggleId,
