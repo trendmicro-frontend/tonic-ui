@@ -1,5 +1,5 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
-import { callEventHandlers, isNullOrUndefined, warnDeprecatedProps } from '@tonic-ui/utils';
+import { ariaAttr, callEventHandlers, isNullOrUndefined, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';
@@ -56,7 +56,7 @@ const Tab = forwardRef((
 
   const getTabProps = () => ({
     'aria-controls': tabPanelId,
-    'aria-selected': isSelected,
+    'aria-selected': ariaAttr(isSelected),
     'data-index': index,
     disabled,
     id: tabId,
