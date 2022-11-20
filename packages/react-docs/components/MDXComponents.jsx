@@ -1,5 +1,5 @@
+import styled from '@emotion/styled';
 import React from 'react';
-import { css } from '@emotion/react';
 import {
   Box,
   Image,
@@ -152,7 +152,7 @@ const H6 = props => {
   );
 };
 
-const Blockquote = props => {
+const Blockquote = styled(props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const backgroundColor = {
@@ -178,15 +178,14 @@ const Blockquote = props => {
       mb="4x"
       px="4x"
       py="3x"
-      css={css`
-        p {
-          margin-bottom: 0;
-        }
-      `}
       {...props}
     />
   );
-};
+})`
+  > p {
+    margin-bottom: 0;
+  }
+`;
 
 const ul = props => (
   <Box
@@ -226,10 +225,8 @@ const table = props => (
     mb="4x"
     fontSize="md"
     lineHeight="lg"
-    css={css`
-      border-spacing: 0;
-      border-collapse: collapse;
-    `}
+    borderSpacing={0}
+    borderCollapse="collapse"
     {...props}
   />
 );

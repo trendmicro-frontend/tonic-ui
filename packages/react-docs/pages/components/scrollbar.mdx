@@ -368,12 +368,12 @@ function ScrollableTable() {
     headerGroups,
     rows,
     prepareRow
-  } = useTable(
+  } = ReactTable.useTable(
     {
       columns,
       data,
     },
-    useBlockLayout,
+    ReactTable.useBlockLayout,
   );
   
   return (
