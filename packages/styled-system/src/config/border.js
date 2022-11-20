@@ -1,7 +1,10 @@
 import system from '../core/system';
 
-const group = 'border';
-const config = {
+const _border = {
+  /**
+   * The border shorthand CSS property sets an element's border.
+   * It sets the values of border-width, border-style, and border-color.
+   */
   border: {
     property: 'border',
     scale: 'borders',
@@ -15,10 +18,13 @@ const config = {
     property: 'borderColor',
     scale: 'colors',
   },
-  borderRadius: {
-    property: 'borderRadius',
-    scale: 'radii',
-  },
+};
+
+const _borderTop = {
+  /**
+   * The border-top shorthand CSS property sets all the properties of an element's top border.
+   * It sets the values of border-top-width, border-top-style and border-top-color.
+   */
   borderTop: {
     property: 'borderTop',
     scale: 'borders',
@@ -32,14 +38,13 @@ const config = {
     property: 'borderTopColor',
     scale: 'colors',
   },
-  borderTopLeftRadius: {
-    property: 'borderTopLeftRadius',
-    scale: 'radii',
-  },
-  borderTopRightRadius: {
-    property: 'borderTopRightRadius',
-    scale: 'radii',
-  },
+};
+
+const _borderRight = {
+  /**
+   * The border-right shorthand CSS property sets all the properties of an element's right border.
+   * It sets the values of border-right-width, border-right-style and border-right-color.
+   */
   borderRight: {
     property: 'borderRight',
     scale: 'borders',
@@ -53,6 +58,13 @@ const config = {
     property: 'borderRightColor',
     scale: 'colors',
   },
+};
+
+const _borderBottom = {
+  /**
+   * The border-bottom shorthand CSS property sets an element's bottom border.
+   * It sets the values of border-bottom-width, border-bottom-style and border-bottom-color.
+   */
   borderBottom: {
     property: 'borderBottom',
     scale: 'borders',
@@ -66,14 +78,13 @@ const config = {
     property: 'borderBottomColor',
     scale: 'colors',
   },
-  borderBottomLeftRadius: {
-    property: 'borderBottomLeftRadius',
-    scale: 'radii',
-  },
-  borderBottomRightRadius: {
-    property: 'borderBottomRightRadius',
-    scale: 'radii',
-  },
+};
+
+const _borderLeft = {
+  /**
+   * The border-left shorthand CSS property sets all the properties of an element's left border.
+   * It sets the values of border-left-width, border-left-style and border-left-color.
+   */
   borderLeft: {
     property: 'borderLeft',
     scale: 'borders',
@@ -87,6 +98,44 @@ const config = {
     property: 'borderLeftColor',
     scale: 'colors',
   },
+};
+
+const _borderRadius = {
+  /**
+   * The border-radius shorthand CSS property sets the rounding of an element's corners.
+   * It sets the values of border-top-left-radius, border-top-right-radius, border-bottom-right-radius, and border-bottom-left-radius.
+   */
+  borderRadius: {
+    property: 'borderRadius',
+    scale: 'radii',
+  },
+  borderTopLeftRadius: {
+    property: 'borderTopLeftRadius',
+    scale: 'radii',
+  },
+  borderTopRightRadius: {
+    property: 'borderTopRightRadius',
+    scale: 'radii',
+  },
+  borderBottomLeftRadius: {
+    property: 'borderBottomLeftRadius',
+    scale: 'radii',
+  },
+  borderBottomRightRadius: {
+    property: 'borderBottomRightRadius',
+    scale: 'radii',
+  },
+};
+
+const group = 'border';
+const config = {
+  ..._border,
+  ..._borderTop,
+  ..._borderRight,
+  ..._borderBottom,
+  ..._borderLeft,
+  ..._borderRadius,
+
   borderX: {
     properties: ['borderLeft', 'borderRight'],
     scale: 'borders',
