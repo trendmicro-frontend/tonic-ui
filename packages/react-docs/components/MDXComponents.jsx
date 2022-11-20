@@ -218,20 +218,18 @@ const li = props => (
   />
 );
 
-const table = styled(props => (
+const table = props => (
   <Box
     as="table"
     mt={0}
     mb="4x"
     fontSize="md"
     lineHeight="lg"
+    borderCollapse="collapse"
+    borderSpacing={0}
     {...props}
   />
-))`
-  // TODO: add style props for "borderCollapse" and "borderSpacing"
-  border-spacing: 0;
-  border-collapse: collapse;
-`;
+);
 
 const thead = props => (
   <Box
