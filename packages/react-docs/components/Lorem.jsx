@@ -1,15 +1,15 @@
-import { loremIpsum } from 'lorem-ipsum';
-import React, { forwardRef } from 'react';
+import styled from '@emotion/styled';
 import {
   Box,
   useColorMode,
 } from '@tonic-ui/react';
+import { loremIpsum } from 'lorem-ipsum';
+import React, { forwardRef } from 'react';
 
 const Lorem = forwardRef((
   {
     variant = 'default',
     count = 1,
-    css,
     ...rest
   },
   ref,
@@ -36,22 +36,9 @@ const Lorem = forwardRef((
     },
   }[variant];
 
-  css = [
-    css,
-    {
-      '> *:first-child': {
-        marginTop: 0,
-      },
-      '> *:last-child': {
-        marginBottom: 0,
-      },
-    },
-  ];
-
   return (
     <Box
       ref={ref}
-      css={css}
       dangerouslySetInnerHTML={{ __html: html }}
       {...styleProps}
       {...rest}
@@ -61,4 +48,11 @@ const Lorem = forwardRef((
 
 Lorem.displayName = 'Lorem';
 
-export default Lorem;
+export default styled(Lorem)`
+  > *:first-child {
+    margin-top: 0;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+`;
