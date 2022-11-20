@@ -1,4 +1,5 @@
 import system from '../core/system';
+import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
 
 const _border = {
   /**
@@ -9,14 +10,14 @@ const _border = {
     property: 'border',
     scale: 'borders',
   },
-  borderWidth: {
-    property: 'borderWidth',
-    scale: 'sizes',
-  },
-  borderStyle: true,
   borderColor: {
     property: 'borderColor',
     scale: 'colors',
+  },
+  borderStyle: true,
+  borderWidth: {
+    property: 'borderWidth',
+    scale: 'sizes',
   },
 };
 
@@ -29,14 +30,14 @@ const _borderTop = {
     property: 'borderTop',
     scale: 'borders',
   },
-  borderTopWidth: {
-    property: 'borderTopWidth',
-    scale: 'sizes',
-  },
-  borderTopStyle: true,
   borderTopColor: {
     property: 'borderTopColor',
     scale: 'colors',
+  },
+  borderTopStyle: true,
+  borderTopWidth: {
+    property: 'borderTopWidth',
+    scale: 'sizes',
   },
 };
 
@@ -49,14 +50,14 @@ const _borderRight = {
     property: 'borderRight',
     scale: 'borders',
   },
-  borderRightWidth: {
-    property: 'borderRightWidth',
-    scale: 'sizes',
-  },
-  borderRightStyle: true,
   borderRightColor: {
     property: 'borderRightColor',
     scale: 'colors',
+  },
+  borderRightStyle: true,
+  borderRightWidth: {
+    property: 'borderRightWidth',
+    scale: 'sizes',
   },
 };
 
@@ -69,14 +70,14 @@ const _borderBottom = {
     property: 'borderBottom',
     scale: 'borders',
   },
-  borderBottomWidth: {
-    property: 'borderBottomWidth',
-    scale: 'sizes',
-  },
-  borderBottomStyle: true,
   borderBottomColor: {
     property: 'borderBottomColor',
     scale: 'colors',
+  },
+  borderBottomStyle: true,
+  borderBottomWidth: {
+    property: 'borderBottomWidth',
+    scale: 'sizes',
   },
 };
 
@@ -89,14 +90,14 @@ const _borderLeft = {
     property: 'borderLeft',
     scale: 'borders',
   },
-  borderLeftWidth: {
-    property: 'borderLeftWidth',
-    scale: 'sizes',
-  },
-  borderLeftStyle: true,
   borderLeftColor: {
     property: 'borderLeftColor',
     scale: 'colors',
+  },
+  borderLeftStyle: true,
+  borderLeftWidth: {
+    property: 'borderLeftWidth',
+    scale: 'sizes',
   },
 };
 
@@ -125,6 +126,135 @@ const _borderRadius = {
     property: 'borderBottomRightRadius',
     scale: 'radii',
   },
+  borderEndEndRadius: {
+    property: 'borderEndEndRadius',
+    scale: 'radii',
+  },
+  borderEndStartRadius: {
+    property: 'borderEndStartRadius',
+    scale: 'radii',
+  },
+  borderStartEndRadius: {
+    property: 'borderStartEndRadius',
+    scale: 'radii',
+  },
+  borderStartStartRadius: {
+    property: 'borderStartStartRadius',
+    scale: 'radii',
+  },
+};
+
+const _borderBlock = {
+  /**
+   * The border-block CSS property is a shorthand property for setting the individual logical block border property values in a single place in the style sheet.
+   */
+  borderBlock: {
+    property: 'borderBlock',
+    scale: 'borders',
+  },
+  borderBlockColor: {
+    property: 'borderBlockColor',
+    scale: 'colors',
+  },
+  borderBlockStyle: true,
+  borderBlockWidth: {
+    property: 'borderBlockWidth',
+    scale: 'sizes',
+  },
+  borderBlockEnd: {
+    property: 'borderBlockEnd',
+    scale: 'borders',
+  },
+  borderBlockEndColor: {
+    property: 'borderBlockEndColor',
+    scale: 'colors',
+  },
+  borderBlockEndStyle: true,
+  borderBlockEndWidth: {
+    property: 'borderBlockEndWidth',
+    scale: 'sizes',
+  },
+  borderBlockStart: {
+    property: 'borderBlockStart',
+    scale: 'borders',
+  },
+  borderBlockStartColor: {
+    property: 'borderBlockStartColor',
+    scale: 'colors',
+  },
+  borderBlockStartStyle: true,
+  borderBlockStartWidth: {
+    property: 'borderBlockStartWidth',
+    scale: 'sizes',
+  },
+};
+
+const _borderImage = {
+  /**
+   * The border-image shorthand CSS property draws an image around a given element. It replaces the element's regular border.
+   */
+  borderImage: true,
+  borderImageOutset: {
+    property: 'borderImageOutset',
+    scale: 'space',
+    transform: positiveOrNegativeTransform, // multi-value
+  },
+  borderImageRepeat: true,
+  borderImageSlice: {
+    property: 'borderImageSlice',
+    scale: 'space',
+    transform: positiveOrNegativeTransform, // multi-value
+  },
+  borderImageSource: true,
+  borderImageWidth: {
+    property: 'borderImageWidth',
+    scale: 'sizes',
+  },
+};
+
+const _borderInline = {
+  /**
+   * The border-inline CSS property is a shorthand property for setting the individual logical inline border property values in a single place in the style sheet.
+   */
+  borderInline: {
+    property: 'borderInline',
+    scale: 'borders',
+  },
+  borderInlineColor: {
+    property: 'borderInlineColor',
+    scale: 'colors',
+  },
+  borderInlineStyle: true,
+  borderInlineWidth: {
+    property: 'borderInlineWidth',
+    scale: 'sizes',
+  },
+  borderInlineEnd: {
+    property: 'borderInlineEnd',
+    scale: 'borders',
+  },
+  borderInlineEndColor: {
+    property: 'borderInlineEndColor',
+    scale: 'colors',
+  },
+  borderInlineEndStyle: true,
+  borderInlineEndWidth: {
+    property: 'borderInlineEndWidth',
+    scale: 'sizes',
+  },
+  borderInlineStart: {
+    property: 'borderInlineStart',
+    scale: 'borders',
+  },
+  borderInlineStartColor: {
+    property: 'borderInlineStartColor',
+    scale: 'colors',
+  },
+  borderInlineStartStyle: true,
+  borderInlineStartWidth: {
+    property: 'borderInlineStartWidth',
+    scale: 'sizes',
+  },
 };
 
 const group = 'border';
@@ -135,6 +265,15 @@ const config = {
   ..._borderBottom,
   ..._borderLeft,
   ..._borderRadius,
+  ..._borderBlock,
+  ..._borderImage,
+  ..._borderInline,
+
+  borderCollapse: true,
+  borderSpacing: {
+    property: 'borderSpacing',
+    scale: 'sizes',
+  },
 
   borderX: {
     properties: ['borderLeft', 'borderRight'],
