@@ -200,9 +200,6 @@ const CodeBlock = ({
       <LiveProvider {...liveProviderProps}>
         <LiveEditor
           style={liveEditorStyle}
-          css={css`
-            & > textarea { outline: 0; }
-          `}
         />
       </LiveProvider>
     );
@@ -233,9 +230,6 @@ const CodeBlock = ({
           <LiveEditor
             onChange={handleLiveEditorChange}
             style={liveEditorStyle}
-            css={css`
-              & > textarea { outline: 0; }
-            `}
           />
         </Collapse>
       </Fade>
