@@ -45,7 +45,7 @@ const PaginationItem = forwardRef((
     ...defaultSlot,
     ...slotProp,
   };
-  const styleProps = usePaginationItemStyle();
+  const styleProps = usePaginationItemStyle({ type });
 
   return (
     <Button
