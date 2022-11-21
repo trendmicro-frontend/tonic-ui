@@ -273,6 +273,7 @@ const routes = [
       },
       { title: 'Menu', path: 'components/menu' },
       { title: 'Pagination', path: 'components/pagination' },
+      { title: 'Pagination / usePagination', path: 'components/pagination/usePagination' },
       { title: 'Tabs', path: 'components/tabs' },
 
       { title: 'TRANSITIONS', heading: true },
