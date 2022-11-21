@@ -1,0 +1,76 @@
+# usePagination
+
+The `usePagination` Hook is provided for advanced customization use cases. It accepts almost the same options as the `Pagination` component except for the props related to JSX rendering. The `Pagination` component is built on top of this Hook.
+
+```js
+// import
+import { usePagination } from '@tonic-ui/react';
+
+// usage
+const { items } = usePagination({ count: 10 });
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| boundaryCount | number | 1 | Number of always visible pages at the beginning and end. |
+| count | number | 1 | Total number of pages. |
+| defaultPage | number | 1 | The page selected by default when the component is uncontrolled. |
+| disabled | boolean | false | If `true`, the component is disabled. |
+| onChange | function | | Callback fired when the page is changed. <br /><br /> Signature: <br /> `function(event: object, page: number) => void` <br />event: The event source of the callback. <br />page: The page selected. |
+| page | number | | The current page. |
+| siblingCount | number | 1 | Number of always visible pages before and after the current page. |
+| slot | `{ first?: boolean, last?: boolean, previous?: boolean, next?: boolean }` | `{ first: false, last: false, previous: true, next: true }` | Whether to render the first-page, last-page, previous-page, and next-page buttons. |
+
+### Returns
+
+Returns an object with the pagination items.
+
+### Example
+
+```jsx
+function Example() {
+  const { items } = usePagination({
+    count: 10,
+    slot: {
+      first: true,
+      previous: true,
+      next: true,
+      last: true,
+    },
+  });
+
+  return (
+    <Box as="nav">
+      <Flex alignItems="center" columnGap="2x">
+        {items.map(({ page, type, selected, ...item }, index) => {
+          let children = null;
+
+          if (type === 'start-ellipsis' || type === 'end-ellipsis') {
+            children = '…';
+          } else if (type === 'page') {
+            children = (
+              <Button selected={selected} {...item}>
+                {page}
+              </Button>
+            );
+          } else {
+            children = (
+              <Button {...item}>
+                {type}
+              </Button>
+            );
+          }
+
+          return (
+            <React.Fragment key={index}>
+              {children}
+            </React.Fragment>
+          );
+        })}
+      </Flex>
+    </Box>
+  );
+}
+```

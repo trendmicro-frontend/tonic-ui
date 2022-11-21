@@ -225,8 +225,8 @@ const table = props => (
     mb="4x"
     fontSize="md"
     lineHeight="lg"
-    borderSpacing={0}
     borderCollapse="collapse"
+    borderSpacing={0}
     {...props}
   />
 );

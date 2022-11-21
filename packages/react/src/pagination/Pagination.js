@@ -1,82 +1,122 @@
-import { ariaAttr } from '@tonic-ui/utils';
-import React from 'react';
-import { Button, ButtonBase } from '../button';
-import { useColorMode } from '../color-mode';
-import { useTheme } from '../theme';
-import { usePaginationButtonStyle } from './styles';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnRemovedProps } from '@tonic-ui/utils';
+import React, { Fragment, forwardRef } from 'react';
+import { Box } from '../box';
+import { usePaginationStyle } from './styles';
+import PaginationItem from './PaginationItem';
 import usePagination from './usePagination';
 
-const Pagination = ({
-  ellipsisLabel = '...',
-  firstButton = false,
-  lastButton = false,
-  prevButton = '<',
-  nextButton = '>',
-  ...rest
-}) => {
+const Pagination = forwardRef((
+  {
+    firstButton: firstButtonProp, // removed
+    lastButton: lastButtonProp, // removed
+    prevButton: prevButtonProp, // removed
+    nextButton: nextButtonProp, // removed
+    ellipsisLabel: ellipsisLabelProp, // removed
+    boundaryCount = 1,
+    count = 1,
+    defaultPage = 1,
+    disabled,
+    onChange,
+    page,
+    renderItem = (item) => <PaginationItem {...item} />,
+    siblingCount = 1,
+    slot,
+    ...rest
+  },
+  ref,
+) => {
+  { // deprecation warning
+    const prefix = `${Pagination.displayName}:`;
+
+    useOnceWhen(() => {
+      warnRemovedProps('firstButton', {
+        prefix,
+        alternative: [`slot={{ first: ${!!firstButtonProp} }}`, 'renderItem'],
+      });
+    }, (firstButtonProp !== undefined));
+
+    useOnceWhen(() => {
+      warnRemovedProps('lastButton', {
+        prefix,
+        alternative: [`slot={{ last: ${!!lastButtonProp} }}`, 'renderItem'],
+      });
+    }, (lastButtonProp !== undefined));
+
+    useOnceWhen(() => {
+      warnRemovedProps('prevButton', {
+        prefix,
+        alternative: [`slot={{ previous: ${!!prevButtonProp} }}`, 'renderItem'],
+      });
+    }, (prevButtonProp !== undefined));
+
+    useOnceWhen(() => {
+      warnRemovedProps('nextButton', {
+        prefix,
+        alternative: [`slot={{ next: ${!!nextButtonProp} }}`, 'renderItem'],
+      });
+    }, (nextButtonProp !== undefined));
+
+    useOnceWhen(() => {
+      warnRemovedProps('ellipsisLabel', {
+        prefix,
+        alternative: ['renderItem'],
+      });
+    }, (ellipsisLabelProp !== undefined));
+
+    if (firstButtonProp !== undefined) {
+      slot = {
+        ...slot,
+        first: !!firstButtonProp,
+      };
+    }
+    if (lastButtonProp !== undefined) {
+      slot = {
+        ...slot,
+        last: !!lastButtonProp,
+      };
+    }
+    if (prevButtonProp !== undefined) {
+      slot = {
+        ...slot,
+        previous: !!prevButtonProp,
+      };
+    }
+    if (nextButtonProp !== undefined) {
+      slot = {
+        ...slot,
+        next: !!nextButtonProp,
+      };
+    }
+  }
+
   const { items } = usePagination({
-    ...rest,
-    hideNextButton: !nextButton,
-    hidePrevButton: !prevButton,
-    showFirstButton: !!firstButton,
-    showLastButton: !!lastButton,
+    boundaryCount,
+    componentName: Pagination.displayName,
+    count,
+    defaultPage,
+    disabled,
+    onChange,
+    page,
+    siblingCount,
+    slot,
   });
-  const [colorMode] = useColorMode();
-  const { sizes } = useTheme();
-  const paginationButtonStyleProps = usePaginationButtonStyle();
+  const styleProps = usePaginationStyle();
 
   return (
-    <>
-      {items.map((item, index) => {
-        let label;
-        if (item.type === 'first') {
-          label = firstButton;
-        } else if (item.type === 'last') {
-          label = lastButton;
-        } else if (item.type === 'previous') {
-          label = prevButton;
-        } else if (item.type === 'start-ellipsis' || item.type === 'end-ellipsis') {
-          const space = sizes['3x'];
-          const ellipsisOpacity = {
-            dark: 0.28,
-            light: 0.3,
-          }[colorMode];
-          return (
-            <ButtonBase
-              key={`${item.page}-${item.type}`}
-              cursor="default"
-              disabled={item.disabled}
-              _disabled={{
-                opacity: ellipsisOpacity
-              }}
-              px={space}
-            >
-              {ellipsisLabel}
-            </ButtonBase>
-          );
-        } else if (item.type === 'next') {
-          label = nextButton;
-        } else {
-          label = item.page;
-        }
-
-        return (
-          <Button
-            variant="ghost"
-            aria-disabled={ariaAttr(item.disabled)}
-            aria-selected={ariaAttr(item.selected)}
-            disabled={item.disabled}
-            key={`${item.page}-${item.type}`}
-            onClick={item.onClick}
-            {...paginationButtonStyleProps}
-          >
-            {label}
-          </Button>
-        );
-      })}
-    </>
+    <Box
+      ref={ref}
+      {...styleProps}
+      {...rest}
+    >
+      {items.map((item, index) => (
+        <Fragment key={`${item.type}-${item.page}`}>
+          {renderItem({ ...item })}
+        </Fragment>
+      ))}
+    </Box>
   );
-};
+});
 
 Pagination.displayName = 'Pagination';
 

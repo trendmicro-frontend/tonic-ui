@@ -126,6 +126,7 @@ test('should match expected exports', () => {
 
     // pagination
     'Pagination',
+    'PaginationItem',
     'usePagination',
 
     // popover

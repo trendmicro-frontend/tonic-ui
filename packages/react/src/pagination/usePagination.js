@@ -1,31 +1,53 @@
-import useControlled from '../utils/useControlled';
+import { useEffect, useState } from 'react';
+import { attachProxyOnce } from '../utils/proxy';
 
-export default function usePagination(props = {}) {
+const defaultSlot = {
+  first: false,
+  previous: true,
+  next: true,
+  last: false,
+};
+
+const usePagination = (props) => {
   const {
     boundaryCount = 1,
+    componentName = 'usePagination',
     count = 1,
-    defaultPage = 1,
+    defaultPage: defaultPageProp = 1,
     disabled = false,
-    hideNextButton = false,
-    hidePrevButton = false,
-    onChange: handleChange,
+    onChange,
     page: pageProp,
-    showFirstButton = false,
-    showLastButton = false,
     siblingCount = 1,
-  } = props;
+    slot: slotProp,
+  } = { ...props };
+  const [page, setPage] = useState(pageProp ?? defaultPageProp);
+  const slot = {
+    ...defaultSlot,
+    ...slotProp,
+  };
 
-  const [page, setPageState] = useControlled({
-    controlled: pageProp,
-    default: defaultPage,
-  });
-
-  const handleClick = (event, value) => {
-    if (!pageProp) {
-      setPageState(value);
+  useEffect(() => {
+    const isControlled = (pageProp !== undefined);
+    if (isControlled) {
+      setPage(pageProp);
     }
-    if (handleChange) {
-      handleChange(event, value);
+  }, [pageProp]);
+
+  const handleClickByPageNumber = (value) => (event) => {
+    const isControlled = (pageProp !== undefined);
+    if (!isControlled) {
+      setPage(value);
+    }
+
+    if (typeof onChange === 'function') {
+      // deprecation warning
+      const proxiedEvent = attachProxyOnce(event, () => {
+        console.warn(
+          `${componentName} "onChange(event, page)" is deprecated and will be changed to "onChange(page)" in the next major release.`,
+        );
+      });
+
+      onChange(proxiedEvent, value);
     }
   };
 
@@ -38,7 +60,7 @@ export default function usePagination(props = {}) {
   const startPages = range(1, Math.min(boundaryCount, count));
   const endPages = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
 
-  const siblingsStart = Math.max(
+  const siblingStart = Math.max(
     Math.min(
       // Natural start
       page - siblingCount,
@@ -49,7 +71,7 @@ export default function usePagination(props = {}) {
     boundaryCount + 2,
   );
 
-  const siblingsEnd = Math.min(
+  const siblingEnd = Math.min(
     Math.max(
       // Natural end
       page + siblingCount,
@@ -62,79 +84,86 @@ export default function usePagination(props = {}) {
 
   // Basic list of items to render
   // e.g. itemList = ['first', 'previous', 1, 'ellipsis', 4, 5, 6, 'ellipsis', 10, 'next', 'last']
-  const itemList = [
-    ...(showFirstButton ? ['first'] : []),
-    ...(hidePrevButton ? [] : ['previous']),
-    ...startPages,
+  const paginationItems = [
+    ...(slot.first ? [{ type: 'first' }] : []),
+    ...(slot.previous ? [{ type: 'previous' }] : []),
+    ...startPages.map(page => ({ type: 'page', value: page })),
 
     // Start ellipsis
     // eslint-disable-next-line no-nested-ternary
-    ...(siblingsStart > boundaryCount + 2
-      ? ['start-ellipsis']
-      : boundaryCount + 1 < count - boundaryCount
-        ? [boundaryCount + 1]
-        : []),
+    ...((siblingStart > boundaryCount + 2)
+      ? [{ type: 'start-ellipsis' }]
+      : (boundaryCount + 1 < count - boundaryCount) ? [{ type: 'page', value: boundaryCount + 1 }] : []
+    ),
 
     // Sibling pages
-    ...range(siblingsStart, siblingsEnd),
+    ...range(siblingStart, siblingEnd).map(page => ({ type: 'page', value: page })),
 
     // End ellipsis
     // eslint-disable-next-line no-nested-ternary
-    ...(siblingsEnd < count - boundaryCount - 1
-      ? ['end-ellipsis']
-      : count - boundaryCount > boundaryCount
-        ? [count - boundaryCount]
-        : []),
+    ...((siblingEnd < count - boundaryCount - 1)
+      ? [{ type: 'end-ellipsis' }]
+      : (count - boundaryCount > boundaryCount) ? [{ type: 'page', value: count - boundaryCount }] : []
+    ),
 
-    ...endPages,
-    ...(hideNextButton ? [] : ['next']),
-    ...(showLastButton ? ['last'] : []),
+    ...endPages.map(page => ({ type: 'page', value: page })),
+    ...(slot.next ? [{ type: 'next' }] : []),
+    ...(slot.last ? [{ type: 'last' }] : []),
   ];
 
-  // Map the button type to its page number
-  const buttonPage = (type) => {
-    switch (type) {
-    case 'first':
+  const mapPageTypeToPageNumber = (pageType) => {
+    if (pageType === 'first') {
       return 1;
-    case 'previous':
-      return page - 1;
-    case 'next':
-      return page + 1;
-    case 'last':
-      return count;
-    default:
-      return null;
     }
+    if (pageType === 'previous') {
+      return Math.max(page - 1, 1);
+    }
+    if (pageType === 'start-ellipsis') {
+      return Math.max(siblingStart - (siblingCount + 1), 1);
+    }
+    if (pageType === 'end-ellipsis') {
+      return Math.min(siblingEnd + (siblingCount + 1), count);
+    }
+    if (pageType === 'next') {
+      return Math.min(page + 1, count);
+    }
+    if (pageType === 'last') {
+      return count;
+    }
+    return null;
   };
 
-  // Convert the basic item list to PaginationItem props objects
-  const items = itemList.map((item) => {
-    return typeof item === 'number'
-      ? {
-        onClick: (event) => {
-          handleClick(event, item);
-        },
+  const items = paginationItems.map(paginationItem => {
+    if (paginationItem.type === 'page') {
+      const isDisabled = !!disabled;
+      const pageNumber = paginationItem.value;
+
+      return {
         type: 'page',
-        page: item,
-        selected: item === page,
-        disabled,
-        'aria-current': item === page ? 'true' : undefined,
-      }
-      : {
-        onClick: (event) => {
-          handleClick(event, buttonPage(item));
-        },
-        type: item,
-        page: buttonPage(item),
-        selected: false,
-        disabled:
-          disabled ||
-          (item.indexOf('ellipsis') === -1 &&
-            (item === 'next' || item === 'last' ? page >= count : page <= 1)),
+        page: pageNumber,
+        disabled: isDisabled,
+        selected: paginationItem.value === page,
+        onClick: handleClickByPageNumber(pageNumber),
       };
+    }
+
+    const isDisabled = !!disabled
+      || (['first', 'previous'].includes(paginationItem.type) && (page <= 1))
+      || (['next', 'last'].includes(paginationItem.type) && (page >= count));
+    const pageNumber = mapPageTypeToPageNumber(paginationItem.type);
+
+    return {
+      type: paginationItem.type,
+      page: pageNumber,
+      disabled: isDisabled,
+      selected: false,
+      onClick: handleClickByPageNumber(pageNumber),
+    };
   });
 
   return {
     items,
   };
-}
+};
+
+export default usePagination;

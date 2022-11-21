@@ -3,30 +3,11 @@ import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
 import config from '../shared/config';
+import { attachProxyOnce } from '../utils/proxy';
 import useAutoId from '../utils/useAutoId';
 import { CheckboxGroupContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
-
-const attachProxyOnce = (() => {
-  let called = false;
-  return (target, fn) => {
-    if (called) {
-      return target;
-    }
-
-    const handler = {
-      get: (...args) => {
-        if (!called) {
-          fn?.();
-          called = true;
-        }
-        return Reflect.get(...args);
-      }
-    };
-    return new Proxy(target, handler);
-  };
-})();
 
 const CheckboxGroup = ({
   children,

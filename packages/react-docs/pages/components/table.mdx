@@ -254,12 +254,12 @@ function BaseTable() {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable(
+  } = ReactTable.useTable(
     {
       columns,
       data,
     },
-    useBlockLayout,
+    ReactTable.useBlockLayout,
   );
 
   return (
@@ -368,13 +368,13 @@ function SelectableTable() {
     prepareRow,
     selectedFlatRows,
     state: { selectedRowIds },
-  } = useTable(
+  } = ReactTable.useTable(
     {
       columns,
       data,
     },
-    useBlockLayout,
-    useRowSelect,
+    ReactTable.useBlockLayout,
+    ReactTable.useRowSelect,
     hooks => {
       hooks.visibleColumns.push(columns => [
         {
@@ -507,15 +507,15 @@ function SortableTable() {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable(
+  } = ReactTable.useTable(
     {
       columns,
       data,
       // useSortBy
       disableSortRemove: true,
     },
-    useBlockLayout,
-    useSortBy,
+    ReactTable.useBlockLayout,
+    ReactTable.useSortBy,
   );
 
   return (
@@ -658,13 +658,13 @@ function ResizableTable() {
     rows,
     prepareRow,
     resetResizing,
-  } = useTable(
+  } = ReactTable.useTable(
     {
       columns,
       data,
     },
-    useBlockLayout,
-    useResizeColumns,
+    ReactTable.useBlockLayout,
+    ReactTable.useResizeColumns,
   );
 
   const [hoveredResizerId, setHoveredResizerId] = React.useState();
@@ -904,12 +904,12 @@ function ScrollableTable() {
     headerGroups,
     rows,
     prepareRow
-  } = useTable(
+  } = ReactTable.useTable(
     {
       columns,
       data,
     },
-    useBlockLayout,
+    ReactTable.useBlockLayout,
   );
 
   return (
@@ -1073,17 +1073,17 @@ function FullWidthTable() {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable(
+  } = ReactTable.useTable(
     {
       columns,
       data,
     },
-    useBlockLayout,
+    ReactTable.useBlockLayout,
   );
 
   return (
     <Box height={300} overflow="auto">
-      <AutoSizer>
+      <ReactVirtualized.AutoSizer>
         {({ height, width }) => {
           if (height === 0 || width === 0) {
             return null;
@@ -1144,7 +1144,7 @@ function FullWidthTable() {
             </Table>
           );
         }}
-      </AutoSizer>
+      </ReactVirtualized.AutoSizer>
     </Box>
   );
 }
@@ -1251,10 +1251,8 @@ render(<ReactMovableExample />);
 In this example, we use [`react-dnd`](https://github.com/react-dnd/react-dnd) to move table rows.
 
 `import { DndProvider, useDrop, useDragLayer } from 'react-dnd';`
-
 `import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend';`
-
-`import update from 'immutability-helper';`
+`import immutableUpdate from 'immutability-helper';`
 
 
 ```jsx noInline
@@ -1398,7 +1396,7 @@ function ReactDNDExample() {
   ]);
   const moveTr = React.useCallback((dragIndex, hoverIndex) => {
     const dragCard = items[dragIndex];
-    setItems(update(items, {
+    setItems(immutableUpdate(items, {
       $splice: [
         [dragIndex, 1],
         [hoverIndex, 0, dragCard],
@@ -1532,14 +1530,14 @@ function ReorderColumnTable() {
     prepareRow,
     allColumns,
     setColumnOrder,
-  } = useTable(
+  } = ReactTable.useTable(
     {
       columns,
       data,
       defaultColumn,
     },
     useColumnOrder,
-    useBlockLayout,
+    ReactTable.useBlockLayout,
   );
 
   const currentColOrder = React.useRef();

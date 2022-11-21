@@ -40,6 +40,7 @@ const Button = forwardRef((
   const attributes = {
     'aria-disabled': ariaAttr(disabled),
     'aria-selected': ariaAttr(selected),
+
     type: 'button',
 
     // Disable the button if "disabled" is true

@@ -9,7 +9,7 @@ describe('Skeleton', () => {
       const { container } = render(
         <DarkMode>
           <Skeleton data-testid="text" variant="text" width={120} />
-          <Skeleton data-testid="rect" variant="rect" width={120} height={40} />
+          <Skeleton data-testid="rectangle" variant="rectangle" width={120} height={40} />
           <Skeleton data-testid="circle" variant="circle" width="10x" height="10x" />
         </DarkMode>
       );
@@ -22,8 +22,8 @@ describe('Skeleton', () => {
         height: '.75rem',
         width: '120px',
       });
-      // rect
-      expect(getByTestId(container, 'rect')).toHaveStyle({
+      // rectangle
+      expect(getByTestId(container, 'rectangle')).toHaveStyle({
         'background-color': expectedBackgroundColor,
         height: '40px',
         width: '120px',
@@ -40,7 +40,7 @@ describe('Skeleton', () => {
       const { container } = render(
         <LightMode>
           <Skeleton data-testid="text" variant="text" width={120} />
-          <Skeleton data-testid="rect" variant="rect" width={120} height={40} />
+          <Skeleton data-testid="rectangle" variant="rectangle" width={120} height={40} />
           <Skeleton data-testid="circle" variant="circle" width="10x" height="10x" />
         </LightMode>
       );
@@ -52,8 +52,8 @@ describe('Skeleton', () => {
         height: '.75rem',
         width: '120px',
       });
-      // rect
-      expect(getByTestId(container, 'rect')).toHaveStyle({
+      // rectangle
+      expect(getByTestId(container, 'rectangle')).toHaveStyle({
         'background-color': expectedBackgroundColor,
         height: '40px',
         width: '120px',
