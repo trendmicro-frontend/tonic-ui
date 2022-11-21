@@ -99,7 +99,9 @@ const routes = [
       { title: 'Getting Started', path: 'components' },
       { title: 'COLORS', heading: true },
       { title: 'Color Mode', path: 'components/color-mode' },
+      { title: 'Color Mode / useColorMode', path: 'components/color-mode/useColorMode' },
       { title: 'Color Style', path: 'components/color-style' },
+      { title: 'Color Style / useColorStyle', path: 'components/color-style/useColorStyle' },
 
       { title: 'DATA DISPLAY', heading: true },
       { title: 'Accordion', path: 'components/accordion' },

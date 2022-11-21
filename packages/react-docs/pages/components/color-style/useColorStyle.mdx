@@ -1,0 +1,79 @@
+# useColorStyle
+
+`useColorStyle` is a custom Hook that gives you access to the color style object of the current color mode.
+
+```js
+// import
+import { useColorStyle } from '@tonic-ui/react';
+
+// usage
+const [colorStyle, setColorStyle] = useColorStyle({
+  colorMode: 'dark', // One of 'light' or 'dark'
+});
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| options | `object` | `{}` | Options object |
+| options.colorMode | `string` | undefined | The color mode to use. |
+
+### Returns
+
+Returns an array with the color style object and a function to set the color style object.
+
+### Example
+
+```js
+const [colorMode] = useColorMode();
+const [colorStyle] = useColorStyle({ colorMode });
+const { colors } = useTheme();
+
+console.log(colorMode);
+// => 'dark' / 'light'
+console.log(colorStyle.color.primary);
+// => 'white:primary' / 'black:primary'
+console.log(colorStyle.background.primary);
+// => 'gray:100' / 'white:emphasis'
+console.log(colors[colorStyle.color.primary]);
+// => 'rgba(255, 255, 255, .92)' / 'rgba(0, 0, 0, .92)'
+console.log(colors[colorStyle.background.primary]);
+// => '#151515' / 'rgba(255, 255, 255, 1.0)'
+```
+
+```jsx
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle, setColorStyle] = useColorStyle({ colorMode });
+  const [colorVariant, setColorVariant] = React.useState('primary');
+  const backgroundColor = colorStyle.background[colorVariant];
+  const color = colorStyle.color[colorVariant];
+  const changeColorVariant = (colorVariant) => (event) => {
+    setColorVariant(colorVariant);
+  };
+
+  return (
+    <>
+      <Box mb="4x">
+        <Button onClick={changeColorVariant('primary')}>
+          Use primary color
+        </Button>
+        <Space width="2x" />
+        <Button onClick={changeColorVariant('secondary')}>
+          Use secondary color
+        </Button>
+        <Space width="2x" />
+        <Button onClick={changeColorVariant('tertiary')}>
+          Use tertiary color
+        </Button>
+      </Box>
+      <Box backgroundColor={backgroundColor} p="4x">
+        <Text color={color} size="lg">
+          To change the color mode, click the <b>toggle color mode</b> button at the top right corner.
+        </Text>
+      </Box>
+    </>
+  );
+};
+```
