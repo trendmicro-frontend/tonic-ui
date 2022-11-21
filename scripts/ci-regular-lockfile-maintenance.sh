@@ -10,6 +10,9 @@ git checkout $MAIN_BRANCH
 git checkout -b $PR_BRANCH
 yarn up
 git add yarn.lock
+if [ `git status -s --untracked-files=no | wc -l` -gt 0 ]; then
+  exit 0
+fi
 git commit -m "ci: regular lockfile maintenance"
 git push --set-upstream origin $PR_BRANCH
 curl \
