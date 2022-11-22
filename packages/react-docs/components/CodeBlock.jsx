@@ -18,6 +18,7 @@ import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import * as ReactVirtualized from 'react-virtualized';
+import * as ReactWindow from 'react-window';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import Code from './Code';
@@ -37,6 +38,7 @@ const thirdPartyComponents = {
   dateFnsLocale,
   ReactTable,
   ReactVirtualized,
+  ReactWindow,
   immutableUpdate,
 };
 

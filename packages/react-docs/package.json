@@ -68,6 +68,7 @@
     "react-movable": "^3.0.4",
     "react-table": "^7.8.0",
     "react-virtualized": "^9.22.3",
+    "react-window": "^1.8.8",
     "remark-emoji": "^3.0.2",
     "remark-images": "^3.1.0"
   },
