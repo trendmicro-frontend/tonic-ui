@@ -32,6 +32,44 @@ const GlobalStyles = () => {
           font-size: ${theme.fontSizes.sm};
           line-height: ${theme.lineHeights.sm};
         }
+
+        ::-webkit-scrollbar {
+          position: relative;
+          width: 8px;
+          height: 100%;
+          margin: 0 auto;
+          border-radius: 0;
+          text-align: center;
+          cursor: pointer;
+          border: 1px solid rgba(0, 0, 0, .1);
+          -webkit-transition: all .5s ease-in-out;
+          transition: all .5s ease-in-out;
+          background-color: rgba(0, 0, 0, .2);
+        }
+
+        ::-webkit-scrollbar:hover {
+          background-color: rgba(0, 0, 0, .45);
+          border: 1px solid rgba(0, 0, 0, .3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: hsla(0, 0%, 100%, .35);
+          border: 1px solid hsla(0, 0%, 100%, .2);
+        }
+
+        ::-webkit-scrollbar-track {
+          width: 4px;
+          height: 100%;
+          margin: 0 auto;
+          border-radius: 0;
+          -webkit-transition: all .5s ease-in-out;
+          transition: all .5s ease-in-out;
+          background-color: #303030;
+        }
+
+        ::-webkit-scrollbar-track:hover {
+          background-color: hsla(0, 0%, 100%, .15);
+        }
       `}
     />
   );
