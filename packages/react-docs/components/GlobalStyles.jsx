@@ -8,6 +8,10 @@ import React from 'react';
 const GlobalStyles = () => {
   const [colorMode] = useColorMode();
   const theme = useTheme();
+
+  /**
+   * Body
+   */
   const backgroundColor = {
     light: 'white',
     dark: 'gray:100',
@@ -15,6 +19,26 @@ const GlobalStyles = () => {
   const color = {
     light: 'black:primary',
     dark: 'white:primary',
+  }[colorMode];
+
+  /**
+   * Scrollbar
+   */
+  const scrollbarThumbBackgroundColor = {
+    light: 'black:disabled',
+    dark: 'white:disabled',
+  }[colorMode];
+  const scrollbarThumbHoverBackgroundColor = {
+    light: 'black:tertiary',
+    dark: 'white:tertiary',
+  }[colorMode];
+  const scrollbarThumbHoverBorderColor = {
+    light: 'black:secondary',
+    dark: 'white:secondary',
+  }[colorMode];
+  const scrollbarTrackBackgroundColor = {
+    light: 'gray:30',
+    dark: 'gray:70',
   }[colorMode];
 
   return (
@@ -34,41 +58,18 @@ const GlobalStyles = () => {
         }
 
         ::-webkit-scrollbar {
-          position: relative;
           width: 8px;
-          height: 100%;
-          margin: 0 auto;
-          border-radius: 0;
-          text-align: center;
-          cursor: pointer;
-          border: 1px solid rgba(0, 0, 0, .1);
-          -webkit-transition: all .5s ease-in-out;
-          transition: all .5s ease-in-out;
-          background-color: rgba(0, 0, 0, .2);
+          height: 8px;
         }
-
-        ::-webkit-scrollbar:hover {
-          background-color: rgba(0, 0, 0, .45);
-          border: 1px solid rgba(0, 0, 0, .3);
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background-color: hsla(0, 0%, 100%, .35);
-          border: 1px solid hsla(0, 0%, 100%, .2);
-        }
-
         ::-webkit-scrollbar-track {
-          width: 4px;
-          height: 100%;
-          margin: 0 auto;
-          border-radius: 0;
-          -webkit-transition: all .5s ease-in-out;
-          transition: all .5s ease-in-out;
-          background-color: #303030;
+          background-color: ${theme.colors[scrollbarTrackBackgroundColor]};
         }
-
-        ::-webkit-scrollbar-track:hover {
-          background-color: hsla(0, 0%, 100%, .15);
+        ::-webkit-scrollbar-thumb {
+          background-color: ${theme.colors[scrollbarThumbBackgroundColor]};
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background-color: ${theme.colors[scrollbarThumbHoverBackgroundColor]};
+          border: 1px solid ${theme.colors[scrollbarThumbHoverBorderColor]};
         }
       `}
     />
