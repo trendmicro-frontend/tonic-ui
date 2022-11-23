@@ -60,19 +60,12 @@ const useScrollViewStyle = ({
 const useHorizontalTrackStyle = ({
   overflowX,
 }) => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-
   return {
     position: 'absolute',
     height: '2x',
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor,
     visibility: 'hidden',
     ...(overflowX === 'auto' && {
       transition: 'opacity 200ms',
@@ -87,19 +80,12 @@ const useHorizontalTrackStyle = ({
 const useVerticalTrackStyle = ({
   overflowY,
 }) => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-
   return {
     position: 'absolute',
     width: '2x',
     right: 0,
     bottom: 0,
     top: 0,
-    backgroundColor,
     visibility: 'hidden',
     ...(overflowY === 'auto' && {
       transition: 'opacity 200ms',
