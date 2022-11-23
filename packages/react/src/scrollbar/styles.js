@@ -60,12 +60,19 @@ const useScrollViewStyle = ({
 const useHorizontalTrackStyle = ({
   overflowX,
 }) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+
   return {
     position: 'absolute',
     height: '2x',
     right: 0,
     bottom: 0,
     left: 0,
+    backgroundColor,
     visibility: 'hidden',
     ...(overflowX === 'auto' && {
       transition: 'opacity 200ms',
@@ -80,12 +87,19 @@ const useHorizontalTrackStyle = ({
 const useVerticalTrackStyle = ({
   overflowY,
 }) => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+
   return {
     position: 'absolute',
     width: '2x',
     right: 0,
     bottom: 0,
     top: 0,
+    backgroundColor,
     visibility: 'hidden',
     ...(overflowY === 'auto' && {
       transition: 'opacity 200ms',
@@ -103,7 +117,7 @@ const useHorizontalThumbStyle = props => {
     dark: 'white:disabled',
     light: 'black:disabled',
   }[colorMode];
-  const hoverBgColor = {
+  const hoverBackgroundColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
@@ -116,13 +130,13 @@ const useHorizontalThumbStyle = props => {
     position: 'relative',
     height: '100%',
     cursor: 'pointer',
+    backgroundColor,
     borderRadius: 'inherit',
     border: 1,
     borderColor: 'transparent',
-    backgroundColor,
     _hover: {
+      backgroundColor: hoverBackgroundColor,
       borderColor: hoverBorderColor,
-      backgroundColor: hoverBgColor,
     },
   };
 };
@@ -133,7 +147,7 @@ const useVerticalThumbStyle = props => {
     dark: 'white:disabled',
     light: 'black:disabled',
   }[colorMode];
-  const hoverBgColor = {
+  const hoverBackgroundColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
@@ -147,13 +161,13 @@ const useVerticalThumbStyle = props => {
     display: 'block',
     width: '100%',
     cursor: 'pointer',
+    backgroundColor,
     borderRadius: 'inherit',
     border: 1,
     borderColor: 'transparent',
-    backgroundColor,
     _hover: {
+      backgroundColor: hoverBackgroundColor,
       borderColor: hoverBorderColor,
-      backgroundColor: hoverBgColor,
     },
   };
 };
