@@ -17,10 +17,8 @@ The scrollbar is hidden by default. You can mouse over the scrollable content to
 ```jsx
 <Scrollbar
   height={200}
-  border={1}
-  borderColor="#424242"
 >
-  <Lorem count={10} px="4x" py="3x" />
+  <Lorem count={10} />
 </Scrollbar>
 ```
 
@@ -36,12 +34,10 @@ To enable vertical scrolling, set the scrollbar height to a value less than the 
 <Scrollbar
   minHeight={100}
   maxHeight={200}
-  border={1}
-  borderColor="#424242"
   overflow="scroll"
   resize="vertical"
 >
-  <Lorem count={10} px="4x" py="3x" />
+  <Lorem count={10} />
 </Scrollbar>
 ```
 
@@ -53,12 +49,10 @@ To enable horizontal scrolling, set the scrollbar width to a value less than the
 <Scrollbar
   minWidth="10%"
   maxWidth="100%"
-  border={1}
-  borderColor="#424242"
   overflow="scroll"
   resize="horizontal"
 >
-  <Lorem count={6} px="4x" py="3x" whiteSpace="nowrap" />
+  <Lorem count={6} whiteSpace="nowrap" />
 </Scrollbar>
 ```
 
@@ -67,12 +61,10 @@ To enable horizontal scrolling, set the scrollbar width to a value less than the
 ```jsx
 <Scrollbar
   height={200}
-  border={1}
-  borderColor="#424242"
   overflow="scroll"
   resize="both"
 >
-  <Lorem count={10} px="4x" py="3x" whiteSpace="nowrap" />
+  <Lorem count={10} whiteSpace="nowrap" />
 </Scrollbar>
 ```
 
@@ -89,7 +81,7 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
 ```jsx
 <Grid
   templateColumns="repeat(auto-fit, minmax(240px, 1fr))"
-  columnGap="4x"
+  columnGap="6x"
   rowGap="4x"
 >
   <Box>
@@ -98,11 +90,9 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
     </Text>
     <Scrollbar
       height={200}
-      border={1}
-      borderColor="#424242"
       overflow="auto"
     >
-      <Lorem count={10} px="4x" py="3x" whiteSpace="nowrap" />
+      <Lorem count={10} whiteSpace="nowrap" />
     </Scrollbar>
   </Box>
   <Box>
@@ -111,11 +101,9 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
     </Text>
     <Scrollbar
       height={200}
-      border={1}
-      borderColor="#424242"
       overflow="scroll"
     >
-      <Lorem count={10} px="4x" py="3x" whiteSpace="nowrap" />
+      <Lorem count={10} whiteSpace="nowrap" />
     </Scrollbar>
   </Box>
   <Box>
@@ -124,11 +112,9 @@ Note: `overflowX` and `overflowY` are also available if you need to set the over
     </Text>
     <Scrollbar
       height={200}
-      border={1}
-      borderColor="#424242"
       overflow="hidden"
     >
-      <Lorem count={10} px="4x" py="3x" whiteSpace="nowrap" />
+      <Lorem count={10} whiteSpace="nowrap" />
     </Scrollbar>
   </Box>
 </Grid>
@@ -141,7 +127,7 @@ Use the `minThumbWidth` and `minThumbHeight` props to set the minimum size of th
 ```jsx
 <Grid
   templateColumns="repeat(auto-fit, minmax(240px, 1fr))"
-  columnGap="4x"
+  columnGap="6x"
   rowGap="4x"
 >
   <Box>
@@ -150,12 +136,10 @@ Use the `minThumbWidth` and `minThumbHeight` props to set the minimum size of th
     </Text>
     <Scrollbar
       height={200}
-      border={1}
-      borderColor="#424242"
       minThumbHeight={50}
       overflow="scroll"
     >
-      <Lorem count={10} px="4x" py="3x" />
+      <Lorem count={10} />
     </Scrollbar>
   </Box>
   <Box>
@@ -164,12 +148,10 @@ Use the `minThumbWidth` and `minThumbHeight` props to set the minimum size of th
     </Text>
     <Scrollbar
       height={200}
-      border={1}
-      borderColor="#424242"
       minThumbHeight={100}
       overflow="scroll"
     >
-      <Lorem count={10} px="4x" py="3x" />
+      <Lorem count={10} />
     </Scrollbar>
   </Box>
 </Grid>
@@ -181,6 +163,7 @@ The scroll indicator can visually indicate the current scroll position of the sc
 
 ```jsx noInline
 const ShadowScrollbar = (props) => {
+  const [colorMode] = useColorMode();
   const topIndicatorRef = React.useRef(null);
   const bottomIndicatorRef = React.useRef(null);
   const handleUpdate = ({ values }) => {
@@ -191,6 +174,14 @@ const ShadowScrollbar = (props) => {
     topIndicatorRef.current.style.opacity = topIndicatorOpacity;
     bottomIndicatorRef.current.style.opacity = bottomIndicatorOpacity;
   };
+  const topScrollIndicatorBackground = {
+    dark: 'linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)', 
+    light: 'linear-gradient(to bottom, rgba(224, 224, 224, 1) 0%, rgba(255, 255, 255, 0) 100%)', 
+  }[colorMode];
+  const bottomScrollIndicatorBackground = {
+    dark: 'linear-gradient(to top, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)', 
+    light: 'linear-gradient(to top, rgba(224, 224, 224, 1) 0%, rgba(255, 255, 255, 0) 100%)', 
+  }[colorMode];
 
   return (
     <Box position="relative">
@@ -205,7 +196,7 @@ const ShadowScrollbar = (props) => {
         left="0"
         right="0"
         height="24px"
-        background="linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
+        background={topScrollIndicatorBackground}
       />
       <Box
         ref={bottomIndicatorRef}
@@ -214,7 +205,7 @@ const ShadowScrollbar = (props) => {
         left="0"
         right="0"
         height="24px"
-        background="linear-gradient(to top, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
+        background={bottomScrollIndicatorBackground}
       />
     </Box>
   );
@@ -223,10 +214,8 @@ const ShadowScrollbar = (props) => {
 render(
   <ShadowScrollbar
     height={300}
-    border={1}
-    borderColor="#424242"
   >
-    <Lorem count={10} px="4x" py="3x" />
+    <Lorem count={10} />
   </ShadowScrollbar>
 );
 ```

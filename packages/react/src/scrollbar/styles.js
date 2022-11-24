@@ -103,7 +103,7 @@ const useHorizontalThumbStyle = props => {
     dark: 'white:disabled',
     light: 'black:disabled',
   }[colorMode];
-  const hoverBgColor = {
+  const hoverBackgroundColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
@@ -116,13 +116,13 @@ const useHorizontalThumbStyle = props => {
     position: 'relative',
     height: '100%',
     cursor: 'pointer',
+    backgroundColor,
     borderRadius: 'inherit',
     border: 1,
     borderColor: 'transparent',
-    backgroundColor,
     _hover: {
+      backgroundColor: hoverBackgroundColor,
       borderColor: hoverBorderColor,
-      backgroundColor: hoverBgColor,
     },
   };
 };
@@ -133,7 +133,7 @@ const useVerticalThumbStyle = props => {
     dark: 'white:disabled',
     light: 'black:disabled',
   }[colorMode];
-  const hoverBgColor = {
+  const hoverBackgroundColor = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
@@ -147,13 +147,13 @@ const useVerticalThumbStyle = props => {
     display: 'block',
     width: '100%',
     cursor: 'pointer',
+    backgroundColor,
     borderRadius: 'inherit',
     border: 1,
     borderColor: 'transparent',
-    backgroundColor,
     _hover: {
+      backgroundColor: hoverBackgroundColor,
       borderColor: hoverBorderColor,
-      backgroundColor: hoverBgColor,
     },
   };
 };

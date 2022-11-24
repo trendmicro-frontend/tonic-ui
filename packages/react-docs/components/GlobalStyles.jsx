@@ -1,20 +1,23 @@
 import { Global, css } from '@emotion/react';
 import {
   useColorMode,
+  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import React from 'react';
 
 const GlobalStyles = () => {
   const [colorMode] = useColorMode();
-  const theme = useTheme();
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
-  const color = {
-    light: 'black:primary',
-    dark: 'white:primary',
+  const [colorStyle] = useColorStyle({ colorMode });
+  const { colors, fontSizes, lineHeights } = useTheme();
+  const backgroundColor = colorStyle.background.primary;
+  const color = colorStyle.color.primary;
+  const scrollbarThumbBackgroundColor = colorStyle.color.disabled;
+  const scrollbarThumbHoverBackgroundColor = colorStyle.color.tertiary;
+  const scrollbarThumbHoverBorderColor = colorStyle.color.secondary;
+  const scrollbarTrackBackgroundColor = {
+    light: 'gray:30',
+    dark: 'gray:70',
   }[colorMode];
 
   return (
@@ -27,10 +30,25 @@ const GlobalStyles = () => {
           outline: none;
         }
         body {
-          background-color: ${theme.colors[backgroundColor]};
-          color: ${theme.colors[color]};
-          font-size: ${theme.fontSizes.sm};
-          line-height: ${theme.lineHeights.sm};
+          background-color: ${colors[backgroundColor]};
+          color: ${colors[color]};
+          font-size: ${fontSizes.sm};
+          line-height: ${lineHeights.sm};
+        }
+
+        ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background-color: ${colors[scrollbarTrackBackgroundColor]};
+        }
+        ::-webkit-scrollbar-thumb {
+          background-color: ${colors[scrollbarThumbBackgroundColor]};
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background-color: ${colors[scrollbarThumbHoverBackgroundColor]};
+          border: 1px solid ${colors[scrollbarThumbHoverBorderColor]};
         }
       `}
     />
