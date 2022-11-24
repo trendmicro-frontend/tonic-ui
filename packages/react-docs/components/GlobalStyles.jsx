@@ -1,41 +1,20 @@
 import { Global, css } from '@emotion/react';
 import {
   useColorMode,
+  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import React from 'react';
 
 const GlobalStyles = () => {
   const [colorMode] = useColorMode();
-  const theme = useTheme();
-
-  /**
-   * Body
-   */
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
-  const color = {
-    light: 'black:primary',
-    dark: 'white:primary',
-  }[colorMode];
-
-  /**
-   * Scrollbar
-   */
-  const scrollbarThumbBackgroundColor = {
-    light: 'black:disabled',
-    dark: 'white:disabled',
-  }[colorMode];
-  const scrollbarThumbHoverBackgroundColor = {
-    light: 'black:tertiary',
-    dark: 'white:tertiary',
-  }[colorMode];
-  const scrollbarThumbHoverBorderColor = {
-    light: 'black:secondary',
-    dark: 'white:secondary',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
+  const { colors, fontSizes, lineHeights } = useTheme();
+  const backgroundColor = colorStyle.background.primary;
+  const color = colorStyle.color.primary;
+  const scrollbarThumbBackgroundColor = colorStyle.color.disabled;
+  const scrollbarThumbHoverBackgroundColor = colorStyle.color.tertiary;
+  const scrollbarThumbHoverBorderColor = colorStyle.color.secondary;
   const scrollbarTrackBackgroundColor = {
     light: 'gray:30',
     dark: 'gray:70',
@@ -51,10 +30,10 @@ const GlobalStyles = () => {
           outline: none;
         }
         body {
-          background-color: ${theme.colors[backgroundColor]};
-          color: ${theme.colors[color]};
-          font-size: ${theme.fontSizes.sm};
-          line-height: ${theme.lineHeights.sm};
+          background-color: ${colors[backgroundColor]};
+          color: ${colors[color]};
+          font-size: ${fontSizes.sm};
+          line-height: ${lineHeights.sm};
         }
 
         ::-webkit-scrollbar {
@@ -62,14 +41,14 @@ const GlobalStyles = () => {
           height: 8px;
         }
         ::-webkit-scrollbar-track {
-          background-color: ${theme.colors[scrollbarTrackBackgroundColor]};
+          background-color: ${colors[scrollbarTrackBackgroundColor]};
         }
         ::-webkit-scrollbar-thumb {
-          background-color: ${theme.colors[scrollbarThumbBackgroundColor]};
+          background-color: ${colors[scrollbarThumbBackgroundColor]};
         }
         ::-webkit-scrollbar-thumb:hover {
-          background-color: ${theme.colors[scrollbarThumbHoverBackgroundColor]};
-          border: 1px solid ${theme.colors[scrollbarThumbHoverBorderColor]};
+          background-color: ${colors[scrollbarThumbHoverBackgroundColor]};
+          border: 1px solid ${colors[scrollbarThumbHoverBorderColor]};
         }
       `}
     />
