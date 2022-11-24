@@ -105,10 +105,7 @@ const Sidebar = forwardRef((
           mb="4x"
         >
           <Box px="4x" py="2x">
-            <NextLink
-              href={`/`}
-              passHref
-            >
+            <NextLink href={'/'} legacyBehavior passHref>
               <Box
                 as="a"
                 display="flex"

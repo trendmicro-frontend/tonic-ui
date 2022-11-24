@@ -34,7 +34,9 @@ const ThemeParser = ({
   return (
     <Box mb="6x">
       <CodeBlock>
-        {`const ${themeKey} = ${jsonPrettify(token, indent)}`}
+        <div className="js">
+          {`const ${themeKey} = ${jsonPrettify(token, indent)}`}
+        </div>
       </CodeBlock>
     </Box>
   );

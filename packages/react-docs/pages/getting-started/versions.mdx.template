@@ -1,5 +1,6 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link, Table, TableHeader, TableBody, TableRow, TableCell, Tag, Text } from '@tonic-ui/react';
+import { Flex, Link, Table, TableHeader, TableBody, TableRow, TableCell, Tag, Text } from '@tonic-ui/react';
 
 # Tonic UI Versions
 
@@ -11,10 +12,10 @@ You can come back to this page and switch the version of the docs you're reading
   <TableHeader>
     <TableRow>
       <TableCell>
-        Package Name
+        <Text>Package Name</Text>
       </TableCell>
       <TableCell width={250}>
-        Package Version
+        <Text>Package Version</Text>
       </TableCell>
     </TableRow>
   </TableHeader>
@@ -22,37 +23,37 @@ You can come back to this page and switch the version of the docs you're reading
     <TableRow>
       <TableCell>
         <Tag size="lg" whiteSpace="nowrap">
-          @tonic-ui/react
+          <Text>@tonic-ui/react</Text>
         </Tag>
       </TableCell>
       <TableCell width={250}>
-        <Text whiteSpace="nowrap">
+        <Flex alignItems="center" height="100%" whiteSpace="nowrap">
           __TONIC_UI_REACT_VERSION__
-        </Text>
+        </Flex>
       </TableCell>
     </TableRow>
     <TableRow>
       <TableCell>
         <Tag size="lg" whiteSpace="nowrap">
-          react
+          <Text>react</Text>
         </Tag>
       </TableCell>
       <TableCell width={250}>
-        <Text whiteSpace="nowrap">
+        <Flex alignItems="center" height="100%" whiteSpace="nowrap">
           {React.version}
-        </Text>
+        </Flex>
       </TableCell>
     </TableRow>
     <TableRow>
       <TableCell>
         <Tag size="lg" whiteSpace="nowrap">
-          react-dom
+          <Text>react-dom</Text>
         </Tag>
       </TableCell>
       <TableCell width={250}>
-        <Text whiteSpace="nowrap">
+        <Flex alignItems="center" height="100%" whiteSpace="nowrap">
           {ReactDOM.version}
-        </Text>
+        </Flex>
       </TableCell>
     </TableRow>
   </TableBody>
@@ -66,7 +67,7 @@ The most recent stable version (✓) is recommended for use in production.
   <TableBody>
     <TableRow>
       <TableCell>
-        __TONIC_UI_V1_RELEASE_VERSION__ ✓
+        <Text>__TONIC_UI_V1_RELEASE_VERSION__ ✓</Text>
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_V1_RELEASE_DOCUMENTATION__">Documentation</Link>
@@ -77,7 +78,7 @@ The most recent stable version (✓) is recommended for use in production.
     </TableRow>
     <TableRow>
       <TableCell>
-        __TONIC_UI_V0_RELEASE_VERSION__
+        <Text>__TONIC_UI_V0_RELEASE_VERSION__</Text>
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_V0_RELEASE_DOCUMENTATION__">Documentation</Link>
@@ -95,7 +96,7 @@ The most recent stable version (✓) is recommended for use in production.
   <TableBody>
     <TableRow>
       <TableCell>
-        __TONIC_UI_DEFAULT_BRANCH__ branch
+        <Text>__TONIC_UI_DEFAULT_BRANCH__ branch</Text>
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_DEFAULT_DOCUMENTATION__">Documentation</Link>
@@ -106,7 +107,7 @@ The most recent stable version (✓) is recommended for use in production.
     </TableRow>
     <TableRow>
       <TableCell>
-        __TONIC_UI_V0_BRANCH__ branch
+        <Text>__TONIC_UI_V0_BRANCH__ branch</Text>
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_V0_DOCUMENTATION__">Documentation</Link>

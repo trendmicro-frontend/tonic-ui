@@ -123,7 +123,7 @@ const Header = forwardRef((
               md: 'block',
             }}
           >
-            <NextLink href={`/`} passHref>
+            <NextLink href={'/'} legacyBehavior passHref>
               <Box
                 as="a"
                 display="flex"

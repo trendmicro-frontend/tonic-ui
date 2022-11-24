@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  ButtonLink,
   Checkbox,
   Divider,
   Flex,
@@ -130,30 +131,28 @@ const DefaultPage = (props) => {
                 templateColumns="1fr 1fr"
                 gap="4x"
               >
-                <NextLink href={`/getting-started`} passHref>
-                  <Button
-                    as="a"
-                    textDecoration="none"
+                <NextLink href={'/getting-started'} legacyBehavior passHref>
+                  <ButtonLink
                     variant="primary"
                     fontSize="lg"
                     lineHeight="lg"
                     px="4x"
                     py="3x"
+                    textDecoration="none"
                   >
                     Get Started
                     <Space width="2x" />
                     <Icon icon="chevron-right" />
-                  </Button>
+                  </ButtonLink>
                 </NextLink>
-                <NextLink href={GITHUB_URL} passHref>
-                  <Button
-                    as="a"
-                    textDecoration="none"
+                <NextLink href={GITHUB_URL} legacyBehavior passHref>
+                  <ButtonLink
                     variant="secondary"
                     fontSize="lg"
                     lineHeight="lg"
                     px="4x"
                     py="3x"
+                    textDecoration="none"
                   >
                     <FontAwesomeIcon
                       icon={['fab', 'github']}
@@ -164,7 +163,7 @@ const DefaultPage = (props) => {
                     />
                     <Space width="2x" />
                     <Text>GitHub</Text>
-                  </Button>
+                  </ButtonLink>
                 </NextLink>
               </Grid>
             </Box>
@@ -412,19 +411,19 @@ const Header = forwardRef((props, ref) => {
         justifyContent="space-between"
       >
         <Box>
-          <NextLink href={`/`} passHref>
-            <Box
-              as="a"
-              display="flex"
-              alignItems="center"
-              flex="auto"
+          <NextLink href={`/`} legacyBehavior passHref>
+            <ButtonLink
+              background="transparent"
+              color={fontColor}
               fontSize="xl"
-              maxWidth="100%"
+              lineHeight="lg"
               px="4x"
               py="2x"
-              color={fontColor}
-              outline="none"
               textDecoration="none"
+              _hover={{
+                background: 'transparent',
+                color: colorStyle.color.emphasis,
+              }}
             >
               <Image
                 alt=""
@@ -434,7 +433,7 @@ const Header = forwardRef((props, ref) => {
                 marginRight="2x"
             />
               <Text>Tonic UI</Text>
-            </Box>
+            </ButtonLink>
           </NextLink>
         </Box>
         <Box
@@ -447,11 +446,14 @@ const Header = forwardRef((props, ref) => {
         >
           <Box
             as="a"
+            color={colorStyle.color.secondary}
             _hover={{
+              color: colorStyle.color.primary,
               cursor: 'pointer',
             }}
             onClick={() => toggleColorMode()}
             display="inline-flex"
+            textDecoration="none"
           >
             {colorMode === 'light' && (
               <Icon icon="moon" size={24} />
@@ -473,6 +475,7 @@ const Header = forwardRef((props, ref) => {
             href={pkg.homepage}
             target="_blank"
             display="inline-flex"
+            textDecoration="none"
           >
             <FontAwesomeIcon
               icon={['fab', 'github']}

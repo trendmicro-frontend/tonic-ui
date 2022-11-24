@@ -15,7 +15,7 @@ const [value, toggleValue] = useToggle(initialValue, [toggleReducer]);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | initialValue | boolean | | The initial value of the toggle. |
-| toggleReducer? | (state: boolean, nextValue: boolean) => boolean | | An optional reducer function that can be used to determine the next value. |
+| toggleReducer? | `(state: boolean, nextValue: boolean) => boolean` | | An optional reducer function that can be used to determine the next value. |
 
 ### Returns
 
