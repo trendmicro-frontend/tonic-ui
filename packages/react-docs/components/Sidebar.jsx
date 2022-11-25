@@ -8,6 +8,7 @@ import {
   Flex,
   Icon,
   Image,
+  Link,
   Text,
   useColorMode,
   useColorStyle,
@@ -51,17 +52,9 @@ const Sidebar = forwardRef((
   const combinedRef = useForkRef(nodeRef, ref);
   const router = useRouter();
   const currentPath = ensureString(router.pathname).slice(1);
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:90',
-  }[colorMode];
   const borderColor = {
     light: 'gray:20',
     dark: 'gray:70',
-  }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
   }[colorMode];
   const logo = {
     light: 'tonic-logo-light.svg',
@@ -83,7 +76,7 @@ const Sidebar = forwardRef((
     <Box
       as="nav"
       ref={combinedRef}
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.primary}
       borderRight={1}
       borderRightColor={borderColor}
       pt={{
@@ -104,32 +97,35 @@ const Sidebar = forwardRef((
           justifyContent="space-between"
           mb="4x"
         >
-          <Box px="4x" py="2x">
-            <NextLink
-              href={`/`}
-              passHref
+          <NextLink href={'/'} legacyBehavior passHref>
+            <Link
+              background="transparent"
+              color={colorStyle.color.primary}
+              fontSize="xl"
+              lineHeight="lg"
+              outline="none"
+              px="4x"
+              py="2x"
+              textDecoration="none"
+              _active={{
+                color: colorStyle.color.emphasis,
+              }}
+              _hover={{
+                color: colorStyle.color.emphasis,
+              }}
+              _visited={{
+                color: colorStyle.color.primary,
+              }}
             >
-              <Box
-                as="a"
-                display="flex"
-                alignItems="center"
-                flex="auto"
-                fontSize="xl"
-                maxWidth="100%"
-                color={fontColor}
-                outline="none"
-                textDecoration="none"
-              >
-                <Image
-                  alt=""
-                  src={`${BASE_PATH}/images/${logo}`}
-                  height="8x"
+              <Image
+                alt=""
+                src={`${BASE_PATH}/images/${logo}`}
+                height="8x"
                   marginRight="2x"
-              />
+                />
                 <Text>Tonic UI</Text>
-              </Box>
-            </NextLink>
-          </Box>
+            </Link>
+          </NextLink>
           <Box px="2x">
             <IconButton onClick={onClose}>
               <Icon icon="close" />

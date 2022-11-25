@@ -293,22 +293,23 @@ const TD = ({ align, ...props }) => {
   );
 };
 
-const pre = props => (
-  <Box
-    as="pre"
-    fontSize="md"
-    lineHeight="lg"
-    mt={0}
-    mb="4x"
-    {...props}
-  />
-);
+const pre = props => {
+  return (
+    <Box
+      as="pre"
+      fontSize="md"
+      lineHeight="lg"
+      mt={0}
+      mb="4x"
+    >
+      <Box as="code">
+        <CodeBlock {...props} />
+      </Box>
+    </Box>
+  );
+};
 
 const code = props => (
-  <CodeBlock {...props} />
-);
-
-const inlineCode = props => (
   <Code {...props} />
 );
 
@@ -354,7 +355,6 @@ const MDXComponents = {
   td: TD,
   pre,
   code,
-  inlineCode,
   hr,
   a,
   img,

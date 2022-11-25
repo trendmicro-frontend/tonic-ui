@@ -1,7 +1,9 @@
 import mdxPlugin from '@next/mdx';
 import dotenv from 'dotenv-flow';
 import remarkEmoji from 'remark-emoji';
+import remarkGFM from 'remark-gfm';
 import remarkImages from 'remark-images';
+import remarkMdxCodeMeta from 'remark-mdx-code-meta';
 
 dotenv.config();
 
@@ -12,8 +14,11 @@ const withMDX = mdxPlugin({
   options: {
     remarkPlugins: [
       remarkEmoji,
+      remarkGFM,
       remarkImages,
+      remarkMdxCodeMeta,
     ],
+    providerImportSource: '@mdx-js/react',
   }
 });
 

@@ -44,15 +44,15 @@ Here is a basic example of tabs.
 
 > `TabList` and `TabPanels` are used to group the tabs and tab panels. If you don't need the tabs to be grouped, you can use `Tab` and `TabPanel` directly.<br/><br/>
 > ```jsx disabled
-<Tabs>
-  <Tab>TAB 1</Tab>
-  <Tab>TAB 2</Tab>
-  <Tab>TAB 3</Tab>
-  <TabPanel>Tab Panel 1</TabPanel>
-  <TabPanel>Tab Panel 2</TabPanel>
-  <TabPanel>Tab Panel 3</TabPanel>
-</Tabs>
-```
+> <Tabs>
+>   <Tab>TAB 1</Tab>
+>   <Tab>TAB 2</Tab>
+>   <Tab>TAB 3</Tab>
+>   <TabPanel>Tab Panel 1</TabPanel>
+>   <TabPanel>Tab Panel 2</TabPanel>
+>   <TabPanel>Tab Panel 3</TabPanel>
+> </Tabs>
+> ```
 
 ### Controlled and uncontrolled tabs
 
@@ -1126,7 +1126,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getTabProps, disabled, index, isSelected }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `isSelected` prop is a boolean value indicating whether the tab is selected. |
+| children | ReactNode \| `({ getTabProps, disabled, index, isSelected }) => ReactNode` | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `isSelected` prop is a boolean value indicating whether the tab is selected. |
 | disabled | boolean | | Whether the tab is disabled. |
 | index | number \| string | | The index of the tab. An index number starting from 0 will be provided if not specified. |
 | onClick | (event) => void | | A callback for when the tab is clicked. |
@@ -1135,7 +1135,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | defaultIndex | number \| string | 0 | The default index of the tab to be selected in uncontrolled mode. |
 | disabled | boolean | | Whether the tabs should be disabled. |
 | index | number \| string | | The index of the tab to be selected in controlled mode. |
@@ -1154,7 +1154,7 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getTabPanelProps, index, isSelected }) => ReactNode | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `isSelected` prop is a boolean value indicating whether the corresponding tab is selected. |
+| children | ReactNode \| `({ getTabPanelProps, index, isSelected }) => ReactNode` | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `isSelected` prop is a boolean value indicating whether the corresponding tab is selected. |
 | index | number \| string | | The index of the tab panel. An index number starting from 0 will be provided if not specified. |
 
 ### TabPanels
@@ -1170,29 +1170,29 @@ render(<Example />);
   > This example combines the role `tab` with `tablist` and elements with `tabpanel` to create an interactive group of tabbed content. Here we are enclosing our group of content in a `div`, with our `tablist` having an `aria-label` which labels it for assistive technology. Each `tab` is a `button` with the attributes previously mentioned. The first `tab` has both `tabindex="0"` and `aria-selected="true"` applied. These two attributes must always be coordinated as such—so when another tab is selected, it will then have `tabindex="0"` and `aria-selected="true"` applied. All unselected tabs must have `aria-selected="false"` and `tabindex="-1"`.<br/><br/>
   > All of the `tabpanel` elements have `tabindex="0"` to make them tabbable, and all but the currently active one have the `hidden` attribute. The `hidden` attribute will be removed when a `tabpanel` becomes visible with JavaScript. There is some basic styling applied that restyles the buttons and changes the `z-index` of `tab` elements to give the illusion of it connecting to the `tabpanel` for active elements, and the illusion that inactive elements are behind the active `tabpanel`.<br/><br/>
   > ```js
-  <div class="tabs">
-    <div role="tablist" aria-label="Sample Tabs">
-      <button role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0">
-        First Tab
-      </button>
-      <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1">
-        Second Tab
-      </button>
-      <button role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" tabindex="-1">
-        Third Tab
-      </button>
-    </div>
-    <div id="panel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
-      <p>Content for the first panel</p>
-    </div>
-    <div id="panel-2" role="tabpanel" tabindex="0" aria-labelledby="tab-2" hidden>
-      <p>Content for the second panel</p>
-    </div>
-    <div id="panel-3" role="tabpanel" tabindex="0" aria-labelledby="tab-3" hidden>
-      <p>Content for the third panel</p>
-    </div>
-  </div>
-  ```
+  > <div class="tabs">
+  >   <div role="tablist" aria-label="Sample Tabs">
+  >     <button role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0">
+  >       First Tab
+  >     </button>
+  >     <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1">
+  >       Second Tab
+  >     </button>
+  >     <button role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" tabindex="-1">
+  >       Third Tab
+  >     </button>
+  >   </div>
+  >   <div id="panel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
+  >     <p>Content for the first panel</p>
+  >   </div>
+  >   <div id="panel-2" role="tabpanel" tabindex="0" aria-labelledby="tab-2" hidden>
+  >     <p>Content for the second panel</p>
+  >   </div>
+  >   <div id="panel-3" role="tabpanel" tabindex="0" aria-labelledby="tab-3" hidden>
+  >     <p>Content for the third panel</p>
+  >   </div>
+  > </div>
+  > ```
 
 ### [WAI-ARIA Roles, States, and Properties](https://www.w3.org/TR/wai-aria-practices/#tabpanel)
 

@@ -4,6 +4,7 @@ import {
   Button,
   Icon,
   Image,
+  Link,
   Menu,
   MenuButton,
   MenuList,
@@ -65,17 +66,9 @@ const Header = forwardRef((
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
   }[colorMode];
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:90',
-  }[colorMode];
   const boxShadowColor = {
     light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
-  }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
   }[colorMode];
 
   return (
@@ -88,7 +81,7 @@ const Header = forwardRef((
       height="12x"
       width="100%"
       backdropFilter="blur(20px)"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.primary}
       boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
       transition="all 0.2s"
       {...rest}
@@ -123,28 +116,34 @@ const Header = forwardRef((
               md: 'block',
             }}
           >
-            <NextLink href={`/`} passHref>
-              <Box
-                as="a"
-                display="flex"
-                alignItems="center"
-                flex="auto"
+            <NextLink href={`/`} legacyBehavior passHref>
+              <Link
+                background="transparent"
+                color={colorStyle.color.primary}
                 fontSize="xl"
-                maxWidth="100%"
+                lineHeight="lg"
+                outline="none"
                 px="4x"
                 py="2x"
-                color={fontColor}
-                outline="none"
                 textDecoration="none"
+                _active={{
+                  color: colorStyle.color.emphasis,
+                }}
+                _hover={{
+                  color: colorStyle.color.emphasis,
+                }}
+                _visited={{
+                  color: colorStyle.color.primary,
+                }}
               >
                 <Image
                   alt=""
                   src={`${BASE_PATH}/images/${logo}`}
                   height="8x"
                   marginRight="2x"
-                />
+              />
                 <Text>Tonic UI</Text>
-              </Box>
+              </Link>
             </NextLink>
           </Box>
         </Box>
