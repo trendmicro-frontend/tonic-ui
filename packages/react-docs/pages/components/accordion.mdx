@@ -224,13 +224,13 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 
 ### AccordionItem
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | disabled | boolean | | Whether the accordion item is disabled. |
 | isExpanded | boolean | | Whether the accordion item is expanded. |
 | defaultIsExpanded | boolean | | Whether the accordion item is expanded by default. |
@@ -262,7 +262,7 @@ function Example() {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
-| children | ReactNode \| (state, props) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| children | ReactNode \| `(state, props) => ReactNode` | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
 | disabled | boolean | | Whether the accordion toggle icon is disabled. |
 | easing | string \| `{ enter?: string, exit?: string }` | `{ enter: easing.easeInOut, exit: easing.easeInOut }` | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | in | boolean | | If `true`, the component will transition in. |

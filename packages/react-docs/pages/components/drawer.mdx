@@ -418,7 +418,7 @@ render(<Example />);
 | :--- | :--- | :------ | :---------- |
 | autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
 | backdrop | boolean | false | If `true`, it will wrap components with a backdrop to provide a click area for dismissing when clicking outside the drawer. |
-| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | closeOnEsc | boolean | false | If `true`, close the drawer when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the drawer when click outside of the drawer. Note that this value will not have any effect when `backdrop` is set to `true`. |
 | ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Drawer` descendants, which does not allow the focus to escape while open. |
