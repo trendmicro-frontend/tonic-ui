@@ -16,6 +16,7 @@ import {
   InputGroupAppend,
   InputGroupPrepend,
   Grid,
+  Link,
   MenuDivider,
   MenuItem,
   ModalBody,
@@ -53,10 +54,6 @@ const GITHUB_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 const DefaultPage = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
   const codeBlockBackgroundColor = {
     light: 'white',
     dark: 'black',
@@ -65,10 +62,6 @@ const DefaultPage = (props) => {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
-  }[colorMode];
   const docsFontSize = 'md';
   const docsLineHeight = 'md';
   const codeBlockFontSize = 'sm';
@@ -76,8 +69,8 @@ const DefaultPage = (props) => {
 
   return (
     <Box
-      backgroundColor={backgroundColor}
-      color={fontColor}
+      backgroundColor={colorStyle.background.primary}
+      color={colorStyle.color.primary}
       fontSize={docsFontSize}
       lineHeight={docsLineHeight}
       height="100vh"
@@ -371,17 +364,9 @@ const Header = forwardRef((props, ref) => {
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
   }[colorMode];
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:90',
-  }[colorMode];
   const boxShadowColor = {
     light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
-  }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
   }[colorMode];
 
   useEffect(() => {
@@ -398,7 +383,7 @@ const Header = forwardRef((props, ref) => {
       height="12x"
       width="100%"
       backdropFilter="blur(20px)"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.primary}
       boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
       transition="all 0.2s"
       {...props}
@@ -412,28 +397,33 @@ const Header = forwardRef((props, ref) => {
       >
         <Box>
           <NextLink href={`/`} legacyBehavior passHref>
-            <ButtonLink
+            <Link
               background="transparent"
-              color={fontColor}
+              color={colorStyle.color.primary}
               fontSize="xl"
               lineHeight="lg"
+              outline="none"
               px="4x"
               py="2x"
               textDecoration="none"
-              _hover={{
-                background: 'transparent',
+              _active={{
                 color: colorStyle.color.emphasis,
+              }}
+              _hover={{
+                color: colorStyle.color.emphasis,
+              }}
+              _visited={{
+                color: colorStyle.color.primary,
               }}
             >
               <Image
                 alt=""
                 src={`${BASE_PATH}/images/${logo}`}
-                width={35}
-                height={30}
+                height="8x"
                 marginRight="2x"
-            />
+              />
               <Text>Tonic UI</Text>
-            </ButtonLink>
+            </Link>
           </NextLink>
         </Box>
         <Box
