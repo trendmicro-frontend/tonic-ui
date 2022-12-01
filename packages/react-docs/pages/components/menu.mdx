@@ -499,51 +499,56 @@ const Avatar = (props) => (
   />
 );
 
-render(
-  <Menu>
-    <MenuToggle>
-      <Avatar
-        bg="gray:50"
-        color="white:secondary"
-        _hover={{
-          color: 'white:primary',
-        }}
-      >
-        <Icon icon="user-team" size="5x" />
-      </Avatar>
-    </MenuToggle>
-    <MenuList width="max-content">
-      <MenuItem>
-        <Text>Profile</Text>
-      </MenuItem>
-      <MenuDivider />
-      <MenuGroup
-        title={(
-          <Flex justifyContent="space-between">
-            <Text>Other profiles</Text>
-            <Space minWidth="10x" />
-            <ButtonBase title="Manage profiles">
-              <Icon icon="settings" size="3x" />
-            </ButtonBase>
-          </Flex>
-        )}
-      >
-        <MenuItem px="4x">
-          <Avatar color="white" bg="blue:50" mr="2x">
-            JD
-          </Avatar>
-          John Doe
+render(() => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Menu>
+      <MenuToggle>
+        <Avatar
+          backgroundColor={colorStyle.background.tertiary}
+          color={colorStyle.color.tertiary}
+          _hover={{
+            color: colorStyle.color.primary,
+          }}
+        >
+          <Icon icon="user-team" size="6x" />
+        </Avatar>
+      </MenuToggle>
+      <MenuList width="max-content">
+        <MenuItem>
+          <Text>Profile</Text>
         </MenuItem>
-        <MenuItem px="4x">
-          <Avatar color="white" bg="gray:50" mr="2x">
-            <Icon icon="user" size="3x" />
-          </Avatar>
-          Guest
-        </MenuItem>
-      </MenuGroup>
-    </MenuList>
-  </Menu>
-);
+        <MenuDivider />
+        <MenuGroup
+          title={(
+            <Flex justifyContent="space-between">
+              <Text>Other profiles</Text>
+              <Space minWidth="10x" />
+              <ButtonBase title="Manage profiles">
+                <Icon icon="settings" size="3x" />
+              </ButtonBase>
+            </Flex>
+          )}
+        >
+          <MenuItem px="4x">
+            <Avatar color="white" bg="blue:50" mr="2x">
+              JD
+            </Avatar>
+            John Doe
+          </MenuItem>
+          <MenuItem px="4x">
+            <Avatar color="white" bg="gray:50" mr="2x">
+              <Icon icon="user" size="3x" />
+            </Avatar>
+            Guest
+          </MenuItem>
+        </MenuGroup>
+      </MenuList>
+    </Menu>
+  );
+});
 ```
 
 ### Menu sizing
