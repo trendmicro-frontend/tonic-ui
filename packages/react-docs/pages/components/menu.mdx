@@ -194,187 +194,6 @@ The following example shows a menu with cascading submenus.
 </Flex>
 ```
 
-### Toggling submenus
-
-```jsx noInline
-const Avatar = (props) => (
-  <Flex
-    p="1x"
-    borderRadius="50%"
-    alignItems="center"
-    justifyContent="center"
-    fontSize="xs"
-    lineHeight="1"
-    {...props}
-  />
-);
-
-const IconButton = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  return (
-    <ButtonBase
-      color={colorStyle.color.secondary}
-      tabIndex={0}
-      _disabled={{
-        color: colorStyle.color.disabled,
-      }}
-      _hover={{
-        color: colorStyle.color.primary,
-      }}
-      {...props}
-    />
-  );
-};
-
-let shouldPreventDefaultOnNextBlur = false;
-
-render(() => {
-  const [colorMode, setColorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const [menuState, setMenuState] = React.useState('main');
-  const navigateMenuBy = (nextMenuState) => (event) => {
-    // Prevent the menu from closing when a menu item is clicked
-    event.preventDefault();
-
-    // The menu list will be blurred when the menu state changes because of losing focus.
-    // We need to set a flag to prevent menu to be closed.
-    shouldPreventDefaultOnNextBlur = true;
-
-    setMenuState(nextMenuState);
-  };
-
-  return (
-    <Menu
-      onClose={() => {
-        setMenuState('main');
-      }}
-    >
-      <MenuToggle>
-        <Avatar
-          backgroundColor={colorStyle.background.secondary}
-          color={colorStyle.color.secondary}
-          _hover={{
-            color: colorStyle.color.primary,
-          }}
-        >
-          <Icon icon="user-team" size="5x" />
-        </Avatar>
-      </MenuToggle>
-      <MenuList
-        width="max-content"
-        onBlur={(event) => {
-          if (shouldPreventDefaultOnNextBlur) {
-            event.preventDefault();
-
-            // Restore the flag to its initial state
-            shouldPreventDefaultOnNextBlur = false;
-          }
-        }}
-      >
-        <Box
-          display={menuState === 'main' ? 'block' : 'none'}
-        >
-          <MenuItem>
-            <Flex flex="none" mr="3x">
-              <Icon icon="settings" />
-            </Flex>
-            <Flex flex="auto">
-              <Text>Settings</Text>
-            </Flex>
-          </MenuItem>
-          <MenuItem>
-            <Flex flex="none" mr="3x">
-              <Icon icon="user-team" />
-            </Flex>
-            <Flex flex="auto">
-              <Text>Accounts</Text>
-            </Flex>
-          </MenuItem>
-          <MenuItem>
-            <Flex flex="none" mr="3x">
-              <Icon icon="lock" />
-            </Flex>
-            <Flex flex="auto">
-              <Text>Privacy control</Text>
-            </Flex>
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem
-            onClick={navigateMenuBy('appearance')}
-          >
-            <Flex flex="none" mr="3x">
-              <Icon icon="color" />
-            </Flex>
-            <Flex flex="auto">
-              <Text>Appearance:</Text>
-              <Space width="2x" />
-              <Text textTransform="capitalize">
-                {colorMode}
-              </Text>
-            </Flex>
-            <Flex flex="none" ml="3x">
-              <Icon icon="chevron-right" />
-            </Flex>
-          </MenuItem>
-        </Box>
-        <Box
-          display={menuState === 'appearance' ? 'block' : 'none'}
-        >
-          <Flex alignItems="center" px="3x" py="1x">
-            <Flex flex="none" mr="3x">
-              <IconButton
-                onClick={navigateMenuBy('main')}
-              >
-                <Icon icon="arrow-left" />
-              </IconButton>
-            </Flex>
-            <Flex flex="auto">
-              <Text fontSize="md" lineHeight="md">
-                Appearance
-              </Text>
-            </Flex>
-          </Flex>
-          <MenuDivider />
-          <MenuGroup
-            title={(
-              <Text fontSize="xs" lineHeight="xs">
-                Setting applies to this browser only
-              </Text>
-            )}
-          >
-            <MenuItem
-              onClick={(event) => {
-                setColorMode('dark');
-              }}
-            >
-              <Flex flex="none" mr="3x" minWidth="4x">
-                {colorMode === 'dark' && <Icon icon="check" />}
-              </Flex>
-              <Flex flex="auto">
-                Dark theme
-              </Flex>
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                setColorMode('light');
-              }}
-            >
-              <Flex flex="none" mr="3x" minWidth="4x">
-                {colorMode === 'light' && <Icon icon="check" />}
-              </Flex>
-              <Flex flex="auto">
-                Light theme
-              </Flex>
-            </MenuItem>
-          </MenuGroup>
-        </Box>
-      </MenuList>
-    </Menu>
-  );
-});
-```
-
 ### Controlled menu
 
 The menu opens over the anchor element by default, and closes when the user clicks outside of the menu.
@@ -717,6 +536,187 @@ render(() => (
 ));
 ```
 
+### Toggling menus
+
+```jsx noInline
+const Avatar = (props) => (
+  <Flex
+    p="1x"
+    borderRadius="50%"
+    alignItems="center"
+    justifyContent="center"
+    fontSize="xs"
+    lineHeight="1"
+    {...props}
+  />
+);
+
+const IconButton = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  return (
+    <ButtonBase
+      color={colorStyle.color.secondary}
+      tabIndex={0}
+      _disabled={{
+        color: colorStyle.color.disabled,
+      }}
+      _hover={{
+        color: colorStyle.color.primary,
+      }}
+      {...props}
+    />
+  );
+};
+
+let shouldPreventDefaultOnNextBlur = false;
+
+render(() => {
+  const [colorMode, setColorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [menuState, setMenuState] = React.useState('main');
+  const navigateMenuBy = (nextMenuState) => (event) => {
+    // Prevent the menu from closing when a menu item is clicked
+    event.preventDefault();
+
+    // The menu list will be blurred when the menu state changes because of losing focus.
+    // We need to set a flag to prevent menu to be closed.
+    shouldPreventDefaultOnNextBlur = true;
+
+    setMenuState(nextMenuState);
+  };
+
+  return (
+    <Menu
+      onClose={() => {
+        setMenuState('main');
+      }}
+    >
+      <MenuToggle>
+        <Avatar
+          backgroundColor={colorStyle.background.secondary}
+          color={colorStyle.color.secondary}
+          _hover={{
+            color: colorStyle.color.primary,
+          }}
+        >
+          <Icon icon="user-team" size="5x" />
+        </Avatar>
+      </MenuToggle>
+      <MenuList
+        width="max-content"
+        onBlur={(event) => {
+          if (shouldPreventDefaultOnNextBlur) {
+            event.preventDefault();
+
+            // Restore the flag to its initial state
+            shouldPreventDefaultOnNextBlur = false;
+          }
+        }}
+      >
+        <Box
+          display={menuState === 'main' ? 'block' : 'none'}
+        >
+          <MenuItem>
+            <Flex flex="none" mr="3x">
+              <Icon icon="settings" />
+            </Flex>
+            <Flex flex="auto">
+              <Text>Settings</Text>
+            </Flex>
+          </MenuItem>
+          <MenuItem>
+            <Flex flex="none" mr="3x">
+              <Icon icon="user-team" />
+            </Flex>
+            <Flex flex="auto">
+              <Text>Accounts</Text>
+            </Flex>
+          </MenuItem>
+          <MenuItem>
+            <Flex flex="none" mr="3x">
+              <Icon icon="lock" />
+            </Flex>
+            <Flex flex="auto">
+              <Text>Privacy control</Text>
+            </Flex>
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem
+            onClick={navigateMenuBy('appearance')}
+          >
+            <Flex flex="none" mr="3x">
+              <Icon icon="color" />
+            </Flex>
+            <Flex flex="auto">
+              <Text>Appearance:</Text>
+              <Space width="2x" />
+              <Text textTransform="capitalize">
+                {colorMode}
+              </Text>
+            </Flex>
+            <Flex flex="none" ml="3x">
+              <Icon icon="chevron-right" />
+            </Flex>
+          </MenuItem>
+        </Box>
+        <Box
+          display={menuState === 'appearance' ? 'block' : 'none'}
+        >
+          <Flex alignItems="center" px="3x" py="1x">
+            <Flex flex="none" mr="3x">
+              <IconButton
+                onClick={navigateMenuBy('main')}
+              >
+                <Icon icon="arrow-left" />
+              </IconButton>
+            </Flex>
+            <Flex flex="auto">
+              <Text fontSize="md" lineHeight="md">
+                Appearance
+              </Text>
+            </Flex>
+          </Flex>
+          <MenuDivider />
+          <MenuGroup
+            title={(
+              <Text fontSize="xs" lineHeight="xs">
+                Setting applies to this browser only
+              </Text>
+            )}
+          >
+            <MenuItem
+              onClick={(event) => {
+                setColorMode('dark');
+              }}
+            >
+              <Flex flex="none" mr="3x" minWidth="4x">
+                {colorMode === 'dark' && <Icon icon="check" />}
+              </Flex>
+              <Flex flex="auto">
+                Dark theme
+              </Flex>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setColorMode('light');
+              }}
+            >
+              <Flex flex="none" mr="3x" minWidth="4x">
+                {colorMode === 'light' && <Icon icon="check" />}
+              </Flex>
+              <Flex flex="auto">
+                Light theme
+              </Flex>
+            </MenuItem>
+          </MenuGroup>
+        </Box>
+      </MenuList>
+    </Menu>
+  );
+});
+```
+
 ### Menu sizing
 
 To change the width of the menu, pass `width` prop to the `MenuList` component.
@@ -1047,12 +1047,12 @@ function menuWithCheckbox() {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | anchorEl | ElementType | | The element to which the menu is attached. |
-| autoSelect | boolean | `true` | Whether to automatically select the first menu item when the menu is opened. |
-| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
-| closeOnBlur | boolean | `true` | Whether to close the menu when the user clicks outside of the menu. |
-| closeOnSelect | boolean | `true` | Whether to close the menu when the user selects a menu item. |
+| autoSelect | boolean | true | Whether to automatically select the first menu item when the menu is opened. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| closeOnBlur | boolean | true | Whether to close the menu when the user clicks outside of the menu. |
+| closeOnSelect | boolean | true | Whether to close the menu when the user selects a menu item. |
 | defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
-| defaultIsOpen | boolean | `false` | Whether the menu is open by default. |
+| defaultIsOpen | boolean | false | Whether the menu is open by default. |
 | isOpen | boolean | | Whether the menu is open. |
 | offset | [skidding, distance] | [0, 0] | The skidding and distance of the menu. |
 | onBlur | function | | Callback when the menu loses focus. |
@@ -1118,7 +1118,7 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getMenuToggleProps }) => ReactNode | | |
+| children | ReactNode \| `({ getMenuToggleProps }) => ReactNode` | | |
 | disabled | boolean | | Whether the menu toggle is disabled. |
 | onClick | function | | Callback when the menu toggle is clicked. |
 | onKeyDown | function | | Callback when the user presses a key. |
@@ -1128,12 +1128,12 @@ function menuWithCheckbox() {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
-| children | ReactNode \| (state, props) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| children | ReactNode \| `(state, props) => ReactNode` | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
 | disabled | boolean | | Whether the menu toggle icon is disabled. |
-| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| easing | string \| `{ enter?: string, exit?: string }` | `{ enter: easing.easeInOut, exit: easing.easeInOut }` | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | in | boolean | | If `true`, the component will transition in. |
 | mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
-| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| timeout | number \| `{ appear?: number, enter?: number, exit?: number }` | `{ enter: duration.enterScreen, exit: duration.levingScreen }` | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
 
 ### Submenu
@@ -1141,7 +1141,7 @@ function menuWithCheckbox() {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| defaultIsOpen | boolean | `false` | Whether the submenu is open by default. |
+| defaultIsOpen | boolean | false | Whether the submenu is open by default. |
 | isOpen | boolean | | Whether the submenu is open. |
 | onClose | function | | Callback when the submenu is closed. |
 | onOpen | function | | Callback when the submenu is opened. |
@@ -1157,5 +1157,5 @@ function menuWithCheckbox() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| ({ getSubmenuToggleProps }) => ReactNode | | |
+| children | ReactNode \| `({ getSubmenuToggleProps }) => ReactNode` | | |
 | disabled | boolean | | Whether the submenu toggle is disabled. |

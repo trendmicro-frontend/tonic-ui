@@ -33,10 +33,7 @@ const NavLink = forwardRef((
   const selectedColor = colorStyle.color.emphasis;
 
   return (
-    <NextLink
-      passHref
-      href={href}
-    >
+    <NextLink href={href} legacyBehavior passHref>
       <Box
         ref={ref}
         as="a"

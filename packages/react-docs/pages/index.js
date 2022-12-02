@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  ButtonLink,
   Checkbox,
   Divider,
   Flex,
@@ -15,6 +16,7 @@ import {
   InputGroupAppend,
   InputGroupPrepend,
   Grid,
+  Link,
   MenuDivider,
   MenuItem,
   ModalBody,
@@ -52,10 +54,6 @@ const GITHUB_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 const DefaultPage = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:100',
-  }[colorMode];
   const codeBlockBackgroundColor = {
     light: 'white',
     dark: 'black',
@@ -64,10 +62,6 @@ const DefaultPage = (props) => {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
-  }[colorMode];
   const docsFontSize = 'md';
   const docsLineHeight = 'md';
   const codeBlockFontSize = 'sm';
@@ -75,8 +69,8 @@ const DefaultPage = (props) => {
 
   return (
     <Box
-      backgroundColor={backgroundColor}
-      color={fontColor}
+      backgroundColor={colorStyle.background.primary}
+      color={colorStyle.color.primary}
       fontSize={docsFontSize}
       lineHeight={docsLineHeight}
       height="100vh"
@@ -130,30 +124,28 @@ const DefaultPage = (props) => {
                 templateColumns="1fr 1fr"
                 gap="4x"
               >
-                <NextLink href={`/getting-started`} passHref>
-                  <Button
-                    as="a"
-                    textDecoration="none"
+                <NextLink href={'/getting-started'} legacyBehavior passHref>
+                  <ButtonLink
                     variant="primary"
                     fontSize="lg"
                     lineHeight="lg"
                     px="4x"
                     py="3x"
+                    textDecoration="none"
                   >
                     Get Started
                     <Space width="2x" />
                     <Icon icon="chevron-right" />
-                  </Button>
+                  </ButtonLink>
                 </NextLink>
-                <NextLink href={GITHUB_URL} passHref>
-                  <Button
-                    as="a"
-                    textDecoration="none"
+                <NextLink href={GITHUB_URL} legacyBehavior passHref>
+                  <ButtonLink
                     variant="secondary"
                     fontSize="lg"
                     lineHeight="lg"
                     px="4x"
                     py="3x"
+                    textDecoration="none"
                   >
                     <FontAwesomeIcon
                       icon={['fab', 'github']}
@@ -164,7 +156,7 @@ const DefaultPage = (props) => {
                     />
                     <Space width="2x" />
                     <Text>GitHub</Text>
-                  </Button>
+                  </ButtonLink>
                 </NextLink>
               </Grid>
             </Box>
@@ -372,17 +364,9 @@ const Header = forwardRef((props, ref) => {
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
   }[colorMode];
-  const backgroundColor = {
-    light: 'white',
-    dark: 'gray:90',
-  }[colorMode];
   const boxShadowColor = {
     light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
-  }[colorMode];
-  const fontColor = {
-    light: 'black:primary',
-    dark: 'white:primary',
   }[colorMode];
 
   useEffect(() => {
@@ -399,7 +383,7 @@ const Header = forwardRef((props, ref) => {
       height="12x"
       width="100%"
       backdropFilter="blur(20px)"
-      backgroundColor={backgroundColor}
+      backgroundColor={colorStyle.background.primary}
       boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
       transition="all 0.2s"
       {...props}
@@ -412,29 +396,34 @@ const Header = forwardRef((props, ref) => {
         justifyContent="space-between"
       >
         <Box>
-          <NextLink href={`/`} passHref>
-            <Box
-              as="a"
-              display="flex"
-              alignItems="center"
-              flex="auto"
+          <NextLink href={`/`} legacyBehavior passHref>
+            <Link
+              background="transparent"
+              color={colorStyle.color.primary}
               fontSize="xl"
-              maxWidth="100%"
+              lineHeight="lg"
+              outline="none"
               px="4x"
               py="2x"
-              color={fontColor}
-              outline="none"
               textDecoration="none"
+              _active={{
+                color: colorStyle.color.emphasis,
+              }}
+              _hover={{
+                color: colorStyle.color.emphasis,
+              }}
+              _visited={{
+                color: colorStyle.color.primary,
+              }}
             >
               <Image
                 alt=""
                 src={`${BASE_PATH}/images/${logo}`}
-                width={35}
-                height={30}
+                height="8x"
                 marginRight="2x"
-            />
+              />
               <Text>Tonic UI</Text>
-            </Box>
+            </Link>
           </NextLink>
         </Box>
         <Box
@@ -447,11 +436,14 @@ const Header = forwardRef((props, ref) => {
         >
           <Box
             as="a"
+            color={colorStyle.color.secondary}
             _hover={{
+              color: colorStyle.color.primary,
               cursor: 'pointer',
             }}
             onClick={() => toggleColorMode()}
             display="inline-flex"
+            textDecoration="none"
           >
             {colorMode === 'light' && (
               <Icon icon="moon" size={24} />
@@ -473,6 +465,7 @@ const Header = forwardRef((props, ref) => {
             href={pkg.homepage}
             target="_blank"
             display="inline-flex"
+            textDecoration="none"
           >
             <FontAwesomeIcon
               icon={['fab', 'github']}

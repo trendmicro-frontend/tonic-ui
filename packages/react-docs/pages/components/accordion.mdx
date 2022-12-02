@@ -224,13 +224,13 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 
 ### AccordionItem
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode \| (context) => ReactNode | | A function child can be used intead of a React element. This function is called with the context object. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | disabled | boolean | | Whether the accordion item is disabled. |
 | isExpanded | boolean | | Whether the accordion item is expanded. |
 | defaultIsExpanded | boolean | | Whether the accordion item is expanded by default. |
@@ -262,12 +262,12 @@ function Example() {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
-| children | ReactNode \| (state, props) => ReactNode | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| children | ReactNode \| `(state, props) => ReactNode` | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
 | disabled | boolean | | Whether the accordion toggle icon is disabled. |
-| easing | string \| { enter?: string, exit?: string } | { enter: easing.easeInOut, exit: easing.easeInOut } | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| easing | string \| `{ enter?: string, exit?: string }` | `{ enter: easing.easeInOut, exit: easing.easeInOut }` | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
 | in | boolean | | If `true`, the component will transition in. |
 | mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
-| timeout | number \| { appear?: number, enter?: number, exit?: number } | { enter: duration.enterScreen, exit: duration.levingScreen } | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| timeout | number \| `{ appear?: number, enter?: number, exit?: number }` | `{ enter: duration.enterScreen, exit: duration.levingScreen }` | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
 
 ### AccordionCollapse

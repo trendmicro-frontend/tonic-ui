@@ -1,5 +1,4 @@
 import { Global, css } from '@emotion/react';
-import { mdx } from '@mdx-js/react';
 import { sx } from '@tonic-ui/styled-system';
 import * as reactComponents from '@tonic-ui/react';
 import * as reactLabComponents from '@tonic-ui/react-lab';
@@ -9,6 +8,7 @@ import * as tmicon from '@trendmicro/tmicon';
 import { boolean } from 'boolean';
 import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
+import { ensureString } from 'ensure-type';
 import immutableUpdate from 'immutability-helper';
 import React, { useCallback, useState } from 'react';
 import * as rbd from 'react-beautiful-dnd';
@@ -122,28 +122,32 @@ const CodeBlock = ({
    */
   expanded: defaultExpanded = false,
 
-  className,
   children,
   ...props
 }) => {
+  const originalEditorCode = React.isValidElement(children)
+    ? ensureString(children?.props?.children).trim()
+    : ensureString(children).trim();
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
   const [colorMode] = useColorMode();
-  const [editorCode, setEditorCode] = useState(children.trim());
+  const [editorCode, setEditorCode] = useState(originalEditorCode);
   const {
     onCopy: copySource,
     hasCopied: hasCopiedSource,
   } = useClipboard(editorCode);
   const [isLiveEditorVisible, toggleLiveEditorVisibility] = reactHooks.useToggle(defaultExpanded);
   const resetDemo = () => {
-    setEditorCode(children.trim());
+    setEditorCode(originalEditorCode);
     toggleLiveEditorVisibility(false);
     forceUpdate();
   };
-  const handleLiveEditorChange = useCallback(newCode => {
-    setEditorCode(newCode.trim());
+  const handleLiveEditorChange = useCallback(newEditorCode => {
+    setEditorCode(newEditorCode.trim());
   }, []);
-  const language = className && className.replace(/language-/, '');
+  const language = React.isValidElement(children)
+    ? ensureString(children.props.className).replace(/language-/, '')
+    : null;
 
   noInline = boolean(noInline);
 
@@ -177,7 +181,6 @@ const CodeBlock = ({
       SkeletonContent,
       Global, // from '@emotion/react'
       css, // from '@emotion/react'
-      mdx, // from '@mdx-js/react'
       sx, // from '@tonic-ui/styled-system'
       tmicons, // from '@trendmicro/tmicon'
     },
@@ -193,14 +196,10 @@ const CodeBlock = ({
     );
   }
 
-  const isEditable = !disabled;
-
-  if (!isEditable) {
+  if (disabled) {
     return (
       <LiveProvider {...liveProviderProps}>
-        <LiveEditor
-          style={liveEditorStyle}
-        />
+        <LiveEditor style={liveEditorStyle} />
       </LiveProvider>
     );
   }
