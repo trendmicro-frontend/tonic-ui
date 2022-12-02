@@ -588,7 +588,7 @@ render(() => {
 
   return (
     <Menu
-      onClose={() => {
+      onOpen={() => {
         setMenuState('main');
       }}
     >
@@ -603,115 +603,119 @@ render(() => {
           <Icon icon="user-team" size="5x" />
         </Avatar>
       </MenuToggle>
-      <MenuList
-        width="max-content"
-        onBlur={(event) => {
-          if (shouldPreventDefaultOnNextBlur) {
-            event.preventDefault();
-
-            // Restore the flag to its initial state
-            shouldPreventDefaultOnNextBlur = false;
-          }
-        }}
+      <ReactFocusLock
+        persistentFocus={true}
       >
-        <Box
-          display={menuState === 'main' ? 'block' : 'none'}
+        <MenuList
+          width="max-content"
+          onBlur={(event) => {
+            if (shouldPreventDefaultOnNextBlur) {
+              event.preventDefault();
+
+              // Restore the flag to its initial state
+              shouldPreventDefaultOnNextBlur = false;
+            }
+          }}
         >
-          <MenuItem>
-            <Flex flex="none" mr="3x">
-              <Icon icon="settings" />
-            </Flex>
-            <Flex flex="auto">
-              <Text>Settings</Text>
-            </Flex>
-          </MenuItem>
-          <MenuItem>
-            <Flex flex="none" mr="3x">
-              <Icon icon="user-team" />
-            </Flex>
-            <Flex flex="auto">
-              <Text>Accounts</Text>
-            </Flex>
-          </MenuItem>
-          <MenuItem>
-            <Flex flex="none" mr="3x">
-              <Icon icon="lock" />
-            </Flex>
-            <Flex flex="auto">
-              <Text>Privacy control</Text>
-            </Flex>
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem
-            onClick={navigateMenuBy('appearance')}
+          <Box
+            display={menuState === 'main' ? 'block' : 'none'}
           >
-            <Flex flex="none" mr="3x">
-              <Icon icon="color" />
+            <MenuItem>
+              <Flex flex="none" mr="3x">
+                <Icon icon="settings" />
+              </Flex>
+              <Flex flex="auto">
+                <Text>Settings</Text>
+              </Flex>
+            </MenuItem>
+            <MenuItem>
+              <Flex flex="none" mr="3x">
+                <Icon icon="user-team" />
+              </Flex>
+              <Flex flex="auto">
+                <Text>Accounts</Text>
+              </Flex>
+            </MenuItem>
+            <MenuItem>
+              <Flex flex="none" mr="3x">
+                <Icon icon="lock" />
+              </Flex>
+              <Flex flex="auto">
+                <Text>Privacy control</Text>
+              </Flex>
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem
+              onClick={navigateMenuBy('appearance')}
+            >
+              <Flex flex="none" mr="3x">
+                <Icon icon="color" />
+              </Flex>
+              <Flex flex="auto">
+                <Text>Appearance:</Text>
+                <Space width="2x" />
+                <Text textTransform="capitalize">
+                  {colorMode}
+                </Text>
+              </Flex>
+              <Flex flex="none" ml="3x">
+                <Icon icon="chevron-right" />
+              </Flex>
+            </MenuItem>
+          </Box>
+          <Box
+            display={menuState === 'appearance' ? 'block' : 'none'}
+          >
+            <Flex alignItems="center" px="3x" py="1x">
+              <Flex flex="none" mr="3x">
+                <IconButton
+                  onClick={navigateMenuBy('main')}
+                >
+                  <Icon icon="arrow-left" />
+                </IconButton>
+              </Flex>
+              <Flex flex="auto">
+                <Text fontSize="md" lineHeight="md">
+                  Appearance
+                </Text>
+              </Flex>
             </Flex>
-            <Flex flex="auto">
-              <Text>Appearance:</Text>
-              <Space width="2x" />
-              <Text textTransform="capitalize">
-                {colorMode}
-              </Text>
-            </Flex>
-            <Flex flex="none" ml="3x">
-              <Icon icon="chevron-right" />
-            </Flex>
-          </MenuItem>
-        </Box>
-        <Box
-          display={menuState === 'appearance' ? 'block' : 'none'}
-        >
-          <Flex alignItems="center" px="3x" py="1x">
-            <Flex flex="none" mr="3x">
-              <IconButton
-                onClick={navigateMenuBy('main')}
+            <MenuDivider />
+            <MenuGroup
+              title={(
+                <Text fontSize="xs" lineHeight="xs">
+                  Setting applies to this browser only
+                </Text>
+              )}
+            >
+              <MenuItem
+                onClick={(event) => {
+                  setColorMode('dark');
+                }}
               >
-                <Icon icon="arrow-left" />
-              </IconButton>
-            </Flex>
-            <Flex flex="auto">
-              <Text fontSize="md" lineHeight="md">
-                Appearance
-              </Text>
-            </Flex>
-          </Flex>
-          <MenuDivider />
-          <MenuGroup
-            title={(
-              <Text fontSize="xs" lineHeight="xs">
-                Setting applies to this browser only
-              </Text>
-            )}
-          >
-            <MenuItem
-              onClick={(event) => {
-                setColorMode('dark');
-              }}
-            >
-              <Flex flex="none" mr="3x" minWidth="4x">
-                {colorMode === 'dark' && <Icon icon="check" />}
-              </Flex>
-              <Flex flex="auto">
-                Dark theme
-              </Flex>
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                setColorMode('light');
-              }}
-            >
-              <Flex flex="none" mr="3x" minWidth="4x">
-                {colorMode === 'light' && <Icon icon="check" />}
-              </Flex>
-              <Flex flex="auto">
-                Light theme
-              </Flex>
-            </MenuItem>
-          </MenuGroup>
-        </Box>
-      </MenuList>
+                <Flex flex="none" mr="3x" minWidth="4x">
+                  {colorMode === 'dark' && <Icon icon="check" />}
+                </Flex>
+                <Flex flex="auto">
+                  Dark theme
+                </Flex>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setColorMode('light');
+                }}
+              >
+                <Flex flex="none" mr="3x" minWidth="4x">
+                  {colorMode === 'light' && <Icon icon="check" />}
+                </Flex>
+                <Flex flex="auto">
+                  Light theme
+                </Flex>
+              </MenuItem>
+            </MenuGroup>
+          </Box>
+        </MenuList>
+      </ReactFocusLock>
     </Menu>
   );
 });

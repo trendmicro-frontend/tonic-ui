@@ -14,6 +14,7 @@ import React, { useCallback, useState } from 'react';
 import * as rbd from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
 import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
+import ReactFocusLock from 'react-focus-lock';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
@@ -29,15 +30,16 @@ import SkeletonBody from './SkeletonBody';
 import SkeletonContent from './SkeletonContent';
 
 const thirdPartyComponents = {
-  rbd,
-  ReactDND,
-  ReactDNDHtml5backend,
-  ReactMovable,
   dateFns,
   dateFnsLocale,
+  rbd,
+  immutableUpdate,
+  ReactDND,
+  ReactDNDHtml5backend,
+  ReactFocusLock,
+  ReactMovable,
   ReactTable,
   ReactVirtualized,
-  immutableUpdate,
 };
 
 const {
