@@ -1,10 +1,10 @@
-import React from 'react';
 import {
   Icon,
   SVGIcon,
   Text,
   Tooltip,
 } from '@tonic-ui/react';
+import React from 'react';
 
 const Subtitle = (props) => {
   return (
@@ -12,7 +12,7 @@ const Subtitle = (props) => {
   );
 };
 
-const routes = [
+export const routes = [
   {
     title: 'Getting Started',
     icon: 'list-open',
@@ -347,7 +347,3 @@ const routes = [
     ],
   },
 ];
-
-export {
-  routes,
-};
