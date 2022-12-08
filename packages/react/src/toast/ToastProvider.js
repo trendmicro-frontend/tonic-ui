@@ -42,7 +42,7 @@ const getToastPlacementByState = (state, id) => {
 
 const ToastProvider = ({
   children,
-  placement: _placement = defaultPlacement,
+  placement: placementProp = defaultPlacement,
   container,
 }) => {
   const isHydrated = useHydrated();
@@ -58,7 +58,7 @@ const ToastProvider = ({
    */
   const createToast = (message, options) => {
     const id = options?.id ?? uniqueId();
-    const placement = ensureString(options?.placement ?? _placement);
+    const placement = ensureString(options?.placement ?? placementProp);
     const duration = options?.duration;
     const onClose = () => close(id, placement);
 
@@ -204,7 +204,7 @@ const ToastProvider = ({
     update,
 
     // Properties
-    placement: _placement,
+    placement: placementProp,
 
     // State
     state,
