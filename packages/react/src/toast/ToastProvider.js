@@ -231,7 +231,6 @@ const ToastProvider = ({
           return (
             <ToastContainer
               key={placement}
-              hasToasts={toasts.length > 0}
               placement={placement}
             >
               <TransitionGroup component={null}>
