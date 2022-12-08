@@ -509,6 +509,108 @@ function Example() {
 render(<Example />);
 ```
 
+### Toast on modal
+
+Toasts can be rendered inside a modal. It is usually horizontally centered and vertically aligned to the top of the modal with a 48px margin.
+
+The minimum toast width 280px. If the content is wider than 280px, it should expand to fit the content without exceeding 80% of the modal width.
+
+```jsx noInline
+render(() => {
+  const [isToastOpen, toggleToast] = useToggle();
+  const [toast, setToast] = React.useState({
+    duration: 5000,
+    isClosable: true,
+    onClose: () => toggleToast(false),
+  });
+
+  const handleClickToast1 = () => {
+    setToast(prevState => ({
+      ...prevState,
+      appearance: 'success',
+      content: 'This is a toast alert.',
+    }));
+
+    toggleToast(true);
+  };
+
+  const handleClickToast2 = () => {
+    setToast(prevState => ({
+      ...prevState,
+      appearance: 'success',
+      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis. Etiam vestibulum lorem vel urna tempor, eu fermentum odio aliquam. Aliquam consequat urna vitae ipsum pulvinar, in blandit purus eleifend.',
+    }));
+
+    toggleToast(true);
+  };
+
+  const handleClickClearToast = () => {
+    toggleToast(false);
+  };
+
+  return (
+    <ModalContent
+      minHeight={400}
+      width={832}
+    >
+      <Flex
+        position="absolute"
+        top="12x"
+        width="100%"
+        zIndex="toast"
+      >
+        <Box
+          minWidth={280} // The minimum width is 280px
+          maxWidth="80%" // The maximum width is 80% of the modal width
+          margin="0 auto"
+        >
+          <ToastTransition
+            in={isToastOpen}
+            unmountOnExit
+          >
+            <ToastController
+              duration={toast?.duration}
+              onClose={toast?.onClose}
+            >
+              <Toast
+                appearance={toast?.appearance}
+                isClosable={toast?.isClosable}
+                onClose={toast?.onClose}
+              >
+                {toast?.content}
+              </Toast>
+            </ToastController>
+          </ToastTransition>
+        </Box>
+      </Flex>
+      <ModalHeader>
+        Modal Title
+      </ModalHeader>
+      <ModalBody>
+        <Stack direction="column" spacing="4x">
+          <Skeleton width={160} />
+          <Skeleton width={240} />
+          <Skeleton width={240} />
+        </Stack>
+      </ModalBody>
+      <ModalFooter columnGap="2x" justifyContent="space-between">
+        <Flex columnGap="2x">
+          <Button onClick={handleClickToast1}>
+            Show Toast
+          </Button>
+          <Button onClick={handleClickToast2}>
+            Show Another Toast
+          </Button>
+        </Flex>
+        <Button onClick={handleClickClearToast}>
+          Clear Toast
+        </Button>
+      </ModalFooter>
+    </ModalContent>
+  );
+});
+```
+
 ## Toast
 
 | Name | Type | Default | Description |
