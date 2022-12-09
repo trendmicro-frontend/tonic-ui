@@ -524,18 +524,17 @@ To animate the toast when it is displayed or dismissed, you can use the `ToastTr
 ```jsx noInline
 const CustomToastContainer = (props) => (
   <Flex
+    flexDirection="column"
+    alignItems="center"
     position="absolute"
     top="12x"
-    width="100%"
+    left="50%"
+    transform="translateX(-50%)"
+    width="max-content"
+    maxWidth="80%" // up to 80% of the modal or drawer width
     zIndex="toast"
-  >
-    <Box
-      minWidth={280} // The minimum width is 280px
-      maxWidth="80%" // The maximum width is 80% of the modal or drawer width
-      margin="0 auto"
-      {...props}
-    />
-  </Flex>
+    {...props}
+  />
 );
 
 let autoIncrementIndex = 0;
@@ -642,17 +641,13 @@ render(() => {
           >
             <CustomToastContainer>
               <TransitionGroup
-                component={null} // Pass in `component={null}` to avoid a wrapping `<div>` element 
+                component={null} // Pass in `component={null}` to avoid a wrapping `<div>` element
               >
                 {toasts.map(toast => (
                   <ToastTransition
                     in={true}
                     key={toast?.id}
                     unmountOnExit
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
                   >
                     <ToastController
                       duration={toast?.duration}
@@ -663,6 +658,8 @@ render(() => {
                         isClosable={toast?.isClosable}
                         onClose={toast?.onClose}
                         mb="2x"
+                        minWidth={280} // The toast has a minimum width of 280 pixels
+                        width="fit-content"
                       >
                         {toast?.content}
                       </Toast>
@@ -713,10 +710,6 @@ render(() => {
                     in={true}
                     key={toast?.id}
                     unmountOnExit
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
                   >
                     <ToastController
                       duration={toast?.duration}
@@ -727,6 +720,8 @@ render(() => {
                         isClosable={toast?.isClosable}
                         onClose={toast?.onClose}
                         mb="2x"
+                        minWidth={280} // The toast has a minimum width of 280 pixels
+                        width="fit-content"
                       >
                         {toast?.content}
                       </Toast>
