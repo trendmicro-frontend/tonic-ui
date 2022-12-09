@@ -4,9 +4,9 @@
   "version": "1.9.0",
   "description": "A documentation site for React Tonic UI component library.",
   "scripts": {
-    "build": "bash -c '. ./tonic-ui.env && ./update-docs.sh && cross-env NODE_ENV=production next build' && next export --outdir dist/react",
+    "build": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build' && next export --outdir dist/react",
     "clean": "del build coverage dist",
-    "dev": "bash -c '. ./tonic-ui.env && ./update-docs.sh && next dev --hostname 0.0.0.0'",
+    "dev": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && next dev --hostname 0.0.0.0'",
     "eslint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run eslint && yarn run test",
     "start": "next start",
@@ -17,6 +17,7 @@
     "@babel/core": "^7.0.0",
     "@babel/eslint-parser": "^7.0.0",
     "@babel/eslint-plugin": "^7.0.0",
+    "@babel/node": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
@@ -38,6 +39,7 @@
     "@tonic-ui/styled-system": "^1.5.0",
     "@tonic-ui/theme": "^1.2.1",
     "@trendmicro/babel-config": "^1.0.2",
+    "algoliasearch": "^4.14.2",
     "boolean": "^3.2.0",
     "cross-env": "^7.0.3",
     "date-fns": "2.x",
@@ -72,7 +74,8 @@
     "remark-emoji": "^3.0.2",
     "remark-gfm": "^3.0.1",
     "remark-images": "^3.1.0",
-    "remark-mdx-code-meta": "^2.0.0"
+    "remark-mdx-code-meta": "^2.0.0",
+    "uuid": "^9.0.0"
   },
   "jest": {
     "collectCoverage": true,

@@ -1,0 +1,35 @@
+name: Algolia Search Indexing
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  ALGOLIA_APPLICATION_ID: 7V00GBK8V8
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install yarn
+      run: npm install -g yarn
+    - name: Install and build
+      run: |
+        yarn install
+        yarn build
+    - name: Algolia search indexing
+      run: |
+        cd packages/react-docs; ../../node_modules/.bin/babel-node scripts/algolia-search-indexing.js
+
+secrets:
+  ALGOLIA_ADMIN_API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}

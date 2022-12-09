@@ -6,6 +6,7 @@ module.exports = {
   parser: '@babel/eslint-parser',
   env: {
     browser: true,
+    es6: true, // enables ES6 globals
     node: true,
     jest: true,
   },
