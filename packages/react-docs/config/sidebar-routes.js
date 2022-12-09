@@ -120,6 +120,7 @@ export const routes = [
       { title: 'Skeleton', path: 'components/skeleton' },
       { title: 'Spinner', path: 'components/spinner' },
       { title: 'Toast', path: 'components/toast' },
+      { title: 'Toast / useToast', path: 'components/toast/useToast' },
 
       { title: 'FORMS', heading: true },
       {

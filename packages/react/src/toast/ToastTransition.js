@@ -21,13 +21,13 @@ const mapStateToVariantStyle = (state, props) => {
       transform: 'none',
     },
     exiting: {
-      height: props.collapsedHeight || 0,
+      height: 0,
       opacity: 0,
       overflow: 'hidden',
       transform: getScale(0.75),
     },
     exited: {
-      height: props.collapsedHeight || 0,
+      height: 0,
       opacity: 0,
       transform: getScale(0.75),
     },
@@ -52,7 +52,6 @@ const ToastTransition = forwardRef((
   {
     appear = false, // do not perform the enter transition when it first mounts
     children,
-    collapsedHeight = 0,
     easing = defaultEasing,
     in: inProp,
     style,
@@ -94,11 +93,11 @@ const ToastTransition = forwardRef((
           }),
         ].join(',');
 
-        const variantStyle = mapStateToVariantStyle(state, { collapsedHeight });
+        const variantStyle = mapStateToVariantStyle(state, {});
         const styleProps = {
           ...variantStyle,
           transition,
-          visibility: (state === 'exited' && !inProp && !collapsedHeight) ? 'hidden' : undefined,
+          visibility: (state === 'exited' && !inProp) ? 'hidden' : undefined,
         };
 
         if (typeof children === 'function') {

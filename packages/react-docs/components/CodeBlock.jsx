@@ -18,6 +18,7 @@ import ReactFocusLock from 'react-focus-lock';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
+import { TransitionGroup } from 'react-transition-group';
 import * as ReactVirtualized from 'react-virtualized';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
@@ -40,6 +41,7 @@ const thirdPartyComponents = {
   ReactMovable,
   ReactTable,
   ReactVirtualized,
+  TransitionGroup,
 };
 
 const {

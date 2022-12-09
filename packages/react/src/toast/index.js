@@ -12,10 +12,10 @@ export {
   Toast,
   ToastCloseButton, // internal use only
   ToastContainer, // internal use only
-  ToastController, // internal use only
+  ToastController,
   ToastIcon, // internal use only
   ToastMessage, // internal use only
   ToastProvider,
-  ToastTransition, // internal use only
+  ToastTransition,
   useToast,
 };
