@@ -21,6 +21,7 @@ describe('useOutsideClick', () => {
   });
 
   it('should call the handler when the user clicks outside the element', async () => {
+    const user = userEvent.setup();
     const onClickOutside = jest.fn();
     render(
       <TestComponent onClickOutside={onClickOutside} />
@@ -29,20 +30,21 @@ describe('useOutsideClick', () => {
     const insideDiv = screen.getByText('Inside', { exact: false });
     const outsideDiv = screen.getByText('Outside', { exact: false });
 
-    await userEvent.click(insideDiv);
+    await user.click(insideDiv);
     expect(onClickOutside).toHaveBeenCalledTimes(0);
 
-    await userEvent.click(outsideDiv);
+    await user.click(outsideDiv);
     expect(onClickOutside).toHaveBeenCalledTimes(1);
 
-    await userEvent.click(insideDiv);
+    await user.click(insideDiv);
     expect(onClickOutside).toHaveBeenCalledTimes(1);
 
-    await userEvent.click(outsideDiv);
+    await user.click(outsideDiv);
     expect(onClickOutside).toHaveBeenCalledTimes(2);
   });
 
   it('should not call the handler when passing `false` or empty array to the `events` prop', async () => {
+    const user = userEvent.setup();
     const onClickOutside = jest.fn();
     const events = false;
     render(
@@ -52,10 +54,10 @@ describe('useOutsideClick', () => {
     const insideDiv = screen.getByText('Inside', { exact: false });
     const outsideDiv = screen.getByText('Outside', { exact: false });
 
-    await userEvent.click(insideDiv);
+    await user.click(insideDiv);
     expect(onClickOutside).toHaveBeenCalledTimes(0);
 
-    await userEvent.click(outsideDiv);
+    await user.click(outsideDiv);
     expect(onClickOutside).toHaveBeenCalledTimes(0);
   });
 });

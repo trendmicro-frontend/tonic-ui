@@ -21,6 +21,8 @@ const getToggleColorModeButton = () => {
 
 describe('<LightMode />', () => {
   test('always light mode', async () => {
+    const user = userEvent.setup()
+
     render(
       <LightMode>
         <TestApp />
@@ -29,7 +31,7 @@ describe('<LightMode />', () => {
 
     expect(getToggleColorModeButton()).toHaveTextContent('light');
 
-    await userEvent.click(getToggleColorModeButton());
+    await user.click(getToggleColorModeButton());
 
     expect(getToggleColorModeButton()).toHaveTextContent('light');
   });
