@@ -21,7 +21,7 @@ const getToggleColorModeButton = () => {
 
 describe('<DarkMode />', () => {
   test('always dark mode', async () => {
-    const user = userEvent.setup()
+    const user = userEvent.setup();
 
     render(
       <DarkMode>

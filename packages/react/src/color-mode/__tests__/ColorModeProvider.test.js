@@ -20,7 +20,7 @@ Object.defineProperty(window, 'matchMedia', {
 
 describe('<ColorModeProvider />', () => {
   test('toggle color mode using a toggle button', async () => {
-    const user = userEvent.setup()
+    const user = userEvent.setup();
 
     const ToggleColorModeApp = () => {
       const [colorMode, setColorMode] = useColorMode();

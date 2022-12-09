@@ -21,7 +21,7 @@ const getToggleColorModeButton = () => {
 
 describe('<LightMode />', () => {
   test('always light mode', async () => {
-    const user = userEvent.setup()
+    const user = userEvent.setup();
 
     render(
       <LightMode>
