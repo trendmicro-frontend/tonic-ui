@@ -9,6 +9,7 @@ describe('useEventCallback', () => {
   });
 
   it('should return a memoized function even if value changes', async () => {
+    const user = userEvent.setup();
     const TestComponent = () => {
       const [value, setValue] = useState('');
       const onChange = useEventCallback((event) => {
@@ -28,6 +29,6 @@ describe('useEventCallback', () => {
 
     const { container } = render(<TestComponent />);
     const input = container.querySelector('input');
-    await userEvent.type(input, 'Hello');
+    await user.type(input, 'Hello');
   });
 });

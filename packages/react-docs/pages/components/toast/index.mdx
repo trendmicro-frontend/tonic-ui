@@ -1,0 +1,803 @@
+# Toast
+
+A toast notification is a small popup that appears at either side of the screen, and disappears after a short time. The toast notification is used to notify the user of something that has happened, but it is not intended to be used as a permanent message.
+
+## Import
+
+```js
+import {
+  Toast,
+  ToastController,
+  ToastProvider,
+  ToastTransition,
+  useToast,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+Add `ToastProvider` to the root.
+
+```jsx disabled
+<ToastProvider placement="bottom-right">
+  <App />
+</ToastProvider>
+```
+
+For the Hook version, use the `useToast` Hook to get all the methods, properties, and state. See [useToast](toast/useToast) Hook for detailed usage.
+
+```jsx disabled
+function Example() {
+  const toast = useToast();
+  const handleClick = () => {
+    toast(({ onClose, placement }) => (
+      <Box>toast</Box>
+    ));
+  };
+
+  return (
+    <Button onClick={handleClick}>
+      Trigger Toast
+    </Button>
+  );
+}
+```
+
+### Layout
+
+* Increase the vertical padding space to `4x` (or `1rem`) for a multiline paragraph.
+* Set the minimum horizontal margin space to `4x` (or `1rem`) before the close button.
+* Set the minimum horizontal margin space to `4x` (or `1rem`) between the icon and the content.
+* Apply vertical margin space with `2x` (or `.5rem`) between the title and its content.
+* Apply vertical margin space with `6x` (or `1.5rem`) between the end of the content and the action button (or action link).
+
+```jsx noInline
+const ActionButton = React.forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={sx({
+      ':active': {
+        color: 'black:primary',
+      },
+      ':focus': {
+        color: 'black:primary',
+      },
+      ':hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black:primary',
+      },
+      ':hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    })}
+    {...props}
+  />
+));
+
+const ToastSimple = ({ onClose }) => (
+  <Toast isClosable onClose={onClose}>
+    <Text>This is a toast notification.</Text>
+  </Toast>
+);
+
+const ToastWithIcon = ({ onClose }) => (
+  <Toast isClosable onClose={onClose} py="4x">
+    <Flex alignItems="flex-start">
+      <Box
+        bg="gray:40"
+        height={48}
+        minWidth={48}
+      />
+      <Space minWidth="4x" />
+      <Text>This is a toast notification.</Text>
+    </Flex>
+  </Toast>
+);
+
+const ToastWithTitle = ({ onClose }) => (
+  <Toast isClosable onClose={onClose} py="4x">
+    <Box mb="2x">
+      <Text fontWeight="bold">Notification Title</Text>
+    </Box>
+    <Box mr="-9x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+  </Toast>
+);
+
+const ToastWithActionButton = ({ onClose }) => (
+  <Toast isClosable onClose={onClose} py="4x">
+    <Box mb="6x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+    <Flex justifyContent="flex-end" mr="-9x">
+      <ActionButton
+        // See above for the ActionButton component
+        size="sm"
+      >
+        Action Button
+      </ActionButton>
+    </Flex>
+  </Toast>
+);
+
+const ToastWithActionLink = ({ onClose }) => (
+  <Toast isClosable onClose={onClose} py="4x">
+    <Box mb="6x">
+      <Text>This is a toast notification.</Text>
+    </Box>
+    <Flex justifyContent="flex-end" mr="-9x">
+      <Link>Action Link</Link>
+    </Flex>
+  </Toast>
+);
+
+const ToastWithAllTogether = ({ onClose }) => (
+  <Toast isClosable onClose={onClose} py="4x">
+    <Box mb="2x">
+      <Text fontWeight="bold">Notification Title</Text>
+    </Box>
+    <Flex alignItems="flex-start" mb="6x">
+      <Box
+        bg="gray:40"
+        height={48}
+        minWidth={48}
+      />
+      <Space minWidth="4x" />
+      <Text>This is a toast notification.</Text>
+    </Flex>
+    <Flex justifyContent="flex-end" mr="-9x">
+      <ActionButton
+        // See above for the ActionButton component
+        size="sm"
+      >
+        Action Button
+      </ActionButton>
+    </Flex>
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const boxShadow = colorStyle.shadow.thin;
+
+  return (
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (ToastNotification) => () => {
+    toast(({ onClose, placement }) => {
+      const styleProps = {
+        'top-left': { pt: '2x', px: '4x' },
+        'top': { pt: '2x', px: '4x' },
+        'top-right': { pt: '2x', px: '4x' },
+        'bottom-left': { pb: '2x', px: '4x' },
+        'bottom': { pb: '2x', px: '4x' },
+        'bottom-right': { pb: '2x', px: '4x' },
+      }[placement];
+
+      return (
+        <Box {...styleProps}>
+          <ToastLayout>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        </Box>
+      );
+    }, {
+      placement: 'bottom-right',
+      duration: 5000,
+    });
+  };
+
+  return (
+    <>
+      <Stack direction="column" spacing="6x">
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(ToastSimple)}
+          >
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastSimple />
+          </ToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(ToastWithIcon)}
+          >
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastWithIcon />
+          </ToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(ToastWithTitle)}
+          >
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastWithTitle />
+          </ToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(ToastWithActionButton)}
+          >
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastWithActionButton />
+          </ToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(ToastWithActionLink)}
+          >
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastWithActionLink />
+          </ToastLayout>
+        </Box>
+        <Box>
+          <Button
+            variant="secondary"
+            onClick={handleClickBy(ToastWithAllTogether)}
+          >
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastWithAllTogether />
+          </ToastLayout>
+        </Box>
+      </Stack>
+    </>
+  );
+}
+
+render(<Example />);
+```
+
+### Appearances
+
+You can control the appearance of a toast notification. If specified, the value can be one of `success`, `info`, `warning`, or `error`.
+
+```jsx noInline
+const ToastSuccess = ({ onClose }) => (
+  <Toast
+    isClosable
+    onClose={onClose}
+    appearance="success"
+  >
+    This is a success toast.
+  </Toast>
+);
+
+const ToastInfo = ({ onClose }) => (
+  <Toast
+    isClosable
+    onClose={onClose}
+    appearance="info"
+  >
+    This is an info toast.
+  </Toast>
+);
+
+const ToastWarning = ({ onClose }) => (
+  <Toast
+    isClosable
+    onClose={onClose}
+    appearance="warning"
+  >
+    This is a warning toast.
+  </Toast>
+);
+
+const ToastError = ({ onClose }) => (
+  <Toast
+    isClosable
+    onClose={onClose}
+    appearance="error"
+  >
+    This is an error toast.
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const boxShadow = colorStyle.shadow.thin;
+
+  return (
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (ToastNotification) => () => {
+    toast(({ onClose, placement }) => {
+      const styleProps = {
+        'top-left': { pt: '2x', px: '4x' },
+        'top': { pt: '2x', px: '4x' },
+        'top-right': { pt: '2x', px: '4x' },
+        'bottom-left': { pb: '2x', px: '4x' },
+        'bottom': { pb: '2x', px: '4x' },
+        'bottom-right': { pb: '2x', px: '4x' },
+      }[placement];
+
+      return (
+        <Box {...styleProps}>
+          <ToastLayout>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        </Box>
+      );
+    }, {
+      placement: 'bottom-right',
+      duration: 5000,
+    });
+  };
+  const toastComponents = [
+    ToastSuccess,
+    ToastInfo,
+    ToastWarning,
+    ToastError,
+  ];
+
+  return (
+    <Stack direction="column" spacing="6x">
+      {toastComponents.map((ToastNotification, idx) => (
+        <Box key={idx}>
+          <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastNotification />
+          </ToastLayout>
+        </Box>
+      ))}
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+### Icons
+
+The `icon` prop allows you to override the default icon for the specified appearance.
+
+Setting the `icon` prop to `false` will remove the icon altogether.
+
+```jsx noInline
+const ToastWithDefaultIcon = ({ onClose }) => (
+  <Toast
+    isClosable
+    onClose={onClose}
+    appearance="success"
+  >
+    This is a success toast.
+  </Toast>
+);
+
+const ToastWithAnotherIcon = ({ onClose }) => (
+  <Toast
+    isClosable
+    onClose={onClose}
+    appearance="success"
+    icon="check-circle-o"
+  >
+    This is a success toast.
+  </Toast>
+);
+
+const ToastWithProprietaryIcon = ({ onClose }) => (
+  <Toast
+    isClosable
+    onClose={onClose}
+    appearance="success"
+    icon={<Icon icon="check-circle-o" color="gray:80" />}
+  >
+    This is a success toast.
+  </Toast>
+);
+
+const ToastWithoutIcon = ({ onClose }) => (
+  <Toast
+    isClosable
+    onClose={onClose}
+    appearance="success"
+    icon={false}
+  >
+    This is a success toast.
+  </Toast>
+);
+
+const ToastLayout = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const boxShadow = colorStyle.shadow.thin;
+
+  return (
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
+  );
+};
+
+function Example() {
+  const toast = useToast();
+  const handleClickBy = (ToastNotification) => () => {
+    toast(({ onClose, placement }) => {
+      const styleProps = {
+        'top-left': { pt: '2x', px: '4x' },
+        'top': { pt: '2x', px: '4x' },
+        'top-right': { pt: '2x', px: '4x' },
+        'bottom-left': { pb: '2x', px: '4x' },
+        'bottom': { pb: '2x', px: '4x' },
+        'bottom-right': { pb: '2x', px: '4x' },
+      }[placement];
+
+      return (
+        <Box {...styleProps}>
+          <ToastLayout>
+            <ToastNotification onClose={onClose} />
+          </ToastLayout>
+        </Box>
+      );
+    }, {
+      placement: 'bottom-right',
+      duration: 5000,
+    });
+  };
+  const alertToasts = [
+    ToastWithDefaultIcon,
+    ToastWithAnotherIcon,
+    ToastWithProprietaryIcon,
+    ToastWithoutIcon,
+  ];
+
+  return (
+    <Stack direction="column" spacing="6x">
+      {alertToasts.map((ToastNotification, idx) => (
+        <Box key={idx}>
+          <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
+            Show
+          </Button>
+          <ToastLayout mt="4x">
+            <ToastNotification />
+          </ToastLayout>
+        </Box>
+      ))}
+    </Stack>
+  );
+}
+
+render(<Example />);
+```
+
+### Toast on modal and drawer
+
+Toast is a useful way to provide feedback to the user about an action that has been completed or failed within a modal or drawer. They can be displayed on top of a modal or drawer without interrupting the user's workflow.
+
+The placement and size of toasts are typically determined by the design of the application in which they are being used. In general, they should be carefully considered to ensure that they are easy for the user to read and understand, without interfering with the rest of the user interface.
+
+In this example, the toast will be positioned 48 pixels from the top of the modal or drawer, and has a minimum width of 280 pixels. If the content of the toast message is wider than 280 pixels, the toast will expand to fit the content without exceeding 80% of the width of the modal or drawer in which it is being displayed.
+
+To animate the toast when it is displayed or dismissed, you can use the `ToastTransition` component. The `ToastController` component can also be used to control the duration for which the toast will be displayed before it is automatically dismissed. This allows you to set a specific amount of time for the toast to be visible, ensuring that it does not interrupt the user's workflow for too long.
+
+```jsx noInline
+const CustomToastContainer = (props) => (
+  <Flex
+    position="absolute"
+    top="12x"
+    width="100%"
+    zIndex="toast"
+  >
+    <Box
+      minWidth={280} // The minimum width is 280px
+      maxWidth="80%" // The maximum width is 80% of the modal or drawer width
+      margin="0 auto"
+      {...props}
+    />
+  </Flex>
+);
+
+let autoIncrementIndex = 0;
+
+render(() => {
+  const [toasts, setToasts] = React.useState([]);
+  const addToast = (options) => {
+    const {
+      appearance,
+      content,
+      duration = null,
+      isClosable = true,
+    } = { ...options };
+
+    setToasts(prevState => {
+      const id = ++autoIncrementIndex;
+      const onClose = () => {
+        setToasts(toasts => toasts.filter(x => x.id !== id));
+      };
+      // You can decide how many toasts you want to show at the same time depending on your use case
+      const nextState = [
+        ...prevState.slice(-2),
+        {
+          id,
+          appearance,
+          content,
+          duration,
+          isClosable,
+          onClose,
+        },
+      ];
+      return nextState;
+    });
+  };
+  const removeToasts = () => setToasts([]);
+
+  const handleClickAddLongToast = (event) => {
+    addToast({
+      appearance: 'none',
+      content: 'This is a long toast message. It will be expanded to fit the content without exceeding 80% of the width of the modal or drawer in which it is being displayed.',
+      duration: 5000,
+    });
+  };
+
+  const handleClickAddToastByAppearance = (appearance) => (event) => {
+    const content = {
+      success: 'This is a success toast',
+      info: 'This is an info toast',
+      warning: 'This is a warning toast',
+      error: 'This is an error toast',
+    }[appearance];
+
+    addToast({
+      appearance,
+      content,
+      duration: 5000,
+    });
+  };
+
+  const handleClickClearToasts = () => {
+    removeToasts();
+  };
+
+  return (
+    <>
+      <Flex justifyContent="space-between">
+        <Flex columnGap="2x">
+          <Button variant="secondary" onClick={handleClickAddLongToast}>
+            Show Long Message
+          </Button>
+          <Button variant="secondary" onClick={handleClickAddToastByAppearance('success')}>
+            Show Success Message
+          </Button>
+          <Button variant="secondary" onClick={handleClickAddToastByAppearance('info')}>
+            Show Info Message
+          </Button>
+          <Button variant="secondary" onClick={handleClickAddToastByAppearance('warning')}>
+            Show Warning Message
+          </Button>
+          <Button variant="secondary" onClick={handleClickAddToastByAppearance('error')}>
+            Show Error Message
+          </Button>
+        </Flex>
+        <Button variant="secondary" onClick={handleClickClearToasts}>
+          <Icon icon="close" />
+          <Space width="2x" />
+          Clear Toasts
+        </Button>
+      </Flex>
+      <Divider my="4x" />
+      <Flex
+        columnGap="4x"
+      >
+        <Stack
+          flex="1"
+          spacing="4x"
+        >
+          <Text fontSize="lg" lineHeight="lg">
+            Modal
+          </Text>
+          <ModalContent
+            minHeight={400}
+            width="100%"
+          >
+            <CustomToastContainer>
+              <TransitionGroup
+                component={null} // Pass in `component={null}` to avoid a wrapping `<div>` element 
+              >
+                {toasts.map(toast => (
+                  <ToastTransition
+                    in={true}
+                    key={toast?.id}
+                    unmountOnExit
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <ToastController
+                      duration={toast?.duration}
+                      onClose={toast?.onClose}
+                    >
+                      <Toast
+                        appearance={toast?.appearance}
+                        isClosable={toast?.isClosable}
+                        onClose={toast?.onClose}
+                        mb="2x"
+                      >
+                        {toast?.content}
+                      </Toast>
+                    </ToastController>
+                  </ToastTransition>
+                ))}
+              </TransitionGroup>
+            </CustomToastContainer>
+            <ModalHeader>
+              <Skeleton width={240} />
+            </ModalHeader>
+            <ModalBody>
+              <Stack direction="column" spacing="4x">
+                <Skeleton width={160} />
+                <Skeleton width={240} />
+                <Skeleton width={240} />
+              </Stack>
+            </ModalBody>
+            <ModalFooter>
+              <Grid templateColumns="repeat(2, 1fr)" columnGap="2x">
+                <Button variant="primary">
+                  OK
+                </Button>
+                <Button>
+                  Cancel
+                </Button>
+              </Grid>
+            </ModalFooter>
+          </ModalContent>
+        </Stack>
+        <Stack
+          flex="1"
+          spacing="4x"
+        >
+          <Text fontSize="lg" lineHeight="lg">
+            Drawer
+          </Text>
+          <DrawerContent
+            minHeight={400}
+            width="100%"
+          >
+            <CustomToastContainer>
+              <TransitionGroup
+                component={null} // Pass in `component={null}` to avoid a wrapping `<div>` element 
+              >
+                {toasts.map(toast => (
+                  <ToastTransition
+                    in={true}
+                    key={toast?.id}
+                    unmountOnExit
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <ToastController
+                      duration={toast?.duration}
+                      onClose={toast?.onClose}
+                    >
+                      <Toast
+                        appearance={toast?.appearance}
+                        isClosable={toast?.isClosable}
+                        onClose={toast?.onClose}
+                        mb="2x"
+                      >
+                        {toast?.content}
+                      </Toast>
+                    </ToastController>
+                  </ToastTransition>
+                ))}
+              </TransitionGroup>
+            </CustomToastContainer>
+            <DrawerHeader>
+              <Skeleton width={240} />
+            </DrawerHeader>
+            <DrawerBody>
+              <Stack direction="column" spacing="4x">
+                <Skeleton width={160} />
+                <Skeleton width={240} />
+                <Skeleton width={240} />
+              </Stack>
+            </DrawerBody>
+            <DrawerFooter>
+              <Grid templateColumns="repeat(2, 1fr)" columnGap="2x">
+                <Button variant="primary">
+                  OK
+                </Button>
+                <Button>
+                  Cancel
+                </Button>
+              </Grid>
+            </DrawerFooter>
+          </DrawerContent>
+        </Stack>
+      </Flex>
+    </>
+  );
+});
+```
+
+## Props
+
+### Toast
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
+| appearance | string | 'none' | One of: 'none', 'success', 'info', 'warning', 'error' |
+| icon | ReactNode \| boolean \| string | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
+
+### ToastController
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| duration | number | null | The duration in milliseconds after which the toast will be automatically closed. Set to `null` to disable auto-closing. |
+| onClose | function | | A callback called when the toast is being closed. |
+
+### ToastProvider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| container | DOM element | | |
+| placement | string | 'bottom-right' | Set the default placement to place toasts. One of: 'top', 'top-right', 'top-left', 'bottom', 'bottom-left', 'bottom-right' |
+
+### ToastTransition
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
+| children | ReactNode \| `(state, props) => ReactNode` | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| easing | string \| `{ enter?: string, exit?: string }` | `{ enter: easing.easeInOut, exit: easing.easeInOut }` | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| `{ appear?: number, enter?: number, exit?: number }` | `{ enter: duration.standard, exit: duration.standard }` | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |

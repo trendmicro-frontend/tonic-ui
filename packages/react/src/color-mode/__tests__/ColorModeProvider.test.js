@@ -20,6 +20,8 @@ Object.defineProperty(window, 'matchMedia', {
 
 describe('<ColorModeProvider />', () => {
   test('toggle color mode using a toggle button', async () => {
+    const user = userEvent.setup();
+
     const ToggleColorModeApp = () => {
       const [colorMode, setColorMode] = useColorMode();
       const toggleColorMode = useCallback(() => {
@@ -42,7 +44,7 @@ describe('<ColorModeProvider />', () => {
 
     const toggleColorModeButton = screen.getByRole('button');
     expect(toggleColorModeButton).toHaveTextContent('light');
-    await userEvent.click(toggleColorModeButton);
+    await user.click(toggleColorModeButton);
     expect(toggleColorModeButton).toHaveTextContent('dark');
   });
 
