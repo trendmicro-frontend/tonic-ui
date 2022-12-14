@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import fs from 'fs';
 import { pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/styled-system';
 import _ from 'lodash';

@@ -16,7 +16,6 @@ export const routes = [
   {
     title: 'Getting Started',
     icon: 'list-open',
-    path: 'getting-started',
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
@@ -28,7 +27,6 @@ export const routes = [
   {
     title: 'Styled System',
     icon: 'gavel',
-    path: 'styled-system',
     routes: [
       { title: 'Getting Started', path: 'styled-system' },
       { title: 'Style Props', path: 'styled-system/style-props' },
@@ -72,7 +70,6 @@ export const routes = [
         </SVGIcon>
       );
     },
-    path: 'theme',
     routes: [
       { title: 'Getting Started', path: 'theme' },
       { title: 'Borders', path: 'theme/borders' },
@@ -94,7 +91,6 @@ export const routes = [
   {
     title: 'React Components',
     icon: 'app',
-    path: 'components',
     routes: [
       { title: 'Getting Started', path: 'components' },
       { title: 'COLORS', heading: true },
@@ -303,7 +299,6 @@ export const routes = [
   {
     title: 'React Hooks',
     icon: 'hook',
-    path: 'hooks',
     routes: [
       { title: 'Getting Started', path: 'hooks' },
       { title: 'useConst', path: 'hooks/useConst' },
@@ -338,7 +333,6 @@ export const routes = [
         </SVGIcon>
       );
     },
-    path: 'lab',
     routes: [
       { title: 'Getting Started', path: 'lab' },
       { title: 'DATE PICKERS', heading: true },

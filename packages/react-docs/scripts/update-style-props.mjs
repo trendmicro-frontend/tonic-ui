@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import fs from 'fs';
 import { system } from '@tonic-ui/styled-system';
 import { ensureString } from 'ensure-type';
