@@ -139,7 +139,7 @@ const Sidebar = forwardRef((
 
           return (
             <Box
-              key={path}
+              key={title}
               data-path={path}
               mb="4x"
               _lastOfType={{
@@ -212,7 +212,7 @@ const Sidebar = forwardRef((
 
                     return (
                       <NavLink
-                        key={path}
+                        key={title}
                         data-path={path}
                         isActive={isActive}
                         href={`/${path}`}
