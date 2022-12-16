@@ -25,7 +25,7 @@ import InstantSearchPagination from './InstantSearchPagination';
  */
 const InstantSearchRefinementList = (
   {
-    onClose,
+    onChange,
   }
 ) => {
   const [colorMode] = useColorMode();
@@ -37,6 +37,9 @@ const InstantSearchRefinementList = (
     error,
   } = useInstantSearch({ catchError: true });
   const query = ensureString(results?.query);
+  const handleClickRefinementLinkBy = (hit) => () => {
+    onChange(hit);
+  };
 
   if (status === 'error') {
     return (
@@ -149,7 +152,7 @@ const InstantSearchRefinementList = (
               <Box key={hit.objectID}>
                 <InstantSearchRefinementLink
                   href={`/${hit.data.path}`}
-                  onClick={onClose}
+                  onClick={handleClickRefinementLinkBy(hit)}
                 >
                   <Icon
                     icon="menu"
