@@ -31,7 +31,7 @@ const InstantSearchModal = forwardRef((
       <ModalOverlay />
       <ModalContent>
         <Box p="4x">
-          <InstantSearchInput size="lg" />
+          <InstantSearchInput size="lg" placeholder="Search..." />
         </Box>
         <Divider />
         <InstantSearchRefinementList onClose={onClose} />
