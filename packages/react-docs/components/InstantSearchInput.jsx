@@ -6,8 +6,13 @@ import {
   useSearchBox,
 } from 'react-instantsearch-hooks';
 
+// https://www.algolia.com/doc/api-reference/widgets/search-box/react-hooks/#hook-params
+const queryHook = (query, search) => {
+  search(query);
+};
+
 const InstantSearchInput = forwardRef((props, ref) => {
-  const { query, refine, clear, isSearchStalled } = useSearchBox(props);
+  const { query, refine, clear, isSearchStalled } = useSearchBox({ queryHook });
   const [inputValue, setInputValue] = useState(query);
 
   const onChange = useCallback((event) => {

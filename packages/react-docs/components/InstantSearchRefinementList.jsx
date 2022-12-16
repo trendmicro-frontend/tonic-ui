@@ -8,10 +8,12 @@ import {
   Text,
   useColorMode,
   useColorStyle,
+  useTheme,
 } from '@tonic-ui/react';
 import { ensureArray, ensureString } from 'ensure-type'
 import _groupBy from 'lodash/groupBy';
 import React from 'react';
+import Highlight from 'react-highlight-words';
 import {
   useInstantSearch,
 } from 'react-instantsearch-hooks';
@@ -28,6 +30,7 @@ const InstantSearchRefinementList = (
 ) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
+  const { colors } = useTheme();
   const {
     results,
     status, // One of: 'idle', 'loading', 'stalled', 'error'
@@ -135,11 +138,11 @@ const InstantSearchRefinementList = (
         py="2x"
         overflowY="auto"
       >
-        {groupedEntries.map(([group, hits]) => (
-          <>
+        {groupedEntries.map(([groupName, hits]) => (
+          <Box key={groupName}>
             <Box my="2x">
               <Text color={colorStyle.color.secondary}>
-                {group}
+                {groupName}
               </Text>
             </Box>
             {ensureArray(hits).map(hit => (
@@ -152,20 +155,30 @@ const InstantSearchRefinementList = (
                     icon="menu"
                     size="6x"
                   />
-                  <Text>
-                    {hit?.data?.title}
-                  </Text>
+                  <Highlight
+                    searchWords={hit?._highlightResult?.data?.title?.matchedWords}
+                    highlightTag="mark"
+                    textToHighlight={hit?.data?.title}
+                    highlightStyle={{
+                      backgroundColor: '#1E90FF',
+                      color: colors[colorStyle.color.primary],
+                    }}
+                  />
                 </InstantSearchRefinementLink>
                 <Divider my="2x" />
               </Box>
             ))}
-          </>
+          </Box>
         ))}
       </Stack>
-      <Divider />
-      <Flex my="3x" justifyContent="center">
-        <InstantSearchPagination />
-      </Flex>
+      {(results.nbPages > 1) && (
+        <>
+          <Divider />
+          <Flex my="3x" justifyContent="center">
+            <InstantSearchPagination />
+          </Flex>
+        </>
+      )}
     </>
   );
 };

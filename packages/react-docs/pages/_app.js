@@ -14,7 +14,7 @@ import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import ReactGA from 'react-ga';
-import { InstantSearch } from 'react-instantsearch-hooks';
+import { InstantSearch, Configure } from 'react-instantsearch-hooks';
 import Content from '../components/Content';
 import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';
@@ -79,6 +79,12 @@ const App = (props) => {
       indexName={process.env.ALGOLIA_INDEX_NAME}
       searchClient={searchClient}
     >
+      <Configure
+        // https://www.algolia.com/doc/api-reference/search-api-parameters/
+        hitsPerPage={1000}
+        highlightPreTag="<mark>"
+        highlightPostTag="</mark>"
+      />
       <TonicProvider
         key={initialColorMode} // Force re-render if color mode changes
         colorMode={{
