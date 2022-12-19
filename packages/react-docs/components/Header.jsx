@@ -1,4 +1,3 @@
-import { ensureString } from 'ensure-type';
 import {
   Box,
   Button,
@@ -15,11 +14,15 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useCallback, useEffect } from 'react';
 import pkg from '../../../package.json';
 import persistColorMode from '../utils/persist-color-mode';
+import SearchButton from './SearchButton';
+import InstantSearchModal from './InstantSearchModal';
 import FontAwesomeIcon from './FontAwesomeIcon';
+import { usePortal } from './Portal';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
 const TONIC_UI_REACT_VERSION = ensureString(process.env.TONIC_UI_REACT_VERSION);
@@ -46,6 +49,7 @@ const Header = forwardRef((
   },
   ref,
 ) => {
+  const portal = usePortal();
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const version = (() => {
@@ -57,6 +61,12 @@ const Header = forwardRef((
     }
     return '';
   })();
+
+  const openInstantSearchModal = useCallback(() => {
+    portal.add((callback) => (
+      <InstantSearchModal onClose={callback} />
+    ));
+  }, [portal]);
 
   useEffect(() => {
     persistColorMode(colorMode);
@@ -155,6 +165,9 @@ const Header = forwardRef((
           columnGap="4x"
           px="4x"
         >
+          <SearchButton onClick={openInstantSearchModal}>
+            Search...
+          </SearchButton>
           <Box
             display="flex"
             flex="none"

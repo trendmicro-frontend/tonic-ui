@@ -26,6 +26,7 @@ jobs:
       run: npm install -g yarn
     - name: Install and build
       run: |
+        yarn up
         yarn install
         yarn build
     - name: Algolia search indexing

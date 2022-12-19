@@ -41,10 +41,13 @@ import {
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useCallback, useEffect } from 'react';
 import pkg from '../../../package.json';
 import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from '../components/FontAwesomeIcon';
+import InstantSearchModal from '../components/InstantSearchModal';
+import { usePortal } from '../components/Portal';
+import SearchButton from '../components/SearchButton';
 import SkeletonBody from '../components/SkeletonBody';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
@@ -76,7 +79,7 @@ const DefaultPage = (props) => {
       height="100vh"
       {...props}
     >
-      <Header />
+      <DefaultPageHeader />
       <Box
         maxWidth={{
           lg: '1024px',
@@ -357,7 +360,8 @@ const DefaultPage = (props) => {
   );
 };
 
-const Header = forwardRef((props, ref) => {
+const DefaultPageHeader = forwardRef((props, ref) => {
+  const portal = usePortal();
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const logo = {
@@ -368,6 +372,12 @@ const Header = forwardRef((props, ref) => {
     light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
   }[colorMode];
+
+  const openInstantSearchModal = useCallback(() => {
+    portal.add((callback) => (
+      <InstantSearchModal onClose={callback} />
+    ));
+  }, [portal]);
 
   useEffect(() => {
     persistColorMode(colorMode);
@@ -434,6 +444,9 @@ const Header = forwardRef((props, ref) => {
           columnGap="4x"
           px="4x"
         >
+          <SearchButton onClick={openInstantSearchModal}>
+            Search...
+          </SearchButton>
           <Box
             as="a"
             color={colorStyle.color.secondary}
@@ -482,7 +495,7 @@ const Header = forwardRef((props, ref) => {
     </Box>
   );
 });
-Header.displayName = 'Header';
+DefaultPageHeader.displayName = 'DefaultPageHeader';
 
 const Round = (props) => {
   const [colorMode] = useColorMode();
