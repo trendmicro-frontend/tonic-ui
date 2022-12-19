@@ -98,33 +98,6 @@ const InstantSearchRefinementList = (
         spacing="4x"
         py="10x"
       >
-        <Flex
-          justifyContent="center"
-          position="relative"
-          height="10x"
-          mb="4x"
-        >
-          <Box
-            position="absolute"
-            width="10x"
-            height="10x"
-          >
-            <Icon
-              icon="search-o"
-              size="10x"
-              position="absolute"
-              inset={0}
-            />
-            <Icon
-              icon="close-s"
-              size="6x"
-              position="absolute"
-              inset={0}
-              top="1x"
-              left="1x"
-            />
-          </Box>
-        </Flex>
         <Text textAlign="center">
           No results found for &quot;{results.query}&quot;
         </Text>
@@ -164,8 +137,8 @@ const InstantSearchRefinementList = (
                     highlightTag="mark"
                     textToHighlight={hit?.data?.title}
                     highlightStyle={{
-                      backgroundColor: '#1E90FF',
-                      color: colors[colorStyle.color.primary],
+                      backgroundColor: colors[colorStyle.text.highlight],
+                      color: colors['gray:100'],
                     }}
                   />
                 </InstantSearchRefinementLink>
