@@ -16,7 +16,7 @@ const flatten = (data, options) => {
 
   while (stack.length > 0) {
     const node = stack.shift();
-    const { title = '', path = '', [stateKey]: state = {} } = node;
+    const { title = '', icon = '', path = '', [stateKey]: state = {} } = node;
     const { level = 0, parent = null } = state;
 
     if (node[childrenKey]) {
@@ -27,6 +27,7 @@ const flatten = (data, options) => {
           level: level + 1,
           parent: {
             title,
+            icon,
             path,
           },
         },
@@ -35,7 +36,7 @@ const flatten = (data, options) => {
 
     if (title && path) {
       const object = {
-        data: { title, path },
+        data: { title, icon, path },
         level,
         parent,
       };
