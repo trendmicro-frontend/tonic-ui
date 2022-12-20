@@ -11,8 +11,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import { ensureArray, ensureString } from 'ensure-type'
-import _groupBy from 'lodash/groupBy';
-import _orderBy from 'lodash/orderBy';
+import _ from 'lodash';
 import React from 'react';
 import Highlight from 'react-highlight-words';
 import {
@@ -105,7 +104,12 @@ const InstantSearchRefinementList = (
     );
   }
 
-  const groupedEntries = Object.entries(_groupBy(_orderBy(results.hits, 'data.title'), 'parent.title'));
+  const groupedEntries = Object.entries(
+    _.chain(results.hits)
+      .orderBy('data.title')
+      .groupBy('parent.title')
+      .value()
+  );
 
   return (
     <>
@@ -129,7 +133,7 @@ const InstantSearchRefinementList = (
                   onClick={handleClickRefinementLinkBy(hit)}
                 >
                   <Icon
-                    icon="menu"
+                    icon={hit.data.icon}
                     size="6x"
                   />
                   <Highlight
