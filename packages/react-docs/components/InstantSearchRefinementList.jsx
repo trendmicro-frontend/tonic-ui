@@ -11,13 +11,13 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import { ensureArray, ensureString } from 'ensure-type'
-import _groupBy from 'lodash/groupBy';
-import _orderBy from 'lodash/orderBy';
+import _ from 'lodash';
 import React from 'react';
 import Highlight from 'react-highlight-words';
 import {
   useInstantSearch,
 } from 'react-instantsearch-hooks';
+import { routes } from '../config/sidebar-routes';
 import InstantSearchRefinementLink from './InstantSearchRefinementLink';
 import InstantSearchPagination from './InstantSearchPagination';
 
@@ -98,33 +98,6 @@ const InstantSearchRefinementList = (
         spacing="4x"
         py="10x"
       >
-        <Flex
-          justifyContent="center"
-          position="relative"
-          height="10x"
-          mb="4x"
-        >
-          <Box
-            position="absolute"
-            width="10x"
-            height="10x"
-          >
-            <Icon
-              icon="search-o"
-              size="10x"
-              position="absolute"
-              inset={0}
-            />
-            <Icon
-              icon="close-s"
-              size="6x"
-              position="absolute"
-              inset={0}
-              top="1x"
-              left="1x"
-            />
-          </Box>
-        </Flex>
         <Text textAlign="center">
           No results found for &quot;{results.query}&quot;
         </Text>
@@ -132,7 +105,12 @@ const InstantSearchRefinementList = (
     );
   }
 
-  const groupedEntries = Object.entries(_groupBy(_orderBy(results.hits, 'data.title'), 'parent.title'));
+  const groupedEntries = Object.entries(
+    _.chain(results.hits)
+      .orderBy('data.title')
+      .groupBy('parent.title')
+      .value()
+  );
 
   return (
     <>
@@ -149,29 +127,30 @@ const InstantSearchRefinementList = (
                 {groupName}
               </Text>
             </Box>
-            {ensureArray(hits).map(hit => (
-              <Box key={hit.objectID}>
-                <InstantSearchRefinementLink
-                  href={`/${hit.data.path}`}
-                  onClick={handleClickRefinementLinkBy(hit)}
-                >
-                  <Icon
-                    icon="menu"
-                    size="6x"
-                  />
-                  <Highlight
-                    searchWords={hit?._highlightResult?.data?.title?.matchedWords}
-                    highlightTag="mark"
-                    textToHighlight={hit?.data?.title}
-                    highlightStyle={{
-                      backgroundColor: '#1E90FF',
-                      color: colors[colorStyle.color.primary],
-                    }}
-                  />
-                </InstantSearchRefinementLink>
-                <Divider my="2x" />
-              </Box>
-            ))}
+            {ensureArray(hits).map(hit => {
+              const Icon = _.find(routes, { title: groupName })?.icon;
+
+              return (
+                <Box key={hit.objectID}>
+                  <InstantSearchRefinementLink
+                    href={`/${hit.data.path}`}
+                    onClick={handleClickRefinementLinkBy(hit)}
+                  >
+                    {Icon && <Icon size="6x" />}
+                    <Highlight
+                      searchWords={hit?._highlightResult?.data?.title?.matchedWords}
+                      highlightTag="mark"
+                      textToHighlight={hit?.data?.title}
+                      highlightStyle={{
+                        backgroundColor: colors[colorStyle.text.highlight],
+                        color: colors['gray:100'],
+                      }}
+                    />
+                  </InstantSearchRefinementLink>
+                  <Divider my="2x" />
+                </Box>
+              );
+            })}
           </Box>
         ))}
       </Stack>

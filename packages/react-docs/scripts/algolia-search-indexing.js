@@ -16,7 +16,7 @@ const flatten = (data, options) => {
 
   while (stack.length > 0) {
     const node = stack.shift();
-    const { title = '', path = '', [stateKey]: state = {} } = node;
+    const { title = '', icon = '', path = '', [stateKey]: state = {} } = node;
     const { level = 0, parent = null } = state;
 
     if (node[childrenKey]) {
@@ -27,6 +27,7 @@ const flatten = (data, options) => {
           level: level + 1,
           parent: {
             title,
+            icon,
             path,
           },
         },
@@ -35,7 +36,7 @@ const flatten = (data, options) => {
 
     if (title && path) {
       const object = {
-        data: { title, path },
+        data: { title, icon, path },
         level,
         parent,
       };
@@ -63,15 +64,21 @@ if (!ALGOLIA_INDEX) {
   process.exit(1);
 }
 
-const objects = flatten(routes, { childrenKey: 'routes' });
+const main = async () => {
+  try {
+    const client = algoliasearch(ALGOLIA_APPLICATION_ID, ALGOLIA_ADMIN_API_KEY);
+    const index = client.initIndex(ALGOLIA_INDEX);
 
-const client = algoliasearch(ALGOLIA_APPLICATION_ID, ALGOLIA_ADMIN_API_KEY);
-client
-  .initIndex(ALGOLIA_INDEX)
-  .saveObjects(objects)
-  .then(({ objectIDs }) => {
+    // Clear the records of an index without affecting its settings
+    await index.clearObjects();
+
+    // Add new objects to an index or replace existing objects with an updated set of attributes
+    const objects = flatten(routes, { childrenKey: 'routes' });
+    const { objectIDs } = await index.saveObjects(objects);
     console.log(`Succcessfully indexed ${objectIDs.length} objects.`);
-  })
-  .catch(error => {
+  } catch (error) {
     console.error(error);
-  });
+  }
+};
+
+main();

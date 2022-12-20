@@ -1,9 +1,11 @@
+import { Global, css } from '@emotion/react';
 import {
   Box,
   Divider,
   Modal,
   ModalOverlay,
   ModalContent,
+  useTheme,
 } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 import InstantSearchInput from './InstantSearchInput';
@@ -18,6 +20,8 @@ const InstantSearchModal = forwardRef((
   },
   ref,
 ) => {
+  const theme = useTheme();
+
   return (
     <Modal
       ref={ref}
@@ -30,8 +34,18 @@ const InstantSearchModal = forwardRef((
       size="md"
       {...rest}
     >
+      <Global
+        styles={css`
+          body {
+            overflow: hidden;
+          }
+        `}
+      />
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent
+        marginTop="12x"
+        maxHeight={`calc(100vh - ${theme?.space['12x']} - ${theme?.space['12x']})`}
+      >
         <Box p="4x">
           <InstantSearchInput size="lg" placeholder="Search..." />
         </Box>
