@@ -1,10 +1,14 @@
 {
   "name": "tonic-ui-react-app",
   "private": true,
+  "dependencies": {
+    "@tonic-ui/react": "workspace:*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "@tonic-ui/react": "workspace:*",
     "del-cli": "^5.0.0",
     "eslint": "^8.25.0",
     "eslint-config-trendmicro": "^3.0.0",
@@ -13,8 +17,6 @@
     "eslint-plugin-react": "latest",
     "eslint-plugin-react-hooks": "latest",
     "jest-watch-typeahead": "^2.2.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
