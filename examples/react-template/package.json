@@ -1,6 +1,7 @@
 {
-  "name": "tonic-ui-react-app",
   "private": true,
+  "name": "@tonic-ui/react-template",
+  "version": "0.1.0",
   "dependencies": {
     "@tonic-ui/react": "workspace:*",
     "react": "^18.0.0",
