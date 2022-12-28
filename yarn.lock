@@ -8264,28 +8264,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-react-app@workspace:examples/create-react-app":
-  version: 0.0.0-use.local
-  resolution: "create-react-app@workspace:examples/create-react-app"
-  dependencies:
-    "@testing-library/jest-dom": ^5.16.5
-    "@testing-library/react": ^13.4.0
-    "@tonic-ui/react": "workspace:*"
-    del-cli: ^5.0.0
-    eslint: ^8.25.0
-    eslint-config-trendmicro: ^3.0.0
-    eslint-plugin-import: latest
-    eslint-plugin-jsx-a11y: latest
-    eslint-plugin-react: latest
-    eslint-plugin-react-hooks: latest
-    jest-watch-typeahead: ^2.2.1
-    react: ^18.0.0
-    react-dom: ^18.0.0
-    react-scripts: ^5.0.1
-    web-vitals: ^2.1.4
-  languageName: unknown
-  linkType: soft
-
 "create-require@npm:^1.1.0":
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
@@ -19998,6 +19976,28 @@ __metadata:
     "@commitlint/config-conventional": 17.x
     husky: 8.x
     lerna: 6.x
+  languageName: unknown
+  linkType: soft
+
+"tonic-ui-react-app@workspace:examples/react-app":
+  version: 0.0.0-use.local
+  resolution: "tonic-ui-react-app@workspace:examples/react-app"
+  dependencies:
+    "@testing-library/jest-dom": ^5.16.5
+    "@testing-library/react": ^13.4.0
+    "@tonic-ui/react": "workspace:*"
+    del-cli: ^5.0.0
+    eslint: ^8.25.0
+    eslint-config-trendmicro: ^3.0.0
+    eslint-plugin-import: latest
+    eslint-plugin-jsx-a11y: latest
+    eslint-plugin-react: latest
+    eslint-plugin-react-hooks: latest
+    jest-watch-typeahead: ^2.2.1
+    react: ^18.0.0
+    react-dom: ^18.0.0
+    react-scripts: ^5.0.1
+    web-vitals: ^2.1.4
   languageName: unknown
   linkType: soft
 

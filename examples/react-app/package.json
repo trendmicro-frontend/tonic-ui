@@ -1,5 +1,5 @@
 {
-  "name": "create-react-app",
+  "name": "tonic-ui-react-app",
   "private": true,
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
