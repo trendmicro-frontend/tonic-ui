@@ -1,0 +1,54 @@
+{
+  "private": true,
+  "name": "@tonic-ui/react-template",
+  "version": "0.1.0",
+  "dependencies": {
+    "@tonic-ui/react": "workspace:*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "del-cli": "^5.0.0",
+    "eslint": "^8.25.0",
+    "eslint-config-trendmicro": "^3.0.0",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-jsx-a11y": "latest",
+    "eslint-plugin-react": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "jest-watch-typeahead": "^2.2.1",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --watchAll=false",
+    "clean": "del build",
+    "lint": "eslint --ext .js,.jsx,.mjs .",
+    "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test"
+  },
+  "eslintConfig": {
+    "extends": [
+      "trendmicro"
+    ],
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

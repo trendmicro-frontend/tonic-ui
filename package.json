@@ -3,12 +3,13 @@
   "description": "Tonic UI is a themeable UI component library built on top of Emotion and Styled System.",
   "private": true,
   "workspaces": [
+    "examples/*",
     "packages/*"
   ],
   "scripts": {
     "build": "lerna exec -- yarn build",
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
-    "eslint": "lerna exec -- yarn eslint",
+    "lint": "lerna exec -- yarn lint",
     "pre-push": "lerna exec -- yarn pre-push",
     "test": "lerna exec -- yarn test",
     "lerna-publish": "lerna publish",

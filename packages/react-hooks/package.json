@@ -13,8 +13,8 @@
   "scripts": {
     "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.mjs",
     "clean": "del build coverage dist",
-    "eslint": "eslint --ext .js,.jsx,.mjs .",
-    "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run eslint && yarn run test",
+    "lint": "eslint --ext .js,.jsx,.mjs .",
+    "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
     "prepublish": "yarn run build",
     "test": "jest --maxWorkers=2"
   },
