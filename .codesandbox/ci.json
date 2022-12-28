@@ -1,0 +1,5 @@
+{
+  "node": "14",
+  "packages": ["packages/*"],
+  "sandboxes": ["/examples/create-react-app"]
+}
