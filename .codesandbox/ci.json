@@ -1,5 +1,13 @@
 {
+  "buildCommand": "build",
   "node": "14",
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/react",
+    "packages/react-hooks",
+    "packages/react-lab",
+    "packages/styled-system",
+    "packages/theme",
+    "packages/utils"
+  ],
   "sandboxes": ["/examples/create-react-app"]
 }
