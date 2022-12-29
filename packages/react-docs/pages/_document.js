@@ -3,6 +3,9 @@ import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
+const MATOMO_URL = ensureString(process.env.MATOMO_URL);
+const MATOMO_CONTAINER_ID = ensureString(process.env.MATOMO_CONTAINER_ID);
+const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
 class CustomDocument extends Document {
   static async getInitialProps(ctx) {
@@ -15,6 +18,20 @@ class CustomDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href={`${BASE_PATH}/tonic-favicon-dark.ico`} />
+          {(MATOMO_URL && MATOMO_CONTAINER_ID) && (
+          <script
+            data-matomo-tag-manager
+            dangerouslySetInnerHTML={{
+              __html: `
+              var _mtm = window._mtm = window._mtm || [];
+              _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+              var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+              g.async=true; g.src='https://${MATOMO_URL}/js/container_${MATOMO_CONTAINER_ID}.js'; s.parentNode.insertBefore(g,s);
+              _mtm.push({ version: '${TONIC_UI_REACT_DOCS_VERSION}' });
+              `,
+            }}
+          />
+          )}
           <script
             data-tonic-ui
             dangerouslySetInnerHTML={{

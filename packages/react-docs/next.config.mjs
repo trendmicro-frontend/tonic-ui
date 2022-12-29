@@ -27,6 +27,9 @@ plugins.push(withMDX);
 const nextConfig = {
   env: {
     BASE_PATH: process.env.BASE_PATH,
+    // Matomo
+    MATOMO_URL: process.env.MATOMO_URL,
+    MATOMO_CONTAINER_ID: process.env.MATOMO_CONTAINER_ID,
     // Google Analytics
     GA_TRACKING_ID: 'UA-187145735-1',
     // Algolia

@@ -25,7 +25,9 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import { usePortal } from './Portal';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
-const TONIC_UI_REACT_VERSION = ensureString(process.env.TONIC_UI_REACT_VERSION);
+
+// The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
+const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
 const versionMap = {
   [ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)]: {
@@ -53,8 +55,8 @@ const Header = forwardRef((
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const version = (() => {
-    if (TONIC_UI_REACT_VERSION) {
-      return TONIC_UI_REACT_VERSION;
+    if (TONIC_UI_REACT_DOCS_VERSION) {
+      return TONIC_UI_REACT_DOCS_VERSION;
     }
     if (process.env.NODE_ENV === 'development') {
       return 'local build';

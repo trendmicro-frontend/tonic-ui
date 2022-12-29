@@ -85,7 +85,9 @@ jobs:
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_VERSION=latest" >> $BASH_ENV
+            echo "export MATOMO_URL=matomo.xdr.trendmicro.com" >> $BASH_ENV
+            echo "export MATOMO_CONTAINER_ID=N8rpl9LU" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=latest" >> $BASH_ENV
       - run:
           name: Check package version
           command: |
@@ -103,7 +105,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "BASE_PATH=/tonic-ui/react/${TONIC_UI_REACT_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui/react/${TONIC_UI_REACT_DOCS_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn lint
             yarn test
@@ -151,7 +153,9 @@ jobs:
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_VERSION=pr-${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
+            echo "export MATOMO_URL=matomo.xdr.trendmicro.com" >> $BASH_ENV
+            echo "export MATOMO_CONTAINER_ID=5ehpp7RV" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=pr-${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
       - run:
           name: Check package version
           command: |
@@ -169,7 +173,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "BASE_PATH=/tonic-ui-demo/react/${TONIC_UI_REACT_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui-demo/react/${TONIC_UI_REACT_DOCS_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn lint
             yarn test
@@ -212,19 +216,20 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            PACKAGE_VERSION=$(cat packages/react/package.json \
+            TONIC_UI_PACKAGES_REACT_VERSION=$(cat packages/react/package.json \
               | grep version \
               | head -1 \
               | awk -F: '{ print $2 }' \
               | sed 's/[",]//g' \
               | tr -d '[[:space:]]')
-            echo "export PACKAGE_VERSION=${PACKAGE_VERSION}" >> $BASH_ENV
             echo "export CI_BRANCH=${CIRCLE_BRANCH}" >> $BASH_ENV
             echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_VERSION=${PACKAGE_VERSION}" >> $BASH_ENV
+            echo "export MATOMO_URL=matomo.xdr.trendmicro.com" >> $BASH_ENV
+            echo "export MATOMO_CONTAINER_ID=N8rpl9LU" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_PACKAGES_REACT_VERSION}" >> $BASH_ENV
       - run:
           name: Check package version
           command: |
@@ -242,7 +247,7 @@ jobs:
       - run:
           name: Build & Test
           command: |
-            echo "BASE_PATH=/tonic-ui/react/${TONIC_UI_REACT_VERSION}" > packages/react-docs/.env.production
+            echo "BASE_PATH=/tonic-ui/react/${TONIC_UI_REACT_DOCS_VERSION}" > packages/react-docs/.env.production
             yarn build
             yarn lint
             yarn test
@@ -303,7 +308,7 @@ jobs:
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_VERSION=latest" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=latest" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
@@ -314,10 +319,10 @@ jobs:
           command: |
             cd tonic-ui
             git checkout gh-pages
-            rm -rf "react/${TONIC_UI_REACT_VERSION}"
-            mkdir -p "react/${TONIC_UI_REACT_VERSION}"
-            cp -af ../dist/react/** "react/${TONIC_UI_REACT_VERSION}/"
-            git add "react/${TONIC_UI_REACT_VERSION}"
+            rm -rf "react/${TONIC_UI_REACT_DOCS_VERSION}"
+            mkdir -p "react/${TONIC_UI_REACT_DOCS_VERSION}"
+            cp -af ../dist/react/** "react/${TONIC_UI_REACT_DOCS_VERSION}/"
+            git add "react/${TONIC_UI_REACT_DOCS_VERSION}"
             git commit -m "[CI] Deploy '${CI_COMMIT_SHORT}' to 'gh-pages'"
             git push origin gh-pages
 
@@ -352,7 +357,7 @@ jobs:
             echo "export TONIC_UI_DEMO_REPO=tonic-ui-demo" >> $BASH_ENV
             echo "export TONIC_UI_DEMO_REPO_URL=https://github.com/trendmicro-frontend/tonic-ui-demo.git" >> $BASH_ENV
             echo "export TONIC_UI_DEMO_URL=https://trendmicro-frontend.github.io/tonic-ui-demo" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_VERSION=pr-${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=pr-${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
@@ -364,16 +369,16 @@ jobs:
             git clone ${TONIC_UI_DEMO_REPO_URL} ${TONIC_UI_DEMO_REPO}
             cd ${TONIC_UI_DEMO_REPO}
             git checkout gh-pages
-            rm -rf "react/${TONIC_UI_REACT_VERSION}"
-            mkdir -p "react/${TONIC_UI_REACT_VERSION}"
-            cp -af ../dist/react/** "react/${TONIC_UI_REACT_VERSION}/"
-            git add "react/${TONIC_UI_REACT_VERSION}"
-            git commit -m "Deploy '${TONIC_UI_REACT_VERSION}' to '${TONIC_UI_DEMO_REPO_URL}'"
+            rm -rf "react/${TONIC_UI_REACT_DOCS_VERSION}"
+            mkdir -p "react/${TONIC_UI_REACT_DOCS_VERSION}"
+            cp -af ../dist/react/** "react/${TONIC_UI_REACT_DOCS_VERSION}/"
+            git add "react/${TONIC_UI_REACT_DOCS_VERSION}"
+            git commit -m "Deploy '${TONIC_UI_REACT_DOCS_VERSION}' to '${TONIC_UI_DEMO_REPO_URL}'"
             GIT_LOG_LAST_COMMIT_DATE=`git log --pretty=%ci -n 1`
             git push -u ${TONIC_UI_DEMO_REPO_URL} gh-pages
             cd ..
             yarn add file:./workspace/scripts/github-issue-comment-cli
-            npx github-issue-comment-cli --login-user trendmicro-frontend-bot --owner trendmicro-frontend --repo tonic-ui --issue-number ${CI_PULL_REQUEST_NUMBER} --comment "# Tonic UI Demo\n* ${GIT_LOG_LAST_COMMIT_DATE} The PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT}) has been deployed to ${TONIC_UI_DEMO_URL}/react/${TONIC_UI_REACT_VERSION}/\n"
+            npx github-issue-comment-cli --login-user trendmicro-frontend-bot --owner trendmicro-frontend --repo tonic-ui --issue-number ${CI_PULL_REQUEST_NUMBER} --comment "# Tonic UI Demo\n* ${GIT_LOG_LAST_COMMIT_DATE} The PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT}) has been deployed to ${TONIC_UI_DEMO_URL}/react/${TONIC_UI_REACT_DOCS_VERSION}/\n"
 
   deploy-tag:
     docker:
@@ -397,20 +402,19 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            PACKAGE_VERSION=$(cat tonic-ui/packages/react/package.json \
+            TONIC_UI_PACKAGES_REACT_VERSION=$(cat tonic-ui/packages/react/package.json \
               | grep version \
               | head -1 \
               | awk -F: '{ print $2 }' \
               | sed 's/[",]//g' \
               | tr -d '[[:space:]]')
-            echo "export PACKAGE_VERSION=${PACKAGE_VERSION}" >> $BASH_ENV
             echo "export CI_BRANCH=${CIRCLE_BRANCH}" >> $BASH_ENV
             echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_VERSION=${PACKAGE_VERSION}" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_PACKAGES_REACT_VERSION}" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
@@ -421,11 +425,11 @@ jobs:
           command: |
             cd tonic-ui
             git checkout gh-pages
-            rm -rf "react/${TONIC_UI_REACT_VERSION}"
-            mkdir -p "react/${TONIC_UI_REACT_VERSION}"
-            cp -af ../dist/react/** "react/${TONIC_UI_REACT_VERSION}/"
-            git add "react/${TONIC_UI_REACT_VERSION}"
-            git commit -m "[CI] Deploy '${TONIC_UI_REACT_VERSION}' to 'gh-pages' (tag='${CI_TAG}')"
+            rm -rf "react/${TONIC_UI_REACT_DOCS_VERSION}"
+            mkdir -p "react/${TONIC_UI_REACT_DOCS_VERSION}"
+            cp -af ../dist/react/** "react/${TONIC_UI_REACT_DOCS_VERSION}/"
+            git add "react/${TONIC_UI_REACT_DOCS_VERSION}"
+            git commit -m "[CI] Deploy '${TONIC_UI_REACT_DOCS_VERSION}' to 'gh-pages' (tag='${CI_TAG}')"
             git push origin gh-pages
 
   regular-lockfile-maintenance:
