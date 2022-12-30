@@ -35,7 +35,7 @@ const nextConfig = {
     ALGOLIA_SEARCH_API_KEY: 'c87cfe40f6ec7c43d4caf4316afd1816',
     ALGOLIA_INDEX_NAME: 'tonic-ui-v1',
     // see `.circleci/config.yml`
-    TONIC_UI_REACT_VERSION: process.env.TONIC_UI_REACT_VERSION,
+    TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION,
     // v1
     TONIC_UI_V1_BRANCH: process.env.TONIC_UI_V1_BRANCH,
     TONIC_UI_V1_DOCUMENTATION: process.env.TONIC_UI_V1_DOCUMENTATION,
