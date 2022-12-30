@@ -85,7 +85,7 @@ jobs:
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export MATOMO_URL=matomo.xdr.trendmicro.com" >> $BASH_ENV
+            echo "export MATOMO_URL=//matomo.xdr.trendmicro.com" >> $BASH_ENV
             echo "export MATOMO_CONTAINER_ID=N8rpl9LU" >> $BASH_ENV
             echo "export TONIC_UI_REACT_DOCS_VERSION=latest" >> $BASH_ENV
       - run:
@@ -153,8 +153,8 @@ jobs:
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export MATOMO_URL=matomo.xdr.trendmicro.com" >> $BASH_ENV
-            echo "export MATOMO_CONTAINER_ID=5ehpp7RV" >> $BASH_ENV
+            echo "export MATOMO_URL=//matomo.xdr.trendmicro.com" >> $BASH_ENV
+            echo "export MATOMO_CONTAINER_ID=5ehpp7RV_staging_0f078a89d761f525ed18a6f5" >> $BASH_ENV
             echo "export TONIC_UI_REACT_DOCS_VERSION=pr-${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
       - run:
           name: Check package version
@@ -227,7 +227,7 @@ jobs:
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export MATOMO_URL=matomo.xdr.trendmicro.com" >> $BASH_ENV
+            echo "export MATOMO_URL=//matomo.xdr.trendmicro.com" >> $BASH_ENV
             echo "export MATOMO_CONTAINER_ID=N8rpl9LU" >> $BASH_ENV
             echo "export TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_PACKAGES_REACT_VERSION}" >> $BASH_ENV
       - run:
