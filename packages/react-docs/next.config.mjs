@@ -27,14 +27,15 @@ plugins.push(withMDX);
 const nextConfig = {
   env: {
     BASE_PATH: process.env.BASE_PATH,
-    // Google Analytics
-    GA_TRACKING_ID: 'UA-187145735-1',
+    // Matomo
+    MATOMO_URL: process.env.MATOMO_URL,
+    MATOMO_CONTAINER_ID: process.env.MATOMO_CONTAINER_ID,
     // Algolia
     ALGOLIA_APPLICATION_ID: '7V00GBK8V8',
-    ALGOLIA_API_KEY: 'c87cfe40f6ec7c43d4caf4316afd1816',
+    ALGOLIA_SEARCH_API_KEY: 'c87cfe40f6ec7c43d4caf4316afd1816',
     ALGOLIA_INDEX_NAME: 'tonic-ui-v1',
     // see `.circleci/config.yml`
-    TONIC_UI_REACT_VERSION: process.env.TONIC_UI_REACT_VERSION,
+    TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION,
     // v1
     TONIC_UI_V1_BRANCH: process.env.TONIC_UI_V1_BRANCH,
     TONIC_UI_V1_DOCUMENTATION: process.env.TONIC_UI_V1_DOCUMENTATION,
