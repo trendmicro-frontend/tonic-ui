@@ -13,7 +13,6 @@ import algoliasearch from 'algoliasearch/lite';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import ReactGA from 'react-ga';
 import { InstantSearch, Configure } from 'react-instantsearch-hooks';
 import Content from '../components/Content';
 import GlobalStyles from '../components/GlobalStyles';
@@ -25,12 +24,7 @@ import Sidebar from '../components/Sidebar';
 import useMediaQuery from '../hooks/useMediaQuery';
  
 // Algolia search client
-const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY);
-
-const pageview = () => {
-  ReactGA.set({ page: window.location.pathname });
-  ReactGA.pageview(window.location.pathname);
-};
+const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY);
 
 const App = (props) => {
   const [initialColorMode, setColorMode] = useState(null);
@@ -47,26 +41,6 @@ const App = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // https://github.com/vercel/next.js/blob/canary/examples/with-react-ga/pages/_app.js
-  useEffect(() => {
-    ReactGA.initialize(process.env.GA_TRACKING_ID);
-    // `routeChangeComplete` won't run for the first page load unless the query string is
-    // hydrated later on, so here we log a page view if this is the first render and
-    // there's no query string
-    if (!router.asPath.includes('?')) {
-      pageview();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    // Listen for page changes after a navigation or when the query changes
-    router.events.on('routeChangeComplete', pageview);
-    return () => {
-      router.events.off('routeChangeComplete', pageview);
-    };
-  }, [router]);
 
   if (!initialColorMode) {
     return null;
