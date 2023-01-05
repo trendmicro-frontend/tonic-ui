@@ -10,6 +10,7 @@ import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
 import { ensureString } from 'ensure-type';
 import immutableUpdate from 'immutability-helper';
+import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import * as rbd from 'react-beautiful-dnd';
 import * as ReactDND from 'react-dnd';
@@ -22,6 +23,7 @@ import { TransitionGroup } from 'react-transition-group';
 import * as ReactVirtualized from 'react-virtualized';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
+import x from '../utils/json-stringify';
 import Code from './Code';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import IconButton from './IconButton';
@@ -80,6 +82,7 @@ const tmicons = tmicon.iconsets.map(group => {
 });
 
 const LiveCodePreview = props => {
+  const router = useRouter();
   const [colorMode] = useColorMode();
   const borderColor = {
     light: 'gray:30',
@@ -94,6 +97,7 @@ const LiveCodePreview = props => {
       p="4x"
     >
       <Box
+        data-track={`CodeBlock|play_around|${x({ path: router.pathname })}`}
         as={LivePreview}
         fontFamily="base"
         fontSize="sm"
@@ -129,6 +133,7 @@ const CodeBlock = ({
   children,
   ...props
 }) => {
+  const router = useRouter();
   const originalEditorCode = React.isValidElement(children)
     ? ensureString(children?.props?.children).trim()
     : ensureString(children).trim();
@@ -212,17 +217,29 @@ const CodeBlock = ({
     <LiveProvider {...liveProviderProps}>
       <LiveCodePreview style={liveCodePreviewStyle} />
       <Box display="flex" justifyContent="flex-end">
-        <IconButton onClick={toggleLiveEditorVisibility}>
+        <IconButton
+          data-track={isLiveEditorVisible
+            ? `CodeBlock|hide_source|${x({ path: router.pathname })}`
+            : `CodeBlock|show_source|${x({ path: router.pathname })}`
+          }
+          onClick={toggleLiveEditorVisibility}
+        >
           <Tooltip label={isLiveEditorVisible ? 'Hide the source' : 'Show the source'}>
             <Icon icon="code" size={{ sm: '5x', md: '4x' }} />
           </Tooltip>
         </IconButton>
-        <IconButton onClick={copySource}>
+        <IconButton
+          data-track={`CodeBlock|copy_source|${x({ path: router.pathname })}`}
+          onClick={copySource}
+        >
           <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
             <Icon icon="file-copy-o" size={{ sm: '5x', md: '4x' }} />
           </Tooltip>
         </IconButton>
-        <IconButton onClick={resetDemo}>
+        <IconButton
+          data-track={`CodeBlock|reset|${router.pathname}`}
+          onClick={resetDemo}
+        >
           <Tooltip label="Reset the demo">
             <Icon icon="redo" size={{ sm: '5x', md: '4x' }} />
           </Tooltip>

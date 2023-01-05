@@ -42,17 +42,17 @@ import {
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
-import pkg from '../../../package.json';
-import persistColorMode from '../utils/persist-color-mode';
 import FontAwesomeIcon from '../components/FontAwesomeIcon';
 import InstantSearchModal from '../components/InstantSearchModal';
 import { usePortal } from '../components/Portal';
 import SearchButton from '../components/SearchButton';
 import SkeletonBody from '../components/SkeletonBody';
+import useTrack from '../hooks/useTrack';
+import persistColorMode from '../utils/persist-color-mode';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
 
-const GITHUB_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
+const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 
 const DefaultPage = (props) => {
   const [colorMode] = useColorMode();
@@ -129,6 +129,7 @@ const DefaultPage = (props) => {
               >
                 <NextLink href={'/getting-started'} legacyBehavior passHref>
                   <ButtonLink
+                    data-track={`ClickThrough|click_get_started_link|/getting-started`}
                     variant="primary"
                     fontSize="lg"
                     lineHeight="lg"
@@ -141,8 +142,10 @@ const DefaultPage = (props) => {
                     <Icon icon="chevron-right" />
                   </ButtonLink>
                 </NextLink>
-                <NextLink href={GITHUB_URL} legacyBehavior passHref>
+                <NextLink href={GITHUB_REPO_URL} legacyBehavior passHref>
                   <ButtonLink
+                    target="_blank"
+                    data-track={`ClickThrough|click_github_repo_url|${GITHUB_REPO_URL}`}
                     variant="secondary"
                     fontSize="lg"
                     lineHeight="lg"
@@ -372,17 +375,27 @@ const DefaultPageHeader = forwardRef((props, ref) => {
     light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
   }[colorMode];
+  const track = useTrack();
 
   const openInstantSearchModal = useCallback(() => {
-    portal.add((callback) => (
-      <InstantSearchModal onClose={callback} />
-    ));
+    portal.add((close) => {
+      const onClose = () => {
+        track('InstantSearch', 'close_instant_search_modal');
+
+        // close the modal
+        close();
+      };
+
+      return (
+        <InstantSearchModal onClose={onClose} />
+      );
+    });
   }, [portal]);
 
   useEffect(() => {
     persistColorMode(colorMode);
   }, [colorMode]);
-  
+
   return (
     <Box
       as="header"
@@ -408,6 +421,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
         <Box>
           <NextLink href={`/`} legacyBehavior passHref>
             <Link
+              data-track="Header|click_landing_page"
               background="transparent"
               color={colorStyle.color.primary}
               fontSize="xl"
@@ -444,10 +458,14 @@ const DefaultPageHeader = forwardRef((props, ref) => {
           columnGap="4x"
           px="4x"
         >
-          <SearchButton onClick={openInstantSearchModal}>
+          <SearchButton
+            data-track="Header|open_instant_search_modal"
+            onClick={openInstantSearchModal}
+          >
             Search...
           </SearchButton>
           <Box
+            data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
             as="a"
             color={colorStyle.color.secondary}
             _hover={{
@@ -466,7 +484,9 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             )}
           </Box>
           <Box
+            data-track={`Header|click_github_repo_url|${GITHUB_REPO_URL}`}
             as="a"
+            href={GITHUB_REPO_URL}
             color={colorStyle.color.secondary}
             _hover={{
               color: colorStyle.color.primary,
@@ -475,8 +495,6 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             _visited={{
               color: colorStyle.color.secondary,
             }}
-            href={pkg.homepage}
-            target="_blank"
             display="inline-flex"
             textDecoration="none"
           >

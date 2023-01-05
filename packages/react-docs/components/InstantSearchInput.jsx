@@ -1,6 +1,9 @@
 import {
   SearchInput,
 } from '@tonic-ui/react';
+import {
+  callEventHandlers,
+} from '@tonic-ui/utils';
 import React, { forwardRef, useCallback, useState } from 'react';
 import {
   useSearchBox,
@@ -11,7 +14,13 @@ const queryHook = (query, search) => {
   search(query);
 };
 
-const InstantSearchInput = forwardRef((props, ref) => {
+const InstantSearchInput = forwardRef((
+  {
+    onChange: onChangeProp,
+    ...rest
+  },
+  ref,
+) => {
   const { query, refine, clear, isSearchStalled } = useSearchBox({ queryHook });
   const [inputValue, setInputValue] = useState(query);
 
@@ -31,9 +40,9 @@ const InstantSearchInput = forwardRef((props, ref) => {
       ref={ref}
       isLoading={isSearchStalled}
       value={inputValue}
-      onChange={onChange}
+      onChange={callEventHandlers(onChangeProp, onChange)}
       onClearInput={onClearInput}
-      {...props}
+      {...rest}
     />
   );
 });
