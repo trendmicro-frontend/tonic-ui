@@ -17,7 +17,7 @@ import {
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
-import pkg from '../../../package.json';
+import useTrack from '../hooks/useTrack';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
@@ -25,6 +25,8 @@ import FontAwesomeIcon from './FontAwesomeIcon';
 import { usePortal } from './Portal';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
+
+const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 
 // The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
@@ -51,9 +53,11 @@ const Header = forwardRef((
   },
   ref,
 ) => {
-  const portal = usePortal();
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
+  const portal = usePortal();
+  const track = useTrack();
+
   const version = (() => {
     if (TONIC_UI_REACT_DOCS_VERSION) {
       return TONIC_UI_REACT_DOCS_VERSION;
@@ -65,9 +69,18 @@ const Header = forwardRef((
   })();
 
   const openInstantSearchModal = useCallback(() => {
-    portal.add((callback) => (
-      <InstantSearchModal onClose={callback} />
-    ));
+    portal.add((close) => {
+      const onClose = () => {
+        track('InstantSearch', 'close_instant_search_modal');
+
+        // close the modal
+        close();
+      };
+
+      return (
+        <InstantSearchModal onClose={onClose} />
+      );
+    });
   }, [portal]);
 
   useEffect(() => {
@@ -130,7 +143,7 @@ const Header = forwardRef((
           >
             <NextLink href={`/`} legacyBehavior passHref>
               <Link
-                background="transparent"
+                data-track="Header|click_landing_page"
                 color={colorStyle.color.primary}
                 fontSize="xl"
                 lineHeight="lg"
@@ -167,20 +180,31 @@ const Header = forwardRef((
           columnGap="4x"
           px="4x"
         >
-          <SearchButton onClick={openInstantSearchModal}>
+          <SearchButton
+            data-track="InstantSearch|open_instant_search_modal"
+            onClick={openInstantSearchModal}
+          >
             Search...
           </SearchButton>
           <Box
             display="flex"
             flex="none"
           >
-            <Menu>
+            <Menu
+              onOpen={() => {
+                track('Header', 'open_version_menu');
+              }}
+              onClose={() => {
+                track('Header', 'close_version_menu');
+              }}
+            >
               <MenuButton>
                 {versionMap[version]?.label ?? version}
               </MenuButton>
               <MenuList>
                 {Object.entries(versionMap).map(([key, value]) => (
                   <MenuItem
+                    data-track={`Header|click_version_menu_item|${value?.label}`}
                     key={key}
                     as="a"
                     href={value?.url}
@@ -194,6 +218,7 @@ const Header = forwardRef((
                 ))}
                 <MenuDivider />
                 <MenuItem
+                  data-track="Header|click_version_menu_item|View all versions"
                   as="a"
                   href={`${BASE_PATH}/getting-started/versions`}
                   whiteSpace="nowrap"
@@ -204,6 +229,7 @@ const Header = forwardRef((
             </Menu>
           </Box>
           <Box
+            data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
             as="a"
             color={colorStyle.color.secondary}
             _hover={{
@@ -224,8 +250,12 @@ const Header = forwardRef((
             )}
           </Box>
           <Box
+            data-track={`Header|click_github_repo_url|${GITHUB_REPO_URL}`}
             as="a"
+            href={GITHUB_REPO_URL}
+            target="_blank"
             color={colorStyle.color.secondary}
+            display="inline-flex"
             _hover={{
               color: colorStyle.color.primary,
               cursor: 'pointer',
@@ -233,9 +263,6 @@ const Header = forwardRef((
             _visited={{
               color: colorStyle.color.secondary,
             }}
-            href={pkg.homepage}
-            target="_blank"
-            display="inline-flex"
           >
             <FontAwesomeIcon
               icon={['fab', 'github']}

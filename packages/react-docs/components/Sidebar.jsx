@@ -17,10 +17,11 @@ import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef, useEffect, useRef } from 'react';
-import IconButton from './IconButton';
-import NavLink from './NavLink';
 import { routes } from '../config/sidebar-routes';
 import useForkRef from '../hooks/useForkRef';
+import x from '../utils/json-stringify';
+import IconButton from './IconButton';
+import NavLink from './NavLink';
 
 const isElementInViewport = (el) => {
   if (!el) {
@@ -135,12 +136,12 @@ const Sidebar = forwardRef((
         </Flex>
       </Box>
       <Accordion>
-        {routes.map(({ title, icon, routes }) => {
+        {routes.map(({ title: sectionTitle, icon, routes }) => {
           const defaultIsExpanded = routes.some((route) => currentPath.startsWith(route.path));
 
           return (
             <Box
-              key={title}
+              key={sectionTitle}
               mb="4x"
               _lastOfType={{
                 mb: 0,
@@ -152,9 +153,13 @@ const Sidebar = forwardRef((
                 {({ isExpanded }) => (
                   <>
                     <AccordionToggle
+                      data-track={isExpanded
+                        ? `SideMenu|close_menu_section|${x({ title: sectionTitle })}`
+                        : `SideMenu|open_menu_section|${x({ title: sectionTitle })}`
+                      }
                       // The following data attributes are used by the instant search to toggle and scroll to the correct accordion section
                       data-expanded={isExpanded}
-                      data-title={title}
+                      data-title={sectionTitle}
                     >
                       <Flex
                         alignItems="center"
@@ -181,7 +186,7 @@ const Sidebar = forwardRef((
                             fontSize="sm"
                             lineHeight="sm"
                           >
-                            {title}
+                            {sectionTitle}
                           </Text>
                         </Flex>
                         <AccordionToggleIcon />
@@ -215,13 +220,15 @@ const Sidebar = forwardRef((
                         }
 
                         const isActive = (currentPath === path);
+                        const navigateTo = `/${path}`;
 
                         return (
                           <NavLink
                             key={title}
                             data-path={path}
+                            data-track={`SideMenu|click_menu_item|${x({ path: navigateTo, title: [sectionTitle, title].join(' > ') })}`}
                             isActive={isActive}
-                            href={`/${path}`}
+                            href={navigateTo}
                             onClick={onClick}
                             pl={0}
                             px="3x"

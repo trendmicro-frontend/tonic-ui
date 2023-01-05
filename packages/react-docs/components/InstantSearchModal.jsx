@@ -8,10 +8,10 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
+import useTrack from '../hooks/useTrack';
+import x from '../utils/json-stringify';
 import InstantSearchInput from './InstantSearchInput';
 import InstantSearchRefinementList from './InstantSearchRefinementList';
-
-const x = (value) => JSON.stringify(value);
 
 const InstantSearchModal = forwardRef((
   {
@@ -21,6 +21,7 @@ const InstantSearchModal = forwardRef((
   ref,
 ) => {
   const theme = useTheme();
+  const track = useTrack();
 
   return (
     <Modal
@@ -47,20 +48,31 @@ const InstantSearchModal = forwardRef((
         maxHeight={`calc(100vh - ${theme?.space['12x']} - ${theme?.space['12x']})`}
       >
         <Box p="4x">
-          <InstantSearchInput size="lg" placeholder="Search..." />
+          <InstantSearchInput
+            size="lg"
+            placeholder="Search..."
+            onChange={(event) => {
+              const searchInputValue = event.target.value;
+              track('InstantSearch', 'change_search_input', searchInputValue);
+            }}
+          />
         </Box>
         <Divider />
         <InstantSearchRefinementList
           onChange={(hit) => {
+            const sectionTitle = hit?.parent?.title || '';
+            const title = hit?.data?.title || '';
+
+            track('InstantSearch', 'click_search_result', x({ path: `/${hit?.data?.path}`, title: [sectionTitle, title].join(' > ') }));
+
             /**
              * The function uses the `parent` property of the `hit` object to get the title of the parent refinement,
              * and then uses this title to select a DOM element from #sidenav with a `data-title` attribute that matches the title.
              * If the DOM element has a `data-expanded` attribute with a value of "false", the function simulates a mouse click
              * on the element by creating a new MouseEvent and calling the dispatchEvent method on the element.
              */
-            const parentTitle = hit?.parent?.title;
-            if (parentTitle) {
-              const button = document.querySelector(`#sidenav button[data-title=${x(parentTitle)}]`);
+            if (sectionTitle) {
+              const button = document.querySelector(`#sidenav button[data-title=${x(sectionTitle)}]`);
               if (button?.dataset?.expanded === 'false') {
                 // Simulate a mouse click on the button
                 const event = new MouseEvent('click', {
