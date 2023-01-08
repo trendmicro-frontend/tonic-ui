@@ -3,7 +3,13 @@ import scroll from '../scroll';
 test('returns style objects', () => {
   const styles = scroll({
     scrollBehavior: 'smooth',
-    scrollMargin: '0 0',
+    scrollMargin: '1em 0.5em 1em 1em',
+    scrollMarginBlock: '1em 0.5em',
+    scrollMarginBlockEnd: '1em',
+    scrollMarginBlockStart: '1em',
+    scrollMarginInline: '1em 0.5em',
+    scrollMarginInlineEnd: '1em',
+    scrollMarginInlineStart: '1em',
     scrollMarginTop: 0,
     scrollMarginRight: 0,
     scrollMarginBottom: 0,
@@ -14,11 +20,18 @@ test('returns style objects', () => {
     scrollPaddingBottom: '12px',
     scrollPaddingLeft: '16px',
     scrollSnapAlign: 'start',
+    scrollSnapStop: 'normal',
     scrollSnapType: 'x mandatory',
   });
   expect(styles).toEqual({
     scrollBehavior: 'smooth',
-    scrollMargin: '0 0',
+    scrollMargin: '1em 0.5em 1em 1em',
+    scrollMarginBlock: '1em 0.5em',
+    scrollMarginBlockEnd: '1em',
+    scrollMarginBlockStart: '1em',
+    scrollMarginInline: '1em 0.5em',
+    scrollMarginInlineEnd: '1em',
+    scrollMarginInlineStart: '1em',
     scrollMarginTop: 0,
     scrollMarginRight: 0,
     scrollMarginBottom: 0,
@@ -29,6 +42,7 @@ test('returns style objects', () => {
     scrollPaddingBottom: '12px',
     scrollPaddingLeft: '16px',
     scrollSnapAlign: 'start',
+    scrollSnapStop: 'normal',
     scrollSnapType: 'x mandatory',
   });
 });

@@ -9,6 +9,36 @@ const config = {
     scale: 'space',
     transform: positiveOrNegativeTransform, // multi-value
   },
+  scrollMarginBlock: {
+    property: 'scrollMarginBlock',
+    scale: 'space',
+    transform: positiveOrNegativeTransform, // multi-value
+  },
+  scrollMarginBlockEnd: {
+    property: 'scrollMarginBlockEnd',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
+  scrollMarginBlockStart: {
+    property: 'scrollMarginBlockStart',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
+  scrollMarginInline: {
+    property: 'scrollMarginInline',
+    scale: 'space',
+    transform: positiveOrNegativeTransform, // multi-value
+  },
+  scrollMarginInlineEnd: {
+    property: 'scrollMarginInlineEnd',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
+  scrollMarginInlineStart: {
+    property: 'scrollMarginInlineStart',
+    scale: 'space',
+    transform: positiveOrNegativeTransform,
+  },
   scrollMarginTop: {
     property: 'scrollMarginTop',
     scale: 'space',
@@ -50,6 +80,7 @@ const config = {
     scale: 'space',
   },
   scrollSnapAlign: true,
+  scrollSnapStop: true,
   scrollSnapType: true,
 };
 
