@@ -38,13 +38,13 @@ import {
   Text,
   useColorMode,
   useColorStyle,
+  usePortal,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import FontAwesomeIcon from '../components/FontAwesomeIcon';
 import InstantSearchModal from '../components/InstantSearchModal';
-import { usePortal } from '../components/Portal';
 import SearchButton from '../components/SearchButton';
 import SkeletonBody from '../components/SkeletonBody';
 import useTrack from '../hooks/useTrack';

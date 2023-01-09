@@ -14,20 +14,25 @@ import {
 } from '@tonic-ui/react';
 ```
 
-## Usage
+## Setup
 
-Add `ToastProvider` to the root.
+To use `useToast`, you need to wrap your root component with the `ToastProvider` component. This provides a context for `useToast` to work. Then, you can use the `useToast` Hook in any component to manage toasts.
 
-```jsx disabled
-<ToastProvider placement="bottom-right">
-  <App />
-</ToastProvider>
-```
+```js
+import {
+  ToastProvider,
+  useToast,
+} from '@tonic-ui/react';
 
-For the Hook version, use the `useToast` Hook to get all the methods, properties, and state. See [useToast](toast/useToast) Hook for detailed usage.
+function App() {
+  return (
+    <ToastProvider placement="bottom-right">
+      <MyComponent />
+    </ToastProvider>
+  );
+}
 
-```jsx disabled
-function Example() {
+function MyComponent() {
   const toast = useToast();
   const handleClick = () => {
     toast(({ onClose, placement }) => (
@@ -42,6 +47,10 @@ function Example() {
   );
 }
 ```
+
+See [useToast](./toast/useToast) Hook for detailed usage.
+
+## Usage
 
 ### Layout
 

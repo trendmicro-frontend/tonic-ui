@@ -13,6 +13,7 @@ import {
   Text,
   useColorMode,
   useColorStyle,
+  usePortal,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
@@ -22,7 +23,6 @@ import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
 import FontAwesomeIcon from './FontAwesomeIcon';
-import { usePortal } from './Portal';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
 

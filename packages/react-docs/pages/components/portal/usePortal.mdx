@@ -1,0 +1,112 @@
+# usePortal
+
+The `usePortal` Hook allows you to create and remove portals in your React application. A portal is a way to render a component outside of its parent component hierarchy, in a different part of the DOM.
+
+To use `usePortal`, you need to wrap your root component with the `PortalProvider` component. This provides a context for `usePortal` to work. Then, you can use the `usePortal` Hook in any component to create and remove portals.
+
+```js
+import {
+  PortalProvider,
+  usePortal,
+} from '@tonic-ui/react';
+
+function App() {
+  return (
+    <PortalProvider>
+      <MyComponent />
+    </PortalProvider>
+  );
+}
+
+function MyComponent() {
+  const portal = usePortal();
+  const openModal = () => {
+    portal.add((close) => (
+      <MyModal onClose={close} />
+    ));
+  };
+
+  return (
+    <Button onClick={openModal}>Open Modal</Button>
+  );
+};
+```
+
+## Usage
+
+The `usePortal` Hook returns an object with two methods: `add` and `remove`.
+
+### portal.add(render, [options={}])
+
+The `add` method creates a new portal and returns a unique id for the portal.
+
+**Parameters**
+
+* `render` *(Function)*:  A function that returns a React element. This function is passed a `close` function that can be used to close the portal.
+* `[options={}]` *(Object)*: An optional object that provides additional options for the portal.
+* `[options.id]` *(string)*: A unique identifier for the portal. If not provided, a unique ID will be generated.
+* `[options.appendToParentPortal=false]` *(boolean)*: If `true`, the portal will be appended to the parent portal. If `false`, the portal will be appended to the body. Defaults to `false`.
+* `[options.containerRef=null]` *(React.RefObject)*: A reference to the container element. If provided, the portal will be appended to the container element. Otherwise, the portal will be appended to the body. Defaults to `null`.
+
+**Returns**
+
+* *(string)*: A unique identifier for the portal.
+
+### portal.remove(id)
+
+The `remove` method removes a portal by its id.
+
+**Parameters**
+
+* `id` *(string)*: The id of the portal to be removed.
+
+**Returns**
+
+This method does not return anything.
+
+## Example
+
+Here is an example of how to use `usePortal` to create and remove a modal:
+
+```jsx noInline
+render(() => {
+  const portal = usePortal();
+  const openModal = React.useCallback(() => {
+    portal.add((close) => (
+      <MyModal onClose={close} />
+    ));
+  }, [portal]);
+
+  return (
+    <Button onClick={openModal}>
+      Open Modal
+    </Button>
+  );
+});
+
+const MyModal = ({ onClose, ...rest }) => (
+  <Modal
+    closeOnEsc
+    closeOnOutsideClick
+    isOpen
+    onClose={onClose}
+    size="sm"
+    {...rest}
+  >
+    <ModalOverlay />
+    <ModalContent>
+      <ModalHeader>
+        Modal Header
+      </ModalHeader>
+      <ModalBody>
+        Modal Body
+      </ModalBody>
+      <ModalFooter>
+        <Button onClick={onClose}>
+          Close
+        </Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+);
+```

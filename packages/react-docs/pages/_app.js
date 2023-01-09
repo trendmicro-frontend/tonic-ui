@@ -1,6 +1,7 @@
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
+  PortalProvider,
   ToastProvider,
   TonicProvider,
   colorStyle as defaultColorStyle,
@@ -19,7 +20,6 @@ import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';
 import MDXComponents from '../components/MDXComponents';
 import Main from '../components/Main';
-import { PortalProvider } from '../components/Portal';
 import Sidebar from '../components/Sidebar';
 import useMediaQuery from '../hooks/useMediaQuery';
  

@@ -1,34 +1,52 @@
 # useToast
 
+The `useToast` Hook provides several methods and properties for managing toasts in a React application.
+
+To use `useToast`, you need to wrap your root component with the `ToastProvider` component. This provides a context for `useToast` to work. Then, you can use the `useToast` Hook in any component to manage toasts.
+
 ```js
-// import
-import { useToast } from '@tonic-ui/react';
+import {
+  ToastProvider,
+  useToast,
+} from '@tonic-ui/react';
 
-// usage
-const {
-  // toast methods
-  close,
-  closeAll,
-  find,
-  findIndex,
-  notify,
-  update,
+function App() {
+  return (
+    <ToastProvider placement="bottom-right">
+      <MyComponent />
+    </ToastProvider>
+  );
+}
 
-  // toast properties
-  placement,
+function MyComponent() {
+  /*
+   * Methods: close, closeAll, find, findIndex, notify, update
+   * Properties: placement, state
+  */
+  const toast = useToast();
+  const handleClick = () => {
+    toast(({ onClose, placement }) => (
+      <Box>toast</Box>
+    ));
+  };
 
-  // toast state
-  state,
-} = useToast();
+  return (
+    <Button onClick={handleClick}>
+      Create Toast
+    </Button>
+  );
+}
 ```
 
-### Parameters
+## Usage
 
-#### toast.close(id)
+The `useToast` Hook provides several methods and properties for managing toasts.
+
+### toast.close(id)
 
 Close a toast at its placement.
 
-**Arguments**
+**Parameters**
 
 * `id` *(string)*: The id to close the toast.
 
@@ -36,11 +54,11 @@ Close a toast at its placement.
 
 This method returns `undefined`.
 
-#### toast.closeAll([options={}])
+### toast.closeAll([options={}])
 
 Close all toasts at once with the given placements, including `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`.
 
-**Arguments**
+**Parameters**
 
 * `[options={}]` *(Object)*: The options object.
 * `[options.placements=[]]` *(Array)*: An array of placements to close toasts.
@@ -49,12 +67,12 @@ Close all toasts at once with the given placements, including `top`, `top-left`,
 
 This method returns `undefined`.
 
-#### toast.find(id)
+### toast.find(id)
 
 Find the first toast in the array that matches the provided toast id. Otherwise, `undefined` is returned if not found.
 If no values satisfy the testing function, undefined is returned.
 
-**Arguments**
+**Parameters**
 
 * `id` *(string)*: The id to find the toast.
 
@@ -62,11 +80,11 @@ If no values satisfy the testing function, undefined is returned.
 
 *(Object)*: Returns the toast object.
 
-#### toast.findIndex(id)
+### toast.findIndex(id)
 
 Find the first toast in the array that matches the provided toast id. Otherwise, -1 is returned if not found.
 
-**Arguments**
+**Parameters**
 
 * `id` *(string)*: The id to find the toast.
 
@@ -74,11 +92,11 @@ Find the first toast in the array that matches the provided toast id. Otherwise,
 
 *(number)*: Returns the array index.
 
-#### toast.notify(message, [options={}])
+### toast.notify(message, [options={}])
 
 Create a toast at the specified placement and return the toast id.
 
-**Arguments**
+**Parameters**
 
 * `message` *(Function|string)*: The toast message to render.
 * `[options={}]` *(Object)*: The options object.
@@ -94,11 +112,11 @@ toast(message, [options={}])
 
 *(string)*: Returns the toast id.
 
-#### toast.update(id, [options={}])
+### toast.update(id, [options={}])
 
 Update a specific toast with new options based on the given toast id.
 
-**Arguments**
+**Parameters**
 
 * `id` *(string)*: The id to update the toast.
 * `[options={}]` *(Object)*: The options object.
@@ -109,11 +127,11 @@ Update a specific toast with new options based on the given toast id.
 
 Returns `true` if the toast exists, else `false`.
 
-#### toast.placement
+### toast.placement
 
 Specify the placement to place the toast. The default placement will be used if the placement option is not explicitly specified.
 
-#### toast.state
+### toast.state
 
 The toast state is a placement object, each placement contains an array of objects representing the current toasts.
 
