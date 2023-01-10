@@ -1,13 +1,12 @@
 import { useIsomorphicEffect, useOnceWhen } from '@tonic-ui/react-hooks';
 import { getOwnerDocument, noop, warnRemovedProps } from '@tonic-ui/utils';
-import React, { createContext, useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Box } from '../box';
+import { PortalContext } from './context';
 
 const PORTAL_CLASSNAME = 'tonic-ui-portal';
 const PORTAL_SELECTOR = `.${PORTAL_CLASSNAME}`;
-
-const ParentPortalContext = createContext();
 
 const Portal = ({
   container: DEPRECATED_container, // deprecated
@@ -43,7 +42,7 @@ const Portal = ({
 
   const [doc, setDoc] = useState(null);
   const portalRef = useRef(null);
-  const parentPortal = useContext(ParentPortalContext);
+  const parentPortal = useContext(PortalContext);
 
   const [, forceUpdate] = useState({});
   useIsomorphicEffect(() => {
@@ -101,9 +100,9 @@ const Portal = ({
   }
 
   return createPortal(
-    <ParentPortalContext.Provider value={portalRef.current}>
+    <PortalContext.Provider value={portalRef.current}>
       {children}
-    </ParentPortalContext.Provider>,
+    </PortalContext.Provider>,
     portalRef.current,
   );
 };

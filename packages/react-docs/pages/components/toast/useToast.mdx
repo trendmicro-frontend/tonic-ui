@@ -2,45 +2,19 @@
 
 The `useToast` Hook provides several methods and properties for managing toasts in a React application.
 
-## Usage
-
-First, you need to wrap your root component with the `ToastProvider` component. This provides a context for `useToast` to work. Then, you can use the `useToast` Hook in any component to manage toasts.
+## Import
 
 ```js
-import {
-  ToastProvider,
-  useToast,
-} from '@tonic-ui/react';
-
-function App() {
-  return (
-    <ToastProvider placement="bottom-right">
-      <MyComponent />
-    </ToastProvider>
-  );
-}
-
-function MyComponent() {
-  /*
-   * Methods: close, closeAll, find, findIndex, notify, update
-   * Properties: placement, state
-  */
-  const toast = useToast();
-  const handleClick = () => {
-    toast(({ onClose, placement }) => (
-      <Box>toast</Box>
-    ));
-  };
-
-  return (
-    <Button onClick={handleClick}>
-      Create Toast
-    </Button>
-  );
-}
+import { useToast } from '@tonic-ui/react';
 ```
 
-The `useToast` Hook provides several methods and properties for managing toasts.
+## Usage
+
+```js
+const toast = useToast();
+```
+
+The `useToast` Hook returns an object with the following methods and properties.
 
 ### Methods
 

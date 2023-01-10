@@ -1,7 +1,7 @@
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
-  PortalProvider,
+  PortalManager,
   ToastProvider,
   TonicProvider,
   colorStyle as defaultColorStyle,
@@ -69,14 +69,14 @@ const App = (props) => {
         }}
         useCSSBaseline
       >
-        <PortalProvider>
+        <PortalManager>
           <ToastProvider>
             <MDXProvider components={MDXComponents}>
               <Page {...props} />
               <GlobalStyles />
             </MDXProvider>
           </ToastProvider>
-        </PortalProvider>
+        </PortalManager>
       </TonicProvider>
     </InstantSearch>
   );

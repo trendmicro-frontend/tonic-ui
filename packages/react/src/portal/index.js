@@ -1,9 +1,9 @@
 import Portal from './Portal';
-import PortalProvider from './PortalProvider';
-import usePortal from './usePortal';
+import PortalManager from './PortalManager';
+import usePortalManager from './usePortalManager';
 
 export {
   Portal,
-  PortalProvider,
-  usePortal,
+  PortalManager,
+  usePortalManager,
 };

@@ -1,7 +1,7 @@
-import { Portal } from '@tonic-ui/react';
 import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
-import { PortalContext } from './context';
+import Portal from './Portal';
+import { PortalManagerContext } from './context';
 
 const uniqueId = (() => {
   let id = 0;
@@ -13,7 +13,7 @@ const uniqueId = (() => {
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const PortalProvider = ({
+const PortalManager = ({
   children,
   containerRef: containerRefProp,
 }) => {
@@ -34,7 +34,7 @@ const PortalProvider = ({
   const context = getMemoizedState({ add, remove });
 
   return (
-    <PortalContext.Provider value={context}>
+    <PortalManagerContext.Provider value={context}>
       {portals.map(portal => (
         <Portal
           key={portal.id}
@@ -45,10 +45,10 @@ const PortalProvider = ({
         </Portal>
       ))}
       {children}
-    </PortalContext.Provider>
+    </PortalManagerContext.Provider>
   );
 };
 
-PortalProvider.displayName = 'PortalProvider';
+PortalManager.displayName = 'PortalManager';
 
-export default PortalProvider;
+export default PortalManager;

@@ -1,40 +1,20 @@
-# usePortal
+# usePortalManager
 
-The `usePortal` Hook allows you to create and remove portals in your React application. A portal is a way to render a component outside of its parent component hierarchy, in a different part of the DOM.
+The `usePortalManager` Hook allows you to create and remove portals in your React application.
+
+## Import
+
+```js
+import { usePortalManager } from '@tonic-ui/react';
+```
 
 ## Usage
 
-First, you need to wrap your root component with the `PortalProvider` component. This provides a context for `usePortal` to work. Then, you can use the `usePortal` Hook in any component to create and remove portals.
-
 ```js
-import {
-  PortalProvider,
-  usePortal,
-} from '@tonic-ui/react';
-
-function App() {
-  return (
-    <PortalProvider>
-      <MyComponent />
-    </PortalProvider>
-  );
-}
-
-function MyComponent() {
-  const portal = usePortal();
-  const openModal = () => {
-    portal.add((close) => (
-      <MyModal onClose={close} />
-    ));
-  };
-
-  return (
-    <Button onClick={openModal}>Open Modal</Button>
-  );
-};
+const portalManager = usePortalManager();
 ```
 
-The `usePortal` Hook returns an object with two methods: `add` and `remove`.
+The `usePortalManager` Hook returns an object with the following methods.
 
 ### Methods
 
@@ -68,11 +48,11 @@ This method does not return anything.
 
 ## Demos
 
-Here is an example of how to use `usePortal` to create and remove a modal:
+Here is an example of how to use `usePortalManager` to create and remove a modal:
 
 ```jsx noInline
 render(() => {
-  const portal = usePortal();
+  const portal = usePortalManager();
   const openModal = React.useCallback(() => {
     portal.add((close) => (
       <MyModal onClose={close} />
@@ -86,7 +66,13 @@ render(() => {
   );
 });
 
-const MyModal = ({ onClose, ...rest }) => (
+const MyModal = React.forwardRef((
+  {
+    onClose,
+    ...rest
+  },
+  ref,
+) => (
   <Modal
     closeOnEsc
     closeOnOutsideClick
@@ -104,11 +90,9 @@ const MyModal = ({ onClose, ...rest }) => (
         Modal Body
       </ModalBody>
       <ModalFooter>
-        <Button onClick={onClose}>
-          Close
-        </Button>
+        <Button onClick={onClose}>Close</Button>
       </ModalFooter>
     </ModalContent>
   </Modal>
-);
+));
 ```

@@ -14,17 +14,44 @@ import {
 } from '@tonic-ui/react';
 ```
 
-## Usage
+## Setup
 
-First, you need to wrap your root component with the `ToastProvider` component. This provides a context for `useToast` to work. Then, you can use the `useToast` Hook in any component to manage toasts.
+To use global toast nofications, you must wrap your root component with the `ToastProvider` component. This provides a context that the `useToast` Hook can access.
 
 ```jsx disabled
-<ToastProvider placement="bottom-right">
-  <MyComponent />
-</ToastProvider>
+import { TonicProvider, ToastProvider } from '@tonic-ui/react';
+
+function App() {
+  return (
+    <TonicProvider>
+      <ToastProvider placement="bottom-right">
+        {/* Your app goes here */}
+      </ToastProvider>
+    </TonicProvider>
+  );
+}
 ```
 
-See [useToast](./toast/useToast) Hook for detailed usage.
+Once `ToastProvider` is in place, you can use the `useToast` hook to show a global toast notification.
+
+```jsx disabled
+import { useToast } from '@tonic-ui/react';
+
+function MyComponent() {
+  const toast = useToast();
+  const addToast = () => {
+    toast(({ onClose, placement }) => (
+      <Box>toast</Box>
+    ));
+  };
+
+  return (
+    <Button onClick={addToast}>Add Toast</Button>
+  );
+}
+```
+
+See the [useToast](./toast/useToast) Hook for detailed usage.
 
 ### Layout
 

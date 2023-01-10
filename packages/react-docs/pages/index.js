@@ -38,7 +38,7 @@ import {
   Text,
   useColorMode,
   useColorStyle,
-  usePortal,
+  usePortalManager,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
@@ -364,7 +364,7 @@ const DefaultPage = (props) => {
 };
 
 const DefaultPageHeader = forwardRef((props, ref) => {
-  const portal = usePortal();
+  const portalManager = usePortalManager();
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const logo = {
@@ -378,7 +378,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
   const track = useTrack();
 
   const openInstantSearchModal = useCallback(() => {
-    portal.add((close) => {
+    portalManager.add((close) => {
       const onClose = () => {
         track('InstantSearch', 'close_instant_search_modal');
 
@@ -390,7 +390,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
         <InstantSearchModal onClose={onClose} />
       );
     });
-  }, [portal]);
+  }, [portalManager]);
 
   useEffect(() => {
     persistColorMode(colorMode);

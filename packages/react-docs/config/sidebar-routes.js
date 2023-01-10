@@ -311,7 +311,8 @@ export const routes = [
       { title: 'UTILITIES', heading: true },
       { title: 'CSSBaseline', path: 'components/cssbaseline' },
       { title: 'Portal', path: 'components/portal' },
-      { title: 'Portal / usePortal', path: 'components/portal/usePortal' },
+      { title: 'PortalManager', path: 'components/portal-manager' },
+      { title: 'PortalManager / usePortalManager', path: 'components/portal-manager/usePortalManager' },
 
       { title: 'Scrollbar', path: 'components/scrollbar' },
       { title: 'VisuallyHidden', path: 'components/visuallyhidden' },

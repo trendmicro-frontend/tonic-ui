@@ -52,9 +52,10 @@ import { Global, css } from '@emotion/react';
 import React from 'react';
 import {
   Box,
-  ToastProvider, // [optional] It's required only when you want to use toast notification globally
   TonicProvider,
-  colorStyle, // [optional] It's required only when you want to customize the color style
+  PortalManager, // enables the creation and management of portals in the application
+  ToastProvider, // provides the ability to display global toast notifications
+  colorStyle, // provides customization options for the color styles used throughout the UI
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
@@ -70,11 +71,13 @@ function App(props) {
       }}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
-      <ToastProvider>
-        <Layout>
-          <Box {...props} />
-        </Layout>
-      </ToastProvider>
+      <PortalManager>
+        <ToastProvider>
+          <Layout>
+            <Box {...props} />
+          </Layout>
+        </ToastProvider>
+      </PortalManager>
     </TonicProvider>
   );
 }
