@@ -2,7 +2,9 @@
 
 The `usePortal` Hook allows you to create and remove portals in your React application. A portal is a way to render a component outside of its parent component hierarchy, in a different part of the DOM.
 
-To use `usePortal`, you need to wrap your root component with the `PortalProvider` component. This provides a context for `usePortal` to work. Then, you can use the `usePortal` Hook in any component to create and remove portals.
+## Usage
+
+First, you need to wrap your root component with the `PortalProvider` component. This provides a context for `usePortal` to work. Then, you can use the `usePortal` Hook in any component to create and remove portals.
 
 ```js
 import {
@@ -32,11 +34,11 @@ function MyComponent() {
 };
 ```
 
-## Usage
-
 The `usePortal` Hook returns an object with two methods: `add` and `remove`.
 
-### portal.add(render, [options={}])
+### Methods
+
+#### portal.add(render, [options={'{}'}])
 
 The `add` method creates a new portal and returns a unique id for the portal.
 
@@ -52,7 +54,7 @@ The `add` method creates a new portal and returns a unique id for the portal.
 
 * *(string)*: A unique identifier for the portal.
 
-### portal.remove(id)
+#### portal.remove(id)
 
 The `remove` method removes a portal by its id.
 
@@ -64,7 +66,7 @@ The `remove` method removes a portal by its id.
 
 This method does not return anything.
 
-## Example
+## Demos
 
 Here is an example of how to use `usePortal` to create and remove a modal:
 

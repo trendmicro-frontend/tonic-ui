@@ -14,43 +14,17 @@ import {
 } from '@tonic-ui/react';
 ```
 
-## Setup
+## Usage
 
-To use `useToast`, you need to wrap your root component with the `ToastProvider` component. This provides a context for `useToast` to work. Then, you can use the `useToast` Hook in any component to manage toasts.
+First, you need to wrap your root component with the `ToastProvider` component. This provides a context for `useToast` to work. Then, you can use the `useToast` Hook in any component to manage toasts.
 
-```js
-import {
-  ToastProvider,
-  useToast,
-} from '@tonic-ui/react';
-
-function App() {
-  return (
-    <ToastProvider placement="bottom-right">
-      <MyComponent />
-    </ToastProvider>
-  );
-}
-
-function MyComponent() {
-  const toast = useToast();
-  const handleClick = () => {
-    toast(({ onClose, placement }) => (
-      <Box>toast</Box>
-    ));
-  };
-
-  return (
-    <Button onClick={handleClick}>
-      Trigger Toast
-    </Button>
-  );
-}
+```jsx disabled
+<ToastProvider placement="bottom-right">
+  <MyComponent />
+</ToastProvider>
 ```
 
 See [useToast](./toast/useToast) Hook for detailed usage.
-
-## Usage
 
 ### Layout
 

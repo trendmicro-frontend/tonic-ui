@@ -2,32 +2,19 @@
 
 `useColorStyle` is a custom Hook that gives you access to the color style object of the current color mode.
 
-```js
-// import
-import { useColorStyle } from '@tonic-ui/react';
+## Import
 
-// usage
-const [colorStyle, setColorStyle] = useColorStyle({
-  colorMode: 'dark', // One of 'light' or 'dark'
-});
+```js
+import { useColorStyle } from '@tonic-ui/react';
 ```
 
-### Parameters
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| options | object | `{}` | Options object |
-| options.colorMode | string | undefined | The color mode to use. |
-
-### Returns
-
-Returns an array with the color style object and a function to set the color style object.
-
-### Example
+## Usage
 
 ```js
 const [colorMode] = useColorMode();
-const [colorStyle] = useColorStyle({ colorMode });
+const [colorStyle] = useColorStyle({
+  colorMode: 'dark', // One of 'light' or 'dark'
+});
 const { colors } = useTheme();
 
 console.log(colorMode);
@@ -41,6 +28,19 @@ console.log(colors[colorStyle.color.primary]);
 console.log(colors[colorStyle.background.primary]);
 // => '#151515' / 'rgba(255, 255, 255, 1.0)'
 ```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| options | object | `{}` | Options object |
+| options.colorMode | string | undefined | The color mode to use. |
+
+### Returns
+
+Returns an array with the color style object and a function to set the color style object.
+
+## Demos
 
 ```jsx
 function Example() {
@@ -57,15 +57,15 @@ function Example() {
     <>
       <Box mb="4x">
         <Button onClick={changeColorVariant('primary')}>
-          Use primary color
+          Set primary background color
         </Button>
         <Space width="2x" />
         <Button onClick={changeColorVariant('secondary')}>
-          Use secondary color
+          Set secondary background color
         </Button>
         <Space width="2x" />
         <Button onClick={changeColorVariant('tertiary')}>
-          Use tertiary color
+          Set tertiary background color
         </Button>
       </Box>
       <Box backgroundColor={backgroundColor} p="4x">

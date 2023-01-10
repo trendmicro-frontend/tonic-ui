@@ -2,11 +2,15 @@
 
 A custom Hook that checks if a click happened outside a Ref. Handy for dropdowns, modals and popups etc.
 
-```js
-// import
-import { useOutsideClick } from '@tonic-ui/react-hooks';
+## Import
 
-// usage
+```js
+import { useOutsideClick } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
 useOutsideClick(ref, handler, [events]);
 ```
 
@@ -18,7 +22,7 @@ useOutsideClick(ref, handler, [events]);
 | handler | `(event: MouseEvent) => void` | | A function to call if the click happened outside the ref. |
 | events? | string[] | ['mousedown', 'touchstart'] | An optional array of events to listen to. If `events` is empty, the hook will not listen to any events. |
 
-### Example
+## Demos
 
 ```jsx noInline
 const CodeBlock = (props) => {

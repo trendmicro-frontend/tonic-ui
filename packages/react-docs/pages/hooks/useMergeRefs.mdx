@@ -2,11 +2,15 @@
 
 A custom Hook that merges React refs into a single memoized function.
 
-```js
-// import
-import { useMergeRefs } from '@tonic-ui/react-hooks';
+## Import
 
-// usage
+```js
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
 const refs = useMergeRefs(ref1, ref2);
 ```
 
@@ -20,7 +24,7 @@ const refs = useMergeRefs(ref1, ref2);
 
 Returns a single function that can be used to set multiple refs.
 
-### Example
+## Demos
 
 ```jsx noInline
 const Component = React.forwardRef(function Component(props, ref) {
