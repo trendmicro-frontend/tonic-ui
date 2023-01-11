@@ -75,8 +75,8 @@ jobs:
     docker:
       - image: cimg/node:14.20-browsers
     steps:
-      - browser-tools/install-browser-tools
       - checkout
+      - browser-tools/install-browser-tools
       - run:
           name: Setup environment
           command: |
@@ -142,8 +142,8 @@ jobs:
     docker:
       - image: cimg/node:14.20-browsers
     steps:
-      - browser-tools/install-browser-tools
       - checkout
+      - browser-tools/install-browser-tools
       - run:
           name: Setup environment
           command: |
@@ -211,8 +211,8 @@ jobs:
     docker:
       - image: cimg/node:14.20-browsers
     steps:
-      - browser-tools/install-browser-tools
       - checkout
+      - browser-tools/install-browser-tools
       - run:
           name: Setup environment
           command: |
