@@ -18,7 +18,7 @@ The `usePortalManager` Hook returns an object with the following methods.
 
 ### Methods
 
-#### portal.add(render, [options={'{}'}])
+#### portalManager.add(render, [options={'{}'}])
 
 The `add` method creates a new portal and returns a unique id for the portal.
 
@@ -34,7 +34,7 @@ The `add` method creates a new portal and returns a unique id for the portal.
 
 * *(string)*: A unique identifier for the portal.
 
-#### portal.remove(id)
+#### portalManager.remove(id)
 
 The `remove` method removes a portal by its id.
 
@@ -52,12 +52,12 @@ Here is an example of how to use `usePortalManager` to create and remove a modal
 
 ```jsx noInline
 render(() => {
-  const portal = usePortalManager();
+  const portalManager = usePortalManager();
   const openModal = React.useCallback(() => {
-    portal.add((close) => (
+    portalManager.add((close) => (
       <MyModal onClose={close} />
     ));
-  }, [portal]);
+  }, [portalManager]);
 
   return (
     <Button onClick={openModal}>
