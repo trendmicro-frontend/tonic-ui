@@ -3,8 +3,6 @@ name: Algolia Search Indexing
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 env:
   ALGOLIA_APPLICATION_ID: 7V00GBK8V8
