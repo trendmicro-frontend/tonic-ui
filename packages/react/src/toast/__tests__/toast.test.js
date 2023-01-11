@@ -11,7 +11,7 @@ describe('Toast', () => {
     const placement = 'bottom-right';
     const toastMessage = 'This is a toast message';
 
-    const ToastComponent = () => {
+    const TestComponent = () => {
       const toast = useToast();
       const handleClick = React.useCallback(() => {
         toast(({ onClose, placement }) => {
@@ -36,7 +36,7 @@ describe('Toast', () => {
 
     render(
       <ToastProvider>
-        <ToastComponent />
+        <TestComponent />
       </ToastProvider>
     );
 
@@ -56,7 +56,7 @@ describe('Toast', () => {
     const placement = 'bottom-right';
     const toastMessage = 'This is a toast message';
 
-    const ToastComponent = () => {
+    const TestComponent = () => {
       const toast = useToast();
       const handleClick = React.useCallback(() => {
         toast(({ onClose, placement }) => {
@@ -84,7 +84,7 @@ describe('Toast', () => {
 
     render(
       <ToastProvider>
-        <ToastComponent />
+        <TestComponent />
       </ToastProvider>
     );
 

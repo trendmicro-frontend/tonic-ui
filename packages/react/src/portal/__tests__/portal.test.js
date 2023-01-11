@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Portal } from '@tonic-ui/react/src';
+import { Box, Button, Portal, PortalManager, usePortalManager } from '@tonic-ui/react/src';
 import * as React from 'react';
 
 describe('Portal', () => {
@@ -81,5 +82,99 @@ describe('Portal', () => {
     const content = screen.getByTestId('content');
     const container = screen.getByTestId('container');
     expect(container).toContainElement(content);
+  });
+});
+
+describe('PortalManager / usePortalManager', () => {
+  it('should add a portal to the PortalManager and later removed by calling the close function', async () => {
+    const user = userEvent.setup();
+
+    const TestComponent = () => {
+      const portalManager = usePortalManager();
+      const addPortal = React.useCallback(() => {
+        portalManager.add((close) => (
+          <Box data-testid="portal-component">
+            This is a portal component
+            <Button data-testid="btn-remove-portal" onClick={close}>
+              Remove Portal
+            </Button>
+          </Box>
+        ));
+      }, [portalManager]);
+
+      return (
+        <Button data-testid="btn-add-portal" onClick={addPortal}>
+          Add Portal
+        </Button>
+      );
+    };
+
+    render(
+      <PortalManager>
+        <TestComponent />
+      </PortalManager>
+    );
+
+    await user.click(await screen.findByTestId('btn-add-portal'));
+
+    const portalComponent = await screen.getByTestId('portal-component');
+    expect(portalComponent).toBeInTheDocument();
+
+    await user.click(await screen.findByTestId('btn-remove-portal'));
+
+    expect(portalComponent).not.toBeInTheDocument();
+  });
+
+  it('should add a portal to the PortalManager and later removed by passing the portal\'s id', async () => {
+    const user = userEvent.setup();
+
+    const TestComponent = () => {
+      const portalIdRef = React.useRef(null);
+      const portalManager = usePortalManager();
+      const handleClickAddPortal = React.useCallback((event) => {
+        const id = portalManager.add(() => (
+          <Box data-testid="portal-component">
+            This is a portal component
+          </Box>
+        ));
+        portalIdRef.current = id;
+      }, [portalManager]);
+      const handleClickRemovePortal = React.useCallback((event) => {
+        const id = portalIdRef.current;
+        portalManager.remove(id);
+      }, [portalManager]);
+
+      return (
+        <>
+          <Button
+            data-testid="btn-add-portal"
+            onClick={handleClickAddPortal}
+          >
+            Add Portal
+          </Button>
+          <Button
+            data-testid="btn-remove-portal"
+            onClick={handleClickRemovePortal}
+          >
+            Remove Portal
+          </Button>
+        </>
+      );
+    };
+
+    render(
+      <PortalManager>
+        <TestComponent />
+      </PortalManager>
+    );
+
+    await user.click(await screen.findByTestId('btn-add-portal'));
+
+    const portalComponent = await screen.getByTestId('portal-component');
+    expect(portalComponent).toBeInTheDocument();
+
+    await user.click(await screen.findByTestId('btn-remove-portal'));
+
+    expect(portalComponent).not.toBeInTheDocument();
   });
 });
