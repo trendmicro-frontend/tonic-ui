@@ -11,40 +11,52 @@ import { usePortalManager } from '@tonic-ui/react';
 ## Usage
 
 ```js
-const portalManager = usePortalManager();
+const portal = usePortalManager();
 ```
 
 The `usePortalManager` Hook returns an object with the following methods.
 
-### Methods
-
-#### portalManager.add(render, [options={'{}'}])
+### portal(render, [options={'{}'}])
 
 The `add` method creates a new portal and returns a unique id for the portal.
 
-**Parameters**
+#### Aliases
 
-* `render` *(Function)*:  A function that returns a React element. This function is passed a `close` function that can be used to close the portal.
-* `[options={}]` *(Object)*: An optional object that provides additional options for the portal.
-* `[options.id]` *(string)*: A unique identifier for the portal. If not provided, a unique ID will be generated.
-* `[options.appendToParentPortal=false]` *(boolean)*: If `true`, the portal will be appended to the parent portal. If `false`, the portal will be appended to the body. Defaults to `false`.
-* `[options.containerRef=null]` *(React.RefObject)*: A reference to the container element. If provided, the portal will be appended to the container element. Otherwise, the portal will be appended to the body. Defaults to `null`.
+<dl>
+  <dd>portal.add(message, [options={'{}'}])*</dd>
+</dl>
 
-**Returns**
+#### Parameters
 
-* *(string)*: A unique identifier for the portal.
+<dl>
+  <dd>`render` *(Function)*:  A function that returns a React element. This function is passed a `close` function that can be used to close the portal.</dd>
+  <dd>`[options={}]` *(Object)*: An optional object that provides additional options for the portal.</dd>
+  <dd>`[options.id]` *(string)*: A unique identifier for the portal. If not provided, a unique ID will be generated.</dd>
+  <dd>`[options.appendToParentPortal=false]` *(boolean)*: If `true`, the portal will be appended to the parent portal. If `false`, the portal will be appended to the body. Defaults to `false`.</dd>
+  <dd>`[options.containerRef=null]` *(React.RefObject)*: A reference to the container element. If provided, the portal will be appended to the container element. Otherwise, the portal will be appended to the body. Defaults to `null`.</dd>
+</dl>
 
-#### portalManager.remove(id)
+#### Returns
+
+<dl>
+  <dd>*(string)*: A unique identifier for the portal.</dd>
+</dl>
+
+### portal.remove(id)
 
 The `remove` method removes a portal by its id.
 
-**Parameters**
+#### Parameters
 
-* `id` *(string)*: The id of the portal to be removed.
+<dl>
+  <dd>`id` *(string)*: The id of the portal to be removed.</dd>
+</dl>
 
-**Returns**
+#### Returns
 
-This method does not return anything.
+<dl>
+  <dd>This method does not return anything.</dd>
+</dl>
 
 ## Demos
 
@@ -52,12 +64,12 @@ Here is an example of how to use `usePortalManager` to create and remove a modal
 
 ```jsx noInline
 render(() => {
-  const portalManager = usePortalManager();
+  const portal = usePortalManager();
   const openModal = React.useCallback(() => {
-    portalManager.add((close) => (
+    portal((close) => (
       <MyModal onClose={close} />
     ));
-  }, [portalManager]);
+  }, [portal]);
 
   return (
     <Button onClick={openModal}>

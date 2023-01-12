@@ -1,10 +1,25 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { PortalManagerContext } from './context';
 
 const usePortalManager = () => {
-  const portalManager = useContext(PortalManagerContext);
+  if (!useContext) {
+    throw new Error('The `useContext` hook is not available with your React version.');
+  }
 
-  return portalManager;
+  const context = useContext(PortalManagerContext);
+
+  if (!context) {
+    throw new Error('The `usePortalManager` hook must be called from a descendent of the `PortalManager`.');
+  }
+
+  const portal = useMemo(() => {
+    const fn = function (...args) {
+      return context.add(...args);
+    };
+    return Object.assign(fn, context);
+  }, [context]);
+
+  return portal;
 };
 
 export default usePortalManager;

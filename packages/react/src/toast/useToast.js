@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { ToastContext } from './context';
 
 const useToast = () => {
@@ -12,10 +12,12 @@ const useToast = () => {
     throw new Error('The `useToast` hook must be called from a descendent of the `ToastProvider`.');
   }
 
-  const toast = function (...args) {
-    return context.notify(...args);
-  };
-  Object.assign(toast, context);
+  const toast = useMemo(() => {
+    const fn = function (...args) {
+      return context.notify(...args);
+    };
+    return Object.assign(fn, context);
+  }, [context]);
 
   return toast;
 };

@@ -90,9 +90,9 @@ describe('PortalManager / usePortalManager', () => {
     const user = userEvent.setup();
 
     const TestComponent = () => {
-      const portalManager = usePortalManager();
+      const portal = usePortalManager();
       const addPortal = React.useCallback(() => {
-        portalManager.add((close) => (
+        portal((close) => (
           <Box data-testid="portal-component">
             This is a portal component
             <Button data-testid="btn-remove-portal" onClick={close}>
@@ -100,7 +100,7 @@ describe('PortalManager / usePortalManager', () => {
             </Button>
           </Box>
         ));
-      }, [portalManager]);
+      }, [portal]);
 
       return (
         <Button data-testid="btn-add-portal" onClick={addPortal}>
@@ -130,19 +130,19 @@ describe('PortalManager / usePortalManager', () => {
 
     const TestComponent = () => {
       const portalIdRef = React.useRef(null);
-      const portalManager = usePortalManager();
+      const portal = usePortalManager();
       const handleClickAddPortal = React.useCallback((event) => {
-        const id = portalManager.add(() => (
+        const id = portal(() => (
           <Box data-testid="portal-component">
             This is a portal component
           </Box>
         ));
         portalIdRef.current = id;
-      }, [portalManager]);
+      }, [portal]);
       const handleClickRemovePortal = React.useCallback((event) => {
         const id = portalIdRef.current;
-        portalManager.remove(id);
-      }, [portalManager]);
+        portal.remove(id);
+      }, [portal]);
 
       return (
         <>

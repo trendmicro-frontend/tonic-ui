@@ -22,6 +22,7 @@ import MDXComponents from '../components/MDXComponents';
 import Main from '../components/Main';
 import Sidebar from '../components/Sidebar';
 import useMediaQuery from '../hooks/useMediaQuery';
+import '../styles.css';
  
 // Algolia search client
 const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY);

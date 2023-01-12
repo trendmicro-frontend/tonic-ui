@@ -26,9 +26,9 @@ Once `PortalManager` is set up, any component can use the `usePortalManager` Hoo
 import { usePortalManager } from '@tonic-ui/react';
 
 function MyComponent() {
-  const portalManager = usePortalManager();
+  const portal = usePortalManager();
   const openModal = () => {
-    portalManager.add((close) => (
+    portal((close) => (
       <MyModal onClose={close} />
     ));
   };
@@ -74,18 +74,18 @@ const MyModal = forwardRef(
 ));
 ```
 
-To remove a portal, call the callback function passed by the `add` method of the `portalManager` instance.
+To remove a portal, call the callback function passed by the `portal` method.
 
 ```jsx disabled
-const id = portalManager.add((close) => (
+const id = portal((close) => (
   <MyModal onClose={close} />
 ));
 ```
 
-Or use the `remove` method of the `portalManager` instance, passing the portal's unique id as an argument.
+Or use the `remove` method by passing the portal's unique id as an argument.
 
 ```jsx disabled
-portalManager.remove(id);
+portal.remove(id);
 ```
 
 It is important to note that removing portals is an explicit operation, and if a portal is not removed, it will continue to exist in the DOM tree. Therefore, it is the developer's responsibility to ensure that portals are removed when they are no longer needed.
