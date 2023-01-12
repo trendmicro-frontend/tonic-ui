@@ -1,6 +1,7 @@
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
+  PortalManager,
   ToastProvider,
   TonicProvider,
   colorStyle as defaultColorStyle,
@@ -19,9 +20,9 @@ import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';
 import MDXComponents from '../components/MDXComponents';
 import Main from '../components/Main';
-import { PortalProvider } from '../components/Portal';
 import Sidebar from '../components/Sidebar';
 import useMediaQuery from '../hooks/useMediaQuery';
+import '../styles.css';
  
 // Algolia search client
 const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY);
@@ -69,14 +70,14 @@ const App = (props) => {
         }}
         useCSSBaseline
       >
-        <PortalProvider>
+        <PortalManager>
           <ToastProvider>
             <MDXProvider components={MDXComponents}>
               <Page {...props} />
               <GlobalStyles />
             </MDXProvider>
           </ToastProvider>
-        </PortalProvider>
+        </PortalManager>
       </TonicProvider>
     </InstantSearch>
   );

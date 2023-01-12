@@ -2,11 +2,15 @@
 
 A custom Hook that resolves to `useEffect` when "window" is not in scope and `useLayoutEffect` in the browser.
 
-```js
-// import
-import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
+## Import
 
-// usage
+```js
+import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
 useIsomorphicEffect(effect, [dependencies]);
 ```
 
@@ -17,7 +21,7 @@ useIsomorphicEffect(effect, [dependencies]);
 | effect | `() => void` | | The effect to run. |
 | dependencies? | any[] | | The dependencies to watch. |
 
-### Example
+## Demos
 
 ```jsx
 function Component() {

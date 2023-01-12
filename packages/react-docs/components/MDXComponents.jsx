@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import {
   Box,
+  Divider,
   Image,
   Link,
   useColorMode,
@@ -310,24 +311,15 @@ const pre = props => {
 };
 
 const code = props => (
-  <Code {...props} />
+  <Code as="code" {...props} />
 );
 
 const hr = props => (
-  <Box
-    as="hr"
-    my="3x"
-    borderTop={1}
-    borderTopColor="gray:70"
-    {...props}
-  />
+  <Divider as="hr" my="2x" {...props} />
 );
 
 const a = props => (
-  <Link
-    as="a"
-    {...props}
-  />
+  <Link as="a" {...props} />
 );
 
 const img = Image;

@@ -13,6 +13,7 @@ import {
   Text,
   useColorMode,
   useColorStyle,
+  usePortalManager,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
@@ -22,7 +23,6 @@ import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
 import FontAwesomeIcon from './FontAwesomeIcon';
-import { usePortal } from './Portal';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
 
@@ -55,7 +55,7 @@ const Header = forwardRef((
 ) => {
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const portal = usePortal();
+  const portalManager = usePortalManager();
   const track = useTrack();
 
   const version = (() => {
@@ -69,7 +69,7 @@ const Header = forwardRef((
   })();
 
   const openInstantSearchModal = useCallback(() => {
-    portal.add((close) => {
+    portalManager.add((close) => {
       const onClose = () => {
         track('InstantSearch', 'close_instant_search_modal');
 
@@ -81,7 +81,7 @@ const Header = forwardRef((
         <InstantSearchModal onClose={onClose} />
       );
     });
-  }, [portal]);
+  }, [portalManager]);
 
   useEffect(() => {
     persistColorMode(colorMode);

@@ -144,6 +144,8 @@ test('should match expected exports', () => {
 
     // portal
     'Portal',
+    'PortalManager',
+    'usePortalManager',
 
     // progress
     'LinearProgress',

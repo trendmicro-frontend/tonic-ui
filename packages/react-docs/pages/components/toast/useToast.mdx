@@ -1,119 +1,136 @@
 # useToast
 
+The `useToast` Hook provides several methods and properties for managing toasts in a React application.
+
+## Import
+
 ```js
-// import
 import { useToast } from '@tonic-ui/react';
-
-// usage
-const {
-  // toast methods
-  close,
-  closeAll,
-  find,
-  findIndex,
-  notify,
-  update,
-
-  // toast properties
-  placement,
-
-  // toast state
-  state,
-} = useToast();
 ```
 
-### Parameters
+## Usage
 
-#### toast.close(id)
+```js
+const toast = useToast();
+```
 
-Close a toast at its placement.
+The `useToast` Hook returns an object with the following methods and properties:
 
-**Arguments**
-
-* `id` *(string)*: The id to close the toast.
-
-**Returns**
-
-This method returns `undefined`.
-
-#### toast.closeAll([options={}])
-
-Close all toasts at once with the given placements, including `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`.
-
-**Arguments**
-
-* `[options={}]` *(Object)*: The options object.
-* `[options.placements=[]]` *(Array)*: An array of placements to close toasts.
-
-**Returns**
-
-This method returns `undefined`.
-
-#### toast.find(id)
-
-Find the first toast in the array that matches the provided toast id. Otherwise, `undefined` is returned if not found.
-If no values satisfy the testing function, undefined is returned.
-
-**Arguments**
-
-* `id` *(string)*: The id to find the toast.
-
-**Returns**
-
-*(Object)*: Returns the toast object.
-
-#### toast.findIndex(id)
-
-Find the first toast in the array that matches the provided toast id. Otherwise, -1 is returned if not found.
-
-**Arguments**
-
-* `id` *(string)*: The id to find the toast.
-
-**Returns**
-
-*(number)*: Returns the array index.
-
-#### toast.notify(message, [options={}])
+### toast(message, [options={'{}'}])
 
 Create a toast at the specified placement and return the toast id.
 
-**Arguments**
+#### Aliases
 
-* `message` *(Function|string)*: The toast message to render.
-* `[options={}]` *(Object)*: The options object.
-* `[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
-* `[options.id]` *(string)*: A unique ID of the toast.
-* `[options.placement]` *(string)*: The placement of the toast.
+<dl>
+  <dd>*toast.notify(message, [options={'{}'}])*</dd>
+</dl>
 
-**Aliases**
+#### Parameters
 
-toast(message, [options={}])
+<dl>
+  <dd>`message` *(Function|string)*: The toast message to render.</dd>
+  <dd>`[options={}]` *(Object)*: The options object.</dd>
+  <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
+  <dd>`[options.id]` *(string)*: A unique ID of the toast.</dd>
+  <dd>`[options.placement]` *(string)*: The placement of the toast.</dd>
+</dl>
 
-**Returns**
+#### Returns
 
-*(string)*: Returns the toast id.
+<dl>
+  <dd>*(string)*: Returns the toast id.</dd>
+</dl>
 
-#### toast.update(id, [options={}])
+### toast.close(id)
+
+Close a toast at its placement.
+
+#### Parameters
+
+<dl>
+  <dd>`id` *(string)*: The id to close the toast.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>This method does not return anything.</dd>
+</dl>
+
+### toast.closeAll([options={'{}'}])
+
+Close all toasts at once with the given placements, including `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`.
+
+#### Parameters
+
+<dl>
+  <dd>`[options={}]` *(Object)*: The options object.</dd>
+  <dd>`[options.placements=[]]` *(Array)*: An array of placements to close toasts.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>This method does not return anything.</dd>
+</dl>
+
+### toast.find(id)
+
+Find the first toast in the array that matches the provided toast id. Otherwise, `undefined` is returned if not found.
+
+#### Parameters
+
+<dl>
+  <dd>`id` *(string)*: The id to find the toast.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>*(Object)*: Returns the toast object.</dd>
+</dl>
+
+### toast.findIndex(id)
+
+Find the first toast in the array that matches the provided toast id. Otherwise, -1 is returned if not found.
+
+#### Parameters
+
+<dl>
+  <dd>`id` *(string)*: The id to find the toast.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>*(number)*: Returns the array index.</dd>
+</dl>
+
+### toast.update(id, [options={'{}'}])
 
 Update a specific toast with new options based on the given toast id.
 
-**Arguments**
+#### Parameters
 
-* `id` *(string)*: The id to update the toast.
-* `[options={}]` *(Object)*: The options object.
-* `[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
-* `[options.message]` *(Function|string)*: The toast message to render.
+<dl>
+  <dd>`id` *(string)*: The id to update the toast.</dd>
+  <dd>`[options={}]` *(Object)*: The options object.</dd>
+  <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
+  <dd>`[options.message]` *(Function|string)*: The toast message to render.</dd>
+</dl>
 
-**Returns**
+#### Returns
 
-Returns `true` if the toast exists, else `false`.
+<dl>
+  <dd>Returns `true` if the toast exists, else `false`.</dd>
+</dl>
 
-#### toast.placement
+### toast.placement
 
 Specify the placement to place the toast. The default placement will be used if the placement option is not explicitly specified.
 
-#### toast.state
+### toast.state
 
 The toast state is a placement object, each placement contains an array of objects representing the current toasts.
 
@@ -133,5 +150,47 @@ The toast state is a placement object, each placement contains an array of objec
   'bottom': [],
   'bottom-left': [],
   'bottom-right': [],
+}
+```
+
+## Demos
+
+```jsx
+function Example() {
+  const toast = useToast();
+  const handleClickOpenToast = () => {
+    const render = ({ onClose, placement }) => {
+      const styleProps = {
+        'top-left': { pt: '2x', px: '4x' },
+        'top': { pt: '2x', px: '4x' },
+        'top-right': { pt: '2x', px: '4x' },
+        'bottom-left': { pb: '2x', px: '4x' },
+        'bottom': { pb: '2x', px: '4x' },
+        'bottom-right': { pb: '2x', px: '4x' },
+      }[placement];
+
+      return (
+        <Box
+          {...styleProps}
+          width={320}
+        >
+          <Toast isClosable onClose={onClose}>
+            <Text>This is a toast notification</Text>
+          </Toast>
+        </Box>
+      );
+    };
+    const options = {
+      placement: 'bottom-right',
+      duration: 5000,
+    };
+    toast(render, options);
+  };
+
+  return (
+    <Button onClick={handleClickOpenToast}>
+      Open Toast
+    </Button>
+  );
 }
 ```

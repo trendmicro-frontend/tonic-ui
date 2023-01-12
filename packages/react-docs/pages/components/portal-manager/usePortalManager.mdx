@@ -1,0 +1,110 @@
+# usePortalManager
+
+The `usePortalManager` Hook allows you to create and remove portals in your React application.
+
+## Import
+
+```js
+import { usePortalManager } from '@tonic-ui/react';
+```
+
+## Usage
+
+```js
+const portal = usePortalManager();
+```
+
+The `usePortalManager` Hook returns an object with the following methods.
+
+### portal(render, [options={'{}'}])
+
+The `add` method creates a new portal and returns a unique id for the portal.
+
+#### Aliases
+
+<dl>
+  <dd>portal.add(message, [options={'{}'}])*</dd>
+</dl>
+
+#### Parameters
+
+<dl>
+  <dd>`render` *(Function)*:  A function that returns a React element. This function is passed a `close` function that can be used to close the portal.</dd>
+  <dd>`[options={}]` *(Object)*: An optional object that provides additional options for the portal.</dd>
+  <dd>`[options.id]` *(string)*: A unique identifier for the portal. If not provided, a unique ID will be generated.</dd>
+  <dd>`[options.appendToParentPortal=false]` *(boolean)*: If `true`, the portal will be appended to the parent portal. If `false`, the portal will be appended to the body. Defaults to `false`.</dd>
+  <dd>`[options.containerRef=null]` *(React.RefObject)*: A reference to the container element. If provided, the portal will be appended to the container element. Otherwise, the portal will be appended to the body. Defaults to `null`.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>*(string)*: A unique identifier for the portal.</dd>
+</dl>
+
+### portal.remove(id)
+
+The `remove` method removes a portal by its id.
+
+#### Parameters
+
+<dl>
+  <dd>`id` *(string)*: The id of the portal to be removed.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>This method does not return anything.</dd>
+</dl>
+
+## Demos
+
+Here is an example of how to use `usePortalManager` to create and remove a modal:
+
+```jsx noInline
+render(() => {
+  const portal = usePortalManager();
+  const openModal = React.useCallback(() => {
+    portal((close) => (
+      <MyModal onClose={close} />
+    ));
+  }, [portal]);
+
+  return (
+    <Button onClick={openModal}>
+      Open Modal
+    </Button>
+  );
+});
+
+const MyModal = React.forwardRef((
+  {
+    onClose,
+    ...rest
+  },
+  ref,
+) => (
+  <Modal
+    closeOnEsc
+    closeOnOutsideClick
+    isOpen
+    onClose={onClose}
+    size="sm"
+    {...rest}
+  >
+    <ModalOverlay />
+    <ModalContent>
+      <ModalHeader>
+        Modal Header
+      </ModalHeader>
+      <ModalBody>
+        Modal Body
+      </ModalBody>
+      <ModalFooter>
+        <Button onClick={onClose}>Close</Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+));
+```
