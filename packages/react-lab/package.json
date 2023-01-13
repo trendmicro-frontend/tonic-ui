@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-lab",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "This package hosts the incubator components that are not yet ready to move to the core.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -19,9 +19,9 @@
     "test": "jest --maxWorkers=2"
   },
   "dependencies": {
-    "@tonic-ui/react": "^1.9.0",
-    "@tonic-ui/react-hooks": "^1.5.0",
-    "@tonic-ui/utils": "^1.2.0",
+    "@tonic-ui/react": "^1.10.0",
+    "@tonic-ui/react-hooks": "^1.5.1",
+    "@tonic-ui/utils": "^1.2.1",
     "date-fns": "2.x",
     "ensure-type": "^1.5.1",
     "micro-memoize": "4.x"
