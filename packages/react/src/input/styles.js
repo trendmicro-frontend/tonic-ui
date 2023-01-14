@@ -57,6 +57,12 @@ const getInputOutlinedStyle = ({
   };
   const _invalidStyle = {
     borderColor: invalidBorderColor,
+    '&:focus:hover': {
+      borderColor: focusBorderColor,
+    },
+    '&:hover': {
+      borderColor: invalidBorderColor,
+    },
   };
   const _validStyle = {
     // XXX - border color for valid input is not defined
@@ -625,6 +631,30 @@ const useInputGroupPrependStyle = () => {
   };
 };
 
+const useInputControlBaseCSS = () => {
+  const [colorMode] = useColorMode();
+  const focusBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
+  const invalidBorderColor = {
+    dark: 'red:50',
+    light: 'red:60',
+  }[colorMode];
+
+  return sx({
+    '&:has(> input:focus:invalid)': {
+      borderColor: focusBorderColor,
+    },
+    '&:hover:has(> input:invalid)': {
+      borderColor: invalidBorderColor,
+    },
+    '&:hover:has(> input:focus:invalid)': {
+      borderColor: focusBorderColor,
+    },
+  });
+};
+
 const useInputControlBaseStyle = ({
   inputState,
   variant,
@@ -681,10 +711,11 @@ export {
   useInputStyle,
   useInputAdornmentStyle,
   useInputBaseStyle,
+  useInputControlBaseCSS,
+  useInputControlBaseStyle,
+  useInputControlInputStyle,
   useInputGroupStyle,
   useInputGroupAddonStyle,
   useInputGroupAppendStyle,
   useInputGroupPrependStyle,
-  useInputControlBaseStyle,
-  useInputControlInputStyle,
 };

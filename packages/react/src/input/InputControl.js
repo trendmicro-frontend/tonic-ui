@@ -2,7 +2,7 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import InputBase from './InputBase';
-import { getInputGroupCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
+import { getInputGroupCSS, useInputControlBaseCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
 import useInputGroup from './useInputGroup';
 
 const defaultSize = 'md';
@@ -68,9 +68,12 @@ const InputControl = forwardRef((
     focused,
     valid: valid && !errorProp,
   };
+  const baseCSS = useInputControlBaseCSS();
   const baseStyleProps = useInputControlBaseStyle({ inputState, variant });
   const inputStyleProps = useInputControlInputStyle({ inputState, size, variant, startAdornment, endAdornment });
-  const css = inputGroupContext ? [getInputGroupCSS({ variant }), cssProp] : cssProp;
+  const css = inputGroupContext
+    ? [baseCSS, getInputGroupCSS({ variant }), cssProp]
+    : [baseCSS, cssProp];
 
   const handleClick = useCallback((event) => {
     if (inputRef.current && event.currentTarget === event.target) {
