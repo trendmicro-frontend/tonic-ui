@@ -998,106 +998,148 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 </Menu>
 ```
 
-### Input controls
+### Dropdown
 
-Set `closeOnSelect` to `false` to keep the menu open after selecting a menu item.
+Use [Dropdown](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/react-docs/components/Dropdown.jsx) when you can select only one option from a list at a time.
 
-You can use arrow keys to navigate the menu, and press `Enter` or `Space` to select an item.
+```jsx noInline
+const items = [
+  'all',
+  'network-events',
+  'system-events',
+];
 
-```jsx
-function menuWithCheckbox() {
-  const allItems = ['host', 'ip', 'os'];
-  const mapItemToText = (item) => ({
-    'host': 'Endpoint name',
-    'ip': 'IP address',
-    'os': 'Operating System',
-  }[item]);
-  const [checkedItems, setCheckedItems] = React.useState(allItems);
-  const isAllSelected = checkedItems.length === allItems.length;
-  const isNoneSelected = checkedItems.length === 0;
-  const isIndeterminate = !isAllSelected && !isNoneSelected;
-  const handleClickToggleCheckedItems = (event) => {
-    const nextCheckedItems = isAllSelected ? [] : allItems;
-    setCheckedItems(nextCheckedItems);
-  };
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      const el = event.currentTarget.querySelector('input');
-      if (el) {
-        const value = el.value;
-        const items = [...checkedItems];
-        items.indexOf(value) === -1 ? items.push(value) : items.splice(items.indexOf(value), 1);
-        setCheckedItems(items);
-      }
-    }
-  };
+const renderItem = (value) => {
+  return {
+    'all': 'All',
+    'network-events': 'Network events',
+    'system-events': 'System events',
+  }[value];
+};
+
+const renderLabel = (value) => {
+  const selectionText = renderItem(value);
+  return (
+    <>
+      <TextLabel mr="2x">
+        {'Event status:'}
+      </TextLabel>
+      <Truncate title={selectionText}>
+        {selectionText}
+      </Truncate>
+    </>
+  );
+};
+
+render(() => {
+  const [value, setValue] = React.useState('all');
 
   return (
-    <Menu
-      closeOnSelect={false}
-      onClose={() => {
-        if (isNoneSelected) {
-          setCheckedItems(allItems);
-        }
-      }}
-    >
-      <MenuButton
-        variant="secondary"
-        width={200}
-      >
-        <Flex
-          columnGap="2x"
-          maxWidth={200 - 40}
-        >
-          <TextLabel>Fields: </TextLabel>
-          {isNoneSelected && (
-            <Text>Select</Text>
-          )}
-          {isAllSelected && (
-            <Text>All</Text>
-          )}
-          {isIndeterminate && (
-            <>
-              <Truncate>
-                {checkedItems.map(mapItemToText).join(', ')}
-              </Truncate>
-              <Text>
-                ({checkedItems.length})
-              </Text>
-            </>
-          )}
-        </Flex>
-      </MenuButton>
-      <MenuList
-        width="100%"
-      >
-        <Box
-          px="3x"
-          mb="2x"
-        >
-          <LinkButton
-            onClick={handleClickToggleCheckedItems}
-          >
-            {isAllSelected ? 'Clear all' : 'Select all'}
-          </LinkButton>
-        </Box>
-        <CheckboxGroup
-          size="sm"
-          value={checkedItems}
-          onChange={setCheckedItems}
-        >
-          {['host', 'ip', 'os'].map(x => (
-            <MenuItem key={x} onKeyDown={handleKeyDown}>
-              <Checkbox value={x} width="100%">
-                {mapItemToText(x)}
-              </Checkbox>
-            </MenuItem>
-          ))}
-        </CheckboxGroup>
-      </MenuList>
-    </Menu>
+    <Dropdown
+      value={value}
+      onChange={setValue}
+      items={items}
+      renderItem={renderItem}
+      renderLabel={renderLabel}
+    />
   );
-}
+});
+```
+
+### Multiselect
+
+Use [Multiselect](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/react-docs/components/Dropdown.jsx) when you want to select multiple options from a list or to filter information.
+
+```jsx noInline
+const policyData = {
+  policies: [
+    { id: '0', description: 'Default policy' },
+    ...Array.from({ length: 10 }, (_, i) => ({
+      id: String(i + 1),
+      description: `Policy ${i + 1}`,
+    })),
+  ],
+};
+
+const policyMap = (() => {
+  const map = new Map();
+  policyData.policies.forEach((policy) => {
+    // Use the policy ID as the key and ensure it's a string rather than a number
+    const key = String(policy.id);
+    map.set(key, policy);
+  });
+  return map;
+})();
+
+const items = [...policyMap.keys()];
+
+const renderItem = (value) => {
+  const policy = policyMap.get(value);
+  return policy?.description;
+};
+
+const renderLabel = (value) => {
+  const selectionCount = value.length;
+  const isNoneSelected = selectionCount === 0;
+  const isAllSelected = selectionCount === items.length;
+
+  if (isNoneSelected) {
+    const selectionText = 'Select';
+    return (
+      <>
+        <TextLabel mr="2x">
+          {'Policy:'}
+        </TextLabel>
+        <Truncate title={selectionText}>
+          {selectionText}
+        </Truncate>
+      </>
+    );
+  }
+
+  if (isAllSelected) {
+    const selectionText = 'All'; 
+    return (
+      <>
+        <TextLabel mr="2x">
+          {'Policy:'}
+        </TextLabel>
+        <Truncate title={selectionText}>
+          {selectionText}
+        </Truncate>
+      </>
+    );
+  }
+
+  const selectionText = value.map(renderItem).join(', ');
+  return (
+    <>
+      <TextLabel mr="2x">
+        {'Policy:'}
+      </TextLabel>
+      <Truncate title={selectionText}>
+        {selectionText}
+      </Truncate>
+      <Text ml="1x">
+        {`(${selectionCount})`}
+      </Text>
+    </>
+  );
+};
+
+render(() => {
+  const [value, setValue] = React.useState(items);
+
+  return (
+    <Multiselect
+      value={value}
+      onChange={setValue}
+      items={items}
+      renderItem={renderItem}
+      renderLabel={renderLabel}
+    />
+  );
+});
 ```
 
 ## Accessibility

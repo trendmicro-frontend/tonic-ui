@@ -25,6 +25,8 @@ import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import x from '../utils/json-stringify';
 import Code from './Code';
+import Dropdown from './Dropdown';
+import Multiselect from './Multiselect';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import IconButton from './IconButton';
 import InputTag from './InputTag';
@@ -183,9 +185,11 @@ const CodeBlock = ({
       ...utils,
       ...thirdPartyComponents,
       Code,
+      Dropdown,
       FontAwesomeIcon,
       InputTag,
       Lorem,
+      Multiselect,
       SkeletonBody,
       SkeletonContent,
       Global, // from '@emotion/react'
