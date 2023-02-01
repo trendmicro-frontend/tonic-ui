@@ -1,3 +1,4 @@
+import { sx } from '@tonic-ui/styled-system';
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { useTheme } from '../theme';
@@ -7,6 +8,37 @@ const useMenuStyle = () => {
     position: 'relative',
     display: 'inline-flex',
   };
+};
+
+const useMenuButtonCSS = ({ variant }) => {
+  const [colorMode] = useColorMode();
+  const primaryColor = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  // Override the color in hover and active states
+  const variantCSS = {
+    'ghost': {
+      '&:hover': {
+        color: primaryColor,
+      },
+      '&:active': {
+        color: primaryColor,
+      },
+    },
+    'secondary': {
+      '&:hover': {
+        color: primaryColor,
+      },
+      '&:active': {
+        color: primaryColor,
+      },
+    },
+  }[variant];
+
+  return sx({
+    ...variantCSS,
+  });
 };
 
 const useMenuButtonStyle = () => {
@@ -212,6 +244,7 @@ const useSubmenuToggleStyle = () => {
 
 export {
   useMenuStyle,
+  useMenuButtonCSS,
   useMenuButtonStyle,
   useMenuContentStyle,
   useMenuListStyle,

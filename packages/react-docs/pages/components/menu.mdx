@@ -342,7 +342,7 @@ render(() => {
         return (
           <Button
             {...getMenuToggleProps()}
-            variant="secondary"
+            variant="default"
           >
             <Text>Options</Text>
             <Space width="1x" />
@@ -372,6 +372,7 @@ render(() => {
 
 ```jsx disabled
 const MenuButton = (props) => {
+  // Define custom styles for the menu button
   const styleProps = {
     display: 'inline-flex',
     alignItems: 'center',
@@ -399,22 +400,40 @@ const MenuButton = (props) => {
 ```
 
 ```jsx
-<Menu>
-  <MenuButton variant="secondary">
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList width="max-content">
-    <MenuItem>
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
+<Flex columnGap="4x">
+  <Menu>
+    <MenuButton variant="secondary">
+      <Text>Options</Text>
+    </MenuButton>
+    <MenuList width="max-content">
+      <MenuItem>
+        List item 1
+      </MenuItem>
+      <MenuItem>
+        List item 2
+      </MenuItem>
+      <MenuItem>
+        List item 3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+  <Menu>
+    <MenuButton variant="ghost">
+      <Text>Options</Text>
+    </MenuButton>
+    <MenuList width="max-content">
+      <MenuItem>
+        List item 1
+      </MenuItem>
+      <MenuItem>
+        List item 2
+      </MenuItem>
+      <MenuItem>
+        List item 3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+</>
 ```
 
 ### MenuToggleIcon
@@ -987,9 +1006,19 @@ You can use arrow keys to navigate the menu, and press `Enter` or `Space` to sel
 
 ```jsx
 function menuWithCheckbox() {
-  const [checkedItems, setCheckedItems] = React.useState(['host', 'ip']);
-  const onCheckboxGroupChange = (value) => {
-    setCheckedItems(value);
+  const allItems = ['host', 'ip', 'os'];
+  const mapItemToText = (item) => ({
+    'host': 'Endpoint name',
+    'ip': 'IP address',
+    'os': 'Operating System',
+  }[item]);
+  const [checkedItems, setCheckedItems] = React.useState(allItems);
+  const isAllSelected = checkedItems.length === allItems.length;
+  const isNoneSelected = checkedItems.length === 0;
+  const isIndeterminate = !isAllSelected && !isNoneSelected;
+  const handleClickToggleCheckedItems = (event) => {
+    const nextCheckedItems = isAllSelected ? [] : allItems;
+    setCheckedItems(nextCheckedItems);
   };
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -1002,31 +1031,68 @@ function menuWithCheckbox() {
       }
     }
   };
+
   return (
-    <Menu closeOnSelect={false}>
-      <MenuButton variant="secondary">
-        <Text>Selected ({checkedItems.length})</Text>
+    <Menu
+      closeOnSelect={false}
+      onClose={() => {
+        if (isNoneSelected) {
+          setCheckedItems(allItems);
+        }
+      }}
+    >
+      <MenuButton
+        variant="secondary"
+        width={200}
+      >
+        <Flex
+          columnGap="2x"
+          maxWidth={200 - 40}
+        >
+          <TextLabel>Fields: </TextLabel>
+          {isNoneSelected && (
+            <Text>Select</Text>
+          )}
+          {isAllSelected && (
+            <Text>All</Text>
+          )}
+          {isIndeterminate && (
+            <>
+              <Truncate>
+                {checkedItems.map(mapItemToText).join(', ')}
+              </Truncate>
+              <Text>
+                ({checkedItems.length})
+              </Text>
+            </>
+          )}
+        </Flex>
       </MenuButton>
-      <MenuList width="max-content">
+      <MenuList
+        width="100%"
+      >
+        <Box
+          px="3x"
+          mb="2x"
+        >
+          <LinkButton
+            onClick={handleClickToggleCheckedItems}
+          >
+            {isAllSelected ? 'Clear all' : 'Select all'}
+          </LinkButton>
+        </Box>
         <CheckboxGroup
           size="sm"
           value={checkedItems}
-          onChange={onCheckboxGroupChange}
+          onChange={setCheckedItems}
         >
-          <MenuItem onKeyDown={handleKeyDown}>
-            <Checkbox value="host">
-              Endpoint name</Checkbox>
-          </MenuItem>
-          <MenuItem onKeyDown={handleKeyDown}>
-            <Checkbox value="ip">
-              IP address
-            </Checkbox>
-          </MenuItem>
-          <MenuItem onKeyDown={handleKeyDown}>
-            <Checkbox value="os">
-              Operating system
-            </Checkbox>
-          </MenuItem>
+          {['host', 'ip', 'os'].map(x => (
+            <MenuItem key={x} onKeyDown={handleKeyDown}>
+              <Checkbox value={x} width="100%">
+                {mapItemToText(x)}
+              </Checkbox>
+            </MenuItem>
+          ))}
         </CheckboxGroup>
       </MenuList>
     </Menu>
