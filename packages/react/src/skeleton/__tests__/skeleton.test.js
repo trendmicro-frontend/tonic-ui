@@ -1,7 +1,7 @@
 import { getByTestId } from '@testing-library/dom';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { DarkMode, LightMode, Skeleton } from '@tonic-ui/react/src';
-import * as React from 'react';
+import React from 'react';
 
 describe('Skeleton', () => {
   it('should render correctly', () => {
