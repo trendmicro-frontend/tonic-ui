@@ -44,7 +44,11 @@ const SearchInput = React.forwardRef((
       return;
     }
 
-    inputRef.current.value = '';
+    if (inputRef.current) {
+      inputRef.current.value = '';
+      inputRef.current.focus(); // Retain focus on the input after clearing
+    }
+
     setIsClearable(false);
 
     if (typeof onClearInputProp === 'function') {
