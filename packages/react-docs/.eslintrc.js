@@ -15,5 +15,9 @@ module.exports = {
   ],
   rules: {
     'react/prop-types': 0,
+    'no-unused-vars': ['error', {
+      // https://eslint.org/docs/latest/rules/no-unused-vars#args
+      args: 'none', // do not check arguments
+    }],
   },
 };

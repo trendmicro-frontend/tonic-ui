@@ -1,7 +1,7 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinearProgress } from '@tonic-ui/react/src';
-import * as React from 'react';
+import React from 'react';
 
 describe('LinearProgress', () => {
   it('renders correctly', async () => {

@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Button, Portal, PortalManager, usePortalManager } from '@tonic-ui/react/src';
-import * as React from 'react';
+import React from 'react';
 
 describe('Portal', () => {
   it('should render correctly', () => {

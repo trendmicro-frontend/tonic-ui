@@ -342,7 +342,7 @@ render(() => {
         return (
           <Button
             {...getMenuToggleProps()}
-            variant="secondary"
+            variant="default"
           >
             <Text>Options</Text>
             <Space width="1x" />
@@ -372,6 +372,7 @@ render(() => {
 
 ```jsx disabled
 const MenuButton = (props) => {
+  // Define custom styles for the menu button
   const styleProps = {
     display: 'inline-flex',
     alignItems: 'center',
@@ -399,22 +400,40 @@ const MenuButton = (props) => {
 ```
 
 ```jsx
-<Menu>
-  <MenuButton variant="secondary">
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList width="max-content">
-    <MenuItem>
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
+<Flex columnGap="4x">
+  <Menu>
+    <MenuButton variant="secondary">
+      <Text>Options</Text>
+    </MenuButton>
+    <MenuList width="max-content">
+      <MenuItem>
+        List item 1
+      </MenuItem>
+      <MenuItem>
+        List item 2
+      </MenuItem>
+      <MenuItem>
+        List item 3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+  <Menu>
+    <MenuButton variant="ghost">
+      <Text>Options</Text>
+    </MenuButton>
+    <MenuList width="max-content">
+      <MenuItem>
+        List item 1
+      </MenuItem>
+      <MenuItem>
+        List item 2
+      </MenuItem>
+      <MenuItem>
+        List item 3
+      </MenuItem>
+    </MenuList>
+  </Menu>
+</>
 ```
 
 ### MenuToggleIcon
@@ -979,59 +998,152 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 </Menu>
 ```
 
-### Input controls
+### Dropdown
 
-Set `closeOnSelect` to `false` to keep the menu open after selecting a menu item.
+Use the `Dropdown` component when you need to select one option from a list of options.
 
-You can use arrow keys to navigate the menu, and press `Enter` or `Space` to select an item.
+The component is available on GitHub at the [link](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/react-docs/components/Dropdown.jsx).
 
-```jsx
-function menuWithCheckbox() {
-  const [checkedItems, setCheckedItems] = React.useState(['host', 'ip']);
-  const onCheckboxGroupChange = (value) => {
-    setCheckedItems(value);
-  };
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      const el = event.currentTarget.querySelector('input');
-      if (el) {
-        const value = el.value;
-        const items = [...checkedItems];
-        items.indexOf(value) === -1 ? items.push(value) : items.splice(items.indexOf(value), 1);
-        setCheckedItems(items);
-      }
-    }
-  };
+```jsx noInline
+const items = [
+  'all',
+  'network-events',
+  'system-events',
+];
+
+const renderItem = (value) => {
+  return {
+    'all': 'All',
+    'network-events': 'Network events',
+    'system-events': 'System events',
+  }[value];
+};
+
+const renderLabel = (value) => {
+  const selectionText = renderItem(value);
   return (
-    <Menu closeOnSelect={false}>
-      <MenuButton variant="secondary">
-        <Text>Selected ({checkedItems.length})</Text>
-      </MenuButton>
-      <MenuList width="max-content">
-        <CheckboxGroup
-          size="sm"
-          value={checkedItems}
-          onChange={onCheckboxGroupChange}
-        >
-          <MenuItem onKeyDown={handleKeyDown}>
-            <Checkbox value="host">
-              Endpoint name</Checkbox>
-          </MenuItem>
-          <MenuItem onKeyDown={handleKeyDown}>
-            <Checkbox value="ip">
-              IP address
-            </Checkbox>
-          </MenuItem>
-          <MenuItem onKeyDown={handleKeyDown}>
-            <Checkbox value="os">
-              Operating system
-            </Checkbox>
-          </MenuItem>
-        </CheckboxGroup>
-      </MenuList>
-    </Menu>
+    <>
+      <TextLabel mr="2x">
+        {'Event status:'}
+      </TextLabel>
+      <Truncate title={selectionText}>
+        {selectionText}
+      </Truncate>
+    </>
   );
-}
+};
+
+render(() => {
+  const [value, setValue] = React.useState('all');
+
+  return (
+    <Dropdown
+      value={value}
+      onChange={setValue}
+      items={items}
+      renderItem={renderItem}
+      renderLabel={renderLabel}
+    />
+  );
+});
+```
+
+### Multiselect
+
+Use the `Multiselect` component when you need to select multiple options from a list or to filter information.
+
+The component is available on GitHub at the [link](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/react-docs/components/Multiselect.jsx).
+
+```jsx noInline
+const policyData = {
+  policies: [
+    { id: '0', description: 'Default policy' },
+    ...Array.from({ length: 10 }, (_, i) => ({
+      id: String(i + 1),
+      description: `Policy ${i + 1}`,
+    })),
+  ],
+};
+
+const policyMap = (() => {
+  const map = new Map();
+  policyData.policies.forEach((policy) => {
+    // Use the policy ID as the key and ensure it's a string rather than a number
+    const key = String(policy.id);
+    map.set(key, policy);
+  });
+  return map;
+})();
+
+const items = [...policyMap.keys()];
+
+const renderItem = (value) => {
+  const policy = policyMap.get(value);
+  return policy?.description;
+};
+
+const renderLabel = (value) => {
+  const selectionCount = value.length;
+  const isNoneSelected = selectionCount === 0;
+  const isAllSelected = selectionCount === items.length;
+
+  if (isNoneSelected) {
+    const selectionText = 'Select';
+    return (
+      <>
+        <TextLabel mr="2x">
+          {'Policy:'}
+        </TextLabel>
+        <Truncate title={selectionText}>
+          {selectionText}
+        </Truncate>
+      </>
+    );
+  }
+
+  if (isAllSelected) {
+    const selectionText = 'All'; 
+    return (
+      <>
+        <TextLabel mr="2x">
+          {'Policy:'}
+        </TextLabel>
+        <Truncate title={selectionText}>
+          {selectionText}
+        </Truncate>
+      </>
+    );
+  }
+
+  const selectionText = value.map(renderItem).join(', ');
+  return (
+    <>
+      <TextLabel mr="2x">
+        {'Policy:'}
+      </TextLabel>
+      <Truncate title={selectionText}>
+        {selectionText}
+      </Truncate>
+      <Text ml="1x">
+        {`(${selectionCount})`}
+      </Text>
+    </>
+  );
+};
+
+render(() => {
+  const [value, setValue] = React.useState(items);
+
+  return (
+    <Multiselect
+      value={value}
+      onChange={setValue}
+      items={items}
+      renderItem={renderItem}
+      renderLabel={renderLabel}
+    />
+  );
+});
 ```
 
 ## Accessibility

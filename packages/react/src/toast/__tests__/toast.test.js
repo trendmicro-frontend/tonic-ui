@@ -2,7 +2,7 @@ import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Button, Toast, ToastProvider, useToast } from '@tonic-ui/react/src';
-import * as React from 'react';
+import React from 'react';
 
 describe('Toast', () => {
   it('should render correctly', async () => {

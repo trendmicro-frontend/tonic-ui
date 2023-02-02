@@ -3,19 +3,25 @@ import { Box } from '../box';
 import { Button } from '../button';
 import MenuToggle from './MenuToggle';
 import MenuToggleIcon from './MenuToggleIcon';
-import { useMenuButtonStyle } from './styles';
+import { useMenuButtonCSS, useMenuButtonStyle } from './styles';
 
 const MenuButton = forwardRef((
   {
+    children,
+    css,
+    disabled,
     onClick,
     onKeyDown,
-    children,
-    disabled,
+    variant,
     ...rest
   },
   ref,
 ) => {
-  const styleProps = useMenuButtonStyle({});
+  css = [
+    useMenuButtonCSS({ variant }),
+    css,
+  ];
+  const styleProps = useMenuButtonStyle();
 
   return (
     <MenuToggle
@@ -26,6 +32,9 @@ const MenuButton = forwardRef((
       {({ getMenuToggleProps }) => {
         return (
           <Button
+            ref={ref}
+            css={css}
+            variant={variant}
             {...getMenuToggleProps()}
             {...styleProps}
             {...rest}
