@@ -57,20 +57,28 @@ const MenuContent = forwardRef((
     ensureFunction(onBlur)(event);
   };
 
+  /**
+   * Handles keyboard navigation for menu items.
+   */
   const handleKeyDown = event => {
-    if (event.key === 'ArrowDown' || event.key === 'Tab') {
+    const key = event?.key;
+    const role = event?.target?.role;
+
+    // Prevents the default page scrolling behavior by calling `event.preventDefault()` for events on "menuitem" role.
+    if (role === 'menuitem') {
       event.preventDefault();
+    }
+
+    // Navigates focus to next/previous/first/last item or closes the menu based on the key pressed.
+    if (key === 'ArrowDown' || key === 'Tab') {
       ensureFunction(focusOnNextItem)();
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
+    } else if (key === 'ArrowUp') {
       ensureFunction(focusOnPreviousItem)();
-    } else if (event.key === 'Home') {
-      event.preventDefault();
+    } else if (key === 'Home') {
       ensureFunction(focusOnFirstItem)();
-    } else if (event.key === 'End') {
-      event.preventDefault();
+    } else if (key === 'End') {
       ensureFunction(focusOnLastItem)();
-    } else if (event.key === 'Escape') {
+    } else if (key === 'Escape') {
       ensureFunction(closeMenu)();
     }
 
