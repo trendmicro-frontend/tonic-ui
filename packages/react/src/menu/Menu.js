@@ -44,9 +44,13 @@ const Menu = forwardRef((
   const menuRef = useRef(null);
   const menuToggleRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
-  const [focusableElements, setFocusableElements] = useState([]);
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
   const prevIsOpen = usePrevious(isOpen);
+  const getFocusableElements = useCallback(() => {
+    const focusableElements = getAllFocusable(menuRef?.current)
+      .filter(node => (node.getAttribute('role') === 'menuitem'));
+    return focusableElements;
+  }, []);
 
   useEffect(() => {
     const isControlled = (isOpenProp !== undefined);
@@ -59,21 +63,17 @@ const Menu = forwardRef((
     if (isOpen) {
       // Use requestAnimationFrame to ensure that the menu is rendered before we try to focus on it.
       requestAnimationFrame(() => {
-        const nextFocusableElements = getAllFocusable(menuRef?.current)
-          .filter(node => node.getAttribute('role') === 'menuitem');
-
-        setFocusableElements(nextFocusableElements);
-
-        // Init tab index
-        nextFocusableElements.forEach((node, index) => (index === 0) && node.setAttribute('tabindex', 0));
+        const focusableElements = getFocusableElements();
+        focusableElements.forEach((node, index) => (index === 0) && node.setAttribute('tabindex', 0));
       });
     }
-  }, [isOpen]);
+  }, [isOpen, getFocusableElements]);
 
   useEffect(() => {
     if (activeIndex !== -1) {
       // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
       requestAnimationFrame(() => {
+        const focusableElements = getFocusableElements();
         const el = focusableElements[activeIndex];
         el && el.focus();
 
@@ -100,7 +100,7 @@ const Menu = forwardRef((
         el && el.focus();
       });
     }
-  }, [isOpen, activeIndex, focusableElements, menuRef, menuToggleRef, prevIsOpen]);
+  }, [isOpen, activeIndex, getFocusableElements, menuRef, menuToggleRef, prevIsOpen]);
 
   const onOpen = useCallback(() => {
     const isControlled = (isOpenProp !== undefined);
@@ -114,30 +114,34 @@ const Menu = forwardRef((
   }, [isOpenProp, onOpenProp]);
 
   const focusOnFirstItem = useCallback(() => {
+    const focusableElements = getFocusableElements();
     if (focusableElements.length > 0) {
       setActiveIndex(0);
     }
-  }, [focusableElements]);
+  }, [getFocusableElements]);
 
   const focusOnLastItem = useCallback(() => {
+    const focusableElements = getFocusableElements();
     if (focusableElements.length > 0) {
       setActiveIndex(focusableElements.length - 1);
     }
-  }, [focusableElements]);
+  }, [getFocusableElements]);
 
   const focusOnNextItem = useCallback(() => {
+    const focusableElements = getFocusableElements();
     if (focusableElements.length > 0) {
       const nextIndex = (activeIndex + 1) % focusableElements.length;
       setActiveIndex(nextIndex);
     }
-  }, [activeIndex, focusableElements]);
+  }, [activeIndex, getFocusableElements]);
 
   const focusOnPreviousItem = useCallback(() => {
+    const focusableElements = getFocusableElements();
     if (focusableElements.length > 0) {
       const prevIndex = (activeIndex - 1 + focusableElements.length) % focusableElements.length;
       setActiveIndex(prevIndex);
     }
-  }, [activeIndex, focusableElements]);
+  }, [activeIndex, getFocusableElements]);
 
   const onClose = useCallback(() => {
     const isControlled = (isOpenProp !== undefined);
@@ -152,8 +156,9 @@ const Menu = forwardRef((
     setActiveIndex(defaultActiveIndex);
 
     // Reset tab index
+    const focusableElements = getFocusableElements();
     focusableElements.forEach(node => node.setAttribute('tabindex', -1));
-  }, [focusableElements, isOpenProp, onCloseProp, defaultActiveIndex]);
+  }, [getFocusableElements, isOpenProp, onCloseProp, defaultActiveIndex]);
 
   if (anchorEl) {
     menuToggleRef.current = anchorEl;
