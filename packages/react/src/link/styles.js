@@ -37,6 +37,14 @@ const useLinkStyle = ({
   };
 };
 
+const useLinkButtonStyle = () => {
+  return {
+    // Use the default outline style to enhance the visibility of the link button when navigating with a keyboard.
+    outline: undefined,
+  };
+};
+
 export {
   useLinkStyle,
+  useLinkButtonStyle,
 };
