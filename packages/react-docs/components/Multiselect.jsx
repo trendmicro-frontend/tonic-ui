@@ -31,13 +31,13 @@ const Multiselect = ({
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const { colors } = useTheme();
-  const [value, setValue] = useState(ensureArray(valueProp ?? []));
+  const [value, setValue] = useState(ensureArray(valueProp));
   const [searchString, setSearchString] = useState('');
 
   useEffect(() => {
     const isControlled = valueProp !== undefined;
     if (isControlled) {
-      setValue(valueProp);
+      setValue(ensureArray(valueProp));
     }
   }, [valueProp]);
 
@@ -70,7 +70,7 @@ const Multiselect = ({
       return true;
     }
     const normalizedItemString = renderItem(item).trim().toLowerCase();
-    return normalizedItemString.indexOf(normalizedSearchString) >= 0;
+    return normalizedItemString.includes(normalizedSearchString);
   });
 
   return (
@@ -105,6 +105,16 @@ const Multiselect = ({
             mb="2x"
           >
             <SearchInput
+              inputProps={{
+                role: 'menuitem', // Specify "menuitem" role for keyboard navigation
+                onKeyDown: (event) => {
+                  // Stop event propagation to menu for specific keys
+                  const keys = ['Home', 'End', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'];
+                  if (keys.includes(event.key)) {
+                    event.stopPropagation();
+                  }
+                },
+              }}
               ref={searchInputRef}
               value={searchString}
               onClearInput={(event) => {
