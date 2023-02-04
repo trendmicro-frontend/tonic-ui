@@ -65,25 +65,29 @@ const MenuContent = forwardRef((
     const shiftKey = event?.shiftKey;
 
     // Prevents default page scrolling for ArrowDown, ArrowUp, End, Home, and Tab keys.
-    // Closes menu on pressing the Escape key.
     if (key === 'ArrowDown') {
       event.preventDefault();
-    }
-
-    // Navigates focus to next/previous/first/last item or closes the menu based on the key pressed.
-    if (key === 'ArrowDown') {
       ensureFunction(focusOnNextItem)();
-    } else if (key === 'ArrowUp') {
+    }
+    if (key === 'ArrowUp') {
+      event.preventDefault();
       ensureFunction(focusOnPreviousItem)();
-    } else if (key === 'End') {
+    }
+    if (key === 'End') {
       event.preventDefault();
       ensureFunction(focusOnLastItem)();
-    } else if (key === 'Home') {
+    }
+    if (key === 'Home') {
+      event.preventDefault();
       ensureFunction(focusOnFirstItem)();
-    } else if (key === 'Tab') {
+    }
+    if (key === 'Tab') {
       event.preventDefault();
       ensureFunction(shiftKey ? focusOnPreviousItem : focusOnNextItem)();
-    } else if (key === 'Escape') {
+    }
+
+    // Closes menu on pressing the Escape key.
+    if (key === 'Escape') {
       ensureFunction(closeMenu)();
     }
 
