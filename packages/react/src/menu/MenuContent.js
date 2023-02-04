@@ -58,7 +58,7 @@ const MenuContent = forwardRef((
   };
 
   /**
-   * Handles keyboard navigation for menu items.
+   * Navigate the menu items using keyboard.
    */
   const handleKeyDown = event => {
     const key = event?.key;

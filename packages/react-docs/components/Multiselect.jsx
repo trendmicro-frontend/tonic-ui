@@ -9,24 +9,35 @@ import {
   MenuItem,
   MenuList,
   Scrollbar,
+  SearchInput,
+  useColorMode,
+  useColorStyle,
+  useTheme,
 } from '@tonic-ui/react';
 import { noop } from '@tonic-ui/utils';
-import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { useCallback, useEffect, useState } from 'react';
+import { ensureArray, ensureFunction, ensureString } from 'ensure-type';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Highlight from 'react-highlight-words';
 
 const Multiselect = ({
+  isSearchable = false,
   items = [],
   onChange: onChangeProp,
   renderItem = noop,
   renderLabel = noop,
   value: valueProp,
 }) => {
-  const [value, setValue] = useState(ensureArray(valueProp ?? []));
+  const searchInputRef = useRef();
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const { colors } = useTheme();
+  const [value, setValue] = useState(ensureArray(valueProp));
+  const [searchString, setSearchString] = useState('');
 
   useEffect(() => {
     const isControlled = valueProp !== undefined;
     if (isControlled) {
-      setValue(valueProp);
+      setValue(ensureArray(valueProp));
     }
   }, [valueProp]);
 
@@ -52,6 +63,15 @@ const Multiselect = ({
       }
     }
   }
+
+  const normalizedSearchString = ensureString(searchString).trim().toLowerCase();
+  const filteredItems = items.filter(item => {
+    if (!normalizedSearchString) {
+      return true;
+    }
+    const normalizedItemString = renderItem(item).trim().toLowerCase();
+    return normalizedItemString.includes(normalizedSearchString);
+  });
 
   return (
     <Menu
@@ -79,27 +99,57 @@ const Multiselect = ({
       <MenuList
         width="100%"
       >
+        {isSearchable && (
+          <Box
+            px="3x"
+            mb="2x"
+          >
+            <SearchInput
+              inputProps={{
+                role: 'menuitem', // Specify "menuitem" role for keyboard navigation
+                onKeyDown: (event) => {
+                  // Stop event propagation to menu for specific keys
+                  const keys = ['Home', 'End', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'];
+                  if (keys.includes(event.key)) {
+                    event.stopPropagation();
+                  }
+                },
+              }}
+              ref={searchInputRef}
+              value={searchString}
+              onClearInput={(event) => {
+                setSearchString('');
+              }}
+              onChange={(event) => {
+                const value = event.target.value;
+                setSearchString(value);
+              }}
+            />
+          </Box>
+        )}
         <CheckboxGroup
           size="sm"
           value={value}
           onChange={onCheckboxGroupChange}
         >
-          <Box
-            px="3x"
-            mb="2x"
-          >
-            <LinkButton
-              key="toggle"
-              onClick={handleClickToggle}
+          {!normalizedSearchString && (
+            <Box
+              px="3x"
+              mb="2x"
             >
-              {isAllSelected ? 'Clear all' : 'Select all'}
-            </LinkButton>
-          </Box>
+              <LinkButton
+                key="toggle"
+                onClick={handleClickToggle}
+              >
+                {isAllSelected ? ('Clear all') : ('Select all')}
+              </LinkButton>
+            </Box>
+          )}
           <Scrollbar
             maxHeight={250}
             overflowY="auto"
           >
-            {items.map((x) => (
+            {filteredItems.map((x) => (
               <MenuItem
                 key={x}
                 onKeyDown={handleKeyDown}
@@ -108,7 +158,14 @@ const Multiselect = ({
                   value={x}
                   width="100%" // Fill the entire width of the menu item to make it easier to click
                 >
-                  {renderItem(x)}
+                  <Highlight
+                    searchWords={[normalizedSearchString]}
+                    textToHighlight={renderItem(x)}
+                    highlightStyle={{
+                      backgroundColor: colors[colorStyle.text.highlight],
+                      color: colors['gray:100'],
+                    }}
+                  />
                 </Checkbox>
               </MenuItem>
             ))}
