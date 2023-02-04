@@ -62,23 +62,32 @@ const MenuContent = forwardRef((
    */
   const handleKeyDown = event => {
     const key = event?.key;
-    const role = event?.target?.role;
+    const shiftKey = event?.shiftKey;
 
     // Prevents default page scrolling for ArrowDown, ArrowUp, End, Home, and Tab keys.
-    // Closes menu on pressing the Escape key.
-    if (key === 'ArrowDown' || key === 'Tab') {
+    if (key === 'ArrowDown') {
       event.preventDefault();
       ensureFunction(focusOnNextItem)();
-    } else if (key === 'ArrowUp') {
+    }
+    if (key === 'ArrowUp') {
       event.preventDefault();
       ensureFunction(focusOnPreviousItem)();
-    } else if (key === 'Home') {
-      event.preventDefault();
-      ensureFunction(focusOnFirstItem)();
-    } else if (key === 'End') {
+    }
+    if (key === 'End') {
       event.preventDefault();
       ensureFunction(focusOnLastItem)();
-    } else if (key === 'Escape') {
+    }
+    if (key === 'Home') {
+      event.preventDefault();
+      ensureFunction(focusOnFirstItem)();
+    }
+    if (key === 'Tab') {
+      event.preventDefault();
+      ensureFunction(shiftKey ? focusOnPreviousItem : focusOnNextItem)();
+    }
+
+    // Closes menu on pressing the Escape key.
+    if (key === 'Escape') {
       ensureFunction(closeMenu)();
     }
 
