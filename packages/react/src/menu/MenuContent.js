@@ -62,22 +62,27 @@ const MenuContent = forwardRef((
    */
   const handleKeyDown = event => {
     const key = event?.key;
-    const role = event?.target?.role;
+    const shiftKey = event?.shiftKey;
 
-    // Prevents the default page scrolling behavior by calling `event.preventDefault()` for events on "menuitem" role.
-    if (role === 'menuitem') {
+    // Prevents default page scrolling for ArrowDown, ArrowUp, End, Home, and Tab keys.
+    // Closes menu on pressing the Escape key.
+    if (key === 'ArrowDown') {
       event.preventDefault();
     }
 
     // Navigates focus to next/previous/first/last item or closes the menu based on the key pressed.
-    if (key === 'ArrowDown' || key === 'Tab') {
+    if (key === 'ArrowDown') {
       ensureFunction(focusOnNextItem)();
     } else if (key === 'ArrowUp') {
       ensureFunction(focusOnPreviousItem)();
+    } else if (key === 'End') {
+      event.preventDefault();
+      ensureFunction(focusOnLastItem)();
     } else if (key === 'Home') {
       ensureFunction(focusOnFirstItem)();
-    } else if (key === 'End') {
-      ensureFunction(focusOnLastItem)();
+    } else if (key === 'Tab') {
+      event.preventDefault();
+      ensureFunction(shiftKey ? focusOnPreviousItem : focusOnNextItem)();
     } else if (key === 'Escape') {
       ensureFunction(closeMenu)();
     }
