@@ -68,22 +68,26 @@ const MenuContent = forwardRef((
     if (key === 'ArrowDown') {
       event.preventDefault();
       ensureFunction(focusOnNextItem)();
-    } else if (key === 'ArrowUp') {
+    }
+    if (key === 'ArrowUp') {
       event.preventDefault();
       ensureFunction(focusOnPreviousItem)();
-    } else if (key === 'End') {
+    }
+    if (key === 'End') {
       event.preventDefault();
       ensureFunction(focusOnLastItem)();
-    } else if (key === 'Home') {
+    }
+    if (key === 'Home') {
       event.preventDefault();
       ensureFunction(focusOnFirstItem)();
-    } else if (key === 'Tab') {
+    }
+    if (key === 'Tab') {
       event.preventDefault();
       ensureFunction(shiftKey ? focusOnPreviousItem : focusOnNextItem)();
     }
 
+    // Closes menu on pressing the Escape key.
     if (key === 'Escape') {
-      // Closes menu on pressing the Escape key.
       ensureFunction(closeMenu)();
     }
 

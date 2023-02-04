@@ -5,7 +5,7 @@ import { Menu, MenuButton, MenuList, MenuItem } from '@tonic-ui/react/src';
 import React from 'react';
 
 describe('Menu', () => {
-  it('should render correctly', () => {
+  it('should render correctly', async () => {
     const items = [
       'Menu item 1',
       'Menu item 2',
@@ -13,7 +13,7 @@ describe('Menu', () => {
     ];
 
     // Wrap the code inside act(...) for transition update
-    act(async () => {
+    await act(async () => {
       const { container } = render(
         <Menu
           // TODO: use "visibility: visible" or "visibility: hidden" to show/hide the menu
