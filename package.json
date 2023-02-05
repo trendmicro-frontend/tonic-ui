@@ -9,13 +9,14 @@
   "scripts": {
     "build": "lerna exec -- yarn build",
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
-    "lint": "lerna exec -- yarn lint",
-    "pre-push": "lerna exec -- yarn pre-push",
-    "test": "lerna exec -- yarn test",
     "lerna-publish": "lerna publish",
     "lerna-publish-from-git": "lerna publish from-git",
     "lerna-publish-from-package": "lerna publish from-package",
-    "prepare": "husky install"
+    "lint": "lerna exec -- yarn lint",
+    "pre-push": "lerna exec -- yarn pre-push",
+    "prepare": "husky install",
+    "version": "yarn install && git stage yarn.lock",
+    "test": "lerna exec -- yarn test"
   },
   "author": "Cheton Wu <cheton_wu@trendmicro.com>",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
