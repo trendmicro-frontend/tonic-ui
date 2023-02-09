@@ -1,4 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { ensureString } from 'ensure-type';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from '../icon';
 import { InputControl, InputAdornment } from '../input';
@@ -7,6 +8,7 @@ import SearchInputCloseButton from './SearchInputCloseButton';
 
 const SearchInput = React.forwardRef((
   {
+    defaultValue: defaultValueProp = '',
     disabled,
     endAdornment: endAdornmentProp,
     isLoading,
@@ -15,19 +17,22 @@ const SearchInput = React.forwardRef((
     readOnly,
     size,
     startAdornment: startAdornmentProp,
+    value: valueProp,
     ...rest
   },
   ref
 ) => {
   const inputRef = useRef();
   const combinedRef = useMergeRefs(inputRef, ref);
-  const canClearInput = !disabled && !readOnly;
-  const [isClearable, setIsClearable] = useState(canClearInput && !!(rest.value ?? rest.defaultValue));
-  const inputValue = String(inputRef.current?.value ?? '');
+  const [value, setValue] = useState(ensureString(valueProp ?? defaultValueProp));
+  const isClearable = !disabled && !readOnly && !!value;
 
   useEffect(() => {
-    setIsClearable(canClearInput && inputValue.length > 0);
-  }, [canClearInput, setIsClearable, inputValue]);
+    const isControlled = (valueProp !== undefined);
+    if (isControlled) {
+      setValue(valueProp);
+    }
+  }, [valueProp]);
 
   const iconState = (() => {
     if (isLoading) {
@@ -44,26 +49,33 @@ const SearchInput = React.forwardRef((
       return;
     }
 
-    if (inputRef.current) {
-      inputRef.current.value = '';
-      inputRef.current.focus(); // Retain focus on the input after clearing
+    const nextValue = '';
+    const isControlled = (valueProp !== undefined);
+    if (!isControlled) {
+      setValue(nextValue);
     }
-
-    setIsClearable(false);
 
     if (typeof onClearInputProp === 'function') {
       onClearInputProp(e);
     }
-  }, [iconState, onClearInputProp]);
+
+    requestAnimationFrame(() => {
+      const el = inputRef.current;
+      el && el.focus(); // Retain focus on the input after clearing
+    });
+  }, [iconState, valueProp, onClearInputProp]);
 
   const onChange = useCallback((e) => {
-    const value = String(e.target.value ?? '');
-    setIsClearable(value.length > 0);
+    const nextValue = ensureString(e.target.value ?? '');
+    const isControlled = (valueProp !== undefined);
+    if (!isControlled) {
+      setValue(nextValue);
+    }
 
     if (typeof onChangeProp === 'function') {
       onChangeProp(e);
     }
-  }, [onChangeProp]);
+  }, [valueProp, onChangeProp]);
 
   const startAdornment = (
     <InputAdornment>
@@ -97,6 +109,7 @@ const SearchInput = React.forwardRef((
       readOnly={readOnly}
       size={size}
       startAdornment={startAdornmentProp !== undefined ? startAdornmentProp : startAdornment}
+      value={value}
       {...rest}
     />
   );

@@ -68,9 +68,7 @@ function Example() {
     setKeyword(keyword);
   };
   const onClearInput = (e) => {
-    const keyword = '';
-    setKeyword(keyword);
-    ref.current.focus();
+    setKeyword('');
   };
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -80,14 +78,15 @@ function Example() {
       }
     }
   };
-  const handleClickSearch = (e) => {
-    if (!!keyword) {
-      searchKeyword(keyword);
+  const handleClickReset = (e) => {
+    setKeyword('');
+    if (isLoading) {
+      setIsLoading(false);
     }
   };
 
   return (
-    <>
+    <Flex alignItems="center" columnGap="4x">
       <SearchInput
         ref={ref}
         placeholder={placeholder}
@@ -99,11 +98,13 @@ function Example() {
         onFocus={() => {
           setPlaceholder('Company name, endpoint name');
           setInputWidth(360);
-          ref.current.select();
+
+          requestAnimationFrame(() => {
+            ref.current.select();
+          });
         }}
         onBlur={() => {
           setPlaceholder('Search');
-
           // Shrink width when the value is empty
           setInputWidth(!!keyword ? 360 : 180);
         }}
@@ -113,15 +114,13 @@ function Example() {
           textOverflow: 'ellipsis',
         }}
       />
-      <Box mt="4x">
-        <Button
-          disabled={!keyword}
-          onClick={handleClickSearch}
-        >
-          Search
-        </Button>
-      </Box>
-    </>
+      <Button
+        disabled={!keyword}
+        onClick={handleClickReset}
+      >
+        Reset
+      </Button>
+    </Flex>
   );
 }
 ```
