@@ -573,7 +573,6 @@ const Scrollbar = forwardRef((
       return;
     }
 
-
     const observer = new MutationObserver((entries) => {
       update();
     });
@@ -582,7 +581,7 @@ const Scrollbar = forwardRef((
 
     update();
 
-    return () => {
+    return () => { // eslint-disable-line consistent-return
       observer.disconnect();
     };
   }, [update, el]);
