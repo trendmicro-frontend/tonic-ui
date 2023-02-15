@@ -225,6 +225,42 @@ render(
 );
 ```
 
+### Scrollbar with collapsible content
+
+```jsx
+function Example() {
+  const [isOpen, onToggle] = useToggle(false);
+
+  return (
+    <Flex direction="column" rowGap="4x">
+      <TextLabel display="inline-flex" alignItems="center">
+        <Switch checked={isOpen} onChange={() => onToggle()} size="md" />
+        <Space width="2x" />
+        <Text>Show</Text>
+      </TextLabel>
+      <Scrollbar maxHeight={180} overflowY="scroll">
+        <SkeletonContent>
+          <Stack spacing="4x">
+            <SkeletonBody />
+            <Collapse
+              in={isOpen}
+              unmountOnExit={true}
+            >
+              <Stack spacing="4x">
+                <SkeletonBody />
+                <SkeletonBody />
+                <SkeletonBody />
+                <SkeletonBody />
+              </Stack>
+            </Collapse>
+          </Stack>
+        </SkeletonContent>
+      </Scrollbar>
+    </Flex>
+  );
+}
+```
+
 ### Scrollable menu
 
 ```jsx
