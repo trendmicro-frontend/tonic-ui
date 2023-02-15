@@ -213,11 +213,16 @@ const Scrollbar = forwardRef((
     const { scrollLeft, clientWidth, scrollWidth } = values;
     const horizontalTrackWidth = getHorizontalTrackWidth();
     const horizontalThumbWidth = getHorizontalThumbWidth();
-    const horizontalThumbX = scrollLeft / (scrollWidth - clientWidth) * (horizontalTrackWidth - horizontalThumbWidth);
+    const horizontalThumbX = (scrollWidth - clientWidth !== 0)
+      ? scrollLeft / (scrollWidth - clientWidth) * (horizontalTrackWidth - horizontalThumbWidth)
+      : 0;
     const { scrollTop, clientHeight, scrollHeight } = values;
     const verticalTrackHeight = getVerticalTrackHeight();
     const verticalThumbHeight = getVerticalThumbHeight();
-    const verticalThumbY = scrollTop / (scrollHeight - clientHeight) * (verticalTrackHeight - verticalThumbHeight);
+    const verticalThumbY = (scrollHeight - clientHeight !== 0)
+      ? scrollTop / (scrollHeight - clientHeight) * (verticalTrackHeight - verticalThumbHeight)
+      : 0;
+
     horizontalTrackRef.current.style.visibility = (scrollWidth > clientWidth) ? 'visible' : 'hidden';
     verticalTrackRef.current.style.visibility = (scrollHeight > clientHeight) ? 'visible' : 'hidden';
     horizontalThumbRef.current.style.width = `${horizontalThumbWidth}px`;
@@ -552,21 +557,46 @@ const Scrollbar = forwardRef((
     };
   }, [startDragging, handleDrag, handleDragEnd]);
 
-  // Call update when children change
-  useEffect(() => {
-    update();
-  }, [update, children]);
-
   // Create a resize observer to detect when the scroll view is resized
   const el = nodeRef?.current;
+
+  // MutationObserver
   useEffect(() => {
-    if (typeof ResizeObserver !== 'function') {
+    if (!el) {
+      // No element to observe
+      return;
+    }
+
+    const MutationObserver = window?.MutationObserver ?? window?.WebKitMutationObserver;
+    if (typeof MutationObserver !== 'function') {
       // ResizeObserver is not supported
       return;
     }
 
+
+    const observer = new MutationObserver((entries) => {
+      update();
+    });
+    const config = { attributes: true, childList: true, characterData: true, subtree: true };
+    observer.observe(el, config);
+
+    update();
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [update, el]);
+
+  // ResizeObserver
+  useEffect(() => {
     if (!el) {
       // No element to observe
+      return;
+    }
+
+    const ResizeObserver = window?.ResizeObserver;
+    if (typeof ResizeObserver !== 'function') {
+      // ResizeObserver is not supported
       return;
     }
 
@@ -574,6 +604,8 @@ const Scrollbar = forwardRef((
       update();
     });
     observer.observe(el);
+
+    update();
 
     return () => { // eslint-disable-line consistent-return
       observer.disconnect();
