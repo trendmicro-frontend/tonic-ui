@@ -108,8 +108,9 @@ const useEditableTagStyle = ({
   const [colorMode] = useColorMode();
   const baseStyle = {
     alignItems: 'center',
-    border: 1,
     borderColor: 'transparent',
+    borderStyle: 'solid',
+    borderWidth: '1q',
     borderRadius: 'sm',
     cursor: 'cursor',
     display: 'inline-flex',
