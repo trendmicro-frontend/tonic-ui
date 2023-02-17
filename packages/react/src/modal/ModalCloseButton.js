@@ -1,20 +1,34 @@
+import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { Icon } from '../icon';
 import {
   useModalCloseButtonStyle,
 } from './styles';
+import useModal from './useModal';
 
-const ModalCloseButton = forwardRef((props, ref) => {
+const ModalCloseButton = forwardRef((
+  {
+    children,
+    onClick: onClickProp,
+    ...rest
+  },
+  ref,
+) => {
+  const modalContext = useModal(); // context might be an undefined value
+  const {
+    onClose,
+  } = { ...modalContext };
   const styleProps = useModalCloseButtonStyle();
 
   return (
     <ButtonBase
       ref={ref}
+      onClick={callEventHandlers(onClickProp, onClose)}
       {...styleProps}
-      {...props}
+      {...rest}
     >
-      <Icon icon="close" />
+      {children ?? <Icon icon="close" />}
     </ButtonBase>
   );
 });
