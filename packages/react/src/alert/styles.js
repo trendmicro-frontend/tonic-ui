@@ -415,7 +415,7 @@ const useAlertMessageStyle = ({
  * ```jsx
  * <Alert variant="solid" severity="success">
  *   <Text pr="10x">This is a success alert.</Text>
- *   <AlertCloseButton right={7} top={3} position="absolute" />
+ *   <AlertCloseButton top={3} right={7} position="absolute" />
  * </Alert>
  * ```
  *

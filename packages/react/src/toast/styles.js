@@ -99,7 +99,7 @@ const useToastMessageStyle = ({
  * ```jsx
  * <Toast appearance="success">
  *   <Text pr="10x">This is a success toast.</Text>
- *   <ToastCloseButton right={7} top={3} position="absolute" />
+ *   <ToastCloseButton top={9} right={7} position="absolute" />
  * </Toast>
  * ```
  *

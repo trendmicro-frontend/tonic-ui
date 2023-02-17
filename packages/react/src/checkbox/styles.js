@@ -47,7 +47,7 @@ const indeterminateProps = ({ color, colorMode }) => {
     _indeterminateAndFocus: {
       outlineStyle: 'solid',
       outlineColor: focusOutlineColor,
-      outlineWidth: '2px',
+      outlineWidth: '1h',
     },
     _indeterminateAndDisabled: {
       borderColor: disabledBorderColor,
@@ -136,7 +136,7 @@ const interactionProps = ({ color, colorMode }) => {
     _focus: {
       outlineStyle: 'solid',
       outlineColor: focusOutlineColor,
-      outlineWidth: '2px',
+      outlineWidth: '1h',
     },
     _checked: {
       bg: checkedBgColor,

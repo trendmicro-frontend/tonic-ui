@@ -1,4 +1,4 @@
-import { createTransitionStyle, transitionEasing } from '@tonic-ui/utils';
+import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
@@ -346,10 +346,7 @@ const useButtonStyle = ({
     border: 1,
     borderRadius: 'sm',
     px: '3x',
-    transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], {
-      duration: 250,
-      easing: transitionEasing.easeInOut,
-    }),
+    transition: createTransitionStyle(['background-color', 'border-color', 'box-shadow', 'color'], { duration: 200 }),
   };
   const orientationStyle = {
     'horizontal': {

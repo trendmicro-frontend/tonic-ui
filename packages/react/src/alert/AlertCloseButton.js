@@ -17,11 +17,11 @@ const AlertCloseButton = forwardRef((
 ) => {
   const alertContext = useAlert(); // context might be an undefined value
   const {
+    // The `isClosable` prop determines whether the close button should be displayed and allows for control over its positioning
     isClosable,
     onClose,
     variant,
   } = { ...alertContext };
-  // The `isClosable` prop is used to control whether the close button should be positioned on the top-right corner of the alert.
   const styleProps = useAlertCloseButtonStyle({ isClosable, variant });
 
   return (
