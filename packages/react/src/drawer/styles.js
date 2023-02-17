@@ -1,6 +1,7 @@
 import _get from 'lodash.get';
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
+import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
 
 const defaultPlacement = 'right';
@@ -81,7 +82,7 @@ const useDrawerContentStyle = ({
     light: {
       color: 'black:primary',
       bg: 'white',
-      borderWidth: 1,
+      borderWidth: '1q',
       borderStyle: 'solid',
       borderColor: 'gray:30',
       boxShadow: colorStyle?.shadow?.thick,
@@ -89,7 +90,7 @@ const useDrawerContentStyle = ({
     dark: {
       color: 'white:primary',
       bg: 'gray:90',
-      borderWidth: 1,
+      borderWidth: '1q',
       borderStyle: 'solid',
       borderColor: 'gray:80',
       boxShadow: colorStyle?.shadow?.thick,
@@ -157,63 +158,39 @@ const useDrawerContentStyle = ({
 
 const useDrawerCloseButtonStyle = () => {
   const [colorMode] = useColorMode();
-  const { colors } = useTheme();
+  const { sizes } = useTheme();
   const color = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
   }[colorMode];
-  const hoverColor = {
+  const size = '8x';
+  const _focusBorderColor = 'blue:60';
+  const _focusBoxShadowBorderColor = 'blue:60';
+  const _hoverColor = {
     dark: 'white:emphasis',
     light: 'black:primary',
   }[colorMode];
-  const activeColor = color;
-  const focusColor = color;
-  const focusHoverColor = hoverColor;
-  const focusActiveColor = activeColor;
-  const focusBorderColor = _get(colors, 'blue:60');
+  const baseStyle = useIconButtonStyle({ color, size, _focusBorderColor, _focusBoxShadowBorderColor, _hoverColor });
+  const parentBorderWidth = sizes['1q'];
+  const top = `calc(${sizes['2x']} - ${parentBorderWidth})`;
+  const right = `calc(${sizes['2x']} - ${parentBorderWidth})`;
 
   return {
+    ...baseStyle,
     position: 'absolute',
-    top: '2x',
-    right: '2x',
-    border: 1,
-    borderColor: 'transparent',
-    color: color,
-    transition: 'all .2s',
-    lineHeight: 1,
-    height: '8x',
-    width: '8x',
-    minWidth: '8x', // ensure a minimum width for the close button
-    px: 0,
-    py: 0,
-    _hover: {
-      color: hoverColor,
-    },
-    _active: {
-      color: activeColor,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusColor,
-    },
-    _focusHover: {
-      color: focusHoverColor,
-    },
-    _focusActive: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusActiveColor,
-    },
+    top,
+    right,
   };
 };
 
-const useDrawerHeaderStyle = () => {
+const useDrawerHeaderStyle = ({
+  isClosable,
+}) => {
   return {
     pt: '4x',
     pb: '6x',
     pl: '4x',
-    pr: '12x',
+    pr: isClosable ? '12x' : '4x',
     position: 'relative',
     fontSize: 'xl',
     lineHeight: 'xl',

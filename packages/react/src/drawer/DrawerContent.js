@@ -66,7 +66,7 @@ const DrawerContent = forwardRef((
     >
       {children}
       {!!isClosable && (
-        <DrawerCloseButton onClick={onClose} />
+        <DrawerCloseButton />
       )}
     </TransitionComponent>
   );

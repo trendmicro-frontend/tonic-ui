@@ -1,20 +1,34 @@
+import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { Icon } from '../icon';
 import {
   useDrawerCloseButtonStyle,
 } from './styles';
+import useDrawer from './useDrawer';
 
-const DrawerCloseButton = forwardRef((props, ref) => {
+const DrawerCloseButton = forwardRef((
+  {
+    children,
+    onClick: onClickProp,
+    ...rest
+  },
+  ref,
+) => {
+  const drawerContext = useDrawer(); // context might be an undefined value
+  const {
+    onClose,
+  } = { ...drawerContext };
   const styleProps = useDrawerCloseButtonStyle();
 
   return (
     <ButtonBase
       ref={ref}
+      onClick={callEventHandlers(onClickProp, onClose)}
       {...styleProps}
-      {...props}
+      {...rest}
     >
-      <Icon icon="close" />
+      {children ?? <Icon icon="close" />}
     </ButtonBase>
   );
 });
