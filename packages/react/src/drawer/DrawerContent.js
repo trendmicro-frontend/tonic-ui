@@ -30,11 +30,12 @@ const DrawerContent = forwardRef((
     contentRef, // internal use only
   } = { ...drawerContext };
   const combinedRef = useMergeRefs(contentRef, ref);
-  const styleProps = useDrawerContentStyle({ placement, size });
+  const tabIndex = -1;
+  const styleProps = useDrawerContentStyle({ placement, size, tabIndex });
   const contentProps = {
     ref: combinedRef,
     role: 'dialog',
-    tabIndex: -1,
+    tabIndex,
     onClick: event => event.stopPropagation(),
     onKeyDown: event => {
       if (event.key === 'Escape') {

@@ -29,7 +29,8 @@ const Tab = forwardRef((
   const isSelected = isIndexEqual(index, context?.index);
   const orientation = context?.orientation;
   const variant = context?.variant;
-  const styleProps = useTabStyle({ disabled, isSelected, orientation, variant });
+  const tabIndex = (disabled || isSelected) ? -1 : 0;
+  const styleProps = useTabStyle({ disabled, isSelected, orientation, variant, tabIndex });
   const handleClick = callEventHandlers(onClick, (event) => {
     if (isSelected) {
       // Do not trigger onChange if the tab is already selected
@@ -63,7 +64,7 @@ const Tab = forwardRef((
     onClick: handleClick,
     ref,
     role: 'tab',
-    tabIndex: (disabled || isSelected) ? -1 : 0,
+    tabIndex,
     ...styleProps,
     ...rest,
   });

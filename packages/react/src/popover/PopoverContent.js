@@ -69,7 +69,8 @@ const PopoverContent = ({
     mousePageY,
     arrowAt,
   } = usePopover();
-  const styleProps = usePopoverContentStyle();
+  const tabIndex = -1;
+  const styleProps = usePopoverContentStyle({ tabIndex });
   const mouseLeaveTimeoutRef = useRef();
   let eventHandlers = {};
   let roleProps = {};
@@ -214,6 +215,7 @@ const PopoverContent = ({
               return (
                 <Box
                   ref={ref}
+                  tabIndex={tabIndex}
                   {...styleProps}
                   {...transitionStyle}
                   transformOrigin={mapPlacementToTransformOrigin(placement)}

@@ -7,7 +7,9 @@ const usePopoverTriggerStyle = () => {
   };
 };
 
-const usePopoverContentStyle = () => {
+const usePopoverContentStyle = ({
+  tabIndex,
+}) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const backgroundColor = {
@@ -23,7 +25,6 @@ const usePopoverContentStyle = () => {
     backgroundColor,
     color,
     boxShadow: colorStyle?.shadow?.thin,
-    tabIndex: '-1',
     borderWidth: 1,
     fontSize: 'sm',
     lineHeight: 'sm',
@@ -33,9 +34,7 @@ const usePopoverContentStyle = () => {
     flexDirection: 'column',
     borderRadius: 'sm',
     maxWidth: '288px',
-    _focus: {
-      outline: 0,
-    },
+    outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
   };
 };
 

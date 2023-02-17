@@ -31,11 +31,12 @@ const ModalContent = forwardRef((
     placement, // internal use only
   } = { ...modalContext };
   const combinedRef = useMergeRefs(contentRef, ref);
-  const styleProps = useModalContentStyle({ placement, scrollBehavior, size });
+  const tabIndex = -1;
+  const styleProps = useModalContentStyle({ placement, scrollBehavior, size, tabIndex });
   const contentProps = {
     ref: combinedRef,
     role: 'dialog',
-    tabIndex: -1,
+    tabIndex,
     onClick: event => event.stopPropagation(),
     onKeyDown: event => {
       if (event.key === 'Escape') {

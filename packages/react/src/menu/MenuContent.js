@@ -94,7 +94,8 @@ const MenuContent = forwardRef((
     ensureFunction(onKeyDown)(event);
   };
 
-  const styleProps = useMenuContentStyle();
+  const tabIndex = -1;
+  const styleProps = useMenuContentStyle({ tabIndex });
 
   const eventHandlers = {
     onBlur: callEventHandlers(onBlurProp, handleBlur),
@@ -128,7 +129,7 @@ const MenuContent = forwardRef((
       placement={placement}
       ref={menuRef}
       role="menu"
-      tabIndex={-1}
+      tabIndex={tabIndex}
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
       willUseTransition={true}

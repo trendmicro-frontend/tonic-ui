@@ -39,13 +39,15 @@ const useModalContentStyle = ({
   placement, // No default value if not specified
   scrollBehavior, // No default value if not specified
   size = defaultSize,
+  tabIndex,
 }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'clip', // Set overflow to clip to forbid all scrolling for modal content
+    outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
+    overflow: 'clip', // Set overflow to clip to prevent any scrolling in the modal content
     position: 'relative',
   };
   const colorModeStyle = {

@@ -20,13 +20,14 @@ const MenuItem = forwardRef((
     closeOnSelect,
     onClose: closeMenu,
   } = { ...menuContext };
-  const styleProps = useMenuItemStyle();
+  const tabIndex = -1;
+  const styleProps = useMenuItemStyle({ tabIndex });
 
   return (
     <Box
       ref={ref}
       role={role}
-      tabIndex={-1}
+      tabIndex={tabIndex}
       disabled={disabled}
       aria-disabled={ariaAttr(disabled)}
       onClick={callEventHandlers(onClick, event => {
