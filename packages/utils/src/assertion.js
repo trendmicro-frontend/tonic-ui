@@ -18,9 +18,11 @@ export const isEmptyObject = (value) => {
   return !isNullOrUndefined(value) && Object.keys(value).length === 0 && value.constructor === Object;
 };
 
-export const isNullOrUndefined = (value) => {
+export const isNullish = (value) => {
   return value === null || value === undefined;
 };
+
+export const isNullOrUndefined = isNullish; // alias of "isNullish"
 
 export const isWhitespace = (value) => {
   // @see https://github.com/jonschlinkert/whitespace-regex

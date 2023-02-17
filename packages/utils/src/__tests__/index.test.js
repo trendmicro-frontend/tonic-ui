@@ -7,6 +7,7 @@ test('should match expected exports', () => {
     'isBlankString',
     'isEmptyArray',
     'isEmptyObject',
+    'isNullish',
     'isNullOrUndefined',
     'isWhitespace',
 
