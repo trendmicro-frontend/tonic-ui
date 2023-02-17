@@ -1,5 +1,19 @@
 import get from './get';
 
+export const outline = (value, scale, props) => {
+  const isNoneOrZero = value === 'none' || value === '0' || value === 0;
+  if (isNoneOrZero) {
+    return {
+      outline: '2px solid transparent',
+      outlineOffset: '2px',
+    };
+  }
+
+  return {
+    outline: get(scale, value, value),
+  };
+};
+
 export const positiveOrNegative = (value, scale, props) => {
   /**
    * Scale object

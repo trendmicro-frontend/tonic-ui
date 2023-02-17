@@ -35,30 +35,54 @@ const system = (config, options) => {
 
 const createStyleFunction = ({
   group,
-  properties,
-  property,
+  properties: propertiesProp,
+  property: propertyProp,
   alias,
   scale,
   defaultScale,
   transform = getValue,
 }) => {
-  properties = ensureArray(properties).concat(ensureArray(property));
+  const properties = [
+    ...ensureArray(propertiesProp),
+    ...ensureArray(propertyProp),
+  ];
 
-  const sx = (value, scale, _props) => {
-    const result = {};
-    const n = transform(value, scale, _props);
-    if (n !== null && n !== undefined) {
-      properties.forEach(prop => {
-        result[prop] = n;
-      });
+  /**
+   * A utility function to transform style values based on a scale and apply them to a set of properties.
+   *
+   * @param {string|number} value - The style value to be transformed.
+   * @param {object} scale - The scale used to transform the value.
+   * @param {object} props - Additional props that may affect the transformation.
+   *
+   * @returns {object} An object containing the transformed style properties.
+   */
+  const sx = (value, scale, props) => {
+    const transformedValue = transform(value, scale, props);
+    if (transformedValue === null || transformedValue === undefined) {
+      return {};
     }
+
+    const result = properties.reduce((acc, property) => {
+      if (typeof transformedValue === 'object') {
+        // If the transformedValue is an object, it may contain multiple style properties that need to be applied individually.
+        // For example, `{ outline: 0 }` will be transformed into `{ outline: '2px solid transparent', outlineOffset: '2px' }`.
+        acc[property] = transformedValue?.[property] ?? acc[property];
+      } else {
+        // If the transformedValue is a string or number, apply it to all the properties in the properties array.
+        acc[property] = transformedValue;
+      }
+      return acc;
+    }, {});
+
     return result;
   };
+
   sx.group = group;
   sx.originalProperties = properties;
   sx.alias = alias;
   sx.scale = scale;
   sx.defaultScale = defaultScale;
+
   return sx;
 };
 
