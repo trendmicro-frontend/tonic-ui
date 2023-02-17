@@ -3,6 +3,7 @@ import {
   isBlankString,
   isEmptyArray,
   isEmptyObject,
+  isNullish,
   isNullOrUndefined,
   isWhitespace,
   noop,
@@ -81,22 +82,26 @@ describe('Check whether the value is an empty object', () => {
 });
 
 describe('Check whether a value is null or undefined', () => {
+  it('should be the same', () => {
+    expect(isNullish).toBe(isNullOrUndefined);
+  });
+
   it('should return true', () => {
-    expect(isNullOrUndefined()).toBe(true);
-    expect(isNullOrUndefined(null)).toBe(true);
-    expect(isNullOrUndefined(undefined)).toBe(true);
+    expect(isNullish()).toBe(true);
+    expect(isNullish(null)).toBe(true);
+    expect(isNullish(undefined)).toBe(true);
   });
 
   it('should return false', () => {
-    expect(isNullOrUndefined('null')).toBe(false);
-    expect(isNullOrUndefined('undefined')).toBe(false);
-    expect(isNullOrUndefined([])).toBe(false);
-    expect(isNullOrUndefined({})).toBe(false);
-    expect(isNullOrUndefined(0)).toBe(false);
-    expect(isNullOrUndefined(noop)).toBe(false); // eslint-disable-line
-    expect(isNullOrUndefined('')).toBe(false);
-    expect(isNullOrUndefined('    ')).toBe(false);
-    expect(isNullOrUndefined('\r\t\n ')).toBe(false);
+    expect(isNullish('null')).toBe(false);
+    expect(isNullish('undefined')).toBe(false);
+    expect(isNullish([])).toBe(false);
+    expect(isNullish({})).toBe(false);
+    expect(isNullish(0)).toBe(false);
+    expect(isNullish(noop)).toBe(false); // eslint-disable-line
+    expect(isNullish('')).toBe(false);
+    expect(isNullish('    ')).toBe(false);
+    expect(isNullish('\r\t\n ')).toBe(false);
   });
 });
 
