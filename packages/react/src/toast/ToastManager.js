@@ -11,7 +11,7 @@ import {
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
-import { ToastContext } from './context';
+import { ToastManagerContext } from './context';
 
 const uniqueId = (() => {
   let id = 0;
@@ -40,7 +40,7 @@ const getToastPlacementByState = (state, id) => {
   return toast?.placement;
 };
 
-const ToastProvider = ({
+const ToastManager = ({
   children,
   placement: placementProp = defaultPlacement,
   container,
@@ -216,14 +216,14 @@ const ToastProvider = ({
 
   if (!portalTarget) {
     return (
-      <ToastContext.Provider value={context}>
+      <ToastManagerContext.Provider value={context}>
         {runIfFn(children, context)}
-      </ToastContext.Provider>
+      </ToastManagerContext.Provider>
     );
   }
 
   return (
-    <ToastContext.Provider value={context}>
+    <ToastManagerContext.Provider value={context}>
       {runIfFn(children, context)}
       {isHydrated && createPortal((
         Object.keys(state).map((placement) => {
@@ -268,10 +268,10 @@ const ToastProvider = ({
           );
         })
       ), portalTarget)}
-    </ToastContext.Provider>
+    </ToastManagerContext.Provider>
   );
 };
 
-ToastProvider.displayName = 'ToastProvider';
+ToastManager.displayName = 'ToastManager';
 
-export default ToastProvider;
+export default ToastManager;

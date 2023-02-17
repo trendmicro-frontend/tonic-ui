@@ -3,9 +3,14 @@ import { Box } from '../box';
 import {
   useToastMessageStyle,
 } from './styles';
+import useToast from './useToast';
 
 const ToastMessage = forwardRef((props, ref) => {
-  const styleProps = useToastMessageStyle({});
+  const alertContext = useToast(); // context might be an undefined value
+  const {
+    isClosable,
+  } = { ...alertContext };
+  const styleProps = useToastMessageStyle({ isClosable });
 
   return (
     <Box

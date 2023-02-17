@@ -1,13 +1,11 @@
-import _get from 'lodash.get';
 import { useColorMode } from '../color-mode';
+import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
 
-const getAppearanceProps = ({
-  theme,
-  colorMode,
+const getAppearanceStyle = ({
   appearance,
+  colorMode,
 }) => {
-  const { sizes } = theme;
   const backgroundColor = {
     dark: 'gray:10',
     light: 'white',
@@ -17,25 +15,25 @@ const getAppearanceProps = ({
     success: {
       borderLeftColor: 'green:50',
       borderLeftStyle: 'solid',
-      borderLeftWidth: _get(sizes, '1x'),
+      borderLeftWidth: '1x',
       pl: '3x',
     },
     info: {
       borderLeftColor: 'blue:50',
       borderLeftStyle: 'solid',
-      borderLeftWidth: _get(sizes, '1x'),
+      borderLeftWidth: '1x',
       pl: '3x',
     },
     warning: {
       borderLeftColor: 'yellow:50',
       borderLeftStyle: 'solid',
-      borderLeftWidth: _get(sizes, '1x'),
+      borderLeftWidth: '1x',
       pl: '3x',
     },
     error: {
       borderLeftColor: 'red:60',
       borderLeftStyle: 'solid',
-      borderLeftWidth: _get(sizes, '1x'),
+      borderLeftWidth: '1x',
       pl: '3x',
     },
   }[appearance];
@@ -50,22 +48,17 @@ const getAppearanceProps = ({
 const useToastStyle = ({
   appearance,
 }) => {
-  const theme = useTheme();
   const [colorMode] = useColorMode();
-  const _props = {
-    theme,
-    colorMode,
-    appearance,
-  };
-  const appearanceProps = getAppearanceProps(_props);
+  const appearanceStyle = getAppearanceStyle({ appearance, colorMode });
 
   return {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
+    position: 'relative',
     px: '4x',
-    py: '2x',
-    ...appearanceProps,
+    py: '4x',
+    ...appearanceStyle,
   };
 };
 
@@ -80,72 +73,71 @@ const useToastIconStyle = ({
   }[appearance];
 
   return {
-    display: 'flex',
     color,
-    py: '1x',
-    lineHeight: 1, // exactly the same height as the icon's height
+    display: 'inline-flex',
+    mr: '2x',
+    mt: '1h',
   };
 };
 
-const useToastMessageStyle = () => {
+const useToastMessageStyle = ({
+  isClosable,
+}) => {
   return {
-    py: 2,
-    mt: -1,
+    pr: isClosable ? '10x' : 0,
     width: '100%',
   };
 };
 
-const useToastCloseButtonStyle = () => {
+/**
+ * Returns a style object for the close button in a toast component.
+ *
+ * If `isClosable` is true, the button will be positioned absolutely in the top-right corner of the toast.
+ *
+ * You can also control the position of the close button declaratively by using the `ToastCloseButton` component within an `Toast` component:
+ *
+ * ```jsx
+ * <Toast appearance="success">
+ *   <Text pr="10x">This is a success toast.</Text>
+ *   <ToastCloseButton right={7} top={3} position="absolute" />
+ * </Toast>
+ * ```
+ *
+ * In this case, the `isClosable` prop is not needed and can be omitted.
+ */
+const useToastCloseButtonStyle = ({
+  isClosable,
+  variant,
+}) => {
   const [colorMode] = useColorMode();
-  const { colors } = useTheme();
+  const { sizes } = useTheme();
   const color = {
     dark: 'black:tertiary',
     light: 'black:tertiary',
   }[colorMode];
-  const hoverColor = {
+  const size = '8x';
+  const _focusBorderColor = 'blue:60';
+  const _focusBoxShadowBorderColor = 'blue:60';
+  const _hoverColor = {
     dark: 'black:primary',
     light: 'black:primary',
   }[colorMode];
-  const activeColor = color;
-  const focusColor = color;
-  const focusHoverColor = hoverColor;
-  const focusActiveColor = activeColor;
-  const focusBorderColor = _get(colors, 'blue:60');
+  const baseStyle = useIconButtonStyle({ color, size, _focusBorderColor, _focusBoxShadowBorderColor, _hoverColor });
 
-  return {
-    border: 1,
-    borderColor: 'transparent',
-    color: color,
-    transition: 'all .2s',
-    lineHeight: 1,
-    height: '8x',
-    width: '8x',
-    minWidth: '8x', // ensure a minimum width for the close button
-    mt: -4,
-    mb: -4,
-    mr: -8,
-    px: 0,
-    py: 0,
-    _hover: {
-      color: hoverColor,
-    },
-    _active: {
-      color: activeColor,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusColor,
-    },
-    _focusHover: {
-      color: focusHoverColor,
-    },
-    _focusActive: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusActiveColor,
-    },
-  };
+  if (isClosable) {
+    const parentBorderWidth = sizes['1q'];
+    const top = `calc(${sizes['10q']} - ${parentBorderWidth})`; // (52px - 32px) / 2 = 10px
+    const right = `calc(${sizes['2x']} - ${parentBorderWidth})`;
+
+    return {
+      ...baseStyle,
+      position: 'absolute',
+      top,
+      right,
+    };
+  }
+
+  return baseStyle;
 };
 
 export {
