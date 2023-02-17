@@ -54,7 +54,7 @@ import {
   Box,
   TonicProvider,
   PortalManager, // enables the creation and management of portals in the application
-  ToastProvider, // provides the ability to display global toast notifications
+  ToastManager, // provides the ability to display global toast notifications
   colorStyle, // provides customization options for the color styles used throughout the UI
   useColorMode,
   useTheme,
@@ -72,11 +72,11 @@ function App(props) {
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <PortalManager>
-        <ToastProvider>
+        <ToastManager>
           <Layout>
             <Box {...props} />
           </Layout>
-        </ToastProvider>
+        </ToastManager>
       </PortalManager>
     </TonicProvider>
   );

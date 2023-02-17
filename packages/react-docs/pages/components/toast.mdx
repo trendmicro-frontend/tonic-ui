@@ -8,37 +8,37 @@ A toast notification is a small popup that appears at either side of the screen,
 import {
   Toast,
   ToastController,
-  ToastProvider,
+  ToastManager,
   ToastTransition,
-  useToast,
+  useToastManager,
 } from '@tonic-ui/react';
 ```
 
 ## Setup
 
-To use global toast nofications, you must wrap your root component with the `ToastProvider` component. This provides a context that the `useToast` Hook can access.
+To use global toast nofications, you must wrap your root component with the `ToastManager` component. This provides a context that the `useToastManager` Hook can access.
 
 ```jsx disabled
-import { TonicProvider, ToastProvider } from '@tonic-ui/react';
+import { TonicProvider, ToastManager } from '@tonic-ui/react';
 
 function App() {
   return (
     <TonicProvider>
-      <ToastProvider placement="bottom-right">
+      <ToastManager placement="bottom-right">
         {/* Your app goes here */}
-      </ToastProvider>
+      </ToastManager>
     </TonicProvider>
   );
 }
 ```
 
-Once `ToastProvider` is in place, you can use the `useToast` hook to show a global toast notification.
+Once `ToastManager` is in place, you can use the `useToastManager` hook to show a global toast notification.
 
 ```jsx disabled
-import { useToast } from '@tonic-ui/react';
+import { useToastManager } from '@tonic-ui/react';
 
 function MyComponent() {
-  const toast = useToast();
+  const toast = useToastManager();
   const addToast = () => {
     toast(({ onClose, placement }) => (
       <Box>toast</Box>
@@ -51,7 +51,7 @@ function MyComponent() {
 }
 ```
 
-See the [useToast](./toast/useToast) Hook for detailed usage.
+See the [useToastManager](./toast/useToastManager) Hook for detailed usage.
 
 ### Layout
 
@@ -188,7 +188,7 @@ const ToastLayout = (props) => {
 };
 
 function Example() {
-  const toast = useToast();
+  const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
       const styleProps = {
@@ -353,7 +353,7 @@ const ToastLayout = (props) => {
 };
 
 function Example() {
-  const toast = useToast();
+  const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
       const styleProps = {
@@ -471,7 +471,7 @@ const ToastLayout = (props) => {
 };
 
 function Example() {
-  const toast = useToast();
+  const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
       const styleProps = {
@@ -787,7 +787,7 @@ render(() => {
 | duration | number | null | The duration in milliseconds after which the toast will be automatically closed. Set to `null` to disable auto-closing. |
 | onClose | function | | A callback called when the toast is being closed. |
 
-### ToastProvider
+### ToastManager
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

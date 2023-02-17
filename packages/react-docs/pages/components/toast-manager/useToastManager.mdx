@@ -1,20 +1,20 @@
-# useToast
+# useToastManager
 
-The `useToast` Hook provides several methods and properties for managing toasts in a React application.
+The `useToastManager` Hook provides several methods and properties for managing toasts in a React application.
 
 ## Import
 
 ```js
-import { useToast } from '@tonic-ui/react';
+import { useToastManager } from '@tonic-ui/react';
 ```
 
 ## Usage
 
 ```js
-const toast = useToast();
+const toast = useToastManager();
 ```
 
-The `useToast` Hook returns an object with the following methods and properties:
+The `useToastManager` Hook returns an object with the following methods and properties:
 
 ### toast(message, [options={'{}'}])
 
@@ -157,7 +157,7 @@ The toast state is a placement object, each placement contains an array of objec
 
 ```jsx
 function Example() {
-  const toast = useToast();
+  const toast = useToastManager();
   const handleClickOpenToast = () => {
     const render = ({ onClose, placement }) => {
       const styleProps = {
