@@ -1,5 +1,5 @@
-import _get from 'lodash.get';
 import { useColorMode } from '../color-mode';
+import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
 
 const getSolidSuccessStyle = ({
@@ -288,13 +288,9 @@ const useAlertStyle = ({
 }) => {
   const [colorMode] = useColorMode();
   const { sizes } = useTheme();
-  const _props = {
-    severity,
-    colorMode,
-  };
   const borderWidth = sizes['1q'];
-  const px = sizes['4x'];
-  const py = `calc(${sizes['2x']} - ${borderWidth})`;
+  const px = `calc(${sizes['4x']} - ${borderWidth})`;
+  const py = `calc(${sizes['10q']} - ${borderWidth})`; // (40px - 20px) / 2 = 10px
   const baseStyle = {
     display: 'flex',
     alignItems: 'flex-start',
@@ -302,6 +298,7 @@ const useAlertStyle = ({
     borderColor: 'transparent',
     borderStyle: 'solid',
     borderWidth,
+    position: 'relative',
     px,
     py,
   };
@@ -309,14 +306,14 @@ const useAlertStyle = ({
   if (variant === 'solid') {
     return {
       ...baseStyle,
-      ...getSolidStyle(_props),
+      ...getSolidStyle({ colorMode, severity }),
     };
   }
 
   if (variant === 'outline') {
     return {
       ...baseStyle,
-      ...getOutlineStyle(_props),
+      ...getOutlineStyle({ colorMode, severity }),
     };
   }
 
@@ -374,27 +371,23 @@ const useAlertIconStyle = ({
   severity,
 }) => {
   const [colorMode] = useColorMode();
-  const _props = {
-    severity,
-    colorMode,
-  };
   const iconStyle = {
-    display: 'flex',
-    py: '1x',
-    lineHeight: 1, // exactly the same height as the icon's height
+    display: 'inline-flex',
+    mr: '2x',
+    mt: '1h',
   };
 
   if (variant === 'solid') {
     return {
       ...iconStyle,
-      ...getSolidIconStyle(_props),
+      ...getSolidIconStyle({ colorMode, severity }),
     };
   }
 
   if (variant === 'outline') {
     return {
       ...iconStyle,
-      ...getOutlineIconStyle(_props),
+      ...getOutlineIconStyle({ colorMode, severity }),
     };
   }
 
@@ -403,141 +396,76 @@ const useAlertIconStyle = ({
   };
 };
 
-const useAlertMessageStyle = () => {
-  const theme = useTheme();
-
+const useAlertMessageStyle = ({
+  isClosable,
+}) => {
   return {
-    py: theme?.sizes['1h'],
-    mt: theme?.sizes['-1q'],
+    pr: isClosable ? '10x' : 0,
     width: '100%',
   };
 };
 
-const getSolidCloseButtonStyle = ({
-  colorMode,
-  theme,
-}) => {
-  const color = {
-    dark: 'black:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const hoverColor = {
-    dark: 'black:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const activeColor = color;
-  const focusColor = color;
-  const focusHoverColor = hoverColor;
-  const focusActiveColor = activeColor;
-  const focusBorderColor = _get(theme?.colors, 'blue:60');
-
-  return {
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    borderWidth: theme?.sizes['1q'],
-    color,
-    transition: 'all .2s',
-    lineHeight: 1,
-    height: '8x',
-    width: '8x',
-    minWidth: '8x', // ensure a minimum width for the close button
-    mt: '-1x',
-    mb: '-1x',
-    mr: '-2x',
-    px: 0,
-    py: 0,
-    _hover: {
-      color: hoverColor,
-    },
-    _active: {
-      color: activeColor,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusColor,
-    },
-    _focusHover: {
-      color: focusHoverColor,
-    },
-    _focusActive: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusActiveColor,
-    },
-  };
-};
-
-const getOutlineCloseButtonStyle = ({
-  colorMode,
-  theme,
-}) => {
-  const color = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const hoverColor = {
-    dark: 'white:emphasis',
-    light: 'black:primary',
-  }[colorMode];
-  const activeColor = color;
-  const focusColor = color;
-  const focusHoverColor = hoverColor;
-  const focusActiveColor = activeColor;
-  const focusBorderColor = _get(theme?.colors, 'blue:60');
-
-  return {
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    borderWidth: theme?.sizes['1q'],
-    color,
-    transition: 'all .2s',
-    lineHeight: 1,
-    height: '8x',
-    width: '8x',
-    minWidth: '8x', // ensure a minimum width for the close button
-    mt: '-1x',
-    mb: '-1x',
-    mr: '-2x',
-    px: 0,
-    py: 0,
-    _hover: {
-      color: hoverColor,
-    },
-    _active: {
-      color: activeColor,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusColor,
-    },
-    _focusHover: {
-      color: focusHoverColor,
-    },
-    _focusActive: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-      color: focusActiveColor,
-    },
-  };
-};
-
+/**
+ * Returns a style object for the close button in an alert component.
+ *
+ * If `isClosable` is true, the button will be positioned absolutely in the top-right corner of the alert.
+ *
+ * You can also control the position of the close button declaratively by using the `AlertCloseButton` component within an `Alert` component:
+ *
+ * ```jsx
+ * <Alert variant="solid" severity="success">
+ *   <Text pr="10x">This is a success alert.</Text>
+ *   <AlertCloseButton right={7} top={3} position="absolute" />
+ * </Alert>
+ * ```
+ *
+ * In this case, the `isClosable` prop is not needed and can be omitted.
+ */
 const useAlertCloseButtonStyle = ({
+  isClosable,
   variant,
 }) => {
   const [colorMode] = useColorMode();
-  const theme = useTheme();
+  const { sizes } = useTheme();
+  const color = {
+    dark: {
+      solid: 'black:tertiary',
+      outline: 'white:tertiary',
+    }[variant],
+    light: {
+      solid: 'black:tertiary',
+      outline: 'black:tertiary',
+    }[variant],
+  }[colorMode];
+  const size = '8x';
+  const _focusBorderColor = 'blue:60';
+  const _focusBoxShadowBorderColor = 'blue:60';
+  const _hoverColor = {
+    dark: {
+      solid: 'black:primary',
+      outline: 'white:emphasis',
+    }[variant],
+    light: {
+      solid: 'black:primary',
+      outline: 'black:primary',
+    }[variant],
+  }[colorMode];
+  const baseStyle = useIconButtonStyle({ color, size, _focusBorderColor, _focusBoxShadowBorderColor, _hoverColor });
 
-  if (variant === 'solid') {
-    return getSolidCloseButtonStyle({ colorMode, theme });
+  if (isClosable) {
+    const parentBorderWidth = sizes['1q'];
+    const top = `calc(${sizes['1x']} - ${parentBorderWidth})`;
+    const right = `calc(${sizes['2x']} - ${parentBorderWidth})`;
+
+    return {
+      ...baseStyle,
+      position: 'absolute',
+      top,
+      right,
+    };
   }
 
-  if (variant === 'outline') {
-    return getOutlineCloseButtonStyle({ colorMode, theme });
-  }
-
-  return {};
+  return baseStyle;
 };
 
 export {

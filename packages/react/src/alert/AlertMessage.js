@@ -3,9 +3,14 @@ import { Box } from '../box';
 import {
   useAlertMessageStyle,
 } from './styles';
+import useAlert from './useAlert';
 
 const AlertMessage = forwardRef((props, ref) => {
-  const styleProps = useAlertMessageStyle({});
+  const alertContext = useAlert(); // context might be an undefined value
+  const {
+    isClosable,
+  } = { ...alertContext };
+  const styleProps = useAlertMessageStyle({ isClosable });
 
   return (
     <Box

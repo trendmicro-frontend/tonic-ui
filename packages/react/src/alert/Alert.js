@@ -1,12 +1,12 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps } from '@tonic-ui/utils';
+import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
+import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { Icon } from '../icon';
-import { Space } from '../space';
 import AlertCloseButton from './AlertCloseButton';
 import AlertIcon from './AlertIcon';
 import AlertMessage from './AlertMessage';
+import { AlertContext } from './context';
 import {
   defaultSeverity,
   defaultVariant,
@@ -15,22 +15,7 @@ import {
   useAlertStyle,
 } from './styles';
 
-const getIconBySeverity = (severity) => {
-  const iconName = {
-    success: 'success',
-    info: 'info',
-    warning: 'warning-triangle',
-    error: 'error',
-  }[severity];
-
-  if (!iconName) {
-    return null;
-  }
-
-  return (
-    <Icon icon={`${iconName}`} />
-  );
-};
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const Alert = forwardRef((
   {
@@ -59,47 +44,31 @@ const Alert = forwardRef((
     isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   }
 
+  const context = getMemoizedState({
+    icon,
+    isClosable,
+    onClose,
+    severity,
+    variant,
+  });
   const styleProps = useAlertStyle({ variant, severity });
 
-  if (typeof icon === 'string') {
-    icon = (<Icon icon={icon} />);
-  }
-  if (typeof icon === 'undefined') {
-    icon = getIconBySeverity(severity);
-  }
-
   return (
-    <Box
-      ref={ref}
-      {...styleProps}
-      {...rest}
-    >
-      {!!icon && (
-        <>
-          <AlertIcon
-            severity={severity}
-            variant={variant}
-          >
-            {icon}
-          </AlertIcon>
-          <Space minWidth="2x" />
-        </>
-      )}
-      <AlertMessage>
-        {children}
-      </AlertMessage>
-      {!!isClosable && (
-        <>
-          <Space minWidth="4x" />
-          <AlertCloseButton
-            variant={variant}
-            onClick={onClose}
-          >
-            <Icon icon="close-s" />
-          </AlertCloseButton>
-        </>
-      )}
-    </Box>
+    <AlertContext.Provider value={context}>
+      <Box
+        ref={ref}
+        {...styleProps}
+        {...rest}
+      >
+        <AlertIcon />
+        <AlertMessage>
+          {runIfFn(children, context)}
+        </AlertMessage>
+        {!!isClosable && (
+          <AlertCloseButton />
+        )}
+      </Box>
+    </AlertContext.Provider>
   );
 });
 
