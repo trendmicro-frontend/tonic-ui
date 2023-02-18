@@ -11,6 +11,7 @@ export const outline = (value, scale, props) => {
 
   return {
     outline: get(scale, value, value),
+    outlineOffset: 'unset',
   };
 };
 
