@@ -65,6 +65,7 @@ const useDrawerOverlayStyle = () => {
 const useDrawerContentStyle = ({
   placement = defaultPlacement,
   size = defaultSize,
+  tabIndex,
 }) => {
   const isLeftOrRight = (placement === 'left' || placement === 'right');
   const [colorMode] = useColorMode();
@@ -72,6 +73,7 @@ const useDrawerContentStyle = ({
   const baseStyle = {
     display: 'flex',
     flexDirection: 'column',
+    outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
     overflow: 'clip', // Set overflow to clip to forbid all scrolling for drawer content
     position: 'relative',
   };

@@ -5,6 +5,7 @@ const useTabStyle = ({
   disabled,
   isSelected,
   orientation,
+  tabIndex,
   variant,
 }) => {
   const theme = useTheme();
@@ -120,6 +121,7 @@ const useTabStyle = ({
       alignItems: 'center',
       px: '3x',
       py: '2x',
+      outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
       _hover: {
         border: 'none',
         [selectedBorderColorKey]: getBorderColorStyleWithFallback(hoverBorderColor),
@@ -336,9 +338,12 @@ const useTabListStyle = ({
 };
 
 const useTabPanelStyle = ({
-  isSelected,
+  tabIndex,
 }) => {
-  return {};
+  return {
+    // Remove the default outline for accessibility reasons, even when the TabPanel is focused using the keyboard (regardless of the tabIndex value specified on the TabPanel).
+    outline: 0,
+  };
 };
 
 export {

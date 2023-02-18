@@ -50,9 +50,11 @@ const useMenuButtonStyle = () => {
   };
 };
 
-const useMenuContentStyle = () => {
+const useMenuContentStyle = ({
+  tabIndex,
+}) => {
   return {
-    // No style for menu content
+    outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
   };
 };
 
@@ -76,9 +78,6 @@ const useMenuListStyle = () => {
     m: '0',
     p: '0',
     py: '2x',
-    _focus: {
-      outline: 'none',
-    },
   };
 };
 
@@ -96,7 +95,9 @@ const useMenuGroupStyle = () => {
   };
 };
 
-const useMenuItemStyle = () => {
+const useMenuItemStyle = ({
+  tabIndex,
+}) => {
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const color = {
@@ -127,7 +128,7 @@ const useMenuItemStyle = () => {
     textDecoration: 'none',
     alignItems: 'center',
     textAlign: 'left',
-    outline: 'none',
+    outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
     px: '3x',
     py: '2x',
     userSelect: 'none',
@@ -229,9 +230,6 @@ const useSubmenuListStyle = ({
     m: '0',
     p: '0',
     py: '2x',
-    _focus: {
-      outline: 'none',
-    },
   };
 };
 
