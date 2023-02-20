@@ -42,8 +42,9 @@ const getToastPlacementByState = (state, id) => {
 
 const ToastManager = ({
   children,
+  container, // deprecated (remove in next major version)
+  //containerRef: containerRefProp,
   placement: placementProp = defaultPlacement,
-  container,
 }) => {
   const isHydrated = useHydrated();
   const [state, setState] = useState(() => (
