@@ -8,50 +8,9 @@ A toast notification is a small popup that appears at either side of the screen,
 import {
   Toast,
   ToastController,
-  ToastManager,
   ToastTransition,
-  useToastManager,
 } from '@tonic-ui/react';
 ```
-
-## Setup
-
-To use global toast nofications, you must wrap your root component with the `ToastManager` component. This provides a context that the `useToastManager` Hook can access.
-
-```jsx disabled
-import { TonicProvider, ToastManager } from '@tonic-ui/react';
-
-function App() {
-  return (
-    <TonicProvider>
-      <ToastManager placement="bottom-right">
-        {/* Your app goes here */}
-      </ToastManager>
-    </TonicProvider>
-  );
-}
-```
-
-Once `ToastManager` is in place, you can use the `useToastManager` hook to show a global toast notification.
-
-```jsx disabled
-import { useToastManager } from '@tonic-ui/react';
-
-function MyComponent() {
-  const toast = useToastManager();
-  const addToast = () => {
-    toast(({ onClose, placement }) => (
-      <Box>toast</Box>
-    ));
-  };
-
-  return (
-    <Button onClick={addToast}>Add Toast</Button>
-  );
-}
-```
-
-See the [useToastManager](./toast/useToastManager) Hook for detailed usage.
 
 ### Layout
 
@@ -786,14 +745,6 @@ render(() => {
 | children | ReactNode | | |
 | duration | number | null | The duration in milliseconds after which the toast will be automatically closed. Set to `null` to disable auto-closing. |
 | onClose | function | | A callback called when the toast is being closed. |
-
-### ToastManager
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
-| container | DOM element | | |
-| placement | string | 'bottom-right' | Set the default placement to place toasts. One of: 'top', 'top-right', 'top-left', 'bottom', 'bottom-left', 'bottom-right' |
 
 ### ToastTransition
 
