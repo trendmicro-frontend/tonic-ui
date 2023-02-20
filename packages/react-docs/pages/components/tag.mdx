@@ -5,7 +5,10 @@
 ## Import
 
 ```js
-import { Tag } from '@tonic-ui/react';
+import {
+  Tag,
+  TagCloseButton,
+} from '@tonic-ui/react';
 ```
 
 ## Usage
@@ -278,32 +281,32 @@ Use the `size` prop to change the size of the `Tag`. You can set the value to `s
 </Stack>
 ```
 
-### With close button
+### How to close a tag
 
-```jsx
-<Stack spacing="4x">
-  <Stack direction="row" alignItems="center" spacing="2x">
-    <Tag isClosable size="sm" onClose={()=> { alert('Close small tag'); }}>Small</Tag>
-    <Tag isClosable size="md" onClose={()=> { alert('Close medium tag'); }}>Medium</Tag>
-    <Tag isClosable size="lg" onClose={()=> { alert('Close large tag'); }}>Large</Tag>
-  </Stack>
-  <Stack direction="row" alignItems="center" spacing="2x">
-    <Tag isClosable size="sm" borderRadius="lg" onClose={()=> { alert('Close small tag'); }}>Small</Tag>
-    <Tag isClosable size="md" borderRadius="lg" onClose={()=> { alert('Close medium tag'); }}>Medium</Tag>
-    <Tag isClosable size="lg" borderRadius="32px" onClose={()=> { alert('Close large tag'); }}>Large</Tag>
-  </Stack>
-  <Stack direction="row" alignItems="center" spacing="2x">
-    <Tag isClosable size="sm" variant="outline" onClose={()=> { alert('Close small tag'); }}>Small</Tag>
-    <Tag isClosable size="md" variant="outline" onClose={()=> { alert('Close medium tag'); }}>Medium</Tag>
-    <Tag isClosable size="lg" variant="outline" onClose={()=> { alert('Close large tag'); }}>Large</Tag>
-  </Stack>
-    <Stack direction="row" alignItems="center" spacing="2x">
-    <Tag isClosable size="sm" variant="outline" borderRadius="lg" onClose={()=> { alert('Close small tag'); }}>Small</Tag>
-    <Tag isClosable size="md" variant="outline" borderRadius="lg" onClose={()=> { alert('Close medium tag'); }}>Medium</Tag>
-    <Tag isClosable size="lg" variant="outline" borderRadius="32px" onClose={()=> { alert('Close large tag'); }}>Large</Tag>
-  </Stack>
-</Stack>
+#### Using the `isClosable` prop
+
+The `isClosable` prop is used to make a tag closable by adding a close button to it. By default, the value of `isClosable` is false. To make an alert closable, set `isClosable` to true.
+
+```jsx disabled
+<Tag variant="solid" isClosable onClose={onClose}>
+  <Text>tag</Text>
+</Alert>
 ```
+
+#### Using the `TagCloseButton` component
+
+The `TagCloseButton` component provides an easy way to add a close button to a tag. This button is specifically designed to handle closing the tag, so you don't need to write any additional code to handle it. If you use `TagCloseButton`, you can omit the `isClosable` prop in the `Tag` component.
+
+Besides the default functionality of the `TagCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `TagCloseButton` component as needed.
+
+```jsx disabled
+<Tag variant="solid" onClose={onClose}>
+  <Text>tag</Text>
+  <TagCloseButton ml="2x" data-test="tag-close-button" />
+</Tag>
+```
+
+When using the `TagCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned with a `2x` (=8px) margin on the left side to ensure sufficient spacing between the tag and the button.
 
 ## Advanced usage
 
@@ -323,6 +326,8 @@ To create a tag, enter a value into the input and press enter, a tag will be cre
 
 ## Props
 
+### Tag
+
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
@@ -332,3 +337,9 @@ To create a tag, enter a value into the input and press enter, a tag will be cre
 | onClose | function | | A callback called when the close button is clicked. |
 | size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
 | variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
+
+### TagCloseButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

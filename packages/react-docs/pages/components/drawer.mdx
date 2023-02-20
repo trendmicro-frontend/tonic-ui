@@ -404,13 +404,28 @@ function Example() {
 render(<Example />);
 ```
 
-### Using `DrawerCloseButton` to close a drawer
+### How to close a drawer
+
+#### Using the `isClosable` prop to
+
+The `isClosable` prop is used to make a drawer closable by adding a close button to it. By default, the value of `isClosable` is false. To make a drawer closable, set `isClosable` to true.
+
+```jsx disabled
+<Drawer isOpen={isOpen} isClosable onClose={onClose}>
+  <DrawerOverlay />
+  <DrawerContent>
+    <DrawerHeader />
+    <DrawerBody />
+    <DrawerFooter />
+  </DrawerContent>
+</Drawer>
+```
+
+#### Using the `DrawerCloseButton` component
 
 The `DrawerCloseButton` component provides an easy way to add a close button to a drawer. This button is specifically designed to handle closing the drawer, so you don't need to write any additional code to handle it. If you use `DrawerCloseButton`, you can omit the `isClosable` prop in the `Drawer` component.
 
 Besides the default functionality of the `DrawerCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `DrawerCloseButton` component as needed.
-
-Here's an example of how to use `DrawerCloseButton` in a `Drawer` component:
 
 ```jsx disabled
 <Drawer isOpen={isOpen} onClose={onClose}>

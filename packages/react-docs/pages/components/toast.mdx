@@ -7,6 +7,7 @@ A toast notification is a small popup that appears at either side of the screen,
 ```js
 import {
   Toast,
+  ToastCloseButton,
   ToastController,
   ToastTransition,
 } from '@tonic-ui/react';
@@ -480,6 +481,33 @@ function Example() {
 render(<Example />);
 ```
 
+### How to close a toast
+
+#### Using the `isClosable` prop
+
+The `isClosable` prop is used to make a toast closable by adding a close button to it. By default, the value of `isClosable` is false. To make a toast closable, set `isClosable` to true.
+
+```jsx disabled
+<Toast appearance="success" isClosable onClose={onClose} width={320}>
+  <Text>This is a success toast.</Text>
+</Toast>
+```
+
+#### Using the `ToastCloseButton` component
+
+The `ToastCloseButton` component provides an easy way to add a close button to a toast. This button is specifically designed to handle closing the toast, so you don't need to write any additional code to handle it. If you use `ToastCloseButton`, you can omit the `isClosable` prop in the `Toast` component.
+
+Besides the default functionality of the `ToastCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `ToastCloseButton` component as needed.
+
+```jsx disabled
+<Toast appearance="success" onClose={onClose} width={320}>
+  <Text pr="10x">This is a success toast.</Text>
+  <ToastCloseButton top={10} right={8} position="absolute" data-test="toast-close-button" />
+</Toast>
+```
+
+When using the `ToastCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned absolutely, with 10 pixels from the top and 8 pixels from the right of its parent element.
+
 ### Toast on modal and drawer
 
 Toast is a useful way to provide feedback to the user about an action that has been completed or failed within a modal or drawer. They can be displayed on top of a modal or drawer without interrupting the user's workflow.
@@ -737,6 +765,12 @@ render(() => {
 | onClose | function | | A callback called when the close button is clicked. |
 | appearance | string | 'none' | One of: 'none', 'success', 'info', 'warning', 'error' |
 | icon | ReactNode \| boolean \| string | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
+
+### ToastCloseButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
 
 ### ToastController
 

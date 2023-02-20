@@ -5,7 +5,10 @@ An alert is used to convey important information to the user through the use of 
 ## Import
 
 ```js
-import { Alert } from '@tonic-ui/react';
+import {
+  Alert,
+  AlertCloseButton,
+} from '@tonic-ui/react';
 ```
 
 ## Usage
@@ -79,72 +82,62 @@ If not specified, the default icon will be used based on the `severity` prop.
 ```jsx
 <Stack direction="column" spacing="6x">
   <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="success" isClosable>
+    <Alert variant="solid" severity="success">
       This is a success alert.
     </Alert>
-    <Alert variant="solid" severity="success" icon="success" isClosable>
+    <Alert variant="solid" severity="success" icon="success">
       This is a success alert.
     </Alert>
-    <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />} isClosable>
+    <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />}>
       This is a success alert.
     </Alert>
-    <Alert variant="solid" severity="success" icon={false} isClosable>
+    <Alert variant="solid" severity="success" icon={false}>
       This is a success alert.
     </Alert>
   </Stack>
   <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="success" isClosable>
+    <Alert variant="outline" severity="success">
       This is a success alert.
     </Alert>
-    <Alert variant="outline" severity="success" icon="success" isClosable>
+    <Alert variant="outline" severity="success" icon="success">
       This is a success alert.
     </Alert>
-    <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />} isClosable>
+    <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />}>
       This is a success alert.
     </Alert>
-    <Alert variant="outline" severity="success" icon={false} isClosable>
+    <Alert variant="outline" severity="success" icon={false}>
       This is a success alert.
     </Alert>
   </Stack>
 </Stack>
 ```
 
-### `isClosable` prop
+### How to close an alert
 
-Set `isClosable` to `true` to make the alert closable. The default value is `false`.
+#### Using the `isClosable` prop
 
-```jsx
-<Stack direction="column" spacing="6x">
-  <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="success" isClosable>
-      <Text>This is a success alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="info" isClosable>
-      <Text>This is an info alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="warning" isClosable>
-      <Text>This is a warning alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="error" isClosable>
-      <Text>This is an error alert.</Text>
-    </Alert>
-  </Stack>
-  <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="success" isClosable>
-      <Text>This is a success alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="info" isClosable>
-      <Text>This is an info alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="warning" isClosable>
-      <Text>This is a warning alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="error" isClosable>
-      <Text>This is an error alert.</Text>
-    </Alert>
-  </Stack>
-</Stack>
+The `isClosable` prop is used to make an alert closable by adding a close button to it. By default, the value of `isClosable` is false. To make an alert closable, set `isClosable` to true.
+
+```jsx disabled
+<Alert variant="solid" severity="success" isClosable onClose={onClose}>
+  <Text>This is a success alert.</Text>
+</Alert>
 ```
+
+#### Using the `AlertCloseButton` component
+
+The `AlertCloseButton` component provides an easy way to add a close button to an alert. This button is specifically designed to handle closing the alert, so you don't need to write any additional code to handle it. If you use `AlertCloseButton`, you can omit the `isClosable` prop in the `Alert` component.
+
+Besides the default functionality of the `AlertCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `AlertCloseButton` component as needed.
+
+```jsx disabled
+<Alert variant="solid" severity="success" onClose={onClose}>
+  <Text pr="10x">This is a success alert.</Text>
+  <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
+</Alert>
+```
+
+When using the `AlertCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned absolutely, with 3 pixels from the top and 7 pixels from the right of its parent element.
 
 ### Alert actions
 
@@ -356,6 +349,8 @@ function Example() {
 
 ## Props
 
+### Alert
+
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | isClosable | boolean | | If `true`, a close button will appear on the right side. |
@@ -363,3 +358,9 @@ function Example() {
 | variant | string | 'solid' | The variant to use. One of: 'solid', 'outline' |
 | severity | string | 'success' | The severity level to use. One of: 'success', 'info', 'warning', 'error' |
 | icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |
+
+### AlertCloseButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
