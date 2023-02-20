@@ -1,6 +1,5 @@
 import { useColorMode } from '../color-mode';
 import { useIconButtonStyle } from '../shared/styles';
-import { useTheme } from '../theme';
 
 const getAppearanceStyle = ({
   appearance,
@@ -110,7 +109,6 @@ const useToastCloseButtonStyle = ({
   variant,
 }) => {
   const [colorMode] = useColorMode();
-  const { sizes } = useTheme();
   const color = {
     dark: 'black:tertiary',
     light: 'black:tertiary',
@@ -125,9 +123,8 @@ const useToastCloseButtonStyle = ({
   const baseStyle = useIconButtonStyle({ color, size, _focusBorderColor, _focusBoxShadowBorderColor, _hoverColor });
 
   if (isClosable) {
-    const parentBorderWidth = sizes['1q'];
-    const top = `calc(${sizes['10q']} - ${parentBorderWidth})`; // (52px - 32px) / 2 = 10px
-    const right = `calc(${sizes['2x']} - ${parentBorderWidth})`;
+    const top = '10q'; // (52px - 32px) / 2 = 10px
+    const right = '2x';
 
     return {
       ...baseStyle,
