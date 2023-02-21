@@ -493,6 +493,19 @@ The `isClosable` prop is used to make a toast closable by adding a close button 
 </Toast>
 ```
 
+```jsx noInline
+render(() => {
+  const [isOpen, onClose] = useToggle(true);
+  return (
+    <Collapse in={isOpen} unmountOnExit>
+      <Toast appearance="success" isClosable onClose={onClose} width={320}>
+        <Text>This is a success toast.</Text>
+      </Toast>
+    </Collapse>
+  );
+});
+```
+
 #### Using the `ToastCloseButton` component
 
 The `ToastCloseButton` component provides an easy way to add a close button to a toast. This button is specifically designed to handle closing the toast, so you don't need to write any additional code to handle it. If you use `ToastCloseButton`, you can omit the `isClosable` prop in the `Toast` component.
@@ -507,6 +520,20 @@ Besides the default functionality of the `ToastCloseButton`, you can also pass a
 ```
 
 When using the `ToastCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned absolutely, with 10 pixels from the top and 8 pixels from the right of its parent element.
+
+```jsx noInline
+render(() => {
+  const [isOpen, onClose] = useToggle(true);
+  return (
+    <Collapse in={isOpen} unmountOnExit>
+      <Toast appearance="success" onClose={onClose} width={320}>
+        <Text pr="10x">This is a success toast.</Text>
+        <ToastCloseButton top={10} right={8} position="absolute" data-test="toast-close-button" />
+      </Toast>
+    </Collapse>
+  );
+});
+```
 
 ### Toast on modal and drawer
 

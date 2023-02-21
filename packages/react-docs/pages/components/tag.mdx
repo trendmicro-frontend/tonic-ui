@@ -289,8 +289,21 @@ The `isClosable` prop is used to make a tag closable by adding a close button to
 
 ```jsx disabled
 <Tag variant="solid" isClosable onClose={onClose}>
-  <Text>tag</Text>
-</Alert>
+  <Text>This is a tag</Text>
+</Tag>
+```
+
+```jsx noInline
+render(() => {
+  const [isOpen, onClose] = useToggle(true);
+  return (
+    <Fade in={isOpen} unmountOnExit>
+      <Tag variant="solid" isClosable onClose={onClose}>
+        <Text>This is a tag</Text>
+      </Tag>
+    </Fade>
+  );
+});
 ```
 
 #### Using the `TagCloseButton` component
@@ -301,12 +314,26 @@ Besides the default functionality of the `TagCloseButton`, you can also pass add
 
 ```jsx disabled
 <Tag variant="solid" onClose={onClose}>
-  <Text>tag</Text>
+  <Text>This is a tag</Text>
   <TagCloseButton ml="2x" data-test="tag-close-button" />
 </Tag>
 ```
 
 When using the `TagCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned with a `2x` (=8px) margin on the left side to ensure sufficient spacing between the tag and the button.
+
+```jsx noInline
+render(() => {
+  const [isOpen, onClose] = useToggle(true);
+  return (
+    <Fade in={isOpen} unmountOnExit>
+      <Tag variant="solid" onClose={onClose}>
+        <Text>This is a tag</Text>
+        <TagCloseButton ml="2x" data-test="tag-close-button" />
+      </Tag>
+    </Fade>
+  );
+});
+```
 
 ## Advanced usage
 
