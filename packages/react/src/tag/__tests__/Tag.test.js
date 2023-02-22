@@ -1,21 +1,56 @@
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Tag } from '@tonic-ui/react/src';
+import { Fade, Tag } from '@tonic-ui/react/src';
+import { useToggle } from '@tonic-ui/react-hooks/src';
+import { callEventHandlers, transitionDuration } from '@tonic-ui/utils/src';
 import React from 'react';
 
 describe('Tag', () => {
-  const consoleErrorSpy = jest.spyOn(global.console, 'error').mockImplementation(() => {});
+  it('should render correctly', async () => {
+    const user = userEvent.setup();
+    const message = 'This is a tag';
+    const handleClose = jest.fn();
 
-  afterEach(() => {
-    consoleErrorSpy.mockRestore();
+    const TestComponent = ({ onClose }) => {
+      const [isOpen, toggle] = useToggle(true);
+      return (
+        <Fade in={isOpen} unmountOnExit>
+          <Tag
+            isClosable
+            onClose={callEventHandlers(() => toggle(false), onClose)}
+            data-testid="tag"
+          >
+            {message}
+          </Tag>
+        </Fade>
+      );
+    };
+
+    render(<TestComponent onClose={handleClose} />);
+
+    const tagElement = await screen.getByTestId('tag');
+    expect(tagElement).toBeInTheDocument();
+    expect(tagElement).toHaveTextContent(message);
+
+    const closeButton = await screen.getByRole('button');
+    await user.click(closeButton);
+    expect(handleClose).toHaveBeenCalledTimes(1);
+
+    await waitForElementToBeRemoved(() => screen.getByTestId('tag'), {
+      timeout: transitionDuration.leavingScreen + 100, // see "transitions/Fade.js"
+    });
   });
 
   it('should output deprecation warning message when using the "variantColor" prop', () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
     render(
       <Tag variantColor="red">Test Tag</Tag>
     );
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      expect.stringContaining('deprecated and will be removed in the next major release.'),
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining('Tag: \'variantColor\' is deprecated and will be removed in the next major release. Use \'backgroundColor\' instead.')
     );
   });
 
