@@ -60,7 +60,7 @@ const ModalContent = forwardRef((
     >
       {children}
       {!!isClosable && (
-        <ModalCloseButton onClick={onClose} />
+        <ModalCloseButton />
       )}
     </TransitionComponent>
   );

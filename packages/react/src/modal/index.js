@@ -17,8 +17,8 @@ Modal.Overlay = ModalOverlay;
 export {
   Modal,
   ModalBody,
-  ModalCloseButton, // internal use only
-  ModalContainer, // internal use only
+  ModalCloseButton,
+  ModalContainer,
   ModalContent,
   ModalFooter,
   ModalHeader,

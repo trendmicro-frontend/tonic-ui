@@ -7,51 +7,11 @@ A toast notification is a small popup that appears at either side of the screen,
 ```js
 import {
   Toast,
+  ToastCloseButton,
   ToastController,
-  ToastProvider,
   ToastTransition,
-  useToast,
 } from '@tonic-ui/react';
 ```
-
-## Setup
-
-To use global toast nofications, you must wrap your root component with the `ToastProvider` component. This provides a context that the `useToast` Hook can access.
-
-```jsx disabled
-import { TonicProvider, ToastProvider } from '@tonic-ui/react';
-
-function App() {
-  return (
-    <TonicProvider>
-      <ToastProvider placement="bottom-right">
-        {/* Your app goes here */}
-      </ToastProvider>
-    </TonicProvider>
-  );
-}
-```
-
-Once `ToastProvider` is in place, you can use the `useToast` hook to show a global toast notification.
-
-```jsx disabled
-import { useToast } from '@tonic-ui/react';
-
-function MyComponent() {
-  const toast = useToast();
-  const addToast = () => {
-    toast(({ onClose, placement }) => (
-      <Box>toast</Box>
-    ));
-  };
-
-  return (
-    <Button onClick={addToast}>Add Toast</Button>
-  );
-}
-```
-
-See the [useToast](./toast/useToast) Hook for detailed usage.
 
 ### Layout
 
@@ -112,7 +72,7 @@ const ToastWithTitle = ({ onClose }) => (
     <Box mb="2x">
       <Text fontWeight="bold">Notification Title</Text>
     </Box>
-    <Box mr="-9x">
+    <Box mr="-10x">
       <Text>This is a toast notification.</Text>
     </Box>
   </Toast>
@@ -123,7 +83,7 @@ const ToastWithActionButton = ({ onClose }) => (
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
-    <Flex justifyContent="flex-end" mr="-9x">
+    <Flex justifyContent="flex-end" mr="-10x">
       <ActionButton
         // See above for the ActionButton component
         size="sm"
@@ -139,7 +99,7 @@ const ToastWithActionLink = ({ onClose }) => (
     <Box mb="6x">
       <Text>This is a toast notification.</Text>
     </Box>
-    <Flex justifyContent="flex-end" mr="-9x">
+    <Flex justifyContent="flex-end" mr="-10x">
       <Link>Action Link</Link>
     </Flex>
   </Toast>
@@ -159,7 +119,7 @@ const ToastWithAllTogether = ({ onClose }) => (
       <Space minWidth="4x" />
       <Text>This is a toast notification.</Text>
     </Flex>
-    <Flex justifyContent="flex-end" mr="-9x">
+    <Flex justifyContent="flex-end" mr="-10x">
       <ActionButton
         // See above for the ActionButton component
         size="sm"
@@ -188,7 +148,7 @@ const ToastLayout = (props) => {
 };
 
 function Example() {
-  const toast = useToast();
+  const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
       const styleProps = {
@@ -353,7 +313,7 @@ const ToastLayout = (props) => {
 };
 
 function Example() {
-  const toast = useToast();
+  const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
       const styleProps = {
@@ -471,7 +431,7 @@ const ToastLayout = (props) => {
 };
 
 function Example() {
-  const toast = useToast();
+  const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
       const styleProps = {
@@ -519,6 +479,60 @@ function Example() {
 }
 
 render(<Example />);
+```
+
+### How to close a toast
+
+#### Using the `isClosable` prop
+
+The `isClosable` prop is used to make a toast closable by adding a close button to it. By default, the value of `isClosable` is false. To make a toast closable, set `isClosable` to true.
+
+```jsx disabled
+<Toast appearance="success" isClosable onClose={onClose} width={320}>
+  <Text>This is a success toast.</Text>
+</Toast>
+```
+
+```jsx noInline
+render(() => {
+  const [isOpen, onClose] = useToggle(true);
+  return (
+    <Collapse in={isOpen} unmountOnExit>
+      <Toast appearance="success" isClosable onClose={onClose} width={320}>
+        <Text>This is a success toast.</Text>
+      </Toast>
+    </Collapse>
+  );
+});
+```
+
+#### Using the `ToastCloseButton` component
+
+The `ToastCloseButton` component provides an easy way to add a close button to a toast. This button is specifically designed to handle closing the toast, so you don't need to write any additional code to handle it. If you use `ToastCloseButton`, you can omit the `isClosable` prop in the `Toast` component.
+
+Besides the default functionality of the `ToastCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `ToastCloseButton` component as needed.
+
+```jsx disabled
+<Toast appearance="success" onClose={onClose} width={320}>
+  <Text pr="10x">This is a success toast.</Text>
+  <ToastCloseButton top={10} right={8} position="absolute" data-test="toast-close-button" />
+</Toast>
+```
+
+When using the `ToastCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned absolutely, with 10 pixels from the top and 8 pixels from the right of its parent element.
+
+```jsx noInline
+render(() => {
+  const [isOpen, onClose] = useToggle(true);
+  return (
+    <Collapse in={isOpen} unmountOnExit>
+      <Toast appearance="success" onClose={onClose} width={320}>
+        <Text pr="10x">This is a success toast.</Text>
+        <ToastCloseButton top={10} right={8} position="absolute" data-test="toast-close-button" />
+      </Toast>
+    </Collapse>
+  );
+});
 ```
 
 ### Toast on modal and drawer
@@ -779,6 +793,12 @@ render(() => {
 | appearance | string | 'none' | One of: 'none', 'success', 'info', 'warning', 'error' |
 | icon | ReactNode \| boolean \| string | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
 
+### ToastCloseButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
 ### ToastController
 
 | Name | Type | Default | Description |
@@ -786,14 +806,6 @@ render(() => {
 | children | ReactNode | | |
 | duration | number | null | The duration in milliseconds after which the toast will be automatically closed. Set to `null` to disable auto-closing. |
 | onClose | function | | A callback called when the toast is being closed. |
-
-### ToastProvider
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
-| container | DOM element | | |
-| placement | string | 'bottom-right' | Set the default placement to place toasts. One of: 'top', 'top-right', 'top-left', 'bottom', 'bottom-left', 'bottom-right' |
 
 ### ToastTransition
 

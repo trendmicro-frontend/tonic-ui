@@ -3,9 +3,14 @@ import { Box } from '../box';
 import {
   useDrawerHeaderStyle,
 } from './styles';
+import useDrawer from './useDrawer';
 
 const DrawerHeader = forwardRef((props, ref) => {
-  const styleProps = useDrawerHeaderStyle();
+  const drawerContext = useDrawer(); // context might be an undefined value
+  const {
+    isClosable,
+  } = { ...drawerContext };
+  const styleProps = useDrawerHeaderStyle({ isClosable });
 
   return (
     <Box

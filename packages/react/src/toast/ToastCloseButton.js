@@ -1,18 +1,38 @@
+import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { Icon } from '../icon';
 import {
   useToastCloseButtonStyle,
 } from './styles';
+import useToast from './useToast';
 
-const ToastCloseButton = forwardRef((props, ref) => {
-  const styleProps = useToastCloseButtonStyle({});
+const ToastCloseButton = forwardRef((
+  {
+    children,
+    onClick: onClickProp,
+    ...rest
+  },
+  ref,
+) => {
+  const alertContext = useToast(); // context might be an undefined value
+  const {
+    // The `isClosable` prop determines whether the close button should be displayed and allows for control over its positioning
+    isClosable,
+    onClose,
+    variant,
+  } = { ...alertContext };
+  const styleProps = useToastCloseButtonStyle({ isClosable, variant });
 
   return (
     <ButtonBase
       ref={ref}
+      onClick={callEventHandlers(onClickProp, onClose)}
       {...styleProps}
-      {...props}
-    />
+      {...rest}
+    >
+      {children ?? <Icon icon="close-s" />}
+    </ButtonBase>
   );
 });
 

@@ -75,6 +75,7 @@
     "react-dom": "^16.14.0 || ^17 || ^18"
   },
   "jest": {
+    "clearMocks": true,
     "collectCoverage": true,
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.js"

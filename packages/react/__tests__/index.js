@@ -15,7 +15,7 @@ test('should match expected exports', () => {
 
     // alert
     'Alert',
-    'AlertCloseButton', // internal use only
+    'AlertCloseButton',
     'AlertIcon',
     'AlertMessage',
 
@@ -116,8 +116,8 @@ test('should match expected exports', () => {
     // modal
     'Modal',
     'ModalBody',
-    'ModalCloseButton', // internal use only
-    'ModalContainer', // internal use only
+    'ModalCloseButton',
+    'ModalContainer',
     'ModalContent',
     'ModalFooter',
     'ModalHeader',
@@ -204,7 +204,7 @@ test('should match expected exports', () => {
 
     // tag
     'Tag',
-    'TagCloseButton', // internal use only
+    'TagCloseButton',
 
     // text
     'Text',
@@ -220,14 +220,16 @@ test('should match expected exports', () => {
 
     // toast
     'Toast',
-    'ToastCloseButton', // internal use only
-    'ToastContainer', // internal use only
-    'ToastController', // internal use only
-    'ToastIcon', // internal use only
-    'ToastMessage', // internal use only
-    'ToastProvider',
-    'ToastTransition', // internal use only
-    'useToast',
+    'ToastCloseButton',
+    'ToastContainer',
+    'ToastController',
+    'ToastIcon',
+    'ToastManager',
+    'ToastMessage',
+    'ToastTransition',
+    'useToastManager',
+    'ToastProvider', // alias of ToastManager
+    'useToast', // alias of useToastManager
 
     // tooltip
     'Tooltip',

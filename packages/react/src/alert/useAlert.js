@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { ToastContext } from './context';
+import { AlertContext } from './context';
 
-const useToast = () => {
+const useAlert = () => {
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
 
-  const context = useContext(ToastContext);
+  const context = useContext(AlertContext);
   return context;
 };
 
-export default useToast;
+export default useAlert;

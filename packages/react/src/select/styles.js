@@ -1,28 +1,5 @@
 import { useColorMode } from '../color-mode';
-
-const baseProps = {
-  appearance: 'none',
-  border: 'none',
-  color: 'inherit',
-  outline: 0,
-  padding: 0,
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  transition: 'all .2s',
-};
-
-const sizes = {
-  'md': {
-    borderRadius: 'sm',
-    fontSize: 'sm',
-    lineHeight: 'sm',
-    pl: '3x',
-    pr: '8x',
-    py: 'calc(.375rem - 1px)', // 6px - 1px
-    width: '100%',
-  },
-};
+import { useTheme } from '../theme';
 
 const getOutlinedStyle = ({
   colorMode,
@@ -151,51 +128,61 @@ const getIconWrapperProps = () => {
   };
 };
 
-const getSizeProps = (props) => {
-  const defaultSize = 'md';
-
-  return sizes[defaultSize];
-};
-
-const getVariantProps = (props) => {
-  const { colorMode, variant } = props;
-
-  if (variant === 'outline') {
-    return getOutlinedStyle({ colorMode });
-  }
-
-  if (variant === 'filled') {
-    return getFilledStyle({ colorMode });
-  }
-
-  if (variant === 'unstyled') {
-    return getUnstyledStyle({ colorMode });
-  }
-
-  return {};
-};
-
 const useSelectStyle = ({
   variant,
   multiple,
 }) => {
   const [colorMode] = useColorMode();
-  const _props = {
-    colorMode,
-    variant,
+  const { sizes } = useTheme();
+  const sizeStyle = (() => {
+    const borderWidth = sizes['1q'];
+    const defaultSize = 'md';
+    const style = {
+      'md': {
+        borderRadius: 'sm',
+        fontSize: 'sm',
+        lineHeight: 'sm',
+        pl: '3x',
+        pr: '8x',
+        py: `calc(${sizes['3h']} - ${borderWidth})`, // 6px - 1px
+        width: '100%',
+      },
+    }[defaultSize];
+    return style;
+  })();
+  const variantStyle = (() => {
+    if (variant === 'outline') {
+      return getOutlinedStyle({ colorMode });
+    }
+    if (variant === 'filled') {
+      return getFilledStyle({ colorMode });
+    }
+    if (variant === 'unstyled') {
+      return getUnstyledStyle({ colorMode });
+    }
+    return {};
+  })();
+  const baseStyle = {
+    appearance: 'none',
+    border: 'none',
+    color: 'inherit',
+    outline: 0,
+    padding: 0,
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'all .2s',
   };
-  const sizeProps = getSizeProps(_props); // use default size
-  const variantProps = getVariantProps(_props);
 
   if (multiple) {
-    variantProps.height = undefined;
-    variantProps.px = undefined;
+    variantStyle.height = undefined;
+    variantStyle.px = undefined;
   }
 
   return {
-    ...baseProps,
-    ...sizeProps,
-    ...variantProps,
+    ...baseStyle,
+    ...sizeStyle,
+    ...variantStyle,
   };
 };
 

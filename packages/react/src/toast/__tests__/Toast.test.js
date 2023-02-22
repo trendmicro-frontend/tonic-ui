@@ -1,27 +1,66 @@
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Button, Toast, ToastProvider, useToast } from '@tonic-ui/react/src';
+import { Button, Collapse, Toast, ToastManager, useToastManager } from '@tonic-ui/react/src';
+import { useToggle } from '@tonic-ui/react-hooks/src';
+import { callEventHandlers, transitionDuration } from '@tonic-ui/utils/src';
 import React from 'react';
 
 describe('Toast', () => {
   it('should render correctly', async () => {
     const user = userEvent.setup();
+    const message = 'This is a toast message';
+    const handleClose = jest.fn();
+
+    const TestComponent = ({ onClose }) => {
+      const [isOpen, toggle] = useToggle(true);
+      return (
+        <Collapse in={isOpen} unmountOnExit>
+          <Toast
+            appearance="success"
+            isClosable
+            onClose={callEventHandlers(() => toggle(false), onClose)}
+            data-testid="toast"
+          >
+            {message}
+          </Toast>
+        </Collapse>
+      );
+    };
+
+    render(<TestComponent onClose={handleClose} />);
+
+    const toastElement = await screen.getByTestId('toast');
+    expect(toastElement).toBeInTheDocument();
+    expect(toastElement).toHaveTextContent(message);
+
+    const closeButton = await screen.getByRole('button');
+    await user.click(closeButton);
+    expect(handleClose).toHaveBeenCalledTimes(1);
+
+    await waitForElementToBeRemoved(() => screen.getByTestId('toast'), {
+      timeout: transitionDuration.standard + 100, // see "transitions/Collapse.js"
+    });
+  });
+
+  it('should render correctly with ToastManager', async () => {
+    const user = userEvent.setup();
 
     const placement = 'bottom-right';
-    const toastMessage = 'This is a toast message';
+    const message = 'This is a toast message';
 
     const TestComponent = () => {
-      const toast = useToast();
+      const toast = useToastManager();
       const handleClick = React.useCallback(() => {
         toast(({ onClose, placement }) => {
           return (
             <Toast
-              appearance="info"
+              appearance="success"
+              isClosable
               onClose={onClose}
               data-testid="toast"
             >
-              {toastMessage}
+              {message}
             </Toast>
           );
         }, { placement });
@@ -35,9 +74,9 @@ describe('Toast', () => {
     };
 
     render(
-      <ToastProvider>
+      <ToastManager>
         <TestComponent />
-      </ToastProvider>
+      </ToastManager>
     );
 
     const button = await screen.findByText('Add Toast');
@@ -46,7 +85,7 @@ describe('Toast', () => {
     const toastPlacementElement = document.querySelector(`[data-toast-placement="${placement}"]`);
     const toastElement = await screen.getByTestId('toast');
     expect(toastPlacementElement).toContainElement(toastElement);
-    expect(toastElement).toHaveTextContent(toastMessage);
+    expect(toastElement).toHaveTextContent(message);
   });
 
   it('should dismiss the toast after a certain amount of time', async () => {
@@ -54,19 +93,20 @@ describe('Toast', () => {
 
     const duration = 3000;
     const placement = 'bottom-right';
-    const toastMessage = 'This is a toast message';
+    const message = 'This is a toast message';
 
     const TestComponent = () => {
-      const toast = useToast();
+      const toast = useToastManager();
       const handleClick = React.useCallback(() => {
         toast(({ onClose, placement }) => {
           return (
             <Toast
-              appearance="info"
+              appearance="success"
+              isClosable
               onClose={onClose}
               data-testid="toast"
             >
-              {toastMessage}
+              {message}
             </Toast>
           );
         }, {
@@ -83,9 +123,9 @@ describe('Toast', () => {
     };
 
     render(
-      <ToastProvider>
+      <ToastManager>
         <TestComponent />
-      </ToastProvider>
+      </ToastManager>
     );
 
     const button = await screen.findByText('Add Toast');
@@ -95,9 +135,8 @@ describe('Toast', () => {
     expect(toastElement).toBeInTheDocument();
 
     await waitForElementToBeRemoved(() => screen.getByTestId('toast'), {
-      // The toast should be removed after the duration plus 300ms for the transition.
-      // Add 500ms to account for the time it takes to run the test.
-      timeout: duration + 500,
+      // The toast should be removed after the duration plus the transition.
+      timeout: duration + transitionDuration.standard + 100, // see "toast/ToastTransition.js"
     });
   });
 });

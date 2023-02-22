@@ -4,13 +4,6 @@ Modal dialogs are used to inform users about a task and can contain critical inf
 
 ## Import
 
-- `Modal`: A `Provider` component that provides the context to the components it wraps.
-- `ModalOverlay`: The overlay of the modal.
-- `ModalContent`: The content of the modal.
-- `ModalHeader`: The header of the modal.
-- `ModalBody`: The body of the modal.
-- `ModalFooter`: The footer of the modal.
-
 ```js
 import {
   Modal,
@@ -19,6 +12,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalCloseButton,
   useModal,
 } from '@tonic-ui/react';
 ```
@@ -555,11 +549,48 @@ function Example() {
 render(<Example />);
 ```
 
-### Nested modal
+### How to close a modal
 
-For some use cases, you may want to open a nested modal which is positioned relative to the parent modal, especially when a confirmation is needed.
+#### Using the `isClosable` prop
 
-You can use the `useToggle` Hook to control modal visibility.
+The `isClosable` prop is used to make a modal closable by adding a close button to it. By default, the value of `isClosable` is false. To make a modal closable, set `isClosable` to true.
+
+```jsx disabled
+<Modal isOpen={isOpen} isClosable onClose={onClose}>
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader />
+    <ModalBody />
+    <ModalFooter />
+  </ModalContent>
+</Modal>
+```
+
+#### Using the `ModalCloseButton` component
+
+The `ModalCloseButton` component provides an easy way to add a close button to a modal. This button is specifically designed to handle closing the modal, so you don't need to write any additional code to handle it. If you use `ModalCloseButton`, you can omit the `isClosable` prop in the `Modal` component.
+
+Besides the default functionality of the `ModalCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `ModalCloseButton` component as needed.
+
+```jsx disabled
+<Modal isOpen={isOpen} onClose={onClose}>
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader />
+    <ModalBody />
+    <ModalFooter />
+    <ModalCloseButton data-test="modal-close-button" />
+  </ModalContent>
+</Modal>
+```
+
+### Nested modals
+
+In some cases, you may need to open a modal that is positioned relative to its parent modal, especially when a confirmation is required.
+
+To achieve this, you can create a nested modal. A nested modal is simply a modal that is opened from within another modal. This way, the nested modal is positioned relative to its parent modal.
+
+One way to implement a nested modal is to use the `useToggle` hook to control modal visibility. This hook can be used to toggle the state of a modal between open and closed, allowing you to easily show and hide nested modals.
 
 ```jsx
 function Example() {
@@ -682,6 +713,12 @@ function Example() {
 | children | ReactNode | | |
 
 ### ModalFooter
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### ModalCloseButton
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

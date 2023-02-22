@@ -1,24 +1,5 @@
+import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
-
-const defaultSize = 'md';
-
-const switchSizes = {
-  sm: {
-    width: 32,
-    height: 16,
-    radius: 6,
-  },
-  md: {
-    width: 48,
-    height: 24,
-    radius: 9,
-  },
-  lg: {
-    width: 64,
-    height: 32,
-    radius: 12,
-  },
-};
 
 const baseStyle = ({
   variantColor,
@@ -144,14 +125,32 @@ const switchThumbStyle = ({
     r: radius,
     fill: 'white:emphasis',
     transform: 'translateX(0)',
-    transition: 'transform .25s',
+    transition: createTransitionStyle(['transform'], { duration: 250 }),
     transformBox: 'fill-box',
   };
 };
 
 const useSwitchStyle = props => {
   const [colorMode] = useColorMode();
-  const size = switchSizes[props.size] ?? switchSizes[defaultSize];
+  const defaultSize = 'md';
+  const switchSize = {
+    sm: {
+      width: 32,
+      height: 16,
+      radius: 6,
+    },
+    md: {
+      width: 48,
+      height: 24,
+      radius: 9,
+    },
+    lg: {
+      width: 64,
+      height: 32,
+      radius: 12,
+    },
+  };
+  const size = switchSize[props.size] ?? switchSize[defaultSize];
   const { width, height, radius } = size;
   const switchMaxWidth = width + 6; //The border and halo width of the one side switching track is 1 and 2, so the sum of both sides is 6
   const switchMaxHeight = height + 6; // Same as width

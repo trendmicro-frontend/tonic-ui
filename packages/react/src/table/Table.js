@@ -60,25 +60,33 @@ const Table = forwardRef((
 
 const VerticalLine = (props) => {
   const [colorMode] = useColorMode();
-  const isDark = colorMode === 'dark';
+  const borderColor = {
+    dark: 'gray:70',
+    light: 'gray:50',
+  }[colorMode];
+
   return (
     <Box
       borderLeft={1}
-      borderColor={isDark ? 'gray:70' : 'gray:50'}
+      borderLeftColor={borderColor}
       height="100%"
-      width="1px"
+      width="1q"
       {...props}
     />
   );
 };
 const HorizontalLine = (props) => {
   const [colorMode] = useColorMode();
-  const isDark = colorMode === 'dark';
+  const borderColor = {
+    dark: 'gray:70',
+    light: 'gray:50',
+  }[colorMode];
+
   return (
     <Box
       borderTop={1}
-      borderColor={isDark ? 'gray:70' : 'gray:50'}
-      height="1px"
+      borderTopColor={borderColor}
+      height="1q"
       width="100%"
       {...props}
     />

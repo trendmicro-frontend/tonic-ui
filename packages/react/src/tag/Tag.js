@@ -1,9 +1,13 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
+import { ariaAttr, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
+import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useTagStyle } from './styles';
 import TagCloseButton from './TagCloseButton';
+import { TagContext } from './context';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const Tag = forwardRef((
   {
@@ -12,11 +16,12 @@ const Tag = forwardRef((
     variantColor, // deprecated
 
     children,
+    disabled,
     error,
     isClosable,
+    onClose,
     size = 'md',
     variant = 'solid',
-    onClose,
     ...rest
   },
   ref
@@ -53,31 +58,38 @@ const Tag = forwardRef((
   }
 
   const ariaProps = {
-    'aria-disabled': ariaAttr(rest.disabled),
+    'aria-disabled': ariaAttr(disabled),
     'aria-invalid': ariaAttr(error),
   };
+  const context = getMemoizedState({
+    disabled,
+    error,
+    isClosable,
+    onClose,
+    size,
+    variant,
+  });
   const styleProps = useTagStyle({
     color: variantColor, // TODO: remove this line after deprecation
+    isClosable,
     size,
     variant,
   });
 
   return (
-    <Box
-      ref={ref}
-      {...ariaProps}
-      {...styleProps}
-      {...rest}
-    >
-      {children}
-      {!!isClosable && (
-        <TagCloseButton
-          ml="2x"
-          disabled={rest.disabled}
-          onClick={onClose}
-        />
-      )}
-    </Box>
+    <TagContext.Provider value={context}>
+      <Box
+        ref={ref}
+        {...ariaProps}
+        {...styleProps}
+        {...rest}
+      >
+        {runIfFn(children, context)}
+        {!!isClosable && (
+          <TagCloseButton />
+        )}
+      </Box>
+    </TagContext.Provider>
   );
 });
 

@@ -1,3 +1,4 @@
+import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
@@ -241,14 +242,18 @@ const useTagStyle = ({
 }) => {
   const [colorMode] = useColorMode();
   const theme = useTheme();
+  const { sizes } = theme;
+  const borderWidth = sizes['1q'];
+  const px = `calc(${sizes['2x']} - ${borderWidth})`;
   const baseStyle = {
     alignItems: 'center',
-    border: 1,
     borderColor: 'transparent',
     borderRadius: 'sm',
+    borderStyle: 'solid',
+    borderWidth,
     display: 'inline-flex',
-    pl: '2x',
-    pr: '2x',
+    position: 'relative',
+    px,
   };
   const sizeStyle = {
     sm: {
@@ -260,13 +265,13 @@ const useTagStyle = ({
       fontSize: 'xs',
       lineHeight: 'xs',
       minHeight: '6x',
-      py: '1h',
+      py: `calc(${sizes['1h']} - ${borderWidth})`,
     },
     lg: {
       fontSize: 'md',
       lineHeight: 'md',
       minHeight: '8x',
-      py: '1x',
+      py: `calc(${sizes['1x']} - ${borderWidth})`,
     },
   }[size];
   const variantStyle = {
@@ -281,9 +286,10 @@ const useTagStyle = ({
   };
 };
 
-const useTagCloseButtonStyle = () => {
+const useTagCloseButtonStyle = ({
+  isClosable,
+}) => {
   const [colorMode] = useColorMode();
-  const size = '4x';
   const color = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
@@ -299,13 +305,15 @@ const useTagCloseButtonStyle = () => {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
-
-  return {
-    backgroundColor: 'transparent',
-    color: color,
+  const size = '4x';
+  const baseStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color,
     height: size,
     width: size,
-    minWidth: size, // ensure a minimum width for the close button
+    transition: createTransitionStyle(['color'], { duration: 200 }),
     _hover: {
       color: hoverColor,
     },
@@ -322,6 +330,15 @@ const useTagCloseButtonStyle = () => {
       cursor: 'not-allowed',
     },
   };
+
+  if (isClosable) {
+    return {
+      ...baseStyle,
+      ml: '2x',
+    };
+  }
+
+  return baseStyle;
 };
 
 export {

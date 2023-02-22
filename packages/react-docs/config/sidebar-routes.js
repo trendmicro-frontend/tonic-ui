@@ -135,7 +135,8 @@ export const routes = [
       { title: 'Skeleton', path: 'components/skeleton' },
       { title: 'Spinner', path: 'components/spinner' },
       { title: 'Toast', path: 'components/toast' },
-      { title: 'useToast', path: 'components/toast/useToast' },
+      { title: 'ToastManager', path: 'components/toast-manager' },
+      { title: 'useToastManager', path: 'components/toast-manager/useToastManager' },
 
       { title: 'FORMS', heading: true },
       {

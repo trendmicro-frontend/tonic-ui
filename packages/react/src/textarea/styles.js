@@ -1,24 +1,5 @@
 import { useColorMode } from '../color-mode';
-
-const baseProps = {
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  transition: 'all .2s',
-};
-
-const sizes = {
-  'md': {
-    borderRadius: 'sm',
-    fontSize: 'sm',
-    lineHeight: 'sm',
-    minHeight: '9x', // 6px (top) + 20px + 10px (bottom) = 36px
-    px: '3x',
-    pt: 'calc(.375rem - 1px)', // 6px - 1px
-    pb: 'calc(.625rem - 1px)', // 10px - 1px
-    width: '100%',
-  },
-};
+import { useTheme } from '../theme';
 
 const getOutlinedStyle = ({
   colorMode,
@@ -122,45 +103,51 @@ const getUnstyledStyle = ({
   };
 };
 
-const getSizeProps = (props) => {
-  const defaultSize = 'md';
-
-  return sizes[defaultSize];
-};
-
-const getVariantProps = (props) => {
-  const { colorMode, variant } = props;
-
-  if (variant === 'outline') {
-    return getOutlinedStyle({ colorMode });
-  }
-
-  if (variant === 'filled') {
-    return getFilledStyle({ colorMode });
-  }
-
-  if (variant === 'unstyled') {
-    return getUnstyledStyle({ colorMode });
-  }
-
-  return {};
-};
-
 const useTextareaStyle = ({
   variant,
 }) => {
   const [colorMode] = useColorMode();
-  const _props = {
-    colorMode,
-    variant,
+  const { sizes } = useTheme();
+  const sizeStyle = (() => {
+    const borderWidth = sizes['1q'];
+    const defaultSize = 'md';
+    const style = {
+      'md': {
+        borderRadius: 'sm',
+        fontSize: 'sm',
+        lineHeight: 'sm',
+        minHeight: '9x', // 6px (top) + 20px + 10px (bottom) = 36px
+        px: '3x',
+        pt: `calc(${sizes['3h']} - ${borderWidth})`, // 6px - 1px
+        pb: `calc(${sizes['5h']} - ${borderWidth})`, // 10px - 1px
+        width: '100%',
+      },
+    }[defaultSize];
+    return style;
+  })();
+  const variantStyle = (() => {
+    if (variant === 'outline') {
+      return getOutlinedStyle({ colorMode });
+    }
+    if (variant === 'filled') {
+      return getFilledStyle({ colorMode });
+    }
+    if (variant === 'unstyled') {
+      return getUnstyledStyle({ colorMode });
+    }
+    return {};
+  })();
+  const baseStyle = {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'all .2s',
   };
-  const sizeProps = getSizeProps(_props); // use default size
-  const variantProps = getVariantProps(_props);
 
   return {
-    ...baseProps,
-    ...sizeProps,
-    ...variantProps,
+    ...baseStyle,
+    ...sizeStyle,
+    ...variantStyle,
   };
 };
 

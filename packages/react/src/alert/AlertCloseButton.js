@@ -1,27 +1,38 @@
+import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
-import {
-  defaultVariant,
-} from './defaults';
+import { Icon } from '../icon';
 import {
   useAlertCloseButtonStyle,
 } from './styles';
+import useAlert from './useAlert';
 
 const AlertCloseButton = forwardRef((
   {
-    variant = defaultVariant,
+    children,
+    onClick: onClickProp,
     ...rest
   },
   ref,
 ) => {
-  const styleProps = useAlertCloseButtonStyle({ variant });
+  const alertContext = useAlert(); // context might be an undefined value
+  const {
+    // The `isClosable` prop determines whether the close button should be displayed and allows for control over its positioning
+    isClosable,
+    onClose,
+    variant,
+  } = { ...alertContext };
+  const styleProps = useAlertCloseButtonStyle({ isClosable, variant });
 
   return (
     <ButtonBase
       ref={ref}
+      onClick={callEventHandlers(onClickProp, onClose)}
       {...styleProps}
       {...rest}
-    />
+    >
+      {children ?? <Icon icon="close-s" />}
+    </ButtonBase>
   );
 });
 

@@ -17,8 +17,8 @@ Drawer.Overlay = DrawerOverlay;
 export {
   Drawer,
   DrawerBody,
-  DrawerCloseButton, // internal use only
-  DrawerContainer, // internal use only
+  DrawerCloseButton,
+  DrawerContainer,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,

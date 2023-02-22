@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
@@ -18,7 +18,7 @@ const useSearchInputCloseButtonStyle = ({ size }) => {
   const focusColor = color;
   const focusHoverColor = hoverColor;
   const focusActiveColor = activeColor;
-  const focusBorderColor = _get(colors, 'blue:60');
+  const focusBorderColor = colors?.['blue:60'];
   const height = {
     sm: sizes['6x'],
     md: sizes['8x'], // default
@@ -41,8 +41,8 @@ const useSearchInputCloseButtonStyle = ({ size }) => {
     borderStyle: 'solid',
     borderWidth,
     color: color,
-    transition: 'all .2s',
-    lineHeight: 1,
+    transition: createTransitionStyle(['border-color', 'color'], { duration: 200 }),
+    lineHeight: 1, // Ensure the element height to match the height of the icon
     height: `calc(${height} - ${borderWidth} - ${borderWidth})`,
     width,
     minWidth, // ensure a minimum width for the close button

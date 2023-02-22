@@ -1,29 +1,59 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
-import {
-  defaultSeverity,
-  defaultVariant,
-} from './defaults';
+import { Icon } from '../icon';
 import {
   useAlertIconStyle,
 } from './styles';
+import useAlert from './useAlert';
 
-const AlertIcon = forwardRef((
-  {
-    severity = defaultSeverity,
-    variant = defaultVariant,
-    ...rest
-  },
-  ref,
-) => {
+const getIconBySeverity = (severity) => {
+  const iconName = {
+    success: 'success',
+    info: 'info',
+    warning: 'warning-triangle',
+    error: 'error',
+  }[severity];
+
+  if (!iconName) {
+    return null;
+  }
+
+  return (
+    <Icon icon={`${iconName}`} />
+  );
+};
+
+const AlertIcon = forwardRef((props, ref) => {
+  const alertContext = useAlert(); // context might be an undefined value
+  const {
+    icon: iconProp,
+    severity,
+    variant,
+  } = { ...alertContext };
   const styleProps = useAlertIconStyle({ variant, severity });
+
+  const icon = useMemo(() => {
+    if (typeof iconProp === 'string') {
+      return (<Icon icon={iconProp} />);
+    }
+    if (iconProp === undefined) {
+      return getIconBySeverity(severity);
+    }
+    return iconProp;
+  }, [iconProp, severity]);
+
+  if (!icon) {
+    return null;
+  }
 
   return (
     <Box
       ref={ref}
       {...styleProps}
-      {...rest}
-    />
+      {...props}
+    >
+      {icon}
+    </Box>
   );
 });
 
