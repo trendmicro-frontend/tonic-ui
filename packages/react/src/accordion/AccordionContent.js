@@ -1,9 +1,10 @@
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Collapse } from '../transitions';
 import useAccordionItem from './useAccordionItem';
 
-const AccordionCollapse = forwardRef((
+const AccordionContent = forwardRef((
   {
     TransitionComponent = Collapse,
     TransitionProps,
@@ -23,11 +24,16 @@ const AccordionCollapse = forwardRef((
     <TransitionComponent
       appear={false} // do not perform the enter transition when it first mounts
       {...TransitionProps}
-      ref={ref}
+      aria-hidden={ariaAttr(!context?.isExpanded)}
+      aria-labelledby={context?.accordionToggleId}
+      id={context?.accordionContentId}
       in={context?.isExpanded}
+      ref={ref}
       {...rest}
     />
   );
 });
 
-export default AccordionCollapse;
+AccordionContent.displayName = 'AccordionContent';
+
+export default AccordionContent;

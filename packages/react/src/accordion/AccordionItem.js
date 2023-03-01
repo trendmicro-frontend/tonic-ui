@@ -23,8 +23,8 @@ const AccordionItem = forwardRef((
 ) => {
   const accordionContext = useAccordion();
   const defaultId = useAutoId();
-  const headerId = `${config.name}:AccordionHeader-${defaultId}`;
-  const bodyId = `${config.name}:AccordionBody-${defaultId}`;
+  const accordionToggleId = `${config.name}:AccordionToggle-${defaultId}`;
+  const accordionContentId = `${config.name}:AccordionContent-${defaultId}`;
   const [isExpanded, setIsExpanded] = useState(isExpandedProp ?? defaultIsExpandedProp);
 
   useEffect(() => {
@@ -46,12 +46,12 @@ const AccordionItem = forwardRef((
   }, [isExpanded, isExpandedProp, onToggleProp]);
 
   const context = getMemoizedState({
-    variant: accordionContext?.variant,
-    bodyId,
+    accordionToggleId,
+    accordionContentId,
     disabled,
-    headerId,
     isExpanded,
     onToggle,
+    variant: accordionContext?.variant,
   });
 
   return (

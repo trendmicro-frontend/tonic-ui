@@ -1,4 +1,4 @@
-import { callEventHandlers } from '@tonic-ui/utils';
+import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
@@ -7,6 +7,7 @@ import { useAccordionToggleStyle } from './styles';
 
 const AccordionToggle = forwardRef((
   {
+    children,
     disabled: disabledProp,
     onClick: onClickProp,
     ...rest
@@ -17,14 +18,28 @@ const AccordionToggle = forwardRef((
   const disabled = ensureBoolean(disabledProp ?? context?.disabled);
   const styleProps = useAccordionToggleStyle({ disabled });
 
+  const getAccordionToggleProps = () => ({
+    'aria-controls': context?.accordionContentId,
+    'aria-disabled': ariaAttr(disabled),
+    'aria-expanded': ariaAttr(context?.isExpanded),
+    disabled,
+    id: context?.accordionToggleId,
+    onClick: callEventHandlers(onClickProp, context?.onToggle),
+    ref,
+    ...styleProps,
+    ...rest,
+  });
+
+  if (typeof children === 'function') {
+    return children({
+      getAccordionToggleProps,
+    });
+  }
+
   return (
-    <ButtonBase
-      ref={ref}
-      disabled={disabled}
-      onClick={callEventHandlers(onClickProp, context?.onToggle)}
-      {...styleProps}
-      {...rest}
-    />
+    <ButtonBase {...getAccordionToggleProps()}>
+      {children}
+    </ButtonBase>
   );
 });
 

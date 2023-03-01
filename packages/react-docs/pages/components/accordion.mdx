@@ -4,18 +4,15 @@ Accordion is a container that allows the user to toggle sections of related cont
 
 ## Import
 
-* `AccordionHeader` is composed of `AccordionToggle` and `AccordionToggleIcon`
-* `AccordionBody` is composed of `AccordionCollapse`
-
 ```js
 import {
   Accordion,
   AccordionItem,
-  AccordionHeader,
-  AccordionBody,
+  AccordionHeader, // composed of `AccordionToggle` and `AccordionToggleIcon`
+  AccordionBody, // composed of `AccordionContent`
   AccordionToggle,
   AccordionToggleIcon,
-  AccordionCollapse,
+  AccordionContent,
 } from '@tonic-ui/react';
 ```
 
@@ -120,7 +117,7 @@ function Example() {
 
 ### Customization
 
-If you don't like the default styles, you can use `AccordionToggle`, `AccordionToggleIcon`, and `AccordionCollapse` to customize the accordion.
+If you don't like the default styles, you can use `AccordionToggle`, `AccordionToggleIcon`, and `AccordionContent` to customize the accordion.
 
 Here is an example of customizing the accordion:
 
@@ -208,9 +205,9 @@ function Example() {
               Collapsible Item #{index + 1}
             </Text>
           </AccordionToggle>
-          <AccordionCollapse>
+          <AccordionContent>
             <SkeletonBody px="4x" py="3x" />
-          </AccordionCollapse>
+          </AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>
@@ -270,7 +267,7 @@ function Example() {
 | timeout | number \| `{ appear?: number, enter?: number, exit?: number }` | `{ enter: duration.enterScreen, exit: duration.levingScreen }` | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
 
-### AccordionCollapse
+### AccordionContent
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

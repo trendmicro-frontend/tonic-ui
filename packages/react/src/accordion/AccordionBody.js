@@ -1,21 +1,19 @@
-import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
-import AccordionCollapse from './AccordionCollapse';
-import useAccordionItem from './useAccordionItem';
+import AccordionContent from './AccordionContent';
+import { useAccordionBodyStyle } from './styles';
 
 const AccordionBody = forwardRef((props, ref) => {
-  const context = useAccordionItem(); // context might be an undefined value
-  const id = context?.bodyId;
+  const styleProps = useAccordionBodyStyle();
 
   return (
-    <AccordionCollapse
-      aria-hidden={ariaAttr(!context?.isExpanded)}
-      aria-labelledby={context?.headerId}
-      id={id}
+    <AccordionContent
       ref={ref}
+      {...styleProps}
       {...props}
     />
   );
 });
+
+AccordionBody.displayName = 'AccordionBody';
 
 export default AccordionBody;
