@@ -1,7 +1,7 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
-import { Box } from '../box';
+import { ButtonBase } from '../button';
 import { useMenuItemStyle } from './styles';
 import useMenu from './useMenu';
 
@@ -21,10 +21,10 @@ const MenuItem = forwardRef((
     onClose: closeMenu,
   } = { ...menuContext };
   const tabIndex = -1;
-  const styleProps = useMenuItemStyle({ tabIndex });
+  const styleProps = useMenuItemStyle({ disabled, tabIndex });
 
   return (
-    <Box
+    <ButtonBase
       ref={ref}
       role={role}
       tabIndex={tabIndex}

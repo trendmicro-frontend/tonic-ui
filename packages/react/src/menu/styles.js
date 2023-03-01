@@ -96,6 +96,7 @@ const useMenuGroupStyle = () => {
 };
 
 const useMenuItemStyle = ({
+  disabled,
   tabIndex,
 }) => {
   const theme = useTheme();
@@ -144,7 +145,7 @@ const useMenuItemStyle = ({
       py: `calc(${theme?.space['2x']} - ${theme?.space['1h']})`,
     },
     _hover: {
-      backgroundColor: hoverBackgroundColor,
+      backgroundColor: !disabled ? hoverBackgroundColor : undefined,
     },
     _selected: {
       backgroundColor: selectedBackgroundColor,
@@ -160,7 +161,6 @@ const useMenuItemDividerStyle = () => {
 
 const useMenuToggleStyle = () => {
   return {
-    cursor: 'pointer',
     display: 'inline-flex',
   };
 };
