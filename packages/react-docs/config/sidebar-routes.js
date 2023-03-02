@@ -128,6 +128,7 @@ export const routes = [
       { title: 'Table', path: 'components/table' },
       { title: 'Tag', path: 'components/tag' },
       { title: 'Tooltip', path: 'components/tooltip' },
+      { title: 'OverflowTooltip', path: 'components/overflowtooltip' },
 
       { title: 'FEEDBACK', heading: true },
       { title: 'Alert', path: 'components/alert' },
