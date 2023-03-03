@@ -133,6 +133,7 @@ const useMenuItemStyle = ({
     px: '3x',
     py: '2x',
     userSelect: 'none',
+    width: '100%',
     _disabled: {
       color: disabledColor,
       cursor: 'not-allowed',
