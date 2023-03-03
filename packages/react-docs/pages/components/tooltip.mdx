@@ -226,7 +226,11 @@ Use the `placement` prop to control the placement of the tooltip.
 </Box>
 ```
 
-### More examples of tooltip usage
+### More examples
+
+#### `Menu` component with `Tooltip`
+
+This example demonstrates how to use the `Menu` component along with a tooltip for navigating through a set of options or actions.
 
 ```jsx
 function Example() {
@@ -291,6 +295,23 @@ function Example() {
     </InputGroup>
   );
 }
+```
+
+## Commonly Asked Questions
+
+### Preventing tooltip cut-off with `PopperProps`
+
+By default, the `Tooltip` component positions the tooltip relative to its parent container. In some cases, the tooltip content might be cut off when it extends outside the container that holds it.
+
+To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Tooltip` to make it positioned on the document root.
+
+```jsx
+<Tooltip
+  PopperProps={{ usePortal: true }}
+  label="This is a tooltip"
+>
+  <Text display="inline-block">Hover me</Text>
+</Tooltip>
 ```
 
 ## Props

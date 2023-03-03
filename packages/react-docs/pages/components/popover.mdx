@@ -375,6 +375,25 @@ Use the `placement` prop to control the placement of the popover.
 </Box>
 ```
 
+## Commonly Asked Questions
+
+### Preventing popover content cut-off with `PopperProps`
+
+By default, the `Popover` component positions the popover relative to its parent container. In some cases, the popover content might be cut off when it extends outside the container that holds it.
+
+To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `PopoverContent` to make it positioned on the document root.
+
+```jsx
+<Popover>
+  <PopoverTrigger>
+    <Button>Trigger</Button>
+  </PopoverTrigger>
+  <PopoverContent PopperProps={{ usePortal: true }}>
+    Popover
+  </PopoverContent>
+</Popover>
+```
+
 ## Props
 
 ### Popover
