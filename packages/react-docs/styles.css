@@ -1,3 +1,113 @@
+:root {
+  --header-height: 48px;
+  --sidebar-width: 250px;
+  --toc-width: 250px;
+
+  --theme-color-red-100: #6e0002;
+  --theme-color-red-90: #9d0003;
+  --theme-color-red-80: #b80003;
+  --theme-color-red-70: #d71920;
+  --theme-color-red-60: #e52630;
+  --theme-color-red-50: #f24c4f;
+  --theme-color-red-40: #f46f71;
+  --theme-color-red-30: #fd999a;
+  --theme-color-red-20: #fcc3c4;
+  --theme-color-red-10: #fee1e2;
+  --theme-color-gray-100: #151515;
+  --theme-color-gray-90: #212121;
+  --theme-color-gray-80: #303030;
+  --theme-color-gray-70: #424242;
+  --theme-color-gray-60: #5e5e5e;
+  --theme-color-gray-50: #8a8a8a;
+  --theme-color-gray-40: #adadad;
+  --theme-color-gray-30: #c9c9c9;
+  --theme-color-gray-20: #e0e0e0;
+  --theme-color-gray-10: #f2f2f2;
+  --theme-color-white-emphasis: rgba(255, 255, 255, 1.0);
+  --theme-color-white-primary: rgba(255, 255, 255, .92);
+  --theme-color-white-secondary: rgba(255, 255, 255, .60);
+  --theme-color-white-tertiary: rgba(255, 255, 255, .47);
+  --theme-color-white-disabled: rgba(255, 255, 255, .28);
+  --theme-color-black-emphasis: rgba(0, 0, 0, 1.0);
+  --theme-color-black-primary: rgba(0, 0, 0, .92);
+  --theme-color-black-secondary: rgba(0, 0, 0, .65);
+  --theme-color-black-tertiary: rgba(0, 0, 0, .54);
+  --theme-color-black-disabled: rgba(0, 0, 0, .30);
+}
+
+/**
+ * Headings
+ */
+:where(html[data-color-scheme="light"]) h1 .anchor-link,
+:where(html[data-color-scheme="light"]) h2 .anchor-link,
+:where(html[data-color-scheme="light"]) h3 .anchor-link,
+:where(html[data-color-scheme="light"]) h4 .anchor-link,
+:where(html[data-color-scheme="light"]) h5 .anchor-link,
+:where(html[data-color-scheme="light"]) h6 .anchor-link,
+:where(html[data-color-scheme="light"]) h1 .anchor-link:visited,
+:where(html[data-color-scheme="light"]) h2 .anchor-link:visited,
+:where(html[data-color-scheme="light"]) h3 .anchor-link:visited,
+:where(html[data-color-scheme="light"]) h4 .anchor-link:visited,
+:where(html[data-color-scheme="light"]) h5 .anchor-link:visited,
+:where(html[data-color-scheme="light"]) h6 .anchor-link:visited {
+  color: var(--theme-color-black-secondary);
+}
+:where(html[data-color-scheme="light"]) .anchor-link:hover {
+  color: var(--theme-color-black-primary);
+}
+
+:where(html[data-color-scheme="dark"]) h1 .anchor-link,
+:where(html[data-color-scheme="dark"]) h2 .anchor-link,
+:where(html[data-color-scheme="dark"]) h3 .anchor-link,
+:where(html[data-color-scheme="dark"]) h4 .anchor-link,
+:where(html[data-color-scheme="dark"]) h5 .anchor-link,
+:where(html[data-color-scheme="dark"]) h6 .anchor-link,
+:where(html[data-color-scheme="dark"]) h1 .anchor-link:visited,
+:where(html[data-color-scheme="dark"]) h2 .anchor-link:visited,
+:where(html[data-color-scheme="dark"]) h3 .anchor-link:visited,
+:where(html[data-color-scheme="dark"]) h4 .anchor-link:visited,
+:where(html[data-color-scheme="dark"]) h5 .anchor-link:visited,
+:where(html[data-color-scheme="dark"]) h6 .anchor-link:visited {
+  color: var(--theme-color-white-secondary);
+}
+:where(html[data-color-scheme="dark"]) .anchor-link:hover {
+  color: var(--theme-color-white-primary);
+}
+
+h1 .anchor-link,
+h2 .anchor-link,
+h3 .anchor-link,
+h4 .anchor-link,
+h5 .anchor-link,
+h6 .anchor-link {
+  display: none;
+}
+
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  display: inline-block;
+  margin-left: .5rem;
+}
+
+h1:hover .anchor-link svg,
+h2:hover .anchor-link svg,
+h3:hover .anchor-link svg,
+h4:hover .anchor-link svg,
+h5:hover .anchor-link svg,
+h6:hover .anchor-link svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+  pointer-events: none;
+}
+
+/**
+ * Description Elements
+ */
 dl {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -8,3 +118,120 @@ dl {
 dd {
   margin-left: 1.5rem;
 }
+
+/**
+ * Main Content
+ */
+#main-content > :first-child {
+  margin-top: 0!important;
+}
+#main-content > :last-child {
+  margin-bottom: 0!important;
+}
+
+/**
+ * Table of Contents (TOC)
+ */
+#toc {
+  display: none;
+  width: var(--toc-width);
+  position: fixed;
+  top: var(--header-height);
+  right: 0;
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+}
+#toc ol,
+#toc ul,
+#toc li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#toc a,
+#toc a:active,
+#toc a:hover,
+#toc a:focus,
+#toc a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+:where(html[data-color-scheme="dark"]) #toc .toc-heading {
+  color: var(--theme-color-white-tertiary);
+}
+:where(html[data-color-scheme="light"]) #toc .toc-heading {
+  color: var(--theme-color-black-tertiary);
+}
+#toc .toc-heading {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+  text-transform: uppercase;
+}
+#toc .toc-level {
+}
+#toc .toc-item {
+}
+:where(html[data-color-scheme="dark"]) #toc .toc-link {
+  color: var(--theme-color-white-secondary);
+}
+:where(html[data-color-scheme="light"]) #toc .toc-link {
+  color: var(--theme-color-dark-secondary);
+}
+#toc .toc-link {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-left: .125rem solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+}
+:where(html[data-color-scheme="dark"]) #toc .toc-link:hover {
+  border-left-color: var(--theme-color-gray-60);
+  color: var(--theme-color-white-primary);
+}
+:where(html[data-color-scheme="light"]) #toc .toc-link:hover {
+  border-left-color: var(--theme-color-gray-60);
+  color: var(--theme-color-black-primary);
+}
+:where(html[data-color-scheme="dark"]) #toc .toc-link[data-selected] {
+  border-left-color: var(--theme-color-red-60);
+  color: var(--theme-color-white-primary);
+}
+:where(html[data-color-scheme="light"]) #toc .toc-link[data-selected] {
+  border-left-color: var(--theme-color-red-60);
+  color: var(--theme-color-black-primary);
+}
+#toc .toc-link.toc-link-h1 {
+  padding-left: .5rem;
+}
+#toc .toc-link.toc-link-h2 {
+  padding-left: 1rem;
+}
+#toc .toc-link.toc-link-h3 {
+  padding-left: 1.5rem;
+}
+#toc .toc-link.toc-link-h4 {
+  padding-left: 2rem;
+}
+#toc .toc-link.toc-link-h5 {
+  padding-left: 2.5rem;
+}
+#toc .toc-link.toc-link-h6 {
+  padding-left: 3rem;
+}
+
+/**
+ * Main
+ */
+@media screen and (min-width: 1024px) {
+  #main {
+    width: calc(100% - var(--sidebar-width) - var(--toc-width));
+  }
+  #main-content {
+  }
+  #toc {
+    display: block;
+  }
+}
+

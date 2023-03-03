@@ -1,7 +1,9 @@
-const useTrack = () => {
-  const _mtm = (window._mtm = (window._mtm || []));
+import { useConst } from '@tonic-ui/react-hooks';
+import { useCallback } from 'react';
 
-  const track = (eventCategory, eventAction, eventName, eventValue) => {
+const useTrack = () => {
+  const _mtm = useConst(() => window._mtm = (window._mtm || []));
+  const track = useCallback((eventCategory, eventAction, eventName, eventValue) => {
     _mtm.push({
       event: 'custom-event',
       eventCategory,
@@ -9,7 +11,7 @@ const useTrack = () => {
       eventName,
       eventValue,
     });
-  };
+  }, [_mtm]);
 
   return track;
 };

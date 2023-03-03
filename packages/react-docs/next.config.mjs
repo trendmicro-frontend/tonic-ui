@@ -1,9 +1,18 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import mdxPlugin from '@next/mdx';
+import { parse } from 'acorn-loose';
 import dotenv from 'dotenv-flow';
+import { h } from 'hastscript';
 import remarkEmoji from 'remark-emoji';
+import remarkFrontmatter from 'remark-frontmatter';
 import remarkGFM from 'remark-gfm';
 import remarkImages from 'remark-images';
 import remarkMdxCodeMeta from 'remark-mdx-code-meta';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'rehype-slug';
+import rehypeToc from 'rehype-toc';
+import { visit } from 'unist-util-visit';
 
 dotenv.config();
 
@@ -12,19 +21,230 @@ const plugins = [];
 const withMDX = mdxPlugin({
   extension: /\.mdx?$/,
   options: {
+    providerImportSource: '@mdx-js/react',
+
+    // remark plugins operate on markdown before it is converted to HTML
     remarkPlugins: [
       remarkEmoji,
+      remarkFrontmatter,
       remarkGFM,
       remarkImages,
+      () => {
+        return (tree, file) => {
+          const basedir = process.cwd();
+          const relativePath = path.relative(path.dirname(file.path), basedir);
+          let renderExpressionCount = 0;
+
+          visit(tree, 'mdxFlowExpression', function (node, index) {
+            /*
+             * This plugin will transform the code
+             *
+             * ```mdx
+             * {render('./MyComponent')}
+             * ```
+             *
+             * into the following statement
+             *
+             * ```mdx
+             * import DemoComponent$1 from './MyComponent';
+             *
+             * <Demo component={DemoComponent$1} />
+             * ```
+             */
+            const re = new RegExp(/\s*render\('(.*)'\)/);
+            const results = node.value.match(re);
+            if (!results) {
+              return;
+            }
+            const importName = `DemoComponent$${index}`;
+            const importPath = results[1];
+            const newNode = {
+              type: 'mdxjsEsm',
+              value: `import ${importName} from '${importPath}'`,
+            };
+            newNode.data = {
+              estree: parse(newNode.value),
+            };
+            tree.children.unshift(newNode);
+
+            renderExpressionCount++;
+
+            const filepath = path.resolve(path.dirname(file.path), importPath + '.js');
+            const code = fs.readFileSync(filepath, 'utf8');
+
+            node.position = {};
+            node.value = undefined;
+            node.type = 'mdxJsxFlowElement';
+            node.name = 'Demo';
+            node.attributes = [
+              {
+                type: 'mdxJsxAttribute',
+                name: 'code',
+                value: code,
+              },
+              {
+                type: 'mdxJsxAttribute',
+                name: 'component',
+                value: {
+                  type: 'mdxJsxAttributeValueExpression',
+                  value: importName,
+                  data: {
+                    estree: parse(importName),
+                  },
+                },
+              },
+            ];
+            node.children = [];
+            node.data = {
+              _mdxExplicitJsx: true,
+            };
+          });
+
+          if (renderExpressionCount > 0) {
+            // Insert `import Demo from '../../components/Demo';` to the top of the MDX document
+            const newNode = {
+              type: 'mdxjsEsm',
+              value: `import Demo from "${relativePath}/components/Demo";`,
+            };
+            newNode.data = {
+              estree: parse(newNode.value),
+            };
+            tree.children.unshift(newNode);
+          }
+        };
+      },
       remarkMdxCodeMeta,
     ],
-    providerImportSource: '@mdx-js/react',
+
+    // rehype plugins operate on the HTML after it has been generated
+    rehypePlugins: [
+      [
+        // wraps the generated HTML content within a "div" element with the class "main-content"
+        //
+        // <main>
+        //   <div class="main-content" id="main-content" />
+        // </main>
+        () => (ast) => {
+          ast.children = [
+            {
+              type: 'element',
+              tagName: 'div',
+              properties: {
+                class: 'main-content',
+                id: 'main-content',
+              },
+              children: ast.children,
+            },
+          ];
+        },
+      ],
+
+      // adds "id" attribute to headings
+      // https://github.com/rehypejs/rehype-slug
+      [rehypeSlug],
+
+      // adds links to headings
+      // https://github.com/rehypejs/rehype-autolink-headings
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: 'append',
+          content: () => {
+            // https://github.com/syntax-tree/hast
+            return [
+              h('svg', [
+                h('use', { 'xlink:href': '#anchor-link-icon' }),
+              ]),
+            ];
+          },
+          properties: {
+            ariaHidden: true,
+            className: 'anchor-link',
+            tabIndex: -1,
+          },
+          test: ['h2', 'h3', 'h4', 'h5', 'h6'],
+        },
+      ],
+
+      // adds a table of contents (TOC) to the page
+      // https://github.com/JS-DevTools/rehype-toc
+      //
+      // <main>
+      //   <div class="main-content" id="main-content" />
+      //   <nav class="toc" id="toc" />
+      // </main>
+      [
+        rehypeToc,
+        {
+          // Determines whether the table of contents is wrapped in a `<nav>` element.
+          nav: true,
+          // The position at which the table of contents should be inserted.
+          position: 'beforeend',
+          // The HTML heading tags to include in the table of contents
+          headings: ['h2', 'h3', 'h4', 'h5', 'h6'],
+          // The CSS class names to apply to the table of contents
+          cssClasses: {
+            // for the top-level `<nav>` or `<ol>` element that contains the whole table of contents.
+            toc: 'toc',
+
+            // for all `<ol>` elements in the table of contents, including the top-level one.
+            list: 'toc-level',
+
+            // for all `<li>` elements in the table of contents.
+            listItem: 'toc-item',
+
+            // for all `<a>` elements in the table of contents.
+            link: 'toc-link',
+          },
+          customizeTOC: function(toc) {
+            // <nav class="toc" id="toc">
+            //   <div class="toc-heading">Contents</div>
+            //   <ul class="toc-level">
+            //     <li class="toc-item">
+            //       <a class="toc-link">Text</a>
+            //     </li>
+            //   </ul>
+            // </nav>
+
+            // specify the "id" attribute
+            toc.properties.id = 'toc';
+
+            // insert heading
+            toc.children.unshift({
+              type: 'element',
+              tagName: 'div',
+              properties: {
+                class: 'toc-heading',
+              },
+              children: [
+                { type: 'text', value: 'Contents' },
+              ],
+            });
+
+            // transform tag name "ol" to "ul"
+            let stack = [toc];
+            while (stack.length > 0) {
+              const item = stack[0];
+              if (Array.isArray(item.children)) {
+                stack = stack.concat(item.children);
+              }
+              if (item.tagName === 'ol') {
+                item.tagName = 'ul';
+              }
+              stack.shift();
+            }
+
+            return toc;
+          },
+        },
+      ],
+    ],
   }
 });
 
 plugins.push(withMDX);
 
-const nextConfig = {
+const initialNextConfig = {
   env: {
     BASE_PATH: process.env.BASE_PATH,
     // Matomo
@@ -62,4 +282,6 @@ const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx'],
 };
 
-export default () => plugins.reduce((acc, next) => next(acc), nextConfig);
+const transformNextConfig = () => plugins.reduce((acc, next) => next(acc), initialNextConfig);
+
+export default transformNextConfig;
