@@ -26,7 +26,6 @@ import {
   SearchInput,
   Skeleton,
   Space,
-  SVGIcon,
   Switch,
   Table,
   TableBody,
