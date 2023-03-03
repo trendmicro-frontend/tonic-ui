@@ -46,6 +46,7 @@ const InstantSearchModal = forwardRef((
       <ModalContent
         marginTop="12x"
         maxHeight={`calc(100vh - ${theme?.space['12x']} - ${theme?.space['12x']})`}
+        minHeight={null}
       >
         <Box p="4x">
           <InstantSearchInput

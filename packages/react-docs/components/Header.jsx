@@ -19,6 +19,8 @@ import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
+import CodeSandboxIcon from '../icons/codesandbox';
+import { open as openCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
@@ -55,7 +57,7 @@ const Header = forwardRef((
 ) => {
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const portalManager = usePortalManager();
+  const portal = usePortalManager();
   const track = useTrack();
 
   const version = (() => {
@@ -69,7 +71,7 @@ const Header = forwardRef((
   })();
 
   const openInstantSearchModal = useCallback(() => {
-    portalManager.add((close) => {
+    portal((close) => {
       const onClose = () => {
         track('InstantSearch', 'close_instant_search_modal');
 
@@ -81,7 +83,11 @@ const Header = forwardRef((
         <InstantSearchModal onClose={onClose} />
       );
     });
-  }, [portalManager]);
+  }, [portal, track]);
+
+  const handleClickEditInCodeSandbox = () => {
+    openCodeSandbox({ title: 'Tonic UI' });
+  };
 
   useEffect(() => {
     persistColorMode(colorMode);
@@ -122,7 +128,7 @@ const Header = forwardRef((
           <Box
             display={{
               sm: 'block',
-              md: 'none',
+              lg: 'none',
             }}
           >
             <Box
@@ -138,7 +144,7 @@ const Header = forwardRef((
           <Box
             display={{
               sm: 'none',
-              md: 'block',
+              lg: 'block',
             }}
           >
             <NextLink href={`/`} legacyBehavior passHref>
@@ -229,6 +235,21 @@ const Header = forwardRef((
             </Menu>
           </Box>
           <Box
+            data-track={`Header|click_codesandbox`}
+            as="a"
+            color={colorStyle.color.secondary}
+            _hover={{
+              color: colorStyle.color.primary,
+              cursor: 'pointer',
+            }}
+            onClick={() => handleClickEditInCodeSandbox()}
+            display="inline-flex"
+            textDecoration="none"
+            title="Edit in CodeSandbox"
+          >
+            <CodeSandboxIcon size={24} />
+          </Box>
+          <Box
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
             as="a"
             color={colorStyle.color.secondary}
@@ -241,6 +262,7 @@ const Header = forwardRef((
             }}
             onClick={() => toggleColorMode()}
             display="inline-flex"
+            title="Toggle color mode"
           >
             {colorMode === 'light' && (
               <Icon icon="moon" size={24} />
@@ -263,6 +285,7 @@ const Header = forwardRef((
             _visited={{
               color: colorStyle.color.secondary,
             }}
+            title="GitHub repository"
           >
             <FontAwesomeIcon
               icon={['fab', 'github']}

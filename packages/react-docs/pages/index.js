@@ -26,6 +26,7 @@ import {
   SearchInput,
   Skeleton,
   Space,
+  SVGIcon,
   Switch,
   Table,
   TableBody,
@@ -48,6 +49,8 @@ import InstantSearchModal from '../components/InstantSearchModal';
 import SearchButton from '../components/SearchButton';
 import SkeletonBody from '../components/SkeletonBody';
 import useTrack from '../hooks/useTrack';
+import CodeSandboxIcon from '../icons/codesandbox';
+import { open as openCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
@@ -364,7 +367,7 @@ const DefaultPage = (props) => {
 };
 
 const DefaultPageHeader = forwardRef((props, ref) => {
-  const portalManager = usePortalManager();
+  const portal = usePortalManager();
   const [colorMode, toggleColorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const logo = {
@@ -378,7 +381,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
   const track = useTrack();
 
   const openInstantSearchModal = useCallback(() => {
-    portalManager.add((close) => {
+    portal((close) => {
       const onClose = () => {
         track('InstantSearch', 'close_instant_search_modal');
 
@@ -390,7 +393,11 @@ const DefaultPageHeader = forwardRef((props, ref) => {
         <InstantSearchModal onClose={onClose} />
       );
     });
-  }, [portalManager]);
+  }, [portal, track]);
+
+  const handleClickEditInCodeSandbox = () => {
+    openCodeSandbox({ title: 'Tonic UI' });
+  };
 
   useEffect(() => {
     persistColorMode(colorMode);
@@ -465,6 +472,21 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             Search...
           </SearchButton>
           <Box
+            data-track={`Header|click_codesandbox`}
+            as="a"
+            color={colorStyle.color.secondary}
+            _hover={{
+              color: colorStyle.color.primary,
+              cursor: 'pointer',
+            }}
+            onClick={() => handleClickEditInCodeSandbox()}
+            display="inline-flex"
+            textDecoration="none"
+            title="Edit in CodeSandbox"
+          >
+            <CodeSandboxIcon size={24} />
+          </Box>
+          <Box
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
             as="a"
             color={colorStyle.color.secondary}
@@ -475,6 +497,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             onClick={() => toggleColorMode()}
             display="inline-flex"
             textDecoration="none"
+            title="Toggle color mode"
           >
             {colorMode === 'light' && (
               <Icon icon="moon" size={24} />
@@ -497,6 +520,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             }}
             display="inline-flex"
             textDecoration="none"
+            title="GitHub repository"
           >
             <FontAwesomeIcon
               icon={['fab', 'github']}
@@ -505,8 +529,6 @@ const DefaultPageHeader = forwardRef((props, ref) => {
                 height: 24,
               }}
             />
-            <Space width="2x" />
-            <Text>GitHub</Text>
           </Box>
         </Box>
       </Box>

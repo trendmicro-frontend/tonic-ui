@@ -11,8 +11,11 @@ const Main = forwardRef(({ children, ...props }, ref) => {
   return (
     <Box
       as="main"
+      id="main"
       ref={ref}
       backgroundColor={backgroundColor}
+      px="4x"
+      py="3x"
       {...props}
     >
       {children}

@@ -15,7 +15,6 @@ import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { InstantSearch, Configure } from 'react-instantsearch-hooks';
-import Content from '../components/Content';
 import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';
 import MDXComponents from '../components/MDXComponents';
@@ -37,6 +36,7 @@ const App = (props) => {
      */
     const root = document.documentElement;
     const colorScheme = root.style.getPropertyValue('color-scheme');
+    root.setAttribute('data-color-scheme', colorScheme);
     if ((colorScheme === 'dark' || colorScheme === 'light') && (initialColorMode !== colorScheme)) {
       setColorMode(colorScheme);
     }
@@ -91,7 +91,7 @@ const DefaultPage = (props) => {
 
 const DocsPage = (props) => {
   const isMediaQueryMatched = useMediaQuery(
-    '(min-width: 640px)',
+    '(min-width: 1024px)',
   );
   const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
   const theme = useTheme();
@@ -106,19 +106,19 @@ const DocsPage = (props) => {
       flexShrink: 0,
       width: {
         sm: isSidebarVisible ? 250 : 0,
-        md: 250,
+        lg: 250,
       },
       willChange: 'width',
       transition: {
         sm: 'width .3s ease-in-out',
-        md: 'none',
+        lg: 'none',
       },
       overflowY: 'auto',
       overflowX: 'hidden',
       position: 'fixed',
       top: {
         sm: 0,
-        md: headerHeight,
+        lg: headerHeight,
       },
       bottom: 0,
       left: 0,
@@ -130,18 +130,18 @@ const DocsPage = (props) => {
     return {
       ml: {
         sm: 0,
-        md: 250,
+        lg: 250,
       },
-      pt: headerHeight,
+      pt: `calc(${headerHeight} + ${theme?.sizes['3x']})`,
       height: '100vh',
       width: {
         sm: '100%',
-        md: 'calc(100% - 250px)',
+        lg: 'calc(100% - 250px)',
       },
       willChange: 'width,margin',
       transition: {
         sm: 'width .3s ease-in-out, margin .3s ease-in-out',
-        md: 'none',
+        lg: 'none',
       },
     };
   };
@@ -172,9 +172,7 @@ const DocsPage = (props) => {
         onClick={handleCloseSidebar}
         {...getMainStyleProps()}
       >
-        <Content>
-          <NextApp {...props} />
-        </Content>
+        <NextApp {...props} />
       </Main>
     </Box>
   );
