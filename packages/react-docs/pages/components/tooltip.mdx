@@ -144,82 +144,93 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 </Tooltip>
 ```
 
-### Tooltip with ellipsis text
+### Customizing tooltip appearance
 
-Text that overflows the container will be truncated and an ellipsis will be added. A tooltip will be shown when you hover or focus on the ellipsis text.
-
-Try minimizing the width of the container to see how it behaves.
+To customize the appearance of a tooltip, you can pass style props to the Tooltip component. Here's an example that shows how to use the `useColorMode` and `useColorStyle` Hooks to determine the current color mode and color style, and then set the background and text colors of the tooltip accordingly. This can help ensure the tooltip looks consistent with your app's color scheme. Additionally, you can use a component as the label of the tooltip to render more complex content.
 
 ```jsx
 function Example() {
-  const textRef = React.useRef();
-  const [isOpen, toggleIsOpen] = useToggle();
-  useEventListener(
-    () => textRef.current,
-    'mouseenter', // It can be either 'mouseenter' or 'pointerenter'
-    React.useCallback((event) => {
-      const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
-      isOverflowing && toggleIsOpen(true);
-    }, [toggleIsOpen]),
-  );
-  useEventListener(
-    () => textRef.current,
-    'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
-    React.useCallback((event) => {
-      toggleIsOpen(false);
-    }, [toggleIsOpen]),
-  );
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const backgroundColor = {
+    dark: 'gray:80',
+    light: 'white',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
 
   return (
-    <Tooltip
-      isOpen={isOpen}
-      label="This is a very long text string that might be truncated when exceeding the container width"
-    >
-      <Truncate ref={textRef}>
-        This is a very long text string that might be truncated when exceeding the container width
-      </Truncate>
-    </Tooltip>
+    <Flex columnGap="4x">
+      <Tooltip
+        label="This is a tooltip"
+        backgroundColor={backgroundColor}
+        color={color}
+      >
+        <Text display="inline-block">Hover me</Text>
+      </Tooltip>
+      <Divider orientation="vertical" />
+      <Tooltip
+        hideArrow
+        label={(
+          <Box px="1x" py="2x">
+            <Text>Tooltip Title</Text>
+            <Divider my="2x" />
+            <Text>This is a tooltip</Text>
+          </Box>
+        )}
+        backgroundColor={backgroundColor}
+        color={color}
+      >
+        <Text display="inline-block">Hover me</Text>
+      </Tooltip>
+    </Flex>
   );
 }
 ```
 
-```jsx
-function Example() {
-  const textRef = React.useRef();
-  const [isOpen, toggleIsOpen] = useToggle();
-  useEventListener(
-    () => textRef.current,
-    'mouseenter', // It can be either 'mouseenter' or 'pointerenter'
-    React.useCallback((event) => {
-      const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
-      isOverflowing && toggleIsOpen(true);
-    }, [toggleIsOpen]),
-  );
-  useEventListener(
-    () => textRef.current,
-    'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
-    React.useCallback((event) => {
-      toggleIsOpen(false);
-    }, [toggleIsOpen]),
-  );
+### Placement
 
-  return (
-    <Tooltip
-      isOpen={isOpen}
-      label="This is a very long text string that might be truncated when exceeding the container width"
-    >
-      <Flex alignItems="center" columnGap="2x">
-        <Icon icon="menu" />
-        <Truncate ref={textRef}>
-          This is a very long text string that might be truncated when exceeding the container width
-        </Truncate>
-      </Flex>
-    </Tooltip>
-  );
-}
+Use the `placement` prop to control the placement of the tooltip.
+
+```jsx disabled
+<Tooltip label="Tooltip" placement="top">
+  Tooltip anchor
+</Tooltip>
 ```
 
-### Tooltip with `Menu`
+```jsx
+<Box display="inline-block">
+  <Grid
+    templateColumns="repeat(3, minmax(80px,1fr))"
+    templateRows="repeat(4, 80px)"
+    gap="8x"
+  >
+    {['top-start', 'top', 'top-end',
+      'right-start', 'right', 'right-end',
+      'bottom-start', 'bottom', 'bottom-end',
+      'left-start', 'left', 'left-end'
+    ].map(placement => (
+      <Tooltip
+        key={placement}
+        label="Tooltip"
+        placement={placement}
+      >
+        <Button width="100%">
+          {placement}
+        </Button>
+      </Tooltip>
+    ))}
+  </Grid>
+</Box>
+```
+
+### More examples
+
+#### `Menu` component with `Tooltip`
+
+This example demonstrates how to use the `Menu` component along with a tooltip for navigating through a set of options or actions.
 
 ```jsx
 function Example() {
@@ -286,59 +297,21 @@ function Example() {
 }
 ```
 
-### Customization
+## Commonly Asked Questions
+
+### Preventing tooltip cut-off with `PopperProps`
+
+By default, the `Tooltip` component positions the tooltip relative to its parent container. In some cases, the tooltip content might be cut off when it extends outside the container that holds it.
+
+To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Tooltip` to make it positioned on the document root.
 
 ```jsx
 <Tooltip
-  hideArrow
-  label={(
-    <Flex direction="column">
-      <Text fontSize="lg" lineHeight="lg">Tooltip with HTML</Text>
-      <Box><em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}</Box>
-      <Text>{"It's very engaging. Right?"}</Text>
-    </Flex>
-  )}
+  PopperProps={{ usePortal: true }}
+  label="This is a tooltip"
 >
-  <Text display="inline-block">
-    Hover Me
-  </Text>
+  <Text display="inline-block">Hover me</Text>
 </Tooltip>
-```
-
-### Placement
-
-Use the `placement` prop to control the placement of the tooltip.
-
-```jsx disabled
-<Tooltip label="Tooltip" placement="top">
-  Tooltip anchor
-</Tooltip>
-```
-
-```jsx
-<Box display="inline-block">
-  <Grid
-    templateColumns="repeat(3, minmax(80px,1fr))"
-    templateRows="repeat(4, 80px)"
-    gap="8x"
-  >
-    {['top-start', 'top', 'top-end',
-      'right-start', 'right', 'right-end',
-      'bottom-start', 'bottom', 'bottom-end',
-      'left-start', 'left', 'left-end'
-    ].map(placement => (
-      <Tooltip
-        key={placement}
-        label="Tooltip"
-        placement={placement}
-      >
-        <Button width="100%">
-          {placement}
-        </Button>
-      </Tooltip>
-    ))}
-  </Grid>
-</Box>
 ```
 
 ## Props

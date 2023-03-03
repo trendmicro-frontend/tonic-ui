@@ -233,6 +233,7 @@ test('should match expected exports', () => {
 
     // tooltip
     'Tooltip',
+    'OverflowTooltip',
 
     // transitions
     'Collapse',

@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
+import { act } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import * as React from 'react';
 import { render } from './render';
@@ -10,8 +11,10 @@ const testA11y = async (ui, options) => {
   const container = React.isValidElement(ui)
     ? render(ui, rest).container
     : ui;
-  const results = await axe(container, axeOptions);
-  expect(results).toHaveNoViolations();
+  await act(async () => {
+    const results = await axe(container, axeOptions);
+    expect(results).toHaveNoViolations();
+  });
 };
 
 export {
