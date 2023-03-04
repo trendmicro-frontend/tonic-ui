@@ -1,4 +1,4 @@
-export default (...args) => {
+const x = (...args) => {
   let x;
   try {
     x = JSON.stringify(...args);
@@ -7,3 +7,5 @@ export default (...args) => {
   }
   return x;
 };
+
+export default x;

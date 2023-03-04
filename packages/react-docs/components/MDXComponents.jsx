@@ -11,47 +11,34 @@ import {
 import Code from './Code';
 import CodeBlock from './CodeBlock';
 
-const mapColorModeToHeadingColor = (colorMode) => ({
-  light: 'black:secondary',
-  dark: 'white:secondary',
-}[colorMode]);
-
-const mapColorModeToTableBorderColor = (colorMode) => ({
-  light: 'gray:40',
-  dark: 'gray:70',
-}[colorMode]);
-
 const p = props => (
   <Box
     as="p"
-    fontSize="md"
-    lineHeight="lg"
     mt={0}
     mb="4x"
+    fontSize="md"
+    lineHeight="lg"
     {...props}
   />
 );
 
 const H1 = props => {
   const [colorMode] = useColorMode();
-  const color = mapColorModeToHeadingColor(colorMode);
-  const borderColor = {
-    light: 'gray:40', //FIX ME
-    dark: 'gray:60',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
 
   return (
     <Box
       as="h1"
-      mt="6x"
-      mb="4x"
+      mt="8x"
+      mb="2x"
       pb="2x"
       borderBottom={1}
-      borderBottomColor={borderColor}
-      color={color}
+      borderBottomColor={colorStyle.divider}
+      color={colorStyle.color.primary}
       fontSize="3xl"
-      fontWeight="normal"
+      fontWeight="semibold"
       lineHeight="3xl"
+      scrollMarginBlock="14x"
       {...props}
     />
   );
@@ -59,24 +46,18 @@ const H1 = props => {
 
 const H2 = props => {
   const [colorMode] = useColorMode();
-  const color = mapColorModeToHeadingColor(colorMode);
-  const borderColor = {
-    light: 'gray:40', //FIX ME
-    dark: 'gray:60',
-  }[colorMode];
+  const [colorStyle] = useColorStyle({ colorMode });
 
   return (
     <Box
       as="h2"
-      mt="6x"
-      mb="4x"
-      pb="2x"
-      borderBottom={1}
-      borderBottomColor={borderColor}
-      color={color}
+      mt="8x"
+      mb="2x"
+      color={colorStyle.color.primary}
       fontSize="2xl"
-      fontWeight="normal"
+      fontWeight="semibold"
       lineHeight="2xl"
+      scrollMarginBlock="14x"
       {...props}
     />
   );
@@ -84,17 +65,18 @@ const H2 = props => {
 
 const H3 = props => {
   const [colorMode] = useColorMode();
-  const color = mapColorModeToHeadingColor(colorMode);
+  const [colorStyle] = useColorStyle({ colorMode });
 
   return (
     <Box
       as="h3"
-      mt="6x"
-      mb="4x"
-      color={color}
+      mt="8x"
+      mb="2x"
+      color={colorStyle.color.primary}
       fontSize="xl"
       fontWeight="semibold"
       lineHeight="xl"
+      scrollMarginBlock="14x"
       {...props}
     />
   );
@@ -102,16 +84,18 @@ const H3 = props => {
 
 const H4 = props => {
   const [colorMode] = useColorMode();
-  const color = mapColorModeToHeadingColor(colorMode);
+  const [colorStyle] = useColorStyle({ colorMode });
 
   return (
     <Box
       as="h4"
-      color={color}
+      mt="8x"
+      mb="2x"
+      color={colorStyle.color.primary}
       fontSize="lg"
       fontWeight="semibold"
       lineHeight="lg"
-      my="2x"
+      scrollMarginBlock="14x"
       {...props}
     />
   );
@@ -119,17 +103,18 @@ const H4 = props => {
 
 const H5 = props => {
   const [colorMode] = useColorMode();
-  const color = mapColorModeToHeadingColor(colorMode);
+  const [colorStyle] = useColorStyle({ colorMode });
 
   return (
     <Box
       as="h5"
-      mt="6x"
-      mb="4x"
-      color={color}
+      mt="8x"
+      mb="2x"
+      color={colorStyle.color.primary}
       fontSize="md"
       fontWeight="semibold"
       lineHeight="md"
+      scrollMarginBlock="14x"
       {...props}
     />
   );
@@ -137,17 +122,18 @@ const H5 = props => {
 
 const H6 = props => {
   const [colorMode] = useColorMode();
-  const color = mapColorModeToHeadingColor(colorMode);
+  const [colorStyle] = useColorStyle({ colorMode });
 
   return (
     <Box
       as="h6"
-      mt="6x"
-      mb="4x"
-      color={color}
+      mt="8x"
+      mb="2x"
+      color={colorStyle.color.primary}
       fontSize="sm"
       fontWeight="semibold"
       lineHeight="sm"
+      scrollMarginBlock="14x"
       {...props}
     />
   );
@@ -259,7 +245,10 @@ const tr = props => (
 
 const TH = ({ align, ...props }) => {
   const [colorMode] = useColorMode();
-  const borderColor = mapColorModeToTableBorderColor(colorMode);
+  const borderColor = {
+    light: 'gray:40',
+    dark: 'gray:70',
+  }[colorMode];
 
   return (
     <Box
@@ -279,7 +268,10 @@ const TH = ({ align, ...props }) => {
 
 const TD = ({ align, ...props }) => {
   const [colorMode] = useColorMode();
-  const borderColor = mapColorModeToTableBorderColor(colorMode);
+  const borderColor = {
+    light: 'gray:40',
+    dark: 'gray:70',
+  }[colorMode];
 
   return (
     <Box

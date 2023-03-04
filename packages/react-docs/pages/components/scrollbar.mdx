@@ -12,7 +12,7 @@ import {
 
 ## Usage
 
-The scrollbar is hidden by default. You can mouse over the scrollable content to show the scrollbar.
+The `Scrollbar` is hidden by default, and it only appears when the user hovers over the scrollable content. You can set the height of the scrollbar using the `height` prop.
 
 ```jsx
 <Scrollbar
@@ -21,6 +21,8 @@ The scrollbar is hidden by default. You can mouse over the scrollable content to
   <Lorem count={10} />
 </Scrollbar>
 ```
+
+For more information on bidirectional scrolling, please refer to [Bidirectional scrolling: what's not to like?](https://adamsilver.io/blog/bidirectional-scrolling-whats-not-to-like/)
 
 ### Scroll direction
 
@@ -481,6 +483,8 @@ render(<ScrollableTable />);
 
 ## Props
 
+### Scrollbar
+
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode \| function | | The content of the scrollbar. |
@@ -497,7 +501,3 @@ render(<ScrollableTable />);
 | overflow | string | 'auto' | The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | overflowX | string | | The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
-
-## Further Reading
-
-* [Bidirectional scrolling: what’s not to like?](https://adamsilver.io/blog/bidirectional-scrolling-whats-not-to-like/)
