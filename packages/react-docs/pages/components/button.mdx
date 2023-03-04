@@ -272,14 +272,17 @@ Icons are commonly used in toolbar buttons. You can use the `columnGap` style pr
 </Flex>
 ```
 
-## Custom Button
+### Customization
 
 To create a custom button, you can use the style props for the [ButtonBase](buttonbase) component.
 
 ## Props
 
+### Button
+
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
 | disabled | boolean | | If `true`, the button will have a `disabled` attribute and not respond to user interactions.<br />You can pass the `_disabled` style prop to customize the visual appearance of the disabled state. |
 | selected | boolean | | If `true`, the button will have a `tabIndex="-1"` attribute and will not receive pointer events (i.e. `pointer-events: none;`).<br />You can pass the `_selected` style prop to customize the visual appearance of the selected state. |
 | size | string | 'md' | The size of the button. Acceptable values: 'sm', 'md', 'lg' |

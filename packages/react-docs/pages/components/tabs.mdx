@@ -1120,6 +1120,49 @@ function Example() {
 render(<Example />);
 ```
 
+## Accessibility
+
+### [ARIA: tab role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
+
+  > This example combines the role `tab` with `tablist` and elements with `tabpanel` to create an interactive group of tabbed content. Here we are enclosing our group of content in a `div`, with our `tablist` having an `aria-label` which labels it for assistive technology. Each `tab` is a `button` with the attributes previously mentioned. The first `tab` has both `tabindex="0"` and `aria-selected="true"` applied. These two attributes must always be coordinated as such—so when another tab is selected, it will then have `tabindex="0"` and `aria-selected="true"` applied. All unselected tabs must have `aria-selected="false"` and `tabindex="-1"`.<br/><br/>
+  > All of the `tabpanel` elements have `tabindex="0"` to make them tabbable, and all but the currently active one have the `hidden` attribute. The `hidden` attribute will be removed when a `tabpanel` becomes visible with JavaScript. There is some basic styling applied that restyles the buttons and changes the `z-index` of `tab` elements to give the illusion of it connecting to the `tabpanel` for active elements, and the illusion that inactive elements are behind the active `tabpanel`.<br/><br/>
+  > ```js
+  > <div class="tabs">
+  >   <div role="tablist" aria-label="Sample Tabs">
+  >     <button role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0">
+  >       First Tab
+  >     </button>
+  >     <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1">
+  >       Second Tab
+  >     </button>
+  >     <button role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" tabindex="-1">
+  >       Third Tab
+  >     </button>
+  >   </div>
+  >   <div id="panel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
+  >     <p>Content for the first panel</p>
+  >   </div>
+  >   <div id="panel-2" role="tabpanel" tabindex="0" aria-labelledby="tab-2" hidden>
+  >     <p>Content for the second panel</p>
+  >   </div>
+  >   <div id="panel-3" role="tabpanel" tabindex="0" aria-labelledby="tab-3" hidden>
+  >     <p>Content for the third panel</p>
+  >   </div>
+  > </div>
+  > ```
+
+### [WAI-ARIA Roles, States, and Properties](https://www.w3.org/TR/wai-aria-practices/#tabpanel)
+
+* The element that serves as the container for the set of tabs has role `tablist`.
+* Each element that serves as a tab has role `tab` and is contained within the element with role `tablist`.
+* Each element that contains the content panel for a `tab` has role `tabpanel`.
+* If the tab list has a visible label, the element with role `tablist` has `aria-labelledby` set to a value that refers to the labelling element. Otherwise, the `tablist` element has a label provided by `aria-label`.
+* Each element with role `tab` has the property `aria-controls` referring to its associated `tabpanel` element.
+* The active `tab` element has the state `aria-selected` set to `true` and all other `tab` elements have it set to `false`.
+* Each element with role `tabpanel` has the property `aria-labelledby` referring to its associated `tab` element.
+* If a `tab` element has a popup menu, it has the property `aria-haspopup` set to either `menu` or `true`.
+* If the `tablist` element is vertically oriented, it has the property `aria-orientation` set to `vertical`. The default value of `aria-orientation` for a `tablist` element is `horizontal`.
+
 ## Props
 
 ### Tab
@@ -1162,46 +1205,3 @@ render(<Example />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-
-## Further Reading
-
-### [ARIA: tab role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
-
-  > This example combines the role `tab` with `tablist` and elements with `tabpanel` to create an interactive group of tabbed content. Here we are enclosing our group of content in a `div`, with our `tablist` having an `aria-label` which labels it for assistive technology. Each `tab` is a `button` with the attributes previously mentioned. The first `tab` has both `tabindex="0"` and `aria-selected="true"` applied. These two attributes must always be coordinated as such—so when another tab is selected, it will then have `tabindex="0"` and `aria-selected="true"` applied. All unselected tabs must have `aria-selected="false"` and `tabindex="-1"`.<br/><br/>
-  > All of the `tabpanel` elements have `tabindex="0"` to make them tabbable, and all but the currently active one have the `hidden` attribute. The `hidden` attribute will be removed when a `tabpanel` becomes visible with JavaScript. There is some basic styling applied that restyles the buttons and changes the `z-index` of `tab` elements to give the illusion of it connecting to the `tabpanel` for active elements, and the illusion that inactive elements are behind the active `tabpanel`.<br/><br/>
-  > ```js
-  > <div class="tabs">
-  >   <div role="tablist" aria-label="Sample Tabs">
-  >     <button role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0">
-  >       First Tab
-  >     </button>
-  >     <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1">
-  >       Second Tab
-  >     </button>
-  >     <button role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" tabindex="-1">
-  >       Third Tab
-  >     </button>
-  >   </div>
-  >   <div id="panel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
-  >     <p>Content for the first panel</p>
-  >   </div>
-  >   <div id="panel-2" role="tabpanel" tabindex="0" aria-labelledby="tab-2" hidden>
-  >     <p>Content for the second panel</p>
-  >   </div>
-  >   <div id="panel-3" role="tabpanel" tabindex="0" aria-labelledby="tab-3" hidden>
-  >     <p>Content for the third panel</p>
-  >   </div>
-  > </div>
-  > ```
-
-### [WAI-ARIA Roles, States, and Properties](https://www.w3.org/TR/wai-aria-practices/#tabpanel)
-
-* The element that serves as the container for the set of tabs has role `tablist`.
-* Each element that serves as a tab has role `tab` and is contained within the element with role `tablist`.
-* Each element that contains the content panel for a `tab` has role `tabpanel`.
-* If the tab list has a visible label, the element with role `tablist` has `aria-labelledby` set to a value that refers to the labelling element. Otherwise, the `tablist` element has a label provided by `aria-label`.
-* Each element with role `tab` has the property `aria-controls` referring to its associated `tabpanel` element.
-* The active `tab` element has the state `aria-selected` set to `true` and all other `tab` elements have it set to `false`.
-* Each element with role `tabpanel` has the property `aria-labelledby` referring to its associated `tab` element.
-* If a `tab` element has a popup menu, it has the property `aria-haspopup` set to either `menu` or `true`.
-* If the `tablist` element is vertically oriented, it has the property `aria-orientation` set to `vertical`. The default value of `aria-orientation` for a `tablist` element is `horizontal`.
