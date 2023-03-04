@@ -163,7 +163,17 @@ export const routes = [
         },
       },
       { title: 'ButtonGroup', path: 'components/buttongroup' },
-      { title: 'Checkbox', path: 'components/checkbox' },
+      {
+        title: 'Checkbox',
+        path: 'components/checkbox',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+              <Icon icon="code" cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'CheckboxGroup', path: 'components/checkboxgroup' },
       {
         title: 'Input',
@@ -187,7 +197,17 @@ export const routes = [
           );
         },
       },
-      { title: 'InputControl', path: 'components/inputcontrol' },
+      {
+        title: 'InputControl',
+        path: 'components/inputcontrol',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+              <Icon icon="code" cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'InputGroup', path: 'components/inputgroup' },
       {
         title: 'LinkButton',
@@ -200,9 +220,29 @@ export const routes = [
           );
         },
       },
-      { title: 'Radio', path: 'components/radio' },
+      {
+        title: 'Radio',
+        path: 'components/radio',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+              <Icon icon="code" cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'RadioGroup', path: 'components/radiogroup' },
-      { title: 'SearchInput', path: 'components/searchinput' },
+      {
+        title: 'SearchInput',
+        path: 'components/searchinput',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+              <Icon icon="code" cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       {
         title: 'Select',
         path: 'components/select',
@@ -214,7 +254,17 @@ export const routes = [
           );
         },
       },
-      { title: 'Switch', path: 'components/switch' },
+      {
+        title: 'Switch',
+        path: 'components/switch',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+              <Icon icon="code" cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       {
         title: 'Textarea',
         path: 'components/textarea',
@@ -307,7 +357,17 @@ export const routes = [
 
       { title: 'TYPOGRAPHY', heading: true },
       { title: 'Text', path: 'components/text' },
-      { title: 'TextLabel', path: 'components/textlabel' },
+      {
+        title: 'TextLabel',
+        path: 'components/textlabel',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: label`}</Subtitle>}>
+              <Icon icon="code" cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'Truncate', path: 'components/truncate' },
 
       { title: 'UTILITIES', heading: true },
