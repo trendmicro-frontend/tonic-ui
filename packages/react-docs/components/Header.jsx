@@ -20,7 +20,7 @@ import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
 import CodeSandboxIcon from '../icons/codesandbox';
-import { open as openCodeSandbox } from '../sandbox/codesandbox';
+import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
@@ -85,8 +85,8 @@ const Header = forwardRef((
     });
   }, [portal, track]);
 
-  const handleClickEditInCodeSandbox = () => {
-    openCodeSandbox({ title: 'Tonic UI' });
+  const handleClickOpenInCodeSandbox = () => {
+    openInCodeSandbox({ title: 'Tonic UI' });
   };
 
   useEffect(() => {
@@ -242,10 +242,10 @@ const Header = forwardRef((
               color: colorStyle.color.primary,
               cursor: 'pointer',
             }}
-            onClick={() => handleClickEditInCodeSandbox()}
+            onClick={() => handleClickOpenInCodeSandbox()}
             display="inline-flex"
             textDecoration="none"
-            title="Edit in CodeSandbox"
+            title="Open in CodeSandbox"
           >
             <CodeSandboxIcon size={24} />
           </Box>

@@ -49,7 +49,7 @@ import SearchButton from '../components/SearchButton';
 import SkeletonBody from '../components/SkeletonBody';
 import useTrack from '../hooks/useTrack';
 import CodeSandboxIcon from '../icons/codesandbox';
-import { open as openCodeSandbox } from '../sandbox/codesandbox';
+import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
@@ -394,8 +394,8 @@ const DefaultPageHeader = forwardRef((props, ref) => {
     });
   }, [portal, track]);
 
-  const handleClickEditInCodeSandbox = () => {
-    openCodeSandbox({ title: 'Tonic UI' });
+  const handleClickOpenInCodeSandbox = () => {
+    openInCodeSandbox({ title: 'Tonic UI' });
   };
 
   useEffect(() => {
@@ -478,10 +478,10 @@ const DefaultPageHeader = forwardRef((props, ref) => {
               color: colorStyle.color.primary,
               cursor: 'pointer',
             }}
-            onClick={() => handleClickEditInCodeSandbox()}
+            onClick={() => handleClickOpenInCodeSandbox()}
             display="inline-flex"
             textDecoration="none"
-            title="Edit in CodeSandbox"
+            title="Open in CodeSandbox"
           >
             <CodeSandboxIcon size={24} />
           </Box>
