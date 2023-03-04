@@ -15,16 +15,13 @@ const AccordionHeader = forwardRef((
   ref,
 ) => {
   const context = useAccordionItem(); // context might be an undefined value
-  const ariaControls = context?.bodyId;
-  const id = context?.headerId;
   const disabled = ensureBoolean(disabledProp ?? context?.disabled);
   const styleProps = useAccordionHeaderStyle({ disabled });
 
   return (
     <AccordionToggle
-      aria-controls={ariaControls}
-      id={id}
       ref={ref}
+      disabled={disabled}
       {...styleProps}
       {...rest}
     >
@@ -35,5 +32,7 @@ const AccordionHeader = forwardRef((
     </AccordionToggle>
   );
 });
+
+AccordionHeader.displayName = 'AccordionHeader';
 
 export default AccordionHeader;

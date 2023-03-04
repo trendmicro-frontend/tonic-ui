@@ -87,6 +87,8 @@ const TooltipTrigger = forwardRef((
         'aria-describedby': isOpen ? tooltipId : undefined,
         ref: mergeRefs(combinedRef, ownRef),
         ...eventHandlerProps,
+        ...styleProps,
+        ...rest,
       };
     },
     [
@@ -99,6 +101,8 @@ const TooltipTrigger = forwardRef((
       isOpen,
       tooltipId,
       combinedRef,
+      styleProps,
+      rest,
     ],
   );
 
@@ -107,14 +111,8 @@ const TooltipTrigger = forwardRef((
   }
 
   if (shouldWrapChildren) {
-    const tooltipTriggerProps = getTooltipTriggerProps();
-
     return (
-      <Box
-        {...tooltipTriggerProps}
-        {...styleProps}
-        {...rest}
-      >
+      <Box {...getTooltipTriggerProps()}>
         {children}
       </Box>
     );

@@ -127,6 +127,8 @@ const PopoverTrigger = forwardRef((
         'aria-expanded': ariaAttr(isOpen),
         ref: mergeRefs(combinedRef, ownRef),
         ...eventHandlerProps,
+        ...styleProps,
+        ...rest,
       };
     },
     [
@@ -142,6 +144,8 @@ const PopoverTrigger = forwardRef((
       isOpen,
       popoverId,
       trigger,
+      styleProps,
+      rest,
     ],
   );
 
@@ -150,14 +154,8 @@ const PopoverTrigger = forwardRef((
   }
 
   if (shouldWrapChildren) {
-    const popoverTriggerProps = getPopoverTriggerProps();
-
     return (
-      <Box
-        {...popoverTriggerProps}
-        {...styleProps}
-        {...rest}
-      >
+      <Box {...getPopoverTriggerProps()}>
         {children}
       </Box>
     );

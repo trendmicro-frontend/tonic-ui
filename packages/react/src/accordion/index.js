@@ -1,6 +1,6 @@
 import Accordion from './Accordion';
 import AccordionBody from './AccordionBody';
-import AccordionCollapse from './AccordionCollapse';
+import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
 import AccordionItem from './AccordionItem';
 import AccordionToggle from './AccordionToggle';
@@ -9,16 +9,17 @@ import useAccordion from './useAccordion';
 import useAccordionItem from './useAccordionItem';
 
 Accordion.Body = AccordionBody;
-Accordion.Collapse = AccordionCollapse;
+Accordion.Content = AccordionContent;
 Accordion.Header = AccordionHeader;
 Accordion.Item = AccordionItem;
 Accordion.Toggle = AccordionToggle;
 Accordion.Toggle.Icon = AccordionToggleIcon;
+Accordion.Collapse = AccordionContent; //  alias of AccordionContent
 
 export {
   Accordion,
   AccordionBody,
-  AccordionCollapse,
+  AccordionContent,
   AccordionHeader,
   AccordionItem,
   AccordionToggle,
@@ -26,3 +27,5 @@ export {
   useAccordion,
   useAccordionItem,
 };
+
+export const AccordionCollapse = AccordionContent; // alias of AccordionContent

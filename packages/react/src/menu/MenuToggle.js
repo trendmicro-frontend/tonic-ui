@@ -2,7 +2,7 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
-import { Box } from '../box';
+import { ButtonBase } from '../button';
 import {
   useMenuToggleStyle,
 } from './styles';
@@ -96,9 +96,9 @@ const MenuToggle = forwardRef((
   }
 
   return (
-    <Box {...getMenuToggleProps()}>
+    <ButtonBase {...getMenuToggleProps()}>
       {children}
-    </Box>
+    </ButtonBase>
   );
 });
 

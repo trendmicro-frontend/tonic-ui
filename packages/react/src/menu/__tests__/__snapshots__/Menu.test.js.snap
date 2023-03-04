@@ -215,8 +215,18 @@ exports[`Menu should render correctly 1`] = `
 }
 
 .emotion-16 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
   color: rgba(0, 0, 0, .92);
   cursor: pointer;
+  line-height: 1;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -228,8 +238,6 @@ exports[`Menu should render correctly 1`] = `
   -ms-flex-align: center;
   align-items: center;
   text-align: left;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
   padding-left: .75rem;
   padding-right: .75rem;
   padding-top: .5rem;
@@ -238,6 +246,7 @@ exports[`Menu should render correctly 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  width: 100%;
 }
 
 .emotion-16[aria-selected=true],
@@ -329,27 +338,30 @@ exports[`Menu should render correctly 1`] = `
           <div
             class="emotion-4 emotion-1"
           >
-            <div
+            <button
               class="emotion-16 emotion-1"
               role="menuitem"
               tabindex="-1"
+              type="button"
             >
               Menu item 1
-            </div>
-            <div
+            </button>
+            <button
               class="emotion-16 emotion-1"
               role="menuitem"
               tabindex="-1"
+              type="button"
             >
               Menu item 2
-            </div>
-            <div
+            </button>
+            <button
               class="emotion-16 emotion-1"
               role="menuitem"
               tabindex="-1"
+              type="button"
             >
               Menu item 3
-            </div>
+            </button>
           </div>
         </div>
       </div>

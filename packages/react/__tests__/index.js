@@ -5,13 +5,14 @@ test('should match expected exports', () => {
     // accordion
     'Accordion',
     'AccordionBody',
-    'AccordionCollapse',
+    'AccordionContent',
     'AccordionHeader',
     'AccordionItem',
     'AccordionToggle',
     'AccordionToggleIcon',
     'useAccordion',
     'useAccordionItem',
+    'AccordionCollapse', // alias of AccordionContent
 
     // alert
     'Alert',
