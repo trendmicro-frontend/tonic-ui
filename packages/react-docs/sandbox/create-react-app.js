@@ -23,9 +23,9 @@ import {
 } from '@tonic-ui/react';
 import * as React from 'react';
 import ReactDOM from 'react-dom/client';
-import Demo from './demo';
+import App from './app';
 
-const App = (props) => (
+const Root = (props) => (
   <TonicProvider
     colorMode={{
       defaultValue: 'dark',
@@ -96,6 +96,8 @@ const Layout = (props) => {
         fontSize="sm"
         lineHeight="sm"
         height="100vh"
+        px="4x"
+        py="3x"
         {...props}
       />
     </>
@@ -104,9 +106,9 @@ const Layout = (props) => {
 
 ReactDOM.createRoot(document.querySelector("#root")).render(
   <React.StrictMode>
-    <App>
-      <Demo />
-    </App>
+    <Root>
+      <App />
+    </Root>
   </React.StrictMode>
 );
 `.trim();
@@ -115,18 +117,26 @@ export const getDefaultComponent = () => `
 import { Box } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 
-const Component = forwardRef((props, ref) => {
+const App = forwardRef((props, ref) => {
   const styleProps = {
-    px: '4x',
-    py: '3x',
+    // Define style props here
+    //
+    // Refer to Tonic UI documentation for available style props:
+    // https://trendmicro-frontend.github.io/tonic-ui/react/latest/styled-system/style-props
   };
 
   return (
-    <Box ref={ref} {...styleProps} {...props}>
+    <Box
+      ref={ref}
+      {...styleProps}
+      {...props}
+    >
       Tonic UI is awesome
     </Box>
   );
 });
 
-export default Component;
+App.displayName = 'App';
+
+export default App;
 `.trim();

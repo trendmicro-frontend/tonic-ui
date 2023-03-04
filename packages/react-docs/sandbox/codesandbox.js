@@ -15,7 +15,7 @@ const createReactApp = (options) => {
     [`index.js`]: {
       content: getRootIndex(),
     },
-    [`demo.js`]: {
+    [`app.js`]: {
       content: code ?? getDefaultComponent(),
     },
   };
@@ -68,7 +68,7 @@ const open = ({ title, code }) => {
   addHiddenInput(                 
     form,       
     'query',                      
-    'file=/demo.js',
+    'file=/app.js',
   );
   document.body.appendChild(form);
   form.submit();
