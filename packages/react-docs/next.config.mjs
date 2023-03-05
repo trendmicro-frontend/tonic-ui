@@ -11,7 +11,6 @@ import remarkImages from 'remark-images';
 import remarkMdxCodeMeta from 'remark-mdx-code-meta';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
-import rehypeToc from 'rehype-toc';
 import { visit } from 'unist-util-visit';
 
 dotenv.config();
@@ -163,79 +162,6 @@ const withMDX = mdxPlugin({
             tabIndex: -1,
           },
           test: ['h2', 'h3', 'h4', 'h5', 'h6'],
-        },
-      ],
-
-      // adds a table of contents (TOC) to the page
-      // https://github.com/JS-DevTools/rehype-toc
-      //
-      // <main>
-      //   <div class="main-content" id="main-content" />
-      //   <nav class="toc" id="toc" />
-      // </main>
-      [
-        rehypeToc,
-        {
-          // Determines whether the table of contents is wrapped in a `<nav>` element.
-          nav: true,
-          // The position at which the table of contents should be inserted.
-          position: 'beforeend',
-          // The HTML heading tags to include in the table of contents
-          headings: ['h2', 'h3', 'h4', 'h5', 'h6'],
-          // The CSS class names to apply to the table of contents
-          cssClasses: {
-            // for the top-level `<nav>` or `<ol>` element that contains the whole table of contents.
-            toc: 'toc',
-
-            // for all `<ol>` elements in the table of contents, including the top-level one.
-            list: 'toc-level',
-
-            // for all `<li>` elements in the table of contents.
-            listItem: 'toc-item',
-
-            // for all `<a>` elements in the table of contents.
-            link: 'toc-link',
-          },
-          customizeTOC: function(toc) {
-            // <nav class="toc" id="toc">
-            //   <div class="toc-heading">Contents</div>
-            //   <ul class="toc-level">
-            //     <li class="toc-item">
-            //       <a class="toc-link">Text</a>
-            //     </li>
-            //   </ul>
-            // </nav>
-
-            // specify the "id" attribute
-            toc.properties.id = 'toc';
-
-            // insert heading
-            toc.children.unshift({
-              type: 'element',
-              tagName: 'div',
-              properties: {
-                class: 'toc-heading',
-              },
-              children: [
-                { type: 'text', value: 'Contents' },
-              ],
-            });
-
-            // transform tag name "ol" to "ul"
-            let stack = [toc];
-            while (stack.length > 0) {
-              const item = stack[0];
-              if (Array.isArray(item.children)) {
-                stack = stack.concat(item.children);
-              }
-              if (item.tagName === 'ol') {
-                item.tagName = 'ul';
-              }
-              stack.shift();
-            }
-
-            return toc;
-          },
         },
       ],
     ],
