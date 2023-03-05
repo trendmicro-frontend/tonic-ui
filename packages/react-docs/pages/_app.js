@@ -8,6 +8,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import {
+  useMediaQuery,
   useToggle,
 } from '@tonic-ui/react-hooks';
 import algoliasearch from 'algoliasearch/lite';
@@ -20,7 +21,7 @@ import Header from '../components/Header';
 import MDXComponents from '../components/MDXComponents';
 import Main from '../components/Main';
 import Sidebar from '../components/Sidebar';
-import useMediaQuery from '../hooks/useMediaQuery';
+import TableOfContents from '../components/TableOfContents';
 import '../styles.css';
  
 // Algolia search client
@@ -173,6 +174,7 @@ const DocsPage = (props) => {
         {...getMainStyleProps()}
       >
         <NextApp {...props} />
+        <TableOfContents />
       </Main>
     </Box>
   );

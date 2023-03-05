@@ -13,12 +13,14 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  useMergeRefs,
+} from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { routes } from '../config/sidebar-routes';
-import useForkRef from '../hooks/useForkRef';
 import x from '../utils/json-stringify';
 import IconButton from './IconButton';
 import NavLink from './NavLink';
@@ -50,7 +52,7 @@ const Sidebar = forwardRef((
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const nodeRef = useRef();
-  const combinedRef = useForkRef(nodeRef, ref);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const router = useRouter();
   const currentPath = ensureString(router.pathname).slice(1);
   const borderColor = {
