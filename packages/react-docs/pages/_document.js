@@ -8,12 +8,38 @@ const MATOMO_CONTAINER_ID = ensureString(process.env.MATOMO_CONTAINER_ID);
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
 const MATOMO_TAG_MANAGER_SCRIPT = `
+(function () {
 var _mtm = window._mtm = window._mtm || [];
 _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
 _mtm.push({ version: '${TONIC_UI_REACT_DOCS_VERSION}' });
 var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
 g.async=true; g.src='${MATOMO_URL}/js/container_${MATOMO_CONTAINER_ID}.js?_=${TONIC_UI_REACT_DOCS_VERSION}'; s.parentNode.insertBefore(g,s);
-`;
+})();
+`.trim();
+
+const COLOR_MODE_SCRIPT = `
+(function (initialValue) {
+var mql = window.matchMedia('(prefers-color-scheme: dark)');
+var systemPreference = mql.matches ? 'dark' : 'light';
+var persistedPreference;
+
+try {
+  persistedPreference = localStorage.getItem('tonic-ui-color-mode');
+} catch (e) {
+  console.log('Tonic UI: localStorage is not available. Color mode persistence might not work properly in this environment.');
+}
+
+var colorMode;
+if (persistedPreference) {
+  colorMode = persistedPreference;
+} else {
+  colorMode = initialValue === 'system' ? systemPreference : initialValue;
+}
+
+var root = document.documentElement;
+root.style.setProperty('color-scheme', colorMode);
+})('system');
+`.trim();
 
 class CustomDocument extends Document {
   static async getInitialProps(ctx) {
@@ -34,31 +60,7 @@ class CustomDocument extends Document {
           )}
           <script
             data-tonic-ui
-            dangerouslySetInnerHTML={{
-              __html: `
-              (function (initialValue) {
-                var mql = window.matchMedia('(prefers-color-scheme: dark)');
-                var systemPreference = mql.matches ? 'dark' : 'light';
-                var persistedPreference;
-
-                try {
-                  persistedPreference = localStorage.getItem('tonic-ui-color-mode');
-                } catch (e) {
-                  console.log('Tonic UI: localStorage is not available. Color mode persistence might not work properly in this environment.');
-                }
-
-                var colorMode;
-                if (persistedPreference) {
-                  colorMode = persistedPreference;
-                } else {
-                  colorMode = initialValue === 'system' ? systemPreference : initialValue;
-                }
-
-                var root = document.documentElement;
-                root.style.setProperty('color-scheme', colorMode);
-              })('system');
-              `,
-            }}
+            dangerouslySetInnerHTML={{ __html: COLOR_MODE_SCRIPT }}
           />
         </Head>
         <body>
