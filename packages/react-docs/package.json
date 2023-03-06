@@ -77,7 +77,6 @@
     "react-virtualized": "^9.22.3",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.1.0",
-    "rehype-toc": "^3.0.2",
     "remark-emoji": "^3.0.2",
     "remark-frontmatter": "^4.0.1",
     "remark-gfm": "^3.0.1",

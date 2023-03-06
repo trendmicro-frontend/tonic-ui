@@ -25,6 +25,7 @@ const GlobalStyles = () => {
       styles={css`
         :root {
           color-scheme: ${colorMode};
+          scroll-behavior: smooth;
         }
         :focus:not(:focus-visible) {
           outline: none;

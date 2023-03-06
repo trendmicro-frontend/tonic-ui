@@ -194,11 +194,11 @@ dd {
   border-left-color: var(--theme-color-gray-60);
   color: var(--theme-color-black-primary);
 }
-:where(html[data-color-scheme="dark"]) #toc .toc-link[data-selected] {
+:where(html[data-color-scheme="dark"]) #toc .toc-link.active {
   border-left-color: var(--theme-color-red-60);
   color: var(--theme-color-white-primary);
 }
-:where(html[data-color-scheme="light"]) #toc .toc-link[data-selected] {
+:where(html[data-color-scheme="light"]) #toc .toc-link.active {
   border-left-color: var(--theme-color-red-60);
   color: var(--theme-color-black-primary);
 }
