@@ -33,6 +33,20 @@ export const routes = [
     ],
   },
   {
+    title: 'Patterns',
+    icon: (props) => (
+      <Icon
+        icon="treeview"
+        size="4x"
+        {...props}
+      />
+    ),
+    routes: [
+      { title: 'Overview', path: 'patterns' },
+      { title: 'Notification', path: 'patterns/notification' },
+    ],
+  },
+  {
     title: 'Styled System',
     icon: (props) => (
       <Icon
