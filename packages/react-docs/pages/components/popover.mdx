@@ -34,7 +34,7 @@ To create an accessible popover, it should allow users to access it using the ta
 ```jsx disabled
 <Popover>
   <PopoverTrigger>
-    <Button>Trigger</Button>
+    <Button variant="secondary">Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
     <PopoverHeader>Popover Header</PopoverHeader>
@@ -48,7 +48,7 @@ By default, you have to pass a single React element child to the `PopoverTrigger
 
 ```jsx disabled
 <PopoverTrigger>
-  <Button>Trigger</Button>
+  <Button variant="secondary">Trigger</Button>
 </PopoverTrigger>
 ```
 
@@ -111,7 +111,7 @@ Popover is uncontrolled by default. You can set `defaultIsOpen` to `true` to hav
 ```jsx
 <Popover defaultIsOpen={false}>
   <PopoverTrigger>
-    <Button>Trigger</Button>
+    <Button variant="secondary">Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
     <Text>This is an uncontrolled popover</Text>
@@ -134,7 +134,7 @@ function Example() {
       initialFocusRef={initialFocusRef}
     >
       <PopoverTrigger>
-        <Button>Trigger</Button>
+        <Button variant="secondary">Trigger</Button>
       </PopoverTrigger>
       <PopoverContent>
         <PopoverHeader>
@@ -166,9 +166,7 @@ function Example() {
 
 #### Focus an element when popover closes
 
-The focus status will send to `PopoverTrigger` when `Popover` closes. You can send the focus status to a specific element when it closes by passing the `finalFocusRef` prop.
-
-If required, you can set `returnFocusOnClose` to `false` to prevent `Popover` from returning the focus status to `PopoverTrigger`.
+When the `Popover` is closed, the focus status is sent to the `PopoverTrigger`. If you need to prevent the `Popover` from returning the focus status to `PopoverTrigger`, you can set the `returnFocusOnClose` prop to `false`.
 
 ```jsx
 function Example() {
@@ -185,7 +183,7 @@ function Example() {
         returnFocusOnClose={false}
       >
         <PopoverTrigger>
-          <Button onClick={toggle}>
+          <Button variant="secondary" onClick={toggle}>
             Trigger
           </Button>
         </PopoverTrigger>
@@ -205,7 +203,7 @@ function Example() {
   hideArrow
 >
   <PopoverTrigger>
-    <Button>Trigger</Button>
+    <Button variant="secondary">Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
     Popover
@@ -228,7 +226,7 @@ The second number, `distance`, controls the distance between the `PopoverContent
 ```jsx
 <Popover offset={[24, 12]}>
   <PopoverTrigger>
-    <Button>Trigger</Button>
+    <Button variant="secondary">Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
     Popover
@@ -245,7 +243,7 @@ To access the internal state of the popover, you can use the Function as Child C
   {({ isOpen, onClose }) => (
     <>
       <PopoverTrigger>
-        <Button>Trigger</Button>
+        <Button variant="secondary">Trigger</Button>
       </PopoverTrigger>
       <PopoverContent>
         <PopoverHeader>
@@ -306,7 +304,7 @@ The `nextToCursor` prop will set the popover position next to the cursor.
 ```jsx
 <Popover trigger="hover" nextToCursor>
   <PopoverTrigger>
-    <Button>Trigger</Button>
+    <Button variant="secondary">Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
     Popover
@@ -321,7 +319,7 @@ The `followCursor` prop will set the popover position to follow the cursor when 
 ```jsx
 <Popover trigger="hover" followCursor>
   <PopoverTrigger>
-    <Button>Trigger</Button>
+    <Button variant="secondary">Trigger</Button>
   </PopoverTrigger>
   <PopoverContent>
     Popover
@@ -386,7 +384,7 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Pop
 ```jsx
 <Popover>
   <PopoverTrigger>
-    <Button>Trigger</Button>
+    <Button variant="secondary">Trigger</Button>
   </PopoverTrigger>
   <PopoverContent PopperProps={{ usePortal: true }}>
     Popover
@@ -398,21 +396,19 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Pop
 
 ### Keyboard and focus
 
-* When `Popover` is opened, the focus status is moved to `PopoverContent`. If `initialFocusRef` is set, then the focus status is moved to the element with the related reference (`ref`).
+The `Popover` component includes several accessibility features to ensure that it is usable with a keyboard and assistive technologies:
 
-* When `Popover` is closed, the focus status returns to the trigger. If you set `returnFocusOnClose` to `false`, the focus status will not return.
+* When the `Popover` is opened, the focus is automatically moved to the `PopoverContent` element. If the `initialFocusRef` prop is set, then the focus is moved to the element with the specified reference.
 
-* If `trigger` is set to `hover`:
-  - Focusing on or mousing over the trigger will open `Popover`.
-  - Blurring or mousing out of the trigger will close `Popover`. If you move your mouse into `PopoverContent`, `Popover` remains visible.
+* When the `Popover` is closed, the focus returns to the trigger element by default. If the `returnFocusOnClose` prop is set to `false`, the focus will not return to the trigger element.
 
-* If `trigger` is set to `click`:
-  - Clicking the trigger or using the `Space` or `Enter` key when the focus status is on the trigger will open `Popover`.
-  - Clicking the trigger again will close `Popover`.
+* If the trigger prop is set to `'hover'`, the `Popover` can be opened by focusing on or mousing over the trigger element, and closed by blurring or mousing out of the trigger element. If the mouse is moved into the `PopoverContent` element, the `Popover` remains visible.
 
-* Hitting the `Esc` key while `Popover` is open and the focus status is within `PopoverContent` will close `Popover`. If you set `closeOnEsc` to `false`, `Popover` will not close.
+* If the trigger prop is set to `'click'`, the `Popover` can be opened by clicking on the trigger element or pressing the **Space** or **Enter** key when the trigger element has focus. The `Popover` can be closed by clicking on the trigger element again.
 
-* Clicking outside or blurring out of `PopoverContent` closes `Popover`. If you set `closeOnBlur` to `false`, `Popover` will not close.
+* The `Popover` can also be closed by hitting the **Esc** key when the `PopoverContent` element has focus, unless the `closeOnEsc` prop is set to `false`.
+
+* Clicking outside or blurring out of the `PopoverContent` element also closes the `Popover`, unless the `closeOnBlur` prop is set to `false`.
 
 ### ARIA attributes
 
@@ -455,7 +451,7 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Pop
 | onClose | () => void | | Callback when the popover is closed. |
 | onOpen | () => void | | Callback when the popover is opened. |
 | placement | string | 'bottom' | The placement of the popover. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
-| returnFocusOnClose | boolean | true | If `true`, the popover will return the focus status to the trigger when closing. |
+| returnFocusOnClose | boolean | true | If `true`, the popover will return the focus to the trigger element when closing. Otherwise, it will leave focus unchanged. |
 | trigger | string | 'click' | The type of trigger. One of: 'click', 'hover' |
 
 ### PopoverTrigger
