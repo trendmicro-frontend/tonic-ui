@@ -2,14 +2,6 @@
 
 ## Import
 
-- `Table`: The wrapper that provides props, state, and context to its children.
-- `TableHeader`: The header of the table.
-- `TableHeaderRow`: The header row of the table.
-- `TableHeaderCell`: The header cell of the table.
-- `TableBody`: The body of the table.
-- `TableRow`: The body row of the table.
-- `TableCell`: The body cell of the table.
-
 ```js
 import {
   Table,
@@ -19,6 +11,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableScrollbar,
 } from '@tonic-ui/react';
 ```
 
@@ -793,60 +786,13 @@ render(<ResizableTable />);
 
 ### Scrollable table
 
-```jsx noInline
-const CustomScrollbar = ({
-  children,
-  ...rest
-}) => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {             
-    dark: 'gray:70',                         
-    light: 'gray:30',
-  }[colorMode];                                           
-                          
-  return ( 
-    <Scrollbar
-      {...rest} 
-    >
-      {({
-        ScrollView,
-        HorizontalTrack,
-        VerticalTrack,
-        HorizontalThumb,
-        VerticalThumb,
-        getScrollViewProps,
-        getHorizontalTrackProps,
-        getVerticalTrackProps,
-        getHorizontalThumbProps,
-        getVerticalThumbProps,
-      }) => (
-        <>
-          <ScrollView {...getScrollViewProps()}>
-            {children}
-          </ScrollView>
-          <HorizontalTrack
-            {...getHorizontalTrackProps()}
-            backgroundColor={backgroundColor}
-          >                                                                     
-            <HorizontalThumb {...getHorizontalThumbProps()} />
-          </HorizontalTrack>
-          <VerticalTrack
-            {...getVerticalTrackProps()}
-            backgroundColor={backgroundColor}
-          >
-            <VerticalThumb {...getVerticalThumbProps()} />
-          </VerticalTrack>
-        </>
-      )}
-    </Scrollbar>
-  );
-}
+The `TableScrollbar` component shares the same API as the `Scrollbar` component. It allows for the creation of scrollable content within a table.
 
-function ScrollableTable() {
+```jsx
+function Example() {
   const tableHeaderRef = React.createRef();
   const [isHorizontalScrollbarVisible, setHorizontalScrollbarVisible] = React.useState(false);
   const [isVerticalScrollbarVisible, setVerticalScrollbarVisible] = React.useState(false);
-
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -947,7 +893,8 @@ function ScrollableTable() {
           );
         })}
       </TableHeader>
-      <CustomScrollbar
+      <TableScrollbar
+        height="100%"
         onScroll={onScroll}
         onUpdate={onUpdate}
       >
@@ -977,12 +924,10 @@ function ScrollableTable() {
             );
           })}
         </TableBody>
-      </CustomScrollbar>
+      </TableScrollbar>
     </Table>
   );
 }
-
-render(<ScrollableTable />);
 ```
 
 
@@ -1735,9 +1680,30 @@ render(<ReorderColumnTable />);
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
 
-###  TableCell
+### TableCell
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
 | width | number \| string | 150 | The width of the column. |
+
+### TableScrollbar
+
+The `TableScrollbar` component shares the same API as the `Scrollbar` component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| function | | The content of the scrollbar. |
+| width | number \| string | 'auto' | The width of the scrollbar. If set to 'auto', you can constrain the width using the `minWidth` and `maxWidth` props. |
+| height | number \| string | 'auto' | The height of the scrollbar. If set to 'auto', you can constrain the height using the `minHeight` and `maxHeight` props. |
+| minWidth | number \| string | | The minimum width of the scrollbar. |
+| maxWidth | number \| string | | The maximum width of the scrollbar. |
+| minHeight | number \| string | | The minimum height of the scrollbar. |
+| maxHeight | number \| string | | The maximum height of the scrollbar. |
+| minThumbWidth | number | 32 | The minimum width of the thumb in pixels. |
+| minThumbHeight | number | 32 | The minimum height of the thumb in pixels. |
+| onScroll | function | | A callback function that is called when the scrollbar is scrolled. |
+| onUpdate | function | | A callback function that is called when the scrollbar is updated. |
+| overflow | string | 'auto' | The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| overflowX | string | | The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
