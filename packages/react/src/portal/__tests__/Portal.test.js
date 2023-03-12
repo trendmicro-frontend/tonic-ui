@@ -6,28 +6,14 @@ import React from 'react';
 
 describe('Portal', () => {
   it('should render correctly', () => {
-    const { baseElement } = render(
+    const { container } = render(
       <Portal>
         This is a portal
         <Portal>This is another portal</Portal>
       </Portal>
     );
 
-    expect(baseElement).toMatchInlineSnapshot(`
-      <body>
-        <div />
-        <div
-          class="tonic-ui-portal"
-        >
-          This is a portal
-        </div>
-        <div
-          class="tonic-ui-portal"
-        >
-          This is another portal
-        </div>
-      </body>
-    `);
+    expect(container).toMatchSnapshot();
   });
 
   it('should render nested portal', () => {

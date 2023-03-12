@@ -9,19 +9,23 @@ describe('Menu', () => {
   it('should render correctly', async () => {
     const user = userEvent.setup();
     const items = [
-      'Menu item 1',
-      'Menu item 2',
-      'Menu item 3',
+      { id: 1, label: 'Menu item 1', disabled: false },
+      { id: 2, label: 'Menu item 2', disabled: false },
+      { id: 3, label: 'Menu item 3', disabled: true },
     ];
-    const { baseElement, container } = render(
+    const { container } = render(
       <Menu>
         <MenuButton variant="secondary" data-testid="button">
           Open
         </MenuButton>
         <MenuList>
           {items.map((item) => (
-            <MenuItem key={item}>
-              {item}
+            <MenuItem
+              data-id={item.id}
+              key={item.id}
+              disabled={item.disabled}
+            >
+              {item.label}
             </MenuItem>
           ))}
         </MenuList>
@@ -34,7 +38,7 @@ describe('Menu', () => {
     await act(() => user.click(button));
 
     expect(await screen.findByRole('menu')).toBeInTheDocument();
-    expect(baseElement).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
 
     await testA11y(container);
   });

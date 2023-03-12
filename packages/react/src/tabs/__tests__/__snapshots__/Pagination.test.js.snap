@@ -1,0 +1,331 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.emotion-4 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: rgba(0, 0, 0, .92);
+  cursor: default;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  border-color: transparent;
+  border-style: solid;
+  border-width: .125rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.emotion-4[aria-selected=true],
+.emotion-4[data-selected] {
+  border: none;
+  border-bottom-color: #e52630;
+  border-bottom-style: solid;
+  border-bottom-width: .125rem;
+  color: rgba(0, 0, 0, .92);
+  padding-left: calc(.75rem + .125rem);
+  padding-right: calc(.75rem + .125rem);
+  padding-top: calc(.5rem + .125rem);
+}
+
+.emotion-4:focus,
+.emotion-4[data-focus] {
+  border-color: #e52630;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-4:hover,
+.emotion-4[data-hover] {
+  border: none;
+  border-bottom-color: #e52630;
+  border-bottom-style: solid;
+  border-bottom-width: .125rem;
+  color: rgba(0, 0, 0, .92);
+  padding-left: calc(.75rem + .125rem);
+  padding-right: calc(.75rem + .125rem);
+  padding-top: calc(.5rem + .125rem);
+}
+
+.emotion-4:disabled,
+.emotion-4:disabled:focus,
+.emotion-4:disabled:hover,
+.emotion-4[aria-disabled=true],
+.emotion-4[aria-disabled=true]:focus,
+.emotion-4[aria-disabled=true]:hover,
+.emotion-4[data-disabled] {
+  cursor: not-allowed;
+}
+
+.emotion-6 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: rgba(0, 0, 0, .65);
+  cursor: pointer;
+  outline-offset: unset;
+  padding: 0;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  border-color: transparent;
+  border-style: solid;
+  border-width: .125rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.emotion-6[aria-selected=true],
+.emotion-6[data-selected] {
+  border: none;
+  border-bottom-color: #e52630;
+  border-bottom-style: solid;
+  border-bottom-width: .125rem;
+  color: rgba(0, 0, 0, .92);
+  padding-left: calc(.75rem + .125rem);
+  padding-right: calc(.75rem + .125rem);
+  padding-top: calc(.5rem + .125rem);
+}
+
+.emotion-6:focus,
+.emotion-6[data-focus] {
+  border-color: #1e5ede;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-6:hover,
+.emotion-6[data-hover] {
+  border: none;
+  border-bottom-color: #5e5e5e;
+  border-bottom-style: solid;
+  border-bottom-width: .125rem;
+  color: rgba(0, 0, 0, .92);
+  padding-left: calc(.75rem + .125rem);
+  padding-right: calc(.75rem + .125rem);
+  padding-top: calc(.5rem + .125rem);
+}
+
+.emotion-6:disabled,
+.emotion-6:disabled:focus,
+.emotion-6:disabled:hover,
+.emotion-6[aria-disabled=true],
+.emotion-6[aria-disabled=true]:focus,
+.emotion-6[aria-disabled=true]:hover,
+.emotion-6[data-disabled] {
+  cursor: not-allowed;
+}
+
+.emotion-8 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: rgba(0, 0, 0, .30);
+  cursor: not-allowed;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  border-color: transparent;
+  border-style: solid;
+  border-width: .125rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.emotion-8[aria-selected=true],
+.emotion-8[data-selected] {
+  border: none;
+  border-bottom-color: transparent;
+  border-bottom-style: solid;
+  border-bottom-width: .125rem;
+  color: rgba(0, 0, 0, .30);
+  padding-left: calc(.75rem + .125rem);
+  padding-right: calc(.75rem + .125rem);
+  padding-top: calc(.5rem + .125rem);
+}
+
+.emotion-8:focus,
+.emotion-8[data-focus] {
+  border-color: transparent;
+  color: rgba(0, 0, 0, .30);
+}
+
+.emotion-8:hover,
+.emotion-8[data-hover] {
+  border: none;
+  border-bottom-color: transparent;
+  border-bottom-style: solid;
+  border-bottom-width: .125rem;
+  color: rgba(0, 0, 0, .30);
+  padding-left: calc(.75rem + .125rem);
+  padding-right: calc(.75rem + .125rem);
+  padding-top: calc(.5rem + .125rem);
+}
+
+.emotion-8:disabled,
+.emotion-8:disabled:focus,
+.emotion-8:disabled:hover,
+.emotion-8[aria-disabled=true],
+.emotion-8[aria-disabled=true]:focus,
+.emotion-8[aria-disabled=true]:hover,
+.emotion-8[data-disabled] {
+  cursor: not-allowed;
+}
+
+.emotion-10 {
+  padding-left: .75rem;
+  padding-right: .75rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.emotion-12 {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    <div
+      aria-orientation="horizontal"
+      class="emotion-2 emotion-1"
+      role="tablist"
+    >
+      <button
+        aria-controls="@tonic-ui/react:TabPanel-0"
+        aria-selected="true"
+        class="emotion-4 emotion-1"
+        data-index="0"
+        id="@tonic-ui/react:Tab-0"
+        role="tab"
+        tabindex="-1"
+        type="button"
+      >
+        TAB 1
+      </button>
+      <button
+        aria-controls="@tonic-ui/react:TabPanel-1"
+        class="emotion-6 emotion-1"
+        data-index="1"
+        id="@tonic-ui/react:Tab-1"
+        role="tab"
+        tabindex="0"
+        type="button"
+      >
+        TAB 2
+      </button>
+      <button
+        aria-controls="@tonic-ui/react:TabPanel-2"
+        aria-disabled="true"
+        class="emotion-8 emotion-1"
+        data-index="2"
+        disabled=""
+        id="@tonic-ui/react:Tab-2"
+        role="tab"
+        tabindex="-1"
+        type="button"
+      >
+        TAB 3
+      </button>
+    </div>
+    <div
+      class="emotion-10 emotion-1"
+    >
+      <div
+        aria-labelledby="@tonic-ui/react:Tab-0"
+        class="emotion-12 emotion-1"
+        id="@tonic-ui/react:TabPanel-0"
+        role="tabpanel"
+        tabindex="0"
+      >
+        Tab Panel 1
+      </div>
+      <div
+        aria-hidden="true"
+        aria-labelledby="@tonic-ui/react:Tab-1"
+        class="emotion-12 emotion-1"
+        hidden=""
+        id="@tonic-ui/react:TabPanel-1"
+        role="tabpanel"
+        tabindex="0"
+      >
+        Tab Panel 2
+      </div>
+      <div
+        aria-hidden="true"
+        aria-labelledby="@tonic-ui/react:Tab-2"
+        class="emotion-12 emotion-1"
+        hidden=""
+        id="@tonic-ui/react:TabPanel-2"
+        role="tabpanel"
+        tabindex="0"
+      >
+        Tab Panel 3
+      </div>
+    </div>
+  </div>
+</div>
+`;

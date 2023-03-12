@@ -13,8 +13,10 @@ describe('LinearProgress', () => {
         <LinearProgress aria-label="usage" size="lg" value={80} />
       </>
     );
-    await testA11y(container);
+
     expect(container).toMatchSnapshot();
+
+    await testA11y(container);
   });
 
   it('should have the proper aria and role attributes', () => {

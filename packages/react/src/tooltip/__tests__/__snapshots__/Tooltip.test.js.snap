@@ -83,37 +83,35 @@ exports[`Tooltip should render correctly 1`] = `
   transform-origin: top center;
 }
 
-<body>
-  <div>
+<div>
+  <div
+    aria-describedby="@tonic-ui/react:Tooltip-1"
+    class="emotion-0 emotion-1"
+    data-testid="content"
+  >
+    Hover me
+  </div>
+  <div
+    class="emotion-2 emotion-1"
+    data-popper-escaped=""
+    data-popper-placement="bottom"
+    data-popper-reference-hidden=""
+    id="@tonic-ui/react:Tooltip-1"
+    role="tooltip"
+    style="position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 8px);"
+  >
     <div
-      aria-describedby="@tonic-ui/react:Tooltip-1"
-      class="emotion-0 emotion-1"
-      data-testid="content"
+      class="emotion-4 emotion-1"
     >
-      Hover me
-    </div>
-    <div
-      class="emotion-2 emotion-1"
-      data-popper-escaped=""
-      data-popper-placement="bottom"
-      data-popper-reference-hidden=""
-      id="@tonic-ui/react:Tooltip-1"
-      role="tooltip"
-      style="position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 8px);"
-    >
+      This is a tooltip
       <div
-        class="emotion-4 emotion-1"
-      >
-        This is a tooltip
-        <div
-          class="emotion-6 emotion-1"
-          data-arrow-style=""
-          data-popper-arrow=""
-          role="presentation"
-          style="position: absolute; left: 0px; transform: translate(12px, 0px);"
-        />
-      </div>
+        class="emotion-6 emotion-1"
+        data-arrow-style=""
+        data-popper-arrow=""
+        role="presentation"
+        style="position: absolute; left: 0px; transform: translate(12px, 0px);"
+      />
     </div>
   </div>
-</body>
+</div>
 `;
