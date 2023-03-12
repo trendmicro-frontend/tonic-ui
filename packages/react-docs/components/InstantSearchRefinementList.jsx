@@ -8,7 +8,6 @@ import {
   Text,
   useColorMode,
   useColorStyle,
-  useTheme,
 } from '@tonic-ui/react';
 import { ensureArray, ensureString } from 'ensure-type'
 import _ from 'lodash';
@@ -31,7 +30,6 @@ const InstantSearchRefinementList = (
 ) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const { colors } = useTheme();
   const {
     results,
     status, // One of: 'idle', 'loading', 'stalled', 'error'
@@ -142,8 +140,8 @@ const InstantSearchRefinementList = (
                       highlightTag="mark"
                       textToHighlight={hit?.data?.title}
                       highlightStyle={{
-                        backgroundColor: colors[colorStyle.text.highlight],
-                        color: colors['gray:100'],
+                        backgroundColor: 'rgba(0, 116, 255, 0.8)',
+                        color: 'rgba(255, 255, 255, .92)',
                       }}
                     />
                   </InstantSearchRefinementLink>
