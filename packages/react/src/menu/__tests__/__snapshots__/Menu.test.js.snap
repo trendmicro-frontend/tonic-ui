@@ -223,10 +223,11 @@ exports[`Menu should render correctly 1`] = `
   border: none;
   color: rgba(0, 0, 0, .92);
   cursor: pointer;
-  line-height: 1;
+  line-height: 1.25rem;
   outline: 2px solid transparent;
   outline-offset: 2px;
   padding: 0;
+  font-size: .875rem;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

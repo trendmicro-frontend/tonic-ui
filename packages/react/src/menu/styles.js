@@ -123,6 +123,8 @@ const useMenuItemStyle = ({
   }[colorMode];
 
   return {
+    fontSize: 'sm',
+    lineHeight: 'sm',
     color: color,
     cursor: 'pointer',
     display: 'flex',
