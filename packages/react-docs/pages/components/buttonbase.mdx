@@ -37,53 +37,70 @@ Standard button attributes are supported, e.g., `type`, `disabled`, etc.
 You can use `ButtonBase` to compose an icon button. An icon button is a button that contains only an icon.
 
 ```jsx noInline
-const IconButton = React.forwardRef((props, ref) => {
-  const [colorMode] = useColorMode();
+const useIconButtonStyle = ({ size = '8x' }) => {
   const { colors } = useTheme();
+  const [colorMode] = useColorMode();
   const color = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
+    dark: 'white:tertiary',
+    light: 'black:tertiary',
   }[colorMode];
+  const activeColor = color;
   const hoverColor = {
     dark: 'white:primary',
     light: 'black:primary',
   }[colorMode];
-  const activeColor = color;
   const focusColor = color;
   const focusHoverColor = hoverColor;
   const focusActiveColor = activeColor;
-  const focusBorderColor = colors['blue:60'];
+  const focusBorderColor = 'blue:60'
+  const focusBoxShadowBorderColor = 'blue:60';
+
+  return {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: 1,
+    borderColor: 'transparent',
+    color,
+    width: size,
+    height: size,
+    transition: createTransitionStyle(['border-color', 'box-shadow', 'color'], { duration: 200 }),
+    _hover: {
+      color: hoverColor,
+    },
+    _active: {
+      color: activeColor,
+    },
+    _focus: {
+      borderColor: focusBorderColor,
+      boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${colors[focusBoxShadowBorderColor]}` : undefined,
+      color: focusColor,
+    },
+    _focusHover: {
+      color: focusHoverColor,
+    },
+    _focusActive: {
+      borderColor: focusBorderColor,
+      boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${colors[focusBoxShadowBorderColor]}` : undefined,
+      color: focusActiveColor,
+    },
+  };
+};
+
+const IconButton = React.forwardRef((
+  {
+    size = '8x',
+    ...rest
+  },
+  ref,
+) => {
+  const styleProps = useIconButtonStyle({ size });
 
   return (
     <ButtonBase
       ref={ref}
-      border={1}
-      borderColor="transparent"
-      color={color}
-      transition="all .2s"
-      lineHeight={1}
-      px="2x"
-      py="2x"
-      _hover={{
-        color: hoverColor,
-      }}
-      _active={{
-        color: activeColor,
-      }}
-      _focus={{
-        borderColor: focusBorderColor,
-        boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-        color: focusColor,
-      }}
-      _focusHover={{
-        color: focusHoverColor,
-      }}
-      _focusActive={{
-        borderColor: focusBorderColor,
-        boxShadow: `inset 0 0 0 1px ${focusBorderColor}`,
-        color: focusActiveColor,
-      }}
-      {...props}
+      {...styleProps}
+      {...rest}
     />
   );
 });
