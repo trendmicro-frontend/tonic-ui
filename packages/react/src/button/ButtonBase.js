@@ -9,12 +9,12 @@ import { useButtonBaseStyle } from './styles';
 const ButtonBase = forwardRef((
   {
     children,
+    disabled,
     ...rest
   },
   ref,
 ) => {
-  const { disabled } = rest;
-  const styleProps = useButtonBaseStyle({ disabled });
+  const styleProps = useButtonBaseStyle();
 
   return (
     <Box

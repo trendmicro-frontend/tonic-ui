@@ -403,16 +403,19 @@ const useButtonStyle = ({
   };
 };
 
-const useButtonBaseStyle = ({ disabled }) => {
+const useButtonBaseStyle = () => {
   return {
     appearance: 'none',
     backgroundColor: 'inherit',
     border: 'none',
     color: 'inherit',
-    cursor: !!disabled ? 'default' : 'pointer',
+    cursor: 'pointer',
     lineHeight: 1,
     outline: 0,
     padding: 0,
+    _disabled: {
+      cursor: 'not-allowed',
+    },
   };
 };
 
