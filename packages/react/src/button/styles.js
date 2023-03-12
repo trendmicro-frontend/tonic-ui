@@ -410,7 +410,6 @@ const useButtonBaseStyle = () => {
     border: 'none',
     color: 'inherit',
     cursor: 'pointer',
-    lineHeight: 1,
     outline: 0,
     padding: 0,
     _disabled: {
