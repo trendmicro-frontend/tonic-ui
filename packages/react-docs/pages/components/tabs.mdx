@@ -373,9 +373,12 @@ The tab with the dropdown menu is usually the last tab. You can use `event.preve
       }}
     >
       <Menu offset={[-14, 10]}>
-        <MenuToggle alignItems="center">
-          TAB 3
-          <Space width="1x" />
+        <MenuToggle
+          as={Box}
+          alignItems="center"
+          columnGap="1x"
+        >
+          <Text>TAB 3</Text>
           <MenuToggleIcon />
         </MenuToggle>
         <MenuList
@@ -410,13 +413,6 @@ render(() => {
       id: 'tab-1',
       label: 'TAB 1',
       content: 'TAB 1',
-      dropdown: {
-        items: [
-          { id: 'menuitem-1', label: 'Menu Item 1' },
-          { id: 'menuitem-2', label: 'Menu Item 2' },
-          { id: 'menuitem-3', label: 'Menu Item 3' },
-        ],
-      },
     },
     {
       id: 'tab-2',
@@ -427,6 +423,13 @@ render(() => {
       id: 'tab-3',
       label: 'TAB 3',
       content: 'TAB 3',
+      dropdown: {
+        items: [
+          { id: 'menuitem-1', label: 'Menu Item 1' },
+          { id: 'menuitem-2', label: 'Menu Item 2' },
+          { id: 'menuitem-3', label: 'Menu Item 3' },
+        ],
+      },
     },
   ]);
   const onDragEnd = (result) => {
@@ -471,10 +474,7 @@ render(() => {
                       }}
                     >
                       {!item.dropdown && (
-                        <Tab
-                          as={Box}
-                          index={index}
-                        >
+                        <Tab as={Box} index={index}>
                           {item.label}
                         </Tab>
                       )}
@@ -491,9 +491,12 @@ render(() => {
                           }}
                         >
                           <Menu offset={[-14, 10]}>
-                            <MenuToggle alignItems="center">
-                              {item.label}
-                              <Space width="1x" />
+                            <MenuToggle
+                              as={Box}
+                              alignItems="center"
+                              columnGap="1x"
+                            >
+                              <Text>{item.label}</Text>
                               <MenuToggleIcon />
                             </MenuToggle>
                             <MenuList
