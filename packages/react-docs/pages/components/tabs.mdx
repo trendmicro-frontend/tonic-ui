@@ -325,11 +325,11 @@ Sometimes you need to access the state of tabs. For example, you may want to laz
       <TabList>
         {[1, 2, 3].map(tabIndex => (
           <Tab key={tabIndex} index={tabIndex}>
-            {({ getTabProps, disabled, index, variant }) => {
+            {({ getTabProps, disabled, index, isSelected }) => {
               return (
-                <Box {...getTabProps()}>
+                <ButtonBase {...getTabProps()}>
                   TAB {index}
-                </Box>
+                </ButtonBase>
               );
             }}
           </Tab>
