@@ -1,4 +1,5 @@
 import { createTransitionStyle } from '@tonic-ui/utils';
+import { ensureBoolean } from 'ensure-type';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
@@ -403,18 +404,16 @@ const useButtonStyle = ({
   };
 };
 
-const useButtonBaseStyle = () => {
+const useButtonBaseStyle = ({ disabled }) => {
   return {
     appearance: 'none',
     backgroundColor: 'inherit',
     border: 'none',
     color: 'inherit',
-    cursor: 'pointer',
+    // Use the `disabled` prop to conditionally set the cursor to 'not-allowed', allowing for easy style overrides without using the specific "_disabled" style prop.
+    cursor: ensureBoolean(disabled) ? 'not-allowed' : 'pointer',
     outline: 0,
     padding: 0,
-    _disabled: {
-      cursor: 'not-allowed',
-    },
   };
 };
 

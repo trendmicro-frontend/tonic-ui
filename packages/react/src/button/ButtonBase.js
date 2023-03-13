@@ -14,7 +14,7 @@ const ButtonBase = forwardRef((
   },
   ref,
 ) => {
-  const styleProps = useButtonBaseStyle();
+  const styleProps = useButtonBaseStyle({ disabled });
 
   return (
     <Box
