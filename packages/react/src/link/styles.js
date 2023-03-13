@@ -18,7 +18,6 @@ const useLinkStyle = ({
     textDecoration: textDecoration ?? 'none',
     display: 'inline-flex',
     alignItems: 'center',
-    lineHeight: 'sm',
     _disabled: {
       color: disabledColor,
       cursor: 'not-allowed',
@@ -39,8 +38,6 @@ const useLinkStyle = ({
 
 const useLinkButtonStyle = () => {
   return {
-    // Use the default outline style to enhance the visibility of the link button when navigating with a keyboard.
-    outline: undefined,
   };
 };
 

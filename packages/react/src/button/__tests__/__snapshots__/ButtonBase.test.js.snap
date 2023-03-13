@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ButtonBase should render correctly 1`] = `
+.emotion-0 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+}
+
+.emotion-2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  cursor: not-allowed;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+}
+
+<div>
+  <button
+    class="emotion-0 emotion-1"
+    type="button"
+  >
+    Normal button
+  </button>
+  <button
+    aria-disabled="true"
+    class="emotion-2 emotion-1"
+    disabled=""
+    type="button"
+  >
+    Disabled button
+  </button>
+</div>
+`;

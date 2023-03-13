@@ -6,6 +6,7 @@ import { canUseDOM } from '@tonic-ui/utils';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useThrottledCallbackOnScroll from '../hooks/useThrottledCallbackOnScroll';
+import x from '../utils/json-stringify';
  
 const TableOfContents = (props) => {
   const router = useRouter();
@@ -71,7 +72,7 @@ const TableOfContents = (props) => {
 
       if (process.env.NODE_ENV !== 'production') {
         if (!el) {
-          console.error(`Missing node on the node ${JSON.stringify(node, null, 2)}`);
+          console.error(`Element with ID ${x(node.id)} not found`);
         }
       }
 

@@ -16,7 +16,7 @@ const AccordionToggle = forwardRef((
 ) => {
   const context = useAccordionItem(); // context might be an undefined value
   const disabled = ensureBoolean(disabledProp ?? context?.disabled);
-  const styleProps = useAccordionToggleStyle({ disabled });
+  const styleProps = useAccordionToggleStyle();
 
   const getAccordionToggleProps = () => ({
     'aria-controls': context?.accordionContentId,

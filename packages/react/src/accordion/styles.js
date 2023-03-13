@@ -8,7 +8,7 @@ const useAccordionStyle = () => {
   };
 };
 
-const useAccordionHeaderStyle = ({ disabled }) => {
+const useAccordionHeaderStyle = () => {
   const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   const backgroundColor = {
@@ -36,7 +36,10 @@ const useAccordionHeaderStyle = ({ disabled }) => {
     borderColor: 'transparent',
     borderStyle: 'solid',
     borderWidth,
-    color: disabled ? disabledColor : color,
+    color,
+    _disabled: {
+      color: disabledColor,
+    },
     px,
     py,
     width: '100%',

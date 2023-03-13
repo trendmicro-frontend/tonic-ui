@@ -8,7 +8,7 @@ import React from 'react';
 describe('Tooltip', () => {
   it('should render correctly', async () => {
     const user = userEvent.setup();
-    const { baseElement, container } = render(
+    const { container } = render(
       <Tooltip label="This is a tooltip">
         <Text data-testid="content">Hover me</Text>
       </Tooltip>
@@ -20,7 +20,7 @@ describe('Tooltip', () => {
     await act(() => user.hover(content));
 
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
-    expect(baseElement).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
 
     await testA11y(container);
   });
