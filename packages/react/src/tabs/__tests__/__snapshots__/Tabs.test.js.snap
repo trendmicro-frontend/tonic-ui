@@ -82,16 +82,6 @@ exports[`Tabs should render correctly 1`] = `
   padding-top: calc(.5rem + .125rem);
 }
 
-.emotion-4:disabled,
-.emotion-4:disabled:focus,
-.emotion-4:disabled:hover,
-.emotion-4[aria-disabled=true],
-.emotion-4[aria-disabled=true]:focus,
-.emotion-4[aria-disabled=true]:hover,
-.emotion-4[data-disabled] {
-  cursor: not-allowed;
-}
-
 .emotion-6 {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -150,16 +140,6 @@ exports[`Tabs should render correctly 1`] = `
   padding-left: calc(.75rem + .125rem);
   padding-right: calc(.75rem + .125rem);
   padding-top: calc(.5rem + .125rem);
-}
-
-.emotion-6:disabled,
-.emotion-6:disabled:focus,
-.emotion-6:disabled:hover,
-.emotion-6[aria-disabled=true],
-.emotion-6[aria-disabled=true]:focus,
-.emotion-6[aria-disabled=true]:hover,
-.emotion-6[data-disabled] {
-  cursor: not-allowed;
 }
 
 .emotion-8 {
@@ -221,16 +201,6 @@ exports[`Tabs should render correctly 1`] = `
   padding-left: calc(.75rem + .125rem);
   padding-right: calc(.75rem + .125rem);
   padding-top: calc(.5rem + .125rem);
-}
-
-.emotion-8:disabled,
-.emotion-8:disabled:focus,
-.emotion-8:disabled:hover,
-.emotion-8[aria-disabled=true],
-.emotion-8[aria-disabled=true]:focus,
-.emotion-8[aria-disabled=true]:hover,
-.emotion-8[data-disabled] {
-  cursor: not-allowed;
 }
 
 .emotion-10 {

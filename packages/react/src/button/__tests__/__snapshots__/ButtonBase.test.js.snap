@@ -15,14 +15,18 @@ exports[`ButtonBase should render correctly 1`] = `
   padding: 0;
 }
 
-.emotion-0:disabled,
-.emotion-0:disabled:focus,
-.emotion-0:disabled:hover,
-.emotion-0[aria-disabled=true],
-.emotion-0[aria-disabled=true]:focus,
-.emotion-0[aria-disabled=true]:hover,
-.emotion-0[data-disabled] {
+.emotion-2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
   cursor: not-allowed;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
 }
 
 <div>
@@ -34,7 +38,7 @@ exports[`ButtonBase should render correctly 1`] = `
   </button>
   <button
     aria-disabled="true"
-    class="emotion-0 emotion-1"
+    class="emotion-2 emotion-1"
     disabled=""
     type="button"
   >
