@@ -16,7 +16,7 @@ const AccordionHeader = forwardRef((
 ) => {
   const context = useAccordionItem(); // context might be an undefined value
   const disabled = ensureBoolean(disabledProp ?? context?.disabled);
-  const styleProps = useAccordionHeaderStyle({ disabled });
+  const styleProps = useAccordionHeaderStyle();
 
   return (
     <AccordionToggle
