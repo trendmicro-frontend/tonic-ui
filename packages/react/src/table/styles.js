@@ -82,6 +82,18 @@ const useTableRowStyle = props => {
   };
 };
 
+const useTableScrollbarTrackStyle = () => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+
+  return {
+    backgroundColor,
+  };
+};
+
 export {
   useTableStyle,
   useTableCellStyle,
@@ -89,4 +101,5 @@ export {
   useTableHeaderRowStyle,
   useTableHeaderStyle,
   useTableRowStyle,
+  useTableScrollbarTrackStyle,
 };

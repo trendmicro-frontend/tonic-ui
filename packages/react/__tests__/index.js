@@ -194,6 +194,7 @@ test('should match expected exports', () => {
     'TableHeaderCell',
     'TableHeaderRow',
     'TableRow',
+    'TableScrollbar',
 
     // tabs
     'Tab',

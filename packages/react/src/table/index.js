@@ -5,6 +5,7 @@ import TableHeader from './TableHeader';
 import TableHeaderCell from './TableHeaderCell';
 import TableHeaderRow from './TableHeaderRow';
 import TableRow from './TableRow';
+import TableScrollbar from './TableScrollbar';
 
 Table.Body = TableBody;
 Table.Cell = TableCell;
@@ -21,4 +22,5 @@ export {
   TableHeaderCell,
   TableHeaderRow,
   TableRow,
+  TableScrollbar,
 };
