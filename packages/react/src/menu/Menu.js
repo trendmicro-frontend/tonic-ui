@@ -37,6 +37,7 @@ const Menu = forwardRef((
     onKeyDown: onKeyDownProp,
     onOpen: onOpenProp,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
+    returnFocusOnClose = true,
     ...rest
   },
   ref,
@@ -86,7 +87,7 @@ const Menu = forwardRef((
         });
       });
     }
-    if (activeIndex === -1 && !isOpen && prevIsOpen) {
+    if (activeIndex === -1 && !isOpen && prevIsOpen && returnFocusOnClose) {
       // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
       requestAnimationFrame(() => {
         const el = menuToggleRef.current;
@@ -100,7 +101,7 @@ const Menu = forwardRef((
         el && el.focus();
       });
     }
-  }, [isOpen, activeIndex, getFocusableElements, menuRef, menuToggleRef, prevIsOpen]);
+  }, [isOpen, activeIndex, getFocusableElements, menuRef, menuToggleRef, prevIsOpen, returnFocusOnClose]);
 
   const onOpen = useCallback(() => {
     const isControlled = (isOpenProp !== undefined);

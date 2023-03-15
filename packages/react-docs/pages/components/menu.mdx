@@ -194,92 +194,128 @@ The following example shows a menu with cascading submenus.
 </Flex>
 ```
 
-### Controlled menu
+### Controlled and uncontrolled menu
 
-The menu opens over the anchor element by default, and closes when the user clicks outside of the menu.
+Pass `isOpen` to the `Menu` component to control the state of the menu.
 
-```jsx noInline
-render(() => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+```jsx
+function Example() {
+  const [isOpen, toggleIsOpen] = useToggle(false);
+  const onClose = () => toggleIsOpen(false);
   const [selectedValue, setSelectedValue] = React.useState(null);
-  const handleOpenMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-    setIsOpen(!isOpen);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-    setIsOpen(false);
-  };
   const handleClickMenuItem = (event) => {
     const value = event.target.getAttribute('value');
-    setSelectedValue(value);
-  };
-  const handleMenuItemClick = (event) => {
-    const value = event.target.getAttribute('value');
-    console.log(`List item ${value} clicked`);
+    if (!isNullOrUndefined(value)) {
+      setSelectedValue(value);
+    }
   };
 
   return (
     <Flex columnGap="4x" alignItems="center">
-      <Button
-        aria-controls="basic-menu"
-        aria-haspopup="true"
-        aria-expanded={isOpen ? 'true' : undefined}
-        onClick={handleOpenMenu}
-      >
-        Options
-      </Button>
-      <Text>Selected: {selectedValue}</Text>
-      {isOpen && (
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          isOpen={isOpen}
-          onClose={handleCloseMenu}
+      <Menu isOpen={isOpen} onClose={onClose}>
+        <MenuButton onClick={toggleIsOpen}>
+          Options
+        </MenuButton>
+        <MenuList
+          onClick={handleClickMenuItem}
+          width="max-content"
         >
-          <MenuList
-            onClick={handleClickMenuItem}
-            width="max-content"
-          >
-            <MenuItem value={1}>
-              List item 1
-            </MenuItem>
-            <MenuItem value={2}>
-              List item 2
-            </MenuItem>
-            <MenuDivider />
-            <Submenu>
-              <SubmenuToggle>
-                <MenuItem>
-                  <Flex
-                    alignItems="center"
-                    columnGap="2x"
-                    justifyContent="space-between"
-                    width="100%"
-                  >
-                    Submenu
-                    <Icon icon="angle-right" />
-                  </Flex>
-                </MenuItem>
-              </SubmenuToggle>
-              <SubmenuList width="max-content">
-                <MenuItem value={3}>
-                  List item 3
-                </MenuItem>
-                <MenuItem value={4}>
-                  List item 4
-                </MenuItem>
-              </SubmenuList>
-            </Submenu>
-          </MenuList>
-        </Menu>
-      )}
+          <MenuItem value={1}>
+            List item 1
+          </MenuItem>
+          <MenuItem value={2}>
+            List item 2
+          </MenuItem>
+          <MenuDivider />
+          <Submenu>
+            <SubmenuToggle>
+              <MenuItem>
+                <Flex
+                  alignItems="center"
+                  columnGap="2x"
+                  justifyContent="space-between"
+                  width="100%"
+                >
+                  Submenu
+                  <Icon icon="angle-right" />
+                </Flex>
+              </MenuItem>
+            </SubmenuToggle>
+            <SubmenuList width="max-content">
+              <MenuItem value={3}>
+                List item 3
+              </MenuItem>
+              <MenuItem value={4}>
+                List item 4
+              </MenuItem>
+            </SubmenuList>
+          </Submenu>
+        </MenuList>
+      </Menu>
+      <Text>Selected: {selectedValue}</Text>
     </Flex>
   );
-});
+}
+```
+
+Menu is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the menu open for the first render.
+
+```jsx
+function Example() {
+  const [selectedValue, setSelectedValue] = React.useState(null);
+  const handleClickMenuItem = (event) => {
+    const value = event.target.getAttribute('value');
+    if (!isNullOrUndefined(value)) {
+      setSelectedValue(value);
+    }
+  };
+
+  return (
+    <Flex columnGap="4x" alignItems="center">
+      <Menu>
+        <MenuButton>
+          Options
+        </MenuButton>
+        <MenuList
+          onClick={handleClickMenuItem}
+          width="max-content"
+        >
+          <MenuItem value={1}>
+            List item 1
+          </MenuItem>
+          <MenuItem value={2}>
+            List item 2
+          </MenuItem>
+          <MenuDivider />
+          <Submenu>
+            <SubmenuToggle>
+              <MenuItem>
+                <Flex
+                  alignItems="center"
+                  columnGap="2x"
+                  justifyContent="space-between"
+                  width="100%"
+                >
+                  Submenu
+                  <Icon icon="angle-right" />
+                </Flex>
+              </MenuItem>
+            </SubmenuToggle>
+            <SubmenuList width="max-content">
+              <MenuItem value={3}>
+                List item 3
+              </MenuItem>
+              <MenuItem value={4}>
+                List item 4
+              </MenuItem>
+            </SubmenuList>
+          </Submenu>
+        </MenuList>
+      </Menu>
+      <Text>Selected: {selectedValue}</Text>
+    </Flex>
+  );
+}
 ```
 
 ### MenuToggle
@@ -1178,6 +1214,7 @@ render(() => {
 | onKeyDown | function | | Callback when the user presses a key. |
 | onOpen | function | | Callback when the menu is opened. |
 | placement | string | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+| returnFocusOnClose | boolean | true | If `true`, the menu will return the focus to the trigger element when closing. Otherwise, it will leave focus unchanged. |
 
 ### MenuButton
 
