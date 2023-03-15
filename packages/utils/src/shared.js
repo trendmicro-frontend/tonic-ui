@@ -15,7 +15,7 @@ const _joinWords = (words) => {
 };
 
 export const ariaAttr = (condition) => {
-  return condition ? true : undefined;
+  return ensureBoolean(condition) ? true : undefined;
 };
 
 export const callAll = (...fns) => {
