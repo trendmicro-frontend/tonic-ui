@@ -139,14 +139,30 @@ Use the `size` prop to change the size of the `SearchInput`. You can set the val
 
 ### Variants
 
-The `SearchInput` component comes in 3 variants: `outline`, `filled`, and `flush`. Pass the `variant` prop and set it to either of these values.
+The `SearchInput` component comes in 3 variants: `outline`, `filled`, `flush`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
 
 ```jsx
-<Stack direction="column" spacing="4x">
-  <SearchInput variant="outline" placeholder="Search" />
-  <SearchInput variant="filled" placeholder="Search" />
-  <SearchInput variant="flush" placeholder="Search" />
-</Stack>
+<SearchInput variant="outline" placeholder="Search" />
+```
+
+#### `filled`
+
+```jsx
+<SearchInput variant="filled" placeholder="Search" />
+```
+
+#### `flush`
+
+```jsx
+<SearchInput variant="flush" placeholder="Search" />
+```
+
+#### `unstyled`
+
+```jsx
+<SearchInput variant="unstyled" height="8x" placeholder="Search" />
 ```
 
 ### Attributes
@@ -183,10 +199,11 @@ Standard input attributes are supported, e.g., `disabled`, `readOnly`, `required
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| isLoading | boolean | | If `true`, then display the loading spinner. |
+| disabled | boolean | | If `true`, the input is disabled and the user cannot interact with it. |
+| error | boolean | | If `true`, the input displays a red border to indicate an error. |
+| isLoading | boolean | | If `true`, a loading spinner is displayed inside the input field. |
 | onChange | function | | A callback called when the value is changed. |
 | onClearInput | function | | A callback called when the clear button is clicked. |
+| readOnly | boolean | | If `true`, the value of the input cannot be edited. |
 | size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
-| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush' |
-| disabled | boolean | | If `true`, the user cannot interact with the control. |
-| readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |

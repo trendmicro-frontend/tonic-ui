@@ -1,10 +1,14 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Icon } from '../icon';
-import { InputControl, InputAdornment } from '../input';
-import { Spinner } from '../spinner';
-import SearchInputCloseButton from './SearchInputCloseButton';
+import { InputControl } from '../input';
+import SearchInputAdornment from './SearchInputAdornment';
+import SearchInputClearButton from './SearchInputClearButton';
+import SearchInputLoadingIcon from './SearchInputLoadingIcon';
+import SearchInputSearchIcon from './SearchInputSearchIcon';
+
+const defaultSize = 'md';
+const defaultVariant = 'outline';
 
 const SearchInput = React.forwardRef((
   {
@@ -15,9 +19,10 @@ const SearchInput = React.forwardRef((
     onChange: onChangeProp,
     onClearInput: onClearInputProp,
     readOnly,
-    size,
+    size = defaultSize,
     startAdornment: startAdornmentProp,
     value: valueProp,
+    variant = defaultVariant,
     ...rest
   },
   ref
@@ -78,27 +83,35 @@ const SearchInput = React.forwardRef((
   }, [valueProp, onChangeProp]);
 
   const startAdornment = (
-    <InputAdornment>
-      <Icon icon="search-o" />
-    </InputAdornment>
+    <SearchInputAdornment>
+      <SearchInputSearchIcon variant={variant} />
+    </SearchInputAdornment>
   );
 
-  const endAdornment = (
-    <InputAdornment>
-      {iconState === 'clearable' && (
-        <SearchInputCloseButton
-          disabled={disabled}
-          onClick={onClearInput}
-          size={size}
-        >
-          <Icon icon="close-s" />
-        </SearchInputCloseButton>
-      )}
-      {iconState === 'loading' && (
-        <Spinner size="xs" />
-      )}
-    </InputAdornment>
-  );
+  const endAdornment = (() => {
+    if (iconState === 'clearable') {
+      return (
+        <SearchInputAdornment>
+          <SearchInputClearButton
+            disabled={disabled}
+            onClick={onClearInput}
+            size={size}
+            variant={variant}
+          />
+        </SearchInputAdornment>
+      );
+    }
+
+    if (iconState === 'loading') {
+      return (
+        <SearchInputAdornment>
+          <SearchInputLoadingIcon variant={variant} />
+        </SearchInputAdornment>
+      );
+    }
+
+    return null;
+  })();
 
   return (
     <InputControl
@@ -110,6 +123,7 @@ const SearchInput = React.forwardRef((
       size={size}
       startAdornment={startAdornmentProp !== undefined ? startAdornmentProp : startAdornment}
       value={value}
+      variant={variant}
       {...rest}
     />
   );
