@@ -1,0 +1,1275 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchInput should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  height: 1.5rem;
+  background-color: white;
+  border: .0625rem solid;
+  border-color: #c9c9c9;
+  border-radius: .1875rem;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-0:invalid,
+.emotion-0[aria-invalid=true] {
+  border-color: #e52630;
+}
+
+.emotion-0::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-0::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-0:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-0::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-0:focus,
+.emotion-0[data-focus] {
+  border-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-0:hover,
+.emotion-0[data-hover] {
+  border-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-0:disabled,
+.emotion-0:disabled:focus,
+.emotion-0:disabled:hover,
+.emotion-0[aria-disabled=true],
+.emotion-0[aria-disabled=true]:focus,
+.emotion-0[aria-disabled=true]:hover,
+.emotion-0[data-disabled] {
+  border-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-0:has(> input:focus:invalid),
+.emotion-0:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-0:hover:has(> input:invalid),
+.emotion-0:hover:has(> input[aria-invalid=true]) {
+  border-color: #e52630;
+}
+
+.emotion-0:hover:has(> input:focus:invalid),
+.emotion-0:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-2 {
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.emotion-4 {
+  padding-left: calc(.75rem - .0625rem);
+  padding-right: .5rem;
+}
+
+.emotion-6 {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.emotion-6:not(:root) {
+  overflow: hidden;
+}
+
+.emotion-8 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  width: 100%;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  padding-right: calc(.75rem - .0625rem);
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  height: 1.5rem;
+  background-color: #f2f2f2;
+  border: .0625rem solid;
+  border-color: #c9c9c9;
+  border-radius: .1875rem;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-10:invalid,
+.emotion-10[aria-invalid=true] {
+  border-color: #e52630;
+}
+
+.emotion-10::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-10::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-10:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-10::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-10:focus,
+.emotion-10[data-focus] {
+  border-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-10:hover,
+.emotion-10[data-hover] {
+  border-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-10:disabled,
+.emotion-10:disabled:focus,
+.emotion-10:disabled:hover,
+.emotion-10[aria-disabled=true],
+.emotion-10[aria-disabled=true]:focus,
+.emotion-10[aria-disabled=true]:hover,
+.emotion-10[data-disabled] {
+  border-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-10:has(> input:focus:invalid),
+.emotion-10:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-10:hover:has(> input:invalid),
+.emotion-10:hover:has(> input[aria-invalid=true]) {
+  border-color: #e52630;
+}
+
+.emotion-10:hover:has(> input:focus:invalid),
+.emotion-10:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  height: 1.5rem;
+  background-color: white;
+  border-bottom: .0625rem solid;
+  border-bottom-color: #c9c9c9;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-20:invalid,
+.emotion-20[aria-invalid=true] {
+  border-bottom-color: #e52630;
+}
+
+.emotion-20::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-20::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-20:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-20::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-20:focus,
+.emotion-20[data-focus] {
+  border-bottom-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-20:hover,
+.emotion-20[data-hover] {
+  border-bottom-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-20:disabled,
+.emotion-20:disabled:focus,
+.emotion-20:disabled:hover,
+.emotion-20[aria-disabled=true],
+.emotion-20[aria-disabled=true]:focus,
+.emotion-20[aria-disabled=true]:hover,
+.emotion-20[data-disabled] {
+  border-bottom-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-20:has(> input:focus:invalid),
+.emotion-20:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: #1e5ede;
+}
+
+.emotion-20:hover:has(> input:invalid),
+.emotion-20:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: #e52630;
+}
+
+.emotion-20:hover:has(> input:focus:invalid),
+.emotion-20:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: #1e5ede;
+}
+
+.emotion-24 {
+  padding-left: .75rem;
+  padding-right: .5rem;
+}
+
+.emotion-28 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  width: 100%;
+  font-size: .875rem;
+  line-height: 1.25rem;
+}
+
+.emotion-30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  background-color: white;
+  border: 0;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-40 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  height: 2rem;
+  background-color: white;
+  border: .0625rem solid;
+  border-color: #c9c9c9;
+  border-radius: .1875rem;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-40:invalid,
+.emotion-40[aria-invalid=true] {
+  border-color: #e52630;
+}
+
+.emotion-40::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-40::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-40:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-40::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-40:focus,
+.emotion-40[data-focus] {
+  border-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-40:hover,
+.emotion-40[data-hover] {
+  border-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-40:disabled,
+.emotion-40:disabled:focus,
+.emotion-40:disabled:hover,
+.emotion-40[aria-disabled=true],
+.emotion-40[aria-disabled=true]:focus,
+.emotion-40[aria-disabled=true]:hover,
+.emotion-40[data-disabled] {
+  border-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-40:has(> input:focus:invalid),
+.emotion-40:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-40:hover:has(> input:invalid),
+.emotion-40:hover:has(> input[aria-invalid=true]) {
+  border-color: #e52630;
+}
+
+.emotion-40:hover:has(> input:focus:invalid),
+.emotion-40:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-50 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  height: 2rem;
+  background-color: #f2f2f2;
+  border: .0625rem solid;
+  border-color: #c9c9c9;
+  border-radius: .1875rem;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-50:invalid,
+.emotion-50[aria-invalid=true] {
+  border-color: #e52630;
+}
+
+.emotion-50::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-50::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-50:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-50::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-50:focus,
+.emotion-50[data-focus] {
+  border-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-50:hover,
+.emotion-50[data-hover] {
+  border-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-50:disabled,
+.emotion-50:disabled:focus,
+.emotion-50:disabled:hover,
+.emotion-50[aria-disabled=true],
+.emotion-50[aria-disabled=true]:focus,
+.emotion-50[aria-disabled=true]:hover,
+.emotion-50[data-disabled] {
+  border-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-50:has(> input:focus:invalid),
+.emotion-50:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-50:hover:has(> input:invalid),
+.emotion-50:hover:has(> input[aria-invalid=true]) {
+  border-color: #e52630;
+}
+
+.emotion-50:hover:has(> input:focus:invalid),
+.emotion-50:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-60 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  height: 2rem;
+  background-color: white;
+  border-bottom: .0625rem solid;
+  border-bottom-color: #c9c9c9;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-60:invalid,
+.emotion-60[aria-invalid=true] {
+  border-bottom-color: #e52630;
+}
+
+.emotion-60::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-60::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-60:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-60::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-60:focus,
+.emotion-60[data-focus] {
+  border-bottom-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-60:hover,
+.emotion-60[data-hover] {
+  border-bottom-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-60:disabled,
+.emotion-60:disabled:focus,
+.emotion-60:disabled:hover,
+.emotion-60[aria-disabled=true],
+.emotion-60[aria-disabled=true]:focus,
+.emotion-60[aria-disabled=true]:hover,
+.emotion-60[data-disabled] {
+  border-bottom-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-60:has(> input:focus:invalid),
+.emotion-60:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: #1e5ede;
+}
+
+.emotion-60:hover:has(> input:invalid),
+.emotion-60:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: #e52630;
+}
+
+.emotion-60:hover:has(> input:focus:invalid),
+.emotion-60:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: #1e5ede;
+}
+
+.emotion-80 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  height: 2.5rem;
+  background-color: white;
+  border: .0625rem solid;
+  border-color: #c9c9c9;
+  border-radius: .1875rem;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-80:invalid,
+.emotion-80[aria-invalid=true] {
+  border-color: #e52630;
+}
+
+.emotion-80::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-80::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-80:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-80::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-80:focus,
+.emotion-80[data-focus] {
+  border-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-80:hover,
+.emotion-80[data-hover] {
+  border-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-80:disabled,
+.emotion-80:disabled:focus,
+.emotion-80:disabled:hover,
+.emotion-80[aria-disabled=true],
+.emotion-80[aria-disabled=true]:focus,
+.emotion-80[aria-disabled=true]:hover,
+.emotion-80[data-disabled] {
+  border-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-80:has(> input:focus:invalid),
+.emotion-80:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-80:hover:has(> input:invalid),
+.emotion-80:hover:has(> input[aria-invalid=true]) {
+  border-color: #e52630;
+}
+
+.emotion-80:hover:has(> input:focus:invalid),
+.emotion-80:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-88 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  padding-right: calc(.75rem - .0625rem);
+}
+
+.emotion-90 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  height: 2.5rem;
+  background-color: #f2f2f2;
+  border: .0625rem solid;
+  border-color: #c9c9c9;
+  border-radius: .1875rem;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-90:invalid,
+.emotion-90[aria-invalid=true] {
+  border-color: #e52630;
+}
+
+.emotion-90::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-90::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-90:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-90::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-90:focus,
+.emotion-90[data-focus] {
+  border-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-90:hover,
+.emotion-90[data-hover] {
+  border-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-90:disabled,
+.emotion-90:disabled:focus,
+.emotion-90:disabled:hover,
+.emotion-90[aria-disabled=true],
+.emotion-90[aria-disabled=true]:focus,
+.emotion-90[aria-disabled=true]:hover,
+.emotion-90[data-disabled] {
+  border-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-90:has(> input:focus:invalid),
+.emotion-90:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-90:hover:has(> input:invalid),
+.emotion-90:hover:has(> input[aria-invalid=true]) {
+  border-color: #e52630;
+}
+
+.emotion-90:hover:has(> input:focus:invalid),
+.emotion-90:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: #1e5ede;
+}
+
+.emotion-100 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  height: 2.5rem;
+  background-color: white;
+  border-bottom: .0625rem solid;
+  border-bottom-color: #c9c9c9;
+  color: rgba(0, 0, 0, .92);
+}
+
+.emotion-100:invalid,
+.emotion-100[aria-invalid=true] {
+  border-bottom-color: #e52630;
+}
+
+.emotion-100::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-100::-moz-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-100:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-100::placeholder {
+  color: rgba(0, 0, 0, .54);
+  opacity: 1;
+}
+
+.emotion-100:focus,
+.emotion-100[data-focus] {
+  border-bottom-color: #1e5ede;
+  z-index: 1;
+}
+
+.emotion-100:hover,
+.emotion-100[data-hover] {
+  border-bottom-color: #578aef;
+  z-index: 2;
+}
+
+.emotion-100:disabled,
+.emotion-100:disabled:focus,
+.emotion-100:disabled:hover,
+.emotion-100[aria-disabled=true],
+.emotion-100[aria-disabled=true]:focus,
+.emotion-100[aria-disabled=true]:hover,
+.emotion-100[data-disabled] {
+  border-bottom-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-100:has(> input:focus:invalid),
+.emotion-100:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: #1e5ede;
+}
+
+.emotion-100:hover:has(> input:invalid),
+.emotion-100:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: #e52630;
+}
+
+.emotion-100:hover:has(> input:focus:invalid),
+.emotion-100:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: #1e5ede;
+}
+
+.emotion-108 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.375rem;
+}
+
+.emotion-110 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  background-color: white;
+  border: 0;
+  color: rgba(0, 0, 0, .92);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-testid="input-sm-outline"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-4 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-8 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-10 emotion-1"
+    data-testid="input-sm-filled"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-4 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-8 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-20 emotion-1"
+    data-testid="input-sm-flush"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-24 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-28 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-30 emotion-1"
+    data-testid="input-sm-unstyled"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-24 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-28 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-40 emotion-1"
+    data-testid="input-md-outline"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-4 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-8 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-50 emotion-1"
+    data-testid="input-md-filled"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-4 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-8 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-60 emotion-1"
+    data-testid="input-md-flush"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-24 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-28 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-30 emotion-1"
+    data-testid="input-md-unstyled"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-24 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-28 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-80 emotion-1"
+    data-testid="input-lg-outline"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-4 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-88 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-90 emotion-1"
+    data-testid="input-lg-filled"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-4 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-88 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-100 emotion-1"
+    data-testid="input-lg-flush"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-24 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-108 emotion-1"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-110 emotion-1"
+    data-testid="input-lg-unstyled"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-24 emotion-1"
+      >
+        <svg
+          aria-hidden="true"
+          class="emotion-6 emotion-7"
+          focusable="false"
+          role="presentation"
+          viewBox="0 0 16 16"
+        >
+          <g>
+            <path
+              d="M16 14.59l-4.26-4.26c0.787-1.064 1.259-2.403 1.259-3.851 0-3.601-2.919-6.52-6.52-6.52s-6.52 2.919-6.52 6.52c0 3.601 2.919 6.52 6.52 6.52 1.449 0 2.787-0.472 3.869-1.271l-0.018 0.013 4.26 4.26zM6.5 11.5c-2.761 0-5-2.239-5-5s2.239-5 5-5c2.761 0 5 2.239 5 5v0c0 2.761-2.239 5-5 5v0z"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <input
+      class="emotion-108 emotion-1"
+      value=""
+    />
+  </div>
+</div>
+`;

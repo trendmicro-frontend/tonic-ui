@@ -2,10 +2,10 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
-import { InputControl } from '@tonic-ui/react/src';
+import { SearchInput } from '@tonic-ui/react/src';
 import React from 'react';
 
-describe('InputControl', () => {
+describe('SearchInput', () => {
   it('should render correctly', async () => {
     const sizes = ['sm', 'md', 'lg'];
     const variants = ['outline', 'filled', 'flush', 'unstyled'];
@@ -14,7 +14,7 @@ describe('InputControl', () => {
       <>
         {sizes.map(size => (
           variants.map(variant => (
-            <InputControl
+            <SearchInput
               data-testid={`input-${size}-${variant}`}
               key={`input-${size}-${variant}`}
               size={size}
@@ -38,7 +38,7 @@ describe('InputControl', () => {
 
   it('should render correctly with disabled attribute', () => {
     render(
-      <InputControl data-testid="input" disabled />
+      <SearchInput data-testid="input" disabled />
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
@@ -47,7 +47,7 @@ describe('InputControl', () => {
 
   it('should render correctly with error attributes', () => {
     render(
-      <InputControl data-testid="input" error />
+      <SearchInput data-testid="input" error />
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
@@ -56,7 +56,7 @@ describe('InputControl', () => {
 
   it('should render correctly with readonly attributes', () => {
     render(
-      <InputControl data-testid="input" readOnly />
+      <SearchInput data-testid="input" readOnly />
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
@@ -65,7 +65,7 @@ describe('InputControl', () => {
 
   it('should render correctly with required attributes', () => {
     render(
-      <InputControl data-testid="input" required />
+      <SearchInput data-testid="input" required />
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
@@ -76,7 +76,7 @@ describe('InputControl', () => {
     const user = userEvent.setup();
     const onChange = jest.fn();
     render(
-      <InputControl data-testid="input" onChange={onChange} />
+      <SearchInput data-testid="input" onChange={onChange} />
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
@@ -88,7 +88,7 @@ describe('InputControl', () => {
   it('should match the border color', async () => {
     const user = userEvent.setup();
     render(
-      <InputControl data-testid="input" />
+      <SearchInput data-testid="input" />
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
@@ -110,7 +110,7 @@ describe('InputControl', () => {
   it('should match the border color for invalid input', async () => {
     const user = userEvent.setup();
     render(
-      <InputControl data-testid="input" error />
+      <SearchInput data-testid="input" error />
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
