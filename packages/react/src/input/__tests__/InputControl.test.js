@@ -41,7 +41,7 @@ describe('InputControl', () => {
       <InputControl data-testid="input" disabled />
     );
     const inputControl = screen.getByTestId('input');
-    const input = inputControl.firstChild;
+    const input = inputControl.querySelector('input');
     expect(input).toHaveAttribute('aria-disabled', 'true');
   });
 
@@ -50,7 +50,7 @@ describe('InputControl', () => {
       <InputControl data-testid="input" error />
     );
     const inputControl = screen.getByTestId('input');
-    const input = inputControl.firstChild;
+    const input = inputControl.querySelector('input');
     expect(input).toHaveAttribute('aria-invalid', 'true');
   });
 
@@ -59,7 +59,7 @@ describe('InputControl', () => {
       <InputControl data-testid="input" readOnly />
     );
     const inputControl = screen.getByTestId('input');
-    const input = inputControl.firstChild;
+    const input = inputControl.querySelector('input');
     expect(input).toHaveAttribute('aria-readonly', 'true');
   });
 
@@ -68,7 +68,7 @@ describe('InputControl', () => {
       <InputControl data-testid="input" required />
     );
     const inputControl = screen.getByTestId('input');
-    const input = inputControl.firstChild;
+    const input = inputControl.querySelector('input');
     expect(input).toHaveAttribute('aria-required', 'true');
   });
 
@@ -79,7 +79,7 @@ describe('InputControl', () => {
       <InputControl data-testid="input" onChange={onChange} />
     );
     const inputControl = screen.getByTestId('input');
-    const input = inputControl.firstChild;
+    const input = inputControl.querySelector('input');
     await user.type(input, 'hello');
     expect(onChange).toHaveBeenCalled();
     expect(input).toHaveDisplayValue('hello');
@@ -91,7 +91,7 @@ describe('InputControl', () => {
       <InputControl data-testid="input" />
     );
     const inputControl = screen.getByTestId('input');
-    const input = inputControl.firstChild;
+    const input = inputControl.querySelector('input');
     const initialBorderColor = '#c9c9c9';
     const focusBorderColor = '#1e5ede';
 
@@ -113,7 +113,7 @@ describe('InputControl', () => {
       <InputControl data-testid="input" error />
     );
     const inputControl = screen.getByTestId('input');
-    const input = inputControl.firstChild;
+    const input = inputControl.querySelector('input');
     const errorBorderColor = '#e52630';
     const focusBorderColor = '#1e5ede';
 
