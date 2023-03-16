@@ -2,11 +2,9 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import InputBase from './InputBase';
+import { defaultSize, defaultVariant } from './constants';
 import { getInputGroupCSS, useInputControlBaseCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
 import useInputGroup from './useInputGroup';
-
-const defaultSize = 'md';
-const defaultVariant = 'outline';
 
 const InputControl = forwardRef((
   {
@@ -52,10 +50,10 @@ const InputControl = forwardRef((
   },
   ref,
 ) => {
-  const inputRef = useRef();
-  const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
+  const nodeRef = useRef();
+  const combinedInputRef = useMergeRefs(nodeRef, inputRefProp);
   const [focused, setFocused] = useState(false);
-  const [valid, setValid] = useState();
+  const [valid, setValid] = useState(true);
   const inputGroupContext = useInputGroup();
   const {
     size: inputGroupSize,
@@ -66,18 +64,18 @@ const InputControl = forwardRef((
   const inputState = {
     disabled: disabledProp,
     focused,
-    valid: valid && !errorProp,
+    valid: !!valid && !errorProp,
   };
-  const baseCSS = useInputControlBaseCSS();
-  const baseStyleProps = useInputControlBaseStyle({ inputState, variant });
+  const baseCSS = useInputControlBaseCSS({ variant });
+  const baseStyleProps = useInputControlBaseStyle({ inputState, size, variant });
   const inputStyleProps = useInputControlInputStyle({ inputState, size, variant, startAdornment, endAdornment });
   const css = inputGroupContext
     ? [baseCSS, getInputGroupCSS({ variant }), cssProp]
     : [baseCSS, cssProp];
 
   const handleClick = useCallback((event) => {
-    if (inputRef.current && event.currentTarget === event.target) {
-      inputRef.current.focus();
+    if (nodeRef.current && event.currentTarget === event.target) {
+      nodeRef.current.focus();
     }
 
     if (typeof onClickProp === 'function') {
@@ -129,27 +127,40 @@ const InputControl = forwardRef((
   }, [disabledProp, focused, handleBlur]);
 
   // Observe the validity of the input
-  useEffect(() => {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'value') {
-          const nextValid = mutation.target?.validity?.valid;
-          if (nextValid !== valid) {
-            setValid(nextValid);
-          }
-        }
-      });
-    });
+  const el = nodeRef.current;
 
-    observer.observe(inputRef.current, {
+  useEffect(() => {
+    if (!el) {
+      // No element to observe
+      return;
+    }
+
+    const MutationObserver = window?.MutationObserver ?? window?.WebKitMutationObserver;
+    if (typeof MutationObserver !== 'function') {
+      return;
+    }
+
+    const update = () => {
+      const nextValid = el.validity?.valid;
+      if (nextValid !== valid) {
+        setValid(nextValid);
+      }
+    };
+    const observer = new MutationObserver((mutations) => {
+      update();
+    });
+    const config = {
       attributes: true,
       attributeFilter: ['value'],
-    });
+    };
+    observer.observe(el, config);
 
-    return () => {
+    update();
+
+    return () => { // eslint-disable-line consistent-return
       observer.disconnect();
     };
-  }, [valid]);
+  }, [el, valid]);
 
   const getInputProps = () => ({
     autoComplete: autoCompleteProp,

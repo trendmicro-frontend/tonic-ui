@@ -2,9 +2,7 @@ import React, { forwardRef } from 'react';
 import InputBase from './InputBase';
 import { getInputGroupCSS, useInputStyle } from './styles';
 import useInputGroup from './useInputGroup';
-
-const defaultSize = 'md';
-const defaultVariant = 'outline';
+import { defaultSize, defaultVariant } from './constants';
 
 const Input = forwardRef((
   {

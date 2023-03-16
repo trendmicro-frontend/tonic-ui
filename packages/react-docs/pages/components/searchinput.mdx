@@ -139,13 +139,13 @@ Use the `size` prop to change the size of the `SearchInput`. You can set the val
 
 ### Variants
 
-The `SearchInput` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+The `SearchInput` component comes in 3 variants: `outline`, `filled`, and `flush`. Pass the `variant` prop and set it to either of these values.
 
 ```jsx
 <Stack direction="column" spacing="4x">
   <SearchInput variant="outline" placeholder="Search" />
   <SearchInput variant="filled" placeholder="Search" />
-  <SearchInput variant="unstyled" placeholder="Search" height="8x" />
+  <SearchInput variant="flush" placeholder="Search" />
 </Stack>
 ```
 
@@ -187,6 +187,6 @@ Standard input attributes are supported, e.g., `disabled`, `readOnly`, `required
 | onChange | function | | A callback called when the value is changed. |
 | onClearInput | function | | A callback called when the clear button is clicked. |
 | size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
-| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush' |
 | disabled | boolean | | If `true`, the user cannot interact with the control. |
 | readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
