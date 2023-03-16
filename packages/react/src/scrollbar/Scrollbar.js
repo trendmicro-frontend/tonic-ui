@@ -557,10 +557,9 @@ const Scrollbar = forwardRef((
     };
   }, [startDragging, handleDrag, handleDragEnd]);
 
-  // Create a resize observer to detect when the scroll view is resized
   const el = nodeRef?.current;
 
-  // MutationObserver
+  // Observe the scroll view
   useEffect(() => {
     if (!el) {
       // No element to observe
@@ -569,11 +568,10 @@ const Scrollbar = forwardRef((
 
     const MutationObserver = window?.MutationObserver ?? window?.WebKitMutationObserver;
     if (typeof MutationObserver !== 'function') {
-      // ResizeObserver is not supported
       return;
     }
 
-    const observer = new MutationObserver((entries) => {
+    const observer = new MutationObserver((mutations) => {
       update();
     });
     const config = { attributes: true, childList: true, characterData: true, subtree: true };

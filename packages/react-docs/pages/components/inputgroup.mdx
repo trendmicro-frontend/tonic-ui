@@ -72,7 +72,7 @@ Use the `size` prop to change the size of the input group. You can set the value
 
 ### Variants
 
-The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+The `InputGroup` component comes in 3 variants: `outline`, `filled`, `flush`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
 
 #### `outline`
 
@@ -112,13 +112,20 @@ The `InputGroup` component comes in 3 variants: `outline`, `filled`, and `unstyl
 </Stack>
 ```
 
-#### `unstyled`
+#### `flush`
 
-For an unstyled input group that doesn't have border and padding spaces, it is not necessary to place an `InputGroupPrepend` or `InputGroupAppend` on either side of an `Input`.
+```jsx
+<InputGroup variant="flush" width="100%">
+  <InputGroupAddon>@</InputGroupAddon>
+  <Input placeholder="Username" />
+</InputGroup>
+```
+
+#### `unstyled`
 
 ```jsx
 <InputGroup variant="unstyled">
-  <InputGroupAddon pr="1x">@</InputGroupAddon>
+  <InputGroupAddon px="3x">@</InputGroupAddon>
   <Input placeholder="Username" />
 </InputGroup>
 ```
@@ -261,7 +268,7 @@ render(<Example />);
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | size | string | 'md' | The relative size to the input group itself. One of: 'sm', 'md', 'lg' |
-| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |
 
 ### InputGroupAddon
 
@@ -269,7 +276,7 @@ render(<Example />);
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
 | size | string | 'md' | The relative size to the input group itself. One of: 'sm', 'md', 'lg' |
-| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |
 
 ### InputGroupAppend
 

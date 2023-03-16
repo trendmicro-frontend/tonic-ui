@@ -58,6 +58,12 @@ const getOutlinedStyle = ({
     },
     _invalid: {
       borderColor: invalidBorderColor,
+      '&:focus:hover': {
+        borderColor: focusBorderColor,
+      },
+      '&:hover': {
+        borderColor: invalidBorderColor,
+      },
     },
     __placeholder: {
       color: placeholderColor,

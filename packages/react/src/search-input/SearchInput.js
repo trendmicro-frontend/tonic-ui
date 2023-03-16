@@ -22,8 +22,8 @@ const SearchInput = React.forwardRef((
   },
   ref
 ) => {
-  const inputRef = useRef();
-  const combinedRef = useMergeRefs(inputRef, ref);
+  const nodeRef = useRef();
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const [value, setValue] = useState(ensureString(valueProp ?? defaultValueProp));
   const isClearable = !disabled && !readOnly && !!value;
 
@@ -60,7 +60,7 @@ const SearchInput = React.forwardRef((
     }
 
     requestAnimationFrame(() => {
-      const el = inputRef.current;
+      const el = nodeRef.current;
       el && el.focus(); // Retain focus on the input after clearing
     });
   }, [iconState, valueProp, onClearInputProp]);

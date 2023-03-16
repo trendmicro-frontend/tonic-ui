@@ -37,7 +37,6 @@ const Select = forwardRef((
   variant = variant ?? defaultVariant;
 
   const iconWrapperProps = getIconWrapperProps();
-
   const ariaProps = {
     'aria-disabled': ariaAttr(rest.disabled),
     'aria-invalid': ariaAttr(error),

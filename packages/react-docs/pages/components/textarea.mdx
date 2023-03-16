@@ -114,26 +114,39 @@ General form input attributes are supported, such as `disabled`, `readOnly`, `re
 
 ### Validation
 
-Use the `error` prop to indicate that the value entered into an input field does not conform to the format expected by the application. It can also be used to indicate that a required field has not been filled in.
+The `Textarea` component provides a built-in validation mechanism that can be used to indicate when a field is not valid. When the `error` prop is set to true, a red border is displayed around the input field, allowing you to provide user-friendly form validation feedback.
 
-Set `error` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
+In addition to the built-in validation mechanism, you can use the native `setCustomValidity()` method to set a custom validation message for the textarea. This method is available on the textarea element and allows you to set a custom error message that will be displayed when the field is invalid.
 
 ```jsx noInline
 const InlineError = (props) => (
   <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
 );
 
-const MultilineInputField = ({
-  value,
-  onChange,
-  ...props
-}) => {
-  const error = (value === '');
+const MultilineTextField = React.forwardRef((
+  {
+    value,
+    onChange,
+    ...rest
+  },
+  ref,
+) => {
+  const nodeRef = React.useRef();
+  const combinedRef = useMergeRefs(nodeRef, ref);
+  const error = (value === '') ? 'Please fill out this field' : null;
+
+  // Optional
+  React.useEffect(() => {
+    const el = nodeRef.current;
+    const errorMessage = !!error ? error : '';
+    el.setCustomValidity(errorMessage);
+  }, [error]);
 
   return (
     <>
       <Flex position="relative" alignItems="center" mb="1x">
         <Textarea
+          ref={combinedRef}
           resize="none"
           rows="3"
           placeholder="Placeholder text"
@@ -143,32 +156,30 @@ const MultilineInputField = ({
           pr={error ? '10x' : undefined}
         />
         {error && (
-          <Box position="absolute" right={0} top=".375rem">
-            <Icon icon="warning-circle" mx="3x" color="red:50" />
+          <Box position="absolute" right="3x" top="2x">
+            <Icon icon="warning-circle" color="red:50" />
           </Box>
         )}
       </Flex>
       <Box>
         {error && (
-          <InlineError>This is a required field.</InlineError>
+          <InlineError>{error}</InlineError>
         )}
       </Box>
     </>
   );
-};
+});
 
-function Example() {
+render(() => {
   const [value, setValue] = React.useState('');
   const onChange = (e) => {
     setValue(e.target.value);
   };
 
   return (
-    <MultilineInputField value={value} onChange={onChange} />
+    <MultilineTextField value={value} onChange={onChange} />
   );
-}
-
-render(<Example />);
+});
 ```
 
 ## Props
@@ -177,12 +188,12 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| rows | number | | Specifies the visible number of lines in a text area. |
-| cols | number | | Specifies the visible width of a text area. |
-| maxLength | number | | Specifies a maximum number of characters that is allowed to contain. |
-| minLength | number | | Specifies a minimum length that is considered valid. |
-| resize | string | | One of: 'none', 'both', 'horizontal', 'vertical' |
-| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
-| disabled | boolean | | If `true`, the user cannot interact with the control. |
-| error | boolean | | If `true`, the textarea will display an error state. |
-| readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
+| rows | number | | Specifies the number of visible lines in a textarea. |
+| cols | number | | Specifies the visible width of a textarea. |
+| maxLength | number | | Specifies the maximum number of characters allowed in the textarea. |
+| minLength | number | | Specifies the minimum number of characters required for the textarea to be considered valid. |
+| resize | string | | The resize behavior of the textarea. One of: 'none', 'both', 'horizontal', 'vertical' |
+| variant | string | 'outline' | The variant of the textarea style to use. One of: 'outline', 'filled', 'unstyled' |
+| disabled | boolean | | If `true`, the textarea is disabled and the user cannot interact with it. |
+| error | boolean | | If `true`, the textarea displays a red border to indicate an error. |
+| readOnly | boolean | | If `true`, the value of the textarea cannot be edited. |

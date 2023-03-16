@@ -43,7 +43,7 @@ Use the `size` prop to change the size of the `Input`. You can set the value to 
 
 ### Variants
 
-The `Input` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+The `Input` component comes in 3 variants: `outline`, `filled`, `flush`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
 
 #### `outline`
 
@@ -55,6 +55,12 @@ The `Input` component comes in 3 variants: `outline`, `filled`, and `unstyled`. 
 
 ```jsx
 <Input variant="filled" placeholder="John Doe" />
+```
+
+#### `flush`
+
+```jsx
+<Input variant="flush" placeholder="John Doe" />
 ```
 
 #### `unstyled`
@@ -139,27 +145,40 @@ The value of `list` is the id attribute of the `<datalist>` of autocomplete opti
 
 ### Validation
 
-Use the `error` prop to indicate that the value entered into an input field does not conform to the format expected by the application. It can also be used to indicate that a required field has not been filled in.
+The `Input` component provides a built-in validation mechanism that can be used to indicate when a field is not valid. When the `error` prop is set to true, a red border is displayed around the input field, allowing you to provide user-friendly form validation feedback.
 
-Set `error` to `true` on the fields that have failed validation, otherwise set it to `false` if no errors detected.
+In addition to the built-in validation mechanism, you can use the native `setCustomValidity()` method to set a custom validation message for the input. This method is available on the input element and allows you to set a custom error message that will be displayed when the field is invalid.
 
 ```jsx noInline
 const InlineError = (props) => (
   <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
 );
 
-const InputField = ({
-  value,
-  onChange,
-  ...props
-}) => {
-  const error = (value === '');
+const TextField = React.forwardRef((
+  {
+    value,
+    onChange,
+    ...rest
+  },
+  ref,
+) => {
+  const nodeRef = React.useRef();
+  const combinedRef = useMergeRefs(nodeRef, ref);
+  const error = (value === '') ? 'Please fill out this field' : null;
+
+  // Optional
+  React.useEffect(() => {
+    const el = nodeRef.current;
+    const errorMessage = !!error ? error : '';
+    el.setCustomValidity(errorMessage);
+  }, [error]);
 
   return (
     <>
       <Flex position="relative" alignItems="center" mb="1x">
         <Input
-          placeholder="Enter your name here"
+          ref={combinedRef}
+          placeholder="Placeholder text"
           value={value}
           onChange={onChange}
           error={error}
@@ -173,25 +192,23 @@ const InputField = ({
       </Flex>
       <Box>
         {error && (
-          <InlineError>This is a required field.</InlineError>
+          <InlineError>{error}</InlineError>
         )}
       </Box>
     </>
   );
-};
+});
 
-function Example() {
+render(() => {
   const [value, setValue] = React.useState('');
   const onChange = (e) => {
     setValue(e.target.value);
   };
 
   return (
-    <InputField value={value} onChange={onChange} />
+    <TextField value={value} onChange={onChange} />
   );
-}
-
-render(<Example />);
+});
 ```
 
 ## Props
@@ -200,8 +217,8 @@ render(<Example />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| disabled | boolean | | If `true`, the user cannot interact with the control. |
-| error | boolean | | If `true`, the input will display an error state. |
-| readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
+| disabled | boolean | | If `true`, the input is disabled and the user cannot interact with it. |
+| error | boolean | | If `true`, the input displays a red border to indicate an error. |
+| readOnly | boolean | | If `true`, the value of the input cannot be edited. |
 | size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
-| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'unstyled' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |

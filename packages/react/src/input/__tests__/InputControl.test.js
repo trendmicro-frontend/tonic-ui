@@ -2,10 +2,10 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
-import { Input } from '@tonic-ui/react/src';
+import { InputControl } from '@tonic-ui/react/src';
 import React from 'react';
 
-describe('Input', () => {
+describe('InputControl', () => {
   it('should render correctly', async () => {
     const sizes = ['sm', 'md', 'lg'];
     const variants = ['outline', 'filled', 'flush', 'unstyled'];
@@ -14,7 +14,7 @@ describe('Input', () => {
       <>
         {sizes.map(size => (
           variants.map(variant => (
-            <Input
+            <InputControl
               data-testid={`input-${size}-${variant}`}
               key={`input-${size}-${variant}`}
               size={size}
@@ -38,33 +38,37 @@ describe('Input', () => {
 
   it('should render correctly with disabled attribute', () => {
     render(
-      <Input data-testid="input" disabled />
+      <InputControl data-testid="input" disabled />
     );
-    const input = screen.getByTestId('input');
+    const inputControl = screen.getByTestId('input');
+    const input = inputControl.firstChild;
     expect(input).toHaveAttribute('aria-disabled', 'true');
   });
 
   it('should render correctly with error attributes', () => {
     render(
-      <Input data-testid="input" error />
+      <InputControl data-testid="input" error />
     );
-    const input = screen.getByTestId('input');
+    const inputControl = screen.getByTestId('input');
+    const input = inputControl.firstChild;
     expect(input).toHaveAttribute('aria-invalid', 'true');
   });
 
   it('should render correctly with readonly attributes', () => {
     render(
-      <Input data-testid="input" readOnly />
+      <InputControl data-testid="input" readOnly />
     );
-    const input = screen.getByTestId('input');
+    const inputControl = screen.getByTestId('input');
+    const input = inputControl.firstChild;
     expect(input).toHaveAttribute('aria-readonly', 'true');
   });
 
   it('should render correctly with required attributes', () => {
     render(
-      <Input data-testid="input" required />
+      <InputControl data-testid="input" required />
     );
-    const input = screen.getByTestId('input');
+    const inputControl = screen.getByTestId('input');
+    const input = inputControl.firstChild;
     expect(input).toHaveAttribute('aria-required', 'true');
   });
 
@@ -72,9 +76,10 @@ describe('Input', () => {
     const user = userEvent.setup();
     const onChange = jest.fn();
     render(
-      <Input data-testid="input" onChange={onChange} />
+      <InputControl data-testid="input" onChange={onChange} />
     );
-    const input = screen.getByTestId('input');
+    const inputControl = screen.getByTestId('input');
+    const input = inputControl.firstChild;
     await user.type(input, 'hello');
     expect(onChange).toHaveBeenCalled();
     expect(input).toHaveDisplayValue('hello');
@@ -83,42 +88,44 @@ describe('Input', () => {
   it('should match the border color', async () => {
     const user = userEvent.setup();
     render(
-      <Input data-testid="input" />
+      <InputControl data-testid="input" />
     );
-    const input = screen.getByTestId('input');
+    const inputControl = screen.getByTestId('input');
+    const input = inputControl.firstChild;
     const initialBorderColor = '#c9c9c9';
     const focusBorderColor = '#1e5ede';
 
     // Test the border color when input is not focused
-    expect(input).toHaveStyle({ 'border-color': initialBorderColor });
+    expect(inputControl).toHaveStyle({ 'border-color': initialBorderColor });
 
     // Test the border color when input is focused
     await user.click(input);
-    waitFor(() => expect(input).toHaveStyle({ 'border-color': focusBorderColor }));
+    waitFor(() => expect(inputControl).toHaveStyle({ 'border-color': focusBorderColor }));
 
     // Test the border color when input loses focus
     await user.click(document.body);
-    waitFor(() => expect(input).toHaveStyle({ 'border-color': initialBorderColor }));
+    waitFor(() => expect(inputControl).toHaveStyle({ 'border-color': initialBorderColor }));
   });
 
   it('should match the border color for invalid input', async () => {
     const user = userEvent.setup();
     render(
-      <Input data-testid="input" error />
+      <InputControl data-testid="input" error />
     );
-    const input = screen.getByTestId('input');
+    const inputControl = screen.getByTestId('input');
+    const input = inputControl.firstChild;
     const errorBorderColor = '#e52630';
     const focusBorderColor = '#1e5ede';
 
     // Test the border color when input is in error state
-    expect(input).toHaveStyle({ 'border-color': errorBorderColor });
+    expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor });
 
     // Test the border color when input is focused
     await user.click(input);
-    waitFor(() => expect(input).toHaveStyle({ 'border-color': focusBorderColor }));
+    waitFor(() => expect(inputControl).toHaveStyle({ 'border-color': focusBorderColor }));
 
     // Test the border color when input loses focus
     await user.click(document.body);
-    waitFor(() => expect(input).toHaveStyle({ 'border-color': errorBorderColor }));
+    waitFor(() => expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor }));
   });
 });
