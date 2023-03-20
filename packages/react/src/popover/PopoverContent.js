@@ -39,10 +39,9 @@ const PopoverContent = ({
   TransitionProps,
   children,
   onBlur: onBlurProp,
-  onFocus,
-  onKeyDown,
-  onMouseEnter,
-  onMouseLeave,
+  onKeyDown: onKeyDownProp,
+  onMouseEnter: onMouseEnterProp,
+  onMouseLeave: onMouseLeaveProp,
   ...rest
 }) => {
   const isHydrated = useHydrated();
@@ -53,7 +52,7 @@ const PopoverContent = ({
     placement,
     popoverId,
     isOpen,
-    onBlur,
+    closeOnBlur,
     closeOnEsc,
     onClose,
     isHoveringContentRef,
@@ -72,17 +71,54 @@ const PopoverContent = ({
   const tabIndex = -1;
   const styleProps = usePopoverContentStyle({ tabIndex });
   const mouseLeaveTimeoutRef = useRef();
-  let eventHandlers = {};
-  let roleProps = {};
+  const eventHandler = {};
+  const role = {
+    'click': 'dialog',
+    'hover': 'tooltip',
+  }[trigger];
+
+  eventHandler.onKeyDown = function (event) {
+    if (event.key === 'Escape' && closeOnEsc) {
+      onClose && onClose();
+    }
+  };
 
   if (trigger === 'click') {
-    eventHandlers = {
-      onBlur: callEventHandlers(onBlurProp, onBlur),
-    };
+    eventHandler.onBlur = function (event) {
+      const relatedTarget = event.relatedTarget;
+      const triggerEl = popoverTriggerRef.current;
+      const contentEl = popoverContentRef.current;
+      const isOutsideTrigger = !(triggerEl?.contains?.(relatedTarget));
+      const isOutsideContent = !(contentEl?.contains?.(relatedTarget));
 
-    roleProps = {
-      role: 'dialog',
-      'aria-modal': 'false',
+      if (isOpen && closeOnBlur && isOutsideTrigger && isOutsideContent) {
+        onClose();
+      }
+    };
+  }
+
+  if (trigger === 'hover') {
+    eventHandler.onMouseEnter = function (event) {
+      isHoveringContentRef.current = true;
+
+      if (mouseLeaveTimeoutRef.current) {
+        clearTimeout(mouseLeaveTimeoutRef.current);
+        mouseLeaveTimeoutRef.current = undefined;
+      }
+    };
+    eventHandler.onMouseLeave = function (event) {
+      isHoveringContentRef.current = false;
+
+      if (mouseLeaveTimeoutRef.current) {
+        clearTimeout(mouseLeaveTimeoutRef.current);
+        mouseLeaveTimeoutRef.current = undefined;
+      }
+      mouseLeaveTimeoutRef.current = setTimeout(() => {
+        mouseLeaveTimeoutRef.current = undefined;
+        if (!isHoveringContentRef.current && !isHoveringTriggerRef.current) {
+          onClose();
+        }
+      }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
     };
   }
 
@@ -122,46 +158,6 @@ const PopoverContent = ({
     return modifiers;
   }, [computedSkidding, computedDistance]);
 
-  if (trigger === 'hover') {
-    eventHandlers = {
-      onMouseEnter: callEventHandlers(onMouseEnter, () => {
-        isHoveringContentRef.current = true;
-
-        if (mouseLeaveTimeoutRef.current) {
-          clearTimeout(mouseLeaveTimeoutRef.current);
-          mouseLeaveTimeoutRef.current = undefined;
-        }
-      }),
-      onMouseLeave: callEventHandlers(onMouseLeave, () => {
-        isHoveringContentRef.current = false;
-
-        if (mouseLeaveTimeoutRef.current) {
-          clearTimeout(mouseLeaveTimeoutRef.current);
-          mouseLeaveTimeoutRef.current = undefined;
-        }
-        mouseLeaveTimeoutRef.current = setTimeout(() => {
-          mouseLeaveTimeoutRef.current = undefined;
-          if (!isHoveringContentRef.current && !isHoveringTriggerRef.current) {
-            onClose();
-          }
-        }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
-      }),
-    };
-
-    roleProps = {
-      role: 'tooltip',
-    };
-  }
-
-  eventHandlers = {
-    ...eventHandlers,
-    onKeyDown: callEventHandlers(onKeyDown, event => {
-      if (event.key === 'Escape' && closeOnEsc) {
-        onClose && onClose();
-      }
-    }),
-  };
-
   if (!isHydrated) {
     return null;
   }
@@ -178,12 +174,11 @@ const PopoverContent = ({
       modifiers={popperModifiers}
       placement={placement}
       ref={popoverContentRef}
+      role={role}
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render popover in a portal
       willUseTransition={true}
       zIndex="popover"
-      {...roleProps}
-      {...eventHandlers}
       {...PopperProps}
     >
       {({ placement, transition }) => {
@@ -214,6 +209,10 @@ const PopoverContent = ({
             {(state, { ref, style: transitionStyle }) => {
               return (
                 <Box
+                  onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}
+                  onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
+                  onMouseEnter={callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter)}
+                  onMouseLeave={callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave)}
                   ref={ref}
                   tabIndex={tabIndex}
                   {...styleProps}
