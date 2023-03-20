@@ -1,6 +1,6 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers, getOwnerDocument } from '@tonic-ui/utils';
-import React, { cloneElement, forwardRef, useCallback } from 'react';
+import React, { cloneElement, forwardRef } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
 import { useTooltipTriggerStyle } from './styles';
@@ -10,6 +10,12 @@ const TooltipTrigger = forwardRef((
   {
     children,
     shouldWrapChildren = false,
+    onBlur: onBlurProp,
+    onClick: onClickProp,
+    onFocus: onFocusProp,
+    onMouseDown: onMouseDownProp,
+    onMouseEnter: onMouseEnterProp,
+    onMouseLeave: onMouseLeaveProp,
     ...rest
   },
   ref,
@@ -26,38 +32,40 @@ const TooltipTrigger = forwardRef((
   } = useTooltip();
   const combinedRef = useMergeRefs(tooltipTriggerRef, ref);
   const styleProps = useTooltipTriggerStyle();
-  const handleBlur = useCallback(() => {
+  const eventHandler = {};
+
+  eventHandler.onBlur = function (event) {
     onClose();
-  }, [onClose]);
-  const handleClick = useCallback(() => {
+  };
+  eventHandler.onClick = function (event) {
     if (closeOnClick) {
       onClose();
     }
-  }, [closeOnClick, onClose]);
-  const handleFocus = useCallback((event) => {
+  };
+  eventHandler.onFocus = function (event) {
     onOpen();
-  }, [onOpen]);
-  const handleKeyDown = useCallback((event) => {
+  };
+  eventHandler.onKeyDown = function (event) {
     if (isOpen && closeOnEsc && event.key === 'Escape') {
       onClose();
     }
-  }, [isOpen, closeOnEsc, onClose]);
-  const handleMouseDown = useCallback(() => {
+  };
+  eventHandler.onMouseDown = function (event) {
     if (closeOnMouseDown) {
       onClose();
     }
-  }, [closeOnMouseDown, onClose]);
-  const handleMouseEnter = useCallback(() => {
+  };
+  eventHandler.onMouseEnter = function (event) {
     onOpen();
-  }, [onOpen]);
-  const handleMouseLeave = useCallback(() => {
+  };
+  eventHandler.onMouseLeave = function (event) {
     onClose();
-  }, [onClose]);
+  };
 
   useEventListener(
-    () => getOwnerDocument(tooltipTriggerRef.current),
+    () => getOwnerDocument(tooltipTriggerRef.current), // owner document
     'keydown',
-    closeOnEsc ? handleKeyDown : undefined,
+    closeOnEsc ? eventHandler.onKeyDown : undefined,
   );
 
   /**
@@ -68,43 +76,24 @@ const TooltipTrigger = forwardRef((
   useEventListener(
     () => tooltipTriggerRef.current,
     'mouseleave',
-    handleMouseLeave,
+    eventHandler.onMouseLeave,
   );
 
-  const getTooltipTriggerProps = useCallback(
-    (ownProps = {}, ownRef = null) => {
-      const eventHandlerProps = {
-        onBlur: callEventHandlers(ownProps?.onBlur, handleBlur),
-        onClick: callEventHandlers(ownProps?.onClick, handleClick),
-        onFocus: callEventHandlers(ownProps?.onFocus, handleFocus),
-        onMouseDown: callEventHandlers(ownProps?.onMouseDown, handleMouseDown),
-        onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, handleMouseEnter),
-        onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, handleMouseLeave),
-      };
-
-      return {
-        ...ownProps,
-        'aria-describedby': isOpen ? tooltipId : undefined,
-        ref: mergeRefs(combinedRef, ownRef),
-        ...eventHandlerProps,
-        ...styleProps,
-        ...rest,
-      };
-    },
-    [
-      handleBlur,
-      handleClick,
-      handleFocus,
-      handleMouseDown,
-      handleMouseEnter,
-      handleMouseLeave,
-      isOpen,
-      tooltipId,
-      combinedRef,
-      styleProps,
-      rest,
-    ],
-  );
+  const getTooltipTriggerProps = (ownProps = {}, ownRef = null) => {
+    return {
+      ...ownProps,
+      'aria-describedby': isOpen ? tooltipId : undefined,
+      ref: mergeRefs(combinedRef, ownRef),
+      onBlur: callEventHandlers(ownProps?.onBlur, onBlurProp, eventHandler.onBlur),
+      onClick: callEventHandlers(ownProps?.onClick, onClickProp, eventHandler.onClick),
+      onFocus: callEventHandlers(ownProps?.onFocus, onFocusProp, eventHandler.onFocus),
+      onMouseDown: callEventHandlers(ownProps?.onMouseDown, onMouseDownProp, eventHandler.onMouseDown),
+      onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, onMouseEnterProp, eventHandler.onMouseEnter),
+      onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, onMouseLeaveProp, eventHandler.onMouseLeave),
+      ...styleProps,
+      ...rest,
+    };
+  };
 
   if (typeof children === 'function') {
     return children({ getTooltipTriggerProps });
