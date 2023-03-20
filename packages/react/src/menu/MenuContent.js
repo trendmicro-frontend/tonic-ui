@@ -35,9 +35,7 @@ const MenuContent = forwardRef((
     menuToggleRef,
     menuRef,
     offset,
-    onBlur,
     onClose: closeMenu,
-    onKeyDown,
     placement,
   } = { ...menuContext };
 
@@ -53,8 +51,6 @@ const MenuContent = forwardRef((
     if (shouldCloseMenu) {
       ensureFunction(closeMenu)();
     }
-
-    ensureFunction(onBlur)(event);
   };
 
   /**
@@ -90,8 +86,6 @@ const MenuContent = forwardRef((
     if (key === 'Escape') {
       ensureFunction(closeMenu)();
     }
-
-    ensureFunction(onKeyDown)(event);
   };
 
   const tabIndex = -1;
