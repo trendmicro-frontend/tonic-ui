@@ -32,7 +32,9 @@ const SubmenuToggle = forwardRef((
   } = { ...submenuContext };
   const combinedRef = useMergeRefs(submenuToggleRef, ref);
   const styleProps = useSubmenuToggleStyle();
-  const handleMouseEnter = callEventHandlers(onMouseEnterProp, (event) => {
+  const eventHandler = {};
+
+  eventHandler.onMouseEnter = function (event) {
     if (disabled) {
       event.preventDefault();
       return;
@@ -45,8 +47,9 @@ const SubmenuToggle = forwardRef((
     }
 
     ensureFunction(openSubmenu)();
-  });
-  const handleMouseLeave = callEventHandlers(onMouseLeaveProp, (event) => {
+  };
+
+  eventHandler.onMouseLeave = function (event) {
     if (disabled) {
       event.preventDefault();
       return;
@@ -63,7 +66,7 @@ const SubmenuToggle = forwardRef((
         ensureFunction(closeSubmenu)();
       }
     }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
-  });
+  };
 
   const getSubmenuToggleProps = () => ({
     'aria-controls': submenuId,
@@ -72,8 +75,8 @@ const SubmenuToggle = forwardRef((
     'aria-haspopup': 'menu',
     disabled,
     id: submenuToggleId,
-    onMouseEnter: handleMouseEnter,
-    onMouseLeave: handleMouseLeave,
+    onMouseEnter: callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter),
+    onMouseLeave: callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave),
     ref: combinedRef,
     role: 'presentation',
     ...styleProps,
