@@ -13,13 +13,9 @@ import { SVGIcon } from '@tonic-ui/react';
 
 ## Usage
 
-You can use the current text color by adding the `fill="currentColor"` attribute to the `<path>` or `<g>` element. This means that the fill color of the SVG will be inherited from the color value of its parent.
-
 ```jsx
 <SVGIcon color="gray:50" size={24} viewBox="0 0 16 16">
-  <g fill="currentColor">
-    <path d="M8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8c4.418 0 8-3.582 8-8v0c0-4.418-3.582-8-8-8v0zM11 12l-3-3-3 3-1.060-1.060 3.060-2.94-3-3 1.060-1.070 2.94 2.95 2.94-2.94 1.060 1.060-2.89 3 3 3z" />
-  </g>
+  <path d="M8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8c4.418 0 8-3.582 8-8v0c0-4.418-3.582-8-8-8v0zM11 12l-3-3-3 3-1.060-1.060 3.060-2.94-3-3 1.060-1.070 2.94 2.95 2.94-2.94 1.060 1.060-2.89 3 3 3z" />
 </SVGIcon>
 ```
 
@@ -29,9 +25,7 @@ function Example() {
     const viewBox = '0 0 16 16';
     return (
       <SVGIcon size={size} viewBox={viewBox} {...rest}>
-        <g fill="currentColor">
-          <path d="M15 8c0 3.866-3.134 7-7 7s-7-3.134-7-7c0-3.866 3.134-7 7-7v0c3.866 0 7 3.134 7 7v0z" />
-        </g>
+        <path d="M15 8c0 3.866-3.134 7-7 7s-7-3.134-7-7c0-3.866 3.134-7 7-7v0c3.866 0 7 3.134 7 7v0z" />
       </SVGIcon>
     );
   };
