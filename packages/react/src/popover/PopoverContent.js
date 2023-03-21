@@ -1,6 +1,6 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
 import { ariaAttr, callAll, callEventHandlers } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
+import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper, PopperArrow } from '../popper';
@@ -54,7 +54,7 @@ const PopoverContent = ({
     isOpen,
     closeOnBlur,
     closeOnEsc,
-    onClose,
+    onClose: closePopover,
     isHoveringContentRef,
     isHoveringTriggerRef,
     trigger,
@@ -68,31 +68,32 @@ const PopoverContent = ({
     mousePageY,
     arrowAt,
   } = usePopover();
-  const tabIndex = -1;
-  const styleProps = usePopoverContentStyle({ tabIndex });
-  const mouseLeaveTimeoutRef = useRef();
-  const eventHandler = {};
   const role = {
     'click': 'dialog',
     'hover': 'tooltip',
   }[trigger];
+  const tabIndex = -1;
+  const styleProps = usePopoverContentStyle({ tabIndex });
+  const mouseLeaveTimeoutRef = useRef();
+  const eventHandler = {};
 
   eventHandler.onKeyDown = function (event) {
     if (event.key === 'Escape' && closeOnEsc) {
-      onClose && onClose();
+      ensureFunction(closePopover)();
     }
   };
 
   if (trigger === 'click') {
     eventHandler.onBlur = function (event) {
-      const relatedTarget = event.relatedTarget;
-      const triggerEl = popoverTriggerRef.current;
-      const contentEl = popoverContentRef.current;
-      const isOutsideTrigger = !(triggerEl?.contains?.(relatedTarget));
-      const isOutsideContent = !(contentEl?.contains?.(relatedTarget));
+      // https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent/relatedTarget
+      // The relatedTarget property represents the `EventTarget` receiving focus or losing focus during a `blur` or `focus` event, respectively.
+      const focusTarget = event.relatedTarget || document.activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
+      const isOutsidePopoverTrigger = !(popoverTriggerRef.current?.contains?.(focusTarget));
+      const isOutsidePopoverContent = !(popoverContentRef.current?.contains?.(focusTarget));
+      const shouldClose = isOpen && closeOnBlur && !!focusTarget && isOutsidePopoverTrigger && isOutsidePopoverContent;
 
-      if (isOpen && closeOnBlur && isOutsideTrigger && isOutsideContent) {
-        onClose();
+      if (shouldClose) {
+        ensureFunction(closePopover)();
       }
     };
   }
@@ -116,7 +117,7 @@ const PopoverContent = ({
       mouseLeaveTimeoutRef.current = setTimeout(() => {
         mouseLeaveTimeoutRef.current = undefined;
         if (!isHoveringContentRef.current && !isHoveringTriggerRef.current) {
-          onClose();
+          ensureFunction(closePopover)();
         }
       }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
     };
