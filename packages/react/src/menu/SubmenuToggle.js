@@ -21,7 +21,7 @@ const SubmenuToggle = forwardRef((
   const mouseLeaveTimeoutRef = useRef();
   const submenuContext = useSubmenu(); // context might be an undefined value
   const {
-    isHoveringSubmenuListRef,
+    isHoveringSubmenuContentRef,
     isHoveringSubmenuToggleRef,
     isOpen,
     onClose: closeSubmenu,
@@ -59,7 +59,7 @@ const SubmenuToggle = forwardRef((
     }
     mouseLeaveTimeoutRef.current = setTimeout(() => {
       mouseLeaveTimeoutRef.current = undefined;
-      if (!isHoveringSubmenuToggleRef.current && !isHoveringSubmenuListRef.current) {
+      if (!isHoveringSubmenuToggleRef.current && !isHoveringSubmenuContentRef.current) {
         ensureFunction(closeSubmenu)();
       }
     }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content

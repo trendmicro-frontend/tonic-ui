@@ -40,16 +40,16 @@ const Menu = forwardRef((
   },
   ref,
 ) => {
-  const menuRef = useRef(null);
+  const menuContentRef = useRef(null);
   const menuToggleRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
   const prevIsOpen = usePrevious(isOpen);
   const getFocusableElements = useCallback(() => {
-    if (!menuRef.current) {
+    if (!menuContentRef.current) {
       return [];
     }
-    const focusableElements = getAllFocusable(menuRef.current)
+    const focusableElements = getAllFocusable(menuContentRef.current)
       .filter(node => (node.getAttribute('role') === 'menuitem'));
     return focusableElements;
   }, []);
@@ -98,11 +98,11 @@ const Menu = forwardRef((
     if (activeIndex === -1 && isOpen && !prevIsOpen) {
       // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
       requestAnimationFrame(() => {
-        const el = menuRef.current;
+        const el = menuContentRef.current;
         el && el.focus();
       });
     }
-  }, [isOpen, activeIndex, getFocusableElements, menuRef, menuToggleRef, prevIsOpen, returnFocusOnClose]);
+  }, [isOpen, activeIndex, getFocusableElements, menuContentRef, menuToggleRef, prevIsOpen, returnFocusOnClose]);
 
   const onOpen = useCallback(() => {
     const isControlled = (isOpenProp !== undefined);
@@ -187,7 +187,7 @@ const Menu = forwardRef((
     onOpen,
     placement,
     menuId,
-    menuRef,
+    menuContentRef,
     menuToggleId,
     menuToggleRef,
   });

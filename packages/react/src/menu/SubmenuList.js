@@ -1,65 +1,21 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callEventHandlers } from '@tonic-ui/utils';
-import React, { forwardRef, useRef } from 'react';
-import { Box } from '../box';
+import React, { forwardRef } from 'react';
+import SubmenuContent from './SubmenuContent';
 import { useSubmenuListStyle } from './styles';
 import useSubmenu from './useSubmenu';
 
-const SubmenuList = forwardRef((
-  {
-    onMouseEnter: onMouseEnterProp,
-    onMouseLeave: onMouseLeaveProp,
-    ...rest
-  },
-  ref,
-) => {
-  const mouseLeaveTimeoutRef = useRef();
+const SubmenuList = forwardRef((props, ref) => {
   const submenuContext = useSubmenu(); // context might be an undefined value
   const {
-    isHoveringSubmenuListRef,
-    isHoveringSubmenuToggleRef,
     isOpen,
-    onClose,
     placement,
-    submenuId,
-    submenuRef,
-    submenuToggleId,
   } = { ...submenuContext };
-  const combinedRef = useMergeRefs(submenuRef, ref);
   const styleProps = useSubmenuListStyle({ isOpen, placement });
-  const onMouseEnter = callEventHandlers(onMouseEnterProp, () => {
-    isHoveringSubmenuListRef.current = true;
-
-    if (mouseLeaveTimeoutRef.current) {
-      clearTimeout(mouseLeaveTimeoutRef.current);
-      mouseLeaveTimeoutRef.current = undefined;
-    }
-  });
-  const onMouseLeave = callEventHandlers(onMouseLeaveProp, () => {
-    isHoveringSubmenuListRef.current = false;
-
-    if (mouseLeaveTimeoutRef.current) {
-      clearTimeout(mouseLeaveTimeoutRef.current);
-      mouseLeaveTimeoutRef.current = undefined;
-    }
-    mouseLeaveTimeoutRef.current = setTimeout(() => {
-      mouseLeaveTimeoutRef.current = undefined;
-      if (!isHoveringSubmenuToggleRef.current && !isHoveringSubmenuListRef.current) {
-        onClose();
-      }
-    }, 100); // XXX: keep opening submenu when cursor quickly move between SubmenuToggle and SubmenuList
-  });
 
   return (
-    <Box
-      ref={combinedRef}
-      aria-labelledby={submenuToggleId}
-      data-submenu-id={submenuId}
-      id={submenuId}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+    <SubmenuContent
+      ref={ref}
       {...styleProps}
-      {...rest}
+      {...props}
     />
   );
 });

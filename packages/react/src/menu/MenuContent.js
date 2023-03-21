@@ -33,7 +33,7 @@ const MenuContent = forwardRef((
     menuId,
     menuToggleId,
     menuToggleRef,
-    menuRef,
+    menuContentRef,
     offset,
     onClose: closeMenu,
     placement,
@@ -46,7 +46,7 @@ const MenuContent = forwardRef((
     // The relatedTarget property represents the `EventTarget` receiving focus or losing focus during a `blur` or `focus` event, respectively.
     const focusTarget = event.relatedTarget || document.activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
     const isOutsideMenuToggle = !(menuToggleRef.current?.contains?.(focusTarget));
-    const isOutsideMenuContent = !(menuRef.current?.contains?.(focusTarget));
+    const isOutsideMenuContent = !(menuContentRef.current?.contains?.(focusTarget));
     const shouldClose = isOpen && closeOnBlur && !!focusTarget && isOutsideMenuToggle && isOutsideMenuContent;
 
     if (shouldClose) {
@@ -115,7 +115,7 @@ const MenuContent = forwardRef((
       isOpen={isOpen}
       modifiers={popperModifiers}
       placement={placement}
-      ref={menuRef}
+      ref={menuContentRef}
       role="menu"
       tabIndex={tabIndex}
       unmountOnExit={true}
