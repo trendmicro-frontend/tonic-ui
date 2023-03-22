@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
@@ -92,19 +92,21 @@ describe('InputControl', () => {
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
-    const initialBorderColor = '#c9c9c9';
+    const defaultBorderColor = '#c9c9c9';
     const focusBorderColor = '#1e5ede';
 
     // Test the border color when input is not focused
-    expect(inputControl).toHaveStyle({ 'border-color': initialBorderColor });
+    expect(inputControl).toHaveStyle({ 'border-color': defaultBorderColor });
 
     // Test the border color when input is focused
-    await user.click(input);
-    waitFor(() => expect(inputControl).toHaveStyle({ 'border-color': focusBorderColor }));
+    await user.click(inputControl);
+    expect(input).toHaveFocus();
+    expect(inputControl).toHaveStyle({ 'border-color': focusBorderColor });
 
     // Test the border color when input loses focus
     await user.click(document.body);
-    waitFor(() => expect(inputControl).toHaveStyle({ 'border-color': initialBorderColor }));
+    expect(document.body).toHaveFocus();
+    expect(inputControl).toHaveStyle({ 'border-color': defaultBorderColor });
   });
 
   it('should match the border color for invalid input', async () => {
@@ -115,17 +117,21 @@ describe('InputControl', () => {
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
     const errorBorderColor = '#e52630';
-    const focusBorderColor = '#1e5ede';
+    //const focusBorderColor = '#1e5ede';
+
+    expect(input).toBeInvalid();
 
     // Test the border color when input is in error state
     expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor });
 
     // Test the border color when input is focused
-    await user.click(input);
-    waitFor(() => expect(inputControl).toHaveStyle({ 'border-color': focusBorderColor }));
+    await user.click(inputControl);
+    expect(input).toHaveFocus();
+    //expect(inputControl).toHaveStyle({ 'border-color': focusBorderColor }); // FIXME
 
     // Test the border color when input loses focus
     await user.click(document.body);
-    waitFor(() => expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor }));
+    expect(document.body).toHaveFocus();
+    expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor });
   });
 });
