@@ -76,6 +76,7 @@ const Multiselect = ({
   return (
     <Menu
       closeOnSelect={false}
+      defaultActiveIndex={0}
       onClose={() => {
         if (isNoneSelected) {
           // Automatically reset all the options when the menu loses focus

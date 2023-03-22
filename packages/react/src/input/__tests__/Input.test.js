@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
@@ -94,11 +94,13 @@ describe('Input', () => {
 
     // Test the border color when input is focused
     await user.click(input);
-    waitFor(() => expect(input).toHaveStyle({ 'border-color': focusBorderColor }));
+    expect(input).toHaveFocus();
+    expect(input).toHaveStyle({ 'border-color': focusBorderColor });
 
     // Test the border color when input loses focus
     await user.click(document.body);
-    waitFor(() => expect(input).toHaveStyle({ 'border-color': initialBorderColor }));
+    expect(document.body).toHaveFocus();
+    expect(input).toHaveStyle({ 'border-color': initialBorderColor });
   });
 
   it('should match the border color for invalid input', async () => {
@@ -115,10 +117,12 @@ describe('Input', () => {
 
     // Test the border color when input is focused
     await user.click(input);
-    waitFor(() => expect(input).toHaveStyle({ 'border-color': focusBorderColor }));
+    expect(input).toHaveFocus();
+    expect(input).toHaveStyle({ 'border-color': focusBorderColor });
 
     // Test the border color when input loses focus
     await user.click(document.body);
-    waitFor(() => expect(input).toHaveStyle({ 'border-color': errorBorderColor }));
+    expect(document.body).toHaveFocus();
+    expect(input).toHaveStyle({ 'border-color': errorBorderColor });
   });
 });

@@ -48,7 +48,10 @@ const Menu = forwardRef((
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
   const prevIsOpen = usePrevious(isOpen);
   const getFocusableElements = useCallback(() => {
-    const focusableElements = getAllFocusable(menuRef?.current)
+    if (!menuRef.current) {
+      return [];
+    }
+    const focusableElements = getAllFocusable(menuRef.current)
       .filter(node => (node.getAttribute('role') === 'menuitem'));
     return focusableElements;
   }, []);
@@ -94,7 +97,7 @@ const Menu = forwardRef((
         el && el.focus();
       });
     }
-    if (activeIndex === -1 && isOpen) {
+    if (activeIndex === -1 && isOpen && !prevIsOpen) {
       // Use requestAnimationFrame to ensure that the focus is set at the end of the current frame
       requestAnimationFrame(() => {
         const el = menuRef.current;
