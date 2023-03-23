@@ -109,11 +109,24 @@ const Multiselect = ({
               inputProps={{
                 role: 'menuitem', // Specify "menuitem" role for keyboard navigation
                 onKeyDown: (event) => {
-                  // Stop event propagation to menu for specific keys
-                  const keys = ['Home', 'End', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'];
-                  if (keys.includes(event.key)) {
-                    event.stopPropagation();
+                  const input = event.target;
+                  const {
+                    selectionStart, // the position where the character will be inserted
+                    selectionEnd, // if has a selection this value will be different than the previous
+                    value, // this is the value before the key is added
+                  } = input;
+                  const isAtStart = (selectionStart === 0 && selectionEnd === 0);
+                  const isAtEnd = (selectionStart === value.length && selectionEnd === value.length);
+
+                  if (isAtStart && ['ArrowUp', 'Home'].includes(event.key)) {
+                    return;
                   }
+                  if (isAtEnd && ['ArrowDown', 'End'].includes(event.key)) {
+                    return;
+                  }
+
+                  // Stop event propagation to menu for specific keys
+                  event.stopPropagation();
                 },
               }}
               ref={searchInputRef}
