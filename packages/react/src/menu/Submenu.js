@@ -21,9 +21,9 @@ const Submenu = forwardRef((
   },
   ref,
 ) => {
-  const submenuRef = useRef(null);
+  const submenuContentRef = useRef(null);
   const submenuToggleRef = useRef(null);
-  const isHoveringSubmenuListRef = useRef();
+  const isHoveringSubmenuContentRef = useRef();
   const isHoveringSubmenuToggleRef = useRef();
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
 
@@ -62,15 +62,15 @@ const Submenu = forwardRef((
   const styleProps = useSubmenuStyle();
 
   const context = getMemoizedState({
-    isHoveringSubmenuListRef,
+    isHoveringSubmenuContentRef,
     isHoveringSubmenuToggleRef,
     isOpen,
     onClose,
     onOpen,
     placement,
     submenuId,
-    submenuRef,
     submenuToggleId,
+    submenuContentRef,
     submenuToggleRef,
   });
 

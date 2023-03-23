@@ -183,6 +183,14 @@ const useSubmenuStyle = () => {
   };
 };
 
+const useSubmenuContentStyle = ({
+  tabIndex,
+}) => {
+  return {
+    outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
+  };
+};
+
 const useSubmenuListStyle = ({
   isOpen,
   placement,
@@ -255,6 +263,7 @@ export {
   useMenuToggleStyle,
   useMenuToggleIconStyle,
   useSubmenuStyle,
+  useSubmenuContentStyle,
   useSubmenuListStyle,
   useSubmenuToggleStyle,
 };

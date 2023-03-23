@@ -34,7 +34,9 @@ To create an accessible popover, it should allow users to access it using the ta
 ```jsx disabled
 <Popover>
   <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
+    <Button variant="secondary">
+      Interactive Trigger
+    </Button>
   </PopoverTrigger>
   <PopoverContent>
     <PopoverHeader>Popover Header</PopoverHeader>
@@ -44,34 +46,40 @@ To create an accessible popover, it should allow users to access it using the ta
 </Popover>
 ```
 
-By default, you have to pass a single React element child to the `PopoverTrigger` component.
+By default, you can only pass a single React element child to the `PopoverTrigger` component.
 
 ```jsx disabled
 <PopoverTrigger>
-  <Button variant="secondary">Trigger</Button>
+  <Button variant="secondary">
+    Interactive Trigger
+  </Button>
 </PopoverTrigger>
 ```
 
 If you need to pass more than one child element or non-element children, wrap them in an element or pass the `shouldWrapChildren` prop.
 
 ```jsx disabled
-<PopoverTrigger>
-  <Text display="inline-block">Text content</Text>
+<PopoverTrigger outline={0} tabIndex={-1}>
+  <Text display="inline-block">
+    Non-interactive Trigger
+  </Text>
 </PopoverTrigger>
 ```
 
 ```jsx disabled
-<PopoverTrigger shouldWrapChildren>
-  Text content
+<PopoverTrigger outline={0} shouldWrapChildren tabIndex={-1}>
+  Non-interactive Trigger
 </PopoverTrigger>
 ```
 
 ```jsx disabled
-<PopoverTrigger shouldWrapChildren>
+<PopoverTrigger outline={0} shouldWrapChildren tabIndex={-1}>
   <Icon icon="menu" height="5x" mr="2x" />
-  <Text display="inline-block">Text content</Text>
+  <Text display="inline-block">Non-interactive Trigger</Text>
 </Popover>
 ```
+
+📢 Please note that if you pass non-interactive elements to `PopoverTrigger`, it is important to set the `tabIndex` value. You can set either `-1` or `0`, and this will ensure that the `PopoverTrigger` component functions correctly. If you fail to set this value, the `PopoverTrigger` may not work as intended.
 
 ### Controlled and uncontrolled popover
 
@@ -125,39 +133,39 @@ The focus status will send to `PopoverContent` when `Popover` opens. You can sen
 
 ```jsx
 function Example() {
-  const initialFocusRef = React.useRef();
+  const initialFocusRef1 = React.useRef();
+  const initialFocusRef2 = React.useRef();
 
   return (
-    <Popover
-      initialFocusRef={initialFocusRef}
-    >
-      <PopoverTrigger>
-        <Button variant="secondary">Trigger</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>
-          Popover Header
-        </PopoverHeader>
-        <PopoverBody>
-          Lorem ipsum dolor sit amet, consectetur adicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          <Input mt="3x" ref={initialFocusRef} placeholder="Placeholder text" />
-        </PopoverBody>
-        <PopoverFooter
-          border="0"
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Link fontSize="sm">Learn more</Link>
-          <Stack direction="row" spacing="2x">
-            <Button variant="primary">Setup Email</Button>
-            <Button variant="default">
-              Next
-            </Button>
-          </Stack>
-        </PopoverFooter>
-      </PopoverContent>
-    </Popover>
+    <Stack spacing="6x" width="fit-content">
+      <Popover initialFocusRef={initialFocusRef1}>
+        <PopoverTrigger>
+          <Button variant="secondary">
+            Interactive Trigger
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverBody>
+            <Input mt="3x" ref={initialFocusRef1} defaultValue="Popover" />
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+      <Popover initialFocusRef={initialFocusRef2}>
+        <PopoverTrigger tabIndex={-1}>
+          <Text
+            userSelect="none"
+            _hover={{ cursor: 'pointer' }}
+          >
+            Non-interactive Trigger
+          </Text>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverBody>
+            <Input mt="3x" ref={initialFocusRef2} defaultValue="Popover" />
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+    </Stack>
   );
 }
 ```
@@ -168,28 +176,45 @@ When the `Popover` is closed, the focus status is sent to the `PopoverTrigger`. 
 
 ```jsx
 function Example() {
-  const [on, toggle] = useToggle(false);
+  const initialFocusRef1 = React.useRef();
+  const initialFocusRef2 = React.useRef();
 
   return (
-    <>
-      <Flex mb="4x">
-        <Switch checked={on} onChange={toggle} />
-      </Flex>
+    <Stack spacing="6x" width="fit-content">
       <Popover
-        isOpen={on}
-        placement="bottom"
+        initialFocusRef={initialFocusRef1}
         returnFocusOnClose={false}
       >
         <PopoverTrigger>
-          <Button variant="secondary" onClick={toggle}>
-            Trigger
+          <Button variant="secondary">
+            Interactive Trigger
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          Popover
+          <PopoverBody>
+            <Input mt="3x" ref={initialFocusRef1} defaultValue="Popover" />
+          </PopoverBody>
         </PopoverContent>
       </Popover>
-    </>
+      <Popover
+        initialFocusRef={initialFocusRef2}
+        returnFocusOnClose={false}
+      >
+        <PopoverTrigger tabIndex={-1}>
+          <Text
+            userSelect="none"
+            _hover={{ cursor: 'pointer' }}
+          >
+            Non-interactive Trigger
+          </Text>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverBody>
+            <Input mt="3x" ref={initialFocusRef2} defaultValue="Popover" />
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+    </Stack>
   );
 }
 ```

@@ -33,34 +33,29 @@ const MenuContent = forwardRef((
     menuId,
     menuToggleId,
     menuToggleRef,
-    menuRef,
+    menuContentRef,
     offset,
-    onBlur,
     onClose: closeMenu,
-    onKeyDown,
     placement,
   } = { ...menuContext };
+  const eventHandler = {};
 
   // Close the menu on blur
-  const handleBlur = event => {
-    const target = event.relatedTarget || document.activeElement;
-    const isClickingOutside =
-      target &&
-      !(menuRef?.current?.contains(target)) &&
-      !(menuToggleRef?.current?.contains(target));
-    const shouldCloseMenu = isOpen && closeOnBlur && isClickingOutside;
+  eventHandler.onBlur = function (event) {
+    // https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent/relatedTarget
+    // The relatedTarget property represents the `EventTarget` receiving focus or losing focus during a `blur` or `focus` event, respectively.
+    const focusTarget = event.relatedTarget || document.activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
+    const isOutsideMenuToggle = !(menuToggleRef.current?.contains?.(focusTarget));
+    const isOutsideMenuContent = !(menuContentRef.current?.contains?.(focusTarget));
+    const shouldClose = isOpen && closeOnBlur && !!focusTarget && isOutsideMenuToggle && isOutsideMenuContent;
 
-    if (shouldCloseMenu) {
+    if (shouldClose) {
       ensureFunction(closeMenu)();
     }
-
-    ensureFunction(onBlur)(event);
   };
 
-  /**
-   * Navigate the menu items using keyboard.
-   */
-  const handleKeyDown = event => {
+  // Navigate the menu items using keyboard.
+  eventHandler.onKeyDown = function (event) {
     const key = event?.key;
     const shiftKey = event?.shiftKey;
 
@@ -90,17 +85,10 @@ const MenuContent = forwardRef((
     if (key === 'Escape') {
       ensureFunction(closeMenu)();
     }
-
-    ensureFunction(onKeyDown)(event);
   };
 
   const tabIndex = -1;
   const styleProps = useMenuContentStyle({ tabIndex });
-
-  const eventHandlers = {
-    onBlur: callEventHandlers(onBlurProp, handleBlur),
-    onKeyDown: callEventHandlers(onKeyDownProp, handleKeyDown),
-  };
 
   const [
     skidding = 0,
@@ -127,15 +115,16 @@ const MenuContent = forwardRef((
       isOpen={isOpen}
       modifiers={popperModifiers}
       placement={placement}
-      ref={menuRef}
+      ref={menuContentRef}
       role="menu"
       tabIndex={tabIndex}
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
       willUseTransition={true}
       zIndex="dropdown"
+      onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}
+      onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
       {...styleProps}
-      {...eventHandlers}
       {...PopperProps}
       {...rest}
     >

@@ -109,6 +109,7 @@ test('should match expected exports', () => {
     'MenuToggle',
     'MenuToggleIcon',
     'Submenu',
+    'SubmenuContent',
     'SubmenuList',
     'SubmenuToggle',
     'useMenu',

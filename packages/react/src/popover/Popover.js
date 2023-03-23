@@ -130,18 +130,6 @@ const Popover = ({
     }
   }, [isOpenProp, onCloseProp, trigger, leaveDelay, closeWithDelay]);
 
-  const onBlur = useCallback((event) => {
-    const relatedTarget = event.relatedTarget;
-    const triggerEl = popoverTriggerRef.current;
-    const contentEl = popoverContentRef.current;
-    const isOutsideTrigger = !(triggerEl?.contains?.(relatedTarget));
-    const isOutsideContent = !(contentEl?.contains?.(relatedTarget));
-
-    if (isOpen && closeOnBlur && isOutsideTrigger && isOutsideContent) {
-      onClose();
-    }
-  }, [isOpen, closeOnBlur, onClose, popoverTriggerRef, popoverContentRef]);
-
   const setMouseCoordinate = useCallback((event) => {
     setMousePageX(event.pageX);
     setMousePageY(event.pageY);
@@ -193,6 +181,7 @@ const Popover = ({
   const popoverBodyId = `${popoverId}-body`;
   const context = getMemoizedState({
     arrowAt,
+    closeOnBlur,
     closeOnEsc,
     followCursor,
     hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
@@ -204,7 +193,6 @@ const Popover = ({
     mousePageY,
     nextToCursor,
     offset,
-    onBlur,
     onClose,
     onOpen,
     placement: (nextToCursor || followCursor) ? 'bottom-start' : placement,
