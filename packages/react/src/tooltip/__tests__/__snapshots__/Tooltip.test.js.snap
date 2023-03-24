@@ -1,11 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tooltip should render correctly 1`] = `
-.emotion-0 {
-  display: block;
-  font-family: "Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-
 .emotion-2 {
   position: absolute;
   pointer-events: none;
@@ -105,7 +100,7 @@ exports[`Tooltip should render correctly 1`] = `
     >
       This is a tooltip
       <div
-        class="emotion-6 emotion-1"
+        class="emotion-0 emotion-1"
         data-arrow-style=""
         data-popper-arrow=""
         role="presentation"

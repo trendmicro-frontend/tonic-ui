@@ -5,8 +5,6 @@ const useTextStyle = ({ size }) => {
   const { fontSizes, lineHeights } = useTheme();
 
   return {
-    display: 'block',
-    fontFamily: 'base',
     fontSize: fontSizes?.[size],
     lineHeight: lineHeights?.[size],
   };
