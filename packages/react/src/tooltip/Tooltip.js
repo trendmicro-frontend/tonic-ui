@@ -2,10 +2,11 @@ import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Popper, PopperArrow } from '../popper';
+import { Popper } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
 import useAutoId from '../utils/useAutoId';
+import TooltipArrow from './TooltipArrow';
 import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
 import { TooltipContext } from './context';
@@ -17,10 +18,12 @@ const defaultPlacement = 'bottom';
 const Tooltip = forwardRef((
   {
     // TooltipContent props
+    PopperArrowComponent, // removed
+    PopperArrowProps, // deprecated
     PopperComponent = Popper,
     PopperProps,
-    PopperArrowComponent = PopperArrow,
-    PopperArrowProps,
+    TooltipArrowComponent = TooltipArrow,
+    TooltipArrowProps,
     TransitionComponent = Grow,
     TransitionProps,
 
@@ -180,10 +183,12 @@ const Tooltip = forwardRef((
         {children}
       </TooltipTrigger>
       <TooltipContent
+        PopperArrowComponent={PopperArrowComponent} // removed
+        PopperArrowProps={PopperArrowProps} // deprecated
         PopperComponent={PopperComponent}
         PopperProps={PopperProps}
-        PopperArrowComponent={PopperArrowComponent}
-        PopperArrowProps={PopperArrowProps}
+        TooltipArrowComponent={TooltipArrowComponent}
+        TooltipArrowProps={TooltipArrowProps}
         TransitionComponent={TransitionComponent}
         TransitionProps={TransitionProps}
         {...rest}
