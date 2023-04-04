@@ -1,5 +1,5 @@
 import { useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
-import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
+import { runIfFn, warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
@@ -9,13 +9,14 @@ import { PopoverContext } from './context';
 const getMemoizedState = memoize(state => ({ ...state }));
 
 const Popover = ({
+  arrowAt, // removed
   distance, // deprecated
   skidding, // deprecated
-  arrowAt,
   children,
   closeOnBlur = true,
   closeOnEsc = true,
   defaultIsOpen = false,
+  disabled,
   enterDelay = 100,
   followCursor,
   hideArrow,
@@ -33,6 +34,13 @@ const Popover = ({
 }) => {
   { // deprecation warning
     const prefix = `${Popover.displayName}:`;
+
+    useOnceWhen(() => {
+      warnRemovedProps('arrowAt', {
+        prefix,
+        message: 'Use the \'PopoverArrowProps\' prop on the \'PopoverContent\' component instead.',
+      });
+    }, (arrowAt !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('skidding', {
@@ -180,9 +188,9 @@ const Popover = ({
   const popoverHeaderId = `${popoverId}-header`;
   const popoverBodyId = `${popoverId}-body`;
   const context = getMemoizedState({
-    arrowAt,
     closeOnBlur,
     closeOnEsc,
+    disabled,
     followCursor,
     hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
     initialFocusRef,

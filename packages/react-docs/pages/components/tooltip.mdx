@@ -74,27 +74,22 @@ Tooltip is uncontrolled by default. You can set `defaultIsOpen` to `true` to hav
 
 ### Hide the tooltip
 
-To hide the tooltip, you can pass an empty value (i.e. `!value`) to the `label` prop or use the `disabled` prop.
-
-#### Use the `label` prop to hide the tooltip
+To hide a tooltip in your app, you can use the `label` and `disabled` props. To hide the tooltip, set the `label` prop to an empty value represented by `""`, or set the `disabled` prop to `true`. Here are examples:
 
 ```jsx
-<Tooltip label="">
-  <Icon icon="search-o" />
-</Tooltip>
-```
-
-#### Use the `disabled` prop to hide the tooltip
-
-```jsx
-<Tooltip label="Search" disabled>
-  <Icon icon="search-o" />
-</Tooltip>
+<Flex columnGap="6x">
+  <Tooltip label="">
+    <Icon icon="search-o" />
+  </Tooltip>
+  <Tooltip label="Search" disabled>
+    <Icon icon="search-o" />
+  </Tooltip>
+</Flex>
 ```
 
 ### Hide the arrow of the tooltip
 
-Pass `hideArrow` to the `Tooltip` component to hide the arrow of the tooltip.
+To hide the arrow of the tooltip, add the `hideArrow` prop to the `Tooltip` component:
 
 ```jsx
 <Tooltip label="Search" hideArrow>
