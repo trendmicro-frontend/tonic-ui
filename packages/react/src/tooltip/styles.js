@@ -25,6 +25,10 @@ const useTooltipArrowStyle = ({
   const arrowHeight = sizes[arrowHeightProp] ?? pixelize(arrowHeightProp);
   const arrowWidth = sizes[arrowWidthProp] ?? pixelize(arrowWidthProp);
   const placement = ensureString(placementProp);
+  const dropShadowColor = {
+    dark: 'rgba(0, 0, 0, 0.16)',
+    light: 'rgba(0, 0, 0, 0.08)',
+  }[colorMode];
 
   if (placement.startsWith('top')) {
     return {
@@ -32,14 +36,14 @@ const useTooltipArrowStyle = ({
       position: 'absolute',
       bottom: 0,
       __before: {
-        position: 'absolute',
         content: '""',
-        bottom: `-${arrowHeight}`,
-        left: `calc(-${arrowWidth}/2)`,
-        right: `calc(-${arrowWidth}/2)`,
         borderTop: `${arrowHeight} solid`,
         borderLeft: `calc(${arrowWidth}/2) solid transparent`,
         borderRight: `calc(${arrowWidth}/2) solid transparent`,
+        filter: `drop-shadow(0 1px 1px ${dropShadowColor})`,
+        position: 'absolute',
+        bottom: `-${arrowHeight}`,
+        transform: 'translateX(-50%)',
       },
     };
   }
@@ -50,14 +54,14 @@ const useTooltipArrowStyle = ({
       position: 'absolute',
       top: 0,
       __before: {
-        position: 'absolute',
         content: '""',
-        top: `-${arrowHeight}`,
-        left: `calc(-${arrowWidth}/2)`,
-        right: `calc(-${arrowWidth}/2)`,
         borderBottom: `${arrowHeight} solid`,
         borderLeft: `calc(${arrowWidth}/2) solid transparent`,
         borderRight: `calc(${arrowWidth}/2) solid transparent`,
+        filter: `drop-shadow(0 -1px 1px ${dropShadowColor})`,
+        position: 'absolute',
+        top: `-${arrowHeight}`,
+        transform: 'translateX(-50%)',
       },
     };
   }
@@ -68,14 +72,14 @@ const useTooltipArrowStyle = ({
       position: 'absolute',
       right: 0,
       __before: {
-        position: 'absolute',
         content: '""',
-        right: `-${arrowHeight}`,
-        top: `calc(-${arrowWidth}/2)`,
-        bottom: `calc(-${arrowWidth}/2)`,
         borderLeft: `${arrowHeight} solid`,
         borderTop: `calc(${arrowWidth}/2) solid transparent`,
         borderBottom: `calc(${arrowWidth}/2) solid transparent`,
+        filter: `drop-shadow(1px 0px 1px ${dropShadowColor})`,
+        position: 'absolute',
+        right: `-${arrowHeight}`,
+        transform: 'translateY(-50%)',
       },
     };
   }
@@ -86,14 +90,14 @@ const useTooltipArrowStyle = ({
       position: 'absolute',
       left: 0,
       __before: {
-        position: 'absolute',
         content: '""',
-        left: `-${arrowHeight}`,
-        top: `calc(-${arrowWidth}/2)`,
-        bottom: `calc(-${arrowWidth}/2)`,
         borderRight: `${arrowHeight} solid`,
         borderTop: `calc(${arrowWidth}/2) solid transparent`,
         borderBottom: `calc(${arrowWidth}/2) solid transparent`,
+        filter: `drop-shadow(-1px 0px 1px ${dropShadowColor})`,
+        position: 'absolute',
+        left: `-${arrowHeight}`,
+        transform: 'translateY(-50%)',
       },
     };
   }

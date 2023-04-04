@@ -36,14 +36,18 @@ exports[`Tooltip should render correctly 1`] = `
 }
 
 .emotion-6::before {
-  position: absolute;
   content: "";
-  top: -4px;
-  left: calc(-8px/2);
-  right: calc(-8px/2);
   border-bottom: 4px solid;
   border-left: calc(8px/2) solid transparent;
   border-right: calc(8px/2) solid transparent;
+  -webkit-filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.08));
+  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.08));
+  position: absolute;
+  top: -4px;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 
 <div>
