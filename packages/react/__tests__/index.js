@@ -143,7 +143,7 @@ test('should match expected exports', () => {
 
     // popper
     'Popper',
-    'PopperArrow', // deprecated
+    'PopperArrow', // removed
 
     // portal
     'Portal',

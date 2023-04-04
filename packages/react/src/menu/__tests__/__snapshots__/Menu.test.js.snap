@@ -159,53 +159,6 @@ exports[`Menu should render correctly 1`] = `
   padding-bottom: .5rem;
 }
 
-.emotion-10 [data-arrow-style],
-.emotion-10 [data-arrow-style]::before {
-  position: absolute;
-  background: inherit;
-}
-
-.emotion-10 [data-arrow-style]::before {
-  content: '';
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  background: inherit;
-}
-
-.emotion-10[data-popper-placement^="top"] [data-arrow-style] {
-  bottom: 0;
-}
-
-.emotion-10[data-popper-placement^="top"] [data-arrow-style]::before {
-  bottom: calc(undefined / 2 * -1);
-}
-
-.emotion-10[data-popper-placement^="bottom"] [data-arrow-style] {
-  top: 0;
-}
-
-.emotion-10[data-popper-placement^="bottom"] [data-arrow-style]::before {
-  top: calc(undefined / 2 * -1);
-}
-
-.emotion-10[data-popper-placement^="right"] [data-arrow-style] {
-  left: 0;
-}
-
-.emotion-10[data-popper-placement^="right"] [data-arrow-style]::before {
-  left: calc(undefined / 2 * -1);
-}
-
-.emotion-10[data-popper-placement^="left"] [data-arrow-style] {
-  right: 0;
-}
-
-.emotion-10[data-popper-placement^="left"] [data-arrow-style]::before {
-  right: calc(undefined / 2 * -1);
-}
-
 .emotion-12 {
   height: 0;
   opacity: 1;

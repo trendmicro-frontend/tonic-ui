@@ -51,4 +51,10 @@ export theme from './shared/theme';
 
 // deprecated
 export FlatButton from './deprecated/FlatButton';
+export PseudoBox from './deprecated/PseudoBox';
+export ToggleSwitch from './deprecated/ToggleSwitch';
 export useDisclosure from './deprecated/useDisclosure';
+export withTheme from './deprecated/withTheme';
+
+// removed
+export PopperArrow from './removed/PopperArrow';
