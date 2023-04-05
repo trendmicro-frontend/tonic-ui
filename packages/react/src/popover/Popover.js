@@ -60,8 +60,8 @@ const Popover = ({
     offset = offset ?? [skidding, distance];
   }
 
-  const popoverTriggerRef = useRef();
   const popoverContentRef = useRef();
+  const popoverTriggerRef = useRef();
   const isHoveringContentRef = useRef();
   const isHoveringTriggerRef = useRef();
   const [mousePageX, setMousePageX] = useState(0);
@@ -201,8 +201,8 @@ const Popover = ({
     onClose,
     onOpen,
     placement: (nextToCursor || followCursor) ? 'bottom-start' : placement,
-    popoverContentRef,
     popoverId,
+    popoverContentRef,
     popoverTriggerId,
     popoverTriggerRef,
     setMouseCoordinate,

@@ -3,10 +3,8 @@ import {
   ariaAttr,
   callAll,
   callEventHandlers,
-  getComputedStyle,
   isBlankString,
   isEmptyArray,
-  isHTMLElement,
   warnDeprecatedProps,
   warnRemovedProps,
 } from '@tonic-ui/utils';
@@ -103,8 +101,8 @@ const PopoverContent = forwardRef((
     offset,
     onClose: closePopover,
     placement,
-    popoverContentRef,
     popoverId,
+    popoverContentRef,
     popoverTriggerId,
     popoverTriggerRef,
     trigger,
@@ -255,13 +253,6 @@ const PopoverContent = forwardRef((
             )}
           >
             {(state, { ref, style: transitionStyle }) => {
-              // Compute the background color of the popover content and apply it to the popover arrow
-              const popoverArrowStyleProps = {};
-              if (isHTMLElement(nodeRef.current)) {
-                const computedStyle = getComputedStyle(nodeRef.current);
-                popoverArrowStyleProps.color = computedStyle?.backgroundColor;
-              }
-
               return (
                 <Box
                   onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}
@@ -276,10 +267,7 @@ const PopoverContent = forwardRef((
                   {...rest}
                 >
                   {!hideArrow && (
-                    <PopoverArrowComponent
-                      {...popoverArrowStyleProps}
-                      {...PopoverArrowProps}
-                    />
+                    <PopoverArrowComponent {...PopoverArrowProps} />
                   )}
                   {children}
                 </Box>

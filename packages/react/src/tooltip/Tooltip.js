@@ -73,6 +73,7 @@ const Tooltip = forwardRef((
     }, (hideDelay !== undefined));
   }
 
+  const tooltipContentRef = useRef(null);
   const tooltipTriggerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
 
@@ -173,6 +174,7 @@ const Tooltip = forwardRef((
     onOpen,
     placement,
     tooltipId,
+    tooltipContentRef,
     tooltipTriggerId,
     tooltipTriggerRef,
   });

@@ -2,10 +2,8 @@ import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
-  getComputedStyle,
   isBlankString,
   isEmptyArray,
-  isHTMLElement,
   warnDeprecatedProps,
   warnRemovedProps,
 } from '@tonic-ui/utils';
@@ -83,6 +81,7 @@ const TooltipContent = forwardRef((
     offset,
     placement,
     tooltipId,
+    tooltipContentRef,
     tooltipTriggerId,
     tooltipTriggerRef,
   } = useTooltip();
@@ -128,6 +127,7 @@ const TooltipContent = forwardRef((
       modifiers={popperModifiers}
       placement={placement}
       pointerEvents="none"
+      ref={tooltipContentRef}
       role="tooltip"
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render tooltip in a portal
@@ -147,13 +147,6 @@ const TooltipContent = forwardRef((
             onExited={callAll(onExited, TransitionProps?.onExited)}
           >
             {(state, { ref, style: transitionStyle }) => {
-              // Compute the background color of the tooltip content and apply it to the tooltip arrow
-              const tooltipArrowStyleProps = {};
-              if (isHTMLElement(nodeRef.current)) {
-                const computedStyle = getComputedStyle(nodeRef.current);
-                tooltipArrowStyleProps.color = computedStyle?.backgroundColor;
-              }
-
               return (
                 <Box
                   ref={ref}
@@ -164,10 +157,7 @@ const TooltipContent = forwardRef((
                 >
                   {children}
                   {!hideArrow && (
-                    <TooltipArrowComponent
-                      {...tooltipArrowStyleProps}
-                      {...TooltipArrowProps}
-                    />
+                    <TooltipArrowComponent {...TooltipArrowProps} />
                   )}
                 </Box>
               );
