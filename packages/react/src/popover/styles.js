@@ -17,10 +17,6 @@ const usePopoverArrowStyle = ({
   placement: placementProp,
 }) => {
   const [colorMode] = useColorMode();
-  const color = {
-    dark: 'gray:80',
-    light: 'white',
-  }[colorMode];
   const { sizes } = useTheme();
   const arrowHeight = sizes[arrowHeightProp] ?? pixelize(arrowHeightProp);
   const arrowWidth = sizes[arrowWidthProp] ?? pixelize(arrowWidthProp);
@@ -32,7 +28,6 @@ const usePopoverArrowStyle = ({
 
   if (placement.startsWith('top')) {
     return {
-      color,
       position: 'absolute',
       bottom: 0,
       __before: {
@@ -50,7 +45,6 @@ const usePopoverArrowStyle = ({
 
   if (placement.startsWith('bottom')) {
     return {
-      color,
       position: 'absolute',
       top: 0,
       __before: {
@@ -68,7 +62,6 @@ const usePopoverArrowStyle = ({
 
   if (placement.startsWith('left')) {
     return {
-      color,
       position: 'absolute',
       right: 0,
       __before: {
@@ -86,7 +79,6 @@ const usePopoverArrowStyle = ({
 
   if (placement.startsWith('right')) {
     return {
-      color,
       position: 'absolute',
       left: 0,
       __before: {

@@ -1,7 +1,17 @@
-import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
-import { ariaAttr, callAll, callEventHandlers, isBlankString, isEmptyArray, warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
+import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import {
+  ariaAttr,
+  callAll,
+  callEventHandlers,
+  getComputedStyle,
+  isBlankString,
+  isEmptyArray,
+  isHTMLElement,
+  warnDeprecatedProps,
+  warnRemovedProps,
+} from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { useMemo, useRef } from 'react';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
@@ -31,23 +41,26 @@ const getOffset = (element, relativeTop = false) => {
   return getOffset(element.offsetParent, relativeTop) + (relativeTop ? element.offsetTop : element.offsetLeft);
 };
 
-const PopoverContent = ({
-  PopperArrowComponent, // removed
-  PopperArrowProps, // deprecated
+const PopoverContent = forwardRef((
+  {
+    PopperArrowComponent, // removed
+    PopperArrowProps, // deprecated
 
-  PopperComponent = Popper,
-  PopperProps,
-  PopoverArrowComponent = PopoverArrow,
-  PopoverArrowProps,
-  TransitionComponent = Grow,
-  TransitionProps,
-  children,
-  onBlur: onBlurProp,
-  onKeyDown: onKeyDownProp,
-  onMouseEnter: onMouseEnterProp,
-  onMouseLeave: onMouseLeaveProp,
-  ...rest
-}) => {
+    PopperComponent = Popper,
+    PopperProps,
+    PopoverArrowComponent = PopoverArrow,
+    PopoverArrowProps,
+    TransitionComponent = Grow,
+    TransitionProps,
+    children,
+    onBlur: onBlurProp,
+    onKeyDown: onKeyDownProp,
+    onMouseEnter: onMouseEnterProp,
+    onMouseLeave: onMouseLeaveProp,
+    ...rest
+  },
+  ref,
+) => {
   { // deprecation warning
     const prefix = `${PopoverContent.displayName}:`;
 
@@ -74,6 +87,7 @@ const PopoverContent = ({
 
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const {
     closeOnBlur,
     closeOnEsc,
@@ -223,7 +237,7 @@ const PopoverContent = ({
           <TransitionComponent
             appear={true}
             {...TransitionProps}
-            ref={nodeRef}
+            ref={combinedRef}
             in={inProp}
             onEnter={callAll(
               onEnter,
@@ -243,6 +257,13 @@ const PopoverContent = ({
             )}
           >
             {(state, { ref, style: transitionStyle }) => {
+              // Compute the background color of the popover content and apply it to the popover arrow
+              const popoverArrowStyleProps = {};
+              if (isHTMLElement(nodeRef.current)) {
+                const computedStyle = getComputedStyle(nodeRef.current);
+                popoverArrowStyleProps.color = computedStyle?.backgroundColor;
+              }
+
               return (
                 <Box
                   onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}
@@ -257,7 +278,10 @@ const PopoverContent = ({
                   {...rest}
                 >
                   {!hideArrow && (
-                    <PopoverArrowComponent {...PopoverArrowProps} />
+                    <PopoverArrowComponent
+                      {...popoverArrowStyleProps}
+                      {...PopoverArrowProps}
+                    />
                   )}
                   {children}
                 </Box>
@@ -268,7 +292,7 @@ const PopoverContent = ({
       }}
     </PopperComponent>
   );
-};
+});
 
 PopoverContent.displayName = 'PopoverContent';
 
