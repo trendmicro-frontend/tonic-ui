@@ -31,6 +31,13 @@ const mapPlacementToTransformOrigin = placement => ({
   'right-end': 'left bottom',
 }[placement]);
 
+const getOffset = (element, relativeTop = false) => {
+  if (!element) {
+    return 0;
+  }
+  return getOffset(element.offsetParent, relativeTop) + (relativeTop ? element.offsetTop : element.offsetLeft);
+};
+
 const TooltipContent = forwardRef((
   {
     PopperArrowComponent, // removed
@@ -77,7 +84,11 @@ const TooltipContent = forwardRef((
   const {
     arrow,
     disabled,
+    followCursor,
     isOpen,
+    mousePageX,
+    mousePageY,
+    nextToCursor,
     offset,
     placement,
     tooltipId,
@@ -85,22 +96,38 @@ const TooltipContent = forwardRef((
     tooltipTriggerId,
     tooltipTriggerRef,
   } = useTooltip();
+  const styleProps = useTooltipContentStyle();
+
+  const tooltipTriggerEl = tooltipTriggerRef.current;
   const [
     skidding = 0,
     distance = 8,
   ] = ensureArray(offset);
+  const [computedSkidding, computedDistance] = useMemo(() => {
+    let _skidding = skidding;
+    let _distance = distance;
+
+    if (tooltipTriggerEl && (followCursor || nextToCursor)) {
+      const { offsetHeight } = tooltipTriggerEl;
+      const offsetLeft = getOffset(tooltipTriggerEl);
+      const offsetTop = getOffset(tooltipTriggerEl, true);
+      _skidding = mousePageX - offsetLeft + 8; // 8px is a estimated value of cursor
+      _distance = -8 + (mousePageY - offsetTop - offsetHeight) + 24; // 24px is a estimated value of cursor
+    }
+
+    return [_skidding, _distance];
+  }, [skidding, distance, tooltipTriggerEl, followCursor, nextToCursor, mousePageX, mousePageY]);
   const popperModifiers = useMemo(() => {
     const modifiers = [
       { // https://popper.js.org/docs/v2/modifiers/offset/
         name: 'offset',
         options: {
-          offset: [skidding, distance],
+          offset: [computedSkidding, computedDistance],
         },
       },
     ];
     return modifiers;
-  }, [skidding, distance]);
-  const styleProps = useTooltipContentStyle();
+  }, [computedSkidding, computedDistance]);
 
   if (!isHydrated) {
     return null;
