@@ -56,7 +56,7 @@ const Popover = ({
         alternative: 'arrow',
         willRemove: true,
       });
-    }, (hideArrow !== undefined));
+    }, (process.env.NODE_ENV !== 'production') && (hideArrow !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('skidding', {
