@@ -218,7 +218,7 @@ function Example() {
 To hide a popover in your app, you can pass an empty value to the children of the `PopoverContent` component or use the `disabled` prop. Here are examples:
 
 ```jsx
-<Flex columnGap="6x">
+<Flex columnGap="4x">
   <Popover>
     <PopoverTrigger>
       <Button variant="secondary">Trigger</Button>
@@ -226,6 +226,7 @@ To hide a popover in your app, you can pass an empty value to the children of th
     <PopoverContent>
     </PopoverContent>
   </Popover>
+  <Divider orientation="vertical" />
   <Popover disabled>
     <PopoverTrigger>
       <Button variant="secondary">Trigger</Button>

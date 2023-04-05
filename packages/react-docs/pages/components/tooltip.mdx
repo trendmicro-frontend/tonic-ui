@@ -77,10 +77,11 @@ Tooltip is uncontrolled by default. You can set `defaultIsOpen` to `true` to hav
 To hide a tooltip in your app, you can use the `label` and `disabled` props. To hide the tooltip, set the `label` prop to an empty value represented by `""`, or set the `disabled` prop to `true`. Here are examples:
 
 ```jsx
-<Flex columnGap="6x">
+<Flex columnGap="4x">
   <Tooltip label="">
     <Icon icon="search-o" />
   </Tooltip>
+  <Divider orientation="vertical" />
   <Tooltip label="Search" disabled>
     <Icon icon="search-o" />
   </Tooltip>
