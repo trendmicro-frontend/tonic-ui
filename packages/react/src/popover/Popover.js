@@ -11,7 +11,9 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const Popover = ({
   arrowAt, // removed
   distance, // deprecated
+  hideArrow, // deprecated
   skidding, // deprecated
+  arrow = true,
   children,
   closeOnBlur = true,
   closeOnEsc = true,
@@ -19,7 +21,6 @@ const Popover = ({
   disabled,
   enterDelay = 100,
   followCursor,
-  hideArrow,
   initialFocusRef,
   isOpen: isOpenProp,
   leaveDelay = 0,
@@ -42,6 +43,22 @@ const Popover = ({
     }, (arrowAt !== undefined));
 
     useOnceWhen(() => {
+      warnDeprecatedProps('distance', {
+        prefix,
+        alternative: 'offset={[skidding, distance]}',
+        willRemove: true,
+      });
+    }, (distance !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('hideArrow', {
+        prefix,
+        alternative: 'arrow',
+        willRemove: true,
+      });
+    }, (hideArrow !== undefined));
+
+    useOnceWhen(() => {
       warnDeprecatedProps('skidding', {
         prefix,
         alternative: 'offset={[skidding, distance]}',
@@ -49,13 +66,9 @@ const Popover = ({
       });
     }, (skidding !== undefined));
 
-    useOnceWhen(() => {
-      warnDeprecatedProps('distance', {
-        prefix,
-        alternative: 'offset={[skidding, distance]}',
-        willRemove: true,
-      });
-    }, (distance !== undefined));
+    if (hideArrow !== undefined) {
+      arrow = !hideArrow;
+    }
 
     offset = offset ?? [skidding, distance];
   }
@@ -189,7 +202,7 @@ const Popover = ({
     closeOnEsc,
     disabled,
     followCursor,
-    hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
+    arrow: (nextToCursor || followCursor) ? false : arrow,
     initialFocusRef,
     isHoveringContentRef,
     isHoveringTriggerRef,

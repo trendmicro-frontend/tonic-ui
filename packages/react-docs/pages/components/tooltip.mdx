@@ -90,10 +90,10 @@ To hide a tooltip in your app, you can use the `label` and `disabled` props. To 
 
 ### Hide the arrow of the tooltip
 
-To hide the arrow of the tooltip, add the `hideArrow` prop to the `Tooltip` component:
+To remove the arrow from a tooltip, you can pass `arrow={false}` to the `Tooltip` component.
 
 ```jsx
-<Tooltip label="Search" hideArrow>
+<Tooltip label="Search" arrow={false}>
   <Icon icon="search-o" />
 </Tooltip>
 ```
@@ -166,7 +166,7 @@ function Example() {
       </Tooltip>
       <Divider orientation="vertical" />
       <Tooltip
-        hideArrow
+        arrow={false}
         label={(
           <Box px="1x" py="2x">
             <Text>Tooltip Title</Text>
@@ -321,7 +321,7 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
-| arrowAt | string | | The position of the arrow. One of: 'left', 'right', 'top', 'bottom' |
+| arrow | boolean | true | If `true`, adds an arrow to the tooltip. |
 | children | ReactNode \| `({ getTooltipTriggerProps }) => ReactNode` | | |
 | closeOnClick | boolean | true | If `true`, close the tooltip on click. |
 | closeOnEsc | boolean | true | If `true`, close the tooltip when pressing the escape key. |
@@ -329,7 +329,6 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
 | defaultIsOpen | boolean | false | Whether the tooltip will be open by default. |
 | disabled | boolean | | If `true`, the tooltip will not display. |
 | enterDelay | number | 100 | The delay in milliseconds before the tooltip appears. |
-| hideArrow | boolean | | If `true`, hide the arrow tip on the tooltip. |
 | isOpen | boolean | | If `true`, show the tooltip. |
 | label | string \| ReactNode | | If the tooltip label is a blank or empty string, the tooltip will not display. |
 | leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |

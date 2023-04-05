@@ -75,8 +75,8 @@ const TooltipContent = forwardRef((
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const {
+    arrow,
     disabled,
-    hideArrow,
     isOpen,
     offset,
     placement,
@@ -121,7 +121,6 @@ const TooltipContent = forwardRef((
       aria-labelledby={tooltipTriggerId}
       data-popper-placement={placement}
       anchorEl={tooltipTriggerRef.current}
-      hideArrow={hideArrow}
       id={tooltipId}
       isOpen={isOpen}
       modifiers={popperModifiers}
@@ -156,7 +155,7 @@ const TooltipContent = forwardRef((
                   {...rest}
                 >
                   {children}
-                  {!hideArrow && (
+                  {!!arrow && (
                     <TooltipArrowComponent {...TooltipArrowProps} />
                   )}
                 </Box>

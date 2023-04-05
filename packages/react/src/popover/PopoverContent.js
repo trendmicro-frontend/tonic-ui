@@ -87,11 +87,11 @@ const PopoverContent = forwardRef((
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const {
+    arrow,
     closeOnBlur,
     closeOnEsc,
     disabled,
     followCursor,
-    hideArrow,
     isHoveringContentRef,
     isHoveringTriggerRef,
     isOpen,
@@ -266,7 +266,7 @@ const PopoverContent = forwardRef((
                   transformOrigin={mapPlacementToTransformOrigin(placement)}
                   {...rest}
                 >
-                  {!hideArrow && (
+                  {!!arrow && (
                     <PopoverArrowComponent {...PopoverArrowProps} />
                   )}
                   {children}

@@ -1,5 +1,5 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps } from '@tonic-ui/utils';
+import { warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Popper } from '../popper';
@@ -31,8 +31,11 @@ const Tooltip = forwardRef((
     shouldWrapChildren = false,
 
     // Tooltip props
-    showDelay, // deprecated
+    arrowAt, // removed
+    hideArrow, // deprecated
     hideDelay, // deprecated
+    showDelay, // deprecated
+    arrow = true,
     children,
     closeOnClick = true,
     closeOnEsc = true,
@@ -40,7 +43,6 @@ const Tooltip = forwardRef((
     defaultIsOpen = false,
     disabled,
     enterDelay = 100,
-    hideArrow,
     isOpen: isOpenProp,
     label,
     leaveDelay = 0,
@@ -56,12 +58,19 @@ const Tooltip = forwardRef((
     const prefix = `${Tooltip.displayName}:`;
 
     useOnceWhen(() => {
-      warnDeprecatedProps('showDelay', {
+      warnRemovedProps('arrowAt', {
         prefix,
-        alternative: 'enterDelay',
+        alternative: 'TooltipArrowProps',
+      });
+    }, (arrowAt !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('hideArrow', {
+        prefix,
+        alternative: 'arrow',
         willRemove: true,
       });
-    }, (showDelay !== undefined));
+    }, (hideArrow !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('hideDelay', {
@@ -70,6 +79,18 @@ const Tooltip = forwardRef((
         willRemove: true,
       });
     }, (hideDelay !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('showDelay', {
+        prefix,
+        alternative: 'enterDelay',
+        willRemove: true,
+      });
+    }, (showDelay !== undefined));
+
+    if (hideArrow !== undefined) {
+      arrow = !hideArrow;
+    }
   }
 
   const tooltipContentRef = useRef(null);
@@ -161,11 +182,11 @@ const Tooltip = forwardRef((
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
   const tooltipTriggerId = `${config.name}:TooltipTrigger-${defaultId}`;
   const context = getMemoizedState({
+    arrow,
     closeOnClick,
     closeOnEsc,
     closeOnMouseDown,
     disabled,
-    hideArrow,
     isOpen,
     offset,
     onClose,
