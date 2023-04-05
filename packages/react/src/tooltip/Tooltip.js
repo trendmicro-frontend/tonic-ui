@@ -159,6 +159,7 @@ const Tooltip = forwardRef((
 
   const defaultId = useAutoId();
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
+  const tooltipTriggerId = `${config.name}:TooltipTrigger-${defaultId}`;
   const context = getMemoizedState({
     arrowAt,
     closeOnClick,
@@ -172,6 +173,7 @@ const Tooltip = forwardRef((
     onOpen,
     placement,
     tooltipId,
+    tooltipTriggerId,
     tooltipTriggerRef,
   });
 

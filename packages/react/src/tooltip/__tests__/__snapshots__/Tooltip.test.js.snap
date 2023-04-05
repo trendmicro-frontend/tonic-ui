@@ -29,13 +29,13 @@ exports[`Tooltip should render correctly 1`] = `
   transform-origin: top center;
 }
 
-.emotion-6 {
-  color: #424242;
+.emotion-8 {
   position: absolute;
   top: 0;
+  color: rgb(66, 66, 66);
 }
 
-.emotion-6::before {
+.emotion-8::before {
   content: "";
   border-bottom: 4px solid;
   border-left: calc(8px/2) solid transparent;
@@ -54,11 +54,13 @@ exports[`Tooltip should render correctly 1`] = `
   <div
     aria-describedby="@tonic-ui/react:Tooltip-1"
     class="emotion-0 emotion-1"
-    data-testid="content"
+    data-testid="tooltip-content"
+    id="@tonic-ui/react:TooltipTrigger-1"
   >
     Hover me
   </div>
   <div
+    aria-labelledby="@tonic-ui/react:TooltipTrigger-1"
     class="emotion-2 emotion-1"
     data-popper-escaped=""
     data-popper-placement="bottom"
@@ -70,9 +72,14 @@ exports[`Tooltip should render correctly 1`] = `
     <div
       class="emotion-4 emotion-1"
     >
-      This is a tooltip
       <div
-        class="emotion-6 emotion-1"
+        class="emotion-0 emotion-1"
+        data-testid="tooltip-label"
+      >
+        This is a tooltip
+      </div>
+      <div
+        class="emotion-8 emotion-1"
         data-popper-arrow="true"
         role="presentation"
         style="position: absolute; left: 0px; transform: translate(12px, 0px);"

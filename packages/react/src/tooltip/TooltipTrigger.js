@@ -28,6 +28,7 @@ const TooltipTrigger = forwardRef((
     onClose,
     onOpen,
     tooltipId,
+    tooltipTriggerId,
     tooltipTriggerRef,
   } = useTooltip();
   const combinedRef = useMergeRefs(tooltipTriggerRef, ref);
@@ -83,6 +84,7 @@ const TooltipTrigger = forwardRef((
     return {
       ...ownProps,
       'aria-describedby': isOpen ? tooltipId : undefined,
+      id: tooltipTriggerId,
       ref: mergeRefs(combinedRef, ownRef),
       onBlur: callEventHandlers(ownProps?.onBlur, onBlurProp, eventHandler.onBlur),
       onClick: callEventHandlers(ownProps?.onClick, onClickProp, eventHandler.onClick),

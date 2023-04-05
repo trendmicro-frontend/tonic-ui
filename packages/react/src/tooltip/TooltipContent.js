@@ -83,6 +83,7 @@ const TooltipContent = forwardRef((
     offset,
     placement,
     tooltipId,
+    tooltipTriggerId,
     tooltipTriggerRef,
   } = useTooltip();
   const [
@@ -118,6 +119,7 @@ const TooltipContent = forwardRef((
   return (
     <PopperComponent
       aria-hidden={ariaAttr(!isOpen)}
+      aria-labelledby={tooltipTriggerId}
       data-popper-placement={placement}
       anchorEl={tooltipTriggerRef.current}
       hideArrow={hideArrow}
