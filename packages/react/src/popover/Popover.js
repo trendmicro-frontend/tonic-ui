@@ -20,7 +20,6 @@ const Popover = ({
   enterDelay = 100,
   followCursor,
   hideArrow,
-  id,
   initialFocusRef,
   isOpen: isOpenProp,
   leaveDelay = 0,
@@ -183,10 +182,8 @@ const Popover = ({
   }, []);
 
   const defaultId = useAutoId();
-  const fallbackId = `${config.name}:Popover-${defaultId}`;
-  const popoverId = id || fallbackId;
-  const popoverHeaderId = `${popoverId}-header`;
-  const popoverBodyId = `${popoverId}-body`;
+  const popoverId = `${config.name}:Popover-${defaultId}`;
+  const popoverTriggerId = `${config.name}:PopoverTrigger-${defaultId}`;
   const context = getMemoizedState({
     closeOnBlur,
     closeOnEsc,
@@ -204,10 +201,9 @@ const Popover = ({
     onClose,
     onOpen,
     placement: (nextToCursor || followCursor) ? 'bottom-start' : placement,
-    popoverId,
-    popoverBodyId,
     popoverContentRef,
-    popoverHeaderId,
+    popoverId,
+    popoverTriggerId,
     popoverTriggerRef,
     setMouseCoordinate,
     skidding,

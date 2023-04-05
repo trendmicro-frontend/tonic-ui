@@ -103,10 +103,9 @@ const PopoverContent = forwardRef((
     offset,
     onClose: closePopover,
     placement,
-    popoverBodyId,
     popoverContentRef,
-    popoverHeaderId,
     popoverId,
+    popoverTriggerId,
     popoverTriggerRef,
     trigger,
   } = usePopover();
@@ -215,9 +214,8 @@ const PopoverContent = forwardRef((
 
   return (
     <PopperComponent
-      aria-describedby={popoverBodyId}
       aria-hidden={ariaAttr(!isOpen)}
-      aria-labelledby={popoverHeaderId}
+      aria-labelledby={popoverTriggerId}
       anchorEl={popoverTriggerRef.current}
       id={popoverId}
       isOpen={isOpen}
