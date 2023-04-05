@@ -1,10 +1,19 @@
-import { useHydrated } from '@tonic-ui/react-hooks';
-import { ariaAttr, callAll, callEventHandlers } from '@tonic-ui/utils';
+import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import {
+  ariaAttr,
+  callAll,
+  callEventHandlers,
+  isBlankString,
+  isEmptyArray,
+  warnDeprecatedProps,
+  warnRemovedProps,
+} from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { useMemo, useRef } from 'react';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
-import { Popper, PopperArrow } from '../popper';
+import { Popper } from '../popper';
 import { Grow } from '../transitions';
+import PopoverArrow from './PopoverArrow';
 import { usePopoverContentStyle } from './styles';
 import usePopover from './usePopover';
 
@@ -30,43 +39,73 @@ const getOffset = (element, relativeTop = false) => {
   return getOffset(element.offsetParent, relativeTop) + (relativeTop ? element.offsetTop : element.offsetLeft);
 };
 
-const PopoverContent = ({
-  PopperComponent = Popper,
-  PopperProps,
-  PopperArrowComponent = PopperArrow,
-  PopperArrowProps,
-  TransitionComponent = Grow,
-  TransitionProps,
-  children,
-  onBlur: onBlurProp,
-  onKeyDown: onKeyDownProp,
-  onMouseEnter: onMouseEnterProp,
-  onMouseLeave: onMouseLeaveProp,
-  ...rest
-}) => {
+const PopoverContent = forwardRef((
+  {
+    PopperArrowComponent, // removed
+    PopperArrowProps, // deprecated
+
+    PopperComponent = Popper,
+    PopperProps,
+    PopoverArrowComponent = PopoverArrow,
+    PopoverArrowProps,
+    TransitionComponent = Grow,
+    TransitionProps,
+    children,
+    onBlur: onBlurProp,
+    onKeyDown: onKeyDownProp,
+    onMouseEnter: onMouseEnterProp,
+    onMouseLeave: onMouseLeaveProp,
+    ...rest
+  },
+  ref,
+) => {
+  { // deprecation warning
+    const prefix = `${PopoverContent.displayName}:`;
+
+    useOnceWhen(() => {
+      warnRemovedProps('PopperArrowComponent', {
+        prefix,
+        alternative: 'PopoverArrowComponent',
+      });
+    }, (PopperArrowComponent !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperArrowProps', {
+        prefix,
+        alternative: 'PopoverArrowProps',
+        willRemove: true,
+      });
+    }, (PopperArrowProps !== undefined));
+
+    PopoverArrowProps = {
+      ...PopperArrowProps,
+      ...PopoverArrowProps,
+    };
+  }
+
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const {
-    popoverContentRef,
-    popoverTriggerRef,
-    placement,
-    popoverId,
-    isOpen,
+    arrow,
     closeOnBlur,
     closeOnEsc,
-    onClose: closePopover,
+    disabled,
+    followCursor,
     isHoveringContentRef,
     isHoveringTriggerRef,
-    trigger,
-    popoverBodyId,
-    popoverHeaderId,
-    hideArrow,
-    offset,
-    nextToCursor,
-    followCursor,
+    isOpen,
     mousePageX,
     mousePageY,
-    arrowAt,
+    nextToCursor,
+    offset,
+    onClose: closePopover,
+    placement,
+    popoverId,
+    popoverContentRef,
+    popoverTriggerId,
+    popoverTriggerRef,
+    trigger,
   } = usePopover();
   const role = {
     'click': 'dialog',
@@ -128,7 +167,6 @@ const PopoverContent = ({
    * Arrow width = Math.sqrt(12^2 + 12^2) = 16.97
    * Arrow height = Math.sqrt(12^2 + 12^2) / 2 = 8.49
    */
-  const arrowSize = '12px'; // FIXME: Must be a theme token
   const [
     skidding = 0,
     distance = 12,
@@ -163,13 +201,20 @@ const PopoverContent = ({
     return null;
   }
 
+  if (disabled) {
+    return null;
+  }
+
+  if (!children || isBlankString(children) || isEmptyArray(children)) {
+    // TOOD: Objects are not valid as a React child
+    return null;
+  }
+
   return (
     <PopperComponent
-      aria-describedby={popoverBodyId}
       aria-hidden={ariaAttr(!isOpen)}
-      aria-labelledby={popoverHeaderId}
+      aria-labelledby={popoverTriggerId}
       anchorEl={popoverTriggerRef.current}
-      arrowSize={arrowSize}
       id={popoverId}
       isOpen={isOpen}
       modifiers={popperModifiers}
@@ -188,7 +233,7 @@ const PopoverContent = ({
           <TransitionComponent
             appear={true}
             {...TransitionProps}
-            ref={nodeRef}
+            ref={combinedRef}
             in={inProp}
             onEnter={callAll(
               onEnter,
@@ -221,11 +266,8 @@ const PopoverContent = ({
                   transformOrigin={mapPlacementToTransformOrigin(placement)}
                   {...rest}
                 >
-                  {!hideArrow && (
-                    <PopperArrowComponent
-                      arrowAt={arrowAt}
-                      {...PopperArrowProps}
-                    />
+                  {!!arrow && (
+                    <PopoverArrowComponent {...PopoverArrowProps} />
                   )}
                   {children}
                 </Box>
@@ -236,7 +278,7 @@ const PopoverContent = ({
       }}
     </PopperComponent>
   );
-};
+});
 
 PopoverContent.displayName = 'PopoverContent';
 

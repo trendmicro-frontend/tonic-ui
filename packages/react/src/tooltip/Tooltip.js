@@ -1,11 +1,12 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps } from '@tonic-ui/utils';
+import { warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Popper, PopperArrow } from '../popper';
+import { Popper } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
 import useAutoId from '../utils/useAutoId';
+import TooltipArrow from './TooltipArrow';
 import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
 import { TooltipContext } from './context';
@@ -17,10 +18,12 @@ const defaultPlacement = 'bottom';
 const Tooltip = forwardRef((
   {
     // TooltipContent props
+    PopperArrowComponent, // removed
+    PopperArrowProps, // deprecated
     PopperComponent = Popper,
     PopperProps,
-    PopperArrowComponent = PopperArrow,
-    PopperArrowProps,
+    TooltipArrowComponent = TooltipArrow,
+    TooltipArrowProps,
     TransitionComponent = Grow,
     TransitionProps,
 
@@ -28,9 +31,11 @@ const Tooltip = forwardRef((
     shouldWrapChildren = false,
 
     // Tooltip props
-    showDelay, // deprecated
+    arrowAt, // removed
+    hideArrow, // deprecated
     hideDelay, // deprecated
-    arrowAt,
+    showDelay, // deprecated
+    arrow = true,
     children,
     closeOnClick = true,
     closeOnEsc = true,
@@ -38,7 +43,6 @@ const Tooltip = forwardRef((
     defaultIsOpen = false,
     disabled,
     enterDelay = 100,
-    hideArrow,
     isOpen: isOpenProp,
     label,
     leaveDelay = 0,
@@ -54,12 +58,19 @@ const Tooltip = forwardRef((
     const prefix = `${Tooltip.displayName}:`;
 
     useOnceWhen(() => {
-      warnDeprecatedProps('showDelay', {
+      warnRemovedProps('arrowAt', {
         prefix,
-        alternative: 'enterDelay',
+        alternative: 'TooltipArrowProps',
+      });
+    }, (arrowAt !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('hideArrow', {
+        prefix,
+        alternative: 'arrow',
         willRemove: true,
       });
-    }, (showDelay !== undefined));
+    }, (process.env.NODE_ENV !== 'production') && (hideArrow !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('hideDelay', {
@@ -68,8 +79,21 @@ const Tooltip = forwardRef((
         willRemove: true,
       });
     }, (hideDelay !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('showDelay', {
+        prefix,
+        alternative: 'enterDelay',
+        willRemove: true,
+      });
+    }, (showDelay !== undefined));
+
+    if (hideArrow !== undefined) {
+      arrow = !hideArrow;
+    }
   }
 
+  const tooltipContentRef = useRef(null);
   const tooltipTriggerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
 
@@ -156,21 +180,31 @@ const Tooltip = forwardRef((
 
   const defaultId = useAutoId();
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
+  const tooltipTriggerId = `${config.name}:TooltipTrigger-${defaultId}`;
   const context = getMemoizedState({
-    arrowAt,
+    arrow,
     closeOnClick,
     closeOnEsc,
     closeOnMouseDown,
     disabled,
-    hideArrow,
     isOpen,
     offset,
     onClose,
     onOpen,
     placement,
     tooltipId,
+    tooltipContentRef,
+    tooltipTriggerId,
     tooltipTriggerRef,
   });
+
+  if (typeof children === 'function') {
+    return (
+      <TooltipContext.Provider value={context}>
+        {children(context)}
+      </TooltipContext.Provider>
+    );
+  }
 
   return (
     <TooltipContext.Provider value={context}>
@@ -180,10 +214,12 @@ const Tooltip = forwardRef((
         {children}
       </TooltipTrigger>
       <TooltipContent
+        PopperArrowComponent={PopperArrowComponent} // removed
+        PopperArrowProps={PopperArrowProps} // deprecated
         PopperComponent={PopperComponent}
         PopperProps={PopperProps}
-        PopperArrowComponent={PopperArrowComponent}
-        PopperArrowProps={PopperArrowProps}
+        TooltipArrowComponent={TooltipArrowComponent}
+        TooltipArrowProps={TooltipArrowProps}
         TransitionComponent={TransitionComponent}
         TransitionProps={TransitionProps}
         {...rest}

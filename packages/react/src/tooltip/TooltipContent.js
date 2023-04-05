@@ -1,10 +1,18 @@
-import { useHydrated } from '@tonic-ui/react-hooks';
-import { ariaAttr, callAll, isBlankString, isEmptyArray } from '@tonic-ui/utils';
+import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import {
+  ariaAttr,
+  callAll,
+  isBlankString,
+  isEmptyArray,
+  warnDeprecatedProps,
+  warnRemovedProps,
+} from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
-import { Popper, PopperArrow } from '../popper';
+import { Popper } from '../popper';
 import { Grow } from '../transitions';
+import TooltipArrow from './TooltipArrow';
 import { useTooltipContentStyle } from './styles';
 import useTooltip from './useTooltip';
 
@@ -25,10 +33,13 @@ const mapPlacementToTransformOrigin = placement => ({
 
 const TooltipContent = forwardRef((
   {
+    PopperArrowComponent, // removed
+    PopperArrowProps, // deprecated
+
     PopperComponent = Popper,
     PopperProps,
-    PopperArrowComponent = PopperArrow,
-    PopperArrowProps,
+    TooltipArrowComponent = TooltipArrow,
+    TooltipArrowProps,
     TransitionComponent = Grow,
     TransitionProps,
     children,
@@ -36,23 +47,44 @@ const TooltipContent = forwardRef((
   },
   ref,
 ) => {
+  { // deprecation warning
+    const prefix = `${TooltipContent.displayName}:`;
+
+    useOnceWhen(() => {
+      warnRemovedProps('PopperArrowComponent', {
+        prefix,
+        alternative: 'TooltipArrowComponent',
+      });
+    }, (PopperArrowComponent !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperArrowProps', {
+        prefix,
+        alternative: 'TooltipArrowProps',
+        willRemove: true,
+      });
+    }, (PopperArrowProps !== undefined));
+
+    TooltipArrowProps = {
+      ...PopperArrowProps,
+      ...TooltipArrowProps,
+    };
+  }
+
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const {
-    arrowAt,
+    arrow,
     disabled,
-    hideArrow,
     isOpen,
     offset,
     placement,
     tooltipId,
+    tooltipContentRef,
+    tooltipTriggerId,
     tooltipTriggerRef,
   } = useTooltip();
-  /**
-   * Arrow width = Math.sqrt(6^2 + 6^2) = 8.49
-   * Arrow height = Math.sqrt(6^2 + 6^2) / 2 = 4.24
-   */
-  const arrowSize = '6px'; // FIXME: Must be a theme token
   const [
     skidding = 0,
     distance = 8,
@@ -86,15 +118,15 @@ const TooltipContent = forwardRef((
   return (
     <PopperComponent
       aria-hidden={ariaAttr(!isOpen)}
+      aria-labelledby={tooltipTriggerId}
       data-popper-placement={placement}
       anchorEl={tooltipTriggerRef.current}
-      arrowSize={arrowSize}
-      hideArrow={hideArrow}
       id={tooltipId}
       isOpen={isOpen}
       modifiers={popperModifiers}
       placement={placement}
       pointerEvents="none"
+      ref={tooltipContentRef}
       role="tooltip"
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render tooltip in a portal
@@ -108,7 +140,7 @@ const TooltipContent = forwardRef((
           <TransitionComponent
             appear={true}
             {...TransitionProps}
-            ref={nodeRef}
+            ref={combinedRef}
             in={inProp}
             onEnter={callAll(onEnter, TransitionProps?.onEnter)}
             onExited={callAll(onExited, TransitionProps?.onExited)}
@@ -123,11 +155,8 @@ const TooltipContent = forwardRef((
                   {...rest}
                 >
                   {children}
-                  {!hideArrow && (
-                    <PopperArrowComponent
-                      arrowAt={arrowAt}
-                      {...PopperArrowProps}
-                    />
+                  {!!arrow && (
+                    <TooltipArrowComponent {...TooltipArrowProps} />
                   )}
                 </Box>
               );

@@ -1,5 +1,5 @@
 import { useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
-import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
+import { runIfFn, warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
@@ -9,17 +9,18 @@ import { PopoverContext } from './context';
 const getMemoizedState = memoize(state => ({ ...state }));
 
 const Popover = ({
+  arrowAt, // removed
   distance, // deprecated
+  hideArrow, // deprecated
   skidding, // deprecated
-  arrowAt,
+  arrow = true,
   children,
   closeOnBlur = true,
   closeOnEsc = true,
   defaultIsOpen = false,
+  disabled,
   enterDelay = 100,
   followCursor,
-  hideArrow,
-  id,
   initialFocusRef,
   isOpen: isOpenProp,
   leaveDelay = 0,
@@ -35,12 +36,11 @@ const Popover = ({
     const prefix = `${Popover.displayName}:`;
 
     useOnceWhen(() => {
-      warnDeprecatedProps('skidding', {
+      warnRemovedProps('arrowAt', {
         prefix,
-        alternative: 'offset={[skidding, distance]}',
-        willRemove: true,
+        message: 'Use the \'PopoverArrowProps\' prop on the \'PopoverContent\' component instead.',
       });
-    }, (skidding !== undefined));
+    }, (arrowAt !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('distance', {
@@ -50,11 +50,31 @@ const Popover = ({
       });
     }, (distance !== undefined));
 
+    useOnceWhen(() => {
+      warnDeprecatedProps('hideArrow', {
+        prefix,
+        alternative: 'arrow',
+        willRemove: true,
+      });
+    }, (process.env.NODE_ENV !== 'production') && (hideArrow !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('skidding', {
+        prefix,
+        alternative: 'offset={[skidding, distance]}',
+        willRemove: true,
+      });
+    }, (skidding !== undefined));
+
+    if (hideArrow !== undefined) {
+      arrow = !hideArrow;
+    }
+
     offset = offset ?? [skidding, distance];
   }
 
-  const popoverTriggerRef = useRef();
   const popoverContentRef = useRef();
+  const popoverTriggerRef = useRef();
   const isHoveringContentRef = useRef();
   const isHoveringTriggerRef = useRef();
   const [mousePageX, setMousePageX] = useState(0);
@@ -175,16 +195,14 @@ const Popover = ({
   }, []);
 
   const defaultId = useAutoId();
-  const fallbackId = `${config.name}:Popover-${defaultId}`;
-  const popoverId = id || fallbackId;
-  const popoverHeaderId = `${popoverId}-header`;
-  const popoverBodyId = `${popoverId}-body`;
+  const popoverId = `${config.name}:Popover-${defaultId}`;
+  const popoverTriggerId = `${config.name}:PopoverTrigger-${defaultId}`;
   const context = getMemoizedState({
-    arrowAt,
     closeOnBlur,
     closeOnEsc,
+    disabled,
     followCursor,
-    hideArrow: (nextToCursor || followCursor) ? true : hideArrow,
+    arrow: (nextToCursor || followCursor) ? false : arrow,
     initialFocusRef,
     isHoveringContentRef,
     isHoveringTriggerRef,
@@ -197,9 +215,8 @@ const Popover = ({
     onOpen,
     placement: (nextToCursor || followCursor) ? 'bottom-start' : placement,
     popoverId,
-    popoverBodyId,
     popoverContentRef,
-    popoverHeaderId,
+    popoverTriggerId,
     popoverTriggerRef,
     setMouseCoordinate,
     skidding,

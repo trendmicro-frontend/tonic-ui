@@ -74,30 +74,26 @@ Tooltip is uncontrolled by default. You can set `defaultIsOpen` to `true` to hav
 
 ### Hide the tooltip
 
-To hide the tooltip, you can pass an empty value (i.e. `!value`) to the `label` prop or use the `disabled` prop.
-
-#### Use the `label` prop to hide the tooltip
+To hide a tooltip in your app, you can use the `label` and `disabled` props. To hide the tooltip, set the `label` prop to an empty value represented by `""`, or set the `disabled` prop to `true`. Here are examples:
 
 ```jsx
-<Tooltip label="">
-  <Icon icon="search-o" />
-</Tooltip>
-```
-
-#### Use the `disabled` prop to hide the tooltip
-
-```jsx
-<Tooltip label="Search" disabled>
-  <Icon icon="search-o" />
-</Tooltip>
+<Flex columnGap="4x">
+  <Tooltip label="">
+    <Icon icon="search-o" />
+  </Tooltip>
+  <Divider orientation="vertical" />
+  <Tooltip label="Search" disabled>
+    <Icon icon="search-o" />
+  </Tooltip>
+</Flex>
 ```
 
 ### Hide the arrow of the tooltip
 
-Pass `hideArrow` to the `Tooltip` component to hide the arrow of the tooltip.
+To remove the arrow from a tooltip, you can pass `arrow={false}` to the `Tooltip` component.
 
 ```jsx
-<Tooltip label="Search" hideArrow>
+<Tooltip label="Search" arrow={false}>
   <Icon icon="search-o" />
 </Tooltip>
 ```
@@ -170,7 +166,7 @@ function Example() {
       </Tooltip>
       <Divider orientation="vertical" />
       <Tooltip
-        hideArrow
+        arrow={false}
         label={(
           <Box px="1x" py="2x">
             <Text>Tooltip Title</Text>
@@ -325,15 +321,14 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
-| arrowAt | string | | The position of the arrow. One of: 'left', 'right', 'top', 'bottom' |
-| children | ReactNode \| `({ getTooltipTriggerProps }) => ReactNode` | | |
+| arrow | boolean | true | If `true`, adds an arrow to the tooltip. |
+| children | ReactNode \| `(context) => ReactNode` | | |
 | closeOnClick | boolean | true | If `true`, close the tooltip on click. |
 | closeOnEsc | boolean | true | If `true`, close the tooltip when pressing the escape key. |
 | closeOnMouseDown | boolean | false | If `true`, close the tooltip while the mouse is down. |
 | defaultIsOpen | boolean | false | Whether the tooltip will be open by default. |
 | disabled | boolean | | If `true`, the tooltip will not display. |
 | enterDelay | number | 100 | The delay in milliseconds before the tooltip appears. |
-| hideArrow | boolean | | If `true`, hide the arrow tip on the tooltip. |
 | isOpen | boolean | | If `true`, show the tooltip. |
 | label | string \| ReactNode | | If the tooltip label is a blank or empty string, the tooltip will not display. |
 | leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |

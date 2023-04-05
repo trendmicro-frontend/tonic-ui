@@ -1,6 +1,6 @@
 import { useOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
-import Switch from './Switch';
+import { Switch } from '../switch';
 
 const ToggleSwitch = forwardRef((props, ref) => {
   useOnce(() => {

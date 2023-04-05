@@ -133,6 +133,7 @@ test('should match expected exports', () => {
 
     // popover
     'Popover',
+    'PopoverArrow',
     'PopoverBody',
     'PopoverContent',
     'PopoverFooter',
@@ -142,7 +143,7 @@ test('should match expected exports', () => {
 
     // popper
     'Popper',
-    'PopperArrow',
+    'PopperArrow', // removed
 
     // portal
     'Portal',
@@ -236,6 +237,9 @@ test('should match expected exports', () => {
 
     // tooltip
     'Tooltip',
+    'TooltipArrow',
+    'TooltipContent',
+    'TooltipTrigger',
     'OverflowTooltip',
 
     // transitions

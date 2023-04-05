@@ -1,4 +1,4 @@
-import { act, screen } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
@@ -9,17 +9,23 @@ describe('Tooltip', () => {
   it('should render correctly', async () => {
     const user = userEvent.setup();
     const { container } = render(
-      <Tooltip label="This is a tooltip">
-        <Text data-testid="content">Hover me</Text>
+      <Tooltip label={<Text data-testid="tooltip-label">This is a tooltip</Text>}>
+        <Text data-testid="tooltip-content">Hover me</Text>
       </Tooltip>
     );
 
-    const content = screen.getByTestId('content');
-    expect(content).toBeInTheDocument();
+    const tooltipContent = screen.getByTestId('tooltip-content');
+    expect(tooltipContent).toBeInTheDocument();
 
-    await act(() => user.hover(content));
+    await act(() => user.hover(tooltipContent));
+
+    await waitFor(() => {
+      const tooltipLabel = screen.getByTestId('tooltip-label');
+      expect(tooltipLabel).toHaveTextContent('This is a tooltip');
+    });
 
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
+
     expect(container).toMatchSnapshot();
 
     await testA11y(container);

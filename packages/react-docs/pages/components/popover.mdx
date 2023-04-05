@@ -8,16 +8,10 @@
 
 ## Import
 
-- `Popover`: The wrapper that provides props, state, and context to its children
-- `PopoverTrigger`: Used to wrap the reference (or trigger) element
-- `PopoverContent`: The popover itself
-- `PopoverHeader`: The header of the popover
-- `PopoverBody`: The body of the popover
-- `PopoverFooter`: The footer of the popover
-
 ```js
 import {
   Popover,
+  PopoverArrow,
   PopoverTrigger,
   PopoverContent,
   PopoverHeader,
@@ -219,12 +213,37 @@ function Example() {
 }
 ```
 
-### Hide the arrow of the popover
+### Hide the popover
+
+To hide a popover in your app, you can pass an empty value to the children of the `PopoverContent` component or use the `disabled` prop. Here are examples:
 
 ```jsx
-<Popover
-  hideArrow
->
+<Flex columnGap="4x">
+  <Popover>
+    <PopoverTrigger>
+      <Button variant="secondary">Trigger</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+    </PopoverContent>
+  </Popover>
+  <Divider orientation="vertical" />
+  <Popover disabled>
+    <PopoverTrigger>
+      <Button variant="secondary">Trigger</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      Popover
+    </PopoverContent>
+  </Popover>
+</Flex>
+```
+
+### Hide the arrow of the popover
+
+To remove the arrow from a popover, you can pass `arrow={false}` to the `Popover` component.
+
+```jsx
+<Popover arrow={false}>
   <PopoverTrigger>
     <Button variant="secondary">Trigger</Button>
   </PopoverTrigger>
@@ -306,7 +325,7 @@ You can quickly move the cursor from `PopoverTrigger` to `PopoverContent` when t
 
 ```jsx
 <Popover
-  hideArrow
+  arrow={false}
   trigger="hover"
 >
   <PopoverTrigger>
@@ -457,15 +476,14 @@ The `Popover` component includes several accessibility features to ensure that i
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| arrowAt | string | | The position of the arrow. One of: 'left', 'right', 'top', 'bottom' |
+| arrow | boolean | true | If `true`, adds an arrow to the popover. |
 | children | ReactNode \| `(context) => ReactNode` | | |
 | closeOnBlur | boolean | true | If `true`, the popover will close when the user clicks outside of the popover. |
 | closeOnEsc | boolean | true | If `true`, the popover will close when you press the `Esc` key. |
 | defaultIsOpen | boolean | false | Whether the popover will be open by default. |
+| disabled | boolean | | If `true`, the popover will not display. |
 | enterDelay | number | 100 | The number of milliseconds to wait before showing the popover if `trigger` is hover. |
 | followCursor | boolean | | If `true`, the popover will follow the cursor. |
-| hideArrow | boolean | | If `true`, the arrow will not be displayed. |
-| id | string | | The id of the popover. |
 | initialFocusRef | RefObject | | The reference of the element that will be focused when the popover opens. |
 | isOpen | boolean | | If `true`, the popover will be open. |
 | leaveDelay | number | 0 | The number of milliseconds to wait before hiding the popover if `trigger` is hover. |
@@ -476,6 +494,13 @@ The `Popover` component includes several accessibility features to ensure that i
 | placement | string | 'bottom' | The placement of the popover. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | returnFocusOnClose | boolean | true | If `true`, the popover will return the focus to the trigger element when closing. Otherwise, it will leave focus unchanged. |
 | trigger | string | 'click' | The type of trigger. One of: 'click', 'hover' |
+
+### PopoverArrow
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| arrowHeight | number \| string | 8 | The height of the arrow in pixels or other CSS units. |
+| arrowWidth | number \| string | 12 | The width of the arrow in pixels or other CSS units. |
 
 ### PopoverTrigger
 
@@ -489,8 +514,8 @@ The `Popover` component includes several accessibility features to ensure that i
 | :--- | :--- | :------ | :---------- |
 | PopperComponent | ElementType | Popper | The component used for the popover. |
 | PopperProps | object | | Props applied to the Popper component. |
-| PopperArrowComponent | ElementType | PopperArrow | The component used for the popover arrow. |
-| PopperArrowProps | object | | Props applied to the PopoverArrow component. |
+| PopoverArrowComponent | ElementType | PopoverArrow | The component used for the popover arrow. |
+| PopoverArrowProps | object | | Props applied to the `PopoverArrow` component. |
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |

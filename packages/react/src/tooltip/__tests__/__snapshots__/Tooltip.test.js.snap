@@ -7,67 +7,18 @@ exports[`Tooltip should render correctly 1`] = `
   z-index: 1800;
 }
 
-.emotion-2 [data-arrow-style],
-.emotion-2 [data-arrow-style]::before {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: inherit;
-}
-
-.emotion-2 [data-arrow-style]::before {
-  content: '';
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  background: inherit;
-}
-
-.emotion-2[data-popper-placement^="top"] [data-arrow-style] {
-  bottom: 0;
-}
-
-.emotion-2[data-popper-placement^="top"] [data-arrow-style]::before {
-  bottom: calc(6px / 2 * -1);
-}
-
-.emotion-2[data-popper-placement^="bottom"] [data-arrow-style] {
-  top: 0;
-}
-
-.emotion-2[data-popper-placement^="bottom"] [data-arrow-style]::before {
-  top: calc(6px / 2 * -1);
-}
-
-.emotion-2[data-popper-placement^="right"] [data-arrow-style] {
-  left: 0;
-}
-
-.emotion-2[data-popper-placement^="right"] [data-arrow-style]::before {
-  left: calc(6px / 2 * -1);
-}
-
-.emotion-2[data-popper-placement^="left"] [data-arrow-style] {
-  right: 0;
-}
-
-.emotion-2[data-popper-placement^="left"] [data-arrow-style]::before {
-  right: calc(6px / 2 * -1);
-}
-
 .emotion-4 {
+  background-color: #424242;
+  border-radius: .1875rem;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16),0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  color: rgba(255, 255, 255, .92);
+  font-weight: 400;
+  font-size: .875rem;
+  line-height: 1.25rem;
   padding-left: .75rem;
   padding-right: .75rem;
   padding-top: .25rem;
   padding-bottom: .25rem;
-  border-radius: .1875rem;
-  font-weight: 400;
-  font-size: .875rem;
-  line-height: 1.25rem;
-  background-color: #424242;
-  color: rgba(255, 255, 255, .92);
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16),0 1px 2px 0 rgba(0, 0, 0, 0.08);
   opacity: 1;
   -webkit-transform: scale(1, 1);
   -moz-transform: scale(1, 1);
@@ -78,15 +29,38 @@ exports[`Tooltip should render correctly 1`] = `
   transform-origin: top center;
 }
 
+.emotion-8 {
+  position: absolute;
+  top: 0;
+  color: rgb(66, 66, 66);
+}
+
+.emotion-8::before {
+  content: "";
+  border-bottom: 4px solid;
+  border-left: calc(8px/2) solid transparent;
+  border-right: calc(8px/2) solid transparent;
+  -webkit-filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.08));
+  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.08));
+  position: absolute;
+  top: -4px;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
 <div>
   <div
     aria-describedby="@tonic-ui/react:Tooltip-1"
     class="emotion-0 emotion-1"
-    data-testid="content"
+    data-testid="tooltip-content"
+    id="@tonic-ui/react:TooltipTrigger-1"
   >
     Hover me
   </div>
   <div
+    aria-labelledby="@tonic-ui/react:TooltipTrigger-1"
     class="emotion-2 emotion-1"
     data-popper-escaped=""
     data-popper-placement="bottom"
@@ -98,11 +72,15 @@ exports[`Tooltip should render correctly 1`] = `
     <div
       class="emotion-4 emotion-1"
     >
-      This is a tooltip
       <div
         class="emotion-0 emotion-1"
-        data-arrow-style=""
-        data-popper-arrow=""
+        data-testid="tooltip-label"
+      >
+        This is a tooltip
+      </div>
+      <div
+        class="emotion-8 emotion-1"
+        data-popper-arrow="true"
         role="presentation"
         style="position: absolute; left: 0px; transform: translate(12px, 0px);"
       />

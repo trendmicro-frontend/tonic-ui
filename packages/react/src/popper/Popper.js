@@ -5,7 +5,6 @@ import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'rea
 import { Portal } from '../portal';
 import { Box } from '../box';
 import { assignRef } from '../utils/refs';
-import getPopperArrowStyle from './styles';
 
 function getAnchorEl(anchorEl) {
   return typeof anchorEl === 'function' ? anchorEl() : anchorEl;
@@ -18,7 +17,6 @@ const Popper = forwardRef((
     container, // deprecated
 
     anchorEl, // TODO: rename to referenceRef in a future release
-    arrowSize,
     children,
     gutter,
     isOpen,
@@ -70,6 +68,7 @@ const Popper = forwardRef((
         { // https://popper.js.org/docs/v2/modifiers/arrow/
           name: 'arrow',
           options: {
+            element: '[data-popper-arrow]',
             padding: 12, // 12px from the edges of the popper
           },
         },
@@ -162,7 +161,6 @@ const Popper = forwardRef((
     <Box
       ref={refUpdater}
       position="absolute"
-      css={getPopperArrowStyle({ arrowSize })}
       {...rest}
     >
       {typeof children === 'function' ? children(childProps) : children}
