@@ -1,5 +1,14 @@
-import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
-import { ariaAttr, callAll, isBlankString, isEmptyArray, warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
+import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import {
+  ariaAttr,
+  callAll,
+  getComputedStyle,
+  isBlankString,
+  isEmptyArray,
+  isHTMLElement,
+  warnDeprecatedProps,
+  warnRemovedProps,
+} from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
@@ -66,6 +75,7 @@ const TooltipContent = forwardRef((
 
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const {
     disabled,
     hideArrow,
@@ -129,12 +139,19 @@ const TooltipContent = forwardRef((
           <TransitionComponent
             appear={true}
             {...TransitionProps}
-            ref={nodeRef}
+            ref={combinedRef}
             in={inProp}
             onEnter={callAll(onEnter, TransitionProps?.onEnter)}
             onExited={callAll(onExited, TransitionProps?.onExited)}
           >
             {(state, { ref, style: transitionStyle }) => {
+              // Compute the background color of the tooltip content and apply it to the tooltip arrow
+              const tooltipArrowStyleProps = {};
+              if (isHTMLElement(nodeRef.current)) {
+                const computedStyle = getComputedStyle(nodeRef.current);
+                tooltipArrowStyleProps.color = computedStyle?.backgroundColor;
+              }
+
               return (
                 <Box
                   ref={ref}
@@ -145,7 +162,10 @@ const TooltipContent = forwardRef((
                 >
                   {children}
                   {!hideArrow && (
-                    <TooltipArrowComponent {...TooltipArrowProps} />
+                    <TooltipArrowComponent
+                      {...tooltipArrowStyleProps}
+                      {...TooltipArrowProps}
+                    />
                   )}
                 </Box>
               );
