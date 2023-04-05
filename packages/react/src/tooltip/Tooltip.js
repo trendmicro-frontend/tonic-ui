@@ -198,6 +198,14 @@ const Tooltip = forwardRef((
     tooltipTriggerRef,
   });
 
+  if (typeof children === 'function') {
+    return (
+      <TooltipContext.Provider value={context}>
+        {children(context)}
+      </TooltipContext.Provider>
+    );
+  }
+
   return (
     <TooltipContext.Provider value={context}>
       <TooltipTrigger

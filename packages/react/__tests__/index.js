@@ -237,6 +237,9 @@ test('should match expected exports', () => {
 
     // tooltip
     'Tooltip',
+    'TooltipArrow',
+    'TooltipContent',
+    'TooltipTrigger',
     'OverflowTooltip',
 
     // transitions

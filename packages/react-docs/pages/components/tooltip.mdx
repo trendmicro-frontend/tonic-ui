@@ -322,7 +322,7 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
 | arrow | boolean | true | If `true`, adds an arrow to the tooltip. |
-| children | ReactNode \| `({ getTooltipTriggerProps }) => ReactNode` | | |
+| children | ReactNode \| `(context) => ReactNode` | | |
 | closeOnClick | boolean | true | If `true`, close the tooltip on click. |
 | closeOnEsc | boolean | true | If `true`, close the tooltip when pressing the escape key. |
 | closeOnMouseDown | boolean | false | If `true`, close the tooltip while the mouse is down. |
