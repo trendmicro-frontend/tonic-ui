@@ -33,7 +33,6 @@ const Tooltip = forwardRef((
     // Tooltip props
     showDelay, // deprecated
     hideDelay, // deprecated
-    arrowAt,
     children,
     closeOnClick = true,
     closeOnEsc = true,
@@ -162,7 +161,6 @@ const Tooltip = forwardRef((
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
   const tooltipTriggerId = `${config.name}:TooltipTrigger-${defaultId}`;
   const context = getMemoizedState({
-    arrowAt,
     closeOnClick,
     closeOnEsc,
     closeOnMouseDown,
