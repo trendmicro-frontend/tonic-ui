@@ -138,6 +138,46 @@ If the tooltip anchor is not a focusable content, just like the text string, you
 </Tooltip>
 ```
 
+### Adjust tooltip positioning
+
+#### Using the `offset` prop
+
+The `offset` prop allows you to adjust the positioning of the tooltip by accepting an array of two numbers in the format `[skidding, distance]`.
+
+**Skidding**
+
+The `skidding` number determines the displacement of the `TooltipContent` from the `TooltipTrigger` and is measured in pixels.
+
+**Distance**
+
+The `distance` number controls the distance between the `TooltipContent` and the `TooltipTrigger` and is measured in pixels.
+
+```jsx
+<Tooltip label="This is a tooltip" offset={[0, 4]}>
+  <Text display="inline-block">Text content</Text>
+</Tooltip>
+```
+
+#### Using the `nextToCursor` prop
+
+The `nextToCursor` prop positions the tooltip next to the cursor.
+
+```jsx
+<Tooltip label="This is a tooltip" nextToCursor>
+  <Text display="inline-block">Text content</Text>
+</Tooltip>
+```
+
+#### Using the `followCursor` prop
+
+The `followCursor` prop makes the tooltip follow the cursor as it moves.
+
+```jsx
+<Tooltip label="This is a tooltip" followCursor>
+  <Text display="inline-block">Text content</Text>
+</Tooltip>
+```
+
 ### Customizing tooltip appearance
 
 To customize the appearance of a tooltip, you can pass style props to the Tooltip component. Here's an example that shows how to use the `useColorMode` and `useColorStyle` Hooks to determine the current color mode and color style, and then set the background and text colors of the tooltip accordingly. This can help ensure the tooltip looks consistent with your app's color scheme. Additionally, you can use a component as the label of the tooltip to render more complex content.
@@ -334,6 +374,7 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
 | label | string \| ReactNode | | If the tooltip label is a blank or empty string, the tooltip will not display. |
 | leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |
 | nextToCursor | boolean | | If `true`, the tooltip will be positioned next to the cursor. |
+| offset | [skidding, distance] | [0, 8] | The skidding and distance of the tooltip. |
 | onClose| function | | Callback fired when the tooltip is closed. |
 | onOpen | function | | Callback fired when the tooltip is opened. |
 | placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
