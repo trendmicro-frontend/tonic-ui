@@ -67,6 +67,13 @@ export const getEventWindow = (event) => {
   return event?.view ?? window;
 };
 
+export const getLeftmostOffset = (element) => {
+  if (!isHTMLElement(element)) {
+    return 0;
+  }
+  return getLeftmostOffset(element.offsetParent) + element.offsetLeft;
+};
+
 export const getOwnerDocument = (node) => {
   return isElement(node)
     ? (node.ownerDocument ?? document)
@@ -83,6 +90,13 @@ export const getRelatedTarget = (event) => {
   const target = (event.target ?? event.currentTarget);
   const activeElement = getActiveElement(target);
   return (event.relatedTarget ?? activeElement);
+};
+
+export const getTopmostOffset = (element) => {
+  if (!isHTMLElement(element)) {
+    return 0;
+  }
+  return getTopmostOffset(element.offsetParent) + element.offsetTop;
 };
 
 export const isElement = (el) => {

@@ -253,22 +253,116 @@ To remove the arrow from a popover, you can pass `arrow={false}` to the `Popover
 </Popover>
 ```
 
-### Change popover position
+### Activating a popover on hover
 
-The `offset` prop can be used to change the popover position. It accepts an array with two numbers in the form of `[skidding, distance]`.
+To activate a popover on hover, set the `trigger` prop to `"hover"`. This will display the popover when a user hovers the cursor over the `PopoverTrigger`.
+
+Once the popover is displayed, the cursor can be moved freely between the `PopoverTrigger` and `PopoverContent`. The popover will remain open until the cursor is moved away from the `PopoverContent`.
+
+```jsx
+<Popover trigger="hover">
+  <PopoverTrigger>
+    <Text display="inline-block">Text content</Text>
+  </PopoverTrigger>
+  <PopoverContent>
+    Popover
+  </PopoverContent>
+</Popover>
+```
+
+### Adjust popover positioning
+
+#### Using the `offset` prop
+
+The `offset` prop allows you to adjust the positioning of the popover by accepting an array of two numbers in the format `[skidding, distance]`.
 
 **Skidding**
 
-The first number, `skidding`, displaces the `PopoverContent` along the `PopoverToggle`. This value is specified in pixels.
+The `skidding` number determines the displacement of the `PopoverContent` from the `PopoverTrigger` and is measured in pixels.
 
 **Distance**
 
-The second number, `distance`, controls the distance between the `PopoverContent` and the `PopoverToggle`. This value is specified in pixels.
+The `distance` number controls the distance between the `PopoverContent` and the `PopoverTrigger` and is measured in pixels.
+
+```jsx noInline
+render(() => {
+  const [skidding, setSkidding] = React.useState(0);
+  const [distance, setDistance] = React.useState(12);
+
+  return (
+    <>
+      <Box mb="4x">
+        <Box mb="2x">
+          <TextLabel>skidding</TextLabel>
+        </Box>
+        <Flex columnGap="4x">
+          <input
+            type="range"
+            name="skidding"
+            min={-50}
+            max={50}
+            value={skidding}
+            onChange={(e) => setSkidding(Number(e.target.value))}
+          />
+          <Text>{skidding}</Text>
+        </Flex>
+      </Box>
+      <Box mb="4x">
+        <Box mb="2x">
+          <TextLabel>distance</TextLabel>
+        </Box>
+        <Flex columnGap="4x">
+          <input
+            type="range"
+            name="distance"
+            min={-50}
+            max={50}
+            value={distance}
+            onChange={(e) => setDistance(Number(e.target.value))}
+          />
+          <Text>{distance}</Text>
+        </Flex>
+      </Box>
+      <Popover isOpen trigger="hover" offset={[skidding, distance]}>
+        <PopoverTrigger>
+          <Text display="inline-block">Hover Me</Text>
+        </PopoverTrigger>
+        <PopoverContent>
+          Popover
+        </PopoverContent>
+      </Popover>
+    </>
+  );
+});
+```
+
+#### Using the `nextToCursor` prop
+
+The `nextToCursor` prop positions the popover next to the cursor.
+
+Note that this prop only works when the `trigger` prop is set to `"hover"`.
 
 ```jsx
-<Popover offset={[24, 12]}>
+<Popover trigger="hover" nextToCursor>
   <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
+    <Text display="inline-block">Hover Me</Text>
+  </PopoverTrigger>
+  <PopoverContent>
+    Popover
+  </PopoverContent>
+</Popover>
+```
+
+#### Using the `followCursor` prop
+
+The `followCursor` prop makes the popover follow the cursor as it moves.
+
+Note that this prop only works when the `trigger` prop is set to `"hover"`.
+
+```jsx
+<Popover trigger="hover" followCursor>
+  <PopoverTrigger>
+    <Text display="inline-block">Hover Me</Text>
   </PopoverTrigger>
   <PopoverContent>
     Popover
@@ -314,58 +408,6 @@ To access the internal state of the popover, you can use the Function as Child C
       </PopoverContent>
     </>
   )}
-</Popover>
-```
-
-### Trigger the popover on hover
-
-To trigger the popover on hover, you can set the `trigger` prop to `"hover"`.
-
-You can quickly move the cursor from `PopoverTrigger` to `PopoverContent` when the `Popover` is open. `Popover` will remain open until the cursor move away from `PopoverContent`.
-
-```jsx
-<Popover
-  arrow={false}
-  trigger="hover"
->
-  <PopoverTrigger>
-    <Text display="inline-block">Hover Me</Text>
-  </PopoverTrigger>
-  <PopoverContent>
-    Popover
-  </PopoverContent>
-</Popover>
-```
-
-When the trigger is set to `"hover"`, you can pass `nextToCursor` or `followCursor` to `Popover` to control the position of the popover.
-
-#### `nextToCursor` prop
-
-The `nextToCursor` prop will set the popover position next to the cursor.
-
-```jsx
-<Popover trigger="hover" nextToCursor>
-  <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    Popover
-  </PopoverContent>
-</Popover>
-```
-
-#### `followCursor` prop
-
-The `followCursor` prop will set the popover position to follow the cursor when it moves.
-
-```jsx
-<Popover trigger="hover" followCursor>
-  <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    Popover
-  </PopoverContent>
 </Popover>
 ```
 

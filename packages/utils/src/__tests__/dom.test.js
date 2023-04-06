@@ -5,23 +5,31 @@ import {
   normalizeKeyboardEventKey,
 } from '@tonic-ui/utils/src';
 
-test('should get window object', () => {
-  expect(getOwnerWindow()).toBe(window);
+describe('getEventWindow', () => {
+  it('should get window object from event', () => {
+    const event = new UIEvent('change', { view: window });
+    expect(getEventWindow(event)).toBe(window);
+  });
 });
 
-test('should get document object', () => {
-  expect(getOwnerDocument()).toBe(document);
+describe('getOwnerWindow', () => {
+  it('should get window object', () => {
+    expect(getOwnerWindow()).toBe(window);
+  });
 });
 
-test('should get window object from event', () => {
-  const event = new UIEvent('change', { view: window });
-  expect(getEventWindow(event)).toBe(window);
+describe('getOwnerDocument', () => {
+  it('should get document object', () => {
+    expect(getOwnerDocument()).toBe(document);
+  });
 });
 
-test('should normalize keyboard events', () => {
-  const keyboardEvent = {
-    key: 'Left',
-    keyCode: 38,
-  };
-  expect(normalizeKeyboardEventKey(keyboardEvent)).toBe('ArrowLeft');
+describe('normalizeKeyboardEventKey', () => {
+  it('should normalize keyboard events', () => {
+    const keyboardEvent = {
+      key: 'Left',
+      keyCode: 38,
+    };
+    expect(normalizeKeyboardEventKey(keyboardEvent)).toBe('ArrowLeft');
+  });
 });

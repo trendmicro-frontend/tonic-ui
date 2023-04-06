@@ -3,8 +3,11 @@ import {
   ariaAttr,
   callAll,
   callEventHandlers,
+  getLeftmostOffset,
+  getTopmostOffset,
   isBlankString,
   isEmptyArray,
+  isHTMLElement,
   warnDeprecatedProps,
   warnRemovedProps,
 } from '@tonic-ui/utils';
@@ -31,13 +34,6 @@ const mapPlacementToTransformOrigin = placement => ({
   'right-start': 'left top',
   'right-end': 'left bottom',
 }[placement]);
-
-const getOffset = (element, relativeTop = false) => {
-  if (!element) {
-    return 0;
-  }
-  return getOffset(element.offsetParent, relativeTop) + (relativeTop ? element.offsetTop : element.offsetLeft);
-};
 
 const PopoverContent = forwardRef((
   {
@@ -162,11 +158,7 @@ const PopoverContent = forwardRef((
     };
   }
 
-  const popoverTriggerEl = popoverTriggerRef.current;
-  /**
-   * Arrow width = Math.sqrt(12^2 + 12^2) = 16.97
-   * Arrow height = Math.sqrt(12^2 + 12^2) / 2 = 8.49
-   */
+  const popoverTriggerElement = popoverTriggerRef.current;
   const [
     skidding = 0,
     distance = 12,
@@ -175,16 +167,16 @@ const PopoverContent = forwardRef((
     let _skidding = skidding;
     let _distance = distance;
 
-    if (popoverTriggerEl && (nextToCursor || followCursor)) {
-      const { offsetHeight } = popoverTriggerEl;
-      const offsetLeft = getOffset(popoverTriggerEl);
-      const offsetTop = getOffset(popoverTriggerEl, true);
-      _skidding = mousePageX - offsetLeft + 8; // 8px is a estimated value of cursor
-      _distance = -8 + (mousePageY - offsetTop - offsetHeight) + 24; // 24px is a estimated value of cursor
+    if (isHTMLElement(popoverTriggerElement) && (followCursor || nextToCursor)) {
+      const { offsetHeight } = popoverTriggerElement;
+      const leftmostOffset = getLeftmostOffset(popoverTriggerElement);
+      const topmostOffset = getTopmostOffset(popoverTriggerElement);
+      _skidding = mousePageX - leftmostOffset + 10;
+      _distance = mousePageY - topmostOffset - offsetHeight + 15;
     }
 
     return [_skidding, _distance];
-  }, [skidding, distance, popoverTriggerEl, nextToCursor, followCursor, mousePageX, mousePageY]);
+  }, [skidding, distance, popoverTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
   const popperModifiers = useMemo(() => {
     const modifiers = [
       { // https://popper.js.org/docs/v2/modifiers/offset/

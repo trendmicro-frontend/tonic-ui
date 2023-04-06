@@ -43,9 +43,11 @@ const Tooltip = forwardRef((
     defaultIsOpen = false,
     disabled,
     enterDelay = 100,
+    followCursor,
     isOpen: isOpenProp,
     label,
     leaveDelay = 0,
+    nextToCursor,
     offset,
     onClose: onCloseProp,
     onOpen: onOpenProp,
@@ -95,6 +97,8 @@ const Tooltip = forwardRef((
 
   const tooltipContentRef = useRef(null);
   const tooltipTriggerRef = useRef(null);
+  const [mousePageX, setMousePageX] = useState(0);
+  const [mousePageY, setMousePageY] = useState(0);
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
 
   useEffect(() => {
@@ -182,16 +186,22 @@ const Tooltip = forwardRef((
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
   const tooltipTriggerId = `${config.name}:TooltipTrigger-${defaultId}`;
   const context = getMemoizedState({
-    arrow,
+    arrow: (followCursor || nextToCursor) ? false : arrow,
     closeOnClick,
     closeOnEsc,
     closeOnMouseDown,
     disabled,
+    followCursor,
     isOpen,
+    mousePageX,
+    mousePageY,
+    nextToCursor,
     offset,
     onClose,
     onOpen,
-    placement,
+    placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,
+    setMousePageX,
+    setMousePageY,
     tooltipId,
     tooltipContentRef,
     tooltipTriggerId,

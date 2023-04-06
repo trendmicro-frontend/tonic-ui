@@ -31,7 +31,8 @@ const PopoverTrigger = forwardRef((
     popoverId,
     popoverTriggerId,
     popoverTriggerRef,
-    setMouseCoordinate,
+    setMousePageX,
+    setMousePageY,
     trigger,
   } = usePopover();
   const combinedRef = useMergeRefs(popoverTriggerRef, ref);
@@ -88,15 +89,16 @@ const PopoverTrigger = forwardRef((
       mouseLeaveTimeoutRef.current = setTimeout(() => {
         mouseLeaveTimeoutRef.current = undefined;
         if (!isHoveringContentRef.current && !isHoveringTriggerRef.current) {
-          onClose();
+          onClose(() => { // callback
+            setEnableMouseMove(true);
+          });
         }
       }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
-
-      setEnableMouseMove(true);
     };
     eventHandler.onMouseMove = function (event) {
       if (enableMouseMove || followCursor) {
-        setMouseCoordinate(event);
+        setMousePageX(event.pageX);
+        setMousePageY(event.pageY);
       }
     };
   }

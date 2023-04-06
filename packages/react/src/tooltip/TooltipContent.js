@@ -2,8 +2,11 @@ import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
+  getLeftmostOffset,
+  getTopmostOffset,
   isBlankString,
   isEmptyArray,
+  isHTMLElement,
   warnDeprecatedProps,
   warnRemovedProps,
 } from '@tonic-ui/utils';
@@ -77,7 +80,11 @@ const TooltipContent = forwardRef((
   const {
     arrow,
     disabled,
+    followCursor,
     isOpen,
+    mousePageX,
+    mousePageY,
+    nextToCursor,
     offset,
     placement,
     tooltipId,
@@ -85,22 +92,38 @@ const TooltipContent = forwardRef((
     tooltipTriggerId,
     tooltipTriggerRef,
   } = useTooltip();
+  const styleProps = useTooltipContentStyle();
+
+  const tooltipTriggerElement = tooltipTriggerRef.current;
   const [
     skidding = 0,
     distance = 8,
   ] = ensureArray(offset);
+  const [computedSkidding, computedDistance] = useMemo(() => {
+    let _skidding = skidding;
+    let _distance = distance;
+
+    if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
+      const { offsetHeight } = tooltipTriggerElement;
+      const leftmostOffset = getLeftmostOffset(tooltipTriggerElement);
+      const topmostOffset = getTopmostOffset(tooltipTriggerElement);
+      _skidding = mousePageX - leftmostOffset + 10;
+      _distance = mousePageY - topmostOffset - offsetHeight + 15;
+    }
+
+    return [_skidding, _distance];
+  }, [skidding, distance, tooltipTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
   const popperModifiers = useMemo(() => {
     const modifiers = [
       { // https://popper.js.org/docs/v2/modifiers/offset/
         name: 'offset',
         options: {
-          offset: [skidding, distance],
+          offset: [computedSkidding, computedDistance],
         },
       },
     ];
     return modifiers;
-  }, [skidding, distance]);
-  const styleProps = useTooltipContentStyle();
+  }, [computedSkidding, computedDistance]);
 
   if (!isHydrated) {
     return null;

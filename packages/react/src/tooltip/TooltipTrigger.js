@@ -1,6 +1,6 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers, getOwnerDocument } from '@tonic-ui/utils';
-import React, { cloneElement, forwardRef } from 'react';
+import React, { cloneElement, forwardRef, useState } from 'react';
 import { Box } from '../box';
 import { mergeRefs } from '../utils/refs';
 import { useTooltipTriggerStyle } from './styles';
@@ -16,6 +16,7 @@ const TooltipTrigger = forwardRef((
     onMouseDown: onMouseDownProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
+    onMouseMove: onMouseMoveProp,
     ...rest
   },
   ref,
@@ -24,15 +25,19 @@ const TooltipTrigger = forwardRef((
     closeOnClick,
     closeOnEsc,
     closeOnMouseDown,
+    followCursor,
     isOpen,
     onClose,
     onOpen,
+    setMousePageX,
+    setMousePageY,
     tooltipId,
     tooltipTriggerId,
     tooltipTriggerRef,
   } = useTooltip();
   const combinedRef = useMergeRefs(tooltipTriggerRef, ref);
   const styleProps = useTooltipTriggerStyle();
+  const [enableMouseMove, setEnableMouseMove] = useState(true);
   const eventHandler = {};
 
   eventHandler.onBlur = function (event) {
@@ -57,10 +62,21 @@ const TooltipTrigger = forwardRef((
     }
   };
   eventHandler.onMouseEnter = function (event) {
-    onOpen();
+    setEnableMouseMove(true); // track mouse movement
+    onOpen(() => { // callback
+      setEnableMouseMove(followCursor); // after the enter delay, track mouse movement only if "followCursor" is true
+    });
   };
   eventHandler.onMouseLeave = function (event) {
-    onClose();
+    onClose(() => { // callback
+      setEnableMouseMove(true);
+    });
+  };
+  eventHandler.onMouseMove = function (event) {
+    if (enableMouseMove || followCursor) {
+      setMousePageX(event.pageX);
+      setMousePageY(event.pageY);
+    }
   };
 
   useEventListener(
@@ -92,6 +108,7 @@ const TooltipTrigger = forwardRef((
       onMouseDown: callEventHandlers(ownProps?.onMouseDown, onMouseDownProp, eventHandler.onMouseDown),
       onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, onMouseEnterProp, eventHandler.onMouseEnter),
       onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, onMouseLeaveProp, eventHandler.onMouseLeave),
+      onMouseMove: callEventHandlers(ownProps?.onMouseMove, onMouseMoveProp, eventHandler.onMouseMove),
       ...styleProps,
       ...rest,
     };
