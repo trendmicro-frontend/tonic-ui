@@ -171,8 +171,8 @@ const PopoverContent = forwardRef((
       const { offsetHeight } = popoverTriggerElement;
       const leftmostOffset = getLeftmostOffset(popoverTriggerElement);
       const topmostOffset = getTopmostOffset(popoverTriggerElement);
-      _skidding = mousePageX - leftmostOffset + 8; // 8px is a estimated value of cursor
-      _distance = -8 + (mousePageY - topmostOffset - offsetHeight) + 24; // 24px is a estimated value of cursor
+      _skidding = mousePageX - leftmostOffset + 10;
+      _distance = mousePageY - topmostOffset - offsetHeight + 15;
     }
 
     return [_skidding, _distance];
