@@ -8,6 +8,8 @@ import { PopoverContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
+const defaultPlacement = 'bottom';
+
 const Popover = ({
   arrowAt, // removed
   distance, // deprecated
@@ -28,7 +30,7 @@ const Popover = ({
   offset,
   onClose: onCloseProp,
   onOpen: onOpenProp,
-  placement = 'bottom',
+  placement = defaultPlacement,
   returnFocusOnClose = true,
   trigger = 'click',
 }) => {
@@ -202,7 +204,7 @@ const Popover = ({
     closeOnEsc,
     disabled,
     followCursor,
-    arrow: (nextToCursor || followCursor) ? false : arrow,
+    arrow: (followCursor || nextToCursor) ? false : arrow,
     initialFocusRef,
     isHoveringContentRef,
     isHoveringTriggerRef,
@@ -213,7 +215,7 @@ const Popover = ({
     offset,
     onClose,
     onOpen,
-    placement: (nextToCursor || followCursor) ? 'bottom-start' : placement,
+    placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,
     popoverId,
     popoverContentRef,
     popoverTriggerId,
