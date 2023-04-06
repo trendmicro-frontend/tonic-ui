@@ -262,7 +262,7 @@ Once the popover is displayed, the cursor can be moved freely between the `Popov
 ```jsx
 <Popover trigger="hover">
   <PopoverTrigger>
-    <Text display="inline-block">Hover Me</Text>
+    <Text display="inline-block">Text content</Text>
   </PopoverTrigger>
   <PopoverContent>
     Popover
@@ -284,15 +284,56 @@ The `skidding` number determines the displacement of the `PopoverContent` from t
 
 The `distance` number controls the distance between the `PopoverContent` and the `PopoverTrigger` and is measured in pixels.
 
-```jsx
-<Popover offset={[0, 8]}>
-  <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    Popover
-  </PopoverContent>
-</Popover>
+```jsx noInline
+render(() => {
+  const [skidding, setSkidding] = React.useState(0);
+  const [distance, setDistance] = React.useState(12);
+
+  return (
+    <>
+      <Box mb="4x">
+        <Box mb="2x">
+          <TextLabel>skidding</TextLabel>
+        </Box>
+        <Flex columnGap="4x">
+          <input
+            type="range"
+            name="skidding"
+            min={-50}
+            max={50}
+            value={skidding}
+            onChange={(e) => setSkidding(Number(e.target.value))}
+          />
+          <Text>{skidding}</Text>
+        </Flex>
+      </Box>
+      <Box mb="4x">
+        <Box mb="2x">
+          <TextLabel>distance</TextLabel>
+        </Box>
+        <Flex columnGap="4x">
+          <input
+            type="range"
+            name="distance"
+            min={-50}
+            max={50}
+            value={distance}
+            onChange={(e) => setDistance(Number(e.target.value))}
+          />
+          <Text>{distance}</Text>
+        </Flex>
+      </Box>
+      <Popover isOpen trigger="hover" offset={[skidding, distance]}>
+        <PopoverTrigger>
+          <Text display="inline-block">Hover Me</Text>
+        </PopoverTrigger>
+        <PopoverContent>
+          Popover
+        </PopoverContent>
+      </Popover>
+    </>
+  );
+});
 ```
 
 #### Using the `nextToCursor` prop
@@ -304,7 +345,7 @@ Note that this prop only works when the `trigger` prop is set to `"hover"`.
 ```jsx
 <Popover trigger="hover" nextToCursor>
   <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
+    <Text display="inline-block">Hover Me</Text>
   </PopoverTrigger>
   <PopoverContent>
     Popover
@@ -321,7 +362,7 @@ Note that this prop only works when the `trigger` prop is set to `"hover"`.
 ```jsx
 <Popover trigger="hover" followCursor>
   <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
+    <Text display="inline-block">Hover Me</Text>
   </PopoverTrigger>
   <PopoverContent>
     Popover
