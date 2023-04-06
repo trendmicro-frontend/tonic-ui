@@ -29,7 +29,8 @@ const TooltipTrigger = forwardRef((
     isOpen,
     onClose,
     onOpen,
-    setMouseCoordinate,
+    setMousePageX,
+    setMousePageY,
     tooltipId,
     tooltipTriggerId,
     tooltipTriggerRef,
@@ -73,7 +74,8 @@ const TooltipTrigger = forwardRef((
   };
   eventHandler.onMouseMove = function (event) {
     if (enableMouseMove || followCursor) {
-      setMouseCoordinate(event);
+      setMousePageX(event.pageX);
+      setMousePageY(event.pageY);
     }
   };
 

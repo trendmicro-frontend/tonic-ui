@@ -169,11 +169,6 @@ const Tooltip = forwardRef((
     }
   }, [isOpenProp, onCloseProp, closeWithDelay, leaveDelay]);
 
-  const setMouseCoordinate = useCallback((event) => {
-    setMousePageX(event.pageX);
-    setMousePageY(event.pageY);
-  }, []);
-
   useEffect(() => {
     return () => {
       if (enterTimeoutRef.current) {
@@ -205,7 +200,8 @@ const Tooltip = forwardRef((
     onClose,
     onOpen,
     placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,
-    setMouseCoordinate,
+    setMousePageX,
+    setMousePageY,
     tooltipId,
     tooltipContentRef,
     tooltipTriggerId,

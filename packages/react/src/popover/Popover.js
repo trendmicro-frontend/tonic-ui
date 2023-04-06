@@ -152,11 +152,6 @@ const Popover = ({
     }
   }, [isOpenProp, onCloseProp, trigger, leaveDelay, closeWithDelay]);
 
-  const setMouseCoordinate = useCallback((event) => {
-    setMousePageX(event.pageX);
-    setMousePageY(event.pageY);
-  }, []);
-
   useEffect(() => {
     if (isOpen && trigger === 'click') {
       requestAnimationFrame(() => {
@@ -220,7 +215,8 @@ const Popover = ({
     popoverContentRef,
     popoverTriggerId,
     popoverTriggerRef,
-    setMouseCoordinate,
+    setMousePageX,
+    setMousePageY,
     skidding,
     trigger,
   });

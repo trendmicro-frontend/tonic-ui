@@ -31,7 +31,8 @@ const PopoverTrigger = forwardRef((
     popoverId,
     popoverTriggerId,
     popoverTriggerRef,
-    setMouseCoordinate,
+    setMousePageX,
+    setMousePageY,
     trigger,
   } = usePopover();
   const combinedRef = useMergeRefs(popoverTriggerRef, ref);
@@ -96,7 +97,8 @@ const PopoverTrigger = forwardRef((
     };
     eventHandler.onMouseMove = function (event) {
       if (enableMouseMove || followCursor) {
-        setMouseCoordinate(event);
+        setMousePageX(event.pageX);
+        setMousePageY(event.pageY);
       }
     };
   }
