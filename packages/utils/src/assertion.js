@@ -18,11 +18,17 @@ export const isEmptyObject = (value) => {
   return !isNullOrUndefined(value) && Object.keys(value).length === 0 && value.constructor === Object;
 };
 
+export const isFunction = (value) => typeof value === 'function';
+
 export const isNullish = (value) => {
   return value === null || value === undefined;
 };
 
 export const isNullOrUndefined = isNullish; // alias of "isNullish"
+
+export const isObject = (value) => {
+  return !isNullish(value) && (typeof value === 'object' || typeof value === 'function') && !Array.isArray(value);
+};
 
 export const isWhitespace = (value) => {
   // @see https://github.com/jonschlinkert/whitespace-regex

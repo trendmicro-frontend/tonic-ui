@@ -7,8 +7,10 @@ test('should match expected exports', () => {
     'isBlankString',
     'isEmptyArray',
     'isEmptyObject',
+    'isFunction',
     'isNullish',
     'isNullOrUndefined',
+    'isObject',
     'isWhitespace',
 
     // dom
@@ -35,7 +37,6 @@ test('should match expected exports', () => {
     'callAll',
     'callEventHandlers',
     'dataAttr',
-    'isFunction',
     'noop',
     'once',
     'runIfFn',

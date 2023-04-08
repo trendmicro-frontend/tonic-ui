@@ -3,8 +3,10 @@ import {
   isBlankString,
   isEmptyArray,
   isEmptyObject,
+  isFunction,
   isNullish,
   isNullOrUndefined,
+  isObject,
   isWhitespace,
   noop,
 } from '@tonic-ui/utils/src';
@@ -81,7 +83,20 @@ describe('Check whether the value is an empty object', () => {
   });
 });
 
-describe('Check whether a value is null or undefined', () => {
+describe('Check whether the value is a function', () => {
+  it('should return true', () => {
+    expect(isFunction(() => {})).toBe(true);
+  });
+
+  it('should return false', () => {
+    expect(isFunction('function')).toBe(false);
+    expect(isFunction(undefined)).toBe(false);
+    expect(isFunction(null)).toBe(false);
+    expect(isFunction(1)).toBe(false);
+  });
+});
+
+describe('Check whether the value is null or undefined', () => {
   it('should be the same', () => {
     expect(isNullish).toBe(isNullOrUndefined);
   });
@@ -105,7 +120,26 @@ describe('Check whether a value is null or undefined', () => {
   });
 });
 
-describe('Check whether a value passed is all whitespace', () => {
+describe('Check whether the value is an object', () => {
+  it('should return true', () => {
+    expect(isObject({})).toBe(true);
+    expect(isObject(noop)).toBe(true);
+    expect(isObject(new Object())).toBe(true);
+  });
+
+  it('should return false', () => {
+    expect(isObject([])).toBe(false);
+    expect(isObject(0)).toBe(false);
+    expect(isObject(true)).toBe(false);
+    expect(isObject(false)).toBe(false);
+    expect(isObject(null)).toBe(false);
+    expect(isObject(undefined)).toBe(false);
+    expect(isObject('')).toBe(false);
+    expect(isObject(' ')).toBe(false);
+  });
+});
+  
+describe('Check whether the value passed is all whitespace', () => {
   it('should return true', () => {
     expect(isWhitespace('  ')).toBe(true);
     expect(isWhitespace('\t')).toBe(true);
