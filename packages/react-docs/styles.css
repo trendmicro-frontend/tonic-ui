@@ -1,38 +1,7 @@
-:root {
+:root, :host {
   --header-height: 48px;
   --sidebar-width: 250px;
   --toc-width: 250px;
-
-  --theme-color-red-100: #6e0002;
-  --theme-color-red-90: #9d0003;
-  --theme-color-red-80: #b80003;
-  --theme-color-red-70: #d71920;
-  --theme-color-red-60: #e52630;
-  --theme-color-red-50: #f24c4f;
-  --theme-color-red-40: #f46f71;
-  --theme-color-red-30: #fd999a;
-  --theme-color-red-20: #fcc3c4;
-  --theme-color-red-10: #fee1e2;
-  --theme-color-gray-100: #151515;
-  --theme-color-gray-90: #212121;
-  --theme-color-gray-80: #303030;
-  --theme-color-gray-70: #424242;
-  --theme-color-gray-60: #5e5e5e;
-  --theme-color-gray-50: #8a8a8a;
-  --theme-color-gray-40: #adadad;
-  --theme-color-gray-30: #c9c9c9;
-  --theme-color-gray-20: #e0e0e0;
-  --theme-color-gray-10: #f2f2f2;
-  --theme-color-white-emphasis: rgba(255, 255, 255, 1.0);
-  --theme-color-white-primary: rgba(255, 255, 255, .92);
-  --theme-color-white-secondary: rgba(255, 255, 255, .60);
-  --theme-color-white-tertiary: rgba(255, 255, 255, .47);
-  --theme-color-white-disabled: rgba(255, 255, 255, .28);
-  --theme-color-black-emphasis: rgba(0, 0, 0, 1.0);
-  --theme-color-black-primary: rgba(0, 0, 0, .92);
-  --theme-color-black-secondary: rgba(0, 0, 0, .65);
-  --theme-color-black-tertiary: rgba(0, 0, 0, .54);
-  --theme-color-black-disabled: rgba(0, 0, 0, .30);
 }
 
 /**
@@ -50,10 +19,10 @@
 :where(html[data-color-scheme="light"]) h4 .anchor-link:visited,
 :where(html[data-color-scheme="light"]) h5 .anchor-link:visited,
 :where(html[data-color-scheme="light"]) h6 .anchor-link:visited {
-  color: var(--theme-color-black-secondary);
+  color: var(--tonic-colors-black-secondary);
 }
 :where(html[data-color-scheme="light"]) .anchor-link:hover {
-  color: var(--theme-color-black-primary);
+  color: var(--tonic-colors-black-primary);
 }
 
 :where(html[data-color-scheme="dark"]) h1 .anchor-link,
@@ -68,10 +37,10 @@
 :where(html[data-color-scheme="dark"]) h4 .anchor-link:visited,
 :where(html[data-color-scheme="dark"]) h5 .anchor-link:visited,
 :where(html[data-color-scheme="dark"]) h6 .anchor-link:visited {
-  color: var(--theme-color-white-secondary);
+  color: var(--tonic-colors-white-secondary);
 }
 :where(html[data-color-scheme="dark"]) .anchor-link:hover {
-  color: var(--theme-color-white-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 h1 .anchor-link,
@@ -157,10 +126,10 @@ dd {
   text-decoration: none;
 }
 :where(html[data-color-scheme="dark"]) #toc .toc-heading {
-  color: var(--theme-color-white-tertiary);
+  color: var(--tonic-colors-white-tertiary);
 }
 :where(html[data-color-scheme="light"]) #toc .toc-heading {
-  color: var(--theme-color-black-tertiary);
+  color: var(--tonic-colors-black-tertiary);
 }
 #toc .toc-heading {
   margin-top: 1rem;
@@ -172,10 +141,10 @@ dd {
 #toc .toc-item {
 }
 :where(html[data-color-scheme="dark"]) #toc .toc-link {
-  color: var(--theme-color-white-secondary);
+  color: var(--tonic-colors-white-secondary);
 }
 :where(html[data-color-scheme="light"]) #toc .toc-link {
-  color: var(--theme-color-dark-secondary);
+  color: var(--tonic-colors-dark-secondary);
 }
 #toc .toc-link {
   font-size: 0.875rem;
@@ -187,20 +156,20 @@ dd {
   padding: 0.25rem 0.5rem;
 }
 :where(html[data-color-scheme="dark"]) #toc .toc-link:hover {
-  border-left-color: var(--theme-color-gray-60);
-  color: var(--theme-color-white-primary);
+  border-left-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-primary);
 }
 :where(html[data-color-scheme="light"]) #toc .toc-link:hover {
-  border-left-color: var(--theme-color-gray-60);
-  color: var(--theme-color-black-primary);
+  border-left-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-black-primary);
 }
 :where(html[data-color-scheme="dark"]) #toc .toc-link.active {
-  border-left-color: var(--theme-color-red-60);
-  color: var(--theme-color-white-primary);
+  border-left-color: var(--tonic-colors-red-60);
+  color: var(--tonic-colors-white-primary);
 }
 :where(html[data-color-scheme="light"]) #toc .toc-link.active {
-  border-left-color: var(--theme-color-red-60);
-  color: var(--theme-color-black-primary);
+  border-left-color: var(--tonic-colors-red-60);
+  color: var(--tonic-colors-black-primary);
 }
 #toc .toc-link.toc-link-h1 {
   padding-left: .5rem;
