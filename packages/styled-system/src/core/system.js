@@ -54,7 +54,7 @@ const createStyleFunction = ({
    * @param {object} scale - The scale used to transform the value.
    * @param {object} props - Additional props that may affect the transformation.
    *
-   * @returns {object} An object containing the transformed style properties.
+   * @return {object} An object containing the transformed style properties.
    */
   const sx = (value, scale, props) => {
     const transformedValue = transform(value, scale, props);
