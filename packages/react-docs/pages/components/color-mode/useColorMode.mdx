@@ -29,7 +29,7 @@ const App = () => {
     <>
       <Global
         styles={css`
-          :root {
+          :root, :host {
             color-scheme: ${colorMode};
           }
         `}
@@ -63,7 +63,7 @@ render(() => {
     <>
       <Global
         styles={css`
-          :root {
+          :root, :host {
             color-scheme: ${colorMode};
           }
         `}
