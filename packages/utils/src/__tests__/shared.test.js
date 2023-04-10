@@ -3,7 +3,6 @@ import {
   callAll,
   callEventHandlers,
   dataAttr,
-  isFunction,
   noop,
   once,
   runIfFn,
@@ -76,16 +75,6 @@ describe('callEventHandlers', () => {
     expect(fn1).toHaveBeenCalled();
     expect(fn2).toHaveBeenCalled();
     expect(fn3).not.toHaveBeenCalled();
-  });
-});
-
-describe('isFunction', () => {
-  it('checks whether the given value is a function object', () => {
-    expect(isFunction(() => {})).toBe(true);
-    expect(isFunction('function')).toBe(false);
-    expect(isFunction(undefined)).toBe(false);
-    expect(isFunction(null)).toBe(false);
-    expect(isFunction(1)).toBe(false);
   });
 });
 

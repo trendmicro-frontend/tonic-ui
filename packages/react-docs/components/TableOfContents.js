@@ -49,10 +49,22 @@ const TableOfContents = (props) => {
       return null;
     }
 
+    setActiveIndex(null);
+
     const mainContent = document.querySelector('#main-content');
     if (mainContent) {
       setNodes(Array.from(mainContent.querySelectorAll('h2,h3,h4,h5,h6')));
     }
+
+    if (window.location.hash) {
+      const element = document.querySelector(window.location.hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 200);
+      }
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname]); // update nodes on routing change
 

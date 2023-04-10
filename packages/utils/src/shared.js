@@ -39,8 +39,6 @@ export const dataAttr = (condition) => {
   return condition ? '' : undefined;
 };
 
-export const isFunction = (value) => typeof value === 'function';
-
 export const noop = () => {};
 
 export const once = (fn) => {
@@ -56,7 +54,7 @@ export const once = (fn) => {
 };
 
 export const runIfFn = (valueOrFn, ...args) => {
-  return isFunction(valueOrFn) ? valueOrFn(...args) : valueOrFn;
+  return (typeof valueOrFn === 'function') ? valueOrFn(...args) : valueOrFn;
 };
 
 export const warnDeprecatedProps = (props, options) => {

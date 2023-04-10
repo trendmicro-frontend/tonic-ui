@@ -11,19 +11,13 @@
       "allowBranch": ["master","v0"],
       "changelog": true,
       "conventionalCommits": false,
-      "ignoreChanges": [
-        "packages/**/*.md",
-        "packages/**/*.test.js",
-        "packages/**/test/**"
-      ],
       "message": "chore(release): publish"
     }
   },
   "ignoreChanges": [
-    "**/changelog.md",
-    "**/CHANGELOG.md",
+    "**/__tests__/**",
+    "**/*.md",
     "**/package-lock.json",
-    "**/yarn.lock",
-    "**/test/**"
+    "**/yarn.lock"
   ]
 }

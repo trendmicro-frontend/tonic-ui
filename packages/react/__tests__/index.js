@@ -1,7 +1,14 @@
 import * as moduleExport from '@tonic-ui/react/src';
 
 test('should match expected exports', () => {
-  const exportedComponents = [
+  const expectedExports = [
+    // deprecated
+    'PseudoBox',
+    'FlatButton',
+    'ToggleSwitch',
+    'useDisclosure',
+    'withTheme',
+
     // accordion
     'Accordion',
     'AccordionBody',
@@ -26,7 +33,6 @@ test('should match expected exports', () => {
     // box
     'Box',
     'ControlBox',
-    'PseudoBox', // deprecated
 
     // button
     'Button',
@@ -66,9 +72,6 @@ test('should match expected exports', () => {
     'DrawerHeader',
     'DrawerOverlay',
     'useDrawer',
-
-    // flat-button
-    'FlatButton', // deprecated
 
     // flex
     'Flex',
@@ -186,7 +189,6 @@ test('should match expected exports', () => {
 
     // switch
     'Switch',
-    'ToggleSwitch', // deprecated
 
     // table
     'Table',
@@ -220,7 +222,6 @@ test('should match expected exports', () => {
     // theme
     'ThemeProvider',
     'useTheme',
-    'withTheme', // deprecated
 
     // toast
     'Toast',
@@ -255,25 +256,12 @@ test('should match expected exports', () => {
 
     // visually-hidden
     'VisuallyHidden',
-  ];
 
-  const exportedHooks = [
-    // hooks
-    'useDisclosure', // deprecated
-  ];
-
-  const exportedSettings = [
     // settings
     'colorStyle',
     'theme',
   ];
-
   const receivedExports = Object.keys(moduleExport);
-  const expectedExports = [
-    ...exportedComponents,
-    ...exportedHooks,
-    ...exportedSettings,
-  ];
 
   expect(receivedExports.sort()).toEqual(expectedExports.sort());
 });
