@@ -8,12 +8,19 @@ import createCSSVariables from './utils/createCSSVariables';
 
 const ThemeProvider = ({
   children,
-  theme = defaultTheme,
+  theme: themeProp,
 }) => {
+  const theme = themeProp ?? defaultTheme;
   const computedTheme = useMemo(() => {
-    const cssVariables = createCSSVariables(theme, { prefix: 'tonic' });
+    const prefix = theme?.config?.prefix ?? 'tonic';
+    const cssVariables = createCSSVariables(theme, { prefix });
+
     return {
       ...theme,
+      config: {
+        ...theme?.config,
+        prefix,
+      },
       __cssVariables: cssVariables,
     };
   }, [theme]);
