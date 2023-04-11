@@ -1,0 +1,65 @@
+# CSS Variables
+
+## Overview
+
+Tonic UI has a default behavior of internally converting theme tokens defined in the theme to CSS variables.
+
+For example, consider a theme object that looks like this:
+
+```js disabled
+const theme = {
+  colors: {
+    'gray:10': '#fafafa',
+    'gray:20': '#f7f7f7',
+    },
+  },
+};
+```
+
+When this theme is passed to `TonicProvider`, Tonic UI will generate CSS variables automatically, as shown below:
+
+```css
+:root {
+  --tonic-colors-gray-10: #fafafa;
+  --tonic-colors-gray-20: #f7f7f7;
+}
+```
+
+These CSS variables can then be used to style components, providing a consistent look and feel throughout the application.
+
+## Default CSS Variables
+
+If you want to see all the CSS variables being used on the webpage, you can open the **Developer Tools** and go to the **Elements** tab. There, you will be able to view all the default CSS variables.
+
+```jsx noInline
+const isColorCode = value => String(value).startsWith('#') || String(value).startsWith('rgb(') || String(value).startsWith('rgba(');
+
+render(() => {
+  const theme = useTheme();
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const cssVariables = theme.__cssVariables;
+  const borderColor = {         
+    dark: 'gray:60',
+    light: 'gray:30',                                  
+  }[colorMode]; 
+
+  return (
+    <Box fontFamily="mono">
+      {Object.entries(cssVariables).map(([name, value]) => {
+        return (
+          <Flex columnGap="2x">
+            <Text color="red:50">{name}:</Text>
+            <Flex alignItems="center" columnGap="1x">
+              {isColorCode(value) && (
+                <Box backgroundColor={value} border={1} borderColor={borderColor} width="3x" height="3x" />
+              )}
+              <Text>{value};</Text>
+            </Flex>
+          </Flex>
+        );
+      })}
+    </Box>
+  );
+});
+```

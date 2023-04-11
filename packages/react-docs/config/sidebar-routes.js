@@ -112,6 +112,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting Started', path: 'components' },
+      { title: 'CSS Variables', path: 'components/css-variables' },
       { title: 'COLORS', heading: true },
       { title: 'Color Mode', path: 'components/color-mode' },
       { title: 'useColorMode', path: 'components/color-mode/useColorMode' },
