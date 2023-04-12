@@ -82,9 +82,9 @@ test('returns negative pixel values', () => {
     left: '-4px',
   });
   expect(style).toEqual({
-    top: '-1px',
-    right: '-2px',
-    bottom: '-3px',
-    left: '-4px',
+    top: 'calc(1px * -1)',
+    right: 'calc(2px * -1)',
+    bottom: 'calc(3px * -1)',
+    left: 'calc(4px * -1)',
   });
 });

@@ -32,9 +32,9 @@ test('returns negative pixel values', () => {
 test('returns negative em values', () => {
   const styles = margin({
     theme: { ...defaultTheme },
-    m: '-16em',
+    m: 'calc(16em * -1)',
   });
-  expect(styles).toEqual({ margin: '-16em' });
+  expect(styles).toEqual({ margin: 'calc(16em * -1)' });
 });
 
 test('returns negative theme values', () => {
@@ -79,7 +79,7 @@ test('returns negative string values from theme', () => {
     },
     margin: -1,
   });
-  expect(styles).toEqual({ margin: '-1em' });
+  expect(styles).toEqual({ margin: 'calc(1em * -1)' });
 });
 
 test('returns values from theme object', () => {

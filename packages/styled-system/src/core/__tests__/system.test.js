@@ -294,8 +294,8 @@ test('transforms values', () => {
   const parser = system({
     margin: {
       property: 'margin',
-      transform: (n, scale, props) => {
-        const m = props.multiply || 1;
+      transform: (scale, n, options) => {
+        const m = options.props.multiply || 1;
         return m * n;
       }
     }

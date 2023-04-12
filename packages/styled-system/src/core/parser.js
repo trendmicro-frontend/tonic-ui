@@ -45,7 +45,7 @@ const parser = config => {
         continue;
       }
 
-      Object.assign(styles, sx(raw, scale, props));
+      Object.assign(styles, sx(scale, raw, props));
     }
 
     if (shouldSort) {
@@ -77,7 +77,7 @@ const parseResponsiveStyle = (mediaQueries, sx, scale, raw, _props) => {
 
   raw.slice(0, mediaQueries.length).forEach((value, i) => {
     const media = mediaQueries[i];
-    const style = sx(value, scale, _props);
+    const style = sx(scale, value, _props);
     if (!media) {
       Object.assign(styles, style);
     } else {
@@ -100,7 +100,7 @@ const parseResponsiveObject = (breakpoints, sx, scale, raw, _props) => {
 
     const breakpoint = breakpoints[key];
     const value = raw[key];
-    const style = sx(value, scale, _props);
+    const style = sx(scale, value, _props);
     if (!breakpoint) {
       Object.assign(styles, style);
     } else {
