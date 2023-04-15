@@ -12,15 +12,13 @@ const TableHeaderCell = forwardRef((
   ref
 ) => {
   const { size, variant } = useTable();
-  const tableHeaderCellStyle = useTableHeaderCellStyle({
-    size,
-    variant,
-  });
+  const styleProps = useTableHeaderCellStyle({ size, variant });
+
   return (
     <Box
       ref={ref}
       width={width}
-      {...tableHeaderCellStyle}
+      {...styleProps}
       {...rest}
     >
       {children}

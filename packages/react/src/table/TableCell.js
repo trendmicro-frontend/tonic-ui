@@ -12,10 +12,7 @@ const TableCell = forwardRef((
   ref,
 ) => {
   const { size, variant } = useTable();
-  const tableCellStyle = useTableCellStyle({
-    size,
-    variant,
-  });
+  const tableCellStyle = useTableCellStyle({ size, variant });
 
   return (
     <Box
@@ -24,7 +21,7 @@ const TableCell = forwardRef((
       {...tableCellStyle}
       {...rest}
     >
-      { children }
+      {children}
     </Box>
   );
 });

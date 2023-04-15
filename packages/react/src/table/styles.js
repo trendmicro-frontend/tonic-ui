@@ -1,41 +1,50 @@
 import { useColorMode } from '../color-mode';
+import { useTheme } from '../theme';
 
-const useTableStyle = props => {
-  return {
-    display: 'inline-flex',
-    flexDirection: 'column',
-    position: 'relative',
-  };
-};
-
-const useTableCellStyle = ({ size, variant }) => {
+const useTableStyle = ({ variant }) => {
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const px = '3x';
-  const py = {
-    lg: '3x',
-    md: '2x',
-    sm: '1x',
-  }[size];
+  const variantStyle = {
+    'outline': {
+      border: 1,
+      borderColor,
+    },
+  }[variant];
 
   return {
-    borderRight: (variant === 'outline') ? 1 : undefined,
-    borderBottom: 1,
+    display: 'inline-flex',
+    flexDirection: 'column',
+    position: 'relative',
+    ...variantStyle,
+  };
+};
+
+const useTableHeaderStyle = () => {
+  return {
+    overflow: 'hidden',
+    flex: '0 0 auto',
+  };
+};
+
+const useTableHeaderRowStyle = ({ size }) => {
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+
+  return {
+    borderBottom: 2,
     borderColor,
-    color,
-    px,
-    py,
+    display: 'flex',
   };
 };
 
 const useTableHeaderCellStyle = ({ size, variant }) => {
+  const { sizes } = useTheme();
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
@@ -46,39 +55,94 @@ const useTableHeaderCellStyle = ({ size, variant }) => {
     light: 'black:secondary',
   }[colorMode];
   const px = '3x';
-  const py = {
-    lg: '3x',
-    md: '2x',
-    sm: '1x',
+  const pt = {
+    'sm': '1x',
+    'md': '2x',
+    'lg': '3x',
   }[size];
+  const pb = {
+    'sm': `calc(${sizes['1x']} - ${sizes['2q']})`,
+    'md': `calc(${sizes['2x']} - ${sizes['2q']})`,
+    'lg': `calc(${sizes['3x']} - ${sizes['2q']})`,
+  }[size];
+  const variantStyle = {
+    'outline': {
+      _notLastOfType: {
+        borderRight: 1,
+        borderColor,
+      },
+    },
+  }[variant];
 
   return {
-    borderRight: (variant === 'outline') ? 1 : undefined,
-    borderBottom: 2,
-    borderColor,
     color,
     fontWeight: 'semibold',
     px,
-    py,
+    pt,
+    pb,
+    ...variantStyle,
   };
 };
 
-const useTableHeaderRowStyle = props => {
+const useTableRowStyle = ({ size, variant }) => {
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const variantStyle = {
+    'outline': {
+      _lastOfType: {
+        borderBottomColor: 'transparent',
+      },
+    },
+  }[variant];
+
   return {
+    borderBottom: 1,
+    borderColor,
     display: 'flex',
+    ...variantStyle,
   };
 };
 
-const useTableHeaderStyle = props => {
-  return {
-    overflow: 'hidden',
-    flex: '0 0 auto',
-  };
-};
+const useTableCellStyle = ({ size, variant }) => {
+  const { sizes } = useTheme();
+  const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const px = '3x';
+  const pt = {
+    'sm': '1x',
+    'md': '2x',
+    'lg': '3x',
+  }[size];
+  const pb = {
+    'sm': `calc(${sizes['1x']} - ${sizes['1q']})`,
+    'md': `calc(${sizes['2x']} - ${sizes['1q']})`,
+    'lg': `calc(${sizes['3x']} - ${sizes['1q']})`,
+  }[size];
+  const variantStyle = {
+    'outline': {
+      _notLastOfType: {
+        borderRight: 1,
+        borderColor,
+      },
+    },
+  }[variant];
 
-const useTableRowStyle = props => {
   return {
-    display: 'flex',
+    color,
+    px,
+    pt,
+    pb,
+    ...variantStyle,
   };
 };
 
@@ -96,10 +160,10 @@ const useTableScrollbarTrackStyle = () => {
 
 export {
   useTableStyle,
-  useTableCellStyle,
-  useTableHeaderCellStyle,
-  useTableHeaderRowStyle,
   useTableHeaderStyle,
+  useTableHeaderRowStyle,
+  useTableHeaderCellStyle,
   useTableRowStyle,
+  useTableCellStyle,
   useTableScrollbarTrackStyle,
 };

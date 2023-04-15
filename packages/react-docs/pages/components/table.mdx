@@ -17,185 +17,103 @@ import {
 
 ## Usage
 
-```jsx
-<Table>
-  <TableHeader>
-    <TableHeaderRow>
-      <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-      <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
-    </TableHeaderRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow>
-      <TableCell width="240px">Virus/Malware</TableCell>
-      <TableCell width="136px" textAlign="right">634</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell width="240px">Virus/Malware</TableCell>
-      <TableCell width="136px" textAlign="right">778</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell width="240px">URL Filtering</TableCell>
-      <TableCell width="136px" textAlign="right">598</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
-```
-
-### Variants
-
-Use the `variant` prop to change the visual style of the Table. You can set the value to `default`, `outline`.
-- `default`: Only add bottom border into cells, including table header.
-- `outline`: Adds borders on all sides of the table and cells.
-
-```jsx
-<Stack direction="row" spacing="4x">
-  {["default", "outline"].map(variant => (
-    <Stack key={variant} direction="column" spacing="4x" shouldWrapChildren>
-      <Text size="xl">{variant}</Text>
-      <Table variant={variant}>
-        <TableHeader>
-          <TableHeaderRow>
-            <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-            <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
-          </TableHeaderRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell width="240px">Virus/Malware</TableCell>
-            <TableCell width="136px" textAlign="right">634</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell width="240px">Virus/Malware</TableCell>
-            <TableCell width="136px" textAlign="right">778</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell width="240px">URL Filtering</TableCell>
-            <TableCell width="136px" textAlign="right">598</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </Stack>
-  ))}
-</Stack>
-```
-
-### Sizes
-
-Use the `size` prop to change the padding of the `<TableCell>`. You can set the value to `sm`, `md`, or `lg`.
-
-```jsx
-function Sample() {
-  const shadowLeftRef = React.useRef(null);
-  const shadowRightRef = React.useRef(null);
-  const handleUpdate = (props) => {
-    const { scrollLeft, scrollWidth, clientWidth } = props;
-    const shadowLeftOpacity = 1 / 20 * Math.min(scrollLeft, 20);
-    const rightScrollLeft = scrollWidth - clientWidth;
-    const shadowRightOpacity = 1 / 20 * (rightScrollLeft - Math.max(scrollLeft, rightScrollLeft - 20));
-    shadowLeftRef.current.style.opacity = shadowLeftOpacity;
-    shadowRightRef.current.style.opacity = shadowRightOpacity;
-  };
-  return (
-    <Box position="relative">
-      <Scrollbar onUpdate={handleUpdate} width="100%" height={248}>
-        <Flex>
-            {["sm", "md", "lg"].map(size => (
-              <Box flex="initial" mr="4x" key={size}>
-                <Text display="block" size="xl" mb="4x">Size: {size}</Text>
-                <Table variant="outline" size={size}>
-                  <TableHeader>
-                    <TableHeaderRow>
-                      <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-                      <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
-                    </TableHeaderRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell width="240px">Virus/Malware</TableCell>
-                      <TableCell width="136px" textAlign="right">634</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell width="240px">Virus/Malware</TableCell>
-                      <TableCell width="136px" textAlign="right">778</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell width="240px">URL Filtering</TableCell>
-                      <TableCell width="136px" textAlign="right">598</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </Box>
-            ))}
-        </Flex>
-      </Scrollbar>
-      <Box
-        ref={shadowLeftRef}
-        position="absolute"
-        top="0"
-        bottom="0"
-        left="0"
-        width="24px"
-        background="linear-gradient(to right, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
-      />
-      <Box
-        ref={shadowRightRef}
-        position="absolute"
-        top="0"
-        bottom="0"
-        right="0"
-        width="24px"
-        background="linear-gradient(to left, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)"
-      />
-    </Box>
-  );
-}
-```
-
-### Hoverable
-
-Enable a hover state on TableRows.
-
 ```jsx noInline
-const HoverableTableRow = (props) => {
-  return (
-    <TableRow
-      _hover={{
-        bg: 'rgba(255, 255, 255, 0.12)'
-      }}
-      {...props}
-    />
-  );
+const FormGroup = (props) => (
+  <Box mb="4x" {...props} />
+);
+
+const useSelection = (defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
 };
 
-function HoverableTable() {
-  return (
-    <Table>
-      <TableHeader>
-        <TableHeaderRow>
-          <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-          <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
-        </TableHeaderRow>
-      </TableHeader>
-      <TableBody>
-        <HoverableTableRow>
-          <TableCell width="240px">Virus/Malware</TableCell>
-          <TableCell width="136px" textAlign="right">634</TableCell>
-        </HoverableTableRow>
-        <HoverableTableRow>
-          <TableCell width="240px">Virus/Malware</TableCell>
-          <TableCell width="136px" textAlign="right">778</TableCell>
-        </HoverableTableRow>
-        <HoverableTableRow>
-          <TableCell width="240px">URL Filtering</TableCell>
-          <TableCell width="136px" textAlign="right">598</TableCell>
-        </HoverableTableRow>
-      </TableBody>
-    </Table>
-  );
-}
+render(() => {
+  const [variant, changeVariantBy] = useSelection('default');
+  const [size, changeSizeBy] = useSelection('md');
 
-render(<HoverableTable />);
+  return (
+    <>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            variant
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['default', 'outline'].map(value => (
+            <Button
+              key={value}
+              selected={value === variant}
+              onClick={changeVariantBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            size
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['sm', 'md', 'lg'].map(value => (
+            <Button
+              key={value}
+              selected={value === size}
+              onClick={changeSizeBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
+      <Divider mb="4x" />
+      <Flex alignItems="center" columnGap="3x" minHeight="5x">
+        <Table variant={variant} size={size}>
+          <TableHeader>
+            <TableHeaderRow>
+              <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+              <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell width="240px">Virus/Malware</TableCell>
+              <TableCell width="136px" textAlign="right">634</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell width="240px">Virus/Malware</TableCell>
+              <TableCell width="136px" textAlign="right">778</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell width="240px">URL Filtering</TableCell>
+              <TableCell width="136px" textAlign="right">598</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Flex>
+    </>
+  );
+});
 ```
 
 ## Custom tables
@@ -207,7 +125,13 @@ In the following examples, we demonstrate how to use [`react-table`](https://git
 ### Base table
 
 ```jsx noInline
-function BaseTable() {
+render(() => {
+  const [colorMode] = useColorMode();
+  const hoverBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -298,9 +222,57 @@ function BaseTable() {
       </TableBody>
     </Table>
   );
+});
+```
+
+### Hoverable table
+
+```jsx noInline
+const HoverableTableRow = (props) => {
+  const [colorMode] = useColorMode();
+  const hoverBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+
+  return (
+    <TableRow
+      _hover={{
+        backgroundColor: hoverBackgroundColor,
+      }}
+      {...props}
+    />
+  );
+};
+
+function HoverableTable() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableHeaderRow>
+          <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+          <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
+        </TableHeaderRow>
+      </TableHeader>
+      <TableBody>
+        <HoverableTableRow>
+          <TableCell width="240px">Virus/Malware</TableCell>
+          <TableCell width="136px" textAlign="right">634</TableCell>
+        </HoverableTableRow>
+        <HoverableTableRow>
+          <TableCell width="240px">Virus/Malware</TableCell>
+          <TableCell width="136px" textAlign="right">778</TableCell>
+        </HoverableTableRow>
+        <HoverableTableRow>
+          <TableCell width="240px">URL Filtering</TableCell>
+          <TableCell width="136px" textAlign="right">598</TableCell>
+        </HoverableTableRow>
+      </TableBody>
+    </Table>
+  );
 }
 
-render(<BaseTable />);
+render(<HoverableTable />);
 ```
 
 ### Selectable table
@@ -320,6 +292,16 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
 });
 
 function SelectableTable() {
+  const [colorMode] = useColorMode();
+  const hoverBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+  const selectedBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.08)',
+    light: 'rgba(0, 0, 0, 0.08)',
+  }[colorMode];
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -413,9 +395,9 @@ function SelectableTable() {
             return (
               <TableRow
                 {...row.getRowProps()}
-                {...isChecked && { bg: 'rgba(255, 255, 255, 0.08)' }}
+                {...isChecked && { backgroundColor: selectedBackgroundColor }}
                 _hover={{
-                  bg: 'rgba(255, 255, 255, 0.12)'
+                  backgroundColor: hoverBackgroundColor,
                 }}
               >
                 {row.cells.map(cell => {
@@ -459,6 +441,16 @@ render(<SelectableTable />);
 
 ```jsx noInline
 function SortableTable() {
+  const [colorMode] = useColorMode();
+  const sortedHeaderColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+  const hoverBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -519,9 +511,9 @@ function SortableTable() {
             {headerGroup.headers.map(column => (
               <TableHeaderCell
                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                {...column.isSorted && {color: 'rgba(255, 255, 255, 1)'}}
+                {...column.isSorted && { color: sortedHeaderColor }}
                 _hover={{
-                  bg: 'rgba(255, 255, 255, 0.12)'
+                  backgroundColor: hoverBackgroundColor,
                 }}
               >
                 <Flex
@@ -555,7 +547,7 @@ function SortableTable() {
               <TableRow
                 {...row.getRowProps()}
                 _hover={{
-                  bg: 'rgba(255, 255, 255, 0.12)'
+                  backgroundColor: hoverBackgroundColor,
                 }}
               >
                 {row.cells.map(cell => {
@@ -585,7 +577,7 @@ render(<SortableTable />);
 
 ```jsx noInline
 function ResizableTable() {
-  const { colorMode } = useColorMode();
+  const [colorMode] = useColorMode();
   const hoveringStyle = {
     'dark': {
       borderRight: 1,
