@@ -1,37 +1,5 @@
 import { useColorMode } from '../color-mode';
 
-const sizes = {
-  lg: {
-    px: '3x',
-    py: '3x',
-  },
-  md: {
-    px: '3x',
-    py: '2x',
-  },
-  sm: {
-    px: '3x',
-    py: '1x',
-  },
-};
-
-const sizeProps = ({ size }) => sizes[size];
-
-////////////////////////////////////////////////////////////
-
-const colorProps = {
-  light: {
-    color: 'black:primary',
-    borderColor: 'gray:50',
-  },
-  dark: {
-    color: 'white:primary',
-    borderColor: 'gray:70',
-  }
-};
-
-////////////////////////////////////////////////////////////
-
 const useTableStyle = props => {
   return {
     display: 'inline-flex',
@@ -40,26 +8,58 @@ const useTableStyle = props => {
   };
 };
 
-const useTableCellStyle = props => {
+const useTableCellStyle = ({ size, variant }) => {
   const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+  const px = '3x';
+  const py = {
+    lg: '3x',
+    md: '2x',
+    sm: '1x',
+  }[size];
+
   return {
+    borderRight: (variant === 'outline') ? 1 : undefined,
     borderBottom: 1,
-    ...props.variant === 'outline' && { borderRight: 1 },
-    ...colorProps[colorMode],
-    ...sizeProps(props),
+    borderColor,
+    color,
+    px,
+    py,
   };
 };
 
-////////////////////////////////////////////////////////////
-
-const useTableHeaderCellStyle = props => {
+const useTableHeaderCellStyle = ({ size, variant }) => {
   const [colorMode] = useColorMode();
+  const borderColor = {
+    dark: 'gray:70',
+    light: 'gray:30',
+  }[colorMode];
+  const color = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
+  }[colorMode];
+  const px = '3x';
+  const py = {
+    lg: '3x',
+    md: '2x',
+    sm: '1x',
+  }[size];
+
   return {
+    borderRight: (variant === 'outline') ? 1 : undefined,
     borderBottom: 2,
+    borderColor,
+    color,
     fontWeight: 'semibold',
-    ...props.variant === 'outline' && { borderRight: 1 },
-    ...colorProps[colorMode],
-    ...sizeProps(props),
+    px,
+    py,
   };
 };
 
