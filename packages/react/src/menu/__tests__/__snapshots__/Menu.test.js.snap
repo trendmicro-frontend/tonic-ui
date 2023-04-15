@@ -205,7 +205,7 @@ exports[`Menu should render correctly 1`] = `
 
 .emotion-16[aria-selected=true],
 .emotion-16[data-selected] {
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
 .emotion-16:focus,
@@ -273,7 +273,7 @@ exports[`Menu should render correctly 1`] = `
 
 .emotion-20[aria-selected=true],
 .emotion-20[data-selected] {
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
 .emotion-20:focus,
