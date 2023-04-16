@@ -24,8 +24,13 @@ const useTableStyle = ({ variant }) => {
 
 const useTableHeaderStyle = () => {
   return {
+    flex: 'none',
     overflow: 'hidden',
-    flex: '0 0 auto',
+  };
+};
+
+const useTableBodyStyle = () => {
+  return {
   };
 };
 
@@ -161,6 +166,7 @@ const useTableScrollbarTrackStyle = () => {
 export {
   useTableStyle,
   useTableHeaderStyle,
+  useTableBodyStyle,
   useTableHeaderRowStyle,
   useTableHeaderCellStyle,
   useTableRowStyle,
