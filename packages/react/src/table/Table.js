@@ -39,6 +39,7 @@ const Table = forwardRef((
     <TableContext.Provider value={context}>
       <Box
         ref={ref}
+        role="table"
         {...styleProps}
         {...rest}
       >

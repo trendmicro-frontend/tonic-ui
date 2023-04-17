@@ -8,6 +8,7 @@ const TableBody = forwardRef((props, ref) => {
   return (
     <Box
       ref={ref}
+      role="rowgroup"
       {...styleProps}
       {...props}
     />

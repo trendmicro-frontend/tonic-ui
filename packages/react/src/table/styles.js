@@ -1,3 +1,4 @@
+import { sx } from '@tonic-ui/styled-system';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
@@ -34,7 +35,7 @@ const useTableBodyStyle = () => {
   };
 };
 
-const useTableHeaderRowStyle = ({ size }) => {
+const useTableHeaderRowStyle = () => {
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
@@ -48,13 +49,28 @@ const useTableHeaderRowStyle = ({ size }) => {
   };
 };
 
-const useTableHeaderCellStyle = ({ size, variant }) => {
-  const { sizes } = useTheme();
+const useTableHeaderCellCSS = ({ variant }) => {
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
+
+  if (variant === 'outline') {
+    return sx({
+      '[role="columnheader"] + &[role="columnheader"]': {
+        borderLeft: 1,
+        borderColor,
+      },
+    });
+  }
+
+  return {};
+};
+
+const useTableHeaderCellStyle = ({ size }) => {
+  const { sizes } = useTheme();
+  const [colorMode] = useColorMode();
   const color = {
     dark: 'white:secondary',
     light: 'black:secondary',
@@ -70,14 +86,6 @@ const useTableHeaderCellStyle = ({ size, variant }) => {
     'md': `calc(${sizes['2x']} - ${sizes['2q']})`,
     'lg': `calc(${sizes['3x']} - ${sizes['2q']})`,
   }[size];
-  const variantStyle = {
-    'outline': {
-      _notLastOfType: {
-        borderRight: 1,
-        borderColor,
-      },
-    },
-  }[variant];
 
   return {
     color,
@@ -85,11 +93,10 @@ const useTableHeaderCellStyle = ({ size, variant }) => {
     px,
     pt,
     pb,
-    ...variantStyle,
   };
 };
 
-const useTableRowStyle = ({ size, variant }) => {
+const useTableRowStyle = ({ variant }) => {
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
@@ -111,13 +118,28 @@ const useTableRowStyle = ({ size, variant }) => {
   };
 };
 
-const useTableCellStyle = ({ size, variant }) => {
-  const { sizes } = useTheme();
+const useTableCellCSS = ({ variant }) => {
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
+
+  if (variant === 'outline') {
+    return sx({
+      '[role="cell"] + &[role="cell"]': {
+        borderLeft: 1,
+        borderColor,
+      },
+    });
+  }
+
+  return {};
+};
+
+const useTableCellStyle = ({ size }) => {
+  const { sizes } = useTheme();
+  const [colorMode] = useColorMode();
   const color = {
     dark: 'white:primary',
     light: 'black:primary',
@@ -133,21 +155,12 @@ const useTableCellStyle = ({ size, variant }) => {
     'md': `calc(${sizes['2x']} - ${sizes['1q']})`,
     'lg': `calc(${sizes['3x']} - ${sizes['1q']})`,
   }[size];
-  const variantStyle = {
-    'outline': {
-      _notLastOfType: {
-        borderRight: 1,
-        borderColor,
-      },
-    },
-  }[variant];
 
   return {
     color,
     px,
     pt,
     pb,
-    ...variantStyle,
   };
 };
 
@@ -168,8 +181,10 @@ export {
   useTableHeaderStyle,
   useTableBodyStyle,
   useTableHeaderRowStyle,
+  useTableHeaderCellCSS,
   useTableHeaderCellStyle,
   useTableRowStyle,
+  useTableCellCSS,
   useTableCellStyle,
   useTableScrollbarTrackStyle,
 };
