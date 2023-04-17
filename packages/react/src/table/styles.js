@@ -49,7 +49,7 @@ const useTableHeaderRowStyle = () => {
   };
 };
 
-const useTableHeaderCellCSS = ({ variant }) => {
+const useTableHeaderCellCSS = ({ role, variant }) => {
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
@@ -57,8 +57,9 @@ const useTableHeaderCellCSS = ({ variant }) => {
   }[colorMode];
 
   if (variant === 'outline') {
+    const adjacentSiblingSelector = `[role="${role}"] + &[role="${role}"]`;
     return sx({
-      '[role="columnheader"] + &[role="columnheader"]': {
+      [adjacentSiblingSelector]: {
         borderLeft: 1,
         borderColor,
       },
@@ -118,7 +119,7 @@ const useTableRowStyle = ({ variant }) => {
   };
 };
 
-const useTableCellCSS = ({ variant }) => {
+const useTableCellCSS = ({ role, variant }) => {
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
@@ -126,8 +127,9 @@ const useTableCellCSS = ({ variant }) => {
   }[colorMode];
 
   if (variant === 'outline') {
+    const adjacentSiblingSelector = `[role="${role}"] + &[role="${role}"]`;
     return sx({
-      '[role="cell"] + &[role="cell"]': {
+      [adjacentSiblingSelector]: {
         borderLeft: 1,
         borderColor,
       },

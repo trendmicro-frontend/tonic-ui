@@ -7,20 +7,22 @@ const TableCell = forwardRef((
   {
     children,
     css: cssProp,
+    role: roleProp,
     width = 150,
     ...rest
   },
   ref,
 ) => {
   const { size, variant } = useTable();
-  const css = [useTableCellCSS({ variant }), cssProp];
+  const role = roleProp ?? 'cell';
+  const css = [useTableCellCSS({ role, variant }), cssProp];
   const styleProps = useTableCellStyle({ size });
 
   return (
     <Box
       css={css}
       ref={ref}
-      role="cell"
+      role={role}
       width={width}
       {...styleProps}
       {...rest}

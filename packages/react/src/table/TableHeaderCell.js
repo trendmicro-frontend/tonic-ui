@@ -7,20 +7,22 @@ const TableHeaderCell = forwardRef((
   {
     children,
     css: cssProp,
+    role: roleProp,
     width = 150,
     ...rest
   },
   ref
 ) => {
   const { size, variant } = useTable();
-  const css = [useTableHeaderCellCSS({ variant }), cssProp];
+  const role = roleProp ?? 'columnheader';
+  const css = [useTableHeaderCellCSS({ role, variant }), cssProp];
   const styleProps = useTableHeaderCellStyle({ size });
 
   return (
     <Box
       css={css}
       ref={ref}
-      role="columnheader"
+      role={role}
       width={width}
       {...styleProps}
       {...rest}
