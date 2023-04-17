@@ -41,6 +41,14 @@ render(() => {
   };
   const [variant, changeVariantBy] = useSelection('default');
   const [size, changeSizeBy] = useSelection('md');
+  const data = React.useMemo(() => [
+    { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 778 },
+    { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
+    { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
+    { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
+    { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+  ], []);
 
   return (
     <>
@@ -107,22 +115,18 @@ render(() => {
           <TableHeader>
             <TableHeaderRow>
               <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-              <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
+              <TableHeaderCell textAlign="right">Affected Devices</TableHeaderCell>
+              <TableHeaderCell textAlign="right">Detections</TableHeaderCell>
             </TableHeaderRow>
           </TableHeader>
           <TableBody>
-            <TableRow {...tableRowProps}>
-              <TableCell width="240px">Virus/Malware</TableCell>
-              <TableCell width="136px" textAlign="right">634</TableCell>
-            </TableRow>
-            <TableRow {...tableRowProps}>
-              <TableCell width="240px">Virus/Malware</TableCell>
-              <TableCell width="136px" textAlign="right">778</TableCell>
-            </TableRow>
-            <TableRow {...tableRowProps}>
-              <TableCell width="240px">URL Filtering</TableCell>
-              <TableCell width="136px" textAlign="right">598</TableCell>
-            </TableRow>
+            {data.map(row => (
+              <TableRow key={row.id} {...tableRowProps}>
+                <TableCell width="240px">{row.eventType}</TableCell>
+                <TableCell textAlign="right">{row.affectedDevices}</TableCell>
+                <TableCell textAlign="right">{row.detections}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </Flex>
@@ -130,6 +134,8 @@ render(() => {
   );
 });
 ```
+
+### Using `react-table`
 
 This section demonstrates how to use the `react-table` library with the `Table` component, by showcasing various examples. The library provides several hooks, such as `useTable`, `useBlockLayout`, `useRowSelect`, and `useSortBy`, to help create customizable and feature-rich tables. The examples showcase how to utilize these hooks to implement complex features, such as sorting, filtering, pagination, and selection, in your table with ease. Additionally, the examples illustrate the flexibility and extensibility of `react-table` through customizable cell rendering, pagination, and sorting options.
 
@@ -146,7 +152,11 @@ render(() => {
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
-
+  const tableRowProps = {
+    _hover: {
+      backgroundColor: hoverBackgroundColor,
+    },
+  };
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -173,7 +183,7 @@ render(() => {
 
   const data = React.useMemo(() => [
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
-    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
+    { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 778 },
     { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
     { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
     { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
@@ -216,9 +226,7 @@ render(() => {
           return (
             <TableRow
               {...row.getRowProps()}
-              _hover={{
-                bg: 'rgba(255, 255, 255, 0.12)'
-              }}
+              {...tableRowProps}
             >
               {
                 row.cells.map(cell => {
@@ -240,7 +248,7 @@ render(() => {
 });
 ```
 
-### Selectable
+### Selectable rows
 
 ```jsx noInline
 const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
@@ -266,7 +274,14 @@ function SelectableTable() {
     dark: 'rgba(255, 255, 255, 0.08)',
     light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
-
+  const tableRowProps = {
+    _hover: {
+      backgroundColor: hoverBackgroundColor,
+    },
+    _selected: {
+      backgroundColor: selectedBackgroundColor,
+    },
+  };
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -356,14 +371,12 @@ function SelectableTable() {
         <TableBody {...getTableBodyProps()}>
           {rows.slice(0, 10).map((row, i) => {
             prepareRow(row);
-            const isChecked = Object.keys(selectedRowIds).indexOf(row.id) >= 0;
+            const isRowSelected = Object.keys(selectedRowIds).indexOf(row.id) >= 0;
             return (
               <TableRow
+                data-selected={isRowSelected ? 'true' : undefined}
                 {...row.getRowProps()}
-                {...isChecked && { backgroundColor: selectedBackgroundColor }}
-                _hover={{
-                  backgroundColor: hoverBackgroundColor,
-                }}
+                {...tableRowProps}
               >
                 {row.cells.map(cell => {
                   return (
@@ -402,7 +415,7 @@ function SelectableTable() {
 render(<SelectableTable />);
 ```
 
-### Sortable
+### Sortable rows
 
 ```jsx noInline
 function SortableTable() {
@@ -415,6 +428,11 @@ function SortableTable() {
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
+  const tableRowProps = {
+    _hover: {
+      backgroundColor: hoverBackgroundColor,
+    },
+  };
 
   const columns = React.useMemo(() => [
     {
@@ -507,9 +525,7 @@ function SortableTable() {
             return (
               <TableRow
                 {...row.getRowProps()}
-                _hover={{
-                  backgroundColor: hoverBackgroundColor,
-                }}
+                {...tableRowProps}
               >
                 {row.cells.map(cell => {
                   return (
@@ -534,11 +550,20 @@ render(<SortableTable />);
 ```
 
 
-### Resizable
+### Resizable columns
 
 ```jsx noInline
 function ResizableTable() {
   const [colorMode] = useColorMode();
+  const hoverBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+  const tableRowProps = {
+    _hover: {
+      backgroundColor: hoverBackgroundColor,
+    },
+  };
   const hoveringStyle = {
     'dark': {
       borderRight: 1,
@@ -623,7 +648,9 @@ function ResizableTable() {
 
   return (
     <Stack spacing="4x" shouldWrapChildren>
-      <Button onClick={resetResizing}>Reset Resizing</Button>
+      <Button onClick={resetResizing}>
+        Reset Column Widths
+      </Button>
       <Table
         variant="outline"
         {...getTableProps()}
@@ -678,9 +705,7 @@ function ResizableTable() {
             return (
               <TableRow
                 {...row.getRowProps()}
-                _hover={{
-                  bg: 'rgba(255, 255, 255, 0.12)'
-                }}
+                {...tableRowProps}
               >
                 {
                   row.cells.map((cell, index) => {
@@ -734,15 +759,24 @@ function ResizableTable() {
 render(<ResizableTable />);
 ```
 
-### Scrollable
+### Scrollable table
 
 The `TableScrollbar` component shares the same API as the `Scrollbar` component. It allows for the creation of scrollable content within a table.
 
 ```jsx
 function Example() {
+  const [colorMode] = useColorMode();
+  const hoverBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+  const tableRowProps = {
+    _hover: {
+      backgroundColor: hoverBackgroundColor,
+    },
+  };
   const tableHeaderRef = React.createRef();
-  const [isHorizontalScrollbarVisible, setHorizontalScrollbarVisible] = React.useState(false);
-  const [isVerticalScrollbarVisible, setVerticalScrollbarVisible] = React.useState(false);
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -780,20 +814,6 @@ function Example() {
     }
   };
 
-  const onUpdate = (props) => {
-    const { scrollWidth, clientWidth, scrollHeight, clientHeight } = props;
-    const _isHorizontalScrollbarVisible = (scrollWidth > clientWidth);
-    const _isVerticalScrollbarVisible = (scrollHeight > clientHeight);
-
-    if (_isHorizontalScrollbarVisible !== isHorizontalScrollbarVisible) {
-      setHorizontalScrollbarVisible(_isHorizontalScrollbarVisible);
-    }
-
-    if (_isVerticalScrollbarVisible !== isVerticalScrollbarVisible) {
-      setVerticalScrollbarVisible(_isVerticalScrollbarVisible);
-    }
-  };
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -810,7 +830,6 @@ function Example() {
 
   return (
     <Table
-      variant="outline"
       width={400}
       height={200}
       {...getTableProps()}
@@ -818,27 +837,17 @@ function Example() {
       <TableHeader ref={tableHeaderRef}>
         {headerGroups.map(headerGroup => {
           const { style, ...props } = headerGroup.getHeaderGroupProps();
-          let headerWidth = style.width;
-          if (isVerticalScrollbarVisible) {
-            headerWidth = `calc(${style.width} + 8px)`; // 8px is scrollbar width
-          }
           return (
-            <TableHeaderRow style={{...style, width: headerWidth}} {...props}>
+            <TableHeaderRow style={style} {...props}>
               {headerGroup.headers.map((column, index) => (
                 <TableHeaderCell
                   key={column.accessor}
                   {...column.getHeaderProps()}
                   {...column.customProps}
-                  {...(isVerticalScrollbarVisible && index === headerGroup.headers.length - 1) && {
-                    borderRight: 0,
-                  }}
                 >
                   {column.render('Header')}
                 </TableHeaderCell>
               ))}
-              {isVerticalScrollbarVisible && (
-                <TableHeaderCell width="2x" padding={0} borderLeft={0} />
-              )}
             </TableHeaderRow>
           );
         })}
@@ -846,18 +855,15 @@ function Example() {
       <TableScrollbar
         height="100%"
         onScroll={onScroll}
-        onUpdate={onUpdate}
       >
         <TableBody {...getTableBodyProps()}>
           {rows.map((row, index) => {
             prepareRow(row);
             return (
               <TableRow
-                {...row.getRowProps()}
                 key={index}
-                _hover={{
-                  bg: 'rgba(255, 255, 255, 0.12)'
-                }}
+                {...row.getRowProps()}
+                {...tableRowProps}
               >
                 {row.cells.map(cell => {
                   return (
@@ -881,9 +887,7 @@ function Example() {
 ```
 
 
-### Full width
-
-#### Using `react-virtualized`
+### Full width table
 
 ```js
 import { AutoSizer } from 'react-virtualized';
@@ -891,6 +895,17 @@ import { AutoSizer } from 'react-virtualized';
 
 ```jsx noInline
 function FullWidthTable() {
+  const [colorMode] = useColorMode();
+  const hoverBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+  const tableRowProps = {
+    _hover: {
+      backgroundColor: hoverBackgroundColor,
+    },
+  };
+
   const columns = React.useMemo(() => [
     {
       Header: 'Event Type',
@@ -986,7 +1001,10 @@ function FullWidthTable() {
           }
           const newColumns = getCalculatedColumns({ initColumns: columns, tableWidth: width });
           return (
-            <Table {...getTableProps()}>
+            <Table
+              width={width}
+              {...getTableProps()}
+            >
               <TableHeader>
                 {headerGroups.map(headerGroup => (
                   <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
@@ -1013,9 +1031,7 @@ function FullWidthTable() {
                   return (
                     <TableRow
                       {...row.getRowProps()}
-                      _hover={{
-                        bg: 'rgba(255, 255, 255, 0.12)'
-                      }}
+                      {...tableRowProps}
                     >
                       {
                         row.cells.map(cell => {
@@ -1051,7 +1067,9 @@ render(<FullWidthTable />);
 
 ### Row reordering
 
-#### Using `react-movable`
+You can use either `react-movable` or `react-dnd` to enable row reordering.
+
+The following example uses `react-movable` to enable row reordering:
 
 ```js
 import { List, arrayMove } from 'react-movable';
@@ -1141,7 +1159,7 @@ function ReactMovableExample() {
 render(<ReactMovableExample />);
 ```
 
-#### Using `react-dnd`
+The following example uses `react-dnd` to enable row reordering:
 
 ```js
 import { DndProvider, useDrop, useDragLayer } from 'react-dnd';
@@ -1348,8 +1366,6 @@ render(
 ```
 
 ### Column reordering
-
-#### Using `react-beautiful-dnd`
 
 ```js
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
