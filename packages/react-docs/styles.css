@@ -87,6 +87,7 @@ dl {
 
 dd {
   margin-left: var(--tonic-space-6x);
+  margin-bottom: var(--tonic-space-2x);
 }
 
 /**

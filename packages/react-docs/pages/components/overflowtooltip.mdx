@@ -62,23 +62,25 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Ove
 | :--- | :--- | :------ | :---------- |
 | PopperComponent | ElementType | Popper | The component used for the popover. |
 | PopperProps | object | | Props applied to the Popper component. |
-| PopperArrowComponent | ElementType | PopperArrow | The component used for the popover arrow. |
-| PopperArrowProps | object | | Props applied to the PopoverArrow component. |
+| TooltipArrowComponent | ElementType | TooltipArrow | The component used for the tooltip arrow. |
+| TooltipArrowProps | object | | Props applied to the `TooltipArrow` component. |
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
-| arrowAt | string | | The position of the arrow. One of: 'left', 'right', 'top', 'bottom' |
-| children | ReactNode \| `({ getTooltipTriggerProps }) => ReactNode` | | |
+| arrow | boolean | true | If `true`, adds an arrow to the tooltip. |
+| children | ReactNode \| `(context) => ReactNode` | | |
 | closeOnClick | boolean | true | If `true`, close the tooltip on click. |
 | closeOnEsc | boolean | true | If `true`, close the tooltip when pressing the escape key. |
 | closeOnMouseDown | boolean | false | If `true`, close the tooltip while the mouse is down. |
 | defaultIsOpen | boolean | false | Whether the tooltip will be open by default. |
 | disabled | boolean | | If `true`, the tooltip will not display. |
 | enterDelay | number | 100 | The delay in milliseconds before the tooltip appears. |
-| hideArrow | boolean | | If `true`, hide the arrow tip on the tooltip. |
+| followCursor | boolean | | If `true`, the tooltip will follow the cursor. |
 | isOpen | boolean | | If `true`, show the tooltip. |
 | label | string \| ReactNode | | If the tooltip label is a blank or empty string, the tooltip will not display. |
 | leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |
+| nextToCursor | boolean | | If `true`, the tooltip will be positioned next to the cursor. |
+| offset | [skidding, distance] | [0, 8] | The skidding and distance of the tooltip. |
 | onClose| function | | Callback fired when the tooltip is closed. |
 | onOpen | function | | Callback fired when the tooltip is opened. |
 | placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |

@@ -3,11 +3,12 @@ import { Box } from '../box';
 import { useTableHeaderStyle } from './styles';
 
 const TableHeader = forwardRef((props, ref) => {
-  const styleProps = useTableHeaderStyle({});
+  const styleProps = useTableHeaderStyle();
 
   return (
     <Box
       ref={ref}
+      role="rowgroup"
       {...styleProps}
       {...props}
     />

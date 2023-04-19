@@ -3,7 +3,6 @@ import { warnRemovedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useColorMode } from '../color-mode';
 import { TableContext } from './context';
 import { useTableStyle } from './styles';
 
@@ -30,8 +29,7 @@ const Table = forwardRef((
     }, (isHoverable !== undefined));
   }
 
-  const styleProps = useTableStyle({});
-  const minimalist = (variant === 'default');
+  const styleProps = useTableStyle({ variant });
   const context = getMemoizedState({
     variant,
     size,
@@ -41,57 +39,15 @@ const Table = forwardRef((
     <TableContext.Provider value={context}>
       <Box
         ref={ref}
+        role="table"
         {...styleProps}
         {...rest}
       >
-        { children }
-        { !minimalist && (
-          <>
-            <HorizontalLine position="absolute" top="0" />
-            <VerticalLine position="absolute" top="0" right="0" />
-            <HorizontalLine position="absolute" bottom="0" />
-            <VerticalLine position="absolute" top="0" left="0" />
-          </>
-        )}
+        {children}
       </Box>
     </TableContext.Provider>
   );
 });
-
-const VerticalLine = (props) => {
-  const [colorMode] = useColorMode();
-  const borderColor = {
-    dark: 'gray:70',
-    light: 'gray:50',
-  }[colorMode];
-
-  return (
-    <Box
-      borderLeft={1}
-      borderLeftColor={borderColor}
-      height="100%"
-      width="1q"
-      {...props}
-    />
-  );
-};
-const HorizontalLine = (props) => {
-  const [colorMode] = useColorMode();
-  const borderColor = {
-    dark: 'gray:70',
-    light: 'gray:50',
-  }[colorMode];
-
-  return (
-    <Box
-      borderTop={1}
-      borderTopColor={borderColor}
-      height="1q"
-      width="100%"
-      {...props}
-    />
-  );
-};
 
 Table.displayName = 'Table';
 

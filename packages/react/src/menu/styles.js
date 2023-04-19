@@ -118,7 +118,7 @@ const useMenuItemStyle = ({
     dark: 'white:disabled',
   }[colorMode];
   const selectedBackgroundColor = {
-    light: 'white',
+    light: 'rgba(0, 0, 0, 0.08)',
     dark: 'rgba(255, 255, 255, 0.08)',
   }[colorMode];
 
