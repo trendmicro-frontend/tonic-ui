@@ -195,7 +195,7 @@ const useSelectStyle = ({
 const useOptionStyle = () => {
   const [colorMode] = useColorMode();
   const backgroundColor = {
-    dark: 'gray:100',
+    dark: 'gray:80',
     light: 'white',
   }[colorMode];
   const color = {
@@ -210,7 +210,21 @@ const useOptionStyle = () => {
 };
 
 const useOptionGroupStyle = () => {
-  return useOptionStyle();
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'gray:80',
+    light: 'white',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+
+  return {
+    backgroundColor,
+    color,
+    fontWeight: 'semibold',
+  };
 };
 
 export {
