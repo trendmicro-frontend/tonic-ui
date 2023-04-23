@@ -5,6 +5,8 @@ const colorStyle = {
       secondary: 'gray:90',
       tertiary: 'gray:80',
       inverse: 'gray:10',
+      highlighted: 'rgba(255, 255, 255, 0.12)',
+      selected: 'rgba(255, 255, 255, 0.08)',
     },
 
     color: {
@@ -72,6 +74,8 @@ const colorStyle = {
       secondary: 'gray:10',
       tertiary: 'gray:20',
       inverse: 'gray:70',
+      highlighted: 'rgba(0, 0, 0, 0.12)',
+      selected: 'rgba(0, 0, 0, 0.08)',
     },
 
     color: {
