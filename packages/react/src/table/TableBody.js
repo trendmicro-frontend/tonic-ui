@@ -2,15 +2,23 @@ import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useTableBodyStyle } from './styles';
 
-const TableBody = forwardRef((props, ref) => {
+const TableBody = forwardRef((
+  {
+    css: cssProp,
+    role: roleProp,
+    ...rest
+  },
+  ref,
+) => {
+  const role = roleProp ?? 'rowgroup';
   const styleProps = useTableBodyStyle();
 
   return (
     <Box
       ref={ref}
-      role="rowgroup"
+      role={role}
       {...styleProps}
-      {...props}
+      {...rest}
     />
   );
 });

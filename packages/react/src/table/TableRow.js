@@ -1,18 +1,28 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useTableRowStyle } from './styles';
+import { useTableRowCSS, useTableRowStyle } from './styles';
 import useTable from './useTable';
 
-const TableRow = forwardRef((props, ref) => {
+const TableRow = forwardRef((
+  {
+    css: cssProp,
+    role: roleProp,
+    ...rest
+  },
+  ref,
+) => {
   const { variant } = useTable();
-  const styleProps = useTableRowStyle({ variant });
+  const role = roleProp ?? 'row';
+  const css = [useTableRowCSS({ role, variant }), cssProp];
+  const styleProps = useTableRowStyle();
 
   return (
     <Box
+      css={css}
       ref={ref}
-      role="row"
+      role={role}
       {...styleProps}
-      {...props}
+      {...rest}
     />
   );
 });
