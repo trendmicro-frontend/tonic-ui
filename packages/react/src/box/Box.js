@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import isPropValid from '@emotion/is-prop-valid';
 import { pseudoClassSelector, pseudoElementSelector, sx, system } from '@tonic-ui/styled-system';
-import { ensureArray } from 'ensure-type';
+import { ensureArray, ensurePlainObject } from 'ensure-type';
 
 const shouldForwardProp = (() => {
   const stylePropMap = ensureArray(system.propNames)
@@ -19,7 +19,14 @@ const shouldForwardProp = (() => {
   return prop => isPropValid(prop) && !omittedStylePropMap[prop];
 })();
 
-const pseudo = (props) => {
+const transformExtendedCSSSelectors = (props) => {
+  if (Object.hasOwn(props, 'sx')) {
+    return sx(ensurePlainObject(props.sx));
+  }
+  return {};
+};
+
+const transformPseudoSelectors = (props) => {
   /**
    * Pseudo-classes must be declared in a specific order, as shown below:
    *
@@ -55,23 +62,19 @@ const pseudo = (props) => {
 
   let entries = [];
   for (const [name, value] of orderedEntries) {
-    if (name in pseudoClassSelector) {
-      const getPseudoSelectorEntries = pseudoClassSelector[name];
-      entries = entries.concat(getPseudoSelectorEntries(value));
-    }
-    if (name in pseudoElementSelector) {
-      const getPseudoSelectorEntries = pseudoElementSelector[name];
-      entries = entries.concat(getPseudoSelectorEntries(value));
+    const selectorFunction = pseudoClassSelector[name] ?? pseudoElementSelector[name];
+    if (typeof selectorFunction === 'function') {
+      entries = entries.concat(selectorFunction(value));
     }
   }
   return sx(Object.fromEntries(entries));
 };
 
-const Box = styled(
-  styled('div', {
-    shouldForwardProp,
-  })(system)
-)(pseudo);
+const Box = styled('div', { shouldForwardProp })(
+  system,
+  transformPseudoSelectors,
+  transformExtendedCSSSelectors, // Place `transformExtendedCSSSelectors` at the end to gain the highest priority
+);
 
 Box.displayName = 'Box';
 
