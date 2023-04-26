@@ -95,8 +95,7 @@ exports[`InputControl should render correctly 1`] = `
   background-color: inherit;
   border: none;
   color: inherit;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
   width: 100%;
   font-size: var(--tonic-fontSizes-sm);
@@ -284,8 +283,7 @@ exports[`InputControl should render correctly 1`] = `
   background-color: inherit;
   border: none;
   color: inherit;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
   width: 100%;
   font-size: var(--tonic-fontSizes-sm);
@@ -662,8 +660,7 @@ exports[`InputControl should render correctly 1`] = `
   background-color: inherit;
   border: none;
   color: inherit;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
   width: 100%;
   font-size: var(--tonic-fontSizes-md);
@@ -851,8 +848,7 @@ exports[`InputControl should render correctly 1`] = `
   background-color: inherit;
   border: none;
   color: inherit;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
   width: 100%;
   font-size: var(--tonic-fontSizes-md);

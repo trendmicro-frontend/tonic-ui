@@ -10,8 +10,7 @@ exports[`Popover should render correctly 1`] = `
   border: var(--tonic-borders-1);
   color: var(--tonic-colors-black-emphasis);
   cursor: pointer;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -106,8 +105,7 @@ exports[`Popover should render correctly 1`] = `
   flex-direction: column;
   border-radius: var(--tonic-radii-sm);
   max-width: 288px;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   opacity: 1;
   -webkit-transform: none;
   -moz-transform: none;

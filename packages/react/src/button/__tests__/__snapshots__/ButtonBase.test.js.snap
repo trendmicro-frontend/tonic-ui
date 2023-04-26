@@ -10,8 +10,7 @@ exports[`ButtonBase should render correctly 1`] = `
   border: none;
   color: inherit;
   cursor: pointer;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
 }
 
@@ -24,8 +23,7 @@ exports[`ButtonBase should render correctly 1`] = `
   border: none;
   color: inherit;
   cursor: not-allowed;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
 }
 

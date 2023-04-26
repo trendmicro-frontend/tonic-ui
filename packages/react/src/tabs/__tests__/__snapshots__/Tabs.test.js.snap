@@ -30,8 +30,7 @@ exports[`Tabs should render correctly 1`] = `
   border: none;
   color: var(--tonic-colors-black-primary);
   cursor: default;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
@@ -91,7 +90,6 @@ exports[`Tabs should render correctly 1`] = `
   border: none;
   color: var(--tonic-colors-black-secondary);
   cursor: pointer;
-  outline-offset: unset;
   padding: 0;
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
@@ -151,8 +149,7 @@ exports[`Tabs should render correctly 1`] = `
   border: none;
   color: var(--tonic-colors-black-disabled);
   cursor: not-allowed;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
   padding: 0;
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
@@ -211,8 +208,7 @@ exports[`Tabs should render correctly 1`] = `
 }
 
 .emotion-12 {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: 0;
 }
 
 <div>
