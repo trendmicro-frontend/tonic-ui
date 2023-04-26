@@ -43,21 +43,6 @@ export const getter = (scale, value, options) => {
   return result;
 };
 
-export const outline = (scale, value, options) => {
-  const isNoneOrZero = value === 'none' || value === '0' || value === 0;
-  if (isNoneOrZero) {
-    return {
-      outline: '2px solid transparent',
-      outlineOffset: '2px',
-    };
-  }
-
-  return {
-    outline: getter(scale, value, options),
-    outlineOffset: 'unset',
-  };
-};
-
 export const positiveOrNegative = (scale, value, options) => {
   /**
    * Scale object
