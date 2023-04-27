@@ -41,6 +41,8 @@ render(() => {
   };
   const [variant, changeVariantBy] = useSelection('default');
   const [size, changeSizeBy] = useSelection('md');
+  const [isTableHeaderVisible, toggleIsTableHeaderVisible] = useToggle(true);
+  const [isTableBodyVisible, toggleIsTableBodyVisible] = useToggle(true);
   const data = React.useMemo(() => [
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 778 },
@@ -110,24 +112,51 @@ render(() => {
         </ButtonGroup>
       </FormGroup>
       <Divider mb="4x" />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Table composition
+        </Text>
+      </Box>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isTableHeaderVisible} onChange={() => toggleIsTableHeaderVisible()} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">TableHeader</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox checked={isTableBodyVisible} onChange={() => toggleIsTableBodyVisible()} />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">TableBody</Text>
+        </TextLabel>
+      </FormGroup>
+      <Divider mb="4x" />
       <Flex alignItems="center" columnGap="3x" minHeight="5x">
-        <Table variant={variant} size={size}>
-          <TableHeader>
-            <TableHeaderRow>
-              <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-              <TableHeaderCell textAlign="right">Affected Devices</TableHeaderCell>
-              <TableHeaderCell textAlign="right">Detections</TableHeaderCell>
-            </TableHeaderRow>
-          </TableHeader>
-          <TableBody>
-            {data.map(row => (
-              <TableRow key={row.id} {...tableRowProps}>
-                <TableCell width="240px">{row.eventType}</TableCell>
-                <TableCell textAlign="right">{row.affectedDevices}</TableCell>
-                <TableCell textAlign="right">{row.detections}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+        <Table
+          variant={variant}
+          size={size}
+        >
+          {isTableHeaderVisible && (
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell width="240px">Event Type</TableHeaderCell>
+                <TableHeaderCell textAlign="right">Affected Devices</TableHeaderCell>
+                <TableHeaderCell textAlign="right">Detections</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+          )}
+          {isTableBodyVisible && (
+            <TableBody>
+              {data.map(row => (
+                <TableRow key={row.id} {...tableRowProps}>
+                  <TableCell width="240px">{row.eventType}</TableCell>
+                  <TableCell textAlign="right">{row.affectedDevices}</TableCell>
+                  <TableCell textAlign="right">{row.detections}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
       </Flex>
     </>

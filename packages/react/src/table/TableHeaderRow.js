@@ -2,15 +2,22 @@ import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useTableHeaderRowStyle } from './styles';
 
-const TableHeaderRow = forwardRef((props, ref) => {
+const TableHeaderRow = forwardRef((
+  {
+    role: roleProp,
+    ...rest
+  },
+  ref,
+) => {
+  const role = roleProp ?? 'row';
   const styleProps = useTableHeaderRowStyle();
 
   return (
     <Box
       ref={ref}
-      role="row"
+      role={role}
       {...styleProps}
-      {...props}
+      {...rest}
     />
   );
 });
