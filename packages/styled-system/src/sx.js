@@ -44,24 +44,31 @@ const responsive = styles => theme => {
   return next;
 };
 
-const sx = args => (props = {}) => {
+const sx = (styleConfig) => (props = {}) => {
+  if (Array.isArray(styleConfig)) {
+    return styleConfig.reduce((acc, config) => ({
+      ...acc,
+      ...sx(config)(props),
+    }), {});
+  }
+
   const theme = {
     ...(props.theme || props),
   };
-  let result = {};
-  const obj = typeof args === 'function' ? args(theme) : args;
-  const styles = responsive(obj)(theme);
+  const styleObject = (typeof styleConfig === 'function') ? styleConfig(theme) : styleConfig;
+  const styles = responsive(styleObject)(theme);
 
+  let result = {};
   for (const key in styles) {
     if (!Object.prototype.hasOwnProperty.call(styles, key)) {
       continue;
     }
 
-    const x = styles[key];
-    const _value = typeof x === 'function' ? x(theme) : x;
+    const styleValue = styles[key];
+    const value = (typeof styleValue === 'function') ? styleValue(theme) : styleValue;
 
-    if (_value && typeof _value === 'object') {
-      result[key] = sx(_value)(theme);
+    if (value && typeof value === 'object') {
+      result[key] = sx(value)(theme);
       continue;
     }
 
@@ -83,24 +90,23 @@ const sx = args => (props = {}) => {
      *     scale: "colors"
      * }
      */
-    const _sx = system.config[key];
-
-    if (typeof _sx !== 'function') {
+    const styleFunction = system.config[key];
+    if (typeof styleFunction !== 'function') {
       // pass them through to the result for unknown props
-      result[key] = _value;
+      result[key] = value;
       continue;
     }
 
-    const _scale = get(theme, _sx.scale, _sx.defaultScale);
-    const _props = {
+    const scale = get(theme, styleFunction.scale, styleFunction.defaultScale);
+    const propsWithTheme = {
       ...styles,
       theme, // include "theme" in props
     };
-    const _result = _sx(_scale, _value, _props); // `sx` is a style function
+    const styleResult = styleFunction(scale, value, propsWithTheme); // `sx` is a style function
 
     result = {
       ...result,
-      ..._result,
+      ...styleResult,
     };
   }
 

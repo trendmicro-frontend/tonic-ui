@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import isPropValid from '@emotion/is-prop-valid';
 import { pseudoClassSelector, pseudoElementSelector, sx, system } from '@tonic-ui/styled-system';
-import { ensureArray, ensurePlainObject } from 'ensure-type';
+import { ensureArray } from 'ensure-type';
 
 const shouldForwardProp = (() => {
   const stylePropMap = ensureArray(system.propNames)
@@ -19,14 +19,12 @@ const shouldForwardProp = (() => {
   return prop => isPropValid(prop) && !omittedStylePropMap[prop];
 })();
 
-const transformExtendedCSSSelectors = (props) => {
-  if (Object.hasOwn(props, 'sx')) {
-    return sx(ensurePlainObject(props.sx));
-  }
-  return {};
+const transformCSSSuperset = (props) => {
+  // The `sx` prop is a shortcut for defining custom styles that has access to the theme
+  return sx(props?.sx);
 };
 
-const transformPseudoSelectors = (props) => {
+const transformCSSPseudoSelectors = (props) => {
   /**
    * Pseudo-classes must be declared in a specific order, as shown below:
    *
@@ -72,8 +70,8 @@ const transformPseudoSelectors = (props) => {
 
 const Box = styled('div', { shouldForwardProp })(
   system,
-  transformPseudoSelectors,
-  transformExtendedCSSSelectors, // Place `transformExtendedCSSSelectors` at the end to gain the highest priority
+  transformCSSPseudoSelectors,
+  transformCSSSuperset, // Place `transformCSSSuperset` at the end to gain the highest specificity
 );
 
 Box.displayName = 'Box';
