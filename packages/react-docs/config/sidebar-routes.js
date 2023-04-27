@@ -25,6 +25,7 @@ export const routes = [
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
+      { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Migration From v0.x to v1', path: 'getting-started/migration-v0x' },
       { title: 'Versions', path: 'getting-started/versions' },
       { title: 'Contributing', path: 'getting-started/contributing' },
@@ -43,7 +44,7 @@ export const routes = [
       { title: 'Getting Started', path: 'styled-system' },
       { title: 'Style Props', path: 'styled-system/style-props' },
       { title: 'Pseudo Style Props', path: 'styled-system/pseudo-style-props' },
-      { title: 'Responsive Styles', path: 'styled-system/responsive-styles' },
+      { title: 'Responsive Values', path: 'styled-system/responsive-values' },
     ],
   },
   {
@@ -118,6 +119,14 @@ export const routes = [
       { title: 'useColorMode', path: 'components/color-mode/useColorMode' },
       { title: 'Color Style', path: 'components/color-style' },
       { title: 'useColorStyle', path: 'components/color-style/useColorStyle' },
+
+      { title: 'LAYOUT', heading: true },
+      { title: 'Box', path: 'components/box' },
+      //{ title: 'ControlBox', path: 'components/controlbox' }, // XXX: temporarily remove this page
+      { title: 'Flex', path: 'components/flex' },
+      { title: 'Grid', path: 'components/grid' },
+      { title: 'Space', path: 'components/space' },
+      { title: 'Stack', path: 'components/stack' },
 
       { title: 'DATA DISPLAY', heading: true },
       { title: 'Accordion', path: 'components/accordion' },
@@ -277,13 +286,6 @@ export const routes = [
           );
         },
       },
-      { title: 'LAYOUT', heading: true },
-      { title: 'Box', path: 'components/box' },
-      { title: 'ControlBox', path: 'components/controlbox' },
-      { title: 'Flex', path: 'components/flex' },
-      { title: 'Grid', path: 'components/grid' },
-      { title: 'Space', path: 'components/space' },
-      { title: 'Stack', path: 'components/stack' },
 
       { title: 'MEDIA AND ICONS', heading: true },
       {
