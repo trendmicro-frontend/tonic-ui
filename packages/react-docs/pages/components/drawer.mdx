@@ -88,6 +88,7 @@ function Example() {
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [isClosable, toggleIsClosable] = useToggle(true);
+  const [returnFocusOnClose, toggleReturnFocusOnClose] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
@@ -234,6 +235,16 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
       </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={returnFocusOnClose}
+            onChange={() => toggleReturnFocusOnClose()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">returnFocusOnClose</Text>
+        </TextLabel>
+      </FormGroup>
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
@@ -314,6 +325,7 @@ function Example() {
         isOpen={isOpen}
         onClose={() => toggleDrawer(false)}
         placement={placement}
+        returnFocusOnClose={returnFocusOnClose}
         size={size}
       >
         {enableBodyScrollLock && (
