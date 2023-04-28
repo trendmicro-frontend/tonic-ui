@@ -98,9 +98,11 @@ function Example() {
   return (
     <>
       <Box>
-        <Button onClick={() => toggleDrawer(true)}>
-          Launch drawer
-        </Button>
+        <Tooltip label="Click to launch drawer" openOnFocus={false}>
+          <Button onClick={() => toggleDrawer(true)}>
+            Launch drawer
+          </Button>
+        </Tooltip>
       </Box>
       <Divider my="4x" />
       <Box mb="4x">
@@ -456,6 +458,7 @@ Besides the default functionality of the `DrawerCloseButton`, you can also pass 
 | isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | isOpen | boolean | false | If `true`, the drawer is shown. |
 | onClose | function | | Callback fired when the drawer closes. |
+| returnFocusOnClose | boolean | true | If `true`, the focus will be restored to the element that was focused on when the drawer was initially opened. |
 | placement | string | 'right' | Change the placement of the drawer. One of: 'left', 'right', 'top', 'bottom' |
 | size | string | 'auto' | Change the size of the drawer. One of: 'auto', 'sm', 'md', 'lg', 'full' |
 
