@@ -172,9 +172,11 @@ function Example() {
   return (
     <>
       <Box>
-        <Button onClick={() => toggleModal(true)}>
-          Launch modal
-        </Button>
+        <Tooltip label="Click to launch modal" openOnFocus={false}>
+          <Button onClick={() => toggleModal(true)}>
+            Launch modal
+          </Button>
+        </Tooltip>
       </Box>
       <Divider my="4x" />
       <Box mb="4x">
@@ -679,6 +681,7 @@ function Example() {
 | isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | isOpen | boolean | false | If `true`, the modal is shown. |
 | onClose | function | | Callback fired when the modal closes. |
+| returnFocusOnClose | boolean | true | If `true`, the focus will be restored to the element that was focused on when the modal was initially opened. |
 | size | string | 'auto' | Change the size of the modal. One of: 'auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full' |
 | scrollBehavior | string | 'inside' | Control the scroll behavior of the modal if the content overflows. One of: 'inside', 'outside' |
 
