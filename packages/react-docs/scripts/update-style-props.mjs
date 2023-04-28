@@ -20,7 +20,7 @@ const data = _.reduce(system.config, (result, value, key) => {
   if (sx.group != null) {
     const item = {
       prop: key,
-      originalProperties: sx.originalProperties.map(kebabize),
+      properties: sx.properties.map(kebabize),
       scale: sx.scale,
       defaultScale: sx.defaultScale,
     };
@@ -42,7 +42,7 @@ try {
       ].concat(value.map(x => {
         const cells = [
           '`' + x.prop + '`',
-          '`' + x.originalProperties.join('`, `') + '`',
+          '`' + x.properties.join('`, `') + '`',
           x.scale ? `[${x.scale}](../theme/${kebabize(x.scale)})` : '',
         ];
         return '| ' + cells.join(' | ') + ' |';

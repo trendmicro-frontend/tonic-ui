@@ -1,7 +1,7 @@
 import { ensurePlainObject } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useState } from 'react';
-import defaultColorStyle from '../shared/color-style';
+import defaultColorStyle from './color-style';
 import { ColorStyleContext } from './context';
 
 const ensureColorStyle = (colorStyle) => {

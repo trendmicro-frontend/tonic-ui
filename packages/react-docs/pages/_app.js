@@ -5,6 +5,7 @@ import {
   ToastManager,
   TonicProvider,
   colorStyle as defaultColorStyle,
+  theme,
   useTheme,
 } from '@tonic-ui/react';
 import {
@@ -26,6 +27,9 @@ import '../styles.css';
  
 // Algolia search client
 const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY);
+
+// Enable CSS variables replacement
+theme.config.useCSSVariables = true;
 
 const App = (props) => {
   const [initialColorMode, setColorMode] = useState(null);
@@ -69,6 +73,7 @@ const App = (props) => {
         colorStyle={{
           defaultValue: defaultColorStyle,
         }}
+        theme={theme}
         useCSSBaseline
       >
         <PortalManager>

@@ -58,17 +58,36 @@ const sx = args => (props = {}) => {
     }
 
     const x = styles[key];
-    const val = typeof x === 'function' ? x(theme) : x;
+    const _value = typeof x === 'function' ? x(theme) : x;
 
-    if (val && typeof val === 'object') {
-      result[key] = sx(val)(theme);
+    if (_value && typeof _value === 'object') {
+      result[key] = sx(_value)(theme);
       continue;
     }
 
+    /**
+     * The system config is a map of all style props with its corresponding "sx" function and properties.
+     *
+     * {
+     *   background: f sx(scale, value, props)
+     *     alias: undefined
+     *     defaultScale: {}
+     *     group: "background"
+     *     properties: ['background']
+     *     scale: "colors"
+     *   bg: f sx(scale, value, props)
+     *     alias: "background"
+     *     defaultScale: {}
+     *     group: "background"
+     *     properties: ['background']
+     *     scale: "colors"
+     * }
+     */
     const _sx = system.config[key];
+
     if (typeof _sx !== 'function') {
       // pass them through to the result for unknown props
-      result[key] = val;
+      result[key] = _value;
       continue;
     }
 
@@ -77,7 +96,7 @@ const sx = args => (props = {}) => {
       ...styles,
       theme, // include "theme" in props
     };
-    const _result = _sx(val, _scale, _props); // `sx` is a style function
+    const _result = _sx(_scale, _value, _props); // `sx` is a style function
 
     result = {
       ...result,

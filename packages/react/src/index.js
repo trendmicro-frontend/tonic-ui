@@ -45,10 +45,6 @@ export * from './transitions';
 export * from './truncate';
 export * from './visually-hidden';
 
-// settings
-export colorStyle from './shared/color-style';
-export theme from './shared/theme';
-
 // deprecated
 export FlatButton from './deprecated/FlatButton';
 export PseudoBox from './deprecated/PseudoBox';

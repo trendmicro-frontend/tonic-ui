@@ -5,7 +5,10 @@ import React from 'react';
 
 describe('ButtonBase', () => {
   it('should render correctly', async () => {
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <>
         <ButtonBase>
           Normal button
@@ -14,7 +17,7 @@ describe('ButtonBase', () => {
           Disabled button
         </ButtonBase>
       </>
-    );
+    ), renderOptions);
 
     expect(container).toMatchSnapshot();
 

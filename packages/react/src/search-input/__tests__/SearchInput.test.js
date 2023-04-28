@@ -9,8 +9,10 @@ describe('SearchInput', () => {
   it('should render correctly', async () => {
     const sizes = ['sm', 'md', 'lg'];
     const variants = ['outline', 'filled', 'flush', 'unstyled'];
-
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <>
         {sizes.map(size => (
           variants.map(variant => (
@@ -23,7 +25,7 @@ describe('SearchInput', () => {
           ))
         ))}
       </>
-    );
+    ), renderOptions);
 
     expect(container).toMatchSnapshot();
 

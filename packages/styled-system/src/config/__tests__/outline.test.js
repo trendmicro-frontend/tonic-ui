@@ -6,19 +6,6 @@ const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
 };
 
-describe('outline in high-contrast mode', () => {
-  test('should add "outline" and "outlineOffset" properties', () => {
-    const expected = {
-      outline: '2px solid transparent',
-      outlineOffset: '2px',
-    };
-
-    expect(outline({ outline: 'none' })).toEqual(expected);
-    expect(outline({ outline: '0' })).toEqual(expected);
-    expect(outline({ outline: 0 })).toEqual(expected);
-  });
-});
-
 test('returns outline styles', () => {
   const style = outline({
     theme: {
