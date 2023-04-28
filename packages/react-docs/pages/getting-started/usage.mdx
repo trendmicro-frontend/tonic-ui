@@ -1,18 +1,6 @@
 # Usage
 
-Get started with React and Tonic UI in no time.
-
-You can use any of the components as demonstrated in the documentation. Please refer to each component's [demo page](../components/button) to see how they work.
-
-## Quick Start
-
-Here is a quick example to get you started:
-
-```jsx
-<Button variant="primary">
-  Button
-</Button>
-```
+You can use any of the components as demonstrated in the documentation. If you are the first time using Tonic UI, you may want to read the following sections to get started.
 
 ## Setup Provider
 
@@ -148,7 +136,7 @@ function Layout(props) {
 
 > For the **`:focus-visible`** pseudo-class, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible) for more information.
 
-## CSSBaseline
+### Applying base CSS styles
 
 Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
@@ -160,11 +148,11 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI pr
 
 > If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
 
-## Extending the Color Style
+### Extending the Color Style
 
 Optionally, you can extend the color style by providing a custom color style. This is not required if you are using the default color style.
 
-### 1. Customizing the color style
+#### 1. Customizing the color style
 
 To override default color style, you can create a color style object according to the color mode, and pass the object to `TonicProvider` with either the `value` or the `defaultValue` property.
 
@@ -191,7 +179,7 @@ const customColorStyle = {
 };
 ```
 
-### 2. Setting up the provider
+#### 2. Setting up the provider
 
 ```jsx disabled
 <TonicProvider
@@ -207,7 +195,7 @@ const customColorStyle = {
 </TonicProvider>
 ```
 
-### 3. Using the color style
+#### 3. Using the color style
 
 ```jsx disabled
 const [colorMode] = useColorMode();
@@ -216,11 +204,11 @@ const headerStyle = colorStyle?.component?.header;
 const sidebarStyle = colorStyle?.component?.sidebar;
 ```
 
-## Extending the Theme
+### Extending the Theme
 
 Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc. This is not required if you are using the default theme.
 
-### 1. Overriding the theme
+#### 1. Overriding the theme
 
 Override the theme object and pass it to the `<ThemeProvider>` component.
 
@@ -241,7 +229,7 @@ const customTheme = {
 };
 ```
 
-### 2. Setting up the provider
+#### 2. Setting up the provider
 
 ```jsx disabled
 <TonicProvider theme={customTheme}>
@@ -249,12 +237,133 @@ const customTheme = {
 </TonicProvider>
 ```
 
-### 3. Using the theme
+#### 3. Using the theme
 
 ```jsx disabled
 const theme = useTheme();
 const brandColor = theme?.colors?.brand?.[90];
 ```
+
+## How to use Tonic UI
+
+### Design tokens in the theme
+
+Visit [Styled System](../styled-system) and [Theme](../theme) sections to learn how the different CSS (and custom) properties are mapped to the theme keys.
+
+### How to use Box
+
+You can customize the styling and layout of your components using the various style props, pseudo-style props, and responsive values provided by `Box`:
+* [Style props](../styled-system/style-props)
+* [Pseudo style props](../styled-system/pseudo-style-props)
+* [Responsive values](../styled-system/responsive-values)
+
+#### Using style props and pseudo style props
+
+```jsx expanded
+<Box
+  as="button"
+
+  // style props
+  backgroundColor="blue:60"
+  border="none"
+  borderRadius="sm"
+  color="white:primary"
+  cursor="pointer"
+  display="inline-flex"
+  px="3x"
+  py="2x"
+
+  // pseudo style props
+  _focus={{
+    ':not(:active)': {
+      backgroundColor: 'blue:60',
+    },
+  }}
+  _hover={{
+    backgroundColor: 'blue:50',
+  }}
+  _active={{
+    backgroundColor: 'blue:70',
+  }}
+>
+  Primary Button
+</Box>
+```
+
+#### Shorthands
+
+There are some shorthands available for various CSS properties. These are documentated on the [style props](../styled-system/style-props) page.
+
+```jsx disabled
+<Box
+  bg="white:primary" // backgroundColor: 'white:primary'
+  mb="3x" // marginBottom: '3x'
+  px="4x" // paddingLeft: '4x', paddingRight: '4x'
+  py="3x" // paddingTop: '3x', paddingBottom: '3x'
+/>
+```
+
+These shorthands are optional. It's great for saving time, but not necessary to use.
+
+### Superset of CSS
+
+The `sx` prop supports CSS syntax including child and pseudo-selectors, media queries, raw CSS values, and more. Here are a few examples of how you can implement these CSS features:
+
+* Using pseudo-selectors:
+
+  ```jsx disabled
+  <Box
+    sx={{
+      ':hover': {
+        backgroundColor: 'gray:10',
+      },
+    }}
+  />
+  ```
+
+* Using media queries:
+
+  ```jsx disabled
+  <Box
+    sx={{
+      '@media print': {
+        width: 300,
+      },
+    }}
+  />
+  ```
+
+* Using nested selectors:
+
+  ```jsx disabled
+  <Box
+    sx={{
+      '& .child-selector': {
+        backgroundColor: 'white:secondary',
+      },
+    }}
+  />
+  ```
+
+Read more on [the sx prop](the-sx-prop) page.
+
+### Advanced Box usage
+
+Here are some advanced examples of how you can use the `Box` component:
+
+#### Animated Cube
+
+{render('./components/AnimatedCube')}
+
+#### Rainbow
+
+{render('./components/Rainbow')}
+
+#### Formula One
+
+This example demonstrates how you can use responsive values to create a responsive layout.
+
+{render('./components/FormulaOne')}
 
 ## Versioned Documentation
 

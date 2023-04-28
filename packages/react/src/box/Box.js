@@ -19,7 +19,12 @@ const shouldForwardProp = (() => {
   return prop => isPropValid(prop) && !omittedStylePropMap[prop];
 })();
 
-const pseudo = (props) => {
+const transformCSSSuperset = (props) => {
+  // The `sx` prop is a shortcut for defining custom styles that has access to the theme
+  return sx(props?.sx);
+};
+
+const transformCSSPseudoSelectors = (props) => {
   /**
    * Pseudo-classes must be declared in a specific order, as shown below:
    *
@@ -55,23 +60,19 @@ const pseudo = (props) => {
 
   let entries = [];
   for (const [name, value] of orderedEntries) {
-    if (name in pseudoClassSelector) {
-      const getPseudoSelectorEntries = pseudoClassSelector[name];
-      entries = entries.concat(getPseudoSelectorEntries(value));
-    }
-    if (name in pseudoElementSelector) {
-      const getPseudoSelectorEntries = pseudoElementSelector[name];
-      entries = entries.concat(getPseudoSelectorEntries(value));
+    const selectorFunction = pseudoClassSelector[name] ?? pseudoElementSelector[name];
+    if (typeof selectorFunction === 'function') {
+      entries = entries.concat(selectorFunction(value));
     }
   }
   return sx(Object.fromEntries(entries));
 };
 
-const Box = styled(
-  styled('div', {
-    shouldForwardProp,
-  })(system)
-)(pseudo);
+const Box = styled('div', { shouldForwardProp })(
+  system,
+  transformCSSPseudoSelectors,
+  transformCSSSuperset, // Place `transformCSSSuperset` at the end to gain the highest specificity
+);
 
 Box.displayName = 'Box';
 

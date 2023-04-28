@@ -1,111 +1,5 @@
-# Responsive Styles
-
-The responsive styles rely on the [breakpoints](../theme/breakpoints) defined in the theme configuration. The breakpoints are used to generate the media queries that make the theme responsive.
-
-| Breakpoint | Media Query |
-| :--------- | :---------- |
-| `sm` | `@media screen and (min-width: 320px)` |
-| `md` | `@media screen and (min-width: 640px)` |
-| `lg` | `@media screen and (min-width: 1024px)` |
-| `xl` | `@media screen and (min-width: 1280px)` |
-| `2xl` | `@media screen and (min-width: 1680px)` |
-
-To use the responsive styles, you can use either the array or object syntax.
-
-## Array Syntax
-
-Let's say you have a `Box` component that looks like this:
-
-```jsx disabled
-<Box backgroundColor="red:50" width="50%">
-  This is a box
-</Box>
-```
-
-To make the `width` responsive, you can use the array syntax as follows:
-
-```jsx disabled
-<Box backgroundColor="red:50" width={["25%","50%","75%","100%"]}>
-  This is a box
-</Box>
-```
-
-Here is how to interpret the array syntax:
-
-* On a `sm` breakpoint (`≥ 320px`), the `width` will be `25%`
-* On a `md` breakpoint (`≥ 640px`), the `width` will be `50%`
-* On a `lg` breakpoint (`≥ 1024px`), the `width` will be `75%`
-* On a `xl` breakpoint (`≥ 1280px`), the `width` will be `100%`
-
-> To skip certain breakpoints, you can pass `null` to any position in the array.
-
-## Object Syntax (Recommended)
-
-You can also use the object syntax to define responsive styles. It's also the recommended syntax to use the responsive styles.
-
-Let's say you have a `Text` component that looks like this:
-
-```jsx disabled
-<Text fontSize={32}>
-  This is a text
-</Text>
-```
-
-To make the `fontSize` responsive, you can use the object syntax as follows:
-
-```jsx disabled
-<Text fontSize={{ _: 24, md: 32, lg: 40, xl: 48 }}>
-  This is a text
-</Text>
-```
-
-Here is how to interpret the object syntax:
-
-* On a `sm` breakpoint (`≥ 320px`), the `fontSize` will be `24px`
-* On a `md` breakpoint (`≥ 640px`), the `fontSize` will be `32px`
-* On a `lg` breakpoint (`≥ 1024px`), the `fontSize` will be `40px`
-* On a `xl` breakpoint (`≥ 1280px`), the `fontSize` will be `48px`
-
-> You can use the `_` key to define a default value for all breakpoints.
-
-## Under the Hood
-
-Given the following example:
-
-```jsx disabled
-<Box width={{ _: '100%', sm: '50%', md: '25%' }}>
-  This is a box
-</Box>
-```
-
-It will generate the following CSS:
-
-```css
-.Box {
-  width: 100%;
-}
-
-@media screen and (min-width: 320px) {
-  .Box {
-    width: 50%;
-  }
-}
-
-@media screen and (min-width: 640px) {
-  .Box {
-    width: 25%;
-  }
-}
-```
-
-## Demo
-
-Here is an actual example of the responsive styles in action:
-
-```jsx noInline
-const Ellipsis = (props) => (
-  <Box whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" {...props} />
-);
+import { Box, Flex, Text, Truncate } from '@tonic-ui/react';
+import React from 'react';
 
 const Light = ({ on, ...rest }) => (
   <Box
@@ -120,7 +14,7 @@ const Light = ({ on, ...rest }) => (
   />
 );
 
-function Example() {
+const FormulaOne = () => {
   const laneColor = {
     1: '#389efc',
     2: '#ff7332',
@@ -203,14 +97,14 @@ function Example() {
                 maxWidth="100%"
                 width={0}
               >
-                <Ellipsis>
+                <Truncate>
                   <Text
                     fontSize={['2xl', null, null, '3xl']}
                     lineHeight={['2xl', null, null, '3xl']}
                   >
                     {player.name}
                   </Text>
-                </Ellipsis>
+                </Truncate>
               </Box>
               <Flex
                 flexBasis="auto"
@@ -232,7 +126,6 @@ function Example() {
       ))}
     </Box>
   );
-}
+};
 
-render(<Example />);
-```
+export default FormulaOne;

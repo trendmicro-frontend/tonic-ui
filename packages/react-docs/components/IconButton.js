@@ -26,9 +26,8 @@ const IconButton = forwardRef((props, ref) => {
       borderColor="transparent"
       color={color}
       transition="all .2s"
-      lineHeight={1}
-      px="2x"
-      py="2x"
+      height="8x"
+      width="8x"
       _hover={{
         color: hoverColor,
       }}

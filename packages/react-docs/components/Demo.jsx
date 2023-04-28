@@ -1,41 +1,27 @@
 import {
   Box,
+  Collapse,
+  Fade,
   Flex,
   Icon,
-  SVGIcon,
   Tooltip,
   useColorMode,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import LZString from 'lz-string';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
-import { createReactApp } from '../sandbox/codesandbox';
+import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
+import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import x from '../utils/json-stringify';
+import CodeSandboxIcon from './CodeSandboxIcon';
 import IconButton from './IconButton';
 
-const CodeSandboxIcon = ({ size, ...rest }) => {
-  return (
-    <SVGIcon size={size} viewBox="0 0 1024 1024" {...rest}>
-      <path d="M755 140.3l0.5-0.3h0.3L512 0 268.3 140h-0.3l0.8 0.4L68.6 256v512L512 1024l443.4-256V256L755 140.3z m-30 506.4v171.2L548 920.1V534.7L883.4 341v215.7l-158.4 90z m-584.4-90.6V340.8L476 534.4v385.7L300 818.5V646.7l-159.4-90.6zM511.7 280l171.1-98.3 166.3 96-336.9 194.5-337-194.6 165.7-95.7L511.7 280z" />
-    </SVGIcon>
-  );
-};
-
-const compress = (object) => {
-  return LZString.compressToBase64(JSON.stringify(object))
-    .replace(/\+/g, '-') // Convert '+' to '-'
-    .replace(/\//g, '_') // Convert '/' to '_'
-    .replace(/=+$/, ''); // Remove ending '='
-};
-
-const addHiddenInput = (form, name, value) => {
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = name;
-  input.value = value;
-  form.appendChild(input);
+const liveEditorStyle = {
+  fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
+  fontSize: 14,
+  overflowX: 'auto',
 };
 
 const Demo = ({
@@ -48,39 +34,26 @@ const Demo = ({
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
-
-  const [isSourceVisible, toggleSourceVisible] = useToggle(false);
+  const liveProviderTheme = {
+    dark: codeBlockDark,
+    light: codeBlockLight,
+  }[colorMode];
+  const [showSourceCode, toggleShowSourceCode] = useToggle(false);
   const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(code);
   const handleClickCopySource = () => {
     copySource();
   };
-  const handleClickResetDemo = () => {
-  };
   const handleClickEditInCodeSandbox = () => {
-    const { files } = createReactApp({
-      title: 'title',
-      code,
-    });
-    const parameters = compress({ files });              
-      
-    // ref: https://codesandbox.io/docs/api/#define-api                                    
-    const form = document.createElement('form');                                                 
-    form.method = 'POST';                           
-    form.target = '_blank';               
-    form.action = 'https://codesandbox.io/api/v1/sandboxes/define';
-    addHiddenInput(form, 'parameters', parameters);
-    addHiddenInput(                 
-      form,       
-      'query',                      
-      'file=/demo.js',
-    );
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
+    openInCodeSandbox({ title: 'Tonic UI', code });
   };
     
   return (
-    <>
+    <LiveProvider
+      code={code}
+      disabled={true}
+      language="jsx"
+      theme={liveProviderTheme}
+    >
       <Box
         border={1}
         borderColor={borderColor}
@@ -103,13 +76,13 @@ const Demo = ({
         mb="4x"
       >
         <IconButton
-          data-track={isSourceVisible
+          data-track={showSourceCode
             ? `CodeBlock|hide_source|${x({ path: router.pathname })}`
             : `CodeBlock|show_source|${x({ path: router.pathname })}`
           }
-          onClick={toggleSourceVisible}
+          onClick={toggleShowSourceCode}
         >
-          <Tooltip label={isSourceVisible ? 'Hide the source' : 'Show the source'}>
+          <Tooltip label={showSourceCode ? 'Hide the source' : 'Show the source'}>
             <Icon icon="code" size={{ sm: '5x', md: '4x' }} />
           </Tooltip>
         </IconButton>
@@ -122,14 +95,6 @@ const Demo = ({
           </Tooltip>
         </IconButton>
         <IconButton
-          data-track={`CodeBlock|reset|${router.pathname}`}
-          onClick={handleClickResetDemo}
-        >
-          <Tooltip label="Reset demo">
-            <Icon icon="redo" size={{ sm: '5x', md: '4x' }} />
-          </Tooltip>
-        </IconButton>
-        <IconButton
           data-track={`CodeBlock|edit_in_codesandbox|${router.pathname}`}
           onClick={handleClickEditInCodeSandbox}
         >
@@ -138,8 +103,15 @@ const Demo = ({
           </Tooltip>
         </IconButton>
       </Flex>
-    </>
+      <Fade in={showSourceCode}>
+        <Collapse in={showSourceCode} unmountOnExit={true}>
+          <LiveEditor style={liveEditorStyle} />
+        </Collapse>
+      </Fade>
+    </LiveProvider>
   );
 };
+
+Demo.displayName = 'Demo';
 
 export default Demo;

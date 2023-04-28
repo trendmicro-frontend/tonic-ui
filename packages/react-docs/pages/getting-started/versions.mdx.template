@@ -28,7 +28,7 @@ You can come back to this page and switch the version of the docs you're reading
       </TableCell>
       <TableCell width={250}>
         <Flex alignItems="center" height="100%" whiteSpace="nowrap">
-          __TONIC_UI_REACT_VERSION__
+          __TONIC_UI_REACT_DOCS_VERSION__
         </Flex>
       </TableCell>
     </TableRow>
