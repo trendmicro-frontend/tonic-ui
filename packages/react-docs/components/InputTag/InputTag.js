@@ -136,7 +136,7 @@ const InputTag = forwardRef((props, ref) => {
                 key={id}
                 mr="2x"
                 title={value}
-                isInvalid={!!error}
+                error={!!error}
                 onChange={handleTagChange(id)}
                 onClose={handleTagClose(id)}
               >
