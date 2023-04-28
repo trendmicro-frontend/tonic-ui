@@ -1,43 +1,32 @@
 import get from './get';
-
-/**
- * Returns a CSS variable name formatted from the given name and options.
- *
- * @param {string} name - The name of the variable.
- * @param {object} [options] - The options object.
- * @param {string} [options.prefix=''] - The prefix to use for the variable name.
- * @param {string} [options.delimiter='-'] - The delimiter to use between the prefix and name.
- *
- * @return {string} The CSS variable name.
-*/
-const toCSSVariable = (name, options) => {
-  const {
-    prefix = '',
-    delimiter = '-',
-  } = { ...options };
-  const variableName = ([prefix, name].filter(Boolean).join(delimiter))
-    .replace(/\s+/g, delimiter) // replace whitespace characters
-    .replace(/[^a-zA-Z0-9-_]/g, delimiter) // replace non-alphanumeric, non-hyphen, non-underscore characters
-    .replace(/^-+|-+$/g, ''); // trim hyphens from beginning and end of string
-  return `--${variableName}`;
-};
+import toCSSVariable from './toCSSVariable';
 
 export const getter = (scale, value, options) => {
   const { context, props } = { ...options };
-  const theme = props?.theme;
-
-  // sx.scale = 'colors'
-  // value = 'blue:50'
-  const cssVariable = toCSSVariable(
-    [context?.scale, value].filter(Boolean).join('.'), // => 'colors.blue:50'
-    { prefix: theme?.config?.prefix, delimiter: '-' }, // prefix = 'tonic'
-  ); // => '--tonic-colors-blue-50'
-  const cssVariableValue = theme?.__cssVariables?.[cssVariable];
+  const prefix = props?.theme?.config?.prefix; // defaults to 'tonic'
+  const useCSSVariables = props?.theme?.config?.useCSSVariables; // defaults to false
+  const cssVariableMap = props?.theme?.__cssVariableMap;
 
   const result = get(scale, value, value);
 
-  if ((result !== undefined) && (cssVariableValue !== undefined)) {
-    return String(result ?? '').replaceAll(cssVariableValue, `var(${cssVariable})`);
+  if (result === undefined) {
+    return result;
+  }
+
+  if (useCSSVariables) {
+    const contextScale = context?.scale;
+    const cssVariable = toCSSVariable(
+      // contextScale='colors', value='blue:50'
+      [contextScale, value].filter(Boolean).join('.'), // => 'colors.blue:50'
+      { prefix, delimiter: '-' },
+    ); // => '--tonic-colors-blue-50'
+    const cssVariableValue = cssVariableMap[cssVariable];
+
+    if (cssVariableValue !== undefined) {
+      const resultString = String(result ?? '');
+      return resultString.replaceAll(cssVariableValue, `var(${cssVariable})`);
+    }
+    // fallback to the original value
   }
 
   return result;

@@ -54,6 +54,7 @@ test('should match expected exports', () => {
 
     // color-style
     'ColorStyleProvider',
+    'colorStyle',
     'useColorStyle',
 
     // css-baseline
@@ -221,6 +222,7 @@ test('should match expected exports', () => {
 
     // theme
     'ThemeProvider',
+    'theme',
     'useTheme',
 
     // toast
@@ -256,10 +258,6 @@ test('should match expected exports', () => {
 
     // visually-hidden
     'VisuallyHidden',
-
-    // settings
-    'colorStyle',
-    'theme',
   ];
   const receivedExports = Object.keys(moduleExport);
 
