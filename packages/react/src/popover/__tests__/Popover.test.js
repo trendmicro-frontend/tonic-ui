@@ -8,7 +8,10 @@ import React from 'react';
 describe('Popover', () => {
   it('should render correctly', async () => {
     const user = userEvent.setup();
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <Popover>
         <PopoverTrigger data-testid="popover-trigger">
           <Button>Hover me</Button>
@@ -17,7 +20,7 @@ describe('Popover', () => {
           This is a popover
         </PopoverContent>
       </Popover>
-    );
+    ), renderOptions);
 
     const popoverTrigger = screen.getByTestId('popover-trigger');
     expect(popoverTrigger).toBeInTheDocument();

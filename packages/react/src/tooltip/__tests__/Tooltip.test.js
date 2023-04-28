@@ -8,11 +8,14 @@ import React from 'react';
 describe('Tooltip', () => {
   it('should render correctly', async () => {
     const user = userEvent.setup();
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <Tooltip label={<Text data-testid="tooltip-label">This is a tooltip</Text>}>
         <Text data-testid="tooltip-content">Hover me</Text>
       </Tooltip>
-    );
+    ), renderOptions);
 
     const tooltipContent = screen.getByTestId('tooltip-content');
     expect(tooltipContent).toBeInTheDocument();

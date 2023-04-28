@@ -9,8 +9,10 @@ describe('SearchInput', () => {
   it('should render correctly', async () => {
     const sizes = ['sm', 'md', 'lg'];
     const variants = ['outline', 'filled', 'flush', 'unstyled'];
-
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <>
         {sizes.map(size => (
           variants.map(variant => (
@@ -23,7 +25,7 @@ describe('SearchInput', () => {
           ))
         ))}
       </>
-    );
+    ), renderOptions);
 
     expect(container).toMatchSnapshot();
 
@@ -92,21 +94,21 @@ describe('SearchInput', () => {
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
-    //const defaultBorderColor = '#c9c9c9';
-    //const focusBorderColor = '#1e5ede';
+    const defaultBorderColor = '#c9c9c9';
+    const focusBorderColor = '#1e5ede';
 
     // Test the border color when input is not focused
-    //expect(inputControl).toHaveStyle({ 'border-color': defaultBorderColor }); // FIXME: CSS variables are not currently supported on JSDOM
+    expect(inputControl).toHaveStyle({ 'border-color': defaultBorderColor });
 
     // Test the border color when input is focused
     await user.click(inputControl);
     expect(input).toHaveFocus();
-    //expect(inputControl).toHaveStyle({ 'border-color': focusBorderColor }); // FIXME: CSS variables are not currently supported on JSDOM
+    expect(inputControl).toHaveStyle({ 'border-color': focusBorderColor });
 
     // Test the border color when input loses focus
     await user.click(document.body);
     expect(document.body).toHaveFocus();
-    //expect(inputControl).toHaveStyle({ 'border-color': defaultBorderColor }); // FIXME: CSS variables are not currently supported on JSDOM
+    expect(inputControl).toHaveStyle({ 'border-color': defaultBorderColor });
   });
 
   it('should match the border color for invalid input', async () => {
@@ -116,13 +118,13 @@ describe('SearchInput', () => {
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
-    //const errorBorderColor = '#e52630';
+    const errorBorderColor = '#e52630';
     //const focusBorderColor = '#1e5ede';
 
     expect(input).toBeInvalid();
 
     // Test the border color when input is in error state
-    //expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor }); // FIXME: CSS variables are not currently supported on JSDOM
+    expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor });
 
     // Test the border color when input is focused
     await user.click(inputControl);
@@ -132,6 +134,6 @@ describe('SearchInput', () => {
     // Test the border color when input loses focus
     await user.click(document.body);
     expect(document.body).toHaveFocus();
-    //expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor }); // FIXME: CSS variables are not currently supported on JSDOM
+    expect(inputControl).toHaveStyle({ 'border-color': errorBorderColor });
   });
 });

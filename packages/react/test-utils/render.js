@@ -1,24 +1,35 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render as originalRender } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { toHaveNoViolations } from 'jest-axe';
 import * as React from 'react';
-import { TonicProvider } from '../src';
+import { TonicProvider, theme } from '../src';
 
 expect.extend(toHaveNoViolations);
 
-const TonicProviderWrapper = (props) => (
-  <TonicProvider {...props} />
-);
+const customRender = (ui, options) => {
+  let wrapper = TonicProvider;
+  const useCSSVariables = options?.useCSSVariables;
+  if (useCSSVariables) {
+    wrapper = ({ children }) => (
+      <TonicProvider
+        theme={{
+          ...theme,
+          config: {
+            ...theme.config,
+            useCSSVariables: true,
+          },
+        }}
+      >
+        {children}
+      </TonicProvider>
+    );
+  }
 
-const render = (ui, options) => {
-  options = {
-    wrapper: TonicProviderWrapper,
-    ...options,
-  };
-  const result = originalRender(ui, options);
-  return { ...result };
+  return render(ui, { wrapper, ...options });
 };
 
-export {
-  render,
-};
+// re-export everything
+export * from '@testing-library/react';
+
+// override render method
+export { customRender as render };

@@ -13,7 +13,10 @@ describe('Menu', () => {
       { id: 2, label: 'Menu item 2', disabled: false },
       { id: 3, label: 'Menu item 3', disabled: true },
     ];
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <Menu>
         <MenuButton variant="secondary" data-testid="menu-button">
           Open
@@ -30,7 +33,7 @@ describe('Menu', () => {
           ))}
         </MenuList>
       </Menu>
-    );
+    ), renderOptions);
 
     const menuButton = screen.getByTestId('menu-button');
     expect(menuButton).toBeInTheDocument();

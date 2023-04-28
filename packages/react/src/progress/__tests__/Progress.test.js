@@ -5,14 +5,17 @@ import React from 'react';
 
 describe('LinearProgress', () => {
   it('renders correctly', async () => {
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <>
         <LinearProgress aria-label="usage" size="xs" value={20} />
         <LinearProgress aria-label="usage" size="sm" value={40} />
         <LinearProgress aria-label="usage" size="md" value={60} />
         <LinearProgress aria-label="usage" size="lg" value={80} />
       </>
-    );
+    ), renderOptions);
 
     expect(container).toMatchSnapshot();
 

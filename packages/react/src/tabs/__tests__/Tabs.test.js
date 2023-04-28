@@ -5,7 +5,10 @@ import React from 'react';
 
 describe('Tabs', () => {
   it('should render correctly', async () => {
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <Tabs>
         <TabList>
           <Tab>TAB 1</Tab>
@@ -24,7 +27,7 @@ describe('Tabs', () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    );
+    ), renderOptions);
 
     expect(container).toMatchSnapshot();
 

@@ -6,12 +6,15 @@ import React from 'react';
 
 describe('Portal', () => {
   it('should render correctly', () => {
-    const { container } = render(
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
       <Portal>
         This is a portal
         <Portal>This is another portal</Portal>
       </Portal>
-    );
+    ), renderOptions);
 
     expect(container).toMatchSnapshot();
   });
