@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAll } from '@tonic-ui/utils';
+import { ariaAttr, callAll } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Slide } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
@@ -33,6 +33,7 @@ const DrawerContent = forwardRef((
   const tabIndex = -1;
   const styleProps = useDrawerContentStyle({ placement, size, tabIndex });
   const contentProps = {
+    'aria-modal': ariaAttr(true),
     ref: combinedRef,
     role: 'dialog',
     tabIndex,

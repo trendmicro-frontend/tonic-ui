@@ -404,9 +404,9 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
 | TransitionProps.appear | boolean | true | |
 | arrow | boolean | true | If `true`, adds an arrow to the tooltip. |
 | children | ReactNode \| `(context) => ReactNode` | | |
-| closeOnClick | boolean | true | If `true`, close the tooltip on click. |
-| closeOnEsc | boolean | true | If `true`, close the tooltip when pressing the escape key. |
-| closeOnMouseDown | boolean | false | If `true`, close the tooltip while the mouse is down. |
+| closeOnClick | boolean | true | If `true`, the tooltip will close upon clicking. |
+| closeOnEsc | boolean | true | If `true`, the tooltip will close upon pressing the escape key. |
+| closeOnPointerDown | boolean | true | If `true`, the tooltip will close while the pointer is pressed down. |
 | defaultIsOpen | boolean | false | Whether the tooltip will be open by default. |
 | disabled | boolean | | If `true`, the tooltip will not display. |
 | enterDelay | number | 100 | The delay in milliseconds before the tooltip appears. |
@@ -418,5 +418,6 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
 | offset | [skidding, distance] | [0, 8] | The skidding and distance of the tooltip. |
 | onClose| function | | Callback fired when the tooltip is closed. |
 | onOpen | function | | Callback fired when the tooltip is opened. |
+| openOnFocus | boolean | true | If `true`, the tooltip will open upon receiving focus. |
 | placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | shouldWrapChildren | boolean | false | If `true`, the tooltip will be wrapped in a `Box` component. Otherwise, you have to ensure tooltip has only one child node. |

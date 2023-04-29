@@ -27,6 +27,7 @@ const Modal = forwardRef((
     isOpen = false,
     onClose,
     portalProps,
+    returnFocusOnClose = true,
     scrollBehavior = defaultScrollBehavior,
     size = defaultSize,
     ...rest
@@ -67,7 +68,7 @@ const Modal = forwardRef((
     placement: 'center', // internal use only (only 'center' is supported by Modal)
   });
 
-  const returnFocus = !finalFocusRef;
+  const returnFocus = returnFocusOnClose && !finalFocusRef;
   const onFocusLockActivation = useCallback(() => {
     if (initialFocusRef && initialFocusRef.current) {
       const el = initialFocusRef.current;

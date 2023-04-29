@@ -24,6 +24,7 @@ const TagCloseButton = forwardRef((
 
   return (
     <ButtonBase
+      aria-label="Close"
       ref={ref}
       disabled={disabled}
       onClick={callEventHandlers(onClickProp, onClose)}

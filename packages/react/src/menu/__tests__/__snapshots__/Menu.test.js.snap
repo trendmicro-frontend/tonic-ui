@@ -303,7 +303,7 @@ exports[`Menu should render correctly 1`] = `
       aria-expanded="true"
       aria-haspopup="menu"
       class="emotion-2 emotion-1"
-      data-testid="menu-button"
+      data-testid="button"
       id="@tonic-ui/react:MenuToggle-1"
       role="button"
       tabindex="0"
@@ -339,6 +339,7 @@ exports[`Menu should render correctly 1`] = `
       data-popper-escaped=""
       data-popper-placement="bottom-start"
       data-popper-reference-hidden=""
+      data-testid="menu-list"
       id="@tonic-ui/react:Menu-1"
       role="menu"
       style="position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 0px);"
@@ -354,7 +355,7 @@ exports[`Menu should render correctly 1`] = `
             class="emotion-16 emotion-1"
             data-id="1"
             role="menuitem"
-            tabindex="-1"
+            tabindex="0"
             type="button"
           >
             Menu item 1

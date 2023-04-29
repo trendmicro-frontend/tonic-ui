@@ -88,6 +88,7 @@ function Example() {
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [isClosable, toggleIsClosable] = useToggle(true);
+  const [returnFocusOnClose, toggleReturnFocusOnClose] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
@@ -98,9 +99,11 @@ function Example() {
   return (
     <>
       <Box>
-        <Button onClick={() => toggleDrawer(true)}>
-          Launch drawer
-        </Button>
+        <Tooltip label="Click to launch drawer" openOnFocus={false}>
+          <Button onClick={() => toggleDrawer(true)}>
+            Launch drawer
+          </Button>
+        </Tooltip>
       </Box>
       <Divider my="4x" />
       <Box mb="4x">
@@ -232,6 +235,17 @@ function Example() {
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
         </TextLabel>
       </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={returnFocusOnClose}
+            disabled={!ensureFocus}
+            onChange={() => toggleReturnFocusOnClose()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">returnFocusOnClose</Text>
+        </TextLabel>
+      </FormGroup>
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
@@ -312,6 +326,7 @@ function Example() {
         isOpen={isOpen}
         onClose={() => toggleDrawer(false)}
         placement={placement}
+        returnFocusOnClose={returnFocusOnClose}
         size={size}
       >
         {enableBodyScrollLock && (
@@ -445,17 +460,18 @@ Besides the default functionality of the `DrawerCloseButton`, you can also pass 
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
+| autoFocus | boolean | false | If `true`, the drawer will automatically set focus on the first focusable element inside the drawer when it is opened.<br />⚠️ This only works if `initialFocusRef` is not defined and `ensureFocus` is set to `true`. |
 | backdrop | boolean | false | If `true`, it will wrap components with a backdrop to provide a click area for dismissing when clicking outside the drawer. |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | closeOnEsc | boolean | false | If `true`, close the drawer when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the drawer when click outside of the drawer. Note that this value will not have any effect when `backdrop` is set to `true`. |
-| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Drawer` descendants, which does not allow the focus to escape while open. |
-| finalFocusRef | RefObject | | The `ref` of element to receive focus when the drawer closes. |
-| initialFocusRef | RefObject | | The `ref` of the element to receive focus when the drawer opens. |
+| ensureFocus | boolean | false | If `true`, it ensures that the user's focus remains within the drawer when it is open, preventing them from interacting with elements outside the drawer. |
+| finalFocusRef | RefObject | | The `ref` of the element that should receive focus when the drawer closes.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
+| initialFocusRef | RefObject | | The `ref` of the element that should receive focus when the drawer opens.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
 | isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | isOpen | boolean | false | If `true`, the drawer is shown. |
 | onClose | function | | Callback fired when the drawer closes. |
+| returnFocusOnClose | boolean | true | If `true`, the focus will be restored to the element that was focused on when the drawer was initially opened.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
 | placement | string | 'right' | Change the placement of the drawer. One of: 'left', 'right', 'top', 'bottom' |
 | size | string | 'auto' | Change the size of the drawer. One of: 'auto', 'sm', 'md', 'lg', 'full' |
 

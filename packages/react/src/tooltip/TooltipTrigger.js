@@ -13,10 +13,10 @@ const TooltipTrigger = forwardRef((
     onBlur: onBlurProp,
     onClick: onClickProp,
     onFocus: onFocusProp,
-    onMouseDown: onMouseDownProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     onMouseMove: onMouseMoveProp,
+    onPointerDown: onPointerDownProp,
     ...rest
   },
   ref,
@@ -24,11 +24,12 @@ const TooltipTrigger = forwardRef((
   const {
     closeOnClick,
     closeOnEsc,
-    closeOnMouseDown,
+    closeOnPointerDown,
     followCursor,
     isOpen,
     onClose,
     onOpen,
+    openOnFocus,
     setMousePageX,
     setMousePageY,
     tooltipId,
@@ -41,23 +42,22 @@ const TooltipTrigger = forwardRef((
   const eventHandler = {};
 
   eventHandler.onBlur = function (event) {
-    onClose();
+    if (isOpen) {
+      onClose();
+    }
   };
   eventHandler.onClick = function (event) {
-    if (closeOnClick) {
+    if (isOpen && closeOnClick) {
       onClose();
     }
   };
   eventHandler.onFocus = function (event) {
-    onOpen();
+    if (!isOpen && openOnFocus) {
+      onOpen();
+    }
   };
   eventHandler.onKeyDown = function (event) {
     if (isOpen && closeOnEsc && event.key === 'Escape') {
-      onClose();
-    }
-  };
-  eventHandler.onMouseDown = function (event) {
-    if (closeOnMouseDown) {
       onClose();
     }
   };
@@ -76,6 +76,11 @@ const TooltipTrigger = forwardRef((
     if (enableMouseMove || followCursor) {
       setMousePageX(event.pageX);
       setMousePageY(event.pageY);
+    }
+  };
+  eventHandler.onPointerDown = function (event) {
+    if (isOpen && closeOnPointerDown) {
+      onClose();
     }
   };
 
@@ -105,10 +110,10 @@ const TooltipTrigger = forwardRef((
       onBlur: callEventHandlers(ownProps?.onBlur, onBlurProp, eventHandler.onBlur),
       onClick: callEventHandlers(ownProps?.onClick, onClickProp, eventHandler.onClick),
       onFocus: callEventHandlers(ownProps?.onFocus, onFocusProp, eventHandler.onFocus),
-      onMouseDown: callEventHandlers(ownProps?.onMouseDown, onMouseDownProp, eventHandler.onMouseDown),
       onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, onMouseEnterProp, eventHandler.onMouseEnter),
       onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, onMouseLeaveProp, eventHandler.onMouseLeave),
       onMouseMove: callEventHandlers(ownProps?.onMouseMove, onMouseMoveProp, eventHandler.onMouseMove),
+      onPointerDown: callEventHandlers(ownProps?.onPointerDown, onPointerDownProp, eventHandler.onPointerDown),
       ...styleProps,
       ...rest,
     };

@@ -29,6 +29,7 @@ const Drawer = forwardRef((
     onClose,
     placement = defaultPlacement,
     portalProps,
+    returnFocusOnClose = true,
     size = defaultSize,
     ...rest
   },
@@ -69,7 +70,7 @@ const Drawer = forwardRef((
     scrollBehavior: 'inside', // internal use only (only 'inside' is supported by Drawer)
   });
 
-  const returnFocus = !finalFocusRef;
+  const returnFocus = returnFocusOnClose && !finalFocusRef;
   const onFocusLockActivation = useCallback(() => {
     if (initialFocusRef && initialFocusRef.current) {
       const el = initialFocusRef.current;

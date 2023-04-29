@@ -149,6 +149,7 @@ function Example() {
   const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [isClosable, toggleIsCloseButtonVisible] = useToggle(true);
+  const [returnFocusOnClose, toggleReturnFocusOnClose] = useToggle(true);
   const [isOverlayVisible, toggleIsOverlayVisible] = useToggle(true);
   const [isHeaderVisible, toggleIsHeaderVisible] = useToggle(true);
   const [isBodyVisible, toggleIsBodyVisible] = useToggle(true);
@@ -172,9 +173,11 @@ function Example() {
   return (
     <>
       <Box>
-        <Button onClick={() => toggleModal(true)}>
-          Launch modal
-        </Button>
+        <Tooltip label="Click to launch modal" openOnFocus={false}>
+          <Button onClick={() => toggleModal(true)}>
+            Launch modal
+          </Button>
+        </Tooltip>
       </Box>
       <Divider my="4x" />
       <Box mb="4x">
@@ -304,6 +307,17 @@ function Example() {
           />
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">isClosable</Text>
+        </TextLabel>
+      </FormGroup>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={returnFocusOnClose}
+            disabled={!ensureFocus}
+            onChange={() => toggleReturnFocusOnClose()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">returnFocusOnClose</Text>
         </TextLabel>
       </FormGroup>
       <Divider my="4x" />
@@ -444,13 +458,14 @@ function Example() {
       <Modal
         TransitionComponent={null}
         autoFocus={autoFocus}
-        ensureFocus={ensureFocus}
         closeOnEsc={closeOnEsc}
         closeOnOutsideClick={closeOnOutsideClick}
+        ensureFocus={ensureFocus}
         initialFocusRef={initialFocusRef}
         isClosable={isClosable}
         isOpen={isOpen}
         onClose={() => toggleModal(false)}
+        returnFocusOnClose={returnFocusOnClose}
         scrollBehavior={scrollBehavior}
         size={size}
         {...modalStyleProps}
@@ -669,16 +684,17 @@ function Example() {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| autoFocus | boolean | false | If `true` and `ensureFocus` is `true` and `initialFocusRef` is not set, it will automatically set focus on the first focusable element. |
+| autoFocus | boolean | false | If `true`, the modal will automatically set focus on the first focusable element inside the modal when it is opened.<br />⚠️ This only works if `initialFocusRef` is not defined and `ensureFocus` is set to `true`. |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
 | closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
-| ensureFocus | boolean | false | If `true`, it will always bring the focus back to the `Modal` descendants, which does not allow the focus to escape while open. |
-| finalFocusRef | RefObject | | The `ref` of element to receive focus when the modal closes. |
-| initialFocusRef | RefObject | | The `ref` of the element to receive focus when the modal opens. |
+| ensureFocus | boolean | false | If `true`, it ensures that the user's focus remains within the modal when it is open, preventing them from interacting with elements outside the modal. |
+| finalFocusRef | RefObject | | The `ref` of the element that should receive focus when the modal closes.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
+| initialFocusRef | RefObject | | The `ref` of the element that should receive focus when the modal opens.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
 | isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | isOpen | boolean | false | If `true`, the modal is shown. |
 | onClose | function | | Callback fired when the modal closes. |
+| returnFocusOnClose | boolean | true | If `true`, the focus will be restored to the element that was focused on when the modal was initially opened.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
 | size | string | 'auto' | Change the size of the modal. One of: 'auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full' |
 | scrollBehavior | string | 'inside' | Control the scroll behavior of the modal if the content overflows. One of: 'inside', 'outside' |
 

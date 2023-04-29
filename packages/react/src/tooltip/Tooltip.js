@@ -35,11 +35,12 @@ const Tooltip = forwardRef((
     hideArrow, // deprecated
     hideDelay, // deprecated
     showDelay, // deprecated
+    closeOnMouseDown, // deprecated
     arrow = true,
     children,
     closeOnClick = true,
     closeOnEsc = true,
-    closeOnMouseDown = false,
+    closeOnPointerDown = true,
     defaultIsOpen = false,
     disabled,
     enterDelay = 100,
@@ -51,6 +52,7 @@ const Tooltip = forwardRef((
     offset,
     onClose: onCloseProp,
     onOpen: onOpenProp,
+    openOnFocus = true,
     placement = defaultPlacement,
     ...rest
   },
@@ -89,6 +91,14 @@ const Tooltip = forwardRef((
         willRemove: true,
       });
     }, (showDelay !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnMouseDown', {
+        prefix,
+        alternative: 'closeOnPointerDown',
+        willRemove: true,
+      });
+    }, (closeOnMouseDown !== undefined));
 
     if (hideArrow !== undefined) {
       arrow = !hideArrow;
@@ -189,7 +199,7 @@ const Tooltip = forwardRef((
     arrow: (followCursor || nextToCursor) ? false : arrow,
     closeOnClick,
     closeOnEsc,
-    closeOnMouseDown,
+    closeOnPointerDown,
     disabled,
     followCursor,
     isOpen,
@@ -199,6 +209,7 @@ const Tooltip = forwardRef((
     offset,
     onClose,
     onOpen,
+    openOnFocus,
     placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,
     setMousePageX,
     setMousePageY,

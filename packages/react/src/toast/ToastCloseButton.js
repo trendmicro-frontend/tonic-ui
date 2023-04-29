@@ -26,6 +26,7 @@ const ToastCloseButton = forwardRef((
 
   return (
     <ButtonBase
+      aria-label="Close"
       ref={ref}
       onClick={callEventHandlers(onClickProp, onClose)}
       {...styleProps}

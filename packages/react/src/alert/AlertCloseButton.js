@@ -26,6 +26,7 @@ const AlertCloseButton = forwardRef((
 
   return (
     <ButtonBase
+      aria-label="Close"
       ref={ref}
       onClick={callEventHandlers(onClickProp, onClose)}
       {...styleProps}
