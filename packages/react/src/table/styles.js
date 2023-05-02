@@ -1,78 +1,155 @@
 import { sx } from '@tonic-ui/styled-system';
+import { useMemo } from 'react';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
+import { LAYOUT_TABLE } from './constants';
 
-const useTableStyle = () => {
-  return {
-    display: 'flex',
-    flexDirection: 'column',
-  };
-};
+const useTableStyle = ({ layout }) => {
+  const layoutStyle = useMemo(() => {
+    if (layout === LAYOUT_TABLE) {
+      return {
+        as: 'table',
+        borderCollapse: 'collapse',
+        borderSpacing: 0,
+        display: 'table',
+      };
+    }
 
-const useTableHeaderStyle = () => {
-  return {
-    flex: 'none',
-    overflow: 'hidden',
-  };
-};
-
-const useTableHeaderRowStyle = () => {
-  return {
-    display: 'flex',
-  };
-};
-
-const useTableHeaderCellStyle = ({ size, variant }) => {
-  const { sizes } = useTheme();
-  const [colorMode] = useColorMode();
-  const borderColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-  const px = '3x';
-  const py = {
-    'sm': '1x',
-    'md': '2x',
-    'lg': '3x',
-  }[size];
-
-  if (variant === 'outline') {
     return {
-      borderTop: 1,
-      borderTopColor: borderColor,
+      display: 'flex',
+      flexDirection: 'column',
+    };
+  }, [layout]);
+
+  return {
+    ...layoutStyle,
+  };
+};
+
+const useTableHeaderStyle = ({ layout }) => {
+  const layoutStyle = useMemo(() => {
+    if (layout === LAYOUT_TABLE) {
+      return {
+        as: 'thead',
+        display: 'table-header-group',
+      };
+    }
+
+    return {
+      flex: 'none',
+      overflow: 'hidden',
+    };
+  }, [layout]);
+
+  return {
+    ...layoutStyle,
+  };
+};
+
+const useTableHeaderRowStyle = ({ layout }) => {
+  const layoutStyle = useMemo(() => {
+    if (layout === LAYOUT_TABLE) {
+      return {
+        as: 'tr',
+        display: 'table-row',
+      };
+    }
+
+    return {
+      display: 'flex',
+    };
+  }, [layout]);
+
+  return {
+    ...layoutStyle,
+  };
+};
+
+const useTableHeaderCellStyle = ({ layout, size, variant }) => {
+  const theme = useTheme();
+  const [colorMode] = useColorMode();
+  const layoutStyle = useMemo(() => {
+    if (layout === LAYOUT_TABLE) {
+      return {
+        as: 'th',
+        display: 'table-cell',
+        textAlign: 'start', // override the default center alignment
+      };
+    }
+
+    return {};
+  }, [layout]);
+  const visualStyle = useMemo(() => {
+    const { sizes } = theme;
+    const borderColor = {
+      dark: 'gray:70',
+      light: 'gray:30',
+    }[colorMode];
+    const color = {
+      dark: 'white:secondary',
+      light: 'black:secondary',
+    }[colorMode];
+    const px = '3x';
+    const py = {
+      'sm': '1x',
+      'md': '2x',
+      'lg': '3x',
+    }[size];
+    const width = 150;
+
+    if (variant === 'outline') {
+      return {
+        borderTop: 1,
+        borderTopColor: borderColor,
+        borderBottom: 2,
+        borderBottomColor: borderColor,
+        borderLeft: 1,
+        borderLeftColor: borderColor,
+        color,
+        fontWeight: 'semibold',
+        px,
+        pt: `calc(${sizes[py]} - ${sizes['1q']})`,
+        pb: `calc(${sizes[py]} - ${sizes['2q']})`,
+        width,
+        _lastChild: {
+          borderRight: 1,
+          borderRightColor: borderColor,
+        },
+      };
+    }
+
+    return {
       borderBottom: 2,
       borderBottomColor: borderColor,
-      borderLeft: 1,
-      borderLeftColor: borderColor,
       color,
       fontWeight: 'semibold',
       px,
-      pt: `calc(${sizes[py]} - ${sizes['1q']})`,
+      pt: py,
       pb: `calc(${sizes[py]} - ${sizes['2q']})`,
-      _lastChild: {
-        borderRight: 1,
-        borderRightColor: borderColor,
-      },
+      width,
     };
-  }
+  }, [theme, colorMode, size, variant]);
 
   return {
-    borderBottom: 2,
-    borderBottomColor: borderColor,
-    color,
-    fontWeight: 'semibold',
-    px,
-    pt: py,
-    pb: `calc(${sizes[py]} - ${sizes['2q']})`,
+    ...layoutStyle,
+    ...visualStyle,
   };
 };
 
-const useTableBodyStyle = () => {
+const useTableBodyStyle = ({ layout }) => {
+  const layoutStyle = useMemo(() => {
+    if (layout === LAYOUT_TABLE) {
+      return {
+        as: 'tbody',
+        display: 'table-row-group',
+      };
+    }
+
+    return {};
+  }, [layout]);
+
   return {
+    ...layoutStyle,
   };
 };
 
@@ -89,54 +166,88 @@ const useTableRowCSS = ({ role, variant }) => {
   return {};
 };
 
-const useTableRowStyle = () => {
+const useTableRowStyle = ({ layout }) => {
+  const layoutStyle = useMemo(() => {
+    if (layout === LAYOUT_TABLE) {
+      return {
+        as: 'tr',
+        display: 'table-row',
+      };
+    }
+
+    return {
+      display: 'flex',
+    };
+  }, [layout]);
+
   return {
-    display: 'flex',
+    ...layoutStyle,
   };
 };
 
-const useTableCellStyle = ({ size, variant }) => {
-  const { sizes } = useTheme();
+const useTableCellStyle = ({ layout, size, variant }) => {
+  const theme = useTheme();
   const [colorMode] = useColorMode();
-  const borderColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const px = '3x';
-  const py = {
-    'sm': '1x',
-    'md': '2x',
-    'lg': '3x',
-  }[size];
+  const layoutStyle = useMemo(() => {
+    if (layout === LAYOUT_TABLE) {
+      return {
+        as: 'td',
+        display: 'table-cell',
+      };
+    }
 
-  if (variant === 'outline') {
+    return {};
+  }, [layout]);
+  const visualStyle = useMemo(() => {
+    const { sizes } = theme;
+    const borderColor = {
+      dark: 'gray:70',
+      light: 'gray:30',
+    }[colorMode];
+    const color = {
+      dark: 'white:primary',
+      light: 'black:primary',
+    }[colorMode];
+    const px = '3x';
+    const py = {
+      'sm': '1x',
+      'md': '2x',
+      'lg': '3x',
+    }[size];
+    const width = 150;
+
+    if (variant === 'outline') {
+      return {
+        borderBottom: 1,
+        borderBottomColor: borderColor,
+        borderLeft: 1,
+        borderLeftColor: borderColor,
+        color,
+        px,
+        pt: py,
+        pb: `calc(${sizes[py]} - ${sizes['1q']})`,
+        width,
+        _lastChild: {
+          borderRight: 1,
+          borderRightColor: borderColor,
+        },
+      };
+    }
+
     return {
       borderBottom: 1,
       borderBottomColor: borderColor,
-      borderLeft: 1,
-      borderLeftColor: borderColor,
       color,
       px,
       pt: py,
       pb: `calc(${sizes[py]} - ${sizes['1q']})`,
-      _lastChild: {
-        borderRight: 1,
-        borderRightColor: borderColor,
-      },
+      width,
     };
-  }
+  }, [theme, colorMode, size, variant]);
 
   return {
-    borderBottom: 1,
-    borderBottomColor: borderColor,
-    color,
-    px,
-    pt: py,
-    pb: `calc(${sizes[py]} - ${sizes['1q']})`,
+    ...layoutStyle,
+    ...visualStyle,
   };
 };
 
@@ -158,8 +269,8 @@ export {
   useTableHeaderRowStyle,
   useTableHeaderCellStyle,
   useTableBodyStyle,
-  useTableCellStyle,
   useTableRowCSS,
   useTableRowStyle,
+  useTableCellStyle,
   useTableScrollbarTrackStyle,
 };

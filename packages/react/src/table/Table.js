@@ -3,7 +3,7 @@ import { warnRemovedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { defaultSize, defaultVariant } from './constants';
+import { defaultLayout, defaultSize, defaultVariant } from './constants';
 import { TableContext } from './context';
 import { useTableStyle } from './styles';
 
@@ -12,6 +12,7 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const Table = forwardRef((
   {
     isHoverable, // deprecated
+    layout = defaultLayout,
     role: roleProp,
     size = defaultSize,
     variant = defaultVariant,
@@ -31,8 +32,9 @@ const Table = forwardRef((
   }
 
   const role = roleProp ?? 'table';
-  const styleProps = useTableStyle();
+  const styleProps = useTableStyle({ layout });
   const context = getMemoizedState({
+    layout,
     size,
     variant,
   });

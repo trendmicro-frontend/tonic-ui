@@ -6,20 +6,18 @@ import useTable from './useTable';
 const TableHeaderCell = forwardRef((
   {
     role: roleProp,
-    width = 150,
     ...rest
   },
   ref
 ) => {
   const role = roleProp ?? 'columnheader';
-  const { size, variant } = useTable();
-  const styleProps = useTableHeaderCellStyle({ size, variant });
+  const { layout, size, variant } = useTable();
+  const styleProps = useTableHeaderCellStyle({ layout, size, variant });
 
   return (
     <Box
       ref={ref}
       role={role}
-      width={width}
       {...styleProps}
       {...rest}
     />

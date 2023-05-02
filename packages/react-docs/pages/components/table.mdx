@@ -39,6 +39,7 @@ render(() => {
       backgroundColor: hoverBackgroundColor,
     },
   };
+  const [layout, changeLayoutBy] = useSelection('flexbox');
   const [variant, changeVariantBy] = useSelection('default');
   const [size, changeSizeBy] = useSelection('md');
   const [isTableHeaderVisible, toggleIsTableHeaderVisible] = useToggle(true);
@@ -59,6 +60,32 @@ render(() => {
           Table props
         </Text>
       </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            layout
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          css={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {['flexbox', 'table'].map(value => (
+            <Button
+              key={value}
+              selected={value === layout}
+              onClick={changeLayoutBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
@@ -134,6 +161,7 @@ render(() => {
       <Divider mb="4x" />
       <Flex alignItems="center" columnGap="3x" minHeight="5x">
         <Table
+          layout={layout}
           variant={variant}
           size={size}
         >
@@ -1641,6 +1669,7 @@ render(<ReorderColumnTable />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| layout | string | 'flexbox' | The layout of the table. One of: 'flexbox', 'table' |
 | size | string | 'md' | The size of TableCells. One of: 'sm', 'md', 'lg' |
 | variant | string | 'default' | The variant of the table style to use. One of: 'default', 'outline' |
 
@@ -1660,7 +1689,7 @@ render(<ReorderColumnTable />);
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| width | number \| string | 150 | The width of the column. |
+| children | ReactNode | | |
 
 ### TableBody
 
@@ -1679,7 +1708,6 @@ render(<ReorderColumnTable />);
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| width | number \| string | 150 | The width of the column. |
 
 ### TableScrollbar
 
