@@ -37,7 +37,6 @@ const useTableHeaderStyle = ({ layout }) => {
 
     return {
       flex: 'none',
-      overflow: 'hidden',
     };
   }, [layout]);
 
