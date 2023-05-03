@@ -51,6 +51,7 @@ const {
   Box,
   Collapse,
   Fade,
+  Flex,
   Icon,
   Tooltip,
   useColorMode,
@@ -220,7 +221,7 @@ const CodeBlock = ({
   return (
     <LiveProvider {...liveProviderProps}>
       <LiveCodePreview style={liveCodePreviewStyle} />
-      <Box display="flex" justifyContent="flex-end">
+      <Flex columnGap="2x" justifyContent="flex-end">
         <IconButton
           data-track={isLiveEditorVisible
             ? `CodeBlock|hide_source|${x({ path: router.pathname })}`
@@ -248,7 +249,7 @@ const CodeBlock = ({
             <Icon icon="redo" size={{ sm: '5x', md: '4x' }} />
           </Tooltip>
         </IconButton>
-      </Box>
+      </Flex>
       <Fade in={isLiveEditorVisible}>
         <Collapse in={isLiveEditorVisible} unmountOnExit={true}>
           <LiveEditor

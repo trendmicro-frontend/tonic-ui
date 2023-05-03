@@ -9,7 +9,7 @@ import {
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { Fragment, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
@@ -29,6 +29,7 @@ const Demo = ({
   code,
 }) => {
   const router = useRouter();
+  const [updateKey, forceUpdate] = useReducer((value) => !value, false);
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
@@ -40,12 +41,16 @@ const Demo = ({
   }[colorMode];
   const [showSourceCode, toggleShowSourceCode] = useToggle(false);
   const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(code);
-  const handleClickCopySource = () => {
+  const handleClickCopySource = useCallback(() => {
     copySource();
-  };
-  const handleClickEditInCodeSandbox = () => {
+  }, [copySource]);
+  const handleClickEditInCodeSandbox = useCallback(() => {
     openInCodeSandbox({ title: 'Tonic UI', code });
-  };
+  }, [code]);
+  const reset = useCallback(() => {
+    forceUpdate();
+    toggleShowSourceCode(false);
+  }, [forceUpdate, toggleShowSourceCode]);
     
   return (
     <LiveProvider
@@ -60,14 +65,12 @@ const Demo = ({
         p="4x"
       >
         <Box
-          as="pre"
-          fontSize="md"
-          lineHeight="md"
-          m={0}
+          fontSize="sm"
+          lineHeight="sm"
         >
-          <Box as="code">
+          <Fragment key={updateKey}>
             <Component />
-          </Box>
+          </Fragment>
         </Box>
       </Box>
       <Flex
@@ -100,6 +103,14 @@ const Demo = ({
         >
           <Tooltip label="Edit in CodeSandbox">
             <CodeSandboxIcon size={{ sm: '5x', md: '4x' }} />
+          </Tooltip>
+        </IconButton>
+        <IconButton
+          data-track={`CodeBlock|reset|${router.pathname}`}
+          onClick={reset}
+        >
+          <Tooltip label="Reset the demo">
+            <Icon icon="redo" size={{ sm: '5x', md: '4x' }} />
           </Tooltip>
         </IconButton>
       </Flex>
