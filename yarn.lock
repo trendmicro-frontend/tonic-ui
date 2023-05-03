@@ -4380,6 +4380,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-table@npm:^8.9.1":
+  version: 8.9.1
+  resolution: "@tanstack/react-table@npm:8.9.1"
+  dependencies:
+    "@tanstack/table-core": 8.9.1
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 16d044c382598aad3c984d8e175183c5fd48093249dfb51ee592d2f1bb16e253aa437e0834bf9d27d69043493feeb22a5185b3226c704b99e13c45950cb82141
+  languageName: node
+  linkType: hard
+
+"@tanstack/table-core@npm:8.9.1":
+  version: 8.9.1
+  resolution: "@tanstack/table-core@npm:8.9.1"
+  checksum: b9a514cfeb78b2ebece5116188ab929d0b0b72b6abfe6144c2b1dd68e32faafba5295b2b5dfefa9d3a0cf78dd0f20e7c313ff2dbdf013ee98232e856a549654f
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^8.19.0, @testing-library/dom@npm:^8.5.0":
   version: 8.20.0
   resolution: "@testing-library/dom@npm:8.20.0"
@@ -4460,6 +4479,7 @@ __metadata:
     "@mdx-js/mdx": ^2.1.2
     "@mdx-js/react": ^2.1.2
     "@next/mdx": ^13.0.5
+    "@tanstack/react-table": ^8.9.1
     "@tonic-ui/react": ^1.19.0
     "@tonic-ui/react-hooks": ^1.5.2
     "@tonic-ui/react-lab": ^0.17.0
