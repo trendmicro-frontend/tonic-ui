@@ -16,7 +16,7 @@ const useTableStyle = ({ layout }) => {
     }
 
     return {
-      display: 'flex',
+      display: 'inline-flex',
       flexDirection: 'column',
     };
   }, [layout]);
@@ -56,6 +56,7 @@ const useTableHeaderRowStyle = ({ layout }) => {
 
     return {
       display: 'flex',
+      width: 'fit-content',
     };
   }, [layout]);
 
@@ -176,6 +177,7 @@ const useTableRowStyle = ({ layout }) => {
 
     return {
       display: 'flex',
+      width: 'fit-content',
     };
   }, [layout]);
 
