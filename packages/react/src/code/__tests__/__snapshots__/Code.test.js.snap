@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Code should render correctly 1`] = `
+.emotion-0 {
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: var(--tonic-radii-sm);
+  color: var(--tonic-colors-black-primary);
+  font-family: var(--tonic-fonts-mono);
+  padding-left: var(--tonic-space-1x);
+  padding-right: var(--tonic-space-1x);
+}
+
+<div>
+  <code
+    class="emotion-0 emotion-1"
+  >
+    Hello World
+  </code>
+</div>
+`;

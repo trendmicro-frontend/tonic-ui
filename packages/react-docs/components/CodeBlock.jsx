@@ -24,7 +24,6 @@ import * as ReactVirtualized from 'react-virtualized';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import x from '../utils/json-stringify';
-import Code from './Code';
 import Dropdown from './Dropdown';
 import Multiselect from './Multiselect';
 import FontAwesomeIcon from './FontAwesomeIcon';
@@ -179,12 +178,6 @@ const CodeBlock = ({
     code: editorCode,
     transformCode: code => code,
     scope: {
-      ...reactComponents,
-      ...reactLabComponents,
-      ...reactHooks,
-      ...utils,
-      ...thirdPartyComponents,
-      Code,
       Dropdown,
       FontAwesomeIcon,
       InputTag,
@@ -192,6 +185,13 @@ const CodeBlock = ({
       Multiselect,
       SkeletonBody,
       SkeletonContent,
+
+      ...reactComponents,
+      ...reactLabComponents,
+      ...reactHooks,
+      ...utils,
+      ...thirdPartyComponents,
+
       Global, // from '@emotion/react'
       css, // from '@emotion/react'
       sx, // from '@tonic-ui/styled-system'

@@ -5,6 +5,7 @@ export * from './badge';
 export * from './box';
 export * from './button';
 export * from './checkbox';
+export * from './code';
 export * from './color-mode';
 export * from './color-style';
 export * from './css-baseline';
