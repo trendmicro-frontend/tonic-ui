@@ -46,6 +46,9 @@ test('should match expected exports', () => {
     'CheckboxGroup',
     'useCheckboxGroup',
 
+    // code
+    'Code',
+
     // color-mode
     'ColorModeProvider',
     'DarkMode',

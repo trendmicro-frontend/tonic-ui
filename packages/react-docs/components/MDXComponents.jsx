@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import React from 'react';
 import {
   Box,
+  Code,
   Divider,
   Image,
   Link,
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import Code from './Code';
 import CodeBlock from './CodeBlock';
 
 const p = props => (

@@ -359,6 +359,7 @@ export const routes = [
       { title: 'Zoom', path: 'components/transitions/zoom' },
 
       { title: 'TYPOGRAPHY', heading: true },
+      { title: 'Code', path: 'components/code' },
       { title: 'Text', path: 'components/text' },
       {
         title: 'TextLabel',
