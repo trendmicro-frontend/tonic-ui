@@ -1,6 +1,6 @@
 {
   "buildCommand": "build",
-  "node": "14",
+  "node": "16",
   "packages": [
     "packages/react",
     "packages/react-hooks",
