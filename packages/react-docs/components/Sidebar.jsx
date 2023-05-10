@@ -43,6 +43,7 @@ const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 const Sidebar = forwardRef((
   {
+    children,
     onClick,
     onClose,
     ...rest
@@ -261,6 +262,7 @@ const Sidebar = forwardRef((
           );
         })}
       </Accordion>
+      {children}
     </Box>
   );
 });

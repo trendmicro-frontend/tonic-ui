@@ -15,7 +15,7 @@ import {
 import algoliasearch from 'algoliasearch/lite';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { InstantSearch, Configure } from 'react-instantsearch-hooks';
 import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';
@@ -96,27 +96,50 @@ const DefaultPage = (props) => {
 };
 
 const DocsPage = (props) => {
+  const [sidebarWidth, setSidebarWidth] = useState(240);
+  const containerRef = useRef();
   const isMediaQueryMatched = useMediaQuery(
     '(min-width: 1024px)',
   );
   const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
   const theme = useTheme();
   const headerHeight = theme.sizes['12x'];
+  const handleDragResizableHandle = useCallback((e) => {
+    const { left: parentLeft } = containerRef.current.getBoundingClientRect();
+    const minWidth = 240;
+    const maxWidth = 360;
+    const canDrag = (e.clientX - parentLeft) >= minWidth && (e.clientX - parentLeft) <= maxWidth;
+    if (canDrag) {
+      const nextWidth = e.clientX - parentLeft;
+      setSidebarWidth(nextWidth);
+    }
+  }, []);
   const handleCloseSidebar = () => {
     if (isSidebarVisible) {
       toggleSidebarVisible(false);
     }
   };
+  const getResizableHandleStyleProps = () => {
+    return {
+      background: 'transparent',
+      cursor: 'col-resize',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 0,
+      width: '2x',
+    };
+  };
   const getSidebarStyleProps = () => {
     return {
       flexShrink: 0,
       width: {
-        sm: isSidebarVisible ? 250 : 0,
-        lg: 250,
+        sm: isSidebarVisible ? sidebarWidth : 0,
+        lg: sidebarWidth,
       },
       willChange: 'width',
       transition: {
-        sm: 'width .3s ease-in-out',
+        sm: 'width .2s ease-in-out',
         lg: 'none',
       },
       overflowY: 'auto',
@@ -134,15 +157,16 @@ const DocsPage = (props) => {
   };
   const getMainStyleProps = () => {
     return {
+      position: 'relative',
       ml: {
         sm: 0,
-        lg: 250,
+        lg: sidebarWidth,
       },
       pt: `calc(${headerHeight} + ${theme?.sizes['3x']})`,
       height: '100vh',
       width: {
         sm: '100%',
-        lg: 'calc(100% - 250px)',
+        lg: `calc(100% - ${sidebarWidth}px)`,
       },
       willChange: 'width,margin',
       transition: {
@@ -161,6 +185,7 @@ const DocsPage = (props) => {
 
   return (
     <Box
+      ref={containerRef}
       fontSize="md"
       lineHeight="md"
     >
@@ -173,9 +198,18 @@ const DocsPage = (props) => {
         onClick={handleCloseSidebar}
         onClose={handleCloseSidebar}
         {...getSidebarStyleProps()}
-      />
+      >
+        <Box
+          draggable
+          onDrag={handleDragResizableHandle}
+          {...getResizableHandleStyleProps()}
+        />
+      </Sidebar>
       <Main
         onClick={handleCloseSidebar}
+        sx={{
+          '--docs-sidebar-width': `${sidebarWidth}px`,
+        }}
         {...getMainStyleProps()}
       >
         <NextApp {...props} />
