@@ -181,6 +181,7 @@ const ul = props => (
     lineHeight="lg"
     mt={0}
     mb="4x"
+    pl="6x"
     {...props}
   />
 );
@@ -192,6 +193,7 @@ const ol = props => (
     lineHeight="lg"
     mt={0}
     mb="4x"
+    pl="6x"
     {...props}
   />
 );

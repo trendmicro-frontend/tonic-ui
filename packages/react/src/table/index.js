@@ -7,20 +7,20 @@ import TableHeaderRow from './TableHeaderRow';
 import TableRow from './TableRow';
 import TableScrollbar from './TableScrollbar';
 
-Table.Body = TableBody;
-Table.Cell = TableCell;
 Table.Header = TableHeader;
-Table.HeaderCell = TableHeaderCell;
 Table.HeaderRow = TableHeaderRow;
+Table.HeaderCell = TableHeaderCell;
+Table.Body = TableBody;
 Table.Row = TableRow;
+Table.Cell = TableCell;
 
 export {
   Table,
-  TableBody,
-  TableCell,
   TableHeader,
-  TableHeaderCell,
   TableHeaderRow,
+  TableHeaderCell,
+  TableBody,
   TableRow,
+  TableCell,
   TableScrollbar,
 };

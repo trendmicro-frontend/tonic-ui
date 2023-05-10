@@ -11,10 +11,10 @@ const TableRow = forwardRef((
   },
   ref,
 ) => {
-  const { variant } = useTable();
   const role = roleProp ?? 'row';
+  const { layout, variant } = useTable();
   const css = [useTableRowCSS({ role, variant }), cssProp];
-  const styleProps = useTableRowStyle();
+  const styleProps = useTableRowStyle({ layout });
 
   return (
     <Box

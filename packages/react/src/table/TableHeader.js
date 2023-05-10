@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useTableHeaderStyle } from './styles';
+import useTable from './useTable';
 
 const TableHeader = forwardRef((
   {
@@ -9,8 +10,9 @@ const TableHeader = forwardRef((
   },
   ref,
 ) => {
-  const role = roleProp ?? 'rowgroup';
-  const styleProps = useTableHeaderStyle();
+  const role = roleProp || 'rowgroup';
+  const { layout } = useTable();
+  const styleProps = useTableHeaderStyle({ layout });
 
   return (
     <Box

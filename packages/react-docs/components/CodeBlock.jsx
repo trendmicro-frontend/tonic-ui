@@ -9,18 +9,13 @@ import { boolean } from 'boolean';
 import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
 import { ensureString } from 'ensure-type';
-import immutableUpdate from 'immutability-helper';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import * as rbd from 'react-beautiful-dnd';
-import * as ReactDND from 'react-dnd';
-import * as ReactDNDHtml5backend from 'react-dnd-html5-backend';
 import ReactFocusLock from 'react-focus-lock';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
-import * as ReactMovable from 'react-movable';
 import * as ReactTable from 'react-table';
 import { TransitionGroup } from 'react-transition-group';
-import * as ReactVirtualized from 'react-virtualized';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import x from '../utils/json-stringify';
@@ -36,14 +31,9 @@ import SkeletonContent from './SkeletonContent';
 const thirdPartyComponents = {
   dateFns,
   dateFnsLocale,
-  rbd,
-  immutableUpdate,
-  ReactDND,
-  ReactDNDHtml5backend,
-  ReactFocusLock,
-  ReactMovable,
-  ReactTable,
-  ReactVirtualized,
+  rbd, // TODO: used by "tabs.mdx"
+  ReactFocusLock, // TODO: used by "menu.mdx"
+  ReactTable, // TODO: used by "scrollbar.mdx"
   TransitionGroup,
 };
 
@@ -51,6 +41,7 @@ const {
   Box,
   Collapse,
   Fade,
+  Flex,
   Icon,
   Tooltip,
   useColorMode,
@@ -220,7 +211,7 @@ const CodeBlock = ({
   return (
     <LiveProvider {...liveProviderProps}>
       <LiveCodePreview style={liveCodePreviewStyle} />
-      <Box display="flex" justifyContent="flex-end">
+      <Flex columnGap="2x" justifyContent="flex-end">
         <IconButton
           data-track={isLiveEditorVisible
             ? `CodeBlock|hide_source|${x({ path: router.pathname })}`
@@ -248,7 +239,7 @@ const CodeBlock = ({
             <Icon icon="redo" size={{ sm: '5x', md: '4x' }} />
           </Tooltip>
         </IconButton>
-      </Box>
+      </Flex>
       <Fade in={isLiveEditorVisible}>
         <Collapse in={isLiveEditorVisible} unmountOnExit={true}>
           <LiveEditor

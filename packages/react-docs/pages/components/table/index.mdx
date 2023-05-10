@@ -1,0 +1,270 @@
+# Table
+
+## Import
+
+```js
+import {
+  Table,
+  TableHeader,
+  TableHeaderRow,
+  TableHeaderCell,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableScrollbar,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./usage')}
+
+## Examples
+
+In this section, we'll explore how to use the `Table` component and various Hooks provided by `react-table` to create tables with features such as sorting, filtering, pagination, and selection.
+
+To get started with `react-table`, visit https://github.com/TanStack/table to learn more.
+
+### Basic
+
+{render('./basic')}
+
+### Column auto sizing
+
+{render('./column-auto-sizing')}
+
+### Column ordering (DnD)
+
+{render('./column-ordering-dnd')}
+
+### Column resizing
+
+{render('./column-resizing')}
+
+### Column visibility
+
+{render('./column-visibility')}
+
+### Pagination
+
+{render('./pagination')}
+
+### Row expanding
+
+{render('./row-expanding')}
+
+The way the expanded row is displayed in the `Table` component depends on the value of the `layout` prop.
+
+If the `layout` prop is set to `flexbox`, the expanded row will appear below the current row. On the other hand, if the `layout` prop is set to `table`, the expanded row will be displayed within a `TableCell` that spans across the visible cells in a new row.
+
+Below are the code snippets that demonstrate how to render the expanded row based on the `layout` prop:
+
+```jsx disabled
+// layout='flexbox'
+<TableRow>
+  <TableCell>Cell 1</TableCell>
+  <TableCell>Cell 2</TableCell>
+  <TableCell>Cell 3</TableCell>
+</TableRow>
+{row.getCanExpand() && (
+  <Collapse in={row.getIsExpanded()}>
+    {renderExpandedRow({ row })}
+  </Collapse>
+)}
+````
+
+```jsx disabled
+// layout='table'
+<TableRow>
+  <TableCell>Cell 1</TableCell>
+  <TableCell>Cell 2</TableCell>
+  <TableCell>Cell 3</TableCell>
+</TableRow>
+{row.getCanExpand() && (
+  <TableRow>
+    <TableCell
+      padding={0}
+      borderBottom={0}
+      colSpan={row.getVisibleCells().length}
+    >
+      <Collapse in={row.getIsExpanded()}>
+        {renderExpandedRow({ row })}
+      </Collapse>
+    </TableCell>
+  </TableRow>
+)}
+```
+
+### Row ordering (DnD)
+
+{render('./row-ordering-dnd')}
+
+### Row selection
+
+{render('./row-selection')}
+
+### Sorting
+
+{render('./sorting')}
+
+### Virtualized rows
+
+{render('./virtualized-rows')}
+
+## Commonly Asked Questions
+
+### How to make the table body vertically scrollable?
+
+To make the table body vertically scrollable, you can follow these steps:
+
+1. Calculate the height of the table based on the number of rows to display.
+
+```js
+const cellHeight = 36;
+const headerHeight = 36;
+const rowsToDisplay = 10;
+const tableHeight = headerHeight + rowsToDisplay * cellHeight;
+```
+
+2. Wrap the `TableBody` component with a `TableScrollbar` component, and set the `height` and `overflow` props of the `TableScrollbar` component to control the scrolling behavior.
+
+```jsx disabled
+<Table
+  layout="flexbox"
+  height={tableHeight}
+>
+  <TableHeader>
+    <TableRow>
+      <TableHeaderCell>Cell<TableHeaderCell>
+      <TableHeaderCell>Cell<TableHeaderCell>
+    </TableRow>
+  </TableHeader>
+  <TableScrollbar
+    height="100%"
+    overflow="visible" // Make scrollbar visible
+  >
+    <TableBody>
+      <TableRow>
+        <TableCell>Cell<TableCell>
+        <TableCell>Cell<TableCell>
+      </TableRow>
+    </TableBody>
+  </TableScrollbar>
+</Table>
+```
+
+### How to control whether to enable the scrolling feature?
+
+If you want to control whether to enable the scrolling feature dynamically, you can use a custom `ConditionWrapper` component to conditionally wrap `TableBody` with the `TableScrollbar` component.
+
+Here's an example implementation of the `ConditionalWrapper` component:
+
+```jsx disabled
+const ConditionalWrapper = ({
+  children,
+  condition,
+  wrapper,
+}) => {
+  return condition ? wrapper(children) : children;
+};
+```
+
+And here's how you can use it in your code:
+
+```jsx disabled
+<Table
+  height={isTableScrollingEnabled ? tableHeight : undefined}
+>
+  <TableHeader>
+    <TableRow>
+      <TableHeaderCell>Cell<TableHeaderCell>
+      <TableHeaderCell>Cell<TableHeaderCell>
+    </TableRow>
+  </TableHeader>
+  <ConditionalWrapper
+    condition={isTableScrollingEnabled}
+    wrapper={children => (
+      <TableScrollbar
+        height="100%"
+        overflow="visible" // Make scrollbar visible
+      >
+        {children}
+      </TableScrollbar>
+    )}
+  >
+    <TableBody>
+      <TableRow>
+        <TableCell>Cell<TableCell>
+        <TableCell>Cell<TableCell>
+      </TableRow>
+    </TableBody>
+  </ConditionalWrapper>  
+</Table>
+```
+
+## Props
+
+### Table
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| layout | string | 'flexbox' | The layout of the table. One of: 'flexbox', 'table' |
+| size | string | 'md' | The size of TableCells. One of: 'sm', 'md', 'lg' |
+| variant | string | 'default' | The variant of the table style to use. One of: 'default', 'outline' |
+
+### TableHeader
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### TableHeaderRow
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### TableHeaderCell
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### TableBody
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### TableRow
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### TableCell
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### TableScrollbar
+
+The `TableScrollbar` component shares the same API as the `Scrollbar` component.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| function | | The content of the scrollbar. |
+| width | number \| string | 'auto' | The width of the scrollbar. If set to 'auto', you can constrain the width using the `minWidth` and `maxWidth` props. |
+| height | number \| string | 'auto' | The height of the scrollbar. If set to 'auto', you can constrain the height using the `minHeight` and `maxHeight` props. |
+| minWidth | number \| string | | The minimum width of the scrollbar. |
+| maxWidth | number \| string | | The maximum width of the scrollbar. |
+| minHeight | number \| string | | The minimum height of the scrollbar. |
+| maxHeight | number \| string | | The maximum height of the scrollbar. |
+| minThumbWidth | number | 32 | The minimum width of the thumb in pixels. |
+| minThumbHeight | number | 32 | The minimum height of the thumb in pixels. |
+| onScroll | function | | A callback function that is called when the scrollbar is scrolled. |
+| onUpdate | function | | A callback function that is called when the scrollbar is updated. |
+| overflow | string | 'auto' | The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| overflowX | string | | The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |

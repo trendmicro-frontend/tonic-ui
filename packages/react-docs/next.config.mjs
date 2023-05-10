@@ -69,7 +69,7 @@ const withMDX = mdxPlugin({
             renderExpressionCount++;
 
             const filepath = path.resolve(path.dirname(file.path), importPath + '.js');
-            const code = fs.readFileSync(filepath, 'utf8');
+            const code = fs.readFileSync(filepath, 'utf8').trim();
 
             node.position = {};
             node.value = undefined;
