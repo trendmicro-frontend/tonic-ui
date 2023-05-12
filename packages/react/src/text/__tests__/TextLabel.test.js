@@ -1,21 +1,21 @@
 import { screen } from '@testing-library/react';
-import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
-import { Code } from '@tonic-ui/react/src';
+import { render } from '@tonic-ui/react/test-utils/render';
+import { TextLabel } from '@tonic-ui/react/src';
 import React from 'react';
 
-describe('Code', () => {
+describe('TextLabel', () => {
   it('should render correctly', async () => {
     const renderOptions = {
       useCSSVariables: true,
     };
     const { container } = render((
-      <Code data-testid="Code">
-        Code
-      </Code>
+      <TextLabel data-testid="TextLabel">
+        TextLabel
+      </TextLabel>
     ), renderOptions);
 
-    expect(screen.getByTestId('Code').tagName).toBe('CODE');
+    expect(screen.getByTestId('TextLabel').tagName).toBe('LABEL');
 
     expect(container).toMatchSnapshot();
 

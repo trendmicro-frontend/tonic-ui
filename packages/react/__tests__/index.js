@@ -196,12 +196,13 @@ test('should match expected exports', () => {
 
     // table
     'Table',
-    'TableBody',
-    'TableCell',
     'TableHeader',
     'TableHeaderCell',
     'TableHeaderRow',
+    'TableBody',
     'TableRow',
+    'TableCell',
+    'TableColumnResizeHandle',
     'TableScrollbar',
 
     // tabs

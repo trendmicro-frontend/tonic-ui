@@ -1,10 +1,11 @@
 import Table from './Table';
-import TableBody from './TableBody';
-import TableCell from './TableCell';
 import TableHeader from './TableHeader';
-import TableHeaderCell from './TableHeaderCell';
 import TableHeaderRow from './TableHeaderRow';
+import TableHeaderCell from './TableHeaderCell';
+import TableBody from './TableBody';
 import TableRow from './TableRow';
+import TableCell from './TableCell';
+import TableColumnResizeHandle from './TableColumnResizeHandle';
 import TableScrollbar from './TableScrollbar';
 
 Table.Header = TableHeader;
@@ -22,5 +23,6 @@ export {
   TableBody,
   TableRow,
   TableCell,
+  TableColumnResizeHandle,
   TableScrollbar,
 };
