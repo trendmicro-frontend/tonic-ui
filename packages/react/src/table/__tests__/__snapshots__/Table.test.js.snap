@@ -1,0 +1,250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table should render correctly with \`flexbox\` layout 1`] = `
+.emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-2 {
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.emotion-4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.emotion-6 {
+  border-bottom: var(--tonic-borders-2);
+  border-bottom-color: var(--tonic-colors-gray-30);
+  color: var(--tonic-colors-black-secondary);
+  font-weight: var(--tonic-fontWeights-semibold);
+  padding-left: var(--tonic-space-3x);
+  padding-right: var(--tonic-space-3x);
+  padding-top: var(--tonic-space-2x);
+  padding-bottom: calc(.5rem - .125rem);
+  width: 150px;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.emotion-14 {
+  border-bottom: var(--tonic-borders-1);
+  border-bottom-color: var(--tonic-colors-gray-30);
+  color: var(--tonic-colors-black-primary);
+  padding-left: var(--tonic-space-3x);
+  padding-right: var(--tonic-space-3x);
+  padding-top: var(--tonic-space-2x);
+  padding-bottom: calc(.5rem - .0625rem);
+  width: 150px;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    role="table"
+  >
+    <div
+      class="emotion-2 emotion-1"
+      role="rowgroup"
+    >
+      <div
+        class="emotion-4 emotion-1"
+        role="row"
+      >
+        <div
+          class="emotion-6 emotion-1"
+          role="columnheader"
+        >
+          Header Cell 1
+        </div>
+        <div
+          class="emotion-6 emotion-1"
+          role="columnheader"
+        >
+          Header Cell 2
+        </div>
+      </div>
+    </div>
+    <div
+      class="emotion-10 emotion-1"
+      role="rowgroup"
+    >
+      <div
+        class="emotion-12 emotion-1"
+        role="row"
+      >
+        <div
+          class="emotion-14 emotion-1"
+          role="cell"
+        >
+          Row 1, Cell 1
+        </div>
+        <div
+          class="emotion-14 emotion-1"
+          role="cell"
+        >
+          Row 1, Cell 2
+        </div>
+      </div>
+      <div
+        class="emotion-12 emotion-1"
+        role="row"
+      >
+        <div
+          class="emotion-14 emotion-1"
+          role="cell"
+        >
+          Row 2, Cell 1
+        </div>
+        <div
+          class="emotion-14 emotion-1"
+          role="cell"
+        >
+          Row 2, Cell 2
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Table should render correctly with \`table\` layout 1`] = `
+.emotion-0 {
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+}
+
+.emotion-2 {
+  display: table-header-group;
+}
+
+.emotion-4 {
+  display: table-row;
+}
+
+.emotion-6 {
+  display: table-cell;
+  text-align: start;
+  border-bottom: var(--tonic-borders-2);
+  border-bottom-color: var(--tonic-colors-gray-30);
+  color: var(--tonic-colors-black-secondary);
+  font-weight: var(--tonic-fontWeights-semibold);
+  padding-left: var(--tonic-space-3x);
+  padding-right: var(--tonic-space-3x);
+  padding-top: var(--tonic-space-2x);
+  padding-bottom: calc(.5rem - .125rem);
+  width: 150px;
+}
+
+.emotion-10 {
+  display: table-row-group;
+}
+
+.emotion-12 {
+  display: table-row;
+}
+
+.emotion-14 {
+  display: table-cell;
+  border-bottom: var(--tonic-borders-1);
+  border-bottom-color: var(--tonic-colors-gray-30);
+  color: var(--tonic-colors-black-primary);
+  padding-left: var(--tonic-space-3x);
+  padding-right: var(--tonic-space-3x);
+  padding-top: var(--tonic-space-2x);
+  padding-bottom: calc(.5rem - .0625rem);
+  width: 150px;
+}
+
+<div>
+  <table
+    class="emotion-0 emotion-1"
+    role="table"
+  >
+    <thead
+      class="emotion-2 emotion-1"
+      role="rowgroup"
+    >
+      <tr
+        class="emotion-4 emotion-1"
+        role="row"
+      >
+        <th
+          class="emotion-6 emotion-1"
+          role="columnheader"
+        >
+          Header Cell 1
+        </th>
+        <th
+          class="emotion-6 emotion-1"
+          role="columnheader"
+        >
+          Header Cell 2
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="emotion-10 emotion-1"
+      role="rowgroup"
+    >
+      <tr
+        class="emotion-12 emotion-1"
+        role="row"
+      >
+        <td
+          class="emotion-14 emotion-1"
+          role="cell"
+        >
+          Row 1, Cell 1
+        </td>
+        <td
+          class="emotion-14 emotion-1"
+          role="cell"
+        >
+          Row 1, Cell 2
+        </td>
+      </tr>
+      <tr
+        class="emotion-12 emotion-1"
+        role="row"
+      >
+        <td
+          class="emotion-14 emotion-1"
+          role="cell"
+        >
+          Row 2, Cell 1
+        </td>
+        <td
+          class="emotion-14 emotion-1"
+          role="cell"
+        >
+          Row 2, Cell 2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

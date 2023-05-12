@@ -11,6 +11,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableColumnResizeHandle,
   TableScrollbar,
 } from '@tonic-ui/react';
 ```
@@ -247,6 +248,15 @@ And here's how you can use it in your code:
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
+
+### TableColumnResizeHandle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| onResize | `({ clientX, clientY })` | | A callback function that is called when the resize handle is dragged. |
+| onResizeEnd | `({ clientX, clientY })` | | A callback function that is called when the resize handle is released. |
+| onResizeStart | `({ clientX, clientY })` | | A callback function that is called when the resize handle is clicked. |
 
 ### TableScrollbar
 

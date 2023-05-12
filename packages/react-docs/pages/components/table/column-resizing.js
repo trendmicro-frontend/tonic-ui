@@ -16,10 +16,11 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableColumnResizeHandle,
   Truncate,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { forwardRef, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const data = [
   { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
@@ -39,7 +40,7 @@ const App = () => {
   }[colorMode];
 
   const [columnResizeMode, setColumnResizeMode] = useState('onChange');
-  const [isHoveringOnTableHeader, setIsHoveringOnTableHeader] = useState(false);
+  const [resizeHandleHeight, setResizeHandleHeight] = useState('100%');
 
   // https://tanstack.com/table/v8/docs/api/features/column-sizing#column-def-options
   //
@@ -103,6 +104,20 @@ const App = () => {
   const layout = 'flexbox'; // One of: 'flexbox', 'table'
   const variant = 'outline'; // One of: 'default', 'outline'
 
+  useEffect(() => {
+    const tableHeight = tableRef.current?.clientHeight;
+    if (!tableHeight) {
+      return;
+    }
+
+    if (variant === 'outline') {
+      // Subtract 2px for the border
+      setResizeHandleHeight(tableHeight - 2);
+    } else {
+      setResizeHandleHeight(tableHeight);
+    }
+  }, [variant]);
+
   return (
     <>
       <Box mb="4x" px="3x">
@@ -131,32 +146,31 @@ const App = () => {
         layout={layout}
         variant={variant}
       >
-        <TableHeader
-          onMouseEnter={() => setIsHoveringOnTableHeader(true)}
-          onMouseLeave={() => setIsHoveringOnTableHeader(false)}
-        >
+        <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableHeaderRow key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 const styleProps = {
+                  position: 'relative',
                   minWidth: header.column.columnDef.minSize,
                   width: header.getSize(),
                   ...header.column.columnDef.style,
                 };
                 const columnSizingInfo = table.getState().columnSizingInfo;
-                const isResizing = (columnSizingInfo.isResizingColumn === header.column.id);
-                const columnResizerStyle = {
-                  height: (isHoveringOnTableHeader || isResizing)
-                    ? tableRef.current?.clientHeight
-                    : undefined,
-                  transform: (columnResizeMode === 'onEnd' && isResizing)
+                const isResizingColumn = (columnSizingInfo.isResizingColumn === header.column.id);
+                const resizeHandleStyle = {
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  height: resizeHandleHeight,
+                  transform: (columnResizeMode === 'onEnd' && isResizingColumn)
                     ? `translateX(${columnSizingInfo.deltaOffset}px)`
                     : undefined,
                 };
+
                 return (
                   <TableHeaderCell
                     key={header.id}
-                    position="relative"
                     {...styleProps}
                   >
                     {header.isPlaceholder ? null : (
@@ -165,11 +179,10 @@ const App = () => {
                       </Truncate>
                     )}
                     {(header.column.columnDef.enableResizing !== false) && (
-                      <ColumnResizer
-                        isResizing={isResizing}
+                      <TableColumnResizeHandle
                         onMouseDown={header.getResizeHandler()}
                         onTouchStart={header.getResizeHandler()}
-                        style={columnResizerStyle}
+                        style={resizeHandleStyle}
                       />
                     )}
                   </TableHeaderCell>
@@ -210,47 +223,5 @@ const App = () => {
     </>
   );
 };
-
-const ColumnResizer = forwardRef((
-  {
-    isResizing,
-    ...rest
-  },
-  ref,
-) => {
-  const [colorMode] = useColorMode();
-  const resizerBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const resizerBorderColor = {
-    dark: 'gray:50',
-    light: 'gray:70',
-  }[colorMode];
-
-  return (
-    <Box
-      boxSizing="content-box"
-      position="absolute"
-      right={0}
-      top={0}
-      height="100%"
-      width="1x"
-      cursor="col-resize"
-      userSelect="none"
-      touchAction="none"
-      backgroundColor={isResizing ? resizerBackgroundColor : undefined}
-      borderLeft={isResizing ? 1 : undefined}
-      borderLeftColor={isResizing ? resizerBorderColor : undefined}
-      _hover={{
-        backgroundColor: resizerBackgroundColor,
-        borderLeft: 1,
-        borderLeftColor: resizerBorderColor,
-      }}
-      {...rest}
-    />
-  );
-});
-ColumnResizer.displayName = 'ColumnResizer';
 
 export default App;
