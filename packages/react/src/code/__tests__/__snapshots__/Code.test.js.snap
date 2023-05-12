@@ -13,8 +13,9 @@ exports[`Code should render correctly 1`] = `
 <div>
   <code
     class="emotion-0 emotion-1"
+    data-testid="Code"
   >
-    Hello World
+    Code
   </code>
 </div>
 `;

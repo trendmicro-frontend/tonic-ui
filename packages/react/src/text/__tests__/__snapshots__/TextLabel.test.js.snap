@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextLabel should render correctly 1`] = `
+.emotion-0 {
+  color: var(--tonic-colors-black-secondary);
+}
+
+<div>
+  <label
+    class="emotion-0 emotion-1"
+    data-testid="TextLabel"
+  >
+    TextLabel
+  </label>
+</div>
+`;

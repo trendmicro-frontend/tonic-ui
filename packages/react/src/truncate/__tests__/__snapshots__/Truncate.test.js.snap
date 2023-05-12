@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Truncate should render correctly 1`] = `
+.emotion-0 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 120px;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    This is a very long text that will be truncated
+  </div>
+</div>
+`;
