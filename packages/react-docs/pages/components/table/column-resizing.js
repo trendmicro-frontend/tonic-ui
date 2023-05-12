@@ -159,10 +159,13 @@ const App = () => {
                 const columnSizingInfo = table.getState().columnSizingInfo;
                 const isResizingColumn = (columnSizingInfo.isResizingColumn === header.column.id);
                 const resizeHandleStyle = {
+                  // You must specify absolute positioning for the resize handle to work correctly
                   position: 'absolute',
                   top: 0,
                   right: 0,
                   height: resizeHandleHeight,
+
+                  // Use `transform: translateX()` to move the resize handle when `columnResizeMode` is 'onEnd'
                   transform: (columnResizeMode === 'onEnd' && isResizingColumn)
                     ? `translateX(${columnSizingInfo.deltaOffset}px)`
                     : undefined,
@@ -180,9 +183,22 @@ const App = () => {
                     )}
                     {(header.column.columnDef.enableResizing !== false) && (
                       <TableColumnResizeHandle
+                        style={resizeHandleStyle}
+
+                        // The following `onMouseDown` and `onTouchStart` props are required for the resize handle to work with `@tanstack/react-table`
                         onMouseDown={header.getResizeHandler()}
                         onTouchStart={header.getResizeHandler()}
-                        style={resizeHandleStyle}
+
+                        // The following `onResize`, `onResizeStart`, and `onResizeEnd` props can be used to update the column size when resizing
+                        onResize={({ clientX, clientY }) => {
+                          // Update the column size based on the current resizing coordinates
+                        }}
+                        onResizeStart={({ clientX, clientY }) => {
+                          // Get the initial position of the resize handle when resizing starts
+                        }}
+                        onResizeEnd={({ clientX, clientY }) => {
+                          // Get the final position of the resize handle when resizing ends
+                        }}
                       />
                     )}
                   </TableHeaderCell>
