@@ -3,7 +3,6 @@
   "description": "Tonic UI is a themeable UI component library built on top of Emotion and Styled System.",
   "private": true,
   "workspaces": [
-    "examples/*",
     "packages/*"
   ],
   "scripts": {
