@@ -260,7 +260,7 @@ And here's how you can use it in your code:
 
 ### TableScrollbar
 
-The `TableScrollbar` component shares the same API as the `Scrollbar` component.
+The `TableScrollbar` component has the same set of props as the [Scrollbar](./scrollbar#props) component.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -273,8 +273,8 @@ The `TableScrollbar` component shares the same API as the `Scrollbar` component.
 | maxHeight | number \| string | | The maximum height of the scrollbar. |
 | minThumbWidth | number | 32 | The minimum width of the thumb in pixels. |
 | minThumbHeight | number | 32 | The minimum height of the thumb in pixels. |
-| onScroll | function | | A callback function that is called when the scrollbar is scrolled. |
-| onUpdate | function | | A callback function that is called when the scrollbar is updated. |
+| onScroll | `(event: UIEvent) => void` | | A callback function that is called when the scrollbar is scrolled. |
+| onUpdate | function | | A callback function that is called when the scroll position or size of the content changes. The function is passed an object containing the following properties: `left`, `top`, `scrollLeft`, `scrollTop`, `scrollWidth`, `scrollHeight`, `clientWidth`, `clientHeight`. |
 | overflow | string | 'auto' | The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | overflowX | string | | The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
