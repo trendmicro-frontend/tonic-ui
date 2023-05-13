@@ -359,7 +359,17 @@ export const routes = [
       { title: 'Zoom', path: 'components/transitions/zoom' },
 
       { title: 'TYPOGRAPHY', heading: true },
-      { title: 'Code', path: 'components/code' },
+      {
+        title: 'Code',
+        path: 'components/code',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: code`}</Subtitle>}>
+              <Icon icon="code" cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'Text', path: 'components/text' },
       {
         title: 'TextLabel',
