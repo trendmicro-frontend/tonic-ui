@@ -243,22 +243,22 @@ function Example() {
         backgroundColor={backgroundColor}
         color={color}
       >
-        <Text display="inline-block">Hover me</Text>
+        <Text display="inline-block">Hover Me</Text>
       </Tooltip>
       <Divider orientation="vertical" />
       <Tooltip
         arrow={false}
         label={(
-          <Box px="1x" py="2x">
-            <Text>Tooltip Title</Text>
+          <Box py="1x">
+            <Text>Title</Text>
             <Divider my="2x" />
-            <Text>This is a tooltip</Text>
+            <Text>Content</Text>
           </Box>
         )}
         backgroundColor={backgroundColor}
         color={color}
       >
-        <Text display="inline-block">Hover me</Text>
+        <Text display="inline-block">Hover Me</Text>
       </Tooltip>
     </Flex>
   );
@@ -385,7 +385,7 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
   PopperProps={{ usePortal: true }}
   label="This is a tooltip"
 >
-  <Text display="inline-block">Hover me</Text>
+  <Text display="inline-block">Hover Me</Text>
 </Tooltip>
 ```
 
