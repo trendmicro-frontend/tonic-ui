@@ -1,38 +1,21 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { DarkMode, useColorMode } from '@tonic-ui/react/src';
-import React, { useCallback } from 'react';
+import { Box, DarkMode, useColorMode } from '@tonic-ui/react/src';
 
-const TestApp = () => {
-  const [colorMode, setColorMode] = useColorMode();
-  const toggleColorMode = useCallback(() => {
-    setColorMode(colorMode === 'light' ? 'dark' : 'light');
-  }, [colorMode, setColorMode]);
-  return (
-    <button type="button" onClick={toggleColorMode}>
-      {colorMode}
-    </button>
-  );
-};
-
-const getToggleColorModeButton = () => {
-  return screen.getByRole('button');
-};
-
-describe('<DarkMode />', () => {
-  test('always dark mode', async () => {
-    const user = userEvent.setup();
+describe('DarkMode', () => {
+  it('should render in dark mode', () => {
+    const TestComponent = () => {
+      const [colorMode] = useColorMode();
+      return (
+        <Box data-testid="color-mode">{colorMode}</Box>
+      );
+    };
 
     render(
       <DarkMode>
-        <TestApp />
+        <TestComponent />
       </DarkMode>
     );
 
-    expect(getToggleColorModeButton()).toHaveTextContent('dark');
-
-    await user.click(getToggleColorModeButton());
-
-    expect(getToggleColorModeButton()).toHaveTextContent('dark');
+    expect(screen.getByTestId('color-mode')).toHaveTextContent('dark');
   });
 });

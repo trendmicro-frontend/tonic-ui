@@ -52,6 +52,7 @@ test('should match expected exports', () => {
     // color-mode
     'ColorModeProvider',
     'DarkMode',
+    'InvertedMode',
     'LightMode',
     'useColorMode',
 
