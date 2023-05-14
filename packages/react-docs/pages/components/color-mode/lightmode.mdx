@@ -1,0 +1,43 @@
+# LightMode
+
+The `LightMode` component enables you to render its children in light mode. It will override current color mode and set the color scheme to `light`.
+
+## Import
+
+```js
+import { LightMode } from '@tonic-ui/react';
+```
+
+## Usage
+
+```jsx noInline
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.secondary}
+      color={colorStyle.color.primary}
+    >
+      <Text px="4x" py="3x">
+        The color mode is set to {colorMode}
+      </Text>
+    </Box>
+  );
+}
+
+render(
+  <LightMode>
+    <Example />
+  </LightMode>
+);
+```
+
+## Props
+
+### LightMode
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

@@ -114,10 +114,14 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting Started', path: 'components' },
-      { title: 'COLORS', heading: true },
-      { title: 'Color Mode', path: 'components/color-mode' },
+      { title: 'COLOR MODE', heading: true },
+      { title: 'ColorModeProvider', path: 'components/color-mode' },
+      { title: 'DarkMode', path: 'components/color-mode/darkmode' },
+      { title: 'LightMode', path: 'components/color-mode/lightmode' },
+      { title: 'InvertedMode', path: 'components/color-mode/invertedmode' },
       { title: 'useColorMode', path: 'components/color-mode/useColorMode' },
-      { title: 'Color Style', path: 'components/color-style' },
+      { title: 'COLOR STYLE', heading: true },
+      { title: 'ColorStyleProvider', path: 'components/color-style' },
       { title: 'useColorStyle', path: 'components/color-style/useColorStyle' },
 
       { title: 'LAYOUT', heading: true },
@@ -359,7 +363,17 @@ export const routes = [
       { title: 'Zoom', path: 'components/transitions/zoom' },
 
       { title: 'TYPOGRAPHY', heading: true },
-      { title: 'Code', path: 'components/code' },
+      {
+        title: 'Code',
+        path: 'components/code',
+        render: () => {
+          return (
+            <Tooltip label={<Subtitle>{`tag: code`}</Subtitle>}>
+              <Icon icon="code" cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'Text', path: 'components/text' },
       {
         title: 'TextLabel',

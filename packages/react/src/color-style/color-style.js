@@ -4,7 +4,8 @@ const colorStyle = {
       primary: 'gray:100',
       secondary: 'gray:90',
       tertiary: 'gray:80',
-      inverse: 'gray:10',
+      inverted: 'gray:10',
+      inverse: 'gray:10', // alias for inverted
       highlighted: 'rgba(255, 255, 255, 0.12)',
       selected: 'rgba(255, 255, 255, 0.08)',
     },
@@ -73,7 +74,8 @@ const colorStyle = {
       primary: 'white:emphasis',
       secondary: 'gray:10',
       tertiary: 'gray:20',
-      inverse: 'gray:70',
+      inverted: 'gray:70',
+      inverse: 'gray:70', // alias for inverted
       highlighted: 'rgba(0, 0, 0, 0.12)',
       selected: 'rgba(0, 0, 0, 0.08)',
     },

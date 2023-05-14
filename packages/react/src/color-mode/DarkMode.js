@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import ColorModeProvider from './ColorModeProvider';
 
-const DarkMode = (props) => (
+const DarkMode = forwardRef((props, ref) => (
   <ColorModeProvider value="dark">
-    <Box colorScheme="dark" {...props} />
+    <Box
+      ref={ref}
+      colorScheme="dark"
+      {...props}
+    />
   </ColorModeProvider>
-);
+));
 
 DarkMode.displayName = 'DarkMode';
 

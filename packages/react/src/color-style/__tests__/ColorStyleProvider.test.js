@@ -1,16 +1,19 @@
 import { renderHook, act } from '@testing-library/react';
 import {
+  ColorModeProvider,
   ColorStyleProvider,
   colorStyle as defaultColorStyle,
   useColorStyle,
 } from '@tonic-ui/react/src';
 import React, { useState } from 'react';
 
-describe('<ColorStyleProvider />', () => {
-  test('color style for dark mode', () => {
+describe('ColorStyleProvider', () => {
+  it('should return the correct color style based on the specified dark mode', () => {
     const colorMode = 'dark';
     const WrapperComponent = ({ children }) => (
-      <ColorStyleProvider defaultColorStyle={defaultColorStyle}>
+      <ColorStyleProvider
+        value={defaultColorStyle}
+      >
         {children}
       </ColorStyleProvider>
     );
@@ -20,10 +23,12 @@ describe('<ColorStyleProvider />', () => {
     expect(colorStyle).toEqual(defaultColorStyle[colorMode]);
   });
 
-  test('color style for light mode', () => {
+  it('should return the correct color style based on the specified light mode', () => {
     const colorMode = 'light';
     const WrapperComponent = ({ children }) => (
-      <ColorStyleProvider defaultColorStyle={defaultColorStyle}>
+      <ColorStyleProvider
+        value={defaultColorStyle}
+      >
         {children}
       </ColorStyleProvider>
     );
@@ -33,7 +38,45 @@ describe('<ColorStyleProvider />', () => {
     expect(colorStyle).toEqual(defaultColorStyle[colorMode]);
   });
 
-  test('controlled color style cannot be changed', () => {
+  it('should return the correct color style based on the current color mode - dark', () => {
+    const colorMode = 'dark';
+    const WrapperComponent = ({ children }) => (
+      <ColorModeProvider
+        value={colorMode}
+      >
+        <ColorStyleProvider
+          value={defaultColorStyle}
+        >
+          {children}
+        </ColorStyleProvider>
+      </ColorModeProvider>
+    );
+    const { result } = renderHook(() => useColorStyle(), { wrapper: WrapperComponent });
+
+    const [colorStyle] = result.current;
+    expect(colorStyle).toEqual(defaultColorStyle[colorMode]);
+  });
+
+  it('should return the correct color style based on the current color mode - light', () => {
+    const colorMode = 'light';
+    const WrapperComponent = ({ children }) => (
+      <ColorModeProvider
+        value={colorMode}
+      >
+        <ColorStyleProvider
+          value={defaultColorStyle}
+        >
+          {children}
+        </ColorStyleProvider>
+      </ColorModeProvider>
+    );
+    const { result } = renderHook(() => useColorStyle(), { wrapper: WrapperComponent });
+
+    const [colorStyle] = result.current;
+    expect(colorStyle).toEqual(defaultColorStyle[colorMode]);
+  });
+
+  it('should not change the current color style when a controlled value is provided', () => {
     const colorMode = 'dark';
     const WrapperComponent = ({ children }) => (
       <ColorStyleProvider
@@ -61,7 +104,7 @@ describe('<ColorStyleProvider />', () => {
     expect(result.current[0]).toEqual(defaultColorStyle[colorMode]);
   });
 
-  test('change color style using the onChange callback', () => {
+  it('changes color style using the onChange callback', () => {
     const colorMode = 'dark';
     const WrapperComponent = ({ children }) => {
       const [colorStyle, setColorStyle] = useState(defaultColorStyle);

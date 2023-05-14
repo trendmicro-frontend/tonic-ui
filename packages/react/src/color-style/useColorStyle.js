@@ -1,9 +1,12 @@
 import { ensurePlainObject } from 'ensure-type';
 import { useContext } from 'react';
+import { ColorModeContext } from '../color-mode/context';
 import { ColorStyleContext } from './context';
 
 const useColorStyle = (options) => {
-  const { colorMode } = { ...options };
+  const { colorMode: specifiedColorMode } = ensurePlainObject(options);
+  const { colorMode: currentColorMode } = ensurePlainObject(useContext(ColorModeContext));
+  const colorMode = specifiedColorMode ?? currentColorMode;
 
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');

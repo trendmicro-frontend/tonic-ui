@@ -18,8 +18,8 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-describe('<ColorModeProvider />', () => {
-  test('toggle color mode using a toggle button', async () => {
+describe('ColorModeProvider', () => {
+  it('should toggle the color mode using a toggle button', async () => {
     const user = userEvent.setup();
 
     const ToggleColorModeApp = () => {
@@ -48,7 +48,7 @@ describe('<ColorModeProvider />', () => {
     expect(toggleColorModeButton).toHaveTextContent('dark');
   });
 
-  test('toggle color mode using the toggle function', () => {
+  it('should toggle the color mode using the toggle function', () => {
     const WrapperComponent = ({ children }) => {
       return (
         <ColorModeProvider
@@ -70,7 +70,7 @@ describe('<ColorModeProvider />', () => {
     expect(result.current[0]).toEqual('dark');
   });
 
-  test('prefer useSystemColorMode over defaultValue', () => {
+  it('should prioritize the useSystemColorMode over defaultValue', () => {
     const getColorSchemeSpy = jest
       .spyOn(colorModeUtils, 'getColorScheme')
       .mockReturnValueOnce('dark');
@@ -94,7 +94,7 @@ describe('<ColorModeProvider />', () => {
     expect(result.current[0]).toEqual('dark');
   });
 
-  test('controlled color mode cannot be changed', () => {
+  it('should not change the current color mode when a controlled value is provided', () => {
     const WrapperComponent = ({ children }) => {
       return (
         <ColorModeProvider
@@ -116,7 +116,7 @@ describe('<ColorModeProvider />', () => {
     expect(result.current[0]).toEqual('light');
   });
 
-  test('change color mode using the onChange callback', () => {
+  it('should change the color mode using the onChange callback', () => {
     const WrapperComponent = ({ children }) => {
       const [colorMode, setColorMode] = useState('light');
       return (

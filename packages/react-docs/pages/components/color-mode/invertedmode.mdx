@@ -1,0 +1,61 @@
+# InvertedMode
+
+The `InvertedMode` component is used to invert the color mode of its children.
+
+## Import
+
+```js
+import { InvertedMode } from '@tonic-ui/react';
+```
+
+## Usage
+
+```jsx noInline
+function Example() {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.secondary}
+      color={colorStyle.color.primary}
+    >
+      <Text px="4x" py="3x">
+        The current color mode is inverted to {colorMode} mode
+      </Text>
+    </Box>
+  );
+}
+
+render(
+  <InvertedMode>
+    <Example />
+  </InvetedMode>
+);
+```
+
+### Rendering tooltip label
+
+The `InvertedMode` component is useful when you want to render a tooltip label in inverted mode.
+
+```jsx
+<Tooltip
+  label={(
+    <InvertedMode width={80} py="1x">
+      <Text>Title</Text>
+      <Divider my="2x" />
+      <Text>Content</Text>
+    </InvertedMode>
+  )}
+>
+  <Text display="inline-block">Hover Me</Text>
+</Tooltip>
+```
+
+## Props
+
+### InvertedMode
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

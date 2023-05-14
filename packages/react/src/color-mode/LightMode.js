@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import ColorModeProvider from './ColorModeProvider';
 
-const LightMode = (props) => (
+const LightMode = forwardRef((props, ref) => (
   <ColorModeProvider value="light">
-    <Box colorScheme="light" {...props} />
+    <Box
+      ref={ref}
+      colorScheme="light"
+      {...props}
+    />
   </ColorModeProvider>
-);
+));
 
 LightMode.displayName = 'LightMode';
 
