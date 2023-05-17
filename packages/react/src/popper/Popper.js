@@ -72,10 +72,6 @@ const Popper = forwardRef((
             padding: 12, // 12px from the edges of the popper
           },
         },
-        { // https://popper.js.org/docs/v2/modifiers/flip/
-          name: 'flip',
-          enabled: false, // No flip
-        },
         {
           name: 'handlePopperUpdate',
           enabled: true,

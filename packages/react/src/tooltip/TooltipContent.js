@@ -146,7 +146,6 @@ const TooltipContent = forwardRef((
       anchorEl={tooltipTriggerRef.current}
       id={tooltipId}
       isOpen={isOpen}
-      modifiers={popperModifiers}
       placement={placement}
       pointerEvents="none"
       ref={tooltipContentRef}
@@ -156,6 +155,12 @@ const TooltipContent = forwardRef((
       willUseTransition={true}
       zIndex="tooltip"
       {...PopperProps}
+      modifiers={[
+        // Default modifiers
+        ...popperModifiers,
+        // User-defined modifiers
+        ...ensureArray(PopperProps?.modifiers),
+      ]}
     >
       {({ placement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };

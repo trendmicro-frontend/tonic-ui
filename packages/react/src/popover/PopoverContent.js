@@ -209,7 +209,6 @@ const PopoverContent = forwardRef((
       anchorEl={popoverTriggerRef.current}
       id={popoverId}
       isOpen={isOpen}
-      modifiers={popperModifiers}
       placement={placement}
       ref={popoverContentRef}
       role={role}
@@ -218,6 +217,12 @@ const PopoverContent = forwardRef((
       willUseTransition={true}
       zIndex="popover"
       {...PopperProps}
+      modifiers={[
+        // Default modifiers
+        ...popperModifiers,
+        // User-defined modifiers
+        ...ensureArray(PopperProps?.modifiers),
+      ]}
     >
       {({ placement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };
