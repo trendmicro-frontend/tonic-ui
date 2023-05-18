@@ -72,21 +72,25 @@ const Popper = forwardRef((
             padding: 12, // 12px from the edges of the popper
           },
         },
-        { // https://popper.js.org/docs/v2/modifiers/flip/
-          name: 'flip',
-          enabled: false, // No flip
-        },
         {
           name: 'handlePopperUpdate',
           enabled: true,
           phase: 'afterWrite',
           fn: ({ state }) => {
+            const arrowEl = state?.elements?.arrow;
+            const nextPlacement = state?.placement;
+
+            // Update the arrow element's `data-popper-placement` attribute based on the desired placement
+            // @see https://popper.js.org/docs/v2/tutorial/
+            if (arrowEl && arrowEl.getAttribute('data-popper-placement') !== nextPlacement) {
+              arrowEl.setAttribute('data-popper-placement', nextPlacement);
+            }
+
             const isControlled = (placementProp !== undefined);
             if (isControlled) {
               return;
             }
 
-            const nextPlacement = state?.placement;
             if (nextPlacement && (nextPlacement !== placement)) {
               setPlacement(nextPlacement);
             }

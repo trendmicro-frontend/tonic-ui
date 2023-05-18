@@ -8,6 +8,7 @@ const TooltipArrow = forwardRef((
   {
     arrowHeight = 4,
     arrowWidth = 8,
+    sx,
     ...rest
   },
   ref,
@@ -16,26 +17,27 @@ const TooltipArrow = forwardRef((
     placement,
     tooltipContentRef,
   } = useTooltip();
-  const styleProps = useTooltipArrowStyle({ arrowHeight, arrowWidth, placement });
-  const colorStyleProps = (() => {
-    const tooltipContentEl = tooltipContentRef?.current;
-    if (isHTMLElement(tooltipContentEl)) {
-      // Compute the background color of the first direct child of the tooltip content and apply it to the tooltip arrow
-      const computedStyle = getComputedStyle(tooltipContentEl.firstChild);
-      return {
-        color: computedStyle?.backgroundColor,
-      };
-    }
-    return {};
-  })();
+  const tooltipContentEl = tooltipContentRef?.current;
+  const styleProps = useTooltipArrowStyle({ arrowHeight, arrowWidth });
+
+  if (isHTMLElement(tooltipContentEl)) {
+    // Compute the background color of the first direct child of the tooltip content and apply it to the tooltip arrow
+    const computedStyle = getComputedStyle(tooltipContentEl.firstChild);
+    styleProps.color = computedStyle?.backgroundColor;
+  }
 
   return (
     <Box
       ref={ref}
       role="presentation"
-      data-popper-arrow // This data attribute is used by the Popper.js library to identify the element to use as the arrow (refer to "popper/Popper.js")
-      {...styleProps}
-      {...colorStyleProps}
+      // The `data-popper-arrow` attribute is utilized by `popper/Popper.js` to designate the element used as the arrow
+      data-popper-arrow
+      // The `data-popper-placement` attribute is automatically updated by `popper/Popper.js` to reflect the popper's actual placement
+      data-popper-placement={placement}
+      sx={[
+        styleProps,
+        ...Array.isArray(sx) ? sx : [sx],
+      ]}
       {...rest}
     />
   );

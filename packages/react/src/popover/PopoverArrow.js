@@ -8,6 +8,7 @@ const PopoverArrow = forwardRef((
   {
     arrowHeight = 8,
     arrowWidth = 12,
+    sx,
     ...rest
   },
   ref,
@@ -16,26 +17,27 @@ const PopoverArrow = forwardRef((
     placement,
     popoverContentRef,
   } = usePopover();
-  const styleProps = usePopoverArrowStyle({ arrowHeight, arrowWidth, placement });
-  const colorStyleProps = (() => {
-    const popoverContentEl = popoverContentRef?.current;
-    if (isHTMLElement(popoverContentEl)) {
-      // Compute the background color of the first direct child of the popover content and apply it to the popover arrow
-      const computedStyle = getComputedStyle(popoverContentEl.firstChild);
-      return {
-        color: computedStyle?.backgroundColor,
-      };
-    }
-    return {};
-  })();
+  const popoverContentEl = popoverContentRef?.current;
+  const styleProps = usePopoverArrowStyle({ arrowHeight, arrowWidth });
+
+  if (isHTMLElement(popoverContentEl)) {
+    // Compute the background color of the first direct child of the popover content and apply it to the popover arrow
+    const computedStyle = getComputedStyle(popoverContentEl.firstChild);
+    styleProps.color = computedStyle?.backgroundColor;
+  }
 
   return (
     <Box
       ref={ref}
       role="presentation"
-      data-popper-arrow // This data attribute is used by the Popper.js library to identify the element to use as the arrow (refer to "popper/Popper.js")
-      {...styleProps}
-      {...colorStyleProps}
+      // The `data-popper-arrow` attribute is utilized by `popper/Popper.js` to designate the element used as the arrow
+      data-popper-arrow
+      // The `data-popper-placement` attribute is automatically updated by `popper/Popper.js` to reflect the popper's actual placement
+      data-popper-placement={placement}
+      sx={[
+        styleProps,
+        ...Array.isArray(sx) ? sx : [sx],
+      ]}
       {...rest}
     />
   );

@@ -1,4 +1,4 @@
-import { ensureNumber, ensureString } from 'ensure-type';
+import { ensureNumber } from 'ensure-type';
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { useTheme } from '../theme';
@@ -14,23 +14,22 @@ const pixelize = (value) => {
 const usePopoverArrowStyle = ({
   arrowHeight: arrowHeightProp,
   arrowWidth: arrowWidthProp,
-  placement: placementProp,
 }) => {
   const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   const arrowHeight = sizes[arrowHeightProp] ?? pixelize(arrowHeightProp);
   const arrowWidth = sizes[arrowWidthProp] ?? pixelize(arrowWidthProp);
-  const placement = ensureString(placementProp);
   const dropShadowColor = {
     dark: 'rgba(0, 0, 0, 0.16)',
     light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
 
-  if (placement.startsWith('top')) {
-    return {
+  return {
+    // https://popper.js.org/docs/v2/tutorial/#arrow
+    '&[data-popper-placement^="top"]': {
       position: 'absolute',
       bottom: 0,
-      __before: {
+      '::before': {
         content: '""',
         borderTop: `${arrowHeight} solid`,
         borderLeft: `calc(${arrowWidth}/2) solid transparent`,
@@ -40,14 +39,11 @@ const usePopoverArrowStyle = ({
         bottom: `-${arrowHeight}`,
         transform: 'translateX(-50%)',
       },
-    };
-  }
-
-  if (placement.startsWith('bottom')) {
-    return {
+    },
+    '&[data-popper-placement^="bottom"]': {
       position: 'absolute',
       top: 0,
-      __before: {
+      '::before': {
         content: '""',
         borderBottom: `${arrowHeight} solid`,
         borderLeft: `calc(${arrowWidth}/2) solid transparent`,
@@ -57,14 +53,11 @@ const usePopoverArrowStyle = ({
         top: `-${arrowHeight}`,
         transform: 'translateX(-50%)',
       },
-    };
-  }
-
-  if (placement.startsWith('left')) {
-    return {
+    },
+    '&[data-popper-placement^="left"]': {
       position: 'absolute',
       right: 0,
-      __before: {
+      '::before': {
         content: '""',
         borderLeft: `${arrowHeight} solid`,
         borderTop: `calc(${arrowWidth}/2) solid transparent`,
@@ -74,14 +67,11 @@ const usePopoverArrowStyle = ({
         right: `-${arrowHeight}`,
         transform: 'translateY(-50%)',
       },
-    };
-  }
-
-  if (placement.startsWith('right')) {
-    return {
+    },
+    '&[data-popper-placement^="right"]': {
       position: 'absolute',
       left: 0,
-      __before: {
+      '::before': {
         content: '""',
         borderRight: `${arrowHeight} solid`,
         borderTop: `calc(${arrowWidth}/2) solid transparent`,
@@ -91,10 +81,8 @@ const usePopoverArrowStyle = ({
         left: `-${arrowHeight}`,
         transform: 'translateY(-50%)',
       },
-    };
-  }
-
-  return {};
+    },
+  };
 };
 
 const usePopoverTriggerStyle = () => {
