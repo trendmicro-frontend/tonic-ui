@@ -374,11 +374,11 @@ function Example() {
 
 ## Commonly Asked Questions
 
-### Preventing tooltip cut-off with `PopperProps`
+### Resolving tooltip content cut-off with `PopperProps`
 
 By default, the `Tooltip` component positions the tooltip relative to its parent container. In some cases, the tooltip content might be cut off when it extends outside the container that holds it.
 
-To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Tooltip` to make it positioned on the document root.
+To address this issue, you can pass `PopperProps={{ usePortal: true }}` to `Tooltip` to make it positioned on the document root.
 
 ```jsx
 <Tooltip
@@ -389,13 +389,83 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Too
 </Tooltip>
 ```
 
+### Automatically adjusting tooltip placement with the `flip` modifier
+
+The `flip` modifier is a useful feature that allows for automatic adjustment of tooltip placement when it is at risk of overflowing the specified boundary. To learn more about utilizing the `flip` modifier, please refer to [Popper.js documentation](https://popper.js.org/docs/v2/modifiers/flip/).
+
+In the following example, the tooltip's placement is initially set to `top`. However, if the placement is not suitable due to space constraints, the opposite `bottom` placement will be used instead.
+
+```jsx noInline
+const FormGroup = (props) => (
+  <Box mb="4x" {...props} />
+);
+
+render(() => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [isFlipModifierEnabled, toggleIsFlipModifierEnabled] = useToggle(true);
+
+  return (
+    <>
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Modifiers
+        </Text>
+      </Box>
+      <FormGroup>
+        <TextLabel display="inline-flex" alignItems="center">
+          <Checkbox
+            checked={isFlipModifierEnabled}
+            onChange={() => toggleIsFlipModifierEnabled()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">Enable flip modifier</Text>
+        </TextLabel>
+      </FormGroup>
+      <Divider my="4x" />
+      <Scrollbar
+        height={180}
+        width={180}
+        overflowY="visible"
+        border={1}
+        borderColor={colorStyle.divider}
+      >
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          height={300}
+        >
+          <Tooltip
+            isOpen
+            placement="top"
+            label="This is a tooltip"
+            PopperProps={{
+              modifiers: [
+                { // https://popper.js.org/docs/v2/modifiers/flip/
+                  name: 'flip',
+                  enabled: isFlipModifierEnabled,
+                },
+              ],
+            }}
+          >
+            <Text display="inline-block">
+              Reference
+            </Text>
+          </Tooltip>
+        </Flex>
+      </Scrollbar>
+    </>
+  );
+});
+```
+
 ## Props
 
 ### Tooltip
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperComponent | ElementType | Popper | The component used for the popper. |
 | PopperProps | object | | Props applied to the Popper component. |
 | TooltipArrowComponent | ElementType | TooltipArrow | The component used for the tooltip arrow. |
 | TooltipArrowProps | object | | Props applied to the `TooltipArrow` component. |
