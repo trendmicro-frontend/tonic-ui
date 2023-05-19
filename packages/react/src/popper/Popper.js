@@ -18,7 +18,6 @@ const Popper = forwardRef((
 
     anchorEl, // TODO: rename to referenceRef in a future release
     children,
-    gutter,
     isOpen,
     modifiers,
     placement: placementProp,
