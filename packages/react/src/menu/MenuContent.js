@@ -96,6 +96,10 @@ const MenuContent = forwardRef((
   ] = ensureArray(offset);
   const popperModifiers = useMemo(() => {
     const modifiers = [
+      { // https://popper.js.org/docs/v2/modifiers/flip/
+        name: 'flip',
+        enabled: false,
+      },
       { // https://popper.js.org/docs/v2/modifiers/offset/
         name: 'offset',
         options: {
@@ -109,7 +113,7 @@ const MenuContent = forwardRef((
   return (
     <PopperComponent
       aria-labelledby={menuToggleId}
-      anchorEl={menuToggleRef?.current}
+      anchorEl={menuToggleRef?.current} // TODO: rename to `referenceRef` in a future release
       data-menu-id={menuId}
       id={menuId}
       isOpen={isOpen}
@@ -124,8 +128,14 @@ const MenuContent = forwardRef((
       zIndex="dropdown"
       onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}
       onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
-      {...styleProps}
       {...PopperProps}
+      modifiers={[
+        // Default modifiers
+        ...popperModifiers,
+        // User-defined modifiers
+        ...ensureArray(PopperProps?.modifiers),
+      ]}
+      {...styleProps}
       {...rest}
     >
       {({ placement, transition }) => {
