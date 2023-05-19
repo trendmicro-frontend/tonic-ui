@@ -16,7 +16,7 @@ const Popper = forwardRef((
   {
     container, // deprecated
 
-    anchorEl, // TODO: rename to referenceRef in a future release
+    anchorEl, // TODO: rename to `referenceRef` in a future release
     children,
     isOpen,
     modifiers,
