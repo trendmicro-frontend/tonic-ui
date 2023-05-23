@@ -42,35 +42,31 @@ The `outline` variant is useful for displaying a contextual alert that is not a 
 The `severity` prop can be used to specify the severity level of the alert. The severity levels are: `success`, `info`, `warning`, and `error`. The default severity level is `success`.
 
 ```jsx
-<Stack direction="column" spacing="6x">
-  <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="success">
-      <Text>This is a success alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="info">
-      <Text>This is an info alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="warning">
-      <Text>This is a warning alert.</Text>
-    </Alert>
-    <Alert variant="solid" severity="error">
-      <Text>This is an error alert.</Text>
-    </Alert>
-  </Stack>
-  <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="success">
-      <Text>This is a success alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="info">
-      <Text>This is an info alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="warning">
-      <Text>This is a warning alert.</Text>
-    </Alert>
-    <Alert variant="outline" severity="error">
-      <Text>This is an error alert.</Text>
-    </Alert>
-  </Stack>
+<Stack direction="column" spacing="4x">
+  <Alert variant="solid" severity="success">
+    <Text>This is a success alert.</Text>
+  </Alert>
+  <Alert variant="solid" severity="info">
+    <Text>This is an info alert.</Text>
+  </Alert>
+  <Alert variant="solid" severity="warning">
+    <Text>This is a warning alert.</Text>
+  </Alert>
+  <Alert variant="solid" severity="error">
+    <Text>This is an error alert.</Text>
+  </Alert>
+  <Alert variant="outline" severity="success">
+    <Text>This is a success alert.</Text>
+  </Alert>
+  <Alert variant="outline" severity="info">
+    <Text>This is an info alert.</Text>
+  </Alert>
+  <Alert variant="outline" severity="warning">
+    <Text>This is a warning alert.</Text>
+  </Alert>
+  <Alert variant="outline" severity="error">
+    <Text>This is an error alert.</Text>
+  </Alert>
 </Stack>
 ```
 
@@ -80,35 +76,54 @@ The `icon` prop allows you to specify an icon to be displayed in the alert.
 If not specified, the default icon will be used based on the `severity` prop.
 
 ```jsx
-<Stack direction="column" spacing="6x">
-  <Stack direction="column" spacing="2x">
-    <Alert variant="solid" severity="success">
-      This is a success alert.
-    </Alert>
-    <Alert variant="solid" severity="success" icon="success">
-      This is a success alert.
-    </Alert>
-    <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />}>
-      This is a success alert.
-    </Alert>
-    <Alert variant="solid" severity="success" icon={false}>
-      This is a success alert.
-    </Alert>
-  </Stack>
-  <Stack direction="column" spacing="2x">
-    <Alert variant="outline" severity="success">
-      This is a success alert.
-    </Alert>
-    <Alert variant="outline" severity="success" icon="success">
-      This is a success alert.
-    </Alert>
-    <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />}>
-      This is a success alert.
-    </Alert>
-    <Alert variant="outline" severity="success" icon={false}>
-      This is a success alert.
-    </Alert>
-  </Stack>
+<Stack direction="column" spacing="4x">
+  <Alert variant="solid" severity="success">
+    This is a success alert.
+  </Alert>
+  <Alert variant="solid" severity="success" icon="success">
+    This is a success alert.
+  </Alert>
+  <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />}>
+    This is a success alert.
+  </Alert>
+  <Alert variant="solid" severity="success" icon={false}>
+    This is a success alert.
+  </Alert>
+  <Alert variant="outline" severity="success">
+    This is a success alert.
+  </Alert>
+  <Alert variant="outline" severity="success" icon="success">
+    This is a success alert.
+  </Alert>
+  <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />}>
+    This is a success alert.
+  </Alert>
+  <Alert variant="outline" severity="success" icon={false}>
+    This is a success alert.
+  </Alert>
+</Stack>
+```
+
+### Customizing the background color
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Alert
+    variant="solid"
+    severity="none"
+    background="linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)"
+    color="white:emphasis"
+  >
+    <Text>This is a promotion message</Text>
+  </Alert>
+  <Alert
+    variant="outline"
+    severity="none"
+    borderImageSource="linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)"
+    borderImageSlice={1}
+  >
+    <Text>This is a promotion message</Text>
+  </Alert>
 </Stack>
 ```
 
@@ -200,42 +215,38 @@ const ActionButton = React.forwardRef((props, ref) => (
 
 function Example() {
   return (
-    <Stack direction="column" spacing="6x">
-      <Stack direction="column" spacing="2x">
-        <Alert variant="solid" severity="warning">
-          <Flex justifyContent="space-between">
-            <Text>This is a warning alert.</Text>
-            <LinkButton>Learn More</LinkButton>
-          </Flex>
-        </Alert>
-        <Alert variant="solid" severity="error">
-          <Flex justifyContent="space-between" mt={-1} mb={-2}>
-            <Text>This is an error alert.</Text>
-            <ActionButton
-              // See above for the ActionButton component
-              size="sm"
-            >
-              Action Button
-            </ActionButton>
-          </Flex>
-        </Alert>
-      </Stack>
-      <Stack direction="column" spacing="2x">
-        <Alert variant="outline" severity="warning">
-          <Flex justifyContent="space-between">
-            <Text>This is a warning alert.</Text>
-            <LinkButton>Learn More</LinkButton>
-          </Flex>
-        </Alert>
-        <Alert variant="outline" severity="error">
-          <Flex justifyContent="space-between" mt={-1} mb={-2}>
-            <Text>This is an error alert.</Text>
-            <Button size="sm" variant="secondary">
-              Action Button
-            </Button>
-          </Flex>
-        </Alert>
-      </Stack>
+    <Stack direction="column" spacing="4x">
+      <Alert variant="solid" severity="warning">
+        <Flex justifyContent="space-between">
+          <Text>This is a warning alert.</Text>
+          <LinkButton>Learn More</LinkButton>
+        </Flex>
+      </Alert>
+      <Alert variant="solid" severity="error">
+        <Flex justifyContent="space-between" mt={-1} mb={-2}>
+          <Text>This is an error alert.</Text>
+          <ActionButton
+            // See above for the ActionButton component
+            size="sm"
+          >
+            Action Button
+          </ActionButton>
+        </Flex>
+      </Alert>
+      <Alert variant="outline" severity="warning">
+        <Flex justifyContent="space-between">
+          <Text>This is a warning alert.</Text>
+          <LinkButton>Learn More</LinkButton>
+        </Flex>
+      </Alert>
+      <Alert variant="outline" severity="error">
+        <Flex justifyContent="space-between" mt={-1} mb={-2}>
+          <Text>This is an error alert.</Text>
+          <Button size="sm" variant="secondary">
+            Action Button
+          </Button>
+        </Flex>
+      </Alert>
     </Stack>
   );
 }
@@ -248,7 +259,7 @@ render(<Example />);
 You can use the `Text` component to format text.
 
 ```jsx
-<Stack direction="column" spacing="2x">
+<Stack direction="column" spacing="4x">
   <Alert isClosable severity="success">
     <Box mb="1x">
       <Text fontWeight="bold">Success</Text>
