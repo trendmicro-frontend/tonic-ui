@@ -288,32 +288,36 @@ const useAlertStyle = ({
 }) => {
   const [colorMode] = useColorMode();
   const { sizes } = useTheme();
-  const borderWidth = sizes['1q'];
-  const px = `calc(${sizes['4x']} - ${borderWidth})`;
-  const py = `calc(${sizes['10q']} - ${borderWidth})`; // (40px - 20px) / 2 = 10px
+  const px = '4x';
+  const py = '10q';
   const baseStyle = {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    borderWidth,
     position: 'relative',
     px,
     py,
   };
 
   if (variant === 'solid') {
+    const severityStyle = getSolidStyle({ colorMode, severity });
     return {
       ...baseStyle,
-      ...getSolidStyle({ colorMode, severity }),
+      ...severityStyle,
     };
   }
 
   if (variant === 'outline') {
+    const borderWidth = '1q';
+    const severityStyle = getOutlineStyle({ colorMode, severity });
     return {
       ...baseStyle,
-      ...getOutlineStyle({ colorMode, severity }),
+      borderColor: 'transparent',
+      borderStyle: 'solid',
+      borderWidth,
+      px: `calc(${sizes[px]} - ${sizes[borderWidth]})`,
+      py: `calc(${sizes[py]} - ${sizes[borderWidth]})`, // (40px - 20px) / 2 = 10px
+      ...severityStyle,
     };
   }
 
