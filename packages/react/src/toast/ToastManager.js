@@ -1,13 +1,13 @@
-import { useHydrated } from '@tonic-ui/react-hooks';
-import { canUseDOM, runIfFn } from '@tonic-ui/utils';
+import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
+import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { isElement, isValidElementType } from 'react-is';
 import {
   TransitionGroup,
 } from 'react-transition-group';
+import { Portal } from '../portal';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
@@ -41,11 +41,24 @@ const getToastPlacementByState = (state, id) => {
 };
 
 const ToastManager = ({
+  container: DEPRECATED_container, // deprecated (remove in next major version)
+
   children,
-  container, // deprecated (remove in next major version)
-  //containerRef: containerRefProp,
+  containerRef,
   placement: placementProp = defaultPlacement,
 }) => {
+  { // deprecation warning
+    const prefix = `${ToastManager.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('container', {
+        prefix,
+        alternative: 'containerRef',
+        willRemove: true,
+      });
+    }, (DEPRECATED_container !== undefined));
+  }
+
   const isHydrated = useHydrated();
   const [state, setState] = useState(() => (
     placements.reduce((acc, placement) => {
@@ -209,66 +222,60 @@ const ToastManager = ({
 
     // State
     state,
+    setState,
   });
-
-  const portalTarget = canUseDOM()
-    ? (container ?? document.body)
-    : null;
-
-  if (!portalTarget) {
-    return (
-      <ToastManagerContext.Provider value={context}>
-        {runIfFn(children, context)}
-      </ToastManagerContext.Provider>
-    );
-  }
 
   return (
     <ToastManagerContext.Provider value={context}>
       {runIfFn(children, context)}
-      {isHydrated && createPortal((
-        Object.keys(state).map((placement) => {
-          const toasts = ensureArray(state[placement]);
-          return (
-            <ToastContainer
-              key={placement}
-              placement={placement}
-            >
-              <TransitionGroup component={null}>
-                {toasts.map((toast) => (
-                  <ToastTransition
-                    key={toast.id}
-                    in={true}
-                    collapsedHeight={0}
-                    unmountOnExit
-                  >
-                    <ToastController
-                      duration={toast.duration}
-                      onClose={toast.onClose}
+      {isHydrated && (
+        <Portal
+          container={DEPRECATED_container} // FIXME: deprecated (remove in next major version)
+          containerRef={containerRef}
+        >
+          {Object.keys(state).map((placement) => {
+            const toasts = ensureArray(state[placement]);
+            return (
+              <ToastContainer
+                key={placement}
+                placement={placement}
+              >
+                <TransitionGroup component={null}>
+                  {toasts.map((toast) => (
+                    <ToastTransition
+                      key={toast.id}
+                      in={true}
+                      collapsedHeight={0}
+                      unmountOnExit
                     >
-                      {(() => {
-                        if (isElement(toast.message)) {
-                          return toast.message;
-                        }
-                        if (isValidElementType(toast.message)) {
-                          return (
-                            <toast.message
-                              id={toast.id}
-                              onClose={toast.onClose}
-                              placement={toast.placement}
-                            />
-                          );
-                        }
-                        return null;
-                      })()}
-                    </ToastController>
-                  </ToastTransition>
-                ))}
-              </TransitionGroup>
-            </ToastContainer>
-          );
-        })
-      ), portalTarget)}
+                      <ToastController
+                        duration={toast.duration}
+                        onClose={toast.onClose}
+                      >
+                        {(() => {
+                          if (isElement(toast.message)) {
+                            return toast.message;
+                          }
+                          if (isValidElementType(toast.message)) {
+                            return (
+                              <toast.message
+                                id={toast.id}
+                                onClose={toast.onClose}
+                                placement={toast.placement}
+                              />
+                            );
+                          }
+                          return null;
+                        })()}
+                      </ToastController>
+                    </ToastTransition>
+                  ))}
+                </TransitionGroup>
+              </ToastContainer>
+            );
+          })}
+        </Portal>
+      )}
     </ToastManagerContext.Provider>
   );
 };

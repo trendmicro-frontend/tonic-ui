@@ -9,9 +9,9 @@ const PORTAL_CLASSNAME = 'tonic-ui-portal';
 const PORTAL_SELECTOR = `.${PORTAL_CLASSNAME}`;
 
 const Portal = ({
-  container: DEPRECATED_container, // deprecated
-  isDisabled: DEPRECATED_isDisabled, // deprecated
-  onRender: DEPRECATED_onRender, // deprecated
+  container: DEPRECATED_container, // deprecated (remove in next major version)
+  isDisabled: DEPRECATED_isDisabled, // removed
+  onRender: DEPRECATED_onRender, // removed
 
   appendToParentPortal = false,
   children,
@@ -54,7 +54,7 @@ const Portal = ({
       return noop;
     }
 
-    const containerEl = containerRef?.current;
+    const containerEl = containerRef?.current ?? DEPRECATED_container; // TODO: remove DEPRECATED_container
     const host = (() => {
       if (containerEl) {
         return containerEl;

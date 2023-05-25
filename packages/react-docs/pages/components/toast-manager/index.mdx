@@ -89,5 +89,5 @@ See the [useToastManager](./toast-manager/useToastManager) Hook for detailed usa
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
-| container | HTMLElement | | The HTML element where the toasts will be mounted. |
+| containerRef | RefObject | | The `ref` to the component where the toasts will be rendered. |
 | placement | string | 'bottom-right' | The default placement to place toasts. One of: 'top', 'top-right', 'top-left', 'bottom', 'bottom-left', 'bottom-right' |

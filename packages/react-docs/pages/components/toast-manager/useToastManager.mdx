@@ -130,6 +130,63 @@ Update a specific toast with new options based on the given toast id.
 
 Specify the placement to place the toast. The default placement will be used if the placement option is not explicitly specified.
 
+### toast.setState(state | updater)
+
+The `setState` method is used to modify the internal state of the toast manager. It provides the ability to add, remove, or update toast messages.
+
+#### Parameters
+
+<dl>
+  <dd>`state` *(Object)* | `updater` *(Function)*: The state object or the updater function.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>This method does not return anything.</dd>
+</dl>
+
+You can choose to provide either the state object or the updater function as the parameter to `setState` based on your preference and the complexity of the state update you want to perform.
+
+Example usage with a state object:
+
+```js
+toast.setState({
+  'top': [
+    {
+      id: '2',
+      message: 'New toast message',
+      placement: 'top',
+      duration: 3000,
+      onClose: () => toast.close('2'),
+    }
+  ],
+  'top-left': [],
+  'top-right': [],
+  'bottom': [],
+  'bottom-left': [],
+  'bottom-right': [],
+});
+```
+
+Example usage with an updater function:
+
+```js
+toast.setState(prevState => ({
+  ...prevState,
+  'top': [
+    ...prevState['top'],
+    {
+      id: '2',
+      message: 'New toast message',
+      placement: 'top',
+      duration: null,
+      onClose: () => toast.close('2', 'top'),
+    },
+  ],
+}));
+```
+
 ### toast.state
 
 The toast state is a placement object, each placement contains an array of objects representing the current toasts.
