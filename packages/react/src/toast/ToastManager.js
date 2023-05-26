@@ -72,8 +72,8 @@ const ToastManager = ({
    */
   const createToast = (message, options) => {
     const id = options?.id ?? uniqueId();
-    const placement = ensureString(options?.placement ?? placementProp);
     const duration = options?.duration;
+    const placement = ensureString(options?.placement ?? placementProp);
     const onClose = () => close(id, placement);
 
     return {
@@ -154,11 +154,17 @@ const ToastManager = ({
    * Create a toast at the specified placement and return the id
    */
   const notify = (message, options) => {
-    const toast = createToast(message, options);
-    const { placement, id } = toast;
+    const { id, duration, placement } = options;
+    const toast = createToast(message, { id, duration, placement });
+
+    if (!placements.includes(toast.placement)) {
+      console.error(`[ToastManager] Error: Invalid toast placement "${toast.placement}". Please provide a valid placement from the following options: ${placements.join(', ')}.`);
+      return false;
+    }
 
     setState((prevState) => {
-      const isTop = placement.includes('top');
+      const limit = undefined; // TODO: Add a limit option for each placement
+      const isTop = toast.placement.includes('top');
 
       /**
        * For the toast is placemented at the top edges:
@@ -171,18 +177,25 @@ const ToastManager = ({
        *   toast #2
        *   toast #3 ← the most recent
        */
-      const prevToasts = ensureArray(prevState[placement]);
-      const toasts = isTop
-        ? [toast, ...prevToasts]
-        : [...prevToasts, toast];
+      const prevToasts = [...ensureArray(prevState[toast.placement])];
+      let toasts = [];
+      if (isTop) {
+        const begin = 0;
+        const end = limit > 0 ? limit : undefined;
+        toasts = [toast, ...prevToasts].slice(begin, end);
+      } else {
+        // Negative index counts back from the end of the array — if start < 0, start + array.length is used.
+        const begin = limit > 0 ? -limit : undefined;
+        toasts = [...prevToasts, toast].slice(begin);
+      }
 
       return {
         ...prevState,
-        [placement]: toasts,
+        [toast.placement]: toasts,
       };
     });
 
-    return id;
+    return toast.id;
   };
 
   /**
