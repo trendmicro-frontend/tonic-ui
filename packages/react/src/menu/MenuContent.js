@@ -98,7 +98,7 @@ const MenuContent = forwardRef((
     const modifiers = [
       { // https://popper.js.org/docs/v2/modifiers/flip/
         name: 'flip',
-        enabled: false,
+        enabled: false, // Disable flip functionality
       },
       { // https://popper.js.org/docs/v2/modifiers/offset/
         name: 'offset',

@@ -73,12 +73,20 @@ const SubmenuContent = forwardRef((
     const modifiers = [
       { // https://popper.js.org/docs/v2/modifiers/flip/
         name: 'flip',
-        enabled: false,
+        enabled: false, // Disable flip functionality
       },
       { // https://popper.js.org/docs/v2/modifiers/offset/
         name: 'offset',
         options: {
           offset: [skidding, distance],
+        },
+      },
+      {
+        // https://popper.js.org/docs/v2/modifiers/event-listeners/
+        name: 'eventListeners',
+        options: {
+          scroll: false, // Disable scroll event listener to prevent scrolling the popper element with the reference element
+          resize: true, // Keep resize event listener enabled (default behavior)
         },
       },
     ];
