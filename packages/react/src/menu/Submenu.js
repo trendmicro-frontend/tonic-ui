@@ -14,6 +14,7 @@ const Submenu = forwardRef((
     children,
     defaultIsOpen = false,
     isOpen: isOpenProp,
+    offset,
     onClose: onCloseProp,
     onOpen: onOpenProp,
     placement = 'right-start', // One of: 'right-start', 'right-end', 'left-start', 'left-end'
@@ -65,6 +66,7 @@ const Submenu = forwardRef((
     isHoveringSubmenuContentRef,
     isHoveringSubmenuToggleRef,
     isOpen,
+    offset,
     onClose,
     onOpen,
     placement,

@@ -1009,9 +1009,37 @@ To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList
     width={200}
   >
     {Array.from({ length: 100 }).map((_, key) => (
-      <MenuItem key={key}>
-        List item {key + 1}
-      </MenuItem>
+      <Submenu
+        key={key}
+        placement="right-start"
+      >
+        <SubmenuToggle width="100%">
+          <MenuItem>
+            <Flex
+              alignItems="center"
+              columnGap="2x"
+              justifyContent="space-between"
+              width="100%"
+            >
+              <Text>List Item {key + 1}</Text>
+              <Icon icon="angle-right" />
+            </Flex>
+          </MenuItem>
+        </SubmenuToggle>
+        <SubmenuList
+          PopperProps={{
+            usePortal: true,
+          }}
+          width="max-content"
+        >
+          <MenuItem>
+            <Text>List item</Text>
+          </MenuItem>
+          <MenuItem>
+            <Text>List item</Text>
+          </MenuItem>
+        </SubmenuList>
+      </Submenu>
     ))}
   </MenuList>
 </Menu>
@@ -1024,12 +1052,45 @@ You can also use the `Scrollbar` component to override the default scrollbar.
   <MenuButton variant="secondary" width={200}>
     <Text>Options</Text>
   </MenuButton>
-  <MenuList width={200}>
-    <Scrollbar height={200} overflowY="visible">
+  <MenuList
+    width={200}
+  >
+    <Scrollbar
+      height={200}
+      overflowY="visible"
+    >
       {Array.from({ length: 100 }).map((_, key) => (
-        <MenuItem key={key}>
-          List item {key + 1}
-        </MenuItem>
+        <Submenu
+          key={key}
+          placement="right-start"
+        >
+          <SubmenuToggle width="100%">
+            <MenuItem>
+              <Flex
+                alignItems="center"
+                columnGap="2x"
+                justifyContent="space-between"
+                width="100%"
+              >
+                <Text>List Item {key + 1}</Text>
+                <Icon icon="angle-right" />
+              </Flex>
+            </MenuItem>
+          </SubmenuToggle>
+          <SubmenuList
+            PopperProps={{
+              usePortal: true,
+            }}
+            width="max-content"
+          >
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+            <MenuItem>
+              <Text>List item</Text>
+            </MenuItem>
+          </SubmenuList>
+        </Submenu>
       ))}
     </Scrollbar>
   </MenuList>
@@ -1304,6 +1365,11 @@ render(() => {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
 
 ### SubmenuList

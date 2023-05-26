@@ -1,30 +1,41 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callEventHandlers } from '@tonic-ui/utils';
-import { ensureFunction } from 'ensure-type';
-import React, { forwardRef, useRef } from 'react';
-import { Box } from '../box';
+import { callAll, callEventHandlers } from '@tonic-ui/utils';
+import { ensureArray, ensureFunction } from 'ensure-type';
+import React, { forwardRef, useMemo, useRef } from 'react';
+import { Popper } from '../popper';
+import { Collapse } from '../transitions';
 import { useSubmenuContentStyle } from './styles';
 import useSubmenu from './useSubmenu';
 
 const SubmenuContent = forwardRef((
   {
+    PopperComponent = Popper,
+    PopperProps,
+    TransitionComponent = Collapse,
+    TransitionProps,
+    children,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
   },
   ref,
 ) => {
+  const nodeRef = useRef(null);
+  const combinedRef = useMergeRefs(nodeRef, ref);
   const mouseLeaveTimeoutRef = useRef();
   const submenuContext = useSubmenu(); // context might be an undefined value
   const {
     isHoveringSubmenuContentRef,
     isHoveringSubmenuToggleRef,
+    isOpen,
+    offset,
     onClose: closeSubmenu,
+    placement,
     submenuId,
-    submenuContentRef,
     submenuToggleId,
+    submenuToggleRef,
+    submenuContentRef,
   } = { ...submenuContext };
-  const combinedRef = useMergeRefs(submenuContentRef, ref);
   const eventHandler = {};
 
   eventHandler.onMouseEnter = function (event) {
@@ -54,17 +65,81 @@ const SubmenuContent = forwardRef((
   const tabIndex = -1;
   const styleProps = useSubmenuContentStyle({ tabIndex });
 
+  const [
+    skidding = 0,
+    distance = 0,
+  ] = ensureArray(offset);
+  const popperModifiers = useMemo(() => {
+    const modifiers = [
+      { // https://popper.js.org/docs/v2/modifiers/flip/
+        name: 'flip',
+        enabled: false,
+      },
+      { // https://popper.js.org/docs/v2/modifiers/offset/
+        name: 'offset',
+        options: {
+          offset: [skidding, distance],
+        },
+      },
+    ];
+    return modifiers;
+  }, [skidding, distance]);
+
   return (
-    <Box
-      ref={combinedRef}
+    <Popper
       aria-labelledby={submenuToggleId}
+      anchorEl={submenuToggleRef?.current} // TODO: rename to `referenceRef` in a future release
       data-submenu-id={submenuId}
       id={submenuId}
+      isOpen={isOpen}
+      modifiers={popperModifiers}
+      placement={placement}
+      ref={submenuContentRef}
+      role="menu"
+      tabIndex={tabIndex}
+      unmountOnExit={true}
+      usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
+      willUseTransition={true}
+      zIndex="dropdown"
       onMouseEnter={callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter)}
       onMouseLeave={callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave)}
+      {...PopperProps}
+      modifiers={[
+        // Default modifiers
+        ...popperModifiers,
+        // User-defined modifiers
+        ...ensureArray(PopperProps?.modifiers),
+      ]}
       {...styleProps}
       {...rest}
-    />
+    >
+      {({ placement, transition }) => {
+        const { in: inProp, onEnter, onExited } = { ...transition };
+        return (
+          <TransitionComponent
+            appear={true}
+            easing="linear"
+            timeout={{
+              enter: 133,
+              exit: Math.floor(133 * 0.7),
+            }}
+            {...TransitionProps}
+            ref={combinedRef}
+            in={inProp}
+            onEnter={callAll(
+              onEnter,
+              TransitionProps?.onEnter,
+            )}
+            onExited={callAll(
+              onExited,
+              TransitionProps?.onExited,
+            )}
+          >
+            {children}
+          </TransitionComponent>
+        );
+      }}
+    </Popper>
   );
 });
 
