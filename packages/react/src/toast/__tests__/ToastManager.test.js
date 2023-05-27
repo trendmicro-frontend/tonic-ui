@@ -1,9 +1,9 @@
 import { act, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Button, Toast, ToastManager, useToastManager } from '@tonic-ui/react/src';
+import { Box, Button, Toast, ToastManager, useToastManager } from '@tonic-ui/react/src';
 import { transitionDuration } from '@tonic-ui/utils/src';
-import React from 'react';
+import React, { useRef } from 'react';
 
 describe('ToastManager', () => {
   it('should render correctly', async () => {
@@ -12,6 +12,9 @@ describe('ToastManager', () => {
     const placement = 'bottom-right';
     const message = 'This is a toast message';
 
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
     const TestComponent = () => {
       const toast = useToastManager();
       const handleClick = React.useCallback(() => {
@@ -37,9 +40,9 @@ describe('ToastManager', () => {
     };
 
     render(
-      <ToastManager>
+      <WrapperComponent>
         <TestComponent />
-      </ToastManager>
+      </WrapperComponent>
     );
 
     const button = await screen.findByText('Add Toast');
@@ -51,6 +54,61 @@ describe('ToastManager', () => {
     expect(toastElement).toHaveTextContent(message);
   });
 
+  it('should render into a custom container', async () => {
+    const user = userEvent.setup();
+
+    const placement = 'bottom-right';
+    const message = 'This is a toast message';
+
+    const WrapperComponent = (props) => {
+      const ref = useRef(null);
+      return (
+        <>
+          <Box ref={ref} data-testid="custom-container" />
+          <ToastManager containerRef={ref} {...props} />
+        </>
+      );
+    };
+    const TestComponent = () => {
+      const toast = useToastManager();
+      const handleClick = React.useCallback(() => {
+        toast(({ onClose, placement }) => {
+          return (
+            <Toast
+              appearance="success"
+              isClosable
+              onClose={onClose}
+              data-testid="toast"
+            >
+              {message}
+            </Toast>
+          );
+        }, { placement });
+      }, [toast]);
+
+      return (
+        <Button onClick={handleClick}>
+          Add Toast
+        </Button>
+      );
+    };
+
+    render(
+      <WrapperComponent>
+        <TestComponent />
+      </WrapperComponent>
+    );
+
+    const button = await screen.findByText('Add Toast');
+    await user.click(button);
+
+    const toastElement = await screen.getByTestId('toast');
+    expect(toastElement).toHaveTextContent(message);
+
+    const customContainer = await screen.getByTestId('custom-container');
+    expect(customContainer).toContainElement(toastElement);
+  });
+
   it('should dismiss the toast after a certain amount of time', async () => {
     const user = userEvent.setup();
 
@@ -58,6 +116,9 @@ describe('ToastManager', () => {
     const placement = 'bottom-right';
     const message = 'This is a toast message';
 
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
     const TestComponent = () => {
       const toast = useToastManager();
       const handleClick = React.useCallback(() => {
@@ -86,9 +147,9 @@ describe('ToastManager', () => {
     };
 
     render(
-      <ToastManager>
+      <WrapperComponent>
         <TestComponent />
-      </ToastManager>
+      </WrapperComponent>
     );
 
     const button = await screen.findByText('Add Toast');
@@ -110,6 +171,9 @@ describe('ToastManager', () => {
     const message = 'This is a toast message';
     const maxToasts = 3;
 
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
     const TestComponent = () => {
       const toast = useToastManager();
       const handleClick = React.useCallback(() => {
@@ -143,9 +207,9 @@ describe('ToastManager', () => {
     };
 
     render(
-      <ToastManager>
+      <WrapperComponent>
         <TestComponent />
-      </ToastManager>
+      </WrapperComponent>
     );
 
     const button = await screen.findByText('Add Toast');
