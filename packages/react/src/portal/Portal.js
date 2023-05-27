@@ -1,5 +1,5 @@
 import { useIsomorphicEffect, useOnceWhen } from '@tonic-ui/react-hooks';
-import { getOwnerDocument, noop, warnRemovedProps } from '@tonic-ui/utils';
+import { getOwnerDocument, noop, warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import React, { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Box } from '../box';
@@ -9,9 +9,9 @@ const PORTAL_CLASSNAME = 'tonic-ui-portal';
 const PORTAL_SELECTOR = `.${PORTAL_CLASSNAME}`;
 
 const Portal = ({
-  container: DEPRECATED_container, // deprecated
-  isDisabled: DEPRECATED_isDisabled, // deprecated
-  onRender: DEPRECATED_onRender, // deprecated
+  container: DEPRECATED_container, // deprecated (remove in next major version)
+  isDisabled: DEPRECATED_isDisabled, // removed
+  onRender: DEPRECATED_onRender, // removed
 
   appendToParentPortal = false,
   children,
@@ -21,9 +21,10 @@ const Portal = ({
     const prefix = `${Portal.displayName}:`;
 
     useOnceWhen(() => {
-      warnRemovedProps('container', {
+      warnDeprecatedProps('container', {
         prefix,
         alternative: 'containerRef',
+        willRemove: true,
       });
     }, (DEPRECATED_container !== undefined));
 
@@ -54,7 +55,7 @@ const Portal = ({
       return noop;
     }
 
-    const containerEl = containerRef?.current;
+    const containerEl = containerRef?.current ?? DEPRECATED_container; // TODO: remove DEPRECATED_container
     const host = (() => {
       if (containerEl) {
         return containerEl;

@@ -1,13 +1,13 @@
-import { useHydrated } from '@tonic-ui/react-hooks';
-import { canUseDOM, runIfFn } from '@tonic-ui/utils';
+import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
+import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { isElement, isValidElementType } from 'react-is';
 import {
   TransitionGroup,
 } from 'react-transition-group';
+import { Portal } from '../portal';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
@@ -41,11 +41,24 @@ const getToastPlacementByState = (state, id) => {
 };
 
 const ToastManager = ({
+  container: DEPRECATED_container, // deprecated (remove in next major version)
+
   children,
-  container, // deprecated (remove in next major version)
-  //containerRef: containerRefProp,
+  containerRef,
   placement: placementProp = defaultPlacement,
 }) => {
+  { // deprecation warning
+    const prefix = `${ToastManager.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('container', {
+        prefix,
+        alternative: 'containerRef',
+        willRemove: true,
+      });
+    }, (DEPRECATED_container !== undefined));
+  }
+
   const isHydrated = useHydrated();
   const [state, setState] = useState(() => (
     placements.reduce((acc, placement) => {
@@ -59,8 +72,8 @@ const ToastManager = ({
    */
   const createToast = (message, options) => {
     const id = options?.id ?? uniqueId();
-    const placement = ensureString(options?.placement ?? placementProp);
     const duration = options?.duration;
+    const placement = ensureString(options?.placement ?? placementProp);
     const onClose = () => close(id, placement);
 
     return {
@@ -141,11 +154,17 @@ const ToastManager = ({
    * Create a toast at the specified placement and return the id
    */
   const notify = (message, options) => {
-    const toast = createToast(message, options);
-    const { placement, id } = toast;
+    const { id, duration, placement } = options;
+    const toast = createToast(message, { id, duration, placement });
+
+    if (!placements.includes(toast.placement)) {
+      console.error(`[ToastManager] Error: Invalid toast placement "${toast.placement}". Please provide a valid placement from the following options: ${placements.join(', ')}.`);
+      return false;
+    }
 
     setState((prevState) => {
-      const isTop = placement.includes('top');
+      const limit = undefined; // TODO: Add a limit option for each placement
+      const isTop = toast.placement.includes('top');
 
       /**
        * For the toast is placemented at the top edges:
@@ -158,18 +177,25 @@ const ToastManager = ({
        *   toast #2
        *   toast #3 ← the most recent
        */
-      const prevToasts = ensureArray(prevState[placement]);
-      const toasts = isTop
-        ? [toast, ...prevToasts]
-        : [...prevToasts, toast];
+      const prevToasts = [...ensureArray(prevState[toast.placement])];
+      let toasts = [];
+      if (isTop) {
+        const begin = 0;
+        const end = limit > 0 ? limit : undefined;
+        toasts = [toast, ...prevToasts].slice(begin, end);
+      } else {
+        // Negative index counts back from the end of the array — if start < 0, start + array.length is used.
+        const begin = limit > 0 ? -limit : undefined;
+        toasts = [...prevToasts, toast].slice(begin);
+      }
 
       return {
         ...prevState,
-        [placement]: toasts,
+        [toast.placement]: toasts,
       };
     });
 
-    return id;
+    return toast.id;
   };
 
   /**
@@ -209,66 +235,60 @@ const ToastManager = ({
 
     // State
     state,
+    setState,
   });
-
-  const portalTarget = canUseDOM()
-    ? (container ?? document.body)
-    : null;
-
-  if (!portalTarget) {
-    return (
-      <ToastManagerContext.Provider value={context}>
-        {runIfFn(children, context)}
-      </ToastManagerContext.Provider>
-    );
-  }
 
   return (
     <ToastManagerContext.Provider value={context}>
       {runIfFn(children, context)}
-      {isHydrated && createPortal((
-        Object.keys(state).map((placement) => {
-          const toasts = ensureArray(state[placement]);
-          return (
-            <ToastContainer
-              key={placement}
-              placement={placement}
-            >
-              <TransitionGroup component={null}>
-                {toasts.map((toast) => (
-                  <ToastTransition
-                    key={toast.id}
-                    in={true}
-                    collapsedHeight={0}
-                    unmountOnExit
-                  >
-                    <ToastController
-                      duration={toast.duration}
-                      onClose={toast.onClose}
+      {isHydrated && (
+        <Portal
+          container={DEPRECATED_container} // FIXME: deprecated (remove in next major version)
+          containerRef={containerRef}
+        >
+          {Object.keys(state).map((placement) => {
+            const toasts = ensureArray(state[placement]);
+            return (
+              <ToastContainer
+                key={placement}
+                placement={placement}
+              >
+                <TransitionGroup component={null}>
+                  {toasts.map((toast) => (
+                    <ToastTransition
+                      key={toast.id}
+                      in={true}
+                      collapsedHeight={0}
+                      unmountOnExit
                     >
-                      {(() => {
-                        if (isElement(toast.message)) {
-                          return toast.message;
-                        }
-                        if (isValidElementType(toast.message)) {
-                          return (
-                            <toast.message
-                              id={toast.id}
-                              onClose={toast.onClose}
-                              placement={toast.placement}
-                            />
-                          );
-                        }
-                        return null;
-                      })()}
-                    </ToastController>
-                  </ToastTransition>
-                ))}
-              </TransitionGroup>
-            </ToastContainer>
-          );
-        })
-      ), portalTarget)}
+                      <ToastController
+                        duration={toast.duration}
+                        onClose={toast.onClose}
+                      >
+                        {(() => {
+                          if (isElement(toast.message)) {
+                            return toast.message;
+                          }
+                          if (isValidElementType(toast.message)) {
+                            return (
+                              <toast.message
+                                id={toast.id}
+                                onClose={toast.onClose}
+                                placement={toast.placement}
+                              />
+                            );
+                          }
+                          return null;
+                        })()}
+                      </ToastController>
+                    </ToastTransition>
+                  ))}
+                </TransitionGroup>
+              </ToastContainer>
+            );
+          })}
+        </Portal>
+      )}
     </ToastManagerContext.Provider>
   );
 };
