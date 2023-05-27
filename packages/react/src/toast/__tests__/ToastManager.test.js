@@ -1,9 +1,9 @@
-import { act, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Button, Toast, ToastManager, useToastManager } from '@tonic-ui/react/src';
 import { transitionDuration } from '@tonic-ui/utils/src';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 describe('ToastManager', () => {
   it('should render correctly', async () => {
@@ -17,7 +17,7 @@ describe('ToastManager', () => {
     );
     const TestComponent = () => {
       const toast = useToastManager();
-      const handleClick = React.useCallback(() => {
+      const handleClick = useCallback(() => {
         toast(({ onClose, placement }) => {
           return (
             <Toast
@@ -71,7 +71,7 @@ describe('ToastManager', () => {
     };
     const TestComponent = () => {
       const toast = useToastManager();
-      const handleClick = React.useCallback(() => {
+      const handleClick = useCallback(() => {
         toast(({ onClose, placement }) => {
           return (
             <Toast
@@ -121,7 +121,7 @@ describe('ToastManager', () => {
     );
     const TestComponent = () => {
       const toast = useToastManager();
-      const handleClick = React.useCallback(() => {
+      const handleClick = useCallback(() => {
         toast(({ onClose, placement }) => {
           return (
             <Toast
@@ -164,6 +164,70 @@ describe('ToastManager', () => {
     });
   });
 
+  it('should close all toasts when `closeAll` is called', async () => {
+    const user = userEvent.setup();
+
+    const placement = 'bottom-right';
+    const message = 'This is a toast message';
+
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
+    const TestComponent = () => {
+      const toast = useToastManager();
+      const handleClickAddToast = useCallback(() => {
+        toast(({ onClose, placement }) => {
+          return (
+            <Toast
+              appearance="success"
+              isClosable
+              onClose={onClose}
+              data-testid="toast"
+            >
+              {message}
+            </Toast>
+          );
+        }, { placement });
+      }, [toast]);
+      const handleClickCloseToasts = useCallback(() => {
+        toast.closeAll();
+      }, [toast]);
+
+      return (
+        <>
+          <Button onClick={handleClickAddToast}>
+            Add Toast
+          </Button>
+          <Button onClick={handleClickCloseToasts}>
+            Close All
+          </Button>
+        </>
+      );
+    };
+
+    render(
+      <WrapperComponent>
+        <TestComponent />
+      </WrapperComponent>
+    );
+
+    const addToastButton = await screen.findByText('Add Toast');
+    const closeAllButton = await screen.findByText('Close All');
+
+    await user.click(addToastButton);
+    await user.click(addToastButton);
+    await user.click(addToastButton);
+
+    const toastPlacementElement = document.querySelector(`[data-toast-placement="${placement}"]`);
+    expect(toastPlacementElement.childNodes.length).toBe(3);
+
+    await user.click(closeAllButton);
+
+    await waitFor(() => {
+      expect(toastPlacementElement.childNodes.length).toBe(0);
+    });
+  });
+
   it('should not exceed the maximum number of toasts', async () => {
     const user = userEvent.setup();
 
@@ -176,7 +240,7 @@ describe('ToastManager', () => {
     );
     const TestComponent = () => {
       const toast = useToastManager();
-      const handleClick = React.useCallback(() => {
+      const handleClick = useCallback(() => {
         toast(({ onClose, placement }) => {
           return (
             <Toast
@@ -215,8 +279,7 @@ describe('ToastManager', () => {
     const button = await screen.findByText('Add Toast');
 
     await act(async () => {
-      await user.click(button);
-      await user.click(button);
+      // Generate more than the maximum number of toasts
       await user.click(button);
       await user.click(button);
       await user.click(button);
