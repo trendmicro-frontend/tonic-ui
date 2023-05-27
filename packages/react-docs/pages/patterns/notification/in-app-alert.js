@@ -1,14 +1,16 @@
 import {
   Alert,
   AlertCloseButton,
+  Button,
   Collapse,
+  Flex,
   Icon,
   Stack,
   Text,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 const CollapseToggle = ({
   defaultIsOpen: defaultIsOpenProp = true,
@@ -25,6 +27,16 @@ const CollapseToggle = ({
   );
 };
 
+const AlertOutlineActionButton = forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    size="sm"
+    variant="secondary"
+    {...props}
+  />
+));
+AlertOutlineActionButton.displayName = 'AlertOutlineActionButton';
+
 const App = () => {
   return (
     <Stack direction="column" spacing="4x">
@@ -40,7 +52,16 @@ const App = () => {
               borderImageSlice: 1,
             }}
           >
-            <Text>This is a promotion message.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              mr="10x"
+            >
+              <Text>This is a promotion message.</Text>
+              <AlertOutlineActionButton my="-1x">
+                Action
+              </AlertOutlineActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
@@ -52,7 +73,16 @@ const App = () => {
             severity="success"
             onClose={onClose}
           >
-            <Text pr="10x">This is a success alert.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              mr="10x"
+            >
+              <Text>This is a success message.</Text>
+              <AlertOutlineActionButton my="-1x">
+                Action
+              </AlertOutlineActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
@@ -64,7 +94,16 @@ const App = () => {
             severity="info"
             onClose={onClose}
           >
-            <Text pr="10x">This is an info alert.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              mr="10x"
+            >
+              <Text>This is an info message.</Text>
+              <AlertOutlineActionButton my="-1x">
+                Action
+              </AlertOutlineActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
@@ -76,7 +115,16 @@ const App = () => {
             severity="warning"
             onClose={onClose}
           >
-            <Text pr="10x">This is a warning alert.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              mr="10x"
+            >
+              <Text>This is a warning message.</Text>
+              <AlertOutlineActionButton my="-1x">
+                Action
+              </AlertOutlineActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
@@ -88,7 +136,16 @@ const App = () => {
             severity="error"
             onClose={onClose}
           >
-            <Text pr="10x">This is an error alert.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              mr="10x"
+            >
+              <Text>This is an error message.</Text>
+              <AlertOutlineActionButton my="-1x">
+                Action
+              </AlertOutlineActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}

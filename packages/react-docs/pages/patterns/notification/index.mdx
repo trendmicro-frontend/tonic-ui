@@ -6,14 +6,10 @@ import { Box, Flex, Grid, Image, Stack, TextLabel } from '@tonic-ui/react';
 
 Notifications proactively provide short, timely, and relevant information about the product to help users notice important things and even take follow-up actions.
 
-You can use the following channels to notify users:
+There are various channels to notify users:
 
-* Notification center:
-  * Informative
-  * Tasks
+* Notification center
 * Alert
-  * Product-level alert
-  * In-app alert
 * Toast
 
 ## How It Works
@@ -49,6 +45,8 @@ An alert has the following types:
 * Warning: Informs users to prevent an imminent problem, for example, license about to expire.
 
 {render('./product-level-alert')}
+
+{render('./product-level-multiple-alerts')}
 
 ![image](../patterns/notification/product-level-alert.png)
 

@@ -12,6 +12,8 @@ import {
 } from '@tonic-ui/react';
 import React from 'react';
 
+const MAX_TOASTS = 3;
+
 const ToastLayout = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
@@ -60,7 +62,12 @@ const App = () => {
       ),
     }[appearance];
 
-    toast.closeAll();
+    const placement = 'bottom-right';
+    const duration = appearance === 'success' ? 5000 : undefined;
+    const options = {
+      placement,
+      duration,
+    };
 
     toast.notify(({ onClose, placement }) => {
       const styleProps = {
@@ -81,10 +88,13 @@ const App = () => {
           </ToastLayout>
         </Box>
       );
-    }, {
-      placement: 'bottom-right',
-      duration: appearance === 'success' ? 5000 : undefined,
-    });
+    }, options);
+
+    // Limit the maximum number of toasts
+    toast.setState(prevState => ({
+      ...prevState,
+      [placement]: prevState[placement].slice(-MAX_TOASTS),
+    }));
   };
 
   const handleClickCloseToasts = () => {

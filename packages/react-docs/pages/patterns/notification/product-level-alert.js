@@ -1,14 +1,16 @@
 import {
   Alert,
   AlertCloseButton,
+  Button,
   Collapse,
+  Flex,
   Icon,
   Stack,
   Text,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 const CollapseToggle = ({
   defaultIsOpen: defaultIsOpenProp = true,
@@ -25,6 +27,33 @@ const CollapseToggle = ({
   );
 };
 
+const AlertSolidActionButton = forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    size="sm"
+    variant="secondary"
+    sx={{
+      borderColor: 'black:primary',
+      color: 'black:primary',
+      ':active': {
+        color: 'black:primary',
+      },
+      ':focus': {
+        color: 'black:primary',
+      },
+      ':hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black:primary',
+      },
+      ':hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    }}
+    {...props}
+  />
+));
+AlertSolidActionButton.displayName = 'AlertSolidActionButton';
+
 const App = () => {
   return (
     <Stack direction="column" spacing="4x">
@@ -40,7 +69,17 @@ const App = () => {
               color: 'white:emphasis',
             }}
           >
-            <Text>This is a promotion message.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              columnGap="4x"
+              mr="10x"
+            >
+              <Text>This is a promotion message.</Text>
+              <AlertSolidActionButton my="-1x">
+                Action
+              </AlertSolidActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
@@ -52,7 +91,17 @@ const App = () => {
             severity="success"
             onClose={onClose}
           >
-            <Text pr="10x">This is a success alert.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              columnGap="4x"
+              mr="10x"
+            >
+              <Text>This is a success message.</Text>
+              <AlertSolidActionButton my="-1x">
+                Action
+              </AlertSolidActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
@@ -64,7 +113,17 @@ const App = () => {
             severity="info"
             onClose={onClose}
           >
-            <Text pr="10x">This is an info alert.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              columnGap="4x"
+              mr="10x"
+            >
+              <Text>This is an info message.</Text>
+              <AlertSolidActionButton my="-1x">
+                Action
+              </AlertSolidActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
@@ -76,7 +135,17 @@ const App = () => {
             severity="warning"
             onClose={onClose}
           >
-            <Text pr="10x">This is a warning alert.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              columnGap="4x"
+              mr="10x"
+            >
+              <Text>This is a warning message.</Text>
+              <AlertSolidActionButton my="-1x">
+                Action
+              </AlertSolidActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
@@ -88,7 +157,17 @@ const App = () => {
             severity="error"
             onClose={onClose}
           >
-            <Text pr="10x">This is an error alert.</Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              columnGap="4x"
+              mr="10x"
+            >
+              <Text>This is an error message.</Text>
+              <AlertSolidActionButton my="-1x">
+                Action
+              </AlertSolidActionButton>
+            </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
         )}
