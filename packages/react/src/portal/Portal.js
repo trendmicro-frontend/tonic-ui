@@ -1,5 +1,5 @@
 import { useIsomorphicEffect, useOnceWhen } from '@tonic-ui/react-hooks';
-import { getOwnerDocument, noop, warnRemovedProps } from '@tonic-ui/utils';
+import { getOwnerDocument, noop, warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import React, { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Box } from '../box';
@@ -21,9 +21,10 @@ const Portal = ({
     const prefix = `${Portal.displayName}:`;
 
     useOnceWhen(() => {
-      warnRemovedProps('container', {
+      warnDeprecatedProps('container', {
         prefix,
         alternative: 'containerRef',
+        willRemove: true,
       });
     }, (DEPRECATED_container !== undefined));
 
