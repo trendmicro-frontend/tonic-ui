@@ -259,7 +259,7 @@ describe('ToastManager', () => {
         // Limit the maximum number of toasts
         toast.setState(prevState => ({
           ...prevState,
-          [placement]: prevState[placement].slice(0, maxToasts),
+          [placement]: prevState[placement].slice(-maxToasts),
         }));
       }, [toast]);
 
