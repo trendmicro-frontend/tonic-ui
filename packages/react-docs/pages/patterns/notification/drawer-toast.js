@@ -144,7 +144,7 @@ const App = () => {
         <DrawerContent
           margin={0}
           minHeight={400}
-          minWidth={320}
+          minWidth={480}
           width="50%"
         >
           <CustomToastContainer>
