@@ -23,14 +23,15 @@ import {
 import { useToggle } from '@tonic-ui/react-hooks';
 import { formatDistance, formatISO, startOfToday, subDays, subMinutes, subSeconds } from 'date-fns';
 import React, { useEffect } from 'react';
-import * as images from './images';
+
+const imageBase = '../images/patterns/notification/';
 
 const notifications = [
   {
     id: 1,
     seen: true,
     icon: (
-      <Image src={images.notificationHighlight.src} />
+      <Image alt="" src={`${imageBase}icon-notification-highlight.svg`} />
     ),
     message: (
       <Text>
@@ -43,7 +44,7 @@ const notifications = [
     id: 2,
     seen: false,
     icon: (
-      <Image src={images.notificationSuccess.src} />
+      <Image alt="" src={`${imageBase}icon-notification-success.svg`} />
     ),
     message: (
       <Text>
@@ -56,7 +57,7 @@ const notifications = [
     id: 3,
     seen: false,
     icon: (
-      <Image src={images.notificationError.src} />
+      <Image alt="" src={`${imageBase}icon-notification-error.svg`} />
     ),
     message: (
       <Text>
@@ -69,7 +70,7 @@ const notifications = [
     id: 4,
     seen: false,
     icon: (
-      <Image src={images.notificationWarning.src} />
+      <Image alt="" src={`${imageBase}icon-notification-warning.svg`} />
     ),
     message: (
       <Text>
@@ -82,7 +83,7 @@ const notifications = [
     id: 5,
     seen: false,
     icon: (
-      <Image src={images.notificationInfo.src} />
+      <Image alt="" src={`${imageBase}icon-notification-info.svg`} />
     ),
     message: (
       <Text>
@@ -98,7 +99,7 @@ const tasks = [
     id: 1,
     seen: false,
     icon: (
-      <Image src={images.notificationProgress.src} />
+      <Image alt="" src={`${imageBase}icon-notification-progress.svg`} />
     ),
     message: (
       <Stack spacing="1x">
@@ -116,7 +117,7 @@ const tasks = [
     id: 2,
     seen: false,
     icon: (
-      <Image src={images.notificationSuccess.src} />
+      <Image alt="" src={`${imageBase}icon-notification-success.svg`} />
     ),
     message: (
       <Stack spacing="1x">
@@ -134,7 +135,7 @@ const tasks = [
     id: 3,
     seen: false,
     icon: (
-      <Image src={images.notificationError.src} />
+      <Image alt="" src={`${imageBase}icon-notification-error.svg`} />
     ),
     message: (
       <Stack spacing="1x">
@@ -319,7 +320,7 @@ const NotificationCenter = (props) => {
               height={360}
             >
               <Box mb="3x">
-                <Image src={images['alert'].src} width={144} height={96} />
+                <Image alt="" src={`${imageBase}notification-empty-content.svg`} />
               </Box>
               <Text color={colorStyle.color.tertiary}>
                 No notifications to display
@@ -380,7 +381,7 @@ const NotificationCenter = (props) => {
               height={360}
             >
               <Box mb="3x">
-                <Image src={images['alert'].src} width={144} height={96} />
+                <Image alt="" src={`${imageBase}notification-empty-content.svg`} />
               </Box>
               <Text color={colorStyle.color.tertiary}>
                 No tasks to display
