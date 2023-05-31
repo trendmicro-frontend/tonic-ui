@@ -1,9 +1,9 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Flex,
   Icon,
-  Space,
   Text,
   Toast,
   useColorMode,
@@ -14,27 +14,13 @@ import React from 'react';
 
 const MAX_TOASTS = 3;
 
-const ToastLayout = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle.shadow.thin;
-
-  return (
-    <Box
-      fontSize="sm"
-      lineHeight="sm"
-      textAlign="left"
-      boxShadow={boxShadow}
-      width={320}
-      {...props}
-    />
-  );
-};
-
 const App = () => {
   const toast = useToastManager();
 
   const handleClickAddToastByAppearance = (appearance) => (event) => {
+    // Remove current focus
+    event.currentTarget.blur();
+
     const content = {
       success: (
         <>
@@ -102,32 +88,64 @@ const App = () => {
   };
 
   return (
-    <>
-      <Flex justifyContent="space-between" columnGap="4x">
-        <Flex flexWrap="wrap" columnGap="2x" rowGap="2x">
-          <Button variant="secondary" onClick={handleClickAddToastByAppearance('success')}>
-            Show Success Message
-          </Button>
-          <Button variant="secondary" onClick={handleClickAddToastByAppearance('info')}>
-            Show Info Message
-          </Button>
-          <Button variant="secondary" onClick={handleClickAddToastByAppearance('warning')}>
-            Show Warning Message
-          </Button>
-          <Button variant="secondary" onClick={handleClickAddToastByAppearance('error')}>
-            Show Error Message
-          </Button>
-        </Flex>
-        <Box>
-          <Button variant="secondary" onClick={handleClickCloseToasts}>
-            <Icon icon="close-s" />
-            <Space width="2x" />
-            Close
-          </Button>
-        </Box>
-      </Flex>
-    </>
+    <Flex
+      display="inline-flex"
+      flexWrap="wrap"
+      columnGap="2x"
+      rowGap="2x"
+    >
+      <ButtonGroup
+        variant="secondary"
+        sx={{
+          flexGrow: 1,
+          '> *:not(:first-of-type)': {
+            marginLeft: -1
+          },
+          '> *': {
+            columnGap: '2x',
+          },
+        }}
+      >
+        <Button onClick={handleClickAddToastByAppearance('success')}>
+          <Icon icon="success" />
+          Success
+        </Button>
+        <Button onClick={handleClickAddToastByAppearance('info')}>
+          <Icon icon="info" />
+          Info
+        </Button>
+        <Button onClick={handleClickAddToastByAppearance('warning')}>
+          <Icon icon="warning-triangle" />
+          Warning
+        </Button>
+        <Button onClick={handleClickAddToastByAppearance('error')}>
+          <Icon icon="error" />
+          Error
+        </Button>
+      </ButtonGroup>
+      <Button variant="secondary" onClick={handleClickCloseToasts}>
+        Close All
+      </Button>
+    </Flex>
   );
 };
+
+const ToastLayout = (props) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const boxShadow = colorStyle.shadow.thin;
+
+  return (
+    <Box
+      fontSize="sm"
+      lineHeight="sm"
+      textAlign="left"
+      boxShadow={boxShadow}
+      width={320}
+      {...props}
+    />
+  );
+};
+
 
 export default App;

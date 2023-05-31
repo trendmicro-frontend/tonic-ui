@@ -27,32 +27,15 @@ const CollapseToggle = ({
   );
 };
 
-const AlertSolidActionButton = forwardRef((props, ref) => (
+const AlertOutlineActionButton = forwardRef((props, ref) => (
   <Button
     ref={ref}
     size="sm"
     variant="secondary"
-    sx={{
-      borderColor: 'black:primary',
-      color: 'black:primary',
-      ':active': {
-        color: 'black:primary',
-      },
-      ':focus': {
-        color: 'black:primary',
-      },
-      ':hover': {
-        background: 'rgba(0, 0, 0, 0.12)',
-        color: 'black:primary',
-      },
-      ':hover:not(:focus)': {
-        boxShadow: 'none',
-      },
-    }}
     {...props}
   />
 ));
-AlertSolidActionButton.displayName = 'AlertSolidActionButton';
+AlertOutlineActionButton.displayName = 'AlertOutlineActionButton';
 
 const App = () => {
   return (
@@ -60,25 +43,24 @@ const App = () => {
       <CollapseToggle>
         {({ onClose }) => (
           <Alert
-            variant="solid"
+            variant="outline"
             severity="none"
             icon={<Icon icon="light2-o" />}
             onClose={onClose}
             sx={{
-              background: 'linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)',
-              color: 'white:emphasis',
+              borderImageSource: 'linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)',
+              borderImageSlice: 1,
             }}
           >
             <Flex
               alignItems="center"
               justifyContent="space-between"
-              columnGap="4x"
               mr="10x"
             >
               <Text>This is a promotion message.</Text>
-              <AlertSolidActionButton my="-1x">
+              <AlertOutlineActionButton my="-1x">
                 Action
-              </AlertSolidActionButton>
+              </AlertOutlineActionButton>
             </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>
@@ -87,86 +69,79 @@ const App = () => {
       <CollapseToggle>
         {({ onClose }) => (
           <Alert
-            variant="solid"
-            severity="success"
-            onClose={onClose}
-          >
-            <Flex
-              alignItems="center"
-              justifyContent="space-between"
-              columnGap="4x"
-              mr="10x"
-            >
-              <Text>This is a success message.</Text>
-              <AlertSolidActionButton my="-1x">
-                Action
-              </AlertSolidActionButton>
-            </Flex>
-            <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
-          </Alert>
-        )}
-      </CollapseToggle>
-      <CollapseToggle>
-        {({ onClose }) => (
-          <Alert
-            variant="solid"
-            severity="info"
-            onClose={onClose}
-          >
-            <Flex
-              alignItems="center"
-              justifyContent="space-between"
-              columnGap="4x"
-              mr="10x"
-            >
-              <Text>This is an info message.</Text>
-              <AlertSolidActionButton my="-1x">
-                Action
-              </AlertSolidActionButton>
-            </Flex>
-            <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
-          </Alert>
-        )}
-      </CollapseToggle>
-      <CollapseToggle>
-        {({ onClose }) => (
-          <Alert
-            variant="solid"
-            severity="warning"
-            onClose={onClose}
-          >
-            <Flex
-              alignItems="center"
-              justifyContent="space-between"
-              columnGap="4x"
-              mr="10x"
-            >
-              <Text>This is a warning message.</Text>
-              <AlertSolidActionButton my="-1x">
-                Action
-              </AlertSolidActionButton>
-            </Flex>
-            <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
-          </Alert>
-        )}
-      </CollapseToggle>
-      <CollapseToggle>
-        {({ onClose }) => (
-          <Alert
-            variant="solid"
+            variant="outline"
             severity="error"
             onClose={onClose}
           >
             <Flex
               alignItems="center"
               justifyContent="space-between"
-              columnGap="4x"
               mr="10x"
             >
               <Text>This is an error message.</Text>
-              <AlertSolidActionButton my="-1x">
+              <AlertOutlineActionButton my="-1x">
                 Action
-              </AlertSolidActionButton>
+              </AlertOutlineActionButton>
+            </Flex>
+            <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
+          </Alert>
+        )}
+      </CollapseToggle>
+      <CollapseToggle>
+        {({ onClose }) => (
+          <Alert
+            variant="outline"
+            severity="warning"
+            onClose={onClose}
+          >
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              mr="10x"
+            >
+              <Text>This is a warning message.</Text>
+              <AlertOutlineActionButton my="-1x">
+                Action
+              </AlertOutlineActionButton>
+            </Flex>
+            <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
+          </Alert>
+        )}
+      </CollapseToggle>
+      <CollapseToggle>
+        {({ onClose }) => (
+          <Alert
+            variant="outline"
+            severity="info"
+            onClose={onClose}
+          >
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              mr="10x"
+            >
+              <Text>This is an info message.</Text>
+              <AlertOutlineActionButton my="-1x">
+                Action
+              </AlertOutlineActionButton>
+            </Flex>
+            <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
+          </Alert>
+        )}
+      </CollapseToggle>
+      <CollapseToggle>
+        {({ onClose }) => (
+          <Alert
+            variant="outline"
+            severity="success"
+            onClose={onClose}
+          >
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              mr="10x"
+            >
+              <Text>This is a success message.</Text>
             </Flex>
             <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
           </Alert>

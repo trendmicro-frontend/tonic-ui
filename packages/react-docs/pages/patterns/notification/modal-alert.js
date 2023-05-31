@@ -4,6 +4,8 @@ import {
   Collapse,
   Grid,
   Link,
+  Modal,
+  ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalBody,
@@ -11,29 +13,58 @@ import {
   Skeleton,
   Stack,
   Text,
+  usePortalManager,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 const App = () => {
-  const [isOpen, toggleIsOpen] = useToggle(true);
+  const portal = usePortalManager();
+  const openModal = () => {
+    portal((close) => (
+      <ModalExample onClose={close} />
+    ));
+  };
 
   return (
     <>
-      <ModalContent
-        margin={0}
-        minHeight={400}
-        minWidth={480}
-        width="50%"
-      >
+      <Button variant="secondary" onClick={openModal}>
+        Open Modal
+      </Button>
+    </>
+  );
+};
+
+const ModalExample = forwardRef((
+  {
+    onClose,
+    ...rest
+  },
+  ref,
+) => {
+  const [isAlertOpen, toggleIsAlertOpen] = useToggle(true);
+
+  return (
+    <Modal
+      ref={ref}
+      closeOnEsc
+      closeOnOutsideClick
+      isClosable
+      isOpen={true}
+      onClose={onClose}
+      size="md"
+      {...rest}
+    >
+      <ModalOverlay />
+      <ModalContent>
         <ModalHeader>
           Modal
         </ModalHeader>
         <ModalBody>
-          <Collapse in={isOpen}>
+          <Collapse in={isAlertOpen}>
             <Alert
               isClosable
-              onClose={() => toggleIsOpen(false)}
+              onClose={() => toggleIsAlertOpen(false)}
               severity="warning"
               variant="outline"
               mb="4x"
@@ -51,17 +82,19 @@ const App = () => {
         </ModalBody>
         <ModalFooter>
           <Grid templateColumns="repeat(2, 1fr)" columnGap="2x">
-            <Button variant="primary">
+            <Button variant="primary" onClick={onClose}>
               OK
             </Button>
-            <Button>
+            <Button onClick={onClose}>
               Cancel
             </Button>
           </Grid>
         </ModalFooter>
       </ModalContent>
-    </>
+    </Modal>
   );
-};
+});
+
+ModalExample.displayName = 'ModalExample';
 
 export default App;

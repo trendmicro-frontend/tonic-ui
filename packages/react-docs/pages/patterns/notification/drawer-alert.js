@@ -4,6 +4,8 @@ import {
   Collapse,
   Grid,
   Link,
+  Drawer,
+  DrawerOverlay,
   DrawerContent,
   DrawerHeader,
   DrawerBody,
@@ -11,29 +13,59 @@ import {
   Skeleton,
   Stack,
   Text,
+  usePortalManager,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 const App = () => {
-  const [isOpen, toggleIsOpen] = useToggle(true);
+  const portal = usePortalManager();
+  const openDrawer = () => {
+    portal((close) => (
+      <DrawerExample onClose={close} />
+    ));
+  };
 
   return (
     <>
-      <DrawerContent
-        margin={0}
-        minHeight={400}
-        minWidth={480}
-        width="50%"
-      >
+      <Button variant="secondary" onClick={openDrawer}>
+        Open Drawer
+      </Button>
+    </>
+  );
+};
+
+const DrawerExample = forwardRef((
+  {
+    onClose,
+    ...rest
+  },
+  ref,
+) => {
+  const [isAlertOpen, toggleIsAlertOpen] = useToggle(true);
+
+  return (
+    <Drawer
+      ref={ref}
+      backdrop
+      closeOnEsc
+      closeOnOutsideClick
+      isClosable
+      isOpen={true}
+      onClose={onClose}
+      size="md"
+      {...rest}
+    >
+      <DrawerOverlay />
+      <DrawerContent>
         <DrawerHeader>
           Drawer
         </DrawerHeader>
         <DrawerBody>
-          <Collapse in={isOpen}>
+          <Collapse in={isAlertOpen}>
             <Alert
               isClosable
-              onClose={() => toggleIsOpen(false)}
+              onClose={() => toggleIsAlertOpen(false)}
               severity="info"
               variant="outline"
               mb="4x"
@@ -51,17 +83,19 @@ const App = () => {
         </DrawerBody>
         <DrawerFooter>
           <Grid templateColumns="repeat(2, 1fr)" columnGap="2x">
-            <Button variant="primary">
+            <Button variant="primary" onClick={onClose}>
               OK
             </Button>
-            <Button>
+            <Button onClick={onClose}>
               Cancel
             </Button>
           </Grid>
         </DrawerFooter>
       </DrawerContent>
-    </>
+    </Drawer>
   );
-};
+});
+
+DrawerExample.displayName = 'DrawerExample';
 
 export default App;

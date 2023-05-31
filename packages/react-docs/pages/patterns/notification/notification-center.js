@@ -20,18 +20,19 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import { useToggle } from '@tonic-ui/react-hooks';
+import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { formatDistance, formatISO, startOfToday, subDays, subMinutes, subSeconds } from 'date-fns';
+import { ensureString } from 'ensure-type';
 import React, { useEffect } from 'react';
 
-const imageBase = '../images/patterns/notification/';
+const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 const notifications = [
   {
     id: 1,
     seen: true,
     icon: (
-      <Image alt="" src={`${imageBase}icon-notification-highlight.svg`} />
+      <Image alt="" src={`${BASE_PATH}/images/patterns/notification/icon-notification-highlight.svg`} />
     ),
     message: (
       <Text>
@@ -44,7 +45,7 @@ const notifications = [
     id: 2,
     seen: false,
     icon: (
-      <Image alt="" src={`${imageBase}icon-notification-success.svg`} />
+      <Image alt="" src={`${BASE_PATH}/images/patterns/notification/icon-notification-success.svg`} />
     ),
     message: (
       <Text>
@@ -57,7 +58,7 @@ const notifications = [
     id: 3,
     seen: false,
     icon: (
-      <Image alt="" src={`${imageBase}icon-notification-error.svg`} />
+      <Image alt="" src={`${BASE_PATH}/images/patterns/notification/icon-notification-error.svg`} />
     ),
     message: (
       <Text>
@@ -70,7 +71,7 @@ const notifications = [
     id: 4,
     seen: false,
     icon: (
-      <Image alt="" src={`${imageBase}icon-notification-warning.svg`} />
+      <Image alt="" src={`${BASE_PATH}/images/patterns/notification/icon-notification-warning.svg`} />
     ),
     message: (
       <Text>
@@ -83,7 +84,7 @@ const notifications = [
     id: 5,
     seen: false,
     icon: (
-      <Image alt="" src={`${imageBase}icon-notification-info.svg`} />
+      <Image alt="" src={`${BASE_PATH}/images/patterns/notification/icon-notification-info.svg`} />
     ),
     message: (
       <Text>
@@ -99,7 +100,7 @@ const tasks = [
     id: 1,
     seen: false,
     icon: (
-      <Image alt="" src={`${imageBase}icon-notification-progress.svg`} />
+      <Image alt="" src={`${BASE_PATH}/images/patterns/notification/icon-notification-progress.svg`} />
     ),
     message: (
       <Stack spacing="1x">
@@ -117,7 +118,7 @@ const tasks = [
     id: 2,
     seen: false,
     icon: (
-      <Image alt="" src={`${imageBase}icon-notification-success.svg`} />
+      <Image alt="" src={`${BASE_PATH}/images/patterns/notification/icon-notification-success.svg`} />
     ),
     message: (
       <Stack spacing="1x">
@@ -135,7 +136,7 @@ const tasks = [
     id: 3,
     seen: false,
     icon: (
-      <Image alt="" src={`${imageBase}icon-notification-error.svg`} />
+      <Image alt="" src={`${BASE_PATH}/images/patterns/notification/icon-notification-error.svg`} />
     ),
     message: (
       <Stack spacing="1x">
@@ -152,18 +153,34 @@ const tasks = [
 ];
 
 const App = () => {
+  const [colorStyle] = useColorStyle();
+  const styleProps = {
+    backgroundColor: colorStyle.background.primary,
+    height: 480,
+  };
+
   return (
-    <NavigationBar />
+    <Box
+      {...styleProps}
+    >
+      <NavigationBar />
+      <Box p="4x">
+        <Text fontSize="xl" lineHeight="xl">
+          Home
+        </Text>
+      </Box>
+    </Box>
   );
 };
 
-const NavigationBar = () => {
-  const [isNotificationCenterOpen, toggleIsNotificationCenterOpen] = useToggle(true);
+const NavigationBar = (props) => {
+  const [isNotificationCenterOpen, toggleIsNotificationCenterOpen] = useToggle(false);
   const [colorStyle] = useColorStyle();
   const styleProps = {
     backgroundColor: colorStyle.background.secondary,
     height: '12x',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   };
   const [date, setDate] = React.useState(new Date());
 
@@ -181,43 +198,58 @@ const NavigationBar = () => {
   const taskUnreadCount = tasks.filter(x => !x.seen).length;
   const unreadCount = notificationUnreadCount + taskUnreadCount;
 
+  useEffectOnce(() => {
+    toggleIsNotificationCenterOpen(true);
+  });
+
   return (
     <Flex
       {...styleProps}
-      mb={400}
+      {...props}
     >
-      <NavItem columnGap="2x">
-        <Icon icon="clock" />
-        <Text>{date.toLocaleDateString()}</Text>
-        <Text>{date.toLocaleTimeString()}</Text>
-      </NavItem>
-      <NavItemDivider />
-      <Menu
-        isOpen={isNotificationCenterOpen}
-        onClose={() => toggleIsNotificationCenterOpen(false)}
-        onOpen={() => toggleIsNotificationCenterOpen(true)}
-        closeOnBlur={false}
-        placement="bottom-end"
-        offset={[0, 1]}
-      >
-        <MenuToggle>
-          <NavItem
-            as={Box}
-            aria-selected={isNotificationCenterOpen}
-          >
-            <Badge badgeContent={unreadCount}>
-              <Icon icon="alert" />
-            </Badge>
-          </NavItem>
-        </MenuToggle>
-        <MenuContent>
-          <NotificationCenter
-            sx={{
-              width: 480,
-            }}
-          />
-        </MenuContent>
-      </Menu>
+      <Flex alignItems="center" ml="5x">
+        <Text fontSize="2xl" lineHeight="2xl">
+          Product Name
+        </Text>
+        <Divider orientation="vertical" height="5x" mx="2x" />
+        <Text fontSize="sm" lineHeight="sm">
+          Home
+        </Text>
+      </Flex>
+      <Flex height="100%">
+        <NavItem columnGap="2x">
+          <Icon icon="clock" />
+          <Text>{date.toLocaleDateString()}</Text>
+          <Text>{date.toLocaleTimeString()}</Text>
+        </NavItem>
+        <NavItemDivider />
+        <Menu
+          isOpen={isNotificationCenterOpen}
+          onClose={() => toggleIsNotificationCenterOpen(false)}
+          onOpen={() => toggleIsNotificationCenterOpen(true)}
+          closeOnBlur={false}
+          placement="bottom-end"
+          offset={[0, 1]}
+        >
+          <MenuToggle>
+            <NavItem
+              as={Box}
+              aria-selected={isNotificationCenterOpen}
+            >
+              <Badge badgeContent={unreadCount}>
+                <Icon icon="alert" />
+              </Badge>
+            </NavItem>
+          </MenuToggle>
+          <MenuContent>
+            <NotificationCenter
+              sx={{
+                width: 480,
+              }}
+            />
+          </MenuContent>
+        </Menu>
+      </Flex>
     </Flex>
   );
 };
@@ -320,7 +352,7 @@ const NotificationCenter = (props) => {
               height={360}
             >
               <Box mb="3x">
-                <Image alt="" src={`${imageBase}notification-empty-content.svg`} />
+                <Image alt="" src={`${BASE_PATH}/images/patterns/notification/notification-empty-content.svg`} />
               </Box>
               <Text color={colorStyle.color.tertiary}>
                 No notifications to display
@@ -381,7 +413,7 @@ const NotificationCenter = (props) => {
               height={360}
             >
               <Box mb="3x">
-                <Image alt="" src={`${imageBase}notification-empty-content.svg`} />
+                <Image alt="" src={`${BASE_PATH}/images/patterns/notification/notification-empty-content.svg`} />
               </Box>
               <Text color={colorStyle.color.tertiary}>
                 No tasks to display

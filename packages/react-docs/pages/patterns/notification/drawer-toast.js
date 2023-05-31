@@ -1,45 +1,54 @@
 import {
   Box,
   Button,
-  Divider,
+  ButtonGroup,
   Flex,
   Grid,
   Icon,
+  Drawer,
+  DrawerOverlay,
   DrawerContent,
   DrawerHeader,
   DrawerBody,
   DrawerFooter,
   Skeleton,
-  Space,
   Stack,
   Text,
   Toast,
   ToastController,
   ToastTransition,
+  usePortalManager,
 } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import { TransitionGroup } from 'react-transition-group';
 
 const MAX_TOASTS = 1;
 
-const CustomToastContainer = (props) => (
-  <Flex
-    flexDirection="column"
-    alignItems="center"
-    position="absolute"
-    top="12x"
-    left="50%"
-    transform="translateX(-50%)"
-    width="max-content"
-    maxWidth="80%" // up to 80% of the modal or drawer width
-    zIndex="toast"
-    {...props}
-  />
-);
-
-let autoIncrementIndex = 0;
-
 const App = () => {
+  const portal = usePortalManager();
+  const openDrawer = () => {
+    portal((close) => (
+      <DrawerExample onClose={close} />
+    ));
+  };
+
+  return (
+    <>
+      <Button variant="secondary" onClick={openDrawer}>
+        Open Drawer
+      </Button>
+    </>
+  );
+};
+
+const DrawerExample = forwardRef((
+  {
+    onClose,
+    ...rest
+  },
+  ref,
+) => {
+  const autoIncrementRef = useRef(0);
   const [toasts, setToasts] = useState([]);
 
   const notify = (options) => {
@@ -51,7 +60,7 @@ const App = () => {
     } = { ...options };
 
     setToasts(prevState => {
-      const id = ++autoIncrementIndex;
+      const id = ++autoIncrementRef.current;
       const onClose = () => {
         setToasts(toasts => toasts.filter(x => x.id !== id));
       };
@@ -71,11 +80,10 @@ const App = () => {
     });
   };
 
-  const closeAll = () => {
-    setToasts([]);
-  };
-
   const handleClickAddToastByAppearance = (appearance) => (event) => {
+    // Remove current focus
+    event.currentTarget.blur();
+
     const content = {
       success: (
         <>
@@ -110,96 +118,116 @@ const App = () => {
     });
   };
 
-  const handleClickCloseToasts = () => {
-    closeAll();
-  };
-
   return (
-    <>
-      <Flex justifyContent="space-between" columnGap="4x">
-        <Flex flexWrap="wrap" columnGap="2x" rowGap="2x">
-          <Button variant="secondary" onClick={handleClickAddToastByAppearance('success')}>
-            Show Success Message
-          </Button>
-          <Button variant="secondary" onClick={handleClickAddToastByAppearance('info')}>
-            Show Info Message
-          </Button>
-          <Button variant="secondary" onClick={handleClickAddToastByAppearance('warning')}>
-            Show Warning Message
-          </Button>
-          <Button variant="secondary" onClick={handleClickAddToastByAppearance('error')}>
-            Show Error Message
-          </Button>
-        </Flex>
-        <Box>
-          <Button variant="secondary" onClick={handleClickCloseToasts}>
-            <Icon icon="close-s" />
-            <Space width="2x" />
-            Close
-          </Button>
-        </Box>
-      </Flex>
-      <Divider my="4x" />
-      <Flex columnGap="4x">
-        <DrawerContent
-          margin={0}
-          minHeight={400}
-          minWidth={480}
-          width="50%"
-        >
-          <CustomToastContainer>
-            <TransitionGroup
-              component={null} // Pass in `component={null}` to avoid a wrapping `<div>` element
-            >
-              {toasts.map(toast => (
-                <ToastTransition
-                  key={toast?.id}
-                  in={true}
-                  unmountOnExit
+    <Drawer
+      ref={ref}
+      backdrop
+      closeOnEsc
+      closeOnOutsideClick
+      isClosable
+      isOpen={true}
+      onClose={onClose}
+      size="md"
+      {...rest}
+    >
+      <DrawerOverlay />
+      <DrawerContent>
+        <CustomToastContainer>
+          <TransitionGroup
+            component={null} // Pass in `component={null}` to avoid a wrapping `<div>` element
+          >
+            {toasts.map(toast => (
+              <ToastTransition
+                key={toast?.id}
+                in={true}
+                unmountOnExit
+              >
+                <ToastController
+                  duration={toast?.duration}
+                  onClose={toast?.onClose}
                 >
-                  <ToastController
-                    duration={toast?.duration}
+                  <Toast
+                    appearance={toast?.appearance}
+                    isClosable={toast?.isClosable}
                     onClose={toast?.onClose}
+                    mb="2x"
+                    minWidth={280} // The toast has a minimum width of 280 pixels
+                    width="fit-content"
                   >
-                    <Toast
-                      appearance={toast?.appearance}
-                      isClosable={toast?.isClosable}
-                      onClose={toast?.onClose}
-                      mb="2x"
-                      minWidth={280} // The toast has a minimum width of 280 pixels
-                      width="fit-content"
-                    >
-                      {toast?.content}
-                    </Toast>
-                  </ToastController>
-                </ToastTransition>
-              ))}
-            </TransitionGroup>
-          </CustomToastContainer>
-          <DrawerHeader>
-            Drawer
-          </DrawerHeader>
-          <DrawerBody>
+                    {toast?.content}
+                  </Toast>
+                </ToastController>
+              </ToastTransition>
+            ))}
+          </TransitionGroup>
+        </CustomToastContainer>
+        <DrawerHeader>
+          Drawer
+        </DrawerHeader>
+        <DrawerBody>
+          <Box mb="8x">
             <Stack direction="column" spacing="4x">
               <Skeleton width={160} />
               <Skeleton width={240} />
               <Skeleton width={240} />
             </Stack>
-          </DrawerBody>
-          <DrawerFooter>
-            <Grid templateColumns="repeat(2, 1fr)" columnGap="2x">
-              <Button variant="primary">
-                OK
-              </Button>
-              <Button>
-                Cancel
-              </Button>
-            </Grid>
-          </DrawerFooter>
-        </DrawerContent>
-      </Flex>
-    </>
+          </Box>
+          <ButtonGroup
+            variant="secondary"
+            sx={{
+              '> *:not(:first-of-type)': {
+                marginLeft: -1
+              }
+            }}
+          >
+            <Button columnGap="2x" onClick={handleClickAddToastByAppearance('success')}>
+              <Icon icon="success" />
+              Success
+            </Button>
+            <Button columnGap="2x" onClick={handleClickAddToastByAppearance('info')}>
+              <Icon icon="info" />
+              Info
+            </Button>
+            <Button columnGap="2x" onClick={handleClickAddToastByAppearance('warning')}>
+              <Icon icon="warning-triangle" />
+              Warning
+            </Button>
+            <Button columnGap="2x" onClick={handleClickAddToastByAppearance('error')}>
+              <Icon icon="error" />
+              Error
+            </Button>
+          </ButtonGroup>
+        </DrawerBody>
+        <DrawerFooter>
+          <Grid templateColumns="repeat(2, 1fr)" columnGap="2x">
+            <Button variant="primary" onClick={onClose}>
+              OK
+            </Button>
+            <Button onClick={onClose}>
+              Cancel
+            </Button>
+          </Grid>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
-};
+});
+
+DrawerExample.displayName = 'DrawerExample';
+
+const CustomToastContainer = (props) => (
+  <Flex
+    flexDirection="column"
+    alignItems="center"
+    position="absolute"
+    top="12x"
+    left="50%"
+    transform="translateX(-50%)"
+    width="max-content"
+    maxWidth="80%" // up to 80% of the modal or drawer width
+    zIndex="toast"
+    {...props}
+  />
+);
 
 export default App;

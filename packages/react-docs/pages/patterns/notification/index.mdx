@@ -38,17 +38,16 @@ For more information, see [notification center guideline](https://www.figma.com/
 #### Product-level alert
 
 For product-level alerts, place an [alert](../components/alert) banner above the product name bar. The alert can be dismissed manually by the user or automatically by the system after the call to action is completed.
+
 An alert has the following types:
 * Error: Informs users that a problem has occurred, for example, license expiration, and requires users to take actions.
 * Warning: Informs users to prevent an imminent problem, for example, license about to expire.
 
-{render('./product-level-alert')}
+{render('./alert-solid')}
 
-{render('./product-level-multiple-alerts')}
+When multiple alerts are present, they are prioritized in the following order:
 
-Collapse rule:
-
-<Flex fontSize="sm" lineHeight="sm">
+<Flex fontSize="sm" lineHeight="sm" mb="6x">
   <Grid
     alignItems="center"
     columnGap="2x"
@@ -89,27 +88,26 @@ Collapse rule:
   </Grid>
 </Flex>
 
+{render('./product-alert')}
+
 #### In-app alert
 
 For alerts that are related to a screen or a feature only, show the alert banner in the associated screen or feature. The alert can be placed in different modules to fit different use cases. For example, place it in the upper part of a screen, a drawer, or a modal.
+
 An in-app alert has the following types:
 * Promotion: Used only when there is a solution or offering to promote.
 * Error: Informs users that a problem has occurred and requires users to take actions.
-* Warning:
-  - Informs users of a potential problem that may not require immediate actions.
-  - Informs users to prevent an imminent problem.
-* Information: Provides useful, relevant information to users.
+* Warning: Informs users of potential problems that may not require immediate action or to prevent an imminent problem
+* Info: Provides useful, relevant information to users.
+
+{render('./alert-outline')}
 
 {render('./in-app-alert')}
 
-<TextLabel>
-  Modal alert
-</TextLabel>
+#### Alert in modal and drawer
+
 {render('./modal-alert')}
 
-<TextLabel>
-  Drawer alert
-</TextLabel>
 {render('./drawer-alert')}
 
 ### Toast
@@ -118,11 +116,19 @@ An in-app alert has the following types:
 
 A toast can be classified into the following types:
 * Success: The toast will be automatically dismissed after 5 seconds.
-* Info/Error/Warning: The toast will remain visible until the user dismisses it.
+* Info/Warning/Error: The toast will remain visible until the user dismisses it.
+
+#### App toast
 
 {render('./app-toast')}
 
-In scenarios where there is limited space, like a modal or drawer, position the toast between the space title and the content. Once the limited space is closed, the toast will be automatically dismissed.
+#### Toast in modal and drawer
+
+In scenarios where there is limited space, such as within a modal or drawer, the toast should be positioned between the title and the content. When the limited space is closed, the toast will be automatically dismissed.
+
+In the examples below, the toast will be positioned 48 pixels from the top of the modal or drawer, and has a minimum width of 280 pixels. If the content of the toast message is wider than 280 pixels, the toast will expand to fit the content without exceeding 80% of the width of the modal or drawer in which it is being displayed.
+
+To animate the toast when it is displayed or dismissed, you can use the `ToastTransition` component. The `ToastController` component can also be used to control the duration for which the toast will be displayed before it is automatically dismissed. This allows you to set a specific amount of time for the toast to be visible, ensuring that it does not interrupt the user's workflow for too long.
 
 {render('./modal-toast')}
 
