@@ -404,74 +404,46 @@ function Example() {
 </Flex>
 ```
 
-### MenuButton
-
-`MenuButton` composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
-
-```jsx disabled
-const MenuButton = (props) => {
-  // Define custom styles for the menu button
-  const styleProps = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    columnGap: '1x',
-  };
-
-  return (
-    <MenuToggle>
-      {({ getMenuToggleProps }) => (
-        <Button
-          {...getMenuToggleProps()}
-          {...styleProps}
-          {...props}
-        >
-          {children && (
-            <Box>{children}</Box>
-          )}
-          <MenuToggleIcon />
-        </Button>
-      )}
-    </MenuToggle>
-  );
-};
-```
+Here is an example showcasing the combination of `MenuToggle`, `Popover`, and `Button` components.
 
 ```jsx
-<Flex columnGap="4x">
-  <Menu>
-    <MenuButton variant="secondary">
-      <Text>Options</Text>
-    </MenuButton>
-    <MenuList width="max-content">
-      <MenuItem>
-        List item 1
-      </MenuItem>
-      <MenuItem>
-        List item 2
-      </MenuItem>
-      <MenuItem>
-        List item 3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-  <Menu>
-    <MenuButton variant="ghost">
-      <Text>Options</Text>
-    </MenuButton>
-    <MenuList width="max-content">
-      <MenuItem>
-        List item 1
-      </MenuItem>
-      <MenuItem>
-        List item 2
-      </MenuItem>
-      <MenuItem>
-        List item 3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-</>
+<Menu>
+  <MenuToggle
+    disabled={true} // Use the `disabled` prop to control whether the button will be disabled
+  >
+    {({ getMenuToggleProps }) => (
+      <Popover
+        disabled={false} // Use the `disabled` prop to control whether the popover will be displayed
+        trigger="hover"
+      >
+        <PopoverTrigger shouldWrapChildren>
+          <Button
+            {...getMenuToggleProps()}
+            variant="secondary"
+            columnGap="1x"
+          >
+            <Text>Options</Text>
+            <MenuToggleIcon />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          Popover
+        </PopoverContent>
+      </Popover>
+    )}
+  </MenuToggle>
+  <MenuList width="max-content">
+    <MenuItem>
+      List item 1
+    </MenuItem>
+    <MenuItem>
+      List item 2
+    </MenuItem>
+    <MenuItem>
+      List item 3
+    </MenuItem>
+  </MenuList>
+</Menu>
 ```
 
 ### MenuToggleIcon
@@ -536,6 +508,58 @@ You can also customize the indicator by passing a component as children or a fun
       </>
     );
   }}
+</Menu>
+```
+
+### MenuButton
+
+`MenuButton` composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
+
+```jsx disabled
+const MenuButton = (props) => {
+  // Define custom styles for the menu button
+  const styleProps = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    columnGap: '1x',
+  };
+
+  return (
+    <MenuToggle>
+      {({ getMenuToggleProps }) => (
+        <Button
+          {...getMenuToggleProps()}
+          {...styleProps}
+          {...props}
+        >
+          {children && (
+            <Box>{children}</Box>
+          )}
+          <MenuToggleIcon />
+        </Button>
+      )}
+    </MenuToggle>
+  );
+};
+```
+
+```jsx
+<Menu>
+  <MenuButton variant="secondary">
+    <Text>Options</Text>
+  </MenuButton>
+  <MenuList width="max-content">
+    <MenuItem>
+      List item 1
+    </MenuItem>
+    <MenuItem>
+      List item 2
+    </MenuItem>
+    <MenuItem>
+      List item 3
+    </MenuItem>
+  </MenuList>
 </Menu>
 ```
 

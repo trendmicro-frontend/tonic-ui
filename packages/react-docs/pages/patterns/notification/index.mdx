@@ -1,0 +1,155 @@
+import { Alert, Box, Flex, Grid, Icon, Text, TextLabel } from '@tonic-ui/react';
+
+# Notification
+
+## Overview
+
+Notifications proactively provide short, timely, and relevant information about the product to help users notice important things and even take follow-up actions.
+
+There are various channels to notify users:
+
+* Notification center
+* Alert
+* Toast
+
+## How It Works
+
+### Notification center
+
+Product-level system notifications can be placed on the **Informative** tab of the notification center with the following types:
+* Success: Indicates that a system task is successfully executed.
+* Error: Indicates that a system error occurs and requires users to take actions.
+* Information: Indicates that a system change happens and might temporarily affect users, for example, system maintenance.
+* Attack related: Informs users of attack related information and leads users to learn about the impact.
+* New feature: Informs users of a new feature and leads users to learn more about the feature.
+
+{render('./notification-center')}
+
+Notifications about user-initiated system tasks that require some time to complete can be placed on the **Tasks** tab of the notification center. A notification is triggered when the task status changes.
+A task can have the following statuses:
+* Task successful: Informs users that a task is successfully executed. You can add a shortcut button to guide users to take follow-up actions. For example, adding a **Download** button when a file is ready to be exported.
+* Request pending: Informs users that a task requires manual approval.
+* Task unsuccessful: Informs users that a task fails to be executed and leads users to the corresponding screen to view an error message that explain the failure.
+
+For more information, see [notification center guideline](https://www.figma.com/file/Y1PF38zpyzA15XwBAdAb7f/Notification-Center?node-id=576%3A0&fuid=847002822432287235).
+
+### Alert
+
+#### Product-level alert
+
+For product-level alerts, place an [alert](../components/alert) banner above the product name bar. The alert can be dismissed manually by the user or automatically by the system after the call to action is completed.
+
+An alert has the following types:
+* Error: Informs users that a problem has occurred, for example, license expiration, and requires users to take actions.
+* Warning: Informs users to prevent an imminent problem, for example, license about to expire.
+
+{render('./alert-solid')}
+
+When multiple alerts are present, they are prioritized in the following order:
+
+<Flex fontSize="sm" lineHeight="sm" mb="6x">
+  <Grid
+    alignItems="center"
+    columnGap="2x"
+    templateColumns="repeat(4, 1fr auto)"
+  >
+    <Alert
+      severity="none"
+      variant="solid" 
+      icon={<Icon icon="light2-o" />}
+      sx={{
+        background: 'linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)',
+        color: 'white:primary',
+      }}
+    >
+      <Text>Promotion</Text>
+    </Alert>
+    <Icon icon="arrow-right" />
+    <Alert
+      severity="error"
+      variant="solid"
+    >
+      <Text>Error</Text>
+    </Alert>
+    <Icon icon="arrow-right" />
+    <Alert
+      severity="warning"
+      variant="solid"
+    >
+      <Text>Warning</Text>
+    </Alert>
+    <Icon icon="arrow-right" />
+    <Alert
+      severity="info"
+      variant="solid"
+    >
+      <Text>Info</Text>
+    </Alert>
+  </Grid>
+</Flex>
+
+{render('./product-alert')}
+
+#### In-app alert
+
+For alerts that are related to a screen or a feature only, show the alert banner in the associated screen or feature. The alert can be placed in different modules to fit different use cases. For example, place it in the upper part of a screen, a drawer, or a modal.
+
+An in-app alert has the following types:
+* Promotion: Used only when there is a solution or offering to promote.
+* Error: Informs users that a problem has occurred and requires users to take actions.
+* Warning: Informs users of potential problems that may not require immediate action or to prevent an imminent problem
+* Info: Provides useful, relevant information to users.
+
+{render('./alert-outline')}
+
+{render('./in-app-alert')}
+
+#### Alert in modal and drawer
+
+{render('./modal-alert')}
+
+{render('./drawer-alert')}
+
+### Toast
+
+[Toast](../components/toast) provides simple feedback for user-initiated actions or information that users need to complete the current task. Place a toast on the bottom right of a screen. Toasts can be chronologically piled up when there are multiple and pushed down when a previous toast is dismissed.
+
+A toast can be classified into the following types:
+* Success: The toast will be automatically dismissed after 5 seconds.
+* Info/Warning/Error: The toast will remain visible until the user dismisses it.
+
+#### App toast
+
+{render('./app-toast')}
+
+#### Toast in modal and drawer
+
+In scenarios where there is limited space, such as within a modal or drawer, the toast should be positioned between the title and the content. When the limited space is closed, the toast will be automatically dismissed.
+
+In the examples below, the toast will be positioned 48 pixels from the top of the modal or drawer, and has a minimum width of 280 pixels. If the content of the toast message is wider than 280 pixels, the toast will expand to fit the content without exceeding 80% of the width of the modal or drawer in which it is being displayed.
+
+To animate the toast when it is displayed or dismissed, you can use the `ToastTransition` component. The `ToastController` component can also be used to control the duration for which the toast will be displayed before it is automatically dismissed. This allows you to set a specific amount of time for the toast to be visible, ensuring that it does not interrupt the user's workflow for too long.
+
+{render('./modal-toast')}
+
+{render('./drawer-toast')}
+
+## See Also
+
+<Flex>
+  <Grid
+    templateColumns="1fr 1fr"
+    columnGap="18x"
+    rowGap="4x"
+  >
+    <TextLabel>React Components</TextLabel>
+    <TextLabel>Patterns</TextLabel>
+    <Box>
+      * [Modal](../components/modal)
+      * [Drawer](../components/drawer)
+    </Box>
+    <Box>
+      * [Error Handling](https://www.figma.com/file/N84ebgxXVKZTMVClV2x0VP/Pattern-guideline?node-id=820%3A26&t=azm7arGGygd4x13e-3&fuid=847002822432287235)
+    </Box>
+  </Grid>
+</Flex>
