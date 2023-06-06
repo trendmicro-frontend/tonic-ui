@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Divider should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  row-gap: var(--tonic-sizes-4x);
+}
+
+.emotion-2 {
+  border-top: var(--tonic-borders-1);
+  border-top-color: rgba(0, 0, 0, 0.12);
+  border-top-style: solid;
+}
+
+.emotion-4 {
+  border-top: var(--tonic-borders-1);
+  border-top-color: rgba(0, 0, 0, 0.12);
+  border-top-style: dashed;
+}
+
+.emotion-6 {
+  border-top: var(--tonic-borders-1);
+  border-top-color: rgba(0, 0, 0, 0.12);
+  border-top-style: dotted;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-column-gap: var(--tonic-sizes-4x);
+  column-gap: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+}
+
+.emotion-10 {
+  border-left: var(--tonic-borders-1);
+  border-left-color: rgba(0, 0, 0, 0.12);
+  border-left-style: solid;
+}
+
+.emotion-12 {
+  border-left: var(--tonic-borders-1);
+  border-left-color: rgba(0, 0, 0, 0.12);
+  border-left-style: dashed;
+}
+
+.emotion-14 {
+  border-left: var(--tonic-borders-1);
+  border-left-color: rgba(0, 0, 0, 0.12);
+  border-left-style: dotted;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    />
+    <div
+      class="emotion-4 emotion-1"
+    />
+    <div
+      class="emotion-6 emotion-1"
+    />
+  </div>
+  <div
+    class="emotion-8 emotion-1"
+  >
+    <div
+      class="emotion-10 emotion-1"
+    />
+    <div
+      class="emotion-12 emotion-1"
+    />
+    <div
+      class="emotion-14 emotion-1"
+    />
+  </div>
+</div>
+`;

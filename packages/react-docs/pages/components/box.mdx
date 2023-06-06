@@ -59,11 +59,6 @@ You can see the [Pseudo Styled Props](../styled-system/pseudo-style-props) page 
   display="inline-flex"
   px="3x"
   py="2x"
-  _focus={{
-    ':not(:active)': {
-      backgroundColor: 'blue:60',
-    },
-  }}
   _hover={{
     backgroundColor: 'blue:50',
   }}
@@ -71,7 +66,7 @@ You can see the [Pseudo Styled Props](../styled-system/pseudo-style-props) page 
     backgroundColor: 'blue:70',
   }}
 >
-  Primary Button
+  Button
 </Box>
 ```
 
@@ -82,18 +77,20 @@ You can see the [Pseudo Styled Props](../styled-system/pseudo-style-props) page 
   sx={{
     backgroundColor: 'red:60',
     color: 'white:primary',
-    '&:focus:not(:active)': {
-      backgroundColor: 'red:60',
+    _focus: {
+      ':not(:active)': { // or '&:focus:not(:active)'
+        backgroundColor: 'red:60',
+      },
     },
-    '&:hover': {
+    _hover: { // or '&:hover'
       backgroundColor: 'red:50',
     },
-    '&:active': {
+    _active: { // or '&:active'
       backgroundColor: 'red:70',
     },
   }}
 >
-  Emphasis Button
+  Button
 </Button>
 ```
 
