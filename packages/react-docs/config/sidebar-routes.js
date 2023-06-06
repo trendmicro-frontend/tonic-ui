@@ -44,6 +44,7 @@ export const routes = [
     routes: [
       { title: 'Overview', path: 'patterns' },
       { title: 'Notification', path: 'patterns/notification' },
+      { title: 'Table Display', path: 'patterns/table-display', },
     ],
   },
   {
