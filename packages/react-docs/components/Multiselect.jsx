@@ -26,6 +26,8 @@ const Multiselect = ({
   renderItem = noop,
   renderLabel = noop,
   value: valueProp,
+  variant = 'secondary',
+  width = 200,
 }) => {
   const searchInputRef = useRef();
   const [colorMode] = useColorMode();
@@ -73,6 +75,10 @@ const Multiselect = ({
     return normalizedItemString.includes(normalizedSearchString);
   });
 
+  const maxWidth = typeof width === 'number'
+    ? `calc(${width}px - 48px)`
+    : `calc(${width} - 48px)`;
+
   return (
     <Menu
       closeOnSelect={false}
@@ -88,11 +94,11 @@ const Multiselect = ({
       }}
     >
       <MenuButton
-        variant="secondary"
-        width={200}
+        variant={variant}
+        width={width}
       >
         <Flex
-          maxWidth={200 - 40}
+          maxWidth={maxWidth}
         >
           {renderLabel(value)}
         </Flex>

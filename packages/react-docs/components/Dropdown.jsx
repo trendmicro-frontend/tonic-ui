@@ -15,6 +15,8 @@ const Dropdown = ({
   renderItem = noop,
   renderLabel = noop,
   value: valueProp,
+  variant = 'secondary',
+  width = 200,
 }) => {
   const [value, setValue] = useState(valueProp ?? '');
 
@@ -40,14 +42,18 @@ const Dropdown = ({
     onChange(value);
   };
 
+  const maxWidth = typeof width === 'number'
+    ? `calc(${width}px - 48px)`
+    : `calc(${width} - 48px)`;
+
   return (
     <Menu>
       <MenuButton
-        variant="secondary"
-        width={200}
+        variant={variant}
+        width={width}
       >
         <Flex
-          maxWidth={200 - 40}
+          maxWidth={maxWidth}
         >
           {renderLabel(value)}
         </Flex>
