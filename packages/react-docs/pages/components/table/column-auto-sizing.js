@@ -96,7 +96,6 @@ const App = () => {
       theme.fontSizes.sm,
       theme.fonts.base,
     ].join(' '); // => '600 14px "Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif'
-    const getColumnHeaderTextWidth = (text) => getTextWidth(text, tableHeaderCellFont);
 
     // Fixed columns are columns with a fixed size (e.g. 100 or '10%')
     const fixedColumns = table.getAllColumns()
@@ -115,7 +114,9 @@ const App = () => {
 
         // If the column size is a percentage, return the computed size value
         if (typeof size === 'string' && size.endsWith('%')) {
-          const textWidth = getColumnHeaderTextWidth(columnDef.header);
+          const textWidth = (typeof columnDef.header === 'string')
+            ? getTextWidth(columnDef.header, tableHeaderCellFont)
+            : 0;
           const percentageWidth = tableWidth * parseFloat(size) / 100;
 
           return {
@@ -141,7 +142,9 @@ const App = () => {
       .map(column => {
         const { id, columnDef } = column;
         const { minSize } = columnDef;
-        const textWidth = getColumnHeaderTextWidth(columnDef.header);
+        const textWidth = (typeof columnDef.header === 'string')
+          ? getTextWidth(columnDef.header, tableHeaderCellFont)
+          : 0;
 
         return {
           id,

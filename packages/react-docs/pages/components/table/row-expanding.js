@@ -9,6 +9,7 @@ import {
   ButtonBase,
   Collapse,
   Flex,
+  Grid,
   Icon,
   Table,
   TableHeader,
@@ -17,6 +18,8 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Text,
+  TextLabel,
   Truncate,
   useColorMode,
 } from '@tonic-ui/react';
@@ -58,6 +61,59 @@ const App = () => {
       dark: 'gray:60',
       light: 'gray:30',
     }[colorMode];
+    const entries = Object.entries(row.original);
+    const renderValue = (value) => {
+      if (Array.isArray(value)) {
+        return value.map(item => <Text key={item}>{item}</Text>);
+      }
+
+      if (typeof value === 'boolean') {
+        return value.toString();
+      }
+
+      return value;
+    };
+
+    return (
+      <Flex
+        borderBottom={1}
+        borderBottomColor={tableBorderColor}
+      >
+        <Box width="12x" borderRight={2} borderRightColor={dividerColor} />
+        <Box as="pre" fontFamily="mono" m={0} px="3x" py="2x">
+          <Grid
+            templateColumns="auto auto"
+            columnGap="10x"
+            rowGap="1x"
+          >
+            {entries.map(([key, value]) => {
+              return (
+                <Fragment key={key}>
+                  <TextLabel>
+                    {key}
+                  </TextLabel>
+                  <Text>
+                    {renderValue(value)}
+                  </Text>
+                </Fragment>
+              );
+            })}
+          </Grid>
+        </Box>
+      </Flex>
+    );
+  };
+
+  /*
+  const renderExpandedRow = ({ row }) => {
+    const tableBorderColor = {
+      dark: 'gray:70',
+      light: 'gray:30',
+    }[colorMode];
+    const dividerColor = {
+      dark: 'gray:60',
+      light: 'gray:30',
+    }[colorMode];
 
     return (
       <Flex
@@ -71,6 +127,7 @@ const App = () => {
       </Flex>
     );
   };
+  */
 
   const columns = useMemo(() => [
     {
