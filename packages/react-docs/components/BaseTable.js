@@ -1,17 +1,13 @@
 import {
   flexRender,
   getCoreRowModel,
-  getExpandedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import {
   Box,
-  ButtonBase,
   Collapse,
-  Divider,
   Flex,
   Grid,
-  Icon,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -21,61 +17,35 @@ import {
   TableCell,
   Text,
   TextLabel,
-  Truncate,
   useColorMode,
-  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
-import {
-  createTransitionStyle,
-  dataAttr,
-  getEnterTransitionProps,
-  getExitTransitionProps,
-  transitionEasing,
-} from '@tonic-ui/utils';
-import React, { Fragment, forwardRef, useEffect, useMemo, useState } from 'react';
+import { dataAttr } from '@tonic-ui/utils';
+import React, { Fragment, forwardRef, useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-const data = [
-  {
-    endpointId: '0d4523d9-ceed-4a9a-b3d0-056814ee8811',
-    endpointHostname: 'endpoint-1',
-    endpointIp: ['fe80::c5a0:6dd9:1002:5760','10.1.136.130'],
-    endpointMacAddress: '00:50:56:9c:3c:5a',
-    eventId: 1,
-    eventSourceType: 1,
-    firstSeen: '2023-06-07T02:31:48Z',
-    lastSeen: '2023-06-07T02:31:48Z',
-    objectFirstSeen: '2023-06-07T02:27:34Z',
-    objectLastSeen: '2023-06-07T02:32:04Z',
-    objectIps: [
-      '192.8.82.3',
-      '199.7.83.46',
-      '192.113.5.32',
-    ],
-    osDescription: 'Windows 10 Enterprise (64-bit) build 19044',
-    osType: '0x00000007',
-    osVer: '10.0.19044',
-    processCmd: 'C:\\Windows\\System32\\svchost.exe -k NetworkService -p -s NlaSvc',
-    processFileCreation: '2023-06-05T10:07:28Z',
-    processFileHashMD5: 'b7f884c1b74a263f746ee12a5f7c9f6a',
-    processFileHashSHA1: '1bc5066ddf693fc034d6514618854e26a84fd0d1',
-    processFileHashSHA256: 'add683a6910abbbf0e28b557fad0ba998166394932ae2aca069d9aa19ea8fe88',
-    processFileModifiedTime: '2023-06-05T10:07:28Z',
-    processFileSize: 55320,
-    processLaunchTime: '2023-06-06T09:42:15Z',
-    processName: 'C:\\Windows\\System32\\svchost.exe',
-    processId: 1408,
-    processSigner: 'Microsoft Windows Publisher',
-    processSignerValid: true,
-    processUser: 'NETWORK SERVICE',
-    processUserDomain: 'NT AUTHORITY',
-    productCode: 'dummy',
-    productVersion: 'x.y.z',
-    sessionId: 0,
-    timezone: 'Pacific Standard Time',
-  },
-];
+/**
+ * Assign a value to a ref function or object.
+ *
+ * @param ref the ref to assign to
+ * @param value the value
+ */
+const assignRef = (ref, value) => {
+  if (ref === null || ref === undefined) {
+    return;
+  }
+
+  if (typeof ref === 'function') {
+    ref(value);
+    return;
+  }
+
+  try {
+    ref.current = value;
+  } catch (error) {
+    throw new Error(`Cannot assign value '${value}' to ref '${ref}'`);
+  }
+};
 
 /**
  * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
@@ -94,10 +64,23 @@ const getTextWidth = (text, font) => {
   return metrics.width || 0;
 };
 
-const App = () => {
-  const theme = useTheme();
+const BaseTable = forwardRef((
+  {
+    columns,
+    data,
+    layout = 'flexbox', // One of: 'flexbox', 'table'
+    variant = 'default', // One of: 'default', 'outline'
+
+    // TanStack Table
+    tableOptions,
+    tableRef,
+
+    ...rest
+  },
+  ref,
+) => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const theme = useTheme();
   const hoverBackgroundColor = {
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
@@ -106,7 +89,6 @@ const App = () => {
     dark: 'rgba(255, 255, 255, 0.08)',
     light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
-
   const renderExpandedRow = ({ row }) => {
     const tableBorderColor = {
       dark: 'gray:70',
@@ -159,89 +141,16 @@ const App = () => {
     );
   };
 
-  const columns = useMemo(() => [
-    {
-      id: 'expand',
-      header: () => null,
-      cell: ({ row }) => {
-        const canExpand = row.getCanExpand();
-        const isExpanded = row.getIsExpanded();
-
-        if (!canExpand) {
-          return null;
-        }
-
-        return (
-          <TableRowToggleIcon
-            isExpanded={isExpanded}
-            onClick={row.getToggleExpandedHandler()}
-          />
-        );
-      },
-      size: 48,
-    },
-    {
-      header: 'Logged',
-      accessorKey: 'firstSeen',
-      size: 180,
-      cell: ({ row }) => {
-        return (
-          <Truncate>
-            {row.original?.firstSeen}
-          </Truncate>
-        );
-      },
-    },
-    {
-      id: 'details',
-      cell: ({ row }) => {
-        const entries = Object.entries(row.original);
-
-        return (
-          <Truncate
-            as="pre"
-            fontFamily="mono"
-            m={0}
-            sx={{
-              '--truncate-line-clamp': 3,
-              wordBreak: 'break-all',
-              whiteSpace: 'normal',
-              display: '-webkit-box',
-              WebkitBoxOrient: 'vertical',
-              WebkitLineClamp: 'var(--truncate-line-clamp)',
-            }}
-          >
-            {entries.map((item, index) => {
-              const [key, value] = item;
-              return (
-                <Box
-                  key={key}
-                  display="inline"
-                >
-                  {key}: <Text display="inline" color={colorStyle.color.tertiary}>{Array.isArray(value) ? value.join(',') : value}</Text>
-                  {(index < entries.length - 1) && (
-                    <Divider display="inline" orientation="vertical" mx="2x" />
-                  )}
-                </Box>
-              );
-            })}
-          </Truncate>
-        );
-      },
-      size: 'auto',
-    },
-  ], []);
-
   const table = useReactTable({
     data,
     columns,
-    defaultColumn: {
-      minSize: 40,
-    },
-    getRowCanExpand: () => true,
     getCoreRowModel: getCoreRowModel(),
-    getExpandedRowModel: getExpandedRowModel(),
+    ...tableOptions,
   });
+
+  if (tableRef) {
+    assignRef(tableRef, table);
+  }
 
   const [tableWidth, setTableWidth] = useState(0);
 
@@ -324,7 +233,7 @@ const App = () => {
     if ((flexColumns.length === 0) && (extraSpaceLeft > 0)) {
       const extraSpacePerColumn = extraSpaceLeft / fixedColumns.length;
       fixedColumns.forEach(column => {
-        column.size = column.size + extraSpacePerColumn;
+        column.size += extraSpacePerColumn;
       });
       extraSpaceLeft = 0;
     }
@@ -342,7 +251,7 @@ const App = () => {
        *
        * Iteration #1:
        * > column.size = Math.max(250 / (2 - 1), 150) = Math.max(250, 150) = 250
-       * > extraSpaceLeft = 250 - 250 = 0                         
+       * > extraSpaceLeft = 250 - 250 = 0
        */
       flexColumns.forEach((column, index) => {
         column.size = Math.max(
@@ -367,16 +276,11 @@ const App = () => {
     table.setColumnSizing(columnSizing);
   }, [columns, table, tableWidth, theme]);
 
-  useEffect(() => {
-    // Toggles the expanded state for all rows
-    table.toggleAllRowsExpanded(true);
-  }, [table]);
-
-  const layout = 'flexbox'; // One of: 'flexbox', 'table'
-  const variant = 'default'; // One of: 'default', 'outline'
-
   return (
-    <Box>
+    <Flex
+      ref={ref}
+      {...rest}
+    >
       <AutoSizer
         disableHeight
         onResize={({ width }) => {
@@ -405,11 +309,10 @@ const App = () => {
                         key={header.id}
                         {...styleProps}
                       >
-                        {header.isPlaceholder ? null : (
-                          <Truncate>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                          </Truncate>
-                        )}
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())
+                        }
                       </TableHeaderCell>
                     );
                   })}
@@ -420,7 +323,7 @@ const App = () => {
               {table.getRowModel().rows.map(row => (
                 <Fragment key={row.id}>
                   <TableRow
-                    data-selected={dataAttr(row.getIsExpanded())}
+                    data-selected={dataAttr(row.getIsSelected())}
                     _hover={{
                       backgroundColor: hoverBackgroundColor,
                     }}
@@ -468,35 +371,10 @@ const App = () => {
           </Table>
         )}
       </AutoSizer>
-    </Box>
-  );
-};
-
-const TableRowToggleIcon = forwardRef((
-  {
-    isExpanded,
-    ...rest
-  },
-  ref,
-) => {
-  const timeout = isExpanded
-    ? Math.floor(133 * 0.7) // exit
-    : 133; // enter
-  const easing = transitionEasing.easeOut;
-  const transitionProps = isExpanded
-    ? getEnterTransitionProps({ timeout, easing })
-    : getExitTransitionProps({ timeout, easing });
-  const styleProps = {
-    transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
-    transition: createTransitionStyle('transform', transitionProps),
-  };
-
-  return (
-    <ButtonBase {...rest}>
-      <Icon icon="angle-right" size="4x" {...styleProps} />
-    </ButtonBase>
+    </Flex>
   );
 });
-TableRowToggleIcon.displayName = 'TableRowToggleIcon';
 
-export default App;
+BaseTable.displayName = 'BaseTable';
+
+export default BaseTable;

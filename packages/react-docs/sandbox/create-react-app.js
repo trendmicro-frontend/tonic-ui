@@ -9,6 +9,17 @@ export const getHtml = ({ language, title }) => `
   </body>
 </html>`.trim();
 
+export const getJSConfigJSON = () => `
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    }
+  }
+}
+`.trim();
+
 export const getRootIndex = () => `
 import { Global, css } from '@emotion/react';
 import {

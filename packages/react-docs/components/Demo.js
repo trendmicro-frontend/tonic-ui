@@ -26,7 +26,8 @@ const liveEditorStyle = {
 
 const Demo = ({
   component: Component,
-  code,
+  file,
+  sandbox,
 }) => {
   const router = useRouter();
   const [updateKey, forceUpdate] = useReducer((value) => !value, false);
@@ -40,13 +41,13 @@ const Demo = ({
     light: codeBlockLight,
   }[colorMode];
   const [showSourceCode, toggleShowSourceCode] = useToggle(false);
-  const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(code);
+  const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(file?.data);
   const handleClickCopySource = useCallback(() => {
     copySource();
   }, [copySource]);
   const handleClickEditInCodeSandbox = useCallback(() => {
-    openInCodeSandbox({ title: 'Tonic UI', code });
-  }, [code]);
+    openInCodeSandbox(sandbox);
+  }, [sandbox]);
   const reset = useCallback(() => {
     forceUpdate();
     toggleShowSourceCode(false);
@@ -54,7 +55,7 @@ const Demo = ({
     
   return (
     <LiveProvider
-      code={code}
+      code={file?.data}
       disabled={true}
       language="jsx"
       theme={liveProviderTheme}

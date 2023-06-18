@@ -3,8 +3,8 @@ import {
   TextLabel,
   Truncate,
 } from '@tonic-ui/react';
-import Multiselect from '@tonic-ui/react-docs/components/Multiselect';
 import React, { useState } from 'react';
+import Multiselect from '@/components/Multiselect';
 
 const policyData = {
   policies: [

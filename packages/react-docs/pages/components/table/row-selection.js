@@ -6,7 +6,6 @@ import {
 import {
   Box,
   Checkbox,
-  Flex,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -45,44 +44,61 @@ const App = () => {
 
   const columns = useMemo(() => [
     {
-      id: 'select',
+      id: 'selection',
       header: ({ table }) => (
-        <Flex height="100%" alignItems="center">
-          <Checkbox
-            checked={table.getIsAllRowsSelected()}
-            indeterminate={table.getIsSomeRowsSelected()}
-            onChange={table.getToggleAllRowsSelectedHandler()}
-          />
-        </Flex>
+        <Checkbox
+          checked={table.getIsAllRowsSelected()}
+          indeterminate={table.getIsSomeRowsSelected()}
+          onChange={table.getToggleAllRowsSelectedHandler()}
+        />
       ),
       cell: ({ row }) => (
-        <Flex height="100%" alignItems="center">
-          <Checkbox
-            checked={row.getIsSelected()}
-            disabled={!row.getCanSelect()}
-            indeterminate={row.getIsSomeSelected()}
-            onChange={row.getToggleSelectedHandler()}
-          />
-        </Flex>
+        <Checkbox
+          checked={row.getIsSelected()}
+          disabled={!row.getCanSelect()}
+          indeterminate={row.getIsSomeSelected()}
+          onChange={row.getToggleSelectedHandler()}
+        />
       ),
-      size: 40,
+      size: 48,
     },
     {
-      header: 'Event Type',
       accessorKey: 'eventType',
+      header: () => (
+        <Truncate>
+          Event Type
+        </Truncate>
+      ),
+      cell: ({ getValue }) => (
+        <Truncate>{getValue()}</Truncate>
+      ),
       size: 240,
     },
     {
-      header: 'Affected Devices',
       accessorKey: 'affectedDevices',
+      header: () => (
+        <Truncate>
+          Affected Devices
+        </Truncate>
+      ),
+      cell: ({ getValue }) => (
+        <Truncate>{getValue()}</Truncate>
+      ),
       size: 150,
       style: {
         textAlign: 'right',
       },
     },
     {
-      header: 'Detections',
       accessorKey: 'detections',
+      header: () => (
+        <Truncate>
+          Detections
+        </Truncate>
+      ),
+      cell: ({ getValue }) => (
+        <Truncate>{getValue()}</Truncate>
+      ),
       size: 150,
       style: {
         textAlign: 'right',
@@ -94,7 +110,7 @@ const App = () => {
     data,
     columns,
     defaultColumn: {
-      minSize: 40,
+      minSize: 48,
     },
     state: {
       rowSelection,
@@ -131,9 +147,7 @@ const App = () => {
                     {...styleProps}
                   >
                     {header.isPlaceholder ? null : (
-                      <Truncate>
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                      </Truncate>
+                      flexRender(header.column.columnDef.header, header.getContext())
                     )}
                   </TableHeaderCell>
                 );
@@ -164,9 +178,7 @@ const App = () => {
                     key={cell.id}
                     {...styleProps}
                   >
-                    <Truncate>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </Truncate>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 );
               })}

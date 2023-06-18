@@ -2,8 +2,8 @@ import {
   TextLabel,
   Truncate,
 } from '@tonic-ui/react';
-import Dropdown from '@tonic-ui/react-docs/components/Dropdown';
 import React, { useState } from 'react';
+import Dropdown from '@/components/Dropdown';
 
 const items = [
   'all',

@@ -9,6 +9,8 @@ Table display is used for presenting data in a structured manner and typically c
 * Data
 * Footer
 
+{render('./table-display')}
+
 ## How It Works
 
 ### Toolbar
@@ -24,13 +26,15 @@ In cases where the screen width is limited, the left-sided toolbar items can wra
 * Reset (optional)
 * Matched results (optional)
 
+{render('./table-toolbar')}
+
 When there are more than 5 filters, consider using an "Advanced filter" option. The filter options can be modified by clicking the corresponding icon. Stacked filter tags should be used when the screen width is limited.
 
 ### Data
 
 It is recommended to display all columns of the table. However, in certain scenarios, vertical scrolling may be necessary. For tables with rich data columns, you can utilize expandable table rows to accommodate the additional content.
 
-{render('./row-expanding')}
+{render('./expandable-table-rows')}
 
 ### Footer
 

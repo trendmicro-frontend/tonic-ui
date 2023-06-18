@@ -1,9 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import mdxPlugin from '@next/mdx';
-import { parse } from 'acorn-loose';
+import * as acorn from 'acorn';
 import dotenv from 'dotenv-flow';
+import { ensureString } from 'ensure-type';
 import { h } from 'hastscript';
+import { mdxJsx } from 'micromark-extension-mdx-jsx';
+import { fromMarkdown } from 'mdast-util-from-markdown';
+import { mdxJsxFromMarkdown } from 'mdast-util-mdx-jsx';
 import remarkEmoji from 'remark-emoji';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGFM from 'remark-gfm';
@@ -12,6 +16,123 @@ import remarkMdxCodeMeta from 'remark-mdx-code-meta';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import { visit } from 'unist-util-visit';
+
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+
+const mapMarkdownToSyntaxTree = (markdown) => {
+  const tree = fromMarkdown(markdown.trim(), {
+    // https://github.com/syntax-tree/mdast-util-from-markdown#options
+    extensions: [mdxJsx({
+      // https://github.com/micromark/micromark-extension-mdx-jsx#mdxjsxoptions
+      acorn,
+      addResult: true, // add `estree` fields to tokens with results from acorn
+    })],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  });
+  return tree;
+};
+
+/**
+ * Transforms
+ *
+ * ```
+ * import Component from '../../components/Component';
+ * ```
+ *
+ * into
+ *
+ * ```
+ * import Component from '@/components/Component';
+ * ```
+ */
+const transformRelativeImportsToAbsoluteImports = (content, options) => {
+  const {
+    rootdir,
+    filedir,
+  } = options;
+
+  const reImportStatement = /^import\s'([^']+)'|import\s[\s\S]*?\sfrom\s+'([^']+)'/gm;
+  const reRelativeImport = /(?<importPath>^\..*)/;
+
+  content = content.replaceAll(reImportStatement, (match, p1, p2) => {
+    const p = p2 ?? p1;
+    const relativeImportMatch = p.match(reRelativeImport);
+    if (relativeImportMatch) {
+      return match.replace(p, '@/' + path.relative(rootdir, path.resolve(filedir, relativeImportMatch.groups.importPath)));
+    }
+
+    return match;
+  });
+
+  return content;
+};
+
+// @ref: https://github.com/mui/material-ui/blob/master/docs/src/modules/sandbox/Dependencies.ts
+const extractLocalImportFiles = (content, options) => {
+  const files = {};
+
+  const reImportStatement = /^import\s'([^']+)'|import\s[\s\S]*?\sfrom\s+'([^']+)'/gm;
+  let r = null;
+
+  while ((r = reImportStatement.exec(content))) {
+    const fullName = ensureString(r[2] ?? r[1]);
+    const localImportMatch = fullName.match(/^@\/(?<importPath>.*)/);
+    if (localImportMatch !== null) {
+      const { rootdir } = options;
+
+      const filepath = (() => {
+        const importPath = localImportMatch.groups.importPath;
+        const isDirectory = fs.existsSync(path.resolve(rootdir, importPath)) && fs.lstatSync(path.resolve(rootdir, importPath)).isDirectory();
+        if (isDirectory) {
+          return path.resolve(rootdir, importPath, 'index.js');
+        }
+
+        if (path.extname(importPath) === '') {
+          return path.resolve(rootdir, importPath + '.js');
+        }
+
+        return path.resolve(rootdir, importPath);
+      })();
+      const filedir = path.dirname(filepath);
+
+      const file = path.relative(rootdir, filepath);
+      files[`src/${file}`] = transformRelativeImportsToAbsoluteImports(fs.readFileSync(filepath, 'utf8').trim(), { rootdir, filedir });
+      Object.assign(files, extractLocalImportFiles(files[`src/${file}`], { rootdir }));
+    }
+  }
+
+  return files;
+};
+
+const extractDependencies = (content, options) => {
+  const dependencies = {};
+  const versions = {
+    ...pkg.devDependencies,
+  };
+
+  const reImportStatement = /^import\s'([^']+)'|import\s[\s\S]*?\sfrom\s+'([^']+)'/gm;
+
+  let r = null;
+
+  while ((r = reImportStatement.exec(content))) {
+    const fullName = ensureString(r[2] ?? r[1]);
+
+    if (fullName.startsWith('@/')) {
+      // Ignore absolute imports
+      continue;
+    }
+
+    const name = fullName[0] === '@'
+      ? fullName.split('/', 2).join('/') // scoped package
+      : fullName.split('/', 1)[0];
+
+    if (!dependencies[name] && !name.startsWith('.')) {
+      dependencies[name] = versions[name] ?? 'latest';
+    }
+  }
+
+  return dependencies;
+};
 
 dotenv.config();
 
@@ -30,8 +151,9 @@ const withMDX = mdxPlugin({
       remarkImages,
       () => {
         return (tree, file) => {
-          const basedir = process.cwd();
-          const relativePath = path.relative(path.dirname(file.path), basedir);
+          const rootdir = process.cwd();
+          const filedir = path.dirname(file.path);
+
           let renderExpressionCount = 0;
 
           visit(tree, 'mdxFlowExpression', function (node, index) {
@@ -47,66 +169,91 @@ const withMDX = mdxPlugin({
              * ```mdx
              * import DemoComponent$1 from './MyComponent';
              *
-             * <Demo component={DemoComponent$1} />
+             * <Demo
+             *   component={DemoComponent$1}
+             *   file={{ data, path }}
+             *   sandbox={{ dependencies, files, raw, title }}
+             * />
              * ```
              */
-            const re = new RegExp(/\s*render\('(.*)'\)/);
+            const re = new RegExp(/render\(['"](.*)['"]\)/);
             const results = node.value.match(re);
             if (!results) {
               return;
             }
+
+            let newNode = null;
+
             const importName = `DemoComponent$${index}`;
             const importPath = results[1];
-            const newNode = {
+            newNode = {
               type: 'mdxjsEsm',
               value: `import ${importName} from '${importPath}'`,
             };
             newNode.data = {
-              estree: parse(newNode.value),
+              estree: acorn.parse(newNode.value, {
+                ecmaVersion: '2020',
+                sourceType: 'module',
+              }),
             };
             tree.children.unshift(newNode);
 
             renderExpressionCount++;
 
-            const filepath = path.resolve(path.dirname(file.path), importPath + '.js');
-            const code = fs.readFileSync(filepath, 'utf8').trim();
+            const data = fs.readFileSync(path.resolve(filedir, importPath + '.js'), 'utf8').trim();
+            const sandbox = {};
+            sandbox.raw = transformRelativeImportsToAbsoluteImports(data, { rootdir, filedir });
+            sandbox.files = extractLocalImportFiles(sandbox.raw, { rootdir });
+            sandbox.dependencies = [
+              sandbox.raw,
+              ...Object.values(sandbox.files)
+            ].reduce((acc, content) => {
+              return {
+                ...acc,
+                ...extractDependencies(content),
+              };
+            }, {});
+            sandbox.title = 'Tonic UI';
 
-            node.position = {};
-            node.value = undefined;
-            node.type = 'mdxJsxFlowElement';
-            node.name = 'Demo';
-            node.attributes = [
-              {
-                type: 'mdxJsxAttribute',
-                name: 'code',
-                value: code,
-              },
-              {
-                type: 'mdxJsxAttribute',
-                name: 'component',
-                value: {
-                  type: 'mdxJsxAttributeValueExpression',
-                  value: importName,
-                  data: {
-                    estree: parse(importName),
-                  },
-                },
-              },
-            ];
-            node.children = [];
-            node.data = {
-              _mdxExplicitJsx: true,
-            };
+            newNode = mapMarkdownToSyntaxTree(`
+              <Demo
+                component={${importName}}
+                file={{
+                  data: ${JSON.stringify(data)},
+                  path: ${JSON.stringify(path.relative(rootdir, file.path))},
+                }}
+                sandbox={{
+                  dependencies: ${JSON.stringify(sandbox.dependencies)},
+                  files: ${JSON.stringify(sandbox.files)},
+                  raw: ${JSON.stringify(sandbox.raw)},
+                  title: ${JSON.stringify(sandbox.title)},
+                }}
+              />
+            `).children[0];
+
+            Object.keys(node).forEach(key => {
+              node[key] = undefined;
+              delete node[key];
+            });
+
+            node.type = newNode.type;
+            node.name = newNode.name;
+            node.attributes = newNode.attributes;
+            node.children = newNode.children;
           });
 
           if (renderExpressionCount > 0) {
             // Insert `import Demo from '../../components/Demo';` to the top of the MDX document
+            const relativePath = path.relative(path.dirname(file.path), rootdir);
             const newNode = {
               type: 'mdxjsEsm',
               value: `import Demo from "${relativePath}/components/Demo";`,
             };
             newNode.data = {
-              estree: parse(newNode.value),
+              estree: acorn.parse(newNode.value, {
+                ecmaVersion: '2020',
+                sourceType: 'module',
+              }),
             };
             tree.children.unshift(newNode);
           }
