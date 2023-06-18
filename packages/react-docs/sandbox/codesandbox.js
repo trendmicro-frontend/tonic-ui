@@ -70,7 +70,7 @@ const open = (sandboxOptions) => {
   form.target = '_blank';               
   form.action = 'https://codesandbox.io/api/v1/sandboxes/define';
   addHiddenInput(form, 'parameters', parameters);
-  addHiddenInput(form, 'query', 'file=/app.js');
+  addHiddenInput(form, 'query', 'file=/src/app.js');
   document.body.appendChild(form);
   form.submit();
   document.body.removeChild(form);

@@ -156,14 +156,16 @@ const App = () => {
   }, []);
 
   return (
-    <BaseTable
-      layout={layout}
-      variant={variant}
-      columns={columns}
-      data={data}
-      tableOptions={tableOptions}
-      tableRef={tableRef}
-    />
+    <Box height={500}>
+      <BaseTable
+        layout={layout}
+        variant={variant}
+        columns={columns}
+        data={data}
+        tableOptions={tableOptions}
+        tableRef={tableRef}
+      />
+    </Box>
   );
 };
 

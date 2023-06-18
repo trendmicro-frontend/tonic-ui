@@ -1,20 +1,40 @@
 import {
+  getPaginationRowModel,
+} from '@tanstack/react-table';
+import {
   Box,
   Checkbox,
+  Flex,
   Truncate,
 } from '@tonic-ui/react';
-import React, { useMemo, useRef, useState } from 'react';
+import { ensureNumber } from 'ensure-type';
+import _ from 'lodash';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import BaseTable from '@/components/BaseTable';
+import TablePagination from '@/components/TablePagination';
 import TableToolbar from './table-toolbar';
 
-const data = [
-  { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
-  { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
-  { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
-  { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
-  { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
-  { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
+const threatTypes = [
+  'Virus/Malware',
+  'Spyware/Grayware',
+  'URL Filtering',
+  'Web Reputation',
+  'Network Virus',
+  'Application Control',
 ];
+
+const data = _.range(360).map((i) => {
+  // Randomly pick a subset of threat types
+  const detections = _.sampleSize(threatTypes, _.random(0, threatTypes.length));
+  // Generate a random date within the past 30 days
+  const lastSeen = new Date(Date.now() - _.random(0, 60 * 60 * 24 * 30 * 1000));
+  return {
+    id: i + 1,
+    endpoint: `Endpoint ${i + 1}`,
+    detections,
+    lastSeen,
+  };
+});
 
 const App = () => {
   const layout = 'flexbox'; // One of: 'flexbox', 'table'
@@ -40,31 +60,37 @@ const App = () => {
       size: 48,
     },
     {
-      accessorKey: 'eventType',
-      header: 'Event Type',
+      header: 'Endpoint',
       cell: ({ getValue }) => (
         <Truncate>{getValue()}</Truncate>
       ),
+      accessorKey: 'endpoint',
       size: 'auto',
     },
     {
-      accessorKey: 'affectedDevices',
-      header: 'Affected Devices',
-      size: 150,
-      style: {
-        textAlign: 'right',
+      header: 'Detections',
+      accessorKey: 'detections',
+      cell: ({ getValue }) => {
+        const detections = [...getValue()];
+        return detections.length;
       },
+      size: 150,
     },
     {
-      accessorKey: 'detections',
-      header: 'Detections',
-      size: 150,
-      style: {
-        textAlign: 'right',
+      header: 'Last Seen',
+      accessorKey: 'lastSeen',
+      cell: ({ getValue }) => {
+        return getValue().toISOString();
       },
+      size: 200,
     },
   ], []);
+
+  const tableRef = useRef();
+
   const [rowSelection, setRowSelection] = useState({});
+  const [totalCount, setTotalCount] = useState(data.length);
+
   const tableOptions = useMemo(() => ({
     defaultColumn: {
       minSize: 48,
@@ -72,18 +98,31 @@ const App = () => {
     state: {
       rowSelection,
     },
-    enableRowSelection: true, // enable row selection for all rows
-    //enableRowSelection: row => row.original.detections > 0, // or enable row selection conditionally per row
+
+    // Pagination
+    getPaginationRowModel: getPaginationRowModel(),
+
+    // Row selection
+    enableRowSelection: row => true, // enable row selection conditionally
     onRowSelectionChange: setRowSelection,
   }), [rowSelection]);
-  const tableRef = useRef();
+
+  useEffect(() => {
+    const table = tableRef.current;
+    setTotalCount(table ? table.getCoreRowModel().rows.length : 0);
+  }, [tableRef.current]);
+
+  const pageHeight = 600;
 
   return (
-    <>
-      <Box mb="2x">
+    <Flex
+      flexDirection="column"
+      height={pageHeight}
+    >
+      <Box flex="none" mb="2x">
         <TableToolbar />
       </Box>
-      <Box minHeight={500}>
+      <Box flex="auto">
         <BaseTable
           layout={layout}
           variant={variant}
@@ -93,7 +132,20 @@ const App = () => {
           tableRef={tableRef}
         />
       </Box>
-    </>
+      <Box flex="none">
+        <TablePagination
+          count={totalCount}
+          onPageChange={(nextPage) => {
+            const pageIndex = Math.max(ensureNumber(nextPage) - 1, 0);
+            tableRef.current.setPageIndex(pageIndex);
+          }}
+          onRowsPerPageChange={(nextRowsPerPage) => {
+            const pageSize = Math.max(ensureNumber(nextRowsPerPage), 1);
+            tableRef.current.setPageSize(pageSize);
+          }}
+        />
+      </Box>
+    </Flex>
   );
 };
 

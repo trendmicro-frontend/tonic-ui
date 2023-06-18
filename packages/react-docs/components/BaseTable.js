@@ -15,6 +15,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableScrollbar,
   Text,
   TextLabel,
   useColorMode,
@@ -62,6 +63,14 @@ const getTextWidth = (text, font) => {
   context.font = font;
   const metrics = context.measureText(text);
   return metrics.width || 0;
+};
+
+const ConditionalWrapper = ({
+  children,
+  condition,
+  wrapper,
+}) => {
+  return condition ? wrapper(children) : children;
 };
 
 const BaseTable = forwardRef((
@@ -277,23 +286,21 @@ const BaseTable = forwardRef((
   }, [columns, table, tableWidth, theme]);
 
   return (
-    <Flex
-      ref={ref}
-      {...rest}
+    <AutoSizer
+      onResize={({ width }) => {
+        if (tableWidth !== width) {
+          setTableWidth(width);
+        }
+      }}
     >
-      <AutoSizer
-        disableHeight
-        onResize={({ width }) => {
-          if (tableWidth !== width) {
-            setTableWidth(width);
-          }
-        }}
-      >
-        {({ width }) => (
+      {({ width, height }) => {
+        return (
           <Table
             layout={layout}
             variant={variant}
             width={width}
+            height={height}
+            {...rest}
           >
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
@@ -319,59 +326,71 @@ const BaseTable = forwardRef((
                 </TableHeaderRow>
               ))}
             </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.map(row => (
-                <Fragment key={row.id}>
-                  <TableRow
-                    data-selected={dataAttr(row.getIsSelected())}
-                    _hover={{
-                      backgroundColor: hoverBackgroundColor,
-                    }}
-                    _selected={{
-                      backgroundColor: selectedBackgroundColor,
-                    }}
-                  >
-                    {row.getVisibleCells().map(cell => {
-                      const styleProps = {
-                        minWidth: cell.column.columnDef.minSize,
-                        width: cell.column.getSize(),
-                        ...cell.column.columnDef.style,
-                      };
-                      return (
-                        <TableCell
-                          key={cell.id}
-                          {...styleProps}
-                        >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                  {(row.getCanExpand() && layout === 'flexbox') && (
-                    <Collapse in={row.getIsExpanded()}>
-                      {renderExpandedRow({ row })}
-                    </Collapse>
-                  )}
-                  {(row.getCanExpand() && layout === 'table') && (
-                    <TableRow>
-                      <TableCell
-                        padding={0}
-                        borderBottom={0}
-                        colSpan={row.getVisibleCells().length}
-                      >
-                        <Collapse in={row.getIsExpanded()}>
-                          {renderExpandedRow({ row })}
-                        </Collapse>
-                      </TableCell>
+            <ConditionalWrapper
+              condition={layout === 'flexbox'}
+              wrapper={children => (
+                <TableScrollbar
+                  height="100%"
+                  overflow="visible" // Make the scrollbar visible
+                >
+                  {children}
+                </TableScrollbar>
+              )}
+            >
+              <TableBody>
+                {table.getRowModel().rows.map(row => (
+                  <Fragment key={row.id}>
+                    <TableRow
+                      data-selected={dataAttr(row.getIsSelected())}
+                      _hover={{
+                        backgroundColor: hoverBackgroundColor,
+                      }}
+                      _selected={{
+                        backgroundColor: selectedBackgroundColor,
+                      }}
+                    >
+                      {row.getVisibleCells().map(cell => {
+                        const styleProps = {
+                          minWidth: cell.column.columnDef.minSize,
+                          width: cell.column.getSize(),
+                          ...cell.column.columnDef.style,
+                        };
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            {...styleProps}
+                          >
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </TableCell>
+                        );
+                      })}
                     </TableRow>
-                  )}
-                </Fragment>
-              ))}
-            </TableBody>
+                    {(row.getCanExpand() && layout === 'flexbox') && (
+                      <Collapse in={row.getIsExpanded()}>
+                        {renderExpandedRow({ row })}
+                      </Collapse>
+                    )}
+                    {(row.getCanExpand() && layout === 'table') && (
+                      <TableRow>
+                        <TableCell
+                          padding={0}
+                          borderBottom={0}
+                          colSpan={row.getVisibleCells().length}
+                        >
+                          <Collapse in={row.getIsExpanded()}>
+                            {renderExpandedRow({ row })}
+                          </Collapse>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </Fragment>
+                ))}
+              </TableBody>
+            </ConditionalWrapper>
           </Table>
-        )}
-      </AutoSizer>
-    </Flex>
+        );
+      }}
+    </AutoSizer>
   );
 });
 
