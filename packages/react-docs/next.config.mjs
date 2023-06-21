@@ -86,11 +86,9 @@ const extractLocalImportFiles = (content, options) => {
         if (isDirectory) {
           return path.resolve(rootdir, importPath, 'index.js');
         }
-
         if (path.extname(importPath) === '') {
           return path.resolve(rootdir, importPath + '.js');
         }
-
         return path.resolve(rootdir, importPath);
       })();
       const filedir = path.dirname(filepath);
@@ -200,7 +198,18 @@ const withMDX = mdxPlugin({
 
             renderExpressionCount++;
 
-            const data = fs.readFileSync(path.resolve(filedir, importPath + '.js'), 'utf8').trim();
+            const filepath = (() => {
+              const isDirectory = fs.existsSync(path.resolve(filedir, importPath)) && fs.lstatSync(path.resolve(filedir, importPath)).isDirectory();
+              if (isDirectory) {
+                return path.resolve(filedir, importPath, 'index.js');
+              }
+              if (path.extname(importPath) === '') {
+                return path.resolve(filedir, importPath + '.js');
+              }
+              return path.resolve(filedir, importPath);
+            })();
+
+            const data = fs.readFileSync(filepath, 'utf8').trim();
             const sandbox = {};
             sandbox.raw = transformRelativeImportsToAbsoluteImports(data, { rootdir, filedir });
             sandbox.files = extractLocalImportFiles(sandbox.raw, { rootdir });
@@ -244,10 +253,10 @@ const withMDX = mdxPlugin({
 
           if (renderExpressionCount > 0) {
             // Insert `import Demo from '../../components/Demo';` to the top of the MDX document
-            const relativePath = path.relative(path.dirname(file.path), rootdir);
+            //const relativePath = path.relative(path.dirname(file.path), rootdir);
             const newNode = {
               type: 'mdxjsEsm',
-              value: `import Demo from "${relativePath}/components/Demo";`,
+              value: `import Demo from "@/components/Demo";`,
             };
             newNode.data = {
               estree: acorn.parse(newNode.value, {

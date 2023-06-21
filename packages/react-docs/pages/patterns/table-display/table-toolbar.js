@@ -3,16 +3,19 @@ import {
   Divider,
   Flex,
   Icon,
-  LinkButton,
+  MenuButton,
   OverflowTooltip,
   SearchInput,
   Text,
   TextLabel,
   Tooltip,
+  useColorStyle,
 } from '@tonic-ui/react';
 import React, { useCallback, useState } from 'react';
 import Dropdown from '@/components/Dropdown';
 import Multiselect from '@/components/Multiselect';
+import Toolbar from '@/components/Toolbar';
+import ToolbarItem from '@/components/ToolbarItem';
 
 const filterMap = (() => {
   const filterData = [
@@ -34,7 +37,7 @@ const filterMap = (() => {
 
 const filterItems = [...filterMap.keys()];
 
-const dropdownItems = [
+const dropdownOptions = [
   ...filterItems.slice(0, 4),
 ];
 
@@ -42,13 +45,13 @@ const multiselectItems = [
   ...filterItems.slice(1),
 ];
 
-const renderDropdownItem = (value) => {
+const renderDropdownOption = (value) => {
   const filter = filterMap.get(value);
   return filter?.label;
 };
 
 const renderDropdownLabel = (value) => {
-  const selectionText = renderDropdownItem(value);
+  const selectionText = renderDropdownOption(value);
   return (
     <>
       <TextLabel mr="2x">
@@ -61,7 +64,7 @@ const renderDropdownLabel = (value) => {
   );
 };
 
-const renderMultiselectItem = (value) => {
+const renderMultiselectOption = (value) => {
   const filter = filterMap.get(value);
   return filter?.label;
 };
@@ -99,7 +102,7 @@ const renderMultiselectLabel = (value) => {
     );
   }
 
-  const selectionText = value.map(renderMultiselectItem).join(', ');
+  const selectionText = value.map(renderMultiselectOption).join(', ');
   return (
     <>
       <TextLabel mr="2x">
@@ -116,29 +119,26 @@ const renderMultiselectLabel = (value) => {
 };
 
 const App = () => {
-  const [dropdownValue, setDropdownValue] = useState(dropdownItems[0]);
+  const [colorStyle] = useColorStyle();
+  const [dropdownValue, setDropdownValue] = useState(dropdownOptions[0]);
   const [multiselectValue, setMultiselectValue] = useState(multiselectItems);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [matchedResults] = useState(0);
 
-  const reset = useCallback(() => {
-    setDropdownValue(dropdownItems[0]);
+  const clearFilters = useCallback(() => {
+    setDropdownValue(dropdownOptions[0]);
     setMultiselectValue(multiselectItems);
     setSearchInputValue('');
   }, []);
 
+  const menuButtonWidth = 200;
+  const maxMenuButtonWidth = typeof menuButtonWidth === 'number'
+    ? `calc(${menuButtonWidth}px - 48px)`
+    : `calc(${menuButtonWidth} - 48px)`;
+
   return (
-    <Flex
-      alignItems="flex-start"
-      justifyContent="space-between"
-      columnGap="10x"
-    >
-      <Flex
-        flexWrap="wrap"
-        alignItems="center"
-        columnGap="2x"
-        rowGap="3x"
-      >
+    <Toolbar>
+      <ToolbarItem flexWrap="wrap">
         <Button variant="primary">
           Primary Action
         </Button>
@@ -146,19 +146,34 @@ const App = () => {
         <Dropdown
           value={dropdownValue}
           onChange={setDropdownValue}
-          items={dropdownItems}
-          renderItem={renderDropdownItem}
-          renderLabel={renderDropdownLabel}
-        />
+          options={dropdownOptions}
+          renderOption={renderDropdownOption}
+        >
+          <MenuButton
+            variant="secondary"
+            width={menuButtonWidth}
+          >
+            <Flex maxWidth={maxMenuButtonWidth}>
+              {renderDropdownLabel(dropdownValue)}
+            </Flex>
+          </MenuButton>
+        </Dropdown>
         <Multiselect
           isSearchable={true}
           value={multiselectValue}
           onChange={setMultiselectValue}
-          items={multiselectItems}
-          renderItem={renderMultiselectItem}
-          renderLabel={renderMultiselectLabel}
-          width={240}
-        />
+          options={multiselectItems}
+          renderOption={renderMultiselectOption}
+        >
+          <MenuButton
+            variant="secondary"
+            width={menuButtonWidth}
+          >
+            <Flex maxWidth={maxMenuButtonWidth}>
+              {renderMultiselectLabel(multiselectValue)}
+            </Flex>
+          </MenuButton>
+        </Multiselect>
         <SearchInput
           placeholder="Search"
           onChange={(event) => {
@@ -170,26 +185,28 @@ const App = () => {
           }}
           value={searchInputValue}
         />
-        <LinkButton
-          columnGap="1x"
-          mr="3x"
-          onClick={() => reset()}
+        <Button
+          variant="ghost"
+          onClick={() => clearFilters()}
+          sx={{
+            color: colorStyle.color.info,
+            _focus: {
+              color: colorStyle.color.info,
+            },
+            columnGap: '1x',
+            mr: '3x',
+          }}
         >
-          <Icon icon="close-s" /> <Text>Reset</Text>
-        </LinkButton>
+          <Icon icon="close-s" /> <Text>Clear</Text>
+        </Button>
         <Flex columnGap="1x">
           <TextLabel>
             Matched results:
           </TextLabel>
           {matchedResults}
         </Flex>
-      </Flex>
-      <Flex
-        flexWrap="nowrap"
-        alignItems="center"
-        columnGap="2x"
-        rowGap="3x"
-      >
+      </ToolbarItem>
+      <ToolbarItem flexWrap="nowrap">
         <Tooltip label="Export">
           <Button variant="ghost">
             <Icon icon="export" />
@@ -200,8 +217,8 @@ const App = () => {
             <Icon icon="refresh" />
           </Button>
         </Tooltip>
-      </Flex>
-    </Flex>
+      </ToolbarItem>
+    </Toolbar>
   );
 };
 

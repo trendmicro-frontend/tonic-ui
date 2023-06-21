@@ -1,23 +1,25 @@
 import {
-  Flex,
   Menu,
-  MenuButton,
+  MenuToggle,
   MenuItem,
   MenuList,
 } from '@tonic-ui/react';
 import { noop } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 
-const Dropdown = ({
-  items = [],
-  onChange: onChangeProp,
-  renderItem = noop,
-  renderLabel = noop,
-  value: valueProp,
-  variant = 'secondary',
-  width = 200,
-}) => {
+const Dropdown = forwardRef((
+  {
+    children,
+    highlightSelectedOption = false,
+    options = [],
+    onChange: onChangeProp,
+    renderOption = noop,
+    value: valueProp,
+    ...rest
+  },
+  ref,
+) => {
   const [value, setValue] = useState(valueProp ?? '');
 
   useEffect(() => {
@@ -27,51 +29,48 @@ const Dropdown = ({
     }
   }, [valueProp]);
 
-  const onChange = useCallback(
-    (nextValue) => {
-      const isControlled = valueProp !== undefined;
-      if (!isControlled) {
-        setValue(nextValue);
-      }
-      ensureFunction(onChangeProp)(nextValue);
-    },
-    [onChangeProp, valueProp]
-  );
+  const onChange = useCallback((nextValue) => {
+    const isControlled = valueProp !== undefined;
+    if (!isControlled) {
+      setValue(nextValue);
+    }
+    ensureFunction(onChangeProp)(nextValue);
+  }, [valueProp, onChangeProp]);
 
   const handleClickMenuItemBy = (value) => (event) => {
     onChange(value);
   };
 
-  const maxWidth = typeof width === 'number'
-    ? `calc(${width}px - 48px)`
-    : `calc(${width} - 48px)`;
-
   return (
-    <Menu>
-      <MenuButton
-        variant={variant}
-        width={width}
-      >
-        <Flex
-          maxWidth={maxWidth}
-        >
-          {renderLabel(value)}
-        </Flex>
-      </MenuButton>
+    <Menu
+      ref={ref}
+      {...rest}
+    >
+      <MenuToggle>
+        {children}
+      </MenuToggle>
       <MenuList
-        width="100%"
+        width="max-content"
       >
-        {items.map((x) => (
-          <MenuItem
-            key={x}
-            onClick={handleClickMenuItemBy(x)}
-          >
-            {renderItem(x)}
-          </MenuItem>
-        ))}
+        {options.map((option) => {
+          const key = option;
+          const isSelected = (value === option);
+
+          return (
+            <MenuItem
+              data-selected={highlightSelectedOption ? isSelected : undefined}
+              key={key}
+              onClick={handleClickMenuItemBy(option)}
+            >
+              {renderOption(option)}
+            </MenuItem>
+          );
+        })}
       </MenuList>
     </Menu>
   );
-};
+});
+
+Dropdown.displayName = 'Dropdown';
 
 export default Dropdown;

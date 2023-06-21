@@ -1,17 +1,19 @@
 import {
+  Flex,
+  MenuButton,
+  OverflowTooltip,
   TextLabel,
-  Truncate,
 } from '@tonic-ui/react';
 import React, { useState } from 'react';
 import Dropdown from '@/components/Dropdown';
 
-const items = [
+const options = [
   'all',
   'network-events',
   'system-events',
 ];
 
-const renderItem = (value) => {
+const renderOption = (value) => {
   return {
     'all': 'All',
     'network-events': 'Network events',
@@ -20,30 +22,49 @@ const renderItem = (value) => {
 };
 
 const renderLabel = (value) => {
-  const selectionText = renderItem(value);
+  const selectionText = renderOption(value);
+
   return (
     <>
       <TextLabel mr="2x">
         {'Event status:'}
       </TextLabel>
-      <Truncate title={selectionText}>
+      <OverflowTooltip
+        PopperProps={{ usePortal: true }}
+        label={selectionText}
+      >
         {selectionText}
-      </Truncate>
+      </OverflowTooltip>
     </>
   );
 };
 
 const App = () => {
   const [value, setValue] = useState('all');
+  const width = 200;
+  const maxWidth = typeof width === 'number'
+    ? `calc(${width}px - 48px)`
+    : `calc(${width} - 48px)`;
 
   return (
     <Dropdown
       value={value}
-      onChange={setValue}
-      items={items}
-      renderItem={renderItem}
-      renderLabel={renderLabel}
-    />
+      onChange={(value) => {
+        console.log('## change:', value);
+        setValue(value);
+      }}
+      options={options}
+      renderOption={renderOption}
+    >
+      <MenuButton
+        variant="secondary"
+        width={width}
+      >
+        <Flex maxWidth={maxWidth}>
+          {renderLabel(value)}
+        </Flex>
+      </MenuButton>
+    </Dropdown>
   );
 };
 

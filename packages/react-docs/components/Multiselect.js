@@ -2,10 +2,9 @@ import {
   Box,
   Checkbox,
   CheckboxGroup,
-  Flex,
   LinkButton,
   Menu,
-  MenuButton,
+  MenuToggle,
   MenuItem,
   MenuList,
   Scrollbar,
@@ -16,19 +15,23 @@ import {
 } from '@tonic-ui/react';
 import { noop } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction, ensureString } from 'ensure-type';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import Highlight from 'react-highlight-words';
 
-const Multiselect = ({
-  isSearchable = false,
-  items = [],
-  onChange: onChangeProp,
-  renderItem = noop,
-  renderLabel = noop,
-  value: valueProp,
-  variant = 'secondary',
-  width = 200,
-}) => {
+const Multiselect = forwardRef((
+  {
+    children,
+    highlightSelectedOption = false,
+    isSearchable = false,
+    options = [],
+    onChange: onChangeProp,
+    renderOption = noop,
+    shouldSelectAllIfNoneSelected = false,
+    value: valueProp,
+    ...rest
+  },
+  ref,
+) => {
   const searchInputRef = useRef();
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
@@ -47,10 +50,10 @@ const Multiselect = ({
     setValue(nextValue);
   }, []);
 
-  const isAllSelected = value.length === items.length;
+  const isAllSelected = value.length === options.length;
   const isNoneSelected = value.length === 0;
   const handleClickToggle = (event) => {
-    const nextValue = isAllSelected ? [] : items;
+    const nextValue = isAllSelected ? [] : options;
     setValue(nextValue);
   };
   const handleKeyDown = (event) => {
@@ -67,44 +70,35 @@ const Multiselect = ({
   }
 
   const normalizedSearchString = ensureString(searchString).trim().toLowerCase();
-  const filteredItems = items.filter(item => {
+  const filteredOptions = options.filter(option => {
     if (!normalizedSearchString) {
       return true;
     }
-    const normalizedItemString = renderItem(item).trim().toLowerCase();
+    const normalizedItemString = renderOption(option).trim().toLowerCase();
     return normalizedItemString.includes(normalizedSearchString);
   });
 
-  const maxWidth = typeof width === 'number'
-    ? `calc(${width}px - 48px)`
-    : `calc(${width} - 48px)`;
-
   return (
     <Menu
+      ref={ref}
       closeOnSelect={false}
       defaultActiveIndex={0}
       onClose={() => {
-        if (isNoneSelected) {
+        if (isNoneSelected && shouldSelectAllIfNoneSelected) {
           // Automatically reset all the options when the menu loses focus
-          setValue(items);
-          ensureFunction(onChangeProp)(items);
+          setValue(options);
+          ensureFunction(onChangeProp)(options);
         } else {
           ensureFunction(onChangeProp)(value);
         }
       }}
+      {...rest}
     >
-      <MenuButton
-        variant={variant}
-        width={width}
-      >
-        <Flex
-          maxWidth={maxWidth}
-        >
-          {renderLabel(value)}
-        </Flex>
-      </MenuButton>
+      <MenuToggle>
+        {children}
+      </MenuToggle>
       <MenuList
-        width="100%"
+        width="max-content"
       >
         {isSearchable && (
           <Box
@@ -169,31 +163,39 @@ const Multiselect = ({
             maxHeight={250}
             overflowY="auto"
           >
-            {filteredItems.map((x) => (
-              <MenuItem
-                key={x}
-                onKeyDown={handleKeyDown}
-              >
-                <Checkbox
-                  value={x}
-                  width="100%" // Fill the entire width of the menu item to make it easier to click
+            {filteredOptions.map((option) => {
+              const key = option;
+              const isSelected = value.includes(option);
+
+              return (
+                <MenuItem
+                  data-selected={highlightSelectedOption ? isSelected : undefined}
+                  key={key}
+                  onKeyDown={handleKeyDown}
                 >
-                  <Highlight
-                    searchWords={[normalizedSearchString]}
-                    textToHighlight={renderItem(x)}
-                    highlightStyle={{
-                      backgroundColor: colors[colorStyle.text.highlight],
-                      color: colors['gray:100'],
-                    }}
-                  />
-                </Checkbox>
-              </MenuItem>
-            ))}
+                  <Checkbox
+                    value={option}
+                    width="100%" // Fill the entire width of the menu item to make it easier to click
+                  >
+                    <Highlight
+                      searchWords={[normalizedSearchString]}
+                      textToHighlight={renderOption(option)}
+                      highlightStyle={{
+                        backgroundColor: colors[colorStyle.text.highlight],
+                        color: colors['gray:100'],
+                      }}
+                    />
+                  </Checkbox>
+                </MenuItem>
+              );
+            })}
           </Scrollbar>
         </CheckboxGroup>
       </MenuList>
     </Menu>
   );
-};
+});
+
+Multiselect.displayName = 'Multiselect';
 
 export default Multiselect;

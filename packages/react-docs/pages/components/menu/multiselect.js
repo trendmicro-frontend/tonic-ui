@@ -1,7 +1,9 @@
 import {
+  Flex,
+  MenuButton,
+  OverflowTooltip,
   Text,
   TextLabel,
-  Truncate,
 } from '@tonic-ui/react';
 import React, { useState } from 'react';
 import Multiselect from '@/components/Multiselect';
@@ -26,9 +28,9 @@ const policyMap = (() => {
   return map;
 })();
 
-const items = [...policyMap.keys()];
+const options = [...policyMap.keys()];
 
-const renderItem = (value) => {
+const renderOption = (value) => {
   const policy = policyMap.get(value);
   return policy?.description;
 };
@@ -36,7 +38,7 @@ const renderItem = (value) => {
 const renderLabel = (value) => {
   const selectionCount = value.length;
   const isNoneSelected = selectionCount === 0;
-  const isAllSelected = selectionCount === items.length;
+  const isAllSelected = selectionCount === options.length;
 
   if (isNoneSelected) {
     const selectionText = 'Select';
@@ -45,9 +47,12 @@ const renderLabel = (value) => {
         <TextLabel mr="2x">
           {'Policy:'}
         </TextLabel>
-        <Truncate title={selectionText}>
+        <OverflowTooltip
+          PopperProps={{ usePortal: true }}
+          label={selectionText}
+        >
           {selectionText}
-        </Truncate>
+        </OverflowTooltip>
       </>
     );
   }
@@ -59,22 +64,28 @@ const renderLabel = (value) => {
         <TextLabel mr="2x">
           {'Policy:'}
         </TextLabel>
-        <Truncate title={selectionText}>
+        <OverflowTooltip
+          PopperProps={{ usePortal: true }}
+          label={selectionText}
+        >
           {selectionText}
-        </Truncate>
+        </OverflowTooltip>
       </>
     );
   }
 
-  const selectionText = value.map(renderItem).join(', ');
+  const selectionText = value.map(renderOption).join(', ');
   return (
     <>
       <TextLabel mr="2x">
         {'Policy:'}
       </TextLabel>
-      <Truncate title={selectionText}>
+      <OverflowTooltip
+        PopperProps={{ usePortal: true }}
+        label={selectionText}
+      >
         {selectionText}
-      </Truncate>
+      </OverflowTooltip>
       <Text ml="1x">
         {`(${selectionCount})`}
       </Text>
@@ -83,17 +94,30 @@ const renderLabel = (value) => {
 };
 
 const App = () => {
-  const [value, setValue] = useState(items);
+  const [value, setValue] = useState(options);
+  const width = 200;
+  const maxWidth = typeof width === 'number'
+    ? `calc(${width}px - 48px)`
+    : `calc(${width} - 48px)`;
 
   return (
     <Multiselect
       isSearchable={true}
       value={value}
       onChange={setValue}
-      items={items}
-      renderItem={renderItem}
-      renderLabel={renderLabel}
-    />
+      options={options}
+      renderOption={renderOption}
+      shouldSelectAllIfNoneSelected={true}
+    >
+      <MenuButton
+        variant="secondary"
+        width={width}
+      >
+        <Flex maxWidth={maxWidth}>
+          {renderLabel(value)}
+        </Flex>
+      </MenuButton>
+    </Multiselect>
   );
 };
 
