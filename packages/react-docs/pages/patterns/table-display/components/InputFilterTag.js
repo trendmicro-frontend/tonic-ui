@@ -15,7 +15,7 @@ import {
 } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import FilterTag from './FilterTag';
-import React, { forwardRef, useCallback, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 
 const InputFilterTag = forwardRef((
   {
@@ -48,10 +48,23 @@ const InputFilterTag = forwardRef((
     }
   }, [inputValue, onChangeProp]);
 
+  useEffect(() => {
+    // Ensure the input field is focused when it is displayed
+    const timeoutId = setTimeout(() => {
+      const el = inputRef.current;
+      el && el.focus();
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
   return (
     <Popover
       arrow={false}
       defaultIsOpen={!valueProp}
+      initialFocusRef={inputRef}
       offset={[0, 4]}
       onClose={() => {
         // Handle the case when the user never clicked the apply button
@@ -69,7 +82,9 @@ const InputFilterTag = forwardRef((
       }}
       returnFocusOnClose={false}
     >
-      <PopoverTrigger shouldWrapChildren>
+      <PopoverTrigger
+        shouldWrapChildren
+      >
         <FilterTag
           onClose={(event) => {
             event.stopPropagation();
@@ -86,7 +101,11 @@ const InputFilterTag = forwardRef((
           </Flex>
         </FilterTag>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent
+        PopperProps={{
+          usePortal: true,
+        }}
+      >
         <Box mb="2x">
           <Input
             {...inputProps}
