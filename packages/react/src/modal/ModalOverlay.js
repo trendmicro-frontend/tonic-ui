@@ -35,7 +35,7 @@ const ModalOverlay = forwardRef((
   };
 
   useEffect(() => {
-    const updateVerticalAlignment = () => {
+    const update = () => {
       const el = overlayRef?.current;
       if (!el) {
         return;
@@ -59,27 +59,29 @@ const ModalOverlay = forwardRef((
       }
     };
 
-    updateVerticalAlignment();
+    update();
 
-    const observer = (() => {
-      if (!(window?.ResizeObserver)) {
-        return null;
-      }
+    let resizeObserver = null;
 
-      return new ResizeObserver(() => {
-        updateVerticalAlignment();
+    const ResizeObserver = globalThis.ResizeObserver;
+
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver((entries) => {
+        update();
       });
-    })();
 
-    if (containerRef.current) {
-      observer?.observe(containerRef.current);
-    }
-    if (contentRef.current) {
-      observer?.observe(contentRef.current);
+      if (containerRef.current) {
+        resizeObserver.observe(containerRef.current);
+      }
+      if (contentRef.current) {
+        resizeObserver.observe(contentRef.current);
+      }
     }
 
     return () => {
-      observer?.disconnect?.();
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     };
   }, [scrollBehavior, containerRef, contentRef]);
 

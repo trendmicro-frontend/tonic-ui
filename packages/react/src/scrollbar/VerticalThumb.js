@@ -2,7 +2,11 @@ import React, { forwardRef } from 'react';
 import { Box } from '../box';
 
 const VerticalThumb = forwardRef((props, ref) => (
-  <Box ref={ref} {...props} />
+  <Box
+    data-scrollbar-thumb="vertical"
+    ref={ref}
+    {...props}
+  />
 ));
 
 VerticalThumb.displayName = 'VerticalThumb';

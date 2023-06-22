@@ -559,53 +559,61 @@ const Scrollbar = forwardRef((
 
   const el = nodeRef?.current;
 
-  // Observe the scroll view
   useEffect(() => {
     if (!el) {
       // No element to observe
       return;
     }
 
-    const MutationObserver = window?.MutationObserver ?? window?.WebKitMutationObserver;
-    if (typeof MutationObserver !== 'function') {
-      return;
-    }
-
-    const observer = new MutationObserver((mutations) => {
-      update();
-    });
-    const config = { attributes: true, childList: true, characterData: true, subtree: true };
-    observer.observe(el, config);
-
     update();
 
-    return () => { // eslint-disable-line consistent-return
-      observer.disconnect();
-    };
-  }, [update, el]);
+    let mutationObserver = null;
+    let resizeObserver = null;
 
-  // ResizeObserver
-  useEffect(() => {
-    if (!el) {
-      // No element to observe
-      return;
+    const MutationObserver = globalThis.MutationObserver ?? globalThis.WebKitMutationObserver;
+    const ResizeObserver = globalThis.ResizeObserver;
+
+    if (typeof MutationObserver !== 'undefined') {
+      mutationObserver = new MutationObserver((mutations) => {
+        const shouldUpdate = mutations.some(mutation => {
+          if (!mutation.target) {
+            return false;
+          }
+
+          // Ignore mutations for the scrollbar track and scrollbar thumb to avoid triggering unnecessary updates during scrolling
+          if (mutation.target.getAttribute('data-scrollbar-track') || mutation.target.getAttribute('data-scrollbar-thumb')) {
+            return false;
+          }
+
+          return true;
+        });
+
+        if (shouldUpdate) {
+          update();
+        }
+      });
+      mutationObserver.observe(el, {
+        attributes: true,
+        characterData: true,
+        childList: true,
+        subtree: true,
+      });
     }
 
-    const ResizeObserver = window?.ResizeObserver;
-    if (typeof ResizeObserver !== 'function') {
-      // ResizeObserver is not supported
-      return;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver((entries) => {
+        update();
+      });
+      resizeObserver.observe(el);
     }
 
-    const observer = new ResizeObserver((entries) => {
-      update();
-    });
-    observer.observe(el);
-
-    update();
-
     return () => { // eslint-disable-line consistent-return
-      observer.disconnect();
+      if (mutationObserver) {
+        mutationObserver.disconnect();
+      }
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     };
   }, [update, el]);
 
