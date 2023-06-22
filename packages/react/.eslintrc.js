@@ -6,6 +6,9 @@ module.exports = {
     node: true,
     jest: true,
   },
+  globals: {
+    'globalThis': 'readonly',
+  },
   plugins: [
     '@babel',
     'react-hooks',

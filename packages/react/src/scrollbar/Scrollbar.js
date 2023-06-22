@@ -565,14 +565,15 @@ const Scrollbar = forwardRef((
       return;
     }
 
+    update();
+
     let mutationObserver = null;
     let resizeObserver = null;
 
-    const MutationObserver = window?.MutationObserver ?? window?.WebKitMutationObserver;
-    const ResizeObserver = window?.ResizeObserver;
+    const MutationObserver = globalThis.MutationObserver ?? globalThis.WebKitMutationObserver;
+    const ResizeObserver = globalThis.ResizeObserver;
 
-    // MutationObserver
-    if (typeof MutationObserver === 'function') {
+    if (typeof MutationObserver !== 'undefined') {
       mutationObserver = new MutationObserver((mutations) => {
         const shouldUpdate = mutations.some(mutation => {
           if (!mutation.target) {
@@ -599,15 +600,12 @@ const Scrollbar = forwardRef((
       });
     }
 
-    // ResizeObserver
-    if (typeof ResizeObserver === 'function') {
+    if (typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver((entries) => {
         update();
       });
       resizeObserver.observe(el);
     }
-
-    update();
 
     return () => { // eslint-disable-line consistent-return
       if (mutationObserver) {

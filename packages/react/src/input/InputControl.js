@@ -135,30 +135,33 @@ const InputControl = forwardRef((
       return;
     }
 
-    const MutationObserver = window?.MutationObserver ?? window?.WebKitMutationObserver;
-    if (typeof MutationObserver !== 'function') {
-      return;
-    }
-
     const update = () => {
       const nextValid = el.validity?.valid;
       if (nextValid !== valid) {
         setValid(nextValid);
       }
     };
-    const observer = new MutationObserver((mutations) => {
-      update();
-    });
-    const config = {
-      attributes: true,
-      attributeFilter: ['value'],
-    };
-    observer.observe(el, config);
 
     update();
 
+    let mutationObserver = null;
+
+    const MutationObserver = globalThis.MutationObserver ?? globalThis.WebKitMutationObserver;
+
+    if (typeof MutationObserver !== 'undefined') {
+      const mutationObserver = new MutationObserver((mutations) => {
+        update();
+      });
+      mutationObserver.observe(el, {
+        attributes: true,
+        attributeFilter: ['value'],
+      });
+    }
+
     return () => { // eslint-disable-line consistent-return
-      observer.disconnect();
+      if (mutationObserver) {
+        mutationObserver.disconnect();
+      }
     };
   }, [el, valid]);
 
