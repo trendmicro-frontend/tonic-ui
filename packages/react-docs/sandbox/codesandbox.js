@@ -1,43 +1,47 @@
 import LZString from 'lz-string';
-import { getHtml, getRootIndex, getDefaultComponent } from './create-react-app';
+import { getHtml, getJSConfigJSON, getRootIndex, getDefaultComponent } from './create-react-app';
 
-const createReactApp = (options) => {
+const createReactApp = (sandboxOptions) => {
   const {
-    title = 'React demo app',
-    code, 
-  } = { ...options };
+    dependencies = {},
+    devDependencies = {},
+    files,
+    language = 'en',
+    raw,
+    title = '',
+  } = { ...sandboxOptions };
 
-  const language = 'en';
-  const files = {
+  return {
+    ...Object.entries(files).reduce((acc, [path, content]) => {
+      acc[path] = { content };
+      return acc;
+    }, {}),
     'public/index.html': {
       content: getHtml({ language, title }),
     },
-    [`index.js`]: {
+    'src/app.js': {
+      content: raw ?? getDefaultComponent(),
+    },
+    'src/index.js': {
       content: getRootIndex(),
     },
-    [`app.js`]: {
-      content: code ?? getDefaultComponent(),
+    'jsconfig.json': {
+      content: getJSConfigJSON(),
+    },
+    'package.json': {
+      content: {
+        description: title,
+        dependencies: {
+          'react': 'latest',
+          'react-dom': 'latest',
+          ...dependencies,
+        },
+        devDependencies: {
+          ...devDependencies,
+        },
+      },
     },
   };
-  const description = 'React demo app';
-  const dependencies = {
-    '@tonic-ui/react': 'latest',
-    '@tonic-ui/react-hooks': 'latest',
-    'react': 'latest',
-    'react-dom': 'latest',
-  };
-  const devDependencies = {
-  };
-
-  files['package.json'] = {
-    content: {
-      description,
-      dependencies,
-      devDependencies,
-    },
-  };
-
-  return { title, description, files, dependencies, devDependencies };
 };
 
 const compress = (object) => {
@@ -55,9 +59,10 @@ const addHiddenInput = (form, name, value) => {
   form.appendChild(input);
 };
 
-const open = ({ title, code }) => {
-  const { files } = createReactApp({ title, code });
-  const parameters = compress({ files });              
+const open = (sandboxOptions) => {
+  const parameters = compress({
+    files: createReactApp(sandboxOptions),
+  });
     
   // ref: https://codesandbox.io/docs/api/#define-api                                    
   const form = document.createElement('form');                                                 
@@ -65,11 +70,7 @@ const open = ({ title, code }) => {
   form.target = '_blank';               
   form.action = 'https://codesandbox.io/api/v1/sandboxes/define';
   addHiddenInput(form, 'parameters', parameters);
-  addHiddenInput(                 
-    form,       
-    'query',                      
-    'file=/app.js',
-  );
+  addHiddenInput(form, 'query', 'file=/src/app.js');
   document.body.appendChild(form);
   form.submit();
   document.body.removeChild(form);

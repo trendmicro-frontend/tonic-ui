@@ -19,8 +19,6 @@ import { TransitionGroup } from 'react-transition-group';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import x from '../utils/json-stringify';
-import Dropdown from './Dropdown';
-import Multiselect from './Multiselect';
 import FontAwesomeIcon from './FontAwesomeIcon';
 import IconButton from './IconButton';
 import InputTag from './InputTag';
@@ -169,11 +167,9 @@ const CodeBlock = ({
     code: editorCode,
     transformCode: code => code,
     scope: {
-      Dropdown,
       FontAwesomeIcon,
       InputTag,
       Lorem,
-      Multiselect,
       SkeletonBody,
       SkeletonContent,
 

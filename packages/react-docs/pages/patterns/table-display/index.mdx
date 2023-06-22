@@ -1,0 +1,58 @@
+import { Alert, Box, Flex, Grid, Icon, Text, TextLabel } from '@tonic-ui/react';
+
+# Table Display
+
+## Overview
+
+Table display is used for presenting data in a structured manner and typically consists of three main parts:
+* Toolbar
+* Data
+* Footer
+
+{render('./table-display')}
+
+## How It Works
+
+### Toolbar
+
+The table toolbar provides a set of actions that users can perform on the table. The available actions may vary depending on the data type. The toolbar items are displayed from left to right.
+
+The toolbar should never display a vertical scrollbar. The position and width of the right-sided toolbar are fixed.
+
+In cases where the screen width is limited, the left-sided toolbar items can wrap to another row. These items may include, but are not limited to:
+* Primary action
+* Filter
+* Search input
+* Reset (optional)
+* Matched results (optional)
+
+{render('./table-toolbar')}
+
+When there are more than 5 filters, consider using an "Advanced filter" option. The filter options can be modified by clicking the corresponding icon. Stacked filter tags should be used when the screen width is limited.
+
+{render('./advanced-filter')}
+
+### Data
+
+It is recommended to display all columns of the table. However, in certain scenarios, vertical scrolling may be necessary. For tables with rich data columns, you can utilize expandable table rows to accommodate the additional content.
+
+{render('./expandable-table-rows')}
+
+### Footer
+
+The footer should be fixed at the bottom of the screen to ensure consistent positioning.
+
+## See Also
+
+<Flex>
+  <Grid
+    templateColumns="1fr"
+    columnGap="18x"
+    rowGap="4x"
+  >
+    <TextLabel>React Components</TextLabel>
+    <Box>
+      * [Table](../components/table)
+    </Box>
+  </Grid>
+</Flex>

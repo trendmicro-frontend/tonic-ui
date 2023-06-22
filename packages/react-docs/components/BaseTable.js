@@ -5,8 +5,9 @@ import {
 } from '@tanstack/react-table';
 import {
   Box,
-  Button,
-  ButtonGroup,
+  Collapse,
+  Flex,
+  Grid,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -14,22 +15,38 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableScrollbar,
+  Text,
   TextLabel,
-  Truncate,
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import React, { useEffect, useState } from 'react';
+import { dataAttr } from '@tonic-ui/utils';
+import React, { Fragment, forwardRef, useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
-const data = [
-  { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
-  { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
-  { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
-  { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
-  { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
-  { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
-];
+/**
+ * Assign a value to a ref function or object.
+ *
+ * @param ref the ref to assign to
+ * @param value the value
+ */
+const assignRef = (ref, value) => {
+  if (ref === null || ref === undefined) {
+    return;
+  }
+
+  if (typeof ref === 'function') {
+    ref(value);
+    return;
+  }
+
+  try {
+    ref.current = value;
+  } catch (error) {
+    throw new Error(`Cannot assign value '${value}' to ref '${ref}'`);
+  }
+};
 
 /**
  * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
@@ -48,40 +65,101 @@ const getTextWidth = (text, font) => {
   return metrics.width || 0;
 };
 
-const App = () => {
-  const theme = useTheme();
+const ConditionalWrapper = ({
+  children,
+  condition,
+  wrapper,
+}) => {
+  return condition ? wrapper(children) : children;
+};
+
+const BaseTable = forwardRef((
+  {
+    columns,
+    data,
+    layout = 'flexbox', // One of: 'flexbox', 'table'
+    variant = 'default', // One of: 'default', 'outline'
+
+    // TanStack Table
+    tableOptions,
+    tableRef,
+
+    ...rest
+  },
+  ref,
+) => {
   const [colorMode] = useColorMode();
+  const theme = useTheme();
   const hoverBackgroundColor = {
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
+  const selectedBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.08)',
+    light: 'rgba(0, 0, 0, 0.08)',
+  }[colorMode];
+  const renderExpandedRow = ({ row }) => {
+    const tableBorderColor = {
+      dark: 'gray:70',
+      light: 'gray:30',
+    }[colorMode];
+    const dividerColor = {
+      dark: 'gray:60',
+      light: 'gray:30',
+    }[colorMode];
+    const entries = Object.entries(row.original);
+    const renderValue = (value) => {
+      if (Array.isArray(value)) {
+        return value.map(item => <Text key={item}>{item}</Text>);
+      }
 
-  const [columns, setColumns] = useState([
-    {
-      header: 'Event Type',
-      accessorKey: 'eventType',
-      size: 'auto',
-    },
-    {
-      header: 'Affected Devices',
-      accessorKey: 'affectedDevices',
-      size: '25%',
-    },
-    {
-      header: 'Detections',
-      accessorKey: 'detections',
-      size: 150,
-    },
-  ]);
+      if (typeof value === 'boolean') {
+        return value.toString();
+      }
+
+      return value;
+    };
+
+    return (
+      <Flex
+        borderBottom={1}
+        borderBottomColor={tableBorderColor}
+      >
+        <Box width="12x" borderRight={2} borderRightColor={dividerColor} />
+        <Box as="pre" fontFamily="mono" m={0} px="3x" py="2x">
+          <Grid
+            templateColumns="auto auto"
+            columnGap="10x"
+            rowGap="1x"
+          >
+            {entries.map(([key, value]) => {
+              return (
+                <Fragment key={key}>
+                  <TextLabel>
+                    {key}
+                  </TextLabel>
+                  <Text>
+                    {renderValue(value)}
+                  </Text>
+                </Fragment>
+              );
+            })}
+          </Grid>
+        </Box>
+      </Flex>
+    );
+  };
 
   const table = useReactTable({
     data,
     columns,
-    defaultColumn: {
-      minSize: 40,
-    },
     getCoreRowModel: getCoreRowModel(),
+    ...tableOptions,
   });
+
+  if (tableRef) {
+    assignRef(tableRef, table);
+  }
 
   const [tableWidth, setTableWidth] = useState(0);
 
@@ -164,7 +242,7 @@ const App = () => {
     if ((flexColumns.length === 0) && (extraSpaceLeft > 0)) {
       const extraSpacePerColumn = extraSpaceLeft / fixedColumns.length;
       fixedColumns.forEach(column => {
-        column.size = column.size + extraSpacePerColumn;
+        column.size += extraSpacePerColumn;
       });
       extraSpaceLeft = 0;
     }
@@ -182,7 +260,7 @@ const App = () => {
        *
        * Iteration #1:
        * > column.size = Math.max(250 / (2 - 1), 150) = Math.max(250, 150) = 250
-       * > extraSpaceLeft = 250 - 250 = 0                         
+       * > extraSpaceLeft = 250 - 250 = 0
        */
       flexColumns.forEach((column, index) => {
         column.size = Math.max(
@@ -207,62 +285,22 @@ const App = () => {
     table.setColumnSizing(columnSizing);
   }, [columns, table, tableWidth, theme]);
 
-  const layout = 'flexbox'; // One of: 'flexbox', 'table'
-  const variant = 'default'; // One of: 'default', 'outline'
-
   return (
-    <Box width="100%">
-      {columns.map((column, columnIndex) => (
-        <Box mb="4x" key={columnIndex}>
-          <Box mb="2x">
-            <TextLabel>
-              {column.header}
-            </TextLabel>
-          </Box>
-          <ButtonGroup
-            variant="secondary"
-            css={{
-              '> *:not(:first-of-type)': {
-                marginLeft: -1
-              }
-            }}
-          >
-            {['auto', '25%', 150].map(value => (
-              <Button
-                key={value}
-                selected={value === columns[columnIndex].size}
-                onClick={() => {
-                  const newColumns = [
-                    ...columns.slice(0, columnIndex),
-                    {
-                      ...columns[columnIndex],
-                      size: value,
-                    },
-                    ...columns.slice(columnIndex + 1),
-                  ];
-                  setColumns(newColumns);
-                }}
-                minWidth="15x"
-              >
-                {value}
-              </Button>
-            ))}
-          </ButtonGroup>
-        </Box>
-      ))}
-      <AutoSizer
-        disableHeight
-        onResize={({ width }) => {
-          if (tableWidth !== width) {
-            setTableWidth(width);
-          }
-        }}
-      >
-        {({ width }) => (
+    <AutoSizer
+      onResize={({ width }) => {
+        if (tableWidth !== width) {
+          setTableWidth(width);
+        }
+      }}
+    >
+      {({ width, height }) => {
+        return (
           <Table
             layout={layout}
             variant={variant}
             width={width}
+            height={height}
+            {...rest}
           >
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
@@ -273,56 +311,89 @@ const App = () => {
                       width: header.getSize(),
                       ...header.column.columnDef.style,
                     };
-
                     return (
                       <TableHeaderCell
                         key={header.id}
                         {...styleProps}
                       >
-                        {header.isPlaceholder ? null : (
-                          <Truncate>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                          </Truncate>
-                        )}
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())
+                        }
                       </TableHeaderCell>
                     );
                   })}
                 </TableHeaderRow>
               ))}
             </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  _hover={{
-                    backgroundColor: hoverBackgroundColor,
-                  }}
+            <ConditionalWrapper
+              condition={layout === 'flexbox'}
+              wrapper={children => (
+                <TableScrollbar
+                  height="100%"
+                  overflow="visible" // Make the scrollbar visible
                 >
-                  {row.getVisibleCells().map(cell => {
-                    const styleProps = {
-                      minWidth: cell.column.columnDef.minSize,
-                      width: cell.column.getSize(),
-                      ...cell.column.columnDef.style,
-                    };
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        {...styleProps}
-                      >
-                        <Truncate>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </Truncate>
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableBody>
+                  {children}
+                </TableScrollbar>
+              )}
+            >
+              <TableBody>
+                {table.getRowModel().rows.map(row => (
+                  <Fragment key={row.id}>
+                    <TableRow
+                      data-selected={dataAttr(row.getIsSelected())}
+                      _hover={{
+                        backgroundColor: hoverBackgroundColor,
+                      }}
+                      _selected={{
+                        backgroundColor: selectedBackgroundColor,
+                      }}
+                    >
+                      {row.getVisibleCells().map(cell => {
+                        const styleProps = {
+                          minWidth: cell.column.columnDef.minSize,
+                          width: cell.column.getSize(),
+                          ...cell.column.columnDef.style,
+                        };
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            {...styleProps}
+                          >
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                    {(row.getCanExpand() && layout === 'flexbox') && (
+                      <Collapse in={row.getIsExpanded()}>
+                        {renderExpandedRow({ row })}
+                      </Collapse>
+                    )}
+                    {(row.getCanExpand() && layout === 'table') && (
+                      <TableRow>
+                        <TableCell
+                          padding={0}
+                          borderBottom={0}
+                          colSpan={row.getVisibleCells().length}
+                        >
+                          <Collapse in={row.getIsExpanded()}>
+                            {renderExpandedRow({ row })}
+                          </Collapse>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </Fragment>
+                ))}
+              </TableBody>
+            </ConditionalWrapper>
           </Table>
-        )}
-      </AutoSizer>
-    </Box>
+        );
+      }}
+    </AutoSizer>
   );
-};
+});
 
-export default App;
+BaseTable.displayName = 'BaseTable';
+
+export default BaseTable;
