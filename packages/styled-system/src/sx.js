@@ -117,7 +117,7 @@ const sx = (valueOrFn) => (props = {}) => {
 
   let result = {};
   for (const key in resolvedStyleProps) {
-    if (!Object.hasOwn(resolvedStyleProps, key)) {
+    if (!Object.prototype.hasOwnProperty.call(resolvedStyleProps, key)) {
       continue;
     }
 

@@ -21,7 +21,9 @@ const shouldForwardProp = (() => {
 
 const transformCSSPseudoSelectors = (props) => {
   const entries = Object.entries(ensurePlainObject(props))
-    .filter(([name, value]) => Object.hasOwn(pseudoClassSelector, name) || Object.hasOwn(pseudoElementSelector, name));
+    .filter(([name, value]) => {
+      return Object.prototype.hasOwnProperty.call(pseudoClassSelector, name) || Object.prototype.hasOwnProperty.call(pseudoElementSelector, name);
+    });
 
   return sx(Object.fromEntries(entries));
 };
