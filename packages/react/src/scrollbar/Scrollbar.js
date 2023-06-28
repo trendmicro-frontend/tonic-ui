@@ -576,13 +576,11 @@ const Scrollbar = forwardRef((
     if (typeof MutationObserver !== 'undefined') {
       mutationObserver = new MutationObserver((mutations) => {
         const shouldUpdate = mutations.some(mutation => {
-          if (!mutation.target) {
-            return false;
-          }
+          if (mutation?.type === 'attributes' && typeof mutation?.target?.getAttribute === 'function') {
+            const isScrollbarTrackOrThumb = mutation.target.getAttribute('data-scrollbar-track') || mutation.target.getAttribute('data-scrollbar-thumb');
 
-          // Ignore mutations for the scrollbar track and scrollbar thumb to avoid triggering unnecessary updates during scrolling
-          if (mutation.target.getAttribute('data-scrollbar-track') || mutation.target.getAttribute('data-scrollbar-thumb')) {
-            return false;
+            // Ignore mutations for the scrollbar track and scrollbar thumb to avoid triggering unnecessary updates during scrolling
+            return !isScrollbarTrackOrThumb;
           }
 
           return true;
