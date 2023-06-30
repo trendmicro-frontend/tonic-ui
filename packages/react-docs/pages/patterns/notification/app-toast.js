@@ -115,7 +115,7 @@ const App = () => {
           Info
         </Button>
         <Button onClick={handleClickAddToastByAppearance('warning')}>
-          <Icon icon="warning-triangle" />
+          <Icon icon="warning-minor" />
           Warning
         </Button>
         <Button onClick={handleClickAddToastByAppearance('error')}>

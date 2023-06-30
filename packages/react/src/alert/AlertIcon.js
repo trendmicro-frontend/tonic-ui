@@ -10,7 +10,7 @@ const getIconBySeverity = (severity) => {
   const iconName = {
     success: 'success',
     info: 'info',
-    warning: 'warning-triangle',
+    warning: 'warning-minor',
     error: 'error',
   }[severity];
 

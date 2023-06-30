@@ -189,7 +189,7 @@ const DrawerExample = forwardRef((
               Info
             </Button>
             <Button columnGap="2x" onClick={handleClickAddToastByAppearance('warning')}>
-              <Icon icon="warning-triangle" />
+              <Icon icon="warning-minor" />
               Warning
             </Button>
             <Button columnGap="2x" onClick={handleClickAddToastByAppearance('error')}>
