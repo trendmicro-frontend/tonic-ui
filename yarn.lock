@@ -3823,9 +3823,9 @@ __metadata:
     "@next/mdx": ^13.0.5
     "@tanstack/react-table": ^8.9.1
     "@tanstack/react-virtual": ^3.0.0-beta
-    "@tonic-ui/react": ^1.21.3
+    "@tonic-ui/react": ^1.22.0
     "@tonic-ui/react-hooks": ^1.5.2
-    "@tonic-ui/react-lab": ^0.19.3
+    "@tonic-ui/react-lab": ^0.20.0
     "@tonic-ui/styled-system": ^1.8.1
     "@tonic-ui/theme": ^1.2.2
     "@trendmicro/babel-config": ^1.0.2
@@ -3919,7 +3919,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-lab@^0.19.3, @tonic-ui/react-lab@workspace:packages/react-lab":
+"@tonic-ui/react-lab@^0.20.0, @tonic-ui/react-lab@workspace:packages/react-lab":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-lab@workspace:packages/react-lab"
   dependencies:
@@ -3936,7 +3936,7 @@ __metadata:
     "@rollup/plugin-node-resolve": ^15.0.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
-    "@tonic-ui/react": ^1.21.3
+    "@tonic-ui/react": ^1.22.0
     "@tonic-ui/react-hooks": ^1.5.2
     "@tonic-ui/utils": ^1.5.0
     "@trendmicro/babel-config": ^1.0.2
@@ -3964,7 +3964,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react@^1.21.3, @tonic-ui/react@workspace:packages/react":
+"@tonic-ui/react@^1.22.0, @tonic-ui/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react@workspace:packages/react"
   dependencies:
