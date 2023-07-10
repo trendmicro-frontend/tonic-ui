@@ -18,7 +18,7 @@ const getAppearanceStyle = ({
       pl: '3x',
     },
     info: {
-      borderLeftColor: 'blue:50',
+      borderLeftColor: 'blue:60',
       borderLeftStyle: 'solid',
       borderLeftWidth: '1x',
       pl: '3x',
@@ -66,7 +66,7 @@ const useToastIconStyle = ({
 }) => {
   const color = {
     'success': 'green:50',
-    'info': 'blue:50',
+    'info': 'blue:60',
     'warning': 'yellow:50',
     'error': 'red:60',
   }[appearance];
