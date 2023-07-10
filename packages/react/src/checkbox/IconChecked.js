@@ -1,10 +1,9 @@
 import React from 'react';
 import { SVGIcon } from '../icon';
 
-const IconCheck = ({ size, ...rest }) => {
-  const viewBox = '0 0 16 16';
+const IconChecked = (props) => {
   return (
-    <SVGIcon size={size} viewBox={viewBox} {...rest}>
+    <SVGIcon viewBox="0 0 16 16" {...props}>
       <g fill="currentColor">
         <path d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z" />
       </g>
@@ -12,6 +11,6 @@ const IconCheck = ({ size, ...rest }) => {
   );
 };
 
-IconCheck.displayName = 'IconCheck';
+IconChecked.displayName = 'IconChecked';
 
-export default IconCheck;
+export default IconChecked;

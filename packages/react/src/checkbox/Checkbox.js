@@ -1,42 +1,32 @@
 import { callAll, dataAttr } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import _get from 'lodash.get';
 import React, { forwardRef } from 'react';
-import { Box, ControlBox } from '../box';
-import { useTheme } from '../theme';
+import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
-import IconCheck from './IconCheck';
-import IconMinus from './IconMinus';
+import CheckboxControlBox from './CheckboxControlBox';
+import { defaultSize, defaultVariantColor } from './constants';
 import useCheckboxGroup from './useCheckboxGroup';
-import { useCheckboxStyle } from './styles';
-
-const sizes = {
-  lg: '6x',
-  md: '4x',
-  sm: '3x',
-};
-
-const defaultSize = 'md';
-const defaultVariantColor = 'blue';
 
 const Checkbox = forwardRef((
   {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
     checked,
     children,
     defaultChecked,
     disabled,
-    iconColor,
     id,
     indeterminate,
+    inputProps,
     name,
-    readOnly,
-    size,
-    value,
-    variantColor,
     onBlur,
     onChange,
     onClick,
     onFocus,
+    readOnly,
+    size,
+    value,
+    variantColor,
     ...rest
   },
   ref,
@@ -72,67 +62,45 @@ const Checkbox = forwardRef((
     variantColor = variantColor ?? defaultVariantColor;
   }
 
-  const { sizes: themeSizes } = useTheme();
-  const _size = sizes[size];
-  const themeSize = _get(themeSizes, _size);
-  const iconSize = themeSize;
-  const styleProps = useCheckboxStyle({
-    color: variantColor,
-    indeterminate,
-    width: _size,
-    height: _size,
-  });
-
   return (
     <Box
       as="label"
       display="inline-flex"
       verticalAlign="top"
       alignItems="center"
-      cursor={disabled || readOnly ? 'not-allowed' : 'pointer'}
+      cursor={disabled ? 'not-allowed' : 'pointer'}
       {...rest}
     >
       <VisuallyHidden
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         as="input"
-        type="checkbox"
+        checked={checked}
+        data-indeterminate={dataAttr(indeterminate)}
+        defaultChecked={defaultChecked}
+        disabled={disabled}
         id={id}
-        ref={ref}
         name={name}
-        value={value}
-        defaultChecked={readOnly ? undefined : defaultChecked}
+        onBlur={onBlur}
         onChange={readOnly ? undefined : onChange}
         onClick={readOnly ? undefined : onClick}
-        onBlur={onBlur}
         onFocus={onFocus}
-        checked={checked}
-        disabled={disabled}
         readOnly={readOnly}
-        data-indeterminate={dataAttr(indeterminate)}
-      />
-      <ControlBox
+        ref={ref}
         type="checkbox"
-        {...styleProps}
-      >
-        {/* This Box is for rendering background color of Checkbox which is focused. */}
-        <Box
-          zIndex="-1"
-          position="absolute"
-          top="0"
-          bottom="0"
-          left="0"
-          right="0"
-        />
-        {
-          indeterminate
-            ? <IconMinus size={iconSize} color={iconColor} />
-            : <IconCheck size={iconSize} color={iconColor} />
-        }
-      </ControlBox>
+        value={value}
+        {...inputProps}
+      />
+      <CheckboxControlBox
+        indeterminate={indeterminate}
+        size={size}
+        variantColor={variantColor}
+      />
       {children && (
         <Box
           ml="2x"
           userSelect="none"
-          opacity={readOnly || disabled ? 0.28 : 1}
+          opacity={disabled || readOnly ? 0.28 : 1}
         >
           {children}
         </Box>

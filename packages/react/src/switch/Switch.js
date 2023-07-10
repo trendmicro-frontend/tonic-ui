@@ -1,92 +1,73 @@
 import React, { forwardRef } from 'react';
-import { Box, ControlBox } from '../box';
+import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
-import { useSwitchStyle } from './styles';
+import SwitchControlBox from './SwitchControlBox';
+import { defaultSize, defaultVariantColor } from './constants';
 
 const Switch = forwardRef((
   {
-    id,
-    name,
-    value,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
-    variantColor = 'blue',
-    defaultChecked,
     checked,
-    size = 'md',
-    disabled,
-    onChange,
-    onBlur,
-    onFocus,
     children,
+    defaultChecked,
+    disabled,
+    id,
+    inputProps,
+    name,
+    onBlur,
+    onChange,
+    onClick,
+    onFocus,
+    readOnly,
+    size = defaultSize,
+    value,
+    variantColor = defaultVariantColor,
     ...rest
   },
   ref,
 ) => {
-  const {
-    baseStyle,
-    switchSVGStyle,
-    switchTrackHaloStyle,
-    switchTrackBorderStyle,
-    switchTrackStyle,
-    switchThumbStyle
-  } = useSwitchStyle({
-    variantColor,
-    size,
-  });
-
   return (
-    <Box as="label" display="flex" {...rest}>
+    <Box
+      as="label"
+      display="inline-flex"
+      verticalAlign="top"
+      alignItems="center"
+      cursor={disabled ? 'not-allowed' : 'pointer'}
+      {...rest}
+    >
       <VisuallyHidden
-        as="input"
-        type="checkbox"
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
-        id={id}
-        ref={ref}
-        name={name}
-        value={value}
-        defaultChecked={defaultChecked}
-        onChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
+        as="input"
         checked={checked}
+        defaultChecked={defaultChecked}
         disabled={disabled}
+        id={id}
+        name={name}
+        onBlur={onBlur}
+        onChange={readOnly ? undefined : onChange}
+        onClick={readOnly ? undefined : onClick}
+        onFocus={onFocus}
+        readOnly={readOnly}
+        ref={ref}
+        type="checkbox"
+        value={value}
+        {...inputProps}
       />
-      <ControlBox {...baseStyle}>
+      <SwitchControlBox
+        size={size}
+        variantColor={variantColor}
+      />
+      {children && (
         <Box
-          as="svg"
-          data-switch
-          {...switchSVGStyle}
+          ml="2x"
+          userSelect="none"
+          opacity={disabled || readOnly ? 0.28 : 1}
         >
-          <Box
-            as="rect"
-            data-switch-track-halo
-            x="0"
-            y="0"
-            {...switchTrackHaloStyle}
-          />
-          <Box
-            as="rect"
-            data-switch-track-border
-            x="2"
-            y="2"
-            {...switchTrackBorderStyle}
-          />
-          <Box
-            as="rect"
-            data-switch-track
-            x="3"
-            y="3"
-            {...switchTrackStyle}
-          />
-          <Box
-            as="circle"
-            data-switch-thumb
-            {...switchThumbStyle}
-          />
+          {children}
         </Box>
-      </ControlBox>
+      )}
     </Box>
   );
 });

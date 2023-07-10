@@ -1,35 +1,28 @@
 import { callAll } from '@tonic-ui/utils';
-import _get from 'lodash.get';
 import React, { forwardRef } from 'react';
-import { Box, ControlBox } from '../box';
-import { useTheme } from '../theme';
+import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
-import { useRadioStyle } from './styles';
+import { defaultSize, defaultVariantColor } from './constants';
+import RadioControlBox from './RadioControlBox';
 import useRadioGroup from './useRadioGroup';
-
-const sizes = {
-  lg: '6x',
-  md: '4x',
-  sm: '3x',
-};
-
-const defaultSize = 'md';
-const defaultVariantColor = 'blue';
 
 const Radio = forwardRef((
   {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
     checked,
     children,
     defaultChecked,
     disabled,
     id,
+    inputProps,
     name,
     size,
     value,
     variantColor,
+    onBlur,
     onChange,
     onClick,
-    onBlur,
     onFocus,
     ...rest
   },
@@ -65,53 +58,37 @@ const Radio = forwardRef((
     variantColor = variantColor ?? defaultVariantColor;
   }
 
-  const { sizes: themeSizes } = useTheme();
-  const _size = sizes[size];
-  const themeSize = _get(themeSizes, _size);
-  const iconSize = `calc(${themeSize} / 2)`;
-  const styleProps = useRadioStyle({
-    color: variantColor,
-    width: _size,
-    height: _size,
-  });
-
   return (
     <Box
       as="label"
       display="inline-flex"
       verticalAlign="top"
-      htmlFor={id}
       alignItems="center"
       cursor={disabled ? 'not-allowed' : 'pointer'}
       {...rest}
     >
       <VisuallyHidden
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         as="input"
-        type="radio"
-        id={id}
-        ref={ref}
-        name={name}
-        value={value}
+        checked={checked}
         defaultChecked={defaultChecked}
+        disabled={disabled}
+        id={id}
+        name={name}
+        onBlur={onBlur}
         onChange={onChange}
         onClick={onClick}
-        onBlur={onBlur}
         onFocus={onFocus}
-        checked={checked}
-        disabled={disabled}
-      />
-      <ControlBox
+        ref={ref}
         type="radio"
-        {...styleProps}
-      >
-        <Box
-          backgroundColor="currentColor"
-          borderRadius="circle"
-          display="inline-flex"
-          width={iconSize}
-          height={iconSize}
-        />
-      </ControlBox>
+        value={value}
+        {...inputProps}
+      />
+      <RadioControlBox
+        size={size}
+        variantColor={variantColor}
+      />
       {children && (
         <Box
           ml="2x"
