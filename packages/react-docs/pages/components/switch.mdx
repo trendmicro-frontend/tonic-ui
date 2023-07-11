@@ -36,31 +36,60 @@ You can use a flex container to align a switch with other components. This allow
 </Flex>
 ```
 
-### Sizes
+### Colors
 
-Pass the `size` prop to change the size of the `Switch`.
+Use the `variantColor` prop to change the color scheme of a radio button. `variantColor` can be any color key with key `50` (hover) or `60` (checked) that exist in `theme.colors`.
 
 ```jsx
-<Flex alignItems="center">
-  <Switch size="sm" />
-  <Switch size="md" />
-  <Switch size="lg" />
+<Flex columnGap="6x">
+  <Switch variantColor="red" defaultChecked>
+    Label
+  </Switch>
+  <Switch variantColor="green" defaultChecked>
+    Label
+  </Switch>
 </Flex>
 ```
 
-### Switch background color
+### Sizes
 
-* Use the `variantColor` prop to change the checked background color of the `Switch`. `variantColor` can be any color key with key `50`(hover), `60`(checked, focus) that exist in the `theme.colors`.
-
-  > That means the `red:60` exists in the `theme.colors` then can use variantColor="red".
-
-* [Learn more about colors theming](../theme/colors).
+Use the `size` prop to change the size of the switch. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Flex alignItems="center">
-  <Switch defaultChecked variantColor="red" />
-  <Switch defaultChecked size="lg" variantColor="green" />
+<Flex columnGap="6x">
+  <Switch size="sm">
+    Label
+  </Switch>
+  <Switch size="md">
+    Label
+  </Switch>
+  <Switch size="lg">
+    Label
+  </Switch>
 </Flex>
+```
+
+### States
+
+```jsx
+<Stack spacing="6x">
+  <Flex columnGap="6x">
+    <Switch>
+      Label
+    </Switch>
+    <Switch checked>
+      Label
+    </Switch>
+  </Flex>
+  <Flex columnGap="6x">
+    <Switch disabled>
+      Label
+    </Switch>
+    <Switch checked disabled>
+      Label
+    </Switch>
+  </Flex>
+</Stack>
 ```
 
 ## Props
@@ -74,7 +103,8 @@ Pass the `size` prop to change the size of the `Switch`.
 | defaultChecked | boolean | | If `true`, the switch will be selected initially. |
 | disabled | boolean | | If `true`, disables the switch and prevents user interaction. |
 | id | string | | The `id` attribute of the input field.  |
-| inputProps | object | | Additional props to be applied to the `input` element. |
+| inputProps | object | | Additional props to be applied to the input element. |
+| inputRef | RefObject | | A ref object to access the input element. |
 | name | string | | The name of the switch input when used within a form. |
 | onBlur | function | | A callback function invoked when the switch loses focus. |
 | onChange | function | | A callback function invoked when the state of the switch changes. |

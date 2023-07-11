@@ -44,17 +44,14 @@ You can use a flex container to align a checkbox with other components. This all
 Use the `variantColor` prop to change the color scheme of the checkbox. `variantColor` can be any color key with key `50` (hover) or `60` (checked, active) that exist in `theme.colors`.
 
 ```jsx
-<Stack direction="row" spacing="6x">
+<Flex columnGap="6x">
   <Checkbox variantColor="red" defaultChecked>
-    Checkbox
+    Label
   </Checkbox>
   <Checkbox variantColor="green" defaultChecked>
-    Checkbox
+    Label
   </Checkbox>
-  <Checkbox variantColor="purple" indeterminate>
-    Checkbox
-  </Checkbox>
-</Stack>
+</Flex>
 ```
 
 ### Sizes
@@ -62,29 +59,45 @@ Use the `variantColor` prop to change the color scheme of the checkbox. `variant
 Use the `size` prop to change the size of the checkbox. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="row" spacing="4x">
-  <Checkbox size="sm">Checkbox</Checkbox>
-  <Checkbox size="md">Checkbox</Checkbox>
-  <Checkbox size="lg">Checkbox</Checkbox>
-</Stack>
+<Flex columnGap="6x">
+  <Checkbox size="sm">
+    Label
+  </Checkbox>
+  <Checkbox size="md">
+    Label
+  </Checkbox>
+  <Checkbox size="lg">
+    Label
+  </Checkbox>
+</Flex>
 ```
 
 ### States
 
 ```jsx
-<Stack direction="row" spacing="6x" alignItems="center">
-  <Stack spacing="2x" alignItems="center">
-    <Checkbox>Checkbox</Checkbox>
-    <Checkbox disabled>Checkbox</Checkbox>
-  </Stack>
-  <Stack spacing="2x" alignItems="center">
-    <Checkbox defaultChecked>Checkbox</Checkbox>
-    <Checkbox disabled defaultChecked>Checkbox</Checkbox>
-  </Stack>
-  <Stack spacing="2x" alignItems="center">
-    <Checkbox indeterminate>Checkbox</Checkbox>
-    <Checkbox disabled indeterminate>Checkbox</Checkbox>
-  </Stack>
+<Stack spacing="6x">
+  <Flex columnGap="6x">
+    <Checkbox>
+      Label
+    </Checkbox>
+    <Checkbox indeterminate>
+      Label
+    </Checkbox>
+    <Checkbox defaultChecked>
+      Label
+    </Checkbox>
+  </Flex>
+  <Flex columnGap="6x">
+    <Checkbox disabled>
+      Label
+    </Checkbox>
+    <Checkbox disabled indeterminate>
+      Label
+    </Checkbox>
+    <Checkbox disabled defaultChecked>
+      Label
+    </Checkbox>
+  </Flex>
 </Stack>
 ```
 
@@ -102,19 +115,22 @@ function IndeterminateExample() {
         checked={allChecked}
         indeterminate={isIndeterminate}
         onChange={e => setCheckedItems([e.target.checked, e.target.checked])}
-        children="Parent Checkbox"
-      />
+      >
+        Parent
+      </Checkbox>
       <Stack direction="column" pl="6x" mt="1x" spacing="1x" shouldWrapChildren>
         <Checkbox
           checked={checkedItems[0]}
           onChange={e => setCheckedItems([e.target.checked, checkedItems[1]])}
-          children="Child Checkbox 1"
-        />
+        >
+          Child 1
+        </Checkbox>
         <Checkbox
           checked={checkedItems[1]}
           onChange={e => setCheckedItems([checkedItems[0], e.target.checked])}
-          children="Child Checkbox 2"
-        />
+        >
+          Child 2
+        </Checkbox>
       </Stack>
     </>
   );
@@ -133,7 +149,8 @@ function IndeterminateExample() {
 | disabled | boolean | | If `true`, disables the checkbox and prevents user interaction. |
 | id | string | | The `id` attribute of the input field.  |
 | indeterminate | boolean | | If `true`, the checkbox will be displayed in an indeterminate state. This only affects the icon shown inside the checkbox.
-| inputProps | object | | Additional props to be applied to the `input` element. |
+| inputProps | object | | Additional props to be applied to the input element. |
+| inputRef | RefObject | | A ref object to access the input element. |
 | name | string | | The name of the input field in the checkbox. The name is useful for form submissions.  |
 | onBlur | function | | A callback function invoked when the checkbox loses focus. |
 | onChange | function | | A callback function invoked when the state of the checkbox changes. |
