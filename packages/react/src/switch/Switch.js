@@ -6,8 +6,6 @@ import { defaultSize, defaultVariantColor } from './constants';
 
 const Switch = forwardRef((
   {
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
     checked,
     children,
     defaultChecked,
@@ -36,8 +34,6 @@ const Switch = forwardRef((
       {...rest}
     >
       <VisuallyHidden
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
         as="input"
         checked={checked}
         defaultChecked={defaultChecked}

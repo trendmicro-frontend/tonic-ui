@@ -9,8 +9,6 @@ import useCheckboxGroup from './useCheckboxGroup';
 
 const Checkbox = forwardRef((
   {
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
     checked,
     children,
     defaultChecked,
@@ -69,8 +67,6 @@ const Checkbox = forwardRef((
       {...rest}
     >
       <VisuallyHidden
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
         as="input"
         checked={checked}
         data-indeterminate={dataAttr(indeterminate)}

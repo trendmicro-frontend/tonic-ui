@@ -8,8 +8,6 @@ import useRadioGroup from './useRadioGroup';
 
 const Radio = forwardRef((
   {
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
     checked,
     children,
     defaultChecked,
@@ -68,8 +66,6 @@ const Radio = forwardRef((
       {...rest}
     >
       <VisuallyHidden
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
         as="input"
         checked={checked}
         defaultChecked={defaultChecked}
