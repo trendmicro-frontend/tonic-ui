@@ -1,3 +1,4 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -14,6 +15,7 @@ const Radio = forwardRef((
     disabled,
     id,
     inputProps,
+    inputRef,
     name,
     onBlur,
     onChange,
@@ -26,6 +28,7 @@ const Radio = forwardRef((
   },
   ref,
 ) => {
+  const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
   const radioGroupContext = useRadioGroup();
 
   if (radioGroupContext) {
@@ -76,7 +79,7 @@ const Radio = forwardRef((
         onChange={onChange}
         onClick={onClick}
         onFocus={onFocus}
-        ref={ref}
+        ref={combinedInputRef}
         type="radio"
         value={value}
         {...inputProps}

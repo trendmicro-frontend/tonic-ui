@@ -1,3 +1,4 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, dataAttr } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
@@ -16,6 +17,7 @@ const Checkbox = forwardRef((
     id,
     indeterminate,
     inputProps,
+    inputRef,
     name,
     onBlur,
     onChange,
@@ -28,6 +30,7 @@ const Checkbox = forwardRef((
   },
   ref,
 ) => {
+  const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
   const checkboxGroupContext = useCheckboxGroup();
 
   if (checkboxGroupContext) {
@@ -78,7 +81,7 @@ const Checkbox = forwardRef((
         onChange={onChange}
         onClick={onClick}
         onFocus={onFocus}
-        ref={ref}
+        ref={combinedInputRef}
         type="checkbox"
         value={value}
         {...inputProps}

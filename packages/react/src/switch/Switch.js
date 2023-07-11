@@ -1,3 +1,4 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
@@ -12,6 +13,7 @@ const Switch = forwardRef((
     disabled,
     id,
     inputProps,
+    inputRef,
     name,
     onBlur,
     onChange,
@@ -24,6 +26,8 @@ const Switch = forwardRef((
   },
   ref,
 ) => {
+  const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+
   return (
     <Box
       as="label"
@@ -44,7 +48,7 @@ const Switch = forwardRef((
         onChange={onChange}
         onClick={onClick}
         onFocus={onFocus}
-        ref={ref}
+        ref={combinedInputRef}
         type="checkbox"
         value={value}
         {...inputProps}
