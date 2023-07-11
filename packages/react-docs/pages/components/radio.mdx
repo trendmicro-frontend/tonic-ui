@@ -54,15 +54,17 @@ Use the `size` prop to change the radio button size. You can set the value to `s
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| id | string | | The id attribute of the input field. |
-| name | string | | The name of a input field in a series of radio buttons. The name is useful for form submissions.  |
-| value | string \| number | | The value for radio button input. This is the return value for form submissions. |
-| variantColor | string | | The color of the radio button when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |
-| size | string | 'md' | The size (width and height) of a radio button. Acceptable values: 'sm', 'md', 'lg' |
+| checked | boolean | | If `true`, the radio button will be selected. Use the `onChange` prop to update the state for a controlled component. |
+| children | ReactNode | | The content within the radio button component. |
 | defaultChecked | boolean | | If `true`, the radio button will be selected initially. |
-| checked | boolean | | If `true`, the radio button will be selected. Use `onChange` to update the state for a controlled component. |
-| disabled | boolean | | If `true`, the radio button will be disabled. This sets `aria-disabled=true` and you can set this state by using the `_disabled` prop. |
-| children | ReactNode | | The children of the radio button. |
-| onChange | function | | A callback called when the state is changed. |
-| onBlur | function | | A callback called when the radio button loses focus. |
-| onFocus | function | | A callback called when the radio button receives focus. |
+| disabled | boolean | | If `true`, disables the radio button and prevents user interaction. |
+| id | string | | The `id` attribute of the input field. |
+| inputProps | object | | Additional props to be applied to the `input` element. |
+| name | string | | The name of a input field in a series of radio buttons. The name is useful for form submissions.  |
+| onBlur | function | | A callback function invoked when the radio button loses focus. |
+| onChange | function | | A callback function invoked when the state of the radio button changes. |
+| onClick | function | | A callback function invoked when the radio button is clicked. |
+| onFocus | function | | A callback function invoked when the radio button receives focus. |
+| size | string | 'md' | The size (width and height) of the radio button. Acceptable values: 'sm', 'md', 'lg' |
+| value | string \| number | | The value of the radio button input. This is the return value for form submissions. |
+| variantColor | string | 'blue' | The color of the radio button when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |

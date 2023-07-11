@@ -19,7 +19,6 @@ const Switch = forwardRef((
     onChange,
     onClick,
     onFocus,
-    readOnly,
     size = defaultSize,
     value,
     variantColor = defaultVariantColor,
@@ -46,10 +45,9 @@ const Switch = forwardRef((
         id={id}
         name={name}
         onBlur={onBlur}
-        onChange={readOnly ? undefined : onChange}
-        onClick={readOnly ? undefined : onClick}
+        onChange={onChange}
+        onClick={onClick}
         onFocus={onFocus}
-        readOnly={readOnly}
         ref={ref}
         type="checkbox"
         value={value}
@@ -63,7 +61,7 @@ const Switch = forwardRef((
         <Box
           ml="2x"
           userSelect="none"
-          opacity={disabled || readOnly ? 0.28 : 1}
+          opacity={disabled ? 0.28 : 1}
         >
           {children}
         </Box>

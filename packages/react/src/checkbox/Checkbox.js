@@ -23,7 +23,6 @@ const Checkbox = forwardRef((
     onChange,
     onClick,
     onFocus,
-    readOnly,
     size,
     value,
     variantColor,
@@ -32,8 +31,6 @@ const Checkbox = forwardRef((
   ref,
 ) => {
   const checkboxGroupContext = useCheckboxGroup();
-  const _defaultChecked = defaultChecked ? undefined : checked;
-  checked = readOnly ? Boolean(checked) : _defaultChecked;
 
   if (checkboxGroupContext) {
     const {
@@ -82,10 +79,9 @@ const Checkbox = forwardRef((
         id={id}
         name={name}
         onBlur={onBlur}
-        onChange={readOnly ? undefined : onChange}
-        onClick={readOnly ? undefined : onClick}
+        onChange={onChange}
+        onClick={onClick}
         onFocus={onFocus}
-        readOnly={readOnly}
         ref={ref}
         type="checkbox"
         value={value}
@@ -100,7 +96,7 @@ const Checkbox = forwardRef((
         <Box
           ml="2x"
           userSelect="none"
-          opacity={disabled || readOnly ? 0.28 : 1}
+          opacity={disabled ? 0.28 : 1}
         >
           {children}
         </Box>

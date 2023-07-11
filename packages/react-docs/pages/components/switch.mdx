@@ -50,13 +50,17 @@ Pass the `size` prop to change the size of the `Switch`.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| checked | boolean | | If `true`, the switch will be selected. Use the `onChange` prop to update the state for a controlled component. |
+| children | ReactNode | | The content within the switch component. |
+| defaultChecked | boolean | | If `true`, the switch will be selected initially. |
+| disabled | boolean | | If `true`, disables the switch and prevents user interaction. |
+| id | string | | The `id` attribute of the input field.  |
+| inputProps | object | | Additional props to be applied to the `input` element. |
+| name | string | | The name of the switch input when used within a form. |
+| onBlur | function | | A callback function invoked when the switch loses focus. |
+| onChange | function | | A callback function invoked when the state of the switch changes. |
+| onClick | function | | A callback function invoked when the switch is clicked. |
+| onFocus | function | | A callback function invoked when the switch receives focus. |
 | size | string | 'md' | The size of the switch. One of: 'sm', 'md', 'lg' |
-| variantColor | string | 'blue' | The background color of the switch when checked. |
-| name | string | | The input name of the switch when used in a form. |
-| value | string \| boolean | | The value of the switch. |
-| children | ReactNode | | The children of the switch. |
-| aria-label | string | | The aria-label of the switch for accessibility. |
-| aria-labelledby | string | | The aria-labelledby of the switch for accessibility. |
-| checked | boolean | | If `true`, set the switch to the checked state. |
-| defaultChecked | boolean | | If `true`, the checkbox will be initially checked. |
-| disabled | boolean | | If `true`, set the disabled to the invalid state. |
+| value | string \| boolean | | The value of the switch input. This is the return value for form submissions. |
+| variantColor | string | 'blue' | The color of the switch when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |
