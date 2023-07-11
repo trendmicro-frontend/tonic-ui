@@ -11,7 +11,30 @@ import { Radio } from '@tonic-ui/react';
 ### Usage
 
 ```jsx
-<Radio>Radio button</Radio>
+<Radio>
+  Label
+</Radio>
+```
+
+You can use a flex container to align a radio button with other components. This allows you to easily control the positioning and spacing of all elements within the container.
+
+```jsx
+<Flex alignItems="flex-start" columnGap="2x">
+  <Box py="1h">
+    <Radio id="form-control" />
+  </Box>
+  <Box
+    as="label"
+    htmlFor="form-control"
+    sx={{
+      cursor: 'pointer',
+      userSelect: 'none',
+    }}
+  >
+    <Text>Label</Text>
+    <Text fontSize="xs" lineHeight="xs">Helper text</Text>
+  </Box>
+</Flex>
 ```
 
 ### Colors
@@ -60,11 +83,11 @@ Use the `size` prop to change the radio button size. You can set the value to `s
 | disabled | boolean | | If `true`, disables the radio button and prevents user interaction. |
 | id | string | | The `id` attribute of the input field. |
 | inputProps | object | | Additional props to be applied to the `input` element. |
-| name | string | | The name of a input field in a series of radio buttons. The name is useful for form submissions.  |
+| name | string | | The name of the input field in a series of radio buttons. The name is useful for form submissions.  |
 | onBlur | function | | A callback function invoked when the radio button loses focus. |
 | onChange | function | | A callback function invoked when the state of the radio button changes. |
 | onClick | function | | A callback function invoked when the radio button is clicked. |
 | onFocus | function | | A callback function invoked when the radio button receives focus. |
-| size | string | 'md' | The size (width and height) of the radio button. Acceptable values: 'sm', 'md', 'lg' |
+| size | string | 'md' | The size of the radio button. One of: 'sm', 'md', 'lg' |
 | value | string \| number | | The value of the radio button input. This is the return value for form submissions. |
 | variantColor | string | 'blue' | The color of the radio button when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |

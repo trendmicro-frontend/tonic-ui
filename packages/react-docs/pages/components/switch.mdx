@@ -11,9 +11,28 @@ import { Switch } from '@tonic-ui/react';
 ## Usage
 
 ```jsx
-<Flex alignItems="center">
-  <Switch pr="1x" id="email-alerts" />
-  <label htmlFor="email-alerts">Enable email alerts?</label>
+<Switch>
+  Label
+</Switch>
+```
+
+You can use a flex container to align a switch with other components. This allows you to easily control the positioning and spacing of all elements within the container.
+
+```jsx
+<Flex alignItems="flex-start" columnGap="2x">
+  <Switch id="form-control" />
+  <Box
+    as="label"
+    htmlFor="form-control"
+    sx={{
+      cursor: 'pointer',
+      pt: '1x',
+      userSelect: 'none',
+    }}
+  >
+    <Text>Label</Text>
+    <Text fontSize="xs" lineHeight="xs">Helper text</Text>
+  </Box>
 </Flex>
 ```
 

@@ -13,7 +13,30 @@ import { Checkbox } from '@tonic-ui/react';
 ## Usage
 
 ```jsx
-<Checkbox defaultChecked>Checkbox</Checkbox>
+<Checkbox>
+  Label
+</Checkbox>
+```
+
+You can use a flex container to align a checkbox with other components. This allows you to easily control the positioning and spacing of all elements within the container.
+
+```jsx
+<Flex alignItems="flex-start" columnGap="2x">
+  <Box py="1h">
+    <Checkbox id="form-control" />
+  </Box>
+  <Box
+    as="label"
+    htmlFor="form-control"
+    sx={{
+      cursor: 'pointer',
+      userSelect: 'none',
+    }}
+  >
+    <Text>Label</Text>
+    <Text fontSize="xs" lineHeight="xs">Helper text</Text>
+  </Box>
+</Flex>
 ```
 
 ### Colors
@@ -116,6 +139,6 @@ function IndeterminateExample() {
 | onChange | function | | A callback function invoked when the state of the checkbox changes. |
 | onClick | function | | A callback function invoked when the checkbox is clicked. |
 | onFocus | function | | A callback function invoked when the checkbox receives focus. |
-| size | string | 'md' | The size (width and height) of the checkbox. Acceptable values: 'sm', 'md', 'lg' |
+| size | string | 'md' | The size of the checkbox. One of: 'sm', 'md', 'lg' |
 | value | string \| number | | The value of the checkbox input. This is the return value for form submissions. |
 | variantColor | string | 'blue' | The color of the checkbox when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |
