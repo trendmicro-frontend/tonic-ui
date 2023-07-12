@@ -321,7 +321,7 @@ input[type=radio][data-indeterminate]+.emotion-24>* {
     <div
       class="emotion-8 emotion-1"
     >
-      Radio
+      Label
     </div>
   </label>
   <label
@@ -344,7 +344,7 @@ input[type=radio][data-indeterminate]+.emotion-24>* {
     <div
       class="emotion-8 emotion-1"
     >
-      Radio
+      Label
     </div>
   </label>
   <label
@@ -367,7 +367,7 @@ input[type=radio][data-indeterminate]+.emotion-24>* {
     <div
       class="emotion-8 emotion-1"
     >
-      Radio
+      Label
     </div>
   </label>
   <label
@@ -389,7 +389,7 @@ input[type=radio][data-indeterminate]+.emotion-24>* {
     <div
       class="emotion-8 emotion-1"
     >
-      Radio
+      Label
     </div>
   </label>
   <label
@@ -412,7 +412,7 @@ input[type=radio][data-indeterminate]+.emotion-24>* {
     <div
       class="emotion-8 emotion-1"
     >
-      Radio
+      Label
     </div>
   </label>
   <label
@@ -435,7 +435,7 @@ input[type=radio][data-indeterminate]+.emotion-24>* {
     <div
       class="emotion-58 emotion-1"
     >
-      Radio
+      Label
     </div>
   </label>
   <label
@@ -459,7 +459,7 @@ input[type=radio][data-indeterminate]+.emotion-24>* {
     <div
       class="emotion-58 emotion-1"
     >
-      Radio
+      Label
     </div>
   </label>
 </div>

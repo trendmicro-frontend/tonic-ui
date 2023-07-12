@@ -494,7 +494,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-10 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
   <label
@@ -531,7 +531,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-10 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
   <label
@@ -568,7 +568,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-10 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
   <label
@@ -605,7 +605,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-10 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
   <label
@@ -646,7 +646,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-10 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
   <label
@@ -684,7 +684,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-10 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
   <label
@@ -722,7 +722,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-82 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
   <label
@@ -764,7 +764,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-82 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
   <label
@@ -803,7 +803,7 @@ input[type=checkbox][data-indeterminate]+.emotion-52>* {
     <div
       class="emotion-82 emotion-1"
     >
-      Checkbox
+      Label
     </div>
   </label>
 </div>

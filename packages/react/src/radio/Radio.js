@@ -1,11 +1,12 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAll } from '@tonic-ui/utils';
+import { callAll, isNullish } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
 import { defaultSize, defaultVariantColor } from './constants';
 import RadioControlBox from './RadioControlBox';
 import useRadioGroup from './useRadioGroup';
+import { useRadioStyle } from './styles';
 
 const Radio = forwardRef((
   {
@@ -29,6 +30,7 @@ const Radio = forwardRef((
   ref,
 ) => {
   const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+  const styleProps = useRadioStyle({ disabled });
   const radioGroupContext = useRadioGroup();
 
   if (radioGroupContext) {
@@ -62,10 +64,7 @@ const Radio = forwardRef((
   return (
     <Box
       as="label"
-      display="inline-flex"
-      verticalAlign="top"
-      alignItems="center"
-      cursor={disabled ? 'not-allowed' : 'pointer'}
+      {...styleProps}
       {...rest}
     >
       <VisuallyHidden
@@ -88,7 +87,7 @@ const Radio = forwardRef((
         size={size}
         variantColor={variantColor}
       />
-      {children && (
+      {!isNullish(children) && (
         <Box
           ml="2x"
           userSelect="none"

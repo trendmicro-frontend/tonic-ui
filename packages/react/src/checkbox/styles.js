@@ -1,6 +1,15 @@
 import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 
+const useCheckboxStyle = ({ disabled }) => {
+  return {
+    display: 'inline-flex',
+    verticalAlign: 'top',
+    alignItems: 'center',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+  };
+};
+
 const useCheckboxControlBoxStyle = ({
   color,
   indeterminate,
@@ -197,5 +206,6 @@ const useCheckboxControlBoxStyle = ({
 };
 
 export {
+  useCheckboxStyle,
   useCheckboxControlBoxStyle,
 };

@@ -1,9 +1,11 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { isNullish } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
 import SwitchControlBox from './SwitchControlBox';
 import { defaultSize, defaultVariantColor } from './constants';
+import { useSwitchStyle } from './styles';
 
 const Switch = forwardRef((
   {
@@ -27,14 +29,12 @@ const Switch = forwardRef((
   ref,
 ) => {
   const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+  const styleProps = useSwitchStyle({ disabled });
 
   return (
     <Box
       as="label"
-      display="inline-flex"
-      verticalAlign="top"
-      alignItems="center"
-      cursor={disabled ? 'not-allowed' : 'pointer'}
+      {...styleProps}
       {...rest}
     >
       <VisuallyHidden
@@ -57,7 +57,7 @@ const Switch = forwardRef((
         size={size}
         variantColor={variantColor}
       />
-      {children && (
+      {!isNullish(children) && (
         <Box
           ml="2x"
           userSelect="none"

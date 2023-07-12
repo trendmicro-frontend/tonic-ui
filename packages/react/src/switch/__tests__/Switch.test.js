@@ -1,7 +1,7 @@
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Switch } from '@tonic-ui/react/src';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 describe('Switch', () => {
   it('should render correctly', async () => {
@@ -11,20 +11,46 @@ describe('Switch', () => {
     const { container } = render((
       <>
         {/* Sizes */}
-        <Switch size="sm" name="sizes">Switch</Switch>
-        <Switch size="md" name="sizes">Switch</Switch>
-        <Switch size="lg" name="sizes">Switch</Switch>
+        <Switch size="sm" name="sizes">Label</Switch>
+        <Switch size="md" name="sizes">Label</Switch>
+        <Switch size="lg" name="sizes">Label</Switch>
 
         {/* States */}
-        <Switch defaultChecked={false}>Switch</Switch>
-        <Switch defaultChecked>Switch</Switch>
-        <Switch disabled>Switch</Switch>
-        <Switch disabled defaultChecked>Switch</Switch>
+        <Switch>Label</Switch>
+        <Switch defaultChecked>Label</Switch>
+        <Switch disabled>Label</Switch>
+        <Switch disabled defaultChecked>Label</Switch>
       </>
     ), renderOptions);
 
     expect(container).toMatchSnapshot();
 
     await testA11y(container);
+  });
+
+  it('should render correctly with `inputRef` and `ref` props', () => {
+    const TestComponent = () => {
+      const ref = useRef();
+      const inputRef = useRef();
+
+      useEffect(() => {
+        expect(inputRef.current.checked).toBe(true);
+
+        // Note: The `ref` prop will be moved to the outermost element in the next major version
+        expect(ref.current.checked).toBe(true);
+      }, []);
+
+      return (
+        <Switch
+          defaultChecked
+          inputRef={inputRef}
+          ref={ref}
+        />
+      );
+    };
+
+    render(
+      <TestComponent />
+    );
   });
 });

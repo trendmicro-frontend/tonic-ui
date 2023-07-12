@@ -1,5 +1,14 @@
 import { useColorMode } from '../color-mode';
 
+const useSwitchStyle = ({ disabled }) => {
+  return {
+    display: 'inline-flex',
+    verticalAlign: 'top',
+    alignItems: 'center',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+  };
+};
+
 const useSwitchControlBoxStyle = ({
   color,
   width,
@@ -62,5 +71,6 @@ const useSwitchControlBoxStyle = ({
 };
 
 export {
+  useSwitchStyle,
   useSwitchControlBoxStyle,
 };

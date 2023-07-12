@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAll, dataAttr } from '@tonic-ui/utils';
+import { callAll, dataAttr, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -7,6 +7,7 @@ import { VisuallyHidden } from '../visually-hidden';
 import CheckboxControlBox from './CheckboxControlBox';
 import { defaultSize, defaultVariantColor } from './constants';
 import useCheckboxGroup from './useCheckboxGroup';
+import { useCheckboxStyle } from './styles';
 
 const Checkbox = forwardRef((
   {
@@ -31,6 +32,7 @@ const Checkbox = forwardRef((
   ref,
 ) => {
   const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+  const styleProps = useCheckboxStyle({ disabled });
   const checkboxGroupContext = useCheckboxGroup();
 
   if (checkboxGroupContext) {
@@ -63,10 +65,7 @@ const Checkbox = forwardRef((
   return (
     <Box
       as="label"
-      display="inline-flex"
-      verticalAlign="top"
-      alignItems="center"
-      cursor={disabled ? 'not-allowed' : 'pointer'}
+      {...styleProps}
       {...rest}
     >
       <VisuallyHidden
@@ -91,7 +90,7 @@ const Checkbox = forwardRef((
         size={size}
         variantColor={variantColor}
       />
-      {children && (
+      {!isNullish(children) && (
         <Box
           ml="2x"
           userSelect="none"

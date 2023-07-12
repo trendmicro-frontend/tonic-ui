@@ -3,6 +3,7 @@ import { getOwnerDocument, noop, warnDeprecatedProps, warnRemovedProps } from '@
 import React, { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Box } from '../box';
+import useForceUpdate from '../utils/useForceUpdate';
 import { PortalContext } from './context';
 
 const PORTAL_CLASSNAME = 'tonic-ui-portal';
@@ -45,9 +46,9 @@ const Portal = ({
   const portalRef = useRef(null);
   const parentPortal = useContext(PortalContext);
 
-  const [, forceUpdate] = useState({});
+  const forceUpdate = useForceUpdate();
   useIsomorphicEffect(() => {
-    forceUpdate({});
+    forceUpdate();
   }, []);
 
   useIsomorphicEffect(() => {
@@ -76,7 +77,7 @@ const Portal = ({
     portalRef.current.className = PORTAL_CLASSNAME;
 
     host.appendChild(portalRef.current);
-    forceUpdate({});
+    forceUpdate();
 
     const portalNode = portalRef.current;
 

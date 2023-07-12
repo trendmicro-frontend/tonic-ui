@@ -391,7 +391,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <div
       class="emotion-16 emotion-1"
     >
-      Switch
+      Label
     </div>
   </label>
   <label
@@ -447,7 +447,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <div
       class="emotion-16 emotion-1"
     >
-      Switch
+      Label
     </div>
   </label>
   <label
@@ -503,7 +503,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <div
       class="emotion-16 emotion-1"
     >
-      Switch
+      Label
     </div>
   </label>
   <label
@@ -558,7 +558,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <div
       class="emotion-16 emotion-1"
     >
-      Switch
+      Label
     </div>
   </label>
   <label
@@ -614,7 +614,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <div
       class="emotion-16 emotion-1"
     >
-      Switch
+      Label
     </div>
   </label>
   <label
@@ -670,7 +670,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <div
       class="emotion-106 emotion-1"
     >
-      Switch
+      Label
     </div>
   </label>
   <label
@@ -727,7 +727,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <div
       class="emotion-106 emotion-1"
     >
-      Switch
+      Label
     </div>
   </label>
 </div>

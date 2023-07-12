@@ -1,6 +1,15 @@
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
+const useRadioStyle = ({ disabled }) => {
+  return {
+    display: 'inline-flex',
+    verticalAlign: 'top',
+    alignItems: 'center',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+  };
+};
+
 const useRadioControlBoxStyle = ({
   color,
   width,
@@ -93,5 +102,6 @@ const useRadioControlBoxStyle = ({
 };
 
 export {
+  useRadioStyle,
   useRadioControlBoxStyle,
 };
