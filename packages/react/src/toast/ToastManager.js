@@ -241,7 +241,7 @@ const ToastManager = ({
   return (
     <ToastManagerContext.Provider value={context}>
       {runIfFn(children, context)}
-      {isHydrated && (
+      {!!isHydrated && (
         <Portal
           container={DEPRECATED_container} // FIXME: deprecated (remove in next major version)
           containerRef={containerRef}

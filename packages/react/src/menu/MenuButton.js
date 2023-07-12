@@ -39,11 +39,9 @@ const MenuButton = forwardRef((
             {...styleProps}
             {...rest}
           >
-            {children && (
-              <Box>
-                {children}
-              </Box>
-            )}
+            <Box>
+              {children}
+            </Box>
             <MenuToggleIcon />
           </Button>
         );

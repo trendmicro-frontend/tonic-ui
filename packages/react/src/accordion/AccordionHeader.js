@@ -1,4 +1,3 @@
-import { isNullish } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -26,9 +25,7 @@ const AccordionHeader = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {!isNullish(children) && (
-        <Box>{children}</Box>
-      )}
+      <Box>{children}</Box>
       <AccordionToggleIcon />
     </AccordionToggle>
   );
