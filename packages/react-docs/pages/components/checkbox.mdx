@@ -137,6 +137,53 @@ function IndeterminateExample() {
 }
 ```
 
+## Accessibility
+
+WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
+
+* All form controls should have labels, and this includes radio buttons, checkboxes, and switches. In most cases, this is done by using the `<label>` element.
+* When a label can't be used, it's necessary to add an attribute directly to the input component. In this case, you can apply the additional attribute (e.g. `aria-label`, `aria-labelledby`, `title`) via the `inputProps` prop.
+
+```jsx disabled
+<Checkbox
+  inputProps={{
+    'aria-label': 'Label',
+  }}
+/>
+```
+
+## Commonly Asked Questions
+
+### How to obtain and interact with the input element?
+
+To access the input element within the `Checkbox` component, you can make use of the `inputRef` prop. This prop allows you to acquire a reference to the input element, enabling you to interact with it.
+
+Once you have obtained the reference to the input element, you can access its properties and methods. For instance, you can use the `checked` property to retrieve the current checked state of the input element. Additionally, if you need to focus on the input element programmatically, you can utilize the `focus()` method available on the input element reference.
+
+Here's an example of how you can utilize the `inputRef` prop to access the input element and perform actions:
+
+```jsx
+function Example() {
+  const inputRef = React.useRef();
+
+  const handleClick = () => {
+    inputRef.current.focus();
+    console.log(inputRef.current.checked); // => true
+  };
+
+  return (
+    <Flex alignItems="center" columnGap="6x">
+      <Checkbox defaultChecked inputRef={inputRef}>
+        Label
+      </Checkbox>
+      <Button onClick={handleClick}>
+        Click Me
+      </Button>
+    </Flex>
+  );
+}
+```
+
 ## Props
 
 ### Checkbox
