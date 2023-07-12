@@ -344,6 +344,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <input
       class="emotion-2 emotion-1"
       name="sizes"
+      role="switch"
       type="checkbox"
       value=""
     />
@@ -400,6 +401,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <input
       class="emotion-2 emotion-1"
       name="sizes"
+      role="switch"
       type="checkbox"
       value=""
     />
@@ -456,6 +458,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <input
       class="emotion-2 emotion-1"
       name="sizes"
+      role="switch"
       type="checkbox"
       value=""
     />
@@ -511,6 +514,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
   >
     <input
       class="emotion-2 emotion-1"
+      role="switch"
       type="checkbox"
       value=""
     />
@@ -567,6 +571,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <input
       checked=""
       class="emotion-2 emotion-1"
+      role="switch"
       type="checkbox"
       value=""
     />
@@ -623,6 +628,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
     <input
       class="emotion-2 emotion-1"
       disabled=""
+      role="switch"
       type="checkbox"
       value=""
     />
@@ -680,6 +686,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
       checked=""
       class="emotion-2 emotion-1"
       disabled=""
+      role="switch"
       type="checkbox"
       value=""
     />

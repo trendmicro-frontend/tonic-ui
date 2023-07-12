@@ -49,6 +49,7 @@ const Switch = forwardRef((
         onClick={onClick}
         onFocus={onFocus}
         ref={combinedInputRef}
+        role="switch"
         type="checkbox"
         value={value}
         {...inputProps}
