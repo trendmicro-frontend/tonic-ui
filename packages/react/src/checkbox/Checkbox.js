@@ -1,23 +1,13 @@
-import { callAll, dataAttr } from '@tonic-ui/utils';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { callAll, dataAttr, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import _get from 'lodash.get';
 import React, { forwardRef } from 'react';
-import { Box, ControlBox } from '../box';
-import { useTheme } from '../theme';
+import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
-import IconCheck from './IconCheck';
-import IconMinus from './IconMinus';
+import CheckboxControlBox from './CheckboxControlBox';
+import { defaultSize, defaultVariantColor } from './constants';
 import useCheckboxGroup from './useCheckboxGroup';
 import { useCheckboxStyle } from './styles';
-
-const sizes = {
-  lg: '6x',
-  md: '4x',
-  sm: '3x',
-};
-
-const defaultSize = 'md';
-const defaultVariantColor = 'blue';
 
 const Checkbox = forwardRef((
   {
@@ -25,25 +15,25 @@ const Checkbox = forwardRef((
     children,
     defaultChecked,
     disabled,
-    iconColor,
     id,
     indeterminate,
+    inputProps,
+    inputRef,
     name,
-    readOnly,
-    size,
-    value,
-    variantColor,
     onBlur,
     onChange,
     onClick,
     onFocus,
+    size,
+    value,
+    variantColor,
     ...rest
   },
   ref,
 ) => {
+  const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+  const styleProps = useCheckboxStyle({ disabled });
   const checkboxGroupContext = useCheckboxGroup();
-  const _defaultChecked = defaultChecked ? undefined : checked;
-  checked = readOnly ? Boolean(checked) : _defaultChecked;
 
   if (checkboxGroupContext) {
     const {
@@ -72,67 +62,39 @@ const Checkbox = forwardRef((
     variantColor = variantColor ?? defaultVariantColor;
   }
 
-  const { sizes: themeSizes } = useTheme();
-  const _size = sizes[size];
-  const themeSize = _get(themeSizes, _size);
-  const iconSize = themeSize;
-  const styleProps = useCheckboxStyle({
-    color: variantColor,
-    indeterminate,
-    width: _size,
-    height: _size,
-  });
-
   return (
     <Box
       as="label"
-      display="inline-flex"
-      verticalAlign="top"
-      alignItems="center"
-      cursor={disabled || readOnly ? 'not-allowed' : 'pointer'}
+      {...styleProps}
       {...rest}
     >
       <VisuallyHidden
         as="input"
-        type="checkbox"
-        id={id}
-        ref={ref}
-        name={name}
-        value={value}
-        defaultChecked={readOnly ? undefined : defaultChecked}
-        onChange={readOnly ? undefined : onChange}
-        onClick={readOnly ? undefined : onClick}
-        onBlur={onBlur}
-        onFocus={onFocus}
         checked={checked}
-        disabled={disabled}
-        readOnly={readOnly}
         data-indeterminate={dataAttr(indeterminate)}
-      />
-      <ControlBox
+        defaultChecked={defaultChecked}
+        disabled={disabled}
+        id={id}
+        name={name}
+        onBlur={onBlur}
+        onChange={onChange}
+        onClick={onClick}
+        onFocus={onFocus}
+        ref={combinedInputRef}
         type="checkbox"
-        {...styleProps}
-      >
-        {/* This Box is for rendering background color of Checkbox which is focused. */}
-        <Box
-          zIndex="-1"
-          position="absolute"
-          top="0"
-          bottom="0"
-          left="0"
-          right="0"
-        />
-        {
-          indeterminate
-            ? <IconMinus size={iconSize} color={iconColor} />
-            : <IconCheck size={iconSize} color={iconColor} />
-        }
-      </ControlBox>
-      {children && (
+        value={value}
+        {...inputProps}
+      />
+      <CheckboxControlBox
+        indeterminate={indeterminate}
+        size={size}
+        variantColor={variantColor}
+      />
+      {!isNullish(children) && (
         <Box
           ml="2x"
           userSelect="none"
-          opacity={readOnly || disabled ? 0.28 : 1}
+          opacity={disabled ? 0.28 : 1}
         >
           {children}
         </Box>

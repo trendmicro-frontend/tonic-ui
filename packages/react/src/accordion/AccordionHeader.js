@@ -25,9 +25,7 @@ const AccordionHeader = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {children && (
-        <Box>{children}</Box>
-      )}
+      <Box>{children}</Box>
       <AccordionToggleIcon />
     </AccordionToggle>
   );

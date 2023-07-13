@@ -11,37 +11,132 @@ import { Switch } from '@tonic-ui/react';
 ## Usage
 
 ```jsx
-<Flex alignItems="center">
-  <Switch pr="1x" id="email-alerts" />
-  <label htmlFor="email-alerts">Enable email alerts?</label>
+<Switch>
+  Label
+</Switch>
+```
+
+You can use a flex container to align a switch with other components. This allows you to easily control the positioning and spacing of all elements within the container.
+
+```jsx
+<Flex alignItems="flex-start" columnGap="2x">
+  <Switch id="form-control" />
+  <Box
+    as="label"
+    htmlFor="form-control"
+    sx={{
+      cursor: 'pointer',
+      pt: '1x',
+      userSelect: 'none',
+    }}
+  >
+    <Text>Label</Text>
+    <Text fontSize="xs" lineHeight="xs">Helper text</Text>
+  </Box>
+</Flex>
+```
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of a radio button. `variantColor` can be any color key with key `50` (hover) or `60` (checked) that exist in `theme.colors`.
+
+```jsx
+<Flex columnGap="6x">
+  <Switch variantColor="red" defaultChecked>
+    Label
+  </Switch>
+  <Switch variantColor="green" defaultChecked>
+    Label
+  </Switch>
 </Flex>
 ```
 
 ### Sizes
 
-Pass the `size` prop to change the size of the `Switch`.
+Use the `size` prop to change the size of the switch. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Flex alignItems="center">
-  <Switch size="sm" />
-  <Switch size="md" />
-  <Switch size="lg" />
+<Flex columnGap="6x">
+  <Switch size="sm">
+    Label
+  </Switch>
+  <Switch size="md">
+    Label
+  </Switch>
+  <Switch size="lg">
+    Label
+  </Switch>
 </Flex>
 ```
 
-### Switch background color
-
-* Use the `variantColor` prop to change the checked background color of the `Switch`. `variantColor` can be any color key with key `50`(hover), `60`(checked, focus) that exist in the `theme.colors`.
-
-  > That means the `red:60` exists in the `theme.colors` then can use variantColor="red".
-
-* [Learn more about colors theming](../theme/colors).
+### States
 
 ```jsx
-<Flex alignItems="center">
-  <Switch defaultChecked variantColor="red" />
-  <Switch defaultChecked size="lg" variantColor="green" />
-</Flex>
+<Stack spacing="6x">
+  <Flex columnGap="6x">
+    <Switch>
+      Label
+    </Switch>
+    <Switch checked>
+      Label
+    </Switch>
+  </Flex>
+  <Flex columnGap="6x">
+    <Switch disabled>
+      Label
+    </Switch>
+    <Switch checked disabled>
+      Label
+    </Switch>
+  </Flex>
+</Stack>
+```
+
+## Accessibility
+
+WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
+
+* All form controls should have labels, and this includes radio buttons, checkboxes, and switches. In most cases, this is done by using the `<label>` element.
+* When a label can't be used, it's necessary to add an attribute directly to the input component. In this case, you can apply the additional attribute (e.g. `aria-label`, `aria-labelledby`, `title`) via the `inputProps` prop.
+
+```jsx disabled
+<Switch
+  inputProps={{
+    'aria-label': 'Label',
+  }}
+/>
+```
+
+## Commonly Asked Questions
+
+### How to obtain and interact with the input element?
+
+To access the input element within the `Switch` component, you can make use of the `inputRef` prop. This prop allows you to acquire a reference to the input element, enabling you to interact with it.
+
+Once you have obtained the reference to the input element, you can access its properties and methods. For instance, you can use the `checked` property to retrieve the current checked state of the input element. Additionally, if you need to focus on the input element programmatically, you can utilize the `focus()` method available on the input element reference.
+
+Here's an example of how you can utilize the `inputRef` prop to access the input element and perform actions:
+
+```jsx
+function Example() {
+  const inputRef = React.useRef();
+
+  const handleClick = () => {
+    inputRef.current.focus();
+    console.log(inputRef.current.checked); // => true
+  };
+
+  return (
+    <Flex alignItems="center" columnGap="6x">
+      <Switch defaultChecked inputRef={inputRef}>
+        Label
+      </Switch>
+      <Button onClick={handleClick}>
+        Click Me
+      </Button>
+    </Flex>
+  );
+}
 ```
 
 ## Props
@@ -50,13 +145,18 @@ Pass the `size` prop to change the size of the `Switch`.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| checked | boolean | | If `true`, the switch will be selected. Use the `onChange` prop to update the state for a controlled component. |
+| children | ReactNode | | The content within the switch component. |
+| defaultChecked | boolean | | If `true`, the switch will be selected initially. |
+| disabled | boolean | | If `true`, disables the switch and prevents user interaction. |
+| id | string | | The `id` attribute of the input field.  |
+| inputProps | object | | Additional props to be applied to the input element. |
+| inputRef | RefObject | | A ref object to access the input element. |
+| name | string | | The name of the switch input when used within a form. |
+| onBlur | function | | A callback function invoked when the switch loses focus. |
+| onChange | function | | A callback function invoked when the state of the switch changes. |
+| onClick | function | | A callback function invoked when the switch is clicked. |
+| onFocus | function | | A callback function invoked when the switch receives focus. |
 | size | string | 'md' | The size of the switch. One of: 'sm', 'md', 'lg' |
-| variantColor | string | 'blue' | The background color of the switch when checked. |
-| name | string | | The input name of the switch when used in a form. |
-| value | string \| boolean | | The value of the switch. |
-| children | ReactNode | | The children of the switch. |
-| aria-label | string | | The aria-label of the switch for accessibility. |
-| aria-labelledby | string | | The aria-labelledby of the switch for accessibility. |
-| checked | boolean | | If `true`, set the switch to the checked state. |
-| defaultChecked | boolean | | If `true`, the checkbox will be initially checked. |
-| disabled | boolean | | If `true`, set the disabled to the invalid state. |
+| value | string \| boolean | | The value of the switch input. This is the return value for form submissions. |
+| variantColor | string | 'blue' | The color of the switch when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |

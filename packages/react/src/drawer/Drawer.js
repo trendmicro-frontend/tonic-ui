@@ -49,7 +49,7 @@ const Drawer = forwardRef((
     isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
   }
 
-  const [isMounted, setMounted] = useState(isOpen);
+  const [isMounted, setIsMounted] = useState(isOpen);
   const containerRef = useRef();
   const contentRef = useRef(null);
   const context = getMemoizedState({
@@ -101,12 +101,12 @@ const Drawer = forwardRef((
     }
   }, [finalFocusRef]);
   const onExitComplete = useCallback(() => {
-    setMounted(false);
-  }, [setMounted]);
+    setIsMounted(false);
+  }, []);
 
   useEffect(() => {
     if (isOpen && !isMounted) {
-      setMounted(true);
+      setIsMounted(true);
       return;
     }
   }, [isOpen, isMounted]);
@@ -117,7 +117,7 @@ const Drawer = forwardRef((
         in={isOpen}
         onExitComplete={onExitComplete}
       >
-        {isMounted && (
+        {!!isMounted && (
           <Portal
             {...portalProps}
           >

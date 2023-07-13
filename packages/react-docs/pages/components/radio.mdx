@@ -8,10 +8,33 @@ Radio buttons are used when only one choice may be selected in a series of optio
 import { Radio } from '@tonic-ui/react';
 ```
 
-### Usage
+## Usage
 
 ```jsx
-<Radio>Radio button</Radio>
+<Radio>
+  Label
+</Radio>
+```
+
+You can use a flex container to align a radio button with other components. This allows you to easily control the positioning and spacing of all elements within the container.
+
+```jsx
+<Flex alignItems="flex-start" columnGap="2x">
+  <Box py="1h">
+    <Radio id="form-control" />
+  </Box>
+  <Box
+    as="label"
+    htmlFor="form-control"
+    sx={{
+      cursor: 'pointer',
+      userSelect: 'none',
+    }}
+  >
+    <Text>Label</Text>
+    <Text fontSize="xs" lineHeight="xs">Helper text</Text>
+  </Box>
+</Flex>
 ```
 
 ### Colors
@@ -19,10 +42,14 @@ import { Radio } from '@tonic-ui/react';
 Use the `variantColor` prop to change the color scheme of a radio button. `variantColor` can be any color key with key `50` (hover) or `60` (checked) that exist in `theme.colors`.
 
 ```jsx
-<Stack direction="row" spacing="3x">
-  <Radio variantColor="red" defaultChecked>Radio</Radio>
-  <Radio variantColor="green" defaultChecked>Radio</Radio>
-</Stack>
+<Flex columnGap="6x">
+  <Radio variantColor="red" defaultChecked>
+    Label
+  </Radio>
+  <Radio variantColor="green" defaultChecked>
+    Label
+  </Radio>
+</Flex>
 ```
 
 ### Sizes
@@ -30,22 +57,87 @@ Use the `variantColor` prop to change the color scheme of a radio button. `varia
 Use the `size` prop to change the radio button size. You can set the value to `sm`, `md`, or `lg`.
 
 ```jsx
-<Stack direction="column" spacing="1x" shouldWrapChildren>
-  <Radio size="sm" name="1">Radio</Radio>
-  <Radio size="md" name="1">Radio</Radio>
-  <Radio size="lg" name="1">Radio</Radio>
-</Stack>
+<Flex columnGap="6x">
+  <Radio size="sm" name="1">
+    Label
+  </Radio>
+  <Radio size="md" name="1">
+    Label
+  </Radio>
+  <Radio size="lg" name="1">
+    Label
+  </Radio>
+</Flex>
 ```
 
 ### States
 
 ```jsx
-<Stack direction="row" spacing="3x">
-  <Radio defaultChecked={false}>Radio</Radio>
-  <Radio defaultChecked>Radio</Radio>
-  <Radio disabled>Radio</Radio>
-  <Radio disabled defaultChecked>Radio</Radio>
+<Stack spacing="6x">
+  <Flex columnGap="6x">
+    <Radio>
+      Label
+    </Radio>
+    <Radio defaultChecked>
+      Label
+    </Radio>
+  </Flex>
+  <Flex columnGap="6x">
+    <Radio disabled>
+      Label
+    </Radio>
+    <Radio disabled defaultChecked>
+      Label
+    </Radio>
+  </Flex>
 </Stack>
+```
+
+## Accessibility
+
+WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+
+* All form controls should have labels, and this includes radio buttons, checkboxes, and switches. In most cases, this is done by using the `<label>` element.
+* When a label can't be used, it's necessary to add an attribute directly to the input component. In this case, you can apply the additional attribute (e.g. `aria-label`, `aria-labelledby`, `title`) via the `inputProps` prop.
+
+```jsx disabled
+<Radio
+  inputProps={{
+    'aria-label': 'Label',
+  }}
+/>
+```
+
+## Commonly Asked Questions
+
+### How to obtain and interact with the input element?
+
+To access the input element within the `Radio` component, you can make use of the `inputRef` prop. This prop allows you to acquire a reference to the input element, enabling you to interact with it.
+
+Once you have obtained the reference to the input element, you can access its properties and methods. For instance, you can use the `checked` property to retrieve the current checked state of the input element. Additionally, if you need to focus on the input element programmatically, you can utilize the `focus()` method available on the input element reference.
+
+Here's an example of how you can utilize the `inputRef` prop to access the input element and perform actions:
+
+```jsx
+function Example() {
+  const inputRef = React.useRef();
+
+  const handleClick = () => {
+    inputRef.current.focus();
+    console.log(inputRef.current.checked); // => true
+  };
+
+  return (
+    <Flex alignItems="center" columnGap="6x">
+      <Radio defaultChecked inputRef={inputRef}>
+        Label
+      </Radio>
+      <Button onClick={handleClick}>
+        Click Me
+      </Button>
+    </Flex>
+  );
+}
 ```
 
 ## Props
@@ -54,15 +146,18 @@ Use the `size` prop to change the radio button size. You can set the value to `s
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| id | string | | The id attribute of the input field. |
-| name | string | | The name of a input field in a series of radio buttons. The name is useful for form submissions.  |
-| value | string \| number | | The value for radio button input. This is the return value for form submissions. |
-| variantColor | string | | The color of the radio button when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |
-| size | string | 'md' | The size (width and height) of a radio button. Acceptable values: 'sm', 'md', 'lg' |
+| checked | boolean | | If `true`, the radio button will be selected. Use the `onChange` prop to update the state for a controlled component. |
+| children | ReactNode | | The content within the radio button component. |
 | defaultChecked | boolean | | If `true`, the radio button will be selected initially. |
-| checked | boolean | | If `true`, the radio button will be selected. Use `onChange` to update the state for a controlled component. |
-| disabled | boolean | | If `true`, the radio button will be disabled. This sets `aria-disabled=true` and you can set this state by using the `_disabled` prop. |
-| children | ReactNode | | The children of the radio button. |
-| onChange | function | | A callback called when the state is changed. |
-| onBlur | function | | A callback called when the radio button loses focus. |
-| onFocus | function | | A callback called when the radio button receives focus. |
+| disabled | boolean | | If `true`, disables the radio button and prevents user interaction. |
+| id | string | | The `id` attribute of the input field. |
+| inputProps | object | | Additional props to be applied to the input element. |
+| inputRef | RefObject | | A ref object to access the input element. |
+| name | string | | The name of the input field in a series of radio buttons. The name is useful for form submissions.  |
+| onBlur | function | | A callback function invoked when the radio button loses focus. |
+| onChange | function | | A callback function invoked when the state of the radio button changes. |
+| onClick | function | | A callback function invoked when the radio button is clicked. |
+| onFocus | function | | A callback function invoked when the radio button receives focus. |
+| size | string | 'md' | The size of the radio button. One of: 'sm', 'md', 'lg' |
+| value | string \| number | | The value of the radio button input. This is the return value for form submissions. |
+| variantColor | string | 'blue' | The color of the radio button when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |

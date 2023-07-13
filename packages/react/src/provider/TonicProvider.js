@@ -32,7 +32,7 @@ const TonicProvider = ({
     <ThemeProvider theme={theme}>
       <ColorModeProvider {...colorModeProps}>
         <ColorStyleProvider {...colorStyleProps}>
-          {useCSSBaseline && <CSSBaseline />}
+          {!!useCSSBaseline && <CSSBaseline />}
           {children}
         </ColorStyleProvider>
       </ColorModeProvider>

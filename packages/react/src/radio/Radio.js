@@ -1,20 +1,12 @@
-import { callAll } from '@tonic-ui/utils';
-import _get from 'lodash.get';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { callAll, isNullish } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
-import { Box, ControlBox } from '../box';
-import { useTheme } from '../theme';
+import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
-import { useRadioStyle } from './styles';
+import { defaultSize, defaultVariantColor } from './constants';
+import RadioControlBox from './RadioControlBox';
 import useRadioGroup from './useRadioGroup';
-
-const sizes = {
-  lg: '6x',
-  md: '4x',
-  sm: '3x',
-};
-
-const defaultSize = 'md';
-const defaultVariantColor = 'blue';
+import { useRadioStyle } from './styles';
 
 const Radio = forwardRef((
   {
@@ -23,18 +15,22 @@ const Radio = forwardRef((
     defaultChecked,
     disabled,
     id,
+    inputProps,
+    inputRef,
     name,
+    onBlur,
+    onChange,
+    onClick,
+    onFocus,
     size,
     value,
     variantColor,
-    onChange,
-    onClick,
-    onBlur,
-    onFocus,
     ...rest
   },
   ref,
 ) => {
+  const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+  const styleProps = useRadioStyle({ disabled });
   const radioGroupContext = useRadioGroup();
 
   if (radioGroupContext) {
@@ -65,54 +61,33 @@ const Radio = forwardRef((
     variantColor = variantColor ?? defaultVariantColor;
   }
 
-  const { sizes: themeSizes } = useTheme();
-  const _size = sizes[size];
-  const themeSize = _get(themeSizes, _size);
-  const iconSize = `calc(${themeSize} / 2)`;
-  const styleProps = useRadioStyle({
-    color: variantColor,
-    width: _size,
-    height: _size,
-  });
-
   return (
     <Box
       as="label"
-      display="inline-flex"
-      verticalAlign="top"
-      htmlFor={id}
-      alignItems="center"
-      cursor={disabled ? 'not-allowed' : 'pointer'}
+      {...styleProps}
       {...rest}
     >
       <VisuallyHidden
         as="input"
-        type="radio"
-        id={id}
-        ref={ref}
-        name={name}
-        value={value}
+        checked={checked}
         defaultChecked={defaultChecked}
+        disabled={disabled}
+        id={id}
+        name={name}
+        onBlur={onBlur}
         onChange={onChange}
         onClick={onClick}
-        onBlur={onBlur}
         onFocus={onFocus}
-        checked={checked}
-        disabled={disabled}
-      />
-      <ControlBox
+        ref={combinedInputRef}
         type="radio"
-        {...styleProps}
-      >
-        <Box
-          backgroundColor="currentColor"
-          borderRadius="circle"
-          display="inline-flex"
-          width={iconSize}
-          height={iconSize}
-        />
-      </ControlBox>
-      {children && (
+        value={value}
+        {...inputProps}
+      />
+      <RadioControlBox
+        size={size}
+        variantColor={variantColor}
+      />
+      {!isNullish(children) && (
         <Box
           ml="2x"
           userSelect="none"

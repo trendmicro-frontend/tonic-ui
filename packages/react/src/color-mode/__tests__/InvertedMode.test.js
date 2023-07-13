@@ -6,6 +6,7 @@ import {
   LightMode,
   useColorMode,
 } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('InvertedMode', () => {
   it('should invert dark mode to light mode', () => {

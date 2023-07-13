@@ -1,92 +1,72 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { isNullish } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
-import { Box, ControlBox } from '../box';
+import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
+import SwitchControlBox from './SwitchControlBox';
+import { defaultSize, defaultVariantColor } from './constants';
 import { useSwitchStyle } from './styles';
 
 const Switch = forwardRef((
   {
-    id,
-    name,
-    value,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    variantColor = 'blue',
-    defaultChecked,
     checked,
-    size = 'md',
-    disabled,
-    onChange,
-    onBlur,
-    onFocus,
     children,
+    defaultChecked,
+    disabled,
+    id,
+    inputProps,
+    inputRef,
+    name,
+    onBlur,
+    onChange,
+    onClick,
+    onFocus,
+    size = defaultSize,
+    value,
+    variantColor = defaultVariantColor,
     ...rest
   },
   ref,
 ) => {
-  const {
-    baseStyle,
-    switchSVGStyle,
-    switchTrackHaloStyle,
-    switchTrackBorderStyle,
-    switchTrackStyle,
-    switchThumbStyle
-  } = useSwitchStyle({
-    variantColor,
-    size,
-  });
+  const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+  const styleProps = useSwitchStyle({ disabled });
 
   return (
-    <Box as="label" display="flex" {...rest}>
+    <Box
+      as="label"
+      {...styleProps}
+      {...rest}
+    >
       <VisuallyHidden
         as="input"
-        type="checkbox"
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        id={id}
-        ref={ref}
-        name={name}
-        value={value}
-        defaultChecked={defaultChecked}
-        onChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
         checked={checked}
+        defaultChecked={defaultChecked}
         disabled={disabled}
+        id={id}
+        name={name}
+        onBlur={onBlur}
+        onChange={onChange}
+        onClick={onClick}
+        onFocus={onFocus}
+        ref={combinedInputRef}
+        role="switch"
+        type="checkbox"
+        value={value}
+        {...inputProps}
       />
-      <ControlBox {...baseStyle}>
+      <SwitchControlBox
+        size={size}
+        variantColor={variantColor}
+      />
+      {!isNullish(children) && (
         <Box
-          as="svg"
-          data-switch
-          {...switchSVGStyle}
+          ml="2x"
+          userSelect="none"
+          opacity={disabled ? 0.28 : 1}
         >
-          <Box
-            as="rect"
-            data-switch-track-halo
-            x="0"
-            y="0"
-            {...switchTrackHaloStyle}
-          />
-          <Box
-            as="rect"
-            data-switch-track-border
-            x="2"
-            y="2"
-            {...switchTrackBorderStyle}
-          />
-          <Box
-            as="rect"
-            data-switch-track
-            x="3"
-            y="3"
-            {...switchTrackStyle}
-          />
-          <Box
-            as="circle"
-            data-switch-thumb
-            {...switchThumbStyle}
-          />
+          {children}
         </Box>
-      </ControlBox>
+      )}
     </Box>
   );
 });

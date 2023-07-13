@@ -1,0 +1,741 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Switch should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: top;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.emotion-2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-transition: all 120ms;
+  transition: all 120ms;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 38px;
+  height: 22px;
+}
+
+input[type=checkbox]:focus+.emotion-4 [data-switch] [data-switch-track-halo] {
+  fill: var(--tonic-colors-blue-40);
+}
+
+input[type=checkbox]:focus+.emotion-4 [data-switch] [data-switch-track-border] {
+  fill: white;
+}
+
+input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-4 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
+}
+
+input[type=checkbox]:disabled+.emotion-4 {
+  opacity: 0.28;
+}
+
+input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-4 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-blue-30);
+}
+
+.emotion-4>* {
+  opacity: 1;
+}
+
+input[type=checkbox]:checked+.emotion-4 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-blue-40);
+}
+
+input[type=checkbox]:checked+.emotion-4 [data-switch] [data-switch-thumb] {
+  -webkit-transform: translateX(16px);
+  -moz-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+input[type=checkbox]:checked+.emotion-4>* {
+  opacity: 1;
+}
+
+input[type=checkbox][data-indeterminate]+.emotion-4>* {
+  opacity: 1;
+}
+
+.emotion-6 {
+  width: 100%;
+  height: 100%;
+}
+
+.emotion-8 {
+  width: 38px;
+  height: 22px;
+  fill: none;
+}
+
+.emotion-10 {
+  width: 34px;
+  height: 18px;
+  fill: none;
+}
+
+.emotion-12 {
+  width: 32px;
+  height: 16px;
+  fill: var(--tonic-colors-gray-30);
+  pointer-events: all;
+}
+
+.emotion-14 {
+  fill: var(--tonic-colors-white-emphasis);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+  transform-box: fill-box;
+  -webkit-transition: -webkit-transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.emotion-16 {
+  margin-left: var(--tonic-space-2x);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 1;
+}
+
+.emotion-22 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-transition: all 120ms;
+  transition: all 120ms;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 54px;
+  height: 30px;
+}
+
+input[type=checkbox]:focus+.emotion-22 [data-switch] [data-switch-track-halo] {
+  fill: var(--tonic-colors-blue-40);
+}
+
+input[type=checkbox]:focus+.emotion-22 [data-switch] [data-switch-track-border] {
+  fill: white;
+}
+
+input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-22 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
+}
+
+input[type=checkbox]:disabled+.emotion-22 {
+  opacity: 0.28;
+}
+
+input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-22 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-blue-30);
+}
+
+.emotion-22>* {
+  opacity: 1;
+}
+
+input[type=checkbox]:checked+.emotion-22 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-blue-40);
+}
+
+input[type=checkbox]:checked+.emotion-22 [data-switch] [data-switch-thumb] {
+  -webkit-transform: translateX(24px);
+  -moz-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+}
+
+input[type=checkbox]:checked+.emotion-22>* {
+  opacity: 1;
+}
+
+input[type=checkbox][data-indeterminate]+.emotion-22>* {
+  opacity: 1;
+}
+
+.emotion-26 {
+  width: 54px;
+  height: 30px;
+  fill: none;
+}
+
+.emotion-28 {
+  width: 50px;
+  height: 26px;
+  fill: none;
+}
+
+.emotion-30 {
+  width: 48px;
+  height: 24px;
+  fill: var(--tonic-colors-gray-30);
+  pointer-events: all;
+}
+
+.emotion-40 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-transition: all 120ms;
+  transition: all 120ms;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 70px;
+  height: 38px;
+}
+
+input[type=checkbox]:focus+.emotion-40 [data-switch] [data-switch-track-halo] {
+  fill: var(--tonic-colors-blue-40);
+}
+
+input[type=checkbox]:focus+.emotion-40 [data-switch] [data-switch-track-border] {
+  fill: white;
+}
+
+input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-40 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
+}
+
+input[type=checkbox]:disabled+.emotion-40 {
+  opacity: 0.28;
+}
+
+input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-40 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-blue-30);
+}
+
+.emotion-40>* {
+  opacity: 1;
+}
+
+input[type=checkbox]:checked+.emotion-40 [data-switch] [data-switch-track] {
+  fill: var(--tonic-colors-blue-40);
+}
+
+input[type=checkbox]:checked+.emotion-40 [data-switch] [data-switch-thumb] {
+  -webkit-transform: translateX(32px);
+  -moz-transform: translateX(32px);
+  -ms-transform: translateX(32px);
+  transform: translateX(32px);
+}
+
+input[type=checkbox]:checked+.emotion-40>* {
+  opacity: 1;
+}
+
+input[type=checkbox][data-indeterminate]+.emotion-40>* {
+  opacity: 1;
+}
+
+.emotion-44 {
+  width: 70px;
+  height: 38px;
+  fill: none;
+}
+
+.emotion-46 {
+  width: 66px;
+  height: 34px;
+  fill: none;
+}
+
+.emotion-48 {
+  width: 64px;
+  height: 32px;
+  fill: var(--tonic-colors-gray-30);
+  pointer-events: all;
+}
+
+.emotion-90 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: top;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: not-allowed;
+}
+
+.emotion-106 {
+  margin-left: var(--tonic-space-2x);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 0.28;
+}
+
+<div>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="sizes"
+      role="switch"
+      type="checkbox"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 38 22"
+      >
+        <rect
+          class="emotion-8 emotion-1"
+          data-switch-track-halo="true"
+          rx="11"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-10 emotion-1"
+          data-switch-track-border="true"
+          rx="9"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-12 emotion-1"
+          data-switch-track="true"
+          rx="8"
+          x="3"
+          y="3"
+        />
+        <circle
+          class="emotion-14 emotion-1"
+          cx="11"
+          cy="11"
+          data-switch-thumb="true"
+          r="6"
+        />
+      </svg>
+    </div>
+    <div
+      class="emotion-16 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="sizes"
+      role="switch"
+      type="checkbox"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-22 emotion-1"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 54 30"
+      >
+        <rect
+          class="emotion-26 emotion-1"
+          data-switch-track-halo="true"
+          rx="15"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-28 emotion-1"
+          data-switch-track-border="true"
+          rx="13"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-30 emotion-1"
+          data-switch-track="true"
+          rx="12"
+          x="3"
+          y="3"
+        />
+        <circle
+          class="emotion-14 emotion-1"
+          cx="15"
+          cy="15"
+          data-switch-thumb="true"
+          r="9"
+        />
+      </svg>
+    </div>
+    <div
+      class="emotion-16 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="sizes"
+      role="switch"
+      type="checkbox"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-40 emotion-1"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 70 38"
+      >
+        <rect
+          class="emotion-44 emotion-1"
+          data-switch-track-halo="true"
+          rx="19"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-46 emotion-1"
+          data-switch-track-border="true"
+          rx="17"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-48 emotion-1"
+          data-switch-track="true"
+          rx="16"
+          x="3"
+          y="3"
+        />
+        <circle
+          class="emotion-14 emotion-1"
+          cx="19"
+          cy="19"
+          data-switch-thumb="true"
+          r="12"
+        />
+      </svg>
+    </div>
+    <div
+      class="emotion-16 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      role="switch"
+      type="checkbox"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-22 emotion-1"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 54 30"
+      >
+        <rect
+          class="emotion-26 emotion-1"
+          data-switch-track-halo="true"
+          rx="15"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-28 emotion-1"
+          data-switch-track-border="true"
+          rx="13"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-30 emotion-1"
+          data-switch-track="true"
+          rx="12"
+          x="3"
+          y="3"
+        />
+        <circle
+          class="emotion-14 emotion-1"
+          cx="15"
+          cy="15"
+          data-switch-thumb="true"
+          r="9"
+        />
+      </svg>
+    </div>
+    <div
+      class="emotion-16 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      checked=""
+      class="emotion-2 emotion-1"
+      role="switch"
+      type="checkbox"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-22 emotion-1"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 54 30"
+      >
+        <rect
+          class="emotion-26 emotion-1"
+          data-switch-track-halo="true"
+          rx="15"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-28 emotion-1"
+          data-switch-track-border="true"
+          rx="13"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-30 emotion-1"
+          data-switch-track="true"
+          rx="12"
+          x="3"
+          y="3"
+        />
+        <circle
+          class="emotion-14 emotion-1"
+          cx="15"
+          cy="15"
+          data-switch-thumb="true"
+          r="9"
+        />
+      </svg>
+    </div>
+    <div
+      class="emotion-16 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-90 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      disabled=""
+      role="switch"
+      type="checkbox"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-22 emotion-1"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 54 30"
+      >
+        <rect
+          class="emotion-26 emotion-1"
+          data-switch-track-halo="true"
+          rx="15"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-28 emotion-1"
+          data-switch-track-border="true"
+          rx="13"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-30 emotion-1"
+          data-switch-track="true"
+          rx="12"
+          x="3"
+          y="3"
+        />
+        <circle
+          class="emotion-14 emotion-1"
+          cx="15"
+          cy="15"
+          data-switch-thumb="true"
+          r="9"
+        />
+      </svg>
+    </div>
+    <div
+      class="emotion-106 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-90 emotion-1"
+  >
+    <input
+      checked=""
+      class="emotion-2 emotion-1"
+      disabled=""
+      role="switch"
+      type="checkbox"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-22 emotion-1"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 54 30"
+      >
+        <rect
+          class="emotion-26 emotion-1"
+          data-switch-track-halo="true"
+          rx="15"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-28 emotion-1"
+          data-switch-track-border="true"
+          rx="13"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-30 emotion-1"
+          data-switch-track="true"
+          rx="12"
+          x="3"
+          y="3"
+        />
+        <circle
+          class="emotion-14 emotion-1"
+          cx="15"
+          cy="15"
+          data-switch-thumb="true"
+          r="9"
+        />
+      </svg>
+    </div>
+    <div
+      class="emotion-106 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+</div>
+`;

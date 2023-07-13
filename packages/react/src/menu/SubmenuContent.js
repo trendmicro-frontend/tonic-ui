@@ -100,7 +100,6 @@ const SubmenuContent = forwardRef((
       data-submenu-id={submenuId}
       id={submenuId}
       isOpen={isOpen}
-      modifiers={popperModifiers}
       placement={placement}
       ref={submenuContentRef}
       role="menu"

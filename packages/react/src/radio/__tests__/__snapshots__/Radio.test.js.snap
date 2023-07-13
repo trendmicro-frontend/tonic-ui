@@ -1,0 +1,466 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radio should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: top;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.emotion-2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-transition: background-color 120ms,box-shadow 250ms;
+  transition: background-color 120ms,box-shadow 250ms;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: var(--tonic-borders-1);
+  border-radius: var(--tonic-radii-circle);
+  width: var(--tonic-sizes-3x);
+  height: var(--tonic-sizes-3x);
+  border-color: var(--tonic-colors-gray-40);
+}
+
+input[type=radio]:focus+.emotion-4 {
+  box-shadow: 0 0 0 2px #1e5ede;
+}
+
+input[type=radio]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-4 {
+  border-color: var(--tonic-colors-blue-50);
+}
+
+input[type=radio]:disabled+.emotion-4 {
+  border-color: var(--tonic-colors-gray-40);
+  opacity: 0.28;
+}
+
+input[type=radio]:checked:disabled+.emotion-4 {
+  border-color: var(--tonic-colors-gray-40);
+  color: var(--tonic-colors-gray-40);
+  opacity: 0.28;
+}
+
+input[type=radio]:checked:hover:not(:disabled):not(:focus)+.emotion-4 {
+  border-color: var(--tonic-colors-blue-50);
+  color: var(--tonic-colors-blue-50);
+}
+
+.emotion-4>* {
+  opacity: 0;
+}
+
+input[type=radio]:checked+.emotion-4 {
+  border-color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-blue-60);
+}
+
+input[type=radio]:checked+.emotion-4>* {
+  opacity: 1;
+}
+
+input[type=radio][data-indeterminate]+.emotion-4>* {
+  opacity: 1;
+}
+
+.emotion-6 {
+  background-color: currentColor;
+  border-radius: var(--tonic-radii-circle);
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: calc(.75rem / 2);
+  height: calc(.75rem / 2);
+}
+
+.emotion-8 {
+  margin-left: var(--tonic-space-2x);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 1;
+}
+
+.emotion-14 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-transition: background-color 120ms,box-shadow 250ms;
+  transition: background-color 120ms,box-shadow 250ms;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: var(--tonic-borders-1);
+  border-radius: var(--tonic-radii-circle);
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  border-color: var(--tonic-colors-gray-40);
+}
+
+input[type=radio]:focus+.emotion-14 {
+  box-shadow: 0 0 0 2px #1e5ede;
+}
+
+input[type=radio]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-14 {
+  border-color: var(--tonic-colors-blue-50);
+}
+
+input[type=radio]:disabled+.emotion-14 {
+  border-color: var(--tonic-colors-gray-40);
+  opacity: 0.28;
+}
+
+input[type=radio]:checked:disabled+.emotion-14 {
+  border-color: var(--tonic-colors-gray-40);
+  color: var(--tonic-colors-gray-40);
+  opacity: 0.28;
+}
+
+input[type=radio]:checked:hover:not(:disabled):not(:focus)+.emotion-14 {
+  border-color: var(--tonic-colors-blue-50);
+  color: var(--tonic-colors-blue-50);
+}
+
+.emotion-14>* {
+  opacity: 0;
+}
+
+input[type=radio]:checked+.emotion-14 {
+  border-color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-blue-60);
+}
+
+input[type=radio]:checked+.emotion-14>* {
+  opacity: 1;
+}
+
+input[type=radio][data-indeterminate]+.emotion-14>* {
+  opacity: 1;
+}
+
+.emotion-16 {
+  background-color: currentColor;
+  border-radius: var(--tonic-radii-circle);
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: calc(1rem / 2);
+  height: calc(1rem / 2);
+}
+
+.emotion-24 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-transition: background-color 120ms,box-shadow 250ms;
+  transition: background-color 120ms,box-shadow 250ms;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: var(--tonic-borders-1);
+  border-radius: var(--tonic-radii-circle);
+  width: var(--tonic-sizes-6x);
+  height: var(--tonic-sizes-6x);
+  border-color: var(--tonic-colors-gray-40);
+}
+
+input[type=radio]:focus+.emotion-24 {
+  box-shadow: 0 0 0 2px #1e5ede;
+}
+
+input[type=radio]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-24 {
+  border-color: var(--tonic-colors-blue-50);
+}
+
+input[type=radio]:disabled+.emotion-24 {
+  border-color: var(--tonic-colors-gray-40);
+  opacity: 0.28;
+}
+
+input[type=radio]:checked:disabled+.emotion-24 {
+  border-color: var(--tonic-colors-gray-40);
+  color: var(--tonic-colors-gray-40);
+  opacity: 0.28;
+}
+
+input[type=radio]:checked:hover:not(:disabled):not(:focus)+.emotion-24 {
+  border-color: var(--tonic-colors-blue-50);
+  color: var(--tonic-colors-blue-50);
+}
+
+.emotion-24>* {
+  opacity: 0;
+}
+
+input[type=radio]:checked+.emotion-24 {
+  border-color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-blue-60);
+}
+
+input[type=radio]:checked+.emotion-24>* {
+  opacity: 1;
+}
+
+input[type=radio][data-indeterminate]+.emotion-24>* {
+  opacity: 1;
+}
+
+.emotion-26 {
+  background-color: currentColor;
+  border-radius: var(--tonic-radii-circle);
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: calc(1.5rem / 2);
+  height: calc(1.5rem / 2);
+}
+
+.emotion-50 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: top;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: not-allowed;
+}
+
+.emotion-58 {
+  margin-left: var(--tonic-space-2x);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 0.28;
+}
+
+<div>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="sizes"
+      type="radio"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+    >
+      <div
+        class="emotion-6 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="sizes"
+      type="radio"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-14 emotion-1"
+    >
+      <div
+        class="emotion-16 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="sizes"
+      type="radio"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-24 emotion-1"
+    >
+      <div
+        class="emotion-26 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      type="radio"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-14 emotion-1"
+    >
+      <div
+        class="emotion-16 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      checked=""
+      class="emotion-2 emotion-1"
+      type="radio"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-14 emotion-1"
+    >
+      <div
+        class="emotion-16 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-50 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      disabled=""
+      type="radio"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-14 emotion-1"
+    >
+      <div
+        class="emotion-16 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-58 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-50 emotion-1"
+  >
+    <input
+      checked=""
+      class="emotion-2 emotion-1"
+      disabled=""
+      type="radio"
+      value=""
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-14 emotion-1"
+    >
+      <div
+        class="emotion-16 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-58 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+</div>
+`;

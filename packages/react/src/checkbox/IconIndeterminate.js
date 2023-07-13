@@ -1,10 +1,9 @@
 import React from 'react';
 import { SVGIcon } from '../icon';
 
-const IconMinus = (props) => {
-  const viewBox = '0 0 24 24';
+const IconIndeterminate = (props) => {
   return (
-    <SVGIcon viewBox={viewBox} {...props}>
+    <SVGIcon viewBox="0 0 24 24" {...props}>
       <g fill="currentColor">
         <rect
           height="18"
@@ -17,6 +16,6 @@ const IconMinus = (props) => {
   );
 };
 
-IconMinus.displayName = 'IconMinus';
+IconIndeterminate.displayName = 'IconIndeterminate';
 
-export default IconMinus;
+export default IconIndeterminate;

@@ -147,9 +147,9 @@ const usePagination = (props) => {
       };
     }
 
-    const isDisabled = !!disabled
-      || (['first', 'previous'].includes(paginationItem.type) && (page <= 1))
-      || (['next', 'last'].includes(paginationItem.type) && (page >= count));
+    const isDisabled = !!disabled ||
+      (['first', 'previous'].includes(paginationItem.type) && (page <= 1)) ||
+      (['next', 'last'].includes(paginationItem.type) && (page >= count));
     const pageNumber = mapPageTypeToPageNumber(paginationItem.type);
 
     return {

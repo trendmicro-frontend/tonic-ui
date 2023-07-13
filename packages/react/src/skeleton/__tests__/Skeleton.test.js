@@ -8,9 +8,23 @@ describe('Skeleton', () => {
     { // Dark mode
       const { container } = render(
         <DarkMode>
-          <Skeleton data-testid="text" variant="text" width={120} />
-          <Skeleton data-testid="rectangle" variant="rectangle" width={120} height={40} />
-          <Skeleton data-testid="circle" variant="circle" width={40} height={40} />
+          <Skeleton
+            data-testid="text"
+            variant="text"
+            width={120}
+          />
+          <Skeleton
+            data-testid="rectangle"
+            variant="rectangle"
+            width={120}
+            height={40}
+          />
+          <Skeleton
+            data-testid="circle"
+            variant="circle"
+            width={40}
+            height={40}
+          />
         </DarkMode>
       );
 
@@ -38,9 +52,23 @@ describe('Skeleton', () => {
     { // Light mode
       const { container } = render(
         <LightMode>
-          <Skeleton data-testid="text" variant="text" width={120} />
-          <Skeleton data-testid="rectangle" variant="rectangle" width={120} height={40} />
-          <Skeleton data-testid="circle" variant="circle" width={40} height={40} />
+          <Skeleton
+            data-testid="text"
+            variant="text"
+            width={120}
+          />
+          <Skeleton
+            data-testid="rectangle"
+            variant="rectangle"
+            width={120}
+            height={40}
+          />
+          <Skeleton
+            data-testid="circle"
+            variant="circle"
+            width={40}
+            height={40}
+          />
         </LightMode>
       );
 
