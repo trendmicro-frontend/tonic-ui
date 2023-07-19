@@ -86,7 +86,13 @@ const Header = forwardRef((
   }, [portal, track]);
 
   const handleClickOpenInCodeSandbox = () => {
-    openInCodeSandbox({ title: 'Tonic UI' });
+    openInCodeSandbox({
+      title: 'Tonic UI',
+      dependencies: {
+        '@emotion/react': 'latest',
+        '@tonic-ui/react': 'latest',
+      },
+    });
   };
 
   useEffect(() => {
