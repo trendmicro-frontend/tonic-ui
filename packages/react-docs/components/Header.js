@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  Flex,
   Icon,
   Image,
   Link,
@@ -21,9 +22,11 @@ import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
 import CodeSandboxIcon from '../icons/codesandbox';
+import OpenAIIcon from '../icons/openai';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
+import AICompanionModal from './AICompanionModal';
 import InstantSearchModal from './InstantSearchModal';
 import FontAwesomeIcon from './FontAwesomeIcon';
 
@@ -70,6 +73,21 @@ const Header = forwardRef((
     }
     return '';
   })();
+
+  const openAICompanionModal = useCallback(() => {
+    portal((close) => {
+      const onClose = () => {
+        track('AICompanion', 'close_ai_companion_modal');
+
+        // close the modal
+        close();
+      };
+
+      return (
+        <AICompanionModal onClose={onClose} />
+      );
+    });
+  }, [portal]);
 
   const openInstantSearchModal = useCallback(() => {
     portal((close) => {
@@ -193,6 +211,16 @@ const Header = forwardRef((
           columnGap="4x"
           px="4x"
         >
+          <Button
+            data-track="AICompanion|open_ai_companion_modal"
+            onClick={openAICompanionModal}
+            variant="secondary"
+          >
+            <Flex alignItems="center" columnGap="2x">
+              <OpenAIIcon size={16} />
+              AI Companion
+            </Flex>
+          </Button>
           <SearchButton
             data-track="InstantSearch|open_instant_search_modal"
             onClick={openInstantSearchModal}
@@ -211,7 +239,7 @@ const Header = forwardRef((
                 track('Header', 'close_version_menu');
               }}
             >
-              <MenuButton>
+              <MenuButton variant="secondary">
                 {versionMap[version]?.label ?? version}
               </MenuButton>
               <MenuList>

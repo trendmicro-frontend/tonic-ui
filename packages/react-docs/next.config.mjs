@@ -330,6 +330,16 @@ const initialNextConfig = {
   basePath: process.env.BASE_PATH,
   distDir: 'build',
   pageExtensions: ['page.js', 'page.mdx'],
+  /*
+  rewrites: () => {
+    return [
+      {
+        source: '/openai/:path*',
+        destination: 'http://localhost:8080/:path*',
+      },
+    ];
+  },
+  */
 };
 
 const transformNextConfig = () => plugins.reduce((acc, next) => next(acc), initialNextConfig);
