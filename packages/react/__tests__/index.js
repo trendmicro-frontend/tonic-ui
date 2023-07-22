@@ -261,6 +261,10 @@ test('should match expected exports', () => {
     'Slide',
     'Zoom',
 
+    // treeview
+    'TreeNode',
+    'TreeView',
+
     // truncate
     'Truncate',
 
