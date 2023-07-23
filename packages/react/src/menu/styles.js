@@ -95,10 +95,7 @@ const useMenuGroupStyle = () => {
   };
 };
 
-const useMenuItemStyle = ({
-  disabled,
-  tabIndex,
-}) => {
+const useMenuItemStyle = ({ tabIndex }) => {
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const color = {
@@ -136,10 +133,6 @@ const useMenuItemStyle = ({
     py: '2x',
     userSelect: 'none',
     width: '100%',
-    _disabled: {
-      color: disabledColor,
-      cursor: 'not-allowed',
-    },
     _focus: {
       borderColor: focusBorderColor,
       borderStyle: 'solid',
@@ -148,10 +141,15 @@ const useMenuItemStyle = ({
       py: `calc(${theme?.space['2x']} - ${theme?.space['1h']})`,
     },
     _hover: {
-      backgroundColor: !disabled ? hoverBackgroundColor : undefined,
+      backgroundColor: hoverBackgroundColor,
     },
     _selected: {
       backgroundColor: selectedBackgroundColor,
+    },
+    _disabled: {
+      backgroundColor: 'inherit',
+      color: disabledColor,
+      cursor: 'not-allowed',
     },
   };
 };
