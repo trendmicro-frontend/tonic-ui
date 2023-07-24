@@ -58,16 +58,6 @@ workflows:
             tags:
               only:
                 - /^@tonic-ui\/react@.*/
-  regular-lockfile-maintenance:
-    triggers:
-      - schedule:
-          cron: "0 0 * * 1"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - regular-lockfile-maintenance
 
 # https://circleci.com/docs/2.0/executor-types/
 jobs:
@@ -431,20 +421,3 @@ jobs:
             git add "react/${TONIC_UI_REACT_DOCS_VERSION}"
             git commit -m "[CI] Deploy '${TONIC_UI_REACT_DOCS_VERSION}' to 'gh-pages' (tag='${CI_TAG}')"
             git push origin gh-pages
-
-  regular-lockfile-maintenance:
-    docker:
-      - image: cimg/node:16.20
-    steps:
-      - run:
-          name: Configuration
-          command: |
-            git config --global user.email "no-reply@github.com"
-            git config --global user.name "ci-job"
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "92:e5:99:6a:e1:24:28:b6:fb:a4:33:9a:a1:b1:a7:c6"
-      - run:
-          command: |
-            ./scripts/ci-regular-lockfile-maintenance.sh

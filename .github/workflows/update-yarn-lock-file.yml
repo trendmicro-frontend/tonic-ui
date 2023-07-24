@@ -1,0 +1,36 @@
+name: Update yarn.lock file
+
+on:
+  # run daily
+  schedule:
+    - cron: '0 0 * * *'
+
+  # allow manual trigger
+  workflow_dispatch:
+
+# Ensure only one lock action can run at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-yarn-lock-file:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install yarn
+      run: npm install -g yarn
+    - name: Update yarn.lock
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        scripts/update-yarn-lock-file.sh
