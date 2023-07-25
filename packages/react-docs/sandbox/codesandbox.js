@@ -1,5 +1,5 @@
 import LZString from 'lz-string';
-import { ensureArray } from 'ensure-type';
+import { ensurePlainObject } from 'ensure-type';
 import { getHtml, getJSConfigJSON, getRootIndex, getDefaultComponent } from './create-react-app';
 
 const createReactApp = (sandboxOptions) => {
@@ -13,7 +13,7 @@ const createReactApp = (sandboxOptions) => {
   } = { ...sandboxOptions };
 
   return {
-    ...Object.entries(ensureArray(files)).reduce((acc, [path, content]) => {
+    ...Object.entries(ensurePlainObject(files)).reduce((acc, [path, content]) => {
       acc[path] = { content };
       return acc;
     }, {}),
@@ -64,7 +64,7 @@ const open = (sandboxOptions) => {
   const parameters = compress({
     files: createReactApp(sandboxOptions),
   });
-    
+
   // ref: https://codesandbox.io/docs/api/#define-api                                    
   const form = document.createElement('form');                                                 
   form.method = 'POST';                           
