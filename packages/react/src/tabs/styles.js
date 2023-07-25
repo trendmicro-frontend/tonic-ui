@@ -9,6 +9,7 @@ const useTabStyle = ({
   variant,
 }) => {
   const theme = useTheme();
+  const { sizes } = theme;
   const [colorMode] = useColorMode();
   const getCursorStyle = () => {
     if (disabled) {
@@ -128,8 +129,8 @@ const useTabStyle = ({
         [selectedBorderStyleKey]: 'solid',
         [selectedBorderWidthKey]: '1h',
         color: getColorStyleWithFallback(hoverColor),
-        [selectedPaddingXKey]: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1h']})`,
-        [selectedPaddingYKey]: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1h']})`,
+        [selectedPaddingXKey]: `calc(${sizes?.['3x']} + ${sizes?.['1h']})`,
+        [selectedPaddingYKey]: `calc(${sizes?.['2x']} + ${sizes?.['1h']})`,
       },
       _focus: {
         borderColor: getBorderColorStyleWithFallback(focusBorderColor),
@@ -141,8 +142,8 @@ const useTabStyle = ({
         [selectedBorderStyleKey]: 'solid',
         [selectedBorderWidthKey]: '1h',
         color: getColorStyleWithFallback(selectedColor),
-        [selectedPaddingXKey]: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1h']})`,
-        [selectedPaddingYKey]: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1h']})`,
+        [selectedPaddingXKey]: `calc(${sizes?.['3x']} + ${sizes?.['1h']})`,
+        [selectedPaddingYKey]: `calc(${sizes?.['2x']} + ${sizes?.['1h']})`,
       },
     };
   }
@@ -273,8 +274,8 @@ const useTabStyle = ({
       cursor: getCursorStyle(),
       display: 'flex',
       alignItems: 'center',
-      px: `calc(${theme?.sizes['3x']} + ${theme?.sizes['1q']})`,
-      py: `calc(${theme?.sizes['2x']} + ${theme?.sizes['1q']})`,
+      px: `calc(${sizes?.['3x']} + ${sizes?.['1q']})`,
+      py: `calc(${sizes?.['2x']} + ${sizes?.['1q']})`,
       [siblingMarginKey]: '-1q',
       _hover: {
         backgroundColor: getBackgroundColorStyleWithFallback(hoverBackgroundColor),

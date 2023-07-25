@@ -97,6 +97,7 @@ const useMenuGroupStyle = () => {
 
 const useMenuItemStyle = ({ tabIndex }) => {
   const theme = useTheme();
+  const { sizes } = theme;
   const [colorMode] = useColorMode();
   const color = {
     light: 'black:primary',
@@ -137,8 +138,8 @@ const useMenuItemStyle = ({ tabIndex }) => {
       borderColor: focusBorderColor,
       borderStyle: 'solid',
       borderWidth: '1h',
-      px: `calc(${theme?.space['3x']} - ${theme?.space['1h']})`,
-      py: `calc(${theme?.space['2x']} - ${theme?.space['1h']})`,
+      px: `calc(${sizes['3x']} - ${sizes['1h']})`,
+      py: `calc(${sizes['2x']} - ${sizes['1h']})`,
     },
     _hover: {
       backgroundColor: hoverBackgroundColor,
