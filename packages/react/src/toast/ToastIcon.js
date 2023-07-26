@@ -19,7 +19,7 @@ const getIconByAppearance = (appearance) => {
   }
 
   return (
-    <Icon icon={`${iconName}`} />
+    <Icon icon={iconName} />
   );
 };
 

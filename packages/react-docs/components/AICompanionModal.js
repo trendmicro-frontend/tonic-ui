@@ -2,6 +2,7 @@ import { Global, css } from '@emotion/react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import {
   Box,
+  Button,
   ButtonBase,
   Flex,
   Icon,
@@ -16,9 +17,72 @@ import {
 } from '@tonic-ui/react';
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
+import AICompanionIcon from '../icons/ai-companion';
 import useTrack from '../hooks/useTrack';
-import OpenAIIcon from '../icons/openai';
-//import x from '../utils/json-stringify';
+
+const FeatureCards = (props) => {
+  return (
+    <Flex {...props} />
+  );
+};
+
+const FeatureCard = (props) => {
+  return (
+    <Flex
+      flex={1}
+      flexDirection="column"
+      alignItems="center"
+      border={1}
+      borderColor="gray:70" // TODO: light mode
+      borderRadius="md"
+      py="8x"
+      px="4x"
+      {...props}
+    />
+  );
+};
+
+const FeatureCardAvatar = (props) => {
+  const [colorStyle] = useColorStyle();
+
+  return (
+    <Box
+      backgroundColor={colorStyle.background.tertiary}
+      border={1}
+      borderColor="gray:60" // TODO: light mode
+      borderRadius="circle"
+      width="18x"
+      height="18x"
+      mb="8x"
+      {...props}
+    />
+  );
+};
+
+const FeatureCardTitle = (props) => {
+  return (
+    <Text
+      fontSize="sm"
+      lineHeight="sm"
+      mb="2x"
+      {...props}
+    />
+  );
+};
+
+const FeatureCardDescription = (props) => {
+  const [colorStyle] = useColorStyle();
+
+  return (
+    <Text
+      color={colorStyle.color.secondary}
+      fontSize="xs"
+      lineHeight="xs"
+      mb="4x"
+      {...props}
+    />
+  );
+};
 
 const AICompanionModal = forwardRef((
   {
@@ -33,10 +97,7 @@ const AICompanionModal = forwardRef((
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [messageState, setMessageState] = useState({
-    messages: [{
-      type: 'apiMessage',
-      message: 'Hi, how can I help you?',
-    }],
+    messages: [], // { type: 'userMessage' | 'apiMessage', message: string }
     history: []
   });
   const { messages, pending, history } = messageState;
@@ -55,10 +116,9 @@ const AICompanionModal = forwardRef((
     }
   }, [messages]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const ask = async (question) => {
+    question = question.trim();
 
-    const question = userInput.trim();
     if (question === '') {
       return;
     }
@@ -129,7 +189,10 @@ const AICompanionModal = forwardRef((
     // Prevent blank submissions and allow for multiline input
     if (event.key === 'Enter' && userInput) {
       if (!event.shiftKey && userInput) {
-        handleSubmit(event);
+        event.preventDefault();
+
+        const question = userInput;
+        ask(question);
       }
     } else if (event.key === "Enter") {
       event.preventDefault();
@@ -153,7 +216,7 @@ const AICompanionModal = forwardRef((
       isClosable
       isOpen
       onClose={onClose}
-      size="md"
+      size="lg"
       {...rest}
     >
       <Global
@@ -165,25 +228,217 @@ const AICompanionModal = forwardRef((
       />
       <ModalOverlay />
       <ModalContent
-        marginTop="12x"
-        maxHeight={`calc(100vh - ${theme?.space['12x']} - ${theme?.space['12x']})`}
-        minHeight={null}
+        borderRadius="lg"
+        mt="20x"
+        maxHeight={`calc(100vh - ${theme?.sizes['20x']} - ${theme?.sizes['20x']})`}
+        height="80vh"
       >
-        <Text
-          sx={{
-            px: '6x',
-            py: '3x',
-            fontSize: 'xl',
-            lineHeight: 'xl',
-          }}
+        <Box
+          pl="6x"
+          pr="12x"
+          pt="4x"
+          pb="3x"
         >
-          Tonic One - AI Companion
-        </Text>
+          <Text fontSize="xl" lineHeight="xl">
+            Tonic One AI Companion
+          </Text>
+        </Box>
+        <Box
+          flex="auto"
+          ref={messageListRef}
+          height="100%"
+          overflowY="auto"
+          px="6x"
+        >
+          <Box mt="4x" mb="6x">
+            <Text fontSize="md" lineHeight="md">
+              Try out the new features to explore the full capabilities of Tonic One!
+            </Text>
+          </Box>
+          <FeatureCards
+            columnGap="4x"
+            mb="6x"
+          >
+            <FeatureCard>
+              <FeatureCardAvatar />
+              <FeatureCardTitle>
+                Real-time Guidance
+              </FeatureCardTitle>
+              <FeatureCardDescription height="14x">
+                Search for any components or keywords and get real-time guidance on how to use them.
+              </FeatureCardDescription>
+              <Button
+                variant="secondary"
+                whiteSpace="normal"
+                py="2x"
+                textAlign="left"
+                onClick={(event) => {
+                  const question = 'Create an application using Tonic UI';
+
+                  track('AICompanion', 'predefined_input', question);
+
+                  ask(question);
+                }}
+              >
+                Create an application using Tonic UI
+              </Button>
+            </FeatureCard>
+            <FeatureCard>
+              <FeatureCardAvatar />
+              <FeatureCardTitle>
+                Explore UI Patterns
+              </FeatureCardTitle>
+              <FeatureCardDescription height="14x">
+                Explore widely used UI patterns that conform to standard UI behavior.
+              </FeatureCardDescription>
+              <Button
+                variant="secondary"
+                whiteSpace="normal"
+                py="2x"
+                textAlign="left"
+                onClick={(event) => {
+                  const question = 'Implement a toast in modal example that conforms to UI patterns';
+
+                  track('AICompanion', 'predefined_input', question);
+
+                  ask(question);
+                }}
+              >
+                Implement a toast in modal example that conforms to UI patterns
+              </Button>
+            </FeatureCard>
+            <FeatureCard>
+              <FeatureCardAvatar />
+              <FeatureCardTitle>
+                AI-powered Enhancements
+              </FeatureCardTitle>
+              <FeatureCardDescription height="14x">
+                Paste your code and get AI-powered suggestions to improve your code.
+              </FeatureCardDescription>
+              <Button
+                variant="secondary"
+                whiteSpace="normal"
+                py="2x"
+                textAlign="left"
+                onClick={(event) => {
+                  const question = `Enhance the code snippet using the recommended best practices.\n* Implement the \`useColorStyle\` Hook to apply color styling.\n* Utilize the \`useTheme\` Hook with pre-defined sizes for consistent sizing.\n* Leverage the \`sx\` prop for styling Tonic UI components.
+
+\`\`\`jsx
+<Box
+  style={{
+    width: '8x',
+    height: '8x',
+    backgroundColor: 'gray:90', // secondary background
+  }}
+/>
+\`\`\`
+                  `;
+
+                  track('AICompanion', 'predefined_input', question);
+
+                  ask(question);
+                }}
+              >
+                Enhance the code snippet using the recommended best practices
+              </Button>
+            </FeatureCard>
+          </FeatureCards>
+          {chatMessages.map((message, index) => {
+            if (message.type === 'userMessage') {
+              return (
+                <Flex
+                  key={index}
+                  sx={{
+                    justifyContent: 'flex-end',
+                    mb: '6x',
+                  }}
+                >
+                  <Flex
+                    key={index}
+                    sx={{
+                      backgroundColor: 'gray:20', // TODO: light mode
+                      border: 1,
+                      borderRadius: 'lg',
+                      color: 'black:emphasis', // TODO: light mode
+                      px: '4x',
+                      py: '2x',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        'p': {
+                          margin: 0,
+                        },
+                      }}
+                    >
+                      <Markdown linkTarget="_blank">
+                        {message.message}
+                      </Markdown>
+                    </Box>
+                  </Flex>
+                </Flex>
+              );
+            }
+
+            return (
+              <Flex
+                key={index}
+                sx={{
+                  justifyContent: 'flex-start',
+                  mb: '6x',
+                  columnGap: '2x',
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: colorStyle.background.tertiary,
+                    borderRadius: 'circle',
+                    width: '10x',
+                    height: '10x',
+                    flex: 'none',
+                  }}
+                >
+                  <AICompanionIcon size="8x" />
+                </Box>
+                <Flex
+                  sx={{
+                    backgroundColor: 'inherit',
+                    borderRadius: 'lg',
+                    border: 1,
+                    borderColor: 'gray:70', // TODO: light mode
+                    columnGap: '3x',
+                    px: '4x',
+                    py: '2x',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      'p': {
+                        margin: 0,
+                      },
+                    }}
+                  >
+                    <Markdown linkTarget="_blank">
+                      {message.message}
+                    </Markdown>
+                  </Box>
+                </Flex>
+              </Flex>
+            );
+          })}
+        </Box>
         <Flex
-          position="relative"
+          flex="none"
           alignItems="center"
-          ml="6x"
-          mr="6x"
+          backgroundColor={colorStyle.background.tertiary}
+          borderTop={1}
+          borderTopColor={colorStyle.divider}
+          px="4x"
+          py="4x"
+          columnGap="4x"
         >
           <Textarea
             disabled={loading}
@@ -192,70 +447,36 @@ const AICompanionModal = forwardRef((
             autoFocus={false}
             rows={1}
             maxLength={512}
-            id="userInput" 
-            name="userInput" 
-            placeholder={loading? 'Waiting for response...' : 'Type your question...'}  
-            value={userInput} 
+            id="userInput"
+            name="userInput"
+            placeholder={loading? 'Waiting for response...' : 'Type a question about Tonic UI'}
+            value={userInput}
             onChange={(event) => {
               const userInputValue = event.target.value;
               track('AICompanion', 'change_user_input', userInputValue);
               setUserInput(userInputValue);
             }}
+            resize="vertical"
           />
-          <Box
-            position="absolute"
-            right="3x"
-            top="2x"
+          <ButtonBase
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            backgroundColor={loading ? 'transparent' : 'gray:60'} // TODO: light mode
+            borderRadius="circle"
+            width="8x"
+            height="8x"
+            disabled={loading || !userInput}
+            onClick={() => {
+              const question = userInput;
+              ask(question);
+            }}
           >
-            <ButtonBase
-              disabled={loading || !userInput}
-            >
-              {loading
-                ? <Spinner size="xs" />
-                : <Icon icon="send" color={userInput ? colorStyle.color.primary : colorStyle.color.disabled} />}
-            </ButtonBase>
-          </Box>
+            {loading
+              ? <Spinner size="sm" />
+              : <Icon icon="send" color={userInput ? colorStyle.color.primary : colorStyle.color.disabled} />}
+          </ButtonBase>
         </Flex>
-        <Box
-          ref={messageListRef}
-          overflowY="auto"
-        >
-          {chatMessages.map((message, index) => {
-            const backgroundColor = (message.type === 'apiMessage')
-              ? colorStyle.background.secondary
-              : colorStyle.background.tertiary;
-            const icon = (message.type === 'apiMessage')
-              ? <OpenAIIcon size={16} />
-              : <Icon icon="user" />;
-            //const isPending = loading && index === chatMessages.length - 1;
-
-            return (
-              <Flex
-                key={index}
-                sx={{
-                  alignItems: 'center',
-                  columnGap: '4x',
-                  backgroundColor,
-                  px: '6x',
-                  py: '6x',
-                }}
-              >
-                {icon}
-                <Box
-                  sx={{
-                    'p': {
-                      margin: 0,
-                    },
-                  }}
-                >
-                  <Markdown linkTarget="_blank">
-                    {message.message}
-                  </Markdown>
-                </Box>
-              </Flex>
-            );
-          })}
-        </Box>
       </ModalContent>
     </Modal>
   );

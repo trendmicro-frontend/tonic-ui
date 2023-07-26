@@ -19,7 +19,7 @@ const getIconBySeverity = (severity) => {
   }
 
   return (
-    <Icon icon={`${iconName}`} />
+    <Icon icon={iconName} />
   );
 };
 

@@ -22,7 +22,7 @@ import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
 import CodeSandboxIcon from '../icons/codesandbox';
-import OpenAIIcon from '../icons/openai';
+import AICompanionIcon from '../icons/ai-companion';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
@@ -87,7 +87,7 @@ const Header = forwardRef((
         <AICompanionModal onClose={onClose} />
       );
     });
-  }, [portal]);
+  }, [portal, track]);
 
   const openInstantSearchModal = useCallback(() => {
     portal((close) => {
@@ -211,16 +211,6 @@ const Header = forwardRef((
           columnGap="4x"
           px="4x"
         >
-          <Button
-            data-track="AICompanion|open_ai_companion_modal"
-            onClick={openAICompanionModal}
-            variant="secondary"
-          >
-            <Flex alignItems="center" columnGap="2x">
-              <OpenAIIcon size={16} />
-              AI Companion
-            </Flex>
-          </Button>
           <SearchButton
             data-track="InstantSearch|open_instant_search_modal"
             onClick={openInstantSearchModal}
@@ -269,6 +259,30 @@ const Header = forwardRef((
               </MenuList>
             </Menu>
           </Box>
+          <ButtonBase
+            data-track={`Header|click_ai_companion`}
+            onClick={() => openAICompanionModal()}
+            title="Tonic One AI Companion"
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: colorStyle.color.secondary,
+              width: '8x',
+              height: '8x',
+              _hover: {
+                color: colorStyle.color.primary,
+                cursor: 'pointer',
+              },
+              _focusVisible: {
+                outlineColor: focusVisibleOutlineColor,
+                outlineStyle: 'solid',
+                outlineWidth: '1h',
+              },
+            }}
+          >
+            <AICompanionIcon size={32} />
+          </ButtonBase>
           <ButtonBase
             data-track={`Header|click_codesandbox`}
             onClick={() => handleClickOpenInCodeSandbox()}
