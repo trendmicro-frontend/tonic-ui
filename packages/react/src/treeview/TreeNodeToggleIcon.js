@@ -53,11 +53,11 @@ const TreeNodeToggleIcon = forwardRef((
   ref,
 ) => {
   const context = useTreeNode(nodeId); // context might be an undefined value
-  const toggleIconStyleProps = useTreeNodeToggleIconStyle();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const isDisabled = ensureBoolean(disabledProp ?? context?.isDisabled);
   const isExpanded = ensureBoolean(context?.isExpanded);
+  const toggleIconStyleProps = useTreeNodeToggleIconStyle({ isDisabled });
 
   useEffect(() => {
     if (isExpanded) {
@@ -65,8 +65,6 @@ const TreeNodeToggleIcon = forwardRef((
       reflow(node); // force reflow to make the transition work when animating appearance
     }
   }, [isExpanded]);
-
-  console.log('## isExpanded:', isExpanded);
 
   return (
     <Transition

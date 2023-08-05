@@ -9,8 +9,9 @@ const useTreeNode = (nodeId) => {
     getIsNodeFocused,
     getIsNodeSelected,
     isMultiSelectable,
+    isSelectable,
     selectNode,
-    selectNodesInRange,
+    selectRange,
     toggleNode,
   } = useTreeView();
 
@@ -20,7 +21,22 @@ const useTreeNode = (nodeId) => {
   const isFocused = getIsNodeFocused ? getIsNodeFocused(nodeId) : false;
   const isSelected = getIsNodeSelected ? getIsNodeSelected(nodeId) : false;
 
-  const select = ({ isMultiSelection, isRangeSelection }) => {
+  const focus = () => {
+    if (isDisabled) {
+      return;
+    }
+
+    if (!isFocused) {
+      focusNode(nodeId);
+    }
+  };
+
+  const select = (options) => {
+    const {
+      isMultiSelection = false, // One of: shiftKey, ctrlKey, metaKey
+      isRangeSelection = false, // One of: shiftKey
+    } = { ...options };
+
     if (isDisabled) {
       return;
     }
@@ -29,18 +45,24 @@ const useTreeNode = (nodeId) => {
       focusNode(nodeId);
     }
 
+    if (!isSelectable) {
+      return;
+    }
+
     if (isMultiSelectable && isMultiSelection) {
       if (isRangeSelection) {
-        selectNodesInRange({ end: nodeId });
+        // When performing a range selection, the `start` parameter is assigned the value of `lastSelectedNode.current`
+        const end = nodeId;
+        selectRange({ end });
       } else {
-        selectNode(nodeId, true);
+        selectNode(nodeId);
       }
     } else {
       selectNode(nodeId);
     }
   };
 
-  const toggle = ({ isMultiSelection }) => {
+  const toggle = () => {
     if (isDisabled) {
       return;
     }
@@ -49,8 +71,7 @@ const useTreeNode = (nodeId) => {
       focusNode(nodeId);
     }
 
-    // If already expanded and trying to toggle selection don't close
-    if (isExpandable && !(isMultiSelectable && isMultiSelection && isExpanded)) {
+    if (isExpandable) {
       toggleNode(nodeId);
     }
   };
@@ -61,6 +82,7 @@ const useTreeNode = (nodeId) => {
     isExpanded,
     isFocused,
     isSelected,
+    focus,
     select,
     toggle,
   };
