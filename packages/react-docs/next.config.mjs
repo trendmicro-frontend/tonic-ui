@@ -322,7 +322,7 @@ const initialNextConfig = {
   },
   basePath: process.env.BASE_PATH,
   distDir: 'build',
-  pageExtensions: ['js', 'jsx', 'md', 'mdx'],
+  pageExtensions: ['page.js', 'page.mdx'],
 };
 
 const transformNextConfig = () => plugins.reduce((acc, next) => next(acc), initialNextConfig);
