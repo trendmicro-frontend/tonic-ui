@@ -408,7 +408,7 @@ export const routes = [
       { title: 'Portal', path: 'components/portal' },
       { title: 'PortalManager', path: 'components/portal-manager' },
       { title: 'usePortalManager', path: 'components/portal-manager/usePortalManager' },
-
+      { title: 'ResizeHandle', path: 'components/resize-handle' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
       { title: 'VisuallyHidden', path: 'components/visuallyhidden' },
     ],

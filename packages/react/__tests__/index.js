@@ -169,6 +169,9 @@ test('should match expected exports', () => {
     'RadioGroup',
     'useRadioGroup',
 
+    // resize-handle
+    'ResizeHandle',
+
     // search-input
     'SearchInput',
 
@@ -203,7 +206,7 @@ test('should match expected exports', () => {
     'TableBody',
     'TableRow',
     'TableCell',
-    'TableColumnResizeHandle',
+    'TableColumnResizeHandle', // alias of ResizeHandle
     'TableScrollbar',
 
     // tabs
