@@ -12,7 +12,7 @@ import {
   Text,
   TreeView,
   TreeNode,
-  useColorMode,
+  useColorStyle,
 } from '@tonic-ui/react';
 import React, { useState } from 'react';
 import tree from './data/tree.json';
@@ -76,11 +76,7 @@ const renderTree = (node, depth = 0) => {
 };
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const borderColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
+  const [colorStyle] = useColorStyle();
   const [expandedNodes, setExpandedNodes] = useState(expandableNodeIds);
   const [selectedNodes, setSelectedNodes] = useState([]);
 
@@ -150,16 +146,15 @@ const App = () => {
       </Stack>
       <Divider my="4x" />
       <Box
-        minWidth={160}
-        maxWidth="40%"
+        sx={{
+          minWidth: 160,
+          maxWidth: '40%',
+          boxShadow: colorStyle.shadow.thick,
+        }}
       >
         <Scrollbar
           height={240}
           overflowY="scroll"
-          sx={{
-            border: 1,
-            borderColor,
-          }}
         >
           <TreeView
             aria-label="controlled"

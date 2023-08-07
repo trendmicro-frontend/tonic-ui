@@ -6,9 +6,7 @@
 
 {render('./basic')}
 
-### Icons
-
-{render('./icons')}
+{render('./directory')}
 
 ### Multi-selection
 
@@ -18,7 +16,13 @@
 
 {render('./controlled')}
 
-### Resizable
+### Resizable tree view
+
+* When hovering over the border of the resizable tree view, change the cursor to `col-resize` and highlight the border color to indicate that it is resizable. The hoverable area is `8px` in width, including the border.
+* When dragging the resizable area, display a translucent background with a `4px` width (excluding the border) to indicate the dragging action.
+* The recommended `min-width` is `160px`, and the `max-width` is `40%` of the display area. You can adjust the width according to your specific needs.
+
+{render('./resizable')}
 
 ## Props
 
