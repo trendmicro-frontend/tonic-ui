@@ -26,6 +26,7 @@ export * from './portal';
 export * from './progress';
 export * from './provider';
 export * from './radio';
+export * from './resize-handle';
 export * from './search-input';
 export * from './scrollbar';
 export * from './select';

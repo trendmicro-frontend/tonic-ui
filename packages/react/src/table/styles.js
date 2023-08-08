@@ -252,37 +252,6 @@ const useTableCellStyle = ({ layout, size, variant }) => {
   };
 };
 
-const useTableColumnResizeHandleStyle = ({ isResizing }) => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const borderColor = {
-    dark: 'gray:50',
-    light: 'gray:70',
-  }[colorMode];
-  const resizeHandleStyle = {
-    backgroundColor,
-    borderLeftColor: borderColor,
-  };
-
-  return {
-    borderLeft: 1,
-    borderLeftColor: 'transparent',
-    boxSizing: 'content-box',
-    cursor: 'col-resize',
-    height: '100%',
-    touchAction: 'none',
-    userSelect: 'none',
-    width: '1x',
-    ...(isResizing && resizeHandleStyle),
-    _hover: {
-      ...resizeHandleStyle,
-    },
-  };
-};
-
 const useTableScrollbarTrackStyle = () => {
   const [colorMode] = useColorMode();
   const backgroundColor = {
@@ -304,6 +273,5 @@ export {
   useTableRowCSS,
   useTableRowStyle,
   useTableCellStyle,
-  useTableColumnResizeHandleStyle,
   useTableScrollbarTrackStyle,
 };

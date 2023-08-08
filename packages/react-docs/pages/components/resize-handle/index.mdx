@@ -1,0 +1,24 @@
+# ResizeHandle
+
+The `ResizeHandle` component is a tool designed to enhance the functionality of other components such as `Table` and `TreeView` by enabling smooth resizing of adjacent elements.
+
+## Import
+
+```js
+import { ResizeHandle } from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./resizable')}
+
+## Props
+
+### ResizeHandle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The content of the `ResizeHandle`. |
+| onResize | function | | A callback function that is called when the resize handle is dragged. It receives an object with properties `clientX` and `clientY`. |
+| onResizeEnd | function | | A callback function that is called when the resize handle is released. It receives an object with properties `clientX` and `clientY`. |
+| onResizeStart | function | | A callback function that is called when the resize handle is pressed down. It receives an object with properties `clientX` and `clientY`. |

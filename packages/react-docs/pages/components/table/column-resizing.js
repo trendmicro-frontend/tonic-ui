@@ -9,6 +9,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  ResizeHandle,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -16,7 +17,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableColumnResizeHandle,
   Truncate,
   useColorMode,
 } from '@tonic-ui/react';
@@ -110,12 +110,7 @@ const App = () => {
       return;
     }
 
-    if (variant === 'outline') {
-      // Subtract 2px for the border
-      setResizeHandleHeight(tableHeight - 2);
-    } else {
-      setResizeHandleHeight(tableHeight);
-    }
+    setResizeHandleHeight(tableHeight);
   }, [variant]);
 
   return (
@@ -161,9 +156,10 @@ const App = () => {
                 const resizeHandleStyle = {
                   // You must specify absolute positioning for the resize handle to work correctly
                   position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  height: resizeHandleHeight,
+                  top: (variant === 'outline') ? -1 : 0,
+                  right: isResizingColumn ? -5 : -8,
+                  height: isResizingColumn ? resizeHandleHeight : 36,
+                  zIndex: 1,
 
                   // Use `transform: translateX()` to move the resize handle when `columnResizeMode` is 'onEnd'
                   transform: (columnResizeMode === 'onEnd' && isResizingColumn)
@@ -182,7 +178,7 @@ const App = () => {
                       </Truncate>
                     )}
                     {(header.column.columnDef.enableResizing !== false) && (
-                      <TableColumnResizeHandle
+                      <ResizeHandle
                         style={resizeHandleStyle}
 
                         // The following `onMouseDown` and `onTouchStart` props are required for the resize handle to work with `@tanstack/react-table`

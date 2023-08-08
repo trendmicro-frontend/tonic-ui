@@ -1,3 +1,4 @@
+import { ResizeHandle as TableColumnResizeHandle } from '../resize-handle';
 import Table from './Table';
 import TableHeader from './TableHeader';
 import TableHeaderRow from './TableHeaderRow';
@@ -5,7 +6,6 @@ import TableHeaderCell from './TableHeaderCell';
 import TableBody from './TableBody';
 import TableRow from './TableRow';
 import TableCell from './TableCell';
-import TableColumnResizeHandle from './TableColumnResizeHandle';
 import TableScrollbar from './TableScrollbar';
 
 Table.Header = TableHeader;
@@ -23,6 +23,6 @@ export {
   TableBody,
   TableRow,
   TableCell,
-  TableColumnResizeHandle,
+  TableColumnResizeHandle, // alias of ResizeHandle
   TableScrollbar,
 };

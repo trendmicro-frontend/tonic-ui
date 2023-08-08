@@ -1,10 +1,10 @@
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback, useState } from 'react';
 import { Box } from '../box';
-import { useTableColumnResizeHandleStyle } from './styles';
-import getIsPassiveListenerSupported from './utils/getIsPassiveListenerSupported';
+import { useResizeHandleStyle } from './styles';
+import { getIsPassiveListenerSupported } from './utils';
 
-const TableColumnResizeHandle = forwardRef((
+const ResizeHandle = forwardRef((
   {
     onMouseDown: onMouseDownProp,
     onResize: onResizeProp,
@@ -16,7 +16,7 @@ const TableColumnResizeHandle = forwardRef((
   ref,
 ) => {
   const [isResizing, setIsResizing] = useState(false);
-  const styleProps = useTableColumnResizeHandleStyle({ isResizing });
+  const styleProps = useResizeHandleStyle({ isResizing });
 
   const onMouseDown = useCallback((event) => {
     const clientX = event.clientX;
@@ -105,7 +105,6 @@ const TableColumnResizeHandle = forwardRef((
   return (
     <Box
       ref={ref}
-      draggable={true}
       onMouseDown={callEventHandlers(onMouseDownProp, onMouseDown)}
       onTouchStart={callEventHandlers(onTouchStartProp, onTouchStart)}
       {...styleProps}
@@ -114,6 +113,6 @@ const TableColumnResizeHandle = forwardRef((
   );
 });
 
-TableColumnResizeHandle.displayName = 'TableColumnResizeHandle';
+ResizeHandle.displayName = 'ResizeHandle';
 
-export default TableColumnResizeHandle;
+export default ResizeHandle;

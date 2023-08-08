@@ -88,10 +88,6 @@ const Header = forwardRef((
   const handleClickOpenInCodeSandbox = () => {
     openInCodeSandbox({
       title: 'Tonic UI',
-      dependencies: {
-        '@emotion/react': 'latest',
-        '@tonic-ui/react': 'latest',
-      },
     });
   };
 
