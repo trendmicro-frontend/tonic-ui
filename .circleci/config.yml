@@ -296,7 +296,6 @@ jobs:
             echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
-            echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
             echo "export TONIC_UI_REACT_DOCS_VERSION=latest" >> $BASH_ENV
       - run:
@@ -402,7 +401,6 @@ jobs:
             echo "export CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM}" >> $BASH_ENV
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
-            echo "export CI_PULL_REQUEST_NUMBER=${CIRCLE_PULL_REQUEST##*/}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
             echo "export TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_PACKAGES_REACT_VERSION}" >> $BASH_ENV
       - run:

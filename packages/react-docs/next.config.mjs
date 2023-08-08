@@ -17,8 +17,6 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import { visit } from 'unist-util-visit';
 
-const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-
 const mapMarkdownToSyntaxTree = (markdown) => {
   const tree = fromMarkdown(markdown.trim(), {
     // https://github.com/syntax-tree/mdast-util-from-markdown#options
@@ -102,36 +100,6 @@ const extractLocalImportFiles = (content, options) => {
   return files;
 };
 
-const extractDependencies = (content, options) => {
-  const dependencies = {};
-  const versions = {
-    ...pkg.devDependencies,
-  };
-
-  const reImportStatement = /^import\s'([^']+)'|import\s[\s\S]*?\sfrom\s+'([^']+)'/gm;
-
-  let r = null;
-
-  while ((r = reImportStatement.exec(content))) {
-    const fullName = ensureString(r[2] ?? r[1]);
-
-    if (fullName.startsWith('@/')) {
-      // Ignore absolute imports
-      continue;
-    }
-
-    const name = fullName[0] === '@'
-      ? fullName.split('/', 2).join('/') // scoped package
-      : fullName.split('/', 1)[0];
-
-    if (!dependencies[name] && !name.startsWith('.')) {
-      dependencies[name] = versions[name] ?? 'latest';
-    }
-  }
-
-  return dependencies;
-};
-
 dotenv.config();
 
 const plugins = [];
@@ -170,7 +138,7 @@ const withMDX = mdxPlugin({
              * <Demo
              *   component={DemoComponent$1}
              *   file={{ data, path }}
-             *   sandbox={{ dependencies, files, raw, title }}
+             *   sandbox={{ files, raw, title }}
              * />
              * ```
              */
@@ -213,15 +181,6 @@ const withMDX = mdxPlugin({
             const sandbox = {};
             sandbox.raw = transformRelativeImportsToAbsoluteImports(data, { rootdir, filedir });
             sandbox.files = extractLocalImportFiles(sandbox.raw, { rootdir });
-            sandbox.dependencies = [
-              sandbox.raw,
-              ...Object.values(sandbox.files)
-            ].reduce((acc, content) => {
-              return {
-                ...acc,
-                ...extractDependencies(content),
-              };
-            }, {});
             sandbox.title = 'Tonic UI';
 
             newNode = mapMarkdownToSyntaxTree(`
@@ -232,7 +191,6 @@ const withMDX = mdxPlugin({
                   path: ${JSON.stringify(path.relative(rootdir, file.path))},
                 }}
                 sandbox={{
-                  dependencies: ${JSON.stringify(sandbox.dependencies)},
                   files: ${JSON.stringify(sandbox.files)},
                   raw: ${JSON.stringify(sandbox.raw)},
                   title: ${JSON.stringify(sandbox.title)},
@@ -329,6 +287,9 @@ plugins.push(withMDX);
 const initialNextConfig = {
   env: {
     BASE_PATH: process.env.BASE_PATH,
+    // CI
+    CI_COMMIT_SHORT: process.env.CI_COMMIT_SHORT,
+    CI_PULL_REQUEST_NUMBER: process.env.CI_PULL_REQUEST_NUMBER,
     // Matomo
     MATOMO_URL: process.env.MATOMO_URL,
     MATOMO_CONTAINER_ID: process.env.MATOMO_CONTAINER_ID,

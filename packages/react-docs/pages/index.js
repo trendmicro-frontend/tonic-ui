@@ -395,7 +395,9 @@ const DefaultPageHeader = forwardRef((props, ref) => {
   }, [portal, track]);
 
   const handleClickOpenInCodeSandbox = () => {
-    openInCodeSandbox({ title: 'Tonic UI' });
+    openInCodeSandbox({
+      title: 'Tonic UI',
+    });
   };
 
   useEffect(() => {

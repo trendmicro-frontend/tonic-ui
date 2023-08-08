@@ -1,16 +1,77 @@
 import LZString from 'lz-string';
-import { ensurePlainObject } from 'ensure-type';
+import { ensureArray, ensurePlainObject, ensureString } from 'ensure-type';
 import { getHtml, getJSConfigJSON, getRootIndex, getDefaultComponent } from './create-react-app';
+import pkg from '../package.json';
+
+const resolveDependencies = (contents) => {
+  const getTonicUIPackageVersion = (packageName) => {
+    const commitShort = process.env.CI_PULL_REQUEST_NUMBER ? process.env.CI_COMMIT_SHORT : undefined;
+    if (!commitShort) {
+      return 'latest';
+    }
+    return `https://pkg.csb.dev/trendmicro-frontend/tonic-ui/commit/${commitShort}/@tonic-ui/${packageName}`;
+  };
+
+  const versionMap = {
+    ...pkg.devDependencies,
+    '@tonic-ui/react': getTonicUIPackageVersion('react'),
+    '@tonic-ui/react-hooks': getTonicUIPackageVersion('react-hooks'),
+    '@tonic-ui/react-lab': getTonicUIPackageVersion('react-lab'),
+    '@tonic-ui/styled-system': getTonicUIPackageVersion('styled-system'),
+    '@tonic-ui/theme': getTonicUIPackageVersion('theme'),
+    '@tonic-ui/utils': getTonicUIPackageVersion('utils'),
+  };
+
+  const extractDependenciesFromContent = (content) => {
+    const dependencies = {};
+
+    let r = null;
+    const reImportStatement = /^import\s'([^']+)'|import\s[\s\S]*?\sfrom\s+'([^']+)'/gm;
+    while ((r = reImportStatement.exec(content))) {
+      const fullName = ensureString(r[2] ?? r[1]);
+
+      if (fullName.startsWith('@/')) {
+        // Ignore absolute imports
+        continue;
+      }
+
+      const name = fullName[0] === '@'
+        ? fullName.split('/', 2).join('/') // scoped package
+        : fullName.split('/', 1)[0];
+
+      if (!dependencies[name] && !name.startsWith('.')) {
+        dependencies[name] = versionMap[name] ?? 'latest';
+      }
+    }
+
+    return dependencies;
+  };
+
+  return ensureArray(contents).reduce((dependencies, content) => {
+    return {
+      ...dependencies,
+      ...extractDependenciesFromContent(content),
+    };
+  }, {});
+};
 
 const createReactApp = (sandboxOptions) => {
   const {
-    dependencies = {},
-    devDependencies = {},
     files,
     language = 'en',
     raw,
     title = '',
   } = { ...sandboxOptions };
+
+  const rootContent = getRootIndex();
+  const appContent = raw ?? getDefaultComponent();
+
+  // Resolve dependencies from all files
+  const resolvedDependencies = resolveDependencies([
+    rootContent,
+    appContent,
+    ...Object.values(ensurePlainObject(files)),
+  ]);
 
   return {
     ...Object.entries(ensurePlainObject(files)).reduce((acc, [path, content]) => {
@@ -21,10 +82,10 @@ const createReactApp = (sandboxOptions) => {
       content: getHtml({ language, title }),
     },
     'src/app.js': {
-      content: raw ?? getDefaultComponent(),
+      content: appContent,
     },
     'src/index.js': {
-      content: getRootIndex(),
+      content: rootContent,
     },
     'jsconfig.json': {
       content: getJSConfigJSON(),
@@ -33,12 +94,7 @@ const createReactApp = (sandboxOptions) => {
       content: {
         description: title,
         dependencies: {
-          'react': 'latest',
-          'react-dom': 'latest',
-          ...dependencies,
-        },
-        devDependencies: {
-          ...devDependencies,
+          ...resolvedDependencies,
         },
       },
     },
