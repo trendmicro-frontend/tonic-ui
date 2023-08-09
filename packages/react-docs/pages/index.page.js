@@ -46,7 +46,7 @@ import React, { forwardRef, useCallback, useEffect } from 'react';
 import FontAwesomeIcon from '../components/FontAwesomeIcon';
 import InstantSearchModal from '../components/InstantSearchModal';
 import SearchButton from '../components/SearchButton';
-import SkeletonBody from '../components/SkeletonBody';
+import SkeletonBlock from '../components/SkeletonBlock';
 import useTrack from '../hooks/useTrack';
 import CodeSandboxIcon from '../icons/codesandbox';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
@@ -295,7 +295,7 @@ const DefaultPage = (props) => {
                     <Text mb="4x">
                       Modal body text goes here.
                     </Text>
-                    <SkeletonBody />
+                    <SkeletonBlock />
                   </ModalBody>
                   <ModalFooter>
                     <Button variant="primary" minWidth="20x">Save Changes</Button>

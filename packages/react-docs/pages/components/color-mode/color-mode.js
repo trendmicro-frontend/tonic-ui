@@ -1,16 +1,3 @@
-# useColorMode
-
-`useColorMode` is a custom Hook that gives you access to the current color mode, and a function to change the color mode.
-
-## Import
-
-```js
-import { useColorStyle } from '@tonic-ui/react';
-```
-
-## Usage
-
-```jsx disabled
 import { Global, css } from '@emotion/react';
 import {
   Button,
@@ -45,12 +32,3 @@ const App = () => {
 };
 
 export default App;
-```
-
-### Returns
-
-Returns an array with the current color mode and a function to change the color mode.
-
-## Demos
-
-{render('./color-mode')}
