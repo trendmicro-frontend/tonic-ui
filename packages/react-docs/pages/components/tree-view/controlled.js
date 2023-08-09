@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   Checkbox,
+  Code,
   Divider,
   Flex,
   Icon,
@@ -14,12 +15,16 @@ import {
   TreeNode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import tree from './data/tree.json';
-import { findExpandableNodeIds, getAllNodeIds } from './utils';
+import {
+  buildTreeMap,
+  findExpandableNodeIds,
+} from './utils';
 
-const allNodeIds = getAllNodeIds(tree);
-const expandableNodeIds = findExpandableNodeIds(tree);
+const treeMap = buildTreeMap(tree);
+const expandableNodes = findExpandableNodeIds(tree);
+const allNodes = Array.from(treeMap.keys());
 
 const renderTree = (node, depth = 0) => {
   const childCount = Array.isArray(node.children) ? node.children.length : 0;
@@ -77,32 +82,32 @@ const renderTree = (node, depth = 0) => {
 
 const App = () => {
   const [colorStyle] = useColorStyle();
-  const [expandedNodes, setExpandedNodes] = useState(expandableNodeIds);
+  const [expandedNodes, setExpandedNodes] = useState(expandableNodes);
   const [selectedNodes, setSelectedNodes] = useState([]);
 
-  const onToggleNodes = (nodeIds) => {
+  const handleToggle = useCallback((nodeIds) => {
     setExpandedNodes(nodeIds);
-  };
+  }, []);
 
-  const onSelectNodes = (nodeIds) => {
+  const handleSelect = useCallback((nodeIds) => {
     setSelectedNodes(nodeIds);
-  };
+  }, []);
 
-  const handleClickExpandAll = (event) => {
-    setExpandedNodes(expandableNodeIds);
-  };
+  const handleClickExpandAll = useCallback((event) => {
+    setExpandedNodes(expandableNodes);
+  }, []);
 
-  const handleClickCollapseAll = (event) => {
+  const handleClickCollapseAll = useCallback((event) => {
     setExpandedNodes([]);
-  };
+  }, []);
 
-  const handleClickSelectAll = (event) => {
-    setSelectedNodes(allNodeIds);
-  };
+  const handleClickSelectAll = useCallback((event) => {
+    setSelectedNodes(allNodes);
+  }, []);
 
-  const handleClickUnselectAll = (event) => {
+  const handleClickUnselectAll = useCallback((event) => {
     setSelectedNodes([]);
-  };
+  }, []);
 
   return (
     <>
@@ -113,7 +118,7 @@ const App = () => {
       >
         <Button
           variant="secondary"
-          disabled={expandedNodes.length === expandableNodeIds.length}
+          disabled={expandedNodes.length === expandableNodes.length}
           onClick={handleClickExpandAll}
         >
           Expand all
@@ -127,7 +132,7 @@ const App = () => {
         </Button>
         <Button
           variant="secondary"
-          disabled={selectedNodes.length === allNodeIds.length}
+          disabled={selectedNodes.length === allNodes.length}
           onClick={handleClickSelectAll}
         >
           Select all
@@ -141,8 +146,44 @@ const App = () => {
         </Button>
       </ButtonGroup>
       <Stack spacing="2x">
-        <Text>Expanded nodes: {expandedNodes.join(', ')}</Text>
-        <Text>Selected nodes: {selectedNodes.join(', ')}</Text>
+        <Flex
+          alignItems="flex-start"
+          columnGap="2x"
+        >
+          <Text whiteSpace="nowrap">
+            Expanded nodes:
+          </Text>
+          <Flex
+            flexWrap="wrap"
+            columnGap="1x"
+            rowGap="1x"
+          >
+            {expandedNodes.map(nodeId => (
+              <Code key={nodeId} whiteSpace="nowrap">
+                {treeMap.get(nodeId)?.name}
+              </Code>
+            ))}
+          </Flex>
+        </Flex>
+        <Flex
+          alignItems="flex-start"
+          columnGap="2x"
+        >
+          <Text whiteSpace="nowrap">
+            Selected nodes:
+          </Text>
+          <Flex
+            flexWrap="wrap"
+            columnGap="1x"
+            rowGap="1x"
+          >
+            {selectedNodes.map(nodeId => (
+              <Code key={nodeId} whiteSpace="nowrap">
+                {treeMap.get(nodeId)?.name}
+              </Code>
+            ))}
+          </Flex>
+        </Flex>
       </Stack>
       <Divider my="4x" />
       <Box
@@ -162,8 +203,8 @@ const App = () => {
             isMultiSelectable
             expandedNodes={expandedNodes}
             selectedNodes={selectedNodes}
-            onToggleNodes={onToggleNodes}
-            onSelectNodes={onSelectNodes}
+            onNodeToggle={handleToggle}
+            onNodeSelect={handleSelect}
           >
             {renderTree(tree)}
           </TreeView>

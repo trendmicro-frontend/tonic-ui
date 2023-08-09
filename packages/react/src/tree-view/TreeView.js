@@ -4,7 +4,6 @@ import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
-import { assignRef } from '../utils/refs';
 import { Descendant } from '../utils/descendant';
 import useAutoId from '../utils/useAutoId';
 import { TreeViewContext } from './context';
@@ -12,9 +11,6 @@ import { useTreeViewStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-/**
- * @ref: https://github.com/mui/material-ui/blob/master/packages/mui-lab/src/TreeView/TreeView.js
- */
 const TreeView = forwardRef((
   {
     defaultExpandedNodes = [],
@@ -25,11 +21,10 @@ const TreeView = forwardRef((
     isMultiSelectable = false,
     onBlur: onBlurProp,
     onKeyDown: onKeyDownProp,
-    onFocusNode: onFocusNodeProp,
-    onSelectNodes: onSelectNodesProp,
-    onToggleNodes: onToggleNodesProp,
+    onNodeFocus: onNodeFocusProp,
+    onNodeSelect: onNodeSelectProp,
+    onNodeToggle: onNodeToggleProp,
     selectedNodes: selectedNodesProp,
-    treeRef: treeRefProp,
     ...rest
   },
   ref,
@@ -264,8 +259,8 @@ const TreeView = forwardRef((
     const node = nodeMap.get(id);
     node.focus();
 
-    if (typeof onFocusNodeProp === 'function') {
-      onFocusNodeProp(id);
+    if (typeof onNodeFocusProp === 'function') {
+      onNodeFocusProp(id);
     }
   };
 
@@ -286,8 +281,8 @@ const TreeView = forwardRef((
       ? expandedNodes.filter((expandedNodeId) => expandedNodeId !== id)
       : [id].concat(expandedNodes);
 
-    if (typeof onToggleNodesProp === 'function') {
-      onToggleNodesProp(newExpandedNodes);
+    if (typeof onNodeToggleProp === 'function') {
+      onNodeToggleProp(newExpandedNodes);
     }
 
     setExpandedNodes(newExpandedNodes);
@@ -322,8 +317,8 @@ const TreeView = forwardRef((
         ? selectedNodes.concat(id)
         : selectedNodes.filter((selectedNodeId) => selectedNodeId !== id);
 
-      if (typeof onSelectNodesProp === 'function') {
-        onSelectNodesProp(newSelectedNodes);
+      if (typeof onNodeSelectProp === 'function') {
+        onNodeSelectProp(newSelectedNodes);
       }
 
       setSelectedNodes(newSelectedNodes);
@@ -331,8 +326,8 @@ const TreeView = forwardRef((
       // Single selection
       const newSelectedNodes = [id];
 
-      if (typeof onSelectNodesProp === 'function') {
-        onSelectNodesProp(newSelectedNodes);
+      if (typeof onNodeSelectProp === 'function') {
+        onNodeSelectProp(newSelectedNodes);
       }
 
       setSelectedNodes(newSelectedNodes);
@@ -388,8 +383,8 @@ const TreeView = forwardRef((
         currentRangeSelection.current.push(current, end);
       }
 
-      if (typeof onSelectNodesProp === 'function') {
-        onSelectNodesProp(newSelectedNodes);
+      if (typeof onNodeSelectProp === 'function') {
+        onNodeSelectProp(newSelectedNodes);
       }
 
       setSelectedNodes(newSelectedNodes);
@@ -407,8 +402,8 @@ const TreeView = forwardRef((
       let newSelectedNodes = nodes.concat(nodesInRange);
       newSelectedNodes = newSelectedNodes.filter((id, index) => newSelectedNodes.indexOf(id) === index);
 
-      if (typeof onSelectNodesProp === 'function') {
-        onSelectNodesProp(newSelectedNodes);
+      if (typeof onNodeSelectProp === 'function') {
+        onNodeSelectProp(newSelectedNodes);
       }
 
       setSelectedNodes(newSelectedNodes);
@@ -652,13 +647,6 @@ const TreeView = forwardRef((
     unregisterNode,
   });
   const styleProps = useTreeViewStyle();
-
-  useEffect(() => {
-    assignRef(treeRefProp, context);
-    return () => {
-      assignRef(treeRefProp, null);
-    };
-  }, [treeRefProp, context]);
 
   return (
     <TreeViewContext.Provider value={context}>

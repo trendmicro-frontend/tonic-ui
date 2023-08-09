@@ -20,7 +20,7 @@ import {
   Truncate,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 const data = [
   { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
@@ -40,7 +40,6 @@ const App = () => {
   }[colorMode];
 
   const [columnResizeMode, setColumnResizeMode] = useState('onChange');
-  const [resizeHandleHeight, setResizeHandleHeight] = useState('100%');
 
   // https://tanstack.com/table/v8/docs/api/features/column-sizing#column-def-options
   //
@@ -104,15 +103,6 @@ const App = () => {
   const layout = 'flexbox'; // One of: 'flexbox', 'table'
   const variant = 'outline'; // One of: 'default', 'outline'
 
-  useEffect(() => {
-    const tableHeight = tableRef.current?.clientHeight;
-    if (!tableHeight) {
-      return;
-    }
-
-    setResizeHandleHeight(tableHeight);
-  }, [variant]);
-
   return (
     <>
       <Box mb="4x" px="3x">
@@ -153,19 +143,42 @@ const App = () => {
                 };
                 const columnSizingInfo = table.getState().columnSizingInfo;
                 const isResizingColumn = (columnSizingInfo.isResizingColumn === header.column.id);
-                const resizeHandleStyle = {
-                  // You must specify absolute positioning for the resize handle to work correctly
-                  position: 'absolute',
-                  top: (variant === 'outline') ? -1 : 0,
-                  right: isResizingColumn ? -5 : -8,
-                  height: isResizingColumn ? resizeHandleHeight : 36,
-                  zIndex: 1,
+                const tableHeight = tableRef.current?.clientHeight ?? '100%';
 
-                  // Use `transform: translateX()` to move the resize handle when `columnResizeMode` is 'onEnd'
-                  transform: (columnResizeMode === 'onEnd' && isResizingColumn)
-                    ? `translateX(${columnSizingInfo.deltaOffset}px)`
-                    : undefined,
-                };
+                // ResizeHandle
+                const resizeHandleSX = (() => {
+                  const dividerColor = {
+                    dark: 'gray:70',
+                    light: 'gray:30',
+                  }[colorMode];
+                  const highlightedDividerColor = {
+                    dark: 'gray:50',
+                    light: 'gray:50',
+                  }[colorMode];
+                  const dividerWidth = 1;
+                  const hoverableWidth = 8;
+                  const translucentWidth = 4;
+
+                  return {
+                    // You must specify absolute positioning for the resize handle to work correctly
+                    position: 'absolute',
+                    top: (variant === 'outline') ? -1 : 0,
+                    right: -1 * (isResizingColumn ? dividerWidth + translucentWidth : hoverableWidth),
+                    height: isResizingColumn ? tableHeight : 36,
+                    zIndex: 1,
+
+                    borderLeft: dividerWidth,
+                    borderLeftColor: isResizingColumn ? highlightedDividerColor : dividerColor,
+                    _hover: {
+                      borderLeftColor: highlightedDividerColor,
+                    },
+
+                    // Use `transform: translateX()` to move the resize handle when `columnResizeMode` is 'onEnd'
+                    transform: (columnResizeMode === 'onEnd' && isResizingColumn)
+                      ? `translateX(${columnSizingInfo.deltaOffset}px)`
+                      : undefined,
+                  };
+                })();
 
                 return (
                   <TableHeaderCell
@@ -179,7 +192,7 @@ const App = () => {
                     )}
                     {(header.column.columnDef.enableResizing !== false) && (
                       <ResizeHandle
-                        style={resizeHandleStyle}
+                        sx={resizeHandleSX}
 
                         // The following `onMouseDown` and `onTouchStart` props are required for the resize handle to work with `@tanstack/react-table`
                         onMouseDown={header.getResizeHandler()}

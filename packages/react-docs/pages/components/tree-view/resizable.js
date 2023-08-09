@@ -10,11 +10,17 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import tree from './data/tree.json';
-import { findExpandableNodeIds } from './utils';
+import {
+  buildTreeMap,
+  findExpandableNodeIds,
+} from './utils';
 
-const expandableNodeIds = findExpandableNodeIds(tree);
+const treeMap = buildTreeMap(tree);
+const expandableNodes = findExpandableNodeIds(tree);
+const allNodes = Array.from(treeMap.keys());
+const defaultSelectedNode = allNodes[0];
 
 const renderTree = (node, depth = 0) => {
   const childCount = Array.isArray(node.children) ? node.children.length : 0;
@@ -58,8 +64,16 @@ const App = () => {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
+  const highlightedDividerColor = {
+    dark: 'gray:50',
+    light: 'gray:50',
+  }[colorMode];
   const containerRef = useRef();
   const resizableRef = useRef();
+  const [selectedNodes, setSelectedNodes] = useState([defaultSelectedNode]);
+  const handleSelect = useCallback((nodeIds) => {
+    setSelectedNodes(nodeIds);
+  }, []);
 
   return (
     <Flex
@@ -83,8 +97,10 @@ const App = () => {
         >
           <TreeView
             aria-label="basic tree view"
-            defaultExpandedNodes={expandableNodeIds}
+            defaultExpandedNodes={expandableNodes}
             isSelectable
+            selectedNodes={selectedNodes}
+            onNodeSelect={handleSelect}
           >
             {renderTree(tree)}
           </TreeView>
@@ -96,8 +112,6 @@ const App = () => {
           px: '3x',
           py: '2x',
           position: 'relative',
-          borderLeft: 1,
-          borderLeftColor: dividerColor,
         }}
       >
         <ResizeHandle
@@ -124,14 +138,18 @@ const App = () => {
           }}
           sx={{
             position: 'absolute',
-            left: -1,
+            left: 0,
             top: 0,
             bottom: 0,
-            zIndex: 1,
+            borderLeft: 1,
+            borderLeftColor: isResizing ? highlightedDividerColor : dividerColor,
+            _hover: {
+              borderLeftColor: highlightedDividerColor,
+            },
           }}
         />
         <Box>
-          Page content
+          {treeMap.get(selectedNodes[0])?.name}
         </Box>
       </Flex>
     </Flex>

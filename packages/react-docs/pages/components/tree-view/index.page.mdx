@@ -1,5 +1,7 @@
 # Tree View
 
+The Tree View component displays information in a nested list format. It's great for showing things like files and folders in a file system, categories and items in a list, and any kind of nested structure you need to explore.
+
 ## Usage
 
 ### Basic tree view
@@ -18,9 +20,7 @@
 
 ### Resizable tree view
 
-* When hovering over the border of the resizable tree view, change the cursor to `col-resize` and highlight the border color to indicate that it is resizable. The hoverable area is `8px` in width, including the border.
-* When dragging the resizable area, display a translucent background with a `4px` width (excluding the border) to indicate the dragging action.
-* The recommended `min-width` is `160px`, and the `max-width` is `40%` of the display area. You can adjust the width according to your specific needs.
+The `min-width` is `160px`, and the `max-width` is `40%` of the display area. You can adjust the height according to your specific needs.
 
 {render('./resizable')}
 
@@ -30,8 +30,26 @@
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| defaultExpandedNodes | array | [] | An array of expanded node ids for initial state (uncontrolled). |
+| defaultSelectedNodes | array | [] | An array of selected node ids for initial state (uncontrolled). |
+| expandedNodes | array | | An array of expanded node ids for controlled state. |
+| id | string | | The `id` prop used for accessibility purpose. If not provided, a random id will be generated. |
+| isSelectable | bool | false | Determines if the tree view allows node selection. |
+| isMultiSelectable | bool | false | Determines if the tree view allows multiple node selections. |
+| onNodeFocus | function | | A callback function invoked when a tree node is focused.<pre>`function(nodeId: string) => void`<br /> • `nodeId` The id of the focused node.</pre> |
+| onNodeSelect | function | | A callback function triggered when tree nodes are selected/unselected.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of selected node ids.</pre> |
+| onNodeToggle | function | | A callback function triggered when tree nodes are expanded/collapsed.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of expanded node ids.</pre> |
+| selectedNodes | array | | An array of selected node ids for controlled state. |
 
 ### TreeNode
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| ContentComponent | ElementType | TreeNodeContent | The component used to render the contenr of the node. |
+| ContentProps | object | | Props applied to the content component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| children | ReactNode | | The content of the node. |
+| disabled | bool | false | Determines if the node is disabled. |
+| nodeId | string | | `REQUIRED` The id of the node. |
+| render | function | | `REQUIRED` A render function to render the node.<pre>`function(props: object) => ReactNode` <br /> • `props` The props passed to the render function.<br />    - nodeDepth: number<br />    - nodeId: string<br />    - isDisabled: boolean<br />    - isExpandable: boolean<br />    - isExpanded: boolean<br />    - isFocused: boolean<br />    - isSelected: boolean<br />    - focus: function<br />    - select: function<br />    - toggle: function<br /></pre> |

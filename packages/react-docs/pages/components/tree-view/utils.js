@@ -1,3 +1,18 @@
+export const buildTreeMap = (tree) => {
+  const treeMap = new Map();
+
+  const traverse = (node) => {
+    treeMap.set(node.id, node);
+    if (Array.isArray(node.children) && node.children.length > 0) {
+      node.children.forEach(traverse);
+    }
+  };
+
+  traverse(tree);
+
+  return treeMap;
+};
+
 export const findExpandableNodeIds = (tree) => {
   const expandableNodeIds = [];
 
@@ -11,19 +26,4 @@ export const findExpandableNodeIds = (tree) => {
   traverse(tree);
 
   return expandableNodeIds;
-};
-
-export const getAllNodeIds = (tree) => {
-  const allNodeIds = [];
-
-  const traverse = (node) => {
-    allNodeIds.push(node.id);
-    if (Array.isArray(node.children) && node.children.length > 0) {
-      node.children.forEach(traverse);
-    }
-  };
-
-  traverse(tree);
-
-  return allNodeIds;
 };

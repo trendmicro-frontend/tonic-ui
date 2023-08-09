@@ -44,7 +44,7 @@ export * from './theme';
 export * from './toast';
 export * from './tooltip';
 export * from './transitions';
-export * from './treeview';
+export * from './tree-view';
 export * from './truncate';
 export * from './visually-hidden';
 
