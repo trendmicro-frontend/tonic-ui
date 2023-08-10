@@ -80,7 +80,6 @@ const useTreeNodeToggleIconStyle = ({
 
   return {
     display: 'inline-flex',
-    marginRight: '2x',
     color: isDisabled ? disabledColor : color,
     _hover: {
       color: isDisabled ? disabledColor : hoverColor,

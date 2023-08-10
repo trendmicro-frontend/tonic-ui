@@ -2,6 +2,7 @@ import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray, ensureBoolean, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useCallback, useMemo } from 'react';
 import { Box } from '../box';
+import { Flex } from '../flex';
 import { useTheme } from '../theme';
 import TreeNodeToggleIcon from './TreeNodeToggleIcon';
 import { useTreeNodeContentStyle } from './styles';
@@ -97,12 +98,17 @@ const TreeNodeContent = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {ensureBoolean(isExpandable) && (
-        <TreeNodeToggleIcon
-          nodeId={nodeId}
-          onClick={onClickNodeToggleIcon}
-        />
-      )}
+      <Flex
+        flex="none"
+        width="6x"
+      >
+        {ensureBoolean(isExpandable) && (
+          <TreeNodeToggleIcon
+            nodeId={nodeId}
+            onClick={onClickNodeToggleIcon}
+          />
+        )}
+      </Flex>
       {ensureFunction(renderProp)(renderContext)}
     </Box>
   );
