@@ -1,29 +1,31 @@
-export const buildTreeMap = (tree) => {
+import { ensureArray } from 'ensure-type';
+
+export const buildTreeMap = (nodes) => {
   const treeMap = new Map();
 
-  const traverse = (node) => {
-    treeMap.set(node.id, node);
-    if (Array.isArray(node.children) && node.children.length > 0) {
-      node.children.forEach(traverse);
-    }
+  const traverse = (nodes) => {
+    ensureArray(nodes).forEach((node) => {
+      treeMap.set(node.id, node);
+      traverse(node.children);
+    });
   };
 
-  traverse(tree);
+  traverse(nodes);
 
   return treeMap;
 };
 
-export const findExpandableNodeIds = (tree) => {
+export const findExpandableNodeIds = (nodes) => {
   const expandableNodeIds = [];
 
-  const traverse = (node) => {
-    if (Array.isArray(node.children) && node.children.length > 0) {
+  const traverse = (nodes) => {
+    ensureArray(nodes).forEach((node) => {
       expandableNodeIds.push(node.id);
-      node.children.forEach(traverse);
-    }
+      traverse(node.children);
+    });
   };
 
-  traverse(tree);
+  traverse(nodes);
 
   return expandableNodeIds;
 };
