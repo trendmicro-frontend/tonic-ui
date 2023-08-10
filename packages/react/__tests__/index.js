@@ -264,6 +264,8 @@ test('should match expected exports', () => {
     // treeview
     'TreeNode',
     'TreeView',
+    'useTreeNode',
+    'useTreeView',
 
     // truncate
     'Truncate',
