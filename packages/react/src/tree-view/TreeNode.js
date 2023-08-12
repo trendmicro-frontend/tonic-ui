@@ -109,7 +109,7 @@ const TreeNode = forwardRef((
           id={nodeId}
         >
           <TransitionComponent
-            appear={true}
+            appear={false} // do not perform the enter transition when it first mounts
             in={isExpanded}
             role="group"
             unmountOnExit={true}
