@@ -1,4 +1,8 @@
+import memoize from 'micro-memoize';
+import { useCallback } from 'react';
 import useTreeView from './useTreeView';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const useTreeNode = (nodeId) => {
   const {
@@ -8,11 +12,10 @@ const useTreeNode = (nodeId) => {
     getIsNodeExpanded,
     getIsNodeFocused,
     getIsNodeSelected,
-    isMultiSelectable,
-    isSelectable,
     selectNode,
     selectRange,
-    toggleNode,
+    toggleSelection,
+    toggleExpansion,
   } = useTreeView();
 
   const isDisabled = getIsNodeDisabled ? getIsNodeDisabled(nodeId) : false;
@@ -21,22 +24,7 @@ const useTreeNode = (nodeId) => {
   const isFocused = getIsNodeFocused ? getIsNodeFocused(nodeId) : false;
   const isSelected = getIsNodeSelected ? getIsNodeSelected(nodeId) : false;
 
-  const focus = () => {
-    if (isDisabled) {
-      return;
-    }
-
-    if (!isFocused) {
-      focusNode(nodeId);
-    }
-  };
-
-  const select = (options) => {
-    const {
-      isMultiSelection = false, // One of: shiftKey, ctrlKey, metaKey
-      isRangeSelection = false, // One of: shiftKey
-    } = { ...options };
-
+  const selectHandler = useCallback(() => {
     if (isDisabled) {
       return;
     }
@@ -45,24 +33,10 @@ const useTreeNode = (nodeId) => {
       focusNode(nodeId);
     }
 
-    if (!isSelectable) {
-      return;
-    }
+    selectNode(nodeId);
+  }, [nodeId, isDisabled, isFocused, focusNode, selectNode]);
 
-    if (isMultiSelectable && isMultiSelection) {
-      if (isRangeSelection) {
-        // When performing a range selection, the `start` parameter is assigned the value of `lastSelectedNode.current`
-        const end = nodeId;
-        selectRange({ end });
-      } else {
-        selectNode(nodeId);
-      }
-    } else {
-      selectNode(nodeId);
-    }
-  };
-
-  const toggle = () => {
+  const selectRangeHandler = useCallback(() => {
     if (isDisabled) {
       return;
     }
@@ -71,21 +45,48 @@ const useTreeNode = (nodeId) => {
       focusNode(nodeId);
     }
 
-    if (isExpandable) {
-      toggleNode(nodeId);
-    }
-  };
+    // When performing a range selection, the `start` parameter is assigned the value of `lastSelectedNode.current`
+    const end = nodeId;
+    selectRange({ end });
+  }, [nodeId, isDisabled, isFocused, focusNode, selectRange]);
 
-  return {
+  const toggleExpansionHandler = useCallback(() => {
+    if (isDisabled) {
+      return;
+    }
+
+    if (!isFocused) {
+      focusNode(nodeId);
+    }
+
+    toggleExpansion(nodeId);
+  }, [nodeId, isDisabled, isFocused, focusNode, toggleExpansion]);
+
+  const toggleSelectionHandler = useCallback(() => {
+    if (isDisabled) {
+      return;
+    }
+
+    if (!isFocused) {
+      focusNode(nodeId);
+    }
+
+    toggleSelection(nodeId);
+  }, [nodeId, isDisabled, isFocused, focusNode, toggleSelection]);
+
+  const context = getMemoizedState({
     isDisabled,
     isExpandable,
     isExpanded,
     isFocused,
     isSelected,
-    focus,
-    select,
-    toggle,
-  };
+    select: selectHandler,
+    selectRange: selectRangeHandler,
+    toggleExpansion: toggleExpansionHandler,
+    toggleSelection: toggleSelectionHandler,
+  });
+
+  return context;
 };
 
 export default useTreeNode;

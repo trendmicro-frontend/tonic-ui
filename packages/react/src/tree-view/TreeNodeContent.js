@@ -6,6 +6,7 @@ import { Flex } from '../flex';
 import { useTheme } from '../theme';
 import TreeNodeToggleIcon from './TreeNodeToggleIcon';
 import { useTreeNodeContentStyle } from './styles';
+import useTreeView from './useTreeView';
 import useTreeNode from './useTreeNode';
 
 const TreeNodeContent = forwardRef((
@@ -13,7 +14,6 @@ const TreeNodeContent = forwardRef((
     nodeDepth,
     nodeId,
     onClick: onClickProp,
-    onFocus: onFocusProp,
     onMouseDown: onMouseDownProp,
     render: renderProp,
     sx: sxProp,
@@ -22,14 +22,18 @@ const TreeNodeContent = forwardRef((
   ref,
 ) => {
   const { sizes } = useTheme();
+  const {
+    multiSelect,
+  } = useTreeView();
   const nodeContext = useTreeNode(nodeId);
   const {
     isDisabled,
     isExpandable,
     isSelected,
-    focus,
     select,
-    toggle,
+    selectRange,
+    toggleExpansion,
+    toggleSelection,
   } = nodeContext;
   const renderContext = useMemo(() => {
     return {
@@ -40,34 +44,36 @@ const TreeNodeContent = forwardRef((
   }, [nodeContext, nodeDepth, nodeId]);
 
   const onClickNodeContent = useCallback((event) => {
-    const isMultiSelection = (event.shiftKey || event.ctrlKey || event.metaKey);
-    const isRangeSelection = event.shiftKey;
-    select({ isMultiSelection, isRangeSelection });
-  }, [select]);
+    const isCtrlPressed = event.ctrlKey;
+    const isMetaPressed = event.metaKey;
+    const isShiftPressed = event.shiftKey;
+
+    if (multiSelect && isShiftPressed) {
+      selectRange();
+      return;
+    }
+
+    if (multiSelect && (isCtrlPressed || isMetaPressed)) {
+      toggleSelection();
+      return;
+    }
+
+    select();
+  }, [multiSelect, select, selectRange, toggleSelection]);
 
   const onClickNodeToggleIcon = useCallback((event) => {
     // Stop event bubbling to prevent the node from being selected
     event.stopPropagation();
 
-    toggle();
-  }, [toggle]);
-
-  const onFocus = useCallback((event) => {
-    const receivingFocusTarget = event.target; // The element that is receiving focus
-
-    if (event.currentTarget !== receivingFocusTarget) {
-      // If the event is bubbling, do nothing, focus only when directly triggered on the current element
-      return;
-    }
-
-    // Call `focus` to update the `focusedNodeId` in TreeView
-    focus();
-  }, [focus]);
+    toggleExpansion();
+  }, [toggleExpansion]);
 
   const onMouseDown = useCallback((event) => {
-    const isMultiSelection = (event.shiftKey || event.ctrlKey || event.metaKey);
+    const isCtrlPressed = event.ctrlKey;
+    const isMetaPressed = event.metaKey;
+    const isShiftPressed = event.shiftKey;
 
-    if (isMultiSelection || isDisabled) {
+    if ((isCtrlPressed || isMetaPressed || isShiftPressed) || isDisabled) {
       // Prevent text selection
       event.preventDefault();
     }
@@ -91,7 +97,6 @@ const TreeNodeContent = forwardRef((
     <Box
       ref={ref}
       onClick={callEventHandlers(onClickProp, onClickNodeContent)}
-      onFocus={callEventHandlers(onFocusProp, onFocus)}
       onMouseDown={callEventHandlers(onMouseDownProp, onMouseDown)}
       tabIndex={tabIndex}
       sx={sxProps}

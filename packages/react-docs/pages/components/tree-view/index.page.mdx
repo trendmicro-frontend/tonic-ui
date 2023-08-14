@@ -19,11 +19,37 @@ import {
 
 {render('./basic')}
 
-{render('./directory')}
-
 ### Multi-selection
 
+To enable multi-selection in the TreeView component, you must configure the following properties:
+
+* `isSelectable`: Set this property to `true` to allow nodes to be selected.
+* `multiSelect`: Set this property to `true` to enable multi-selection with `ctrl` and `shift` keys.
+
 {render('./multi-selection')}
+
+When utilizing checkboxes for multi-selection, you can hide the background color of the tree node when the checkbox is selected for better accessibility.
+
+```jsx disabled
+If you use checkbox for multi-selection, it is recommended that you hide the background color of the tree node when the checkbox is selected for accessibility purpose.
+
+```jsx disabled
+<TreeNode
+  key={node.id}
+  nodeId={node.id}
+  render={({ isExpanded, isSelected, select }) => {
+    // Your tree node render function
+  }}
+  sx={{
+    // Hide the background color of the tree node when the checkbox is selected
+    '&[aria-selected="true"] > *:first-of-type:not(:hover)': {
+      backgroundColor: 'transparent',
+    },
+  }}
+/>
+```
+
+{render('./multi-selection-checkboxes')}
 
 ### Controlled tree view
 
@@ -34,6 +60,21 @@ import {
 The `min-width` is `160px`, and the `max-width` is `40%` of the display area. You can adjust the height according to your specific needs.
 
 {render('./resizable')}
+
+## Accessibility
+
+The `TreeView` component provides support for navigation and selection using both keyboard and mouse. The following keyboard shortcuts are available:
+
+* Use the `Up` and `Down` arrow keys to navigate between nodes.
+* Use the `Left` and `Right` arrow keys to expand/collapse a node.
+* Use the `Enter` key to toggle either the expansion or selection of a node.
+* Use the `Space` key to toggle the selection of a node.
+* Use the `Home` and `End` keys to quickly navigate to the first or last node.
+* Hold down the `Ctrl` key and click the left mouse button to select/unselect a node without affecting the current selection.
+* Hold down the `Shift` key and click the left mouse button to perform a range selection from the current node to the clicked node.
+* Use `Ctrl`+`Shift`+`Home` keys to perform a range selection from the current node to the first node.
+* Use `Ctrl`+`Shift`+`End` keys to perform a range selection from the current node to the last node.
+* Use `Ctrl`+`a` keys to select all nodes.
 
 ## Props
 
@@ -46,7 +87,7 @@ The `min-width` is `160px`, and the `max-width` is `40%` of the display area. Yo
 | expandedNodes | array | | An array of expanded node ids for controlled state. |
 | id | string | | The `id` prop used for accessibility purpose. If not provided, a random id will be generated. |
 | isSelectable | bool | false | Determines if the tree view allows node selection. |
-| isMultiSelectable | bool | false | Determines if the tree view allows multiple node selections. |
+| multiSelect | bool | false | If true, `ctrl` and `shift` will trigger multiselect. |
 | onNodeFocus | function | | A callback function invoked when a tree node is focused.<pre>`function(nodeId: string) => void`<br /> • `nodeId` The id of the focused node.</pre> |
 | onNodeSelect | function | | A callback function triggered when tree nodes are selected/unselected.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of selected node ids.</pre> |
 | onNodeToggle | function | | A callback function triggered when tree nodes are expanded/collapsed.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of expanded node ids.</pre> |
@@ -63,4 +104,4 @@ The `min-width` is `160px`, and the `max-width` is `40%` of the display area. Yo
 | children | ReactNode | | The content of the node. |
 | disabled | bool | false | Determines if the node is disabled. |
 | nodeId | string | | `REQUIRED` The id of the node. |
-| render | function | | `REQUIRED` A render function to render the node.<pre>`function(props: object) => ReactNode` <br /> • `props` The props passed to the render function.<br />    - nodeDepth: number<br />    - nodeId: string<br />    - isDisabled: boolean<br />    - isExpandable: boolean<br />    - isExpanded: boolean<br />    - isFocused: boolean<br />    - isSelected: boolean<br />    - focus: function<br />    - select: function<br />    - toggle: function<br /></pre> |
+| render | function | | `REQUIRED` A render function to render the node.<pre>`function(props: object) => ReactNode` <br /> • `props` The props passed to the render function.<br />    - nodeDepth: number<br />    - nodeId: string<br />    - isDisabled: boolean<br />    - isExpandable: boolean<br />    - isExpanded: boolean<br />    - isFocused: boolean<br />    - isSelected: boolean<br />    - select: function()<br />    - selectRange: function()<br />    - toggleExpansion: function()<br />    - toggleSelection: function()<br /></pre> |

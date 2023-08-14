@@ -203,7 +203,7 @@ const App = () => {
           <TreeView
             aria-label="controlled"
             isSelectable
-            isMultiSelectable
+            multiSelect
             expandedNodes={expandedNodes}
             selectedNodes={selectedNodes}
             onNodeToggle={handleToggle}

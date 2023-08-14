@@ -18,7 +18,7 @@ const TreeView = forwardRef((
     expandedNodes: expandedNodesProp,
     id: idProp,
     isSelectable = false,
-    isMultiSelectable = false,
+    multiSelect = false,
     onBlur: onBlurProp,
     onKeyDown: onKeyDownProp,
     onNodeFocus: onNodeFocusProp,
@@ -37,6 +37,9 @@ const TreeView = forwardRef((
     : null;
   const [expandedNodes, setExpandedNodes] = useState(ensureArray(expandedNodesProp ?? defaultExpandedNodes));
   const [selectedNodes, setSelectedNodes] = useState(ensureArray(selectedNodesProp ?? defaultSelectedNodes));
+  const lastSelectedNode = useRef(null);
+  const lastSelectionWasRange = useRef(false);
+  const currentRangeSelection = useRef([]);
 
   useEffect(() => {
     const isControlled = (expandedNodesProp !== undefined);
@@ -53,7 +56,7 @@ const TreeView = forwardRef((
   }, [selectedNodesProp]);
 
   /**
-   * Node state helpers
+   * Node helpers
    */
 
   const getIsNodeDisabled = useCallback((id) => {
@@ -93,10 +96,6 @@ const TreeView = forwardRef((
     return selectedNodes.indexOf(id) !== -1;
   }, [selectedNodes]);
 
-  /**
-   * Node helpers
-   */
-
   const getChildNodes = useCallback((id) => {
     return Array.from(nodeMap.values())
       .filter((node) => node.parentId === id)
@@ -104,22 +103,22 @@ const TreeView = forwardRef((
       .map((child) => child.id);
   }, [nodeMap]);
 
-  const getFocusableNodes = (id) => {
+  const getNavigableChildNodes = useCallback((id) => {
     const focusableNodes = getChildNodes(id)
       .filter((id) => !getIsNodeDisabled(id));
     return focusableNodes;
-  };
+  }, [getChildNodes, getIsNodeDisabled]);
 
-  const getNextNode = (id) => {
+  const getNextNode = useCallback((id) => {
     // If expanded get first child
-    if (getIsNodeExpanded(id) && getFocusableNodes(id).length > 0) {
-      return getFocusableNodes(id)[0];
+    if (getIsNodeExpanded(id) && getNavigableChildNodes(id).length > 0) {
+      return getNavigableChildNodes(id)[0];
     }
 
     let node = nodeMap.get(id);
     while (!isNullish(node)) {
       // Try to get next sibling
-      const siblingIds = getFocusableNodes(node.parentId);
+      const siblingIds = getNavigableChildNodes(node.parentId);
       const nextSiblingId = siblingIds[siblingIds.indexOf(node.id) + 1];
 
       if (nextSiblingId) {
@@ -131,11 +130,11 @@ const TreeView = forwardRef((
     }
 
     return null;
-  };
+  }, [getIsNodeExpanded, getNavigableChildNodes, nodeMap]);
 
-  const getPreviousNode = (id) => {
+  const getPreviousNode = useCallback((id) => {
     const node = nodeMap.get(id);
-    const siblingIds = getFocusableNodes(node.parentId);
+    const siblingIds = getNavigableChildNodes(node.parentId);
     const nodeIndex = siblingIds.indexOf(id);
 
     if (nodeIndex === 0) {
@@ -143,25 +142,36 @@ const TreeView = forwardRef((
     }
 
     let currentNodeId = siblingIds[nodeIndex - 1];
-    while (getIsNodeExpanded(currentNodeId) && getFocusableNodes(currentNodeId).length > 0) {
-      currentNodeId = getFocusableNodes(currentNodeId).pop();
+    while (getIsNodeExpanded(currentNodeId) && getNavigableChildNodes(currentNodeId).length > 0) {
+      currentNodeId = getNavigableChildNodes(currentNodeId).pop();
     }
 
     return currentNodeId;
-  };
+  }, [getIsNodeExpanded, getNavigableChildNodes, nodeMap]);
 
-  const getFirstNode = () => getFocusableNodes(null)[0];
+  const getFirstNode = useCallback(() => {
+    return getNavigableChildNodes(null)[0];
+  }, [getNavigableChildNodes]);
 
-  const getLastNode = () => {
-    let lastNodeId = getFocusableNodes(null).pop();
+  const getLastNode = useCallback(() => {
+    let lastNodeId = getNavigableChildNodes(null).pop();
 
     while (getIsNodeExpanded(lastNodeId)) {
-      lastNodeId = getFocusableNodes(lastNodeId).pop();
-    }
-    return lastNodeId;
-  };
+      const lastChildNodes = getNavigableChildNodes(lastNodeId);
 
-  const getParentNode = (id) => nodeMap.get(id).parentId;
+      if (lastChildNodes.length === 0) {
+        break;
+      }
+
+      lastNodeId = lastChildNodes.pop();
+    }
+
+    return lastNodeId;
+  }, [getIsNodeExpanded, getNavigableChildNodes]);
+
+  const getParentNode = useCallback((id) => {
+    return nodeMap.get(id).parentId;
+  }, [nodeMap]);
 
   /**
    * This is used to determine the start and end of a selection range so we can get the nodes between the two border nodes.
@@ -176,7 +186,7 @@ const TreeView = forwardRef((
    * Another way to put it is which node is shallower in a trémaux tree
    * https://en.wikipedia.org/wiki/Tr%C3%A9maux_tree
    */
-  const findOrderInTremauxTree = (nodeAId, nodeBId) => {
+  const findOrderInTremauxTree = useCallback((nodeAId, nodeBId) => {
     if (nodeAId === nodeBId) {
       return [nodeAId, nodeBId];
     }
@@ -229,9 +239,9 @@ const TreeView = forwardRef((
     return ancestorFamily.indexOf(aSide) < ancestorFamily.indexOf(bSide)
       ? [nodeAId, nodeBId]
       : [nodeBId, nodeAId];
-  };
+  }, [getChildNodes, nodeMap]);
 
-  const getNodesInRange = (nodeA, nodeB) => {
+  const getNodesInRange = useCallback((nodeA, nodeB) => {
     const [first, last] = findOrderInTremauxTree(nodeA, nodeB);
     const nodes = [first];
 
@@ -243,13 +253,9 @@ const TreeView = forwardRef((
     }
 
     return nodes;
-  };
+  }, [findOrderInTremauxTree, getNextNode]);
 
-  /**
-   * Focus Helpers
-   */
-
-  const focusNode = (id) => {
+  const focusNode = useCallback((id) => {
     if (!id) {
       return;
     }
@@ -262,83 +268,114 @@ const TreeView = forwardRef((
     if (typeof onNodeFocusProp === 'function') {
       onNodeFocusProp(id);
     }
-  };
+  }, [nodeMap, onNodeFocusProp]);
 
-  const focusNextNode = (id) => focusNode(getNextNode(id));
+  const focusNextNode = useCallback((id) => {
+    focusNode(getNextNode(id));
+  }, [focusNode, getNextNode]);
 
-  const focusPreviousNode = (id) => focusNode(getPreviousNode(id));
+  const focusPreviousNode = useCallback((id) => {
+    focusNode(getPreviousNode(id));
+  }, [focusNode, getPreviousNode]);
 
-  const focusFirstNode = (id) => focusNode(getFirstNode());
+  const focusFirstNode = useCallback((id) => {
+    focusNode(getFirstNode());
+  }, [focusNode, getFirstNode]);
 
-  const focusLastNode = (id) => focusNode(getLastNode());
+  const focusLastNode = useCallback((id) => {
+    focusNode(getLastNode());
+  }, [focusNode, getLastNode]);
 
   /**
-   * Toggle Helpers
+   * Toggle the expansion state of a node
+   *
+   * @param {number|string] id - The id of the node to toggle
+   * @returns {boolean} - Whether the node's expansion state was toggled
    */
+  const toggleExpansion = useCallback((id = focusedNodeId) => {
+    if (!id) {
+      return false;
+    }
 
-  const toggleNode = (id = focusedNodeId) => {
-    const newExpandedNodes = (expandedNodes.indexOf(id) !== -1)
-      ? expandedNodes.filter((expandedNodeId) => expandedNodeId !== id)
-      : [id].concat(expandedNodes);
+    const isNodeExpandable = getIsNodeExpandable(id);
+    if (!isNodeExpandable) {
+      return false;
+    }
+
+    const newExpandedNodes = (expandedNodes.indexOf(id) === -1)
+      ? expandedNodes.concat(id)
+      : expandedNodes.filter((expandedNodeId) => expandedNodeId !== id);
 
     if (typeof onNodeToggleProp === 'function') {
       onNodeToggleProp(newExpandedNodes);
     }
 
     setExpandedNodes(newExpandedNodes);
-  };
+
+    return true;
+  }, [expandedNodes, focusedNodeId, getIsNodeExpandable, onNodeToggleProp]);
 
   /**
-   * Selection Helpers
-   */
-
-  const lastSelectedNode = useRef(null);
-  const lastSelectionWasRange = useRef(false);
-  const currentRangeSelection = useRef([]);
-
-  /**
-   * Select a node or multiple nodes
+   * Toggle the selection state of a node
    *
-   * @param {number|string] id - The id of the node to select
-   * @returns {boolean} - Whether the node was selected
+   * @param {number|string] id - The id of the node to toggle
+   * @returns {boolean} - Whether the node's selection state was toggled
    */
-  const selectNode = (id) => {
-    if (!isSelectable) {
-      return false;
-    }
-
+  const toggleSelection = useCallback((id) => {
     if (!id) {
       return false;
     }
 
-    if (isMultiSelectable) {
-      // Multiple selection
-      const newSelectedNodes = (selectedNodes.indexOf(id) === -1)
-        ? selectedNodes.concat(id)
-        : selectedNodes.filter((selectedNodeId) => selectedNodeId !== id);
-
-      if (typeof onNodeSelectProp === 'function') {
-        onNodeSelectProp(newSelectedNodes);
-      }
-
-      setSelectedNodes(newSelectedNodes);
-    } else {
-      // Single selection
-      const newSelectedNodes = [id];
-
-      if (typeof onNodeSelectProp === 'function') {
-        onNodeSelectProp(newSelectedNodes);
-      }
-
-      setSelectedNodes(newSelectedNodes);
+    if (!isSelectable) {
+      return false;
     }
+
+    const newSelectedNodes = (selectedNodes.indexOf(id) === -1)
+      ? selectedNodes.concat(id)
+      : selectedNodes.filter((selectedNodeId) => selectedNodeId !== id);
+
+    if (typeof onNodeSelectProp === 'function') {
+      onNodeSelectProp(newSelectedNodes);
+    }
+
+    setSelectedNodes(newSelectedNodes);
 
     lastSelectedNode.current = id;
     lastSelectionWasRange.current = false;
     currentRangeSelection.current = [];
 
     return true;
-  };
+  }, [isSelectable, onNodeSelectProp, selectedNodes]);
+
+  /**
+   * Select a node
+   *
+   * @param {number|string] id - The id of the node to select
+   * @returns {boolean} - Whether the node was selected
+   */
+  const selectNode = useCallback((id) => {
+    if (!id) {
+      return false;
+    }
+
+    if (!isSelectable) {
+      return false;
+    }
+
+    const newSelectedNodes = [id];
+
+    if (typeof onNodeSelectProp === 'function') {
+      onNodeSelectProp(newSelectedNodes);
+    }
+
+    setSelectedNodes(newSelectedNodes);
+
+    lastSelectedNode.current = id;
+    lastSelectionWasRange.current = false;
+    currentRangeSelection.current = [];
+
+    return true;
+  }, [isSelectable, onNodeSelectProp]);
 
   /**
    * Select a range of nodes
@@ -348,12 +385,12 @@ const TreeView = forwardRef((
    * @param {number|string} end - The id of the node to end the range at
    * @returns {boolean} - Whether the range was selected successfully
    */
-  const selectRange = ({
+  const selectRange = useCallback(({
     start = lastSelectedNode.current,
     current, // optional
     end,
   }) => {
-    if (!isSelectable || !isMultiSelectable) {
+    if (!isSelectable) {
       return false;
     }
 
@@ -412,9 +449,9 @@ const TreeView = forwardRef((
     lastSelectionWasRange.current = true;
 
     return true;
-  };
+  }, [getIsNodeDisabled, getNodesInRange, isSelectable, onNodeSelectProp, selectedNodes]);
 
-  const rangeSelectToFirst = (id) => {
+  const rangeSelectToFirst = useCallback((id) => {
     if (!lastSelectedNode.current) {
       lastSelectedNode.current = id;
     }
@@ -422,19 +459,20 @@ const TreeView = forwardRef((
     const start = lastSelectionWasRange.current ? lastSelectedNode.current : id;
     const end = getFirstNode();
     selectRange({ start, end });
-  };
+  }, [getFirstNode, selectRange]);
 
-  const rangeSelectToLast = (id) => {
+  const rangeSelectToLast = useCallback((id) => {
     if (!lastSelectedNode.current) {
       lastSelectedNode.current = id;
     }
 
     const start = lastSelectionWasRange.current ? lastSelectedNode.current : id;
     const end = getLastNode();
-    selectRange({ start, end });
-  };
 
-  const selectNextNode = (id) => {
+    selectRange({ start, end });
+  }, [getLastNode, selectRange]);
+
+  const selectNextNode = useCallback((id) => {
     const nextNode = getNextNode(id);
 
     if (getIsNodeDisabled(nextNode)) {
@@ -445,9 +483,9 @@ const TreeView = forwardRef((
     const current = id;
     const end = nextNode;
     selectRange({ start, current, end });
-  };
+  }, [getIsNodeDisabled, getNextNode, selectRange]);
 
-  const selectPreviousNode = (id) => {
+  const selectPreviousNode = useCallback((id) => {
     const previousNode = getPreviousNode(id);
 
     if (getIsNodeDisabled(previousNode)) {
@@ -458,16 +496,16 @@ const TreeView = forwardRef((
     const current = id;
     const end = previousNode;
     selectRange({ start, current, end });
-  };
+  }, [getIsNodeDisabled, getPreviousNode, selectRange]);
 
-  const selectAllNodes = () => {
+  const selectAllNodes = useCallback(() => {
     const start = getFirstNode();
     const end = getLastNode();
     selectRange({ start, end });
-  };
+  }, [getFirstNode, getLastNode, selectRange]);
 
   /**
-   * Mapping Helpers
+   * Mapping helpers
    */
 
   const registerNode = useCallback((nodeProps) => {
@@ -530,11 +568,13 @@ const TreeView = forwardRef((
     switch (key) {
     case ' ':
       if (!getIsNodeDisabled(focusedNodeId)) {
-        if (isMultiSelectable && isShiftPressed) {
+        if (multiSelect && isShiftPressed) {
           const start = lastSelectedNode.current;
           const end = focusedNodeId;
           selectRange({ start, end });
           flag = true;
+        } else if (multiSelect) {
+          flag = toggleSelection(focusedNodeId);
         } else {
           flag = selectNode(focusedNodeId);
         }
@@ -545,8 +585,10 @@ const TreeView = forwardRef((
     case 'Enter':
       if (!getIsNodeDisabled(focusedNodeId)) {
         if (getIsNodeExpandable(focusedNodeId)) {
-          toggleNode(focusedNodeId);
+          toggleExpansion(focusedNodeId);
           flag = true;
+        } else if (multiSelect) {
+          flag = toggleSelection(focusedNodeId);
         } else {
           flag = selectNode(focusedNodeId);
         }
@@ -555,7 +597,7 @@ const TreeView = forwardRef((
       break;
 
     case 'ArrowDown':
-      if (isMultiSelectable && isShiftPressed) {
+      if (multiSelect && isShiftPressed) {
         selectNextNode(focusedNodeId);
       }
       focusNextNode(focusedNodeId);
@@ -563,7 +605,7 @@ const TreeView = forwardRef((
       break;
 
     case 'ArrowUp':
-      if (isMultiSelectable && isShiftPressed) {
+      if (multiSelect && isShiftPressed) {
         selectPreviousNode(focusedNodeId);
       }
       focusPreviousNode(focusedNodeId);
@@ -576,7 +618,7 @@ const TreeView = forwardRef((
           focusNextNode(focusedNodeId);
           flag = true;
         } else if (!getIsNodeDisabled(focusedNodeId)) {
-          toggleNode(focusedNodeId);
+          toggleExpansion(focusedNodeId);
           flag = true;
         }
       }
@@ -584,7 +626,7 @@ const TreeView = forwardRef((
 
     case 'ArrowLeft':
       if (getIsNodeExpanded(focusedNodeId) && !getIsNodeDisabled(focusedNodeId)) {
-        toggleNode(focusedNodeId);
+        toggleExpansion(focusedNodeId);
         flag = true;
       } else {
         const parentNode = getParentNode(focusedNodeId);
@@ -596,7 +638,7 @@ const TreeView = forwardRef((
       break;
 
     case 'Home':
-      if (isMultiSelectable && isCtrlPressed && isShiftPressed && !getIsNodeDisabled(focusedNodeId)) {
+      if (multiSelect && isCtrlPressed && isShiftPressed && !getIsNodeDisabled(focusedNodeId)) {
         rangeSelectToFirst(focusedNodeId);
       }
       focusFirstNode();
@@ -604,7 +646,7 @@ const TreeView = forwardRef((
       break;
 
     case 'End':
-      if (isMultiSelectable && isCtrlPressed && isShiftPressed && !getIsNodeDisabled(focusedNodeId)) {
+      if (multiSelect && isCtrlPressed && isShiftPressed && !getIsNodeDisabled(focusedNodeId)) {
         rangeSelectToLast(focusedNodeId);
       }
       focusLastNode();
@@ -612,7 +654,7 @@ const TreeView = forwardRef((
       break;
 
     default:
-      if (isMultiSelectable && isCtrlPressed && key.toLowerCase() === 'a') {
+      if (multiSelect && isCtrlPressed && key.toLowerCase() === 'a') {
         selectAllNodes();
         flag = true;
       }
@@ -637,12 +679,13 @@ const TreeView = forwardRef((
     getIsNodeFocused,
     getIsNodeSelected,
     isSelectable,
-    isMultiSelectable,
+    multiSelect,
     nodeMap,
     registerNode,
     selectNode,
     selectRange,
-    toggleNode,
+    toggleExpansion,
+    toggleSelection,
     treeId,
     unregisterNode,
   });
@@ -654,7 +697,7 @@ const TreeView = forwardRef((
         <Box
           ref={ref}
           aria-activedescendant={activeDescendant}
-          aria-multiselectable={ariaAttr(isMultiSelectable)}
+          aria-multiselectable={ariaAttr(multiSelect)}
           id={treeId}
           role="tree"
           onBlur={callEventHandlers(onBlurProp, onBlur)}

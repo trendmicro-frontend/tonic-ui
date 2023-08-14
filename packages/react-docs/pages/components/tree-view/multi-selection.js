@@ -1,7 +1,5 @@
 import {
   Box,
-  Checkbox,
-  Flex,
   Icon,
   OverflowTooltip,
   Scrollbar,
@@ -24,7 +22,7 @@ const renderTreeNodes = (nodes, depth = 0) => {
       <TreeNode
         key={node.id}
         nodeId={node.id}
-        render={({ isExpanded, isSelected, select }) => {
+        render={({ isExpanded }) => {
           const icon = (() => {
             if (childCount > 0) {
               return isExpanded ? 'folder-open' : 'folder';
@@ -35,32 +33,12 @@ const renderTreeNodes = (nodes, depth = 0) => {
 
           return (
             <>
-              <Flex
-                onClick={(event) => {
-                  // Prevent event propagation when clicking the checkbox
-                  event.stopPropagation();
-                }}
-                mr="2x"
-              >
-                <Checkbox
-                  checked={isSelected}
-                  onChange={() => {
-                    select();
-                  }}
-                />
-              </Flex>
               <Icon icon={icon} color={iconColor} mr="2x" />
               <OverflowTooltip label={node.name}>
                 {node.name}
               </OverflowTooltip>
             </>
           );
-        }}
-        sx={{
-          // Hide the background color of the tree node when the checkbox is selected
-          '&[aria-selected="true"] > *:first-of-type:not(:hover)': {
-            backgroundColor: 'transparent',
-          },
         }}
       >
         {(childCount > 0)
@@ -91,7 +69,7 @@ const App = () => {
           aria-label="multi-select"
           defaultExpandedNodes={expandableNodeIds}
           isSelectable
-          isMultiSelectable
+          multiSelect
         >
           {renderTreeNodes(treeNodes)}
         </TreeView>
