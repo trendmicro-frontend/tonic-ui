@@ -17,7 +17,7 @@ const TreeNode = forwardRef((
     TransitionProps,
     children,
     disabled: disabledProp,
-    id: idProp,
+    id: idAttributeProp,
     nodeId,
     render,
     ...rest
@@ -25,7 +25,6 @@ const TreeNode = forwardRef((
   ref,
 ) => {
   const {
-    getIsNodeDisabled,
     getIsNodeExpanded,
     getIsNodeSelected,
     registerNode,
@@ -33,9 +32,9 @@ const TreeNode = forwardRef((
     unregisterNode,
   } = useTreeView();
 
-  const id = useMemo(() => {
-    if (!isNullish(idProp)) {
-      return idProp;
+  const idAttribute = useMemo(() => {
+    if (!isNullish(idAttributeProp)) {
+      return idAttributeProp;
     }
 
     if (treeId && nodeId) {
@@ -43,7 +42,7 @@ const TreeNode = forwardRef((
     }
 
     return null;
-  }, [idProp, treeId, nodeId]);
+  }, [idAttributeProp, treeId, nodeId]);
 
   const contentRef = useRef();
   const [element, setElement] = useState(null);
@@ -56,14 +55,15 @@ const TreeNode = forwardRef((
     .filter(child => {
       return isValidElement(child) || typeof child === 'string' || typeof child === 'number';
     });
-  const isDisabled = getIsNodeDisabled ? getIsNodeDisabled(nodeId) : false;
+  const isDisabled = Boolean(disabledProp);
   const isExpandable = validChildren.length > 0;
-  const isExpanded = getIsNodeExpanded ? getIsNodeExpanded(nodeId) : false;
-  const isSelected = getIsNodeSelected ? getIsNodeSelected(nodeId) : false;
+  const isExpanded = Boolean(getIsNodeExpanded?.(nodeId));
+  const isSelected = Boolean(getIsNodeSelected?.(nodeId));
 
   useEffect(() => {
     if (typeof registerNode === 'function' && typeof unregisterNode === 'function' && index !== -1) {
       registerNode({
+        depth: nodeDepth,
         focus: () => {
           requestAnimationFrame(() => {
             const el = contentRef.current;
@@ -71,9 +71,9 @@ const TreeNode = forwardRef((
           });
         },
         id: nodeId,
-        idAttribute: id,
-        isDisabled: disabledProp,
-        isExpandable: isExpandable,
+        idAttribute,
+        isDisabled,
+        isExpandable,
         parentId,
       });
 
@@ -83,7 +83,7 @@ const TreeNode = forwardRef((
     }
 
     return undefined;
-  }, [registerNode, unregisterNode, index, disabledProp, isExpandable, nodeId, id, parentId]);
+  }, [registerNode, unregisterNode, index, nodeDepth, nodeId, idAttribute, isDisabled, isExpandable, parentId]);
 
   const styleProps = useTreeNodeStyle({ isExpandable });
 
@@ -95,7 +95,7 @@ const TreeNode = forwardRef((
       aria-expanded={ariaAttr(isExpanded)}
       data-tree-node-depth={nodeDepth}
       data-tree-node-id={nodeId}
-      id={id}
+      id={idAttribute}
       role="treeitem"
       {...styleProps}
       {...rest}
@@ -107,7 +107,7 @@ const TreeNode = forwardRef((
         nodeId={nodeId}
         render={render}
       />
-      {isExpandable && (
+      {!!isExpandable && (
         <Descendant
           depth={nodeDepth}
           id={nodeId}
