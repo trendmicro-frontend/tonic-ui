@@ -18,6 +18,7 @@ const TreeView = forwardRef((
     expandedNodes: expandedNodesProp,
     id: idProp,
     isSelectable = false,
+    isUnselectable = false,
     multiSelect = false,
     onBlur: onBlurProp,
     onKeyDown: onKeyDownProp,
@@ -91,6 +92,10 @@ const TreeView = forwardRef((
   const getIsNodeFocused = useCallback((id) => {
     return focusedNodeId === id;
   }, [focusedNodeId]);
+
+  const getIsNodeSelectable = useCallback((id) => {
+    return isSelectable && !getIsNodeDisabled(id);
+  }, [getIsNodeDisabled, isSelectable]);
 
   const getIsNodeSelected = useCallback((id) => {
     return selectedNodes.indexOf(id) !== -1;
@@ -290,9 +295,10 @@ const TreeView = forwardRef((
    * Toggle the expansion state of a node
    *
    * @param {number|string] id - The id of the node to toggle
+   * @param {boolean} [nextValue] - The next value of the node's expansion state
    * @returns {boolean} - Whether the node's expansion state was toggled
    */
-  const toggleExpansion = useCallback((id = focusedNodeId) => {
+  const toggleExpansion = useCallback((id = focusedNodeId, nextValue) => {
     if (!id) {
       return false;
     }
@@ -302,7 +308,8 @@ const TreeView = forwardRef((
       return false;
     }
 
-    const newExpandedNodes = (expandedNodes.indexOf(id) === -1)
+    const willExpand = (typeof nextValue === 'boolean') ? nextValue : !getIsNodeExpanded(id);
+    const newExpandedNodes = willExpand
       ? expandedNodes.concat(id)
       : expandedNodes.filter((expandedNodeId) => expandedNodeId !== id);
 
@@ -313,24 +320,27 @@ const TreeView = forwardRef((
     setExpandedNodes(newExpandedNodes);
 
     return true;
-  }, [expandedNodes, focusedNodeId, getIsNodeExpandable, onNodeToggleProp]);
+  }, [expandedNodes, focusedNodeId, getIsNodeExpandable, getIsNodeExpanded, onNodeToggleProp]);
 
   /**
    * Toggle the selection state of a node
    *
    * @param {number|string] id - The id of the node to toggle
+   * @param {boolean} [nextValue] - The next value of the node's selection state
    * @returns {boolean} - Whether the node's selection state was toggled
    */
-  const toggleSelection = useCallback((id) => {
+  const toggleSelection = useCallback((id, nextValue) => {
     if (!id) {
       return false;
     }
 
-    if (!isSelectable) {
+    const isNodeSelectable = getIsNodeSelectable(id);
+    if (!isNodeSelectable) {
       return false;
     }
 
-    const newSelectedNodes = (selectedNodes.indexOf(id) === -1)
+    const willSelect = (typeof nextValue === 'boolean') ? nextValue : !getIsNodeSelected(id);
+    const newSelectedNodes = willSelect
       ? selectedNodes.concat(id)
       : selectedNodes.filter((selectedNodeId) => selectedNodeId !== id);
 
@@ -345,7 +355,7 @@ const TreeView = forwardRef((
     currentRangeSelection.current = [];
 
     return true;
-  }, [isSelectable, onNodeSelectProp, selectedNodes]);
+  }, [getIsNodeSelectable, getIsNodeSelected, onNodeSelectProp, selectedNodes]);
 
   /**
    * Select a node
@@ -358,11 +368,13 @@ const TreeView = forwardRef((
       return false;
     }
 
-    if (!isSelectable) {
+    const isNodeSelectable = getIsNodeSelectable(id);
+    if (!isNodeSelectable) {
       return false;
     }
 
-    const newSelectedNodes = [id];
+    const willUnselect = isUnselectable && getIsNodeSelected(id) && (selectedNodes.length === 1);
+    const newSelectedNodes = willUnselect ? [] : [id];
 
     if (typeof onNodeSelectProp === 'function') {
       onNodeSelectProp(newSelectedNodes);
@@ -375,7 +387,7 @@ const TreeView = forwardRef((
     currentRangeSelection.current = [];
 
     return true;
-  }, [isSelectable, onNodeSelectProp]);
+  }, [getIsNodeSelectable, getIsNodeSelected, isUnselectable, onNodeSelectProp, selectedNodes]);
 
   /**
    * Select a range of nodes
@@ -677,6 +689,7 @@ const TreeView = forwardRef((
     getIsNodeExpandable,
     getIsNodeExpanded,
     getIsNodeFocused,
+    getIsNodeSelectable,
     getIsNodeSelected,
     isSelectable,
     multiSelect,

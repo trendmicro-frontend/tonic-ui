@@ -23,40 +23,43 @@ const expandableNodes = findExpandableNodeIds(treeNodes);
 const allNodes = Array.from(treeMap.keys());
 const defaultSelectedNode = allNodes[0];
 
-const renderTreeNodes = (nodes, depth = 0) => {
-  return ensureArray(nodes).map(node => {
-    const childCount = Array.isArray(node.children) ? node.children.length : 0;
+const TreeNodeRender = ({
+  depth = 0,
+  node,
+  ...rest
+}) => {
+  return (
+    <TreeNode
+      key={node.id}
+      nodeId={node.id}
+      render={({ isExpandable, isExpanded }) => {
+        const icon = (() => {
+          if (isExpandable) {
+            return isExpanded ? 'folder-open' : 'folder';
+          }
+          return 'server';
+        })();
+        const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
 
-    return (
-      <TreeNode
-        key={node.id}
-        nodeId={node.id}
-        render={({ isExpanded }) => {
-          const icon = (() => {
-            if (childCount > 0) {
-              return isExpanded ? 'folder-open' : 'folder';
-            }
-            return 'server';
-          })();
-          const iconColor = (childCount > 0) ? 'yellow:50' : 'currentColor';
-
-          return (
-            <>
-              <Icon icon={icon} color={iconColor} mr="2x" />
-              <OverflowTooltip label={node.name}>
-                {node.name}
-              </OverflowTooltip>
-            </>
-          );
-        }}
-      >
-        {(childCount > 0)
-          ? renderTreeNodes(node.children, depth + 1)
-          : null
-        }
-      </TreeNode>
-    );
-  });
+        return (
+          <>
+            <Icon icon={icon} color={iconColor} mr="2x" />
+            <OverflowTooltip label={node.name}>
+              {node.name}
+            </OverflowTooltip>
+          </>
+        );
+      }}
+    >
+      {ensureArray(node.children).map(node => (
+        <TreeNodeRender
+          key={node.id}
+          depth={depth + 1}
+          node={node}
+        />
+      ))}
+    </TreeNode>
+  );
 };
 
 const App = () => {
@@ -102,10 +105,16 @@ const App = () => {
             aria-label="basic tree view"
             defaultExpandedNodes={expandableNodes}
             isSelectable
+            isUnselectable={false}
             selectedNodes={selectedNodes}
             onNodeSelect={handleSelect}
           >
-            {renderTreeNodes(treeNodes)}
+            {ensureArray(treeNodes).map(node => (
+              <TreeNodeRender
+                key={node.id}
+                node={node}
+              />
+            ))}
           </TreeView>
         </Scrollbar>
       </Box>

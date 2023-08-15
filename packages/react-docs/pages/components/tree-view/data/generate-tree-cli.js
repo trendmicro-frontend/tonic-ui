@@ -23,14 +23,14 @@ const generateRandomTreeNodes = ({
       const nodeId = (parentId === 0 ? i : `${parentId}.${i}`);
       const nodeName = `Node ${nodeCounter}`;
       const randomNodeDepth = generateRandomNumber(minDepth, maxDepth);
-      const children = (currentDepth < randomNodeDepth)
+      const children = (currentDepth < randomNodeDepth) && (nodeCounter < maxNodeCount)
         ? traverse({ nodeCount: generateRandomNumber(1, maxChildNodes), currentDepth: currentDepth + 1, parentId: nodeId })
-        : [];
+        : undefined;
 
       nodes.push({
         id: nodeId,
         name: nodeName,
-        children: children
+        children,
       });
     }
 

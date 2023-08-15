@@ -13,27 +13,30 @@ import { findExpandableNodeIds } from './utils';
 
 const expandableNodeIds = findExpandableNodeIds(treeNodes);
 
-const renderTreeNodes = (nodes, depth = 0) => {
-  return ensureArray(nodes).map(node => {
-    const childCount = Array.isArray(node.children) ? node.children.length : 0;
-
-    return (
-      <TreeNode
-        key={node.id}
-        nodeId={node.id}
-        render={() => (
-          <OverflowTooltip label={node.name}>
-            {node.name}
-          </OverflowTooltip>
-        )}
-      >
-        {(childCount > 0)
-          ? renderTreeNodes(node.children, depth + 1)
-          : null
-        }
-      </TreeNode>
-    );
-  });
+const TreeNodeRender = ({
+  depth = 0,
+  node,
+  ...rest
+}) => {
+  return (
+    <TreeNode
+      key={node.id}
+      nodeId={node.id}
+      render={() => (
+        <OverflowTooltip label={node.name}>
+          {node.name}
+        </OverflowTooltip>
+      )}
+    >
+      {ensureArray(node.children).map(node => (
+        <TreeNodeRender
+          key={node.id}
+          depth={depth + 1}
+          node={node}
+        />
+      ))}
+    </TreeNode>
+  );
 };
 
 const App = () => {
@@ -55,8 +58,14 @@ const App = () => {
           aria-label="basic tree view"
           defaultExpandedNodes={expandableNodeIds}
           isSelectable
+          isUnselectable
         >
-          {renderTreeNodes(treeNodes)}
+          {ensureArray(treeNodes).map(node => (
+            <TreeNodeRender
+              key={node.id}
+              node={node}
+            />
+          ))}
         </TreeView>
       </Scrollbar>
     </Box>

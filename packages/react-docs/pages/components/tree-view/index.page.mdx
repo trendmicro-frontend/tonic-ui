@@ -17,20 +17,18 @@ import {
 
 ### Basic tree view
 
+You can set `isSelectable` and `isUnselectable` to `true` to allow nodes to be selected and unselected.
+
 {render('./basic')}
 
 ### Multi-selection
 
-To enable multi-selection in the TreeView component, you must configure the following properties:
-
-* `isSelectable`: Set this property to `true` to allow nodes to be selected.
-* `multiSelect`: Set this property to `true` to enable multi-selection with `ctrl` and `shift` keys.
+You can set `multiSelect` to `true` to allow multiple nodes to be selected using `ctrl` or `shift` key. See [Accessibility](#accessibility) for more details.
 
 {render('./multi-selection')}
 
 When utilizing checkboxes for multi-selection, you can hide the background color of the tree node when the checkbox is selected for better accessibility.
 
-```jsx disabled
 If you use checkbox for multi-selection, it is recommended that you hide the background color of the tree node when the checkbox is selected for accessibility purpose.
 
 ```jsx disabled
@@ -61,6 +59,10 @@ The `min-width` is `160px`, and the `max-width` is `40%` of the display area. Yo
 
 {render('./resizable')}
 
+### Lazy loading
+
+{render('./lazy-loading')}
+
 ## Accessibility
 
 The `TreeView` component provides support for navigation and selection using both keyboard and mouse. The following keyboard shortcuts are available:
@@ -87,6 +89,7 @@ The `TreeView` component provides support for navigation and selection using bot
 | expandedNodes | array | | An array of expanded node ids for controlled state. |
 | id | string | | The `id` prop used for accessibility purpose. If not provided, a random id will be generated. |
 | isSelectable | bool | false | Determines if the tree view allows node selection. |
+| isUnselectable | bool | false | Determines if the tree view allows node unselection. |
 | multiSelect | bool | false | If true, `ctrl` and `shift` will trigger multiselect. |
 | onNodeFocus | function | | A callback function invoked when a tree node is focused.<pre>`function(nodeId: string) => void`<br /> • `nodeId` The id of the focused node.</pre> |
 | onNodeSelect | function | | A callback function triggered when tree nodes are selected/unselected.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of selected node ids.</pre> |

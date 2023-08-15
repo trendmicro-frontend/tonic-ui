@@ -16,60 +16,63 @@ import { findExpandableNodeIds } from './utils';
 
 const expandableNodeIds = findExpandableNodeIds(treeNodes);
 
-const renderTreeNodes = (nodes, depth = 0) => {
-  return ensureArray(nodes).map(node => {
-    const childCount = Array.isArray(node.children) ? node.children.length : 0;
+const TreeNodeRender = ({
+  depth = 0,
+  node,
+  ...rest
+}) => {
+  return (
+    <TreeNode
+      key={node.id}
+      nodeId={node.id}
+      render={({ isExpandable, isExpanded, isSelected, select }) => {
+        const icon = (() => {
+          if (isExpandable) {
+            return isExpanded ? 'folder-open' : 'folder';
+          }
+          return 'server';
+        })();
+        const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
 
-    return (
-      <TreeNode
-        key={node.id}
-        nodeId={node.id}
-        render={({ isExpanded, isSelected, select }) => {
-          const icon = (() => {
-            if (childCount > 0) {
-              return isExpanded ? 'folder-open' : 'folder';
-            }
-            return 'server';
-          })();
-          const iconColor = (childCount > 0) ? 'yellow:50' : 'currentColor';
-
-          return (
-            <>
-              <Flex
-                onClick={(event) => {
-                  // Prevent event propagation when clicking the checkbox
-                  event.stopPropagation();
+        return (
+          <>
+            <Flex
+              onClick={(event) => {
+                // Prevent event propagation when clicking the checkbox
+                event.stopPropagation();
+              }}
+              mr="2x"
+            >
+              <Checkbox
+                checked={isSelected}
+                onChange={() => {
+                  select();
                 }}
-                mr="2x"
-              >
-                <Checkbox
-                  checked={isSelected}
-                  onChange={() => {
-                    select();
-                  }}
-                />
-              </Flex>
-              <Icon icon={icon} color={iconColor} mr="2x" />
-              <OverflowTooltip label={node.name}>
-                {node.name}
-              </OverflowTooltip>
-            </>
-          );
-        }}
-        sx={{
-          // Hide the background color of the tree node when the checkbox is selected
-          '&[aria-selected="true"] > *:first-of-type:not(:hover)': {
-            backgroundColor: 'transparent',
-          },
-        }}
-      >
-        {(childCount > 0)
-          ? renderTreeNodes(node.children, depth + 1)
-          : null
-        }
-      </TreeNode>
-    );
-  });
+              />
+            </Flex>
+            <Icon icon={icon} color={iconColor} mr="2x" />
+            <OverflowTooltip label={node.name}>
+              {node.name}
+            </OverflowTooltip>
+          </>
+        );
+      }}
+      sx={{
+        // Hide the background color of the tree node when the checkbox is selected
+        '&[aria-selected="true"] > *:first-of-type:not(:hover)': {
+          backgroundColor: 'transparent',
+        },
+      }}
+    >
+      {ensureArray(node.children).map(node => (
+        <TreeNodeRender
+          key={node.id}
+          depth={depth + 1}
+          node={node}
+        />
+      ))}
+    </TreeNode>
+  );
 };
 
 const App = () => {
@@ -91,9 +94,15 @@ const App = () => {
           aria-label="multi-select"
           defaultExpandedNodes={expandableNodeIds}
           isSelectable
+          isUnselectable
           multiSelect
         >
-          {renderTreeNodes(treeNodes)}
+          {ensureArray(treeNodes).map(node => (
+            <TreeNodeRender
+              key={node.id}
+              node={node}
+            />
+          ))}
         </TreeView>
       </Scrollbar>
     </Box>

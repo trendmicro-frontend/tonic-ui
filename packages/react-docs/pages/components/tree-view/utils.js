@@ -20,8 +20,10 @@ export const findExpandableNodeIds = (nodes) => {
 
   const traverse = (nodes) => {
     ensureArray(nodes).forEach((node) => {
-      expandableNodeIds.push(node.id);
-      traverse(node.children);
+      if (Array.isArray(node.children) && node.children.length > 0) {
+        expandableNodeIds.push(node.id);
+        traverse(node.children);
+      }
     });
   };
 

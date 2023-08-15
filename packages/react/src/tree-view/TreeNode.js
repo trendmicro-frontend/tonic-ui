@@ -1,7 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, isNullish } from '@tonic-ui/utils';
 import { ensureNumber } from 'ensure-type';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, isValidElement, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { Collapse } from '../transitions';
 import { Descendant, useDescendant } from '../utils/descendant';
@@ -52,8 +52,12 @@ const TreeNode = forwardRef((
   const { index, parentDepth, parentId } = useDescendant(element);
   const nodeDepth = ensureNumber(parentDepth) + 1;
 
+  const validChildren = React.Children.toArray(children)
+    .filter(child => {
+      return isValidElement(child) || typeof child === 'string' || typeof child === 'number';
+    });
   const isDisabled = getIsNodeDisabled ? getIsNodeDisabled(nodeId) : false;
-  const isExpandable = Boolean(Array.isArray(children) ? children.length : children);
+  const isExpandable = validChildren.length > 0;
   const isExpanded = getIsNodeExpanded ? getIsNodeExpanded(nodeId) : false;
   const isSelected = getIsNodeSelected ? getIsNodeSelected(nodeId) : false;
 
@@ -103,7 +107,7 @@ const TreeNode = forwardRef((
         nodeId={nodeId}
         render={render}
       />
-      {!!children && (
+      {isExpandable && (
         <Descendant
           depth={nodeDepth}
           id={nodeId}
