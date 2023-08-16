@@ -16,7 +16,7 @@ exports[`Menu should render correctly 1`] = `
   appearance: none;
   background-color: inherit;
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -44,15 +44,15 @@ exports[`Menu should render correctly 1`] = `
   min-height: var(--tonic-sizes-8x);
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   -webkit-column-gap: var(--tonic-sizes-1x);
   column-gap: var(--tonic-sizes-1x);
 }
 
 .emotion-2[aria-selected=true],
 .emotion-2[data-selected] {
-  background-color: var(--tonic-colors-gray-30);
-  color: var(--tonic-colors-black-emphasis);
+  background-color: var(--tonic-colors-gray-70);
+  color: var(--tonic-colors-white-emphasis);
   pointer-events: none;
 }
 
@@ -60,13 +60,13 @@ exports[`Menu should render correctly 1`] = `
 .emotion-2[data-focus] {
   border-color: var(--tonic-colors-blue-60);
   box-shadow: inset 0 0 0 .0625rem #1e5ede;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   z-index: 1;
 }
 
 .emotion-2:hover,
 .emotion-2[data-hover] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-blue-40);
   z-index: 2;
 }
 
@@ -78,8 +78,8 @@ exports[`Menu should render correctly 1`] = `
 .emotion-2:active,
 .emotion-2[data-active] {
   border-color: var(--tonic-colors-blue-50);
-  background-color: rgba(0, 0, 0, 0.08);
-  color: var(--tonic-colors-blue-60);
+  background-color: rgba(0, 0, 0, 0.12);
+  color: var(--tonic-colors-blue-40);
 }
 
 .emotion-2:disabled,
@@ -89,18 +89,18 @@ exports[`Menu should render correctly 1`] = `
 .emotion-2[aria-disabled=true]:focus,
 .emotion-2[aria-disabled=true]:hover,
 .emotion-2[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
-  color: var(--tonic-colors-black-emphasis);
+  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-emphasis);
   cursor: not-allowed;
-  opacity: 0.3;
+  opacity: 0.28;
 }
 
 .emotion-2:hover {
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-2:active {
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-6 {
@@ -148,8 +148,8 @@ exports[`Menu should render correctly 1`] = `
   position: absolute;
   z-index: var(--tonic-zIndices-dropdown);
   outline: 0;
-  background-color: white;
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16),0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  background-color: var(--tonic-colors-gray-80);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.48),0 2px 4px 0 rgba(0, 0, 0, 0.16);
   color: inherit;
   margin: 0;
   padding: 0;
@@ -172,7 +172,7 @@ exports[`Menu should render correctly 1`] = `
   appearance: none;
   background-color: inherit;
   border: none;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -202,7 +202,7 @@ exports[`Menu should render correctly 1`] = `
 
 .emotion-16[aria-selected=true],
 .emotion-16[data-selected] {
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .emotion-16:focus,
@@ -218,7 +218,7 @@ exports[`Menu should render correctly 1`] = `
 
 .emotion-16:hover,
 .emotion-16[data-hover] {
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .emotion-16:disabled,
@@ -228,7 +228,7 @@ exports[`Menu should render correctly 1`] = `
 .emotion-16[aria-disabled=true]:focus,
 .emotion-16[aria-disabled=true]:hover,
 .emotion-16[data-disabled] {
-  color: var(--tonic-colors-black-disabled);
+  color: var(--tonic-colors-white-disabled);
   cursor: not-allowed;
 }
 
@@ -239,7 +239,7 @@ exports[`Menu should render correctly 1`] = `
   appearance: none;
   background-color: inherit;
   border: none;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -269,7 +269,7 @@ exports[`Menu should render correctly 1`] = `
 
 .emotion-20[aria-selected=true],
 .emotion-20[data-selected] {
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .emotion-20:focus,
@@ -290,7 +290,7 @@ exports[`Menu should render correctly 1`] = `
 .emotion-20[aria-disabled=true]:focus,
 .emotion-20[aria-disabled=true]:hover,
 .emotion-20[data-disabled] {
-  color: var(--tonic-colors-black-disabled);
+  color: var(--tonic-colors-white-disabled);
   cursor: not-allowed;
 }
 

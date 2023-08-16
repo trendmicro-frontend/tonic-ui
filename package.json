@@ -31,7 +31,7 @@
     "@commitlint/cli": "17.x",
     "@commitlint/config-conventional": "17.x",
     "husky": "8.x",
-    "lerna": "6.x"
+    "lerna": "7.x"
   },
   "packageManager": "yarn@3.2.4"
 }

@@ -28,7 +28,7 @@ exports[`Tabs should render correctly 1`] = `
   appearance: none;
   background-color: inherit;
   border: none;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   cursor: default;
   outline: 0;
   padding: 0;
@@ -57,7 +57,7 @@ exports[`Tabs should render correctly 1`] = `
   border-bottom-color: var(--tonic-colors-red-60);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   padding-left: calc(.75rem + .125rem);
   padding-right: calc(.75rem + .125rem);
   padding-top: calc(.5rem + .125rem);
@@ -66,7 +66,7 @@ exports[`Tabs should render correctly 1`] = `
 .emotion-4:focus,
 .emotion-4[data-focus] {
   border-color: var(--tonic-colors-red-60);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-4:hover,
@@ -75,7 +75,7 @@ exports[`Tabs should render correctly 1`] = `
   border-bottom-color: var(--tonic-colors-red-60);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   padding-left: calc(.75rem + .125rem);
   padding-right: calc(.75rem + .125rem);
   padding-top: calc(.5rem + .125rem);
@@ -88,7 +88,7 @@ exports[`Tabs should render correctly 1`] = `
   appearance: none;
   background-color: inherit;
   border: none;
-  color: var(--tonic-colors-black-secondary);
+  color: var(--tonic-colors-white-secondary);
   cursor: pointer;
   padding: 0;
   font-size: var(--tonic-fontSizes-sm);
@@ -116,7 +116,7 @@ exports[`Tabs should render correctly 1`] = `
   border-bottom-color: var(--tonic-colors-red-60);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   padding-left: calc(.75rem + .125rem);
   padding-right: calc(.75rem + .125rem);
   padding-top: calc(.5rem + .125rem);
@@ -125,7 +125,7 @@ exports[`Tabs should render correctly 1`] = `
 .emotion-6:focus,
 .emotion-6[data-focus] {
   border-color: var(--tonic-colors-blue-60);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-6:hover,
@@ -134,7 +134,7 @@ exports[`Tabs should render correctly 1`] = `
   border-bottom-color: var(--tonic-colors-gray-60);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   padding-left: calc(.75rem + .125rem);
   padding-right: calc(.75rem + .125rem);
   padding-top: calc(.5rem + .125rem);
@@ -147,7 +147,7 @@ exports[`Tabs should render correctly 1`] = `
   appearance: none;
   background-color: inherit;
   border: none;
-  color: var(--tonic-colors-black-disabled);
+  color: var(--tonic-colors-white-disabled);
   cursor: not-allowed;
   outline: 0;
   padding: 0;
@@ -176,7 +176,7 @@ exports[`Tabs should render correctly 1`] = `
   border-bottom-color: var(--tonic-colors-transparent);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-black-disabled);
+  color: var(--tonic-colors-white-disabled);
   padding-left: calc(.75rem + .125rem);
   padding-right: calc(.75rem + .125rem);
   padding-top: calc(.5rem + .125rem);
@@ -185,7 +185,7 @@ exports[`Tabs should render correctly 1`] = `
 .emotion-8:focus,
 .emotion-8[data-focus] {
   border-color: var(--tonic-colors-transparent);
-  color: var(--tonic-colors-black-disabled);
+  color: var(--tonic-colors-white-disabled);
 }
 
 .emotion-8:hover,
@@ -194,7 +194,7 @@ exports[`Tabs should render correctly 1`] = `
   border-bottom-color: var(--tonic-colors-transparent);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-black-disabled);
+  color: var(--tonic-colors-white-disabled);
   padding-left: calc(.75rem + .125rem);
   padding-right: calc(.75rem + .125rem);
   padding-top: calc(.5rem + .125rem);

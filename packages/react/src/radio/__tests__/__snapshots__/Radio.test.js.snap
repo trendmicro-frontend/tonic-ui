@@ -52,7 +52,7 @@ exports[`Radio should render correctly 1`] = `
   border-radius: var(--tonic-radii-circle);
   width: var(--tonic-sizes-3x);
   height: var(--tonic-sizes-3x);
-  border-color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-50);
 }
 
 input[type=radio]:focus+.emotion-4 {
@@ -64,13 +64,13 @@ input[type=radio]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-4 {
 }
 
 input[type=radio]:disabled+.emotion-4 {
-  border-color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-60);
   opacity: 0.28;
 }
 
 input[type=radio]:checked:disabled+.emotion-4 {
-  border-color: var(--tonic-colors-gray-40);
-  color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-gray-60);
   opacity: 0.28;
 }
 
@@ -142,7 +142,7 @@ input[type=radio][data-indeterminate]+.emotion-4>* {
   border-radius: var(--tonic-radii-circle);
   width: var(--tonic-sizes-4x);
   height: var(--tonic-sizes-4x);
-  border-color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-50);
 }
 
 input[type=radio]:focus+.emotion-14 {
@@ -154,13 +154,13 @@ input[type=radio]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-14 {
 }
 
 input[type=radio]:disabled+.emotion-14 {
-  border-color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-60);
   opacity: 0.28;
 }
 
 input[type=radio]:checked:disabled+.emotion-14 {
-  border-color: var(--tonic-colors-gray-40);
-  color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-gray-60);
   opacity: 0.28;
 }
 
@@ -223,7 +223,7 @@ input[type=radio][data-indeterminate]+.emotion-14>* {
   border-radius: var(--tonic-radii-circle);
   width: var(--tonic-sizes-6x);
   height: var(--tonic-sizes-6x);
-  border-color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-50);
 }
 
 input[type=radio]:focus+.emotion-24 {
@@ -235,13 +235,13 @@ input[type=radio]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-24 {
 }
 
 input[type=radio]:disabled+.emotion-24 {
-  border-color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-60);
   opacity: 0.28;
 }
 
 input[type=radio]:checked:disabled+.emotion-24 {
-  border-color: var(--tonic-colors-gray-40);
-  color: var(--tonic-colors-gray-40);
+  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-gray-60);
   opacity: 0.28;
 }
 

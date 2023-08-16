@@ -2,7 +2,7 @@
 
 exports[`TextLabel should render correctly 1`] = `
 .emotion-0 {
-  color: var(--tonic-colors-black-secondary);
+  color: var(--tonic-colors-white-secondary);
 }
 
 <div>

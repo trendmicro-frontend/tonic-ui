@@ -6,9 +6,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -28,13 +28,13 @@ exports[`Input should render correctly 1`] = `
   height: var(--tonic-sizes-6x);
   padding-left: calc(.75rem - .0625rem);
   padding-right: calc(.75rem - .0625rem);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
 }
 
 .emotion-0:invalid,
 .emotion-0[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-0:invalid:focus:hover,
@@ -44,26 +44,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-0:invalid:hover,
 .emotion-0[aria-invalid=true]:hover {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-0::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-0::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-0:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-0::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -86,7 +86,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-0[aria-disabled=true]:focus,
 .emotion-0[aria-disabled=true]:hover,
 .emotion-0[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -96,9 +96,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-80);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -118,13 +118,13 @@ exports[`Input should render correctly 1`] = `
   height: var(--tonic-sizes-6x);
   padding-left: calc(.75rem - .0625rem);
   padding-right: calc(.75rem - .0625rem);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
 }
 
 .emotion-2:invalid,
 .emotion-2[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-2:invalid:focus:hover,
@@ -134,26 +134,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-2:invalid:hover,
 .emotion-2[aria-invalid=true]:hover {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-2::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-2::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-2:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-2::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -176,7 +176,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-2[aria-disabled=true]:focus,
 .emotion-2[aria-disabled=true]:hover,
 .emotion-2[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -186,9 +186,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: none;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -207,12 +207,12 @@ exports[`Input should render correctly 1`] = `
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-6x);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
 }
 
 .emotion-4:invalid,
 .emotion-4[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-4:invalid:focus:hover,
@@ -222,26 +222,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-4:invalid:hover,
 .emotion-4[aria-invalid=true]:hover {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-4::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-4::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-4:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-4::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -264,7 +264,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-4[aria-disabled=true]:focus,
 .emotion-4[aria-disabled=true]:hover,
 .emotion-4[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -274,9 +274,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: 0;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -300,9 +300,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -322,13 +322,13 @@ exports[`Input should render correctly 1`] = `
   height: var(--tonic-sizes-8x);
   padding-left: calc(.75rem - .0625rem);
   padding-right: calc(.75rem - .0625rem);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
 }
 
 .emotion-8:invalid,
 .emotion-8[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-8:invalid:focus:hover,
@@ -338,26 +338,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-8:invalid:hover,
 .emotion-8[aria-invalid=true]:hover {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-8::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-8::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-8:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-8::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -380,7 +380,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-8[aria-disabled=true]:focus,
 .emotion-8[aria-disabled=true]:hover,
 .emotion-8[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -390,9 +390,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-80);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -412,13 +412,13 @@ exports[`Input should render correctly 1`] = `
   height: var(--tonic-sizes-8x);
   padding-left: calc(.75rem - .0625rem);
   padding-right: calc(.75rem - .0625rem);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
 }
 
 .emotion-10:invalid,
 .emotion-10[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-10:invalid:focus:hover,
@@ -428,26 +428,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-10:invalid:hover,
 .emotion-10[aria-invalid=true]:hover {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-10::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-10::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-10:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-10::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -470,7 +470,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-10[aria-disabled=true]:focus,
 .emotion-10[aria-disabled=true]:hover,
 .emotion-10[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -480,9 +480,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: none;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -501,12 +501,12 @@ exports[`Input should render correctly 1`] = `
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-8x);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
 }
 
 .emotion-12:invalid,
 .emotion-12[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-12:invalid:focus:hover,
@@ -516,26 +516,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-12:invalid:hover,
 .emotion-12[aria-invalid=true]:hover {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-12::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-12::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-12:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-12::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -558,7 +558,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-12[aria-disabled=true]:focus,
 .emotion-12[aria-disabled=true]:hover,
 .emotion-12[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -568,9 +568,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -590,13 +590,13 @@ exports[`Input should render correctly 1`] = `
   height: var(--tonic-sizes-10x);
   padding-left: calc(.75rem - .0625rem);
   padding-right: calc(.75rem - .0625rem);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
 }
 
 .emotion-16:invalid,
 .emotion-16[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-16:invalid:focus:hover,
@@ -606,26 +606,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-16:invalid:hover,
 .emotion-16[aria-invalid=true]:hover {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-16::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-16::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-16:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-16::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -648,7 +648,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-16[aria-disabled=true]:focus,
 .emotion-16[aria-disabled=true]:hover,
 .emotion-16[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -658,9 +658,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-80);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -680,13 +680,13 @@ exports[`Input should render correctly 1`] = `
   height: var(--tonic-sizes-10x);
   padding-left: calc(.75rem - .0625rem);
   padding-right: calc(.75rem - .0625rem);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
 }
 
 .emotion-18:invalid,
 .emotion-18[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-18:invalid:focus:hover,
@@ -696,26 +696,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-18:invalid:hover,
 .emotion-18[aria-invalid=true]:hover {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-18::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-18::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-18:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-18::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -738,7 +738,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-18[aria-disabled=true]:focus,
 .emotion-18[aria-disabled=true]:hover,
 .emotion-18[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -748,9 +748,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: none;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;
@@ -769,12 +769,12 @@ exports[`Input should render correctly 1`] = `
   line-height: var(--tonic-lineHeights-md);
   height: var(--tonic-sizes-10x);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
 }
 
 .emotion-20:invalid,
 .emotion-20[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-20:invalid:focus:hover,
@@ -784,26 +784,26 @@ exports[`Input should render correctly 1`] = `
 
 .emotion-20:invalid:hover,
 .emotion-20[aria-invalid=true]:hover {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-20::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-20::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-20:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-20::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -826,7 +826,7 @@ exports[`Input should render correctly 1`] = `
 .emotion-20[aria-disabled=true]:focus,
 .emotion-20[aria-disabled=true]:hover,
 .emotion-20[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -836,9 +836,9 @@ exports[`Input should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: 0;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   outline: 0;
   padding: 0;
   position: relative;

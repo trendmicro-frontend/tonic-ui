@@ -6,9 +6,9 @@ exports[`Popover should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-gray-20);
+  background-color: var(--tonic-colors-gray-60);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-emphasis);
+  color: var(--tonic-colors-white-emphasis);
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -42,8 +42,8 @@ exports[`Popover should render correctly 1`] = `
 
 .emotion-0[aria-selected=true],
 .emotion-0[data-selected] {
-  background-color: var(--tonic-colors-gray-30);
-  color: var(--tonic-colors-black-emphasis);
+  background-color: var(--tonic-colors-gray-70);
+  color: var(--tonic-colors-white-emphasis);
   pointer-events: none;
 }
 
@@ -55,18 +55,18 @@ exports[`Popover should render correctly 1`] = `
 .emotion-0:focus:not(:active),
 .emotion-0[data-focus]:not(:active) {
   border-color: var(--tonic-colors-blue-60);
-  box-shadow: inset 0 0 0 .0625rem #1e5ede,inset 0 0 0 .125rem rgba(255, 255, 255, 1.0);
+  box-shadow: inset 0 0 0 .0625rem #1e5ede,inset 0 0 0 .125rem rgba(0, 0, 0, 1.0);
 }
 
 .emotion-0:hover,
 .emotion-0[data-hover] {
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-50);
   z-index: 2;
 }
 
 .emotion-0:active,
 .emotion-0[data-active] {
-  background-color: var(--tonic-colors-gray-30);
+  background-color: var(--tonic-colors-gray-70);
 }
 
 .emotion-0:disabled,
@@ -76,10 +76,10 @@ exports[`Popover should render correctly 1`] = `
 .emotion-0[aria-disabled=true]:focus,
 .emotion-0[aria-disabled=true]:hover,
 .emotion-0[data-disabled] {
-  background-color: var(--tonic-colors-gray-20);
-  color: var(--tonic-colors-black-emphasis);
+  background-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-emphasis);
   cursor: not-allowed;
-  opacity: 0.3;
+  opacity: 0.28;
 }
 
 .emotion-2 {
@@ -88,9 +88,9 @@ exports[`Popover should render correctly 1`] = `
 }
 
 .emotion-4 {
-  background-color: white;
-  color: var(--tonic-colors-black-primary);
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16),0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  background-color: var(--tonic-colors-gray-80);
+  color: var(--tonic-colors-white-primary);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.48),0 1px 2px 0 rgba(0, 0, 0, 0.16);
   border-width: 1px;
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
@@ -116,10 +116,6 @@ exports[`Popover should render correctly 1`] = `
   transform-origin: top center;
 }
 
-.emotion-6 {
-  color: white;
-}
-
 .emotion-6[data-popper-placement^="top"] {
   position: absolute;
   bottom: 0;
@@ -130,8 +126,8 @@ exports[`Popover should render correctly 1`] = `
   border-top: 8px solid;
   border-left: calc(12px/2) solid transparent;
   border-right: calc(12px/2) solid transparent;
-  -webkit-filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.08));
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.08));
+  -webkit-filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
   bottom: calc(8px * -1);
   -webkit-transform: translateX(-50%);
@@ -150,8 +146,8 @@ exports[`Popover should render correctly 1`] = `
   border-bottom: 8px solid;
   border-left: calc(12px/2) solid transparent;
   border-right: calc(12px/2) solid transparent;
-  -webkit-filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.08));
-  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.08));
+  -webkit-filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
   top: calc(8px * -1);
   -webkit-transform: translateX(-50%);
@@ -170,8 +166,8 @@ exports[`Popover should render correctly 1`] = `
   border-left: 8px solid;
   border-top: calc(12px/2) solid transparent;
   border-bottom: calc(12px/2) solid transparent;
-  -webkit-filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.08));
-  filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.08));
+  -webkit-filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
   right: calc(8px * -1);
   -webkit-transform: translateY(-50%);
@@ -190,8 +186,8 @@ exports[`Popover should render correctly 1`] = `
   border-right: 8px solid;
   border-top: calc(12px/2) solid transparent;
   border-bottom: calc(12px/2) solid transparent;
-  -webkit-filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.08));
-  filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.08));
+  -webkit-filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
   left: calc(8px * -1);
   -webkit-transform: translateY(-50%);

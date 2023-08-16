@@ -21,7 +21,7 @@ exports[`LinearProgress renders correctly 1`] = `
 .emotion-0 {
   position: relative;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(255, 255, 255, 0.12);
   height: var(--tonic-sizes-1h);
 }
 
@@ -38,21 +38,21 @@ exports[`LinearProgress renders correctly 1`] = `
 .emotion-4 {
   position: relative;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(255, 255, 255, 0.12);
   height: var(--tonic-sizes-1x);
 }
 
 .emotion-8 {
   position: relative;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(255, 255, 255, 0.12);
   height: var(--tonic-sizes-2x);
 }
 
 .emotion-12 {
   position: relative;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(255, 255, 255, 0.12);
   height: var(--tonic-sizes-3x);
 }
 
