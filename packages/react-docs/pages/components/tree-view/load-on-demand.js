@@ -132,7 +132,16 @@ const TreeNodeRender = ({
             </Flex>
             <Icon icon={icon} color={iconColor} mr="2x" />
             <OverflowTooltip label={node.name}>
-              {node.name}
+              {({ ref, style }) => (
+                <Box
+                  ref={ref}
+                  {...style}
+                  flex="auto"
+                  fontWeight={isSelected ? 'semibold' : 'normal'}
+                >
+                  {node.name}
+                </Box>
+              )}
             </OverflowTooltip>
           </>
         );
@@ -183,7 +192,7 @@ const App = () => {
         <TreeView
           aria-label="lazy loading"
           isSelectable
-          multiSelect
+          isUnselectable
           expandedNodes={expandedNodes}
           selectedNodes={selectedNodes}
           onNodeToggle={handleToggle}

@@ -25,7 +25,7 @@ const TreeNodeRender = ({
     <TreeNode
       key={node.id}
       nodeId={node.id}
-      render={({ isExpandable }) => (
+      render={({ isExpandable, isSelected }) => (
         <>
           <Flex
             flex="none"
@@ -38,7 +38,16 @@ const TreeNodeRender = ({
             )}
           </Flex>
           <OverflowTooltip label={node.name}>
-            {node.name}
+            {({ ref, style }) => (
+              <Box
+                ref={ref}
+                {...style}
+                flex="auto"
+                fontWeight={isSelected ? 'semibold' : 'normal'}
+              >
+                {node.name}
+              </Box>
+            )}
           </OverflowTooltip>
         </>
       )}
