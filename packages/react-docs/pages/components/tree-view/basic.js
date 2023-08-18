@@ -1,9 +1,12 @@
 import {
   Box,
+  Flex,
   OverflowTooltip,
   Scrollbar,
-  TreeView,
   TreeNode,
+  TreeNodeToggle,
+  TreeNodeToggleIcon,
+  TreeView,
   useColorStyle,
 } from '@tonic-ui/react';
 import { ensureArray } from 'ensure-type';
@@ -22,10 +25,22 @@ const TreeNodeRender = ({
     <TreeNode
       key={node.id}
       nodeId={node.id}
-      render={() => (
-        <OverflowTooltip label={node.name}>
-          {node.name}
-        </OverflowTooltip>
+      render={({ isExpandable }) => (
+        <>
+          <Flex
+            flex="none"
+            width="6x"
+          >
+            {isExpandable && (
+              <TreeNodeToggle>
+                <TreeNodeToggleIcon />
+              </TreeNodeToggle>
+            )}
+          </Flex>
+          <OverflowTooltip label={node.name}>
+            {node.name}
+          </OverflowTooltip>
+        </>
       )}
     >
       {ensureArray(node.children).map(node => (

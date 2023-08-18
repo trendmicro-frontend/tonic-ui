@@ -21,6 +21,7 @@ const TreeView = forwardRef((
     isUnselectable = false,
     multiSelect = false,
     onBlur: onBlurProp,
+    onFocus: onFocusProp,
     onKeyDown: onKeyDownProp,
     onNodeFocus: onNodeFocusProp,
     onNodeSelect: onNodeSelectProp,
@@ -34,7 +35,7 @@ const TreeView = forwardRef((
   const nodeMap = useConst(() => new Map()); // Used to store node data
   const [focusedNodeId, setFocusedNodeId] = useState(null);
   const activeDescendant = nodeMap.get(focusedNodeId)
-    ? nodeMap.get(focusedNodeId).idAttribute
+    ? nodeMap.get(focusedNodeId).idAttr
     : null;
   const [expandedNodes, setExpandedNodes] = useState(ensureArray(expandedNodesProp ?? defaultExpandedNodes));
   const [selectedNodes, setSelectedNodes] = useState(ensureArray(selectedNodesProp ?? defaultSelectedNodes));
@@ -527,7 +528,7 @@ const TreeView = forwardRef((
     const requiredFields = [
       'focus',
       'id',
-      'idAttribute',
+      'idAttr',
       'isDisabled',
       'isExpandable',
       'parentId',
@@ -562,6 +563,28 @@ const TreeView = forwardRef((
     if (!isFocusWithin) {
       // Clear the `focusedNodeId` since focus is moving outside the current target
       setFocusedNodeId(null);
+    }
+  };
+
+  const onFocus = (event) => {
+    const receivingFocusTarget = event.target; // The element that will receive focus (if any)
+    const losingFocusTarget = event.relatedTarget; // The element that is losing focus (if any)
+
+    if (event.currentTarget !== receivingFocusTarget) {
+      // If the event bubbled (which is React specific) we don't want to steal focus
+      return;
+    }
+
+    if (event.currentTarget.contains(losingFocusTarget)) {
+      // If the focus is within the tree, don't steal focus
+      return;
+    }
+
+    const firstSelectedNode = selectedNodes[0];
+    if (firstSelectedNode) {
+      focusNode(firstSelectedNode);
+    } else {
+      focusFirstNode();
     }
   };
 
@@ -702,6 +725,7 @@ const TreeView = forwardRef((
     treeId,
     unregisterNode,
   });
+  const tabIndex = 0;
   const styleProps = useTreeViewStyle();
 
   return (
@@ -714,7 +738,9 @@ const TreeView = forwardRef((
           id={treeId}
           role="tree"
           onBlur={callEventHandlers(onBlurProp, onBlur)}
+          onFocus={callEventHandlers(onFocusProp, onFocus)}
           onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown)}
+          tabIndex={tabIndex}
           {...styleProps}
           {...rest}
         />

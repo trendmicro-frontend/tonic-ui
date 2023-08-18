@@ -1,18 +1,14 @@
 import { callEventHandlers } from '@tonic-ui/utils';
-import { ensureArray, ensureBoolean, ensureFunction } from 'ensure-type';
-import React, { forwardRef, useCallback, useMemo } from 'react';
+import { ensureArray, ensureFunction } from 'ensure-type';
+import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
-import { Flex } from '../flex';
 import { useTheme } from '../theme';
-import TreeNodeToggleIcon from './TreeNodeToggleIcon';
 import { useTreeNodeContentStyle } from './styles';
 import useTreeView from './useTreeView';
 import useTreeNode from './useTreeNode';
 
 const TreeNodeContent = forwardRef((
   {
-    nodeDepth,
-    nodeId,
     onClick: onClickProp,
     onMouseDown: onMouseDownProp,
     render: renderProp,
@@ -25,25 +21,17 @@ const TreeNodeContent = forwardRef((
   const {
     multiSelect,
   } = useTreeView();
-  const nodeContext = useTreeNode(nodeId);
+  const context = useTreeNode();
   const {
     isDisabled,
-    isExpandable,
     isSelected,
+    nodeDepth,
     select,
     selectRange,
-    toggleExpansion,
     toggleSelection,
-  } = nodeContext;
-  const renderContext = useMemo(() => {
-    return {
-      ...nodeContext,
-      nodeDepth,
-      nodeId,
-    };
-  }, [nodeContext, nodeDepth, nodeId]);
+  } = { ...context };
 
-  const onClickNodeContent = useCallback((event) => {
+  const onClick = useCallback((event) => {
     const isCtrlPressed = event.ctrlKey;
     const isMetaPressed = event.metaKey;
     const isShiftPressed = event.shiftKey;
@@ -60,13 +48,6 @@ const TreeNodeContent = forwardRef((
 
     select();
   }, [multiSelect, select, selectRange, toggleSelection]);
-
-  const onClickNodeToggleIcon = useCallback((event) => {
-    // Stop event bubbling to prevent the node from being selected
-    event.stopPropagation();
-
-    toggleExpansion();
-  }, [toggleExpansion]);
 
   const onMouseDown = useCallback((event) => {
     const isCtrlPressed = event.ctrlKey;
@@ -85,36 +66,28 @@ const TreeNodeContent = forwardRef((
     {
       pl: `calc(${nodeDepth} * ${sizes['6x']} + ${sizes['3x']})`,
       pr: `calc(${sizes['3x']})`,
-      _focus: {
+      ':focus-visible': {
+        borderStyle: 'solid',
+        borderWidth: '1h',
         pl: `calc(${nodeDepth} * ${sizes['6x']} + ${sizes['3x']} - ${sizes['1h']})`,
         pr: `calc(${sizes['3x']} - ${sizes['1h']})`,
+        py: `calc(${sizes['2x']} - ${sizes['1h']})`,
       },
     },
-    ensureArray(sxProp),
+    ...ensureArray(sxProp),
   ];
 
   return (
     <Box
       ref={ref}
-      onClick={callEventHandlers(onClickProp, onClickNodeContent)}
+      onClick={callEventHandlers(onClickProp, onClick)}
       onMouseDown={callEventHandlers(onMouseDownProp, onMouseDown)}
       tabIndex={tabIndex}
       sx={sxProps}
       {...styleProps}
       {...rest}
     >
-      <Flex
-        flex="none"
-        width="6x"
-      >
-        {ensureBoolean(isExpandable) && (
-          <TreeNodeToggleIcon
-            nodeId={nodeId}
-            onClick={onClickNodeToggleIcon}
-          />
-        )}
-      </Flex>
-      {ensureFunction(renderProp)(renderContext)}
+      {ensureFunction(renderProp)(context)}
     </Box>
   );
 });

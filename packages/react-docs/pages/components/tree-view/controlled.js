@@ -11,8 +11,10 @@ import {
   Scrollbar,
   Stack,
   Text,
-  TreeView,
   TreeNode,
+  TreeNodeToggle,
+  TreeNodeToggleIcon,
+  TreeView,
   useColorStyle,
 } from '@tonic-ui/react';
 import { ensureArray } from 'ensure-type';
@@ -47,6 +49,16 @@ const TreeNodeRender = ({
 
         return (
           <>
+            <Flex
+              flex="none"
+              width="6x"
+            >
+              {isExpandable && (
+                <TreeNodeToggle>
+                  <TreeNodeToggleIcon />
+                </TreeNodeToggle>
+              )}
+            </Flex>
             <Flex
               onClick={(event) => {
                 // Prevent event propagation when clicking the checkbox
@@ -120,7 +132,7 @@ const App = () => {
       <ButtonGroup
         variant="secondary"
         columnGap="2x"
-        mb="3x"
+        mb="4x"
       >
         <Button
           variant="secondary"
@@ -151,7 +163,38 @@ const App = () => {
           Unselect all
         </Button>
       </ButtonGroup>
-      <Stack spacing="2x">
+      <Box
+        sx={{
+          minWidth: 160,
+          maxWidth: '40%',
+          boxShadow: colorStyle.shadow.thick,
+        }}
+      >
+        <Scrollbar
+          height={240}
+          overflowY="scroll"
+        >
+          <TreeView
+            aria-label="controlled tree view"
+            isSelectable
+            isUnselectable
+            multiSelect
+            expandedNodes={expandedNodes}
+            selectedNodes={selectedNodes}
+            onNodeToggle={handleToggle}
+            onNodeSelect={handleSelect}
+          >
+            {ensureArray(treeNodes).map(node => (
+              <TreeNodeRender
+                key={node.id}
+                node={node}
+              />
+            ))}
+          </TreeView>
+        </Scrollbar>
+      </Box>
+      <Divider my="4x" />
+      <Stack>
         <Flex
           alignItems="flex-start"
           columnGap="2x"
@@ -191,37 +234,6 @@ const App = () => {
           </Flex>
         </Flex>
       </Stack>
-      <Divider my="4x" />
-      <Box
-        sx={{
-          minWidth: 160,
-          maxWidth: '40%',
-          boxShadow: colorStyle.shadow.thick,
-        }}
-      >
-        <Scrollbar
-          height={240}
-          overflowY="scroll"
-        >
-          <TreeView
-            aria-label="controlled"
-            isSelectable
-            isUnselectable
-            multiSelect
-            expandedNodes={expandedNodes}
-            selectedNodes={selectedNodes}
-            onNodeToggle={handleToggle}
-            onNodeSelect={handleSelect}
-          >
-            {ensureArray(treeNodes).map(node => (
-              <TreeNodeRender
-                key={node.id}
-                node={node}
-              />
-            ))}
-          </TreeView>
-        </Scrollbar>
-      </Box>
     </>
   );
 };

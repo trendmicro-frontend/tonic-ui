@@ -5,8 +5,10 @@ import {
   Icon,
   OverflowTooltip,
   Scrollbar,
-  TreeView,
   TreeNode,
+  TreeNodeToggle,
+  TreeNodeToggleIcon,
+  TreeView,
   useColorStyle,
 } from '@tonic-ui/react';
 import { ensureArray } from 'ensure-type';
@@ -36,6 +38,16 @@ const TreeNodeRender = ({
 
         return (
           <>
+            <Flex
+              flex="none"
+              width="6x"
+            >
+              {isExpandable && (
+                <TreeNodeToggle>
+                  <TreeNodeToggleIcon />
+                </TreeNodeToggle>
+              )}
+            </Flex>
             <Flex
               onClick={(event) => {
                 // Prevent event propagation when clicking the checkbox
@@ -91,7 +103,7 @@ const App = () => {
         overflowY="scroll"
       >
         <TreeView
-          aria-label="multi-select"
+          aria-label="multi-selection"
           defaultExpandedNodes={expandableNodeIds}
           isSelectable
           isUnselectable

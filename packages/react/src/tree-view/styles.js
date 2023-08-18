@@ -1,5 +1,4 @@
 import { useColorMode } from '../color-mode';
-import { useTheme } from '../theme';
 
 const useTreeNodeStyle = ({ isExpandable }) => {
   return {
@@ -12,7 +11,6 @@ const useTreeNodeContentStyle = ({
   isSelected,
   tabIndex,
 }) => {
-  const theme = useTheme();
   const [colorMode] = useColorMode();
   const color = {
     dark: 'white:primary',
@@ -53,16 +51,21 @@ const useTreeNodeContentStyle = ({
     },
     _focus: {
       borderColor: focusBorderColor,
-      borderStyle: 'solid',
-      borderWidth: '1h',
-      px: `calc(${theme?.sizes?.['3x']} - ${theme?.sizes?.['1h']})`,
-      py: `calc(${theme?.sizes?.['2x']} - ${theme?.sizes?.['1h']})`,
+
+      // Note: The border will be added in TreeNodeContent
     },
   };
 };
 
+const useTreeNodeToggleStyle = () => {
+  return {
+    display: 'inline-flex',
+    backgroundColor: 'transparent',
+  };
+};
+
 const useTreeNodeToggleIconStyle = ({
-  isDisabled,
+  disabled,
 }) => {
   const [colorMode] = useColorMode();
   const color = {
@@ -80,9 +83,9 @@ const useTreeNodeToggleIconStyle = ({
 
   return {
     display: 'inline-flex',
-    color: isDisabled ? disabledColor : color,
+    color: disabled ? disabledColor : color,
     _hover: {
-      color: isDisabled ? disabledColor : hoverColor,
+      color: disabled ? disabledColor : hoverColor,
     },
   };
 };
@@ -96,6 +99,7 @@ const useTreeViewStyle = () => {
 export {
   useTreeNodeStyle,
   useTreeNodeContentStyle,
+  useTreeNodeToggleStyle,
   useTreeNodeToggleIconStyle,
   useTreeViewStyle,
 };

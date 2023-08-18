@@ -43,7 +43,7 @@ const TreeNodeToggleIcon = forwardRef((
   {
     appear = false, // do not perform the enter transition when it first mounts
     children,
-    disabled: disabledProp,
+    disabled,
     easing = defaultEasing,
     nodeId,
     style,
@@ -52,12 +52,11 @@ const TreeNodeToggleIcon = forwardRef((
   },
   ref,
 ) => {
-  const context = useTreeNode(nodeId); // context might be an undefined value
+  const context = useTreeNode();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
-  const isDisabled = ensureBoolean(disabledProp ?? context?.isDisabled);
   const isExpanded = ensureBoolean(context?.isExpanded);
-  const toggleIconStyleProps = useTreeNodeToggleIconStyle({ isDisabled });
+  const toggleIconStyleProps = useTreeNodeToggleIconStyle({ disabled });
 
   useEffect(() => {
     if (isExpanded) {
@@ -83,7 +82,7 @@ const TreeNodeToggleIcon = forwardRef((
         const styleProps = {
           ...toggleIconStyleProps,
           ...variantStyle,
-          'aria-disabled': ariaAttr(isDisabled),
+          'aria-disabled': ariaAttr(disabled),
           transition,
         };
 

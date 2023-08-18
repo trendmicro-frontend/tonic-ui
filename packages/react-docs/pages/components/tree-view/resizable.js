@@ -5,8 +5,10 @@ import {
   OverflowTooltip,
   ResizeHandle,
   Scrollbar,
-  TreeView,
   TreeNode,
+  TreeNodeToggle,
+  TreeNodeToggleIcon,
+  TreeView,
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
@@ -43,6 +45,16 @@ const TreeNodeRender = ({
 
         return (
           <>
+            <Flex
+              flex="none"
+              width="6x"
+            >
+              {isExpandable && (
+                <TreeNodeToggle>
+                  <TreeNodeToggleIcon />
+                </TreeNodeToggle>
+              )}
+            </Flex>
             <Icon icon={icon} color={iconColor} mr="2x" />
             <OverflowTooltip label={node.name}>
               {node.name}
@@ -102,7 +114,7 @@ const App = () => {
           overflowY="scroll"
         >
           <TreeView
-            aria-label="basic tree view"
+            aria-label="resizable tree view"
             defaultExpandedNodes={expandableNodes}
             isSelectable
             isUnselectable={false}

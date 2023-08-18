@@ -1,13 +1,17 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, isNullish } from '@tonic-ui/utils';
 import { ensureNumber } from 'ensure-type';
-import React, { forwardRef, isValidElement, useEffect, useMemo, useRef, useState } from 'react';
+import memoize from 'micro-memoize';
+import React, { forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { Collapse } from '../transitions';
 import { Descendant, useDescendant } from '../utils/descendant';
 import TreeNodeContent from './TreeNodeContent';
+import { TreeNodeContext } from './context';
 import { useTreeNodeStyle } from './styles';
 import useTreeView from './useTreeView';
+
+const getMemoizedState = memoize(state => ({ ...state }));
 
 const TreeNode = forwardRef((
   {
@@ -17,7 +21,7 @@ const TreeNode = forwardRef((
     TransitionProps,
     children,
     disabled: disabledProp,
-    id: idAttributeProp,
+    id: idAttrProp,
     nodeId,
     render,
     ...rest
@@ -25,16 +29,25 @@ const TreeNode = forwardRef((
   ref,
 ) => {
   const {
+    focusNode,
+    getIsNodeDisabled,
     getIsNodeExpanded,
+    getIsNodeFocused,
     getIsNodeSelected,
     registerNode,
+    selectNode,
+    selectRange,
+    toggleSelection,
+    toggleExpansion,
     treeId,
     unregisterNode,
   } = useTreeView();
-
-  const idAttribute = useMemo(() => {
-    if (!isNullish(idAttributeProp)) {
-      return idAttributeProp;
+  const contentRef = useRef();
+  const [element, setElement] = useState(null);
+  const combinedRef = useMergeRefs(setElement, ref);
+  const idAttr = useMemo(() => {
+    if (!isNullish(idAttrProp)) {
+      return idAttrProp;
     }
 
     if (treeId && nodeId) {
@@ -42,23 +55,18 @@ const TreeNode = forwardRef((
     }
 
     return null;
-  }, [idAttributeProp, treeId, nodeId]);
-
-  const contentRef = useRef();
-  const [element, setElement] = useState(null);
-  const combinedRef = useMergeRefs(setElement, ref);
-
+  }, [idAttrProp, treeId, nodeId]);
   const { index, parentDepth, parentId } = useDescendant(element);
   const nodeDepth = ensureNumber(parentDepth) + 1;
-
   const validChildren = React.Children.toArray(children)
     .filter(child => {
       return isValidElement(child) || typeof child === 'string' || typeof child === 'number';
     });
-  const isDisabled = Boolean(disabledProp);
-  const isExpandable = validChildren.length > 0;
-  const isExpanded = Boolean(getIsNodeExpanded?.(nodeId));
-  const isSelected = Boolean(getIsNodeSelected?.(nodeId));
+  const isExpandable = (validChildren.length > 0);
+  const isDisabled = getIsNodeDisabled ? getIsNodeDisabled(nodeId) : false;
+  const isExpanded = getIsNodeExpanded ? getIsNodeExpanded(nodeId) : false;
+  const isFocused = getIsNodeFocused ? getIsNodeFocused(nodeId) : false;
+  const isSelected = getIsNodeSelected ? getIsNodeSelected(nodeId) : false;
 
   useEffect(() => {
     if (typeof registerNode === 'function' && typeof unregisterNode === 'function' && index !== -1) {
@@ -71,8 +79,8 @@ const TreeNode = forwardRef((
           });
         },
         id: nodeId,
-        idAttribute,
-        isDisabled,
+        idAttr,
+        isDisabled: Boolean(disabledProp),
         isExpandable,
         parentId,
       });
@@ -83,47 +91,121 @@ const TreeNode = forwardRef((
     }
 
     return undefined;
-  }, [registerNode, unregisterNode, index, nodeDepth, nodeId, idAttribute, isDisabled, isExpandable, parentId]);
+  }, [registerNode, unregisterNode, index, nodeDepth, nodeId, idAttr, disabledProp, isExpandable, parentId]);
+
+  const selectHandler = useCallback(() => {
+    const isDisabled = getIsNodeDisabled(nodeId);
+    const isFocused = getIsNodeFocused(nodeId);
+
+    if (isDisabled) {
+      return;
+    }
+
+    if (!isFocused) {
+      focusNode(nodeId);
+    }
+
+    selectNode(nodeId);
+  }, [nodeId, getIsNodeDisabled, getIsNodeFocused, focusNode, selectNode]);
+
+  const selectRangeHandler = useCallback(() => {
+    const isDisabled = getIsNodeDisabled(nodeId);
+    const isFocused = getIsNodeFocused(nodeId);
+
+    if (isDisabled) {
+      return;
+    }
+
+    if (!isFocused) {
+      focusNode(nodeId);
+    }
+
+    // When performing a range selection, the `start` parameter is assigned the value of `lastSelectedNode.current`
+    const end = nodeId;
+    selectRange({ end });
+  }, [nodeId, getIsNodeDisabled, getIsNodeFocused, focusNode, selectRange]);
+
+  const toggleExpansionHandler = useCallback(() => {
+    const isDisabled = getIsNodeDisabled(nodeId);
+
+    if (isDisabled) {
+      return;
+    }
+
+    // Note: We do not focus the node when toggling expansion state
+
+    toggleExpansion(nodeId);
+  }, [nodeId, getIsNodeDisabled, toggleExpansion]);
+
+  const toggleSelectionHandler = useCallback(() => {
+    const isDisabled = getIsNodeDisabled(nodeId);
+    const isFocused = getIsNodeFocused(nodeId);
+
+    if (isDisabled) {
+      return;
+    }
+
+    if (!isFocused) {
+      focusNode(nodeId);
+    }
+
+    toggleSelection(nodeId);
+  }, [nodeId, getIsNodeDisabled, getIsNodeFocused, focusNode, toggleSelection]);
 
   const styleProps = useTreeNodeStyle({ isExpandable });
+  const context = getMemoizedState({
+    isDisabled,
+    isExpandable,
+    isExpanded,
+    isFocused,
+    isSelected,
+    nodeId,
+    nodeDepth,
+    select: selectHandler,
+    selectRange: selectRangeHandler,
+    toggleExpansion: toggleExpansionHandler,
+    toggleSelection: toggleSelectionHandler,
+  });
 
   return (
-    <Box
-      ref={combinedRef}
-      aria-disabled={ariaAttr(isDisabled)}
-      aria-selected={ariaAttr(isSelected)}
-      aria-expanded={ariaAttr(isExpanded)}
-      data-tree-node-depth={nodeDepth}
-      data-tree-node-id={nodeId}
-      id={idAttribute}
-      role="treeitem"
-      {...styleProps}
-      {...rest}
-    >
-      <ContentComponent
-        ref={contentRef}
-        {...ContentProps}
-        nodeDepth={nodeDepth}
-        nodeId={nodeId}
-        render={render}
-      />
-      {!!isExpandable && (
-        <Descendant
-          depth={nodeDepth}
-          id={nodeId}
-        >
-          <TransitionComponent
-            appear={false} // do not perform the enter transition when it first mounts
-            in={isExpanded}
-            role="group"
-            unmountOnExit={true}
-            {...TransitionProps}
+    <TreeNodeContext.Provider value={context}>
+      <Box
+        ref={combinedRef}
+        aria-disabled={ariaAttr(isDisabled)}
+        aria-expanded={ariaAttr(isExpanded)}
+        aria-selected={ariaAttr(isSelected)}
+        data-tree-node-depth={nodeDepth}
+        data-tree-node-id={nodeId}
+        id={idAttr}
+        role="treeitem"
+        {...styleProps}
+        {...rest}
+      >
+        <ContentComponent
+          ref={contentRef}
+          {...ContentProps}
+          nodeDepth={nodeDepth}
+          nodeId={nodeId}
+          render={render}
+        />
+        {!!isExpandable && (
+          <Descendant
+            depth={nodeDepth}
+            id={nodeId}
           >
-            {children}
-          </TransitionComponent>
-        </Descendant>
-      )}
-    </Box>
+            <TransitionComponent
+              appear={false} // do not perform the enter transition when it first mounts
+              in={isExpanded}
+              role="group"
+              unmountOnExit={true}
+              {...TransitionProps}
+            >
+              {children}
+            </TransitionComponent>
+          </Descendant>
+        )}
+      </Box>
+    </TreeNodeContext.Provider>
   );
 });
 

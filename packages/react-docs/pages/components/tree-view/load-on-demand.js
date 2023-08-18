@@ -1,14 +1,19 @@
 import {
   Box,
+  Flex,
   Icon,
   OverflowTooltip,
   Scrollbar,
-  TreeView,
+  Spinner,
   TreeNode,
+  TreeNodeToggle,
+  TreeNodeToggleIcon,
+  TreeView,
   useColorStyle,
+  useTreeView,
 } from '@tonic-ui/react';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   findExpandableNodeIds,
 } from './utils';
@@ -26,47 +31,84 @@ const initialTreeNodes = [
         id: '1.2',
         name: 'Node 1.2',
         children: [],
-        isLoaded: false,
+        loadOnDemand: true,
       },
     ],
-    isLoaded: true,
   },
   {
     id: '2',
     name: 'Node 2',
     children: [],
-    isLoaded: false,
+    loadOnDemand: true,
   },
   {
     id: '3',
     name: 'Node 3',
     children: [],
-    isLoaded: false,
+    loadOnDemand: true,
   },
   {
     id: '4',
     name: 'Node 4',
     children: [],
-    isLoaded: false,
+    loadOnDemand: true,
   },
   {
     id: '5',
     name: 'Node 5',
     children: [],
-    isLoaded: false,
+    loadOnDemand: true,
   },
 ];
 
 const TreeNodeRender = ({
-  depth = 0,
   node,
+  nodeDepth = 0,
   ...rest
 }) => {
-  const isLazyLoading = Array.isArray(node.children) && !node.isLoaded;
+  const {
+    getIsNodeExpanded,
+  } = useTreeView();
+  const nodeId = node.id;
+  const nodeName = node.name;
+  const [childNodes, setChildNodes] = useState(ensureArray(node.children));
+  const [isLoading, setIsLoading] = useState(false);
+  const isExpanded = getIsNodeExpanded(nodeId);
+  const loadOnDemand = node.loadOnDemand && childNodes.length === 0;
+
+  useEffect(() => {
+    let timer = null;
+
+    if (isExpanded && loadOnDemand) {
+      setIsLoading(true);
+      timer = setTimeout(() => {
+        const childNodes = [
+          {
+            id: `${nodeId}.1`,
+            name: `${nodeName}.1`,
+            loadOnDemand: (nodeDepth < 1),
+          },
+          {
+            id: `${nodeId}.2`,
+            name: `${nodeName}.2`,
+          }
+        ];
+
+        setChildNodes(childNodes);
+        setIsLoading(false);
+      }, 500);
+    }
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [isExpanded, loadOnDemand, nodeId, nodeName, nodeDepth]);
 
   return (
     <TreeNode
-      nodeId={node.id}
+      nodeId={nodeId}
       render={({ isExpandable, isExpanded, isSelected, select }) => {
         const icon = (() => {
           if (isExpandable) {
@@ -78,6 +120,16 @@ const TreeNodeRender = ({
 
         return (
           <>
+            <Flex
+              flex="none"
+              width="6x"
+            >
+              {isExpandable && (
+                <TreeNodeToggle>
+                  {isLoading ? <Spinner size="xs" /> : <TreeNodeToggleIcon />}
+                </TreeNodeToggle>
+              )}
+            </Flex>
             <Icon icon={icon} color={iconColor} mr="2x" />
             <OverflowTooltip label={node.name}>
               {node.name}
@@ -85,30 +137,18 @@ const TreeNodeRender = ({
           </>
         );
       }}
-      sx={{
-        // Hide the background color of the tree node when the checkbox is selected
-        '&[aria-selected="true"] > *:first-of-type:not(:hover)': {
-          backgroundColor: 'transparent',
-        },
-      }}
       {...rest}
     >
-      {isLazyLoading && (
-        <Box
-          pl={32 + depth * 24}
-        >
-          Loading...
-        </Box>
-      )}
-      {!isLazyLoading && (
-        ensureArray(node.children).map(node => (
-          <TreeNodeRender
-            key={node.id}
-            depth={depth + 1}
-            node={node}
-          />
-        ))
-      )}
+      {loadOnDemand
+        ? <Box key="stub" />
+        : childNodes.map(node => (
+            <TreeNodeRender
+              key={node.id}
+              node={node}
+              nodeDepth={nodeDepth + 1}
+            />
+          ))
+      }
     </TreeNode>
   );
 };
