@@ -1,15 +1,15 @@
-import TreeNode from './TreeNode';
-import TreeNodeToggle from './TreeNodeToggle';
-import TreeNodeToggleIcon from './TreeNodeToggleIcon';
+import TreeItem from './TreeItem';
+import TreeItemToggle from './TreeItemToggle';
+import TreeItemToggleIcon from './TreeItemToggleIcon';
 import TreeView from './TreeView';
-import useTreeNode from './useTreeNode';
+import useTreeItem from './useTreeItem';
 import useTreeView from './useTreeView';
 
 export {
-  TreeNode,
-  TreeNodeToggle,
-  TreeNodeToggleIcon,
+  TreeItem,
+  TreeItemToggle,
+  TreeItemToggleIcon,
   TreeView,
-  useTreeNode,
+  useTreeItem,
   useTreeView,
 };

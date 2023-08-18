@@ -1,12 +1,6 @@
 import { useColorMode } from '../color-mode';
 
-const useTreeNodeStyle = ({ isExpandable }) => {
-  return {
-    cursor: isExpandable ? 'pointer' : 'default',
-  };
-};
-
-const useTreeNodeContentStyle = ({
+const useTreeItemContentStyle = ({
   isDisabled,
   isSelected,
   tabIndex,
@@ -52,19 +46,19 @@ const useTreeNodeContentStyle = ({
     _focus: {
       borderColor: focusBorderColor,
 
-      // Note: The border will be added in TreeNodeContent
+      // Note: The border will be added in TreeItemContent
     },
   };
 };
 
-const useTreeNodeToggleStyle = () => {
+const useTreeItemToggleStyle = () => {
   return {
     display: 'inline-flex',
     backgroundColor: 'transparent',
   };
 };
 
-const useTreeNodeToggleIconStyle = ({
+const useTreeItemToggleIconStyle = ({
   disabled,
 }) => {
   const [colorMode] = useColorMode();
@@ -97,9 +91,8 @@ const useTreeViewStyle = () => {
 };
 
 export {
-  useTreeNodeStyle,
-  useTreeNodeContentStyle,
-  useTreeNodeToggleStyle,
-  useTreeNodeToggleIconStyle,
+  useTreeItemContentStyle,
+  useTreeItemToggleStyle,
+  useTreeItemToggleIconStyle,
   useTreeViewStyle,
 };

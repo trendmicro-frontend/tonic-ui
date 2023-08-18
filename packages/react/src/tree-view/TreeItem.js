@@ -6,16 +6,15 @@ import React, { forwardRef, isValidElement, useCallback, useEffect, useMemo, use
 import { Box } from '../box';
 import { Collapse } from '../transitions';
 import { Descendant, useDescendant } from '../utils/descendant';
-import TreeNodeContent from './TreeNodeContent';
-import { TreeNodeContext } from './context';
-import { useTreeNodeStyle } from './styles';
+import TreeItemContent from './TreeItemContent';
+import { TreeItemContext } from './context';
 import useTreeView from './useTreeView';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const TreeNode = forwardRef((
+const TreeItem = forwardRef((
   {
-    ContentComponent = TreeNodeContent,
+    ContentComponent = TreeItemContent,
     ContentProps,
     TransitionComponent = Collapse,
     TransitionProps,
@@ -152,7 +151,6 @@ const TreeNode = forwardRef((
     toggleSelection(nodeId);
   }, [nodeId, getIsNodeDisabled, getIsNodeFocused, focusNode, toggleSelection]);
 
-  const styleProps = useTreeNodeStyle({ isExpandable });
   const context = getMemoizedState({
     isDisabled,
     isExpandable,
@@ -168,7 +166,7 @@ const TreeNode = forwardRef((
   });
 
   return (
-    <TreeNodeContext.Provider value={context}>
+    <TreeItemContext.Provider value={context}>
       <Box
         ref={combinedRef}
         aria-disabled={ariaAttr(isDisabled)}
@@ -178,7 +176,6 @@ const TreeNode = forwardRef((
         data-tree-node-id={nodeId}
         id={idAttr}
         role="treeitem"
-        {...styleProps}
         {...rest}
       >
         <ContentComponent
@@ -205,10 +202,10 @@ const TreeNode = forwardRef((
           </Descendant>
         )}
       </Box>
-    </TreeNodeContext.Provider>
+    </TreeItemContext.Provider>
   );
 });
 
-TreeNode.displayName = 'TreeNode';
+TreeItem.displayName = 'TreeItem';
 
-export default TreeNode;
+export default TreeItem;

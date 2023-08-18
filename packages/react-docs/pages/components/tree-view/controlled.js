@@ -11,9 +11,9 @@ import {
   Scrollbar,
   Stack,
   Text,
-  TreeNode,
-  TreeNodeToggle,
-  TreeNodeToggleIcon,
+  TreeItem,
+  TreeItemToggle,
+  TreeItemToggleIcon,
   TreeView,
   useColorStyle,
 } from '@tonic-ui/react';
@@ -29,13 +29,13 @@ const treeMap = buildTreeMap(treeNodes);
 const expandableNodes = findExpandableNodeIds(treeNodes);
 const allNodes = Array.from(treeMap.keys());
 
-const TreeNodeRender = ({
+const TreeItemRender = ({
   depth = 0,
   node,
   ...rest
 }) => {
   return (
-    <TreeNode
+    <TreeItem
       key={node.id}
       nodeId={node.id}
       render={({ isExpandable, isExpanded, isSelected, select }) => {
@@ -54,9 +54,9 @@ const TreeNodeRender = ({
               width="6x"
             >
               {isExpandable && (
-                <TreeNodeToggle>
-                  <TreeNodeToggleIcon />
-                </TreeNodeToggle>
+                <TreeItemToggle>
+                  <TreeItemToggleIcon />
+                </TreeItemToggle>
               )}
             </Flex>
             <Flex
@@ -97,13 +97,13 @@ const TreeNodeRender = ({
       }}
     >
       {ensureArray(node.children).map(node => (
-        <TreeNodeRender
+        <TreeItemRender
           key={node.id}
           depth={depth + 1}
           node={node}
         />
       ))}
-    </TreeNode>
+    </TreeItem>
   );
 };
 
@@ -194,7 +194,7 @@ const App = () => {
             onNodeSelect={handleSelect}
           >
             {ensureArray(treeNodes).map(node => (
-              <TreeNodeRender
+              <TreeItemRender
                 key={node.id}
                 node={node}
               />

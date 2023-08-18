@@ -2,7 +2,7 @@ const generateRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const generateRandomTreeNodes = ({
+const generateRandomTreeItems = ({
   rootNodeCount = 0,
   maxChildNodes = 0,
   maxDepth = 1,
@@ -48,6 +48,6 @@ const options = {
   minDepth: 2,
   maxNodeCount: 100,
 };
-const generatedTree = generateRandomTreeNodes(options);
+const generatedTree = generateRandomTreeItems(options);
 
 console.log(JSON.stringify(generatedTree, null, 2));

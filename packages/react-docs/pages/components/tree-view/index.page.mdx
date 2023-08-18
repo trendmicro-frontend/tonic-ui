@@ -6,11 +6,11 @@ The `TreeView` component allows you to present information in a hierarchical, ne
 
 ```js
 import {
-  TreeNode,
-  TreeNodeToggle,
-  TreeNodeToggleIcon,
+  TreeItem,
+  TreeItemToggle,
+  TreeItemToggleIcon,
   TreeView,
-  useTreeNode,
+  useTreeItem,
   useTreeView,
 } from '@tonic-ui/react';
 ```
@@ -36,7 +36,7 @@ To enable the selection of multiple nodes, use the `multiSelect` prop. Refer to 
 When using checkboxes for multi-selection, consider hiding the background color of the tree node when the checkbox is selected to enhance accessibility.
 
 ```jsx disabled
-<TreeNode
+<TreeItem
   key={node.id}
   nodeId={node.id}
   render={({ isExpanded, isSelected, select }) => {
@@ -101,11 +101,11 @@ The following keyboard shortcuts are available:
 | onNodeToggle | function | | A callback function triggered when tree nodes are expanded/collapsed.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of expanded node IDs.</pre> |
 | selectedNodes | array | | An array of selected node IDs for controlled state. |
 
-### TreeNode
+### TreeItem
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| ContentComponent | ElementType | TreeNodeContent | The component used to render the contenr of the node. |
+| ContentComponent | ElementType | TreeItemContent | The component used to render the content of the node. |
 | ContentProps | object | | Props applied to the content component. |
 | TransitionComponent | ElementType | Collapse | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |

@@ -3,11 +3,11 @@ import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { useTheme } from '../theme';
-import { useTreeNodeContentStyle } from './styles';
+import { useTreeItemContentStyle } from './styles';
 import useTreeView from './useTreeView';
-import useTreeNode from './useTreeNode';
+import useTreeItem from './useTreeItem';
 
-const TreeNodeContent = forwardRef((
+const TreeItemContent = forwardRef((
   {
     onClick: onClickProp,
     onMouseDown: onMouseDownProp,
@@ -21,7 +21,7 @@ const TreeNodeContent = forwardRef((
   const {
     multiSelect,
   } = useTreeView();
-  const context = useTreeNode();
+  const context = useTreeItem();
   const {
     isDisabled,
     isSelected,
@@ -61,7 +61,7 @@ const TreeNodeContent = forwardRef((
   }, [isDisabled]);
 
   const tabIndex = -1;
-  const styleProps = useTreeNodeContentStyle({ isDisabled, isSelected, tabIndex });
+  const styleProps = useTreeItemContentStyle({ isDisabled, isSelected, tabIndex });
   const sxProps = [
     {
       pl: `calc(${nodeDepth} * ${sizes['6x']} + ${sizes['3x']})`,
@@ -92,6 +92,6 @@ const TreeNodeContent = forwardRef((
   );
 });
 
-TreeNodeContent.displayName = 'TreeNodeContent';
+TreeItemContent.displayName = 'TreeItemContent';
 
-export default TreeNodeContent;
+export default TreeItemContent;

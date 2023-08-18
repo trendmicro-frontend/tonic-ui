@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { TreeNodeContext } from './context';
+import { TreeItemContext } from './context';
 
-const useTreeNode = () => {
+const useTreeItem = () => {
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
 
-  const context = useContext(TreeNodeContext);
+  const context = useContext(TreeItemContext);
   return context;
 };
 
-export default useTreeNode;
+export default useTreeItem;

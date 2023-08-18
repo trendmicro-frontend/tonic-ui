@@ -2,11 +2,11 @@ import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
 import { ButtonBase } from '../button';
 import {
-  useTreeNodeToggleStyle,
+  useTreeItemToggleStyle,
 } from './styles';
-import useTreeNode from './useTreeNode';
+import useTreeItem from './useTreeItem';
 
-const TreeNodeToggle = forwardRef((
+const TreeItemToggle = forwardRef((
   {
     children,
     disabled,
@@ -18,8 +18,8 @@ const TreeNodeToggle = forwardRef((
   const {
     isExpanded,
     toggleExpansion,
-  } = useTreeNode();
-  const styleProps = useTreeNodeToggleStyle();
+  } = useTreeItem();
+  const styleProps = useTreeItemToggleStyle();
   const onClick = useCallback((event) => {
     // Stop event bubbling to prevent the node from being selected
     event.stopPropagation();
@@ -27,7 +27,7 @@ const TreeNodeToggle = forwardRef((
     toggleExpansion();
   }, [toggleExpansion]);
 
-  const getTreeNodeToggleProps = () => ({
+  const getTreeItemToggleProps = () => ({
     'aria-disabled': ariaAttr(disabled),
     'aria-expanded': ariaAttr(isExpanded),
     disabled,
@@ -39,17 +39,17 @@ const TreeNodeToggle = forwardRef((
 
   if (typeof children === 'function') {
     return children({
-      getTreeNodeToggleProps,
+      getTreeItemToggleProps,
     });
   }
 
   return (
-    <ButtonBase {...getTreeNodeToggleProps()}>
+    <ButtonBase {...getTreeItemToggleProps()}>
       {children}
     </ButtonBase>
   );
 });
 
-TreeNodeToggle.displayName = 'TreeNodeToggle';
+TreeItemToggle.displayName = 'TreeItemToggle';
 
-export default TreeNodeToggle;
+export default TreeItemToggle;

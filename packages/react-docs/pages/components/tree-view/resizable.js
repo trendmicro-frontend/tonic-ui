@@ -5,9 +5,9 @@ import {
   OverflowTooltip,
   ResizeHandle,
   Scrollbar,
-  TreeNode,
-  TreeNodeToggle,
-  TreeNodeToggleIcon,
+  TreeItem,
+  TreeItemToggle,
+  TreeItemToggleIcon,
   TreeView,
   useColorMode,
   useColorStyle,
@@ -25,13 +25,13 @@ const expandableNodes = findExpandableNodeIds(treeNodes);
 const allNodes = Array.from(treeMap.keys());
 const defaultSelectedNode = allNodes[0];
 
-const TreeNodeRender = ({
+const TreeItemRender = ({
   depth = 0,
   node,
   ...rest
 }) => {
   return (
-    <TreeNode
+    <TreeItem
       key={node.id}
       nodeId={node.id}
       render={({ isExpandable, isExpanded, isSelected }) => {
@@ -50,9 +50,9 @@ const TreeNodeRender = ({
               width="6x"
             >
               {isExpandable && (
-                <TreeNodeToggle>
-                  <TreeNodeToggleIcon />
-                </TreeNodeToggle>
+                <TreeItemToggle>
+                  <TreeItemToggleIcon />
+                </TreeItemToggle>
               )}
             </Flex>
             <Icon icon={icon} color={iconColor} mr="2x" />
@@ -73,13 +73,13 @@ const TreeNodeRender = ({
       }}
     >
       {ensureArray(node.children).map(node => (
-        <TreeNodeRender
+        <TreeItemRender
           key={node.id}
           depth={depth + 1}
           node={node}
         />
       ))}
-    </TreeNode>
+    </TreeItem>
   );
 };
 
@@ -131,7 +131,7 @@ const App = () => {
             onNodeSelect={handleSelect}
           >
             {ensureArray(treeNodes).map(node => (
-              <TreeNodeRender
+              <TreeItemRender
                 key={node.id}
                 node={node}
               />

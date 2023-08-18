@@ -5,9 +5,9 @@ import {
   OverflowTooltip,
   Scrollbar,
   Spinner,
-  TreeNode,
-  TreeNodeToggle,
-  TreeNodeToggleIcon,
+  TreeItem,
+  TreeItemToggle,
+  TreeItemToggleIcon,
   TreeView,
   useColorStyle,
   useTreeView,
@@ -18,7 +18,7 @@ import {
   findExpandableNodeIds,
 } from './utils';
 
-const initialTreeNodes = [
+const initialTreeItems = [
   {
     id: '1',
     name: 'Node 1',
@@ -61,7 +61,7 @@ const initialTreeNodes = [
   },
 ];
 
-const TreeNodeRender = ({
+const TreeItemRender = ({
   node,
   nodeDepth = 0,
   ...rest
@@ -107,7 +107,7 @@ const TreeNodeRender = ({
   }, [isExpanded, loadOnDemand, nodeId, nodeName, nodeDepth]);
 
   return (
-    <TreeNode
+    <TreeItem
       nodeId={nodeId}
       render={({ isExpandable, isExpanded, isSelected, select }) => {
         const icon = (() => {
@@ -125,9 +125,9 @@ const TreeNodeRender = ({
               width="6x"
             >
               {isExpandable && (
-                <TreeNodeToggle>
-                  {isLoading ? <Spinner size="xs" /> : <TreeNodeToggleIcon />}
-                </TreeNodeToggle>
+                <TreeItemToggle>
+                  {isLoading ? <Spinner size="xs" /> : <TreeItemToggleIcon />}
+                </TreeItemToggle>
               )}
             </Flex>
             <Icon icon={icon} color={iconColor} mr="2x" />
@@ -151,20 +151,20 @@ const TreeNodeRender = ({
       {loadOnDemand
         ? <Box key="stub" />
         : childNodes.map(node => (
-            <TreeNodeRender
+            <TreeItemRender
               key={node.id}
               node={node}
               nodeDepth={nodeDepth + 1}
             />
           ))
       }
-    </TreeNode>
+    </TreeItem>
   );
 };
 
 const App = () => {
   const [colorStyle] = useColorStyle();
-  const [treeNodes, /*setTreeNodes*/] = useState(initialTreeNodes);
+  const [treeNodes, /*setTreeItems*/] = useState(initialTreeItems);
   const expandableNodes = findExpandableNodeIds(treeNodes);
   const [expandedNodes, setExpandedNodes] = useState(expandableNodes);
   const [selectedNodes, setSelectedNodes] = useState([]);
@@ -199,7 +199,7 @@ const App = () => {
           onNodeSelect={handleSelect}
         >
           {ensureArray(treeNodes).map(node => (
-            <TreeNodeRender
+            <TreeItemRender
               key={node.id}
               node={node}
             />

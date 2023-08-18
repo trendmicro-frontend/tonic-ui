@@ -6,9 +6,9 @@ import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { Icon } from '../icon';
 import {
-  useTreeNodeToggleIconStyle,
+  useTreeItemToggleIconStyle,
 } from './styles';
-import useTreeNode from './useTreeNode';
+import useTreeItem from './useTreeItem';
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -39,7 +39,7 @@ const defaultTimeout = {
   exit: Math.floor(133 * 0.7),
 };
 
-const TreeNodeToggleIcon = forwardRef((
+const TreeItemToggleIcon = forwardRef((
   {
     appear = false, // do not perform the enter transition when it first mounts
     children,
@@ -52,11 +52,11 @@ const TreeNodeToggleIcon = forwardRef((
   },
   ref,
 ) => {
-  const context = useTreeNode();
+  const context = useTreeItem();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const isExpanded = ensureBoolean(context?.isExpanded);
-  const toggleIconStyleProps = useTreeNodeToggleIconStyle({ disabled });
+  const toggleIconStyleProps = useTreeItemToggleIconStyle({ disabled });
 
   useEffect(() => {
     if (isExpanded) {
@@ -114,6 +114,6 @@ const TreeNodeToggleIcon = forwardRef((
   );
 });
 
-TreeNodeToggleIcon.displayName = 'TreeNodeToggleIcon';
+TreeItemToggleIcon.displayName = 'TreeItemToggleIcon';
 
-export default TreeNodeToggleIcon;
+export default TreeItemToggleIcon;
