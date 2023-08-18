@@ -1,6 +1,11 @@
 import {
   Box,
   Flex,
+  Icon,
+  Menu,
+  MenuItem,
+  MenuList,
+  MenuToggle,
   OverflowTooltip,
   Scrollbar,
   TreeNode,
@@ -21,6 +26,8 @@ const TreeNodeRender = ({
   node,
   ...rest
 }) => {
+  const [colorStyle] = useColorStyle();
+
   return (
     <TreeNode
       key={node.id}
@@ -38,8 +45,54 @@ const TreeNodeRender = ({
             )}
           </Flex>
           <OverflowTooltip label={node.name}>
-            {node.name}
+            {({ ref, style }) => (
+              <Flex
+                ref={ref}
+                style={style}
+                flex="auto"
+              >
+                {node.name}
+              </Flex>
+            )}
           </OverflowTooltip>
+          <Flex
+            flex="none"
+            ml="2x"
+          >
+            <Menu>
+              <MenuToggle
+                onClick={(event) => {
+                  // Prevent the tree node from being selected.
+                  event.stopPropagation();
+                }}
+                sx={{
+                  color: colorStyle.color.secondary,
+                  ':hover': {
+                    color: colorStyle.color.info,
+                  },
+                }}
+              >
+                <Icon icon="more" />
+              </MenuToggle>
+              <MenuList
+                PopperProps={{
+                  usePortal: true,
+                }}
+                width="max-content"
+              >
+                <MenuItem>
+                  <Flex alignItems="center" columnGap="2x">
+                    <Icon icon="edit" /> List item
+                  </Flex>
+                </MenuItem>
+                <MenuItem>
+                  <Flex alignItems="center" columnGap="2x">
+                    <Icon icon="edit" /> List item
+                  </Flex>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
         </>
       )}
     >

@@ -79,7 +79,7 @@ const App = () => {
     >
       <Scrollbar
         height={240}
-        overflowY="scroll"
+        overflowY="auto"
       >
         <TreeView
           aria-label="multi-selection"

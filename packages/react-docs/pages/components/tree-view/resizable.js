@@ -111,7 +111,7 @@ const App = () => {
         <Scrollbar
           height={240}
           overflowX="hidden"
-          overflowY="scroll"
+          overflowY="auto"
         >
           <TreeView
             aria-label="resizable tree view"
