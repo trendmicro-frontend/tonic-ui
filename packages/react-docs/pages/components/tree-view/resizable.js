@@ -114,7 +114,7 @@ const App = () => {
         ref={resizableRef}
         sx={{
           flex: 'none',
-          width: 240,
+          width: 300,
         }}
       >
         <Scrollbar

@@ -18,48 +18,20 @@ import {
   findExpandableNodeIds,
 } from './utils';
 
-const initialTreeItems = [
-  {
-    id: '1',
-    name: 'Node 1',
-    children: [
-      {
-        id: '1.1',
-        name: 'Node 1.1',
-      },
-      {
-        id: '1.2',
-        name: 'Node 1.2',
-        children: [],
-        loadOnDemand: true,
-      },
-    ],
-  },
-  {
-    id: '2',
-    name: 'Node 2',
-    children: [],
-    loadOnDemand: true,
-  },
-  {
-    id: '3',
-    name: 'Node 3',
-    children: [],
-    loadOnDemand: true,
-  },
-  {
-    id: '4',
-    name: 'Node 4',
-    children: [],
-    loadOnDemand: true,
-  },
-  {
-    id: '5',
-    name: 'Node 5',
-    children: [],
-    loadOnDemand: true,
-  },
-];
+const createTreeNodes = (count) => {
+  const treeNodes = Array.from({ length: count }, (_, index) => {
+    const nodeId = index + 1;
+
+    return {
+      id: `${nodeId}`,
+      name: `Node ${nodeId}`,
+      children: [],
+      loadOnDemand: true,
+    };
+  });
+
+  return treeNodes;
+};
 
 const TreeItemRender = ({
   node,
@@ -86,16 +58,21 @@ const TreeItemRender = ({
           {
             id: `${nodeId}.1`,
             name: `${nodeName}.1`,
-            loadOnDemand: (nodeDepth < 1),
+            loadOnDemand: (nodeDepth < 2),
           },
           {
             id: `${nodeId}.2`,
             name: `${nodeName}.2`,
-          }
+          },
         ];
 
         setChildNodes(childNodes);
         setIsLoading(false);
+
+        // The following code is to update the node with the new children.
+        // You can remove it if you don't want to update the node.
+        node.children = childNodes;
+        node.loadOnDemand = false;
       }, 500);
     }
 
@@ -164,7 +141,7 @@ const TreeItemRender = ({
 
 const App = () => {
   const [colorStyle] = useColorStyle();
-  const [treeNodes, /*setTreeItems*/] = useState(initialTreeItems);
+  const treeNodes = createTreeNodes(5);
   const expandableNodes = findExpandableNodeIds(treeNodes);
   const [expandedNodes, setExpandedNodes] = useState(expandableNodes);
   const [selectedNodes, setSelectedNodes] = useState([]);

@@ -63,8 +63,8 @@ const TreeItemRender = ({
             <Menu>
               <MenuToggle
                 onClick={(event) => {
-                  // Prevent the tree node from being selected.
-                  event.stopPropagation();
+                  // Uncomment the following line to prevent the tree node from being selected
+                  //event.stopPropagation();
                 }}
                 sx={{
                   color: colorStyle.color.secondary,
