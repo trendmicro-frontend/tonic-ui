@@ -8,6 +8,7 @@ import { Collapse } from '../transitions';
 import { Descendant, useDescendant } from '../utils/descendant';
 import TreeItemContent from './TreeItemContent';
 import { TreeItemContext } from './context';
+import { useTreeItemStyle } from './styles';
 import useTreeView from './useTreeView';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -151,6 +152,7 @@ const TreeItem = forwardRef((
     toggleSelection(nodeId);
   }, [nodeId, getIsNodeDisabled, getIsNodeFocused, focusNode, toggleSelection]);
 
+  const styleProps = useTreeItemStyle();
   const context = getMemoizedState({
     isDisabled,
     isExpandable,
@@ -176,6 +178,7 @@ const TreeItem = forwardRef((
         data-tree-node-id={nodeId}
         id={idAttr}
         role="treeitem"
+        {...styleProps}
         {...rest}
       >
         <ContentComponent

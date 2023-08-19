@@ -36,8 +36,8 @@ const createTreeNodes = (count) => {
 const TreeItemRender = ({
   node,
   nodeDepth = 0,
-  ...rest
 }) => {
+  const [colorStyle] = useColorStyle();
   const {
     getIsNodeExpanded,
   } = useTreeView();
@@ -81,7 +81,7 @@ const TreeItemRender = ({
         clearTimeout(timer);
       }
     };
-  }, [isExpanded, loadOnDemand, nodeId, nodeName, nodeDepth]);
+  }, [isExpanded, loadOnDemand, node, nodeId, nodeName, nodeDepth]);
 
   return (
     <TreeItem
@@ -123,7 +123,21 @@ const TreeItemRender = ({
           </>
         );
       }}
-      {...rest}
+      sx={{
+        // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
+        '> :first-child:hover + [role="group"]': {
+          position: 'relative',
+          '::before': {
+            backgroundColor: colorStyle.background.highlighted,
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 20 + nodeDepth * 24 - (1/2), // Adjust the horizontal position based on depth
+            width: 1,
+          },
+        },
+      }}
     >
       {loadOnDemand
         ? <Box key="stub" />

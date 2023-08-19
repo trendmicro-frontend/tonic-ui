@@ -30,10 +30,11 @@ const expandableNodes = findExpandableNodeIds(treeNodes);
 const allNodes = Array.from(treeMap.keys());
 
 const TreeItemRender = ({
-  depth = 0,
   node,
-  ...rest
+  nodeDepth = 0,
 }) => {
+  const [colorStyle] = useColorStyle();
+
   return (
     <TreeItem
       key={node.id}
@@ -94,13 +95,27 @@ const TreeItemRender = ({
         '&[aria-selected="true"] > *:first-of-type:not(:hover)': {
           backgroundColor: 'transparent',
         },
+
+        // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
+        '> :first-child:hover + [role="group"]': {
+          position: 'relative',
+          '::before': {
+            backgroundColor: colorStyle.background.highlighted,
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 20 + nodeDepth * 24 - (1/2), // Adjust the horizontal position based on depth
+            width: 1,
+          },
+        },
       }}
     >
       {ensureArray(node.children).map(node => (
         <TreeItemRender
           key={node.id}
-          depth={depth + 1}
           node={node}
+          nodeDepth={nodeDepth + 1}
         />
       ))}
     </TreeItem>

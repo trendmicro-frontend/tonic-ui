@@ -1,5 +1,10 @@
 import { useColorMode } from '../color-mode';
 
+const useTreeItemStyle = () => {
+  return {
+  };
+};
+
 const useTreeItemContentStyle = ({
   isDisabled,
   isSelected,
@@ -91,6 +96,7 @@ const useTreeViewStyle = () => {
 };
 
 export {
+  useTreeItemStyle,
   useTreeItemContentStyle,
   useTreeItemToggleStyle,
   useTreeItemToggleIconStyle,
