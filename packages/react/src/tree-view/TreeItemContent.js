@@ -1,5 +1,5 @@
 import { callEventHandlers } from '@tonic-ui/utils';
-import { ensureArray, ensureFunction } from 'ensure-type';
+import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { useTheme } from '../theme';
@@ -11,7 +11,7 @@ const TreeItemContent = forwardRef((
   {
     onClick: onClickProp,
     onMouseDown: onMouseDownProp,
-    render: renderProp,
+    render: RenderComponent,
     sx: sxProp,
     ...rest
   },
@@ -87,7 +87,7 @@ const TreeItemContent = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {ensureFunction(renderProp)(context)}
+      {RenderComponent && <RenderComponent {...context} />}
     </Box>
   );
 });

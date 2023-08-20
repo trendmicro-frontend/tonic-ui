@@ -31,70 +31,72 @@ const TreeItemRender = ({
     <TreeItem
       key={node.id}
       nodeId={node.id}
-      render={({ isExpandable, isSelected }) => (
-        <>
-          <Flex
-            flex="none"
-            width="6x"
-          >
-            {isExpandable && (
-              <TreeItemToggle>
-                <TreeItemToggleIcon />
-              </TreeItemToggle>
-            )}
+      render={({ isExpandable, isSelected }) => {
+        return (
+          <Flex alignItems="center" width="100%">
+            <Flex
+              flex="none"
+              width="6x"
+            >
+              {isExpandable && (
+                <TreeItemToggle>
+                  <TreeItemToggleIcon />
+                </TreeItemToggle>
+              )}
+            </Flex>
+            <OverflowTooltip label={node.name}>
+              {({ ref, style }) => (
+                <Box
+                  ref={ref}
+                  {...style}
+                  flex="auto"
+                  fontWeight={isSelected ? 'semibold' : 'normal'}
+                >
+                  {node.name}
+                </Box>
+              )}
+            </OverflowTooltip>
+            <Flex
+              flex="none"
+              ml="2x"
+            >
+              <Menu>
+                <MenuToggle
+                  onClick={(event) => {
+                    // Uncomment the following line to prevent the tree node from being selected
+                    //event.stopPropagation();
+                  }}
+                  sx={{
+                    color: colorStyle.color.secondary,
+                    ':hover': {
+                      color: colorStyle.color.info,
+                    },
+                  }}
+                >
+                  <Icon icon="more" />
+                </MenuToggle>
+                <MenuList
+                  PopperProps={{
+                    usePortal: true,
+                  }}
+                  width="max-content"
+                >
+                  <MenuItem>
+                    <Flex alignItems="center" columnGap="2x">
+                      <Icon icon="edit" /> List item
+                    </Flex>
+                  </MenuItem>
+                  <MenuItem>
+                    <Flex alignItems="center" columnGap="2x">
+                      <Icon icon="edit" /> List item
+                    </Flex>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
           </Flex>
-          <OverflowTooltip label={node.name}>
-            {({ ref, style }) => (
-              <Box
-                ref={ref}
-                {...style}
-                flex="auto"
-                fontWeight={isSelected ? 'semibold' : 'normal'}
-              >
-                {node.name}
-              </Box>
-            )}
-          </OverflowTooltip>
-          <Flex
-            flex="none"
-            ml="2x"
-          >
-            <Menu>
-              <MenuToggle
-                onClick={(event) => {
-                  // Uncomment the following line to prevent the tree node from being selected
-                  //event.stopPropagation();
-                }}
-                sx={{
-                  color: colorStyle.color.secondary,
-                  ':hover': {
-                    color: colorStyle.color.info,
-                  },
-                }}
-              >
-                <Icon icon="more" />
-              </MenuToggle>
-              <MenuList
-                PopperProps={{
-                  usePortal: true,
-                }}
-                width="max-content"
-              >
-                <MenuItem>
-                  <Flex alignItems="center" columnGap="2x">
-                    <Icon icon="edit" /> List item
-                  </Flex>
-                </MenuItem>
-                <MenuItem>
-                  <Flex alignItems="center" columnGap="2x">
-                    <Icon icon="edit" /> List item
-                  </Flex>
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
-        </>
-      )}
+        );
+      }}
       sx={{
         // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
         '> :first-child:hover + [role="group"]': {

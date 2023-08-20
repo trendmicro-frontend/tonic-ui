@@ -45,7 +45,7 @@ const TreeItemRender = ({
         const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
 
         return (
-          <>
+          <Flex alignItems="center" width="100%">
             <Flex
               flex="none"
               width="6x"
@@ -69,7 +69,7 @@ const TreeItemRender = ({
                 </Box>
               )}
             </OverflowTooltip>
-          </>
+          </Flex>
         );
       }}
       sx={{

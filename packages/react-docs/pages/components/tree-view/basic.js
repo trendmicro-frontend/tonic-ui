@@ -26,32 +26,34 @@ const TreeItemRender = ({
     <TreeItem
       key={node.id}
       nodeId={node.id}
-      render={({ isExpandable, isSelected }) => (
-        <>
-          <Flex
-            flex="none"
-            width="6x"
-          >
-            {isExpandable && (
-              <TreeItemToggle>
-                <TreeItemToggleIcon />
-              </TreeItemToggle>
-            )}
-          </Flex>
-          <OverflowTooltip label={node.name}>
-            {({ ref, style }) => (
-              <Box
-                ref={ref}
-                {...style}
-                flex="auto"
-                fontWeight={isSelected ? 'semibold' : 'normal'}
-              >
-                {node.name}
+      render={({ isExpandable, isSelected }) => {
+        return (
+          <Flex alignItems="center" width="100%">
+            <Flex
+              flex="none"
+              width="6x"
+            >
+              {isExpandable && (
+                <TreeItemToggle>
+                  <TreeItemToggleIcon />
+                </TreeItemToggle>
+              )}
+            </Flex>
+            <OverflowTooltip label={node.name}>
+              {({ ref, style }) => (
+                <Box
+                  ref={ref}
+                  {...style}
+                  flex="auto"
+                  fontWeight={isSelected ? 'semibold' : 'normal'}
+                >
+                  {node.name}
               </Box>
-            )}
-          </OverflowTooltip>
-        </>
-      )}
+              )}
+            </OverflowTooltip>
+          </Flex>
+        );
+      }}
       sx={{
         // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
         '> :first-child:hover + [role="group"]': {

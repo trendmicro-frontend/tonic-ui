@@ -113,11 +113,11 @@ The following keyboard shortcuts are available:
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| ContentComponent | ElementType | TreeItemContent | The component used to render the content of the node. |
+| ContentComponent | ElementType | TreeItemContent | The component used to render the content. |
 | ContentProps | object | | Props applied to the content component. |
 | TransitionComponent | ElementType | Collapse | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| children | ReactNode | | The content of the node. |
-| disabled | bool | false | Determines if the node is disabled. |
+| children | ReactNode | | The children of the tree item. |
+| disabled | bool | false | Determines if the tree item is disabled. |
 | nodeId | string | | `REQUIRED` The id of the node. |
-| render | function | | `REQUIRED` A render function to render the node.<pre>`function(props: object) => ReactNode` <br /> • `props` The props passed to the render function.<br />    - nodeDepth: number<br />    - nodeId: string<br />    - isDisabled: boolean<br />    - isExpandable: boolean<br />    - isExpanded: boolean<br />    - isFocused: boolean<br />    - isSelected: boolean<br />    - select: function()<br />    - selectRange: function()<br />    - toggleExpansion: function()<br />    - toggleSelection: function()<br /></pre> |
+| render | `(props: TreeItemRenderProps) => ReactNode` | | `REQUIRED` A function component to render the tree item.<br /><pre>type TreeItemRenderProps = {'{'}<br />  nodeDepth: number;<br />  nodeId: string;<br />  isDisabled: boolean;<br />  isExpandable: boolean;<br />  isExpanded: boolean;<br />  isFocused: boolean;<br />  isSelected: boolean;<br />  select: () => void;<br />  selectRange: () => void;<br />  toggleExpansion: () => void;<br />  toggleSelection: () => void;<br />{'};'}</pre> |
