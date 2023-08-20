@@ -199,7 +199,7 @@ const App = () => {
           overflowY="auto"
         >
           <TreeView
-            aria-label="controlled tree view"
+            aria-label="controlled"
             isSelectable
             isUnselectable
             multiSelect

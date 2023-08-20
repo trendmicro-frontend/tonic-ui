@@ -181,7 +181,7 @@ const App = () => {
         overflowY="auto"
       >
         <TreeView
-          aria-label="lazy loading"
+          aria-label="load on demand"
           isSelectable
           isUnselectable
           expandedNodes={expandedNodes}

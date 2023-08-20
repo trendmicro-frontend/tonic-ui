@@ -138,7 +138,7 @@ const App = () => {
         overflowY="auto"
       >
         <TreeView
-          aria-label="basic tree view"
+          aria-label="dropdown"
           defaultExpandedNodes={expandableNodeIds}
           isSelectable
           isUnselectable

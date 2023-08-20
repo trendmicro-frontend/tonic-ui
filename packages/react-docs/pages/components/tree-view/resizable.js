@@ -139,7 +139,7 @@ const App = () => {
           overflowY="auto"
         >
           <TreeView
-            aria-label="resizable tree view"
+            aria-label="resizable"
             defaultExpandedNodes={expandableNodes}
             isSelectable
             isUnselectable={false}
