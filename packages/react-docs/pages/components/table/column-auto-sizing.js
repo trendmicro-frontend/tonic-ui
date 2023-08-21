@@ -19,6 +19,7 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
@@ -262,7 +263,12 @@ const App = () => {
           <Table
             layout={layout}
             variant={variant}
-            width={width}
+            sx={{
+              // Hide the table if there is no column sizing state
+              visibility: _.isEmpty(table.getState().columnSizing) ? 'hidden' : 'visible',
+
+              width,
+            }}
           >
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
