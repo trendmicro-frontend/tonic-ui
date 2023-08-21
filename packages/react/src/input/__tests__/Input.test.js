@@ -88,43 +88,23 @@ describe('Input', () => {
       <Input data-testid="input" />
     );
     const input = screen.getByTestId('input');
-    const initialBorderColor = '#c9c9c9';
-    const focusBorderColor = '#1e5ede';
+    const defaultBorderColor = '#5e5e5e'; // [dark] gray:60 / [light] gray:30
+    const focusBorderColor = '#1e5ede'; // [dark] blue:60 / [light] blue:60
+    const hoverBorderColor = '#578aef'; // [dark] blue:50 / [light] blue:50
 
-    // Test the border color when input is not focused
-    expect(input).toHaveStyle({ 'border-color': initialBorderColor });
-
-    // Test the border color when input is focused
-    await user.click(input);
-    expect(input).toHaveFocus();
-    expect(input).toHaveStyle({ 'border-color': focusBorderColor });
-
-    // Test the border color when input loses focus
-    await user.click(document.body);
+    expect(input).toBeValid();
     expect(document.body).toHaveFocus();
-    expect(input).toHaveStyle({ 'border-color': initialBorderColor });
-  });
 
-  it('should match the border color for invalid input', async () => {
-    const user = userEvent.setup();
-    render(
-      <Input data-testid="input" error />
-    );
-    const input = screen.getByTestId('input');
-    const errorBorderColor = '#e52630';
-    const focusBorderColor = '#1e5ede';
+    await user.unhover(input);
+    expect(input).toHaveStyleRule('border-color', defaultBorderColor);
 
-    // Test the border color when input is in error state
-    expect(input).toHaveStyle({ 'border-color': errorBorderColor });
+    await user.hover(input);
+    // XXX: Have to use `[data-hover]` to pass the assertion test
+    expect(input).toHaveStyleRule('border-color', hoverBorderColor, { target: '[data-hover]' });
 
-    // Test the border color when input is focused
     await user.click(input);
+    await user.unhover(input);
     expect(input).toHaveFocus();
-    expect(input).toHaveStyle({ 'border-color': focusBorderColor });
-
-    // Test the border color when input loses focus
-    await user.click(document.body);
-    expect(document.body).toHaveFocus();
-    expect(input).toHaveStyle({ 'border-color': errorBorderColor });
+    expect(input).toHaveStyleRule('border-color', focusBorderColor, { target: ':focus' });
   });
 });

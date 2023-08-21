@@ -6,9 +6,9 @@ exports[`Tooltip should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-gray-20);
+  background-color: var(--tonic-colors-gray-60);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-black-emphasis);
+  color: var(--tonic-colors-white-emphasis);
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -42,8 +42,8 @@ exports[`Tooltip should render correctly 1`] = `
 
 .emotion-0[aria-selected=true],
 .emotion-0[data-selected] {
-  background-color: var(--tonic-colors-gray-30);
-  color: var(--tonic-colors-black-emphasis);
+  background-color: var(--tonic-colors-gray-70);
+  color: var(--tonic-colors-white-emphasis);
   pointer-events: none;
 }
 
@@ -55,18 +55,18 @@ exports[`Tooltip should render correctly 1`] = `
 .emotion-0:focus:not(:active),
 .emotion-0[data-focus]:not(:active) {
   border-color: var(--tonic-colors-blue-60);
-  box-shadow: inset 0 0 0 .0625rem #1e5ede,inset 0 0 0 .125rem rgba(255, 255, 255, 1.0);
+  box-shadow: inset 0 0 0 .0625rem #1e5ede,inset 0 0 0 .125rem rgba(0, 0, 0, 1.0);
 }
 
 .emotion-0:hover,
 .emotion-0[data-hover] {
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-50);
   z-index: 2;
 }
 
 .emotion-0:active,
 .emotion-0[data-active] {
-  background-color: var(--tonic-colors-gray-30);
+  background-color: var(--tonic-colors-gray-70);
 }
 
 .emotion-0:disabled,
@@ -76,10 +76,10 @@ exports[`Tooltip should render correctly 1`] = `
 .emotion-0[aria-disabled=true]:focus,
 .emotion-0[aria-disabled=true]:hover,
 .emotion-0[data-disabled] {
-  background-color: var(--tonic-colors-gray-20);
-  color: var(--tonic-colors-black-emphasis);
+  background-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-emphasis);
   cursor: not-allowed;
-  opacity: 0.3;
+  opacity: 0.28;
 }
 
 .emotion-2 {
@@ -89,10 +89,10 @@ exports[`Tooltip should render correctly 1`] = `
 }
 
 .emotion-4 {
-  background-color: var(--tonic-colors-gray-70);
+  background-color: var(--tonic-colors-gray-10);
   border-radius: var(--tonic-radii-sm);
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16),0 1px 2px 0 rgba(0, 0, 0, 0.08);
-  color: var(--tonic-colors-white-primary);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.48),0 1px 2px 0 rgba(0, 0, 0, 0.16);
+  color: var(--tonic-colors-black-primary);
   font-weight: var(--tonic-fontWeights-normal);
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
@@ -101,10 +101,10 @@ exports[`Tooltip should render correctly 1`] = `
   padding-top: var(--tonic-space-1x);
   padding-bottom: var(--tonic-space-1x);
   opacity: 1;
-  -webkit-transform: scale(1, 1);
-  -moz-transform: scale(1, 1);
-  -ms-transform: scale(1, 1);
-  transform: scale(1, 1);
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
   -webkit-transition: opacity cubic-bezier(0.4, 0, 0.2, 1),-webkit-transform cubic-bezier(0.4, 0, 0.2, 1);
   transition: opacity cubic-bezier(0.4, 0, 0.2, 1),transform cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: top center;
@@ -120,8 +120,8 @@ exports[`Tooltip should render correctly 1`] = `
   border-top: 4px solid;
   border-left: calc(8px/2) solid transparent;
   border-right: calc(8px/2) solid transparent;
-  -webkit-filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.08));
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.08));
+  -webkit-filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
   bottom: calc(4px * -1);
   -webkit-transform: translateX(-50%);
@@ -140,8 +140,8 @@ exports[`Tooltip should render correctly 1`] = `
   border-bottom: 4px solid;
   border-left: calc(8px/2) solid transparent;
   border-right: calc(8px/2) solid transparent;
-  -webkit-filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.08));
-  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.08));
+  -webkit-filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
   top: calc(4px * -1);
   -webkit-transform: translateX(-50%);
@@ -160,8 +160,8 @@ exports[`Tooltip should render correctly 1`] = `
   border-left: 4px solid;
   border-top: calc(8px/2) solid transparent;
   border-bottom: calc(8px/2) solid transparent;
-  -webkit-filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.08));
-  filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.08));
+  -webkit-filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
   right: calc(4px * -1);
   -webkit-transform: translateY(-50%);
@@ -180,8 +180,8 @@ exports[`Tooltip should render correctly 1`] = `
   border-right: 4px solid;
   border-top: calc(8px/2) solid transparent;
   border-bottom: calc(8px/2) solid transparent;
-  -webkit-filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.08));
-  filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.08));
+  -webkit-filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
   left: calc(4px * -1);
   -webkit-transform: translateY(-50%);

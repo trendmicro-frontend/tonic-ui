@@ -1,29 +1,40 @@
-import '@testing-library/jest-dom/extend-expect';
+import { matchers } from '@emotion/jest';
+import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { toHaveNoViolations } from 'jest-axe';
 import * as React from 'react';
-import { TonicProvider, theme } from '../src';
+import {
+  PortalManager,
+  ToastManager,
+  TonicProvider,
+  theme,
+} from '../src';
 
-expect.extend(toHaveNoViolations);
+// https://emotion.sh/docs/@emotion/jest#tohavestylerule
+//
+// Add the custom matchers provided by '@emotion/jest'
+expect.extend(matchers);
 
 const customRender = (ui, options) => {
-  let wrapper = TonicProvider;
-  const useCSSVariables = options?.useCSSVariables;
-  if (useCSSVariables) {
-    wrapper = ({ children }) => (
-      <TonicProvider
-        theme={{
-          ...theme,
-          config: {
-            ...theme.config,
-            useCSSVariables: true,
-          },
-        }}
-      >
-        {children}
-      </TonicProvider>
-    );
-  }
+  const wrapper = ({ children }) => (
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark',
+      }}
+      theme={{
+        ...theme,
+        config: {
+          ...theme.config,
+          useCSSVariables: options?.useCSSVariables,
+        },
+      }}
+    >
+      <PortalManager>
+        <ToastManager>
+          {children}
+        </ToastManager>
+      </PortalManager>
+    </TonicProvider>
+  );
 
   return render(ui, { wrapper, ...options });
 };

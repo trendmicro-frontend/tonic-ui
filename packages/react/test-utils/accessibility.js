@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom/extend-expect';
 import { act } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import * as React from 'react';

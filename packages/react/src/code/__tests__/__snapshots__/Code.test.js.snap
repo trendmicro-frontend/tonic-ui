@@ -2,9 +2,9 @@
 
 exports[`Code should render correctly 1`] = `
 .emotion-0 {
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   font-family: var(--tonic-fonts-mono);
   padding-left: var(--tonic-space-1x);
   padding-right: var(--tonic-space-1x);

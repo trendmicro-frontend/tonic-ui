@@ -16,35 +16,35 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-6x);
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-0:invalid,
 .emotion-0[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-0::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-0::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-0:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-0::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -67,7 +67,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-0[aria-disabled=true]:focus,
 .emotion-0[aria-disabled=true]:hover,
 .emotion-0[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -79,7 +79,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-0:hover:has(> input:invalid),
 .emotion-0:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-0:hover:has(> input:focus:invalid),
@@ -119,35 +119,35 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-6x);
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-80);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-4:invalid,
 .emotion-4[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-4::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-4::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-4:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-4::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -170,7 +170,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-4[aria-disabled=true]:focus,
 .emotion-4[aria-disabled=true]:hover,
 .emotion-4[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -182,7 +182,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-4:hover:has(> input:invalid),
 .emotion-4:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-4:hover:has(> input:focus:invalid),
@@ -205,34 +205,34 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-6x);
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-30);
-  color: var(--tonic-colors-black-primary);
+  border-bottom-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-8:invalid,
 .emotion-8[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-8::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-8::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-8:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-8::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -255,7 +255,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-8[aria-disabled=true]:focus,
 .emotion-8[aria-disabled=true]:hover,
 .emotion-8[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -267,7 +267,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-8:hover:has(> input:invalid),
 .emotion-8:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-8:hover:has(> input:focus:invalid),
@@ -304,9 +304,9 @@ exports[`InputControl should render correctly 1`] = `
   transition: all .2s;
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: 0;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-16 {
@@ -324,35 +324,35 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-8x);
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-16:invalid,
 .emotion-16[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-16::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-16::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-16:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-16::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -375,7 +375,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-16[aria-disabled=true]:focus,
 .emotion-16[aria-disabled=true]:hover,
 .emotion-16[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -387,7 +387,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-16:hover:has(> input:invalid),
 .emotion-16:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-16:hover:has(> input:focus:invalid),
@@ -410,35 +410,35 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-8x);
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-80);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-20:invalid,
 .emotion-20[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-20::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-20::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-20:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-20::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -461,7 +461,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-20[aria-disabled=true]:focus,
 .emotion-20[aria-disabled=true]:hover,
 .emotion-20[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -473,7 +473,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-20:hover:has(> input:invalid),
 .emotion-20:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-20:hover:has(> input:focus:invalid),
@@ -496,34 +496,34 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-8x);
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-30);
-  color: var(--tonic-colors-black-primary);
+  border-bottom-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-24:invalid,
 .emotion-24[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-24::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-24::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-24:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-24::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -546,7 +546,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-24[aria-disabled=true]:focus,
 .emotion-24[aria-disabled=true]:hover,
 .emotion-24[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -558,7 +558,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-24:hover:has(> input:invalid),
 .emotion-24:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-24:hover:has(> input:focus:invalid),
@@ -581,35 +581,35 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-md);
   line-height: var(--tonic-lineHeights-md);
   height: var(--tonic-sizes-10x);
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-32:invalid,
 .emotion-32[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-32::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-32::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-32:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-32::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -632,7 +632,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-32[aria-disabled=true]:focus,
 .emotion-32[aria-disabled=true]:hover,
 .emotion-32[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -644,7 +644,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-32:hover:has(> input:invalid),
 .emotion-32:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-32:hover:has(> input:focus:invalid),
@@ -684,35 +684,35 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-md);
   line-height: var(--tonic-lineHeights-md);
   height: var(--tonic-sizes-10x);
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-80);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-36:invalid,
 .emotion-36[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-36::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-36::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-36:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-36::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -735,7 +735,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-36[aria-disabled=true]:focus,
 .emotion-36[aria-disabled=true]:hover,
 .emotion-36[data-disabled] {
-  border-color: var(--tonic-colors-gray-30);
+  border-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -747,7 +747,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-36:hover:has(> input:invalid),
 .emotion-36:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-60);
+  border-color: var(--tonic-colors-red-50);
 }
 
 .emotion-36:hover:has(> input:focus:invalid),
@@ -770,34 +770,34 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-md);
   line-height: var(--tonic-lineHeights-md);
   height: var(--tonic-sizes-10x);
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-30);
-  color: var(--tonic-colors-black-primary);
+  border-bottom-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-40:invalid,
 .emotion-40[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-40::-webkit-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-40::-moz-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-40:-ms-input-placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
 .emotion-40::placeholder {
-  color: var(--tonic-colors-black-tertiary);
+  color: var(--tonic-colors-white-tertiary);
   opacity: 1;
 }
 
@@ -820,7 +820,7 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-40[aria-disabled=true]:focus,
 .emotion-40[aria-disabled=true]:hover,
 .emotion-40[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-30);
+  border-bottom-color: var(--tonic-colors-gray-60);
   cursor: not-allowed;
   opacity: .28;
 }
@@ -832,7 +832,7 @@ exports[`InputControl should render correctly 1`] = `
 
 .emotion-40:hover:has(> input:invalid),
 .emotion-40:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-red-60);
+  border-bottom-color: var(--tonic-colors-red-50);
 }
 
 .emotion-40:hover:has(> input:focus:invalid),
@@ -869,9 +869,9 @@ exports[`InputControl should render correctly 1`] = `
   transition: all .2s;
   font-size: var(--tonic-fontSizes-md);
   line-height: var(--tonic-lineHeights-md);
-  background-color: white;
+  background-color: var(--tonic-colors-transparent);
   border: 0;
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
 }
 
 <div>

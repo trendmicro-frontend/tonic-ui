@@ -53,11 +53,11 @@ exports[`Switch should render correctly 1`] = `
 }
 
 input[type=checkbox]:focus+.emotion-4 [data-switch] [data-switch-track-halo] {
-  fill: var(--tonic-colors-blue-40);
+  fill: var(--tonic-colors-blue-60);
 }
 
 input[type=checkbox]:focus+.emotion-4 [data-switch] [data-switch-track-border] {
-  fill: white;
+  fill: black;
 }
 
 input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-4 [data-switch] [data-switch-track] {
@@ -69,7 +69,7 @@ input[type=checkbox]:disabled+.emotion-4 {
 }
 
 input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-4 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-30);
+  fill: var(--tonic-colors-blue-50);
 }
 
 .emotion-4>* {
@@ -77,7 +77,7 @@ input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-4 [data-s
 }
 
 input[type=checkbox]:checked+.emotion-4 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-40);
+  fill: var(--tonic-colors-blue-60);
 }
 
 input[type=checkbox]:checked+.emotion-4 [data-switch] [data-switch-thumb] {
@@ -115,7 +115,7 @@ input[type=checkbox][data-indeterminate]+.emotion-4>* {
 .emotion-12 {
   width: 32px;
   height: 16px;
-  fill: var(--tonic-colors-gray-30);
+  fill: var(--tonic-colors-gray-60);
   pointer-events: all;
 }
 
@@ -166,11 +166,11 @@ input[type=checkbox][data-indeterminate]+.emotion-4>* {
 }
 
 input[type=checkbox]:focus+.emotion-22 [data-switch] [data-switch-track-halo] {
-  fill: var(--tonic-colors-blue-40);
+  fill: var(--tonic-colors-blue-60);
 }
 
 input[type=checkbox]:focus+.emotion-22 [data-switch] [data-switch-track-border] {
-  fill: white;
+  fill: black;
 }
 
 input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-22 [data-switch] [data-switch-track] {
@@ -182,7 +182,7 @@ input[type=checkbox]:disabled+.emotion-22 {
 }
 
 input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-22 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-30);
+  fill: var(--tonic-colors-blue-50);
 }
 
 .emotion-22>* {
@@ -190,7 +190,7 @@ input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-22 [data-
 }
 
 input[type=checkbox]:checked+.emotion-22 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-40);
+  fill: var(--tonic-colors-blue-60);
 }
 
 input[type=checkbox]:checked+.emotion-22 [data-switch] [data-switch-thumb] {
@@ -223,7 +223,7 @@ input[type=checkbox][data-indeterminate]+.emotion-22>* {
 .emotion-30 {
   width: 48px;
   height: 24px;
-  fill: var(--tonic-colors-gray-30);
+  fill: var(--tonic-colors-gray-60);
   pointer-events: all;
 }
 
@@ -254,11 +254,11 @@ input[type=checkbox][data-indeterminate]+.emotion-22>* {
 }
 
 input[type=checkbox]:focus+.emotion-40 [data-switch] [data-switch-track-halo] {
-  fill: var(--tonic-colors-blue-40);
+  fill: var(--tonic-colors-blue-60);
 }
 
 input[type=checkbox]:focus+.emotion-40 [data-switch] [data-switch-track-border] {
-  fill: white;
+  fill: black;
 }
 
 input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-40 [data-switch] [data-switch-track] {
@@ -270,7 +270,7 @@ input[type=checkbox]:disabled+.emotion-40 {
 }
 
 input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-40 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-30);
+  fill: var(--tonic-colors-blue-50);
 }
 
 .emotion-40>* {
@@ -278,7 +278,7 @@ input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-40 [data-
 }
 
 input[type=checkbox]:checked+.emotion-40 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-40);
+  fill: var(--tonic-colors-blue-60);
 }
 
 input[type=checkbox]:checked+.emotion-40 [data-switch] [data-switch-thumb] {
@@ -311,7 +311,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
 .emotion-48 {
   width: 64px;
   height: 32px;
-  fill: var(--tonic-colors-gray-30);
+  fill: var(--tonic-colors-gray-60);
   pointer-events: all;
 }
 
