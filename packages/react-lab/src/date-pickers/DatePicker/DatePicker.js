@@ -9,6 +9,7 @@ import parse from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import config from '../../shared/config';
 import useAutoId from '../../utils/useAutoId';
 import Calendar from '../Calendar';
 import { validateDate } from '../validation';
@@ -16,8 +17,6 @@ import DatePickerContent from './DatePickerContent';
 import DatePickerToggle from './DatePickerToggle';
 import { DatePickerProvider } from './context';
 import { useDatePickerStyle } from './styles';
-
-const name = '@tonic-ui/react-lab'; // XXX
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -185,8 +184,8 @@ const DatePicker = forwardRef((
   }, [onOpen]);
 
   const defaultId = useAutoId();
-  const datePickerContentId = `${name}:DatePickerContent-${defaultId}`;
-  const datePickerToggleId = `${name}:DatePickerToggle-${defaultId}`;
+  const datePickerContentId = `${config.name}:DatePickerContent-${defaultId}`;
+  const datePickerToggleId = `${config.name}:DatePickerToggle-${defaultId}`;
   const context = getMemoizedState({
     isOpen,
     offset,
