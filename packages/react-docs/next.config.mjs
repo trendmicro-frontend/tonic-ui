@@ -17,6 +17,8 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import { visit } from 'unist-util-visit';
 
+const getIsDirectory = x => fs.existsSync(x) && fs.lstatSync(x).isDirectory();
+
 const mapMarkdownToSyntaxTree = (markdown) => {
   const tree = fromMarkdown(markdown.trim(), {
     // https://github.com/syntax-tree/mdast-util-from-markdown#options
@@ -80,7 +82,7 @@ const extractLocalImportFiles = (content, options) => {
 
       const filepath = (() => {
         const importPath = localImportMatch.groups.importPath;
-        const isDirectory = fs.existsSync(path.resolve(rootdir, importPath)) && fs.lstatSync(path.resolve(rootdir, importPath)).isDirectory();
+        const isDirectory = getIsDirectory(path.resolve(rootdir, importPath));
         if (isDirectory) {
           return path.resolve(rootdir, importPath, 'index.js');
         }
@@ -118,7 +120,6 @@ const withMDX = mdxPlugin({
       () => {
         return (tree, file) => {
           const rootdir = process.cwd();
-          const filedir = path.dirname(file.path);
 
           let renderExpressionCount = 0;
 
@@ -152,6 +153,7 @@ const withMDX = mdxPlugin({
 
             const importName = `DemoComponent$${index}`;
             const importPath = results[1];
+
             newNode = {
               type: 'mdxjsEsm',
               value: `import ${importName} from '${importPath}'`,
@@ -167,7 +169,8 @@ const withMDX = mdxPlugin({
             renderExpressionCount++;
 
             const filepath = (() => {
-              const isDirectory = fs.existsSync(path.resolve(filedir, importPath)) && fs.lstatSync(path.resolve(filedir, importPath)).isDirectory();
+              const filedir = path.dirname(file.path);
+              const isDirectory = getIsDirectory(path.resolve(filedir, importPath));
               if (isDirectory) {
                 return path.resolve(filedir, importPath, 'index.js');
               }
@@ -176,6 +179,7 @@ const withMDX = mdxPlugin({
               }
               return path.resolve(filedir, importPath);
             })();
+            const filedir = path.dirname(filepath);
 
             const data = fs.readFileSync(filepath, 'utf8').trim();
             const sandbox = {};
