@@ -6,7 +6,6 @@ import React, { forwardRef, isValidElement, useCallback, useEffect, useMemo, use
 import { Box } from '../box';
 import { Collapse } from '../transitions';
 import { Descendant, useDescendant } from '../utils/descendant';
-import TreeItemContent from './TreeItemContent';
 import { TreeItemContext } from './context';
 import { useTreeItemStyle } from './styles';
 import useTreeView from './useTreeView';
@@ -15,8 +14,6 @@ const getMemoizedState = memoize(state => ({ ...state }));
 
 const TreeItem = forwardRef((
   {
-    ContentComponent = TreeItemContent,
-    ContentProps,
     TransitionComponent = Collapse,
     TransitionProps,
     children,
@@ -154,6 +151,7 @@ const TreeItem = forwardRef((
 
   const styleProps = useTreeItemStyle();
   const context = getMemoizedState({
+    contentRef,
     isDisabled,
     isExpandable,
     isExpanded,
@@ -174,20 +172,12 @@ const TreeItem = forwardRef((
         aria-disabled={ariaAttr(isDisabled)}
         aria-expanded={ariaAttr(isExpanded)}
         aria-selected={ariaAttr(isSelected)}
-        data-tree-node-depth={nodeDepth}
-        data-tree-node-id={nodeId}
         id={idAttr}
         role="treeitem"
         {...styleProps}
         {...rest}
       >
-        <ContentComponent
-          ref={contentRef}
-          {...ContentProps}
-          nodeDepth={nodeDepth}
-          nodeId={nodeId}
-          render={render}
-        />
+        {typeof render === 'function' && render(context)}
         {!!isExpandable && (
           <Descendant
             depth={nodeDepth}

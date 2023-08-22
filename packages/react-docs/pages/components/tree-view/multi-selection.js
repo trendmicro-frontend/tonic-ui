@@ -5,6 +5,7 @@ import {
   OverflowTooltip,
   Scrollbar,
   TreeItem,
+  TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
   TreeView,
@@ -37,7 +38,23 @@ const TreeItemRender = ({
         const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
 
         return (
-          <Flex alignItems="center" width="100%">
+          <TreeItemContent
+            sx={{
+              // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
+              ':hover + [role="group"]': {
+                position: 'relative',
+                '::before': {
+                  backgroundColor: colorStyle.background.highlighted,
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  bottom: 0,
+                  left: 20 + nodeDepth * 24 - (1/2), // Adjust the horizontal position based on depth
+                  width: 1,
+                },
+              },
+            }}
+          >
             <Flex
               flex="none"
               width="6x"
@@ -61,23 +78,8 @@ const TreeItemRender = ({
                 </Box>
               )}
             </OverflowTooltip>
-          </Flex>
+          </TreeItemContent>
         );
-      }}
-      sx={{
-        // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
-        '> :first-child:hover + [role="group"]': {
-          position: 'relative',
-          '::before': {
-            backgroundColor: colorStyle.background.highlighted,
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 20 + nodeDepth * 24 - (1/2), // Adjust the horizontal position based on depth
-            width: 1,
-          },
-        },
       }}
     >
       {ensureArray(node.children).map(node => (

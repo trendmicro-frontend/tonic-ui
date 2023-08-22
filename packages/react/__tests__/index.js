@@ -263,6 +263,7 @@ test('should match expected exports', () => {
 
     // treeview
     'TreeItem',
+    'TreeItemContent',
     'TreeItemToggle',
     'TreeItemToggleIcon',
     'TreeView',

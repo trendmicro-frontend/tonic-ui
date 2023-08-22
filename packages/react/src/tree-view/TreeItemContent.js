@@ -1,6 +1,6 @@
 import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useCallback } from 'react';
+import React, { forwardRef, useCallback, useMemo } from 'react';
 import { Box } from '../box';
 import { useTheme } from '../theme';
 import { useTreeItemContentStyle } from './styles';
@@ -11,7 +11,6 @@ const TreeItemContent = forwardRef((
   {
     onClick: onClickProp,
     onMouseDown: onMouseDownProp,
-    render: RenderComponent,
     sx: sxProp,
     ...rest
   },
@@ -62,7 +61,7 @@ const TreeItemContent = forwardRef((
 
   const tabIndex = -1;
   const styleProps = useTreeItemContentStyle({ isDisabled, isSelected, tabIndex });
-  const sxProps = [
+  const sxProps = useMemo(() => ([
     {
       pl: `calc(${nodeDepth} * ${sizes['6x']} + ${sizes['3x']})`,
       pr: `calc(${sizes['3x']})`,
@@ -75,7 +74,7 @@ const TreeItemContent = forwardRef((
       },
     },
     ...ensureArray(sxProp),
-  ];
+  ]), [nodeDepth, sizes, sxProp]);
 
   return (
     <Box
@@ -86,9 +85,7 @@ const TreeItemContent = forwardRef((
       sx={sxProps}
       {...styleProps}
       {...rest}
-    >
-      {RenderComponent && <RenderComponent {...context} />}
-    </Box>
+    />
   );
 });
 

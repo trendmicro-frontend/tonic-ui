@@ -47,14 +47,17 @@ When using checkboxes for multi-selection, consider hiding the background color 
 <TreeItem
   key={node.id}
   nodeId={node.id}
-  render={({ isExpanded, isSelected, select }) => {
-    // Your tree node render function
-  }}
-  sx={{
-    // Hide the background color of the tree node when the checkbox is selected
-    '&[aria-selected="true"] > *:first-of-type:not(:hover)': {
-      backgroundColor: 'transparent',
-    },
+  render={({ isSelected }) => {
+    return (
+      <TreeItemContent
+        sx={{
+          // Hide the background color of the tree node when the checkbox is selected
+          backgroundColor: isSelected ? 'transparent' : undefined,
+        }}
+      >
+        {/* Render your tree node content */}
+      </TreeItemContent>
+    );
   }}
 />
 ```
@@ -70,6 +73,12 @@ When using checkboxes for multi-selection, consider hiding the background color 
 In typical use cases, you can resize the tree view with a minimum width of `160px` and a maximum width of `40%` of the display area. Customize the width and height as needed to match your design and layout requirements.
 
 {render('./resizable')}
+
+### Moving items through drag and drop (DnD)
+
+Select items from the right table and move them to a tree node on the left using drag-and-drop (DnD) interaction.
+
+{render('./dnd')}
 
 ### Load on demand
 
@@ -113,11 +122,15 @@ The following keyboard shortcuts are available:
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| ContentComponent | ElementType | TreeItemContent | The component used to render the content. |
-| ContentProps | object | | Props applied to the content component. |
 | TransitionComponent | ElementType | Collapse | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | children | ReactNode | | The children of the tree item. |
 | disabled | bool | false | Determines if the tree item is disabled. |
 | nodeId | string | | `REQUIRED` The id of the node. |
-| render | `(props: TreeItemRenderProps) => ReactNode` | | `REQUIRED` A function component to render the tree item.<br /><pre>type TreeItemRenderProps = {'{'}<br />  nodeDepth: number;<br />  nodeId: string;<br />  isDisabled: boolean;<br />  isExpandable: boolean;<br />  isExpanded: boolean;<br />  isFocused: boolean;<br />  isSelected: boolean;<br />  select: () => void;<br />  selectRange: () => void;<br />  toggleExpansion: () => void;<br />  toggleSelection: () => void;<br />{'};'}</pre> |
+| render | `(context: TreeItemContext) => ReactNode` | | `REQUIRED` A function to render the tree item content.<br /><pre>type TreeItemContext = {'{'}<br />  nodeDepth: number;<br />  nodeId: string;<br />  isDisabled: boolean;<br />  isExpandable: boolean;<br />  isExpanded: boolean;<br />  isFocused: boolean;<br />  isSelected: boolean;<br />  select: () => void;<br />  selectRange: () => void;<br />  toggleExpansion: () => void;<br />  toggleSelection: () => void;<br />{'};'}</pre> |
+
+### TreeItemContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The children of the tree item content. |
