@@ -12,31 +12,7 @@ import {
 } from '@tonic-ui/react';
 import { ensureArray } from 'ensure-type';
 import React, { useCallback } from 'react';
-import { useDrop } from 'react-dnd';
-
-const Droppable = ({
-  canDrop: canDropProp,
-  children,
-  onDrop: onDropProp,
-}) => {
-  const [collectedProps, dropRef] = useDrop({
-    accept: 'dnd',
-    drop: onDropProp,
-    canDrop: canDropProp,
-    collect: (monitor) => {
-      // DropTargetMonitor
-      // https://react-dnd.github.io/react-dnd/docs/api/drop-target-monitor
-      return {
-        isOver: monitor.isOver(),
-      };
-    },
-  });
-
-  return children({
-    dropRef,
-    isOver: collectedProps.isOver,
-  });
-};
+import Droppable from './Droppable';
 
 const TreeItemRender = ({
   node,
@@ -126,7 +102,7 @@ const TreeItemRender = ({
   );
 };
 
-const DndTree = ({
+const Component = ({
   data,
   onNodeDrop: onNodeDropProp,
   onNodeSelect: onNodeSelectProp,
@@ -164,4 +140,4 @@ const DndTree = ({
   );
 };
 
-export default DndTree;
+export default Component;

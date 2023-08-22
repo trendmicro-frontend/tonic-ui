@@ -14,14 +14,16 @@ import {
 import { ensureArray } from 'ensure-type';
 import _ from 'lodash';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { DndProvider, useDragLayer } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import templateTreeNodes from './data/tree-nodes.json';
-import DndTable from './dnd-table';
-import DndTree from './dnd-tree';
+import templateTreeNodes from '../data/tree-nodes.json';
 import {
   buildTreeMap,
-} from './utils';
+} from '../utils';
+import TableView from './TableView';
+import TreeView from './TreeView';
+import DragLayer from './DragLayer';
+import useRefresh from './useRefresh';
 
 const buildTreeNodes = (source) => {
   const threatTypes = [
@@ -71,50 +73,6 @@ const buildTreeNodes = (source) => {
   return treeNodes;
 };
 
-const useRefresh = () => {
-  const [, rerender] = useState();
-  return useCallback(() => {
-    rerender({});
-  }, []);
-};
-
-const CustomDragLayer = ({
-  children,
-}) => {
-  const context = useDragLayer((monitor) => ({
-    isDragging: monitor.isDragging(),
-    item: monitor.getItem(),
-    itemType: monitor.getItemType(),
-    initialSourceClientOffset: monitor.getInitialSourceClientOffset(),
-    sourceClientOffset: monitor.getSourceClientOffset(),
-  }));
-
-  const { isDragging, initialSourceClientOffset, sourceClientOffset } = context;
-  if (!isDragging) {
-    return null;
-  }
-
-  return (
-    <Box
-      sx={{
-        pointerEvents: 'none',
-        position: 'fixed',
-        inset: 0,
-        zIndex: 'fixed',
-      }}
-    >
-      <Box
-        style={{
-          display: (!initialSourceClientOffset || !sourceClientOffset) ? 'none' : 'block',
-          transform: `translate(${sourceClientOffset.x}px, ${sourceClientOffset.y}px)`,
-        }}
-      >
-        {typeof children === 'function' ? children(context) : children}
-      </Box>
-    </Box>
-  );
-};
-
 const App = () => {
   const treeNodes = useConst(() => buildTreeNodes(templateTreeNodes));
   const treeMap = useMemo(() => {
@@ -159,9 +117,9 @@ const App = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <CustomDragLayer>
+      <DragLayer>
         {({ item }) => {
-          // Custom drag layer is not rendered when nothing is being dragged
+          // Drag layer is not rendered when nothing is being dragged
           const movedItemCount = ensureArray(item.data).length;
           return (
             <Flex alignItems="center" columnGap="1x">
@@ -170,7 +128,7 @@ const App = () => {
             </Flex>
           );
         }}
-      </CustomDragLayer>
+      </DragLayer>
       <Flex
         ref={containerRef}
         sx={{
@@ -190,7 +148,7 @@ const App = () => {
             overflowX="hidden"
             overflowY="auto"
           >
-            <DndTree
+            <TreeView
               data={treeNodes}
               onNodeDrop={handleNodeDrop}
               onNodeSelect={handleNodeSelect}
@@ -238,7 +196,7 @@ const App = () => {
               zIndex: 1,
             }}
           />
-          <DndTable
+          <TableView
             key={selectedNodeId} // Force re-render when selected node changes
             node={treeMap.get(selectedNodeId)}
             data={tableData}
