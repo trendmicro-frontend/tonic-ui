@@ -31,11 +31,11 @@ describe('Alert', () => {
 
     render(<TestComponent onClose={handleClose} />);
 
-    const alertElement = await screen.getByTestId('alert');
+    const alertElement = screen.getByTestId('alert');
     expect(alertElement).toBeInTheDocument();
     expect(alertElement).toHaveTextContent(message);
 
-    const closeButton = await screen.getByRole('button');
+    const closeButton = screen.getByRole('button');
     await user.click(closeButton);
     expect(handleClose).toHaveBeenCalledTimes(1);
 

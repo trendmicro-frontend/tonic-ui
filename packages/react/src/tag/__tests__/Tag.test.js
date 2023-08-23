@@ -29,11 +29,11 @@ describe('Tag', () => {
 
     render(<TestComponent onClose={handleClose} />);
 
-    const tagElement = await screen.getByTestId('tag');
+    const tagElement = screen.getByTestId('tag');
     expect(tagElement).toBeInTheDocument();
     expect(tagElement).toHaveTextContent(message);
 
-    const closeButton = await screen.getByRole('button');
+    const closeButton = screen.getByRole('button');
     await user.click(closeButton);
     expect(handleClose).toHaveBeenCalledTimes(1);
 

@@ -49,7 +49,7 @@ describe('ToastManager', () => {
     await user.click(button);
 
     const toastPlacementElement = document.querySelector(`[data-toast-placement="${placement}"]`);
-    const toastElement = await screen.getByTestId('toast');
+    const toastElement = screen.getByTestId('toast');
     expect(toastPlacementElement).toContainElement(toastElement);
     expect(toastElement).toHaveTextContent(message);
   });
@@ -102,10 +102,10 @@ describe('ToastManager', () => {
     const button = await screen.findByText('Add Toast');
     await user.click(button);
 
-    const toastElement = await screen.getByTestId('toast');
+    const toastElement = screen.getByTestId('toast');
     expect(toastElement).toHaveTextContent(message);
 
-    const customContainer = await screen.getByTestId('custom-container');
+    const customContainer = screen.getByTestId('custom-container');
     expect(customContainer).toContainElement(toastElement);
   });
 
@@ -155,7 +155,7 @@ describe('ToastManager', () => {
     const button = await screen.findByText('Add Toast');
     await user.click(button);
 
-    const toastElement = await screen.getByTestId('toast');
+    const toastElement = screen.getByTestId('toast');
     expect(toastElement).toBeInTheDocument();
 
     await waitForElementToBeRemoved(() => screen.getByTestId('toast'), {
