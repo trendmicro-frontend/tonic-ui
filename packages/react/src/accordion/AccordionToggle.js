@@ -26,6 +26,8 @@ const AccordionToggle = forwardRef((
     id: context?.accordionToggleId,
     onClick: callEventHandlers(onClickProp, context?.onToggle),
     ref,
+    role: 'button',
+    tabIndex: 0,
     ...styleProps,
     ...rest,
   });

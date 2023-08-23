@@ -33,6 +33,8 @@ const TreeItemToggle = forwardRef((
     disabled,
     onClick: callEventHandlers(onClickProp, onClick),
     ref,
+    role: 'button',
+    tabIndex: 0,
     ...styleProps,
     ...rest,
   });
