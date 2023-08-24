@@ -1,3 +1,4 @@
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useCallback, useMemo } from 'react';
@@ -22,6 +23,7 @@ const TreeItemContent = forwardRef((
   } = useTreeView();
   const context = useTreeItem();
   const {
+    contentRef, // internal use only
     isDisabled,
     isSelected,
     nodeDepth,
@@ -29,6 +31,7 @@ const TreeItemContent = forwardRef((
     selectRange,
     toggleSelection,
   } = { ...context };
+  const combinedRef = useMergeRefs(contentRef, ref);
 
   const onClick = useCallback((event) => {
     const isCtrlPressed = event.ctrlKey;
@@ -78,7 +81,7 @@ const TreeItemContent = forwardRef((
 
   return (
     <Box
-      ref={ref}
+      ref={combinedRef}
       onClick={callEventHandlers(onClickProp, onClick)}
       onMouseDown={callEventHandlers(onMouseDownProp, onMouseDown)}
       tabIndex={tabIndex}
