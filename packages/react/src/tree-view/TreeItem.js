@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { ariaAttr, isNullish } from '@tonic-ui/utils';
+import { ariaAttr, isNullish, runIfFn } from '@tonic-ui/utils';
 import { ensureNumber } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -151,7 +151,7 @@ const TreeItem = forwardRef((
 
   const styleProps = useTreeItemStyle();
   const context = getMemoizedState({
-    contentRef,
+    contentRef, // internal use only
     isDisabled,
     isExpandable,
     isExpanded,
@@ -177,7 +177,7 @@ const TreeItem = forwardRef((
         {...styleProps}
         {...rest}
       >
-        {typeof render === 'function' && render(context)}
+        {runIfFn(render, context)}
         {!!isExpandable && (
           <Descendant
             depth={nodeDepth}
