@@ -367,7 +367,7 @@ export const routes = [
       { title: 'Pagination', path: 'components/pagination' },
       { title: 'usePagination', path: 'components/pagination/usePagination' },
       { title: 'Tabs', path: 'components/tabs' },
-      { title: 'TreeView', path: 'components/tree-view' },
+      { title: 'Tree', path: 'components/tree' },
 
       { title: 'TRANSITIONS', heading: true },
       { title: 'Transitions', path: 'components/transitions' },

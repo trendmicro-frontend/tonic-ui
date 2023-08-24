@@ -8,7 +8,7 @@ import { Collapse } from '../transitions';
 import { Descendant, useDescendant } from '../utils/descendant';
 import { TreeItemContext } from './context';
 import { useTreeItemStyle } from './styles';
-import useTreeView from './useTreeView';
+import useTree from './useTree';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -38,7 +38,7 @@ const TreeItem = forwardRef((
     toggleExpansion,
     treeId,
     unregisterNode,
-  } = useTreeView();
+  } = useTree();
   const contentRef = useRef();
   const [element, setElement] = useState(null);
   const combinedRef = useMergeRefs(setElement, ref);

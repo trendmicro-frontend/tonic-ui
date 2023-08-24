@@ -9,23 +9,20 @@ import {
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
+  Tree,
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  useConst,
+} from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import {
   buildTreeMap,
   buildTreeNodes,
   findExpandableNodeIds,
 } from './utils';
-
-const treeNodes = buildTreeNodes();
-const treeMap = buildTreeMap(treeNodes);
-const expandableNodes = findExpandableNodeIds(treeNodes);
-const allNodes = Array.from(treeMap.keys());
-const defaultSelectedNode = allNodes[0];
 
 const TreeItemRender = ({
   node,
@@ -106,9 +103,16 @@ const TreeItemRender = ({
 };
 
 const App = () => {
-  const [isResizing, setIsResizing] = useState(false);
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle();
+  const treeNodes = useConst(() => buildTreeNodes());
+  const treeMap = useMemo(() => buildTreeMap(treeNodes), [treeNodes]);
+  const expandableNodeIds = useMemo(() => findExpandableNodeIds(treeNodes), [treeNodes]);
+  const allNodes = useMemo(() => Array.from(treeMap.keys()), [treeMap]);
+  const [selectedNodeId, setSelectedNodeId] = useState(allNodes[0]);
+  const [isResizing, setIsResizing] = useState(false);
+  const containerRef = useRef();
+  const resizableRef = useRef();
   const dividerColor = {
     dark: 'gray:70',
     light: 'gray:30',
@@ -117,11 +121,10 @@ const App = () => {
     dark: 'gray:50',
     light: 'gray:50',
   }[colorMode];
-  const containerRef = useRef();
-  const resizableRef = useRef();
-  const [selectedNodes, setSelectedNodes] = useState([defaultSelectedNode]);
+
   const handleSelect = useCallback((nodeIds) => {
-    setSelectedNodes(nodeIds);
+    const nodeId = nodeIds[0];
+    setSelectedNodeId(nodeId);
   }, []);
 
   return (
@@ -144,12 +147,12 @@ const App = () => {
           overflowX="hidden"
           overflowY="auto"
         >
-          <TreeView
+          <Tree
             aria-label="resizable"
-            defaultExpandedNodes={expandableNodes}
+            defaultExpanded={expandableNodeIds}
             isSelectable
             isUnselectable={false}
-            selectedNodes={selectedNodes}
+            selected={selectedNodeId}
             onNodeSelect={handleSelect}
           >
             {ensureArray(treeNodes).map(node => (
@@ -158,7 +161,7 @@ const App = () => {
                 node={node}
               />
             ))}
-          </TreeView>
+          </Tree>
         </Scrollbar>
       </Box>
       <Flex
@@ -204,7 +207,7 @@ const App = () => {
           }}
         />
         <Box>
-          {treeMap.get(selectedNodes[0])?.name}
+          {treeMap.get(selectedNodeId)?.label}
         </Box>
       </Flex>
     </Flex>

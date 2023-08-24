@@ -1,29 +1,26 @@
 import {
   Box,
+  Checkbox,
   Flex,
   Icon,
-  Menu,
-  MenuItem,
-  MenuList,
-  MenuToggle,
   OverflowTooltip,
   Scrollbar,
   TreeItem,
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
+  Tree,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  useConst,
+} from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   buildTreeNodes,
   findExpandableNodeIds,
 } from './utils';
-
-const treeNodes = buildTreeNodes();
-const expandableNodeIds = findExpandableNodeIds(treeNodes);
 
 const TreeItemRender = ({
   node,
@@ -33,10 +30,21 @@ const TreeItemRender = ({
   const nodeId = node.id;
   const nodeLabel = node.label;
 
-  const render = useCallback(({ isExpandable, isSelected }) => {
+  const render = useCallback(({ isExpandable, isExpanded, isSelected, select }) => {
+    const icon = (() => {
+      if (isExpandable) {
+        return isExpanded ? 'folder-open' : 'folder';
+      }
+      return 'server';
+    })();
+    const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
+
     return (
       <TreeItemContent
         sx={{
+          // Hide the background color of the tree node when the checkbox is selected
+          backgroundColor: isSelected ? 'transparent' : undefined,
+
           // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
           ':hover + [role="group"]': {
             position: 'relative',
@@ -62,6 +70,21 @@ const TreeItemRender = ({
             </TreeItemToggle>
           )}
         </Flex>
+        <Flex
+          onClick={(event) => {
+            // Prevent event propagation when clicking the checkbox
+            event.stopPropagation();
+          }}
+          mr="2x"
+        >
+          <Checkbox
+            checked={isSelected}
+            onChange={() => {
+              select();
+            }}
+          />
+        </Flex>
+        <Icon icon={icon} color={iconColor} mr="2x" />
         <OverflowTooltip label={nodeLabel}>
           {({ ref, style }) => (
             <Box
@@ -74,44 +97,6 @@ const TreeItemRender = ({
             </Box>
           )}
         </OverflowTooltip>
-        <Flex
-          flex="none"
-          ml="2x"
-        >
-          <Menu>
-            <MenuToggle
-              onClick={(event) => {
-                // Uncomment the following line to prevent the tree node from being selected
-                //event.stopPropagation();
-              }}
-              sx={{
-                color: colorStyle.color.secondary,
-                ':hover': {
-                  color: colorStyle.color.info,
-                },
-              }}
-            >
-              <Icon icon="more" />
-            </MenuToggle>
-            <MenuList
-              PopperProps={{
-                usePortal: true,
-              }}
-              width="max-content"
-            >
-              <MenuItem>
-                <Flex alignItems="center" columnGap="2x">
-                  <Icon icon="edit" /> List item
-                </Flex>
-              </MenuItem>
-              <MenuItem>
-                <Flex alignItems="center" columnGap="2x">
-                  <Icon icon="edit" /> List item
-                </Flex>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
       </TreeItemContent>
     );
   }, [colorStyle, nodeDepth, nodeLabel]);
@@ -134,6 +119,8 @@ const TreeItemRender = ({
 
 const App = () => {
   const [colorStyle] = useColorStyle();
+  const treeNodes = useConst(() => buildTreeNodes());
+  const expandableNodeIds = useMemo(() => findExpandableNodeIds(treeNodes), [treeNodes]);
 
   return (
     <Box
@@ -147,11 +134,12 @@ const App = () => {
         height={240}
         overflowY="auto"
       >
-        <TreeView
-          aria-label="dropdown"
-          defaultExpandedNodes={expandableNodeIds}
+        <Tree
+          aria-label="multi-selection with checkboxes"
+          defaultExpanded={expandableNodeIds}
           isSelectable
           isUnselectable
+          multiSelect
         >
           {ensureArray(treeNodes).map(node => (
             <TreeItemRender
@@ -159,7 +147,7 @@ const App = () => {
               node={node}
             />
           ))}
-        </TreeView>
+        </Tree>
       </Scrollbar>
     </Box>
   );

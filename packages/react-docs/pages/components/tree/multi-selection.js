@@ -1,6 +1,5 @@
 import {
   Box,
-  Checkbox,
   Flex,
   Icon,
   OverflowTooltip,
@@ -9,18 +8,18 @@ import {
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
+  Tree,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  useConst,
+} from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   buildTreeNodes,
   findExpandableNodeIds,
 } from './utils';
-
-const treeNodes = buildTreeNodes();
-const expandableNodeIds = findExpandableNodeIds(treeNodes);
 
 const TreeItemRender = ({
   node,
@@ -30,7 +29,7 @@ const TreeItemRender = ({
   const nodeId = node.id;
   const nodeLabel = node.label;
 
-  const render = useCallback(({ isExpandable, isExpanded, isSelected, select }) => {
+  const render = useCallback(({ isExpandable, isExpanded, isSelected }) => {
     const icon = (() => {
       if (isExpandable) {
         return isExpanded ? 'folder-open' : 'folder';
@@ -42,9 +41,6 @@ const TreeItemRender = ({
     return (
       <TreeItemContent
         sx={{
-          // Hide the background color of the tree node when the checkbox is selected
-          backgroundColor: isSelected ? 'transparent' : undefined,
-
           // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
           ':hover + [role="group"]': {
             position: 'relative',
@@ -69,20 +65,6 @@ const TreeItemRender = ({
               <TreeItemToggleIcon />
             </TreeItemToggle>
           )}
-        </Flex>
-        <Flex
-          onClick={(event) => {
-            // Prevent event propagation when clicking the checkbox
-            event.stopPropagation();
-          }}
-          mr="2x"
-        >
-          <Checkbox
-            checked={isSelected}
-            onChange={() => {
-              select();
-            }}
-          />
         </Flex>
         <Icon icon={icon} color={iconColor} mr="2x" />
         <OverflowTooltip label={nodeLabel}>
@@ -119,6 +101,8 @@ const TreeItemRender = ({
 
 const App = () => {
   const [colorStyle] = useColorStyle();
+  const treeNodes = useConst(() => buildTreeNodes());
+  const expandableNodeIds = useMemo(() => findExpandableNodeIds(treeNodes), [treeNodes]);
 
   return (
     <Box
@@ -132,9 +116,9 @@ const App = () => {
         height={240}
         overflowY="auto"
       >
-        <TreeView
-          aria-label="multi-selection with checkboxes"
-          defaultExpandedNodes={expandableNodeIds}
+        <Tree
+          aria-label="multi-selection"
+          defaultExpanded={expandableNodeIds}
           isSelectable
           isUnselectable
           multiSelect
@@ -145,7 +129,7 @@ const App = () => {
               node={node}
             />
           ))}
-        </TreeView>
+        </Tree>
       </Scrollbar>
     </Box>
   );

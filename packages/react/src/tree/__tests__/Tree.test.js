@@ -5,11 +5,12 @@ import {
   Box,
   Flex,
   OverflowTooltip,
+  Text,
   TreeItem,
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
+  Tree,
   useColorStyle,
 } from '@tonic-ui/react/src';
 import { ensureArray } from 'ensure-type';
@@ -138,15 +139,15 @@ const TreeItemRender = ({
   );
 };
 
-describe('TreeView', () => {
+describe('Tree', () => {
   it('should render correctly', async () => {
     const renderOptions = {
       useCSSVariables: true,
     };
     const treeNodes = getTreeNodes();
     const { container } = render((
-      <TreeView
-        aria-label="tree-view"
+      <Tree
+        aria-label="tree"
         isSelectable
         isUnselectable
         multiSelect
@@ -157,7 +158,7 @@ describe('TreeView', () => {
             node={node}
           />
         ))}
-      </TreeView>
+      </Tree>
     ), renderOptions);
 
     const tree = screen.getByRole('tree');
@@ -169,11 +170,13 @@ describe('TreeView', () => {
   it('should call onBlur when the tree is blurred', () => {
     const handleBlur = jest.fn();
     render(
-      <TreeView onBlur={handleBlur}>
-        <TreeItem nodeId="1" data-testid="treeitem">
-          Node 1
-        </TreeItem>
-      </TreeView>
+      <Tree onBlur={handleBlur}>
+        <TreeItem
+          data-testid="treeitem"
+          nodeId="1"
+          render={<Text>Node 1</Text>}
+        />
+      </Tree>
     );
 
     act(() => {
@@ -189,11 +192,15 @@ describe('TreeView', () => {
   it('should call onFocus when the tree is focused', () => {
     const handleFocus = jest.fn();
     render(
-      <TreeView onFocus={handleFocus}>
-        <TreeItem nodeId="1" data-testid="treeitem">
+      <Tree onFocus={handleFocus}>
+        <TreeItem
+          data-testid="treeitem"
+          nodeId="1"
+          render={<Text>Node 1</Text>}
+        >
           Node 1
         </TreeItem>
-      </TreeView>
+      </Tree>
     );
 
     act(() => {

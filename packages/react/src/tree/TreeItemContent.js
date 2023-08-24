@@ -5,7 +5,7 @@ import React, { forwardRef, useCallback, useMemo } from 'react';
 import { Box } from '../box';
 import { useTheme } from '../theme';
 import { useTreeItemContentStyle } from './styles';
-import useTreeView from './useTreeView';
+import useTree from './useTree';
 import useTreeItem from './useTreeItem';
 
 const TreeItemContent = forwardRef((
@@ -20,7 +20,7 @@ const TreeItemContent = forwardRef((
   const { sizes } = useTheme();
   const {
     multiSelect,
-  } = useTreeView();
+  } = useTree();
   const context = useTreeItem();
   const {
     contentRef, // internal use only

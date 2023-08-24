@@ -6,16 +6,16 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { Box } from '../box';
 import { Descendant } from '../utils/descendant';
 import useAutoId from '../utils/useAutoId';
-import { TreeViewContext } from './context';
-import { useTreeViewStyle } from './styles';
+import { TreeContext } from './context';
+import { useTreeStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const TreeView = forwardRef((
+const Tree = forwardRef((
   {
-    defaultExpandedNodes = [],
-    defaultSelectedNodes = [],
-    expandedNodes: expandedNodesProp,
+    defaultExpanded = [],
+    defaultSelected = [],
+    expanded: expandedProp,
     id: idProp,
     isSelectable = false,
     isUnselectable = false,
@@ -26,36 +26,36 @@ const TreeView = forwardRef((
     onNodeFocus: onNodeFocusProp,
     onNodeSelect: onNodeSelectProp,
     onNodeToggle: onNodeToggleProp,
-    selectedNodes: selectedNodesProp,
+    selected: selectedProp,
     ...rest
   },
   ref,
 ) => {
   const treeId = useAutoId(idProp);
-  const nodeMap = useConst(() => new Map()); // Used to store node data
   const [focusedNodeId, setFocusedNodeId] = useState(null);
+  const [expandedNodeIds, setExpandedNodeIds] = useState(ensureArray(expandedProp ?? defaultExpanded));
+  const [selectedNodeIds, setSelectedNodeIds] = useState(ensureArray(selectedProp ?? defaultSelected));
+  const nodeMap = useConst(() => new Map()); // Used to store node data
   const activeDescendant = nodeMap.get(focusedNodeId)
     ? nodeMap.get(focusedNodeId).idAttr
     : null;
-  const [expandedNodes, setExpandedNodes] = useState(ensureArray(expandedNodesProp ?? defaultExpandedNodes));
-  const [selectedNodes, setSelectedNodes] = useState(ensureArray(selectedNodesProp ?? defaultSelectedNodes));
   const lastSelectedNode = useRef(null);
   const lastSelectionWasRange = useRef(false);
   const currentRangeSelection = useRef([]);
 
   useEffect(() => {
-    const isControlled = (expandedNodesProp !== undefined);
+    const isControlled = (expandedProp !== undefined);
     if (isControlled) {
-      setExpandedNodes(ensureArray(expandedNodesProp));
+      setExpandedNodeIds(ensureArray(expandedProp));
     }
-  }, [expandedNodesProp]);
+  }, [expandedProp]);
 
   useEffect(() => {
-    const isControlled = (selectedNodesProp !== undefined);
+    const isControlled = (selectedProp !== undefined);
     if (isControlled) {
-      setSelectedNodes(ensureArray(selectedNodesProp));
+      setSelectedNodeIds(ensureArray(selectedProp));
     }
-  }, [selectedNodesProp]);
+  }, [selectedProp]);
 
   /**
    * Node helpers
@@ -87,8 +87,8 @@ const TreeView = forwardRef((
   }, [nodeMap]);
 
   const getIsNodeExpanded = useCallback((id) => {
-    return expandedNodes.indexOf(id) !== -1;
-  }, [expandedNodes]);
+    return expandedNodeIds.indexOf(id) !== -1;
+  }, [expandedNodeIds]);
 
   const getIsNodeFocused = useCallback((id) => {
     return focusedNodeId === id;
@@ -99,8 +99,8 @@ const TreeView = forwardRef((
   }, [getIsNodeDisabled, isSelectable]);
 
   const getIsNodeSelected = useCallback((id) => {
-    return selectedNodes.indexOf(id) !== -1;
-  }, [selectedNodes]);
+    return selectedNodeIds.indexOf(id) !== -1;
+  }, [selectedNodeIds]);
 
   const getChildNodes = useCallback((id) => {
     return Array.from(nodeMap.values())
@@ -311,17 +311,17 @@ const TreeView = forwardRef((
 
     const willExpand = (typeof nextValue === 'boolean') ? nextValue : !getIsNodeExpanded(id);
     const newExpandedNodes = willExpand
-      ? expandedNodes.concat(id)
-      : expandedNodes.filter((expandedNodeId) => expandedNodeId !== id);
+      ? expandedNodeIds.concat(id)
+      : expandedNodeIds.filter((expandedNodeId) => expandedNodeId !== id);
 
     if (typeof onNodeToggleProp === 'function') {
       onNodeToggleProp(newExpandedNodes);
     }
 
-    setExpandedNodes(newExpandedNodes);
+    setExpandedNodeIds(newExpandedNodes);
 
     return true;
-  }, [expandedNodes, focusedNodeId, getIsNodeExpandable, getIsNodeExpanded, onNodeToggleProp]);
+  }, [expandedNodeIds, focusedNodeId, getIsNodeExpandable, getIsNodeExpanded, onNodeToggleProp]);
 
   /**
    * Toggle the selection state of a node
@@ -342,21 +342,21 @@ const TreeView = forwardRef((
 
     const willSelect = (typeof nextValue === 'boolean') ? nextValue : !getIsNodeSelected(id);
     const newSelectedNodes = willSelect
-      ? selectedNodes.concat(id)
-      : selectedNodes.filter((selectedNodeId) => selectedNodeId !== id);
+      ? selectedNodeIds.concat(id)
+      : selectedNodeIds.filter((selectedNodeId) => selectedNodeId !== id);
 
     if (typeof onNodeSelectProp === 'function') {
       onNodeSelectProp(newSelectedNodes);
     }
 
-    setSelectedNodes(newSelectedNodes);
+    setSelectedNodeIds(newSelectedNodes);
 
     lastSelectedNode.current = id;
     lastSelectionWasRange.current = false;
     currentRangeSelection.current = [];
 
     return true;
-  }, [getIsNodeSelectable, getIsNodeSelected, onNodeSelectProp, selectedNodes]);
+  }, [getIsNodeSelectable, getIsNodeSelected, onNodeSelectProp, selectedNodeIds]);
 
   /**
    * Select a node
@@ -374,21 +374,21 @@ const TreeView = forwardRef((
       return false;
     }
 
-    const willUnselect = isUnselectable && getIsNodeSelected(id) && (selectedNodes.length === 1);
+    const willUnselect = isUnselectable && getIsNodeSelected(id) && (selectedNodeIds.length === 1);
     const newSelectedNodes = willUnselect ? [] : [id];
 
     if (typeof onNodeSelectProp === 'function') {
       onNodeSelectProp(newSelectedNodes);
     }
 
-    setSelectedNodes(newSelectedNodes);
+    setSelectedNodeIds(newSelectedNodes);
 
     lastSelectedNode.current = id;
     lastSelectionWasRange.current = false;
     currentRangeSelection.current = [];
 
     return true;
-  }, [getIsNodeSelectable, getIsNodeSelected, isUnselectable, onNodeSelectProp, selectedNodes]);
+  }, [getIsNodeSelectable, getIsNodeSelected, isUnselectable, onNodeSelectProp, selectedNodeIds]);
 
   /**
    * Select a range of nodes
@@ -412,7 +412,7 @@ const TreeView = forwardRef((
     }
 
     if (!isNullish(current)) {
-      let newSelectedNodes = selectedNodes.slice();
+      let newSelectedNodes = selectedNodeIds.slice();
 
       if (currentRangeSelection.current.indexOf(current) === -1) {
         currentRangeSelection.current = [];
@@ -437,12 +437,12 @@ const TreeView = forwardRef((
         onNodeSelectProp(newSelectedNodes);
       }
 
-      setSelectedNodes(newSelectedNodes);
+      setSelectedNodeIds(newSelectedNodes);
     } else {
       // If last selection was a range selection, ignore nodes that were selected
       const nodes = (lastSelectionWasRange.current)
-        ? selectedNodes.filter((id) => currentRangeSelection.current.indexOf(id) === -1)
-        : selectedNodes.slice();
+        ? selectedNodeIds.filter((id) => currentRangeSelection.current.indexOf(id) === -1)
+        : selectedNodeIds.slice();
 
       const nodesInRange = getNodesInRange(start, end)
         .filter((node) => !getIsNodeDisabled(node));
@@ -456,13 +456,13 @@ const TreeView = forwardRef((
         onNodeSelectProp(newSelectedNodes);
       }
 
-      setSelectedNodes(newSelectedNodes);
+      setSelectedNodeIds(newSelectedNodes);
     }
 
     lastSelectionWasRange.current = true;
 
     return true;
-  }, [getIsNodeDisabled, getNodesInRange, isSelectable, onNodeSelectProp, selectedNodes]);
+  }, [getIsNodeDisabled, getNodesInRange, isSelectable, onNodeSelectProp, selectedNodeIds]);
 
   const rangeSelectToFirst = useCallback((id) => {
     if (!lastSelectedNode.current) {
@@ -580,7 +580,7 @@ const TreeView = forwardRef((
       return;
     }
 
-    const firstSelectedNode = selectedNodes[0];
+    const firstSelectedNode = selectedNodeIds[0];
     if (firstSelectedNode) {
       focusNode(firstSelectedNode);
     } else {
@@ -726,10 +726,10 @@ const TreeView = forwardRef((
     unregisterNode,
   });
   const tabIndex = 0;
-  const styleProps = useTreeViewStyle();
+  const styleProps = useTreeStyle();
 
   return (
-    <TreeViewContext.Provider value={context}>
+    <TreeContext.Provider value={context}>
       <Descendant depth={-1}>
         <Box
           ref={ref}
@@ -745,10 +745,10 @@ const TreeView = forwardRef((
           {...rest}
         />
       </Descendant>
-    </TreeViewContext.Provider>
+    </TreeContext.Provider>
   );
 });
 
-TreeView.displayName = 'TreeView';
+Tree.displayName = 'Tree';
 
-export default TreeView;
+export default Tree;

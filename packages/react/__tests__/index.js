@@ -261,14 +261,14 @@ test('should match expected exports', () => {
     'Slide',
     'Zoom',
 
-    // treeview
+    // tree
+    'Tree',
     'TreeItem',
     'TreeItemContent',
     'TreeItemToggle',
     'TreeItemToggleIcon',
-    'TreeView',
+    'useTree',
     'useTreeItem',
-    'useTreeView',
 
     // truncate
     'Truncate',

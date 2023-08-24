@@ -3,11 +3,11 @@ import {
   Flex,
   Icon,
   OverflowTooltip,
+  Tree,
   TreeItem,
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
   useColorStyle,
 } from '@tonic-ui/react';
 import { ensureArray } from 'ensure-type';
@@ -105,13 +105,13 @@ const TreeItemRender = ({
   );
 };
 
-const Component = ({
+const TreeView = ({
   data,
   onNodeDrop: onNodeDropProp,
   onNodeSelect: onNodeSelectProp,
   ...rest
 }) => {
-  const defaultSelectedNode = ensureArray(data)[0]?.id ?? null;
+  const defaultSelectedNodeId = ensureArray(data)[0]?.id ?? null;
   const handleNodeDrop = useCallback((item) => {
     if (typeof onNodeDropProp === 'function') {
       onNodeDropProp(item);
@@ -124,11 +124,11 @@ const Component = ({
   }, [onNodeSelectProp]);
 
   return (
-    <TreeView
+    <Tree
       aria-label="dnd"
       isSelectable
       isUnselectable={false}
-      defaultSelectedNodes={[defaultSelectedNode]}
+      defaultSelected={defaultSelectedNodeId}
       onNodeSelect={handleNodeSelect}
       {...rest}
     >
@@ -139,8 +139,8 @@ const Component = ({
           onNodeDrop={handleNodeDrop}
         />
       ))}
-    </TreeView>
+    </Tree>
   );
 };
 
-export default Component;
+export default TreeView;

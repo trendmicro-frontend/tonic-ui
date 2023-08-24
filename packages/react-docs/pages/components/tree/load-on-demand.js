@@ -9,17 +9,17 @@ import {
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
+  Tree,
   useColorStyle,
-  useTreeView,
+  useTree,
 } from '@tonic-ui/react';
+import {
+  useConst,
+} from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  findExpandableNodeIds,
-} from './utils';
 
-const getLoadOnDemandTreeNodes = (count) => {
+const buildLoadOnDemandTreeNodes = (count) => {
   const treeNodes = Array.from({ length: count }, (_, index) => {
     const nodeId = index + 1;
 
@@ -41,7 +41,7 @@ const TreeItemRender = ({
   const [colorStyle] = useColorStyle();
   const {
     getIsNodeExpanded,
-  } = useTreeView();
+  } = useTree();
   const nodeId = node.id;
   const nodeLabel = node.label;
   const [childNodes, setChildNodes] = useState(ensureArray(node.children));
@@ -159,18 +159,7 @@ const TreeItemRender = ({
 
 const App = () => {
   const [colorStyle] = useColorStyle();
-  const treeNodes = getLoadOnDemandTreeNodes(5);
-  const expandableNodes = findExpandableNodeIds(treeNodes);
-  const [expandedNodes, setExpandedNodes] = useState(expandableNodes);
-  const [selectedNodes, setSelectedNodes] = useState([]);
-
-  const handleToggle = useCallback((nodeIds) => {
-    setExpandedNodes(nodeIds);
-  }, []);
-
-  const handleSelect = useCallback((nodeIds) => {
-    setSelectedNodes(nodeIds);
-  }, []);
+  const treeNodes = useConst(() => buildLoadOnDemandTreeNodes(5));
 
   return (
     <Box
@@ -184,14 +173,10 @@ const App = () => {
         height={240}
         overflowY="auto"
       >
-        <TreeView
+        <Tree
           aria-label="load on demand"
           isSelectable
           isUnselectable
-          expandedNodes={expandedNodes}
-          selectedNodes={selectedNodes}
-          onNodeToggle={handleToggle}
-          onNodeSelect={handleSelect}
         >
           {ensureArray(treeNodes).map(node => (
             <TreeItemRender
@@ -199,7 +184,7 @@ const App = () => {
               node={node}
             />
           ))}
-        </TreeView>
+        </Tree>
       </Scrollbar>
     </Box>
   );

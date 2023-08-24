@@ -15,21 +15,19 @@ import {
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
+  Tree,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  useConst,
+} from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   buildTreeMap,
   buildTreeNodes,
   findExpandableNodeIds,
 } from './utils';
-
-const treeNodes = buildTreeNodes();
-const treeMap = buildTreeMap(treeNodes);
-const expandableNodes = findExpandableNodeIds(treeNodes);
-const allNodes = Array.from(treeMap.keys());
 
 const TreeItemRender = ({
   node,
@@ -128,31 +126,35 @@ const TreeItemRender = ({
 
 const App = () => {
   const [colorStyle] = useColorStyle();
-  const [expandedNodes, setExpandedNodes] = useState([]);
-  const [selectedNodes, setSelectedNodes] = useState([]);
+  const treeNodes = useConst(() => buildTreeNodes());
+  const treeMap = useMemo(() => buildTreeMap(treeNodes), [treeNodes]);
+  const expandableNodeIds = useMemo(() => findExpandableNodeIds(treeNodes), [treeNodes]);
+  const allNodes = useMemo(() => Array.from(treeMap.keys()), [treeMap]);
+  const [expandedNodeIds, setExpandedNodeIds] = useState([]);
+  const [selectedNodeIds, setSelectedNodeIds] = useState([]);
 
   const handleToggle = useCallback((nodeIds) => {
-    setExpandedNodes(nodeIds);
+    setExpandedNodeIds(nodeIds);
   }, []);
 
   const handleSelect = useCallback((nodeIds) => {
-    setSelectedNodes(nodeIds);
+    setSelectedNodeIds(nodeIds);
   }, []);
 
   const handleClickExpandAll = useCallback((event) => {
-    setExpandedNodes(expandableNodes);
-  }, []);
+    setExpandedNodeIds(expandableNodeIds);
+  }, [expandableNodeIds]);
 
   const handleClickCollapseAll = useCallback((event) => {
-    setExpandedNodes([]);
+    setExpandedNodeIds([]);
   }, []);
 
   const handleClickSelectAll = useCallback((event) => {
-    setSelectedNodes(allNodes);
-  }, []);
+    setSelectedNodeIds(allNodes);
+  }, [allNodes]);
 
   const handleClickUnselectAll = useCallback((event) => {
-    setSelectedNodes([]);
+    setSelectedNodeIds([]);
   }, []);
 
   return (
@@ -164,28 +166,28 @@ const App = () => {
       >
         <Button
           variant="secondary"
-          disabled={expandedNodes.length === expandableNodes.length}
+          disabled={expandedNodeIds.length === expandableNodeIds.length}
           onClick={handleClickExpandAll}
         >
           Expand all
         </Button>
         <Button
           variant="secondary"
-          disabled={expandedNodes.length === 0}
+          disabled={expandedNodeIds.length === 0}
           onClick={handleClickCollapseAll}
         >
           Collapse all
         </Button>
         <Button
           variant="secondary"
-          disabled={selectedNodes.length === allNodes.length}
+          disabled={selectedNodeIds.length === allNodes.length}
           onClick={handleClickSelectAll}
         >
           Select all
         </Button>
         <Button
           variant="secondary"
-          disabled={selectedNodes.length === 0}
+          disabled={selectedNodeIds.length === 0}
           onClick={handleClickUnselectAll}
         >
           Unselect all
@@ -202,13 +204,13 @@ const App = () => {
           height={240}
           overflowY="auto"
         >
-          <TreeView
+          <Tree
             aria-label="controlled"
             isSelectable
             isUnselectable
             multiSelect
-            expandedNodes={expandedNodes}
-            selectedNodes={selectedNodes}
+            expanded={expandedNodeIds}
+            selected={selectedNodeIds}
             onNodeToggle={handleToggle}
             onNodeSelect={handleSelect}
           >
@@ -218,7 +220,7 @@ const App = () => {
                 node={node}
               />
             ))}
-          </TreeView>
+          </Tree>
         </Scrollbar>
       </Box>
       <Divider my="4x" />
@@ -235,9 +237,9 @@ const App = () => {
             columnGap="1x"
             rowGap="1x"
           >
-            {expandedNodes.map(nodeId => (
+            {expandedNodeIds.map(nodeId => (
               <Code key={nodeId} whiteSpace="nowrap">
-                {treeMap.get(nodeId)?.name}
+                {treeMap.get(nodeId)?.label}
               </Code>
             ))}
           </Flex>
@@ -254,9 +256,9 @@ const App = () => {
             columnGap="1x"
             rowGap="1x"
           >
-            {selectedNodes.map(nodeId => (
+            {selectedNodeIds.map(nodeId => (
               <Code key={nodeId} whiteSpace="nowrap">
-                {treeMap.get(nodeId)?.name}
+                {treeMap.get(nodeId)?.label}
               </Code>
             ))}
           </Flex>

@@ -89,7 +89,7 @@ const useTreeItemToggleIconStyle = ({
   };
 };
 
-const useTreeViewStyle = () => {
+const useTreeStyle = () => {
   return {
     outline: 0,
   };
@@ -100,5 +100,5 @@ export {
   useTreeItemContentStyle,
   useTreeItemToggleStyle,
   useTreeItemToggleIconStyle,
-  useTreeViewStyle,
+  useTreeStyle,
 };

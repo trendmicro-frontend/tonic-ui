@@ -1,24 +1,24 @@
-# Tree View
+# Tree
 
-The `TreeView` component allows you to present information in a hierarchical, nested list format. It is particularly useful for visualizing structures like files and folders in a file system, categories and items in a list, or any other kind of nested arrangement that requires exploration.
+The `Tree` component allows you to present information in a hierarchical, nested list format. It is particularly useful for visualizing structures like files and folders in a file system, categories and items in a list, or any other kind of nested arrangement that requires exploration.
 
 ## Import
 
 ```js
 import {
+  Tree,
   TreeItem,
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
+  useTree,
   useTreeItem,
-  useTreeView,
 } from '@tonic-ui/react';
 ```
 
 ## Usage
 
-### Basic tree view
+### Basic
 
 You can enable node selection and unselection by setting `isSelectable` and `isUnselectable` props to `true`.
 
@@ -70,13 +70,17 @@ const render = ({ isExpanded, isSelected }) => {
 
 {render('./multi-selection-checkboxes')}
 
-### Controlled tree view
+### Controlled
 
 {render('./controlled')}
 
-### Resizable tree view
+### Load on demand
 
-In typical use cases, you can resize the tree view with a minimum width of `160px` and a maximum width of `40%` of the display area. Customize the width and height as needed to match your design and layout requirements.
+{render('./load-on-demand')}
+
+### Resizable
+
+In typical use cases, you can resize the tree with a minimum width of `160px` and a maximum width of `40%` of the display area. Customize the width and height as needed to match your design and layout requirements.
 
 {render('./resizable')}
 
@@ -86,13 +90,9 @@ Select items from the right table and move them to a tree node on the left using
 
 {render('./dnd')}
 
-### Load on demand
-
-{render('./load-on-demand')}
-
 ## Accessibility
 
-The `TreeView` component supports both keyboard and mouse navigation and selection.
+The `Tree` component supports both keyboard and mouse navigation and selection.
 The following keyboard shortcuts are available:
 
 * Use the `Up` and `Down` arrow keys to navigate between nodes.
@@ -108,21 +108,21 @@ The following keyboard shortcuts are available:
 
 ## Props
 
-### TreeView
+### Tree
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| defaultExpandedNodes | array | [] | An array of expanded node IDs for initial state (uncontrolled). |
-| defaultSelectedNodes | array | [] | An array of selected node IDs for initial state (uncontrolled). |
-| expandedNodes | array | | An array of expanded node IDs for controlled state. |
+| defaultExpanded | array | [] | An array of expanded node ids for initial state (uncontrolled). |
+| defaultSelected | array | [] | An array of selected node ids for initial state (uncontrolled). |
+| expanded | array | | An array of expanded node ids for controlled state. |
 | id | string | | The `id` prop used for accessibility purpose. If not provided, a random id will be generated. |
-| isSelectable | bool | false | Determines if the tree view allows node selection. |
-| isUnselectable | bool | false | Determines if the tree view allows node unselection. |
+| isSelectable | bool | false | Determines if the tree allows node selection. |
+| isUnselectable | bool | false | Determines if the tree allows node unselection. |
 | multiSelect | bool | false | If true, `ctrl` and `shift` will trigger multiselect. |
 | onNodeFocus | function | | A callback function invoked when a tree node is focused.<pre>`function(nodeId: string) => void`<br /> • `nodeId` The id of the focused node.</pre> |
-| onNodeSelect | function | | A callback function triggered when tree nodes are selected/unselected.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of selected node IDs.</pre> |
-| onNodeToggle | function | | A callback function triggered when tree nodes are expanded/collapsed.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of expanded node IDs.</pre> |
-| selectedNodes | array | | An array of selected node IDs for controlled state. |
+| onNodeSelect | function | | A callback function triggered when tree nodes are selected/unselected.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of selected node ids.</pre> |
+| onNodeToggle | function | | A callback function triggered when tree nodes are expanded/collapsed.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of expanded node ids.</pre> |
+| selected | array | | An array of selected node ids for controlled state. |
 
 ### TreeItem
 

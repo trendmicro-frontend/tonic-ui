@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 
-const TreeViewContext = createContext();
+const TreeContext = createContext();
 const TreeItemContext = createContext();
 
 export {
-  TreeViewContext,
+  TreeContext,
   TreeItemContext,
 };

@@ -7,18 +7,18 @@ import {
   TreeItemContent,
   TreeItemToggle,
   TreeItemToggleIcon,
-  TreeView,
+  Tree,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  useConst,
+} from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   buildTreeNodes,
   findExpandableNodeIds,
 } from './utils';
-
-const treeNodes = buildTreeNodes();
-const expandableNodeIds = findExpandableNodeIds(treeNodes);
 
 const TreeItemRender = ({
   node,
@@ -91,6 +91,8 @@ const TreeItemRender = ({
 
 const App = () => {
   const [colorStyle] = useColorStyle();
+  const treeNodes = useConst(() => buildTreeNodes());
+  const expandableNodeIds = useMemo(() => findExpandableNodeIds(treeNodes), [treeNodes]);
 
   return (
     <Box
@@ -104,9 +106,9 @@ const App = () => {
         height={240}
         overflowY="auto"
       >
-        <TreeView
-          aria-label="basic tree view"
-          defaultExpandedNodes={expandableNodeIds}
+        <Tree
+          aria-label="basic tree"
+          defaultExpanded={expandableNodeIds}
           isSelectable
           isUnselectable
         >
@@ -116,7 +118,7 @@ const App = () => {
               node={node}
             />
           ))}
-        </TreeView>
+        </Tree>
       </Scrollbar>
     </Box>
   );
