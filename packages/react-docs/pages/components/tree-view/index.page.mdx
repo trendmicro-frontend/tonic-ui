@@ -45,22 +45,27 @@ Refer to the [Accessibility](#accessibility) section for more keyboard shortcuts
 When using checkboxes for multi-selection, consider hiding the background color of the tree node when the checkbox is selected to enhance accessibility.
 
 ```jsx disabled
-<TreeItem
-  key={node.id}
-  nodeId={node.id}
-  render={({ isSelected }) => {
-    return (
-      <TreeItemContent
-        sx={{
-          // Hide the background color of the tree node when the checkbox is selected
-          backgroundColor: isSelected ? 'transparent' : undefined,
-        }}
-      >
-        {/* Render your tree node content */}
-      </TreeItemContent>
-    );
-  }}
-/>
+const render = ({ isExpanded, isSelected }) => {
+  return (
+    <TreeItemContent
+      sx={{
+        // Hide the background color of the tree node when the checkbox is selected
+        backgroundColor: isSelected ? 'transparent' : undefined,
+      }}
+    >
+      <Flex flex="none" width="6x">
+        {isExpandable && (
+          <TreeItemToggle>
+            <TreeItemToggleIcon />
+          </TreeItemToggle>
+        )}
+      </Flex>
+      <OverflowTooltip label={label}>
+        {label}
+      </OverflowTooltip>
+    </TreeItemContent>
+  );
+};
 ```
 
 {render('./multi-selection-checkboxes')}

@@ -19,13 +19,13 @@ import {
   findExpandableNodeIds,
 } from './utils';
 
-const createTreeNodes = (count) => {
+const getLoadOnDemandTreeNodes = (count) => {
   const treeNodes = Array.from({ length: count }, (_, index) => {
     const nodeId = index + 1;
 
     return {
       id: `${nodeId}`,
-      name: `Node ${nodeId}`,
+      label: `Node ${nodeId}`,
       children: [],
       loadOnDemand: true,
     };
@@ -43,11 +43,65 @@ const TreeItemRender = ({
     getIsNodeExpanded,
   } = useTreeView();
   const nodeId = node.id;
-  const nodeName = node.name;
+  const nodeLabel = node.label;
   const [childNodes, setChildNodes] = useState(ensureArray(node.children));
   const [isLoading, setIsLoading] = useState(false);
   const isExpanded = getIsNodeExpanded(nodeId);
   const loadOnDemand = node.loadOnDemand && childNodes.length === 0;
+
+  const render = useCallback(({ isExpandable, isExpanded, isSelected, select }) => {
+    const icon = (() => {
+      if (isExpandable) {
+        return isExpanded ? 'folder-open' : 'folder';
+      }
+      return 'server';
+    })();
+    const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
+
+    return (
+      <TreeItemContent
+        sx={{
+          // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
+          ':hover + [role="group"]': {
+            position: 'relative',
+            '::before': {
+              backgroundColor: colorStyle.background.highlighted,
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: 20 + nodeDepth * 24 - (1/2), // Adjust the horizontal position based on depth
+              width: 1,
+            },
+          },
+        }}
+      >
+        <Flex
+          flex="none"
+          width="6x"
+        >
+          {isExpandable && (
+            <TreeItemToggle>
+              {isLoading ? <Spinner size="xs" /> : <TreeItemToggleIcon />}
+            </TreeItemToggle>
+          )}
+        </Flex>
+        <Icon icon={icon} color={iconColor} mr="2x" />
+        <OverflowTooltip label={nodeLabel}>
+          {({ ref, style }) => (
+            <Box
+              ref={ref}
+              {...style}
+              flex="auto"
+              fontWeight={isSelected ? 'semibold' : 'normal'}
+            >
+              {nodeLabel}
+            </Box>
+          )}
+        </OverflowTooltip>
+      </TreeItemContent>
+    );
+  }, [colorStyle, isLoading, nodeDepth, nodeLabel]);
 
   useEffect(() => {
     let timer = null;
@@ -58,12 +112,12 @@ const TreeItemRender = ({
         const childNodes = [
           {
             id: `${nodeId}.1`,
-            name: `${nodeName}.1`,
+            label: `${nodeLabel}.1`,
             loadOnDemand: (nodeDepth < 2),
           },
           {
             id: `${nodeId}.2`,
-            name: `${nodeName}.2`,
+            label: `${nodeLabel}.2`,
           },
         ];
 
@@ -82,64 +136,12 @@ const TreeItemRender = ({
         clearTimeout(timer);
       }
     };
-  }, [isExpanded, loadOnDemand, node, nodeId, nodeName, nodeDepth]);
+  }, [isExpanded, loadOnDemand, node, nodeId, nodeLabel, nodeDepth]);
 
   return (
     <TreeItem
       nodeId={nodeId}
-      render={({ isExpandable, isExpanded, isSelected, select }) => {
-        const icon = (() => {
-          if (isExpandable) {
-            return isExpanded ? 'folder-open' : 'folder';
-          }
-          return 'server';
-        })();
-        const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
-
-        return (
-          <TreeItemContent
-            sx={{
-              // [Optional] Display a connecting line to indicate which is the last node when hovered over the tree item
-              ':hover + [role="group"]': {
-                position: 'relative',
-                '::before': {
-                  backgroundColor: colorStyle.background.highlighted,
-                  content: '""',
-                  position: 'absolute',
-                  top: 0,
-                  bottom: 0,
-                  left: 20 + nodeDepth * 24 - (1/2), // Adjust the horizontal position based on depth
-                  width: 1,
-                },
-              },
-            }}
-          >
-            <Flex
-              flex="none"
-              width="6x"
-            >
-              {isExpandable && (
-                <TreeItemToggle>
-                  {isLoading ? <Spinner size="xs" /> : <TreeItemToggleIcon />}
-                </TreeItemToggle>
-              )}
-            </Flex>
-            <Icon icon={icon} color={iconColor} mr="2x" />
-            <OverflowTooltip label={node.name}>
-              {({ ref, style }) => (
-                <Box
-                  ref={ref}
-                  {...style}
-                  flex="auto"
-                  fontWeight={isSelected ? 'semibold' : 'normal'}
-                >
-                  {node.name}
-                </Box>
-              )}
-            </OverflowTooltip>
-          </TreeItemContent>
-        );
-      }}
+      render={render}
     >
       {loadOnDemand
         ? <Box key="stub" />
@@ -157,7 +159,7 @@ const TreeItemRender = ({
 
 const App = () => {
   const [colorStyle] = useColorStyle();
-  const treeNodes = createTreeNodes(5);
+  const treeNodes = getLoadOnDemandTreeNodes(5);
   const expandableNodes = findExpandableNodeIds(treeNodes);
   const [expandedNodes, setExpandedNodes] = useState(expandableNodes);
   const [selectedNodes, setSelectedNodes] = useState([]);

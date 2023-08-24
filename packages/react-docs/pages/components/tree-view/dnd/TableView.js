@@ -70,6 +70,8 @@ const Component = ({
     light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
 
+  const nodeLabel = node.label;
+
   const [sorting, setSorting] = useState([
     { id: 'endpoint', desc: false },
   ]);
@@ -324,7 +326,7 @@ const Component = ({
       {...rest}
     >
       <Box flex="none" px="3x" py="2x">
-        {node.name}
+        {nodeLabel}
       </Box>
       <Box flex="auto">
         <AutoSizer

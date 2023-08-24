@@ -16,16 +16,16 @@ import _ from 'lodash';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import templateTreeNodes from '../data/tree-nodes.json';
 import {
   buildTreeMap,
+  buildTreeNodes,
 } from '../utils';
 import TableView from './TableView';
 import TreeView from './TreeView';
 import DragLayer from './DragLayer';
 import useRefresh from './useRefresh';
 
-const buildTreeNodes = (source) => {
+const getTreeNodes = () => {
   const threatTypes = [
     'Virus/Malware',
     'Spyware/Grayware',
@@ -44,7 +44,7 @@ const buildTreeNodes = (source) => {
       });
       node.data = {
         data: _.range(15).map((i) => {
-          const [nodeIndex = ''] = ensureArray(String(node.name).match(/\d+/));
+          const [nodeIndex = ''] = ensureArray(String(node.label).match(/\d+/));
 
           const endpoint = `Endpoint ${nodeIndex}_${i+1}`;
 
@@ -67,14 +67,14 @@ const buildTreeNodes = (source) => {
     });
   };
 
-  const treeNodes = JSON.parse(JSON.stringify(source));
+  const treeNodes = buildTreeNodes();
   traverse(treeNodes);
 
   return treeNodes;
 };
 
 const App = () => {
-  const treeNodes = useConst(() => buildTreeNodes(templateTreeNodes));
+  const treeNodes = useConst(() => getTreeNodes());
   const treeMap = useMemo(() => {
     return buildTreeMap(treeNodes);
   }, [treeNodes]);

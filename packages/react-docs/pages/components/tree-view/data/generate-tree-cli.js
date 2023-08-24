@@ -20,8 +20,8 @@ const generateRandomTreeItems = ({
     for (let i = 1; i <= nodeCount && nodeCounter < maxNodeCount; i++) {
       ++nodeCounter;
 
-      const nodeId = (parentId === 0 ? i : `${parentId}.${i}`);
-      const nodeName = `Node ${nodeCounter}`;
+      const nodeId = (parentId === 0 ? `${i}` : `${parentId}.${i}`);
+      const nodeLabel = `Node ${nodeCounter}`;
       const randomNodeDepth = generateRandomNumber(minDepth, maxDepth);
       const children = (currentDepth < randomNodeDepth) && (nodeCounter < maxNodeCount)
         ? traverse({ nodeCount: generateRandomNumber(1, maxChildNodes), currentDepth: currentDepth + 1, parentId: nodeId })
@@ -29,7 +29,7 @@ const generateRandomTreeItems = ({
 
       nodes.push({
         id: nodeId,
-        name: nodeName,
+        label: nodeLabel,
         children,
       });
     }

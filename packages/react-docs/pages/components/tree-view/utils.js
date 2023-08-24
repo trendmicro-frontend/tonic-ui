@@ -1,4 +1,9 @@
 import { ensureArray } from 'ensure-type';
+import defaultTreeNodes from './data/tree-nodes.json';
+
+export const buildTreeNodes = () => {
+  return JSON.parse(JSON.stringify(defaultTreeNodes));
+};
 
 export const buildTreeMap = (nodes) => {
   const treeMap = new Map();
