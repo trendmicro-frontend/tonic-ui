@@ -103,9 +103,6 @@ const TreeItemRender = ({
               <Icon icon="more" />
             </MenuToggle>
             <MenuList
-              PopperProps={{
-                usePortal: true,
-              }}
               width="max-content"
             >
               <MenuItem>
