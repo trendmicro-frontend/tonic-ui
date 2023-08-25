@@ -30,11 +30,11 @@ describe('Toast', () => {
 
     render(<TestComponent onClose={handleClose} />);
 
-    const toastElement = await screen.getByTestId('toast');
+    const toastElement = screen.getByTestId('toast');
     expect(toastElement).toBeInTheDocument();
     expect(toastElement).toHaveTextContent(message);
 
-    const closeButton = await screen.getByRole('button');
+    const closeButton = screen.getByRole('button');
     await user.click(closeButton);
     expect(handleClose).toHaveBeenCalledTimes(1);
 

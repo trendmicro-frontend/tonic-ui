@@ -131,9 +131,9 @@ export const routes = [
       { title: 'Getting Started', path: 'components' },
       { title: 'COLOR MODE', heading: true },
       { title: 'ColorModeProvider', path: 'components/color-mode' },
-      { title: 'DarkMode', path: 'components/color-mode/darkmode' },
-      { title: 'LightMode', path: 'components/color-mode/lightmode' },
-      { title: 'InvertedMode', path: 'components/color-mode/invertedmode' },
+      { title: 'DarkMode', path: 'components/color-mode/dark-mode' },
+      { title: 'LightMode', path: 'components/color-mode/light-mode' },
+      { title: 'InvertedMode', path: 'components/color-mode/inverted-mode' },
       { title: 'useColorMode', path: 'components/color-mode/useColorMode' },
       { title: 'COLOR STYLE', heading: true },
       { title: 'ColorStyleProvider', path: 'components/color-style' },
@@ -141,7 +141,7 @@ export const routes = [
 
       { title: 'LAYOUT', heading: true },
       { title: 'Box', path: 'components/box' },
-      //{ title: 'ControlBox', path: 'components/controlbox' }, // XXX: temporarily remove this page
+      //{ title: 'ControlBox', path: 'components/control-box' }, // XXX: internal use only
       { title: 'Flex', path: 'components/flex' },
       { title: 'Grid', path: 'components/grid' },
       { title: 'Space', path: 'components/space' },
@@ -157,7 +157,7 @@ export const routes = [
       { title: 'Table', path: 'components/table' },
       { title: 'Tag', path: 'components/tag' },
       { title: 'Tooltip', path: 'components/tooltip' },
-      { title: 'OverflowTooltip', path: 'components/overflowtooltip' },
+      { title: 'OverflowTooltip', path: 'components/overflow-tooltip' },
 
       { title: 'FEEDBACK', heading: true },
       { title: 'Alert', path: 'components/alert' },
@@ -182,7 +182,7 @@ export const routes = [
       },
       {
         title: 'ButtonBase',
-        path: 'components/buttonbase',
+        path: 'components/button-base',
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
@@ -191,7 +191,7 @@ export const routes = [
           );
         },
       },
-      { title: 'ButtonGroup', path: 'components/buttongroup' },
+      { title: 'ButtonGroup', path: 'components/button-group' },
       {
         title: 'Checkbox',
         path: 'components/checkbox',
@@ -203,7 +203,7 @@ export const routes = [
           );
         },
       },
-      { title: 'CheckboxGroup', path: 'components/checkboxgroup' },
+      { title: 'CheckboxGroup', path: 'components/checkbox-group' },
       {
         title: 'Input',
         path: 'components/input',
@@ -217,7 +217,7 @@ export const routes = [
       },
       {
         title: 'InputBase',
-        path: 'components/inputbase',
+        path: 'components/input-base',
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
@@ -228,7 +228,7 @@ export const routes = [
       },
       {
         title: 'InputControl',
-        path: 'components/inputcontrol',
+        path: 'components/input-control',
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
@@ -237,10 +237,10 @@ export const routes = [
           );
         },
       },
-      { title: 'InputGroup', path: 'components/inputgroup' },
+      { title: 'InputGroup', path: 'components/input-group' },
       {
         title: 'LinkButton',
-        path: 'components/linkbutton',
+        path: 'components/link-button',
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
@@ -260,10 +260,10 @@ export const routes = [
           );
         },
       },
-      { title: 'RadioGroup', path: 'components/radiogroup' },
+      { title: 'RadioGroup', path: 'components/radio-group' },
       {
         title: 'SearchInput',
-        path: 'components/searchinput',
+        path: 'components/search-input',
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
@@ -331,7 +331,7 @@ export const routes = [
       },
       {
         title: 'SVGIcon',
-        path: 'components/svgicon',
+        path: 'components/svg-icon',
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: svg`}</Subtitle>}>
@@ -354,7 +354,7 @@ export const routes = [
       },
       {
         title: 'ButtonLink',
-        path: 'components/buttonlink',
+        path: 'components/button-link',
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: a`}</Subtitle>}>
@@ -367,6 +367,7 @@ export const routes = [
       { title: 'Pagination', path: 'components/pagination' },
       { title: 'usePagination', path: 'components/pagination/usePagination' },
       { title: 'Tabs', path: 'components/tabs' },
+      { title: 'Tree', path: 'components/tree' },
 
       { title: 'TRANSITIONS', heading: true },
       { title: 'Transitions', path: 'components/transitions' },
@@ -392,7 +393,7 @@ export const routes = [
       { title: 'Text', path: 'components/text' },
       {
         title: 'TextLabel',
-        path: 'components/textlabel',
+        path: 'components/text-label',
         render: () => {
           return (
             <Tooltip label={<Subtitle>{`tag: label`}</Subtitle>}>
@@ -404,13 +405,13 @@ export const routes = [
       { title: 'Truncate', path: 'components/truncate' },
 
       { title: 'UTILITIES', heading: true },
-      { title: 'CSSBaseline', path: 'components/cssbaseline' },
+      { title: 'CSSBaseline', path: 'components/css-baseline' },
       { title: 'Portal', path: 'components/portal' },
       { title: 'PortalManager', path: 'components/portal-manager' },
       { title: 'usePortalManager', path: 'components/portal-manager/usePortalManager' },
       { title: 'ResizeHandle', path: 'components/resize-handle' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
-      { title: 'VisuallyHidden', path: 'components/visuallyhidden' },
+      { title: 'VisuallyHidden', path: 'components/visually-hidden' },
     ],
   },
   {
@@ -462,7 +463,7 @@ export const routes = [
       { title: 'DATE PICKERS', heading: true },
       { title: 'Overview', path: 'lab/date-pickers' },
       { title: 'Calendar', path: 'lab/date-pickers/calendar' },
-      { title: 'DatePicker', path: 'lab/date-pickers/datepicker' },
+      { title: 'DatePicker', path: 'lab/date-pickers/date-picker' },
     ],
   },
 ];

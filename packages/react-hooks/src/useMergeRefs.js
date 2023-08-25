@@ -5,7 +5,7 @@ import { useMemo } from 'react';
  *
  * @param {...React.RefObject} refs
  */
-const useForkRef = (...refs) => {
+const useMergeRefs = (...refs) => {
   return useMemo(() => {
     if (refs.every((ref) => (ref === null || ref === undefined))) {
       return null;
@@ -31,4 +31,4 @@ const useForkRef = (...refs) => {
   }, refs); // eslint-disable-line react-hooks/exhaustive-deps
 };
 
-export default useForkRef;
+export default useMergeRefs;

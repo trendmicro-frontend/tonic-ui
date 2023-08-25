@@ -15,6 +15,10 @@ const App = () => {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
+  const highlightedDividerColor = {
+    dark: 'gray:50',
+    light: 'gray:50',
+  }[colorMode];
   const containerRef = useRef();
   const resizableRef = useRef();
 
@@ -41,8 +45,6 @@ const App = () => {
         alignItems="center"
         justifyContent="center"
         position="relative"
-        borderLeft={1}
-        borderLeftColor={dividerColor}
       >
         <ResizeHandle
           onResizeStart={() => {
@@ -68,10 +70,14 @@ const App = () => {
           }}
           sx={{
             position: 'absolute',
-            left: -1,
+            left: 0,
             top: 0,
             bottom: 0,
-            zIndex: 1,
+            borderLeft: 1,
+            borderLeftColor: isResizing ? highlightedDividerColor : dividerColor,
+            _hover: {
+              borderLeftColor: highlightedDividerColor,
+            },
           }}
         />
         <Box>

@@ -1,0 +1,42 @@
+# ButtonBase
+
+`ButtonBase` does not have appearance settings including default border, color, outline, and padding. It aims to be a simple building block for creating a button.
+
+## Import
+
+```js
+import { ButtonBase } from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./usage')}
+
+### Attributes
+
+Standard button attributes are supported, e.g., `type`, `disabled`, etc.
+
+#### `disabled`
+
+{render('./disabled')}
+
+### Icon button
+
+You can use `ButtonBase` to compose an icon button. An icon button is a button that contains only an icon.
+
+{render('./icon-button')}
+
+### Notification action button
+
+To perform an action on an alert or toast notification, you can use `ButtonBase` to compose an action button using the `sx` prop.
+
+{render('./alert-action-button')}
+
+## Props
+
+### ButtonBase
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| disabled | boolean | | If `true`, the button will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop. |

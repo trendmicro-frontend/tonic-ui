@@ -21,7 +21,7 @@ const MenuItem = forwardRef((
     onClose: closeMenu,
   } = { ...menuContext };
   const tabIndex = -1;
-  const styleProps = useMenuItemStyle({ disabled, tabIndex });
+  const styleProps = useMenuItemStyle({ tabIndex });
 
   return (
     <ButtonBase

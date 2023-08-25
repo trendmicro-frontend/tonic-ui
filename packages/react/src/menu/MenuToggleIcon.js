@@ -78,7 +78,7 @@ const MenuToggleIcon = forwardRef((
     isOpen,
     direction,
   } = { ...menuContext };
-  const menuIndicatorStyleProps = useMenuToggleIconStyle();
+  const toggleIconStyleProps = useMenuToggleIconStyle();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
 
@@ -104,7 +104,7 @@ const MenuToggleIcon = forwardRef((
         const transition = createTransitionStyle('transform', transitionProps);
         const variantStyle = mapStateToVariantStyle(state, { direction });
         const styleProps = {
-          ...menuIndicatorStyleProps,
+          ...toggleIconStyleProps,
           ...variantStyle,
           'aria-disabled': ariaAttr(disabled),
           transition,

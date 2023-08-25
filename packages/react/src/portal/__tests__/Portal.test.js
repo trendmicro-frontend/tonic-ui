@@ -106,7 +106,7 @@ describe('PortalManager / usePortalManager', () => {
 
     await user.click(await screen.findByTestId('btn-add-portal'));
 
-    const portalComponent = await screen.getByTestId('portal-component');
+    const portalComponent = screen.getByTestId('portal-component');
     expect(portalComponent).toBeInTheDocument();
 
     await user.click(await screen.findByTestId('btn-remove-portal'));
@@ -159,7 +159,7 @@ describe('PortalManager / usePortalManager', () => {
 
     await user.click(await screen.findByTestId('btn-add-portal'));
 
-    const portalComponent = await screen.getByTestId('portal-component');
+    const portalComponent = screen.getByTestId('portal-component');
     expect(portalComponent).toBeInTheDocument();
 
     await user.click(await screen.findByTestId('btn-remove-portal'));

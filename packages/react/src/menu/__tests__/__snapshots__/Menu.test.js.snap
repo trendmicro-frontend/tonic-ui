@@ -228,68 +228,7 @@ exports[`Menu should render correctly 1`] = `
 .emotion-16[aria-disabled=true]:focus,
 .emotion-16[aria-disabled=true]:hover,
 .emotion-16[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
-  cursor: not-allowed;
-}
-
-.emotion-20 {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
   background-color: inherit;
-  border: none;
-  color: var(--tonic-colors-white-primary);
-  cursor: pointer;
-  outline: 0;
-  padding: 0;
-  font-size: var(--tonic-fontSizes-sm);
-  line-height: var(--tonic-lineHeights-sm);
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  text-align: left;
-  padding-left: var(--tonic-space-3x);
-  padding-right: var(--tonic-space-3x);
-  padding-top: var(--tonic-space-2x);
-  padding-bottom: var(--tonic-space-2x);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 100%;
-}
-
-.emotion-20[aria-selected=true],
-.emotion-20[data-selected] {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.emotion-20:focus,
-.emotion-20[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
-  border-style: solid;
-  border-width: var(--tonic-sizes-1h);
-  padding-left: calc(.75rem - .125rem);
-  padding-right: calc(.75rem - .125rem);
-  padding-top: calc(.5rem - .125rem);
-  padding-bottom: calc(.5rem - .125rem);
-}
-
-.emotion-20:disabled,
-.emotion-20:disabled:focus,
-.emotion-20:disabled:hover,
-.emotion-20[aria-disabled=true],
-.emotion-20[aria-disabled=true]:focus,
-.emotion-20[aria-disabled=true]:hover,
-.emotion-20[data-disabled] {
   color: var(--tonic-colors-white-disabled);
   cursor: not-allowed;
 }
@@ -371,7 +310,7 @@ exports[`Menu should render correctly 1`] = `
           </button>
           <button
             aria-disabled="true"
-            class="emotion-20 emotion-1"
+            class="emotion-16 emotion-1"
             data-id="3"
             disabled=""
             role="menuitem"

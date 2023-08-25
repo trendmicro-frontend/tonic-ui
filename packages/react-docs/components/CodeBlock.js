@@ -1,39 +1,16 @@
-import { Global, css } from '@emotion/react';
-import { sx } from '@tonic-ui/styled-system';
-import * as reactComponents from '@tonic-ui/react';
-import * as reactLabComponents from '@tonic-ui/react-lab';
-import * as reactHooks from '@tonic-ui/react-hooks';
-import * as utils from '@tonic-ui/utils';
-import * as tmicon from '@trendmicro/tmicon';
+import * as TonicUIReact from '@tonic-ui/react';
+import * as TonicUIReactLab from '@tonic-ui/react-lab';
+import * as TonicUIReactHooks from '@tonic-ui/react-hooks';
+import * as TonicUIUtils from '@tonic-ui/utils';
 import { boolean } from 'boolean';
-import * as dateFns from 'date-fns'
-import * as dateFnsLocale from 'date-fns/locale'
 import { ensureString } from 'ensure-type';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
-import * as rbd from 'react-beautiful-dnd';
-import ReactFocusLock from 'react-focus-lock';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
-import * as ReactTable from 'react-table';
-import { TransitionGroup } from 'react-transition-group';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import x from '../utils/json-stringify';
-import FontAwesomeIcon from './FontAwesomeIcon';
 import IconButton from './IconButton';
-import InputTag from './InputTag';
-import Lorem from './Lorem';
-import SkeletonBody from './SkeletonBody';
-import SkeletonContent from './SkeletonContent';
-
-const thirdPartyComponents = {
-  dateFns,
-  dateFnsLocale,
-  rbd, // TODO: used by "tabs.mdx"
-  ReactFocusLock, // TODO: used by "menu.mdx"
-  ReactTable, // TODO: used by "scrollbar.mdx"
-  TransitionGroup,
-};
 
 const {
   Box,
@@ -43,7 +20,11 @@ const {
   Icon,
   Tooltip,
   useColorMode,
-} = reactComponents;
+} = TonicUIReact;
+
+const {
+  useToggle,
+} = TonicUIReactHooks;
 
 const liveCodePreviewStyle = {
 };
@@ -62,14 +43,6 @@ const liveErrorStyle = {
   color: 'white',
   backgroundColor: 'red',
 };
-
-const tmicons = tmicon.iconsets.map(group => {
-  const icons = tmicon.icons.filter(({ iconset }) => iconset === group.id);
-  if (icons.length === 0) {
-    return null;
-  }
-  return { group, icons };
-});
 
 const LiveCodePreview = props => {
   const router = useRouter();
@@ -135,7 +108,7 @@ const CodeBlock = ({
     onCopy: copySource,
     hasCopied: hasCopiedSource,
   } = useClipboard(editorCode);
-  const [isLiveEditorVisible, toggleLiveEditorVisibility] = reactHooks.useToggle(defaultExpanded);
+  const [isLiveEditorVisible, toggleLiveEditorVisibility] = useToggle(defaultExpanded);
   const resetDemo = () => {
     setEditorCode(originalEditorCode);
     toggleLiveEditorVisibility(false);
@@ -167,22 +140,10 @@ const CodeBlock = ({
     code: editorCode,
     transformCode: code => code,
     scope: {
-      FontAwesomeIcon,
-      InputTag,
-      Lorem,
-      SkeletonBody,
-      SkeletonContent,
-
-      ...reactComponents,
-      ...reactLabComponents,
-      ...reactHooks,
-      ...utils,
-      ...thirdPartyComponents,
-
-      Global, // from '@emotion/react'
-      css, // from '@emotion/react'
-      sx, // from '@tonic-ui/styled-system'
-      tmicons, // from '@trendmicro/tmicon'
+      ...TonicUIReact,
+      ...TonicUIReactLab,
+      ...TonicUIReactHooks,
+      ...TonicUIUtils,
     },
     mountStylesheet: false,
     ...props,

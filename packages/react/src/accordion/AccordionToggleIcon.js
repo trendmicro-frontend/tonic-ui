@@ -52,7 +52,7 @@ const AccordionToggleIcon = forwardRef((
   ref,
 ) => {
   const context = useAccordionItem(); // context might be an undefined value
-  const iconStyleProps = useAccordionToggleIconStyle();
+  const toggleIconStyleProps = useAccordionToggleIconStyle();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const disabled = ensureBoolean(disabledProp ?? context?.disabled);
@@ -80,7 +80,7 @@ const AccordionToggleIcon = forwardRef((
         const transition = createTransitionStyle('transform', transitionProps);
         const variantStyle = mapStateToVariantStyle(state, {});
         const styleProps = {
-          ...iconStyleProps,
+          ...toggleIconStyleProps,
           ...variantStyle,
           'aria-disabled': ariaAttr(disabled),
           transition,

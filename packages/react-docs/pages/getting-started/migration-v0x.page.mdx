@@ -1,0 +1,435 @@
+# Migration From v0.x to v1
+
+⚠️ This is the Tonic UI migration guide for upgrading from v0.x to v1. You have to consider whether you will do the upgrade if the breaking changes are not acceptable to you at the moment. A proper way for the migration is to make v0.x and v1 coexist for a while, then remove v0.x packages once you have finished the migration.
+
+## Upgrade Steps
+
+### 1. Update the dependencies
+
+* Rename the `@trendmicro/react-styled-ui` package to `@tonic-ui/react`
+* Rename the `@trendmicro/styled-ui-theme` package to `@tonic-ui/theme`
+
+```diff
+"dependencies": {
+- "@trendmicro/react-styled-ui": "0.x",
+- "@trendmicro/styled-ui-theme": "0.x",
++ "@tonic-ui/react": "^1.0.0"
+}
+```
+
+To make v0.x and v1 coexist, do the following:
+
+```diff
+"dependencies": {
+  "@trendmicro/react-styled-ui": "0.x",
+  "@trendmicro/styled-ui-theme": "0.x",
++ "@tonic-ui/react": "^1.0.0"
+}
+```
+
+You can keep v0.x packages until you are ready to remove them.
+
+### 2. Update the providers
+
+A `TonicProvider` is provided by the `@tonic-ui/react` package. It includes the following providers:
+
+* **ThemeProvider**: Provides the theming context for all components.
+* **ColorModeProvider**: Provides color mode context to all components. [Learn more](../components/color-mode)
+* **ColorStyleProvider**: Provides the color style context to all components. [Learn more](../components/color-style)
+
+Optionally via prop:
+
+* **useCSSBaseline**: To omit the recommended `CSSBaseline`, pass `useCSSBaseline={false}`.
+
+```diff
++ <TonicProvider
++   colorMode={{ defaultValue: 'dark' }}
++   useCSSBaseline={true}
++ >
+- <ThemeProvider>
+-   <ColorModeProvider value="dark">
+-     <ColorStyleProvider>
+-       <CSSBaseline />
+-       <App />
++   <App />
+-     </ColorStyleProvider>
+-   </ColorModeProvider>
+- </ThemeProvider>
++ </TonicProvider>
+```
+
+> See [Getting Started](../getting-started/usage) to learn more about the providers.
+
+### 3. Replace deprecated components and Hooks
+
+#### FlatButton component
+
+💣 `FlatButton` is deprecated and will be removed in the next major release. Use [Button](../components/button) or [ButtonBase](../components/button-base) instead.
+
+```diff
+- <FlatButton variant="solid"/>
++ <Button variant="default"/>
+```
+
+```diff
+- <FlatButton variant="outline"/>
++ <Button variant="secondary"/>
+```
+
+For alert or toast notifications, you may use the code below to replace the deprecated `FlatButton` while rendering action buttons on a bright background:
+
+```js
+const ActionButton = forwardRef((props, ref) => (
+  <Button
+    ref={ref}
+    variant="secondary"
+    borderColor="black:primary"
+    color="black:primary"
+    css={{
+      '&:active': {
+        color: 'black',
+      },
+      '&:focus': {
+        color: 'black',
+      },
+      '&:hover': {
+        background: 'rgba(0, 0, 0, 0.12)',
+        color: 'black',
+      },
+      '&:hover:not(:focus)': {
+        boxShadow: 'none',
+      },
+    }}
+    {...props}
+  />
+));
+```
+
+#### PseudoBox component
+
+💣 `PseudoBox` is deprecated and its props can now be passed to `Box` directly. Use [Box](../components/box) instead.
+
+```diff
+- <PseudoBox
++ <Box
+    _hover={{ fontWeight: 'semibold' }}
+  >
+    Hover Me
+- </PseudoBox>
++ </Box>
+```
+
+#### ToggleSwitch component
+
+💣 `ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../components/switch) instead.
+
+```diff
+- <ToggleSwitch />
++ <Switch />
+```
+
+#### useDisclosure Hook
+
+💣 `useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../hooks/use-toggle) instead.
+
+```js
+const [value, toggleValue] = useToggle(false);
+toggleValue(); // toggle the value between true and false
+toggleValue(true); // set the value to true
+toggleValue(false); // set the value to false
+```
+
+#### withTheme HoC
+
+💣 `withTheme` is deprecated and will be removed in the next major release. Use the `useTheme` Hook instead.
+
+```js
+const theme = useTheme();
+```
+
+### 4. Examine breaking changes
+
+The following components changed the `display` property internally. Check whether you have to do corresponding layout change.
+
+| Component | Previous | Current | Note |
+| :-------- | :------- | :------ | :--- |
+| `Button` | `inline-block` | `inline-flex` | |
+| `Menu` | `inline-block` | `inline-flex` | |
+| `SVGIcon` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
+| `Space` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
+| `Stack` | `inline-block` | `inline-flex` | It might affect the layout according to your usage |
+| `Tag` | `inline-block` | `inline-flex` | |
+| `Text` | `inline-block` | `block` | It might affect the layout according to your usage<br/>- To make inline text, use `<Text display="inline" />`<br/>- To make inline block text, use `<Text display="inline-block" />`<br/>- To make inline flex text, use `<Text display="inline-flex" />`<br/>- Use `<Flex direction="row" />` or `<Flex direction="column" />` if you need to render multiple components in the same row or column. |
+| `TextLabel` | `inline` | `block` | It might affect the layout according to your usage<br/>- To make inline text, use `<TextLabel display="inline" />`<br/>- To make inline block text, use `<TextLabel display="inline-block" />`<br/>- To make inline flex text, use `<TextLabel display="inline-flex" />`<br/>- Use `<Flex direction="row" />` or `<Flex direction="column" />` if you need to render multiple components in the same row or column. |
+
+## System Updates
+
+### Theme
+
+Removed dark and light shadows from the `theme.shadows` object in favor of `colorStyle.shadow`. See [shadows](../theme/shadows) to learn more.
+
+```diff
+{
+  shadows: {
+    none: 'none',
+-   dark: {
+-     sm: '0 2px 8px 0 rgba(0, 0, 0, 0.48), 0 1px 2px 0 rgba(0, 0, 0, 0.16)',
+-     md: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+-     lg: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
+-   },
+-   light: {
+-     sm: '0 2px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.08)',
+-     md: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+-     lg: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
+-   },
+  },
+}
+```
+
+You can use `useColorStyle` Hook to get the shadow value:
+
+```js
+const [colorMode] = useColorMode();
+const [colorStyle] = useColorStyle({ colorMode });
+
+console.log(colorStyle.shadow.thin);
+console.log(colorStyle.shadow.medium);
+console.log(colorStyle.shadow.thick);
+```
+
+### Color Style
+
+Moved `selected` and `marked` tokens from `background` to `text`.
+
+```diff
+{ // Dark mode
+  background: {
+    primary: 'gray:100',
+    secondary: 'gray:90',
+    tertiary: 'gray:80',
+    inverse: 'gray:10',
+-   selected: 'blue:60', // replaced with text.selection in the v1 release
+-   marked: '#fce79e', // replaced with text.highlight in the v1 release
+  },
++ color: {
++   emphasis: 'white:emphasis',
++   primary: 'white:primary',
++   secondary: 'white:secondary',
++   tertiary: 'white:tertiary',
++   disabled: 'white:disabled',
++   success: 'green:40',
++   info: 'blue:40',
++   warning: 'orange:50',
++   error: 'red:50',
++ },
+  text: {
+-   emphasis: 'white:emphasis',
+-   primary: 'white:primary',
+-   secondary: 'white:secondary',
+-   tertiary: 'white:tertiary',
+-   disabled: 'white:disabled',
+-   link: 'blue:40',
+-   warning: 'orange:50',
+-   error: 'red:50',
+    selection: 'blue:60',
+    highlight: '#fce79e',
+  },
+}
+```
+
+### useColorMode Hook
+
+The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `{ colorMode, setColorMode, toggleColorMode }`
+
+```diff
+- const { colorMode, setColorMode, toggleColorMode } = useColorMode();
++ const [colorMode, setColorMode] = useColorMode();
+```
+
+## Component Updates
+
+### `Accordion`
+
+* Removed `allowMultiple` and `allowToggle` props in favor of controling state from the parent
+* Removed `index` and `defaultIndex` props
+* Removed the `onChange` prop. Use `onToggle` on `AccordionItem` instead
+* Added `AccordionToggle`, `AccordionToggleIcon`, and `AccordionCollapse` components for unstyled toggle and collapse
+
+### `AccordionItem`
+
+* Renamed the `isOpen` prop to `isExpanded`
+* Renamed the `defaultIsOpen` prop to `defaultIsExpanded`
+* Renamed the `onChange` prop to `onToggle`
+* Renamed the `isDisabled` prop to `disabled`
+
+### `Alert`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+
+### `Badge`
+
+* Changed the `dotSize` prop to `width` or `w` and `height` or `h`
+* Changed the `isHidden` prop to `isInvisible`
+* Changed the `offset` prop to `right` and `top`
+* Changed the `variantColor` prop to `backgroundColor`
+* Renamed `variant="badge"` to `variant="solid"`
+
+### `CheckboxGroup`
+
+* Changed `onChange(value, event)` to `onChange(value)`
+
+### `Drawer`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+* Added `scrollBehavior` prop to control the scroll behavior of the drawer
+* Added support for passing style props to `Drawer`
+
+### `Modal`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+* Added `scrollBehavior` prop to control the scroll behavior of the modal
+* Added support for passing style props to `Modal`
+
+### `Popover`
+
+* Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
+
+### `RadioGroup`
+
+* Changed `onChange(value, event)` to `onChange(value)`
+
+### `Scrollbar`
+
+* Changed the `disabled` prop to `overflow="hidden"`
+* Changed the `minThumbSize` prop to `minThumbWidth` and `minThumbHeight`
+* Changed the `visibility` prop to `overflow`
+* Removed the `renderView` prop. Use Function as Child Component (FaCC) to render the scroll view instead.
+* Removed the `renderHorizontalTrack` prop. Use Function as Child Component (FaCC) to render the horizontal track instead.
+* Removed the `renderHorizontalThumb` prop. Use Function as Child Component (FaCC) to render the horizontal thumb instead.
+* Removed the `renderVerticalTrack` prop. Use Function as Child Component (FaCC) to render the vertical track instead.
+* Removed the `renderVerticalThumb` prop. Use Function as Child Component (FaCC) to render the vertical thumb instead.
+* Changed the `thumbSize` prop to `minThumbWidth` and `minThumbHeight`
+
+### `Spinner`
+
+* Renamed the `color` prop to `lineColor`
+* Renamed the `strokeWidth` prop to `lineWidth` and `trackWidth`
+* Remove the `speed` prop
+
+### `Stack`
+
+* Removed the use of `cloneElement` in favor of the `gap`, `columnGap`, and `rowGap` props
+
+### `Tab`
+
+* Renamed the `isActive` prop to `isSelected`
+
+### `Tabs`
+
+* Removed `activateOnKeyPress`, `isFitted`, and `isManual` props
+* Renamed `variant="line"` to `variant="default"`
+* Renamed `variant="enclosed"` to `variant="filled"`
+
+### `TabPanel`
+
+* Renamed the `isActive` prop to `isSelected`
+
+### `Table`
+
+* Removed the `isHoverable` prop. Use the `_hover` prop on the `TableRow` component instead.
+
+### `Tag`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+
+### `Toast`
+
+* Renamed the `isCloseButtonVisible` prop to `isClosable`
+
+### `Tooltip`
+
+* Renamed the `showDelay` prop to `enterDelay`
+* Renamed the `hideDelay` prop to `leaveDelay`
+* Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
+
+## Transition Updates
+
+The following components now have built-in transitions. Remember to remove all transitions from the following components:
+
+| Component | Composed Transition | The `appear` Prop |
+| :-- | :-- | :-- |
+| `AccordionCollapse` | `Collapse` | false |
+| `AccordionToggleIcon` | built-in | false |
+| `DrawerContent` | `Slide` | true |
+| `DrawerOverlay` | `Fade` | true |
+| `MenuList` | `Collapse` | true |
+| `MenuToggleIcon` | built-in | false |
+| `ModalContent` | `Fade` | true |
+| `ModalOverlay` | `Fade` | true |
+| `PopoverContent` | `Grow` | true |
+| `ToastTransition` | built-in | false |
+| `Tooltip` | `Grow` | false |
+
+* [Transitions](../components/transitions)
+* [Collapse](../components/transitions/collapse) - internally used in `Accordion` and `Menu`
+* [Fade](../components/transitions/fade) - internally used in `Modal`
+* [Grow](../components/transitions/grow) - internally used in `Popover` and `Tooltip`
+* [Scale](../components/transitions/scale)
+* [Slide](../components/transitions/slide) - internally used in `Drawer`
+* [Zoom](../components/transitions/zoom)
+
+### Drawer
+
+The `Drawer` component now has built-in transitions. Follow the diff below to remove transitions if present.
+
+```diff
+- <Slide
+-  in={isOpen}
+-  duration={250}
+-  from={placement}
+-  finalHeight="100vh"
+- >
+-   {styles => (
+      <Drawer
+        isClosable
+        isOpen={isOpen}
+      >
+-       <DrawerOverlay opacity={styles.opacity} />
++       <DrawerOverlay />
+-       <DrawerContent {...styles}>
++       <DrawerContent>
+          <DrawerBody>
+            Drawer body
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+-   )}
+- </Slide>
+```
+
+### Modal
+
+The `Modal` component now has built-in transitions. Follow the diff below to remove transitions if present.
+
+```diff
+- <Scale
+-   in={isOpen}
+-   duration={150}
+- >
+-   {styles => (
+      <Modal
+        isClosable
+        isOpen={isOpen}
+      >
+-       <ModalOverlay opacity={styles.opacity} />
++       <ModalOverlay />
+-       <ModalContent {...styles}>
++       <ModalContent>
+          <ModalBody>
+            Modal body
+          <ModalBody>
+        </ModalContent>
+      </Modal>
+-   )}
+- </Scale>
+```

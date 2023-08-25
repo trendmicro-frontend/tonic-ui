@@ -1,0 +1,224 @@
+# Input
+
+The `Input` component is used to get user input in a text field.
+
+Check out the [InputControl](input-control) component if you want to do more advanced stuff with the input.
+
+## Import
+
+```js
+import { Input } from '@tonic-ui/react';
+```
+
+## Usage
+
+```jsx
+<>
+  <TextLabel mb="1x">Label:</TextLabel>
+  <Input placeholder="Basic example" />
+  <Text size="xs" mt="1x">Help text for the text input</Text>
+</>
+```
+
+### Sizes
+
+Use the `size` prop to change the size of the `Input`. You can set the value to `sm`, `md`, or `lg`.
+
+```jsx
+<Stack direction="column" spacing="4x">
+  <Box>
+    <TextLabel mb="1x" size="sm">Label:</TextLabel>
+    <Input size="sm" placeholder="Small size (24px)" />
+  </Box>
+  <Box>
+    <TextLabel mb="1x" size="md">Label:</TextLabel>
+    <Input size="md" placeholder="Default size (32px)" />
+  </Box>
+  <Box>
+    <TextLabel mb="1x" size="lg">Label:</TextLabel>
+    <Input size="lg" placeholder="Large size (40px)" />
+  </Box>
+</Stack>
+```
+
+### Variants
+
+The `Input` component comes in 3 variants: `outline`, `filled`, `flush`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+```jsx
+<Input variant="outline" placeholder="John Doe" />
+```
+
+#### `filled`
+
+```jsx
+<Input variant="filled" placeholder="John Doe" />
+```
+
+#### `flush`
+
+```jsx
+<Input variant="flush" placeholder="John Doe" />
+```
+
+#### `unstyled`
+
+```jsx
+<Input variant="unstyled" placeholder="John Doe" />
+```
+
+### Attributes
+
+Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, `list`, etc.
+
+#### `type`
+
+```jsx
+<Grid
+  templateColumns="min-content auto"
+  columnGap="3x"
+  rowGap="3x"
+>
+  <Grid>
+    <TextLabel>Name:</TextLabel>
+  </Grid>
+  <Grid>
+    <Input type="text" placeholder="John Doe" />
+  </Grid>
+  <Grid>
+    <TextLabel>Password:</TextLabel>
+  </Grid>
+  <Grid>
+    <Input type="password" placeholder="Password" />
+  </Grid>
+</Grid>
+```
+
+#### `disabled`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <Input disabled placeholder="Placeholder text" />
+  <Input disabled placeholder="Placeholder text" defaultValue="Disabled" />
+</Stack>
+```
+
+#### `readOnly`
+
+```jsx
+<Stack directin="column" spacing="4x">
+  <Input readOnly placeholder="Placeholder text" />
+  <Input readOnly placeholder="Placeholder text" defaultValue="Read-only" />
+</Stack>
+```
+
+#### `required`
+
+```jsx
+<Input required placeholder="Placeholder text" />
+```
+
+#### `list`
+
+The value of `list` is the id attribute of the `<datalist>` of autocomplete options. The HTML `<datalist>` element contains a set of `<option>` elements that represent the permissible or recommended options available to choose from within other controls.
+
+```jsx
+<>
+  <Flex alignItems="center">
+    <TextLabel htmlFor="browser-choice" mr="2x">
+      Choose a browser from the list:
+    </TextLabel>
+    <Input list="browsers" id="browser-choice" width="auto" />
+  </Flex>
+  <Box as="datalist" id="browsers">
+    <option value="Chrome" />
+    <option value="Firefox" />
+    <option value="Internet Explorer" />
+    <option value="Opera" />
+    <option value="Safari" />
+    <option value="Microsoft Edge" />
+  </Box>
+</>
+```
+
+### Validation
+
+The `Input` component provides a built-in validation mechanism that can be used to indicate when a field is not valid. When the `error` prop is set to true, a red border is displayed around the input field, allowing you to provide user-friendly form validation feedback.
+
+In addition to the built-in validation mechanism, you can use the native `setCustomValidity()` method to set a custom validation message for the input. This method is available on the input element and allows you to set a custom error message that will be displayed when the field is invalid.
+
+```jsx noInline
+const InlineError = (props) => (
+  <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
+);
+
+const TextField = React.forwardRef((
+  {
+    value,
+    onChange,
+    ...rest
+  },
+  ref,
+) => {
+  const nodeRef = React.useRef();
+  const combinedRef = useMergeRefs(nodeRef, ref);
+  const error = (value === '') ? 'Please fill out this field' : null;
+
+  // Optional
+  React.useEffect(() => {
+    const el = nodeRef.current;
+    const errorMessage = !!error ? error : '';
+    el.setCustomValidity(errorMessage);
+  }, [error]);
+
+  return (
+    <>
+      <Flex position="relative" alignItems="center" mb="1x">
+        <Input
+          ref={combinedRef}
+          placeholder="Placeholder text"
+          value={value}
+          onChange={onChange}
+          error={error}
+          pr={error ? '10x' : undefined}
+        />
+        {error && (
+          <Box position="absolute" right={0}>
+            <Icon icon="warning-circle" mx="3x" color="red:50" />
+          </Box>
+        )}
+      </Flex>
+      <Box>
+        {error && (
+          <InlineError>{error}</InlineError>
+        )}
+      </Box>
+    </>
+  );
+});
+
+render(() => {
+  const [value, setValue] = React.useState('');
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  return (
+    <TextField value={value} onChange={onChange} />
+  );
+});
+```
+
+## Props
+
+### Input
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the input is disabled and the user cannot interact with it. |
+| error | boolean | | If `true`, the input displays a red border to indicate an error. |
+| readOnly | boolean | | If `true`, the value of the input cannot be edited. |
+| size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |
