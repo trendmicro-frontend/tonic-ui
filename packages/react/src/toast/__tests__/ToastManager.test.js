@@ -112,7 +112,7 @@ describe('ToastManager', () => {
   it('should dismiss the toast after a certain amount of time', async () => {
     const user = userEvent.setup();
 
-    const duration = 3000;
+    const duration = 100; // Shorten the duration to 100ms for testing
     const placement = 'bottom-right';
     const message = 'This is a toast message';
 
