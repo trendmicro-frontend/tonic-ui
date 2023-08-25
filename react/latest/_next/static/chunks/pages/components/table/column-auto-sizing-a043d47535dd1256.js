@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[2778],{92645:function(n,u,_){(window.__NEXT_P=window.__NEXT_P||[]).push(["/components/table/column-auto-sizing",function(){return _(16872)}])}},function(n){n.O(0,[5412,6872,9774,2888,179],function(){return n(n.s=92645)}),_N_E=n.O()}]);
