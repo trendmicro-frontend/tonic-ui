@@ -33,7 +33,15 @@ const TreeItemRender = ({
   const nodeId = node.id;
   const nodeLabel = node.label;
 
-  const render = useCallback(({ isExpandable, isSelected }) => {
+  const render = useCallback(({ isExpandable, isExpanded, isSelected }) => {
+    const icon = (() => {
+      if (isExpandable) {
+        return isExpanded ? 'folder-open' : 'folder';
+      }
+      return 'server';
+    })();
+    const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
+
     return (
       <TreeItemContent
         sx={{
@@ -62,6 +70,7 @@ const TreeItemRender = ({
             </TreeItemToggle>
           )}
         </Flex>
+        <Icon icon={icon} color={iconColor} mr="2x" />
         <OverflowTooltip label={nodeLabel}>
           {({ ref, style }) => (
             <Box
@@ -140,8 +149,8 @@ const App = () => {
   return (
     <Box
       sx={{
-        minWidth: 160,
-        maxWidth: '40%',
+        //minWidth: 160,
+        //maxWidth: '40%',
         boxShadow: colorStyle.shadow.thick,
       }}
     >

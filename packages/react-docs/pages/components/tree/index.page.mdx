@@ -18,31 +18,64 @@ import {
 
 ## Usage
 
-### Basic
+### Basic tree
 
-You can enable node selection and unselection by setting `isSelectable` and `isUnselectable` props to `true`.
+To render a tree, you'll need to use the `Tree` component along with one or more `TreeItem` components as its children. You can nest `TreeItem` components to create a tree structure.
 
 {render('./basic')}
 
-### Dropdown
+The `TreeItem` component requires two props: `nodeId` and `render`.
 
-{render('./dropdown')}
+```jsx disabled
+<TreeItem nodeId={nodeId} render={render} />
+```
+
+* The `nodeId` prop accepts a string value that uniquely identifies the node. This prop is required for the tree to work properly.
+* The `render` prop is a function that returns a React element. It receives an object with properties like `nodeDepth`, `nodeId`, `isDisabled`, `isExpandable`, `isExpanded`, `isFocused`, `isSelected`, and various functions for interacting with the node.
+
+In the render function, you can use the provided `TreeItemContent`, `TreeItemToggle`, and `TreeItemToggleIcon` components to structure the content of the tree node.
+
+Here is the recommended structure for rendering a tree node:
+
+```jsx disabled
+function render({ isExpanded }) {
+  return (
+    <TreeItemContent>
+      <Flex flex="none" width="6x">
+        {isExpandable && (
+          <TreeItemToggle>
+            <TreeItemToggleIcon />
+          </TreeItemToggle>
+        )}
+      </Flex>
+      <OverflowTooltip label="Node label">
+        Node label
+      </OverflowTooltip>
+    </TreeItemContent>
+  );
+}
+```
+
+### Selection
+
+You can enable node selection and unselection by setting the `isSelectable` and `isUnselectable` props to `true`.
+
+{render('./selection')}
 
 ### Multi-selection
 
-To enable the selection of multiple nodes, use the `multiSelect` prop.
+To enable the selection of multiple nodes, use the `multiSelect` prop. You can use keyboard shortcuts for efficient navigation and selection.
 
-You can try the following keyboard shortcuts:
-* Press arrow keys to navigate between nodes.
+* Use arrow keys to navigate between nodes.
 * Press the `Space` key to toggle the selection of a node.
-* Press the `Ctrl` key and click the left mouse button to select or unselect a node without affecting the current selection.
-* Press the `Shift` key and click the left mouse button to select a range of nodes from the current node to the clicked node.
+* Hold down `Ctrl` and click to select/unselect nodes.
+* Hold down `Shift` and click to select a range of nodes.
 
 Refer to the [Accessibility](#accessibility) section for more keyboard shortcuts.
 
 {render('./multi-selection')}
 
-When using checkboxes for multi-selection, consider hiding the background color of the tree node when the checkbox is selected to enhance accessibility.
+For checkboxes used in multi-selection, consider enhancing accessibility by adjusting the background color when the checkbox is selected.
 
 ```jsx disabled
 const render = ({ isExpanded, isSelected }) => {
@@ -53,16 +86,7 @@ const render = ({ isExpanded, isSelected }) => {
         backgroundColor: isSelected ? 'transparent' : undefined,
       }}
     >
-      <Flex flex="none" width="6x">
-        {isExpandable && (
-          <TreeItemToggle>
-            <TreeItemToggleIcon />
-          </TreeItemToggle>
-        )}
-      </Flex>
-      <OverflowTooltip label={label}>
-        {label}
-      </OverflowTooltip>
+      {/* ... */}
     </TreeItemContent>
   );
 };
@@ -74,37 +98,40 @@ const render = ({ isExpanded, isSelected }) => {
 
 {render('./controlled')}
 
+### Dropdown
+
+{render('./dropdown')}
+
 ### Load on demand
 
 {render('./load-on-demand')}
 
 ### Resizable
 
-In typical use cases, you can resize the tree with a minimum width of `160px` and a maximum width of `40%` of the display area. Customize the width and height as needed to match your design and layout requirements.
+You can resize the tree with a minimum width of `160px` and a maximum width of `40%` of the display area to match your design and layout requirements.
 
 {render('./resizable')}
 
-### Moving items through drag and drop (DnD)
+### Moving items via Drag and Drop (DnD)
 
-Select items from the right table and move them to a tree node on the left using drag-and-drop (DnD) interaction.
+Select items and move them to a tree node using drag-and-drop (DnD) interaction.
 
 {render('./dnd')}
 
 ## Accessibility
 
 The `Tree` component supports both keyboard and mouse navigation and selection.
-The following keyboard shortcuts are available:
 
-* Use the `Up` and `Down` arrow keys to navigate between nodes.
-* Use the `Left` and `Right` arrow keys to expand/collapse a node.
-* Use the `Enter` key to toggle either the expansion or selection of a node.
-* Use the `Space` key to toggle the selection of a node.
-* Use the `Home` and `End` keys to quickly navigate to the first or last node.
-* Hold down the `Ctrl` key and click the left mouse button to select or unselect a node without affecting the current selection.
-* Hold down the `Shift` key and click the left mouse button to select a range of nodes from the current node to the clicked node.
-* Use `Ctrl`+`Shift`+`Home` keys to select a range of nodes from the current node to the first node.
-* Use `Ctrl`+`Shift`+`End` keys to select a range of nodes from the current node to the last node.
-* Use `Ctrl`+`a` keys to select all nodes.
+Keyboard shortcuts include:
+* Use arrow keys to navigate.
+* Use `Enter` to toggle expansion or selection.
+* Use `Space` to toggle selection.
+* Use `Home` and `End` to quickly navigate to the first or last node.
+* Hold down `Ctrl` and click to select/unselect nodes.
+* Hold down `Shift` and click to select a range of nodes.
+* Use `Ctrl` + `Shift`+`Home` to select a range of nodes from the current node to the first node.
+* Use `Ctrl` + `Shift`+`End` to select a range of nodes from the current node to the last node.
+* Use `Ctrl` + `a` to select all nodes.
 
 ## Props
 
@@ -139,4 +166,4 @@ The following keyboard shortcuts are available:
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | | The children of the tree item content. |
+| children | ReactNode | | Content of the tree item. |

@@ -76,7 +76,7 @@ const TreeItemRender = ({
               fontWeight={isSelected ? 'semibold' : 'normal'}
             >
               {nodeLabel}
-            </Box>
+          </Box>
           )}
         </OverflowTooltip>
       </TreeItemContent>
@@ -117,11 +117,10 @@ const App = () => {
         overflowY="auto"
       >
         <Tree
-          aria-label="multi-selection"
+          aria-label="basic tree"
           defaultExpanded={expandableNodeIds}
           isSelectable
           isUnselectable
-          multiSelect
         >
           {ensureArray(treeNodes).map(node => (
             <TreeItemRender

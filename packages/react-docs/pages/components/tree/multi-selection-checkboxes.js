@@ -125,8 +125,8 @@ const App = () => {
   return (
     <Box
       sx={{
-        minWidth: 160,
-        maxWidth: '40%',
+        //minWidth: 160,
+        //maxWidth: '40%',
         boxShadow: colorStyle.shadow.thick,
       }}
     >
