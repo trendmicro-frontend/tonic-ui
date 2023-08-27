@@ -29,14 +29,7 @@ Wrap the `TonicProvider` component with the `EmotionCacheProvider` and provide t
 ```jsx disabled
 <EmotionCacheProvider nonce={nonce}>
   <TonicProvider
-    key={initialColorMode} // Force re-render if color mode changes
-    colorMode={{
-      defaultValue: initialColorMode,
-    }}
-    colorStyle={{
-      defaultValue: defaultColorStyle,
-    }}
-    theme={theme}
+    colorMode={colorMode}
     useCSSBaseline
   >
     <PortalManager>
