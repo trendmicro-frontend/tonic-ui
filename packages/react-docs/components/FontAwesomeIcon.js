@@ -1,10 +1,15 @@
 import { keyframes, ClassNames } from '@emotion/react';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon as FAIcon } from '@fortawesome/react-fontawesome';
 import React, { forwardRef } from 'react';
+
+/**
+ * https://fontawesome.com/docs/apis/javascript/configuration
+ */
+config.autoAddCss = false; // Do not add the supporting CSS automatically to the <head> of the HTML document
 
 library.add(fab);
 library.add(far);
