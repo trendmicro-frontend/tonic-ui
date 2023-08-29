@@ -1,4 +1,5 @@
 import { useColorMode } from '../color-mode';
+import { useTheme } from '../theme';
 
 const useTreeItemStyle = () => {
   return {
@@ -10,6 +11,7 @@ const useTreeItemContentStyle = ({
   isSelected,
   tabIndex,
 }) => {
+  const { colors, sizes } = useTheme();
   const [colorMode] = useColorMode();
   const color = {
     dark: 'white:primary',
@@ -19,7 +21,7 @@ const useTreeItemContentStyle = ({
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
-  const focusBorderColor = {
+  const focusBoxShadowColor = {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
@@ -48,10 +50,8 @@ const useTreeItemContentStyle = ({
     _hover: {
       backgroundColor: !isDisabled ? hoverBackgroundColor : undefined,
     },
-    _focus: {
-      borderColor: focusBorderColor,
-
-      // Note: The border will be added in TreeItemContent
+    _focusVisible: {
+      boxShadow: `inset 0 0 0 ${sizes?.['1h']} ${colors?.[focusBoxShadowColor]}`,
     },
   };
 };

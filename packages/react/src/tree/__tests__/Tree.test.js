@@ -210,6 +210,8 @@ describe('Tree', () => {
 
     expect(screen.getByRole('tree')).toHaveAttribute('aria-multiselectable', 'true');
 
+    expect(container).toMatchSnapshot();
+
     await testA11y(container);
   });
 
