@@ -200,20 +200,13 @@ exports[`Menu should render correctly 1`] = `
   width: 100%;
 }
 
+.emotion-16:focus-visible {
+  box-shadow: inset 0 0 0 .125rem #1e5ede;
+}
+
 .emotion-16[aria-selected=true],
 .emotion-16[data-selected] {
   background-color: rgba(255, 255, 255, 0.08);
-}
-
-.emotion-16:focus,
-.emotion-16[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
-  border-style: solid;
-  border-width: var(--tonic-sizes-1h);
-  padding-left: calc(.75rem - .125rem);
-  padding-right: calc(.75rem - .125rem);
-  padding-top: calc(.5rem - .125rem);
-  padding-bottom: calc(.5rem - .125rem);
 }
 
 .emotion-16:hover,

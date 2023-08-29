@@ -62,12 +62,12 @@ const useMenuListStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorModeStyle = {
-    light: {
-      backgroundColor: 'white',
-      boxShadow: colorStyle?.shadow?.medium,
-    },
     dark: {
       backgroundColor: 'gray:80',
+      boxShadow: colorStyle?.shadow?.medium,
+    },
+    light: {
+      backgroundColor: 'white',
       boxShadow: colorStyle?.shadow?.medium,
     },
   }[colorMode];
@@ -96,28 +96,27 @@ const useMenuGroupStyle = () => {
 };
 
 const useMenuItemStyle = ({ tabIndex }) => {
-  const theme = useTheme();
-  const { sizes } = theme;
+  const { colors, sizes } = useTheme();
   const [colorMode] = useColorMode();
   const color = {
-    light: 'black:primary',
     dark: 'white:primary',
+    light: 'black:primary',
   }[colorMode];
   const hoverBackgroundColor = {
-    light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
-  const focusBorderColor = {
-    light: 'blue:60',
+  const focusBoxShadowColor = {
     dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
   const disabledColor = {
-    light: 'black:disabled',
     dark: 'white:disabled',
+    light: 'black:disabled',
   }[colorMode];
   const selectedBackgroundColor = {
-    light: 'rgba(0, 0, 0, 0.08)',
     dark: 'rgba(255, 255, 255, 0.08)',
+    light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
 
   return {
@@ -134,12 +133,8 @@ const useMenuItemStyle = ({ tabIndex }) => {
     py: '2x',
     userSelect: 'none',
     width: '100%',
-    _focus: {
-      borderColor: focusBorderColor,
-      borderStyle: 'solid',
-      borderWidth: '1h',
-      px: `calc(${sizes['3x']} - ${sizes['1h']})`,
-      py: `calc(${sizes['2x']} - ${sizes['1h']})`,
+    _focusVisible: {
+      boxShadow: `inset 0 0 0 ${sizes?.['1h']} ${colors?.[focusBoxShadowColor]}`,
     },
     _hover: {
       backgroundColor: hoverBackgroundColor,
