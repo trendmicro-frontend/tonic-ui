@@ -47,9 +47,11 @@ const getContentSecurityPolicy = (nonce) => {
     `default-src 'self'`,
     `connect-src 'self' http: https:`,
     `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' 'strict-dynamic'`,
-    `style-src 'self' 'unsafe-inline'`,
-    //`style-src 'self' 'nonce-${nonce}'`, // FIXME: 'nonce-${nonce}' is not working when directly importing CSS styles
-    'img-src https: data:',
+    process.env.NODE_ENV === 'development'
+      ? `style-src 'self' 'unsafe-inline'` // required for the `dev-build-watcher.js` script
+      : `style-src 'self' 'nonce-${nonce}'`,
+    `style-src-attr 'self' 'unsafe-inline'`, // required for the color mode script to set the `color-scheme` property on the root element
+    'img-src http: https: data:'
   ].join('; ');
 
   return csp;
@@ -68,7 +70,8 @@ class CustomDocument extends Document {
       <Html>
         <Head nonce={NONCE}>
           <meta httpEquiv="Content-Security-Policy" content={csp} />
-          <link rel="shortcut icon" href={`${BASE_PATH}/tonic-favicon-dark.ico`} />
+          <link rel="shortcut icon" href={`${BASE_PATH}/tonic-favicon-dark.ico`} nonce={NONCE} />
+          <link rel="stylesheet" href={`${BASE_PATH}/styles/app.css`} nonce={NONCE} />
           {(MATOMO_URL && MATOMO_CONTAINER_ID) && (
             <script
               nonce={NONCE}

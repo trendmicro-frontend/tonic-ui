@@ -26,7 +26,6 @@ import MDXComponents from '../components/MDXComponents';
 import Main from '../components/Main';
 import Sidebar from '../components/Sidebar';
 import TableOfContents from '../components/TableOfContents';
-import '../styles.css';
 
 const NONCE = ensureString(process.env.NONCE);
 
