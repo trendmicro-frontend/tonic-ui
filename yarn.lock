@@ -3638,6 +3638,7 @@ __metadata:
     "@babel/preset-react": ^7.0.0
     "@babel/runtime": ^7.0.0
     "@emotion/babel-plugin": ^11.10.0
+    "@emotion/cache": ^11.11.0
     "@emotion/react": ^11.10.0
     "@fortawesome/fontawesome-svg-core": ^6.2.0
     "@fortawesome/free-brands-svg-icons": ^6.2.0

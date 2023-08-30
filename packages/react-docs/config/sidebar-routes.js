@@ -28,6 +28,7 @@ export const routes = [
       { title: 'CSS Variables', path: 'getting-started/css-variables' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Migration From v0.x to v1', path: 'getting-started/migration-v0x' },
+      { title: 'Security', path: 'getting-started/security' },
       { title: 'Versions', path: 'getting-started/versions' },
       { title: 'Contributing', path: 'getting-started/contributing' },
     ],

@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import mdxPlugin from '@next/mdx';
@@ -294,6 +295,8 @@ const initialNextConfig = {
     // CI
     CI_COMMIT_SHORT: process.env.CI_COMMIT_SHORT,
     CI_PULL_REQUEST_NUMBER: process.env.CI_PULL_REQUEST_NUMBER,
+    // Content Security Policy
+    NONCE: randomBytes(16).toString('base64'),
     // Matomo
     MATOMO_URL: process.env.MATOMO_URL,
     MATOMO_CONTAINER_ID: process.env.MATOMO_CONTAINER_ID,

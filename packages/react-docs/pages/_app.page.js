@@ -1,3 +1,5 @@
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
 import { MDXProvider } from '@mdx-js/react';
 import {
   Box,
@@ -13,6 +15,7 @@ import {
   useToggle,
 } from '@tonic-ui/react-hooks';
 import algoliasearch from 'algoliasearch/lite';
+import { ensureString } from 'ensure-type';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -23,13 +26,30 @@ import MDXComponents from '../components/MDXComponents';
 import Main from '../components/Main';
 import Sidebar from '../components/Sidebar';
 import TableOfContents from '../components/TableOfContents';
-import '../styles.css';
- 
+
+const NONCE = ensureString(process.env.NONCE);
+
 // Algolia search client
 const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY);
 
 // Enable CSS variables replacement
 theme.config.useCSSVariables = true;
+
+const EmotionCacheProvider = ({
+  children,
+  nonce,
+}) => {
+  const cache = createCache({
+    key: 'tonic-ui',
+    nonce,
+  });
+
+  return (
+    <CacheProvider value={cache}>
+      {children}
+    </CacheProvider>
+  );
+};
 
 const App = (props) => {
   const [initialColorMode, setColorMode] = useState(null);
@@ -65,26 +85,28 @@ const App = (props) => {
         highlightPreTag="<mark>"
         highlightPostTag="</mark>"
       />
-      <TonicProvider
-        key={initialColorMode} // Force re-render if color mode changes
-        colorMode={{
-          defaultValue: initialColorMode,
-        }}
-        colorStyle={{
-          defaultValue: defaultColorStyle,
-        }}
-        theme={theme}
-        useCSSBaseline
-      >
-        <PortalManager>
-          <ToastManager>
-            <MDXProvider components={MDXComponents}>
-              <Page {...props} />
-              <GlobalStyles />
-            </MDXProvider>
-          </ToastManager>
-        </PortalManager>
-      </TonicProvider>
+      <EmotionCacheProvider nonce={NONCE}>
+        <TonicProvider
+          key={initialColorMode} // Force re-render if color mode changes
+          colorMode={{
+            defaultValue: initialColorMode,
+          }}
+          colorStyle={{
+            defaultValue: defaultColorStyle,
+          }}
+          theme={theme}
+          useCSSBaseline
+        >
+          <PortalManager>
+            <ToastManager>
+              <MDXProvider components={MDXComponents}>
+                <Page {...props} />
+                <GlobalStyles />
+              </MDXProvider>
+            </ToastManager>
+          </PortalManager>
+        </TonicProvider>
+      </EmotionCacheProvider>
     </InstantSearch>
   );
 };
