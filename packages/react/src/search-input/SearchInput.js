@@ -2,6 +2,7 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { InputControl } from '../input';
+import useRunAfterUpdate from '../utils/useRunAfterUpdate';
 import SearchInputAdornment from './SearchInputAdornment';
 import SearchInputClearButton from './SearchInputClearButton';
 import SearchInputLoadingIcon from './SearchInputLoadingIcon';
@@ -31,13 +32,22 @@ const SearchInput = React.forwardRef((
   const combinedRef = useMergeRefs(nodeRef, ref);
   const [value, setValue] = useState(ensureString(valueProp ?? defaultValueProp));
   const isClearable = !disabled && !readOnly && !!value;
+  const inputSelectionRef = useRef();
+  const runAfterUpdate = useRunAfterUpdate();
 
   useEffect(() => {
     const isControlled = (valueProp !== undefined);
     if (isControlled) {
       setValue(valueProp);
     }
-  }, [valueProp]);
+
+    runAfterUpdate(() => {
+      if (inputSelectionRef.current && nodeRef.current) {
+        nodeRef.current.selectionStart = inputSelectionRef.current.start;
+        nodeRef.current.selectionEnd = inputSelectionRef.current.end;
+      }
+    });
+  }, [valueProp, runAfterUpdate]);
 
   const iconState = (() => {
     if (isLoading) {
@@ -73,9 +83,15 @@ const SearchInput = React.forwardRef((
   const onChange = useCallback((e) => {
     const nextValue = ensureString(e.target.value ?? '');
     const isControlled = (valueProp !== undefined);
+
     if (!isControlled) {
       setValue(nextValue);
     }
+
+    inputSelectionRef.current = {
+      start: e.target.selectionStart,
+      end: e.target.selectionEnd,
+    };
 
     if (typeof onChangeProp === 'function') {
       onChangeProp(e);
