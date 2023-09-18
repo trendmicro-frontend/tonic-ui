@@ -144,7 +144,6 @@ const SwitchControlBox = forwardRef((
 
   return (
     <Box
-      type={inputType}
       aria-hidden={ariaAttr(true)}
       sx={[sx, ...ensureArray(sxProp)]}
       {...styleProps}
