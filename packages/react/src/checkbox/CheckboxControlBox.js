@@ -41,7 +41,6 @@ const CheckboxControlBox = forwardRef((
   const icon = !!indeterminate
     ? <IconIndeterminate size={iconSize} />
     : <IconChecked size={iconSize} />;
-
   const inputType = 'checkbox';
   const getCheckboxControlBoxSelector = (pseudos) => {
     return `input[type="${inputType}"]` + ensureString(pseudos) + ' + &';
