@@ -17,7 +17,7 @@
     "version": "yarn install && git stage yarn.lock",
     "test": "lerna exec -- yarn test"
   },
-  "author": "Cheton Wu <cheton_wu@trendmicro.com>",
+  "author": "Cheton Wu",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
   "license": "MIT",
   "repository": {
