@@ -34,9 +34,6 @@ exports[`Tabs should render correctly 1`] = `
   padding: 0;
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
-  border-color: var(--tonic-colors-transparent);
-  border-style: solid;
-  border-width: var(--tonic-sizes-1h);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -45,40 +42,37 @@ exports[`Tabs should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding-left: var(--tonic-space-3x);
-  padding-right: var(--tonic-space-3x);
-  padding-top: var(--tonic-space-2x);
+  padding-left: var(--tonic-space-4x);
+  padding-right: var(--tonic-space-4x);
+  padding-top: calc(.5rem + .125rem);
   padding-bottom: var(--tonic-space-2x);
+  border-bottom-color: var(--tonic-colors-transparent);
+  border-bottom-style: solid;
+  border-bottom-width: var(--tonic-sizes-1h);
+}
+
+.emotion-4:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-width: var(--tonic-sizes-1h);
+  outline-style: solid;
+  outline-offset: calc(var(--tonic-space-1h) * -1);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-4[aria-selected=true],
 .emotion-4[data-selected] {
-  border: none;
   border-bottom-color: var(--tonic-colors-red-60);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-white-primary);
-  padding-left: calc(.75rem + .125rem);
-  padding-right: calc(.75rem + .125rem);
-  padding-top: calc(.5rem + .125rem);
-}
-
-.emotion-4:focus,
-.emotion-4[data-focus] {
-  border-color: var(--tonic-colors-red-60);
   color: var(--tonic-colors-white-primary);
 }
 
 .emotion-4:hover,
 .emotion-4[data-hover] {
-  border: none;
   border-bottom-color: var(--tonic-colors-red-60);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
   color: var(--tonic-colors-white-primary);
-  padding-left: calc(.75rem + .125rem);
-  padding-right: calc(.75rem + .125rem);
-  padding-top: calc(.5rem + .125rem);
 }
 
 .emotion-6 {
@@ -93,9 +87,6 @@ exports[`Tabs should render correctly 1`] = `
   padding: 0;
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
-  border-color: var(--tonic-colors-transparent);
-  border-style: solid;
-  border-width: var(--tonic-sizes-1h);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -104,40 +95,37 @@ exports[`Tabs should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding-left: var(--tonic-space-3x);
-  padding-right: var(--tonic-space-3x);
-  padding-top: var(--tonic-space-2x);
+  padding-left: var(--tonic-space-4x);
+  padding-right: var(--tonic-space-4x);
+  padding-top: calc(.5rem + .125rem);
   padding-bottom: var(--tonic-space-2x);
+  border-bottom-color: var(--tonic-colors-transparent);
+  border-bottom-style: solid;
+  border-bottom-width: var(--tonic-sizes-1h);
+}
+
+.emotion-6:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-width: var(--tonic-sizes-1h);
+  outline-style: solid;
+  outline-offset: calc(var(--tonic-space-1h) * -1);
+  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-6[aria-selected=true],
 .emotion-6[data-selected] {
-  border: none;
   border-bottom-color: var(--tonic-colors-red-60);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-white-primary);
-  padding-left: calc(.75rem + .125rem);
-  padding-right: calc(.75rem + .125rem);
-  padding-top: calc(.5rem + .125rem);
-}
-
-.emotion-6:focus,
-.emotion-6[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
   color: var(--tonic-colors-white-primary);
 }
 
 .emotion-6:hover,
 .emotion-6[data-hover] {
-  border: none;
   border-bottom-color: var(--tonic-colors-gray-60);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
   color: var(--tonic-colors-white-primary);
-  padding-left: calc(.75rem + .125rem);
-  padding-right: calc(.75rem + .125rem);
-  padding-top: calc(.5rem + .125rem);
 }
 
 .emotion-8 {
@@ -153,9 +141,6 @@ exports[`Tabs should render correctly 1`] = `
   padding: 0;
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
-  border-color: var(--tonic-colors-transparent);
-  border-style: solid;
-  border-width: var(--tonic-sizes-1h);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -164,40 +149,37 @@ exports[`Tabs should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding-left: var(--tonic-space-3x);
-  padding-right: var(--tonic-space-3x);
-  padding-top: var(--tonic-space-2x);
+  padding-left: var(--tonic-space-4x);
+  padding-right: var(--tonic-space-4x);
+  padding-top: calc(.5rem + .125rem);
   padding-bottom: var(--tonic-space-2x);
+  border-bottom-color: var(--tonic-colors-transparent);
+  border-bottom-style: solid;
+  border-bottom-width: var(--tonic-sizes-1h);
+}
+
+.emotion-8:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-width: var(--tonic-sizes-1h);
+  outline-style: solid;
+  outline-offset: calc(var(--tonic-space-1h) * -1);
+  color: var(--tonic-colors-white-disabled);
 }
 
 .emotion-8[aria-selected=true],
 .emotion-8[data-selected] {
-  border: none;
   border-bottom-color: var(--tonic-colors-transparent);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
-  color: var(--tonic-colors-white-disabled);
-  padding-left: calc(.75rem + .125rem);
-  padding-right: calc(.75rem + .125rem);
-  padding-top: calc(.5rem + .125rem);
-}
-
-.emotion-8:focus,
-.emotion-8[data-focus] {
-  border-color: var(--tonic-colors-transparent);
   color: var(--tonic-colors-white-disabled);
 }
 
 .emotion-8:hover,
 .emotion-8[data-hover] {
-  border: none;
   border-bottom-color: var(--tonic-colors-transparent);
   border-bottom-style: solid;
   border-bottom-width: var(--tonic-sizes-1h);
   color: var(--tonic-colors-white-disabled);
-  padding-left: calc(.75rem + .125rem);
-  padding-right: calc(.75rem + .125rem);
-  padding-top: calc(.5rem + .125rem);
 }
 
 .emotion-10 {

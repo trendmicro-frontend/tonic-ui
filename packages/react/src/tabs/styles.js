@@ -24,7 +24,7 @@ const useTabStyle = ({
   if (variant === 'default') {
     // border color
     const disabledBorderColor = 'transparent';
-    const focusBorderColor = {
+    const focusVisibleBorderColor = {
       dark: 'blue:60',
       light: 'blue:60',
     }[colorMode];
@@ -89,61 +89,69 @@ const useTabStyle = ({
       return fallbackColor;
     };
 
-    const selectedPaddingXKey = {
-      'horizontal': 'px',
-      'vertical': 'pr',
-    }[orientation];
-    const selectedPaddingYKey = {
-      'horizontal': 'pt',
-      'vertical': 'py',
-    }[orientation];
-    const selectedBorderColorKey = {
+    const borderColorKey = {
       'horizontal': 'borderBottomColor',
       'vertical': 'borderLeftColor',
     }[orientation];
-    const selectedBorderStyleKey = {
+    const borderStyleKey = {
       'horizontal': 'borderBottomStyle',
       'vertical': 'borderLeftStyle',
     }[orientation];
-    const selectedBorderWidthKey = {
+    const borderWidthKey = {
       'horizontal': 'borderBottomWidth',
       'vertical': 'borderLeftWidth',
     }[orientation];
 
+    const paddingStyle = (() => {
+      if (orientation === 'horizontal') {
+        return {
+          px: '4x',
+          pt: `calc(${sizes?.['2x']} + ${sizes?.['1h']})`,
+          pb: '2x',
+        };
+      }
+
+      if (orientation === 'vertical') {
+        return {
+          pl: `calc(${sizes?.['4x']} - ${sizes?.['1h']})`,
+          pr: '4x',
+          py: `calc(${sizes?.['2x']} + ${sizes?.['1h']})`,
+        };
+      }
+
+      return {};
+    })();
+
     return {
       fontSize: 'sm',
       lineHeight: 'sm',
-      borderColor: 'transparent',
-      borderStyle: 'solid',
-      borderWidth: '1h',
       color: getColorStyleWithFallback(color),
       cursor: getCursorStyle(),
       display: 'flex',
       alignItems: 'center',
-      px: '3x',
-      py: '2x',
+      ...paddingStyle,
+      [borderColorKey]: 'transparent',
+      [borderStyleKey]: 'solid',
+      [borderWidthKey]: '1h',
       outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
       _hover: {
-        border: 'none',
-        [selectedBorderColorKey]: getBorderColorStyleWithFallback(hoverBorderColor),
-        [selectedBorderStyleKey]: 'solid',
-        [selectedBorderWidthKey]: '1h',
+        [borderColorKey]: getBorderColorStyleWithFallback(hoverBorderColor),
+        [borderStyleKey]: 'solid',
+        [borderWidthKey]: '1h',
         color: getColorStyleWithFallback(hoverColor),
-        [selectedPaddingXKey]: `calc(${sizes?.['3x']} + ${sizes?.['1h']})`,
-        [selectedPaddingYKey]: `calc(${sizes?.['2x']} + ${sizes?.['1h']})`,
       },
-      _focus: {
-        borderColor: getBorderColorStyleWithFallback(focusBorderColor),
+      _focusVisible: {
+        outlineColor: focusVisibleBorderColor,
+        outlineWidth: '1h',
+        outlineStyle: 'solid',
+        outlineOffset: '-1h',
         color: getColorStyleWithFallback(focusColor),
       },
       _selected: {
-        border: 'none',
-        [selectedBorderColorKey]: getBorderColorStyleWithFallback(selectedBorderColor),
-        [selectedBorderStyleKey]: 'solid',
-        [selectedBorderWidthKey]: '1h',
+        [borderColorKey]: getBorderColorStyleWithFallback(selectedBorderColor),
+        [borderStyleKey]: 'solid',
+        [borderWidthKey]: '1h',
         color: getColorStyleWithFallback(selectedColor),
-        [selectedPaddingXKey]: `calc(${sizes?.['3x']} + ${sizes?.['1h']})`,
-        [selectedPaddingYKey]: `calc(${sizes?.['2x']} + ${sizes?.['1h']})`,
       },
     };
   }
@@ -180,7 +188,7 @@ const useTabStyle = ({
       dark: 'gray:80',
       light: 'gray:20',
     }[colorMode];
-    const focusBorderColor = {
+    const focusVisibleBorderColor = {
       dark: 'blue:60',
       light: 'blue:60',
     }[colorMode];
@@ -258,10 +266,46 @@ const useTabStyle = ({
       return fallbackColor;
     };
 
-    const siblingMarginKey = {
-      'horizontal': 'mr',
-      'vertical': 'mb',
-    }[orientation];
+    const marginStyle = (() => {
+      if (orientation === 'horizontal') {
+        return {
+          mr: '-1q',
+          _lastOfType: {
+            mr: 0,
+          },
+        };
+      }
+
+      if (orientation === 'vertical') {
+        return {
+          mb: '-1q',
+          _lastOfType: {
+            mb: 0,
+          },
+        };
+      }
+
+      return {};
+    })();
+
+    const paddingStyle = (() => {
+      if (orientation === 'horizontal') {
+        return {
+          px: `calc(${sizes?.['4x']} - ${sizes?.['1q']})`,
+          py: `calc(${sizes?.['10q']} - ${sizes?.['1q']})`,
+        };
+      }
+
+      if (orientation === 'vertical') {
+        return {
+          pl: `calc(${sizes?.['4x']} - ${sizes?.['1h']})`,
+          pr: '4x',
+          py: `calc(${sizes?.['2x']} + ${sizes?.['1h']})`,
+        };
+      }
+
+      return {};
+    })();
 
     return {
       fontSize: 'sm',
@@ -274,31 +318,26 @@ const useTabStyle = ({
       cursor: getCursorStyle(),
       display: 'flex',
       alignItems: 'center',
-      px: `calc(${sizes?.['3x']} + ${sizes?.['1q']})`,
-      py: `calc(${sizes?.['2x']} + ${sizes?.['1q']})`,
-      [siblingMarginKey]: '-1q',
+      ...marginStyle,
+      ...paddingStyle,
       _hover: {
         backgroundColor: getBackgroundColorStyleWithFallback(hoverBackgroundColor),
         borderColor: getBorderColorStyleWithFallback(hoverBorderColor),
         color: getColorStyleWithFallback(hoverColor),
       },
-      _focus: {
+      _focusVisible: {
         backgroundColor: getBackgroundColorStyleWithFallback(focusBackgroundColor),
-        borderColor: getBorderColorStyleWithFallback(focusBorderColor),
-        borderStyle: 'solid',
-        borderWidth: '1h',
         color: getColorStyleWithFallback(focusColor),
-        px: '3x',
-        py: '2x',
+        outlineColor: focusVisibleBorderColor,
+        outlineWidth: '1h',
+        outlineStyle: 'solid',
+        outlineOffset: '-1h',
         zIndex: 1,
       },
       _selected: {
         backgroundColor: getBackgroundColorStyleWithFallback(selectedBackgroundColor),
         borderColor: getBorderColorStyleWithFallback(selectedBorderColor),
         color: getColorStyleWithFallback(selectedColor),
-      },
-      _lastOfType: {
-        [siblingMarginKey]: 0,
       },
     };
   }
