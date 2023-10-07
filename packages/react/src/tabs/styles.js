@@ -24,7 +24,7 @@ const useTabStyle = ({
   if (variant === 'default') {
     // border color
     const disabledBorderColor = 'transparent';
-    const focusVisibleBorderColor = {
+    const focusVisibleOutlineColor = {
       dark: 'blue:60',
       light: 'blue:60',
     }[colorMode];
@@ -141,10 +141,10 @@ const useTabStyle = ({
         color: getColorStyleWithFallback(hoverColor),
       },
       _focusVisible: {
-        outlineColor: focusVisibleBorderColor,
-        outlineWidth: '1h',
-        outlineStyle: 'solid',
+        outlineColor: focusVisibleOutlineColor,
         outlineOffset: '-1h',
+        outlineStyle: 'solid',
+        outlineWidth: '1h',
         color: getColorStyleWithFallback(focusColor),
       },
       _selected: {
@@ -188,7 +188,7 @@ const useTabStyle = ({
       dark: 'gray:80',
       light: 'gray:20',
     }[colorMode];
-    const focusVisibleBorderColor = {
+    const focusVisibleOutlineColor = {
       dark: 'blue:60',
       light: 'blue:60',
     }[colorMode];
@@ -328,7 +328,7 @@ const useTabStyle = ({
       _focusVisible: {
         backgroundColor: getBackgroundColorStyleWithFallback(focusBackgroundColor),
         color: getColorStyleWithFallback(focusColor),
-        outlineColor: focusVisibleBorderColor,
+        outlineColor: focusVisibleOutlineColor,
         outlineWidth: '1h',
         outlineStyle: 'solid',
         outlineOffset: '-1h',

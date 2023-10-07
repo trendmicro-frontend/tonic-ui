@@ -1,5 +1,4 @@
 import { useColorMode } from '../color-mode';
-import { useTheme } from '../theme';
 
 const useTreeItemStyle = () => {
   return {
@@ -11,7 +10,6 @@ const useTreeItemContentStyle = ({
   isSelected,
   tabIndex,
 }) => {
-  const { colors, sizes } = useTheme();
   const [colorMode] = useColorMode();
   const color = {
     dark: 'white:primary',
@@ -21,7 +19,7 @@ const useTreeItemContentStyle = ({
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
-  const focusBoxShadowColor = {
+  const focusVisibleOutlineColor = {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
@@ -51,7 +49,10 @@ const useTreeItemContentStyle = ({
       backgroundColor: !isDisabled ? hoverBackgroundColor : undefined,
     },
     _focusVisible: {
-      boxShadow: `inset 0 0 0 ${sizes?.['1h']} ${colors?.[focusBoxShadowColor]}`,
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
     },
   };
 };

@@ -100,7 +100,7 @@ const CheckboxControlBox = forwardRef((
     const checkedAndDisabledBorderColor = disabledBorderColor;
 
     // outline color
-    const focusOutlineColor = {
+    const focusVisibleOutlineColor = {
       dark: `${variantColor}:60`,
       light: `${variantColor}:60`,
     }[colorMode];
@@ -121,8 +121,8 @@ const CheckboxControlBox = forwardRef((
         opacity: 0.28,
       },
       [getCheckboxControlBoxSelector(':focus-visible')]: {
+        outlineColor: focusVisibleOutlineColor,
         outlineStyle: 'solid',
-        outlineColor: focusOutlineColor,
         outlineWidth: '1h',
       },
       [getCheckboxControlBoxSelector(':checked')]: {
@@ -181,7 +181,7 @@ const CheckboxControlBox = forwardRef((
     }[colorMode];
 
     // outline color
-    const focusOutlineColor = {
+    const focusVisibleOutlineColor = {
       dark: `${variantColor}:60`,
       light: `${variantColor}:60`,
     }[colorMode];
@@ -196,8 +196,8 @@ const CheckboxControlBox = forwardRef((
         color: hoverColor,
       },
       [getCheckboxControlBoxSelector('[data-indeterminate]:focus-visible')]: {
+        outlineColor: focusVisibleOutlineColor,
         outlineStyle: 'solid',
-        outlineColor: focusOutlineColor,
         outlineWidth: '1h',
       },
       [getCheckboxControlBoxSelector('[data-indeterminate]:disabled')]: {

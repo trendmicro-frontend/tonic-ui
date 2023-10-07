@@ -66,7 +66,9 @@ input[type="radio"]:hover+.emotion-4 {
 }
 
 input[type="radio"]:focus-visible+.emotion-4 {
-  box-shadow: 0 0 0 2px #1e5ede;
+  outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
 }
 
 input[type="radio"]:disabled+.emotion-4 {
@@ -150,7 +152,9 @@ input[type="radio"]:hover+.emotion-14 {
 }
 
 input[type="radio"]:focus-visible+.emotion-14 {
-  box-shadow: 0 0 0 2px #1e5ede;
+  outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
 }
 
 input[type="radio"]:disabled+.emotion-14 {
@@ -225,7 +229,9 @@ input[type="radio"]:hover+.emotion-24 {
 }
 
 input[type="radio"]:focus-visible+.emotion-24 {
-  box-shadow: 0 0 0 2px #1e5ede;
+  outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
 }
 
 input[type="radio"]:disabled+.emotion-24 {

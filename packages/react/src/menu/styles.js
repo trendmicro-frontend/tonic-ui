@@ -1,7 +1,6 @@
 import { sx } from '@tonic-ui/styled-system';
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
-import { useTheme } from '../theme';
 
 const useMenuStyle = () => {
   return {
@@ -96,7 +95,6 @@ const useMenuGroupStyle = () => {
 };
 
 const useMenuItemStyle = ({ tabIndex }) => {
-  const { colors, sizes } = useTheme();
   const [colorMode] = useColorMode();
   const color = {
     dark: 'white:primary',
@@ -106,7 +104,7 @@ const useMenuItemStyle = ({ tabIndex }) => {
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
-  const focusBoxShadowColor = {
+  const focusVisibleOutlineColor = {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
@@ -134,7 +132,10 @@ const useMenuItemStyle = ({ tabIndex }) => {
     userSelect: 'none',
     width: '100%',
     _focusVisible: {
-      boxShadow: `inset 0 0 0 ${sizes?.['1h']} ${colors?.[focusBoxShadowColor]}`,
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
     },
     _hover: {
       backgroundColor: hoverBackgroundColor,

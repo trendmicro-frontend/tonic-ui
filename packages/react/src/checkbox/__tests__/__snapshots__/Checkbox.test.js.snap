@@ -82,8 +82,8 @@ input[type="checkbox"]:disabled+.emotion-4 {
 }
 
 input[type="checkbox"]:focus-visible+.emotion-4 {
-  outline-style: solid;
   outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
 
@@ -208,8 +208,8 @@ input[type="checkbox"]:disabled+.emotion-16 {
 }
 
 input[type="checkbox"]:focus-visible+.emotion-16 {
-  outline-style: solid;
   outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
 
@@ -316,8 +316,8 @@ input[type="checkbox"]:disabled+.emotion-28 {
 }
 
 input[type="checkbox"]:focus-visible+.emotion-28 {
-  outline-style: solid;
   outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
 
@@ -418,8 +418,8 @@ input[type="checkbox"][data-indeterminate]:hover:not(:disabled)+.emotion-52 {
 }
 
 input[type="checkbox"][data-indeterminate]:focus-visible+.emotion-52 {
-  outline-style: solid;
   outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
 

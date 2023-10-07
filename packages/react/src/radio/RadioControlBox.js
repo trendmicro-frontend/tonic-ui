@@ -72,7 +72,7 @@ const RadioControlBox = forwardRef((
     const checkedAndDisabledBorderColor = disabledBorderColor;
 
     // focus color
-    const focusOutlineColor = {
+    const focusVisibleOutlineColor = {
       dark: `${variantColor}:60`,
       light: `${variantColor}:60`,
     }[colorMode];
@@ -83,7 +83,9 @@ const RadioControlBox = forwardRef((
         borderColor: hoverBorderColor,
       },
       [getRadioControlBoxSelector(':focus-visible')]: {
-        boxShadow: `0 0 0 2px ${theme?.colors?.[focusOutlineColor]}`,
+        outlineColor: focusVisibleOutlineColor,
+        outlineStyle: 'solid',
+        outlineWidth: '1h',
       },
       [getRadioControlBoxSelector(':disabled')]: {
         borderColor: disabledBorderColor,

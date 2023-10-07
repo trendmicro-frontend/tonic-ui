@@ -31,7 +31,10 @@ exports[`Tree should render correctly 1`] = `
 }
 
 .emotion-4:focus-visible {
-  box-shadow: inset 0 0 0 .125rem #1e5ede;
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(var(--tonic-space-1h) * -1);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
 }
 
 .emotion-4:hover,

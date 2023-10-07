@@ -53,9 +53,9 @@ exports[`Tabs should render correctly 1`] = `
 
 .emotion-4:focus-visible {
   outline-color: var(--tonic-colors-blue-60);
-  outline-width: var(--tonic-sizes-1h);
-  outline-style: solid;
   outline-offset: calc(var(--tonic-space-1h) * -1);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
   color: var(--tonic-colors-white-primary);
 }
 
@@ -106,9 +106,9 @@ exports[`Tabs should render correctly 1`] = `
 
 .emotion-6:focus-visible {
   outline-color: var(--tonic-colors-blue-60);
-  outline-width: var(--tonic-sizes-1h);
-  outline-style: solid;
   outline-offset: calc(var(--tonic-space-1h) * -1);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
   color: var(--tonic-colors-white-primary);
 }
 
@@ -160,9 +160,9 @@ exports[`Tabs should render correctly 1`] = `
 
 .emotion-8:focus-visible {
   outline-color: var(--tonic-colors-blue-60);
-  outline-width: var(--tonic-sizes-1h);
-  outline-style: solid;
   outline-offset: calc(var(--tonic-space-1h) * -1);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
   color: var(--tonic-colors-white-disabled);
 }
 
