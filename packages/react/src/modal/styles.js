@@ -142,19 +142,27 @@ const useModalCloseButtonStyle = () => {
     light: 'black:tertiary',
   }[colorMode];
   const size = '8x';
-  const _focusBorderColor = 'blue:60';
-  const _focusBoxShadowBorderColor = 'blue:60';
-  const _hoverColor = {
+  const focusVisibleOutlineColor = 'blue:60';
+  const hoverColor = {
     dark: 'white:emphasis',
     light: 'black:primary',
   }[colorMode];
-  const baseStyle = useIconButtonStyle({ color, size, _focusBorderColor, _focusBoxShadowBorderColor, _hoverColor });
+  const iconButtonStyle = useIconButtonStyle({ color, size });
   const parentBorderWidth = sizes['1q'];
   const top = `calc(${sizes['2x']} - ${parentBorderWidth})`;
   const right = `calc(${sizes['2x']} - ${parentBorderWidth})`;
 
   return {
-    ...baseStyle,
+    ...iconButtonStyle,
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
+    },
+    _hover: {
+      color: hoverColor,
+    },
     position: 'absolute',
     top,
     right,

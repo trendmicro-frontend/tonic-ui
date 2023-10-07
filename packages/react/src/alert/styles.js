@@ -442,9 +442,8 @@ const useAlertCloseButtonStyle = ({
     }[variant],
   }[colorMode];
   const size = '8x';
-  const _focusBorderColor = 'blue:60';
-  const _focusBoxShadowBorderColor = 'blue:60';
-  const _hoverColor = {
+  const focusVisibleOutlineColor = 'blue:60';
+  const hoverColor = {
     dark: {
       solid: 'black:primary',
       outline: 'white:emphasis',
@@ -454,7 +453,7 @@ const useAlertCloseButtonStyle = ({
       outline: 'black:primary',
     }[variant],
   }[colorMode];
-  const baseStyle = useIconButtonStyle({ color, size, _focusBorderColor, _focusBoxShadowBorderColor, _hoverColor });
+  const iconButtonStyle = useIconButtonStyle({ color, size });
 
   if (isClosable) {
     const parentBorderWidth = sizes['1q'];
@@ -462,14 +461,34 @@ const useAlertCloseButtonStyle = ({
     const right = `calc(${sizes['2x']} - ${parentBorderWidth})`;
 
     return {
-      ...baseStyle,
+      ...iconButtonStyle,
+      _focusVisible: {
+        outlineColor: focusVisibleOutlineColor,
+        outlineOffset: '-1h',
+        outlineStyle: 'solid',
+        outlineWidth: '1h',
+      },
+      _hover: {
+        color: hoverColor,
+      },
       position: 'absolute',
       top,
       right,
     };
   }
 
-  return baseStyle;
+  return {
+    ...iconButtonStyle,
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
+    },
+    _hover: {
+      color: hoverColor,
+    },
+  };
 };
 
 export {

@@ -1,5 +1,5 @@
-import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
+import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
 
 const getSolidTagStyle = ({
@@ -298,47 +298,41 @@ const useTagCloseButtonStyle = ({
     dark: 'white:emphasis',
     light: 'black:emphasis',
   }[colorMode];
-  const activeColor = color;
-  const focusColor = hoverColor;
-  const disabledColor = color;
-  const focusOutlineColor = {
+  const focusVisibleOutlineColor = {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
   const size = '4x';
-  const baseStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color,
-    height: size,
-    width: size,
-    transition: createTransitionStyle(['color'], { duration: 200 }),
-    _hover: {
-      color: hoverColor,
-    },
-    _focus: {
-      color: focusColor,
-      outline: 1,
-      outlineColor: focusOutlineColor,
-    },
-    _active: {
-      color: activeColor,
-    },
-    _disabled: {
-      color: disabledColor,
-      cursor: 'not-allowed',
-    },
-  };
+  const iconButtonStyle = useIconButtonStyle({ color, size });
 
   if (isClosable) {
     return {
-      ...baseStyle,
+      ...iconButtonStyle,
+      _hover: {
+        color: hoverColor,
+      },
+      _focusVisible: {
+        outlineColor: focusVisibleOutlineColor,
+        outlineOffset: '-1q',
+        outlineStyle: 'solid',
+        outlineWidth: '1q',
+      },
       ml: '2x',
     };
   }
 
-  return baseStyle;
+  return {
+    ...iconButtonStyle,
+    _hover: {
+      color: hoverColor,
+    },
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1q',
+      outlineStyle: 'solid',
+      outlineWidth: '1q',
+    },
+  };
 };
 
 export {

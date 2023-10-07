@@ -114,27 +114,46 @@ const useToastCloseButtonStyle = ({
     light: 'black:tertiary',
   }[colorMode];
   const size = '8x';
-  const _focusBorderColor = 'blue:60';
-  const _focusBoxShadowBorderColor = 'blue:60';
-  const _hoverColor = {
+  const focusVisibleOutlineColor = 'blue:60';
+  const hoverColor = {
     dark: 'black:primary',
     light: 'black:primary',
   }[colorMode];
-  const baseStyle = useIconButtonStyle({ color, size, _focusBorderColor, _focusBoxShadowBorderColor, _hoverColor });
+  const iconButtonStyle = useIconButtonStyle({ color, size });
 
   if (isClosable) {
     const top = '10q'; // (52px - 32px) / 2 = 10px
     const right = '2x';
 
     return {
-      ...baseStyle,
+      ...iconButtonStyle,
+      _focusVisible: {
+        outlineColor: focusVisibleOutlineColor,
+        outlineOffset: '-1h',
+        outlineStyle: 'solid',
+        outlineWidth: '1h',
+      },
+      _hover: {
+        color: hoverColor,
+      },
       position: 'absolute',
       top,
       right,
     };
   }
 
-  return baseStyle;
+  return {
+    ...iconButtonStyle,
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
+    },
+    _hover: {
+      color: hoverColor,
+    },
+  };
 };
 
 export {
