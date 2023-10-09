@@ -1,4 +1,4 @@
-import { ariaAttr } from '@tonic-ui/utils';
+import { ariaAttr, dataAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import ButtonBase from './ButtonBase';
 import { useButtonStyle } from './styles';
@@ -39,17 +39,17 @@ const Button = forwardRef((
 
   const attributes = {
     'aria-disabled': ariaAttr(disabled),
-    'aria-selected': ariaAttr(selected),
+
+    // Only use `aria-selected` with these roles: `option`, `tab`, `menuitemradio`, `treeitem`, `gridcell`, `row`, `rowheader`, and `columnheader`.
+    'data-selected': dataAttr(selected),
 
     type: 'button',
 
     // Disable the button if "disabled" is true
     disabled,
 
-    /**
-     * For button in the disabled state, just keep "pointer-events" and "tabIndex" as is.
-     * For button in the selected state, set both "pointer-events: none" and "tabIndex: -1" to prevent the button receiving focus through sequential keyboard navigation.
-     */
+    // For button in the disabled state, just keep "pointer-events" and "tabIndex" as is.
+    // For button in the selected state, set both "pointer-events: none" and "tabIndex: -1" to prevent the button receiving focus through sequential keyboard navigation.
     tabIndex: selected ? -1 : undefined,
   };
 
