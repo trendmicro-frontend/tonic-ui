@@ -14,10 +14,10 @@ const IconButton = forwardRef((props, ref) => {
     dark: 'white:primary',
     light: 'black:primary',
   }[colorMode];
-  const activeColor = color;
-  const focusColor = color;
-  const focusHoverColor = hoverColor;
-  const focusActiveColor = activeColor;
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
 
   return (
     <ButtonBase
@@ -25,23 +25,16 @@ const IconButton = forwardRef((props, ref) => {
       border={1}
       borderColor="transparent"
       color={color}
-      transition="all .2s"
       height="8x"
       width="8x"
       _hover={{
         color: hoverColor,
       }}
-      _active={{
-        color: activeColor,
-      }}
-      _focus={{
-        color: focusColor,
-      }}
-      _focusHover={{
-        color: focusHoverColor,
-      }}
-      _focusActive={{
-        color: focusActiveColor,
+      _focusVisible={{
+        outlineColor: focusVisibleOutlineColor,
+        outlineOffset: '-1h',
+        outlineStyle: 'solid',
+        outlineWidth: '1h',
       }}
       {...props}
     />
