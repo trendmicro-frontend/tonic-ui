@@ -2,7 +2,7 @@ import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
 import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { isElement, isValidElementType } from 'react-is';
 import {
   TransitionGroup,
@@ -70,7 +70,7 @@ const ToastManager = ({
   /**
    * Create properties for a new toast
    */
-  const createToast = (message, options) => {
+  const createToast = useCallback((message, options) => {
     const id = options?.id ?? uniqueId();
     const duration = options?.duration;
     const placement = ensureString(options?.placement ?? placementProp);
@@ -92,19 +92,21 @@ const ToastManager = ({
       // The function to close the toast
       onClose,
     };
-  };
+  }, [close, placementProp]);
 
   /**
    * Close a toast record at its placement
    */
-  const close = (id, placement) => {
-    placement = placement ?? getToastPlacementByState(state, id);
+  const close = useCallback((id, placement) => {
+    setState((prevState) => {
+      placement = placement ?? getToastPlacementByState(prevState, id);
 
-    setState((prevState) => ({
-      ...prevState,
-      [placement]: ensureArray(prevState[placement]).filter((toast) => toast.id !== id),
-    }));
-  };
+      return {
+        ...prevState,
+        [placement]: ensureArray(prevState[placement]).filter((toast) => toast.id !== id),
+      };
+    });
+  }, []);
 
   /**
    * Close all toasts at once with the given placements, including the following:
@@ -115,12 +117,11 @@ const ToastManager = ({
    * • bottom-left
    * • bottom-right
    */
-  const closeAll = (options) => {
-    const placements = options?.placements
-      ? ensureArray(options?.placements)
-      : Object.keys(state);
-
+  const closeAll = useCallback((options) => {
     setState((prevState) => {
+      const placements = options?.placements
+        ? ensureArray(options?.placements)
+        : Object.keys(prevState);
       const nextState = placements.reduce((acc, placement) => {
         acc[placement] = [];
         return acc;
@@ -131,29 +132,29 @@ const ToastManager = ({
         ...nextState,
       };
     });
-  };
+  }, []);
 
   /**
    * Find the first toast in the array that matches the provided id. Otherwise, `undefined` is returned if not found.
    * If no values satisfy the testing function, undefined is returned.
    */
-  const find = (id) => {
+  const find = useCallback((id) => {
     const placement = getToastPlacementByState(state, id);
     return ensureArray(state[placement]).find((toast) => toast.id === id);
-  };
+  }, [state]);
 
   /**
    * Find the first toast in the array that matches the provided id. Otherwise, -1 is returned if not found.
    */
-  const findIndex = (id) => {
+  const findIndex = useCallback((id) => {
     const placement = getToastPlacementByState(state, id);
     return ensureArray(state[placement]).findIndex((toast) => toast.id === id);
-  };
+  }, [state]);
 
   /**
    * Create a toast at the specified placement and return the id
    */
-  const notify = (message, options) => {
+  const notify = useCallback((message, options) => {
     const { id, duration, placement } = options;
     const toast = createToast(message, { id, duration, placement });
 
@@ -196,12 +197,12 @@ const ToastManager = ({
     });
 
     return toast.id;
-  };
+  }, [createToast]);
 
   /**
    * Update a specific toast with new options based on the given id. Returns `true` if the toast exists, else `false`.
    */
-  const update = (id, options) => {
+  const update = useCallback((id, options) => {
     const placement = find(id)?.placement;
     const index = findIndex(id);
 
@@ -219,7 +220,7 @@ const ToastManager = ({
     });
 
     return true;
-  };
+  }, [find, findIndex]);
 
   const context = getMemoizedState({
     // Methods
