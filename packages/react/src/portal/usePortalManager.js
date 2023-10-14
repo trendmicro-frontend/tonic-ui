@@ -1,7 +1,10 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useRef } from 'react';
 import { PortalManagerContext } from './context';
 
 const usePortalManager = () => {
+  const createPortalRef = useRef(null);
+  const portalManagerRef = useRef(null);
+
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
@@ -12,14 +15,17 @@ const usePortalManager = () => {
     throw new Error('The `usePortalManager` hook must be called from a descendent of the `PortalManager`.');
   }
 
-  const portal = useMemo(() => {
-    const fn = function (...args) {
-      return context.add(...args);
-    };
-    return Object.assign(fn, context);
-  }, [context]);
+  createPortalRef.current = context.add;
 
-  return portal;
+  if (!portalManagerRef.current) {
+    portalManagerRef.current = function (...args) {
+      return createPortalRef.current?.(...args);
+    };
+  }
+
+  portalManagerRef.current = Object.assign(portalManagerRef.current, context);
+
+  return portalManagerRef.current;
 };
 
 export default usePortalManager;
