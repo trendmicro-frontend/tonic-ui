@@ -9,7 +9,7 @@ import React from 'react';
 
 const App = () => {
   const [colorMode] = useColorMode();
-  const [colorStyle, setColorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle({ colorMode });
   const invertedPrimaryColor = {
     dark: 'black:primary',
     light: 'white:primary',
