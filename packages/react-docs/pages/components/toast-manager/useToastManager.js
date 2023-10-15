@@ -5,11 +5,11 @@ import {
   Toast,
   useToastManager,
 } from '@tonic-ui/react';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 const App = () => {
   const toast = useToastManager();
-  const handleClickOpenToast = () => {
+  const handleClickOpenToast = useCallback(() => {
     const render = ({ onClose, placement }) => {
       const styleProps = {
         'top-left': { pt: '2x', px: '4x' },
@@ -36,7 +36,7 @@ const App = () => {
       duration: 5000,
     };
     toast(render, options);
-  };
+  }, [toast]);
 
   return (
     <Button onClick={handleClickOpenToast}>
