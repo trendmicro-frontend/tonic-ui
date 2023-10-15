@@ -23,7 +23,7 @@ const useToastManager = () => {
     };
   }
 
-  toastManagerRef.current = Object.assign(toastManagerRef.current, context);
+  Object.assign(toastManagerRef.current, context);
 
   return toastManagerRef.current;
 };

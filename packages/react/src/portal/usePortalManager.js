@@ -23,7 +23,7 @@ const usePortalManager = () => {
     };
   }
 
-  portalManagerRef.current = Object.assign(portalManagerRef.current, context);
+  Object.assign(portalManagerRef.current, context);
 
   return portalManagerRef.current;
 };
