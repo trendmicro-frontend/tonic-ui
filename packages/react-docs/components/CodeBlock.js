@@ -119,7 +119,7 @@ const CodeBlock = ({
   }, []);
   const language = React.isValidElement(children)
     ? ensureString(children.props.className).replace(/language-/, '')
-    : null;
+    : '';
 
   noInline = boolean(noInline);
 

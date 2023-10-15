@@ -10,29 +10,7 @@ import { LightMode } from '@tonic-ui/react';
 
 ## Usage
 
-```jsx noInline
-function Example() {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
-  return (
-    <Box
-      backgroundColor={colorStyle.background.secondary}
-      color={colorStyle.color.primary}
-    >
-      <Text px="4x" py="3x">
-        The color mode is set to {colorMode}
-      </Text>
-    </Box>
-  );
-}
-
-render(
-  <LightMode>
-    <Example />
-  </LightMode>
-);
-```
+{render('./light-mode')}
 
 ## Props
 

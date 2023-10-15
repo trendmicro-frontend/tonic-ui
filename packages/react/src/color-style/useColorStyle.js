@@ -1,5 +1,5 @@
 import { ensurePlainObject } from 'ensure-type';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { ColorModeContext } from '../color-mode/context';
 import { ColorStyleContext } from './context';
 
@@ -23,7 +23,7 @@ const useColorStyle = (options) => {
   }
 
   const getter = ensurePlainObject(colorStyle[colorMode]);
-  const setter = (value) => {
+  const setter = useCallback((value) => {
     if (typeof value === 'function') {
       value = value(colorStyle);
     }
@@ -33,7 +33,7 @@ const useColorStyle = (options) => {
       [colorMode]: ensurePlainObject(value),
     };
     onChange(nextColorStyle);
-  };
+  }, [colorMode, colorStyle, onChange]);
 
   return [getter, setter];
 };
