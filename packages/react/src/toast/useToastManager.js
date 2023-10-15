@@ -1,7 +1,10 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useRef } from 'react';
 import { ToastManagerContext } from './context';
 
 const useToastManager = () => {
+  const createToastRef = useRef(null);
+  const toastManagerRef = useRef(null);
+
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
@@ -12,14 +15,17 @@ const useToastManager = () => {
     throw new Error('The `useToastManager` hook must be called from a descendent of the `ToastManager`.');
   }
 
-  const toast = useMemo(() => {
-    const fn = function (...args) {
-      return context.notify(...args);
-    };
-    return Object.assign(fn, context);
-  }, [context]);
+  createToastRef.current = context.notify;
 
-  return toast;
+  if (!toastManagerRef.current) {
+    toastManagerRef.current = function (...args) {
+      return createToastRef.current?.(...args);
+    };
+  }
+
+  Object.assign(toastManagerRef.current, context);
+
+  return toastManagerRef.current;
 };
 
 export default useToastManager;
