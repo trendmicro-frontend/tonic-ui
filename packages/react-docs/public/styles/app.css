@@ -157,6 +157,18 @@ dd {
   align-items: center;
   padding: var(--tonic-sizes-1x) var(--tonic-sizes-2x);
 }
+:where(html[data-color-scheme="dark"]) #toc .toc-link:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(var(--tonic-sizes-1h) * -1);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+:where(html[data-color-scheme="light"]) #toc .toc-link:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(var(--tonic-sizes-1h) * -1);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
 :where(html[data-color-scheme="dark"]) #toc .toc-link:hover {
   border-left-color: var(--tonic-colors-gray-60);
   color: var(--tonic-colors-white-primary);

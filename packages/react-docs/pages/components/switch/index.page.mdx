@@ -10,87 +10,29 @@ import { Switch } from '@tonic-ui/react';
 
 ## Usage
 
-```jsx
-<Switch>
-  Label
-</Switch>
-```
+### Basic
+
+{render('./basic')}
 
 You can use a flex container to align a switch with other components. This allows you to easily control the positioning and spacing of all elements within the container.
 
-```jsx
-<Flex alignItems="flex-start" columnGap="2x">
-  <Switch id="form-control" />
-  <Box
-    as="label"
-    htmlFor="form-control"
-    sx={{
-      cursor: 'pointer',
-      pt: '1x',
-      userSelect: 'none',
-    }}
-  >
-    <Text>Label</Text>
-    <Text fontSize="xs" lineHeight="xs">Helper text</Text>
-  </Box>
-</Flex>
-```
+{render('./flex-layout')}
 
 ### Colors
 
 Use the `variantColor` prop to change the color scheme of a radio button. `variantColor` can be any color key with key `50` (hover) or `60` (checked) that exist in `theme.colors`.
 
-```jsx
-<Flex columnGap="6x">
-  <Switch variantColor="red" defaultChecked>
-    Label
-  </Switch>
-  <Switch variantColor="green" defaultChecked>
-    Label
-  </Switch>
-</Flex>
-```
+{render('./colors')}
 
 ### Sizes
 
 Use the `size` prop to change the size of the switch. You can set the value to `sm`, `md`, or `lg`.
 
-```jsx
-<Flex columnGap="6x">
-  <Switch size="sm">
-    Label
-  </Switch>
-  <Switch size="md">
-    Label
-  </Switch>
-  <Switch size="lg">
-    Label
-  </Switch>
-</Flex>
-```
+{render('./sizes')}
 
 ### States
 
-```jsx
-<Stack spacing="6x">
-  <Flex columnGap="6x">
-    <Switch>
-      Label
-    </Switch>
-    <Switch checked>
-      Label
-    </Switch>
-  </Flex>
-  <Flex columnGap="6x">
-    <Switch disabled>
-      Label
-    </Switch>
-    <Switch checked disabled>
-      Label
-    </Switch>
-  </Flex>
-</Stack>
-```
+{render('./states')}
 
 ## Accessibility
 
@@ -117,27 +59,7 @@ Once you have obtained the reference to the input element, you can access its pr
 
 Here's an example of how you can utilize the `inputRef` prop to access the input element and perform actions:
 
-```jsx
-function Example() {
-  const inputRef = React.useRef();
-
-  const handleClick = () => {
-    inputRef.current.focus();
-    console.log(inputRef.current.checked); // => true
-  };
-
-  return (
-    <Flex alignItems="center" columnGap="6x">
-      <Switch defaultChecked inputRef={inputRef}>
-        Label
-      </Switch>
-      <Button onClick={handleClick}>
-        Click Me
-      </Button>
-    </Flex>
-  );
-}
-```
+{render('./faq-input-element')}
 
 ## Props
 

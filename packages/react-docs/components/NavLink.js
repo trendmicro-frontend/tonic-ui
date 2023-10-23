@@ -22,6 +22,10 @@ const NavLink = forwardRef((
     dark: 'rgba(255, 255, 255, 0.1)',
   }[colorMode];
   const activeColor = colorStyle.color.primary;
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
   const hoverBackgroundColor = {
     light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
@@ -47,6 +51,12 @@ const NavLink = forwardRef((
         _active={{
           backgroundColor: activeBackgroundColor,
           color: activeColor,
+        }}
+        _focusVisible={{
+          outlineColor: focusVisibleOutlineColor,
+          outlineOffset: '-1h',
+          outlineStyle: 'solid',
+          outlineWidth: '1h',
         }}
         _hover={{
           backgroundColor: hoverBackgroundColor,

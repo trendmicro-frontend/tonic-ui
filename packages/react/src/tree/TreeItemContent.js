@@ -1,7 +1,6 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useCallback, useMemo } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { useTheme } from '../theme';
 import { useTreeItemContentStyle } from './styles';
@@ -12,7 +11,7 @@ const TreeItemContent = forwardRef((
   {
     onClick: onClickProp,
     onMouseDown: onMouseDownProp,
-    sx: sxProp,
+    style: styleProp,
     ...rest
   },
   ref,
@@ -62,30 +61,20 @@ const TreeItemContent = forwardRef((
     }
   }, [isDisabled]);
 
+  const style = {
+    paddingLeft: `calc(${nodeDepth} * ${sizes['6x']} + ${sizes['3x']})`,
+    ...styleProp,
+  };
   const tabIndex = -1;
   const styleProps = useTreeItemContentStyle({ isDisabled, isSelected, tabIndex });
-  const sxProps = useMemo(() => ([
-    {
-      pl: `calc(${nodeDepth} * ${sizes['6x']} + ${sizes['3x']})`,
-      pr: `calc(${sizes['3x']})`,
-      ':focus-visible': {
-        borderStyle: 'solid',
-        borderWidth: '1h',
-        pl: `calc(${nodeDepth} * ${sizes['6x']} + ${sizes['3x']} - ${sizes['1h']})`,
-        pr: `calc(${sizes['3x']} - ${sizes['1h']})`,
-        py: `calc(${sizes['2x']} - ${sizes['1h']})`,
-      },
-    },
-    ...ensureArray(sxProp),
-  ]), [nodeDepth, sizes, sxProp]);
 
   return (
     <Box
       ref={combinedRef}
       onClick={callEventHandlers(onClickProp, onClick)}
       onMouseDown={callEventHandlers(onMouseDownProp, onMouseDown)}
+      style={style}
       tabIndex={tabIndex}
-      sx={sxProps}
       {...styleProps}
       {...rest}
     />

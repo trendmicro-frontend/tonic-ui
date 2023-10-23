@@ -39,8 +39,6 @@ exports[`Switch should render correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  -webkit-transition: all 120ms;
-  transition: all 120ms;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -52,47 +50,51 @@ exports[`Switch should render correctly 1`] = `
   height: 22px;
 }
 
-input[type=checkbox]:focus+.emotion-4 [data-switch] [data-switch-track-halo] {
-  fill: var(--tonic-colors-blue-60);
-}
-
-input[type=checkbox]:focus+.emotion-4 [data-switch] [data-switch-track-border] {
-  fill: black;
-}
-
-input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-4 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-gray-50);
-}
-
-input[type=checkbox]:disabled+.emotion-4 {
+input[type="checkbox"]:disabled+.emotion-4 {
   opacity: 0.28;
 }
 
-input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-4 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-50);
+input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-outer-border] {
+  fill: none;
 }
 
-.emotion-4>* {
-  opacity: 1;
-}
-
-input[type=checkbox]:checked+.emotion-4 [data-switch] [data-switch-track] {
+input[type="checkbox"]:focus-visible+.emotion-4>[data-switch]>[data-switch-outer-border] {
   fill: var(--tonic-colors-blue-60);
 }
 
-input[type=checkbox]:checked+.emotion-4 [data-switch] [data-switch-thumb] {
+input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-inner-border] {
+  fill: none;
+}
+
+input[type="checkbox"]:focus-visible+.emotion-4>[data-switch]>[data-switch-inner-border] {
+  fill: black;
+}
+
+input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-60);
+}
+
+input[type="checkbox"]:hover:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
+}
+
+input[type="checkbox"]:checked:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-60);
+}
+
+input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-50);
+}
+
+input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-thumb] {
+  fill: white;
+}
+
+input[type="checkbox"]:checked+.emotion-4>[data-switch]>[data-switch-thumb] {
   -webkit-transform: translateX(16px);
   -moz-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
-}
-
-input[type=checkbox]:checked+.emotion-4>* {
-  opacity: 1;
-}
-
-input[type=checkbox][data-indeterminate]+.emotion-4>* {
-  opacity: 1;
 }
 
 .emotion-6 {
@@ -103,24 +105,20 @@ input[type=checkbox][data-indeterminate]+.emotion-4>* {
 .emotion-8 {
   width: 38px;
   height: 22px;
-  fill: none;
 }
 
 .emotion-10 {
   width: 34px;
   height: 18px;
-  fill: none;
 }
 
 .emotion-12 {
   width: 32px;
   height: 16px;
-  fill: var(--tonic-colors-gray-60);
   pointer-events: all;
 }
 
 .emotion-14 {
-  fill: var(--tonic-colors-white-emphasis);
   -webkit-transform: translateX(0);
   -moz-transform: translateX(0);
   -ms-transform: translateX(0);
@@ -152,8 +150,6 @@ input[type=checkbox][data-indeterminate]+.emotion-4>* {
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  -webkit-transition: all 120ms;
-  transition: all 120ms;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -165,65 +161,66 @@ input[type=checkbox][data-indeterminate]+.emotion-4>* {
   height: 30px;
 }
 
-input[type=checkbox]:focus+.emotion-22 [data-switch] [data-switch-track-halo] {
-  fill: var(--tonic-colors-blue-60);
-}
-
-input[type=checkbox]:focus+.emotion-22 [data-switch] [data-switch-track-border] {
-  fill: black;
-}
-
-input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-22 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-gray-50);
-}
-
-input[type=checkbox]:disabled+.emotion-22 {
+input[type="checkbox"]:disabled+.emotion-22 {
   opacity: 0.28;
 }
 
-input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-22 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-50);
+input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-outer-border] {
+  fill: none;
 }
 
-.emotion-22>* {
-  opacity: 1;
-}
-
-input[type=checkbox]:checked+.emotion-22 [data-switch] [data-switch-track] {
+input[type="checkbox"]:focus-visible+.emotion-22>[data-switch]>[data-switch-outer-border] {
   fill: var(--tonic-colors-blue-60);
 }
 
-input[type=checkbox]:checked+.emotion-22 [data-switch] [data-switch-thumb] {
+input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-inner-border] {
+  fill: none;
+}
+
+input[type="checkbox"]:focus-visible+.emotion-22>[data-switch]>[data-switch-inner-border] {
+  fill: black;
+}
+
+input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-60);
+}
+
+input[type="checkbox"]:hover:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
+}
+
+input[type="checkbox"]:checked:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-60);
+}
+
+input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-50);
+}
+
+input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-thumb] {
+  fill: white;
+}
+
+input[type="checkbox"]:checked+.emotion-22>[data-switch]>[data-switch-thumb] {
   -webkit-transform: translateX(24px);
   -moz-transform: translateX(24px);
   -ms-transform: translateX(24px);
   transform: translateX(24px);
 }
 
-input[type=checkbox]:checked+.emotion-22>* {
-  opacity: 1;
-}
-
-input[type=checkbox][data-indeterminate]+.emotion-22>* {
-  opacity: 1;
-}
-
 .emotion-26 {
   width: 54px;
   height: 30px;
-  fill: none;
 }
 
 .emotion-28 {
   width: 50px;
   height: 26px;
-  fill: none;
 }
 
 .emotion-30 {
   width: 48px;
   height: 24px;
-  fill: var(--tonic-colors-gray-60);
   pointer-events: all;
 }
 
@@ -240,8 +237,6 @@ input[type=checkbox][data-indeterminate]+.emotion-22>* {
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  -webkit-transition: all 120ms;
-  transition: all 120ms;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -253,65 +248,66 @@ input[type=checkbox][data-indeterminate]+.emotion-22>* {
   height: 38px;
 }
 
-input[type=checkbox]:focus+.emotion-40 [data-switch] [data-switch-track-halo] {
-  fill: var(--tonic-colors-blue-60);
-}
-
-input[type=checkbox]:focus+.emotion-40 [data-switch] [data-switch-track-border] {
-  fill: black;
-}
-
-input[type=checkbox]:hover:not(:disabled):not(:checked):not(:focus)+.emotion-40 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-gray-50);
-}
-
-input[type=checkbox]:disabled+.emotion-40 {
+input[type="checkbox"]:disabled+.emotion-40 {
   opacity: 0.28;
 }
 
-input[type=checkbox]:checked:hover:not(:disabled):not(:focus)+.emotion-40 [data-switch] [data-switch-track] {
-  fill: var(--tonic-colors-blue-50);
+input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-outer-border] {
+  fill: none;
 }
 
-.emotion-40>* {
-  opacity: 1;
-}
-
-input[type=checkbox]:checked+.emotion-40 [data-switch] [data-switch-track] {
+input[type="checkbox"]:focus-visible+.emotion-40>[data-switch]>[data-switch-outer-border] {
   fill: var(--tonic-colors-blue-60);
 }
 
-input[type=checkbox]:checked+.emotion-40 [data-switch] [data-switch-thumb] {
+input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-inner-border] {
+  fill: none;
+}
+
+input[type="checkbox"]:focus-visible+.emotion-40>[data-switch]>[data-switch-inner-border] {
+  fill: black;
+}
+
+input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-60);
+}
+
+input[type="checkbox"]:hover:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
+}
+
+input[type="checkbox"]:checked:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-60);
+}
+
+input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-50);
+}
+
+input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-thumb] {
+  fill: white;
+}
+
+input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
   -webkit-transform: translateX(32px);
   -moz-transform: translateX(32px);
   -ms-transform: translateX(32px);
   transform: translateX(32px);
 }
 
-input[type=checkbox]:checked+.emotion-40>* {
-  opacity: 1;
-}
-
-input[type=checkbox][data-indeterminate]+.emotion-40>* {
-  opacity: 1;
-}
-
 .emotion-44 {
   width: 70px;
   height: 38px;
-  fill: none;
 }
 
 .emotion-46 {
   width: 66px;
   height: 34px;
-  fill: none;
 }
 
 .emotion-48 {
   width: 64px;
   height: 32px;
-  fill: var(--tonic-colors-gray-60);
   pointer-events: all;
 }
 
@@ -359,7 +355,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
       >
         <rect
           class="emotion-8 emotion-1"
-          data-switch-track-halo="true"
+          data-switch-outer-border="true"
           rx="11"
           stroke-width="0"
           x="0"
@@ -367,7 +363,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
         />
         <rect
           class="emotion-10 emotion-1"
-          data-switch-track-border="true"
+          data-switch-inner-border="true"
           rx="9"
           stroke-width="0"
           x="2"
@@ -416,7 +412,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
       >
         <rect
           class="emotion-26 emotion-1"
-          data-switch-track-halo="true"
+          data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
           x="0"
@@ -424,7 +420,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
         />
         <rect
           class="emotion-28 emotion-1"
-          data-switch-track-border="true"
+          data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
           x="2"
@@ -473,7 +469,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
       >
         <rect
           class="emotion-44 emotion-1"
-          data-switch-track-halo="true"
+          data-switch-outer-border="true"
           rx="19"
           stroke-width="0"
           x="0"
@@ -481,7 +477,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
         />
         <rect
           class="emotion-46 emotion-1"
-          data-switch-track-border="true"
+          data-switch-inner-border="true"
           rx="17"
           stroke-width="0"
           x="2"
@@ -529,7 +525,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
       >
         <rect
           class="emotion-26 emotion-1"
-          data-switch-track-halo="true"
+          data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
           x="0"
@@ -537,7 +533,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
         />
         <rect
           class="emotion-28 emotion-1"
-          data-switch-track-border="true"
+          data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
           x="2"
@@ -586,7 +582,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
       >
         <rect
           class="emotion-26 emotion-1"
-          data-switch-track-halo="true"
+          data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
           x="0"
@@ -594,7 +590,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
         />
         <rect
           class="emotion-28 emotion-1"
-          data-switch-track-border="true"
+          data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
           x="2"
@@ -643,7 +639,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
       >
         <rect
           class="emotion-26 emotion-1"
-          data-switch-track-halo="true"
+          data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
           x="0"
@@ -651,7 +647,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
         />
         <rect
           class="emotion-28 emotion-1"
-          data-switch-track-border="true"
+          data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
           x="2"
@@ -701,7 +697,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
       >
         <rect
           class="emotion-26 emotion-1"
-          data-switch-track-halo="true"
+          data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
           x="0"
@@ -709,7 +705,7 @@ input[type=checkbox][data-indeterminate]+.emotion-40>* {
         />
         <rect
           class="emotion-28 emotion-1"
-          data-switch-track-border="true"
+          data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
           x="2"

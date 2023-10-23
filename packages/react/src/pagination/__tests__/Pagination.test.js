@@ -28,7 +28,10 @@ describe('Pagination', () => {
     expect(pageItems.length).toBe(5);
     expect(pageItem0).not.toHaveAttribute('aria-current');
     expect(pageItem1).toHaveAttribute('aria-current', 'true');
+
+    // Only use `aria-selected` with these roles: `option`, `tab`, `menuitemradio`, `treeitem`, `gridcell`, `row`, `rowheader`, and `columnheader`.
     expect(pageItem1).toHaveAttribute('data-selected', '');
+
     expect(pageItem2).not.toHaveAttribute('aria-current');
     expect(pageItem3).not.toHaveAttribute('aria-current');
     expect(pageItem4).not.toHaveAttribute('aria-current');

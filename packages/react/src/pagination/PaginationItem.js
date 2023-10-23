@@ -1,4 +1,4 @@
-import { ariaAttr, dataAttr } from '@tonic-ui/utils';
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Button } from '../button';
 import { Icon } from '../icon';
@@ -51,10 +51,9 @@ const PaginationItem = forwardRef((
     <Button
       ref={ref}
       aria-current={ariaAttr(selected)}
-      aria-disabled={ariaAttr(disabled)}
       aria-label={ariaLabel ?? getAriaLabel({ type, page, selected })}
-      data-selected={dataAttr(selected)}
       disabled={disabled}
+      selected={selected}
       variant={variant}
       {...styleProps}
       {...rest}

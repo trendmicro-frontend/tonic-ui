@@ -19,7 +19,7 @@ const useTreeItemContentStyle = ({
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
-  const focusBorderColor = {
+  const focusVisibleOutlineColor = {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
@@ -48,10 +48,11 @@ const useTreeItemContentStyle = ({
     _hover: {
       backgroundColor: !isDisabled ? hoverBackgroundColor : undefined,
     },
-    _focus: {
-      borderColor: focusBorderColor,
-
-      // Note: The border will be added in TreeItemContent
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
     },
   };
 };

@@ -28,20 +28,20 @@ const defaultVariantStyle = ({
     light: 'gray:30',
   }[colorMode];
   // Focus
-  const focusBorderColor = {
+  const focusVisibleBorderColor = {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
-  const focusBoxShadowOuterColor = {
-    dark: theme?.colors?.['blue:60'],
-    light: theme?.colors?.['blue:60'],
+  const focusVisibleBoxShadowOuterColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
-  const focusBoxShadowOuterSpreadRadius = theme?.sizes?.['1q'];
-  const focusBoxShadowInnerColor = {
-    dark: theme?.colors?.['black:emphasis'],
-    light: theme?.colors?.['white:emphasis'],
+  const focusVisibleBoxShadowOuterSpreadRadius = '1q';
+  const focusVisibleBoxShadowInnerColor = {
+    dark: 'black:emphasis',
+    light: 'white:emphasis',
   }[colorMode];
-  const focusBoxShadowInnerSpreadRadius = theme?.sizes?.['2q'];
+  const focusVisibleBoxShadowInnerSpreadRadius = '2q';
   // Disabled
   const disabledBackgroundColor = {
     dark: 'gray:60',
@@ -69,11 +69,12 @@ const defaultVariantStyle = ({
     backgroundColor,
     borderColor: 'transparent',
     color,
-    _focus: {
-      ':not(:active)': {
-        borderColor: focusBorderColor,
-        boxShadow: `inset 0 0 0 ${focusBoxShadowOuterSpreadRadius} ${focusBoxShadowOuterColor}, inset 0 0 0 ${focusBoxShadowInnerSpreadRadius} ${focusBoxShadowInnerColor}`,
-      },
+    _focusVisible: {
+      borderColor: focusVisibleBorderColor,
+      boxShadow: [
+        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowOuterSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowOuterColor]}`,
+        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowInnerSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowInnerColor]}`,
+      ].join(', '),
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
@@ -130,16 +131,20 @@ const secondaryVariantStyle = ({
   const activeBorderColor = hoverBorderColor;
   const activeColor = hoverColor;
   // Focus
-  const focusBorderColor = {
+  const focusVisibleBorderColor = {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
-  const focusBoxShadowColor = {
-    dark: theme?.colors?.['blue:60'],
-    light: theme?.colors?.['blue:60'],
+  const focusVisibleBoxShadowOuterColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
-  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const focusColor = color;
+  const focusVisibleBoxShadowOuterSpreadRadius = '1q';
+  const focusVisibleBoxShadowInnerColor = {
+    dark: 'black:emphasis',
+    light: 'white:emphasis',
+  }[colorMode];
+  const focusVisibleBoxShadowInnerSpreadRadius = '2q';
   // Disabled
   const disabledBorderColor = borderColor;
   const disabledColor = {
@@ -163,16 +168,18 @@ const secondaryVariantStyle = ({
   return {
     borderColor,
     color,
-    _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusBoxShadowColor}`,
-      color: focusColor,
+    _focusVisible: {
+      borderColor: focusVisibleBorderColor,
+      boxShadow: [
+        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowOuterSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowOuterColor]}`,
+        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowInnerSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowInnerColor]}`,
+      ].join(', '),
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
     _hover: {
       color: hoverColor,
-      '&:not(:focus)': {
+      '&:not(:focus-visible)': {
         borderColor: hoverBorderColor,
       },
       // Use a higher z-index value to bring overlapping border to front when hovered
@@ -263,16 +270,20 @@ const fillColorVariantStyle = ({
     light: `${colorProp}:70`,
   }[colorMode];
   // Focus
-  const focusBorderColor = {
-    dark: theme?.colors?.['blue:60'],
-    light: theme?.colors?.['blue:60'],
+  const focusVisibleBorderColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
-  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
-    dark: theme?.colors?.['black:emphasis'],
-    light: theme?.colors?.['white:emphasis'],
+  const focusVisibleBoxShadowOuterColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
-  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
+  const focusVisibleBoxShadowOuterSpreadRadius = '1q';
+  const focusVisibleBoxShadowInnerColor = {
+    dark: 'black:emphasis',
+    light: 'white:emphasis',
+  }[colorMode];
+  const focusVisibleBoxShadowInnerSpreadRadius = '2q';
   // Disabled
   const disabledBackgroundColor = {
     dark: 'gray:60',
@@ -300,11 +311,12 @@ const fillColorVariantStyle = ({
     backgroundColor,
     borderColor: 'transparent',
     color,
-    _focus: {
-      ':not(:active)': {
-        borderColor: focusBorderColor,
-        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusBorderColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
-      },
+    _focusVisible: {
+      borderColor: focusVisibleBorderColor,
+      boxShadow: [
+        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowOuterSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowOuterColor]}`,
+        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowInnerSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowInnerColor]}`,
+      ].join(', '),
       // Bring overlapping border to front when focused
       zIndex: 1,
     },

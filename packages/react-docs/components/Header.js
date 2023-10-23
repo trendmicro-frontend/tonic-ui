@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  ButtonBase,
   Icon,
   Image,
   Link,
@@ -102,6 +103,10 @@ const Header = forwardRef((
   const boxShadowColor = {
     light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
+  }[colorMode];
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
 
   return (
@@ -236,35 +241,51 @@ const Header = forwardRef((
               </MenuList>
             </Menu>
           </Box>
-          <Box
+          <ButtonBase
             data-track={`Header|click_codesandbox`}
-            as="a"
-            color={colorStyle.color.secondary}
-            _hover={{
-              color: colorStyle.color.primary,
-              cursor: 'pointer',
-            }}
             onClick={() => handleClickOpenInCodeSandbox()}
-            display="inline-flex"
-            textDecoration="none"
             title="Open in CodeSandbox"
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: colorStyle.color.secondary,
+              width: '8x',
+              height: '8x',
+              _hover: {
+                color: colorStyle.color.primary,
+                cursor: 'pointer',
+              },
+              _focusVisible: {
+                outlineColor: focusVisibleOutlineColor,
+                outlineStyle: 'solid',
+                outlineWidth: '1h',
+              },
+            }}
           >
             <CodeSandboxIcon size={24} />
-          </Box>
-          <Box
+          </ButtonBase>
+          <ButtonBase
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
-            as="a"
-            color={colorStyle.color.secondary}
-            _hover={{
-              color: colorStyle.color.primary,
-              cursor: 'pointer',
-            }}
-            _visited={{
-              color: colorStyle.color.secondary,
-            }}
             onClick={() => toggleColorMode()}
-            display="inline-flex"
             title="Toggle color mode"
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: colorStyle.color.secondary,
+              width: '8x',
+              height: '8x',
+              _hover: {
+                color: colorStyle.color.primary,
+                cursor: 'pointer',
+              },
+              _focusVisible: {
+                outlineColor: focusVisibleOutlineColor,
+                outlineStyle: 'solid',
+                outlineWidth: '1h',
+              },
+            }}
           >
             {colorMode === 'light' && (
               <Icon icon="moon" size={24} />
@@ -272,22 +293,28 @@ const Header = forwardRef((
             {colorMode === 'dark' && (
               <Icon icon="sun" size={24} />
             )}
-          </Box>
-          <Box
+          </ButtonBase>
+          <ButtonBase
             data-track={`Header|click_github_repo_url|${GITHUB_REPO_URL}`}
-            as="a"
-            href={GITHUB_REPO_URL}
-            target="_blank"
-            color={colorStyle.color.secondary}
-            display="inline-flex"
-            _hover={{
-              color: colorStyle.color.primary,
-              cursor: 'pointer',
-            }}
-            _visited={{
-              color: colorStyle.color.secondary,
-            }}
+            onClick={() => window.open(GITHUB_REPO_URL, '_blank')}
             title="GitHub repository"
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: colorStyle.color.secondary,
+              width: '8x',
+              height: '8x',
+              _hover: {
+                color: colorStyle.color.primary,
+                cursor: 'pointer',
+              },
+              _focusVisible: {
+                outlineColor: focusVisibleOutlineColor,
+                outlineStyle: 'solid',
+                outlineWidth: '1h',
+              },
+            }}
           >
             <FontAwesomeIcon
               icon={['fab', 'github']}
@@ -296,7 +323,7 @@ const Header = forwardRef((
                 height: 24,
               }}
             />
-          </Box>
+          </ButtonBase>
         </Box>
       </Box>
     </Box>
