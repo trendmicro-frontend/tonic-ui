@@ -16,7 +16,7 @@ If the text overflows its container, it will be truncated, and an ellipsis will 
 
 In the second example, a function is passed as a child of the `OverflowTooltip` component. The function is called with an object containing a `ref` and a `style` property, which should be spread to the element that needs to be truncated. In this case, a `Text` component is used to display the text, and the `ref` and `style` props are spread to it. This allows the `OverflowTooltip` component to detect when the text overflows and display a tooltip.
 
-{render('./facc')}
+{render('./function-as-child-component')}
 
 ## Commonly Asked Questions
 
@@ -26,7 +26,7 @@ By default, the `OverflowTooltip` component positions the tooltip relative to it
 
 To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `OverflowTooltip` to make it positioned on the document root.
 
-{render('./use-portal')}
+{render('./faq-use-portal')}
 
 ## Props
 
