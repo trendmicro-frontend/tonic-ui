@@ -1,16 +1,6 @@
+import { noop, runIfFn } from '@tonic-ui/utils';
 import { useEffect } from 'react';
 import useEventCallback from './useEventCallback';
-
-// TODO: move to '@tonic-ui/utils'
-const noop = () => {};
-
-// TODO: move to '@tonic-ui/utils'
-const runIfFn = (valueOrFn, ...args) => {
-  if (typeof valueOrFn === 'function') {
-    return valueOrFn(...args);
-  }
-  return valueOrFn;
-};
 
 /**
  * A custom Hook to manage browser event listeners.
