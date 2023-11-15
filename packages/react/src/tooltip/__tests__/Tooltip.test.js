@@ -35,7 +35,7 @@ describe('Tooltip', () => {
     await testA11y(container);
   });
 
-  it('should not show on mouseover if `disabled` is set to `false`', async () => {
+  it('should display a tooltip if `disabled` is set to `false`', async () => {
     const user = userEvent.setup();
 
     render(<TestComponent disabled={false} />);
@@ -45,7 +45,7 @@ describe('Tooltip', () => {
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
   });
 
-  it('should not show on mouseover if `disabled` is set to `true`', async () => {
+  it('should not display a tooltip if `disabled` is set to `true`', async () => {
     const user = userEvent.setup();
 
     render(<TestComponent disabled={true} />);
@@ -57,7 +57,7 @@ describe('Tooltip', () => {
     });
   });
 
-  it('should display on mouseover and close when clicked if `closeOnClick` is set to `true`', async () => {
+  it('should display a tooltip and close when clicked if `closeOnClick` is set to `true`', async () => {
     const user = userEvent.setup();
 
     render(<TestComponent closeOnClick={true} />);
@@ -74,7 +74,7 @@ describe('Tooltip', () => {
     });
   });
 
-  it('should display on mouseover and close when `Escape` key is pressed if `closeOnEsc` is set to `true`', async () => {
+  it('should display a tooltip and close when `Escape` key is pressed if `closeOnEsc` is set to `true`', async () => {
     const user = userEvent.setup();
 
     render(<TestComponent closeOnEsc={true} />);
@@ -91,7 +91,7 @@ describe('Tooltip', () => {
     });
   });
 
-  it('should display on mouseover and close when pointer down if `closeOnPointerDown` is set to `true`', async () => {
+  it('should display a tooltip and close when pointer down if `closeOnPointerDown` is set to `true`', async () => {
     const user = userEvent.setup();
 
     render(<TestComponent closeOnPointerDown={true} />);

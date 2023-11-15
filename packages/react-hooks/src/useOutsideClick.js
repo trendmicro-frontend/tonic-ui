@@ -1,11 +1,6 @@
+import { getOwnerDocument, noop } from '@tonic-ui/utils';
 import { useEffect } from 'react';
 import useEventCallback from './useEventCallback';
-
-// TODO: move to '@tonic-ui/utils'
-const noop = () => {};
-
-// TODO: move to '@tonic-ui/utils'
-const ownerDocument = (node) => (node?.ownerDocument || document);
 
 const defaultEvents = ['mousedown', 'touchstart'];
 
@@ -33,7 +28,7 @@ const useOutsideClick = (
 
     const filteredEvents = (Array.isArray(events) ? events : [])
       .filter(x => (typeof x === 'string'));
-    const doc = ownerDocument(ref?.current);
+    const doc = getOwnerDocument(ref?.current);
 
     for (const eventName of filteredEvents) {
       doc?.addEventListener?.(eventName, savedHandler, true);

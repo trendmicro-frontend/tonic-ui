@@ -12,30 +12,11 @@ import { OverflowTooltip } from '@tonic-ui/react';
 
 If the text overflows its container, it will be truncated, and an ellipsis will be added. When you hover or focus on the ellipsis text, a tooltip will appear.
 
-```jsx
-<OverflowTooltip
-  label="This is a tooltip"
->
-  This text string will be truncated when exceeding its container width. To see this in action, try resizing your browser viewport. If the text overflows, a tooltip will appear, displaying the full content.
-</OverflowTooltip>
-```
+{render('./basic')}
 
 In the second example, a function is passed as a child of the `OverflowTooltip` component. The function is called with an object containing a `ref` and a `style` property, which should be spread to the element that needs to be truncated. In this case, a `Text` component is used to display the text, and the `ref` and `style` props are spread to it. This allows the `OverflowTooltip` component to detect when the text overflows and display a tooltip.
 
-```jsx
-<OverflowTooltip
-  label="This is a tooltip"
->
-  {({ ref, style }) => (
-    <Flex alignItems="center" columnGap="2x">
-      <Icon icon="menu" />
-      <Text ref={ref} {...style}>
-        This text string will be truncated when exceeding its container width. To see this in action, try resizing your browser viewport. If the text overflows, a tooltip will appear, displaying the full content.
-      </Text>
-    </Flex>
-  )}
-</OverflowTooltip>
-```
+{render('./function-as-child-component')}
 
 ## Commonly Asked Questions
 
@@ -45,14 +26,7 @@ By default, the `OverflowTooltip` component positions the tooltip relative to it
 
 To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `OverflowTooltip` to make it positioned on the document root.
 
-```jsx
-<OverflowTooltip
-  PopperProps={{ usePortal: true }}
-  label="This is a tooltip"
->
-  This text string will be truncated when exceeding its container width. To see this in action, try resizing your browser viewport. If the text overflows, a tooltip will appear, displaying the full content.
-</OverflowTooltip>
-```
+{render('./faq-use-portal')}
 
 ## Props
 

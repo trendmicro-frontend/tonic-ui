@@ -1,7 +1,5 @@
+import { noop } from '@tonic-ui/utils';
 import { useEffect, useState } from 'react';
-
-// TODO: move to '@tonic-ui/utils'
-const noop = () => {};
 
 const getInitialState = (query, defaultValue) => {
   if (defaultValue !== undefined) {
