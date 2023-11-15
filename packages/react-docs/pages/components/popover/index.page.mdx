@@ -79,45 +79,11 @@ If you need to pass more than one child element or non-element children, wrap th
 
 Pass `isOpen` to the `Popover` component to control the state of the popover.
 
-```jsx
-function Example() {
-  const [on, toggle] = useToggle(false);
-
-  return (
-    <>
-      <Flex mb="4x">
-        <Switch checked={on} onChange={toggle} />
-      </Flex>
-      <Popover
-        isOpen={on}
-        placement="bottom"
-      >
-        <PopoverTrigger>
-          <Button onClick={toggle}>
-            Trigger
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <Text>This is a controlled popover</Text>
-        </PopoverContent>
-      </Popover>
-    </>
-  );
-}
-```
+{render('./controlled')}
 
 Popover is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the popover open for the first render.
 
-```jsx
-<Popover defaultIsOpen={false}>
-  <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    <Text>This is an uncontrolled popover</Text>
-  </PopoverContent>
-</Popover>
-```
+{render('./uncontrolled')}
 
 ### Focus control
 
@@ -125,133 +91,35 @@ Popover is uncontrolled by default. You can set `defaultIsOpen` to `true` to hav
 
 The focus status will send to `PopoverContent` when `Popover` opens. You can send the focus status to a specific element when it opens by passing the `initialFocusRef` prop.
 
-```jsx
-function Example() {
-  const initialFocusRef1 = React.useRef();
-  const initialFocusRef2 = React.useRef();
-
-  return (
-    <Stack spacing="6x" width="fit-content">
-      <Popover initialFocusRef={initialFocusRef1}>
-        <PopoverTrigger>
-          <Button variant="secondary">
-            Interactive Trigger
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverBody>
-            <Input mt="3x" ref={initialFocusRef1} defaultValue="Popover" />
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-      <Popover initialFocusRef={initialFocusRef2}>
-        <PopoverTrigger tabIndex={-1}>
-          <Text
-            userSelect="none"
-            _hover={{ cursor: 'pointer' }}
-          >
-            Non-interactive Trigger
-          </Text>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverBody>
-            <Input mt="3x" ref={initialFocusRef2} defaultValue="Popover" />
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-    </Stack>
-  );
-}
-```
+{render('./focus-control-initial-focus-ref')}
 
 #### Focus an element when popover closes
 
 When the `Popover` is closed, the focus status is sent to the `PopoverTrigger`. If you need to prevent the `Popover` from returning the focus status to `PopoverTrigger`, you can set the `returnFocusOnClose` prop to `false`.
 
-```jsx
-function Example() {
-  const initialFocusRef1 = React.useRef();
-  const initialFocusRef2 = React.useRef();
-
-  return (
-    <Stack spacing="6x" width="fit-content">
-      <Popover
-        initialFocusRef={initialFocusRef1}
-        returnFocusOnClose={false}
-      >
-        <PopoverTrigger>
-          <Button variant="secondary">
-            Interactive Trigger
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverBody>
-            <Input mt="3x" ref={initialFocusRef1} defaultValue="Popover" />
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-      <Popover
-        initialFocusRef={initialFocusRef2}
-        returnFocusOnClose={false}
-      >
-        <PopoverTrigger tabIndex={-1}>
-          <Text
-            userSelect="none"
-            _hover={{ cursor: 'pointer' }}
-          >
-            Non-interactive Trigger
-          </Text>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverBody>
-            <Input mt="3x" ref={initialFocusRef2} defaultValue="Popover" />
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-    </Stack>
-  );
-}
-```
+{render('./focus-control-return-focus-on-close')}
 
 ### Hide the popover
 
 To hide a popover in your app, you can pass an empty value to the children of the `PopoverContent` component or use the `disabled` prop. Here are examples:
 
-```jsx
-<Flex columnGap="4x">
-  <Popover>
-    <PopoverTrigger>
-      <Button variant="secondary">Trigger</Button>
-    </PopoverTrigger>
-    <PopoverContent>
-    </PopoverContent>
-  </Popover>
-  <Divider orientation="vertical" />
-  <Popover disabled>
-    <PopoverTrigger>
-      <Button variant="secondary">Trigger</Button>
-    </PopoverTrigger>
-    <PopoverContent>
-      Popover
-    </PopoverContent>
-  </Popover>
-</Flex>
-```
+{render('./popover-disabled')}
 
 ### Hide the arrow of the popover
 
 To remove the arrow from a popover, you can pass `arrow={false}` to the `Popover` component.
 
-```jsx
-<Popover arrow={false}>
-  <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    Popover
-  </PopoverContent>
-</Popover>
-```
+{render('./popover-arrow-disabled')}
+
+### Popover around disabled button
+
+By default the `Popover` is not shown when it is around a disabled `Button`.
+
+{render('./popover-around-disabled-button')}
+
+To show the `Popover` on a disabled `Button`, pass the `shouldWrapChildren` prop.
+
+{render('./popover-around-wrapped-disabled-button')}
 
 ### Activating a popover on hover
 
@@ -259,16 +127,7 @@ To activate a popover on hover, set the `trigger` prop to `"hover"`. This will d
 
 Once the popover is displayed, the cursor can be moved freely between the `PopoverTrigger` and `PopoverContent`. The popover will remain open until the cursor is moved away from the `PopoverContent`.
 
-```jsx
-<Popover trigger="hover">
-  <PopoverTrigger>
-    <Text display="inline-block">Text content</Text>
-  </PopoverTrigger>
-  <PopoverContent>
-    Popover
-  </PopoverContent>
-</Popover>
-```
+{render('./popover-trigger-hover')}
 
 ### Adjust popover positioning
 
@@ -284,57 +143,7 @@ The `skidding` number determines the displacement of the `PopoverContent` from t
 
 The `distance` number controls the distance between the `PopoverContent` and the `PopoverTrigger` and is measured in pixels.
 
-```jsx noInline
-render(() => {
-  const [skidding, setSkidding] = React.useState(0);
-  const [distance, setDistance] = React.useState(12);
-
-  return (
-    <>
-      <Box mb="4x">
-        <Box mb="2x">
-          <TextLabel>skidding</TextLabel>
-        </Box>
-        <Flex columnGap="4x">
-          <input
-            type="range"
-            name="skidding"
-            min={-50}
-            max={50}
-            value={skidding}
-            onChange={(e) => setSkidding(Number(e.target.value))}
-          />
-          <Text>{skidding}</Text>
-        </Flex>
-      </Box>
-      <Box mb="4x">
-        <Box mb="2x">
-          <TextLabel>distance</TextLabel>
-        </Box>
-        <Flex columnGap="4x">
-          <input
-            type="range"
-            name="distance"
-            min={-50}
-            max={50}
-            value={distance}
-            onChange={(e) => setDistance(Number(e.target.value))}
-          />
-          <Text>{distance}</Text>
-        </Flex>
-      </Box>
-      <Popover isOpen trigger="hover" offset={[skidding, distance]}>
-        <PopoverTrigger>
-          <Text display="inline-block">Hover Me</Text>
-        </PopoverTrigger>
-        <PopoverContent>
-          Popover
-        </PopoverContent>
-      </Popover>
-    </>
-  );
-});
-```
+{render('./positioning-offset')}
 
 #### Using the `nextToCursor` prop
 
@@ -342,16 +151,7 @@ The `nextToCursor` prop positions the popover next to the cursor.
 
 Note that this prop only works when the `trigger` prop is set to `"hover"`.
 
-```jsx
-<Popover trigger="hover" nextToCursor>
-  <PopoverTrigger>
-    <Text display="inline-block">Hover Me</Text>
-  </PopoverTrigger>
-  <PopoverContent>
-    Popover
-  </PopoverContent>
-</Popover>
-```
+{render('./positioning-next-cursor')}
 
 #### Using the `followCursor` prop
 
@@ -359,57 +159,13 @@ The `followCursor` prop makes the popover follow the cursor as it moves.
 
 Note that this prop only works when the `trigger` prop is set to `"hover"`.
 
-```jsx
-<Popover trigger="hover" followCursor>
-  <PopoverTrigger>
-    <Text display="inline-block">Hover Me</Text>
-  </PopoverTrigger>
-  <PopoverContent>
-    Popover
-  </PopoverContent>
-</Popover>
-```
+{render('./positioning-follow-cursor')}
 
 ### Context API
 
 To access the internal state of the popover, you can use the Function as Child Component (FaCC) pattern or use the `usePopover` hook.
 
-```jsx
-<Popover>
-  {({ isOpen, onClose }) => (
-    <>
-      <PopoverTrigger>
-        <Button variant="secondary">Trigger</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>
-          Popover Header
-        </PopoverHeader>
-        <PopoverBody>
-          Popover Body
-        </PopoverBody>
-        <PopoverFooter>
-          <Flex
-            justifyContent="space-between"
-            columnGap="4x"
-          >
-            <Link fontSize="sm">Learn more</Link>
-            <Grid
-              templateColumns="1fr 1fr"
-              columnGap="2x"
-            >
-              <Button variant="primary">Submit</Button>
-              <Button variant="default" onClick={onClose}>
-                Cancel
-              </Button>
-            </Grid>
-          </Flex>
-        </PopoverFooter>
-      </PopoverContent>
-    </>
-  )}
-</Popover>
-```
+{render('./function-as-child-component')}
 
 ### Placement
 
@@ -426,36 +182,7 @@ Use the `placement` prop to control the placement of the popover.
 </Popover>
 ```
 
-```jsx
-<Box display="inline-block">
-  <Grid
-    templateColumns="repeat(3, minmax(84px,1fr))"
-    templateRows="repeat(4, 84px)"
-    gap="8x"
-  >
-    {['top-start', 'top', 'top-end',
-      'right-start', 'right', 'right-end',
-      'bottom-start', 'bottom', 'bottom-end',
-      'left-start', 'left', 'left-end'
-    ].map(placement => (
-      <Popover
-        key={placement}
-        placement={placement}
-        trigger="hover"
-      >
-        <PopoverTrigger>
-          <Button width="100%">
-            {placement}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          Popover
-        </PopoverContent>
-      </Popover>
-    ))}
-  </Grid>
-</Box>
-```
+{render('./placement')}
 
 ## Commonly Asked Questions
 
@@ -465,20 +192,7 @@ By default, the `Popover` component positions the popover relative to its parent
 
 To address this issue, you can pass `PopperProps={{ usePortal: true }}` to `PopoverContent` to make it positioned on the document root.
 
-```jsx
-<Popover>
-  <PopoverTrigger>
-    <Button variant="secondary">Trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent
-    PopperProps={{
-      usePortal: true,
-    }}
-  >
-    Popover
-  </PopoverContent>
-</Popover>
-```
+{render('./faq-use-portal')}
 
 ### Automatically adjusting popover placement with the `flip` modifier
 
@@ -486,71 +200,7 @@ The `flip` modifier is a useful feature that allows for automatic adjustment of 
 
 In the following example, the popover's placement is initially set to `top`. However, if the placement is not suitable due to space constraints, the opposite `bottom` placement will be used instead.
 
-```jsx noInline
-const FormGroup = (props) => (
-  <Box mb="4x" {...props} />
-);
-
-render(() => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const [isFlipModifierEnabled, toggleIsFlipModifierEnabled] = useToggle(true);
-
-  return (
-    <>
-      <Box mb="4x">
-        <Text fontSize="lg" lineHeight="lg">
-          Modifiers
-        </Text>
-      </Box>
-      <FormGroup>
-        <TextLabel display="inline-flex" alignItems="center">
-          <Checkbox
-            checked={isFlipModifierEnabled}
-            onChange={() => toggleIsFlipModifierEnabled()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">Enable flip modifier</Text>
-        </TextLabel>
-      </FormGroup>
-      <Divider my="4x" />
-      <Scrollbar
-        height={180}
-        width={180}
-        overflowY="visible"
-        border={1}
-        borderColor={colorStyle.divider}
-      >
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          height={300}
-        >
-          <Popover isOpen placement="top">
-            <PopoverTrigger>
-              <Text display="inline-block">
-                Reference
-              </Text>
-            </PopoverTrigger>
-            <PopoverContent
-              PopperProps={{
-                modifiers: [
-                  { // https://popper.js.org/docs/v2/modifiers/flip/
-                    name: 'flip',
-                    enabled: isFlipModifierEnabled,
-                  },
-                ],
-              }}
-            >
-              Popover
-            </PopoverContent>
-          </Popover>
-        </Flex>
-      </Scrollbar>
-    </>
-  );
-});
-```
+{render('./faq-flip-modifier')}
 
 ## Accessibility
 
