@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scrollbar should render correctly 1`] = `
+.emotion-0 {
+  position: relative;
+  overflow: hidden;
+  width: auto;
+  height: 200px;
+}
+
+.emotion-2 {
+  overflow-x: scroll;
+  overflow-y: scroll;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.emotion-2::-webkit-scrollbar {
+  display: none;
+}
+
+.emotion-4 {
+  height: 400px;
+}
+
+.emotion-6 {
+  position: absolute;
+  height: .5rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 200ms;
+  transition: opacity 200ms;
+  opacity: 0;
+}
+
+.emotion-8 {
+  position: relative;
+  height: 100%;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, .28);
+  border-radius: inherit;
+  border: .0625rem solid;
+  border-color: transparent;
+}
+
+.emotion-8:hover,
+.emotion-8[data-hover] {
+  background-color: rgba(255, 255, 255, .47);
+  border-color: rgba(255, 255, 255, .60);
+}
+
+.emotion-10 {
+  position: absolute;
+  width: .5rem;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 200ms;
+  transition: opacity 200ms;
+  opacity: 0;
+}
+
+.emotion-12 {
+  position: relative;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, .28);
+  border-radius: inherit;
+  border: .0625rem solid;
+  border-color: transparent;
+}
+
+.emotion-12:hover,
+.emotion-12[data-hover] {
+  background-color: rgba(255, 255, 255, .47);
+  border-color: rgba(255, 255, 255, .60);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <div
+        class="emotion-4 emotion-1"
+      >
+        Scrollable content
+      </div>
+    </div>
+    <div
+      class="emotion-6 emotion-1"
+      data-scrollbar-track="horizontal"
+      style="visibility: hidden;"
+    >
+      <div
+        class="emotion-8 emotion-1"
+        data-scrollbar-thumb="horizontal"
+        style="width: 0px; transform: translateX(0px);"
+      />
+    </div>
+    <div
+      class="emotion-10 emotion-1"
+      data-scrollbar-track="vertical"
+      style="visibility: hidden;"
+    >
+      <div
+        class="emotion-12 emotion-1"
+        data-scrollbar-thumb="vertical"
+        style="height: 0px; transform: translateY(0px);"
+      />
+    </div>
+  </div>
+</div>
+`;
