@@ -10,9 +10,11 @@ import { Icon } from '@tonic-ui/react';
 
 ## Usage
 
+### Basic
+
 Use an icon by passing the `icon` prop. This `icon` property value must match an icon key defined in `theme.icons`. By default, the icon inherits the font size and color of its parent.
 
-{render('./usage')}
+{render('./basic')}
 
 ### Animating icons
 
@@ -31,7 +33,7 @@ The `animation` prop can be used to override default animation, it is a shorthan
 • [animationFillMode](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode)<br/>
 • [animationPlayState](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-play-state)<br/>
 
-## Adding custom icons
+### Adding custom icons
 
 First, you have to add custom icons to the theme. Each icon must be an object containing `path` and optional style props passed to [SVGIcon](svgicon).
 
@@ -77,7 +79,7 @@ Pass the icon name as a prop to the `<Icon>` component to render the SVG icon:
 <Icon icon="icon1" color="blue:50" />
 ```
 
-### Search icons
+## Search icons
 
 {render('./search-icons')}
 

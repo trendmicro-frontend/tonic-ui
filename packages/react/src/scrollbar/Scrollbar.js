@@ -45,6 +45,9 @@ const Scrollbar = forwardRef((
     overflow = 'auto',
     overflowX,
     overflowY,
+    scrollLeft: scrollLeftProp,
+    scrollTop: scrollTopProp,
+    scrollViewRef: scrollViewRefProp,
     ...rest
   },
   ref,
@@ -149,13 +152,11 @@ const Scrollbar = forwardRef((
   }
 
   const isHydrated = useHydrated();
-  const nodeRef = useRef(null);
-  const combinedRef = useMergeRefs(nodeRef, ref);
 
-  const viewScrollLeftRef = useRef(0);
-  const viewScrollTopRef = useRef(0);
-  const lastViewScrollLeftRef = useRef(0);
-  const lastViewScrollTopRef = useRef(0);
+  const currentScrollLeftRef = useRef(0);
+  const currentScrollTopRef = useRef(0);
+  const lastScrollLeftRef = useRef(0);
+  const lastScrollTopRef = useRef(0);
 
   // For binding the `mousemove` and `mouseup` events to document, we use `useState` to store `startDragging` variable to trigger `useEffect`.
   const [startDragging, setStartDragging] = useState(false);
@@ -168,11 +169,26 @@ const Scrollbar = forwardRef((
   const prevPageXRef = useRef(0);
   const prevPageYRef = useRef(0);
 
+  const nodeRef = useRef(null);
   const scrollViewRef = useRef(null);
   const horizontalTrackRef = useRef(null);
   const verticalTrackRef = useRef(null);
   const horizontalThumbRef = useRef(null);
   const verticalThumbRef = useRef(null);
+  const combinedRef = useMergeRefs(nodeRef, ref);
+  const combinedScrollViewRef = useMergeRefs(scrollViewRef, scrollViewRefProp);
+
+  useEffect(() => {
+    if (scrollViewRef.current && scrollLeftProp !== undefined) {
+      scrollViewRef.current.scrollLeft = scrollLeftProp;
+    }
+  }, [scrollLeftProp]);
+
+  useEffect(() => {
+    if (scrollViewRef.current && scrollTopProp !== undefined) {
+      scrollViewRef.current.scrollTop = scrollTopProp;
+    }
+  }, [scrollTopProp]);
 
   const getValues = () => {
     const {
@@ -376,8 +392,8 @@ const Scrollbar = forwardRef((
 
     const updateCallback = (values) => {
       const { scrollLeft, scrollTop } = values;
-      viewScrollLeftRef.current = scrollLeft;
-      viewScrollTopRef.current = scrollTop;
+      currentScrollLeftRef.current = scrollLeft;
+      currentScrollTopRef.current = scrollTop;
     };
     update(updateCallback);
 
@@ -389,24 +405,18 @@ const Scrollbar = forwardRef((
     // Start scrolling
     isScrollingRef.current = true;
 
-    // Show tracks
-    showTracks();
-
     const detectScrollingInterval = setInterval(() => {
-      if (lastViewScrollLeftRef.current === viewScrollLeftRef.current && lastViewScrollTopRef.current === viewScrollTopRef.current) {
+      if (lastScrollLeftRef.current === currentScrollLeftRef.current && lastScrollTopRef.current === currentScrollTopRef.current) {
         clearInterval(detectScrollingInterval);
 
         // Stop scrolling
         isScrollingRef.current = false;
-
-        // Hide tracks
-        hideTracks();
       }
 
-      lastViewScrollLeftRef.current = viewScrollLeftRef.current;
-      lastViewScrollTopRef.current = viewScrollTopRef.current;
+      lastScrollLeftRef.current = currentScrollLeftRef.current;
+      lastScrollTopRef.current = currentScrollTopRef.current;
     }, 100);
-  }, [onScroll, update, showTracks, hideTracks]);
+  }, [onScroll, update]);
   /* End Scrolling Events */
 
   /* Start Dragging Events */
@@ -625,7 +635,7 @@ const Scrollbar = forwardRef((
   const getScrollViewProps = () => {
     return {
       ...scrollViewStyle,
-      ref: scrollViewRef,
+      ref: combinedScrollViewRef,
       onScroll: handleScrollViewScroll,
       onMouseEnter: handleScrollViewMouseEnter,
       onMouseLeave: handleScrollViewMouseLeave,
