@@ -14,7 +14,7 @@ import {
 
 The `Scrollbar` is hidden by default, and it only appears when the user hovers over the scrollable content. You can set the height of the scrollbar using the `height` prop.
 
-{render('./usage')}
+{render('./basic')}
 
 For more information on bidirectional scrolling, please refer to [Bidirectional scrolling: what's not to like?](https://adamsilver.io/blog/bidirectional-scrolling-whats-not-to-like/)
 
@@ -28,13 +28,13 @@ To enable vertical scrolling, set the scrollbar height to a value less than the 
 
 {render('./vertical-scrolling')}
 
-### Horizontal scrolling
+#### Horizontal scrolling
 
 To enable horizontal scrolling, set the scrollbar width to a value less than the scrollable content width.
 
 {render('./horizontal-scrolling')}
 
-### Bidirectional scrolling
+#### Bidirectional scrolling
 
 {render('./bidirectional-scrolling')}
 
@@ -70,6 +70,16 @@ The scroll indicator can visually indicate the current scroll position of the sc
 
 {render('./menu')}
 
+## Commonly Asked Questions
+
+### How to control the scroll position?
+
+Utilize the `onUpdate`, `scrollLeft`, `scrollTop`, and `scrollViewRef` props to fetch or programmatically control the scroll position.
+
+To see this in action, simply scroll through the content and click the toggle button to confirm the scroll position.
+
+{render('./faq-scroll-position')}
+
 ## Props
 
 ### Scrollbar
@@ -90,3 +100,6 @@ The scroll indicator can visually indicate the current scroll position of the sc
 | overflow | string | 'auto' | The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | overflowX | string | | The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| scrollLeft | number | 0 | The horizontal scroll position of the scrollable content. |
+| scrollTop | number | 0 | The vertical scroll position of the scrollable content. |
+| scrollViewRef | RefObject | | A `ref` to the `ScrollView` component. |
