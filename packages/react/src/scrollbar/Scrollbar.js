@@ -45,6 +45,8 @@ const Scrollbar = forwardRef((
     overflow = 'auto',
     overflowX,
     overflowY,
+    scrollLeft: scrollLeftProp,
+    scrollTop: scrollTopProp,
     ...rest
   },
   ref,
@@ -173,6 +175,18 @@ const Scrollbar = forwardRef((
   const verticalTrackRef = useRef(null);
   const horizontalThumbRef = useRef(null);
   const verticalThumbRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollViewRef.current && scrollLeftProp !== undefined) {
+      scrollViewRef.current.scrollLeft = scrollLeftProp;
+    }
+  }, [scrollLeftProp]);
+
+  useEffect(() => {
+    if (scrollViewRef.current && scrollTopProp !== undefined) {
+      scrollViewRef.current.scrollTop = scrollTopProp;
+    }
+  }, [scrollTopProp]);
 
   const getValues = () => {
     const {
@@ -389,24 +403,18 @@ const Scrollbar = forwardRef((
     // Start scrolling
     isScrollingRef.current = true;
 
-    // Show tracks
-    showTracks();
-
     const detectScrollingInterval = setInterval(() => {
       if (lastViewScrollLeftRef.current === viewScrollLeftRef.current && lastViewScrollTopRef.current === viewScrollTopRef.current) {
         clearInterval(detectScrollingInterval);
 
         // Stop scrolling
         isScrollingRef.current = false;
-
-        // Hide tracks
-        hideTracks();
       }
 
       lastViewScrollLeftRef.current = viewScrollLeftRef.current;
       lastViewScrollTopRef.current = viewScrollTopRef.current;
     }, 100);
-  }, [onScroll, update, showTracks, hideTracks]);
+  }, [onScroll, update]);
   /* End Scrolling Events */
 
   /* Start Dragging Events */
