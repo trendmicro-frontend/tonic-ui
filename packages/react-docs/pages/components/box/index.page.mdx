@@ -14,11 +14,7 @@ import { Box } from '@tonic-ui/react';
 
 By default, the `Box` component renders a `div` element. There might be cases where you want to render a different element, you can use the `as` prop to do that.
 
-```jsx expanded
-<Box as="button">
-  Button
-</Box>
-```
+{render('./using-the-as-prop')}
 
 ### Using style props
 
@@ -26,21 +22,7 @@ Style props provide a way to use CSS-in-JS styling technique to pass styles as p
 
 You can see the [Style Props](../styled-system/style-props) page to learn how to use style props.
 
-```jsx expanded
-<Box
-  as="button"
-  backgroundColor="gray:60"
-  border="none"
-  borderRadius="sm"
-  color="white:primary"
-  cursor="pointer"
-  display="inline-flex"
-  px="3x"
-  py="2x"
->
-  Button
-</Box>
-```
+{render('./using-style-props')}
 
 ### Using pseudo style props
 
@@ -48,51 +30,11 @@ Styling elements with [pseudo-classes](https://developer.mozilla.org/en-US/docs/
 
 You can see the [Pseudo Styled Props](../styled-system/pseudo-style-props) page to learn how to use pseudo style props.
 
-```jsx expanded
-<Box
-  as="button"
-  backgroundColor="blue:60"
-  border="none"
-  borderRadius="sm"
-  color="white:primary"
-  cursor="pointer"
-  display="inline-flex"
-  px="3x"
-  py="2x"
-  _hover={{
-    backgroundColor: 'blue:50',
-  }}
-  _active={{
-    backgroundColor: 'blue:70',
-  }}
->
-  Button
-</Box>
-```
+{render('./using-pseudo-style-props')}
 
 ### Using the `sx` prop
 
-```jsx expanded
-<Button
-  sx={{
-    backgroundColor: 'red:60',
-    color: 'white:primary',
-    _focus: {
-      ':not(:active)': { // or '&:focus:not(:active)'
-        backgroundColor: 'red:60',
-      },
-    },
-    _hover: { // or '&:hover'
-      backgroundColor: 'red:50',
-    },
-    _active: { // or '&:active'
-      backgroundColor: 'red:70',
-    },
-  }}
->
-  Button
-</Button>
-```
+{render('./using-the-sx-prop')}
 
 Read more on [the sx prop](../getting-started/the-sx-prop) page.
 
