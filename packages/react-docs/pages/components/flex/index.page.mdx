@@ -1,0 +1,67 @@
+# Flex
+
+`Flex` is a [`Box`](box) with `display: flex` and comes with helpful style shorthand props.
+
+## Import
+
+```js
+import { Flex } from '@tonic-ui/react';
+```
+
+## Usage
+
+Flex provides the following style shorthand props:
+
+| Shorthand Prop | Style Prop | CSS Property | Description |
+| :------------- | :--------- | :----------- | :---------- |
+| align | alignItems | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | Sets the `align-self` value on all direct children as a group. |
+| direction | flexDirection | [flex-direction](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) | Sets how flex items are placed in the flex container. |
+| wrap | flexWrap | [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) | Sets whether flex items are forced onto one line or can wrap onto multiple lines. |
+| justify | justifyContent | [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content) | Defines how the browser distributes space between and around content items along the main axis of a flex container. |
+
+### Flex items
+
+You can use the `flex` property to set how a flex item will grow or shrink to fit the available space in its flex container. It is a shorthand for `flex-grow`, `flex-shrink`, and `flex-basis`. For most purposes, you should set `flex` to one of the following values: `auto`, `initial`, `none`, or a positive unitless number.
+
+#### Values
+
+##### `initial`
+The item is sized according to its `width` and `height` properties. It shrinks to its minimum size to fit the container, but does not grow to absorb any extra free space in the flex container. This is equivalent to setting `flex: 0 1 auto`.
+
+##### `auto`
+The item is sized according to its `width` and `height` properties, but grows to absorb any extra free space in the flex container, and shrinks to its minimum size to fit the container. This is equivalent to setting `flex: 1 1 auto`.
+
+##### `none`
+The item is sized according to its `width` and `height` properties. It is fully inflexible: it neither shrinks nor grows in relation to the flex container. This is equivalent to setting `flex: 0 0 auto`.
+
+To see the effect of these values, try resizing the flex containers below:
+
+{render('./flex-none')}
+
+### The `flexDirection` property
+
+{render('./flex-direction')}
+
+### The `flexWrap` property
+
+{render('./flex-wrap')}
+
+### The `alignItems` property
+
+{render('./align-items')}
+
+### The `justifyContent` property
+
+{render('./justify-content')}
+
+## Props
+
+### Flex
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| align | string | | A shorthand of the `alignItems` property that sets the alignment of flex items along the cross-axis of the flex container. Valid values include `flex-start`, `flex-end`, `center`, `baseline`, and `stretch`. |
+| direction | string | | A shorthand of the `flexDirection` property that sets how flex items are placed in the flex container. Valid values include `row`, `row-reverse`, `column`, and `column-reverse`. |
+| wrap | string | | A shorthand of the `flexWrap` property that sets whether flex items are forced onto one line or can wrap onto multiple lines. Valid values include `nowrap`, `wrap`, and `wrap-reverse`. |
+| justify | string | | A shorthand of the `justifyContent` property that defines how the browser distributes space between and around content items along themain axis of a flex container. Valid values include `flex-start`, `flex-end`, `center`, `space-between`, `space-around`, and `space-evenly`. |
