@@ -2,7 +2,7 @@ import { useOnce } from '@tonic-ui/react-hooks';
 import { sx } from '@tonic-ui/styled-system';
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
-import Box from './Box';
+import { Box } from '../box';
 
 const ControlBox = forwardRef((
   {
