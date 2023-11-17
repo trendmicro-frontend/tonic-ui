@@ -1,3 +1,4 @@
+import { useOnce } from '@tonic-ui/react-hooks';
 import { sx } from '@tonic-ui/styled-system';
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
@@ -27,6 +28,10 @@ const ControlBox = forwardRef((
   },
   ref,
 ) => {
+  useOnce(() => {
+    console.error('Warning: The `ControlBox` component is deprecated and will be removed in the next major release.');
+  });
+
   const checked = `input[type=${type}]:checked + &`;
   const checkedAndDisabled = `input[type=${type}]:checked:disabled + &`;
   const checkedAndActive = `input[type=${type}]:checked:active:not(:disabled):not(:focus) + &`;

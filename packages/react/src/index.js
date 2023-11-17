@@ -49,6 +49,7 @@ export * from './truncate';
 export * from './visually-hidden';
 
 // deprecated
+export ControlBox from './deprecated/ControlBox';
 export FlatButton from './deprecated/FlatButton';
 export PseudoBox from './deprecated/PseudoBox';
 export ToggleSwitch from './deprecated/ToggleSwitch';

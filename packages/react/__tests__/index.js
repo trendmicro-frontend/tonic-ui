@@ -3,6 +3,7 @@ import * as moduleExport from '@tonic-ui/react/src';
 test('should match expected exports', () => {
   const expectedExports = [
     // deprecated
+    'ControlBox',
     'PseudoBox',
     'FlatButton',
     'ToggleSwitch',
@@ -32,7 +33,6 @@ test('should match expected exports', () => {
 
     // box
     'Box',
-    'ControlBox',
 
     // button
     'Button',
