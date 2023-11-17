@@ -12,130 +12,31 @@ import { Checkbox } from '@tonic-ui/react';
 
 ## Usage
 
-```jsx
-<Checkbox>
-  Label
-</Checkbox>
-```
+{render('./basic')}
 
 You can use a flex container to align a checkbox with other components. This allows you to easily control the positioning and spacing of all elements within the container.
 
-```jsx
-<Flex alignItems="flex-start" columnGap="2x">
-  <Box py="1h">
-    <Checkbox id="form-control" />
-  </Box>
-  <Box
-    as="label"
-    htmlFor="form-control"
-    sx={{
-      cursor: 'pointer',
-      userSelect: 'none',
-    }}
-  >
-    <Text>Label</Text>
-    <Text fontSize="xs" lineHeight="xs">Helper text</Text>
-  </Box>
-</Flex>
-```
+{render('./flex-container')}
 
 ### Colors
 
 Use the `variantColor` prop to change the color scheme of the checkbox. `variantColor` can be any color key with key `50` (hover) or `60` (checked, active) that exist in `theme.colors`.
 
-```jsx
-<Flex columnGap="6x">
-  <Checkbox variantColor="red" defaultChecked>
-    Label
-  </Checkbox>
-  <Checkbox variantColor="green" defaultChecked>
-    Label
-  </Checkbox>
-</Flex>
-```
+{render('./colors')}
 
 ### Sizes
 
 Use the `size` prop to change the size of the checkbox. You can set the value to `sm`, `md`, or `lg`.
 
-```jsx
-<Flex columnGap="6x">
-  <Checkbox size="sm">
-    Label
-  </Checkbox>
-  <Checkbox size="md">
-    Label
-  </Checkbox>
-  <Checkbox size="lg">
-    Label
-  </Checkbox>
-</Flex>
-```
+{render('./sizes')}
 
 ### States
 
-```jsx
-<Stack spacing="6x">
-  <Flex columnGap="6x">
-    <Checkbox>
-      Label
-    </Checkbox>
-    <Checkbox indeterminate>
-      Label
-    </Checkbox>
-    <Checkbox defaultChecked>
-      Label
-    </Checkbox>
-  </Flex>
-  <Flex columnGap="6x">
-    <Checkbox disabled>
-      Label
-    </Checkbox>
-    <Checkbox disabled indeterminate>
-      Label
-    </Checkbox>
-    <Checkbox disabled defaultChecked>
-      Label
-    </Checkbox>
-  </Flex>
-</Stack>
-```
+{render('./states')}
 
 ### Indeterminate
 
-```jsx
-function IndeterminateExample() {
-  const [checkedItems, setCheckedItems] = React.useState([true, false]);
-  const allChecked = checkedItems.every(Boolean);
-  const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
-
-  return (
-    <>
-      <Checkbox
-        checked={allChecked}
-        indeterminate={isIndeterminate}
-        onChange={e => setCheckedItems([e.target.checked, e.target.checked])}
-      >
-        Parent
-      </Checkbox>
-      <Stack direction="column" pl="6x" mt="1x" spacing="1x" shouldWrapChildren>
-        <Checkbox
-          checked={checkedItems[0]}
-          onChange={e => setCheckedItems([e.target.checked, checkedItems[1]])}
-        >
-          Child 1
-        </Checkbox>
-        <Checkbox
-          checked={checkedItems[1]}
-          onChange={e => setCheckedItems([checkedItems[0], e.target.checked])}
-        >
-          Child 2
-        </Checkbox>
-      </Stack>
-    </>
-  );
-}
-```
+{render('./indeterminate')}
 
 ## Accessibility
 
@@ -162,27 +63,7 @@ Once you have obtained the reference to the input element, you can access its pr
 
 Here's an example of how you can utilize the `inputRef` prop to access the input element and perform actions:
 
-```jsx
-function Example() {
-  const inputRef = React.useRef();
-
-  const handleClick = () => {
-    inputRef.current.focus();
-    console.log(inputRef.current.checked); // => true
-  };
-
-  return (
-    <Flex alignItems="center" columnGap="6x">
-      <Checkbox defaultChecked inputRef={inputRef}>
-        Label
-      </Checkbox>
-      <Button onClick={handleClick}>
-        Click Me
-      </Button>
-    </Flex>
-  );
-}
-```
+{render('./faq-input-element')}
 
 ## Props
 
