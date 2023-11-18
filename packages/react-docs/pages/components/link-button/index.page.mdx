@@ -10,31 +10,7 @@ import { LinkButton } from '@tonic-ui/react';
 
 ## Usage
 
-```jsx
-function Example() {
-  const [timeLeft, setTimeLeft] = React.useState(180);
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      if (timeLeft > 0) {
-        setTimeLeft(timeLeft - 1);
-      }
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [timeLeft]);
-  const handleClick = () => {
-    setTimeLeft(180);
-  };
-
-  return (
-    <Text>
-      If the email does not arrive in your inbox or spam folder, <LinkButton onClick={handleClick}>click here to resend ({timeLeft}s)</LinkButton>.
-    </Text>
-  );
-}
-```
+{render('./basic')}
 
 ## Props
 
