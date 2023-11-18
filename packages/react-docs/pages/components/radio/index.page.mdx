@@ -10,88 +10,27 @@ import { Radio } from '@tonic-ui/react';
 
 ## Usage
 
-```jsx
-<Radio>
-  Label
-</Radio>
-```
+{render('./basic')}
 
 You can use a flex container to align a radio button with other components. This allows you to easily control the positioning and spacing of all elements within the container.
 
-```jsx
-<Flex alignItems="flex-start" columnGap="2x">
-  <Box py="1h">
-    <Radio id="form-control" />
-  </Box>
-  <Box
-    as="label"
-    htmlFor="form-control"
-    sx={{
-      cursor: 'pointer',
-      userSelect: 'none',
-    }}
-  >
-    <Text>Label</Text>
-    <Text fontSize="xs" lineHeight="xs">Helper text</Text>
-  </Box>
-</Flex>
-```
+{render('./flex-container')}
 
 ### Colors
 
 Use the `variantColor` prop to change the color scheme of a radio button. `variantColor` can be any color key with key `50` (hover) or `60` (checked) that exist in `theme.colors`.
 
-```jsx
-<Flex columnGap="6x">
-  <Radio variantColor="red" defaultChecked>
-    Label
-  </Radio>
-  <Radio variantColor="green" defaultChecked>
-    Label
-  </Radio>
-</Flex>
-```
+{render('./colors')}
 
 ### Sizes
 
 Use the `size` prop to change the radio button size. You can set the value to `sm`, `md`, or `lg`.
 
-```jsx
-<Flex columnGap="6x">
-  <Radio size="sm" name="1">
-    Label
-  </Radio>
-  <Radio size="md" name="1">
-    Label
-  </Radio>
-  <Radio size="lg" name="1">
-    Label
-  </Radio>
-</Flex>
-```
+{render('./sizes')}
 
 ### States
 
-```jsx
-<Stack spacing="6x">
-  <Flex columnGap="6x">
-    <Radio>
-      Label
-    </Radio>
-    <Radio defaultChecked>
-      Label
-    </Radio>
-  </Flex>
-  <Flex columnGap="6x">
-    <Radio disabled>
-      Label
-    </Radio>
-    <Radio disabled defaultChecked>
-      Label
-    </Radio>
-  </Flex>
-</Stack>
-```
+{render('./states')}
 
 ## Accessibility
 
@@ -118,27 +57,7 @@ Once you have obtained the reference to the input element, you can access its pr
 
 Here's an example of how you can utilize the `inputRef` prop to access the input element and perform actions:
 
-```jsx
-function Example() {
-  const inputRef = React.useRef();
-
-  const handleClick = () => {
-    inputRef.current.focus();
-    console.log(inputRef.current.checked); // => true
-  };
-
-  return (
-    <Flex alignItems="center" columnGap="6x">
-      <Radio defaultChecked inputRef={inputRef}>
-        Label
-      </Radio>
-      <Button onClick={handleClick}>
-        Click Me
-      </Button>
-    </Flex>
-  );
-}
-```
+{render('./faq-input-ref')}
 
 ## Props
 
