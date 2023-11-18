@@ -6,6 +6,7 @@ const App = () => {
 
   return (
     <Image
+      alt=""
       src={imageSrc}
       width={96}
       height={96}

@@ -21,7 +21,7 @@ const TextField = forwardRef((
   // Optional
   useEffect(() => {
     const el = nodeRef.current;
-    const errorMessage = !!error ? error : '';
+    const errorMessage = error || '';
     el.setCustomValidity(errorMessage);
   }, [error]);
 
