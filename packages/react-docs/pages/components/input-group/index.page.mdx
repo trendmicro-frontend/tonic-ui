@@ -1,0 +1,96 @@
+# InputGroup
+
+`InputGroup` is used to group related add-ons and inputs.
+
+## Import
+
+```js
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupAppend,
+  InputGroupPrepend,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+Use `InputGroup` to place an `InputGroupAddon` or `Button` on either side of an `Input`. You may also place one on both sides of an `Input`.
+
+{render('./basic')}
+
+### Sizes
+
+Use the `size` prop to change the size of the input group. You can set the value to `sm`, `md`, or `lg`.
+
+{render('./sizes')}
+
+### Variants
+
+The `InputGroup` component comes in 3 variants: `outline`, `filled`, `flush`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+{render('./variant-outline')}
+
+#### `filled`
+
+{render('./variant-filled')}
+
+#### `flush`
+
+{render('./variant-flush')}
+
+#### `unstyled`
+
+{render('./variant-unstyled')}
+
+### Multiple add-ons
+
+Multiple add-ons are supported and can be mixed with checkbox and radio input components.
+
+{render('./multiple-add-ons')}
+
+### Multiple inputs
+
+While multiple `<Input />`s are supported visually, validation styles are only available for input groups with a single `<Input />`.
+
+{render('./multiple-inputs')}
+
+### Date inputs
+
+{render('./date-inputs')}
+
+### Button add-ons
+
+{render('./button-add-ons')}
+
+## Props
+
+### InputGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| size | string | 'md' | The relative size to the input group itself. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |
+
+### InputGroupAddon
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| size | string | 'md' | The relative size to the input group itself. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |
+
+### InputGroupAppend
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### InputGroupPrepend
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
