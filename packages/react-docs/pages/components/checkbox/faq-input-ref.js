@@ -1,12 +1,12 @@
 import { Button, Checkbox, Flex } from '@tonic-ui/react';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 const App = () => {
   const inputRef = useRef();
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     inputRef.current.focus();
     console.log(inputRef.current.checked); // => true
-  };
+  }, []);
 
   return (
     <Flex alignItems="center" columnGap="6x">
