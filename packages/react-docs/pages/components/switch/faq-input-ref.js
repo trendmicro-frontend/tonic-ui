@@ -1,16 +1,15 @@
 import { Button, Flex, Switch } from '@tonic-ui/react';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 const App = () => {
   const inputRef = useRef();
-
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     const inputEl = inputRef?.current;
     if (inputEl) {
       inputEl.focus();
       window.alert('The switch toggle is ' + (inputEl.checked ? 'on' : 'off'));
     }
-  };
+  }, []);
 
   return (
     <Flex alignItems="center" columnGap="6x">
