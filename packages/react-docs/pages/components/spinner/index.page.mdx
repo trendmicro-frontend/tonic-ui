@@ -10,9 +10,7 @@ import { Spinner } from '@tonic-ui/react';
 
 ## Usage
 
-```jsx
-<Spinner />
-```
+{render('./basic')}
 
 ### Sizes
 
@@ -26,15 +24,7 @@ You can use the `size` prop to change the size of the spinner. Each size has a c
 | lg | 64 x 64 | 32 | 4 |
 | xl | 80 x 80 | 40 | 4 |
 
-```jsx
-<Flex alignItems="center" columnGap="6x">
-  <Spinner size="xs" />
-  <Spinner size="sm" />
-  <Spinner size="md" />
-  <Spinner size="lg" />
-  <Spinner size="xl" />
-</Flex>
-```
+{render('./sizes')}
 
 ### Customization
 
@@ -44,21 +34,7 @@ The following props are provided for customization:
 * `trackColor` - The track color of the spinner. Set `trackColor` to `none` or `transparent` to remove the track.
 * `trackWidth` - The track width of the spinner.
 
-```jsx
-function Example() {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const trackColor = colorStyle.divider;
-
-  return (
-    <Flex alignItems="center" columnGap="6x">
-      <Spinner lineColor="red:50" lineColor="transparent" />
-      <Spinner lineColor="red:50" trackColor="transparent" />
-      <Spinner lineColor="red:50" lineWidth={6} trackColor={trackColor} trackWidth={6} />
-    </Flex>
-  );
-}
-```
+{render('./customization')}
 
 ## Props
 
