@@ -1,28 +1,33 @@
-# Stack
+/* eslint-disable react/no-unescaped-entities */
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Checkbox,
+  Divider,
+  Flex,
+  Space,
+  Stack,
+  Text,
+  TextLabel,
+  useColorMode,
+  useColorStyle,
+} from '@tonic-ui/react';
+import { useToggle } from '@tonic-ui/react-hooks';
+import React, { useState } from 'react';
 
-`Stack` is a layout utility component that makes it easy to stack items together and apply a space between them.
-
-## Import
-
-```js
-import { Stack } from '@tonic-ui/react';
-```
-
-## Usage
-
-Try resizing the browser window width as small as possible to see how `Stack` adapts to the available space.
-
-```jsx noInline
 const Item = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const boxShadow = colorStyle.shadow.thin;
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
-    <Box
+    <Flex
       boxShadow={boxShadow}
       border={1}
       borderColor={borderColor}
+      alignItems="center"
+      justifyContent="center"
       p="2x"
       {...props}
     />
@@ -42,12 +47,12 @@ const Note = (props) => {
 };
 
 const useSelection = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
+  const [value, setValue] = useState(defaultValue);
   const changeBy = (value) => () => setValue(value);
   return [value, changeBy];
 };
 
-function Example() {
+const App = () => {
   const [direction, changeDirectionBy] = useSelection('column');
   const [flexWrap, changeFlexWrapBy] = useSelection('nowrap');
   const [gap, toggleGap] = useToggle(false);
@@ -144,30 +149,14 @@ function Example() {
         gap={gap ? '4x' : undefined}
         spacing="4x"
       >
-        <Item>Stacked Item 1</Item>
-        <Item>Stacked Item 2</Item>
-        <Item>Stacked Item 3</Item>
-        <Item>Stacked Item 4</Item>
-        <Item>Stacked Item 5</Item>
-        <Item>Stacked Item 6</Item>
+        {Array.from({ length: 10 }).map((_, index) => (
+          <Item key={index} width={150}>
+            Stack Item {index + 1}
+          </Item>
+        ))}
       </Stack>
     </>
   );
-}
+};
 
-render(<Example />);
-```
-
-## Props
-
-### Stack
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-| direction | string | 'column' | The shorthand of `flexDirection`. |
-| flexDirection | string | 'column' | The direction to stack the items. One of: 'column', 'column-reverse', 'row', 'row-reverse' |
-| flexWrap | string | | Whether to wrap the items. One of: 'nowrap' (default), 'wrap', 'wrap-reverse' |
-| gap | number \| string | | Set the gap between rows and columns. It is useful when `flexWrap` is set to 'wrap' or 'wrap-reverse'. |
-| shouldWrapChildren | boolean | false | If `true`, each child will be wrapped in a `Box` with `display: inline-flex`. |
-| spacing | number \| string | 0 | The space between items based on the direction. |
+export default App;
