@@ -1,0 +1,67 @@
+import { Box, Stack } from "@tonic-ui/react";
+import ThemeParser from "@/components/ThemeParser";
+
+# Borders
+
+## Design Tokens
+
+<ThemeParser theme="borders" />
+
+## Examples
+
+The border shorthand property sets all the border properties in one declaration.
+
+```js
+/* style */
+border="solid"
+
+/* width | style */
+border="2px dotted"
+
+/* style | color */
+border="outset #f33"
+
+/* width | style | color */
+border="medium dashed green"
+
+/* Global values */
+border="inherit"
+border="initial"
+border="unset"
+```
+
+The `border` property may be specified using one, two, or three of the values listed below. The order of the value does not matter. See [border](https://developer.mozilla.org/en-US/docs/Web/CSS/border) in MDN for more details.
+
+Note: The border will be invisible if its style is not defined. This is because the style defaults to `none`.
+
+### Values
+
+`<border-color>`
+Sets the color of the border. Defaults to `currentcolor` if absent.
+
+`<border-style>`
+Sets the style of the border. Defaults to `none` if absent.
+
+`<border-width>`
+Sets the thickness of the border. Defaults to `medium` if absent.
+
+### Nonnegative length
+
+If the border is a numeric value defined in the theme, the `solid` border style will be applied as a shorthand for the `borderWidth` and `borderStyle` properties.
+
+{render('./borders-numeric-value')}
+
+### Keyword
+
+`thin`, `medium`, and `thick` are keywords that indicate the border width. You can use them in the `border` property, but you have to set the `borderStyle` property to `solid` as well.
+
+Note: Because the specification doesn't define the exact thickness denoted by each keyword, the precise result when using one of them is implementation-specific. Nevertheless, they always follow the pattern `thin ≤ medium ≤ thick`, and the values are constant within a single document.
+
+{render('./borders-keyword')}
+
+## Borders vs. Outlines
+
+Borders and [outlines](./outlines) are very similar. However, outlines differ from borders in the following ways:
+
+* Outlines never take up space, as they are drawn outside of an element's content.
+* According to the spec, outlines don't have to be rectangular, although they usually are.

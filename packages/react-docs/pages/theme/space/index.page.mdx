@@ -1,11 +1,11 @@
 import { Box, Stack } from "@tonic-ui/react";
-import ThemeParser from "../../components/ThemeParser";
+import ThemeParser from "@/components/ThemeParser";
 
-# Sizes
+# Space
 
 ## Design Tokens
 
-<ThemeParser theme="sizes" />
+<ThemeParser theme="space" />
 
 By default, the values are proportional. Therefore, a `1x` spacing unit is equal to `0.25rem`, which translates to `4px` by default in common browsers.
 
@@ -41,40 +41,4 @@ By default, the values are proportional. Therefore, a `1x` spacing unit is equal
 
 ## Examples
 
-### Width
-
-```jsx
-function Example() {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = colorStyle.background.secondary;
-  const color = colorStyle.color.secondary;
-
-  return (
-    <Flex flexDirection="column" rowGap="4x">
-      <Box width="32x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>width="32x"</Box>
-      <Box width="48x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>width="48x"</Box>
-      <Box width="64x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>width="64x"</Box>
-    </Flex>
-  );
-}
-```
-
-### Height
-
-```jsx
-function Example() {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = colorStyle.background.secondary;
-  const color = colorStyle.color.secondary;
-
-  return (
-    <Flex flexDirection="row" columnGap="4x">
-      <Box height="24x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>height="24x"</Box>
-      <Box height="32x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>height="32x"</Box>
-      <Box height="40x" px="4x" py="3x" backgroundColor={backgroundColor} color={color}>height="40x"</Box>
-    </Flex>
-  );
-}
-```
+{render('./space')}

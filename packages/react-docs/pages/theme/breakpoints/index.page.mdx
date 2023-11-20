@@ -1,4 +1,4 @@
-import ThemeParser from "../../components/ThemeParser";
+import ThemeParser from "@/components/ThemeParser";
 
 # Breakpoints
 
@@ -32,47 +32,7 @@ The first value in the array is the smallest breakpoint, and the last value is t
 
 Try resizing your browser window to see the effect of the responsive styles.
 
-```jsx
-<Box
-  fontSize={{
-    _: 'md', // default
-    sm: 'sm', // @media screen and (min-width: 320px)
-    md: 'md', // @media screen and (min-width: 640px)
-    lg: 'lg', // @media screen and (min-width: 1024px)
-    xl: 'xl', // @media screen and (min-width: 1280px)
-    '2xl': '2xl', // @media screen and (min-width: 1680px)
-  }}
-  lineHeight={{
-    _: 'md', // default
-    sm: 'sm', // @media screen and (min-width: 320px)
-    md: 'md', // @media screen and (min-width: 640px)
-    lg: 'lg', // @media screen and (min-width: 1024px)
-    xl: 'xl', // @media screen and (min-width: 1280px)
-    '2xl': '2xl', // @media screen and (min-width: 1680px)
-  }}
->
-  <Box display={{ _: 'none', sm: 'block', md: 'none' }}>
-    <Box mb="1x"><code>@media screen and (min-width: 320px)</code></Box>
-    Small Text
-  </Box>
-  <Box display={{ _: 'none', md: 'block', lg: 'none' }}>
-    <Box mb="1x"><code>@media screen and (min-width: 640px)</code></Box>
-    Medium Text
-  </Box>
-  <Box display={{ _: 'none', lg: 'block', xl: 'none' }}>
-    <Box mb="1x"><code>@media screen and (min-width: 1024px)</code></Box>
-    Large Text
-  </Box>
-  <Box display={{ _: 'none', xl: 'block', '2xl': 'none' }}>
-    <Box mb="1x"><code>@media screen and (min-width: 1280px)</code></Box>
-    Extra Large Text
-  </Box>
-  <Box display={{ _: 'none', '2xl': 'block' }}>
-    <Box mb="1x"><code>@media screen and (min-width: 1680px)</code></Box>
-    Double Extra Large Text
-  </Box>
-</Box>
-```
+{render('./breakpoints')}
 
 ## Customizing Breakpoints
 
@@ -80,7 +40,7 @@ For more control over the breakpoints, you can define custom breakpoints for you
 
 To do this, add a `breakpoints` array with additional aliases (e.g. `sm`, `md`, `lg`, `xl`, and `2xl`) to your theme.
 
-```js
+```jsx disabled
 // 1. Import the theme
 import { ThemeProvider, theme } from '@tonic-ui/react';
 

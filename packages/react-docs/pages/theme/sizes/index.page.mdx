@@ -1,11 +1,11 @@
 import { Box, Stack } from "@tonic-ui/react";
-import ThemeParser from "../../components/ThemeParser";
+import ThemeParser from "@/components/ThemeParser";
 
-# Space
+# Sizes
 
 ## Design Tokens
 
-<ThemeParser theme="space" />
+<ThemeParser theme="sizes" />
 
 By default, the values are proportional. Therefore, a `1x` spacing unit is equal to `0.25rem`, which translates to `4px` by default in common browsers.
 
@@ -41,27 +41,10 @@ By default, the values are proportional. Therefore, a `1x` spacing unit is equal
 
 ## Examples
 
-```jsx
-function Example() {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = colorStyle.background.secondary;
+### Width
 
-  return (
-    <Flex flexDirection="column" rowGap="4x">
-      <Flex columnGap="1x">
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-      </Flex>
-      <Flex columnGap="2x">
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-      </Flex>
-      <Flex columnGap="4x">
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-      </Flex>
-    </Flex>
-  );
-}
-```
+{render('./sizes-width')}
+
+### Height
+
+{render('./sizes-height')}

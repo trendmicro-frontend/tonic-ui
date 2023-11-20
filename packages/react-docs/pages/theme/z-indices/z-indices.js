@@ -1,16 +1,7 @@
-import { Box, Stack } from "@tonic-ui/react";
-import ThemeParser from "../../components/ThemeParser";
+import { Box, useColorMode, useColorStyle } from '@tonic-ui/react';
+import React from 'react';
 
-# zIndices
-
-## Design Tokens
-
-<ThemeParser theme="zIndices" />
-
-## Examples
-
-```jsx
-function Example() {
+const App = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
@@ -45,5 +36,6 @@ function Example() {
       })}
     </Box>
   );
-}
-```
+};
+
+export default App;
