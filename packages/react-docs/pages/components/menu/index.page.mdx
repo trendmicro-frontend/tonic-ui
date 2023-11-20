@@ -44,472 +44,43 @@ import {
 
 Below is a simple example that shows the basic menu structure.
 
-```jsx
-<Flex
-  display="inline-flex"
-  flexDirection="column"
->
-  <MenuItem value="settings">
-    <Icon icon="settings" mr="2x" />
-    <Text>Settings</Text>
-  </MenuItem>
-  <MenuItem value="accounts">
-    <Icon icon="user-team" mr="2x" />
-    <Text>Accounts</Text>
-  </MenuItem>
-  <MenuItem value="privacy-control">
-    <Icon icon="lock" mr="2x" />
-    <Text>Privacy control</Text>
-  </MenuItem>
-  <MenuDivider />
-  <MenuItem disabled value="restore-defaults">
-    <Icon icon="undo" mr="2x" />
-    <Text>Restore Defaults</Text>
-  </MenuItem>
-</Flex>
-```
+{render('./basic')}
 
 ### Cascading submenus
 
 The following example shows a menu with cascading submenus.
 
-```jsx
-<Flex
-  justify="space-between"
->
-  <Flex
-    flexDirection="column"
-  >
-    <MenuItem>
-      <Text>List item</Text>
-    </MenuItem>
-    <MenuItem>
-      <Text>List item</Text>
-    </MenuItem>
-    <MenuDivider />
-    <Submenu>
-      <SubmenuToggle>
-        <MenuItem>
-          <Flex
-            alignItems="center"
-            columnGap="2x"
-            justifyContent="space-between"
-            width="100%"
-          >
-            <Text>Submenu</Text>
-            <Icon icon="angle-right" />
-          </Flex>
-        </MenuItem>
-      </SubmenuToggle>
-      <SubmenuList width="max-content">
-        <MenuItem>
-          <Text>List item</Text>
-        </MenuItem>
-        <MenuItem>
-          <Text>List item</Text>
-        </MenuItem>
-        <Submenu>
-          <SubmenuToggle>
-            <MenuItem>
-              <Flex
-                alignItems="center"
-                columnGap="2x"
-                justifyContent="space-between"
-                width="100%"
-              >
-                <Text>Submenu</Text>
-                <Icon icon="angle-right" />
-              </Flex>
-            </MenuItem>
-          </SubmenuToggle>
-          <SubmenuList width="max-content">
-            <MenuItem>
-              <Text>List item</Text>
-            </MenuItem>
-            <MenuItem>
-              <Text>List item</Text>
-            </MenuItem>
-          </SubmenuList>
-        </Submenu>
-      </SubmenuList>
-    </Submenu>
-  </Flex>
-  <Flex
-    flexDirection="column"
-  >
-    <MenuItem pl="9x">
-      <Text>List item</Text>
-    </MenuItem>
-    <MenuItem pl="9x">
-      <Text>List item</Text>
-    </MenuItem>
-    <MenuDivider />
-    <Submenu placement="left-start">
-      <SubmenuToggle>
-        <MenuItem>
-          <Flex
-            alignItems="center"
-            columnGap="2x"
-            justifyContent="space-between"
-            width="100%"
-          >
-            <Icon icon="angle-left" />
-            <Text>Submenu</Text>
-          </Flex>
-        </MenuItem>
-      </SubmenuToggle>
-      <SubmenuList width="max-content">
-        <MenuItem pl="9x">
-          <Text>List item</Text>
-        </MenuItem>
-        <MenuItem pl="9x">
-          <Text>List item</Text>
-        </MenuItem>
-        <Submenu placement="left-start">
-          <SubmenuToggle>
-            <MenuItem>
-              <Flex
-                alignItems="center"
-                columnGap="2x"
-                justifyContent="space-between"
-                width="100%"
-              >
-                <Icon icon="angle-left" />
-                <Text>Submenu</Text>
-              </Flex>
-            </MenuItem>
-          </SubmenuToggle>
-          <SubmenuList
-            width="max-content"
-          >
-            <MenuItem>
-              <Text>List item</Text>
-            </MenuItem>
-            <MenuItem>
-              <Text>List item</Text>
-            </MenuItem>
-          </SubmenuList>
-        </Submenu>
-      </SubmenuList>
-    </Submenu>
-  </Flex>
-</Flex>
-```
+{render('./cascading-submenus')}
 
 ### Controlled and uncontrolled menu
 
 Pass `isOpen` to the `Menu` component to control the state of the menu.
 
-```jsx
-function Example() {
-  const [isOpen, toggleIsOpen] = useToggle(false);
-  const onClose = () => toggleIsOpen(false);
-  const [selectedValue, setSelectedValue] = React.useState(null);
-  const handleClickMenuItem = (event) => {
-    const value = event.target.getAttribute('value');
-    if (!isNullOrUndefined(value)) {
-      setSelectedValue(value);
-    }
-  };
-
-  return (
-    <Flex columnGap="4x" alignItems="center">
-      <Menu isOpen={isOpen} onClose={onClose}>
-        <MenuButton onClick={toggleIsOpen}>
-          Options
-        </MenuButton>
-        <MenuList
-          onClick={handleClickMenuItem}
-          width="max-content"
-        >
-          <MenuItem value={1}>
-            List item 1
-          </MenuItem>
-          <MenuItem value={2}>
-            List item 2
-          </MenuItem>
-          <MenuDivider />
-          <Submenu>
-            <SubmenuToggle>
-              <MenuItem>
-                <Flex
-                  alignItems="center"
-                  columnGap="2x"
-                  justifyContent="space-between"
-                  width="100%"
-                >
-                  Submenu
-                  <Icon icon="angle-right" />
-                </Flex>
-              </MenuItem>
-            </SubmenuToggle>
-            <SubmenuList width="max-content">
-              <MenuItem value={3}>
-                List item 3
-              </MenuItem>
-              <MenuItem value={4}>
-                List item 4
-              </MenuItem>
-            </SubmenuList>
-          </Submenu>
-        </MenuList>
-      </Menu>
-      <Text>Selected: {selectedValue}</Text>
-    </Flex>
-  );
-}
-```
+{render('./controlled')}
 
 Menu is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the menu open for the first render.
 
-```jsx
-function Example() {
-  const [selectedValue, setSelectedValue] = React.useState(null);
-  const handleClickMenuItem = (event) => {
-    const value = event.target.getAttribute('value');
-    if (!isNullOrUndefined(value)) {
-      setSelectedValue(value);
-    }
-  };
-
-  return (
-    <Flex columnGap="4x" alignItems="center">
-      <Menu>
-        <MenuButton>
-          Options
-        </MenuButton>
-        <MenuList
-          onClick={handleClickMenuItem}
-          width="max-content"
-        >
-          <MenuItem value={1}>
-            List item 1
-          </MenuItem>
-          <MenuItem value={2}>
-            List item 2
-          </MenuItem>
-          <MenuDivider />
-          <Submenu>
-            <SubmenuToggle>
-              <MenuItem>
-                <Flex
-                  alignItems="center"
-                  columnGap="2x"
-                  justifyContent="space-between"
-                  width="100%"
-                >
-                  Submenu
-                  <Icon icon="angle-right" />
-                </Flex>
-              </MenuItem>
-            </SubmenuToggle>
-            <SubmenuList width="max-content">
-              <MenuItem value={3}>
-                List item 3
-              </MenuItem>
-              <MenuItem value={4}>
-                List item 4
-              </MenuItem>
-            </SubmenuList>
-          </Submenu>
-        </MenuList>
-      </Menu>
-      <Text>Selected: {selectedValue}</Text>
-    </Flex>
-  );
-}
-```
+{render('./uncontrolled')}
 
 ### MenuToggle
 
 `MenuToggle` is a toggle that opens the menu when clicked. It is usually a button or link. The `MenuToggleIcon` can be added to the toggle to indicate the menu is open or closed.
 
-```jsx
-<Flex alignItems="center">
-  <Menu>
-    <MenuToggle>
-      <Text>Options</Text>
-    </MenuToggle>
-    <MenuList width="max-content">
-      <MenuItem>
-        List item 1
-      </MenuItem>
-      <MenuItem>
-        List item 2
-      </MenuItem>
-      <MenuItem>
-        List item 3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-  <Divider
-    variant="solid"
-    orientation="vertical"
-    height="5x"
-    mx="4x"
-  />
-  <Menu>
-    <MenuToggle>
-      <Flex alignItems="center" userSelect="none">
-        <Text>Options</Text>
-        <Space width="1x" />
-        <MenuToggleIcon />
-      </Flex>
-    </MenuToggle>
-    <MenuList width="max-content">
-      <MenuItem>
-        List item 1
-      </MenuItem>
-      <MenuItem>
-        List item 2
-      </MenuItem>
-      <MenuItem>
-        List item 3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-  <Divider
-    variant="solid"
-    orientation="vertical"
-    height="5x"
-    mx="4x"
-  />
-  <Menu>
-    <MenuToggle>
-      {({ getMenuToggleProps }) => {
-        return (
-          <Button
-            {...getMenuToggleProps()}
-            variant="default"
-          >
-            <Text>Options</Text>
-            <Space width="1x" />
-            <MenuToggleIcon />
-          </Button>
-        );
-      }}
-    </MenuToggle>
-    <MenuList width="max-content">
-      <MenuItem>
-        List item 1
-      </MenuItem>
-      <MenuItem>
-        List item 2
-      </MenuItem>
-      <MenuItem>
-        List item 3
-      </MenuItem>
-    </MenuList>
-  </Menu>
-</Flex>
-```
+{render('./menutoggle')}
 
 Here is an example showcasing the combination of `MenuToggle`, `Popover`, and `Button` components.
 
-```jsx
-<Menu>
-  <MenuToggle
-    disabled={true} // Use the `disabled` prop to control whether the button will be disabled
-  >
-    {({ getMenuToggleProps }) => (
-      <Popover
-        disabled={false} // Use the `disabled` prop to control whether the popover will be displayed
-        trigger="hover"
-      >
-        <PopoverTrigger shouldWrapChildren>
-          <Button
-            {...getMenuToggleProps()}
-            variant="secondary"
-            columnGap="1x"
-          >
-            <Text>Options</Text>
-            <MenuToggleIcon />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          Popover
-        </PopoverContent>
-      </Popover>
-    )}
-  </MenuToggle>
-  <MenuList width="max-content">
-    <MenuItem>
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
-```
+{render('./menutoggle-popover')}
 
 ### MenuToggleIcon
 
 `MenuToggleIcon` is an indicator that indicates the menu is open or closed.
 
-```jsx
-<Menu>
-  <MenuToggle>
-    <MenuToggleIcon />
-  </MenuToggle>
-  <MenuList width="max-content">
-    <MenuItem>
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
-```
+{render('./menutoggleicon')}
 
 You can also customize the indicator by passing a component as children or a function as children that returns a component.
 
-```jsx
-<Menu placement="bottom-start">
-  {({ isOpen, direction }) => {
-    return (
-      <>
-        <MenuToggle>
-          <MenuToggleIcon>
-            {(state, { ref, style: styleProps }) => {
-              // direction is either 'up' or 'down'
-              const icon = `arrow-${direction}`;
-              styleProps.transform = isOpen ? 'scaleY(-1)' : 'scaleY(1)';
-
-              return (
-                <Icon
-                  ref={ref}
-                  icon={icon}
-                  size="4x"
-                  {...styleProps}
-                />
-              );
-            }}
-          </MenuToggleIcon>
-        </MenuToggle>
-        <MenuList width="max-content">
-          <MenuItem>
-            List item 1
-          </MenuItem>
-          <MenuItem>
-            List item 2
-          </MenuItem>
-          <MenuItem>
-            List item 3
-          </MenuItem>
-        </MenuList>
-      </>
-    );
-  }}
-</Menu>
-```
+{render('./menutoggleicon-custom')}
 
 ### MenuButton
 
@@ -544,78 +115,13 @@ const MenuButton = (props) => {
 };
 ```
 
-```jsx
-<Menu>
-  <MenuButton variant="secondary">
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList width="max-content">
-    <MenuItem>
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
-```
+{render('./menubutton')}
 
 ### MenuGroup
 
 To group related menu items, wrap them in a `MenuGroup` and pass a `title` prop for the group title.
 
-```jsx noInline
-const Avatar = (props) => (
-  <Flex
-    p="1x"
-    borderRadius="50%"
-    alignItems="center"
-    justifyContent="center"
-    fontSize="xs"
-    lineHeight="1"
-    {...props}
-  />
-);
-
-render(() => (
-  <Flex
-    flexDirection="column"
-    width="fit-content"
-  >
-    <MenuItem>
-      <Text>My Profile</Text>
-    </MenuItem>
-    <MenuDivider />
-    <MenuGroup
-      title={(
-        <Flex justifyContent="space-between">
-          <Text>Other profiles</Text>
-          <Space minWidth="10x" />
-          <ButtonBase title="Manage profiles">
-            <Icon icon="settings" size="3x" />
-          </ButtonBase>
-        </Flex>
-      )}
-    >
-      <MenuItem>
-        <Avatar color="white" bg="blue:50" mr="3x">
-          JD
-        </Avatar>
-        <Text>John Doe</Text>
-      </MenuItem>
-      <MenuItem>
-        <Avatar color="white" bg="gray:50" mr="3x">
-          <Icon icon="user" size="3x" />
-        </Avatar>
-        <Text>Guest</Text>
-      </MenuItem>
-    </MenuGroup>
-  </Flex>
-));
-```
+{render('./menugroup')}
 
 ### Menu sizing
 
@@ -623,89 +129,21 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
 
 #### fixed width
 
-```jsx
-<Menu>
-  <MenuButton variant="secondary">
-    <Text>This is a very long menu button</Text>
-  </MenuButton>
-  <MenuList width={200}>
-    <MenuItem>
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
-```
+{render('./sizing-fixed-width')}
 
 #### full width
 
 Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `MenuList` to make the menu as wide as the content.
 
-```jsx
-<Menu display="block">
-  <MenuButton variant="secondary" width="100%">
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList width="100%">
-    <MenuItem>
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
-```
+{render('./sizing-full-width')}
 
 #### `min-content`
 
-```jsx
-<Menu>
-  <MenuButton variant="secondary">
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList width="min-content">
-    <MenuItem >
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
-```
+{render('./sizing-min-content')}
 
 #### `max-content`
 
-```jsx
-<Menu>
-  <MenuButton variant="secondary">
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList width="max-content">
-    <MenuItem>
-      This is a very long list item 1
-    </MenuItem>
-    <MenuItem>
-      This is a very long list item 2
-    </MenuItem>
-    <MenuItem>
-      This is a very long list item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
-```
+{render('./sizing-max-content')}
 
 ### Placement
 
@@ -719,88 +157,7 @@ The value can be one of the following:
 * `bottom-start`
 * `bottom-end`
 
-```jsx noInline
-const useSelection = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
-  const changeBy = (value) => () => setValue(value);
-  return [value, changeBy];
-};
-
-const gridAreas = [
-  ['top-start', 'top', 'top-end'],
-  ['.', '.', '.'],
-  ['.', 'center', '.'],
-  ['.', '.', '.'],
-  ['bottom-start', 'bottom', 'bottom-end'],
-];
-
-function Example() {
-  const [placement, changePlacementBy] = useSelection('bottom-start');
-  const gridTemplateAreas = gridAreas.map((row) => {
-    const rowString = '"' + row.join(' ') + '"';
-    return rowString;
-  }).join(' ');
-
-  return (
-    <Flex>
-      <Grid
-        templateAreas={gridTemplateAreas}
-        autoColumns="minmax(0, 1fr)"
-        autoFlow="row"
-        gap="2x"
-      >
-        {gridAreas.flat().map((value, key) => {
-          if (value === '.') {
-            return (<Box key={key} />);
-          }
-
-          if (value === 'center') {
-            return (
-              <Box key={key}>
-                <Menu placement={placement}>
-                  <MenuButton variant="secondary" width={150}>
-                    <Text>Options</Text>
-                  </MenuButton>
-                  <MenuList>
-                    <MenuItem>
-                      List item 1
-                    </MenuItem>
-                    <MenuItem>
-                      List item 2
-                    </MenuItem>
-                    <MenuItem>
-                      List item 3
-                    </MenuItem>
-                  </MenuList>
-                </Menu>
-              </Box>
-            );
-          }
-
-          const changePlacement = changePlacementBy(value);
-          const onClick = () => {
-            changePlacement();
-          };
-
-          return (
-            <Box key={key}>
-              <Button
-                selected={value === placement}
-                onClick={onClick}
-                width="100%"
-              >
-                {value}
-              </Button>
-            </Box>
-          );
-        })}
-      </Grid>
-    </Flex>
-  );
-}
-
-render(<Example />);
-```
+{render('./placement')}
 
 ### Positioning
 
@@ -814,127 +171,17 @@ The first number, `skidding`, displaces the menu along the toggle. This value is
 
 The second number, `distance`, controls the distance between the menu and the toggle. This value is specified in pixels.
 
-```jsx
-<Menu offset={[16, 8]}>
-  <MenuButton variant="secondary">
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList>
-    <MenuItem>
-      List item 1
-    </MenuItem>
-    <MenuItem>
-      List item 2
-    </MenuItem>
-    <MenuItem>
-      List item 3
-    </MenuItem>
-  </MenuList>
-</Menu>
-```
+{render('./positioning')}
 
 ### Scrolling
 
 To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList`. The menu will become scrollable when the menu items exceed the height of the menu.
 
-```jsx
-<Menu display="block">
-  <MenuButton variant="secondary" width={200}>
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList
-    maxHeight={200}
-    overflow="auto"
-    width={200}
-  >
-    {Array.from({ length: 100 }).map((_, key) => (
-      <Submenu
-        key={key}
-        placement="right-start"
-      >
-        <SubmenuToggle width="100%">
-          <MenuItem>
-            <Flex
-              alignItems="center"
-              columnGap="2x"
-              justifyContent="space-between"
-              width="100%"
-            >
-              <Text>List Item {key + 1}</Text>
-              <Icon icon="angle-right" />
-            </Flex>
-          </MenuItem>
-        </SubmenuToggle>
-        <SubmenuList
-          PopperProps={{
-            usePortal: true,
-          }}
-          width="max-content"
-        >
-          <MenuItem>
-            <Text>List item</Text>
-          </MenuItem>
-          <MenuItem>
-            <Text>List item</Text>
-          </MenuItem>
-        </SubmenuList>
-      </Submenu>
-    ))}
-  </MenuList>
-</Menu>
-```
+{render('./scrolling-native')}
 
 You can also use the `Scrollbar` component to override the default scrollbar.
 
-```jsx
-<Menu display="block">
-  <MenuButton variant="secondary" width={200}>
-    <Text>Options</Text>
-  </MenuButton>
-  <MenuList
-    width={200}
-  >
-    <Scrollbar
-      height={200}
-      overflowY="visible"
-    >
-      {Array.from({ length: 100 }).map((_, key) => (
-        <Submenu
-          key={key}
-          placement="right-start"
-        >
-          <SubmenuToggle width="100%">
-            <MenuItem>
-              <Flex
-                alignItems="center"
-                columnGap="2x"
-                justifyContent="space-between"
-                width="100%"
-              >
-                <Text>List Item {key + 1}</Text>
-                <Icon icon="angle-right" />
-              </Flex>
-            </MenuItem>
-          </SubmenuToggle>
-          <SubmenuList
-            PopperProps={{
-              usePortal: true,
-            }}
-            width="max-content"
-          >
-            <MenuItem>
-              <Text>List item</Text>
-            </MenuItem>
-            <MenuItem>
-              <Text>List item</Text>
-            </MenuItem>
-          </SubmenuList>
-        </Submenu>
-      ))}
-    </Scrollbar>
-  </MenuList>
-</Menu>
-```
+{render('./scrolling-scrollbar')}
 
 ### Customization
 
