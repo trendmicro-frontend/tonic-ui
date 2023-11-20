@@ -29,7 +29,7 @@ sections.forEach(section => {
 
   // Loop through matches and push to codeBlocks array
   while ((match = codeBlockRegex.exec(section)) !== null) {
-    codeBlocks.push(match[1]);
+    codeBlocks.push(match[1].trim());
   }
 
   codeBlocks.forEach((codeBlock, index) => {

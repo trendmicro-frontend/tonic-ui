@@ -259,36 +259,7 @@ You can customize the styling and layout of your components using the various st
 
 #### Using style props and pseudo style props
 
-```jsx expanded
-<Box
-  as="button"
-
-  // style props
-  backgroundColor="blue:60"
-  border="none"
-  borderRadius="sm"
-  color="white:primary"
-  cursor="pointer"
-  display="inline-flex"
-  px="3x"
-  py="2x"
-
-  // pseudo style props
-  _focus={{
-    ':not(:active)': {
-      backgroundColor: 'blue:60',
-    },
-  }}
-  _hover={{
-    backgroundColor: 'blue:50',
-  }}
-  _active={{
-    backgroundColor: 'blue:70',
-  }}
->
-  Primary Button
-</Box>
-```
+{render('./using-style-props-and-pseudo-style-props')}
 
 #### Shorthands
 

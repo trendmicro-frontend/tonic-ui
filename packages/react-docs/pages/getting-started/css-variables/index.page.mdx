@@ -1,0 +1,33 @@
+# CSS Variables
+
+## Overview
+
+Tonic UI has a default behavior of internally converting theme tokens defined in the theme to CSS variables.
+
+For example, consider a theme object that looks like this:
+
+```js disabled
+const theme = {
+  colors: {
+    'gray:10': '#fafafa',
+    'gray:20': '#f7f7f7',
+  },
+};
+```
+
+When this theme is passed to `TonicProvider`, Tonic UI will generate CSS variables automatically, as shown below:
+
+```css
+:root {
+  --tonic-colors-gray-10: #fafafa;
+  --tonic-colors-gray-20: #f7f7f7;
+}
+```
+
+These CSS variables can then be used to style components, providing a consistent look and feel throughout the application.
+
+## Default CSS Variables
+
+If you want to see all the CSS variables being used on the webpage, you can open the **Developer Tools** and go to the **Elements** tab. There, you will be able to view all the default CSS variables.
+
+{render('./default-css-variables')}
