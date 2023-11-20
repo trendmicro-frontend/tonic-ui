@@ -26,36 +26,4 @@ useEventListener(target, eventName, eventHandler, [options]);
 
 ## Demos
 
-```jsx
-function Component() {
-  const buttonRef = React.useRef(null);
-
-  const onScroll = (event) => {
-    console.log('document scrolled', event);
-  };
-
-  const onClick = (event) => {
-    console.log('button clicked', event);
-  };
-
-  // example with document based event
-  useEventListener(
-    () => (buttonRef.current.ownerDocument || document),
-    'scroll',
-    onScroll,
-  );
-
-  // example with element based event
-  useEventListener(
-    () => buttonRef.current,
-    'click',
-    onClick,
-  );
-
-  return (
-    <Button ref={buttonRef}>
-      Click Me
-    </Button>
-  );
-}
-```
+{render('./useEventListener')}

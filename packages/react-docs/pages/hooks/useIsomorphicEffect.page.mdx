@@ -23,16 +23,4 @@ useIsomorphicEffect(effect, [dependencies]);
 
 ## Demos
 
-```jsx
-function Component() {
-  useIsomorphicEffect(() => {
-    console.log('useIsomorphicEffect executed');
-  }, []);
-
-  return (
-    <Text>
-      <Code>useIsomorphicEffect()</Code> resolves to <Code>{useIsomorphicEffect === React.useEffect ? 'useEffect()' : 'useLayoutEffect()'}</Code>
-    </Text>
-  );
-}
-```
+{render('./useIsomorphicEffect')}

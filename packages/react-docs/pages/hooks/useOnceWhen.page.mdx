@@ -23,25 +23,4 @@ useOnceWhen(callback, when);
 
 ## Demos
 
-```jsx
-function Component() {
-  const [value, setValue] = React.useState(0);
-  const ref = React.useRef(0);
-
-  useOnceWhen(() => {
-    console.log('This will run only once when clicked');
-    ref.current++;
-  }, (value > 0));
-
-  return (
-    <>
-      <Box mb="4x">
-        Callback called: {ref.current}
-      </Box>
-      <Button onClick={() => setValue(value => value + 1)}>
-        Click Me
-      </Button>
-    </>
-  );
-}
-```
+{render('./useOnceWhen')}

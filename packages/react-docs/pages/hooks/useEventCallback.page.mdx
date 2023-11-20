@@ -37,52 +37,8 @@ Try typing some text in the input fields and see the difference between `useEven
 
 #### useEventCallback
 
-```jsx
-function Component() {
-  const [value, setValue] = React.useState('');
-  const onChange = useEventCallback((event) => {
-    const nextValue = event.target.value;
-    console.log(`prev=${value}, next=${nextValue}`);
-    setValue(nextValue);
-  }, [value]);
-  const prevOnChangeRef = React.useRef(onChange);
-  const invalidationCountRef = React.useRef(0);
-  if (prevOnChangeRef.current !== onChange) {
-    prevOnChangeRef.current = onChange;
-    invalidationCountRef.current++;
-  }
-
-  return (
-    <>
-      <Box mb="2x">"onChange" invalidation count: {invalidationCountRef.current}</Box>
-      <Input value={value} onChange={onChange} placeholder="Enter your text" />
-    </>
-  );
-}
-```
+{render('./useEventCallback')}
 
 #### useCallback
 
-```jsx
-function Component() {
-  const [value, setValue] = React.useState('');
-  const onChange = React.useCallback((event) => {
-    const nextValue = event.target.value;
-    console.log(`prev=${value}, next=${nextValue}`);
-    setValue(nextValue);
-  }, [value]);
-  const prevOnChangeRef = React.useRef(onChange);
-  const invalidationCountRef = React.useRef(0);
-  if (prevOnChangeRef.current !== onChange) {
-    prevOnChangeRef.current = onChange;
-    invalidationCountRef.current++;
-  }
-
-  return (
-    <>
-      <Box mb="2x">"onChange" invalidation count: {invalidationCountRef.current}</Box>
-      <Input value={value} onChange={onChange} placeholder="Enter your text" />
-    </>
-  );
-}
-```
+{render('./useCallback')}

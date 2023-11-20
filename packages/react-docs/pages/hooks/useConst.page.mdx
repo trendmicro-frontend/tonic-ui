@@ -30,16 +30,4 @@ The value. This is the same value that is returned by the initializer.
 
 ## Demos
 
-```jsx
-function Component() {
-  const mountTime = useConst(() => new Date().toTimeString());
-  const randomValue = useConst(Math.random());
-
-  return (
-    <Box display="flex" flexDirection="column" rowGap="2x">
-      <Box>Mount time: {mountTime}</Box>
-      <Box>Random value: {randomValue}</Box>
-    </Box>
-  )
-}
-```
+{render('./useConst')}
