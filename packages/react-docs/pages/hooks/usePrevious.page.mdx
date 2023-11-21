@@ -26,20 +26,4 @@ Returns the previous value.
 
 ## Demos
 
-```jsx
-function Counter() {
-  const [value, setValue] = React.useState(0);
-  const lastValue = usePrevious(value);
-
-  return (
-    <>
-      <Box mb="4x">
-        Current: {value} - Previous: {lastValue}
-      </Box>
-      <Button onClick={() => setValue(value + 1)}>
-        Click Me
-      </Button>
-    </>
-  );
-}
-```
+{render('./usePrevious')}

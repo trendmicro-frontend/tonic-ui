@@ -33,48 +33,4 @@ Returns an object with the pagination items.
 
 ## Demos
 
-```jsx
-function Example() {
-  const { items } = usePagination({
-    count: 10,
-    slot: {
-      first: true,
-      previous: true,
-      next: true,
-      last: true,
-    },
-  });
-
-  return (
-    <Box as="nav">
-      <Flex alignItems="center" columnGap="2x">
-        {items.map(({ page, type, selected, ...item }, index) => {
-          let children = null;
-
-          if (type === 'start-ellipsis' || type === 'end-ellipsis') {
-            children = '…';
-          } else if (type === 'page') {
-            children = (
-              <Button selected={selected} {...item}>
-                {page}
-              </Button>
-            );
-          } else {
-            children = (
-              <Button {...item}>
-                {type}
-              </Button>
-            );
-          }
-
-          return (
-            <React.Fragment key={index}>
-              {children}
-            </React.Fragment>
-          );
-        })}
-      </Flex>
-    </Box>
-  );
-}
-```
+{render('./usePagination')}

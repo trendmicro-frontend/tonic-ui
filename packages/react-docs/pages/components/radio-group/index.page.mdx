@@ -1,0 +1,60 @@
+# RadioGroup
+
+`RadioGroup` is used to group related radio buttons.
+
+## Import
+
+```js
+import { RadioGroup } from '@tonic-ui/react';
+```
+
+### Usage
+
+#### Uncontrolled radio group
+
+{render('./uncontrolled-radio-group')}
+
+#### Controlled radio group
+
+{render('./controlled-radio-group')}
+
+### Group orientation
+
+Make a set of radios appear horizontal stacked rather than vertically, by adding `flexDirection="row"` to the `Stack` component.
+
+{render('./group-orientation')}
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of the Radio. `variantColor` can be any color key with key `50`(hover), `60`(checked) that exist in the `theme.colors`.
+
+{render('./colors')}
+
+### Sizes
+
+Use the `size` prop to change the size of the `RadioGroup`. You can set the value to `sm`, `md`, or `lg`.
+
+{render('./sizes')}
+
+### States
+
+{render('./states')}
+
+### Asynchronous data loading
+
+{render('./asynchronous-data-loading')}
+
+## Props
+
+### RadioGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| defaultValue | string \| number | | The default `input` element value. Use when the component is not controlled. |
+| disabled | boolean | false | If `true`, all radios will be disabled. |
+| name | string | | The name used to reference the value of the control. If you don't provide this prop, it falls back to a randomly generated name. |
+| onChange | function | | A callback called when the state of the radio changes. |
+| size | string | 'md' | The size (width and height) of the radio. One of: 'sm', 'md', 'lg' |
+| value | string \| number | | The value to be used in the radio input. This is the value that will be returned on form submission. |
+| variantColor | string | | The color of the radio when it's checked. This should be one of the color keys in the theme (e.g. 'green', 'red'). |

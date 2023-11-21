@@ -1,0 +1,78 @@
+# Textarea
+
+The `Textarea` component allows you to create a multi-line text input.
+
+## Import
+
+```js
+import { Textarea } from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./basic')}
+
+### Sizing
+
+* The `rows` and `cols` properties allow you to specify an exact size for the `<Textarea>` to take. Setting these is a good idea for consistency, as browser defaults can differ.
+* The `maxLength` property specifies a maximum number of characters that the `Textarea` is allowed to contain.
+* The `minLength` property specifies a minimum length that is considered valid. `Textarea` will not submit (and is invalid) if it is empty, using the `required` attribute.
+* The `resize` property to set whether the `Textarea` is resizable, and if so, in which directions. You can set the value to `none`, `both`, `horizontal`, or `vertical`.
+
+{render('./sizing')}
+
+### Variants
+
+The `Textarea` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+{render('./variant-outline')}
+
+#### `filled`
+
+{render('./variant-filled')}
+
+#### `unstyled`
+
+{render('./variant-unstyled')}
+
+### Attributes
+
+General form input attributes are supported, such as `disabled`, `readOnly`, `required`, etc.
+
+#### `disabled`
+
+{render('./attribute-disabled')}
+
+#### `readOnly`
+
+{render('./attribute-readonly')}
+
+#### `required`
+
+{render('./attribute-required')}
+
+### Validation
+
+The `Textarea` component provides a built-in validation mechanism that can be used to indicate when a field is not valid. When the `error` prop is set to true, a red border is displayed around the input field, allowing you to provide user-friendly form validation feedback.
+
+In addition to the built-in validation mechanism, you can use the native `setCustomValidity()` method to set a custom validation message for the textarea. This method is available on the textarea element and allows you to set a custom error message that will be displayed when the field is invalid.
+
+{render('./validation')}
+
+## Props
+
+### Textarea
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| rows | number | | Specifies the number of visible lines in a textarea. |
+| cols | number | | Specifies the visible width of a textarea. |
+| maxLength | number | | Specifies the maximum number of characters allowed in the textarea. |
+| minLength | number | | Specifies the minimum number of characters required for the textarea to be considered valid. |
+| resize | string | | The resize behavior of the textarea. One of: 'none', 'both', 'horizontal', 'vertical' |
+| variant | string | 'outline' | The variant of the textarea style to use. One of: 'outline', 'filled', 'unstyled' |
+| disabled | boolean | | If `true`, the textarea is disabled and the user cannot interact with it. |
+| error | boolean | | If `true`, the textarea displays a red border to indicate an error. |
+| readOnly | boolean | | If `true`, the value of the textarea cannot be edited. |

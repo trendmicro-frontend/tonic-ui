@@ -2,76 +2,10 @@
 
 Date pickers allow the user to select dates from a pre-determined set of values.
 
-```jsx noInline
-// DateInput
-const DateInput = React.forwardRef((props, ref) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
-  return (
-    <InputControl
-      ref={ref}
-      startAdornment={(
-        <InputAdornment color={colorStyle.color.secondary}>
-          <Icon icon="calendar" />
-        </InputAdornment>
-      )}
-      {...props}
-    />
-  );
-});
-
-render(() => (
-  <>
-    <TextLabel mb="1x">Date Picker</TextLabel>
-    <DatePicker
-      defaultValue={new Date()}
-      inputFormat="yyyy-MM-dd"
-      renderInput={({ error, inputProps }) => {
-        const _error = !!inputProps.value && error;
-
-        return (
-          <DateInput
-            {...inputProps}
-            error={_error}
-            placeholder="yyyy-MM-dd"
-          />
-        );
-      }}
-    />
-  </>
-));
-```
+{render('./date-pickers')}
 
 ## Native Pickers
 
 Native pickers are supported by modern browsers. The supported input types are: `date`, `datetime-local`, `month`, `time`, and `week`.
 
-```jsx
-<Flex
-  display="inline-flex"
-  direction="column"
-  rowGap="4x"
->
-  <Box>
-    <TextLabel mb="1x">date</TextLabel>
-    <Input type="date" />
-  </Box>
-  <Box>
-    <TextLabel mb="1x">time</TextLabel>
-    <Input type="time" />
-  </Box>
-  <Box>
-    <TextLabel mb="1x">datetime-local</TextLabel>
-    <Input type="datetime-local" />
-  </Box>
-  <Box>
-    <TextLabel mb="1x">month</TextLabel>
-    <Input type="month" />
-  </Box>
-  <Box>
-    <TextLabel mb="1x">week</TextLabel>
-    <Input type="week" />
-  </Box>
-</Flex>
-```
+{render('./native-pickers')}

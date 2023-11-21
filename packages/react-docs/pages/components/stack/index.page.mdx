@@ -1,0 +1,29 @@
+# Stack
+
+`Stack` is a layout utility component that makes it easy to stack items together and apply a space between them.
+
+## Import
+
+```js
+import { Stack } from '@tonic-ui/react';
+```
+
+## Usage
+
+Try resizing the browser window width as small as possible to see how `Stack` adapts to the available space.
+
+{render('./usage')}
+
+## Props
+
+### Stack
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| direction | string | 'column' | The shorthand of `flexDirection`. |
+| flexDirection | string | 'column' | The direction to stack the items. One of: 'column', 'column-reverse', 'row', 'row-reverse' |
+| flexWrap | string | | Whether to wrap the items. One of: 'nowrap' (default), 'wrap', 'wrap-reverse' |
+| gap | number \| string | | Set the gap between rows and columns. It is useful when `flexWrap` is set to 'wrap' or 'wrap-reverse'. |
+| shouldWrapChildren | boolean | false | If `true`, each child will be wrapped in a `Box` with `display: inline-flex`. |
+| spacing | number \| string | 0 | The space between items based on the direction. |

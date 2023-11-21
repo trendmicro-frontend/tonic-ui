@@ -1,0 +1,93 @@
+# Pseudo Style Props
+
+Styling elements with [pseudo-classes](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes) and [pseudo-elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements) can be accomplished by prefixing the pseudo selector with one or two underscores (`_` for pseudo-classees or `__` for pseudo-elements).
+
+## Pseudo-Classes
+
+A CSS pseudo-class is a keyword added to a selector that specifies a special state of the selected element(s).
+
+For example, `:hover` can be used to change a button's color when the user's pointer hovers over it. You can use the `_hover` prop to achieve the same effect.
+
+{render('./pseudo-classes')}
+
+### Reference Table
+
+__pseudo-class-selectors__
+
+## Pseudo-Elements
+
+A CSS pseudo-element is a keyword added to a selector that lets you style a specific part of the selected element(s).
+
+For example, `::first-line` can be used to change the font of the first line of a paragraph. You can use the `__first-line` prop to achieve the same effect.
+
+{render('./pseudo-elements')}
+
+### Reference Table
+
+__pseudo-element-selectors__
+
+## Examples
+
+### `:hover`
+
+Add the `_hover` prop to apply style props on hover.
+
+{render('./_hover')}
+
+### `:active`
+
+Add the `_active` prop to apply style props on active.
+
+{render('./_active')}
+
+### `:focus`
+
+Add the `_focus` prop to apply style props on focus.
+
+{render('./_focus')}
+
+### `:disabled`
+
+Add the `_disabled` prop to style an element which is disabled.
+
+{render('./_disabled')}
+
+### `:visited`
+
+Add the `_visited` prop to style a visited link.
+
+{render('./_visited')}
+
+### `:first-child`
+
+Add the `_firstChild` prop to style an element that is the first element among its siblings.
+
+{render('./_firstChild')}
+
+### `:last-child`
+
+Add the `_lastChild` prop to style an element that is the last element among its siblings.
+
+{render('./_lastChild')}
+
+### `:nth-of-type()`
+
+Add the `_nthOfType` prop to match elements of a given type, based on their position among a group of siblings. The value can be represented as an array or an object in the following form:
+
+```
+_nthOfType={{
+  '2n+1': {
+    color: 'red:40',
+  },
+}}
+```
+
+{render('./_nthOfType')}
+
+### `:nth-of-type(odd)`
+
+{render('./_nthOfType_odd')}
+
+### `:nth-of-type(even)`
+
+{render('./_nthOfType_even')}

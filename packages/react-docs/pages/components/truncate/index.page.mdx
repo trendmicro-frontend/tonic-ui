@@ -1,0 +1,47 @@
+# Truncate
+
+The `Truncate` component will shorten text with an ellipsis. Always add a `title` attribute to the truncated element so the full text can be displayed in a tooltip.
+
+## Import
+
+```js
+import { Truncate } from '@tonic-ui/react';
+```
+
+## Usage
+
+### Default example
+
+Truncate will prevent text that overflows the container from wrapping.
+
+{render('./container-width')}
+
+You can also set the width of the truncated text with the `width` prop.
+
+{render('./truncate-width')}
+
+### Expand truncated text on hover
+
+You can use the `_hover` prop to control how to expand the truncated text on hover.
+
+{render('./expand-on-hover')}
+
+### Overflow tooltip
+
+You can wrap `Truncate` with a `Tooltip` to display the full text in a tooltip when the text is truncated.
+
+{render('./overflow-tooltip')}
+
+## Commonly Asked Questions
+
+### How to truncate the text after a specific number of lines?
+
+{render('./faq-line-clamp')}
+
+## Props
+
+### Truncate
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

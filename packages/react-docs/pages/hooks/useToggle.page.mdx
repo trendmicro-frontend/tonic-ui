@@ -42,14 +42,4 @@ const defaultToggleReducer = (state, nextValue) => {
 
 ## Demos
 
-```jsx
-function Switch() {
-  const [value, toggleValue] = useToggle(false);
-
-  return (
-    <Button onClick={toggleValue}>
-      {value ? 'ON' : 'OFF'}
-    </Button>
-  );
-}
-```
+{render('./useToggle')}

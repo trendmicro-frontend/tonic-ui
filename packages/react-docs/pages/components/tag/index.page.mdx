@@ -13,273 +13,29 @@ import {
 
 ## Usage
 
-```jsx
-<Tag>Sample Tag</Tag>
-```
+{render('./basic')}
 
 ### Variants
 
 Use the `variant` prop to change the visual style of the `Tag`. You can set the value to `solid`, `outline`.
 
-```jsx
-<Stack direction="row" spacing="2x" shouldWrapChildren>
-  <Tag variant="solid">Solid Tag</Tag>
-  <Tag variant="outline">Outline Tag</Tag>
-</Stack>
-```
+{render('./variants')}
 
 ### Custom colors
 
 The color of the tag can be changed by passing the `backgroundColor`, `borderColor`, and `color` props. See the [colors](../theme/colors) section to learn more about colors.
 
-```jsx
-function Example() {
-  const [colorMode] = useColorMode();
-  const solidColors = {
-    dark: [
-      {
-        label: 'Light gray',
-        backgroundColor: 'gray:70',
-        color: 'gray:20'
-      },
-      {
-        label: 'Red',
-        backgroundColor: 'red:80',
-        color: 'red:20'
-      },
-      {
-        label: 'Magenta',
-        backgroundColor: 'magenta:80',
-        color: 'magenta:20'
-      },
-      {
-        label: 'Purple',
-        backgroundColor: 'purple:80',
-        color: 'purple:20'
-      },
-      {
-        label: 'Blue',
-        backgroundColor: 'blue:80',
-        color: 'blue:20'
-      },
-      {
-        label: 'Green',
-        backgroundColor: 'green:70',
-        color: 'green:20'
-      },
-      {
-        label: 'Teal',
-        backgroundColor: 'teal:70',
-        color: 'teal:20'
-      },
-      {
-        label: 'Cyan',
-        backgroundColor: 'cyan:70',
-        color: 'cyan:20'
-      },
-    ],
-    light: [
-      {
-        label: 'Light gray',
-        backgroundColor: 'gray:20',
-        color: 'black:emphasis'
-      },
-      {
-        label: 'Red',
-        backgroundColor: 'red:20',
-        color: 'red:100'
-      },
-      {
-        label: 'Magenta',
-        backgroundColor: 'magenta:20',
-        color: 'magenta:100'
-      },
-      {
-        label: 'Purple',
-        backgroundColor: 'purple:20',
-        color: 'purple:100'
-      },
-      {
-        label: 'Blue',
-        backgroundColor: 'blue:20',
-        color: 'blue:100'
-      },
-      {
-        label: 'Green',
-        backgroundColor: 'green:20',
-        color: 'green:100'
-      },
-      {
-        label: 'Teal',
-        backgroundColor: 'teal:20',
-        color: 'teal:100'
-      },
-      {
-        label: 'Cyan',
-        backgroundColor: 'cyan:20',
-        color: 'cyan:100'
-      },
-    ]
-  }[colorMode];
-  const outlineColors = {
-    dark: [
-      {
-        label: 'Light gray',
-        borderColor: 'gray:40',
-        color: 'gray:40'
-      },
-      {
-        label: 'Red',
-        borderColor: 'red:50',
-        color: 'red:50'
-      },
-      {
-        label: 'Magenta',
-        borderColor: 'magenta:50',
-        color: 'magenta:50'
-      },
-      {
-        label: 'Purple',
-        borderColor: 'purple:50',
-        color: 'purple:50'
-      },
-      {
-        label: 'Blue',
-        borderColor: 'blue:50',
-        color: 'blue:50'
-      },
-      {
-        label: 'Green',
-        borderColor: 'green:50',
-        color: 'green:50'
-      },
-      {
-        label: 'Teal',
-        borderColor: 'teal:50',
-        color: 'teal:50'
-      },
-      {
-        label: 'Cyan',
-        borderColor: 'cyan:50',
-        color: 'cyan:50'
-      },
-    ],
-    light: [
-      {
-        label: 'Light gray',
-        borderColor: 'gray:60',
-        color: 'gray:60'
-      },
-      {
-        label: 'Red',
-        borderColor: 'red:60',
-        color: 'red:60'
-      },
-      {
-        label: 'Magenta',
-        borderColor: 'magenta:60',
-        color: 'magenta:60'
-      },
-      {
-        label: 'Purple',
-        borderColor: 'purple:50',
-        color: 'purple:50'
-      },
-      {
-        label: 'Blue',
-        borderColor: 'blue:60',
-        color: 'blue:60'
-      },
-      {
-        label: 'Green',
-        borderColor: 'green:60',
-        color: 'green:60'
-      },
-      {
-        label: 'Teal',
-        borderColor: 'teal:60',
-        color: 'teal:60'
-      },
-      {
-        label: 'Cyan',
-        borderColor: 'cyan:60',
-        color: 'cyan:60'
-      },
-    ]
-  }[colorMode];
-
-  return (
-    <Stack spacing="4x">
-      <Stack direction="row" spacing="2x" shouldWrapChildren>
-        {solidColors.map(({ backgroundColor, color, label }, index) => (
-          <Tag key={label} backgroundColor={backgroundColor} color={color} variant="solid">{label}</Tag>
-        ))}
-      </Stack>
-      <Stack direction="row" spacing="2x" shouldWrapChildren>
-        {solidColors.map(({ backgroundColor, color, label }, index) => (
-          <Tag key={label} backgroundColor={backgroundColor} color={color} variant="solid" borderRadius="lg">{label}</Tag>
-        ))}
-      </Stack>
-      <Stack direction="row" spacing="2x" shouldWrapChildren>
-        {outlineColors.map(({ borderColor, color, label }, index) => (
-          <Tag key={label} borderColor={borderColor} color={color} variant="outline">{label}</Tag>
-        ))}
-      </Stack>
-      <Stack direction="row" spacing="2x" shouldWrapChildren>
-        {outlineColors.map(({ borderColor, color, label }, index) => (
-          <Tag key={label} borderColor={borderColor} color={color} variant="outline" borderRadius="lg">{label}</Tag>
-        ))}
-      </Stack>
-    </Stack>
-  );
-}
-```
+{render('./custom-colors')}
 
 ### Sizes
 
 Use the `size` prop to change the size of the `Tag`. You can set the value to `sm`, `md`, or `lg`.
 
-```jsx
-<Stack spacing="4x">
-  <Stack direction="row" alignItems="center" spacing="2x">
-    <Tag size="sm">Small</Tag>
-    <Tag size="md">Medium</Tag>
-    <Tag size="lg">Large</Tag>
-  </Stack>
-  <Stack direction="row" alignItems="center" spacing="2x">
-    <Tag size="sm" borderRadius="lg">Small</Tag>
-    <Tag size="md" borderRadius="lg">Medium</Tag>
-    <Tag size="lg" borderRadius="32px">Large</Tag>
-  </Stack>
-  <Stack direction="row" alignItems="center" spacing="2x">
-    <Tag size="sm" variant="outline">Small</Tag>
-    <Tag size="md" variant="outline">Medium</Tag>
-    <Tag size="lg" variant="outline">Large</Tag>
-  </Stack>
-    <Stack direction="row" alignItems="center" spacing="2x">
-    <Tag size="sm" variant="outline" borderRadius="lg">Small</Tag>
-    <Tag size="md" variant="outline" borderRadius="lg">Medium</Tag>
-    <Tag size="lg" variant="outline" borderRadius="32px">Large</Tag>
-  </Stack>
-</Stack>
-```
+{render('./sizes')}
 
 ### States
 
-```jsx
-<Stack spacing="4x">
-  <Stack direction="row" spacing="4x" shouldWrapChildren>
-    <Tag>Normal</Tag>
-    <Tag disabled>Disabled</Tag>
-    <Tag error>Error</Tag>
-  </Stack>
-  <Stack direction="row" spacing="4x" shouldWrapChildren>
-    <Tag variant="outline">Normal</Tag>
-    <Tag variant="outline" disabled>Disabled</Tag>
-    <Tag variant="outline" error>Error</Tag>
-  </Stack>
-</Stack>
-```
+{render('./states')}
 
 ### How to close a tag
 
@@ -293,18 +49,7 @@ The `isClosable` prop is used to make a tag closable by adding a close button to
 </Tag>
 ```
 
-```jsx noInline
-render(() => {
-  const [isOpen, onClose] = useToggle(true);
-  return (
-    <Fade in={isOpen} unmountOnExit>
-      <Tag variant="solid" isClosable onClose={onClose}>
-        <Text>This is a tag</Text>
-      </Tag>
-    </Fade>
-  );
-});
-```
+{render('./using-the-isclosable-prop')}
 
 #### Using the `TagCloseButton` component
 
@@ -321,19 +66,7 @@ Besides the default functionality of the `TagCloseButton`, you can also pass add
 
 When using the `TagCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned with a `2x` (=8px) margin on the left side to ensure sufficient spacing between the tag and the button.
 
-```jsx noInline
-render(() => {
-  const [isOpen, onClose] = useToggle(true);
-  return (
-    <Fade in={isOpen} unmountOnExit>
-      <Tag variant="solid" onClose={onClose}>
-        <Text>This is a tag</Text>
-        <TagCloseButton ml="2x" data-test="tag-close-button" />
-      </Tag>
-    </Fade>
-  );
-});
-```
+{render('./using-the-tagclosebutton-component')}
 
 ## Advanced usage
 
@@ -345,7 +78,7 @@ The tag creation component allows you to easily generate tags for filtering purp
 
 To create a new tag, simply type your desired tag value and press the enter key. This will add the tag to the list. You can also copy and paste a list of tags, separating them with commas (`,`) or semi-colons (`;`), to create multiple tags at once. If you need to remove a tag, just click on the `x` icon or use the backspace key.
 
-{render('./input-tag')}
+{render('./creating-tags')}
 
 ## Props
 

@@ -1,0 +1,60 @@
+# CheckboxGroup
+
+`CheckboxGroup` is used to group related checkboxes.
+
+## Import
+
+```js
+import { CheckboxGroup } from '@tonic-ui/react';
+```
+
+### Usage
+
+#### Uncontrolled checkbox group
+
+{render('./uncontrolled-checkbox-group')}
+
+#### Controlled checkbox group
+
+{render('./controlled-checkbox-group')}
+
+### Group orientation
+
+Make a set of checkboxes appear horizontal stacked rather than vertically, by adding `flexDirection="row"` to the `Stack` component.
+
+{render('./group-orientation')}
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of the Radio. `variantColor` can be any color key with key `50`(hover), `60`(checked) that exist in the `theme.colors`.
+
+{render('./colors')}
+
+### Sizes
+
+Use the `size` prop to change the size of the `CheckboxGroup`. You can set the value to `sm`, `md`, or `lg`.
+
+{render('./sizes')}
+
+### States
+
+{render('./states')}
+
+### Asynchronous data loading
+
+{render('./asynchronous-data-loading')}
+
+## Props
+
+### CheckboxGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| defaultValue | (string\|number)[] | | The initial value of the checkbox group. |
+| disabled | boolean | false | If `true`, all checkboxes will be disabled. |
+| name | string | | The name used to reference the value of the control. If you don't provide this prop, it falls back to a randomly generated name. |
+| onChange | (event) => void | | A callback fired when any descendant `Checkbox` is checked or unchecked. |
+| size | string | 'md' | The size (width and height) of the checkbox. One of: 'sm', 'md', 'lg' |
+| value | (string\|number)[] | | The value of the checkbox group. |
+| variantColor | string | | The color of the checkbox when it's checked. This should be one of the color keys in the theme (e.g. 'green', 'red') |

@@ -26,32 +26,4 @@ Returns a single function that can be used to set multiple refs.
 
 ## Demos
 
-```jsx noInline
-const Component = React.forwardRef(function Component(props, ref) {
-  const internalRef = React.useRef();
-  const refs = useMergeRefs(internalRef, ref);
-
-  React.useEffect(() => {
-    console.log('ref.current:', ref.current);
-    console.log('internalRef.current:', internalRef.current);
-  }, []);
-
-  return (
-    <Box ref={refs} {...props}>
-      A component with multiple refs
-    </Box>
-  );
-});
-
-render(() => {
-  const externalRef = React.useRef();
-
-  React.useEffect(() => {
-    console.log('externalRef.current:', externalRef.current);
-  }, []);
-
-  return (
-    <Component ref={externalRef} />
-  );
-});
-```
+{render('./useMergeRefs')}

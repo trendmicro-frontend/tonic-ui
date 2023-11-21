@@ -1,0 +1,82 @@
+# Radio
+
+Radio buttons are used when only one choice may be selected in a series of options.
+
+## Import
+
+```js
+import { Radio } from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./basic')}
+
+You can use a flex container to align a radio button with other components. This allows you to easily control the positioning and spacing of all elements within the container.
+
+{render('./flex-container')}
+
+### Colors
+
+Use the `variantColor` prop to change the color scheme of a radio button. `variantColor` can be any color key with key `50` (hover) or `60` (checked) that exist in `theme.colors`.
+
+{render('./colors')}
+
+### Sizes
+
+Use the `size` prop to change the radio button size. You can set the value to `sm`, `md`, or `lg`.
+
+{render('./sizes')}
+
+### States
+
+{render('./states')}
+
+## Accessibility
+
+WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+
+* All form controls should have labels, and this includes radio buttons, checkboxes, and switches. In most cases, this is done by using the `<label>` element.
+* When a label can't be used, it's necessary to add an attribute directly to the input component. In this case, you can apply the additional attribute (e.g. `aria-label`, `aria-labelledby`, `title`) via the `inputProps` prop.
+
+```jsx disabled
+<Radio
+  inputProps={{
+    'aria-label': 'Label',
+  }}
+/>
+```
+
+## Commonly Asked Questions
+
+### How to obtain and interact with the input element?
+
+To access the input element within the `Radio` component, you can make use of the `inputRef` prop. This prop allows you to acquire a reference to the input element, enabling you to interact with it.
+
+Once you have obtained the reference to the input element, you can access its properties and methods. For instance, you can use the `checked` property to retrieve the current checked state of the input element. Additionally, if you need to focus on the input element programmatically, you can utilize the `focus()` method available on the input element reference.
+
+Here's an example of how you can utilize the `inputRef` prop to access the input element and perform actions:
+
+{render('./faq-input-ref')}
+
+## Props
+
+### Radio
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| checked | boolean | | If `true`, the radio button will be selected. Use the `onChange` prop to update the state for a controlled component. |
+| children | ReactNode | | The content within the radio button component. |
+| defaultChecked | boolean | | If `true`, the radio button will be selected initially. |
+| disabled | boolean | | If `true`, disables the radio button and prevents user interaction. |
+| id | string | | The `id` attribute of the input field. |
+| inputProps | object | | Additional props to be applied to the input element. |
+| inputRef | RefObject | | A `ref` to access the input element. |
+| name | string | | The name of the input field in a series of radio buttons. The name is useful for form submissions.  |
+| onBlur | function | | A callback function invoked when the radio button loses focus. |
+| onChange | function | | A callback function invoked when the state of the radio button changes. |
+| onClick | function | | A callback function invoked when the radio button is clicked. |
+| onFocus | function | | A callback function invoked when the radio button receives focus. |
+| size | string | 'md' | The size of the radio button. One of: 'sm', 'md', 'lg' |
+| value | string \| number | | The value of the radio button input. This is the return value for form submissions. |
+| variantColor | string | 'blue' | The color of the radio button when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red') |

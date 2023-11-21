@@ -142,7 +142,6 @@ export const routes = [
 
       { title: 'LAYOUT', heading: true },
       { title: 'Box', path: 'components/box' },
-      //{ title: 'ControlBox', path: 'components/control-box' }, // XXX: internal use only
       { title: 'Flex', path: 'components/flex' },
       { title: 'Grid', path: 'components/grid' },
       { title: 'Space', path: 'components/space' },

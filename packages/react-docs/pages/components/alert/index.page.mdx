@@ -21,111 +21,30 @@ You can use the `variant` prop to change the appearance of the alert. The varian
 
 The `solid` variant is used to indicate an important message.
 
-```jsx
-<Alert variant="solid" severity="info">
-  <Text>This is an important message.</Text>
-</Alert>
-```
+{render('./variant-solid')}
 
 #### Outline
 
 The `outline` variant is useful for displaying a contextual alert that is not a part of the primary flow of the application.
 
-```jsx
-<Alert variant="outline" severity="info">
-  <Text>This is a contextual alert.</Text>
-</Alert>
-```
+{render('./variant-outline')}
 
 ### Severity levels
 
 The `severity` prop can be used to specify the severity level of the alert. The severity levels are: `success`, `info`, `warning`, and `error`. The default severity level is `success`.
 
-```jsx
-<Stack direction="column" spacing="4x">
-  <Alert variant="solid" severity="success">
-    <Text>This is a success alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="info">
-    <Text>This is an info alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="warning">
-    <Text>This is a warning alert.</Text>
-  </Alert>
-  <Alert variant="solid" severity="error">
-    <Text>This is an error alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="success">
-    <Text>This is a success alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="info">
-    <Text>This is an info alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="warning">
-    <Text>This is a warning alert.</Text>
-  </Alert>
-  <Alert variant="outline" severity="error">
-    <Text>This is an error alert.</Text>
-  </Alert>
-</Stack>
-```
+{render('./severity-levels')}
 
 ### `icon` prop
 
 The `icon` prop allows you to specify an icon to be displayed in the alert.
 If not specified, the default icon will be used based on the `severity` prop.
 
-```jsx
-<Stack direction="column" spacing="4x">
-  <Alert variant="solid" severity="success">
-    This is a success alert.
-  </Alert>
-  <Alert variant="solid" severity="success" icon="success">
-    This is a success alert.
-  </Alert>
-  <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />}>
-    This is a success alert.
-  </Alert>
-  <Alert variant="solid" severity="success" icon={false}>
-    This is a success alert.
-  </Alert>
-  <Alert variant="outline" severity="success">
-    This is a success alert.
-  </Alert>
-  <Alert variant="outline" severity="success" icon="success">
-    This is a success alert.
-  </Alert>
-  <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />}>
-    This is a success alert.
-  </Alert>
-  <Alert variant="outline" severity="success" icon={false}>
-    This is a success alert.
-  </Alert>
-</Stack>
-```
+{render('./the-icon-prop')}
 
 ### Customizing the background color
 
-```jsx
-<Stack direction="column" spacing="4x">
-  <Alert
-    variant="solid"
-    severity="none"
-    background="linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)"
-    color="white:emphasis"
-  >
-    <Text>This is a promotion message</Text>
-  </Alert>
-  <Alert
-    variant="outline"
-    severity="none"
-    borderImageSource="linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)"
-    borderImageSlice={1}
-  >
-    <Text>This is a promotion message</Text>
-  </Alert>
-</Stack>
-```
+{render('./customizing-the-background-color')}
 
 ### How to close an alert
 
@@ -139,18 +58,7 @@ The `isClosable` prop is used to make an alert closable by adding a close button
 </Alert>
 ```
 
-```jsx noInline
-render(() => {
-  const [isOpen, onClose] = useToggle(true);
-  return (
-    <Collapse in={isOpen} unmountOnExit>
-      <Alert variant="solid" severity="success" isClosable onClose={onClose}>
-        <Text>This is a success alert.</Text>
-      </Alert>
-    </Collapse>
-  );
-});
-```
+{render('./close-an-alert-using-the-isclosable-prop')}
 
 #### Using the `AlertCloseButton` component
 
@@ -167,19 +75,7 @@ Besides the default functionality of the `AlertCloseButton`, you can also pass a
 
 When using the `AlertCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned absolutely, with 3 pixels from the top and 7 pixels from the right of its parent element.
 
-```jsx noInline
-render(() => {
-  const [isOpen, onClose] = useToggle(true);
-  return (
-    <Collapse in={isOpen} unmountOnExit>
-      <Alert variant="solid" severity="success" onClose={onClose}>
-        <Text pr="10x">This is a success alert.</Text>
-        <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
-      </Alert>
-    </Collapse>
-  );
-});
-```
+{render('./close-an-alert-using-the-alertclosebutton-component')}
 
 ### Alert actions
 
@@ -187,203 +83,25 @@ An alert action is a button or link to trigger an action. It is used to provide 
 
 The action button is usually aligned to the right of the alert. You can use `justifyContent` to align the action button to the right.
 
-```jsx noInline
-const ActionButton = React.forwardRef((props, ref) => (
-  <Button
-    ref={ref}
-    variant="secondary"
-    borderColor="black:primary"
-    color="black:primary"
-    sx={{
-      ':active': {
-        color: 'black:primary',
-      },
-      ':focus': {
-        color: 'black:primary',
-      },
-      ':hover': {
-        background: 'rgba(0, 0, 0, 0.12)',
-        color: 'black:primary',
-      },
-      ':hover:not(:focus)': {
-        boxShadow: 'none',
-      },
-    }}
-    {...props}
-  />
-));
-
-function Example() {
-  return (
-    <Stack direction="column" spacing="4x">
-      <Alert variant="solid" severity="warning">
-        <Flex justifyContent="space-between">
-          <Text>This is a warning alert.</Text>
-          <LinkButton>Learn More</LinkButton>
-        </Flex>
-      </Alert>
-      <Alert variant="solid" severity="error">
-        <Flex justifyContent="space-between" mt={-1} mb={-2}>
-          <Text>This is an error alert.</Text>
-          <ActionButton
-            // See above for the ActionButton component
-            size="sm"
-          >
-            Action Button
-          </ActionButton>
-        </Flex>
-      </Alert>
-      <Alert variant="outline" severity="warning">
-        <Flex justifyContent="space-between">
-          <Text>This is a warning alert.</Text>
-          <LinkButton>Learn More</LinkButton>
-        </Flex>
-      </Alert>
-      <Alert variant="outline" severity="error">
-        <Flex justifyContent="space-between" mt={-1} mb={-2}>
-          <Text>This is an error alert.</Text>
-          <Button size="sm" variant="secondary">
-            Action Button
-          </Button>
-        </Flex>
-      </Alert>
-    </Stack>
-  );
-}
-
-render(<Example />);
-```
+{render('./alert-actions')}
 
 ### Formatted text
 
 You can use the `Text` component to format text.
 
-```jsx
-<Stack direction="column" spacing="4x">
-  <Alert isClosable severity="success">
-    <Box mb="1x">
-      <Text fontWeight="bold">Success</Text>
-    </Box>
-    <Text mr={-36}>
-      This is a success alert.
-    </Text>
-  </Alert>
-  <Alert isClosable severity="info">
-    <Box mb="1x">
-      <Text fontWeight="bold">Info</Text>
-    </Box>
-    <Text mr={-36}>
-      This is an info alert.
-    </Text>
-  </Alert>
-  <Alert isClosable severity="warning">
-    <Box mb="1x">
-      <Text fontWeight="bold">Warning</Text>
-    </Box>
-    <Text mr={-36}>
-      This is a warning alert.
-    </Text>
-  </Alert>
-  <Alert isClosable severity="error">
-    <Box mb="1x">
-      <Text fontWeight="bold">Error</Text>
-    </Box>
-    <Text mr={-36}>
-      This is an error alert.
-    </Text>
-  </Alert>
-</Stack>
-```
+{render('./formatted-text')}
 
 ### Pagination
 
 For some use cases, you may want to display a list of alerts using pagination to reduce the number of visible alerts on the screen.
 
-```jsx noInline
-const alerts = [
-  { variant: 'solid', severity: 'success', icon: 'success', message: 'This is a success alert' },
-  { variant: 'solid', severity: 'info', icon: 'info', message: 'This is an info alert' },
-  { variant: 'solid', severity: 'warning', icon: 'warning-minor', message: 'This is a warning alert' },
-  { variant: 'solid', severity: 'error', icon: 'error', message: 'This is an error alert' },
-];
-const pageMin = alerts.length > 0 ? 1 : 0;
-const pageMax = alerts.length > 0 ? alerts.length : 0;
-
-const IconButton = (props) => (
-  <ButtonBase
-    color="black:secondary"
-    _disabled={{
-      color: 'black:disabled',
-    }}
-    _hover={{
-      color: 'black:primary',
-    }}
-    {...props}
-  />
-);
-
-function Example() {
-  const [page, setPage] = React.useState(pageMin);
-  const alert = alerts[page - 1] || {};
-
-  return (
-    <Alert
-      variant={alert.variant}
-      severity={alert.severity}
-      icon={alert.icon}
-      isClosable
-    >
-      <Flex justifyContent="space-between">
-        <Text>{alert.message}</Text>
-        <Flex columnGap="2x" alignItems="center">
-          <IconButton
-            disabled={page <= pageMin}
-            onClick={() => setPage(Math.max(pageMin, page - 1))}
-          >
-            <Icon icon="chevron-up" />
-          </IconButton>
-          <Text>{page}/{pageMax}</Text>
-          <IconButton
-            disabled={page >= pageMax}
-            onClick={() => setPage(Math.min(pageMax, page + 1))}
-          >
-            <Icon icon="chevron-down" />
-          </IconButton>
-        </Flex>
-      </Flex>
-    </Alert>
-  );
-}
-
-render(<Example />);
-```
+{render('./pagination')}
 
 ### Transition effects
 
 To animate the alert, you can use a transition component to apply an animation effect.
 
-```jsx
-function Example() {
-  const [isOpen, setIsOpen] = React.useState(true);
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
-
-  return (
-    <>
-      <Collapse in={isOpen}>
-        <Alert isClosable severity="info" onClose={handleClose}>
-          Click the close button on the right side.
-        </Alert>
-      </Collapse>
-      <Box mt="4x">
-        <Button onClick={handleOpen} disabled={isOpen}>
-          Reopen
-        </Button>
-      </Box>
-    </>
-  );
-}
-```
+{render('./transition-effects')}
 
 ## Props
 

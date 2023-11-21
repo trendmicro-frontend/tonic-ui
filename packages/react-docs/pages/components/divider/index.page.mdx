@@ -1,0 +1,38 @@
+# Divider
+
+The `Divider` is used to visually separate content in a list or group.
+
+## Import
+
+```js
+import { Divider } from '@tonic-ui/react';
+```
+
+## Usage
+
+The `Divider` renders a thin line vertically or horizontally.
+
+{render('./basic')}
+
+### Orientation
+
+Pass the `orientation` prop and set it to either `horizontal` or `vertical`.
+
+{render('./horizontal-orientation')}
+
+If the vertical orientation is used, make sure that the parent element is assigned a height.
+
+{render('./vertical-orientation')}
+
+### Composition
+
+{render('./composition')}
+
+## Props
+
+### Divider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| variant | string | 'solid' | The variant of the divider style to use. One of: 'solid', 'dashed', 'dotted' |
+| orientation | string | 'horizontal' | The orientation of the divider. One of: 'horizontal', 'vertical' |

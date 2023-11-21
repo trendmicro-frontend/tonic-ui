@@ -28,39 +28,4 @@ Returns a ref object with the `current` property set to the latest value.
 
 ## Demos
 
-```jsx
-function Component() {
-  const [countdownMode, setCountdownMode] = React.useState(false);
-  const timeoutRef = React.useRef(null);
-  const [count, setCount] = React.useState(0);
-  const latestRef = useLatestRef(count);
-
-  function handleAlertClick() {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    timeoutRef.current = setTimeout(() => {
-      alert(`Latest count value: ${latestRef.current}`);
-      timeoutRef.current = null;
-      setCountdownMode(false);
-    }, 3000);
-    setCountdownMode(true);
-  }
-
-  return (
-    <>
-      <Box mb="4x">
-        You clicked {count} times
-      </Box>
-      <Button disabled={countdownMode} onClick={handleAlertClick}>
-        Show Alert In 5 Seconds
-      </Button>
-      <Space width="2x" />
-      <Button disabled={!countdownMode} onClick={() => setCount(count + 1)}>
-        Click Me
-      </Button>
-    </>
-  );
-};
-```
+{render('./useLatestRef')}

@@ -1,0 +1,46 @@
+# Text
+
+`Text` is used for rendering text and paragraphs.
+
+## Import
+
+```js
+import { Text } from '@tonic-ui/react';
+```
+
+## Usage
+
+### Sizes
+
+Use the `size` prop to change the corresponding font size and line height. You can set the value to `4xl`, `3xl`, `2xl`, `xl`, `lg`, `md`, `sm`, or `xs`.
+
+{render('./sizes')}
+
+### Headings
+
+You can format the `Text` component by passing `size` prop and `fontWeight` to display a formatted Heading.
+
+{render('./headings')}
+
+### Formatting text
+
+You can format the `Text` component by passing `fontSize`, `lineHeight`, or other style props.
+
+{render('./formatting-text')}
+
+### Text truncation
+
+{render('./text-truncation')}
+
+### The `as` prop
+
+{render('./the-as-prop')}
+
+## Props
+
+### Text
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| size | string | | One of: '4xl', '3xl', '2xl', 'xl', 'lg', 'md', 'sm', 'xs' |
