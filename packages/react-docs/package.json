@@ -5,6 +5,7 @@
   "description": "A documentation site for React Tonic UI component library.",
   "scripts": {
     "build": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build' && next export --outdir dist/react",
+    "build-server": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build'",
     "clean": "del build coverage dist",
     "dev": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=development next dev --hostname 0.0.0.0'",
     "lint": "eslint --ext .js,.jsx,.mjs .",
@@ -60,6 +61,7 @@
     "immutability-helper": "^3.1.1",
     "jest": "^29.0.0",
     "jest-environment-jsdom": "^29.0.0",
+    "langchain": "^0.0.195",
     "lodash": "^4.17.21",
     "lorem-ipsum": "^2.0.8",
     "lz-string": "^1.5.0",

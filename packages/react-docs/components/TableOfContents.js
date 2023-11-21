@@ -82,7 +82,7 @@ const TableOfContents = (props) => {
       const node = nodes[i];
       const el = document.getElementById(node.id);
 
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV === 'development') {
         if (!el) {
           console.error(`Element with ID ${x(node.id)} not found`);
         }

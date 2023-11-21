@@ -330,12 +330,13 @@ const initialNextConfig = {
   basePath: process.env.BASE_PATH,
   distDir: 'build',
   pageExtensions: ['page.js', 'page.mdx'],
+  output: 'standalone',
   /*
   rewrites: () => {
     return [
       {
-        source: '/openai/:path*',
-        destination: 'http://localhost:8080/:path*',
+        source: '/tonic-ui/api/:path*',
+        destination: 'http://localhost:8080/api/:path*',
       },
     ];
   },

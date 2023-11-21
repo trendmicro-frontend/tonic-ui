@@ -15,10 +15,13 @@ import {
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
+import { ensureString } from 'ensure-type';
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 import AICompanionIcon from '../icons/ai-companion';
 import useTrack from '../hooks/useTrack';
+
+const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 const FeatureCards = (props) => {
   return (
@@ -143,8 +146,9 @@ const AICompanionModal = forwardRef((
     }));
 
     const ctrl = new AbortController();
+    const apiPath = BASE_PATH + '/api/chat';
 
-    fetchEventSource('/openai/api/chat', {
+    fetchEventSource(apiPath, {
       method: 'POST',
       headers: {
         'Referrer-Policy': 'origin',
