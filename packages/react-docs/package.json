@@ -4,8 +4,8 @@
   "version": "1.28.0",
   "description": "A documentation site for React Tonic UI component library.",
   "scripts": {
-    "build": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build' && next export --outdir dist/react",
-    "build-server": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build'",
+    "build-static": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build' && next export --outdir dist/react",
+    "build": "bash -c '. ./tonic-one.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build'",
     "clean": "del build coverage dist",
     "dev": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=development next dev --hostname 0.0.0.0'",
     "lint": "eslint --ext .js,.jsx,.mjs .",
