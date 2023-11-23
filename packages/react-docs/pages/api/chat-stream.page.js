@@ -49,7 +49,7 @@ export default async function handler(
     const chainPromise = HNSWLib.load('data', embeddings).then((vs) => makeChain(vs, onNewToken));
 
     const chatHistory = [];
-    const encoder = new TextEncoder();
+    //const encoder = new TextEncoder();
 
     ws.on('message', async (data) => {
       try {

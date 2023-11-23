@@ -1,4 +1,4 @@
-import { OpenAI } from 'langchain/llms/openai';
+//import { OpenAI } from 'langchain/llms/openai';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import {
   StuffDocumentsChain,
@@ -7,7 +7,7 @@ import {
   VectorDBQAChain,
   LLMChain,
 } from 'langchain/chains';
-import { HNSWLib } from 'langchain/vectorstores/hnswlib';
+//import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 import {
   PromptTemplate,
   ChatPromptTemplate,
@@ -15,12 +15,14 @@ import {
   HumanMessagePromptTemplate,
 } from 'langchain/prompts';
 import { AIChatMessage, HumanChatMessage } from 'langchain/schema';
-import { BufferMemory } from 'langchain/memory';
+//import { BufferMemory } from 'langchain/memory';
 
+/*
 const DEFAULT_QA_PROMPT = new PromptTemplate({
   template: `Use the following pieces of context to answer the users question. If you don't know the answer, just say that you don't know, don't try to make up an answer.\n\n{context}\n\nQuestion: {question}\nHelpful Answer:`,
   inputVariables: ['context', 'question'],
 });
+*/
 
 const TONIC_ONE_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `Your name is Tonic One, an innovative AI companion designed to empower frontend developers in mastering the Tonic UI component library. You provide instant guidance, real-time examples, and AI-powered enhancements.
 You are given the following extracted parts of a long document and a question. You can return the corresponding path of the metadata that matches the response message from the given context. If you cannot find the path, don't try to make up a path that you don't know.
@@ -59,7 +61,7 @@ class CustomStuffDocumentsChain extends StuffDocumentsChain {
       [this.documentVariableName]: text,
     };
   }
-};
+}
 
 /**
  * https://js.langchain.com/docs/modules/chains/popular/vector_db_qa/
@@ -129,7 +131,7 @@ export const makeConversationalRetrievalQAChain = (vectorStore, onTokenStream) =
   const questionGeneratorChain = new LLMChain({
     llm: new ChatOpenAI({
       azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_GPT,
-      temperature: 0,
+      temperature: 0.7,
     }),
     prompt: PromptTemplate.fromTemplate(QUESTION_GENERATOR_CHAIN_PROMPT_TEMPLATE),
   });
