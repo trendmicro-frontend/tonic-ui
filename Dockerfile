@@ -35,11 +35,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/packages/react-docs/.next/standal
 COPY --from=builder --chown=nextjs:nodejs /app/packages/react-docs/.next/static ./packages/react-docs/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/packages/react-docs/public ./packages/react-docs/public
 
-USER nextjs
+USER root
 
-EXPOSE 8000
+EXPOSE 80
 
-ENV PORT 8000
+ENV PORT 80
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
