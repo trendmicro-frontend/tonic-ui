@@ -1,9 +1,14 @@
 #!/bin/sh
+#
+set -o allexport; source .dockerenv; set +o allexport
 
-TEAM_ID="tonic-one"
+if [ -z "$REPO_NAME" ]; then
+  echo 'Please specify REPO_NAME in the `.dockerenv` file'
+  exit 1
+fi
 
-docker stop ${TEAM_ID}
-docker rm ${TEAM_ID}
-docker run -p 80:80 --detach --name ${TEAM_ID} ${TEAM_ID}:latest
-#docker run --privileged -p 80:80 --detach --name ${TEAM_ID} ${TEAM_ID}:latest
-#docker exec -it ${TEAM_ID} /bin/sh
+docker stop ${REPO_NAME}
+docker rm ${REPO_NAME}
+docker run -p 80:80 --detach --name ${REPO_NAME} ${REPO_NAME}:latest
+#docker run --privileged -p 80:80 --detach --name ${REPO_NAME} ${REPO_NAME}:latest
+#docker exec -it ${REPO_NAME} /bin/sh

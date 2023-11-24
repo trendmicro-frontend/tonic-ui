@@ -2,6 +2,10 @@
 
 set -o allexport; source .dockerenv; set +o allexport
 
+if [ -z "$REPO_NAME" ]; then
+  echo 'Please specify REPO_NAME in the `.dockerenv` file'
+  exit 1
+fi
 if [ -z "$ACR_USERNAME" ]; then
   echo 'Please specify ACR_USERNAME in the `.dockerenv` file'
   exit 1
@@ -11,10 +15,9 @@ if [ -z "$ACR_CREDENTIAL" ]; then
   exit 1
 fi
 
-TEAM_ID="tonic-one"
 TAG=${1:-latest}
 
-echo "Deploying to prelim environment: ${TEAM_ID}:${TAG}"
+echo "Deploying to prelim environment: ${REPO_NAME}:${TAG}"
 
 docker login -u ${ACR_USERNAME} -p ${ACR_CREDENTIAL} ${ACR_USERNAME}.azurecr.io
-docker push ${ACR_USERNAME}.azurecr.io/${TEAM_ID}:${TAG}
+docker push ${ACR_USERNAME}.azurecr.io/${REPO_NAME}:${TAG}

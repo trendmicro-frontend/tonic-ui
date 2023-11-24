@@ -2,20 +2,23 @@
 
 set -o allexport; source .dockerenv; set +o allexport
 
+if [ -z "$REPO_NAME" ]; then
+  echo 'Please specify REPO_NAME in the `.dockerenv` file'
+  exit 1
+fi
 if [ -z "$ACR_USERNAME" ]; then
   echo 'Please specify ACR_USERNAME in the `.dockerenv` file'
   exit 1
 fi
 
-TEAM_ID="tonic-one"
 TAG=${1:-latest}
 
-echo "Building Docker image: ${TEAM_ID}:${TAG}"
+echo "Building Docker image: ${REPO_NAME}:${TAG}"
 
 #docker builder prune
 docker image prune -a -f
 
 docker build \
-  -t ${TEAM_ID}:${TAG} \
-  -t ${ACR_USERNAME}.azurecr.io/${TEAM_ID}:${TAG} \
+  -t ${REPO_NAME}:${TAG} \
+  -t ${ACR_USERNAME}.azurecr.io/${REPO_NAME}:${TAG} \
   -f Dockerfile .
