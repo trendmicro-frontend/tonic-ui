@@ -1,4 +1,3 @@
-//import { OpenAI } from 'langchain/llms/openai';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import {
   StuffDocumentsChain,
@@ -7,7 +6,6 @@ import {
   VectorDBQAChain,
   LLMChain,
 } from 'langchain/chains';
-//import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 import {
   PromptTemplate,
   ChatPromptTemplate,
@@ -25,9 +23,12 @@ const DEFAULT_QA_PROMPT = new PromptTemplate({
 */
 
 const TONIC_ONE_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `Your name is Tonic One, an innovative AI companion designed to empower frontend developers in mastering the Tonic UI component library. You provide instant guidance, real-time examples, and AI-powered enhancements.
-You are given the following extracted parts of a long document and a question. You can return the corresponding path of the metadata that matches the response message from the given context. If you cannot find the path, don't try to make up a path that you don't know.
-----------------
-{context}`;
+You are given the following extracted parts of documents and a question. If you cannot find the answer, don't try to make up an answer.
+
+Utilize the following documents as reference to help you answer the question:
+{context}
+----- REFERENCE END -----
+`;
 const TONIC_ONE_HUMAN_MESSAGE_PROMPT_TEMPLATE = '{question}';
 
 const TONIC_ONE_CHAT_PROMPT = ChatPromptTemplate.fromPromptMessages([
@@ -50,11 +51,11 @@ class CustomStuffDocumentsChain extends StuffDocumentsChain {
       throw new Error(`Document key ${this.inputKey} not found.`);
     }
     const { [this.inputKey]: docs, ...rest } = values;
-    const texts = docs.map(({ pageContent, metadata }) => {
+    const texts = docs.map(({ pageContent, metadata }, index) => {
       const { source: path } = metadata;
-      return `Metadata\n---\npath: ${path}\n---\n${pageContent}`;
+      return `Reference ${index + 1}:\n${pageContent}`;
     });
-    const text = texts.join("\n\n");
+    const text = texts.join("\n-----\n");
 
     return {
       ...rest,
@@ -70,7 +71,8 @@ export const makeRetrievalQAChain = (
   vectorStore,
   onTokenStream,
 ) => {
-  const retriever = vectorStore.asRetriever();
+  const k = 5; // Number of documents to retrieve
+  const retriever = vectorStore.asRetriever(k);
 
   const llmChain = new LLMChain({
     llm: new ChatOpenAI({
@@ -86,7 +88,7 @@ export const makeRetrievalQAChain = (
       ],
     }),
     prompt: TONIC_ONE_CHAT_PROMPT, // One of: DEFAULT_QA_PROMPT, TONIC_ONE_CHAT_PROMPT
-    verbose: false,
+    verbose: true,
   });
   const combineDocumentsChain = new CustomStuffDocumentsChain({ llmChain, verbose: false });
 
@@ -108,7 +110,8 @@ export const makeRetrievalQAChain = (
  * @see https://github.com/hwchase17/langchainjs/blob/main/langchain/src/chains/conversational_retrieval_chain.ts
  */
 export const makeConversationalRetrievalQAChain = (vectorStore, onTokenStream) => {
-  const retriever = vectorStore.asRetriever();
+  const k = 5; // Number of documents to retrieve
+  const retriever = vectorStore.asRetriever(k);
 
   const llmChain = new LLMChain({
     llm: new ChatOpenAI({
@@ -124,7 +127,7 @@ export const makeConversationalRetrievalQAChain = (vectorStore, onTokenStream) =
       ],
     }),
     prompt: TONIC_ONE_CHAT_PROMPT, // One of: DEFAULT_QA_PROMPT, TONIC_ONE_CHAT_PROMPT
-    verbose: false,
+    verbose: true,
   });
   const combineDocumentsChain = new CustomStuffDocumentsChain({ llmChain, verbose: false });
 
@@ -148,7 +151,7 @@ export const makeConversationalRetrievalQAChain = (vectorStore, onTokenStream) =
     combineDocumentsChain,
     questionGeneratorChain,
     returnSourceDocuments: true,
-    verbose: true, 
+    verbose: false,
 
     // The chat history can be provided either explicitly from the UI or retrieved from the provided memory
     /*
