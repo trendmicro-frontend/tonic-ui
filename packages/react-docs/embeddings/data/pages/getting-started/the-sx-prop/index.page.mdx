@@ -1,0 +1,43 @@
+# The sx prop
+
+The `sx` prop is a useful shortcut for defining custom styles that has access to the theme. It provides access to a superset of CSS functions exposed in `@tonic-ui/styled-system`, including child and pseudo-selectors, media queries, raw CSS values, and more.
+
+To get started with the `sx` prop, check out the demo below. It demonstrates how to pass style and pseudo-style props to your components, enabling you to create custom styles with ease.
+
+## Usage
+
+### Creating a custom button
+
+{render('./creating-a-custom-button')}
+
+### Defining CSS custom properties (CSS variables)
+
+{render('./defining-css-custom-properties')}
+
+### Using media queries
+
+{render('./using-media-queries')}
+
+### Callback values
+
+Each property in the `sx` prop can receive a function callback as a value. This is useful when you want to use the `theme` for calculating a value:
+
+```jsx disabled
+<Box sx={{ color: (theme) => theme.sizes['2x'] }} />
+```
+
+### Array values
+
+Array types are useful when you want to partially override some styles in the former index:
+
+{render('./array-of-objects')}
+
+Each index can be an object or a callback:
+
+{render('./array-of-callbacks')}
+
+### Passing the `sx` prop
+
+If you want to pass the `sx` prop from a custom component and pass it down to Tonic UI components, we recommend this approach:
+
+{render('./passing-the-sx-prop')}

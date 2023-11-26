@@ -1,0 +1,123 @@
+# Alert
+
+An alert is used to convey important information to the user through the use of contextual types, icons, and colors.
+
+## Import
+
+```js
+import {
+  Alert,
+  AlertCloseButton,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Variants
+
+You can use the `variant` prop to change the appearance of the alert. The variants come in two variations: `solid` and `outline`.
+
+#### Solid
+
+The `solid` variant is used to indicate an important message.
+
+{render('./variant-solid')}
+
+#### Outline
+
+The `outline` variant is useful for displaying a contextual alert that is not a part of the primary flow of the application.
+
+{render('./variant-outline')}
+
+### Severity levels
+
+The `severity` prop can be used to specify the severity level of the alert. The severity levels are: `success`, `info`, `warning`, and `error`. The default severity level is `success`.
+
+{render('./severity-levels')}
+
+### `icon` prop
+
+The `icon` prop allows you to specify an icon to be displayed in the alert.
+If not specified, the default icon will be used based on the `severity` prop.
+
+{render('./the-icon-prop')}
+
+### Customizing the background color
+
+{render('./customizing-the-background-color')}
+
+### How to close an alert
+
+#### Using the `isClosable` prop
+
+The `isClosable` prop is used to make an alert closable by adding a close button to it. By default, the value of `isClosable` is false. To make an alert closable, set `isClosable` to true.
+
+```jsx disabled
+<Alert variant="solid" severity="success" isClosable onClose={onClose}>
+  <Text>This is a success alert.</Text>
+</Alert>
+```
+
+{render('./close-an-alert-using-the-isclosable-prop')}
+
+#### Using the `AlertCloseButton` component
+
+The `AlertCloseButton` component provides an easy way to add a close button to an alert. This button is specifically designed to handle closing the alert, so you don't need to write any additional code to handle it. If you use `AlertCloseButton`, you can omit the `isClosable` prop in the `Alert` component.
+
+Besides the default functionality of the `AlertCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `AlertCloseButton` component as needed.
+
+```jsx disabled
+<Alert variant="solid" severity="success" onClose={onClose}>
+  <Text pr="10x">This is a success alert.</Text>
+  <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />
+</Alert>
+```
+
+When using the `AlertCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned absolutely, with 3 pixels from the top and 7 pixels from the right of its parent element.
+
+{render('./close-an-alert-using-the-alertclosebutton-component')}
+
+### Alert actions
+
+An alert action is a button or link to trigger an action. It is used to provide additional context to the user.
+
+The action button is usually aligned to the right of the alert. You can use `justifyContent` to align the action button to the right.
+
+{render('./alert-actions')}
+
+### Formatted text
+
+You can use the `Text` component to format text.
+
+{render('./formatted-text')}
+
+### Pagination
+
+For some use cases, you may want to display a list of alerts using pagination to reduce the number of visible alerts on the screen.
+
+{render('./pagination')}
+
+### Transition effects
+
+To animate the alert, you can use a transition component to apply an animation effect.
+
+{render('./transition-effects')}
+
+## Props
+
+### Alert
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
+| variant | string | 'solid' | The variant to use. One of: 'solid', 'outline' |
+| severity | string | 'success' | The severity level to use. One of: 'success', 'info', 'warning', 'error' |
+| icon | string \| ReactNode \| false | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `severity` prop. |
+
+### AlertCloseButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

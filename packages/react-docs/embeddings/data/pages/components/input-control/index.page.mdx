@@ -1,0 +1,46 @@
+# InputControl
+
+`InputControl` is built on top of the native `Input` with the same appearance and behavior, except that it allows you to customize the input in a more convenient way. For example, input adornments can be added to the start, end, or both sides of the input.
+
+See the [Input](input) component for more information about the native input.
+
+## Import
+
+```js
+import {
+  InputAdornment,
+  InputControl,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./usage')}
+
+### Input adornments
+
+The main way to prepend or append an input adornment is to use the `InputAdornment` component. This can be used to add a prefix, a suffix, or an action to an input. For instance, you can use an icon button to hide or reveal the password.
+
+{render('./input-adornments')}
+
+## Props
+
+### InputAdornment
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### InputControl
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the user cannot interact with the control. |
+| error | boolean \| string | | If `true` or a non-empty string value is provided, the input will display an error state. The error message will also be set as the input's custom validity message using the `setCustomValidity()` method, allowing for form validation to be performed. |
+| endAdornment | ReactNode | | End `InputAdornment` for this component. |
+| inputComponent | ElementType | InputBase | The input component to render. |
+| inputProps | object | | Additional props to be applied to the input element. |
+| inputRef | RefObject | | A `ref` to access the input element. |
+| size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |
+| startAdornment | ReactNode | | Start `InputAdornment` for this component. |

@@ -1,0 +1,35 @@
+# Transitions / Grow
+
+Transition helps make a UI expressive and easy to use.
+
+The transition components use `react-transition-group` internally to perform animation effects and manage component states (including mounting and unmounting) over time. You can check out all the transition props at https://reactcommunity.org/react-transition-group/transition/#Transition-props. For more information, visit http://reactcommunity.org/react-transition-group/transition for detailed usage.
+
+## Import
+
+```js
+import {
+  Grow, // internally used in `Popover` and `Tooltip`
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Grow
+
+The `Grow` transition is used to animate the width and height of a component.
+
+{render('./grow')}
+
+## Props
+
+### Grow
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
+| children | ReactNode \| `(state, props) => ReactNode` | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| easing | string \| `{ enter?: string, exit?: string }` | `{ enter: easing.easeInOut, exit: easing.easeInOut }` | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | string \| number \| `{ appear?: number, enter?: number, exit?: number }` | 'auto' | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |

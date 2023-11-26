@@ -2,4 +2,5 @@
 .codesandbox
 .git
 .husky
+examples
 node_modules

@@ -1,0 +1,29 @@
+# useMergeRefs
+
+A custom Hook that merges React refs into a single memoized function.
+
+## Import
+
+```js
+import { useMergeRefs } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
+const refs = useMergeRefs(ref1, ref2);
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| ...refs | RefObject | | The refs to merge. |
+
+### Returns
+
+Returns a single function that can be used to set multiple refs.
+
+## Demos
+
+{render('./useMergeRefs')}

@@ -1,0 +1,187 @@
+# Tooltip
+
+A tooltip is a brief, informative message that appears when a user interacts with an element. Tooltips are usually initiated in one of two ways: through a mouse-hover or keyboard-hover action.
+
+The `Tooltip` component follows the [WAI-ARIA](https://www.w3.org/TR/wai-aria-practices/#tooltip) Tooltip pattern.
+
+## Import
+
+```js
+import { Tooltip } from '@tonic-ui/react';
+```
+
+## Usage
+
+By default, you have to pass a single React element child to the `Tooltip` component.
+
+```jsx disabled
+<Tooltip label="This is a tooltip">
+  <Text display="inline-block">Text content</Text>
+</Tooltip>
+```
+
+If you need to pass more than one child element or non-element children, wrap them in an element or pass the `shouldWrapChildren` prop.
+
+```jsx disabled
+<Tooltip label="This is a tooltip">
+  <Text display="inline-block">Text content</Text>
+</Tooltip>
+
+<Tooltip label="This is a tooltip" shouldWrapChildren>
+  Text content
+</Tooltip>
+
+<Tooltip label="This is a tooltip" shouldWrapChildren>
+  <Icon icon="menu" height="5x" mr="2x" />
+  <Text display="inline-block">Text content</Text>
+</Tooltip>
+```
+
+### Controlled and uncontrolled tooltip
+
+Pass `isOpen` to the `Tooltip` component to control the state of the tooltip.
+
+{render('./controlled')}
+
+Tooltip is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the tooltip open for the first render.
+
+{render('./uncontrolled')}
+
+### Hide the tooltip
+
+To hide a tooltip in your app, you can use the `label` and `disabled` props. To hide the tooltip, set the `label` prop to an empty value represented by `""`, or set the `disabled` prop to `true`. Here are examples:
+
+{render('./tooltip-disabled')}
+
+### Hide the arrow of the tooltip
+
+To remove the arrow from a tooltip, you can pass `arrow={false}` to the `Tooltip` component.
+
+{render('./tooltip-arrow-disabled')}
+
+### Tooltip around disabled button
+
+By default the `Tooltip` is not shown when it is around a disabled `Button`.
+
+{render('./tooltip-around-disabled-button')}
+
+To show the `Tooltip` on a disabled `Button`, pass the `shouldWrapChildren` prop.
+
+{render('./tooltip-around-wrapped-disabled-button')}
+
+### Tooltip with focusable content
+
+If the children of the tooltip is a focusable element, the tooltip will show when you focus or hover on the element, and will hide when you blur or move cursor out of the element.
+
+{render('./focusable-content')}
+
+### Tooltip with non-focusable content
+
+If the tooltip anchor is not a focusable content, just like the text string, you can wrap it with a `Text` component and set `tabIndex="0"` to make it tabbable.
+
+{render('./unfocusable-content')}
+
+### Adjust tooltip positioning
+
+#### Using the `offset` prop
+
+The `offset` prop allows you to adjust the positioning of the tooltip by accepting an array of two numbers in the format `[skidding, distance]`.
+
+**Skidding**
+
+The `skidding` number determines the displacement of the `TooltipContent` from the `TooltipTrigger` and is measured in pixels.
+
+**Distance**
+
+The `distance` number controls the distance between the `TooltipContent` and the `TooltipTrigger` and is measured in pixels.
+
+{render('./positioning-offset')}
+
+#### Using the `nextToCursor` prop
+
+The `nextToCursor` prop positions the tooltip next to the cursor.
+
+{render('./positioning-next-cursor')}
+
+#### Using the `followCursor` prop
+
+The `followCursor` prop makes the tooltip follow the cursor as it moves.
+
+{render('./positioning-follow-cursor')}
+
+### Customizing tooltip appearance
+
+To customize the appearance of a tooltip, you can pass style props to the Tooltip component. Here's an example that shows how to use the `useColorMode` and `useColorStyle` Hooks to determine the current color mode and color style, and then set the background and text colors of the tooltip accordingly. This can help ensure the tooltip looks consistent with your app's color scheme. Additionally, you can use a component as the label of the tooltip to render more complex content.
+
+{render('./custom-appearance')}
+
+### Placement
+
+Use the `placement` prop to control the placement of the tooltip.
+
+```jsx disabled
+<Tooltip label="Tooltip" placement="top">
+  Tooltip anchor
+</Tooltip>
+```
+
+{render('./placement')}
+
+### More examples
+
+#### `Menu` component with `Tooltip`
+
+This example demonstrates how to use the `Menu` component along with a tooltip for navigating through a set of options or actions.
+
+{render('./menu-with-tooltip')}
+
+## Commonly Asked Questions
+
+### Resolving tooltip content cut-off with `PopperProps`
+
+By default, the `Tooltip` component positions the tooltip relative to its parent container. In some cases, the tooltip content might be cut off when it extends outside the container that holds it.
+
+To address this issue, you can pass `PopperProps={{ usePortal: true }}` to `Tooltip` to make it positioned on the document root.
+
+{render('./faq-use-portal')}
+
+### Automatically adjusting tooltip placement with the `flip` modifier
+
+The `flip` modifier is a useful feature that allows for automatic adjustment of tooltip placement when it is at risk of overflowing the specified boundary. To learn more about utilizing the `flip` modifier, please refer to [Popper.js documentation](https://popper.js.org/docs/v2/modifiers/flip/).
+
+In the following example, the tooltip's placement is initially set to `top`. However, if the placement is not suitable due to space constraints, the opposite `bottom` placement will be used instead.
+
+{render('./faq-flip-modifier')}
+
+## Props
+
+### Tooltip
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popper. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TooltipArrowComponent | ElementType | TooltipArrow | The component used for the tooltip arrow. |
+| TooltipArrowProps | object | | Props applied to the `TooltipArrow` component. |
+| TransitionComponent | ElementType | Grow | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| arrow | boolean | true | If `true`, adds an arrow to the tooltip. |
+| children | ReactNode \| `(context) => ReactNode` | | |
+| closeOnClick | boolean | true | If `true`, the tooltip will close upon clicking. |
+| closeOnEsc | boolean | true | If `true`, the tooltip will close upon pressing the escape key. |
+| closeOnPointerDown | boolean | true | If `true`, the tooltip will close while the pointer is pressed down. |
+| defaultIsOpen | boolean | false | Whether the tooltip will be open by default. |
+| disabled | boolean | | If `true`, the tooltip will not display. |
+| enterDelay | number | 100 | The delay in milliseconds before the tooltip appears. |
+| followCursor | boolean | | If `true`, the tooltip will follow the cursor. |
+| isOpen | boolean | | If `true`, show the tooltip. |
+| label | string \| ReactNode | | If the tooltip label is a blank or empty string, the tooltip will not display. |
+| leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |
+| nextToCursor | boolean | | If `true`, the tooltip will be positioned next to the cursor. |
+| offset | [skidding, distance] | [0, 8] | The skidding and distance of the tooltip. |
+| onClose| function | | Callback fired when the tooltip is closed. |
+| onOpen | function | | Callback fired when the tooltip is opened. |
+| openOnFocus | boolean | true | If `true`, the tooltip will open upon receiving focus. |
+| placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
+| shouldWrapChildren | boolean | false | If `true`, the tooltip will be wrapped in a `Box` component. Otherwise, you have to ensure tooltip has only one child node. |

@@ -1,0 +1,181 @@
+# Tabs
+
+Tabs is used to group and display a set of related elements.
+
+## Import
+
+```js
+import {
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel,
+  TabPanels,
+  useTabs,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic tabs
+
+Here is a basic example of tabs.
+
+{render('./basic')}
+
+> `TabList` and `TabPanels` are used to group the tabs and tab panels. If you don't need the tabs to be grouped, you can use `Tab` and `TabPanel` directly.<br/><br/>
+> ```jsx disabled
+> <Tabs>
+>   <Tab>TAB 1</Tab>
+>   <Tab>TAB 2</Tab>
+>   <Tab>TAB 3</Tab>
+>   <TabPanel>Tab Panel 1</TabPanel>
+>   <TabPanel>Tab Panel 2</TabPanel>
+>   <TabPanel>Tab Panel 3</TabPanel>
+> </Tabs>
+> ```
+
+### Controlled and uncontrolled tabs
+
+The `index` prop is used to control which tab is selected. The `onChange` callback returns the selected tab index whenever the user changes the tab. If you intend to control the tabs programmatically, use the `onChange` callback to update the `index` prop.
+
+{render('./controlled')}
+
+For uncontrolled tabs, you can use the `defaultIndex` prop to set the initial selected tab.
+
+{render('./uncontrolled')}
+
+### Orientation and variants
+
+Tabs can either be oriented horizontally or vertically, and can also be styled with different variants.
+
+* Use the `orientation` prop to set the orientation of the tabs. It accepts `horizontal` and `vertical` as values.
+* Use the `variant` prop to set the variant of the tabs. It accepts `default`, `filled`, and `unstyled` as values.
+
+{render('./orientation-variants')}
+
+### Decorate horizontal tabs with a bottom border
+
+To decorate horizontal tabs with a bottom border, you can pass `__after` prop to `TabList` to render a bottom border.
+
+{render('./layout')}
+
+### Access the state of tabs
+
+Sometimes you need to access the state of tabs. For example, you may want to lazily load the content of a tab when that tab is selected.
+
+`Tabs`, `Tab`, and `TabPanel` components expose internal state using **Function as Children (FaCC)**. This is not a recommended approach, but it is useful for this use case.
+
+{render('./state')}
+
+### Tabs with dropdown menus
+
+The tab with the dropdown menu is usually the last tab. You can use `event.preventDefault()` to control whether the tab will be selected when the user clicks the dropdown menu.
+
+{render('./dropdown-menu')}
+
+### Draggable tabs with dropdown menus
+
+Use [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd) to make tabs draggable.
+
+{render('./draggable')}
+
+### Scrollable tabs
+
+Scrollable tabs are useful when the tab list is longer than the tab container. You can use the following code to create a scrollable tabs.
+
+> This example teaches you how to create a scrollable tabs that supports drag-to-scroll behavior. Scrolling tabs is currently not part of this component library.
+
+{render('./scrollable')}
+
+### Customization
+
+Tabs also come with an `unstyled` variant. It's useful for doing customizations.
+
+{render('./customization')}
+
+## Accessibility
+
+### [ARIA: tab role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
+
+  > This example combines the role `tab` with `tablist` and elements with `tabpanel` to create an interactive group of tabbed content. Here we are enclosing our group of content in a `div`, with our `tablist` having an `aria-label` which labels it for assistive technology. Each `tab` is a `button` with the attributes previously mentioned. The first `tab` has both `tabindex="0"` and `aria-selected="true"` applied. These two attributes must always be coordinated as such—so when another tab is selected, it will then have `tabindex="0"` and `aria-selected="true"` applied. All unselected tabs must have `aria-selected="false"` and `tabindex="-1"`.<br/><br/>
+  > All of the `tabpanel` elements have `tabindex="0"` to make them tabbable, and all but the currently active one have the `hidden` attribute. The `hidden` attribute will be removed when a `tabpanel` becomes visible with JavaScript. There is some basic styling applied that restyles the buttons and changes the `z-index` of `tab` elements to give the illusion of it connecting to the `tabpanel` for active elements, and the illusion that inactive elements are behind the active `tabpanel`.<br/><br/>
+  > ```js
+  > <div class="tabs">
+  >   <div role="tablist" aria-label="Sample Tabs">
+  >     <button role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0">
+  >       First Tab
+  >     </button>
+  >     <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1">
+  >       Second Tab
+  >     </button>
+  >     <button role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" tabindex="-1">
+  >       Third Tab
+  >     </button>
+  >   </div>
+  >   <div id="panel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
+  >     <p>Content for the first panel</p>
+  >   </div>
+  >   <div id="panel-2" role="tabpanel" tabindex="0" aria-labelledby="tab-2" hidden>
+  >     <p>Content for the second panel</p>
+  >   </div>
+  >   <div id="panel-3" role="tabpanel" tabindex="0" aria-labelledby="tab-3" hidden>
+  >     <p>Content for the third panel</p>
+  >   </div>
+  > </div>
+  > ```
+
+### [WAI-ARIA Roles, States, and Properties](https://www.w3.org/TR/wai-aria-practices/#tabpanel)
+
+* The element that serves as the container for the set of tabs has role `tablist`.
+* Each element that serves as a tab has role `tab` and is contained within the element with role `tablist`.
+* Each element that contains the content panel for a `tab` has role `tabpanel`.
+* If the tab list has a visible label, the element with role `tablist` has `aria-labelledby` set to a value that refers to the labelling element. Otherwise, the `tablist` element has a label provided by `aria-label`.
+* Each element with role `tab` has the property `aria-controls` referring to its associated `tabpanel` element.
+* The active `tab` element has the state `aria-selected` set to `true` and all other `tab` elements have it set to `false`.
+* Each element with role `tabpanel` has the property `aria-labelledby` referring to its associated `tab` element.
+* If a `tab` element has a popup menu, it has the property `aria-haspopup` set to either `menu` or `true`.
+* If the `tablist` element is vertically oriented, it has the property `aria-orientation` set to `vertical`. The default value of `aria-orientation` for a `tablist` element is `horizontal`.
+
+## Props
+
+### Tab
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `({ getTabProps, disabled, index, isSelected }) => ReactNode` | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabProps` function returns the props for the tab.<br />• The `disabled` prop indicates whether the tab is disabled.<br />• The `index` prop is the index of the tab.<br />• The `isSelected` prop is a boolean value indicating whether the tab is selected. |
+| disabled | boolean | | Whether the tab is disabled. |
+| index | number \| string | | The index of the tab. An index number starting from 0 will be provided if not specified. |
+| onClick | (event) => void | | A callback for when the tab is clicked. |
+
+### Tabs
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| defaultIndex | number \| string | 0 | The default index of the tab to be selected in uncontrolled mode. |
+| disabled | boolean | | Whether the tabs should be disabled. |
+| index | number \| string | | The index of the tab to be selected in controlled mode. |
+| onChange | (index: number\|string) => void | | A callback function that is called when the index changes. |
+| orientation | string | 'horizontal' | The orientation of the tabs. One of: 'horizontal', 'vertical' |
+| variant | string | 'default' | The variant of the tabs. One of: 'default', 'filled', 'unstyled' |
+
+### TabList
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| aria-label | string | | A label for the tab list. |
+| children | ReactNode | | |
+
+### TabPanel
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `({ getTabPanelProps, index, isSelected }) => ReactNode` | | A function child can be used intead of a React element. This function is called with the following props:<br />• The `getTabPanelProps` function returns the props for the tab panel.<br />• The `index` prop is the index of the tab panel.<br />• The `isSelected` prop is a boolean value indicating whether the corresponding tab is selected. |
+| index | number \| string | | The index of the tab panel. An index number starting from 0 will be provided if not specified. |
+
+### TabPanels
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

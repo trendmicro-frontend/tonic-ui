@@ -1,0 +1,105 @@
+# Scrollbar
+
+The `Scrollbar` component provides a consistent look and feel for scrollbars across multiple platforms and browsers.
+
+## Import
+
+```js
+import {
+  Scrollbar,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+The `Scrollbar` is hidden by default, and it only appears when the user hovers over the scrollable content. You can set the height of the scrollbar using the `height` prop.
+
+{render('./basic')}
+
+For more information on bidirectional scrolling, please refer to [Bidirectional scrolling: what's not to like?](https://adamsilver.io/blog/bidirectional-scrolling-whats-not-to-like/)
+
+### Scroll direction
+
+The examples below illustrate the different scroll directions. You can try to resize the scrollable content to see how the scrollbar changes.
+
+#### Vertical scrolling
+
+To enable vertical scrolling, set the scrollbar height to a value less than the scrollable content height.
+
+{render('./vertical-scrolling')}
+
+#### Horizontal scrolling
+
+To enable horizontal scrolling, set the scrollbar width to a value less than the scrollable content width.
+
+{render('./horizontal-scrolling')}
+
+#### Bidirectional scrolling
+
+{render('./bidirectional-scrolling')}
+
+### Overflow control
+
+Use the `overflow` prop to set the overflow of the content. You can set the value to `auto`, `scroll`, or `hidden`.
+
+* `auto`: The scrollbar will be shown if the content overflows and mouse is hovering over the content.
+* `scroll`: The scrollbar is always visible if the content overflows.
+* `hidden`: The scrollbar is never shown.
+
+Note: `overflowX` and `overflowY` are also available if you need to set the overflow on both X and Y axis.
+
+{render('./overflow-control')}
+
+### Thumb size
+
+Use the `minThumbWidth` and `minThumbHeight` props to set the minimum size of the thumb (in pixels).
+
+{render('./thumb-size')}
+
+### Scroll indicator
+
+The scroll indicator can visually indicate the current scroll position of the scrollable element, so that the user knows whether it can be scrolled further.
+
+{render('./scroll-indicator')}
+
+### Scrollbar with collapsible content
+
+{render('./collapse')}
+
+### Scrollable menu
+
+{render('./menu')}
+
+## Commonly Asked Questions
+
+### How to control the scroll position?
+
+Utilize the `onUpdate`, `scrollLeft`, `scrollTop`, and `scrollViewRef` props to fetch or programmatically control the scroll position.
+
+To see this in action, simply scroll through the content and click the toggle button to confirm the scroll position.
+
+{render('./faq-scroll-position')}
+
+## Props
+
+### Scrollbar
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| function | | The content of the scrollbar. |
+| width | number \| string | 'auto' | The width of the scrollbar. If set to 'auto', you can constrain the width using the `minWidth` and `maxWidth` props. |
+| height | number \| string | 'auto' | The height of the scrollbar. If set to 'auto', you can constrain the height using the `minHeight` and `maxHeight` props. |
+| minWidth | number \| string | | The minimum width of the scrollbar. |
+| maxWidth | number \| string | | The maximum width of the scrollbar. |
+| minHeight | number \| string | | The minimum height of the scrollbar. |
+| maxHeight | number \| string | | The maximum height of the scrollbar. |
+| minThumbWidth | number | 32 | The minimum width of the thumb in pixels. |
+| minThumbHeight | number | 32 | The minimum height of the thumb in pixels. |
+| onScroll | `(event: UIEvent) => void` | | A callback function that is called when the scrollbar is scrolled. |
+| onUpdate | function | | A callback function that is called when the scroll position or size of the content changes. The function is passed an object containing the following properties: `left`, `top`, `scrollLeft`, `scrollTop`, `scrollWidth`, `scrollHeight`, `clientWidth`, `clientHeight`. |
+| overflow | string | 'auto' | The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| overflowX | string | | The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
+| scrollLeft | number | 0 | The horizontal scroll position of the scrollable content. |
+| scrollTop | number | 0 | The vertical scroll position of the scrollable content. |
+| scrollViewRef | RefObject | | A `ref` to the `ScrollView` component. |

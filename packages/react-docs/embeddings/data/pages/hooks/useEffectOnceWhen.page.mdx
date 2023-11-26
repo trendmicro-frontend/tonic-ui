@@ -1,0 +1,26 @@
+# useEffectOnceWhen
+
+A custom Hook similar to `useEffectOnce`, but only runs once when a condition is met.
+
+## Import
+
+```js
+import { useEffectOnceWhen } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
+useEffectOnceWhen(effect, when);
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| effect | `() => void` | | The effect to run. |
+| when | boolean | false | The condition to run the effect. |
+
+## Demos
+
+{render('./useEffectOnceWhen')}

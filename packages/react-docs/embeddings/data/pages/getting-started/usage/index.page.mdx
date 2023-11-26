@@ -1,0 +1,341 @@
+# Usage
+
+You can use any of the components as demonstrated in the documentation. If you are the first time using Tonic UI, you may want to read the following sections to get started.
+
+## Setup Provider
+
+For Tonic UI to work, you will need to setup the `TonicProvder` at the root of your application.
+
+Go to the root of your application and do the following:
+
+```jsx disabled
+import React from 'react';
+import {
+  Box,
+  TonicProvider,
+  colorStyle, // [optional] It's required only when you want to customize the color style
+} from '@tonic-ui/react';
+
+function App(props) {
+  return (
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark', // One of: 'dark', 'light'
+      }}
+      colorStyle={{
+        defaultValue: colorStyle, // Custom color style
+      }}
+      useCSSBaseline={true} // If `true`, apply CSS reset and base styles
+    >
+      <Box {...props} />
+    </TonicProvider>
+  );
+}
+```
+
+See below for a more complete example:
+
+```jsx disabled
+import { Global, css } from '@emotion/react';
+import React from 'react';
+import {
+  Box,
+  TonicProvider,
+  PortalManager, // allows you to create and manage portals in the application
+  ToastManager, // allows you to create and manage toasts in the application
+  colorStyle, // provides customization options for the color styles used throughout the UI
+  useColorMode,
+  useTheme,
+} from '@tonic-ui/react';
+
+function App(props) {
+  return (
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark', // One of: 'dark', 'light'
+      }}
+      colorStyle={{
+        defaultValue: colorStyle, // Custom color style
+      }}
+      useCSSBaseline={true} // If `true`, apply CSS reset and base styles
+    >
+      <PortalManager>
+        <ToastManager>
+          <Layout>
+            <Box {...props} />
+          </Layout>
+        </ToastManager>
+      </PortalManager>
+    </TonicProvider>
+  );
+}
+
+function Layout(props) {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const { colors, fontSizes, lineHeights } = useTheme();
+  const backgroundColor = colorStyle.background.primary;
+  const color = colorStyle.color.primary;
+  const scrollbarThumbBackgroundColor = colorStyle.color.disabled;
+  const scrollbarThumbHoverBackgroundColor = colorStyle.color.tertiary;
+  const scrollbarThumbHoverBorderColor = colorStyle.color.secondary;
+  const scrollbarTrackBackgroundColor = {
+    light: 'gray:30',
+    dark: 'gray:70',
+  }[colorMode];
+
+  return (
+    <>
+      <Global
+        styles={css`
+          :root, :host {
+            color-scheme: ${colorMode};
+          }
+          :focus:not(:focus-visible) {
+            outline: none;
+          }
+          body {
+            font-size: ${fontSizes.sm};
+            line-height: ${lineHeights.sm};
+          }
+
+          ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+          }
+          ::-webkit-scrollbar-track {
+            background-color: ${colors[scrollbarTrackBackgroundColor]};
+          }
+          ::-webkit-scrollbar-thumb {
+            background-color: ${colors[scrollbarThumbBackgroundColor]};
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background-color: ${colors[scrollbarThumbHoverBackgroundColor]};
+            border: 1px solid ${colors[scrollbarThumbHoverBorderColor]};
+          }
+        `}
+      />
+      <Box
+        backgroundColor={backgroundColor}
+        color={color}
+        fontSize="sm"
+        lineHeight="sm"
+        height="100vh"
+        {...props}
+      />
+    </>
+  );
+}
+```
+
+> Learn more about [Color Mode](../components/color-mode) in the documentation.
+
+> Learn more about [Color Style](../components/color-style) in the documentation.
+
+> For the **`color-scheme`** CSS property, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme) for more information.
+
+> For the **`:focus-visible`** pseudo-class, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible) for more information.
+
+### Applying base CSS styles
+
+Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
+
+```jsx disabled
+<TonicProvider useCSSBaseline={true}>
+  <App />
+</TonicProvider>
+```
+
+> If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
+
+### Extending the Color Style
+
+Optionally, you can extend the color style by providing a custom color style. This is not required if you are using the default color style.
+
+#### 1. Customizing the color style
+
+To override default color style, you can create a color style object according to the color mode, and pass the object to `TonicProvider` with either the `value` or the `defaultValue` property.
+
+```js
+import { colorStyle } from '@tonic-ui/react';
+
+// Let's say you want to define color style for your components
+const customColorStyle = {
+  ...colorStyle,
+  dark: {
+    ...colorStyle.dark,
+    component: {
+      header: {},
+      sidebar: {},
+    },
+  },
+  light: {
+    ...colorStyle.light,
+    component: {
+      header: {},
+      sidebar: {},
+    },
+  },
+};
+```
+
+#### 2. Setting up the provider
+
+```jsx disabled
+<TonicProvider
+  colorMode={{
+    defaultValue: 'dark',
+  }}
+  colorStyle={{
+    defaultValue: customColorStyle,
+  }}
+  useCSSBaseline={true}
+>
+  {children}
+</TonicProvider>
+```
+
+#### 3. Using the color style
+
+```jsx disabled
+const [colorMode] = useColorMode();
+const [colorStyle] = useColorStyle({ colorMode });
+const headerStyle = colorStyle?.component?.header;
+const sidebarStyle = colorStyle?.component?.sidebar;
+```
+
+### Extending the Theme
+
+Optionally, you can extend the theme object to override the defaults with custom colors, fonts, styles, etc. This is not required if you are using the default theme.
+
+#### 1. Overriding the theme
+
+Override the theme object and pass it to the `<ThemeProvider>` component.
+
+```js
+import { theme } from '@tonic-ui/react';
+
+// Let's say you want to add more colors
+const customTheme = {
+  ...theme,
+  colors: {
+    ...theme.colors,
+    brand: {
+      90: "#1a365d",
+      80: "#153e75",
+      70: "#2a69ac",
+    },
+  },
+};
+```
+
+#### 2. Setting up the provider
+
+```jsx disabled
+<TonicProvider theme={customTheme}>
+  {children}
+</TonicProvider>
+```
+
+#### 3. Using the theme
+
+```jsx disabled
+const theme = useTheme();
+const brandColor = theme?.colors?.brand?.[90];
+```
+
+## How to use Tonic UI
+
+### Design tokens in the theme
+
+Visit [Styled System](../styled-system) and [Theme](../theme) sections to learn how the different CSS (and custom) properties are mapped to the theme keys.
+
+### How to use Box
+
+You can customize the styling and layout of your components using the various style props, pseudo-style props, and responsive values provided by `Box`:
+* [Style props](../styled-system/style-props)
+* [Pseudo style props](../styled-system/pseudo-style-props)
+* [Responsive values](../styled-system/responsive-values)
+
+#### Using style props and pseudo style props
+
+{render('./using-style-props-and-pseudo-style-props')}
+
+#### Shorthands
+
+There are some shorthands available for various CSS properties. These are documentated on the [style props](../styled-system/style-props) page.
+
+```jsx disabled
+<Box
+  bg="white:primary" // backgroundColor: 'white:primary'
+  mb="3x" // marginBottom: '3x'
+  px="4x" // paddingLeft: '4x', paddingRight: '4x'
+  py="3x" // paddingTop: '3x', paddingBottom: '3x'
+/>
+```
+
+These shorthands are optional. It's great for saving time, but not necessary to use.
+
+### Superset of CSS
+
+The `sx` prop supports CSS syntax including child and pseudo-selectors, media queries, raw CSS values, and more. Here are a few examples of how you can implement these CSS features:
+
+* Using pseudo-selectors:
+
+  ```jsx disabled
+  <Box
+    sx={{
+      ':hover': {
+        backgroundColor: 'gray:10',
+      },
+    }}
+  />
+  ```
+
+* Using media queries:
+
+  ```jsx disabled
+  <Box
+    sx={{
+      '@media print': {
+        width: 300,
+      },
+    }}
+  />
+  ```
+
+* Using nested selectors:
+
+  ```jsx disabled
+  <Box
+    sx={{
+      '& .child-selector': {
+        backgroundColor: 'white:secondary',
+      },
+    }}
+  />
+  ```
+
+Read more on [the sx prop](the-sx-prop) page.
+
+### Advanced Box usage
+
+Here are some advanced examples of how you can use the `Box` component:
+
+#### Animated Cube
+
+{render('./components/AnimatedCube')}
+
+#### Rainbow
+
+{render('./components/Rainbow')}
+
+#### Formula One
+
+This example demonstrates how you can use responsive values to create a responsive layout.
+
+{render('./components/FormulaOne')}
+
+## Versioned Documentation
+
+This documentation always reflects the latest version of Tonic UI. You can find older versions of the documentation [here](versions).

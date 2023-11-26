@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import {
   StuffDocumentsChain,
@@ -13,6 +15,7 @@ import {
   HumanMessagePromptTemplate,
 } from 'langchain/prompts';
 import { AIChatMessage, HumanChatMessage } from 'langchain/schema';
+import x from '@/utils/json-stringify';
 //import { BufferMemory } from 'langchain/memory';
 
 /*
@@ -26,6 +29,7 @@ const TONIC_ONE_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `Your name is Tonic One, an inn
 You are given the following extracted parts of documents and a question. If you cannot find the answer, don't try to make up an answer.
 
 Utilize the following documents as reference to help you answer the question:
+----- REFERENCE BEGIN -----
 {context}
 ----- REFERENCE END -----
 `;
@@ -51,15 +55,41 @@ class CustomStuffDocumentsChain extends StuffDocumentsChain {
       throw new Error(`Document key ${this.inputKey} not found.`);
     }
     const { [this.inputKey]: docs, ...rest } = values;
-    const texts = docs.map(({ pageContent, metadata }, index) => {
-      const { source: path } = metadata;
-      return `Reference ${index + 1}:\n${pageContent}`;
+    const sources = [];
+
+    const matchedDocs = docs.map(({ pageContent, metadata }, index) => {
+      if (metadata && metadata.source && !sources.includes(metadata.source)) {
+        sources.push(metadata.source);
+      }
+      return pageContent;
     });
-    const text = texts.join("\n-----\n");
+
+    const sourceDocs = sources.map((source, index) => {
+      const filepath = path.resolve(process.cwd(), 'embeddings/data', source);
+      if (!fs.existsSync(filepath)) {
+        return '';
+      }
+      const sourceContent = fs.readFileSync(filepath, 'utf8');
+      return sourceContent;
+    }).filter((sourceContent) => !!sourceContent);
+
+    const stuffDocuments = [
+      ...sourceDocs, // Add source documents first to increase the likelihood of them being used
+      ...matchedDocs, // Add matched documents for reference
+    ];
+
+    for (let i = 0; i < sources.length; ++i) {
+      console.log(`> Source document #${i}: source=${x(sources[i])}, len=${x(sourceDocs[i].length)}`);
+    }
+    for (let i = 0; i < docs.length; ++i) {
+      console.log(`> Matched document #${i}: metadata=${x(docs[i].metadata)}, len=${x(docs[i].pageContent.length)}`);
+    }
 
     return {
       ...rest,
-      [this.documentVariableName]: text,
+      [this.documentVariableName]: stuffDocuments.map((docContent, docIndex) => {
+        return 'Reference ' + (docIndex + 1) + ':\n' + docContent;
+      }).join("\n-----\n"),
     };
   }
 }
@@ -71,7 +101,7 @@ export const makeRetrievalQAChain = (
   vectorStore,
   onTokenStream,
 ) => {
-  const k = 5; // Number of documents to retrieve
+  const k = 4; // Number of documents to retrieve
   const retriever = vectorStore.asRetriever(k);
 
   const llmChain = new LLMChain({
@@ -88,7 +118,7 @@ export const makeRetrievalQAChain = (
       ],
     }),
     prompt: TONIC_ONE_CHAT_PROMPT, // One of: DEFAULT_QA_PROMPT, TONIC_ONE_CHAT_PROMPT
-    verbose: true,
+    verbose: false,
   });
   const combineDocumentsChain = new CustomStuffDocumentsChain({ llmChain, verbose: false });
 
@@ -100,7 +130,7 @@ export const makeRetrievalQAChain = (
     retriever,
     combineDocumentsChain,
     returnSourceDocuments: true,
-    verbose: true,
+    verbose: false,
   });
 };
 
@@ -110,7 +140,7 @@ export const makeRetrievalQAChain = (
  * @see https://github.com/hwchase17/langchainjs/blob/main/langchain/src/chains/conversational_retrieval_chain.ts
  */
 export const makeConversationalRetrievalQAChain = (vectorStore, onTokenStream) => {
-  const k = 5; // Number of documents to retrieve
+  const k = 4; // Number of documents to retrieve
   const retriever = vectorStore.asRetriever(k);
 
   const llmChain = new LLMChain({
@@ -127,7 +157,7 @@ export const makeConversationalRetrievalQAChain = (vectorStore, onTokenStream) =
       ],
     }),
     prompt: TONIC_ONE_CHAT_PROMPT, // One of: DEFAULT_QA_PROMPT, TONIC_ONE_CHAT_PROMPT
-    verbose: true,
+    verbose: false,
   });
   const combineDocumentsChain = new CustomStuffDocumentsChain({ llmChain, verbose: false });
 
@@ -181,7 +211,7 @@ export const makeVectorDBQAChain = (vectorStore, onTokenStream) => {
 
   const chain = VectorDBQAChain.fromLLM(llm, vectorStore, {
     returnSourceDocuments: true,
-    verbose: true,
+    verbose: false,
   });
 
   return chain;

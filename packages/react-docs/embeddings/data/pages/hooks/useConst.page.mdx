@@ -1,0 +1,33 @@
+# useConst
+
+A custom Hook that creates a constant value over the lifecycle of a component.
+
+Unlike `React.useMemo`, this is guaranteed to always return the same value (and if the initializer is a function, only call it once). This is similar to setting a private member in a class constructor.
+
+If the value should ever change based on dependencies, use `React.useMemo` instead.
+
+## Import
+
+```js
+import { useConst } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
+const value = useConst(initialValue);
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| initialValue | any \| `() => any` | | Initial value, or function to get the initial value. Similar to `useState`, only the value/function passed in the first time this is called is respected. |
+
+### Returns
+
+The value. This is the same value that is returned by the initializer.
+
+## Demos
+
+{render('./useConst')}

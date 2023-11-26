@@ -1,0 +1,132 @@
+# ColorModeProvider
+
+Tonic UI comes with built-in support for managing color modes in your app.
+
+## Setup
+
+By using `TonicProvider` at root of your application, it will add `ColorModeProvider` internally to provide the color mode context to all components. The default color mode is `light` if not specified.
+
+To get color mode working correctly, you may have to pass `colorMode` config to `TonicProvider` with `defaultValue` set to `dark` or `light`.
+
+```jsx disabled
+import React from 'react';
+import { Box, TonicProvider } from '@tonic-ui/react';
+
+function App(props) {
+  return (
+    <TonicProvider
+      /**
+       * The `colorMode` config
+       * @param {'dark'|'light'} defaultValue
+       * @param {'dark'|'light'} value
+       * @param {function} onChange
+       * @param {boolean} useSystemColorMode
+       */
+      colorMode={{
+        defaultValue: 'dark',
+      }}
+    >
+      <Box {...props} />
+    </TonicProvider>
+  );
+}
+```
+
+The above setup is equivalent to:
+
+```jsx disabled
+<ColorModeProvider defaultValue="dark">
+  <Box {...props} />
+</ColorModeProvider>
+```
+
+### The `colorMode` config
+
+The `colorMode` config has the following options:
+
+* `defaultValue`: The default value for the color mode. It can be `light` or `dark`. The default value is `light` if not specified.
+* `value`: The current value for the color mode. It can be `light` or `dark`.
+* `onChange(colorMode)`: A function that is called when the color mode is changed.
+* `useSystemColorMode`: A boolean that determines whether to use the system color mode.
+
+### Color scheme
+
+To opt the entire page into the user's color scheme preferences declare `color-scheme` on the document's root element.
+
+```jsx disabled
+import { Global, css } from '@emotion/react';
+```
+
+```jsx disabled
+<Global
+  styles={css`
+    :root, :host {
+      color-scheme: dark;
+    }
+  `}
+/>
+```
+
+## Examples
+
+### Use default color mode
+
+```jsx disabled
+<TonicProvider
+  colorMode={{
+    defaultValue: 'dark',
+  }}
+>
+  {children}
+</TonicProvider>
+```
+
+### Use system color mode
+
+This example uses the default color mode for the first render, and then switches to the system color mode for the rest of time.
+
+```jsx disabled
+<TonicProvider
+  colorMode={{
+    defaultValue: 'dark', // optional
+    useSystemColorMode: true, // If `true`, switch to system color mode after the first render.
+  }}
+>
+  {children}
+</TonicProvider>
+```
+
+### Controlled color mode
+
+```jsx disabled
+<TonicProvider
+  colorMode={{
+    value: 'dark',
+  }}
+>
+  {children}
+</TonicProvider>
+```
+
+### Controlled color mode with a toggle function
+
+```jsx disabled
+function App({ children }) {
+  const [colorMode, toggleColorMode] = useToggle();
+
+  return (
+    <TonicProvider
+      colorMode={{
+        value: colorMode,
+        onChange: toggleColorMode,
+      }}
+    >
+      {children}
+    </TonicProvider>
+  );
+}
+```
+
+## Managing Color Mode
+
+To manage color mode in your application, you can use the [useColorMode](color-mode/useColorMode) hook.

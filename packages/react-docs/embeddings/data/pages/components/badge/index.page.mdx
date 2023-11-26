@@ -1,0 +1,71 @@
+# Badge
+
+Badges are used to highlight an item's status for quick recognition.
+
+## Import
+
+```js
+import { Badge } from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic badge
+
+To display the badge on the top-right corner of the wrapped component, specify the `badgeContent` prop with the desired content.
+
+{render('./basic')}
+
+### Dot badge
+
+Use `variant="dot"` to change a badge into a small dot. This can be used as a notification that something has changed without giving a count.
+
+{render('./dot')}
+
+### Standalone badge
+
+The badge can be used as a standalone component. This can be useful for displaying a badge without a surrounding element.
+
+{render('./standalone')}
+
+### Badge alignment
+
+You can use the `placement` prop to move the badge to any corner of the wrapped element. The default placement is `top-right`. The `placement` prop can be one of `top-left`, `top-right`, `bottom-left`, `bottom-right`.
+
+{render('./badge-alignment')}
+
+### Badge visibility
+
+The badge visibility can be controlled using the `isInvisible` prop.
+
+{render('./badge-visibility')}
+
+### Color
+
+The color of the badge can be changed by passing the `backgroundColor` prop. See the [colors](../theme/colors) section to learn more about colors.
+
+{render('./color')}
+
+### Size
+
+The size of the badge can be changed by passing the `height` and `minWidth` props.
+
+{render('./size')}
+
+### Customization
+
+You can customize the badge style by passing style props. See the following example to learn how to create a outline badge.
+
+{render('./customization')}
+
+## Props
+
+### Badge
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| badgeContent | ReactNode \| number \| string | | The badge content. |
+| isInvisible | boolean | | Whether the badge is invisible. |
+| placement | string | 'top-right' | The placement of the badge. One of: 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| variant | string | 'solid' | One of: 'solid', 'dot' |

@@ -1,0 +1,43 @@
+# InputBase
+
+`InputBase` does not have appearance settings including default border, color, outline, and padding. It aims to be a simple building block for creating an input.
+
+## Import
+
+```js
+import { InputBase } from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./basic')}
+
+### Attributes
+
+Standard input attributes are supported, e.g., `type`, `disabled`, `readOnly`, `required`, etc.
+
+#### `type`
+
+{render('./attribute-type')}
+
+#### `disabled`
+
+{render('./attribute-disabled')}
+
+#### `readOnly`
+
+{render('./attribute-readonly')}
+
+#### `required`
+
+{render('./attribute-required')}
+
+## Props
+
+### InputBase
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the user cannot interact with the control. |
+| readOnly | boolean | | If `true`, prevents the value of the input from being edited. |
+| error | boolean | | If `true`, the input will indicate an error. |

@@ -1,0 +1,344 @@
+# Menu
+
+A menu is used to display a list of options to the user. It appears when the user interacts with a button, link, or other control that triggers an action.
+
+## Import
+
+- `Menu`: The component that provides the menu functionality.
+- `MenuButton`: A button that composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a menu button.
+- `MenuContent`: An unstyled component that provides the menu content.
+- `MenuDivider`: A divider that separates menu items.
+- `MenuGroup`: A component that groups menu items.
+- `MenuItem`: The individual menu items.
+- `MenuList`: A styled `MenuContent` that wraps the menu items.
+- `MenuToggle`: The toggle that opens the menu. This is usually a button or link.
+- `MenuToggleIcon`: An indicator that appears next to the toggle. This is usually a chevron or arrow.
+- `Submenu`: The component that provides the submenu functionality.
+- `SubmenuContent`: An unstyled component that provides the submenu content.
+- `SubmenuList`: A styled `SubmenuContent` that wraps the submenu items.
+- `SubmenuToggle`: The toggle that opens the submenu when the menu item is hovered over.
+
+```js
+import {
+  Menu,
+  MenuButton,
+  MenuContent,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  MenuToggle,
+  MenuToggleIcon,
+  Submenu,
+  SubmenuContent,
+  SubmenuList,
+  SubmenuToggle,
+  useMenu,
+  useSubmenu,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic menus
+
+Below is a simple example that shows the basic menu structure.
+
+{render('./basic')}
+
+### Cascading submenus
+
+The following example shows a menu with cascading submenus.
+
+{render('./cascading-submenus')}
+
+### Controlled and uncontrolled menu
+
+Pass `isOpen` to the `Menu` component to control the state of the menu.
+
+{render('./controlled')}
+
+Menu is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the menu open for the first render.
+
+{render('./uncontrolled')}
+
+### MenuToggle
+
+`MenuToggle` is a toggle that opens the menu when clicked. It is usually a button or link. The `MenuToggleIcon` can be added to the toggle to indicate the menu is open or closed.
+
+{render('./menutoggle')}
+
+Here is an example showcasing the combination of `MenuToggle`, `Popover`, and `Button` components.
+
+{render('./menutoggle-popover')}
+
+### MenuToggleIcon
+
+`MenuToggleIcon` is an indicator that indicates the menu is open or closed.
+
+{render('./menutoggleicon')}
+
+You can also customize the indicator by passing a component as children or a function as children that returns a component.
+
+{render('./menutoggleicon-custom')}
+
+### MenuButton
+
+`MenuButton` composes `Button`, `MenuToggle`, and `MenuToggleIcon` to create a button that opens the menu. It's an useful alternative to `MenuToggle` when the toggle is a button.
+
+```jsx disabled
+const MenuButton = (props) => {
+  // Define custom styles for the menu button
+  const styleProps = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    columnGap: '1x',
+  };
+
+  return (
+    <MenuToggle>
+      {({ getMenuToggleProps }) => (
+        <Button
+          {...getMenuToggleProps()}
+          {...styleProps}
+          {...props}
+        >
+          {children && (
+            <Box>{children}</Box>
+          )}
+          <MenuToggleIcon />
+        </Button>
+      )}
+    </MenuToggle>
+  );
+};
+```
+
+{render('./menubutton')}
+
+### MenuGroup
+
+To group related menu items, wrap them in a `MenuGroup` and pass a `title` prop for the group title.
+
+{render('./menugroup')}
+
+### Menu sizing
+
+To change the width of the menu, pass `width` prop to the `MenuList` component.
+
+#### fixed width
+
+{render('./sizing-fixed-width')}
+
+#### full width
+
+Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `MenuList` to make the menu as wide as the content.
+
+{render('./sizing-full-width')}
+
+#### `min-content`
+
+{render('./sizing-min-content')}
+
+#### `max-content`
+
+{render('./sizing-max-content')}
+
+### Placement
+
+To position the menu relative to the toggle, pass a `placement` prop to `Menu`.
+
+The value can be one of the following:
+* `top`
+* `top-start`
+* `top-end`
+* `bottom`
+* `bottom-start`
+* `bottom-end`
+
+{render('./placement')}
+
+### Positioning
+
+The `offset` prop can be used to change the menu position. It accepts an array with two numbers in the form of `[skidding, distance]`.
+
+**Skidding**
+
+The first number, `skidding`, displaces the menu along the toggle. This value is specified in pixels.
+
+**Distance**
+
+The second number, `distance`, controls the distance between the menu and the toggle. This value is specified in pixels.
+
+{render('./positioning')}
+
+### Scrolling
+
+To make the menu scrollable, pass `overflow="auto"` and `maxHeight` to `MenuList`. The menu will become scrollable when the menu items exceed the height of the menu.
+
+{render('./scrolling-native')}
+
+You can also use the `Scrollbar` component to override the default scrollbar.
+
+{render('./scrolling-scrollbar')}
+
+### Customization
+
+{render('./customization')}
+
+### Dropdown
+
+Use the `Dropdown` component when you need to select one option from a list of options.
+
+The component is available on GitHub at the [link](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/react-docs/components/Dropdown.jsx).
+
+{render('./dropdown')}
+
+### Multiselect
+
+Use the `Multiselect` component when you need to select multiple options from a list or to filter information.
+
+The component is available on GitHub at the [link](https://github.com/trendmicro-frontend/tonic-ui/tree/master/packages/react-docs/components/Multiselect.jsx).
+
+{render('./multiselect')}
+
+## Accessibility
+
+### Keyboard Interaction
+
+| Key | Action |
+| :-- | :----- |
+| `Enter` \| `Space` | When `MenuToggle` or `MenuButton` is focused, opens the menu. |
+| `ArrowDown` \| `ArrowUp`| When `MenuList` is focused, moves the focus to the next menu item. |
+| `Escape` | When a menu item is focused, closes the menu and moves the focus to the toggle. |
+
+## Props
+
+### Menu
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| anchorEl | ElementType | | The element to which the menu is attached. |
+| autoSelect | boolean | true | Whether to automatically select the first menu item when the menu is opened. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| closeOnBlur | boolean | true | Whether to close the menu when the user clicks outside of the menu. |
+| closeOnSelect | boolean | true | Whether to close the menu when the user selects a menu item. |
+| defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
+| defaultIsOpen | boolean | false | Whether the menu is open by default. |
+| isOpen | boolean | | Whether the menu is open. |
+| offset | [skidding, distance] | [0, 0] | The skidding and distance of the menu. |
+| onClose | function | | Callback when the menu is closed. |
+| onOpen | function | | Callback when the menu is opened. |
+| placement | string | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+| returnFocusOnClose | boolean | true | If `true`, the menu will return the focus to the trigger element when closing. Otherwise, it will leave focus unchanged. |
+
+### MenuButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| disabled | boolean | | Whether the menu button is disabled. |
+| onClick | function | | Callback when the menu button is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+
+### MenuDivider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### MenuGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| title | string | | The title of the menu group. |
+
+### MenuItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | Whether the menu item is disabled. |
+| onClick | function | | Callback when the menu item is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuList
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+
+### MenuToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `({ getMenuToggleProps }) => ReactNode` | | |
+| disabled | boolean | | Whether the menu toggle is disabled. |
+| onClick | function | | Callback when the menu toggle is clicked. |
+| onKeyDown | function | | Callback when the user presses a key. |
+
+### MenuToggleIcon
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
+| children | ReactNode \| `(state, props) => ReactNode` | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| disabled | boolean | | Whether the menu toggle icon is disabled. |
+| easing | string \| `{ enter?: string, exit?: string }` | `{ enter: easing.easeInOut, exit: easing.easeInOut }` | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| `{ appear?: number, enter?: number, exit?: number }` | `{ enter: duration.enterScreen, exit: duration.levingScreen }` | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
+
+### Submenu
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| defaultIsOpen | boolean | false | Whether the submenu is open by default. |
+| isOpen | boolean | | Whether the submenu is open. |
+| offset | [skidding, distance] | [0, 0] | The skidding and distance of the menu. |
+| onClose | function | | Callback when the submenu is closed. |
+| onOpen | function | | Callback when the submenu is opened. |
+| placement | string | 'right-start' | The placement of the submenu. One of: 'right-start', 'right-end', 'left-start', 'left-end' |
+
+### SubmenuContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| PopperComponent | ElementType | Popper | The component used for the popover. |
+| PopperProps | object | | Props applied to the Popper component. |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+
+### SubmenuList
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### SubmenuToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `({ getSubmenuToggleProps }) => ReactNode` | | |
+| disabled | boolean | | Whether the submenu toggle is disabled. |

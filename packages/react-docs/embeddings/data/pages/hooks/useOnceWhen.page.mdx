@@ -1,0 +1,26 @@
+# useOnceWhen
+
+A custom Hook that runs a callback at most once when a condition becomes true.
+
+## Import
+
+```js
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
+useOnceWhen(callback, when);
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| callback | `() => void` | | The callback to run. |
+| when | boolean | false | The condition to run the callback. |
+
+## Demos
+
+{render('./useOnceWhen')}

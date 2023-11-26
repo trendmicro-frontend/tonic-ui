@@ -1,0 +1,73 @@
+# Pagination
+
+The `Pagination` component enables the user to select a specific page from a range of pages.
+
+## Import
+
+```js
+import {
+  Pagination,
+  PaginationItem,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic pagination
+
+{render('./basic')}
+
+### Pagination buttons
+
+You can optionally enable or disable first-page, last-page, previous-page, and next-page buttons.
+
+{render('./pagination-buttons')}
+
+### Customize the control icons
+
+It's possible to customize the control icons for the start-ellipsis, end-ellipsis, first-page, last-page, previous-page, and next-page buttons.
+
+{render('./customize-the-control-icons')}
+
+### Pagination ranges
+
+You can specify how many numbers to display either side of current page with the `siblingCount` prop, and adjacent to the start and end page number with the `boundaryCount` prop.
+
+{render('./pagination-ranges')}
+
+### Controlled pagination
+
+{render('./controlled-pagination')}
+
+### Table pagination
+
+The `Pagination` component is designed to paginate a list of arbitrary items when infinite loading isn't used. For the pagination of a large set of tabular data, you should use the table pagination example as illustrated below.
+
+{render('./table-pagination')}
+
+## Props
+
+### Pagination
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| boundaryCount | number | 1 | Number of always visible pages at the beginning and end. |
+| count | number | 1 | Total number of pages. |
+| defaultPage | number | 1 | The page selected by default when the component is uncontrolled. |
+| disabled | boolean | false | If `true`, the component is disabled. |
+| onChange | function | | Callback fired when the page is changed. <br /><br /> Signature: <br /> `function(event: object, page: number) => void` <br />event: The event source of the callback. <br />page: The page selected. |
+| page | number | | The current page. |
+| renderItem | function | `(props) => <PaginationItem {...props} />` | Render the item.<br /><br />Signature: <br /> `function(props) => ReactNode` <br />props: The props to spread on a `PaginationItem`. |
+| siblingCount | number | 1 | Number of always visible pages before and after the current page. |
+| slot | `{ first?: boolean, last?: boolean, previous?: boolean, next?: boolean }` | `{ first: false, last: false, previous: true, next: true }` | Whether to render the first-page, last-page, previous-page, and next-page buttons. |
+
+### PaginationItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | false | If `true`, the component is disabled. |
+| page | number | | The current page number. |
+| selected | boolean | false | If `true`, the pagination item is selected. |
+| slot | `{ 'start-ellipsis'?: ReactNode, 'end-ellipsis'?: ReactNode, first?: ReactNode, previous?: ReactNode, next?: ReactNode, last?: ReactNode }` | `{ 'start-ellipsis': <Icon icon="more-horiz" />, 'end-ellipsis': <Icon icon="more-horiz" />, first: <Icon icon="collapse-left" />, previous: <Icon icon="angle-left" />, next: <Icon icon="angle-right" />, last: <Icon icon="collapse-right" /> }` | |
+| type | string | 'page' | The type of the pagination item. |
+| variant | string | 'ghost' | The variant to use. |

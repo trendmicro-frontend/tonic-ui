@@ -1,0 +1,45 @@
+# useColorStyle
+
+`useColorStyle` is a custom Hook that gives you access to the color style object of the current color mode.
+
+## Import
+
+```js
+import { useColorStyle } from '@tonic-ui/react';
+```
+
+## Usage
+
+```js
+const [colorMode] = useColorMode();
+const [colorStyle] = useColorStyle({
+  colorMode: 'dark', // One of 'light' or 'dark'
+});
+const { colors } = useTheme();
+
+console.log(colorMode);
+// => 'dark' / 'light'
+console.log(colorStyle.color.primary);
+// => 'white:primary' / 'black:primary'
+console.log(colorStyle.background.primary);
+// => 'gray:100' / 'white:emphasis'
+console.log(colors[colorStyle.color.primary]);
+// => 'rgba(255, 255, 255, .92)' / 'rgba(0, 0, 0, .92)'
+console.log(colors[colorStyle.background.primary]);
+// => '#151515' / 'rgba(255, 255, 255, 1.0)'
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| options | object | `{}` | Options object |
+| options.colorMode | string | undefined | The color mode to use. |
+
+### Returns
+
+Returns an array with the color style object and a function to set the color style object.
+
+## Demos
+
+{render('./useColorStyle')}

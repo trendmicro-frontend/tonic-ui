@@ -1,0 +1,39 @@
+# Portal
+
+A Portal is a declarative component that allows you to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This is useful for rendering elements, such as drawers, modals, or popovers, above other elements in the document.
+
+## Import
+
+```js
+import {
+  Portal,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+To use the `Portal` component, you can wrap any element or component within it, and it will be rendered at the end of the document body.
+
+{render('./portal')}
+
+### Using a custom container
+
+You can also specify a custom container for the portal to be rendered in by passing the `containerRef` prop and its value to the `ref` of the container element.
+
+{render('./custom-container')}
+
+### Nested portals
+
+It is also possible to nest portals inside a parent portal. To do this, pass `appendToParentPortal={true}` to the nested portal. This will append the children of the nested portal to the container of the parent portal.
+
+{render('./nested-portals')}
+
+## Props
+
+### Portal
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| appendToParentPortal | boolean | false | If `true`, the portal will check if it is within a parent portal and append itself to the parent's portal node. |
+| children | ReactNode | | |
+| containerRef | RefObject | | A `ref` to the container where the portal will be rendered. |

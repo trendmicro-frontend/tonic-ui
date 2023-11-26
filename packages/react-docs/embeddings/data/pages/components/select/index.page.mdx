@@ -1,0 +1,71 @@
+# Select
+
+The `Select` component is used for collecting user provided information from a list of options.
+
+## Import
+
+```js
+import {
+  Select,
+  Option,
+  OptionGroup,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./basic')}
+
+### Variants
+
+The `Select` component comes in 3 variants: `outline`, `filled`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+{render('./variant-outline')}
+
+#### `filled`
+
+{render('./variant-filled')}
+
+#### `unstyled`
+
+{render('./variant-unstyled')}
+
+### Attributes
+
+The `<select>` element has some unique attributes you can use to control it, such as `multiple` to specify whether multiple options can be selected, and `size` to specify how many options should be shown at once. It also accepts most of the general form input attributes such as `disabled`, `required`, etc.
+
+#### Multiple options
+
+{render('./multiple-options')}
+
+#### `disabled`
+
+{render('./attribute-disabled')}
+
+#### `required`
+
+{render('./attribute-required')}
+
+## Props
+
+### Select
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the select is disabled and the user cannot interact with it. |
+| error | boolean | | If `true`, the select displays a red border to indicate an error. |
+| variant | string | 'outline' | The variant of the select style to use. One of: 'outline', 'filled', 'unstyled' |
+
+### Option
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### OptionGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

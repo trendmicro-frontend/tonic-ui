@@ -1,0 +1,101 @@
+# Tag
+
+`Tag` is used for items that need to be labeled, categorized, or organized using keywords that describe them.
+
+## Import
+
+```js
+import {
+  Tag,
+  TagCloseButton,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./basic')}
+
+### Variants
+
+Use the `variant` prop to change the visual style of the `Tag`. You can set the value to `solid`, `outline`.
+
+{render('./variants')}
+
+### Custom colors
+
+The color of the tag can be changed by passing the `backgroundColor`, `borderColor`, and `color` props. See the [colors](../theme/colors) section to learn more about colors.
+
+{render('./custom-colors')}
+
+### Sizes
+
+Use the `size` prop to change the size of the `Tag`. You can set the value to `sm`, `md`, or `lg`.
+
+{render('./sizes')}
+
+### States
+
+{render('./states')}
+
+### How to close a tag
+
+#### Using the `isClosable` prop
+
+The `isClosable` prop is used to make a tag closable by adding a close button to it. By default, the value of `isClosable` is false. To make an alert closable, set `isClosable` to true.
+
+```jsx disabled
+<Tag variant="solid" isClosable onClose={onClose}>
+  <Text>This is a tag</Text>
+</Tag>
+```
+
+{render('./using-the-isclosable-prop')}
+
+#### Using the `TagCloseButton` component
+
+The `TagCloseButton` component provides an easy way to add a close button to a tag. This button is specifically designed to handle closing the tag, so you don't need to write any additional code to handle it. If you use `TagCloseButton`, you can omit the `isClosable` prop in the `Tag` component.
+
+Besides the default functionality of the `TagCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `TagCloseButton` component as needed.
+
+```jsx disabled
+<Tag variant="solid" onClose={onClose}>
+  <Text>This is a tag</Text>
+  <TagCloseButton ml="2x" data-test="tag-close-button" />
+</Tag>
+```
+
+When using the `TagCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned with a `2x` (=8px) margin on the left side to ensure sufficient spacing between the tag and the button.
+
+{render('./using-the-tagclosebutton-component')}
+
+## Advanced usage
+
+> The advanced usage here is not part of the component library, and might be modified or removed without further notice. They are provided here to help you get started with writing your own tag components.
+
+### Creating tags
+
+The tag creation component allows you to easily generate tags for filtering purposes.
+
+To create a new tag, simply type your desired tag value and press the enter key. This will add the tag to the list. You can also copy and paste a list of tags, separating them with commas (`,`) or semi-colons (`;`), to create multiple tags at once. If you need to remove a tag, just click on the `x` icon or use the backspace key.
+
+{render('./creating-tags')}
+
+## Props
+
+### Tag
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| disabled | boolean | | If `true`, the tag will be disabled. |
+| error | boolean | | If `true`, the tag will display an error state. |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
+| size | string | 'md' | The size of the tag component. One of: 'sm', 'md', 'lg' |
+| variant | string | 'solid' | The variant style of the tag component. One of: 'solid', 'outline' |
+
+### TagCloseButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

@@ -1,0 +1,77 @@
+# Button
+
+`Button` is used to trigger an action or event, such as submitting a form, opening a [`Modal`](modal), canceling an action, or performing a delete operation.
+
+## Import
+
+```js
+import { Button } from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./usage')}
+
+### Variants
+
+Use the `variant` prop to change the visual style of `Button`. You can set the value to `emphasis`, `primary`, `default`, `secondary`, or `ghost`.
+
+{render('./variants')}
+
+### Sizes
+
+Use the `size` prop to change the size of the button. You can set the value to `sm`, `md`, or `lg`.
+
+{render('./sizes')}
+
+### States
+
+You can make buttons look inactive or active by adding the `disabled` or `selected` prop. In either case, the button will not be clickable in disabled or selected state.
+
+{render('./states')}
+
+#### Disabled state
+
+If the `disabled` prop is set (or set to `true`), the button will have a `disabled` attribute and not respond to user interactions.
+
+```jsx disabled
+<button type="button" disabled aria-disabled="true">Button</button>
+```
+
+To customize the visual appearance of the disabled state, pass the `_disabled` style prop to override the default style.
+
+{render('./disabled-state')}
+
+#### Selected state
+
+If the `selected` prop is set (or set to `true`), the button will have both `pointer-events: none` style and `tabindex="-1"` attribute. This will prevent the button from receiving pointer events and will not be reachable via sequential keyboard navigation.
+
+```jsx disabled
+<button type="button" aria-selected="true" tabindex="-1">Button</button>
+```
+
+To customize the visual appearance of the selected state, pass the `_selected` style prop to override the default style.
+
+{render('./selected-state')}
+
+### Icons
+
+Icons are commonly used in toolbar buttons. You can use the `columnGap` style prop or the [Space](space) component to adjust the spacing between the icon and the label.
+
+{render('./icons')}
+
+### Customization
+
+To create a custom button, you can use the style props for the [ButtonBase](button-base) component.
+
+## Props
+
+### Button
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| disabled | boolean | | If `true`, the button will have a `disabled` attribute and not respond to user interactions.<br />You can pass the `_disabled` style prop to customize the visual appearance of the disabled state. |
+| selected | boolean | | If `true`, the button will have a `tabIndex="-1"` attribute and will not receive pointer events (i.e. `pointer-events: none;`).<br />You can pass the `_selected` style prop to customize the visual appearance of the selected state. |
+| size | string | 'md' | The size of the button. Acceptable values: 'sm', 'md', 'lg' |
+| variant | string | 'default' | The variant of the button style to use. Acceptable values: 'emphasis', 'primary', 'default', 'secondary', 'ghost' |

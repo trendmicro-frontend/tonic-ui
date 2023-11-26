@@ -1,0 +1,169 @@
+# Tree
+
+The `Tree` component allows you to present information in a hierarchical, nested list format. It is particularly useful for visualizing structures like files and folders in a file system, categories and items in a list, or any other kind of nested arrangement that requires exploration.
+
+## Import
+
+```js
+import {
+  Tree,
+  TreeItem,
+  TreeItemContent,
+  TreeItemToggle,
+  TreeItemToggleIcon,
+  useTree,
+  useTreeItem,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic tree
+
+To render a tree, you'll need to use the `Tree` component along with one or more `TreeItem` components as its children. You can nest `TreeItem` components to create a tree structure.
+
+{render('./basic')}
+
+The `TreeItem` component requires two props: `nodeId` and `render`.
+
+```jsx disabled
+<TreeItem nodeId={nodeId} render={render} />
+```
+
+* The `nodeId` prop accepts a string value that uniquely identifies the node. This prop is required for the tree to work properly.
+* The `render` prop is a function that returns a React element. It receives an object with properties like `nodeDepth`, `nodeId`, `isDisabled`, `isExpandable`, `isExpanded`, `isFocused`, `isSelected`, and various functions for interacting with the node.
+
+In the render function, you can use the provided `TreeItemContent`, `TreeItemToggle`, and `TreeItemToggleIcon` components to structure the content of the tree node.
+
+Here is the recommended structure for rendering a tree node:
+
+```jsx disabled
+function render({ isExpanded }) {
+  return (
+    <TreeItemContent>
+      <Flex flex="none" width="6x">
+        {isExpandable && (
+          <TreeItemToggle>
+            <TreeItemToggleIcon />
+          </TreeItemToggle>
+        )}
+      </Flex>
+      <OverflowTooltip label="Node label">
+        Node label
+      </OverflowTooltip>
+    </TreeItemContent>
+  );
+}
+```
+
+### Selection
+
+You can enable node selection and unselection by setting the `isSelectable` and `isUnselectable` props to `true`.
+
+{render('./selection')}
+
+### Multi-selection
+
+To enable the selection of multiple nodes, use the `multiSelect` prop. You can use keyboard shortcuts for efficient navigation and selection.
+
+* Use arrow keys to navigate between nodes.
+* Press the `Space` key to toggle the selection of a node.
+* Hold down `Ctrl` and click to select/unselect nodes.
+* Hold down `Shift` and click to select a range of nodes.
+
+Refer to the [Accessibility](#accessibility) section for more keyboard shortcuts.
+
+{render('./multi-selection')}
+
+For checkboxes used in multi-selection, consider enhancing accessibility by adjusting the background color when the checkbox is selected.
+
+```jsx disabled
+const render = ({ isExpanded, isSelected }) => {
+  return (
+    <TreeItemContent
+      sx={{
+        // Hide the background color of the tree node when the checkbox is selected
+        backgroundColor: isSelected ? 'transparent' : undefined,
+      }}
+    >
+      {/* ... */}
+    </TreeItemContent>
+  );
+};
+```
+
+{render('./multi-selection-checkboxes')}
+
+### Controlled
+
+{render('./controlled')}
+
+### Dropdown
+
+{render('./dropdown')}
+
+### Load on demand
+
+{render('./load-on-demand')}
+
+### Resizable
+
+You can resize the tree with a minimum width of `160px` and a maximum width of `40%` of the display area to match your design and layout requirements.
+
+{render('./resizable')}
+
+### Moving items via Drag and Drop (DnD)
+
+Select items and move them to a tree node using drag-and-drop (DnD) interaction.
+
+{render('./dnd')}
+
+## Accessibility
+
+The `Tree` component supports both keyboard and mouse navigation and selection.
+
+Keyboard shortcuts include:
+* Use arrow keys to navigate.
+* Use `Enter` to toggle expansion or selection.
+* Use `Space` to toggle selection.
+* Use `Home` and `End` to quickly navigate to the first or last node.
+* Hold down `Ctrl` and click to select/unselect nodes.
+* Hold down `Shift` and click to select a range of nodes.
+* Use `Ctrl` + `Shift`+`Home` to select a range of nodes from the current node to the first node.
+* Use `Ctrl` + `Shift`+`End` to select a range of nodes from the current node to the last node.
+* Use `Ctrl` + `a` to select all nodes.
+
+## Props
+
+### Tree
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| defaultExpanded | array | [] | An array of expanded node ids for initial state (uncontrolled). |
+| defaultSelected | array | [] | An array of selected node ids for initial state (uncontrolled). |
+| expanded | array | | An array of expanded node ids for controlled state. |
+| id | string | | The `id` prop used for accessibility purpose. If not provided, a random id will be generated. |
+| isSelectable | bool | false | Determines if the tree allows node selection. |
+| isUnselectable | bool | false | Determines if the tree allows node unselection. |
+| multiSelect | bool | false | If true, `ctrl` and `shift` will trigger multiselect. |
+| onNodeFocus | function | | A callback function invoked when a tree node is focused.<pre>`function(nodeId: string) => void`<br /> • `nodeId` The id of the focused node.</pre> |
+| onNodeSelect | function | | A callback function triggered when tree nodes are selected/unselected.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of selected node ids.</pre> |
+| onNodeToggle | function | | A callback function triggered when tree nodes are expanded/collapsed.<pre>`function(nodeIds: Array<string>) => void`<br /> • `nodeIds` An array of expanded node ids.</pre> |
+| selected | array | | An array of selected node ids for controlled state. |
+
+### TreeItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| TransitionComponent | ElementType | Collapse | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| children | ReactNode | | The children of the tree item. |
+| disabled | bool | false | Determines if the tree item is disabled. |
+| nodeId | string | | `REQUIRED` The id of the node. |
+| render | `(context: TreeItemContext) => ReactNode` | | `REQUIRED` A function to render the tree item content.<br /><pre>type TreeItemContext = {'{'}<br />  nodeDepth: number;<br />  nodeId: string;<br />  isDisabled: boolean;<br />  isExpandable: boolean;<br />  isExpanded: boolean;<br />  isFocused: boolean;<br />  isSelected: boolean;<br />  select: () => void;<br />  selectRange: () => void;<br />  toggleExpansion: () => void;<br />  toggleSelection: () => void;<br />{'};'}</pre> |
+
+### TreeItemContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | Content of the tree item. |

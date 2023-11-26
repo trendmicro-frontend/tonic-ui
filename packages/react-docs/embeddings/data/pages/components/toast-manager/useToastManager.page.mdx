@@ -1,0 +1,215 @@
+# useToastManager
+
+The `useToastManager` Hook provides several methods and properties for managing toasts in a React application.
+
+## Import
+
+```js
+import { useToastManager } from '@tonic-ui/react';
+```
+
+## Usage
+
+```js
+const toast = useToastManager();
+```
+
+The `useToastManager` Hook returns an object with the following methods and properties:
+
+### toast(message, [options={'{}'}])
+
+Create a toast at the specified placement and return the toast id.
+
+#### Aliases
+
+<dl>
+  <dd>*toast.notify(message, [options={'{}'}])*</dd>
+</dl>
+
+#### Parameters
+
+<dl>
+  <dd>`message` *(Function|string)*: The toast message to render.</dd>
+  <dd>`[options={}]` *(Object)*: The options object.</dd>
+  <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
+  <dd>`[options.id]` *(string)*: A unique ID of the toast.</dd>
+  <dd>`[options.placement]` *(string)*: The placement of the toast.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>*(string)*: Returns the toast id.</dd>
+</dl>
+
+### toast.close(id)
+
+Close a toast at its placement.
+
+#### Parameters
+
+<dl>
+  <dd>`id` *(string)*: The id to close the toast.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>This method does not return anything.</dd>
+</dl>
+
+### toast.closeAll([options={'{}'}])
+
+Close all toasts at once with the given placements, including `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`.
+
+#### Parameters
+
+<dl>
+  <dd>`[options={}]` *(Object)*: The options object.</dd>
+  <dd>`[options.placements=[]]` *(Array)*: An array of placements to close toasts.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>This method does not return anything.</dd>
+</dl>
+
+### toast.find(id)
+
+Find the first toast in the array that matches the provided toast id. Otherwise, `undefined` is returned if not found.
+
+#### Parameters
+
+<dl>
+  <dd>`id` *(string)*: The id to find the toast.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>*(Object)*: Returns the toast object.</dd>
+</dl>
+
+### toast.findIndex(id)
+
+Find the first toast in the array that matches the provided toast id. Otherwise, -1 is returned if not found.
+
+#### Parameters
+
+<dl>
+  <dd>`id` *(string)*: The id to find the toast.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>*(number)*: Returns the array index.</dd>
+</dl>
+
+### toast.update(id, [options={'{}'}])
+
+Update a specific toast with new options based on the given toast id.
+
+#### Parameters
+
+<dl>
+  <dd>`id` *(string)*: The id to update the toast.</dd>
+  <dd>`[options={}]` *(Object)*: The options object.</dd>
+  <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
+  <dd>`[options.message]` *(Function|string)*: The toast message to render.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>Returns `true` if the toast exists, else `false`.</dd>
+</dl>
+
+### toast.placement
+
+Specify the placement to place the toast. The default placement will be used if the placement option is not explicitly specified.
+
+### toast.setState(state | updater)
+
+The `setState` method is used to modify the internal state of the toast manager. It provides the ability to add, remove, or update toast messages.
+
+#### Parameters
+
+<dl>
+  <dd>`state` *(Object)* | `updater` *(Function)*: The state object or the updater function.</dd>
+</dl>
+
+#### Returns
+
+<dl>
+  <dd>This method does not return anything.</dd>
+</dl>
+
+You can choose to provide either the state object or the updater function as the parameter to `setState` based on your preference and the complexity of the state update you want to perform.
+
+Example usage with a state object:
+
+```js
+toast.setState({
+  'top': [
+    {
+      id: '2',
+      message: 'New toast message',
+      placement: 'top',
+      duration: 3000,
+      onClose: () => toast.close('2'),
+    }
+  ],
+  'top-left': [],
+  'top-right': [],
+  'bottom': [],
+  'bottom-left': [],
+  'bottom-right': [],
+});
+```
+
+Example usage with an updater function:
+
+```js
+toast.setState(prevState => ({
+  ...prevState,
+  'top': [
+    ...prevState['top'],
+    {
+      id: '2',
+      message: 'New toast message',
+      placement: 'top',
+      duration: null,
+      onClose: () => toast.close('2', 'top'),
+    },
+  ],
+}));
+```
+
+### toast.state
+
+The toast state is a placement object, each placement contains an array of objects representing the current toasts.
+
+```js
+{
+  'top': [
+    {
+      id: '1', // A unique identifier that represents the toast message
+      message: ({ id, onClose, placement }) => <Toast />, // The toast message to render
+      placement: 'top', // The placement of the toast
+      duration: null, // The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
+      onClose: () => toast.close(id, placement), // The function to close the toast
+    },
+  ],
+  'top-left': [],
+  'top-right': [],
+  'bottom': [],
+  'bottom-left': [],
+  'bottom-right': [],
+}
+```
+
+## Demos
+
+{render('./useToastManager')}

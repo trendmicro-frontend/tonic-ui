@@ -1,7 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import path from 'path';
 import { WebSocketServer } from 'ws';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib'; // https://js.langchain.com/docs/api/vectorstores_hnswlib/classes/HNSWLib
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+import x from '@/utils/json-stringify';
 import {
   formatHistory,
   //makeRetrievalQAChain as makeChain,
@@ -43,10 +45,13 @@ export default async function handler(
       });
     }
 
+
+    const hnswlibDirectory = path.resolve(process.cwd(), 'embeddings/hnswlib');
     const embeddings = new OpenAIEmbeddings({
       azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_TEXT_EMBEDDING,
     });
-    const chainPromise = HNSWLib.load('data', embeddings).then((vs) => makeChain(vs, onNewToken));
+    console.log(`Loading vector store from ${x(hnswlibDirectory)}`);
+    const chainPromise = HNSWLib.load(hnswlibDirectory, embeddings).then((vs) => makeChain(vs, onNewToken));
 
     const chatHistory = [];
     //const encoder = new TextEncoder();

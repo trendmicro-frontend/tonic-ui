@@ -1,0 +1,123 @@
+# Toast
+
+A toast notification is a small popup that appears at either side of the screen, and disappears after a short time. The toast notification is used to notify the user of something that has happened, but it is not intended to be used as a permanent message.
+
+## Import
+
+```js
+import {
+  Toast,
+  ToastCloseButton,
+  ToastController,
+  ToastTransition,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+### Layout
+
+* Increase the vertical padding space to `4x` (or `1rem`) for a multiline paragraph.
+* Set the minimum horizontal margin space to `4x` (or `1rem`) before the close button.
+* Set the minimum horizontal margin space to `4x` (or `1rem`) between the icon and the content.
+* Apply vertical margin space with `2x` (or `.5rem`) between the title and its content.
+* Apply vertical margin space with `6x` (or `1.5rem`) between the end of the content and the action button (or action link).
+
+{render('./layout')}
+
+### Appearances
+
+You can control the appearance of a toast notification. If specified, the value can be one of `success`, `info`, `warning`, or `error`.
+
+{render('./appearances')}
+
+### Icons
+
+The `icon` prop allows you to override the default icon for the specified appearance.
+
+Setting the `icon` prop to `false` will remove the icon altogether.
+
+{render('./icons')}
+
+### How to close a toast
+
+#### Using the `isClosable` prop
+
+The `isClosable` prop is used to make a toast closable by adding a close button to it. By default, the value of `isClosable` is false. To make a toast closable, set `isClosable` to true.
+
+```jsx disabled
+<Toast appearance="success" isClosable onClose={onClose} width={320}>
+  <Text>This is a success toast.</Text>
+</Toast>
+```
+
+{render('./close-prop')}
+
+#### Using the `ToastCloseButton` component
+
+The `ToastCloseButton` component provides an easy way to add a close button to a toast. This button is specifically designed to handle closing the toast, so you don't need to write any additional code to handle it. If you use `ToastCloseButton`, you can omit the `isClosable` prop in the `Toast` component.
+
+Besides the default functionality of the `ToastCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `ToastCloseButton` component as needed.
+
+```jsx disabled
+<Toast appearance="success" onClose={onClose} width={320}>
+  <Text pr="10x">This is a success toast.</Text>
+  <ToastCloseButton top={10} right={8} position="absolute" data-test="toast-close-button" />
+</Toast>
+```
+
+When using the `ToastCloseButton` component, be sure to manually adjust its position. In the example above, the close button is positioned absolutely, with 10 pixels from the top and 8 pixels from the right of its parent element.
+
+{render('./close-button')}
+
+### Toast on modal and drawer
+
+Toast is a useful way to provide feedback to the user about an action that has been completed or failed within a modal or drawer. They can be displayed on top of a modal or drawer without interrupting the user's workflow.
+
+The placement and size of toasts are typically determined by the design of the application in which they are being used. In general, they should be carefully considered to ensure that they are easy for the user to read and understand, without interfering with the rest of the user interface.
+
+In this example, the toast will be positioned 48 pixels from the top of the modal or drawer, and has a minimum width of 280 pixels. If the content of the toast message is wider than 280 pixels, the toast will expand to fit the content without exceeding 80% of the width of the modal or drawer in which it is being displayed.
+
+To animate the toast when it is displayed or dismissed, you can use the `ToastTransition` component. The `ToastController` component can also be used to control the duration for which the toast will be displayed before it is automatically dismissed. This allows you to set a specific amount of time for the toast to be visible, ensuring that it does not interrupt the user's workflow for too long.
+
+{render('./modal-toast')}
+
+{render('./drawer-toast')}
+
+## Props
+
+### Toast
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| isClosable | boolean | | If `true`, a close button will appear on the right side. |
+| onClose | function | | A callback called when the close button is clicked. |
+| appearance | string | 'none' | One of: 'none', 'success', 'info', 'warning', 'error' |
+| icon | ReactNode \| boolean \| string | | Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop. |
+
+### ToastCloseButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### ToastController
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| duration | number | null | The duration in milliseconds after which the toast will be automatically closed. Set to `null` to disable auto-closing. |
+| onClose | function | | A callback called when the toast is being closed. |
+
+### ToastTransition
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| appear | boolean | false | By default the child component does not perform the enter transition when it first mounts, regardless of the value of `in`. If you want this behavior, set both `appear` and `in` to true. |
+| children | ReactNode \| `(state, props) => ReactNode` | | A function child can be used instead of a React element. This function is called with the current transition state ('entering', 'entered', 'exiting', 'exited'), ref, style, and context specific props for a component. |
+| easing | string \| `{ enter?: string, exit?: string }` | `{ enter: easing.easeInOut, exit: easing.easeInOut }` | The timing function that describes how intermediate values are calculated during a transition. You may specify a single timing function for all transitions, or individually with an object. |
+| in | boolean | | If `true`, the component will transition in. |
+| mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
+| timeout | number \| `{ appear?: number, enter?: number, exit?: number }` | `{ enter: duration.standard, exit: duration.standard }` | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
+| unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |

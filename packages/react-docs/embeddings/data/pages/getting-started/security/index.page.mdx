@@ -1,0 +1,42 @@
+# Security
+
+## Content Security Policy
+
+Content Security Policy (CSP) plays a critical role in protecting against various attacks, most notably Cross-Site Scripting (XSS) and data injections. Its core function involves the inclusion of either a `Content-Security-Policy` header in the HTTP response or `<meta>` tags within the HTML of a page.
+
+Tonic UI relies on [Emotion](https://emotion.sh/) for its styling system. To seamless integrate [Emotion](https://emotion.sh/) with CSP, it is essential to provide a `nonce` value to the `CacheProvider` component. Detailed instruction can be found in the [Emotion documentation](https://emotion.sh/docs/@emotion/cache).
+
+### Step 1: Implement a `EmotionCacheProvider` component
+
+```jsx disabled
+const EmotionCacheProvider = ({
+  children,
+  nonce,
+}) => {
+  const cache = createCache({ key: 'tonic-ui', nonce });
+  return (
+    <CacheProvider value={cache}>
+      {children}
+    </CacheProvider>
+  );
+};
+```
+
+### Step 2: Integrate the `EmotionCacheProvider` component with `TonicProvider`
+
+Wrap the `TonicProvider` component with the `EmotionCacheProvider` and provide the relevant `nonce` value. This value will be utilized by [Emotion](https://emotion.sh/) to generate a style tag with the necessary `nonce` attribute.
+
+```jsx disabled
+<EmotionCacheProvider nonce={nonce}>
+  <TonicProvider
+    colorMode={colorMode}
+    useCSSBaseline
+  >
+    <PortalManager>
+      <ToastManager>
+        <App />
+      </ToastManager>
+    </PortalManager>
+  </TonicProvider>
+</EmotionCacheProvider>
+```

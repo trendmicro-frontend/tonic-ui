@@ -1,0 +1,78 @@
+# SearchInput
+
+## Import
+
+```js
+import { SearchInput } from '@tonic-ui/react';
+```
+
+## Usage
+
+{render('./basic')}
+
+### Keyword search
+
+This example shows how to create a keyword search component with the following features:
+- Automatically adjust the width of an input element
+- Handle focus and blur events
+- Trigger search when pressed `Enter` key
+- Display a loading indicator that recognizes the loading state
+
+{render('./keyword-search')}
+
+### Sizes
+
+Use the `size` prop to change the size of the `SearchInput`. You can set the value to `sm`, `md`, or `lg`.
+
+{render('./sizes')}
+
+### Variants
+
+The `SearchInput` component comes in 3 variants: `outline`, `filled`, `flush`, and `unstyled`. Pass the `variant` prop and set it to either of these values.
+
+#### `outline`
+
+{render('./variant-outline')}
+
+#### `filled`
+
+{render('./variant-filled')}
+
+#### `flush`
+
+{render('./variant-flush')}
+
+#### `unstyled`
+
+{render('./variant-unstyled')}
+
+### Attributes
+
+Standard input attributes are supported, e.g., `disabled`, `readOnly`, `required`, etc.
+
+#### `disabled`
+
+{render('./attribute-disabled')}
+
+#### `readOnly`
+
+{render('./attribute-readonly')}
+
+#### `required`
+
+{render('./attribute-required')}
+
+## Props
+
+### SearchInput
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the input is disabled and the user cannot interact with it. |
+| error | boolean | | If `true`, the input displays a red border to indicate an error. |
+| isLoading | boolean | | If `true`, a loading spinner is displayed inside the input field. |
+| onChange | function | | A callback called when the value is changed. |
+| onClearInput | function | | A callback called when the clear button is clicked. |
+| readOnly | boolean | | If `true`, the value of the input cannot be edited. |
+| size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |

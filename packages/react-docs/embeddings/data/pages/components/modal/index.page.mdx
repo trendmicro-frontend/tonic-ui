@@ -1,0 +1,139 @@
+# Modal
+
+Modal dialogs are used to inform users about a task and can contain critical information, require decisions, or involve multiple tasks. Modal dialogs disable app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
+
+## Import
+
+```js
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalCloseButton,
+  useModal,
+} from '@tonic-ui/react';
+```
+
+## Modal components
+
+Below is a static modal example, including modal header (optional), modal body (required when padding is necessary), and modal footer (optional).
+
+You can also compose your modal components when customization is needed.
+
+{render('./overview')}
+
+## Usage
+
+Click the button below to toggle a modal. The modal will show up in the center of the screen.
+
+{render('./usage')}
+
+### How to close a modal
+
+#### Using the `isClosable` prop
+
+The `isClosable` prop is used to make a modal closable by adding a close button to it. By default, the value of `isClosable` is false. To make a modal closable, set `isClosable` to true.
+
+```jsx disabled
+<Modal isOpen={isOpen} isClosable onClose={onClose}>
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader />
+    <ModalBody />
+    <ModalFooter />
+  </ModalContent>
+</Modal>
+```
+
+#### Using the `ModalCloseButton` component
+
+The `ModalCloseButton` component provides an easy way to add a close button to a modal. This button is specifically designed to handle closing the modal, so you don't need to write any additional code to handle it. If you use `ModalCloseButton`, you can omit the `isClosable` prop in the `Modal` component.
+
+Besides the default functionality of the `ModalCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `ModalCloseButton` component as needed.
+
+```jsx disabled
+<Modal isOpen={isOpen} onClose={onClose}>
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader />
+    <ModalBody />
+    <ModalFooter />
+    <ModalCloseButton data-test="modal-close-button" />
+  </ModalContent>
+</Modal>
+```
+
+### Nested modals
+
+In some cases, you may need to open a modal that is positioned relative to its parent modal, especially when a confirmation is required.
+
+To achieve this, you can create a nested modal. A nested modal is simply a modal that is opened from within another modal. This way, the nested modal is positioned relative to its parent modal.
+
+One way to implement a nested modal is to use the `useToggle` hook to control modal visibility. This hook can be used to toggle the state of a modal between open and closed, allowing you to easily show and hide nested modals.
+
+{render('./nested-modals')}
+
+## Props
+
+### Modal
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| autoFocus | boolean | false | If `true`, the modal will automatically set focus on the first focusable element inside the modal when it is opened.<br />⚠️ This only works if `initialFocusRef` is not defined and `ensureFocus` is set to `true`. |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| closeOnEsc | boolean | false | If `true`, close the modal when the `esc` key is pressed. |
+| closeOnOutsideClick | boolean | false | If `true`, close the modal when click outside of the modal. |
+| ensureFocus | boolean | false | If `true`, it ensures that the user's focus remains within the modal when it is open, preventing them from interacting with elements outside the modal. |
+| finalFocusRef | RefObject | | The `ref` of the element that should receive focus when the modal closes.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
+| initialFocusRef | RefObject | | The `ref` of the element that should receive focus when the modal opens.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
+| isClosable | boolean | false | If `true`, a close button will appear on the right side. |
+| isOpen | boolean | false | If `true`, the modal is shown. |
+| onClose | function | | Callback fired when the modal closes. |
+| returnFocusOnClose | boolean | true | If `true`, the focus will be restored to the element that was focused on when the modal was initially opened.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
+| size | string | 'auto' | Change the size of the modal. One of: 'auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full' |
+| scrollBehavior | string | 'inside' | Control the scroll behavior of the modal if the content overflows. One of: 'inside', 'outside' |
+
+### ModalOverlay
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| TransitionComponent | ElementType | Fade | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+
+### ModalContent
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| TransitionComponent | ElementType | Fade | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| TransitionProps.appear | boolean | true | |
+| children | ReactNode | | |
+
+### ModalHeader
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### ModalBody
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### ModalFooter
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### ModalCloseButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |

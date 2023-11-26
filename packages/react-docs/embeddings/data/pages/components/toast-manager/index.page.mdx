@@ -1,0 +1,93 @@
+# ToastManager
+
+`ToastManager` allows you to create and manage toasts in your React application. Toasts are small messages that appear temporarily on the screen to inform the user about important events or actions.
+
+## Setup
+
+To use `ToastManager`, you should wrap your root component with it, along with the `TonicProvider` component, as shown in the example below:
+
+```jsx disabled
+import { TonicProvider, ToastManager } from '@tonic-ui/react';
+
+function App() {
+  return (
+    <TonicProvider>
+      <ToastManager placement="bottom-right">
+        {/* Your app goes here */}
+      </ToastManager>
+    </TonicProvider>
+  );
+}
+```
+
+Once `ToastManager` is set up, you can use the `useToastManager` Hook to create and manage toasts from any component:
+
+```jsx disabled
+import { useToastManager } from '@tonic-ui/react';
+
+function MyComponent() {
+  const toast = useToastManager();
+  const handleClickOpenToast = () => {
+    const render = ({ onClose, placement }) => {
+      const styleProps = {
+        'top-left': { pt: '2x', px: '4x' },
+        'top': { pt: '2x', px: '4x' },
+        'top-right': { pt: '2x', px: '4x' },
+        'bottom-left': { pb: '2x', px: '4x' },
+        'bottom': { pb: '2x', px: '4x' },
+        'bottom-right': { pb: '2x', px: '4x' },
+      }[placement];
+
+      return (
+        <Box
+          {...styleProps}
+          width={320}
+        >
+          <Toast isClosable onClose={onClose}>
+            This is a toast notification
+          </Toast>
+        </Box>
+      );
+    });
+    const options = {
+      placement: 'bottom-right',
+      duration: 5000,
+    };
+    toast(render, options);
+  };
+
+  return (
+    <Button onClick={handleClickOpenToast}>
+      Open Toast
+    </Button>
+  );
+}
+```
+
+The `toast` method takes a function that returns the toast element to be displayed. The function can also receive an `onClose` function and the `placement` string. The `onClose` function can be used to remove the toast when the user clicks on a close button or after a certain time period.
+
+```jsx disabled
+const id = toast(({ onClose, placement }) => (
+  <Toast isClosable onClose={onClose}>
+    This is a toast notification
+  </Toast>
+));
+```
+
+To remove a toast, you can either call the `onClose` function or use the `toast.remove` method, which takes the toast's unique id as an argument.
+
+```jsx disabled
+toast.remove(id);
+```
+
+See the [useToastManager](./toast-manager/useToastManager) Hook for detailed usage.
+
+## Props
+
+### ToastManager
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
+| containerRef | RefObject | | A `ref` to the component where the toasts will be rendered. |
+| placement | string | 'bottom-right' | The default placement to place toasts. One of: 'top', 'top-right', 'top-left', 'bottom', 'bottom-left', 'bottom-right' |

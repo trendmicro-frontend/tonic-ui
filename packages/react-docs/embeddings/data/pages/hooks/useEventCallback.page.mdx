@@ -1,0 +1,44 @@
+# useEventCallback
+
+A custom Hook to do escape hatch optimization for event callbacks.
+
+https://dev.to/yelouafi/a-simple-rule-for-using-callbacks-in-react-4jah
+
+The general rule is: use `useEventCallback` when doing side effects, and use the built-in `useCallback` when doing render work.
+* `useEventCallback` is more suited for callbacks waiting for some external input, then changing the state of the applicationo.
+* `useCallback` is more suited for callbacks that output something into the external world. In fact `useCallback` is semantically really an alias for `useMemo` since we're treating functions here the same as the values we output from JSX.
+
+## Import
+
+```js
+import { useEventCallback } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
+const memoizedCallback = useEventCallback(fn, dependencies);
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| fn | `(...rest: any[]) => void` | | The function to be called. |
+| dependencies? | any[] | | The dependencies of the function. |
+
+### Returns
+
+Returns a memoized version of the event callback.
+
+## Demos
+
+Try typing some text in the input fields and see the difference between `useEventCallback` and `useCallback`.
+
+#### useEventCallback
+
+{render('./useEventCallback')}
+
+#### useCallback
+
+{render('./useCallback')}
