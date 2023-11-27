@@ -2,6 +2,7 @@ import { Global, css } from '@emotion/react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import {
   Box,
+  Button,
   ButtonBase,
   Flex,
   Icon,
@@ -65,8 +66,8 @@ const FeatureCardAvatar = (props) => {
 const FeatureCardTitle = (props) => {
   return (
     <Text
-      fontSize="sm"
-      lineHeight="sm"
+      fontSize="md"
+      lineHeight="md"
       mb="2x"
       {...props}
     />
@@ -314,7 +315,7 @@ const AICompanionModal = forwardRef((
           pb="3x"
         >
           <Text fontSize="xl" lineHeight="xl">
-            Tonic One – Where AI meets UI
+            Tonic One – Where AI Meets UI
           </Text>
         </Box>
         <Box
@@ -359,7 +360,7 @@ const AICompanionModal = forwardRef((
                 </ClickableExample>
                 <ClickableExample
                   onClick={(event) => {
-                    const question = 'How to render toast notification on a modal?';
+                    const question = 'Showcase the integration of the Modal and Alert components';
 
                     track('AICompanion', 'predefined_input', question);
 
@@ -368,7 +369,7 @@ const AICompanionModal = forwardRef((
                     ask(question);
                   }}
                 >
-                  How to render toast notification on a modal?
+                  Showcase the integration of the Modal and Alert components
                 </ClickableExample>
               </Stack>
             </FeatureCard>
@@ -408,9 +409,10 @@ const AICompanionModal = forwardRef((
               <FeatureCardDescription height="14x">
                 Paste your code and get AI-powered suggestions to improve your code.
               </FeatureCardDescription>
-              <ClickableExample
+              <Button
+                variant="secondary"
                 onClick={(event) => {
-                  const question = `Enhance the code snippet using the recommended best practices.\n* Implement the \`useColorStyle\` Hook to apply color styling.\n* Utilize the \`useTheme\` Hook with pre-defined sizes for consistent sizing.\n* Leverage the \`sx\` prop for styling Tonic UI components.
+                  const question = `Enhance the code with the recommended best practices.\n* Implement the \`useColorStyle\` Hook to apply color styling.\n* Utilize the \`useTheme\` Hook with pre-defined sizes for consistent sizing.\n* Leverage the \`sx\` prop for styling Tonic UI components.
 
 \`\`\`jsx
 <Box
@@ -430,8 +432,8 @@ const AICompanionModal = forwardRef((
                   ask(question);
                 }}
               >
-                Enhance the code snippet using the recommended best practices
-              </ClickableExample>
+                Upload your code
+              </Button>
             </FeatureCard>
           </FeatureCards>
           {chatMessages.map((message, index) => {
