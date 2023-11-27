@@ -107,7 +107,7 @@ const CodeBlock = ({
   const {
     onCopy: copySource,
     hasCopied: hasCopiedSource,
-  } = useClipboard(editorCode);
+  } = useClipboard();
   const [isLiveEditorVisible, toggleLiveEditorVisibility] = useToggle(defaultExpanded);
   const resetDemo = () => {
     setEditorCode(originalEditorCode);
@@ -182,7 +182,7 @@ const CodeBlock = ({
         </IconButton>
         <IconButton
           data-track={`CodeBlock|copy_source|${x({ path: router.pathname })}`}
-          onClick={copySource}
+          onClick={() => copySource(editorCode)}
         >
           <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
             <Icon icon="file-copy-o" size={{ sm: '5x', md: '4x' }} />

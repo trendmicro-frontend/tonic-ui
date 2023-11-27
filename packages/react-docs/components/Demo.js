@@ -41,10 +41,10 @@ const Demo = ({
     light: codeBlockLight,
   }[colorMode];
   const [showSourceCode, toggleShowSourceCode] = useToggle(false);
-  const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(file?.data);
+  const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard();
   const handleClickCopySource = useCallback(() => {
-    copySource();
-  }, [copySource]);
+    copySource(file?.data);
+  }, [copySource, file?.data]);
   const handleClickEditInCodeSandbox = useCallback(() => {
     openInCodeSandbox(sandbox);
   }, [sandbox]);

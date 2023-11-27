@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  Code,
   Flex,
   Icon,
   Modal,
@@ -13,19 +14,23 @@ import {
   Stack,
   Text,
   Textarea,
+  useColorMode,
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark, oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import useClipboard from '../hooks/useClipboard';
 import AICompanionIcon from '../icons/ai-companion';
 import useTrack from '../hooks/useTrack';
-import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import CodeSandboxIcon from '../icons/codesandbox';
 import RealTimeGuidanceSVG from '../icons/real-time-guidance.svg';
-//import ExploreUIPatternsSVG from '../icons/explore-ui-patterns.svg';
 import AIPoweredEnhancementsSVG from '../icons/ai-powered-enhancements.svg';
+import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import IconButton from './IconButton';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
@@ -112,6 +117,61 @@ const ClickableExample = (props) => {
       }}
       {...props}
     />
+  );
+};
+
+const CodeBlock = ({
+  code,
+  language,
+  ...rest
+}) => {
+  const [colorMode] = useColorMode();
+  const ref = useRef();
+  const { onCopy: copySource } = useClipboard(code);
+  const handleClickCopySource = useCallback(() => {
+    const context = ref.current;
+    copySource(code, context);
+  }, [copySource]);
+  const handleClickEditInCodeSandbox = useCallback(() => {
+    openInCodeSandbox({
+      raw: code,
+      title: 'Tonic One',
+    });
+  }, [code]);
+  const isJavaScriptCode = language === 'js' || language === 'jsx';
+
+  return (
+    <Box>
+      <SyntaxHighlighter
+        {...rest}
+        PreTag="div"
+        language={language}
+        style={colorMode === 'dark' ? oneDark : oneLight}
+      >
+        {code}
+      </SyntaxHighlighter>
+      <Flex
+        ref={ref}
+        columnGap="2x"
+        justifyContent="flex-end"
+        mb="4x"
+      >
+        {isJavaScriptCode && (
+          <IconButton
+            onClick={handleClickEditInCodeSandbox}
+            title="Open In CodeSandbox"
+          >
+            <CodeSandboxIcon size={{ sm: '5x', md: '4x' }} />
+          </IconButton>
+        )}
+        <IconButton
+          onClick={handleClickCopySource}
+          title="Copy Source"
+        >
+          <Icon icon="file-copy-o" size={{ sm: '5x', md: '4x' }} />
+        </IconButton>
+      </Flex>
+    </Box>
   );
 };
 
@@ -245,10 +305,6 @@ const AICompanionModal = forwardRef((
     }
   };
 
-  const handleClickOpenInCodeSandbox = () => {
-    openInCodeSandbox({ title: 'Tonic One' });
-  };
-
   const handleClickReset = () => {
     resetState();
   };
@@ -287,37 +343,32 @@ const AICompanionModal = forwardRef((
         height="80vh"
       >
         <Flex
-          sx={{
-            position: 'absolute',
-            right: '12x',
-            pt: '2x',
-            columnGap: '2x',
-          }}
-        >
-          <IconButton
-            onClick={handleClickOpenInCodeSandbox}
-            title="Open in CodeSandbox"
-          >
-            <CodeSandboxIcon size="5x" />
-          </IconButton>
-          <IconButton
-            disabled={messages.length === 0}
-            onClick={handleClickReset}
-            title="Clear chat history"
-          >
-            <Icon icon="delete" size="5x" />
-          </IconButton>
-        </Flex>
-        <Box
           pl="6x"
-          pr="12x"
           pt="4x"
           pb="3x"
+          pr="12x"
+          justifyContent="space-between"
+          columnGap="4x"
         >
           <Text fontSize="xl" lineHeight="xl">
             Tonic One – Where AI Meets UI
           </Text>
-        </Box>
+          <Flex
+            mt="-2x"
+            alignItems="flex-start"
+          >
+            <Button
+              variant="secondary"
+              onClick={handleClickReset}
+              sx={{
+                columnGap: '2x',
+              }}
+            >
+              <Icon icon="edit" size="4x" />
+              New Chat
+            </Button>
+          </Flex>
+        </Flex>
         <Box
           flex="auto"
           ref={messageListRef}
@@ -325,11 +376,15 @@ const AICompanionModal = forwardRef((
           overflowY="auto"
           px="6x"
         >
-          <Box mt="4x" mb="6x">
+          <Flex
+            my="4x"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Text fontSize="md" lineHeight="md">
               Try out the new features to explore the full capabilities of Tonic One!
             </Text>
-          </Box>
+          </Flex>
           <FeatureCards
             columnGap="4x"
             mb="6x"
@@ -373,32 +428,6 @@ const AICompanionModal = forwardRef((
                 </ClickableExample>
               </Stack>
             </FeatureCard>
-            {/*
-            <FeatureCard>
-              <FeatureCardAvatar>
-                <ExploreUIPatternsSVG />
-              </FeatureCardAvatar>
-              <FeatureCardTitle>
-                Explore UI Patterns
-              </FeatureCardTitle>
-              <FeatureCardDescription height="14x">
-                Explore widely used UI patterns that conform to standard UI behavior.
-              </FeatureCardDescription>
-              <ClickableExample
-                onClick={(event) => {
-                  const question = 'Implement a toast in modal example that conforms to UI patterns';
-
-                  track('AICompanion', 'predefined_input', question);
-
-                  resetState();
-
-                  ask(question);
-                }}
-              >
-                Implement a toast in modal example that conforms to UI patterns
-              </ClickableExample>
-            </FeatureCard>
-            */}
             <FeatureCard>
               <FeatureCardAvatar>
                 <AIPoweredEnhancementsSVG />
@@ -431,7 +460,11 @@ const AICompanionModal = forwardRef((
 
                   ask(question);
                 }}
+                sx={{
+                  columnGap: '2x',
+                }}
               >
+                <Icon icon="upload" />
                 Upload your code
               </Button>
             </FeatureCard>
@@ -464,7 +497,11 @@ const AICompanionModal = forwardRef((
                         },
                       }}
                     >
-                      <Markdown linkTarget="_blank">
+                      <Markdown
+                        remarkPlugins={[
+                          remarkGfm,
+                        ]}
+                      >
                         {message.message}
                       </Markdown>
                     </Box>
@@ -505,6 +542,7 @@ const AICompanionModal = forwardRef((
                     columnGap: '3x',
                     px: '4x',
                     py: '2x',
+                    flex: 'auto',
                   }}
                 >
                   <Box
@@ -514,7 +552,31 @@ const AICompanionModal = forwardRef((
                       },
                     }}
                   >
-                    <Markdown linkTarget="_blank">
+                    <Markdown
+                      components={{
+                        code(props) {
+                          const {children, className, ...rest} = props
+                          const match = /language-(\w+)/.exec(className || '')
+                          if (match) {
+                            const language = match[1];
+                            const code = ensureString(children).replace(/\n$/, '');
+
+                            return (
+                              <CodeBlock code={code} language={language} />
+                            );
+                          }
+
+                          return (
+                            <Code {...rest} className={className}>
+                              {children}
+                            </Code>
+                          );
+                        },
+                      }}
+                      remarkPlugins={[
+                        remarkGfm,
+                      ]}
+                    >
                       {message.message}
                     </Markdown>
                   </Box>
