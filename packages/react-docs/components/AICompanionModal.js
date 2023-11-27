@@ -2,11 +2,9 @@ import { Global, css } from '@emotion/react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import {
   Box,
-  Button,
   ButtonBase,
   Flex,
   Icon,
-  Image,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -25,7 +23,7 @@ import useTrack from '../hooks/useTrack';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import CodeSandboxIcon from '../icons/codesandbox';
 import RealTimeGuidanceSVG from '../icons/real-time-guidance.svg';
-import ExploreUIPatternsSVG from '../icons/explore-ui-patterns.svg';
+//import ExploreUIPatternsSVG from '../icons/explore-ui-patterns.svg';
 import AIPoweredEnhancementsSVG from '../icons/ai-powered-enhancements.svg';
 import IconButton from './IconButton';
 
@@ -54,8 +52,6 @@ const FeatureCard = (props) => {
 };
 
 const FeatureCardAvatar = (props) => {
-  const [colorStyle] = useColorStyle();
-
   return (
     <Box
       width="20x"

@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import path from 'path';
 import { WebSocketServer } from 'ws';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib'; // https://js.langchain.com/docs/api/vectorstores_hnswlib/classes/HNSWLib
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
