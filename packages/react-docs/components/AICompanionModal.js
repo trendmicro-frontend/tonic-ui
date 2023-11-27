@@ -6,10 +6,12 @@ import {
   ButtonBase,
   Flex,
   Icon,
+  Image,
   Modal,
   ModalOverlay,
   ModalContent,
   Spinner,
+  Stack,
   Text,
   Textarea,
   useColorStyle,
@@ -20,6 +22,12 @@ import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 import AICompanionIcon from '../icons/ai-companion';
 import useTrack from '../hooks/useTrack';
+import { open as openInCodeSandbox } from '../sandbox/codesandbox';
+import CodeSandboxIcon from '../icons/codesandbox';
+import RealTimeGuidanceSVG from '../icons/real-time-guidance.svg';
+import ExploreUIPatternsSVG from '../icons/explore-ui-patterns.svg';
+import AIPoweredEnhancementsSVG from '../icons/ai-powered-enhancements.svg';
+import IconButton from './IconButton';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
 
@@ -50,12 +58,8 @@ const FeatureCardAvatar = (props) => {
 
   return (
     <Box
-      backgroundColor={colorStyle.background.tertiary}
-      border={1}
-      borderColor="gray:60" // TODO: light mode
-      borderRadius="circle"
-      width="18x"
-      height="18x"
+      width="20x"
+      height="20x"
       mb="8x"
       {...props}
     />
@@ -87,6 +91,33 @@ const FeatureCardDescription = (props) => {
   );
 };
 
+const ClickableExample = (props) => {
+  const backgroundColor = 'gray:80';
+  const borderColor = 'gray:70';
+  const hoverBackgroundColor = '#132852';
+  const hoverBorderColor = 'blue:50';
+
+  return (
+    <Box
+      role="button"
+      sx={{
+        backgroundColor,
+        border: 1,
+        borderColor,
+        borderRadius: 'md',
+        cursor: 'pointer',
+        _hover: {
+          backgroundColor: hoverBackgroundColor,
+          borderColor: hoverBorderColor,
+        },
+        py: '2x',
+        px: '3x',
+      }}
+      {...props}
+    />
+  );
+};
+
 const AICompanionModal = forwardRef((
   {
     onClose,
@@ -97,6 +128,7 @@ const AICompanionModal = forwardRef((
   const theme = useTheme();
   const [colorStyle] = useColorStyle();
   const track = useTrack();
+  const abortControllerRef = useRef(null);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [messageState, setMessageState] = useState({
@@ -106,6 +138,19 @@ const AICompanionModal = forwardRef((
   const { messages, pending, history } = messageState;
   const inputRef = useRef(null);
   const messageListRef = useRef(null);
+
+  const resetState = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setUserInput('');
+    setLoading(false);
+    setMessageState({
+      messages: [],
+      history: []
+    });
+  };
 
   useEffect(() => {
     // focus on the input field when the modal opens
@@ -145,7 +190,7 @@ const AICompanionModal = forwardRef((
       pending: '',
     }));
 
-    const ctrl = new AbortController();
+    abortControllerRef.current = new AbortController();
     const apiPath = BASE_PATH + '/api/chat';
 
     fetchEventSource(apiPath, {
@@ -158,7 +203,7 @@ const AICompanionModal = forwardRef((
         question,
         history
       }),
-      signal: ctrl.signal,
+      signal: abortControllerRef.current.signal,
       onmessage: (event) => {
         if (event.data === '[DONE]') {
           setMessageState(state => ({
@@ -177,7 +222,7 @@ const AICompanionModal = forwardRef((
           }));
 
           setLoading(false);
-          ctrl.abort();
+          abortControllerRef.current.abort();
         } else {
           const data = JSON.parse(event.data);
           setMessageState(state => ({
@@ -203,6 +248,14 @@ const AICompanionModal = forwardRef((
     }
   };
 
+  const handleClickOpenInCodeSandbox = () => {
+    openInCodeSandbox({ title: 'Tonic One' });
+  };
+
+  const handleClickReset = () => {
+    resetState();
+  };
+
   const chatMessages = useMemo(() => {
     return [
       ...messages,
@@ -216,7 +269,6 @@ const AICompanionModal = forwardRef((
       autoFocus
       ensureFocus
       closeOnEsc
-      closeOnOutsideClick
       isClosable
       isOpen
       onClose={onClose}
@@ -237,6 +289,28 @@ const AICompanionModal = forwardRef((
         maxHeight={`calc(100vh - ${theme?.sizes['20x']} - ${theme?.sizes['20x']})`}
         height="80vh"
       >
+        <Flex
+          sx={{
+            position: 'absolute',
+            right: '12x',
+            pt: '2x',
+            columnGap: '2x',
+          }}
+        >
+          <IconButton
+            onClick={handleClickOpenInCodeSandbox}
+            title="Open in CodeSandbox"
+          >
+            <CodeSandboxIcon size="5x" />
+          </IconButton>
+          <IconButton
+            disabled={messages.length === 0}
+            onClick={handleClickReset}
+            title="Clear chat history"
+          >
+            <Icon icon="delete" size="5x" />
+          </IconButton>
+        </Flex>
         <Box
           pl="6x"
           pr="12x"
@@ -264,66 +338,81 @@ const AICompanionModal = forwardRef((
             mb="6x"
           >
             <FeatureCard>
-              <FeatureCardAvatar />
+              <FeatureCardAvatar>
+                <RealTimeGuidanceSVG />
+              </FeatureCardAvatar>
               <FeatureCardTitle>
                 Real-time Guidance
               </FeatureCardTitle>
               <FeatureCardDescription height="14x">
                 Search for any components or keywords and get real-time guidance on how to use them.
               </FeatureCardDescription>
-              <Button
-                variant="secondary"
-                whiteSpace="normal"
-                py="2x"
-                textAlign="left"
-                onClick={(event) => {
-                  const question = 'Create an application using Tonic UI';
+              <Stack spacing="2x">
+                <ClickableExample
+                  onClick={(event) => {
+                    const question = 'Create a simple Tonic UI application';
 
-                  track('AICompanion', 'predefined_input', question);
+                    track('AICompanion', 'predefined_input', question);
 
-                  ask(question);
-                }}
-              >
-                Create an application using Tonic UI
-              </Button>
+                    resetState();
+
+                    ask(question);
+                  }}
+                >
+                  Create a simple Tonic UI application
+                </ClickableExample>
+                <ClickableExample
+                  onClick={(event) => {
+                    const question = 'How to render toast notification on a modal?';
+
+                    track('AICompanion', 'predefined_input', question);
+
+                    resetState();
+
+                    ask(question);
+                  }}
+                >
+                  How to render toast notification on a modal?
+                </ClickableExample>
+              </Stack>
             </FeatureCard>
+            {/*
             <FeatureCard>
-              <FeatureCardAvatar />
+              <FeatureCardAvatar>
+                <ExploreUIPatternsSVG />
+              </FeatureCardAvatar>
               <FeatureCardTitle>
                 Explore UI Patterns
               </FeatureCardTitle>
               <FeatureCardDescription height="14x">
                 Explore widely used UI patterns that conform to standard UI behavior.
               </FeatureCardDescription>
-              <Button
-                variant="secondary"
-                whiteSpace="normal"
-                py="2x"
-                textAlign="left"
+              <ClickableExample
                 onClick={(event) => {
                   const question = 'Implement a toast in modal example that conforms to UI patterns';
 
                   track('AICompanion', 'predefined_input', question);
 
+                  resetState();
+
                   ask(question);
                 }}
               >
                 Implement a toast in modal example that conforms to UI patterns
-              </Button>
+              </ClickableExample>
             </FeatureCard>
+            */}
             <FeatureCard>
-              <FeatureCardAvatar />
+              <FeatureCardAvatar>
+                <AIPoweredEnhancementsSVG />
+              </FeatureCardAvatar>
               <FeatureCardTitle>
                 AI-powered Enhancements
               </FeatureCardTitle>
               <FeatureCardDescription height="14x">
                 Paste your code and get AI-powered suggestions to improve your code.
               </FeatureCardDescription>
-              <Button
-                variant="secondary"
-                whiteSpace="normal"
-                py="2x"
-                textAlign="left"
+              <ClickableExample
                 onClick={(event) => {
                   const question = `Enhance the code snippet using the recommended best practices.\n* Implement the \`useColorStyle\` Hook to apply color styling.\n* Utilize the \`useTheme\` Hook with pre-defined sizes for consistent sizing.\n* Leverage the \`sx\` prop for styling Tonic UI components.
 
@@ -340,11 +429,13 @@ const AICompanionModal = forwardRef((
 
                   track('AICompanion', 'predefined_input', question);
 
+                  resetState();
+
                   ask(question);
                 }}
               >
                 Enhance the code snippet using the recommended best practices
-              </Button>
+              </ClickableExample>
             </FeatureCard>
           </FeatureCards>
           {chatMessages.map((message, index) => {

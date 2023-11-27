@@ -18,6 +18,14 @@ const IconButton = forwardRef((props, ref) => {
     dark: 'blue:60',
     light: 'blue:60',
   }[colorMode];
+  const disabledColor = {
+    dark: 'white:emphasis',
+    light: 'black:emphasis',
+  }[colorMode];
+  const disabledOpacity = {
+    dark: 0.28,
+    light: 0.3,
+  }[colorMode];
 
   return (
     <ButtonBase
@@ -35,6 +43,10 @@ const IconButton = forwardRef((props, ref) => {
         outlineOffset: '-1h',
         outlineStyle: 'solid',
         outlineWidth: '1h',
+      }}
+      _disabled={{
+        color: disabledColor,
+        opacity: disabledOpacity,
       }}
       {...props}
     />
