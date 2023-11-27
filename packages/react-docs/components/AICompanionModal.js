@@ -314,7 +314,7 @@ const AICompanionModal = forwardRef((
           pb="3x"
         >
           <Text fontSize="xl" lineHeight="xl">
-            Tonic One AI Companion
+            Tonic One – Where AI meets UI
           </Text>
         </Box>
         <Box
