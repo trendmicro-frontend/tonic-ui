@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { ensureArray, ensureString } from 'ensure-type';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import {
   StuffDocumentsChain,
@@ -55,9 +56,10 @@ class CustomStuffDocumentsChain extends StuffDocumentsChain {
       throw new Error(`Document key ${this.inputKey} not found.`);
     }
     const { [this.inputKey]: docs, ...rest } = values;
+    const inputDocs = ensureArray(docs);
     const sources = [];
 
-    const matchedDocs = docs.map(({ pageContent, metadata }, index) => {
+    const matchedDocs = inputDocs.map(({ pageContent, metadata }, index) => {
       if (metadata && metadata.source && !sources.includes(metadata.source)) {
         sources.push(metadata.source);
       }
@@ -79,10 +81,10 @@ class CustomStuffDocumentsChain extends StuffDocumentsChain {
     ];
 
     for (let i = 0; i < sources.length; ++i) {
-      console.log(`> Source document #${i}: source=${x(sources[i])}, len=${x(sourceDocs[i].length)}`);
+      console.log(`> Source document #${i}: source=${x(sources[i])}, len=${x(ensureString(sourceDocs[i]).length)}`);
     }
-    for (let i = 0; i < docs.length; ++i) {
-      console.log(`> Matched document #${i}: metadata=${x(docs[i].metadata)}, len=${x(docs[i].pageContent.length)}`);
+    for (let i = 0; i < inputDocs.length; ++i) {
+      console.log(`> Matched document #${i}: metadata=${x(inputDocs[i].metadata)}, len=${x(ensureString(inputDocs[i].pageContent).length)}`);
     }
 
     return {
