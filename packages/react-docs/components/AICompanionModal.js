@@ -11,7 +11,6 @@ import {
   ModalOverlay,
   ModalContent,
   Spinner,
-  Stack,
   Text,
   Textarea,
   useColorMode,
@@ -25,11 +24,12 @@ import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import useClipboard from '../hooks/useClipboard';
-import AICompanionIcon from '../icons/ai-companion';
 import useTrack from '../hooks/useTrack';
 import CodeSandboxIcon from '../icons/codesandbox';
-import RealTimeGuidanceSVG from '../icons/real-time-guidance.svg';
-import AIPoweredEnhancementsSVG from '../icons/ai-powered-enhancements.svg';
+import RealTimeGuidanceIcon from '../icons/real-time-guidance';
+import AIPoweredEnhancementsIcon from '../icons/ai-powered-enhancements';
+import ChatAssistantIcon from '../icons/chat-assistant';
+import ChatGeneratingIcon from '../icons/chat-generating';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import IconButton from './IconButton';
 
@@ -325,7 +325,7 @@ const AICompanionModal = forwardRef((
       isClosable
       isOpen
       onClose={onClose}
-      size="lg"
+      size="xl"
       {...rest}
     >
       <Global
@@ -391,7 +391,7 @@ const AICompanionModal = forwardRef((
           >
             <FeatureCard>
               <FeatureCardAvatar>
-                <RealTimeGuidanceSVG />
+                <RealTimeGuidanceIcon size="20x" />
               </FeatureCardAvatar>
               <FeatureCardTitle>
                 Real-time Guidance
@@ -399,7 +399,11 @@ const AICompanionModal = forwardRef((
               <FeatureCardDescription height="14x">
                 Search for any components or keywords and get real-time guidance on how to use them.
               </FeatureCardDescription>
-              <Stack spacing="2x">
+              <Flex
+                rowGap="2x"
+                columnGap="2x"
+                flexDirection="column"
+              >
                 <ClickableExample
                   onClick={(event) => {
                     const question = 'Create a simple Tonic UI application';
@@ -426,11 +430,11 @@ const AICompanionModal = forwardRef((
                 >
                   Showcase the integration of the Modal and Alert components
                 </ClickableExample>
-              </Stack>
+              </Flex>
             </FeatureCard>
             <FeatureCard>
               <FeatureCardAvatar>
-                <AIPoweredEnhancementsSVG />
+                <AIPoweredEnhancementsIcon size="20x" />
               </FeatureCardAvatar>
               <FeatureCardTitle>
                 AI-powered Enhancements
@@ -465,7 +469,7 @@ const AICompanionModal = forwardRef((
                 }}
               >
                 <Icon icon="upload" />
-                Upload your code
+                Upload code
               </Button>
             </FeatureCard>
           </FeatureCards>
@@ -531,7 +535,7 @@ const AICompanionModal = forwardRef((
                     flex: 'none',
                   }}
                 >
-                  <AICompanionIcon size="8x" />
+                  {loading ? <ChatGeneratingIcon size="10x" /> : <ChatAssistantIcon size="10x" />}
                 </Box>
                 <Flex
                   sx={{

@@ -7,6 +7,4 @@ const Icon = ({ size, ...rest }) => (
   </SVGIcon>
 );
 
-Icon.displayName = 'CodeSandbox';
-
 export default Icon;
