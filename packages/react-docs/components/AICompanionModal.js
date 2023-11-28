@@ -7,6 +7,10 @@ import {
   Code,
   Flex,
   Icon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -17,6 +21,9 @@ import {
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
+import {
+  isNullish,
+} from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
@@ -127,11 +134,11 @@ const CodeBlock = ({
 }) => {
   const [colorMode] = useColorMode();
   const ref = useRef();
-  const { onCopy: copySource } = useClipboard(code);
+  const { onCopy: copySource } = useClipboard();
   const handleClickCopySource = useCallback(() => {
     const context = ref.current;
     copySource(code, context);
-  }, [copySource]);
+  }, [code, copySource]);
   const handleClickEditInCodeSandbox = useCallback(() => {
     openInCodeSandbox({
       raw: code,
@@ -186,6 +193,8 @@ const AICompanionModal = forwardRef((
   const [colorStyle] = useColorStyle();
   const track = useTrack();
   const abortControllerRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const [chatModel, setChatModel] = useState('gpt-35');
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [messageState, setMessageState] = useState({
@@ -221,7 +230,8 @@ const AICompanionModal = forwardRef((
     }
   }, [messages]);
 
-  const ask = async (question) => {
+  const ask = async (question, options) => {
+    const { type = 'default' } = options ?? {};
     question = question.trim();
 
     if (question === '') {
@@ -248,7 +258,7 @@ const AICompanionModal = forwardRef((
     }));
 
     abortControllerRef.current = new AbortController();
-    const apiPath = BASE_PATH + '/api/chat';
+    const apiPath = BASE_PATH + `/api/tonic-one?type=${type}&model=${chatModel}`;
 
     fetchEventSource(apiPath, {
       method: 'POST',
@@ -309,12 +319,49 @@ const AICompanionModal = forwardRef((
     resetState();
   };
 
+  const handleChangeFileInput = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const question = ensureString(event.target.result).trim();
+        const prompt = `
+* Enhance the code with the recommended best practices.
+* Implement the \`useColorStyle\` Hook to apply color styling.
+* Utilize the \`useTheme\` Hook with pre-defined sizes for consistent sizing.
+* Leverage the \`sx\` prop for styling Tonic UI components.
+\`\`\`jsx
+${question}
+\`\`\`
+`;
+        track('AICompanion', 'predefined_input', question);
+        resetState();
+        ask(prompt, { type: 'copilot' });
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const handleClickUploadCode = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   const chatMessages = useMemo(() => {
     return [
       ...messages,
       ...(pending ? [{ type: 'apiMessage', message: pending }] : [])
     ];
   }, [messages, pending]);
+
+  const handleSelectChatModel = (event) => {
+    const value = event.currentTarget.value;
+    if (!isNullish(value)) {
+      setChatModel(value);
+    }
+  };
 
   return (
     <Modal
@@ -356,7 +403,41 @@ const AICompanionModal = forwardRef((
           <Flex
             mt="-2x"
             alignItems="flex-start"
+            columnGap="2x"
           >
+            <Menu>
+              <MenuButton
+                variant="secondary"
+                width={100}
+              >
+                {chatModel === 'gpt-35' && <Text>GPT-3.5</Text>}
+                {chatModel === 'gpt-4' && <Text>GPT-4</Text>}
+              </MenuButton>
+              <MenuList
+                width="max-content"
+              >
+                <MenuItem
+                  onClick={handleSelectChatModel}
+                  value="gpt-35"
+                  sx={{
+                    columnGap: '2x',
+                  }}
+                >
+                  <Icon icon={chatModel === 'gpt-35' ? 'check-s' : ''} />
+                  <Text>GPT-3.5</Text>
+                </MenuItem>
+                <MenuItem
+                  onClick={handleSelectChatModel}
+                  value="gpt-4"
+                  sx={{
+                    columnGap: '2x',
+                  }}
+                >
+                  <Icon icon={chatModel === 'gpt-4' ? 'check-s': ''} />
+                  <Text>GPT-4</Text>
+                </MenuItem>
+              </MenuList>
+            </Menu>
             <Button
               variant="secondary"
               onClick={handleClickReset}
@@ -442,28 +523,18 @@ const AICompanionModal = forwardRef((
               <FeatureCardDescription height="14x">
                 Paste your code and get AI-powered suggestions to improve your code.
               </FeatureCardDescription>
+              <Box
+                as="input"
+                type="file"
+                onChange={handleChangeFileInput}
+                sx={{
+                  display: 'none',
+                }}
+                ref={fileInputRef}
+              />
               <Button
                 variant="secondary"
-                onClick={(event) => {
-                  const question = `Enhance the code with the recommended best practices.\n* Implement the \`useColorStyle\` Hook to apply color styling.\n* Utilize the \`useTheme\` Hook with pre-defined sizes for consistent sizing.\n* Leverage the \`sx\` prop for styling Tonic UI components.
-
-\`\`\`jsx
-<Box
-  style={{
-    width: '8x',
-    height: '8x',
-    backgroundColor: 'gray:90', // secondary background
-  }}
-/>
-\`\`\`
-                  `;
-
-                  track('AICompanion', 'predefined_input', question);
-
-                  resetState();
-
-                  ask(question);
-                }}
+                onClick={handleClickUploadCode}
                 sx={{
                   columnGap: '2x',
                 }}
@@ -476,41 +547,67 @@ const AICompanionModal = forwardRef((
           {chatMessages.map((message, index) => {
             if (message.type === 'userMessage') {
               return (
-                <Flex
-                  key={index}
-                  sx={{
-                    justifyContent: 'flex-end',
-                    mb: '6x',
-                  }}
-                >
+                <>
                   <Flex
                     key={index}
                     sx={{
-                      backgroundColor: 'gray:20', // TODO: light mode
-                      border: 1,
-                      borderRadius: 'lg',
-                      color: 'black:emphasis', // TODO: light mode
-                      px: '4x',
-                      py: '2x',
+                      justifyContent: 'flex-end',
+                      mb: '6x',
                     }}
                   >
-                    <Box
+                    <Flex
+                      key={index}
                       sx={{
-                        'p': {
-                          margin: 0,
-                        },
+                        backgroundColor: 'gray:20', // TODO: light mode
+                        border: 1,
+                        borderRadius: 'lg',
+                        color: 'black:emphasis', // TODO: light mode
+                        px: '4x',
+                        py: '2x',
                       }}
                     >
-                      <Markdown
-                        remarkPlugins={[
-                          remarkGfm,
-                        ]}
+                      <Box
+                        sx={{
+                          'p': {
+                            margin: 0,
+                          },
+                        }}
                       >
-                        {message.message}
-                      </Markdown>
-                    </Box>
+                        <Markdown
+                          remarkPlugins={[
+                            remarkGfm,
+                          ]}
+                        >
+                          {message.message}
+                        </Markdown>
+                      </Box>
+                    </Flex>
                   </Flex>
-                </Flex>
+                  {(loading && !pending) && (
+                    <Flex
+                      key={index}
+                      sx={{
+                        justifyContent: 'flex-start',
+                        columnGap: '2x',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: colorStyle.background.tertiary,
+                          borderRadius: 'circle',
+                          width: '10x',
+                          height: '10x',
+                          flex: 'none',
+                        }}
+                      >
+                        <ChatGeneratingIcon size="10x" />
+                      </Box>
+                    </Flex>
+                  )}
+                </>
               );
             }
 
@@ -535,7 +632,7 @@ const AICompanionModal = forwardRef((
                     flex: 'none',
                   }}
                 >
-                  {loading ? <ChatGeneratingIcon size="10x" /> : <ChatAssistantIcon size="10x" />}
+                  <ChatAssistantIcon size="10x" />
                 </Box>
                 <Flex
                   sx={{

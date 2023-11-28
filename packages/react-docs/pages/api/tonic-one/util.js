@@ -6,37 +6,13 @@ import {
   StuffDocumentsChain,
   ConversationalRetrievalQAChain,
   RetrievalQAChain,
-  VectorDBQAChain,
   LLMChain,
 } from 'langchain/chains';
 import {
   PromptTemplate,
-  ChatPromptTemplate,
-  SystemMessagePromptTemplate,
-  HumanMessagePromptTemplate,
 } from 'langchain/prompts';
 import { AIChatMessage, HumanChatMessage } from 'langchain/schema';
 import x from '@/utils/json-stringify';
-//import { BufferMemory } from 'langchain/memory';
-
-/*
-const DEFAULT_QA_PROMPT = new PromptTemplate({
-  template: `Use the following pieces of context to answer the users question. If you don't know the answer, just say that you don't know, don't try to make up an answer.\n\n{context}\n\nQuestion: {question}\nHelpful Answer:`,
-  inputVariables: ['context', 'question'],
-});
-*/
-
-const TONIC_ONE_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `You are Tonic One, an cutting-edge AI companion designed to assist frontend developers in mastering the Tonic UI component library. Your role is to provide instant guidance, explore UI patterns, and deliver AI-powered enhancements. Your knowledge is based on the information within the provided documents. Utilize the references to assist you answering questions effectively.
------ REFERENCE DOCUMENTS START -----
-{context}
------ REFERENCE DOCUMENTS END -----
-`;
-const TONIC_ONE_HUMAN_MESSAGE_PROMPT_TEMPLATE = '{question}';
-
-const TONIC_ONE_CHAT_PROMPT = ChatPromptTemplate.fromPromptMessages([
-  SystemMessagePromptTemplate.fromTemplate(TONIC_ONE_SYSTEM_MESSAGE_PROMPT_TEMPLATE),
-  HumanMessagePromptTemplate.fromTemplate(TONIC_ONE_HUMAN_MESSAGE_PROMPT_TEMPLATE),
-]);
 
 const QUESTION_GENERATOR_CHAIN_PROMPT_TEMPLATE = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 
@@ -78,10 +54,10 @@ class CustomStuffDocumentsChain extends StuffDocumentsChain {
     ];
 
     for (let i = 0; i < sources.length; ++i) {
-      console.log(`> Source document #${i}: source=${x(sources[i])}, len=${x(ensureString(sourceDocs[i]).length)}`);
+      console.log(`> stuff_documents_chain:source_docs_${i}: source=${x(sources[i])}, len=${x(ensureString(sourceDocs[i]).length)}`);
     }
     for (let i = 0; i < inputDocs.length; ++i) {
-      console.log(`> Matched document #${i}: metadata=${x(inputDocs[i].metadata)}, len=${x(ensureString(inputDocs[i].pageContent).length)}`);
+      console.log(`> stuff_documents_chain:matched_docs_${i}: metadata=${x(inputDocs[i].metadata)}, len=${x(ensureString(inputDocs[i].pageContent).length)}`);
     }
 
     return {
@@ -96,29 +72,12 @@ class CustomStuffDocumentsChain extends StuffDocumentsChain {
 /**
  * https://js.langchain.com/docs/modules/chains/popular/vector_db_qa/
  */
-export const makeRetrievalQAChain = (
-  vectorStore,
-  onTokenStream,
-) => {
-  const k = 4; // Number of documents to retrieve
-  const retriever = vectorStore.asRetriever(k);
+export const makeRetrievalQAChain = ({
+  llmChain,
+  retriever,
+}) => {
+  console.log(`> retrieval_qa_chain: api_version=${x(llmChain?.llm?.azureOpenAIApiVersion)}, deployment_name=${x(llmChain?.llm?.azureOpenAIApiDeploymentName)}, instance_name=${x(llmChain?.llm?.azureOpenAIApiInstanceName)}`);
 
-  const llmChain = new LLMChain({
-    llm: new ChatOpenAI({
-      azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_GPT,
-      temperature: 0.7,
-      streaming: Boolean(onTokenStream),
-      callbacks: [
-        {
-          handleLLMNewToken: (token) => {
-            onTokenStream?.(token);
-          },
-        },
-      ],
-    }),
-    prompt: TONIC_ONE_CHAT_PROMPT, // One of: DEFAULT_QA_PROMPT, TONIC_ONE_CHAT_PROMPT
-    verbose: false,
-  });
   const combineDocumentsChain = new CustomStuffDocumentsChain({ llmChain, verbose: false });
 
   /**
@@ -138,31 +97,18 @@ export const makeRetrievalQAChain = (
  *
  * @see https://github.com/hwchase17/langchainjs/blob/main/langchain/src/chains/conversational_retrieval_chain.ts
  */
-export const makeConversationalRetrievalQAChain = (vectorStore, onTokenStream) => {
-  const k = 4; // Number of documents to retrieve
-  const retriever = vectorStore.asRetriever(k);
+export const makeConversationRetrievalQAChain = ({
+  llmChain,
+  retriever,
+}) => {
+  console.log(`> retrieval_qa_chain: api_version=${x(llmChain?.llm?.azureOpenAIApiVersion)}, deployment_name=${x(llmChain?.llm?.azureOpenAIApiDeploymentName)}, instance_name=${x(llmChain?.llm?.azureOpenAIApiInstanceName)}`);
 
-  const llmChain = new LLMChain({
-    llm: new ChatOpenAI({
-      azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_GPT,
-      temperature: 0.7,
-      streaming: Boolean(onTokenStream),
-      callbacks: [
-        {
-          handleLLMNewToken: (token) => {
-            onTokenStream?.(token);
-          },
-        },
-      ],
-    }),
-    prompt: TONIC_ONE_CHAT_PROMPT, // One of: DEFAULT_QA_PROMPT, TONIC_ONE_CHAT_PROMPT
-    verbose: false,
-  });
   const combineDocumentsChain = new CustomStuffDocumentsChain({ llmChain, verbose: false });
 
+  const deploymentName = llmChain?.llm?.azureOpenAIApiDeploymentName ?? process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_GPT_35;
   const questionGeneratorChain = new LLMChain({
     llm: new ChatOpenAI({
-      azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_GPT,
+      azureOpenAIApiDeploymentName: deploymentName,
       temperature: 0.7,
     }),
     prompt: PromptTemplate.fromTemplate(QUESTION_GENERATOR_CHAIN_PROMPT_TEMPLATE),
@@ -193,28 +139,6 @@ export const makeConversationalRetrievalQAChain = (vectorStore, onTokenStream) =
     */
   });
 };
-
-export const makeVectorDBQAChain = (vectorStore, onTokenStream) => {
-  const llm = new ChatOpenAI({
-    azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_GPT,
-    temperature: 0,
-    streaming: Boolean(onTokenStream),
-    callbacks: [
-      {
-        handleLLMNewToken: (token) => {
-          onTokenStream?.(token);
-        },
-      },
-    ],
-  });
-
-  const chain = VectorDBQAChain.fromLLM(llm, vectorStore, {
-    returnSourceDocuments: true,
-    verbose: false,
-  });
-
-  return chain;
-}
 
 export const formatHistory = (history) => 
   history.flatMap(([q, a]) => [new HumanChatMessage(q), new AIChatMessage(a)]);
