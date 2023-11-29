@@ -1,5 +1,5 @@
-#!/bin/sh
-#
+#!/bin/bash
+
 set -o allexport; source .dockerenv; set +o allexport
 
 if [ -z "$REPO_NAME" ]; then
@@ -9,6 +9,6 @@ fi
 
 docker stop ${REPO_NAME}
 docker rm ${REPO_NAME}
-docker run -p 80:80 --detach --name ${REPO_NAME} ${REPO_NAME}:latest
+docker run -p 8000:80 --detach --name ${REPO_NAME} ${REPO_NAME}:latest
 #docker run --privileged -p 80:80 --detach --name ${REPO_NAME} ${REPO_NAME}:latest
 #docker exec -it ${REPO_NAME} /bin/sh
