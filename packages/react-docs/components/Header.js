@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonBase,
   Icon,
   Image,
   Link,
@@ -19,15 +18,16 @@ import {
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
-import useTrack from '../hooks/useTrack';
-import CodeSandboxIcon from '../icons/codesandbox';
-import TonicOneIcon from '../icons/tonic-one';
-import { open as openInCodeSandbox } from '../sandbox/codesandbox';
-import persistColorMode from '../utils/persist-color-mode';
-import SearchButton from './SearchButton';
-import AICompanionModal from './AICompanionModal';
-import InstantSearchModal from './InstantSearchModal';
-import FontAwesomeIcon from './FontAwesomeIcon';
+import AICompanionModal from '@/components/AICompanionModal';
+import FontAwesomeIcon from '@/components/FontAwesomeIcon';
+import IconButton from '@/components/IconButton';
+import InstantSearchModal from '@/components/InstantSearchModal';
+import SearchButton from '@/components/SearchButton';
+import useTrack from '@/hooks/useTrack';
+import CodeSandboxIcon from '@/icons/codesandbox';
+import TonicOneIcon from '@/icons/tonic-one';
+import { open as openInCodeSandbox } from '@/sandbox/codesandbox';
+import persistColorMode from '@/utils/persist-color-mode';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
 
@@ -120,10 +120,6 @@ const Header = forwardRef((
   const boxShadowColor = {
     light: 'rgba(0, 0, 0, 0.12)',
     dark: 'rgba(255, 255, 255, 0.12)',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
   }[colorMode];
 
   return (
@@ -258,75 +254,24 @@ const Header = forwardRef((
               </MenuList>
             </Menu>
           </Box>
-          <ButtonBase
+          <IconButton
             data-track={`Header|click_ai_companion`}
             onClick={() => openAICompanionModal()}
             title="Tonic One AI Companion"
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: colorStyle.color.secondary,
-              width: '8x',
-              height: '8x',
-              _hover: {
-                color: colorStyle.color.primary,
-                cursor: 'pointer',
-              },
-              _focusVisible: {
-                outlineColor: focusVisibleOutlineColor,
-                outlineStyle: 'solid',
-                outlineWidth: '1h',
-              },
-            }}
           >
             <TonicOneIcon size="8x" />
-          </ButtonBase>
-          <ButtonBase
+          </IconButton>
+          <IconButton
             data-track={`Header|click_codesandbox`}
             onClick={() => handleClickOpenInCodeSandbox()}
             title="Open in CodeSandbox"
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: colorStyle.color.secondary,
-              width: '8x',
-              height: '8x',
-              _hover: {
-                color: colorStyle.color.primary,
-                cursor: 'pointer',
-              },
-              _focusVisible: {
-                outlineColor: focusVisibleOutlineColor,
-                outlineStyle: 'solid',
-                outlineWidth: '1h',
-              },
-            }}
           >
             <CodeSandboxIcon size={24} />
-          </ButtonBase>
-          <ButtonBase
+          </IconButton>
+          <IconButton
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
             onClick={() => toggleColorMode()}
             title="Toggle color mode"
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: colorStyle.color.secondary,
-              width: '8x',
-              height: '8x',
-              _hover: {
-                color: colorStyle.color.primary,
-                cursor: 'pointer',
-              },
-              _focusVisible: {
-                outlineColor: focusVisibleOutlineColor,
-                outlineStyle: 'solid',
-                outlineWidth: '1h',
-              },
-            }}
           >
             {colorMode === 'light' && (
               <Icon icon="moon" size={24} />
@@ -334,28 +279,11 @@ const Header = forwardRef((
             {colorMode === 'dark' && (
               <Icon icon="sun" size={24} />
             )}
-          </ButtonBase>
-          <ButtonBase
+          </IconButton>
+          <IconButton
             data-track={`Header|click_github_repo_url|${GITHUB_REPO_URL}`}
             onClick={() => window.open(GITHUB_REPO_URL, '_blank')}
             title="GitHub repository"
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: colorStyle.color.secondary,
-              width: '8x',
-              height: '8x',
-              _hover: {
-                color: colorStyle.color.primary,
-                cursor: 'pointer',
-              },
-              _focusVisible: {
-                outlineColor: focusVisibleOutlineColor,
-                outlineStyle: 'solid',
-                outlineWidth: '1h',
-              },
-            }}
           >
             <FontAwesomeIcon
               icon={['fab', 'github']}
@@ -364,7 +292,7 @@ const Header = forwardRef((
                 height: 24,
               }}
             />
-          </ButtonBase>
+          </IconButton>
         </Box>
       </Box>
     </Box>

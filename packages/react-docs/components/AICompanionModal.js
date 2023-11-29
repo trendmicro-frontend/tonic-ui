@@ -7,6 +7,7 @@ import {
   Code,
   Flex,
   Icon,
+  LinkButton,
   Menu,
   MenuButton,
   MenuList,
@@ -326,18 +327,15 @@ const AICompanionModal = forwardRef((
       const reader = new FileReader();
       reader.onload = (event) => {
         const question = ensureString(event.target.result).trim();
-        const prompt = `
-* Enhance the code with the recommended best practices.
-* Implement the \`useColorStyle\` Hook to apply color styling.
-* Utilize the \`useTheme\` Hook with pre-defined sizes for consistent sizing.
-* Leverage the \`sx\` prop for styling Tonic UI components.
-\`\`\`jsx
-${question}
-\`\`\`
-`;
+
         track('AICompanion', 'predefined_input', question);
         resetState();
-        ask(prompt, { type: 'copilot' });
+
+        const codeSnippet = '```\n' + question + '\n```';
+        ask(codeSnippet, { type: 'copilot' });
+
+        // Set the input value to null so that the same file can be uploaded
+        fileInputRef.current.value = null;
       };
       reader.readAsText(file);
     }
@@ -361,6 +359,44 @@ ${question}
     if (!isNullish(value)) {
       setChatModel(value);
     }
+  };
+
+  const handleClickExampleCode1 = () => {
+    const question = `
+<div
+  style={{
+    backgroundColor: '#212121', // secondary background color
+    color: '#fff',
+  }}
+/>
+    `;
+
+    track('AICompanion', 'predefined_input', question);
+    resetState();
+
+    const codeSnippet = '```\n' + question + '\n```';
+    ask(codeSnippet, { type: 'copilot' });
+  };
+
+  const handleClickExampleCode2 = () => {
+    const question = `
+import { Box } from '@tonic-ui/react';
+import React from 'react';
+
+const MyComponent = (props) => {
+  return (
+    <Box {...props} />
+  );
+};
+
+export default MyComponent;
+    `;
+
+    track('AICompanion', 'predefined_input', question);
+    resetState();
+
+    const codeSnippet = '```\n' + question + '\n```';
+    ask(codeSnippet, { type: 'copilot' });
   };
 
   return (
@@ -532,16 +568,27 @@ ${question}
                 }}
                 ref={fileInputRef}
               />
-              <Button
-                variant="secondary"
-                onClick={handleClickUploadCode}
-                sx={{
-                  columnGap: '2x',
-                }}
-              >
-                <Icon icon="upload" />
-                Upload code
-              </Button>
+              <Flex mb="4x">
+                <Button
+                  variant="secondary"
+                  onClick={handleClickUploadCode}
+                  sx={{
+                    columnGap: '2x',
+                  }}
+                >
+                  <Icon icon="upload" />
+                  Upload code
+                </Button>
+              </Flex>
+              <Flex columnGap="2x">
+                Examples:
+                <LinkButton onClick={handleClickExampleCode1}>
+                  #1
+                </LinkButton>
+                <LinkButton onClick={handleClickExampleCode2}>
+                  #2
+                </LinkButton>
+              </Flex>
             </FeatureCard>
           </FeatureCards>
           {chatMessages.map((message, index) => {

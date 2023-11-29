@@ -1,0 +1,99 @@
+# Tonic UI Styling Guidelines
+* Utilize the `sx` prop to style components if the component requires styling
+* Utilize `useColorMode` and `useColorStyle` Hooks to apply color mode and color style when needed
+
+# Tonic UI Component Guidelines
+
+## Basic Component
+```jsx
+import React, { forwardRef } from 'react';
+import { useComponentStyle } from './styles';
+
+const Component = forwardRef((props, ref) => {
+  const styleProps = useComponentStyle();
+
+  return (
+    <Box
+      ref={ref}
+      {...styleProps}
+      {...props}
+    />
+  );
+});
+
+Component.displayName = 'Component';
+
+export default Component;
+```
+
+## Function as Child Component (FaCC)
+
+```jsx
+import { runIfFn } from '@tonic-ui/utils';
+import React, { forwardRef } from 'react';
+import { useComponentStyle } from './styles';
+
+const Component = forwardRef((
+  {
+    children,
+    variant,
+    ...rest
+  },
+  ref,
+) => {
+  const styleProps = useComponentStyle({ variant });
+
+  return (
+    <Box
+      ref={ref}
+      {...styleProps}
+      {...rest}
+    >
+      {runIfFn(children)}
+    </Box>
+  );
+});
+
+Component.displayName = 'Component';
+
+export default Component;
+```
+
+## Component with Context Provider
+```jsx
+import { runIfFn } from '@tonic-ui/utils';
+import memoize from 'micro-memoize';
+import React, { forwardRef } from 'react';
+import { ComponentContext } from './context';
+import { useComponentStyle } from './styles';
+
+const getMemoizedState = memoize(state => ({ ...state }));
+
+const Component = forwardRef((
+  {
+    children,
+    variant,
+    ...rest
+  },
+  ref,
+) => {
+  const context = getMemoizedState({ variant });
+  const styleProps = useComponentStyle({ variant });
+
+  return (
+    <ComponentContext.Provider value={context}>
+      <Box
+        ref={ref}
+        {...styleProps}
+        {...rest}
+      >
+        {runIfFn(children, context)}
+      </Box>
+    </ComponentContext.Provider>
+  );
+});
+
+Component.displayName = 'Component';
+
+export default Component;
+```

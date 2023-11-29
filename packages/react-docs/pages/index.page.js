@@ -43,14 +43,17 @@ import {
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
-import FontAwesomeIcon from '../components/FontAwesomeIcon';
-import InstantSearchModal from '../components/InstantSearchModal';
-import SearchButton from '../components/SearchButton';
-import SkeletonBlock from '../components/SkeletonBlock';
-import useTrack from '../hooks/useTrack';
-import CodeSandboxIcon from '../icons/codesandbox';
-import { open as openInCodeSandbox } from '../sandbox/codesandbox';
-import persistColorMode from '../utils/persist-color-mode';
+import AICompanionModal from '@/components/AICompanionModal';
+import FontAwesomeIcon from '@/components/FontAwesomeIcon';
+import IconButton from '@/components/IconButton';
+import InstantSearchModal from '@/components/InstantSearchModal';
+import SearchButton from '@/components/SearchButton';
+import SkeletonBlock from '@/components/SkeletonBlock';
+import useTrack from '@/hooks/useTrack';
+import CodeSandboxIcon from '@/icons/codesandbox';
+import TonicOneIcon from '@/icons/tonic-one';
+import { open as openInCodeSandbox } from '@/sandbox/codesandbox';
+import persistColorMode from '@/utils/persist-color-mode';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
 
@@ -379,6 +382,21 @@ const DefaultPageHeader = forwardRef((props, ref) => {
   }[colorMode];
   const track = useTrack();
 
+  const openAICompanionModal = useCallback(() => {
+    portal((close) => {
+      const onClose = () => {
+        track('AICompanion', 'close_ai_companion_modal');
+
+        // close the modal
+        close();
+      };
+
+      return (
+        <AICompanionModal onClose={onClose} />
+      );
+    });
+  }, [portal, track]);
+
   const openInstantSearchModal = useCallback(() => {
     portal((close) => {
       const onClose = () => {
@@ -472,32 +490,23 @@ const DefaultPageHeader = forwardRef((props, ref) => {
           >
             Search...
           </SearchButton>
-          <Box
+          <IconButton
+            data-track={`Header|click_ai_companion`}
+            onClick={() => openAICompanionModal()}
+            title="Tonic One AI Companion"
+          >
+            <TonicOneIcon size="8x" />
+          </IconButton>
+          <IconButton
             data-track={`Header|click_codesandbox`}
-            as="a"
-            color={colorStyle.color.secondary}
-            _hover={{
-              color: colorStyle.color.primary,
-              cursor: 'pointer',
-            }}
             onClick={() => handleClickOpenInCodeSandbox()}
-            display="inline-flex"
-            textDecoration="none"
             title="Open in CodeSandbox"
           >
             <CodeSandboxIcon size={24} />
-          </Box>
-          <Box
+          </IconButton>
+          <IconButton
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
-            as="a"
-            color={colorStyle.color.secondary}
-            _hover={{
-              color: colorStyle.color.primary,
-              cursor: 'pointer',
-            }}
             onClick={() => toggleColorMode()}
-            display="inline-flex"
-            textDecoration="none"
             title="Toggle color mode"
           >
             {colorMode === 'light' && (
@@ -506,21 +515,10 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             {colorMode === 'dark' && (
               <Icon icon="sun" size={24} />
             )}
-          </Box>
-          <Box
+          </IconButton>
+          <IconButton
             data-track={`Header|click_github_repo_url|${GITHUB_REPO_URL}`}
-            as="a"
-            href={GITHUB_REPO_URL}
-            color={colorStyle.color.secondary}
-            _hover={{
-              color: colorStyle.color.primary,
-              cursor: 'pointer',
-            }}
-            _visited={{
-              color: colorStyle.color.secondary,
-            }}
-            display="inline-flex"
-            textDecoration="none"
+            onClick={() => window.open(GITHUB_REPO_URL, '_blank')}
             title="GitHub repository"
           >
             <FontAwesomeIcon
@@ -530,7 +528,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
                 height: 24,
               }}
             />
-          </Box>
+          </IconButton>
         </Box>
       </Box>
     </Box>

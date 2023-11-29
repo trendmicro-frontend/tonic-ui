@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import fs from 'fs';
 import path from 'path';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib'; // https://js.langchain.com/docs/api/vectorstores_hnswlib/classes/HNSWLib
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
@@ -14,29 +15,39 @@ import {
 import x from '@/utils/json-stringify';
 import {
   formatHistory,
-  //makeRetrievalQAChain as makeChain,
   makeConversationRetrievalQAChain,
-  //makeCopilotChain,
-  //makeVectorDBQAChain as makeChain,
+  makeRetrievalQAChain,
 } from './util';
 
-/*
-const DEFAULT_QA_PROMPT = new PromptTemplate({
-  template: `Use the following pieces of context to answer the users question. If you don't know the answer, just say that you don't know, don't try to make up an answer.\n\n{context}\n\nQuestion: {question}\nHelpful Answer:`,
-  inputVariables: ['context', 'question'],
-});
-*/
-
-const TONIC_ONE_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `You are Tonic One, an cutting-edge AI companion designed to assist frontend developers in mastering the Tonic UI component library. Your role is to provide instant guidance, explore UI patterns, and deliver AI-powered enhancements. Your knowledge is based on the information within the provided documents. Utilize the references to assist you answering questions effectively.
+const DEFAULT_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `You are Tonic One, an cutting-edge AI companion designed to assist frontend developers in mastering the Tonic UI component library. Your mission is to provide instant guidance from the provided documents. Your knowledge is based on the information within the provided documents. Utilize the references to assist you answering questions effectively.
 ----- REFERENCE DOCUMENTS START -----
 {context}
 ----- REFERENCE DOCUMENTS END -----
 `;
-const TONIC_ONE_HUMAN_MESSAGE_PROMPT_TEMPLATE = '{question}';
+const DEFAULT_HUMAN_MESSAGE_PROMPT_TEMPLATE = '{question}';
+const DEFAULT_PROMPT = ChatPromptTemplate.fromPromptMessages([
+  SystemMessagePromptTemplate.fromTemplate(DEFAULT_SYSTEM_MESSAGE_PROMPT_TEMPLATE),
+  HumanMessagePromptTemplate.fromTemplate(DEFAULT_HUMAN_MESSAGE_PROMPT_TEMPLATE),
+]);
 
-const TONIC_ONE_CHAT_PROMPT = ChatPromptTemplate.fromPromptMessages([
-  SystemMessagePromptTemplate.fromTemplate(TONIC_ONE_SYSTEM_MESSAGE_PROMPT_TEMPLATE),
-  HumanMessagePromptTemplate.fromTemplate(TONIC_ONE_HUMAN_MESSAGE_PROMPT_TEMPLATE),
+const COPILOT_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `You are Tonic One, an cutting-edge AI companion designed to assist frontend developers in mastering the Tonic UI component library. Your mission is to bring AI-powered enhancements to the provided code snippets. Your knowledge is based on the information within the provided documents. Utilize the references to assist you answering questions effectively.
+===== REFERENCE DOCUMENTS START =====
+{context}
+===== REFERENCE DOCUMENTS END =====
+`;
+const TONIC_UI_GUIDELINES = fs.readFileSync(path.resolve(process.cwd(), 'pages/api/tonic-one/tonic-ui-guidelines.mdx'), 'utf8');
+const COPILOT_HUMAN_MESSAGE_PROMPT_TEMPLATE = `Next, you will try to enhance the code with recommended style and component gidelines:
+===== GUIDELINES START =====
+${TONIC_UI_GUIDELINES.replace(/{/g, '{{').replace(/}/g, '}}')}
+===== GUIDELINES END =====
+
+===== CODE START =====
+{query}
+===== CODE END =====
+`;
+const COPILOT_PROMPT = ChatPromptTemplate.fromPromptMessages([
+  SystemMessagePromptTemplate.fromTemplate(COPILOT_SYSTEM_MESSAGE_PROMPT_TEMPLATE),
+  HumanMessagePromptTemplate.fromTemplate(COPILOT_HUMAN_MESSAGE_PROMPT_TEMPLATE),
 ]);
 
 export default async function handler(req, res) {
@@ -73,18 +84,17 @@ export default async function handler(req, res) {
         },
       ],
     }),
-    prompt: TONIC_ONE_CHAT_PROMPT, // One of: DEFAULT_QA_PROMPT, TONIC_ONE_CHAT_PROMPT
-    verbose: false,
+    prompt: (req.query?.type === 'copilot') ? COPILOT_PROMPT : DEFAULT_PROMPT,
+    verbose: true,
   });
 
   const vectorstore = await HNSWLib.load(hnswlibDirectory, embeddings);
-  const k = 4; // Number of documents to retrieve
+  const k = (req.query?.type === 'copilot') ? 8 : 4; // Number of documents to retrieve
   const retriever = vectorstore.asRetriever(k);
 
-  const chain = makeConversationRetrievalQAChain({
-    llmChain,
-    retriever,
-  });
+  const chain = (req.query?.type === 'copilot')
+    ? makeRetrievalQAChain({ llmChain, retriever })
+    : makeConversationRetrievalQAChain({ llmChain, retriever });
 
   res.writeHead(200, {
     //'Access-Control-Allow-Origin': '*',
@@ -110,14 +120,12 @@ export default async function handler(req, res) {
     } = body;
 
     await chain.call({
-      // Required for VectorDBQAChain
-      //query: question,
-
       // Required for RetrievalQAChain
-      //query: question,
+      query: question,
 
       // Required for ConversationalRetrievalQAChain
       question: question,
+
       chat_history: formatHistory(chatHistory),
     });
   } catch (err) {

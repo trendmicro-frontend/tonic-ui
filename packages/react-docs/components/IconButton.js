@@ -30,23 +30,23 @@ const IconButton = forwardRef((props, ref) => {
   return (
     <ButtonBase
       ref={ref}
-      border={1}
-      borderColor="transparent"
-      color={color}
-      height="8x"
-      width="8x"
-      _hover={{
-        color: hoverColor,
-      }}
-      _focusVisible={{
-        outlineColor: focusVisibleOutlineColor,
-        outlineOffset: '-1h',
-        outlineStyle: 'solid',
-        outlineWidth: '1h',
-      }}
-      _disabled={{
-        color: disabledColor,
-        opacity: disabledOpacity,
+      sx={{
+        color,
+        height: '8x',
+        width: '8x',
+        _hover: {
+          color: hoverColor,
+        },
+        _focusVisible: {
+          outlineColor: focusVisibleOutlineColor,
+          outlineOffset: '-1h',
+          outlineStyle: 'solid',
+          outlineWidth: '1h',
+        },
+        _disabled: {
+          color: disabledColor,
+          opacity: disabledOpacity,
+        },
       }}
       {...props}
     />
