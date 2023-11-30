@@ -85,7 +85,7 @@ export default async function handler(req, res) {
       ],
     }),
     prompt: (req.query?.type === 'copilot') ? COPILOT_PROMPT : DEFAULT_PROMPT,
-    verbose: true,
+    verbose: false,
   });
 
   const vectorstore = await HNSWLib.load(hnswlibDirectory, embeddings);
