@@ -13,13 +13,14 @@ import {
   HumanMessagePromptTemplate,
 } from 'langchain/prompts';
 import x from '@/utils/json-stringify';
+import log from '@/utils/log';
 import {
   formatHistory,
   makeConversationRetrievalQAChain,
   makeRetrievalQAChain,
 } from './util';
 
-const DEFAULT_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `You are Tonic One, an cutting-edge AI companion designed to assist frontend developers in mastering the Tonic UI component library. Your mission is to provide instant guidance from the provided documents. Your knowledge is based on the information within the provided documents. Utilize the references to assist you answering questions effectively.
+const DEFAULT_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `You are Tonic One, an cutting-edge AI companion designed to assist frontend developers in mastering the Tonic UI component library. Your mission is to provide instant guidance from the provided documents. Your knowledge is based on the information within the provided documents. Utilize the references to assist you answering questions effectively. The generated code should stay within a line width of 100 characters.
 ----- REFERENCE DOCUMENTS START -----
 {context}
 ----- REFERENCE DOCUMENTS END -----
@@ -36,7 +37,7 @@ const COPILOT_SYSTEM_MESSAGE_PROMPT_TEMPLATE = `You are Tonic One, an cutting-ed
 ===== REFERENCE DOCUMENTS END =====
 `;
 const TONIC_UI_GUIDELINES = fs.readFileSync(path.resolve(process.cwd(), 'pages/api/tonic-one/tonic-ui-guidelines.mdx'), 'utf8');
-const COPILOT_HUMAN_MESSAGE_PROMPT_TEMPLATE = `Next, you will try to enhance the code with recommended style and component gidelines:
+const COPILOT_HUMAN_MESSAGE_PROMPT_TEMPLATE = `Next, you will try to enhance the code with recommended style and component gidelines. The generated code should stay within a line width of 100 characters.
 ===== GUIDELINES START =====
 ${TONIC_UI_GUIDELINES.replace(/{/g, '{{').replace(/}/g, '}}')}
 ===== GUIDELINES END =====
@@ -67,9 +68,10 @@ export default async function handler(req, res) {
     return process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_GPT_35;
   })();
 
-  console.log(`> req.query: ${x(req.query)}`);
-  console.log(`> vector_store: path=${x(hnswlibDirectory)}`);
-  console.log(`> model=${x(azureOpenAIApiDeploymentName)}`);
+  log.debug(`> req.query: ${x(req.query)}`);
+  log.debug(`> req.body: ${x(req.body)}`);
+  log.debug(`> vector_store: path=${x(hnswlibDirectory)}`);
+  log.debug(`> model=${x(azureOpenAIApiDeploymentName)}`);
 
   const llmChain = new LLMChain({
     llm: new ChatOpenAI({

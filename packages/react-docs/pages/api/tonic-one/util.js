@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import debug from 'debug';
 import { ensureArray, ensureString } from 'ensure-type';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import {
@@ -12,6 +13,7 @@ import {
   PromptTemplate,
 } from 'langchain/prompts';
 import { AIChatMessage, HumanChatMessage } from 'langchain/schema';
+import log from '@/utils/log';
 import x from '@/utils/json-stringify';
 
 const QUESTION_GENERATOR_CHAIN_PROMPT_TEMPLATE = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
@@ -54,10 +56,10 @@ class CustomStuffDocumentsChain extends StuffDocumentsChain {
     ];
 
     for (let i = 0; i < sources.length; ++i) {
-      console.log(`> stuff_documents_chain:source_docs_${i}: source=${x(sources[i])}, len=${x(ensureString(sourceDocs[i]).length)}`);
+      log.debug(`> stuff_documents_chain:source_docs_${i}: source=${x(sources[i])}, len=${x(ensureString(sourceDocs[i]).length)}`);
     }
     for (let i = 0; i < inputDocs.length; ++i) {
-      console.log(`> stuff_documents_chain:matched_docs_${i}: metadata=${x(inputDocs[i].metadata)}, len=${x(ensureString(inputDocs[i].pageContent).length)}`);
+      log.debug(`> stuff_documents_chain:matched_docs_${i}: metadata=${x(inputDocs[i].metadata)}, len=${x(ensureString(inputDocs[i].pageContent).length)}`);
     }
 
     return {
@@ -76,7 +78,7 @@ export const makeRetrievalQAChain = ({
   llmChain,
   retriever,
 }) => {
-  console.log(`> retrieval_qa_chain: api_version=${x(llmChain?.llm?.azureOpenAIApiVersion)}, deployment_name=${x(llmChain?.llm?.azureOpenAIApiDeploymentName)}, instance_name=${x(llmChain?.llm?.azureOpenAIApiInstanceName)}`);
+  log.debug(`> retrieval_qa_chain: api_version=${x(llmChain?.llm?.azureOpenAIApiVersion)}, deployment_name=${x(llmChain?.llm?.azureOpenAIApiDeploymentName)}, instance_name=${x(llmChain?.llm?.azureOpenAIApiInstanceName)}`);
 
   const combineDocumentsChain = new CustomStuffDocumentsChain({ llmChain, verbose: false });
 
@@ -101,7 +103,7 @@ export const makeConversationRetrievalQAChain = ({
   llmChain,
   retriever,
 }) => {
-  console.log(`> retrieval_qa_chain: api_version=${x(llmChain?.llm?.azureOpenAIApiVersion)}, deployment_name=${x(llmChain?.llm?.azureOpenAIApiDeploymentName)}, instance_name=${x(llmChain?.llm?.azureOpenAIApiInstanceName)}`);
+  log.debug(`> retrieval_qa_chain: api_version=${x(llmChain?.llm?.azureOpenAIApiVersion)}, deployment_name=${x(llmChain?.llm?.azureOpenAIApiDeploymentName)}, instance_name=${x(llmChain?.llm?.azureOpenAIApiInstanceName)}`);
 
   const combineDocumentsChain = new CustomStuffDocumentsChain({ llmChain, verbose: false });
 

@@ -31,17 +31,87 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import useClipboard from '../hooks/useClipboard';
-import useTrack from '../hooks/useTrack';
-import CodeSandboxIcon from '../icons/codesandbox';
-import RealTimeGuidanceIcon from '../icons/real-time-guidance';
-import AIPoweredEnhancementsIcon from '../icons/ai-powered-enhancements';
-import ChatAssistantIcon from '../icons/chat-assistant';
-import ChatGeneratingIcon from '../icons/chat-generating';
-import { open as openInCodeSandbox } from '../sandbox/codesandbox';
+import useClipboard from '@/hooks/useClipboard';
+import useTrack from '@/hooks/useTrack';
+import CodeSandboxIcon from '@/icons/codesandbox';
+import RealTimeGuidanceIcon from '@/icons/real-time-guidance';
+import AIPoweredEnhancementsIcon from '@/icons/ai-powered-enhancements';
+import ChatGeneratingIcon from '@/icons/chat-generating';
+import TonicOneIcon from '@/icons/tonic-one';
+import { open as openInCodeSandbox } from '@/sandbox/codesandbox';
 import IconButton from './IconButton';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
+
+const instantGuidanceQuestions = [
+  'Build an application that displays the message "Hello, Tonic UI"',
+  'Showcase an example utilizing Modal and Alert components',
+];
+
+const sampleCodeSnippets = [
+  {
+    title: 'IconButton',
+    code: `
+import { ButtonBase, Icon } from '@tonic-ui/react';
+import { forwardRef } from 'react';
+
+const IconButton = forwardRef(({ icon, size, color, ...rest }, ref) => {
+  return (
+    <ButtonBase
+      ref={ref}
+      py="2x"
+      color="white:secondary"
+      _hover={{
+        cursor: 'pointer',
+        color: 'blue:40',
+      }}
+      _disabled={{
+        opacity: 0.28, // dark: 0.28, light: 0.3
+        cursor: 'not-allowed',
+      }}
+      {...rest}
+    >
+      <Icon icon={icon} size={size} color={color} />
+    </ButtonBase>
+  );
+});
+
+export default IconButton;
+`.trim(),
+  },
+  {
+    title: 'Loader',
+    code: `
+import { Box, Spinner, useColorMode, useColorStyle } from '@tonic-ui/react';
+
+const Loader = ({ size, ...rest }) => {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+
+  return (
+    <Box
+      zIndex="overlay"
+      bg={colorStyle.spinner.overlay.bg}
+      cursor="wait"
+      position="absolute"
+      top={0}
+      bottom={0}
+      left={0}
+      right={0}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      {...rest}
+    >
+      <Spinner size={size} />
+    </Box>
+  );
+};
+
+export default Loader;
+`.trim(),
+  },
+];
 
 const FeatureCards = (props) => {
   return (
@@ -361,42 +431,12 @@ const AICompanionModal = forwardRef((
     }
   };
 
-  const handleClickExampleCode1 = () => {
-    const question = `
-<div
-  style={{
-    backgroundColor: '#212121', // secondary background color
-    color: '#fff',
-  }}
-/>
-    `;
-
-    track('AICompanion', 'predefined_input', question);
+  const handleClickCodeSnippetBy = (codeSnippet) => () => {
+    track('AICompanion', 'predefined_input', codeSnippet);
     resetState();
 
-    const codeSnippet = '```\n' + question + '\n```';
-    ask(codeSnippet, { type: 'copilot' });
-  };
-
-  const handleClickExampleCode2 = () => {
-    const question = `
-import { Box } from '@tonic-ui/react';
-import React from 'react';
-
-const MyComponent = (props) => {
-  return (
-    <Box {...props} />
-  );
-};
-
-export default MyComponent;
-    `;
-
-    track('AICompanion', 'predefined_input', question);
-    resetState();
-
-    const codeSnippet = '```\n' + question + '\n```';
-    ask(codeSnippet, { type: 'copilot' });
+    const query = '```\n' + codeSnippet + '\n```';
+    ask(query, { type: 'copilot' });
   };
 
   return (
@@ -521,32 +561,20 @@ export default MyComponent;
                 columnGap="2x"
                 flexDirection="column"
               >
-                <ClickableExample
-                  onClick={(event) => {
-                    const question = 'Create a simple Tonic UI application';
+                {instantGuidanceQuestions.map((question, index) => (
+                  <ClickableExample
+                    key={index}
+                    onClick={(event) => {
+                      track('AICompanion', 'predefined_input', question);
 
-                    track('AICompanion', 'predefined_input', question);
+                      resetState();
 
-                    resetState();
-
-                    ask(question);
-                  }}
-                >
-                  Create a simple Tonic UI application
-                </ClickableExample>
-                <ClickableExample
-                  onClick={(event) => {
-                    const question = 'Showcase the integration of the Modal and Alert components';
-
-                    track('AICompanion', 'predefined_input', question);
-
-                    resetState();
-
-                    ask(question);
-                  }}
-                >
-                  Showcase the integration of the Modal and Alert components
-                </ClickableExample>
+                      ask(question);
+                    }}
+                  >
+                    {question}
+                  </ClickableExample>
+                ))}
               </Flex>
             </FeatureCard>
             <FeatureCard>
@@ -581,13 +609,14 @@ export default MyComponent;
                 </Button>
               </Flex>
               <Flex columnGap="2x">
-                Examples:
-                <LinkButton onClick={handleClickExampleCode1}>
-                  #1
-                </LinkButton>
-                <LinkButton onClick={handleClickExampleCode2}>
-                  #2
-                </LinkButton>
+                Sample code snippets:
+                {sampleCodeSnippets.map((codeSnippet, index) => (
+                  <Box key={codeSnippet.title}>
+                    <LinkButton onClick={handleClickCodeSnippetBy(codeSnippet.code)}>
+                      {codeSnippet.title}
+                    </LinkButton>
+                  </Box>
+                ))}
               </Flex>
             </FeatureCard>
           </FeatureCards>
@@ -635,6 +664,7 @@ export default MyComponent;
                       key={index}
                       sx={{
                         justifyContent: 'flex-start',
+                        mb: '6x',
                         columnGap: '2x',
                       }}
                     >
@@ -679,7 +709,7 @@ export default MyComponent;
                     flex: 'none',
                   }}
                 >
-                  <ChatAssistantIcon size="10x" />
+                  <TonicOneIcon size="10x" />
                 </Box>
                 <Flex
                   sx={{
