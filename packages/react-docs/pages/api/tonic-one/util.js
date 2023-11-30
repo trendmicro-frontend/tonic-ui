@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import debug from 'debug';
 import { ensureArray, ensureString } from 'ensure-type';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import {
