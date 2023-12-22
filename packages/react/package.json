@@ -26,7 +26,7 @@
     "@trendmicro/tmicon": "^1.21.0",
     "chained-function": "^0.5.0",
     "color": "3.x",
-    "ensure-type": "1.x",
+    "ensure-type": "^1.5.1",
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
     "prop-types": "15.x",
