@@ -15,7 +15,7 @@ import React from 'react';
 import Highlight from 'react-highlight-words';
 import {
   useInstantSearch,
-} from 'react-instantsearch-hooks';
+} from 'react-instantsearch-core';
 import { routes } from '../config/sidebar-routes';
 import InstantSearchRefinementLink from './InstantSearchRefinementLink';
 import InstantSearchPagination from './InstantSearchPagination';

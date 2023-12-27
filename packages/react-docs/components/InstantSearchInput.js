@@ -7,7 +7,7 @@ import {
 import React, { forwardRef, useCallback, useState } from 'react';
 import {
   useSearchBox,
-} from 'react-instantsearch-hooks';
+} from 'react-instantsearch-core';
 
 // https://www.algolia.com/doc/api-reference/widgets/search-box/react-hooks/#hook-params
 const queryHook = (query, search) => {

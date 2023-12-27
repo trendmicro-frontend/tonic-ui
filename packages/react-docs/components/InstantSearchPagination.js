@@ -4,7 +4,7 @@ import {
 import React, { forwardRef } from 'react';
 import {
   usePagination,
-} from 'react-instantsearch-hooks';
+} from 'react-instantsearch-core';
 
 /**
  * See https://www.algolia.com/doc/api-reference/widgets/use-instantsearch/react-hooks/
