@@ -122,11 +122,11 @@ const SwitchControlBox = forwardRef((
     [getSwitchTrackSelector()]: {
       fill: switchTrackColor,
     },
+    [getSwitchTrackSelector(':checked')]: {
+      fill: switchTrackCheckedColor,
+    },
     [getSwitchTrackSelector(':hover:not(:disabled)')]: {
       fill: switchTrackHoverColor,
-    },
-    [getSwitchTrackSelector(':checked:not(:disabled)')]: {
-      fill: switchTrackCheckedColor,
     },
     [getSwitchTrackSelector(':checked:hover:not(:disabled)')]: {
       fill: switchTrackCheckedHoverColor,
