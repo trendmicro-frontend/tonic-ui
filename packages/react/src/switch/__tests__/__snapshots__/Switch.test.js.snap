@@ -74,12 +74,12 @@ input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-track] {
   fill: var(--tonic-colors-gray-60);
 }
 
-input[type="checkbox"]:hover:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
-  fill: var(--tonic-colors-gray-50);
+input[type="checkbox"]:checked+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-60);
 }
 
-input[type="checkbox"]:checked:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
-  fill: var(--tonic-colors-blue-60);
+input[type="checkbox"]:hover:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
 }
 
 input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
@@ -185,12 +185,12 @@ input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-track] {
   fill: var(--tonic-colors-gray-60);
 }
 
-input[type="checkbox"]:hover:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
-  fill: var(--tonic-colors-gray-50);
+input[type="checkbox"]:checked+.emotion-22>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-60);
 }
 
-input[type="checkbox"]:checked:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
-  fill: var(--tonic-colors-blue-60);
+input[type="checkbox"]:hover:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
 }
 
 input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
@@ -272,12 +272,12 @@ input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-track] {
   fill: var(--tonic-colors-gray-60);
 }
 
-input[type="checkbox"]:hover:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
-  fill: var(--tonic-colors-gray-50);
+input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-blue-60);
 }
 
-input[type="checkbox"]:checked:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
-  fill: var(--tonic-colors-blue-60);
+input[type="checkbox"]:hover:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
+  fill: var(--tonic-colors-gray-50);
 }
 
 input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
