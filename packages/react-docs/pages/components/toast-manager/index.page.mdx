@@ -12,7 +12,31 @@ import { TonicProvider, ToastManager } from '@tonic-ui/react';
 function App() {
   return (
     <TonicProvider>
-      <ToastManager placement="bottom-right">
+      <ToastManager
+        TransitionProps={{
+          sx: {
+            '[data-toast-placement^="top"] > &:first-of-type': {
+              mt: '4x', // the space to the top edge of the screen
+            },
+            '[data-toast-placement^="top"] > &:not(:first-of-type)': {
+              mt: '2x', // the space between toasts
+            },
+            '[data-toast-placement^="bottom"] > &:last-of-type': {
+              mb: '4x', // the space to the bottom edge of the screen
+            },
+            '[data-toast-placement^="bottom"] > &:not(:last-of-type)': {
+              mb: '2x', // the space between toasts
+            },
+            '[data-toast-placement$="left"] > &': {
+              ml: '4x', // the space to the left edge of the screen
+            },
+            '[data-toast-placement$="right"] > &': {
+              mr: '4x', // the space to the right edge of the screen
+            },
+          },
+        }}
+        placement="bottom-right"
+      >
         {/* Your app goes here */}
       </ToastManager>
     </TonicProvider>
@@ -29,20 +53,8 @@ function MyComponent() {
   const toast = useToastManager();
   const handleClickOpenToast = () => {
     const render = ({ onClose, placement }) => {
-      const styleProps = {
-        'top-left': { pt: '2x', px: '4x' },
-        'top': { pt: '2x', px: '4x' },
-        'top-right': { pt: '2x', px: '4x' },
-        'bottom-left': { pb: '2x', px: '4x' },
-        'bottom': { pb: '2x', px: '4x' },
-        'bottom-right': { pb: '2x', px: '4x' },
-      }[placement];
-
       return (
-        <Box
-          {...styleProps}
-          width={320}
-        >
+        <Box width={320}>
           <Toast isClosable onClose={onClose}>
             This is a toast notification
           </Toast>
@@ -82,12 +94,51 @@ toast.remove(id);
 
 See the [useToastManager](./toast-manager/useToastManager) Hook for detailed usage.
 
+## Commonly Asked Questions
+
+### Control the spacing between toasts
+
+To control the spacing between toasts, make use of the `TransitionProps` prop in the `ToastManager`. Pass the `sx` prop to the transition component with your preferred spacing.
+
+```jsx disabled
+<ToastManager
+  TransitionProps={{
+    sx: {
+      '[data-toast-placement^="top"] > &:first-of-type': {
+        mt: edgeSpacing, // the space to the top edge of the screen
+      },
+      '[data-toast-placement^="top"] > &:not(:first-of-type)': {
+        mt: toastSpacing, // the space between toasts
+      },
+      '[data-toast-placement^="bottom"] > &:last-of-type': {
+        mb: edgeSpacing, // the space to the bottom edge of the screen
+      },
+      '[data-toast-placement^="bottom"] > &:not(:last-of-type)': {
+        mb: toastSpacing, // the space between toasts
+      },
+      '[data-toast-placement$="left"] > &': {
+        ml: edgeSpacing, // the space to the left edge of the screen
+      },
+      '[data-toast-placement$="right"] > &': {
+        mr: edgeSpacing, // the space to the right edge of the screen
+      },
+    },
+  }}
+>
+  <ToastApp />
+</ToastManager>
+```
+
+{render('./faq-control-spacing-between-toasts')}
+
 ## Props
 
 ### ToastManager
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| TransitionComponent | ElementType | ToastTransition | The component used for the transition. |
+| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | containerRef | RefObject | | A `ref` to the component where the toasts will be rendered. |
 | placement | string | 'bottom-right' | The default placement to place toasts. One of: 'top', 'top-right', 'top-left', 'bottom', 'bottom-left', 'bottom-right' |
