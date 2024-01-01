@@ -56,31 +56,29 @@ const App = () => {
     };
 
     toast.notify(({ onClose, placement }) => {
-      const styleProps = {
-        'top-left': { pt: '2x', px: '4x' },
-        'top': { pt: '2x', px: '4x' },
-        'top-right': { pt: '2x', px: '4x' },
-        'bottom-left': { pb: '2x', px: '4x' },
-        'bottom': { pb: '2x', px: '4x' },
-        'bottom-right': { pb: '2x', px: '4x' },
-      }[placement];
-
       return (
-        <Box {...styleProps}>
-          <ToastLayout>
-            <Toast appearance={appearance} isClosable onClose={onClose}>
-              {content}
-            </Toast>
-          </ToastLayout>
-        </Box>
+        <ToastLayout>
+          <Toast appearance={appearance} isClosable onClose={onClose}>
+            {content}
+          </Toast>
+        </ToastLayout>
       );
     }, options);
 
+    const isTop = placement.includes('top');
+
     // Limit the maximum number of toasts
-    toast.setState(prevState => ({
-      ...prevState,
-      [placement]: prevState[placement].slice(-MAX_TOASTS),
-    }));
+    if (isTop) {
+      toast.setState(prevState => ({
+        ...prevState,
+        [placement]: prevState[placement].slice(0, MAX_TOASTS),
+      }));
+    } else {
+      toast.setState(prevState => ({
+        ...prevState,
+        [placement]: prevState[placement].slice(-MAX_TOASTS),
+      }));
+    }
   };
 
   const handleClickCloseToasts = () => {

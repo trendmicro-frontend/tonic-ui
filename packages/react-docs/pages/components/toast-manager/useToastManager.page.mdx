@@ -31,6 +31,7 @@ Create a toast at the specified placement and return the toast id.
 <dl>
   <dd>`message` *(Function|string)*: The toast message to render.</dd>
   <dd>`[options={}]` *(Object)*: The options object.</dd>
+  <dd>`[options.data]` *(any)*: The user-defined data supplied to the toast.</dd>
   <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
   <dd>`[options.id]` *(string)*: A unique ID of the toast.</dd>
   <dd>`[options.placement]` *(string)*: The placement of the toast.</dd>
@@ -155,10 +156,10 @@ toast.setState({
   'top': [
     {
       id: '2',
-      message: 'New toast message',
-      placement: 'top',
       duration: 3000,
+      message: 'New toast message',
       onClose: () => toast.close('2'),
+      placement: 'top',
     }
   ],
   'top-left': [],
@@ -178,10 +179,10 @@ toast.setState(prevState => ({
     ...prevState['top'],
     {
       id: '2',
-      message: 'New toast message',
-      placement: 'top',
       duration: null,
+      message: 'New toast message',
       onClose: () => toast.close('2', 'top'),
+      placement: 'top',
     },
   ],
 }));
@@ -196,10 +197,10 @@ The toast state is a placement object, each placement contains an array of objec
   'top': [
     {
       id: '1', // A unique identifier that represents the toast message
-      message: ({ id, onClose, placement }) => <Toast />, // The toast message to render
-      placement: 'top', // The placement of the toast
       duration: null, // The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
+      message: ({ id, onClose, placement }) => <Toast />, // The toast message to render
       onClose: () => toast.close(id, placement), // The function to close the toast
+      placement: 'top', // The placement of the toast
     },
   ],
   'top-left': [],

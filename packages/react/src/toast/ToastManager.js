@@ -42,7 +42,8 @@ const getToastPlacementByState = (state, id) => {
 
 const ToastManager = ({
   container: DEPRECATED_container, // deprecated (remove in next major version)
-
+  TransitionComponent = ToastTransition,
+  TransitionProps,
   children,
   containerRef,
   placement: placementProp = defaultPlacement,
@@ -72,6 +73,7 @@ const ToastManager = ({
    */
   const createToast = useCallback((message, options) => {
     const id = options?.id ?? uniqueId();
+    const data = options?.data;
     const duration = options?.duration;
     const placement = ensureString(options?.placement ?? placementProp);
     const onClose = () => close(id, placement);
@@ -79,6 +81,9 @@ const ToastManager = ({
     return {
       // A unique identifier that represents the toast message
       id,
+
+      // The user-defined data supplied to the toast
+      data,
 
       // The toast message to render
       message,
@@ -155,8 +160,7 @@ const ToastManager = ({
    * Create a toast at the specified placement and return the id
    */
   const notify = useCallback((message, options) => {
-    const { id, duration, placement } = options;
-    const toast = createToast(message, { id, duration, placement });
+    const toast = createToast(message, options);
 
     if (!placements.includes(toast.placement)) {
       console.error(`[ToastManager] Error: Invalid toast placement "${toast.placement}". Please provide a valid placement from the following options: ${placements.join(', ')}.`);
@@ -256,10 +260,10 @@ const ToastManager = ({
               >
                 <TransitionGroup component={null}>
                   {toasts.map((toast) => (
-                    <ToastTransition
+                    <TransitionComponent
+                      {...TransitionProps}
                       key={toast.id}
                       in={true}
-                      collapsedHeight={0}
                       unmountOnExit
                     >
                       <ToastController
@@ -273,6 +277,7 @@ const ToastManager = ({
                           if (isValidElementType(toast.message)) {
                             return (
                               <toast.message
+                                data={toast.data}
                                 id={toast.id}
                                 onClose={toast.onClose}
                                 placement={toast.placement}
@@ -282,7 +287,7 @@ const ToastManager = ({
                           return null;
                         })()}
                       </ToastController>
-                    </ToastTransition>
+                    </TransitionComponent>
                   ))}
                 </TransitionGroup>
               </ToastContainer>

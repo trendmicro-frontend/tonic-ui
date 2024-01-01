@@ -70,21 +70,10 @@ const App = () => {
   const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
-      const styleProps = {
-        'top-left': { pt: '2x', px: '4x' },
-        'top': { pt: '2x', px: '4x' },
-        'top-right': { pt: '2x', px: '4x' },
-        'bottom-left': { pb: '2x', px: '4x' },
-        'bottom': { pb: '2x', px: '4x' },
-        'bottom-right': { pb: '2x', px: '4x' },
-      }[placement];
-
       return (
-        <Box {...styleProps}>
-          <ToastLayout>
-            <ToastNotification onClose={onClose} />
-          </ToastLayout>
-        </Box>
+        <ToastLayout>
+          <ToastNotification onClose={onClose} />
+        </ToastLayout>
       );
     }, {
       placement: 'bottom-right',

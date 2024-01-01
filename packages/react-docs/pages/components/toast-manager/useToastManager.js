@@ -11,20 +11,8 @@ const App = () => {
   const toast = useToastManager();
   const handleClickOpenToast = useCallback(() => {
     const render = ({ onClose, placement }) => {
-      const styleProps = {
-        'top-left': { pt: '2x', px: '4x' },
-        'top': { pt: '2x', px: '4x' },
-        'top-right': { pt: '2x', px: '4x' },
-        'bottom-left': { pb: '2x', px: '4x' },
-        'bottom': { pb: '2x', px: '4x' },
-        'bottom-right': { pb: '2x', px: '4x' },
-      }[placement];
-
       return (
-        <Box
-          {...styleProps}
-          width={320}
-        >
+        <Box width={320}>
           <Toast isClosable onClose={onClose}>
             <Text>This is a toast notification</Text>
           </Toast>
