@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@1.2.1
+  browser-tools: circleci/browser-tools@1.4.3
 
 workflows:
   version: 2
@@ -64,8 +64,10 @@ jobs:
     docker:
       - image: cimg/node:14.17.6-browsers
     steps:
-      - browser-tools/install-browser-tools
       - checkout
+      - browser-tools/install-browser-tools:
+          # https://googlechromelabs.github.io/chrome-for-testing/
+          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
       - run:
           name: Setup environment
           command: |
@@ -114,8 +116,10 @@ jobs:
     docker:
       - image: cimg/node:14.17.6-browsers
     steps:
-      - browser-tools/install-browser-tools
       - checkout
+      - browser-tools/install-browser-tools:
+          # https://googlechromelabs.github.io/chrome-for-testing/
+          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
       - run:
           name: Setup environment
           command: |
@@ -165,8 +169,10 @@ jobs:
     docker:
       - image: cimg/node:14.17.6-browsers
     steps:
-      - browser-tools/install-browser-tools
       - checkout
+      - browser-tools/install-browser-tools:
+          # https://googlechromelabs.github.io/chrome-for-testing/
+          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
       - run:
           name: Setup environment
           command: |
