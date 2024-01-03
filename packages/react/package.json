@@ -14,7 +14,6 @@
     "postbuild": "cpy --parents {dist/**,LICENSE,README.md,.npmignore,package.json} build",
     "pre-push": "yarn run eslint",
     "prepublish": "yarn run build",
-    "start-storybook": "start-storybook --config-dir .storybook --docs --port 8080",
     "test": "jest"
   },
   "dependencies": {
@@ -32,7 +31,7 @@
     "prop-types": "15.x",
     "react-animate-height": "2.x",
     "react-focus-lock": "2.x",
-    "react-is": "^16.8.0 || ^17",
+    "react-is": "^16.14.0 || ^17 || ^18",
     "react-spring": "8.x",
     "react-transition-group": "4.x"
   },
@@ -44,13 +43,8 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@emotion/babel-preset-css-prop": "~11.2.0",
-    "@emotion/jest": "~11.5.0",
-    "@storybook/addon-actions": "~6.3.12",
-    "@storybook/addon-docs": "~6.3.12",
-    "@storybook/addon-links": "~6.3.12",
-    "@storybook/addons": "~6.3.12",
-    "@storybook/react": "~6.3.12",
+    "@emotion/babel-plugin": "^11.10.0",
+    "@emotion/jest": "^11.10.0",
     "@trendmicro/babel-config": "^1.0.2",
     "babel-loader": "~8.2.3",
     "cpy-cli": "~3.1.1",
@@ -65,9 +59,9 @@
     "eslint-plugin-react-hooks": "latest",
     "jest": "~27.3.1",
     "jest-extended": "^1.1.0",
-    "react": "^16.8.0 || ^17",
-    "react-dom": "^16.8.0 || ^17",
-    "react-test-renderer": "^16.8.0 || ^17"
+    "react": "^16.14.0 || ^17 || ^18",
+    "react-dom": "^16.14.0 || ^17 || ^18",
+    "react-test-renderer": "^16.14.0 || ^17 || ^18"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17",
