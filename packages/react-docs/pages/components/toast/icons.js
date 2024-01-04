@@ -64,7 +64,6 @@ const ToastLayout = (props) => {
       lineHeight="sm"
       textAlign="left"
       boxShadow={boxShadow}
-      width={320}
       {...props}
     />
   );
@@ -74,8 +73,15 @@ const App = () => {
   const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
+      const isTop = placement.includes('top');
+      const toastSpacingKey = isTop ? 'pb' : 'pt';
+      const styleProps = {
+        [toastSpacingKey]: '2x',
+        width: 320,
+      };
+
       return (
-        <ToastLayout>
+        <ToastLayout sx={styleProps}>
           <ToastNotification onClose={onClose} />
         </ToastLayout>
       );
@@ -95,10 +101,12 @@ const App = () => {
     <Stack direction="column" spacing="6x">
       {alertToasts.map((ToastNotification, idx) => (
         <Box key={idx}>
-          <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
-            Show
-          </Button>
-          <ToastLayout mt="4x">
+          <Box mb="4x">
+            <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
+              Show
+            </Button>
+          </Box>
+          <ToastLayout>
             <ToastNotification />
           </ToastLayout>
         </Box>

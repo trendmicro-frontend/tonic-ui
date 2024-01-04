@@ -133,7 +133,6 @@ const ToastLayout = (props) => {
       lineHeight="sm"
       textAlign="left"
       boxShadow={boxShadow}
-      width={320}
       {...props}
     />
   );
@@ -143,8 +142,15 @@ const App = () => {
   const toast = useToastManager();
   const handleClickBy = (ToastNotification) => () => {
     toast(({ onClose, placement }) => {
+      const isTop = placement.includes('top');
+      const toastSpacingKey = isTop ? 'pb' : 'pt';
+      const styleProps = {
+        [toastSpacingKey]: '2x',
+        width: 320,
+      };
+
       return (
-        <ToastLayout>
+        <ToastLayout sx={styleProps}>
           <ToastNotification onClose={onClose} />
         </ToastLayout>
       );

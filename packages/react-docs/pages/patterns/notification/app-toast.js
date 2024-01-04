@@ -56,8 +56,16 @@ const App = () => {
     };
 
     toast.notify(({ onClose, placement }) => {
+      const isTop = placement.includes('top');
+      const toastSpacingKey = isTop ? 'pb' : 'pt';
+
       return (
-        <ToastLayout>
+        <ToastLayout
+          sx={{
+            [toastSpacingKey]: '2x',
+            width: 320,
+          }}
+        >
           <Toast appearance={appearance} isClosable onClose={onClose}>
             {content}
           </Toast>
@@ -139,11 +147,9 @@ const ToastLayout = (props) => {
       lineHeight="sm"
       textAlign="left"
       boxShadow={boxShadow}
-      width={320}
       {...props}
     />
   );
 };
-
 
 export default App;

@@ -11,8 +11,15 @@ const App = () => {
   const toast = useToastManager();
   const handleClickOpenToast = useCallback(() => {
     const render = ({ onClose, placement }) => {
+      const isTop = placement.includes('top');
+      const toastSpacingKey = isTop ? 'pb' : 'pt';
+      const styleProps = {
+        [toastSpacingKey]: '2x',
+        width: 320,
+      };
+
       return (
-        <Box width={320}>
+        <Box sx={styleProps}>
           <Toast isClosable onClose={onClose}>
             <Text>This is a toast notification</Text>
           </Toast>
