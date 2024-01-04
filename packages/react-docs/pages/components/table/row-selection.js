@@ -61,6 +61,9 @@ const App = () => {
         />
       ),
       size: 48,
+      style: {
+        px: '4x',
+      },
     },
     {
       accessorKey: 'eventType',

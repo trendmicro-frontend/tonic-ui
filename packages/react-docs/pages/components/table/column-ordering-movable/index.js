@@ -5,8 +5,10 @@ import {
 } from '@tanstack/react-table';
 import {
   Box,
+  Button,
   Flex,
   Icon,
+  Space,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -14,7 +16,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Tooltip,
   Truncate,
   useColorMode,
   useTheme,
@@ -23,7 +24,6 @@ import {
   useConst,
 } from '@tonic-ui/react-hooks';
 import { dataAttr } from '@tonic-ui/utils';
-import IconButton from '@/components/IconButton';
 import _ from 'lodash';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -67,11 +67,12 @@ const App = () => {
     light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
 
-  const [columnOrder, setColumnOrder] = useState([
+  const defaultColumnOrder = [
     'eventType',
     'affectedDevices',
     'detections',
-  ]);
+  ];
+  const [columnOrder, setColumnOrder] = useState(defaultColumnOrder);
 
   const [columnVisibility, setColumnVisibility] = useState({
     eventType: true,
@@ -275,20 +276,23 @@ const App = () => {
     <>
       <ColumnSettingsDrawer
         columns={orderedColumns}
+        defaultColumnOrder={defaultColumnOrder}
         onUpdateColumns={onUpdateColumns}
         isOpen={isColumnSettingsDrawerOpen}
         onClose={() => setIsColumnSettingsDrawerOpen(false)}
       />
-      <Flex justifyContent="flex-end">
-        <Tooltip
-          label="Customize columns"
+      <Flex
+        justifyContent="flex-end"
+        mb="4x"
+      >
+        <Button
+          variant="secondary"
+          onClick={() => setIsColumnSettingsDrawerOpen(true)}
         >
-          <IconButton
-            onClick={() => setIsColumnSettingsDrawerOpen(true)}
-          >
-            <Icon icon="columns" />
-          </IconButton>
-        </Tooltip>
+          <Icon icon="columns" />
+          <Space width="2x" />
+          Customize Columns
+        </Button>
       </Flex>
       <Box>
         <AutoSizer

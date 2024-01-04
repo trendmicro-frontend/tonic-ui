@@ -14,9 +14,10 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { ensureArray, ensureFunction } from 'ensure-type';
+import _orderBy from 'lodash/orderBy';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { List, arrayMove } from 'react-movable';
-import HandleIcon from './icon-handle';
+import HandleIcon from '../icons/icon-handle';
 
 const UPDATE_COLUMNS = 'UPDATE_COLUMNS';
 
@@ -33,17 +34,19 @@ const reducer = (state, action) => {
 };
 
 /**
- * columns = [
- *   {
- *     id: <string>,
- *     label: <string>,
- *     isPinned: <boolean>,
- *     isVisible: <boolean>,
- *   }
- * ]
+ * @param {object} columns - The columns to be displayed in the drawer
+ * @param {string} columns[].id - The id of the column
+ * @param {string} columns[].label - The label of the column
+ * @param {boolean} columns[].isPinned - Whether the column is pinned
+ * @param {boolean} columns[].isVisible - Whether the column is visible
+ * @param {string[]} defaultColumnOrder - The default order of the columns
+ * @param {function} onUpdateColumns - Callback function to be called when the columns are updated
+ * @param {boolean} isOpen - Whether the drawer is open
+ * @param {function} onClose - Callback function to be called when the drawer is closed
  */
 const ColumnSettingsDrawer = ({
   columns: columnsProp,
+  defaultColumnOrder: defaultColumnOrder,
   onUpdateColumns,
   isOpen,
   onClose,
@@ -79,11 +82,12 @@ const ColumnSettingsDrawer = ({
   }, [columnsProp]);
 
   const handleClickResetToDefault = useCallback(() => {
+    const nextColumns = _orderBy(state.columns, (column) => defaultColumnOrder.indexOf(column.id), ['asc']);
     dispatch({
       type: UPDATE_COLUMNS,
-      payload: columnsProp,
+      payload: nextColumns,
     });
-  }, [columnsProp]);
+  }, [defaultColumnOrder, state.columns]);
 
   const handleUpdateColumns = useCallback(() => {
     ensureFunction(onUpdateColumns)(state.columns);
@@ -160,10 +164,7 @@ const ColumnSettingsDrawer = ({
                   if (isPinned) {
                     return;
                   }
-                  if (isDragged) {
-                    return 'grabbing';
-                  }
-                  return 'grab';
+                  return isDragged ? 'move' : 'move';
                 })();
                 // Ensure the draggable element appears on top of other elements when dragged
                 const zIndex = isDragged ? 'modal' : undefined;
@@ -188,7 +189,6 @@ const ColumnSettingsDrawer = ({
                       // Mark any node with the `data-movable-handle` attribute if you wish you wish to use it as a DnD handle.
                       // The rest of renderItem will be then ignored and not start the drag and drop.
                       //data-movable-handle
-                      tabIndex={-1}
                       sx={{
                         '*:hover > &': {
                           visibility: 'visible',

@@ -1,4 +1,12 @@
 import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import {
+  Box,
+  Checkbox,
+  Flex,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -6,31 +14,26 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Text,
+  Truncate,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { dataAttr } from '@tonic-ui/utils';
+import React, { useMemo, useState } from 'react';
 import { List, arrayMove } from 'react-movable';
+import HandleIcon from './icons/icon-handle';
 
 const App = () => {
-  const { colorMode } = useColorMode();
-  const tableProps = {
-    'dark': {
-      backgroundColor: 'gray:80',
-    },
-    'light': {
-      backgroundColor: 'gray:10',
-    }
+  const [colorMode] = useColorMode();
+  const hoverBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
-  const rowProps = {
-    'dark': {
-      backgroundColor: 'gray:100',
-    },
-    'light': {
-      backgroundColor: 'white',
-    },
+  const selectedBackgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.08)',
+    light: 'rgba(0, 0, 0, 0.08)',
   }[colorMode];
-
-  const [items, setItems] = useState([
+  const [data, setData] = useState([
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
     { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
@@ -38,56 +41,207 @@ const App = () => {
     { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
     { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
   ]);
+  const [rowSelection, setRowSelection] = useState({});
+
+  const columns = useMemo(() => [
+    {
+      id: 'selection',
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllRowsSelected()}
+          indeterminate={table.getIsSomeRowsSelected()}
+          onChange={table.getToggleAllRowsSelectedHandler()}
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          disabled={!row.getCanSelect()}
+          indeterminate={row.getIsSomeSelected()}
+          onChange={row.getToggleSelectedHandler()}
+        />
+      ),
+      size: 48,
+      style: {
+        px: '4x',
+      },
+    },
+    {
+      accessorKey: 'eventType',
+      header: () => (
+        <Truncate>
+          Event Type
+        </Truncate>
+      ),
+      cell: ({ getValue }) => (
+        <Truncate>{getValue()}</Truncate>
+      ),
+      size: 240,
+    },
+    {
+      accessorKey: 'affectedDevices',
+      header: () => (
+        <Truncate>
+          Affected Devices
+        </Truncate>
+      ),
+      cell: ({ getValue }) => (
+        <Truncate>{getValue()}</Truncate>
+      ),
+      size: 150,
+      style: {
+        textAlign: 'right',
+      },
+    },
+    {
+      accessorKey: 'detections',
+      header: () => (
+        <Truncate>
+          Detections
+        </Truncate>
+      ),
+      cell: ({ getValue }) => (
+        <Truncate>{getValue()}</Truncate>
+      ),
+      size: 150,
+      style: {
+        textAlign: 'right',
+      },
+    },
+  ], []);
+
+  const table = useReactTable({
+    data,
+    columns,
+    defaultColumn: {
+      minSize: 48,
+    },
+    state: {
+      rowSelection,
+    },
+    enableRowSelection: true, // enable row selection for all rows
+    // enableRowSelection: row => row.original.detections > 0, // or enable row selection conditionally per row
+    onRowSelectionChange: setRowSelection,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  const layout = 'flexbox'; // One of: 'flexbox', 'table'
+  const selectedRowCount = Object.keys(rowSelection).length;
+  const rows = table.getRowModel().rows;
 
   return (
-    <List
-      values={items}
-      onChange={({ oldIndex, newIndex }) =>
-        setItems(arrayMove(items, oldIndex, newIndex))
-      }
-      renderList={({ children, props, isDragged }) => (
-        <Table
-          {...tableProps}
-          style={{
-            cursor: isDragged ? 'grabbing' : undefined,
-          }}
-        >
-          <TableHeader>
-            <TableHeaderRow
-              {...rowProps}
-            >
-              <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-              <TableHeaderCell width="150px" textAlign="right">Affected Devices</TableHeaderCell>
-              <TableHeaderCell width="150px" textAlign="right">Detections</TableHeaderCell>
+    <>
+      <Box mb="4x" px="3x">
+        <Text>
+          {selectedRowCount} selected
+        </Text>
+      </Box>
+      <Table layout={layout}>
+        <TableHeader>
+          {table.getHeaderGroups().map(headerGroup => (
+            <TableHeaderRow key={headerGroup.id}>
+              {headerGroup.headers.map(header => {
+                const styleProps = {
+                  minWidth: header.column.columnDef.minSize,
+                  width: header.getSize(),
+                  ...header.column.columnDef.style,
+                };
+                return (
+                  <TableHeaderCell
+                    key={header.id}
+                    {...styleProps}
+                  >
+                    {header.isPlaceholder ? null : (
+                      flexRender(header.column.columnDef.header, header.getContext())
+                    )}
+                  </TableHeaderCell>
+                );
+              })}
             </TableHeaderRow>
-          </TableHeader>
-          <TableBody {...props}>{children}</TableBody>
-        </Table>
-      )}
-      renderItem={({ value, props, isDragged, isSelected }) => {
-        const row = (
-          <TableRow
-            {...props}
-            {...rowProps}
-            style={{
-              ...props.style,
-              cursor: isDragged ? 'grabbing' : 'grab',
-            }}
-          >
-            <TableCell width="240px">{value.eventType}</TableCell>
-            <TableCell width="150px" textAlign="right">{value.affectedDevices}</TableCell>
-            <TableCell width="150px" textAlign="right">{value.detections}</TableCell>
-          </TableRow>
-        );
-        return isDragged ? (
-          <Table style={{ ...props.style }}>
-            <TableBody>{row}</TableBody>
-          </Table>
-        ) : (
-          row
-        );
-      }}
-    />
+          ))}
+        </TableHeader>
+        <List
+          lockVertically={true}
+          values={rows}
+          onChange={({ oldIndex, newIndex }) =>
+            setData(arrayMove(data, oldIndex, newIndex))
+          }
+          renderList={({ children, props, isDragged }) => {
+            return (
+              <TableBody {...props}>{children}</TableBody>
+            );
+          }}
+          renderItem={({ value: row, props, isDragged, isSelected }) => {
+            return (
+              <TableRow
+                key={row.id}
+                data-selected={dataAttr(row.getIsSelected())}
+                _hover={{
+                  backgroundColor: hoverBackgroundColor,
+                }}
+                _selected={{
+                  backgroundColor: selectedBackgroundColor,
+                }}
+                {...props}
+              >
+                {row.getVisibleCells().map(cell => {
+                  const styleProps = {
+                    minWidth: cell.column.columnDef.minSize,
+                    width: cell.column.getSize(),
+                    ...cell.column.columnDef.style,
+                  };
+
+                  if (cell.column.id === 'selection') {
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        sx={{
+                          ...styleProps,
+                          position: 'relative',
+                        }}
+                      >
+                        <Flex alignItems="center">
+                          <Flex
+                            // Mark any node with the `data-movable-handle` attribute if you wish you wish to use it as a DnD handle.
+                            // The rest of renderItem will be then ignored and not start the drag and drop.
+                            data-movable-handle
+                            sx={{
+                              '[role="row"]:hover > [role="cell"] &': {
+                                visibility: 'visible',
+                              },
+                              visibility: 'hidden',
+                              cursor: isDragged ? 'move' : 'move',
+                              px: '1x',
+                              width: '4x',
+                              position: 'absolute',
+                              left: 0,
+                            }}
+                          >
+                            <HandleIcon />
+                          </Flex>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </Flex>
+                      </TableCell>
+                    );
+                  }
+
+                  return (
+                    <TableCell
+                      key={cell.id}
+                      sx={{
+                        ...styleProps,
+                      }}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          }}
+        />
+      </Table>
+    </>
   );
 };
 

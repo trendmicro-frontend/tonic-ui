@@ -4,9 +4,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import {
-  ButtonBase,
   Flex,
-  Icon,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -198,31 +196,22 @@ const App = () => {
                         <TableHeaderCell
                           ref={canDrop ? dropRef : undefined}
                           data-selected={dataAttr(isOver)}
-                          {...styleProps}
+                          sx={{
+                            ...styleProps,
+                          }}
                         >
                           <Flex
-                            ref={dragPreviewRef}
-                            alignItems="center"
-                            columnGap="2x"
+                            ref={canDrag ? dragRef : undefined}
+                            sx={{
+                              alignItems: 'center',
+                              color: '2x',
+                              cursor: canDrag ? 'move' : 'default',
+                            }}
                           >
                             {header.isPlaceholder ? null : (
-                              <Truncate>
+                              <Truncate ref={dragPreviewRef}>
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                               </Truncate>
-                            )}
-                            {canDrag && (
-                              <ButtonBase
-                                ref={dragRef}
-                                cursor="move"
-                                display="none"
-                                sx={{
-                                  '*:hover > &': {
-                                    display: 'inline-flex',
-                                  },
-                                }}
-                              >
-                                <Icon icon="menu" />
-                              </ButtonBase>
                             )}
                           </Flex>
                         </TableHeaderCell>
@@ -251,7 +240,9 @@ const App = () => {
                 return (
                   <TableCell
                     key={cell.id}
-                    {...styleProps}
+                    sx={{
+                      ...styleProps,
+                    }}
                   >
                     <Truncate>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
