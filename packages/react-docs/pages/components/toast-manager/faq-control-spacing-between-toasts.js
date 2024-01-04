@@ -5,7 +5,7 @@ const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
-const ToastApp = ({ toastSpacing }) => {
+const ToastApp = () => {
   const counterRef = useRef(0);
   const toast = useToastManager();
 
@@ -17,7 +17,7 @@ const ToastApp = ({ toastSpacing }) => {
         const render = ({ data, onClose, placement }) => {
           const toastSpacingKey = isTop ? 'pb' : 'pt';
           const styleProps = {
-            [toastSpacingKey]: toastSpacing,
+            [toastSpacingKey]: 'var(--data-toast-spacing)',
             width: 320,
           };
           return (
@@ -103,6 +103,7 @@ const App = () => {
       <ToastManager
         TransitionProps={{
           sx: {
+            '--data-toast-spacing': `${toastSpacing}px`,
             '[data-toast-placement^="top"] > &:first-of-type': {
               mt: edgeSpacing, // the space to the top edge of the screen
             },
@@ -118,7 +119,7 @@ const App = () => {
           },
         }}
       >
-        <ToastApp toastSpacing={toastSpacing} />
+        <ToastApp />
       </ToastManager>
     </>
   );
