@@ -8,17 +8,24 @@ const FormGroup = (props) => (
 const ToastApp = () => {
   const counterRef = useRef(0);
   const toast = useToastManager();
-  const placement = 'bottom-right';
-  const isTop = placement.includes('top');
 
   return (
     <Button
       onClick={() => {
+        const placement = 'bottom-right';
+        const isTop = placement.includes('top');
         const render = ({ data, onClose, placement }) => {
+          const toastSpacingKey = isTop ? 'pb' : 'pt';
+          const styleProps = {
+            [toastSpacingKey]: 'var(--data-toast-spacing)',
+            width: 320,
+          };
           return (
-            <Toast isClosable onClose={onClose} minWidth={320}>
-              This is a toast message #{data.index + 1}
-            </Toast>
+            <Box sx={styleProps}>
+              <Toast isClosable onClose={onClose}>
+                This is a toast message #{data.index + 1}
+              </Toast>
+            </Box>
           );
         };
 
@@ -96,17 +103,12 @@ const App = () => {
       <ToastManager
         TransitionProps={{
           sx: {
+            '--data-toast-spacing': `${toastSpacing}px`,
             '[data-toast-placement^="top"] > &:first-of-type': {
               mt: edgeSpacing, // the space to the top edge of the screen
             },
-            '[data-toast-placement^="top"] > &:not(:first-of-type)': {
-              mt: toastSpacing, // the space between toasts
-            },
             '[data-toast-placement^="bottom"] > &:last-of-type': {
               mb: edgeSpacing, // the space to the bottom edge of the screen
-            },
-            '[data-toast-placement^="bottom"] > &:not(:last-of-type)': {
-              mb: toastSpacing, // the space between toasts
             },
             '[data-toast-placement$="left"] > &': {
               ml: edgeSpacing, // the space to the left edge of the screen
