@@ -17,7 +17,7 @@ import {
   TableRow,
   TableCell,
   Truncate,
-  useColorMode,
+  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import {
@@ -57,16 +57,7 @@ const getTextWidth = (text, font) => {
 
 const App = () => {
   const theme = useTheme();
-  const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const selectedBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.08)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
-
+  const [colorStyle] = useColorStyle();
   const defaultColumnOrder = [
     'eventType',
     'affectedDevices',
@@ -344,10 +335,10 @@ const App = () => {
                     key={row.id}
                     data-selected={dataAttr(row.getIsSelected())}
                     _hover={{
-                      backgroundColor: hoverBackgroundColor,
+                      backgroundColor: colorStyle.background.highlighted,
                     }}
                     _selected={{
-                      backgroundColor: selectedBackgroundColor,
+                      backgroundColor: colorStyle.background.selected,
                     }}
                   >
                     {row.getVisibleCells().map(cell => {

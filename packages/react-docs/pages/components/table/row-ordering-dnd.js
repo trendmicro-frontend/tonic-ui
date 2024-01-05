@@ -14,7 +14,7 @@ import {
   TableRow,
   TableCell,
   Truncate,
-  useColorMode,
+  useColorStyle,
 } from '@tonic-ui/react';
 import {
   dataAttr,
@@ -68,16 +68,7 @@ const DraggableRow = ({
 };
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const selectedBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.08)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
-
+  const [colorStyle] = useColorStyle();
   const initialData = useMemo(() => [
     { id: 1, priority: 1, policy: 'Team Managers', modifiedTime: 1625875200000, modifiedBy: 'admin' },
     { id: 2, priority: 2, policy: 'Marketing Team', modifiedTime: 1625875200000, modifiedBy: 'admin' },
@@ -208,10 +199,10 @@ const App = () => {
                 const styleProps = {
                   opacity: isDragging ? 0.28 : 1,
                   _hover: {
-                    backgroundColor: hoverBackgroundColor,
+                    backgroundColor: colorStyle.background.highlighted,
                   },
                   _selected: {
-                    backgroundColor: selectedBackgroundColor,
+                    backgroundColor: colorStyle.background.selected,
                   },
                 };
                 return (

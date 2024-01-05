@@ -16,7 +16,7 @@ import {
   TableCell,
   TextLabel,
   Truncate,
-  useColorMode,
+  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import _ from 'lodash';
@@ -51,12 +51,7 @@ const getTextWidth = (text, font) => {
 
 const App = () => {
   const theme = useTheme();
-  const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-
+  const [colorStyle] = useColorStyle();
   const [columns, setColumns] = useState([
     {
       header: 'Event Type',
@@ -301,7 +296,7 @@ const App = () => {
                 <TableRow
                   key={row.id}
                   _hover={{
-                    backgroundColor: hoverBackgroundColor,
+                    backgroundColor: colorStyle.background.highlighted,
                   }}
                 >
                   {row.getVisibleCells().map(cell => {

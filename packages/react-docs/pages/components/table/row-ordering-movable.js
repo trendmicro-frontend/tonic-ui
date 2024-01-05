@@ -16,7 +16,7 @@ import {
   TableCell,
   Text,
   Truncate,
-  useColorMode,
+  useColorStyle,
 } from '@tonic-ui/react';
 import { dataAttr } from '@tonic-ui/utils';
 import React, { useMemo, useState } from 'react';
@@ -24,15 +24,7 @@ import { List, arrayMove } from 'react-movable';
 import HandleIcon from './icons/icon-handle';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const selectedBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.08)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
+  const [colorStyle] = useColorStyle();
   const [data, setData] = useState([
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
@@ -171,16 +163,26 @@ const App = () => {
               <TableBody {...props}>{children}</TableBody>
             );
           }}
-          renderItem={({ value: row, props, isDragged, isSelected }) => {
+          renderItem={({ value: row, props, isDragged, isOutOfBounds }) => {
+            // Cursor for the draggable element
+            const cursor = (() => {
+              if (isOutOfBounds) {
+                return 'not-allowed';
+              }
+              return isDragged ? 'move' : 'move';
+            })();
+
             return (
               <TableRow
                 key={row.id}
                 data-selected={dataAttr(row.getIsSelected())}
-                _hover={{
-                  backgroundColor: hoverBackgroundColor,
-                }}
-                _selected={{
-                  backgroundColor: selectedBackgroundColor,
+                sx={{
+                  _hover: {
+                    backgroundColor: isDragged ? 'gray:70' : colorStyle.background.highlighted,
+                  },
+                  _selected: {
+                    backgroundColor: isDragged ? 'gray:70' : colorStyle.background.selected,
+                  },
                 }}
                 {...props}
               >
@@ -210,7 +212,7 @@ const App = () => {
                                 visibility: 'visible',
                               },
                               visibility: 'hidden',
-                              cursor: isDragged ? 'move' : 'move',
+                              cursor,
                               px: '1x',
                               width: '4x',
                               position: 'absolute',

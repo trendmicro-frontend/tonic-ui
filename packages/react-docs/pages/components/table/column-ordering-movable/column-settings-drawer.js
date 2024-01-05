@@ -144,7 +144,7 @@ const ColumnSettingsDrawer = ({
                   {children}
                 </Box>
               )}
-              renderItem={({ value: column, index, isDragged, isSelected, isOutOfBounds, props }) => {
+              renderItem={({ value: column, index, isDragged, isOutOfBounds, props }) => {
                 const isPinned = !!column.isPinned;
                 const isVisible = column.isVisible !== false;
                 const hoverBackgroundColor = (() => {
@@ -180,7 +180,7 @@ const ColumnSettingsDrawer = ({
                       width: '100%',
                       cursor,
                       zIndex,
-                      ':hover': {
+                      _hover: {
                         backgroundColor: hoverBackgroundColor,
                       },
                     }}

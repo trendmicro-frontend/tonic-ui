@@ -27,7 +27,6 @@ import {
   TableScrollbar,
   Text,
   Truncate,
-  useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
 import { ensureArray, ensureNumber } from 'ensure-type';
@@ -57,12 +56,7 @@ const data = _.range(360).map((i) => {
 });
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-
+  const [colorStyle] = useColorStyle();
   const columns = useMemo(() => [
     {
       header: 'Endpoint',
@@ -162,7 +156,7 @@ const App = () => {
               <TableRow
                 key={row.id}
                 _hover={{
-                  backgroundColor: hoverBackgroundColor,
+                  backgroundColor: colorStyle.background.highlighted,
                 }}
               >
                 {row.getVisibleCells().map(cell => {
@@ -214,8 +208,7 @@ const TablePagination = ({
   showFirstButton = false,
   showLastButton = false,
 }) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
   const defaultRowsPerPage = defaultRowsPerPageProp ?? ensureArray(rowsPerPageOptions)[0];
   const [page, setPage] = useState(pageProp ?? defaultPage);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageProp ?? defaultRowsPerPage);

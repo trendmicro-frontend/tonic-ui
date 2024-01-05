@@ -42,12 +42,7 @@ const data = [
 
 const App = () => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-
+  const [colorStyle] = useColorStyle();
   const [sorting, setSorting] = useState([
     { id: 'eventType', desc: false },
   ]);
@@ -153,7 +148,7 @@ const App = () => {
                     cursor: 'pointer',
                     userSelect: 'none',
                     _hover: {
-                      backgroundColor: hoverBackgroundColor,
+                      backgroundColor: colorStyle.background.highlighted,
                     },
                   };
                 }
@@ -191,7 +186,7 @@ const App = () => {
             <TableRow
               key={row.id}
               _hover={{
-                backgroundColor: hoverBackgroundColor,
+                backgroundColor: colorStyle.background.highlighted,
               }}
             >
               {row.getVisibleCells().map(cell => {

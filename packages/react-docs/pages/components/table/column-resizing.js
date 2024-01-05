@@ -19,6 +19,7 @@ import {
   TableCell,
   Truncate,
   useColorMode,
+  useColorStyle,
 } from '@tonic-ui/react';
 import React, { useMemo, useRef, useState } from 'react';
 
@@ -32,13 +33,8 @@ const data = [
 ];
 
 const App = () => {
-  const tableRef = useRef();
   const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-
+  const [colorStyle] = useColorStyle();
   const [columnResizeMode, setColumnResizeMode] = useState('onChange');
 
   // https://tanstack.com/table/v8/docs/api/features/column-sizing#column-def-options
@@ -90,6 +86,7 @@ const App = () => {
     },
   ], []);
 
+  const tableRef = useRef();
   const table = useReactTable({
     data,
     columns,
@@ -221,7 +218,7 @@ const App = () => {
             <TableRow
               key={row.id}
               _hover={{
-                backgroundColor: hoverBackgroundColor,
+                backgroundColor: colorStyle.background.highlighted,
               }}
             >
               {row.getVisibleCells().map(cell => {
