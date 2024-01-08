@@ -261,7 +261,6 @@ const App = () => {
             sx={{
               // Hide the table if there is no column sizing state
               visibility: _.isEmpty(table.getState().columnSizing) ? 'hidden' : 'visible',
-
               width,
             }}
           >

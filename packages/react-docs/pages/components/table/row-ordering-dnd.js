@@ -4,8 +4,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import {
-  ButtonBase,
-  Icon,
+  Flex,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -22,6 +21,30 @@ import {
 import React, { useMemo, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import HandleIcon from './icons/icon-handle';
+
+/**
+ * Assign a value to a ref function or object.
+ *
+ * @param ref the ref to assign to
+ * @param value the value
+ */
+const assignRef = (ref, value) => {
+  if (ref === null || ref === undefined) {
+    return;
+  }
+
+  if (typeof ref === 'function') {
+    ref(value);
+    return;
+  }
+
+  try {
+    ref.current = value;
+  } catch (error) {
+    throw new Error(`Cannot assign value '${value}' to ref '${ref}'`);
+  }
+};
 
 const DraggableRow = ({
   canDrag: canDragProp,
@@ -29,6 +52,7 @@ const DraggableRow = ({
   children,
   item: itemProp,
   onDrop: onDropProp,
+  onHover: onHoverProp,
 }) => {
   // https://react-dnd.github.io/react-dnd/docs/api/use-drag
   const [collectedDragProps, dragRef, dragPreviewRef] = useDrag({
@@ -48,6 +72,7 @@ const DraggableRow = ({
   const [collectedDropProps, dropRef] = useDrop({
     accept: 'row',
     drop: onDropProp,
+    hover: onHoverProp,
     canDrop: canDropProp,
     collect: (monitor) => {
       // DropTargetMonitor
@@ -153,17 +178,21 @@ const App = () => {
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableHeaderRow key={headerGroup.id}>
-              <TableHeaderCell width="10x" />
               {headerGroup.headers.map(header => {
                 const styleProps = {
                   minWidth: header.column.columnDef.minSize,
                   width: header.getSize(),
                   ...header.column.columnDef.style,
                 };
+
+                if (header.id === 'priority') {
+                  styleProps.pl = '4x';
+                }
+
                 return (
                   <TableHeaderCell
                     key={header.id}
-                    {...styleProps}
+                    sx={styleProps}
                   >
                     {header.isPlaceholder ? null : (
                       <Truncate>
@@ -196,34 +225,66 @@ const App = () => {
               }) => {
                 const canDrag = row.original.priority > 0;
                 const canDrop = row.original.priority > 0;
-                const styleProps = {
-                  opacity: isDragging ? 0.28 : 1,
-                  _hover: {
-                    backgroundColor: colorStyle.background.highlighted,
-                  },
-                  _selected: {
-                    backgroundColor: colorStyle.background.selected,
-                  },
-                };
                 return (
                   <TableRow
-                    ref={canDrop ? dropRef : undefined}
+                    ref={(node) => {
+                      if (canDrop) {
+                        assignRef(dropRef, node);
+                      }
+                      assignRef(dragPreviewRef, node);
+                    }}
                     data-selected={dataAttr(isOver)}
-                    {...styleProps}
+                    sx={{
+                      _hover: {
+                        backgroundColor: isDragging ? 'gray:70' : colorStyle.background.highlighted,
+                      },
+                      _selected: {
+                        backgroundColor: isDragging ? 'gray:70' : colorStyle.background.selected,
+                      },
+                    }}
                   >
-                    <TableCell width="10x">
-                      {canDrag && (
-                        <ButtonBase ref={dragRef} cursor="move">
-                          <Icon ref={dragPreviewRef} icon="menu" />
-                        </ButtonBase>
-                      )}
-                    </TableCell>
                     {row.getVisibleCells().map(cell => {
                       const styleProps = {
                         minWidth: cell.column.columnDef.minSize,
                         width: cell.column.getSize(),
                         ...cell.column.columnDef.style,
                       };
+
+                      if (cell.column.id === 'priority') {
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            sx={{
+                              ...styleProps,
+                              position: 'relative',
+                              pl: '4x',
+                            }}
+                          >
+                            <Flex alignItems="center">
+                              {canDrag && (
+                                <Flex
+                                  ref={dragRef}
+                                  sx={{
+                                    '[role="row"]:hover > [role="cell"] &': {
+                                      opacity: 1,
+                                    },
+                                    opacity: 0,
+                                    cursor: 'move',
+                                    px: '1x',
+                                    width: '4x',
+                                    position: 'absolute',
+                                    left: 0,
+                                  }}
+                                >
+                                  <HandleIcon />
+                                </Flex>
+                              )}
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </Flex>
+                          </TableCell>
+                        );
+                      }
+
                       return (
                         <TableCell
                           key={cell.id}

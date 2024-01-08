@@ -191,10 +191,9 @@ const ColumnSettingsDrawer = ({
                       //data-movable-handle
                       sx={{
                         '*:hover > &': {
-                          visibility: 'visible',
+                          opacity: 1,
                         },
-                        visibility: 'hidden',
-                        //cursor: isDragged ? 'grabbing' : 'grab',
+                        opacity: 0,
                         px: '1x',
                         minWidth: '4x',
                       }}

@@ -209,9 +209,9 @@ const App = () => {
                             data-movable-handle
                             sx={{
                               '[role="row"]:hover > [role="cell"] &': {
-                                visibility: 'visible',
+                                opacity: 1,
                               },
-                              visibility: 'hidden',
+                              opacity: 0,
                               cursor,
                               px: '1x',
                               width: '4x',
