@@ -155,9 +155,21 @@ const App = () => {
         <List
           lockVertically={true}
           values={rows}
-          onChange={({ oldIndex, newIndex }) =>
-            setData(arrayMove(data, oldIndex, newIndex))
-          }
+          onChange={({ oldIndex, newIndex }) => {
+            // Update the data
+            setData(arrayMove(data, oldIndex, newIndex));
+
+            // Update the row selection state
+            const oldRowSelectionValues = rows.map((value, key) => rowSelection[key]);
+            const newRowSelectionValues = arrayMove(oldRowSelectionValues, oldIndex, newIndex);
+            const newRowSelection = newRowSelectionValues.reduce((acc, value, key) => {
+              if (value !== undefined) {
+                acc[key] = value;
+              }
+              return acc;
+            }, {});
+            setRowSelection(newRowSelection);
+          }}
           renderList={({ children, props, isDragged }) => {
             return (
               <TableBody {...props}>{children}</TableBody>
