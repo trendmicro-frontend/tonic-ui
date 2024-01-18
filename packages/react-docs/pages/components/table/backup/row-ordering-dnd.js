@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-table';
 import {
   Flex,
+  Icon,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -22,10 +23,11 @@ import {
   dataAttr,
 } from '@tonic-ui/utils';
 import { ensurePlainObject } from 'ensure-type';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
+import DragLayer from './DragLayer';
 import HandleIcon from './icons/icon-handle';
 
 /**
@@ -60,7 +62,6 @@ const DraggableItem = ({
   onHover: onHoverProp,
 }) => {
   const dragRef = useRef();
-  const dragPreviewRef = useRef();
   const dropRef = useRef();
 
   // https://react-dnd.github.io/react-dnd/docs/api/use-drag
@@ -82,10 +83,10 @@ const DraggableItem = ({
   const [collectedDropProps, _dropRef] = useDrop({
     accept: 'row',
     drop: (item, monitor) => {
-      onDropProp?.({ item, monitor, dragRef, dragPreviewRef, dropRef });
+      onDropProp?.({ item, monitor, dragRef, dropRef });
     },
     hover: (item, monitor) => {
-      onHoverProp?.({ item, monitor, dragRef, dragPreviewRef, dropRef });
+      onHoverProp?.({ item, monitor, dragRef, dropRef });
     },
     canDrop: canDropProp,
     collect: (monitor) => {
@@ -98,15 +99,17 @@ const DraggableItem = ({
     }
   })
 
+  useEffect(() => {
+    _dragPreviewRef(getEmptyImage(), { captureDraggingState: true });
+  }, [_dragPreviewRef]);
+
   const mergedDragRefs = useMergeRefs(_dragRef, dragRef);
-  const mergedDragPreviewRefs = useMergeRefs(_dragPreviewRef, dragPreviewRef);
   const mergedDropRefs = useMergeRefs(_dropRef, dropRef);
 
   return children({
     isDragging: collectedDragProps.isDragging,
     isOver: collectedDropProps.isOver,
     dragRef: mergedDragRefs,
-    dragPreviewRef: mergedDragPreviewRefs,
     dropRef: mergedDropRefs,
     dragSourceMonitor: collectedDragProps.monitor,
     dropTargetMonitor: collectedDropProps.monitor,
@@ -241,6 +244,18 @@ const App = () => {
           ))}
         </TableHeader>
         <TableBody>
+          <DragLayer>
+            {({ item: row }) => {
+              // Drag layer is not rendered when nothing is being dragged
+              const policy = row?.original?.policy;
+              return (
+                <Flex alignItems="center" columnGap="1x">
+                  <Icon icon="arrows" />
+                  {policy}
+                </Flex>
+              );
+            }}
+          </DragLayer>
           {table.getRowModel().rows.map((row, index) => (
             <DraggableItem
               key={row.id}
@@ -271,7 +286,6 @@ const App = () => {
             >
               {({
                 dragRef,
-                dragPreviewRef,
                 dropRef,
                 dragSourceMonitor,
                 dropTargetMonitor,
@@ -286,7 +300,6 @@ const App = () => {
                       if (canDrop) {
                         assignRef(dropRef, node);
                       }
-                      assignRef(dragPreviewRef, node);
                     }}
                     data-selected={dataAttr(isOver)}
                     sx={{
