@@ -12,7 +12,7 @@ import {
   TableRow,
   TableCell,
   Truncate,
-  useColorMode,
+  useColorStyle,
 } from '@tonic-ui/react';
 import React, { useMemo } from 'react';
 
@@ -26,12 +26,7 @@ const data = [
 ];
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-
+  const [colorStyle] = useColorStyle();
   const columns = useMemo(() => [
     {
       header: 'Event Type',
@@ -109,7 +104,7 @@ const App = () => {
           <TableRow
             key={row.id}
             _hover={{
-              backgroundColor: hoverBackgroundColor,
+              backgroundColor: colorStyle.background.highlighted,
             }}
           >
             {row.getVisibleCells().map(cell => {

@@ -18,7 +18,6 @@ import {
   Text,
   TextLabel,
   Truncate,
-  useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
@@ -81,12 +80,7 @@ const FormGroup = (props) => (
 );
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
+  const [colorStyle] = useColorStyle();
   const [updateKey, forceUpdate] = useReducer((value) => !value, false);
   const [layout, changeLayoutBy] = useSelection('flexbox');
   const [variant, changeVariantBy] = useSelection('default');
@@ -330,7 +324,7 @@ const App = () => {
                 {rows.map(row => {
                   const styleProps = {
                     _hover: {
-                      backgroundColor: hoverBackgroundColor,
+                      backgroundColor: colorStyle.background.highlighted,
                     },
                   };
                   return (

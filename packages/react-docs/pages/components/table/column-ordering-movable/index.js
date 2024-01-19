@@ -6,7 +6,9 @@ import {
 import {
   Box,
   Button,
-  ButtonGroup,
+  Flex,
+  Icon,
+  Space,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -14,14 +16,18 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TextLabel,
   Truncate,
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
+import {
+  useConst,
+} from '@tonic-ui/react-hooks';
+import { dataAttr } from '@tonic-ui/utils';
 import _ from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import ColumnSettingsDrawer from './column-settings-drawer';
 
 const data = [
   { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
@@ -52,20 +58,36 @@ const getTextWidth = (text, font) => {
 const App = () => {
   const theme = useTheme();
   const [colorStyle] = useColorStyle();
-  const [columns, setColumns] = useState([
+  const defaultColumnOrder = [
+    'eventType',
+    'affectedDevices',
+    'detections',
+  ];
+  const [columnOrder, setColumnOrder] = useState(defaultColumnOrder);
+
+  const [columnVisibility, setColumnVisibility] = useState({
+    eventType: true,
+    affectedDevices: true,
+    detections: true,
+  });
+
+  const columns = useConst(() => [
     {
       header: 'Event Type',
       accessorKey: 'eventType',
+      isPinned: true,
       size: 'auto',
     },
     {
       header: 'Affected Devices',
       accessorKey: 'affectedDevices',
+      isPinned: false,
       size: '25%',
     },
     {
       header: 'Detections',
       accessorKey: 'detections',
+      isPinned: false,
       size: 150,
     },
   ]);
@@ -76,6 +98,11 @@ const App = () => {
     defaultColumn: {
       minSize: 40,
     },
+    state: {
+      columnOrder,
+      columnVisibility,
+    },
+    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -204,124 +231,141 @@ const App = () => {
   }, [columns, table, tableWidth, theme]);
 
   const layout = 'flexbox'; // One of: 'flexbox', 'table'
-  const variant = 'default'; // One of: 'default', 'outline'
+  const [isColumnSettingsDrawerOpen, setIsColumnSettingsDrawerOpen] = useState(false);
+
+/*
+ * columns = [
+ *   {
+ *     id: <string>,
+ *     label: <string>,
+ *     isPinned: <boolean>,
+ *     isVisible: <boolean>,
+ *   }
+ * ]
+ */
+  const orderedColumns = table.getState().columnOrder.map(columnId => {
+    const column = table.getColumn(columnId);
+    return {
+      id: columnId,
+      label: column.columnDef.header,
+      isPinned: column.columnDef.isPinned,
+      isVisible: table.getState().columnVisibility[columnId],
+    };
+  });
+
+  const onUpdateColumns = useCallback((columns) => {
+    const order = columns.map(column => column.id);
+    const visibility = columns.reduce((acc, column) => {
+      acc[column.id] = column.isVisible;
+      return acc;
+    }, {});
+    setColumnOrder(order);
+    setColumnVisibility(visibility);
+  }, [setColumnOrder]);
 
   return (
-    <Box width="100%">
-      {columns.map((column, columnIndex) => (
-        <Box mb="4x" key={columnIndex}>
-          <Box mb="2x">
-            <TextLabel>
-              {column.header}
-            </TextLabel>
-          </Box>
-          <ButtonGroup
-            variant="secondary"
-            css={{
-              '> *:not(:first-of-type)': {
-                marginLeft: -1
-              }
-            }}
-          >
-            {['auto', '25%', 150].map(value => (
-              <Button
-                key={value}
-                selected={value === columns[columnIndex].size}
-                onClick={() => {
-                  const newColumns = [
-                    ...columns.slice(0, columnIndex),
-                    {
-                      ...columns[columnIndex],
-                      size: value,
-                    },
-                    ...columns.slice(columnIndex + 1),
-                  ];
-                  setColumns(newColumns);
-                }}
-                minWidth="15x"
-              >
-                {value}
-              </Button>
-            ))}
-          </ButtonGroup>
-        </Box>
-      ))}
-      <AutoSizer
-        disableHeight
-        onResize={({ width }) => {
-          if (tableWidth !== width) {
-            setTableWidth(width);
-          }
-        }}
+    <>
+      <ColumnSettingsDrawer
+        columns={orderedColumns}
+        defaultColumnOrder={defaultColumnOrder}
+        onUpdateColumns={onUpdateColumns}
+        isOpen={isColumnSettingsDrawerOpen}
+        onClose={() => setIsColumnSettingsDrawerOpen(false)}
+      />
+      <Flex
+        justifyContent="flex-end"
+        mb="4x"
       >
-        {({ width }) => (
-          <Table
-            layout={layout}
-            variant={variant}
-            sx={{
-              // Hide the table if there is no column sizing state
-              visibility: _.isEmpty(table.getState().columnSizing) ? 'hidden' : 'visible',
-              width,
-            }}
-          >
-            <TableHeader>
-              {table.getHeaderGroups().map(headerGroup => (
-                <TableHeaderRow key={headerGroup.id}>
-                  {headerGroup.headers.map(header => {
-                    const styleProps = {
-                      minWidth: header.column.columnDef.minSize,
-                      width: header.getSize(),
-                      ...header.column.columnDef.style,
-                    };
+        <Button
+          variant="secondary"
+          onClick={() => setIsColumnSettingsDrawerOpen(true)}
+        >
+          <Icon icon="columns" />
+          <Space width="2x" />
+          Customize Columns
+        </Button>
+      </Flex>
+      <Box>
+        <AutoSizer
+          disableHeight
+          onResize={({ width }) => {
+            if (tableWidth !== width) {
+              setTableWidth(width);
+            }
+          }}
+        >
+          {({ width }) => (
+            <Table
+              layout={layout}
+              sx={{
+                // Hide the table if there is no column sizing state
+                visibility: _.isEmpty(table.getState().columnSizing) ? 'hidden' : 'visible',
 
-                    return (
-                      <TableHeaderCell
-                        key={header.id}
-                        {...styleProps}
-                      >
-                        {header.isPlaceholder ? null : (
+                width,
+              }}
+            >
+              <TableHeader>
+                {table.getHeaderGroups().map(headerGroup => (
+                  <TableHeaderRow key={headerGroup.id}>
+                    {headerGroup.headers.map(header => {
+                      const styleProps = {
+                        minWidth: header.column.columnDef.minSize,
+                        width: header.getSize(),
+                        ...header.column.columnDef.style,
+                      };
+                      return (
+                        <TableHeaderCell
+                          key={header.id}
+                          {...styleProps}
+                        >
+                          {header.isPlaceholder ? null : (
+                            <Truncate>
+                              {flexRender(header.column.columnDef.header, header.getContext())}
+                            </Truncate>
+                          )}
+                        </TableHeaderCell>
+                      );
+                    })}
+                  </TableHeaderRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.map(row => (
+                  <TableRow
+                    key={row.id}
+                    data-selected={dataAttr(row.getIsSelected())}
+                    _hover={{
+                      backgroundColor: colorStyle.background.highlighted,
+                    }}
+                    _selected={{
+                      backgroundColor: colorStyle.background.selected,
+                    }}
+                  >
+                    {row.getVisibleCells().map(cell => {
+                      const styleProps = {
+                        minWidth: cell.column.columnDef.minSize,
+                        width: cell.column.getSize(),
+                        ...cell.column.columnDef.style,
+                      };
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          {...styleProps}
+                        >
                           <Truncate>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </Truncate>
-                        )}
-                      </TableHeaderCell>
-                    );
-                  })}
-                </TableHeaderRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  _hover={{
-                    backgroundColor: colorStyle.background.highlighted,
-                  }}
-                >
-                  {row.getVisibleCells().map(cell => {
-                    const styleProps = {
-                      minWidth: cell.column.columnDef.minSize,
-                      width: cell.column.getSize(),
-                      ...cell.column.columnDef.style,
-                    };
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        {...styleProps}
-                      >
-                        <Truncate>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </Truncate>
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </AutoSizer>
-    </Box>
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </AutoSizer>
+      </Box>
+    </>
   );
 };
 

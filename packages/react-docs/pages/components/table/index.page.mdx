@@ -1,3 +1,5 @@
+import { Code } from '@tonic-ui/react';
+
 # Table
 
 ## Import
@@ -33,7 +35,13 @@ To get started with `react-table`, visit https://github.com/TanStack/table to le
 
 {render('./column-auto-sizing')}
 
-### Column ordering (DnD)
+### Column ordering
+
+#### Using <Code>react-movable</Code>
+
+{render('./column-ordering-movable')}
+
+#### Using <Code>react-dnd</Code>
 
 {render('./column-ordering-dnd')}
 
@@ -95,13 +103,15 @@ Below are the code snippets that demonstrate how to render the expanded row base
 )}
 ```
 
-### Row ordering (DnD)
-
-{render('./row-ordering-dnd')}
-
 ### Row selection
 
 {render('./row-selection')}
+
+### Row ordering
+
+#### Using <Code>react-movable</Code>
+
+{render('./row-ordering-movable')}
 
 ### Sorting
 

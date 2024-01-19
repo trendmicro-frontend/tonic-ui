@@ -22,6 +22,7 @@ import {
   TextLabel,
   Truncate,
   useColorMode,
+  useColorStyle,
 } from '@tonic-ui/react';
 import {
   createTransitionStyle,
@@ -43,15 +44,7 @@ const data = [
 
 const App = () => {
   const [colorMode] = useColorMode();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const selectedBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.08)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
-
+  const [colorStyle] = useColorStyle();
   const renderExpandedRow = ({ row }) => {
     const tableBorderColor = {
       dark: 'gray:70',
@@ -219,10 +212,10 @@ const App = () => {
             <TableRow
               data-selected={dataAttr(row.getIsExpanded())}
               _hover={{
-                backgroundColor: hoverBackgroundColor,
+                backgroundColor: colorStyle.background.highlighted,
               }}
               _selected={{
-                backgroundColor: selectedBackgroundColor,
+                backgroundColor: colorStyle.background.selected,
               }}
             >
               {row.getVisibleCells().map(cell => {
