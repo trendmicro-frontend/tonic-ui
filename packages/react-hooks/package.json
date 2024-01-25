@@ -18,6 +18,9 @@
     "prepublish": "yarn run build",
     "test": "jest --maxWorkers=2"
   },
+  "dependencies": {
+    "@tonic-ui/utils": "^1.6.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
