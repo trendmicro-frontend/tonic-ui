@@ -119,7 +119,7 @@ const App = () => {
           }}
         >
           <Flex alignItems="center">
-            Enables/Disables the ability to remove sorting for the table
+            Enable the ability to remove sorting for the table
             <Space width="2x" />
             <Tooltip
               label={colorMode === 'dark'
