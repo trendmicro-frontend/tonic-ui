@@ -18,10 +18,37 @@ import {
   Truncate,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  useToggle,
+} from '@tonic-ui/react-hooks';
 import { dataAttr } from '@tonic-ui/utils';
 import React, { useMemo, useState } from 'react';
 import { List, arrayMove } from 'react-movable';
 import HandleIcon from './icons/icon-handle';
+
+const DragHandleIcon = ({ sx, ...rest }) => {
+  return (
+    <Flex
+      sx={[
+        {
+          '[role="row"]:hover > [role="cell"] &': {
+            opacity: 1,
+          },
+          opacity: 0,
+          cursor: 'move',
+          px: '1x',
+          width: '4x',
+          position: 'absolute',
+          left: 0,
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
+    >
+      <HandleIcon />
+    </Flex>
+  );
+};
 
 const App = () => {
   const [colorStyle] = useColorStyle();
@@ -118,11 +145,24 @@ const App = () => {
   });
 
   const layout = 'flexbox'; // One of: 'flexbox', 'table'
+  const [enableRowOrderingByDraggingTableRow, toggleEnableRowOrderingByDraggingTableRow] = useToggle(true);
   const selectedRowCount = Object.keys(rowSelection).length;
   const rows = table.getRowModel().rows;
 
   return (
     <>
+      <Box mb="4x" px="3x">
+        <Checkbox
+          checked={enableRowOrderingByDraggingTableRow}
+          onChange={() => {
+            toggleEnableRowOrderingByDraggingTableRow();
+          }}
+        >
+          <Flex alignItems="center">
+            Enable reordering of rows by dragging the entire table row
+          </Flex>
+        </Checkbox>
+      </Box>
       <Box mb="4x" px="3x">
         <Text>
           {selectedRowCount} selected
@@ -176,19 +216,12 @@ const App = () => {
             );
           }}
           renderItem={({ value: row, props, isDragged, isOutOfBounds }) => {
-            // Cursor for the draggable element
-            const cursor = (() => {
-              if (isOutOfBounds) {
-                return 'not-allowed';
-              }
-              return isDragged ? 'move' : 'move';
-            })();
-
             return (
               <TableRow
                 key={row.id}
                 data-selected={dataAttr(row.getIsSelected())}
                 sx={{
+                  cursor: isDragged ? 'move' : undefined,
                   _hover: {
                     backgroundColor: isDragged ? 'gray:70' : colorStyle.background.highlighted,
                   },
@@ -215,24 +248,13 @@ const App = () => {
                         }}
                       >
                         <Flex alignItems="center">
-                          <Flex
-                            // Mark any node with the `data-movable-handle` attribute if you wish you wish to use it as a DnD handle.
-                            // The rest of renderItem will be then ignored and not start the drag and drop.
-                            data-movable-handle
-                            sx={{
-                              '[role="row"]:hover > [role="cell"] &': {
-                                opacity: 1,
-                              },
-                              opacity: 0,
-                              cursor,
-                              px: '1x',
-                              width: '4x',
-                              position: 'absolute',
-                              left: 0,
+                          <DragHandleIcon
+                            {...{
+                              // Mark any node with the `data-movable-handle` attribute if you wish you wish to use it as a DnD handle.
+                              // The rest of renderItem will be then ignored and not start the drag and drop.
+                              'data-movable-handle': enableRowOrderingByDraggingTableRow ? undefined : '',
                             }}
-                          >
-                            <HandleIcon />
-                          </Flex>
+                          />
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </Flex>
                       </TableCell>
