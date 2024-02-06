@@ -117,15 +117,6 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
 }
 
 .emotion-6 {
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.emotion-8 {
   width: .75rem;
   height: .75rem;
   fill: currentColor;
@@ -139,11 +130,11 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   flex-shrink: 0;
 }
 
-.emotion-8:not(:root) {
+.emotion-6:not(:root) {
   overflow: hidden;
 }
 
-.emotion-10 {
+.emotion-8 {
   margin-left: var(--tonic-space-2x);
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -152,7 +143,7 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   opacity: 1;
 }
 
-.emotion-16 {
+.emotion-14 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -182,67 +173,67 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]+.emotion-16>* {
+input[type="checkbox"]+.emotion-14>* {
   opacity: 0;
 }
 
-input[type="checkbox"]:checked+.emotion-16>* {
+input[type="checkbox"]:checked+.emotion-14>* {
   opacity: 1;
 }
 
-input[type="checkbox"][data-indeterminate]+.emotion-16>* {
+input[type="checkbox"][data-indeterminate]+.emotion-14>* {
   opacity: 1;
 }
 
-input[type="checkbox"]:hover+.emotion-16 {
+input[type="checkbox"]:hover+.emotion-14 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-blue-50);
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]:disabled+.emotion-16 {
+input[type="checkbox"]:disabled+.emotion-14 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-gray-60);
   color: var(--tonic-colors-white-emphasis);
   opacity: 0.28;
 }
 
-input[type="checkbox"]:focus-visible+.emotion-16 {
+input[type="checkbox"]:focus-visible+.emotion-14 {
   outline-color: var(--tonic-colors-blue-60);
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
 
-input[type="checkbox"]:checked+.emotion-16 {
+input[type="checkbox"]:checked+.emotion-14 {
   background-color: var(--tonic-colors-blue-60);
   border-color: var(--tonic-colors-blue-60);
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-16 {
+input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-14 {
   background-color: var(--tonic-colors-blue-50);
   border-color: var(--tonic-colors-blue-50);
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]:checked:focus-visible+.emotion-16 {
+input[type="checkbox"]:checked:focus-visible+.emotion-14 {
   background-color: inherit;
   border-color: var(--tonic-colors-transparent);
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]:checked:focus-visible+.emotion-16>div:first-of-type {
+input[type="checkbox"]:checked:focus-visible+.emotion-14>div:first-of-type {
   background-color: var(--tonic-colors-blue-60);
 }
 
-input[type="checkbox"]:checked:disabled+.emotion-16 {
+input[type="checkbox"]:checked:disabled+.emotion-14 {
   background-color: var(--tonic-colors-gray-60);
   border-color: var(--tonic-colors-gray-60);
   color: var(--tonic-colors-white-emphasis);
   opacity: 0.28;
 }
 
-.emotion-20 {
+.emotion-16 {
   width: 1rem;
   height: 1rem;
   fill: currentColor;
@@ -256,11 +247,11 @@ input[type="checkbox"]:checked:disabled+.emotion-16 {
   flex-shrink: 0;
 }
 
-.emotion-20:not(:root) {
+.emotion-16:not(:root) {
   overflow: hidden;
 }
 
-.emotion-28 {
+.emotion-24 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -290,67 +281,67 @@ input[type="checkbox"]:checked:disabled+.emotion-16 {
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]+.emotion-28>* {
+input[type="checkbox"]+.emotion-24>* {
   opacity: 0;
 }
 
-input[type="checkbox"]:checked+.emotion-28>* {
+input[type="checkbox"]:checked+.emotion-24>* {
   opacity: 1;
 }
 
-input[type="checkbox"][data-indeterminate]+.emotion-28>* {
+input[type="checkbox"][data-indeterminate]+.emotion-24>* {
   opacity: 1;
 }
 
-input[type="checkbox"]:hover+.emotion-28 {
+input[type="checkbox"]:hover+.emotion-24 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-blue-50);
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]:disabled+.emotion-28 {
+input[type="checkbox"]:disabled+.emotion-24 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-gray-60);
   color: var(--tonic-colors-white-emphasis);
   opacity: 0.28;
 }
 
-input[type="checkbox"]:focus-visible+.emotion-28 {
+input[type="checkbox"]:focus-visible+.emotion-24 {
   outline-color: var(--tonic-colors-blue-60);
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
 
-input[type="checkbox"]:checked+.emotion-28 {
+input[type="checkbox"]:checked+.emotion-24 {
   background-color: var(--tonic-colors-blue-60);
   border-color: var(--tonic-colors-blue-60);
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-28 {
+input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-24 {
   background-color: var(--tonic-colors-blue-50);
   border-color: var(--tonic-colors-blue-50);
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]:checked:focus-visible+.emotion-28 {
+input[type="checkbox"]:checked:focus-visible+.emotion-24 {
   background-color: inherit;
   border-color: var(--tonic-colors-transparent);
   color: var(--tonic-colors-white-emphasis);
 }
 
-input[type="checkbox"]:checked:focus-visible+.emotion-28>div:first-of-type {
+input[type="checkbox"]:checked:focus-visible+.emotion-24>div:first-of-type {
   background-color: var(--tonic-colors-blue-60);
 }
 
-input[type="checkbox"]:checked:disabled+.emotion-28 {
+input[type="checkbox"]:checked:disabled+.emotion-24 {
   background-color: var(--tonic-colors-gray-60);
   border-color: var(--tonic-colors-gray-60);
   color: var(--tonic-colors-white-emphasis);
   opacity: 0.28;
 }
 
-.emotion-32 {
+.emotion-26 {
   width: 1.5rem;
   height: 1.5rem;
   fill: currentColor;
@@ -364,11 +355,11 @@ input[type="checkbox"]:checked:disabled+.emotion-28 {
   flex-shrink: 0;
 }
 
-.emotion-32:not(:root) {
+.emotion-26:not(:root) {
   overflow: hidden;
 }
 
-.emotion-52 {
+.emotion-44 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -395,41 +386,41 @@ input[type="checkbox"]:checked:disabled+.emotion-28 {
   z-index: 0;
 }
 
-input[type="checkbox"]+.emotion-52>* {
+input[type="checkbox"]+.emotion-44>* {
   opacity: 0;
 }
 
-input[type="checkbox"]:checked+.emotion-52>* {
+input[type="checkbox"]:checked+.emotion-44>* {
   opacity: 1;
 }
 
-input[type="checkbox"][data-indeterminate]+.emotion-52>* {
+input[type="checkbox"][data-indeterminate]+.emotion-44>* {
   opacity: 1;
 }
 
-input[type="checkbox"][data-indeterminate]+.emotion-52 {
+input[type="checkbox"][data-indeterminate]+.emotion-44 {
   border-color: var(--tonic-colors-gray-50);
   color: var(--tonic-colors-blue-60);
 }
 
-input[type="checkbox"][data-indeterminate]:hover:not(:disabled)+.emotion-52 {
+input[type="checkbox"][data-indeterminate]:hover:not(:disabled)+.emotion-44 {
   border-color: var(--tonic-colors-blue-50);
   color: var(--tonic-colors-blue-50);
 }
 
-input[type="checkbox"][data-indeterminate]:focus-visible+.emotion-52 {
+input[type="checkbox"][data-indeterminate]:focus-visible+.emotion-44 {
   outline-color: var(--tonic-colors-blue-60);
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
 
-input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
+input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   border-color: var(--tonic-colors-gray-60);
   color: var(--tonic-colors-gray-60);
   opacity: 0.28;
 }
 
-.emotion-72 {
+.emotion-60 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -442,7 +433,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
   cursor: not-allowed;
 }
 
-.emotion-82 {
+.emotion-68 {
   margin-left: var(--tonic-space-2x);
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -463,13 +454,11 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     <div
       aria-hidden="true"
       class="emotion-4 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-8 emotion-9"
+        class="emotion-6 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -484,7 +473,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-10 emotion-1"
+      class="emotion-8 emotion-1"
     >
       Label
     </div>
@@ -499,14 +488,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     />
     <div
       aria-hidden="true"
-      class="emotion-16 emotion-1"
+      class="emotion-14 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-20 emotion-9"
+        class="emotion-16 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -521,7 +508,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-10 emotion-1"
+      class="emotion-8 emotion-1"
     >
       Label
     </div>
@@ -536,14 +523,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     />
     <div
       aria-hidden="true"
-      class="emotion-28 emotion-1"
+      class="emotion-24 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-32 emotion-9"
+        class="emotion-26 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -558,7 +543,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-10 emotion-1"
+      class="emotion-8 emotion-1"
     >
       Label
     </div>
@@ -573,14 +558,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     />
     <div
       aria-hidden="true"
-      class="emotion-16 emotion-1"
+      class="emotion-14 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-20 emotion-9"
+        class="emotion-16 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -595,7 +578,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-10 emotion-1"
+      class="emotion-8 emotion-1"
     >
       Label
     </div>
@@ -611,14 +594,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     />
     <div
       aria-hidden="true"
-      class="emotion-52 emotion-1"
+      class="emotion-44 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-20 emotion-9"
+        class="emotion-16 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 24 24"
@@ -636,7 +617,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-10 emotion-1"
+      class="emotion-8 emotion-1"
     >
       Label
     </div>
@@ -652,14 +633,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     />
     <div
       aria-hidden="true"
-      class="emotion-16 emotion-1"
+      class="emotion-14 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-20 emotion-9"
+        class="emotion-16 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -674,13 +653,13 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-10 emotion-1"
+      class="emotion-8 emotion-1"
     >
       Label
     </div>
   </label>
   <label
-    class="emotion-72 emotion-1"
+    class="emotion-60 emotion-1"
   >
     <input
       class="emotion-2 emotion-1"
@@ -690,14 +669,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     />
     <div
       aria-hidden="true"
-      class="emotion-16 emotion-1"
+      class="emotion-14 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-20 emotion-9"
+        class="emotion-16 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -712,13 +689,13 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-82 emotion-1"
+      class="emotion-68 emotion-1"
     >
       Label
     </div>
   </label>
   <label
-    class="emotion-72 emotion-1"
+    class="emotion-60 emotion-1"
   >
     <input
       class="emotion-2 emotion-1"
@@ -729,14 +706,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     />
     <div
       aria-hidden="true"
-      class="emotion-52 emotion-1"
+      class="emotion-44 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-20 emotion-9"
+        class="emotion-16 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 24 24"
@@ -754,13 +729,13 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-82 emotion-1"
+      class="emotion-68 emotion-1"
     >
       Label
     </div>
   </label>
   <label
-    class="emotion-72 emotion-1"
+    class="emotion-60 emotion-1"
   >
     <input
       checked=""
@@ -771,14 +746,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
     />
     <div
       aria-hidden="true"
-      class="emotion-16 emotion-1"
+      class="emotion-14 emotion-1"
+      role="checkbox"
     >
-      <div
-        class="emotion-6 emotion-1"
-      />
       <svg
         aria-hidden="true"
-        class="emotion-20 emotion-9"
+        class="emotion-16 emotion-7"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -793,7 +766,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-52 {
       </svg>
     </div>
     <div
-      class="emotion-82 emotion-1"
+      class="emotion-68 emotion-1"
     >
       Label
     </div>
