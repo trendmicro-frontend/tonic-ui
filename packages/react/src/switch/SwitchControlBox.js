@@ -144,7 +144,8 @@ const SwitchControlBox = forwardRef((
 
   return (
     <Box
-      aria-hidden={ariaAttr(true)}
+      aria-hidden={ariaAttr(true)} // aria-hidden="true" must be applied to all the images simulating a switch
+      role="switch"
       sx={[sx, ...ensureArray(sxProp)]}
       {...styleProps}
       {...rest}

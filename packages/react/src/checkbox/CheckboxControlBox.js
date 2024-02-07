@@ -38,9 +38,6 @@ const CheckboxControlBox = forwardRef((
     md: '4x',
     sm: '3x',
   }[size];
-  const icon = !!indeterminate
-    ? <IconIndeterminate size={iconSize} />
-    : <IconChecked size={iconSize} />;
   const inputType = 'checkbox';
   const getCheckboxControlBoxSelector = (pseudos) => {
     return `input[type="${inputType}"]` + ensureString(pseudos) + ' + &';
@@ -228,20 +225,13 @@ const CheckboxControlBox = forwardRef((
 
   return (
     <Box
-      aria-hidden={ariaAttr(true)}
+      aria-hidden={ariaAttr(true)} // aria-hidden="true" must be applied to all the images simulating a checkbox
+      role="checkbox"
       sx={[sx, ...ensureArray(sxProp)]}
       {...styleProps}
       {...rest}
     >
-      <Box
-        zIndex="-1"
-        position="absolute"
-        top="0"
-        bottom="0"
-        left="0"
-        right="0"
-      />
-      {icon}
+      {!!indeterminate ? <IconIndeterminate size={iconSize} /> : <IconChecked size={iconSize} />}
     </Box>
   );
 });

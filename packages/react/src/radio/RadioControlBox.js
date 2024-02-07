@@ -124,7 +124,8 @@ const RadioControlBox = forwardRef((
 
   return (
     <Box
-      aria-hidden={ariaAttr(true)}
+      aria-hidden={ariaAttr(true)} // aria-hidden="true" must be applied to all the images simulating a radio button
+      role="radio"
       sx={[sx, ...ensureArray(sxProp)]}
       {...styleProps}
       {...rest}

@@ -301,6 +301,7 @@ input[type="radio"]:checked:disabled+.emotion-24 {
     <div
       aria-hidden="true"
       class="emotion-4 emotion-1"
+      role="radio"
     >
       <div
         class="emotion-6 emotion-1"
@@ -324,6 +325,7 @@ input[type="radio"]:checked:disabled+.emotion-24 {
     <div
       aria-hidden="true"
       class="emotion-14 emotion-1"
+      role="radio"
     >
       <div
         class="emotion-16 emotion-1"
@@ -347,6 +349,7 @@ input[type="radio"]:checked:disabled+.emotion-24 {
     <div
       aria-hidden="true"
       class="emotion-24 emotion-1"
+      role="radio"
     >
       <div
         class="emotion-26 emotion-1"
@@ -369,6 +372,7 @@ input[type="radio"]:checked:disabled+.emotion-24 {
     <div
       aria-hidden="true"
       class="emotion-14 emotion-1"
+      role="radio"
     >
       <div
         class="emotion-16 emotion-1"
@@ -392,6 +396,7 @@ input[type="radio"]:checked:disabled+.emotion-24 {
     <div
       aria-hidden="true"
       class="emotion-14 emotion-1"
+      role="radio"
     >
       <div
         class="emotion-16 emotion-1"
@@ -415,6 +420,7 @@ input[type="radio"]:checked:disabled+.emotion-24 {
     <div
       aria-hidden="true"
       class="emotion-14 emotion-1"
+      role="radio"
     >
       <div
         class="emotion-16 emotion-1"
@@ -439,6 +445,7 @@ input[type="radio"]:checked:disabled+.emotion-24 {
     <div
       aria-hidden="true"
       class="emotion-14 emotion-1"
+      role="radio"
     >
       <div
         class="emotion-16 emotion-1"
