@@ -11,7 +11,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.mjs",
+    "build": "yarn generate-icons && cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.mjs",
     "clean": "del build coverage dist",
     "generate-icons": "node src/icon/generate.mjs",
     "lint": "eslint --ext .js,.jsx,.mjs .",
