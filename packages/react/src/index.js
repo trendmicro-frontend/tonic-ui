@@ -49,12 +49,13 @@ export * from './truncate';
 export * from './visually-hidden';
 
 // deprecated
-export ControlBox from './deprecated/ControlBox';
-export FlatButton from './deprecated/FlatButton';
-export PseudoBox from './deprecated/PseudoBox';
-export ToggleSwitch from './deprecated/ToggleSwitch';
-export useDisclosure from './deprecated/useDisclosure';
-export withTheme from './deprecated/withTheme';
+export { default as ControlBox } from './deprecated/ControlBox';
+export { default as FlatButton } from './deprecated/FlatButton';
+export { default as PseudoBox } from './deprecated/PseudoBox';
+export { default as ToggleSwitch } from './deprecated/ToggleSwitch';
+export { default as useDisclosure } from './deprecated/useDisclosure';
+export { default as withTheme } from './deprecated/withTheme';
+export { default as Icon } from './deprecated/Icon';
 
 // removed
-export PopperArrow from './removed/PopperArrow';
+export { default as PopperArrow } from './removed/PopperArrow';

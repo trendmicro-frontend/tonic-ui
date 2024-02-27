@@ -1,7 +1,7 @@
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
-import { Icon } from '../icon';
+import Icon from '../deprecated/Icon';
 import {
   useToastCloseButtonStyle,
 } from './styles';
