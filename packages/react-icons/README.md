@@ -1,13 +1,13 @@
-# @tonic-ui/react
+# @tonic-ui/react-icons
 
-React Tonic UI component library.
+React Tonic UI Icons library.
 
 ## Installation
 
 ```sh
 // with npm
-npm install @tonic-ui/react
+npm install @tonic-ui/react-icons
 
 // with yarn
-yarn add @tonic-ui/react
+yarn add @tonic-ui/react-icons
 ```
