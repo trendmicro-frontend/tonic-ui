@@ -3,7 +3,7 @@ import { ensurePlainObject } from 'ensure-type';
 import _get from 'lodash.get';
 import React, { forwardRef } from 'react';
 import { useTheme } from '../theme';
-import SVGIcon from './SVGIcon';
+import { SVGIcon } from '../icon';
 
 const cwSpin = keyframes`
   0% {

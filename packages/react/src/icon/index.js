@@ -1,7 +1,6 @@
-import Icon from './Icon';
 import SVGIcon from './SVGIcon';
 
+export * from "./icons";
 export {
-  Icon,
   SVGIcon,
 };
