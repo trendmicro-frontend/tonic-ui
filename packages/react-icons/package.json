@@ -1,7 +1,7 @@
 {
   "name": "@tonic-ui/react-icons",
   "version": "1.0.0-alpha",
-  "description": "React Tonic UI icon components library.",
+  "description": "React Tonic UI Icons library.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "files": [
