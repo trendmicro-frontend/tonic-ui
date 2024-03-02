@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
-import Icon from '../deprecated/Icon';
+import { Icon } from '../icon';
 import {
   useSearchInputClearButtonStyle,
 } from './styles';

@@ -1,6 +1,6 @@
 import React, { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
-import Icon from '../deprecated/Icon';
+import { Icon } from '../icon';
 import {
   useToastIconStyle,
 } from './styles';

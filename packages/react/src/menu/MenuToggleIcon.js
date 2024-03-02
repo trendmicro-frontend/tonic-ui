@@ -3,7 +3,7 @@ import { ariaAttr, createTransitionStyle, getEnterTransitionProps, getExitTransi
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import Icon from '../deprecated/Icon';
+import { Icon } from '../icon';
 import {
   useMenuToggleIconStyle,
 } from './styles';

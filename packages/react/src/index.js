@@ -55,7 +55,6 @@ export { default as PseudoBox } from './deprecated/PseudoBox';
 export { default as ToggleSwitch } from './deprecated/ToggleSwitch';
 export { default as useDisclosure } from './deprecated/useDisclosure';
 export { default as withTheme } from './deprecated/withTheme';
-export { default as Icon } from './deprecated/Icon';
 
 // removed
 export { default as PopperArrow } from './removed/PopperArrow';

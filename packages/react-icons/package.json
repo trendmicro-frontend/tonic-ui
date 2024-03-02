@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-icons",
-  "version": "1.0.0-alpha",
+  "version": "1.37.0",
   "description": "React Tonic UI Icons library.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -12,18 +12,17 @@
   },
   "sideEffects": false,
   "scripts": {
-    "generate-icons": "node src/generate.mjs",
+    "generate-icons": "node scripts/generate-icons.mjs",
     "build": "yarn generate-icons && cross-env PACKAGE_NAME=index INPUT=src CJS_OUTPUT_DIRECTORY=dist/cjs ESM_OUTPUT_DIRECTORY=dist/esm rollup --config rollup.config.mjs",
     "clean": "del build coverage dist",
     "lint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
-    "prepublish": "yarn run build"
+    "prepublish": "yarn run build",
+    "test": "exit 0"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
-    "@tonic-ui/react": "^1.29.0",
-    "@trendmicro/tmicon": "1.x",
-    "lodash.template": "^4.5.0"
+    "@tonic-ui/react": "^1.29.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.24.0",
@@ -31,6 +30,7 @@
     "@babel/preset-react": "^7.23.3",
     "@emotion/babel-plugin": "^11.11.0",
     "@trendmicro/babel-config": "^1.0.2",
+    "@trendmicro/tmicon": "1.x",
     "cross-env": "^7.0.3",
     "del-cli": "^5.0.0",
     "eslint": "^8.25.0",
@@ -59,11 +59,8 @@
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "keywords": [
-    "components",
     "icons",
-    "emotion",
     "react",
-    "styled-system",
     "tonic-ui"
   ]
 }

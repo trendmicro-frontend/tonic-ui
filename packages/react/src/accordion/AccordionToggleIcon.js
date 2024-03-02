@@ -4,7 +4,7 @@ import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import Icon from '../deprecated/Icon';
+import { Icon } from '../icon';
 import {
   useAccordionToggleIconStyle,
 } from './styles';

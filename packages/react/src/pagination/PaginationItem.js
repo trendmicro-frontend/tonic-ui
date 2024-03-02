@@ -1,7 +1,7 @@
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Button } from '../button';
-import Icon from '../deprecated/Icon';
+import { Icon } from '../icon';
 import {
   usePaginationItemStyle,
 } from './styles';
