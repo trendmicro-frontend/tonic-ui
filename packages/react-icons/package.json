@@ -21,7 +21,7 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
+    "@emotion/react": "11.x",
     "@tonic-ui/react": "^1.29.0"
   },
   "devDependencies": {
