@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const FileTextIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="file-text-0" d="M15 4h-4v-4l4 4zM10 5h5v10c0 0.5-0.5 1-1 1h-12c-0.5 0-1-0.5-1-1v-14c0-0.5 0.5-1 1-1h8v5zM4 8h6v-1h-6v1zM12 11h-8v1h8v-1zM4 9v1h8v-1h-8z" /></g>
     </SVGIcon>

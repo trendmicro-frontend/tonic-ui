@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const ShareIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="share-0" d="M15 12.5c0 0.001 0 0.001 0 0.002 0 1.381-1.119 2.5-2.5 2.5s-2.5-1.119-2.5-2.5c0-0.096 0.005-0.191 0.016-0.285l-0.001 0.011-4.646-2.071c-0.46 0.518-1.128 0.842-1.871 0.842-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5c0.684 0 1.303 0.274 1.754 0.719l-0-0 4.812-2.659c-0.041-0.169-0.064-0.364-0.064-0.564 0-1.383 1.121-2.504 2.504-2.504s2.504 1.121 2.504 2.504c0 1.383-1.121 2.504-2.504 2.504-0.828 0-1.562-0.402-2.018-1.021l-0.005-0.007-4.668 2.579c0.119 0.28 0.187 0.606 0.187 0.949 0 0.282-0.047 0.552-0.133 0.805l0.005-0.018 4.451 1.985c0.437-0.765 1.248-1.271 2.177-1.271 1.38 0 2.499 1.119 2.499 2.499 0 0 0 0.001 0 0.001v-0z" /></g>
     </SVGIcon>

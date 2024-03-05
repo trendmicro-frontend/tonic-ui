@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const NasIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="nas-0" d="M15 1h-14c-0.552 0-1 0.448-1 1v0 12c0 0.552 0.448 1 1 1v0h14c0.552 0 1-0.448 1-1v0-12c0-0.552-0.448-1-1-1v0zM2 5c-0.552 0-1-0.448-1-1s0.448-1 1-1c0.552 0 1 0.448 1 1v0c0 0.552-0.448 1-1 1v0zM15 13h-11v-10h11z" />,<path key="nas-1" d="M5 4h2v8h-2v-8z" />,<path key="nas-2" d="M11 4h-3v8h3zM10 6h-1v-1h1z" />,<path key="nas-3" d="M12 4h2v8h-2v-8z" /></g>
     </SVGIcon>

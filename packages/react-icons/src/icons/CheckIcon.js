@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const CheckIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="check-0" d="M5 15l-5-5 1-1 4 3.88 10-11.88 1 1-11 13z" /></g>
     </SVGIcon>

@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const TreeviewIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="treeview-0" d="M11 9c0.002 0.552 0.448 0.998 1 1h2c0.552-0.002 0.998-0.448 1-1v-2c-0.002-0.552-0.448-0.998-1-1h-2c-0.552 0.002-0.998 0.448-1 1v0h-7v-2c0.552-0.002 0.998-0.448 1-1v-2c-0.002-0.552-0.448-0.998-1-1h-2c-0.552 0.002-0.998 0.448-1 1v2c0.002 0.552 0.448 0.998 1 1h0v9h9c0.002 0.552 0.448 0.998 1 1h2c0.552-0.002 0.998-0.448 1-1v-2c-0.002-0.552-0.448-0.998-1-1h-2c-0.552 0.002-0.998 0.448-1 1v0h-7v-3zM12 7h2v2h-2zM2 2h2v2h-2zM12 12h2v2h-2z" /></g>
     </SVGIcon>

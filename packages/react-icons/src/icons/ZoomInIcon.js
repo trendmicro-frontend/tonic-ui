@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const ZoomInIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="zoom-in-0" d="M11.7 10.3c2.1-2.9 1.5-7-1.4-9.1s-7-1.5-9.1 1.4-1.5 7 1.4 9.1c2.3 1.7 5.4 1.7 7.7 0l4.3 4.3 1.4-1.4-4.3-4.3zM6.5 11.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5c0 2.8-2.2 5-5 5zM7 6h3v1h-3v3h-1v-3h-3v-1h3v-3h1v3z" /></g>
     </SVGIcon>

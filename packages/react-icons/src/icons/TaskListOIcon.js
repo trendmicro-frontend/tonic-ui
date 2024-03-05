@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const TaskListOIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="task-list-o-0" d="M4 8h8v1h-8v-1zM4 7h8v-1h-8v1zM4 11h8v-1h-8v1zM15 2v13c0 0.552-0.448 1-1 1v0h-12c-0.552 0-1-0.448-1-1v0-13c0-0.552 0.448-1 1-1v0h2v-1h8v1h2c0.552 0 1 0.448 1 1v0zM5 2h6v-1h-6v1zM14 2h-2v1h-8v-1h-2v13h12v-13z" /></g>
     </SVGIcon>

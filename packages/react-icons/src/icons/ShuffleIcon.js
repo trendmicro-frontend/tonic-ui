@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const ShuffleIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="shuffle-0" d="M12 11h-1.546l-2.625-3 2.625-3h1.546v2l4-3-4-3v2h-2.454l-3.046 3.481-3.046-3.481h-3.454v2h2.546l2.625 3-2.625 3h-2.546v2h3.454l3.046-3.481 3.046 3.481h2.454v2l4-3.031-4-2.969v2z" /></g>
     </SVGIcon>

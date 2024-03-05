@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const TvIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="tv-0" d="M15 1h-14c-0.552 0-1 0.448-1 1v0 10c0 0.552 0.448 1 1 1v0h14c0.552 0 1-0.448 1-1v0-10c0-0.552-0.448-1-1-1v0zM14 8.414v2.586h-12v-8h12zM4 14h8v1h-8z" /></g>
     </SVGIcon>

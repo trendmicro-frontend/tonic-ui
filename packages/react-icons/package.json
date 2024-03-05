@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@emotion/react": "11.x",
-    "@tonic-ui/react": "^1.29.0"
+    "@tonic-ui/react": "^1.7.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.24.0",

@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const MagicIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="magic-0" d="M2 3.5c1.4 0 2.5-1.1 2.5-2.5 0 1.4 1.1 2.5 2.5 2.5-1.4 0-2.5 1.1-2.5 2.5 0-1.4-1.1-2.5-2.5-2.5zM13 1.5c0.8 0 1.5-0.7 1.5-1.5 0 0.8 0.7 1.5 1.5 1.5-0.8 0-1.5 0.7-1.5 1.5 0-0.8-0.7-1.5-1.5-1.5zM15 9.5c-0.8 0-1.5 0.7-1.5 1.5 0-0.8-0.7-1.5-1.5-1.5 0.8 0 1.5-0.7 1.5-1.5 0 0.8 0.7 1.5 1.5 1.5zM11 3l-11 11 2 2 11-11-2-2zM9.5 7.5l-1-1 2.5-2.4 0.9 0.9-2.4 2.5z" /></g>
     </SVGIcon>

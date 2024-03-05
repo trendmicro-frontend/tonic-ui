@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const BoxUploadIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="box-upload-0" d="M14 1h-1v1l1.3 2h-12.6l1.3-2v-1h-1l-2 3v10c0 0.6 0.4 1 1 1h14c0.6 0 1-0.4 1-1v-10l-2-3zM10 10v4h-4v-4h-3l5-5 5 5h-3zM12 3h-8v-1h8v1zM11 1h-6v-1h6v1z" /></g>
     </SVGIcon>

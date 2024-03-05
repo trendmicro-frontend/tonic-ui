@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const CutIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="cut-0" d="M13 4c-1.657 0-3 1.343-3 3v0h-1v-5l-2-2v7h-7l2 2h5v1c-0.005-0-0.012-0-0.018-0-1.657 0-3 1.343-3 3s1.343 3 3 3c1.657 0 3-1.343 3-3 0-0.879-0.378-1.669-0.98-2.218l-0.002-0.002v-1.78h1.78c0.552 0.615 1.349 1 2.236 1 1.657 0 3-1.343 3-3s-1.343-3-3-3c-0.006 0-0.011 0-0.017 0h0.001zM7 14.5c-0.828 0-1.5-0.672-1.5-1.5s0.672-1.5 1.5-1.5c0.828 0 1.5 0.672 1.5 1.5v0c0 0.828-0.672 1.5-1.5 1.5v0zM13 8.5c-0.828 0-1.5-0.672-1.5-1.5s0.672-1.5 1.5-1.5c0.828 0 1.5 0.672 1.5 1.5v0c0 0.828-0.672 1.5-1.5 1.5v0zM2.29 3l-1.29-1.29 0.71-0.71 1.29 1.29zM5.29 6l-1.29-1.29 0.71-0.71 1.29 1.29zM11.29 12l-1.29-1.29 0.71-0.71 1.29 1.29zM14.29 15l-1.29-1.29 0.71-0.71 1.29 1.29z" /></g>
     </SVGIcon>

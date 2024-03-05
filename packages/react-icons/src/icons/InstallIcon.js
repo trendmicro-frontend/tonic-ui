@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const InstallIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="install-0" d="M8 11l-5-5h3v-5h4v5h3l-5 5zM15 10h-4l-3 3-3-3h-4c-0.6 0-1 0.4-1 1v3c0 0.6 0.4 1 1 1h14c0.6 0 1-0.4 1-1v-3c0-0.5-0.4-1-1-1z" /></g>
     </SVGIcon>

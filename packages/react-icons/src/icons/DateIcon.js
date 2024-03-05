@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const DateIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="date-0" d="M7 13.080l-3.53-3.56 1.060-1.050 2.47 2.53 4.47-4.49 1.060 1.060zM16 2v13c0 0.552-0.448 1-1 1v0h-14c-0.552 0-1-0.448-1-1v0-13c0-0.552 0.448-1 1-1v0h2v-1h3v1h4v-1h3v1h2c0.552 0 1 0.448 1 1v0zM11 3h1v-2h-1v2zM4 3h1v-2h-1v2zM15 4h-14v11h14v-11z" /></g>
     </SVGIcon>

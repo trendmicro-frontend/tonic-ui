@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const PinStarIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="pin-star-0" d="M14 6c0-3.3-2.7-6-6-6s-6 2.7-6 6c0 1.3 0.4 2.7 1.3 3.7v0l4.7 6.3 4.7-6.3c0.8-1 1.3-2.4 1.3-3.7zM10.6 10l-2.6-1.9-2.6 1.9 1-3.1-2.4-1.9h3l1-3 1 3h3l-2.4 1.9 1 3.1z" /></g>
     </SVGIcon>

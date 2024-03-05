@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const ServerGroupIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="server-group-0" d="M5 1v3h11v-3zM10 3h-3v-1h3zM16 8h-4v-3h4zM16 12h-4v-3h4zM11 8v-3h-11v3zM2 6h3v1h-3zM11 12v-3h-11v3zM2 10h3v1h-3zM11 16v-3h-11v3zM2 14h3v1h-3z" /></g>
     </SVGIcon>

@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const CalendarEmptyIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="calendar-empty-0" d="M16 2v13c-0 0.552-0.448 1-1 1h-14c-0.552-0-1-0.448-1-1v-13c0-0.552 0.448-1 1-1h2v-1h3v1h4v-1h3v1h2c0.552 0 1 0.448 1 1v0zM11 3h1v-2h-1zM4 3h1v-2h-1zM15 4h-14v11h14z" /></g>
     </SVGIcon>

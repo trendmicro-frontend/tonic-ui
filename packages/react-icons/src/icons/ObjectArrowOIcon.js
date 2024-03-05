@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const ObjectArrowOIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="object-arrow-o-0" d="M3 15h8v1h-8c-0.552 0-1-0.448-1-1v0-14c0-0.552 0.448-1 1-1v0h10c0.552 0 1 0.448 1 1v0 6h-1v-6h-10zM12 7v-5h-8v12h3v-1h-2v-10h6v4zM14 10l-2-2v3h-4v2h4v3l4-4z" /></g>
     </SVGIcon>

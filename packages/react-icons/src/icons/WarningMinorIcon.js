@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const WarningMinorIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="warning-minor-0" d="M15.7 7.3l-7-7c-0.4-0.4-1-0.4-1.4 0l-7 7c-0.4 0.4-0.4 1 0 1.4l7 7c0.4 0.4 1 0.4 1.4 0l7-7c0.4-0.4 0.4-1 0-1.4zM9 12h-2v-2h2v2zM9 9h-2v-5h2v5z" /></g>
     </SVGIcon>

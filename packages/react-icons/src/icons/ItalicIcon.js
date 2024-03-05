@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const ItalicIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="italic-0" d="M6.649 2h4.351v0.856l-1.016 0.070-0.248 0.253-1.559 9.624 0.188 0.245 1.001 0.079v0.873h-4.366v-0.873l1.016-0.097 0.234-0.262 1.559-9.59-0.158-0.253-1.001-0.070z" /></g>
     </SVGIcon>

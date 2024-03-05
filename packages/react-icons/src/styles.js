@@ -1,6 +1,6 @@
 import { keyframes } from '@emotion/react';
 
-export const cwSpin = keyframes`
+const cwSpin = keyframes`
 0% {
       transform: rotate(0deg)
   }
@@ -9,7 +9,7 @@ export const cwSpin = keyframes`
   }
 `;
 
-export const ccwSpin = keyframes`
+const ccwSpin = keyframes`
   0% {
       transform: rotate(0deg)
   }
@@ -18,7 +18,7 @@ export const ccwSpin = keyframes`
   }
 `;
 
-export const getIconStyleProps = ({ spin }) => {
+const useIconStyle = ({ spin }) => {
   return {
     animation: (() => {
       if (spin === 'ccw') {
@@ -30,4 +30,8 @@ export const getIconStyleProps = ({ spin }) => {
       return undefined;
     })()
   };
+};
+
+export {
+  useIconStyle,
 };

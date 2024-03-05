@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const MobileIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="mobile-0" d="M12 0h-8c-0.552 0-1 0.448-1 1v0 14c0 0.552 0.448 1 1 1v0h8c0.552 0 1-0.448 1-1v0-14c0-0.552-0.448-1-1-1v0zM9 15h-2v-1h2zM12 13h-8v-11h8z" /></g>
     </SVGIcon>

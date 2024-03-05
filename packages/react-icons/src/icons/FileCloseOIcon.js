@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const FileCloseOIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="file-close-o-0" d="M2 1h8v4h4v2h1v-3l-4-4h-9c-0.5 0-1 0.5-1 1v14c0 0.5 0.5 1 1 1h5v-1h-5v-14zM11 1.4l2.6 2.6h-2.6v-2.6zM15.8 14.8l0.2 0.2-1 1-3-3-3 3-1-1 3-3-3-3 1-1 3 3 3-3 1 1-3 3 2.8 2.8z" /></g>
     </SVGIcon>

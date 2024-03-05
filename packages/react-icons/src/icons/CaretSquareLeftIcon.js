@@ -3,22 +3,26 @@
 
 import React, { forwardRef } from 'react';
 import { SVGIcon } from '@tonic-ui/react';
-import { getIconStyleProps } from '../utils';
+import { useIconStyle } from '../styles';
 
 const CaretSquareLeftIcon = forwardRef((
   {
     spin = false,
-    ...props
+    sx,
+    ...rest
   },
   ref,
 ) => {
-  const styleProps = getIconStyleProps({ spin });
+  const styleProps = useIconStyle({ spin });
   return (
     <SVGIcon
       ref={ref}
       viewBox="0 0 16 16"
-      {...styleProps}
-      {...props}
+      sx={[
+        styleProps,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      {...rest}
     >
       <g><path key="caret-square-left-0" d="M14 3v10h-12v-10h12zM14 2h-12c-0.552 0-1 0.448-1 1v0 10c0 0.552 0.448 1 1 1v0h12c0.552 0 1-0.448 1-1v0-10c0-0.552-0.448-1-1-1v0zM5 8l5 4v-8z" /></g>
     </SVGIcon>
