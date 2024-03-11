@@ -108,9 +108,6 @@ jobs:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
       - codecov/upload:
-          file: ./packages/react-icons/coverage/lcov.info
-          flags: react-icons
-      - codecov/upload:
           file: ./packages/react-lab/coverage/lcov.info
           flags: react-lab
       - codecov/upload:
@@ -180,9 +177,6 @@ jobs:
       - codecov/upload:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
-      - codecov/upload:
-          file: ./packages/react-icons/coverage/lcov.info
-          flags: react-icons
       - codecov/upload:
           file: ./packages/react-lab/coverage/lcov.info
           flags: react-lab
@@ -259,9 +253,6 @@ jobs:
       - codecov/upload:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
-      - codecov/upload:
-          file: ./packages/react-icons/coverage/lcov.info
-          flags: react-icons
       - codecov/upload:
           file: ./packages/react-lab/coverage/lcov.info
           flags: react-lab
