@@ -132,10 +132,10 @@ exports[`Menu should render correctly 1`] = `
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  vertical-align: middle;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .emotion-8:not(:root) {
@@ -252,7 +252,7 @@ exports[`Menu should render correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="emotion-8 emotion-9"
+          class="emotion-8 emotion-1"
           focusable="false"
           role="presentation"
           viewBox="0 0 16 16"

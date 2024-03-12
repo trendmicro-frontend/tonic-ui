@@ -67,6 +67,17 @@ The most recent stable version (✓) is recommended for use in production.
   <TableBody>
     <TableRow>
       <TableCell>
+        <Text>__TONIC_UI_V2_RELEASE_VERSION__ ✓</Text>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V2_RELEASE_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V2_RELEASE_NOTES__">Release notes</Link>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
         <Text>__TONIC_UI_V1_RELEASE_VERSION__ ✓</Text>
       </TableCell>
       <TableCell>

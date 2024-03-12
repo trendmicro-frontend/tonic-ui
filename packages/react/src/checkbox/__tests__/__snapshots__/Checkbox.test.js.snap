@@ -124,10 +124,10 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  vertical-align: middle;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .emotion-6:not(:root) {
@@ -241,10 +241,10 @@ input[type="checkbox"]:checked:disabled+.emotion-14 {
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  vertical-align: middle;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .emotion-16:not(:root) {
@@ -349,10 +349,10 @@ input[type="checkbox"]:checked:disabled+.emotion-24 {
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  vertical-align: middle;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .emotion-26:not(:root) {
@@ -458,7 +458,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-6 emotion-7"
+        class="emotion-6 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -493,7 +493,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-16 emotion-7"
+        class="emotion-16 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -528,7 +528,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-26 emotion-7"
+        class="emotion-26 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -563,7 +563,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-16 emotion-7"
+        class="emotion-16 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -599,7 +599,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-16 emotion-7"
+        class="emotion-16 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 24 24"
@@ -638,7 +638,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-16 emotion-7"
+        class="emotion-16 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -674,7 +674,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-16 emotion-7"
+        class="emotion-16 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"
@@ -711,7 +711,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-16 emotion-7"
+        class="emotion-16 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 24 24"
@@ -751,7 +751,7 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     >
       <svg
         aria-hidden="true"
-        class="emotion-16 emotion-7"
+        class="emotion-16 emotion-1"
         focusable="false"
         role="presentation"
         viewBox="0 0 16 16"

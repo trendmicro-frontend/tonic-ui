@@ -27,7 +27,8 @@ export const routes = [
       { title: 'Usage', path: 'getting-started/usage' },
       { title: 'CSS Variables', path: 'getting-started/css-variables' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
-      { title: 'Migration From v0.x to v1', path: 'getting-started/migration-v0x' },
+      { title: 'Migration From v0 to v1', path: 'getting-started/migration-v0-to-v1' },
+      { title: 'Migration From v1 to v2', path: 'getting-started/migration-v1-to-v2' },
       { title: 'Security', path: 'getting-started/security' },
       { title: 'Versions', path: 'getting-started/versions' },
       { title: 'Contributing', path: 'getting-started/contributing' },
@@ -441,6 +442,19 @@ export const routes = [
       { title: 'useOutsideClick', path: 'hooks/useOutsideClick' },
       { title: 'usePrevious', path: 'hooks/usePrevious' },
       { title: 'useToggle', path: 'hooks/useToggle' },
+    ],
+  },
+  {
+    title: 'React Icons',
+    icon: (props) => (
+      <Icon
+        icon="icon"
+        size="4x"
+        {...props}
+      />
+    ),
+    routes: [
+      { title: 'Getting Started', path: 'icons' },
     ],
   },
   {

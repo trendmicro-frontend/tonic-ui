@@ -1,9 +1,9 @@
+import { SVGIcon } from '@tonic-ui/react-icons';
 import { keyframes } from '@emotion/react';
 import { ensurePlainObject } from 'ensure-type';
 import _get from 'lodash.get';
 import React, { forwardRef } from 'react';
 import { useTheme } from '../theme';
-import SVGIcon from './SVGIcon';
 
 const cwSpin = keyframes`
   0% {

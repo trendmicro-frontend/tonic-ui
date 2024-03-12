@@ -87,7 +87,7 @@ const Demo = ({
           onClick={toggleShowSourceCode}
         >
           <Tooltip label={showSourceCode ? 'Hide the source' : 'Show the source'}>
-            <Icon icon="code" size={{ sm: '5x', md: '4x' }} />
+            <Icon icon="code" />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -95,7 +95,7 @@ const Demo = ({
           onClick={handleClickCopySource}
         >
           <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
-            <Icon icon="file-copy-o" size={{ sm: '5x', md: '4x' }} />
+            <Icon icon="file-copy-o" />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -103,7 +103,7 @@ const Demo = ({
           onClick={handleClickEditInCodeSandbox}
         >
           <Tooltip label="Edit in CodeSandbox">
-            <CodeSandboxIcon size={{ sm: '5x', md: '4x' }} />
+            <CodeSandboxIcon />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -111,7 +111,7 @@ const Demo = ({
           onClick={reset}
         >
           <Tooltip label="Reset the demo">
-            <Icon icon="redo" size={{ sm: '5x', md: '4x' }} />
+            <Icon icon="redo" />
           </Tooltip>
         </IconButton>
       </Flex>

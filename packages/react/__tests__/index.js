@@ -32,7 +32,7 @@ test('should match expected exports', () => {
     'Badge',
 
     // box
-    'Box',
+    'Box', // imported from '@tonic-ui/react-base'
 
     // button
     'Button',
@@ -86,7 +86,7 @@ test('should match expected exports', () => {
 
     // icon
     'Icon',
-    'SVGIcon',
+    'SVGIcon', // imported from '@tonic-ui/react-icons'
 
     // image
     'Image',
