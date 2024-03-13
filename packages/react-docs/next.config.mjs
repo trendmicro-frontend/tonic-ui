@@ -144,7 +144,7 @@ const withMDX = mdxPlugin({
              * />
              * ```
              */
-            const re = new RegExp(/render\(['"](.*)['"]\)/);
+            const re = new RegExp(/render\(['"]([^'"]+)['"](?:,\s*({.*}))?\)/);
             const results = node.value.match(re);
             if (!results) {
               return;
@@ -154,6 +154,7 @@ const withMDX = mdxPlugin({
 
             const importName = `DemoComponent$${index}`;
             const importPath = results[1];
+            const renderOptionExpression = ensureString(results[2]) || '{}';
 
             newNode = {
               type: 'mdxjsEsm',
@@ -190,6 +191,7 @@ const withMDX = mdxPlugin({
 
             newNode = mapMarkdownToSyntaxTree(`
               <Demo
+                {...${renderOptionExpression}}
                 component={${importName}}
                 file={{
                   data: ${JSON.stringify(data)},
