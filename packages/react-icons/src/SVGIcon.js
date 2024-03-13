@@ -2,15 +2,15 @@ import { Box } from '@tonic-ui/react-base';
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 
+const defaultViewBox = '0 0 16 16';
+
 const SVGIcon = forwardRef((
   {
+    as: asProp = 'svg',
     children,
-    color = 'currentColor',
     focusable = false,
-    role = 'presentation',
     size = '4x',
-    sx,
-    viewBox = '0 0 16 16',
+    viewBox = defaultViewBox,
     ...rest
   },
   ref,
@@ -19,29 +19,28 @@ const SVGIcon = forwardRef((
   const styleProps = {
     display: 'inline-flex',
     flexShrink: 0,
-    verticalAlign: 'middle',
-    '&:not(:root)': {
-      overflow: 'hidden',
-    },
+    width: size,
+    height: size,
   };
+  const more = {};
+
+  // If the root element is the default 'svg', it will set the `viewBox` attribute.
+  // If a custom SVG component is passed via the `as` prop, it will inherit its `viewBox` attribute.
+  if (typeof asProp === 'string' && asProp.toLowerCase() === 'svg') {
+    more.viewBox = viewBox;
+  }
 
   return (
     <Box
       aria-hidden={ariaAttr(true)}
-      ref={ref}
-      as="svg"
-      viewBox={viewBox}
-      width={size}
-      height={size}
-      fill={color}
+      as={asProp}
+      fill="currentColor"
       focusable={focusable}
-      role={role}
-      sx={[
-        styleProps,
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      {...(hasSVGElementAsChild && children.props)}
+      ref={ref}
+      {...styleProps}
+      {...more}
       {...rest}
+      {...(hasSVGElementAsChild && children.props)}
     >
       {hasSVGElementAsChild ? children.props.children : children}
     </Box>
