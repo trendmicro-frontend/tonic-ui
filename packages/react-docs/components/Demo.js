@@ -9,7 +9,7 @@ import {
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { useRouter } from 'next/router';
-import React, { Fragment, useCallback, useReducer } from 'react';
+import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
@@ -26,8 +26,11 @@ const liveEditorStyle = {
 
 const Demo = ({
   component: Component,
+  defaultExpanded = false,
+  expanded,
   file,
   sandbox,
+  ...rest
 }) => {
   const router = useRouter();
   const [updateKey, forceUpdate] = useReducer((value) => !value, false);
@@ -40,7 +43,7 @@ const Demo = ({
     dark: codeBlockDark,
     light: codeBlockLight,
   }[colorMode];
-  const [showSourceCode, toggleShowSourceCode] = useToggle(false);
+  const [showSourceCode, toggleShowSourceCode] = useToggle(expanded ?? defaultExpanded);
   const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(file?.data);
   const handleClickCopySource = useCallback(() => {
     copySource();
@@ -52,6 +55,13 @@ const Demo = ({
     forceUpdate();
     toggleShowSourceCode(false);
   }, [forceUpdate, toggleShowSourceCode]);
+
+  useEffect(() => {
+    const isControlled = (expanded !== undefined);
+    if (isControlled && expanded !== showSourceCode) {
+      toggleShowSourceCode(expanded);
+    }
+  }, [expanded]);
     
   return (
     <LiveProvider
