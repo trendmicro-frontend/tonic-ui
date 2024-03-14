@@ -21,6 +21,7 @@ export default [
       // https://rollupjs.org/guide/en/#changed-defaults
       // https://rollupjs.org/guide/en/#outputinterop
       interop: 'auto',
+      preserveModules: true,
 
       // The `@tonic-ui/theme` package mixed default and named exports. See `output.exports` for more info.
       //
