@@ -17,10 +17,10 @@ export default [
     output: {
       dir: cjsOutputDirectory,
       format: 'cjs',
-
       // https://rollupjs.org/guide/en/#changed-defaults
       // https://rollupjs.org/guide/en/#outputinterop
       interop: 'auto',
+      preserveModules: true
     },
     external: isExternal,
     plugins: [
