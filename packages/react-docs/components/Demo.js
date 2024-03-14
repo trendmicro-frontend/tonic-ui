@@ -12,10 +12,10 @@ import { useRouter } from 'next/router';
 import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
+import CodeSandboxIcon from '../icons/CodeSandboxIcon';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import x from '../utils/json-stringify';
-import CodeSandboxIcon from './CodeSandboxIcon';
 import IconButton from './IconButton';
 
 const Demo = ({

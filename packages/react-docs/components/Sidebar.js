@@ -145,10 +145,6 @@ const Sidebar = forwardRef((
           return (
             <Box
               key={sectionTitle}
-              mb="4x"
-              _lastOfType={{
-                mb: 0,
-              }}
             >
               <AccordionItem
                 defaultIsExpanded={defaultIsExpanded}
@@ -167,7 +163,11 @@ const Sidebar = forwardRef((
                       <Flex
                         alignItems="center"
                         justifyContent="space-between"
+                        py="2x"
                         px="3x"
+                        _hover={{
+                          backgroundColor: colorStyle.background.highlighted,
+                        }}
                       >
                         <Flex
                           alignItems="center"
