@@ -104,9 +104,6 @@ exports[`Tree should render correctly 1`] = `
 }
 
 .emotion-12 {
-  width: var(--tonic-sizes-4x);
-  height: var(--tonic-sizes-4x);
-  fill: currentColor;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -114,11 +111,8 @@ exports[`Tree should render correctly 1`] = `
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  vertical-align: middle;
-}
-
-.emotion-12:not(:root) {
-  overflow: hidden;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
 }
 
 .emotion-14 {
@@ -168,8 +162,8 @@ exports[`Tree should render correctly 1`] = `
               <svg
                 aria-hidden="true"
                 class="emotion-12 emotion-1"
+                fill="currentColor"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 16 16"
               >
                 <g>
@@ -217,8 +211,8 @@ exports[`Tree should render correctly 1`] = `
               <svg
                 aria-hidden="true"
                 class="emotion-12 emotion-1"
+                fill="currentColor"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 16 16"
               >
                 <g>
@@ -266,8 +260,8 @@ exports[`Tree should render correctly 1`] = `
               <svg
                 aria-hidden="true"
                 class="emotion-12 emotion-1"
+                fill="currentColor"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 16 16"
               >
                 <g>

@@ -117,9 +117,6 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
 }
 
 .emotion-6 {
-  width: .75rem;
-  height: .75rem;
-  fill: currentColor;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -127,11 +124,8 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  vertical-align: middle;
-}
-
-.emotion-6:not(:root) {
-  overflow: hidden;
+  width: .75rem;
+  height: .75rem;
 }
 
 .emotion-8 {
@@ -234,9 +228,6 @@ input[type="checkbox"]:checked:disabled+.emotion-14 {
 }
 
 .emotion-16 {
-  width: 1rem;
-  height: 1rem;
-  fill: currentColor;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -244,11 +235,8 @@ input[type="checkbox"]:checked:disabled+.emotion-14 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  vertical-align: middle;
-}
-
-.emotion-16:not(:root) {
-  overflow: hidden;
+  width: 1rem;
+  height: 1rem;
 }
 
 .emotion-24 {
@@ -342,9 +330,6 @@ input[type="checkbox"]:checked:disabled+.emotion-24 {
 }
 
 .emotion-26 {
-  width: 1.5rem;
-  height: 1.5rem;
-  fill: currentColor;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -352,11 +337,8 @@ input[type="checkbox"]:checked:disabled+.emotion-24 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  vertical-align: middle;
-}
-
-.emotion-26:not(:root) {
-  overflow: hidden;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .emotion-44 {
@@ -459,8 +441,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-6 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 16 16"
       >
         <g
@@ -494,8 +476,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-16 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 16 16"
       >
         <g
@@ -529,8 +511,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-26 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 16 16"
       >
         <g
@@ -564,8 +546,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-16 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 16 16"
       >
         <g
@@ -600,8 +582,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-16 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 24 24"
       >
         <g
@@ -639,8 +621,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-16 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 16 16"
       >
         <g
@@ -675,8 +657,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-16 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 16 16"
       >
         <g
@@ -712,8 +694,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-16 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 24 24"
       >
         <g
@@ -752,8 +734,8 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       <svg
         aria-hidden="true"
         class="emotion-16 emotion-1"
+        fill="currentColor"
         focusable="false"
-        role="presentation"
         viewBox="0 0 16 16"
       >
         <g
