@@ -1,16 +1,15 @@
 import React from 'react';
-import { Flex } from '@tonic-ui/react';
+import { useColorStyle } from '@tonic-ui/react';
 import {
-  FaceSmileOIcon,
+  HomeIcon,
 } from '@tonic-ui/react-icons';
 
 const App = () => {
+  const [colorStyle] = useColorStyle();
   return (
-    <Flex columnGap="4x" alignItems="center">
-      <FaceSmileOIcon />
-      <FaceSmileOIcon size="6x" color="red:50" />
-      <FaceSmileOIcon size="8x" sx={{ color: 'yellow:50' }} />
-    </Flex>
+    <>
+      <HomeIcon color={colorStyle.color.secondary} size="4x" />
+    </>
   );
 };
 

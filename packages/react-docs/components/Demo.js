@@ -18,12 +18,6 @@ import x from '../utils/json-stringify';
 import CodeSandboxIcon from './CodeSandboxIcon';
 import IconButton from './IconButton';
 
-const liveEditorStyle = {
-  fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
-  fontSize: 14,
-  overflowX: 'auto',
-};
-
 const Demo = ({
   component: Component,
   defaultExpanded = false,
@@ -61,7 +55,7 @@ const Demo = ({
     if (isControlled && expanded !== showSourceCode) {
       toggleShowSourceCode(expanded);
     }
-  }, [expanded]);
+  }, [expanded, showSourceCode, toggleShowSourceCode]);
     
   return (
     <LiveProvider
@@ -127,7 +121,16 @@ const Demo = ({
       </Flex>
       <Fade in={showSourceCode}>
         <Collapse in={showSourceCode} unmountOnExit={true}>
-          <LiveEditor style={liveEditorStyle} />
+          <Box
+            as={LiveEditor}
+            sx={{
+              fontFamily: 'mono',
+              fontSize: 'sm',
+              '& > .prism-code': {
+                overflowX: 'auto',
+              },
+            }}
+          />
         </Collapse>
       </Fade>
     </LiveProvider>

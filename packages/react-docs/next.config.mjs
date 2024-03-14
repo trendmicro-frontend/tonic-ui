@@ -9,6 +9,7 @@ import { h } from 'hastscript';
 import { mdxJsx } from 'micromark-extension-mdx-jsx';
 import { fromMarkdown } from 'mdast-util-from-markdown';
 import { mdxJsxFromMarkdown } from 'mdast-util-mdx-jsx';
+import withSVGR from 'next-plugin-svgr';
 import remarkEmoji from 'remark-emoji';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGFM from 'remark-gfm';
@@ -290,6 +291,7 @@ const withMDX = mdxPlugin({
 });
 
 plugins.push(withMDX);
+plugins.push(withSVGR);
 
 const initialNextConfig = {
   env: {
