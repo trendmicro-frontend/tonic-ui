@@ -20,7 +20,7 @@ import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
-import CodeSandboxIcon from '../icons/codesandbox';
+import CodeSandboxIcon from '../icons/CodeSandboxIcon';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
