@@ -10,7 +10,6 @@ import {
   Checkbox,
   Flex,
   Icon,
-  Image,
   OverflowTooltip,
   Table,
   TableHeader,
@@ -25,6 +24,9 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import {
+  SVGIcon,
+} from '@tonic-ui/react-icons';
+import {
   dataAttr,
 } from '@tonic-ui/utils';
 import { ensureArray, ensureNumber } from 'ensure-type';
@@ -34,7 +36,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import ConditionalWrapper from './ConditionalWrapper';
 import Draggable from './Draggable';
 import TablePagination from './TablePagination';
-import iconDrag from './icon-drag.svg';
+import DragIcon from './icons/drag.svg';
 
 /**
  * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
@@ -456,9 +458,9 @@ const Component = ({
                                   zIndex: canDrag ? 1 : undefined,
                                 }}
                               >
-                                <Image
+                                <SVGIcon
                                   alt="draggable"
-                                  src={iconDrag.src}
+                                  as={DragIcon}
                                   sx={{
                                     cursor: 'move',
                                     visibility: row.getIsSelected() ? 'visible' : 'hidden',
