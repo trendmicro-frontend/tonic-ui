@@ -3,17 +3,16 @@ import {
   Tooltip,
 } from '@tonic-ui/react';
 import {
-  AppIcon,
   CodeIcon,
-  GavelIcon,
+  ColorIcon,
+  FileImageOIcon,
   HookIcon,
   ListOpenIcon,
-  TreeviewIcon,
   SVGIcon,
+  WidgetsIcon,
+  WorkspaceIcon,
 } from '@tonic-ui/react-icons';
-import SVGFileIcon from '../icons/SVGFileIcon';
 import LabIcon from '../icons/LabIcon';
-import ThemeIcon from '../icons/ThemeIcon';
 import React from 'react';
 
 const Subtitle = (props) => {
@@ -43,7 +42,16 @@ export const routes = [
   {
     title: 'Patterns',
     icon: (props) => (
-      <TreeviewIcon size="4x" {...props} />
+      <SVGIcon viewBox="0 0 32 32" size="4x" {...props}>
+        <path d="M8,20H4.73A1.9735,1.9735,0,0,0,3,19a2,2,0,0,0,0,4A1.9735,1.9735,0,0,0,4.73,22H8Z" />
+        <path d="M29,9a1.9735,1.9735,0,0,0-1.73,1H24v2h3.27A1.9991,1.9991,0,1,0,29,9Z" />
+        <path d="M25.4141,5,21,.5859,16.5859,5,20,8.4141V18h2V8.4141ZM21,3.4141,22.5859,5,21,6.5859,19.4141,5Z" />
+        <path d="M12,23.5859V14H10v9.5859L6.5859,27,11,31.4141,15.4141,27ZM9.4141,27,11,25.4141,12.5859,27,11,28.5859Z" />
+        <path d="M18,10H8.4141L5,6.5859.5859,11,5,15.4141,8.4141,12H18ZM5,12.5859,3.4141,11,5,9.4141,6.5859,11Z" />
+        <path d="M13,3A2,2,0,0,0,9,3,1.9733,1.9733,0,0,0,10,4.73V8h2V4.73A1.9733,1.9733,0,0,0,13,3Z" />
+        <path d="M22,27.2705V24H20v3.27a2,2,0,1,0,2,0Z" />
+        <path d="M31.4141,21,27,16.5859,23.5859,20H14v2h9.5859L27,25.4141ZM27,19.4141,28.5859,21,27,22.5859,25.4141,21Z" />
+      </SVGIcon>
     ),
     routes: [
       { title: 'Overview', path: 'patterns' },
@@ -54,7 +62,7 @@ export const routes = [
   {
     title: 'Styled System',
     icon: (props) => (
-      <GavelIcon size="4x" {...props} />
+      <WorkspaceIcon size="4x" {...props} />
     ),
     routes: [
       { title: 'Getting Started', path: 'styled-system' },
@@ -66,7 +74,7 @@ export const routes = [
   {
     title: 'Theme',
     icon: (props) => (
-      <SVGIcon as={ThemeIcon} size="4x" {...props} />
+      <ColorIcon size="4x" {...props} />
     ),
     routes: [
       { title: 'Getting Started', path: 'theme' },
@@ -89,7 +97,7 @@ export const routes = [
   {
     title: 'React Components',
     icon: (props) => (
-      <AppIcon {...props} />
+      <WidgetsIcon {...props} />
     ),
     routes: [
       { title: 'Getting Started', path: 'components' },
@@ -405,7 +413,7 @@ export const routes = [
   {
     title: 'React Icons',
     icon: (props) => (
-      <SVGIcon as={SVGFileIcon} size="4x" {...props} />
+      <FileImageOIcon size="4x" {...props} />
     ),
     routes: [
       { title: 'Getting Started', path: 'icons' },
