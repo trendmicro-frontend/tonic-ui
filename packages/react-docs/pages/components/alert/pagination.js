@@ -1,11 +1,12 @@
-import { Alert, ButtonBase, Flex, Icon, Text } from '@tonic-ui/react';
+import { Alert, ButtonBase, Flex, Text } from '@tonic-ui/react';
+import { ChevronDownIcon, ChevronUpIcon, SuccessIcon, InfoIcon, WarningMinorIcon, ErrorIcon } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 
 const alerts = [
-  { variant: 'solid', severity: 'success', icon: 'success', message: 'This is a success alert' },
-  { variant: 'solid', severity: 'info', icon: 'info', message: 'This is an info alert' },
-  { variant: 'solid', severity: 'warning', icon: 'warning-minor', message: 'This is a warning alert' },
-  { variant: 'solid', severity: 'error', icon: 'error', message: 'This is an error alert' },
+  { variant: 'solid', severity: 'success', icon: <SuccessIcon size="4x" />, message: 'This is a success alert' },
+  { variant: 'solid', severity: 'info', icon: <InfoIcon size="4x" />, message: 'This is an info alert' },
+  { variant: 'solid', severity: 'warning', icon: <WarningMinorIcon size="4x" />, message: 'This is a warning alert' },
+  { variant: 'solid', severity: 'error', icon: <ErrorIcon size="4x" />, message: 'This is an error alert' },
 ];
 const pageMin = alerts.length > 0 ? 1 : 0;
 const pageMax = alerts.length > 0 ? alerts.length : 0;
@@ -41,14 +42,14 @@ const App = () => {
             disabled={page <= pageMin}
             onClick={() => setPage(Math.max(pageMin, page - 1))}
           >
-            <Icon icon="chevron-up" />
+            <ChevronUpIcon />
           </IconButton>
           <Text>{page}/{pageMax}</Text>
           <IconButton
             disabled={page >= pageMax}
             onClick={() => setPage(Math.min(pageMax, page + 1))}
           >
-            <Icon icon="chevron-down" />
+            <ChevronDownIcon />
           </IconButton>
         </Flex>
       </Flex>

@@ -15,61 +15,52 @@ export default function transformer(file, api) {
     j.literal(packageName),
   );
 
-  // Find all import declarations from '@tonic-ui/react'
+  // Find all import declarations of `@tonic-ui/react`
   const reactImports = root.find(j.ImportDeclaration, {
     source: { value: '@tonic-ui/react' },
   });
-
-  // Transform import statements
-  reactImports.forEach((path) => {
-    const importSpecifiers = path.node.specifiers;
-    const newSpecifiers = importSpecifiers.filter((specifier) => {
-      return specifier.imported.name !== 'Icon';
-    });
-    if (newSpecifiers.length < importSpecifiers.length) {
-      path.node.specifiers = newSpecifiers;
-    }
+  // Find all import declarations of `@tonic-ui/react-icons`
+  const reactIconsImports = root.find(j.ImportDeclaration, {
+    source: { value: '@tonic-ui/react-icons' },
   });
 
-  const importedIcons = [];
+  const importedIconComponents = [];
 
-  // Transform JSX elements
+  // Transform `<Icon icon="alert" />` to `<Icon as={AlertIcon} />`
   root.findJSXElements('Icon').forEach((path) => {
-    const iconProp = path.node.openingElement.attributes.find(
-      (attribute) => attribute.name.name === 'icon'
-    );
-
-    if (iconProp && iconProp.value.type === 'Literal') {
-      // Remove the 'icon' attribute
-      path.node.openingElement.attributes = path.node.openingElement.attributes.filter(attribute => attribute.name?.name !== 'icon');
-
-      const iconName = iconProp.value.value;
-      const iconComponentName = `${mapKebabCaseToCapitalizedCamelCase(iconName)}Icon`;
-
-      // Replace JSX element name
-      path.node.openingElement.name.name = iconComponentName;
-
-      if (!importedIcons.includes(iconComponentName)) {
-        importedIcons.push(iconComponentName);
+    path.node.openingElement.attributes = path.node.openingElement.attributes.reduce((acc, attribute) => {
+      if (attribute.name.name === 'icon') {
+        const iconComponent = mapKebabCaseToCapitalizedCamelCase(attribute.value.value) + 'Icon';
+        const asAttribute = j.jsxAttribute(
+          j.jsxIdentifier('as'),
+          j.jsxExpressionContainer(j.identifier(iconComponent)),
+        );
+        if (!importedIconComponents.includes(iconComponent)) {
+          importedIconComponents.push(iconComponent);
+        }
+        return [...acc, asAttribute];
       }
-    }
+      return [...acc, attribute];
+    }, []);
   });
 
-  if (importedIcons.length > 0) {
-    const reactIconsImports = root.find(j.ImportDeclaration, {
-      source: { value: '@tonic-ui/react-icons' },
-    });
-
+  // Add import declarations
+  // ```js
+  // import { AlertIcon } from '@tonic-ui/react-icons';
+  // ```
+  if (importedIconComponents.length > 0) {
     if (reactIconsImports.length === 0) {
       // If no import found, create a new import declaration and insert it
-      const importDeclaration = createImportDeclaration('@tonic-ui/react-icons', importedIcons.sort());
-      if (reactImports.length > 0) {
-        reactImports.at(-1).get().insertAfter(importDeclaration);
+      const importDeclaration = createImportDeclaration('@tonic-ui/react-icons', importedIconComponents.sort());
+
+      const lastReactImport = reactImports.length > 0 ? reactImports.at(-1) : null;
+      if (lastReactImport) {
+        lastReactImport.get().insertAfter(importDeclaration);
       }
     } else {
       // If import exists, check if all the required icons are already imported
       const existingSpecifiers = reactIconsImports.get(0).node.specifiers;
-      const missingIcons = importedIcons.filter(icon => !existingSpecifiers.some(specifier => specifier.imported.name === icon));
+      const missingIcons = importedIconComponents.filter(icon => !existingSpecifiers.some(specifier => specifier.imported.name === icon));
 
       if (missingIcons.length > 0) {
         // If there are missing icons, add them to the existing import

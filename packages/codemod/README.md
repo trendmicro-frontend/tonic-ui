@@ -4,16 +4,8 @@ This repository contains a collection of codemod scripts based for use with [jsc
 
 ## Usage
 
-```sh
-npx @tonic-uii/codemod@latest <codemod> <paths...>
-```
-
-```sh
-// with npm
-npm install @tonic-ui/utils
-
-// with yarn
-yarn add @tonic-ui/utils
+```bash
+npx @tonic-ui/codemod@latest <codemod> <path>
 ```
 
 ## Transforms
@@ -29,15 +21,14 @@ In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/
 The diff should look like below:
 
 ```diff
--import { Badge, Icon } from '@tonic-ui/react';
-+import { Badge } from '@tonic-ui/react';
+ import { Badge, Icon } from '@tonic-ui/react';
 +import { AlertIcon } from '@tonic-ui/react-icons';
  import React from 'react';
 
  export default () => (
    <Badge variant="dot">
--    <Icon icon="alert" />
-+    <AlertIcon />
+-    <Icon icon="alert" size="4x" />
++    <Icon as={AlertIcon} size="4x" />
    </Badge>
  );
 ```

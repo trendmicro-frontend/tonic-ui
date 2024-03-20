@@ -1,3 +1,9 @@
+import {
+  SuccessIcon,
+  InfoIcon,
+  WarningMinorIcon,
+  ErrorIcon,
+} from '@tonic-ui/react-icons';
 import React, { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
 import { Icon } from '../icon';
@@ -5,23 +11,6 @@ import {
   useToastIconStyle,
 } from './styles';
 import useToast from './useToast';
-
-const getIconByAppearance = (appearance) => {
-  const iconName = {
-    success: 'success',
-    info: 'info',
-    warning: 'warning-minor',
-    error: 'error',
-  }[appearance];
-
-  if (!iconName) {
-    return null;
-  }
-
-  return (
-    <Icon icon={`${iconName}`} />
-  );
-};
 
 const ToastIcon = forwardRef((props, ref) => {
   const toastContext = useToast(); // context might be an undefined value
@@ -32,10 +21,18 @@ const ToastIcon = forwardRef((props, ref) => {
   const styleProps = useToastIconStyle({ appearance });
   const icon = useMemo(() => {
     if (typeof iconProp === 'string') {
-      return (<Icon icon={iconProp} />);
+      return (
+        <Icon icon={iconProp} />
+      );
     }
     if (iconProp === undefined) {
-      return getIconByAppearance(appearance);
+      const IconComponent = {
+        success: SuccessIcon,
+        info: InfoIcon,
+        warning: WarningMinorIcon,
+        error: ErrorIcon,
+      }[appearance];
+      return IconComponent ? <IconComponent size="4x" /> : null;
     }
     return iconProp;
   }, [appearance, iconProp]);

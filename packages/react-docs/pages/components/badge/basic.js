@@ -1,4 +1,5 @@
-import { Badge, Grid, Icon, Skeleton, Text } from '@tonic-ui/react';
+import { Badge, Grid, Skeleton, Text } from '@tonic-ui/react';
+import { AlertIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -11,21 +12,21 @@ const App = () => (
     width="min-content"
   >
     <Badge>
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge badgeContent={0}>
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge badgeContent={5}>
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge badgeContent="99+">
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge
       badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
     >
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge>
       <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />

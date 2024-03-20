@@ -1,4 +1,5 @@
-import { Button, Icon, VisuallyHidden } from '@tonic-ui/react';
+import { Button, VisuallyHidden } from '@tonic-ui/react';
+import { CheckIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -6,7 +7,7 @@ const App = () => (
     <VisuallyHidden>
       Checkmark
     </VisuallyHidden>
-    <Icon icon="check" />
+    <CheckIcon />
   </Button>
 );
 

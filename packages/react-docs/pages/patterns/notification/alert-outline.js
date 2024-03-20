@@ -1,13 +1,5 @@
-import {
-  Alert,
-  AlertCloseButton,
-  Button,
-  Collapse,
-  Flex,
-  Icon,
-  Stack,
-  Text,
-} from '@tonic-ui/react';
+import { Alert, AlertCloseButton, Button, Collapse, Flex, Stack, Text } from '@tonic-ui/react';
+import { Light2OIcon } from '@tonic-ui/react-icons';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
@@ -45,7 +37,7 @@ const App = () => {
           <Alert
             variant="outline"
             severity="none"
-            icon={<Icon icon="light2-o" />}
+            icon={<Light2OIcon />}
             onClose={onClose}
             sx={{
               borderImageSource: 'linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)',

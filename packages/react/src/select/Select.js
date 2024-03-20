@@ -1,8 +1,8 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { AngleDownIcon } from '@tonic-ui/react-icons';
 import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { Icon } from '../icon';
 import { getIconWrapperProps, useSelectStyle } from './styles';
 import splitProps from './split-props';
 
@@ -70,7 +70,7 @@ const Select = forwardRef((
           disabled={rest.disabled}
           {...iconWrapperProps}
         >
-          <Icon width="4x" icon="angle-down" />
+          <AngleDownIcon size="4x" />
         </Box>
       )}
     </Box>

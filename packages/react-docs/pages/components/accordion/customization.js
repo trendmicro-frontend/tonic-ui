@@ -4,11 +4,11 @@ import {
   AccordionItem,
   AccordionToggle,
   AccordionToggleIcon,
-  Icon,
   Space,
   Text,
   useColorMode,
 } from '@tonic-ui/react';
+import { ChevronDownIcon } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 import SkeletonBlock from '@/components/SkeletonBlock';
 
@@ -26,9 +26,7 @@ const App = () => {
     <AccordionToggleIcon>
       {(state, { ref, style: styleProps }) => {
         styleProps.transform = (expandedItem === item) ? 'rotate(0deg)' : 'rotate(-90deg)';
-        return (
-          <Icon ref={ref} icon="chevron-down" size="4x" {...styleProps} />
-        );
+        return (<ChevronDownIcon ref={ref} size="4x" {...styleProps} />);
       }}
     </AccordionToggleIcon>
   );

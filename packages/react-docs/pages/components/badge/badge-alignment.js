@@ -1,4 +1,5 @@
-import { Badge, Grid, Icon } from '@tonic-ui/react';
+import { Badge, Grid } from '@tonic-ui/react';
+import { AlertIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -10,16 +11,16 @@ const App = () => (
     width="min-content"
   >
     <Badge placement="top-left" badgeContent={1}>
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge placement="top-right" badgeContent={1}>
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge placement="bottom-left" badgeContent={1}>
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge placement="bottom-right" badgeContent={1}>
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
   </Grid>
 );

@@ -6,7 +6,7 @@ const createSVGIcon = (svgIcon, options) => {
   const Component = forwardRef((props, ref) => {
     return (
       <SVGIcon
-        data-icon-name={displayName}
+        data-icon={displayName}
         ref={ref}
         {...props}
       >

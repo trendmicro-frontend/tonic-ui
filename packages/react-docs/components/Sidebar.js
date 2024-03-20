@@ -6,7 +6,6 @@ import {
   AccordionCollapse,
   Box,
   Flex,
-  Icon,
   Image,
   Link,
   Text,
@@ -16,6 +15,9 @@ import {
 import {
   useMergeRefs,
 } from '@tonic-ui/react-hooks';
+import {
+  CloseIcon,
+} from '@tonic-ui/react-icons';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -133,7 +135,7 @@ const Sidebar = forwardRef((
           </NextLink>
           <Box px="2x">
             <IconButton onClick={onClose}>
-              <Icon icon="close" />
+              <CloseIcon />
             </IconButton>
           </Box>
         </Flex>
@@ -173,17 +175,12 @@ const Sidebar = forwardRef((
                           alignItems="center"
                           columnGap="2x"
                         >
-                          {(typeof icon === 'function')
-                            ? icon({
-                                color: colorStyle?.color?.tertiary,
-                                size: '4x',
-                              })
-                            : <Icon
-                                icon={icon}
-                                color={colorStyle?.color?.tertiary}
-                                size="4x"
-                              />
-                          }
+                          {(typeof icon === 'function') && (
+                            icon({
+                              color: colorStyle?.color?.tertiary,
+                              size: '4x',
+                            })
+                          )}
                           <Text
                             color={colorStyle?.color?.primary}
                             fontSize="sm"

@@ -1,7 +1,5 @@
-import {
-  ButtonLink,
-  Icon,
-} from '@tonic-ui/react';
+import { ButtonLink } from '@tonic-ui/react';
+import { AngleRightIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -10,7 +8,7 @@ const App = () => (
     textDecoration="none"
     variant="default"
   >
-    Get Started <Icon icon="angle-right" />
+    Get Started <AngleRightIcon />
   </ButtonLink>
 );
 

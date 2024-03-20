@@ -1,13 +1,14 @@
-import { Divider, Flex, Icon } from '@tonic-ui/react';
+import { Divider, Flex } from '@tonic-ui/react';
+import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
   <Flex>
-    <Icon icon="align-right" m="1x" />
+    <AlignRightIcon m="1x" />
     <Divider orientation="vertical" />
-    <Icon icon="align-center" m="1x" />
+    <AlignCenterIcon m="1x" />
     <Divider orientation="vertical" />
-    <Icon icon="align-left" m="1x" />
+    <AlignLeftIcon m="1x" />
   </Flex>
 );
 

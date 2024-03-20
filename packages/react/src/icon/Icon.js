@@ -1,8 +1,8 @@
-import { SVGIcon } from '@tonic-ui/react-icons';
 import { keyframes } from '@emotion/react';
-import { ensurePlainObject } from 'ensure-type';
-import _get from 'lodash.get';
+import { SVGIcon } from '@tonic-ui/react-icons';
+import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
+import { isValidElementType } from 'react-is';
 import { useTheme } from '../theme';
 
 const cwSpin = keyframes`
@@ -31,9 +31,7 @@ const Icon = forwardRef((
   },
   ref
 ) => {
-  const { icons = {} } = useTheme();
-  const tmicon = _get(icons, [`tmicon-${icon}`]);
-  const { path, ...restIconProps } = ensurePlainObject(_get(icons, icon, tmicon));
+  const theme = useTheme();
   const styleProps = {
     animation: (() => {
       if (spin === 'ccw') {
@@ -46,14 +44,20 @@ const Icon = forwardRef((
     })(),
   };
 
+  let svgElement = null;
+
+  if (typeof icon === 'string') {
+    const result = ensureArray(theme?.icons).find(iconEntry => iconEntry?.[0] === icon);
+    svgElement = result?.[1];
+  }
+
   return (
     <SVGIcon
       ref={ref}
       {...styleProps}
-      {...restIconProps}
       {...rest}
     >
-      {path}
+      {svgElement}
     </SVGIcon>
   );
 });

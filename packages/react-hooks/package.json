@@ -78,7 +78,7 @@
       "<rootDir>/**/__tests__/**/*.js"
     ]
   },
-  "author": "Cheton Wu",
+  "author": "Tonic UI Team",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
   "license": "MIT",
   "repository": {

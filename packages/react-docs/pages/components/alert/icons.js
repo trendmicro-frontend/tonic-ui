@@ -1,4 +1,5 @@
-import { Alert, Icon, Stack } from '@tonic-ui/react';
+import { Alert, Box, Icon, Stack } from '@tonic-ui/react';
+import { CheckCircleOIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -6,10 +7,7 @@ const App = () => (
     <Alert variant="solid" severity="success">
       This is a success alert.
     </Alert>
-    <Alert variant="solid" severity="success" icon="success">
-      This is a success alert.
-    </Alert>
-    <Alert variant="solid" severity="success" icon={<Icon icon="check-circle-o" />}>
+    <Alert variant="solid" severity="success" icon={<CheckCircleOIcon size="4x" />}>
       This is a success alert.
     </Alert>
     <Alert variant="solid" severity="success" icon={false}>
@@ -18,10 +16,7 @@ const App = () => (
     <Alert variant="outline" severity="success">
       This is a success alert.
     </Alert>
-    <Alert variant="outline" severity="success" icon="success">
-      This is a success alert.
-    </Alert>
-    <Alert variant="outline" severity="success" icon={<Icon icon="check-circle-o" />}>
+    <Alert variant="outline" severity="success" icon={<CheckCircleOIcon size="4x" />}>
       This is a success alert.
     </Alert>
     <Alert variant="outline" severity="success" icon={false}>

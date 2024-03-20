@@ -3,11 +3,16 @@ import {
   Collapse,
   Fade,
   Flex,
-  Icon,
   Tooltip,
   useColorMode,
+  useTheme,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
+import {
+  CodeIcon,
+  FileCopyOIcon,
+  RedoIcon,
+} from '@tonic-ui/react-icons';
 import { useRouter } from 'next/router';
 import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
@@ -28,6 +33,7 @@ const Demo = ({
 }) => {
   const router = useRouter();
   const [updateKey, forceUpdate] = useReducer((value) => !value, false);
+  const theme = useTheme();
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
@@ -56,6 +62,28 @@ const Demo = ({
       toggleShowSourceCode(expanded);
     }
   }, [expanded, showSourceCode, toggleShowSourceCode]);
+
+  if (!Component) {
+    return (
+      <LiveProvider
+        code={file?.data}
+        disabled={true}
+        language="jsx"
+        theme={liveProviderTheme}
+      >
+        <Box
+          as={LiveEditor}
+          sx={{
+            fontFamily: 'mono',
+            fontSize: 'sm',
+            '& > .prism-code': {
+              overflowX: 'auto',
+            },
+          }}
+        />
+      </LiveProvider>
+    );
+  }
     
   return (
     <LiveProvider
@@ -91,7 +119,7 @@ const Demo = ({
           onClick={toggleShowSourceCode}
         >
           <Tooltip label={showSourceCode ? 'Hide the source' : 'Show the source'}>
-            <Icon icon="code" />
+            <CodeIcon />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -99,7 +127,7 @@ const Demo = ({
           onClick={handleClickCopySource}
         >
           <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
-            <Icon icon="file-copy-o" />
+            <FileCopyOIcon />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -115,7 +143,7 @@ const Demo = ({
           onClick={reset}
         >
           <Tooltip label="Reset the demo">
-            <Icon icon="redo" />
+            <RedoIcon />
           </Tooltip>
         </IconButton>
       </Flex>
@@ -127,6 +155,8 @@ const Demo = ({
               fontFamily: 'mono',
               fontSize: 'sm',
               '& > .prism-code': {
+                // Use `!important` to override the inline style
+                padding: `${theme?.space?.['4x']} !important`,
                 overflowX: 'auto',
               },
             }}

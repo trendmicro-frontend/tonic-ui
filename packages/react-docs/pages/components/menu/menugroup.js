@@ -1,4 +1,5 @@
-import { ButtonBase, Flex, Icon, MenuDivider, MenuGroup, MenuItem, Space, Text } from '@tonic-ui/react';
+import { ButtonBase, Flex, MenuDivider, MenuGroup, MenuItem, Space, Text } from '@tonic-ui/react';
+import { SettingsIcon, UserIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const Avatar = (props) => (
@@ -28,7 +29,7 @@ const App = () => (
           <Text>Other profiles</Text>
           <Space minWidth="10x" />
           <ButtonBase title="Manage profiles">
-            <Icon icon="settings" size="3x" />
+            <SettingsIcon size="3x" />
           </ButtonBase>
         </Flex>
       )}
@@ -41,7 +42,7 @@ const App = () => (
       </MenuItem>
       <MenuItem>
         <Avatar color="white" bg="gray:50" mr="3x">
-          <Icon icon="user" size="3x" />
+          <UserIcon size="3x" />
         </Avatar>
         <Text>Guest</Text>
       </MenuItem>

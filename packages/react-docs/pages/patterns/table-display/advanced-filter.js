@@ -1,14 +1,5 @@
-import {
-  Button,
-  Flex,
-  Icon,
-  Menu,
-  MenuToggle,
-  MenuItem,
-  MenuList,
-  SearchInput,
-  Text,
-} from '@tonic-ui/react';
+import { Button, Flex, Menu, MenuToggle, MenuItem, MenuList, SearchInput, Text } from '@tonic-ui/react';
+import { FilterDeleteIcon, FilterIcon } from '@tonic-ui/react-icons';
 import React, { Fragment, useCallback, useMemo, useState } from 'react';
 import FilterButton from './components/FilterButton';
 import DropdownFilterTag from './components/DropdownFilterTag';
@@ -104,7 +95,7 @@ const App = () => {
               width="8x"
               height="8x"
             >
-              <Icon icon="filter" />
+              <FilterIcon />
             </Button>
           )}
         </MenuToggle>
@@ -157,7 +148,7 @@ const App = () => {
           columnGap="1x"
           onClick={() => clearSelectedFilters()}
         >
-          <Icon icon="filter-delete" /> <Text>Clear</Text>
+          <FilterDeleteIcon /> <Text>Clear</Text>
         </FilterButton>
       )}
     </Flex>

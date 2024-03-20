@@ -5,7 +5,6 @@ import {
 } from '@tanstack/react-table';
 import {
   Flex,
-  Icon,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -16,6 +15,7 @@ import {
   Truncate,
   useColorStyle,
 } from '@tonic-ui/react';
+import { ArrowsIcon } from '@tonic-ui/react-icons';
 import {
   useMergeRefs,
 } from '@tonic-ui/react-hooks';
@@ -250,7 +250,7 @@ const App = () => {
               const policy = row?.original?.policy;
               return (
                 <Flex alignItems="center" columnGap="1x">
-                  <Icon icon="arrows" />
+                  <ArrowsIcon />
                   {policy}
                 </Flex>
               );

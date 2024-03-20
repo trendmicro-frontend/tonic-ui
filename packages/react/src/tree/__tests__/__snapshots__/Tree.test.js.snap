@@ -162,15 +162,14 @@ exports[`Tree should render correctly 1`] = `
               <svg
                 aria-hidden="true"
                 class="emotion-12 emotion-1"
+                data-icon="AngleRightIcon"
                 fill="currentColor"
                 focusable="false"
                 viewBox="0 0 16 16"
               >
-                <g>
-                  <path
-                    d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
-                  />
-                </g>
+                <path
+                  d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+                />
               </svg>
             </div>
           </button>
@@ -211,15 +210,14 @@ exports[`Tree should render correctly 1`] = `
               <svg
                 aria-hidden="true"
                 class="emotion-12 emotion-1"
+                data-icon="AngleRightIcon"
                 fill="currentColor"
                 focusable="false"
                 viewBox="0 0 16 16"
               >
-                <g>
-                  <path
-                    d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
-                  />
-                </g>
+                <path
+                  d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+                />
               </svg>
             </div>
           </button>
@@ -260,15 +258,14 @@ exports[`Tree should render correctly 1`] = `
               <svg
                 aria-hidden="true"
                 class="emotion-12 emotion-1"
+                data-icon="AngleRightIcon"
                 fill="currentColor"
                 focusable="false"
                 viewBox="0 0 16 16"
               >
-                <g>
-                  <path
-                    d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
-                  />
-                </g>
+                <path
+                  d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+                />
               </svg>
             </div>
           </button>

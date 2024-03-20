@@ -1,11 +1,13 @@
 import {
   ButtonBase,
   Flex,
-  Icon,
   Text,
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  SearchOIcon,
+} from '@tonic-ui/react-icons';
 import React, { forwardRef } from 'react';
 
 const SearchButton = forwardRef((
@@ -61,7 +63,7 @@ const SearchButton = forwardRef((
         alignItems="center"
         columnGap="2x"
       >
-        <Icon icon="search-o" />
+        <SearchOIcon />
         <Text
           display={{
             sm: 'none',

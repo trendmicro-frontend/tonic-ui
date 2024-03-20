@@ -1,6 +1,7 @@
 import { ensurePositiveInteger } from 'ensure-type';
 import { keyframes } from '@emotion/react';
 import { useColorMode } from '../color-mode';
+import { useTheme } from '../theme';
 
 const defaultRadius = 24;
 const defaultStrokeWidth = 4;
@@ -82,6 +83,7 @@ const useSpinnerSVGTrackStyle = ({
   trackColor,
   trackWidth,
 }) => {
+  const { colors } = useTheme();
   const [colorMode] = useColorMode();
   const stroke = trackColor ?? {
     dark: 'rgba(255, 255, 255, 0.12)',
@@ -93,7 +95,7 @@ const useSpinnerSVGTrackStyle = ({
 
   return {
     fill: 'none',
-    stroke,
+    stroke: colors?.[stroke] ?? stroke,
     strokeWidth,
     cx: outerRadius,
     cy: outerRadius,
@@ -107,6 +109,7 @@ const useSpinnerSVGLineStyle = ({
   lineColor,
   lineWidth,
 }) => {
+  const { colors } = useTheme();
   const stroke = lineColor ?? 'blue:60';
   const strokeWidth = ensurePositiveInteger(lineWidth ?? mapSizeToStrokeWidth(size));
   const outerRadius = mapSizeToRadius(size);
@@ -117,7 +120,7 @@ const useSpinnerSVGLineStyle = ({
   return {
     animation: `${lineAnimation} ${lineAnimationDuration}s ease-in-out infinite`,
     fill: 'none',
-    stroke,
+    stroke: colors?.[stroke] ?? stroke,
     strokeWidth,
     cx: outerRadius,
     cy: outerRadius,

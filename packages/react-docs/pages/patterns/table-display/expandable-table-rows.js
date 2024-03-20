@@ -1,16 +1,8 @@
 import {
   getExpandedRowModel,
 } from '@tanstack/react-table';
-import {
-  Box,
-  ButtonBase,
-  Divider,
-  Icon,
-  Text,
-  Truncate,
-  useColorMode,
-  useColorStyle,
-} from '@tonic-ui/react';
+import { Box, ButtonBase, Divider, Text, Truncate, useColorMode, useColorStyle } from '@tonic-ui/react';
+import { AngleRightIcon } from '@tonic-ui/react-icons';
 import {
   createTransitionStyle,
   getEnterTransitionProps,
@@ -190,7 +182,7 @@ const TableRowToggleIcon = forwardRef((
 
   return (
     <ButtonBase {...rest}>
-      <Icon icon="angle-right" size="4x" {...styleProps} />
+      <AngleRightIcon size="4x" {...styleProps} />
     </ButtonBase>
   );
 });

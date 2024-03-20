@@ -2,13 +2,15 @@ import {
   Box,
   Divider,
   Flex,
-  Icon,
   Spinner,
   Stack,
   Text,
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  ConnectErrorIcon,
+} from '@tonic-ui/react-icons';
 import { ensureArray, ensureString } from 'ensure-type'
 import _ from 'lodash';
 import React from 'react';
@@ -57,8 +59,7 @@ const InstantSearchRefinementList = (
             width="10x"
             height="10x"
           >
-            <Icon
-              icon="connect-error"
+            <ConnectErrorIcon
               size="10x"
               position="absolute"
               inset={0}

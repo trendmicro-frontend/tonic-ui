@@ -1,5 +1,6 @@
-import { Box, Button, Icon, Text } from '@tonic-ui/react';
+import { Box, Button, Text } from '@tonic-ui/react';
 import { useEventCallback } from '@tonic-ui/react-hooks';
+import { AngleLeftIcon, AngleRightIcon, AngleUpIcon, AngleDownIcon } from '@tonic-ui/react-icons';
 import addMonths from 'date-fns/addMonths';
 import addYears from 'date-fns/addYears';
 import subMonths from 'date-fns/subMonths';
@@ -55,7 +56,7 @@ const Navigation = forwardRef((props, ref) => {
         onClick={onClickPreviousMonth}
         {...monthButtonStyleProps}
       >
-        <Icon icon="angle-left" />
+        <AngleLeftIcon size="4x" />
       </Button>
       <Box {...currentMonthYearStyleProps}>
         <Text>
@@ -67,14 +68,14 @@ const Navigation = forwardRef((props, ref) => {
             onClick={onClickPreviousYear}
             {...yearButtonStyleProps}
           >
-            <Icon icon="angle-up" />
+            <AngleUpIcon size="4x" />
           </Button>
           <Button
             variant="ghost"
             onClick={onClickNextYear}
             {...yearButtonStyleProps}
           >
-            <Icon icon="angle-down" />
+            <AngleDownIcon size="4x" />
           </Button>
         </Box>
       </Box>
@@ -83,7 +84,7 @@ const Navigation = forwardRef((props, ref) => {
         onClick={onClickNextMonth}
         {...monthButtonStyleProps}
       >
-        <Icon icon="angle-right" />
+        <AngleRightIcon size="4x" />
       </Button>
     </Box>
   );

@@ -1,4 +1,5 @@
-import { Badge, Icon, Stack } from '@tonic-ui/react';
+import { Badge, Stack } from '@tonic-ui/react';
+import { VirusIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -7,7 +8,7 @@ const App = () => (
     <Badge variant="solid" badgeContent={0} />
     <Badge variant="solid" badgeContent={5} />
     <Badge variant="solid" badgeContent="99+" />
-    <Badge variant="solid" badgeContent={<Icon icon="virus" size="4x" />} height="6x" />
+    <Badge variant="solid" badgeContent={<VirusIcon size="4x" />} height="6x" />
   </Stack>
 );
 
