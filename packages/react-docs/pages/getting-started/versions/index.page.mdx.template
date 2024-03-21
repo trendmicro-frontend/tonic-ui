@@ -28,7 +28,7 @@ You can come back to this page and switch the version of the docs you're reading
       </TableCell>
       <TableCell width={250}>
         <Flex alignItems="center" height="100%" whiteSpace="nowrap">
-          __TONIC_UI_REACT_DOCS_VERSION__
+          <Text>__TONIC_UI_REACT_PACKAGE_VERSION__</Text>
         </Flex>
       </TableCell>
     </TableRow>
@@ -103,6 +103,17 @@ The most recent stable version (✓) is recommended for use in production.
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_DEFAULT_SOURCE_CODE__">Source code</Link>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <Text>__TONIC_UI_V1_BRANCH__ branch</Text>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V1_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V1_SOURCE_CODE__">Source code</Link>
       </TableCell>
     </TableRow>
     <TableRow>
