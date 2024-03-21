@@ -106,6 +106,9 @@ jobs:
             yarn lint
             yarn test
       - codecov/upload:
+          file: ./packages/codemod/coverage/lcov.info
+          flags: codemod
+      - codecov/upload:
           file: ./packages/react/coverage/lcov.info
           flags: react
       - codecov/upload:
@@ -178,6 +181,9 @@ jobs:
             yarn build
             yarn lint
             yarn test
+      - codecov/upload:
+          file: ./packages/codemod/coverage/lcov.info
+          flags: codemod
       - codecov/upload:
           file: ./packages/react/coverage/lcov.info
           flags: react
@@ -257,6 +263,9 @@ jobs:
             yarn build
             yarn lint
             yarn test
+      - codecov/upload:
+          file: ./packages/codemod/coverage/lcov.info
+          flags: codemod
       - codecov/upload:
           file: ./packages/react/coverage/lcov.info
           flags: react
