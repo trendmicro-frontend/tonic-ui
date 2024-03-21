@@ -3851,6 +3851,7 @@ __metadata:
     "@babel/eslint-plugin": ^7.0.0
     "@babel/plugin-transform-runtime": ^7.0.0
     "@babel/preset-env": ^7.0.0
+    "@babel/preset-react": ^7.0.0
     "@trendmicro/babel-config": ^1.0.2
     cpy-cli: ^5.0.0
     del-cli: ^5.0.0
