@@ -2,7 +2,6 @@ import { keyframes } from '@emotion/react';
 import { SVGIcon } from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
-import { isValidElementType } from 'react-is';
 import { useTheme } from '../theme';
 
 const cwSpin = keyframes`
@@ -25,6 +24,7 @@ const ccwSpin = keyframes`
 
 const Icon = forwardRef((
   {
+    children,
     icon,
     spin = false,
     ...rest
@@ -44,11 +44,9 @@ const Icon = forwardRef((
     })(),
   };
 
-  let svgElement = null;
-
   if (typeof icon === 'string') {
     const result = ensureArray(theme?.icons).find(iconEntry => iconEntry?.[0] === icon);
-    svgElement = result?.[1];
+    children = result?.[1] ?? children;
   }
 
   return (
@@ -57,7 +55,7 @@ const Icon = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {svgElement}
+      {children}
     </SVGIcon>
   );
 });
