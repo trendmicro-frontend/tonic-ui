@@ -84,7 +84,7 @@
     ],
     "testEnvironment": "jsdom",
     "testMatch": [
-      "<rootDir>/**/__tests__/**/*.js"
+      "<rootDir>/**/__tests__/**/*.test.js"
     ]
   },
   "author": "Tonic UI Team",

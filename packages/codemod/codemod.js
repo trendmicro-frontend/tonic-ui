@@ -25,8 +25,7 @@ function runJSCodeShiftTransform(transform, files, flags, codemodFlags) {
       fs.statSync(transformPath);
       error = undefined;
       break;
-    }
-    catch (err) {
+    } catch (err) {
       error = err;
       continue;
     }
@@ -125,6 +124,6 @@ yargs
     handler: run,
   })
   .scriptName('npx @tonic-ui/codemod')
-  .example('$0 react/v2.0.0/import-icons src')
+  .example('$0 react/v2.0.0/import-react-icons src')
   .help()
   .parse();

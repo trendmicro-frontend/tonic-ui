@@ -1,4 +1,4 @@
-import { Alert, Box, Icon, Stack } from '@tonic-ui/react';
+import { Alert, Stack } from '@tonic-ui/react';
 import { CheckCircleOIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
