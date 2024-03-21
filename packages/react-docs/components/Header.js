@@ -125,7 +125,6 @@ const Header = forwardRef((
       backdropFilter="blur(20px)"
       backgroundColor={colorStyle.background.primary}
       boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
-      transition="all 0.2s"
       {...rest}
     >
       <Box
