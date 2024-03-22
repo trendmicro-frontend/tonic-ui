@@ -153,7 +153,9 @@ const Demo = ({
             as={LiveEditor}
             sx={{
               fontFamily: 'mono',
-              fontSize: 'sm',
+              fontSize: 'md',
+              lineHeight: 'md',
+              mb: '4x',
               '& > .prism-code': {
                 // Use `!important` to override the inline style
                 padding: `${theme?.space?.['4x']} !important`,

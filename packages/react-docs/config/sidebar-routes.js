@@ -417,6 +417,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting Started', path: 'icons' },
+      { title: 'SVGIcon', path: 'icons/svg-icon' },
     ],
   },
   {

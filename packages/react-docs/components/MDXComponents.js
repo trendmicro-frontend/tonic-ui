@@ -318,7 +318,6 @@ const PreComponent = ({ children, ...rest }) => {
           fontFamily: 'mono',
           fontSize: 'md',
           lineHeight: 'md',
-          mt: 0,
           mb: '4x',
           '& > .prism-code': {
             // Use `!important` to override the inline style
