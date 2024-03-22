@@ -310,6 +310,7 @@ const initialNextConfig = {
     ALGOLIA_INDEX_NAME: 'tonic-ui-v2',
     // see `.circleci/config.yml`
     TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION,
+    TONIC_UI_REACT_PACKAGE_VERSION: process.env.TONIC_UI_REACT_PACKAGE_VERSION,
     // v2
     TONIC_UI_V2_BRANCH: process.env.TONIC_UI_V2_BRANCH,
     TONIC_UI_V2_DOCUMENTATION: process.env.TONIC_UI_V2_DOCUMENTATION,
