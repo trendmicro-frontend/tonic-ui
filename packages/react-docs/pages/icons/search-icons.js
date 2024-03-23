@@ -57,8 +57,8 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
               <Flex
                 alignItems="center"
                 justifyContent="center"
-                border={1}
-                borderColor={colorMode === 'dark' ? 'rgb(89, 89, 89)' : 'rgb(230, 230, 230)'}
+                outline={1}
+                outlineColor={colorMode === 'dark' ? 'rgb(89, 89, 89)' : 'rgb(230, 230, 230)'}
                 width={160}
                 height={160}
                 backgroundSize="20px 20px"
