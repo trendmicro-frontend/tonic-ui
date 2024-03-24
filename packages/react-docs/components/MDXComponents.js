@@ -299,8 +299,8 @@ const PreComponent = ({ children, ...rest }) => {
     light: codeBlockLight,
   }[colorMode];
   const code = isValidElement(children)
-    ? ensureString(children?.props?.children).trim()
-    : ensureString(children).trim();
+    ? ensureString(children?.props?.children).trimEnd()
+    : ensureString(children).trimEnd();
   const language = isValidElement(children)
     ? ensureString(children.props.className).replace(/language-/, '')
     : '';
