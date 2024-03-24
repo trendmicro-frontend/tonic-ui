@@ -212,6 +212,7 @@ dd {
     width: calc(100% - var(--docs-sidebar-width) - var(--docs-toc-width));
   }
   #main-content {
+    padding: var(--tonic-space-4x) var(--tonic-space-4x);
   }
   #toc {
     display: block;
