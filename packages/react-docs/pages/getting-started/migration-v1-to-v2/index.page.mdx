@@ -2,4 +2,38 @@
 
 ⚠️ This is the Tonic UI migration guide for upgrading from v1 to v2. You have to consider whether you will do the upgrade if the breaking changes are not acceptable to you at the moment.
 
-**WORK IN PROGRESS**
+## Upgrade Steps
+
+### 1. Update the dependencies
+
+```diff
+  "dependencies": {
++   "@tonic-ui/react": "^2.0.0",
++   "@tonic-ui/react-icons": "^2.0.0"
+  }
+```
+
+### 2. Update the import location for icon components
+
+In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package.
+
+The diff should look like below:
+
+```diff
+  import { Badge, Icon } from '@tonic-ui/react';
++ import { AlertIcon } from '@tonic-ui/react-icons';
+  import React from 'react';
+
+  export default () => (
+    <Badge variant="dot">
+-     <Icon icon="alert" size="4x" />
++     <Icon as={AlertIcon} size="4x" />
+    </Badge>
+  );
+```
+
+To apply this change across your project, run the following command:
+
+```bash
+npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons <path>
+```
