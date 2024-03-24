@@ -27,12 +27,18 @@ const App = () => {
         </Box>
         <ButtonGroup
           variant="secondary"
+          sx={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
         >
           <Button
             aria-label="decrease"
             onClick={() => {
               setCount(Math.max(count - 1, 0));
             }}
+            width="8x"
           >
             <MinusIcon />
           </Button>
@@ -41,6 +47,7 @@ const App = () => {
             onClick={() => {
               setCount(Math.max(count + 1, 0));
             }}
+            width="8x"
           >
             <AddIcon />
           </Button>
