@@ -6,7 +6,6 @@ import {
   Code,
   Divider,
   Flex,
-  Icon,
   Input,
   InputAdornment,
   InputControl,
@@ -21,6 +20,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { CalendarIcon } from '@tonic-ui/react-icons';
 import {
   useToggle,
 } from '@tonic-ui/react-hooks';
@@ -85,7 +85,7 @@ const DateInput = React.forwardRef((props, ref) => {
       ref={ref}
       startAdornment={(
         <InputAdornment color={colorStyle.color.secondary}>
-          <Icon icon="calendar" />
+          <CalendarIcon />
         </InputAdornment>
       )}
       {...props}

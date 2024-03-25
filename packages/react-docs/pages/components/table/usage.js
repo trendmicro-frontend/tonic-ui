@@ -151,7 +151,7 @@ const App = () => {
         </Box>
         <ButtonGroup
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -184,7 +184,7 @@ const App = () => {
         </Box>
         <ButtonGroup
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -210,7 +210,7 @@ const App = () => {
         </Box>
         <ButtonGroup
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }

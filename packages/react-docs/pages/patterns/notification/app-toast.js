@@ -3,13 +3,13 @@ import {
   Button,
   ButtonGroup,
   Flex,
-  Icon,
   Text,
   Toast,
   useColorMode,
   useColorStyle,
   useToastManager,
 } from '@tonic-ui/react';
+import { ErrorIcon, InfoIcon, SuccessIcon, WarningMinorIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const MAX_TOASTS = 3;
@@ -113,19 +113,19 @@ const App = () => {
         }}
       >
         <Button onClick={handleClickAddToastByAppearance('success')}>
-          <Icon icon="success" />
+          <SuccessIcon />
           Success
         </Button>
         <Button onClick={handleClickAddToastByAppearance('info')}>
-          <Icon icon="info" />
+          <InfoIcon />
           Info
         </Button>
         <Button onClick={handleClickAddToastByAppearance('warning')}>
-          <Icon icon="warning-minor" />
+          <WarningMinorIcon />
           Warning
         </Button>
         <Button onClick={handleClickAddToastByAppearance('error')}>
-          <Icon icon="error" />
+          <ErrorIcon />
           Error
         </Button>
       </ButtonGroup>

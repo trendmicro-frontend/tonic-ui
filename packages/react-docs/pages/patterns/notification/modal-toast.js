@@ -4,7 +4,6 @@ import {
   ButtonGroup,
   Flex,
   Grid,
-  Icon,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -19,6 +18,7 @@ import {
   ToastTransition,
   usePortalManager,
 } from '@tonic-ui/react';
+import { ErrorIcon, InfoIcon, SuccessIcon, WarningMinorIcon } from '@tonic-ui/react-icons';
 import React, { forwardRef, useRef, useState } from 'react';
 import { TransitionGroup } from 'react-transition-group';
 
@@ -180,19 +180,19 @@ const ModalExample = forwardRef((
             }}
           >
             <Button columnGap="2x" onClick={handleClickAddToastByAppearance('success')}>
-              <Icon icon="success" />
+              <SuccessIcon />
               Success
             </Button>
             <Button columnGap="2x" onClick={handleClickAddToastByAppearance('info')}>
-              <Icon icon="info" />
+              <InfoIcon />
               Info
             </Button>
             <Button columnGap="2x" onClick={handleClickAddToastByAppearance('warning')}>
-              <Icon icon="warning-minor" />
+              <WarningMinorIcon />
               Warning
             </Button>
             <Button columnGap="2x" onClick={handleClickAddToastByAppearance('error')}>
-              <Icon icon="error" />
+              <ErrorIcon />
               Error
             </Button>
           </ButtonGroup>

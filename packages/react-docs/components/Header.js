@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   ButtonBase,
-  Icon,
   Image,
   Link,
   Menu,
@@ -16,16 +15,21 @@ import {
   useColorStyle,
   usePortalManager,
 } from '@tonic-ui/react';
+import {
+  MenuIcon,
+  MoonIcon,
+  SunIcon,
+} from '@tonic-ui/react-icons';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
-import CodeSandboxIcon from '../icons/codesandbox';
+import CodeSandboxIcon from '../icons/CodeSandboxIcon';
+import GitHubIcon from '../icons/GitHubIcon';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
-import FontAwesomeIcon from './FontAwesomeIcon';
 
 const BASE_PATH = ensureString(process.env.BASE_PATH);
 
@@ -121,7 +125,6 @@ const Header = forwardRef((
       backdropFilter="blur(20px)"
       backgroundColor={colorStyle.background.primary}
       boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
-      transition="all 0.2s"
       {...rest}
     >
       <Box
@@ -144,7 +147,7 @@ const Header = forwardRef((
               mx="4x"
             >
               <Button variant="secondary" onClick={onToggle}>
-                <Icon icon="menu" />
+                <MenuIcon />
               </Button>
             </Box>
           </Box>
@@ -263,7 +266,7 @@ const Header = forwardRef((
               },
             }}
           >
-            <CodeSandboxIcon size={24} />
+            <CodeSandboxIcon size="6x" />
           </ButtonBase>
           <ButtonBase
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
@@ -288,10 +291,10 @@ const Header = forwardRef((
             }}
           >
             {colorMode === 'light' && (
-              <Icon icon="moon" size={24} />
+              <MoonIcon size="6x" />
             )}
             {colorMode === 'dark' && (
-              <Icon icon="sun" size={24} />
+              <SunIcon size="6x" />
             )}
           </ButtonBase>
           <ButtonBase
@@ -316,13 +319,7 @@ const Header = forwardRef((
               },
             }}
           >
-            <FontAwesomeIcon
-              icon={['fab', 'github']}
-              style={{
-                width: 24,
-                height: 24,
-              }}
-            />
+            <GitHubIcon size="6x" />
           </ButtonBase>
         </Box>
       </Box>

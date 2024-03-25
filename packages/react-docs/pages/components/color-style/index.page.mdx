@@ -1,5 +1,4 @@
 import {
-  colorStyle,
   Box,
   DarkMode,
   Divider,
@@ -9,12 +8,13 @@ import {
   Space,
   Stack,
   Text,
+  colorStyle,
 } from "@tonic-ui/react";
-import CodeBlock from "../../../components/CodeBlock";
-import ColorStyleBody from '../../../components/ColorStyleBody';
-import ColorStyleContent from '../../../components/ColorStyleContent';
-import ColorStyleHeader from '../../../components/ColorStyleHeader';
-import jsonPrettify from "../../../utils/json-prettify";
+import CodeBlock from '@/components/CodeBlock';
+import ColorStyleBody from '@/components/ColorStyleBody';
+import ColorStyleContent from '@/components/ColorStyleContent';
+import ColorStyleHeader from '@/components/ColorStyleHeader';
+import jsonPrettify from "@/utils/json-prettify";
 
 # ColorStyleProvider
 
@@ -73,11 +73,9 @@ import { colorStyle } from '@tonic-ui/react';
 
 ### Color style settings
 
-<Box mb="6x">
-  <CodeBlock>
-    {jsonPrettify(colorStyle)}
-  </CodeBlock>
-</Box>
+<CodeBlock>
+  {jsonPrettify(colorStyle)}
+</CodeBlock>
 
 ## Override Default Color Style
 

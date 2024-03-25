@@ -16,6 +16,13 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import {
+  EditIcon,
+  FolderIcon,
+  FolderOpenIcon,
+  MoreIcon,
+  ServerIcon,
+} from '@tonic-ui/react-icons';
+import {
   useConst,
 } from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
@@ -36,9 +43,9 @@ const TreeItemRender = ({
   const render = useCallback(({ isExpandable, isExpanded, isSelected }) => {
     const icon = (() => {
       if (isExpandable) {
-        return isExpanded ? 'folder-open' : 'folder';
+        return isExpanded ? FolderOpenIcon : FolderIcon;
       }
-      return 'server';
+      return ServerIcon;
     })();
     const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
 
@@ -70,7 +77,7 @@ const TreeItemRender = ({
             </TreeItemToggle>
           )}
         </Flex>
-        <Icon icon={icon} color={iconColor} mr="2x" />
+        <Icon as={icon} color={iconColor} mr="2x" />
         <OverflowTooltip label={nodeLabel}>
           {({ ref, style }) => (
             <Box
@@ -100,19 +107,19 @@ const TreeItemRender = ({
                 },
               }}
             >
-              <Icon icon="more" />
+              <MoreIcon />
             </MenuToggle>
             <MenuList
               width="max-content"
             >
               <MenuItem>
                 <Flex alignItems="center" columnGap="2x">
-                  <Icon icon="edit" /> List item
+                  <EditIcon /> List item
                 </Flex>
               </MenuItem>
               <MenuItem>
                 <Flex alignItems="center" columnGap="2x">
-                  <Icon icon="edit" /> List item
+                  <EditIcon /> List item
                 </Flex>
               </MenuItem>
             </MenuList>

@@ -4,7 +4,6 @@ import {
   ButtonGroup,
   Divider,
   Flex,
-  Icon,
   Space,
   Tab,
   TabList,
@@ -17,6 +16,7 @@ import {
   useColorStyle,
   useTabs,
 } from '@tonic-ui/react';
+import { ChevronRightIcon, HomeIcon, SettingsIcon, WorkspaceIcon } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 
 const CustomTabList = (props) => {
@@ -148,7 +148,7 @@ const CustomTab = ({ children, ...rest }) => {
           >
             <Flex justifyContent="space-between">
               <Box>{children}</Box>
-              <Icon icon="chevron-right" ml="4x" visibility={isSelected ? 'visible' : 'hidden'} />
+              <ChevronRightIcon ml="4x" visibility={isSelected ? 'visible' : 'hidden'} />
             </Flex>
           </Box>
         )}
@@ -164,69 +164,67 @@ const App = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
-  return (
-    <>
-      <Box mb="2x">
-        <TextLabel>
-          orientation
-        </TextLabel>
-      </Box>
-      <ButtonGroup>
-        <Button
-          onClick={() => setOrientation('horizontal')}
-          variant={orientation === 'horizontal' ? 'primary' : 'secondary'}
-        >
-          Horizontal
-        </Button>
-        <Button
-          onClick={() => setOrientation('vertical')}
-          variant={orientation === 'vertical' ? 'primary' : 'secondary'}
-        >
-          Vertical
-        </Button>
-      </ButtonGroup>
-      <Divider my="4x" />
-      <Tabs
-        orientation={orientation}
-        variant="unstyled"
+  return (<>
+    <Box mb="2x">
+      <TextLabel>
+        orientation
+      </TextLabel>
+    </Box>
+    <ButtonGroup>
+      <Button
+        onClick={() => setOrientation('horizontal')}
+        variant={orientation === 'horizontal' ? 'primary' : 'secondary'}
       >
-        <CustomTabList>
-          <CustomTab>
-            <Icon icon="home" />
-            <Space width="2x" />
-            HOME
-          </CustomTab>
-          <CustomTab>
-            <Icon icon="workspace" />
-            <Space width="2x" />
-            WORKSPACE
-          </CustomTab>
-          <CustomTab>
-            <Icon icon="settings" />
-            <Space width="2x" />
-            SETTINGS
-          </CustomTab>
-        </CustomTabList>
-        <TabPanels px="4x" py="3x">
-          <TabPanel>
-            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-                1
-            </Text>
-          </TabPanel>
-          <TabPanel>
-            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-              2
-            </Text>
-          </TabPanel>
-          <TabPanel>
-            <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-              3
-            </Text>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </>
-  );
+        Horizontal
+      </Button>
+      <Button
+        onClick={() => setOrientation('vertical')}
+        variant={orientation === 'vertical' ? 'primary' : 'secondary'}
+      >
+        Vertical
+      </Button>
+    </ButtonGroup>
+    <Divider my="4x" />
+    <Tabs
+      orientation={orientation}
+      variant="unstyled"
+    >
+      <CustomTabList>
+        <CustomTab>
+          <HomeIcon />
+          <Space width="2x" />
+          HOME
+        </CustomTab>
+        <CustomTab>
+          <WorkspaceIcon />
+          <Space width="2x" />
+          WORKSPACE
+        </CustomTab>
+        <CustomTab>
+          <SettingsIcon />
+          <Space width="2x" />
+          SETTINGS
+        </CustomTab>
+      </CustomTabList>
+      <TabPanels px="4x" py="3x">
+        <TabPanel>
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+              1
+          </Text>
+        </TabPanel>
+        <TabPanel>
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+            2
+          </Text>
+        </TabPanel>
+        <TabPanel>
+          <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
+            3
+          </Text>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  </>);
 };
 
 export default App;

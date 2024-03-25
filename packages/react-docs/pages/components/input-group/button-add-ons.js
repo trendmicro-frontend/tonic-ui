@@ -2,7 +2,6 @@ import {
   Button,
   ButtonGroup,
   Divider,
-  Icon,
   Input,
   InputGroup,
   InputGroupAppend,
@@ -11,6 +10,7 @@ import {
   Stack,
   useColorMode,
 } from '@tonic-ui/react';
+import { AngleDownIcon, SettingsIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => {
@@ -43,7 +43,7 @@ const App = () => {
           <Button variant="secondary">
             Host name
             <Space width="1x" />
-            <Icon icon="angle-down" />
+            <AngleDownIcon />
           </Button>
         </InputGroupPrepend>
         <Input />
@@ -61,7 +61,7 @@ const App = () => {
           </Button>
           <Divider orientation="vertical" color={dividerColor} />
           <Button>
-            <Icon icon="settings" />
+            <SettingsIcon />
           </Button>
         </ButtonGroup>
       </InputGroup>

@@ -1,3 +1,9 @@
+import {
+  SuccessIcon,
+  InfoIcon,
+  WarningMinorIcon,
+  ErrorIcon,
+} from '@tonic-ui/react-icons';
 import React, { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
 import { Icon } from '../icon';
@@ -5,23 +11,6 @@ import {
   useAlertIconStyle,
 } from './styles';
 import useAlert from './useAlert';
-
-const getIconBySeverity = (severity) => {
-  const iconName = {
-    success: 'success',
-    info: 'info',
-    warning: 'warning-minor',
-    error: 'error',
-  }[severity];
-
-  if (!iconName) {
-    return null;
-  }
-
-  return (
-    <Icon icon={`${iconName}`} />
-  );
-};
 
 const AlertIcon = forwardRef((props, ref) => {
   const alertContext = useAlert(); // context might be an undefined value
@@ -34,10 +23,18 @@ const AlertIcon = forwardRef((props, ref) => {
 
   const icon = useMemo(() => {
     if (typeof iconProp === 'string') {
-      return (<Icon icon={iconProp} />);
+      return (
+        <Icon icon={iconProp} />
+      );
     }
     if (iconProp === undefined) {
-      return getIconBySeverity(severity);
+      const IconComponent = {
+        success: SuccessIcon,
+        info: InfoIcon,
+        warning: WarningMinorIcon,
+        error: ErrorIcon,
+      }[severity];
+      return IconComponent ? <IconComponent size="4x" /> : null;
     }
     return iconProp;
   }, [iconProp, severity]);

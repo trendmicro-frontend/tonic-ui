@@ -1,13 +1,13 @@
 import {
   ButtonBase,
   Flex,
-  Icon,
   InputAdornment,
   InputControl,
   Text,
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { CalendarIcon, CheckIcon, MobileIcon, ViewIcon, ViewOffIcon } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 
 const App = () => {
@@ -23,7 +23,7 @@ const App = () => {
         placeholder="Mobile phone number"
         startAdornment={(
           <InputAdornment>
-            <Icon icon="mobile" color={iconColor} />
+            <MobileIcon color={iconColor} />
           </InputAdornment>
         )}
       />
@@ -32,7 +32,7 @@ const App = () => {
         defaultValue={new Date().toISOString().substr(0, 10)}
         startAdornment={(
           <InputAdornment>
-            <Icon icon="calendar" color={iconColor} />
+            <CalendarIcon color={iconColor} />
           </InputAdornment>
         )}
       />
@@ -45,7 +45,7 @@ const App = () => {
         )}
         endAdornment={(
           <InputAdornment>
-            <Icon icon="check" color="green:50" />
+            <CheckIcon color="green:50" />
           </InputAdornment>
         )}
       />
@@ -56,10 +56,7 @@ const App = () => {
         endAdornment={(
           <InputAdornment>
             <ButtonBase onClick={toggleView}>
-              <Icon
-                icon={view ? 'view' : 'view-off'}
-                color={iconColor}
-              />
+              {view ? <ViewIcon color={iconColor} /> : <ViewOffIcon color={iconColor} />}
             </ButtonBase>
           </InputAdornment>
         )}

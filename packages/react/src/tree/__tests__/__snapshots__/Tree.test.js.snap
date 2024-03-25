@@ -104,21 +104,15 @@ exports[`Tree should render correctly 1`] = `
 }
 
 .emotion-12 {
-  width: var(--tonic-sizes-4x);
-  height: var(--tonic-sizes-4x);
-  fill: currentColor;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  vertical-align: middle;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-}
-
-.emotion-12:not(:root) {
-  overflow: hidden;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
 }
 
 .emotion-14 {
@@ -167,16 +161,15 @@ exports[`Tree should render correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="emotion-12 emotion-13"
+                class="emotion-12 emotion-1"
+                data-icon="AngleRightIcon"
+                fill="currentColor"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 16 16"
               >
-                <g>
-                  <path
-                    d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
-                  />
-                </g>
+                <path
+                  d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+                />
               </svg>
             </div>
           </button>
@@ -216,16 +209,15 @@ exports[`Tree should render correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="emotion-12 emotion-13"
+                class="emotion-12 emotion-1"
+                data-icon="AngleRightIcon"
+                fill="currentColor"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 16 16"
               >
-                <g>
-                  <path
-                    d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
-                  />
-                </g>
+                <path
+                  d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+                />
               </svg>
             </div>
           </button>
@@ -265,16 +257,15 @@ exports[`Tree should render correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="emotion-12 emotion-13"
+                class="emotion-12 emotion-1"
+                data-icon="AngleRightIcon"
+                fill="currentColor"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 16 16"
               >
-                <g>
-                  <path
-                    d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
-                  />
-                </g>
+                <path
+                  d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+                />
               </svg>
             </div>
           </button>

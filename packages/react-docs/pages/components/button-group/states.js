@@ -1,13 +1,5 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Divider,
-  Flex,
-  Icon,
-  TextLabel,
-  useColorMode,
-} from '@tonic-ui/react';
+import { Box, Button, ButtonGroup, Divider, Flex, Icon, TextLabel, useColorMode } from '@tonic-ui/react';
+import { ChartBarIcon, ChartLineIcon, ChartPieIcon, ChartTableIcon } from '@tonic-ui/react-icons';
 import React, { Fragment, useState } from 'react';
 
 const App = () => {
@@ -29,7 +21,12 @@ const App = () => {
     light: 'gray:20',
   }[colorMode];
 
-  const icons = ['chart-pie', 'chart-line', 'chart-table', 'chart-bar'];
+  const icons = [
+    ['chart-pie', ChartPieIcon],
+    ['chart-line', ChartLineIcon],
+    ['chart-table', ChartTableIcon],
+    ['chart-bar', ChartBarIcon],
+  ];
   const lastIconIndex = icons.length - 1;
   const [activeButton1, setActiveButton1] = useState('chart-pie');
   const [activeButton2, setActiveButton2] = useState('chart-pie');
@@ -78,7 +75,7 @@ const App = () => {
           </TextLabel>
         </Box>
         <ButtonGroup variant="emphasis">
-          {icons.map((key, index) => (
+          {icons.map(([key, icon], index) => (
             <Fragment key={key}>
               <Button
                 disabled={index === lastIconIndex}
@@ -86,7 +83,7 @@ const App = () => {
                 onClick={handleClick1(key)}
                 width="8x"
               >
-                <Icon icon={key} />
+                <Icon as={icon} />
               </Button>
               {(index !== lastIconIndex) && (
                 <Divider orientation="vertical" color={emphasisDividerColor} />
@@ -102,7 +99,7 @@ const App = () => {
           </TextLabel>
         </Box>
         <ButtonGroup variant="primary">
-          {icons.map((key, index) => (
+          {icons.map(([key, icon], index) => (
             <Fragment key={key}>
               <Button
                 disabled={index === lastIconIndex}
@@ -110,7 +107,7 @@ const App = () => {
                 onClick={handleClick2(key)}
                 width="8x"
               >
-                <Icon icon={key} />
+                <Icon as={icon} />
               </Button>
               {(index !== lastIconIndex) && (
                 <Divider orientation="vertical" color={primaryDividerColor} />
@@ -126,7 +123,7 @@ const App = () => {
           </TextLabel>
         </Box>
         <ButtonGroup variant="default">
-          {icons.map((key, index) => (
+          {icons.map(([key, icon], index) => (
             <Fragment key={key}>
               <Button
                 disabled={index === lastIconIndex}
@@ -134,7 +131,7 @@ const App = () => {
                 onClick={handleClick3(key)}
                 width="8x"
               >
-                <Icon icon={key} />
+                <Icon as={icon} />
               </Button>
               {(index !== lastIconIndex) && (
                 <Divider orientation="vertical" color={defaultDividerColor} />
@@ -151,13 +148,13 @@ const App = () => {
         </Box>
         <ButtonGroup
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
           }}
         >
-          {icons.map((key, index) => (
+          {icons.map(([key, icon], index) => (
             <Fragment key={key}>
               <Button
                 disabled={index === lastIconIndex}
@@ -165,7 +162,7 @@ const App = () => {
                 onClick={handleClick4(key)}
                 width="8x"
               >
-                <Icon icon={key} />
+                <Icon as={icon} />
               </Button>
             </Fragment>
           ))}
@@ -180,7 +177,7 @@ const App = () => {
         <ButtonGroup
           variant="ghost"
         >
-          {icons.map((key, index) => (
+          {icons.map(([key, icon], index) => (
             <Fragment key={key}>
               <Button
                 disabled={index === lastIconIndex}
@@ -188,7 +185,7 @@ const App = () => {
                 onClick={handleClick5(key)}
                 width="8x"
               >
-                <Icon icon={key} />
+                <Icon as={icon} />
               </Button>
               {(index !== lastIconIndex) && (
                 <Divider orientation="vertical" color={ghostDividerColor} />
@@ -204,7 +201,7 @@ const App = () => {
           </TextLabel>
         </Box>
         <Flex>
-          {icons.map((key, index) => (
+          {icons.map(([key, icon], index) => (
             <Fragment key={key}>
               <Button
                 disabled={index === lastIconIndex}
@@ -213,7 +210,7 @@ const App = () => {
                 variant="ghost"
                 width="8x"
               >
-                <Icon icon={key} />
+                <Icon as={icon} />
               </Button>
             </Fragment>
           ))}

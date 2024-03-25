@@ -1,7 +1,7 @@
+import { CloseSIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
-import { Icon } from '../icon';
 import { useTagCloseButtonStyle } from './styles';
 import useTag from './useTag';
 
@@ -31,7 +31,7 @@ const TagCloseButton = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {children ?? <Icon icon="close-s" />}
+      {children ?? <CloseSIcon size="4x" />}
     </ButtonBase>
   );
 });

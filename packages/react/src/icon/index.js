@@ -1,7 +1,6 @@
 import Icon from './Icon';
-import SVGIcon from './SVGIcon';
 
+export { SVGIcon } from '@tonic-ui/react-icons'; // TODO: move to "src/index.js"
 export {
   Icon,
-  SVGIcon,
 };

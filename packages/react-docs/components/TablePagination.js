@@ -3,7 +3,6 @@ import {
   ButtonGroup,
   Divider,
   Flex,
-  Icon,
   Input,
   Menu,
   MenuButton,
@@ -14,7 +13,11 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import { ensureArray, ensureNumber } from 'ensure-type';
+import {
+  AngleLeftIcon,
+  AngleRightIcon,
+} from '@tonic-ui/react-icons';
+import { ensureArray, ensureFiniteNumber } from 'ensure-type';
 import React, { useCallback, useEffect, useState } from 'react';
 
 const TablePagination = ({
@@ -73,7 +76,7 @@ const TablePagination = ({
 
   const totalPages = Math.ceil(count / rowsPerPage);
   const handlePageChange = (event) => {
-    const nextPage = ensureNumber(event.target.value);
+    const nextPage = ensureFiniteNumber(event.target.value);
     if (nextPage <= 1) {
       onPageChange(1);
     } else if (nextPage >= totalPages) {
@@ -83,7 +86,7 @@ const TablePagination = ({
     }
   };
   const handleRowsPerPageChange = (event) => {
-    const nextRowsPerPage = ensureNumber(event.target.value);
+    const nextRowsPerPage = ensureFiniteNumber(event.target.value);
     if (nextRowsPerPage > 0) {
       onPageChange(1);
       onRowsPerPageChange(nextRowsPerPage);
@@ -157,7 +160,7 @@ const TablePagination = ({
             onPageChange(page - 1);
           }}
         >
-          <Icon icon="angle-left" />
+          <AngleLeftIcon />
         </Button>
         <Button
           width="8x"
@@ -166,7 +169,7 @@ const TablePagination = ({
             onPageChange(page + 1);
           }}
         >
-          <Icon icon="angle-right" />
+          <AngleRightIcon />
         </Button>
       </ButtonGroup>
     </Flex>

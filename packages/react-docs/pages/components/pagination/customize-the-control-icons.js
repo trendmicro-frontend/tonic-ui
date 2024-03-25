@@ -1,4 +1,5 @@
-import { Icon, Pagination, PaginationItem, Text } from '@tonic-ui/react';
+import { Pagination, PaginationItem, Text } from '@tonic-ui/react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -14,8 +15,8 @@ const App = () => (
       return (
         <PaginationItem
           slot={{
-            previous: <Icon icon="chevron-left" />,
-            next: <Icon icon="chevron-right" />,
+            previous: <ChevronLeftIcon />,
+            next: <ChevronRightIcon />,
           }}
           {...props}
         />

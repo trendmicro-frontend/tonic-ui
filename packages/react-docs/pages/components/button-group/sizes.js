@@ -47,7 +47,7 @@ const App = () => {
         <ButtonGroup
           size="sm"
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -60,7 +60,7 @@ const App = () => {
         <ButtonGroup
           size="md"
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -73,7 +73,7 @@ const App = () => {
         <ButtonGroup
           size="lg"
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -88,7 +88,7 @@ const App = () => {
         <ButtonGroup
           size="sm"
           variant="ghost"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -103,7 +103,7 @@ const App = () => {
         <ButtonGroup
           size="md"
           variant="ghost"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -118,7 +118,7 @@ const App = () => {
         <ButtonGroup
           size="lg"
           variant="ghost"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }

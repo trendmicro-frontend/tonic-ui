@@ -8,12 +8,12 @@ import {
   Collapse,
   Divider,
   Flex,
-  Icon,
   Text,
   useColorMode,
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
+import { AlertIcon, AngleDownIcon, AngleUpIcon, ClockIcon, Light2OIcon } from '@tonic-ui/react-icons';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { createTransitionStyle, runIfFn } from '@tonic-ui/utils';
 import React, { forwardRef, useEffect, useState } from 'react';
@@ -23,7 +23,7 @@ const alerts = [
     variant: 'solid',
     severity: 'none',
     icon: (
-      <Icon icon="light2-o" />
+      <Light2OIcon />
     ),
     sx: {
       background: 'linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)',
@@ -147,7 +147,7 @@ const AlertPagination = forwardRef((
       disabled={page <= 1}
       onClick={onPrevious}
     >
-      <Icon icon="angle-up" />
+      <AngleUpIcon />
     </IconButton>
     <Text color="black:primary">
       {page}/{count}
@@ -156,7 +156,7 @@ const AlertPagination = forwardRef((
       disabled={page >= count}
       onClick={onNext}
     >
-      <Icon icon="angle-down" />
+      <AngleDownIcon />
     </IconButton>
   </Flex>
 ));
@@ -266,14 +266,14 @@ const NavigationBar = (props) => {
       </Flex>
       <Flex height="100%">
         <NavItem columnGap="2x">
-          <Icon icon="clock" />
+          <ClockIcon />
           <Text>{date.toLocaleDateString()}</Text>
           <Text>{date.toLocaleTimeString()}</Text>
         </NavItem>
         <NavItemDivider />
         <NavItem as={Box}>
           <Badge badgeContent={null}>
-            <Icon icon="alert" />
+            <AlertIcon />
           </Badge>
         </NavItem>
       </Flex>

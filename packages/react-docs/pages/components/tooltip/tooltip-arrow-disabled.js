@@ -1,9 +1,10 @@
-import { Icon, Tooltip } from '@tonic-ui/react';
+import { Tooltip } from '@tonic-ui/react';
+import { SearchOIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
   <Tooltip label="Search" arrow={false}>
-    <Icon icon="search-o" />
+    <SearchOIcon />
   </Tooltip>
 );
 

@@ -5,6 +5,7 @@ import { Box } from '../box';
 import { useColorMode } from '../color-mode';
 import { defaultSize, defaultVariantColor } from './constants';
 import { useSwitchControlBoxStyle } from './styles';
+import { useTheme } from '../theme';
 
 const SwitchControlBox = forwardRef((
   {
@@ -15,6 +16,7 @@ const SwitchControlBox = forwardRef((
   },
   ref,
 ) => {
+  const theme = useTheme();
   const [colorMode] = useColorMode();
   const width = {
     sm: 32,
@@ -94,6 +96,7 @@ const SwitchControlBox = forwardRef((
   const getSwitchThumbSelector = (pseudos) => {
     return getSwitchControlBoxSelector(pseudos) + '> [data-switch] > [data-switch-thumb]';
   };
+  const toColor = color => theme?.colors?.[color] ?? color;
   const sx = {
     width: viewBoxWidth,
     height: viewBoxHeight,
@@ -107,7 +110,7 @@ const SwitchControlBox = forwardRef((
       fill: 'none',
     },
     [getSwitchOuterBorderSelector(':focus-visible')]: {
-      fill: switchOuterBorderColor,
+      fill: toColor(switchOuterBorderColor),
     },
 
     // switch-inner-border
@@ -115,26 +118,26 @@ const SwitchControlBox = forwardRef((
       fill: 'none',
     },
     [getSwitchInnerBorderSelector(':focus-visible')]: {
-      fill: switchInnerBorderColor,
+      fill: toColor(switchInnerBorderColor),
     },
 
     // switch-track
     [getSwitchTrackSelector()]: {
-      fill: switchTrackColor,
+      fill: toColor(switchTrackColor),
     },
     [getSwitchTrackSelector(':checked')]: {
-      fill: switchTrackCheckedColor,
+      fill: toColor(switchTrackCheckedColor),
     },
     [getSwitchTrackSelector(':hover:not(:disabled)')]: {
-      fill: switchTrackHoverColor,
+      fill: toColor(switchTrackHoverColor),
     },
     [getSwitchTrackSelector(':checked:hover:not(:disabled)')]: {
-      fill: switchTrackCheckedHoverColor,
+      fill: toColor(switchTrackCheckedHoverColor),
     },
 
     // switch-thumb
     [getSwitchThumbSelector()]: {
-      fill: switchThumbColor,
+      fill: toColor(switchThumbColor),
     },
     [getSwitchThumbSelector(':checked')]: {
       transform: `translateX(${height}px)`,

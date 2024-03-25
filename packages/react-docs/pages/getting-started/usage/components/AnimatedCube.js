@@ -1,5 +1,6 @@
 import { keyframes } from '@emotion/react';
-import { Box, Flex, Image, Text, Icon, useColorMode } from '@tonic-ui/react';
+import { Box, Flex, Image, Text, useColorMode } from '@tonic-ui/react';
+import { MoonIcon, SunIcon } from '@tonic-ui/react-icons';
 import { ensureString } from 'ensure-type';
 import React, { useContext } from 'react';
 
@@ -45,13 +46,13 @@ const AnimatedCube = ({ size = 128, ...rest }) => {
           >
             {colorMode === 'dark' && (
               <Flex direction="column" spacing="3x">
-                <Icon icon="moon" size={24} mx="auto" />
+                <MoonIcon size={24} mx="auto" />
                 <Text>Dark Mode</Text>
               </Flex>
             )}
             {colorMode === 'light' && (
               <Flex direction="column" spacing="3x">
-                <Icon icon="sun" size={24} mx="auto" />
+                <SunIcon size={24} mx="auto" />
                 <Text>Light Mode</Text>
               </Flex>
             )}

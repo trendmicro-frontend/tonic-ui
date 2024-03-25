@@ -3,7 +3,6 @@ import {
   ButtonGroup,
   Divider,
   Flex,
-  Icon,
   Input,
   Menu,
   MenuButton,
@@ -12,6 +11,7 @@ import {
   Space,
   Text,
 } from '@tonic-ui/react';
+import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 
 const App = () => {
@@ -60,7 +60,7 @@ const App = () => {
       <Space width="2x" />
       <ButtonGroup
         variant="secondary"
-        css={{
+        sx={{
           '> *:not(:first-of-type)': {
             marginLeft: -1
           }
@@ -76,7 +76,7 @@ const App = () => {
             }
           }}
         >
-          <Icon icon="angle-left" />
+          <AngleLeftIcon />
         </Button>
         <Button
           width="8x"
@@ -88,7 +88,7 @@ const App = () => {
             }
           }}
         >
-          <Icon icon="angle-right" />
+          <AngleRightIcon />
         </Button>
       </ButtonGroup>
     </Flex>

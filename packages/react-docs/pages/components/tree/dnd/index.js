@@ -1,13 +1,5 @@
-import {
-  Box,
-  Code,
-  Flex,
-  Icon,
-  ResizeHandle,
-  Scrollbar,
-  useColorMode,
-  useColorStyle,
-} from '@tonic-ui/react';
+import { Box, Code, Flex, ResizeHandle, Scrollbar, useColorMode, useColorStyle } from '@tonic-ui/react';
+import { FileArrowOIcon } from '@tonic-ui/react-icons';
 import {
   useConst,
 } from '@tonic-ui/react-hooks';
@@ -123,7 +115,7 @@ const App = () => {
           const movedItemCount = ensureArray(item.data).length;
           return (
             <Flex alignItems="center" columnGap="1x">
-              <Icon icon="file-arrow-o" />
+              <FileArrowOIcon />
               <Code>{movedItemCount}</Code>
             </Flex>
           );

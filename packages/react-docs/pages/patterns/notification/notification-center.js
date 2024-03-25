@@ -4,7 +4,6 @@ import {
   ButtonBase,
   Divider,
   Flex,
-  Icon,
   Image,
   Menu,
   MenuContent,
@@ -20,6 +19,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { AlertIcon, ClockIcon } from '@tonic-ui/react-icons';
 import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { formatDistance, formatISO, startOfToday, subDays, subMinutes, subSeconds } from 'date-fns';
 import { ensureString } from 'ensure-type';
@@ -218,7 +218,7 @@ const NavigationBar = (props) => {
       </Flex>
       <Flex height="100%">
         <NavItem columnGap="2x">
-          <Icon icon="clock" />
+          <ClockIcon />
           <Text>{date.toLocaleDateString()}</Text>
           <Text>{date.toLocaleTimeString()}</Text>
         </NavItem>
@@ -237,7 +237,7 @@ const NavigationBar = (props) => {
               aria-selected={isNotificationCenterOpen}
             >
               <Badge badgeContent={unreadCount}>
-                <Icon icon="alert" />
+                <AlertIcon />
               </Badge>
             </NavItem>
           </MenuToggle>

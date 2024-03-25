@@ -1,24 +1,19 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
+import {
+  AngleUpIcon,
+  AngleDownIcon,
+  AngleLeftIcon,
+  AngleRightIcon,
+} from '@tonic-ui/react-icons';
 import { ariaAttr, createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
 import React, { forwardRef, useEffect, useRef } from 'react';
+import { isValidElementType } from 'react-is';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
-import { Icon } from '../icon';
 import {
   useMenuToggleIconStyle,
 } from './styles';
 import useMenu from './useMenu';
-
-const mapDirectionToIconName = (direction) => {
-  const iconName = {
-    up: 'angle-up',
-    down: 'angle-down',
-    left: 'angle-left',
-    right: 'angle-right',
-  }[direction];
-
-  return iconName;
-};
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -121,7 +116,12 @@ const MenuToggleIcon = forwardRef((
           });
         }
 
-        const iconName = mapDirectionToIconName(direction);
+        const IconComponent = {
+          up: AngleUpIcon,
+          down: AngleDownIcon,
+          left: AngleLeftIcon,
+          right: AngleRightIcon,
+        }[direction];
 
         return (
           <Box
@@ -130,7 +130,7 @@ const MenuToggleIcon = forwardRef((
             {...childProps}
             style={style}
           >
-            {children ?? <Icon width="4x" icon={iconName} />}
+            {children ?? (isValidElementType(IconComponent) && <IconComponent size="4x" />)}
           </Box>
         );
       }}

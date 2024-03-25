@@ -1,7 +1,7 @@
+import { CloseIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
-import { Icon } from '../icon';
 import {
   useModalCloseButtonStyle,
 } from './styles';
@@ -29,7 +29,7 @@ const ModalCloseButton = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {children ?? <Icon icon="close" />}
+      {children ?? <CloseIcon size="4x" />}
     </ButtonBase>
   );
 });

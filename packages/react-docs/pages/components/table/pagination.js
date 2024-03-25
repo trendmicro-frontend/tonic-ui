@@ -10,7 +10,6 @@ import {
   ButtonGroup,
   Divider,
   Flex,
-  Icon,
   Input,
   Menu,
   MenuButton,
@@ -29,6 +28,7 @@ import {
   Truncate,
   useColorStyle,
 } from '@tonic-ui/react';
+import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import { ensureArray, ensureNumber } from 'ensure-type';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -335,7 +335,7 @@ const TablePagination = ({
             onPageChange(page - 1);
           }}
         >
-          <Icon icon="angle-left" />
+          <AngleLeftIcon />
         </Button>
         <Button
           width="8x"
@@ -344,7 +344,7 @@ const TablePagination = ({
             onPageChange(page + 1);
           }}
         >
-          <Icon icon="angle-right" />
+          <AngleRightIcon />
         </Button>
       </ButtonGroup>
     </Flex>

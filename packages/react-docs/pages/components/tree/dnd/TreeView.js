@@ -10,6 +10,10 @@ import {
   TreeItemToggleIcon,
   useColorStyle,
 } from '@tonic-ui/react';
+import {
+  FolderIcon,
+  FolderOpenIcon,
+} from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
 import React, { useCallback } from 'react';
 import Droppable from './Droppable';
@@ -24,7 +28,7 @@ const TreeItemRender = ({
   const nodeLabel = node.label;
 
   const render = useCallback(({ isExpandable, isExpanded, isSelected }) => {
-    const icon = isExpanded ? 'folder-open' : 'folder';
+    const icon = isExpanded ? FolderOpenIcon : FolderIcon;
     const iconColor = 'yellow:50';
 
     return (
@@ -69,7 +73,7 @@ const TreeItemRender = ({
                 </TreeItemToggle>
               )}
             </Flex>
-            <Icon icon={icon} color={iconColor} mr="2x" />
+            <Icon as={icon} color={iconColor} mr="2x" />
             <OverflowTooltip label={nodeLabel}>
               {({ ref, style }) => (
                 <Box

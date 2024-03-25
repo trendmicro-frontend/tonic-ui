@@ -1,6 +1,6 @@
+import { SearchOIcon } from '@tonic-ui/react-icons';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { Icon } from '../icon';
 import { useSearchInputSearchIconStyle } from './styles';
 
 const SearchInputSearchIcon = forwardRef((
@@ -19,7 +19,7 @@ const SearchInputSearchIcon = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {children ?? <Icon icon="search-o" />}
+      {children ?? <SearchOIcon size="4x" />}
     </Box>
   );
 });

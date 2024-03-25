@@ -10,7 +10,6 @@ import {
   Collapse,
   Flex,
   Grid,
-  Icon,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -24,6 +23,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { AngleRightIcon } from '@tonic-ui/react-icons';
 import {
   createTransitionStyle,
   dataAttr,
@@ -282,7 +282,7 @@ const TableRowToggleIcon = forwardRef((
 
   return (
     <ButtonBase {...rest}>
-      <Icon icon="angle-right" size="4x" {...styleProps} />
+      <AngleRightIcon size="4x" {...styleProps} />
     </ButtonBase>
   );
 });

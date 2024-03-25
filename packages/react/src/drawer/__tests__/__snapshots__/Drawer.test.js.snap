@@ -143,21 +143,15 @@ exports[`Drawer should render correctly 1`] = `
 }
 
 .emotion-14 {
-  width: var(--tonic-sizes-4x);
-  height: var(--tonic-sizes-4x);
-  fill: currentColor;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  vertical-align: middle;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-}
-
-.emotion-14:not(:root) {
-  overflow: hidden;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
 }
 
 .emotion-16 {
@@ -281,16 +275,15 @@ exports[`Drawer should render correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="emotion-14 emotion-15"
+              class="emotion-14 emotion-1"
+              data-icon="CloseIcon"
+              fill="currentColor"
               focusable="false"
-              role="presentation"
               viewBox="0 0 16 16"
             >
-              <g>
-                <path
-                  d="M15 2l-1-1-6 6-6-6-0.99 0.99 5.99 6.010-6 6 1 1 6-6 6 6 1-1-6-6 6-6z"
-                />
-              </g>
+              <path
+                d="M15 2l-1-1-6 6-6-6-0.99 0.99 5.99 6.010-6 6 1 1 6-6 6 6 1-1-6-6 6-6z"
+              />
             </svg>
           </button>
         </div>

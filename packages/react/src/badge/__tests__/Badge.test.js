@@ -1,6 +1,7 @@
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Badge, Flex, Icon } from '@tonic-ui/react/src';
+import { Badge, Flex } from '@tonic-ui/react/src';
+import { AlertIcon } from '@tonic-ui/react-icons/src';
 import React from 'react';
 
 describe('Badge', () => {
@@ -13,13 +14,13 @@ describe('Badge', () => {
         <Badge variant="dot" />
         <Badge variant="solid" badgeContent={5} />
         <Badge variant="dot">
-          <Icon icon="alert" />
+          <AlertIcon size="4x" />
         </Badge>
         <Badge variant="solid" badgeContent={5}>
-          <Icon icon="alert" />
+          <AlertIcon size="4x" />
         </Badge>
         <Badge variant="solid" badgeContent="99+">
-          <Icon icon="alert" />
+          <AlertIcon size="4x" />
         </Badge>
       </Flex>
     ), renderOptions);

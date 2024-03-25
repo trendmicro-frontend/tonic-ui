@@ -2,7 +2,6 @@ import {
   Button,
   Divider,
   Flex,
-  Icon,
   MenuButton,
   OverflowTooltip,
   SearchInput,
@@ -11,6 +10,7 @@ import {
   Tooltip,
   useColorStyle,
 } from '@tonic-ui/react';
+import { CloseSIcon, ExportIcon, RefreshIcon } from '@tonic-ui/react-icons';
 import React, { useCallback, useState } from 'react';
 import Dropdown from '@/components/Dropdown';
 import Multiselect from '@/components/Multiselect';
@@ -197,7 +197,7 @@ const App = () => {
             mr: '3x',
           }}
         >
-          <Icon icon="close-s" /> <Text>Clear</Text>
+          <CloseSIcon /> <Text>Clear</Text>
         </Button>
         <Flex columnGap="1x">
           <TextLabel>
@@ -209,12 +209,12 @@ const App = () => {
       <ToolbarItem flexWrap="nowrap">
         <Tooltip label="Export">
           <Button variant="ghost">
-            <Icon icon="export" />
+            <ExportIcon />
           </Button>
         </Tooltip>
         <Tooltip label="Refresh">
           <Button variant="ghost">
-            <Icon icon="refresh" />
+            <RefreshIcon />
           </Button>
         </Tooltip>
       </ToolbarItem>

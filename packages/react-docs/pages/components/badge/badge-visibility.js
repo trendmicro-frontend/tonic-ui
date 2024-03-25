@@ -1,4 +1,16 @@
-import { Badge, Box, Button, ButtonGroup, Flex, Icon, Space, Stack, Switch, Text, TextLabel } from '@tonic-ui/react';
+import {
+  Badge,
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Space,
+  Stack,
+  Switch,
+  Text,
+  TextLabel,
+} from '@tonic-ui/react';
+import { AddIcon, AlertIcon, MinusIcon } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 
 const App = () => {
@@ -10,27 +22,34 @@ const App = () => {
       <Flex alignItems="center">
         <Box mr="8x">
           <Badge badgeContent={count} isInvisible={!(count > 0)}>
-            <Icon icon="alert" />
+            <AlertIcon />
           </Badge>
         </Box>
         <ButtonGroup
           variant="secondary"
+          sx={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
         >
           <Button
             aria-label="decrease"
             onClick={() => {
               setCount(Math.max(count - 1, 0));
             }}
+            width="8x"
           >
-            <Icon icon="minus" />
+            <MinusIcon />
           </Button>
           <Button
             aria-label="increase"
             onClick={() => {
               setCount(Math.max(count + 1, 0));
             }}
+            width="8x"
           >
-            <Icon icon="add" />
+            <AddIcon />
           </Button>
         </ButtonGroup>
       </Flex>
@@ -40,7 +59,7 @@ const App = () => {
             variant="dot"
             isInvisible={isInvisible}
           >
-            <Icon icon="alert" />
+            <AlertIcon />
           </Badge>
         </Box>
         <TextLabel cursor="pointer">
