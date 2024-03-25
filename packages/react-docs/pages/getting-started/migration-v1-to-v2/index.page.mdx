@@ -1,23 +1,68 @@
 # Migration From v1 to v2
 
-⚠️ This is the Tonic UI migration guide for upgrading from v1 to v2. You have to consider whether you will do the upgrade if the breaking changes are not acceptable to you at the moment.
+⚠️ This guide outlines the necessary steps to migrate from Tonic UI v1 to v2. Please review the breaking changes and assess the compatibility with your current setup before proceeding with the upgrade.
 
-## Upgrade Steps
+## Icon Updates
 
-### 1. Update the dependencies
+In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. Here are the steps to ensure a smooth migration process.
+
+### Step 1: Update the dependencies
+
+Make sure your `package.json` file includes the latest versions of Tonic UI packages:
 
 ```diff
   "dependencies": {
 +   "@tonic-ui/react": "^2.0.0",
-+   "@tonic-ui/react-icons": "^2.0.0"
++   "@tonic-ui/react-icons": "^2.0.0",
++   "@trendmicro/tmicon": "^1.0.0"
   }
 ```
 
-### 2. Update the import location for icon components
+> The `@trendmicro/tmicon` package is only necessary for step 2 if you've used the [Icon](../components/icon) component in v1 and don't want to too much changes. Proceed to step 3 if you prefer to make modifications during the upgrade.
 
-In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package.
+### Step 2: Import SVG icons and generate icons for the theme
 
-The diff should look like below:
+Manually generate icons and pass them to the theme. This step ensures your app displays icons properly after the upgrade.
+
+```jsx
+import {
+  TonicProvider,
+  theme,
+} from '@tonic-ui/react';
+import * as tmicon from '@trendmicro/tmicon';
+import React from 'react';
+
+const icons = tmicon.icons.reduce((acc, { name, paths, viewBox }) => {
+  return [
+    ...acc,
+    [
+      name,
+      <svg viewBox={viewBox}>
+        {paths.map((path, index) => (
+          <path
+            key={`${name}-${index}`}
+            d={path}
+          />
+        ))}
+      </svg>
+    ],
+  ];
+}, []);
+
+theme.icons = icons; // custom icons
+
+export default () => (
+  <TonicProvider theme={theme}>
+    <App />
+  </TonicProvider>
+);
+```
+
+### Step 3: Update import location for icon components
+
+This step updates the import locations for icon components within Tonic UI v2.
+
+In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. The diff should look like this:
 
 ```diff
   import { Badge, Icon } from '@tonic-ui/react';
@@ -32,8 +77,43 @@ The diff should look like below:
   );
 ```
 
-To apply this change across your project, run the following command:
+To apply this change across your project, run the provided codemod to update your code accordingly:
 
 ```bash
 npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons <path>
+```
+
+### Step 4: Remove unnecessary icons and dependencies
+
+After updating the icon imports, you can safely remove the unnecessary `@trendmicro/tmicon` dependency from the theme:
+
+`app.js`
+```diff
+- import * as tmicon from '@trendmicro/tmicon';
+- const icons = tmicon.icons.reduce((acc, { name, paths, viewBox }) => {
+-   return [
+-     ...acc,
+-     [
+-       name,
+-       <svg viewBox={viewBox}>
+-         {paths.map((path, index) => (
+-           <path
+-             key={`${name}-${index}`}
+-             d={path}
+-           />
+-         ))}
+-       </svg>
+-     ],
+-   ];
+- }, []);
+- theme.icons = icons; // custom icons
+```
+
+`package.json`
+```diff
+  "dependencies": {
+    "@tonic-ui/react": "^2.0.0",
+    "@tonic-ui/react-icons": "^2.0.0",
+-   "@trendmicro/tmicon": "^1.0.0"
+  }
 ```

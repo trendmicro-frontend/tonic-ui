@@ -16,9 +16,7 @@ npx @tonic-ui/codemod@latest <codemod> <path>
 
 Updates the import locations for icon components within Tonic UI v2.
 
-In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package.
-
-The diff should look like below:
+In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. The diff should look like this:
 
 ```diff
  import { Badge, Icon } from '@tonic-ui/react';
@@ -32,8 +30,6 @@ The diff should look like below:
    </Badge>
  );
 ```
-
-To apply this change across your project, run the following command:
 
 ```bash
 npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons <path>
