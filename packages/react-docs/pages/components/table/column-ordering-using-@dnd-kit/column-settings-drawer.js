@@ -1,4 +1,20 @@
 import {
+  DndContext,
+  DragOverlay,
+  KeyboardSensor,
+  PointerSensor,
+  defaultDropAnimationSideEffects,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import {
   Box,
   Button,
   Checkbox,
@@ -13,10 +29,19 @@ import {
   LinkButton,
   useColorStyle,
 } from '@tonic-ui/react';
+import { noop } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import _orderBy from 'lodash/orderBy';
-import React, { useCallback, useEffect, useReducer } from 'react';
-import { List, arrayMove } from 'react-movable';
+import React, {
+  Fragment,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 import HandleIcon from '../icons/icon-handle';
 
 const UPDATE_COLUMNS = 'UPDATE_COLUMNS';
@@ -32,6 +57,181 @@ const reducer = (state, action) => {
 
   return state;
 };
+
+const dropAnimationConfig = {
+  sideEffects: defaultDropAnimationSideEffects({
+    styles: {
+      active: {
+        opacity: '0.4',
+      },
+    },
+  }),
+};
+
+const SortableItemContext = createContext({
+  attributes: {},
+  listeners: undefined,
+  ref: noop,
+});
+
+const DragHandle = ({ children, ...rest }) => {
+  const { attributes, listeners, ref } = useContext(SortableItemContext);
+
+  return (
+    <Flex
+      ref={ref}
+      role="presentation"
+      {...attributes}
+      {...listeners}
+      {...rest}
+      sx={{
+        alignItems: 'center',
+        cursor: 'move',
+      }}
+    >
+      {children}
+    </Flex>
+  );
+};
+
+const SortableOverlay = ({ children }) => {
+  return (
+    <DragOverlay dropAnimation={dropAnimationConfig}>
+      {children}
+    </DragOverlay>
+  );
+};
+
+const SortableList = ({
+  items,
+  onChange,
+  renderItem,
+}) => {
+  const [active, setActive] = useState(null);
+  const activeItem = useMemo(() => {
+    return items.find((item) => item.id === active?.id);
+  }, [active, items]);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  return (
+    <DndContext
+      sensors={sensors}
+      onDragStart={({ active }) => {
+        setActive(active);
+      }}
+      onDragEnd={({ active, over }) => {
+        if (over && active.id !== over?.id) {
+          const activeIndex = items.findIndex(({ id }) => id === active.id);
+          const overIndex = items.findIndex(({ id }) => id === over.id);
+          onChange(arrayMove(items, activeIndex, overIndex));
+        }
+        setActive(active);
+      }}
+      onDragCancel={() => {
+        setActive(null);
+      }}
+    >
+      <SortableContext items={items}>
+        <Flex
+          sx={{
+            flexDirection: 'column',
+            rowGap: '1x',
+          }}
+        >
+          {items.map((item) => (
+            <Fragment key={item.id}>
+              {renderItem(item)}
+            </Fragment>
+          ))}
+        </Flex>
+      </SortableContext>
+      <SortableOverlay>
+        {activeItem ? renderItem(activeItem) : null}
+      </SortableOverlay>
+    </DndContext>
+  );
+};
+
+const SortableItem = ({
+  children,
+  disabled,
+  id,
+  sx,
+  ...rest
+}) => {
+  const [colorStyle] = useColorStyle();
+  const {
+    attributes,
+    isDragging,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id });
+  const context = useMemo(() => ({
+    attributes,
+    listeners,
+    ref: setActivatorNodeRef,
+  }), [attributes, listeners, setActivatorNodeRef]);
+  const hoverBackgroundColor = (() => {
+    if (disabled) {
+      return;
+    }
+    if (isDragging) {
+      return 'gray:70';
+    }
+    return colorStyle.background.highlighted;
+  })();
+  const style = {
+    _hover: {
+      backgroundColor: hoverBackgroundColor,
+    },
+    // Ensure the draggable element appears on top of other elements when dragged
+    zIndex: isDragging ? 'modal' : undefined,
+  };
+  const sortableItemStyle = {
+    opacity: isDragging ? 0.4 : undefined,
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
+
+  if (disabled) {
+    return (
+      <Box
+        sx={[
+          style,
+          ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
+        {...rest}
+      >
+        {children}
+      </Box>
+    );
+  }
+
+  return (
+    <SortableItemContext.Provider value={context}>
+      <Box
+        ref={setNodeRef}
+        sx={[
+          style,
+          sortableItemStyle,
+          ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
+        {...rest}
+      >
+        {children}
+      </Box>
+    </SortableItemContext.Provider>
+  );
+};
+
 
 /**
  * @param {object} columns - The columns to be displayed in the drawer
@@ -51,7 +251,6 @@ const ColumnSettingsDrawer = ({
   isOpen,
   onClose,
 }) => {
-  const [colorStyle] = useColorStyle();
   const [state, dispatch] = useReducer(reducer, {
     columns: ensureArray(columnsProp),
   });
@@ -126,86 +325,42 @@ const ColumnSettingsDrawer = ({
               {isToggleAllChecked ? 'Clear all' : 'Select all'}
             </LinkButton>
           </Box>
-            <List
-              lockVertically={true}
-              values={state.columns.map(column => ({
-                ...column,
-                // Set disabled to true if the column is pinned
-                disabled: !!column.isPinned,
-              }))}
-              onChange={({ oldIndex, newIndex }) => {
-                dispatch({
-                  type: UPDATE_COLUMNS,
-                  payload: arrayMove(state.columns, oldIndex, newIndex),
-                });
-              }}
-              renderList={({ children, props }) => (
-                <Box {...props}>
-                  {children}
-                </Box>
-              )}
-              renderItem={({ value: column, index, isDragged, isOutOfBounds, props }) => {
-                const isPinned = !!column.isPinned;
-                const isVisible = column.isVisible !== false;
-                const hoverBackgroundColor = (() => {
-                  if (isPinned) {
-                    return;
-                  }
-                  if (isDragged) {
-                    return 'gray:70';
-                  }
-                  return colorStyle.background.highlighted;
-                })()
-                // Cursor for the draggable element
-                const cursor = (() => {
-                  if (isOutOfBounds) {
-                    return 'not-allowed';
-                  }
-                  if (isPinned) {
-                    return;
-                  }
-                  return isDragged ? 'move' : 'move';
-                })();
-                // Ensure the draggable element appears on top of other elements when dragged
-                const zIndex = isDragged ? 'modal' : undefined;
-
-                return (
+          <SortableList
+            items={state.columns}
+            onChange={(columns) => {
+              dispatch({
+                type: UPDATE_COLUMNS,
+                payload: columns,
+              });
+            }}
+            renderItem={(item) => {
+              const column = item;
+              return (
+                <SortableItem
+                  id={column.id}
+                  disabled={column.isPinned}
+                >
                   <Flex
-                    {...props}
-                    sx={{
-                      border: 1,
-                      borderColor: isDragged ? 'gray:60' : 'transparent',
-                      alignItems: 'center',
-                      mb: '1x',
-                      width: '100%',
-                      cursor,
-                      zIndex,
-                      _hover: {
-                        backgroundColor: hoverBackgroundColor,
-                      },
-                    }}
+                    alignItems="center"
+                    py="2x"
                   >
                     <Flex
-                      // Mark any node with the `data-movable-handle` attribute if you wish you wish to use it as a DnD handle.
-                      // The rest of renderItem will be then ignored and not start the drag and drop.
-                      //data-movable-handle
                       sx={{
                         '*:hover > &': {
                           opacity: 1,
                         },
                         opacity: 0,
-                        px: '1x',
                         minWidth: '4x',
+                        px: '1x',
                       }}
                     >
-                      {!isPinned ? <HandleIcon /> : null}
+                      <DragHandle>
+                        {!column.isPinned ? <HandleIcon /> : null}
+                      </DragHandle>
                     </Flex>
                     <Checkbox
-                      // The "role" attribute must be included for "react-movable" to verify the interactivity of the element
-                      // https://github.com/tajo/react-movable/blob/master/src/utils.ts
-                      role="checkbox"
-                      disabled={isPinned}
-                      checked={isVisible}
+                      disabled={column.isPinned}
+                      checked={column.isVisible}
                       onChange={(event) => {
                         const isVisible = event.target.checked;
                         const nextColumns = state.columns.map(_column => {
@@ -222,13 +377,17 @@ const ColumnSettingsDrawer = ({
                           payload: nextColumns,
                         });
                       }}
+                      sx={{
+                        width: '100%',
+                      }}
                     >
                       {column.label}
                     </Checkbox>
                   </Flex>
-                );
-              }}
-            />
+                </SortableItem>
+              );
+            }}
+          />
         </DrawerBody>
         <DrawerFooter>
           <Grid templateColumns="repeat(2, 1fr)" columnGap="2x">
