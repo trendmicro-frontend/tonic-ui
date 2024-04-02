@@ -216,7 +216,7 @@ const App = () => {
       setData(arrayMove(data, activeIndex, overIndex));
     }
     setActiveId(null);
-  }, [data, rowSelection, rows]);
+  }, [data, rows]);
   const handleDragCancel = useCallback((event) => {
     setActiveId(null);
   }, []);
