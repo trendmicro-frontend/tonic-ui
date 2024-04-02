@@ -58,6 +58,10 @@ const App = () => {
       minSize: 40,
     },
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (originalRow, index) => {
+      // Identify individual rows that are originating from any server-side operation
+      return originalRow.id;
+    },
   });
 
   // If you want to manage your own state and override the state manager, you can uncomment and modify the following code:
