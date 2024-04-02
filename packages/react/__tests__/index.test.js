@@ -3,12 +3,9 @@ import * as moduleExport from '@tonic-ui/react/src';
 test('should match expected exports', () => {
   const expectedExports = [
     // deprecated
-    'ControlBox',
-    'PseudoBox',
-    'FlatButton',
-    'ToggleSwitch',
-    'useDisclosure',
-    'withTheme',
+    'AccordionCollapse',
+    'ToastProvider',
+    'useToast',
 
     // accordion
     'Accordion',
@@ -20,7 +17,6 @@ test('should match expected exports', () => {
     'AccordionToggleIcon',
     'useAccordion',
     'useAccordionItem',
-    'AccordionCollapse', // alias of AccordionContent
 
     // alert
     'Alert',
@@ -151,7 +147,6 @@ test('should match expected exports', () => {
 
     // popper
     'Popper',
-    'PopperArrow', // removed
 
     // portal
     'Portal',
@@ -243,8 +238,6 @@ test('should match expected exports', () => {
     'ToastMessage',
     'ToastTransition',
     'useToastManager',
-    'ToastProvider', // alias of ToastManager
-    'useToast', // alias of useToastManager
 
     // tooltip
     'Tooltip',

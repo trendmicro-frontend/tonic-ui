@@ -19,6 +19,3 @@ export {
   ToastTransition,
   useToastManager,
 };
-
-export const ToastProvider = ToastManager; // alias of ToastManager
-export const useToast = useToastManager; // alias of useToastManager
