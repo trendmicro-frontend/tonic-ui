@@ -95,6 +95,10 @@ const App = () => {
     },
     columnResizeMode,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (originalRow, index) => {
+      // Identify individual rows that are originating from any server-side operation
+      return originalRow.id;
+    },
   });
 
   const layout = 'flexbox'; // One of: 'flexbox', 'table'
