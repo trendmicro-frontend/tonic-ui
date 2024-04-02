@@ -32,7 +32,7 @@ const Checkbox = forwardRef((
   ref,
 ) => {
   const inputRef = useRef();
-  const combinedInputRef = useMergeRefs(ref, inputRefProp, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+  const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
   const styleProps = useCheckboxStyle({ disabled });
   const checkboxGroupContext = useCheckboxGroup();
 
@@ -66,6 +66,7 @@ const Checkbox = forwardRef((
   return (
     <Box
       as="label"
+      ref={ref}
       {...styleProps}
       {...rest}
     >

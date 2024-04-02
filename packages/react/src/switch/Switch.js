@@ -15,7 +15,7 @@ const Switch = forwardRef((
     disabled,
     id,
     inputProps,
-    inputRef,
+    inputRef: inputRefProp,
     name,
     onBlur,
     onChange,
@@ -28,12 +28,14 @@ const Switch = forwardRef((
   },
   ref,
 ) => {
-  const combinedInputRef = useMergeRefs(ref, inputRef); // TODO: Move the `ref` to the outermost element in the next major version
+  const inputRef = useRef();
+  const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
   const styleProps = useSwitchStyle({ disabled });
 
   return (
     <Box
       as="label"
+      ref={ref}
       {...styleProps}
       {...rest}
     >
