@@ -28,7 +28,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import DragLayer from './DragLayer';
-import HandleIcon from './icons/icon-handle';
+import HandleIcon from '../icons/icon-handle';
 
 /**
  * Assign a value to a ref function or object.

@@ -29,15 +29,6 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import ColumnSettingsDrawer from './column-settings-drawer';
 
-const data = [
-  { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
-  { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
-  { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
-  { id: 4, eventType: 'Web Reputation', affectedDevices: 15, detections: 598 },
-  { id: 5, eventType: 'Network Virus', affectedDevices: 15, detections: 497 },
-  { id: 6, eventType: 'Application Control', affectedDevices: 0, detections: 0 }
-];
-
 /**
  * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
  *
@@ -59,36 +50,71 @@ const App = () => {
   const theme = useTheme();
   const [colorStyle] = useColorStyle();
   const defaultColumnOrder = [
-    'eventType',
-    'affectedDevices',
-    'detections',
+    'priority',
+    'policy',
+    'modifiedTime',
+    'modifiedBy',
   ];
   const [columnOrder, setColumnOrder] = useState(defaultColumnOrder);
-
   const [columnVisibility, setColumnVisibility] = useState({
-    eventType: true,
-    affectedDevices: true,
-    detections: true,
+    'priority': true,
+    'policy': true,
+    'modifiedTime': true,
+    'modifiedBy': true,
   });
-
+  const data = useConst(() => [
+    { id: 1, priority: 1, policy: 'Team Managers', modifiedTime: 1625875200000, modifiedBy: 'admin' },
+    { id: 2, priority: 2, policy: 'Marketing Team', modifiedTime: 1625875200000, modifiedBy: 'admin' },
+    { id: 3, priority: 3, policy: 'Sales Department', modifiedTime: 1625875200000, modifiedBy: 'admin' },
+    { id: 4, priority: 4, policy: 'Development Team', modifiedTime: 1625875200000, modifiedBy: 'admin' },
+    { id: 5, priority: 5, policy: 'IT Department', modifiedTime: 1625875200000, modifiedBy: 'admin' },
+    { id: 6, priority: null, policy: 'Server policy (Default)', modifiedTime: 1625097600000, modifiedBy: 'admin' },
+    { id: 7, priority: null, policy: 'Endpoint policy (Default)', modifiedTime: 1625097600000, modifiedBy: 'admin' },
+  ]);
   const columns = useConst(() => [
     {
-      header: 'Event Type',
-      accessorKey: 'eventType',
+      id: 'priority',
+      header: 'Priority',
+      accessorKey: 'priority',
+      cell: ({ getValue }) => {
+        const priority = getValue();
+        return priority ?? '-';
+      },
+      size: 80,
       isPinned: true,
+    },
+    {
+      id: 'policy',
+      header: 'Policy',
+      accessorKey: 'policy',
       size: 'auto',
+      isPinned: false,
     },
     {
-      header: 'Affected Devices',
-      accessorKey: 'affectedDevices',
+      id: 'modifiedTime',
+      header: 'Last Modified',
+      accessorKey: 'modifiedTime',
+      cell: ({ getValue }) => {
+        const mtime = getValue();
+        const date = new Date(mtime);
+        if (date.toString() === 'Invalid Date') {
+          return '-';
+        }
+        return (
+          <Truncate>
+            {date.toLocaleString()}
+          </Truncate>
+        );
+      },
+      size: 'auto',
       isPinned: false,
-      size: '25%',
     },
     {
-      header: 'Detections',
-      accessorKey: 'detections',
+      id: 'modifiedBy',
+      header: 'Last Editor',
+      accessorKey: 'modifiedBy',
+      size: 'auto',
       isPinned: false,
-      size: 150,
     },
   ]);
 
@@ -104,6 +130,10 @@ const App = () => {
     },
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (originalRow, index) => {
+      // Identify individual rows that are originating from any server-side operation
+      return originalRow.id;
+    },
   });
 
   const [tableWidth, setTableWidth] = useState(0);
@@ -233,16 +263,16 @@ const App = () => {
   const layout = 'flexbox'; // One of: 'flexbox', 'table'
   const [isColumnSettingsDrawerOpen, setIsColumnSettingsDrawerOpen] = useState(false);
 
-/*
- * columns = [
- *   {
- *     id: <string>,
- *     label: <string>,
- *     isPinned: <boolean>,
- *     isVisible: <boolean>,
- *   }
- * ]
- */
+  /*
+   * columns = [
+   *   {
+   *     id: <string>,
+   *     label: <string>,
+   *     isPinned: <boolean>,
+   *     isVisible: <boolean>,
+   *   }
+   * ]
+   */
   const orderedColumns = table.getState().columnOrder.map(columnId => {
     const column = table.getColumn(columnId);
     return {

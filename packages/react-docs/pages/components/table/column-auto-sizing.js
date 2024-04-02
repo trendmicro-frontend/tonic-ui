@@ -77,6 +77,10 @@ const App = () => {
       minSize: 40,
     },
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (originalRow, index) => {
+      // Identify individual rows that are originating from any server-side operation
+      return originalRow.id;
+    },
   });
 
   const [tableWidth, setTableWidth] = useState(0);
