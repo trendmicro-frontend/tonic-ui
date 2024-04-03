@@ -350,6 +350,24 @@ const App = () => {
               </TableBody>
             </ConditionalWrapper>
           )}
+          {(isTableHeaderVisible && !isTableBodyVisible) && (
+            <TableBody>
+              {layout === 'flexbox' && (
+                <Flex justifyContent="center" px="3x" py="10x">
+                  No data to display
+                </Flex>
+              )}
+              {layout === 'table' && (
+                <TableRow>
+                  <TableCell colSpan="4" px={0} py={0}>
+                    <Text px="3x" py="10x" textAlign="center">
+                      No data to display
+                    </Text>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          )}
         </Table>
       </Flex>
     </>

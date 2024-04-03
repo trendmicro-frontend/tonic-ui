@@ -36,7 +36,8 @@ const transformCSSSuperset = (props) => {
 const Box = styled('div', { shouldForwardProp })(
   system,
   transformCSSPseudoSelectors,
-  transformCSSSuperset, // Place `transformCSSSuperset` at the end to gain the highest specificity
+  transformCSSSuperset,
+  // Prioritize highest specificity by placing it at the end
 );
 
 Box.displayName = 'Box';

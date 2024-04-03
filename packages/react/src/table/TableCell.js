@@ -1,7 +1,7 @@
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { GROUP_VARIANT_HEADER, GROUP_VARIANT_BODY, GROUP_VARIANT_FOOTER, LAYOUT_TABLE } from './constants';
+import { GROUP_VARIANT_HEADER, GROUP_VARIANT_BODY, GROUP_VARIANT_FOOTER, LAYOUT_TABLE, VARIANT_OUTLINE } from './constants';
 import { useTableCellStyle } from './styles';
 import useTable from './useTable';
 import useTableGroup from './useTableGroup';
@@ -30,13 +30,26 @@ const TableCell = forwardRef((
     [GROUP_VARIANT_FOOTER]: 'cell',
   }[groupVariant] ?? 'cell';
   const styleProps = useTableCellStyle({ groupVariant, layout, size, variant });
+  let sx = {};
+
+  // Remove bottom border if the layout is not 'table'
+  if ((groupVariant === GROUP_VARIANT_BODY) && (layout !== LAYOUT_TABLE) && (variant === VARIANT_OUTLINE)) {
+    sx = {
+      ...sx,
+      '*:last-child > &': {
+        borderBottom: 0,
+        borderBottomColor: 'transparent',
+      },
+    };
+  }
 
   return (
     <Box
       as={as}
       ref={ref}
       role={role}
-      sx={[styleProps, ...ensureArray(sxProp)]}
+      sx={[sx, ...ensureArray(sxProp)]}
+      {...styleProps}
       {...rest}
     />
   );

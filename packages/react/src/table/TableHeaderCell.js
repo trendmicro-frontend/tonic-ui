@@ -1,4 +1,3 @@
-import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { GROUP_VARIANT_HEADER, LAYOUT_TABLE } from './constants';
@@ -8,7 +7,6 @@ import useTable from './useTable';
 const TableHeaderCell = forwardRef((
   {
     role: roleProp,
-    sx: sxProp,
     ...rest
   },
   ref
@@ -24,7 +22,7 @@ const TableHeaderCell = forwardRef((
       as={as}
       ref={ref}
       role={role}
-      sx={[styleProps, ...ensureArray(sxProp)]}
+      {...styleProps}
       {...rest}
     />
   );

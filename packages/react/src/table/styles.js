@@ -2,7 +2,9 @@ import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import { GROUP_VARIANT_HEADER, LAYOUT_TABLE, VARIANT_OUTLINE } from './constants';
 
-const useTableStyle = ({ layout }) => {
+const useTableStyle = ({ layout, variant }) => {
+  const [colorMode] = useColorMode();
+
   const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
@@ -18,8 +20,24 @@ const useTableStyle = ({ layout }) => {
     };
   })();
 
+  const variantStyle = (() => {
+    if (variant === VARIANT_OUTLINE) {
+      const borderColor = {
+        dark: 'gray:70',
+        light: 'gray:30',
+      }[colorMode];
+      return {
+        border: 1,
+        borderColor,
+      };
+    }
+
+    return {};
+  })();
+
   return {
     ...layoutStyle,
+    ...variantStyle,
   };
 };
 
@@ -76,27 +94,7 @@ const useTableFooterStyle = ({ layout }) => {
 };
 
 const useTableRowStyle = ({ groupVariant, layout, role, variant }) => {
-  // HEADER
-  if (groupVariant === GROUP_VARIANT_HEADER) {
-    const layoutStyle = (() => {
-      if (layout === LAYOUT_TABLE) {
-        return {
-          display: 'table-row',
-        };
-      }
-
-      return {
-        display: 'flex',
-        width: 'fit-content',
-      };
-    })();
-
-    return {
-      ...layoutStyle,
-    };
-  }
-
-  // BODY & FOOTER
+  // HEADER | BODY | FOOTER
   const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
@@ -110,22 +108,8 @@ const useTableRowStyle = ({ groupVariant, layout, role, variant }) => {
     };
   })();
 
-  const variantStyle = (() => {
-    if (variant === VARIANT_OUTLINE) {
-      const selector = `[role=${role}] + &[role=${role}] > *`;
-      return {
-        [selector]: {
-          borderTopColor: 'transparent',
-        },
-      };
-    }
-
-    return {};
-  })();
-
   return {
     ...layoutStyle,
-    ...variantStyle,
   };
 };
 
@@ -145,7 +129,7 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
 
       return {};
     })();
-    const visualStyle = (() => {
+    const variantStyle = (() => {
       const { sizes } = theme;
       const borderColor = {
         dark: 'gray:70',
@@ -165,8 +149,6 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
 
       if (variant === VARIANT_OUTLINE) {
         return {
-          borderTop: 1,
-          borderTopColor: borderColor,
           borderBottom: 2,
           borderBottomColor: borderColor,
           borderLeft: 1,
@@ -174,12 +156,11 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
           color,
           fontWeight: 'semibold',
           px,
-          pt: `calc(${sizes[py]} - ${sizes['1q']})`,
+          pt: py,
           pb: `calc(${sizes[py]} - ${sizes['2q']})`,
           width,
-          _lastChild: {
-            borderRight: 1,
-            borderRightColor: borderColor,
+          _firstChild: {
+            borderLeft: 0,
           },
         };
       }
@@ -198,11 +179,11 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
 
     return {
       ...layoutStyle,
-      ...visualStyle,
+      ...variantStyle,
     };
   }
 
-  // BODY & FOOTER
+  // BODY | FOOTER
   const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
@@ -212,7 +193,7 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
 
     return {};
   })();
-  const visualStyle = (() => {
+  const variantStyle = (() => {
     const { sizes } = theme;
     const borderColor = {
       dark: 'gray:70',
@@ -241,9 +222,8 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
         pt: py,
         pb: `calc(${sizes[py]} - ${sizes['1q']})`,
         width,
-        _lastChild: {
-          borderRight: 1,
-          borderRightColor: borderColor,
+        _firstChild: {
+          borderLeft: 0,
         },
       };
     }
@@ -261,7 +241,7 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
 
   return {
     ...layoutStyle,
-    ...visualStyle,
+    ...variantStyle,
   };
 };
 

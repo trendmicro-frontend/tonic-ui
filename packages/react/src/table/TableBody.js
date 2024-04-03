@@ -1,4 +1,3 @@
-import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -12,19 +11,18 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const TableBody = forwardRef((
   {
     role: roleProp,
-    sx: sxProp,
     ...rest
   },
   ref,
 ) => {
   const { layout } = useTable();
-  const styleProps = useTableBodyStyle({ layout });
   const as = layout === LAYOUT_TABLE ? 'tbody' : undefined;
   const role = roleProp ?? 'rowgroup';
   const groupVariant = GROUP_VARIANT_BODY;
   const context = getMemoizedState({
     groupVariant,
   });
+  const styleProps = useTableBodyStyle({ layout });
 
   return (
     <TableGroupContext.Provider value={context}>
@@ -32,7 +30,7 @@ const TableBody = forwardRef((
         as={as}
         ref={ref}
         role={role}
-        sx={[styleProps, ...ensureArray(sxProp)]}
+        {...styleProps}
         {...rest}
       />
     </TableGroupContext.Provider>

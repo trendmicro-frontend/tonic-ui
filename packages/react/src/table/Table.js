@@ -1,6 +1,5 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnRemovedProps } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -16,7 +15,6 @@ const Table = forwardRef((
     layout = LAYOUT_FLEXBOX,
     role: roleProp,
     size = SIZE_MEDIUM,
-    sx: sxProp,
     variant = VARIANT_DEFAULT,
     ...rest
   },
@@ -35,12 +33,12 @@ const Table = forwardRef((
 
   const as = layout === LAYOUT_TABLE ? 'table' : undefined;
   const role = roleProp ?? 'table';
-  const styleProps = useTableStyle({ layout });
   const context = getMemoizedState({
     layout,
     size,
     variant,
   });
+  const styleProps = useTableStyle({ layout, variant });
 
   return (
     <TableContext.Provider value={context}>
@@ -48,7 +46,7 @@ const Table = forwardRef((
         as={as}
         ref={ref}
         role={role}
-        sx={[styleProps, ...ensureArray(sxProp)]}
+        {...styleProps}
         {...rest}
       />
     </TableContext.Provider>

@@ -1,4 +1,3 @@
-import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { GROUP_VARIANT_BODY, LAYOUT_TABLE } from './constants';
@@ -9,7 +8,6 @@ import useTableGroup from './useTableGroup';
 const TableRow = forwardRef((
   {
     role: roleProp,
-    sx: sxProp,
     ...rest
   },
   ref,
@@ -26,7 +24,7 @@ const TableRow = forwardRef((
       as={as}
       ref={ref}
       role={role}
-      sx={[styleProps, ...ensureArray(sxProp)]}
+      {...styleProps}
       {...rest}
     />
   );
