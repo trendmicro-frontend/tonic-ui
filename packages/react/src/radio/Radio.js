@@ -1,6 +1,6 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, isNullish } from '@tonic-ui/utils';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
 import { VisuallyHidden } from '../visually-hidden';
 import { defaultSize, defaultVariantColor } from './constants';

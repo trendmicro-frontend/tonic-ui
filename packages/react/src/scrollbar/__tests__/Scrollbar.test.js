@@ -73,7 +73,7 @@ describe('Scrollbar', () => {
           <Button data-testid="btn-toggle" onClick={toggle}>
             Toggle
           </Button>
-          {on && (
+          {on ? (
             <Scrollbar
               height={200}
               onUpdate={handleUpdate}
@@ -83,7 +83,7 @@ describe('Scrollbar', () => {
                 Scrollable content
               </Box>
             </Scrollbar>
-          )}
+          ) : null}
         </>
       );
     };
