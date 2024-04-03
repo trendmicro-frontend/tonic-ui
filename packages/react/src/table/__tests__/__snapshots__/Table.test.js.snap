@@ -39,16 +39,6 @@ exports[`Table should render correctly with \`flexbox\` layout 1`] = `
   width: 150px;
 }
 
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
 .emotion-14 {
   border-bottom: var(--tonic-borders-1);
   border-bottom-color: var(--tonic-colors-gray-70);
@@ -92,7 +82,7 @@ exports[`Table should render correctly with \`flexbox\` layout 1`] = `
       role="rowgroup"
     >
       <div
-        class="emotion-12 emotion-1"
+        class="emotion-4 emotion-1"
         role="row"
       >
         <div
@@ -109,7 +99,7 @@ exports[`Table should render correctly with \`flexbox\` layout 1`] = `
         </div>
       </div>
       <div
-        class="emotion-12 emotion-1"
+        class="emotion-4 emotion-1"
         role="row"
       >
         <div
@@ -163,10 +153,6 @@ exports[`Table should render correctly with \`table\` layout 1`] = `
   display: table-row-group;
 }
 
-.emotion-12 {
-  display: table-row;
-}
-
 .emotion-14 {
   display: table-cell;
   border-bottom: var(--tonic-borders-1);
@@ -211,7 +197,7 @@ exports[`Table should render correctly with \`table\` layout 1`] = `
       role="rowgroup"
     >
       <tr
-        class="emotion-12 emotion-1"
+        class="emotion-4 emotion-1"
         role="row"
       >
         <td
@@ -228,7 +214,7 @@ exports[`Table should render correctly with \`table\` layout 1`] = `
         </td>
       </tr>
       <tr
-        class="emotion-12 emotion-1"
+        class="emotion-4 emotion-1"
         role="row"
       >
         <td

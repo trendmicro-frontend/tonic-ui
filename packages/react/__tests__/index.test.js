@@ -196,9 +196,10 @@ test('should match expected exports', () => {
     // table
     'Table',
     'TableHeader',
-    'TableHeaderCell',
-    'TableHeaderRow',
+    'TableHeaderCell', // deprecated
+    'TableHeaderRow', // deprecated
     'TableBody',
+    'TableFooter',
     'TableRow',
     'TableCell',
     'TableColumnResizeHandle', // alias of ResizeHandle

@@ -1,14 +1,11 @@
-import { sx } from '@tonic-ui/styled-system';
-import { useMemo } from 'react';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
-import { LAYOUT_TABLE } from './constants';
+import { GROUP_VARIANT_HEADER, LAYOUT_TABLE, VARIANT_OUTLINE } from './constants';
 
 const useTableStyle = ({ layout }) => {
-  const layoutStyle = useMemo(() => {
+  const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
-        as: 'table',
         borderCollapse: 'collapse',
         borderSpacing: 0,
         display: 'table',
@@ -19,7 +16,7 @@ const useTableStyle = ({ layout }) => {
       display: 'inline-flex',
       flexDirection: 'column',
     };
-  }, [layout]);
+  })();
 
   return {
     ...layoutStyle,
@@ -27,10 +24,9 @@ const useTableStyle = ({ layout }) => {
 };
 
 const useTableHeaderStyle = ({ layout }) => {
-  const layoutStyle = useMemo(() => {
+  const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
-        as: 'thead',
         display: 'table-header-group',
       };
     }
@@ -38,139 +34,72 @@ const useTableHeaderStyle = ({ layout }) => {
     return {
       flex: 'none',
     };
-  }, [layout]);
+  })();
 
   return {
     ...layoutStyle,
-  };
-};
-
-const useTableHeaderRowStyle = ({ layout }) => {
-  const layoutStyle = useMemo(() => {
-    if (layout === LAYOUT_TABLE) {
-      return {
-        as: 'tr',
-        display: 'table-row',
-      };
-    }
-
-    return {
-      display: 'flex',
-      width: 'fit-content',
-    };
-  }, [layout]);
-
-  return {
-    ...layoutStyle,
-  };
-};
-
-const useTableHeaderCellStyle = ({ layout, size, variant }) => {
-  const theme = useTheme();
-  const [colorMode] = useColorMode();
-  const layoutStyle = useMemo(() => {
-    if (layout === LAYOUT_TABLE) {
-      return {
-        as: 'th',
-        display: 'table-cell',
-        textAlign: 'start', // override the default center alignment
-      };
-    }
-
-    return {};
-  }, [layout]);
-  const visualStyle = useMemo(() => {
-    const { sizes } = theme;
-    const borderColor = {
-      dark: 'gray:70',
-      light: 'gray:30',
-    }[colorMode];
-    const color = {
-      dark: 'white:secondary',
-      light: 'black:secondary',
-    }[colorMode];
-    const px = '3x';
-    const py = {
-      'sm': '1x',
-      'md': '2x',
-      'lg': '3x',
-    }[size];
-    const width = 150;
-
-    if (variant === 'outline') {
-      return {
-        borderTop: 1,
-        borderTopColor: borderColor,
-        borderBottom: 2,
-        borderBottomColor: borderColor,
-        borderLeft: 1,
-        borderLeftColor: borderColor,
-        color,
-        fontWeight: 'semibold',
-        px,
-        pt: `calc(${sizes[py]} - ${sizes['1q']})`,
-        pb: `calc(${sizes[py]} - ${sizes['2q']})`,
-        width,
-        _lastChild: {
-          borderRight: 1,
-          borderRightColor: borderColor,
-        },
-      };
-    }
-
-    return {
-      borderBottom: 2,
-      borderBottomColor: borderColor,
-      color,
-      fontWeight: 'semibold',
-      px,
-      pt: py,
-      pb: `calc(${sizes[py]} - ${sizes['2q']})`,
-      width,
-    };
-  }, [theme, colorMode, size, variant]);
-
-  return {
-    ...layoutStyle,
-    ...visualStyle,
   };
 };
 
 const useTableBodyStyle = ({ layout }) => {
-  const layoutStyle = useMemo(() => {
+  const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
-        as: 'tbody',
         display: 'table-row-group',
       };
     }
 
     return {};
-  }, [layout]);
+  })();
 
   return {
     ...layoutStyle,
   };
 };
 
-const useTableRowCSS = ({ role, variant }) => {
-  if (variant === 'outline') {
-    const selector = `[role=${role}] + &[role=${role}] > *`;
-    return sx({
-      [selector]: {
-        borderTopColor: 'transparent',
-      },
-    });
-  }
-
-  return {};
-};
-
-const useTableRowStyle = ({ layout }) => {
-  const layoutStyle = useMemo(() => {
+const useTableFooterStyle = ({ layout }) => {
+  const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
-        as: 'tr',
+        display: 'table-footer-group',
+      };
+    }
+
+    return {
+      flex: 'none',
+    };
+  })();
+
+  return {
+    ...layoutStyle,
+  };
+};
+
+const useTableRowStyle = ({ groupVariant, layout, role, variant }) => {
+  // HEADER
+  if (groupVariant === GROUP_VARIANT_HEADER) {
+    const layoutStyle = (() => {
+      if (layout === LAYOUT_TABLE) {
+        return {
+          display: 'table-row',
+        };
+      }
+
+      return {
+        display: 'flex',
+        width: 'fit-content',
+      };
+    })();
+
+    return {
+      ...layoutStyle,
+    };
+  }
+
+  // BODY & FOOTER
+  const layoutStyle = (() => {
+    if (layout === LAYOUT_TABLE) {
+      return {
         display: 'table-row',
       };
     }
@@ -179,27 +108,111 @@ const useTableRowStyle = ({ layout }) => {
       display: 'flex',
       width: 'fit-content',
     };
-  }, [layout]);
+  })();
+
+  const variantStyle = (() => {
+    if (variant === VARIANT_OUTLINE) {
+      const selector = `[role=${role}] + &[role=${role}] > *`;
+      return {
+        [selector]: {
+          borderTopColor: 'transparent',
+        },
+      };
+    }
+
+    return {};
+  })();
 
   return {
     ...layoutStyle,
+    ...variantStyle,
   };
 };
 
-const useTableCellStyle = ({ layout, size, variant }) => {
+const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
   const theme = useTheme();
   const [colorMode] = useColorMode();
-  const layoutStyle = useMemo(() => {
+
+  // HEADER
+  if (groupVariant === GROUP_VARIANT_HEADER) {
+    const layoutStyle = (() => {
+      if (layout === LAYOUT_TABLE) {
+        return {
+          display: 'table-cell',
+          textAlign: 'start', // override the default center alignment
+        };
+      }
+
+      return {};
+    })();
+    const visualStyle = (() => {
+      const { sizes } = theme;
+      const borderColor = {
+        dark: 'gray:70',
+        light: 'gray:30',
+      }[colorMode];
+      const color = {
+        dark: 'white:secondary',
+        light: 'black:secondary',
+      }[colorMode];
+      const px = '3x';
+      const py = {
+        'sm': '1x',
+        'md': '2x',
+        'lg': '3x',
+      }[size];
+      const width = 150;
+
+      if (variant === VARIANT_OUTLINE) {
+        return {
+          borderTop: 1,
+          borderTopColor: borderColor,
+          borderBottom: 2,
+          borderBottomColor: borderColor,
+          borderLeft: 1,
+          borderLeftColor: borderColor,
+          color,
+          fontWeight: 'semibold',
+          px,
+          pt: `calc(${sizes[py]} - ${sizes['1q']})`,
+          pb: `calc(${sizes[py]} - ${sizes['2q']})`,
+          width,
+          _lastChild: {
+            borderRight: 1,
+            borderRightColor: borderColor,
+          },
+        };
+      }
+
+      return {
+        borderBottom: 2,
+        borderBottomColor: borderColor,
+        color,
+        fontWeight: 'semibold',
+        px,
+        pt: py,
+        pb: `calc(${sizes[py]} - ${sizes['2q']})`,
+        width,
+      };
+    })();
+
+    return {
+      ...layoutStyle,
+      ...visualStyle,
+    };
+  }
+
+  // BODY & FOOTER
+  const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
-        as: 'td',
         display: 'table-cell',
       };
     }
 
     return {};
-  }, [layout]);
-  const visualStyle = useMemo(() => {
+  })();
+  const visualStyle = (() => {
     const { sizes } = theme;
     const borderColor = {
       dark: 'gray:70',
@@ -217,7 +230,7 @@ const useTableCellStyle = ({ layout, size, variant }) => {
     }[size];
     const width = 150;
 
-    if (variant === 'outline') {
+    if (variant === VARIANT_OUTLINE) {
       return {
         borderBottom: 1,
         borderBottomColor: borderColor,
@@ -244,7 +257,7 @@ const useTableCellStyle = ({ layout, size, variant }) => {
       pb: `calc(${sizes[py]} - ${sizes['1q']})`,
       width,
     };
-  }, [theme, colorMode, size, variant]);
+  })();
 
   return {
     ...layoutStyle,
@@ -267,10 +280,8 @@ const useTableScrollbarTrackStyle = () => {
 export {
   useTableStyle,
   useTableHeaderStyle,
-  useTableHeaderRowStyle,
-  useTableHeaderCellStyle,
   useTableBodyStyle,
-  useTableRowCSS,
+  useTableFooterStyle,
   useTableRowStyle,
   useTableCellStyle,
   useTableScrollbarTrackStyle,

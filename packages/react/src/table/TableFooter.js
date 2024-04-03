@@ -2,14 +2,14 @@ import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { GROUP_VARIANT_HEADER, LAYOUT_TABLE } from './constants';
+import { GROUP_VARIANT_FOOTER, LAYOUT_TABLE } from './constants';
 import { TableGroupContext } from './context';
-import { useTableHeaderStyle } from './styles';
+import { useTableFooterStyle } from './styles';
 import useTable from './useTable';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const TableHeader = forwardRef((
+const TableFooter = forwardRef((
   {
     role: roleProp,
     sx: sxProp,
@@ -18,10 +18,10 @@ const TableHeader = forwardRef((
   ref,
 ) => {
   const { layout } = useTable();
-  const styleProps = useTableHeaderStyle({ layout });
-  const as = layout === LAYOUT_TABLE ? 'thead' : undefined;
+  const styleProps = useTableFooterStyle({ layout });
+  const as = layout === LAYOUT_TABLE ? 'tfoot' : undefined;
   const role = roleProp ?? 'rowgroup';
-  const groupVariant = GROUP_VARIANT_HEADER;
+  const groupVariant = GROUP_VARIANT_FOOTER;
   const context = getMemoizedState({
     groupVariant,
   });
@@ -39,6 +39,6 @@ const TableHeader = forwardRef((
   );
 });
 
-TableHeader.displayName = 'TableHeader';
+TableFooter.displayName = 'TableFooter';
 
-export default TableHeader;
+export default TableFooter;
