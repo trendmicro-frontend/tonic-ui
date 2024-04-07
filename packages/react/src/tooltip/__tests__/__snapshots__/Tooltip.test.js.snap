@@ -84,10 +84,10 @@ exports[`Tooltip should render correctly 1`] = `
 }
 
 .emotion-4 {
-  background-color: var(--tonic-colors-gray-10);
+  background-color: var(--tonic-colors-gray-80);
   border-radius: var(--tonic-radii-sm);
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.48),0 1px 2px 0 rgba(0, 0, 0, 0.16);
-  color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
   font-weight: var(--tonic-fontWeights-normal);
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);

@@ -95,12 +95,12 @@ const useTooltipContentStyle = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const backgroundColor = {
-    dark: 'gray:10',
-    light: 'gray:70',
+    dark: 'gray:80',
+    light: 'white',
   }[colorMode];
   const color = {
-    dark: 'black:primary',
-    light: 'white:primary',
+    dark: 'white:primary',
+    light: 'black:primary',
   }[colorMode];
 
   return {
