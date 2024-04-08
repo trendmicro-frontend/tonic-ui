@@ -14,8 +14,6 @@ import {
   Space,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -138,7 +136,7 @@ const App = () => {
     <Table layout={layout}>
       <TableHeader>
         {table.getHeaderGroups().map(headerGroup => (
-          <TableHeaderRow key={headerGroup.id}>
+          <TableRow key={headerGroup.id}>
             {headerGroup.headers.map(header => {
               let styleProps = {
                 minWidth: header.column.columnDef.minSize,
@@ -162,7 +160,7 @@ const App = () => {
                 };
               }
               return (
-                <TableHeaderCell
+                <TableCell
                   key={header.id}
                   onClick={header.column.getToggleSortingHandler()}
                   {...styleProps}
@@ -178,10 +176,10 @@ const App = () => {
                       }[header.column.getIsSorted()] ?? null}
                     </Flex>
                   )}
-                </TableHeaderCell>
+                </TableCell>
               );
             })}
-          </TableHeaderRow>
+          </TableRow>
         ))}
       </TableHeader>
       <TableBody>

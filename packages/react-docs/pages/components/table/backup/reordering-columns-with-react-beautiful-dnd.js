@@ -1,8 +1,6 @@
 import {
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -165,7 +163,7 @@ const App = () => {
             >
               {(droppableProvided, droppableSnapshot) => {
                 return (
-                  <TableHeaderRow
+                  <TableRow
                     ref={droppableProvided.innerRef}
                     {...droppableProvided.droppableProps}
                     {...headerGroup.getHeaderGroupProps()}
@@ -184,7 +182,7 @@ const App = () => {
                             ...provided.draggableProps.style,
                           };
                           return (
-                            <TableHeaderCell
+                            <TableCell
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               {...columnHeaderProps}
@@ -195,13 +193,13 @@ const App = () => {
                               style={columnHeaderStyle}
                             >
                               {column.render("Header")}
-                            </TableHeaderCell>
+                            </TableCell>
                           );
                         }}
                       </Draggable>
                     ))}
                     {droppableProvided.placeholder}
-                    <TableHeaderCell
+                    <TableCell
                       position="absolute"
                       top={placeholderProps.clientY}
                       left={placeholderProps.clientX}
@@ -211,8 +209,8 @@ const App = () => {
                       {...columnPlaceholderProps}
                     >
                       { placeholderProps.content }
-                    </TableHeaderCell>
-                  </TableHeaderRow>
+                    </TableCell>
+                  </TableRow>
                 );
               }}
             </Droppable>

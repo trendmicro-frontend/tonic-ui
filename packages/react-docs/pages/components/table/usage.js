@@ -9,8 +9,6 @@ import {
   Space,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -289,7 +287,7 @@ const App = () => {
               ref={tableHeaderRef}
               {...tableHeaderStyleProps}
             >
-              <TableHeaderRow>
+              <TableRow>
                 {columns.map(column => {
                   const styleProps = {
                     flex: 'none',
@@ -297,14 +295,14 @@ const App = () => {
                     ...column.style,
                   };
                   return (
-                    <TableHeaderCell key={column.id} {...styleProps}>
+                    <TableCell key={column.id} {...styleProps}>
                       <Truncate>
                         {column.header}
                       </Truncate>
-                    </TableHeaderCell>
+                    </TableCell>
                   );
                 })}
-              </TableHeaderRow>
+              </TableRow>
             </TableHeader>
           )}
           {isTableBodyVisible && (

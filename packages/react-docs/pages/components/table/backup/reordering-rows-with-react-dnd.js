@@ -2,8 +2,6 @@ import {
   Box,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -185,13 +183,13 @@ const App = () => {
        {...tableProps}
       >
         <TableHeader>
-          <TableHeaderRow
+          <TableRow
              {...rowProps}
           >
-            <TableHeaderCell width="240px">Event Type</TableHeaderCell>
-            <TableHeaderCell width="140px" textAlign="right">Affected Devices</TableHeaderCell>
-            <TableHeaderCell width="136px" textAlign="right">Detections</TableHeaderCell>
-          </TableHeaderRow>
+            <TableCell width="240px">Event Type</TableCell>
+            <TableCell width="140px" textAlign="right">Affected Devices</TableCell>
+            <TableCell width="136px" textAlign="right">Detections</TableCell>
+          </TableRow>
         </TableHeader>
         <TableBody>
           {

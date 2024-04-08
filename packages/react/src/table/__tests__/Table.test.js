@@ -4,8 +4,6 @@ import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import {
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -69,14 +67,14 @@ describe('Table', () => {
     const { container } = render((
       <Table layout="flexbox">
         <TableHeader>
-          <TableHeaderRow>
-            <TableHeaderCell>
+          <TableRow>
+            <TableCell>
               Header Cell 1
-            </TableHeaderCell>
-            <TableHeaderCell>
+            </TableCell>
+            <TableCell>
               Header Cell 2
-            </TableHeaderCell>
-          </TableHeaderRow>
+            </TableCell>
+          </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
@@ -112,14 +110,14 @@ describe('Table', () => {
     const { container } = render((
       <Table layout="table">
         <TableHeader>
-          <TableHeaderRow>
-            <TableHeaderCell>
+          <TableRow>
+            <TableCell>
               Header Cell 1
-            </TableHeaderCell>
-            <TableHeaderCell>
+            </TableCell>
+            <TableCell>
               Header Cell 2
-            </TableHeaderCell>
-          </TableHeaderRow>
+            </TableCell>
+          </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
@@ -190,7 +188,7 @@ describe('Table', () => {
           variant={variant}
         >
           <TableHeader>
-            <TableHeaderRow>
+            <TableRow>
               {columns.map((column, index) => {
                 const styleProps = {
                   flex: 'none',
@@ -206,7 +204,7 @@ describe('Table', () => {
                 };
 
                 return (
-                  <TableHeaderCell key={column.id} {...styleProps}>
+                  <TableCell key={column.id} {...styleProps}>
                     <Truncate>
                       {column.header}
                     </Truncate>
@@ -217,10 +215,10 @@ describe('Table', () => {
                       onResize={handleResizeBy(column.id)}
                       onResizeEnd={handleResizeEndBy(column.id)}
                     />
-                  </TableHeaderCell>
+                  </TableCell>
                 );
               })}
-            </TableHeaderRow>
+            </TableRow>
           </TableHeader>
           <TableBody>
             {rows.map(row => (
@@ -386,7 +384,7 @@ describe('Table', () => {
             ref={tableHeaderRef}
             {...tableHeaderStyleProps}
           >
-            <TableHeaderRow>
+            <TableRow>
               {columns.map(column => {
                 const styleProps = {
                   flex: 'none',
@@ -395,14 +393,14 @@ describe('Table', () => {
                 };
 
                 return (
-                  <TableHeaderCell key={column.id} {...styleProps}>
+                  <TableCell key={column.id} {...styleProps}>
                     <Truncate>
                       {column.header}
                     </Truncate>
-                  </TableHeaderCell>
+                  </TableCell>
                 );
               })}
-            </TableHeaderRow>
+            </TableRow>
           </TableHeader>
           <TableScrollbar
             data-testid="scrollbar"

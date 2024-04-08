@@ -7,8 +7,6 @@ import {
   Flex,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -153,7 +151,7 @@ const App = () => {
       <Table layout={layout}>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
-            <TableHeaderRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 return (
                   <DraggableColumn
@@ -184,7 +182,7 @@ const App = () => {
                       const canDrag = header.column.columnDef.id !== 'priority';
                       const canDrop = header.column.columnDef.id !== 'priority';
                       return (
-                        <TableHeaderCell
+                        <TableCell
                           ref={canDrop ? dropRef : undefined}
                           data-selected={dataAttr(isOver)}
                           sx={{
@@ -205,13 +203,13 @@ const App = () => {
                               </Truncate>
                             )}
                           </Flex>
-                        </TableHeaderCell>
+                        </TableCell>
                       );
                     }}
                   </DraggableColumn>
                 );
               })}
-            </TableHeaderRow>
+            </TableRow>
           ))}
         </TableHeader>
         <TableBody>

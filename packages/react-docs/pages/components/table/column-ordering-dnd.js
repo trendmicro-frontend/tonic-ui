@@ -24,8 +24,6 @@ import {
 import {
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -345,7 +343,7 @@ const App = () => {
           >
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
-                <TableHeaderRow key={headerGroup.id}>
+                <TableRow key={headerGroup.id}>
                   <SortableContext
                     items={orderedColumns}
                     strategy={horizontalListSortingStrategy}
@@ -375,7 +373,7 @@ const App = () => {
                           ];
                           
                           return (
-                            <TableHeaderCell
+                            <TableCell
                               ref={setNodeRef}
                               sx={sx}
                               {...(!isPinned ? attributes : undefined)}
@@ -386,13 +384,13 @@ const App = () => {
                                   {flexRender(header.column.columnDef.header, header.getContext())}
                                 </Truncate>
                               )}
-                            </TableHeaderCell>
+                            </TableCell>
                           );
                         }}
                       </SortableItem>
                     ))}
                   </SortableContext>
-                </TableHeaderRow>
+                </TableRow>
               ))}
             </TableHeader>
             <TableBody>

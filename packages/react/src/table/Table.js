@@ -1,5 +1,3 @@
-import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnRemovedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -11,7 +9,6 @@ const getMemoizedState = memoize(state => ({ ...state }));
 
 const Table = forwardRef((
   {
-    isHoverable, // deprecated
     layout = LAYOUT_FLEXBOX,
     role: roleProp,
     size = SIZE_MEDIUM,
@@ -20,17 +17,6 @@ const Table = forwardRef((
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${Table.displayName}:`;
-
-    useOnceWhen(() => {
-      warnRemovedProps('isHoverable', {
-        prefix,
-        message: 'Use the \'_hover\' prop on the \'TableRow\' component instead.',
-      });
-    }, (isHoverable !== undefined));
-  }
-
   const as = layout === LAYOUT_TABLE ? 'table' : undefined;
   const role = roleProp ?? 'table';
   const context = getMemoizedState({
