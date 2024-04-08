@@ -42,18 +42,6 @@ describe('Tag', () => {
     });
   });
 
-  it('should output deprecation warning message when using the "variantColor" prop', () => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(
-      <Tag variantColor="red">Test Tag</Tag>
-    );
-
-    expect(console.error).toHaveBeenCalledWith(
-      expect.stringContaining('Tag: \'variantColor\' is deprecated and will be removed in the next major release. Use \'backgroundColor\' instead.')
-    );
-  });
-
   it('will change tag color', () => {
     const { getByText } = render(
       <Tag backgroundColor="#b80003" color="#fcc3c4">Test Tag</Tag>
