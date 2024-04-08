@@ -22,7 +22,7 @@ const { items } = usePagination({ count: 10 });
 | count | number | 1 | Total number of pages. |
 | defaultPage | number | 1 | The page selected by default when the component is uncontrolled. |
 | disabled | boolean | false | If `true`, the component is disabled. |
-| onChange | function | | Callback fired when the page is changed. <br /><br /> Signature: <br /> `function(event: object, page: number) => void` <br />event: The event source of the callback. <br />page: The page selected. |
+| onChange | function | | Callback fired when the page is changed. <br /><br /> Signature: <br /> `function(page: number) => void` <br />page: The page selected. |
 | page | number | | The current page. |
 | siblingCount | number | 1 | Number of always visible pages before and after the current page. |
 | slot | `{ first?: boolean, last?: boolean, previous?: boolean, next?: boolean }` | `{ first: false, last: false, previous: true, next: true }` | Whether to render the first-page, last-page, previous-page, and next-page buttons. |

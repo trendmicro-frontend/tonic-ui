@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 const App = () => {
   const [page, setPage] = useState(1);
-  const handleChange = (event, value) => {
+  const handleChange = (value) => {
     setPage(value);
   };
 
