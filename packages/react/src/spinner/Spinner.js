@@ -1,5 +1,3 @@
-import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import {
@@ -13,9 +11,6 @@ const defaultSize = 'md';
 
 const Spinner = forwardRef((
   {
-    color, // deprecated
-    strokeWidth, // deprecated
-    speed, // removed
     size = defaultSize,
     lineColor,
     lineWidth,
@@ -25,36 +20,6 @@ const Spinner = forwardRef((
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${Spinner.displayName}:`;
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('color', {
-        prefix,
-        alternative: 'lineColor',
-        willRemove: true,
-      });
-    }, (color !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('strokeWidth', {
-        prefix,
-        alternative: ['lineWidth', 'trackWidth'],
-        willRemove: true,
-      });
-    }, (strokeWidth !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('speed', {
-        prefix,
-      });
-    }, (speed !== undefined));
-
-    lineColor = lineColor ?? color; // TODO: color is deprecated
-    lineWidth = lineWidth ?? strokeWidth; // TODO: strokeWidth is deprecated
-    trackWidth = trackWidth ?? strokeWidth; // TODO: strokeWidth is deprecated
-  }
-
   const styleProps = useSpinnerStyle({ size });
   const svgBaseStyleProps = useSpinnerSVGBaseStyle({ size });
   const svgTrackStyleProps = useSpinnerSVGTrackStyle({ size, trackColor, trackWidth });
