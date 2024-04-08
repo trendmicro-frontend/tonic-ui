@@ -1,5 +1,4 @@
-import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
+import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useInputBaseStyle } from './styles';
@@ -9,28 +8,12 @@ import { useInputBaseStyle } from './styles';
  */
 const InputBase = forwardRef((
   {
-    isInvalid, // deprecated
-
     children,
     error,
     ...rest
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${InputBase.displayName}:`;
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('isInvalid', {
-        prefix,
-        alternative: 'error',
-        willRemove: true,
-      });
-    }, (isInvalid !== undefined));
-
-    error = error || isInvalid; // TODO: remove this line after deprecation
-  }
-
   const ariaProps = {
     'aria-disabled': ariaAttr(rest.disabled),
     'aria-invalid': ariaAttr(error),
