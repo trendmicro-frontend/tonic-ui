@@ -3,7 +3,7 @@ import {
   AccordionItem,
   AccordionToggle,
   AccordionToggleIcon,
-  AccordionCollapse,
+  AccordionContent,
   Box,
   Flex,
   Image,
@@ -192,7 +192,7 @@ const Sidebar = forwardRef((
                         <AccordionToggleIcon />
                       </Flex>
                     </AccordionToggle>
-                    <AccordionCollapse
+                    <AccordionContent
                       TransitionProps={{
                         unmountOnExit: true,
                       }}
@@ -251,7 +251,7 @@ const Sidebar = forwardRef((
                           </NavLink>
                         );
                       })}
-                    </AccordionCollapse>
+                    </AccordionContent>
                   </>
                 )}
               </AccordionItem>
