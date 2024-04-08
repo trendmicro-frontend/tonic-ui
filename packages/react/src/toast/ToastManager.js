@@ -1,5 +1,5 @@
-import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
-import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
+import { useHydrated } from '@tonic-ui/react-hooks';
+import { runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
@@ -41,25 +41,12 @@ const getToastPlacementByState = (state, id) => {
 };
 
 const ToastManager = ({
-  container: DEPRECATED_container, // deprecated (remove in next major version)
   TransitionComponent = ToastTransition,
   TransitionProps,
   children,
   containerRef,
   placement: placementProp = defaultPlacement,
 }) => {
-  { // deprecation warning
-    const prefix = `${ToastManager.displayName}:`;
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('container', {
-        prefix,
-        alternative: 'containerRef',
-        willRemove: true,
-      });
-    }, (DEPRECATED_container !== undefined));
-  }
-
   const isHydrated = useHydrated();
   const [state, setState] = useState(() => (
     placements.reduce((acc, placement) => {
@@ -248,7 +235,6 @@ const ToastManager = ({
       {runIfFn(children, context)}
       {!!isHydrated && (
         <Portal
-          container={DEPRECATED_container} // FIXME: deprecated (remove in next major version)
           containerRef={containerRef}
         >
           {Object.keys(state).map((placement) => {
