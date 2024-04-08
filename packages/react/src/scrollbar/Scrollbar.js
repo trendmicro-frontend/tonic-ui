@@ -41,6 +41,25 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
+  { // Adjust overflow values
+    overflowX = overflowX ?? overflow;
+    overflowY = overflowY ?? overflow;
+
+    // Ensure scroll behavior for `overflowX` if originally set to 'visible'
+    if (overflowX === 'visible') {
+      overflowX = 'scroll';
+    }
+
+    // Ensure scroll behavior for `overflowY` if originally set to 'visible'
+    if (overflowY === 'visible') {
+      overflowY = 'scroll';
+    }
+
+    // Set default overflow values if not provided
+    overflowX = overflowX ?? 'auto';
+    overflowY = overflowY ?? 'auto';
+  }
+
   const isHydrated = useHydrated();
 
   const currentScrollLeftRef = useRef(0);
