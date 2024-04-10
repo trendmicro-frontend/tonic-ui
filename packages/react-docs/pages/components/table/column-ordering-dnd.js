@@ -22,6 +22,12 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import {
+  Box,
+  Divider,
+  Flex,
+  Grid,
+  Radio,
+  RadioGroup,
   Table,
   TableHeader,
   TableHeaderRow,
@@ -29,6 +35,9 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Text,
+  TextLabel,
+  Tooltip,
   Truncate,
   useColorStyle,
   useTheme,
@@ -58,12 +67,24 @@ const getTextWidth = (text, font) => {
   return metrics.width || 0;
 };
 
+const FormGroup = (props) => (
+  <Box mb="4x" {...props} />
+);
+
 const SortableItem = ({ children, id }) => {
   const { attributes, isDragging, listeners, setActivatorNodeRef, setNodeRef, transform, transition } = useSortable({ id });
   return children({ attributes, isDragging, listeners, setActivatorNodeRef, setNodeRef, transform, transition });
 };
 
 const App = () => {
+  const [activationConstraint, setActivationConstraint] = useState('none'); // One of: 'distance', 'delay', or 'none'
+  const [distanceConstraint, setDistanceConstraint] = useState({
+    distance: 4,
+  });
+  const [delayConstraint, setDelayConstraint] = useState({
+    delay: 250,
+    tolerance: 8,
+  });
   const theme = useTheme();
   const [colorStyle] = useColorStyle();
   const defaultColumnOrder = [
@@ -311,150 +332,324 @@ const App = () => {
   }, []);
 
   const sensors = useSensors(
-    useSensor(MouseSensor),
-    useSensor(TouchSensor),
+    // https://docs.dndkit.com/api-documentation/sensors/mouse
+    useSensor(MouseSensor, {
+      activationConstraint: (() => {
+        if (activationConstraint === 'distance') {
+          return distanceConstraint;
+        }
+        if (activationConstraint === 'delay') {
+          return delayConstraint;
+        }
+        return {};
+      })(),
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: (() => {
+        if (activationConstraint === 'distance') {
+          return distanceConstraint;
+        }
+        if (activationConstraint === 'delay') {
+          return delayConstraint;
+        }
+        return {};
+      })(),
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   )
 
   return (
-    <DndContext
-      collisionDetection={closestCenter}
-      modifiers={[restrictToHorizontalAxis]}
-      onDragEnd={handleDragEnd}
-      sensors={sensors}
-    >
-      <AutoSizer
-        disableHeight
-        onResize={({ width }) => {
-          if (tableWidth !== width) {
-            setTableWidth(width);
-          }
-        }}
-      >
-        {({ width }) => (
-          <Table
-            layout={layout}
-            sx={{
-              // Hide the table if there is no column sizing state
-              visibility: _.isEmpty(table.getState().columnSizing) ? 'hidden' : 'visible',
-
-              width,
-            }}
-          >
-            <TableHeader>
-              {table.getHeaderGroups().map(headerGroup => (
-                <TableHeaderRow key={headerGroup.id}>
-                  <SortableContext
-                    items={orderedColumns}
-                    strategy={horizontalListSortingStrategy}
-                  >
-                    {headerGroup.headers.map(header => (
-                      <SortableItem
-                        key={header.id}
-                        id={header.column.id}
-                      >
-                        {({ isDragging, setActivatorNodeRef, setNodeRef, attributes, listeners, transform, transition }) => {
-                          const isPinned = header.column.columnDef.isPinned;
-                          const sx = [
-                            {
-                              position: 'relative',
-                              minWidth: header.column.columnDef.minSize,
-                              width: header.getSize(),
-                              ...header.column.columnDef.style,
-                            },
-                            !isPinned && {
-                              cursor: isDragging ? 'move' : undefined,
-                              opacity: isDragging ? 0.4 : undefined,
-                              transform: CSS.Translate.toString(transform), // translate instead of transform to avoid squishing
-                              transition,
-                              // Ensure the draggable element appears on top of other elements when dragged
-                              zIndex: isDragging ? 1 : 0,
-                            },
-                          ];
-                          
-                          return (
-                            <TableHeaderCell
-                              ref={setNodeRef}
-                              sx={sx}
-                              {...(!isPinned ? attributes : undefined)}
-                              {...(!isPinned ? listeners : undefined)}
-                            >
-                              {header.isPlaceholder ? null : (
-                                <Truncate>
-                                  {flexRender(header.column.columnDef.header, header.getContext())}
-                                </Truncate>
-                              )}
-                            </TableHeaderCell>
-                          );
-                        }}
-                      </SortableItem>
-                    ))}
-                  </SortableContext>
-                </TableHeaderRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  data-selected={dataAttr(row.getIsSelected())}
-                  _hover={{
-                    backgroundColor: colorStyle.background.highlighted,
-                  }}
-                  _selected={{
-                    backgroundColor: colorStyle.background.selected,
-                  }}
+    <Box>
+      <FormGroup>
+        <Box mb="4x">
+          <Text fontSize="md" lineHeight="md">
+            Activation constraints for DnD interactions
+          </Text>
+        </Box>
+        <RadioGroup
+          value={activationConstraint}
+          onChange={setActivationConstraint}
+        >
+          <Flex flexDirection="column" rowGap="2x">
+            <Box>
+              <Box mb="1x">
+                <Radio value="none">
+                  Perform drag operation immediately
+                </Radio>
+              </Box>
+            </Box>
+            <Box>
+              <Box mb="1x">
+                <Radio value="distance">
+                  Apply distance constraint
+                </Radio>
+              </Box>
+              <Flex ml="6x">
+                <Grid
+                  columnGap="4x"
+                  rowGap="1x"
+                  templateColumns="auto 1fr"
                 >
-                  <SortableContext
-                    items={orderedColumns}
-                    strategy={horizontalListSortingStrategy}
+                  <Tooltip
+                    enterDelay={250}
+                    label={'The "distance" property represents the distance, in pixels, by which the pointer needs to be moved before a drag start event is emitted.'}
+                    maxWidth={320}
                   >
-                    {row.getVisibleCells().map(cell => (
-                      <SortableItem
-                        key={cell.id}
-                        id={cell.column.id}
-                      >
-                        {({ isDragging, setNodeRef, transform, transition }) => {
-                          const isPinned = cell.column.columnDef.isPinned;
-                          const styleProps = {
-                            position: 'relative',
-                            minWidth: cell.column.columnDef.minSize,
-                            width: cell.column.getSize(),
-                            ...cell.column.columnDef.style,
-                          };
-                          let other = {};
-                          if (!isPinned) {
-                            other = {
-                              opacity: isDragging ? 0.4 : undefined,
-                              transform: CSS.Translate.toString(transform),
-                              transition,
-                              zIndex: isDragging ? 1 : 0,
+                    <TextLabel>
+                      distance
+                    </TextLabel>
+                  </Tooltip>
+                  <Flex columnGap="2x">
+                    <input
+                      disabled={activationConstraint !== 'distance'}
+                      type="range"
+                      min={0}
+                      max={32}
+                      step={1}
+                      onChange={(event) => {
+                        const value = parseInt(event.target.value);
+                        setDistanceConstraint({
+                          ...distanceConstraint,
+                          distance: value,
+                        });
+                      }}
+                      value={distanceConstraint.distance}
+                    />
+                    <Text
+                      sx={{
+                        color: activationConstraint === 'distance' ? colorStyle.color.primary : colorStyle.color.disabled,
+                      }}
+                    >
+                      {distanceConstraint.distance}px
+                    </Text>
+                  </Flex>
+                </Grid>
+              </Flex>
+            </Box>
+            <Box>
+              <Box mb="1x">
+                <Radio value="delay">
+                  Apply delay constraint
+                </Radio>
+              </Box>
+              <Flex ml="6x">
+                <Grid
+                  columnGap="4x"
+                  rowGap="1x"
+                  templateColumns="auto 1fr"
+                >
+                  <Tooltip
+                    enterDelay={250}
+                    label={'The "delay" property represents the duration, in milliseconds, that a draggable item needs to be held by the primary pointer for before a drag start event is emitted.'}
+                    maxWidth={320}
+                  >
+                    <TextLabel>
+                      delay
+                    </TextLabel>
+                  </Tooltip>
+                  <Flex columnGap="2x">
+                    <input
+                      disabled={activationConstraint !== 'delay'}
+                      type="range"
+                      min={0}
+                      max={1000}
+                      step={50}
+                      onChange={(event) => {
+                        const value = parseInt(event.target.value);
+                        setDelayConstraint({
+                          ...delayConstraint,
+                          delay: value,
+                        });
+                      }}
+                      value={delayConstraint.delay}
+                    />
+                    <Text
+                      sx={{
+                        color: activationConstraint === 'delay' ? colorStyle.color.primary : colorStyle.color.disabled,
+                      }}
+                    >
+                      {delayConstraint.delay}ms
+                    </Text>
+                  </Flex>
+                  <Tooltip
+                    enterDelay={250}
+                    label={'The "tolerance" property represents the distance, in pixels, of motion that is tolerated before the drag operation is aborted. If the mouse is moved during the delay duration and the tolerance is set to zero, the drag operation will be immediately aborted. If a higher tolerance is set, for example, a tolerance of 8 pixels, the operation will only be aborted if the mouse is moved by more than 8 pixels during the delay.'}
+                    maxWidth={320}
+                  >
+                    <TextLabel>
+                      tolerance
+                    </TextLabel>
+                  </Tooltip>
+                  <Flex columnGap="2x">
+                    <input
+                      disabled={activationConstraint !== 'delay'}
+                      type="range"
+                      min={0}
+                      max={32}
+                      step={1}
+                      onChange={(event) => {
+                        const value = parseInt(event.target.value);
+                        setDelayConstraint({
+                          ...delayConstraint,
+                          tolerance: value,
+                        });
+                      }}
+                      value={delayConstraint.tolerance}
+                    />
+                    <Text
+                      sx={{
+                        color: activationConstraint === 'delay' ? colorStyle.color.primary : colorStyle.color.disabled,
+                      }}
+                    >
+                      {delayConstraint.tolerance}px
+                    </Text>
+                  </Flex>
+                </Grid>
+              </Flex>
+            </Box>
+          </Flex>
+        </RadioGroup>
+      </FormGroup>
+      <Divider my="4x" />
+      <DndContext
+        collisionDetection={closestCenter}
+        modifiers={[restrictToHorizontalAxis]}
+        onDragEnd={handleDragEnd}
+        sensors={sensors}
+      >
+        <AutoSizer
+          disableHeight
+          onResize={({ width }) => {
+            if (tableWidth !== width) {
+              setTableWidth(width);
+            }
+          }}
+        >
+          {({ width }) => (
+            <Table
+              layout={layout}
+              sx={{
+                // Hide the table if there is no column sizing state
+                visibility: _.isEmpty(table.getState().columnSizing) ? 'hidden' : 'visible',
+
+                width,
+              }}
+            >
+              <TableHeader>
+                {table.getHeaderGroups().map(headerGroup => (
+                  <TableHeaderRow key={headerGroup.id}>
+                    <SortableContext
+                      items={orderedColumns}
+                      strategy={horizontalListSortingStrategy}
+                    >
+                      {headerGroup.headers.map(header => (
+                        <SortableItem
+                          key={header.id}
+                          id={header.column.id}
+                        >
+                          {({ isDragging, setActivatorNodeRef, setNodeRef, attributes, listeners, transform, transition }) => {
+                            const isPinned = header.column.columnDef.isPinned;
+                            const sx = [
+                              {
+                                position: 'relative',
+                                minWidth: header.column.columnDef.minSize,
+                                width: header.getSize(),
+                                ...header.column.columnDef.style,
+                              },
+                              !isPinned && {
+                                cursor: isDragging ? 'move' : undefined,
+                                opacity: isDragging ? 0.4 : undefined,
+                                transform: CSS.Translate.toString(transform), // translate instead of transform to avoid squishing
+                                transition,
+                                // Ensure the draggable element appears on top of other elements when dragged
+                                zIndex: isDragging ? 1 : 0,
+                              },
+                            ];
+                            
+                            return (
+                              <TableHeaderCell
+                                ref={setNodeRef}
+                                sx={sx}
+                                {...(!isPinned ? attributes : undefined)}
+                                {...(!isPinned ? listeners : undefined)}
+                              >
+                                {header.isPlaceholder ? null : (
+                                  <Truncate>
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                  </Truncate>
+                                )}
+                              </TableHeaderCell>
+                            );
+                          }}
+                        </SortableItem>
+                      ))}
+                    </SortableContext>
+                  </TableHeaderRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.map(row => (
+                  <TableRow
+                    key={row.id}
+                    data-selected={dataAttr(row.getIsSelected())}
+                    _hover={{
+                      backgroundColor: colorStyle.background.highlighted,
+                    }}
+                    _selected={{
+                      backgroundColor: colorStyle.background.selected,
+                    }}
+                  >
+                    <SortableContext
+                      items={orderedColumns}
+                      strategy={horizontalListSortingStrategy}
+                    >
+                      {row.getVisibleCells().map(cell => (
+                        <SortableItem
+                          key={cell.id}
+                          id={cell.column.id}
+                        >
+                          {({ isDragging, setNodeRef, transform, transition }) => {
+                            const isPinned = cell.column.columnDef.isPinned;
+                            const styleProps = {
+                              position: 'relative',
+                              minWidth: cell.column.columnDef.minSize,
+                              width: cell.column.getSize(),
+                              ...cell.column.columnDef.style,
                             };
-                          }
-                          return (
-                            <TableCell
-                              ref={setNodeRef}
-                              {...styleProps}
-                              {...other}
-                            >
-                              <Truncate>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                              </Truncate>
-                            </TableCell>
-                          );
-                        }}
-                      </SortableItem>
-                    ))}
-                  </SortableContext>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </AutoSizer>
-    </DndContext>
+                            let other = {};
+                            if (!isPinned) {
+                              other = {
+                                opacity: isDragging ? 0.4 : undefined,
+                                transform: CSS.Translate.toString(transform),
+                                transition,
+                                zIndex: isDragging ? 1 : 0,
+                              };
+                            }
+                            return (
+                              <TableCell
+                                ref={setNodeRef}
+                                {...styleProps}
+                                {...other}
+                              >
+                                <Truncate>
+                                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </Truncate>
+                              </TableCell>
+                            );
+                          }}
+                        </SortableItem>
+                      ))}
+                    </SortableContext>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </AutoSizer>
+      </DndContext>
+    </Box>
   );
 };
 
