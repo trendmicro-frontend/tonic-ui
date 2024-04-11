@@ -97,16 +97,15 @@ const TreeItemRender = ({
           )}
         </Flex>
         <Flex
-          onClick={(event) => {
-            // Prevent event propagation when clicking the checkbox
-            event.stopPropagation();
-          }}
           mr="2x"
         >
           <Checkbox
             checked={isSelected}
-            onChange={() => {
-              select();
+            onChange={event => {
+              // Prevent default event handler to manage tree item selection
+              event.preventDefault();
+
+              toggleSelection();
             }}
           />
         </Flex>
