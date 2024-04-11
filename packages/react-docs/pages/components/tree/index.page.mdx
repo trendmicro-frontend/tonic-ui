@@ -94,6 +94,37 @@ const render = ({ isExpanded, isSelected }) => {
 
 {render('./multi-selection-checkboxes')}
 
+If you prefer to customize the selection behavior yourself, you can attach an `onClick` event handler to `TreeItemContent` as demonstrated below:
+
+```js
+onClick={(event) => {
+  // Prevent default event handler to manage tree item selection
+  event.preventDefault();
+
+  const isCtrlPressed = event.ctrlKey;
+  const isMetaPressed = event.metaKey;
+  const isShiftPressed = event.shiftKey;
+
+  if (multiSelect && isShiftPressed) {
+    selectRange();
+    return;
+  }
+
+  if (multiSelect && (isCtrlPressed || isMetaPressed)) {
+    toggleSelection();
+    return;
+  }
+
+  if (multiSelect) {
+    toggleSelection();
+  } else {
+    select();
+  }
+}}
+```
+
+{render('./multi-selection-checkboxes-with-custom-selection-behavior')}
+
 ### Controlled
 
 {render('./controlled')}
