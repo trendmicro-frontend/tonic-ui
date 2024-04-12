@@ -30,8 +30,6 @@ import {
   TableBody,
   TableCell,
   TableHeader,
-  TableHeaderCell,
-  TableHeaderRow,
   TableRow,
   Tag,
   Text,
@@ -333,16 +331,16 @@ const DefaultPage = (props) => {
               <Round>
                 <Table variant="default" pb="3x">
                   <TableHeader>
-                    <TableHeaderRow>
-                      <TableHeaderCell width="240px">
+                    <TableRow>
+                      <TableCell width="240px">
                         <Box display="inline-flex" alignItems="center">
                           Name
                           <Space width="2x" />
                           <ArrowUpIcon size="3x" />
                         </Box>
-                      </TableHeaderCell>
-                      <TableHeaderCell width="136px" textAlign="right">Size</TableHeaderCell>
-                    </TableHeaderRow>
+                      </TableCell>
+                      <TableCell width="136px" textAlign="right">Size</TableCell>
+                    </TableRow>
                   </TableHeader>
                   <TableBody>
                     <TableRow>

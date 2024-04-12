@@ -12,8 +12,6 @@ import {
   OverflowTooltip,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -349,10 +347,10 @@ const Component = ({
             >
               <TableHeader>
                 {table.getHeaderGroups().map(headerGroup => (
-                  <TableHeaderRow
+                  <TableRow
                     key={headerGroup.id}
                   >
-                    <TableHeaderCell
+                    <TableCell
                       sx={{
                         width: '2x',
                         pl: '3x',
@@ -383,7 +381,7 @@ const Component = ({
                       }
 
                       return (
-                        <TableHeaderCell
+                        <TableCell
                           key={header.id}
                           onClick={header.column.getToggleSortingHandler()}
                           {...styleProps}
@@ -397,10 +395,10 @@ const Component = ({
                               }[header.column.getIsSorted()] ?? null}
                             </Flex>
                           )}
-                        </TableHeaderCell>
+                        </TableCell>
                       );
                     })}
-                  </TableHeaderRow>
+                  </TableRow>
                 ))}
               </TableHeader>
               <ConditionalWrapper
