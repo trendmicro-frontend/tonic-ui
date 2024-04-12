@@ -8,13 +8,15 @@ import { Code } from '@tonic-ui/react';
 import {
   Table,
   TableHeader,
-  TableHeaderRow, // deprecated: use `TableRow` instead
-  TableHeaderCell, // deprecated: use `TableCell` instead
   TableBody,
   TableFooter,
   TableRow,
   TableCell,
   TableScrollbar,
+
+  // Deprecated components
+  TableHeaderRow, // Deprecated in v2: use `TableRow` instead.
+  TableHeaderCell, // Deprecated in v2: use `TableCell` instead.
 } from '@tonic-ui/react';
 ```
 
@@ -39,6 +41,8 @@ To get started with `react-table`, visit https://github.com/TanStack/table to le
 ### Column ordering (DnD)
 
 In this example, the "Priority" column is fixed and cannot be moved. Try dragging the other columns to adjust their order.
+
+For detailed DnD API documentation, please visit https://docs.dndkit.com/api-documentation/sensors.
 
 {render('./column-ordering-dnd')}
 

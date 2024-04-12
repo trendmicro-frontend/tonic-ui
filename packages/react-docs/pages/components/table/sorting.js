@@ -171,8 +171,8 @@ const App = () => {
                         {flexRender(header.column.columnDef.header, header.getContext())}
                       </Truncate>
                       {{
-                        asc: (<SortUpIcon size={20} ml="1x" />),
-                        desc: (<SortDownIcon size={20} ml="1x" />),
+                        asc: (<SortUpIcon size="5x" ml="1x" />),
+                        desc: (<SortDownIcon size="5x" ml="1x" />),
                       }[header.column.getIsSorted()] ?? null}
                     </Flex>
                   )}
