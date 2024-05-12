@@ -26,8 +26,8 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
-  Grid,
   LinkButton,
+  Text,
   useColorStyle,
 } from '@tonic-ui/react';
 import { isNullish } from '@tonic-ui/utils';
@@ -257,6 +257,18 @@ const ColumnSettingsDrawer = ({
     </SortableItem>
   );
 
+  const isPristine = (() => {
+    if (state.columns.length !== columnsProp.length) {
+      return true;
+    }
+    for (let i = 0; i < state.columns.length; ++i) {
+      if (state.columns[i].isVisible !== columnsProp[i].isVisible) {
+        return true;
+      }
+    }
+    return false;
+  })();
+
   return (
     <Drawer
       autoFocus={true}
@@ -273,22 +285,21 @@ const ColumnSettingsDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
-          Show/Hide Columns
+          Customize Columns
         </DrawerHeader>
         <DrawerBody>
-          <Box mb="1x">
-            <Button
-              variant="secondary"
-              onClick={handleClickResetToDefault}
-            >
-              Reset to Default
-            </Button>
-          </Box>
-          <Box mb="1x">
+          <Flex
+            mb="4x"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Text color={colorStyle.color.secondary}>
+              Shown in table
+            </Text>
             <LinkButton onClick={toggleAllColumns}>
               {isToggleAllChecked ? 'Clear all' : 'Select all'}
             </LinkButton>
-          </Box>
+          </Flex>
           <DndContext
             sensors={sensors}
             onDragStart={(event) => {
@@ -332,10 +343,16 @@ const ColumnSettingsDrawer = ({
             </SortableOverlay>
           </DndContext>
         </DrawerBody>
-        <DrawerFooter>
-          <Grid templateColumns="repeat(2, 1fr)" columnGap="2x">
+        <DrawerFooter
+          justifyContent="space-between"
+        >
+          <Flex
+            alignItems="center"
+            columnGap="2x"
+          >
             <Button
-              variant="primary"
+              disabled={!isPristine}
+              variant="default"
               onClick={handleUpdateColumns}
             >
               Save
@@ -346,7 +363,13 @@ const ColumnSettingsDrawer = ({
             >
               Cancel
             </Button>
-          </Grid>
+          </Flex>
+          <Button
+            variant="secondary"
+            onClick={handleClickResetToDefault}
+          >
+            Reset to Default
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
