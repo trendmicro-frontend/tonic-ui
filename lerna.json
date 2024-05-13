@@ -9,7 +9,8 @@
     "version": {
       "allowBranch": [
         "master",
-        "v0"
+        "v0",
+        "v1"
       ],
       "changelog": true,
       "conventionalCommits": false,
