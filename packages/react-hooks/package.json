@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-hooks",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "A collection of React Hooks for Tonic UI components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
