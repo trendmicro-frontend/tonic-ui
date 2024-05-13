@@ -81,12 +81,10 @@ const SearchInput = React.forwardRef((
   }, [iconState, valueProp, onClearInputProp]);
 
   const onChange = useCallback((e) => {
+    // When the input value remains unchanged in controlled input, composition events (especially CJK input methods) may not work properly.
+    // To address this issue, update the input value internally before invoking `onChangeProp`.
     const nextValue = ensureString(e.target.value ?? '');
-    const isControlled = (valueProp !== undefined);
-
-    if (!isControlled) {
-      setValue(nextValue);
-    }
+    setValue(nextValue);
 
     inputSelectionRef.current = {
       start: e.target.selectionStart,
@@ -96,7 +94,7 @@ const SearchInput = React.forwardRef((
     if (typeof onChangeProp === 'function') {
       onChangeProp(e);
     }
-  }, [valueProp, onChangeProp]);
+  }, [onChangeProp]);
 
   const startAdornment = (
     <SearchInputAdornment>
