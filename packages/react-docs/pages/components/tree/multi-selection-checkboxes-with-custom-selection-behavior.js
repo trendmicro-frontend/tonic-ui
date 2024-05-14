@@ -124,7 +124,7 @@ const TreeItemRender = ({
         </OverflowTooltip>
       </TreeItemContent>
     );
-  }, [colorStyle, nodeDepth, nodeLabel]);
+  }, [colorStyle, multiSelect, nodeDepth, nodeLabel]);
 
   return (
     <TreeItem
