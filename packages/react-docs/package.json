@@ -68,7 +68,7 @@
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-mdx-jsx": "^3.0.0",
     "micromark-extension-mdx-jsx": "^2.0.0",
-    "next": "^13.0.5",
+    "next": "^14.1.1",
     "node-emoji": "^2.1.0",
     "prism-react-renderer": "^2.0.6",
     "prop-types": "15.x",
