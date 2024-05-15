@@ -24,7 +24,6 @@ const App = () => {
       <Divider my="4x" />
       <Tooltip
         arrow={false}
-        isOpen
         label={(
           <Box py="1x">
             <Text>Title</Text>
