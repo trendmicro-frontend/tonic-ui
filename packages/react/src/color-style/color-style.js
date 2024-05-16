@@ -1,3 +1,6 @@
+import { warnDeprecatedProps } from '@tonic-ui/utils';
+import { attachProxyOnce } from '../utils/proxy';
+
 const colorStyle = {
   dark: {
     background: {
@@ -40,7 +43,8 @@ const colorStyle = {
       thick: '0 8px 32px 0 rgba(0, 0, 0, 0.48), 0 4px 8px 0 rgba(0, 0, 0, 0.16)',
     },
 
-    severity: {
+    // deprecated
+    severity: attachProxyOnce({
       critical: 'magenta:60',
       high: 'red:50',
       medium: 'orange:50',
@@ -48,12 +52,18 @@ const colorStyle = {
       safe: 'green:40',
       info: 'gray:50',
       unknown: 'gray:50',
-    },
+    }, () => {
+      const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2';
+      warnDeprecatedProps('colorStyle.severity', {
+        willRemove: true,
+        message: `Use your custom color style instead. For more details, see the migration guide at: ${url}`,
+      });
+    }),
 
-    // https://docs.appian.com/suite/help/20.2/Chart_Color_Scheme.html
+    // deprecated
     chart: {
       classic: {
-        colors: [
+        colors: attachProxyOnce([
           'gray:50',
           'blue:50',
           'green:40',
@@ -65,7 +75,13 @@ const colorStyle = {
           'magenta:40',
           'green:30',
           'yellow:50',
-        ],
+        ], () => {
+          const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2';
+          warnDeprecatedProps('colorStyle.chart.classic.colors', {
+            willRemove: true,
+            message: `Use your custom color style instead. For more details, see the migration guide at: ${url}`,
+          });
+        }),
       },
     },
   },
@@ -110,7 +126,8 @@ const colorStyle = {
       thick: '0 8px 32px 0 rgba(0, 0, 0, 0.16), 0 4px 8px 0 rgba(0, 0, 0, 0.08)',
     },
 
-    severity: {
+    // deprecated
+    severity: attachProxyOnce({
       critical: 'magenta:60',
       high: 'red:60',
       medium: 'orange:50',
@@ -118,12 +135,18 @@ const colorStyle = {
       safe: 'green:50',
       info: 'gray:50',
       unknown: 'gray:50',
-    },
+    }, () => {
+      const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2';
+      warnDeprecatedProps('colorStyle.severity', {
+        willRemove: true,
+        message: `Use your custom color style instead. For more details, see the migration guide at: ${url}`,
+      });
+    }),
 
-    // https://docs.appian.com/suite/help/20.2/Chart_Color_Scheme.html
+    // deprecated
     chart: {
       classic: {
-        colors: [
+        colors: attachProxyOnce([
           'gray:50',
           'blue:60',
           'green:50',
@@ -135,7 +158,13 @@ const colorStyle = {
           'magenta:50',
           'green:30',
           'yellow:50',
-        ],
+        ], () => {
+          const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2';
+          warnDeprecatedProps('colorStyle.chart.classic.colors', {
+            willRemove: true,
+            message: `Use your custom color style instead. For more details, see the migration guide at: ${url}`,
+          });
+        }),
       },
     },
   },
