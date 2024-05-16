@@ -53,7 +53,7 @@ const colorStyle = {
       info: 'gray:50',
       unknown: 'gray:50',
     }, () => {
-      const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2';
+      const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2#color-style';
       warnDeprecatedProps('colorStyle.severity', {
         willRemove: true,
         message: `Use your custom color style instead. For more details, see the migration guide at: ${url}`,
@@ -76,7 +76,7 @@ const colorStyle = {
           'green:30',
           'yellow:50',
         ], () => {
-          const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2';
+          const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2#color-style';
           warnDeprecatedProps('colorStyle.chart.classic.colors', {
             willRemove: true,
             message: `Use your custom color style instead. For more details, see the migration guide at: ${url}`,
@@ -136,7 +136,7 @@ const colorStyle = {
       info: 'gray:50',
       unknown: 'gray:50',
     }, () => {
-      const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2';
+      const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2#color-style';
       warnDeprecatedProps('colorStyle.severity', {
         willRemove: true,
         message: `Use your custom color style instead. For more details, see the migration guide at: ${url}`,
@@ -159,7 +159,7 @@ const colorStyle = {
           'green:30',
           'yellow:50',
         ], () => {
-          const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2';
+          const url = 'https://trendmicro-frontend.github.io/tonic-ui/react/latest/getting-started/migration-v1-to-v2#color-style';
           warnDeprecatedProps('colorStyle.chart.classic.colors', {
             willRemove: true,
             message: `Use your custom color style instead. For more details, see the migration guide at: ${url}`,

@@ -2,7 +2,7 @@
 
 ⚠️ This guide outlines the necessary steps to migrate from Tonic UI v1 to v2. Please review the breaking changes and assess the compatibility with your current setup before proceeding with the upgrade.
 
-## Icon Updates
+## Icons
 
 In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. Here are the steps to ensure a smooth migration process.
 
@@ -116,4 +116,101 @@ After updating the icon imports, you can safely remove the unnecessary `@trendmi
     "@tonic-ui/react-icons": "^2.0.0",
 -   "@trendmicro/tmicon": "^1.0.0"
   }
+```
+
+## Color Style
+
+The following color styles are deprecated and will be removed in the next major release:
+- `colorStyle.severity.*`
+- `colorStyle.chart.classic.colors.*`
+
+To avoid breaking changes in the future, you may need to pass custom color styles to `TonicProvider`. Follow the setup below to use existing `severity` and `chart` colors.
+
+```jsx disabled
+import React from 'react';
+import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
+
+const customColorStyle = {
+  ...colorStyle,
+   dark: {
+    ...colorStyle.dark,
+
+    // `severity` was deprecated in v2
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      safe: 'green:40',
+      info: 'gray:50',
+      unknown: 'gray:50',
+    },
+
+    // `chart.classic.colors` was deprecated in v2
+    chart: {
+      classic: {
+        colors: [
+          'gray:50',
+          'blue:50',
+          'green:40',
+          'orange:50',
+          'cyan:40',
+          'red:50',
+          'purple:50',
+          'teal:40',
+          'magenta:40',
+          'green:30',
+          'yellow:50',
+        ],
+      },
+    },
+  },
+  light: {
+    ...colorStyle.light,
+
+    // `severity` was deprecated in v2
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      safe: 'green:50',
+      info: 'gray:50',
+      unknown: 'gray:50',
+    },
+
+    // `chart.classic.colors` was deprecated in v2
+    chart: {
+      classic: {
+        colors: [
+          'gray:50',
+          'blue:60',
+          'green:50',
+          'orange:50',
+          'cyan:40',
+          'red:60',
+          'purple:60',
+          'teal:40',
+          'magenta:50',
+          'green:30',
+          'yellow:50',
+        ],
+      },
+    },
+  },
+};
+
+function App(props) {
+  return (
+    <TonicProvider
+      colorStyle={{
+        defaultValue: customColorStyle,
+      }}
+    >
+      <Box {...props} />
+    </TonicProvider>
+  );
+}
+
+export default App;
 ```

@@ -6,19 +6,13 @@ import {
 } from '@tonic-ui/react';
 import {
   ensureArray,
-  ensureString,
 } from 'ensure-type';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import React from 'react';
 import ColorStyleBlock from './ColorStyleBlock';
 
-const capitalizeFirstLetter = string => {
-  string = ensureString(string);
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
-
-const baseWidth = 120;
+const baseWidth = 180;
 
 const ColorStyleBody = ({
   colorStyle: customColorStyle = {},
@@ -29,44 +23,57 @@ const ColorStyleBody = ({
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorStyleOfType = _get(customColorStyle, colorType) ?? _get(colorStyle, colorType);
-  const colorStyleBlocks = Object.keys(colorStyleOfType)
-    .map(colorKey => {
-      const colorLabel = Array.isArray(colorStyleOfType) ? '' : capitalizeFirstLetter(colorKey);
-      const originalColorValue = _get(customColorStyle, `${colorType}.${colorKey}`) ?? _get(colorStyle, `${colorType}.${colorKey}`);
-      const colorTokens = ensureArray(originalColorValue).map(x => {
-        return _has(theme, ['colors', x]) ? x : null;
-      });
-      const colorValues = ensureArray(originalColorValue).map(x => {
-        return _get(theme, ['colors', x]) ?? x;
-      });
+  const colorStyleBlocks = (() => {
+    if (typeof colorStyleOfType === 'object') {
+      return Object.keys(colorStyleOfType).map(colorKey => {
+        const colorLabel = Array.isArray(colorStyleOfType)
+          ? ''
+          : `${colorType}.${colorKey}`;
+        const originalColorValue = _get(customColorStyle, `${colorType}.${colorKey}`) ?? _get(colorStyle, `${colorType}.${colorKey}`);
+        const colorTokens = ensureArray(originalColorValue).map(x => {
+          return _has(theme, ['colors', x]) ? x : null;
+        });
+        const colorValues = ensureArray(originalColorValue).map(x => {
+          return _get(theme, ['colors', x]) ?? x;
+        });
 
-      if (Array.isArray(colorStyleOfType)) {
-        colorKey = '#' + (Number(colorKey) + 1);
-      }
+        if (Array.isArray(colorStyleOfType)) {
+          colorKey = '#' + (Number(colorKey) + 1);
+        }
 
-      /**
-       * Example:
-       *
-       * {
-       *   background: {
-       *     secondary: 'gray:90',
-       *   }
-       * }
-       *
-       * colorLabel = 'Secondary'
-       * colorType  = 'background'
-       * colorKey   = 'secondary'
-       * colorTokens = ['gray:90']
-       * colorValues = ['#212121']
-       */
-      return {
-        colorLabel,
-        colorType,
-        colorKey,
-        colorTokens,
-        colorValues,
-      };
-    });
+        /**
+         * Example:
+         *
+         * {
+         *   background: {
+         *     secondary: 'gray:90',
+         *   }
+         * }
+         *
+         * colorLabel = 'background.secondary'
+         * colorType  = 'background'
+         * colorKey   = 'secondary'
+         * colorTokens = ['gray:90']
+         * colorValues = ['#212121']
+         */
+        return {
+          colorLabel,
+          colorType,
+          colorKey,
+          colorTokens,
+          colorValues,
+        };
+      });
+    }
+
+    return [{
+      colorLabel: colorType,
+      colorType,
+      colorKey: colorType,
+      colorTokens: [_has(theme, ['colors', colorStyleOfType]) ? colorStyleOfType : null],
+      colorValues: [_get(theme, ['colors', colorStyleOfType]) ?? colorStyleOfType],
+    }];
+  })();
 
   return (
     <Grid
