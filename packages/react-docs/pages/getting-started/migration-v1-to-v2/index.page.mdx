@@ -2,6 +2,162 @@
 
 ⚠️ This guide outlines the necessary steps to migrate from Tonic UI v1 to v2. Please review the breaking changes and assess the compatibility with your current setup before proceeding with the upgrade.
 
+## Color Style
+
+### The migration flow
+
+The following color styles are deprecated and will be removed in the next major release. Please update your code to avoid breaking changes in the future.
+
+Type | Keys | JSON (Old Definitions)
+:-- | :-- | :--
+[Severity](../components/color-style#severity) | `colorStyle.severity.*` | <pre>{JSON.stringify({"dark":{"severity":{"critical":"magenta:60","high":"red:50","medium":"orange:50","low":"yellow:50","safe":"green:40","info":"gray:50","unknown":"gray:50"}},"light":{"severity":{"critical":"magenta:60","high":"red:60","medium":"orange:50","low":"yellow:50","safe":"green:50","info":"gray:50","unknown":"gray:50"}}}, null, 2)}</pre>
+[Chart](../components/color-style#chart) | `colorStyle.chart.classic.colors.*` | <pre>{JSON.stringify({"dark":{"chart":{"classic":{"colors":["gray:50","blue:50","green:40","orange:50","cyan:40","red:50","purple:50","teal:40","magenta:40","green:30","yellow:50"]}}},"light":{"chart":{"classic":{"colors":["gray:50","blue:60","green:50","orange:50","cyan:40","red:60","purple:60","teal:40","magenta:50","green:30","yellow:50"]}}}}, null, 2)}</pre>
+
+Let's see an example here:
+```jsx
+const [colorStyle] = useColorStyle()
+
+// These will cause exceptions in next major release (e.g. v3 or later)
+console.log(colorStyle.severity.info);
+console.log(colorStyle.chart.classic.colors[0]);
+```
+
+To use previously defined `severity` and `chart` colors, you need to pass a custom color style to `TonicProvider`. Follow the setup below to use previous `severity` and `chart` colors:
+
+```jsx disabled
+import React from 'react';
+import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
+
+const customColorStyle = {
+  ...colorStyle,
+   dark: {
+    ...colorStyle.dark,
+
+    // deprecated
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      safe: 'green:40',
+      info: 'gray:50',
+      unknown: 'gray:50',
+    },
+
+    // deprecated
+    chart: {
+      classic: {
+        colors: [
+          'gray:50',
+          'blue:50',
+          'green:40',
+          'orange:50',
+          'cyan:40',
+          'red:50',
+          'purple:50',
+          'teal:40',
+          'magenta:40',
+          'green:30',
+          'yellow:50',
+        ],
+      },
+    },
+  },
+  light: {
+    ...colorStyle.light,
+
+    // deprecated
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      safe: 'green:50',
+      info: 'gray:50',
+      unknown: 'gray:50',
+    },
+
+    // deprecated
+    chart: {
+      classic: {
+        colors: [
+          'gray:50',
+          'blue:60',
+          'green:50',
+          'orange:50',
+          'cyan:40',
+          'red:60',
+          'purple:60',
+          'teal:40',
+          'magenta:50',
+          'green:30',
+          'yellow:50',
+        ],
+      },
+    },
+  },
+};
+
+const App = (props) => (
+  <TonicProvider
+    colorStyle={{
+      defaultValue: customColorStyle,
+    }}
+  >
+    <Box {...props} />
+  </TonicProvider>
+);
+
+export default App;
+```
+
+### Recommended configuration
+
+Here is the recommended configuration for the color style. Please note that some old keys, such as `severity.safe` and `severity.unknown`, are no longer available here. You may need to adjust your code accordingly.
+
+```js
+import { colorStyle } from '@tonic-ui/react';
+
+// Let's say you want to define color style for your components
+const customColorStyle = {
+  ...colorStyle,
+  dark: {
+    ...colorStyle.dark,
+    component: {}, // optional
+    risk_level: {
+      high: 'red:50',
+      medium: 'yellow:50',
+      low: 'green:40',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
+    },
+  },
+  light: {
+    ...colorStyle.light,
+    component: {}, // optional
+    risk_level: {
+      high: 'red:60',
+      medium: 'yellow:50',
+      low: 'green:50',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
+    },
+  },
+};
+```
+
 ## Icons
 
 In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. Here are the steps to ensure a smooth migration process.
@@ -85,9 +241,8 @@ npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons <path>
 
 ### Step 4: Remove unnecessary icons and dependencies
 
-After updating the icon imports, you can safely remove the unnecessary `@trendmicro/tmicon` dependency from the theme:
+After updating the icon imports, you can safely remove the unnecessary `@trendmicro/tmicon` dependency from the theme in your `app.js`.
 
-`app.js`
 ```diff
 - import * as tmicon from '@trendmicro/tmicon';
 - const icons = tmicon.icons.reduce((acc, { name, paths, viewBox }) => {
@@ -109,108 +264,12 @@ After updating the icon imports, you can safely remove the unnecessary `@trendmi
 - theme.icons = icons; // custom icons
 ```
 
-`package.json`
+The `tmicon` package is no longer required to be listed in `package.json`.
+
 ```diff
   "dependencies": {
     "@tonic-ui/react": "^2.0.0",
     "@tonic-ui/react-icons": "^2.0.0",
 -   "@trendmicro/tmicon": "^1.0.0"
   }
-```
-
-## Color Style
-
-The following color styles are deprecated and will be removed in the next major release:
-- `colorStyle.severity.*`
-- `colorStyle.chart.classic.colors.*`
-
-To avoid breaking changes in the future, you may need to pass custom color styles to `TonicProvider`. Follow the setup below to use existing `severity` and `chart` colors.
-
-```jsx disabled
-import React from 'react';
-import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
-
-const customColorStyle = {
-  ...colorStyle,
-   dark: {
-    ...colorStyle.dark,
-
-    // `severity` was deprecated in v2
-    severity: {
-      critical: 'magenta:60',
-      high: 'red:50',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      safe: 'green:40',
-      info: 'gray:50',
-      unknown: 'gray:50',
-    },
-
-    // `chart.classic.colors` was deprecated in v2
-    chart: {
-      classic: {
-        colors: [
-          'gray:50',
-          'blue:50',
-          'green:40',
-          'orange:50',
-          'cyan:40',
-          'red:50',
-          'purple:50',
-          'teal:40',
-          'magenta:40',
-          'green:30',
-          'yellow:50',
-        ],
-      },
-    },
-  },
-  light: {
-    ...colorStyle.light,
-
-    // `severity` was deprecated in v2
-    severity: {
-      critical: 'magenta:60',
-      high: 'red:60',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      safe: 'green:50',
-      info: 'gray:50',
-      unknown: 'gray:50',
-    },
-
-    // `chart.classic.colors` was deprecated in v2
-    chart: {
-      classic: {
-        colors: [
-          'gray:50',
-          'blue:60',
-          'green:50',
-          'orange:50',
-          'cyan:40',
-          'red:60',
-          'purple:60',
-          'teal:40',
-          'magenta:50',
-          'green:30',
-          'yellow:50',
-        ],
-      },
-    },
-  },
-};
-
-function App(props) {
-  return (
-    <TonicProvider
-      colorStyle={{
-        defaultValue: customColorStyle,
-      }}
-    >
-      <Box {...props} />
-    </TonicProvider>
-  );
-}
-
-export default App;
 ```

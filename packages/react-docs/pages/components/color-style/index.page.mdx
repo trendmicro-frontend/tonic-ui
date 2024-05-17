@@ -284,11 +284,176 @@ const customColorStyle = {
 
 ## Custom Color Values
 
-The `severity`, `chart`, and `gradient` color values provided here are examples and are not defined in the color style system. You can customize your own color values as needed.
+The color values provided here are examples and are not defined in the color style system. You can customize your own color values as needed.
 
-### Severity (deprecated in v2)
+### Risk Level
 
-> The severity color values have been deprecated since v2 and will be removed in the next major release.
+Risk Level | Risk Score | Definition
+:-- | :-- | :--
+High | 70-100 | Assigned to vulnerabilities or events with a risk score indicating high likelihood and significant potential impact.
+Medium | 31-69 | Applied when the risk score indicates moderate likelihood and impact.
+Low | 0-30 | Designated for vulnerabilities or events with a risk score indicating low likelihood and impact.
+None | N/A | Used when it's impossible to determine either the likelihood or potential impact.
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
+        risk_level: {
+          high: 'red:50',
+          medium: 'yellow:50',
+          low: 'green:40',
+          none: 'gray:50',
+        },
+      },
+      light: {
+        risk_level: {
+          high: 'red:60',
+          medium: 'yellow:50',
+          low: 'green:50',
+          none: 'gray:50',
+        },
+      },
+    })}
+  </CodeBlock>
+  <DarkMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          risk_level: {
+            high: 'red:50',
+            medium: 'yellow:50',
+            low: 'green:40',
+            none: 'gray:50',
+          },
+        }}
+        colorType="risk_level"
+      />
+    </ColorStyleContent>
+  </DarkMode>
+  <LightMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          risk_level: {
+            high: 'red:60',
+            medium: 'yellow:50',
+            low: 'green:50',
+            none: 'gray:50',
+          },
+        }}
+        colorType="risk_level"
+      />
+    </ColorStyleContent>
+  </LightMode>
+</Stack>
+
+### Severity
+
+#### Recommended setup
+
+Severity represents the impact and seriousness of an event or situation. It is commonly utilized to assess the immediate consequences of a security incident. Severity is often classified using predefined scales such as `Critical`, `High`, `Medium`, `Low`, or `Informational`.
+
+Severity | Definition
+:-- | :--
+Critical | For the most severe security events with devastating potential consequences.
+High | Designated for vulnerabilities or events with significant potential impact.
+Medium | Applied to events with a moderate impact.
+Low | Allocated to minor vulnerabilities or events with limited potential impact.
+Informational | Used for non-severe information and general guidance.
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
+        severity: {
+          critical: 'magenta:60',
+          high: 'red:50',
+          medium: 'orange:50',
+          low: 'yellow:50',
+          info: 'gray:50',
+        },
+      },
+      light: {
+        severity: {
+          critical: 'magenta:60',
+          high: 'red:60',
+          medium: 'orange:50',
+          low: 'yellow:50',
+          info: 'gray:50',
+        },
+      },
+    })}
+  </CodeBlock>
+  <DarkMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          severity: {
+            critical: 'magenta:60',
+            high: 'red:50',
+            medium: 'orange:50',
+            low: 'yellow:50',
+            info: 'gray:50',
+          },
+        }}
+        colorType="severity"
+      />
+    </ColorStyleContent>
+  </DarkMode>
+  <LightMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          severity: {
+            critical: 'magenta:60',
+            high: 'red:60',
+            medium: 'orange:50',
+            low: 'yellow:50',
+            info: 'gray:50',
+          },
+        }}
+        colorType="severity"
+      />
+    </ColorStyleContent>
+  </LightMode>
+</Stack>
+
+#### Deprecated color values
+
+> This color scheme have been deprecated since v2 and will be removed in the next major release.
 >
 > Please define severity colors to avoid breaking changes in the future.
 
@@ -373,9 +538,11 @@ See the example configuration below:
   </LightMode>
 </Stack>
 
-### Chart (deprecated in v2)
+### Chart
 
-> The chart color values have been deprecated since v2 and will be removed in the next major release.
+#### Deprecated color values
+
+> This color scheme have been deprecated since v2 and will be removed in the next major release.
 >
 > Please define chart colors to avoid breaking changes in the future.
 
@@ -492,7 +659,9 @@ See the example configuration below:
   </LightMode>
 </Stack>
 
-### Gradient (dark mode only)
+### Gradient
+
+> This color scheme is designed specifically for dark mode.
 
 See the example configuration below:
 
@@ -573,7 +742,9 @@ See the example configuration below:
   </ColorStyleContent>
 </Stack>
 
-### Blindness (dark mode only)
+### Blindness
+
+> This color scheme is designed specifically for dark mode.
 
 See the example configuration below:
 

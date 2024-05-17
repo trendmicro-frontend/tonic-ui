@@ -219,6 +219,7 @@ const TableComponent = props => (
     lineHeight="lg"
     borderCollapse="collapse"
     borderSpacing={0}
+    width="100%"
     {...props}
   />
 );

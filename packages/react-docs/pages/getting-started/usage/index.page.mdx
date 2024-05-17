@@ -181,16 +181,36 @@ const customColorStyle = {
   ...colorStyle,
   dark: {
     ...colorStyle.dark,
-    component: {
-      header: {},
-      sidebar: {},
+    component: {}, // optional
+    risk_level: {
+      high: 'red:50',
+      medium: 'yellow:50',
+      low: 'green:40',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
     },
   },
   light: {
     ...colorStyle.light,
-    component: {
-      header: {},
-      sidebar: {},
+    component: {}, // optional
+    risk_level: {
+      high: 'red:60',
+      medium: 'yellow:50',
+      low: 'green:50',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
     },
   },
 };
@@ -215,10 +235,9 @@ const customColorStyle = {
 #### 3. Using the color style
 
 ```jsx disabled
-const [colorMode] = useColorMode();
-const [colorStyle] = useColorStyle({ colorMode });
-const headerStyle = colorStyle?.component?.header;
-const sidebarStyle = colorStyle?.component?.sidebar;
+const [colorStyle] = useColorStyle()
+console.log(colorStyle?.risk_level?.medium); // 'yellow:50'
+console.log(colorStyle?.severity?.critical); // 'magenta:60'
 ```
 
 ### Extending the Theme
