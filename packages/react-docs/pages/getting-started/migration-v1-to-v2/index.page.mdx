@@ -1,3 +1,5 @@
+import { Code, Text } from '@tonic-ui/react';
+
 # Migration From v1 to v2
 
 ⚠️ This guide outlines the necessary steps to migrate from Tonic UI v1 to v2. Please review the breaking changes and assess the compatibility with your current setup before proceeding with the upgrade.
@@ -8,10 +10,10 @@
 
 The following color styles are deprecated and will be removed in the next major release. Please update your code to avoid breaking changes in the future.
 
-Type | Keys | JSON (Old Definitions)
+Type | Key | Value
 :-- | :-- | :--
-[Severity](../components/color-style#severity) | `colorStyle.severity.*` | <pre>{JSON.stringify({"dark":{"severity":{"critical":"magenta:60","high":"red:50","medium":"orange:50","low":"yellow:50","safe":"green:40","info":"gray:50","unknown":"gray:50"}},"light":{"severity":{"critical":"magenta:60","high":"red:60","medium":"orange:50","low":"yellow:50","safe":"green:50","info":"gray:50","unknown":"gray:50"}}}, null, 2)}</pre>
-[Chart](../components/color-style#chart) | `colorStyle.chart.classic.colors.*` | <pre>{JSON.stringify({"dark":{"chart":{"classic":{"colors":["gray:50","blue:50","green:40","orange:50","cyan:40","red:50","purple:50","teal:40","magenta:40","green:30","yellow:50"]}}},"light":{"chart":{"classic":{"colors":["gray:50","blue:60","green:50","orange:50","cyan:40","red:60","purple:60","teal:40","magenta:50","green:30","yellow:50"]}}}}, null, 2)}</pre>
+[Severity (deprecated)](../components/color-style#severity-deprecated) | `colorStyle.severity.*` | <Text wordBreak="break-all">{JSON.stringify({"dark":{"severity":{"critical":"magenta:60","high":"red:50","medium":"orange:50","low":"yellow:50","safe":"green:40","info":"gray:50","unknown":"gray:50"}},"light":{"severity":{"critical":"magenta:60","high":"red:60","medium":"orange:50","low":"yellow:50","safe":"green:50","info":"gray:50","unknown":"gray:50"}}})}</Text>
+[Chart (deprecated)](../components/color-style#chart-deprecated) | `colorStyle.chart.classic.colors[]` | <Text wordBreak="break-all">{JSON.stringify({"dark":{"chart":{"classic":{"colors":["gray:50","blue:50","green:40","orange:50","cyan:40","red:50","purple:50","teal:40","magenta:40","green:30","yellow:50"]}}},"light":{"chart":{"classic":{"colors":["gray:50","blue:60","green:50","orange:50","cyan:40","red:60","purple:60","teal:40","magenta:50","green:30","yellow:50"]}}}})}</Text>
 
 Let's see an example here:
 ```jsx
@@ -123,8 +125,7 @@ const customColorStyle = {
   ...colorStyle,
   dark: {
     ...colorStyle.dark,
-    component: {}, // optional
-    risk_level: {
+    risk: {
       high: 'red:50',
       medium: 'yellow:50',
       low: 'green:40',
@@ -140,8 +141,7 @@ const customColorStyle = {
   },
   light: {
     ...colorStyle.light,
-    component: {}, // optional
-    risk_level: {
+    risk: {
       high: 'red:60',
       medium: 'yellow:50',
       low: 'green:50',

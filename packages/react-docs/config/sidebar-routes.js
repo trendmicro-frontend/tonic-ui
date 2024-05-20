@@ -102,13 +102,13 @@ export const routes = [
     routes: [
       { title: 'Getting Started', path: 'components' },
       { title: 'COLOR MODE', heading: true },
-      { title: 'ColorModeProvider', path: 'components/color-mode' },
+      { title: 'Overview', path: 'components/color-mode' },
       { title: 'DarkMode', path: 'components/color-mode/dark-mode' },
       { title: 'LightMode', path: 'components/color-mode/light-mode' },
       { title: 'InvertedMode', path: 'components/color-mode/inverted-mode' },
       { title: 'useColorMode', path: 'components/color-mode/useColorMode' },
       { title: 'COLOR STYLE', heading: true },
-      { title: 'ColorStyleProvider', path: 'components/color-style' },
+      { title: 'Overview', path: 'components/color-style' },
       { title: 'useColorStyle', path: 'components/color-style/useColorStyle' },
 
       { title: 'LAYOUT', heading: true },

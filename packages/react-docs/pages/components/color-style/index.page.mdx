@@ -19,7 +19,7 @@ import ColorStyleHeader from '@/components/ColorStyleHeader';
 import colorStyle from '@/pages/components/color-style/color-style';
 import jsonPrettify from "@/utils/json-prettify";
 
-# ColorStyleProvider
+# Color Style
 
 Tonic UI comes with a color style system that defines functional color values.
 
@@ -39,11 +39,11 @@ function App(props) {
        * The `colorStyle` config
        * @param {object} defaultValue
        * @param {object} value
-       * @param {function} onChange
+       * @param {function} onChange(colorStyle)
        */
       colorStyle={{
-        // You can omit color style settings if using the default values
-        defaultValue: colorStyle, // optional
+        // [Optional] No need to pass default color style if there's no customization
+        defaultValue: colorStyle,
       }}
     >
       <Box {...props} />
@@ -81,52 +81,54 @@ To manage color style in your application, you can use the [useColorStyle](color
 To override default color style, you can create a color style object in accordance to the color mode, and pass the object to `TonicProvider` with either the `value` or the `defaultValue` property.
 
 ```jsx disabled
-import React from 'react';
 import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
-
-function App(props) {
-  return (
-    <TonicProvider
-      colorStyle={{
-        value: customColorStyle,
-      }}
-    >
-      <Box {...props} />
-    </TonicProvider>
-  );
-}
+import React from 'react';
 
 const customColorStyle = {
   ...colorStyle,
-   dark: {
+  dark: {
     ...colorStyle.dark,
-    color: {
-      emphasis: 'white:emphasis',
-      primary: 'white:primary',
-      secondary: 'white:secondary',
-      tertiary: 'white:tertiary',
-      disabled: 'white:disabled',
-      success: 'green:40',
-      info: 'blue:40',
-      warning: 'orange:50',
-      error: 'red:50',
+    risk: {
+      high: 'red:50',
+      medium: 'yellow:50',
+      low: 'green:40',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
     },
   },
   light: {
     ...colorStyle.light,
-    color: {
-      emphasis: 'black:emphasis',
-      primary: 'black:primary',
-      secondary: 'black:secondary',
-      tertiary: 'black:tertiary',
-      disabled: 'black:disabled',
-      success: 'green:50',
-      info: 'blue:60',
-      warning: 'orange:50',
-      error: 'red:60',
+    risk: {
+      high: 'red:60',
+      medium: 'yellow:50',
+      low: 'green:50',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
     },
   },
 };
+
+const App = () => (
+  <TonicProvider
+    colorStyle={{
+      defaultValue: customColorStyle,
+    }}
+  >
+    <Box {...props} />
+  </TonicProvider>
+);
 ```
 
 ## Default Color Values
@@ -286,9 +288,86 @@ const customColorStyle = {
 
 The color values provided here are examples and are not defined in the color style system. You can customize your own color values as needed.
 
-### Risk Level
+### Notification
 
-Risk Level | Risk Score | Definition
+The purpose of this component is to provide feedback to users, including notifications for success, information, warning, error, and other scenarios. It offers users insights into the outcome of their operations.
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
+        notification: {
+          success: 'green:40',
+          info: 'blue:50',
+          warning: 'yellow:50',
+          error: 'red:50',
+          other: 'gray:50',
+        },
+      },
+      light: {
+        notification: {
+          success: 'green:50',
+          info: 'blue:60',
+          warning: 'yellow:50',
+          error: 'red:60',
+          other: 'gray:50',
+        },
+      },
+    })}
+  </CodeBlock>
+  <DarkMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          function: {
+            success: 'green:40',
+            info: 'blue:50',
+            warning: 'yellow:50',
+            error: 'red:50',
+            other: 'gray:50',
+          },
+        }}
+        colorType="function"
+      />
+    </ColorStyleContent>
+  </DarkMode>
+  <LightMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          function: {
+            success: 'green:50',
+            info: 'blue:60',
+            warning: 'yellow:50',
+            error: 'red:60',
+            other: 'gray:50',
+          },
+        }}
+        colorType="function"
+      />
+    </ColorStyleContent>
+  </LightMode>
+</Stack>
+
+### Risk
+
+Risk | Risk Score | Definition
 :-- | :-- | :--
 High | 70-100 | Assigned to vulnerabilities or events with a risk score indicating high likelihood and significant potential impact.
 Medium | 31-69 | Applied when the risk score indicates moderate likelihood and impact.
@@ -301,7 +380,7 @@ See the example configuration below:
   <CodeBlock>
     {jsonPrettify({
       dark: {
-        risk_level: {
+        risk: {
           high: 'red:50',
           medium: 'yellow:50',
           low: 'green:40',
@@ -309,7 +388,7 @@ See the example configuration below:
         },
       },
       light: {
-        risk_level: {
+        risk: {
           high: 'red:60',
           medium: 'yellow:50',
           low: 'green:50',
@@ -329,14 +408,14 @@ See the example configuration below:
       </ColorStyleHeader>
       <ColorStyleBody
         colorStyle={{
-          risk_level: {
+          risk: {
             high: 'red:50',
             medium: 'yellow:50',
             low: 'green:40',
             none: 'gray:50',
           },
         }}
-        colorType="risk_level"
+        colorType="risk"
       />
     </ColorStyleContent>
   </DarkMode>
@@ -351,22 +430,20 @@ See the example configuration below:
       </ColorStyleHeader>
       <ColorStyleBody
         colorStyle={{
-          risk_level: {
+          risk: {
             high: 'red:60',
             medium: 'yellow:50',
             low: 'green:50',
             none: 'gray:50',
           },
         }}
-        colorType="risk_level"
+        colorType="risk"
       />
     </ColorStyleContent>
   </LightMode>
 </Stack>
 
 ### Severity
-
-#### Recommended setup
 
 Severity represents the impact and seriousness of an event or situation. It is commonly utilized to assess the immediate consequences of a security incident. Severity is often classified using predefined scales such as `Critical`, `High`, `Medium`, `Low`, or `Informational`.
 
@@ -451,7 +528,7 @@ See the example configuration below:
   </LightMode>
 </Stack>
 
-#### Deprecated color values
+### Severity (deprecated)
 
 > This color scheme have been deprecated since v2 and will be removed in the next major release.
 >
@@ -538,9 +615,7 @@ See the example configuration below:
   </LightMode>
 </Stack>
 
-### Chart
-
-#### Deprecated color values
+### Chart (deprecated)
 
 > This color scheme have been deprecated since v2 and will be removed in the next major release.
 >

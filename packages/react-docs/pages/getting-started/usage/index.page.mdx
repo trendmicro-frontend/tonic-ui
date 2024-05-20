@@ -181,8 +181,7 @@ const customColorStyle = {
   ...colorStyle,
   dark: {
     ...colorStyle.dark,
-    component: {}, // optional
-    risk_level: {
+    risk: {
       high: 'red:50',
       medium: 'yellow:50',
       low: 'green:40',
@@ -198,8 +197,7 @@ const customColorStyle = {
   },
   light: {
     ...colorStyle.light,
-    component: {}, // optional
-    risk_level: {
+    risk: {
       high: 'red:60',
       medium: 'yellow:50',
       low: 'green:50',
@@ -236,7 +234,7 @@ const customColorStyle = {
 
 ```jsx disabled
 const [colorStyle] = useColorStyle()
-console.log(colorStyle?.risk_level?.medium); // 'yellow:50'
+console.log(colorStyle?.risk?.medium); // 'yellow:50'
 console.log(colorStyle?.severity?.critical); // 'magenta:60'
 ```
 

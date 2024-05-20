@@ -42,7 +42,7 @@ const customColorStyle = {
     ...colorStyle.dark,
 
     // Add custom colors here
-    risk_level: {
+    risk: {
       high: 'red:50',
       medium: 'yellow:50',
       low: 'green:40',
@@ -60,7 +60,7 @@ const customColorStyle = {
     ...colorStyle.light,
 
     // Add custom colors here
-    risk_level: {
+    risk: {
       high: 'red:60',
       medium: 'yellow:50',
       low: 'green:50',
