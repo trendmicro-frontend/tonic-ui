@@ -2,27 +2,34 @@ import system from '../core/system';
 
 const group = 'grid';
 const config = {
-  gridGap: {
+  gridArea: true,
+  gridAutoColumns: true,
+  gridAutoFlow: true,
+  gridAutoRows: true,
+  gridColumn: true,
+  gridColumnEnd: true,
+  gridColumnStart: true,
+  gridRow: true,
+  gridRowEnd: true,
+  gridRowStart: true,
+  gridTemplate: true,
+  gridTemplateAreas: true,
+  gridTemplateColumns: true,
+  gridTemplateRows: true,
+
+  // The following properties are renamed in CSS3 and will be deprecated or removed in the next major release
+  gridGap: { // `gridGap` is an alias for `gap`
     property: 'gridGap',
     scale: 'sizes',
   },
-  gridColumnGap: {
+  gridColumnGap: { // `gridColumnGap` is an alias for `columnGap`
     property: 'gridColumnGap',
     scale: 'sizes',
   },
-  gridRowGap: {
+  gridRowGap: { // `gridRowGap` is an alias for `rowGap`
     property: 'gridRowGap',
     scale: 'sizes',
   },
-  gridColumn: true,
-  gridRow: true,
-  gridAutoFlow: true,
-  gridAutoColumns: true,
-  gridAutoRows: true,
-  gridTemplateColumns: true,
-  gridTemplateRows: true,
-  gridTemplateAreas: true,
-  gridArea: true,
 };
 
 const grid = system(config, { group });
