@@ -341,7 +341,8 @@ const initialNextConfig = {
     TONIC_UI_DEFAULT_SOURCE_CODE: process.env.TONIC_UI_DEFAULT_SOURCE_CODE,
   },
   basePath: process.env.BASE_PATH,
-  distDir: 'build',
+  distDir: process.env.NODE_ENV === 'production' ? 'dist/react' : 'build',
+  output: process.env.NODE_ENV === 'production' ? 'export' : 'standalone',
   pageExtensions: ['page.js', 'page.mdx'],
 };
 
