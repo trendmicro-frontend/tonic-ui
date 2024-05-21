@@ -2,7 +2,6 @@ import {
   Box,
   ButtonBase,
   Flex,
-  Icon,
   Tab,
   TabList,
   TabPanel,
@@ -11,6 +10,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import {
   useEffectOnce,
 } from '@tonic-ui/react-hooks';
@@ -306,7 +306,7 @@ const App = () => {
           disabled={!displayScroll.start}
           onClick={handleStartScrollClick}
         >
-          <Icon icon="angle-left" />
+          <AngleLeftIcon />
         </IconButton>
         <StartScrollIndicator ref={startScrollIndicatorRef} />
         <Box
@@ -336,7 +336,7 @@ const App = () => {
           disabled={!displayScroll.end}
           onClick={handleEndScrollClick}
         >
-          <Icon icon="angle-right" />
+          <AngleRightIcon />
         </IconButton>
       </Flex>
       <TabPanels px="3x" py="2x">

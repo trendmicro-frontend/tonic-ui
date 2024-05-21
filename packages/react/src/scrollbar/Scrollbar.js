@@ -1,5 +1,4 @@
-import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
+import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
@@ -21,16 +20,6 @@ import VerticalThumb from './VerticalThumb';
 
 const Scrollbar = forwardRef((
   {
-    disabled, // deprecated (remove in next major version)
-    minThumbSize, // deprecated (remove in next major version)
-    visibility, // deprecated (remove in next major version)
-    renderView, // removed
-    renderHorizontalTrack, // removed
-    renderHorizontalThumb, // removed
-    renderVerticalTrack, // removed
-    renderVerticalThumb, // removed
-    thumbSize, // removed
-
     children,
     width = 'auto',
     height = 'auto',
@@ -52,101 +41,21 @@ const Scrollbar = forwardRef((
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${Scrollbar.displayName}:`;
+  { // Adjust overflow values
+    overflowX = overflowX ?? overflow;
+    overflowY = overflowY ?? overflow;
 
-    useOnceWhen(() => {
-      warnDeprecatedProps('disabled', {
-        prefix,
-        alternative: 'overflow="hidden"',
-        willRemove: true,
-      });
-    }, (disabled !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('minThumbSize', {
-        prefix,
-        alternative: ['minThumbWidth', 'minThumbHeight'],
-        willRemove: true,
-      });
-    }, (minThumbSize !== undefined));
-
-    useOnceWhen(() => {
-      const deprecatedProps = (visibility === 'visible')
-        ? 'visibility="visible"'
-        : 'visibility';
-      const alternative = (visibility === 'visible')
-        ? 'overflow="scroll"'
-        : 'overflow';
-      warnDeprecatedProps(deprecatedProps, {
-        prefix,
-        alternative,
-        willRemove: true,
-      });
-    }, (visibility !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('renderView', {
-        prefix,
-        message: 'Use Function as Child Component (FaCC) to render the scroll view instead.',
-      });
-    }, (renderView !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('renderHorizontalTrack', {
-        prefix,
-        message: 'Use Function as Child Component (FaCC) to render the horizontal track instead.',
-      });
-    }, (renderHorizontalTrack !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('renderHorizontalThumb', {
-        prefix,
-        message: 'Use Function as Child Component (FaCC) to render the horizontal thumb instead.',
-      });
-    }, (renderHorizontalThumb !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('renderVerticalTrack', {
-        prefix,
-        message: 'Use Function as Child Component (FaCC) to render the vertical track instead.',
-      });
-    }, (renderVerticalTrack !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('renderVerticalThumb', {
-        prefix,
-        message: 'Use Function as Child Component (FaCC) to render the vertical thumb instead.',
-      });
-    }, (renderVerticalThumb !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('thumbSize', {
-        prefix,
-        alternative: ['minThumbWidth', 'minThumbHeight'],
-      });
-    }, (thumbSize !== undefined));
-
-    // TODO: remove `disabled` and `visibility` props in next major version
-    if (disabled === true) {
-      overflowX = 'hidden';
-      overflowY = 'hidden';
-    }
-
-    // TODO: remove `minThumbSize` prop in next major version
-    if (Number.isFinite(minThumbSize) && minThumbSize > 0) {
-      minThumbWidth = ensurePositiveFiniteNumber(minThumbSize);
-      minThumbHeight = ensurePositiveFiniteNumber(minThumbSize);
-    }
-
-    overflowX = overflowX ?? (visibility ?? overflow); // TODO: visibility is deprecated
-    overflowY = overflowY ?? (visibility ?? overflow); // TODO: visibility is deprecated
+    // Ensure scroll behavior for `overflowX` if originally set to 'visible'
     if (overflowX === 'visible') {
       overflowX = 'scroll';
     }
+
+    // Ensure scroll behavior for `overflowY` if originally set to 'visible'
     if (overflowY === 'visible') {
       overflowY = 'scroll';
     }
+
+    // Set default overflow values if not provided
     overflowX = overflowX ?? 'auto';
     overflowY = overflowY ?? 'auto';
   }

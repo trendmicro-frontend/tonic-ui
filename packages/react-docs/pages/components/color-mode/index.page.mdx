@@ -1,4 +1,4 @@
-# ColorModeProvider
+# Color Mode
 
 Tonic UI comes with built-in support for managing color modes in your app.
 
@@ -17,10 +17,10 @@ function App(props) {
     <TonicProvider
       /**
        * The `colorMode` config
-       * @param {'dark'|'light'} defaultValue
-       * @param {'dark'|'light'} value
-       * @param {function} onChange
-       * @param {boolean} useSystemColorMode
+       * @param {'dark'|'light'} defaultValue The default value for the color mode. It can be `light` or `dark`. The default value is `light` if not specified.
+       * @param {'dark'|'light'} value The current value for the color mode. It can be `light` or `dark`.
+       * @param {function} onChange(colorMode) A function that is called when the color mode is changed.
+       * @param {boolean} useSystemColorMode A boolean that determines whether to use the system color mode.
        */
       colorMode={{
         defaultValue: 'dark',
@@ -39,15 +39,6 @@ The above setup is equivalent to:
   <Box {...props} />
 </ColorModeProvider>
 ```
-
-### The `colorMode` config
-
-The `colorMode` config has the following options:
-
-* `defaultValue`: The default value for the color mode. It can be `light` or `dark`. The default value is `light` if not specified.
-* `value`: The current value for the color mode. It can be `light` or `dark`.
-* `onChange(colorMode)`: A function that is called when the color mode is changed.
-* `useSystemColorMode`: A boolean that determines whether to use the system color mode.
 
 ### Color scheme
 

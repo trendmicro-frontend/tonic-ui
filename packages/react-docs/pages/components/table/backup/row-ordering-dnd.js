@@ -5,17 +5,15 @@ import {
 } from '@tanstack/react-table';
 import {
   Flex,
-  Icon,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
   Truncate,
   useColorStyle,
 } from '@tonic-ui/react';
+import { ArrowsIcon } from '@tonic-ui/react-icons';
 import {
   useMergeRefs,
 } from '@tonic-ui/react-hooks';
@@ -215,7 +213,7 @@ const App = () => {
       <Table layout={layout}>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
-            <TableHeaderRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 const styleProps = {
                   minWidth: header.column.columnDef.minSize,
@@ -228,7 +226,7 @@ const App = () => {
                 }
 
                 return (
-                  <TableHeaderCell
+                  <TableCell
                     key={header.id}
                     sx={styleProps}
                   >
@@ -237,10 +235,10 @@ const App = () => {
                         {flexRender(header.column.columnDef.header, header.getContext())}
                       </Truncate>
                     )}
-                  </TableHeaderCell>
+                  </TableCell>
                 );
               })}
-            </TableHeaderRow>
+            </TableRow>
           ))}
         </TableHeader>
         <TableBody>
@@ -250,7 +248,7 @@ const App = () => {
               const policy = row?.original?.policy;
               return (
                 <Flex alignItems="center" columnGap="1x">
-                  <Icon icon="arrows" />
+                  <ArrowsIcon />
                   {policy}
                 </Flex>
               );

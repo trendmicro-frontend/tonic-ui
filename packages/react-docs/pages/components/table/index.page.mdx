@@ -8,12 +8,15 @@ import { Code } from '@tonic-ui/react';
 import {
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
+  TableFooter,
   TableRow,
   TableCell,
   TableScrollbar,
+
+  // Deprecated components
+  TableHeaderRow, // Deprecated in v2: use `TableRow` instead.
+  TableHeaderCell, // Deprecated in v2: use `TableCell` instead.
 } from '@tonic-ui/react';
 ```
 
@@ -225,18 +228,6 @@ And here's how you can use it in your code:
 | variant | string | 'default' | The variant of the table style to use. One of: 'default', 'outline' |
 
 ### TableHeader
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-
-### TableHeaderRow
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-
-### TableHeaderCell
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |

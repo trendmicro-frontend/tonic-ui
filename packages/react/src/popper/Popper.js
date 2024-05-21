@@ -1,6 +1,5 @@
 import { createPopper } from '@popperjs/core';
-import { useEffectOnce, useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnRemovedProps } from '@tonic-ui/utils';
+import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { Portal } from '../portal';
 import { Box } from '../box';
@@ -14,8 +13,6 @@ const defaultPlacement = 'bottom-start';
 
 const Popper = forwardRef((
   {
-    container, // deprecated
-
     anchorEl, // TODO: rename to `referenceRef` in a future release
     children,
     isOpen,
@@ -30,17 +27,6 @@ const Popper = forwardRef((
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${Popper.displayName}:`;
-
-    useOnceWhen(() => {
-      warnRemovedProps('container', {
-        prefix,
-        alternative: 'portalProps',
-      });
-    }, (container !== undefined));
-  }
-
   const nodeRef = useRef();
   const popperRef = useRef(null); // popper instance
   const [exited, setExited] = useState(true);

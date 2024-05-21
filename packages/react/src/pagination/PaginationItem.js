@@ -1,18 +1,24 @@
+import {
+  AngleLeftIcon,
+  AngleRightIcon,
+  CollapseLeftIcon,
+  CollapseRightIcon,
+  MoreHorizIcon,
+} from '@tonic-ui/react-icons';
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Button } from '../button';
-import { Icon } from '../icon';
 import {
   usePaginationItemStyle,
 } from './styles';
 
 const defaultSlot = {
-  'start-ellipsis': <Icon icon="more-horiz" />,
-  'end-ellipsis': <Icon icon="more-horiz" />,
-  first: <Icon icon="collapse-left" />,
-  previous: <Icon icon="angle-left" />,
-  next: <Icon icon="angle-right" />,
-  last: <Icon icon="collapse-right" />,
+  'start-ellipsis': <MoreHorizIcon size="4x" />,
+  'end-ellipsis': <MoreHorizIcon size="4x" />,
+  first: <CollapseLeftIcon size="4x" />,
+  previous: <AngleLeftIcon size="4x" />,
+  next: <AngleRightIcon size="4x" />,
+  last: <CollapseRightIcon size="4x" />,
 };
 
 const getAriaLabel = ({ type, page, selected }) => {

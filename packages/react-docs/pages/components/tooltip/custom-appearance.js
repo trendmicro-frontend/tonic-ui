@@ -4,12 +4,12 @@ import React from 'react';
 const App = () => {
   const [colorMode] = useColorMode();
   const backgroundColor = {
-    dark: 'gray:80',
-    light: 'white',
+    dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
   const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
+    dark: 'white:emphasis',
+    light: 'white:emphasis',
   }[colorMode];
 
   return (

@@ -10,11 +10,8 @@ import {
   Collapse,
   Flex,
   Grid,
-  Icon,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -24,6 +21,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { AngleRightIcon } from '@tonic-ui/react-icons';
 import {
   createTransitionStyle,
   dataAttr,
@@ -187,7 +185,7 @@ const App = () => {
     <Table layout={layout}>
       <TableHeader>
         {table.getHeaderGroups().map(headerGroup => (
-          <TableHeaderRow key={headerGroup.id}>
+          <TableRow key={headerGroup.id}>
             {headerGroup.headers.map(header => {
               const styleProps = {
                 minWidth: header.column.columnDef.minSize,
@@ -195,7 +193,7 @@ const App = () => {
                 ...header.column.columnDef.style,
               };
               return (
-                <TableHeaderCell
+                <TableCell
                   key={header.id}
                   {...styleProps}
                 >
@@ -204,10 +202,10 @@ const App = () => {
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </Truncate>
                   )}
-                </TableHeaderCell>
+                </TableCell>
               );
             })}
-          </TableHeaderRow>
+          </TableRow>
         ))}
       </TableHeader>
       <TableBody>
@@ -286,7 +284,7 @@ const TableRowToggleIcon = forwardRef((
 
   return (
     <ButtonBase {...rest}>
-      <Icon icon="angle-right" size="4x" {...styleProps} />
+      <AngleRightIcon size="4x" {...styleProps} />
     </ButtonBase>
   );
 });

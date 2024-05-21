@@ -9,13 +9,9 @@ import {
   Box,
   Checkbox,
   Flex,
-  Icon,
-  Image,
   OverflowTooltip,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -24,6 +20,7 @@ import {
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
+import { SVGIcon, SortUpIcon, SortDownIcon } from '@tonic-ui/react-icons';
 import {
   dataAttr,
 } from '@tonic-ui/utils';
@@ -31,10 +28,10 @@ import { ensureArray, ensureNumber } from 'ensure-type';
 import _ from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import TablePagination from '@/components/TablePagination';
 import ConditionalWrapper from './ConditionalWrapper';
 import Draggable from './Draggable';
-import TablePagination from './TablePagination';
-import iconDrag from './icon-drag.svg';
+import DragIcon from './icons/drag.svg';
 
 /**
  * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
@@ -350,10 +347,10 @@ const Component = ({
             >
               <TableHeader>
                 {table.getHeaderGroups().map(headerGroup => (
-                  <TableHeaderRow
+                  <TableRow
                     key={headerGroup.id}
                   >
-                    <TableHeaderCell
+                    <TableCell
                       sx={{
                         width: '2x',
                         pl: '3x',
@@ -384,7 +381,7 @@ const Component = ({
                       }
 
                       return (
-                        <TableHeaderCell
+                        <TableCell
                           key={header.id}
                           onClick={header.column.getToggleSortingHandler()}
                           {...styleProps}
@@ -393,15 +390,15 @@ const Component = ({
                             <Flex alignItems="center">
                               {flexRender(header.column.columnDef.header, header.getContext())}
                               {{
-                                asc: (<Icon icon="sort-up" size={20}  ml="1x" />),
-                                desc: (<Icon icon="sort-down" size={20} ml="1x" />),
+                                asc: (<SortUpIcon size={20} ml="1x" />),
+                                desc: (<SortDownIcon size={20} ml="1x" />),
                               }[header.column.getIsSorted()] ?? null}
                             </Flex>
                           )}
-                        </TableHeaderCell>
+                        </TableCell>
                       );
                     })}
-                  </TableHeaderRow>
+                  </TableRow>
                 ))}
               </TableHeader>
               <ConditionalWrapper
@@ -456,9 +453,9 @@ const Component = ({
                                   zIndex: canDrag ? 1 : undefined,
                                 }}
                               >
-                                <Image
+                                <SVGIcon
                                   alt="draggable"
-                                  src={iconDrag.src}
+                                  as={DragIcon}
                                   sx={{
                                     cursor: 'move',
                                     visibility: row.getIsSelected() ? 'visible' : 'hidden',

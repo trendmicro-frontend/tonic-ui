@@ -10,11 +10,11 @@ import { useColorStyle } from '@tonic-ui/react';
 
 ## Usage
 
+To explore the available color styles to use, refer to the [color-style](../color-style#default-color-style) page for further details.
+
 ```js
 const [colorMode] = useColorMode();
-const [colorStyle] = useColorStyle({
-  colorMode: 'dark', // One of 'light' or 'dark'
-});
+const [colorStyle] = useColorStyle(); // Use `useColorStyle({ colorMode })` to enforce a specific color mode if needed
 const { colors } = useTheme();
 
 console.log(colorMode);

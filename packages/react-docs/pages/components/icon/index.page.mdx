@@ -1,6 +1,18 @@
+import {
+  Flex,
+  TextLabel,
+} from '@tonic-ui/react';
+import {
+  AlertIcon,
+} from '@tonic-ui/react-icons';
+
 # Icon
 
 `Icon` is used to render SVG icons in a more convenient way. You can extend icons by defining icon keys in `theme.icons`.
+
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="1x"><AlertIcon /> IMPORTANT NOTICE</Flex></TextLabel>
+>
+> All built-in icons were removed in v2. See the [migration guide](../getting-started/migration-v1-to-v2#icons) while upgrading from v0 or v1. If you are looking for the pre-defined Tonic icon components, visit the [React Icons](../icons) page.
 
 ## Import
 
@@ -10,11 +22,11 @@ import { Icon } from '@tonic-ui/react';
 
 ## Usage
 
-### Basic
+### `as` prop
 
-Use an icon by passing the `icon` prop. This `icon` property value must match an icon key defined in `theme.icons`. By default, the icon inherits the font size and color of its parent.
+You can utilize the `as` prop to pass SVG icon components imported from `@tonic-ui/react-icons`.
 
-{render('./basic')}
+{render('./as-prop')}
 
 ### Animating icons
 
@@ -33,55 +45,44 @@ The `animation` prop can be used to override default animation, it is a shorthan
 • [animationFillMode](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode)<br/>
 • [animationPlayState](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-play-state)<br/>
 
-### Adding custom icons
+### Custom icons
 
-First, you have to add custom icons to the theme. Each icon must be an object containing `path` and optional style props passed to [SVGIcon](svgicon).
+To integrate custom icons into your application, follow these steps:
 
-```jsx disabled noInline
-const customIcons = {
-  icon1: {
-    path: (
-      <path fill="currentColor" d="..." />
-    ),
-  },
-  icon2: {
-    path: (
-      <g fill="currentColor">
-        <path d="..." />
-      </g>
-    ),
+First, define your custom icons within the `theme` configuration. Each icon should be represented as an array of key-value pairs with a unique key and the corresponding SVG element.
 
-    // optional style props
-    viewBox: '0 0 48 48',
-  },
-};
-
-const customTheme = {
-  ...theme,
-  icons: {
-    ...theme.icons,
-    ...customIcons,
-  },
-};
+```jsx
+const icons = [
+  [
+    'codesandbox',
+    <svg key="codesandbox" viewBox="0 0 1024 1024">
+      <path d="M755 140.3l0.5-0.3h0.3L512 0 268.3 140h-0.3l0.8 0.4L68.6 256v512L512 1024l443.4-256V256L755 140.3z m-30 506.4v171.2L548 920.1V534.7L883.4 341v215.7l-158.4 90z m-584.4-90.6V340.8L476 534.4v385.7L300 818.5V646.7l-159.4-90.6zM511.7 280l171.1-98.3 166.3 96-336.9 194.5-337-194.6 165.7-95.7L511.7 280z" />
+    </svg>,
+  ],
+];
 ```
 
-After that simply wrap your app into `ThemeProvider` component and pass your theme as a `theme` prop. Just like this:
+Then, utilize the `ThemeProvider` or `TonicProvider` to pass the defined icons to the theme configuration.
 
-```jsx disabled noInline
-<ThemeProvider theme={customTheme}>
+```jsx
+<ThemeProvider theme={{ icons }}>
   <App />
 </ThemeProvider>
+// or
+<TonicProvider theme={{ icons }}>
+  <App />
+</TonicProvider>
 ```
 
-Pass the icon name as a prop to the `<Icon>` component to render the SVG icon:
+Finally, utilize the custom icons by specifying the `icon` prop. Pass the icon name to render the SVG icon. Remember, the value of the `icon` prop must match the key of the desired icon defined in `theme.icons`. By default, the icon will inherit the font size and color of its parent.
 
-```jsx disabled noInline
-<Icon icon="icon1" color="blue:50" />
+```jsx
+<Icon icon="codesandbox" color="blue:50" />
 ```
 
-## Search icons
+{render('./custom-icons')}
 
-{render('./search-icons')}
+By following these steps, you can seamlessly integrate custom icons into your application.
 
 ## Props
 

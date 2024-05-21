@@ -38,8 +38,6 @@ describe('Pagination', () => {
   });
 
   it('should fire onChange when a different page is clicked', () => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
-
     const onChange = jest.fn();
     const { getAllByRole } = render(
       <Pagination count={3} onChange={onChange} page={1} />
@@ -52,13 +50,7 @@ describe('Pagination', () => {
     pageItem2.click();
 
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(
-      expect.anything(),
-      2,
-    );
-    expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining('Pagination "onChange(event, page)" is deprecated and will be changed to "onChange(page)" in the next major release.')
-    );
+    expect(onChange).toHaveBeenCalledWith(2);
   });
 
   it('should render correct amount of controls on correct order', () => {

@@ -38,7 +38,7 @@ const App = () => {
       <Stack spacing="4x" alignItems="center">
         <ButtonGroup
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -51,7 +51,7 @@ const App = () => {
         <ButtonGroup
           orientation="vertical"
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginTop: -1
             }
@@ -65,7 +65,7 @@ const App = () => {
       <Stack spacing="4x" alignItems="center">
         <ButtonGroup
           variant="ghost"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -80,7 +80,7 @@ const App = () => {
         <ButtonGroup
           orientation="vertical"
           variant="ghost"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginTop: -1
             }

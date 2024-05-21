@@ -10,7 +10,6 @@ import {
   ButtonGroup,
   Divider,
   Flex,
-  Icon,
   Input,
   Menu,
   MenuButton,
@@ -19,8 +18,6 @@ import {
   Space,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -29,6 +26,7 @@ import {
   Truncate,
   useColorStyle,
 } from '@tonic-ui/react';
+import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import { ensureArray, ensureNumber } from 'ensure-type';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -121,7 +119,7 @@ const App = () => {
       >
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
-            <TableHeaderRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 const styleProps = {
                   minWidth: header.column.columnDef.minSize,
@@ -129,7 +127,7 @@ const App = () => {
                   ...header.column.columnDef.style,
                 };
                 return (
-                  <TableHeaderCell
+                  <TableCell
                     key={header.id}
                     {...styleProps}
                   >
@@ -138,10 +136,10 @@ const App = () => {
                         {flexRender(header.column.columnDef.header, header.getContext())}
                       </Truncate>
                     )}
-                  </TableHeaderCell>
+                  </TableCell>
                 );
               })}
-            </TableHeaderRow>
+            </TableRow>
           ))}
         </TableHeader>
         <ConditionalWrapper
@@ -339,7 +337,7 @@ const TablePagination = ({
             onPageChange(page - 1);
           }}
         >
-          <Icon icon="angle-left" />
+          <AngleLeftIcon />
         </Button>
         <Button
           width="8x"
@@ -348,7 +346,7 @@ const TablePagination = ({
             onPageChange(page + 1);
           }}
         >
-          <Icon icon="angle-right" />
+          <AngleRightIcon />
         </Button>
       </ButtonGroup>
     </Flex>

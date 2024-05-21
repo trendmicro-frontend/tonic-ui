@@ -1,22 +1,26 @@
 import {
-  colorStyle,
   Box,
   DarkMode,
   Divider,
   Flex,
-  Icon,
   LightMode,
-  Space,
   Stack,
   Text,
+  TextLabel,
 } from "@tonic-ui/react";
-import CodeBlock from "../../../components/CodeBlock";
-import ColorStyleBody from '../../../components/ColorStyleBody';
-import ColorStyleContent from '../../../components/ColorStyleContent';
-import ColorStyleHeader from '../../../components/ColorStyleHeader';
-import jsonPrettify from "../../../utils/json-prettify";
+import {
+  AlertIcon,
+  MoonIcon,
+  SunIcon,
+} from '@tonic-ui/react-icons';
+import CodeBlock from '@/components/CodeBlock';
+import ColorStyleBody from '@/components/ColorStyleBody';
+import ColorStyleContent from '@/components/ColorStyleContent';
+import ColorStyleHeader from '@/components/ColorStyleHeader';
+import colorStyle from '@/pages/components/color-style/color-style';
+import jsonPrettify from "@/utils/json-prettify";
 
-# ColorStyleProvider
+# Color Style
 
 Tonic UI comes with a color style system that defines functional color values.
 
@@ -27,6 +31,7 @@ By using `TonicProvider` at root of your application, it will add `ColorStylePro
 ```jsx disabled
 import React from 'react';
 import { Box, TonicProvider } from '@tonic-ui/react';
+import { colorStyle } from '@tonic-ui/react';
 
 function App(props) {
   return (
@@ -35,10 +40,11 @@ function App(props) {
        * The `colorStyle` config
        * @param {object} defaultValue
        * @param {object} value
-       * @param {function} onChange
+       * @param {function} onChange(colorStyle)
        */
       colorStyle={{
-        // You can omit color style settings if using the default values
+        // [Optional] No need to pass default color style if there's no customization
+        defaultValue: colorStyle,
       }}
     >
       <Box {...props} />
@@ -55,101 +61,88 @@ The above setup is equivalent to:
 </ColorStyleProvider>
 ```
 
-### The `colorStyle` config
+### Color style settings
 
-The `colorStyle` config has the following options:
+To get the default color style settings, import `colorStyle` as shown below:
 
-* `defaultValue`: The default value for the color style.
-* `value`: The current value for the color style.
-* `onChange(colorStyle)`: A function that is called when the color style is changed.
-
-## Default Color Style
-
-### Import
-
-```js
+```
 import { colorStyle } from '@tonic-ui/react';
 ```
 
-### Color style settings
+The full configuration is displayed below:
 
-<Box mb="6x">
-  <CodeBlock>
-    {jsonPrettify(colorStyle)}
-  </CodeBlock>
-</Box>
+<CodeBlock mb="4x">
+  {jsonPrettify(colorStyle)}
+</CodeBlock>
 
-## Override Default Color Style
+To manage color style in your application, you can use the [useColorStyle](color-style/useColorStyle) hook.
+
+### Overriding color style
 
 To override default color style, you can create a color style object in accordance to the color mode, and pass the object to `TonicProvider` with either the `value` or the `defaultValue` property.
 
 ```jsx disabled
-import React from 'react';
 import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
-
-function App(props) {
-  return (
-    <TonicProvider
-      colorStyle={{
-        value: customColorStyle,
-      }}
-    >
-      <Box {...props} />
-    </TonicProvider>
-  );
-}
+import React from 'react';
 
 const customColorStyle = {
   ...colorStyle,
-   dark: {
+  dark: {
     ...colorStyle.dark,
-    color: {
-      emphasis: 'white:emphasis',
-      primary: 'white:primary',
-      secondary: 'white:secondary',
-      tertiary: 'white:tertiary',
-      disabled: 'white:disabled',
-      success: 'green:40',
-      info: 'blue:40',
-      warning: 'orange:50',
-      error: 'red:50',
+    risk: {
+      high: 'red:50',
+      medium: 'yellow:50',
+      low: 'green:40',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
     },
   },
   light: {
     ...colorStyle.light,
-    color: {
-      emphasis: 'black:emphasis',
-      primary: 'black:primary',
-      secondary: 'black:secondary',
-      tertiary: 'black:tertiary',
-      disabled: 'black:disabled',
-      success: 'green:50',
-      info: 'blue:60',
-      warning: 'orange:50',
-      error: 'red:60',
+    risk: {
+      high: 'red:60',
+      medium: 'yellow:50',
+      low: 'green:50',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
     },
   },
 };
+
+const App = () => (
+  <TonicProvider
+    colorStyle={{
+      defaultValue: customColorStyle,
+    }}
+  >
+    <Box {...props} />
+  </TonicProvider>
+);
 ```
 
-## Managing Color Style
-
-To manage color style in your application, you can use the [useColorStyle](color-style/useColorStyle) hook.
-
-## Color Values
+## Default Color Values
 
 ### Background
 
-<>
+<Stack spacing="4x">
   <DarkMode>
     <ColorStyleContent>
       <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="moon" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Dark Mode
-          </Text>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
         </Flex>
         <Divider my="2x" />
       </ColorStyleHeader>
@@ -159,32 +152,26 @@ To manage color style in your application, you can use the [useColorStyle](color
   <LightMode>
     <ColorStyleContent>
       <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="sun" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Light Mode
-          </Text>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
         </Flex>
         <Divider my="2x" />
       </ColorStyleHeader>
       <ColorStyleBody colorType="background" />
     </ColorStyleContent>
   </LightMode>
-</>
+</Stack>
 
 ### Color
 
-<>
+<Stack spacing="4x">
   <DarkMode>
     <ColorStyleContent>
       <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="moon" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Dark Mode
-          </Text>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
         </Flex>
         <Divider my="2x" />
       </ColorStyleHeader>
@@ -194,33 +181,55 @@ To manage color style in your application, you can use the [useColorStyle](color
   <LightMode>
     <ColorStyleContent>
       <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="sun" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Light Mode
-          </Text>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
         </Flex>
         <Divider my="2x" />
       </ColorStyleHeader>
       <ColorStyleBody colorType="color" />
     </ColorStyleContent>
   </LightMode>
-</>
+</Stack>
 
+### Divider
+
+<Stack spacing="4x">
+  <DarkMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody colorType="divider" />
+    </ColorStyleContent>
+  </DarkMode>
+  <LightMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody colorType="divider" />
+    </ColorStyleContent>
+  </LightMode>
+</Stack>
 
 ### Text
 
-<>
+<Stack spacing="4x">
   <DarkMode>
     <ColorStyleContent>
       <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="moon" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Dark Mode
-          </Text>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
         </Flex>
         <Divider my="2x" />
       </ColorStyleHeader>
@@ -230,32 +239,26 @@ To manage color style in your application, you can use the [useColorStyle](color
   <LightMode>
     <ColorStyleContent>
       <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="sun" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Light Mode
-          </Text>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
         </Flex>
         <Divider my="2x" />
       </ColorStyleHeader>
       <ColorStyleBody colorType="text" />
     </ColorStyleContent>
   </LightMode>
-</>
+</Stack>
 
 ### Shadow
 
-<>
+<Stack spacing="4x">
   <DarkMode>
     <ColorStyleContent>
       <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="moon" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Dark Mode
-          </Text>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
         </Flex>
         <Divider my="2x" />
       </ColorStyleHeader>
@@ -268,12 +271,9 @@ To manage color style in your application, you can use the [useColorStyle](color
   <LightMode>
     <ColorStyleContent>
       <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="sun" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Light Mode
-          </Text>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
         </Flex>
         <Divider my="2x" />
       </ColorStyleHeader>
@@ -283,274 +283,653 @@ To manage color style in your application, you can use the [useColorStyle](color
       />
     </ColorStyleContent>
   </LightMode>
-</>
+</Stack>
 
-### Severity
+### Severity (deprecated)
 
-<>
-  <DarkMode>
-    <ColorStyleContent>
-      <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="moon" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Dark Mode
-          </Text>
-        </Flex>
-        <Divider my="2x" />
-      </ColorStyleHeader>
-      <ColorStyleBody colorType="severity" />
-    </ColorStyleContent>
-  </DarkMode>
-  <LightMode>
-    <ColorStyleContent>
-      <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="sun" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Light Mode
-          </Text>
-        </Flex>
-        <Divider my="2x" />
-      </ColorStyleHeader>
-      <ColorStyleBody colorType="severity" />
-    </ColorStyleContent>
-  </LightMode>
-</>
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
+> This color style have been deprecated since v2 and will be removed in the next major release. Please manually define [severity](#severity) colors to avoid breaking changes in the future.
 
-### Chart
-
-<>
-  <DarkMode>
-    <ColorStyleContent>
-      <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="moon" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Dark Mode
-          </Text>
-        </Flex>
-        <Divider my="2x" />
-      </ColorStyleHeader>
-      <ColorStyleBody colorType="chart.classic.colors" />
-    </ColorStyleContent>
-  </DarkMode>
-  <LightMode>
-    <ColorStyleContent>
-      <ColorStyleHeader>
-        <Flex alignItems="center">
-          <Icon icon="sun" size="6x" color="yellow:50" />
-          <Space width="2x" />
-          <Text fontSize="lg" lineHeight="lg">
-            Light Mode
-          </Text>
-        </Flex>
-        <Divider my="2x" />
-      </ColorStyleHeader>
-      <ColorStyleBody colorType="chart.classic.colors" />
-    </ColorStyleContent>
-  </LightMode>
-</>
-
-## Gradient Color Values
-
-Gradient color values are not defined in the color style system, you can set `gradient` with below values when necessary.
+Here is the deprecated configuration for the severity:
 
 <CodeBlock>
   {jsonPrettify({
-    gradient: {
+    dark: {
       severity: {
-        high: ['purple:60', 'red:50'],
-        medium: ['red:50', 'orange:50'],
-        low: ['orange:50', 'yellow:50'],
-        safe: ['teal:50', 'green:40'],
+        critical: 'magenta:60',
+        high: 'red:50',
+        medium: 'orange:50',
+        low: 'yellow:50',
+        safe: 'green:40',
+        info: 'gray:50',
+        unknown: 'gray:50',
       },
-      others: {
-        1: ['purple:50', 'magenta:40'],
-        2: ['purple:60', 'blue:50'],
-        3: ['blue:50', 'teal:40'],
-        4: ['cyan:40', 'teal:30'],
-        5: ['blue:60', 'teal:40'],
-        6: ['green:40', 'cyan:30'],
-        7: ['magenta:60', 'red:40'],
-        8: ['magenta:50', 'blue:60'],
+    },
+    light: {
+      severity: {
+        critical: 'magenta:60',
+        high: 'red:60',
+        medium: 'orange:50',
+        low: 'yellow:50',
+        safe: 'green:50',
+        info: 'gray:50',
+        unknown: 'gray:50',
       },
     },
   })}
 </CodeBlock>
 
-<ColorStyleContent
-  display="flex"
-  flexDirection="column"
-  rowGap="8x"
->
-  <Box>
-    <ColorStyleHeader>
-      <Text fontSize="lg" lineHeight="lg">
-        Gradient - Severity
-      </Text>
-      <Divider my="2x" />
-    </ColorStyleHeader>
-    <ColorStyleBody
-      colorStyle={{
-        gradient: {
-          high: ['purple:60', 'red:50'],
-          medium: ['red:50', 'orange:50'],
-          low: ['orange:50', 'yellow:50'],
-          safe: ['teal:50', 'green:40'],
-        },
-      }}
-      colorType="gradient"
-      templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
-    />
-  </Box>
-  <Box>
-    <ColorStyleHeader>
-      <Text fontSize="lg" lineHeight="lg">
-        Gradient - Others
-      </Text>
-      <Divider my="2x" />
-    </ColorStyleHeader>
-    <ColorStyleBody
-      colorStyle={{
-        gradient: {
-          1: ['purple:50', 'magenta:40'],
-          2: ['purple:60', 'blue:50'],
-          3: ['blue:50', 'teal:40'],
-          4: ['cyan:40', 'teal:30'],
-          5: ['blue:60', 'teal:40'],
-          6: ['green:40', 'cyan:30'],
-          7: ['magenta:60', 'red:40'],
-          8: ['magenta:50', 'blue:60'],
-        },
-      }}
-      colorType="gradient"
-      templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
-    />
-  </Box>
-</ColorStyleContent>
+### Chart (deprecated)
 
-## Blindness Color Values
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
+> This color style have been deprecated since v2 and will be removed in the next major release. Please manually define [chart](#chart) colors to avoid breaking changes in the future.
 
-Blindness color values are not defined in the color style system, you can set `blindness` with below values when necessary.
+Here is the deprecated configuration for the chart:
 
 <CodeBlock>
   {jsonPrettify({
-    blindness: {
-      severity: {
-        high: 'magenta:60',
-        medium: 'orange:50',
-        low: 'yellow:50',
-        safe: 'green:30',
-        info: 'gray:50',
-        unknown: 'gray:50',
-      },
+    dark: {
       chart: {
         classic: {
           colors: [
             'gray:50',
-            'blue:30',
-            'green:30',
+            'blue:50',
+            'green:40',
             'orange:50',
-            'cyan:30',
-            'magenta:60',
+            'cyan:40',
+            'red:50',
             'purple:50',
             'teal:40',
-            'purple:30',
-            'cyan:70',
+            'magenta:40',
+            'green:30',
             'yellow:50',
           ],
         },
       },
-      gradient: {
-        severity: {
-          high: ['purple:60', 'magenta:60'],
-          medium: ['magenta:60', 'orange:50'],
-          low: ['orange:50', 'yellow:50'],
-          safe: ['teal:50', 'green:30'],
+    },
+    light: {
+      chart: {
+        classic: {
+          colors: [
+            'gray:50',
+            'blue:60',
+            'green:50',
+            'orange:50',
+            'cyan:40',
+            'red:60',
+            'purple:60',
+            'teal:40',
+            'magenta:50',
+            'green:30',
+            'yellow:50',
+          ],
         },
       },
     },
   })}
 </CodeBlock>
 
-<ColorStyleContent
-  display="flex"
-  flexDirection="column"
-  rowGap="8x"
->
-  <Box>
-    <ColorStyleHeader>
-      <Text fontSize="lg" lineHeight="lg">
-        Blindness - Severity
-      </Text>
-      <Divider my="2x" />
-    </ColorStyleHeader>
-    <ColorStyleBody
-      colorStyle={{
+## Custom Color Values
+
+The color values provided here are examples and are not defined in the color style system. You can customize your own color values as needed.
+
+### Notification
+
+The purpose of notifications is to provide feedback to users regarding the success, information, warning, or error associated with their operations. They offer users insights into the outcomes of their actions.
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
+        notification: {
+          success: 'green:40',
+          info: 'blue:50',
+          warning: 'yellow:50',
+          error: 'red:50',
+        },
+      },
+      light: {
+        notification: {
+          success: 'green:50',
+          info: 'blue:60',
+          warning: 'yellow:50',
+          error: 'red:60',
+        },
+      },
+    })}
+  </CodeBlock>
+  <DarkMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          function: {
+            success: 'green:40',
+            info: 'blue:50',
+            warning: 'yellow:50',
+            error: 'red:50',
+          },
+        }}
+        colorType="function"
+      />
+    </ColorStyleContent>
+  </DarkMode>
+  <LightMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          function: {
+            success: 'green:50',
+            info: 'blue:60',
+            warning: 'yellow:50',
+            error: 'red:60',
+          },
+        }}
+        colorType="function"
+      />
+    </ColorStyleContent>
+  </LightMode>
+</Stack>
+
+### Risk
+
+Risk | Risk Score | Definition
+:-- | :-- | :--
+High | 70-100 | Assigned to vulnerabilities or events with a risk score indicating high likelihood and significant potential impact.
+Medium | 31-69 | Applied when the risk score indicates moderate likelihood and impact.
+Low | 0-30 | Designated for vulnerabilities or events with a risk score indicating low likelihood and impact.
+None | N/A | Used when it's impossible to determine either the likelihood or potential impact.
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
+        risk: {
+          high: 'red:50',
+          medium: 'yellow:50',
+          low: 'green:40',
+          none: 'gray:50',
+        },
+      },
+      light: {
+        risk: {
+          high: 'red:60',
+          medium: 'yellow:50',
+          low: 'green:50',
+          none: 'gray:50',
+        },
+      },
+    })}
+  </CodeBlock>
+  <DarkMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          risk: {
+            high: 'red:50',
+            medium: 'yellow:50',
+            low: 'green:40',
+            none: 'gray:50',
+          },
+        }}
+        colorType="risk"
+      />
+    </ColorStyleContent>
+  </DarkMode>
+  <LightMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          risk: {
+            high: 'red:60',
+            medium: 'yellow:50',
+            low: 'green:50',
+            none: 'gray:50',
+          },
+        }}
+        colorType="risk"
+      />
+    </ColorStyleContent>
+  </LightMode>
+</Stack>
+
+### Severity
+
+Severity represents the impact and seriousness of an event or situation. It is commonly utilized to assess the immediate consequences of a security incident. Severity is often classified using predefined scales such as `Critical`, `High`, `Medium`, `Low`, or `Informational`.
+
+Severity | Definition
+:-- | :--
+Critical | For the most severe security events with devastating potential consequences.
+High | Designated for vulnerabilities or events with significant potential impact.
+Medium | Applied to events with a moderate impact.
+Low | Allocated to minor vulnerabilities or events with limited potential impact.
+Informational | Used for non-severe information and general guidance.
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
         severity: {
-          high: 'magenta:60',
+          critical: 'magenta:60',
+          high: 'red:50',
           medium: 'orange:50',
           low: 'yellow:50',
-          safe: 'green:30',
           info: 'gray:50',
-          unknown: 'gray:50',
         },
-      }}
-      colorType="severity"
-    />
-  </Box>
-  <Box>
-    <ColorStyleHeader>
-      <Text fontSize="lg" lineHeight="lg">
-        Blindness - Chart
-      </Text>
-      <Divider my="2x" />
-    </ColorStyleHeader>
-    <ColorStyleBody
-      colorStyle={{
+      },
+      light: {
+        severity: {
+          critical: 'magenta:60',
+          high: 'red:60',
+          medium: 'orange:50',
+          low: 'yellow:50',
+          info: 'gray:50',
+        },
+      },
+    })}
+  </CodeBlock>
+  <DarkMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          severity: {
+            critical: 'magenta:60',
+            high: 'red:50',
+            medium: 'orange:50',
+            low: 'yellow:50',
+            info: 'gray:50',
+          },
+        }}
+        colorType="severity"
+      />
+    </ColorStyleContent>
+  </DarkMode>
+  <LightMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          severity: {
+            critical: 'magenta:60',
+            high: 'red:60',
+            medium: 'orange:50',
+            low: 'yellow:50',
+            info: 'gray:50',
+          },
+        }}
+        colorType="severity"
+      />
+    </ColorStyleContent>
+  </LightMode>
+</Stack>
+
+### Chart
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
         chart: {
           classic: {
             colors: [
               'gray:50',
-              'blue:30',
-              'green:30',
+              'blue:50',
+              'green:40',
               'orange:50',
-              'cyan:30',
-              'magenta:60',
+              'cyan:40',
+              'red:50',
               'purple:50',
               'teal:40',
-              'purple:30',
-              'cyan:70',
+              'magenta:40',
+              'green:30',
               'yellow:50',
             ],
           },
         },
-      }}
-      colorType="chart.classic.colors"
-    />
-  </Box>
-  <Box>
-    <ColorStyleHeader>
-      <Text fontSize="lg" lineHeight="lg">
-        Blindness - Gradient
-      </Text>
-      <Divider my="2x" />
-    </ColorStyleHeader>
-    <ColorStyleBody
-      colorStyle={{
-        gradient: {
-          high: ['purple:60', 'magenta:60'],
-          medium: ['magenta:60', 'orange:50'],
-          low: ['orange:50', 'yellow:50'],
-          safe: ['teal:50', 'green:30'],
+      },
+      light: {
+        chart: {
+          classic: {
+            colors: [
+              'gray:50',
+              'blue:60',
+              'green:50',
+              'orange:50',
+              'cyan:40',
+              'red:60',
+              'purple:60',
+              'teal:40',
+              'magenta:50',
+              'green:30',
+              'yellow:50',
+            ],
+          },
         },
-      }}
-      colorType="gradient"
-      templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
-    />
-  </Box>
-</ColorStyleContent>
+      },
+    })}
+  </CodeBlock>
+  <DarkMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <MoonIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          chart: {
+            classic: {
+              colors: [
+                'gray:50',
+                'blue:50',
+                'green:40',
+                'orange:50',
+                'cyan:40',
+                'red:50',
+                'purple:50',
+                'teal:40',
+                'magenta:40',
+                'green:30',
+                'yellow:50',
+              ],
+            },
+          },
+        }}
+        colorType="chart.classic.colors"
+      />
+    </ColorStyleContent>
+  </DarkMode>
+  <LightMode>
+    <ColorStyleContent>
+      <ColorStyleHeader>
+        <Flex alignItems="center" columnGap="2x">
+          <SunIcon size="6x" color="yellow:50" />
+          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
+        </Flex>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          chart: {
+            classic: {
+              colors: [
+                'gray:50',
+                'blue:60',
+                'green:50',
+                'orange:50',
+                'cyan:40',
+                'red:60',
+                'purple:60',
+                'teal:40',
+                'magenta:50',
+                'green:30',
+                'yellow:50',
+              ],
+            },
+          },
+        }}
+        colorType="chart.classic.colors"
+      />
+    </ColorStyleContent>
+  </LightMode>
+</Stack>
+
+### Gradient
+
+> This color scheme is designed specifically for dark mode.
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
+        gradient: {
+          severity: {
+            high: ['purple:60', 'red:50'],
+            medium: ['red:50', 'orange:50'],
+            low: ['orange:50', 'yellow:50'],
+            safe: ['teal:50', 'green:40'],
+          },
+          others: {
+            1: ['purple:50', 'magenta:40'],
+            2: ['purple:60', 'blue:50'],
+            3: ['blue:50', 'teal:40'],
+            4: ['cyan:40', 'teal:30'],
+            5: ['blue:60', 'teal:40'],
+            6: ['green:40', 'cyan:30'],
+            7: ['magenta:60', 'red:40'],
+            8: ['magenta:50', 'blue:60'],
+          },
+        },
+      },
+    })}
+  </CodeBlock>
+  <ColorStyleContent
+    display="flex"
+    flexDirection="column"
+    rowGap="8x"
+  >
+    <Box>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Gradient - Severity
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          gradient: {
+            high: ['purple:60', 'red:50'],
+            medium: ['red:50', 'orange:50'],
+            low: ['orange:50', 'yellow:50'],
+            safe: ['teal:50', 'green:40'],
+          },
+        }}
+        colorType="gradient"
+        templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
+      />
+    </Box>
+    <Box>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Gradient - Others
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          gradient: {
+            1: ['purple:50', 'magenta:40'],
+            2: ['purple:60', 'blue:50'],
+            3: ['blue:50', 'teal:40'],
+            4: ['cyan:40', 'teal:30'],
+            5: ['blue:60', 'teal:40'],
+            6: ['green:40', 'cyan:30'],
+            7: ['magenta:60', 'red:40'],
+            8: ['magenta:50', 'blue:60'],
+          },
+        }}
+        colorType="gradient"
+        templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
+      />
+    </Box>
+  </ColorStyleContent>
+</Stack>
+
+### Blindness
+
+> This color scheme is designed specifically for dark mode.
+
+See the example configuration below:
+
+<Stack spacing="4x">
+  <CodeBlock>
+    {jsonPrettify({
+      dark: {
+        blindness: {
+          severity: {
+            high: 'magenta:60',
+            medium: 'orange:50',
+            low: 'yellow:50',
+            safe: 'green:30',
+            info: 'gray:50',
+            unknown: 'gray:50',
+          },
+          chart: {
+            classic: {
+              colors: [
+                'gray:50',
+                'blue:30',
+                'green:30',
+                'orange:50',
+                'cyan:30',
+                'magenta:60',
+                'purple:50',
+                'teal:40',
+                'purple:30',
+                'cyan:70',
+                'yellow:50',
+              ],
+            },
+          },
+          gradient: {
+            severity: {
+              high: ['purple:60', 'magenta:60'],
+              medium: ['magenta:60', 'orange:50'],
+              low: ['orange:50', 'yellow:50'],
+              safe: ['teal:50', 'green:30'],
+            },
+          },
+        },
+      },
+    })}
+  </CodeBlock>
+  <ColorStyleContent
+    display="flex"
+    flexDirection="column"
+    rowGap="8x"
+  >
+    <Box>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Blindness - Severity
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          severity: {
+            high: 'magenta:60',
+            medium: 'orange:50',
+            low: 'yellow:50',
+            safe: 'green:30',
+            info: 'gray:50',
+            unknown: 'gray:50',
+          },
+        }}
+        colorType="severity"
+      />
+    </Box>
+    <Box>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Blindness - Chart
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          chart: {
+            classic: {
+              colors: [
+                'gray:50',
+                'blue:30',
+                'green:30',
+                'orange:50',
+                'cyan:30',
+                'magenta:60',
+                'purple:50',
+                'teal:40',
+                'purple:30',
+                'cyan:70',
+                'yellow:50',
+              ],
+            },
+          },
+        }}
+        colorType="chart.classic.colors"
+      />
+    </Box>
+    <Box>
+      <ColorStyleHeader>
+        <Text fontSize="lg" lineHeight="lg">
+          Blindness - Gradient
+        </Text>
+        <Divider my="2x" />
+      </ColorStyleHeader>
+      <ColorStyleBody
+        colorStyle={{
+          gradient: {
+            high: ['purple:60', 'magenta:60'],
+            medium: ['magenta:60', 'orange:50'],
+            low: ['orange:50', 'yellow:50'],
+            safe: ['teal:50', 'green:30'],
+          },
+        }}
+        colorType="gradient"
+        templateColumns="repeat(auto-fill, minmax(240px, 1fr))"
+      />
+    </Box>
+  </ColorStyleContent>
+</Stack>

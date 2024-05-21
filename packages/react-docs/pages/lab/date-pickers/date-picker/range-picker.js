@@ -3,7 +3,6 @@ import {
   Button,
   Flex,
   Grid,
-  Icon,
   InputAdornment,
   InputControl,
   Menu,
@@ -16,6 +15,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+import { AngleRightIcon, CalendarIcon, ChevronLeftIcon, ClockIcon } from '@tonic-ui/react-icons';
 import {
   DatePicker,
 } from '@tonic-ui/react-lab';
@@ -54,7 +54,7 @@ const CustomDateInput = ({
             width={130}
             startAdornment={(
               <InputAdornment color={colorStyle.color.secondary}>
-                <Icon icon="calendar" />
+                <CalendarIcon />
               </InputAdornment>
             )}
           />
@@ -84,7 +84,7 @@ const CustomTimeInput = ({
       borderBottomLeftRadius={0}
       startAdornment={(
         <InputAdornment color={colorStyle.color.secondary}>
-          <Icon icon="clock" />
+          <ClockIcon />
         </InputAdornment>
       )}
       {...rest}
@@ -178,10 +178,7 @@ const DateTimePicker = ({
         columnGap="3x"
         mb="6x"
       >
-        <Icon
-          icon="chevron-left"
-          color={colorStyle.color.secondary}
-        />
+        <ChevronLeftIcon color={colorStyle.color.secondary} />
         <Text fontSize="md" lineHeight="md">
           Custom Period
         </Text>
@@ -348,73 +345,71 @@ const App = () => {
     }
   }, [state.value, state.isDateTimePickerVisible]);
 
-  return (
-    <>
-      <Flex mb="3x">
-        <TextLabel>Date & time range:</TextLabel>
-        <Space width="3x" />
-        <Text>{dateTimeRange[0]}</Text>
-        <Text px="1x">to</Text>
-        <Text>{dateTimeRange[1]}</Text>
-      </Flex>
-      <Menu
-        onClose={() => {
-          if (state.isDateTimePickerVisible) {
-            setState({ isDateTimePickerVisible: false });
-          }
-        }}
-      >
-        {({ closeMenu }) => (
-          <>
-            <MenuButton variant="secondary">
-              <Text>{mapValueToLabel(state.value)}</Text>
-            </MenuButton>
-            <MenuList width="max-content">
-              {state.isDateTimePickerVisible && (
-                <DateTimePicker
-                  inputFormat={inputFormat}
-                  startDate={state.startDate}
-                  startTime={state.startTime}
-                  endDate={state.endDate}
-                  endTime={state.endTime}
-                  onApply={({ startDate, startTime, endDate, endTime }) => {
-                    closeMenu();
-                    setState({
-                      value: 'custom',
-                      startDate,
-                      startTime,
-                      endDate,
-                      endTime,
-                    });
-                  }}
-                  onClose={() => {
-                    closeMenu();
-                  }}
-                />
-              )}
-              {['1d', '7d', '30d', '90d'].map(value => (
-                <MenuItem
-                  key={value}
-                  value={value}
-                  onClick={handleMenuItemClick}
-                >
-                  {mapValueToLabel(value)}
-                </MenuItem>
-              ))}
+  return (<>
+    <Flex mb="3x">
+      <TextLabel>Date & time range:</TextLabel>
+      <Space width="3x" />
+      <Text>{dateTimeRange[0]}</Text>
+      <Text px="1x">to</Text>
+      <Text>{dateTimeRange[1]}</Text>
+    </Flex>
+    <Menu
+      onClose={() => {
+        if (state.isDateTimePickerVisible) {
+          setState({ isDateTimePickerVisible: false });
+        }
+      }}
+    >
+      {({ closeMenu }) => (
+        <>
+          <MenuButton variant="secondary">
+            <Text>{mapValueToLabel(state.value)}</Text>
+          </MenuButton>
+          <MenuList width="max-content">
+            {state.isDateTimePickerVisible && (
+              <DateTimePicker
+                inputFormat={inputFormat}
+                startDate={state.startDate}
+                startTime={state.startTime}
+                endDate={state.endDate}
+                endTime={state.endTime}
+                onApply={({ startDate, startTime, endDate, endTime }) => {
+                  closeMenu();
+                  setState({
+                    value: 'custom',
+                    startDate,
+                    startTime,
+                    endDate,
+                    endTime,
+                  });
+                }}
+                onClose={() => {
+                  closeMenu();
+                }}
+              />
+            )}
+            {['1d', '7d', '30d', '90d'].map(value => (
               <MenuItem
-                value="custom"
+                key={value}
+                value={value}
                 onClick={handleMenuItemClick}
               >
-                Custom Period
-                <Space width="2x" />
-                <Icon icon="angle-right" />
+                {mapValueToLabel(value)}
               </MenuItem>
-            </MenuList>
-          </>
-        )}
-      </Menu>
-    </>
-  );
+            ))}
+            <MenuItem
+              value="custom"
+              onClick={handleMenuItemClick}
+            >
+              Custom Period
+              <Space width="2x" />
+              <AngleRightIcon />
+            </MenuItem>
+          </MenuList>
+        </>
+      )}
+    </Menu>
+  </>);
 };
 
 export default App;

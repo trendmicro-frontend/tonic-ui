@@ -14,7 +14,6 @@ Accordion.Header = AccordionHeader;
 Accordion.Item = AccordionItem;
 Accordion.Toggle = AccordionToggle;
 Accordion.Toggle.Icon = AccordionToggleIcon;
-Accordion.Collapse = AccordionContent; //  alias of AccordionContent
 
 export {
   Accordion,
@@ -27,5 +26,3 @@ export {
   useAccordion,
   useAccordionItem,
 };
-
-export const AccordionCollapse = AccordionContent; // alias of AccordionContent

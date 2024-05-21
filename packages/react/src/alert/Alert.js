@@ -1,5 +1,4 @@
-import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
+import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -19,7 +18,6 @@ const getMemoizedState = memoize(state => ({ ...state }));
 
 const Alert = forwardRef((
   {
-    isCloseButtonVisible, // deprecated
     isClosable = false,
     onClose,
     severity = defaultSeverity,
@@ -30,20 +28,6 @@ const Alert = forwardRef((
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${Alert.displayName}:`;
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('isCloseButtonVisible', {
-        prefix,
-        alternative: 'isClosable',
-        willRemove: true,
-      });
-    }, (isCloseButtonVisible !== undefined));
-
-    isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
-  }
-
   const context = getMemoizedState({
     icon,
     isClosable,

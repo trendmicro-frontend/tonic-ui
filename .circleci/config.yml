@@ -10,27 +10,31 @@ workflows:
   version: 2
   build-n-deploy:
     jobs:
-      # The `build-master` job will run on all branches except `gh-pages` and will not run on tags.
-      - build-master:
+      # The `build-branch` job will run only on the specified branches.
+      - build-branch:
           filters:
             branches:
-              only: master
-      # The `deploy-master` job will run only on the `master` branch.
-      - deploy-master:
+              only:
+                - master
+                - v2
+      # The `deploy-branch` job will run only on the specified branches.
+      - deploy-branch:
           requires:
-            - build-master
+            - build-branch
           filters:
             branches:
-              only: master
-      # The `build-pr` job will run on all branches (except `gh-pages` and `master`) that have associated pull requests open.
+              only:
+                - master
+                - v2
+      # The `build-pr` job will run on branches that have associated pull requests open.
       - build-pr:
           filters:
             branches:
               ignore:
                 - gh-pages
                 - master
-                - v0
-      # The `deploy-pr` job will run on all branches (except `gh-pages` and `master`) that have associated pull requests open.
+                - v2
+      # The `deploy-pr` job will run on branches that have associated pull requests open.
       - deploy-pr:
           requires:
             - build-pr
@@ -39,7 +43,7 @@ workflows:
               ignore:
                 - gh-pages
                 - master
-                - v0
+                - v2
       # The `build-tag` job will not run on all branches and will run only on the matched tags.
       - build-tag:
           filters:
@@ -61,9 +65,9 @@ workflows:
 
 # https://circleci.com/docs/2.0/executor-types/
 jobs:
-  build-master:
+  build-branch:
     docker:
-      - image: cimg/node:16.20-browsers
+      - image: cimg/node:18.20-browsers
     steps:
       - checkout
       - browser-tools/install-browser-tools:
@@ -79,7 +83,7 @@ jobs:
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
             echo "export MATOMO_URL=//matomo.xdr.trendmicro.com" >> $BASH_ENV
             echo "export MATOMO_CONTAINER_ID=N8rpl9LU" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_DOCS_VERSION=latest" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=v2" >> $BASH_ENV
       - run:
           name: Check package version
           command: |
@@ -102,11 +106,17 @@ jobs:
             yarn lint
             yarn test
       - codecov/upload:
+          file: ./packages/codemod/coverage/lcov.info
+          flags: codemod
+      - codecov/upload:
           file: ./packages/react/coverage/lcov.info
           flags: react
       - codecov/upload:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
+      - codecov/upload:
+          file: ./packages/react-icons/coverage/lcov.info
+          flags: react-icons
       - codecov/upload:
           file: ./packages/react-lab/coverage/lcov.info
           flags: react-lab
@@ -132,7 +142,7 @@ jobs:
 
   build-pr:
     docker:
-      - image: cimg/node:16.20-browsers
+      - image: cimg/node:18.20-browsers
     steps:
       - checkout
       - browser-tools/install-browser-tools:
@@ -172,11 +182,17 @@ jobs:
             yarn lint
             yarn test
       - codecov/upload:
+          file: ./packages/codemod/coverage/lcov.info
+          flags: codemod
+      - codecov/upload:
           file: ./packages/react/coverage/lcov.info
           flags: react
       - codecov/upload:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
+      - codecov/upload:
+          file: ./packages/react-icons/coverage/lcov.info
+          flags: react-icons
       - codecov/upload:
           file: ./packages/react-lab/coverage/lcov.info
           flags: react-lab
@@ -203,7 +219,7 @@ jobs:
 
   build-tag:
     docker:
-      - image: cimg/node:16.20-browsers
+      - image: cimg/node:18.20-browsers
     steps:
       - checkout
       - browser-tools/install-browser-tools:
@@ -248,11 +264,17 @@ jobs:
             yarn lint
             yarn test
       - codecov/upload:
+          file: ./packages/codemod/coverage/lcov.info
+          flags: codemod
+      - codecov/upload:
           file: ./packages/react/coverage/lcov.info
           flags: react
       - codecov/upload:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
+      - codecov/upload:
+          file: ./packages/react-icons/coverage/lcov.info
+          flags: react-icons
       - codecov/upload:
           file: ./packages/react-lab/coverage/lcov.info
           flags: react-lab
@@ -276,9 +298,9 @@ jobs:
           paths:
             - ci.tar.gz
 
-  deploy-master:
+  deploy-branch:
     docker:
-      - image: cimg/node:16.20
+      - image: cimg/node:18.20
     steps:
       - run:
           name: Configuration
@@ -286,7 +308,6 @@ jobs:
             git config --global user.email "no-reply@github.com"
             git config --global user.name "ci-job"
             npm config set loglevel warn
-            npm config set scripts-prepend-node-path auto
       - checkout:
           path: tonic-ui
       - add_ssh_keys:
@@ -303,7 +324,7 @@ jobs:
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_DOCS_VERSION=latest" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=v2" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
@@ -323,7 +344,7 @@ jobs:
 
   deploy-pr:
     docker:
-      - image: cimg/node:16.20
+      - image: cimg/node:18.20
     steps:
       - run:
           name: Configuration
@@ -331,7 +352,6 @@ jobs:
             git config --global user.email "no-reply@github.com"
             git config --global user.name "ci-job"
             npm config set loglevel warn
-            npm config set scripts-prepend-node-path auto
       - checkout:
           path: tonic-ui
       - add_ssh_keys:
@@ -377,7 +397,7 @@ jobs:
 
   deploy-tag:
     docker:
-      - image: cimg/node:16.20
+      - image: cimg/node:18.20
     steps:
       - run:
           name: Configuration
@@ -385,7 +405,6 @@ jobs:
             git config --global user.email "no-reply@github.com"
             git config --global user.name "ci-job"
             npm config set loglevel warn
-            npm config set scripts-prepend-node-path auto
       - checkout:
           path: tonic-ui
       - add_ssh_keys:

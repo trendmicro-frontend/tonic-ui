@@ -1,9 +1,5 @@
-import {
-  ButtonBase,
-  Icon,
-  useColorMode,
-  useTheme,
-} from '@tonic-ui/react';
+import { ButtonBase, useColorMode, useTheme } from '@tonic-ui/react';
+import { CloseIcon } from '@tonic-ui/react-icons';
 import {
   createTransitionStyle,
 } from '@tonic-ui/utils';
@@ -81,7 +77,7 @@ IconButton.displayName = 'IconButton';
 const App = () => {
   return (
     <IconButton>
-      <Icon icon="close" />
+      <CloseIcon />
     </IconButton>
   );
 };

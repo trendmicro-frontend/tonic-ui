@@ -7,12 +7,9 @@ import {
   Box,
   Button,
   Flex,
-  Icon,
   Space,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -20,6 +17,7 @@ import {
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
+import { ColumnsIcon } from '@tonic-ui/react-icons';
 import {
   useConst,
 } from '@tonic-ui/react-hooks';
@@ -293,110 +291,108 @@ const App = () => {
     setColumnVisibility(visibility);
   }, [setColumnOrder]);
 
-  return (
-    <>
-      <ColumnSettingsDrawer
-        columns={orderedColumns}
-        defaultColumnOrder={defaultColumnOrder}
-        onUpdateColumns={onUpdateColumns}
-        isOpen={isColumnSettingsDrawerOpen}
-        onClose={() => setIsColumnSettingsDrawerOpen(false)}
-      />
-      <Flex
-        justifyContent="flex-end"
-        mb="4x"
+  return (<>
+    <ColumnSettingsDrawer
+      columns={orderedColumns}
+      defaultColumnOrder={defaultColumnOrder}
+      onUpdateColumns={onUpdateColumns}
+      isOpen={isColumnSettingsDrawerOpen}
+      onClose={() => setIsColumnSettingsDrawerOpen(false)}
+    />
+    <Flex
+      justifyContent="flex-end"
+      mb="4x"
+    >
+      <Button
+        variant="secondary"
+        onClick={() => setIsColumnSettingsDrawerOpen(true)}
       >
-        <Button
-          variant="secondary"
-          onClick={() => setIsColumnSettingsDrawerOpen(true)}
-        >
-          <Icon icon="columns" />
-          <Space width="2x" />
-          Customize Columns
-        </Button>
-      </Flex>
-      <Box>
-        <AutoSizer
-          disableHeight
-          onResize={({ width }) => {
-            if (tableWidth !== width) {
-              setTableWidth(width);
-            }
-          }}
-        >
-          {({ width }) => (
-            <Table
-              layout={layout}
-              sx={{
-                // Hide the table if there is no column sizing state
-                visibility: _.isEmpty(table.getState().columnSizing) ? 'hidden' : 'visible',
+        <ColumnsIcon />
+        <Space width="2x" />
+        Customize Columns
+      </Button>
+    </Flex>
+    <Box>
+      <AutoSizer
+        disableHeight
+        onResize={({ width }) => {
+          if (tableWidth !== width) {
+            setTableWidth(width);
+          }
+        }}
+      >
+        {({ width }) => (
+          <Table
+            layout={layout}
+            sx={{
+              // Hide the table if there is no column sizing state
+              visibility: _.isEmpty(table.getState().columnSizing) ? 'hidden' : 'visible',
 
-                width,
-              }}
-            >
-              <TableHeader>
-                {table.getHeaderGroups().map(headerGroup => (
-                  <TableHeaderRow key={headerGroup.id}>
-                    {headerGroup.headers.map(header => {
-                      const styleProps = {
-                        minWidth: header.column.columnDef.minSize,
-                        width: header.getSize(),
-                        ...header.column.columnDef.style,
-                      };
-                      return (
-                        <TableHeaderCell
-                          key={header.id}
-                          {...styleProps}
-                        >
-                          {header.isPlaceholder ? null : (
-                            <Truncate>
-                              {flexRender(header.column.columnDef.header, header.getContext())}
-                            </Truncate>
-                          )}
-                        </TableHeaderCell>
-                      );
-                    })}
-                  </TableHeaderRow>
-                ))}
-              </TableHeader>
-              <TableBody>
-                {table.getRowModel().rows.map(row => (
-                  <TableRow
-                    key={row.id}
-                    data-selected={dataAttr(row.getIsSelected())}
-                    _hover={{
-                      backgroundColor: colorStyle.background.highlighted,
-                    }}
-                    _selected={{
-                      backgroundColor: colorStyle.background.selected,
-                    }}
-                  >
-                    {row.getVisibleCells().map(cell => {
-                      const styleProps = {
-                        minWidth: cell.column.columnDef.minSize,
-                        width: cell.column.getSize(),
-                        ...cell.column.columnDef.style,
-                      };
-                      return (
-                        <TableCell
-                          key={cell.id}
-                          {...styleProps}
-                        >
+              width,
+            }}
+          >
+            <TableHeader>
+              {table.getHeaderGroups().map(headerGroup => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map(header => {
+                    const styleProps = {
+                      minWidth: header.column.columnDef.minSize,
+                      width: header.getSize(),
+                      ...header.column.columnDef.style,
+                    };
+                    return (
+                      <TableCell
+                        key={header.id}
+                        {...styleProps}
+                      >
+                        {header.isPlaceholder ? null : (
                           <Truncate>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            {flexRender(header.column.columnDef.header, header.getContext())}
                           </Truncate>
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </AutoSizer>
-      </Box>
-    </>
-  );
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map(row => (
+                <TableRow
+                  key={row.id}
+                  data-selected={dataAttr(row.getIsSelected())}
+                  _hover={{
+                    backgroundColor: colorStyle.background.highlighted,
+                  }}
+                  _selected={{
+                    backgroundColor: colorStyle.background.selected,
+                  }}
+                >
+                  {row.getVisibleCells().map(cell => {
+                    const styleProps = {
+                      minWidth: cell.column.columnDef.minSize,
+                      width: cell.column.getSize(),
+                      ...cell.column.columnDef.style,
+                    };
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        {...styleProps}
+                      >
+                        <Truncate>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </Truncate>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </AutoSizer>
+    </Box>
+  </>);
 };
 
 export default App;

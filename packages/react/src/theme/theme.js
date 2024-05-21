@@ -1,5 +1,4 @@
 import originalTheme from '@tonic-ui/theme';
-import icons from '../shared/icons';
 
 const theme = {
   ...originalTheme,
@@ -7,7 +6,7 @@ const theme = {
     prefix: 'tonic',
     useCSSVariables: false,
   },
-  icons,
+  icons: [],
 };
 
 export default theme;

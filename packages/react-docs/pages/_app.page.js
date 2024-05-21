@@ -201,7 +201,7 @@ const DocsPage = (props) => {
         sm: 0,
         lg: sidebarWidth,
       },
-      pt: `calc(${headerHeight} + ${theme?.sizes['3x']})`,
+      pt: headerHeight,
       height: '100vh',
       width: {
         sm: '100%',

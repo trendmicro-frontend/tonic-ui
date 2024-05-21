@@ -1,4 +1,5 @@
-import { Box, Flex, Icon, LinkButton, Radio, RadioGroup, Space, Stack } from '@tonic-ui/react';
+import { Box, Flex, LinkButton, Radio, RadioGroup, Space, Stack } from '@tonic-ui/react';
+import { RedoIcon } from '@tonic-ui/react-icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 const App = () => {
@@ -32,32 +33,32 @@ const App = () => {
     fetchData();
   }, [fetchData]);
 
-  return (
-    <>
-      <Box mb="4x">
-        <LinkButton onClick={() => fetchData()}>
-          <Flex alignItems="center">
-            <Icon icon="redo" spin={true} animationPlayState={state.state === 'loading' ? 'running' : 'paused'} />
-            <Space width="2x" />
-            Reload
-          </Flex>
-        </LinkButton>
-      </Box>
-      <RadioGroup
-        value={state.value}
-        disabled={state.state === 'loading'}
-        onChange={nextValue => {
-          setState(prevState => ({ ...prevState, value: nextValue }));
-        }}
-      >
-        <Stack spacing="1x" shouldWrapChildren>
-          <Radio value="1">First</Radio>
-          <Radio value="2">Second</Radio>
-          <Radio value="3">Third</Radio>
-        </Stack>
-      </RadioGroup>
-    </>
-  );
+  return (<>
+    <Box mb="4x">
+      <LinkButton onClick={() => fetchData()}>
+        <Flex alignItems="center">
+          <RedoIcon
+            spin={true}
+            animationPlayState={state.state === 'loading' ? 'running' : 'paused'} />
+          <Space width="2x" />
+          Reload
+        </Flex>
+      </LinkButton>
+    </Box>
+    <RadioGroup
+      value={state.value}
+      disabled={state.state === 'loading'}
+      onChange={nextValue => {
+        setState(prevState => ({ ...prevState, value: nextValue }));
+      }}
+    >
+      <Stack spacing="1x" shouldWrapChildren>
+        <Radio value="1">First</Radio>
+        <Radio value="2">Second</Radio>
+        <Radio value="3">Third</Radio>
+      </Stack>
+    </RadioGroup>
+  </>);
 };
 
 export default App;

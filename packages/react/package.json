@@ -2,16 +2,17 @@
   "name": "@tonic-ui/react",
   "version": "1.29.1",
   "description": "React Tonic UI component library.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "files": [
     "dist"
   ],
   "publishConfig": {
     "access": "public"
   },
+  "sideEffects": false,
   "scripts": {
-    "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.mjs",
+    "build": "cross-env rollup --config rollup.config.mjs",
     "clean": "del build coverage dist",
     "lint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
@@ -23,11 +24,12 @@
     "@emotion/react": "11.x",
     "@emotion/styled": "11.x",
     "@popperjs/core": "2.x",
+    "@tonic-ui/react-base": "workspace:^",
     "@tonic-ui/react-hooks": "^1.6.2",
+    "@tonic-ui/react-icons": "workspace:^",
     "@tonic-ui/styled-system": "^1.9.0",
     "@tonic-ui/theme": "^1.3.0",
     "@tonic-ui/utils": "^1.6.0",
-    "@trendmicro/tmicon": "1.x",
     "ensure-type": "^1.5.1",
     "lodash.get": "4.x",
     "micro-memoize": "4.x",
@@ -96,10 +98,10 @@
     ],
     "testEnvironment": "jsdom",
     "testMatch": [
-      "<rootDir>/**/__tests__/**/*.js"
+      "<rootDir>/**/__tests__/**/*.test.js"
     ]
   },
-  "author": "Cheton Wu",
+  "author": "Tonic UI Team",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
   "license": "MIT",
   "repository": {

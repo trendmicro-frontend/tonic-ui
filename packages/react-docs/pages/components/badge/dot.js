@@ -1,16 +1,17 @@
-import { Badge, Icon, Stack } from '@tonic-ui/react';
+import { Badge, Stack } from '@tonic-ui/react';
+import { AlertIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
   <Stack mt="2x" direction="row" spacing="8x" shouldWrapChildren>
     <Badge variant="dot" isInvisible>
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge variant="dot">
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
     <Badge variant="dot" width="3x" height="3x">
-      <Icon icon="alert" />
+      <AlertIcon />
     </Badge>
   </Stack>
 );

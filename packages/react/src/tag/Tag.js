@@ -1,5 +1,4 @@
-import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { ariaAttr, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
+import { ariaAttr, runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
@@ -11,10 +10,6 @@ const getMemoizedState = memoize(state => ({ ...state }));
 
 const Tag = forwardRef((
   {
-    isCloseButtonVisible, // deprecated
-    isInvalid, // deprecated
-    variantColor, // deprecated
-
     children,
     disabled,
     error,
@@ -26,37 +21,6 @@ const Tag = forwardRef((
   },
   ref
 ) => {
-  { // deprecation warning
-    const prefix = `${Tag.displayName}:`;
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('variantColor', {
-        prefix,
-        alternative: 'backgroundColor',
-        willRemove: true,
-      });
-    }, (variantColor !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('isCloseButtonVisible', {
-        prefix,
-        alternative: 'isClosable',
-        willRemove: true,
-      });
-    }, (isCloseButtonVisible !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('isInvalid', {
-        prefix,
-        alternative: 'error',
-        willRemove: true,
-      });
-    }, (isInvalid !== undefined));
-
-    isClosable = isClosable || isCloseButtonVisible; // TODO: remove this line after deprecation
-    error = error || isInvalid; // TODO: remove this line after deprecation
-  }
-
   const ariaProps = {
     'aria-disabled': ariaAttr(disabled),
     'aria-invalid': ariaAttr(error),
@@ -70,7 +34,6 @@ const Tag = forwardRef((
     variant,
   });
   const styleProps = useTagStyle({
-    color: variantColor, // TODO: remove this line after deprecation
     isClosable,
     size,
     variant,

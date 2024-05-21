@@ -1,4 +1,16 @@
-import { Flex, Icon, Menu, MenuButton, MenuItem, MenuList, Scrollbar, Submenu, SubmenuList, SubmenuToggle, Text } from '@tonic-ui/react';
+import {
+  Flex,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Scrollbar,
+  Submenu,
+  SubmenuList,
+  SubmenuToggle,
+  Text,
+} from '@tonic-ui/react';
+import { AngleRightIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -27,7 +39,7 @@ const App = () => (
                   width="100%"
                 >
                   <Text>List Item {key + 1}</Text>
-                  <Icon icon="angle-right" />
+                  <AngleRightIcon />
                 </Flex>
               </MenuItem>
             </SubmenuToggle>

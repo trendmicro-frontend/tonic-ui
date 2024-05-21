@@ -1,4 +1,16 @@
-import { Flex, Icon, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Submenu, SubmenuList, SubmenuToggle, Text } from '@tonic-ui/react';
+import {
+  Flex,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  Submenu,
+  SubmenuList,
+  SubmenuToggle,
+  Text,
+} from '@tonic-ui/react';
+import { AngleRightIcon } from '@tonic-ui/react-icons';
 import { isNullish } from '@tonic-ui/utils';
 import React, { useState } from 'react';
 
@@ -38,7 +50,7 @@ const App = () => {
                   width="100%"
                 >
                   Submenu
-                  <Icon icon="angle-right" />
+                  <AngleRightIcon />
                 </Flex>
               </MenuItem>
             </SubmenuToggle>

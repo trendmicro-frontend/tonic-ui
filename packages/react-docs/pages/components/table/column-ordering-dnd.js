@@ -28,13 +28,10 @@ import {
   Divider,
   Flex,
   Grid,
-  Icon, // FIXME
   Radio,
   RadioGroup,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -46,6 +43,7 @@ import {
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
+import { InfoOIcon, SortDownIcon, SortUpIcon } from '@tonic-ui/react-icons';
 import {
   useConst,
 } from '@tonic-ui/react-hooks';
@@ -439,7 +437,7 @@ const App = () => {
                         label={'The "distance" property represents the distance, in pixels, by which the pointer needs to be moved before a drag start event is emitted.'}
                         maxWidth={320}
                       >
-                        <Icon icon="info-o" />
+                        <InfoOIcon />
                       </Tooltip>
                     </Flex>
                   </TextLabel>
@@ -489,7 +487,7 @@ const App = () => {
                         label={'The "delay" property represents the duration, in milliseconds, that a draggable item needs to be held by the primary pointer for before a drag start event is emitted.'}
                         maxWidth={320}
                       >
-                        <Icon icon="info-o" />
+                        <InfoOIcon />
                       </Tooltip>
                     </Flex>
                   </TextLabel>
@@ -524,7 +522,7 @@ const App = () => {
                         label={'The "tolerance" property represents the distance, in pixels, of motion that is tolerated before the drag operation is aborted. If the mouse is moved during the delay duration and the tolerance is set to zero, the drag operation will be immediately aborted. If a higher tolerance is set, for example, a tolerance of 8 pixels, the operation will only be aborted if the mouse is moved by more than 8 pixels during the delay.'}
                         maxWidth={320}
                       >
-                        <Icon icon="info-o" />
+                        <InfoOIcon />
                       </Tooltip>
                     </Flex>
                   </TextLabel>
@@ -604,7 +602,7 @@ const App = () => {
             >
               <TableHeader ref={tableHeaderRef}>
                 {table.getHeaderGroups().map(headerGroup => (
-                  <TableHeaderRow
+                  <TableRow
                     key={headerGroup.id}
                   >
                     <SortableContext
@@ -638,7 +636,7 @@ const App = () => {
                             ];
                             
                             return (
-                              <TableHeaderCell
+                              <TableCell
                                 ref={setNodeRef}
                                 sx={sx}
                                 onClick={header.column.getToggleSortingHandler()}
@@ -661,18 +659,18 @@ const App = () => {
                                       {flexRender(header.column.columnDef.header, header.getContext())}
                                     </Truncate>
                                     {{
-                                      asc: (<Icon icon="sort-up" size={20}  ml="1x" />),
-                                      desc: (<Icon icon="sort-down" size={20} ml="1x" />),
+                                      asc: (<SortUpIcon size="5x" ml="1x" />),
+                                      desc: (<SortDownIcon size="5x" ml="1x" />),
                                     }[header.column.getIsSorted()] ?? null}
                                   </Flex>
                                 )}
-                              </TableHeaderCell>
+                              </TableCell>
                             );
                           }}
                         </SortableItem>
                       ))}
                     </SortableContext>
-                  </TableHeaderRow>
+                  </TableRow>
                 ))}
               </TableHeader>
               <TableBody>

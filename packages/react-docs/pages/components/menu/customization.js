@@ -2,7 +2,6 @@ import {
   Box,
   ButtonBase,
   Flex,
-  Icon,
   Menu,
   MenuDivider,
   MenuGroup,
@@ -14,6 +13,17 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
+
+import {
+  ArrowLeftIcon,
+  CheckIcon,
+  ChevronRightIcon,
+  ColorIcon,
+  LockIcon,
+  SettingsIcon,
+  UserTeamIcon,
+} from '@tonic-ui/react-icons';
+
 import React, { useState } from 'react';
 import FocusLock from 'react-focus-lock';
 
@@ -78,7 +88,7 @@ const App = () => {
             color: colorStyle.color.primary,
           }}
         >
-          <Icon icon="user-team" size="5x" />
+          <UserTeamIcon size="5x" />
         </Avatar>
       </MenuToggle>
       <FocusLock
@@ -100,7 +110,7 @@ const App = () => {
           >
             <MenuItem>
               <Flex flex="none" mr="3x">
-                <Icon icon="settings" />
+                <SettingsIcon />
               </Flex>
               <Flex flex="auto">
                 <Text>Settings</Text>
@@ -108,7 +118,7 @@ const App = () => {
             </MenuItem>
             <MenuItem>
               <Flex flex="none" mr="3x">
-                <Icon icon="user-team" />
+                <UserTeamIcon />
               </Flex>
               <Flex flex="auto">
                 <Text>Accounts</Text>
@@ -116,7 +126,7 @@ const App = () => {
             </MenuItem>
             <MenuItem>
               <Flex flex="none" mr="3x">
-                <Icon icon="lock" />
+                <LockIcon />
               </Flex>
               <Flex flex="auto">
                 <Text>Privacy control</Text>
@@ -127,7 +137,7 @@ const App = () => {
               onClick={navigateMenuBy('appearance')}
             >
               <Flex flex="none" mr="3x">
-                <Icon icon="color" />
+                <ColorIcon />
               </Flex>
               <Flex flex="auto">
                 <Text>Appearance:</Text>
@@ -137,7 +147,7 @@ const App = () => {
                 </Text>
               </Flex>
               <Flex flex="none" ml="3x">
-                <Icon icon="chevron-right" />
+                <ChevronRightIcon />
               </Flex>
             </MenuItem>
           </Box>
@@ -149,7 +159,7 @@ const App = () => {
                 <IconButton
                   onClick={navigateMenuBy('main')}
                 >
-                  <Icon icon="arrow-left" />
+                  <ArrowLeftIcon />
                 </IconButton>
               </Flex>
               <Flex flex="auto">
@@ -172,7 +182,7 @@ const App = () => {
                 }}
               >
                 <Flex flex="none" mr="3x" minWidth="4x">
-                  {colorMode === 'dark' && <Icon icon="check" />}
+                  {colorMode === 'dark' && <CheckIcon />}
                 </Flex>
                 <Flex flex="auto">
                   Dark theme
@@ -184,7 +194,7 @@ const App = () => {
                 }}
               >
                 <Flex flex="none" mr="3x" minWidth="4x">
-                  {colorMode === 'light' && <Icon icon="check" />}
+                  {colorMode === 'light' && <CheckIcon />}
                 </Flex>
                 <Flex flex="auto">
                   Light theme

@@ -1,5 +1,5 @@
-import { useConst, useOnceWhen } from '@tonic-ui/react-hooks';
-import { isNullOrUndefined, runIfFn, warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
+import { useConst } from '@tonic-ui/react-hooks';
+import { isNullOrUndefined, runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useEffect, useReducer } from 'react';
 import { Box } from '../box';
@@ -16,10 +16,6 @@ const stateReducer = (prevState, nextState) => ({
 
 const Tabs = forwardRef((
   {
-    activateOnKeyPress, // removed
-    isFitted, // removed
-    isManual, // removed
-
     children,
     defaultIndex = 0,
     disabled,
@@ -31,51 +27,6 @@ const Tabs = forwardRef((
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${Tabs.displayName}:`;
-
-    useOnceWhen(() => {
-      warnRemovedProps('activateOnKeyPress', {
-        prefix,
-      });
-    }, (activateOnKeyPress !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('isFitted', {
-        prefix,
-      });
-    }, (isFitted !== undefined));
-
-    useOnceWhen(() => {
-      warnRemovedProps('isManual', {
-        prefix,
-      });
-    }, (isManual !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('variant="line"', {
-        prefix,
-        alternative: 'variant="default"',
-        willRemove: true,
-      });
-    }, (variant === 'line'));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('variant="enclosed"', {
-        prefix,
-        alternative: 'variant="filled"',
-        willRemove: true,
-      });
-    }, (variant === 'enclosed'));
-
-    if (variant === 'line') {
-      variant = 'default';
-    }
-    if (variant === 'enclosed') {
-      variant = 'filled';
-    }
-  }
-
   const tabMap = useConst(() => new Map());
   const tabPanelMap = useConst(() => new Map());
   const [state, setState] = useReducer(stateReducer, {

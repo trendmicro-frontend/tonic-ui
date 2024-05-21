@@ -3,10 +3,9 @@ import {
   AccordionItem,
   AccordionToggle,
   AccordionToggleIcon,
-  AccordionCollapse,
+  AccordionContent,
   Box,
   Flex,
-  Icon,
   Image,
   Link,
   Text,
@@ -16,6 +15,9 @@ import {
 import {
   useMergeRefs,
 } from '@tonic-ui/react-hooks';
+import {
+  CloseIcon,
+} from '@tonic-ui/react-icons';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -133,7 +135,7 @@ const Sidebar = forwardRef((
           </NextLink>
           <Box px="2x">
             <IconButton onClick={onClose}>
-              <Icon icon="close" />
+              <CloseIcon />
             </IconButton>
           </Box>
         </Flex>
@@ -145,10 +147,6 @@ const Sidebar = forwardRef((
           return (
             <Box
               key={sectionTitle}
-              mb="4x"
-              _lastOfType={{
-                mb: 0,
-              }}
             >
               <AccordionItem
                 defaultIsExpanded={defaultIsExpanded}
@@ -167,23 +165,22 @@ const Sidebar = forwardRef((
                       <Flex
                         alignItems="center"
                         justifyContent="space-between"
+                        py="2x"
                         px="3x"
+                        _hover={{
+                          backgroundColor: colorStyle.background.highlighted,
+                        }}
                       >
                         <Flex
                           alignItems="center"
                           columnGap="2x"
                         >
-                          {(typeof icon === 'function')
-                            ? icon({
-                                color: colorStyle?.color?.tertiary,
-                                size: '4x',
-                              })
-                            : <Icon
-                                icon={icon}
-                                color={colorStyle?.color?.tertiary}
-                                size="4x"
-                              />
-                          }
+                          {(typeof icon === 'function') && (
+                            icon({
+                              color: colorStyle?.color?.tertiary,
+                              size: '4x',
+                            })
+                          )}
                           <Text
                             color={colorStyle?.color?.primary}
                             fontSize="sm"
@@ -195,7 +192,7 @@ const Sidebar = forwardRef((
                         <AccordionToggleIcon />
                       </Flex>
                     </AccordionToggle>
-                    <AccordionCollapse
+                    <AccordionContent
                       TransitionProps={{
                         unmountOnExit: true,
                       }}
@@ -254,7 +251,7 @@ const Sidebar = forwardRef((
                           </NavLink>
                         );
                       })}
-                    </AccordionCollapse>
+                    </AccordionContent>
                   </>
                 )}
               </AccordionItem>

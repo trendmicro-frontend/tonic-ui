@@ -9,8 +9,6 @@ import {
   Space,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -151,7 +149,7 @@ const App = () => {
         </Box>
         <ButtonGroup
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -184,7 +182,7 @@ const App = () => {
         </Box>
         <ButtonGroup
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -210,7 +208,7 @@ const App = () => {
         </Box>
         <ButtonGroup
           variant="secondary"
-          css={{
+          sx={{
             '> *:not(:first-of-type)': {
               marginLeft: -1
             }
@@ -289,7 +287,7 @@ const App = () => {
               ref={tableHeaderRef}
               {...tableHeaderStyleProps}
             >
-              <TableHeaderRow>
+              <TableRow>
                 {columns.map(column => {
                   const styleProps = {
                     flex: 'none',
@@ -297,14 +295,14 @@ const App = () => {
                     ...column.style,
                   };
                   return (
-                    <TableHeaderCell key={column.id} {...styleProps}>
+                    <TableCell key={column.id} {...styleProps}>
                       <Truncate>
                         {column.header}
                       </Truncate>
-                    </TableHeaderCell>
+                    </TableCell>
                   );
                 })}
-              </TableHeaderRow>
+              </TableRow>
             </TableHeader>
           )}
           {isTableBodyVisible && (
@@ -349,6 +347,24 @@ const App = () => {
                 })}
               </TableBody>
             </ConditionalWrapper>
+          )}
+          {(isTableHeaderVisible && !isTableBodyVisible) && (
+            <TableBody>
+              {layout === 'flexbox' && (
+                <Flex justifyContent="center" px="3x" py="10x">
+                  No data to display
+                </Flex>
+              )}
+              {layout === 'table' && (
+                <TableRow>
+                  <TableCell colSpan="4" px={0} py={0}>
+                    <Text px="3x" py="10x" textAlign="center">
+                      No data to display
+                    </Text>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
           )}
         </Table>
       </Flex>

@@ -1,0 +1,63 @@
+# `SVGIcon`
+
+## Import
+
+```js
+import { SVGIcon, createSVGIcon } from '@tonic-ui/react-icons';
+```
+
+## Usage
+
+The `SVGIcon` component serves as a wrapper for custom SVG icons. It extends the functionality of the native `<svg>` element, offering the following features:
+* The component ensures accessibility compliance out of the box.
+* The SVG element is automatically scaled to fit a 16x16px viewport. The viewport size can be configured using the `viewBox` attribute.
+* By default, the component inherits the current color. You can apply one of the theme colros using the `color` prop.
+* It supports `<svg>` element as a child so you can copy and paste your SVG directly to `SVGIcon` component.
+
+{render('./svg-as-child', { defaultExpanded: true })}
+
+To change the icon color and size, simply pass the `color` and `size` props:
+
+{render('./icon-color-size', { defaultExpanded: true })}
+
+### `as` prop
+
+You can use the `SVGIcon` component even if your icons are saved in the `.svg` format. [svgr](https://github.com/gregberge/svgr) has loaders import SVG files and use them as React components.
+
+For example, with Webpack:
+
+```js
+// webpack.config.js
+{
+  test: /\.svg$/,
+  use: ['@svgr/webpack'],
+}
+```
+
+```js
+import PlusIcon from './plus.svg';
+
+<SVGIcon as={PlusIcon} />
+```
+
+It's also possible to use it with `url-loader` or `file-loader`.
+
+```js
+// webpack.config.js
+{
+  test: /\.svg$/,
+  use: ['@svgr/webpack', 'url-loader'],
+}
+```
+
+```js
+import { ReactComponent as PlusIcon } from './plus.svg';
+
+<SVGIcon as={PlusIcon} />
+```
+
+### createSVGIcon
+
+The `createSVGIcon` utility function is used to create the Tonic Icons. It can be used to wrap an `<svg>` element or an SVG path which is passed as a child to the `SVGIcon` component.
+
+{render('./createSVGIcon.js', { defaultExpanded: true })}

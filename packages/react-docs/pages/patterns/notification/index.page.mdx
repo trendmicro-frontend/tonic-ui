@@ -1,4 +1,5 @@
 import { Alert, Box, Flex, Grid, Icon, Text, TextLabel } from '@tonic-ui/react';
+import { ArrowRightIcon, Light2OIcon } from '@tonic-ui/react-icons';
 
 # Notification
 
@@ -56,7 +57,7 @@ When multiple alerts are present, they are prioritized in the following order:
     <Alert
       severity="none"
       variant="solid" 
-      icon={<Icon icon="light2-o" />}
+      icon={<Light2OIcon />}
       sx={{
         background: 'linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)',
         color: 'white:primary',
@@ -64,21 +65,21 @@ When multiple alerts are present, they are prioritized in the following order:
     >
       <Text>Promotion</Text>
     </Alert>
-    <Icon icon="arrow-right" />
+    <ArrowRightIcon />
     <Alert
       severity="error"
       variant="solid"
     >
       <Text>Error</Text>
     </Alert>
-    <Icon icon="arrow-right" />
+    <ArrowRightIcon />
     <Alert
       severity="warning"
       variant="solid"
     >
       <Text>Warning</Text>
     </Alert>
-    <Icon icon="arrow-right" />
+    <ArrowRightIcon />
     <Alert
       severity="info"
       variant="solid"

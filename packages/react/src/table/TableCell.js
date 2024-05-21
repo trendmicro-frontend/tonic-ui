@@ -1,23 +1,54 @@
+import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { GROUP_VARIANT_HEADER, GROUP_VARIANT_BODY, GROUP_VARIANT_FOOTER, LAYOUT_TABLE, VARIANT_OUTLINE } from './constants';
 import { useTableCellStyle } from './styles';
 import useTable from './useTable';
+import useTableGroup from './useTableGroup';
 
 const TableCell = forwardRef((
   {
     role: roleProp,
+    sx: sxProp,
     ...rest
   },
   ref,
 ) => {
-  const role = roleProp ?? 'cell';
   const { layout, size, variant } = useTable();
-  const styleProps = useTableCellStyle({ layout, size, variant });
+  const groupContext = useTableGroup();
+  const groupVariant = groupContext?.groupVariant ?? GROUP_VARIANT_BODY;
+  const as = (() => {
+    if (groupVariant === GROUP_VARIANT_HEADER) {
+      return layout === LAYOUT_TABLE ? 'th' : undefined;
+    } else {
+      return layout === LAYOUT_TABLE ? 'td' : undefined;
+    }
+  })();
+  const role = roleProp ?? {
+    [GROUP_VARIANT_HEADER]: 'columnheader',
+    [GROUP_VARIANT_BODY]: 'cell',
+    [GROUP_VARIANT_FOOTER]: 'cell',
+  }[groupVariant] ?? 'cell';
+  const styleProps = useTableCellStyle({ groupVariant, layout, size, variant });
+  let sx = {};
+
+  // Remove bottom border if the layout is not 'table'
+  if ((groupVariant === GROUP_VARIANT_BODY) && (layout !== LAYOUT_TABLE) && (variant === VARIANT_OUTLINE)) {
+    sx = {
+      ...sx,
+      '*:last-child > &': {
+        borderBottom: 0,
+        borderBottomColor: 'transparent',
+      },
+    };
+  }
 
   return (
     <Box
+      as={as}
       ref={ref}
       role={role}
+      sx={[sx, ...ensureArray(sxProp)]}
       {...styleProps}
       {...rest}
     />

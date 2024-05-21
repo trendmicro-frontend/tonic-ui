@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableHeaderRow, TableRow, Tag } from '@tonic-ui/react';
+import { Table, TableBody, TableCell, TableHeader, TableRow, Tag } from '@tonic-ui/react';
 import { useMediaQuery } from '@tonic-ui/react-hooks';
 import React from 'react';
 
@@ -14,14 +14,14 @@ const App = () => {
   return (
     <Table>
       <TableHeader>
-        <TableHeaderRow>
-          <TableHeaderCell width={240}>
+        <TableRow>
+          <TableCell width={240}>
             Media Query
-          </TableHeaderCell>
-          <TableHeaderCell>
+          </TableCell>
+          <TableCell>
             Match Result
-          </TableHeaderCell>
-        </TableHeaderRow>
+          </TableCell>
+        </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow>

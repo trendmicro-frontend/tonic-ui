@@ -3,34 +3,37 @@ import {
   Collapse,
   Fade,
   Flex,
-  Icon,
   Tooltip,
   useColorMode,
+  useTheme,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
+import {
+  CodeIcon,
+  FileCopyOIcon,
+  RedoIcon,
+} from '@tonic-ui/react-icons';
 import { useRouter } from 'next/router';
-import React, { Fragment, useCallback, useReducer } from 'react';
+import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
+import CodeSandboxIcon from '../icons/CodeSandboxIcon';
 import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import x from '../utils/json-stringify';
-import CodeSandboxIcon from './CodeSandboxIcon';
 import IconButton from './IconButton';
-
-const liveEditorStyle = {
-  fontFamily: '"SFMono-Medium", "SF Mono", "Segoe UI Mono", Menlo, Consolas, Courier, monospace',
-  fontSize: 14,
-  overflowX: 'auto',
-};
 
 const Demo = ({
   component: Component,
+  defaultExpanded = false,
+  expanded,
   file,
   sandbox,
+  ...rest
 }) => {
   const router = useRouter();
   const [updateKey, forceUpdate] = useReducer((value) => !value, false);
+  const theme = useTheme();
   const [colorMode] = useColorMode();
   const borderColor = {
     dark: 'gray:70',
@@ -40,7 +43,7 @@ const Demo = ({
     dark: codeBlockDark,
     light: codeBlockLight,
   }[colorMode];
-  const [showSourceCode, toggleShowSourceCode] = useToggle(false);
+  const [showSourceCode, toggleShowSourceCode] = useToggle(expanded ?? defaultExpanded);
   const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(file?.data);
   const handleClickCopySource = useCallback(() => {
     copySource();
@@ -52,6 +55,35 @@ const Demo = ({
     forceUpdate();
     toggleShowSourceCode(false);
   }, [forceUpdate, toggleShowSourceCode]);
+
+  useEffect(() => {
+    const isControlled = (expanded !== undefined);
+    if (isControlled && expanded !== showSourceCode) {
+      toggleShowSourceCode(expanded);
+    }
+  }, [expanded, showSourceCode, toggleShowSourceCode]);
+
+  if (!Component) {
+    return (
+      <LiveProvider
+        code={file?.data}
+        disabled={true}
+        language="jsx"
+        theme={liveProviderTheme}
+      >
+        <Box
+          as={LiveEditor}
+          sx={{
+            fontFamily: 'mono',
+            fontSize: 'sm',
+            '& > .prism-code': {
+              overflowX: 'auto',
+            },
+          }}
+        />
+      </LiveProvider>
+    );
+  }
     
   return (
     <LiveProvider
@@ -87,7 +119,7 @@ const Demo = ({
           onClick={toggleShowSourceCode}
         >
           <Tooltip label={showSourceCode ? 'Hide the source' : 'Show the source'}>
-            <Icon icon="code" size={{ sm: '5x', md: '4x' }} />
+            <CodeIcon />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -95,7 +127,7 @@ const Demo = ({
           onClick={handleClickCopySource}
         >
           <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
-            <Icon icon="file-copy-o" size={{ sm: '5x', md: '4x' }} />
+            <FileCopyOIcon />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -103,7 +135,7 @@ const Demo = ({
           onClick={handleClickEditInCodeSandbox}
         >
           <Tooltip label="Edit in CodeSandbox">
-            <CodeSandboxIcon size={{ sm: '5x', md: '4x' }} />
+            <CodeSandboxIcon />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -111,13 +143,26 @@ const Demo = ({
           onClick={reset}
         >
           <Tooltip label="Reset the demo">
-            <Icon icon="redo" size={{ sm: '5x', md: '4x' }} />
+            <RedoIcon />
           </Tooltip>
         </IconButton>
       </Flex>
       <Fade in={showSourceCode}>
         <Collapse in={showSourceCode} unmountOnExit={true}>
-          <LiveEditor style={liveEditorStyle} />
+          <Box
+            as={LiveEditor}
+            sx={{
+              fontFamily: 'mono',
+              fontSize: 'md',
+              lineHeight: 'md',
+              mb: '4x',
+              '& > .prism-code': {
+                // Use `!important` to override the inline style
+                padding: `${theme?.space?.['4x']} !important`,
+                overflowX: 'auto',
+              },
+            }}
+          />
         </Collapse>
       </Fade>
     </LiveProvider>

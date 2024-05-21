@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import React from 'react';
 import {
   Box,
   Code,
@@ -8,10 +7,14 @@ import {
   Link,
   useColorMode,
   useColorStyle,
+  useTheme,
 } from '@tonic-ui/react';
-import CodeBlock from './CodeBlock';
+import { ensureString } from 'ensure-type';
+import React, { isValidElement } from 'react';
+import { LiveProvider, LiveEditor } from 'react-live';
+import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 
-const p = props => (
+const ParagraphComponent = props => (
   <Box
     as="p"
     mt={0}
@@ -22,7 +25,7 @@ const p = props => (
   />
 );
 
-const H1 = props => {
+const H1Component = props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
@@ -44,7 +47,7 @@ const H1 = props => {
   );
 };
 
-const H2 = props => {
+const H2Component = props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
@@ -63,7 +66,7 @@ const H2 = props => {
   );
 };
 
-const H3 = props => {
+const H3Component = props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
@@ -82,7 +85,7 @@ const H3 = props => {
   );
 };
 
-const H4 = props => {
+const H4Component = props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
@@ -101,7 +104,7 @@ const H4 = props => {
   );
 };
 
-const H5 = props => {
+const H5Component = props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
@@ -120,7 +123,7 @@ const H5 = props => {
   );
 };
 
-const H6 = props => {
+const H6Component = props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
 
@@ -139,7 +142,7 @@ const H6 = props => {
   );
 };
 
-const Blockquote = styled(props => {
+const BlockquoteComponent = styled(props => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const backgroundColor = {
@@ -174,7 +177,7 @@ const Blockquote = styled(props => {
   }
 `;
 
-const ul = props => (
+const UnorderedListComponent = props => (
   <Box
     as="ul"
     fontSize="md"
@@ -186,7 +189,7 @@ const ul = props => (
   />
 );
 
-const ol = props => (
+const OrderedListComponent = props => (
   <Box
     as="ol"
     fontSize="md"
@@ -198,7 +201,7 @@ const ol = props => (
   />
 );
 
-const li = props => (
+const ListItemComponent = props => (
   <Box
     as="li"
     mt="1x"
@@ -207,7 +210,7 @@ const li = props => (
   />
 );
 
-const table = props => (
+const TableComponent = props => (
   <Box
     as="table"
     mt={0}
@@ -216,11 +219,12 @@ const table = props => (
     lineHeight="lg"
     borderCollapse="collapse"
     borderSpacing={0}
+    width="100%"
     {...props}
   />
 );
 
-const thead = props => (
+const THeadComponent = props => (
   <Box
     as="thead"
     verticalAlign="middle"
@@ -229,7 +233,7 @@ const thead = props => (
   />
 );
 
-const tbody = props => (
+const TBodyComponent = props => (
   <Box
     as="tbody"
     verticalAlign="middle"
@@ -238,14 +242,14 @@ const tbody = props => (
   />
 );
 
-const tr = props => (
+const TRComponent = props => (
   <Box
     as="tr"
     {...props}
   />
 );
 
-const TH = ({ align, ...props }) => {
+const THComponent = ({ align, ...props }) => {
   const [colorMode] = useColorMode();
   const borderColor = {
     light: 'gray:40',
@@ -268,7 +272,7 @@ const TH = ({ align, ...props }) => {
   );
 };
 
-const TD = ({ align, ...props }) => {
+const TDComponent = ({ align, ...props }) => {
   const [colorMode] = useColorMode();
   const borderColor = {
     light: 'gray:40',
@@ -288,62 +292,83 @@ const TD = ({ align, ...props }) => {
   );
 };
 
-const pre = props => {
+const PreComponent = ({ children, ...rest }) => {
+  const theme = useTheme();
+  const [colorMode] = useColorMode();
+  const liveProviderTheme = {
+    dark: codeBlockDark,
+    light: codeBlockLight,
+  }[colorMode];
+  const code = isValidElement(children)
+    ? ensureString(children?.props?.children).trimEnd()
+    : ensureString(children).trimEnd();
+  const language = isValidElement(children)
+    ? ensureString(children.props.className).replace(/language-/, '')
+    : '';
+
   return (
-    <Box
-      as="pre"
-      fontSize="md"
-      lineHeight="lg"
-      mt={0}
-      mb="4x"
+    <LiveProvider
+      code={code}
+      disabled={true}
+      language={language}
+      theme={liveProviderTheme}
     >
-      <Box as="code">
-        <CodeBlock {...props} />
-      </Box>
-    </Box>
+      <Box
+        as={LiveEditor}
+        sx={{
+          fontFamily: 'mono',
+          fontSize: 'md',
+          lineHeight: 'md',
+          mb: '4x',
+          '& > .prism-code': {
+            // Use `!important` to override the inline style
+            padding: `${theme?.space?.['4x']} !important`,
+            overflowX: 'auto',
+          },
+        }}
+      />
+    </LiveProvider>
   );
 };
 
-const code = props => (
+const CodeComponent = props => (
   <Code as="code" {...props} />
 );
 
-const hr = props => (
+const HRComponent = props => (
   <Divider as="hr" my="2x" {...props} />
 );
 
-const a = props => (
+const AnchorComponent = props => (
   <Link as="a" {...props} />
 );
-
-const img = Image;
 
 /**
  * https://mdxjs.com/getting-started#table-of-components
  */
 const MDXComponents = {
-  p,
-  h1: H1,
-  h2: H2,
-  h3: H3,
-  h4: H4,
-  h5: H5,
-  h6: H6,
-  blockquote: Blockquote,
-  ul,
-  ol,
-  li,
-  table,
-  thead,
-  tbody,
-  tr,
-  th: TH,
-  td: TD,
-  pre,
-  code,
-  hr,
-  a,
-  img,
+  p: ParagraphComponent,
+  h1: H1Component,
+  h2: H2Component,
+  h3: H3Component,
+  h4: H4Component,
+  h5: H5Component,
+  h6: H6Component,
+  blockquote: BlockquoteComponent,
+  ul: UnorderedListComponent,
+  ol: OrderedListComponent,
+  li: ListItemComponent,
+  table: TableComponent,
+  thead: THeadComponent,
+  tbody: TBodyComponent,
+  tr: TRComponent,
+  th: THComponent,
+  td: TDComponent,
+  pre: PreComponent,
+  code: CodeComponent,
+  hr: HRComponent,
+  a: AnchorComponent,
+  img: Image,
 };
 
 export default MDXComponents;

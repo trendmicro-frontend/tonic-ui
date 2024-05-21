@@ -6,8 +6,6 @@ import {
 import {
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -80,7 +78,7 @@ const App = () => {
     <Table layout={layout}>
       <TableHeader>
         {table.getHeaderGroups().map(headerGroup => (
-          <TableHeaderRow key={headerGroup.id}>
+          <TableRow key={headerGroup.id}>
             {headerGroup.headers.map(header => {
               const styleProps = {
                 minWidth: header.column.columnDef.minSize,
@@ -88,7 +86,7 @@ const App = () => {
                 ...header.column.columnDef.style,
               };
               return (
-                <TableHeaderCell
+                <TableCell
                   key={header.id}
                   {...styleProps}
                 >
@@ -97,10 +95,10 @@ const App = () => {
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </Truncate>
                   )}
-                </TableHeaderCell>
+                </TableCell>
               );
             })}
-          </TableHeaderRow>
+          </TableRow>
         ))}
       </TableHeader>
       <TableBody>

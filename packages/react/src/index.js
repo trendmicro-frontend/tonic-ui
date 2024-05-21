@@ -49,12 +49,6 @@ export * from './truncate';
 export * from './visually-hidden';
 
 // deprecated
-export ControlBox from './deprecated/ControlBox';
-export FlatButton from './deprecated/FlatButton';
-export PseudoBox from './deprecated/PseudoBox';
-export ToggleSwitch from './deprecated/ToggleSwitch';
-export useDisclosure from './deprecated/useDisclosure';
-export withTheme from './deprecated/withTheme';
-
-// removed
-export PopperArrow from './removed/PopperArrow';
+export { default as AccordionCollapse } from './deprecated/AccordionCollapse';
+export { default as ToastProvider } from './deprecated/ToastProvider';
+export { default as useToast } from './deprecated/useToast';

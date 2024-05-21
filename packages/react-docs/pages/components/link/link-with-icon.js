@@ -1,4 +1,5 @@
-import { Icon, Link, Space, Stack } from '@tonic-ui/react';
+import { Link, Space, Stack } from '@tonic-ui/react';
+import { TBallIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
@@ -6,7 +7,7 @@ const App = () => (
     <Link
       href="https://github.com/trendmicro-frontend"
     >
-      <Icon icon="t-ball"/>
+      <TBallIcon />
       <Space width="2x" />
       Trend Micro Frontend
     </Link>
@@ -14,7 +15,7 @@ const App = () => (
       href="https://github.com/trendmicro-frontend"
       textDecoration="underline"
     >
-      <Icon icon="t-ball"/>
+      <TBallIcon />
       <Space width="2x" />
       Trend Micro Frontend
     </Link>

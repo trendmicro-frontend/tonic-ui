@@ -12,8 +12,6 @@ import {
   ResizeHandle,
   Table,
   TableHeader,
-  TableHeaderRow,
-  TableHeaderCell,
   TableBody,
   TableRow,
   TableCell,
@@ -134,7 +132,7 @@ const App = () => {
       >
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
-            <TableHeaderRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 const styleProps = {
                   position: 'relative',
@@ -182,7 +180,7 @@ const App = () => {
                 })();
 
                 return (
-                  <TableHeaderCell
+                  <TableCell
                     key={header.id}
                     {...styleProps}
                   >
@@ -211,10 +209,10 @@ const App = () => {
                         }}
                       />
                     )}
-                  </TableHeaderCell>
+                  </TableCell>
                 );
               })}
-            </TableHeaderRow>
+            </TableRow>
           ))}
         </TableHeader>
         <TableBody>

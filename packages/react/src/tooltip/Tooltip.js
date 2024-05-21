@@ -1,5 +1,3 @@
-import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Popper } from '../popper';
@@ -18,8 +16,6 @@ const defaultPlacement = 'bottom';
 const Tooltip = forwardRef((
   {
     // TooltipContent props
-    PopperArrowComponent, // removed
-    PopperArrowProps, // deprecated
     PopperComponent = Popper,
     PopperProps,
     TooltipArrowComponent = TooltipArrow,
@@ -31,11 +27,6 @@ const Tooltip = forwardRef((
     shouldWrapChildren = false,
 
     // Tooltip props
-    arrowAt, // removed
-    hideArrow, // deprecated
-    hideDelay, // deprecated
-    showDelay, // deprecated
-    closeOnMouseDown, // deprecated
     arrow = true,
     children,
     closeOnClick = true,
@@ -58,53 +49,6 @@ const Tooltip = forwardRef((
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${Tooltip.displayName}:`;
-
-    useOnceWhen(() => {
-      warnRemovedProps('arrowAt', {
-        prefix,
-        alternative: 'TooltipArrowProps',
-      });
-    }, (arrowAt !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('hideArrow', {
-        prefix,
-        alternative: 'arrow',
-        willRemove: true,
-      });
-    }, (process.env.NODE_ENV !== 'production') && (hideArrow !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('hideDelay', {
-        prefix,
-        alternative: 'leaveDelay',
-        willRemove: true,
-      });
-    }, (hideDelay !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('showDelay', {
-        prefix,
-        alternative: 'enterDelay',
-        willRemove: true,
-      });
-    }, (showDelay !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('closeOnMouseDown', {
-        prefix,
-        alternative: 'closeOnPointerDown',
-        willRemove: true,
-      });
-    }, (closeOnMouseDown !== undefined));
-
-    if (hideArrow !== undefined) {
-      arrow = !hideArrow;
-    }
-  }
-
   const tooltipContentRef = useRef(null);
   const tooltipTriggerRef = useRef(null);
   const [mousePageX, setMousePageX] = useState(0);
@@ -235,8 +179,6 @@ const Tooltip = forwardRef((
         {children}
       </TooltipTrigger>
       <TooltipContent
-        PopperArrowComponent={PopperArrowComponent} // removed
-        PopperArrowProps={PopperArrowProps} // deprecated
         PopperComponent={PopperComponent}
         PopperProps={PopperProps}
         TooltipArrowComponent={TooltipArrowComponent}

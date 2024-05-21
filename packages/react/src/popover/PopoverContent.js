@@ -1,4 +1,4 @@
-import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
@@ -8,8 +8,6 @@ import {
   isBlankString,
   isEmptyArray,
   isHTMLElement,
-  warnDeprecatedProps,
-  warnRemovedProps,
 } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
@@ -37,9 +35,6 @@ const mapPlacementToTransformOrigin = placement => ({
 
 const PopoverContent = forwardRef((
   {
-    PopperArrowComponent, // removed
-    PopperArrowProps, // deprecated
-
     PopperComponent = Popper,
     PopperProps,
     PopoverArrowComponent = PopoverArrow,
@@ -55,30 +50,6 @@ const PopoverContent = forwardRef((
   },
   ref,
 ) => {
-  { // deprecation warning
-    const prefix = `${PopoverContent.displayName}:`;
-
-    useOnceWhen(() => {
-      warnRemovedProps('PopperArrowComponent', {
-        prefix,
-        alternative: 'PopoverArrowComponent',
-      });
-    }, (PopperArrowComponent !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('PopperArrowProps', {
-        prefix,
-        alternative: 'PopoverArrowProps',
-        willRemove: true,
-      });
-    }, (PopperArrowProps !== undefined));
-
-    PopoverArrowProps = {
-      ...PopperArrowProps,
-      ...PopoverArrowProps,
-    };
-  }
-
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);

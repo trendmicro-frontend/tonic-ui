@@ -171,8 +171,6 @@ const Menu = forwardRef((
   const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
   const direction = mapPlacementToDirection(placement);
   const context = getMemoizedState({
-    closeMenu: onClose, // FIXME: `closeMenu` is deprecated and will be removed in a future release
-    openMenu: onOpen, // FIXME: `openMenu` is deprecated and will be removed in a future release
     autoSelect,
     closeOnBlur,
     closeOnSelect,

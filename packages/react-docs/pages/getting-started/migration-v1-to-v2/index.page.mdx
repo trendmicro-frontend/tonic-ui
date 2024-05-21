@@ -1,0 +1,284 @@
+import {
+  Code,
+  Flex,
+  Text,
+  TextLabel,
+} from '@tonic-ui/react';
+import {
+  AlertIcon,
+} from '@tonic-ui/react-icons';
+
+# Migration From v1 to v2
+
+⚠️ This guide outlines the necessary steps to migrate from Tonic UI v1 to v2. Please review the breaking changes and assess the compatibility with your current setup before proceeding with the upgrade.
+
+## Color Style
+
+### What's changed
+
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
+> The following keys in the color style are deprecated and will be removed in the next major release. Please update your code with the [recommended configuration](#recommended-configuration) to avoid encountering breaking changes in the future.
+
+Type | Key | Configuration
+:-- | :-- | :--
+[Severity (deprecated)](../components/color-style#severity-deprecated) | `colorStyle.severity.*` | [View](../components/color-style#severity-deprecated)
+[Chart (deprecated)](../components/color-style#chart-deprecated) | `colorStyle.chart.classic.colors[]` | [View](../components/color-style#chart-deprecated)
+
+Let's see an example here:
+```jsx
+const [colorStyle] = useColorStyle()
+
+// These will cause exceptions in next major release (e.g. v3 or later)
+console.log(colorStyle.severity.info);
+console.log(colorStyle.chart.classic.colors[0]);
+```
+
+To use previously defined `severity` and `chart` colors, you need to pass a custom color style to `TonicProvider`. Follow the setup below to use previous `severity` and `chart` colors:
+
+```jsx disabled
+import React from 'react';
+import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
+
+const customColorStyle = {
+  ...colorStyle,
+   dark: {
+    ...colorStyle.dark,
+
+    // deprecated
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      safe: 'green:40',
+      info: 'gray:50',
+      unknown: 'gray:50',
+    },
+
+    // deprecated
+    chart: {
+      classic: {
+        colors: [
+          'gray:50',
+          'blue:50',
+          'green:40',
+          'orange:50',
+          'cyan:40',
+          'red:50',
+          'purple:50',
+          'teal:40',
+          'magenta:40',
+          'green:30',
+          'yellow:50',
+        ],
+      },
+    },
+  },
+  light: {
+    ...colorStyle.light,
+
+    // deprecated
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      safe: 'green:50',
+      info: 'gray:50',
+      unknown: 'gray:50',
+    },
+
+    // deprecated
+    chart: {
+      classic: {
+        colors: [
+          'gray:50',
+          'blue:60',
+          'green:50',
+          'orange:50',
+          'cyan:40',
+          'red:60',
+          'purple:60',
+          'teal:40',
+          'magenta:50',
+          'green:30',
+          'yellow:50',
+        ],
+      },
+    },
+  },
+};
+
+const App = (props) => (
+  <TonicProvider
+    colorStyle={{
+      defaultValue: customColorStyle,
+    }}
+  >
+    <Box {...props} />
+  </TonicProvider>
+);
+
+export default App;
+```
+
+### Recommended configuration
+
+Here is the recommended configuration for utilizing the `risk` and `severity` colors. Please note that some old keys, such as `severity.safe` and `severity.unknown`, are no longer available here. You may need to adjust your code accordingly.
+
+```js
+import { colorStyle } from '@tonic-ui/react';
+
+// Let's say you want to define color style for your components
+const customColorStyle = {
+  ...colorStyle,
+  dark: {
+    ...colorStyle.dark,
+    risk: {
+      high: 'red:50',
+      medium: 'yellow:50',
+      low: 'green:40',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
+    },
+  },
+  light: {
+    ...colorStyle.light,
+    risk: {
+      high: 'red:60',
+      medium: 'yellow:50',
+      low: 'green:50',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
+    },
+  },
+};
+```
+
+## Icons
+
+In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. Here are the steps to ensure a smooth migration process.
+
+### Step 1: Update the dependencies
+
+Make sure your `package.json` file includes the latest versions of Tonic UI packages:
+
+```diff
+  "dependencies": {
++   "@tonic-ui/react": "^2.0.0",
++   "@tonic-ui/react-icons": "^2.0.0",
++   "@trendmicro/tmicon": "^1.0.0"
+  }
+```
+
+> The `@trendmicro/tmicon` package is only necessary for step 2 if you've used the [Icon](../components/icon) component in v1 and don't want to too much changes. Proceed to step 3 if you prefer to make modifications during the upgrade.
+
+### Step 2: Import SVG icons and generate icons for the theme
+
+Manually generate icons and pass them to the theme. This step ensures your app displays icons properly after the upgrade.
+
+```jsx
+import {
+  TonicProvider,
+  theme,
+} from '@tonic-ui/react';
+import * as tmicon from '@trendmicro/tmicon';
+import React from 'react';
+
+const icons = tmicon.icons.reduce((acc, { name, paths, viewBox }) => {
+  return [
+    ...acc,
+    [
+      name,
+      <svg viewBox={viewBox}>
+        {paths.map((path, index) => (
+          <path
+            key={`${name}-${index}`}
+            d={path}
+          />
+        ))}
+      </svg>
+    ],
+  ];
+}, []);
+
+theme.icons = icons; // custom icons
+
+export default () => (
+  <TonicProvider theme={theme}>
+    <App />
+  </TonicProvider>
+);
+```
+
+### Step 3: Update import location for icon components
+
+This step updates the import locations for icon components within Tonic UI v2.
+
+In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. The diff should look like this:
+
+```diff
+  import { Badge, Icon } from '@tonic-ui/react';
++ import { AlertIcon } from '@tonic-ui/react-icons';
+  import React from 'react';
+
+  export default () => (
+    <Badge variant="dot">
+-     <Icon icon="alert" size="4x" />
++     <Icon as={AlertIcon} size="4x" />
+    </Badge>
+  );
+```
+
+To apply this change across your project, run the provided codemod to update your code accordingly:
+
+```bash
+npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons <path>
+```
+
+### Step 4: Remove unnecessary icons and dependencies
+
+After updating the icon imports, you can safely remove the unnecessary `@trendmicro/tmicon` dependency from the theme in your `app.js`.
+
+```diff
+- import * as tmicon from '@trendmicro/tmicon';
+- const icons = tmicon.icons.reduce((acc, { name, paths, viewBox }) => {
+-   return [
+-     ...acc,
+-     [
+-       name,
+-       <svg viewBox={viewBox}>
+-         {paths.map((path, index) => (
+-           <path
+-             key={`${name}-${index}`}
+-             d={path}
+-           />
+-         ))}
+-       </svg>
+-     ],
+-   ];
+- }, []);
+- theme.icons = icons; // custom icons
+```
+
+The `tmicon` package is no longer required to be listed in `package.json`.
+
+```diff
+  "dependencies": {
+    "@tonic-ui/react": "^2.0.0",
+    "@tonic-ui/react-icons": "^2.0.0",
+-   "@trendmicro/tmicon": "^1.0.0"
+  }
+```

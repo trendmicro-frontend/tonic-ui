@@ -1,5 +1,5 @@
-import { useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
-import { runIfFn, warnDeprecatedProps, warnRemovedProps } from '@tonic-ui/utils';
+import { usePrevious } from '@tonic-ui/react-hooks';
+import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../shared/config';
@@ -11,10 +11,6 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const defaultPlacement = 'bottom';
 
 const Popover = ({
-  arrowAt, // removed
-  distance, // deprecated
-  hideArrow, // deprecated
-  skidding, // deprecated
   arrow = true,
   children,
   closeOnBlur = true,
@@ -34,47 +30,6 @@ const Popover = ({
   returnFocusOnClose = true,
   trigger = 'click',
 }) => {
-  { // deprecation warning
-    const prefix = `${Popover.displayName}:`;
-
-    useOnceWhen(() => {
-      warnRemovedProps('arrowAt', {
-        prefix,
-        message: 'Use the \'PopoverArrowProps\' prop on the \'PopoverContent\' component instead.',
-      });
-    }, (arrowAt !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('distance', {
-        prefix,
-        alternative: 'offset={[skidding, distance]}',
-        willRemove: true,
-      });
-    }, (distance !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('hideArrow', {
-        prefix,
-        alternative: 'arrow',
-        willRemove: true,
-      });
-    }, (process.env.NODE_ENV !== 'production') && (hideArrow !== undefined));
-
-    useOnceWhen(() => {
-      warnDeprecatedProps('skidding', {
-        prefix,
-        alternative: 'offset={[skidding, distance]}',
-        willRemove: true,
-      });
-    }, (skidding !== undefined));
-
-    if (hideArrow !== undefined) {
-      arrow = !hideArrow;
-    }
-
-    offset = offset ?? [skidding, distance];
-  }
-
   const popoverContentRef = useRef();
   const popoverTriggerRef = useRef();
   const isHoveringContentRef = useRef();
@@ -217,7 +172,6 @@ const Popover = ({
     popoverTriggerRef,
     setMousePageX,
     setMousePageY,
-    skidding,
     trigger,
   });
 

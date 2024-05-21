@@ -36,13 +36,53 @@ import * as React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app';
 
+const customColorStyle = {
+  ...colorStyle,
+  dark: {
+    ...colorStyle.dark,
+
+    // Add custom colors here
+    risk: {
+      high: 'red:50',
+      medium: 'yellow:50',
+      low: 'green:40',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:50',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
+    },
+  },
+  light: {
+    ...colorStyle.light,
+
+    // Add custom colors here
+    risk: {
+      high: 'red:60',
+      medium: 'yellow:50',
+      low: 'green:50',
+      none: 'gray:50',
+    },
+    severity: {
+      critical: 'magenta:60',
+      high: 'red:60',
+      medium: 'orange:50',
+      low: 'yellow:50',
+      info: 'gray:50',
+    },
+  },
+};
+
 const Root = (props) => (
   <TonicProvider
     colorMode={{
       defaultValue: 'dark',
     }}
     colorStyle={{
-      defaultValue: colorStyle,
+      defaultValue: customColorStyle,
     }}
     useCSSBaseline={true}
   >

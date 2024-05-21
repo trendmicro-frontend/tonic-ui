@@ -34,17 +34,15 @@ describe('Radio', () => {
       const inputRef = useRef();
 
       useEffect(() => {
+        expect(ref.current).toBeInstanceOf(HTMLLabelElement);
         expect(inputRef.current.checked).toBe(true);
-
-        // Note: The `ref` prop will be moved to the outermost element in the next major version
-        expect(ref.current.checked).toBe(true);
       }, []);
 
       return (
         <Radio
-          defaultChecked
-          inputRef={inputRef}
           ref={ref}
+          inputRef={inputRef}
+          defaultChecked
         />
       );
     };

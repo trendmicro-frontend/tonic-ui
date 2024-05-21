@@ -1,24 +1,27 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useTableRowCSS, useTableRowStyle } from './styles';
+import { GROUP_VARIANT_BODY, LAYOUT_TABLE } from './constants';
+import { useTableRowStyle } from './styles';
 import useTable from './useTable';
+import useTableGroup from './useTableGroup';
 
 const TableRow = forwardRef((
   {
-    css: cssProp,
     role: roleProp,
     ...rest
   },
   ref,
 ) => {
-  const role = roleProp ?? 'row';
   const { layout, variant } = useTable();
-  const css = [useTableRowCSS({ role, variant }), cssProp];
-  const styleProps = useTableRowStyle({ layout });
+  const groupContext = useTableGroup();
+  const groupVariant = groupContext?.groupVariant ?? GROUP_VARIANT_BODY;
+  const as = layout === LAYOUT_TABLE ? 'tr' : undefined;
+  const role = roleProp ?? 'row';
+  const styleProps = useTableRowStyle({ groupVariant, layout, role, variant });
 
   return (
     <Box
-      css={css}
+      as={as}
       ref={ref}
       role={role}
       {...styleProps}

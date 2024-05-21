@@ -36,17 +36,15 @@ describe('Checkbox', () => {
       const inputRef = useRef();
 
       useEffect(() => {
+        expect(ref.current).toBeInstanceOf(HTMLLabelElement);
         expect(inputRef.current.checked).toBe(true);
-
-        // Note: The `ref` prop will be moved to the outermost element in the next major version
-        expect(ref.current.checked).toBe(true);
       }, []);
 
       return (
         <Checkbox
-          defaultChecked
-          inputRef={inputRef}
           ref={ref}
+          inputRef={inputRef}
+          defaultChecked
         />
       );
     };

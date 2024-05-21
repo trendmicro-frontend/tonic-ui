@@ -2,16 +2,17 @@
   "name": "@tonic-ui/react-hooks",
   "version": "1.6.2",
   "description": "A collection of React Hooks for Tonic UI components.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "files": [
     "dist"
   ],
   "publishConfig": {
     "access": "public"
   },
+  "sideEffects": false,
   "scripts": {
-    "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.mjs",
+    "build": "cross-env rollup --config rollup.config.mjs",
     "clean": "del build coverage dist",
     "lint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
@@ -74,10 +75,10 @@
     ],
     "testEnvironment": "jsdom",
     "testMatch": [
-      "<rootDir>/**/__tests__/**/*.js"
+      "<rootDir>/**/__tests__/**/*.test.js"
     ]
   },
-  "author": "Cheton Wu",
+  "author": "Tonic UI Team",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
   "license": "MIT",
   "repository": {

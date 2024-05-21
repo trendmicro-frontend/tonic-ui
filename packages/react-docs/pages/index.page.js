@@ -8,7 +8,6 @@ import {
   Checkbox,
   Divider,
   Flex,
-  Icon,
   Image,
   Input,
   InputGroup,
@@ -31,8 +30,6 @@ import {
   TableBody,
   TableCell,
   TableHeader,
-  TableHeaderCell,
-  TableHeaderRow,
   TableRow,
   Tag,
   Text,
@@ -40,15 +37,29 @@ import {
   useColorStyle,
   usePortalManager,
 } from '@tonic-ui/react';
+import {
+  AlertIcon,
+  ArrowUpIcon,
+  ChartAreaIcon,
+  ChartBarIcon,
+  ChartPieIcon,
+  ChevronRightIcon,
+  LockIcon,
+  MoonIcon,
+  SettingsIcon,
+  SunIcon,
+  UndoIcon,
+  UserTeamIcon,
+} from '@tonic-ui/react-icons';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import React, { forwardRef, useCallback, useEffect } from 'react';
-import FontAwesomeIcon from '../components/FontAwesomeIcon';
 import InstantSearchModal from '../components/InstantSearchModal';
 import SearchButton from '../components/SearchButton';
 import SkeletonBlock from '../components/SkeletonBlock';
 import useTrack from '../hooks/useTrack';
-import CodeSandboxIcon from '../icons/codesandbox';
+import CodeSandboxIcon from '../icons/CodeSandboxIcon';
+import GitHubIcon from '../icons/GitHubIcon';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 
@@ -141,7 +152,7 @@ const DefaultPage = (props) => {
                   >
                     Get Started
                     <Space width="2x" />
-                    <Icon icon="chevron-right" />
+                    <ChevronRightIcon />
                   </ButtonLink>
                 </NextLink>
                 <NextLink href={GITHUB_REPO_URL} legacyBehavior passHref>
@@ -155,13 +166,7 @@ const DefaultPage = (props) => {
                     py="3x"
                     textDecoration="none"
                   >
-                    <FontAwesomeIcon
-                      icon={['fab', 'github']}
-                      style={{
-                        width: 24,
-                        height: 24,
-                      }}
-                    />
+                    <GitHubIcon size="6x" />
                     <Space width="2x" />
                     <Text>GitHub</Text>
                   </ButtonLink>
@@ -198,21 +203,21 @@ const DefaultPage = (props) => {
                   columnGap="6x"
                 >
                   <Badge variant="dot" isInvisible>
-                    <Icon icon="alert" />
+                    <AlertIcon />
                   </Badge>
                   <Badge variant="dot">
-                    <Icon icon="alert" />
+                    <AlertIcon />
                   </Badge>
                   <Badge variant="dot" width="3x" height="3x">
-                    <Icon icon="alert" />
+                    <AlertIcon />
                   </Badge>
                   <Badge badgeContent="99+">
-                    <Icon icon="alert" />
+                    <AlertIcon />
                   </Badge>
                   <Badge
                     badgeContent={<Text fontFamily="mono" fontSize="xs">!</Text>}
                   >
-                    <Icon icon="alert" />
+                    <AlertIcon />
                   </Badge>
                   <Badge badgeContent="99+">
                     <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
@@ -247,15 +252,15 @@ const DefaultPage = (props) => {
                     </Flex>
                     <ButtonGroup>
                       <Button>
-                        <Icon icon="chart-area" />
+                        <ChartAreaIcon />
                       </Button>
                       <Divider orientation="vertical" color={dividerColor} />
                       <Button>
-                        <Icon icon="chart-bar" />
+                        <ChartBarIcon />
                       </Button>
                       <Divider orientation="vertical" color={dividerColor} />
                       <Button>
-                        <Icon icon="chart-pie" />
+                        <ChartPieIcon />
                       </Button>
                     </ButtonGroup>
                   </Box>
@@ -306,36 +311,36 @@ const DefaultPage = (props) => {
               </Box>
               <Round p="3x">
                 <MenuItem value="general">
-                  <Icon icon="settings" mr="2x" />
+                  <SettingsIcon mr="2x" />
                   <Text>General</Text>
                 </MenuItem>
                 <MenuItem value="accounts">
-                  <Icon icon="user-team" mr="2x" />
+                  <UserTeamIcon mr="2x" />
                   <Text>Accounts</Text>
                 </MenuItem>
                 <MenuItem value="privacy">
-                  <Icon icon="lock" mr="2x" />
+                  <LockIcon mr="2x" />
                 <Text>Privacy</Text>
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem disabled value="restore-defaults">
-                  <Icon icon="undo" mr="2x" />
+                  <UndoIcon mr="2x" />
                   <Text>Restore Defaults</Text>
                 </MenuItem>
               </Round>
               <Round>
                 <Table variant="default" pb="3x">
                   <TableHeader>
-                    <TableHeaderRow>
-                      <TableHeaderCell width="240px">
+                    <TableRow>
+                      <TableCell width="240px">
                         <Box display="inline-flex" alignItems="center">
                           Name
                           <Space width="2x" />
-                          <Icon icon="arrow-up" size="3x" />
+                          <ArrowUpIcon size="3x" />
                         </Box>
-                      </TableHeaderCell>
-                      <TableHeaderCell width="136px" textAlign="right">Size</TableHeaderCell>
-                    </TableHeaderRow>
+                      </TableCell>
+                      <TableCell width="136px" textAlign="right">Size</TableCell>
+                    </TableRow>
                   </TableHeader>
                   <TableBody>
                     <TableRow>
@@ -501,10 +506,10 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             title="Toggle color mode"
           >
             {colorMode === 'light' && (
-              <Icon icon="moon" size={24} />
+              <MoonIcon size="6x" />
             )}
             {colorMode === 'dark' && (
-              <Icon icon="sun" size={24} />
+              <SunIcon size="6x" />
             )}
           </Box>
           <Box
@@ -523,13 +528,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             textDecoration="none"
             title="GitHub repository"
           >
-            <FontAwesomeIcon
-              icon={['fab', 'github']}
-              style={{
-                width: 24,
-                height: 24,
-              }}
-            />
+            <GitHubIcon size="6x" />
           </Box>
         </Box>
       </Box>

@@ -9,6 +9,7 @@ import { h } from 'hastscript';
 import { mdxJsx } from 'micromark-extension-mdx-jsx';
 import { fromMarkdown } from 'mdast-util-from-markdown';
 import { mdxJsxFromMarkdown } from 'mdast-util-mdx-jsx';
+import withSVGR from 'next-plugin-svgr';
 import remarkEmoji from 'remark-emoji';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGFM from 'remark-gfm';
@@ -144,7 +145,7 @@ const withMDX = mdxPlugin({
              * />
              * ```
              */
-            const re = new RegExp(/render\(['"](.*)['"]\)/);
+            const re = new RegExp(/render\(['"]([^'"]+)['"](?:,\s*({.*}))?\)/);
             const results = node.value.match(re);
             if (!results) {
               return;
@@ -154,6 +155,7 @@ const withMDX = mdxPlugin({
 
             const importName = `DemoComponent$${index}`;
             const importPath = results[1];
+            const renderOptionExpression = ensureString(results[2]) || '{}';
 
             newNode = {
               type: 'mdxjsEsm',
@@ -190,6 +192,7 @@ const withMDX = mdxPlugin({
 
             newNode = mapMarkdownToSyntaxTree(`
               <Demo
+                {...${renderOptionExpression}}
                 component={${importName}}
                 file={{
                   data: ${JSON.stringify(data)},
@@ -288,6 +291,7 @@ const withMDX = mdxPlugin({
 });
 
 plugins.push(withMDX);
+plugins.push(withSVGR);
 
 const initialNextConfig = {
   env: {
@@ -303,9 +307,18 @@ const initialNextConfig = {
     // Algolia
     ALGOLIA_APPLICATION_ID: '7V00GBK8V8',
     ALGOLIA_SEARCH_API_KEY: 'c87cfe40f6ec7c43d4caf4316afd1816',
-    ALGOLIA_INDEX_NAME: 'tonic-ui-v1',
+    ALGOLIA_INDEX_NAME: 'tonic-ui-v2',
     // see `.circleci/config.yml`
     TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION,
+    TONIC_UI_REACT_PACKAGE_VERSION: process.env.TONIC_UI_REACT_PACKAGE_VERSION,
+    // v2
+    TONIC_UI_V2_BRANCH: process.env.TONIC_UI_V2_BRANCH,
+    TONIC_UI_V2_DOCUMENTATION: process.env.TONIC_UI_V2_DOCUMENTATION,
+    TONIC_UI_V2_SOURCE_CODE: process.env.TONIC_UI_V2_SOURCE_CODE,
+    TONIC_UI_V2_TAGNAME: process.env.TONIC_UI_V2_TAGNAME,
+    TONIC_UI_V2_RELEASE_VERSION: process.env.TONIC_UI_V2_RELEASE_VERSION,
+    TONIC_UI_V2_RELEASE_DOCUMENTATION: process.env.TONIC_UI_V2_RELEASE_DOCUMENTATION,
+    TONIC_UI_V2_RELEASE_NOTES: process.env.TONIC_UI_V2_RELEASE_NOTES,
     // v1
     TONIC_UI_V1_BRANCH: process.env.TONIC_UI_V1_BRANCH,
     TONIC_UI_V1_DOCUMENTATION: process.env.TONIC_UI_V1_DOCUMENTATION,
@@ -328,7 +341,8 @@ const initialNextConfig = {
     TONIC_UI_DEFAULT_SOURCE_CODE: process.env.TONIC_UI_DEFAULT_SOURCE_CODE,
   },
   basePath: process.env.BASE_PATH,
-  distDir: 'build',
+  distDir: process.env.NODE_ENV === 'production' ? 'dist/react' : 'build',
+  output: process.env.NODE_ENV === 'production' ? 'export' : 'standalone',
   pageExtensions: ['page.js', 'page.mdx'],
 };
 

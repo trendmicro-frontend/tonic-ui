@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { attachProxyOnce } from '../utils/proxy';
 
 const defaultSlot = {
   first: false,
@@ -11,7 +10,6 @@ const defaultSlot = {
 const usePagination = (props) => {
   const {
     boundaryCount = 1,
-    componentName = 'usePagination',
     count = 1,
     defaultPage: defaultPageProp = 1,
     disabled = false,
@@ -40,14 +38,7 @@ const usePagination = (props) => {
     }
 
     if (typeof onChange === 'function') {
-      // deprecation warning
-      const proxiedEvent = attachProxyOnce(event, () => {
-        console.warn(
-          `${componentName} "onChange(event, page)" is deprecated and will be changed to "onChange(page)" in the next major release.`,
-        );
-      });
-
-      onChange(proxiedEvent, value);
+      onChange(value);
     }
   };
 
