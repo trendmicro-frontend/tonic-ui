@@ -4,7 +4,7 @@
   "version": "1.29.1",
   "description": "A documentation site for React Tonic UI component library.",
   "scripts": {
-    "build": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build' && next export --outdir dist/react",
+    "build": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build'",
     "clean": "del build coverage dist",
     "dev": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=development next dev --hostname 0.0.0.0'",
     "lint": "eslint --ext .js,.jsx,.mjs .",
@@ -68,7 +68,7 @@
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-mdx-jsx": "^3.0.0",
     "micromark-extension-mdx-jsx": "^2.0.0",
-    "next": "^13.0.5",
+    "next": "^14.2.3",
     "node-emoji": "^2.1.0",
     "prism-react-renderer": "^2.0.6",
     "prop-types": "15.x",
