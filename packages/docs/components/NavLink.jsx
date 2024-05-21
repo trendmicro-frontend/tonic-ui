@@ -40,8 +40,9 @@ const NavLink = forwardRef((
 
   return (
     <NextLink
-      passHref
       href={href}
+      legacyBehavior
+      passHref
     >
       <Box
         ref={ref}
