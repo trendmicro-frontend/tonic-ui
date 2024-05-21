@@ -60,6 +60,10 @@ test('should match expected exports', () => {
     // css-baseline
     'CSSBaseline',
 
+    // date-pickers
+    'Calendar',
+    'DatePicker',
+
     // divider
     'Divider',
 

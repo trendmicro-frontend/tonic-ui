@@ -130,6 +130,11 @@ export const routes = [
       { title: 'Tooltip', path: 'components/tooltip' },
       { title: 'OverflowTooltip', path: 'components/overflow-tooltip' },
 
+      { title: 'DATE PICKERS', heading: true },
+      { title: 'Overview', path: 'components/date-pickers' },
+      { title: 'Calendar', path: 'components/date-pickers/calendar' },
+      { title: 'DatePicker', path: 'components/date-pickers/date-picker' },
+
       { title: 'FEEDBACK', heading: true },
       { title: 'Alert', path: 'components/alert' },
       { title: 'Progress', path: 'components/progress' },
@@ -418,19 +423,6 @@ export const routes = [
     routes: [
       { title: 'Getting Started', path: 'icons' },
       { title: 'SVGIcon', path: 'icons/svg-icon' },
-    ],
-  },
-  {
-    title: 'React Lab',
-    icon: (props) => (
-      <SVGIcon as={LabIcon} size="4x" {...props} />
-    ),
-    routes: [
-      { title: 'Getting Started', path: 'lab' },
-      { title: 'DATE PICKERS', heading: true },
-      { title: 'Overview', path: 'lab/date-pickers' },
-      { title: 'Calendar', path: 'lab/date-pickers/calendar' },
-      { title: 'DatePicker', path: 'lab/date-pickers/date-picker' },
     ],
   },
 ];
