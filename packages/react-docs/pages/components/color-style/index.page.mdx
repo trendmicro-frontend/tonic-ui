@@ -3,12 +3,13 @@ import {
   DarkMode,
   Divider,
   Flex,
-  Icon,
   LightMode,
   Stack,
   Text,
+  TextLabel,
 } from "@tonic-ui/react";
 import {
+  AlertIcon,
   MoonIcon,
   SunIcon,
 } from '@tonic-ui/react-icons';
@@ -284,6 +285,90 @@ const App = () => (
   </LightMode>
 </Stack>
 
+### Severity (deprecated)
+
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
+> This color style have been deprecated since v2 and will be removed in the next major release. Please manually define [severity](#severity) colors to avoid breaking changes in the future.
+
+Here is the deprecated configuration for the severity:
+
+<CodeBlock>
+  {jsonPrettify({
+    dark: {
+      severity: {
+        critical: 'magenta:60',
+        high: 'red:50',
+        medium: 'orange:50',
+        low: 'yellow:50',
+        safe: 'green:40',
+        info: 'gray:50',
+        unknown: 'gray:50',
+      },
+    },
+    light: {
+      severity: {
+        critical: 'magenta:60',
+        high: 'red:60',
+        medium: 'orange:50',
+        low: 'yellow:50',
+        safe: 'green:50',
+        info: 'gray:50',
+        unknown: 'gray:50',
+      },
+    },
+  })}
+</CodeBlock>
+
+### Chart (deprecated)
+
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
+> This color style have been deprecated since v2 and will be removed in the next major release. Please manually define [chart](#chart) colors to avoid breaking changes in the future.
+
+Here is the deprecated configuration for the chart:
+
+<CodeBlock>
+  {jsonPrettify({
+    dark: {
+      chart: {
+        classic: {
+          colors: [
+            'gray:50',
+            'blue:50',
+            'green:40',
+            'orange:50',
+            'cyan:40',
+            'red:50',
+            'purple:50',
+            'teal:40',
+            'magenta:40',
+            'green:30',
+            'yellow:50',
+          ],
+        },
+      },
+    },
+    light: {
+      chart: {
+        classic: {
+          colors: [
+            'gray:50',
+            'blue:60',
+            'green:50',
+            'orange:50',
+            'cyan:40',
+            'red:60',
+            'purple:60',
+            'teal:40',
+            'magenta:50',
+            'green:30',
+            'yellow:50',
+          ],
+        },
+      },
+    },
+  })}
+</CodeBlock>
+
 ## Custom Color Values
 
 The color values provided here are examples and are not defined in the color style system. You can customize your own color values as needed.
@@ -524,98 +609,7 @@ See the example configuration below:
   </LightMode>
 </Stack>
 
-### Severity (deprecated)
-
-> This color scheme have been deprecated since v2 and will be removed in the next major release.
->
-> Please define severity colors to avoid breaking changes in the future.
-
-See the example configuration below:
-
-<Stack spacing="4x">
-  <CodeBlock>
-    {jsonPrettify({
-      dark: {
-        severity: {
-          critical: 'magenta:60',
-          high: 'red:50',
-          medium: 'orange:50',
-          low: 'yellow:50',
-          safe: 'green:40',
-          info: 'gray:50',
-          unknown: 'gray:50',
-        },
-      },
-      light: {
-        severity: {
-          critical: 'magenta:60',
-          high: 'red:60',
-          medium: 'orange:50',
-          low: 'yellow:50',
-          safe: 'green:50',
-          info: 'gray:50',
-          unknown: 'gray:50',
-        },
-      },
-    })}
-  </CodeBlock>
-  <DarkMode>
-    <ColorStyleContent>
-      <ColorStyleHeader>
-        <Flex alignItems="center" columnGap="2x">
-          <MoonIcon size="6x" color="yellow:50" />
-          <Text fontSize="lg" lineHeight="lg">Dark Mode</Text>
-        </Flex>
-        <Divider my="2x" />
-      </ColorStyleHeader>
-      <ColorStyleBody
-        colorStyle={{
-          severity: {
-            critical: 'magenta:60',
-            high: 'red:50',
-            medium: 'orange:50',
-            low: 'yellow:50',
-            safe: 'green:40',
-            info: 'gray:50',
-            unknown: 'gray:50',
-          },
-        }}
-        colorType="severity"
-      />
-    </ColorStyleContent>
-  </DarkMode>
-  <LightMode>
-    <ColorStyleContent>
-      <ColorStyleHeader>
-        <Flex alignItems="center" columnGap="2x">
-          <SunIcon size="6x" color="yellow:50" />
-          <Text fontSize="lg" lineHeight="lg">Light Mode</Text>
-        </Flex>
-        <Divider my="2x" />
-      </ColorStyleHeader>
-      <ColorStyleBody
-        colorStyle={{
-          severity: {
-            critical: 'magenta:60',
-            high: 'red:60',
-            medium: 'orange:50',
-            low: 'yellow:50',
-            safe: 'green:50',
-            info: 'gray:50',
-            unknown: 'gray:50',
-          },
-        }}
-        colorType="severity"
-      />
-    </ColorStyleContent>
-  </LightMode>
-</Stack>
-
-### Chart (deprecated)
-
-> This color scheme have been deprecated since v2 and will be removed in the next major release.
->
-> Please define chart colors to avoid breaking changes in the future.
+### Chart
 
 See the example configuration below:
 

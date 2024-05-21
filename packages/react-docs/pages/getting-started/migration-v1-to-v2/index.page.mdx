@@ -1,4 +1,12 @@
-import { Code, Text } from '@tonic-ui/react';
+import {
+  Code,
+  Flex,
+  Text,
+  TextLabel,
+} from '@tonic-ui/react';
+import {
+  AlertIcon,
+} from '@tonic-ui/react-icons';
 
 # Migration From v1 to v2
 
@@ -6,14 +14,15 @@ import { Code, Text } from '@tonic-ui/react';
 
 ## Color Style
 
-### The migration flow
+### What's changed
 
-The following color styles are deprecated and will be removed in the next major release. Please update your code to avoid breaking changes in the future.
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
+> The following keys in the color style are deprecated and will be removed in the next major release. Please update your code with the [recommended configuration](#recommended-configuration) to avoid encountering breaking changes in the future.
 
-Type | Key | Value
+Type | Key | Configuration
 :-- | :-- | :--
-[Severity (deprecated)](../components/color-style#severity-deprecated) | `colorStyle.severity.*` | <Text wordBreak="break-all">{JSON.stringify({"dark":{"severity":{"critical":"magenta:60","high":"red:50","medium":"orange:50","low":"yellow:50","safe":"green:40","info":"gray:50","unknown":"gray:50"}},"light":{"severity":{"critical":"magenta:60","high":"red:60","medium":"orange:50","low":"yellow:50","safe":"green:50","info":"gray:50","unknown":"gray:50"}}})}</Text>
-[Chart (deprecated)](../components/color-style#chart-deprecated) | `colorStyle.chart.classic.colors[]` | <Text wordBreak="break-all">{JSON.stringify({"dark":{"chart":{"classic":{"colors":["gray:50","blue:50","green:40","orange:50","cyan:40","red:50","purple:50","teal:40","magenta:40","green:30","yellow:50"]}}},"light":{"chart":{"classic":{"colors":["gray:50","blue:60","green:50","orange:50","cyan:40","red:60","purple:60","teal:40","magenta:50","green:30","yellow:50"]}}}})}</Text>
+[Severity (deprecated)](../components/color-style#severity-deprecated) | `colorStyle.severity.*` | [View](../components/color-style#severity-deprecated)
+[Chart (deprecated)](../components/color-style#chart-deprecated) | `colorStyle.chart.classic.colors[]` | [View](../components/color-style#chart-deprecated)
 
 Let's see an example here:
 ```jsx
@@ -115,7 +124,7 @@ export default App;
 
 ### Recommended configuration
 
-Here is the recommended configuration for the color style. Please note that some old keys, such as `severity.safe` and `severity.unknown`, are no longer available here. You may need to adjust your code accordingly.
+Here is the recommended configuration for utilizing the `risk` and `severity` colors. Please note that some old keys, such as `severity.safe` and `severity.unknown`, are no longer available here. You may need to adjust your code accordingly.
 
 ```js
 import { colorStyle } from '@tonic-ui/react';
