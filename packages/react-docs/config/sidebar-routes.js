@@ -12,7 +12,6 @@ import {
   WidgetsIcon,
   WorkspaceIcon,
 } from '@tonic-ui/react-icons';
-import LabIcon from '../icons/LabIcon';
 import React from 'react';
 
 const Subtitle = (props) => {
