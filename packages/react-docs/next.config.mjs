@@ -252,7 +252,6 @@ const withMDX = mdxPlugin({
               tagName: 'div',
               properties: {
                 class: 'main-content',
-                id: 'main-content',
               },
               children: ast.children,
             },

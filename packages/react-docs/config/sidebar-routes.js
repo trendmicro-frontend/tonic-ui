@@ -29,6 +29,8 @@ export const routes = [
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
+      { title: 'Color Mode', path: 'getting-started/color-mode' },
+      { title: 'Color Style', path: 'getting-started/color-style' },
       { title: 'CSS Variables', path: 'getting-started/css-variables' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Migration From v1 to v2', path: 'getting-started/migration-v1-to-v2' },
