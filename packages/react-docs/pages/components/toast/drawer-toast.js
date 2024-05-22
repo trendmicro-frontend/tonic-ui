@@ -15,6 +15,7 @@ import {
   Toast,
   ToastController,
   ToastTransition,
+  useColorStyle,
 } from '@tonic-ui/react';
 import { CloseSIcon } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
@@ -40,6 +41,7 @@ const CustomToastContainer = (props) => (
 let autoIncrementIndex = 0;
 
 const App = () => {
+  const [colorStyle] = useColorStyle();
   const [toasts, setToasts] = useState([]);
 
   const notify = (options) => {
@@ -164,9 +166,12 @@ const App = () => {
                     appearance={toast?.appearance}
                     isClosable={toast?.isClosable}
                     onClose={toast?.onClose}
-                    mb="2x"
-                    minWidth={280} // The toast has a minimum width of 280 pixels
-                    width="fit-content"
+                    sx={{
+                      mb: '2x',
+                      minWidth: 280, // The toast has a minimum width of 280 pixels
+                      width: 'fit-content',
+                      boxShadow: colorStyle.shadow.thin,
+                    }}
                   >
                     {toast?.content}
                   </Toast>
