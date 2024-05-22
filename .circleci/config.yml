@@ -286,7 +286,6 @@ jobs:
             git config --global user.email "no-reply@github.com"
             git config --global user.name "ci-job"
             npm config set loglevel warn
-            npm config set scripts-prepend-node-path auto
       - checkout:
           path: tonic-ui
       - add_ssh_keys:
@@ -331,7 +330,6 @@ jobs:
             git config --global user.email "no-reply@github.com"
             git config --global user.name "ci-job"
             npm config set loglevel warn
-            npm config set scripts-prepend-node-path auto
       - checkout:
           path: tonic-ui
       - add_ssh_keys:
@@ -385,7 +383,6 @@ jobs:
             git config --global user.email "no-reply@github.com"
             git config --global user.name "ci-job"
             npm config set loglevel warn
-            npm config set scripts-prepend-node-path auto
       - checkout:
           path: tonic-ui
       - add_ssh_keys:
