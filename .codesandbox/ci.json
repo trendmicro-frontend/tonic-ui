@@ -3,8 +3,9 @@
   "node": "18",
   "packages": [
     "packages/react",
+    "packages/react-base",
     "packages/react-hooks",
-    "packages/react-lab",
+    "packages/react-icons",
     "packages/styled-system",
     "packages/theme",
     "packages/utils"
