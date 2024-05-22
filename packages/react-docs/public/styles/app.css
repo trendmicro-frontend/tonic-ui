@@ -214,6 +214,18 @@ dd {
   .main-content {
     padding: var(--tonic-space-4x) var(--tonic-space-4x);
   }
+  /**
+   * No padding for nested main content.
+   * This applies when a `.main-content` element is nested within another `.main-content` element.
+   *
+   * Example:
+   *
+   * ```mdx
+   * import Example from '../components/example.mdx';
+   *
+   * <Example />
+   * ```
+   */
   .main-content:has( > .main-content) {
     padding: 0;
   }
