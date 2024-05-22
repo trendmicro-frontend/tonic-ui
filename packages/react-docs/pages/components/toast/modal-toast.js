@@ -16,6 +16,7 @@ import {
   Toast,
   ToastController,
   ToastTransition,
+  useColorStyle,
 } from '@tonic-ui/react';
 import React, { useState } from 'react';
 import { TransitionGroup } from 'react-transition-group';
@@ -40,6 +41,7 @@ const CustomToastContainer = (props) => (
 let autoIncrementIndex = 0;
 
 const App = () => {
+  const [colorStyle] = useColorStyle();
   const [toasts, setToasts] = useState([]);
 
   const notify = (options) => {
@@ -160,6 +162,12 @@ const App = () => {
                   <ToastController
                     duration={toast?.duration}
                     onClose={toast?.onClose}
+                    sx={{
+                      mb: '2x',
+                      minWidth: 280, // The toast has a minimum width of 280 pixels
+                      width: 'fit-content',
+                      boxShadow: colorStyle.shadow.thin,
+                    }}
                   >
                     <Toast
                       appearance={toast?.appearance}
