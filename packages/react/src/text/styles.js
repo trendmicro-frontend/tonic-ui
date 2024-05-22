@@ -5,6 +5,7 @@ const useTextStyle = ({ size }) => {
   const { fontSizes, lineHeights } = useTheme();
 
   return {
+    display: 'block', // Apply 'display: block' to ensure Text-based components behave as block-level elements
     fontSize: fontSizes?.[size],
     lineHeight: lineHeights?.[size],
   };

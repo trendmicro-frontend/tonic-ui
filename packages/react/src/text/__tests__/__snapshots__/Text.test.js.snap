@@ -1,6 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextLabel should render correctly 1`] = `
+.emotion-0 {
+  display: block;
+}
+
 <div>
   <div
     class="emotion-0 emotion-1"

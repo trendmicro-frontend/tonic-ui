@@ -2,6 +2,7 @@
 
 exports[`Truncate should render correctly 1`] = `
 .emotion-0 {
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
