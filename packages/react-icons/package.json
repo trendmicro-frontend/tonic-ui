@@ -21,16 +21,16 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@emotion/react": "11.x",
-    "@tonic-ui/react-base": "workspace:^",
-    "@trendmicro/tmicon": "^1.39.1"
+    "@tonic-ui/react-base": "workspace:^"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.24.0",
     "@babel/preset-env": "^7.24.0",
     "@babel/preset-react": "^7.23.3",
     "@emotion/babel-plugin": "^11.11.0",
+    "@emotion/react": "11.x",
     "@trendmicro/babel-config": "^1.0.2",
+    "@trendmicro/tmicon": "^1.39.1",
     "cross-env": "^7.0.3",
     "del-cli": "^5.0.0",
     "eslint": "^8.25.0",
