@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-icons",
-  "version": "2.0.0",
+  "version": "2.0.0-alpha.0",
   "description": "Tonic Icons distributed as SVG React components.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -21,7 +21,7 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@tonic-ui/react-base": "^2.0.0"
+    "@tonic-ui/react-base": "^2.0.0-alpha.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.24.0",
