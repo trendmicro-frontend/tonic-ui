@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/utils",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "Common utilities for various Tonic UI components and packages.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

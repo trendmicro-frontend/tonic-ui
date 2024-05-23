@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-base",
-  "version": "1.0.0-alpha",
+  "version": "2.0.0",
   "description": "A library of headless React UI components.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -23,7 +23,7 @@
     "@emotion/is-prop-valid": "1.x",
     "@emotion/react": "11.x",
     "@emotion/styled": "11.x",
-    "@tonic-ui/styled-system": "^1.9.0",
+    "@tonic-ui/styled-system": "^2.0.0",
     "ensure-type": "^1.5.1"
   },
   "devDependencies": {
