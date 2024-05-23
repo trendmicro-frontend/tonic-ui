@@ -32,6 +32,7 @@ import {
 } from '@tonic-ui/react';
 import { isNullish } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
+import _isEqual from 'lodash/isEqual';
 import _orderBy from 'lodash/orderBy';
 import React, {
   Fragment,
@@ -257,17 +258,7 @@ const ColumnSettingsDrawer = ({
     </SortableItem>
   );
 
-  const isPristine = (() => {
-    if (state.columns.length !== columnsProp.length) {
-      return true;
-    }
-    for (let i = 0; i < state.columns.length; ++i) {
-      if (state.columns[i].isVisible !== columnsProp[i].isVisible) {
-        return true;
-      }
-    }
-    return false;
-  })();
+  const isPristine = _isEqual(state.columns, columnsProp);
 
   return (
     <Drawer
@@ -351,7 +342,7 @@ const ColumnSettingsDrawer = ({
             columnGap="2x"
           >
             <Button
-              disabled={!isPristine}
+              disabled={isPristine}
               variant="default"
               onClick={handleUpdateColumns}
             >
