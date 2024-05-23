@@ -28,6 +28,7 @@ import {
   ToastManager,
   TonicProvider,
   colorStyle,
+  theme,
   useColorMode,
   useColorStyle,
   useTheme,
@@ -76,6 +77,9 @@ const customColorStyle = {
   },
 };
 
+// Enable CSS variables
+theme.config.useCSSVariables = true;
+
 const Root = (props) => (
   <TonicProvider
     colorMode={{
@@ -84,6 +88,7 @@ const Root = (props) => (
     colorStyle={{
       defaultValue: customColorStyle,
     }}
+    theme={theme}
     useCSSBaseline={true}
   >
     <PortalManager>

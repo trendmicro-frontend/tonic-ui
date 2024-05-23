@@ -2,7 +2,17 @@
 
 ## Overview
 
-Tonic UI has a default behavior of internally converting theme tokens defined in the theme to CSS variables.
+Tonic UI supports converting theme tokens defined in the theme to CSS variables. You can enable this behavior by configuring the theme as shown below:
+
+```jsx
+import { TonicProvider, theme } from '@tonic-ui/react';
+
+// Enable CSS variables
+theme.config.useCSSVariables = true;
+
+// Pass `theme` to the `TonicProvider`
+<TonicProvider theme={theme} />
+```
 
 For example, consider a theme object that looks like this:
 

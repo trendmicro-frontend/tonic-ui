@@ -13,8 +13,12 @@ import React from 'react';
 import {
   Box,
   TonicProvider,
-  colorStyle, // [optional] It's required only when you want to customize the color style
+  colorStyle, // [optional] Required only for customizing color styles
+  theme, // [optional] Required only for customizing the theme
 } from '@tonic-ui/react';
+
+// Enable CSS variables
+theme.config.useCSSVariables = true;
 
 function App(props) {
   return (
@@ -25,6 +29,7 @@ function App(props) {
       colorStyle={{
         defaultValue: colorStyle, // Custom color style
       }}
+      theme={theme}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <Box {...props} />
@@ -43,10 +48,14 @@ import {
   TonicProvider,
   PortalManager, // allows you to create and manage portals in the application
   ToastManager, // allows you to create and manage toasts in the application
-  colorStyle, // provides customization options for the color styles used throughout the UI
+  colorStyle,
+  theme,
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
+
+// Enable CSS variables
+theme.config.useCSSVariables = true;
 
 function App(props) {
   return (
@@ -57,6 +66,7 @@ function App(props) {
       colorStyle={{
         defaultValue: colorStyle, // Custom color style
       }}
+      theme={theme}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <PortalManager>
@@ -165,6 +175,42 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI pr
 
 > If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
 
+### Enabling CSS variables
+
+Tonic UI supports converting theme tokens defined in the theme to CSS variables. You can enable this behavior by configuring the theme as shown below:
+
+```jsx
+import { TonicProvider, theme } from '@tonic-ui/react';
+
+// Enable CSS variables
+theme.config.useCSSVariables = true;
+
+// Pass `theme` to `TonicProvider`
+<TonicProvider theme={theme} />
+```
+
+For example, consider a theme object that looks like this:
+
+```js disabled
+const theme = {
+  colors: {
+    'gray:10': '#fafafa',
+    'gray:20': '#f7f7f7',
+  },
+};
+```
+
+When this theme is passed to `TonicProvider`, Tonic UI will generate CSS variables automatically, as shown below:
+
+```css
+:root {
+  --tonic-colors-gray-10: #fafafa;
+  --tonic-colors-gray-20: #f7f7f7;
+}
+```
+
+These CSS variables can then be used to style components, providing a consistent look and feel throughout the application.
+
 ### Extending the Color Style
 
 Optionally, you can extend the color style by providing a custom color style. This is not required if you are using the default color style.
@@ -224,6 +270,7 @@ const customColorStyle = {
   colorStyle={{
     defaultValue: customColorStyle,
   }}
+  theme={theme}
   useCSSBaseline={true}
 >
   {children}
@@ -248,6 +295,9 @@ Override the theme object and pass it to the `<ThemeProvider>` component.
 
 ```js
 import { theme } from '@tonic-ui/react';
+
+// Enable CSS variables
+theme.config.useCSSVariables = true;
 
 // Let's say you want to add more colors
 const customTheme = {
