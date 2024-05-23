@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Calendar,
   Code,
   Divider,
   Flex,
@@ -16,9 +17,6 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import {
-  Calendar,
-} from '@tonic-ui/react-lab';
 import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
 import React, { useEffect, useState } from 'react';

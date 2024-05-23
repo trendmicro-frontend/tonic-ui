@@ -93,10 +93,10 @@ dd {
 /**
  * Main Content
  */
-#main-content > :first-child {
+.main-content > :first-child {
   margin-top: 0!important;
 }
-#main-content > :last-child {
+.main-content > :last-child {
   margin-bottom: 0!important;
 }
 
@@ -211,8 +211,23 @@ dd {
   #main {
     width: calc(100% - var(--docs-sidebar-width) - var(--docs-toc-width));
   }
-  #main-content {
+  .main-content {
     padding: var(--tonic-space-4x) var(--tonic-space-4x);
+  }
+  /**
+   * No padding for nested main content.
+   * This applies when a `.main-content` element is nested within another `.main-content` element.
+   *
+   * Example:
+   *
+   * ```mdx
+   * import Example from '../components/example.mdx';
+   *
+   * <Example />
+   * ```
+   */
+  .main-content:has( > .main-content) {
+    padding: 0;
   }
   #toc {
     display: block;

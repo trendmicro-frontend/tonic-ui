@@ -112,14 +112,14 @@ jobs:
           file: ./packages/react/coverage/lcov.info
           flags: react
       - codecov/upload:
+          file: ./packages/react-base/coverage/lcov.info
+          flags: react-base
+      - codecov/upload:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
       - codecov/upload:
           file: ./packages/react-icons/coverage/lcov.info
           flags: react-icons
-      - codecov/upload:
-          file: ./packages/react-lab/coverage/lcov.info
-          flags: react-lab
       - codecov/upload:
           file: ./packages/styled-system/coverage/lcov.info
           flags: styled-system
@@ -188,14 +188,14 @@ jobs:
           file: ./packages/react/coverage/lcov.info
           flags: react
       - codecov/upload:
+          file: ./packages/react-base/coverage/lcov.info
+          flags: react-base
+      - codecov/upload:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
       - codecov/upload:
           file: ./packages/react-icons/coverage/lcov.info
           flags: react-icons
-      - codecov/upload:
-          file: ./packages/react-lab/coverage/lcov.info
-          flags: react-lab
       - codecov/upload:
           file: ./packages/styled-system/coverage/lcov.info
           flags: styled-system
@@ -270,14 +270,14 @@ jobs:
           file: ./packages/react/coverage/lcov.info
           flags: react
       - codecov/upload:
+          file: ./packages/react-base/coverage/lcov.info
+          flags: react-base
+      - codecov/upload:
           file: ./packages/react-hooks/coverage/lcov.info
           flags: react-hooks
       - codecov/upload:
           file: ./packages/react-icons/coverage/lcov.info
           flags: react-icons
-      - codecov/upload:
-          file: ./packages/react-lab/coverage/lcov.info
-          flags: react-lab
       - codecov/upload:
           file: ./packages/styled-system/coverage/lcov.info
           flags: styled-system

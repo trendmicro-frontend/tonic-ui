@@ -4,6 +4,7 @@ import {
   ButtonGroup,
   Checkbox,
   Code,
+  DatePicker,
   Divider,
   Flex,
   Input,
@@ -24,9 +25,6 @@ import { CalendarIcon } from '@tonic-ui/react-icons';
 import {
   useToggle,
 } from '@tonic-ui/react-hooks';
-import {
-  DatePicker,
-} from '@tonic-ui/react-lab';
 import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
 import React, { useEffect, useState } from 'react';

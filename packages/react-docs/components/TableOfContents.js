@@ -51,7 +51,7 @@ const TableOfContents = (props) => {
 
     setActiveIndex(null);
 
-    const mainContent = document.querySelector('#main-content');
+    const mainContent = document.querySelector('#main > .main-content');
     if (mainContent) {
       setNodes(Array.from(mainContent.querySelectorAll('h2,h3,h4,h5,h6')));
     }

@@ -1,6 +1,5 @@
-import { InputAdornment, InputControl, TextLabel, useColorMode, useColorStyle } from '@tonic-ui/react';
+import { DatePicker, InputAdornment, InputControl, TextLabel, useColorMode, useColorStyle } from '@tonic-ui/react';
 import { CalendarIcon } from '@tonic-ui/react-icons';
-import { DatePicker } from '@tonic-ui/react-lab';
 import React, { forwardRef } from 'react';
 
 const DateInput = forwardRef((props, ref) => {

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  DatePicker,
   Flex,
   Grid,
   InputAdornment,
@@ -16,9 +17,6 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { AngleRightIcon, CalendarIcon, ChevronLeftIcon, ClockIcon } from '@tonic-ui/react-icons';
-import {
-  DatePicker,
-} from '@tonic-ui/react-lab';
 import React, { useEffect, useState } from 'react';
 
 const CustomDateInput = ({
