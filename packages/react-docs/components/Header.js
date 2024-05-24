@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   ButtonBase,
-  Code,
   Flex,
   Image,
   Link,
@@ -188,7 +187,7 @@ const Header = forwardRef((
                     height="8x"
                   />
                   <Text>Tonic UI</Text>
-                  <Code>{TONIC_UI_REACT_DOCS_VERSION}</Code>
+                  <sup>{TONIC_UI_REACT_DOCS_VERSION}</sup>
                 </Flex>
               </Link>
             </NextLink>
@@ -220,7 +219,10 @@ const Header = forwardRef((
                 track('Header', 'close_version_menu');
               }}
             >
-              <MenuButton>
+              <MenuButton
+                variant="secondary"
+                minWidth={100}
+              >
                 {versionMap[version]?.label ?? version}
               </MenuButton>
               <MenuList>

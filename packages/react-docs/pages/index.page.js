@@ -6,7 +6,6 @@ import {
   ButtonGroup,
   ButtonLink,
   Checkbox,
-  Code,
   Divider,
   Flex,
   Image,
@@ -464,7 +463,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
                   height="8x"
                 />
                 <Text>Tonic UI</Text>
-                <Code>{TONIC_UI_REACT_DOCS_VERSION}</Code>
+                <sup>{TONIC_UI_REACT_DOCS_VERSION}</sup>
               </Flex>
             </Link>
           </NextLink>
