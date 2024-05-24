@@ -180,7 +180,7 @@ const Header = forwardRef((
                   height="8x"
                   marginRight="2x"
               />
-                <Text>Tonic UI</Text>
+                <Text>Tonic UI {TONIC_UI_REACT_DOCS_VERSION}</Text>
               </Link>
             </NextLink>
           </Box>
