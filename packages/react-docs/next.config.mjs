@@ -304,8 +304,10 @@ const initialNextConfig = {
     ALGOLIA_APPLICATION_ID: '7V00GBK8V8',
     ALGOLIA_SEARCH_API_KEY: 'c87cfe40f6ec7c43d4caf4316afd1816',
     ALGOLIA_INDEX_NAME: 'tonic-ui-v1',
-    // see `.circleci/config.yml`
-    TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION,
+    // common
+    TONIC_UI_REPO_ROOT: process.env.TONIC_UI_REPO_ROOT,
+    TONIC_UI_REACT_DOCS_ROOT: process.env.TONIC_UI_REACT_DOCS_ROOT,
+    TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION, // see `.circleci/config.yml`
     TONIC_UI_REACT_PACKAGE_VERSION: process.env.TONIC_UI_REACT_PACKAGE_VERSION,
     // v1
     TONIC_UI_V1_BRANCH: process.env.TONIC_UI_V1_BRANCH,
@@ -323,10 +325,6 @@ const initialNextConfig = {
     TONIC_UI_V0_RELEASE_VERSION: process.env.TONIC_UI_V0_RELEASE_VERSION,
     TONIC_UI_V0_RELEASE_DOCUMENTATION: process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION,
     TONIC_UI_V0_RELEASE_NOTES: process.env.TONIC_UI_V0_RELEASE_NOTES,
-    // default
-    TONIC_UI_DEFAULT_BRANCH: process.env.TONIC_UI_DEFAULT_BRANCH,
-    TONIC_UI_DEFAULT_DOCUMENTATION: process.env.TONIC_UI_DEFAULT_DOCUMENTATION,
-    TONIC_UI_DEFAULT_SOURCE_CODE: process.env.TONIC_UI_DEFAULT_SOURCE_CODE,
   },
   basePath: process.env.BASE_PATH,
   distDir: process.env.NODE_ENV === 'production' ? 'dist/react' : 'build',
