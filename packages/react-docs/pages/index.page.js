@@ -67,6 +67,9 @@ const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 
+// The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
+const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
+
 const DefaultPage = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
@@ -453,13 +456,15 @@ const DefaultPageHeader = forwardRef((props, ref) => {
                 color: colorStyle.color.primary,
               }}
             >
-              <Image
-                alt=""
-                src={`${BASE_PATH}/images/${logo}`}
-                height="8x"
-                marginRight="2x"
-              />
-              <Text>Tonic UI</Text>
+              <Flex alignItems="center" columnGap="2x">
+                <Image
+                  alt=""
+                  src={`${BASE_PATH}/images/${logo}`}
+                  height="8x"
+                />
+                <Text>Tonic UI</Text>
+                <sup>{TONIC_UI_REACT_DOCS_VERSION}</sup>
+              </Flex>
             </Link>
           </NextLink>
         </Box>

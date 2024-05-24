@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  Flex,
   Image,
   Link,
   Menu,
@@ -35,21 +36,23 @@ const BASE_PATH = ensureString(process.env.BASE_PATH);
 
 const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 
+const TONIC_UI_REACT_DOCS_ROOT = ensureString(process.env.TONIC_UI_REACT_DOCS_ROOT);
+
 // The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
 const versionMap = {
-  [ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)]: {
-    label: `v${ensureString(process.env.TONIC_UI_V1_RELEASE_VERSION)}`,
-    url: ensureString(process.env.TONIC_UI_V1_RELEASE_DOCUMENTATION),
+  'v2': {
+    label: 'v2',
+    url: `${TONIC_UI_REACT_DOCS_ROOT}/v2`,
   },
-  [ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)]: {
-    label: `v${ensureString(process.env.TONIC_UI_V0_RELEASE_VERSION)}`,
-    url: ensureString(process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION),
+  'v1': {
+    label: 'v1',
+    url: `${TONIC_UI_REACT_DOCS_ROOT}/v1`,
   },
-  'latest': {
-    label: `${ensureString(process.env.TONIC_UI_DEFAULT_BRANCH)} branch`,
-    url: ensureString(process.env.TONIC_UI_DEFAULT_DOCUMENTATION),
+  'v0': {
+    label: 'v0',
+    url: `${TONIC_UI_REACT_DOCS_ROOT}/v0`,
   },
 };
 
@@ -177,13 +180,15 @@ const Header = forwardRef((
                   color: colorStyle.color.primary,
                 }}
               >
-                <Image
-                  alt=""
-                  src={`${BASE_PATH}/images/${logo}`}
-                  height="8x"
-                  marginRight="2x"
-              />
-                <Text>Tonic UI</Text>
+                <Flex alignItems="center" columnGap="2x">
+                  <Image
+                    alt=""
+                    src={`${BASE_PATH}/images/${logo}`}
+                    height="8x"
+                  />
+                  <Text>Tonic UI</Text>
+                  <sup>{TONIC_UI_REACT_DOCS_VERSION}</sup>
+                </Flex>
               </Link>
             </NextLink>
           </Box>
@@ -214,7 +219,10 @@ const Header = forwardRef((
                 track('Header', 'close_version_menu');
               }}
             >
-              <MenuButton>
+              <MenuButton
+                variant="secondary"
+                minWidth={100}
+              >
                 {versionMap[version]?.label ?? version}
               </MenuButton>
               <MenuList>

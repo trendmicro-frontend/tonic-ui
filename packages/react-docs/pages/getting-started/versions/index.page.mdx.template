@@ -107,13 +107,13 @@ The most recent stable version (✓) is recommended for use in production.
   <TableBody>
     <TableRow>
       <TableCell>
-        <Text>__TONIC_UI_DEFAULT_BRANCH__ branch</Text>
+        <Text>__TONIC_UI_V2_BRANCH__ branch</Text>
       </TableCell>
       <TableCell>
-        <Link href="__TONIC_UI_DEFAULT_DOCUMENTATION__">Documentation</Link>
+        <Link href="__TONIC_UI_V2_DOCUMENTATION__">Documentation</Link>
       </TableCell>
       <TableCell>
-        <Link href="__TONIC_UI_DEFAULT_SOURCE_CODE__">Source code</Link>
+        <Link href="__TONIC_UI_V2_SOURCE_CODE__">Source code</Link>
       </TableCell>
     </TableRow>
     <TableRow>
@@ -160,7 +160,7 @@ To make these transitions as easy as possible:
 * The number of breaking changes is minimized, and migration tools provided when possible.
 * The deprecation policy described below is followed, so that you have time to update your apps to the latest APIs and best practices.
 
-### Deprecation policy
+## Deprecation policy
 
 * Deprecated features are announced in the changelog, and when possible, with warnings at runtime.
 * When a deprecation is announced, recommended update path is provided.
