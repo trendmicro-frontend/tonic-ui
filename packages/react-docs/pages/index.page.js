@@ -6,6 +6,7 @@ import {
   ButtonGroup,
   ButtonLink,
   Checkbox,
+  Code,
   Divider,
   Flex,
   Image,
@@ -456,13 +457,15 @@ const DefaultPageHeader = forwardRef((props, ref) => {
                 color: colorStyle.color.primary,
               }}
             >
-              <Image
-                alt=""
-                src={`${BASE_PATH}/images/${logo}`}
-                height="8x"
-                marginRight="2x"
-              />
-              <Text>Tonic UI {TONIC_UI_REACT_DOCS_VERSION}</Text>
+              <Flex alignItems="center" columnGap="2x">
+                <Image
+                  alt=""
+                  src={`${BASE_PATH}/images/${logo}`}
+                  height="8x"
+                />
+                <Text>Tonic UI</Text>
+                <Code>{TONIC_UI_REACT_DOCS_VERSION}</Code>
+              </Flex>
             </Link>
           </NextLink>
         </Box>
