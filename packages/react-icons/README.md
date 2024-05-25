@@ -1,6 +1,6 @@
 # @tonic-ui/react-icons
 
-Tonic Icons distributed as SVG React components.
+Tonic icons distributed as SVG React components.
 
 ## Installation
 
