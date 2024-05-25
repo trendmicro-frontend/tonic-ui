@@ -63,41 +63,6 @@ export const routes = [
     ],
   },
   {
-    title: 'Styled System',
-    icon: (props) => (
-      <WorkspaceIcon size="4x" {...props} />
-    ),
-    routes: [
-      { title: 'Getting Started', path: 'styled-system' },
-      { title: 'Style Props', path: 'styled-system/style-props' },
-      { title: 'Pseudo Style Props', path: 'styled-system/pseudo-style-props' },
-      { title: 'Responsive Values', path: 'styled-system/responsive-values' },
-    ],
-  },
-  {
-    title: 'Theme',
-    icon: (props) => (
-      <ColorIcon size="4x" {...props} />
-    ),
-    routes: [
-      { title: 'Getting Started', path: 'theme' },
-      { title: 'Borders', path: 'theme/borders' },
-      { title: 'Breakpoints', path: 'theme/breakpoints' },
-      { title: 'Colors', path: 'theme/colors' },
-      { title: 'Fonts', path: 'theme/fonts' },
-      { title: 'Font Sizes', path: 'theme/font-sizes' },
-      { title: 'Font Weights', path: 'theme/font-weights' },
-      { title: 'Letter Spacings', path: 'theme/letter-spacings' },
-      { title: 'Line Heights', path: 'theme/line-heights' },
-      { title: 'Outlines', path: 'theme/outlines' },
-      { title: 'Radii', path: 'theme/radii' },
-      { title: 'Shadows', path: 'theme/shadows' },
-      { title: 'Sizes', path: 'theme/sizes' },
-      { title: 'Space', path: 'theme/space' },
-      { title: 'zIndices', path: 'theme/z-indices' },
-    ],
-  },
-  {
     title: 'React Components',
     icon: (props) => (
       <WidgetsIcon {...props} />
@@ -426,6 +391,41 @@ export const routes = [
     routes: [
       { title: 'Getting Started', path: 'icons' },
       { title: 'SVGIcon', path: 'icons/svg-icon' },
+    ],
+  },
+  {
+    title: 'Styled System',
+    icon: (props) => (
+      <WorkspaceIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Getting Started', path: 'styled-system' },
+      { title: 'Style Props', path: 'styled-system/style-props' },
+      { title: 'Pseudo Style Props', path: 'styled-system/pseudo-style-props' },
+      { title: 'Responsive Values', path: 'styled-system/responsive-values' },
+    ],
+  },
+  {
+    title: 'Theme',
+    icon: (props) => (
+      <ColorIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Getting Started', path: 'theme' },
+      { title: 'Borders', path: 'theme/borders' },
+      { title: 'Breakpoints', path: 'theme/breakpoints' },
+      { title: 'Colors', path: 'theme/colors' },
+      { title: 'Fonts', path: 'theme/fonts' },
+      { title: 'Font Sizes', path: 'theme/font-sizes' },
+      { title: 'Font Weights', path: 'theme/font-weights' },
+      { title: 'Letter Spacings', path: 'theme/letter-spacings' },
+      { title: 'Line Heights', path: 'theme/line-heights' },
+      { title: 'Outlines', path: 'theme/outlines' },
+      { title: 'Radii', path: 'theme/radii' },
+      { title: 'Shadows', path: 'theme/shadows' },
+      { title: 'Sizes', path: 'theme/sizes' },
+      { title: 'Space', path: 'theme/space' },
+      { title: 'zIndices', path: 'theme/z-indices' },
     ],
   },
 ];
