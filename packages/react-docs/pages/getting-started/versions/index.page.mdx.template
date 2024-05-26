@@ -107,6 +107,17 @@ The most recent stable version (✓) is recommended for use in production.
   <TableBody>
     <TableRow>
       <TableCell>
+        <Text>__TONIC_UI_V3_BRANCH__ branch</Text>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V3_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V3_SOURCE_CODE__">Source code</Link>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
         <Text>__TONIC_UI_V2_BRANCH__ branch</Text>
       </TableCell>
       <TableCell>

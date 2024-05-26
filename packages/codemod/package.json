@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/codemod",
-  "version": "2.0.0",
+  "version": "3.0.0-next.0",
   "description": "Codemod scripts for Tonic UI",
   "bin": "./codemod.js",
   "files": [
