@@ -4,23 +4,23 @@ import { getHtml, getJSConfigJSON, getRootIndex, getDefaultComponent } from './c
 import pkg from '../package.json';
 
 const resolveDependencies = (contents) => {
-  const getTonicUIPackageVersion = (packageName) => {
+  const getTonicUIPackageVersion = (packageName, defaultPackageVersion = 'latest') => {
     const commitShort = process.env.CI_PULL_REQUEST_NUMBER ? process.env.CI_COMMIT_SHORT : undefined;
     if (!commitShort) {
-      return 'latest';
+      return defaultPackageVersion;
     }
     return `https://pkg.csb.dev/trendmicro-frontend/tonic-ui/commit/${commitShort}/@tonic-ui/${packageName}`;
   };
 
   const versionMap = {
     ...pkg.devDependencies,
-    '@tonic-ui/react': getTonicUIPackageVersion('react'),
-    '@tonic-ui/react-base': getTonicUIPackageVersion('react-base'),
-    '@tonic-ui/react-hooks': getTonicUIPackageVersion('react-hooks'),
-    '@tonic-ui/react-icons': getTonicUIPackageVersion('react-icons'),
-    '@tonic-ui/styled-system': getTonicUIPackageVersion('styled-system'),
-    '@tonic-ui/theme': getTonicUIPackageVersion('theme'),
-    '@tonic-ui/utils': getTonicUIPackageVersion('utils'),
+    '@tonic-ui/react': getTonicUIPackageVersion('react', '2.x'),
+    '@tonic-ui/react-base': getTonicUIPackageVersion('react-base', '2.x'),
+    '@tonic-ui/react-hooks': getTonicUIPackageVersion('react-hooks', '2.x'),
+    '@tonic-ui/react-icons': getTonicUIPackageVersion('react-icons', '2.x'),
+    '@tonic-ui/styled-system': getTonicUIPackageVersion('styled-system', '2.x'),
+    '@tonic-ui/theme': getTonicUIPackageVersion('theme', '2.x'),
+    '@tonic-ui/utils': getTonicUIPackageVersion('utils', '2.x'),
   };
 
   const extractDependenciesFromContent = (content) => {
