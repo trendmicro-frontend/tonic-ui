@@ -42,6 +42,10 @@ const TONIC_UI_REACT_DOCS_ROOT = ensureString(process.env.TONIC_UI_REACT_DOCS_RO
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
 const versionMap = {
+  'v3-next': {
+    label: 'v3-next',
+    url: `${TONIC_UI_REACT_DOCS_ROOT}/v3-next`,
+  },
   'v2': {
     label: 'v2',
     url: `${TONIC_UI_REACT_DOCS_ROOT}/v2/getting-started`,
