@@ -4,22 +4,22 @@ import { getHtml, getJSConfigJSON, getRootIndex, getDefaultComponent } from './c
 import pkg from '../package.json';
 
 const resolveDependencies = (contents) => {
-  const getTonicUIPackageVersion = (packageName) => {
+  const getTonicUIPackageVersion = (packageName, defaultPackageVersion = 'latest') => {
     const commitShort = process.env.CI_PULL_REQUEST_NUMBER ? process.env.CI_COMMIT_SHORT : undefined;
     if (!commitShort) {
-      return 'latest';
+      return defaultPackageVersion;
     }
     return `https://pkg.csb.dev/trendmicro-frontend/tonic-ui/commit/${commitShort}/@tonic-ui/${packageName}`;
   };
 
   const versionMap = {
     ...pkg.devDependencies,
-    '@tonic-ui/react': getTonicUIPackageVersion('react'),
-    '@tonic-ui/react-hooks': getTonicUIPackageVersion('react-hooks'),
-    '@tonic-ui/react-lab': getTonicUIPackageVersion('react-lab'),
-    '@tonic-ui/styled-system': getTonicUIPackageVersion('styled-system'),
-    '@tonic-ui/theme': getTonicUIPackageVersion('theme'),
-    '@tonic-ui/utils': getTonicUIPackageVersion('utils'),
+    '@tonic-ui/react': getTonicUIPackageVersion('react', '1.x'),
+    '@tonic-ui/react-hooks': getTonicUIPackageVersion('react-hooks', '1.x'),
+    '@tonic-ui/react-lab': getTonicUIPackageVersion('react-lab', '0.x'),
+    '@tonic-ui/styled-system': getTonicUIPackageVersion('styled-system', '1.x'),
+    '@tonic-ui/theme': getTonicUIPackageVersion('theme', '1.x'),
+    '@tonic-ui/utils': getTonicUIPackageVersion('utils', '1.x'),
   };
 
   const extractDependenciesFromContent = (content) => {
