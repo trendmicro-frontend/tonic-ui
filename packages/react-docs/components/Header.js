@@ -40,15 +40,15 @@ const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS
 const versionMap = {
   'v2': {
     label: 'v2',
-    url: `${TONIC_UI_REACT_DOCS_ROOT}/v2`,
+    url: `${TONIC_UI_REACT_DOCS_ROOT}/v2/getting-started`,
   },
   'v1': {
     label: 'v1',
-    url: `${TONIC_UI_REACT_DOCS_ROOT}/v1`,
+    url: `${TONIC_UI_REACT_DOCS_ROOT}/v1/getting-started`,
   },
   'v0': {
     label: 'v0',
-    url: `${TONIC_UI_REACT_DOCS_ROOT}/v0`,
+    url: `${TONIC_UI_REACT_DOCS_ROOT}/v0/getting-started`,
   },
 };
 
