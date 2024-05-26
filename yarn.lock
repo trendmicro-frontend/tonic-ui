@@ -3959,7 +3959,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-base@^2.0.0-alpha.0, @tonic-ui/react-base@workspace:packages/react-base":
+"@tonic-ui/react-base@^2.0.0, @tonic-ui/react-base@workspace:packages/react-base":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-base@workspace:packages/react-base"
   dependencies:
@@ -3980,7 +3980,7 @@ __metadata:
     "@testing-library/jest-dom": ^6.0.0
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.4.3
-    "@tonic-ui/styled-system": ^2.0.0-alpha.0
+    "@tonic-ui/styled-system": ^2.0.0
     "@trendmicro/babel-config": ^1.0.2
     cpy-cli: ^5.0.0
     cross-env: ^7.0.3
@@ -4088,7 +4088,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-hooks@^2.0.0-alpha.0, @tonic-ui/react-hooks@workspace:^, @tonic-ui/react-hooks@workspace:packages/react-hooks":
+"@tonic-ui/react-hooks@^2.0.0, @tonic-ui/react-hooks@workspace:^, @tonic-ui/react-hooks@workspace:packages/react-hooks":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-hooks@workspace:packages/react-hooks"
   dependencies:
@@ -4104,7 +4104,7 @@ __metadata:
     "@testing-library/jest-dom": ^6.0.0
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.4.3
-    "@tonic-ui/utils": ^2.0.0-alpha.0
+    "@tonic-ui/utils": ^2.0.0
     "@trendmicro/babel-config": ^1.0.2
     cpy-cli: ^5.0.0
     cross-env: ^7.0.3
@@ -4127,7 +4127,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-icons@^2.0.0-alpha.0, @tonic-ui/react-icons@workspace:^, @tonic-ui/react-icons@workspace:packages/react-icons":
+"@tonic-ui/react-icons@^2.0.0, @tonic-ui/react-icons@workspace:^, @tonic-ui/react-icons@workspace:packages/react-icons":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-icons@workspace:packages/react-icons"
   dependencies:
@@ -4136,7 +4136,7 @@ __metadata:
     "@babel/preset-react": ^7.23.3
     "@emotion/babel-plugin": ^11.11.0
     "@emotion/react": 11.x
-    "@tonic-ui/react-base": ^2.0.0-alpha.0
+    "@tonic-ui/react-base": ^2.0.0
     "@trendmicro/babel-config": ^1.0.2
     "@trendmicro/tmicon": latest
     cross-env: ^7.0.3
@@ -4178,12 +4178,12 @@ __metadata:
     "@testing-library/jest-dom": ^6.0.0
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.4.3
-    "@tonic-ui/react-base": ^2.0.0-alpha.0
-    "@tonic-ui/react-hooks": ^2.0.0-alpha.0
-    "@tonic-ui/react-icons": ^2.0.0-alpha.0
-    "@tonic-ui/styled-system": ^2.0.0-alpha.0
-    "@tonic-ui/theme": ^2.0.0-alpha.0
-    "@tonic-ui/utils": ^2.0.0-alpha.0
+    "@tonic-ui/react-base": ^2.0.0
+    "@tonic-ui/react-hooks": ^2.0.0
+    "@tonic-ui/react-icons": ^2.0.0
+    "@tonic-ui/styled-system": ^2.0.0
+    "@tonic-ui/theme": ^2.0.0
+    "@tonic-ui/utils": ^2.0.0
     "@trendmicro/babel-config": ^1.0.2
     cpy-cli: ^5.0.0
     cross-env: ^7.0.3
@@ -4215,7 +4215,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/styled-system@^2.0.0-alpha.0, @tonic-ui/styled-system@workspace:packages/styled-system":
+"@tonic-ui/styled-system@^2.0.0, @tonic-ui/styled-system@workspace:packages/styled-system":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/styled-system@workspace:packages/styled-system"
   dependencies:
@@ -4243,7 +4243,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/theme@^2.0.0-alpha.0, @tonic-ui/theme@workspace:packages/theme":
+"@tonic-ui/theme@^2.0.0, @tonic-ui/theme@workspace:packages/theme":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/theme@workspace:packages/theme"
   dependencies:
@@ -4271,7 +4271,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/utils@^2.0.0-alpha.0, @tonic-ui/utils@workspace:^, @tonic-ui/utils@workspace:packages/utils":
+"@tonic-ui/utils@^2.0.0, @tonic-ui/utils@workspace:^, @tonic-ui/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/utils@workspace:packages/utils"
   dependencies:
