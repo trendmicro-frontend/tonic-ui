@@ -15,7 +15,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - v2
       # The `deploy-branch` job will run only on the specified branches.
       - deploy-branch:
@@ -24,7 +23,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - v2
       # The `build-pr` job will run on branches that have associated pull requests open.
       - build-pr:
@@ -32,7 +30,6 @@ workflows:
             branches:
               ignore:
                 - gh-pages
-                - master
                 - v2
       # The `deploy-pr` job will run on branches that have associated pull requests open.
       - deploy-pr:
@@ -42,7 +39,6 @@ workflows:
             branches:
               ignore:
                 - gh-pages
-                - master
                 - v2
       # The `build-tag` job will not run on all branches and will run only on the matched tags.
       - build-tag:
