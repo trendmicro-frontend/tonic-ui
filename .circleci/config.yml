@@ -14,7 +14,7 @@ workflows:
           filters:
             branches:
               only:
-                - v2
+                - master
       # The `deploy-branch` job will run only on the specified branches.
       - deploy-branch:
           requires:
@@ -22,14 +22,14 @@ workflows:
           filters:
             branches:
               only:
-                - v2
+                - master
       # The `build-pr` job will run on branches that have associated pull requests open.
       - build-pr:
           filters:
             branches:
               ignore:
                 - gh-pages
-                - v2
+                - master
       # The `deploy-pr` job will run on branches that have associated pull requests open.
       - deploy-pr:
           requires:
@@ -38,7 +38,7 @@ workflows:
             branches:
               ignore:
                 - gh-pages
-                - v2
+                - master
       # The `build-tag` job will not run on all branches and will run only on the matched tags.
       - build-tag:
           filters:
@@ -75,7 +75,7 @@ jobs:
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
             echo "export MATOMO_URL=//matomo.xdr.trendmicro.com" >> $BASH_ENV
             echo "export MATOMO_CONTAINER_ID=N8rpl9LU" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_DOCS_VERSION=v2" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=v3-next" >> $BASH_ENV
       - run:
           name: Check package version
           command: |
@@ -313,7 +313,7 @@ jobs:
             echo "export CI_COMMIT=${CIRCLE_SHA1}" >> $BASH_ENV
             echo "export CI_COMMIT_SHORT=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
             echo "export CI_TAG=${CIRCLE_TAG}" >> $BASH_ENV
-            echo "export TONIC_UI_REACT_DOCS_VERSION=v2" >> $BASH_ENV
+            echo "export TONIC_UI_REACT_DOCS_VERSION=v3-next" >> $BASH_ENV
       - run:
           name: Extract build artifacts
           command: |
