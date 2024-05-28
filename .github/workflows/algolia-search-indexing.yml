@@ -8,7 +8,7 @@ on:
 
 env:
   ALGOLIA_APPLICATION_ID: 7V00GBK8V8
-  ALGOLIA_INDEX: tonic-ui-v2
+  ALGOLIA_INDEX: tonic-ui-v3
   
 jobs:
   build:
