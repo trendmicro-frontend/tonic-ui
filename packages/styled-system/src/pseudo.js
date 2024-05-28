@@ -94,6 +94,7 @@ const pseudoClassSelector = {
   _notLastChild: createSelectorFunction('&:not(:last-child)'),
   _notLastOfType: createSelectorFunction('&:not(:last-of-type)'),
   _nthOfType: createNthOfTypeSelectorFunction('&:nth-of-type'),
+  _placeholderShown: createSelectorFunction('&:placeholder-shown'),
   _readOnly: createSelectorFunction([
     '&:read-only',
     '&[aria-readonly=true]',
@@ -122,7 +123,6 @@ const pseudoElementSelector = {
   __firstLetter: createSelectorFunction('&::first-letter'),
   __firstLine: createSelectorFunction('&::first-line'),
   __placeholder: createSelectorFunction('&::placeholder'),
-  __placeholderShown: createSelectorFunction('&::placeholder-shown'),
   __selection: createSelectorFunction('&::selection'),
 };
 
