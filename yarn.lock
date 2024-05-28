@@ -4138,7 +4138,7 @@ __metadata:
     "@emotion/react": 11.x
     "@tonic-ui/react-base": ^2.0.0
     "@trendmicro/babel-config": ^1.0.2
-    "@trendmicro/tmicon": latest
+    "@trendmicro/tmicon": 1.40.0
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^8.25.0
@@ -4333,7 +4333,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trendmicro/tmicon@npm:latest":
+"@trendmicro/tmicon@npm:1.40.0":
   version: 1.40.0
   resolution: "@trendmicro/tmicon@npm:1.40.0"
   dependencies:
