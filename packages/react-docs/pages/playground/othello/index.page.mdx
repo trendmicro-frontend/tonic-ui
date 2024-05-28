@@ -1,0 +1,118 @@
+# Othello
+
+## Overview
+
+Othello, also known as Reversi, is a strategy board game involving two players. Each player takes turns placing their pieces on an 8x8 board, aiming to have the majority of their color pieces on the board at the end of the game. The game starts with an initial configuration of two black pieces and two white pieces placed in the center of the board. Players then alternately place their pieces on the board, flipping the opponent's pieces to their own color whenever they bracket one or more of the opponent's pieces in a straight line (horizontally, vertically, or diagonally).
+
+{render('./othello')}
+
+## Game Tree
+
+The provided algorithm is designed to create an AI that can play Othello by evaluating potential moves and selecting the best one based on a set of criteria. This process involves several key components: board evaluation, move generation, and a search function utilizing the minimax algorithm with alpha-beta pruning. Let's explore each component in detail.
+
+### Board Evaluation Function
+
+The evaluation table assigns values to each cell on the board based on strategic importance. In the Othello game, corners and edges are highly valued, while cells adjacent to corners are penalized.
+
+```
+|  90  | -20  |  10  |  10  |  10  |  10  | -20  |  90  |
+| -20  | -20  |  1   |  1   |  1   |  1   | -20  | -20  |
+|  10  |  1   |  1   |  1   |  1   |  1   |  1   |  10  |
+|  10  |  1   |  1   |  1   |  1   |  1   |  1   |  10  |
+|  10  |  1   |  1   |  1   |  1   |  1   |  1   |  10  |
+|  10  |  1   |  1   |  1   |  1   |  1   |  1   |  10  |
+| -20  | -20  |  1   |  1   |  1   |  1   | -20  | -20  |
+|  90  | -20  |  10  |  10  |  10  |  10  | -20  |  90  |
+```
+
+The evaluation function is crucial in the Minimax algorithm with limited depth. It provides a heuristic value for each board state, allowing the algorithm to estimate the desirability of a position without exploring the entire game tree. This function considers various factors such as:
+
+* Piece Count: The number of pieces each player has on the board.
+* Positional Advantage: The strategic value of pieces based on their positions.
+* Mobility: The number of possible moves available to each player.
+* Stability: The likelihood that pieces will remain unflipped for the rest of the game.
+
+```js
+const evaluate = (cells) => {
+  const p1 = getPlaceableCells(cells, BLACK_PIECE);
+  const p2 = getPlaceableCells(cells, WHITE_PIECE);
+
+  if (p1.length === 0 && p2.length === 0) {
+    // Game End
+    const blackPieces = cells.filter(cell => cell === BLACK_PIECE).length;
+    const whitePieces = cells.filter(cell => cell === WHITE_PIECE).length;
+    return (blackPieces - whitePieces) * 10000;
+  }
+
+  let blackScore = 0;
+  let whiteScore = 0;
+  for (let i = 0; i < cells.length; ++i) {
+    if (cells[i] === WHITE_PIECE) {
+      whiteScore += evaluationTable[i];
+    }
+    if (cells[i] === BLACK_PIECE) {
+      blackScore += evaluationTable[i];
+    }
+  }
+
+  // Maximum mobility
+  const mobility = p1.length - p2.length;
+
+  const score = (blackScore - whiteScore) + mobility;
+  return score;
+};
+```
+
+### Minimax algorithm
+
+Building a game tree involves starting from a particular game state and recursively adding all possible future game states as child nodes. This process continues for each child node until the game ends (a win or a loss is determined). The Minimax algorithm works by evaluating all possible end states of the game tree. For each parent node, the algorithm identifies the optimal move based on its child nodes' states. This process iterates back to the initial game state, allowing the player in that state to make the best possible move.
+
+```
+function minimax(node, depth)
+    if node is a terminal node or depth = 0
+        return the heuristic value of node
+    if the adversary is to play at node
+        let α := +∞
+        foreach child of node
+            α := min(α, minimax(child, depth-1))
+    else {we are to play at node}
+        let α := -∞
+        foreach child of node
+            α := max(α, minimax(child, depth-1))
+    return α
+```
+
+### Alpha-Beta Pruning
+
+Alpha-Beta pruning enhances the efficiency of the Minimax algorithm by eliminating branches that do not need to be explored. This focuses the search on potentially optimal subtrees, reducing the time spent on less promising branches.
+
+Process of Alpha-Beta Pruning
+1. Initialization: Start from an initial game state and initialize two variables, alpha and beta, representing the best already explored option along the path to the root for the maximizer and minimizer, respectively.
+2. Value Passing: These alpha and beta values are passed down to the child nodes. Each child node updates its alpha and beta values based on the results from its own child nodes.
+3. Terminal Node: When a terminal node is reached, the result updates the alpha or beta values of the parent node. This process continues upwards through the tree.
+4. Pruning Condition: If, during exploration, we find that a game node's value exceeds the alpha or beta threshold (i.e., α >= β), we prune the remaining unexplored child nodes of that game node.
+5. Result Propagation: The recorded action and evaluation value are then passed up the tree, ultimately reaching the initial game state. This allows the player to make the best possible move from the starting position.
+
+Alpha-Beta pruning does not affect the final result of the Minimax algorithm but significantly reduces the number of nodes to be explored. This ensures that the search time is utilized efficiently on branches that are more likely to lead to an optimal solution. By combining the evaluation function and Alpha-Beta pruning, the algorithm can make intelligent decisions within a reasonable amount of time.
+
+```
+function alphabeta(node, depth, α, β, MinMax)
+    if depth = 0 or node is left_node
+        return benefit of node
+    if MinMax = Max
+        v := -∞
+        foreach child of node
+            v := max(v, alphabeta(child, depth - 1, α, β, FALSE))
+            α := max(α, v)
+            if β ≤ α
+                break
+        return v
+    else
+        v := ∞
+        foreach child of node
+            v := min(v, alphabeta(child, depth - 1, α, β, TRUE))
+            β := min(β, v)
+            if β ≤ α
+                break
+        return v
+```
