@@ -5,6 +5,28 @@ const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
 };
 
+const defaultThemeWithCSSVariables = {
+  ...defaultTheme,
+  config: {
+    prefix: 'tonic',
+    useCSSVariables: true,
+  },
+  __cssVariableMap: {
+    '--tonic-breakpoints-0': '40em',
+    '--tonic-breakpoints-1': '52em',
+    '--tonic-breakpoints-2': '64em',
+    '--tonic-space-0': 0,
+    '--tonic-space-1': 4,
+    '--tonic-space-2': 8,
+    '--tonic-space-3': 16,
+    '--tonic-space-4': 32,
+    '--tonic-space-5': 64,
+    '--tonic-space-6': 128,
+    '--tonic-space-7': 256,
+    '--tonic-space-8': 512,
+  },
+};
+
 test('returns style objects', () => {
   const styles = margin({
     theme: { ...defaultTheme },
@@ -21,6 +43,14 @@ test('returns 0 values', () => {
   expect(styles).toEqual({ margin: 0 });
 });
 
+test('returns positive pixel values', () => {
+  const styles = margin({
+    theme: { ...defaultTheme },
+    m: 2,
+  });
+  expect(styles).toEqual({ margin: 8 });
+});
+
 test('returns negative pixel values', () => {
   const styles = margin({
     theme: { ...defaultTheme },
@@ -29,34 +59,84 @@ test('returns negative pixel values', () => {
   expect(styles).toEqual({ margin: -8 });
 });
 
+test('returns positive em values', () => {
+  const styles = margin({
+    theme: { ...defaultTheme },
+    m: '16em',
+  });
+  expect(styles).toEqual({ margin: '16em' });
+});
+
 test('returns negative em values', () => {
   const styles = margin({
     theme: { ...defaultTheme },
-    m: 'calc(16em * -1)',
+    m: '-16em',
   });
-  expect(styles).toEqual({ margin: 'calc(16em * -1)' });
-});
-
-test('returns negative theme values', () => {
-  const styles = margin({
-    theme: {
-      ...defaultTheme,
-      space: [0, 4, 8],
-    },
-    m: -2,
-  });
-  expect(styles).toEqual({ margin: -8 });
+  expect(styles).toEqual({ margin: '-16em' });
 });
 
 test('returns positive theme values', () => {
   const styles = margin({
-    theme: {
-      ...defaultTheme,
-      space: [0, '1em', '2em'],
-    },
-    m: 2,
+    theme: { ...defaultTheme },
+    m: 0,
+    mx: 2,
+    my: 1,
   });
-  expect(styles).toEqual({ margin: '2em' });
+  expect(styles).toEqual({
+    margin: 0,
+    marginLeft: 8,
+    marginRight: 8,
+    marginTop: 4,
+    marginBottom: 4,
+  });
+});
+
+test('returns negative theme values', () => {
+  const styles = margin({
+    theme: { ...defaultTheme },
+    m: 0,
+    mx: -2,
+    my: -1,
+  });
+  expect(styles).toEqual({
+    margin: 0,
+    marginLeft: -8,
+    marginRight: -8,
+    marginTop: -4,
+    marginBottom: -4,
+  });
+});
+
+test('returns positive theme values using CSS variables', () => {
+  const style = margin({
+    theme: { ...defaultThemeWithCSSVariables },
+    m: 0,
+    mx: 2,
+    my: 1,
+  });
+  expect(style).toEqual({
+    margin: 'var(--tonic-space-0)',
+    marginLeft: 'var(--tonic-space-2)',
+    marginRight: 'var(--tonic-space-2)',
+    marginTop: 'var(--tonic-space-1)',
+    marginBottom: 'var(--tonic-space-1)',
+  });
+});
+
+test('returns negative theme values using CSS variables', () => {
+  const style = margin({
+    theme: { ...defaultThemeWithCSSVariables },
+    m: 0,
+    mx: -2,
+    my: -1,
+  });
+  expect(style).toEqual({
+    margin: 'var(--tonic-space-0)',
+    marginLeft: 'calc(0 - var(--tonic-space-2))',
+    marginRight: 'calc(0 - var(--tonic-space-2))',
+    marginTop: 'calc(0 - var(--tonic-space-1))',
+    marginBottom: 'calc(0 - var(--tonic-space-1))',
+  });
 });
 
 test('returns responsive values', () => {
@@ -79,7 +159,7 @@ test('returns negative string values from theme', () => {
     },
     margin: -1,
   });
-  expect(styles).toEqual({ margin: 'calc(1em * -1)' });
+  expect(styles).toEqual({ margin: '-1em' });
 });
 
 test('returns values from theme object', () => {
