@@ -124,7 +124,7 @@ exports[`Popover should render correctly 1`] = `
   -webkit-filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.16));
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
-  bottom: calc(8px * -1);
+  bottom: -8px;
   -webkit-transform: translateX(-50%);
   -moz-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
@@ -144,7 +144,7 @@ exports[`Popover should render correctly 1`] = `
   -webkit-filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.16));
   filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
-  top: calc(8px * -1);
+  top: -8px;
   -webkit-transform: translateX(-50%);
   -moz-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
@@ -164,7 +164,7 @@ exports[`Popover should render correctly 1`] = `
   -webkit-filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.16));
   filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
-  right: calc(8px * -1);
+  right: -8px;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
@@ -184,7 +184,7 @@ exports[`Popover should render correctly 1`] = `
   -webkit-filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.16));
   filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.16));
   position: absolute;
-  left: calc(8px * -1);
+  left: -8px;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
