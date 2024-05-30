@@ -1,9 +1,30 @@
 import get from './get';
 import toCSSVariable from './toCSSVariable';
 
-const isSimpleCSSVariable = (x) => {
+// Check if a value is a simple CSS variable
+// e.g. var(--tonic-spacing-1)
+const isSimpleCSSVariable = (value) => {
   const re = /^var\(\s*([a-zA-Z0-9\-_]+)\s*\)$/;
-  return re.test(String(x ?? '').trim());
+  return re.test(String(value ?? '').trim());
+};
+
+// Negate the value, handling CSS variables and numeric values
+const toNegativeValue = (scale, absoluteValue, options) => {
+  const useCSSVariables = !!(options?.props?.theme?.config?.useCSSVariables); // defaults to false
+  const n = getter(scale, absoluteValue, options);
+
+  // Handle CSS variables for negative values
+  if (useCSSVariables && isSimpleCSSVariable(n)) {
+    // https://stackoverflow.com/questions/49469344/using-negative-css-custom-properties
+    return `calc(0 - ${n})`;
+  }
+
+  // Handle numeric value
+  if (typeof n === 'number' && Number.isFinite(n)) {
+    return n * -1;
+  }
+
+  return `-${n}`;
 };
 
 export const getter = (scale, value, options) => {
@@ -15,17 +36,17 @@ export const getter = (scale, value, options) => {
   if (result !== undefined && useCSSVariables) {
     const contextScale = options?.context?.scale;
     const cssVariable = toCSSVariable(
-      // Examples:
-      // => contextScale='colors', value='blue:50'
-      // => contextScale='space', value=0
+      // | contextScale | value     |
+      // | ------------ | --------- |
+      // | colors       | 'blue:50' |
+      // | space        | 0         |
       [contextScale, String(value ?? '')].filter(Boolean).join('.'), // => 'colors.blue:50'
       { prefix, delimiter: '-' },
     ); // => '--tonic-colors-blue-50'
     const cssVariableValue = cssVariableMap?.[cssVariable]; // => '#578aef'
     if (cssVariableValue !== undefined) {
-      const resultString = String(result ?? '');
-      // e.g. Replace '#578aef' with 'var(--tonic-colors-blue-50)'
-      return resultString.replaceAll(cssVariableValue, `var(${cssVariable})`);
+      // => Replace '#578aef' with 'var(--tonic-colors-blue-50)'
+      return String(result ?? '').replaceAll(cssVariableValue, `var(${cssVariable})`);
     }
     // fallback to the original value
   }
@@ -34,8 +55,6 @@ export const getter = (scale, value, options) => {
 };
 
 export const positiveOrNegative = (scale, value, options) => {
-  const useCSSVariables = !!(options?.props?.theme?.config?.useCSSVariables); // defaults to false
-
   /**
    * Scale object
    *
@@ -68,20 +87,7 @@ export const positiveOrNegative = (scale, value, options) => {
       return getter(scale, value, options);
     }
 
-    const n = getter(scale, absoluteValue, options);
-
-    // Handle CSS variables for negative values
-    if (useCSSVariables && isSimpleCSSVariable(n)) {
-      // https://stackoverflow.com/questions/49469344/using-negative-css-custom-properties
-      return `calc(0 - ${n})`;
-    }
-
-    // Handle numeric value
-    if (typeof n === 'number' && Number.isFinite(value)) {
-      return n * -1;
-    }
-
-    return `-${n}`;
+    return toNegativeValue(scale, absoluteValue, options);
   }
 
   /**
@@ -116,20 +122,7 @@ export const positiveOrNegative = (scale, value, options) => {
       return getter(scale, value, options);
     }
 
-    const n = getter(scale, absoluteValue, options);
-
-    // Handle CSS variables for negative values
-    if (useCSSVariables && isSimpleCSSVariable(n)) {
-      // https://stackoverflow.com/questions/49469344/using-negative-css-custom-properties
-      return `calc(0 - ${n})`;
-    }
-
-    // Handle numeric value
-    if (typeof n === 'number' && Number.isFinite(value)) {
-      return n * -1;
-    }
-
-    return `-${n}`;
+    return toNegativeValue(scale, absoluteValue, options);
   }
 
   return getter(scale, value, options);
