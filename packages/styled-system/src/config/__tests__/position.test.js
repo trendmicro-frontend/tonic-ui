@@ -4,6 +4,25 @@ const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
 };
 
+const defaultThemeWithCSSVariables = {
+  ...defaultTheme,
+  config: {
+    prefix: 'tonic',
+    useCSSVariables: true,
+  },
+  __cssVariableMap: {
+    '--tonic-space-0': 0,
+    '--tonic-space-1': 4,
+    '--tonic-space-2': 8,
+    '--tonic-space-3': 16,
+    '--tonic-space-4': 32,
+    '--tonic-space-5': 64,
+    '--tonic-space-6': 128,
+    '--tonic-space-7': 256,
+    '--tonic-space-8': 512,
+  },
+};
+
 test('returns position styles', () => {
   const style = position({
     inset: '4px 8px',
@@ -59,6 +78,38 @@ test('returns negative theme values', () => {
   expect(style).toEqual({ top: -4, right: -8, bottom: -16, left: -32 });
 });
 
+test('returns positive theme values using CSS variables', () => {
+  const style = position({
+    theme: { ...defaultThemeWithCSSVariables },
+    top: 1,
+    right: 2,
+    bottom: 3,
+    left: 4,
+  });
+  expect(style).toEqual({
+    top: 'var(--tonic-space-1)',
+    right: 'var(--tonic-space-2)',
+    bottom: 'var(--tonic-space-3)',
+    left: 'var(--tonic-space-4)',
+  });
+});
+
+test('returns negative theme values using CSS variables', () => {
+  const style = position({
+    theme: { ...defaultThemeWithCSSVariables },
+    top: -1,
+    right: -2,
+    bottom: -3,
+    left: -4,
+  });
+  expect(style).toEqual({
+    top: 'calc(0 - var(--tonic-space-1))',
+    right: 'calc(0 - var(--tonic-space-2))',
+    bottom: 'calc(0 - var(--tonic-space-3))',
+    left: 'calc(0 - var(--tonic-space-4))',
+  });
+});
+
 test('returns positive pixel values', () => {
   const style = position({
     top: '1px',
@@ -82,9 +133,9 @@ test('returns negative pixel values', () => {
     left: '-4px',
   });
   expect(style).toEqual({
-    top: 'calc(1px * -1)',
-    right: 'calc(2px * -1)',
-    bottom: 'calc(3px * -1)',
-    left: 'calc(4px * -1)',
+    top: '-1px',
+    right: '-2px',
+    bottom: '-3px',
+    left: '-4px',
   });
 });

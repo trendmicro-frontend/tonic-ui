@@ -200,7 +200,7 @@ exports[`Menu should render correctly 1`] = `
 
 .emotion-16:focus-visible {
   outline-color: var(--tonic-colors-blue-60);
-  outline-offset: calc(var(--tonic-space-1h) * -1);
+  outline-offset: calc(0 - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }

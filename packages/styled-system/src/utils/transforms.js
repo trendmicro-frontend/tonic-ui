@@ -1,35 +1,58 @@
 import get from './get';
 import toCSSVariable from './toCSSVariable';
 
-export const getter = (scale, value, options) => {
-  const { context, props } = { ...options };
-  const prefix = props?.theme?.config?.prefix; // defaults to 'tonic'
-  const useCSSVariables = props?.theme?.config?.useCSSVariables; // defaults to false
-  const cssVariableMap = props?.theme?.__cssVariableMap;
+// Check if a value is a simple CSS variable
+// e.g. var(--tonic-spacing-1)
+const isSimpleCSSVariable = (value) => {
+  const re = /^var\(\s*([a-zA-Z0-9\-_]+)\s*\)$/;
+  return re.test(String(value ?? '').trim());
+};
 
-  const result = get(scale, value, value);
+// Negate the value, handling CSS variables and numeric values
+const toNegativeValue = (scale, absoluteValue, options) => {
+  const theme = options?.props?.theme;
+  const useCSSVariables = !!(theme?.config?.useCSSVariables); // defaults to false
+  const n = getter(scale, absoluteValue, options);
 
-  if (result === undefined) {
-    return result;
+  // Handle CSS variables for negative values
+  if (useCSSVariables && isSimpleCSSVariable(n)) {
+    // https://stackoverflow.com/questions/49469344/using-negative-css-custom-properties
+    return `calc(0 - ${n})`;
   }
 
-  if (useCSSVariables) {
-    const contextScale = context?.scale;
+  // Handle numeric value
+  if (typeof n === 'number' && Number.isFinite(n)) {
+    return n * -1;
+  }
+
+  return `-${n}`;
+};
+
+export const getter = (scale, value, options) => {
+  const theme = options?.props?.theme;
+  const prefix = theme?.config?.prefix; // defaults to 'tonic'
+  const useCSSVariables = !!(theme?.config?.useCSSVariables); // defaults to false
+  const result = get(scale, value);
+
+  if (result !== undefined && useCSSVariables) {
+    const contextScale = options?.context?.scale;
     const cssVariable = toCSSVariable(
-      // contextScale='colors', value='blue:50'
-      [contextScale, value].filter(Boolean).join('.'), // => 'colors.blue:50'
+      // | contextScale | value     |
+      // | ------------ | --------- |
+      // | colors       | 'blue:50' |
+      // | space        | 0         |
+      [contextScale, String(value ?? '')].filter(Boolean).join('.'), // => 'colors.blue:50'
       { prefix, delimiter: '-' },
     ); // => '--tonic-colors-blue-50'
-    const cssVariableValue = cssVariableMap[cssVariable];
-
+    const cssVariableValue = theme?.__cssVariableMap?.[cssVariable]; // => '#578aef'
     if (cssVariableValue !== undefined) {
-      const resultString = String(result ?? '');
-      return resultString.replaceAll(cssVariableValue, `var(${cssVariable})`);
+      // => Replace '#578aef' with 'var(--tonic-colors-blue-50)'
+      return String(result ?? '').replaceAll(cssVariableValue, `var(${cssVariable})`);
     }
     // fallback to the original value
   }
 
-  return result;
+  return result ?? value; // fallback to value if result is null or undefined
 };
 
 export const positiveOrNegative = (scale, value, options) => {
@@ -57,16 +80,15 @@ export const positiveOrNegative = (scale, value, options) => {
    * ```
    */
   if (typeof value === 'string') {
-    const isNegative = value.startsWith('-');
-    if (!isNegative) {
+    const absoluteValue = (value.startsWith('+') || value.startsWith('-')) ? value.slice(1) : value;
+    const isNonNegative = !value.startsWith('-');
+
+    // Return the result if the value is non-negative or if the scale object does not contain the absolute value
+    if (isNonNegative || !Object.prototype.hasOwnProperty.call(scale, absoluteValue)) {
       return getter(scale, value, options);
     }
-    const absoluteValue = (value.startsWith('+') || value.startsWith('-')) ? value.slice(1) : value;
-    const n = getter(scale, absoluteValue, options);
-    if (typeof n === 'string') {
-      return `calc(${n} * -1)`;
-    }
-    return n * -1;
+
+    return toNegativeValue(scale, absoluteValue, options);
   }
 
   /**
@@ -93,16 +115,15 @@ export const positiveOrNegative = (scale, value, options) => {
    * ```
    */
   if (typeof value === 'number' && Number.isFinite(value)) {
-    const isNegative = (value < 0);
-    if (!isNegative) {
+    const absoluteValue = Math.abs(value);
+    const isNonNegative = !(value < 0);
+
+    // Return the result if the value is non-negative or if the scale object does not contain the absolute value
+    if (isNonNegative || !Object.prototype.hasOwnProperty.call(scale, absoluteValue)) {
       return getter(scale, value, options);
     }
-    const absoluteValue = Math.abs(value);
-    const n = getter(scale, absoluteValue, options);
-    if (typeof n === 'string') {
-      return `calc(${n} * -1)`;
-    }
-    return n * -1;
+
+    return toNegativeValue(scale, absoluteValue, options);
   }
 
   return getter(scale, value, options);
