@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@tonic-ui/react-docs",
-  "version": "1.29.2",
+  "version": "1.29.3",
   "description": "A documentation site for React Tonic UI component library.",
   "scripts": {
     "build": "bash -c '. ./tonic-ui.env && ./scripts/update-docs.sh && cross-env NODE_ENV=production next build'",
@@ -39,10 +39,10 @@
     "@next/mdx": "^13.0.5",
     "@tanstack/react-table": "^8.9.1",
     "@tanstack/react-virtual": "^3.0.0-beta",
-    "@tonic-ui/react": "^1.29.2",
+    "@tonic-ui/react": "^1.29.3",
     "@tonic-ui/react-hooks": "^1.6.2",
-    "@tonic-ui/react-lab": "^0.27.2",
-    "@tonic-ui/styled-system": "^1.10.0",
+    "@tonic-ui/react-lab": "^0.27.3",
+    "@tonic-ui/styled-system": "^1.10.1",
     "@tonic-ui/theme": "^1.3.0",
     "@trendmicro/babel-config": "^1.0.2",
     "acorn": "^8.8.2",
