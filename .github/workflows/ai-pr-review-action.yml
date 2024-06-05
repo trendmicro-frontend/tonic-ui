@@ -21,4 +21,4 @@ jobs:
           AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
           AZURE_OPENAI_DEPLOYMENT: "GPT4o"
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
-          exclude: "**/yarn.lock, **/package.json, **/README.md" # Optional: exclude patterns separated by commas
+          exclude: "/yarn.lock, **/package.json, **/README.md" # Optional: exclude patterns separated by commas
