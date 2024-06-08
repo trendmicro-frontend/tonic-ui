@@ -12,8 +12,8 @@ const App = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle();
   const dividerColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
+    dark: 'gray:50',
+    light: 'gray:50',
   }[colorMode];
   const highlightedDividerColor = {
     dark: 'gray:50',
@@ -75,7 +75,9 @@ const App = () => {
             bottom: 0,
             borderLeft: 1,
             borderLeftColor: isResizing ? highlightedDividerColor : dividerColor,
+            opacity: 0.6,
             _hover: {
+              opacity: 1,
               borderLeftColor: highlightedDividerColor,
             },
           }}
