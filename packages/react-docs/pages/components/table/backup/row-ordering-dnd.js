@@ -175,7 +175,7 @@ const App = () => {
     data: items,
     columns,
     defaultColumn: {
-      minSize: 40,
+      minSize: 80,
     },
     getCoreRowModel: getCoreRowModel(),
     getRowId: row => row.id, //good to have guaranteed unique row ids/keys for rendering

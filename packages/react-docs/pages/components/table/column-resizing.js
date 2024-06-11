@@ -91,7 +91,7 @@ const App = () => {
     data,
     columns,
     defaultColumn: {
-      minSize: 40,
+      minSize: 80,
     },
     columnResizeMode,
     getCoreRowModel: getCoreRowModel(),
@@ -102,7 +102,7 @@ const App = () => {
   });
 
   const layout = 'flexbox'; // One of: 'flexbox', 'table'
-  const variant = 'outline'; // One of: 'default', 'outline'
+  const variant = 'default'; // One of: 'default', 'outline'
 
   return (
     <>
@@ -149,8 +149,8 @@ const App = () => {
                 // ResizeHandle
                 const resizeHandleSX = (() => {
                   const dividerColor = {
-                    dark: 'gray:70',
-                    light: 'gray:30',
+                    dark: 'gray:50',
+                    light: 'gray:50',
                   }[colorMode];
                   const highlightedDividerColor = {
                     dark: 'gray:50',
@@ -165,12 +165,15 @@ const App = () => {
                     position: 'absolute',
                     top: (variant === 'outline') ? -1 : 0,
                     right: -1 * (isResizingColumn ? dividerWidth + translucentWidth : hoverableWidth),
-                    height: isResizingColumn ? tableHeight : 36,
+                    height: isResizingColumn ? tableHeight : '9x',
                     zIndex: 1,
 
                     borderLeft: dividerWidth,
                     borderLeftColor: isResizingColumn ? highlightedDividerColor : dividerColor,
+                    opacity: isResizingColumn ? 1 : 0,
                     _hover: {
+                      height: tableHeight,
+                      opacity: 1,
                       borderLeftColor: highlightedDividerColor,
                     },
 

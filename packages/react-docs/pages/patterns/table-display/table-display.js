@@ -183,6 +183,7 @@ const App = () => {
           onChange={row.getToggleSelectedHandler()}
         />
       ),
+      minSize: 48,
       size: 48,
     },
     {
@@ -219,7 +220,7 @@ const App = () => {
 
   const tableOptions = useMemo(() => ({
     defaultColumn: {
-      minSize: 48,
+      minSize: 80,
     },
     state: {
       rowSelection,

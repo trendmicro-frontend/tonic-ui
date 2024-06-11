@@ -82,7 +82,7 @@ const App = () => {
     data,
     columns,
     defaultColumn: {
-      minSize: 40,
+      minSize: 80,
     },
     state: {
       sorting,

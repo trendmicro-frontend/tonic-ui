@@ -141,6 +141,7 @@ const App = () => {
           />
         );
       },
+      minSize: 48,
       size: 48,
     },
     {
@@ -170,7 +171,7 @@ const App = () => {
     data,
     columns,
     defaultColumn: {
-      minSize: 40,
+      minSize: 80,
     },
     getRowCanExpand: () => true,
     getCoreRowModel: getCoreRowModel(),

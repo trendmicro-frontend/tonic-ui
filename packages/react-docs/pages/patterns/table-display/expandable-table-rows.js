@@ -85,6 +85,7 @@ const App = () => {
           />
         );
       },
+      minSize: 48,
       size: 48,
     },
     {
@@ -141,7 +142,7 @@ const App = () => {
   ], [colorMode, colorStyle]); // Include both colorMode and colorStyle as dependencies to prevent memoization when the color mode changes
   const tableOptions = useMemo(() => ({
     defaultColumn: {
-      minSize: 48,
+      minSize: 80,
     },
     getExpandedRowModel: getExpandedRowModel(),
     getRowCanExpand: () => true,
