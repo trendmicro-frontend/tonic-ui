@@ -163,13 +163,14 @@ const App = () => {
                     position: 'absolute',
                     top: (variant === 'outline') ? -1 : 0,
                     right: -1 * (isResizingColumn ? dividerWidth + translucentWidth : hoverableWidth),
-                    height: isResizingColumn ? tableHeight : 36,
+                    height: isResizingColumn ? tableHeight : '9x',
                     zIndex: 1,
 
                     borderLeft: dividerWidth,
                     borderLeftColor: isResizingColumn ? highlightedDividerColor : dividerColor,
                     opacity: isResizingColumn ? 1 : 0,
                     _hover: {
+                      height: tableHeight,
                       opacity: 1,
                       borderLeftColor: highlightedDividerColor,
                     },
