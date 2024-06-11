@@ -48,6 +48,7 @@ const App = () => {
           onChange={row.getToggleSelectedHandler()}
         />
       ),
+      minSize: 48,
       size: 48,
       style: {
         px: '4x',
@@ -101,7 +102,7 @@ const App = () => {
     data,
     columns,
     defaultColumn: {
-      minSize: 48,
+      minSize: 80,
     },
     state: {
       rowSelection,
