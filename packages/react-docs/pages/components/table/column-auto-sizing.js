@@ -72,7 +72,7 @@ const App = () => {
     data,
     columns,
     defaultColumn: {
-      minSize: 40,
+      minSize: 80,
     },
     getCoreRowModel: getCoreRowModel(),
     getRowId: (originalRow, index) => {
@@ -122,7 +122,7 @@ const App = () => {
             size: Math.max(
               percentageWidth, // percentage of table width
               textWidth + gutterWidth, // text width with padding
-              minSize, // minimum size (e.g. 40px)
+              minSize, // minimum size (e.g. 80px)
             ),
           };
         }
@@ -148,7 +148,7 @@ const App = () => {
           id,
           size: Math.max(
             textWidth + gutterWidth, // text width with padding
-            minSize, // minimum size (e.g. 40px)
+            minSize, // minimum size (e.g. 80px)
           ),
         };
       });
