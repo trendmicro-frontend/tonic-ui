@@ -109,6 +109,8 @@ const useSearchInputLoadingIconStyle = ({ variant }) => {
     : '2x';
 
   return {
+    display: 'flex',
+    alignItems: 'center',
     pl,
     pr,
   };
@@ -122,6 +124,8 @@ const useSearchInputSearchIconStyle = ({ variant }) => {
   const pr = '2x';
 
   return {
+    display: 'flex',
+    alignItems: 'center',
     pl,
     pr,
   };
