@@ -134,6 +134,7 @@ exports[`Menu should render correctly 1`] = `
   flex-shrink: 0;
   width: var(--tonic-sizes-4x);
   height: var(--tonic-sizes-4x);
+  vertical-align: middle;
 }
 
 .emotion-10 {
