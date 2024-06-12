@@ -94,6 +94,14 @@ exports[`SearchInput should render correctly 1`] = `
 }
 
 .emotion-4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   padding-left: calc(.75rem - .0625rem);
   padding-right: var(--tonic-space-2x);
 }
@@ -299,6 +307,14 @@ exports[`SearchInput should render correctly 1`] = `
 }
 
 .emotion-24 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   padding-left: var(--tonic-space-3x);
   padding-right: var(--tonic-space-2x);
 }
