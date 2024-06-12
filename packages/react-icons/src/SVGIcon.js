@@ -21,6 +21,7 @@ const SVGIcon = forwardRef((
     flexShrink: 0,
     width: size,
     height: size,
+    verticalAlign: 'middle',
   };
   const more = {};
 
