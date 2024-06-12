@@ -23,7 +23,9 @@ import { search } from './computer';
 const Othello = () => {
   const [turn, setTurn] = useState(BLACK_PIECE);
   const [cells, updateCells] = useState((new Array(BOARD_SIZE**2)).fill(EMPTY_PIECE));
-  const nextTurn = () => setTurn(turn === WHITE_PIECE ? BLACK_PIECE : WHITE_PIECE);
+  const nextTurn = useCallback(() => {
+    setTurn(turn === WHITE_PIECE ? BLACK_PIECE : WHITE_PIECE);
+  }, [turn]);
   const restart = useCallback(() => {
     const nextCells = (new Array(BOARD_SIZE**2)).fill(EMPTY_PIECE);
     nextCells[BOARD_SIZE * 3 + 3] = WHITE_PIECE;

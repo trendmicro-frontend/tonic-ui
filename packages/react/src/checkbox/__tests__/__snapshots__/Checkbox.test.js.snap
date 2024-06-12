@@ -126,6 +126,7 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   flex-shrink: 0;
   width: .75rem;
   height: .75rem;
+  vertical-align: middle;
 }
 
 .emotion-8 {
@@ -237,6 +238,7 @@ input[type="checkbox"]:checked:disabled+.emotion-14 {
   flex-shrink: 0;
   width: 1rem;
   height: 1rem;
+  vertical-align: middle;
 }
 
 .emotion-24 {
@@ -339,6 +341,7 @@ input[type="checkbox"]:checked:disabled+.emotion-24 {
   flex-shrink: 0;
   width: 1.5rem;
   height: 1.5rem;
+  vertical-align: middle;
 }
 
 .emotion-44 {
