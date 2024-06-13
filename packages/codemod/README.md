@@ -4,6 +4,12 @@ This repository contains a collection of codemod scripts based for use with [jsc
 
 ## Usage
 
+To view help information, run:
+
+```bash
+npx @tonic-ui/codemod@latest --help
+```
+
 To run a codemod with the latest version of `@tonic-ui/codemod`, use the following command:
 
 ```bash
@@ -12,22 +18,37 @@ npx @tonic-ui/codemod@latest <codemod> <path>
 
 Make sure to replace `<codemod>` with the specific codemod you want to run and `<path>` with the path to the codebase you want to transform.
 
-### Printing Help
+### Verbose mode
 
-To display help information, run:
+To enable verbose mode and see detailed output:
+
 ```bash
-npx @tonic-ui/codemod@latest --help
+npx @tonic-ui/codemod@latest <codemod> <path> --verbose=2
 ```
 
-### Passing Options to `jscodeshift'
+### File extensions
 
-You can pass options directly to `jscodeshift` by using the `--jscodeshift` flag:
+For JavaScript files:
+
+```bash
+npx @tonic-ui/codemod@latest <codemod> <path> --extensions=js,jsx
+```
+
+For TypeScript files:
+
+```bash
+npx @tonic-ui/codemod@latest <codemod> <path> --parser=tsx --extensions=ts,tsx
+```
+
+### `jscodeshift` options
+
+Options can be passed directly to `jscodeshift` using the `--jscodeshift` flag:
 
 ```bash
 npx @tonic-ui/codemod@latest <codemod> <path> --jscodeshift='--cpus=2'
 ```
 
-See the complete CLI usage [here](https://github.com/facebook/jscodeshift?tab=readme-ov-file#usage-cli).
+For additional options with `jscodeshift`, refer to the complete [jscodeshift CLI usage guide](https://github.com/facebook/jscodeshift?tab=readme-ov-file#usage-cli).
 
 ## Transforms
 
@@ -52,6 +73,15 @@ In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/
  );
 ```
 
+For JavaScript files:
+
 ```bash
-npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons <path>
+npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons src --extensions=js,jsx
+```
+
+
+For TypeScript files:
+
+```bash
+npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons src --parser=tsx --extensions=ts,tsx
 ```
