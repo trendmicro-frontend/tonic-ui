@@ -11,12 +11,12 @@ yargs
     builder: (command) => {
       return command
         .positional('codemod', {
-          description: 'The name of the codemod',
+          description: 'The name of the codemod to apply',
           type: 'string',
         })
         .positional('paths', {
           array: true,
-          description: 'Paths forwarded to `jscodeshift`',
+          description: 'The paths to the codebase that will be forwarded to `jscodeshift`',
           type: 'string',
         })
         .option('dry', {
@@ -25,17 +25,17 @@ yargs
           type: 'boolean',
         })
         .option('extensions', {
-          description: 'Specify the file extensions to process',
+          description: 'transform files with these file extensions (comma separated list)',
           default: 'js,ts,jsx,tsx,json',
           type: 'string',
         })
         .option('ignore-pattern', {
-          description: 'Specify the glob pattern for files to ignore',
+          description: 'ignore files that match a provided glob expression',
           default: '**/node_modules/**',
           type: 'string',
         })
         .option('parser', {
-          description: 'the parser to use for parsing the source files',
+          description: 'the parser to use for parsing the source files (--parser=babel|babylon|flow|ts|tsx)',
           default: 'babel',
           type: 'string',
         })
@@ -44,8 +44,13 @@ yargs
           default: false,
           type: 'boolean',
         })
+        .option('verbose', {
+          description: 'show more information about the transform process (--verbose=0|1|2)',
+          default: 0,
+          type: 'number',
+        })
         .option('jscodeshift', {
-          description: '(Advanced) Pass options directly to jscodeshift',
+          description: 'pass options directly to jscodeshift',
           default: false,
           type: 'string',
         });

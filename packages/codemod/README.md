@@ -4,9 +4,30 @@ This repository contains a collection of codemod scripts based for use with [jsc
 
 ## Usage
 
+To run a codemod with the latest version of `@tonic-ui/codemod`, use the following command:
+
 ```bash
 npx @tonic-ui/codemod@latest <codemod> <path>
 ```
+
+Make sure to replace `<codemod>` with the specific codemod you want to run and `<path>` with the path to the codebase you want to transform.
+
+### Printing Help
+
+To display help information, run:
+```bash
+npx @tonic-ui/codemod@latest --help
+```
+
+### Passing Options to `jscodeshift'
+
+You can pass options directly to `jscodeshift` by using the `--jscodeshift` flag:
+
+```bash
+npx @tonic-ui/codemod@latest <codemod> <path> --jscodeshift='--cpus=2'
+```
+
+See the complete CLI usage [here](https://github.com/facebook/jscodeshift?tab=readme-ov-file#usage-cli).
 
 ## Transforms
 

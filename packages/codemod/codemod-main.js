@@ -6,12 +6,27 @@ const jscodeshiftPackage = require('jscodeshift/package.json');
 const jscodeshiftDirectory = path.dirname(require.resolve('jscodeshift'));
 const jscodeshiftExecutable = path.join(jscodeshiftDirectory, jscodeshiftPackage.bin.jscodeshift);
 
+function sanitizeInput(input) {
+  // Assuming input is a string or an array of strings
+  if (Array.isArray(input)) {
+    return input.map(sanitizeInput);
+  }
+
+  // Allow common glob pattern characters and ensure the input is a string
+  const allowedCharacters = /^[a-zA-Z0-9_\-\/\*\?\[\]\{\}\!\.\,]+$/;
+  if (typeof input === 'string' && allowedCharacters.test(input)) {
+    return input;
+  }
+
+  throw new Error('Invalid input: Only alphanumeric characters, dashes, slashes, and common glob pattern characters are allowed.');
+}
+
 function run(transform, files, flags, codemodFlags) {
   const transformPaths = [
-    path.resolve(__dirname, './src', `${transform}/index.js`),
-    path.resolve(__dirname, './src', `${transform}.js`),
-    path.resolve(__dirname, './dist', `${transform}/index.js`),
-    path.resolve(__dirname, './dist', `${transform}.js`),
+    path.resolve(__dirname, './src', `${sanitizeInput(transform)}/index.js`),
+    path.resolve(__dirname, './src', `${sanitizeInput(transform)}.js`),
+    path.resolve(__dirname, './dist', `${sanitizeInput(transform)}/index.js`),
+    path.resolve(__dirname, './dist', `${sanitizeInput(transform)}.js`),
   ];
 
   let transformPath;
@@ -46,19 +61,17 @@ function run(transform, files, flags, codemodFlags) {
   ];
 
   if (flags.extensions) {
-    args.push('--extensions');
-    args.push(flags.extensions);
+    args.push('--extensions=' + sanitizeInput(flags.extensions));
   }
 
   if (flags.parser) {
-    args.push('--parser');
-    args.push(flags.parser);
+    args.push('--parser=' + sanitizeInput(flags.parser));
   }
 
   if (flags.ignorePattern) {
     const ignorePatterns = Array.isArray(flags.ignorePattern) ? flags.ignorePattern : [flags.ignorePattern];
     ignorePatterns.filter(Boolean).forEach(pattern => {
-      args.push('--ignore-pattern', pattern);
+      args.push('--ignore-pattern=' + sanitizeInput(pattern));
     });
   }
 
@@ -68,8 +81,12 @@ function run(transform, files, flags, codemodFlags) {
   if (flags.print) {
     args.push('--print');
   }
+  if (flags.verbose !== undefined) {
+    args.push('--verbose=' + flags.verbose);
+  }
   if (flags.jscodeshift) {
-    args.push(flags.jscodeshift);
+    const jscodeshiftOptions = Array.isArray(flags.jscodeshift) ? flags.jscodeshift : [flags.jscodeshift];
+    args.push(...jscodeshiftOptions);
   }
 
   args.push(...files);
