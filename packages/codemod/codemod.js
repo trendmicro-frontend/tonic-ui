@@ -49,13 +49,24 @@ function runJSCodeShiftTransform(transform, files, flags, codemodFlags) {
     '--transform',
     transformPath,
     ...codemodFlags,
-    '--extensions',
-    'js,ts,jsx,tsx,json',
-    '--parser',
-    flags.parser || 'babel',
-    '--ignore-pattern',
-    '**/node_modules/**',
   ];
+
+  if (flags.extensions) {
+    args.push('--extensions');
+    args.push(flags.extensions);
+  }
+
+  if (flags.parser) {
+    args.push('--parser');
+    args.push(flags.parser);
+  }
+
+  if (flags.ignorePattern) {
+    const ignorePatterns = Array.isArray(flags.ignorePattern) ? flags.ignorePattern : [flags.ignorePattern];
+    ignorePatterns.filter(Boolean).forEach(pattern => {
+      args.push('--ignore-pattern', pattern);
+    });
+  }
 
   if (flags.dry) {
     args.push('--dry');
@@ -104,6 +115,16 @@ yargs
           description: 'dry run (no changes are made to files)',
           default: false,
           type: 'boolean',
+        })
+        .option('extensions', {
+          description: 'Specify the file extensions to process',
+          default: 'js,ts,jsx,tsx,json',
+          type: 'string',
+        })
+        .option('ignore-pattern', {
+          description: 'Specify the glob pattern for files to ignore',
+          default: '**/node_modules/**',
+          type: 'string',
         })
         .option('parser', {
           description: 'the parser to use for parsing the source files',
