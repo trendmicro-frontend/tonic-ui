@@ -26,7 +26,7 @@ yargs
         })
         .option('extensions', {
           description: 'transform files with these file extensions (comma separated list)',
-          default: 'js,ts,jsx,tsx,json',
+          default: 'js',
           type: 'string',
         })
         .option('ignore-pattern', {

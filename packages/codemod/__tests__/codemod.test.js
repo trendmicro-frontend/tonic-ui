@@ -15,8 +15,8 @@ describe('CLI Tests', () => {
     const transform = 'react/v2.0.0/import-react-icons';
     const files = ['/path/to/file1.js', '/path/to/file2.js'];
     const flags = {
-      extensions: 'ts,tsx',
-      parser: 'tsx',
+      extensions: 'js,jsx',
+      parser: 'babel',
       ignorePattern: '**/node_modules/**',
       dry: true,
       print: false,
@@ -32,8 +32,8 @@ describe('CLI Tests', () => {
         expect.stringContaining('jscodeshift'),
         '--transform',
         expect.stringContaining('src'),
-        '--extensions=ts,tsx',
-        '--parser=tsx',
+        '--extensions=js,jsx',
+        '--parser=babel',
         '--ignore-pattern=**/node_modules/**',
         '--dry',
         ...files,
@@ -46,7 +46,7 @@ describe('CLI Tests', () => {
     const codemod = 'non-existent-codemod';
     const files = ['/path/to/file1.js'];
     const flags = {
-      extensions: 'js,ts,jsx,tsx,json',
+      extensions: 'js',
       parser: 'babel',
       ignorePattern: '**/node_modules/**',
       dry: false,
@@ -65,7 +65,7 @@ describe('CLI Tests', () => {
     const transform = 'react/v2.0.0/import-react-icons';
     const files = ['/path/to/file1.js'];
     const flags = {
-      extensions: 'js,ts,jsx,tsx,json',
+      extensions: 'js,jsx',
       parser: 'babel',
       ignorePattern: '**/node_modules/**',
       dry: false,
@@ -91,7 +91,7 @@ describe('CLI Tests', () => {
     const transform = 'react/v2.0.0/import-react-icons';
     const files = ['/path/to/file1.js'];
     const flags = {
-      extensions: 'js,ts,jsx,tsx,json',
+      extensions: 'js,jsx',
       parser: 'babel',
       ignorePattern: '**/node_modules/**',
       dry: false,
@@ -117,7 +117,7 @@ describe('CLI Tests', () => {
     const transform = 'react/v2.0.0/import-react-icons';
     const files = ['/path/to/file1.js'];
     const flags = {
-      extensions: 'js,ts,jsx,tsx,json',
+      extensions: 'js,jsx',
       parser: 'babel',
       ignorePattern: ['**/node_modules/**', '**/dist/**'],
       dry: false,
