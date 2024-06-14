@@ -73,16 +73,24 @@ describe('Accordion', () => {
     const header2 = screen.getByTestId('header-2');
     const body2 = screen.getByTestId('body-2');
 
+    expect(header1).not.toHaveAttribute('aria-expanded');
+    expect(header2).not.toHaveAttribute('aria-expanded');
+    expect(body1).toHaveAttribute('aria-hidden', 'true');
+    expect(body2).toHaveAttribute('aria-hidden', 'true');
     expect(body1).not.toBeVisible();
     expect(body2).not.toBeVisible();
 
-    // Expand the first accordion item
+    // Toggle the first accordion item
     await user.click(header1);
+    expect(header1).toHaveAttribute('aria-expanded', 'true');
+    expect(body1).not.toHaveAttribute('aria-hidden');
     expect(body1).toBeVisible();
     expect(body2).not.toBeVisible();
 
-    // Expand the second accordion item
+    // Toggle the second accordion item
     await user.click(header2);
+    expect(header2).toHaveAttribute('aria-expanded', 'true');
+    expect(body2).not.toHaveAttribute('aria-hidden');
     expect(body1).toBeVisible();
     expect(body2).toBeVisible();
   });
@@ -90,7 +98,7 @@ describe('Accordion', () => {
   it('should handle multiple accordion items independently', async () => {
     const user = userEvent.setup();
     const TestComponent = () => {
-      const [expandedItem, setExpandedItem] = React.useState(null);
+      const [expandedItem, setExpandedItem] = React.useState('item1');
       const handleToggle = item => ({ isExpanded }) => {
         setExpandedItem(isExpanded ? item : null);
       };
@@ -134,18 +142,31 @@ describe('Accordion', () => {
     const header2 = screen.getByTestId('header-2');
     const body2 = screen.getByTestId('body-2');
 
-    expect(body1).not.toBeVisible();
-    expect(body2).not.toBeVisible();
-
-    // Expand the first accordion item
-    await user.click(header1);
+    expect(header1).toHaveAttribute('aria-expanded', 'true');
+    expect(header2).not.toHaveAttribute('aria-expanded');
+    expect(body1).not.toHaveAttribute('aria-hidden');
+    expect(body2).toHaveAttribute('aria-hidden', 'true');
     expect(body1).toBeVisible();
     expect(body2).not.toBeVisible();
 
-    // Expand the second accordion item
+    // Toggle the second accordion item
     await user.click(header2);
+    expect(header1).not.toHaveAttribute('aria-expanded');
+    expect(header2).toHaveAttribute('aria-expanded', 'true');
+    expect(body1).toHaveAttribute('aria-hidden', 'true');
+    expect(body2).not.toHaveAttribute('aria-hidden');
     expect(body1).not.toBeVisible();
     expect(body2).toBeVisible();
+    expect(body2).toBeVisible();
+
+    // Toggle the first accordion item
+    await user.click(header1);
+    expect(header1).toHaveAttribute('aria-expanded', 'true');
+    expect(header2).not.toHaveAttribute('aria-expanded');
+    expect(body1).not.toHaveAttribute('aria-hidden');
+    expect(body2).toHaveAttribute('aria-hidden', 'true');
+    expect(body1).toBeVisible();
+    expect(body2).not.toBeVisible();
   });
 
   it('should render correctly with disabled attribute', () => {
