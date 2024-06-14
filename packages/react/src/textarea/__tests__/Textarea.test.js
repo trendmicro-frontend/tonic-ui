@@ -73,6 +73,7 @@ describe('Textarea', () => {
       <Textarea data-testid="textarea" onChange={onChange} />
     );
     const textarea = screen.getByTestId('textarea');
+    expect(textarea).toHaveDisplayValue('');
     await user.type(textarea, 'hello');
     expect(onChange).toHaveBeenCalled();
     expect(textarea).toHaveDisplayValue('hello');
