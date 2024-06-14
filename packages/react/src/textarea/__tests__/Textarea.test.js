@@ -34,34 +34,62 @@ describe('Textarea', () => {
     });
   });
 
-  it('should render correctly with disabled attribute', () => {
-    render(
+  it('should render correctly with disabled attribute', async () => {
+    const { container } = render(
       <Textarea data-testid="textarea" disabled />
     );
+    await testA11y(container, {
+      axeOptions: {
+        rules: {
+          label: { enabled: false },
+        },
+      },
+    });
     const textarea = screen.getByTestId('textarea');
     expect(textarea).toHaveAttribute('aria-disabled', 'true');
   });
 
-  it('should render correctly with error attributes', () => {
-    render(
+  it('should render correctly with error attributes', async () => {
+    const { container } = render(
       <Textarea data-testid="textarea" error />
     );
+    await testA11y(container, {
+      axeOptions: {
+        rules: {
+          label: { enabled: false },
+        },
+      },
+    });
     const textarea = screen.getByTestId('textarea');
     expect(textarea).toHaveAttribute('aria-invalid', 'true');
   });
 
-  it('should render correctly with readonly attributes', () => {
-    render(
+  it('should render correctly with readonly attributes', async () => {
+    const { container } = render(
       <Textarea data-testid="textarea" readOnly />
     );
+    await testA11y(container, {
+      axeOptions: {
+        rules: {
+          label: { enabled: false },
+        },
+      },
+    });
     const textarea = screen.getByTestId('textarea');
     expect(textarea).toHaveAttribute('aria-readonly', 'true');
   });
 
-  it('should render correctly with required attributes', () => {
-    render(
+  it('should render correctly with required attributes', async () => {
+    const { container } = render(
       <Textarea data-testid="textarea" required />
     );
+    await testA11y(container, {
+      axeOptions: {
+        rules: {
+          label: { enabled: false },
+        },
+      },
+    });
     const textarea = screen.getByTestId('textarea');
     expect(textarea).toHaveAttribute('aria-required', 'true');
   });
