@@ -3955,7 +3955,7 @@ __metadata:
     jscodeshift: ^0.15.2
     yargs: ^17.7.2
   bin:
-    codemod: ./codemod.js
+    codemod: ./codemod-cli.js
   languageName: unknown
   linkType: soft
 
