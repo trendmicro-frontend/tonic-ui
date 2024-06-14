@@ -29,7 +29,7 @@ export default function transformer(file, api) {
   // Transform `<Icon icon="alert" />` to `<Icon as={AlertIcon} />`
   root.findJSXElements('Icon').forEach((path) => {
     path.node.openingElement.attributes = path.node.openingElement.attributes.reduce((acc, attribute) => {
-      if (attribute.name.name === 'icon') {
+      if (attribute.name?.name === 'icon') {
         const iconComponent = mapKebabCaseToCapitalizedCamelCase(attribute.value.value) + 'Icon';
         const asAttribute = j.jsxAttribute(
           j.jsxIdentifier('as'),

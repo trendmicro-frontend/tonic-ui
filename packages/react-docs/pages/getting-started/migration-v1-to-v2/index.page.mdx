@@ -180,11 +180,99 @@ import {
 
 ## Icons
 
-In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. Here are the steps to ensure a smooth migration process.
+In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. Here are two migration options to ensure a smooth transition:
 
-### Step 1: Update the dependencies
+### Option 1: Recommended approach
 
-Make sure your `package.json` file includes the latest versions of Tonic UI packages:
+This method is the recommended approach, although requiring the most code changes. A codemod is provided to automate this process.
+
+#### Step 1: Update dependencies
+
+Ensure your `package.json` file includes the latest versions of Tonic UI packages:
+
+```json
+"dependencies": {
+  "@tonic-ui/react": "^2.0.0",
+  "@tonic-ui/react-icons": "^2.0.0"
+}
+```
+
+#### Step 2: Update import location for icon components
+
+Update the import locations for icon components within Tonic UI v2.
+
+Here is an example in Tonic UI v1:
+
+```jsx
+import { Badge, Icon } from '@tonic-ui/react';
+import React from 'react';
+
+export default () => (
+  <Badge variant="dot">
+    <Icon icon="alert" size="4x" />
+  </Badge>
+);
+```
+
+For Tonic UI v2, you can render the imported icon component directly:
+
+```jsx
+import { Badge } from '@tonic-ui/react';
+import { AlertIcon } from '@tonic-ui/react-icons';
+import React from 'react';
+
+export default () => (
+  <Badge variant="dot">
+    <AlertIcon size="4x" />
+  </Badge>
+);
+```
+
+Alternatively, you can pass the icon to the `Icon` component using the `as` prop:
+
+```jsx
+import { Badge, Icon } from '@tonic-ui/react';
+import { AlertIcon } from '@tonic-ui/react-icons';
+import React from 'react';
+
+export default () => (
+  <Badge variant="dot">
+   <Icon as={AlertIcon} size="4x" />
+  </Badge>
+);
+```
+
+To apply this change across your project, run the provided codemod:
+
+For JavaScript files:
+```bash
+npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons . --extensions=js,jsx --verbose=2
+```
+
+For TypeScript files:
+```bash
+npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons . --extensions=ts,tsx --parser=tsx --verbose=2
+```
+
+#### Step 3: Remove unnecessary icons and dependencies
+
+After updating the icon imports, remove the unnecessary `@trendmicro/tmicon` dependency from your project if it was used.
+
+```diff
+  "dependencies": {
+    "@tonic-ui/react": "^2.0.0",
+    "@tonic-ui/react-icons": "^2.0.0",
+-   "@trendmicro/tmicon": "^1.0.0"
+  }
+```
+
+### Option 2: Backward compatible approach
+
+This method provides backward compatibility with minimal code changes, but it disables bundle-size optimization.
+
+#### Step 1: Update dependencies
+
+Ensure your `package.json` file includes the necessary Tonic UI packages:
 
 ```diff
   "dependencies": {
@@ -194,11 +282,9 @@ Make sure your `package.json` file includes the latest versions of Tonic UI pack
   }
 ```
 
-> The `@trendmicro/tmicon` package is only necessary for step 2 if you've used the [Icon](../components/icon) component in v1 and don't want to too much changes. Proceed to step 3 if you prefer to make modifications during the upgrade.
+#### Step 2: Import SVG icons and generate icons for the theme
 
-### Step 2: Import SVG icons and generate icons for the theme
-
-Manually generate icons and pass them to the theme. This step ensures your app displays icons properly after the upgrade.
+Manually generate icons and pass them to the theme to ensure your app displays icons properly after the upgrade.
 
 ```jsx
 import {
@@ -225,71 +311,11 @@ const icons = tmicon.icons.reduce((acc, { name, paths, viewBox }) => {
   ];
 }, []);
 
-theme.icons = icons; // custom icons
+theme.icons = icons; // Custom icons
 
 export default () => (
   <TonicProvider theme={theme}>
     <App />
   </TonicProvider>
 );
-```
-
-### Step 3: Update import location for icon components
-
-This step updates the import locations for icon components within Tonic UI v2.
-
-In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. The diff should look like this:
-
-```diff
-  import { Badge, Icon } from '@tonic-ui/react';
-+ import { AlertIcon } from '@tonic-ui/react-icons';
-  import React from 'react';
-
-  export default () => (
-    <Badge variant="dot">
--     <Icon icon="alert" size="4x" />
-+     <Icon as={AlertIcon} size="4x" />
-    </Badge>
-  );
-```
-
-To apply this change across your project, run the provided codemod to update your code accordingly:
-
-```bash
-npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons <path>
-```
-
-### Step 4: Remove unnecessary icons and dependencies
-
-After updating the icon imports, you can safely remove the unnecessary `@trendmicro/tmicon` dependency from the theme in your `app.js`.
-
-```diff
-- import * as tmicon from '@trendmicro/tmicon';
-- const icons = tmicon.icons.reduce((acc, { name, paths, viewBox }) => {
--   return [
--     ...acc,
--     [
--       name,
--       <svg viewBox={viewBox}>
--         {paths.map((path, index) => (
--           <path
--             key={`${name}-${index}`}
--             d={path}
--           />
--         ))}
--       </svg>
--     ],
--   ];
-- }, []);
-- theme.icons = icons; // custom icons
-```
-
-The `tmicon` package is no longer required to be listed in `package.json`.
-
-```diff
-  "dependencies": {
-    "@tonic-ui/react": "^2.0.0",
-    "@tonic-ui/react-icons": "^2.0.0",
--   "@trendmicro/tmicon": "^1.0.0"
-  }
 ```
