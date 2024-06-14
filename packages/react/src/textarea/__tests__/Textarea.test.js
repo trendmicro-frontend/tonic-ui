@@ -75,7 +75,7 @@ describe('Textarea', () => {
     const textarea = screen.getByTestId('textarea');
     expect(textarea).toHaveDisplayValue('');
     await user.type(textarea, 'hello');
-    expect(onChange).toHaveBeenCalled();
+    expect(onChange).toHaveBeenCalledWith(expect.anything());
     expect(textarea).toHaveDisplayValue('hello');
   });
 
