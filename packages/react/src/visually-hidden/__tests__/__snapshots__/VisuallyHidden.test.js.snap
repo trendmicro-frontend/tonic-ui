@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VisuallyHidden should render correctly 1`] = `
+.emotion-0 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    Hidden Content
+  </div>
+</div>
+`;

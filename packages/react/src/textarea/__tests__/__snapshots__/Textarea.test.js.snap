@@ -1,0 +1,228 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Textarea should render correctly 1`] = `
+.emotion-0 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: var(--tonic-colors-transparent);
+  border: var(--tonic-borders-1);
+  color: var(--tonic-colors-white-primary);
+  outline: 0;
+  padding: 0;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  border-radius: var(--tonic-radii-sm);
+  font-size: var(--tonic-fontSizes-sm);
+  line-height: var(--tonic-lineHeights-sm);
+  min-height: var(--tonic-sizes-9x);
+  padding-left: var(--tonic-space-3x);
+  padding-right: var(--tonic-space-3x);
+  padding-top: calc(.375rem - .0625rem);
+  padding-bottom: calc(.625rem - .0625rem);
+  width: 100%;
+  border-color: var(--tonic-colors-gray-60);
+}
+
+.emotion-0:invalid,
+.emotion-0[aria-invalid=true] {
+  border-color: var(--tonic-colors-red-50);
+}
+
+.emotion-0:invalid:focus:hover,
+.emotion-0[aria-invalid=true]:focus:hover {
+  border-color: var(--tonic-colors-blue-60);
+}
+
+.emotion-0:invalid:hover,
+.emotion-0[aria-invalid=true]:hover {
+  border-color: var(--tonic-colors-red-50);
+}
+
+.emotion-0::-webkit-input-placeholder {
+  color: var(--tonic-colors-white-tertiary);
+  opacity: 1;
+}
+
+.emotion-0::-moz-placeholder {
+  color: var(--tonic-colors-white-tertiary);
+  opacity: 1;
+}
+
+.emotion-0:-ms-input-placeholder {
+  color: var(--tonic-colors-white-tertiary);
+  opacity: 1;
+}
+
+.emotion-0::placeholder {
+  color: var(--tonic-colors-white-tertiary);
+  opacity: 1;
+}
+
+.emotion-0:focus,
+.emotion-0[data-focus] {
+  border-color: var(--tonic-colors-blue-60);
+}
+
+.emotion-0:hover,
+.emotion-0[data-hover] {
+  border-color: var(--tonic-colors-blue-50);
+}
+
+.emotion-0:disabled,
+.emotion-0:disabled:focus,
+.emotion-0:disabled:hover,
+.emotion-0[aria-disabled=true],
+.emotion-0[aria-disabled=true]:focus,
+.emotion-0[aria-disabled=true]:hover,
+.emotion-0[data-disabled] {
+  border-color: var(--tonic-colors-gray-60);
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: var(--tonic-colors-gray-80);
+  border: var(--tonic-borders-1);
+  color: var(--tonic-colors-white-primary);
+  outline: 0;
+  padding: 0;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  border-radius: var(--tonic-radii-sm);
+  font-size: var(--tonic-fontSizes-sm);
+  line-height: var(--tonic-lineHeights-sm);
+  min-height: var(--tonic-sizes-9x);
+  padding-left: var(--tonic-space-3x);
+  padding-right: var(--tonic-space-3x);
+  padding-top: calc(.375rem - .0625rem);
+  padding-bottom: calc(.625rem - .0625rem);
+  width: 100%;
+  border-color: var(--tonic-colors-gray-60);
+}
+
+.emotion-2:invalid,
+.emotion-2[aria-invalid=true] {
+  border-color: var(--tonic-colors-red-50);
+}
+
+.emotion-2:invalid:focus:hover,
+.emotion-2[aria-invalid=true]:focus:hover {
+  border-color: var(--tonic-colors-blue-60);
+}
+
+.emotion-2:invalid:hover,
+.emotion-2[aria-invalid=true]:hover {
+  border-color: var(--tonic-colors-red-50);
+}
+
+.emotion-2::-webkit-input-placeholder {
+  color: var(--tonic-colors-white-tertiary);
+  opacity: 1;
+}
+
+.emotion-2::-moz-placeholder {
+  color: var(--tonic-colors-white-tertiary);
+  opacity: 1;
+}
+
+.emotion-2:-ms-input-placeholder {
+  color: var(--tonic-colors-white-tertiary);
+  opacity: 1;
+}
+
+.emotion-2::placeholder {
+  color: var(--tonic-colors-white-tertiary);
+  opacity: 1;
+}
+
+.emotion-2:focus,
+.emotion-2[data-focus] {
+  border-color: var(--tonic-colors-blue-60);
+}
+
+.emotion-2:hover,
+.emotion-2[data-hover] {
+  border-color: var(--tonic-colors-blue-50);
+}
+
+.emotion-2:disabled,
+.emotion-2:disabled:focus,
+.emotion-2:disabled:hover,
+.emotion-2[aria-disabled=true],
+.emotion-2[aria-disabled=true]:focus,
+.emotion-2[aria-disabled=true]:hover,
+.emotion-2[data-disabled] {
+  border-color: var(--tonic-colors-gray-60);
+  cursor: not-allowed;
+  opacity: .28;
+}
+
+.emotion-4 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: var(--tonic-colors-transparent);
+  border: 0;
+  color: var(--tonic-colors-white-primary);
+  outline: 0;
+  padding: 0;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  border-radius: 0;
+  font-size: var(--tonic-fontSizes-sm);
+  line-height: var(--tonic-lineHeights-sm);
+  min-height: var(--tonic-sizes-9x);
+  padding-top: calc(.375rem - .0625rem);
+  padding-bottom: calc(.625rem - .0625rem);
+  width: 100%;
+}
+
+<div>
+  <textarea
+    class="emotion-0 emotion-1"
+    data-testid="textarea-outline"
+  />
+  <textarea
+    class="emotion-2 emotion-1"
+    data-testid="textarea-filled"
+  />
+  <textarea
+    class="emotion-4 emotion-1"
+    data-testid="textarea-unstyled"
+  />
+</div>
+`;

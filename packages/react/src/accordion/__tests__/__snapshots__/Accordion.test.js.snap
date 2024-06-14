@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Accordion should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  row-gap: 1px;
+}
+
+.emotion-4 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: var(--tonic-colors-gray-90);
+  border: none;
+  color: var(--tonic-colors-white-primary);
+  cursor: pointer;
+  outline: 0;
+  padding: 0;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-column-gap: var(--tonic-sizes-4x);
+  column-gap: var(--tonic-sizes-4x);
+  border-color: var(--tonic-colors-transparent);
+  border-style: solid;
+  border-width: .0625rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: calc(.75rem - .0625rem);
+  padding-bottom: calc(.75rem - .0625rem);
+}
+
+.emotion-4:disabled,
+.emotion-4:disabled:focus,
+.emotion-4:disabled:hover,
+.emotion-4[aria-disabled=true],
+.emotion-4[aria-disabled=true]:focus,
+.emotion-4[aria-disabled=true]:hover,
+.emotion-4[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+}
+
+.emotion-8 {
+  display: block;
+}
+
+.emotion-10 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-transform: rotate(-180deg);
+  -moz-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+  -webkit-transition: -webkit-transform 133ms cubic-bezier(0.0, 0, 0.2, 1);
+  transition: transform 133ms cubic-bezier(0.0, 0, 0.2, 1);
+}
+
+.emotion-10:disabled,
+.emotion-10:disabled:focus,
+.emotion-10:disabled:hover,
+.emotion-10[aria-disabled=true],
+.emotion-10[aria-disabled=true]:focus,
+.emotion-10[aria-disabled=true]:hover,
+.emotion-10[data-disabled] {
+  opacity: .28;
+}
+
+.emotion-12 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  vertical-align: middle;
+}
+
+.emotion-14 {
+  height: auto;
+  opacity: 1;
+  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.emotion-18 {
+  padding-left: var(--tonic-space-4x);
+  padding-right: var(--tonic-space-4x);
+  padding-top: var(--tonic-space-3x);
+  padding-bottom: var(--tonic-space-3x);
+}
+
+.emotion-28 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: -webkit-transform 93ms cubic-bezier(0.0, 0, 0.2, 1);
+  transition: transform 93ms cubic-bezier(0.0, 0, 0.2, 1);
+}
+
+.emotion-28:disabled,
+.emotion-28:disabled:focus,
+.emotion-28:disabled:hover,
+.emotion-28[aria-disabled=true],
+.emotion-28[aria-disabled=true]:focus,
+.emotion-28[aria-disabled=true]:hover,
+.emotion-28[data-disabled] {
+  opacity: .28;
+}
+
+.emotion-32 {
+  height: 0;
+  opacity: 0;
+  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  visibility: hidden;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <button
+        aria-controls="@tonic-ui/react:AccordionContent-1"
+        aria-expanded="true"
+        class="emotion-4 emotion-1"
+        id="@tonic-ui/react:AccordionToggle-1"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        <div
+          class="emotion-2 emotion-1"
+        >
+          <div
+            class="emotion-8 emotion-1"
+          >
+            Accordion 1
+          </div>
+        </div>
+        <div
+          class="emotion-10 emotion-1"
+        >
+          <svg
+            aria-hidden="true"
+            class="emotion-12 emotion-1"
+            data-icon="ChevronDownIcon"
+            fill="currentColor"
+            focusable="false"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 12l-7-6.607 1.476-1.393 5.524 5.214 5.524-5.214 1.476 1.393z"
+            />
+          </svg>
+        </div>
+      </button>
+      <div
+        aria-labelledby="@tonic-ui/react:AccordionToggle-1"
+        class="emotion-14 emotion-1"
+        id="@tonic-ui/react:AccordionContent-1"
+        role="region"
+      >
+        <div
+          class="emotion-2 emotion-1"
+        >
+          <div
+            class="emotion-18 emotion-1"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="emotion-2 emotion-1"
+    >
+      <button
+        aria-controls="@tonic-ui/react:AccordionContent-2"
+        class="emotion-4 emotion-1"
+        id="@tonic-ui/react:AccordionToggle-2"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        <div
+          class="emotion-2 emotion-1"
+        >
+          <div
+            class="emotion-8 emotion-1"
+          >
+            Accordion 2
+          </div>
+        </div>
+        <div
+          class="emotion-28 emotion-1"
+        >
+          <svg
+            aria-hidden="true"
+            class="emotion-12 emotion-1"
+            data-icon="ChevronDownIcon"
+            fill="currentColor"
+            focusable="false"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 12l-7-6.607 1.476-1.393 5.524 5.214 5.524-5.214 1.476 1.393z"
+            />
+          </svg>
+        </div>
+      </button>
+      <div
+        aria-hidden="true"
+        aria-labelledby="@tonic-ui/react:AccordionToggle-2"
+        class="emotion-32 emotion-1"
+        id="@tonic-ui/react:AccordionContent-2"
+        role="region"
+      >
+        <div
+          class="emotion-2 emotion-1"
+        >
+          <div
+            class="emotion-18 emotion-1"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

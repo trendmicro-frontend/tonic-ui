@@ -29,6 +29,7 @@ const AccordionContent = forwardRef((
       id={context?.accordionContentId}
       in={context?.isExpanded}
       ref={ref}
+      role="region"
       {...rest}
     />
   );
