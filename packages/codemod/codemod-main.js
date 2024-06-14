@@ -46,7 +46,7 @@ function run(transform, files, flags, codemodFlags) {
   if (error) {
     if (error?.code === 'ENOENT') {
       throw new Error(
-        `${JSON.stringify(transform)} not found. Check out ${path.resolve(__dirname, './README.md for a list of available codemods.')}`,
+        `${JSON.stringify(transform)} not found. Check out README.md for a list of available codemods.`,
       );
     }
     throw error;

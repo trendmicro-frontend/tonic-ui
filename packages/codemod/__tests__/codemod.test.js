@@ -1,4 +1,3 @@
-import path from 'path';
 import childProcess from 'child_process';
 import run from '../codemod-main';
 
@@ -43,7 +42,7 @@ describe('CLI Tests', () => {
   });
 
   it('should handle missing codemod transform', () => {
-    const codemod = 'non-existent-codemod';
+    const transform = 'non-existent-codemod';
     const files = ['/path/to/file1.js'];
     const flags = {
       extensions: 'js',
@@ -54,8 +53,8 @@ describe('CLI Tests', () => {
       jscodeshift: null,
     };
 
-    expect(() => run(codemod, files, flags, [])).toThrowError(
-      `${JSON.stringify(codemod)} not found. Check out ${path.resolve(__dirname, '..', './README.md for a list of available codemods.')}`,
+    expect(() => run(transform, files, flags, [])).toThrowError(
+      `${JSON.stringify(transform)} not found. Check out README.md for a list of available codemods.`,
     );
   });
 
