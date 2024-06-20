@@ -24,7 +24,7 @@ export const contains = (function() {
   // HTML DOM and SVG DOM may have different support levels,
   // so we need to check on context instead of a document root element.
   return (context, node) => {
-    if (!canUseDOM) {
+    if (!canUseDOM()) {
       return fallback(context, node);
     }
 
