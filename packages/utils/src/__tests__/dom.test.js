@@ -223,6 +223,22 @@ describe('isHTMLElement', () => {
     expect(isHTMLElement({})).toBe(false);
     expect(isHTMLElement([])).toBe(false);
   });
+
+  // https://github.com/facebook/flow/issues/8202#issuecomment-558683244
+  //
+  // The "correct" way to create SVG elements via the DOM interface is like so:
+  //
+  // ```js
+  // document.createElementNS("http://www.w3.org/2000/svg", "svg") instanceof HTMLElement
+  // false
+  //
+  // document.createElementNS("http://www.w3.org/2000/svg", "svg") instanceof SVGElement
+  // true
+  // ```
+  it('should return false for an SVG element', () => {
+    const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    expect(isHTMLElement(svgElement)).toBe(false);
+  });
 });
 
 describe('normalizeKeyboardEventKey', () => {
