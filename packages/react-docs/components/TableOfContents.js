@@ -53,7 +53,8 @@ const TableOfContents = (props) => {
 
     const mainContent = document.querySelector('#main > .main-content');
     if (mainContent) {
-      setNodes(Array.from(mainContent.querySelectorAll('h2,h3,h4,h5,h6')));
+      // Select all direct child heading elements (h2, h3, h4, h5, h6) of the main content
+      setNodes(Array.from(mainContent.querySelectorAll('&>h2,&>h3,&>h4,&>h5,&>h6')));
     }
 
     if (window.location.hash) {
