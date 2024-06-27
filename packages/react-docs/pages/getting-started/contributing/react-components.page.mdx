@@ -1,14 +1,18 @@
 # Contributing to React Components
 
-This guide will walk you through the process of creating a `Code` component. This component serves as a straightforward example to help you understand the entire development and documentation flow.
+## Example
 
-## Creating the component
+This example will walk you through the process of creating a [Code](../../components/code) component. This component serves as a straightforward example to help you understand the entire development and documentation flow.
 
-### Step 1: Implement the component
+{render('./code-example')}
+
+### Creating the component
+
+#### Step 1: Implement the component
 
 Create the component file: `packages/react/src/code/Code.js`
 
-* Use `forwardRef()` to let your component receive a `ref` and forward it to a child component.
+* Use `forwardRef` to let your component receive a `ref` and forward it to a child component.
 * Place styles in a separate file and apply style props before passing other props.
 
 ```jsx
@@ -34,12 +38,12 @@ Code.displayName = 'Code';
 export default Code;
 ```
 
-### Step 2: Define styles for the component
+#### Step 2: Define styles for the component
 
 Create the styles file: `packages/react/src/code/styles.js`
 
-* Utilize `useColorMode()` to get the current color mode and apply corresponding color styles.
-* Exercise caution when using `useColorStyle()` internally to avoid inadvertently overwriting the color style object within the React application.
+* Utilize `useColorMode` to get the current color mode and apply corresponding color styles.
+* Exercise caution when using `useColorStyle` within the UI component library, as a React application may inadvertently overwrite the color style object for customization purposes.
 
 ```js
 import { useColorMode } from '../color-mode';
@@ -69,7 +73,7 @@ export {
 };
 ```
 
-### Step 3: Export components
+#### Step 3: Export components
 
 Create the index file: `packages/react/src/code/index.js`
 
@@ -81,11 +85,11 @@ export {
 };
 ```
 
-### Step 4: Write tests for the component
+#### Step 4: Write tests for the component
 
 Create the test file: `packages/react/src/code/__tests__/Code.test.js`
 
-* Use `testA11y()` to perform accessibility testing on the rendered component within the test. This helps ensure the component meets accessibility standards.
+* Use `testA11y` to perform accessibility testing on the rendered component within the test. This helps ensure the component meets accessibility standards.
 
 ```jsx
 import { render } from '@tonic-ui/react/test-utils/render';
@@ -111,16 +115,16 @@ describe('Code', () => {
 });
 ```
 
-## Exporting and Building
+### Exporting and Building
 
-### Step 1: Update exports
+#### Step 1: Update exports
 
 Modify `packages/react/src/index.js` to include the new component:
 ```js
 export * from './code';
 ```
 
-### Step 2: Update tests
+#### Step 2: Update tests
 
 Include the new component in the `expectedExports` list in `packages/react/__tests__/index.test.js`:
 
@@ -131,7 +135,7 @@ const expectedExports = [
 ];
 ```
 
-### Step 3: Run lint and build
+#### Step 3: Run lint and build
 
 This step requires you to perform static code analysis to identify potential bugs, programming errors, or stylistic issues. Then, build the dependencies if it passes.
 
@@ -142,9 +146,9 @@ yarn lint
 yarn build
 ```
 
-## Documenting the component
+### Documenting the component
 
-### Step 1: Create documentation page
+#### Step 1: Create documentation page
 
 Add a new page `code/index.page.mdx` under `packages/react-docs/pages/components` with the following sections:
 
@@ -164,7 +168,7 @@ Name | Type | Default | Description
 children | ReactNode | |
 ```
 
-### Step 2: Update sidebar routes
+#### Step 2: Update sidebar routes
 
 Include the new documentation page in `packages/react-docs/config/sidebar-routes.js`:
 
@@ -175,7 +179,7 @@ Include the new documentation page in `packages/react-docs/config/sidebar-routes
 },
 ```
 
-### Step 3: API structure
+#### Step 3: API structure
 
 Refer to the existing [Code component documentation](../../components/code) or visit the [GitHub repository](https://github.com/trendmicro-frontend/tonic-ui/blob/v2/packages/react-docs/pages/components/code) for details.
 
@@ -185,3 +189,214 @@ import Code from '../../components/code/index.page.mdx'
 <PageContent>
   <Code />
 </PageContent>
+
+## Coding Style
+
+The coding style guideline is provided here to help maintain consistency across the codebase. You can refer to the examples below for various types of components.
+
+### Basic Component
+
+A basic component should be a functional component that is wrapped in `forwardRef`. The `displayName` is set for easier debugging and inspection.
+
+```jsx
+import React, { forwardRef } from 'react';
+import { useComponentStyle } from './styles';
+
+const Component = forwardRef((props, ref) => {
+  const styleProps = useComponentStyle();
+
+  return (
+    <Box
+      ref={ref}
+      {...styleProps}
+      {...props}
+    />
+  );
+});
+
+Component.displayName = 'Component';
+
+export default Component;
+```
+
+### Function as Child Component (FaCC)
+
+For components that accept a function as a child, use the `runIfFn` utility to ensure that the child function is executed correctly.
+
+```jsx
+import { runIfFn } from '@tonic-ui/utils';
+import React, { forwardRef } from 'react';
+import { useComponentStyle } from './styles';
+
+const Component = forwardRef((
+  {
+    children,
+    variant,
+    ...rest
+  },
+  ref,
+) => {
+  const styleProps = useComponentStyle({ variant });
+
+  return (
+    <Box
+      ref={ref}
+      {...styleProps}
+      {...rest}
+    >
+      {runIfFn(children)}
+    </Box>
+  );
+});
+
+Component.displayName = 'Component';
+
+export default Component;
+```
+
+### Context Provider
+
+When creating components that share state or methods via context, memoize the state to avoid unnecessary re-renders. You can use either `micro-memoize` or `useMemo` to achieve this. `micro-memoize` does not require specifying dependencies, making the code cleaner.
+
+```jsx
+import { runIfFn } from '@tonic-ui/utils';
+import memoize from 'micro-memoize';
+import React, { forwardRef } from 'react';
+import { ComponentContext } from './context';
+import { useComponentStyle } from './styles';
+
+const getMemoizedState = memoize(state => ({ ...state }));
+
+const Component = forwardRef((
+  {
+    children,
+    variant,
+    ...rest
+  },
+  ref,
+) => {
+  const context = getMemoizedState({ variant }); // or `useMemo`
+  const styleProps = useComponentStyle({ variant });
+
+  return (
+    <ComponentContext.Provider value={context}>
+      <Box
+        ref={ref}
+        {...styleProps}
+        {...rest}
+      >
+        {runIfFn(children, context)}
+      </Box>
+    </ComponentContext.Provider>
+  );
+});
+
+Component.displayName = 'Component';
+
+export default Component;
+```
+
+### Controlled and Uncontrolled Component
+
+For components that manage their own state but can also be controlled externally, use a reducer and effect hooks to synchronize state changes.
+
+```jsx
+import { runIfFn } from '@tonic-ui/utils';
+import memoize from 'micro-memoize';
+import React, { forwardRef, useEffect, useReducer } from 'react';
+import { ComponentContext } from './context';
+import { useComponentStyle } from './styles';
+
+const getMemoizedState = memoize(state => ({ ...state }));
+
+const stateReducer = (prevState, nextState) => ({
+  ...prevState,
+  ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
+});
+
+const Component = forwardRef((
+  {
+    children,
+    defaultValue = 0,
+    onChange,
+    value: valueProp,
+    variant,
+    ...rest
+  },
+  ref,
+) => {
+  const [state, setState] = useReducer(stateReducer, {
+    value: valueProp ?? defaultValue,
+  });
+
+  useEffect(() => {
+    const isControlled = (valueProp !== undefined);
+    if (isControlled) {
+      setState({ value: valueProp });
+    }
+  }, [valueProp]);
+
+  const handleChange = (nextValue) => {
+    const isControlled = (valueProp !== undefined);
+    if (!isControlled) {
+      setState({ value: nextValue });
+    }
+
+    if (typeof onChange === 'function') {
+      onChange(nextValue);
+    }
+  };
+
+  const styleProps = useComponentStyle({ variant });
+  const context = getMemoizedState({
+    onChange: handleChange,
+    value: state.value,
+    variant,
+  });
+
+  return (
+    <ComponentContext.Provider value={context}>
+      <Box
+        ref={ref}
+        {...styleProps}
+        {...rest}
+      >
+        {runIfFn(children, context)}
+      </Box>
+    </ComponentContext.Provider>
+  );
+});
+
+Component.displayName = 'Component';
+
+export default Component;
+```
+
+## Component Prop Naming
+
+### Ground rules
+
+* Prefix boolean types with `is`. For example: `isClosable`, `isOpen`. Standard HTML attributes like `checked`, `disabled`, `error`, `readOnly`, `required` remain unchanged.
+* Use singular for non-array types and plural for arrays.
+* Utilize the `XXX` and `defaultXXX` pattern to support both controlled and uncontrolled usage. For instance, `value` with `defaultValue`, `isOpen` with `defaultIsOpen`, `checked` with `defaultChecked`.
+
+### The `severity` prop
+
+The `severity` prop indicates the state of the component with the following values: `success`, `info`, `warning`, `error`, and optionally `none` if the state is not meaningful. Each state corresponds to specific icon and color combinations.
+
+### The `size` prop
+
+The `size` prop typically accepts values like `xs`, `sm`, `md`, `lg`, `xl`, etc., for adjusting component dimensions.
+
+### The `variant` prop
+
+The `variant` prop offers various styles tailored to specific component needs. Here are the commonly used types:
+
+Variant | Description | Used In
+:--- | :---------- | :------
+`solid`    | The background and the border are filled with the same color.   | [Alert](../../components/alert), [Badge](../../components/badge), [Divider](../../components/divider), [Tag](../../components/tag)
+`filled`   | The background and the border are filled with different colors. | [Input](../../components/input), [InputControl](../../components/input-control), [Select](../../components/select), [Tabs](../../components/tabs), [SearchInput](../../components/search-input), [Textarea](../../components/textarea)
+`flush`    | Only the bottom bordered is rendered. | [Input](../../components/input), [InputControl](../../components/input-control), [SearchInput](../../components/search-input)
+`outline`  | Only the border is filled.                                      | [Alert](../../components/alert), [Input](../../components/input), [InputControl](../../components/input-control), [SearchInput](../../components/search-input), [Select](../../components/select), [Table](../../components/table), [Tag](../../components/tag), [Textarea](../../components/textarea)
+`unstyled` | No style is applied.                                            | [Input](../../components/input), [InputControl](../../components/input-control), [SearchInput](../../components/search-input), [Select](../../components/select), [Tabs](../../components/tabs), [Textarea](../../components/textarea)
+`default`  | The component's default style.                                  | [Button](../../components/button), [Table](../../components/table), [Tabs](../../components/tabs)
