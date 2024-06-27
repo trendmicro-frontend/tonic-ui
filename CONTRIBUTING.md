@@ -1,47 +1,91 @@
 # Contributing
 
-Thank you for your interest in contributing to this project.
+Thank you for your interest in contributing to Tonic UI!
 
 All contributions are welcome. You can submit a pull request on GitHub or raise an issue on GitHub.
 
-Please note that the project is in an early stage and the API is subject to change. We expect to have a stable API in the near future.
-
 ## Perequisites
 
-* Use Node.js 14 at least to build the project
-* Run `npm install -g yarn` to update the global yarn version to latest v1
+* Use Node.js 16 (or above) to build the project.
+* Run `npm install -g yarn` to update the global yarn version.
 
+## Setup the Documentation Site
 
-## Getting Started
-
-* Fork the Tonic UI repository on GitHub
-* Clone your fork to your local machine: `git clone git@github.com:<yourname>/tonic-ui.git`
-* Create a new branch from the `master` on your fork: `git checkout -b <your-branch-name>`
-* Run `yarn install` and `yarn build` to build the source code
-* Make your changes and then push to the new branch: `git push --set-upstream origin <your-branch-name>`
-* Visit GitHub and create a pull request
-
-## Contributing to Documentation
-
-To contribute the documentation, you can run a local server with `yarn dev` in the `packages/react-docs` directory. Be sure to run `yarn build` in advance before running the server.
-
+1. Clone the repository to your local machine:
 ```bash
-# Build the workspace
+git clone https://github.com/trendmicro/tonic-ui.git
+cd tonic-ui
+```
+
+2. Install all dependencies and packages by running:
+```bash
+yarn
+```
+
+3. Build the source code by running:
+```bash
 yarn build
 ```
 
+4. Go to `packages/react-docs` and run `yarn dev` to start a local development server:
 ```bash
-# Run the server
 cd packages/react-docs
 yarn dev
 ```
 
-You can now access the site locally at `http://localhost:3000`. Changes to the docs will be reflected in the build.
+You can now access the site locally at `http://localhost:3000`. Changes to the docs will be reflected in real-time.
 
-To update React components, go to `packages/react` and run `yarn build`, it will reload the site with the new changes.
+To rebuild React components, go to `packages/react` and run `yarn build`, this will reload the site with the new changes.
 
 ```bash
 # Update React components
 cd packages/react
 yarn build
 ```
+
+## Pull Request
+
+1. Fork the Tonic UI repository and clone your fork.
+2. Create a new branch out of the default branch. We suggest using the one of the following conventions for the new branch:
+    * `tonic-ui-#`: `#` is the issue number that will be addressed by this PR. For example: `tonic-ui-500`.
+    * `type/scope`: `type` can be either `docs`, `fix`, `feat`, `test`, or any other conventional commit type. `scope` is a short identifier that describes the scope of work. For example: `fix/react-checkbox`, `docs/react-color-style`.
+    ```bash
+    git checkout -b tonic-ui-500
+    // or
+    git checkout -b docs/react-color-style
+    ```
+3. Make and commit your changes following the [commit convention](#commit-convention). When you run `git push`, it will trigger `yarn lint` and `yarn test` to ensure everything works as expected. Note that you might need to run `yarn` first to update all dependencies if a new dependency has been added.
+    ```bash
+    git push --set-upstream origin <your-branch-name>`
+    ```
+4. Go back to the forked repository and create a pull reqest.
+
+## Commit Convention
+
+### Semantic commit message format
+
+`<type>(<scope>): <subject>`
+
+`<scope>` is optional
+
+```
+feat: add hat wobble
+^--^  ^------------^
+|     |
+|     +-> Summary in present tense
+|
++-------> Type: breaking, build, chore, ci, docs, feat, fix, refactor, style, or test
+```
+
+Type    | Description | Release Version
+:------ | :---------- | :--------------
+`breaking` | Changes that introduce a breaking change to the current release | `major` release
+`build` | Changes that affect the build system or external dependencies | `patch` release
+`chore` | Other changes that don't modify source or test files | -
+`ci` | Changes to CI configuration files and scripts | -
+`docs` | Changes to documentation | -
+`feat` | New feature for the user, not a new feature for build script | `minor` release
+`fix` | Bug fix for the user, not a fix to a build script | `patch` release
+`refactor` | A code change that neither fixes a bug nor adds a feature | `minor` release
+`style` | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) | -
+`test` | Adding missing tests or correcting existing tests | -
