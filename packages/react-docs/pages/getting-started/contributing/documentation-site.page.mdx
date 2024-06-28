@@ -1,0 +1,23 @@
+# Contributing to Documentation Site
+
+Visit [this page](../contributing#set-up-documentation-site) for instructions on setting up the development environment for the documentation site.
+
+## Overview
+
+Let's get started by exploring the `pages` directory, following the Next.js convention where each file represents a route in the application. Note that page extensions should be either `.page.js` or `.page.mdx`; otherwise, they will be treated as non-page files. You can configure these extensions in `next.config.js`.
+
+### Pages directory structure
+
+Name | Description
+:--- | :----------
+404.page.js | Handles the 404 error page, displayed when a route is not found.
+_app.page.js | A custom `App` component that controls the page initialization and creates a shared layout between page changes.
+_document.page.js | A custom `Document` component that allows you to modify the initial HTML document structure. You can configure the `<html>` and `<body>` tags, set up meta tags, or add scripts and styles necessary for server-side rendering.
+[getting-started/](../../getting-started) | Contains the getting started guide for Tonic UI.
+[patterns/](../../patterns) | Contains documentation on design patterns and best practices for Tonic UI.
+[components/](../../components) | Contains documentation for Tonic UI React components: `@tonic-ui/react`
+[hooks/](../../hooks) | Contains documentation for Tonic UI React Hooks: `@tonic-ui/react-hooks`
+[icons/](../../icons) | Contains documentation for Tonic UI React Icons: `@tonic-ui/react-icons`
+[styled-system/](../../styled-system) | Contains documentation for Tonic UI Styled System: `@tonic-ui/styled-system`
+[theme/](../../theme) | Contains documentation for Tonic UI theme: `@tonic-ui/theme`
+[playground/](../../playground) | Demonstrates how to create interactive applications with Tonic UI.

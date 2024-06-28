@@ -4,30 +4,29 @@ Thank you for your interest in contributing to Tonic UI!
 
 All contributions are welcome. You can submit a pull request on GitHub or raise an issue on GitHub.
 
-## Perequisites
+## Set Up Documentation Site
 
-* Use Node.js 16 (or above) to build the project.
-* Run `npm install -g yarn` to update the global yarn version.
+Follow these steps to set up the documentation site:
 
-## Setup the Documentation Site
+1. Fork the Tonic UI repository.
 
-1. Clone the repository to your local machine:
+2. Clone the repository you forked to your local machine:
 ```bash
-git clone https://github.com/trendmicro/tonic-ui.git
+git clone https://github.com/<your_github_username>/tonic-ui.git
 cd tonic-ui
 ```
 
-2. Install all dependencies and packages by running:
+3. Install all dependencies and packages:
 ```bash
 yarn
 ```
 
-3. Build the source code by running:
+4. Build the source code:
 ```bash
 yarn build
 ```
 
-4. Go to `packages/react-docs` and run `yarn dev` to start a local development server:
+5. Start a local development server for the documentation site:
 ```bash
 cd packages/react-docs
 yarn dev
@@ -35,15 +34,16 @@ yarn dev
 
 You can now access the site locally at `http://localhost:3000`. Changes to the docs will be reflected in real-time.
 
-To rebuild React components, go to `packages/react` and run `yarn build`, this will reload the site with the new changes.
+To rebuild React components, navigate to `packages/react` and run:
 
 ```bash
-# Update React components
 cd packages/react
 yarn build
 ```
 
-## Pull Request
+This will reload the site with the new changes.
+
+## Making a Pull Request
 
 1. Fork the Tonic UI repository and clone your fork.
 2. Create a new branch out of the default branch. We suggest using the one of the following conventions for the new branch:
