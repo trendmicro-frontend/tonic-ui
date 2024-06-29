@@ -1,0 +1,59 @@
+# Contributing to React Icons
+
+The `@tonic-ui/react-icons` package relies on an exact version of the `@trendmicro/tmicon` package to generate icons. It is essential to explicitly specify the required version in the `devDependencies` for icon generation process.
+
+## Updating Dependencies
+
+1. Navigate to the `packages/react-icons` directory in your local repository.
+
+2. Modify the `package.json` file and update the `@trendmicro/tmicon` package to the specified version under `devDependencies`. For example:
+
+```js
+{
+  "devDependencies": {
+    "@trendmicro/tmicon": "1.40.0"
+  }
+}
+```
+
+## Generating Icons
+
+Once you have updated the `package.json` file, follow these steps to update dependencies and generate the icons. This process uses the specified version of `@trendmicro/tmicon` to ensure all icons are built correctly.
+
+1. Install the updated dependencies:
+```bash
+yarn
+```
+
+2. Run `generate-icons` script to generate icons:
+```bash
+yarn generate-icons
+```
+
+## Verifying Your Changes
+
+After generating the icons, it is important to verify that the new icons are correctly generated as expected.
+
+1. Navigate to `packages/react-docs` and start the development server:
+```bash
+yarn dev
+```
+
+2. Open your browser and navigate to the documentation site (usually `http://localhost:3000`). Browse through the [React Icons](../../icons) page to ensure they are displaying correctly.
+
+## Submitting Your Contribution
+
+If everything looks good and your changes are working as expected, you can proceed to submit your contribution.
+
+1. Commit your changes:
+```bash
+git add .
+git commit -m 'feat(react-icons): update icons to @trendmicro/tmicon v1.40.0'
+```
+
+2. Push your changes:
+```bash
+git push origin your-branch-name
+```
+
+3. Go to the repository on GitHub and create a pull request.

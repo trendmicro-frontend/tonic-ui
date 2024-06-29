@@ -1,4 +1,5 @@
 import {
+  Flex,
   Text,
   Tooltip,
 } from '@tonic-ui/react';
@@ -38,8 +39,16 @@ export const routes = [
       { title: 'Tonic UI Versions', path: 'getting-started/versions' },
       { title: 'CONTRIBUTING', heading: true },
       { title: 'Contributing', path: 'getting-started/contributing' },
-      { title: 'React Components', path: 'getting-started/contributing/react-components' },
-      { title: 'Documentation Site', path: 'getting-started/contributing/documentation-site' },
+      { title: 'React Documentation Site', path: 'getting-started/contributing/react-documentation-site' },
+      {
+        title: <Flex columnGap="2x">React Components <sub>PART I</sub></Flex>,
+        path: 'getting-started/contributing/react-components-part-i',
+      },
+      {
+        title: <Flex columnGap="2x">React Components <sub>PART II</sub></Flex>,
+        path: 'getting-started/contributing/react-components-part-ii',
+      },
+      { title: 'React Icons', path: 'getting-started/contributing/react-icons' },
       { title: 'MIGRATION', heading: true },
       { title: 'Migration From v1 to v2', path: 'getting-started/migration-v1-to-v2' },
       { title: 'Migration From v0 to v1', path: 'getting-started/migration-v0-to-v1' },

@@ -1,0 +1,113 @@
+# Contributing to Documentation Site
+
+Visit [this page](../contributing#set-up-documentation-site) for instructions on setting up the development environment for the documentation site.
+
+## Overview
+
+Let's get started by exploring the `pages` directory, which follows the Next.js convention where each directory or file represents a route in the application. Here is the directory structure:
+
+Name | Description
+:--- | :----------
+404.page.js | Handles the 404 error page, displayed when a route is not found.
+_app.page.js | A custom `App` component that controls the page initialization and creates a shared layout between page changes.
+_document.page.js | A custom `Document` component that allows you to modify the initial HTML document structure. You can configure the `<html>` and `<body>` tags, set up meta tags, or add scripts and styles necessary for server-side rendering.
+[getting-started/](../../getting-started) | Contains the getting started guide for Tonic UI.
+[patterns/](../../patterns) | Contains documentation on design patterns and best practices for Tonic UI.
+[components/](../../components) | Contains documentation for Tonic UI React components: `@tonic-ui/react`
+[hooks/](../../hooks) | Contains documentation for Tonic UI React Hooks: `@tonic-ui/react-hooks`
+[icons/](../../icons) | Contains documentation for Tonic UI React Icons: `@tonic-ui/react-icons`
+[styled-system/](../../styled-system) | Contains documentation for Tonic UI Styled System: `@tonic-ui/styled-system`
+[theme/](../../theme) | Contains documentation for Tonic UI theme: `@tonic-ui/theme`
+[playground/](../../playground) | Demonstrates how to create interactive applications with Tonic UI.
+
+> Tip: Page extensions should be either `.page.js` or `.page.mdx`; otherwise, they will be treated as non-page files. If you need to use other page extensions, you can configure them in `next.config.js`.
+
+To add a new page to the side navigation menu, modify `packages/react-docs/config/sidebar-routes.js` to add a route path to the speicifc page:
+
+```js
+const routes = [
+  title: 'Main Section',
+  icon: (props) => <MyIcon {...props} />,
+  routes: [
+    {
+      title: 'Component Overview',
+      path: 'path/to/component',
+    },
+  ],
+];
+```
+
+## Writing React Component API Documentation
+
+A typical React Component API documentation has the following sections:
+
+### Heading
+
+The heading includes the component name and a brief description of its purpose and functionality.
+
+````mdx
+# Box
+
+`Box` is a fundamental building block that allows you to control styling using style props to build a variety of components.
+````
+
+### Import
+
+Specifies how to import the component into your project. This section provides the exact import statement needed.
+
+````mdx
+## Import
+
+```js
+import { Box } from '@tonic-ui/react';
+```
+````
+
+### Usage
+
+Component usage examples demonstrate how to implement the component in your code. This section may include multiple examples showcasing different features or common use cases.
+
+````mdx
+## Usage
+
+### Using the `as` prop
+
+By default, the `Box` component renders a `div` element. There might be cases where you want to render a different element, you can use the `as` prop to do that.
+
+{render('./using-the-as-prop')}
+````
+
+For the example above, add a `using-the-as-prop.js` file in the same directory:
+
+````jsx
+import { Box } from '@tonic-ui/react';
+import React from 'react';
+
+const App = () => (
+  <Box as="button">
+    Button
+  </Box>
+);
+
+export default App;
+````
+
+### Props
+
+The API props section details all the properties that the component accepts. It includes the following information for each prop:
+* **Name**: The name of the prop.
+* **Type**: The expected data type of the prop (e.g., string, number, boolean, object, function, ElementType, ReactNode).
+* **Default Value**: The default value if the prop is not provided.
+* **Description**: A brief description of what the prop does and how it affects the component.
+
+````mdx
+## Props
+
+### Box
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| as | string \| ElementType | 'div' | |
+| children | ReactNode | | |
+| sx | object | | |
+````
