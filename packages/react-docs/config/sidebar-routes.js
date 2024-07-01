@@ -49,6 +49,7 @@ export const routes = [
         path: 'getting-started/contributing/react-components-part-ii',
       },
       { title: 'React Icons', path: 'getting-started/contributing/react-icons' },
+      { title: 'Publishing', path: 'getting-started/contributing/publishing' },
       { title: 'MIGRATION', heading: true },
       { title: 'Migration From v1 to v2', path: 'getting-started/migration-v1-to-v2' },
       { title: 'Migration From v0 to v1', path: 'getting-started/migration-v0-to-v1' },

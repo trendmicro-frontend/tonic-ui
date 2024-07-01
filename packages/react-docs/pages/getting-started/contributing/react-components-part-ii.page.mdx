@@ -186,9 +186,9 @@ export default Component;
 
 ### Ground rules
 
-* Prefix boolean types with `is`. For example: `isClosable`, `isOpen`. Standard HTML attributes like `checked`, `disabled`, `error`, `readOnly`, `required` remain unchanged.
-* Use singular for non-array types and plural for arrays.
-* Utilize the `XXX` and `defaultXXX` pattern to support both controlled and uncontrolled usage. For instance, `value` with `defaultValue`, `isOpen` with `defaultIsOpen`, `checked` with `defaultChecked`.
+* Prefix boolean types with `is`. For example: `isClosable`, `isOpen`. However, maintain the default naming convention for [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes) or [element attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes) like `checked`, `disabled`, `error`, `readOnly`, `required`.
+* Use singular form for non-array types and plural form for arrays.
+* Use the `value` and `defaultValue` pattern to support both controlled and uncontrolled usage. For instance, `value` with `defaultValue`, `isOpen` with `defaultIsOpen`, `checked` with `defaultChecked`.
 
 ### The `severity` prop
 

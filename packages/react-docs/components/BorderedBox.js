@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, useColorMode } from '@tonic-ui/react';
 
-const EmbeddedPageContent = (props) => {
+const BorderedBox = (props) => {
   const [colorMode] = useColorMode();
   const styleProps = {
     border: 1,
@@ -16,4 +16,4 @@ const EmbeddedPageContent = (props) => {
   );
 };
 
-export default EmbeddedPageContent;
+export default BorderedBox;

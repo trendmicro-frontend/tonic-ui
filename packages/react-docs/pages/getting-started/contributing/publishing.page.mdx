@@ -1,0 +1,65 @@
+import BorderedBox from '../../../components/BorderedBox';
+
+# Publishing
+
+This guide will help you publish a package to NPM and create GitHub release notes for a specific version of Tonic UI.
+
+## Prerequisites
+
+Ensure you have the necessary permissions to publish to the NPM registry and create releases on GitHub. You should also have `yarn` installed globally.
+
+## Publishing to NPM
+
+Follow these steps to publish a new version of a Tonic UI package to NPM:
+
+1. **Build the code**: Ensure the code is updated without issues.
+    ```bash
+    yarn build
+    yarn test
+    ```
+
+2. **Run the publish command**: This will use Lerna to guide you through the publish process.
+    ```bash
+    yarn lerna-publish
+    ```
+    Lerna will prompt you to select the new version for each package that made changes. Follow the prompts to complete the publish process.
+
+    Note that you should follow [semantic versioning](https://semver.org/) convention to specify the package version. Given a version number MAJOR.MINOR.PATCH, increment the:
+    - **MAJOR** version when you make incompatible API changes
+    - **MINOR** version when you add functionality in a backward compatible manner
+    - **PATCH** version when you make backward compatible bug fixes
+
+    Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+
+3. **Verify the published package**: After the publish process is complete, verify that the new version has been published to NPM.
+    ```bash
+    npm view @tonic-ui/react version
+    npm view @tonic-ui/react-icons version
+    ```
+
+## Generating GitHub Release Notes
+
+After publishing the package to NPM, follow these steps to create GitHub release notes for the new version:
+
+1. Go to the Tonic UI repository on GitHub.
+2. Click on the "Releases" link, then click the "Draft a new release" button.
+3. Select the new version tag (e.g., `@tonic-ui/react@2.0.1`) and the previous tag to compare.
+4. Click the "Generate release notes" button to generate a description of the release. This will consolidate changes in recent PRs.
+
+<BorderedBox p="4x">![tonic-ui-releases](https://github.com/trendmicro-frontend/tonic-ui/assets/447801/1e87f134-edc6-427d-8da3-7170881f0570)</BorderedBox>
+
+## Example Release Notes
+
+Here is an example of how the release notes might look for `@tonic-ui/react@v2.0.1`:
+
+```mdx
+## What's Changed
+* ci: set default Tonic UI package version for CodeSandbox integration by @cheton in https://github.com/trendmicro-frontend/tonic-ui/commit/2e6568a9250ac0a90e2fe0c7672be9194553ee11
+* feat(docs): add playground for interactive exploration by @cheton in https://github.com/trendmicro-frontend/tonic-ui/pull/838
+* feat(styled-system): update pseudo class/element selectors by @cheton in https://github.com/trendmicro-frontend/tonic-ui/pull/868
+* fix(styled-system): correct handling of negative margin where `calc()` was erroneously included by @cheton in https://github.com/trendmicro-frontend/tonic-ui/pull/869
+
+**Full Changelog**: https://github.com/trendmicro-frontend/tonic-ui/compare/@tonic-ui/react@2.0.0...@tonic-ui/react@2.0.1
+```
+
+<BorderedBox p="4x">![tonic-ui-releases-preview](https://github.com/trendmicro-frontend/tonic-ui/assets/447801/0c8c6d59-a166-408b-ac66-3e63ef569d90)</BorderedBox>
