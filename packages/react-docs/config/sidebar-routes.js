@@ -41,12 +41,12 @@ export const routes = [
       { title: 'Contributing', path: 'getting-started/contributing' },
       { title: 'React Documentation Site', path: 'getting-started/contributing/react-documentation-site' },
       {
-        title: <Flex columnGap="2x">React Components <sub>PART I</sub></Flex>,
-        path: 'getting-started/contributing/react-components-part-i',
+        title: <Flex columnGap="2x">React Components <sub>PART 1</sub></Flex>,
+        path: 'getting-started/contributing/react-components-part-1',
       },
       {
-        title: <Flex columnGap="2x">React Components <sub>PART II</sub></Flex>,
-        path: 'getting-started/contributing/react-components-part-ii',
+        title: <Flex columnGap="2x">React Components <sub>PART 2</sub></Flex>,
+        path: 'getting-started/contributing/react-components-part-2',
       },
       { title: 'React Icons', path: 'getting-started/contributing/react-icons' },
       { title: 'Publishing', path: 'getting-started/contributing/publishing' },
