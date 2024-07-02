@@ -53,8 +53,10 @@ const TableOfContents = (props) => {
 
     const mainContent = document.querySelector('#main > .main-content');
     if (mainContent) {
-      // Select all direct child heading elements (h2, h3, h4, h5, h6) of the main content
-      setNodes(Array.from(mainContent.querySelectorAll('&>h2,&>h3,&>h4,&>h5,&>h6')));
+      // Use the `:scope` pseudo-class to select all direct child heading elements of the main content, excluding h1
+      const headingSelectors = ['h2', 'h3', 'h4', 'h5', 'h6'].map(h => `:scope>${h}`).join(',');
+      console.log(headingSelectors);
+      setNodes(Array.from(mainContent.querySelectorAll(headingSelectors)));
     }
 
     if (window.location.hash) {
