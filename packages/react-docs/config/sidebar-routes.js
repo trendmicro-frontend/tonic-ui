@@ -37,22 +37,36 @@ export const routes = [
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Security', path: 'getting-started/security' },
       { title: 'Tonic UI Versions', path: 'getting-started/versions' },
-      { title: 'CONTRIBUTION GUIDE', heading: true },
-      { title: 'Overview', path: 'getting-started/contribution-guide' },
-      { title: 'React Documentation Site', path: 'getting-started/contribution-guide/react-documentation-site' },
+    ],
+  },
+  {
+    title: 'Contribution Guide',
+    icon: (props) => (
+      <ListOpenIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Overview', path: 'contribution-guide' },
+      { title: 'React Documentation Site', path: 'contribution-guide/react-documentation-site' },
       {
         title: <Flex columnGap="2x">React Components <sub>PART 1</sub></Flex>,
-        path: 'getting-started/contribution-guide/react-components-part-1',
+        path: 'contribution-guide/react-components-part-1',
       },
       {
         title: <Flex columnGap="2x">React Components <sub>PART 2</sub></Flex>,
-        path: 'getting-started/contribution-guide/react-components-part-2',
+        path: 'contribution-guide/react-components-part-2',
       },
-      { title: 'React Icons', path: 'getting-started/contribution-guide/react-icons' },
-      { title: 'Publishing', path: 'getting-started/contribution-guide/publishing' },
-      { title: 'MIGRATION GUIDE', heading: true },
-      { title: 'Migrating from v1 to v2', path: 'getting-started/migration-guide/migrating-from-v1-to-v2' },
-      { title: 'Migrating from v0 to v1', path: 'getting-started/migration-guide/migrating-from-v0-to-v1' },
+      { title: 'React Icons', path: 'contribution-guide/react-icons' },
+      { title: 'Publishing', path: 'contribution-guide/publishing' },
+    ],
+  },
+  {
+    title: 'Migration Guide',
+    icon: (props) => (
+      <ListOpenIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Migrating from v1 to v2', path: 'migration-guide/migrating-from-v1-to-v2' },
+      { title: 'Migrating from v0 to v1', path: 'migration-guide/migrating-from-v0-to-v1' },
     ],
   },
   {
