@@ -8,8 +8,10 @@ import {
   ColorIcon,
   FileImageOIcon,
   HookIcon,
-  ListOpenIcon,
+  MigrateSuccessIcon,
+  RocketIcon,
   SVGIcon,
+  UserTeamIcon,
   WidgetsIcon,
   WorkspaceIcon,
 } from '@tonic-ui/react-icons';
@@ -25,7 +27,7 @@ export const routes = [
   {
     title: 'Getting Started',
     icon: (props) => (
-      <ListOpenIcon size="4x" {...props} />
+      <RocketIcon size="4x" {...props} />
     ),
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
@@ -42,7 +44,7 @@ export const routes = [
   {
     title: 'Contribution Guide',
     icon: (props) => (
-      <ListOpenIcon size="4x" {...props} />
+      <UserTeamIcon size="4x" {...props} />
     ),
     routes: [
       { title: 'Overview', path: 'contribution-guide' },
@@ -62,7 +64,7 @@ export const routes = [
   {
     title: 'Migration Guide',
     icon: (props) => (
-      <ListOpenIcon size="4x" {...props} />
+      <MigrateSuccessIcon size="4x" {...props} />
     ),
     routes: [
       { title: 'Migrating from v1 to v2', path: 'migration-guide/migrating-from-v1-to-v2' },
