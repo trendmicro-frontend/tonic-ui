@@ -8,8 +8,10 @@ import {
   ColorIcon,
   FileImageOIcon,
   HookIcon,
-  ListOpenIcon,
+  MigrateSuccessIcon,
+  RocketIcon,
   SVGIcon,
+  UserTeamIcon,
   WidgetsIcon,
   WorkspaceIcon,
 } from '@tonic-ui/react-icons';
@@ -25,7 +27,7 @@ export const routes = [
   {
     title: 'Getting Started',
     icon: (props) => (
-      <ListOpenIcon size="4x" {...props} />
+      <RocketIcon size="4x" {...props} />
     ),
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
@@ -37,22 +39,36 @@ export const routes = [
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Security', path: 'getting-started/security' },
       { title: 'Tonic UI Versions', path: 'getting-started/versions' },
-      { title: 'CONTRIBUTING', heading: true },
-      { title: 'Contributing', path: 'getting-started/contributing' },
-      { title: 'React Documentation Site', path: 'getting-started/contributing/react-documentation-site' },
+    ],
+  },
+  {
+    title: 'Contribution Guide',
+    icon: (props) => (
+      <UserTeamIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Overview', path: 'contribution-guide' },
+      { title: 'React Documentation Site', path: 'contribution-guide/react-documentation-site' },
       {
         title: <Flex columnGap="2x">React Components <sub>PART 1</sub></Flex>,
-        path: 'getting-started/contributing/react-components-part-1',
+        path: 'contribution-guide/react-components-part-1',
       },
       {
         title: <Flex columnGap="2x">React Components <sub>PART 2</sub></Flex>,
-        path: 'getting-started/contributing/react-components-part-2',
+        path: 'contribution-guide/react-components-part-2',
       },
-      { title: 'React Icons', path: 'getting-started/contributing/react-icons' },
-      { title: 'Publishing', path: 'getting-started/contributing/publishing' },
-      { title: 'MIGRATION', heading: true },
-      { title: 'Migration From v1 to v2', path: 'getting-started/migration-v1-to-v2' },
-      { title: 'Migration From v0 to v1', path: 'getting-started/migration-v0-to-v1' },
+      { title: 'React Icons', path: 'contribution-guide/react-icons' },
+      { title: 'Publishing', path: 'contribution-guide/publishing' },
+    ],
+  },
+  {
+    title: 'Migration Guide',
+    icon: (props) => (
+      <MigrateSuccessIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Migrating from v1 to v2', path: 'migration-guide/migrating-from-v1-to-v2' },
+      { title: 'Migrating from v0 to v1', path: 'migration-guide/migrating-from-v0-to-v1' },
     ],
   },
   {

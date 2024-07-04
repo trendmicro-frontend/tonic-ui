@@ -8,13 +8,15 @@ import {
   AlertIcon,
 } from '@tonic-ui/react-icons';
 
-# Migration From v1 to v2
+# Migrating From v1 to v2
 
 ⚠️ This guide outlines the necessary steps to migrate from Tonic UI v1 to v2. Please review the breaking changes and assess the compatibility with your current setup before proceeding with the upgrade.
 
-## Color Style
+## Major Updates and Breaking Changes
 
-### What's changed
+This section highlights the major updates and breaking changes in Tonic UI v2.
+
+### Color Style
 
 > <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
 > The following keys in the color style are deprecated and will be removed in the next major release. Please update your code with the [recommended configuration](#recommended-configuration) to avoid encountering breaking changes in the future.
@@ -122,8 +124,6 @@ const App = (props) => (
 export default App;
 ```
 
-### Recommended configuration
-
 Here is the recommended configuration for utilizing the `risk` and `severity` colors. Please note that some old keys, such as `severity.safe` and `severity.unknown`, are no longer available here. You may need to adjust your code accordingly.
 
 ```js
@@ -167,7 +167,7 @@ const customColorStyle = {
 };
 ```
 
-## Date Pickers
+### Date Pickers
 
 The [Calendar](../components/date-pickers/calendar) and [DatePicker](../components/date-pickers/date-picker) components have been moved from `@tonic-ui/react-lab` to `@tonic-ui/react`. You can import them as follows:
 
@@ -178,15 +178,15 @@ import {
 } from '@tonic-ui/react';
 ```
 
-## Icons
+### Icons
 
 In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/react-icons` package. Here are two migration options to ensure a smooth transition:
 
-### Option 1: Recommended approach
+#### Option 1: Recommended approach
 
 This method is the recommended approach, although requiring the most code changes. A codemod is provided to automate this process.
 
-#### Step 1: Update dependencies
+##### Step 1: Update dependencies
 
 Ensure your `package.json` file includes the latest versions of Tonic UI packages:
 
@@ -197,7 +197,7 @@ Ensure your `package.json` file includes the latest versions of Tonic UI package
 }
 ```
 
-#### Step 2: Update import location for icon components
+##### Step 2: Update import location for icon components
 
 Update the import locations for icon components within Tonic UI v2.
 
@@ -254,7 +254,7 @@ For TypeScript files:
 npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons . --extensions=ts,tsx --parser=tsx --verbose=2
 ```
 
-#### Step 3: Remove unnecessary icons and dependencies
+##### Step 3: Remove unnecessary icons and dependencies
 
 After updating the icon imports, remove the unnecessary `@trendmicro/tmicon` dependency from your project if it was used.
 
@@ -266,11 +266,11 @@ After updating the icon imports, remove the unnecessary `@trendmicro/tmicon` dep
   }
 ```
 
-### Option 2: Backward compatible approach
+#### Option 2: Backward compatible approach
 
 This method provides backward compatibility with minimal code changes, but it disables bundle-size optimization.
 
-#### Step 1: Update dependencies
+##### Step 1: Update dependencies
 
 Ensure your `package.json` file includes the necessary Tonic UI packages:
 
@@ -282,7 +282,7 @@ Ensure your `package.json` file includes the necessary Tonic UI packages:
   }
 ```
 
-#### Step 2: Import SVG icons and generate icons for the theme
+##### Step 2: Import SVG icons and generate icons for the theme
 
 Manually generate icons and pass them to the theme to ensure your app displays icons properly after the upgrade.
 
@@ -319,3 +319,95 @@ export default () => (
   </TonicProvider>
 );
 ```
+
+## Component Modifications
+
+This section lists the changes and deprecations for various components in Tonic UI v2.
+
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
+> The following components are marked as deprecated and will be removed in the next major release. Please update your code accordingly:
+* `AccordionCollapse` is deprecated. Use `AccordionContent` instead.
+* `TableHeaderRow` is deprecated. Use `TableRow` instead.
+* `TableHeaderCell` is deprecated. Use `TableCell` instead.
+* `ToastProvider` is deprecated. Use `ToastManager` instead.
+* `useToast` is deprecated. Use `useToastManager` instead.
+
+### `Alert`
+* Removed `isCloseButtonVisible` prop
+
+### `Badge`
+* Removed `dotSize`, `isHidden`, `offset`, and `variantColor` props
+
+### `Box`
+* Removed CSS `fill` and `stroke` properties for SVG elements
+
+### `Checkbox`
+The `ref` prop now targets the outermost element. To retrieve the checked status of the input, rename `ref` to `inputRef`.
+```diff
+- <Checkbox ref={checkboxRef} />
++ <Checkbox inputRef={checkboxRef} />
+```
+
+### `CheckboxGroup`
+* Changed `onChange(value, event)` to `onChange(value)`
+
+### `InputBase`
+* Removed `isInvalid` prop
+
+### `Pagination`
+* Removed `ellipsisLabel`, `firstButton`, `lastButton`, `prevButton`, and `nextButton` props
+* Changed `onChange(event, value)` to `onChange(value)`
+
+### `Popover`
+* Removed `arrowAt`, `distance`, `hideArrow`, and `skidding` props
+* Removed `PopperArrowComponent` and `PopperArrowProps` props from `PopoverContent`
+
+### `Popper`
+* Removed `container` prop
+
+### `Portal`
+* Removed `container`, `isDisabled`, and `onRender` props
+
+### `Radio`
+The `ref` prop now targets the outermost element. To retrieve the checked status of the input, rename `ref` to `inputRef`.
+```diff
+- <Radio ref={radioRef} />
++ <Radio inputRef={radioRef} />
+```
+
+### `Spinner`
+* Removed `color`, `strokeWidth`, and `speed` props
+
+### `Scrollbar`
+* Removed `disabled`, `minThumbSize`, `visibility`, `renderView`, `renderHorizontalTrack`, `renderHorizontalThumb`, `renderVerticalTrack`, `renderVerticalThumb`, and `thumbSize` props
+
+### `Switch`
+The `ref` prop now targets the outermost element. To retrieve the checked status of the input, rename `ref` to `inputRef`.
+```diff
+- <Switch ref={switchRef} />
++ <Switch inputRef={switchRef} />
+```
+
+### `Tabs`
+* Removed `activateOnKeyPress`, `isFitted`, `isManual` props
+
+### `Table`
+* Removed `isHoverable` prop
+
+### `Tag`
+* Removed `isCloseButtonVisible`, `isInvalid`, and `variantColor` props
+
+### `Toast`
+* Removed `isCloseButtonVisible` prop.
+
+### `ToastManager`
+* Removed `container` prop
+
+### `Tooltip`
+* Removed `PopperArrowComponent`, `PopperArrowProps`, `arrowAt`, `hideArrow`, `hideDelay`, `showDelay`, and `closeOnMouseDown` props
+
+### `TooltipContent`
+* Removed `PopperArrowComponent` and `PopperArrowProps` props
+
+### `useMenu`
+* Removed `openMenu` and `closeMenu` props from the Menu context provider. Use `onOpen` and `onClose` props with the `useMenu` hook instead.
