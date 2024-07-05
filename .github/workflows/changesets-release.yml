@@ -1,0 +1,56 @@
+# This workflow will release the packages with Changesets
+
+name: Release
+
+on:
+  push:
+    branches:
+      - v2
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+permissions: {}
+
+jobs:
+  release:
+    # [IMPORTANT] Prevent this action from running on forks
+    if: github.repository == 'trendmicro-frontend/tonic-ui'
+    permissions:
+      contents: write       # to create release (changesets/action)
+      issues: write         # to post issue comments (changesets/action)
+      pull-requests: write  # to create pull request (changesets/action)
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          # Ensure the full git history is available so that `changesets` can generate changelogs with the correct commits
+          fetch-depth: 0
+      - name: Setup Node
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Dependencies
+        id: install-dependencies
+        run: yarn install
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@master
+        with:
+          title: "chore(release): version packages"
+          commit: "chore(release): version packages [skip ci]"
+          # This expects you to have a script called release which does a build for your packages and calls `changeset publish`
+          # publish: yarn ci-publish
+          # This expects you to have a script called version that runs some logic and then calls `changeset version`.
+          # version: yarn changeset version
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+          #NPM_TOKEN: ${{ env.NPM_TOKEN }}
