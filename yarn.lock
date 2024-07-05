@@ -2053,17 +2053,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/changelog-github@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@changesets/changelog-github@npm:0.5.0"
-  dependencies:
-    "@changesets/get-github-info": ^0.6.0
-    "@changesets/types": ^6.0.0
-    dotenv: ^8.1.0
-  checksum: 4ab43d8104693f970d878f2b1657ff67b4d4dcb7452ddf118575153bab74286cdfd125381c2ab92b205bce4b2c653c36552138bf2900f7165ac39a868b7fe22c
-  languageName: node
-  linkType: hard
-
 "@changesets/cli@npm:^2.27.7":
   version: 2.27.7
   resolution: "@changesets/cli@npm:2.27.7"
@@ -4233,6 +4222,34 @@ __metadata:
   checksum: d76937dffcf0082fbf3bb89eb2b81a31bf5448048dd61c33928c5f10e33a58e035321d39145cefd469bb5a499c68a5b4086b22f1a44e3e7c7e817dc5f6782867
   languageName: node
   linkType: hard
+
+"@tonic-ui/changelog-github@workspace:*, @tonic-ui/changelog-github@workspace:packages/changelog-github":
+  version: 0.0.0-use.local
+  resolution: "@tonic-ui/changelog-github@workspace:packages/changelog-github"
+  dependencies:
+    "@babel/cli": ^7.0.0
+    "@babel/core": ^7.0.0
+    "@babel/eslint-parser": ^7.0.0
+    "@babel/eslint-plugin": ^7.0.0
+    "@babel/plugin-transform-runtime": ^7.0.0
+    "@babel/preset-env": ^7.0.0
+    "@changesets/get-github-info": ^0.6.0
+    "@rollup/plugin-babel": ^6.0.0
+    "@rollup/plugin-node-resolve": ^15.0.0
+    "@trendmicro/babel-config": ^1.0.2
+    cross-env: ^7.0.3
+    del-cli: ^5.0.0
+    eslint: ^8.25.0
+    eslint-config-trendmicro: ^3.0.0
+    eslint-plugin-import: latest
+    eslint-plugin-jsx-a11y: latest
+    eslint-plugin-react: latest
+    eslint-plugin-react-hooks: latest
+    jest: ^29.0.0
+    jest-environment-jsdom: ^29.0.0
+    rollup: ^3
+  languageName: unknown
+  linkType: soft
 
 "@tonic-ui/codemod@workspace:packages/codemod":
   version: 0.0.0-use.local
@@ -7483,7 +7500,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^8.1.0, dotenv@npm:^8.6.0":
+"dotenv@npm:^8.6.0":
   version: 8.6.0
   resolution: "dotenv@npm:8.6.0"
   checksum: 38e902c80b0666ab59e9310a3d24ed237029a7ce34d976796349765ac96b8d769f6df19090f1f471b77a25ca391971efde8a1ea63bb83111bd8bec8e5cc9b2cd
@@ -16567,10 +16584,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tonic-ui-monorepo@workspace:."
   dependencies:
-    "@changesets/changelog-github": ^0.5.0
     "@changesets/cli": ^2.27.7
     "@commitlint/cli": 17.x
     "@commitlint/config-conventional": 17.x
+    "@tonic-ui/changelog-github": "workspace:*"
     husky: 8.x
     lerna: 7.x
   languageName: unknown
