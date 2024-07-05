@@ -8,13 +8,14 @@
   "scripts": {
     "build": "lerna exec -- yarn build",
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
-    "lerna-publish": "lerna publish",
-    "lerna-publish-from-git": "lerna publish from-git",
-    "lerna-publish-from-package": "lerna publish from-package",
+    "changeset": "changeset",
+    "ci-publish": "yarn build && lerna publish from-package --y --no-private",
+    "lerna-publish": "yarn build && lerna publish --no-private",
+    "lerna-publish-from-git": "yarn build && lerna publish from-git --no-private",
+    "lerna-publish-from-package": "yarn build && lerna publish from-package --no-private",
     "lint": "lerna exec -- yarn lint",
     "pre-push": "lerna exec -- yarn pre-push",
     "prepare": "husky install",
-    "version": "yarn install && git stage yarn.lock",
     "test": "lerna exec -- yarn test"
   },
   "author": "Cheton Wu",
@@ -28,6 +29,8 @@
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.7",
     "@commitlint/cli": "17.x",
     "@commitlint/config-conventional": "17.x",
     "husky": "8.x",
