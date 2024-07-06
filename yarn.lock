@@ -4246,7 +4246,7 @@ __metadata:
     eslint-plugin-react: latest
     eslint-plugin-react-hooks: latest
     jest: ^29.0.0
-    jest-environment-jsdom: ^29.0.0
+    jest-environment-node: ^29.0.0
     rollup: ^3
   languageName: unknown
   linkType: soft
@@ -4272,7 +4272,7 @@ __metadata:
     eslint-plugin-react: latest
     eslint-plugin-react-hooks: latest
     jest: ^29.0.0
-    jest-environment-jsdom: ^29.0.0
+    jest-environment-node: ^29.0.0
     jscodeshift: ^0.15.2
     yargs: ^17.7.2
   bin:
