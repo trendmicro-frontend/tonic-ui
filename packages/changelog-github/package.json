@@ -14,7 +14,7 @@
     "lint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
     "prepublish": "yarn run build",
-    "test": "jest --maxWorkers=2 --passWithNoTests"
+    "test": "jest --maxWorkers=2"
   },
   "dependencies": {
     "@changesets/get-github-info": "^0.6.0"
