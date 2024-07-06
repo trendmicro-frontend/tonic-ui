@@ -42,7 +42,7 @@
     "eslint-plugin-react": "latest",
     "eslint-plugin-react-hooks": "latest",
     "jest": "^29.0.0",
-    "jest-environment-jsdom": "^29.0.0"
+    "jest-environment-node": "^29.0.0"
   },
   "jest": {
     "collectCoverage": true,
@@ -61,7 +61,7 @@
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
     ],
-    "testEnvironment": "jsdom",
+    "testEnvironment": "node",
     "testMatch": [
       "<rootDir>/**/__tests__/**/*.test.js"
     ]
