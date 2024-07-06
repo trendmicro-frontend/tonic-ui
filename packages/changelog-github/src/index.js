@@ -4,7 +4,8 @@
 import { getInfo, getInfoFromPullRequest } from '@changesets/get-github-info';
 
 const validate = (options) => {
-  if (!options?.repo) {
+  const repo = options?.repo;
+  if (!repo) {
     throw new Error(
       'Please provide a repo to this changelog generator like this:\n"changelog": ["@tonic-ui/changelog-github", { "repo": "org/repo" }]'
     );
@@ -19,6 +20,8 @@ const getDependencyReleaseLine = async (changesets, dependenciesUpdated, options
   }
 
   const repo = options?.repo;
+
+  // Throws an exception if getInfo fails
   const changesetCommits = await Promise.all(
     changesets.map(async (cs) => {
       if (cs.commit) {
@@ -69,7 +72,7 @@ const getReleaseLine = async (changeset, type, options) => {
     .split('\n')
     .map((l) => l.trimRight());
 
-  const links = await (async () => {
+  const fetchLinks = async () => {
     if (prFromSummary > 0) {
       const pullRequestInfo = await getInfoFromPullRequest({
         repo: repo,
@@ -100,7 +103,9 @@ const getReleaseLine = async (changeset, type, options) => {
       pull: null,
       user: null,
     };
-  })();
+  };
+
+  const links = await fetchLinks();
 
   const users = (() => {
     if (usersFromSummary.length > 0) {
