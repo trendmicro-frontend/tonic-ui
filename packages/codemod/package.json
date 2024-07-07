@@ -33,7 +33,6 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@trendmicro/babel-config": "^1.0.2",
-    "cpy-cli": "^5.0.0",
     "del-cli": "^5.0.0",
     "eslint": "^8.25.0",
     "eslint-config-trendmicro": "^3.0.0",
