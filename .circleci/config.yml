@@ -4,7 +4,7 @@ version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@1.4.3
-  codecov: codecov/codecov@3.1.1
+  codecov: codecov/codecov@4.1.0
 
 workflows:
   version: 2
