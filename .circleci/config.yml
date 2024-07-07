@@ -4,7 +4,7 @@ version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@1.4.3
-  codecov: codecov/codecov@3.1.1
+  codecov: codecov/codecov@4.1.0
 
 workflows:
   version: 2
@@ -102,6 +102,9 @@ jobs:
             yarn lint
             yarn test
       - codecov/upload:
+          file: ./packages/changelog-github/coverage/lcov.info
+          flags: changelog-github
+      - codecov/upload:
           file: ./packages/codemod/coverage/lcov.info
           flags: codemod
       - codecov/upload:
@@ -177,6 +180,9 @@ jobs:
             yarn build
             yarn lint
             yarn test
+      - codecov/upload:
+          file: ./packages/changelog-github/coverage/lcov.info
+          flags: changelog-github
       - codecov/upload:
           file: ./packages/codemod/coverage/lcov.info
           flags: codemod
@@ -259,6 +265,9 @@ jobs:
             yarn build
             yarn lint
             yarn test
+      - codecov/upload:
+          file: ./packages/changelog-github/coverage/lcov.info
+          flags: changelog-github
       - codecov/upload:
           file: ./packages/codemod/coverage/lcov.info
           flags: codemod
