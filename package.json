@@ -29,10 +29,10 @@
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.7",
     "@commitlint/cli": "17.x",
     "@commitlint/config-conventional": "17.x",
+    "@tonic-ui/changelog-github": "workspace:*",
     "husky": "8.x",
     "lerna": "7.x"
   },

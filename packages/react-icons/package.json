@@ -1,17 +1,19 @@
 {
-  "name": "@tonic-ui/react-hooks",
-  "version": "1.6.2",
-  "description": "A collection of React Hooks for Tonic UI components.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "name": "@tonic-ui/react-icons",
+  "version": "2.0.2",
+  "description": "Tonic icons distributed as SVG React components.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "files": [
     "dist"
   ],
   "publishConfig": {
     "access": "public"
   },
+  "sideEffects": false,
   "scripts": {
-    "build": "cross-env PACKAGE_NAME=index INPUT=src OUTPUT_DIRECTORY=dist rollup --config rollup.config.mjs",
+    "generate-icons": "node scripts/generate-icons.mjs",
+    "build": "yarn generate-icons && cross-env rollup --config rollup.config.mjs",
     "clean": "del build coverage dist",
     "lint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
@@ -19,22 +21,16 @@
     "test": "jest --maxWorkers=2"
   },
   "dependencies": {
-    "@tonic-ui/utils": "^1.6.0"
+    "@tonic-ui/react-base": "^2.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/eslint-parser": "^7.0.0",
-    "@babel/eslint-plugin": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
-    "@rollup/plugin-babel": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.0",
-    "@testing-library/jest-dom": "^6.0.0",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
+    "@babel/plugin-transform-runtime": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.23.3",
+    "@emotion/babel-plugin": "^11.11.0",
+    "@emotion/react": "11.x",
     "@trendmicro/babel-config": "^1.0.2",
+    "@trendmicro/tmicon": "1.40.0",
     "cross-env": "^7.0.3",
     "del-cli": "^5.0.0",
     "eslint": "^8.25.0",
@@ -44,20 +40,20 @@
     "eslint-plugin-react": "latest",
     "eslint-plugin-react-hooks": "latest",
     "jest": "^29.0.0",
-    "jest-environment-jsdom": "^29.0.0",
     "jest-extended": "^4.0.0",
     "react": "^16.14.0 || ^17 || ^18",
     "react-dom": "^16.14.0 || ^17 || ^18",
-    "react-test-renderer": "^16.14.0 || ^17 || ^18",
     "rollup": "^3"
   },
   "peerDependencies": {
-    "react": "^16.14.0 || ^17 || ^18"
+    "react": "^16.14.0 || ^17 || ^18",
+    "react-dom": "^16.14.0 || ^17 || ^18"
   },
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "<rootDir>/src/**/*.js"
+      "<rootDir>/src/**/*.js",
+      "!<rootDir>/src/icons/*.js"
     ],
     "coverageReporters": [
       "lcov",
@@ -71,24 +67,24 @@
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
     ],
-    "testEnvironment": "jsdom",
+    "testEnvironment": "node",
     "testMatch": [
-      "<rootDir>/**/__tests__/**/*.js"
+      "<rootDir>/**/__tests__/**/*.test.js"
     ]
   },
-  "author": "Cheton Wu",
+  "author": "Tonic UI Team",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/trendmicro-frontend/tonic-ui.git",
-    "directory": "packages/react-hooks"
+    "directory": "packages/react-icons"
   },
   "bugs": {
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "keywords": [
-    "hooks",
+    "icons",
     "react",
     "tonic-ui"
   ]
