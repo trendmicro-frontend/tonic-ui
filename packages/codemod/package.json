@@ -71,13 +71,13 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/trendmicro-frontend/tonic-ui.git",
-    "directory": "packages/utils"
+    "directory": "packages/codemod"
   },
   "bugs": {
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "keywords": [
     "tonic-ui",
-    "utils"
+    "codemod"
   ]
 }
