@@ -64,7 +64,7 @@ This will reload the site with the new changes.
 
 ### Adding a changeset
 
-This monorepo uses [Changesets](https://github.com/changesets/changesets) for versioning and changelogs management. If you make changes to versioned packages, be sure to add a new changeset to document these updates.
+This monorepo uses [Changesets](https://github.com/changesets/changesets) for versioning and changelogs management. Changesets help in documenting updates, ensuring consistent versioning, and generating changelogs automatically. If you make changes to versioned packages, be sure to add a new changeset to document these updates.
 
 #### When to add a changeset
 
@@ -76,6 +76,8 @@ After making changes, a changeset bot will comment on your pull request (PR) ind
 
 > If you are new to changesets, visit the [Changesets documentation](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md) to learn about changesets.
 
+##### 1. Create a changeset file
+
 The filename for the changeset can be `tonic-ui-#.md`, where `#` is the pull request number:
 
 ```
@@ -83,9 +85,9 @@ The filename for the changeset can be `tonic-ui-#.md`, where `#` is the pull req
   tonic-ui-<pull_request_number>.md
 ```
 
-When writing the changeset, it should include the packages being released in the YAML front matter with associated semver bump types, followed by a summary of the changes in markdown.
+##### 2. Write the changeset
 
-For example:
+The changeset file should include the packages being released in the YAML front matter with associated semver bump types, followed by a summary of the changes in markdown. For example:
 
 ```mdx
 ---
@@ -93,8 +95,16 @@ For example:
 '@tonic-ui/react-icons': patch
 ---
 
-A very helpful description of the changes
+### Summary
+* feat: added new `Button` component with enhanced styling options
+* fix: fixed a bug in the `Modal` component that caused it to close unexpectedly
+* feat: add new icons
 ```
+
+##### 3. Review the changeset
+* Ensure that the package names in the YAML front matter are correct.
+* Use the correct semver bump types (`major`, `minor`, `patch`).
+* Provide a clear and concise summary of the changes.
 
 ## Conventional Commits
 
