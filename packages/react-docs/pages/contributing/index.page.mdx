@@ -58,7 +58,7 @@ This will reload the site with the new changes.
     ```
 3. Make and commit your changes following the [Conventional Commits](#conventional-commits). When you run `git push`, it will trigger `yarn lint` and `yarn test` to ensure everything works as expected. Note that you might need to run `yarn` first to update all dependencies if a new dependency has been added.
     ```bash
-    git push --set-upstream origin <your-branch-name>`
+    git push --set-upstream origin <your-branch-name>
     ```
 4. Go back to the forked repository and [create a pull reqest](https://help.github.com/articles/creating-a-pull-request). The format of the PR title follows [Conventional Commits](#conventional-commits).
 
