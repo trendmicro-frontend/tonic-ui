@@ -60,7 +60,7 @@ This will reload the site with the new changes.
     ```bash
     git push --set-upstream origin <your-branch-name>
     ```
-4. Go back to the forked repository and [create a pull reqest](https://help.github.com/articles/creating-a-pull-request). The format of the PR title follows [Conventional Commits](#conventional-commits).
+4. Go back to the forked repository and [create a pull request](https://help.github.com/articles/creating-a-pull-request). The format of the PR title follows [Conventional Commits](#conventional-commits).
 
 ### Adding a changeset
 
@@ -74,7 +74,7 @@ After making changes, a changeset bot will comment on your pull request (PR) ind
 
 #### How to add a changeset
 
-> If you are new to changeset, visit the [Changesets documentation](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md) to learn about changesets.
+> If you are new to changesets, visit the [Changesets documentation](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md) to learn about changesets.
 
 The filename for the changeset can be `tonic-ui-#.md`, where `#` is the pull request number:
 
@@ -102,7 +102,7 @@ A very helpful description of the changes
 
 The [Conventional Commits](https://www.conventionalcommits.org) specification is a lightweight convention on top of commit messages.
 
-The commity message should be structured as follows:
+The commit message should be structured as follows:
 
 ```
 <type>(optional scope): <description>
