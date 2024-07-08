@@ -6,7 +6,7 @@ const Root = () => {
 
   // Mount only
   useEffect(() => {
-    router.push('/getting-started/usage');
+    router.push('/migrations/migrating-from-v1-to-v2');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return null;
