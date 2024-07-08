@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useOnce } from '@tonic-ui/react-hooks';
 
 const Root = () => {
   const router = useRouter();
 
-  // Mount only
-  useEffect(() => {
+  useOnce(() => {
     router.push('/migrations/migrating-from-v1-to-v2');
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  });
 
   return null;
 };

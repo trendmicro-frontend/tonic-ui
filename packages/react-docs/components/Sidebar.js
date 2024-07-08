@@ -142,13 +142,20 @@ const Sidebar = forwardRef((
       </Box>
       <Accordion>
         {routes.map(({ title: sectionTitle, icon, routes }) => {
-          const defaultIsExpanded = routes.some((route) => currentPath.startsWith(route.path));
+          const defaultIsExpanded = routes.some((route) => {
+            if (!route.path) {
+              return false;
+            }
+
+            return currentPath.startsWith(route.path) || (route.path === currentPath);
+          });
 
           return (
             <Box
               key={sectionTitle}
             >
               <AccordionItem
+                key={defaultIsExpanded} // Update the key when `defaultIsExpanded` changes to ensure the component re-renders
                 defaultIsExpanded={defaultIsExpanded}
               >
                 {({ isExpanded }) => (
