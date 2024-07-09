@@ -48,6 +48,8 @@ export const routes = [
     ),
     routes: [
       { title: 'Contributing Guidelines', path: 'contributing' },
+      { title: 'Pull Request Review', path: 'contributing/pull-request-review' },
+      { title: 'Publishing', path: 'contributing/publishing' },
       { title: 'React Documentation Site', path: 'contributing/react-documentation-site' },
       {
         title: <Flex columnGap="2x">React Components <sub>PART 1</sub></Flex>,
@@ -58,7 +60,6 @@ export const routes = [
         path: 'contributing/react-components-part-2',
       },
       { title: 'React Icons', path: 'contributing/react-icons' },
-      { title: 'Publishing', path: 'contributing/publishing' },
     ],
   },
   {
