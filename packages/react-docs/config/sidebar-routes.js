@@ -42,34 +42,33 @@ export const routes = [
     ],
   },
   {
-    title: 'Contributing',
+    title: 'Contribution Guide',
     icon: (props) => (
       <UserTeamIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Contributing Guidelines', path: 'contributing' },
-      { title: 'Pull Request Review', path: 'contributing/pull-request-review' },
-      { title: 'Publishing', path: 'contributing/publishing' },
-      { title: 'React Documentation Site', path: 'contributing/react-documentation-site' },
+      { title: 'Overview', path: 'contribution-guide' },
+      { title: 'React Documentation Site', path: 'contribution-guide/react-documentation-site' },
       {
         title: <Flex columnGap="2x">React Components <sub>PART 1</sub></Flex>,
-        path: 'contributing/react-components-part-1',
+        path: 'contribution-guide/react-components-part-1',
       },
       {
         title: <Flex columnGap="2x">React Components <sub>PART 2</sub></Flex>,
-        path: 'contributing/react-components-part-2',
+        path: 'contribution-guide/react-components-part-2',
       },
-      { title: 'React Icons', path: 'contributing/react-icons' },
+      { title: 'React Icons', path: 'contribution-guide/react-icons' },
+      { title: 'Publishing', path: 'contribution-guide/publishing' },
     ],
   },
   {
-    title: 'Migrations',
+    title: 'Migration Guide',
     icon: (props) => (
       <MigrateSuccessIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Migrating from v1 to v2', path: 'migrations/migrating-from-v1-to-v2' },
-      { title: 'Migrating from v0 to v1', path: 'migrations/migrating-from-v0-to-v1' },
+      { title: 'Migrating from v1 to v2', path: 'migration-guide/migrating-from-v1-to-v2' },
+      { title: 'Migrating from v0 to v1', path: 'migration-guide/migrating-from-v0-to-v1' },
     ],
   },
   {
