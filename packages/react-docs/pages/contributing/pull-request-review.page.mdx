@@ -1,0 +1,79 @@
+import { Image } from '@tonic-ui/react';
+import BorderedBox from '../../components/BorderedBox';
+
+# Pull Request Review
+
+To streamline the pull request (PR) review process, we have integrated the CodiumAI PR-Agent app into the Tonic UI repository. This AI-powered tool provides automated analysis, feedback, and suggestions to enhance the review flow by commenting on pull requests. Below are the steps and commands you can use to leverage this tool effectively.
+
+## Using CodiumAI PR-Agent
+
+The CodiumAI PR-Agent app supports several commands to assist with various aspects of the PR review process. For more details on the CodiumAI PR-Agent commands, refer to the [CodiumAI PR-Agent documentation](https://pr-agent-docs.codium.ai/).
+
+### Generate PR description
+
+Automatically generate a PR description, including the title, type, summary, code walkthrough, and labels.
+
+Usage: Add a comment `/describe` on the PR to generate a detailed description.
+
+```
+/describe
+```
+
+<BorderedBox p="4x">
+  <Image
+    sx={{ maxWidth: '100%', maxHeight: '100%' }}
+    src="https://github.com/trendmicro-frontend/tonic-ui/assets/447801/8957f5a1-5571-4ca9-b4f3-860edfb4c87d"
+  />
+</BorderedBox>
+
+### Auto review
+
+Get adjustable feedback about the PR, including possible issues, security concerns, review effort, and more.
+
+Usage: Add a comment `/review` on the PR to get an automated review with feedback and suggestions.
+
+```
+/review
+```
+
+<BorderedBox p="4x">
+  <Image
+    sx={{ maxWidth: '100%', maxHeight: '100%' }}
+    src="https://github.com/trendmicro-frontend/tonic-ui/assets/447801/abd495a2-4fec-436d-8ff3-3440fb5fa98f"
+  />
+</BorderedBox>
+
+### Code suggestions
+
+Receive code suggestions for improving the PR.
+
+Usage: Add a comment `/improve` on the PR to get code improvement suggestions.
+
+```
+/improve
+```
+
+<BorderedBox p="4x">
+  <Image
+    sx={{ maxWidth: '100%', maxHeight: '100%' }}
+    src="https://github.com/trendmicro-frontend/tonic-ui/assets/447801/9db2d5d6-5dcd-43e6-a0be-c1f0d698a0dd"
+  />
+</BorderedBox>
+
+
+### Question answering
+
+Ask free-text questions about the PR and get answers.
+
+Usage: Add a comment `/ask [your question]` on the PR to get answers to specific questions about the PR.
+
+```
+/ask [your question]
+```
+
+<BorderedBox p="4x">
+  <Image
+    sx={{ maxWidth: '100%', maxHeight: '100%' }}
+    src="https://github.com/trendmicro-frontend/tonic-ui/assets/447801/174e8591-b738-400d-9f10-37813cbab575"
+  />
+</BorderedBox>

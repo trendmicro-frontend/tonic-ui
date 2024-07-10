@@ -29,8 +29,36 @@ export const routes = [
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Migration From v0.x to v1', path: 'getting-started/migration-v0x' },
       { title: 'Security', path: 'getting-started/security' },
-      { title: 'Versions', path: 'getting-started/versions' },
-      { title: 'Contributing', path: 'getting-started/contributing' },
+      { title: 'Tonic UI Versions', path: 'getting-started/versions' },
+    ],
+  },
+  {
+    title: 'Contributing',
+    icon: (props) => (
+      <UserTeamIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Contributing Guidelines', path: 'contributing' },
+      { title: 'Pull Request Review', path: 'contributing/pull-request-review' },
+      { title: 'Publishing', path: 'contributing/publishing' },
+      { title: 'React Documentation Site', path: 'contributing/react-documentation-site' },
+      {
+        title: <Flex columnGap="2x">React Components <sub>PART 1</sub></Flex>,
+        path: 'contributing/react-components-part-1',
+      },
+      {
+        title: <Flex columnGap="2x">React Components <sub>PART 2</sub></Flex>,
+        path: 'contributing/react-components-part-2',
+      },
+    ],
+  },
+  {
+    title: 'Migrations',
+    icon: (props) => (
+      <MigrateSuccessIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Migrating from v0 to v1', path: 'migrations/migrating-from-v0-to-v1' },
     ],
   },
   {
