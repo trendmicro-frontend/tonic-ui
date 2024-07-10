@@ -5,7 +5,7 @@ const Root = () => {
   const router = useRouter();
 
   useOnce(() => {
-    router.push('/getting-started/usage');
+    router.push('/migrations/migrating-from-v1-to-v2');
   });
 
   return null;
