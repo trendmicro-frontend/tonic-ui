@@ -1,47 +1,42 @@
 # Contributing Guidelines
 
-Thank you for your interest in contributing to this project.
+Thank you for your interest in contributing to Tonic UI!
 
 All contributions are welcome. You can submit a pull request on GitHub or raise an issue on GitHub.
 
-Please note that the project is in an early stage and the API is subject to change. We expect to have a stable API in the near future.
+## Set Up Documentation Site
 
-## Perequisites
+Follow these steps to set up the documentation site:
 
-* Use Node.js 14 at least to build the project
-* Run `npm install -g yarn` to update the global yarn version to latest v1
+1. Fork the Tonic UI repository.
 
-
-## Getting Started
-
-* Fork the Tonic UI repository on GitHub
-* Clone your fork to your local machine: `git clone git@github.com:<yourname>/tonic-ui.git`
-* Create a new branch from the `master` on your fork: `git checkout -b <your-branch-name>`
-* Run `yarn install` and `yarn build` to build the source code
-* Make your changes and then push to the new branch: `git push --set-upstream origin <your-branch-name>`
-* Visit GitHub and create a pull request
-
-## Contributing to Documentation
-
-To contribute the documentation, you can run a local server with `yarn dev` in the `packages/react-docs` directory. Be sure to run `yarn build` in advance before running the server.
-
+2. Clone the repository you forked to your local machine:
 ```bash
-# Build the workspace
+git clone https://github.com/<your_github_username>/tonic-ui.git
+cd tonic-ui
+```
+
+3. Install all dependencies and packages:
+```bash
+yarn
+```
+
+4. Build the source code:
+```bash
 yarn build
 ```
 
+5. Start a local development server for the documentation site:
 ```bash
-# Run the server
 cd packages/react-docs
 yarn dev
 ```
 
-You can now access the site locally at `http://localhost:3000`. Changes to the docs will be reflected in the build.
+You can now access the site locally at `http://localhost:3000`. Changes to the docs will be reflected in real-time.
 
-To update React components, go to `packages/react` and run `yarn build`, it will reload the site with the new changes.
+To rebuild React components, navigate to `packages/react` and run:
 
 ```bash
-# Update React components
 cd packages/react
 yarn build
 ```
@@ -81,7 +76,7 @@ After making changes, a changeset bot will comment on your pull request (PR) ind
 
 > If you are new to changesets, visit the [Changesets documentation](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md) to learn about changesets.
 
-##### 1. Create a changeset file:
+##### 1. Create a changeset file
 
 The filename for the changeset can be `tonic-ui-#.md`, where `#` is the pull request number:
 
@@ -90,7 +85,7 @@ The filename for the changeset can be `tonic-ui-#.md`, where `#` is the pull req
   tonic-ui-<pull_request_number>.md
 ```
 
-##### 2. Write the changeset:
+##### 2. Write the changeset
 
 The changeset file should include the packages being released in the YAML front matter with associated semver bump types, followed by a summary of the changes in markdown. For example:
 
@@ -106,7 +101,7 @@ The changeset file should include the packages being released in the YAML front 
 * feat: add new icons
 ```
 
-##### 3. Review the changeset:
+##### 3. Review the changeset
 * Ensure that the package names in the YAML front matter are correct.
 * Use the correct semver bump types (`major`, `minor`, `patch`).
 * Provide a clear and concise summary of the changes.
