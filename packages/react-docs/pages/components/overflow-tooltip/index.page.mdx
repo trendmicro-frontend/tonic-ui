@@ -32,7 +32,7 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Ove
 
 ### OverflowTooltip misalignment with popup menu items
 
-By default, the `OverflowTooltip` is positioned adjacent to the cursor. However, within a popup menu, the tooltip may not align properly with the menu items. To correct this issue, set the `nextToCursor` property to `false`.
+By default, the `OverflowTooltip` is positioned next to the cursor. However, within a popup menu, the tooltip may not align correctly with the menu items. To fix this, set `PopperProps={{ usePortal: true }}` and `nextToCursor={false}`.
 
 {render('./with-menu-item')}
 
