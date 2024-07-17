@@ -62,7 +62,7 @@ const OverflowTooltip = forwardRef((
       ref={ref}
       arrow={false}
       disabled={!isOverflow}
-      nextToCursor={true}
+      nextToCursor={false}
       {...rest}
     >
       {(typeof children === 'function') ? (
