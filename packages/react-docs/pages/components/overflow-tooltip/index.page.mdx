@@ -30,6 +30,12 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Ove
 
 {render('./faq-use-portal')}
 
+### OverflowTooltip misalignment with popup menu items
+
+By default, the `OverflowTooltip` is positioned adjacent to the cursor. However, within a popup menu, the tooltip may not align properly with the menu items. To correct this issue, set the `nextToCursor` property to `false`.
+
+{render('./with-menu-item')}
+
 ## Props
 
 ### OverflowTooltip
@@ -43,7 +49,7 @@ To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `Ove
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
-| arrow | boolean | true | If `true`, adds an arrow to the tooltip. |
+| arrow | boolean | false | If `true`, adds an arrow to the tooltip. |
 | children | ReactNode \| `(context) => ReactNode` | | |
 | closeOnClick | boolean | true | If `true`, close the tooltip on click. |
 | closeOnEsc | boolean | true | If `true`, close the tooltip when pressing the escape key. |
