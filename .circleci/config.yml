@@ -68,7 +68,7 @@ jobs:
       - checkout
       - browser-tools/install-browser-tools:
           # https://googlechromelabs.github.io/chrome-for-testing/
-          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
+          chrome-version: 126.0.6478.182
       - run:
           name: Setup environment
           command: |
@@ -146,7 +146,7 @@ jobs:
       - checkout
       - browser-tools/install-browser-tools:
           # https://googlechromelabs.github.io/chrome-for-testing/
-          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
+          chrome-version: 126.0.6478.182
       - run:
           name: Setup environment
           command: |
@@ -226,7 +226,7 @@ jobs:
       - checkout
       - browser-tools/install-browser-tools:
           # https://googlechromelabs.github.io/chrome-for-testing/
-          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
+          chrome-version: 126.0.6478.182
       - run:
           name: Setup environment
           command: |
