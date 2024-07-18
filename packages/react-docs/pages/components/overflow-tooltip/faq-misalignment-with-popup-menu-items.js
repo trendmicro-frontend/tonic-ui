@@ -5,6 +5,7 @@ import {
   MenuItem,
   OverflowTooltip,
   Scrollbar,
+  Text,
 } from '@tonic-ui/react';
 import React from 'react';
 
@@ -21,41 +22,67 @@ const CustomOverflowTooltip = ({ children }) => {
 };
 
 const App = () => {
+  const shortText = (
+    <Text>This text string is not truncated</Text>
+  );
+  const longText = (
+    <Text>This text string will be truncated when exceeding its container width</Text>
+  );
+
   return (
-    <Menu width="400px">
+    <Menu width={360}>
       <MenuButton>Options</MenuButton>
       <MenuList width="100%">
-        <Scrollbar maxHeight="200px" overflowX="hidden" overflowY="auto">
+        <Scrollbar maxHeight={200} overflowX="hidden" overflowY="auto">
           <MenuItem>
             <CustomOverflowTooltip>
-              This is a very very long string.This is a very very long string.This is a very very long string.This is a very very long string.This is a very very long string.This is a very very long string.</CustomOverflowTooltip>
+              {longText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a short string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {shortText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a short string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {shortText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a short string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {shortText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a short string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {shortText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a short string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {shortText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a short string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {longText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a very very long string.This is a very very long string.This is a very very long string.This is a very very long string.This is a very very long string.This is a very very long string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {shortText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a short string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {shortText}
+            </CustomOverflowTooltip>
           </MenuItem>
           <MenuItem>
-            <CustomOverflowTooltip>This is a short string.</CustomOverflowTooltip>
+            <CustomOverflowTooltip>
+              {shortText}
+            </CustomOverflowTooltip>
           </MenuItem>
         </Scrollbar>
       </MenuList>
