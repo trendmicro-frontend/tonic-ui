@@ -161,7 +161,9 @@ test('should match expected exports', () => {
     'LinearProgress',
 
     // provider
+    'DefaultPropsProvider',
     'TonicProvider',
+    'useDefaultProps',
 
     // radio
     'Radio',
