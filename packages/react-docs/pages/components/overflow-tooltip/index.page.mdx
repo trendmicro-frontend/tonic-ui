@@ -26,17 +26,17 @@ In the second example, a function is passed as a child of the `OverflowTooltip` 
 
 By default, the `OverflowTooltip` component positions the tooltip relative to its parent container. In some cases, the tooltip content might be cut off when it extends outside the container that holds it.
 
-To mitigate this issue, you can pass `PopperProps={{ usePortal: true }}` to `OverflowTooltip` to make it positioned on the document root.
+To prevent this, pass `PopperProps={{ usePortal: true }}` to the `OverflowTooltip`. This will position the tooltip at the document root.
 
-{render('./faq-use-portal')}
+{render('./faq-tooltip-cut-off')}
 
-### Misalignment with popup menu items
+### Misalignment with menu items
 
-By default, the `OverflowTooltip` is positioned next to the cursor. However, within a popup menu, the tooltip may not align correctly with the menu items.
+The `OverflowTooltip` is positioned next to the cursor by default. However, when used within a popup menu, the tooltip may not align correctly with the menu items.
 
-To fix this, set `PopperProps={{ usePortal: true }}` and `nextToCursor={false}`.
+To resolve this issue, set `PopperProps={{ usePortal: true }}`.
 
-{render('./faq-misalignment-with-popup-menu-items')}
+{render('./faq-misalignment-with-menu-items')}
 
 ## Props
 

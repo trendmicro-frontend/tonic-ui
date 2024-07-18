@@ -5,7 +5,6 @@ import {
   MenuItem,
   OverflowTooltip,
   Scrollbar,
-  Text,
 } from '@tonic-ui/react';
 import React from 'react';
 
@@ -14,7 +13,6 @@ const CustomOverflowTooltip = ({ children }) => {
     <OverflowTooltip
       label={children}
       PopperProps={{ usePortal: true }}
-      nextToCursor={false}
     >
       {children}
     </OverflowTooltip>
@@ -22,15 +20,11 @@ const CustomOverflowTooltip = ({ children }) => {
 };
 
 const App = () => {
-  const shortText = (
-    <Text>This text string is not truncated</Text>
-  );
-  const longText = (
-    <Text>This text string will be truncated when exceeding its container width</Text>
-  );
+  const shortText = 'This text string is not truncated';
+  const longText = 'This text string will be truncated when exceeding its container width';
 
   return (
-    <Menu width={360}>
+    <Menu width={240}>
       <MenuButton>Options</MenuButton>
       <MenuList width="100%">
         <Scrollbar maxHeight={200} overflowX="hidden" overflowY="auto">

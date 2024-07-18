@@ -2,8 +2,6 @@ import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
-  getLeftmostOffset,
-  getTopmostOffset,
   isBlankString,
   isEmptyArray,
   isHTMLElement,
@@ -75,11 +73,11 @@ const TooltipContent = forwardRef((
     let _distance = distance;
 
     if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
-      const { offsetHeight } = tooltipTriggerElement;
-      const leftmostOffset = getLeftmostOffset(tooltipTriggerElement);
-      const topmostOffset = getTopmostOffset(tooltipTriggerElement);
-      _skidding = mousePageX - leftmostOffset + 10;
-      _distance = mousePageY - topmostOffset - offsetHeight + 15;
+      const rect = tooltipTriggerElement.getBoundingClientRect();
+      const elementX = rect.x + globalThis.scrollX;
+      const elementY = rect.y + globalThis.scrollY;
+      _skidding = mousePageX - elementX;
+      _distance = mousePageY - elementY;
     }
 
     return [_skidding, _distance];
