@@ -73,12 +73,20 @@ const TooltipContent = forwardRef((
     let _distance = ensureFiniteNumber(distance);
 
     if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
+      // @see https://sentry.io/answers/how-do-i-get-the-position-x-y-of-an-html-element/
+
+      // Get the window coordinate
       const rect = tooltipTriggerElement.getBoundingClientRect();
-      const elementX = rect.x + globalThis.scrollX;
-      const elementY = rect.y + globalThis.scrollY;
+
+      // Get the page coordinate
+      const elementPageX = rect.x + globalThis.scrollX;
+      const elementPageY = rect.y + globalThis.scrollY;
+
+      // The `getBoundingClientRect().height` property includes the height of the content, padding, scrollbar, and borders, but not the margin.
       const elementHeight = rect.height;
-      _skidding += ensureFiniteNumber(mousePageX - elementX);
-      _distance += ensureFiniteNumber(mousePageY - elementY - elementHeight);
+
+      _skidding += ensureFiniteNumber(mousePageX - elementPageX);
+      _distance += ensureFiniteNumber(mousePageY - elementPageY - elementHeight);
     }
 
     return [_skidding, _distance];
