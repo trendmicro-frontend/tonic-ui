@@ -8,6 +8,8 @@ const OverflowTooltip = forwardRef((
   {
     children,
     nextToCursor = true,
+    offset = [8, 12],
+    placement = 'bottom-end',
     ...rest
   },
   ref,
@@ -61,6 +63,8 @@ const OverflowTooltip = forwardRef((
   const tooltipProps = {
     disabled: !isOverflow,
     nextToCursor: isOverflow ? nextToCursor : undefined,
+    offset,
+    placement,
   };
 
   return (

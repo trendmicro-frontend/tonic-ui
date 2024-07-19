@@ -62,46 +62,70 @@ const TooltipContent = forwardRef((
     tooltipTriggerRef,
   } = useTooltip();
   const styleProps = useTooltipContentStyle();
-
   const tooltipTriggerElement = tooltipTriggerRef.current;
   const [
     skidding = 0,
     distance = 8,
   ] = ensureArray(offset);
-  const [computedSkidding, computedDistance] = useMemo(() => {
-    let _skidding = ensureFiniteNumber(skidding);
-    let _distance = ensureFiniteNumber(distance);
 
-    if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
-      // @see https://sentry.io/answers/how-do-i-get-the-position-x-y-of-an-html-element/
+  const popperModifiers = useMemo(() => [
+    { // https://popper.js.org/docs/v2/modifiers/offset/
+      name: 'offset',
+      options: {
+        offset: ({ placement, reference, popper }) => {
+          let computedSkidding = ensureFiniteNumber(skidding);
+          let computedDistance = ensureFiniteNumber(distance);
 
-      // Get the window coordinate
-      const rect = tooltipTriggerElement.getBoundingClientRect();
+          if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
+            // @see https://sentry.io/answers/how-do-i-get-the-position-x-y-of-an-html-element/
 
-      // Get the page coordinate
-      const elementPageX = rect.x + globalThis.scrollX;
-      const elementPageY = rect.y + globalThis.scrollY;
+            // Get the window coordinate
+            const rect = tooltipTriggerElement.getBoundingClientRect();
 
-      // The `getBoundingClientRect().height` property includes the height of the content, padding, scrollbar, and borders, but not the margin.
-      const elementHeight = rect.height;
+            // Get the page coordinate
+            const elementPageX = rect.x + globalThis.scrollX;
+            const elementPageY = rect.y + globalThis.scrollY;
 
-      _skidding += ensureFiniteNumber(mousePageX - elementPageX);
-      _distance += ensureFiniteNumber(mousePageY - elementPageY - elementHeight);
-    }
+            // top, top-start, top-end, bottom, bottom-start, bottom-end
+            if (placement.startsWith('top') || placement.startsWith('bottom')) {
+              if (placement.endsWith('start')) {
+                computedSkidding += ensureFiniteNumber(mousePageX - elementPageX - popper.width);
+              } else if (placement.endsWith('end')) {
+                computedSkidding += ensureFiniteNumber(mousePageX - elementPageX - reference.width + popper.width);
+              } else {
+                computedSkidding += ensureFiniteNumber(mousePageX - elementPageX - reference.width / 2);
+              }
 
-    return [_skidding, _distance];
-  }, [skidding, distance, tooltipTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
-  const popperModifiers = useMemo(() => {
-    const modifiers = [
-      { // https://popper.js.org/docs/v2/modifiers/offset/
-        name: 'offset',
-        options: {
-          offset: [computedSkidding, computedDistance],
+              if (placement.startsWith('top')) {
+                computedDistance += ensureFiniteNumber(elementPageY - mousePageY);
+              } else if (placement.startsWith('bottom')) {
+                computedDistance += ensureFiniteNumber(mousePageY - elementPageY - reference.height);
+              }
+            }
+
+            // left, left-start, left-end, right, right-start, right-end
+            if (placement.startsWith('left') || placement.startsWith('right')) {
+              if (placement.endsWith('start')) {
+                computedSkidding += ensureFiniteNumber(mousePageY - elementPageY - popper.height);
+              } else if (placement.endsWith('end')) {
+                computedSkidding += ensureFiniteNumber(mousePageY - elementPageY - reference.height + popper.height);
+              } else {
+                computedSkidding += ensureFiniteNumber(mousePageY - elementPageY - reference.height / 2);
+              }
+
+              if (placement.startsWith('left')) {
+                computedDistance += ensureFiniteNumber(elementPageX - mousePageX);
+              } else if (placement.startsWith('right')) {
+                computedDistance += ensureFiniteNumber(mousePageX - elementPageX - reference.width);
+              }
+            }
+          }
+
+          return [computedSkidding, computedDistance];
         },
       },
-    ];
-    return modifiers;
-  }, [computedSkidding, computedDistance]);
+    },
+  ], [skidding, distance, tooltipTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
 
   if (!isHydrated) {
     return null;

@@ -1,14 +1,76 @@
-import { Box, Divider, Flex, Text, TextLabel, Tooltip, useColorStyle } from '@tonic-ui/react';
+import {
+  Box,
+  Divider,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  TextLabel,
+  Tooltip,
+  useColorStyle,
+} from '@tonic-ui/react';
+import {
+  CheckSIcon,
+} from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
+
+const FormGroup = (props) => (
+  <Box mb="4x" {...props} />
+);
+
+const useSelection = (defaultValue) => {
+  const [value, setValue] = useState(defaultValue);
+  const changeBy = (value) => () => setValue(value);
+  return [value, changeBy];
+};
 
 const App = () => {
   const [colorStyle] = useColorStyle();
-  const [skidding, setSkidding] = useState(0);
-  const [distance, setDistance] = useState(16);
+  const [placement, changePlacementBy] = useSelection('bottom-end');
+  const [skidding, setSkidding] = useState(8);
+  const [distance, setDistance] = useState(12);
 
   return (
     <>
-      <Box mb="4x">
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            placement
+          </TextLabel>
+        </Box>
+        <Menu>
+          <MenuButton
+            variant="secondary"
+            minWidth={150}
+          >
+            {placement}
+          </MenuButton>
+          <MenuList
+            width="max-content"
+            minWidth={150}
+          >
+            {[
+              'top', 'top-start', 'top-end',
+              'bottom', 'bottom-start', 'bottom-end',
+              'left', 'left-start', 'left-end',
+              'right', 'right-start', 'right-end',
+            ].map(_placement => (
+              <MenuItem
+                key={_placement}
+                onClick={changePlacementBy(_placement)}
+              >
+                <Flex columnGap="2x">
+                  {placement === _placement ? <CheckSIcon /> : <Box width="4x" />}
+                  {_placement}
+                </Flex>
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
+      </FormGroup>
+      <FormGroup>
         <Box mb="2x">
           <TextLabel>skidding</TextLabel>
         </Box>
@@ -23,8 +85,8 @@ const App = () => {
           />
           <Text>{skidding}</Text>
         </Flex>
-      </Box>
-      <Box mb="4x">
+      </FormGroup>
+      <FormGroup>
         <Box mb="2x">
           <TextLabel>distance</TextLabel>
         </Box>
@@ -39,20 +101,21 @@ const App = () => {
           />
           <Text>{distance}</Text>
         </Flex>
-      </Box>
+      </FormGroup>
       <Divider my="4x" />
       <Tooltip
         label="This is a tooltip"
         nextToCursor
         offset={[skidding, distance]}
+        placement={placement}
       >
         <Flex
           sx={{
             backgroundColor: colorStyle.background.secondary,
             border: 1,
             borderColor: colorStyle.divider,
-            width: 100,
-            height: 100,
+            width: 240,
+            height: 180,
             alignItems: 'center',
             justifyContent: 'center',
           }}

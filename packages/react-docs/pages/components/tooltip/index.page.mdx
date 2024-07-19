@@ -1,8 +1,17 @@
+import {
+  Flex,
+  TextLabel,
+} from '@tonic-ui/react';
+import {
+  AlertIcon,
+} from '@tonic-ui/react-icons';
+
 # Tooltip
 
 A tooltip is a brief, informative message that appears when a user interacts with an element. Tooltips are usually initiated in one of two ways: through a mouse-hover or keyboard-hover action.
 
-The `Tooltip` component follows the [WAI-ARIA](https://www.w3.org/TR/wai-aria-practices/#tooltip) Tooltip pattern.
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> IMPORTANT NOTICE</Flex></TextLabel>
+> By default, the `Tooltip` component has the `placement` prop set to `bottom` and the `offset` prop set to `[0, 8]`. In this setup, the first value in the `offset` array controls the skidding, while the second value determines the distance. You may need to modify the `placement` and `offset` props to suit your specific requirements better.
 
 ## Import
 
@@ -97,17 +106,19 @@ The `distance` number controls the distance between the `TooltipContent` and the
 
 {render('./positioning-offset')}
 
-> By default, the tooltip's offset is set to `[0, 8]`, where the first value represents the `skidding` and the second value represents the `distance`.<br/>In the `nextToCursor` and `followCursor` examples below, the `distance` value is set to 16. You may need to adjust this value to better suit your specific requirements.
-
 #### Using the `nextToCursor` prop
 
 The `nextToCursor` prop positions the tooltip next to the cursor.
+
+In this example, the `placement` prop is set to `bottom-end`, and the `offset` prop is configured as `[8, 12]`. You can modify these values to observe different behaviors.
 
 {render('./positioning-next-cursor')}
 
 #### Using the `followCursor` prop
 
 The `followCursor` prop makes the tooltip follow the cursor as it moves.
+
+In this example, the `placement` prop is set to `bottom-end`, and the `offset` prop is configured as `[8, 12]`. You can modify these values to observe different behaviors.
 
 {render('./positioning-follow-cursor')}
 
