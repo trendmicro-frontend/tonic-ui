@@ -1,15 +1,7 @@
-import { ensureNumber } from 'ensure-type';
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { useTheme } from '../theme';
-
-const pixelize = (value) => {
-  if (typeof value === 'string') {
-    return value;
-  }
-  value = ensureNumber(value);
-  return `${value}px`;
-};
+import pixelize from '../utils/pixelize';
 
 const useTooltipArrowStyle = ({
   arrowHeight: arrowHeightProp,
