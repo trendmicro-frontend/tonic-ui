@@ -6,7 +6,6 @@ import Tooltip from './Tooltip';
 
 const OverflowTooltip = forwardRef((
   {
-    arrow = false,
     children,
     nextToCursor = true,
     ...rest
@@ -60,7 +59,6 @@ const OverflowTooltip = forwardRef((
   useEventListener(eventTargetFn, 'mouseleave', onMouseLeave);
 
   const tooltipProps = {
-    arrow,
     disabled: !isOverflow,
     ...(isOverflow && { nextToCursor })
   };
