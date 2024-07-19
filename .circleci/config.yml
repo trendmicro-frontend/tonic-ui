@@ -3,7 +3,6 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@1.4.3
   codecov: codecov/codecov@4.1.0
 
 workflows:
@@ -63,12 +62,9 @@ workflows:
 jobs:
   build-branch:
     docker:
-      - image: cimg/node:18.20-browsers
+      - image: cimg/node:18.20
     steps:
       - checkout
-      - browser-tools/install-browser-tools:
-          # https://googlechromelabs.github.io/chrome-for-testing/
-          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
       - run:
           name: Setup environment
           command: |
@@ -85,8 +81,6 @@ jobs:
           command: |
             git --version
             node --version
-            java --version
-            google-chrome --version
             npm --version
             yarn --version
       - run:
@@ -141,12 +135,9 @@ jobs:
 
   build-pr:
     docker:
-      - image: cimg/node:18.20-browsers
+      - image: cimg/node:18.20
     steps:
       - checkout
-      - browser-tools/install-browser-tools:
-          # https://googlechromelabs.github.io/chrome-for-testing/
-          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
       - run:
           name: Setup environment
           command: |
@@ -164,8 +155,6 @@ jobs:
           command: |
             git --version
             node --version
-            java --version
-            google-chrome --version
             npm --version
             yarn --version
       - run:
@@ -221,12 +210,9 @@ jobs:
 
   build-tag:
     docker:
-      - image: cimg/node:18.20-browsers
+      - image: cimg/node:18.20
     steps:
       - checkout
-      - browser-tools/install-browser-tools:
-          # https://googlechromelabs.github.io/chrome-for-testing/
-          chrome-version: 116.0.5845.96 # TODO: remove when chromedriver downloads are fixed
       - run:
           name: Setup environment
           command: |
@@ -249,8 +235,6 @@ jobs:
           command: |
             git --version
             node --version
-            java --version
-            google-chrome --version
             npm --version
             yarn --version
       - run:

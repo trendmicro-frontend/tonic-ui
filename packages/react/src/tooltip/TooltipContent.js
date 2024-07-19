@@ -2,13 +2,11 @@ import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
-  getLeftmostOffset,
-  getTopmostOffset,
   isBlankString,
   isEmptyArray,
   isHTMLElement,
 } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
+import { ensureArray, ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper } from '../popper';
@@ -71,15 +69,24 @@ const TooltipContent = forwardRef((
     distance = 8,
   ] = ensureArray(offset);
   const [computedSkidding, computedDistance] = useMemo(() => {
-    let _skidding = skidding;
-    let _distance = distance;
+    let _skidding = ensureFiniteNumber(skidding);
+    let _distance = ensureFiniteNumber(distance);
 
     if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
-      const { offsetHeight } = tooltipTriggerElement;
-      const leftmostOffset = getLeftmostOffset(tooltipTriggerElement);
-      const topmostOffset = getTopmostOffset(tooltipTriggerElement);
-      _skidding = mousePageX - leftmostOffset + 10;
-      _distance = mousePageY - topmostOffset - offsetHeight + 15;
+      // @see https://sentry.io/answers/how-do-i-get-the-position-x-y-of-an-html-element/
+
+      // Get the window coordinate
+      const rect = tooltipTriggerElement.getBoundingClientRect();
+
+      // Get the page coordinate
+      const elementPageX = rect.x + globalThis.scrollX;
+      const elementPageY = rect.y + globalThis.scrollY;
+
+      // The `getBoundingClientRect().height` property includes the height of the content, padding, scrollbar, and borders, but not the margin.
+      const elementHeight = rect.height;
+
+      _skidding += ensureFiniteNumber(mousePageX - elementPageX);
+      _distance += ensureFiniteNumber(mousePageY - elementPageY - elementHeight);
     }
 
     return [_skidding, _distance];
