@@ -97,19 +97,17 @@ The `distance` number controls the distance between the `TooltipContent` and the
 
 {render('./positioning-offset')}
 
+> By default, the tooltip's offset is set to `[0, 8]`, where the first value represents the `skidding` and the second value represents the `distance`.<br/>In the `nextToCursor` and `followCursor` examples below, the `distance` value is set to 16. You may need to adjust this value to better suit your specific requirements.
+
 #### Using the `nextToCursor` prop
 
 The `nextToCursor` prop positions the tooltip next to the cursor.
-
-> By default, the tooltip's offset is set to `[0, 8]`, where the first value represents the `skidding` and the second value represents the `distance`.<br/>In this example, the `distance` value is set to 16. You may need to adjust this value to better suit your specific requirements.
 
 {render('./positioning-next-cursor')}
 
 #### Using the `followCursor` prop
 
 The `followCursor` prop makes the tooltip follow the cursor as it moves.
-
-> By default, the tooltip's offset is set to `[0, 8]`, where the first value represents the `skidding` and the second value represents the `distance`.<br/>In this example, the `distance` value is set to 16. You may need to adjust this value to better suit your specific requirements.
 
 {render('./positioning-follow-cursor')}
 
