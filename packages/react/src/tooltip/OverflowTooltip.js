@@ -60,7 +60,7 @@ const OverflowTooltip = forwardRef((
 
   const tooltipProps = {
     disabled: !isOverflow,
-    ...(isOverflow && { nextToCursor })
+    nextToCursor: isOverflow ? nextToCursor : undefined,
   };
 
   return (
