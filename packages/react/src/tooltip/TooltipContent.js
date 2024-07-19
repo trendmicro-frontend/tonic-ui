@@ -6,7 +6,7 @@ import {
   isEmptyArray,
   isHTMLElement,
 } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
+import { ensureArray, ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper } from '../popper';
@@ -69,15 +69,16 @@ const TooltipContent = forwardRef((
     distance = 8,
   ] = ensureArray(offset);
   const [computedSkidding, computedDistance] = useMemo(() => {
-    let _skidding = skidding;
-    let _distance = distance;
+    let _skidding = ensureFiniteNumber(skidding);
+    let _distance = ensureFiniteNumber(distance);
 
     if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
       const rect = tooltipTriggerElement.getBoundingClientRect();
       const elementX = rect.x + globalThis.scrollX;
       const elementY = rect.y + globalThis.scrollY;
-      _skidding = mousePageX - elementX;
-      _distance = mousePageY - elementY;
+      const elementHeight = rect.height;
+      _skidding += ensureFiniteNumber(mousePageX - elementX);
+      _distance += ensureFiniteNumber(mousePageY - elementY - elementHeight);
     }
 
     return [_skidding, _distance];
