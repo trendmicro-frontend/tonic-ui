@@ -38,6 +38,12 @@ To resolve this issue, set `PopperProps={{ usePortal: true }}`.
 
 {render('./faq-misalignment-with-menu-items')}
 
+### Aligning the `OverflowTooltip` relative to the reference element
+
+By default, the `OverflowTooltip` component is positioned next to the cursor with the `nextToCursor` prop set to `true`. To align the tooltip relative to the reference element, set the `nextToCursor` prop to `false`.
+
+{render('./faq-relative-to-reference-element')}
+
 ## Props
 
 ### OverflowTooltip
@@ -51,7 +57,7 @@ To resolve this issue, set `PopperProps={{ usePortal: true }}`.
 | TransitionComponent | ElementType | Grow | The component used for the transition. |
 | TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
 | TransitionProps.appear | boolean | true | |
-| arrow | boolean | false | If `true`, adds an arrow to the tooltip. |
+| arrow | boolean | true | If `true`, an arrow will be added to the tooltip. Note that the arrow will not be visible if either `followCursor` or `nextToCursor` is set to `true`. |
 | children | ReactNode \| `(context) => ReactNode` | | |
 | closeOnClick | boolean | true | If `true`, close the tooltip on click. |
 | closeOnEsc | boolean | true | If `true`, close the tooltip when pressing the escape key. |

@@ -1,10 +1,67 @@
-import { Text, Tooltip } from '@tonic-ui/react';
-import React from 'react';
+import { Box, Divider, Flex, Text, TextLabel, Tooltip, useColorStyle } from '@tonic-ui/react';
+import React, { useState } from 'react';
 
-const App = () => (
-  <Tooltip label="This is a tooltip" followCursor>
-    <Text display="inline-block">Hover Me</Text>
-  </Tooltip>
-);
+const App = () => {
+  const [colorStyle] = useColorStyle();
+  const [skidding, setSkidding] = useState(0);
+  const [distance, setDistance] = useState(16);
+
+  return (
+    <>
+      <Box mb="4x">
+        <Box mb="2x">
+          <TextLabel>skidding</TextLabel>
+        </Box>
+        <Flex columnGap="4x">
+          <input
+            type="range"
+            name="skidding"
+            min={-48}
+            max={48}
+            value={skidding}
+            onChange={(e) => setSkidding(Number(e.target.value))}
+          />
+          <Text>{skidding}</Text>
+        </Flex>
+      </Box>
+      <Box mb="4x">
+        <Box mb="2x">
+          <TextLabel>distance</TextLabel>
+        </Box>
+        <Flex columnGap="4x">
+          <input
+            type="range"
+            name="distance"
+            min={-48}
+            max={48}
+            value={distance}
+            onChange={(e) => setDistance(Number(e.target.value))}
+          />
+          <Text>{distance}</Text>
+        </Flex>
+      </Box>
+      <Divider my="4x" />
+      <Tooltip
+        label="This is a tooltip"
+        followCursor
+        offset={[skidding, distance]}
+      >
+        <Flex
+          sx={{
+            border: 1,
+            backgroundColor: colorStyle.background.secondary,
+            borderColor: colorStyle.divider,
+            width: 100,
+            height: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          Hover Me
+        </Flex>
+      </Tooltip>
+    </>
+  );
+};
 
 export default App;
