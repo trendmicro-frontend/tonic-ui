@@ -5,7 +5,7 @@ const App = () => {
   return (
     <OverflowTooltip
       label="This is a tooltip"
-      nextToCursor={false}
+      placement="bottom"
     >
       This text string will be truncated when exceeding its container width. To see this in action, try resizing your browser viewport. If the text overflows, a tooltip will appear, displaying the full content.
     </OverflowTooltip>

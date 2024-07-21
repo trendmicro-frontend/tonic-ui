@@ -1,6 +1,17 @@
+import {
+  Flex,
+  TextLabel,
+} from '@tonic-ui/react';
+import {
+  AlertIcon,
+} from '@tonic-ui/react-icons';
+
 # OverflowTooltip
 
 The `OverflowTooltip` component is a tooltip that only displays when text overflows its container.
+
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> IMPORTANT NOTICE</Flex></TextLabel>
+> By default, the `OverflowTooltip` component has the `placement` prop set to `bottom-end` and the `offset` prop set to `[8, 12]`. In this setup, the first value in the `offset` array controls the skidding, while the second value determines the distance. You may need to modify the `placement` and `offset` props to suit your specific requirements better.
 
 ## Import
 
@@ -38,12 +49,6 @@ To resolve this issue, set `PopperProps={{ usePortal: true }}`.
 
 {render('./faq-misalignment-with-menu-items')}
 
-### Aligning the `OverflowTooltip` relative to the reference element
-
-By default, the `OverflowTooltip` component is positioned next to the cursor with the `nextToCursor` prop set to `true`. To align the tooltip relative to the reference element, set the `nextToCursor` prop to `false`.
-
-{render('./faq-relative-to-reference-element')}
-
 ## Props
 
 ### OverflowTooltip
@@ -70,8 +75,8 @@ By default, the `OverflowTooltip` component is positioned next to the cursor wit
 | label | string \| ReactNode | | If the tooltip label is a blank or empty string, the tooltip will not display. |
 | leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |
 | nextToCursor | boolean | true | If `true`, the tooltip will be positioned next to the cursor. |
-| offset | [skidding, distance] | [0, 8] | The skidding and distance of the tooltip. |
+| offset | [skidding, distance] | [8, 12] | The skidding and distance of the tooltip. |
 | onClose| function | | Callback fired when the tooltip is closed. |
 | onOpen | function | | Callback fired when the tooltip is opened. |
-| placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
+| placement | PopperJS.Placement | 'bottom-end' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | shouldWrapChildren | boolean | false | If `true`, the tooltip will be wrapped in a `Box` component. Otherwise, you have to ensure tooltip has only one child node. |
