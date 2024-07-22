@@ -50,7 +50,7 @@ jobs:
         uses: changesets/action@master
         with:
           title: "chore(release): version packages"
-          commit: "chore(release): version packages [skip ci]"
+          commit: "chore(release): version packages"
           # This expects you to have a script called release which does a build for your packages and calls `changeset publish`
           publish: yarn ci-publish
           # This expects you to have a script called version that runs some logic and then calls `changeset version`.
