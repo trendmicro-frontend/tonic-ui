@@ -2,7 +2,8 @@ name: Algolia Search Indexing
 
 on:
   push:
-    branches: [ "v1" ]
+    branches:
+      - v1
 
 env:
   ALGOLIA_APPLICATION_ID: 7V00GBK8V8
