@@ -3,7 +3,7 @@ name: Algolia Search Indexing
 on:
   push:
     branches:
-      - v2
+      - master
   workflow_dispatch:
 
 env:
