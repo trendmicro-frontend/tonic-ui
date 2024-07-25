@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - v1
+  workflow_dispatch:
 
 env:
   ALGOLIA_APPLICATION_ID: 7V00GBK8V8
