@@ -128,6 +128,8 @@ const InstantSearchRefinementList = (
             </Box>
             {ensureArray(hits).map(hit => {
               const Icon = _.find(routes, { title: groupName })?.icon;
+              const searchWords = ensureArray(hit?._highlightResult?.data?.title?.matchedWords);
+              const textToHighlight = ensureString(hit?.data?.title);
 
               return (
                 <Box key={hit.objectID}>
@@ -137,9 +139,9 @@ const InstantSearchRefinementList = (
                   >
                     {Icon && <Icon size="6x" />}
                     <Highlight
-                      searchWords={hit?._highlightResult?.data?.title?.matchedWords}
+                      searchWords={searchWords}
                       highlightTag="mark"
-                      textToHighlight={hit?.data?.title}
+                      textToHighlight={textToHighlight}
                       highlightStyle={{
                         backgroundColor: 'rgba(0, 116, 255, 0.8)',
                         color: 'rgba(255, 255, 255, .92)',
