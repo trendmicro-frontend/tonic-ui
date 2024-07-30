@@ -9,7 +9,7 @@ const ZERO_UUID = '00000000-0000-0000-0000-000000000000';
 
 const stateKey = Symbol('state');
 
-const isNonEmptyString = (x) => typeof x === 'string' && !!x;
+const isNonEmptyString = (x) => typeof x === 'string' && x.trim().length > 0;
 
 const flatten = (data, options) => {
   const stack = [...data];
