@@ -9,6 +9,8 @@ const ZERO_UUID = '00000000-0000-0000-0000-000000000000';
 
 const stateKey = Symbol('state');
 
+const isNonEmptyString = (x) => typeof x === 'string' && !!x;
+
 const flatten = (data, options) => {
   const stack = [...data];
   const childrenKey = options?.childrenKey ?? 'children';
@@ -16,7 +18,7 @@ const flatten = (data, options) => {
 
   while (stack.length > 0) {
     const node = stack.shift();
-    const { title = '', icon = '', path = '', [stateKey]: state = {} } = node;
+    const { title = '', path = '', [stateKey]: state = {} } = node;
     const { level = 0, parent = null } = state;
 
     if (node[childrenKey]) {
@@ -27,16 +29,15 @@ const flatten = (data, options) => {
           level: level + 1,
           parent: {
             title,
-            icon,
             path,
           },
         },
       })));
     }
 
-    if (title && path) {
+    if (isNonEmptyString(title) && isNonEmptyString(path)) {
       const object = {
-        data: { title, icon, path },
+        data: { title, path },
         level,
         parent,
       };
