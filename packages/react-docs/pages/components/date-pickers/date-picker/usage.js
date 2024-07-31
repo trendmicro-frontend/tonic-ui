@@ -111,6 +111,7 @@ const disableWeekends = (date) => {
 const App = () => {
   const [maxDate, setMaxDate] = useState('');
   const [minDate, setMinDate] = useState('');
+  const [closeOnSelect, toggleCloseOnSelect] = useToggle(false);
   const [dateOption, changeDateOptionBy] = useSelection('none');
   const [firstDayOfWeek, changeFirstDayOfWeekBy] = useSelection(0);
   const [inputFormat, changeInputFormatBy] = useSelection(inputFormats[0]);
@@ -144,6 +145,7 @@ const App = () => {
         </Flex>
       </FormGroup>
       <DatePicker
+        closeOnSelect={closeOnSelect}
         firstDayOfWeek={firstDayOfWeek}
         formatDate={(date, format) => {
           const options = {
@@ -250,6 +252,16 @@ const App = () => {
           DatePicker props
         </Text>
       </Box>
+      <FormGroup>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={closeOnSelect}
+            onChange={toggleCloseOnSelect}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">closeOnSelect</Text>
+        </TextLabel>
+      </FormGroup>
       <FormGroup>
         <Box mb="2x">
           <TextLabel>

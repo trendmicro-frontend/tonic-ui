@@ -74,6 +74,7 @@ const DateInput = React.forwardRef((props, ref) => {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| closeOnSelect | boolean | false | Determines if the date picker should close automatically after a date is selected. |
 | defaultValue | Date \| string | | The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`. |
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
 | formatDate | function | | A callback called to return the formatted date string in the given format.<br/><br/><b>Signature</b><br/>`function(date, format, options) => void`<br/>_date_: The original date.<br/>_format_: The string of [format tokens](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table).<br/>_options_: An object with options. |

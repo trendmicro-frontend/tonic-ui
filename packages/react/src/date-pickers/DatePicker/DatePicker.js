@@ -64,6 +64,7 @@ const mapValueToEndOfDay = (value) => {
 const DatePicker = forwardRef((
   {
     children, // not used
+    closeOnSelect = false, // Note: The default value will be changed to true in the next major release
     defaultValue: defaultValueProp,
     firstDayOfWeek,
     formatDate,
@@ -154,7 +155,11 @@ const DatePicker = forwardRef((
     if (typeof onChangeProp === 'function') {
       onChangeProp(nextDate);
     }
-  }, [valueProp, inputFormat, onChangeProp]);
+
+    if (closeOnSelect) {
+      onClose();
+    }
+  }, [valueProp, inputFormat, onChangeProp, closeOnSelect, onClose]);
 
   const onCalendarError = useCallback((error, value) => {
     setError(error);
