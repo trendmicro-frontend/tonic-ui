@@ -1,5 +1,4 @@
 import {
-  Flex,
   Text,
   Tooltip,
 } from '@tonic-ui/react';
@@ -52,11 +51,11 @@ export const routes = [
       { title: 'Publishing', path: 'contributing/publishing' },
       { title: 'React Documentation Site', path: 'contributing/react-documentation-site' },
       {
-        title: <Flex columnGap="2x">React Components <sub>PART 1</sub></Flex>,
+        title: 'React Components - Part 1',
         path: 'contributing/react-components-part-1',
       },
       {
-        title: <Flex columnGap="2x">React Components <sub>PART 2</sub></Flex>,
+        title: 'React Components - Part 2',
         path: 'contributing/react-components-part-2',
       },
       { title: 'React Icons', path: 'contributing/react-icons' },
