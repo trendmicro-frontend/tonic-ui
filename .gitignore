@@ -8,3 +8,15 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 .idea
+.npmrc
+.yarnrc
+.yarnrc.yml # https://yarnpkg.com/configuration/yarnrc
+
+# https://next.yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
