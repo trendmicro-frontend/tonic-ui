@@ -1,7 +1,7 @@
-import { Box } from '@tonic-ui/react';
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
+import { Box } from '../../box';
 import {
   useDatePickerToggleStyle,
 } from './styles';

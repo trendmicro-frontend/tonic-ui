@@ -1,4 +1,3 @@
-import { Box } from '@tonic-ui/react';
 import { useConst, useEventCallback, useMergeRefs, useOutsideClick, usePrevious, useToggle } from '@tonic-ui/react-hooks';
 import { callEventHandlers, isNullOrUndefined } from '@tonic-ui/utils';
 import format from 'date-fns/format';
@@ -9,6 +8,7 @@ import parse from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { Box } from '../../box';
 import config from '../../shared/config';
 import useAutoId from '../../utils/useAutoId';
 import Calendar from '../Calendar';
