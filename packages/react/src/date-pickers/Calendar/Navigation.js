@@ -54,6 +54,7 @@ const Navigation = forwardRef((props, ref) => {
       {...props}
     >
       <Button
+        aria-label="Previous month"
         variant="ghost"
         onClick={onClickPreviousMonth}
         {...monthButtonStyleProps}
@@ -66,6 +67,7 @@ const Navigation = forwardRef((props, ref) => {
         </Text>
         <Box {...yearButtonGroupStyleProps}>
           <Button
+            aria-label="Previous year"
             variant="ghost"
             onClick={onClickPreviousYear}
             {...yearButtonStyleProps}
@@ -73,6 +75,7 @@ const Navigation = forwardRef((props, ref) => {
             <AngleUpIcon size="4x" />
           </Button>
           <Button
+            aria-label="Next year"
             variant="ghost"
             onClick={onClickNextYear}
             {...yearButtonStyleProps}
@@ -82,6 +85,7 @@ const Navigation = forwardRef((props, ref) => {
         </Box>
       </Box>
       <Button
+        aria-label="Next month"
         variant="ghost"
         onClick={onClickNextMonth}
         {...monthButtonStyleProps}
