@@ -461,7 +461,7 @@ exports[`DatePicker should render correctly 1`] = `
   background-color: var(--tonic-colors-gray-80);
 }
 
-.emotion-66 {
+.emotion-72 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -479,23 +479,23 @@ exports[`DatePicker should render correctly 1`] = `
   cursor: pointer;
 }
 
-.emotion-66[aria-selected=true],
-.emotion-66[data-selected] {
+.emotion-72[aria-selected=true],
+.emotion-72[data-selected] {
   color: var(--tonic-colors-white-primary);
   background-color: var(--tonic-colors-blue-60);
 }
 
-.emotion-66[aria-selected=true]:hover,
-.emotion-66[data-selected]:hover {
+.emotion-72[aria-selected=true]:hover,
+.emotion-72[data-selected]:hover {
   background-color: var(--tonic-colors-blue-50);
 }
 
-.emotion-66:hover,
-.emotion-66[data-hover] {
+.emotion-72:hover,
+.emotion-72[data-hover] {
   background-color: var(--tonic-colors-gray-80);
 }
 
-.emotion-126 {
+.emotion-74 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -513,19 +513,19 @@ exports[`DatePicker should render correctly 1`] = `
   cursor: pointer;
 }
 
-.emotion-126[aria-selected=true],
-.emotion-126[data-selected] {
+.emotion-74[aria-selected=true],
+.emotion-74[data-selected] {
   color: var(--tonic-colors-white-primary);
   background-color: var(--tonic-colors-blue-60);
 }
 
-.emotion-126[aria-selected=true]:hover,
-.emotion-126[data-selected]:hover {
+.emotion-74[aria-selected=true]:hover,
+.emotion-74[data-selected]:hover {
   background-color: var(--tonic-colors-blue-50);
 }
 
-.emotion-126:hover,
-.emotion-126[data-hover] {
+.emotion-74:hover,
+.emotion-74[data-hover] {
   background-color: var(--tonic-colors-gray-80);
 }
 
@@ -566,7 +566,7 @@ exports[`DatePicker should render correctly 1`] = `
           class="emotion-10 emotion-1"
           id="@tonic-ui/react:DatePickerToggle-1"
           placeholder="MM/dd/yyyy"
-          value="07/31/2024"
+          value="08/01/2024"
         />
       </div>
     </div>
@@ -594,6 +594,7 @@ exports[`DatePicker should render correctly 1`] = `
               class="emotion-20 emotion-1"
             >
               <button
+                aria-label="Previous month"
                 class="emotion-22 emotion-1"
                 type="button"
               >
@@ -616,12 +617,13 @@ exports[`DatePicker should render correctly 1`] = `
                 <div
                   class="emotion-28 emotion-1"
                 >
-                  Jul 2024
+                  Aug 2024
                 </div>
                 <div
                   class="emotion-30 emotion-1"
                 >
                   <button
+                    aria-label="Previous year"
                     class="emotion-32 emotion-1"
                     type="button"
                   >
@@ -639,6 +641,7 @@ exports[`DatePicker should render correctly 1`] = `
                     </svg>
                   </button>
                   <button
+                    aria-label="Next year"
                     class="emotion-32 emotion-1"
                     type="button"
                   >
@@ -658,6 +661,7 @@ exports[`DatePicker should render correctly 1`] = `
                 </div>
               </div>
               <button
+                aria-label="Next month"
                 class="emotion-22 emotion-1"
                 type="button"
               >
@@ -728,214 +732,180 @@ exports[`DatePicker should render correctly 1`] = `
                 class="emotion-46 emotion-1"
               >
                 <div
-                  aria-selected="false"
                   class="emotion-64 emotion-1"
-                >
-                  30
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  1
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  2
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  3
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  4
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  5
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  6
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  7
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  8
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  9
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  10
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  11
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  12
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  13
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  14
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  15
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  16
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  17
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  18
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  19
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  20
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  21
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  22
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  23
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  24
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  25
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  26
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
-                >
-                  27
-                </div>
-                <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
                 >
                   28
                 </div>
                 <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
+                  class="emotion-64 emotion-1"
                 >
                   29
                 </div>
                 <div
-                  aria-selected="false"
-                  class="emotion-66 emotion-1"
+                  class="emotion-64 emotion-1"
                 >
                   30
                 </div>
                 <div
-                  aria-selected="true"
-                  class="emotion-126 emotion-1"
+                  class="emotion-64 emotion-1"
                 >
                   31
                 </div>
                 <div
-                  aria-selected="false"
-                  class="emotion-64 emotion-1"
+                  class="emotion-72 emotion-1"
+                  data-selected=""
                 >
                   1
                 </div>
                 <div
-                  aria-selected="false"
-                  class="emotion-64 emotion-1"
+                  class="emotion-74 emotion-1"
                 >
                   2
                 </div>
                 <div
-                  aria-selected="false"
-                  class="emotion-64 emotion-1"
+                  class="emotion-72 emotion-1"
                 >
                   3
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  4
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  5
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  6
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  7
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  8
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  9
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  10
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  11
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  12
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  13
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  14
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  15
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  16
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  17
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  18
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  19
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  20
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  21
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  22
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  23
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  24
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  25
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  26
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  27
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  28
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  29
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  30
+                </div>
+                <div
+                  class="emotion-72 emotion-1"
+                >
+                  31
                 </div>
               </div>
             </div>

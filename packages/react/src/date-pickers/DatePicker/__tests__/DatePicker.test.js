@@ -1,7 +1,8 @@
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-//import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
+import { transitionDuration } from '@tonic-ui/utils/src';
+import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import {
   Box,
   DatePicker,
@@ -21,7 +22,7 @@ describe('DatePicker', () => {
     const onChange = jest.fn();
     const onError = jest.fn();
     const inputError = false;
-    const value = new Date();
+    const value = new Date('2024-08-01');
     const formatDate = useCallback((date, format) => {
       return dateFns.format(date, format);
     }, []);
@@ -49,7 +50,7 @@ describe('DatePicker', () => {
     return (
       <DatePicker
         data-testid="date-picker"
-        closeOnSelect={true}
+        closeOnSelect={false}
         firstDayOfWeek={0}
         formatDate={formatDate}
         onChange={onChange}
@@ -57,6 +58,7 @@ describe('DatePicker', () => {
         value={value}
         inputFormat={inputFormat}
         renderInput={renderInput}
+        {...props}
       />
     );
   };
@@ -85,13 +87,37 @@ describe('DatePicker', () => {
 
     expect(container).toMatchSnapshot();
 
-    /* FIXME
     await testA11y(container, {
       axeOptions: {
         rules: {
+          // FIXME: Certain ARIA roles must contain particular children (aria-required-children)"
+          'aria-required-children': { enabled: false },
+
+          // FIXME: Interactive controls must not be nested (nested-interactive)
+          'nested-interactive': { enabled: false },
         },
       },
     });
-    */
+  });
+
+  it('should close the date picker when a date is selected and closeOnSelect is true', async () => {
+    const user = userEvent.setup();
+    render(<TestComponent closeOnSelect={true} />);
+
+    const datePickerInput = screen.getByTestId('date-picker-input');
+
+    // Open the date picker
+    await user.click(datePickerInput);
+
+    // Select a date
+    const dateButton = screen.getByText('15'); // Assuming 15th is a selectable date
+    await user.click(dateButton);
+
+    const duration = 100; // Shorten the duration to 100ms for testing
+    // The "menu" role should not be in the document
+    await waitForElementToBeRemoved(() => screen.getByRole('menu'), {
+      // The toast should be removed after the duration plus the transition.
+      timeout: duration + transitionDuration.standard + 100, // see "date-pickers/DatePicker/DatePickerContent.js"
+    });
   });
 });
