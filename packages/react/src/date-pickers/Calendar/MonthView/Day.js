@@ -1,10 +1,11 @@
-import { Box } from '@tonic-ui/react';
 import { useEventCallback } from '@tonic-ui/react-hooks';
+import { dataAttr } from '@tonic-ui/utils';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
 import isSameMonth from 'date-fns/isSameMonth';
 import React, { forwardRef } from 'react';
+import { Box } from '../../../box';
 import { useDayStyle } from '../styles';
 import useCalendar from '../useCalendar';
 
@@ -53,7 +54,8 @@ const Day = forwardRef((
   return (
     <Box
       ref={ref}
-      aria-selected={isSelected}
+      // Only use `aria-selected` with these roles: `option`, `tab`, `menuitemradio`, `treeitem`, `gridcell`, `row`, `rowheader`, and `columnheader`.
+      data-selected={dataAttr(isSelected)}
       onClick={isSelectable ? handleClick : undefined}
       {...styleProps}
       {...rest}

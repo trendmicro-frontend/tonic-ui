@@ -1,5 +1,5 @@
-import { Box } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
+import { Box } from '../../../box';
 import { useMonthViewStyle } from '../styles';
 import DaysOfWeek from './DaysOfWeek';
 import Weeks from './Weeks';

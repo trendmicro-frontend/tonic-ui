@@ -1,4 +1,3 @@
-import { Box, Button, Text } from '@tonic-ui/react';
 import { useEventCallback } from '@tonic-ui/react-hooks';
 import { AngleLeftIcon, AngleRightIcon, AngleUpIcon, AngleDownIcon } from '@tonic-ui/react-icons';
 import addMonths from 'date-fns/addMonths';
@@ -6,6 +5,9 @@ import addYears from 'date-fns/addYears';
 import subMonths from 'date-fns/subMonths';
 import subYears from 'date-fns/subYears';
 import React, { forwardRef } from 'react';
+import { Box } from '../../box';
+import { Button } from '../../button';
+import { Text } from '../../text';
 import useCalendar from './useCalendar';
 import {
   useNavigationStyle,
@@ -52,6 +54,7 @@ const Navigation = forwardRef((props, ref) => {
       {...props}
     >
       <Button
+        aria-label="Previous month"
         variant="ghost"
         onClick={onClickPreviousMonth}
         {...monthButtonStyleProps}
@@ -64,6 +67,7 @@ const Navigation = forwardRef((props, ref) => {
         </Text>
         <Box {...yearButtonGroupStyleProps}>
           <Button
+            aria-label="Previous year"
             variant="ghost"
             onClick={onClickPreviousYear}
             {...yearButtonStyleProps}
@@ -71,6 +75,7 @@ const Navigation = forwardRef((props, ref) => {
             <AngleUpIcon size="4x" />
           </Button>
           <Button
+            aria-label="Next year"
             variant="ghost"
             onClick={onClickNextYear}
             {...yearButtonStyleProps}
@@ -80,6 +85,7 @@ const Navigation = forwardRef((props, ref) => {
         </Box>
       </Box>
       <Button
+        aria-label="Next month"
         variant="ghost"
         onClick={onClickNextMonth}
         {...monthButtonStyleProps}

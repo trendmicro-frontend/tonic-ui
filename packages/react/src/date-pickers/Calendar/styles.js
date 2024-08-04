@@ -1,4 +1,5 @@
-import { useColorMode, useColorStyle } from '@tonic-ui/react';
+import { useColorMode } from '../../color-mode';
+import { useColorStyle } from '../../color-style';
 
 const useCalendarStyle = () => {
   const [colorMode] = useColorMode();

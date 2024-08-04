@@ -35,6 +35,7 @@ const CustomDateInput = ({
 
   return (
     <DatePicker
+      closeOnSelect={true}
       value={value}
       onChange={handleChange}
       inputFormat={inputFormat}
@@ -358,7 +359,7 @@ const App = () => {
         }
       }}
     >
-      {({ closeMenu }) => (
+      {({ onClose }) => (
         <>
           <MenuButton variant="secondary">
             <Text>{mapValueToLabel(state.value)}</Text>
@@ -372,7 +373,7 @@ const App = () => {
                 endDate={state.endDate}
                 endTime={state.endTime}
                 onApply={({ startDate, startTime, endDate, endTime }) => {
-                  closeMenu();
+                  onClose();
                   setState({
                     value: 'custom',
                     startDate,
@@ -382,7 +383,7 @@ const App = () => {
                   });
                 }}
                 onClose={() => {
-                  closeMenu();
+                  onClose();
                 }}
               />
             )}

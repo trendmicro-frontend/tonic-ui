@@ -1,4 +1,3 @@
-import { Box } from '@tonic-ui/react';
 import { useConst, usePrevious } from '@tonic-ui/react-hooks';
 import { isNullOrUndefined } from '@tonic-ui/utils';
 import endOfDay from 'date-fns/endOfDay';
@@ -10,6 +9,7 @@ import isValid from 'date-fns/isValid';
 import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
+import { Box } from '../../box';
 import { validateDate } from '../validation';
 import { CalendarProvider } from './context';
 import MonthView from './MonthView';

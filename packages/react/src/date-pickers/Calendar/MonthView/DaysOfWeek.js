@@ -1,7 +1,8 @@
-import { Box, Grid } from '@tonic-ui/react';
 import addDays from 'date-fns/addDays';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
+import { Box } from '../../../box';
+import { Grid } from '../../../grid';
 import useCalendar from '../useCalendar';
 import { useDaysOfWeekStyle } from '../styles';
 
