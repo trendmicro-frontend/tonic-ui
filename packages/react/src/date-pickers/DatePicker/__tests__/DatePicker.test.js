@@ -1,7 +1,6 @@
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { transitionDuration } from '@tonic-ui/utils/src';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import {
   Box,
@@ -13,18 +12,21 @@ import {
 } from '@tonic-ui/react/src';
 import { CalendarIcon } from '@tonic-ui/react-icons/src';
 import * as dateFns from 'date-fns';
+import * as dateFnsLocale from 'date-fns/locale';
 import React, { useCallback } from 'react';
 
 describe('DatePicker', () => {
-  const TestComponent = (props) => {
+  const TestComponent = ({
+    inputFormat = 'yyyy-MM-dd',
+    ...rest
+  }) => {
     const [colorStyle] = useColorStyle();
-    const inputFormat = 'MM/dd/yyyy';
-    const onChange = jest.fn();
-    const onError = jest.fn();
     const inputError = false;
-    const value = new Date('2024-08-01');
     const formatDate = useCallback((date, format) => {
-      return dateFns.format(date, format);
+      const options = {
+        locale: dateFnsLocale['en-US'],
+      };
+      return dateFns.format(date, format, options);
     }, []);
     const renderInput = useCallback(({ error, inputProps }) => {
       return (
@@ -36,9 +38,12 @@ describe('DatePicker', () => {
                 <CalendarIcon />
               </InputAdornment>
             )}
-            data-testid="date-picker-input"
-            error={inputError}
+            data-testid="date-picker-input-control"
+            inputProps={{
+              'data-testid': 'date-picker-input-element',
+            }}
             placeholder={inputFormat}
+            error={inputError}
           />
           {inputError && (
             <Text mt="1x" color="red:50">Invalid date</Text>
@@ -53,12 +58,9 @@ describe('DatePicker', () => {
         closeOnSelect={false}
         firstDayOfWeek={0}
         formatDate={formatDate}
-        onChange={onChange}
-        onError={onError}
-        value={value}
         inputFormat={inputFormat}
         renderInput={renderInput}
-        {...props}
+        {...rest}
       />
     );
   };
@@ -68,22 +70,42 @@ describe('DatePicker', () => {
     const renderOptions = {
       useCSSVariables: true,
     };
+    const defaultValue = new Date('2024-08-01');
+    const inputFormat = 'yyyy-MM-dd';
+    const mockOnChange = jest.fn();
     const { container } = render((
-      <TestComponent />
+      <TestComponent
+        closeOnSelect={true}
+        defaultValue={defaultValue}
+        inputFormat={inputFormat}
+        onChange={mockOnChange}
+      />
     ), renderOptions);
 
     const datePicker = screen.getByTestId('date-picker');
-    const datePickerInput = screen.getByTestId('date-picker-input');
+    const datePickerInputControl = screen.getByTestId('date-picker-input-control');
+    const datePickerInputElement = screen.getByTestId('date-picker-input-element');
 
     // The date picker and date picker input should be in the document
     expect(datePicker).toBeInTheDocument();
-    expect(datePickerInput).toBeInTheDocument();
+    expect(datePickerInputControl).toBeInTheDocument();
+    expect(datePickerInputElement).toBeInTheDocument();
 
     // Open the date picker
-    await user.click(datePickerInput);
+    await user.click(datePickerInputControl);
 
     // The "menu" role should be in the document
     expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+    // Select a date
+    const dateItem = screen.getByText('15'); // Assuming 15th is a selectable date
+    await user.click(dateItem);
+
+    expect(mockOnChange).toHaveBeenCalled();
+    expect(datePickerInputElement).toHaveValue('2024-08-15');
+
+    // The "menu" role should not be in the document
+    await waitForElementToBeRemoved(() => screen.getByRole('menu'));
 
     expect(container).toMatchSnapshot();
 
@@ -97,27 +119,6 @@ describe('DatePicker', () => {
           'nested-interactive': { enabled: false },
         },
       },
-    });
-  });
-
-  it('should close the date picker when a date is selected and closeOnSelect is true', async () => {
-    const user = userEvent.setup();
-    render(<TestComponent closeOnSelect={true} />);
-
-    const datePickerInput = screen.getByTestId('date-picker-input');
-
-    // Open the date picker
-    await user.click(datePickerInput);
-
-    // Select a date
-    const dateButton = screen.getByText('15'); // Assuming 15th is a selectable date
-    await user.click(dateButton);
-
-    const duration = 100; // Shorten the duration to 100ms for testing
-    // The "menu" role should not be in the document
-    await waitForElementToBeRemoved(() => screen.getByRole('menu'), {
-      // The toast should be removed after the duration plus the transition.
-      timeout: duration + transitionDuration.standard + 100, // see "date-pickers/DatePicker/DatePickerContent.js"
     });
   });
 });
