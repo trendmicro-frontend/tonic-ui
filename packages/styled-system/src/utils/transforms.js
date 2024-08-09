@@ -17,7 +17,7 @@ const toNegativeValue = (scale, absoluteValue, options) => {
   // Handle CSS variables for negative values
   if (useCSSVariables && isSimpleCSSVariable(n)) {
     // https://stackoverflow.com/questions/49469344/using-negative-css-custom-properties
-    return `calc(0 - ${n})`;
+    return `calc(0px - ${n})`;
   }
 
   // Handle numeric value

@@ -103,10 +103,10 @@ test('returns negative theme values using CSS variables', () => {
     left: -4,
   });
   expect(style).toEqual({
-    top: 'calc(0 - var(--tonic-space-1))',
-    right: 'calc(0 - var(--tonic-space-2))',
-    bottom: 'calc(0 - var(--tonic-space-3))',
-    left: 'calc(0 - var(--tonic-space-4))',
+    top: 'calc(0px - var(--tonic-space-1))',
+    right: 'calc(0px - var(--tonic-space-2))',
+    bottom: 'calc(0px - var(--tonic-space-3))',
+    left: 'calc(0px - var(--tonic-space-4))',
   });
 });
 

@@ -32,7 +32,7 @@ exports[`Tree should render correctly 1`] = `
 
 .emotion-4:focus-visible {
   outline-color: var(--tonic-colors-blue-60);
-  outline-offset: calc(0 - var(--tonic-space-1h));
+  outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
