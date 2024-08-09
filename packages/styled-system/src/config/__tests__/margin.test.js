@@ -132,10 +132,10 @@ test('returns negative theme values using CSS variables', () => {
   });
   expect(style).toEqual({
     margin: 'var(--tonic-space-0)',
-    marginLeft: 'calc(0 - var(--tonic-space-2))',
-    marginRight: 'calc(0 - var(--tonic-space-2))',
-    marginTop: 'calc(0 - var(--tonic-space-1))',
-    marginBottom: 'calc(0 - var(--tonic-space-1))',
+    marginLeft: 'calc(0px - var(--tonic-space-2))',
+    marginRight: 'calc(0px - var(--tonic-space-2))',
+    marginTop: 'calc(0px - var(--tonic-space-1))',
+    marginBottom: 'calc(0px - var(--tonic-space-1))',
   });
 });
 
