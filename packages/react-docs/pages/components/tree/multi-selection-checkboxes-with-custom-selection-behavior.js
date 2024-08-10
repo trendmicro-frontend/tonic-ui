@@ -16,6 +16,11 @@ import {
 import {
   useConst,
 } from '@tonic-ui/react-hooks';
+import {
+  FolderIcon,
+  FolderOpenIcon,
+  ServerIcon,
+} from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
 import React, { useCallback, useMemo } from 'react';
 import {
@@ -32,12 +37,19 @@ const TreeItemRender = ({
   const nodeLabel = node.label;
   const { multiSelect } = useTree();
 
-  const render = useCallback(({ isExpandable, isExpanded, isSelected, select, selectRange, toggleSelection }) => {
+  const render = useCallback(({
+    isExpandable,
+    isExpanded,
+    isSelected,
+    select,
+    selectRange,
+    toggleSelection,
+  }) => {
     const icon = (() => {
       if (isExpandable) {
-        return isExpanded ? 'folder-open' : 'folder';
+        return isExpanded ? FolderOpenIcon : FolderIcon;
       }
-      return 'server';
+      return ServerIcon;
     })();
     const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
 
@@ -109,7 +121,7 @@ const TreeItemRender = ({
             }}
           />
         </Flex>
-        <Icon icon={icon} color={iconColor} mr="2x" />
+        <Icon as={icon} color={iconColor} mr="2x" />
         <OverflowTooltip label={nodeLabel}>
           {({ ref, style }) => (
             <Box
