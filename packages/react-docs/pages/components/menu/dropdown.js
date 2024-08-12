@@ -49,21 +49,21 @@ const App = () => {
   return (
     <Dropdown
       value={value}
-      onChange={(value) => {
-        console.log('## change:', value);
-        setValue(value);
-      }}
+      onChange={setValue}
       options={options}
       renderOption={renderOption}
     >
-      <MenuButton
-        variant="secondary"
-        width={width}
-      >
-        <Flex maxWidth={maxWidth}>
-          {renderLabel(value)}
-        </Flex>
-      </MenuButton>
+      {({ getToggleProps }) => (
+        <MenuButton
+          {...getToggleProps()}
+          variant="secondary"
+          width={width}
+        >
+          <Flex maxWidth={maxWidth}>
+            {renderLabel(value)}
+          </Flex>
+        </MenuButton>
+      )}
     </Dropdown>
   );
 };

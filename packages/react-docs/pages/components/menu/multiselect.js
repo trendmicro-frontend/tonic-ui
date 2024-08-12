@@ -109,14 +109,17 @@ const App = () => {
       renderOption={renderOption}
       shouldSelectAllIfNoneSelected={true}
     >
-      <MenuButton
-        variant="secondary"
-        width={width}
-      >
-        <Flex maxWidth={maxWidth}>
-          {renderLabel(value)}
-        </Flex>
-      </MenuButton>
+      {({ getToggleProps }) => (
+        <MenuButton
+          {...getToggleProps()}
+          variant="secondary"
+          width={width}
+        >
+          <Flex maxWidth={maxWidth}>
+            {renderLabel(value)}
+          </Flex>
+        </MenuButton>
+      )}
     </Multiselect>
   );
 };

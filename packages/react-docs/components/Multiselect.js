@@ -4,16 +4,16 @@ import {
   CheckboxGroup,
   LinkButton,
   Menu,
-  MenuToggle,
   MenuItem,
   MenuList,
+  MenuToggle,
   Scrollbar,
   SearchInput,
   useColorMode,
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
-import { noop } from '@tonic-ui/utils';
+import { noop, runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction, ensureString } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import Highlight from 'react-highlight-words';
@@ -95,7 +95,9 @@ const Multiselect = forwardRef((
       {...rest}
     >
       <MenuToggle>
-        {children}
+        {({ getMenuToggleProps }) => {
+          return runIfFn(children, { getToggleProps: getMenuToggleProps });
+        }}
       </MenuToggle>
       <MenuList
         width="max-content"

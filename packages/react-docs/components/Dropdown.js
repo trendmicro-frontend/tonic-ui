@@ -1,10 +1,10 @@
 import {
   Menu,
-  MenuToggle,
   MenuItem,
   MenuList,
+  MenuToggle,
 } from '@tonic-ui/react';
-import { noop } from '@tonic-ui/utils';
+import { noop, runIfFn } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 
@@ -47,7 +47,9 @@ const Dropdown = forwardRef((
       {...rest}
     >
       <MenuToggle>
-        {children}
+        {({ getMenuToggleProps }) => {
+          return runIfFn(children, { getToggleProps: getMenuToggleProps });
+        }}
       </MenuToggle>
       <MenuList
         width="max-content"
