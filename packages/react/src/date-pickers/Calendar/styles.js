@@ -1,7 +1,7 @@
 import { useColorMode } from '../../color-mode';
 import { useColorStyle } from '../../color-style';
 
-const useCalendarStyle = () => {
+const useCalendarStyle = ({ tabIndex }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const borderColor = {
@@ -21,6 +21,7 @@ const useCalendarStyle = () => {
     borderColor: borderColor,
     borderRadius: 'sm',
     boxShadow: colorStyle.shadow.medium,
+    outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
     px: '6x',
     py: '3x',
   };
@@ -124,6 +125,10 @@ const useDayStyle = ({
     dark: 'gray:80',
     light: 'gray:50',
   }[colorMode];
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
   const selectedColor = {
     dark: 'white:primary',
     light: 'white:primary'
@@ -145,6 +150,12 @@ const useDayStyle = ({
     cursor: isSelectable ? 'pointer' : 'default',
     _hover: {
       backgroundColor: isSelectable ? hoverBackgroundColor : undefined,
+    },
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
     },
   };
 

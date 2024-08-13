@@ -1,5 +1,6 @@
 import { useEventCallback } from '@tonic-ui/react-hooks';
 import { dataAttr } from '@tonic-ui/utils';
+import formatISO from 'date-fns/formatISO';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
@@ -41,6 +42,9 @@ const Day = forwardRef((
   })();
   const isSelected = isSameDay(date, new Date(selectedDate));
   const isToday = isSameDay(date, new Date());
+  // Manage focus on the active date within the month view by adjusting the `tabIndex`.
+  // If the date is within the same month as the `activeDate`, set `tabIndex` to 0 to make it focusable; otherwise, set it to -1.
+  const tabIndex = isSameMonth(date, activeDate) ? 0 : -1;
   const styleProps = useDayStyle({
     isSameMonth: isSameMonth(date, activeDate),
     isSelectable,
@@ -54,9 +58,11 @@ const Day = forwardRef((
   return (
     <Box
       ref={ref}
+      data-date={formatISO(date, { representation: 'date' })}
       // Only use `aria-selected` with these roles: `option`, `tab`, `menuitemradio`, `treeitem`, `gridcell`, `row`, `rowheader`, and `columnheader`.
       data-selected={dataAttr(isSelected)}
       onClick={isSelectable ? handleClick : undefined}
+      tabIndex={tabIndex}
       {...styleProps}
       {...rest}
     >

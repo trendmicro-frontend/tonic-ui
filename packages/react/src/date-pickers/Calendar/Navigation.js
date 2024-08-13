@@ -61,11 +61,15 @@ const Navigation = forwardRef((props, ref) => {
       >
         <AngleLeftIcon size="4x" />
       </Button>
-      <Box {...currentMonthYearStyleProps}>
+      <Box
+        {...currentMonthYearStyleProps}
+      >
         <Text>
           {formatDate(activeDate, 'LLL yyyy')}
         </Text>
-        <Box {...yearButtonGroupStyleProps}>
+        <Box
+          {...yearButtonGroupStyleProps}
+        >
           <Button
             aria-label="Previous year"
             variant="ghost"

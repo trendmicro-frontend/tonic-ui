@@ -41,7 +41,7 @@ const DatePickerContent = forwardRef((
 
   const styleProps = useDatePickerContentStyle();
 
-  const eventHandlers = {
+  const eventHandler = {
     onKeyDown: callEventHandlers(onKeyDownProp, handleKeyDown),
   };
 
@@ -77,7 +77,7 @@ const DatePickerContent = forwardRef((
       willUseTransition={true}
       zIndex="dropdown"
       {...styleProps}
-      {...eventHandlers}
+      {...eventHandler}
       {...PopperProps}
       {...rest}
     >
