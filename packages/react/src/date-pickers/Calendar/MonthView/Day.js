@@ -50,9 +50,17 @@ const Day = forwardRef((
     isSelectable,
     isToday,
   });
-  const handleClick = useEventCallback((e) => {
+  const handleClick = useEventCallback((event) => {
     setActiveDate(date);
     onChange(date);
+  }, [date, setActiveDate, onChange]);
+  const handleKeyDown = useEventCallback((event) => {
+    if (event.key === ' ' || event.key === 'Enter') {
+      setActiveDate(date);
+      onChange(date);
+
+      event.preventDefault();
+    }
   }, [date, setActiveDate, onChange]);
 
   return (
@@ -62,6 +70,7 @@ const Day = forwardRef((
       // Only use `aria-selected` with these roles: `option`, `tab`, `menuitemradio`, `treeitem`, `gridcell`, `row`, `rowheader`, and `columnheader`.
       data-selected={dataAttr(isSelected)}
       onClick={isSelectable ? handleClick : undefined}
+      onKeyDown={isSelectable ? handleKeyDown : undefined}
       tabIndex={tabIndex}
       {...styleProps}
       {...rest}

@@ -313,33 +313,39 @@ const Calendar = forwardRef((
     };
 
     if (key === 'ArrowLeft') {
-      event.preventDefault();
       focusOnPreviousDay();
+
+      event.preventDefault();
     }
 
     if (key === 'ArrowRight') {
-      event.preventDefault();
       focusOnNextDay();
+
+      event.preventDefault();
     }
 
     if (key === 'ArrowUp') {
-      event.preventDefault();
       focusOnPreviousWeek();
+
+      event.preventDefault();
     }
 
     if (key === 'ArrowDown') {
-      event.preventDefault();
       focusOnNextWeek();
+
+      event.preventDefault();
     }
 
     if (key === 'Home') {
-      event.preventDefault();
       focusOnFirstDay();
+
+      event.preventDefault();
     }
 
     if (key === 'End') {
-      event.preventDefault();
       focusOnLastDay();
+
+      event.preventDefault();
     }
 
     if (key === 'Tab') {
