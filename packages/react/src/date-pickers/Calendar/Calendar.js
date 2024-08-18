@@ -21,8 +21,8 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { Box } from '../../box';
 import { validateDate } from '../validation';
 import { CalendarProvider } from './context';
-import MonthView from './MonthView';
-import Navigation from './Navigation';
+import MonthDate from './MonthDate';
+import YearMonthPicker from './YearMonthPicker';
 import { useCalendarStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -213,8 +213,8 @@ const Calendar = forwardRef((
           nextFocusIndexRef.current = nextFocusIndex;
 
           // Verify whether the first row includes days from the previous month
-          const firstFocusableElementInMonthView = focusableElements[0];
-          if (firstFocusableElementInMonthView?.tabIndex < 0) {
+          const firstFocusableElementInMonthDate = focusableElements[0];
+          if (firstFocusableElementInMonthDate?.tabIndex < 0) {
             nextFocusIndexRef.current -= 7;
           }
         } else if (nextFocusIndex >= focusableElements.length) {
@@ -270,8 +270,8 @@ const Calendar = forwardRef((
           nextFocusIndexRef.current = nextFocusIndex - focusableElements.length;
 
           // Verify whether the last row includes days from the next month
-          const lastFocusableElementInMonthView = focusableElements[focusableElements.length - 1];
-          if (lastFocusableElementInMonthView?.tabIndex < 0) {
+          const lastFocusableElementInMonthDate = focusableElements[focusableElements.length - 1];
+          if (lastFocusableElementInMonthDate?.tabIndex < 0) {
             nextFocusIndexRef.current += 7;
           }
         }
@@ -315,36 +315,42 @@ const Calendar = forwardRef((
     if (key === 'ArrowLeft') {
       focusOnPreviousDay();
 
+      // Prevent the default action
       event.preventDefault();
     }
 
     if (key === 'ArrowRight') {
       focusOnNextDay();
 
+      // Prevent the default action
       event.preventDefault();
     }
 
     if (key === 'ArrowUp') {
       focusOnPreviousWeek();
 
+      // Prevent the default action
       event.preventDefault();
     }
 
     if (key === 'ArrowDown') {
       focusOnNextWeek();
 
+      // Prevent the default action
       event.preventDefault();
     }
 
     if (key === 'Home') {
       focusOnFirstDay();
 
+      // Prevent the default action
       event.preventDefault();
     }
 
     if (key === 'End') {
       focusOnLastDay();
 
+      // Prevent the default action
       event.preventDefault();
     }
 
@@ -352,13 +358,13 @@ const Calendar = forwardRef((
       // Handle TAB key navigation within the month view
       if (focusableElements.indexOf(activeElement) >= 0) {
         if (isShiftPressed) { // TAB + SHIFT pressed
-          // Move focus to the first focusable element in the month view
-          // This allows the user to cycle focus back to the navigation if needed
+          // Move focus to the first focusable element in the month view.
+          // This allows the user to cycle focus back to the navigation if needed.
           const firstFocusableElement = focusableElements[0];
           firstFocusableElement.focus();
         } else { // TAB pressed
-          // Move focus to the last focusable element in the month view
-          // This allows the user to move focus outside the calendar
+          // Move focus to the last focusable element in the month view.
+          // This allows the user to move focus outside the calendar.
           const lastFocusableElement = focusableElements[focusableElements.length - 1];
           lastFocusableElement.focus();
         }
@@ -369,17 +375,17 @@ const Calendar = forwardRef((
 
   monthViewEventHandler.onFocus = useCallback((event) => {
     const losingFocusTarget = event.relatedTarget; // The element that is losing focus (if any)
-    const isFocusEnteringFromOutsideToMonthView = losingFocusTarget && !event.currentTarget.contains(losingFocusTarget);
+    const isFocusEnteringFromOutsideToMonthDate = losingFocusTarget && !event.currentTarget.contains(losingFocusTarget);
 
-    if (isFocusEnteringFromOutsideToMonthView) {
+    if (isFocusEnteringFromOutsideToMonthDate) {
       const today = new Date();
       // Determine the date to focus on (either provided date or today's date)
       const nextFocusDate = date ? startOfDay(date) : startOfDay(today);
       // Get the start date of the month view based on the next focus date
-      const startDateOfMonthView = startOfWeek(startOfMonth(nextFocusDate), {
+      const startDateOfMonthDate = startOfWeek(startOfMonth(nextFocusDate), {
         weekStartsOn: firstDayOfWeek,
       });
-      const nextFocusIndex = differenceInCalendarDays(nextFocusDate, startDateOfMonthView);
+      const nextFocusIndex = differenceInCalendarDays(nextFocusDate, startDateOfMonthDate);
       nextFocusIndexRef.current = nextFocusIndex;
       setActiveDate(nextFocusDate);
     }
@@ -408,8 +414,8 @@ const Calendar = forwardRef((
         {...styleProps}
         {...rest}
       >
-        <Navigation />
-        <MonthView
+        <YearMonthPicker />
+        <MonthDate
           ref={monthViewRef}
           {...monthViewEventHandler}
         />

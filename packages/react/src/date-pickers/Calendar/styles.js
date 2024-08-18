@@ -27,7 +27,7 @@ const useCalendarStyle = ({ tabIndex }) => {
   };
 };
 
-const useNavigationStyle = () => {
+const useYearMonthPickerStyle = () => {
   return {
     display: 'flex',
     flex: 'none',
@@ -35,7 +35,19 @@ const useNavigationStyle = () => {
   };
 };
 
-const useNavigationCurrentMonthYearStyle = () => {
+const useYearMonthPickerMonthButtonStyle = () => {
+  return {
+    width: '8x',
+    height: '8x',
+  };
+};
+
+const useYearMonthPickerYearStyle = () => {
+  const [colorMode] = useColorMode();
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
   return {
     display: 'flex',
     flexGrow: 1,
@@ -43,23 +55,35 @@ const useNavigationCurrentMonthYearStyle = () => {
     justifyContent: 'center',
     fontSize: 'md',
     lineHeight: 'md',
+    outline: 0, // Remove the default outline
     _hover: {
-      '> *': {
+      '& > * > button': {
         opacity: 1,
         visibility: 'visible',
       },
     },
+    _focusVisible: {
+      '& > * > button ': {
+        opacity: 1,
+        visibility: 'visible',
+      },
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
+    },
   };
 };
 
-const useNavigationMonthButtonStyle = () => {
+const useYearMonthPickerYearButtonGroupStyle = () => {
   return {
-    width: '8x',
-    height: '8x',
+    display: 'inline-flex',
+    flexDirection: 'column',
+    ml: '2x',
   };
 };
 
-const useNavigationYearButtonStyle = () => {
+const useYearMonthPickerYearButtonStyle = () => {
   const [colorMode] = useColorMode();
   const hoverColor = {
     dark: 'blue:40',
@@ -71,6 +95,8 @@ const useNavigationYearButtonStyle = () => {
     px: 0,
     width: '4x',
     height: '4x',
+    opacity: 0,
+    visibility: 'hidden',
     _hover: {
       borderColor: 'transparent',
       color: hoverColor,
@@ -82,17 +108,7 @@ const useNavigationYearButtonStyle = () => {
   };
 };
 
-const useNavigationYearButtonGroupStyle = () => {
-  return {
-    display: 'inline-flex',
-    flexDirection: 'column',
-    ml: '2x',
-    opacity: 0,
-    visibility: 'hidden',
-  };
-};
-
-const useMonthViewStyle = () => {
+const useMonthDateStyle = () => {
   return {
     flex: 'auto',
   };
@@ -190,12 +206,12 @@ const useDaysOfWeekStyle = () => {
 
 export {
   useCalendarStyle,
-  useNavigationStyle,
-  useNavigationCurrentMonthYearStyle,
-  useNavigationMonthButtonStyle,
-  useNavigationYearButtonStyle,
-  useNavigationYearButtonGroupStyle,
-  useMonthViewStyle,
+  useYearMonthPickerStyle,
+  useYearMonthPickerMonthButtonStyle,
+  useYearMonthPickerYearStyle,
+  useYearMonthPickerYearButtonGroupStyle,
+  useYearMonthPickerYearButtonStyle,
+  useMonthDateStyle,
   useDayStyle,
   useDaysOfWeekStyle,
 };

@@ -59,6 +59,7 @@ const Day = forwardRef((
       setActiveDate(date);
       onChange(date);
 
+      // Prevent the default action
       event.preventDefault();
     }
   }, [date, setActiveDate, onChange]);
