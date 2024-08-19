@@ -70,7 +70,8 @@ const Calendar = forwardRef((
     // Return initial date if it is valid, otherwise return today
     return isValid(initialDate) ? initialDate : today;
   });
-  const monthViewRef = useRef();
+  const isPointerDownRef = useRef(false); // Tracks whether focus was initiated by a pointer device or the keyboard
+  const calendarMonthDateRef = useRef();
   const nextFocusIndexRef = useRef();
   const [activeDate, setActiveDate] = useState(initialActiveDate);
   const [date, setDate] = useState(initialDate);
@@ -119,7 +120,7 @@ const Calendar = forwardRef((
     }
 
     const nextFocusIndex = nextFocusIndexRef.current;
-    const focusableElements = getAllFocusable(monthViewRef.current);
+    const focusableElements = getAllFocusable(calendarMonthDateRef.current);
     const el = nextFocusIndex < 0
       ? focusableElements[focusableElements.length + nextFocusIndex]
       : focusableElements[nextFocusIndex];
@@ -142,11 +143,25 @@ const Calendar = forwardRef((
     onChangeProp?.(nextDate);
   }, [dateProp, onChangeProp]);
 
-  const monthViewEventHandler = {};
-  monthViewEventHandler.onKeyDown = useCallback((event) => {
+  const calendarRootEventHandler = {};
+
+  // The `onPointerDown` and `onPointerUp` handlers detect whether focus was triggered by pointer devices or the keyboard.
+  // The event sequence is: `pointerdown` > `focus` > `pointerup` or `pointerdown` > `focus`
+  // @see https://www.darrenlester.com/blog/focus-only-on-tab
+  calendarRootEventHandler.onPointerDown = useCallback((event) => {
+    isPointerDownRef.current = true;
+  }, []);
+
+  calendarRootEventHandler.onPointerUp = useCallback((event) => {
+    isPointerDownRef.current = false;
+  }, []);
+
+  const calendarMonthDateEventHandler = {};
+
+  calendarMonthDateEventHandler.onKeyDown = useCallback((event) => {
     const key = event?.key;
     const isShiftPressed = event.shiftKey;
-    const focusableElements = getAllFocusable(monthViewRef.current);
+    const focusableElements = getAllFocusable(calendarMonthDateRef.current);
     const activeElement = getActiveElement(event.target);
 
     const focusOnDay = (offset) => {
@@ -373,7 +388,14 @@ const Calendar = forwardRef((
     }
   }, [activeDate]);
 
-  monthViewEventHandler.onFocus = useCallback((event) => {
+  calendarMonthDateEventHandler.onFocus = useCallback((event) => {
+    // Check if focus handling should be skipped when initiated by a pointer device
+    if (isPointerDownRef.current) {
+      // Set `isPointerDownRef` to `false` because the `pointerup` event might not fire if the target is left
+      isPointerDownRef.current = false;
+      return;
+    }
+
     const losingFocusTarget = event.relatedTarget; // The element that is losing focus (if any)
     const isFocusEnteringFromOutsideToMonthDate = losingFocusTarget && !event.currentTarget.contains(losingFocusTarget);
 
@@ -411,13 +433,14 @@ const Calendar = forwardRef((
       <Box
         ref={ref}
         tabIndex={tabIndex}
+        {...calendarRootEventHandler}
         {...styleProps}
         {...rest}
       >
         <YearMonthPicker />
         <MonthDate
-          ref={monthViewRef}
-          {...monthViewEventHandler}
+          ref={calendarMonthDateRef}
+          {...calendarMonthDateEventHandler}
         />
       </Box>
     </CalendarProvider>
