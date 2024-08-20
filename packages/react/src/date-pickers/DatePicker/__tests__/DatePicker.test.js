@@ -45,9 +45,7 @@ describe('DatePicker', () => {
             placeholder={inputFormat}
             error={inputError}
           />
-          {inputError && (
-            <Text mt="1x" color="red:50">Invalid date</Text>
-          )}
+          {inputError ? (<Text mt="1x" color="red:50">Invalid date</Text>) : null}
         </Box>
       );
     }, [colorStyle, inputError, inputFormat]);
