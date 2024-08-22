@@ -19,6 +19,10 @@ const focusableElementSelectors = [
 const focusableElementSelector = focusableElementSelectors.join(',');
 
 export const getAllFocusable = (element, keyboardOnly = false) => {
+  if (!element || !(element instanceof HTMLElement)) {
+    return [];
+  }
+
   let focusableElements = Array.from(element.querySelectorAll(focusableElementSelector));
 
   // Filter out elements with `display: none`

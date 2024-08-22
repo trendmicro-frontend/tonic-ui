@@ -1,14 +1,14 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../../../box';
-import { useMonthViewStyle } from '../styles';
+import { useMonthDateStyle } from '../styles';
 import DaysOfWeek from './DaysOfWeek';
 import Weeks from './Weeks';
 
-const MonthView = forwardRef((
+const MonthDate = forwardRef((
   props,
   ref
 ) => {
-  const styleProps = useMonthViewStyle();
+  const styleProps = useMonthDateStyle();
   return (
     <Box
       ref={ref}
@@ -21,6 +21,6 @@ const MonthView = forwardRef((
   );
 });
 
-MonthView.displayName = 'MonthView';
+MonthDate.displayName = 'MonthDate';
 
-export default MonthView;
+export default MonthDate;

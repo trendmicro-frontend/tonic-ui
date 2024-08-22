@@ -41,6 +41,7 @@ Note that the `DateInput` component is currently not provided by the `@tonic-ui/
 ```jsx disabled
 // import
 import { InputControl, InputAdornment } from '@tonic-ui/react';
+import { CalendarIcon } from '@tonic-ui/react-icons';
 
 // DateInput
 const DateInput = React.forwardRef((props, ref) => {
@@ -52,7 +53,7 @@ const DateInput = React.forwardRef((props, ref) => {
       ref={ref}
       startAdornment={(
         <InputAdornment color={colorStyle.color.secondary}>
-          <Icon icon="calendar" />
+          <CalendarIcon />
         </InputAdornment>
       )}
       {...props}
