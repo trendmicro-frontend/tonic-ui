@@ -9,7 +9,6 @@
 - test(react/DatePicker): resolve failing test snapshots by [@cheton](https://github.com/cheton) in [#906](https://github.com/trendmicro-frontend/tonic-ui/pull/906)
 
 - feat(react/Calendar): enhance keyboard navigation and date selection by [@cheton](https://github.com/cheton) in [#909](https://github.com/trendmicro-frontend/tonic-ui/pull/909)
-  refactor(util/dom-query): handle invalid element input in `getAllFocusable`
 
 ### Patch Changes
 
