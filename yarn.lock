@@ -4501,9 +4501,9 @@ __metadata:
     "@tonic-ui/react-base": ^2.0.1
     "@tonic-ui/react-hooks": ^2.0.0
     "@tonic-ui/react-icons": ^2.0.2
-    "@tonic-ui/styled-system": ^2.0.1
+    "@tonic-ui/styled-system": ^2.0.2
     "@tonic-ui/theme": ^2.0.0
-    "@tonic-ui/utils": ^2.0.0
+    "@tonic-ui/utils": ^2.0.1
     "@trendmicro/babel-config": ^1.0.2
     cross-env: ^7.0.3
     date-fns: 2.x
@@ -4534,7 +4534,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/styled-system@^2.0.1, @tonic-ui/styled-system@workspace:packages/styled-system":
+"@tonic-ui/styled-system@^2.0.1, @tonic-ui/styled-system@^2.0.2, @tonic-ui/styled-system@workspace:packages/styled-system":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/styled-system@workspace:packages/styled-system"
   dependencies:
@@ -4588,7 +4588,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/utils@^2.0.0, @tonic-ui/utils@workspace:^, @tonic-ui/utils@workspace:packages/utils":
+"@tonic-ui/utils@^2.0.0, @tonic-ui/utils@^2.0.1, @tonic-ui/utils@workspace:^, @tonic-ui/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/utils@workspace:packages/utils"
   dependencies:
