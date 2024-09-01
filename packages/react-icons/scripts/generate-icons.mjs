@@ -75,7 +75,7 @@ ${deprecatedIconComponentName}._isDeprecated = true;
 export default ${deprecatedIconComponentName};
 `.trimStart();
 
-const renderIndexFile = ({ defaultImports, deprecatedDefaultImports}) => `
+const renderIndexFile = ({ defaultImports, deprecatedDefaultImports }) => `
 // AUTO-GENERATED FILE. DO NOT EDIT.
 ${defaultImports.map(defaultImport => (`export { default as ${defaultImport} } from './${defaultImport}';`)).join('\n')}
 
