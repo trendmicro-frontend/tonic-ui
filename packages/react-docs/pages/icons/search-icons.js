@@ -27,10 +27,12 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle();
   const portal = usePortalManager();
+  const isDeprecated = IconComponent._isDeprecated;
   const deprecatedTextColor = {
     dark: 'yellow:50',
     light: 'yellow:50',
   }[colorMode];
+  const bitmapGridSize = 16;
   const handleClick = (e) => {
     portal((onClose) => (
       <Modal
@@ -44,13 +46,13 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {IconComponent._isDeprecated
+            {isDeprecated
               ? <Text color={deprecatedTextColor}>{name} (deprecated)</Text>
               : <Text>{name}</Text>
             }
           </ModalHeader>
           <ModalBody px={0}>
-            {IconComponent._isDeprecated && (
+            {isDeprecated && (
               <Flex
                 alignItems="center"
                 columnGap="2x"
@@ -71,7 +73,7 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
               mb="6x"
             >
               <Text fontFamily="mono" fontSize="md" lineHeight="md">
-                {IconComponent._isDeprecated
+                {isDeprecated
                   ? `import { ${IconComponent.displayName} } from '@tonic-ui/react-icons';`
                   : `import { ${name} } from '@tonic-ui/react-icons';`
                 }
@@ -86,11 +88,11 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
                 justifyContent="center"
                 outline={1}
                 outlineColor={colorMode === 'dark' ? 'rgb(89, 89, 89)' : 'rgb(230, 230, 230)'}
-                width={160}
-                height={160}
-                backgroundSize="20px 20px"
+                width={bitmapGridSize * 16}
+                height={bitmapGridSize * 16}
+                backgroundSize={`${bitmapGridSize * 2}px ${bitmapGridSize * 2}px`}
                 backgroundColor="transparent"
-                backgroundPosition="0px 0px, 0px 10px, 10px -10px, -10px 0px"
+                backgroundPosition={`0px 0px, 0px ${bitmapGridSize}px, ${bitmapGridSize}px -${bitmapGridSize}px, -${bitmapGridSize}px 0px`}
                 backgroundImage={colorMode === 'dark'
                   ? [
                       'linear-gradient(45deg, rgb(89, 89, 89) 25%, transparent 25%)',
@@ -106,7 +108,7 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
                     ].join(',')
                 }
             >
-                <IconComponent size={160} />
+                <IconComponent size={bitmapGridSize * 16} />
               </Flex>
             </Flex>
           </ModalBody>
@@ -128,8 +130,8 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
         rowGap="2x"
       >
         <ButtonBase
-          width={60}
-          height={60}
+          width={64}
+          height={64}
           border={1}
           borderColor="transparent"
           borderRadius="sm"
@@ -142,23 +144,23 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
         >
           <IconComponent size="6x" />
         </ButtonBase>
-        <OverflowTooltip label={name}>
+        <OverflowTooltip
+          label={(
+            <Text fontFamily="mono">
+              {isDeprecated ? `${name} (deprecated)` : name}
+            </Text>
+          )}
+        >
           {({ ref, style }) => (
             <Text
               ref={ref}
               fontFamily="mono"
-              fontSize="xs"
               width="100%"
-              color={colorStyle.color.secondary}
+              color={isDeprecated ? deprecatedTextColor : colorStyle.color.secondary}
               textAlign="center"
               {...style}
             >
-              {IconComponent._isDeprecated
-                ? <Text color={deprecatedTextColor}>
-                    {name}<br/>(deprecated)
-                  </Text>
-                : name
-              }
+              {isDeprecated ? <>{name}<br />(deprecated)</> : name}
             </Text>
           )}
         </OverflowTooltip>
@@ -189,7 +191,10 @@ const App = () => {
     .map(iconName => ({
       component: icons[iconName],
       name: iconName,
-    }));
+    }))
+    .sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
 
   return (
     <>
