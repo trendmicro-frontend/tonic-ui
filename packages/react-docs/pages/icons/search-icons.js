@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   ButtonBase,
@@ -20,10 +21,16 @@ import {
 import * as icons from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 
+const Semibold = (props) => <Text display="inline-block" fontWeight="semibold" {...props} />
+
 const IconView = ({ component: IconComponent, name, ...rest }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle();
   const portal = usePortalManager();
+  const deprecatedTextColor = {
+    dark: 'yellow:50',
+    light: 'yellow:50',
+  }[colorMode];
   const handleClick = (e) => {
     portal((onClose) => (
       <Modal
@@ -37,9 +44,26 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {name}
+            {IconComponent._isDeprecated
+              ? <Text color={deprecatedTextColor}>{name} (deprecated)</Text>
+              : <Text>{name}</Text>
+            }
           </ModalHeader>
           <ModalBody px={0}>
+            {IconComponent._isDeprecated && (
+              <Flex
+                alignItems="center"
+                columnGap="2x"
+                px="5x"
+                py="3x"
+                mb="4x"
+                color={deprecatedTextColor}
+              >
+                <Alert variant="outline" severity="warning">
+                  <Text>The <Semibold>{name}</Semibold> component is deprecated and will be removed in the next major release. Use <Semibold>{IconComponent.displayName}</Semibold> instead.</Text>
+                </Alert>
+              </Flex>
+            )}
             <Box
               backgroundColor={colorStyle.background.tertiary}
               px="5x"
@@ -47,7 +71,10 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
               mb="6x"
             >
               <Text fontFamily="mono" fontSize="md" lineHeight="md">
-                {`import { ${name} } from '@tonic-ui/react-icons';`}
+                {IconComponent._isDeprecated
+                  ? `import { ${IconComponent.displayName} } from '@tonic-ui/react-icons';`
+                  : `import { ${name} } from '@tonic-ui/react-icons';`
+                }
               </Text>
             </Box>
             <Flex
@@ -119,13 +146,19 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
           {({ ref, style }) => (
             <Text
               ref={ref}
+              fontFamily="mono"
               fontSize="xs"
               width="100%"
               color={colorStyle.color.secondary}
               textAlign="center"
               {...style}
             >
-              {name}
+              {IconComponent._isDeprecated
+                ? <Text color={deprecatedTextColor}>
+                    {name}<br/>(deprecated)
+                  </Text>
+                : name
+              }
             </Text>
           )}
         </OverflowTooltip>
