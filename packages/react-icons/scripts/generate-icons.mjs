@@ -3,11 +3,33 @@ import * as path from 'node:path';
 import * as url from 'node:url';
 import * as tmicon from '@trendmicro/tmicon';
 
+const deprecatedIconNames = [
+  'api',
+  'api-management',
+  'connect-noip',
+  'file-pdf-o',
+  'file-ppt-o',
+  'iam',
+  'ie',
+  'ioc',
+  'ip',
+  'list-ol',
+  'list-ul',
+  'nas',
+  'rca',
+  'resize-nesw',
+  'resize-nwse',
+  'tv',
+  'url',
+  'usb',
+  'wmi',
+];
+
 // This function converts tmicon v4 icon names to their corrected component names in capitalized camel case,
 // ensuring alignment with the actual icon components.
-const transformV4IconName = (iconName) => {
+const transformIconName = (iconName) => {
   return {
-    'ai-security': 'AI-security',
+    // deprecated icons
     'api': 'API',
     'api-management': 'API-management',
     'connect-noip': 'connect-NoIP',
@@ -23,11 +45,14 @@ const transformV4IconName = (iconName) => {
     'rca': 'RCA',
     'resize-nesw': 'resize-NESW',
     'resize-nwse': 'resize-NWSE',
-    'security-ai': 'security-AI',
     'tv': 'TV',
     'url': 'URL',
     'usb': 'USB',
     'wmi': 'WMI',
+
+    // new icons
+    'ai-security': 'AI-security',
+    'security-ai': 'security-AI',
   }[iconName] ?? iconName;
 };
 
@@ -85,21 +110,20 @@ ${deprecatedDefaultImports.map(defaultImport => (`export { default as ${defaultI
 
 const generateIcons = () => {
   const deprecatedIcons = [];
-  const icons = tmicon.icons.map(icon => {
-    const iconName = transformV4IconName(icon.name);
-    if (iconName !== icon.name) {
-      deprecatedIcons.push({
-        deprecatedName: mapKebabCaseToCapitalizedCamelCase(icon.name),
-        name: mapKebabCaseToCapitalizedCamelCase(iconName),
-        paths: icon.paths,
-      });
-    }
+  const icons = tmicon.icons
+    .map(icon => {
+      if (deprecatedIconNames.includes(icon.name)) {
+        deprecatedIcons.push({
+          deprecatedName: mapKebabCaseToCapitalizedCamelCase(icon.name),
+          name: mapKebabCaseToCapitalizedCamelCase(transformIconName(icon.name)),
+        });
+      }
 
-    return {
-      name: mapKebabCaseToCapitalizedCamelCase(iconName),
-      paths: icon.paths,
-    };
-  });
+      return {
+        name: mapKebabCaseToCapitalizedCamelCase(transformIconName(icon.name)),
+        paths: icon.paths,
+      };
+    });
 
   // generate icon component files
   for (const icon of icons) {
@@ -117,9 +141,9 @@ const generateIcons = () => {
   for (const icon of deprecatedIcons) {
     const displayName = `${icon.name}Icon`;
     const deprecatedDisplayName = `${icon.deprecatedName}Icon`;
-    const file = path.resolve(outputDirectory, `./deprecated/${deprecatedDisplayName}.js`);
-    const data = renderDeprecatedIconComponentFile(displayName, deprecatedDisplayName);
-    fs.writeFileSync(file, data, { encoding: 'utf8' });
+    const iconPath = path.resolve(outputDirectory, `./deprecated/${deprecatedDisplayName}.js`);
+    const iconData = renderDeprecatedIconComponentFile(displayName, deprecatedDisplayName);
+    fs.writeFileSync(iconPath, iconData, { encoding: 'utf8' });
   }
 
   // generate index.js file

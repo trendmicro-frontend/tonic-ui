@@ -469,7 +469,6 @@ export { default as ZoomInIcon } from './ZoomInIcon';
 export { default as ZoomOutIcon } from './ZoomOutIcon';
 
 // DEPRECATED ICONS
-export { default as AiSecurityIcon } from './deprecated/AiSecurityIcon';
 export { default as ApiIcon } from './deprecated/ApiIcon';
 export { default as ApiManagementIcon } from './deprecated/ApiManagementIcon';
 export { default as ConnectNoipIcon } from './deprecated/ConnectNoipIcon';
@@ -485,7 +484,6 @@ export { default as NasIcon } from './deprecated/NasIcon';
 export { default as RcaIcon } from './deprecated/RcaIcon';
 export { default as ResizeNeswIcon } from './deprecated/ResizeNeswIcon';
 export { default as ResizeNwseIcon } from './deprecated/ResizeNwseIcon';
-export { default as SecurityAiIcon } from './deprecated/SecurityAiIcon';
 export { default as TvIcon } from './deprecated/TvIcon';
 export { default as UrlIcon } from './deprecated/UrlIcon';
 export { default as UsbIcon } from './deprecated/UsbIcon';
