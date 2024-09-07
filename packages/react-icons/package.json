@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-icons",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Tonic icons distributed as SVG React components.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
