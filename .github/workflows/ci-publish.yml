@@ -1,0 +1,37 @@
+name: ci-publish
+
+on:
+  workflow_call:
+  workflow_dispatch:
+    branches:
+      - v2
+
+permissions:
+  contents: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Ensure the full git history is available
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install packages
+        run: |
+          yarn up
+          yarn install
+
+      - name: Publish packages
+        run: |
+          yarn ci-publish

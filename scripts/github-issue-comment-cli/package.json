@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "bin": "./bin/cli.js",
   "dependencies": {
-    "lodash.find": "^4.6.0",
     "octonode": "^0.10.2",
     "yargs": "^17.3.1"
   }

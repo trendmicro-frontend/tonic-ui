@@ -25,7 +25,7 @@ import { formatDistance, formatISO, startOfToday, subDays, subMinutes, subSecond
 import { ensureString } from 'ensure-type';
 import React, { useEffect } from 'react';
 
-const BASE_PATH = ensureString(process.env.BASE_PATH);
+const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
 const notifications = [
   {

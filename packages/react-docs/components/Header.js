@@ -32,11 +32,11 @@ import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
 
-const BASE_PATH = ensureString(process.env.BASE_PATH);
+const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
 const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 
-const TONIC_UI_REACT_DOCS_ROOT = ensureString(process.env.TONIC_UI_REACT_DOCS_ROOT);
+const TONIC_UI_REACT_DOCS_URL = ensureString(process.env.TONIC_UI_REACT_DOCS_URL);
 
 // The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
@@ -44,15 +44,15 @@ const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS
 const versionMap = {
   'v2': {
     label: 'v2',
-    url: `${TONIC_UI_REACT_DOCS_ROOT}/v2/getting-started`,
+    url: `${TONIC_UI_REACT_DOCS_URL}/v2/getting-started`,
   },
   'v1': {
     label: 'v1',
-    url: `${TONIC_UI_REACT_DOCS_ROOT}/v1/getting-started`,
+    url: `${TONIC_UI_REACT_DOCS_URL}/v1/getting-started`,
   },
   'v0': {
     label: 'v0',
-    url: `${TONIC_UI_REACT_DOCS_ROOT}/v0/getting-started`,
+    url: `${TONIC_UI_REACT_DOCS_URL}/v0/getting-started`,
   },
 };
 

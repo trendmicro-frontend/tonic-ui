@@ -5,7 +5,7 @@ import pkg from '../package.json';
 
 const resolveDependencies = (contents) => {
   const getTonicUIPackageVersion = (packageName, defaultPackageVersion = 'latest') => {
-    const commitShort = process.env.CI_PULL_REQUEST_NUMBER ? process.env.CI_COMMIT_SHORT : undefined;
+    const commitShort = process.env.CI_PULL_REQUEST_NUMBER ? ensureString(process.env.CI_COMMIT).substring(0, 8) : undefined;
     if (!commitShort) {
       return defaultPackageVersion;
     }
