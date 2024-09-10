@@ -31,7 +31,7 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
         with:
-          # Ensure the full git history is available so that `changesets` can generate changelogs with the correct commits
+          # Fetch the entire Git history to ensure `Changesets` can generate changelogs with the correct commits
           fetch-depth: 0
       - name: Setup Node
         id: setup-node

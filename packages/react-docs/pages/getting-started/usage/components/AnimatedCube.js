@@ -3,7 +3,7 @@ import { Box, Flex, Image, Text, Icon, useColorMode } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import React, { useContext } from 'react';
 
-const BASE_PATH = ensureString(process.env.BASE_PATH);
+const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
 const cubeSpin = keyframes`
   from { transform: rotateY(360deg); }

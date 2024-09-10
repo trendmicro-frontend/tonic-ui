@@ -39,7 +39,7 @@ const isElementInViewport = (el) => {
   );
 };
 
-const BASE_PATH = ensureString(process.env.BASE_PATH);
+const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
 const Sidebar = forwardRef((
   {
