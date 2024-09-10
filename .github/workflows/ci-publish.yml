@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Ensure the full git history is available
+          # Fetch the entire Git history to access the latest tag release
           fetch-depth: 0
 
       - name: Setup Node.js
