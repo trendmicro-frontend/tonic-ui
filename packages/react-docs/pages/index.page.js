@@ -63,7 +63,7 @@ import GitHubIcon from '../icons/GitHubIcon';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 
-const BASE_PATH = ensureString(process.env.BASE_PATH);
+const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
 const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 

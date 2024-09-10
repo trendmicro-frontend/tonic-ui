@@ -2,7 +2,7 @@ import { ensureString } from 'ensure-type';
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-const BASE_PATH = ensureString(process.env.BASE_PATH);
+const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 const MATOMO_URL = ensureString(process.env.MATOMO_URL);
 const MATOMO_CONTAINER_ID = ensureString(process.env.MATOMO_CONTAINER_ID);
 const NONCE = ensureString(process.env.NONCE);
