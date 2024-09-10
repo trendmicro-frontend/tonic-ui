@@ -41,7 +41,7 @@ jobs:
           echo "CI_COMMIT=${{ github.sha }}" >> $GITHUB_ENV
           echo "MATOMO_URL=//matomo.xdr.trendmicro.com" >> $GITHUB_ENV
           echo "MATOMO_CONTAINER_ID=N8rpl9LU" >> $GITHUB_ENV
-          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui/react-docs/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
+          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui/react/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
           echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
 
           # $GITHUB_OUTPUT is shared between all steps in a job
