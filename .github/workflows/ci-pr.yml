@@ -46,7 +46,7 @@ jobs:
           echo "CI_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
           echo "MATOMO_URL=//matomo.xdr.trendmicro.com" >> $GITHUB_ENV
           echo "MATOMO_CONTAINER_ID=N8rpl9LU" >> $GITHUB_ENV
-          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui-demo/react-docs/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
+          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui-demo/react/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
           echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
 
           # $GITHUB_OUTPUT is shared between all steps in a job
@@ -138,10 +138,10 @@ jobs:
 
       - name: Deploy to gh-pages
         run: |
-          rm -rf "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
-          mkdir -p "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
-          cp -af artifact/react-docs/** "react-docs/${TONIC_UI_REACT_DOCS_VERSION}/"
-          git add "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
+          rm -rf "react/${TONIC_UI_REACT_DOCS_VERSION}"
+          mkdir -p "react/${TONIC_UI_REACT_DOCS_VERSION}"
+          cp -af artifact/react-docs/** "react/${TONIC_UI_REACT_DOCS_VERSION}/"
+          git add "react/${TONIC_UI_REACT_DOCS_VERSION}"
           git commit -m "Deploy ${TONIC_UI_REACT_DOCS_VERSION} to gh-pages [skip ci]"
           git push origin gh-pages
           GIT_LOG_LAST_COMMIT_DATE=`git log --pretty=%ci -n 1`
@@ -152,4 +152,4 @@ jobs:
             --owner trendmicro-frontend \
             --repo tonic-ui \
             --issue-number ${CI_PULL_REQUEST_NUMBER} \
-            --comment "## Tonic UI Demo\nOn ${GIT_LOG_LAST_COMMIT_DATE}, PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT}) was successfully deployed. You can view it at the following link:\n${TONIC_UI_DEMO_PAGES_URL}/react-docs/${TONIC_UI_REACT_DOCS_VERSION}/\n"
+            --comment "## Tonic UI Demo\nOn ${GIT_LOG_LAST_COMMIT_DATE}, PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT}) was successfully deployed. You can view it at the following link:\n${TONIC_UI_DEMO_PAGES_URL}/react/${TONIC_UI_REACT_DOCS_VERSION}/\n"
