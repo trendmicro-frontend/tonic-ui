@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 
-const _find = require('lodash.find');
 const github = require('octonode');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers')
 
 const argv = yargs(hideBin(process.argv))
-  .option('login-user', {
+  .option('token', {
+    demandOption: false,
+    type: 'string',
+    description: 'GitHub personal access token for authentication. If not provided, the action will use the default GitHub token available in the environment.',
+  })
+  .option('pattern', {
     demandOption: true,
     type: 'string',
-    description: 'The login user name of the GitHub account',
+    description: 'The string pattern to search for within the PR',
   })
   .option('owner', {
     demandOption: true,
@@ -29,11 +33,11 @@ const argv = yargs(hideBin(process.argv))
   .option('comment', {
     demandOption: true,
     type: 'string',
-    description: 'The comment to create or update',
+    description: 'The issue comment',
   })
   .argv;
 const commentWithLineBreaks = String(argv.comment || '').replace(/\\n/g, '\n');
-const client = github.client(process.env.GH_TOKEN);
+const client = github.client(argv.token || process.env.GH_TOKEN);
 const ghissue = client.issue(`${argv.owner}/${argv.repo}`, argv.issueNumber);
 
 ghissue.comments((err, result) => {
@@ -43,7 +47,11 @@ ghissue.comments((err, result) => {
   }
 
   const comments = result;
-  const comment = _find(comments, { user: { login: argv.loginUser } });
+  const comment = comments.find(comment => {
+    if (comment.body.includes(argv.pattern)) {
+      return true;
+    }
+  });
 
   if (!comment) {
     ghissue.createComment({ body: commentWithLineBreaks }, (err, result) => {
