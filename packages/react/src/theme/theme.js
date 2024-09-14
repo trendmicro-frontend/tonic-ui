@@ -6,6 +6,7 @@ const theme = {
     prefix: 'tonic',
     useCSSVariables: false,
   },
+  components: {},
   icons: [],
 };
 
