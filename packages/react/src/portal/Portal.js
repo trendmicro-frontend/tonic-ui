@@ -3,17 +3,19 @@ import { getOwnerDocument, noop } from '@tonic-ui/utils';
 import React, { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import useForceUpdate from '../utils/useForceUpdate';
 import { PortalContext } from './context';
 
 const PORTAL_CLASSNAME = 'tonic-ui-portal';
 const PORTAL_SELECTOR = `.${PORTAL_CLASSNAME}`;
 
-const Portal = ({
-  appendToParentPortal = false,
-  children,
-  containerRef,
-}) => {
+const Portal = (inProps) => {
+  const {
+    appendToParentPortal = false,
+    children,
+    containerRef,
+  } = useDefaultProps({ props: inProps, name: 'Portal' });
   const [doc, setDoc] = useState(null);
   const portalRef = useRef(null);
   const parentPortal = useContext(PortalContext);

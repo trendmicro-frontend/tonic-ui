@@ -1,5 +1,6 @@
 import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
+import { useDefaultProps } from '../default-props';
 import Portal from './Portal';
 import { PortalManagerContext } from './context';
 
@@ -13,10 +14,11 @@ const uniqueId = (() => {
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const PortalManager = ({
-  children,
-  containerRef: containerRefProp,
-}) => {
+const PortalManager = (inProps) => {
+  const {
+    children,
+    containerRef: containerRefProp,
+  } = useDefaultProps({ props: inProps, name: 'PortalManager' });
   const [portals, setPortals] = useState([]);
   const add = useCallback((render, options) => {
     const id = options?.id ?? uniqueId();
