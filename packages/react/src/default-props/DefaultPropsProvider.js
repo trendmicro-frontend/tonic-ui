@@ -1,3 +1,4 @@
+import React from 'react';
 import { DefaultPropsContext } from './context';
 
 const DefaultPropsProvider = ({

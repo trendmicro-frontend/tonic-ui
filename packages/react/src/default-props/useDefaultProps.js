@@ -26,6 +26,9 @@ const useDefaultProps = ({ props, name }) => {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
 
+  if (!name || typeof name !== 'string') {
+    throw new Error('Invalid or missing component name provided to `useDefaultProps`');
+  }
   const context = useContext(DefaultPropsContext);
   if (!context) {
     return props;
