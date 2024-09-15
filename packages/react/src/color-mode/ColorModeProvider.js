@@ -1,6 +1,7 @@
 import { canUseDOM, noop } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useReducer } from 'react';
+import { useDefaultProps } from '../default-props';
 import { ColorModeContext } from './context';
 import { getColorScheme, colorSchemeQuery } from './utils';
 
@@ -18,13 +19,14 @@ const colorModeReducer = (state, nextValue) => {
   return ensureColorMode(nextValue);
 };
 
-const ColorModeProvider = ({
-  children,
-  defaultValue: defaultValueProp,
-  value: valueProp,
-  onChange: onChangeProp,
-  useSystemColorMode,
-}) => {
+const ColorModeProvider = (inProps) => {
+  const {
+    children,
+    defaultValue: defaultValueProp,
+    value: valueProp,
+    onChange: onChangeProp,
+    useSystemColorMode,
+  } = useDefaultProps({ props: inProps, name: 'ColorModeProvider' });
   const defaultColorMode = (defaultValueProp === 'dark') ? 'dark' : 'light';
   const [colorMode, setColorMode] = useReducer(colorModeReducer, ensureColorMode(valueProp ?? defaultColorMode));
 
