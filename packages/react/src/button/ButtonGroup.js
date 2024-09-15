@@ -2,6 +2,7 @@ import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { ButtonGroupContext } from './context';
 import { useButtonGroupStyle } from './styles';
 
@@ -11,16 +12,14 @@ const defaultOrientation = 'horizontal';
 const defaultSize = 'md';
 const defaultVariant = 'default';
 
-const ButtonGroup = forwardRef((
-  {
+const ButtonGroup = forwardRef((inProps, ref) => {
+  const {
     children,
     orientation = defaultOrientation,
     size = defaultSize,
     variant = defaultVariant,
     ...rest
-  },
-  ref
-) => {
+  } = useDefaultProps({ props: inProps, name: 'ButtonGroup' });
   const styleProps = useButtonGroupStyle({ orientation });
   const context = getMemoizedState({ orientation, size, variant });
 

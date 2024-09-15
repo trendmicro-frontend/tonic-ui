@@ -1,5 +1,6 @@
 import { ariaAttr, dataAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import ButtonBase from './ButtonBase';
 import { useButtonStyle } from './styles';
 import useButtonGroup from './useButtonGroup';
@@ -8,17 +9,18 @@ const defaultSize = 'md';
 const defaultVariant = 'default';
 const defaultOrientation = 'horizontal';
 
-const Button = forwardRef((
-  {
+const Button = forwardRef((inProps, ref) => {
+  const {
     disabled,
     selected,
-    size,
-    variant,
+    size: sizeProp,
+    variant: variantProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Button' });
+
   let orientation; // orientation for ButtonGroup
+  let size = sizeProp;
+  let variant = variantProp;
 
   const buttonGroupContext = useButtonGroup();
   if (buttonGroupContext) {
@@ -30,7 +32,7 @@ const Button = forwardRef((
     // Use fallback values if values are null or undefined
     size = (size ?? buttonGroupSize) ?? defaultSize;
     variant = (variant ?? buttonGroupVariant) ?? defaultVariant;
-    orientation = (orientation ?? buttonGroupOrientation) ?? defaultOrientation;
+    orientation = buttonGroupOrientation ?? defaultOrientation;
   } else {
     // Use the default value if the value is null or undefined
     size = size ?? defaultSize;
