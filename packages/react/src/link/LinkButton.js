@@ -1,9 +1,11 @@
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import Link from './Link';
 import { useLinkButtonStyle } from './styles';
 
-const LinkButton = forwardRef((props, ref) => {
+const LinkButton = forwardRef((inProps, ref) => {
+  const props = useDefaultProps({ props: inProps, name: 'LinkButton' });
   const styleProps = useLinkButtonStyle();
 
   return (
