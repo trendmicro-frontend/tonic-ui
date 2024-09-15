@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import {
+  useConst,
   useMediaQuery,
   useToggle,
 } from '@tonic-ui/react-hooks';
@@ -48,8 +49,6 @@ theme.components = {
 // Enable CSS variables replacement
 theme.config.useCSSVariables = true;
 
-
-
 const EmotionCacheProvider = ({
   children,
   nonce,
@@ -67,6 +66,28 @@ const EmotionCacheProvider = ({
 };
 
 const App = (props) => {
+  const customTheme = useConst(() => {
+    return {
+      ...theme,
+      components: {
+        // Set default props for components here.
+        //
+        // Example:
+        // ```
+        // 'AccordionToggle': {
+        //   defaultProps: {
+        //     disabled: true,
+        //   },
+        // }
+        // ```
+      },
+      config: {
+        ...theme?.config,
+        // Enable CSS variables replacement
+        useCSSVariables: true,
+      },
+    };
+  });
   const [initialColorMode, setColorMode] = useState(null);
   const router = useRouter();
 
@@ -109,7 +130,7 @@ const App = (props) => {
           colorStyle={{
             defaultValue: defaultColorStyle,
           }}
-          theme={theme}
+          theme={customTheme}
           useCSSBaseline
         >
           <PortalManager>
