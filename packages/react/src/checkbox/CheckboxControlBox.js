@@ -11,16 +11,14 @@ import {
   useCheckboxControlBoxStyle,
 } from './styles';
 
-const CheckboxControlBox = forwardRef((
-  {
+const CheckboxControlBox = forwardRef((inProps, ref) => {
+  const {
     indeterminate,
     size = defaultSize,
     variantColor = defaultVariantColor,
     sx: sxProp,
     ...rest
-  },
-  ref,
-) => {
+  } = inProps;
   const { sizes } = useTheme();
   const [colorMode] = useColorMode();
   const iconSize = {

@@ -3,37 +3,43 @@ import { callAll, dataAttr, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { VisuallyHidden } from '../visually-hidden';
 import CheckboxControlBox from './CheckboxControlBox';
 import { defaultSize, defaultVariantColor } from './constants';
 import useCheckboxGroup from './useCheckboxGroup';
 import { useCheckboxStyle } from './styles';
 
-const Checkbox = forwardRef((
-  {
-    checked,
+const Checkbox = forwardRef((inProps, ref) => {
+  const {
+    checked: checkedProp,
     children,
     defaultChecked,
-    disabled,
+    disabled: disabledProp,
     id,
     indeterminate,
     inputProps,
     inputRef: inputRefProp,
-    name,
+    name: nameProp,
     onBlur,
-    onChange,
+    onChange: onChangeProp,
     onClick,
     onFocus,
-    size,
+    size: sizeProp,
     value,
-    variantColor,
+    variantColor: variantColorProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Checkbox' });
+
+  let checked = checkedProp;
+  let disabled = disabledProp;
+  let name = nameProp;
+  let onChange = onChangeProp;
+  let size = sizeProp;
+  let variantColor = variantColorProp;
+
   const inputRef = useRef();
   const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
-  const styleProps = useCheckboxStyle({ disabled });
   const checkboxGroupContext = useCheckboxGroup();
 
   if (checkboxGroupContext) {
@@ -62,6 +68,7 @@ const Checkbox = forwardRef((
     size = size ?? defaultSize;
     variantColor = variantColor ?? defaultVariantColor;
   }
+  const styleProps = useCheckboxStyle({ disabled });
 
   return (
     <Box
