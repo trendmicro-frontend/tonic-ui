@@ -1,22 +1,21 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useBadgeStyle,
   useBadgeContentStyle,
   useBadgeContentPlacementStyle,
 } from './styles';
 
-const Badge = forwardRef((
-  {
+const Badge = forwardRef((inProps, ref) => {
+  const {
     badgeContent: badgeContentProp,
     children,
     isInvisible: isInvisibleProp,
     placement = 'top-right', // One of: 'top-left', 'top-right', 'bottom-left', 'bottom-right'
     variant = 'solid',
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Badge' });
   const badgeContent = (variant === 'dot') ? null : badgeContentProp;
   const isInvisible = isInvisibleProp ?? (() => {
     if ((badgeContent === null || badgeContent === undefined) && (variant !== 'dot')) {
