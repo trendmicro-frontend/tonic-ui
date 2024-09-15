@@ -19,6 +19,7 @@ import subMonths from 'date-fns/subMonths';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
+import { useDefaultProps } from '../../default-props';
 import { validateDate } from '../validation';
 import { CalendarProvider } from './context';
 import MonthDate from './MonthDate';
@@ -45,9 +46,9 @@ const mapValueToEndOfDay = (value) => {
   return (isDate(date) && isValid(date)) ? endOfDay(date) : null;
 };
 
-const Calendar = forwardRef((
-  {
-    children, // not used
+const Calendar = forwardRef((inProps, ref) => {
+  const {
+    children, // eslint-disable-line no-unused-vars
     date: dateProp,
     defaultDate: defaultDateProp,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday, ...
@@ -58,9 +59,7 @@ const Calendar = forwardRef((
     onError: onErrorProp,
     shouldDisableDate,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Calendar' });
   const initialDate = useConst(() => {
     const value = dateProp ?? defaultDateProp;
     return mapValueToDate(value);

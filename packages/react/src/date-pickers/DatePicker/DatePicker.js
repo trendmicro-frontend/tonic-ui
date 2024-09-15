@@ -9,6 +9,7 @@ import startOfDay from 'date-fns/startOfDay';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
+import { useDefaultProps } from '../../default-props';
 import config from '../../shared/config';
 import useAutoId from '../../utils/useAutoId';
 import Calendar from '../Calendar';
@@ -61,9 +62,9 @@ const mapValueToEndOfDay = (value) => {
   return (isDate(date) && isValid(date)) ? endOfDay(date) : null;
 };
 
-const DatePicker = forwardRef((
-  {
-    children, // not used
+const DatePicker = forwardRef((inProps, ref) => {
+  const {
+    children, // eslint-disable-line no-unused-vars
     closeOnSelect = false, // Note: The default value will be changed to true in the next major release
     defaultValue: defaultValueProp,
     firstDayOfWeek,
@@ -79,9 +80,7 @@ const DatePicker = forwardRef((
     shouldDisableDate,
     value: valueProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'DatePicker' });
   const datePickerContentRef = useRef(null);
   const datePickerToggleRef = useRef(null);
   const initialValue = useConst(() => {
