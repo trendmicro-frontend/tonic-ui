@@ -1,8 +1,10 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useCodeStyle } from './styles';
 
-const Code = forwardRef((props, ref) => {
+const Code = forwardRef((inProps, ref) => {
+  const props = useDefaultProps({ props: inProps, name: 'Code' });
   const styleProps = useCodeStyle();
 
   return (
