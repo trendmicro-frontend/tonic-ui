@@ -1,17 +1,16 @@
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { Collapse } from '../transitions';
 import useAccordionItem from './useAccordionItem';
 
-const AccordionContent = forwardRef((
-  {
+const AccordionContent = forwardRef((inProps, ref) => {
+  const {
     TransitionComponent = Collapse,
     TransitionProps,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'AccordionContent' });
   const context = useAccordionItem(); // context might be an undefined value
 
   if (!context) {

@@ -2,18 +2,17 @@ import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { AccordionContext } from './context';
 import { useAccordionStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const Accordion = forwardRef((
-  {
+const Accordion = forwardRef((inProps, ref) => {
+  const {
     children,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Accordion' });
   const context = getMemoizedState({
     // TODO
   });
