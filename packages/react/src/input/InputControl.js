@@ -1,13 +1,14 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import InputBase from './InputBase';
 import { defaultSize, defaultVariant } from './constants';
 import { getInputGroupCSS, useInputControlBaseCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
 import useInputGroup from './useInputGroup';
 
-const InputControl = forwardRef((
-  {
+const InputControl = forwardRef((inProps, ref) => {
+  const {
     // InputBase (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
     autoComplete: autoCompleteProp,
     autoFocus: autoFocusProp,
@@ -47,9 +48,7 @@ const InputControl = forwardRef((
     startAdornment,
     variant: variantProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'InputControl' });
   const nodeRef = useRef();
   const combinedInputRef = useMergeRefs(nodeRef, inputRefProp);
   const [focused, setFocused] = useState(false);

@@ -1,18 +1,17 @@
 import React, { forwardRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import InputBase from './InputBase';
 import { getInputGroupCSS, useInputStyle } from './styles';
 import useInputGroup from './useInputGroup';
 import { defaultSize, defaultVariant } from './constants';
 
-const Input = forwardRef((
-  {
+const Input = forwardRef((inProps, ref) => {
+  const {
     size: sizeProp,
     variant: variantProp,
     css: cssProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Input' });
   const inputGroupContext = useInputGroup();
   const {
     size: inputGroupSize,
