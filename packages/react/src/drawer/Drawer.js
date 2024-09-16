@@ -2,6 +2,7 @@ import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
+import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';
 import DrawerContainer from './DrawerContainer';
@@ -12,8 +13,8 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const defaultPlacement = 'right';
 const defaultSize = 'auto';
 
-const Drawer = forwardRef((
-  {
+const Drawer = forwardRef((inProps, ref) => {
+  const {
     autoFocus = false,
     backdrop = false,
     children,
@@ -30,9 +31,7 @@ const Drawer = forwardRef((
     returnFocusOnClose = true,
     size = defaultSize,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Drawer' });
   const [isMounted, setIsMounted] = useState(isOpen);
   const containerRef = useRef();
   const contentRef = useRef(null);

@@ -1,6 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll } from '@tonic-ui/utils';
 import React, { forwardRef, useRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import { useAnimatePresence } from '../utils/animate-presence';
 import { Fade } from '../transitions';
 import {
@@ -8,11 +9,12 @@ import {
 } from './styles';
 import useDrawer from './useDrawer';
 
-const DrawerOverlay = forwardRef(({
-  TransitionComponent = Fade,
-  TransitionProps,
-  ...rest
-}, ref) => {
+const DrawerOverlay = forwardRef((inProps, ref) => {
+  const {
+    TransitionComponent = Fade,
+    TransitionProps,
+    ...rest
+  } = useDefaultProps({ props: inProps, name: 'DrawerOverlay' });
   const drawerContext = useDrawer(); // context might be an undefined value
   const {
     isOpen,
