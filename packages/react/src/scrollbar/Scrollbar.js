@@ -2,6 +2,7 @@ import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useContainerStyle,
   useScrollViewStyle,
@@ -18,8 +19,8 @@ import VerticalTrack from './VerticalTrack';
 import HorizontalThumb from './HorizontalThumb';
 import VerticalThumb from './VerticalThumb';
 
-const Scrollbar = forwardRef((
-  {
+const Scrollbar = forwardRef((inProps, ref) => {
+  const {
     children,
     width = 'auto',
     height = 'auto',
@@ -32,15 +33,17 @@ const Scrollbar = forwardRef((
     onScroll,
     onUpdate,
     overflow = 'auto',
-    overflowX,
-    overflowY,
+    overflowX: overflowXProp,
+    overflowY: overflowYProp,
     scrollLeft: scrollLeftProp,
     scrollTop: scrollTopProp,
     scrollViewRef: scrollViewRefProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Scrollbar' });
+
+  let overflowX = overflowXProp;
+  let overflowY = overflowYProp;
+
   { // Adjust overflow values
     overflowX = overflowX ?? overflow;
     overflowY = overflowY ?? overflow;
