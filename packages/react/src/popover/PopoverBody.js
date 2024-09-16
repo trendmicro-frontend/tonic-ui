@@ -1,8 +1,10 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { usePopoverBodyStyle } from './styles';
 
-const PopoverBody = forwardRef((props, ref) => {
+const PopoverBody = forwardRef((inProps, ref) => {
+  const props = useDefaultProps({ props: inProps, name: 'PopoverBody' });
   const styleProps = usePopoverBodyStyle({});
 
   return (

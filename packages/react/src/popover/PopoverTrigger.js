@@ -2,12 +2,13 @@ import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { mergeRefs } from '../utils/refs';
 import { usePopoverTriggerStyle } from './styles';
 import usePopover from './usePopover';
 
-const PopoverTrigger = forwardRef((
-  {
+const PopoverTrigger = forwardRef((inProps, ref) => {
+  const {
     children,
     shouldWrapChildren = false,
     onBlur: onBlurProp,
@@ -18,9 +19,7 @@ const PopoverTrigger = forwardRef((
     onMouseLeave: onMouseLeaveProp,
     onMouseMove: onMouseMoveProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'PopoverTrigger' });
   const {
     followCursor,
     isHoveringContentRef,
