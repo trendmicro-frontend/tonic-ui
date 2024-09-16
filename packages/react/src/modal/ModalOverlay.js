@@ -2,6 +2,7 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, getComputedStyle } from '@tonic-ui/utils';
 import { ensurePositiveNumber } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
 import {
@@ -9,14 +10,12 @@ import {
 } from './styles';
 import useModal from './useModal';
 
-const ModalOverlay = forwardRef((
-  {
+const ModalOverlay = forwardRef((inProps, ref) => {
+  const {
     TransitionComponent = Fade,
     TransitionProps,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'ModalOverlay' });
   const [, safeToRemove] = useAnimatePresence();
   const modalContext = useModal(); // context might be an undefined value
   const {

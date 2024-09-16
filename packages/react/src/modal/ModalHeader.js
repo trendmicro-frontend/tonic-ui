@@ -1,11 +1,13 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useModalHeaderStyle,
 } from './styles';
 import useModal from './useModal';
 
-const ModalHeader = forwardRef((props, ref) => {
+const ModalHeader = forwardRef((inProps, ref) => {
+  const props = useDefaultProps({ props: inProps, name: 'ModalHeader' });
   const modalContext = useModal(); // context might be an undefined value
   const {
     isClosable,

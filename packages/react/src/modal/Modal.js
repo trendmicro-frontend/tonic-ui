@@ -2,6 +2,7 @@ import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
+import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';
 import ModalContainer from './ModalContainer';
@@ -12,8 +13,8 @@ const getMemoizedState = memoize(state => ({ ...state }));
 const defaultScrollBehavior = 'inside';
 const defaultSize = 'auto';
 
-const Modal = forwardRef((
-  {
+const Modal = forwardRef((inProps, ref) => {
+  const {
     autoFocus = false,
     children,
     closeOnEsc = false,
@@ -29,9 +30,7 @@ const Modal = forwardRef((
     scrollBehavior = defaultScrollBehavior,
     size = defaultSize,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Modal' });
   const [isMounted, setIsMounted] = useState(isOpen);
   const containerRef = useRef();
   const contentRef = useRef();
