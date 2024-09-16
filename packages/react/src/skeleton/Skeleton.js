@@ -2,20 +2,22 @@ import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useSkeletonStyle,
 } from './styles';
 
 const defaultVariant = 'text';
 
-const Skeleton = forwardRef((
-  {
+const Skeleton = forwardRef((inProps, ref) => {
+  const {
     animation,
-    variant,
+    variant: variantProp = defaultVariant,
     ...rest
-  },
-  ref
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Skeleton' });
+
+  let variant = variantProp;
+
   { // deprecation warning
     const prefix = `${Skeleton.displayName}:`;
 
@@ -31,9 +33,6 @@ const Skeleton = forwardRef((
       variant = 'rectangle';
     }
   }
-
-  // Use fallback values if values are null or undefined
-  variant = variant ?? defaultVariant;
 
   const styleProps = useSkeletonStyle({ animation, variant });
 
