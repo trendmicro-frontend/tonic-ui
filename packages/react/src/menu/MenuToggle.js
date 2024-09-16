@@ -3,21 +3,20 @@ import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import {
   useMenuToggleStyle,
 } from './styles';
 import useMenu from './useMenu';
 
-const MenuToggle = forwardRef((
-  {
+const MenuToggle = forwardRef((inProps, ref) => {
+  const {
     children,
     disabled,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'MenuToggle' });
   const menuContext = useMenu(); // context might be an undefined value
   const {
     autoSelect,

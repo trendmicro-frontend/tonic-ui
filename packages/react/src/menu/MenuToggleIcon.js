@@ -10,6 +10,7 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 import { isValidElementType } from 'react-is';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useMenuToggleIconStyle,
 } from './styles';
@@ -56,8 +57,8 @@ const defaultTimeout = {
   exit: Math.floor(133 * 0.7),
 };
 
-const MenuToggleIcon = forwardRef((
-  {
+const MenuToggleIcon = forwardRef((inProps, ref) => {
+  const {
     appear = false, // do not perform the enter transition when it first mounts
     children,
     disabled,
@@ -65,9 +66,7 @@ const MenuToggleIcon = forwardRef((
     style,
     timeout = defaultTimeout,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'MenuToggleIcon' });
   const menuContext = useMenu(); // context might be an undefined value
   const {
     isOpen,

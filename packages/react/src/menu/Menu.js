@@ -4,6 +4,7 @@ import { ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import { MenuContext } from './context';
@@ -21,8 +22,8 @@ const mapPlacementToDirection = (placement) => {
   return direction;
 };
 
-const Menu = forwardRef((
-  {
+const Menu = forwardRef((inProps, ref) => {
+  const {
     anchorEl,
     autoSelect = false,
     children,
@@ -37,9 +38,7 @@ const Menu = forwardRef((
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
     returnFocusOnClose = true,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Menu' });
   const menuContentRef = useRef(null);
   const menuToggleRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);

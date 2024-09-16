@@ -2,19 +2,18 @@ import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import { useMenuItemStyle } from './styles';
 import useMenu from './useMenu';
 
-const MenuItem = forwardRef((
-  {
+const MenuItem = forwardRef((inProps, ref) => {
+  const {
     disabled,
     onClick,
     onKeyDown,
     role = 'menuitem',
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'MenuItem' });
   const menuContext = useMenu(); // context might be an undefined value
   const {
     closeOnSelect,

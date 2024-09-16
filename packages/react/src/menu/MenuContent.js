@@ -2,13 +2,14 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import { useMenuContentStyle } from './styles';
 import useMenu from './useMenu';
 
-const MenuContent = forwardRef((
-  {
+const MenuContent = forwardRef((inProps, ref) => {
+  const {
     PopperComponent = Popper,
     PopperProps,
     TransitionComponent = Collapse,
@@ -17,9 +18,7 @@ const MenuContent = forwardRef((
     onBlur: onBlurProp,
     onKeyDown: onKeyDownProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'MenuContent' });
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const menuContext = useMenu(); // context might be an undefined value

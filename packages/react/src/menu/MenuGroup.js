@@ -1,15 +1,14 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useMenuGroupStyle } from './styles';
 
-const MenuGroup = forwardRef((
-  {
+const MenuGroup = forwardRef((inProps, ref) => {
+  const {
     children,
     title,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'MenuGroup' });
   const styleProps = useMenuGroupStyle();
 
   return (
