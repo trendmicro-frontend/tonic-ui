@@ -1,14 +1,13 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useTextStyle } from './styles';
 
-const Text = forwardRef((
-  {
+const Text = forwardRef((inProps, ref) => {
+  const {
     size,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Text' });
   const styleProps = useTextStyle({ size });
 
   return (
