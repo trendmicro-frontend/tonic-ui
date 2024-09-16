@@ -1,19 +1,15 @@
 import React, { forwardRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import { InputBase } from '../input';
 import { useTextareaStyle } from './styles';
 
 const defaultVariant = 'outline';
 
-const Textarea = forwardRef((
-  {
-    variant,
+const Textarea = forwardRef((inProps, ref) => {
+  const {
+    variant = defaultVariant,
     ...rest
-  },
-  ref,
-) => {
-  // Use the default variant if variant is null or undefined
-  variant = variant ?? defaultVariant;
-
+  } = useDefaultProps({ props: inProps, name: 'Textarea' });
   const styleProps = useTextareaStyle({ variant });
 
   return (
