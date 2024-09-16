@@ -3,6 +3,7 @@ import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps,
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -41,8 +42,8 @@ const defaultTimeout = {
 
 const Wrapper = forwardRef((props, ref) => <Box ref={ref} {...props} />);
 
-const Collapse = forwardRef((
-  {
+const Collapse = forwardRef((inProps, ref) => {
+  const {
     appear = false, // do not perform the enter transition when it first mounts
     children,
     collapsedHeight = 0,
@@ -51,9 +52,7 @@ const Collapse = forwardRef((
     style,
     timeout = defaultTimeout,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Collapse' });
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const wrapperRef = useRef(null);

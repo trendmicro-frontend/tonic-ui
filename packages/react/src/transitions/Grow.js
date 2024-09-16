@@ -4,6 +4,7 @@ import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 
 const getScale = value => {
   return `scale(${value}, ${value ** 2})`;
@@ -47,8 +48,8 @@ const getAutoHeightDuration = height => {
   return Math.round((4 + 15 * (value ** 0.25) + value / 5) * 10);
 };
 
-const Grow = forwardRef((
-  {
+const Grow = forwardRef((inProps, ref) => {
+  const {
     appear = false, // do not perform the enter transition when it first mounts
     children,
     easing = defaultEasing,
@@ -56,9 +57,7 @@ const Grow = forwardRef((
     style,
     timeout = 'auto',
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Grow' });
   const timer = useRef(null);
   const autoTimeout = useRef(0);
   const nodeRef = useRef(null);
