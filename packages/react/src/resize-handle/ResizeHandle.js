@@ -1,20 +1,19 @@
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useResizeHandleStyle } from './styles';
 import { getIsPassiveListenerSupported } from './utils';
 
-const ResizeHandle = forwardRef((
-  {
+const ResizeHandle = forwardRef((inProps, ref) => {
+  const {
     onMouseDown: onMouseDownProp,
     onResize: onResizeProp,
     onResizeEnd: onResizeEndProp,
     onResizeStart: onResizeStartProp,
     onTouchStart: onTouchStartProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'ResizeHandle' });
   const [isResizing, setIsResizing] = useState(false);
   const styleProps = useResizeHandleStyle({ isResizing });
 
