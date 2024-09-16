@@ -8,6 +8,7 @@ import {
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Button } from '../button';
+import { useDefaultProps } from '../default-props';
 import {
   usePaginationItemStyle,
 } from './styles';
@@ -34,8 +35,8 @@ const getAriaLabel = ({ type, page, selected }) => {
   return `Go to ${type} page`;
 };
 
-const PaginationItem = forwardRef((
-  {
+const PaginationItem = forwardRef((inProps, ref) => {
+  const {
     'aria-label': ariaLabel,
     disabled = false,
     type = 'page',
@@ -44,9 +45,7 @@ const PaginationItem = forwardRef((
     slot: slotProp,
     variant = 'ghost',
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'PaginationItem' });
   const slot = {
     ...defaultSlot,
     ...slotProp,
