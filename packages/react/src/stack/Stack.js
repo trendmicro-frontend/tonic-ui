@@ -1,21 +1,20 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import StackItem from './StackItem';
 import { useStackStyle } from './styles';
 
 const defaultDirection = 'column';
 
-const Stack = forwardRef((
-  {
+const Stack = forwardRef((inProps, ref) => {
+  const {
     children,
     direction: directionProp,
     flexDirection: flexDirectionProp,
     shouldWrapChildren,
     spacing = 0,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Stack' });
   const direction = (flexDirectionProp ?? directionProp) ?? defaultDirection;
   const styleProps = useStackStyle({ direction, spacing });
 
