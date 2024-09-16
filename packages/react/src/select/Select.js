@@ -3,22 +3,24 @@ import { AngleDownIcon } from '@tonic-ui/react-icons';
 import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { getIconWrapperProps, useSelectStyle } from './styles';
 import splitProps from './split-props';
 
 const defaultVariant = 'outline';
 
-const Select = forwardRef((
-  {
+const Select = forwardRef((inProps, ref) => {
+  const {
     isInvalid, // deprecated
 
     children,
-    error,
-    variant,
+    error: errorProp,
+    variant = defaultVariant,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Select' });
+
+  let error = errorProp;
+
   { // deprecation warning
     const prefix = `${Select.displayName}:`;
 
@@ -32,9 +34,6 @@ const Select = forwardRef((
 
     error = error || isInvalid; // TODO: remove this line after deprecation
   }
-
-  // Use fallback values if values are null or undefined
-  variant = variant ?? defaultVariant;
 
   const iconWrapperProps = getIconWrapperProps();
   const ariaProps = {
