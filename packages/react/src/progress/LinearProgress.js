@@ -1,6 +1,7 @@
 import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useLinearProgressStyle,
   useLinearProgressBarStyle,
@@ -9,8 +10,8 @@ import {
 const defaultSize = 'sm';
 const defaultVariant = 'indeterminate';
 
-const LinearProgress = forwardRef((
-  {
+const LinearProgress = forwardRef((inProps, ref) => {
+  const {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     color = 'blue:60',
@@ -20,9 +21,7 @@ const LinearProgress = forwardRef((
     value,
     variant = defaultVariant,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'LinearProgress' });
   const progressStyleProps = useLinearProgressStyle({ size });
   const progressbarStyleProps = useLinearProgressBarStyle({ color, variant });
   const progressbarProps = {
