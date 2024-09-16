@@ -1,5 +1,6 @@
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
@@ -13,8 +14,8 @@ const getMemoizedState = memoize(state => ({ ...state }));
 
 const defaultPlacement = 'bottom';
 
-const Tooltip = forwardRef((
-  {
+const Tooltip = forwardRef((inProps, ref) => {
+  const {
     // TooltipContent props
     PopperComponent = Popper,
     PopperProps,
@@ -46,9 +47,7 @@ const Tooltip = forwardRef((
     openOnFocus = true,
     placement = defaultPlacement,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Tooltip' });
   const tooltipContentRef = useRef(null);
   const tooltipTriggerRef = useRef(null);
   const [mousePageX, setMousePageX] = useState(0);
