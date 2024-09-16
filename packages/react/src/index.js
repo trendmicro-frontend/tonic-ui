@@ -10,7 +10,6 @@ export * from './color-mode';
 export * from './color-style';
 export * from './css-baseline';
 export * from './date-pickers';
-export * from './default-props';
 export * from './divider';
 export * from './drawer';
 export * from './flex';

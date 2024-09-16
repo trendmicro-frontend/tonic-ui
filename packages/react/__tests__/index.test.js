@@ -64,10 +64,6 @@ test('should match expected exports', () => {
     'Calendar',
     'DatePicker',
 
-    // default-props
-    'DefaultPropsProvider',
-    'useDefaultProps',
-
     // divider
     'Divider',
 
