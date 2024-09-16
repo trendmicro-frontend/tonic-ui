@@ -1,11 +1,14 @@
 import { ensureString } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 
-const ToastContainer = forwardRef(({
-  placement,
-  ...rest
-}, ref) => {
+const ToastContainer = forwardRef((inProps, ref) => {
+  const {
+    placement: placementProp,
+    ...rest
+  } = useDefaultProps({ props: inProps, name: 'ToastContainer' });
+
   const styleProps = {
     boxSizing: 'border-box',
     maxHeight: '100%',
@@ -15,7 +18,7 @@ const ToastContainer = forwardRef(({
     zIndex: 'toast',
   };
 
-  placement = ensureString(placement);
+  const placement = ensureString(placementProp);
 
   if (placement.includes('top')) {
     styleProps.top = 0;

@@ -7,6 +7,7 @@ import { isElement, isValidElementType } from 'react-is';
 import {
   TransitionGroup,
 } from 'react-transition-group';
+import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
@@ -40,13 +41,14 @@ const getToastPlacementByState = (state, id) => {
   return toast?.placement;
 };
 
-const ToastManager = ({
-  TransitionComponent = ToastTransition,
-  TransitionProps,
-  children,
-  containerRef,
-  placement: placementProp = defaultPlacement,
-}) => {
+const ToastManager = (inProps) => {
+  const {
+    TransitionComponent = ToastTransition,
+    TransitionProps,
+    children,
+    containerRef,
+    placement: placementProp = defaultPlacement,
+  } = useDefaultProps({ props: inProps, name: 'ToastManager' });
   const isHydrated = useHydrated();
   const [state, setState] = useState(() => (
     placements.reduce((acc, placement) => {

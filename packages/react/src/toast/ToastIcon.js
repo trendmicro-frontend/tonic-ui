@@ -6,13 +6,15 @@ import {
 } from '@tonic-ui/react-icons';
 import React, { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { Icon } from '../icon';
 import {
   useToastIconStyle,
 } from './styles';
 import useToast from './useToast';
 
-const ToastIcon = forwardRef((props, ref) => {
+const ToastIcon = forwardRef((inProps, ref) => {
+  const props = useDefaultProps({ props: inProps, name: 'ToastIcon' });
   const toastContext = useToast(); // context might be an undefined value
   const {
     appearance,
