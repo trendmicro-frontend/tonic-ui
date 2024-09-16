@@ -7,20 +7,14 @@
 const resolveProps = (defaultProps, props) => {
   const output = { ...props };
 
-  for (const key in defaultProps) {
-    if (!Object.prototype.hasOwnProperty.call(defaultProps, key)) {
-      continue;
-    }
-
-    const propName = key;
-
+  for (const [propName, defaultValue] of Object.entries(defaultProps)) {
     if (propName === 'slots') {
       output[propName] = {
-        ...(defaultProps[propName] || {}),
+        ...(defaultValue || {}),
         ...(output[propName] || {}),
       };
     } else if (propName === 'slotProps') {
-      const defaultSlotProps = defaultProps[propName];
+      const defaultSlotProps = defaultValue;
       const slotProps = props[propName];
 
       if (!slotProps) {
@@ -38,7 +32,7 @@ const resolveProps = (defaultProps, props) => {
         }
       }
     } else if (output[propName] === undefined) {
-      output[propName] = defaultProps[propName];
+      output[propName] = defaultValue;
     }
   }
 

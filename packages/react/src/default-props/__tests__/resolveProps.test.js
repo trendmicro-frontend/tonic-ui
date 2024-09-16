@@ -2,78 +2,93 @@ import resolveProps from '../resolveProps';
 
 describe('resolveProps', () => {
   it('use default props if no props', () => {
-    expect(resolveProps({ foo: 'foo' }, {})).toEqual({
+    const defaultProps = { foo: 'foo' };
+    const props = {};
+    expect(resolveProps(defaultProps, props)).toEqual({
       foo: 'foo',
     });
   });
 
   it('use props if defined', () => {
-    expect(resolveProps({ foo: 'foo' }, { foo: 'bar' })).toEqual({
+    const defaultProps = { foo: 'foo' };
+    const props = { foo: 'bar' };
+    expect(resolveProps(defaultProps, props)).toEqual({
       foo: 'bar',
     });
   });
 
   it('merge extra props', () => {
-    expect(resolveProps({ foo: 'foo' }, { foo: 'bar', bar: 'bar' })).toEqual({
+    const defaultProps = { foo: 'foo' };
+    const props = { foo: 'bar', bar: 'bar' };
+    expect(resolveProps(defaultProps, props)).toEqual({
       foo: 'bar',
       bar: 'bar',
     });
   });
 
   it('use default props if prop value is undefined', () => {
-    expect(resolveProps({ foo: 'foo' }, { foo: undefined })).toEqual({
+    const defaultProps = { foo: 'foo' };
+    const props = { foo: undefined };
+    expect(resolveProps(defaultProps, props)).toEqual({
       foo: 'foo',
     });
   });
 
   it('use props if default value is undefined', () => {
-    expect(resolveProps({ foo: undefined }, { foo: 'bar' })).toEqual({
+    const defaultProps = { foo: undefined };
+    const props = { foo: 'bar' };
+    expect(resolveProps(defaultProps, props)).toEqual({
       foo: 'bar',
     });
   });
 
   it('null is a considered a valid value', () => {
-    expect(resolveProps({ foo: 'foo' }, { foo: null })).toEqual({
+    const defaultProps = { foo: 'foo' };
+    const props = { foo: null };
+    expect(resolveProps(defaultProps, props)).toEqual({
       foo: null,
     });
   });
 
   it('"" is a considered a valid value', () => {
-    expect(resolveProps({ foo: 'foo' }, { foo: '' })).toEqual({
+    const defaultProps = { foo: 'foo' };
+    const props = { foo: '' };
+    expect(resolveProps(defaultProps, props)).toEqual({
       foo: '',
     });
   });
 
   it('merge `slots` and `slotProps` props', () => {
-    expect(
-      resolveProps(
-        {
-          slots: {
-            input: 'input',
-          },
-          slotProps: {
-            input: {
-              className: 'input',
-            },
-          },
-        },
-        {
-          slots: {
-            root: 'root',
-          },
-          slotProps: {
-            root: {
-              className: 'root',
-            },
-            input: {
-              style: {
-                color: 'red',
-              },
-            },
+    const defaultProps = {
+      slots: {
+        input: 'input',
+      },
+      slotProps: {
+        input: {
+          className: 'input',
+          style: {
+            fontSize: 'sm',
           },
         },
-      ),
-    ).toEqual({
+      },
+    };
+    const props = {
+      slots: {
+        root: 'root',
+      },
+      slotProps: {
+        root: {
+          className: 'root',
+        },
+        input: {
+          style: {
+            color: 'red',
+          },
+        },
+      },
+    };
+
+    expect(resolveProps(defaultProps, props)).toEqual({
       slots: {
         root: 'root',
         input: 'input',
