@@ -4,6 +4,7 @@ import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { Descendant } from '../utils/descendant';
 import useAutoId from '../utils/useAutoId';
 import { TreeContext } from './context';
@@ -11,8 +12,8 @@ import { useTreeStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const Tree = forwardRef((
-  {
+const Tree = forwardRef((inProps, ref) => {
+  const {
     defaultExpanded = [],
     defaultSelected = [],
     expanded: expandedProp,
@@ -28,9 +29,7 @@ const Tree = forwardRef((
     onNodeToggle: onNodeToggleProp,
     selected: selectedProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Tree' });
   const treeId = useAutoId(idProp);
   const [focusedNodeId, setFocusedNodeId] = useState(null);
   const [expandedNodeIds, setExpandedNodeIds] = useState(ensureArray(expandedProp ?? defaultExpanded));

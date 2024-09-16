@@ -1,20 +1,19 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import {
   useTreeItemToggleStyle,
 } from './styles';
 import useTreeItem from './useTreeItem';
 
-const TreeItemToggle = forwardRef((
-  {
+const TreeItemToggle = forwardRef((inProps, ref) => {
+  const {
     children,
     disabled,
     onClick: onClickProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TreeItemToggle' });
   const {
     isExpanded,
     toggleExpansion,
