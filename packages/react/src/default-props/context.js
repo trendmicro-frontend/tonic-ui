@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-const DefaultPropsContext = createContext();
+const DefaultPropsContext = createContext({});
 
 export {
   DefaultPropsContext,
