@@ -1,15 +1,14 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useTabListStyle } from './styles';
 import useTabs from './useTabs';
 
-const TabList = forwardRef((
-  {
+const TabList = forwardRef((inProps, ref) => {
+  const {
     'aria-label': ariaLabel,
     ...rest
-  },
-  ref
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TabList' });
   const context = useTabs();
   const orientation = context?.orientation;
   const styleProps = useTabListStyle({ orientation });

@@ -3,22 +3,21 @@ import { ariaAttr, callEventHandlers, isNullOrUndefined, warnDeprecatedProps } f
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
 import { useTabStyle } from './styles';
 import useTabs from './useTabs';
 
 const isIndexEqual = (index1, index2) => !isNullOrUndefined(index1) && !isNullOrUndefined(index2) && (index1 === index2);
 
-const Tab = forwardRef((
-  {
+const Tab = forwardRef((inProps, ref) => {
+  const {
     children,
     disabled: disabledProp,
     index: indexProp,
     onClick,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Tab' });
   const [index, setIndex] = useState(indexProp);
   const context = useTabs();
   const registerTab = ensureFunction(context?.registerTab);

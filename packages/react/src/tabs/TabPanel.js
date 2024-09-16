@@ -3,20 +3,19 @@ import { ariaAttr, isNullOrUndefined, warnDeprecatedProps } from '@tonic-ui/util
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
 import useTabs from './useTabs';
 import { useTabPanelStyle } from './styles';
 
 const isIndexEqual = (index1, index2) => !isNullOrUndefined(index1) && !isNullOrUndefined(index2) && (index1 === index2);
 
-const TabPanel = forwardRef((
-  {
+const TabPanel = forwardRef((inProps, ref) => {
+  const {
     children,
     index: indexProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TabPanel' });
   const [index, setIndex] = useState(indexProp);
   const context = useTabs();
   const registerTabPanel = ensureFunction(context?.registerTabPanel);

@@ -3,6 +3,7 @@ import { isNullOrUndefined, runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useEffect, useReducer } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { defaultOrientation, defaultVariant } from './constants';
 import { TabsContext } from './context';
 import { useTabsStyle } from './styles';
@@ -14,8 +15,8 @@ const stateReducer = (prevState, nextState) => ({
   ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
 });
 
-const Tabs = forwardRef((
-  {
+const Tabs = forwardRef((inProps, ref) => {
+  const {
     children,
     defaultIndex = 0,
     disabled,
@@ -24,9 +25,7 @@ const Tabs = forwardRef((
     orientation = defaultOrientation,
     variant = defaultVariant,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Tabs' });
   const tabMap = useConst(() => new Map());
   const tabPanelMap = useConst(() => new Map());
   const [state, setState] = useReducer(stateReducer, {
