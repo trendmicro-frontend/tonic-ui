@@ -38,7 +38,6 @@ const Radio = forwardRef((inProps, ref) => {
 
   const inputRef = useRef();
   const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
-  const styleProps = useRadioStyle({ disabled });
   const radioGroupContext = useRadioGroup();
 
   if (radioGroupContext) {
@@ -68,6 +67,8 @@ const Radio = forwardRef((inProps, ref) => {
     size = size ?? defaultSize;
     variantColor = variantColor ?? defaultVariantColor;
   }
+
+  const styleProps = useRadioStyle({ disabled });
 
   return (
     <Box

@@ -68,6 +68,7 @@ const Checkbox = forwardRef((inProps, ref) => {
     size = size ?? defaultSize;
     variantColor = variantColor ?? defaultVariantColor;
   }
+
   const styleProps = useCheckboxStyle({ disabled });
 
   return (
