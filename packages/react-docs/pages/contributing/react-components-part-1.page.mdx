@@ -18,7 +18,7 @@ Create the component file: `packages/react/src/code/Code.js`
 * Use `forwardRef` to let your component receive a `ref` and forward it to a child component.
 * Place styles in a separate file and apply style props before passing other props.
 
-```jsx
+```jsx disabled
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useCodeStyle } from './styles';
@@ -48,7 +48,7 @@ Create the styles file: `packages/react/src/code/styles.js`
 * Utilize `useColorMode` to get the current color mode and apply corresponding color styles.
 * Exercise caution when using `useColorStyle` within the UI component library, as a React application may inadvertently overwrite the color style object for customization purposes.
 
-```js
+```js disabled
 import { useColorMode } from '../color-mode';
 
 const useCodeStyle = () => {
@@ -80,7 +80,7 @@ export {
 
 Create the index file: `packages/react/src/code/index.js`
 
-```js
+```js disabled
 import Code from './Code';
 
 export {
@@ -94,7 +94,7 @@ Create the test file: `packages/react/src/code/__tests__/Code.test.js`
 
 * Use `testA11y` to perform accessibility testing on the rendered component within the test. This helps ensure the component meets accessibility standards.
 
-```jsx
+```jsx disabled
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Code } from '@tonic-ui/react/src';
@@ -123,7 +123,7 @@ describe('Code', () => {
 #### Step 1: Update exports
 
 Modify `packages/react/src/index.js` to include the new component:
-```js
+```js disabled
 export * from './code';
 ```
 
@@ -131,7 +131,7 @@ export * from './code';
 
 Include the new component in the `expectedExports` list in `packages/react/__tests__/index.test.js`:
 
-```js
+```js disabled
 const expectedExports = [
   // other components
   'Code',
@@ -175,7 +175,7 @@ children | ReactNode | |
 
 Include the new documentation page in `packages/react-docs/config/sidebar-routes.js`:
 
-```js
+```js disabled
 {
   title: 'Code',
   path: 'components/code',

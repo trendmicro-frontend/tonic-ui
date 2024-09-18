@@ -35,7 +35,7 @@ export const routes = [
   {
     title: 'Contributing',
     icon: (props) => (
-      <UserTeamIcon size="4x" {...props} />
+      <Icon icon="user-team" size="4x" {...props} />
     ),
     routes: [
       { title: 'Contributing Guidelines', path: 'contributing' },
@@ -55,7 +55,7 @@ export const routes = [
   {
     title: 'Migrations',
     icon: (props) => (
-      <MigrateSuccessIcon size="4x" {...props} />
+      <Icon icon="migrate-success" size="4x" {...props} />
     ),
     routes: [
       { title: 'Migrating from v0 to v1', path: 'migrations/migrating-from-v0-to-v1' },
