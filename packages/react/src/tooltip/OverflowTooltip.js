@@ -7,10 +7,10 @@ import Tooltip from './Tooltip';
 const OverflowTooltip = forwardRef((
   {
     children,
-    disabled: disabledProp,
-    nextToCursor: nextToCursorProp,
-    offset: offsetProp = [0, 8],
-    placement: placementProp = 'bottom',
+    disabled: disabledProp = false,
+    nextToCursor: nextToCursorProp = true,
+    offset: offsetProp = [8, 12],
+    placement: placementProp = 'bottom-end',
     ...rest
   },
   ref,

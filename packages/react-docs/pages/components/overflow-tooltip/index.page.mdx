@@ -1,6 +1,15 @@
+import {
+  Icon,
+  Flex,
+  TextLabel,
+} from '@tonic-ui/react';
+
 # OverflowTooltip
 
 The `OverflowTooltip` component is a tooltip that only displays when text overflows its container.
+
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><Icon icon="alert" /> IMPORTANT NOTICE</Flex></TextLabel>
+> By default, the `OverflowTooltip` component has the `placement` prop set to `bottom-end` and the `offset` prop set to `[8, 12]`. In this setup, the first value in the `offset` array controls the skidding, while the second value determines the distance. You may need to modify the `placement` and `offset` props to suit your specific requirements better.
 
 ## Import
 
@@ -10,7 +19,9 @@ import { OverflowTooltip } from '@tonic-ui/react';
 
 ## Usage
 
-If the text overflows its container, it will be truncated, and an ellipsis will be added. When you hover or focus on the ellipsis text, a tooltip will appear.
+When the text overflows its container, it will be truncated, and an ellipsis will be added. Hovering over or focusing on the truncated text will display a tooltip.
+
+By default, the overflow tooltip does not include an arrow and will display next to the cursor.
 
 {render('./basic')}
 
@@ -36,12 +47,6 @@ To resolve this issue, set `PopperProps={{ usePortal: true }}`.
 
 {render('./faq-misalignment-with-menu-items')}
 
-### Aligning the `OverflowTooltip` relative to the reference element
-
-By default, the `OverflowTooltip` component is positioned next to the cursor with the `nextToCursor` prop set to `true`. To align the tooltip relative to the reference element, set the `nextToCursor` prop to `false`.
-
-{render('./faq-relative-to-reference-element')}
-
 ## Props
 
 ### OverflowTooltip
@@ -61,15 +66,15 @@ By default, the `OverflowTooltip` component is positioned next to the cursor wit
 | closeOnEsc | boolean | true | If `true`, close the tooltip when pressing the escape key. |
 | closeOnMouseDown | boolean | false | If `true`, close the tooltip while the mouse is down. |
 | defaultIsOpen | boolean | false | Whether the tooltip will be open by default. |
-| disabled | boolean | | If `true`, the tooltip will not display. |
+| disabled | boolean | false | If `true`, the tooltip will not display. |
 | enterDelay | number | 100 | The delay in milliseconds before the tooltip appears. |
 | followCursor | boolean | | If `true`, the tooltip will follow the cursor. |
 | isOpen | boolean | | If `true`, show the tooltip. |
 | label | string \| ReactNode | | If the tooltip label is a blank or empty string, the tooltip will not display. |
 | leaveDelay | number | 0 | The delay in milliseconds before the tooltip disappears. |
-| nextToCursor | boolean | | If `true`, the tooltip will be positioned next to the cursor. |
-| offset | [skidding, distance] | [0, 8] | The skidding and distance of the tooltip. |
+| nextToCursor | boolean | true | If `true`, the tooltip will be positioned next to the cursor. |
+| offset | [skidding, distance] | [8, 12] | The skidding and distance of the tooltip. |
 | onClose| function | | Callback fired when the tooltip is closed. |
 | onOpen | function | | Callback fired when the tooltip is opened. |
-| placement | PopperJS.Placement | 'bottom' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
+| placement | PopperJS.Placement | 'bottom-end' | Position the tooltip relative to the trigger element as well as surrounding elements. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | shouldWrapChildren | boolean | false | If `true`, the tooltip will be wrapped in a `Box` component. Otherwise, you have to ensure tooltip has only one child node. |
