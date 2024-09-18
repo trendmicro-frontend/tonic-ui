@@ -1,0 +1,191 @@
+import BorderedBox from '../../components/BorderedBox';
+import Code from '../components/code/index.page.mdx'
+
+# Contributing to React Components <sup>PART 1</sup>
+
+## Workflow
+
+This example will walk you through the process of creating a [Code](../components/code) component. This component serves as a straightforward example to help you understand the entire development and documentation flow.
+
+{render('./react-components-part-1-example')}
+
+### Creating the component
+
+#### Step 1: Implement the component
+
+Create the component file: `packages/react/src/code/Code.js`
+
+* Use `forwardRef` to let your component receive a `ref` and forward it to a child component.
+* Place styles in a separate file and apply style props before passing other props.
+
+```jsx disabled
+import React, { forwardRef } from 'react';
+import { Box } from '../box';
+import { useCodeStyle } from './styles';
+
+const Code = forwardRef((props, ref) => {
+  const styleProps = useCodeStyle();
+
+  return (
+    <Box
+      as="code"
+      ref={ref}
+      {...styleProps}
+      {...props}
+    />
+  );
+});
+
+Code.displayName = 'Code';
+
+export default Code;
+```
+
+#### Step 2: Define styles for the component
+
+Create the styles file: `packages/react/src/code/styles.js`
+
+* Utilize `useColorMode` to get the current color mode and apply corresponding color styles.
+* Exercise caution when using `useColorStyle` within the UI component library, as a React application may inadvertently overwrite the color style object for customization purposes.
+
+```js disabled
+import { useColorMode } from '../color-mode';
+
+const useCodeStyle = () => {
+  const [colorMode] = useColorMode();
+  const backgroundColor = {
+    dark: 'rgba(255, 255, 255, 0.08)',
+    light: 'rgba(0, 0, 0, 0.08)',
+  }[colorMode];
+  const color = {
+    dark: 'white:primary',
+    light: 'black:primary',
+  }[colorMode];
+
+  return {
+    backgroundColor,
+    borderRadius: 'sm',
+    color,
+    fontFamily: 'mono',
+    px: '1x',
+  };
+};
+
+export {
+  useCodeStyle,
+};
+```
+
+#### Step 3: Export components
+
+Create the index file: `packages/react/src/code/index.js`
+
+```js disabled
+import Code from './Code';
+
+export {
+  Code,
+};
+```
+
+#### Step 4: Write tests for the component
+
+Create the test file: `packages/react/src/code/__tests__/Code.test.js`
+
+* Use `testA11y` to perform accessibility testing on the rendered component within the test. This helps ensure the component meets accessibility standards.
+
+```jsx disabled
+import { render } from '@tonic-ui/react/test-utils/render';
+import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
+import { Code } from '@tonic-ui/react/src';
+import React from 'react';
+
+describe('Code', () => {
+  it('should render correctly', async () => {
+    const renderOptions = {
+      useCSSVariables: true,
+    };
+    const { container } = render((
+      <Code>Hello World</Code>
+    ), renderOptions);
+
+    expect(container).toMatchSnapshot();
+
+    await testA11y(container);
+  });
+
+  // Some other tests
+});
+```
+
+### Exporting and Building
+
+#### Step 1: Update exports
+
+Modify `packages/react/src/index.js` to include the new component:
+```js disabled
+export * from './code';
+```
+
+#### Step 2: Update tests
+
+Include the new component in the `expectedExports` list in `packages/react/__tests__/index.test.js`:
+
+```js disabled
+const expectedExports = [
+  // other components
+  'Code',
+];
+```
+
+#### Step 3: Run lint and build
+
+This step requires you to perform static code analysis to identify potential bugs, programming errors, or stylistic issues. Then, build the dependencies if it passes.
+
+Run the following commands inside the `packages/react` folder.
+
+```bash
+yarn lint
+yarn build
+```
+
+### Documenting the component
+
+#### Step 1: Create documentation page
+
+Add a new page `code/index.page.mdx` under `packages/react-docs/pages/components` with the following sections:
+
+```mdx
+# Component
+
+## Import
+
+## Usage
+
+## Props
+
+### Component
+
+Name | Type | Default | Description
+:--- | :--- | :------ | :----------
+children | ReactNode | |
+```
+
+#### Step 2: Update side navigation menu
+
+Include the new documentation page in `packages/react-docs/config/sidebar-routes.js`:
+
+```js disabled
+{
+  title: 'Code',
+  path: 'components/code',
+}
+```
+
+#### Step 3: API structure
+
+Refer to the existing [Code component documentation](../components/code) for details.
+
+<BorderedBox>
+  <Code />
+</BorderedBox>

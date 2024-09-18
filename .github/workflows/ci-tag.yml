@@ -1,0 +1,129 @@
+name: ci-tag
+
+on:
+  push:
+    tags:
+      - '@tonic-ui/react@*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idoutputs
+    outputs:
+      TONIC_UI_REACT_DOCS_VERSION: ${{ steps.step_setup_env.outputs.TONIC_UI_REACT_DOCS_VERSION }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch the entire Git history to access the latest tag release
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Check installed versions
+        run: |
+          git --version
+          node --version
+          npm --version
+          yarn --version
+
+      - name: Configure environment variables
+        id: step_setup_env
+        run: |
+          TONIC_UI_REACT_VERSION=$(node -p "require('./packages/react/package.json').version")
+          echo "CI_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "CI_COMMIT=${{ github.sha }}" >> $GITHUB_ENV
+          echo "MATOMO_URL=//matomo.xdr.trendmicro.com" >> $GITHUB_ENV
+          echo "MATOMO_CONTAINER_ID=N8rpl9LU" >> $GITHUB_ENV
+          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui/react/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
+          echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
+
+          # $GITHUB_OUTPUT is shared between all steps in a job
+          echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Install packages
+        run: |
+          yarn up
+          yarn install
+
+      - name: Build & Test
+        run: |
+          yarn build
+          yarn lint
+          yarn test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          files: |
+            ./packages/changelog-github/coverage/lcov.info
+            ./packages/react/coverage/lcov.info
+            ./packages/react-hooks/coverage/lcov.info
+            ./packages/react-lab/coverage/lcov.info
+            ./packages/styled-system/coverage/lcov.info
+            ./packages/theme/coverage/lcov.info
+            ./packages/utils/coverage/lcov.info
+
+      - name: Prepare artifact
+        run: |
+          mkdir -p ${{ github.workspace }}/artifact
+          tar -zcvf ${{ github.workspace }}/artifact/react-docs.tar.gz --dereference --directory packages/react-docs/dist .
+        continue-on-error: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-artifact
+          path: |
+            artifact/react-docs.tar.gz
+          if-no-files-found: error
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: gh-pages
+
+      - name: git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Configure environment variables
+        env:
+          TONIC_UI_REACT_DOCS_VERSION: ${{ needs.build.outputs.TONIC_UI_REACT_DOCS_VERSION }}
+        run: |
+          echo "CI_COMMIT=${{ github.sha }}" >> $GITHUB_ENV
+          echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_DOCS_VERSION}" >> $GITHUB_ENV
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ci-artifact
+          path: artifact
+
+      - name: Extract artifact
+        run: |
+          mkdir -p artifact/react-docs
+          tar -zxvf artifact/react-docs.tar.gz --directory artifact/react-docs
+
+      - name: Deploy to gh-pages
+        run: |
+          rm -rf "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
+          mkdir -p "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
+          cp -af artifact/react-docs/** "react-docs/${TONIC_UI_REACT_DOCS_VERSION}/"
+          git add "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
+          git commit -m "Deploy ${CI_COMMIT:0:8} to gh-pages [skip ci]"
+          git push origin gh-pages

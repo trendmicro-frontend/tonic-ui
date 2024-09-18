@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useOnce } from '@tonic-ui/react-hooks';
 
 const Root = () => {
   const router = useRouter();
 
-  // Mount only
-  useEffect(() => {
-    router.push(`/getting-started/usage`);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useOnce(() => {
+    router.push('/getting-started/usage');
+  });
 
   return null;
 };

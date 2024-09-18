@@ -291,9 +291,8 @@ plugins.push(withMDX);
 
 const initialNextConfig = {
   env: {
-    BASE_PATH: process.env.BASE_PATH,
     // CI
-    CI_COMMIT_SHORT: process.env.CI_COMMIT_SHORT,
+    CI_COMMIT: process.env.CI_COMMIT,
     CI_PULL_REQUEST_NUMBER: process.env.CI_PULL_REQUEST_NUMBER,
     // Content Security Policy
     NONCE: randomBytes(16).toString('base64'),
@@ -305,10 +304,11 @@ const initialNextConfig = {
     ALGOLIA_SEARCH_API_KEY: 'c87cfe40f6ec7c43d4caf4316afd1816',
     ALGOLIA_INDEX_NAME: 'tonic-ui-v1',
     // common
-    TONIC_UI_REPO_ROOT: process.env.TONIC_UI_REPO_ROOT,
-    TONIC_UI_REACT_DOCS_ROOT: process.env.TONIC_UI_REACT_DOCS_ROOT,
-    TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION, // see `.circleci/config.yml`
+    TONIC_UI_REACT_DOCS_BASE_PATH: process.env.TONIC_UI_REACT_DOCS_BASE_PATH,
+    TONIC_UI_REACT_DOCS_URL: process.env.TONIC_UI_REACT_DOCS_URL,
+    TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION,
     TONIC_UI_REACT_PACKAGE_VERSION: process.env.TONIC_UI_REACT_PACKAGE_VERSION,
+    TONIC_UI_REPO_ROOT: process.env.TONIC_UI_REPO_ROOT,
     // v2
     TONIC_UI_V2_BRANCH: process.env.TONIC_UI_V2_BRANCH,
     TONIC_UI_V2_DOCUMENTATION: process.env.TONIC_UI_V2_DOCUMENTATION,
@@ -334,8 +334,8 @@ const initialNextConfig = {
     TONIC_UI_V0_RELEASE_DOCUMENTATION: process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION,
     TONIC_UI_V0_RELEASE_NOTES: process.env.TONIC_UI_V0_RELEASE_NOTES,
   },
-  basePath: process.env.BASE_PATH,
-  distDir: process.env.NODE_ENV === 'production' ? 'dist/react' : 'build',
+  basePath: process.env.TONIC_UI_REACT_DOCS_BASE_PATH,
+  distDir: process.env.NODE_ENV === 'production' ? 'dist' : 'build',
   output: process.env.NODE_ENV === 'production' ? 'export' : 'standalone',
   pageExtensions: ['page.js', 'page.mdx'],
 };
