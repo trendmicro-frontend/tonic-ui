@@ -4,7 +4,7 @@ on:
   workflow_call:
   workflow_dispatch:
     branches:
-      - v2
+      - v1
 
 permissions:
   contents: write
