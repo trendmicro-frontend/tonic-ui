@@ -1,16 +1,12 @@
-import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
-  getLeftmostOffset,
-  getTopmostOffset,
   isBlankString,
   isEmptyArray,
   isHTMLElement,
-  warnDeprecatedProps,
-  warnRemovedProps,
 } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
+import { ensureArray, ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { Popper } from '../popper';
@@ -93,37 +89,70 @@ const TooltipContent = forwardRef((
     tooltipTriggerRef,
   } = useTooltip();
   const styleProps = useTooltipContentStyle();
-
   const tooltipTriggerElement = tooltipTriggerRef.current;
   const [
     skidding = 0,
     distance = 8,
   ] = ensureArray(offset);
-  const [computedSkidding, computedDistance] = useMemo(() => {
-    let _skidding = skidding;
-    let _distance = distance;
 
-    if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
-      const { offsetHeight } = tooltipTriggerElement;
-      const leftmostOffset = getLeftmostOffset(tooltipTriggerElement);
-      const topmostOffset = getTopmostOffset(tooltipTriggerElement);
-      _skidding = mousePageX - leftmostOffset + 10;
-      _distance = mousePageY - topmostOffset - offsetHeight + 15;
-    }
+  const popperModifiers = useMemo(() => [
+    { // https://popper.js.org/docs/v2/modifiers/offset/
+      name: 'offset',
+      options: {
+        offset: ({ placement, reference, popper }) => {
+          let computedSkidding = ensureFiniteNumber(skidding);
+          let computedDistance = ensureFiniteNumber(distance);
 
-    return [_skidding, _distance];
-  }, [skidding, distance, tooltipTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
-  const popperModifiers = useMemo(() => {
-    const modifiers = [
-      { // https://popper.js.org/docs/v2/modifiers/offset/
-        name: 'offset',
-        options: {
-          offset: [computedSkidding, computedDistance],
+          if (isHTMLElement(tooltipTriggerElement) && (followCursor || nextToCursor)) {
+            // @see https://sentry.io/answers/how-do-i-get-the-position-x-y-of-an-html-element/
+
+            // Get the window coordinate
+            const rect = tooltipTriggerElement.getBoundingClientRect();
+
+            // Get the page coordinate
+            const elementPageX = rect.x + globalThis.scrollX;
+            const elementPageY = rect.y + globalThis.scrollY;
+
+            // top, top-start, top-end, bottom, bottom-start, bottom-end
+            if (placement.startsWith('top') || placement.startsWith('bottom')) {
+              if (placement.endsWith('start')) {
+                computedSkidding += ensureFiniteNumber(mousePageX - elementPageX - popper.width);
+              } else if (placement.endsWith('end')) {
+                computedSkidding += ensureFiniteNumber(mousePageX - elementPageX - reference.width + popper.width);
+              } else {
+                computedSkidding += ensureFiniteNumber(mousePageX - elementPageX - reference.width / 2);
+              }
+
+              if (placement.startsWith('top')) {
+                computedDistance += ensureFiniteNumber(elementPageY - mousePageY);
+              } else if (placement.startsWith('bottom')) {
+                computedDistance += ensureFiniteNumber(mousePageY - elementPageY - reference.height);
+              }
+            }
+
+            // left, left-start, left-end, right, right-start, right-end
+            if (placement.startsWith('left') || placement.startsWith('right')) {
+              if (placement.endsWith('start')) {
+                computedSkidding += ensureFiniteNumber(mousePageY - elementPageY - popper.height);
+              } else if (placement.endsWith('end')) {
+                computedSkidding += ensureFiniteNumber(mousePageY - elementPageY - reference.height + popper.height);
+              } else {
+                computedSkidding += ensureFiniteNumber(mousePageY - elementPageY - reference.height / 2);
+              }
+
+              if (placement.startsWith('left')) {
+                computedDistance += ensureFiniteNumber(elementPageX - mousePageX);
+              } else if (placement.startsWith('right')) {
+                computedDistance += ensureFiniteNumber(mousePageX - elementPageX - reference.width);
+              }
+            }
+          }
+
+          return [computedSkidding, computedDistance];
         },
       },
-    ];
-    return modifiers;
-  }, [computedSkidding, computedDistance]);
+    },
+  ], [skidding, distance, tooltipTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
 
   if (!isHydrated) {
     return null;
