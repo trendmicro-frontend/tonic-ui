@@ -1,6 +1,6 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, isNullish, runIfFn } from '@tonic-ui/utils';
-import { ensureNumber } from 'ensure-type';
+import { ensureFiniteNumber } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
@@ -54,7 +54,7 @@ const TreeItem = forwardRef((
     return null;
   }, [idAttrProp, treeId, nodeId]);
   const { index, parentDepth, parentId } = useDescendant(element);
-  const nodeDepth = ensureNumber(parentDepth) + 1;
+  const nodeDepth = ensureFiniteNumber(parentDepth) + 1;
   const validChildren = React.Children.toArray(children)
     .filter(child => {
       return isValidElement(child) || typeof child === 'string' || typeof child === 'number';
