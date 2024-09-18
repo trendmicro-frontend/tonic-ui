@@ -3,10 +3,10 @@ name: ci-branch
 on:
   push:
     branches:
-      - v2
+      - v1
   workflow_dispatch:
     branches:
-      - v2
+      - v1
 
 permissions:
   contents: write
@@ -39,7 +39,7 @@ jobs:
       - name: Configure environment variables
         id: step_setup_env
         run: |
-          TONIC_UI_REACT_VERSION=v2
+          TONIC_UI_REACT_VERSION=v1
           echo "CI_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
           echo "CI_COMMIT=${{ github.sha }}" >> $GITHUB_ENV
           echo "MATOMO_URL=//matomo.xdr.trendmicro.com" >> $GITHUB_ENV
