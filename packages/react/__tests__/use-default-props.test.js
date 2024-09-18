@@ -1,7 +1,8 @@
-const fs = require('node:fs');
-const { globSync } = require('glob');
-const parser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
+import fs from 'node:fs';
+import path from 'node:path';
+import { globSync } from 'glob';
+import { parse } from '@babel/parser';
+import traverse from '@babel/traverse';
 
 /**
  * Example 1: with `forwardRef`
@@ -25,22 +26,30 @@ const traverse = require('@babel/traverse').default;
  */
 test('the `name` property in `useDefaultProps` should match the component name', () => {
   const files = globSync([
-    'src/*/**/*.js',
+    path.resolve(__dirname, '../src/*/**/*.js'),
   ], {
     'ignore': [
-      'src/*/**/__tests__/**/*.js',
+      path.resolve(__dirname, '../src/*/**/*.test.js'),
     ],
   }).sort(); // Sort files alphabetically
 
+  let matchCount = 0;
+  let passCount = 0;
+
   for (const file of files) {
     const code = fs.readFileSync(file, { encoding: 'utf-8' });
-    const ast = parser.parse(code, {
+
+    if (code.indexOf(' useDefaultProps(') !== -1) {
+      ++matchCount;
+    }
+
+    const ast = parse(code, {
       sourceType: 'module',
       plugins: ['jsx'],
     });
 
     traverse(ast, {
-      VariableDeclarator(path) {
+      VariableDeclarator(path) { // eslint-disable-line no-loop-func
         if (!path.node.init) {
           return;
         }
@@ -65,6 +74,8 @@ test('the `name` property in `useDefaultProps` should match the component name',
                 } catch (err) {
                   throw new Error(`Mismatch in file "${file}": Expected component name '${componentName}' but found '${namePropertyValue}'`);
                 }
+
+                passCount++;
               }
             }
           });
@@ -72,4 +83,7 @@ test('the `name` property in `useDefaultProps` should match the component name',
       }
     });
   }
+
+  expect(matchCount).toBeGreaterThan(0);
+  expect(matchCount).toEqual(passCount);
 });
