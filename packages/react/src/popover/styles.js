@@ -1,4 +1,3 @@
-import { ensureNumber } from 'ensure-type';
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { useTheme } from '../theme';
