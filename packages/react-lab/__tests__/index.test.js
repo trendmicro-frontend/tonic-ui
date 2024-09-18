@@ -1,15 +1,16 @@
-import * as moduleExport from '@tonic-ui/react-icons/src';
-import * as icons from '@tonic-ui/react-icons/src/icons';
+import * as moduleExport from '@tonic-ui/react-lab/src';
 
 test('should match expected exports', () => {
-  const expectedExports = [
-    'SVGIcon',
-    'createSVGIcon',
-
-    // icons
-    ...Object.keys(icons),
+  const exportedComponents = [
+    // date-time-pickers
+    'Calendar',
+    'DatePicker',
   ];
+
   const receivedExports = Object.keys(moduleExport);
+  const expectedExports = [
+    ...exportedComponents,
+  ];
 
   expect(receivedExports.sort()).toEqual(expectedExports.sort());
 });

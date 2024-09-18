@@ -8,7 +8,7 @@ The coding style guideline is provided here to help maintain consistency across 
 
 A basic component should be a functional component that is wrapped in `forwardRef`. The `displayName` is set for easier debugging and inspection.
 
-```jsx
+```jsx disabled
 import React, { forwardRef } from 'react';
 import { useComponentStyle } from './styles';
 
@@ -33,7 +33,7 @@ export default Component;
 
 For components that accept a function as a child, use the `runIfFn` utility to ensure that the child function is executed correctly.
 
-```jsx
+```jsx disabled
 import { runIfFn } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { useComponentStyle } from './styles';
@@ -68,7 +68,7 @@ export default Component;
 
 When creating components that share state or methods via context, memoize the state to avoid unnecessary re-renders. You can use either `micro-memoize` or `useMemo` to achieve this. `micro-memoize` does not require specifying dependencies, making the code cleaner.
 
-```jsx
+```jsx disabled
 import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
@@ -110,7 +110,7 @@ export default Component;
 
 For components that manage their own state but can also be controlled externally, use a reducer and effect hooks to synchronize state changes.
 
-```jsx
+```jsx disabled
 import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useEffect, useReducer } from 'react';

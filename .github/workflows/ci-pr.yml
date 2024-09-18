@@ -70,11 +70,9 @@ jobs:
         with:
           files: |
             ./packages/changelog-github/coverage/lcov.info
-            ./packages/codemod/coverage/lcov.info
             ./packages/react/coverage/lcov.info
-            ./packages/react-base/coverage/lcov.info
             ./packages/react-hooks/coverage/lcov.info
-            ./packages/react-icons/coverage/lcov.info
+            ./packages/react-lab/coverage/lcov.info
             ./packages/styled-system/coverage/lcov.info
             ./packages/theme/coverage/lcov.info
             ./packages/utils/coverage/lcov.info

@@ -17,10 +17,9 @@ _document.page.js | Custom `Document` component that allows you to modify the in
 [patterns/](../patterns) | Contains documentation on design patterns and best practices for Tonic UI.
 [components/](../components) | Contains documentation for Tonic UI React components: `@tonic-ui/react`
 [hooks/](../hooks) | Contains documentation for Tonic UI React Hooks: `@tonic-ui/react-hooks`
-[icons/](../icons) | Contains documentation for Tonic UI React Icons: `@tonic-ui/react-icons`
+[lab/](../lab) | Contains documentation for Tonic UI React Lab: `@tonic-ui/react-lab`
 [styled-system/](../styled-system) | Contains documentation for Tonic UI Styled System: `@tonic-ui/styled-system`
 [theme/](../theme) | Contains documentation for Tonic UI theme: `@tonic-ui/theme`
-[playground/](../playground) | Demonstrates how to create interactive applications with Tonic UI.
 
 > Tip: Page extensions should be either `.page.js` or `.page.mdx`; otherwise, they will be treated as non-page files. If you need to use other page extensions, you can configure them in `next.config.js`.
 
@@ -64,7 +63,7 @@ Specifies how to import the component into your project. This section provides t
 ````mdx
 ## Import
 
-```js
+```js disabled
 import { Box } from '@tonic-ui/react';
 ```
 ````
@@ -85,7 +84,7 @@ By default, the `Box` component renders a `div` element. There might be cases wh
 
 For the example above, add a `using-the-as-prop.js` file in the same directory:
 
-````jsx
+````jsx disabled
 import { Box } from '@tonic-ui/react';
 import React from 'react';
 
