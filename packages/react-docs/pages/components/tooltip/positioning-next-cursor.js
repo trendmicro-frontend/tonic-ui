@@ -2,6 +2,7 @@ import {
   Box,
   Divider,
   Flex,
+  Icon,
   Menu,
   MenuButton,
   MenuItem,
@@ -11,9 +12,6 @@ import {
   Tooltip,
   useColorStyle,
 } from '@tonic-ui/react';
-import {
-  CheckSIcon,
-} from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 
 const FormGroup = (props) => (
@@ -62,7 +60,7 @@ const App = () => {
                 onClick={changePlacementBy(_placement)}
               >
                 <Flex columnGap="2x">
-                  {placement === _placement ? <CheckSIcon /> : <Box width="4x" />}
+                  {placement === _placement ? <Icon icon="check-s" /> : <Box width="4x" />}
                   {_placement}
                 </Flex>
               </MenuItem>
