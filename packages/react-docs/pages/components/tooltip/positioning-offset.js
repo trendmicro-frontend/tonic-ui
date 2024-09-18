@@ -1,4 +1,4 @@
-import { Box, Flex, Text, TextLabel, Tooltip } from '@tonic-ui/react';
+import { Box, Divider, Flex, Text, TextLabel, Tooltip } from '@tonic-ui/react';
 import React, { useState } from 'react';
 
 const App = () => {
@@ -15,8 +15,8 @@ const App = () => {
           <input
             type="range"
             name="skidding"
-            min={-50}
-            max={50}
+            min={-48}
+            max={48}
             value={skidding}
             onChange={(e) => setSkidding(Number(e.target.value))}
           />
@@ -31,15 +31,20 @@ const App = () => {
           <input
             type="range"
             name="distance"
-            min={-50}
-            max={50}
+            min={-48}
+            max={48}
             value={distance}
             onChange={(e) => setDistance(Number(e.target.value))}
           />
           <Text>{distance}</Text>
         </Flex>
       </Box>
-      <Tooltip isOpen label="This is a tooltip" offset={[skidding, distance]}>
+      <Divider my="4x" />
+      <Tooltip
+        isOpen
+        label="This is a tooltip"
+        offset={[skidding, distance]}
+      >
         <Text display="inline-block">Text content</Text>
       </Tooltip>
     </>
