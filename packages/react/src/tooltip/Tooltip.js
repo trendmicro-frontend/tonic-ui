@@ -210,7 +210,7 @@ const Tooltip = forwardRef((
     onClose,
     onOpen,
     openOnFocus,
-    placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,
+    placement,
     setMousePageX,
     setMousePageY,
     tooltipId,
