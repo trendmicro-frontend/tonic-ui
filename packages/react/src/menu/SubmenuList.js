@@ -1,9 +1,11 @@
 import React, { forwardRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import SubmenuContent from './SubmenuContent';
 import { useSubmenuListStyle } from './styles';
 import useSubmenu from './useSubmenu';
 
-const SubmenuList = forwardRef((props, ref) => {
+const SubmenuList = forwardRef((inProps, ref) => {
+  const props = useDefaultProps({ props: inProps, name: 'SubmenuList' });
   const submenuContext = useSubmenu(); // context might be an undefined value
   const {
     isOpen,

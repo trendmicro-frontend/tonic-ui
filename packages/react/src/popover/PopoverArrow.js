@@ -1,18 +1,17 @@
 import { getComputedStyle, isHTMLElement } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { usePopoverArrowStyle } from './styles';
 import usePopover from './usePopover';
 
-const PopoverArrow = forwardRef((
-  {
+const PopoverArrow = forwardRef((inProps, ref) => {
+  const {
     arrowHeight = 8,
     arrowWidth = 12,
     sx,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'PopoverArrow' });
   const {
     placement,
     popoverContentRef,

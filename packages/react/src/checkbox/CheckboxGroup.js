@@ -2,24 +2,26 @@ import { runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useEffect, useState } from 'react';
+import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import { CheckboxGroupContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const CheckboxGroup = ({
-  children,
-  defaultValue,
-  disabled,
-  name,
-  size,
-  value: valueProp,
-  variantColor,
-  onChange,
-}) => {
+const CheckboxGroup = (inProps) => {
+  const {
+    children,
+    defaultValue,
+    disabled,
+    name: nameProp,
+    size,
+    value: valueProp,
+    variantColor,
+    onChange,
+  } = useDefaultProps({ props: inProps, name: 'CheckboxGroup' });
   const defaultId = useAutoId();
-  name = name ?? `${config.name}:CheckboxGroup-${defaultId}`;
+  const name = nameProp ?? `${config.name}:CheckboxGroup-${defaultId}`;
 
   const [state, setState] = useState({
     value: ensureArray(valueProp ?? defaultValue),

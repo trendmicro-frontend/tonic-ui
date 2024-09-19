@@ -2,20 +2,19 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useTheme } from '../theme';
 import { useTreeItemContentStyle } from './styles';
 import useTree from './useTree';
 import useTreeItem from './useTreeItem';
 
-const TreeItemContent = forwardRef((
-  {
+const TreeItemContent = forwardRef((inProps, ref) => {
+  const {
     onClick: onClickProp,
     onMouseDown: onMouseDownProp,
     style: styleProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TreeItemContent' });
   const { sizes } = useTheme();
   const {
     multiSelect,

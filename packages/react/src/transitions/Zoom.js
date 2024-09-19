@@ -3,6 +3,7 @@ import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps,
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -33,8 +34,8 @@ const defaultTimeout = {
   exit: transitionDuration.leavingScreen,
 };
 
-const Zoom = forwardRef((
-  {
+const Zoom = forwardRef((inProps, ref) => {
+  const {
     appear = false, // do not perform the enter transition when it first mounts
     children,
     easing = defaultEasing,
@@ -42,9 +43,7 @@ const Zoom = forwardRef((
     style,
     timeout = defaultTimeout,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Zoom' });
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
 

@@ -12,6 +12,7 @@ import {
 import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
 import PopoverArrow from './PopoverArrow';
@@ -33,8 +34,8 @@ const mapPlacementToTransformOrigin = placement => ({
   'right-end': 'left bottom',
 }[placement]);
 
-const PopoverContent = forwardRef((
-  {
+const PopoverContent = forwardRef((inProps, ref) => {
+  const {
     PopperComponent = Popper,
     PopperProps,
     PopoverArrowComponent = PopoverArrow,
@@ -47,9 +48,7 @@ const PopoverContent = forwardRef((
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'PopoverContent' });
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);

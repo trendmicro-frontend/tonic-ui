@@ -2,19 +2,18 @@ import { CloseIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import {
   useDrawerCloseButtonStyle,
 } from './styles';
 import useDrawer from './useDrawer';
 
-const DrawerCloseButton = forwardRef((
-  {
+const DrawerCloseButton = forwardRef((inProps, ref) => {
+  const {
     children,
     onClick: onClickProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'DrawerCloseButton' });
   const drawerContext = useDrawer(); // context might be an undefined value
   const {
     onClose,

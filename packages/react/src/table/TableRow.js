@@ -1,17 +1,16 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { GROUP_VARIANT_BODY, LAYOUT_TABLE } from './constants';
 import { useTableRowStyle } from './styles';
 import useTable from './useTable';
 import useTableGroup from './useTableGroup';
 
-const TableRow = forwardRef((
-  {
+const TableRow = forwardRef((inProps, ref) => {
+  const {
     role: roleProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TableRow' });
   const { layout, variant } = useTable();
   const groupContext = useTableGroup();
   const groupVariant = groupContext?.groupVariant ?? GROUP_VARIANT_BODY;

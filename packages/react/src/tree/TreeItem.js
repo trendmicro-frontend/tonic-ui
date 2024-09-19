@@ -4,6 +4,7 @@ import { ensureFiniteNumber } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { Collapse } from '../transitions';
 import { Descendant, useDescendant } from '../utils/descendant';
 import { TreeItemContext } from './context';
@@ -12,8 +13,8 @@ import useTree from './useTree';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const TreeItem = forwardRef((
-  {
+const TreeItem = forwardRef((inProps, ref) => {
+  const {
     TransitionComponent = Collapse,
     TransitionProps,
     children,
@@ -22,9 +23,7 @@ const TreeItem = forwardRef((
     nodeId,
     render,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TreeItem' });
   const {
     focusNode,
     getIsNodeDisabled,

@@ -1,6 +1,7 @@
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { GROUP_VARIANT_FOOTER, LAYOUT_TABLE } from './constants';
 import { TableGroupContext } from './context';
 import { useTableFooterStyle } from './styles';
@@ -8,13 +9,11 @@ import useTable from './useTable';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const TableFooter = forwardRef((
-  {
+const TableFooter = forwardRef((inProps, ref) => {
+  const {
     role: roleProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TableFooter' });
   const { layout } = useTable();
   const as = layout === LAYOUT_TABLE ? 'tfoot' : undefined;
   const role = roleProp ?? 'rowgroup';

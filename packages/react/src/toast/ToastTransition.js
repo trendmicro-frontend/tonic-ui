@@ -3,6 +3,7 @@ import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps,
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 
 const getScale = value => {
   return `scale(${value}, ${value ** 2})`;
@@ -48,8 +49,8 @@ const defaultTimeout = {
 
 const Wrapper = forwardRef((props, ref) => <Box ref={ref} {...props} />);
 
-const ToastTransition = forwardRef((
-  {
+const ToastTransition = forwardRef((inProps, ref) => {
+  const {
     appear = false, // do not perform the enter transition when it first mounts
     children,
     easing = defaultEasing,
@@ -57,9 +58,7 @@ const ToastTransition = forwardRef((
     style,
     timeout = defaultTimeout,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'ToastTransition' });
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const wrapperRef = useRef(null);

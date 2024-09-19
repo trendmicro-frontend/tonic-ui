@@ -2,19 +2,18 @@ import { CloseSIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import {
   useAlertCloseButtonStyle,
 } from './styles';
 import useAlert from './useAlert';
 
-const AlertCloseButton = forwardRef((
-  {
+const AlertCloseButton = forwardRef((inProps, ref) => {
+  const {
     children,
     onClick: onClickProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'AlertCloseButton' });
   const alertContext = useAlert(); // context might be an undefined value
   const {
     // The `isClosable` prop determines whether the close button should be displayed and allows for control over its positioning

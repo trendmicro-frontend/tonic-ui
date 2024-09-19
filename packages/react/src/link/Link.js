@@ -1,17 +1,16 @@
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useLinkStyle } from './styles';
 
-const Link = forwardRef((
-  {
+const Link = forwardRef((inProps, ref) => {
+  const {
     disabled,
     onClick,
     textDecoration,
     ...rest
-  },
-  ref
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Link' });
   const styleProps = useLinkStyle({
     disabled,
     textDecoration,

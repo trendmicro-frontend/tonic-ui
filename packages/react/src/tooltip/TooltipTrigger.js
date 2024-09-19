@@ -2,12 +2,13 @@ import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers, getOwnerDocument } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { mergeRefs } from '../utils/refs';
 import { useTooltipTriggerStyle } from './styles';
 import useTooltip from './useTooltip';
 
-const TooltipTrigger = forwardRef((
-  {
+const TooltipTrigger = forwardRef((inProps, ref) => {
+  const {
     children,
     shouldWrapChildren = false,
     onBlur: onBlurProp,
@@ -18,9 +19,7 @@ const TooltipTrigger = forwardRef((
     onMouseMove: onMouseMoveProp,
     onPointerDown: onPointerDownProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TooltipTrigger' });
   const {
     closeOnClick,
     closeOnEsc,

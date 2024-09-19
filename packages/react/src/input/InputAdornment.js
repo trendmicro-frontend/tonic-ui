@@ -1,17 +1,16 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { defaultSize, defaultVariant } from './constants';
 import { useInputAdornmentStyle } from './styles';
 import useInputGroup from './useInputGroup';
 
-const InputAdornment = forwardRef((
-  {
+const InputAdornment = forwardRef((inProps, ref) => {
+  const {
     size: sizeProp,
     variant: variantProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'InputAdornment' });
   const inputGroupContext = useInputGroup();
   const {
     size: inputGroupSize,

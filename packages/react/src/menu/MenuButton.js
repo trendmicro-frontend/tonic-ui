@@ -1,25 +1,24 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Button } from '../button';
+import { useDefaultProps } from '../default-props';
 import MenuToggle from './MenuToggle';
 import MenuToggleIcon from './MenuToggleIcon';
 import { useMenuButtonCSS, useMenuButtonStyle } from './styles';
 
-const MenuButton = forwardRef((
-  {
+const MenuButton = forwardRef((inProps, ref) => {
+  const {
     children,
-    css,
+    css: cssProp,
     disabled,
     onClick,
     onKeyDown,
     variant,
     ...rest
-  },
-  ref,
-) => {
-  css = [
+  } = useDefaultProps({ props: inProps, name: 'MenuButton' });
+  const css = [
     useMenuButtonCSS({ variant }),
-    css,
+    cssProp,
   ];
   const styleProps = useMenuButtonStyle();
 

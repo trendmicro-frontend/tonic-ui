@@ -1,8 +1,9 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 
-const Grid = forwardRef((
-  {
+const Grid = forwardRef((inProps, ref) => {
+  const {
     gap,
     rowGap,
     columnGap,
@@ -16,27 +17,28 @@ const Grid = forwardRef((
     templateColumns,
     templateAreas,
     ...rest
-  },
-  ref,
-) => (
-  <Box
-    ref={ref}
-    display="grid"
-    gridGap={gap}
-    gridRowGap={rowGap}
-    gridColumnGap={columnGap}
-    gridColumn={column}
-    gridRow={row}
-    gridArea={area}
-    gridAutoFlow={autoFlow}
-    gridAutoRows={autoRows}
-    gridAutoColumns={autoColumns}
-    gridTemplateRows={templateRows}
-    gridTemplateColumns={templateColumns}
-    gridTemplateAreas={templateAreas}
-    {...rest}
-  />
-));
+  } = useDefaultProps({ props: inProps, name: 'Grid' });
+
+  return (
+    <Box
+      ref={ref}
+      display="grid"
+      gridGap={gap}
+      gridRowGap={rowGap}
+      gridColumnGap={columnGap}
+      gridColumn={column}
+      gridRow={row}
+      gridArea={area}
+      gridAutoFlow={autoFlow}
+      gridAutoRows={autoRows}
+      gridAutoColumns={autoColumns}
+      gridTemplateRows={templateRows}
+      gridTemplateColumns={templateColumns}
+      gridTemplateAreas={templateAreas}
+      {...rest}
+    />
+  );
+});
 
 Grid.displayName = 'Grid';
 

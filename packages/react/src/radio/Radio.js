@@ -2,36 +2,42 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, isNullish } from '@tonic-ui/utils';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { VisuallyHidden } from '../visually-hidden';
 import { defaultSize, defaultVariantColor } from './constants';
 import RadioControlBox from './RadioControlBox';
 import useRadioGroup from './useRadioGroup';
 import { useRadioStyle } from './styles';
 
-const Radio = forwardRef((
-  {
-    checked,
+const Radio = forwardRef((inProps, ref) => {
+  const {
+    checked: checkedProp,
     children,
     defaultChecked,
-    disabled,
+    disabled: disabledProp,
     id,
     inputProps,
     inputRef: inputRefProp,
-    name,
+    name: nameProp,
     onBlur,
-    onChange,
+    onChange: onChangeProp,
     onClick,
     onFocus,
-    size,
+    size: sizeProp,
     value,
-    variantColor,
+    variantColor: variantColorProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Radio' });
+
+  let checked = checkedProp;
+  let disabled = disabledProp;
+  let name = nameProp;
+  let onChange = onChangeProp;
+  let size = sizeProp;
+  let variantColor = variantColorProp;
+
   const inputRef = useRef();
   const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
-  const styleProps = useRadioStyle({ disabled });
   const radioGroupContext = useRadioGroup();
 
   if (radioGroupContext) {
@@ -61,6 +67,8 @@ const Radio = forwardRef((
     size = size ?? defaultSize;
     variantColor = variantColor ?? defaultVariantColor;
   }
+
+  const styleProps = useRadioStyle({ disabled });
 
   return (
     <Box

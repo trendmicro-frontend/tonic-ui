@@ -2,13 +2,14 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { isNullish } from '@tonic-ui/utils';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { VisuallyHidden } from '../visually-hidden';
 import SwitchControlBox from './SwitchControlBox';
 import { defaultSize, defaultVariantColor } from './constants';
 import { useSwitchStyle } from './styles';
 
-const Switch = forwardRef((
-  {
+const Switch = forwardRef((inProps, ref) => {
+  const {
     checked,
     children,
     defaultChecked,
@@ -25,9 +26,7 @@ const Switch = forwardRef((
     value,
     variantColor = defaultVariantColor,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Switch' });
   const inputRef = useRef();
   const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
   const styleProps = useSwitchStyle({ disabled });

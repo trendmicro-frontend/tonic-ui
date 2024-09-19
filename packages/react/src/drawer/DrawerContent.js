@@ -1,6 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callAll } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import { Slide } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
 import DrawerCloseButton from './DrawerCloseButton';
@@ -9,15 +10,13 @@ import {
 } from './styles';
 import useDrawer from './useDrawer';
 
-const DrawerContent = forwardRef((
-  {
+const DrawerContent = forwardRef((inProps, ref) => {
+  const {
     TransitionComponent = Slide,
     TransitionProps,
     children,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'DrawerContent' });
   const [, safeToRemove] = useAnimatePresence();
   const drawerContext = useDrawer(); // context might be an undefined value
   const {

@@ -2,18 +2,17 @@ import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import useAccordionItem from './useAccordionItem';
 import { useAccordionToggleStyle } from './styles';
 
-const AccordionToggle = forwardRef((
-  {
+const AccordionToggle = forwardRef((inProps, ref) => {
+  const {
     children,
     disabled: disabledProp,
     onClick: onClickProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'AccordionToggle' });
   const context = useAccordionItem(); // context might be an undefined value
   const disabled = ensureBoolean(disabledProp ?? context?.disabled);
   const styleProps = useAccordionToggleStyle();

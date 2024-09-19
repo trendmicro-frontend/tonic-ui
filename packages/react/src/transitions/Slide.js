@@ -3,6 +3,7 @@ import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps,
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';
@@ -60,8 +61,8 @@ const defaultTimeout = {
   exit: transitionDuration.leavingScreen,
 };
 
-const Slide = forwardRef((
-  {
+const Slide = forwardRef((inProps, ref) => {
+  const {
     appear = false, // do not perform the enter transition when it first mounts
     children,
     direction = DIRECTION_DOWN,
@@ -70,9 +71,7 @@ const Slide = forwardRef((
     style,
     timeout = defaultTimeout,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Slide' });
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
 

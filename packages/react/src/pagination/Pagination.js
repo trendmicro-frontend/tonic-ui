@@ -1,11 +1,12 @@
 import React, { Fragment, forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { usePaginationStyle } from './styles';
 import PaginationItem from './PaginationItem';
 import usePagination from './usePagination';
 
-const Pagination = forwardRef((
-  {
+const Pagination = forwardRef((inProps, ref) => {
+  const {
     boundaryCount = 1,
     count = 1,
     defaultPage = 1,
@@ -16,9 +17,7 @@ const Pagination = forwardRef((
     siblingCount = 1,
     slot,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Pagination' });
   const { items } = usePagination({
     boundaryCount,
     count,

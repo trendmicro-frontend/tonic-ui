@@ -1,19 +1,18 @@
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useButtonBaseStyle } from './styles';
 
 /**
  * `ButtonBase` does not have appearance settings including default color, padding, outline, and border
  */
-const ButtonBase = forwardRef((
-  {
+const ButtonBase = forwardRef((inProps, ref) => {
+  const {
     children,
     disabled,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'ButtonBase' });
   const styleProps = useButtonBaseStyle({ disabled });
 
   return (

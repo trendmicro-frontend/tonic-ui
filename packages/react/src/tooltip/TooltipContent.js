@@ -9,6 +9,7 @@ import {
 import { ensureArray, ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
 import TooltipArrow from './TooltipArrow';
@@ -30,8 +31,8 @@ const mapPlacementToTransformOrigin = placement => ({
   'right-end': 'left bottom',
 }[placement]);
 
-const TooltipContent = forwardRef((
-  {
+const TooltipContent = forwardRef((inProps, ref) => {
+  const {
     PopperComponent = Popper,
     PopperProps,
     TooltipArrowComponent = TooltipArrow,
@@ -40,9 +41,7 @@ const TooltipContent = forwardRef((
     TransitionProps,
     children,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TooltipContent' });
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);

@@ -1,18 +1,16 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
+import { useVisuallyHiddenStyle } from './styles';
 
-const VisuallyHidden = forwardRef((props, ref) => {
+const VisuallyHidden = forwardRef((inProps, ref) => {
+  const props = useDefaultProps({ props: inProps, name: 'VisuallyHidden' });
+  const styleProps = useVisuallyHiddenStyle();
+
   return (
     <Box
       ref={ref}
-      position="absolute"
-      width={1}
-      height={1}
-      padding={0}
-      border={0}
-      overflow="hidden"
-      clipPath="inset(50%)"
-      whiteSpace="nowrap"
+      {...styleProps}
       {...props}
     />
   );

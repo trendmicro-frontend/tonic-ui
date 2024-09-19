@@ -3,6 +3,7 @@ import { ensureFunction } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import { AccordionItemContext } from './context';
@@ -10,17 +11,15 @@ import useAccordion from './useAccordion';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const AccordionItem = forwardRef((
-  {
+const AccordionItem = forwardRef((inProps, ref) => {
+  const {
     children,
     disabled,
     isExpanded: isExpandedProp,
     defaultIsExpanded: defaultIsExpandedProp,
     onToggle: onToggleProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'AccordionItem' });
   const accordionContext = useAccordion();
   const defaultId = useAutoId();
   const accordionToggleId = `${config.name}:AccordionToggle-${defaultId}`;

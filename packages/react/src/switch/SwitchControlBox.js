@@ -7,15 +7,13 @@ import { defaultSize, defaultVariantColor } from './constants';
 import { useSwitchControlBoxStyle } from './styles';
 import { useTheme } from '../theme';
 
-const SwitchControlBox = forwardRef((
-  {
+const SwitchControlBox = forwardRef((inProps, ref) => {
+  const {
     size = defaultSize,
     variantColor = defaultVariantColor,
     sx: sxProp,
     ...rest
-  },
-  ref,
-) => {
+  } = inProps;
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const width = {

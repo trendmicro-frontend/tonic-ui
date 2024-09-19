@@ -2,6 +2,7 @@ import { usePrevious } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import { PopoverContext } from './context';
@@ -10,26 +11,27 @@ const getMemoizedState = memoize(state => ({ ...state }));
 
 const defaultPlacement = 'bottom';
 
-const Popover = ({
-  arrow = true,
-  children,
-  closeOnBlur = true,
-  closeOnEsc = true,
-  defaultIsOpen = false,
-  disabled,
-  enterDelay = 100,
-  followCursor,
-  initialFocusRef,
-  isOpen: isOpenProp,
-  leaveDelay = 0,
-  nextToCursor,
-  offset,
-  onClose: onCloseProp,
-  onOpen: onOpenProp,
-  placement = defaultPlacement,
-  returnFocusOnClose = true,
-  trigger = 'click',
-}) => {
+const Popover = (inProps) => {
+  const {
+    arrow = true,
+    children,
+    closeOnBlur = true,
+    closeOnEsc = true,
+    defaultIsOpen = false,
+    disabled,
+    enterDelay = 100,
+    followCursor,
+    initialFocusRef,
+    isOpen: isOpenProp,
+    leaveDelay = 0,
+    nextToCursor,
+    offset,
+    onClose: onCloseProp,
+    onOpen: onOpenProp,
+    placement = defaultPlacement,
+    returnFocusOnClose = true,
+    trigger = 'click',
+  } = useDefaultProps({ props: inProps, name: 'Popover' });
   const popoverContentRef = useRef();
   const popoverTriggerRef = useRef();
   const isHoveringContentRef = useRef();

@@ -1,53 +1,44 @@
-import { keyframes } from '@emotion/react';
 import { SVGIcon } from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
+import { useDefaultProps } from '../default-props';
+import { useIconStyle } from './styles';
 import { useTheme } from '../theme';
 
-const cwSpin = keyframes`
-  0% {
-      transform: rotate(0deg)
-  }
-  to {
-      transform: rotate(1turn)
-  }
-`;
-
-const ccwSpin = keyframes`
-  0% {
-      transform: rotate(0deg)
-  }
-  to {
-      transform: rotate(-1turn)
-  }
-`;
-
-const Icon = forwardRef((
-  {
+const Icon = forwardRef((inProps, ref) => {
+  const {
     children,
-    icon,
+    icon: iconProp,
     spin = false,
     ...rest
-  },
-  ref
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Icon' });
   const theme = useTheme();
-  const styleProps = {
-    animation: (() => {
-      if (spin === 'ccw') {
-        return `${ccwSpin} 2s linear infinite`;
-      }
-      if (spin === 'cw' || spin === true) {
-        return `${cwSpin} 2s linear infinite`;
-      }
-      return undefined;
-    })(),
+  const cachedIconRef = useRef([null, null]); // [iconKey, icon]
+
+  const getIconFromTheme = (iconKey) => {
+    const [cachedKey, cachedIcon] = cachedIconRef.current;
+
+    // Return the cached icon if it matches the current key
+    if (cachedKey === iconKey) {
+      return cachedIcon;
+    }
+
+    // Find the icon in the theme's icon set
+    const foundIcon = ensureArray(theme?.icons).find(([key]) => key === iconKey)?.[1];
+
+    // Cache the found icon if it exists
+    if (foundIcon) {
+      cachedIconRef.current = [iconKey, foundIcon];
+    }
+
+    return foundIcon;
   };
 
-  if (typeof icon === 'string') {
-    const result = ensureArray(theme?.icons).find(iconEntry => iconEntry?.[0] === icon);
-    children = result?.[1] ?? children;
-  }
+  const icon = (typeof iconProp === 'string' && iconProp.length > 0)
+    ? getIconFromTheme(iconProp) || children
+    : children;
+
+  const styleProps = useIconStyle({ spin });
 
   return (
     <SVGIcon
@@ -55,7 +46,7 @@ const Icon = forwardRef((
       {...styleProps}
       {...rest}
     >
-      {children}
+      {icon}
     </SVGIcon>
   );
 });

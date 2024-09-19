@@ -1,22 +1,21 @@
 import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { LAYOUT_FLEXBOX, LAYOUT_TABLE, SIZE_MEDIUM, VARIANT_DEFAULT } from './constants';
 import { TableContext } from './context';
 import { useTableStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const Table = forwardRef((
-  {
+const Table = forwardRef((inProps, ref) => {
+  const {
     layout = LAYOUT_FLEXBOX,
     role: roleProp,
     size = SIZE_MEDIUM,
     variant = VARIANT_DEFAULT,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Table' });
   const as = layout === LAYOUT_TABLE ? 'table' : undefined;
   const role = roleProp ?? 'table';
   const context = getMemoizedState({

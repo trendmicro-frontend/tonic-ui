@@ -2,6 +2,7 @@ import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
 import { SubmenuContext } from './context';
@@ -9,8 +10,8 @@ import { useSubmenuStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const Submenu = forwardRef((
-  {
+const Submenu = forwardRef((inProps, ref) => {
+  const {
     children,
     defaultIsOpen = false,
     isOpen: isOpenProp,
@@ -19,9 +20,7 @@ const Submenu = forwardRef((
     onOpen: onOpenProp,
     placement = 'right-start', // One of: 'right-start', 'right-end', 'left-start', 'left-end'
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Submenu' });
   const submenuContentRef = useRef(null);
   const submenuToggleRef = useRef(null);
   const isHoveringSubmenuContentRef = useRef();

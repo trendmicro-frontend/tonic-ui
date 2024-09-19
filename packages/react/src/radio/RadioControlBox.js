@@ -9,15 +9,13 @@ import {
   useRadioControlBoxStyle,
 } from './styles';
 
-const RadioControlBox = forwardRef((
-  {
+const RadioControlBox = forwardRef((inProps, ref) => {
+  const {
     size = defaultSize,
     variantColor = defaultVariantColor,
     sx: sxProp,
     ...rest
-  },
-  ref,
-) => {
+  } = inProps;
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const width = {

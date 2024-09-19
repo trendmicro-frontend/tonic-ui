@@ -1,19 +1,18 @@
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { GROUP_VARIANT_HEADER, GROUP_VARIANT_BODY, GROUP_VARIANT_FOOTER, LAYOUT_TABLE, VARIANT_OUTLINE } from './constants';
 import { useTableCellStyle } from './styles';
 import useTable from './useTable';
 import useTableGroup from './useTableGroup';
 
-const TableCell = forwardRef((
-  {
+const TableCell = forwardRef((inProps, ref) => {
+  const {
     role: roleProp,
     sx: sxProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TableCell' });
   const { layout, size, variant } = useTable();
   const groupContext = useTableGroup();
   const groupVariant = groupContext?.groupVariant ?? GROUP_VARIANT_BODY;

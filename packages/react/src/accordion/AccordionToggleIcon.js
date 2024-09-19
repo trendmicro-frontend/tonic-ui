@@ -5,6 +5,7 @@ import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useAccordionToggleIconStyle,
 } from './styles';
@@ -39,8 +40,8 @@ const defaultTimeout = {
   exit: Math.floor(133 * 0.7),
 };
 
-const AccordionToggleIcon = forwardRef((
-  {
+const AccordionToggleIcon = forwardRef((inProps, ref) => {
+  const {
     appear = false, // do not perform the enter transition when it first mounts
     children,
     disabled: disabledProp,
@@ -48,9 +49,7 @@ const AccordionToggleIcon = forwardRef((
     style,
     timeout = defaultTimeout,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'AccordionToggleIcon' });
   const context = useAccordionItem(); // context might be an undefined value
   const toggleIconStyleProps = useAccordionToggleIconStyle();
   const nodeRef = useRef(null);

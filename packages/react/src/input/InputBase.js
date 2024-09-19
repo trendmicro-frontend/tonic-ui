@@ -1,19 +1,18 @@
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useInputBaseStyle } from './styles';
 
 /**
  * `InputBase` does not have appearance settings including default color, padding, outline, and border
  */
-const InputBase = forwardRef((
-  {
+const InputBase = forwardRef((inProps, ref) => {
+  const {
     children,
     error,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'InputBase' });
   const ariaProps = {
     'aria-disabled': ariaAttr(rest.disabled),
     'aria-invalid': ariaAttr(error),

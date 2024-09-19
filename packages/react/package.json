@@ -62,6 +62,7 @@
     "eslint-plugin-jsx-a11y": "latest",
     "eslint-plugin-react": "latest",
     "eslint-plugin-react-hooks": "latest",
+    "glob": "^11.0.0",
     "jest": "^29.0.0",
     "jest-axe": "^8.0.0",
     "jest-environment-jsdom": "^29.0.0",

@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import {
+  useConst,
   useMediaQuery,
   useToggle,
 } from '@tonic-ui/react-hooks';
@@ -32,6 +33,19 @@ const NONCE = ensureString(process.env.NONCE);
 // Algolia search client
 const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY);
 
+theme.components = {
+  // Set default props for components here.
+  //
+  // Example:
+  // ```
+  // 'AccordionToggle': {
+  //   defaultProps: {
+  //     disabled: true,
+  //   },
+  // }
+  // ```
+};
+
 // Enable CSS variables replacement
 theme.config.useCSSVariables = true;
 
@@ -52,6 +66,28 @@ const EmotionCacheProvider = ({
 };
 
 const App = (props) => {
+  const customTheme = useConst(() => {
+    return {
+      ...theme,
+      components: {
+        // Set default props for components here.
+        //
+        // Example:
+        // ```
+        // 'AccordionToggle': {
+        //   defaultProps: {
+        //     disabled: true,
+        //   },
+        // }
+        // ```
+      },
+      config: {
+        ...theme?.config,
+        // Enable CSS variables replacement
+        useCSSVariables: true,
+      },
+    };
+  });
   const [initialColorMode, setColorMode] = useState(null);
   const router = useRouter();
 
@@ -94,7 +130,7 @@ const App = (props) => {
           colorStyle={{
             defaultValue: defaultColorStyle,
           }}
-          theme={theme}
+          theme={customTheme}
           useCSSBaseline
         >
           <PortalManager>

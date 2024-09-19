@@ -2,17 +2,16 @@ import { CloseSIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
+import { useDefaultProps } from '../default-props';
 import { useTagCloseButtonStyle } from './styles';
 import useTag from './useTag';
 
-const TagCloseButton = forwardRef((
-  {
+const TagCloseButton = forwardRef((inProps, ref) => {
+  const {
     children,
     onClick: onClickProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TagCloseButton' });
   const tagContext = useTag(); // context might be an undefined value
   const {
     disabled,

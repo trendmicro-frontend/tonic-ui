@@ -1,8 +1,10 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { usePopoverHeaderStyle } from './styles';
 
-const PopoverHeader = forwardRef((props, ref) => {
+const PopoverHeader = forwardRef((inProps, ref) => {
+  const props = useDefaultProps({ props: inProps, name: 'PopoverHeader' });
   const styleProps = usePopoverHeaderStyle({});
 
   return (

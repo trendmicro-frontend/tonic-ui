@@ -1,18 +1,17 @@
 import { getComputedStyle, isHTMLElement } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { useTooltipArrowStyle } from './styles';
 import useTooltip from './useTooltip';
 
-const TooltipArrow = forwardRef((
-  {
+const TooltipArrow = forwardRef((inProps, ref) => {
+  const {
     arrowHeight = 4,
     arrowWidth = 8,
     sx,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TooltipArrow' });
   const {
     placement,
     tooltipContentRef,

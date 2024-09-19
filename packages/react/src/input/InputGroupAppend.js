@@ -1,14 +1,13 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { getInputGroupAppendCSS, useInputGroupAppendStyle } from './styles';
 
-const InputGroupAppend = forwardRef((
-  {
+const InputGroupAppend = forwardRef((inProps, ref) => {
+  const {
     css: cssProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'InputGroupAppend' });
   const css = [getInputGroupAppendCSS(), cssProp];
   const styleProps = useInputGroupAppendStyle();
 

@@ -5,6 +5,7 @@ import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useTreeItemToggleIconStyle,
 } from './styles';
@@ -39,19 +40,16 @@ const defaultTimeout = {
   exit: Math.floor(133 * 0.7),
 };
 
-const TreeItemToggleIcon = forwardRef((
-  {
+const TreeItemToggleIcon = forwardRef((inProps, ref) => {
+  const {
     appear = false, // do not perform the enter transition when it first mounts
     children,
     disabled,
     easing = defaultEasing,
-    nodeId,
     style,
     timeout = defaultTimeout,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TreeItemToggleIcon' });
   const context = useTreeItem();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);

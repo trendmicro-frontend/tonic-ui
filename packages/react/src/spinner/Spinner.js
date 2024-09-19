@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useSpinnerStyle,
   useSpinnerSVGBaseStyle,
@@ -9,17 +10,15 @@ import {
 
 const defaultSize = 'md';
 
-const Spinner = forwardRef((
-  {
+const Spinner = forwardRef((inProps, ref) => {
+  const {
     size = defaultSize,
     lineColor,
     lineWidth,
     trackColor,
     trackWidth,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Spinner' });
   const styleProps = useSpinnerStyle({ size });
   const svgBaseStyleProps = useSpinnerSVGBaseStyle({ size });
   const svgTrackStyleProps = useSpinnerSVGTrackStyle({ size, trackColor, trackWidth });

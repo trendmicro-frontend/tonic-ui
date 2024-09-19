@@ -2,13 +2,14 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import { useSubmenuContentStyle } from './styles';
 import useSubmenu from './useSubmenu';
 
-const SubmenuContent = forwardRef((
-  {
+const SubmenuContent = forwardRef((inProps, ref) => {
+  const {
     PopperComponent = Popper,
     PopperProps,
     TransitionComponent = Collapse,
@@ -17,9 +18,7 @@ const SubmenuContent = forwardRef((
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'SubmenuContent' });
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const mouseLeaveTimeoutRef = useRef();
@@ -94,7 +93,7 @@ const SubmenuContent = forwardRef((
   }, [skidding, distance]);
 
   return (
-    <Popper
+    <PopperComponent
       aria-labelledby={submenuToggleId}
       anchorEl={submenuToggleRef?.current} // TODO: rename to `referenceRef` in a future release
       data-submenu-id={submenuId}
@@ -146,7 +145,7 @@ const SubmenuContent = forwardRef((
           </TransitionComponent>
         );
       }}
-    </Popper>
+    </PopperComponent>
   );
 });
 

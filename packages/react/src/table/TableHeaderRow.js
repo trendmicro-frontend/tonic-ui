@@ -1,16 +1,15 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import { GROUP_VARIANT_HEADER, LAYOUT_TABLE } from './constants';
 import { useTableRowStyle } from './styles';
 import useTable from './useTable';
 
-const TableHeaderRow = forwardRef((
-  {
+const TableHeaderRow = forwardRef((inProps, ref) => {
+  const {
     role: roleProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TableHeaderRow' });
   const { layout, variant } = useTable();
   const groupVariant = GROUP_VARIANT_HEADER;
   const as = layout === LAYOUT_TABLE ? 'tr' : undefined;

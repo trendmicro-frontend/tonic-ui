@@ -1,6 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callAll } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
 import ModalCloseButton from './ModalCloseButton';
@@ -9,15 +10,13 @@ import {
 } from './styles';
 import useModal from './useModal';
 
-const ModalContent = forwardRef((
-  {
+const ModalContent = forwardRef((inProps, ref) => {
+  const {
     TransitionComponent = Fade,
     TransitionProps,
     children,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'ModalContent' });
   const [, safeToRemove] = useAnimatePresence();
   const modalContext = useModal(); // context might be an undefined value
   const {

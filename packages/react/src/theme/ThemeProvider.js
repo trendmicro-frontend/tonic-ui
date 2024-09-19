@@ -1,9 +1,10 @@
 import {
-  ThemeProvider as EmotionThemeProvider,
+  ThemeProvider as StyledEngineThemeProvider,
 } from '@emotion/react';
 import originalTheme from '@tonic-ui/theme';
 import { ensurePlainObject, ensureString } from 'ensure-type';
 import React, { useMemo } from 'react';
+import { DefaultPropsProvider } from '../default-props';
 import CSSVariables from './CSSVariables';
 import defaultTheme from './theme';
 import flatten from './utils/flatten';
@@ -75,10 +76,12 @@ const ThemeProvider = ({
   }, [theme]);
 
   return (
-    <EmotionThemeProvider theme={computedTheme}>
-      <CSSVariables />
-      {children}
-    </EmotionThemeProvider>
+    <StyledEngineThemeProvider theme={computedTheme}>
+      <DefaultPropsProvider value={computedTheme.components}>
+        <CSSVariables />
+        {children}
+      </DefaultPropsProvider>
+    </StyledEngineThemeProvider>
   );
 };
 

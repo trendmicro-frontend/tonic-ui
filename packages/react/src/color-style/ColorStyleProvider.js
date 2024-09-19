@@ -1,6 +1,7 @@
 import { ensurePlainObject } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDefaultProps } from '../default-props';
 import defaultColorStyle from './color-style';
 import { ColorStyleContext } from './context';
 
@@ -10,12 +11,13 @@ const ensureColorStyle = (colorStyle) => {
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const ColorStyleProvider = ({
-  children,
-  defaultValue: defaultValueProp,
-  value: valueProp,
-  onChange: onChangeProp,
-}) => {
+const ColorStyleProvider = (inProps) => {
+  const {
+    children,
+    defaultValue: defaultValueProp,
+    value: valueProp,
+    onChange: onChangeProp,
+  } = useDefaultProps({ props: inProps, name: 'ColorStyleProvider' });
   const [colorStyle, setColorStyle] = useState(ensureColorStyle(valueProp ?? (defaultValueProp ?? defaultColorStyle)));
 
   useEffect(() => {

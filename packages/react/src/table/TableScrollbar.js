@@ -1,14 +1,13 @@
 import React, { forwardRef } from 'react';
+import { useDefaultProps } from '../default-props';
 import { Scrollbar } from '../scrollbar';
 import { useTableScrollbarTrackStyle } from './styles';
 
-const TableScrollbar = forwardRef((
-  {
+const TableScrollbar = forwardRef((inProps, ref) => {
+  const {
     children,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'TableScrollbar' });
   const trackStyleProps = useTableScrollbarTrackStyle();
 
   return (

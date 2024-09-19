@@ -1,6 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { useDefaultProps } from '../default-props';
 import { InputControl } from '../input';
 import useRunAfterUpdate from '../utils/useRunAfterUpdate';
 import SearchInputAdornment from './SearchInputAdornment';
@@ -11,8 +12,8 @@ import SearchInputSearchIcon from './SearchInputSearchIcon';
 const defaultSize = 'md';
 const defaultVariant = 'outline';
 
-const SearchInput = React.forwardRef((
-  {
+const SearchInput = forwardRef((inProps, ref) => {
+  const {
     defaultValue: defaultValueProp = '',
     disabled,
     endAdornment: endAdornmentProp,
@@ -25,9 +26,7 @@ const SearchInput = React.forwardRef((
     value: valueProp,
     variant = defaultVariant,
     ...rest
-  },
-  ref
-) => {
+  } = useDefaultProps({ props: inProps, name: 'SearchInput' });
   const nodeRef = useRef();
   const combinedRef = useMergeRefs(nodeRef, ref);
   const [value, setValue] = useState(ensureString(valueProp ?? defaultValueProp));

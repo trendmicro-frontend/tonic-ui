@@ -3,21 +3,20 @@ import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
 import {
   useSubmenuToggleStyle,
 } from './styles';
 import useSubmenu from './useSubmenu';
 
-const SubmenuToggle = forwardRef((
-  {
+const SubmenuToggle = forwardRef((inProps, ref) => {
+  const {
     children,
     disabled,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'SubmenuToggle' });
   const mouseLeaveTimeoutRef = useRef();
   const submenuContext = useSubmenu(); // context might be an undefined value
   const {
