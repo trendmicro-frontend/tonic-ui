@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.2.0
+
+### Minor Changes
+
+- feat: introduce `DefaultPropsProvider` for setting default props in React components by [@cheton](https://github.com/cheton) in [#922](https://github.com/trendmicro-frontend/tonic-ui/pull/922)
+
 ## 2.1.0
 
 ### Minor Changes
