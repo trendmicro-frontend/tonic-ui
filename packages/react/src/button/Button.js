@@ -11,28 +11,31 @@ const defaultOrientation = 'horizontal';
 
 const Button = forwardRef((inProps, ref) => {
   const {
-    disabled,
+    disabled: disabledProp,
     selected,
     size: sizeProp,
     variant: variantProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Button' });
 
-  let orientation; // orientation for ButtonGroup
+  let disabled = disabledProp;
+  let orientation; // specified by ButtonGroup
   let size = sizeProp;
   let variant = variantProp;
 
   const buttonGroupContext = useButtonGroup();
   if (buttonGroupContext) {
     const {
+      disabled: buttonGroupDisabled,
+      orientation: buttonGroupOrientation,
       size: buttonGroupSize,
       variant: buttonGroupVariant,
-      orientation: buttonGroupOrientation,
     } = { ...buttonGroupContext };
-    // Use fallback values if values are null or undefined
+    disabled = buttonGroupDisabled || disabled;
+    orientation = buttonGroupOrientation ?? defaultOrientation;
+    // Use the default value if the value is null or undefined
     size = (size ?? buttonGroupSize) ?? defaultSize;
     variant = (variant ?? buttonGroupVariant) ?? defaultVariant;
-    orientation = buttonGroupOrientation ?? defaultOrientation;
   } else {
     // Use the default value if the value is null or undefined
     size = size ?? defaultSize;
