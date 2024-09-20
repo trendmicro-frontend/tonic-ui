@@ -5,8 +5,6 @@ on:
     branches:
       - v2
   workflow_dispatch:
-    branches:
-      - v2
 
 permissions:
   contents: write
