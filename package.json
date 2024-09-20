@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "build": "lerna exec -- yarn build",
+    "build-public": "lerna exec --no-private -- yarn build",
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
     "changeset": "changeset",
     "ci-publish": "yarn lerna-publish-from-package --yes",
