@@ -121,9 +121,9 @@ jobs:
 
       - name: Deploy to gh-pages
         run: |
-          rm -rf "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
-          mkdir -p "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
-          cp -af artifact/react-docs/** "react-docs/${TONIC_UI_REACT_DOCS_VERSION}/"
-          git add "react-docs/${TONIC_UI_REACT_DOCS_VERSION}"
+          rm -rf "react/${TONIC_UI_REACT_DOCS_VERSION}"
+          mkdir -p "react/${TONIC_UI_REACT_DOCS_VERSION}"
+          cp -af artifact/react-docs/** "react/${TONIC_UI_REACT_DOCS_VERSION}/"
+          git add "react/${TONIC_UI_REACT_DOCS_VERSION}"
           git commit -m "Deploy ${CI_COMMIT:0:8} to gh-pages [skip ci]"
           git push origin gh-pages
