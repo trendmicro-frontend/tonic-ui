@@ -3,8 +3,6 @@ name: ci-publish
 on:
   workflow_call:
   workflow_dispatch:
-    branches:
-      - v1
 
 permissions:
   contents: write
