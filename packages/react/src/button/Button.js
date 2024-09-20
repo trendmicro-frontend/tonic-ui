@@ -31,7 +31,7 @@ const Button = forwardRef((inProps, ref) => {
       size: buttonGroupSize,
       variant: buttonGroupVariant,
     } = { ...buttonGroupContext };
-    disabled = buttonGroupDisabled || disabled;
+    disabled = buttonGroupDisabled ?? disabled;
     orientation = buttonGroupOrientation ?? defaultOrientation;
     // Use the default value if the value is null or undefined
     size = (size ?? buttonGroupSize) ?? defaultSize;

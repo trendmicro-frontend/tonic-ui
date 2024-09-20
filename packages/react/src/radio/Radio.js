@@ -53,7 +53,7 @@ const Radio = forwardRef((inProps, ref) => {
     if (radioGroupValue !== undefined) {
       checked = (radioGroupValue === value);
     }
-    disabled = radioGroupDisabled || disabled;
+    disabled = radioGroupDisabled ?? disabled;
     name = radioGroupName ?? name;
     onChange = callAll(
       onChange,
