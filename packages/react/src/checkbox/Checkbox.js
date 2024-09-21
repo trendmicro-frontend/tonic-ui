@@ -54,8 +54,8 @@ const Checkbox = forwardRef((inProps, ref) => {
     if (checkboxGroupValue !== undefined) {
       checked = ensureArray(checkboxGroupValue).includes(value);
     }
-    disabled = checkboxGroupDisabled ?? disabled;
-    name = checkboxGroupName ?? name;
+    disabled = (disabled ?? checkboxGroupDisabled);
+    name = (name ?? checkboxGroupName);
     onChange = callAll(
       onChange,
       checkboxGroupOnChange,

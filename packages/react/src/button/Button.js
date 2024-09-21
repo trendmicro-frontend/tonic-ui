@@ -19,7 +19,7 @@ const Button = forwardRef((inProps, ref) => {
   } = useDefaultProps({ props: inProps, name: 'Button' });
 
   let disabled = disabledProp;
-  let orientation; // specified by ButtonGroup
+  let orientation; // No default value assigned; orientation is determined by `ButtonGroup`
   let size = sizeProp;
   let variant = variantProp;
 
@@ -31,7 +31,7 @@ const Button = forwardRef((inProps, ref) => {
       size: buttonGroupSize,
       variant: buttonGroupVariant,
     } = { ...buttonGroupContext };
-    disabled = buttonGroupDisabled ?? disabled;
+    disabled = (disabled ?? buttonGroupDisabled);
     orientation = buttonGroupOrientation ?? defaultOrientation;
     // Use the default value if the value is null or undefined
     size = (size ?? buttonGroupSize) ?? defaultSize;
@@ -59,7 +59,7 @@ const Button = forwardRef((inProps, ref) => {
   };
 
   const styleProps = useButtonStyle({
-    orientation, // No default value if not specified
+    orientation, // No default value if not used within `ButtonGroup`
     size,
     variant,
   });
