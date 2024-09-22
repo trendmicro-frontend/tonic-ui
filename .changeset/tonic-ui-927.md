@@ -2,4 +2,4 @@
 "@tonic-ui/react": minor
 ---
 
-feat: support `disabled` prop for `ButtonGroup`
+feat: improve `disabled` prop handling in `Button` and `ButtonGroup`
