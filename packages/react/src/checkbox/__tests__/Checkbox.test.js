@@ -1,6 +1,6 @@
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Checkbox } from '@tonic-ui/react/src';
+import { Checkbox, CheckboxGroup } from '@tonic-ui/react/src';
 import React, { useEffect, useRef } from 'react';
 
 describe('Checkbox', () => {
@@ -52,5 +52,25 @@ describe('Checkbox', () => {
     render(
       <TestComponent />
     );
+  });
+
+  it('should output a warning message when the Checkbox\'s name prop conflicts with the CheckboxGroup\'s name prop', () => {
+    // Mock console.error
+    const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const checkboxGroupName = 'checkbox-group';
+    const checkboxName = 'checkbox';
+
+    render(
+      <CheckboxGroup name={checkboxGroupName}>
+        <Checkbox name={checkboxName} />
+      </CheckboxGroup>
+    );
+
+    const expectedErrorMessage = `Warning: The \`Checkbox\` has a \`name\` prop ("${checkboxName}") that conflicts with the \`CheckboxGroup\`'s \`name\` prop ("${checkboxGroupName}")`;
+    expect(consoleErrorMock).toHaveBeenLastCalledWith(expectedErrorMessage);
+
+    // Restore the original console.error
+    consoleErrorMock.mockRestore();
   });
 });

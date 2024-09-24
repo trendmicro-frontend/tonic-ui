@@ -41,6 +41,7 @@ const Checkbox = forwardRef((inProps, ref) => {
   const inputRef = useRef();
   const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
   const checkboxGroupContext = useCheckboxGroup();
+  const isNameConflictRef = useRef(false);
 
   if (checkboxGroupContext) {
     const {
@@ -55,7 +56,18 @@ const Checkbox = forwardRef((inProps, ref) => {
       checked = ensureArray(checkboxGroupValue).includes(value);
     }
     disabled = (disabled ?? checkboxGroupDisabled);
-    name = (name ?? checkboxGroupName);
+
+    const isNameConflict = (!isNullish(name) && !isNullish(checkboxGroupName) && (name !== checkboxGroupName));
+    if (process.env.NODE_ENV !== 'production' && isNameConflict && !isNameConflict.current) {
+      // Log the warning message only once
+      console.error(
+        `Warning: The \`Checkbox\` has a \`name\` prop ("${name}") that conflicts with the \`CheckboxGroup\`'s \`name\` prop ("${checkboxGroupName}")`
+      );
+      isNameConflictRef.current = true;
+    }
+
+    name = name ?? checkboxGroupName;
+
     onChange = callAll(
       onChange,
       checkboxGroupOnChange,
