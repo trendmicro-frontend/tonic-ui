@@ -39,6 +39,7 @@ const Radio = forwardRef((inProps, ref) => {
   const inputRef = useRef();
   const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
   const radioGroupContext = useRadioGroup();
+  const isNameConflictRef = useRef(false);
 
   if (radioGroupContext) {
     const {
@@ -53,8 +54,18 @@ const Radio = forwardRef((inProps, ref) => {
     if (radioGroupValue !== undefined) {
       checked = (radioGroupValue === value);
     }
-    disabled = radioGroupDisabled || disabled;
-    name = radioGroupName ?? name;
+    disabled = (disabled ?? radioGroupDisabled);
+
+    const isNameConflict = (!isNullish(name) && !isNullish(radioGroupName) && (name !== radioGroupName));
+    if (process.env.NODE_ENV !== 'production' && isNameConflict && !isNameConflict.current) {
+      // Log the warning message only once
+      console.error(
+        `Warning: The \`Radio\` has a \`name\` prop ("${name}") that conflicts with the \`RadioGroup\`'s \`name\` prop ("${radioGroupName}")`
+      );
+      isNameConflictRef.current = true;
+    }
+    name = (name ?? radioGroupName);
+
     onChange = callAll(
       onChange,
       radioGroupOnChange,

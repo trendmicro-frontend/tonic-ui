@@ -15,13 +15,19 @@ const defaultVariant = 'default';
 const ButtonGroup = forwardRef((inProps, ref) => {
   const {
     children,
+    disabled,
     orientation = defaultOrientation,
     size = defaultSize,
     variant = defaultVariant,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'ButtonGroup' });
   const styleProps = useButtonGroupStyle({ orientation });
-  const context = getMemoizedState({ orientation, size, variant });
+  const context = getMemoizedState({
+    disabled,
+    orientation,
+    size,
+    variant,
+  });
 
   return (
     <ButtonGroupContext.Provider value={context}>

@@ -1,6 +1,6 @@
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Radio } from '@tonic-ui/react/src';
+import { Radio, RadioGroup } from '@tonic-ui/react/src';
 import React, { useEffect, useRef } from 'react';
 
 describe('Radio', () => {
@@ -50,5 +50,25 @@ describe('Radio', () => {
     render(
       <TestComponent />
     );
+  });
+
+  it('should output a warning message when the Radio\'s name prop conflicts with the RadioGroup\'s name prop', () => {
+    // Mock console.error
+    const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const radioGroupName = 'radio-group';
+    const radioName = 'radio';
+
+    render(
+      <RadioGroup name={radioGroupName}>
+        <Radio name={radioName} />
+      </RadioGroup>
+    );
+
+    const expectedErrorMessage = `Warning: The \`Radio\` has a \`name\` prop ("${radioName}") that conflicts with the \`RadioGroup\`'s \`name\` prop ("${radioGroupName}")`;
+    expect(consoleErrorMock).toHaveBeenLastCalledWith(expectedErrorMessage);
+
+    // Restore the original console.error
+    consoleErrorMock.mockRestore();
   });
 });

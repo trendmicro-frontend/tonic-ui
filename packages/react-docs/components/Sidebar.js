@@ -208,7 +208,7 @@ const Sidebar = forwardRef((
                         if (heading) {
                           return (
                             <Text
-                              key={title}
+                              key={`${sectionTitle} > ${title}`}
                               color={colorStyle?.color?.tertiary}
                               fontSize="xs"
                               lineHeight="xs"
@@ -231,7 +231,7 @@ const Sidebar = forwardRef((
 
                         return (
                           <NavLink
-                            key={title}
+                            key={path}
                             data-path={path}
                             data-track={`SideMenu|click_menu_item|${x({ path: navigateTo, title: [sectionTitle, title].join(' > ') })}`}
                             isActive={isActive}
