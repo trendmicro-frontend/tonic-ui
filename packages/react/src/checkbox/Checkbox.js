@@ -58,7 +58,7 @@ const Checkbox = forwardRef((inProps, ref) => {
     disabled = (disabled ?? checkboxGroupDisabled);
 
     const isNameConflict = (!isNullish(name) && !isNullish(checkboxGroupName) && (name !== checkboxGroupName));
-    if (process.env.NODE_ENV !== 'production' && isNameConflict && !isNameConflict.current) {
+    if (process.env.NODE_ENV !== 'production' && isNameConflict && !isNameConflictRef.current) {
       // Log the warning message only once
       console.error(
         `Warning: The \`Checkbox\` has a \`name\` prop ("${name}") that conflicts with the \`CheckboxGroup\`'s \`name\` prop ("${checkboxGroupName}")`

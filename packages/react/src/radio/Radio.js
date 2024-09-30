@@ -57,7 +57,7 @@ const Radio = forwardRef((inProps, ref) => {
     disabled = (disabled ?? radioGroupDisabled);
 
     const isNameConflict = (!isNullish(name) && !isNullish(radioGroupName) && (name !== radioGroupName));
-    if (process.env.NODE_ENV !== 'production' && isNameConflict && !isNameConflict.current) {
+    if (process.env.NODE_ENV !== 'production' && isNameConflict && !isNameConflictRef.current) {
       // Log the warning message only once
       console.error(
         `Warning: The \`Radio\` has a \`name\` prop ("${name}") that conflicts with the \`RadioGroup\`'s \`name\` prop ("${radioGroupName}")`
