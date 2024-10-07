@@ -133,31 +133,31 @@ const App = (props) => {
           theme={customTheme}
           useCSSBaseline
         >
-          <PortalManager>
-            <ToastManager
-              TransitionProps={{
-                sx: {
-                  '[data-toast-placement^="top"] > &:first-of-type': {
-                    mt: '4x', // the space to the top edge of the screen
-                  },
-                  '[data-toast-placement^="bottom"] > &:last-of-type': {
-                    mb: '4x', // the space to the bottom edge of the screen
-                  },
-                  '[data-toast-placement$="left"] > &': {
-                    ml: '4x', // the space to the left edge of the screen
-                  },
-                  '[data-toast-placement$="right"] > &': {
-                    mr: '4x', // the space to the right edge of the screen
-                  },
+          <ToastManager
+            TransitionProps={{
+              sx: {
+                '[data-toast-placement^="top"] > &:first-of-type': {
+                  mt: '4x', // the space to the top edge of the screen
                 },
-              }}
-            >
+                '[data-toast-placement^="bottom"] > &:last-of-type': {
+                  mb: '4x', // the space to the bottom edge of the screen
+                },
+                '[data-toast-placement$="left"] > &': {
+                  ml: '4x', // the space to the left edge of the screen
+                },
+                '[data-toast-placement$="right"] > &': {
+                  mr: '4x', // the space to the right edge of the screen
+                },
+              },
+            }}
+          >
+            <PortalManager>
               <MDXProvider components={MDXComponents}>
                 <Page {...props} />
                 <GlobalStyles />
               </MDXProvider>
-            </ToastManager>
-          </PortalManager>
+            </PortalManager>
+          </ToastManager>
         </TonicProvider>
       </EmotionCacheProvider>
     </InstantSearch>
