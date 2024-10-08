@@ -4,20 +4,20 @@
 
 ## Setup
 
-To incorporate with `PortalManager`, wrap your root component with the `PortalManager` component. This provides a context that the `usePortalManager` Hook can access.
+First, import the necessary components:
+
+```js
+import {
+  PortalManager,
+} from '@tonic-ui/react';
+```
+
+Next, wrap your application with `PortalManager`:
 
 ```jsx disabled
-import { TonicProvider, PortalManager } from '@tonic-ui/react';
-
-function App() {
-  return (
-    <TonicProvider>
-      <PortalManager>
-        {/* Your app goes here */}
-      </PortalManager>
-    </TonicProvider>
-  );
-}
+<PortalManager>
+  <App />
+</PortalManager>
 ```
 
 Once `PortalManager` is set up, any component can use the `usePortalManager` Hook to create and manage portals.
