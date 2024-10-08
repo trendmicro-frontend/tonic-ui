@@ -1,4 +1,4 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { useEffectOnceWhen, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, dataAttr, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
@@ -41,7 +41,7 @@ const Checkbox = forwardRef((inProps, ref) => {
   const inputRef = useRef();
   const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
   const checkboxGroupContext = useCheckboxGroup();
-  const isNameConflictRef = useRef(false);
+  let warningMessage = '';
 
   if (checkboxGroupContext) {
     const {
@@ -56,18 +56,11 @@ const Checkbox = forwardRef((inProps, ref) => {
       checked = ensureArray(checkboxGroupValue).includes(value);
     }
     disabled = (disabled ?? checkboxGroupDisabled);
-
-    const isNameConflict = (!isNullish(name) && !isNullish(checkboxGroupName) && (name !== checkboxGroupName));
-    if (process.env.NODE_ENV !== 'production' && isNameConflict && !isNameConflictRef.current) {
-      // Log the warning message only once
-      console.error(
-        `Warning: The \`Checkbox\` has a \`name\` prop ("${name}") that conflicts with the \`CheckboxGroup\`'s \`name\` prop ("${checkboxGroupName}")`
-      );
-      isNameConflictRef.current = true;
+    const isNameConflict = !isNullish(name) && !isNullish(checkboxGroupName) && (name !== checkboxGroupName);
+    if (isNameConflict) {
+      warningMessage = `Warning: The \`Checkbox\` has a \`name\` prop ("${name}") that conflicts with the \`CheckboxGroup\`'s \`name\` prop ("${checkboxGroupName}")`;
     }
-
     name = name ?? checkboxGroupName;
-
     onChange = callAll(
       onChange,
       checkboxGroupOnChange,
@@ -80,6 +73,13 @@ const Checkbox = forwardRef((inProps, ref) => {
     size = size ?? defaultSize;
     variantColor = variantColor ?? defaultVariantColor;
   }
+
+  useEffectOnceWhen(() => {
+    if (process.env.NODE_ENV !== 'production' && !!warningMessage) {
+      // Log the warning message only once
+      console.error(warningMessage);
+    }
+  }, [!!warningMessage]);
 
   const styleProps = useCheckboxStyle({ disabled });
 
