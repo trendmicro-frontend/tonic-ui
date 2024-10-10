@@ -1,4 +1,4 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { useEffectOnceWhen, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, isNullish } from '@tonic-ui/utils';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
@@ -39,7 +39,7 @@ const Radio = forwardRef((inProps, ref) => {
   const inputRef = useRef();
   const combinedInputRef = useMergeRefs(inputRefProp, inputRef);
   const radioGroupContext = useRadioGroup();
-  const isNameConflictRef = useRef(false);
+  let warningMessage = '';
 
   if (radioGroupContext) {
     const {
@@ -55,17 +55,11 @@ const Radio = forwardRef((inProps, ref) => {
       checked = (radioGroupValue === value);
     }
     disabled = (disabled ?? radioGroupDisabled);
-
-    const isNameConflict = (!isNullish(name) && !isNullish(radioGroupName) && (name !== radioGroupName));
-    if (process.env.NODE_ENV !== 'production' && isNameConflict && !isNameConflictRef.current) {
-      // Log the warning message only once
-      console.error(
-        `Warning: The \`Radio\` has a \`name\` prop ("${name}") that conflicts with the \`RadioGroup\`'s \`name\` prop ("${radioGroupName}")`
-      );
-      isNameConflictRef.current = true;
+    const isNameConflict = !isNullish(name) && !isNullish(radioGroupName) && (name !== radioGroupName);
+    if (isNameConflict) {
+      warningMessage = `Warning: The \`Radio\` has a \`name\` prop ("${name}") that conflicts with the \`RadioGroup\`'s \`name\` prop ("${radioGroupName}")`;
     }
     name = (name ?? radioGroupName);
-
     onChange = callAll(
       onChange,
       radioGroupOnChange,
@@ -78,6 +72,13 @@ const Radio = forwardRef((inProps, ref) => {
     size = size ?? defaultSize;
     variantColor = variantColor ?? defaultVariantColor;
   }
+
+  useEffectOnceWhen(() => {
+    if (process.env.NODE_ENV !== 'production' && !!warningMessage) {
+      // Log the warning message only once
+      console.error(warningMessage);
+    }
+  }, [!!warningMessage]);
 
   const styleProps = useRadioStyle({ disabled });
 
