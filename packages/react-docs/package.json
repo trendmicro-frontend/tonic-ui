@@ -78,6 +78,7 @@
     "react-movable": "^3.0.4",
     "react-table": "^7.8.0",
     "react-virtualized-auto-sizer": "^1.0.15",
+    "react-virtuoso": "^4.12.0",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.1.0",
     "remark-emoji": "^4.0.0",

@@ -80,6 +80,68 @@ To see this in action, simply scroll through the content and click the toggle bu
 
 {render('./faq-scroll-position')}
 
+### How to integrate React Virtuoso with a custom scrollbar?
+
+To integrate React Virtuoso with a custom scrollbar, you can create a `CustomScrollbar` component and pass it as the `Scroller` for the `Virtuoso` component. This setup allows you to customize the scrolling behavior and appearance while leveraging Virtuoso's virtualized list rendering.
+
+```jsx disabled
+<Virtuoso
+  components={{
+    Scroller: CustomScrollbar,
+  }}
+  style={{
+    height: 400,
+  }}
+  totalCount={10000}
+  itemContent={(index) => (
+    <Box>Item {index}</Box>
+  )}
+/>
+```
+
+```jsx disabled
+const CustomScrollbar = forwardRef((props, ref) => {
+  return (
+    <Scrollbar
+      overflowY="auto"
+      scrollViewRef={ref}
+    >
+      {({
+        ScrollView,
+        HorizontalTrack,
+        VerticalTrack,
+        HorizontalThumb,
+        VerticalThumb,
+        getScrollViewProps,
+        getHorizontalTrackProps,
+        getVerticalTrackProps,
+        getHorizontalThumbProps,
+        getVerticalThumbProps,
+      }) => (
+        <>
+          <ScrollView
+            {...getScrollViewProps()}
+            {...props}
+          />
+          <HorizontalTrack
+            {...getHorizontalTrackProps()}
+          >
+            <HorizontalThumb {...getHorizontalThumbProps()} />
+          </HorizontalTrack>
+          <VerticalTrack
+            {...getVerticalTrackProps()}
+          >
+            <VerticalThumb {...getVerticalThumbProps()} />
+          </VerticalTrack>
+        </>
+      )}
+    </Scrollbar>
+  );
+});
+```
+
+{render('./faq-react-virtuoso')}
+
 ## Props
 
 ### Scrollbar
