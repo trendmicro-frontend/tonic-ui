@@ -4395,6 +4395,7 @@ __metadata:
     react-movable: ^3.0.4
     react-table: ^7.8.0
     react-virtualized-auto-sizer: ^1.0.15
+    react-virtuoso: ^4.12.0
     rehype-autolink-headings: ^6.1.1
     rehype-slug: ^5.1.0
     remark-emoji: ^4.0.0
@@ -14869,6 +14870,16 @@ __metadata:
     react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
     react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
   checksum: e7d98563735dabbd1c58727c9d3e9f08f6a60a9964d25507cf4ef08f8964b6e421491c892ee0a99e47630118fdca42f1c60cef15ebda3659face58025dba3e98
+  languageName: node
+  linkType: hard
+
+"react-virtuoso@npm:^4.12.0":
+  version: 4.12.0
+  resolution: "react-virtuoso@npm:4.12.0"
+  peerDependencies:
+    react: ">=16 || >=17 || >= 18"
+    react-dom: ">=16 || >=17 || >= 18"
+  checksum: 23e802f3e4c58b94f70179fd6f3768ebc2e28c46bbf27f8d48f94627f27ae84111e6291ac817bab91302cabc376db67b8aa99f9cd674941448cc7752d6c9ae76
   languageName: node
   linkType: hard
 

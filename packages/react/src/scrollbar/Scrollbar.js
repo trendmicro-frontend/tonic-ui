@@ -1,4 +1,5 @@
 import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
+import { callEventHandlers } from '@tonic-ui/utils';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
@@ -37,6 +38,7 @@ const Scrollbar = forwardRef((inProps, ref) => {
     overflowY: overflowYProp,
     scrollLeft: scrollLeftProp,
     scrollTop: scrollTopProp,
+    scrollViewProps: scrollViewPropsProp,
     scrollViewRef: scrollViewRefProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Scrollbar' });
@@ -546,12 +548,13 @@ const Scrollbar = forwardRef((inProps, ref) => {
 
   const getScrollViewProps = () => {
     return {
-      ...scrollViewStyle,
-      ref: combinedScrollViewRef,
-      onScroll: handleScrollViewScroll,
-      onMouseEnter: handleScrollViewMouseEnter,
-      onMouseLeave: handleScrollViewMouseLeave,
       children,
+      ...scrollViewStyle,
+      ...scrollViewPropsProp,
+      ref: combinedScrollViewRef,
+      onScroll: callEventHandlers(scrollViewPropsProp?.onScroll, handleScrollViewScroll),
+      onMouseEnter: callEventHandlers(scrollViewPropsProp?.onMouseEnter, handleScrollViewMouseEnter),
+      onMouseLeave: callEventHandlers(scrollViewPropsProp?.onMouseLeave, handleScrollViewMouseLeave),
     };
   };
 

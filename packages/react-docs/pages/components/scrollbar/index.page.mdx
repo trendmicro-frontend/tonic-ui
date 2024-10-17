@@ -80,6 +80,47 @@ To see this in action, simply scroll through the content and click the toggle bu
 
 {render('./faq-scroll-position')}
 
+### How to integrate React Virtuoso with a custom scrollbar?
+
+Check out the demo below to see how you can integrate React Virtuoso with a custom scrollbar:
+
+{render('./faq-react-virtuoso')}
+
+To achieve this, you'll need to create a `CustomScrollbar` component and pass it as the `Scroller` for the `Virtuoso` component.
+
+```jsx disabled
+<Virtuoso
+  components={{
+    Scroller: CustomScrollbar,
+  }}
+  style={{
+    height: 400,
+  }}
+  totalCount={10000}
+  itemContent={(index) => (
+    <Box>Item {index}</Box>
+  )}
+/>
+```
+
+In the `CustomScrollbar` component, pass `props` and `ref` to `scrollViewProps` and `scrollViewRef`, respectively. This ensures that the props coming from React Virtuoso are passed down correctly, allowing its scrolling behavior to integrate seamlessly into the `Scrollbar`.
+
+```jsx disabled
+const CustomScrollbar = forwardRef((inProps, ref) => {
+  const { children, ...props } = inProps;
+
+  return (
+    <Scrollbar
+      overflowY="scroll"
+      scrollViewProps={props}
+      scrollViewRef={ref}
+    >
+      {children}
+    </Scrollbar>
+  );
+});
+```
+
 ## Props
 
 ### Scrollbar
@@ -102,4 +143,5 @@ To see this in action, simply scroll through the content and click the toggle bu
 | overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | scrollLeft | number | 0 | The horizontal scroll position of the scrollable content. |
 | scrollTop | number | 0 | The vertical scroll position of the scrollable content. |
+| scrollViewProps | object | | Additional props to be applied to the `ScrollView` component. |
 | scrollViewRef | RefObject | | A `ref` to the `ScrollView` component. |
