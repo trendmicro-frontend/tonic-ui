@@ -103,44 +103,19 @@ To achieve this, you’ll need to create a `CustomScrollbar` component and pass 
 />
 ```
 
-In the `CustomScrollbar` component, make sure to pass the props to `ScrollView`. This ensures that the props coming from React Virtuoso are passed down correctly, allowing its scrolling behavior to integrate seamlessly into the `Scrollbar`.
+In the `CustomScrollbar` component, pass `props` and `ref` to `scrollViewProps` and `scrollViewRef`, respectively. This ensures that the props coming from React Virtuoso are passed down correctly, allowing its scrolling behavior to integrate seamlessly into the `Scrollbar`.
 
 ```jsx disabled
-const CustomScrollbar = forwardRef((props, ref) => {
+const CustomScrollbar = forwardRef((inProps, ref) => {
+  const { children, ...props } = inProps;
+
   return (
     <Scrollbar
-      overflowY="auto"
+      overflowY="scroll"
+      scrollViewProps={props}
       scrollViewRef={ref}
     >
-      {({
-        ScrollView,
-        HorizontalTrack,
-        VerticalTrack,
-        HorizontalThumb,
-        VerticalThumb,
-        getScrollViewProps,
-        getHorizontalTrackProps,
-        getVerticalTrackProps,
-        getHorizontalThumbProps,
-        getVerticalThumbProps,
-      }) => (
-        <>
-          <ScrollView
-            {...getScrollViewProps()}
-            {...props}
-          />
-          <HorizontalTrack
-            {...getHorizontalTrackProps()}
-          >
-            <HorizontalThumb {...getHorizontalThumbProps()} />
-          </HorizontalTrack>
-          <VerticalTrack
-            {...getVerticalTrackProps()}
-          >
-            <VerticalThumb {...getVerticalThumbProps()} />
-          </VerticalTrack>
-        </>
-      )}
+      {children}
     </Scrollbar>
   );
 });
