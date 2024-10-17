@@ -86,7 +86,7 @@ Check out the demo below to see how you can integrate React Virtuoso with a cust
 
 {render('./faq-react-virtuoso')}
 
-To achieve this, you’ll need to create a `CustomScrollbar` component and pass it as the `Scroller` for the `Virtuoso` component. This approach allows you to fully customize the scrollbar while still benefiting from Virtuoso’s high-performance virtualized list rendering.
+To achieve this, you'll need to create a `CustomScrollbar` component and pass it as the `Scroller` for the `Virtuoso` component.
 
 ```jsx disabled
 <Virtuoso
@@ -120,8 +120,6 @@ const CustomScrollbar = forwardRef((inProps, ref) => {
   );
 });
 ```
-
-This setup allows you to customize the scrolling behavior and appearance while leveraging Virtuoso's virtualized list rendering.
 
 ## Props
 
