@@ -2,41 +2,16 @@ import { Box, Scrollbar } from '@tonic-ui/react';
 import { Virtuoso } from 'react-virtuoso';
 import React, { forwardRef } from 'react';
 
-const CustomScrollbar = forwardRef((props, ref) => {
+const CustomScrollbar = forwardRef((inProps, ref) => {
+  const { children, ...props } = inProps;
+
   return (
     <Scrollbar
       overflowY="scroll"
+      scrollViewProps={props}
       scrollViewRef={ref}
     >
-      {({
-        ScrollView,
-        HorizontalTrack,
-        VerticalTrack,
-        HorizontalThumb,
-        VerticalThumb,
-        getScrollViewProps,
-        getHorizontalTrackProps,
-        getVerticalTrackProps,
-        getHorizontalThumbProps,
-        getVerticalThumbProps,
-      }) => (
-        <>
-          <ScrollView
-            {...getScrollViewProps()}
-            {...props}
-          />
-          <HorizontalTrack
-            {...getHorizontalTrackProps()}
-          >
-            <HorizontalThumb {...getHorizontalThumbProps()} />
-          </HorizontalTrack>
-          <VerticalTrack
-            {...getVerticalTrackProps()}
-          >
-            <VerticalThumb {...getVerticalThumbProps()} />
-          </VerticalTrack>
-        </>
-      )}
+      {children}
     </Scrollbar>
   );
 });
