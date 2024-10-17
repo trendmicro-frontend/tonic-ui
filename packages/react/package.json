@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "React Tonic UI component library.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
