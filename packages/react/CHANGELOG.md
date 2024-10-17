@@ -1,5 +1,15 @@
 # @tonic-ui/react
 
+## 2.3.0
+
+### Minor Changes
+
+- feat: improve `disabled` prop handling in `Button` and `ButtonGroup` by [@cheton](https://github.com/cheton) in [#930](https://github.com/trendmicro-frontend/tonic-ui/pull/930)
+
+- fix: resolve bug with `isNameConflictRef.current` in `Checkbox` and `Radio` components by [@cheton](https://github.com/cheton) in [#935](https://github.com/trendmicro-frontend/tonic-ui/pull/935)
+
+- feat(`react/scrollbar`): add `scrollViewProps` to enable passing custom props to the `ScrollView` component by [@cheton](https://github.com/cheton) in [#939](https://github.com/trendmicro-frontend/tonic-ui/pull/939)
+
 ## 2.2.0
 
 ### Minor Changes
