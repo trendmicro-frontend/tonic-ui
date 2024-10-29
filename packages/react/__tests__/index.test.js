@@ -238,6 +238,7 @@ test('should match expected exports', () => {
     'ToastCloseButton',
     'ToastContainer',
     'ToastController',
+    'ToastGroup',
     'ToastIcon',
     'ToastManager',
     'ToastMessage',

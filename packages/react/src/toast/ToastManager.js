@@ -3,14 +3,10 @@ import { runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
-import { isElement, isValidElementType } from 'react-is';
-import {
-  TransitionGroup,
-} from 'react-transition-group';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import ToastContainer from './ToastContainer';
-import ToastController from './ToastController';
+import ToastGroup from './ToastGroup';
 import ToastTransition from './ToastTransition';
 import { ToastManagerContext } from './context';
 
@@ -43,6 +39,8 @@ const getToastPlacementByState = (state, id) => {
 
 const ToastManager = (inProps) => {
   const {
+    ToastContainerComponent = ToastContainer,
+    ToastContainerProps,
     TransitionComponent = ToastTransition,
     TransitionProps,
     children,
@@ -56,37 +54,6 @@ const ToastManager = (inProps) => {
       return acc;
     }, {})
   ));
-
-  /**
-   * Create properties for a new toast
-   */
-  const createToast = useCallback((message, options) => {
-    const id = options?.id ?? uniqueId();
-    const data = options?.data;
-    const duration = options?.duration;
-    const placement = ensureString(options?.placement ?? placementProp);
-    const onClose = () => close(id, placement);
-
-    return {
-      // A unique identifier that represents the toast message
-      id,
-
-      // The user-defined data supplied to the toast
-      data,
-
-      // The toast message to render
-      message,
-
-      // The placement of the toast
-      placement,
-
-      // The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
-      duration,
-
-      // The function to close the toast
-      onClose,
-    };
-  }, [close, placementProp]);
 
   /**
    * Close a toast record at its placement
@@ -146,10 +113,42 @@ const ToastManager = (inProps) => {
   }, [state]);
 
   /**
+   * Update a specific toast with new options based on the given id. Returns `true` if the toast exists, else `false`.
+   */
+  const update = useCallback((id, options) => {
+    const placement = find(id)?.placement;
+    const index = findIndex(id);
+
+    if (!placement || index === -1) {
+      return false;
+    }
+
+    setState((prevState) => {
+      const nextState = { ...prevState };
+      nextState[placement][index] = {
+        ...nextState[placement][index],
+        ...options,
+      };
+      return nextState;
+    });
+
+    return true;
+  }, [find, findIndex]);
+
+  /**
    * Create a toast at the specified placement and return the id
    */
-  const notify = useCallback((message, options) => {
-    const toast = createToast(message, options);
+  const notify = useCallback((content, options) => {
+    // A unique identifier that represents the toast content
+    const id = options?.id ?? uniqueId();
+    // The user-defined data supplied to the toast
+    const data = options?.data;
+    // The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
+    const duration = options?.duration;
+    // The placement of the toast
+    const placement = ensureString(options?.placement ?? placementProp);
+
+    const toast = Object.freeze({ id, content, data, duration, placement });
 
     if (!placements.includes(toast.placement)) {
       console.error(`[ToastManager] Error: Invalid toast placement "${toast.placement}". Please provide a valid placement from the following options: ${placements.join(', ')}.`);
@@ -190,30 +189,11 @@ const ToastManager = (inProps) => {
     });
 
     return toast.id;
-  }, [createToast]);
+  }, [placementProp]);
 
-  /**
-   * Update a specific toast with new options based on the given id. Returns `true` if the toast exists, else `false`.
-   */
-  const update = useCallback((id, options) => {
-    const placement = find(id)?.placement;
-    const index = findIndex(id);
-
-    if (!placement || index === -1) {
-      return false;
-    }
-
-    setState((prevState) => {
-      const nextState = { ...prevState };
-      nextState[placement][index] = {
-        ...nextState[placement][index],
-        ...options,
-      };
-      return nextState;
-    });
-
-    return true;
-  }, [find, findIndex]);
+  const closeToastByPlacement = (placement) => (id) => {
+    close(id, placement);
+  };
 
   const context = getMemoizedState({
     // Methods
@@ -221,8 +201,8 @@ const ToastManager = (inProps) => {
     closeAll,
     find,
     findIndex,
-    notify,
     update,
+    notify,
 
     // Properties
     placement: placementProp,
@@ -242,43 +222,18 @@ const ToastManager = (inProps) => {
           {Object.keys(state).map((placement) => {
             const toasts = ensureArray(state[placement]);
             return (
-              <ToastContainer
+              <ToastContainerComponent
                 key={placement}
                 placement={placement}
+                {...ToastContainerProps}
               >
-                <TransitionGroup component={null}>
-                  {toasts.map((toast) => (
-                    <TransitionComponent
-                      {...TransitionProps}
-                      key={toast.id}
-                      in={true}
-                      unmountOnExit
-                    >
-                      <ToastController
-                        duration={toast.duration}
-                        onClose={toast.onClose}
-                      >
-                        {(() => {
-                          if (isElement(toast.message)) {
-                            return toast.message;
-                          }
-                          if (isValidElementType(toast.message)) {
-                            return (
-                              <toast.message
-                                data={toast.data}
-                                id={toast.id}
-                                onClose={toast.onClose}
-                                placement={toast.placement}
-                              />
-                            );
-                          }
-                          return null;
-                        })()}
-                      </ToastController>
-                    </TransitionComponent>
-                  ))}
-                </TransitionGroup>
-              </ToastContainer>
+                <ToastGroup
+                  TransitionComponent={TransitionComponent}
+                  TransitionProps={TransitionProps}
+                  toasts={toasts}
+                  onClose={closeToastByPlacement(placement)}
+                />
+              </ToastContainerComponent>
             );
           })}
         </Portal>
