@@ -79,11 +79,91 @@ The placement and size of toasts are typically determined by the design of the a
 
 In this example, the toast will be positioned 48 pixels from the top of the modal or drawer, and has a minimum width of 280 pixels. If the content of the toast message is wider than 280 pixels, the toast will expand to fit the content without exceeding 80% of the width of the modal or drawer in which it is being displayed.
 
+```jsx
+const InlineToastContainer = (props) => (
+  <Flex
+    flexDirection="column"
+    alignItems="center"
+    position="absolute"
+    top="12x"
+    left="50%"
+    transform="translateX(-50%)"
+    width="max-content"
+    maxWidth="80%" // up to 80% of the drawer width
+    zIndex="toast"
+    {...props}
+  />
+);
+```
+
+```jsx
+<Toast
+  appearance="success"
+  isClosable={true}
+  onClose={onClose}
+  sx={{
+    mb: '2x',
+    minWidth: 280, // minimum width of 280 pixels
+    width: 'fit-content',
+    boxShadow: colorStyle.shadow.thin,
+  }}
+>
+  <Text>This is a success message.</Text>
+</Toast>
+```
+
 To animate the toast when it is displayed or dismissed, you can utilize `ToastTransitionController` to manage the duration the toast is shown before it is automatically dismissed. This enables you to specify a set amount of time for the toast to remain visible.
 
-{render('./modal-toast')}
+| Name | Type | Description |
+| :--- | :--- | :---------- |
+| id | string \| number | A unique identifier for the toast. |
+| content | function | A function that renders the toast's content and accepts `{ onClose }` as a parameter to handle closing the toast. |
+| duration | number | (Optional) Defines how long (in milliseconds) the toast should remain visible before automatically dismissing. Use `undefined` to keep the toast visible indefinitely. |
 
-{render('./drawer-toast')}
+Here's an example of the array of toast objects:
+
+```jsx
+toasts = [
+  {
+    id: 1000,
+    content: ({ onClose }) => (
+      <Toast
+        appearance="success"
+        isClosable
+        onClose={onClose}
+        sx={{
+          mb: '2x',
+          minWidth: 280, // minimum width of 280 pixels
+          width: 'fit-content',
+          boxShadow: colorStyle.shadow.thin,
+        }}
+      >
+        <Text>This is a success message.</Text>
+      </Toast>
+    ),
+    duration: 5000, // auto dismiss after 5 seconds
+  },
+];
+```
+
+```jsx
+<InlineToastContainer>
+  <ToastGroup
+    onClose={(id) => {
+      setToasts(toasts => toasts.filter(x => x.id !== id));
+    }}
+    toasts={toasts}
+  />
+</InlineToastContainer>
+```
+
+#### Modal with toast notification
+
+{render('./modal-with-toast-notification')}
+
+#### Drawer with multiple toasts
+
+{render('./drawer-with-toast-notification')}
 
 ## Props
 
@@ -115,15 +195,6 @@ To animate the toast when it is displayed or dismissed, you can utilize `ToastTr
 | timeout | number \| `{ appear?: number, enter?: number, exit?: number }` | `{ enter: duration.standard, exit: duration.standard }` | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
 
-### ToastTransitionGroup
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | any | | A set of `<Transition>` components, that are toggled `in` and `out` as they leave. |
-| appear | boolean | | A convenience prop that enables or disables appear animations for all children. Note that specifying this will override any defaults set on individual children Transitions. |
-| enter | boolean | | A convenience prop that enables or disables enter animations for all children. Note that specifying this will override any defaults set on individual children Transitions. |
-| exit | boolean | | A convenience prop that enables or disables exit animations for all children. Note that specifying this will override any defaults set on individual children Transitions. |
-
 ### ToastTransitionController
 
 | Name | Type | Default | Description |
@@ -133,3 +204,12 @@ To animate the toast when it is displayed or dismissed, you can utilize `ToastTr
 | children | ReactNode | ReactNode \| `({ onClose }) => ReactNode` | A function child can be used intead of a React element. This function is invoked with an object that includes the `onClose` prop. |
 | duration | number | null | The duration in milliseconds after which the toast will be automatically closed. Set to `null` to disable auto-closing. |
 | onClose | function | | A callback called when the toast is being closed. |
+
+### ToastTransitionGroup
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | any | | A set of `<Transition>` components, that are toggled `in` and `out` as they leave. |
+| appear | boolean | | A convenience prop that enables or disables appear animations for all children. Note that specifying this will override any defaults set on individual children Transitions. |
+| enter | boolean | | A convenience prop that enables or disables enter animations for all children. Note that specifying this will override any defaults set on individual children Transitions. |
+| exit | boolean | | A convenience prop that enables or disables exit animations for all children. Note that specifying this will override any defaults set on individual children Transitions. |
