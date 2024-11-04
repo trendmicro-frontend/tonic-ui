@@ -1,13 +1,15 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
-import { runIfFn } from '@tonic-ui/utils';
+import { isNullish, runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
+import { isElement, isValidElementType } from 'react-is';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import ToastContainer from './ToastContainer';
-import ToastGroup from './ToastGroup';
 import ToastTransition from './ToastTransition';
+import ToastTransitionController from './ToastTransitionController';
+import ToastTransitionGroup from './ToastTransitionGroup';
 import { ToastManagerContext } from './context';
 
 const uniqueId = (() => {
@@ -191,10 +193,6 @@ const ToastManager = (inProps) => {
     return toast.id;
   }, [placementProp]);
 
-  const closeToastByPlacement = (placement) => (id) => {
-    close(id, placement);
-  };
-
   const context = getMemoizedState({
     // Methods
     close,
@@ -212,6 +210,10 @@ const ToastManager = (inProps) => {
     setState,
   });
 
+  const createCloseToastHandler = (id, placement) => () => {
+    close(id, placement);
+  };
+
   return (
     <ToastManagerContext.Provider value={context}>
       {runIfFn(children, context)}
@@ -227,12 +229,42 @@ const ToastManager = (inProps) => {
                 placement={placement}
                 {...ToastContainerProps}
               >
-                <ToastGroup
-                  TransitionComponent={TransitionComponent}
-                  TransitionProps={TransitionProps}
-                  toasts={toasts}
-                  onClose={closeToastByPlacement(placement)}
-                />
+                <ToastTransitionGroup>
+                  {ensureArray(toasts).map((toast) => {
+                    if (!toast || isNullish(toast.id)) {
+                      // TODO: log an error if the toast id is missing
+                      return null;
+                    }
+                    const onClose = createCloseToastHandler(toast.id, placement);
+                    return (
+                      <ToastTransitionController
+                        key={toast.id}
+                        TransitionComponent={TransitionComponent}
+                        TransitionProps={TransitionProps}
+                        duration={toast.duration}
+                        onClose={onClose}
+                      >
+                        {({ onClose }) => {
+                          if (isElement(toast.content)) {
+                            return toast.content;
+                          }
+                          if (isValidElementType(toast.content)) {
+                            const ToastContent = toast.content;
+                            return (
+                              <ToastContent
+                                id={toast.id}
+                                data={toast.data}
+                                onClose={onClose}
+                                placement={toast.placement}
+                              />
+                            );
+                          }
+                          return null;
+                        }}
+                      </ToastTransitionController>
+                    );
+                  })}
+                </ToastTransitionGroup>
               </ToastContainerComponent>
             );
           })}

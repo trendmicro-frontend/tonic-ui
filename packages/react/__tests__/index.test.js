@@ -238,11 +238,12 @@ test('should match expected exports', () => {
     'ToastCloseButton',
     'ToastContainer',
     'ToastController',
-    'ToastGroup',
     'ToastIcon',
     'ToastManager',
     'ToastMessage',
     'ToastTransition',
+    'ToastTransitionController',
+    'ToastTransitionGroup',
     'useToastManager',
 
     // tooltip

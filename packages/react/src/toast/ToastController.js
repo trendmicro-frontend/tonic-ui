@@ -8,23 +8,23 @@ import useTimeout from '../utils/useTimeout';
 const ToastController = forwardRef((inProps, ref) => {
   const {
     children,
-    duration = null,
-    onClose,
+    duration: durationProp = null,
+    onClose: onCloseProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'ToastController' });
   const nodeRef = useRef();
   const combinedRef = useMergeRefs(nodeRef, ref);
-  const [delay, setDelay] = useState(duration);
+  const [delay, setDelay] = useState(durationProp);
   const onMouseEnter = useCallback((event) => {
     setDelay(null);
   }, []);
   const onMouseLeave = useCallback((event) => {
-    setDelay(duration);
-  }, [duration]);
+    setDelay(durationProp);
+  }, [durationProp]);
 
-  useTimeout(onClose, delay);
+  useTimeout(onCloseProp, delay);
 
   return (
     <Box

@@ -2,11 +2,12 @@ import Toast from './Toast';
 import ToastCloseButton from './ToastCloseButton';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
-import ToastGroup from './ToastGroup';
 import ToastIcon from './ToastIcon';
 import ToastManager from './ToastManager';
 import ToastMessage from './ToastMessage';
 import ToastTransition from './ToastTransition';
+import ToastTransitionController from './ToastTransitionController';
+import ToastTransitionGroup from './ToastTransitionGroup';
 import useToastManager from './useToastManager';
 
 export {
@@ -14,10 +15,11 @@ export {
   ToastCloseButton,
   ToastContainer,
   ToastController,
-  ToastGroup,
   ToastIcon,
   ToastManager,
   ToastMessage,
   ToastTransition,
+  ToastTransitionController,
+  ToastTransitionGroup,
   useToastManager,
 };
