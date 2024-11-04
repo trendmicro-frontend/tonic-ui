@@ -112,48 +112,57 @@ const InlineToastContainer = (props) => (
 </Toast>
 ```
 
-To animate the toast when it is displayed or dismissed, you can utilize `ToastTransitionController` to manage the duration the toast is shown before it is automatically dismissed. This enables you to specify a set amount of time for the toast to remain visible.
+To animate the toast when it is displayed or dismissed, you can utilize `ToastTransitionController` to manage the duration the toast is shown before it is automatically dismissed. This enables you to specify a set amount of time for the toast to remain visible. To implement this, define an array of toasts with `const [toasts, setToasts] = useState([])`, where each toast object can include the following properties:
 
 | Name | Type | Description |
 | :--- | :--- | :---------- |
 | id | string \| number | A unique identifier for the toast. |
-| content | function | A function that renders the toast's content and accepts `{ onClose }` as a parameter to handle closing the toast. |
-| duration | number | (Optional) Defines how long (in milliseconds) the toast should remain visible before automatically dismissing. Use `undefined` to keep the toast visible indefinitely. |
+| appearance | string | The appearance of the toast. |
+| content | ReactNode | The content displayed within the toast. |
+| duration | number | (Optional) Defines how long (in milliseconds) the toast should remain visible before automatically dismissing. Pass `null` to keep the toast visible indefinitely. |
 
-Here's an example of the array of toast objects:
-
+Example toast object:
 ```jsx
-toasts = [
-  {
-    id: 1000,
-    content: ({ onClose }) => (
-      <Toast
-        appearance="success"
-        isClosable
-        onClose={onClose}
-        sx={{
-          mb: '2x',
-          minWidth: 280, // minimum width of 280 pixels
-          width: 'fit-content',
-          boxShadow: colorStyle.shadow.thin,
-        }}
-      >
-        <Text>This is a success message.</Text>
-      </Toast>
-    ),
-    duration: 5000, // auto dismiss after 5 seconds
-  },
-];
+{
+  id: 1,
+  appearance: 'success',
+  content: (
+    <Text>This is a success message.</Text>
+  ),
+  duration: 5000, // auto dismiss after 5 seconds
+}
 ```
 
+Here is a complete example:
 ```jsx
 <InlineToastContainer>
-  <ToastGroup
-    onClose={(id) => {
-      setToasts(toasts => toasts.filter(x => x.id !== id));
-    }}
-    toasts={toasts}
-  />
+  <ToastTransitionGroup>
+    {toasts.map(toast => (
+      <ToastTransitionController
+        key={toast.id}
+        duration={toast.duration}
+        onClose={() => {
+          setToasts(toasts => toasts.filter(x => x.id !== id));
+        }}
+      >
+        {({ onClose }) => (
+          <Toast
+            appearance={toast.appearance}
+            isClosable={true}
+            onClose={onClose}
+            sx={{
+              mb: '2x',
+              minWidth: 280, // The toast has a minimum width of 280 pixels
+              width: 'fit-content',
+              boxShadow: colorStyle.shadow.thin,
+            }}
+          >
+            {toast.content}
+          </Toast>
+        )}
+      </ToastTransitionController>
+    ))}
+  </ToastTransitionGroup>
 </InlineToastContainer>
 ```
 
