@@ -82,7 +82,10 @@ Below are the code snippets that demonstrate how to render the expanded row base
   <TableCell>Cell 3</TableCell>
 </TableRow>
 {row.getCanExpand() && (
-  <Collapse in={row.getIsExpanded()}>
+  <Collapse
+    in={row.getIsExpanded()}
+    unmountOnExit
+  >
     {renderExpandedRow({ row })}
   </Collapse>
 )}
@@ -102,7 +105,10 @@ Below are the code snippets that demonstrate how to render the expanded row base
       borderBottom={0}
       colSpan={row.getVisibleCells().length}
     >
-      <Collapse in={row.getIsExpanded()}>
+      <Collapse
+        in={row.getIsExpanded()}
+        unmountOnExit
+      >
         {renderExpandedRow({ row })}
       </Collapse>
     </TableCell>

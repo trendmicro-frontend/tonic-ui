@@ -240,7 +240,10 @@ const App = () => {
               })}
             </TableRow>
             {(row.getCanExpand() && layout === 'flexbox') && (
-              <Collapse in={row.getIsExpanded()}>
+              <Collapse
+                in={row.getIsExpanded()}
+                unmountOnExit
+              >
                 {renderExpandedRow({ row })}
               </Collapse>
             )}
@@ -251,7 +254,10 @@ const App = () => {
                   borderBottom={0}
                   colSpan={row.getVisibleCells().length}
                 >
-                  <Collapse in={row.getIsExpanded()}>
+                  <Collapse
+                    in={row.getIsExpanded()}
+                    unmountOnExit
+                  >
                     {renderExpandedRow({ row })}
                   </Collapse>
                 </TableCell>
