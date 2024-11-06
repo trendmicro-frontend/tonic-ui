@@ -1,7 +1,7 @@
 import { act, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Box, Button, Toast, ToastManager, useToastManager } from '@tonic-ui/react/src';
+import { Box, Button, Toast, ToastCloseButton, ToastManager, useToastManager } from '@tonic-ui/react/src';
 import { transitionDuration } from '@tonic-ui/utils/src';
 import React, { useCallback, useRef } from 'react';
 
@@ -164,7 +164,77 @@ describe('ToastManager', () => {
     });
   });
 
-  it('should close all toasts when `closeAll` is called', async () => {
+  it('should close a toast', async () => {
+    const user = userEvent.setup();
+
+    const placement = 'bottom-right';
+    const message = 'This is a toast message';
+
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
+    const TestComponent = () => {
+      const toastCounterRef = useRef(0);
+      const toast = useToastManager();
+      const handleClickAddToast = useCallback(() => {
+        const testId = ++toastCounterRef.current;
+        const toastTestId = `toast-${testId}`;
+        const toastCloseButtonTestId = `toast-close-button-${testId}`;
+        toast(({ onClose, placement }) => {
+          return (
+            <Toast
+              appearance="success"
+              onClose={onClose}
+              data-testid={toastTestId}
+            >
+              {message}
+              <ToastCloseButton top={10} right={8} position="absolute" data-testid={toastCloseButtonTestId} />
+            </Toast>
+          );
+        }, { placement });
+      }, [toast]);
+
+      return (
+        <Button onClick={handleClickAddToast}>
+          Add Toast
+        </Button>
+      );
+    };
+
+    render(
+      <WrapperComponent>
+        <TestComponent />
+      </WrapperComponent>
+    );
+
+    const addToastButton = await screen.findByText('Add Toast');
+
+    // Generate more than the maximum number of toasts
+    await user.click(addToastButton);
+    await user.click(addToastButton);
+    await user.click(addToastButton);
+
+    const toastPlacementElement = document.querySelector(`[data-toast-placement="${placement}"]`);
+
+    await waitFor(() => {
+      expect(toastPlacementElement.childNodes.length).toBe(3);
+    });
+
+    // Close the second toast
+    const toastCloseButton = screen.getByTestId('toast-close-button-2');
+    expect(toastCloseButton).toBeInTheDocument();
+    await user.click(toastCloseButton);
+
+    await waitFor(() => {
+      expect(toastPlacementElement.childNodes.length).toBe(2);
+    });
+
+    expect(screen.getByTestId('toast-close-button-1')).toBeInTheDocument();
+    expect(screen.queryByTestId('toast-close-button-2')).not.toBeInTheDocument(); // use queryBy* only when an element is not present
+    expect(screen.getByTestId('toast-close-button-3')).toBeInTheDocument();
+  });
+
+  it('should close all toasts', async () => {
     const user = userEvent.setup();
 
     const placement = 'bottom-right';
@@ -288,6 +358,7 @@ describe('ToastManager', () => {
     });
 
     const toastPlacementElement = document.querySelector(`[data-toast-placement="${placement}"]`);
+
     expect(toastPlacementElement.childNodes.length).toBe(maxToasts);
   });
 });
