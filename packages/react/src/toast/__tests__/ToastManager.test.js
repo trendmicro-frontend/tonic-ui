@@ -361,4 +361,188 @@ describe('ToastManager', () => {
 
     expect(toastPlacementElement.childNodes.length).toBe(maxToasts);
   });
+
+  it('should find a toast by ID using find()', async () => {
+    const user = userEvent.setup();
+    const toastId = 'toast-id';
+    const message = 'This is a toast message';
+
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
+
+    const TestComponent = () => {
+      const toast = useToastManager();
+      const handleClickAddToast = useCallback(() => {
+        toast(({ onClose, placement }) => (
+          <Toast
+            appearance="success"
+            isClosable
+            onClose={onClose}
+            data-testid={toastId}
+          >
+            {message}
+          </Toast>
+        ), { id: toastId });
+      }, [toast]);
+      const handleClickFindToast = useCallback(() => {
+        const foundToast = toast.find(toastId);
+        expect(foundToast).toBeDefined();
+        expect(foundToast.id).toBe(toastId);
+      }, [toast]);
+
+      return (
+        <>
+          <Button onClick={handleClickAddToast}>
+            Add Toast
+          </Button>
+          <Button onClick={handleClickFindToast}>
+            Find Toast
+          </Button>
+        </>
+      );
+    };
+
+    render(
+      <WrapperComponent>
+        <TestComponent />
+      </WrapperComponent>
+    );
+
+    // Add the toast
+    await user.click(screen.getByText('Add Toast'));
+
+    // Find the toast
+    await user.click(screen.getByText('Find Toast'));
+
+    // Check if the toast message is displayed correctly
+    const toastElement = screen.getByTestId(toastId);
+    expect(toastElement).toHaveTextContent(message);
+  });
+
+  it('should find the index of a toast by ID using findIndex()', async () => {
+    const user = userEvent.setup();
+    const toastId = 'toast-id';
+    const message = 'This is a toast message';
+
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
+
+    const TestComponent = () => {
+      const toast = useToastManager();
+      const handleClickAddToast = useCallback(() => {
+        toast(({ onClose, placement }) => (
+          <Toast
+            appearance="success"
+            isClosable
+            onClose={onClose}
+            data-testid={toastId}
+          >
+            {message}
+          </Toast>
+        ), { id: toastId });
+      }, [toast]);
+      const handleClickFindToast = useCallback(() => {
+        const toastIndex = toast.findIndex(toastId);
+        expect(toastIndex).toBeGreaterThan(-1);
+      }, [toast]);
+
+      return (
+        <>
+          <Button onClick={handleClickAddToast}>
+            Add Toast
+          </Button>
+          <Button onClick={handleClickFindToast}>
+            Find Toast
+          </Button>
+        </>
+      );
+    };
+
+    render(
+      <WrapperComponent>
+        <TestComponent />
+      </WrapperComponent>
+    );
+
+    // Add the toast
+    await user.click(screen.getByText('Add Toast'));
+
+    // Find the toast
+    await user.click(screen.getByText('Find Toast'));
+
+    // Check if the toast message is displayed correctly
+    const toastElement = screen.getByTestId(toastId);
+    expect(toastElement).toHaveTextContent(message);
+  });
+
+  it('should update an existing toast by ID using update()', async () => {
+    const user = userEvent.setup();
+    const toastId = 'toast-id';
+    const initialMessage = 'Initial toast message';
+    const updatedMessage = 'Updated toast message';
+
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
+
+    const TestComponent = () => {
+      const toast = useToastManager();
+      const handleClickAddToast = useCallback(() => {
+        toast(({ onClose }) => (
+          <Toast
+            appearance="success"
+            isClosable
+            onClose={onClose}
+            data-testid={toastId}
+          >
+            {initialMessage}
+          </Toast>
+        ), { id: toastId });
+      }, [toast]);
+      const handleClickUpdateToast = useCallback(() => {
+        const updateSuccess = toast.update(toastId, {
+          content: ({ onClose }) => (
+            <Toast
+              appearance="success"
+              isClosable
+              onClose={onClose}
+              data-testid={toastId}
+            >
+              {updatedMessage}
+            </Toast>
+          ),
+        });
+        expect(updateSuccess).toBe(true);
+      }, [toast]);
+
+      return (
+        <>
+          <Button onClick={handleClickAddToast}>
+            Add Toast
+          </Button>
+          <Button onClick={handleClickUpdateToast}>
+            Update Toast
+          </Button>
+        </>
+      );
+    };
+
+    render(
+      <WrapperComponent>
+        <TestComponent />
+      </WrapperComponent>
+    );
+
+    // Add the toast
+    await user.click(screen.getByText('Add Toast'));
+
+    // Update the toast
+    await user.click(screen.getByText('Update Toast'));
+
+    // Check if the content has been updated
+    const toastElement = screen.getByTestId(toastId);
+    expect(toastElement).toHaveTextContent(updatedMessage);
+  });
 });
