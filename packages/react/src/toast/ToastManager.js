@@ -3,7 +3,6 @@ import { isNullish, runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
-import { isElement, isValidElementType } from 'react-is';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import ToastContainer from './ToastContainer';
@@ -247,23 +246,12 @@ const ToastManager = (inProps) => {
                           duration={toast.duration}
                           onClose={onClose}
                         >
-                          {(() => {
-                            if (isElement(toast.content)) {
-                              return toast.content;
-                            }
-                            if (isValidElementType(toast.content)) {
-                              const ToastContent = toast.content;
-                              return (
-                                <ToastContent
-                                  id={toast.id}
-                                  data={toast.data}
-                                  onClose={onClose}
-                                  placement={toast.placement}
-                                />
-                              );
-                            }
-                            return null;
-                          })()}
+                          {runIfFn(toast.content, {
+                            id: toast.id,
+                            data: toast.data,
+                            onClose,
+                            placement: toast.placement,
+                          })}
                         </ToastController>
                       </TransitionComponent>
                     );

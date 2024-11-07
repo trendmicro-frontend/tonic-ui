@@ -29,7 +29,7 @@ Create a toast at the specified placement and return the toast id.
 #### Parameters
 
 <dl>
-  <dd>`content` *(Function|string)*: The toast content to render.</dd>
+  <dd>`content` *(Function)*: The toast content to render.</dd>
   <dd>`[options={}]` *(Object)*: The options object.</dd>
   <dd>`[options.data]` *(any)*: The user-defined data supplied to the toast.</dd>
   <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
@@ -117,7 +117,7 @@ Update a specific toast with new options based on the given toast id.
 <dl>
   <dd>`id` *(string)*: The id to update the toast.</dd>
   <dd>`[options={}]` *(Object)*: The options object.</dd>
-  <dd>`[options.content]` *(Function|string)*: The toast content to render.</dd>
+  <dd>`[options.content]` *(Function)*: The toast content to render.</dd>
   <dd>`[options.data]` *(any)*: The user-defined data supplied to the toast.</dd>
   <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
 </dl>
@@ -156,9 +156,12 @@ Example usage with a state object:
 toast.setState({
   'top': [
     {
-      id: '2',
-      content: 'New toast',
-      data: undefined,
+      id: 1,
+      content: ({ id, data, onClose, placement }) => (
+        <Toast data-toast-id={id} isClosable onClose={onClose}>
+          This is a toast
+        </Toast>
+      ),
       duration: 3000,
       placement: 'top',
     }
@@ -179,9 +182,12 @@ toast.setState(prevState => ({
   'top': [
     ...prevState['top'],
     {
-      id: '2',
-      content: 'New toast',
-      data: undefined,
+      id: 1,
+      content: ({ id, data, onClose, placement }) => (
+        <Toast data-toast-id={id} isClosable onClose={onClose}>
+          This is a toast
+        </Toast>
+      ),
       duration: null,
       placement: 'top',
     },
@@ -197,9 +203,15 @@ The toast state is a placement object, each placement contains an array of objec
 {
   'top': [
     {
-      id: '1', // A unique identifier that represents the toast
-      content: ({ id, data, onClose, placement }) => <Toast />, // The toast content to render
-      data: undefined, // The user-defined data supplied to the toast
+      id: 1, // A unique identifier that represents the toast
+      content: ({ id, data, onClose, placement }) => (
+        <Toast data-toast-id={id} isClosable onClose={onClose}>
+          This is a toast
+        </Toast>
+      ),
+      data: {
+        // The user-defined data supplied to the toast
+      },
       duration: null, // The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
       placement: 'top', // The placement of the toast
     },

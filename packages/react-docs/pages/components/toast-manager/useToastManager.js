@@ -10,7 +10,7 @@ import React, { useCallback } from 'react';
 const App = () => {
   const toast = useToastManager();
   const handleClickOpenToast = useCallback(() => {
-    const render = ({ onClose, placement }) => {
+    const render = ({ id, data, onClose, placement }) => {
       const isTop = placement.includes('top');
       const toastSpacingKey = isTop ? 'pb' : 'pt';
       const styleProps = {
@@ -20,7 +20,7 @@ const App = () => {
 
       return (
         <Box sx={styleProps}>
-          <Toast isClosable onClose={onClose}>
+          <Toast data-toast-id={id} isClosable onClose={onClose}>
             <Text>This is a toast notification</Text>
           </Toast>
         </Box>
@@ -28,6 +28,9 @@ const App = () => {
     };
     const options = {
       placement: 'bottom-right',
+      data: {
+        foo: 'bar',
+      },
       duration: 5000,
     };
     toast(render, options);
