@@ -7,8 +7,8 @@ import { isElement, isValidElementType } from 'react-is';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import ToastContainer from './ToastContainer';
+import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
-import ToastTransitionController from './ToastTransitionController';
 import ToastTransitionGroup from './ToastTransitionGroup';
 import { ToastManagerContext } from './context';
 
@@ -141,7 +141,7 @@ const ToastManager = (inProps) => {
    * Create a toast at the specified placement and return the id
    */
   const notify = useCallback((content, options) => {
-    // A unique identifier that represents the toast content
+    // A unique identifier that represents the toast
     const id = options?.id ?? uniqueId();
     // The user-defined data supplied to the toast
     const data = options?.data;
@@ -237,31 +237,35 @@ const ToastManager = (inProps) => {
                     }
                     const onClose = createCloseToastHandler(toast.id, placement);
                     return (
-                      <ToastTransitionController
+                      <TransitionComponent
                         key={toast.id}
-                        TransitionComponent={TransitionComponent}
-                        TransitionProps={TransitionProps}
-                        duration={toast.duration}
-                        onClose={onClose}
+                        in
+                        unmountOnExit
+                        {...TransitionProps}
                       >
-                        {({ onClose }) => {
-                          if (isElement(toast.content)) {
-                            return toast.content;
-                          }
-                          if (isValidElementType(toast.content)) {
-                            const ToastContent = toast.content;
-                            return (
-                              <ToastContent
-                                id={toast.id}
-                                data={toast.data}
-                                onClose={onClose}
-                                placement={toast.placement}
-                              />
-                            );
-                          }
-                          return null;
-                        }}
-                      </ToastTransitionController>
+                        <ToastController
+                          duration={toast.duration}
+                          onClose={onClose}
+                        >
+                          {(() => {
+                            if (isElement(toast.content)) {
+                              return toast.content;
+                            }
+                            if (isValidElementType(toast.content)) {
+                              const ToastContent = toast.content;
+                              return (
+                                <ToastContent
+                                  id={toast.id}
+                                  data={toast.data}
+                                  onClose={onClose}
+                                  placement={toast.placement}
+                                />
+                              );
+                            }
+                            return null;
+                          })()}
+                        </ToastController>
+                      </TransitionComponent>
                     );
                   })}
                 </ToastTransitionGroup>

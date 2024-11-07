@@ -14,8 +14,10 @@ import {
   Text,
   Toast,
   ToastCloseButton,
-  ToastTransitionController,
+  ToastController,
+  ToastTransition,
   ToastTransitionGroup,
+  useColorStyle,
 } from '@tonic-ui/react/src';
 import { transitionDuration } from '@tonic-ui/utils/src';
 import React, { useState } from 'react';
@@ -35,11 +37,12 @@ const InlineToastContainer = (props) => (
   />
 );
 
-describe('ToastTransitionController', () => {
+describe('ToastTransitionGroup', () => {
   test('should display a toast within a modal', async () => {
     const user = userEvent.setup();
 
     const TestComponent = ({ onClose }) => {
+      const [colorStyle] = useColorStyle();
       const [toasts, setToasts] = useState([
         {
           id: 1,
@@ -64,30 +67,37 @@ describe('ToastTransitionController', () => {
         >
           <InlineToastContainer>
             <ToastTransitionGroup>
-              {toasts.map(toast => (
-                <ToastTransitionController
-                  key={toast.id}
-                  duration={toast.duration}
-                  onClose={createCloseToastHandler(toast.id)}
-                >
-                  {({ onClose }) => (
-                    <Toast
-                      appearance={toast.appearance}
-                      isClosable={true}
+              {toasts.map(toast => {
+                const onClose = createCloseToastHandler(toast.id);
+                return (
+                  <ToastTransition
+                    key={toast.id}
+                    in
+                    unmountOnExit
+                  >
+                    <ToastController
+                      duration={toast.duration}
                       onClose={onClose}
-                      sx={{
-                        mb: '2x',
-                        minWidth: 280,
-                        width: 'fit-content',
-                      }}
-                      data-testid="toast"
                     >
-                      <Text pr="10x">{toast.content}</Text>
-                      <ToastCloseButton top={10} right={8} position="absolute" data-testid="toast-close-button" />
-                    </Toast>
-                  )}
-                </ToastTransitionController>
-              ))}
+                      <Toast
+                        appearance={toast.appearance}
+                        isClosable={true}
+                        onClose={onClose}
+                        sx={{
+                          mb: '2x',
+                          minWidth: 280, // The toast has a minimum width of 280 pixels
+                          width: 'fit-content',
+                          boxShadow: colorStyle.shadow.thin,
+                        }}
+                        data-testid="toast"
+                      >
+                        <Text pr="10x">{toast.content}</Text>
+                        <ToastCloseButton top={10} right={8} position="absolute" data-testid="toast-close-button" />
+                      </Toast>
+                    </ToastController>
+                  </ToastTransition>
+                );
+              })}
             </ToastTransitionGroup>
           </InlineToastContainer>
           <ModalHeader>

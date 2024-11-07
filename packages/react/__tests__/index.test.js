@@ -242,7 +242,6 @@ test('should match expected exports', () => {
     'ToastManager',
     'ToastMessage',
     'ToastTransition',
-    'ToastTransitionController',
     'ToastTransitionGroup',
     'useToastManager',
 

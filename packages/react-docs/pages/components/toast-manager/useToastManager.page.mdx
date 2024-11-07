@@ -16,24 +16,24 @@ const toast = useToastManager();
 
 The `useToastManager` Hook returns an object with the following methods and properties:
 
-### toast(message, [options={'{}'}])
+### toast(content, [options={'{}'}])
 
 Create a toast at the specified placement and return the toast id.
 
 #### Aliases
 
 <dl>
-  <dd>*toast.notify(message, [options={'{}'}])*</dd>
+  <dd>*toast.notify(content, [options={'{}'}])*</dd>
 </dl>
 
 #### Parameters
 
 <dl>
-  <dd>`message` *(Function|string)*: The toast message to render.</dd>
+  <dd>`content` *(Function|string)*: The toast content to render.</dd>
   <dd>`[options={}]` *(Object)*: The options object.</dd>
   <dd>`[options.data]` *(any)*: The user-defined data supplied to the toast.</dd>
   <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
-  <dd>`[options.id]` *(string)*: A unique ID of the toast.</dd>
+  <dd>`[options.id]` *(string)*: A unique identifier that represents the toast.</dd>
   <dd>`[options.placement]` *(string)*: The placement of the toast.</dd>
 </dl>
 
@@ -117,8 +117,9 @@ Update a specific toast with new options based on the given toast id.
 <dl>
   <dd>`id` *(string)*: The id to update the toast.</dd>
   <dd>`[options={}]` *(Object)*: The options object.</dd>
+  <dd>`[options.content]` *(Function|string)*: The toast content to render.</dd>
+  <dd>`[options.data]` *(any)*: The user-defined data supplied to the toast.</dd>
   <dd>`[options.duration=null]` *(number)*: The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.</dd>
-  <dd>`[options.message]` *(Function|string)*: The toast message to render.</dd>
 </dl>
 
 #### Returns
@@ -133,7 +134,7 @@ Specify the placement to place the toast. The default placement will be used if 
 
 ### toast.setState(state | updater)
 
-The `setState` method is used to modify the internal state of the toast manager. It provides the ability to add, remove, or update toast messages.
+The `setState` method is used to modify the internal state of the toast manager. It provides the ability to add, remove, or update toast content.
 
 #### Parameters
 
@@ -156,9 +157,9 @@ toast.setState({
   'top': [
     {
       id: '2',
+      content: 'New toast',
+      data: undefined,
       duration: 3000,
-      message: 'New toast message',
-      onClose: () => toast.close('2'),
       placement: 'top',
     }
   ],
@@ -179,9 +180,9 @@ toast.setState(prevState => ({
     ...prevState['top'],
     {
       id: '2',
+      content: 'New toast',
+      data: undefined,
       duration: null,
-      message: 'New toast message',
-      onClose: () => toast.close('2', 'top'),
       placement: 'top',
     },
   ],
@@ -196,10 +197,10 @@ The toast state is a placement object, each placement contains an array of objec
 {
   'top': [
     {
-      id: '1', // A unique identifier that represents the toast message
+      id: '1', // A unique identifier that represents the toast
+      content: ({ id, data, onClose, placement }) => <Toast />, // The toast content to render
+      data: undefined, // The user-defined data supplied to the toast
       duration: null, // The duration (in milliseconds) that the toast should remain on the screen. If set to null, toast will never dismiss.
-      message: ({ id, onClose, placement }) => <Toast />, // The toast message to render
-      onClose: () => toast.close(id, placement), // The function to close the toast
       placement: 'top', // The placement of the toast
     },
   ],

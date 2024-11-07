@@ -13,8 +13,9 @@ import {
   Stack,
   Text,
   Toast,
+  ToastController,
+  ToastTransition,
   ToastTransitionGroup,
-  ToastTransitionController,
   useColorStyle,
 } from '@tonic-ui/react';
 import { CloseSIcon } from '@tonic-ui/react-icons';
@@ -152,29 +153,35 @@ const App = () => {
         >
           <InlineToastContainer>
             <ToastTransitionGroup>
-              {toasts.map(toast => (
-                <ToastTransitionController
-                  key={toast.id}
-                  duration={toast.duration}
-                  onClose={createCloseToastHandler(toast.id)}
-                >
-                  {({ onClose }) => (
-                    <Toast
-                      appearance={toast.appearance}
-                      isClosable={true}
+              {toasts.map(toast => {
+                const onClose = createCloseToastHandler(toast.id);
+                return (
+                  <ToastTransition
+                    key={toast.id}
+                    in
+                    unmountOnExit
+                  >
+                    <ToastController
+                      duration={toast.duration}
                       onClose={onClose}
-                      sx={{
-                        mb: '2x',
-                        minWidth: 280, // The toast has a minimum width of 280 pixels
-                        width: 'fit-content',
-                        boxShadow: colorStyle.shadow.thin,
-                      }}
                     >
-                      {toast.content}
-                    </Toast>
-                  )}
-                </ToastTransitionController>
-              ))}
+                      <Toast
+                        appearance={toast.appearance}
+                        isClosable={true}
+                        onClose={onClose}
+                        sx={{
+                          mb: '2x',
+                          minWidth: 280, // The toast has a minimum width of 280 pixels
+                          width: 'fit-content',
+                          boxShadow: colorStyle.shadow.thin,
+                        }}
+                      >
+                        {toast.content}
+                      </Toast>
+                    </ToastController>
+                  </ToastTransition>
+                );
+              })}
             </ToastTransitionGroup>
           </InlineToastContainer>
           <DrawerHeader>

@@ -10,7 +10,6 @@ import {
   ToastCloseButton,
   ToastController,
   ToastTransition,
-  ToastTransitionController,
   ToastTransitionGroup,
 } from '@tonic-ui/react';
 ```
@@ -100,7 +99,7 @@ const InlineToastContainer = (props) => (
 ```jsx
 <Toast
   appearance="success"
-  isClosable={true}
+  isClosable
   onClose={onClose}
   sx={{
     mb: '2x',
@@ -135,34 +134,71 @@ Example toast object:
 ```
 
 Here is a complete example:
+```js
+const idRef = useRef(0);
+const [toasts, setToasts] = useState([]);
+const notify = (options) => {
+  const {
+    appearance,
+    content,
+    duration,
+  } = { ...options };
+
+  setToasts(prevState => {
+    const id = ++(idRef.current);
+    // You can decide how many toasts you want to show at the same time depending on your use case
+    const nextState = [
+      ...prevState.slice(MAX_TOASTS > 1 ? -(MAX_TOASTS - 1) : prevState.length),
+      {
+        id,
+        appearance,
+        content,
+        duration,
+      },
+    ];
+    return nextState;
+  });
+};
+const closeToast = (id) => {
+  setToasts(toasts => toasts.filter(x => x.id !== id));
+};
+const createCloseToastHandler = (id) => () => {
+  closeToast(id);
+};
+```
+
 ```jsx
 <InlineToastContainer>
   <ToastTransitionGroup>
-    {toasts.map(toast => (
-      <ToastTransitionController
-        key={toast.id}
-        duration={toast.duration}
-        onClose={() => {
-          setToasts(toasts => toasts.filter(x => x.id !== id));
-        }}
-      >
-        {({ onClose }) => (
-          <Toast
-            appearance={toast.appearance}
-            isClosable={true}
+    {toasts.map(toast => {
+      const onClose = createCloseToastHandler(toast.id);
+      return (
+        <ToastTransition
+          key={toast.id}
+          in
+          unmountOnExit
+        >
+          <ToastController
+            duration={toast.duration}
             onClose={onClose}
-            sx={{
-              mb: '2x',
-              minWidth: 280, // The toast has a minimum width of 280 pixels
-              width: 'fit-content',
-              boxShadow: colorStyle.shadow.thin,
-            }}
           >
-            {toast.content}
-          </Toast>
-        )}
-      </ToastTransitionController>
-    ))}
+            <Toast
+              appearance={toast.appearance}
+              isClosable
+              onClose={onClose}
+              sx={{
+                mb: '2x',
+                minWidth: 280, // The toast has a minimum width of 280 pixels
+                width: 'fit-content',
+                boxShadow: colorStyle.shadow.thin,
+              }}
+            >
+              {toast.content}
+            </Toast>
+          </ToastController>
+        </ToastTransition>
+      );
+    })}
   </ToastTransitionGroup>
 </InlineToastContainer>
 ```
@@ -212,16 +248,6 @@ Here is a complete example:
 | mountOnEnter | boolean | | If `true`, it will "lazy mount" the component on the first `in={true}`. After the first enter transition the component will stay mounted, even on the 'exited' state, unless you also specify `unmountOnExit`. By default the child component is mounted immediately along with the parent transition component. |
 | timeout | number \| `{ appear?: number, enter?: number, exit?: number }` | `{ enter: duration.standard, exit: duration.standard }` | The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object. |
 | unmountOnExit | boolean | | If `true`, it will unmount the child component when `in={false}` and the animation has finished. By default the child component stays mounted after it reaches the 'exited' state. |
-
-### ToastTransitionController
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| TransitionComponent | ElementType | ToastTransition | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| children | ReactNode | ReactNode \| `({ onClose }) => ReactNode` | A function child can be used intead of a React element. This function is invoked with an object that includes the `onClose` prop. |
-| duration | number | null | The duration in milliseconds after which the toast will be automatically closed. Set to `null` to disable auto-closing. |
-| onClose | function | | A callback called when the toast is being closed. |
 
 ### ToastTransitionGroup
 
