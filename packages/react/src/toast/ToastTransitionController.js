@@ -1,5 +1,4 @@
 import React from 'react';
-import { runIfFn } from '@tonic-ui/utils';
 import { useDefaultProps } from '../default-props';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
@@ -25,7 +24,7 @@ const ToastTransitionController = (inProps) => {
         duration={durationProp}
         onClose={onCloseProp}
       >
-        {runIfFn(children, { onClose: onCloseProp })}
+        {children}
       </ToastController>
     </TransitionComponent>
   );

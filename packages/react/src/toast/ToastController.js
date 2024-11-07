@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callEventHandlers } from '@tonic-ui/utils';
+import { callEventHandlers, runIfFn } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -33,7 +33,7 @@ const ToastController = forwardRef((inProps, ref) => {
       onMouseLeave={callEventHandlers(onMouseLeaveProp, onMouseLeave)}
       {...rest}
     >
-      {children}
+      {runIfFn(children, { onClose: onCloseProp })}
     </Box>
   );
 });
