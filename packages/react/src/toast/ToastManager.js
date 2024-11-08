@@ -222,7 +222,7 @@ const ToastManager = (inProps) => {
           containerRef={containerRef}
         >
           {Object.keys(state).map((placement) => {
-            const toasts = ensureArray(state[placement]);
+            const toasts = ensureArray(state[placement]).filter(toast => !isNullish(toast));
             return (
               <ToastContainerComponent
                 key={placement}
@@ -230,11 +230,7 @@ const ToastManager = (inProps) => {
                 {...ToastContainerProps}
               >
                 <ToastTransitionGroup>
-                  {ensureArray(toasts).map((toast) => {
-                    if (!toast || isNullish(toast.id)) {
-                      // TODO: log an error if the toast id is missing
-                      return null;
-                    }
+                  {toasts.map((toast) => {
                     const onClose = createCloseToastHandler(toast.id, placement);
                     return (
                       <TransitionComponent

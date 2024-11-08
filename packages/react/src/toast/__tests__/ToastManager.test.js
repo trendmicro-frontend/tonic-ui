@@ -516,6 +516,10 @@ describe('ToastManager', () => {
         });
         expect(updateSuccess).toBe(true);
       }, [toast]);
+      const handleClickUpdateInvalidToast = useCallback(() => {
+        const updateSuccess = toast.update(null, {});
+        expect(updateSuccess).toBe(false);
+      }, [toast]);
 
       return (
         <>
@@ -524,6 +528,9 @@ describe('ToastManager', () => {
           </Button>
           <Button onClick={handleClickUpdateToast}>
             Update Toast
+          </Button>
+          <Button onClick={handleClickUpdateInvalidToast}>
+            Update Invalid Toast
           </Button>
         </>
       );
@@ -540,9 +547,165 @@ describe('ToastManager', () => {
 
     // Update the toast
     await user.click(screen.getByText('Update Toast'));
+    await user.click(screen.getByText('Update Invalid Toast'));
 
     // Check if the content has been updated
     const toastElement = screen.getByTestId(toastId);
     expect(toastElement).toHaveTextContent(updatedMessage);
+  });
+
+  it('should not create a toast and return false for invalid placement', async () => {
+    const user = userEvent.setup();
+    const toastId = 'toast-id';
+    const placement = 'center'; // "center" is not a supported placement
+    const message = 'This is a toast message';
+
+    // Spy on console.error to capture and check the error message
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
+
+    const TestComponent = () => {
+      const toast = useToastManager();
+      const handleClick = useCallback(() => {
+        const result = toast(({ onClose }) => (
+          <Toast
+            appearance="error"
+            isClosable
+            onClose={onClose}
+            data-testid={toastId}
+          >
+            {message}
+          </Toast>
+        ), { placement });
+        expect(result).toBe(false);
+      }, [toast]);
+
+      return (
+        <Button onClick={handleClick}>
+          Add Toast
+        </Button>
+      );
+    };
+
+    render(
+      <WrapperComponent>
+        <TestComponent />
+      </WrapperComponent>
+    );
+
+    const button = await screen.findByText('Add Toast');
+    await user.click(button);
+
+    // Check that console.error was called with the expected error message
+    const placements = [
+      'bottom',
+      'bottom-right',
+      'bottom-left',
+      'top',
+      'top-left',
+      'top-right',
+    ];
+    const expectedErrorMessage = `[ToastManager] Error: Invalid toast placement "${placement}". Please provide a valid placement from the following options: ${placements.join(', ')}.`;
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expectedErrorMessage);
+
+    // Assert that no toast element with the invalid placement was created
+    const toastElement = screen.queryByTestId(toastId);
+    expect(toastElement).not.toBeInTheDocument();
+
+    // Restore console.error to its original implementation
+    consoleErrorSpy.mockRestore();
+  });
+
+  it('should create toasts in the correct order for top and bottom placements in the state', async () => {
+    const user = userEvent.setup();
+    const topPlacement = 'top';
+    const bottomPlacement = 'bottom';
+    const message = 'This is a toast message';
+
+    const WrapperComponent = (props) => (
+      <ToastManager {...props} />
+    );
+
+    const TestComponent = () => {
+      const toast = useToastManager();
+      const handleClickAddToasts = useCallback(() => {
+        // Add toast for top-right placement
+        toast(({ onClose }) => (
+          <Toast
+            appearance="success"
+            isClosable
+            onClose={onClose}
+          >
+            {message}
+          </Toast>
+        ), { placement: topPlacement });
+
+        // Add toast for bottom-right placement
+        toast(({ onClose }) => (
+          <Toast
+            appearance="success"
+            isClosable
+            onClose={onClose}
+          >
+            {message}
+          </Toast>
+        ), { placement: bottomPlacement });
+      }, [toast]);
+
+      return (
+        <>
+          <Button onClick={handleClickAddToasts}>Add Toasts</Button>
+          {/* Access toast.state here to check order */}
+          {toast.state && (
+            <pre data-testid="toast-state">{JSON.stringify(toast.state, null, 2)}</pre>
+          )}
+        </>
+      );
+    };
+
+    render(
+      <WrapperComponent>
+        <TestComponent />
+      </WrapperComponent>
+    );
+
+    const button = await screen.findByText('Add Toasts');
+    await user.click(button);
+    await user.click(button);
+
+    // Wait for the state to be updated with toasts
+    await screen.findByTestId('toast-state');
+
+    // Get the state of the toasts
+    const toastState = JSON.parse(screen.getByTestId('toast-state').textContent);
+
+    // Check that toasts with top-right and bottom-right placements exist in the state
+    const topToasts = toastState[topPlacement];
+    const bottomToasts = toastState[bottomPlacement];
+
+    // top-right
+    //
+    // ```js
+    // [
+    //   { id: '3', placement: 'top-right' },
+    //   { id: '1', placement: 'top-right' },
+    // ]
+    // ```
+    expect(topToasts).toHaveLength(2);
+    expect(topToasts[0].id > topToasts[1].id).toBeTruthy();
+
+    // bottom-right
+    //
+    // ```js
+    // [
+    //   { id: '2', placement: 'bottom-right' },
+    //   { id: '4', placement: 'bottom-right' },
+    // ]
+    // ```
+    expect(bottomToasts).toHaveLength(2);
+    expect(bottomToasts[0].id < bottomToasts[1].id).toBeTruthy();
   });
 });
