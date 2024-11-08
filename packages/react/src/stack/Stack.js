@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, isValidElement } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import StackItem from './StackItem';
@@ -21,13 +21,13 @@ const Stack = forwardRef((inProps, ref) => {
   // Filter only the valid children of a component, and ignore any nullish or falsy child.
   const validChildren = React.Children
     .toArray(children)
-    .filter(c => React.isValidElement(c));
+    .filter(c => isValidElement(c));
 
   let clones = validChildren;
   if (shouldWrapChildren) {
     clones = validChildren.map((child, index) => {
       // Use the provided child key, otherwise use the index as fallback
-      const key = (typeof child.key !== 'undefined') ? child.key : index;
+      const key = (child?.key) ?? index;
 
       return (
         <StackItem key={key}>
