@@ -5,6 +5,7 @@ import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
+import { renderComponentOrValue } from '../utils/renderComponentOrValue';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
@@ -246,7 +247,7 @@ const ToastManager = (inProps) => {
                           duration={toast.duration}
                           onClose={onClose}
                         >
-                          {runIfFn(toast.content, {
+                          {renderComponentOrValue(toast.content, {
                             id: toast.id,
                             data: toast.data,
                             onClose,
