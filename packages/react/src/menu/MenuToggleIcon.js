@@ -7,7 +7,6 @@ import {
 } from '@tonic-ui/react-icons';
 import { ariaAttr, createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
 import React, { forwardRef, useEffect, useRef } from 'react';
-import { isValidElementType } from 'react-is';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -129,7 +128,7 @@ const MenuToggleIcon = forwardRef((inProps, ref) => {
             {...childProps}
             style={style}
           >
-            {children ?? (isValidElementType(IconComponent) && <IconComponent size="4x" />)}
+            {children ?? (!!IconComponent && <IconComponent size="4x" />)}
           </Box>
         );
       }}
