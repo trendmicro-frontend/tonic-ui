@@ -41,8 +41,6 @@ const getToastPlacementByState = (state, id) => {
 
 const ToastManager = (inProps) => {
   const {
-    ToastContainerComponent = ToastContainer,
-    ToastContainerProps,
     TransitionComponent = ToastTransition,
     TransitionProps,
     children,
@@ -224,10 +222,9 @@ const ToastManager = (inProps) => {
           {Object.keys(state).map((placement) => {
             const toasts = ensureArray(state[placement]).filter(toast => !isNullish(toast));
             return (
-              <ToastContainerComponent
+              <ToastContainer
                 key={placement}
                 placement={placement}
-                {...ToastContainerProps}
               >
                 <ToastTransitionGroup>
                   {toasts.map((toast) => {
@@ -254,7 +251,7 @@ const ToastManager = (inProps) => {
                     );
                   })}
                 </ToastTransitionGroup>
-              </ToastContainerComponent>
+              </ToastContainer>
             );
           })}
         </Portal>
