@@ -77,29 +77,50 @@ const customColorStyle = {
   },
 };
 
-// Enable CSS variables
-theme.config.useCSSVariables = true;
+const Root = (props) => {
+  const customTheme = {
+    ...theme,
+    // Set default props for specific components
+    //
+    // Example:
+    // \`\`\`js
+    // components: {
+    //   'ToastCloseButton': {
+    //     defaultProps: {
+    //       'aria-label': 'Close toast',
+    //     },
+    //   },
+    // }
+    // \`\`\`
+    components: {},
+    // Enable CSS variables
+    config: {
+      ...theme?.config,
+      useCSSVariables: true,
+    },
+  };
 
-const Root = (props) => (
-  <TonicProvider
-    colorMode={{
-      defaultValue: 'dark',
-    }}
-    colorStyle={{
-      defaultValue: customColorStyle,
-    }}
-    theme={theme}
-    useCSSBaseline={true}
-  >
-    <PortalManager>
-      <ToastManager>
-        <Layout>
-          <Box {...props} />
-        </Layout>
-      </ToastManager>
-    </PortalManager>
-  </TonicProvider>
-);
+  return (
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark',
+      }}
+      colorStyle={{
+        defaultValue: customColorStyle,
+      }}
+      theme={customTheme}
+      useCSSBaseline={true}
+    >
+      <PortalManager>
+        <ToastManager>
+          <Layout>
+            <Box {...props} />
+          </Layout>
+        </ToastManager>
+      </PortalManager>
+    </TonicProvider>
+  );
+};
 
 const Layout = (props) => {
   const [colorMode] = useColorMode();

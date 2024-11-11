@@ -17,10 +17,30 @@ import {
   theme, // [optional] Required only for customizing the theme
 } from '@tonic-ui/react';
 
-// Enable CSS variables
-theme.config.useCSSVariables = true;
-
 function App(props) {
+  const customTheme = {
+      ...theme,
+      // Set default props for specific components
+      //
+      // Example:
+      // ```js
+      // components: {
+      //   'ToastCloseButton': {
+      //     defaultProps: {
+      //       'aria-label': 'Close toast',
+      //     },
+      //   },
+      // }
+      // ```
+      components: {},
+      // Enable CSS variables
+      config: {
+        ...theme?.config,
+        useCSSVariables: true,
+      },
+    };
+  };
+
   return (
     <TonicProvider
       colorMode={{
@@ -29,7 +49,7 @@ function App(props) {
       colorStyle={{
         defaultValue: colorStyle, // Custom color style
       }}
-      theme={theme}
+      theme={customTheme}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <Box {...props} />
@@ -54,10 +74,30 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 
-// Enable CSS variables
-theme.config.useCSSVariables = true;
-
 function App(props) {
+  const customTheme = {
+      ...theme,
+      // Set default props for specific components
+      //
+      // Example:
+      // ```js
+      // components: {
+      //   'ToastCloseButton': {
+      //     defaultProps: {
+      //       'aria-label': 'Close toast',
+      //     },
+      //   },
+      // }
+      // ```
+      components: {},
+      // Enable CSS variables
+      config: {
+        ...theme?.config,
+        useCSSVariables: true,
+      },
+    };
+  };
+
   return (
     <TonicProvider
       colorMode={{
@@ -66,7 +106,7 @@ function App(props) {
       colorStyle={{
         defaultValue: colorStyle, // Custom color style
       }}
-      theme={theme}
+      theme={customTheme}
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <ToastManager
@@ -180,24 +220,26 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI pr
 Tonic UI supports converting theme tokens defined in the theme to CSS variables. You can enable this behavior by configuring the theme as shown below:
 
 ```jsx
-import { TonicProvider, theme } from '@tonic-ui/react';
-
-// Enable CSS variables
-theme.config.useCSSVariables = true;
-
-// Pass `theme` to `TonicProvider`
-<TonicProvider theme={theme} />
+<TonicProvider
+  theme={{
+    ...theme,
+    config: {
+      ...theme?.config,
+      useCSSVariables: true,
+    },
+  }}
+/>
 ```
 
 For example, consider a theme object that looks like this:
 
-```js disabled
-const theme = {
+```js
+{
   colors: {
     'gray:10': '#fafafa',
     'gray:20': '#f7f7f7',
   },
-};
+}
 ```
 
 When this theme is passed to `TonicProvider`, Tonic UI will generate CSS variables automatically, as shown below:
@@ -270,7 +312,7 @@ const customColorStyle = {
   colorStyle={{
     defaultValue: customColorStyle,
   }}
-  theme={theme}
+  theme={customTheme}
   useCSSBaseline={true}
 >
   {children}
@@ -296,14 +338,15 @@ Override the theme object and pass it to the `<ThemeProvider>` component.
 ```js
 import { theme } from '@tonic-ui/react';
 
-// Enable CSS variables
-theme.config.useCSSVariables = true;
-
 // Let's say you want to add more colors
 const customTheme = {
   ...theme,
+  config: {
+    ...theme?.config,
+    useCSSVariables: true,
+  },
   colors: {
-    ...theme.colors,
+    ...theme?.colors,
     brand: {
       90: "#1a365d",
       80: "#153e75",
@@ -315,7 +358,7 @@ const customTheme = {
 
 #### 2. Setting up the provider
 
-```jsx disabled
+```jsx
 <TonicProvider theme={customTheme}>
   {children}
 </TonicProvider>
