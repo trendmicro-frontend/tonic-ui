@@ -1,4 +1,4 @@
-/* eslint-disable */
+import { runInNewContext } from 'node:vm';
 import {
   isBlankString,
   isEmptyArray,
@@ -7,6 +7,7 @@ import {
   isNullish,
   isNullOrUndefined,
   isObject,
+  isPlainObject,
   isWhitespace,
   noop,
 } from '@tonic-ui/utils/src';
@@ -34,7 +35,6 @@ describe('Check whether the value is a blank string', () => {
 describe('Check whether the value is an empty array', () => {
   it('should return true', () => {
     expect(isEmptyArray([])).toBe(true);
-    expect(isEmptyArray(new Array())).toBe(true);
   });
 
   it('should return false', () => {
@@ -47,12 +47,8 @@ describe('Check whether the value is an empty array', () => {
     expect(isEmptyArray(undefined)).toBe(false);
     expect(isEmptyArray('')).toBe(false);
     expect(isEmptyArray(' ')).toBe(false);
-    expect(isEmptyArray(new Boolean())).toBe(false);
+    expect(isEmptyArray(() => {})).toBe(false);
     expect(isEmptyArray(new Date())).toBe(false);
-    expect(isEmptyArray(new Function())).toBe(false);
-    expect(isEmptyArray(new Number())).toBe(false);
-    expect(isEmptyArray(new Object())).toBe(false);
-    expect(isEmptyArray(new String())).toBe(false);
     expect(isEmptyArray(new RegExp())).toBe(false);
   });
 });
@@ -60,7 +56,6 @@ describe('Check whether the value is an empty array', () => {
 describe('Check whether the value is an empty object', () => {
   it('should return true', () => {
     expect(isEmptyObject({})).toBe(true);
-    expect(isEmptyObject(new Object())).toBe(true);
   });
 
   it('should return false', () => {
@@ -73,12 +68,8 @@ describe('Check whether the value is an empty object', () => {
     expect(isEmptyObject(undefined)).toBe(false);
     expect(isEmptyObject('')).toBe(false);
     expect(isEmptyObject(' ')).toBe(false);
-    expect(isEmptyObject(new Array())).toBe(false);
-    expect(isEmptyObject(new Boolean())).toBe(false);
+    expect(isEmptyObject(() => {})).toBe(false);
     expect(isEmptyObject(new Date())).toBe(false);
-    expect(isEmptyObject(new Function())).toBe(false);
-    expect(isEmptyObject(new Number())).toBe(false);
-    expect(isEmptyObject(new String())).toBe(false);
     expect(isEmptyObject(new RegExp())).toBe(false);
   });
 });
@@ -124,7 +115,6 @@ describe('Check whether the value is an object', () => {
   it('should return true', () => {
     expect(isObject({})).toBe(true);
     expect(isObject(noop)).toBe(true);
-    expect(isObject(new Object())).toBe(true);
   });
 
   it('should return false', () => {
@@ -138,7 +128,52 @@ describe('Check whether the value is an object', () => {
     expect(isObject(' ')).toBe(false);
   });
 });
-  
+
+describe('Check whether the value is a plain object', () => {
+  function Foo(x) {
+    this.x = x;
+  }
+
+  function ObjectConstructor() {}
+  ObjectConstructor.prototype.constructor = Object;
+
+  it('should return true', () => {
+    expect(isPlainObject({})).toBe(true);
+    expect(isPlainObject({ foo: true })).toBe(true);
+    expect(isPlainObject({ constructor: Foo })).toBe(true);
+    expect(isPlainObject({ valueOf: 0 })).toBe(true);
+    expect(isPlainObject(Object.create(null))).toBe(true);
+    expect(isPlainObject(runInNewContext('({})'))).toBe(true);
+  });
+
+  it('should return false', () => {
+    expect(isPlainObject(['foo', 'bar'])).toBe(false);
+    expect(isPlainObject(new Foo(1))).toBe(false);
+    expect(isPlainObject(Math)).toBe(false);
+    expect(isPlainObject(JSON)).toBe(false);
+    expect(isPlainObject(Atomics)).toBe(false); // eslint-disable-line no-undef
+    expect(isPlainObject(Error)).toBe(false);
+    expect(isPlainObject(() => {})).toBe(false);
+    expect(isPlainObject(/./)).toBe(false);
+    expect(isPlainObject(null)).toBe(false);
+    expect(isPlainObject(undefined)).toBe(false);
+    expect(isPlainObject(Number.NaN)).toBe(false);
+    expect(isPlainObject('')).toBe(false);
+    expect(isPlainObject(0)).toBe(false);
+    expect(isPlainObject(false)).toBe(false);
+    expect(isPlainObject(new ObjectConstructor())).toBe(false);
+    expect(isPlainObject(Object.create({}))).toBe(false);
+
+    (function () {
+      expect(isPlainObject(arguments)).toBe(false); // eslint-disable-line prefer-rest-params
+    }());
+
+    const foo = new Foo();
+    foo.constructor = Object;
+    expect(isPlainObject(foo)).toBe(false);
+  });
+});
+
 describe('Check whether the value passed is all whitespace', () => {
   it('should return true', () => {
     expect(isWhitespace('  ')).toBe(true);

@@ -1,8 +1,10 @@
+import { runInNewContext } from 'node:vm';
 import {
   ariaAttr,
   callAll,
   callEventHandlers,
   dataAttr,
+  deepmerge,
   noop,
   once,
   runIfFn,
@@ -14,19 +16,14 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-describe('ariaAttr / dataAttr', () => {
-  it('should render correct aria-* and data-* attributes', () => {
-    const ariaProps = {
+describe('ariaAttr', () => {
+  it('should render correct aria-* attributes', () => {
+    const ariaAttrs = {
       'aria-disabled': ariaAttr(true),
-      'data-disabled': dataAttr(true),
       'aria-selected': ariaAttr(false),
-      'data-selected': dataAttr(false),
     };
-
-    expect(ariaProps['aria-disabled']).toBe(true);
-    expect(ariaProps['data-disabled']).toBe('');
-    expect(ariaProps['aria-selected']).toBe(undefined);
-    expect(ariaProps['data-selected']).toBe(undefined);
+    expect(ariaAttrs['aria-disabled']).toBe(true);
+    expect(ariaAttrs['aria-selected']).toBe(undefined);
   });
 });
 
@@ -75,6 +72,125 @@ describe('callEventHandlers', () => {
     expect(fn1).toHaveBeenCalled();
     expect(fn2).toHaveBeenCalled();
     expect(fn3).not.toHaveBeenCalled();
+  });
+});
+
+describe('dataAttr', () => {
+  it('should render correct data-* attributes', () => {
+    const dataAttrs = {
+      'data-disabled': dataAttr(true),
+      'data-selected': dataAttr(false),
+    };
+    expect(dataAttrs['data-disabled']).toBe('');
+    expect(dataAttrs['data-selected']).toBe(undefined);
+  });
+});
+
+describe('deepmerge', () => {
+  it('should not be subject to prototype pollution via __proto__', () => {
+    const result = deepmerge(
+      {},
+      JSON.parse('{ "myProperty": "a", "__proto__" : { "isAdmin" : true } }'),
+      {
+        clone: false,
+      }
+    );
+
+    expect(result.__proto__).toHaveProperty('isAdmin'); // eslint-disable-line no-proto
+    expect({}).not.toHaveProperty('isAdmin');
+  });
+
+  it('should not be subject to prototype pollution via constructor', () => {
+    const result = deepmerge(
+      {},
+      JSON.parse('{ "myProperty": "a", "constructor" : { "prototype": { "isAdmin" : true } } }'),
+      {
+        clone: true,
+      }
+    );
+
+    expect(result.constructor.prototype).toHaveProperty('isAdmin');
+    expect({}).not.toHaveProperty('isAdmin');
+  });
+
+  it('should not be subject to prototype pollution via prototype', () => {
+    const result = deepmerge(
+      {},
+      JSON.parse('{ "myProperty": "a", "prototype": { "isAdmin" : true } }'),
+      {
+        clone: false,
+      }
+    );
+
+    expect(result.prototype).toHaveProperty('isAdmin');
+    expect({}).not.toHaveProperty('isAdmin');
+  });
+
+  it('should appropriately copy the fields without prototype pollution', () => {
+    const result = deepmerge(
+      {},
+      JSON.parse('{ "myProperty": "a", "__proto__" : { "isAdmin" : true } }')
+    );
+
+    expect(result.__proto__).toHaveProperty('isAdmin'); // eslint-disable-line no-proto
+    expect({}).not.toHaveProperty('isAdmin');
+  });
+
+  it('should merge objects across realms', function test() {
+    if (!/jsdom/.test(window.navigator.userAgent)) {
+      this.skip();
+    }
+
+    const vmObject = runInNewContext('({hello: "realm"})');
+    const result = deepmerge({ hello: 'original' }, vmObject);
+    expect(result.hello).toBe('realm');
+  });
+
+  it('should not merge HTML elements', () => {
+    const element = document.createElement('div');
+    const element2 = document.createElement('div');
+
+    const result = deepmerge({ element }, { element: element2 });
+
+    expect(result.element).toBe(element2);
+  });
+
+  it('should reset source when target is undefined', () => {
+    const result = deepmerge(
+      {
+        '&.disabled': {
+          color: 'red',
+        },
+      },
+      {
+        '&.disabled': undefined,
+      }
+    );
+    expect(result).toEqual({
+      '&.disabled': undefined,
+    });
+  });
+
+  it('should merge keys that do not exist in source', () => {
+    const result = deepmerge({ foo: { baz: 'test' } }, { foo: { bar: 'test' }, bar: 'test' });
+    expect(result).toEqual({
+      foo: { baz: 'test', bar: 'test' },
+      bar: 'test',
+    });
+  });
+
+  it('should deep clone source key object if target key does not exist', () => {
+    const foo = { foo: { baz: 'test' } };
+    const bar = {};
+
+    const result = deepmerge(bar, foo);
+
+    expect(result).toEqual({ foo: { baz: 'test' } });
+
+    result.foo.baz = 'new test';
+
+    expect(result).toEqual({ foo: { baz: 'new test' } });
+    expect(foo).toEqual({ foo: { baz: 'test' } });
   });
 });
 

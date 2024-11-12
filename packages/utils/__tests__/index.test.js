@@ -10,6 +10,7 @@ test('should match expected exports', () => {
     'isNullish',
     'isNullOrUndefined',
     'isObject',
+    'isPlainObject',
     'isWhitespace',
 
     // dom
@@ -36,6 +37,7 @@ test('should match expected exports', () => {
     'callAll',
     'callEventHandlers',
     'dataAttr',
+    'deepmerge',
     'noop',
     'once',
     'runIfFn',

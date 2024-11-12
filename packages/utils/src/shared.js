@@ -1,4 +1,5 @@
 import { ensureArray, ensureBoolean, ensureString } from 'ensure-type';
+import { isPlainObject } from './assertion';
 
 const _joinWords = (words) => {
   words = ensureArray(words);
@@ -12,6 +13,20 @@ const _joinWords = (words) => {
     return `'${words[0]}' and '${words[1]}'`;
   }
   return `'${words.slice(0, -1).join('\', \'')}', and '${words.slice(-1)}'`;
+};
+
+const _deepClone = (source) => {
+  if (!isPlainObject(source)) {
+    return source;
+  }
+
+  const output = {};
+
+  Object.keys(source).forEach((key) => {
+    output[key] = _deepClone(source[key]);
+  });
+
+  return output;
 };
 
 export const ariaAttr = (condition) => {
@@ -37,6 +52,28 @@ export const callEventHandlers = (...fns) => {
 
 export const dataAttr = (condition) => {
   return condition ? '' : undefined;
+};
+
+export const deepmerge = (target, source, options = { clone: true }) => {
+  const output = options.clone ? { ...target } : target;
+
+  if (isPlainObject(target) && isPlainObject(source)) {
+    Object.keys(source).forEach((key) => {
+      if (
+        isPlainObject(source[key]) &&
+        Object.prototype.hasOwnProperty.call(target, key) &&
+        isPlainObject(target[key])
+      ) {
+        output[key] = deepmerge(target[key], source[key], options);
+      } else if (options.clone) {
+        output[key] = isPlainObject(source[key]) ? _deepClone(source[key]) : source[key];
+      } else {
+        output[key] = source[key];
+      }
+    });
+  }
+
+  return output;
 };
 
 export const noop = () => {};

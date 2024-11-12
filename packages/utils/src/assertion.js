@@ -30,6 +30,16 @@ export const isObject = (value) => {
   return !isNullish(value) && (typeof value === 'object' || typeof value === 'function') && !Array.isArray(value);
 };
 
+// https://github.com/sindresorhus/is-plain-obj/blob/main/index.js
+export const isPlainObject = (value) => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const prototype = Object.getPrototypeOf(value);
+  return (prototype === null || prototype === Object.prototype || Object.getPrototypeOf(prototype) === null) && !(Symbol.toStringTag in value) && !(Symbol.iterator in value);
+};
+
 export const isWhitespace = (value) => {
   // @see https://github.com/jonschlinkert/whitespace-regex
   // eslint-disable-next-line no-control-regex
