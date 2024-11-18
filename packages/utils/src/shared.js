@@ -15,17 +15,29 @@ const _joinWords = (words) => {
   return `'${words.slice(0, -1).join('\', \'')}', and '${words.slice(-1)}'`;
 };
 
-const _deepClone = (source) => {
+const _deepClone = (source, seen = new WeakMap()) => {
+  // Use a `WeakMap` to track objects and detect circular references.
+  // If the object has been cloned before, return the cached cloned version.
+  if (seen.has(source)) {
+    return seen.get(source);
+  }
+
   if (Array.isArray(source)) {
-    return source.map((item) => _deepClone(item));
+    const clonedArray = [];
+    seen.set(source, clonedArray);
+    for (let i = 0; i < source.length; ++i) {
+      clonedArray[i] = _deepClone(source[i], seen);
+    }
+    return clonedArray;
   }
 
   if (isPlainObject(source)) {
-    const output = {};
-    Object.keys(source).forEach((key) => {
-      output[key] = _deepClone(source[key]);
-    });
-    return output;
+    const clonedObject = {};
+    seen.set(source, clonedObject);
+    for (const [key, value] of Object.entries(source)) {
+      clonedObject[key] = _deepClone(value, seen);
+    }
+    return clonedObject;
   }
 
   // For primitive values and other types, return as is
@@ -74,13 +86,13 @@ export const merge = (target, source, options = { clone: true }) => {
   // Merge plain objects
   if (isPlainObject(target) && isPlainObject(source)) {
     const output = options.clone ? { ...target } : target;
-    Object.keys(source).forEach((key) => {
-      if (isPlainObject(source[key]) && isPlainObject(output[key]) && Object.prototype.hasOwnProperty.call(output, key)) {
-        output[key] = merge(output[key], source[key], options);
+    for (const [key, value] of Object.entries(source)) {
+      if (isPlainObject(value) && Object.prototype.hasOwnProperty.call(output, key) && isPlainObject(output[key])) {
+        output[key] = merge(output[key], value, options);
       } else {
-        output[key] = options.clone ? _deepClone(source[key]) : source[key];
+        output[key] = options.clone ? _deepClone(value) : value;
       }
-    });
+    }
     return output;
   }
 
