@@ -54,7 +54,7 @@ export const dataAttr = (condition) => {
   return condition ? '' : undefined;
 };
 
-export const deepmerge = (target, source, options = { clone: true }) => {
+export const merge = (target, source, options = { clone: true }) => {
   const output = options.clone ? { ...target } : target;
 
   if (isPlainObject(target) && isPlainObject(source)) {
@@ -64,7 +64,7 @@ export const deepmerge = (target, source, options = { clone: true }) => {
         Object.prototype.hasOwnProperty.call(target, key) &&
         isPlainObject(target[key])
       ) {
-        output[key] = deepmerge(target[key], source[key], options);
+        output[key] = merge(target[key], source[key], options);
       } else if (options.clone) {
         output[key] = isPlainObject(source[key]) ? _deepClone(source[key]) : source[key];
       } else {

@@ -38,7 +38,7 @@ test('should match expected exports', () => {
     'callAll',
     'callEventHandlers',
     'dataAttr',
-    'deepmerge',
+    'merge',
     'noop',
     'once',
     'runIfFn',

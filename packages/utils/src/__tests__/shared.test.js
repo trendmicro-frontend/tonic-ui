@@ -4,7 +4,7 @@ import {
   callAll,
   callEventHandlers,
   dataAttr,
-  deepmerge,
+  merge,
   noop,
   once,
   runIfFn,
@@ -86,9 +86,9 @@ describe('dataAttr', () => {
   });
 });
 
-describe('deepmerge', () => {
+describe('merge', () => {
   it('should not be subject to prototype pollution via __proto__', () => {
-    const result = deepmerge(
+    const result = merge(
       {},
       JSON.parse('{ "myProperty": "a", "__proto__" : { "isAdmin" : true } }'),
       {
@@ -101,7 +101,7 @@ describe('deepmerge', () => {
   });
 
   it('should not be subject to prototype pollution via constructor', () => {
-    const result = deepmerge(
+    const result = merge(
       {},
       JSON.parse('{ "myProperty": "a", "constructor" : { "prototype": { "isAdmin" : true } } }'),
       {
@@ -114,7 +114,7 @@ describe('deepmerge', () => {
   });
 
   it('should not be subject to prototype pollution via prototype', () => {
-    const result = deepmerge(
+    const result = merge(
       {},
       JSON.parse('{ "myProperty": "a", "prototype": { "isAdmin" : true } }'),
       {
@@ -127,7 +127,7 @@ describe('deepmerge', () => {
   });
 
   it('should appropriately copy the fields without prototype pollution', () => {
-    const result = deepmerge(
+    const result = merge(
       {},
       JSON.parse('{ "myProperty": "a", "__proto__" : { "isAdmin" : true } }')
     );
@@ -142,7 +142,7 @@ describe('deepmerge', () => {
     }
 
     const vmObject = runInNewContext('({hello: "realm"})');
-    const result = deepmerge({ hello: 'original' }, vmObject);
+    const result = merge({ hello: 'original' }, vmObject);
     expect(result.hello).toBe('realm');
   });
 
@@ -150,13 +150,13 @@ describe('deepmerge', () => {
     const element = document.createElement('div');
     const element2 = document.createElement('div');
 
-    const result = deepmerge({ element }, { element: element2 });
+    const result = merge({ element }, { element: element2 });
 
     expect(result.element).toBe(element2);
   });
 
   it('should reset source when target is undefined', () => {
-    const result = deepmerge(
+    const result = merge(
       {
         '&.disabled': {
           color: 'red',
@@ -172,7 +172,7 @@ describe('deepmerge', () => {
   });
 
   it('should merge keys that do not exist in source', () => {
-    const result = deepmerge({ foo: { baz: 'test' } }, { foo: { bar: 'test' }, bar: 'test' });
+    const result = merge({ foo: { baz: 'test' } }, { foo: { bar: 'test' }, bar: 'test' });
     expect(result).toEqual({
       foo: { baz: 'test', bar: 'test' },
       bar: 'test',
@@ -183,7 +183,7 @@ describe('deepmerge', () => {
     const foo = { foo: { baz: 'test' } };
     const bar = {};
 
-    const result = deepmerge(bar, foo);
+    const result = merge(bar, foo);
 
     expect(result).toEqual({ foo: { baz: 'test' } });
 
