@@ -16,17 +16,20 @@ const _joinWords = (words) => {
 };
 
 const _deepClone = (source) => {
-  if (!isPlainObject(source)) {
-    return source;
+  if (Array.isArray(source)) {
+    return source.map((item) => _deepClone(item));
   }
 
-  const output = {};
+  if (isPlainObject(source)) {
+    const output = {};
+    Object.keys(source).forEach((key) => {
+      output[key] = _deepClone(source[key]);
+    });
+    return output;
+  }
 
-  Object.keys(source).forEach((key) => {
-    output[key] = _deepClone(source[key]);
-  });
-
-  return output;
+  // For primitive values and other types, return as is
+  return source;
 };
 
 export const ariaAttr = (condition) => {
@@ -55,25 +58,33 @@ export const dataAttr = (condition) => {
 };
 
 export const merge = (target, source, options = { clone: true }) => {
-  const output = options.clone ? { ...target } : target;
-
-  if (isPlainObject(target) && isPlainObject(source)) {
-    Object.keys(source).forEach((key) => {
-      if (
-        isPlainObject(source[key]) &&
-        Object.prototype.hasOwnProperty.call(target, key) &&
-        isPlainObject(target[key])
-      ) {
-        output[key] = merge(target[key], source[key], options);
-      } else if (options.clone) {
-        output[key] = isPlainObject(source[key]) ? _deepClone(source[key]) : source[key];
+  // Merge arrays
+  if (Array.isArray(target) && Array.isArray(source)) {
+    const output = options.clone ? [...target] : target;
+    source.forEach((item, index) => {
+      if (isPlainObject(item) && isPlainObject(output[index])) {
+        output[index] = merge(output[index], item, options);
       } else {
-        output[key] = source[key];
+        output[index] = options.clone ? _deepClone(item) : item;
       }
     });
+    return output;
   }
 
-  return output;
+  // Merge plain objects
+  if (isPlainObject(target) && isPlainObject(source)) {
+    const output = options.clone ? { ...target } : target;
+    Object.keys(source).forEach((key) => {
+      if (isPlainObject(source[key]) && isPlainObject(output[key]) && Object.prototype.hasOwnProperty.call(output, key)) {
+        output[key] = merge(output[key], source[key], options);
+      } else {
+        output[key] = options.clone ? _deepClone(source[key]) : source[key];
+      }
+    });
+    return output;
+  }
+
+  return options.clone ? _deepClone(source) : source;
 };
 
 export const noop = () => {};
