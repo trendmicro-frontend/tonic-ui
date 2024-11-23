@@ -87,6 +87,75 @@ describe('dataAttr', () => {
 });
 
 describe('merge', () => {
+  it('should replace the first array with the second array', () => {
+    // Second array fully replaces the first array
+    expect(merge(
+      [1, 2],
+      [3, 4, 5],
+    )).toEqual([3, 4, 5]);
+
+    // Second array replaces corresponding elements of the first array, leaving trailing elements
+    expect(merge(
+      [1, 2, 3],
+      [4, 5],
+    )).toEqual([4, 5, 3]);
+  });
+
+  it('should merge objects and replace array values correctly', () => {
+    const result = merge(
+      { arr: [1, 2, { a: 1 }] },
+      { arr: [3, 4, { b: 2 }] }
+    );
+    expect(result).toEqual({
+      arr: [3, 4, { b: 2 }]
+    });
+  });
+
+  it('should merge arrays within nested structures', () => {
+    const result = merge(
+      { arr: [1, [2, 3], { a: [1, 2] }] },
+      { arr: [4, [5, 6], { a: [3, 4] }] }
+    );
+    expect(result).toEqual({
+      arr: [4, [5, 6], { a: [3, 4] }]
+    });
+  });
+
+  it('should handle arrays with objects correctly', () => {
+    const target = {
+      items: [
+        { id: 1, value: 'old' },
+        { id: 2, nested: { prop: 'old' } }
+      ]
+    };
+    const source = {
+      items: [
+        { id: 1, value: 'new' },
+        { id: 2, nested: { prop: 'new' } }
+      ]
+    };
+    const result = merge(target, source);
+    expect(result.items[0].value).toBe('new');
+    expect(result.items[1].nested.prop).toBe('new');
+  });
+
+  it('should handle array mutation correctly with clone option', () => {
+    const target = { arr: [1, { a: 1 }] };
+    const source = { arr: [2, { b: 2 }] };
+    const result = merge(target, source, { clone: true });
+    result.arr[1].b = 3;
+    expect(source.arr[1].b).toBe(2);
+    expect(result.arr[1].b).toBe(3);
+  });
+
+  it('should handle circular references in arrays', () => {
+    const target = { arr: [] };
+    target.arr.push(target);
+    const source = { arr: [{ value: 'test' }] };
+    const result = merge(target, source);
+    expect(result.arr[0].value).toBe('test');
+  });
+
   it('should not be subject to prototype pollution via __proto__', () => {
     const result = merge(
       {},
@@ -95,7 +164,6 @@ describe('merge', () => {
         clone: false,
       }
     );
-
     expect(result.__proto__).toHaveProperty('isAdmin'); // eslint-disable-line no-proto
     expect({}).not.toHaveProperty('isAdmin');
   });
@@ -108,7 +176,6 @@ describe('merge', () => {
         clone: true,
       }
     );
-
     expect(result.constructor.prototype).toHaveProperty('isAdmin');
     expect({}).not.toHaveProperty('isAdmin');
   });
@@ -121,7 +188,6 @@ describe('merge', () => {
         clone: false,
       }
     );
-
     expect(result.prototype).toHaveProperty('isAdmin');
     expect({}).not.toHaveProperty('isAdmin');
   });
@@ -131,7 +197,6 @@ describe('merge', () => {
       {},
       JSON.parse('{ "myProperty": "a", "__proto__" : { "isAdmin" : true } }')
     );
-
     expect(result.__proto__).toHaveProperty('isAdmin'); // eslint-disable-line no-proto
     expect({}).not.toHaveProperty('isAdmin');
   });
@@ -140,7 +205,6 @@ describe('merge', () => {
     if (!/jsdom/.test(window.navigator.userAgent)) {
       this.skip();
     }
-
     const vmObject = runInNewContext('({hello: "realm"})');
     const result = merge({ hello: 'original' }, vmObject);
     expect(result.hello).toBe('realm');
@@ -182,13 +246,9 @@ describe('merge', () => {
   it('should deep clone source key object if target key does not exist', () => {
     const foo = { foo: { baz: 'test' } };
     const bar = {};
-
     const result = merge(bar, foo);
-
     expect(result).toEqual({ foo: { baz: 'test' } });
-
     result.foo.baz = 'new test';
-
     expect(result).toEqual({ foo: { baz: 'new test' } });
     expect(foo).toEqual({ foo: { baz: 'test' } });
   });
