@@ -230,6 +230,7 @@ test('should match expected exports', () => {
 
     // theme
     'ThemeProvider',
+    'createTheme',
     'theme',
     'useTheme',
 

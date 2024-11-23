@@ -28,20 +28,20 @@ import {
   ToastManager,
   TonicProvider,
   colorStyle,
+  createTheme,
   theme,
   useColorMode,
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
+import { useConst } from '@tonic-ui/react-hooks';
+import { merge } from '@tonic-ui/utils';
 import * as React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app';
 
-const customColorStyle = {
-  ...colorStyle,
+const customColorStyle = merge(colorStyle, {
   dark: {
-    ...colorStyle.dark,
-
     // Add custom colors here
     risk: {
       high: 'red:50',
@@ -58,8 +58,6 @@ const customColorStyle = {
     },
   },
   light: {
-    ...colorStyle.light,
-
     // Add custom colors here
     risk: {
       high: 'red:60',
@@ -75,30 +73,27 @@ const customColorStyle = {
       info: 'gray:50',
     },
   },
-};
+});
 
 const Root = (props) => {
-  const customTheme = {
-    ...theme,
-    // Set default props for specific components
-    //
-    // Example:
-    // \`\`\`js
-    // components: {
-    //   'ToastCloseButton': {
-    //     defaultProps: {
-    //       'aria-label': 'Close toast',
-    //     },
-    //   },
-    // }
-    // \`\`\`
-    components: {},
-    // Enable CSS variables
+  const customTheme = useConst(() => createTheme(theme, {
+    components: {
+      // Set default props for specific components
+      //
+      // Example:
+      // \`\`\`
+      // 'ToastCloseButton': {
+      //   defaultProps: {
+      //     'aria-label': 'Close toast',
+      //   },
+      // },
+      // \`\`\`
+    },
     config: {
-      ...theme?.config,
+      // Enable CSS variables replacement
       useCSSVariables: true,
     },
-  };
+  }));
 
   return (
     <TonicProvider

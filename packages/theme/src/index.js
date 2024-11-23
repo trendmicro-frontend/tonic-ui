@@ -1,4 +1,4 @@
-import createTheme from './createTheme';
+import createTheme from './createTheme'; // deprecated
 
 const theme = createTheme('rem');
 

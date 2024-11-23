@@ -42,7 +42,7 @@ To do this, add a `breakpoints` array with additional aliases (e.g. `sm`, `md`, 
 
 ```jsx disabled
 // 1. Import the theme
-import { ThemeProvider, theme } from '@tonic-ui/react';
+import { ThemeProvider, createTheme, theme } from '@tonic-ui/react';
 
 // 2. Update the breakpoints
 const breakpoints = [
@@ -59,10 +59,9 @@ breakpoints.xl = breakpoints[3];
 breakpoints['2xl'] = breakpoints[4];
 
 // 3. Extend the theme
-const customTheme = {
-  ...theme,
+const customTheme = createTheme(theme, {
   breakpoints,
-};
+});
 
 // 4. Pass the custom theme to the theme provider
 function App() {

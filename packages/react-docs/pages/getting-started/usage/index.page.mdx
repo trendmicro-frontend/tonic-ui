@@ -14,32 +14,30 @@ import {
   Box,
   TonicProvider,
   colorStyle, // [optional] Required only for customizing color styles
+  createTheme,
   theme, // [optional] Required only for customizing the theme
 } from '@tonic-ui/react';
+import { useConst } from '@tonic-ui/react-hooks';
 
 function App(props) {
-  const customTheme = {
-      ...theme,
+  const customTheme = useConst(() => createTheme(theme, {
+    components: {
       // Set default props for specific components
       //
       // Example:
-      // ```js
-      // components: {
-      //   'ToastCloseButton': {
-      //     defaultProps: {
-      //       'aria-label': 'Close toast',
-      //     },
-      //   },
-      // }
       // ```
-      components: {},
-      // Enable CSS variables
-      config: {
-        ...theme?.config,
-        useCSSVariables: true,
-      },
-    };
-  };
+      // 'ToastCloseButton': {
+      //   defaultProps: {
+      //     'aria-label': 'Close toast',
+      //   },
+      // },
+      // ```
+    },
+    config: {
+      // Enable CSS variables replacement
+      useCSSVariables: true,
+    },
+  }));
 
   return (
     <TonicProvider
@@ -69,34 +67,32 @@ import {
   ToastManager, // allows you to create and manage toasts in the application
   TonicProvider,
   colorStyle,
+  createTheme,
   theme,
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
+import { useConst } from '@tonic-ui/react-hooks';
 
 function App(props) {
-  const customTheme = {
-      ...theme,
+  const customTheme = useConst(() => createTheme(theme, {
+    components: {
       // Set default props for specific components
       //
       // Example:
-      // ```js
-      // components: {
-      //   'ToastCloseButton': {
-      //     defaultProps: {
-      //       'aria-label': 'Close toast',
-      //     },
-      //   },
-      // }
       // ```
-      components: {},
-      // Enable CSS variables
-      config: {
-        ...theme?.config,
-        useCSSVariables: true,
-      },
-    };
-  };
+      // 'ToastCloseButton': {
+      //   defaultProps: {
+      //     'aria-label': 'Close toast',
+      //   },
+      // },
+      // ```
+    },
+    config: {
+      // Enable CSS variables replacement
+      useCSSVariables: true,
+    },
+  }));
 
   return (
     <TonicProvider
@@ -336,24 +332,21 @@ Optionally, you can extend the theme object to override the defaults with custom
 Override the theme object and pass it to the `<ThemeProvider>` component.
 
 ```js
-import { theme } from '@tonic-ui/react';
+import { createTheme, theme } from '@tonic-ui/react';
 
 // Let's say you want to add more colors
-const customTheme = {
-  ...theme,
+const customTheme = createTheme(theme, {
   config: {
-    ...theme?.config,
     useCSSVariables: true,
   },
   colors: {
-    ...theme?.colors,
     brand: {
       90: "#1a365d",
       80: "#153e75",
       70: "#2a69ac",
     },
   },
-};
+});
 ```
 
 #### 2. Setting up the provider

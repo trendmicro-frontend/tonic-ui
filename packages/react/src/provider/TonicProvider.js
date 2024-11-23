@@ -6,14 +6,11 @@ import { CSSBaseline } from '../css-baseline';
 
 const TonicProvider = ({
   children,
-  colorMode: colorModeProps,
-  colorStyle: colorStyleProps,
+  colorMode: colorModeProps = {},
+  colorStyle: colorStyleProps = {},
   theme,
   useCSSBaseline = false,
 }) => {
-  colorModeProps = colorModeProps ?? {};
-  colorStyleProps = colorStyleProps ?? {};
-
   if (typeof colorModeProps !== 'object') {
     console.error(
       'TonicProvider: "colorMode" prop must be an object if provided.\n' +

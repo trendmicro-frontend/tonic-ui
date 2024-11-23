@@ -7,6 +7,7 @@ import {
   ToastManager,
   TonicProvider,
   colorStyle as defaultColorStyle,
+  createTheme,
   theme,
   useTheme,
 } from '@tonic-ui/react';
@@ -50,28 +51,24 @@ const EmotionCacheProvider = ({
 };
 
 const App = (props) => {
-  const customTheme = useConst(() => {
-    return {
-      ...theme,
-      components: {
-        // Set default props for components here.
-        //
-        // Example:
-        // ```
-        // 'AccordionToggle': {
-        //   defaultProps: {
-        //     disabled: true,
-        //   },
-        // }
-        // ```
-      },
-      config: {
-        ...theme?.config,
-        // Enable CSS variables replacement
-        useCSSVariables: true,
-      },
-    };
-  });
+  const customTheme = useConst(() => createTheme(theme, {
+    components: {
+      // Set default props for specific components
+      //
+      // Example:
+      // ```
+      // 'ToastCloseButton': {
+      //   defaultProps: {
+      //     'aria-label': 'Close toast',
+      //   },
+      // },
+      // ```
+    },
+    config: {
+      // Enable CSS variables replacement
+      useCSSVariables: true,
+    },
+  }));
   const [initialColorMode, setColorMode] = useState(null);
   const router = useRouter();
 
