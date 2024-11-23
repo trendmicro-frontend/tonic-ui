@@ -21,7 +21,7 @@ const cssVariableScales = [
   'zIndices',
 ];
 
-const createTheme = (options, ...args) => {
+const createTheme = (options = {}, ...args) => {
   // Merge provided options with default configurations
   let theme = merge(options, {
     config: {
