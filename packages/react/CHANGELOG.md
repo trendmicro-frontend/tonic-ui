@@ -1,5 +1,16 @@
 # @tonic-ui/react
 
+## 2.4.0
+
+### Minor Changes
+
+- feat(react/toast): enhance inline toast transition management by [@cheton](https://github.com/cheton) in [#941](https://github.com/trendmicro-frontend/tonic-ui/pull/941)
+
+### Patch Changes
+
+- Updated dependencies [[`22ccadf`](https://github.com/trendmicro-frontend/tonic-ui/commit/22ccadf3e35dac1bb20c43df2d8c2b1a5bf6d6fc)]
+  - @tonic-ui/utils@2.1.0
+
 ## 2.3.0
 
 ### Minor Changes
