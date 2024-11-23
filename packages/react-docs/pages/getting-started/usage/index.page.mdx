@@ -13,41 +13,40 @@ import React from 'react';
 import {
   Box,
   TonicProvider,
-  colorStyle, // [optional] Required only for customizing color styles
-  createTheme,
-  theme, // [optional] Required only for customizing the theme
+  colorStyle, // The default color style object
+  createTheme, // The function for theme customization
+  theme, // The default theme configuration
 } from '@tonic-ui/react';
-import { useConst } from '@tonic-ui/react-hooks';
+
+const customTheme = createTheme(theme, {
+  config: {
+    // Enable CSS variables replacement
+    useCSSVariables: true,
+  },
+  components: {
+    // Set default props for specific components
+    //
+    // Example:
+    // ```
+    // 'ToastCloseButton': {
+    //   defaultProps: {
+    //     'aria-label': 'Close toast',
+    //   },
+    // },
+    // ```
+  },
+});
 
 function App(props) {
-  const customTheme = useConst(() => createTheme(theme, {
-    components: {
-      // Set default props for specific components
-      //
-      // Example:
-      // ```
-      // 'ToastCloseButton': {
-      //   defaultProps: {
-      //     'aria-label': 'Close toast',
-      //   },
-      // },
-      // ```
-    },
-    config: {
-      // Enable CSS variables replacement
-      useCSSVariables: true,
-    },
-  }));
-
   return (
     <TonicProvider
       colorMode={{
         defaultValue: 'dark', // One of: 'dark', 'light'
       }}
       colorStyle={{
-        defaultValue: colorStyle, // Custom color style
+        defaultValue: colorStyle, // optional
       }}
-      theme={customTheme}
+      theme={customTheme} // optional
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <Box {...props} />
@@ -72,37 +71,36 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import { useConst } from '@tonic-ui/react-hooks';
+
+const customTheme = createTheme(theme, {
+  config: {
+    // Enable CSS variables replacement
+    useCSSVariables: true,
+  },
+  components: {
+    // Set default props for specific components
+    //
+    // Example:
+    // ```
+    // 'ToastCloseButton': {
+    //   defaultProps: {
+    //     'aria-label': 'Close toast',
+    //   },
+    // },
+    // ```
+  },
+});
 
 function App(props) {
-  const customTheme = useConst(() => createTheme(theme, {
-    components: {
-      // Set default props for specific components
-      //
-      // Example:
-      // ```
-      // 'ToastCloseButton': {
-      //   defaultProps: {
-      //     'aria-label': 'Close toast',
-      //   },
-      // },
-      // ```
-    },
-    config: {
-      // Enable CSS variables replacement
-      useCSSVariables: true,
-    },
-  }));
-
   return (
     <TonicProvider
       colorMode={{
         defaultValue: 'dark', // One of: 'dark', 'light'
       }}
       colorStyle={{
-        defaultValue: colorStyle, // Custom color style
+        defaultValue: colorStyle, // optional
       }}
-      theme={customTheme}
+      theme={customTheme} // optional
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <ToastManager
@@ -217,13 +215,11 @@ Tonic UI supports converting theme tokens defined in the theme to CSS variables.
 
 ```jsx
 <TonicProvider
-  theme={{
-    ...theme,
+  theme={merge(theme, {
     config: {
-      ...theme?.config,
       useCSSVariables: true,
     },
-  }}
+  })}
 />
 ```
 
@@ -259,12 +255,11 @@ To override default color style, you can create a color style object according t
 
 ```js
 import { colorStyle } from '@tonic-ui/react';
+import { merge } from '@tonic-ui/utils';
 
 // Let's say you want to define color style for your components
-const customColorStyle = {
-  ...colorStyle,
+const customColorStyle = merge(colorStyle, {
   dark: {
-    ...colorStyle.dark,
     risk: {
       high: 'red:50',
       medium: 'yellow:50',
@@ -280,7 +275,6 @@ const customColorStyle = {
     },
   },
   light: {
-    ...colorStyle.light,
     risk: {
       high: 'red:60',
       medium: 'yellow:50',
@@ -295,7 +289,7 @@ const customColorStyle = {
       info: 'gray:50',
     },
   },
-};
+});
 ```
 
 #### 2. Setting up the provider
@@ -332,7 +326,10 @@ Optionally, you can extend the theme object to override the defaults with custom
 Override the theme object and pass it to the `<ThemeProvider>` component.
 
 ```js
-import { createTheme, theme } from '@tonic-ui/react';
+import {
+  createTheme,
+  theme,
+} from '@tonic-ui/react';
 
 // Let's say you want to add more colors
 const customTheme = createTheme(theme, {

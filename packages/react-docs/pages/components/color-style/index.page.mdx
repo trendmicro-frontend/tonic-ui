@@ -83,12 +83,11 @@ To override default color style, you can create a color style object in accordan
 
 ```jsx disabled
 import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
+import { merge } from '@tonic-ui/utils';
 import React from 'react';
 
-const customColorStyle = {
-  ...colorStyle,
+const customColorStyle = merge(colorStyle, {
   dark: {
-    ...colorStyle.dark,
     risk: {
       high: 'red:50',
       medium: 'yellow:50',
@@ -104,7 +103,6 @@ const customColorStyle = {
     },
   },
   light: {
-    ...colorStyle.light,
     risk: {
       high: 'red:60',
       medium: 'yellow:50',
@@ -119,7 +117,7 @@ const customColorStyle = {
       info: 'gray:50',
     },
   },
-};
+});
 
 const App = () => (
   <TonicProvider

@@ -34,7 +34,6 @@ import {
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
-import { useConst } from '@tonic-ui/react-hooks';
 import { merge } from '@tonic-ui/utils';
 import * as React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -75,26 +74,26 @@ const customColorStyle = merge(colorStyle, {
   },
 });
 
-const Root = (props) => {
-  const customTheme = useConst(() => createTheme(theme, {
-    components: {
-      // Set default props for specific components
-      //
-      // Example:
-      // \`\`\`
-      // 'ToastCloseButton': {
-      //   defaultProps: {
-      //     'aria-label': 'Close toast',
-      //   },
-      // },
-      // \`\`\`
-    },
-    config: {
-      // Enable CSS variables replacement
-      useCSSVariables: true,
-    },
-  }));
+const customTheme = createTheme(theme, {
+  config: {
+    // Enable CSS variables replacement
+    useCSSVariables: true,
+  },
+  components: {
+    // Set default props for specific components
+    //
+    // Example:
+    // \`\`\`
+    // 'ToastCloseButton': {
+    //   defaultProps: {
+    //     'aria-label': 'Close toast',
+    //   },
+    // },
+    // \`\`\`
+  },
+});
 
+const Root = (props) => {
   return (
     <TonicProvider
       colorMode={{

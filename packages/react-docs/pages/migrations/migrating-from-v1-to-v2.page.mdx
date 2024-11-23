@@ -40,12 +40,10 @@ To use previously defined `severity` and `chart` colors, you need to pass a cust
 ```jsx disabled
 import React from 'react';
 import { Box, TonicProvider, colorStyle } from '@tonic-ui/react';
+import { merge } from '@tonic-ui/utils';
 
-const customColorStyle = {
-  ...colorStyle,
+const customColorStyle = merge(colorStyle, {
    dark: {
-    ...colorStyle.dark,
-
     // deprecated
     severity: {
       critical: 'magenta:60',
@@ -77,8 +75,6 @@ const customColorStyle = {
     },
   },
   light: {
-    ...colorStyle.light,
-
     // deprecated
     severity: {
       critical: 'magenta:60',
@@ -109,7 +105,7 @@ const customColorStyle = {
       },
     },
   },
-};
+});
 
 const App = (props) => (
   <TonicProvider
@@ -128,12 +124,11 @@ Here is the recommended configuration for utilizing the `risk` and `severity` co
 
 ```js
 import { colorStyle } from '@tonic-ui/react';
+import { merge } from '@tonic-ui/utils';
 
 // Let's say you want to define color style for your components
-const customColorStyle = {
-  ...colorStyle,
+const customColorStyle = merge(colorStyle, {
   dark: {
-    ...colorStyle.dark,
     risk: {
       high: 'red:50',
       medium: 'yellow:50',
@@ -149,7 +144,6 @@ const customColorStyle = {
     },
   },
   light: {
-    ...colorStyle.light,
     risk: {
       high: 'red:60',
       medium: 'yellow:50',
@@ -164,7 +158,7 @@ const customColorStyle = {
       info: 'gray:50',
     },
   },
-};
+});
 ```
 
 ### Date Pickers
