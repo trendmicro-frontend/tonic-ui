@@ -12,10 +12,10 @@ Go to the root of your application and do the following:
 import React from 'react';
 import {
   Box,
-  TonicProvider,
-  colorStyle, // The default color style object
-  createTheme, // The function for theme customization
-  theme, // The default theme configuration
+  TonicProvider, // Provides theme and context for Tonic UI components
+  colorStyle,    // Default color style object
+  createTheme,   // For theme customization (introduced in v2.5.0)
+  theme,         // Default theme configuration
 } from '@tonic-ui/react';
 
 const customTheme = createTheme(theme, {
@@ -62,14 +62,15 @@ import { Global, css } from '@emotion/react';
 import React from 'react';
 import {
   Box,
-  PortalManager, // allows you to create and manage portals in the application
-  ToastManager, // allows you to create and manage toasts in the application
-  TonicProvider,
-  colorStyle,
-  createTheme,
-  theme,
-  useColorMode,
-  useTheme,
+  PortalManager, // Manages portals in the application
+  ToastManager,  // Manages toasts in the application
+  TonicProvider, // Provides theme and context for Tonic UI components
+  colorStyle,    // Default color style object
+  createTheme,   // For theme customization (introduced in v2.5.0)
+  theme,         // Default theme configuration
+  useColorMode,  // Hook to manage color mode (e.g., light/dark)
+  useColorStyle, // Hook to manage color style
+  useTheme,      // Hook to access the theme object
 } from '@tonic-ui/react';
 
 const customTheme = createTheme(theme, {
@@ -133,7 +134,7 @@ function App(props) {
 
 function Layout(props) {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
   const { colors, fontSizes, lineHeights } = useTheme();
   const backgroundColor = colorStyle.background.primary;
   const color = colorStyle.color.primary;
@@ -202,7 +203,9 @@ function Layout(props) {
 Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
 ```jsx disabled
-<TonicProvider useCSSBaseline={true}>
+<TonicProvider
+  useCSSBaseline={true}
+>
   <App />
 </TonicProvider>
 ```
@@ -296,14 +299,9 @@ const customColorStyle = merge(colorStyle, {
 
 ```jsx disabled
 <TonicProvider
-  colorMode={{
-    defaultValue: 'dark',
-  }}
   colorStyle={{
     defaultValue: customColorStyle,
   }}
-  theme={customTheme}
-  useCSSBaseline={true}
 >
   {children}
 </TonicProvider>
@@ -349,7 +347,9 @@ const customTheme = createTheme(theme, {
 #### 2. Setting up the provider
 
 ```jsx
-<TonicProvider theme={customTheme}>
+<TonicProvider
+  theme={customTheme}
+>
   {children}
 </TonicProvider>
 ```
