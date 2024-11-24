@@ -74,7 +74,7 @@ If the `layout` prop is set to `flexbox`, the expanded row will appear below the
 
 Below are the code snippets that demonstrate how to render the expanded row based on the `layout` prop:
 
-```jsx disabled
+```jsx
 // layout='flexbox'
 <TableRow>
   <TableCell>Cell 1</TableCell>
@@ -91,7 +91,7 @@ Below are the code snippets that demonstrate how to render the expanded row base
 )}
 ````
 
-```jsx disabled
+```jsx
 // layout='table'
 <TableRow>
   <TableCell>Cell 1</TableCell>
@@ -149,7 +149,7 @@ const tableHeight = headerHeight + rowsToDisplay * cellHeight;
 
 2. Wrap the `TableBody` component with a `TableScrollbar` component, and set the `height` and `overflow` props of the `TableScrollbar` component to control the scrolling behavior.
 
-```jsx disabled
+```jsx
 <Table
   layout="flexbox"
   height={tableHeight}
@@ -180,7 +180,7 @@ If you want to control whether to enable the scrolling feature dynamically, you 
 
 Here's an example implementation of the `ConditionalWrapper` component:
 
-```jsx disabled
+```jsx
 const ConditionalWrapper = ({
   children,
   condition,
@@ -192,7 +192,7 @@ const ConditionalWrapper = ({
 
 And here's how you can use it in your code:
 
-```jsx disabled
+```jsx
 <Table
   height={isTableScrollingEnabled ? tableHeight : undefined}
 >

@@ -8,7 +8,7 @@ By using `TonicProvider` at root of your application, it will add `ColorModeProv
 
 To get color mode working correctly, you may have to pass `colorMode` config to `TonicProvider` with `defaultValue` set to `dark` or `light`.
 
-```jsx disabled
+```jsx
 import React from 'react';
 import { Box, TonicProvider } from '@tonic-ui/react';
 
@@ -34,7 +34,7 @@ function App(props) {
 
 The above setup is equivalent to:
 
-```jsx disabled
+```jsx
 <ColorModeProvider defaultValue="dark">
   <Box {...props} />
 </ColorModeProvider>
@@ -44,11 +44,11 @@ The above setup is equivalent to:
 
 To opt the entire page into the user's color scheme preferences declare `color-scheme` on the document's root element.
 
-```jsx disabled
+```jsx
 import { Global, css } from '@emotion/react';
 ```
 
-```jsx disabled
+```jsx
 <Global
   styles={css`
     :root, :host {
@@ -62,7 +62,7 @@ import { Global, css } from '@emotion/react';
 
 ### Use default color mode
 
-```jsx disabled
+```jsx
 <TonicProvider
   colorMode={{
     defaultValue: 'dark',
@@ -76,7 +76,7 @@ import { Global, css } from '@emotion/react';
 
 This example uses the default color mode for the first render, and then switches to the system color mode for the rest of time.
 
-```jsx disabled
+```jsx
 <TonicProvider
   colorMode={{
     defaultValue: 'dark', // optional
@@ -89,7 +89,7 @@ This example uses the default color mode for the first render, and then switches
 
 ### Controlled color mode
 
-```jsx disabled
+```jsx
 <TonicProvider
   colorMode={{
     value: 'dark',
@@ -101,7 +101,7 @@ This example uses the default color mode for the first render, and then switches
 
 ### Controlled color mode with a toggle function
 
-```jsx disabled
+```jsx
 function App({ children }) {
   const [colorMode, toggleColorMode] = useToggle();
 

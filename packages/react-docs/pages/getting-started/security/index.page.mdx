@@ -8,7 +8,7 @@ Tonic UI relies on [Emotion](https://emotion.sh/) for its styling system. To sea
 
 ### Step 1: Implement a `EmotionCacheProvider` component
 
-```jsx disabled
+```jsx
 const EmotionCacheProvider = ({
   children,
   nonce,
@@ -26,7 +26,7 @@ const EmotionCacheProvider = ({
 
 Wrap the `TonicProvider` component with the `EmotionCacheProvider` and provide the relevant `nonce` value. This value will be utilized by [Emotion](https://emotion.sh/) to generate a style tag with the necessary `nonce` attribute.
 
-```jsx disabled
+```jsx
 <EmotionCacheProvider nonce={nonce}>
   <TonicProvider
     colorMode={colorMode}

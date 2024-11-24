@@ -8,7 +8,7 @@ For Tonic UI to work, you will need to setup the `TonicProvder` at the root of y
 
 Go to the root of your application and do the following:
 
-```jsx disabled
+```jsx
 import React from 'react';
 import {
   Box,
@@ -57,7 +57,7 @@ function App(props) {
 
 See below for a more complete example:
 
-```jsx disabled
+```jsx
 import { Global, css } from '@emotion/react';
 import React from 'react';
 import {
@@ -202,7 +202,7 @@ function Layout(props) {
 
 Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
-```jsx disabled
+```jsx
 <TonicProvider
   useCSSBaseline={true}
 >
@@ -297,7 +297,7 @@ const customColorStyle = merge(colorStyle, {
 
 #### 2. Setting up the provider
 
-```jsx disabled
+```jsx
 <TonicProvider
   colorStyle={{
     defaultValue: customColorStyle,
@@ -309,7 +309,7 @@ const customColorStyle = merge(colorStyle, {
 
 #### 3. Using the color style
 
-```jsx disabled
+```jsx
 const [colorStyle] = useColorStyle()
 console.log(colorStyle?.risk?.medium); // 'yellow:50'
 console.log(colorStyle?.severity?.critical); // 'magenta:60'
@@ -356,7 +356,7 @@ const customTheme = createTheme(theme, {
 
 #### 3. Using the theme
 
-```jsx disabled
+```jsx
 const theme = useTheme();
 const brandColor = theme?.colors?.brand?.[90];
 ```
@@ -382,7 +382,7 @@ You can customize the styling and layout of your components using the various st
 
 There are some shorthands available for various CSS properties. These are documentated on the [style props](../styled-system/style-props) page.
 
-```jsx disabled
+```jsx
 <Box
   bg="white:primary" // backgroundColor: 'white:primary'
   mb="3x" // marginBottom: '3x'
@@ -399,7 +399,7 @@ The `sx` prop supports CSS syntax including child and pseudo-selectors, media qu
 
 * Using pseudo-selectors:
 
-  ```jsx disabled
+  ```jsx
   <Box
     sx={{
       ':hover': {
@@ -411,7 +411,7 @@ The `sx` prop supports CSS syntax including child and pseudo-selectors, media qu
 
 * Using media queries:
 
-  ```jsx disabled
+  ```jsx
   <Box
     sx={{
       '@media print': {
@@ -423,7 +423,7 @@ The `sx` prop supports CSS syntax including child and pseudo-selectors, media qu
 
 * Using nested selectors:
 
-  ```jsx disabled
+  ```jsx
   <Box
     sx={{
       '& .child-selector': {

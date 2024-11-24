@@ -37,7 +37,7 @@ Click the button below to toggle a modal. The modal will show up in the center o
 
 The `isClosable` prop is used to make a modal closable by adding a close button to it. By default, the value of `isClosable` is false. To make a modal closable, set `isClosable` to true.
 
-```jsx disabled
+```jsx
 <Modal isOpen={isOpen} isClosable onClose={onClose}>
   <ModalOverlay />
   <ModalContent>
@@ -54,7 +54,7 @@ The `ModalCloseButton` component provides an easy way to add a close button to a
 
 Besides the default functionality of the `ModalCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `ModalCloseButton` component as needed.
 
-```jsx disabled
+```jsx
 <Modal isOpen={isOpen} onClose={onClose}>
   <ModalOverlay />
   <ModalContent>

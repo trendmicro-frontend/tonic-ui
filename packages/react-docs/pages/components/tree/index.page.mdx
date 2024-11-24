@@ -26,7 +26,7 @@ To render a tree, you'll need to use the `Tree` component along with one or more
 
 The `TreeItem` component requires two props: `nodeId` and `render`.
 
-```jsx disabled
+```jsx
 <TreeItem nodeId={nodeId} render={render} />
 ```
 
@@ -37,7 +37,7 @@ In the render function, you can use the provided `TreeItemContent`, `TreeItemTog
 
 Here is the recommended structure for rendering a tree node:
 
-```jsx disabled
+```jsx
 function render({ isExpanded }) {
   return (
     <TreeItemContent>
@@ -77,7 +77,7 @@ Refer to the [Accessibility](#accessibility) section for more keyboard shortcuts
 
 For checkboxes used in multi-selection, consider enhancing accessibility by adjusting the background color when the checkbox is selected.
 
-```jsx disabled
+```jsx
 const render = ({ isExpanded, isSelected }) => {
   return (
     <TreeItemContent

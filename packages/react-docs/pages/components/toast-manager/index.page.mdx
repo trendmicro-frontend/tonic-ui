@@ -12,7 +12,7 @@ import { ToastManager } from '@tonic-ui/react';
 
 Next, wrap your application with `ToastManager`:
 
-```jsx disabled
+```jsx
 <ToastManager
   TransitionProps={{
     sx: {
@@ -38,7 +38,7 @@ Next, wrap your application with `ToastManager`:
 
 Once `ToastManager` is set up, you can use the `useToastManager` Hook to create and manage toasts from any component:
 
-```jsx disabled
+```jsx
 import { useToastManager } from '@tonic-ui/react';
 
 function MyComponent() {
@@ -78,7 +78,7 @@ function MyComponent() {
 
 The `toast` method accepts a function that generates the toast element to display. This function receives `id`, `data`, `onClose`, and `placement` as arguments.
 
-```jsx disabled
+```jsx
 toast(({ id, data, onClose, placement }) => (
   <Toast isClosable onClose={onClose}>
     This is a toast notification
@@ -100,7 +100,7 @@ See the [useToastManager](./toast-manager/useToastManager) Hook for detailed usa
 
 To control the spacing to the edges of the screen, make use of the `TransitionProps` prop in the `ToastManager`. Pass the `sx` prop to the transition component with your preferred spacing.
 
-```jsx disabled
+```jsx
 <ToastManager
   TransitionProps={{
     sx: {

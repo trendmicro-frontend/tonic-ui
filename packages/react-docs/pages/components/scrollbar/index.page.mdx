@@ -88,7 +88,7 @@ Check out the demo below to see how you can integrate React Virtuoso with a cust
 
 To achieve this, you'll need to create a `CustomScrollbar` component and pass it as the `Scroller` for the `Virtuoso` component.
 
-```jsx disabled
+```jsx
 <Virtuoso
   components={{
     Scroller: CustomScrollbar,
@@ -105,7 +105,7 @@ To achieve this, you'll need to create a `CustomScrollbar` component and pass it
 
 In the `CustomScrollbar` component, pass `props` and `ref` to `scrollViewProps` and `scrollViewRef`, respectively. This ensures that the props coming from React Virtuoso are passed down correctly, allowing its scrolling behavior to integrate seamlessly into the `Scrollbar`.
 
-```jsx disabled
+```jsx
 const CustomScrollbar = forwardRef((inProps, ref) => {
   const { children, ...props } = inProps;
 

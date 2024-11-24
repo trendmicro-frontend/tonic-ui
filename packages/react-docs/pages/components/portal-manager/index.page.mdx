@@ -14,7 +14,7 @@ import {
 
 Next, wrap your application with `PortalManager`:
 
-```jsx disabled
+```jsx
 <PortalManager>
   <App />
 </PortalManager>
@@ -22,7 +22,7 @@ Next, wrap your application with `PortalManager`:
 
 Once `PortalManager` is set up, any component can use the `usePortalManager` Hook to create and manage portals.
 
-```jsx disabled
+```jsx
 import { usePortalManager } from '@tonic-ui/react';
 
 function MyComponent() {
@@ -41,7 +41,7 @@ function MyComponent() {
 
 In the example above, `MyModal` is a wrapper component that represents the modal you want to render. The `onClose` prop is a function that is passed to the modal component, and can be used to close the modal.
 
-```jsx disabled
+```jsx
 const MyModal = forwardRef(
   {
     onClose,
@@ -76,7 +76,7 @@ const MyModal = forwardRef(
 
 To remove a portal, call the callback function passed by the `portal` method.
 
-```jsx disabled
+```jsx
 const id = portal((close) => (
   <MyModal onClose={close} />
 ));
@@ -84,7 +84,7 @@ const id = portal((close) => (
 
 Or use the `remove` method by passing the portal's unique id as an argument.
 
-```jsx disabled
+```jsx
 portal.remove(id);
 ```
 

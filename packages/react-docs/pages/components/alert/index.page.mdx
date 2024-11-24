@@ -52,7 +52,7 @@ If not specified, the default icon will be used based on the `severity` prop.
 
 The `isClosable` prop is used to make an alert closable by adding a close button to it. By default, the value of `isClosable` is false. To make an alert closable, set `isClosable` to true.
 
-```jsx disabled
+```jsx
 <Alert variant="solid" severity="success" isClosable onClose={onClose}>
   <Text>This is a success alert.</Text>
 </Alert>
@@ -66,7 +66,7 @@ The `AlertCloseButton` component provides an easy way to add a close button to a
 
 Besides the default functionality of the `AlertCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `AlertCloseButton` component as needed.
 
-```jsx disabled
+```jsx
 <Alert variant="solid" severity="success" onClose={onClose}>
   <Text pr="10x">This is a success alert.</Text>
   <AlertCloseButton top={3} right={7} position="absolute" data-test="alert-close-button" />

@@ -25,7 +25,7 @@ import {
 
 To create an accessible popover, it should allow users to access it using the tab key on a keyboard. When it opens, the focus status will be set to `PopoverContent`. When it closes, the focus status will return to `PopoverTrigger`.
 
-```jsx disabled
+```jsx
 <Popover>
   <PopoverTrigger>
     <Button variant="secondary">
@@ -42,7 +42,7 @@ To create an accessible popover, it should allow users to access it using the ta
 
 By default, you can only pass a single React element child to the `PopoverTrigger` component.
 
-```jsx disabled
+```jsx
 <PopoverTrigger>
   <Button variant="secondary">
     Interactive Trigger
@@ -52,7 +52,7 @@ By default, you can only pass a single React element child to the `PopoverTrigge
 
 If you need to pass more than one child element or non-element children, wrap them in an element or pass the `shouldWrapChildren` prop.
 
-```jsx disabled
+```jsx
 <PopoverTrigger outline={0} tabIndex={-1}>
   <Text display="inline-block">
     Non-interactive Trigger
@@ -60,13 +60,13 @@ If you need to pass more than one child element or non-element children, wrap th
 </PopoverTrigger>
 ```
 
-```jsx disabled
+```jsx
 <PopoverTrigger outline={0} shouldWrapChildren tabIndex={-1}>
   Non-interactive Trigger
 </PopoverTrigger>
 ```
 
-```jsx disabled
+```jsx
 <PopoverTrigger outline={0} shouldWrapChildren tabIndex={-1}>
   <MenuIcon height="5x" mr="2x" />
   <Text display="inline-block">Non-interactive Trigger</Text>
@@ -171,7 +171,7 @@ To access the internal state of the popover, you can use the Function as Child C
 
 Use the `placement` prop to control the placement of the popover.
 
-```jsx disabled
+```jsx
 <Popover placement="top" trigger="hover">
   <PopoverTrigger>
     <LinkButton>Trigger</LinkButton>

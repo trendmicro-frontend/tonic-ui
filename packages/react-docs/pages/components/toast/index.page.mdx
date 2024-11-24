@@ -46,7 +46,7 @@ Setting the `icon` prop to `false` will remove the icon altogether.
 
 The `isClosable` prop is used to make a toast closable by adding a close button to it. By default, the value of `isClosable` is false. To make a toast closable, set `isClosable` to true.
 
-```jsx disabled
+```jsx
 <Toast appearance="success" isClosable onClose={onClose} width={320}>
   <Text>This is a success toast.</Text>
 </Toast>
@@ -60,7 +60,7 @@ The `ToastCloseButton` component provides an easy way to add a close button to a
 
 Besides the default functionality of the `ToastCloseButton`, you can also pass additional props, such as `data-test` or `data-tracking` attributes, to the `ToastCloseButton` component as needed.
 
-```jsx disabled
+```jsx
 <Toast appearance="success" onClose={onClose} width={320}>
   <Text pr="10x">This is a success toast.</Text>
   <ToastCloseButton top={10} right={8} position="absolute" data-test="toast-close-button" />
