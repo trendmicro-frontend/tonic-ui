@@ -5,18 +5,17 @@
 Tonic UI supports converting theme tokens defined in the theme to CSS variables. You can enable this behavior by configuring the theme as shown below:
 
 ```jsx
-import { TonicProvider, theme } from '@tonic-ui/react';
-
-// Enable CSS variables
-theme.config.useCSSVariables = true;
-
-// Pass `theme` to the `TonicProvider`
-<TonicProvider theme={theme} />
+// Use `createTheme` to provide custom configuration
+<TonicProvider
+  theme={createTheme({ // `createTheme` was introduced in v2.5.0
+    cssVariables: true, // Enable CSS variables replacement
+  })}
+/>
 ```
 
 For example, consider a theme object that looks like this:
 
-```js disabled
+```js
 const theme = {
   colors: {
     'gray:10': '#fafafa',

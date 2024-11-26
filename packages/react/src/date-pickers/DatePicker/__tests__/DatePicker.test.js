@@ -66,7 +66,7 @@ describe('DatePicker', () => {
   it('should render correctly', async () => {
     const user = userEvent.setup();
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const defaultValue = new Date('2024-08-01');
     const inputFormat = 'yyyy-MM-dd';

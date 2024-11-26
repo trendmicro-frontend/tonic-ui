@@ -280,11 +280,8 @@ const defaultTheme = {
 test('should pass', () => {
   const theme = {
     ...defaultTheme,
-    config: {
+    vars: {
       prefix: 'tonic',
-      useCSSVariables: true,
-    },
-    __cssVariableMap: {
       '--tonic-borders-1': '.0625rem solid',
       '--tonic-borders-2': '.125rem solid',
       '--tonic-borders-3': '.1875rem solid',

@@ -6,7 +6,7 @@ import React from 'react';
 describe('Portal', () => {
   it('should render correctly', () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const { container } = render((
       <Portal>

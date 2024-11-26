@@ -7,8 +7,7 @@ import {
   ToastManager,
   TonicProvider,
   colorStyle as defaultColorStyle,
-  createTheme,
-  theme,
+  createTheme, // For theme customization (introduced in v2.5.0)
   useTheme,
 } from '@tonic-ui/react';
 import {
@@ -51,7 +50,8 @@ const EmotionCacheProvider = ({
 };
 
 const App = (props) => {
-  const customTheme = useConst(() => createTheme(theme, {
+  const customTheme = useConst(() => createTheme({
+    cssVariables: true, // Enable CSS variables replacement
     components: {
       // Set default props for specific components
       //
@@ -63,10 +63,6 @@ const App = (props) => {
       //   },
       // },
       // ```
-    },
-    config: {
-      // Enable CSS variables replacement
-      useCSSVariables: true,
     },
   }));
   const [initialColorMode, setColorMode] = useState(null);

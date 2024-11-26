@@ -103,7 +103,7 @@ import React from 'react';
 describe('Code', () => {
   it('should render correctly', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true, // Enable CSS variables replacement
     };
     const { container } = render((
       <Code>Hello World</Code>

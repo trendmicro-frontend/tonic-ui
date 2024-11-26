@@ -6,11 +6,10 @@ const isColorCode = value => String(value).startsWith('#') || String(value).star
 const App = () => {
   const theme = useTheme();
   const [colorMode] = useColorMode();
-  const cssVariableMap = theme.__cssVariableMap;
-  const borderColor = {         
+  const borderColor = {
     dark: 'gray:60',
-    light: 'gray:30',                                  
-  }[colorMode]; 
+    light: 'gray:30',
+  }[colorMode];
   const tokenColor = {
     dark: 'red:50',
     light: 'red:60',
@@ -18,7 +17,11 @@ const App = () => {
 
   return (
     <Box fontFamily="mono">
-      {Object.entries(cssVariableMap).map(([name, value]) => {
+      {Object.entries(theme?.vars).map(([name, value]) => {
+        if (!name.startsWith('--')) {
+          return null;
+        }
+
         return (
           <Flex key={name} columnGap="2x">
             <Text color={tokenColor}>{name}:</Text>

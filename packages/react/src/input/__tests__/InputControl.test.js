@@ -10,7 +10,7 @@ describe('InputControl', () => {
     const sizes = ['sm', 'md', 'lg'];
     const variants = ['outline', 'filled', 'flush', 'unstyled'];
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const { container } = render((
       <>

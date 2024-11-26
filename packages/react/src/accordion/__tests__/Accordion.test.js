@@ -15,7 +15,7 @@ import React from 'react';
 describe('Accordion', () => {
   it('should render correctly', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const { container } = render((
       <Accordion rowGap={1}>

@@ -1,55 +1,55 @@
+import tonicTheme from '@tonic-ui/theme';
 import { merge } from '@tonic-ui/utils';
 import { ensurePlainObject } from 'ensure-type';
-import createCSSVariableMap from './utils/createCSSVariableMap';
+import { mapThemeToCSSVariables } from './utils/css-vars';
 
 const defaultCSSVariablePrefix = 'tonic';
 
-const cssVariableScales = [
-  'borders',
-  'breakpoints',
-  'colors',
-  'fonts',
-  'fontSizes',
-  'fontWeights',
-  'letterSpacings',
-  'lineHeights',
-  'outlines',
-  'radii',
-  'shadows',
-  'sizes',
-  'space',
-  'zIndices',
-];
-
 const createTheme = (options = {}, ...args) => {
-  // Merge provided options with default configurations
-  let theme = merge(options, {
-    config: {
-      prefix: defaultCSSVariablePrefix,
-      useCSSVariables: false,
-    },
-  });
+  const {
+    // Configure CSS variables for the theme:
+    // - `false` (default): Disable CSS variables.
+    // - `true`: Enable CSS variables with default settings.
+    // - `{ prefix: 'tonic' }`: Enable CSS variables with a custom prefix.
+    cssVariables: cssVariableConfig = false,
+    ...rest
+  } = options;
 
-  // Ensure the components field is initialized
-  theme.components = theme.components ?? {};
+  let theme = merge(
+    {
+      ...tonicTheme,
+    },
+    rest,
+  );
 
   // Merge additional arguments into the theme
   theme = args.reduce((acc, arg) => merge(acc, arg), theme);
 
-  // Generate a theme object filtered to include only scales supported by CSS variables
-  const cssVariableTheme = Object.fromEntries(
-    Object.entries(ensurePlainObject(theme)).filter(
-      ([key]) => cssVariableScales.includes(key)
-    )
-  );
+  if (cssVariableConfig) {
+    // Determine the prefix for CSS variables:
+    // - Uses the `prefix` property if provided (e.g., `createTheme({ cssVariables: { prefix: 'tonic' } })`).
+    // - Defaults to `defaultCSSVariablePrefix` if no custom prefix is specified.
+    const cssVariablePrefix = cssVariableConfig?.prefix ?? defaultCSSVariablePrefix;
 
-  // Create a map of CSS variables with the appropriate prefix
-  const cssVariableMap = createCSSVariableMap(cssVariableTheme, { prefix: theme?.config?.prefix });
+    // Generate a theme object filtered to include only scales supported by CSS variables
+    const cssVariableScales = Object.keys(tonicTheme);
+    const cssVariableTheme = Object.fromEntries(
+      Object.entries(ensurePlainObject(theme)).filter(
+        ([key]) => cssVariableScales.includes(key)
+      )
+    );
 
-  // Merge the CSS variable map into the theme
-  theme = merge(theme, {
-    __cssVariableMap: cssVariableMap,
-  });
+    // Create CSS variables with the appropriate prefix
+    const cssVariables = mapThemeToCSSVariables(cssVariableTheme, { prefix: cssVariablePrefix });
+
+    // Merge CSS variables into the theme
+    theme = merge(theme, {
+      vars: {
+        prefix: cssVariablePrefix,
+        ...cssVariables,
+      },
+    });
+  }
 
   return theme;
 };

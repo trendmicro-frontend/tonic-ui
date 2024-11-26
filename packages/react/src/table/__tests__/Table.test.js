@@ -61,7 +61,7 @@ describe('Table', () => {
 
   it('should render correctly with `flexbox` layout', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
 
     const { container } = render((
@@ -104,7 +104,7 @@ describe('Table', () => {
 
   it('should render correctly with `table` layout', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
 
     const { container } = render((

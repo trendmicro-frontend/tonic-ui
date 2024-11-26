@@ -29,7 +29,6 @@ import {
   TonicProvider,
   colorStyle,
   createTheme,
-  theme,
   useColorMode,
   useColorStyle,
   useTheme,
@@ -74,11 +73,8 @@ const customColorStyle = merge(colorStyle, {
   },
 });
 
-const customTheme = createTheme(theme, {
-  config: {
-    // Enable CSS variables replacement
-    useCSSVariables: true,
-  },
+const customTheme = createTheme({
+  cssVariables: true, // Enable CSS variables replacement
   components: {
     // Set default props for specific components
     //

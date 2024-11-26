@@ -6,7 +6,7 @@ import {
   PortalManager,
   ToastManager,
   TonicProvider,
-  theme,
+  createTheme,
 } from '../src';
 
 // https://emotion.sh/docs/@emotion/jest#tohavestylerule
@@ -20,13 +20,9 @@ const customRender = (ui, options) => {
       colorMode={{
         defaultValue: 'dark',
       }}
-      theme={{
-        ...theme,
-        config: {
-          ...theme.config,
-          useCSSVariables: options?.useCSSVariables,
-        },
-      }}
+      theme={createTheme({
+        cssVariables: options?.cssVariables,
+      })}
     >
       <PortalManager>
         <ToastManager>

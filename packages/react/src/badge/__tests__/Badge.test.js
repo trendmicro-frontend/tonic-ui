@@ -7,7 +7,7 @@ import React from 'react';
 describe('Badge', () => {
   it('should render correctly', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const { container } = render((
       <Flex columnGap="4x">

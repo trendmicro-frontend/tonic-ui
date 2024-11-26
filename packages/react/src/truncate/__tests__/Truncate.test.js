@@ -6,7 +6,7 @@ import React from 'react';
 describe('Truncate', () => {
   it('should render correctly', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const { container } = render((
       <Truncate width={120}>

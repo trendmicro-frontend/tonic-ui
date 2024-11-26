@@ -9,7 +9,7 @@ describe('Textarea', () => {
   it('should render correctly', async () => {
     const variants = ['outline', 'filled', 'unstyled'];
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const { container } = render((
       <>

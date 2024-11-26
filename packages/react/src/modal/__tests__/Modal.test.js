@@ -19,7 +19,7 @@ import React, { useCallback, useRef, useState } from 'react';
 describe('Modal', () => {
   it('should render correctly', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const { baseElement } = render((
       <Modal isOpen onClose={jest.fn()}>

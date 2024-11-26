@@ -16,7 +16,7 @@ To use the responsive values, you can use either the array or object syntax.
 
 Let's say you have a `Box` component that looks like this:
 
-```jsx disabled
+```jsx
 <Box backgroundColor="red:50" width="50%">
   This is a box
 </Box>
@@ -24,7 +24,7 @@ Let's say you have a `Box` component that looks like this:
 
 To make the `width` responsive, you can use the array syntax as follows:
 
-```jsx disabled
+```jsx
 <Box backgroundColor="red:50" width={["25%","50%","75%","100%"]}>
   This is a box
 </Box>
@@ -45,7 +45,7 @@ You can also use the object syntax to define responsive values. It's also the re
 
 Let's say you have a `Text` component that looks like this:
 
-```jsx disabled
+```jsx
 <Text fontSize={32}>
   This is a text
 </Text>
@@ -53,7 +53,7 @@ Let's say you have a `Text` component that looks like this:
 
 To make the `fontSize` responsive, you can use the object syntax as follows:
 
-```jsx disabled
+```jsx
 <Text fontSize={{ _: 24, md: 32, lg: 40, xl: 48 }}>
   This is a text
 </Text>
@@ -72,7 +72,7 @@ Here is how to interpret the object syntax:
 
 Given the following example:
 
-```jsx disabled
+```jsx
 <Box width={{ _: '100%', sm: '50%', md: '25%' }}>
   This is a box
 </Box>

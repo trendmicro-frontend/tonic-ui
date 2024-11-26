@@ -168,6 +168,7 @@ const createTheme = (unit) => {
     'px': _px(foundation),
   }[unit] ?? foundation;
 
+  // TODO: Consider adding `Object.freeze(theme)` in a future major release
   return theme;
 };
 

@@ -6,7 +6,7 @@ import React from 'react';
 describe('LinearProgress', () => {
   it('renders correctly', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const { container } = render((
       <>

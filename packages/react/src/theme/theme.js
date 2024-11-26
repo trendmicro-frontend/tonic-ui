@@ -1,6 +1,5 @@
-import tonicTheme from '@tonic-ui/theme';
 import createTheme from './createTheme';
 
-const theme = createTheme(tonicTheme);
+const theme = createTheme();
 
 export default theme;

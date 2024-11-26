@@ -11,11 +11,11 @@ const isSimpleCSSVariable = (value) => {
 // Negate the value, handling CSS variables and numeric values
 const toNegativeValue = (scale, absoluteValue, options) => {
   const theme = options?.props?.theme;
-  const useCSSVariables = !!(theme?.config?.useCSSVariables); // defaults to false
+  const hasCSSVariables = !!theme?.vars; // Defaults to false
   const n = getter(scale, absoluteValue, options);
 
   // Handle CSS variables for negative values
-  if (useCSSVariables && isSimpleCSSVariable(n)) {
+  if (hasCSSVariables && isSimpleCSSVariable(n)) {
     // https://stackoverflow.com/questions/49469344/using-negative-css-custom-properties
     return `calc(0px - ${n})`;
   }
@@ -30,11 +30,15 @@ const toNegativeValue = (scale, absoluteValue, options) => {
 
 export const getter = (scale, value, options) => {
   const theme = options?.props?.theme;
-  const prefix = theme?.config?.prefix; // defaults to 'tonic'
-  const useCSSVariables = !!(theme?.config?.useCSSVariables); // defaults to false
+  const hasCSSVariables = !!theme?.vars; // Defaults to false
   const result = get(scale, value);
 
-  if (result !== undefined && useCSSVariables) {
+  if (result !== undefined && hasCSSVariables) {
+    // TODO: `theme?.config?.prefix` and `theme?.__cssVariableMap` are deprecated and will be removed in the next major release
+    const cssVariablePrefixFallback = theme?.config?.prefix;
+    const cssVariablePrefix = (theme?.vars?.prefix) ?? cssVariablePrefixFallback;
+    const cssVariablesFallback = theme?.__cssVariableMap;
+    const cssVariables = (theme?.vars) ?? cssVariablesFallback;
     const contextScale = options?.context?.scale;
     const cssVariable = toCSSVariable(
       // | contextScale | value     |
@@ -42,9 +46,9 @@ export const getter = (scale, value, options) => {
       // | colors       | 'blue:50' |
       // | space        | 0         |
       [contextScale, String(value ?? '')].filter(Boolean).join('.'), // => 'colors.blue:50'
-      { prefix, delimiter: '-' },
+      { prefix: cssVariablePrefix, delimiter: '-' },
     ); // => '--tonic-colors-blue-50'
-    const cssVariableValue = theme?.__cssVariableMap?.[cssVariable]; // => '#578aef'
+    const cssVariableValue = cssVariables?.[cssVariable]; // => '#578aef'
     if (cssVariableValue !== undefined) {
       // => Replace '#578aef' with 'var(--tonic-colors-blue-50)'
       return String(result ?? '').replaceAll(cssVariableValue, `var(${cssVariable})`);

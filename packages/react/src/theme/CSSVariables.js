@@ -8,7 +8,7 @@ const CSSVariables = ({
   const styles = useCallback((theme) => {
     const selector = ensureArray(root).join(',');
     return {
-      [selector]: { ...theme?.__cssVariableMap },
+      [selector]: { ...theme?.vars },
     };
   }, [root]);
 

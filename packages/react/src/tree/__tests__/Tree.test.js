@@ -182,7 +182,7 @@ const TreeItemRender = ({
 describe('Tree', () => {
   it('should render correctly', async () => {
     const renderOptions = {
-      useCSSVariables: true,
+      cssVariables: true,
     };
     const treeNodes = buildTreeNodes();
     const treeMap = buildTreeMap(treeNodes);
