@@ -1,6 +1,6 @@
 # @tonic-ui/react
 
-React Tonic UI component library.
+A comprehensive React component library for Tonic UI.
 
 ## Installation
 

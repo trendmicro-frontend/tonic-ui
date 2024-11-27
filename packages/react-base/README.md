@@ -1,6 +1,6 @@
 # @tonic-ui/react-base
 
-A library of headless React UI components.
+Headless React components intended for creating custom UI elements.
 
 ## Installation
 

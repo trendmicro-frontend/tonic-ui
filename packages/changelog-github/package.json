@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@tonic-ui/changelog-github",
-  "description": "A changelog entry generator for GitHub that links to commits, PRs and users",
+  "description": "A tool for generating changelogs with links to GitHub commits, PRs, and users.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "files": [

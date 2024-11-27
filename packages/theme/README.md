@@ -1,6 +1,6 @@
 # @tonic-ui/theme
 
-The default theme package for Tonic UI components.
+The default theme configuration for Tonic UI components.
 
 ## Installation
 

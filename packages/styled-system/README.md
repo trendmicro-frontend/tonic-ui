@@ -1,6 +1,6 @@
 # @tonic-ui/styled-system
 
-The framework agnostic styling engine for Tonic UI.
+A framework-independent styling engine for Tonic UI.
 
 ## Installation
 

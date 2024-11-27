@@ -1,6 +1,6 @@
 # @tonic-ui/utils
 
-Common utilities for various Tonic UI components and packages.
+A set of utility functions shared across Tonic UI components and packages.
 
 ## Installation
 

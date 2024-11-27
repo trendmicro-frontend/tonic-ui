@@ -1,6 +1,6 @@
 # @tonic-ui/react-hooks
 
-A collection of React Hooks for Tonic UI components.
+A set of React Hooks specifically for use with Tonic UI components.
 
 ## Installation
 

@@ -1,6 +1,6 @@
 # @tonic-ui/codemod
 
-This repository contains a collection of codemod scripts based for use with [jscodeshift](https://github.com/facebook/jscodeshift) that help update the APIs.
+A set of codemod scripts designed to simplify the migration and updating of Tonic UI applications.
 
 ## Usage
 

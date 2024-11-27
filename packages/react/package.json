@@ -1,7 +1,7 @@
 {
   "name": "@tonic-ui/react",
   "version": "2.4.0",
-  "description": "React Tonic UI component library.",
+  "description": "A comprehensive React component library for Tonic UI.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "files": [
