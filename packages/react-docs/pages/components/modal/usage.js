@@ -33,25 +33,8 @@ import {
   useToggle,
 } from '@tonic-ui/react-hooks';
 import React, { useRef, useState } from 'react';
+import PreformattedText from '@/components/PreformattedText';
 import SkeletonBlock from '@/components/SkeletonBlock';
-
-const CodeBlock = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
-  return (
-    <Box
-      backgroundColor={colorStyle.background.secondary}
-      border={1}
-      borderColor={colorStyle.divider}
-      fontFamily="mono"
-      py="3x"
-      px="3x"
-      whiteSpace="pre"
-      {...props}
-    />
-  );
-};
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
@@ -336,9 +319,9 @@ const App = () => {
           Pass below props to ModalContent for settings initial height and vertical margins. Note that the props are different when <Code>scrollBehavior</Code> changes.
         </TextLabel>
       </Box>
-      <CodeBlock>
+      <PreformattedText>
         {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal\n  scrollBehavior="${scrollBehavior}"\n  {...modalStyleProps}\n>\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
-      </CodeBlock>
+      </PreformattedText>
     </FormGroup>
     <Divider my="4x" />
     <Box mb="4x">
@@ -400,9 +383,9 @@ const App = () => {
             <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
           </Text>
         </Box>
-        <CodeBlock>
+        <PreformattedText>
           {bodyScrollLockCode}
-        </CodeBlock>
+        </PreformattedText>
       </Box>
     </FormGroup>
     <Modal

@@ -113,8 +113,8 @@ const Demo = ({
       >
         <IconButton
           data-track={showSourceCode
-            ? `CodeBlock|hide_source|${x({ path: router.pathname })}`
-            : `CodeBlock|show_source|${x({ path: router.pathname })}`
+            ? `Code|hide_source|${x({ path: router.pathname })}`
+            : `Code|show_source|${x({ path: router.pathname })}`
           }
           onClick={toggleShowSourceCode}
         >
@@ -123,7 +123,7 @@ const Demo = ({
           </Tooltip>
         </IconButton>
         <IconButton
-          data-track={`CodeBlock|copy_source|${x({ path: router.pathname })}`}
+          data-track={`Code|copy_source|${x({ path: router.pathname })}`}
           onClick={handleClickCopySource}
         >
           <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
@@ -131,7 +131,7 @@ const Demo = ({
           </Tooltip>
         </IconButton>
         <IconButton
-          data-track={`CodeBlock|edit_in_codesandbox|${router.pathname}`}
+          data-track={`Code|edit_in_codesandbox|${router.pathname}`}
           onClick={handleClickEditInCodeSandbox}
         >
           <Tooltip label="Edit in CodeSandbox">
@@ -139,7 +139,7 @@ const Demo = ({
           </Tooltip>
         </IconButton>
         <IconButton
-          data-track={`CodeBlock|reset|${router.pathname}`}
+          data-track={`Code|reset|${router.pathname}`}
           onClick={reset}
         >
           <Tooltip label="Reset the demo">

@@ -5,7 +5,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import React from 'react';
-import CodeBlock from './CodeBlock';
+import PreformattedText from './PreformattedText';
 import jsonPrettify from '../utils/json-prettify';
 
 const ThemeParser = ({
@@ -33,9 +33,9 @@ const ThemeParser = ({
 
   return (
     <Box mb="6x">
-      <CodeBlock>
+      <PreformattedText>
         {`const ${themeKey} = ${jsonPrettify(token, indent)}`}
-      </CodeBlock>
+      </PreformattedText>
     </Box>
   );
 };

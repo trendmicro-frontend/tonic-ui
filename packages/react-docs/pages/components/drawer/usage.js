@@ -31,25 +31,8 @@ import {
   useToggle,
 } from '@tonic-ui/react-hooks';
 import React, { useRef, useState } from 'react';
+import PreformattedText from '@/components/PreformattedText';
 import SkeletonBlock from '@/components/SkeletonBlock';
-
-const CodeBlock = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
-  return (
-    <Box
-      backgroundColor={colorStyle.background.secondary}
-      border={1}
-      borderColor={colorStyle.divider}
-      fontFamily="mono"
-      py="3x"
-      px="3x"
-      whiteSpace="pre"
-      {...props}
-    />
-  );
-};
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
@@ -318,9 +301,9 @@ const App = () => {
             <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
           </Text>
         </Box>
-        <CodeBlock>
+        <PreformattedText>
           {bodyScrollLockCode}
-        </CodeBlock>
+        </PreformattedText>
       </Box>
     </FormGroup>
     <Drawer

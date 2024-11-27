@@ -13,11 +13,11 @@ import {
   MoonIcon,
   SunIcon,
 } from '@tonic-ui/react-icons';
-import CodeBlock from '@/components/CodeBlock';
+import colorStyle from '@/pages/components/color-style/color-style';
 import ColorStyleBody from '@/components/ColorStyleBody';
 import ColorStyleContent from '@/components/ColorStyleContent';
 import ColorStyleHeader from '@/components/ColorStyleHeader';
-import colorStyle from '@/pages/components/color-style/color-style';
+import PreformattedText from '@/components/PreformattedText';
 import jsonPrettify from "@/utils/json-prettify";
 
 # Color Style
@@ -71,9 +71,9 @@ import { colorStyle } from '@tonic-ui/react';
 
 The full configuration is displayed below:
 
-<CodeBlock mb="4x">
+<PreformattedText mb="4x">
   {jsonPrettify(colorStyle)}
-</CodeBlock>
+</PreformattedText>
 
 To manage color style in your application, you can use the [useColorStyle](../components/color-style/useColorStyle) hook.
 
@@ -290,7 +290,7 @@ const App = () => (
 
 Here is the deprecated configuration for the severity:
 
-<CodeBlock>
+<PreformattedText>
   {jsonPrettify({
     dark: {
       severity: {
@@ -315,7 +315,7 @@ Here is the deprecated configuration for the severity:
       },
     },
   })}
-</CodeBlock>
+</PreformattedText>
 
 ### Chart (deprecated)
 
@@ -324,7 +324,7 @@ Here is the deprecated configuration for the severity:
 
 Here is the deprecated configuration for the chart:
 
-<CodeBlock>
+<PreformattedText>
   {jsonPrettify({
     dark: {
       chart: {
@@ -365,7 +365,7 @@ Here is the deprecated configuration for the chart:
       },
     },
   })}
-</CodeBlock>
+</PreformattedText>
 
 ## Custom Color Values
 
@@ -378,7 +378,7 @@ The purpose of notifications is to provide feedback to users regarding the succe
 See the example configuration below:
 
 <Stack spacing="4x">
-  <CodeBlock>
+  <PreformattedText>
     {jsonPrettify({
       dark: {
         notification: {
@@ -397,7 +397,7 @@ See the example configuration below:
         },
       },
     })}
-  </CodeBlock>
+  </PreformattedText>
   <DarkMode>
     <ColorStyleContent>
       <ColorStyleHeader>
@@ -456,7 +456,7 @@ None | N/A | Used when it's impossible to determine either the likelihood or pot
 See the example configuration below:
 
 <Stack spacing="4x">
-  <CodeBlock>
+  <PreformattedText>
     {jsonPrettify({
       dark: {
         risk: {
@@ -475,7 +475,7 @@ See the example configuration below:
         },
       },
     })}
-  </CodeBlock>
+  </PreformattedText>
   <DarkMode>
     <ColorStyleContent>
       <ColorStyleHeader>
@@ -537,7 +537,7 @@ Informational | Used for non-severe information and general guidance.
 See the example configuration below:
 
 <Stack spacing="4x">
-  <CodeBlock>
+  <PreformattedText>
     {jsonPrettify({
       dark: {
         severity: {
@@ -558,7 +558,7 @@ See the example configuration below:
         },
       },
     })}
-  </CodeBlock>
+  </PreformattedText>
   <DarkMode>
     <ColorStyleContent>
       <ColorStyleHeader>
@@ -612,7 +612,7 @@ See the example configuration below:
 See the example configuration below:
 
 <Stack spacing="4x">
-  <CodeBlock>
+  <PreformattedText>
     {jsonPrettify({
       dark: {
         chart: {
@@ -653,7 +653,7 @@ See the example configuration below:
         },
       },
     })}
-  </CodeBlock>
+  </PreformattedText>
   <DarkMode>
     <ColorStyleContent>
       <ColorStyleHeader>
@@ -729,7 +729,7 @@ See the example configuration below:
 See the example configuration below:
 
 <Stack spacing="4x">
-  <CodeBlock>
+  <PreformattedText>
     {jsonPrettify({
       dark: {
         gradient: {
@@ -752,7 +752,7 @@ See the example configuration below:
         },
       },
     })}
-  </CodeBlock>
+  </PreformattedText>
   <ColorStyleContent
     display="flex"
     flexDirection="column"
@@ -812,7 +812,7 @@ See the example configuration below:
 See the example configuration below:
 
 <Stack spacing="4x">
-  <CodeBlock>
+  <PreformattedText>
     {jsonPrettify({
       dark: {
         blindness: {
@@ -852,7 +852,7 @@ See the example configuration below:
         },
       },
     })}
-  </CodeBlock>
+  </PreformattedText>
   <ColorStyleContent
     display="flex"
     flexDirection="column"

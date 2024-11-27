@@ -1,14 +1,14 @@
 import {
-  Box,
+  Text,
   useColorStyle,
 } from '@tonic-ui/react';
 import React from 'react';
 
-const CodeBlock = (props) => {
+const PreformattedText = (props) => {
   const [colorStyle] = useColorStyle();
 
   return (
-    <Box
+    <Text
       backgroundColor={colorStyle.background.secondary}
       border={1}
       borderColor={colorStyle.divider}
@@ -21,4 +21,4 @@ const CodeBlock = (props) => {
   );
 };
 
-export default CodeBlock;
+export default PreformattedText;

@@ -1,24 +1,7 @@
 import { Box, Divider, Flex, Radio, RadioGroup, Text, TextLabel, useColorMode, useColorStyle } from '@tonic-ui/react';
 import { useOutsideClick } from '@tonic-ui/react-hooks';
 import React, { useCallback, useRef, useState } from 'react';
-
-const CodeBlock = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
-  return (
-    <Box
-      backgroundColor={colorStyle.background.secondary}
-      border={1}
-      borderColor={colorStyle.divider}
-      fontFamily="mono"
-      py="3x"
-      px="3x"
-      whiteSpace="pre"
-      {...props}
-    />
-  );
-};
+import PreformattedText from '@/components/PreformattedText';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
@@ -73,19 +56,19 @@ const App = () => {
         </RadioGroup>
       </FormGroup>
       {eventOption === 'pointerDown' && (
-        <CodeBlock>
+        <PreformattedText>
           {`useOutsideClick(ref, handler, [${pointerDownEvents.map(x => `'${x}'`).join(', ')}]); // or "useOutsideClick(ref, handler)"`}
-        </CodeBlock>
+        </PreformattedText>
       )}
       {eventOption === 'pointerUp' && (
-        <CodeBlock>
+        <PreformattedText>
           {`useOutsideClick(ref, handler, [${pointerUpEvents.map(x => `'${x}'`).join(', ')}]);`}
-        </CodeBlock>
+        </PreformattedText>
       )}
       {eventOption === 'none' && (
-        <CodeBlock>
+        <PreformattedText>
           {'useOutsideClick(ref, handler, false);'}
-        </CodeBlock>
+        </PreformattedText>
       )}
       <Divider my="4x" />
       <Box mb="4x">
