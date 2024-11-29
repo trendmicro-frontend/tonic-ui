@@ -3,7 +3,7 @@ import { ensureArray, ensurePlainObject } from 'ensure-type';
 import React, { useCallback } from 'react';
 
 const CSSVariables = ({
-  root = [':root', ':host'],
+  root = [':root'],
 }) => {
   const styles = useCallback((theme) => {
     const cssVariables = ensurePlainObject(theme?.cssVariables);
