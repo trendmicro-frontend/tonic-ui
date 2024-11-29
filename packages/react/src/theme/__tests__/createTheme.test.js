@@ -1,22 +1,26 @@
 import createTheme from '../createTheme';
 
 describe('createTheme', () => {
+  const defaultThemeScales = [
+    'borders',
+    'breakpoints',
+    'colors',
+    'fonts',
+    'fontSizes',
+    'fontWeights',
+    'letterSpacings',
+    'lineHeights',
+    'outlines',
+    'radii',
+    'shadows',
+    'sizes',
+    'space',
+    'zIndices',
+  ];
+
   it('should create a default theme', () => {
     const theme = createTheme();
-    expect(theme).toHaveProperty('borders');
-    expect(theme).toHaveProperty('breakpoints');
-    expect(theme).toHaveProperty('colors');
-    expect(theme).toHaveProperty('fonts');
-    expect(theme).toHaveProperty('fontSizes');
-    expect(theme).toHaveProperty('fontWeights');
-    expect(theme).toHaveProperty('letterSpacings');
-    expect(theme).toHaveProperty('lineHeights');
-    expect(theme).toHaveProperty('outlines');
-    expect(theme).toHaveProperty('radii');
-    expect(theme).toHaveProperty('shadows');
-    expect(theme).toHaveProperty('sizes');
-    expect(theme).toHaveProperty('space');
-    expect(theme).toHaveProperty('zIndices');
+    defaultThemeScales.forEach(scale => expect(theme).toHaveProperty(scale));
   });
 
   it('should merge custom theme options', () => {
@@ -41,20 +45,36 @@ describe('createTheme', () => {
 
   it('should not generate CSS variables with default configuration', () => {
     const theme = createTheme();
-    expect(theme.vars).not.toBeDefined();
+    expect(theme.cssVariables).not.toBeDefined();
   });
 
   it('should generate CSS variables', () => {
     const theme = createTheme({ cssVariables: true });
-    expect(theme.vars).toBeDefined();
-    expect(theme.vars.prefix).toBe('tonic');
-    expect(Object.keys(theme.vars).filter(x => x.startsWith('--'))[0]).toMatch(/^--tonic-/);
+    expect(theme.cssVariables).toBeDefined();
+    expect(theme.cssVariablePrefix).toBe('tonic');
+    const cssVariableKeys = Object.keys(theme.cssVariables).filter(x => x.startsWith('--'));
+    expect(cssVariableKeys.length).toBeGreaterThan(0);
+    expect(cssVariableKeys[0]).toMatch(/^--tonic-/);
   });
 
   it('should apply custom prefix to CSS variables', () => {
     const theme = createTheme({ cssVariables: { prefix: 'custom' } });
-    expect(theme.vars).toBeDefined();
-    expect(theme.vars.prefix).toBe('custom');
-    expect(Object.keys(theme.vars).filter(x => x.startsWith('--'))[0]).toMatch(/^--custom-/);
+    expect(theme.cssVariables).toBeDefined();
+    expect(theme.cssVariablePrefix).toBe('custom');
+    const cssVariableKeys = Object.keys(theme.cssVariables).filter(x => x.startsWith('--'));
+    expect(cssVariableKeys.length).toBeGreaterThan(0);
+    expect(cssVariableKeys[0]).toMatch(/^--custom-/);
+  });
+
+  it('should allow an empty prefix for CSS variables', () => {
+    const theme = createTheme({ cssVariables: { prefix: '' } });
+    expect(theme.cssVariables).toBeDefined();
+    expect(theme.cssVariablePrefix).toBe('');
+    const cssVariableKeys = Object.keys(theme.cssVariables).filter(x => x.startsWith('--'));
+    expect(cssVariableKeys.length).toBeGreaterThan(0);
+    cssVariableKeys.forEach(key => {
+      const isValid = defaultThemeScales.some(scale => key.startsWith(`--${scale}`));
+      expect(isValid).toBe(true);
+    });
   });
 });

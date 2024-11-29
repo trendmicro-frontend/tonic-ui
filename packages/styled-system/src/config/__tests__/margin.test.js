@@ -7,8 +7,8 @@ const defaultTheme = {
 
 const defaultThemeWithCSSVariables = {
   ...defaultTheme,
-  vars: {
-    prefix: 'tonic',
+  cssVariablePrefix: 'tonic',
+  cssVariables: {
     '--tonic-breakpoints-0': '40em',
     '--tonic-breakpoints-1': '52em',
     '--tonic-breakpoints-2': '64em',

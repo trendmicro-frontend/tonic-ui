@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <Box fontFamily="mono">
-      {Object.entries(theme?.vars).map(([name, value]) => {
+      {Object.entries(theme?.cssVariables).map(([name, value]) => {
         if (!name.startsWith('--')) {
           return null;
         }

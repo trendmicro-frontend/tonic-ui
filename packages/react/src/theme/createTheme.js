@@ -48,10 +48,8 @@ const createTheme = (options = {}, ...args) => {
 
     // Merge CSS variables into the theme
     theme = merge(theme, {
-      vars: {
-        prefix: cssVariablePrefix,
-        ...cssVariables,
-      },
+      cssVariablePrefix,
+      cssVariables,
     });
   }
 

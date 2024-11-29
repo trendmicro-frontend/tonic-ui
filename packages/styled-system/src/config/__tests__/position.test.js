@@ -6,8 +6,8 @@ const defaultTheme = {
 
 const defaultThemeWithCSSVariables = {
   ...defaultTheme,
-  vars: {
-    prefix: 'tonic',
+  cssVariablePrefix: 'tonic',
+  cssVariables: {
     '--tonic-space-0': 0,
     '--tonic-space-1': 4,
     '--tonic-space-2': 8,

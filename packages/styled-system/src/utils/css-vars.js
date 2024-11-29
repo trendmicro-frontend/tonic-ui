@@ -8,7 +8,7 @@
  *
  * @return {string} The CSS variable name.
 */
-const toCSSVariable = (name, options) => {
+export const toCSSVariable = (name, options) => {
   const {
     prefix = '',
     delimiter = '-',
@@ -19,5 +19,3 @@ const toCSSVariable = (name, options) => {
     .replace(/^-+|-+$/g, ''); // trim hyphens from beginning and end of string
   return `--${variableName}`;
 };
-
-export default toCSSVariable;
