@@ -28,15 +28,17 @@ const toNegativeValue = (scale, absoluteValue, options) => {
 };
 
 export const getter = (scale, value, options) => {
-  const theme = options?.props?.theme;
   const result = get(scale, value);
+  if (result === undefined) {
+    return value; // fallback to value if result is undefined
+  }
 
-  if (result !== undefined && !!theme?.cssVariables) {
-    // TODO: `theme.config.prefix` and `theme.__cssVariableMap` are deprecated and will be removed in the next major release
-    const cssVariablePrefixFallback = theme?.config?.prefix;
-    const cssVariablePrefix = (theme?.cssVariablePrefix) ?? cssVariablePrefixFallback;
-    const cssVariablesFallback = theme?.__cssVariableMap;
-    const cssVariables = (theme?.cssVariables) ?? cssVariablesFallback;
+  const theme = options?.props?.theme;
+  // FIXME: `theme.config.prefix` and `theme.__cssVariableMap` are deprecated and will be removed in the next major release
+  const hasCSSVariables = !!(theme?.cssVariables ?? theme?.__cssVariableMap);
+  if (hasCSSVariables) {
+    const cssVariablePrefix = (theme?.cssVariablePrefix) ?? (theme?.config?.prefix);
+    const cssVariables = (theme?.cssVariables) ?? (theme?.__cssVariableMap);
     const contextScale = options?.context?.scale;
     const cssVariable = toCSSVariable(
       // | contextScale | value     |
@@ -51,10 +53,10 @@ export const getter = (scale, value, options) => {
       // => Replace '#578aef' with 'var(--tonic-colors-blue-50)'
       return String(result ?? '').replaceAll(cssVariableValue, `var(${cssVariable})`);
     }
-    // fallback to the original value
+    // fallback to the original result
   }
 
-  return result ?? value; // fallback to value if result is null or undefined
+  return result;
 };
 
 export const positiveOrNegative = (scale, value, options) => {
