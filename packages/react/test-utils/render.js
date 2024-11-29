@@ -15,14 +15,22 @@ import {
 expect.extend(matchers);
 
 const customRender = (ui, options) => {
+  const {
+    theme: themeOptions = {
+      cssVariables: {
+        prefix: 'tonic',
+        rootSelector: ':root',
+      },
+    },
+    ...rest
+  } = { ...options };
+
   const wrapper = ({ children }) => (
     <TonicProvider
       colorMode={{
         defaultValue: 'dark',
       }}
-      theme={createTheme({
-        cssVariables: true,
-      })}
+      theme={createTheme(themeOptions)}
     >
       <PortalManager>
         <ToastManager>
@@ -32,7 +40,7 @@ const customRender = (ui, options) => {
     </TonicProvider>
   );
 
-  return render(ui, { wrapper, ...options });
+  return render(ui, { wrapper, ...rest });
 };
 
 // re-export everything
