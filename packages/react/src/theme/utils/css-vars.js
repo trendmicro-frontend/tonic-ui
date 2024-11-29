@@ -51,6 +51,10 @@ export const mapThemeToCSSVariables = (theme, options) => {
   for (const [name, value] of Object.entries(tokens)) {
     // name='colors.blue:50', prefix='tonic'
     // => '--tonic-colors-blue-50'
+    if (!name) {
+      // Skip if name is empty
+      continue;
+    }
     const variable = toCSSVariable(name, { prefix });
     cssVariables[variable] = value;
   }
