@@ -26,6 +26,10 @@ const createTheme = (options = {}, ...args) => {
   theme = args.reduce((acc, arg) => merge(acc, arg), theme);
 
   if (cssVariableConfig) {
+    if (typeof cssVariableConfig !== 'boolean' && typeof cssVariableConfig !== 'object') {
+      throw new Error('The `cssVariables` config must be a boolean or an object');
+    }
+
     // Determine the prefix for CSS variables:
     // - Uses the `prefix` property if provided (e.g., `createTheme({ cssVariables: { prefix: 'tonic' } })`).
     // - Defaults to `defaultCSSVariablePrefix` if no custom prefix is specified.
