@@ -4,13 +4,16 @@ import { ensurePlainObject } from 'ensure-type';
 import { mapThemeToCSSVariables } from './utils/css-vars';
 
 const defaultCSSVariablePrefix = 'tonic';
+const defaultCSSVariableRootSelector = ':root';
 
 const createTheme = (options = {}, ...args) => {
   const {
-    // Configure CSS variables for the theme:
-    // - `false` (default): Disable CSS variables.
-    // - `true`: Enable CSS variables with default settings.
-    // - `{ prefix: 'tonic' }`: Enable CSS variables with a custom prefix.
+    // CSS variables configuration for the theme:
+    // - false (default): Disables CSS variables.
+    // - true: Enables CSS variables with default settings.
+    // - Object: Enables CSS variables with custom settings:
+    //   - prefix: 'tonic' (default) — Custom prefix for CSS variables.
+    //   - rootSelector: ':root' (default) — Root selector where CSS variables are defined.
     cssVariables: cssVariableConfig = false,
     ...rest
   } = options;
@@ -30,10 +33,11 @@ const createTheme = (options = {}, ...args) => {
       throw new Error('The `cssVariables` config must be a boolean or an object');
     }
 
-    // Determine the prefix for CSS variables:
-    // - Uses the `prefix` property if provided (e.g., `createTheme({ cssVariables: { prefix: 'tonic' } })`).
-    // - Defaults to `defaultCSSVariablePrefix` if no custom prefix is specified.
+    // Configure the prefix and root selector for CSS variables:
+    // - `cssVariablePrefix`: Uses `cssVariables.prefix` if available; otherwise, defaults to 'tonic'.
+    // - `rootSelector`: Uses `cssVariables.rootSelector` if available; otherwise, defaults to ':root'.
     const cssVariablePrefix = cssVariableConfig?.prefix ?? defaultCSSVariablePrefix;
+    const rootSelector = cssVariableConfig?.rootSelector ?? defaultCSSVariableRootSelector;
 
     // Generate a theme object filtered to include only scales supported by CSS variables
     const cssVariableScales = Object.keys(tonicTheme);
@@ -50,6 +54,7 @@ const createTheme = (options = {}, ...args) => {
     theme = merge(theme, {
       cssVariablePrefix,
       cssVariables,
+      rootSelector,
     });
   }
 
