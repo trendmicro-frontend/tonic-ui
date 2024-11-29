@@ -6,9 +6,7 @@ import React from 'react';
 
 describe('Code', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <Code data-testid="Code">
         Code

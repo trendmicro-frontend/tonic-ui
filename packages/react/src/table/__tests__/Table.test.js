@@ -60,9 +60,7 @@ describe('Table', () => {
   ];
 
   it('should render correctly with `flexbox` layout', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
 
     const { container } = render((
       <Table layout="flexbox">
@@ -103,9 +101,7 @@ describe('Table', () => {
   });
 
   it('should render correctly with `table` layout', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
 
     const { container } = render((
       <Table layout="table">

@@ -65,9 +65,7 @@ describe('DatePicker', () => {
 
   it('should render correctly', async () => {
     const user = userEvent.setup();
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const defaultValue = new Date('2024-08-01');
     const inputFormat = 'yyyy-MM-dd';
     const mockOnChange = jest.fn();

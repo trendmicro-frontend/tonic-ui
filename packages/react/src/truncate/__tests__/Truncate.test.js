@@ -5,9 +5,7 @@ import React from 'react';
 
 describe('Truncate', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <Truncate width={120}>
         This is a very long text that will be truncated

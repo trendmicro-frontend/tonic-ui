@@ -6,9 +6,7 @@ import React from 'react';
 
 describe('Badge', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <Flex columnGap="4x">
         <Badge variant="dot" />

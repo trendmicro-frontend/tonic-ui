@@ -18,9 +18,7 @@ import React, { useCallback, useRef, useState } from 'react';
 
 describe('Modal', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { baseElement } = render((
       <Modal isOpen onClose={jest.fn()}>
         <ModalOverlay />

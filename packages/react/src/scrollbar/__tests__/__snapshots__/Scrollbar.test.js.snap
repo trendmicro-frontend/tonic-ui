@@ -30,7 +30,7 @@ exports[`Scrollbar should render correctly 1`] = `
 
 .emotion-6 {
   position: absolute;
-  height: .5rem;
+  height: var(--tonic-sizes-2x);
   right: 0;
   bottom: 0;
   left: 0;
@@ -44,21 +44,21 @@ exports[`Scrollbar should render correctly 1`] = `
   position: relative;
   height: 100%;
   cursor: pointer;
-  background-color: rgba(255, 255, 255, .28);
+  background-color: var(--tonic-colors-white-disabled);
   border-radius: inherit;
-  border: .0625rem solid;
-  border-color: transparent;
+  border: var(--tonic-borders-1);
+  border-color: var(--tonic-colors-transparent);
 }
 
 .emotion-8:hover,
 .emotion-8[data-hover] {
-  background-color: rgba(255, 255, 255, .47);
-  border-color: rgba(255, 255, 255, .60);
+  background-color: var(--tonic-colors-white-tertiary);
+  border-color: var(--tonic-colors-white-secondary);
 }
 
 .emotion-10 {
   position: absolute;
-  width: .5rem;
+  width: var(--tonic-sizes-2x);
   right: 0;
   bottom: 0;
   top: 0;
@@ -73,16 +73,16 @@ exports[`Scrollbar should render correctly 1`] = `
   display: block;
   width: 100%;
   cursor: pointer;
-  background-color: rgba(255, 255, 255, .28);
+  background-color: var(--tonic-colors-white-disabled);
   border-radius: inherit;
-  border: .0625rem solid;
-  border-color: transparent;
+  border: var(--tonic-borders-1);
+  border-color: var(--tonic-colors-transparent);
 }
 
 .emotion-12:hover,
 .emotion-12[data-hover] {
-  background-color: rgba(255, 255, 255, .47);
-  border-color: rgba(255, 255, 255, .60);
+  background-color: var(--tonic-colors-white-tertiary);
+  border-color: var(--tonic-colors-white-secondary);
 }
 
 <div>

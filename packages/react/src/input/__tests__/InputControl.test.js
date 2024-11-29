@@ -9,9 +9,7 @@ describe('InputControl', () => {
   it('should render correctly', async () => {
     const sizes = ['sm', 'md', 'lg'];
     const variants = ['outline', 'filled', 'flush', 'unstyled'];
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <>
         {sizes.map(size => (
@@ -94,9 +92,9 @@ describe('InputControl', () => {
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
-    const defaultBorderColor = '#5e5e5e'; // [dark] gray:60 / [light] gray:30
-    const focusBorderColor = '#1e5ede'; // [dark] blue:60 / [light] blue:60
-    const hoverBorderColor = '#578aef'; // [dark] blue:50 / [light] blue:50
+    const defaultBorderColor = 'var(--tonic-colors-gray-60)'; // [dark] gray:60 / [light] gray:30
+    const focusBorderColor = 'var(--tonic-colors-blue-60)'; // [dark] blue:60 / [light] blue:60
+    const hoverBorderColor = 'var(--tonic-colors-blue-50)'; // [dark] blue:50 / [light] blue:50
 
     expect(input).toBeValid();
     expect(document.body).toHaveFocus();
@@ -121,8 +119,8 @@ describe('InputControl', () => {
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
-    const errorBorderColor = '#f24c4f'; // [dark] red:50 / [light] red:60
-    const focusBorderColor = '#1e5ede'; // [dark] blue:60 / [light] blue:60
+    const errorBorderColor = 'var(--tonic-colors-red-50)'; // [dark] red:50 / [light] red:60
+    const focusBorderColor = 'var(--tonic-colors-blue-60)'; // [dark] blue:60 / [light] blue:60
 
     expect(input).toBeInvalid();
     expect(document.body).toHaveFocus();

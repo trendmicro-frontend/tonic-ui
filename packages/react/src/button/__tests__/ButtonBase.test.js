@@ -5,9 +5,7 @@ import React from 'react';
 
 describe('ButtonBase', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <>
         <ButtonBase>

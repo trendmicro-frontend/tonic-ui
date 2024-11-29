@@ -5,9 +5,7 @@ import React from 'react';
 
 describe('LinearProgress', () => {
   it('renders correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <>
         <LinearProgress aria-label="usage" size="xs" value={20} />

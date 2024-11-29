@@ -40,9 +40,7 @@ describe('Menu', () => {
 
   it('should render correctly', async () => {
     const user = userEvent.setup();
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <TestComponent />
     ), renderOptions);

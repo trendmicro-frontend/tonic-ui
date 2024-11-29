@@ -18,9 +18,7 @@ import React, { useCallback, useRef, useState } from 'react';
 
 describe('Drawer', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { baseElement } = render((
       <Drawer
         isOpen

@@ -8,9 +8,7 @@ import React from 'react';
 describe('Textarea', () => {
   it('should render correctly', async () => {
     const variants = ['outline', 'filled', 'unstyled'];
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <>
         {variants.map(variant => (
@@ -113,9 +111,9 @@ describe('Textarea', () => {
       <Textarea data-testid="textarea" />
     );
     const textarea = screen.getByTestId('textarea');
-    const defaultBorderColor = '#5e5e5e'; // [dark] gray:60 / [light] gray:30
-    const focusBorderColor = '#1e5ede'; // [dark] blue:60 / [light] blue:60
-    const hoverBorderColor = '#578aef'; // [dark] blue:50 / [light] blue:50
+    const defaultBorderColor = 'var(--tonic-colors-gray-60)'; // [dark] gray:60 / [light] gray:30
+    const focusBorderColor = 'var(--tonic-colors-blue-60)'; // [dark] blue:60 / [light] blue:60
+    const hoverBorderColor = 'var(--tonic-colors-blue-50)'; // [dark] blue:50 / [light] blue:50
 
     expect(textarea).toBeValid();
     expect(document.body).toHaveFocus();

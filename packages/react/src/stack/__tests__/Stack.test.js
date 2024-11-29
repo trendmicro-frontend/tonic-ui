@@ -6,9 +6,7 @@ import React from 'react';
 
 describe('Stack', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <Stack spacing="4x">
         <Box />
@@ -53,9 +51,7 @@ describe('Stack', () => {
   });
 
   it('should apply spacing between child elements', () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     render((
       <Stack data-testid="stack" spacing="2x">
         <Box />

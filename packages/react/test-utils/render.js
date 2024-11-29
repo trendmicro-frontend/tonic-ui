@@ -21,7 +21,7 @@ const customRender = (ui, options) => {
         defaultValue: 'dark',
       }}
       theme={createTheme({
-        cssVariables: options?.cssVariables,
+        cssVariables: true,
       })}
     >
       <PortalManager>

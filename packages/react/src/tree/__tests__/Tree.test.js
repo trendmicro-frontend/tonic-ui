@@ -181,9 +181,7 @@ const TreeItemRender = ({
 
 describe('Tree', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const treeNodes = buildTreeNodes();
     const treeMap = buildTreeMap(treeNodes);
     const expandableNodeIds = findExpandableNodeIds(treeNodes);

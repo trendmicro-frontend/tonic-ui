@@ -5,9 +5,7 @@ import React from 'react';
 
 describe('Divider', () => {
   it('should render correctly', async () => {
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <>
         <Stack direction="column" spacing="4x">

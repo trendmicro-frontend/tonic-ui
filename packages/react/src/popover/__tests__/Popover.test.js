@@ -8,9 +8,7 @@ import React from 'react';
 describe('Popover', () => {
   it('should render correctly', async () => {
     const user = userEvent.setup();
-    const renderOptions = {
-      cssVariables: true,
-    };
+    const renderOptions = {};
     const { container } = render((
       <Popover>
         <PopoverTrigger data-testid="popover-trigger">
