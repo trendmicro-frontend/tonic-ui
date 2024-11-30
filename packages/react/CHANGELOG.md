@@ -1,5 +1,22 @@
 # @tonic-ui/react
 
+## 2.5.0
+
+### Minor Changes
+
+- feat(react): add `createTheme` for theme customization by [@cheton](https://github.com/cheton) in [#947](https://github.com/trendmicro-frontend/tonic-ui/pull/947)
+
+### Patch Changes
+
+- chore: update package description by [@cheton](https://github.com/cheton) in [`16744b9`](https://github.com/trendmicro-frontend/tonic-ui/commit/16744b95e35f4b97371f1ad685553915dd2d43ad)
+- Updated dependencies [[`16744b9`](https://github.com/trendmicro-frontend/tonic-ui/commit/16744b95e35f4b97371f1ad685553915dd2d43ad)]
+  - @tonic-ui/react-base@2.0.2
+  - @tonic-ui/react-hooks@2.0.1
+  - @tonic-ui/react-icons@2.1.1
+  - @tonic-ui/styled-system@2.0.3
+  - @tonic-ui/theme@2.0.1
+  - @tonic-ui/utils@2.1.1
+
 ## 2.4.0
 
 ### Minor Changes
