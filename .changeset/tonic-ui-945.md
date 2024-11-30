@@ -1,6 +1,5 @@
 ---
-"@tonic-ui/react": patch
-"@tonic-ui/theme": minor
+"@tonic-ui/react": minor
 ---
 
 feat(react): add `createTheme` for theme customization
