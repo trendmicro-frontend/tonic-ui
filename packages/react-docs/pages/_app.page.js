@@ -51,7 +51,10 @@ const EmotionCacheProvider = ({
 
 const App = (props) => {
   const customTheme = useConst(() => createTheme({
-    cssVariables: true, // Enable CSS variables replacement
+    cssVariables: {
+      rootSelector: ':root',
+      prefix: 'tonic',
+    },
     components: {
       // Set default props for specific components
       //
@@ -91,6 +94,12 @@ const App = (props) => {
     <InstantSearch
       indexName={process.env.ALGOLIA_INDEX_NAME}
       searchClient={searchClient}
+      future={{
+        // https://www.algolia.com/doc/api-reference/widgets/instantsearch/react/#widget-param-preservesharedstateonunmount
+        // Starting from the next major version, InstantSearch will change how widgets state is preserved when they are removed.
+        // InstantSearch will keep the state of unmounted widgets to be usable by other widgets with the same attribute.
+        preserveSharedStateOnUnmount: true,
+      }}
     >
       <Configure
         // https://www.algolia.com/doc/api-reference/search-api-parameters/
