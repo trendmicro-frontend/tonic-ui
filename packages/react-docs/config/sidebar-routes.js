@@ -10,6 +10,7 @@ import {
   MigrateSuccessIcon,
   RocketIcon,
   SVGIcon,
+  ToolsConfigurationIcon,
   UserTeamIcon,
   WidgetsIcon,
   WorkspaceIcon,
@@ -59,6 +60,15 @@ export const routes = [
         path: 'contributing/react-components-part-2',
       },
       { title: 'React Icons', path: 'contributing/react-icons' },
+    ],
+  },
+  {
+    title: 'Customization',
+    icon: (props) => (
+      <ToolsConfigurationIcon size="4x" {...props} />
+    ),
+    routes: [
+      { title: 'Shadow DOM', path: 'customization/shadow-dom' },
     ],
   },
   {

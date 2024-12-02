@@ -1,0 +1,140 @@
+# Shadow DOM
+
+The shadow DOM allows you to encapsulate parts of your application, isolating them from global styles and preventing interference with the regular DOM tree.
+
+## Shadow DOM Integration
+
+To enable styling within the shadow DOM, start by importing `createCache` and `CacheProvider`:
+
+```js
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+```
+
+### 1. Applying styles inside the shadow DOM
+
+The shadow DOM creates an isolated DOM tree attached to a host element, helping prevent style conflicts across components. Below is an example of how to create and style a shadow DOM:
+
+```js
+const container = document.querySelector('#root');
+const shadowContainer = container.shadowRoot || container.attachShadow({ mode: 'open' });
+const shadowRootElement = document.createElement('div');
+shadowContainer.appendChild(shadowRootElement);
+
+// Consider using `const shadowRootElementRef = useRef();` if working within a functional component
+const shadowRootElementRef = {
+  current: shadowRootElement,
+};
+
+const cache = createCache({
+  key: 'tonic-ui-shadow', // or 'css'
+  prepend: true,
+  container: shadowContainer,
+  nonce, // [optional] to comply with Content Security Policy (CSP) for inline execution
+});
+```
+
+### 2. Theming components inside the shadow DOM
+
+Components such as `Drawer`, `Modal`, and `Popper` from Tonic UI often render outside the main DOM hierarchy using a `Portal`. By default, these portals render in `document.body`. When using the shadow DOM, they need to render within the shadow container:
+
+```js
+const shadowTheme = createTheme({
+  components: {
+    Drawer: {
+      defaultProps: {
+        portalProps: {
+          containerRef: shadowRootElementRef,
+        },
+      },
+    },
+    Modal: {
+      defaultProps: {
+        portalProps: {
+          containerRef: shadowRootElementRef,
+        },
+      },
+    },
+    Popper: {
+      defaultProps: {
+        portalProps: {
+          containerRef: shadowRootElementRef,
+        },
+      },
+    },
+  },
+});
+```
+
+### 3. Using CSS theme variables (optional)
+
+To use CSS theme variables within the shadow DOM, specify the root selector for generating the CSS variables:
+
+```js
+const shadowTheme = createTheme({
+  cssVariables: {
+    prefix: 'tonic-shadow',
+    rootSelector: ':host',
+  },
+  components: {
+    // Same as the above step
+  },
+});
+```
+
+### 4. Rendering components inside the shadow DOM
+
+The following code snippet illustrates how to render a React application inside the shadow DOM:
+
+```jsx
+React.createRoot(shadowRootElement).render(
+  <CacheProvider value={cache}>
+    <TonicProvider
+      colorMode={{
+        value: colorMode,
+      }}
+      theme={shadowTheme}
+    >
+      <ToastManager
+        TransitionProps={{
+          sx: {
+            '[data-toast-placement^="top"] > &:first-of-type': {
+              mt: '4x', // the space to the top edge of the screen
+            },
+            '[data-toast-placement^="bottom"] > &:last-of-type': {
+              mb: '4x', // the space to the bottom edge of the screen
+            },
+            '[data-toast-placement$="left"] > &': {
+              ml: '4x', // the space to the left edge of the screen
+            },
+            '[data-toast-placement$="right"] > &': {
+              mr: '4x', // the space to the right edge of the screen
+            },
+          },
+        }}
+        containerRef={shadowRootElementRef}
+      >
+        <PortalManager
+          containerRef={shadowRootElementRef}
+        >
+          <App />
+        </PortalManager>
+      </ToastManager>
+    </TonicProvider>
+  </CacheProvider>
+);
+```
+
+## Demo
+
+This example applies a global button style. The button outside the shadow DOM inherits the global styling, while the button inside the shadow DOM remains unaffected:
+
+```jsx
+sx={{
+  'button': {
+    opacity: '.65 !important',
+  },
+}}
+```
+
+{render('./shadow-dom')}
