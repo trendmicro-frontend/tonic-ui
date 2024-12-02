@@ -1,6 +1,7 @@
 import { createPopper } from '@popperjs/core';
 import { useEffectOnce } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
+import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import { Box } from '../box';
 import { assignRef } from '../utils/refs';
@@ -11,8 +12,8 @@ function getAnchorEl(anchorEl) {
 
 const defaultPlacement = 'bottom-start';
 
-const Popper = forwardRef((
-  {
+const Popper = forwardRef((inProps, ref) => {
+  const {
     anchorEl, // TODO: rename to `referenceRef` in a future release
     children,
     isOpen,
@@ -24,9 +25,8 @@ const Popper = forwardRef((
     usePortal = false,
     willUseTransition = false,
     ...rest
-  },
-  ref,
-) => {
+  } = useDefaultProps({ props: inProps, name: 'Popper' });
+
   const nodeRef = useRef();
   const popperRef = useRef(null); // popper instance
   const [exited, setExited] = useState(true);
