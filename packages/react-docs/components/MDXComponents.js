@@ -16,7 +16,6 @@ import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 
 const ParagraphComponent = props => (
   <Box
-    as="p"
     mt={0}
     mb="4x"
     fontSize="md"
@@ -172,7 +171,7 @@ const BlockquoteComponent = styled(props => {
     />
   );
 })`
-  > p {
+  > * {
     margin-bottom: 0;
   }
 `;
