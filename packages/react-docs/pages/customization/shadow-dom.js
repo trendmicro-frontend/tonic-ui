@@ -153,15 +153,17 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
     }
     const shadowContainer = shadowRootElement.parentNode;
 
+    // https://emotion.sh/docs/@emotion/cache
     const cache = createCache({
-      key: 'tonic-shadow-css',
+      key: 'tonic-css',
       nonce: NONCE, // Needed to comply with Content Security Policy (CSP) for inline execution
       prepend: true,
       container: shadowContainer,
     });
+
     const shadowTheme = createTheme({
       cssVariables: {
-        prefix: 'tonic-shadow',
+        prefix: 'tonic',
         rootSelector: ':host',
       },
       components: {
@@ -184,6 +186,16 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
             portalProps: {
               containerRef: shadowRootElementRef,
             },
+          },
+        },
+        PortalManager: {
+          defaultProps: {
+            containerRef: shadowRootElementRef,
+          },
+        },
+        ToastManager: {
+          defaultProps: {
+            containerRef: shadowRootElementRef,
           },
         },
       },
@@ -215,11 +227,8 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
                 },
               },
             }}
-            containerRef={shadowRootElementRef}
           >
-            <PortalManager
-              containerRef={shadowRootElementRef}
-            >
+            <PortalManager>
               {children}
             </PortalManager>
           </ToastManager>

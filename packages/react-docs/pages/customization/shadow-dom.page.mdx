@@ -21,22 +21,25 @@ const shadowContainer = container.shadowRoot || container.attachShadow({ mode: '
 const shadowRootElement = document.createElement('div');
 shadowContainer.appendChild(shadowRootElement);
 
-// Consider using `const shadowRootElementRef = useRef();` if working within a functional component
+// If you're using a functional component, you might want to use `useRef` to store the `shadowRootElement`.
 const shadowRootElementRef = {
   current: shadowRootElement,
 };
 
+// https://emotion.sh/docs/@emotion/cache
 const cache = createCache({
-  key: 'tonic-ui-shadow', // or 'css'
+  key: 'tonic-css',
   prepend: true,
   container: shadowContainer,
-  nonce, // [optional] to comply with Content Security Policy (CSP) for inline execution
+  nonce: process.env.CSP_NONCE || 'your-nonce-string', // [optional] to comply with Content Security Policy (CSP) for inline execution
 });
 ```
 
 ### 2. Theming components inside the shadow DOM
 
-Components such as `Drawer`, `Modal`, and `Popper` from Tonic UI often render outside the main DOM hierarchy using a `Portal`. By default, these portals render in `document.body`. When using the shadow DOM, they need to render within the shadow container:
+`PortalManager`, `ToastManager`, and components such as `Drawer`, `Modal`, and `Popper` render outside the main DOM hierarchy through a `Portal`, which defaults to `document.body`. To maintain consistent theming inside the shadow DOM, proper configuration is needed.
+
+Below is an example configuration using a custom theme:
 
 ```js
 const shadowTheme = createTheme({
@@ -62,6 +65,16 @@ const shadowTheme = createTheme({
         },
       },
     },
+    PortalManager: {
+      defaultProps: {
+        containerRef: shadowRootElementRef,
+      },
+    },
+    ToastManager: {
+      defaultProps: {
+        containerRef: shadowRootElementRef,
+      },
+    },
   },
 });
 ```
@@ -73,7 +86,7 @@ To use CSS theme variables within the shadow DOM, specify the root selector for 
 ```js
 const shadowTheme = createTheme({
   cssVariables: {
-    prefix: 'tonic-shadow',
+    prefix: 'tonic',
     rootSelector: ':host',
   },
   components: {
@@ -84,10 +97,10 @@ const shadowTheme = createTheme({
 
 ### 4. Rendering components inside the shadow DOM
 
-The following code snippet illustrates how to render a React application inside the shadow DOM:
+The following code snippet demonstrates how to render components inside the shadow DOM:
 
 ```jsx
-React.createRoot(shadowRootElement).render(
+ReactDOM.createRoot(shadowRootElement).render(
   <CacheProvider value={cache}>
     <TonicProvider
       colorMode={{
@@ -96,6 +109,7 @@ React.createRoot(shadowRootElement).render(
       theme={shadowTheme}
     >
       <ToastManager
+        // Ensure that `ToastManager` is positioned above `PortalManager` to allow toast notifications to be displayed within a portal.
         TransitionProps={{
           sx: {
             '[data-toast-placement^="top"] > &:first-of-type': {
@@ -112,11 +126,8 @@ React.createRoot(shadowRootElement).render(
             },
           },
         }}
-        containerRef={shadowRootElementRef}
       >
-        <PortalManager
-          containerRef={shadowRootElementRef}
-        >
+        <PortalManager>
           <App />
         </PortalManager>
       </ToastManager>

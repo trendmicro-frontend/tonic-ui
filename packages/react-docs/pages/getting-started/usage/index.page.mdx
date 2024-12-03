@@ -75,6 +75,7 @@ function App(props) {
       useCSSBaseline={true} // If `true`, apply CSS reset and base styles
     >
       <ToastManager
+        // Ensure that `ToastManager` is positioned above `PortalManager` to allow toast notifications to be displayed within a portal.
         TransitionProps={{
           sx: {
             '[data-toast-placement^="top"] > &:first-of-type': {
