@@ -121,6 +121,7 @@ const ModalComponent = ({ onClose }) => {
 const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
   const containerRef = useRef();
   const shadowRootElementRef = useRef();
+  const rootRef = useRef();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -132,23 +133,28 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
     const shadowRootElement = document.createElement('div');
     shadowContainer.appendChild(shadowRootElement);
     shadowRootElementRef.current = shadowRootElement;
+    rootRef.current = createRoot(shadowRootElement);
 
     return () => {
-      // Empty the shadow DOM content
-      if (shadowContainer) {
-        shadowContainer.innerHTML = '';
-      }
-
-      shadowRootElementRef.current = null;
+      setTimeout(() => {
+        rootRef.current.unmount(); // Clean up React state
+        rootRef.current = null;
+        shadowRootElementRef.current = null; // Clear the reference
+        shadowContainer.replaceChildren(); // Clear the shadow DOM content
+      }, 0);
     };
   }, []); // Run only once on mount
 
   useEffect(() => {
     const shadowRootElement = shadowRootElementRef.current;
+    if (!(shadowRootElement instanceof HTMLElement)) {
+      console.error('The shadow root element is not an HTMLElement.');
+      return;
+    }
     const shadowContainer = shadowRootElement.parentNode;
-    const root = createRoot(shadowRootElement);
+
     const cache = createCache({
-      key: 'tonic-ui-shadow',
+      key: 'tonic-shadow-css',
       nonce: NONCE, // Needed to comply with Content Security Policy (CSP) for inline execution
       prepend: true,
       container: shadowContainer,
@@ -183,6 +189,7 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
       },
     });
 
+    const root = rootRef.current;
     root.render(
       <CacheProvider value={cache}>
         <TonicProvider

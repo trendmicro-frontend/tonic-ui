@@ -38,7 +38,7 @@ const EmotionCacheProvider = ({
   nonce,
 }) => {
   const cache = createCache({
-    key: 'tonic-ui',
+    key: 'tonic-css',
     nonce,
   });
 
