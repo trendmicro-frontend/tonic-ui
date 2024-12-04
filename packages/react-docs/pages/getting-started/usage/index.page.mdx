@@ -1,5 +1,7 @@
 # Usage
 
+> The `createTheme` function was introduced in v2.5.0. If you're using a version prior to v2.5.0, please refer to the [v2.4.0 documentation](https://trendmicro-frontend.github.io/tonic-ui/react/2.4.0/getting-started/usage).
+
 You can use any of the components as demonstrated in the documentation. If you are the first time using Tonic UI, you may want to read the following sections to get started.
 
 ## Setup Provider
@@ -40,14 +42,14 @@ import {
   ToastManager,  // Manages toasts in the application
   TonicProvider, // Provides theme and context for Tonic UI components
   colorStyle,    // Default color style object
-  createTheme,   // For theme customization (introduced in v2.5.0)
+  createTheme,   // For theme customization
   useColorMode,  // Hook to manage color mode (e.g., light/dark)
   useColorStyle, // Hook to manage color style
   useTheme,      // Hook to access the theme object
 } from '@tonic-ui/react';
 
 const customTheme = createTheme({
-  cssVariables: true, // Enable CSS variables replacement
+  cssVariables: true, // Enable CSS theme variables
   components: {
     // Set default props for specific components
     //
@@ -183,14 +185,14 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI pr
 
 > If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
 
-### Enabling CSS variables
+### Enabling CSS theme variables
 
 Tonic UI supports converting theme tokens defined in the theme to CSS variables. You can enable this behavior by configuring the theme as shown below:
 
 ```jsx
 <TonicProvider
   theme={createTheme({
-    cssVariables: true, // Enable CSS variables replacement
+    cssVariables: true, // Enable CSS theme variables
   })}
 />
 ```
@@ -294,12 +296,11 @@ Override the theme object and pass it to the `<ThemeProvider>` component.
 
 ```js
 import {
-  createTheme, // For theme customization (introduced in v2.5.0)
+  createTheme, // For theme customization
 } from '@tonic-ui/react';
 
-// Let's say you want to add more colors
 const customTheme = createTheme({
-  cssVariables: true, // Enable CSS variables replacement
+  cssVariables: true, // Enable CSS theme variables
   colors: {
     brand: {
       90: "#1a365d",

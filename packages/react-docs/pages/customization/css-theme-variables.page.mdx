@@ -12,12 +12,36 @@ import {
   createTheme,
 } from '@tonic-ui/react';
 
-// `createTheme` was introduced in v2.5.0
 const theme = createTheme({ cssVariables: true });
 
 function App() {
   return (
     <TonicProvider theme={theme}>
+      {/* Your app content */}
+    </TonicProvider>
+  );
+}
+```
+
+The `createTheme` function was introduced in v2.5.0. Use the following approach if you're using a version prior to v2.5.0:
+
+```jsx
+import {
+  TonicProvider,
+  theme,
+} from '@tonic-ui/react';
+
+const customTheme = {
+  ...theme,
+  config: {
+    ...theme?.config,
+    useCSSVariables: true,
+  },
+};
+
+function App() {
+  return (
+    <TonicProvider theme={customTheme}>
       {/* Your app content */}
     </TonicProvider>
   );
