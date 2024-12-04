@@ -34,7 +34,6 @@ export const routes = [
       { title: 'Usage', path: 'getting-started/usage' },
       { title: 'Color Mode', path: 'getting-started/color-mode' },
       { title: 'Color Style', path: 'getting-started/color-style' },
-      { title: 'CSS Variables', path: 'getting-started/css-variables' },
       { title: 'Icons', path: 'getting-started/icons' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Security', path: 'getting-started/security' },
@@ -68,6 +67,7 @@ export const routes = [
       <ToolsConfigurationIcon size="4x" {...props} />
     ),
     routes: [
+      { title: 'CSS Theme Variables', path: 'customization/css-theme-variables' },
       { title: 'Shadow DOM', path: 'customization/shadow-dom' },
     ],
   },

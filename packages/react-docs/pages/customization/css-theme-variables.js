@@ -17,23 +17,23 @@ const App = () => {
 
   return (
     <Box fontFamily="mono">
-      {Object.entries(theme?.cssVariables).map(([name, value]) => {
-        if (!name.startsWith('--')) {
-          return null;
-        }
-
-        return (
-          <Flex key={name} columnGap="2x">
-            <Text color={tokenColor}>{name}:</Text>
-            <Flex alignItems="center" columnGap="1x">
-              {isColorCode(value) && (
-                <Box backgroundColor={value} border={1} borderColor={borderColor} width="3x" height="3x" />
-              )}
-              <Text>{value};</Text>
+      {':root {'}
+      <Box ml="4x">
+        {Object.entries(theme?.cssVariables).map(([name, value]) => {
+          return (
+            <Flex key={name} columnGap="2x">
+              <Text color={tokenColor}>{name}:</Text>
+              <Flex alignItems="center" columnGap="1x">
+                {isColorCode(value) && (
+                  <Box backgroundColor={value} border={1} borderColor={borderColor} width="3x" height="3x" />
+                )}
+                <Text>{value};</Text>
+              </Flex>
             </Flex>
-          </Flex>
-        );
-      })}
+          );
+        })}
+      </Box>
+      {'}'}
     </Box>
   );
 };

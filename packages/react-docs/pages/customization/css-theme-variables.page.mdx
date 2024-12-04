@@ -1,0 +1,87 @@
+# CSS Theme Variables
+
+Learn how to adopt CSS theme variables.
+
+## Getting Started
+
+To use CSS theme variables, create a theme with `cssVariables: true` and wrap your app with `TonicProvider`:
+
+```jsx
+import {
+  TonicProvider,
+  createTheme,
+} from '@tonic-ui/react';
+
+// `createTheme` was introduced in v2.5.0
+const theme = createTheme({ cssVariables: true });
+
+function App() {
+  return (
+    <TonicProvider theme={theme}>
+      {/* Your app content */}
+    </TonicProvider>
+  );
+}
+```
+
+After rendering, you will see all CSS theme variables in the `:root` stylesheet of the HTML document. By default, these variables are prefixed with `--tonic`. You can open the **Developer Tools** and go to the **Elements** tab to see all the CSS theme variables being used on the webpage.
+
+{render('./css-theme-variables')}
+
+## Customizing Variable Prefix
+
+You can customize the variable prefix by providing a string to the `prefix` property in the theme configuration.
+
+```js
+createTheme({
+  cssVariables: {
+    prefix: 'custom',
+  },
+});
+```
+
+```css
+:root {
+  --custom-borders-1: .0625rem solid;
+  --custom-borders-2: .125rem solid;
+  /* More variables */
+}
+```
+
+If you prefer not to use any prefix, set `prefix` to an empty string:
+
+```js
+createTheme({
+  cssVariables: {
+    prefix: '',
+  },
+});
+```
+
+```css
+:root {
+  --borders-1: .0625rem solid;
+  --borders-2: .125rem solid;
+  /* More variables */
+}
+```
+
+## Variables Inside Shadow DOM
+
+To apply CSS theme variables inside shadow DOM, specify a different root selector using the `rootSelector` option:
+
+```js
+createTheme({
+  cssVariables: {
+    rootSelector: ':host',
+  },
+});
+```
+
+```css
+:host {
+  --tonic-borders-1: .0625rem solid;
+  --tonic-borders-2: .125rem solid;
+  /* More variables */
+}
+```
