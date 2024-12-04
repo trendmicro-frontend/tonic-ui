@@ -36,7 +36,6 @@ export const routes = [
       { title: 'Color Style', path: 'getting-started/color-style' },
       { title: 'Icons', path: 'getting-started/icons' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
-      { title: 'Security', path: 'getting-started/security' },
       { title: 'Tonic UI Versions', path: 'getting-started/versions' },
     ],
   },
@@ -67,6 +66,7 @@ export const routes = [
       <ToolsConfigurationIcon size="4x" {...props} />
     ),
     routes: [
+      { title: 'Content Security Policy', path: 'customization/content-security-policy' },
       { title: 'CSS Theme Variables', path: 'customization/css-theme-variables' },
       { title: 'Shadow DOM', path: 'customization/shadow-dom' },
     ],
