@@ -6,7 +6,7 @@ Content Security Policy plays a critical role in protecting against various atta
 
 Tonic UI relies on [Emotion](https://emotion.sh/) for its styling system. To seamless integrate [Emotion](https://emotion.sh/) with Content Security Policy, it is essential to provide a `nonce` value to the `CacheProvider` component. Detailed instruction can be found in the [Emotion documentation](https://emotion.sh/docs/@emotion/cache).
 
-### Step 1: Implement a `EmotionCacheProvider` component
+### 1. Implement a `EmotionCacheProvider` component
 
 ```jsx
 const EmotionCacheProvider = ({
@@ -26,7 +26,7 @@ const EmotionCacheProvider = ({
 };
 ```
 
-### Step 2: Integrate the `EmotionCacheProvider` component with `TonicProvider`
+### 2. Integrate the `EmotionCacheProvider` component with `TonicProvider`
 
 Wrap the `TonicProvider` component with the `EmotionCacheProvider` and provide the relevant `nonce` value. This value will be utilized by [Emotion](https://emotion.sh/) to generate a style tag with the necessary `nonce` attribute.
 
