@@ -1,5 +1,15 @@
 # @tonic-ui/react
 
+## 2.5.1
+
+### Patch Changes
+
+- feat(react): add exports for `DefaultPropsProvider` and `useDefaultProps` by [@cheton](https://github.com/cheton) in [#950](https://github.com/trendmicro-frontend/tonic-ui/pull/950)
+
+- feat(react/Popper): use the `useDefaultProps` hook for managing default props by [@cheton](https://github.com/cheton) in [#950](https://github.com/trendmicro-frontend/tonic-ui/pull/950)
+
+- fix(react/theme): fixed a logical error in the `CSSVariables` component by correcting the condition to check for empty `cssVariables` by [@cheton](https://github.com/cheton) in [#953](https://github.com/trendmicro-frontend/tonic-ui/pull/953)
+
 ## 2.5.0
 
 ### Minor Changes
