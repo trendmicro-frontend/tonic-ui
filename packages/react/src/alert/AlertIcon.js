@@ -24,9 +24,9 @@ const AlertIcon = forwardRef((inProps, ref) => {
   const styleProps = useAlertIconStyle({ variant, severity });
 
   const icon = useMemo(() => {
-    if (typeof iconProp === 'string') {
+    if (typeof iconProp === 'object') {
       return (
-        <Icon icon={iconProp} />
+        <Icon as={iconProp} />
       );
     }
     if (iconProp === undefined) {
