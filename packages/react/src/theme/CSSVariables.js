@@ -6,7 +6,7 @@ const CSSVariables = () => {
   const styles = useCallback((theme) => {
     const rootSelector = theme?.rootSelector;
     const cssVariables = ensurePlainObject(theme?.cssVariables);
-    if (!rootSelector || Object.keys(cssVariables) === 0) {
+    if (!rootSelector || Object.keys(cssVariables).length === 0) {
       return {};
     }
     return {
