@@ -32,7 +32,7 @@ export default [
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-        bundleName: pkg.name + '/' + pkg.main,
+        bundleName: pkg.name,
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     ],
@@ -51,7 +51,7 @@ export default [
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-        bundleName: pkg.name + '/' + pkg.module,
+        bundleName: pkg.name,
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     ],
