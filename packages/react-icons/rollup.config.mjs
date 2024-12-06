@@ -1,8 +1,11 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { codecovRollupPlugin } from '@codecov/rollup-plugin';
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 
+const pkg = createRequire(import.meta.url)('./package.json');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -26,6 +29,12 @@ export default [
     plugins: [
       nodeResolve(),
       babel({ babelHelpers: 'bundled' }),
+      // Put the Codecov rollup plugin after all other plugins
+      codecovRollupPlugin({
+        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        bundleName: pkg.name,
+        uploadToken: process.env.CODECOV_TOKEN,
+      }),
     ],
   },
   {
@@ -39,6 +48,12 @@ export default [
     plugins: [
       nodeResolve(),
       babel({ babelHelpers: 'bundled' }),
+      // Put the Codecov rollup plugin after all other plugins
+      codecovRollupPlugin({
+        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        bundleName: pkg.name,
+        uploadToken: process.env.CODECOV_TOKEN,
+      }),
     ],
   }
 ];
