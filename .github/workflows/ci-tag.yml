@@ -54,6 +54,8 @@ jobs:
           yarn install
 
       - name: Build & Test
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
           yarn build
           yarn lint

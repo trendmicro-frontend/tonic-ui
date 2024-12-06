@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import jscodeshift from 'jscodeshift';
 import transform from '@tonic-ui/codemod/src/react/v2.0.0/import-react-icons';
 
