@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  ALGOLIA_APPLICATION_ID: 7V00GBK8V8
+  ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
   ALGOLIA_INDEX: tonic-ui-v2
   
 jobs:
