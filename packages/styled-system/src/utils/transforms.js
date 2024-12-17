@@ -28,7 +28,43 @@ const toNegativeValue = (scale, absoluteValue, options) => {
 };
 
 export const getter = (scale, value, options) => {
-  const result = get(scale, value);
+  let result = get(scale, value);
+
+  // Extract the `value` property if the result is an object.
+  //
+  // Example usage:
+  // ```
+  // <Box color="white.primary" />
+  // <Box color="black.primary" />
+  // ```
+  //
+  // The `colors` scale in the theme:
+  // ```js
+  // {
+  //   colors: {
+  //     white: {
+  //       primary: {
+  //         value: 'rgba(255, 255, 255, .92)',
+  //       },
+  //       secondary: {
+  //         value: 'rgba(255, 255, 255, .60)',
+  //       },
+  //     },
+  //     black: {
+  //       primary: {
+  //         value: 'rgba(0, 0, 0, .92)',
+  //       },
+  //       secondary: {
+  //         value: 'rgba(0, 0, 0, .65)',
+  //       },
+  //     },
+  //   },
+  // }
+  // ```
+  if (typeof result === 'object') {
+    result = result?.value;
+  }
+
   if (result === undefined) {
     return value; // fallback to value if result is undefined
   }
