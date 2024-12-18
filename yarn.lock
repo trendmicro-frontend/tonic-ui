@@ -4758,6 +4758,7 @@ __metadata:
     "@trendmicro/babel-config": ^1.0.2
     cross-env: ^7.0.3
     del-cli: ^5.0.0
+    ensure-type: ^1.5.1
     eslint: ^8.25.0
     eslint-config-trendmicro: ^3.0.0
     eslint-plugin-import: latest
