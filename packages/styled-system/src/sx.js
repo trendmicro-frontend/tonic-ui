@@ -1,10 +1,11 @@
+import { isNullish } from '@tonic-ui/utils';
+import { ensureArray } from 'ensure-type';
 import system from './system';
-import ensureArray from './utils/ensure-array';
 import get from './utils/get';
 import { pseudoClassSelector, pseudoElementSelector } from './pseudo';
 
 const createPseudoResolver = (theme) => (styleProps) => {
-  if (styleProps === null || styleProps === undefined) {
+  if (isNullish(styleProps)) {
     return {};
   }
 
@@ -69,7 +70,7 @@ const createResponsiveResolver = theme => styleProps => {
     }
 
     const value = typeof styleProps[key] === 'function' ? styleProps[key](theme) : styleProps[key];
-    if (value === null || value === undefined) {
+    if (isNullish(value)) {
       continue;
     }
 
@@ -96,7 +97,7 @@ const createResponsiveResolver = theme => styleProps => {
 };
 
 const sx = (valueOrFn) => (props = {}) => {
-  if (valueOrFn === null || valueOrFn === undefined) {
+  if (isNullish(valueOrFn)) {
     return {};
   }
 

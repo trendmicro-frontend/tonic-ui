@@ -1,5 +1,5 @@
 import system from '../core/system';
-import { positiveOrNegative as positiveOrNegativeTransform } from '../utils/transforms';
+import positiveOrNegativeTransform from '../transforms/positiveOrNegative';
 
 const group = 'margin';
 const config = {

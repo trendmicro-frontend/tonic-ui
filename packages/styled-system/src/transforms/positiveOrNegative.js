@@ -1,5 +1,15 @@
-import get from './get';
-import { toCSSVariable } from './css-vars';
+import { isNullish } from '@tonic-ui/utils';
+import getter from './getter';
+
+const hasOwnSafe = (obj, key) => {
+  if (isNullish(obj)) {
+    return false;
+  }
+
+  return Object.hasOwn
+    ? Object.hasOwn(obj, key)
+    : Object.prototype.hasOwnProperty.call(obj, key);
+};
 
 // Check if a value is a simple CSS variable
 // e.g. var(--tonic-spacing-1)
@@ -27,39 +37,7 @@ const toNegativeValue = (scale, absoluteValue, options) => {
   return `-${n}`;
 };
 
-export const getter = (scale, value, options) => {
-  const result = get(scale, value);
-  if (result === undefined) {
-    return value; // fallback to value if result is undefined
-  }
-
-  const theme = options?.props?.theme;
-  // FIXME: `theme.config.prefix` and `theme.__cssVariableMap` are deprecated and will be removed in the next major release
-  const hasCSSVariables = !!(theme?.cssVariables ?? theme?.__cssVariableMap);
-  if (hasCSSVariables) {
-    const cssVariablePrefix = (theme?.cssVariablePrefix) ?? (theme?.config?.prefix);
-    const cssVariables = (theme?.cssVariables) ?? (theme?.__cssVariableMap);
-    const contextScale = options?.context?.scale;
-    const cssVariable = toCSSVariable(
-      // | contextScale | value     |
-      // | ------------ | --------- |
-      // | colors       | 'blue:50' |
-      // | space        | 0         |
-      [contextScale, String(value ?? '')].filter(Boolean).join('.'), // => 'colors.blue:50'
-      { prefix: cssVariablePrefix, delimiter: '-' },
-    ); // => '--tonic-colors-blue-50'
-    const cssVariableValue = cssVariables?.[cssVariable]; // => '#578aef'
-    if (cssVariableValue !== undefined) {
-      // => Replace '#578aef' with 'var(--tonic-colors-blue-50)'
-      return String(result ?? '').replaceAll(cssVariableValue, `var(${cssVariable})`);
-    }
-    // fallback to the original result
-  }
-
-  return result;
-};
-
-export const positiveOrNegative = (scale, value, options) => {
+const positiveOrNegative = (scale, value, options) => {
   /**
    * Scale object
    *
@@ -87,8 +65,13 @@ export const positiveOrNegative = (scale, value, options) => {
     const absoluteValue = (value.startsWith('+') || value.startsWith('-')) ? value.slice(1) : value;
     const isNonNegative = !value.startsWith('-');
 
-    // Return the result if the value is non-negative or if the scale object does not contain the absolute value
-    if (isNonNegative || !Object.prototype.hasOwnProperty.call(scale, absoluteValue)) {
+    // Return the result if the scale object does not contain the absolute value
+    if (!hasOwnSafe(scale, absoluteValue)) {
+      return getter(scale, value, options);
+    }
+
+    // Return the result if the value is non-negative
+    if (isNonNegative) {
       return getter(scale, value, options);
     }
 
@@ -122,8 +105,13 @@ export const positiveOrNegative = (scale, value, options) => {
     const absoluteValue = Math.abs(value);
     const isNonNegative = !(value < 0);
 
-    // Return the result if the value is non-negative or if the scale object does not contain the absolute value
-    if (isNonNegative || !Object.prototype.hasOwnProperty.call(scale, absoluteValue)) {
+    // Return the result if the scale object does not contain the absolute value
+    if (!hasOwnSafe(scale, absoluteValue)) {
+      return getter(scale, value, options);
+    }
+
+    // Return the result if the value is non-negative
+    if (isNonNegative) {
       return getter(scale, value, options);
     }
 
@@ -132,3 +120,5 @@ export const positiveOrNegative = (scale, value, options) => {
 
   return getter(scale, value, options);
 };
+
+export default positiveOrNegative;
