@@ -1,38 +1,68 @@
 import get from '../get';
 
-test('returns a deeply nested value', () => {
-  const a = get(
-    {
-      colors: {
-        blue: ['#0cf', '#0be', '#09d', '#07c'],
-      },
-    },
-    'colors.blue.3'
-  );
-  expect(a).toBe('#07c');
-});
+describe('get function tests', () => {
+  describe('Default Value Handling', () => {
+    const obj = { a: { b: { c: 42 } } };
+    const defaultValue = 'default';
 
-test('supports fallback values', () => {
-  const a = get({}, 'hi', 'nope');
-  expect(a).toBe('nope');
-});
+    test('returns default value for missing paths', () => {
+      expect(get(obj, 'a.b.c.d', defaultValue)).toBe(defaultValue);
+      expect(get(obj, ['a', 'b', 'c', 'd'], defaultValue)).toBe(defaultValue);
+      expect(get(obj, 'a.b.x', defaultValue)).toBe(defaultValue);
+    });
 
-test('handles number values', () => {
-  const a = get([1, 2, 3], 0);
-  expect(a).toBe(1);
-});
+    test('returns default value for null or undefined input', () => {
+      expect(get(obj, null, defaultValue)).toBe(defaultValue);
+      expect(get(obj, undefined, defaultValue)).toBe(defaultValue);
+      expect(get(null, 'a.b.c', defaultValue)).toBe(defaultValue);
+      expect(get(undefined, 'a.b.c', defaultValue)).toBe(defaultValue);
+    });
 
-test('handles undefined values', () => {
-  const a = get({}, undefined);
-  expect(a).toBe(undefined);
-});
+    test('returns default value for empty or undefined paths', () => {
+      expect(get(obj, '', defaultValue)).toBe(defaultValue);
+      expect(get(obj, ['a', 'b', 'x'], defaultValue)).toBe(defaultValue);
+      expect(get({ a: { b: undefined } }, 'a.b', defaultValue)).toBe(defaultValue);
+    });
+  });
 
-test('handles null values', () => {
-  const a = get({}, null);
-  expect(a).toBe(undefined);
-});
+  describe('Value Retrieval', () => {
+    test('returns a deeply nested value', () => {
+      const result = get(
+        {
+          colors: {
+            blue: ['#0cf', '#0be', '#09d', '#07c'],
+          },
+        },
+        'colors.blue.3'
+      );
+      expect(result).toBe('#07c');
+    });
 
-test('returns 0 index items', () => {
-  const a = get(['a', 'b', 'c'], 0);
-  expect(a).toBe('a');
+    test('supports fallback values', () => {
+      const result = get({}, 'hi', 'nope');
+      expect(result).toBe('nope');
+    });
+
+    test('handles number indices in arrays', () => {
+      const result = get([1, 2, 3], 0);
+      expect(result).toBe(1);
+    });
+
+    test('returns 0 index items from arrays', () => {
+      const result = get(['a', 'b', 'c'], 0);
+      expect(result).toBe('a');
+    });
+  });
+
+  describe('Edge Case Handling', () => {
+    test('handles undefined values gracefully', () => {
+      const result = get({}, undefined);
+      expect(result).toBe(undefined);
+    });
+
+    test('handles null values gracefully', () => {
+      const result = get({}, null);
+      expect(result).toBe(undefined);
+    });
+  });
 });

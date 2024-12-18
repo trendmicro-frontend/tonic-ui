@@ -1,7 +1,8 @@
+import { isNullish } from '@tonic-ui/utils';
 import getter from './getter';
 
 const hasOwnSafe = (obj, key) => {
-  if (obj === undefined || obj === null) {
+  if (isNullish(obj)) {
     return false;
   }
 

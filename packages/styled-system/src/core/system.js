@@ -1,3 +1,4 @@
+import { isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import getterTransform from '../transforms/getter';
 import parser from './parser';
@@ -65,7 +66,7 @@ const createStyleFunction = ({
   const sx = (scale, value, props) => {
     const transformOptions = { context, props };
     const transformedValue = transform(scale, value, transformOptions);
-    if (transformedValue === null || transformedValue === undefined) {
+    if (isNullish(transformedValue)) {
       return {};
     }
 
