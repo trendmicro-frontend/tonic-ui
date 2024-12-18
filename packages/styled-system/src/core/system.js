@@ -1,5 +1,5 @@
-import ensureArray from '../utils/ensure-array';
-import { getter as getterTransform } from '../utils/transforms';
+import { ensureArray } from 'ensure-type';
+import getterTransform from '../transforms/getter';
 import parser from './parser';
 
 const system = (config, options) => {

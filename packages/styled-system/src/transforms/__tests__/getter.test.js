@@ -1,4 +1,4 @@
-import { getter } from '../transforms';
+import getter from '../getter';
 
 describe('getter', () => {
   const theme = {

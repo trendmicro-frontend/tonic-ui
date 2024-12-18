@@ -19,6 +19,9 @@
     "prepublish": "yarn run build",
     "test": "jest --maxWorkers=2"
   },
+  "dependencies": {
+    "ensure-type": "^1.5.1"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",

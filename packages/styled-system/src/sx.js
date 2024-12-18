@@ -1,5 +1,5 @@
+import { ensureArray } from 'ensure-type';
 import system from './system';
-import ensureArray from './utils/ensure-array';
 import get from './utils/get';
 import { pseudoClassSelector, pseudoElementSelector } from './pseudo';
 
