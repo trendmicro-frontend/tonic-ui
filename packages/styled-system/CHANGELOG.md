@@ -1,5 +1,11 @@
 # @tonic-ui/styled-system
 
+## 2.1.0
+
+### Minor Changes
+
+- feat: enhance support for the nested theme token structure by [@cheton](https://github.com/cheton) in [#958](https://github.com/trendmicro-frontend/tonic-ui/pull/958)
+
 ## 2.0.3
 
 ### Patch Changes
