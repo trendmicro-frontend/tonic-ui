@@ -1,7 +1,7 @@
 import { useColorMode } from '../../color-mode';
 import { useColorStyle } from '../../color-style';
 
-const useCalendarStyle = ({ tabIndex }) => {
+const useDateCalendarStyle = ({ tabIndex }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const borderColor = {
@@ -205,7 +205,7 @@ const useDaysOfWeekStyle = () => {
 };
 
 export {
-  useCalendarStyle,
+  useDateCalendarStyle,
   useYearMonthPickerStyle,
   useYearMonthPickerMonthButtonStyle,
   useYearMonthPickerYearStyle,

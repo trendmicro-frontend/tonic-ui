@@ -94,7 +94,7 @@ const disableWeekends = (date) => {
 const App = () => {
   const [maxDate, setMaxDate] = useState('');
   const [minDate, setMinDate] = useState('');
-  const [closeOnSelect, toggleCloseOnSelect] = useToggle(false);
+  const [closeOnSelect, toggleCloseOnSelect] = useToggle(true);
   const [dateOption, changeDateOptionBy] = useSelection('none');
   const [firstDayOfWeek, changeFirstDayOfWeekBy] = useSelection(0);
   const [inputFormat, changeInputFormatBy] = useSelection(inputFormats[0]);
@@ -139,15 +139,12 @@ const App = () => {
         maxDate={maxDate ? new Date(maxDate) : undefined}
         minDate={minDate ? new Date(minDate) : undefined}
         onChange={(nextValue) => {
-          console.log('onChange:', nextValue);
           setValue(nextValue);
         }}
         onError={(error, value) => {
-          console.log('onError:', error, value);
           setError(error);
         }}
         shouldDisableDate={(date) => {
-          console.log('shouldDisableDate:', date, shouldDisableDateOption);
           if (shouldDisableDateOption === 'weekdays') {
             return disableWeekdays(date);
           }
@@ -159,7 +156,6 @@ const App = () => {
         value={value}
         inputFormat={inputFormat}
         renderInput={({ error: inputError, inputProps }) => {
-          console.log('renderInput:', inputError, inputProps);
           return (
             <Box>
               <DateInput
@@ -195,8 +191,8 @@ const App = () => {
             </MenuButton>
             <MenuList
               onClick={(event) => {
-                const value = event.target.getAttribute('value');
-                setLocale(value);
+                const localeValue = event.target.getAttribute('value');
+                setLocale(localeValue);
               }}
               maxHeight={240}
               minWidth={100}

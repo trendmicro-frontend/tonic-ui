@@ -8,7 +8,7 @@ import isSameMonth from 'date-fns/isSameMonth';
 import React, { forwardRef } from 'react';
 import { Box } from '../../../box';
 import { useDayStyle } from '../styles';
-import useCalendar from '../useCalendar';
+import useDateCalendar from '../useDateCalendar';
 
 const Day = forwardRef((
   {
@@ -17,7 +17,7 @@ const Day = forwardRef((
   },
   ref,
 ) => {
-  const calendarContext = useCalendar();
+  const dateCalendarContext = useDateCalendar();
   const {
     activeDate,
     date: selectedDate,
@@ -27,7 +27,7 @@ const Day = forwardRef((
     onChange,
     setActiveDate,
     shouldDisableDate,
-  } = { ...calendarContext };
+  } = { ...dateCalendarContext };
   const isSelectable = (() => {
     if (minDate && isBefore(date, minDate)) {
       return false;

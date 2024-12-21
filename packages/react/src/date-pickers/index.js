@@ -1,7 +1,7 @@
-import Calendar from './Calendar';
+import DateCalendar from './DateCalendar';
 import DatePicker from './DatePicker';
 
 export {
-  Calendar,
+  DateCalendar,
   DatePicker,
 };

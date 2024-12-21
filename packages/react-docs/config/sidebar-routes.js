@@ -139,7 +139,7 @@ export const routes = [
 
       { title: 'DATE PICKERS', heading: true },
       { title: 'Overview', path: 'components/date-pickers' },
-      { title: 'Calendar', path: 'components/date-pickers/calendar' },
+      { title: 'DateCalendar', path: 'components/date-pickers/date-calendar' },
       { title: 'DatePicker', path: 'components/date-pickers/date-picker' },
 
       { title: 'FEEDBACK', heading: true },

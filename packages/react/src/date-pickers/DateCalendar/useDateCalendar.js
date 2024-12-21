@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { CalendarContext } from './context';
+import { DateCalendarContext } from './context';
 
-const useCalendar = () => {
+const useDateCalendar = () => {
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');
   }
 
-  const context = useContext(CalendarContext);
+  const context = useContext(DateCalendarContext);
   return context;
 };
 
-export default useCalendar;
+export default useDateCalendar;

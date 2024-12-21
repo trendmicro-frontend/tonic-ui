@@ -3,16 +3,16 @@ import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
 import { Box } from '../../../box';
 import { Grid } from '../../../grid';
-import useCalendar from '../useCalendar';
+import useDateCalendar from '../useDateCalendar';
 import { useDaysOfWeekStyle } from '../styles';
 
 const DaysOfWeek = forwardRef((props, ref) => {
-  const calendarContext = useCalendar();
+  const dateCalendarContext = useDateCalendar();
   const {
     activeDate,
     firstDayOfWeek,
     formatDate,
-  } = { ...calendarContext };
+  } = { ...dateCalendarContext };
   const startDateOfWeek = startOfWeek(activeDate, {
     weekStartsOn: firstDayOfWeek,
   });

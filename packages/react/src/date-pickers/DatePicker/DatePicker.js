@@ -12,7 +12,7 @@ import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import config from '../../shared/config';
 import useAutoId from '../../utils/useAutoId';
-import Calendar from '../Calendar';
+import DateCalendar from '../DateCalendar';
 import { validateDate } from '../validation';
 import DatePickerContent from './DatePickerContent';
 import DatePickerToggle from './DatePickerToggle';
@@ -141,7 +141,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     }
   }, [error, value, minDate, maxDate, shouldDisableDate, onErrorProp]);
 
-  const onCalendarChange = useCallback((nextDate) => {
+  const onDateCalendarChange = useCallback((nextDate) => {
     const isControlled = (valueProp !== undefined);
     if (!isControlled) {
       setValue(nextDate);
@@ -160,7 +160,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     }
   }, [valueProp, inputFormat, onChangeProp, closeOnSelect, onClose]);
 
-  const onCalendarError = useCallback((error, value) => {
+  const onDateCalendarError = useCallback((error, value) => {
     setError(error);
     if (typeof onErrorProp === 'function') {
       onErrorProp(error, value);
@@ -238,14 +238,14 @@ const DatePicker = forwardRef((inProps, ref) => {
           }}
         </DatePickerToggle>
         <DatePickerContent>
-          <Calendar
-            date={mapFormattedValueToDate(value, inputFormat)}
+          <DateCalendar
+            value={mapFormattedValueToDate(value, inputFormat)}
             firstDayOfWeek={firstDayOfWeek}
             formatDate={formatDate}
             minDate={minDate}
             maxDate={maxDate}
-            onChange={onCalendarChange}
-            onError={onCalendarError}
+            onChange={onDateCalendarChange}
+            onError={onDateCalendarError}
             shouldDisableDate={shouldDisableDate}
           />
         </DatePickerContent>

@@ -2,8 +2,8 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Calendar,
   Code,
+  DateCalendar,
   Divider,
   Flex,
   Input,
@@ -90,8 +90,8 @@ const App = () => {
           )}
         </Flex>
       </FormGroup>
-      <Calendar
-        date={date}
+      <DateCalendar
+        value={date}
         firstDayOfWeek={firstDayOfWeek}
         formatDate={(date, format) => {
           const options = {
@@ -102,11 +102,9 @@ const App = () => {
         maxDate={maxDate ? new Date(maxDate) : undefined}
         minDate={minDate ? new Date(minDate) : undefined}
         onChange={(nextDate) => {
-          console.log('onChange:', nextDate);
           setDate(nextDate);
         }}
         onError={(error, value) => {
-          console.log('onError:', error);
           setError(error);
         }}
         shouldDisableDate={(date) => {
@@ -139,8 +137,8 @@ const App = () => {
             </MenuButton>
             <MenuList
               onClick={(event) => {
-                const value = event.target.getAttribute('value');
-                setLocale(value);
+                const localeValue = event.target.getAttribute('value');
+                setLocale(localeValue);
               }}
               maxHeight={240}
               minWidth={100}
@@ -170,13 +168,13 @@ const App = () => {
           {`// format\nimport format from 'date-fns/format';\n\n// locale\nimport enLocale from 'date-fns/locale/en-US'; // English (United States)\nimport deLocale from 'date-fns/locale/de'; // Deutsch\nimport esLocale from 'date-fns/locale/es'; // Español\nimport frLocale from 'date-fns/locale/fr'; // Français\nimport itLocale from 'date-fns/locale/it'; // Italiano\nimport jaLocale from 'date-fns/locale/ja'; // 日本語\nimport koLocale from 'date-fns/locale/ko'; // 한국어\nimport zhCNLocale from 'date-fns/locale/zh-CN'; // 简体中文\nimport zhTWLocale from 'date-fns/locale/zh-TW'; // 繁體中文`}
         </PreformattedText>
         <PreformattedText>
-          {`// Calendar component\nformatDate={(date, format, options) => {\n  return format(date, format, { locale: enLocale });\n}}`}
+          {`// DateCalendar component\nformatDate={(date, format, options) => {\n  return format(date, format, { locale: enLocale });\n}}`}
         </PreformattedText>
       </Flex>
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
-          Calendar props
+          DateCalendar props
         </Text>
       </Box>
       <FormGroup>
