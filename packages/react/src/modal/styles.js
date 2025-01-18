@@ -1,4 +1,3 @@
-import _get from 'lodash.get';
 import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { useIconButtonStyle } from '../shared/styles';
@@ -197,7 +196,7 @@ const useModalBodyStyle = ({
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${_get(sizes, '4x')} + ${_get(lineHeights, 'xl')} + ${_get(sizes, '3x')})`,
+      marginTop: `calc(${sizes?.['4x']} + ${lineHeights?.['xl']} + ${sizes?.['3x']})`,
     },
   };
 };
@@ -220,7 +219,7 @@ const useModalFooterStyle = () => {
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${_get(sizes, '4x')} + ${_get(lineHeights, 'xl')} + ${_get(sizes, '3x')})`,
+      marginTop: `calc(${sizes?.['4x']} + ${lineHeights?.['xl']} + ${sizes?.['3x']})`,
     },
   };
 };

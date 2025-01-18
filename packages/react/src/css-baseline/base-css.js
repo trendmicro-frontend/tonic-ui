@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
-import _get from 'lodash.get';
 
 const baseCSS = theme => {
+  const baseFonts = theme?.fonts?.['base'] ?? 'inherit';
+  const monoFonts = theme?.fonts?.['mono'] ?? 'inherit';
+
   return css`
     /**
      * Apply a natural box layout model to all elements, but allowing components to change.
@@ -14,14 +16,14 @@ const baseCSS = theme => {
     }
 
     html {
-      font-family: ${_get(theme, 'fonts.base')};
+      font-family: ${baseFonts};
     }
 
     pre,
     code,
     kbd,
     samp {
-      font-family: ${_get(theme, 'fonts.mono')};
+      font-family: ${monoFonts};
     }
   `;
 };
