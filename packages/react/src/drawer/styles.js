@@ -2,6 +2,7 @@ import { useColorMode } from '../color-mode';
 import { useColorStyle } from '../color-style';
 import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
+import pixelize from '../utils/pixelize';
 
 const defaultPlacement = 'right';
 const defaultSize = 'auto';
@@ -218,7 +219,7 @@ const useDrawerBodyStyle = ({
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${sizes?.['4x']} + ${lineHeights?.['xl']} + ${sizes?.['3x']})`,
+      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`,
     },
   };
 };
@@ -239,7 +240,7 @@ const useDrawerFooterStyle = ({
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${sizes?.['4x']} + ${lineHeights?.['xl']} + ${sizes?.['3x']})`,
+      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`,
     },
   };
 };
