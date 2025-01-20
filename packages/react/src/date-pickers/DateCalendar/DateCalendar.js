@@ -1,8 +1,13 @@
-import { useConst, usePrevious } from '@tonic-ui/react-hooks';
+import {
+  useConst,
+  useOnceWhen,
+  usePrevious,
+} from '@tonic-ui/react-hooks';
 import {
   getActiveElement,
   getAllFocusable,
   isNullOrUndefined,
+  warnDeprecatedProps,
 } from '@tonic-ui/utils';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import addMonths from 'date-fns/addMonths';
@@ -21,10 +26,10 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import { validateDate } from '../validation';
-import { CalendarProvider } from './context';
+import { DateCalendarProvider } from './context';
 import MonthDate from './MonthDate';
 import YearMonthPicker from './YearMonthPicker';
-import { useCalendarStyle } from './styles';
+import { useDateCalendarStyle } from './styles';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
@@ -46,11 +51,13 @@ const mapValueToEndOfDay = (value) => {
   return (isDate(date) && isValid(date)) ? endOfDay(date) : null;
 };
 
-const Calendar = forwardRef((inProps, ref) => {
-  const {
+const DateCalendar = forwardRef((inProps, ref) => {
+  let {
+    date: dateProp, // deprecated
+    defaultDate: defaultDateProp, // deprecated
+
     children, // eslint-disable-line no-unused-vars
-    date: dateProp,
-    defaultDate: defaultDateProp,
+    defaultValue: defaultValueProp,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday, ...
     formatDate: formatDateProp,
     maxDate: maxDateProp,
@@ -58,10 +65,36 @@ const Calendar = forwardRef((inProps, ref) => {
     onChange: onChangeProp,
     onError: onErrorProp,
     shouldDisableDate,
+    value: valueProp,
     ...rest
-  } = useDefaultProps({ props: inProps, name: 'Calendar' });
+  } = useDefaultProps({ props: inProps, name: 'DateCalendar' });
+
+  { // deprecation warning
+    const prefix = `${DateCalendar.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('date', {
+        prefix,
+        alternative: 'value',
+        willRemove: true,
+      });
+    }, (dateProp !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('defaultDate', {
+        prefix,
+        alternative: 'defaultValue',
+        willRemove: true,
+      });
+    }, (defaultDateProp !== undefined));
+
+    // TODO: remove `date` and `defaultDate` props in next major version
+    valueProp = valueProp ?? dateProp;
+    defaultValueProp = defaultValueProp ?? defaultDateProp;
+  }
+
   const initialDate = useConst(() => {
-    const value = dateProp ?? defaultDateProp;
+    const value = valueProp ?? defaultValueProp;
     return mapValueToDate(value);
   });
   const initialActiveDate = useConst(() => {
@@ -117,12 +150,12 @@ const Calendar = forwardRef((inProps, ref) => {
   }, [date, onErrorProp, previousValidationError, validationError]);
 
   useEffect(() => {
-    const isControlled = (dateProp !== undefined);
+    const isControlled = (valueProp !== undefined);
     if (isControlled) {
-      const nextDate = dateProp;
+      const nextDate = valueProp;
       setDate(nextDate);
     }
-  }, [dateProp]);
+  }, [valueProp]);
 
   useEffect(() => {
     const isDateChanged = !!date && (date !== previousDate);
@@ -155,13 +188,13 @@ const Calendar = forwardRef((inProps, ref) => {
   }, [activeDate]); // Re-run effect when activeDate changes
 
   const onChange = useCallback((nextDate) => {
-    const isControlled = (dateProp !== undefined);
+    const isControlled = (valueProp !== undefined);
     if (!isControlled) {
       setDate(nextDate);
     }
 
     onChangeProp?.(nextDate);
-  }, [dateProp, onChangeProp]);
+  }, [valueProp, onChangeProp]);
 
   const calendarMonthDateEventHandler = {};
 
@@ -428,10 +461,10 @@ const Calendar = forwardRef((inProps, ref) => {
   });
 
   const tabIndex = -1;
-  const styleProps = useCalendarStyle({ tabIndex });
+  const styleProps = useDateCalendarStyle({ tabIndex });
 
   return (
-    <CalendarProvider value={context}>
+    <DateCalendarProvider value={context}>
       <Box
         ref={ref}
         tabIndex={tabIndex}
@@ -444,10 +477,10 @@ const Calendar = forwardRef((inProps, ref) => {
           {...calendarMonthDateEventHandler}
         />
       </Box>
-    </CalendarProvider>
+    </DateCalendarProvider>
   );
 });
 
-Calendar.displayName = 'Calendar';
+DateCalendar.displayName = 'DateCalendar';
 
-export default Calendar;
+export default DateCalendar;

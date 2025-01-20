@@ -14,7 +14,7 @@ import React, { forwardRef, useCallback, useRef } from 'react';
 import { Box } from '../../../box';
 import { Button } from '../../../button';
 import { Text } from '../../../text';
-import useCalendar from '../useCalendar';
+import useDateCalendar from '../useDateCalendar';
 import {
   useYearMonthPickerStyle,
   useYearMonthPickerMonthButtonStyle,
@@ -24,12 +24,12 @@ import {
 } from '../styles';
 
 const YearMonthPicker = forwardRef((props, ref) => {
-  const calendarContext = useCalendar();
+  const dateCalendarContext = useDateCalendar();
   const {
     activeDate,
     formatDate,
     setActiveDate,
-  } = { ...calendarContext };
+  } = { ...dateCalendarContext };
 
   const onClickPreviousYear = useEventCallback((event) => {
     const nextActiveDate = subYears(activeDate, 1);

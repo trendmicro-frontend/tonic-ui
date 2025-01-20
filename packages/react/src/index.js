@@ -52,5 +52,6 @@ export * from './visually-hidden';
 
 // deprecated
 export { default as AccordionCollapse } from './deprecated/AccordionCollapse';
+export { default as Calendar } from './deprecated/Calendar';
 export { default as ToastProvider } from './deprecated/ToastProvider';
 export { default as useToast } from './deprecated/useToast';

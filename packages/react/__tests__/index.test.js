@@ -4,6 +4,7 @@ test('should match expected exports', () => {
   const expectedExports = [
     // deprecated
     'AccordionCollapse',
+    'Calendar',
     'ToastProvider',
     'useToast',
 
@@ -61,7 +62,7 @@ test('should match expected exports', () => {
     'CSSBaseline',
 
     // date-pickers
-    'Calendar',
+    'DateCalendar',
     'DatePicker',
 
     // default-props

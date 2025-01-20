@@ -5,7 +5,7 @@ import startOfMonth from 'date-fns/startOfMonth';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { forwardRef } from 'react';
 import { Grid } from '../../../grid';
-import useCalendar from '../useCalendar';
+import useDateCalendar from '../useDateCalendar';
 import Week from './Week';
 
 const isWeekInMonth = (startDateOfWeek, activeDate) => {
@@ -17,11 +17,11 @@ const Weeks = forwardRef((
   props,
   ref,
 ) => {
-  const calendarContext = useCalendar();
+  const dateCalendarContext = useDateCalendar();
   const {
     activeDate,
     firstDayOfWeek,
-  } = { ...calendarContext };
+  } = { ...dateCalendarContext };
   const weeks = [];
   let startDateOfWeek = startOfWeek(startOfMonth(activeDate), {
     weekStartsOn: firstDayOfWeek,
