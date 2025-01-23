@@ -58,47 +58,39 @@ exports[`LinearProgress renders correctly 1`] = `
 
 <div>
   <div
+    aria-label="usage"
     class="emotion-0 emotion-1"
+    role="progressbar"
   >
     <div
-      aria-label="usage"
-      aria-valuemax="100"
-      aria-valuemin="0"
       class="emotion-2 emotion-1"
-      role="progressbar"
     />
   </div>
   <div
+    aria-label="usage"
     class="emotion-4 emotion-1"
+    role="progressbar"
   >
     <div
-      aria-label="usage"
-      aria-valuemax="100"
-      aria-valuemin="0"
       class="emotion-2 emotion-1"
-      role="progressbar"
     />
   </div>
   <div
+    aria-label="usage"
     class="emotion-8 emotion-1"
+    role="progressbar"
   >
     <div
-      aria-label="usage"
-      aria-valuemax="100"
-      aria-valuemin="0"
       class="emotion-2 emotion-1"
-      role="progressbar"
     />
   </div>
   <div
+    aria-label="usage"
     class="emotion-12 emotion-1"
+    role="progressbar"
   >
     <div
-      aria-label="usage"
-      aria-valuemax="100"
-      aria-valuemin="0"
       class="emotion-2 emotion-1"
-      role="progressbar"
     />
   </div>
 </div>

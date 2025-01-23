@@ -1,0 +1,86 @@
+import { isNullish } from '@tonic-ui/utils';
+import React, { forwardRef } from 'react';
+import { Box } from '../box';
+import { useDefaultProps } from '../default-props';
+import {
+  useCircularProgressRootStyle,
+  useCircularProgressSVGStyle,
+  useCircularProgressCircleStyle,
+} from './styles';
+
+const defaultSize = 48;
+const defaultThickness = 4;
+const defaultVariant = 'indeterminate';
+
+const CircularProgressRoot = (props) => <Box {...props} />;
+const CircularProgressSVG = (props) => <Box as="svg" {...props} />;
+const CircularProgressCircle = (props) => <Box as="circle" {...props} />;
+
+const CircularProgress = forwardRef((inProps, ref) => {
+  const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    color = 'blue:60',
+    min = 0,
+    max = 100,
+    size = defaultSize,
+    thickness = defaultThickness,
+    value = 0,
+    variant = defaultVariant,
+    ...rest
+  } = useDefaultProps({ props: inProps, name: 'CircularProgress' });
+
+  const clampedValue = Math.max(min, Math.min(value, max));
+  const scale = (clampedValue - min) / (max - min);
+  const circularProgressRootStyleProps = useCircularProgressRootStyle({
+    color,
+    size,
+    variant,
+  });
+  const circularProgressSVGStyleProps = useCircularProgressSVGStyle({
+    size,
+  });
+  const circularProgressCircleStyleProps = useCircularProgressCircleStyle({
+    scale,
+    size,
+    thickness,
+    variant,
+  });
+
+  const circularProgressRootProps = {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    role: 'progressbar',
+  };
+
+  if (variant === 'determinate') {
+    if ((process.env.NODE_ENV !== 'production') && isNullish(value)) {
+      console.error(`You need to provide a value prop when using the determinate variant of ${CircularProgress.displayName}.`);
+    }
+
+    circularProgressRootProps['aria-valuemin'] = min;
+    circularProgressRootProps['aria-valuemax'] = max;
+    circularProgressRootProps['aria-valuenow'] = value;
+  }
+
+  return (
+    <CircularProgressRoot
+      ref={ref}
+      {...circularProgressRootProps}
+      {...circularProgressRootStyleProps}
+      {...rest}
+    >
+      <CircularProgressSVG
+        {...circularProgressSVGStyleProps}
+      >
+        <CircularProgressCircle
+          {...circularProgressCircleStyleProps}
+        />
+      </CircularProgressSVG>
+    </CircularProgressRoot>
+  );
+});
+
+CircularProgress.displayName = 'CircularProgress';
+
+export default CircularProgress;

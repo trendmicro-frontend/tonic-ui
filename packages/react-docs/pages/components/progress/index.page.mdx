@@ -9,31 +9,49 @@ Progress indicators inform users about the status of ongoing processes, such as 
 
 ```js
 import {
+  CircularProgress,
   LinearProgress,
 } from '@tonic-ui/react';
 ```
 
 ## Usage
 
-{render('./usage')}
+### CircularProgress
 
-### Custom color
+{render('./circular')}
 
-You can use the `color` prop to change the color of the progress bar. The default color is `blue:60`.
+### LinearProgress
 
-It accepts a valid CSS background color/image, a color token from the theme, or an array of colors to create a linear gradient.
+{render('./linear')}
 
-{render('./custom-color')}
+### Customization
+
+The `color` prop allows you to customize the progress bar's color. You can choose from default or custom theme colors.  
+
+It accepts any valid CSS background color or image, a color token from the theme, or an array of colors to create a linear gradient.
+
+{render('./customization')}
 
 ## Props
+
+### CircularProgress
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| color | string | 'blue:60' | The color of the progress bar. It supports both default and custom theme colors. |
+| min | numbner | 0 | The minimum value of the progress. |
+| max | number | 100 | The maximum value of the progress. |
+| size | number | 48 | The size of the progress bar. |
+| thickness | number | 4 | The thickness of the circle. |
+| value | number | 0 | The value of the progress indicator for the determinate variant. Value between `min` and `max`. |
+| variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use indeterminate when there is no progress value.<br />• Use determinate when a progress value is defined. |
 
 ### LinearProgress
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| color | string \| string[] | 'blue:60' | The color of the progress bar. It accepts a valid CSS background color/image, a color token from the theme, or an array of colors to create a linear gradient. |
+| color | string \| string[] | 'blue:60' | The color of the progress bar. It accepts a valid CSS background color or image, a color token from the theme, or an array of colors to create a linear gradient. |
 | min | numbner | 0 | The minimum value of the progress. |
 | max | number | 100 | The maximum value of the progress. |
-| size | string | 'sm' | The size of the progress bar. One of: 'xs', 'sm', 'md', 'lg' |
+| value | number | 0 | The value of the progress indicator for the determinate variant. Value between `min` and `max`. |
 | variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use indeterminate when there is no progress value.<br />• Use determinate when a progress value is defined. |
-| value | number |  | The value of the progress indicator for the determinate variant. |

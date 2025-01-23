@@ -41,8 +41,8 @@ describe('LinearProgress', () => {
     rerender(<LinearProgress aria-label="in progress" size="sm" variant="indeterminate" />);
 
     progress = getByRole('progressbar');
-    expect(progress).toHaveAttribute('aria-valuemin', '0');
-    expect(progress).toHaveAttribute('aria-valuemax', '100');
+    expect(progress).not.toHaveAttribute('aria-valuemin', '0');
+    expect(progress).not.toHaveAttribute('aria-valuemax', '100');
     expect(progress).not.toHaveAttribute('aria-valuenow');
     expect(progress).toHaveAttribute('aria-label', 'in progress');
   });

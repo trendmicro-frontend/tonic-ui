@@ -1,6 +1,11 @@
-import { Box, Button, ButtonGroup, Divider, Flex, LinearProgress, Text, TextLabel } from '@tonic-ui/react';
+import { Box, Button, ButtonGroup, Divider, Flex, CircularProgress, Text, TextLabel } from '@tonic-ui/react';
 import { callAll } from '@tonic-ui/utils';
 import React, { useCallback, useEffect, useState } from 'react';
+
+const sizeOptions = [16, 32, 48, 64, 80];
+const thicknessOptions = [2, 4, 8, 12];
+const defaultSize = 48;
+const defaultThickness = 4;
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
@@ -14,7 +19,8 @@ const useSelection = (defaultValue) => {
 
 const App = () => {
   const [variant, changeVariantBy] = useSelection('indeterminate');
-  const [size, changeSizeBy] = useSelection('sm');
+  const [size, changeSizeBy] = useSelection(defaultSize);
+  const [thickness, changeThicknessBy] = useSelection(defaultThickness);
   const [progress, setProgress] = useState(0);
   const resetProgress = useCallback(() => setProgress(0), []);
 
@@ -38,7 +44,7 @@ const App = () => {
     <>
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
-          LinearProgress props
+          CircularProgress props
         </Text>
       </Box>
       <FormGroup>
@@ -84,7 +90,7 @@ const App = () => {
             }
           }}
         >
-          {['xs', 'sm', 'md', 'lg'].map(value => (
+          {sizeOptions.map(value => (
             <Button
               key={value}
               selected={value === size}
@@ -96,12 +102,45 @@ const App = () => {
           ))}
         </ButtonGroup>
       </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            thickness
+          </TextLabel>
+        </Box>
+        <ButtonGroup
+          variant="secondary"
+          sx={{
+            '> *:not(:first-of-type)': {
+              marginLeft: -1
+            }
+          }}
+        >
+          {thicknessOptions.map(value => (
+            <Button
+              key={value}
+              selected={value === thickness}
+              onClick={changeThicknessBy(value)}
+              minWidth="15x"
+            >
+              {value}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FormGroup>
       <Divider mb="4x" />
-      <Flex alignItems="center" columnGap="3x" minHeight="5x">
-        <Box width={320}>
-          <LinearProgress
+      <Flex
+        display="inline-flex"
+        flexDirection="column"
+        alignItems="center"
+        rowGap="3x"
+        minHeight="5x"
+      >
+        <Box>
+          <CircularProgress
             variant={variant}
             size={size}
+            thickness={thickness}
             value={variant === 'determinate' ? progress : undefined}
           />
         </Box>
