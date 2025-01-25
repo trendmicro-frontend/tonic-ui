@@ -5,7 +5,8 @@ import { useDefaultProps } from '../default-props';
 import {
   useCircularProgressRootStyle,
   useCircularProgressSVGStyle,
-  useCircularProgressCircleStyle,
+  useCircularProgressTrackStyle,
+  useCircularProgressIndicatorStyle,
 } from './styles';
 
 const defaultSize = 48;
@@ -14,7 +15,8 @@ const defaultVariant = 'indeterminate';
 
 const CircularProgressRoot = (props) => <Box {...props} />;
 const CircularProgressSVG = (props) => <Box as="svg" {...props} />;
-const CircularProgressCircle = (props) => <Box as="circle" {...props} />;
+const CircularProgressTrack = (props) => <Box as="circle" {...props} />;
+const CircularProgressIndicator = (props) => <Box as="circle" {...props} />;
 
 const CircularProgress = forwardRef((inProps, ref) => {
   const {
@@ -25,6 +27,7 @@ const CircularProgress = forwardRef((inProps, ref) => {
     max = 100,
     size = defaultSize,
     thickness = defaultThickness,
+    trackColor,
     value = 0,
     variant = defaultVariant,
     ...rest
@@ -33,15 +36,20 @@ const CircularProgress = forwardRef((inProps, ref) => {
   const clampedValue = Math.max(min, Math.min(value, max));
   const scale = (clampedValue - min) / (max - min);
   const circularProgressRootStyleProps = useCircularProgressRootStyle({
-    color,
     size,
     variant,
   });
   const circularProgressSVGStyleProps = useCircularProgressSVGStyle({
     size,
   });
-  const circularProgressCircleStyleProps = useCircularProgressCircleStyle({
-    scale,
+  const circularProgressTrackStyleProps = useCircularProgressTrackStyle({
+    size,
+    thickness,
+    trackColor,
+  });
+  const circularProgressIndicatorStyleProps = useCircularProgressIndicatorStyle({
+    color,
+    scale, // between 0 and 1 inclusive (0 ≤ scale ≤ 1)
     size,
     thickness,
     variant,
@@ -73,8 +81,11 @@ const CircularProgress = forwardRef((inProps, ref) => {
       <CircularProgressSVG
         {...circularProgressSVGStyleProps}
       >
-        <CircularProgressCircle
-          {...circularProgressCircleStyleProps}
+        <CircularProgressTrack
+          {...circularProgressTrackStyleProps}
+        />
+        <CircularProgressIndicator
+          {...circularProgressIndicatorStyleProps}
         />
       </CircularProgressSVG>
     </CircularProgressRoot>

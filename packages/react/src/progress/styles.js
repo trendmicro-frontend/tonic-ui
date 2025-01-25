@@ -47,7 +47,10 @@ const useLinearProgressRootStyle = () => {
   };
 };
 
-const useLinearProgressBarStyle = ({ variant, color }) => {
+const useLinearProgressBarStyle = ({
+  color,
+  variant,
+}) => {
   const theme = useTheme();
   const colors = ensureArray(color)
     .map(c => {
@@ -124,13 +127,39 @@ const useCircularProgressSVGStyle = ({
   };
 };
 
-const useCircularProgressCircleStyle = ({
-  scale,
+const useCircularProgressTrackStyle = ({
+  size,
+  thickness,
+  trackColor,
+}) => {
+  const [colorMode] = useColorMode();
+  const color = trackColor ?? {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+  const radius = (size - thickness) / 2;
+  const baseStyle = {
+    color,
+    fill: 'none',
+    cx: size / 2,
+    cy: size / 2,
+    r: radius,
+    stroke: 'currentColor',
+    strokeWidth: thickness,
+  };
+
+  return baseStyle;
+};
+
+const useCircularProgressIndicatorStyle = ({
+  color,
+  scale, // between 0 and 1 inclusive (0 ≤ scale ≤ 1)
   size,
   thickness,
   variant,
 }) => {
-  const circumference = Math.PI * size;
+  const radius = (size - thickness) / 2;
+  const circumference = radius * 2 * Math.PI;
   const animationKeyframe = useMemo(() => {
     return keyframes`
       0% {
@@ -148,12 +177,12 @@ const useCircularProgressCircleStyle = ({
     `;
   }, [circumference, thickness]);
   const baseStyle = {
+    color,
     fill: 'none',
-    stroke: 'currentColor',
     cx: size / 2,
     cy: size / 2,
-    r: (size - thickness) / 2,
-    strokeLinecap: 'round',
+    r: radius,
+    stroke: 'currentColor',
     strokeWidth: thickness,
   };
 
@@ -176,6 +205,7 @@ const useCircularProgressCircleStyle = ({
     return {
       ...baseStyle,
       animation: `${animationKeyframe} ${animationDuration}s ease-in-out infinite`,
+      strokeLinecap: 'round',
     };
   }
 
@@ -187,5 +217,6 @@ export {
   useLinearProgressBarStyle,
   useCircularProgressRootStyle,
   useCircularProgressSVGStyle,
-  useCircularProgressCircleStyle,
+  useCircularProgressTrackStyle,
+  useCircularProgressIndicatorStyle,
 };

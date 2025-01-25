@@ -1,4 +1,13 @@
-import { Box, Button, ButtonGroup, Divider, Flex, CircularProgress, Text, TextLabel } from '@tonic-ui/react';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  Divider,
+  Flex,
+  Text,
+  TextLabel,
+} from '@tonic-ui/react';
 import { callAll } from '@tonic-ui/utils';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -21,19 +30,28 @@ const App = () => {
   const [variant, changeVariantBy] = useSelection('indeterminate');
   const [size, changeSizeBy] = useSelection(defaultSize);
   const [thickness, changeThicknessBy] = useSelection(defaultThickness);
+  const [scale, setScale] = useState(1);
   const [progress, setProgress] = useState(0);
   const resetProgress = useCallback(() => setProgress(0), []);
 
   useEffect(() => {
+    let waitForAnimationEnd = false;
     const timer = setInterval(() => {
+      if (waitForAnimationEnd) {
+        return;
+      }
       setProgress((oldProgress) => {
-        if (oldProgress === 100) {
+        if (oldProgress >= 100) {
+          waitForAnimationEnd = true;
+          setTimeout(() => {
+            waitForAnimationEnd = false;
+          }, 250);
           return 0;
         }
-        const diff = 5 + Math.round(Math.random() * 5);
+        const diff = 1 + Math.round(Math.random() * 1);
         return Math.min(oldProgress + diff, 100);
       });
-    }, 200);
+    }, 100);
 
     return () => {
       clearInterval(timer);
@@ -129,27 +147,55 @@ const App = () => {
         </ButtonGroup>
       </FormGroup>
       <Divider mb="4x" />
-      <Flex
-        display="inline-flex"
-        flexDirection="column"
-        alignItems="center"
-        rowGap="3x"
-        minHeight="5x"
-      >
-        <Box>
-          <CircularProgress
-            variant={variant}
-            size={size}
-            thickness={thickness}
-            value={variant === 'determinate' ? progress : undefined}
-          />
+      <Box mb="4x">
+        <Text fontSize="lg" lineHeight="lg">
+          Advanced adjustments
+        </Text>
+      </Box>
+      <FormGroup>
+        <Box mb="2x">
+          <TextLabel>
+            Scale control
+          </TextLabel>
         </Box>
-        {variant === 'determinate' && (
+        <Flex columnGap="4x" mb="2x">
+          <input
+            type="range"
+            name="scale"
+            min={0.5}
+            max={4}
+            step={0.1}
+            value={scale}
+            onChange={(e) => setScale(Number(e.target.value))}
+          />
+          <Text>{scale}x</Text>
+        </Flex>
+      </FormGroup>
+      <Divider mb="4x" />
+      <Box mb="4x">
+        <Text>width: {Math.floor(scale * size)}px</Text>
+        <Text>height: {Math.floor(scale * size)}px</Text>
+      </Box>
+      <Box mb="2x">
+        <CircularProgress
+          variant={variant}
+          size={size}
+          thickness={thickness}
+          value={variant === 'determinate' ? progress : undefined}
+          width={Math.floor(size * scale)}
+          height={Math.floor(size * scale)}
+        />
+      </Box>
+      {variant === 'determinate' && (
+        <Box
+          textAlign="center"
+          width={Math.floor(size * scale)}
+        >
           <TextLabel>
             {progress}%
           </TextLabel>
-        )}
-      </Flex>
+        </Box>
+      )}
     </>
   );
 };
