@@ -155,7 +155,7 @@ const App = () => {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
-            Scale control
+            Scaling the circular progress
           </TextLabel>
         </Box>
         <Flex columnGap="4x" mb="2x">
@@ -168,14 +168,17 @@ const App = () => {
             value={scale}
             onChange={(e) => setScale(Number(e.target.value))}
           />
-          <Text>{scale}x</Text>
         </Flex>
+        <Box as="ul" pl="6x">
+          <Text as="li" display="list-item">
+            Current scale: {scale}x
+          </Text>
+          <Text as="li" display="list-item">
+            Current dimension: {Math.floor(scale * size)}px (W) x {Math.floor(scale * size)}px (H)
+          </Text>
+        </Box>
       </FormGroup>
       <Divider mb="4x" />
-      <Box mb="4x">
-        <Text>width: {Math.floor(scale * size)}px</Text>
-        <Text>height: {Math.floor(scale * size)}px</Text>
-      </Box>
       <Box mb="2x">
         <CircularProgress
           variant={variant}
