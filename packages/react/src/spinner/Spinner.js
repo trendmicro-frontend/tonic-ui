@@ -1,3 +1,5 @@
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { CircularProgress } from '../progress';
@@ -39,8 +41,38 @@ const Spinner = forwardRef((inProps, ref) => {
     trackColor,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Spinner' });
+
+  { // deprecation warning
+    const prefix = `${Spinner.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('lineColor', {
+        prefix,
+        alternative: 'color',
+        willRemove: true,
+      });
+    }, (lineColor !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('lineWidth', {
+        prefix,
+        alternative: 'thickness',
+        willRemove: true,
+      });
+    }, (lineWidth !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('trackWidth', {
+        prefix,
+        alternative: 'thickness',
+        willRemove: true,
+      });
+    }, (trackWidth !== undefined));
+  }
+
   const diameter = mapSpinnerSizeToDiameter(size);
   const thickness = thicknessProp ?? mapSpinnerSizeToThickness(size);
+
   // Get the maximum value from lineWidth, trackWidth, and the mapped thickness
   const normalizedThickness = Math.max(
     ensureFiniteNumber(lineWidth), // deprecated
