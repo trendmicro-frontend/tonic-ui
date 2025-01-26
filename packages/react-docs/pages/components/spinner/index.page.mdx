@@ -16,25 +16,22 @@ import { Spinner } from '@tonic-ui/react';
 
 You can use the `size` prop to change the size of the spinner. Each size has a cooresponding dimension and stroke width as shown below. If the `size` prop is not provided, it will default to `md`.
 
-| Size | Dimension (px) | Outer Radius (px) | Stroke Width (px) |
-| :--- | :------------- | :---------------- | :---------------- |
-| xs | 16 x 16 | 8 | 2 |
-| sm | 32 x 32 | 16 | 2 |
-| md | 48 x 48 | 24 | 4 |
-| lg | 64 x 64 | 32 | 4 |
-| xl | 80 x 80 | 40 | 4 |
+| Size | Dimension (px) | Thickness (px) |
+| :--- | :------------- | :------------- |
+| xs | 16 x 16 | 2 |
+| sm | 32 x 32 | 2 |
+| md | 48 x 48 | 4 |
+| lg | 64 x 64 | 4 |
+| xl | 80 x 80 | 4 |
 
 {render('./sizes')}
 
-### Customization
+### Colors
 
-The following props are provided for customization:
-* `lineColor` - The line color of the spinner. Set `lineColor` to `none` or `transparet` to remove the line.
-* `lineWidth` - The line width of the spinner.
-* `trackColor` - The track color of the spinner. Set `trackColor` to `none` or `transparent` to remove the track.
-* `trackWidth` - The track width of the spinner.
+* `color` - Defines the spinner's indicator color. Use `transparent` to hide the indicator.
+* `trackColor` - Defines the spinner's track color. Use `transparent` to hide the track.
 
-{render('./customization')}
+{render('./colors')}
 
 ## Props
 
@@ -43,7 +40,6 @@ The following props are provided for customization:
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | size | string | 'md' | The size of the spinner. One of: 'xl', 'lg', 'md', 'sm', 'xs'. |
-| lineColor | string | 'blue:60' | The line color of the spinner. |
-| lineWidth | number | | The line tickness of the spinner. |
-| trackColor | string | 'rgba(255, 255, 255, .12)' `dark`<br/>'rgba(0, 0, 0, .12)' `light`| The track color of the spinner. |
-| trackWidth | number | | The track tickness of the spinner. |
+| color | string | 'blue:60' | The spinner's indicator color. |
+| thickness | number | 4 | The thickness of the spinner's stroke. |
+| trackColor | string | 'rgba(255, 255, 255, .12)' `dark`<br/>'rgba(0, 0, 0, .12)' `light`| The spinner's track color. |
