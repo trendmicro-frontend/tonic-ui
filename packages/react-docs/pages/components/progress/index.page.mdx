@@ -28,8 +28,6 @@ import {
 
 The `color` prop allows you to customize the progress bar's color. You can choose from default or custom theme colors.  
 
-It accepts any valid CSS background color or image, a color token from the theme, or an array of colors to create a linear gradient.
-
 {render('./customization')}
 
 ## Props
@@ -38,20 +36,24 @@ It accepts any valid CSS background color or image, a color token from the theme
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| color | string | 'blue:60' | The color of the progress bar. It supports both default and custom theme colors. |
-| min | numbner | 0 | The minimum value of the progress. |
-| max | number | 100 | The maximum value of the progress. |
-| size | number | 48 | The size of the progress bar. |
-| thickness | number | 4 | The thickness of the circle. |
+| color | string | 'blue:60' | The color of the circular progress. It supports both default and custom theme colors. |
+| height | number \| string | | Optionally scales the circular progress to match the height.<br/>⚠️ When scaling is required, both `width` and `height` props must be passed with identical values. |
+| min | numbner | 0 | The minimum value of the progress indicator. |
+| max | number | 100 | The maximum value of the progress indicator. |
+| size | number | 48 | The diameter of the circular progress, in pixels. |
+| thickness | number | 4 | The thickness of the circular progress, in pixels. |
+| trackColor | string | Dark mode:<br/>'rgba(255, 255, 255, .12)'<br/><br/>Light mode:<br/>'rgba(0, 0, 0, .12)' | The color of the circular track. |
 | value | number | 0 | The value of the progress indicator for the determinate variant. Value between `min` and `max`. |
-| variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use indeterminate when there is no progress value.<br />• Use determinate when a progress value is defined. |
+| variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use 'indeterminate' when there is no progress value.<br />• Use 'determinate' when a progress value is defined. |
+| width | number \| string | | Optionally scales the circular progress to match the width.<br/>⚠️ When scaling is required, both `width` and `height` props must be passed with identical values. |
 
 ### LinearProgress
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| color | string \| string[] | 'blue:60' | The color of the progress bar. It accepts a valid CSS background color or image, a color token from the theme, or an array of colors to create a linear gradient. |
-| min | numbner | 0 | The minimum value of the progress. |
-| max | number | 100 | The maximum value of the progress. |
+| color | string \| string[] | 'blue:60' | The color of the progress bar. It supports both default and custom theme colors. |
+| height | number \| string | 4 | The height of the progress bar, in pixels. |
+| min | numbner | 0 | The minimum value of the progress indicator. |
+| max | number | 100 | The maximum value of the progress indicator. |
 | value | number | 0 | The value of the progress indicator for the determinate variant. Value between `min` and `max`. |
-| variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use indeterminate when there is no progress value.<br />• Use determinate when a progress value is defined. |
+| variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use 'indeterminate' when there is no progress value.<br />• Use 'determinate' when a progress value is defined. |
