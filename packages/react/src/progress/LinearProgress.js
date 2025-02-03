@@ -56,7 +56,8 @@ const LinearProgress = forwardRef((inProps, ref) => {
 
   if (variant === 'determinate') {
     if ((process.env.NODE_ENV !== 'production') && isNullish(value)) {
-      console.error(`You need to provide a value prop when using the determinate variant of ${LinearProgress.displayName}.`);
+      const prefix = `${LinearProgress.displayName}:`;
+      console.error(`${prefix} You need to provide a value prop when using the determinate variant.`);
     }
 
     linearProgressRootProps['aria-valuemin'] = min;

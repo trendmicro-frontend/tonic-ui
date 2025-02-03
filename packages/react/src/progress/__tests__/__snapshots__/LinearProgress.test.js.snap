@@ -22,7 +22,7 @@ exports[`LinearProgress renders correctly 1`] = `
   position: relative;
   overflow: hidden;
   background-color: rgba(255, 255, 255, 0.12);
-  height: var(--tonic-sizes-1h);
+  height: var(--tonic-sizes-1x);
 }
 
 .emotion-2 {
@@ -35,30 +35,9 @@ exports[`LinearProgress renders correctly 1`] = `
   transition: all 200ms linear;
 }
 
-.emotion-4 {
-  position: relative;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.12);
-  height: var(--tonic-sizes-1x);
-}
-
-.emotion-8 {
-  position: relative;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.12);
-  height: var(--tonic-sizes-2x);
-}
-
-.emotion-12 {
-  position: relative;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.12);
-  height: var(--tonic-sizes-3x);
-}
-
 <div>
   <div
-    aria-label="usage"
+    aria-label="loading"
     class="emotion-0 emotion-1"
     role="progressbar"
   >
@@ -67,8 +46,8 @@ exports[`LinearProgress renders correctly 1`] = `
     />
   </div>
   <div
-    aria-label="usage"
-    class="emotion-4 emotion-1"
+    aria-label="loading"
+    class="emotion-0 emotion-1"
     role="progressbar"
   >
     <div
@@ -76,8 +55,8 @@ exports[`LinearProgress renders correctly 1`] = `
     />
   </div>
   <div
-    aria-label="usage"
-    class="emotion-8 emotion-1"
+    aria-label="loading"
+    class="emotion-0 emotion-1"
     role="progressbar"
   >
     <div
@@ -85,8 +64,8 @@ exports[`LinearProgress renders correctly 1`] = `
     />
   </div>
   <div
-    aria-label="usage"
-    class="emotion-12 emotion-1"
+    aria-label="loading"
+    class="emotion-0 emotion-1"
     role="progressbar"
   >
     <div

@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CircularProgress renders correctly 1`] = `
+@keyframes animation-0 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-0 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-0 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    stroke-dasharray: 0,62.83185307179586;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 37.69911184307752,62.83185307179586;
+    stroke-dashoffset: -9.132741228718345;
+  }
+
+  100% {
+    stroke-dasharray: 37.69911184307752,62.83185307179586;
+    stroke-dashoffset: -46.83185307179586;
+  }
+}
+
+@keyframes animation-2 {
+  0% {
+    stroke-dasharray: 0,138.23007675795088;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 82.93804605477052,138.23007675795088;
+    stroke-dashoffset: -39.29203070318036;
+  }
+
+  100% {
+    stroke-dasharray: 82.93804605477052,138.23007675795088;
+    stroke-dashoffset: -122.23007675795088;
+  }
+}
+
+@keyframes animation-3 {
+  0% {
+    stroke-dasharray: 0,289.02652413026095;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 173.41591447815657,289.02652413026095;
+    stroke-dashoffset: -99.61060965210439;
+  }
+
+  100% {
+    stroke-dasharray: 173.41591447815657,289.02652413026095;
+    stroke-dashoffset: -273.02652413026095;
+  }
+}
+
+.emotion-0 {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  -webkit-animation: animation-0 2s linear infinite;
+  animation: animation-0 2s linear infinite;
+}
+
+.emotion-2 {
+  display: block;
+}
+
+.emotion-4 {
+  color: rgba(255, 255, 255, 0.12);
+}
+
+.emotion-6 {
+  color: var(--tonic-colors-blue-60);
+  -webkit-animation: animation-1 1.5s ease-in-out infinite;
+  animation: animation-1 1.5s ease-in-out infinite;
+}
+
+.emotion-8 {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  -webkit-animation: animation-0 2s linear infinite;
+  animation: animation-0 2s linear infinite;
+}
+
+.emotion-14 {
+  color: var(--tonic-colors-blue-60);
+  -webkit-animation: animation-2 1.5s ease-in-out infinite;
+  animation: animation-2 1.5s ease-in-out infinite;
+}
+
+.emotion-16 {
+  display: inline-block;
+  width: 96px;
+  height: 96px;
+  -webkit-animation: animation-0 2s linear infinite;
+  animation: animation-0 2s linear infinite;
+}
+
+.emotion-22 {
+  color: var(--tonic-colors-blue-60);
+  -webkit-animation: animation-3 1.5s ease-in-out infinite;
+  animation: animation-3 1.5s ease-in-out infinite;
+}
+
+<div>
+  <div
+    aria-label="loading"
+    class="emotion-0 emotion-1"
+    role="progressbar"
+  >
+    <svg
+      class="emotion-2 emotion-1"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        class="emotion-4 emotion-1"
+        cx="12"
+        cy="12"
+        fill="none"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      />
+      <circle
+        class="emotion-6 emotion-1"
+        cx="12"
+        cy="12"
+        fill="none"
+        r="10"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-width="4"
+      />
+    </svg>
+  </div>
+  <div
+    aria-label="loading"
+    class="emotion-8 emotion-1"
+    role="progressbar"
+  >
+    <svg
+      class="emotion-2 emotion-1"
+      viewBox="0 0 48 48"
+    >
+      <circle
+        class="emotion-4 emotion-1"
+        cx="24"
+        cy="24"
+        fill="none"
+        r="22"
+        stroke="currentColor"
+        stroke-width="4"
+      />
+      <circle
+        class="emotion-14 emotion-1"
+        cx="24"
+        cy="24"
+        fill="none"
+        r="22"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-width="4"
+      />
+    </svg>
+  </div>
+  <div
+    aria-label="loading"
+    class="emotion-16 emotion-1"
+    role="progressbar"
+  >
+    <svg
+      class="emotion-2 emotion-1"
+      viewBox="0 0 96 96"
+    >
+      <circle
+        class="emotion-4 emotion-1"
+        cx="48"
+        cy="48"
+        fill="none"
+        r="46"
+        stroke="currentColor"
+        stroke-width="4"
+      />
+      <circle
+        class="emotion-22 emotion-1"
+        cx="48"
+        cy="48"
+        fill="none"
+        r="46"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-width="4"
+      />
+    </svg>
+  </div>
+</div>
+`;

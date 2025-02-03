@@ -63,7 +63,8 @@ const CircularProgress = forwardRef((inProps, ref) => {
 
   if (variant === 'determinate') {
     if ((process.env.NODE_ENV !== 'production') && isNullish(value)) {
-      console.error(`You need to provide a value prop when using the determinate variant of ${CircularProgress.displayName}.`);
+      const prefix = `${CircularProgress.displayName}:`;
+      console.error(`${prefix} You need to provide a value prop when using the determinate variant.`);
     }
 
     circularProgressRootProps['aria-valuemin'] = min;
